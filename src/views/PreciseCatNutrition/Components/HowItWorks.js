@@ -30,7 +30,7 @@ const HowItWorks = () => {
                     <div className="howItWorkBorder centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
                       <div className="howItWorkStyle">
                         <div className="howItWorkNum">1</div>
-                        <LazyLoad>
+                        <LazyLoad height={110}>
                           {/*<img*/}
                           {/*  className="m-auto w-auto lazyloaded"*/}
                           {/*  src={temp}/>*/}
@@ -55,7 +55,7 @@ const HowItWorks = () => {
                     <div className="howItWorkBorder centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
                       <div className="howItWorkStyle">
                         <div className="howItWorkNum">2</div>
-                        <LazyLoad>
+                        <LazyLoad height={110}>
                           <div className="howItWorkImg">
                             <img
                               className="m-auto w-auto lazyloaded"
@@ -75,7 +75,7 @@ const HowItWorks = () => {
                     <div className="howItWorkBorder centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
                       <div className="howItWorkStyle">
                         <div className="howItWorkNum">3</div>
-                        <LazyLoad>
+                        <LazyLoad height={110}>
                           <div className="howItWorkImg">
                             <img
                               className="m-auto w-auto lazyloaded"
@@ -95,7 +95,7 @@ const HowItWorks = () => {
                     <div className="howItWorkBorder centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
                       <div className="howItWorkStyle">
                         <div className="howItWorkNum">4</div>
-                        <LazyLoad>
+                        <LazyLoad height={110}>
                           <div className="howItWorkImg">
                             <img
                               className="m-auto w-auto lazyloaded"

@@ -242,6 +242,7 @@ class PreciseCatNutrition extends React.Component {
                                 justifyContent: 'center',
                                 with: '100%'
                               }}
+                              height={210}
                             >
                               <img
                                 alt="With the Subscription, they will always have what they need"
@@ -439,7 +440,7 @@ class PreciseCatNutrition extends React.Component {
                             </div>
                           </div>
                           <div className="rc-column">
-                            <div className="lazyload-wrapper1">
+                            <div className="lazyload-wrapper1" height={234}>
                               <img
                                 alt="With the Subscription, they will always have what they need"
                                 className="w-100 lazyloaded"
@@ -454,7 +455,7 @@ class PreciseCatNutrition extends React.Component {
                 </div>
               </div>
 
-              <div className="rc-max-width--xl rc-padding-x--md rc-padding-x--md--mobile flex flex-column align-items-center justify-content-center">
+              <div className="rc-max-width--xl rc-padding-x--xs rc-padding-x--md--mobile flex flex-column align-items-center justify-content-center">
                 <Subscription />
                 <br />
                 <br />
