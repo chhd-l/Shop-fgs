@@ -154,7 +154,7 @@ const env_mx = {
     REACT_APP_RedirectURL:
       'https://shopuat.royalcanin.com/mx/implicit/callback',
     REACT_APP_RegisterPrefix:
-      'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=',
+      'https://prd-weu1-rc-df-ciam-app-webapp-stg.cloud-effem.com/?redirect_uri=',
     REACT_APP_RegisterCallback:
       'https://shopuat.royalcanin.com/mx?origin=register',
     REACT_APP_FaceBook_IDP: '0oarsmtlhd1q9NyPb0x6',
@@ -193,7 +193,7 @@ const env_mx = {
     REACT_APP_RedirectURL:
       'https://shopstg.royalcanin.com/mx/implicit/callback',
     REACT_APP_RegisterPrefix:
-      'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=',
+      'https://prd-weu1-rc-df-ciam-app-webapp-stg.cloud-effem.com/?redirect_uri=',
     REACT_APP_RegisterCallback:
       'https://shopstg.royalcanin.com/mx?origin=register',
     REACT_APP_FaceBook_IDP: '0oarsmtlhd1q9NyPb0x6',
