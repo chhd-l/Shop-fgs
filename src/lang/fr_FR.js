@@ -161,7 +161,7 @@ const fr_FR = {
     'Contient des protéines hautement digestibles (L.I.P.)* et aide à réduire le volume et les odeurs des selles. {val} {italicSentence}',
   'ind.IND10003.italicSentence3':
     '*L.I.P. : protéines sélectionnées pour leur très haute digestibilité',
-  'ind.IND10003.img3': 'image5.png',
+  'ind.IND10003.img3': 'image35.png',
   'ind.IND10003.title4': 'SANTÉ URINAIRE',
   'ind.IND10003.des4':
     'Formulé pour contribuer à la bonne santé du système urinaire du chat adulte.',
@@ -174,7 +174,7 @@ const fr_FR = {
   'ind.IND10004.title2': 'RÉDUCTION DES ODEURS DE SELLES',
   'ind.IND10004.des2':
     'Des protéines hautement digestibles aident à réduire le volume et les odeurs des selles.',
-  'ind.IND10004.img2': 'image5.png',
+  'ind.IND10004.img2': 'image35.png',
   'ind.IND10004.title3': 'SANTÉ DE LA PEAU ET DU PELAGE',
   'ind.IND10004.des3':
     'Contient des nutriments spécifiques, dont des acides EPA et DHA, pour aider à maintenir la santé de la peau et la brillance du pelage.',
@@ -191,7 +191,7 @@ const fr_FR = {
   'ind.IND10005.title2': 'RÉDUCTION DES ODEURS DE SELLES',
   'ind.IND10005.des2':
     'Des protéines hautement digestibles aident à réduire le volume et les odeurs des selles.',
-  'ind.IND10005.img2': 'image5.png',
+  'ind.IND10005.img2': 'image35.png',
   'ind.IND10005.title3': 'SANTÉ RÉNALE',
   'ind.IND10005.des3':
     'Aide à maintenir la bonne santé rénale grâce à un niveau de phosphore adapté.',
@@ -1967,7 +1967,7 @@ const fr_FR = {
   // 'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
   'plp.retail.cat.filter.specneed.learnmore': 'En savoir plus',
   'preciseNutrition.bannertext1': 'Paiement sécurisé',
-  'preciseNutrition.bannertext2': 'Satisfait remboursé',
+  'preciseNutrition.bannertext2': 'Satisfait ou remboursé',
   'preciseNutrition.bannertext3': 'Qualité premium',
   'preciseNutrition.bannertext4': 'Livraison en 3 jours ouvrés offerte',
   'preciseNutrition.banner.names': "L'aliment et la portion adaptées à {val}",
@@ -2007,7 +2007,7 @@ const fr_FR = {
   'preciseNutrition.Below.title':
     'UN COFFRET DE BIENVENUE POUR PRENDRE SOIN DE {val}',
   'preciseNutrition.Below.content':
-    'Lors de votre première livraison, vous recevrez un kit de bienvenue comprenant tout ce dont vous avez besoin pour bien nourrir et prendre soin de Luna. ',
+    'Lors de votre première livraison, vous recevrez un kit de bienvenue comprenant tout ce dont vous avez besoin pour bien nourrir et prendre soin de {val}. ',
   'preciseNutrition.Below.list': 'Ce coffret premium comprendra : ',
   'preciseNutrition.Below.list1': '1 mois d’alimentation pour votre chat',
   'preciseNutrition.Below.list2':
@@ -2078,7 +2078,7 @@ const fr_FR = {
   'PreciseCatNutrition.AdaptedFood.title':
     'UN ALIMENT ADAPTÉ À SES BESOINS ET UNE PORTION PRÉCISE POUR UN POIDS IDÉAL !',
   'PreciseCatNutrition.AdaptedFood.paragraph1':
-    "Notre programme d'abonnement est sans engagement et fournira à votre chat l'aliment le plus adapté à la gestion de son poids** dans un emballage personnalisé avec la quantité journalière d'aliment idéale. ",
+    "Notre programme d'abonnement est sans engagement et fournira à votre chat l'aliment le plus adapté à la gestion de son poids{val1} dans un emballage personnalisé avec la quantité journalière d'aliment idéale. ",
   'PreciseCatNutrition.AdaptedFood.paragraph2':
     'Cette offre est le fruit de notre engagement dédié à améliorer la santé et le bien-être des chats, grâce à :',
   'PreciseCatNutrition.AdaptedFood.paragraph2.Li1':
@@ -2168,6 +2168,7 @@ const fr_FR = {
     '1. Regardez votre chat de haut en bas et de côté.',
   'preciseNutrition.bscTip2':
     '2. Touchez le corps de votre chat en exerçant une légère pression pour trouver les côtes.',
-  'productFinder.mixBreed': 'Race mixte'
+  'productFinder.mixBreed': 'Race mixte',
+  'productFinder.weight': 'Poids'
 };
 export default fr_FR;

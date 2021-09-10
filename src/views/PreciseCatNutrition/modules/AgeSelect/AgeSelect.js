@@ -43,7 +43,11 @@ export default function AgeSelect({ config, questionData }) {
       <div className="question-title">
         {questionData.metadata.label}
         {questionData.metadata.description ? (
-          <Tooltips description={questionData.metadata.description} />
+          <Tooltips
+            description={questionData.metadata.description}
+            isIdea={questionData.name === 'weight'}
+            isArray={questionData.name === 'weight'}
+          />
         ) : (
           ''
         )}

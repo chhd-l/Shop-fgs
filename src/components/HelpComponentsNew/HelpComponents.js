@@ -7,7 +7,8 @@ import LazyLoad from 'react-lazyload';
 import './index.css';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { Link } from 'react-router-dom';
-
+import { getDeviceType } from '../../utils/utils';
+const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const ru = window.__.env.REACT_APP_COUNTRY == 'ru';
 const tr = window.__.env.REACT_APP_COUNTRY == 'tr';
 
@@ -87,7 +88,7 @@ const HelpComponentsNew = (props) => {
           <div className="experience-component experience-layouts-cardcarousel">
             <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-                <p>{firstText.content}</p>
+                <p style={{ marginBottom:  isMobile?'60px':'80px' }}>{firstText.content}</p>
                 <div>
                   <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
                     <FormattedMessage id="ClubLP.Help.title" />
@@ -182,14 +183,30 @@ const HelpComponentsNew = (props) => {
                                       </b>
                                     </DistributeHubLinkOrATag>
                                   ) : (
-                                    <Link to="/help/contact">
-                                      <b
-                                        style={{ textDecoration: 'underline' }}
+                                    // <Link to="/help/contact">
+                                    //   <b
+                                    //     style={{ textDecoration: 'underline' }}
+                                    //   >
+                                    //     {list.email.btnText}
+                                    //     {/*<FormattedMessage id="ClubLP.Help.email.title" />*/}
+                                    //   </b>
+                                    // </Link>
+                                    <a
+                                      href={
+                                        'mailto:serviceclients.france@royalcanin.com'
+                                      }
+                                      ariaLabel="Links to contact us"
+                                    >
+                                      <p
+                                        style={{
+                                          textDecoration: 'underline',
+                                          fontWeight: 400,
+                                          marginBottom: 0
+                                        }}
                                       >
-                                        {list.email.btnText}
-                                        {/*<FormattedMessage id="ClubLP.Help.email.title" />*/}
-                                      </b>
-                                    </Link>
+                                        <FormattedMessage id="ClubLP.Help.email.address" />
+                                      </p>
+                                    </a>
                                   )}
                                 </div>
                               </div>
@@ -308,17 +325,17 @@ const HelpComponentsNew = (props) => {
                       {lastText.title}
                     </h4>
                   </div>
-                  <p>
+                  <p style={{ marginBottom: 0 }}>
                     <span>
                       {/*<FormattedMessage id="ClubLP.Help.subtitle1" />*/}
                       {lastText.fline}
                     </span>
                   </p>
-                  <p>
+                  <p style={{ marginBottom: 0 }}>
                     {/*<FormattedMessage id="ClubLP.Help.subtitle2" />*/}
                     {lastText.sline}
                   </p>
-                  <p>
+                  <p style={{ marginBottom: 0 }}>
                     {/*<FormattedMessage id="ClubLP.Help.subtitle2" />*/}
                     {lastText.tline}
                   </p>

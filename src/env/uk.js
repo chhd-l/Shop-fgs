@@ -7,10 +7,10 @@ const env = {
     REACT_APP_GA_GTMID: 'GTM-TML5H48',
     REACT_APP_GTM_SITE_ID: 'RCGlobalPCO1',
     REACT_APP_GA_COUNTRY: 'UK',
-    REACT_APP_GA_CURRENCY_CODE: 'USD',
+    REACT_APP_GA_CURRENCY_CODE: 'GBP',
 
     // #Adyen
-    REACT_APP_Adyen_country: 'SE',
+    REACT_APP_Adyen_country: 'GB',
 
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT: '',
@@ -19,7 +19,7 @@ const env = {
     // #language
     REACT_APP_LANG: 'uk',
     REACT_APP_NAVIGATOR_LANG: 'uk',
-    REACT_APP_CURRENCY: 'USD',
+    REACT_APP_CURRENCY: 'GBP',
 
     // #storid
     REACT_APP_STOREID: '123457916',

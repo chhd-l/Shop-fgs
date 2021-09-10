@@ -58,8 +58,8 @@ const FrequencyMatch = ({ frequencyType, currentFrequencyId,disabled=false,class
         disabled={disabled}
         customContainerStyle={{
           display: 'inline-block',
-          marginLeft: isMobile ? '50px' : '1.5rem',
-          height: isMobile ? '70px' : 'auto',
+          marginLeft: isMobile ? '0.5rem' : '1.5rem',
+          // height: isMobile ? '70px' : 'auto',
           ...selectionStyle
         }}
         customCls="text-left"

@@ -1590,11 +1590,9 @@ class Payment extends React.Component {
       deliveryAddressId: deliveryAddress?.addressId,
       billAddressId: billingAddress?.addressId,
       maxDeliveryTime:
-        calculationParam?.calculation?.maxDeliveryTime ||
-        deliveryAddress?.maxDeliveryTime,
+        calculationParam?.maxDeliveryTime || deliveryAddress?.maxDeliveryTime,
       minDeliveryTime:
-        calculationParam?.calculation?.minDeliveryTime ||
-        deliveryAddress?.minDeliveryTime,
+        calculationParam?.minDeliveryTime || deliveryAddress?.minDeliveryTime,
       promotionCode,
       guestEmail,
       selectWelcomeBoxFlag: this.state.welcomeBoxValue === 'yes' //first order welcome box
@@ -1615,8 +1613,8 @@ class Payment extends React.Component {
       param.deliverWay = 2;
     }
 
-    // console.log('666 ★ 封装下单参数 deliveryAddress: ', deliveryAddress);
-    // console.log('666 ★ 封装下单参数 param: ', param);
+    // console.log('666 >>> ★ 封装下单参数 deliveryAddress: ', deliveryAddress);
+    // console.log('666 >>> ★ 封装下单参数 param: ', param);
 
     if (payosdata) {
       param = Object.assign(param, {
@@ -2059,7 +2057,6 @@ class Payment extends React.Component {
 
   // 计算税额、运费、运费折扣
   calculateFreight = async (data) => {
-    console.log('666 >>> ★★ -- Payment 计算: ', data);
     const { shippingFeeAddress, guestEmail } = this.state;
     let param = {};
     // this.setState({
@@ -2084,8 +2081,14 @@ class Payment extends React.Component {
     this.setState({
       shippingFeeAddress
     });
+
     // 把查询运费折扣相关参数存到本地
+    data.maxDeliveryTime =
+      data?.maxDeliveryTime || data?.calculation?.maxDeliveryTime;
+    data.minDeliveryTime =
+      data?.minDeliveryTime || data?.calculation?.minDeliveryTime;
     localItemRoyal.set('rc-calculation-param', data);
+    console.log('666 >>> Payment 计算税额、运费、运费折扣: ', data);
 
     param = {
       promotionCode: this.props.checkoutStore.promotionCode,
@@ -2132,7 +2135,7 @@ class Payment extends React.Component {
     }
   };
   updateDeliveryAddrData = (data) => {
-    console.log('666 >>> updateDeliveryAddrData: ', data);
+    // console.log('666 >>> updateDeliveryAddrData: ', data);
     this.setState(
       {
         deliveryAddress: data

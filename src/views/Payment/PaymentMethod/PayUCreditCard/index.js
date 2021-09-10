@@ -328,8 +328,9 @@ class PayOs extends React.Component {
       // this.props.onInstallMentParamChange(this.state.installMentParam);
       scrollPaymentPanelIntoView();
     } catch (err) {
+      this.setState({ payosdata: null });
       this.props.showErrorMsg(err.message);
-      throw new Error();
+      throw new Error(err.message);
     } finally {
       this.setState({ saveLoading: false });
     }

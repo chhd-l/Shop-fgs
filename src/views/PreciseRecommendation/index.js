@@ -100,6 +100,8 @@ class PreciseRecommendation extends React.Component {
   }
 
   componentDidMount() {
+    console.log(this.props);
+    console.log(window);
     setSeoConfig({ pageName: 'preciseRecommendation' }).then((res) => {
       this.setState({ seoConfig: res });
     });
@@ -289,6 +291,7 @@ class PreciseRecommendation extends React.Component {
                                   <h4
                                     className="rc-beta font-weight-bold text-lg-left text-center"
                                     style={{
+                                      textTransform: 'uppercase',
                                       fontSize: isMobile ? '18px' : null
                                     }}
                                   >
@@ -301,7 +304,13 @@ class PreciseRecommendation extends React.Component {
                                     />
                                   </h4>
                                   <div className="text-lg-left text-center rc-padding-right--sm--desktop">
-                                    <FormattedMessage id="preciseNutrition.Below.content" />
+                                    <FormattedMessage
+                                      id="preciseNutrition.Below.content"
+                                      values={{
+                                        val: this.state.recommData
+                                          ?.customerPetsVo?.name
+                                      }}
+                                    />
                                   </div>
                                   <div className="text-lg-left text-center mb-3">
                                     <FormattedMessage id="preciseNutrition.Below.list" />

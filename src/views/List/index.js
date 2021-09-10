@@ -1109,18 +1109,13 @@ class List extends React.Component {
         } else {
           this.pageSize = 12;
         }
-        console.log(
-          targetRouter,
-          this.props.history.location.pathname,
-          'targetRoutertargetRouter====='
-        );
         const currPath = this.props.history.location.pathname;
         const hiddenFilter =
-          currPath == targetRouter.cateRouter &&
+          currPath == targetRouter?.cateRouter &&
           targetRouter.filterStatus === 0 &&
           targetRouter.isPeriod === 1;
         const invalidPage =
-          targetRouter.cateRouter && targetRouter.isPeriod === 0;
+          targetRouter?.cateRouter && targetRouter.isPeriod === 0;
         this.setState(
           {
             sortList,

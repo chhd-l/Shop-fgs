@@ -53,7 +53,10 @@ export default function AnimalBreeds({ questionData }) {
       <div className="question-title">
         {questionData.metadata.label}
         {questionData.metadata.description ? (
-          <Tooltips description={questionData.metadata.description} />
+          <Tooltips
+            description={questionData.metadata.description}
+            // isIdea={true}
+          />
         ) : (
           ''
         )}
