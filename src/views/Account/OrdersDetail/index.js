@@ -113,7 +113,7 @@ function HeadTip(props) {
             {props.title}
           </span>
           <br />
-          {props.tip}
+          {window.__.env.REACT_APP_COUNTRY !== 'us' ? props.tip : null}
         </div>
         {props.operation ? (
           <div className="col-12 col-md-4 text-md-right text-center">
