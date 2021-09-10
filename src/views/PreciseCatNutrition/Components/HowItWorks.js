@@ -84,7 +84,7 @@ const HowItWorks = () => {
                           </div>
                         </LazyLoad>
                       </div>
-                      <div style={{ height: 72 }} className="text-center">
+                      <div className="text-center">
                         <h7>
                           <FormattedMessage id="PreciseCatNutrition.HowItWorks.plate3" />
                         </h7>
