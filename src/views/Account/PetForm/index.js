@@ -461,8 +461,13 @@ class PetForm extends React.Component {
                 setState={this.setState.bind(this)}
               />
             </div>
-            {/* 土耳其、俄罗斯club绑定订阅 */}
-            {currentPet.petsId && getClubFlag() ? (
+            {/* 土耳其、俄罗斯club绑定订阅,不是indv的时候才能绑定 */}
+            {currentPet.petsId &&
+            getClubFlag() &&
+            !(
+              currentPet.sourceType == 1 ||
+              currentPet.sourceType == 'individual'
+            ) ? (
               <LinkedSubs
                 petsId={this.props.match.params.id}
                 loading={this.state.loading}
