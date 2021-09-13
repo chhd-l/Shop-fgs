@@ -109,9 +109,9 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
     let newAddCartBtnStatus =
       recommData?.goodsInfo?.stock >= recommData?.goodsInfo?.buyCount;
     setAddCartBtnStatus(newAddCartBtnStatus);
-    let newTotalWeight = recommData.totalPackWeight + 'kg';
+    let newTotalWeight = recommData.totalPackWeight.toString().replace(".",",") + ' kg';
     if (recommData?.weightUnit?.toLowerCase() == 'g') {
-      newTotalWeight = recommData.totalPackWeight / 1000 + 'kg';
+      newTotalWeight =(recommData.totalPackWeight / 1000).toString().replace(".",",")+ ' kg';
     }
     setTotalWeight(newTotalWeight);
   }, [recommData.totalPackWeight]);
@@ -307,8 +307,8 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                               <strong
                                 style={{ color: '#444', fontWeight: '600' }}
                               >
-                                {recommData.weight}
-                                {recommData.weightUnit}/
+                                {recommData.weight}{' '}
+                                {recommData.weightUnit}{' '}/
                                 <FormattedMessage id="preciseNutrition.banner.day" />
                               </strong>
                               <br />
@@ -317,7 +317,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                               <strong
                                 style={{ color: '#444', fontWeight: '600' }}
                               >
-                                {totalWeight}
+                                {totalWeight}{' '}
                                 {/* {recommData.totalPackWeight} {recommData.weightUnit}/day */}
                               </strong>
                             </div>
@@ -340,11 +340,11 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                                   margin: '-8px 0'
                                 }}
                               >
-                                {formatMoney(recommData.dailyPrice)}/
+                                {formatMoney(recommData.dailyPrice)} /&nbsp;
                                 <FormattedMessage id="preciseNutrition.banner.day" />
                               </div>
                               <div style={{ color: '#444', fontSize: '29px' }}>
-                                {formatMoney(recommData.totalPrice)}/
+                                {formatMoney(recommData.totalPrice)} /&nbsp;
                                 <FormattedMessage id="preciseNutrition.banner.month" />
                               </div>
                             </div>

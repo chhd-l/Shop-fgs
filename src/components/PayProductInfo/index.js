@@ -127,7 +127,8 @@ class PayProductInfo extends React.Component {
                       <FormattedMessage
                         id="quantityText"
                         values={{
-                          specText: item.specDetails,
+                          specText: window.__.env.REACT_APP_COUNTRY == 'fr'?
+                            (item.specDetails).toString().replace(".",","):item.specDetails,
                           buyCount: item.num
                         }}
                       />

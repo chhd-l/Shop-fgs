@@ -1384,7 +1384,7 @@ const en_US = {
   'ClubLP.discount.content': '10% OFF & FREE DELIVERY',
   'ClubLP.LongBanner.title':
     'GIVE YOUR PET A {val1} COMPLETE HEALTH SOLUTION, {val2} BY SUBSCRIPTION',
-  'ClubLP.LongBanner.content': 'starting from 19.90€ /refill',
+  'ClubLP.LongBanner.content': 'starting from 19.90 € / refill',
   'ClubLP.LongBanner.button': 'Try it now',
   'ClubLP.LongBanner.content2': 'Free from engagement',
   'ClubLP.LongBanner.SubscriptionTitle':

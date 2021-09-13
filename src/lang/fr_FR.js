@@ -1441,7 +1441,7 @@ const fr_FR = {
   'subscription.date': "Date d'abonnement",
   'subscription.deliveryDate': 'Prochaine date de livraison',
   'subscription.detail': "Détails de l'abonnement",
-  'subscription.personalized': "L'aliment et la portion adaptées à {val1}'s",
+  'subscription.personalized': "L'aliment et la portion adaptées à {val1}",
   'subscription.frequency': 'Fréquence : toutes les ',
   'minicart.frequency': 'Fréquence',
   'subscription.help.subTitle':
@@ -1540,7 +1540,7 @@ const fr_FR = {
   'termsandconditions.paragraph5':
     'Numéro de téléphone : {val1} ; Adresse email : {val4}',
   'termsandconditions.paragraph6':
-    'Capital social : 917 986€ ; Numéro de TVA : FR43380824888',
+    'Capital social : 917 986 € ; Numéro de TVA : FR43380824888',
   'termsandconditions.paragraph7': '(ci-après dénommé “{val1}”)',
   'termsandconditions.paragraph8': 'et',
   'termsandconditions.paragraph9':
@@ -1860,7 +1860,7 @@ const fr_FR = {
   'searchNoResult.email': 'Par mail',
   'searchNoResult.email.content': 'Envoyer un email',
   'searchNoBreed.breedName': 'Résultats de la recherche',
-  kg: 'kg',
+  kg: ' kg',
   Activity: 'Activité',
   Weight: 'Poids',
   Sensitivity: 'Sensibilité',
@@ -1975,8 +1975,8 @@ const fr_FR = {
     "30 jours d'alimentation complète et équilibrée pour chat adulte",
   'preciseNutrition.banner.portion': 'Quantité journalière ',
   'preciseNutrition.banner.weight': 'Poids total du sac',
-  'preciseNutrition.banner.day': 'jour',
-  'preciseNutrition.banner.month': 'mois',
+  'preciseNutrition.banner.day': ' jour',
+  'preciseNutrition.banner.month': ' mois',
   'preciseNutrition.banner.des2': 'Envoi automatique tous les 30 jours',
   'preciseNutrition.banner.des3': 'Livraison offerte',
   'preciseNutrition.banner.button': 'Acheter maintenant',
@@ -2059,7 +2059,7 @@ const fr_FR = {
     'OFFREZ À VOTRE CHAT UN ALIMENT ADAPTÉ À SES BESOINS ET UNE PORTION PRÉCISE POUR UN POIDS IDÉAL ! ',
   'PreciseCatNutrition.LongBanner.averagePrice1': 'Prix moyen',
   'PreciseCatNutrition.LongBanner.averagePrice2': '0,90 € / jour',
-  'PreciseCatNutrition.LongBanner.averagePrice3': '25,50 €/ mois',
+  'PreciseCatNutrition.LongBanner.averagePrice3': '25,50 € / mois',
   'PreciseCatNutrition.LongBanner.button': 'S‘abonner',
   'PreciseCatNutrition.LongBanner.redRadius': 'sur la première commande',
   'PreciseCatNutrition.LongBanner.secondTitle': 'LES BÉNÉFICES POUR VOTRE CHAT',
