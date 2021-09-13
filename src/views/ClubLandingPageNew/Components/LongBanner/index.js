@@ -133,6 +133,12 @@ const LongBanner = () => {
                     ariaLabel="Links to product finder"
                   >
                     <button
+                      onClick={() => {
+                        dataLayer.push({
+                          event: 'ruClubSubscriptionCtA',
+                          ruClubSubscriptionCtAName: 'Join the club - Top'
+                        });
+                      }}
                       style={{
                         padding: '0',
                         paddingLeft: '80px',

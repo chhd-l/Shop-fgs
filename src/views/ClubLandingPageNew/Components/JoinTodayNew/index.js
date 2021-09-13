@@ -75,6 +75,13 @@ const JoinTodayNew = () => {
                           ariaLabel="Links to product finder"
                         >
                           <button
+                            onClick={() => {
+                              dataLayer.push({
+                                event: 'ruClubSubscriptionCtA',
+                                ruClubSubscriptionCtAName:
+                                  'Choose a diet - Middle'
+                              });
+                            }}
                             className="rc-btn rc-btn--one"
                             style={{
                               paddingLeft: '90px',
