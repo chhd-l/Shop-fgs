@@ -282,7 +282,7 @@ class HomeDeliveryOrPickUp extends React.Component {
       let pknum = Number(pickupEditNumber) + 1;
       this.props.updatePickupEditNumber(pknum);
 
-      if (!pageType) {
+      if (pageType === 'checkout') {
         let goodsInfoDetails = [];
         // 取到购物车里面的 goodsInfoId、购买的sku数量
         if (isLogin) {
@@ -312,6 +312,7 @@ class HomeDeliveryOrPickUp extends React.Component {
         let ckg = await dimensionsByPackage({
           goodsInfoDetails: goodsInfoDetails
         });
+        // console.log('666 >>> 合并包裹: ', ckg);
         if (ckg.context?.dimensions) {
           let ckgobj = ckg.context;
           data['dimensions'] = ckgobj.dimensions;
