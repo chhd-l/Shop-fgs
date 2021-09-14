@@ -28,6 +28,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
+import renderLinkLang from './hreflang';
 import question from '@/assets/images/home/question@2x.png';
 import HelpComponents from '../../components/HelpComponents/HelpComponents';
 const localItemRoyal = window.__.localItemRoyal;
@@ -596,6 +597,22 @@ class Home extends React.Component {
       return null;
     }
     const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
+
+    //添加seo 收录标签链接
+    const renderLang = (position) => {
+      return renderLinkLang[position].map((item) => {
+        if (item.country !== window.__.env.REACT_APP_COUNTRY) {
+          return (
+            <link
+              key={item.country}
+              rel="alternate"
+              hreflang={item.lang}
+              href={item.href}
+            />
+          );
+        }
+      });
+    };
     return (
       <div>
         {!Ru ? (
@@ -606,10 +623,16 @@ class Home extends React.Component {
               name="description"
               content={this.state.seoConfig.metaDescription}
             />
+            {renderLang('home')}
             <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
           </Helmet>
         ) : (
           <Helmet>
+            <title>
+              {this.state.seoConfig.title}-ajkhdkashdkashdkajshdkash
+            </title>
+            <link rel="canonical" href={pageLink} />
+            {renderLang('home')}
             <meta name="robots" content="noindex" />
           </Helmet>
         )}
