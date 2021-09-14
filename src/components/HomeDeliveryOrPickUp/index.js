@@ -319,7 +319,7 @@ class HomeDeliveryOrPickUp extends React.Component {
         let ckg = await dimensionsByPackage({
           goodsInfoDetails: goodsInfoDetails
         });
-        console.log('666 >>> 合并包裹: ', ckg);
+        // console.log('666 >>> 合并包裹: ', ckg);
         if (ckg.context?.dimensions) {
           let ckgobj = ckg.context;
           data['dimensions'] = ckgobj.dimensions;
