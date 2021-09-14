@@ -11,7 +11,11 @@ import {
   getDeliveryDateAndTimeSlot,
   editAddress
 } from '@/api/address';
-import { pickupQueryCity, pickupQueryCityFee } from '@/api/payment';
+import {
+  pickupQueryCity,
+  pickupQueryCityFee,
+  dimensionsByPackage
+} from '@/api/payment';
 import { shippingCalculation } from '@/api/cart';
 // import SearchSelection from '@/components/SearchSelection';
 import {
