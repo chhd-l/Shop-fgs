@@ -237,8 +237,9 @@ const HandledSpec = ({
   }, [details.goodsNo,renderAgin]);
   useEffect(() => {
     (async () => {
-      if (sizeList.length) {
-        if (goodsSpecDetails.length) {
+      if (sizeList?.length) {
+        // goodsSpecDetails可能是数组可能是null
+        if (goodsSpecDetails?.length) {
           await matchGoods();
           getPriceOrCode();
         } else {
