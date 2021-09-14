@@ -237,8 +237,8 @@ const HandledSpec = ({
   }, [details.goodsNo,renderAgin]);
   useEffect(() => {
     (async () => {
-      if (sizeList.length) {
-        if (goodsSpecDetails.length) {
+      if (sizeList?.length) {
+        if (goodsSpecDetails?.length) {
           await matchGoods();
           getPriceOrCode();
         } else {
