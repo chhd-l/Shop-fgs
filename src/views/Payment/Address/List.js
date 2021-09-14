@@ -11,7 +11,11 @@ import {
   getDeliveryDateAndTimeSlot,
   editAddress
 } from '@/api/address';
-import { pickupQueryCity, pickupQueryCityFee } from '@/api/payment';
+import {
+  pickupQueryCity,
+  pickupQueryCityFee,
+  dimensionsByPackage
+} from '@/api/payment';
 import { shippingCalculation } from '@/api/cart';
 // import SearchSelection from '@/components/SearchSelection';
 import {
@@ -1331,8 +1335,27 @@ class AddressList extends React.Component {
     let robj = res?.context?.pickUpQueryCityDTOs || [];
     if (robj) {
       let data = robj[0];
-      data['dimensions'] = null;
-      data['weight'] = null;
+
+      let goodsInfoDetails = [];
+      // 取到购物车里面的 goodsInfoId、购买的sku数量
+      let cartData = this.props.cartData.filter((el) => el.goodsInfoId);
+      cartData.forEach((e) => {
+        goodsInfoDetails.push({
+          goodsInfoId: e.goodsInfoId,
+          quantity: e.buyCount
+        });
+      });
+      // 合并包裹
+      let ckg = await dimensionsByPackage({
+        goodsInfoDetails: goodsInfoDetails
+      });
+      console.log('666 >>> list 合并包裹: ', ckg);
+      if (ckg.context?.dimensions) {
+        let ckgobj = ckg.context;
+        data['dimensions'] = ckgobj.dimensions;
+        data['weight'] = ckgobj.weight;
+      }
+
       // 根据城市信息查询运费
       let rfee = await pickupQueryCityFee(data);
       if (rfee.context?.tariffs.length) {
