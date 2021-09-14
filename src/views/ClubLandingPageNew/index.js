@@ -303,9 +303,17 @@ class ClubLandingPageNew extends React.Component {
                           <div className="rc-padding--xs detextcenter">
                             <DistributeHubLinkOrATag
                               href={'/product-finder'}
+                              data-tms-ruproductfinderlandingpage="1"
                               ariaLabel="Links to product finder"
                             >
                               <button
+                                onClick={() => {
+                                  dataLayer.push({
+                                    event: 'ruClubSubscriptionCtA',
+                                    ruClubSubscriptionCtAName:
+                                      'Choose a diet - Top'
+                                  });
+                                }}
                                 className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs"
                                 style={
                                   window.__.env.REACT_APP_COUNTRY === 'fr'
@@ -410,7 +418,15 @@ class ClubLandingPageNew extends React.Component {
                               </span>
                             </p>
                             <Link to="subscription-landing">
-                              <button className="rc-btn rc-btn--two">
+                              <button
+                                className="rc-btn rc-btn--two"
+                                onClick={() => {
+                                  dataLayer.push({
+                                    event: 'ruClubSubscriptionCtA',
+                                    ruClubSubscriptionCtAName: 'Learn More'
+                                  });
+                                }}
+                              >
                                 Узнать подробнее
                               </button>
                             </Link>

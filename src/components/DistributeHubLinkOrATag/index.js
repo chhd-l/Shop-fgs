@@ -16,7 +16,8 @@ class DistributeHubLinkOrATag extends React.Component {
       itemProp,
       ariaLabel,
       style,
-      target
+      target,
+      ...rest
     } = this.props;
     return +window.__.env.REACT_APP_HUB ? (
       <a
@@ -28,6 +29,7 @@ class DistributeHubLinkOrATag extends React.Component {
         itemProp={itemProp}
         aria-label={ariaLabel}
         target={target}
+        {...rest}
       >
         {children}
       </a>
@@ -40,6 +42,7 @@ class DistributeHubLinkOrATag extends React.Component {
         itemType={itemType}
         itemProp={itemProp}
         aria-label={ariaLabel}
+        {...rest}
       >
         {children}
       </Link>
