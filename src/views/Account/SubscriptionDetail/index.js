@@ -694,7 +694,6 @@ class SubscriptionDetail extends React.Component {
       triggerShowChangeProduct,
       seoConfig
     } = this.state;
-    // console.log(noStartYearOption, noStartYear, 'noStartYearOption----');
     let isShowClub =
       subDetail.subscriptionType?.toLowerCase().includes('club') ||
       subDetail.subscriptionType?.toLowerCase().includes('individualization'); //indv的展示和club类似
@@ -735,7 +734,7 @@ class SubscriptionDetail extends React.Component {
             <div className="rc-padding--sm rc-max-width--xl pb-1">
               <div className="rc-layout-container rc-five-column">
                 {loadingPage ? <Loading positionFixed="true" /> : null}
-                {/* <SideMenu type="Subscription" /> */}
+
                 {isMobile ? (
                   <div className="col-12 rc-md-down">
                     <Link to="/account/subscription">
@@ -764,8 +763,9 @@ class SubscriptionDetail extends React.Component {
                     />
                   )}
                 </div>
-                <div
-                  className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop"
+
+                {/* <div
+                  className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop subscription_address_list"
                   style={{ display: type === 'AddressComp' ? 'block' : 'none' }}
                 >
                   <AddressComp
@@ -779,10 +779,16 @@ class SubscriptionDetail extends React.Component {
                     }
                     cancel={this.cancelEdit}
                   />
-                </div>
+                </div> */}
+
                 <div
-                  className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop subscriptionDetail"
-                  style={{ display: type === 'main' ? 'block' : 'none' }}
+                  className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop subscription_detail_info"
+                  style={{
+                    display:
+                      type === 'main' || type === 'AddressComp'
+                        ? 'block'
+                        : 'none'
+                  }}
                 >
                   <SubDetailHeader
                     triggerShowChangeProduct={triggerShowChangeProduct}
@@ -809,64 +815,92 @@ class SubscriptionDetail extends React.Component {
                       </div>
                     )}
                     <div className={`${loading ? 'hidden' : ''} `}>
-                      <SubGoodsInfos
-                        getDetail={this.getDetail}
-                        handleSaveChange={this.handleSaveChange.bind(this)}
-                        modalList={modalList}
-                        triggerShowChangeProduct={triggerShowChangeProduct}
-                        isDataChange={isDataChange}
-                        isShowClub={isShowClub}
-                        isGift={isGift}
-                        onDateChange={this.onDateChange}
-                        productListLoading={productListLoading}
-                        errMsgPage={errMsgPage}
-                        setState={this.setState.bind(this)}
-                        getMinDate={this.getMinDate}
-                        showErrMsg={this.showErrMsg.bind(this)}
-                        subDetail={subDetail}
-                      />
-                      <h4 className="h4">
-                        <FormattedMessage id="myAutoshipOrder" />
-                      </h4>
-                      <div className="rc-max-width--xl">
-                        <DeliveryList
+                      {/* 商品详情 */}
+                      <>
+                        <SubGoodsInfos
+                          getDetail={this.getDetail}
+                          handleSaveChange={this.handleSaveChange.bind(this)}
                           modalList={modalList}
+                          triggerShowChangeProduct={triggerShowChangeProduct}
+                          isDataChange={isDataChange}
+                          isShowClub={isShowClub}
+                          isGift={isGift}
+                          onDateChange={this.onDateChange}
+                          productListLoading={productListLoading}
+                          errMsgPage={errMsgPage}
+                          setState={this.setState.bind(this)}
                           getMinDate={this.getMinDate}
-                          completedYearOption={completedYearOption}
-                          setState={this.setState.bind(this)}
-                          changeTab={this.changeTab}
-                          noStartYear={noStartYear}
-                          tabName={tabName}
-                          noStartYearOption={noStartYearOption}
+                          showErrMsg={this.showErrMsg.bind(this)}
                           subDetail={subDetail}
-                          completedYearOption={completedYearOption}
-                          isGift={isGift}
-                          completedYear={completedYear}
-                          completedYear={completedYear}
-                          activeTabIdx={activeTabIdx}
                         />
-                        <GiftList
-                          modalList={modalList}
-                          setState={this.setState.bind(this)}
-                          activeTabIdx={this.activeTabIdx}
-                          tabName={this.tabName}
-                          changeTab={this.changeTab}
-                          subDetail={subDetail}
-                          noStartYear={noStartYear}
-                          isGift={isGift}
-                        />
-                      </div>
+                      </>
 
-                      <h4 className="h4">
-                        <FormattedMessage id="transactionInfo" />
-                      </h4>
-                      <UserPaymentInfo
-                        currentCardInfo={currentCardInfo}
-                        currentBillingAddress={currentBillingAddress}
-                        subDetail={subDetail}
-                        setState={this.setState.bind(this)}
-                        currentDeliveryAddress={currentDeliveryAddress}
-                      />
+                      {/* 历史订单 */}
+                      <>
+                        <h4 className="h4">
+                          <FormattedMessage id="myAutoshipOrder" />
+                        </h4>
+                        <div className="rc-max-width--xl">
+                          <DeliveryList
+                            modalList={modalList}
+                            getMinDate={this.getMinDate}
+                            completedYearOption={completedYearOption}
+                            setState={this.setState.bind(this)}
+                            changeTab={this.changeTab}
+                            noStartYear={noStartYear}
+                            tabName={tabName}
+                            noStartYearOption={noStartYearOption}
+                            subDetail={subDetail}
+                            completedYearOption={completedYearOption}
+                            isGift={isGift}
+                            completedYear={completedYear}
+                            completedYear={completedYear}
+                            activeTabIdx={activeTabIdx}
+                          />
+                          <GiftList
+                            modalList={modalList}
+                            setState={this.setState.bind(this)}
+                            activeTabIdx={this.activeTabIdx}
+                            tabName={this.tabName}
+                            changeTab={this.changeTab}
+                            subDetail={subDetail}
+                            noStartYear={noStartYear}
+                            isGift={isGift}
+                          />
+                        </div>
+                      </>
+
+                      {/* 用户信息、地址列表 */}
+                      <>
+                        <h4 className="h4">
+                          <FormattedMessage id="transactionInfo" />
+                        </h4>
+                        {/* 订阅详情用户数据 */}
+                        {type === 'main' ? (
+                          <UserPaymentInfo
+                            currentCardInfo={currentCardInfo}
+                            currentBillingAddress={currentBillingAddress}
+                            subDetail={subDetail}
+                            setState={this.setState.bind(this)}
+                            currentDeliveryAddress={currentDeliveryAddress}
+                          />
+                        ) : null}
+
+                        {/* 地址列表 */}
+                        {type === 'AddressComp' ? (
+                          <AddressComp
+                            customerAccount={subDetail?.customerAccount}
+                            tradeItems={subDetail?.noStartTradeList}
+                            type={addressType}
+                            deliveryAddressId={subDetail.deliveryAddressId}
+                            billingAddressId={subDetail.billingAddressId}
+                            save={(el, isBillSame, fn) =>
+                              this.addressSave(el, isBillSame, fn)
+                            }
+                            cancel={this.cancelEdit}
+                          />
+                        ) : null}
+                      </>
                     </div>
                   </div>
                 </div>

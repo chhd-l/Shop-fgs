@@ -289,7 +289,6 @@ class AddressList extends React.Component {
         curAddressId: item.deliveryAddressId
       });
     }
-
     this.setState({
       addressAddOrEditFlag: 'edit'
     });
