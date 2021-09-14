@@ -396,7 +396,12 @@ class Recommendation extends React.Component {
           );
         }
         this.props.clinicStore.setAuditAuthority(false);
-        this.setState({ loading: false, pageLoading: false });
+        if (isUs) {
+          // the US need redirected to the cart page and the recommended products added to cart automatically via clicking this link.
+          this.addCart();
+        } else {
+          this.setState({ loading: false, pageLoading: false });
+        }
         console.timeEnd('js处理');
         // });
       })
