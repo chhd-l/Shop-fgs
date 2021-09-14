@@ -121,7 +121,7 @@ class PreciseCatNutrition extends React.Component {
           />
           {/*{this.state.loading ? <Loading /> : null}*/}
           <main className={'rc-content--fixed-header'}>
-            <BannerTip />
+            {/*<BannerTip />*/}
             {/*<div*/}
             {/*  style={{*/}
             {/*    textAlign: 'center',*/}
