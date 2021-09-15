@@ -2088,7 +2088,7 @@ class Payment extends React.Component {
     data.minDeliveryTime =
       data?.minDeliveryTime || data?.calculation?.minDeliveryTime;
     localItemRoyal.set('rc-calculation-param', data);
-    console.log('666 >>> Payment 计算税额、运费、运费折扣: ', data);
+    // console.log('666 >>> Payment 计算税额、运费、运费折扣: ', data);
 
     param = {
       promotionCode: this.props.checkoutStore.promotionCode,
