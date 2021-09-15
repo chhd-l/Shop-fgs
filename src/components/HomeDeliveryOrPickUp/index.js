@@ -231,6 +231,7 @@ class HomeDeliveryOrPickUp extends React.Component {
           newobj.push(v);
         }
       });
+
       sitem.homeAndPickup = newobj;
       this.setState(
         {
