@@ -140,14 +140,12 @@ class AddressList extends React.Component {
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.addOrEditPickupAddress = this.addOrEditPickupAddress.bind(this);
-    this.handleCancelAddOrEditPickup = this.handleCancelAddOrEditPickup.bind(
-      this
-    );
+    this.handleCancelAddOrEditPickup =
+      this.handleCancelAddOrEditPickup.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.timer = null;
-    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
-      this
-    );
+    this.confirmListValidationAddress =
+      this.confirmListValidationAddress.bind(this);
     this.editFormRef = React.createRef();
   }
   async componentDidMount() {
@@ -1149,11 +1147,8 @@ class AddressList extends React.Component {
   };
   // 点击地址验证确认按钮
   confirmListValidationAddress = () => {
-    const {
-      deliveryAddress,
-      selectListValidationOption,
-      validationAddress
-    } = this.state;
+    const { deliveryAddress, selectListValidationOption, validationAddress } =
+      this.state;
     this.setState({
       listBtnLoading: true
     });
@@ -1363,37 +1358,46 @@ class AddressList extends React.Component {
       if (rfee.context?.tariffs.length) {
         let obj = rfee.context.tariffs;
 
-        // 两个都有时，如果有默认地址，则选择默认
         let addstr = '';
+        // 有homeDelivery地址，没有pickup地址
+        if (addressList.length && !pickupAddress.length) {
+          addstr = 'COURIER';
+        }
+        // 有pickup地址，没有homeDelivery地址
+        if (!addressList.length && pickupAddress.length) {
+          addstr = 'PVZ';
+        }
+        // 两个都有时，如果有默认地址，则选择默认
         if (addressList.length && pickupAddress.length) {
           allAddressList.map((e) => {
             // 有默认地址
             if (e.isDefaltAddress == 1) {
               if (e.receiveType === 'PICK_UP') {
-                addstr = 'pickup';
+                addstr = 'PVZ';
               } else {
-                addstr = 'homeDelivery';
+                addstr = 'COURIER';
               }
             }
           });
-          addstr ? addstr : (addstr = 'homeDelivery');
-          // this.handleRadioChange(addstr);
+          addstr ? addstr : (addstr = 'COURIER');
         }
 
+        console.log('666 >>> addstr: ', addstr);
         obj.map((m) => {
-          let type = m.type;
+          let tp = m.type;
           m.selected = false;
           obj.length === 1 ? (m.selected = true) : '';
-          if (type === 'COURIER') {
+          if (tp === 'COURIER') {
             m.type = 'homeDelivery';
           }
-          if (type === 'PVZ') {
+          if (tp === 'PVZ') {
             m.type = 'pickup';
           }
-          if (addressList.length && pickupAddress.length) {
-            if (type === 'COURIER') {
-              m.selected = true;
-            }
+
+          if (tp == addstr) {
+            m.selected = true;
+          } else {
+            m.selected = false;
           }
         });
 
@@ -1438,8 +1442,6 @@ class AddressList extends React.Component {
               homeAndPickup: obj,
               isSubscription: this.props.isCurrentBuyWaySubscription
             };
-          } else {
-            hpobj.homeAndPickup = obj;
           }
 
           // 修改本地存储的信息
