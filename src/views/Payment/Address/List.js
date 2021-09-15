@@ -1362,22 +1362,33 @@ class AddressList extends React.Component {
       let rfee = await pickupQueryCityFee(data);
       if (rfee.context?.tariffs.length) {
         let obj = rfee.context.tariffs;
+        obj.map((m) => {
+          let type = m.type;
+          m.selected = false;
+          if (type == 'COURIER') {
+            m.type = 'homeDelivery';
+            obj.length === 1 ? (m.selected = true) : '';
+          }
+          if (type == 'PVZ') {
+            m.type = 'pickup';
+          }
+        });
 
         // 'COURIER'=> home delivery
-        let hdAddr = obj.filter((e) => e.type == 'COURIER');
+        let hdAddr = obj.filter((e) => e.type == 'homeDelivery');
 
         // 'PVZ'=> pickup
-        let pkAddr = obj.filter((e) => e.type == 'PVZ');
+        let pkAddr = obj.filter((e) => e.type == 'pickup');
 
         if (obj.length) {
-          let hap = Object.assign([], homeAndPickup);
+          // let hap = Object.assign([], homeAndPickup);
           let hpobj = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
           hpobj = JSON.parse(hpobj);
-          hap.map((e, i) => {
+          obj.map((e, i) => {
             if (e.type == 'homeDelivery') {
               let dprice = hdAddr[0]?.deliveryPrice;
               e.deliveryPrice = dprice;
-              hpobj.homeAndPickup.map((e) => {
+              hpobj?.homeAndPickup.map((e) => {
                 if (e.type === 'homeDelivery') {
                   e.deliveryPrice = dprice;
                 }
@@ -1393,14 +1404,13 @@ class AddressList extends React.Component {
                 });
               }
               if (!pkAddr.length) {
-                hap.splice(i, 1);
+                obj.splice(i, 1);
                 this.handleRadioChange('homeDelivery');
               }
             }
           });
 
-          hpobj.homeAndPickup = hap;
-
+          hpobj.homeAndPickup = obj;
           // 修改本地存储的信息
           sessionItemRoyal.set(
             'rc-homeDeliveryAndPickup',
@@ -1408,7 +1418,7 @@ class AddressList extends React.Component {
           );
 
           this.setState({
-            homeAndPickup: Object.assign([], hap)
+            homeAndPickup: Object.assign([], obj)
           });
         }
       }
@@ -1432,6 +1442,7 @@ class AddressList extends React.Component {
     let hdpk = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
     hdpk = JSON.parse(hdpk);
 
+    console.log('666 >>> homeAndPickup ： ', homeAndPickup);
     // 设置homeDelivery deliveryPrice初始值
     let homedobj = find(homeAndPickup, (e) => e.type == 'homeDelivery');
     let obj = [];
@@ -1507,7 +1518,7 @@ class AddressList extends React.Component {
         e.selected = false;
       }
     });
-    // console.log('666 >>> obj: ', obj);
+
     // 没有默认地址也没有缓存
     if (!addstr) {
       obj[0].selected = true;
