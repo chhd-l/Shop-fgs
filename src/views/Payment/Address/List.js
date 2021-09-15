@@ -1406,11 +1406,13 @@ class AddressList extends React.Component {
               let hdAddr = obj.filter((e) => e.type == 'homeDelivery');
               let dprice = hdAddr[0]?.deliveryPrice;
               e.deliveryPrice = dprice;
-              hpobj?.homeAndPickup.map((e) => {
-                if (e.type === 'homeDelivery') {
-                  e.deliveryPrice = dprice;
-                }
-              });
+              if (hpobj?.homeAndPickup) {
+                hpobj.homeAndPickup.map((e) => {
+                  if (e.type === 'homeDelivery') {
+                    e.deliveryPrice = dprice;
+                  }
+                });
+              }
             }
 
             if (e.type == 'pickup') {
@@ -1430,7 +1432,16 @@ class AddressList extends React.Component {
             }
           });
 
-          hpobj.homeAndPickup = obj;
+          if (!hpobj) {
+            hpobj = {
+              cityData: null,
+              homeAndPickup: obj,
+              isSubscription: this.props.isCurrentBuyWaySubscription
+            };
+          } else {
+            hpobj.homeAndPickup = obj;
+          }
+
           // 修改本地存储的信息
           sessionItemRoyal.set(
             'rc-homeDeliveryAndPickup',
@@ -1482,9 +1493,10 @@ class AddressList extends React.Component {
         });
       }
     } else {
-      obj = hdpk.homeAndPickup;
+      obj = hdpk?.homeAndPickup;
     }
-    console.log('666 >>> homeAndPickup ： ', homeAndPickup);
+    // console.log('666 >>> saveAddressNumber ： ', saveAddressNumber);
+    // console.log('666 >>> homeAndPickup ： ', homeAndPickup);
 
     // ★★★★★ 设置默认选中项（按优先级）
     // 1、上一次选择
