@@ -102,7 +102,7 @@ const env_mx = {
 
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      'b31ead2c-51fc-4be0-b4e7-83a1d5c0218d-test',
+      'cb2f0d62-375e-4bb5-9ef8-08fcd670eb3c-test',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/mx'
@@ -141,7 +141,7 @@ const env_mx = {
 
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      'b31ead2c-51fc-4be0-b4e7-83a1d5c0218d-test',
+      'cb2f0d62-375e-4bb5-9ef8-08fcd670eb3c-test',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/mx'
@@ -180,7 +180,7 @@ const env_mx = {
 
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      'b31ead2c-51fc-4be0-b4e7-83a1d5c0218d-test',
+      'cb2f0d62-375e-4bb5-9ef8-08fcd670eb3c-test',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/mx'
@@ -219,7 +219,7 @@ const env_mx = {
 
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      'b31ead2c-51fc-4be0-b4e7-83a1d5c0218d-test',
+      'cb2f0d62-375e-4bb5-9ef8-08fcd670eb3c-test',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/mx'
@@ -254,7 +254,7 @@ const env_mx = {
     REACT_APP_GA_ENV: 'prd',
 
     // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT: 'b31ead2c-51fc-4be0-b4e7-83a1d5c0218d',
+    REACT_APP_ONTRUST_DOMAIN_SCRIPT: 'cb2f0d62-375e-4bb5-9ef8-08fcd670eb3c',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/'

@@ -1283,7 +1283,7 @@ const en_US = {
   registerFeckbook: 'Connect with Facebook',
   registerFillIn: 'Please fill in this field',
   registerFooter1:
-    'You must be 13 years of age or older to submit a form. You can contact us at 1-844-673-3772 or click',
+    'You must be 18 years of age or older to submit a form. You can contact us at 1-844-673-3772 or click',
   registerGoogle: 'Connect with Google',
   registerHaveAccount: 'Already have an account?',
   registerLength: '8 characters',
