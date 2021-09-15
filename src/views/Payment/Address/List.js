@@ -1381,6 +1381,7 @@ class AddressList extends React.Component {
         }
 
         console.log('666 >>> addstr: ', addstr);
+
         obj.map((m) => {
           let tp = m.type;
           m.selected = false;
@@ -1399,59 +1400,54 @@ class AddressList extends React.Component {
           }
         });
 
-        if (obj.length) {
-          let hpobj = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
-          hpobj = JSON.parse(hpobj);
-          obj.map((e, i) => {
-            if (e.type == 'homeDelivery') {
-              // 'COURIER'=> home delivery
-              let hdAddr = obj.filter((e) => e.type == 'homeDelivery');
-              let dprice = hdAddr[0]?.deliveryPrice;
-              e.deliveryPrice = dprice;
-              if (hpobj?.homeAndPickup) {
-                hpobj.homeAndPickup.map((e) => {
-                  if (e.type === 'homeDelivery') {
-                    e.deliveryPrice = dprice;
-                  }
-                });
-              }
+        let hpobj = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
+        hpobj = JSON.parse(hpobj);
+        obj.map((e, i) => {
+          if (e.type == 'homeDelivery') {
+            // 'COURIER'=> home delivery
+            let hdAddr = obj.filter((e) => e.type == 'homeDelivery');
+            let dprice = hdAddr[0]?.deliveryPrice;
+            e.deliveryPrice = dprice;
+            if (hpobj?.homeAndPickup) {
+              hpobj.homeAndPickup.map((e) => {
+                if (e.type === 'homeDelivery') {
+                  e.deliveryPrice = dprice;
+                }
+              });
             }
-
-            if (e.type == 'pickup') {
-              // 'PVZ'=> pickup
-              let pkAddr = obj.filter((e) => e.type == 'pickup');
-              if (city === pickupAddress[0]?.city) {
-                e.maxDeliveryTime = pkAddr[0]?.maxDeliveryTime;
-                e.minDeliveryTime = pkAddr[0]?.minDeliveryTime;
-                this.setState({
-                  pickupCalculation: pkAddr[0]
-                });
-              }
-              if (!pkAddr.length) {
-                obj.splice(i, 1);
-                this.handleRadioChange('homeDelivery');
-              }
-            }
-          });
-
-          if (!hpobj) {
-            hpobj = {
-              cityData: null,
-              homeAndPickup: obj,
-              isSubscription: this.props.isCurrentBuyWaySubscription
-            };
           }
 
-          // 修改本地存储的信息
-          sessionItemRoyal.set(
-            'rc-homeDeliveryAndPickup',
-            JSON.stringify(hpobj)
-          );
+          if (e.type == 'pickup') {
+            // 'PVZ'=> pickup
+            let pkAddr = obj.filter((e) => e.type == 'pickup');
+            if (city === pickupAddress[0]?.city) {
+              e.maxDeliveryTime = pkAddr[0]?.maxDeliveryTime;
+              e.minDeliveryTime = pkAddr[0]?.minDeliveryTime;
+              this.setState({
+                pickupCalculation: pkAddr[0]
+              });
+            }
+            if (!pkAddr.length) {
+              obj.splice(i, 1);
+              this.handleRadioChange('homeDelivery');
+            }
+          }
+        });
 
-          this.setState({
-            homeAndPickup: Object.assign([], obj)
-          });
+        if (!hpobj) {
+          hpobj = {
+            cityData: null,
+            homeAndPickup: obj,
+            isSubscription: this.props.isCurrentBuyWaySubscription
+          };
         }
+
+        // 修改本地存储的信息
+        sessionItemRoyal.set('rc-homeDeliveryAndPickup', JSON.stringify(hpobj));
+
+        this.setState({
+          homeAndPickup: Object.assign([], obj)
+        });
       }
       this.setState({ validationLoading: false });
     } else {

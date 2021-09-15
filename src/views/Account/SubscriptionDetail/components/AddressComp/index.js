@@ -7,7 +7,6 @@ import {
   getAddressList,
   saveAddress,
   editAddress,
-  deleteAddress,
   setDefaltAddress
 } from '@/api/address';
 import {
@@ -110,6 +109,7 @@ class AddressList extends React.Component {
   static defaultProps = {
     visible: true,
     customerAccount: '',
+    deliveryAddressId: '',
     tradeItems: null,
     type: 'delivery'
   };
@@ -180,9 +180,7 @@ class AddressList extends React.Component {
     };
     this.timer = null;
     this.confirmValidationAddress = this.confirmValidationAddress.bind(this);
-    this.handleEditAddress = this.handleEditAddress.bind(this);
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
-    this.handleClickCoverItem = this.handleClickCoverItem.bind(this);
   }
   async UNSAFE_componentWillReceiveProps(props) {
     if (props.type !== this.state.type) {
@@ -212,11 +210,11 @@ class AddressList extends React.Component {
     await this.queryAddressList();
   }
   async queryAddressList() {
+    const { deliveryAddressId } = this.props;
     const { selectedId } = this.state;
     this.setState({ loading: true });
     try {
       let res = await getAddressList();
-      console.log('666 >>> res: ', res);
       let addressList = res.context.filter((ele) => {
         return (
           // ele.type === this.props.type.toUpperCase()
@@ -224,7 +222,6 @@ class AddressList extends React.Component {
         );
       });
 
-      let tmpId;
       const defaultAddressItem = find(
         addressList,
         (ele) => ele.isDefaltAddress === 1
@@ -242,14 +239,21 @@ class AddressList extends React.Component {
           addressList,
           (ele) => (ele.selected = ele.isDefaltAddress === 1)
         );
-        tmpId = defaultAddressItem.deliveryAddressId;
         this.getSubAddressErrMsg(defaultAddressItem);
       }
-      console.log('666 >>> !addressList.length: ', !addressList.length);
+
+      // 设置选中的地址
+      Array.from(addressList, (a) => (a.selected = false));
+      addressList.map((e) => {
+        if (e.deliveryAddressId == deliveryAddressId) {
+          e.selected = true;
+        }
+      });
+
       this.setState({
         addressList: addressList,
         addOrEdit: !addressList.length,
-        selectedId: tmpId
+        selectedId: deliveryAddressId
       });
     } catch (err) {
       this.setState({
@@ -260,31 +264,23 @@ class AddressList extends React.Component {
     }
   }
   // 选择地址项并设置边框
-  handleClickCoverItem(item) {
-    const { addressList } = this.state;
-    let dliveryId = item.deliveryAddressId;
+  selectAddress(item) {
+    let { addressList } = this.state;
     Array.from(addressList, (a) => (a.selected = false));
+    let dliveryId = item.deliveryAddressId;
+    // 设置选中的地址
     addressList.map((e) => {
       if (e.deliveryAddressId == dliveryId) {
         e.selected = true;
       }
     });
-    this.setState({
-      addressList
-    });
-    this.setState({ curAddressId: dliveryId });
-  }
-  // 选择地址
-  selectAddress(idx) {
-    let { addressList } = this.state;
-    Array.from(addressList, (a) => (a.selected = false));
-    let alist = addressList[idx];
-    alist.selected = true;
-    let subAddressErrMsg = this.getSubAddressErrMsg(alist);
+    // 判断地址是否完整
+    let subAddressErrMsg = this.getSubAddressErrMsg(item);
     if (!subAddressErrMsg) {
       this.setState({
         addressList: addressList,
-        selectedId: alist.deliveryAddressId
+        selectedId: dliveryId,
+        curAddressId: dliveryId
       });
     }
   }
@@ -371,10 +367,10 @@ class AddressList extends React.Component {
       phoneNumber: '',
       isDefalt: false
     };
-    console.log('666 >>> 111 addOrEdit = true');
     this.setState({
       addOrEdit: true
     });
+
     if (idx > -1) {
       const tmp = addressList[idx];
       tmpDeliveryAddress = {
@@ -411,7 +407,6 @@ class AddressList extends React.Component {
           )
         },
         () => {
-          console.log('666 >>> 222 addOrEdit = true');
           this.setState({
             addOrEdit: true
           });
@@ -734,42 +729,7 @@ class AddressList extends React.Component {
       });
     }
   }
-  async deleteAddress(item) {
-    // console.log(item, 'item');
-    let { addressList } = this.state;
-    item.confirmTooltipVisible = false;
-    if (item.canDelFlag === false) {
-      this.showErrorMsg(this.props.intl.messages.deleteAddressTip);
-      return;
-    }
-    this.setState({
-      deleteLoading: true,
-      addressList: addressList
-    });
-    await deleteAddress({ id: item.deliveryAddressId })
-      .then((res) => {
-        this.setState({ deleteLoading: false });
-        this.setState({
-          successTipVisible: true,
-          successTip: this.props.intl.messages.deleteAddressSuccess
-        });
-        setTimeout(() => {
-          this.setState({
-            successTipVisible: false
-          });
-        }, 2000);
-        // this.showErrorMsg(
-        //   res.message || this.props.intl.messages.deleteAddressSuccess
-        // );
-        this.queryAddressList();
-      })
-      .catch((err) => {
-        this.showErrorMsg(
-          err.message.toString() || this.props.intl.messages.deleteAddressFailed
-        );
-        this.setState({ deleteLoading: false });
-      });
-  }
+  // 显示错误提示信息
   showErrorMsg(msg) {
     console.log(722, '-------- err msg: ', msg);
     this.setState({
@@ -882,7 +842,7 @@ class AddressList extends React.Component {
     return (
       <div
         className="rounded border h-100 d-flex align-items-center justify-content-center font-weight-bold pt-3 pb-3"
-        onClick={this.addOrEditAddress.bind(this, receiveType)}
+        onClick={this.addOrEditAddress.bind(this, -1)}
         ref={(node) => {
           if (node) {
             node.style.setProperty('border-width', '.1rem', 'important');
@@ -897,85 +857,6 @@ class AddressList extends React.Component {
           <FormattedMessage id="addANewAddress" />
         )}
       </div>
-    );
-  };
-  // 地址项详细
-  addressItemDetail = (item, i) => {
-    const { countryList, addressList, isBillSame } = this.state;
-    // 获取本地存储的需要显示的地址字段
-    const localAddressForm = this.props.configStore.localAddressForm;
-    return (
-      <CardItem
-        data={item}
-        localAddressForm={localAddressForm}
-        receiveType={item.receiveType}
-        operateBtnJSX={
-          <div
-            className={`${
-              isMobile ? '' : 'col-6'
-            } d-flex flex-column justify-content-between`}
-          >
-            {/* 选择按钮 */}
-            {item.isDefaltAddress === 1 ? (
-              <div
-                className={`d-flex mb-3 ${
-                  isMobile ? 'justify-content-center' : 'justify-content-end'
-                }`}
-              ></div>
-            ) : (
-              <div
-                className={`d-flex mb-3 ${
-                  isMobile ? 'justify-content-center' : 'justify-content-end'
-                }`}
-                onClick={() => {
-                  this.props.save(
-                    addressList.filter((el) => el.selected)[0],
-                    isBillSame,
-                    this.queryAddressList.bind(this)
-                  );
-                }}
-              >
-                <span className="select_this_address border-bottom-2">
-                  <FormattedMessage id="selectThisAddress" />
-                </span>
-              </div>
-            )}
-
-            {/* 编辑按钮 */}
-            <div
-              className={`d-flex justify-content-end mb-0 ${
-                isMobile ? 'justify-content-center' : 'justify-content-end'
-              }`}
-            >
-              <div
-                className="d-flex align-items-center"
-                style={{
-                  flexFlow: 'wrap',
-                  justifyContent:
-                    isMobile && item.receiveType === 'PICK_UP'
-                      ? 'center'
-                      : 'flex-end'
-                }}
-              >
-                <button
-                  className="rc-btn rc-btn--sm rc-btn--two font-weight-bold"
-                  onClick={this.handleEditAddress.bind(this, item)}
-                  style={{ fontSize: '12px' }}
-                >
-                  {item.receiveType === 'PICK_UP' ? (
-                    <FormattedMessage id="payment.changePickup" />
-                  ) : (
-                    <FormattedMessage id="edit" />
-                  )}
-                </button>
-              </div>
-            </div>
-          </div>
-        }
-        handleClick={() => this.selectAddress(i)}
-        handleClickCoverItem={this.handleClickCoverItem.bind(this, item)}
-        countryName={matchNamefromDict(countryList, item.countryId)}
-      />
     );
   };
   // 显示更多
@@ -1006,25 +887,6 @@ class AddressList extends React.Component {
       </div>
     );
   };
-  // 编辑地址
-  handleEditAddress(item) {
-    if (item.receiveType == 'PICK_UP') {
-      this.setState({
-        defaultCity: item.city,
-        pickupVisible: true,
-        editFormVisible: false
-      });
-      this.scrollToTitle();
-    } else {
-      this.changeEditFormVisible(true);
-      this.setState({
-        curAddressId: item.deliveryAddressId
-      });
-    }
-    this.setState({
-      addressAddOrEditFlag: 'edit'
-    });
-  }
   // 取消编辑或者新增地址
   cancelEditForm = () => {
     let pstit = document.getElementById('profile-personal-info');
@@ -1158,6 +1020,87 @@ class AddressList extends React.Component {
       });
     }
   };
+
+  // 地址项详细
+  addressItemDetail = (item, i) => {
+    const { deliveryAddressId } = this.props;
+    const { countryList, addressList, isBillSame } = this.state;
+    // 获取本地存储的需要显示的地址字段
+    const localAddressForm = this.props.configStore.localAddressForm;
+    return (
+      <CardItem
+        data={item}
+        localAddressForm={localAddressForm}
+        receiveType={item.receiveType}
+        currentAddressId={deliveryAddressId}
+        operateBtnJSX={
+          <div
+            className={`${
+              isMobile ? '' : 'col-6'
+            } d-flex flex-column justify-content-between`}
+          >
+            {/* 选择按钮 */}
+            {item.deliveryAddressId === deliveryAddressId ? (
+              <div
+                className={`d-flex mb-3 ${
+                  isMobile ? 'justify-content-center' : 'justify-content-end'
+                }`}
+              ></div>
+            ) : (
+              <div
+                className={`d-flex mb-3 ${
+                  isMobile ? 'justify-content-center' : 'justify-content-end'
+                }`}
+                onClick={() => {
+                  this.props.save(
+                    addressList.filter((el) => el.selected)[0],
+                    isBillSame,
+                    this.queryAddressList.bind(this)
+                  );
+                }}
+              >
+                <span className="select_this_address border-bottom-2">
+                  <FormattedMessage id="selectThisAddress" />
+                </span>
+              </div>
+            )}
+
+            {/* 编辑按钮 */}
+            <div
+              className={`d-flex justify-content-end mb-0 ${
+                isMobile ? 'justify-content-center' : 'justify-content-end'
+              }`}
+            >
+              <div
+                className="d-flex align-items-center"
+                style={{
+                  flexFlow: 'wrap',
+                  justifyContent:
+                    isMobile && item.receiveType === 'PICK_UP'
+                      ? 'center'
+                      : 'flex-end'
+                }}
+              >
+                <button
+                  className="rc-btn rc-btn--sm rc-btn--two font-weight-bold"
+                  onClick={this.addOrEditAddress.bind(this, i)}
+                  style={{ fontSize: '12px' }}
+                >
+                  {item.receiveType === 'PICK_UP' ? (
+                    <FormattedMessage id="payment.changePickup" />
+                  ) : (
+                    <FormattedMessage id="edit" />
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+        handleClick={() => this.selectAddress(item)}
+        countryName={matchNamefromDict(countryList, item.countryId)}
+      />
+    );
+  };
   render() {
     let {
       deliveryAddress,
@@ -1278,7 +1221,6 @@ class AddressList extends React.Component {
                           }`}
                           onClick={() => {
                             isBillSame = !isBillSame;
-                            // console.log(isBillSame);
                             this.setState({ isBillSame });
                           }}
                           style={{ maxWidth: '450px' }}
@@ -1334,8 +1276,9 @@ class AddressList extends React.Component {
                             </div>
 
                             {/* 更多地址 */}
-                            {addressList.length > 2 &&
-                              this.showMoreAddressBtn()}
+                            {addressList.filter(
+                              (e) => e.receiveType !== 'PICK_UP'
+                            ).length > 2 && this.showMoreAddressBtn()}
                           </div>
                         </div>
 
@@ -1522,7 +1465,7 @@ class AddressList extends React.Component {
 
                     {
                       <>
-                        <div className="rc-md-down ">
+                        {/* <div className="rc-md-down ">
                           <a
                             className="rc-styled-link"
                             onClick={() =>
@@ -1547,7 +1490,7 @@ class AddressList extends React.Component {
                           >
                             <FormattedMessage id="save" />
                           </button>
-                        </div>
+                        </div> */}
 
                         <div className="rc-md-up rc-full-width text-right">
                           <a

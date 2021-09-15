@@ -34,6 +34,7 @@ const UserPaymentInfo = ({
   }
   const eidtModule = (type) => {
     console.log('666 >>> type: ', type);
+
     if (type !== 'delivery') {
       window.scrollTo(0, 0);
     }
