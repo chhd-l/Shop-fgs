@@ -1370,7 +1370,6 @@ class AddressList extends React.Component {
             }
           });
           addstr ? addstr : (addstr = 'homeDelivery');
-          // this.handleRadioChange(addstr);
         }
 
         obj.map((m) => {
@@ -1431,8 +1430,6 @@ class AddressList extends React.Component {
               homeAndPickup: obj,
               isSubscription: this.props.isCurrentBuyWaySubscription
             };
-          } else {
-            hpobj.homeAndPickup = obj;
           }
 
           // 修改本地存储的信息
