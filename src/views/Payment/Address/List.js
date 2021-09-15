@@ -1393,7 +1393,7 @@ class AddressList extends React.Component {
         if (obj.length) {
           let hpobj = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
           hpobj = JSON.parse(hpobj);
-          hap.map((e, i) => {
+          obj.map((e, i) => {
             if (e.type == 'homeDelivery') {
               // 'COURIER'=> home delivery
               let hdAddr = obj.filter((e) => e.type == 'homeDelivery');
@@ -1417,13 +1417,13 @@ class AddressList extends React.Component {
                 });
               }
               if (!pkAddr.length) {
-                hap.splice(i, 1);
+                obj.splice(i, 1);
                 this.handleRadioChange('homeDelivery');
               }
             }
           });
 
-          hpobj.homeAndPickup = hap;
+          hpobj.homeAndPickup = obj;
 
           // 修改本地存储的信息
           sessionItemRoyal.set(
@@ -1432,7 +1432,7 @@ class AddressList extends React.Component {
           );
 
           this.setState({
-            homeAndPickup: Object.assign([], hap)
+            homeAndPickup: Object.assign([], obj)
           });
         }
       }
