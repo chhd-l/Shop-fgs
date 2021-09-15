@@ -1321,7 +1321,7 @@ class AddressList extends React.Component {
 
   // 计算homeDelivery运费
   getHomeDeliveryPrice = async (city) => {
-    const { homeAndPickup, pickupAddress } = this.state;
+    const { allAddressList, addressList, pickupAddress } = this.state;
     if (!city) {
       return;
     }
@@ -1356,18 +1356,47 @@ class AddressList extends React.Component {
       if (rfee.context?.tariffs.length) {
         let obj = rfee.context.tariffs;
 
-        // 'COURIER'=> home delivery
-        let hdAddr = obj.filter((e) => e.type == 'COURIER');
+        // 两个都有时，如果有默认地址，则选择默认
+        let addstr = '';
+        if (addressList.length && pickupAddress.length) {
+          allAddressList.map((e) => {
+            // 有默认地址
+            if (e.isDefaltAddress == 1) {
+              if (e.receiveType === 'PICK_UP') {
+                addstr = 'pickup';
+              } else {
+                addstr = 'homeDelivery';
+              }
+            }
+          });
+          addstr ? addstr : (addstr = 'homeDelivery');
+          // this.handleRadioChange(addstr);
+        }
 
-        // 'PVZ'=> pickup
-        let pkAddr = obj.filter((e) => e.type == 'PVZ');
+        obj.map((m) => {
+          let type = m.type;
+          m.selected = false;
+          obj.length === 1 ? (m.selected = true) : '';
+          if (type === 'COURIER') {
+            m.type = 'homeDelivery';
+          }
+          if (type === 'PVZ') {
+            m.type = 'pickup';
+          }
+          if (addressList.length && pickupAddress.length) {
+            if (type === 'COURIER') {
+              m.selected = true;
+            }
+          }
+        });
 
         if (obj.length) {
-          let hap = Object.assign([], homeAndPickup);
           let hpobj = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
           hpobj = JSON.parse(hpobj);
           hap.map((e, i) => {
             if (e.type == 'homeDelivery') {
+              // 'COURIER'=> home delivery
+              let hdAddr = obj.filter((e) => e.type == 'homeDelivery');
               let dprice = hdAddr[0]?.deliveryPrice;
               e.deliveryPrice = dprice;
               hpobj.homeAndPickup.map((e) => {
@@ -1378,6 +1407,8 @@ class AddressList extends React.Component {
             }
 
             if (e.type == 'pickup') {
+              // 'PVZ'=> pickup
+              let pkAddr = obj.filter((e) => e.type == 'pickup');
               if (city === pickupAddress[0]?.city) {
                 e.maxDeliveryTime = pkAddr[0]?.maxDeliveryTime;
                 e.minDeliveryTime = pkAddr[0]?.minDeliveryTime;
@@ -1410,7 +1441,7 @@ class AddressList extends React.Component {
       this.setState({ validationLoading: false });
     }
   };
-  // 根据默认地址查询信息
+  // 根据默认地址设置信息
   getHomeDeliveryAndPickupInfo = async () => {
     const { saveAddressNumber } = this.props;
     const {
@@ -1447,6 +1478,7 @@ class AddressList extends React.Component {
     } else {
       obj = hdpk.homeAndPickup;
     }
+    console.log('666 >>> homeAndPickup ： ', homeAndPickup);
 
     // ★★★★★ 设置默认选中项（按优先级）
     // 1、上一次选择
@@ -2037,16 +2069,15 @@ class AddressList extends React.Component {
     // 勾选默认地址框
     const _defaultCheckBox = (
       <div className="rc-input rc-input--inline w-100 mw-100">
-        {
-          <input
-            id="addr-default-checkbox"
-            type="checkbox"
-            className="rc-input__checkbox"
-            onChange={this.handleDefaultChange}
-            value={deliveryAddress.isDefalt}
-            checked={deliveryAddress.isDefalt}
-          />
-        }
+        <input
+          id="addr-default-checkbox"
+          type="checkbox"
+          className="rc-input__checkbox"
+          style={{ zIndex: '1', width: '90%', height: '100%' }}
+          onChange={this.handleDefaultChange}
+          value={deliveryAddress.isDefalt}
+          checked={deliveryAddress.isDefalt}
+        />
         <label
           className={`rc-input__label--inline text-break`}
           htmlFor="addr-default-checkbox"
