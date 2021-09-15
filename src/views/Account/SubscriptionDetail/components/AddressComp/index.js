@@ -117,7 +117,7 @@ class AddressList extends React.Component {
     super(props);
     this.state = {
       isHomeDeliveryOpen: this.props.configStore?.isHomeDeliveryOpen,
-      pickupVisible: false,
+      addOrEditPickup: false,
       isPickupOpen: this.props.configStore?.isPickupOpen,
       pickupFormData: {}, // pickup 表单数据
       defaultCity: '',
@@ -154,7 +154,6 @@ class AddressList extends React.Component {
       saveLoading: false,
       deleteLoading: false,
       addOrEdit: false,
-      allAddressList: [],
       addressList: [],
       countryList: [],
       foledMore: true, // 控制显示更多
@@ -180,7 +179,9 @@ class AddressList extends React.Component {
     };
     this.timer = null;
     this.confirmValidationAddress = this.confirmValidationAddress.bind(this);
+    this.addOrEditPickupAddress = this.addOrEditPickupAddress.bind(this);
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
+    this.setSubscriptionAddress = this.setSubscriptionAddress.bind(this);
   }
   async UNSAFE_componentWillReceiveProps(props) {
     if (props.type !== this.state.type) {
@@ -250,7 +251,11 @@ class AddressList extends React.Component {
         }
       });
 
+      let pickupAddress = find(addressList, (e) => {
+        return e.receiveType == 'PICK_UP';
+      });
       this.setState({
+        defaultCity: pickupAddress ? pickupAddress.city : '',
         addressList: addressList,
         addOrEdit: !addressList.length,
         selectedId: deliveryAddressId
@@ -264,7 +269,7 @@ class AddressList extends React.Component {
     }
   }
   // 选择地址项并设置边框
-  selectAddress(item) {
+  async selectAddress(item) {
     let { addressList } = this.state;
     Array.from(addressList, (a) => (a.selected = false));
     let dliveryId = item.deliveryAddressId;
@@ -436,7 +441,7 @@ class AddressList extends React.Component {
     }
     this.scrollToTitle();
   }
-
+  // 是否设为默认地址
   isDefalt() {
     let data = this.state.deliveryAddress;
     data.isDefalt = !data.isDefalt;
@@ -474,10 +479,6 @@ class AddressList extends React.Component {
   }
   // 计算税额、运费、运费折扣
   calculateFreight = async (data) => {
-    // console.log(
-    //   '310 ★★ -- SubscriptionDetail 计算税额、运费、运费折扣: ',
-    //   data
-    // );
     const { shippingFeeAddress } = this.state;
     let param = {};
 
@@ -622,7 +623,7 @@ class AddressList extends React.Component {
       this.showNextPanel();
     }
   };
-  // 确认选择地址,切换到下一个最近的未complete的panel
+  // 确认选择地址
   confirmValidationAddress() {
     const {
       deliveryAddress,
@@ -731,7 +732,6 @@ class AddressList extends React.Component {
   }
   // 显示错误提示信息
   showErrorMsg(msg) {
-    console.log(722, '-------- err msg: ', msg);
     this.setState({
       saveErrorMsg: msg
     });
@@ -743,50 +743,6 @@ class AddressList extends React.Component {
         successTipVisible: false
       });
     }, 3000);
-  }
-  updateConfirmTooltipVisible(el, status) {
-    let { addressList } = this.state;
-    el.confirmTooltipVisible = status;
-    this.setState({
-      addressList: addressList
-    });
-  }
-  async toggleSetDefault(item, e) {
-    e.preventDefault();
-    e.stopPropagation();
-    e.nativeEvent.stopImmediatePropagation();
-    if (!item.isDefaltAddress) {
-      await setDefaltAddress({ deliveryAddressId: item.deliveryAddressId });
-      this.queryAddressList();
-    }
-  }
-  getAddressList = async ({ showLoading = false } = {}) => {
-    showLoading && this.setState({ listLoading: true });
-    try {
-      let res = await getAddressList();
-      let addressList = res.context.filter((item) => {
-        return item.receiveType != 'PICK_UP';
-      });
-      this.setState({
-        addressList,
-        listLoading: false
-      });
-    } catch (err) {
-      this.setState({ listLoading: false });
-    }
-  };
-  updateConfirmTooltipVisible = (el, status) => {
-    let { addressList } = this.state;
-    el.confirmTooltipVisible = status;
-    this.setState({
-      addressList
-    });
-  };
-  handleClickDeleteBtn(data, e) {
-    e.preventDefault();
-    e.stopPropagation();
-    e.nativeEvent.stopImmediatePropagation();
-    this.updateConfirmTooltipVisible(data, true);
   }
   // 俄罗斯地址校验flag，控制按钮是否可用
   getFormAddressValidFlag = (flag) => {
@@ -802,7 +758,6 @@ class AddressList extends React.Component {
       }
     );
   };
-
   // 标题
   addressTypePanel = (str) => {
     let fmsg = '';
@@ -840,23 +795,37 @@ class AddressList extends React.Component {
   // 添加地址按钮
   addBtnJSX = (receiveType) => {
     return (
-      <div
-        className="rounded border h-100 d-flex align-items-center justify-content-center font-weight-bold pt-3 pb-3"
-        onClick={this.addOrEditAddress.bind(this, -1)}
-        ref={(node) => {
-          if (node) {
-            node.style.setProperty('border-width', '.1rem', 'important');
-            node.style.setProperty('border-style', 'dashed', 'important');
-          }
-        }}
-      >
-        <span className="rc-icon rc-plus--xs rc-iconography plus-icon mt-2 mr-1" />
+      <>
         {receiveType === 'PICK_UP' ? (
-          <FormattedMessage id="payment.addPickup" />
+          <div
+            className="rounded border h-100 d-flex align-items-center justify-content-center font-weight-bold pt-3 pb-3"
+            onClick={this.addOrEditPickupAddress.bind()}
+            ref={(node) => {
+              if (node) {
+                node.style.setProperty('border-width', '.1rem', 'important');
+                node.style.setProperty('border-style', 'dashed', 'important');
+              }
+            }}
+          >
+            <span className="rc-icon rc-plus--xs rc-iconography plus-icon mt-2 mr-1" />
+            <FormattedMessage id="payment.addPickup" />
+          </div>
         ) : (
-          <FormattedMessage id="addANewAddress" />
+          <div
+            className="rounded border h-100 d-flex align-items-center justify-content-center font-weight-bold pt-3 pb-3"
+            onClick={this.addOrEditAddress.bind(this, -1)}
+            ref={(node) => {
+              if (node) {
+                node.style.setProperty('border-width', '.1rem', 'important');
+                node.style.setProperty('border-style', 'dashed', 'important');
+              }
+            }}
+          >
+            <span className="rc-icon rc-plus--xs rc-iconography plus-icon mt-2 mr-1" />
+            <FormattedMessage id="addANewAddress" />
+          </div>
         )}
-      </div>
+      </>
     );
   };
   // 显示更多
@@ -887,21 +856,17 @@ class AddressList extends React.Component {
       </div>
     );
   };
-  // 取消编辑或者新增地址
-  cancelEditForm = () => {
-    let pstit = document.getElementById('profile-personal-info');
-    if (pstit) {
-      pstit.scrollIntoView({ behavior: 'smooth' });
-    }
-    this.changeEditFormVisible(false);
-  };
 
   // ************ pick up 相关
-  // 改变地址模块状态
-  changeEditFormVisible = (status) => {
+
+  // 新增或者编辑pickup address
+  addOrEditPickupAddress = () => {
+    this.updateConfirmBtnDisabled(true);
     this.setState({
-      editFormVisible: status,
-      curAddressId: ''
+      addOrEditPickup: true,
+      deliveryOrPickUpFlag: true,
+      showDeliveryOrPickUp: 0, // 0：都没有，1：home delivery，2：pickup
+      choiseHomeDeliveryOrPickUp: 0 // 0：都没有，1：home delivery，2：pickup
     });
   };
   // 更新pickup数据
@@ -923,7 +888,7 @@ class AddressList extends React.Component {
       {
         addressAddOrEditFlag: '',
         defaultCity: '',
-        pickupVisible: false
+        addOrEditPickup: false
       },
       () => {
         let sobj = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
@@ -946,10 +911,10 @@ class AddressList extends React.Component {
   };
   // 确认 pickup
   clickConfirmPickup = async () => {
-    const { countryList, allAddressList, pickupFormData } = this.state;
+    const { countryList, addressList, pickupFormData } = this.state;
     this.setState({
       saveBtnLoading: true,
-      loading: true
+      saveLoading: true
     });
     try {
       let receiveType = pickupFormData.receiveType;
@@ -994,9 +959,7 @@ class AddressList extends React.Component {
         }
       );
 
-      let pickupAddress = allAddressList.filter(
-        (e) => e.receiveType == 'PICK_UP'
-      );
+      let pickupAddress = addressList.filter((e) => e.receiveType == 'PICK_UP');
       // 判断是否存在有 pickup 地址
       const tmpPromise = pickupAddress.length ? editAddress : saveAddress;
       if (pickupAddress.length) {
@@ -1007,8 +970,8 @@ class AddressList extends React.Component {
       let res = await tmpPromise(deliveryAdd);
       if (res.context?.deliveryAddressId) {
         this.scrollToTitle();
-        this.getAddressList();
         this.handleCancelEditOrAddPickup();
+        await this.queryAddressList();
       }
     } catch (err) {
       this.scrollToTitle();
@@ -1016,15 +979,24 @@ class AddressList extends React.Component {
     } finally {
       this.setState({
         saveBtnLoading: false,
-        loading: false
+        saveLoading: false
       });
     }
   };
-
+  // 设置订阅地址
+  setSubscriptionAddress = async (item) => {
+    const { addressList, isBillSame } = this.state;
+    await this.selectAddress(item);
+    this.props.save(
+      addressList.filter((el) => el.selected)[0],
+      isBillSame,
+      this.queryAddressList.bind(this)
+    );
+  };
   // 地址项详细
   addressItemDetail = (item, i) => {
     const { deliveryAddressId } = this.props;
-    const { countryList, addressList, isBillSame } = this.state;
+    const { countryList } = this.state;
     // 获取本地存储的需要显示的地址字段
     const localAddressForm = this.props.configStore.localAddressForm;
     return (
@@ -1051,13 +1023,7 @@ class AddressList extends React.Component {
                 className={`d-flex mb-3 ${
                   isMobile ? 'justify-content-center' : 'justify-content-end'
                 }`}
-                onClick={() => {
-                  this.props.save(
-                    addressList.filter((el) => el.selected)[0],
-                    isBillSame,
-                    this.queryAddressList.bind(this)
-                  );
-                }}
+                onClick={this.setSubscriptionAddress.bind(this, item)}
               >
                 <span className="select_this_address border-bottom-2">
                   <FormattedMessage id="selectThisAddress" />
@@ -1081,17 +1047,23 @@ class AddressList extends React.Component {
                       : 'flex-end'
                 }}
               >
-                <button
-                  className="rc-btn rc-btn--sm rc-btn--two font-weight-bold"
-                  onClick={this.addOrEditAddress.bind(this, i)}
-                  style={{ fontSize: '12px' }}
-                >
-                  {item.receiveType === 'PICK_UP' ? (
+                {item.receiveType === 'PICK_UP' ? (
+                  <button
+                    className="rc-btn rc-btn--sm rc-btn--two font-weight-bold"
+                    onClick={this.addOrEditPickupAddress.bind()}
+                    style={{ fontSize: '12px' }}
+                  >
                     <FormattedMessage id="payment.changePickup" />
-                  ) : (
+                  </button>
+                ) : (
+                  <button
+                    className="rc-btn rc-btn--sm rc-btn--two font-weight-bold"
+                    onClick={this.addOrEditAddress.bind(this, i)}
+                    style={{ fontSize: '12px' }}
+                  >
                     <FormattedMessage id="edit" />
-                  )}
-                </button>
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -1115,7 +1087,7 @@ class AddressList extends React.Component {
       selectValidationOption,
       btnSubSaveFlag,
       isPickupOpen,
-      pickupVisible,
+      addOrEditPickup,
       addressAddOrEditFlag,
       defaultCity,
       showDeliveryOrPickUp,
@@ -1201,6 +1173,29 @@ class AddressList extends React.Component {
             isMobile ? 'p-2' : 'p-5'
           }`}
         >
+          <div
+            id={`J-address-title-${this.props.id}`}
+            className="card-header"
+            style={{ overflow: 'hidden', border: 'none' }}
+          >
+            <h5
+              className="pull-left ui-cursor-pointer"
+              style={{
+                marginBottom: '0 !important',
+                height: '100%',
+                lineHeight: '36px'
+              }}
+              onClick={() => this.handleClickCancel()}
+            >
+              <span>&larr; </span>
+              {this.props.type === 'delivery' ? (
+                <FormattedMessage id="payment.deliveryTitle" />
+              ) : (
+                <FormattedMessage id="payment.billTitle" />
+              )}
+            </h5>
+          </div>
+
           {loading ? (
             <Skeleton color="#f5f5f5" count={2} width="100%" />
           ) : this.state.errMsg ? (
@@ -1248,7 +1243,7 @@ class AddressList extends React.Component {
                       </div>
                     ) : null}
 
-                    {!editFormVisible && !pickupVisible ? (
+                    {!editFormVisible && !addOrEditPickup ? (
                       <>
                         {/* homeDelivery 地址列表 */}
                         {this.addressTypePanel('homeDelivery')}
@@ -1316,7 +1311,7 @@ class AddressList extends React.Component {
                     ) : null}
 
                     {/* pickup 地址 */}
-                    {pickupVisible && isPickupOpen ? (
+                    {addOrEditPickup && isPickupOpen ? (
                       <>
                         {addressAddOrEditFlag == 'add'
                           ? this.addressTypePanel('addPickup')
@@ -1335,7 +1330,7 @@ class AddressList extends React.Component {
                             this.updateConfirmBtnDisabled
                           }
                           updateData={this.updatePickupData}
-                          allAddressList={addressList}
+                          addressList={addressList}
                           updateDeliveryOrPickup={this.updateDeliveryOrPickup}
                           deliveryOrPickUp={showDeliveryOrPickUp}
                           intlMessages={this.props.intl.messages}
@@ -1371,14 +1366,8 @@ class AddressList extends React.Component {
                 )
               ) : null}
 
-              {!addOrEdit && (
+              {/* {!addOrEdit && (
                 <div className="text-right" style={{ marginTop: '.625rem' }}>
-                  {/* <button
-                    className="rc-btn rc-btn--sm rc-btn--two"
-                    onClick={() => this.props.cancel()}
-                  >
-                    Cancel
-                  </button> */}
                   <a
                     className="rc-styled-link editPersonalInfoBtn"
                     onClick={() => {
@@ -1406,7 +1395,7 @@ class AddressList extends React.Component {
                     <FormattedMessage id="save" />
                   </button>
                 </div>
-              )}
+              )} */}
 
               {/* 新增或者编辑 address form */}
               <fieldset
