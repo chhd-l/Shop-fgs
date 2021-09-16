@@ -1170,20 +1170,25 @@ class AddressList extends React.Component {
           className={`rc-margin-bottom--sm ${
             !addOrEdit ? '' : 'checkout--padding'
           } ${loading ? 'pt-3 pb-3' : ''} subscription_address_list ${
-            isMobile ? 'p-2' : 'p-5'
+            isMobile ? 'p-2' : 'p-3'
           }`}
         >
           <div
             id={`J-address-title-${this.props.id}`}
             className="card-header"
-            style={{ overflow: 'hidden', border: 'none' }}
+            style={{
+              paddingLeft: '5px',
+              paddingTop: '5px',
+              overflow: 'hidden',
+              border: 'none'
+            }}
           >
             <h5
               className="pull-left ui-cursor-pointer"
               style={{
-                marginBottom: '0 !important',
+                marginBottom: '0',
                 height: '100%',
-                lineHeight: '36px'
+                lineHeight: '30px'
               }}
               onClick={() => this.handleClickCancel()}
             >
