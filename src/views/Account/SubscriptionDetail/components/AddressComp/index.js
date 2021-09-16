@@ -409,7 +409,8 @@ class AddressList extends React.Component {
             {},
             deliveryAddress,
             tmpDeliveryAddress
-          )
+          ),
+          addressAddOrEditFlag: 'edit'
         },
         () => {
           this.setState({
@@ -436,10 +437,12 @@ class AddressList extends React.Component {
           timeSlot: null,
           timeSlotId: null,
           isDefalt: false
-        }
+        },
+        addressAddOrEditFlag: 'add'
       });
     }
-    this.scrollToTitle();
+
+    this.scrollToPayInfoTitle();
   }
   // 是否设为默认地址
   isDefalt() {
@@ -557,6 +560,13 @@ class AddressList extends React.Component {
     }
     return el.offsetTop;
   }
+  // 返回当前模块的标题
+  scrollToPayInfoTitle = () => {
+    let pstit = document.getElementById('sub-user-paymentinfo-title');
+    if (pstit) {
+      pstit.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
   // 返回上一级
   handleClickCancel() {
     const { addOrEdit, addressList } = this.state;
@@ -588,7 +598,7 @@ class AddressList extends React.Component {
         addOrEdit: true
       });
     }
-    str == 'cancel' ? this.props.cancel() : this.scrollToTitle();
+    str == 'cancel' ? this.props.cancel() : this.scrollToPayInfoTitle();
   };
   // 保存数据
   handleSave(str) {
@@ -687,7 +697,7 @@ class AddressList extends React.Component {
       const tmpPromise =
         this.currentOperateIdx > -1 ? editAddress : saveAddress;
       let res = await tmpPromise(params);
-      this.scrollToTitle();
+      this.scrollToPayInfoTitle();
       if (res.context.deliveryAddressId) {
         this.setState({
           selectedId: res.context.deliveryAddressId
@@ -714,7 +724,7 @@ class AddressList extends React.Component {
       this.setState({
         saveErrorMsg: err.message.toString()
       });
-      this.scrollToTitle();
+      this.scrollToPayInfoTitle();
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
         this.setState({
@@ -735,7 +745,7 @@ class AddressList extends React.Component {
     this.setState({
       saveErrorMsg: msg
     });
-    this.scrollToTitle();
+    this.scrollToPayInfoTitle();
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       this.setState({
@@ -969,12 +979,12 @@ class AddressList extends React.Component {
 
       let res = await tmpPromise(deliveryAdd);
       if (res.context?.deliveryAddressId) {
-        this.scrollToTitle();
+        this.scrollToPayInfoTitle();
         this.handleCancelEditOrAddPickup();
         await this.queryAddressList();
       }
     } catch (err) {
-      this.scrollToTitle();
+      this.scrollToPayInfoTitle();
       this.showErrorMsg(err.message);
     } finally {
       this.setState({
@@ -983,6 +993,7 @@ class AddressList extends React.Component {
       });
     }
   };
+
   // 设置订阅地址
   setSubscriptionAddress = async (item) => {
     const { addressList, isBillSame } = this.state;
@@ -1409,15 +1420,26 @@ class AddressList extends React.Component {
                 }`}
               >
                 {addOrEdit && (
-                  <EditForm
-                    key={deliveryAddress?.isDefalt}
-                    initData={deliveryAddress}
-                    type={this.props.type}
-                    isLogin={true}
-                    updateData={(data) => this.updateDeliveryAddress(data)}
-                    calculateFreight={(data) => this.calculateFreight(data)}
-                    getFormAddressValidFlag={this.getFormAddressValidFlag}
-                  />
+                  <>
+                    {addressAddOrEditFlag == 'add'
+                      ? this.addressTypePanel('addANewAddress')
+                      : null}
+
+                    {addressAddOrEditFlag == 'edit'
+                      ? this.addressTypePanel('edit')
+                      : null}
+                    <div className="p-2">
+                      <EditForm
+                        key={deliveryAddress?.isDefalt}
+                        initData={deliveryAddress}
+                        type={this.props.type}
+                        isLogin={true}
+                        updateData={(data) => this.updateDeliveryAddress(data)}
+                        calculateFreight={(data) => this.calculateFreight(data)}
+                        getFormAddressValidFlag={this.getFormAddressValidFlag}
+                      />
+                    </div>
+                  </>
                 )}
 
                 {this.state.saveLoading ? (

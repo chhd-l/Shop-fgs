@@ -184,8 +184,17 @@ class SubscriptionDetail extends React.Component {
   cancelEdit = () => {
     this.setState({ type: 'main' });
   };
+  // 返回某个地方
+  scrollToWhere = (str) => {
+    let pstit = document.getElementById(str);
+    if (pstit) {
+      pstit.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
   addressSave = (el, isBillSame, fn) => {
-    console.log(el, isBillSame);
+    // console.log(el, isBillSame);
+    this.scrollToWhere('page-top');
+    // this.scrollToWhere('sub-user-paymentinfo-title');
     if (this.state.addressType === 'delivery') {
       let param = {
         subscribeId: this.state.subDetail.subscribeId,
@@ -872,7 +881,7 @@ class SubscriptionDetail extends React.Component {
 
                       {/* 用户信息、地址列表 */}
                       <>
-                        <h4 className="h4">
+                        <h4 className="h4" id="sub-user-paymentinfo-title">
                           <FormattedMessage id="transactionInfo" />
                         </h4>
                         {/* 订阅详情用户数据 */}
