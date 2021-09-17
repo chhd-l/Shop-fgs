@@ -21,7 +21,7 @@ const env = {
 
     // #mars global footer
     REACT_APP_MARS_FOOTER:
-      'https://footer.mars.com/js/footer.js.aspx?royalcanin-turkey',
+      'https://footer.mars.com/js/footer.js.aspx?royalcanin-com-tr',
 
     // #storid
     REACT_APP_STOREID: '123457911',
