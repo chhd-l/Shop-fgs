@@ -1873,14 +1873,14 @@ const fr_FR = {
   //NewLandingpageClub
   'ClubLP.discount.content': '10% DE RÉDUCTION ET LIVRAISON OFFERTE',
   'ClubLP.LongBanner.title':
-    'OFFREZ À VOTRE ANIMAL UNE {val1} SOLUTION DE SANTÉ COMPLÈTE, {val2} EN VOUS ABONNANT',
+    'OFFREZ À VOTRE ANIMAL UNE {val1} SOLUTION POUR SOUTENIR SA {val2} SANTÉ EN VOUS ABONNANT',
   'ClubLP.LongBanner.content': 'à partir de 19,90 euros/réapprovisionnement',
   'ClubLP.LongBanner.button': 'Essayer maintenant',
   'ClubLP.LongBanner.content2': "S'abonner sans engagement",
   'ClubLP.LongBanner.SubscriptionTitle':
-    "LES AVANTAGES DE L'ABONNEMENT POUR {val}  VOTRE CHATS ET VOTRE CHIEN",
+    "LES AVANTAGES DE L'ABONNEMENT POUR {val}  VOTRE CHAT ET VOTRE CHIEN",
   'ClubLP.LongBanner.SubscriptionTitle1':
-    'Un aliment sur mesure pour  {val} une santé optimale',
+    'Un aliment sur mesure pour  {val} contribuer à sa bonne santé',
   'ClubLP.LongBanner.SubscriptionContent1':
     'Des ingrédients de haute qualité choisis pour  cibler les besoins spécifiques de votre  animal  et {val} dont les bienfaits ont été scientifiquement prouvés',
   'ClubLP.LongBanner.SubscriptionTitle2':
@@ -1891,7 +1891,7 @@ const fr_FR = {
     'La bonne quantité à {val} chaque fois',
   'ClubLP.LongBanner.SubscriptionTitle3.new': 'La bonne quantité à chaque fois',
   'ClubLP.LongBanner.SubscriptionContent3':
-    'Des quantités quotidiennes recommandées pour être sûr de donner la bonne ration à votre animal',
+    'Des quantités quotidiennes recommandées pour être sûr de donner la bonne portion à votre animal',
   'ClubLP.Advantage.title': 'UN ALIMENT SUR MESURE',
   'ClubLP.Advantage.content1':
     'Des aliments conçus pour répondre aux besoins uniques des chats et des chiens',
@@ -1950,7 +1950,7 @@ const fr_FR = {
   'ClubLP.Help.subtitle2': 'Vous pouvez nous joindre par les moyens suivants :',
   'ClubLP.Help.call.title': 'Appelez-nous',
   'ClubLP.Help.call.content':
-    'Nos conseillers sont heureux de vous aider tous les jours de 9 h à 18 h.',
+    'Nos conseillers sont heureux de vous aider entre 8h30 et 19h en semaine ou le samedi de 9h à 13h',
   'ClubLP.Help.call.number': '0800 41 51 61',
   'ClubLP.Help.call.mobile.number': '0800 41 51 61',
   'ClubLP.Help.email.title': 'Envoyez-nous un e-mail',
