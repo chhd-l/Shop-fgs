@@ -1,5 +1,5 @@
-FROM k8sregistrysit.azurecr.io/nginx:1.18.1
+FROM nginx:1.18.0
 #ADD nginx.conf  /usr/nginx/conf/http_vhost/
-COPY nginx.conf /usr/local/nginx/nginx.conf
-COPY build/ /usr/local/nginx/html
-COPY seo/ /usr/local/nginx/html/seo/
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY build/ /usr/share/nginx/html
+COPY seo/ /usr/share/nginx/html/seo/
