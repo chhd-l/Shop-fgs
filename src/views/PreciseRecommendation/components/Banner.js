@@ -109,9 +109,12 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
     let newAddCartBtnStatus =
       recommData?.goodsInfo?.stock >= recommData?.goodsInfo?.buyCount;
     setAddCartBtnStatus(newAddCartBtnStatus);
-    let newTotalWeight = recommData.totalPackWeight.toString().replace(".",",") + ' kg';
+    let newTotalWeight =
+      recommData.totalPackWeight.toString().replace('.', ',') + ' kg';
     if (recommData?.weightUnit?.toLowerCase() == 'g') {
-      newTotalWeight =(recommData.totalPackWeight / 1000).toString().replace(".",",")+ ' kg';
+      newTotalWeight =
+        (recommData.totalPackWeight / 1000).toString().replace('.', ',') +
+        ' kg';
     }
     setTotalWeight(newTotalWeight);
   }, [recommData.totalPackWeight]);
@@ -271,9 +274,9 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                         <h2
                           className="rc-text-colour--brand1"
                           style={{
-                            fontSize: '40px',
+                            fontSize: '34px',
                             textTransform: 'uppercase',
-                            fontWeight: '550',
+                            fontWeight: '600',
                             textAlign: 'left'
                           }}
                         >
@@ -307,8 +310,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                               <strong
                                 style={{ color: '#444', fontWeight: '600' }}
                               >
-                                {recommData.weight}{' '}
-                                {recommData.weightUnit}{' '}/
+                                {recommData.weight} {recommData.weightUnit} /
                                 <FormattedMessage id="preciseNutrition.banner.day" />
                               </strong>
                               <br />
@@ -356,10 +358,9 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                                 className="rc-margin-bottom--xs"
                                 style={{
                                   color: '#008900',
-                                  fontSize: '24px',
+                                  fontSize: '22px',
                                   fontWeight: '550',
-                                  textAlign: 'left',
-                                  width: '380px'
+                                  textAlign: 'left'
                                 }}
                               >
                                 -25%{' '}
@@ -442,7 +443,10 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
           <div className="row justify-content-center align-items-center">
             <div className="col-1 flex align-self-center">
               <LazyLoad>
-                <img src={lefticon} style={{ width: '12px',maxWidth:'inherit' }} />
+                <img
+                  src={lefticon}
+                  style={{ width: '12px', maxWidth: 'inherit' }}
+                />
               </LazyLoad>
             </div>
             {bannerProductList.map((index) => (
@@ -457,7 +461,10 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
             ))}
             <div className="col-1 flex align-self-center">
               <LazyLoad>
-                <img src={righticon} style={{ width: '12px',maxWidth:'inherit' }} />
+                <img
+                  src={righticon}
+                  style={{ width: '12px', maxWidth: 'inherit' }}
+                />
               </LazyLoad>
             </div>
           </div>
