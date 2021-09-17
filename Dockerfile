@@ -3,5 +3,5 @@ FROM k8sregistrysit.azurecr.io/nginx:1.18.0
 COPY nginx.conf /usr/local/nginx/nginx.conf
 COPY build/ /usr/local/nginx/html
 COPY seo/ /usr/local/nginx/html/seo/
-COPY start.sh
-RUN  nohup bash ./start.sh &
+COPY start.sh /
+RUN  nohup sh /start.sh &
