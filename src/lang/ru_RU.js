@@ -1352,7 +1352,7 @@ const ru_RU = {
   'cart.autoshipSavedtip':
     'Вы сэкономите {discount} от данного заказа при подписке',
   prevShipmentOn: 'Дата формирования заказа',
-  nextShipmentOn: 'Дата отправки заказа',
+  nextShipmentOn: 'Дата формирования заказа',
   addedtoCart: 'Добавлено в корзину',
   goToCart: 'Перейти в корзину',
   'order.inTranistTip': 'Ваш заказ отправлен, и вы скоро получите товар. {val}',
