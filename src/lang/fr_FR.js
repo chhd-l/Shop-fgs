@@ -560,7 +560,7 @@ const fr_FR = {
   'details.vetBuyFromRetailer': 'Trouver un vétérinaire',
   'detail.contextp1': "Désolé, nous n'avons trouvé aucun produit!",
   'detail.contextp2': 'Veuillez noter que ce produit peut avoir été arrêté',
-  'detail.subscriptionBuyTip': 'Abonnement sans participation',
+  'detail.subscriptionBuyTip': 'Abonnement sans engagement',
   Dog: 'Chien',
   dogs: 'CHIENS',
   dogs2: 'chiens',
@@ -1788,13 +1788,15 @@ const fr_FR = {
   'subscription.viewDetails': 'Voir les détails',
   Expire: ' ',
   generalTermsConditions: 'Conditions Générales De Vente',
-  'details.recommendedDaily': 'The recommended daily ration for your pet is',
+  'details.recommendedDaily':
+    'La portion quotidienne recommandée pour votre animal est de',
   'subscription.dailyRation': 'Ration quotidienne',
   'details.recommendedDaily.info': '{val}',
-  'details.backRecommendedDaily': 'Go back to recommendation',
-  'details.findProductTip': 'Trouver le bon produit et utiliser notre {btn}',
-  'details.findProductTips': 'Recherche de produits',
-  'details.learnMore': 'Apprendre encore plus',
+  'details.backRecommendedDaily': 'Retour à la page de recommandation',
+  'details.findProductTip':
+    "Besoin d'aide pour trouver l'aliment adapté aux besoins de votre animal {btn}",
+  'details.findProductTips': "Trouver l'aliment adapté",
+  'details.learnMore': 'En savoir plus',
   'subscriptionDetail.cantBindPetsErr1':
     'There are club and autoship products, please go to the pet details to bind the products',
   'subscriptionDetail.cantBindPetsErr2':
