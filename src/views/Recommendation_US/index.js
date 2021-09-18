@@ -187,7 +187,7 @@ class Recommendation extends React.Component {
     });
     let params = token;
     let requestName = getRecommendationList_token;
-    if ((isFr || isUs) && !token) {
+    if ((isFr || isRu) && !token) {
       requestName = getRecommendationList_prescriberId;
       params = prescription;
     }
@@ -396,8 +396,8 @@ class Recommendation extends React.Component {
           );
         }
         this.props.clinicStore.setAuditAuthority(false);
-        if (isUs) {
-          // the US need redirected to the cart page and the recommended products added to cart automatically via clicking this link.
+        if (isRu) {
+          // Ru need redirected to the cart page and the recommended products added to cart automatically via clicking this link.
           this.addCart();
         } else {
           this.setState({ loading: false, pageLoading: false });
@@ -500,7 +500,7 @@ class Recommendation extends React.Component {
     if (outOfStockProducts.length > 0) {
       this.setState({ modalShow: true, currentModalObj: modalList[0] });
     } else {
-      if ((isFr && !this.state.isSPT) || isUs) {
+      if ((isFr && !this.state.isSPT) || isRu) {
         // 是fr breeder的特殊code，需要主动默认填充
         await this.props.checkoutStore.setPromotionCode(
           this.state.promotionCodeText
@@ -568,7 +568,7 @@ class Recommendation extends React.Component {
         );
       })
     });
-    if ((isFr && !this.state.isSPT) || isUs) {
+    if ((isFr && !this.state.isSPT) || isRu) {
       // 是fr breeder的特殊code，需要主动默认填充
       await this.props.checkoutStore.setPromotionCode(
         this.state.promotionCodeText

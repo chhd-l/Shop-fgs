@@ -76,11 +76,12 @@ const JoinTodayNew = () => {
                         >
                           <button
                             onClick={() => {
-                              dataLayer.push({
-                                event: 'ruClubSubscriptionCtA',
-                                ruClubSubscriptionCtAName:
-                                  'Choose a diet - Middle'
-                              });
+                              window.__.env.REACT_APP_COUNTRY == 'ru' &&
+                                dataLayer.push({
+                                  event: 'ruClubSubscriptionCtA',
+                                  ruClubSubscriptionCtAName:
+                                    'Choose a diet - Middle'
+                                });
                             }}
                             className="rc-btn rc-btn--one"
                             style={{

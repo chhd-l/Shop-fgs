@@ -246,11 +246,12 @@ const GetMoreAd = () => {
                       >
                         <button
                           onClick={() => {
-                            dataLayer.push({
-                              event: 'ruClubSubscriptionCtA',
-                              ruClubSubscriptionCtAName:
-                                'Join the club - Bottom'
-                            });
+                            window.__.env.REACT_APP_COUNTRY == 'ru' &&
+                              dataLayer.push({
+                                event: 'ruClubSubscriptionCtA',
+                                ruClubSubscriptionCtAName:
+                                  'Join the club - Bottom'
+                              });
                           }}
                           className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs "
                           style={{ padding: '10px 90px' }}

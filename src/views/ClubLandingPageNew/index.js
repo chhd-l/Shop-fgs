@@ -308,11 +308,12 @@ class ClubLandingPageNew extends React.Component {
                             >
                               <button
                                 onClick={() => {
-                                  dataLayer.push({
-                                    event: 'ruClubSubscriptionCtA',
-                                    ruClubSubscriptionCtAName:
-                                      'Choose a diet - Top'
-                                  });
+                                  window.__.env.REACT_APP_COUNTRY == 'ru' &&
+                                    dataLayer.push({
+                                      event: 'ruClubSubscriptionCtA',
+                                      ruClubSubscriptionCtAName:
+                                        'Choose a diet - Top'
+                                    });
                                 }}
                                 className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs"
                                 style={
@@ -421,10 +422,11 @@ class ClubLandingPageNew extends React.Component {
                               <button
                                 className="rc-btn rc-btn--two"
                                 onClick={() => {
-                                  dataLayer.push({
-                                    event: 'ruClubSubscriptionCtA',
-                                    ruClubSubscriptionCtAName: 'Learn More'
-                                  });
+                                  window.__.env.REACT_APP_COUNTRY == 'ru' &&
+                                    dataLayer.push({
+                                      event: 'ruClubSubscriptionCtA',
+                                      ruClubSubscriptionCtAName: 'Learn More'
+                                    });
                                 }}
                               >
                                 Узнать подробнее

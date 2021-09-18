@@ -134,10 +134,11 @@ const LongBanner = () => {
                   >
                     <button
                       onClick={() => {
-                        dataLayer.push({
-                          event: 'ruClubSubscriptionCtA',
-                          ruClubSubscriptionCtAName: 'Join the club - Top'
-                        });
+                        window.__.env.REACT_APP_COUNTRY == 'ru' &&
+                          dataLayer.push({
+                            event: 'ruClubSubscriptionCtA',
+                            ruClubSubscriptionCtAName: 'Join the club - Top'
+                          });
                       }}
                       style={{
                         padding: '0',
