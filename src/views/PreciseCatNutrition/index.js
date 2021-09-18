@@ -242,6 +242,7 @@ class PreciseCatNutrition extends React.Component {
                                 justifyContent: 'center',
                                 with: '100%'
                               }}
+                              height={210}
                             >
                               <img
                                 alt="With the Subscription, they will always have what they need"
@@ -418,19 +419,20 @@ class PreciseCatNutrition extends React.Component {
                                 <FormattedMessage id="PreciseCatNutrition.AdaptedFood.paragraph3" />
                               </a>
                               <div
-                                className="rc-margin-y--sm rc-padding-x--none detextcenter"
+                                className="w-100 rc-margin-y--sm rc-padding-x--none detextcenter"
                                 style={
                                   isMobile
                                     ? {
                                         position: 'absolute',
-                                        marginTop: '100%',
-                                        marginLeft: '5%'
+                                        marginTop: '100%'
+                                        // marginLeft: '10%',
+                                        // marginRight: '10%',
                                       }
                                     : null
                                 }
                               >
                                 <a onClick={() => this.toScroll('aboutPet')}>
-                                  <button className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs">
+                                  <button className="rc-btn rc-btn--sm rc-btn--two">
                                     <FormattedMessage id="PreciseCatNutrition.AdaptedFood.findFood" />
                                   </button>
                                 </a>
@@ -438,7 +440,7 @@ class PreciseCatNutrition extends React.Component {
                             </div>
                           </div>
                           <div className="rc-column">
-                            <div className="lazyload-wrapper1">
+                            <div className="lazyload-wrapper1" height={234}>
                               <img
                                 alt="With the Subscription, they will always have what they need"
                                 className="w-100 lazyloaded"
@@ -453,7 +455,7 @@ class PreciseCatNutrition extends React.Component {
                 </div>
               </div>
 
-              <div className="rc-max-width--xl rc-padding-x--md rc-padding-x--md--mobile flex flex-column align-items-center justify-content-center">
+              <div className="rc-max-width--xl rc-padding-x--xs rc-padding-x--md--mobile flex flex-column align-items-center justify-content-center">
                 <Subscription />
                 <br />
                 <br />

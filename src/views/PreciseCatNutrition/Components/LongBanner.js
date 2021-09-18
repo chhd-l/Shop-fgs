@@ -55,7 +55,7 @@ const LongBanner = () => {
                   <strong style={{ color: '#000000' }}>
                     <FormattedMessage id="PreciseCatNutrition.LongBanner.averagePrice2" />
                   </strong>
-                  <sup style={{ color: '#666666', fontSize: 14, top: '-1em' }}>
+                  <sup style={{ color: '#666666', fontSize: 13, top: '-1em' }}>
                     [1]
                   </sup>
                   <p style={{ color: '#555555', fontSize: '0.7em' }}>
@@ -172,6 +172,7 @@ const LongBanner = () => {
                 className={'topCat'}
                 style={{ zIndex: isMobile ? -100 : 0 }}
                 src={topCat}
+                height={214}
               />
               <img className={'topCatEat'} src={topCatEat} />
               <div
@@ -195,7 +196,7 @@ const LongBanner = () => {
             </div>
             <div className="rc-bg-colour--brand3" id="benefits-box">
               <div className="rc-full-width">
-                <div className="rc-max-width--lg rc-padding-x--lg rc-padding-x--md--mobile rc-margin-top--lg--desktop rc-margin-top--sm--mobile rc-margin-bottom--sm rc-margin-y--lg--mobile value-proposition">
+                <div className="rc-max-width--lg rc-padding-x--lg rc-padding-x--md--mobile rc-margin-top--lg--desktop rc-margin-top--sm--mobile rc-margin-bottom--md rc-margin-y--lg--mobile value-proposition">
                   <h2
                     className="font-weight-bold rc-beta text-center rc-margin-bottom--sm--mobile rc-margin-bottom--none--desktop"
                     style={{ position: 'relative', zIndex: 10, fontSize: 28 }}
@@ -204,8 +205,8 @@ const LongBanner = () => {
                   </h2>
 
                   <div className="value-proposition__container">
-                    <div className="row mx-0 justify-content-between rc-text-align-center">
-                      <div className="col-12 col-md-3 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center ">
+                    <div className="row  mx-lg-5 justify-content-between rc-text-align-center">
+                      <div className="col-12 col-md-4 col-xxl-4 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-4 pl-xxl-4 justify-content-center ">
                         <div className=" justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn flex-column">
                           <div
                             style={{
@@ -214,7 +215,7 @@ const LongBanner = () => {
                             }}
                           >
                             <LazyLoad
-                              height={200}
+                              height={143}
                               className="justify-content-center align-items-center"
                               style={{ display: 'flex' }}
                             >
@@ -233,7 +234,7 @@ const LongBanner = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="col-12 col-md-3 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
+                      <div className="col-12 col-md-4 col-xxl-4 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-4 pl-xxl-4 justify-content-center">
                         <div className=" justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn flex-column">
                           <div
                             style={{
@@ -242,7 +243,7 @@ const LongBanner = () => {
                             }}
                           >
                             <LazyLoad
-                              height={200}
+                              height={143}
                               className="justify-content-center align-items-center"
                               style={{ display: 'flex' }}
                             >
@@ -261,7 +262,7 @@ const LongBanner = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="col-12 col-md-3 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
+                      <div className="col-12 col-md-4 col-xxl-4 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-4 pl-xxl-4 justify-content-center">
                         <div className=" justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn flex-column">
                           <div
                             style={{
@@ -270,7 +271,7 @@ const LongBanner = () => {
                             }}
                           >
                             <LazyLoad
-                              height={200}
+                              height={143}
                               className="justify-content-center align-items-center"
                               style={{ display: 'flex' }}
                             >

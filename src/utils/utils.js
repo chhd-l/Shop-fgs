@@ -90,7 +90,7 @@ export async function hanldePurchases(goodsInfoDTOList) {
 }
 
 export function stgShowAuth() {
-  return true;
+  return false;
   // charles_dw@139.com fr sit  以及anhao的三个环境账号
   let whiteList = [
     'henri.thibaud@royalcanin.com',

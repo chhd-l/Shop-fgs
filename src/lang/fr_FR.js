@@ -560,7 +560,7 @@ const fr_FR = {
   'details.vetBuyFromRetailer': 'Trouver un vétérinaire',
   'detail.contextp1': "Désolé, nous n'avons trouvé aucun produit!",
   'detail.contextp2': 'Veuillez noter que ce produit peut avoir été arrêté',
-  'detail.subscriptionBuyTip': 'Abonnement sans participation',
+  'detail.subscriptionBuyTip': 'Abonnement sans engagement',
   Dog: 'Chien',
   dogs: 'CHIENS',
   dogs2: 'chiens',
@@ -1441,7 +1441,7 @@ const fr_FR = {
   'subscription.date': "Date d'abonnement",
   'subscription.deliveryDate': 'Prochaine date de livraison',
   'subscription.detail': "Détails de l'abonnement",
-  'subscription.personalized': "L'aliment et la portion adaptées à {val1}'s",
+  'subscription.personalized': "L'aliment et la portion adaptées à {val1}",
   'subscription.frequency': 'Fréquence : toutes les ',
   'minicart.frequency': 'Fréquence',
   'subscription.help.subTitle':
@@ -1540,7 +1540,7 @@ const fr_FR = {
   'termsandconditions.paragraph5':
     'Numéro de téléphone : {val1} ; Adresse email : {val4}',
   'termsandconditions.paragraph6':
-    'Capital social : 917 986€ ; Numéro de TVA : FR43380824888',
+    'Capital social : 917 986 € ; Numéro de TVA : FR43380824888',
   'termsandconditions.paragraph7': '(ci-après dénommé “{val1}”)',
   'termsandconditions.paragraph8': 'et',
   'termsandconditions.paragraph9':
@@ -1788,13 +1788,15 @@ const fr_FR = {
   'subscription.viewDetails': 'Voir les détails',
   Expire: ' ',
   generalTermsConditions: 'Conditions Générales De Vente',
-  'details.recommendedDaily': 'The recommended daily ration for your pet is',
+  'details.recommendedDaily':
+    'La portion quotidienne recommandée pour votre animal est de',
   'subscription.dailyRation': 'Ration quotidienne',
   'details.recommendedDaily.info': '{val}',
-  'details.backRecommendedDaily': 'Go back to recommendation',
-  'details.findProductTip': 'Trouver le bon produit et utiliser notre {btn}',
-  'details.findProductTips': 'Recherche de produits',
-  'details.learnMore': 'Apprendre encore plus',
+  'details.backRecommendedDaily': 'Retour à la page de recommandation',
+  'details.findProductTip':
+    "Besoin d'aide pour trouver l'aliment adapté aux besoins de votre animal {btn}",
+  'details.findProductTips': "Trouver l'aliment adapté",
+  'details.learnMore': 'En savoir plus',
   'subscriptionDetail.cantBindPetsErr1':
     'There are club and autoship products, please go to the pet details to bind the products',
   'subscriptionDetail.cantBindPetsErr2':
@@ -1860,7 +1862,7 @@ const fr_FR = {
   'searchNoResult.email': 'Par mail',
   'searchNoResult.email.content': 'Envoyer un email',
   'searchNoBreed.breedName': 'Résultats de la recherche',
-  kg: 'kg',
+  kg: ' kg',
   Activity: 'Activité',
   Weight: 'Poids',
   Sensitivity: 'Sensibilité',
@@ -1873,14 +1875,14 @@ const fr_FR = {
   //NewLandingpageClub
   'ClubLP.discount.content': '10% DE RÉDUCTION ET LIVRAISON OFFERTE',
   'ClubLP.LongBanner.title':
-    'OFFREZ À VOTRE ANIMAL UNE {val1} SOLUTION DE SANTÉ COMPLÈTE, {val2} EN VOUS ABONNANT',
+    'OFFREZ À VOTRE ANIMAL UNE {val1} SOLUTION POUR SOUTENIR SA {val2} SANTÉ EN VOUS ABONNANT',
   'ClubLP.LongBanner.content': 'à partir de 19,90 euros/réapprovisionnement',
   'ClubLP.LongBanner.button': 'Essayer maintenant',
   'ClubLP.LongBanner.content2': "S'abonner sans engagement",
   'ClubLP.LongBanner.SubscriptionTitle':
-    "LES AVANTAGES DE L'ABONNEMENT POUR {val}  VOTRE CHATS ET VOTRE CHIEN",
+    "LES AVANTAGES DE L'ABONNEMENT POUR {val}  VOTRE CHAT ET VOTRE CHIEN",
   'ClubLP.LongBanner.SubscriptionTitle1':
-    'Un aliment sur mesure pour  {val} une santé optimale',
+    'Un aliment sur mesure pour  {val} contribuer à sa bonne santé',
   'ClubLP.LongBanner.SubscriptionContent1':
     'Des ingrédients de haute qualité choisis pour  cibler les besoins spécifiques de votre  animal  et {val} dont les bienfaits ont été scientifiquement prouvés',
   'ClubLP.LongBanner.SubscriptionTitle2':
@@ -1891,7 +1893,7 @@ const fr_FR = {
     'La bonne quantité à {val} chaque fois',
   'ClubLP.LongBanner.SubscriptionTitle3.new': 'La bonne quantité à chaque fois',
   'ClubLP.LongBanner.SubscriptionContent3':
-    'Des quantités quotidiennes recommandées pour être sûr de donner la bonne ration à votre animal',
+    'Des quantités quotidiennes recommandées pour être sûr de donner la bonne portion à votre animal',
   'ClubLP.Advantage.title': 'UN ALIMENT SUR MESURE',
   'ClubLP.Advantage.content1':
     'Des aliments conçus pour répondre aux besoins uniques des chats et des chiens',
@@ -1950,7 +1952,7 @@ const fr_FR = {
   'ClubLP.Help.subtitle2': 'Vous pouvez nous joindre par les moyens suivants :',
   'ClubLP.Help.call.title': 'Appelez-nous',
   'ClubLP.Help.call.content':
-    'Nos conseillers sont heureux de vous aider tous les jours de 9 h à 18 h.',
+    'Nos conseillers sont heureux de vous aider entre 8h30 et 19h en semaine ou le samedi de 9h à 13h',
   'ClubLP.Help.call.number': '0800 41 51 61',
   'ClubLP.Help.call.mobile.number': '0800 41 51 61',
   'ClubLP.Help.email.title': 'Envoyez-nous un e-mail',
@@ -1975,8 +1977,8 @@ const fr_FR = {
     "30 jours d'alimentation complète et équilibrée pour chat adulte",
   'preciseNutrition.banner.portion': 'Quantité journalière ',
   'preciseNutrition.banner.weight': 'Poids total du sac',
-  'preciseNutrition.banner.day': 'jour',
-  'preciseNutrition.banner.month': 'mois',
+  'preciseNutrition.banner.day': ' jour',
+  'preciseNutrition.banner.month': ' mois',
   'preciseNutrition.banner.des2': 'Envoi automatique tous les 30 jours',
   'preciseNutrition.banner.des3': 'Livraison offerte',
   'preciseNutrition.banner.button': 'Acheter maintenant',
@@ -2007,7 +2009,7 @@ const fr_FR = {
   'preciseNutrition.Below.title':
     'UN COFFRET DE BIENVENUE POUR PRENDRE SOIN DE {val}',
   'preciseNutrition.Below.content':
-    'Lors de votre première livraison, vous recevrez un kit de bienvenue comprenant tout ce dont vous avez besoin pour bien nourrir et prendre soin de Luna. ',
+    'Lors de votre première livraison, vous recevrez un kit de bienvenue comprenant tout ce dont vous avez besoin pour bien nourrir et prendre soin de {val}. ',
   'preciseNutrition.Below.list': 'Ce coffret premium comprendra : ',
   'preciseNutrition.Below.list1': '1 mois d’alimentation pour votre chat',
   'preciseNutrition.Below.list2':
@@ -2059,7 +2061,7 @@ const fr_FR = {
     'OFFREZ À VOTRE CHAT UN ALIMENT ADAPTÉ À SES BESOINS ET UNE PORTION PRÉCISE POUR UN POIDS IDÉAL ! ',
   'PreciseCatNutrition.LongBanner.averagePrice1': 'Prix moyen',
   'PreciseCatNutrition.LongBanner.averagePrice2': '0,90 € / jour',
-  'PreciseCatNutrition.LongBanner.averagePrice3': '25,50 €/ mois',
+  'PreciseCatNutrition.LongBanner.averagePrice3': '25,50 € / mois',
   'PreciseCatNutrition.LongBanner.button': 'S‘abonner',
   'PreciseCatNutrition.LongBanner.redRadius': 'sur la première commande',
   'PreciseCatNutrition.LongBanner.secondTitle': 'LES BÉNÉFICES POUR VOTRE CHAT',

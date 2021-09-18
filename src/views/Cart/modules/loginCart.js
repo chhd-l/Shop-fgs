@@ -1010,7 +1010,8 @@ class LoginCart extends React.Component {
               style={{
                 width: '150px',
                 marginBottom: '.625rem',
-                overflow: 'hidden'
+                overflow: 'hidden',
+                marginTop: '0px'
               }}
             >
               <FormattedMessage id="promotionCode">

@@ -20,7 +20,10 @@ import kittenimgtwo from './img/kittenimgtwo.png';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import Logo from '../../components/Logo';
 import Help from './modules/help';
-import { getDetailsBySpuNoIgnoreDisplayFlag } from '@/api/details';
+import {
+  getDetailsBySpuNoIgnoreDisplayFlag,
+  getDetailsBySpuNo
+} from '@/api/details';
 import { sitePurchase } from '@/api/cart';
 import './index.css';
 

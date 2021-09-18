@@ -386,6 +386,16 @@ template {
   display: none !important;
 }
 
+.rc-baseline #root button {
+  font-size: 0.88rem;
+}
+
+@media (min-width: 640px) {
+  .rc-baseline #root button {
+    font-size: 1rem;
+  }
+}
+
 .contact-section__text,
 .h1,
 .h2,

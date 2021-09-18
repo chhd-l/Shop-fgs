@@ -65,11 +65,7 @@ const SubsriptionBenefitsNew = () => {
                           style={{ width: '100px', height: '100px' }}
                           alt="Брендированный подарок при каждой доставке"
                           title="ideal formula"
-                          src={
-                            window.__.env.REACT_APP_COUNTRY == 'tr'
-                              ? discountnewtr
-                              : discountnew
-                          }
+                          src={discountnew}
                         />
                       </LazyLoad>
                     </div>
