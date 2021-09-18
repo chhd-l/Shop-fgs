@@ -88,7 +88,9 @@ const HelpComponentsNew = (props) => {
           <div className="experience-component experience-layouts-cardcarousel">
             <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-                <p style={{ marginBottom:  isMobile?'60px':'80px' }}>{firstText.content}</p>
+                <p style={{ marginBottom: isMobile ? '60px' : '80px' }}>
+                  {firstText.content}
+                </p>
                 <div>
                   <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
                     <FormattedMessage id="ClubLP.Help.title" />
@@ -192,9 +194,7 @@ const HelpComponentsNew = (props) => {
                                     //   </b>
                                     // </Link>
                                     <a
-                                      href={
-                                        'mailto:serviceclients.france@royalcanin.com'
-                                      }
+                                      href="https://www.royalcanin.com/fr/contact-us"
                                       ariaLabel="Links to contact us"
                                     >
                                       <p
