@@ -954,6 +954,22 @@ class Form extends React.Component {
       this.validvalidationData(tname, tvalue);
     });
   };
+  // 法国和英国 postCode 黑名单失焦校验
+  inputPostCodeBlur = (e) => {
+    const { caninForm, errMsgObj } = this.state;
+    const target = e?.target;
+    const tname = target?.name;
+    caninForm[tname] =
+      target?.type === 'checkbox' ? target?.checked : target?.value;
+    console.log('inputPostCodeBlur', target);
+
+    this.setState({
+      errMsgObj: Object.assign({}, errMsgObj, {
+        [tname]: 'sssssssss-------'
+      })
+    });
+  };
+
   // 查询选择类型的文本框失去焦点
   selectInputBlur = (e) => {
     const target = e?.target;
@@ -1221,6 +1237,12 @@ class Form extends React.Component {
   // 文本框
   inputJSX = (item) => {
     const { caninForm } = this.state;
+    // uk和fr,才有postCode校验
+    const countryPostCode = ['uk', 'fr'];
+    const currentCountry = window.__.env.REACT_APP_COUNTRY;
+
+    const isVerifyPostCodeBlacklist =
+      item.fieldKey === 'postCode' && countryPostCode.includes(currentCountry);
     return (
       <>
         <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
@@ -1230,7 +1252,11 @@ class Form extends React.Component {
             type={item.filedType}
             value={caninForm[item.fieldKey] || ''}
             onChange={(e) => this.inputChange(e)}
-            onBlur={this.inputBlur}
+            onBlur={
+              isVerifyPostCodeBlacklist
+                ? this.inputPostCodeBlur
+                : this.inputBlur
+            }
             name={item.fieldKey}
             disabled={item?.disabled ? true : false}
             maxLength={item.maxLength}
