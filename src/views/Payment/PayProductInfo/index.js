@@ -363,17 +363,27 @@ class PayProductInfo extends React.Component {
                   <div
                     className="line-item-name ui-text-overflow-line2 text-break"
                     title={
-                      el?.goodsInfoFlag == 3
+                      el?.goodsInfoFlag == 3 ? (
                         // ? `${IndvPetInfo?.name}'s personalized subscription`
-                        ? <FormattedMessage id='subscription.personalized' values={{ val1: IndvPetInfo?.name }} />
-                        : el.goodsName || el.goods.goodsName
+                        <FormattedMessage
+                          id="subscription.personalized"
+                          values={{ val1: IndvPetInfo?.name }}
+                        />
+                      ) : (
+                        el.goodsName || el.goods.goodsName
+                      )
                     }
                   >
                     <span className="light 11111">
-                      {el?.goodsInfoFlag == 3
+                      {el?.goodsInfoFlag == 3 ? (
                         // ? `${IndvPetInfo?.name}'s personalized subscription`
-                        ? <FormattedMessage id='subscription.personalized' values={{ val1: IndvPetInfo?.name }} />
-                        : el.goodsName || el.goods.goodsName}
+                        <FormattedMessage
+                          id="subscription.personalized"
+                          values={{ val1: IndvPetInfo?.name }}
+                        />
+                      ) : (
+                        el.goodsName || el.goods.goodsName
+                      )}
                     </span>
                     {el?.goods?.promotions &&
                     el?.goodsInfoFlag > 0 &&
@@ -400,7 +410,11 @@ class PayProductInfo extends React.Component {
                           values={{
                             specText:
                               el.goodsInfoFlag == 3
-                                ? (window.__.env.REACT_APP_COUNTRY == 'fr'?(el.buyCount / 1000).toString().replace(".",","):el.buyCount / 1000) + ' kg '
+                                ? (window.__.env.REACT_APP_COUNTRY == 'fr'
+                                    ? (el.buyCount / 1000)
+                                        .toString()
+                                        .replace('.', ',')
+                                    : el.buyCount / 1000) + ' kg '
                                 : el.specText,
                             buyCount: el.goodsInfoFlag == 3 ? 1 : el.buyCount
                           }}
