@@ -187,7 +187,7 @@ class Recommendation extends React.Component {
     });
     let params = token;
     let requestName = getRecommendationList_token;
-    if ((isFr || isRu) && !token) {
+    if ((isFr || isRu || isUs) && !token) {
       requestName = getRecommendationList_prescriberId;
       params = prescription;
     }
