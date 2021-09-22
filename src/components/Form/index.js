@@ -1422,7 +1422,9 @@ class Form extends React.Component {
 
   // 获取邮编黑名单提示语
   getAddressPostalCodeAlertMessage = () => {
-    this.postalCodeAlertMessage = getAddressPostalCodeAlertMessage();
+    getAddressPostalCodeAlertMessage().then((res) => {
+      this.postalCodeAlertMessage = res;
+    });
   };
 
   render() {

@@ -1023,10 +1023,12 @@ export const isCanVerifyBlacklistPostCode = countryPostCode.includes(
 );
 
 // 异步获取 Postal code alert message
-export function getAddressPostalCodeAlertMessage() {
+export async function getAddressPostalCodeAlertMessage() {
   // 接口获取警示语 TODO
   const postCodeAlertMessage =
     '* Sorry we are not able to deliver your order in this area.';
 
-  return postCodeAlertMessage;
+  return new Promise((resolve, reject) => {
+    resolve(postCodeAlertMessage);
+  });
 }

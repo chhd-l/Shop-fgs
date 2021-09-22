@@ -176,7 +176,6 @@ class AddressList extends React.Component {
     this.deleteCard = this.deleteCard.bind(this);
     this.handleClickAddBtn = this.handleClickAddBtn.bind(this);
     this.toggleSetDefault = this.toggleSetDefault.bind(this);
-    this.postalCodeAlertMessage = getAddressPostalCodeAlertMessage();
   }
 
   componentDidMount() {
@@ -185,6 +184,9 @@ class AddressList extends React.Component {
       this.setState({
         countryList: res
       });
+    });
+    getAddressPostalCodeAlertMessage().then((res) => {
+      this.postalCodeAlertMessage = res;
     });
   }
 

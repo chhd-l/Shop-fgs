@@ -1792,6 +1792,7 @@ const en_US = {
     '2. Feel your cat’s body, gently applying pressure to find the ribs',
   'productFinder.mixBreed': 'Mix breed',
   'productFinder.weight': 'weight',
-  'New Pet': 'Add a pet'
+  'New Pet': 'Add a pet',
+  'Subscription.orderPostCodeHit': '* Please update the delivery address'
 };
 export default en_US;

@@ -2169,6 +2169,8 @@ const fr_FR = {
   'preciseNutrition.bscTip2':
     '2. Touchez le corps de votre chat en exerçant une légère pression pour trouver les côtes.',
   'productFinder.mixBreed': 'Race mixte',
-  'productFinder.weight': 'Poids'
+  'productFinder.weight': 'Poids',
+  'Subscription.orderPostCodeHit':
+    "* Veuillez mettre à jour l'adresse de livraison"
 };
 export default fr_FR;

@@ -151,7 +151,6 @@ class AddressList extends React.Component {
       this
     );
     this.editFormRef = React.createRef();
-    this.postalCodeAlertMessage = getAddressPostalCodeAlertMessage();
   }
   async componentDidMount() {
     const { deliveryAddress } = this.state;
@@ -164,6 +163,10 @@ class AddressList extends React.Component {
         countryList: res,
         deliveryAddress: Object.assign(this.state.deliveryAddress, cfm)
       });
+    });
+
+    getAddressPostalCodeAlertMessage().then((res) => {
+      this.postalCodeAlertMessage = res;
     });
 
     this.setState(
