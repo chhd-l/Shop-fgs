@@ -109,7 +109,6 @@ class Header extends React.Component {
     return this.props.loginStore.userInfo;
   }
   async componentDidMount() {
-    const { location, clinicStore } = this.props;
     //进入这个页面 清除搜索埋点
     this.props.headerSearchStore.clear();
     let { checkoutStore } = this.props;
@@ -123,7 +122,7 @@ class Header extends React.Component {
     );
     if (
       nutritionRecommendation &&
-      !location.pathname.includes('/precise-cat-nutrition-recommendation')
+      !window.location.href.includes('/precise-cat-nutrition-recommendation')
     ) {
       let newNutritionRecommendation = JSON.parse(nutritionRecommendation);
       newNutritionRecommendation.nextPageIsReco = false;
@@ -146,6 +145,7 @@ class Header extends React.Component {
     }
     // this.props.checkoutStore.removeCartData()
     window.addEventListener('scroll', (e) => this.handleScroll(e));
+    const { location, clinicStore } = this.props;
 
     let clinicRecoCode = funcUrl({ name: 'code' });
     let linkClinicId = funcUrl({ name: 'clinic' });

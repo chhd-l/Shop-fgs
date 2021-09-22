@@ -408,14 +408,14 @@ class PayProductInfo extends React.Component {
                         <FormattedMessage
                           id="quantityText"
                           values={{
-                            specText:
-                              el.goodsInfoFlag == 3
-                                ? (window.__.env.REACT_APP_COUNTRY == 'fr'
-                                    ? (el.buyCount / 1000)
-                                        .toString()
-                                        .replace('.', ',')
-                                    : el.buyCount / 1000) + ' kg '
-                                : el.specText,
+                            specText: el.specText,
+                            // el.goodsInfoFlag == 3
+                            //   ? (window.__.env.REACT_APP_COUNTRY == 'fr'
+                            //       ? (el.buyCount / 1000)
+                            //           .toString()
+                            //           .replace('.', ',')
+                            //       : el.buyCount / 1000) + ' kg '
+                            //   : el.specText,
                             buyCount: el.goodsInfoFlag == 3 ? 1 : el.buyCount
                           }}
                         />
