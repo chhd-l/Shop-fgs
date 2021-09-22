@@ -195,7 +195,9 @@ function AboutPet() {
           //跳转页面用
           sessionItemRoyal.set(
             'nutrition-recommendation-filter',
-            res.context ? JSON.stringify(res.context) : ''
+            res.context
+              ? JSON.stringify({ nextPageIsReco: true, ...res.context })
+              : ''
           );
           history.push('/precise-cat-nutrition-recommendation');
         } catch (err) {

@@ -83,7 +83,7 @@ class PreciseRecommendation extends React.Component {
   async getProductInfo() {
     let productString = sessionItemRoyal.get('nutrition-recommendation-filter');
     let res = productString && JSON.parse(productString);
-    if (res) {
+    if (res.nextPageIsReco) {
       let productId = res.goodsInfo.goodsInfoNo;
       let productShowInfo = productList[productId];
       let recommData = res;

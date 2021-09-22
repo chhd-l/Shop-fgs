@@ -109,12 +109,28 @@ class Header extends React.Component {
     return this.props.loginStore.userInfo;
   }
   async componentDidMount() {
+    const { location, clinicStore } = this.props;
     //进入这个页面 清除搜索埋点
     this.props.headerSearchStore.clear();
     let { checkoutStore } = this.props;
     if (sessionItemRoyal.get('rc-token-lose')) {
       this.handleLogout();
       return false;
+    }
+    // 除了precise-cat-nutrition-recommendation，进入其他页面都需要清空precise-cat-nutrition-recommendation的进入标识
+    let nutritionRecommendation = sessionItemRoyal.get(
+      'nutrition-recommendation-filter'
+    );
+    if (
+      nutritionRecommendation &&
+      !location.pathname.includes('/precise-cat-nutrition-recommendation')
+    ) {
+      let newNutritionRecommendation = JSON.parse(nutritionRecommendation);
+      newNutritionRecommendation.nextPageIsReco = false;
+      sessionItemRoyal.set(
+        'nutrition-recommendation-filter',
+        JSON.stringify(newNutritionRecommendation)
+      );
     }
     // indv在未登录购物车的商品在刷新页面的时候均应该被删除
     let indvIdex = toJS(checkoutStore.cartData)?.findIndex(
@@ -131,7 +147,6 @@ class Header extends React.Component {
     // this.props.checkoutStore.removeCartData()
     window.addEventListener('scroll', (e) => this.handleScroll(e));
 
-    const { location, clinicStore } = this.props;
     let clinicRecoCode = funcUrl({ name: 'code' });
     let linkClinicId = funcUrl({ name: 'clinic' });
     let linkClinicName = '';
