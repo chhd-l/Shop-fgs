@@ -424,7 +424,7 @@ class PreciseCatNutrition extends React.Component {
                                   isMobile
                                     ? {
                                         position: 'absolute',
-                                        marginTop: '100%',
+                                        marginTop: '100%'
                                         // marginLeft: '10%',
                                         // marginRight: '10%',
                                       }
