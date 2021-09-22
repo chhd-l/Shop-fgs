@@ -219,7 +219,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
       let recommendProd = Object.assign({}, params, recommData, goodsInfo);
       // sessionItemRoyal.set('recommend_product', JSON.stringify([recommendProd]));
       await checkoutStore.updateLoginCart({ delFlag: 1 });
-      // history.push('/checkout');
+      history.push('/checkout');
       // const url = await distributeLinktoPrecriberOrPaymentPage({
       //   configStore,
       //   checkoutStore,
