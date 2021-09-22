@@ -122,22 +122,19 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
 
   const [imageCurrent, setImageCurrent] = useState(1);
 
-  useEffect(() => {
-    if (!recommData.totalPackWeight) {
-      return;
-    }
-    let newAddCartBtnStatus =
-      recommData?.goodsInfo?.stock >= recommData?.goodsInfo?.buyCount;
-    setAddCartBtnStatus(newAddCartBtnStatus);
-    let newTotalWeight =
-      recommData.totalPackWeight.toString().replace('.', ',') + ' kg';
-    if (recommData?.weightUnit?.toLowerCase() == 'g') {
-      newTotalWeight =
-        (recommData.totalPackWeight / 1000).toString().replace('.', ',') +
-        ' kg';
-    }
-    setTotalWeight(newTotalWeight);
-  }, [recommData.totalPackWeight]);
+  // useEffect(() => {
+  //   if (!recommData.totalPackWeight) {
+  //     return;
+  //   }
+  //   let newAddCartBtnStatus =
+  //     recommData?.goodsInfo?.stock >= recommData?.goodsInfo?.buyCount;
+  //   setAddCartBtnStatus(newAddCartBtnStatus);
+  //   let newTotalWeight = recommData.totalPackWeight + 'kg';
+  //   if (recommData?.weightUnit?.toLowerCase() == 'g') {
+  //     newTotalWeight = recommData.totalPackWeight / 1000 + 'kg';
+  //   }
+  //   setTotalWeight(newTotalWeight);
+  // }, [recommData.totalPackWeight]);
   const hanldeUnloginAddToCart = async () => {
     let { goodsInfo, customerPetsVo } = recommData;
     setLoading(true);
@@ -222,7 +219,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
       let recommendProd = Object.assign({}, params, recommData, goodsInfo);
       // sessionItemRoyal.set('recommend_product', JSON.stringify([recommendProd]));
       await checkoutStore.updateLoginCart({ delFlag: 1 });
-      history.push('/checkout');
+      // history.push('/checkout');
       // const url = await distributeLinktoPrecriberOrPaymentPage({
       //   configStore,
       //   checkoutStore,
@@ -351,7 +348,9 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                               <strong
                                 style={{ color: '#444', fontWeight: '600' }}
                               >
-                                {recommData.weight} {recommData.weightUnit} /
+                                {recommData.weight}
+                                {/* {recommData.weightUnit}/ */}
+                                /
                                 <FormattedMessage id="preciseNutrition.banner.day" />
                               </strong>
                               <br />
@@ -360,8 +359,9 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                               <strong
                                 style={{ color: '#444', fontWeight: '600' }}
                               >
-                                {totalWeight}{' '}
-                                {/* {recommData.totalPackWeight} {recommData.weightUnit}/day */}
+                                {/* {totalWeight} */}
+                                {recommData.totalPackWeight}
+                                {/* {recommData.weightUnit}/day */}
                               </strong>
                             </div>
                             <div
@@ -545,14 +545,16 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
           <div className="rc-margin-bottom--xs" style={{ lineHeight: '24px' }}>
             <FormattedMessage id="preciseNutrition.banner.portion" />:{' '}
             <strong style={{ color: '#444', fontWeight: '600' }}>
-              {recommData.weight} {recommData.weightUnit}/
-              <FormattedMessage id="preciseNutrition.banner.day" />
+              {recommData.weight}
+              {/* {recommData.weightUnit}/ */}
+              /<FormattedMessage id="preciseNutrition.banner.day" />
             </strong>
             <br />
             <FormattedMessage id="preciseNutrition.banner.weight" />:{' '}
             <strong style={{ color: '#444', fontWeight: '600' }}>
-              {totalWeight}
-              {/* {recommData.totalPackWeight} {recommData.weightUnit}/day */}
+              {/* {totalWeight} */}
+              {recommData.totalPackWeight}
+              {/*  {recommData.weightUnit}/day */}
             </strong>
           </div>
           <div className="rc-margin-bottom--md">
