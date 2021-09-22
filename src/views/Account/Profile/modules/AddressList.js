@@ -2,7 +2,13 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import Loading from '@/components/Loading';
-import { getDictionary, matchNamefromDict, getDeviceType } from '@/utils/utils';
+import {
+  getDictionary,
+  matchNamefromDict,
+  getDeviceType,
+  getAddressPostalCodeAlertMessage,
+  isCanVerifyBlacklistPostCode
+} from '@/utils/utils';
 import Skeleton from 'react-skeleton-loader';
 import 'react-datepicker/dist/react-datepicker.css';
 // import classNames from 'classnames';
@@ -51,9 +57,10 @@ function CardItem(props) {
     <div
       className={`${
         isMobile ? '' : 'd-flex'
-      } rc-bg-colour--brand4 rounded p-4 pl-3 pr-3 h-100 card_item_border justify-content-between ${
-        props.data.selected ? 'selected' : ''
-      }`}
+      } rc-bg-colour--brand4 rounded p-4 pl-3 pr-3 h-100 card_item_border justify-content-between
+      ${props.data.selected ? 'selected' : ''}
+      ${!props.data.forbid ? 'forbid' : ''}
+      `}
       onClick={props.handleClickCoverItem}
     >
       {/* <div className="font-weight-normal mt-4 pt-2 mt-md-0 pt-md-0">
@@ -124,6 +131,7 @@ function CardItem(props) {
     </div>
   );
 }
+
 @inject('checkoutStore', 'configStore')
 @injectIntl
 @observer
@@ -131,6 +139,7 @@ class AddressList extends React.Component {
   static defaultProps = {
     hideBillingAddr: false
   };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -167,7 +176,9 @@ class AddressList extends React.Component {
     this.deleteCard = this.deleteCard.bind(this);
     this.handleClickAddBtn = this.handleClickAddBtn.bind(this);
     this.toggleSetDefault = this.toggleSetDefault.bind(this);
+    this.postalCodeAlertMessage = getAddressPostalCodeAlertMessage();
   }
+
   componentDidMount() {
     this.getAddressList();
     getDictionary({ type: 'country' }).then((res) => {
@@ -176,6 +187,7 @@ class AddressList extends React.Component {
       });
     });
   }
+
   // 获取地址列表
   getAddressList = async ({ showLoading = false } = {}) => {
     try {
@@ -193,7 +205,7 @@ class AddressList extends React.Component {
 
       Array.from(allList, (a) => (a.selected = false));
 
-      // 设置默认选中状态
+      // 设置默认选中状态 TODO 默认邮编在黑名单则不能选择
       let defaultAddressItem = allList.filter((ele) => {
         return ele.isDefaltAddress === 1;
       });
@@ -274,6 +286,7 @@ class AddressList extends React.Component {
     });
     this.setState({ curAddressId: dliveryId });
   }
+
   // 编辑地址
   handleEditAddress(item) {
     if (item.receiveType == 'PICK_UP') {
@@ -293,6 +306,7 @@ class AddressList extends React.Component {
       addressAddOrEditFlag: 'edit'
     });
   }
+
   // 取消编辑或者新增地址
   cancelEditForm = () => {
     let pstit = document.getElementById('profile-personal-info');
@@ -321,6 +335,7 @@ class AddressList extends React.Component {
       allAddressList
     });
   };
+
   // 删除地址
   handleClickDeleteBtn(data, e) {
     e.preventDefault();
@@ -328,6 +343,7 @@ class AddressList extends React.Component {
     e.nativeEvent.stopImmediatePropagation();
     this.deleteConfirmTooltipVisible(data, true);
   }
+
   async deleteCard(el, e) {
     e.preventDefault();
     e.stopPropagation();
@@ -352,6 +368,7 @@ class AddressList extends React.Component {
         });
       });
   }
+
   // 添加地址按钮
   addBtnJSX = (receiveType) => {
     return (
@@ -374,6 +391,7 @@ class AddressList extends React.Component {
       </div>
     );
   };
+
   // 新增地址按钮
   handleClickAddBtn(receiveType) {
     if (receiveType == 'PICK_UP') {
@@ -390,6 +408,7 @@ class AddressList extends React.Component {
       addressAddOrEditFlag: 'add'
     });
   }
+
   // 设置默认地址
   async toggleSetDefault(item, e) {
     this.setState({ loading: true });
@@ -402,6 +421,7 @@ class AddressList extends React.Component {
     }
     this.setState({ loading: false });
   }
+
   // 标题
   addressTypePanel = (str) => {
     let fmsg = '';
@@ -479,6 +499,7 @@ class AddressList extends React.Component {
               <div className="align-items-center">
                 <div className="rc-input rc-input--inline mr-0">
                   <input
+                    disabled={!item.forbid} // 邮编黑名单禁止选择
                     type="radio"
                     id={item.deliveryAddressId}
                     className="rc-input__radio"
@@ -596,9 +617,19 @@ class AddressList extends React.Component {
                 )}
               </div>
             </div>
+
+            <div>
+              {!item?.forbid ? (
+                <p className="address-item-forbid">
+                  {this.postalCodeAlertMessage}
+                </p>
+              ) : null}
+            </div>
           </div>
         }
-        handleClickCoverItem={this.handleClickCoverItem.bind(this, item)}
+        handleClickCoverItem={
+          !item.forbid ? null : this.handleClickCoverItem.bind(this, item)
+        }
         countryName={matchNamefromDict(countryList, item.countryId)}
       />
     );
@@ -731,6 +762,7 @@ class AddressList extends React.Component {
       });
     }
   };
+
   render() {
     const {
       foledMore,

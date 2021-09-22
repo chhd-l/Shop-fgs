@@ -23,7 +23,9 @@ import {
   datePickerConfig,
   getFormatDate,
   getZoneTime,
-  getDeviceType
+  getDeviceType,
+  isCanVerifyBlacklistPostCode,
+  getAddressPostalCodeAlertMessage
 } from '@/utils/utils';
 import DatePicker from 'react-datepicker';
 import { daysInWeek, format } from 'date-fns';
@@ -123,6 +125,7 @@ class Form extends React.Component {
       timeSlotList: [], // time slot
       errMsgObj: {}
     };
+    this.postalCodeAlertMessage = '';
   }
   componentDidMount() {
     let timer = setInterval(() => {
@@ -140,6 +143,11 @@ class Form extends React.Component {
     });
     // 查询国家
     this.getCountryList();
+
+    // 获取邮编错误的提示语
+    if (isCanVerifyBlacklistPostCode) {
+      this.getAddressPostalCodeAlertMessage();
+    }
 
     // 美国 state 字段统一为 province
     caninForm.stateId = initData.provinceId;
@@ -965,7 +973,7 @@ class Form extends React.Component {
 
     this.setState({
       errMsgObj: Object.assign({}, errMsgObj, {
-        [tname]: 'sssssssss-------'
+        [tname]: this.postalCodeAlertMessage
       })
     });
   };
@@ -1238,11 +1246,9 @@ class Form extends React.Component {
   inputJSX = (item) => {
     const { caninForm } = this.state;
     // uk和fr,才有postCode校验
-    const countryPostCode = ['uk', 'fr'];
-    const currentCountry = window.__.env.REACT_APP_COUNTRY;
-
     const isVerifyPostCodeBlacklist =
-      item.fieldKey === 'postCode' && countryPostCode.includes(currentCountry);
+      item.fieldKey === 'postCode' && isCanVerifyAddressPostCode;
+
     return (
       <>
         <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
@@ -1413,6 +1419,12 @@ class Form extends React.Component {
       </>
     );
   };
+
+  // 获取邮编黑名单提示语
+  getAddressPostalCodeAlertMessage = () => {
+    this.postalCodeAlertMessage = getAddressPostalCodeAlertMessage();
+  };
+
   render() {
     const {
       dataLoading,

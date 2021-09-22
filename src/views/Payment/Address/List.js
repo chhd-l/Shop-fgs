@@ -23,7 +23,9 @@ import {
   validData,
   matchNamefromDict,
   formatMoney,
-  getDeviceType
+  getDeviceType,
+  isCanVerifyBlacklistPostCode,
+  getAddressPostalCodeAlertMessage
 } from '@/utils/utils';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
@@ -149,6 +151,7 @@ class AddressList extends React.Component {
       this
     );
     this.editFormRef = React.createRef();
+    this.postalCodeAlertMessage = getAddressPostalCodeAlertMessage();
   }
   async componentDidMount() {
     const { deliveryAddress } = this.state;
@@ -776,7 +779,7 @@ class AddressList extends React.Component {
     Array.from(addressList, (a) => (a.selected = false));
     addressList[idx].selected = true;
     // 邮编属于黑名单 不能选择地址 TODO
-    if (addressList[idx].forbid) return;
+    if (isCanVerifyBlacklistPostCode && addressList[idx].forbid) return;
 
     this.setState(
       {
@@ -2009,9 +2012,6 @@ class AddressList extends React.Component {
 
     // 地址列表
     const _list = addressList.map((item, i) => {
-      let forbidText = item?.forbid
-        ? item.text
-        : '* Sorry we are not able to deliver your order in this area.';
       return (
         <div
           className={`rounded address-item ${
@@ -2053,7 +2053,9 @@ class AddressList extends React.Component {
                 ) : null}
               </p>
               {item?.forbid ? (
-                <div className="address-item-forbid">{forbidText}</div>
+                <div className="address-item-forbid">
+                  {this.postalCodeAlertMessage}
+                </div>
               ) : null}
             </div>
             <div className="col-12 col-md-4 mt-md-0 mt-1 pl-0 pr-0 text-right font-weight-bold address_opt_btn ">
