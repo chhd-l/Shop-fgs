@@ -173,7 +173,7 @@ class Recommendation extends React.Component {
     search = search && decodeURIComponent(search);
     let token = funcUrl({ name: 'token' });
     let promotionCode = funcUrl({ name: 'coupon' });
-    let promotionCodeText = promotionCode?.toUpperCase();
+    let promotionCodeText = promotionCode?.toUpperCase() || '';
     let prescription = funcUrl({ name: 'prescription' });
     setSeoConfig({
       pageName: 'SPT reco landing page'
@@ -206,6 +206,12 @@ class Recommendation extends React.Component {
         if (res.context.structureType != 'breeder' && isFr) {
           // 法国区分stp和breeder
           this.setState({ isSPT: true });
+        }
+        if (res.context.promotionCode && isRu) {
+          // ru需要直接应用promotioncode
+          this.setState({
+            promotionCodeText: res.context.promotionCode
+          });
         }
         setTimeout(() => {
           GARecommendationProduct(
