@@ -47,7 +47,11 @@ class CheckoutStore {
   @observable offShelvesProNames = []; // 下架的商品
   @observable deletedProNames = []; // 被删除的商品
   @observable notSeableProNames = []; // 不可销售的商品
-  @observable promotionCode = localItemRoyal.get('rc-promotionCode') || '';
+  @observable couponCode = localItemRoyal.get('rc-couponCode') || '';
+  @observable promotionCode =
+    localItemRoyal.get('rc-couponCode') ||
+    localItemRoyal.get('rc-promotionCode') ||
+    '';
   // @observable clixRayPromotionCode = localItemRoyal.get('rc-clixRay-promotionCode')||'';// 是fr breeder的特殊code，需要主动默认填充
   @observable couponCodeFitFlag =
     localItemRoyal.get('rc-couponCodeFitFlag') || false;
@@ -136,12 +140,27 @@ class CheckoutStore {
   setPromotionCode(data) {
     this.promotionCode = data;
     localItemRoyal.set('rc-promotionCode', data);
+    if (data) {
+      this.removeCouponCode();
+    }
   }
 
   @action.bound
   removePromotionCode(data) {
     this.promotionCode = '';
     localItemRoyal.remove('rc-promotionCode');
+  }
+
+  @action.bound
+  setCouponCode(data) {
+    this.couponCode = data;
+    localItemRoyal.set('rc-couponCode', data);
+  }
+
+  @action.bound
+  removeCouponCode() {
+    this.couponCode = '';
+    localItemRoyal.remove('rc-couponCode');
   }
 
   // @action.bound

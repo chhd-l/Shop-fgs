@@ -145,7 +145,9 @@ class Details extends React.Component {
       headingTag: 'h1',
       showPrescriberCodeModal: false, //是否打开de PrescriberCodeModal
       showErrorTip: false,
-      modalMobileCartSuccessVisible: false
+      modalMobileCartSuccessVisible: false,
+      defaultSkuId: funcUrl({ name: 'skuId' }),
+      defaultGoodsInfoFlag: funcUrl({ name: 'goodsInfoFlag' })
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -156,6 +158,7 @@ class Details extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
+    console.log(this.state.defaultSkuId, 'defaultSkuId');
     const { pathname } = this.props.location;
     let timer = setInterval(() => {
       if (document.querySelector('#mars-footer-panel')) {
@@ -258,11 +261,24 @@ class Details extends React.Component {
       if (
         defaultPurchaseType === 1 ||
         sessionItemRoyal.get('pf-result') ||
-        localStorage.getItem('pfls')
+        localStorage.getItem('pfls') ||
+        this.state.defaultGoodsInfoFlag
       ) {
-        buyWay = details.promotions === 'club' ? 2 : 1;
+        buyWay =
+          parseInt(this.state.defaultGoodsInfoFlag) ||
+          details.promotions === 'club'
+            ? 2
+            : 1;
       } else {
         buyWay = defaultPurchaseType;
+      }
+      if (!isNaN(parseInt(this.state.defaultGoodsInfoFlag))) {
+        buyWay = parseInt(this.state.defaultGoodsInfoFlag);
+        if (parseInt(this.state.defaultGoodsInfoFlag) > 0) {
+          defaultPurchaseType = 1;
+        } else {
+          defaultPurchaseType = 0;
+        }
       }
 
       let autoshipDictRes = frequencyList.filter(
@@ -1212,6 +1228,7 @@ class Details extends React.Component {
                                 setState={this.setState.bind(this)}
                                 updatedSku={this.matchGoods.bind(this)}
                                 updatedPriceOrCode={this.updatedPriceOrCode}
+                                defaultSkuId={this.state.defaultSkuId}
                               />
                               <div className="Quantity">
                                 <span className="amount">

@@ -32,7 +32,6 @@ const ClubBuyMethod = ({
   const handleToClubTab = () => {
     toClubTab();
   };
-  console.log(form.frequencyId, skuPromotions, 'skuPromotions...')
   return (
     <div
       className={`buyMethod rc-margin-bottom--xs d-flex row align-items-center 3 ml-0 mr-0 ui-cursor-pointer-pure ${

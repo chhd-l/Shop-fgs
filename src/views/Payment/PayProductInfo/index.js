@@ -363,17 +363,27 @@ class PayProductInfo extends React.Component {
                   <div
                     className="line-item-name ui-text-overflow-line2 text-break"
                     title={
-                      el?.goodsInfoFlag == 3
+                      el?.goodsInfoFlag == 3 ? (
                         // ? `${IndvPetInfo?.name}'s personalized subscription`
-                        ? <FormattedMessage id='subscription.personalized' values={{ val1: IndvPetInfo?.name }} />
-                        : el.goodsName || el.goods.goodsName
+                        <FormattedMessage
+                          id="subscription.personalized"
+                          values={{ val1: IndvPetInfo?.name }}
+                        />
+                      ) : (
+                        el.goodsName || el.goods.goodsName
+                      )
                     }
                   >
                     <span className="light 11111">
-                      {el?.goodsInfoFlag == 3
+                      {el?.goodsInfoFlag == 3 ? (
                         // ? `${IndvPetInfo?.name}'s personalized subscription`
-                        ? <FormattedMessage id='subscription.personalized' values={{ val1: IndvPetInfo?.name }} />
-                        : el.goodsName || el.goods.goodsName}
+                        <FormattedMessage
+                          id="subscription.personalized"
+                          values={{ val1: IndvPetInfo?.name }}
+                        />
+                      ) : (
+                        el.goodsName || el.goods.goodsName
+                      )}
                     </span>
                     {el?.goods?.promotions &&
                     el?.goodsInfoFlag > 0 &&
@@ -747,6 +757,7 @@ class PayProductInfo extends React.Component {
                             onClick={async () => {
                               let result = {};
                               await checkoutStore.removePromotionCode();
+                              await checkoutStore.removeCouponCode();
                               // 删除掉之后 promotionCode 后再使用之前的参数查询一遍 purchase接口
                               let purchasesPara =
                                 localItemRoyal.get(

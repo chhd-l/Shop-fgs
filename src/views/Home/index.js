@@ -19,6 +19,7 @@ import Loading from '@/components/Loading';
 import { withOktaAuth } from '@okta/okta-react';
 import { Helmet } from 'react-helmet';
 import stores from '@/store';
+import { funcUrl } from '@/lib/url-utils';
 
 import PaymentSecureHome from '@/assets/images/home/Payment-secure@2x.png';
 import premiumHome from '@/assets/images/home/premium@2x.png';
@@ -526,6 +527,10 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
+    if (funcUrl({ name: 'couponCode' })) {
+      localItemRoyal.set('rc-couponCode', funcUrl({ name: 'couponCode' }));
+    }
+
     if (localItemRoyal.get('login-again')) {
       loginStore.changeLoginModal(true);
       var callOktaCallBack = getOktaCallBackUrl(

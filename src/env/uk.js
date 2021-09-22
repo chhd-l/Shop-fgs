@@ -18,7 +18,7 @@ const env = {
 
     // #language
     REACT_APP_LANG: 'uk',
-    REACT_APP_NAVIGATOR_LANG: 'uk',
+    REACT_APP_NAVIGATOR_LANG: 'en',
     REACT_APP_CURRENCY: 'GBP',
 
     // #storid

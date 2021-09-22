@@ -1452,6 +1452,7 @@ class LoginCart extends React.Component {
     let { discount } = this.state;
     let result = {};
     await checkoutStore.removePromotionCode();
+    await checkoutStore.removeCouponCode();
     // await checkoutStore.removeCouponCodeFitFlag();
     if (loginStore.isLogin) {
       result = await checkoutStore.updateLoginCart({

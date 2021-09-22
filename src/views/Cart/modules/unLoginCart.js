@@ -1539,6 +1539,7 @@ class UnLoginCart extends React.Component {
     let result = {};
     // await checkoutStore.removeCouponCodeFitFlag();
     await checkoutStore.removePromotionCode();
+    await checkoutStore.removeCouponCode();
     if (!loginStore.isLogin) {
       //游客
       result = await checkoutStore.updateUnloginCart();

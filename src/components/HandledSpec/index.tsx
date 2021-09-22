@@ -14,13 +14,15 @@ interface Props {
   details: any;
   updatedSku: Function;
   updatedPriceOrCode: Function;
+  defaultSkuId: string
 }
 
 const HandledSpec = ({
   renderAgin,
   details,
   updatedSku,
-  updatedPriceOrCode = () => {}
+  updatedPriceOrCode = () => {},
+  defaultSkuId
 }: Props) => {
   const {
     goodsSpecs,
@@ -166,6 +168,16 @@ const HandledSpec = ({
       let specsItem = goodsInfos.filter(
         (item: any) => item.goodsInfoNo == goodsNo
       );
+      
+      choosedSpecsArr =
+        specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds;
+    }
+    if(defaultSkuId) {
+      // 通过sku查询
+      let specsItem = goodsInfos.filter(
+        (item: any) => item.goodsInfoId == defaultSkuId
+      );
+      
       choosedSpecsArr =
         specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds;
     }
@@ -188,14 +200,13 @@ const HandledSpec = ({
         let defaultSelcetdSku = -1;
         if (choosedSpecsArr.length) {
           for (let i = 0; i < choosedSpecsArr.length; i++) {
-            let specDetailIndex = sItem.specDetailIds.indexOf(
-              choosedSpecsArr[i]
-            );
+            let specDetailIndex = sItem.chidren.findIndex(el => el.specDetailId === choosedSpecsArr[i])
             if (specDetailIndex > -1) {
               defaultSelcetdSku = specDetailIndex;
             }
           }
         }
+        
         if (defaultSelcetdSku > -1) {
           // 默认选择该sku
           if (!sItem.chidren[defaultSelcetdSku].isEmpty) {
