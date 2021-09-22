@@ -129,11 +129,6 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
     let newAddCartBtnStatus =
       recommData?.goodsInfo?.stock >= recommData?.goodsInfo?.buyCount;
     setAddCartBtnStatus(newAddCartBtnStatus);
-    // let newTotalWeight = recommData.totalPackWeight + 'kg';
-    // if (recommData?.weightUnit?.toLowerCase() == 'g') {
-    //   newTotalWeight = recommData.totalPackWeight / 1000 + 'kg';
-    // }
-    // setTotalWeight(newTotalWeight);
   }, [recommData.totalPackWeight]);
   const hanldeUnloginAddToCart = async () => {
     let { goodsInfo, customerPetsVo } = recommData;
