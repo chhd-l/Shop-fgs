@@ -18,8 +18,8 @@ const env = {
 
     // #language
     REACT_APP_LANG: 'se',
-    REACT_APP_NAVIGATOR_LANG: 'se',
-    REACT_APP_CURRENCY: 'USD',
+    REACT_APP_NAVIGATOR_LANG: 'sv',
+    REACT_APP_CURRENCY: 'SEK',
 
     // #storid
     REACT_APP_STOREID: '123457915',
