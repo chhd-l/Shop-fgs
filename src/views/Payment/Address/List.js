@@ -48,7 +48,6 @@ class AddressList extends React.Component {
     visible: true,
     type: 'delivery',
     intlMessages: null,
-    isCurrentBuyWaySubscription: false, // 是否有订阅商品
     showDeliveryDateTimeSlot: false,
     showOperateBtn: true,
     deliveryOrPickUp: 0,
@@ -787,7 +786,10 @@ class AddressList extends React.Component {
       () => {
         this.updateSelectedData();
         if (window.__.env.REACT_APP_COUNTRY == 'ru') {
-          this.getHomeDeliveryPrice(addressList[idx].city);
+          this.getHomeDeliveryPrice(
+            addressList[idx].city,
+            addressList[idx].receiveType
+          );
         }
       }
     );
@@ -1038,7 +1040,7 @@ class AddressList extends React.Component {
         window.__.env.REACT_APP_COUNTRY === 'ru' &&
         tmpObj?.receiveType === 'HOME_DELIVERY'
       ) {
-        await this.getHomeDeliveryPrice(tmpObj?.city);
+        await this.getHomeDeliveryPrice(tmpObj?.city, tmpObj?.receiveType);
       }
 
       await this.queryAddressList();
@@ -1320,11 +1322,12 @@ class AddressList extends React.Component {
   // ************************ pick up 相关
 
   // 计算homeDelivery运费
-  getHomeDeliveryPrice = async (city) => {
+  getHomeDeliveryPrice = async (city, deliveryType) => {
     const { allAddressList, addressList, pickupAddress } = this.state;
     if (!city) {
       return;
     }
+    console.log('666 >>> deliveryType : ', deliveryType);
     this.setState({ validationLoading: true });
     let res = await pickupQueryCity({ keyword: city });
     let robj = res?.context?.pickUpQueryCityDTOs || [];
@@ -1380,30 +1383,22 @@ class AddressList extends React.Component {
           addstr ? addstr : (addstr = 'COURIER');
         }
 
-        console.log('666 >>> addstr: ', addstr);
-
-        obj.map((m) => {
-          let tp = m.type;
-          m.selected = false;
-          obj.length === 1 ? (m.selected = true) : '';
-          if (tp === 'COURIER') {
-            m.type = 'homeDelivery';
-          }
-          if (tp === 'PVZ') {
-            m.type = 'pickup';
-          }
-
-          if (tp == addstr) {
-            m.selected = true;
-          } else {
-            m.selected = false;
-          }
-        });
-
-        if (obj.length) {
+        if (obj?.length) {
           let hpobj = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
           hpobj = JSON.parse(hpobj);
+
           obj.map((e, i) => {
+            let tp = e.type;
+            e.selected = false;
+            obj.length === 1 ? (e.selected = true) : '';
+            if (tp == addstr) {
+              e.selected = true;
+            } else {
+              e.selected = false;
+            }
+
+            // 修改类型名称，方便阅读
+            tp === 'COURIER' ? (e.type = 'homeDelivery') : (e.type = 'pickup');
             if (e.type == 'homeDelivery') {
               // 'COURIER'=> home delivery
               let hdAddr = obj.filter((e) => e.type == 'homeDelivery');
@@ -1435,24 +1430,25 @@ class AddressList extends React.Component {
             }
           });
 
-          if (!hpobj) {
-            hpobj = {
-              cityData: null,
-              homeAndPickup: obj,
-              isSubscription: this.props.isCurrentBuyWaySubscription
-            };
+          // 查询 homeDelivery 运费的时候不修改本地存储信息
+          if (deliveryType !== 'HOME_DELIVERY') {
+            if (!hpobj) {
+              hpobj = {
+                cityData: null,
+                homeAndPickup: obj
+              };
+            }
+            // 修改本地存储的信息
+            sessionItemRoyal.set(
+              'rc-homeDeliveryAndPickup',
+              JSON.stringify(hpobj)
+            );
+
+            this.setState({
+              homeAndPickup: Object.assign([], obj)
+            });
           }
-
-          // 修改本地存储的信息
-          sessionItemRoyal.set(
-            'rc-homeDeliveryAndPickup',
-            JSON.stringify(hpobj)
-          );
         }
-
-        this.setState({
-          homeAndPickup: Object.assign([], obj)
-        });
       }
       this.setState({ validationLoading: false });
     } else {
@@ -1497,7 +1493,6 @@ class AddressList extends React.Component {
       obj = hdpk?.homeAndPickup;
     }
     // console.log('666 >>> saveAddressNumber ： ', saveAddressNumber);
-    // console.log('666 >>> homeAndPickup ： ', homeAndPickup);
 
     // ★★★★★ 设置默认选中项（按优先级）
     // 1、上一次选择
@@ -1584,7 +1579,7 @@ class AddressList extends React.Component {
               (ele) => ele.deliveryAddressId === selectedId
             ) || null;
           if (tmpObj) {
-            await this.getHomeDeliveryPrice(tmpObj?.city);
+            await this.getHomeDeliveryPrice(tmpObj?.city, tmpObj?.receiveType);
           }
         }
       }
@@ -1843,7 +1838,10 @@ class AddressList extends React.Component {
     });
     try {
       // console.log('666 >>> pickupFormData: ', pickupFormData);
-      await this.getHomeDeliveryPrice(pickupFormData.city);
+      await this.getHomeDeliveryPrice(
+        pickupFormData.city,
+        pickupFormData?.receiveType
+      );
 
       let receiveType = pickupFormData.receiveType;
       let tempAddress = Object.keys(deliveryAddress).reduce((pre, cur) => {
