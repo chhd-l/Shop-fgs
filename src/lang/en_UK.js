@@ -322,8 +322,8 @@ const en_US = {
     'You saved {val1}  with autoship',
   'confirmation.visitOnlineStore': 'Visit online store',
   confirmDelete: 'Do you confirm to delete?',
-  confirmDeleteAddress: 'Do you want to delete the address?',
-  confirmDelete2: 'Do you want to delete it?',
+  confirmDeleteAddress: 'Are you sure you want to delete this address?',
+  confirmDelete2: 'Are you sure you want to delete this card?',
   confirmDeleteProduct:
     'Are you sure you want to remove this product from the cart?',
   confirmPassword: 'Confirm Password *',
@@ -886,7 +886,7 @@ const en_US = {
   mustChooseTheConsentTip:
     'In order to confirm that you wish to be contacted, please tick the corresponding box.',
   myAutoshipOrder: 'Subscriptions',
-  name: 'First name',
+  name: 'Name',
   name2: 'NAME',
   nameInvalid: 'your name is invalid',
   newAddress: 'New address',
@@ -1791,6 +1791,7 @@ const en_US = {
   'productFinder.mixBreed': 'Mix breed',
   'productFinder.weight': 'weight',
   'New Pet': 'Add a pet',
-  'header.User.faq': "FAQ's"
+  'header.User.faq': "FAQ's",
+  'Your Pet is a…': 'My Pet is a…'
 };
 export default en_US;
