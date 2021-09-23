@@ -123,6 +123,10 @@ const UserPaymentInfo = ({
                       {currentDeliveryAddress?.address1}
                     </p>
                   )}
+                {/* workTime */}
+                <p className="mb-0 sd_mb_workTime">
+                  {currentDeliveryAddress?.workTime}
+                </p>
               </>
             ) : (
               <>

@@ -210,6 +210,13 @@ const SubsriptionBenefitsNew = () => {
               ariaLabel="Links to product finder"
             >
               <button
+                onClick={() => {
+                  window.__.env.REACT_APP_COUNTRY == 'ru' &&
+                    dataLayer.push({
+                      event: 'ruClubSubscriptionCtA',
+                      ruClubSubscriptionCtAName: 'Join the club - Middle'
+                    });
+                }}
                 className="rc-btn rc-btn--one"
                 style={{
                   paddingLeft: '90px',
