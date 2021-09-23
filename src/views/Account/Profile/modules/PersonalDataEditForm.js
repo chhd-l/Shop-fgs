@@ -398,7 +398,11 @@ class PersonalDataEditForm extends React.Component {
               onClick={this.handleClickGoBack}
             >
               <span>&larr; </span>
-              <FormattedMessage id="account.myAccount" />
+              {window.__.env.REACT_APP_COUNTRY === 'uk' ? (
+                <FormattedMessage id="account.profile" />
+              ) : (
+                <FormattedMessage id="account.myAccount" />
+              )}
             </h5>
             <FormattedMessage id="edit">
               {(txt) => (
