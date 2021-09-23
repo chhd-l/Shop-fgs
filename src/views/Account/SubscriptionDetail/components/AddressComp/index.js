@@ -981,7 +981,6 @@ class AddressList extends React.Component {
       if (res.context?.deliveryAddressId) {
         this.scrollToPayInfoTitle();
         this.handleCancelEditOrAddPickup();
-        // await this.queryAddressList();
         pickupAddress.length
           ? this.props.save(
               res.context,
