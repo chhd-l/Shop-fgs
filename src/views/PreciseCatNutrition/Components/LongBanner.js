@@ -6,7 +6,7 @@ import benefitsone from '../images/picto_right-diet.png';
 import benefitstwo from '../images/picto_individualize-ration2.png';
 import benefitsthree from '../images/picto_nutrients.png';
 // import topCat from '../images/BRITISH_SHORTHAIR_ADULT___WEIGHT_MANAGEMENT_EMBLEMATIC_Low_Res.___Web-removebg-preview.png';
- import topCat from '../images/pfCat.png';
+import topCat from '../images/pfCat.png';
 import topCatEat from '../images/SacKRAFT-RVB-bis-det.png';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import clublogo from '../images/img.png';
@@ -55,10 +55,10 @@ const LongBanner = () => {
                   <strong style={{ color: '#000000' }}>
                     <FormattedMessage id="PreciseCatNutrition.LongBanner.averagePrice2" />
                   </strong>
-                  <sup style={{ color: '#666666', fontSize: 14, top: '-1em' }}>
+                  <sup style={{ color: '#666666', fontSize: 13, top: '-1em' }}>
                     [1]
                   </sup>
-                  <p style={{ color: '#555555',fontSize:'0.7em'}}>
+                  <p style={{ color: '#555555', fontSize: '0.7em' }}>
                     <FormattedMessage id="PreciseCatNutrition.LongBanner.averagePrice3" />
                   </p>
                   <a
@@ -161,110 +161,133 @@ const LongBanner = () => {
         {/*  </div>*/}
         {/*</div>*/}
         <div className="rc-max-width--xl rc-padding-x--md flex justify-content-center align-items-center">
-        <div
-          className=" rc-padding-x--md rc-padding-x--md--mobile three-column-content-block longBannerTopPic"
-          style={{
-            boxShadow: 'darkgrey 10px 150px 230px 100px'
-          }}
-        >
-          <div className="col mx-0 d-flex justify-content-between align-items-end align-content-center relative ">
-            <img
-              className={'topCat'}
-              style={{ zIndex: isMobile ? -100 : 0 }}
-              src={topCat}
-            />
-            <img className={'topCatEat'} src={topCatEat} />
-            <div
-              className="howItWorkNum2"
-              style={{
-                borderRadius: '50%',
-                backgroundColor: '#E2001A',
-                color: 'white',
-                textAlign: 'center',
-                lineHeight: 45,
-                position: 'absolute',
-                zIndex: 2
-              }}
-            >
-              <p> </p>
-              <h3 className={'RadiusText1 font-weight-normal'}>-25%</h3>
-              <h6 className={'RadiusText2 font-weight-normal'}>
-                <FormattedMessage id="PreciseCatNutrition.LongBanner.redRadius" />
-              </h6>
+          <div
+            className=" rc-padding-x--md rc-padding-x--md--mobile three-column-content-block longBannerTopPic"
+            style={{
+              boxShadow: 'darkgrey 10px 150px 230px 100px'
+            }}
+          >
+            <div className="col mx-0 d-flex justify-content-between align-items-end align-content-center relative ">
+              <img
+                className={'topCat'}
+                style={{ zIndex: isMobile ? -100 : 0 }}
+                src={topCat}
+                height={214}
+              />
+              <img className={'topCatEat'} src={topCatEat} />
+              <div
+                className="howItWorkNum2"
+                style={{
+                  borderRadius: '50%',
+                  backgroundColor: '#E2001A',
+                  color: 'white',
+                  textAlign: 'center',
+                  lineHeight: 45,
+                  position: 'absolute',
+                  zIndex: 2
+                }}
+              >
+                <p> </p>
+                <h3 className={'RadiusText1 font-weight-normal'}>-25%</h3>
+                <h6 className={'RadiusText2 font-weight-normal'}>
+                  <FormattedMessage id="PreciseCatNutrition.LongBanner.redRadius" />
+                </h6>
+              </div>
             </div>
-          </div>
-          <div className="rc-bg-colour--brand3" id="benefits-box">
-            <div className="rc-full-width">
-              <div className="rc-max-width--lg rc-padding-x--lg rc-padding-x--md--mobile rc-margin-top--lg--desktop rc-margin-top--sm--mobile rc-margin-bottom--sm rc-margin-y--lg--mobile value-proposition">
-                <h2
-                  className="font-weight-bold rc-beta text-center rc-margin-bottom--sm--mobile rc-margin-bottom--none--desktop"
-                  style={{ position: 'relative', zIndex: 10 ,fontSize:28}}
-                >
-                  <FormattedMessage id="PreciseCatNutrition.LongBanner.secondTitle" />
-                </h2>
+            <div className="rc-bg-colour--brand3" id="benefits-box">
+              <div className="rc-full-width">
+                <div className="rc-max-width--lg rc-padding-x--lg rc-padding-x--md--mobile rc-margin-top--lg--desktop rc-margin-top--sm--mobile rc-margin-bottom--md rc-margin-y--lg--mobile value-proposition">
+                  <h2
+                    className="font-weight-bold rc-beta text-center rc-margin-bottom--sm--mobile rc-margin-bottom--none--desktop"
+                    style={{ position: 'relative', zIndex: 10, fontSize: 28 }}
+                  >
+                    <FormattedMessage id="PreciseCatNutrition.LongBanner.secondTitle" />
+                  </h2>
 
-                <div className="value-proposition__container">
-                  <div className="row mx-0 justify-content-between rc-text-align-center">
-                    <div className="col-12 col-md-3 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center ">
-                      <div className=" justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn flex-column">
-                        <div
-                          style={{ display: 'flex', justifyContent: 'center' }}
-                        >
-                          <LazyLoad height={200} className="flex justify-content-center align-items-center">
-                            <img
-                              className="value-proposition__img1 lazyloaded"
-                              src={benefitsone}
-                            />
-                          </LazyLoad>
-                        </div>
-                        <div className=" value-proposition__text">
-                          <strong className="rc-margin-bottom--none LongBannerSomeFontsize">
-                            <FormattedMessage
-                              id={'PreciseCatNutrition.LongBanner.benefits1'}
-                            />
-                          </strong>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-3 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
-                      <div className=" justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn flex-column">
-                        <div
-                          style={{ display: 'flex', justifyContent: 'center' }}
-                        >
-                          <LazyLoad height={200}  className="flex justify-content-center align-items-center">
-                            <img
-                              className="value-proposition__img1 lazyloaded"
-                              src={benefitstwo}
-                            />
-                          </LazyLoad>
-                        </div>
-                        <div className=" value-proposition__text">
-                          <strong className="rc-margin-bottom--none LongBannerSomeFontsize">
-                            <FormattedMessage
-                              id={'PreciseCatNutrition.LongBanner.benefits2'}
-                            />
-                          </strong>
+                  <div className="value-proposition__container">
+                    <div className="row  mx-lg-5 justify-content-between rc-text-align-center">
+                      <div className="col-12 col-md-4 col-xxl-4 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-4 pl-xxl-4 justify-content-center ">
+                        <div className=" justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn flex-column">
+                          <div
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'center'
+                            }}
+                          >
+                            <LazyLoad
+                              height={143}
+                              className="justify-content-center align-items-center"
+                              style={{ display: 'flex' }}
+                            >
+                              <img
+                                className="value-proposition__img1 lazyloaded"
+                                src={benefitsone}
+                              />
+                            </LazyLoad>
+                          </div>
+                          <div className=" value-proposition__text">
+                            <strong className="rc-margin-bottom--none LongBannerSomeFontsize">
+                              <FormattedMessage
+                                id={'PreciseCatNutrition.LongBanner.benefits1'}
+                              />
+                            </strong>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="col-12 col-md-3 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
-                      <div className=" justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn flex-column">
-                        <div
-                          style={{ display: 'flex', justifyContent: 'center' }}
-                        >
-                          <LazyLoad height={200}  className="flex justify-content-center align-items-center">
-                            <img
-                              className="value-proposition__img1 lazyl oaded"
-                              src={benefitsthree}
-                            />
-                          </LazyLoad>
+                      <div className="col-12 col-md-4 col-xxl-4 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-4 pl-xxl-4 justify-content-center">
+                        <div className=" justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn flex-column">
+                          <div
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'center'
+                            }}
+                          >
+                            <LazyLoad
+                              height={143}
+                              className="justify-content-center align-items-center"
+                              style={{ display: 'flex' }}
+                            >
+                              <img
+                                className="value-proposition__img1 lazyloaded"
+                                src={benefitstwo}
+                              />
+                            </LazyLoad>
+                          </div>
+                          <div className=" value-proposition__text">
+                            <strong className="rc-margin-bottom--none LongBannerSomeFontsize">
+                              <FormattedMessage
+                                id={'PreciseCatNutrition.LongBanner.benefits2'}
+                              />
+                            </strong>
+                          </div>
                         </div>
-                        <div className=" value-proposition__text">
-                          <strong className="rc-margin-bottom--none LongBannerSomeFontsize">
-                            <FormattedMessage
-                              id={'PreciseCatNutrition.LongBanner.benefits3'}
-                            />
-                          </strong>
+                      </div>
+                      <div className="col-12 col-md-4 col-xxl-4 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-4 pl-xxl-4 justify-content-center">
+                        <div className=" justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn flex-column">
+                          <div
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'center'
+                            }}
+                          >
+                            <LazyLoad
+                              height={143}
+                              className="justify-content-center align-items-center"
+                              style={{ display: 'flex' }}
+                            >
+                              <img
+                                className="value-proposition__img1 lazyl oaded"
+                                src={benefitsthree}
+                              />
+                            </LazyLoad>
+                          </div>
+                          <div className=" value-proposition__text">
+                            <strong className="rc-margin-bottom--none LongBannerSomeFontsize">
+                              <FormattedMessage
+                                id={'PreciseCatNutrition.LongBanner.benefits3'}
+                              />
+                            </strong>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -273,7 +296,6 @@ const LongBanner = () => {
               </div>
             </div>
           </div>
-        </div>
         </div>
       </div>
     </>

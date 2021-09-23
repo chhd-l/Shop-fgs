@@ -173,13 +173,23 @@ class AccountOrders extends React.Component {
         let tmpList = Array.from(res.context.content, (ele) => {
           const tradeState = ele.tradeState;
           ele.tradeItems.forEach((el) => {
-            el.spuName = judgeIsIndividual(el)
+            el.spuName = judgeIsIndividual(el) ? (
               // ? `${el.petsName}'s personalized subscription`
-              ? <FormattedMessage id='subscription.personalized' values={{ val1:el.petsName}} />
-              : el.spuName;
+              <FormattedMessage
+                id="subscription.personalized"
+                values={{ val1: el.petsName }}
+              />
+            ) : (
+              el.spuName
+            );
           });
           console.log('orderCategory:', ele.orderCategory);
+          console.log(
+            'isnotIndv:',
+            !ele.tradeItems?.find((el) => el.goodsInfoFlag == 3)
+          );
           // orderCategory为RECURRENT_AUTOSHIP为refill订单，需要隐藏repay按钮
+          // goodsInfoFlag=3是indv的商品，需要隐藏加入购物车这个按钮
           return Object.assign(ele, {
             canPayNow:
               ele.orderCategory !== 'RECURRENT_AUTOSHIP' &&
@@ -202,8 +212,9 @@ class AccountOrders extends React.Component {
               ele.payWay.toUpperCase() === 'OXXO',
             payNowLoading: false,
             canRePurchase:
-              tradeState.flowState === 'COMPLETED' ||
-              tradeState.flowState === 'VOID',
+              !ele.tradeItems?.find((el) => el.goodsInfoFlag == 3) &&
+              (tradeState.flowState === 'COMPLETED' ||
+                tradeState.flowState === 'VOID'),
             canReview:
               !!+window.__.env.REACT_APP_PDP_RATING_VISIBLE &&
               tradeState.flowState === 'COMPLETED' &&
@@ -892,10 +903,17 @@ class AccountOrders extends React.Component {
                                           </div>
                                           <div className="col-8 col-md-6">
                                             <span className="medium color-444 ui-text-overflow-line2">
-                                              {judgeIsIndividual(item)
+                                              {judgeIsIndividual(item) ? (
                                                 // ? (item.petsName || 'Your pet') + "'s personalized subscription"
-                                                ? <FormattedMessage id='subscription.personalized' values={{ val1:item.petsName}} />
-                                                : item.spuName}
+                                                <FormattedMessage
+                                                  id="subscription.personalized"
+                                                  values={{
+                                                    val1: item.petsName
+                                                  }}
+                                                />
+                                              ) : (
+                                                item.spuName
+                                              )}
                                             </span>
                                             {judgeIsIndividual(item) ? (
                                               <span>{item.specDetails}</span>

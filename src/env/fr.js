@@ -62,7 +62,11 @@ const env_fr = {
     REACT_APP_HUB_GA: '1',
 
     REACT_APP_SEARCH_LINK:
-      '/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show'
+      '/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show',
+
+    // #mars global footer
+    REACT_APP_MARS_FOOTER:
+      'https://footer.mars.com/js/footer.js.aspx?royalcanin-com-fr'
   },
   development: {
     // #okta

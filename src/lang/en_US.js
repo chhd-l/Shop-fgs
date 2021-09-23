@@ -667,7 +667,7 @@ const en_US = {
   'ind.IND10003.title3': 'STOOL ODOUR REDUCTION',
   'ind.IND10003.des3':
     'Contains highly digestible protein (L.I.P.)* and helps reduce the quantity and odour of stools. {val} *L.I.P.: protein selected for its very high digestibility',
-  'ind.IND10003.img3': 'image25.png',
+  'ind.IND10003.img3': 'image35.png',
   'ind.IND10003.title4': 'URINARY HEALTH',
   'ind.IND10003.des4':
     "Formulated to help maintain health of an adult cat's urinary system.",
@@ -680,7 +680,7 @@ const en_US = {
   'ind.IND10004.title2': 'STOOL ODOUR REDUCTION',
   'ind.IND10004.des2':
     'Highly digestible protein helps reduce the quantity and odour of stools.',
-  'ind.IND10004.img2': 'image25.png',
+  'ind.IND10004.img2': 'image35.png',
   'ind.IND10004.title3': 'SKIN & COAT HEALTH',
   'ind.IND10004.des3':
     'Contains specific nutrients including EPA and DHA to help maintain a healthy skin and a shiny coat.',
@@ -697,7 +697,7 @@ const en_US = {
   'ind.IND10005.title2': 'STOOL ODOUR REDUCTION',
   'ind.IND10005.des2':
     'Highly digestible protein helps reduce the quantity and odour of stools.',
-  'ind.IND10005.img2': 'image25.png',
+  'ind.IND10005.img2': 'image35.png',
   'ind.IND10005.title3': 'RENAL HEALTH',
   'ind.IND10005.des3':
     'Helps support renal health thanks to an adapted phosphorus level.',
@@ -1283,7 +1283,7 @@ const en_US = {
   registerFeckbook: 'Connect with Facebook',
   registerFillIn: 'Please fill in this field',
   registerFooter1:
-    'You must be 13 years of age or older to submit a form. You can contact us at 1-844-673-3772 or click',
+    'You must be 18 years of age or older to submit a form. You can contact us at 1-844-673-3772 or click',
   registerGoogle: 'Connect with Google',
   registerHaveAccount: 'Already have an account?',
   registerLength: '8 characters',
@@ -1591,7 +1591,7 @@ const en_US = {
   'ClubLP.discount.content': '10% OFF & FREE DELIVERY',
   'ClubLP.LongBanner.title':
     'GIVE YOUR PET A {val1} COMPLETE HEALTH SOLUTION, {val2} BY SUBSCRIPTION',
-  'ClubLP.LongBanner.content': 'starting from 19.90€ /refill',
+  'ClubLP.LongBanner.content': 'starting from 19.90 € / refill',
   'ClubLP.LongBanner.button': 'Try it now',
   'ClubLP.LongBanner.content2': 'Free from engagement',
   'ClubLP.LongBanner.SubscriptionTitle':
