@@ -48,6 +48,9 @@ service.interceptors.request.use((config) => {
   config.headers['X-Content-Type-Options'] = 'nosniff';
   config.headers['Permissions-Policy'] = 'microphone=()';
   config.headers['Referrer-Policy'] = 'no-referrer';
+  config.headers['X-Frame-Options'] = 'sameorigin';
+  config.headers['Strict-Transport-Security'] =
+    'max-age=31536000; includeSubDomains';
 
   // 添加取消标记
   config.cancelToken = new axios.CancelToken((cancel) => {
