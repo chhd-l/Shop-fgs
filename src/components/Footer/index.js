@@ -256,7 +256,8 @@ class Footer extends React.Component {
                 <a
                   style={{
                     display:
-                      window.__.env.REACT_APP_COUNTRY == 'fr'
+                      window.__.env.REACT_APP_COUNTRY == 'fr' ||
+                      window.__.env.REACT_APP_COUNTRY == 'tr'
                         ? 'none'
                         : 'inline-block'
                   }}

@@ -70,7 +70,7 @@ export default function QuestionnaireRadio({ questionData }) {
     <div className="questionnaire-radio">
       <div className="question-title">
         {questionData.metadata.label}
-        <Tooltips isArray={true} isIdea={true} />
+        <Tooltips isArray={true} isIdea={true} isBsc={true} />
       </div>
       <div className="questionnaire-radio-options">
         {(questionData.possibleValues || []).map((ele, i) => (

@@ -235,7 +235,7 @@ class Confirmation extends React.Component {
         <DistributeHubLinkOrATag
           href=""
           to="/home"
-          className="rc-meta rc-styled-link backtohome mb-0 text-ellipsis"
+          className="rc-meta rc-styled-link backtohome mb-0 text-ellipsis pb-0"
         >
           <FormattedMessage id="continueShopping" />
         </DistributeHubLinkOrATag>
@@ -596,7 +596,7 @@ class Confirmation extends React.Component {
                       <DistributeHubLinkOrATag
                         href=""
                         to="/home"
-                        className="rc-meta rc-styled-link backtohome mb-0"
+                        className="rc-meta rc-styled-link backtohome mb-0  pb-0"
                       >
                         <FormattedMessage id="continueShopping" />
                       </DistributeHubLinkOrATag>

@@ -454,7 +454,7 @@ class ContactUs extends Component {
                   concern, and will not be used for marketing purposes.
                   <br />
                 </em>
-                <em>You must be 13 years old or older to submit a form.</em>
+                <em>You must be 18 years old or older to submit a form.</em>
               </p>
             </div>
           </div>

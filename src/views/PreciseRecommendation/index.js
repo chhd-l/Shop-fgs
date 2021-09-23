@@ -83,7 +83,7 @@ class PreciseRecommendation extends React.Component {
   async getProductInfo() {
     let productString = sessionItemRoyal.get('nutrition-recommendation-filter');
     let res = productString && JSON.parse(productString);
-    if (res) {
+    if (res.nextPageIsReco) {
       let productId = res.goodsInfo.goodsInfoNo;
       let productShowInfo = productList[productId];
       let recommData = res;
@@ -291,6 +291,7 @@ class PreciseRecommendation extends React.Component {
                                   <h4
                                     className="rc-beta font-weight-bold text-lg-left text-center"
                                     style={{
+                                      textTransform: 'uppercase',
                                       fontSize: isMobile ? '18px' : null
                                     }}
                                   >
@@ -303,7 +304,13 @@ class PreciseRecommendation extends React.Component {
                                     />
                                   </h4>
                                   <div className="text-lg-left text-center rc-padding-right--sm--desktop">
-                                    <FormattedMessage id="preciseNutrition.Below.content" />
+                                    <FormattedMessage
+                                      id="preciseNutrition.Below.content"
+                                      values={{
+                                        val: this.state.recommData
+                                          ?.customerPetsVo?.name
+                                      }}
+                                    />
                                   </div>
                                   <div className="text-lg-left text-center mb-3">
                                     <FormattedMessage id="preciseNutrition.Below.list" />

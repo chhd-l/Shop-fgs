@@ -46,12 +46,12 @@ class ConfigStore {
 
   // homeDelivery 开关
   @computed get isHomeDeliveryOpen() {
-    return this.info?.deliveryConfig?.HOME_DELIVERY || null;
+    return this.info?.deliveryConfig?.HOME_DELIVERY;
   }
 
   // pickup 开关
   @computed get isPickupOpen() {
-    return this.info?.deliveryConfig?.PICK_UP || null;
+    return this.info?.deliveryConfig?.PICK_UP;
   }
 
   // 买入价格开关 0：含税，1：不含税

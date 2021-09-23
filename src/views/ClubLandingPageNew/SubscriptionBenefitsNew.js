@@ -65,11 +65,7 @@ const SubsriptionBenefitsNew = () => {
                           style={{ width: '100px', height: '100px' }}
                           alt="Брендированный подарок при каждой доставке"
                           title="ideal formula"
-                          src={
-                            window.__.env.REACT_APP_COUNTRY == 'tr'
-                              ? discountnewtr
-                              : discountnew
-                          }
+                          src={discountnew}
                         />
                       </LazyLoad>
                     </div>
@@ -214,6 +210,13 @@ const SubsriptionBenefitsNew = () => {
               ariaLabel="Links to product finder"
             >
               <button
+                onClick={() => {
+                  window.__.env.REACT_APP_COUNTRY == 'ru' &&
+                    dataLayer.push({
+                      event: 'ruClubSubscriptionCtA',
+                      ruClubSubscriptionCtAName: 'Join the club - Middle'
+                    });
+                }}
                 className="rc-btn rc-btn--one"
                 style={{
                   paddingLeft: '90px',

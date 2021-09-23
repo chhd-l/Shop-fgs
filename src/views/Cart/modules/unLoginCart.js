@@ -1116,12 +1116,8 @@ class UnLoginCart extends React.Component {
     );
   };
   sideCart({ className = '', style = {}, id = '' } = {}) {
-    const {
-      checkoutLoading,
-      discount,
-      mobileCartVisibleKey,
-      promotionCode
-    } = this.state;
+    const { checkoutLoading, discount, mobileCartVisibleKey, promotionCode } =
+      this.state;
     const { checkoutStore } = this.props;
     const subtractionSign = '-';
     return (
@@ -1145,7 +1141,8 @@ class UnLoginCart extends React.Component {
                 style={{
                   width: '150px',
                   marginBottom: '.625rem',
-                  overflow: 'hidden'
+                  overflow: 'hidden',
+                  marginTop: '0px'
                 }}
               >
                 <FormattedMessage id="promotionCode">
