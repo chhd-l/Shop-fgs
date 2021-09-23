@@ -750,6 +750,7 @@ class AddressList extends React.Component {
       isPickupOpen
     } = this.state;
 
+    console.log('666 >>> account isPickupOpen: ', isPickupOpen);
     return (
       <div>
         {listLoading ? (
