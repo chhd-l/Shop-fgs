@@ -30,10 +30,10 @@ const en_US = {
   'account.catOrDog': 'Do you have a cat or dog?',
   'account.dateTip': 'Please select a past date.',
   'account.dog': 'Dog',
-  'account.Email': 'Email Address',
+  'account.Email': 'Email address',
   'account.enterBirthDare': 'Enter the date of birth of your pet.',
   'account.faqTip':
-    'If you have any questions, we are always ready to help you and your pet',
+    "We're here to help! View our most frequently asked questions and get the answers you need.",
   'account.faqTitle': 'FAQ',
   'account.features': 'What special needs does your pet have?',
   'account.feedSubscription': 'Feed Subscription',
@@ -45,7 +45,7 @@ const en_US = {
     'If you have questions, we are always ready to help you and your pet.',
   'account.male': 'Male',
   'account.mixBreed': 'Mix breed',
-  'account.myAccount': 'My Contact Information',
+  'account.myAccount': 'My details',
   'account.myAddresses': 'My Addresses',
   'account.myCommunicationPreferencesContent1':
     'Perferred method of communication',
@@ -54,7 +54,7 @@ const en_US = {
   'account.myCommunicationPreferencesDesc':
     'Please click Edit to set your communication preferences.',
   'account.myCommunicationPreferencesTitle': 'My Communication Preferences',
-  'account.myPayments': 'My Payment Methods',
+  'account.myPayments': 'Payment methods',
   'account.nickname': "What is your pet's nickname?",
   'account.no': 'No',
   'account.noPet':
@@ -65,22 +65,22 @@ const en_US = {
   'account.notRegistred': 'New customer?',
   'account.of': 'of',
   'account.orders': 'Orders',
-  'account.orders.btns': 'Start Shopping',
+  'account.orders.btns': 'Buy now',
   'account.orders.tips':
     "You haven't placed any orders yet. Start shopping now for precise nutrition for your pet.",
   'account.ordersTip':
     'Check the status of current orders and see the history of previous ones.',
-  'account.ordersTitle': 'My Orders',
+  'account.ordersTitle': 'Orders',
   'account.paymentMethod': 'Payment method',
   'account.paymentMethodTip': 'View and update payment information',
   'account.personalArea': 'My account',
   'account.personalData': 'Personal data',
-  'account.pets': 'My Pets',
+  'account.pets': 'Pets',
   'account.petsTip': 'Create and manage your pet profiles.',
-  'account.petsTitle': 'My Pets',
+  'account.petsTitle': 'Pets',
   'account.preferredContactMethod': 'Preferred Contact Method',
   'account.preferredMethodOfCommunication': 'Preferred method of communication',
-  'account.profile': 'My Profile',
+  'account.profile': 'My details',
   'account.profileTip': 'View and edit your personal information.',
   'account.requiredFields': 'Required fields',
   'account.shippingAddressTip': 'Create and edit your shipping address.',
@@ -89,8 +89,8 @@ const en_US = {
   'account.step': 'Step',
   'account.sterilized': 'Is your pet sterilized?',
   'account.subscription': 'My Club Shipments',
-  'account.subscriptionTip': 'View and change your membership settings.',
-  'account.subscriptionTitle': 'My Club Shipments',
+  'account.subscriptionTip': 'View and manage your subscriptions.',
+  'account.subscriptionTitle': 'Subscriptions',
   'account.TheAddressBook': 'The address book',
   'account.toComeIn': 'To come in',
   'account.unknownBreed': 'Unknown breed',
@@ -191,7 +191,7 @@ const en_US = {
   //We’re ready to help you with any further questions you might have about the Smart Feeder Subscription.
   'smartFeederSubscription.viewProductDetails': 'voir les détails du produit',
   active: 'Active',
-  addANewAddress: 'Add a new Address',
+  addANewAddress: 'add a new address',
   addANewPaymentMethod: 'Add a new payment method',
   addedtoCart: 'Added To Cart',
   addNewCreditCard: 'Add new credit card',
@@ -220,6 +220,7 @@ const en_US = {
   autoship_nos: 'Autoship',
   autoShipOrderDetails: 'Autoship order details',
   autoShipStarted: 'Autoship started',
+  autoShipStarted2: 'Autoship started',
   autoshop: 'Automatic Shipping',
   backToAuthorization: 'Back to authorization',
   bankCard: 'Credit Card',
@@ -229,7 +230,7 @@ const en_US = {
   billing: 'BILLING',
   billing2: 'Billing Address',
   billingAddress: 'Billing Address',
-  birthday: 'Birthday',
+  birthday: 'Date of Birth',
   breed: 'Breed',
   callUs: 'Call us',
   cancel: 'Cancel',
@@ -582,7 +583,7 @@ const en_US = {
   'help.tip4': 'They can answer any problems at any time.',
   'help.title': 'Need help?',
   here: 'here to contact us',
-  home: 'My Account',
+  home: 'Home',
   'home.convenientTip1':
     'Selection of a diet according to the needs of your pet',
   'home.convenientTip2': 'Fast free shipping when ordering from {val}.',
@@ -601,7 +602,7 @@ const en_US = {
   'home.point5': 'HEALTH IS OUR OBSESSION SINCE 1968',
   'home.point6': 'TOGETHER, WITH YOU.',
   'home.productsCategory': 'Find Your Formula',
-  'home.promotionTip': '30% off first purchase',
+  'home.promotionTip': '5% off every autoship order',
   'home.specialAnimalNutrition': 'Special animal nutrition',
   'home.specialInfo1': 'The splendor of each breed is',
   'home.specialInfo2': 'in its uniqueness.',
@@ -666,7 +667,7 @@ const en_US = {
   'ind.IND10003.title3': 'STOOL ODOUR REDUCTION',
   'ind.IND10003.des3':
     'Contains highly digestible protein (L.I.P.)* and helps reduce the quantity and odour of stools. {val} *L.I.P.: protein selected for its very high digestibility',
-  'ind.IND10003.img3': 'image35.png',
+  'ind.IND10003.img3': 'image25.png',
   'ind.IND10003.title4': 'URINARY HEALTH',
   'ind.IND10003.des4':
     "Formulated to help maintain health of an adult cat's urinary system.",
@@ -679,7 +680,7 @@ const en_US = {
   'ind.IND10004.title2': 'STOOL ODOUR REDUCTION',
   'ind.IND10004.des2':
     'Highly digestible protein helps reduce the quantity and odour of stools.',
-  'ind.IND10004.img2': 'image35.png',
+  'ind.IND10004.img2': 'image25.png',
   'ind.IND10004.title3': 'SKIN & COAT HEALTH',
   'ind.IND10004.des3':
     'Contains specific nutrients including EPA and DHA to help maintain a healthy skin and a shiny coat.',
@@ -696,7 +697,7 @@ const en_US = {
   'ind.IND10005.title2': 'STOOL ODOUR REDUCTION',
   'ind.IND10005.des2':
     'Highly digestible protein helps reduce the quantity and odour of stools.',
-  'ind.IND10005.img2': 'image35.png',
+  'ind.IND10005.img2': 'image25.png',
   'ind.IND10005.title3': 'RENAL HEALTH',
   'ind.IND10005.des3':
     'Helps support renal health thanks to an adapted phosphorus level.',
@@ -894,7 +895,7 @@ const en_US = {
   newPassword: 'New Password',
   next: 'Next',
   back: 'Back',
-  nextShipment: 'Next shipment',
+  nextShipment: 'Next delivery',
   noClinicTip:
     'Your recommendation code is not valid. {val} & check with our partner clinics for a valid code.',
   noDefaultClinic: 'No default clinic',
@@ -944,7 +945,7 @@ const en_US = {
   'order.returnStatus': 'Return Status',
   'order.shippingStatus': 'Shipping Status',
   'order.toBeDeliveredTip':
-    'Your order has been successfully paid and we are preparing to ship.',
+    'Your order has been placed successfully and we are preparing to deliver it.',
   'orderStatus.INITTip':
     'Your order has not been paid, please pay as soon as possible. {val}',
   'order.total': 'Total',
@@ -1224,7 +1225,7 @@ const en_US = {
     'Our Autoship service is designed to simplify your life and ensure you always get the best diet for your pet delivered directly to your doorstep.',
   'recommendation.firstTitle':
     'Discover your personally-selected nutrition recommendation below.',
-  'recommendation.firstTitle': 'Never run out of your pet’s food!',
+  // 'recommendation.firstTitle': 'Never run out of your pet’s food!',
   'recommendation.helpContentText.title': "We're Here to Help",
   'recommendation.helpContentText.des':
     "As true pet lovers and experts in tailored nutrition, we're here to help you give your pet the healthiest life possible.",
@@ -1270,9 +1271,9 @@ const en_US = {
   registerAname: 'A number',
   registerCloud: 'Commerce Cloud Storefront reference architecture',
   registerCompleteForm:
-    'In order to create your account, please complete the form below.',
+    'In order to create your account, please fill in your details.',
   registerContinuing:
-    'By continuing you agree to our MARS privacy policy. We will collect and use your name and email address to provide you with a personalized experience.',
+    'By continuing you agree to our MARS privacy policy. We will collect and use your first name, last name and email address to provide you with a personalised experience. Link to the policy here?',
   registerCreateYourAccout: 'Create your Royal Canin account',
   registerEmail: 'Email address',
   registerEmailFormate:
@@ -1590,7 +1591,7 @@ const en_US = {
   'ClubLP.discount.content': '10% OFF & FREE DELIVERY',
   'ClubLP.LongBanner.title':
     'GIVE YOUR PET A {val1} COMPLETE HEALTH SOLUTION, {val2} BY SUBSCRIPTION',
-  'ClubLP.LongBanner.content': 'starting from 19.90 € / refill',
+  'ClubLP.LongBanner.content': 'starting from 19.90€ /refill',
   'ClubLP.LongBanner.button': 'Try it now',
   'ClubLP.LongBanner.content2': 'Free from engagement',
   'ClubLP.LongBanner.SubscriptionTitle':
@@ -1789,6 +1790,8 @@ const en_US = {
     '1. Look at your cat from above and from the side',
   'preciseNutrition.bscTip2':
     '2. Feel your cat’s body, gently applying pressure to find the ribs',
-  'productFinder.mixBreed': 'Mix breed'
+  'productFinder.mixBreed': 'Mix breed',
+  'productFinder.weight': 'weight',
+  'New Pet': 'Add a pet'
 };
 export default en_US;
