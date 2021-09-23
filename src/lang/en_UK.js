@@ -602,7 +602,7 @@ const en_US = {
   'home.point5': 'HEALTH IS OUR OBSESSION SINCE 1968',
   'home.point6': 'TOGETHER, WITH YOU.',
   'home.productsCategory': 'Find Your Formula',
-  'home.promotionTip': '30% off first purchase',
+  'home.promotionTip': '5% off every autoship order',
   'home.specialAnimalNutrition': 'Special animal nutrition',
   'home.specialInfo1': 'The splendor of each breed is',
   'home.specialInfo2': 'in its uniqueness.',
