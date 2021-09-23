@@ -389,7 +389,7 @@ class SubscriptionDetail extends React.Component {
               />
             );
 
-            item.specDetails = item.num / 1000 + 'kg';
+            // item.specDetails = item.num / 1000 + 'kg';
             item.num = 1;
             // item.goodsName = `${subDetail?.petsInfo?.petsName}'s personalized subscription`;
             item.goodsName = (
