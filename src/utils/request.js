@@ -45,6 +45,10 @@ service.interceptors.request.use((config) => {
     cn: 'zh-CN'
   }[window.__.env.REACT_APP_COUNTRY];
   config.headers['storeId'] = window.__.env.REACT_APP_STOREID;
+  config.headers['X-Content-Type-Options'] = 'nosniff';
+  config.headers['Permissions-Policy'] = 'microphone=()';
+  config.headers['Referrer-Policy'] = 'no-referrer';
+
   // 添加取消标记
   config.cancelToken = new axios.CancelToken((cancel) => {
     window.axiosCancel = window.axiosCancel || [];
