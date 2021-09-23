@@ -1204,7 +1204,9 @@ class AddressList extends React.Component {
     }, 2000);
   }
   toggleFoldBtn = () => {
-    this.setState((curState) => ({ foledMore: !curState.foledMore }));
+    this.setState((curState) => ({
+      foledMore: !curState.foledMore
+    }));
   };
   titleJSXForPrepare() {
     const { titleVisible } = this.props;
@@ -1327,131 +1329,138 @@ class AddressList extends React.Component {
     if (!city) {
       return;
     }
-    console.log('666 >>> deliveryType : ', deliveryType);
-    this.setState({ validationLoading: true });
-    let res = await pickupQueryCity({ keyword: city });
-    let robj = res?.context?.pickUpQueryCityDTOs || [];
-    if (robj) {
-      let data = robj[0];
+    // console.log('666 >>> deliveryType : ', deliveryType);
+    try {
+      this.setState({ validationLoading: true });
+      let res = await pickupQueryCity({ keyword: city });
+      let robj = res?.context?.pickUpQueryCityDTOs || [];
+      if (robj) {
+        let data = robj[0];
 
-      let goodsInfoDetails = [];
-      // 取到购物车里面的 goodsInfoId、购买的sku数量
-      let cartData = this.props.cartData.filter((el) => el.goodsInfoId);
-      cartData.forEach((e) => {
-        goodsInfoDetails.push({
-          goodsInfoId: e.goodsInfoId,
-          quantity: e.buyCount
+        let goodsInfoDetails = [];
+        // 取到购物车里面的 goodsInfoId、购买的sku数量
+        let cartData = this.props.cartData.filter((el) => el.goodsInfoId);
+        cartData.forEach((e) => {
+          goodsInfoDetails.push({
+            goodsInfoId: e.goodsInfoId,
+            quantity: e.buyCount
+          });
         });
-      });
-      // 合并包裹
-      let ckg = await dimensionsByPackage({
-        goodsInfoDetails: goodsInfoDetails
-      });
-      // console.log('666 >>> list 合并包裹: ', ckg);
-      if (ckg.context?.dimensions) {
-        let ckgobj = ckg.context;
-        data['dimensions'] = ckgobj.dimensions;
-        data['weight'] = ckgobj.weight;
-      }
-
-      // 根据城市信息查询运费
-      let rfee = await pickupQueryCityFee(data);
-      if (rfee.context?.tariffs.length) {
-        let obj = rfee.context.tariffs;
-
-        let addstr = '';
-        // 有homeDelivery地址，没有pickup地址
-        if (addressList.length && !pickupAddress.length) {
-          addstr = 'COURIER';
-        }
-        // 有pickup地址，没有homeDelivery地址
-        if (!addressList.length && pickupAddress.length) {
-          addstr = 'PVZ';
-        }
-        // 两个都有时，如果有默认地址，则选择默认
-        if (addressList.length && pickupAddress.length) {
-          allAddressList.map((e) => {
-            // 有默认地址
-            if (e.isDefaltAddress == 1) {
-              if (e.receiveType === 'PICK_UP') {
-                addstr = 'PVZ';
-              } else {
-                addstr = 'COURIER';
-              }
-            }
-          });
-          addstr ? addstr : (addstr = 'COURIER');
+        // 合并包裹
+        let ckg = await dimensionsByPackage({
+          goodsInfoDetails: goodsInfoDetails
+        });
+        // console.log('666 >>> list 合并包裹: ', ckg);
+        if (ckg.context?.dimensions) {
+          let ckgobj = ckg.context;
+          data['dimensions'] = ckgobj.dimensions;
+          data['weight'] = ckgobj.weight;
         }
 
-        if (obj?.length) {
-          let hpobj = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
-          hpobj = JSON.parse(hpobj);
+        // 根据城市信息查询运费
+        let rfee = await pickupQueryCityFee(data);
+        if (rfee.context?.tariffs.length) {
+          let obj = rfee.context.tariffs;
 
-          obj.map((e, i) => {
-            let tp = e.type;
-            e.selected = false;
-            obj.length === 1 ? (e.selected = true) : '';
-            if (tp == addstr) {
-              e.selected = true;
-            } else {
-              e.selected = false;
-            }
-
-            // 修改类型名称，方便阅读
-            tp === 'COURIER' ? (e.type = 'homeDelivery') : (e.type = 'pickup');
-            if (e.type == 'homeDelivery') {
-              // 'COURIER'=> home delivery
-              let hdAddr = obj.filter((e) => e.type == 'homeDelivery');
-              let dprice = hdAddr[0]?.deliveryPrice;
-              e.deliveryPrice = dprice;
-              if (hpobj?.homeAndPickup) {
-                hpobj.homeAndPickup.map((e) => {
-                  if (e.type === 'homeDelivery') {
-                    e.deliveryPrice = dprice;
-                  }
-                });
+          let addstr = '';
+          // 有homeDelivery地址，没有pickup地址
+          if (addressList.length && !pickupAddress.length) {
+            addstr = 'COURIER';
+          }
+          // 有pickup地址，没有homeDelivery地址
+          if (!addressList.length && pickupAddress.length) {
+            addstr = 'PVZ';
+          }
+          // 两个都有时，如果有默认地址，则选择默认
+          if (addressList.length && pickupAddress.length) {
+            allAddressList.map((e) => {
+              // 有默认地址
+              if (e.isDefaltAddress == 1) {
+                if (e.receiveType === 'PICK_UP') {
+                  addstr = 'PVZ';
+                } else {
+                  addstr = 'COURIER';
+                }
               }
-            }
-
-            if (e.type == 'pickup') {
-              // 'PVZ'=> pickup
-              let pkAddr = obj.filter((e) => e.type == 'pickup');
-              if (city === pickupAddress[0]?.city) {
-                e.maxDeliveryTime = pkAddr[0]?.maxDeliveryTime;
-                e.minDeliveryTime = pkAddr[0]?.minDeliveryTime;
-                this.setState({
-                  pickupCalculation: pkAddr[0]
-                });
-              }
-              if (!pkAddr.length) {
-                obj.splice(i, 1);
-                this.handleRadioChange('homeDelivery');
-              }
-            }
-          });
-
-          // 查询 homeDelivery 运费的时候不修改本地存储信息
-          if (deliveryType !== 'HOME_DELIVERY') {
-            if (!hpobj) {
-              hpobj = {
-                cityData: null,
-                homeAndPickup: obj
-              };
-            }
-            // 修改本地存储的信息
-            sessionItemRoyal.set(
-              'rc-homeDeliveryAndPickup',
-              JSON.stringify(hpobj)
-            );
-
-            this.setState({
-              homeAndPickup: Object.assign([], obj)
             });
+            addstr ? addstr : (addstr = 'COURIER');
+          }
+
+          if (obj?.length) {
+            let hpobj =
+              sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
+            hpobj = JSON.parse(hpobj);
+
+            obj.map((e, i) => {
+              let tp = e.type;
+              e.selected = false;
+              obj.length === 1 ? (e.selected = true) : '';
+              if (tp == addstr) {
+                e.selected = true;
+              } else {
+                e.selected = false;
+              }
+
+              // 修改类型名称，方便阅读
+              tp === 'COURIER'
+                ? (e.type = 'homeDelivery')
+                : (e.type = 'pickup');
+              if (e.type == 'homeDelivery') {
+                // 'COURIER'=> home delivery
+                let hdAddr = obj.filter((e) => e.type == 'homeDelivery');
+                let dprice = hdAddr[0]?.deliveryPrice;
+                e.deliveryPrice = dprice;
+                if (hpobj?.homeAndPickup) {
+                  hpobj.homeAndPickup.map((e) => {
+                    if (e.type === 'homeDelivery') {
+                      e.deliveryPrice = dprice;
+                    }
+                  });
+                }
+              }
+
+              if (e.type == 'pickup') {
+                // 'PVZ'=> pickup
+                let pkAddr = obj.filter((e) => e.type == 'pickup');
+                if (city === pickupAddress[0]?.city) {
+                  e.maxDeliveryTime = pkAddr[0]?.maxDeliveryTime;
+                  e.minDeliveryTime = pkAddr[0]?.minDeliveryTime;
+                  this.setState({
+                    pickupCalculation: pkAddr[0]
+                  });
+                }
+                if (!pkAddr.length) {
+                  obj.splice(i, 1);
+                  this.handleRadioChange('homeDelivery');
+                }
+              }
+            });
+
+            // 查询 homeDelivery 运费的时候不修改本地存储信息
+            if (deliveryType !== 'HOME_DELIVERY') {
+              if (!hpobj) {
+                hpobj = {
+                  cityData: null,
+                  homeAndPickup: obj
+                };
+              }
+              // 修改本地存储的信息
+              sessionItemRoyal.set(
+                'rc-homeDeliveryAndPickup',
+                JSON.stringify(hpobj)
+              );
+
+              this.setState({
+                homeAndPickup: Object.assign([], obj)
+              });
+            }
           }
         }
+        this.setState({ validationLoading: false });
+      } else {
+        this.setState({ validationLoading: false });
       }
-      this.setState({ validationLoading: false });
-    } else {
+    } catch {
       this.setState({ validationLoading: false });
     }
   };
@@ -1994,7 +2003,6 @@ class AddressList extends React.Component {
       addOrEditPickup,
       loading,
       foledMore,
-      addressList,
       saveErrorMsg,
       successTipVisible,
       selectedId,
@@ -2003,6 +2011,7 @@ class AddressList extends React.Component {
       pickupFormData,
       pickupData,
       homeAndPickup,
+      addressList,
       allAddressList,
       pickupAddress,
       pickupEditNumber
@@ -2148,7 +2157,7 @@ class AddressList extends React.Component {
             {showOperateBtn ? (
               <>
                 <div className="rc-md-up">
-                  {addressList.length > 0 ? (
+                  {allAddressList.length > 0 ? (
                     <>
                       <span
                         className="rc-styled-link"
