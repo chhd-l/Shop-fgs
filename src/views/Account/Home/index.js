@@ -100,13 +100,15 @@ class AccountHome extends React.Component {
               <SideMenu type="Home" customCls="order-1 order-md-0 rc-md-up" />
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop order-0 order-md-0">
                 <p className="mb-0">
-                  <FormattedMessage
-                    id="account.warmNotice"
-                    values={{
-                      val: this.userInfo && this.userInfo.firstName,
-                      br: <br />
-                    }}
-                  />
+                  {window.__.env.REACT_APP_COUNTRY !== 'uk' ? (
+                    <FormattedMessage
+                      id="account.warmNotice"
+                      values={{
+                        val: this.userInfo && this.userInfo.firstName,
+                        br: <br />
+                      }}
+                    />
+                  ) : null}
                 </p>
                 <div className="clearfix" />
                 <div className="dashboard__profile-cards">
