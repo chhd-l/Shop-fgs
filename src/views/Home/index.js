@@ -633,9 +633,7 @@ class Home extends React.Component {
           </Helmet>
         ) : (
           <Helmet>
-            <title>
-              {this.state.seoConfig.title}-ajkhdkashdkashdkajshdkash
-            </title>
+            <title>{this.state.seoConfig.title}</title>
             <link rel="canonical" href={pageLink} />
             {renderLang('home')}
             <meta name="robots" content="noindex" />

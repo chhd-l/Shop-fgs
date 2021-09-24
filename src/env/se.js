@@ -18,8 +18,8 @@ const env = {
 
     // #language
     REACT_APP_LANG: 'se',
-    REACT_APP_NAVIGATOR_LANG: 'se',
-    REACT_APP_CURRENCY: 'USD',
+    REACT_APP_NAVIGATOR_LANG: 'sv',
+    REACT_APP_CURRENCY: 'SEK',
 
     // #storid
     REACT_APP_STOREID: '123457915',
@@ -102,7 +102,7 @@ const env = {
   shopsit: {
     // #okta
     REACT_APP_ACCESS_PATH: 'https://shopsit.royalcanin.com/se',
-    REACT_APP_CLIENT_ID: '0oa1dl89f1H6xlJ5L0x7',
+    REACT_APP_CLIENT_ID: '0oa22elmt4XWIrcNr0x7',
     REACT_APP_ISSUER: 'https://accountpreview.royalcanin.com/oauth2/default',
     REACT_APP_RedirectURL:
       'https://shopsit.royalcanin.com/se/implicit/callback',
@@ -132,7 +132,7 @@ const env = {
   shopuat: {
     // #okta
     REACT_APP_ACCESS_PATH: 'https://shopuat.royalcanin.com/se',
-    REACT_APP_CLIENT_ID: '0oa1dl89f1H6xlJ5L0x7',
+    REACT_APP_CLIENT_ID: '0oa22elmt4XWIrcNr0x7',
     REACT_APP_ISSUER: 'https://accountpreview.royalcanin.com/oauth2/default',
     REACT_APP_RedirectURL:
       'https://shopuat.royalcanin.com/se/implicit/callback',
@@ -162,7 +162,7 @@ const env = {
   shopstg: {
     // #okta
     REACT_APP_ACCESS_PATH: 'https://shopstg.royalcanin.com/se/',
-    REACT_APP_CLIENT_ID: '0oa1dl89f1H6xlJ5L0x7',
+    REACT_APP_CLIENT_ID: '0oa22elmt4XWIrcNr0x7',
     REACT_APP_ISSUER: 'https://accountpreview.royalcanin.com/oauth2/default',
     REACT_APP_RedirectURL:
       'https://shopstg.royalcanin.com/se/implicit/callback',

@@ -410,8 +410,13 @@ class PayProductInfo extends React.Component {
                           values={{
                             specText:
                               el.goodsInfoFlag == 3
-                                ? el.buyCount / 1000 + 'kg'
+                                ? (window.__.env.REACT_APP_COUNTRY == 'fr'
+                                    ? (el.buyCount / 1000)
+                                        .toString()
+                                        .replace('.', ',')
+                                    : el.buyCount / 1000) + ' kg '
                                 : el.specText,
+                            // el.specText,
                             buyCount: el.goodsInfoFlag == 3 ? 1 : el.buyCount
                           }}
                         />

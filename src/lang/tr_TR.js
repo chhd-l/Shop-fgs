@@ -1300,7 +1300,7 @@ const tr_TR = {
   'ClubLP.Advantage.button': 'Onun için en uygun mamayı bulun!',
   'ClubLP.SubscriptionBenefitsNew.title': 'HAYATINIZI KOLAYLAŞTIRIYORUZ!',
   'ClubLP.SubscriptionBenefitsNew.icon1': 'Otomatik Gönderim & Ücretsiz Kargo',
-  'ClubLP.SubscriptionBenefitsNew.icon2': 'Her siparişinizde %5 indirim',
+  'ClubLP.SubscriptionBenefitsNew.icon2': 'Her siparişinizde %10 indirim',
   'ClubLP.SubscriptionBenefitsNew.icon3': 'Beslenme danışmanı hizmeti',
   'ClubLP.SubscriptionBenefitsNew.icon4': 'Hoş geldin paketi & özel hediyeler',
   'ClubLP.SubscriptionBenefitsNew.icon5':
@@ -1318,7 +1318,7 @@ const tr_TR = {
   'ClubLP.GetMoreAd.Single.tip2': 'Ücretsiz kargo',
   'ClubLP.GetMoreAd.Club.tip1': 'Özel beslenme',
   'ClubLP.GetMoreAd.Club.tip2': 'Ücretsiz kargo',
-  'ClubLP.GetMoreAd.Club.tip3': 'Her siparişinizde %5 indirim',
+  'ClubLP.GetMoreAd.Club.tip3': 'Her siparişinizde %10 indirim',
   'ClubLP.GetMoreAd.Club.tip4': 'Kapınıza gelen otomatik sipariş',
   'ClubLP.GetMoreAd.Club.tip5': 'Kişiselleştirilmiş Haber Bültenleri',
   'ClubLP.GetMoreAd.Club.tip6': 'Hoş geldin paketi ',

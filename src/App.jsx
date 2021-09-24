@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-
 import React, { useEffect } from 'react';
 import {
   BrowserRouter as Router,
@@ -34,7 +33,7 @@ import stores from './store';
 import { PDP_Regex } from '@/utils/constant';
 import { redirectFun } from '@/redirect/utils';
 import '@/utils/init';
-import {stgShowAuth} from '@/utils/utils'
+import { stgShowAuth } from '@/utils/utils';
 import ScrollToTop from '@/components/ScrollToTop';
 import RouteFilter from '@/components/RouteFilter';
 const Home = loadable(() => import('@/views/Home'), 'rc-carousel');
@@ -176,7 +175,9 @@ const VetLandingPage = loadable(() =>
   import('@/views/ClubLandingPage/vetlandingpage')
 );
 const ClubLandingPageNew = loadable(() => import('@/views/ClubLandingPageNew'));
-const PreciseRecommendation = loadable(() => import('@/views/PreciseRecommendation'));
+const PreciseRecommendation = loadable(() =>
+  import('@/views/PreciseRecommendation')
+);
 // import PreciseRecommendation from './views/PreciseRecommendation';
 // const ClubLandingPageNew = loadable(() => import('@/views/ClubLandingPageNew'));
 const ClubLandingPageDe = loadable(() =>
@@ -188,6 +189,12 @@ const ClubLandingPageDeVet = loadable(() =>
 const DedicatedLandingPage = loadable(() =>
   import('@/views/DedicatedLandingPage')
 );
+// const Felin = loadable(() =>
+//   import('@/views/Felin')
+// );
+// const FelinRecommendation = loadable(() =>
+//   import('@/views/FelinRecommendation')
+// );
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -312,8 +319,17 @@ const App = () => {
                   render={() => <ImplicitLogin />}
                 />
 
-                <Route exact path="/precise-cat-nutrition-recommendation" 
-                  render={(props)=>stgShowAuth()?<PreciseRecommendation {...props}/>:<List key={props.location.search} {...props} />}/>
+                <Route
+                  exact
+                  path="/precise-cat-nutrition-recommendation"
+                  render={(props) =>
+                    stgShowAuth() ? (
+                      <PreciseRecommendation {...props} />
+                    ) : (
+                      <List key={props.location.search} {...props} />
+                    )
+                  }
+                />
 
                 <Route path="/requestinvoice" component={RequestInvoices} />
                 <Route exact path="/cart" component={Cart} />
@@ -343,8 +359,17 @@ const App = () => {
                 />
                 <Route exact path="/Adyen3DSFail" component={Adyen3DSFail} />
                 <Route exact path="/prescription" component={Prescription} />
-                <Route exact path="/precise-cat-nutrition" 
-                render={(props)=>stgShowAuth()?<PreciseCatNutrition {...props}/>:<List key={props.location.search} {...props} />} />
+                <Route
+                  exact
+                  path="/precise-cat-nutrition"
+                  render={(props) =>
+                    stgShowAuth() ? (
+                      <PreciseCatNutrition {...props} />
+                    ) : (
+                      <List key={props.location.search} {...props} />
+                    )
+                  }
+                />
                 <Route exact path="/makerHandle" component={MakerHandle} />
                 <Route
                   exact
@@ -690,6 +715,11 @@ const App = () => {
                   )}
                 />
                 <Route exact sensitive path="/FAQ" component={Exception} />
+                {/* <Route
+                  path="/FelinRecommendation/:id"
+                  component={FelinRecommendation}
+                />
+                <Route path="/latelier/felin" component={Felin} /> */}
                 <Route
                   path="/"
                   render={(props) => {

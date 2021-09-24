@@ -121,7 +121,7 @@ class PreciseCatNutrition extends React.Component {
           />
           {/*{this.state.loading ? <Loading /> : null}*/}
           <main className={'rc-content--fixed-header'}>
-            <BannerTip />
+            {/*<BannerTip />*/}
             {/*<div*/}
             {/*  style={{*/}
             {/*    textAlign: 'center',*/}
@@ -137,7 +137,7 @@ class PreciseCatNutrition extends React.Component {
             {/*</div>*/}
 
             <LongBanner />
-            <br/>
+            <br />
             {/*<div style={{*/}
             {/*  height: 828,*/}
             {/*  background: "linear-gradient(white, #d8d8d8)",*/}
@@ -242,6 +242,7 @@ class PreciseCatNutrition extends React.Component {
                                 justifyContent: 'center',
                                 with: '100%'
                               }}
+                              height={210}
                             >
                               <img
                                 alt="With the Subscription, they will always have what they need"
@@ -312,7 +313,7 @@ class PreciseCatNutrition extends React.Component {
               </div>
             </div>
 
-            <br/>
+            <br />
             {isMobile ? null : <Divider />}
 
             <div className="experience-component experience-layouts-1column">
@@ -418,19 +419,20 @@ class PreciseCatNutrition extends React.Component {
                                 <FormattedMessage id="PreciseCatNutrition.AdaptedFood.paragraph3" />
                               </a>
                               <div
-                                className="rc-margin-y--sm rc-padding-x--none detextcenter"
+                                className="w-100 rc-margin-y--sm rc-padding-x--none detextcenter"
                                 style={
                                   isMobile
                                     ? {
                                         position: 'absolute',
-                                        marginTop: '100%',
-                                        marginLeft: '5%'
+                                        marginTop: '100%'
+                                        // marginLeft: '10%',
+                                        // marginRight: '10%',
                                       }
                                     : null
                                 }
                               >
                                 <a onClick={() => this.toScroll('aboutPet')}>
-                                  <button className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs">
+                                  <button className="rc-btn rc-btn--sm rc-btn--two">
                                     <FormattedMessage id="PreciseCatNutrition.AdaptedFood.findFood" />
                                   </button>
                                 </a>
@@ -438,7 +440,7 @@ class PreciseCatNutrition extends React.Component {
                             </div>
                           </div>
                           <div className="rc-column">
-                            <div className="lazyload-wrapper1">
+                            <div className="lazyload-wrapper1" height={234}>
                               <img
                                 alt="With the Subscription, they will always have what they need"
                                 className="w-100 lazyloaded"
@@ -453,11 +455,11 @@ class PreciseCatNutrition extends React.Component {
                 </div>
               </div>
 
-              <div className="rc-max-width--xl rc-padding-x--md rc-padding-x--md--mobile flex flex-column align-items-center justify-content-center">
+              <div className="rc-max-width--xl rc-padding-x--xs rc-padding-x--md--mobile flex flex-column align-items-center justify-content-center">
                 <Subscription />
                 <br />
                 <br />
-                <br/>
+                <br />
                 <HowItWorks />
                 <br />
               </div>
@@ -488,10 +490,10 @@ class PreciseCatNutrition extends React.Component {
                   <div className="experience-component experience-layouts-cardcarousel">
                     <div className="rc-margin-bottom--md rc-margin-top--xl--mobile text-center">
                       <div className="rc-max-width--lg rc-padding-x--lg rc-margin-y--sm rc-margin-y--lg--mobile value-proposition text-left">
-                        <p style={{ marginBottom: 0,fontSize:12}}>
+                        <p style={{ marginBottom: 0, fontSize: 12 }}>
                           <FormattedMessage id="PreciseCatNutrition.Notes1" />
                         </p>
-                        <p style={{fontSize:12}}>
+                        <p style={{ fontSize: 12 }}>
                           <FormattedMessage id="PreciseCatNutrition.Notes2" />
                         </p>
                       </div>
@@ -509,7 +511,10 @@ class PreciseCatNutrition extends React.Component {
                     <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
                       <div className="rc-max-width--sm rc-padding-x--md--mobile  rc-margin-bottom--lg--mobile value-proposition">
                         <div>
-                          <h4 className="font-weight-normal rc-beta text-center  rc-margin-bottom--lg--mobile" style={{fontSize:27}}>
+                          <h4
+                            className="font-weight-normal rc-beta text-center  rc-margin-bottom--lg--mobile"
+                            style={{ fontSize: 27 }}
+                          >
                             {/*Address*/}
                             <FormattedMessage id="preciseNutrition.Address.title" />
                           </h4>

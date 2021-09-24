@@ -1150,7 +1150,7 @@ const ru_RU = {
   saveChange: 'Сохранить изменения',
   allOrders: 'Все заказы',
   single: 'Разовая покупка',
-  'order.orderPlacedOn': 'Дата отправки заказа',
+  'order.orderPlacedOn': 'Дата формирования заказа',
   autoShipOrderDetails: 'Детали Вашей подписки',
   transactionInfomation: 'Информация о транзакции',
   manage: 'Управлять',
@@ -1352,7 +1352,7 @@ const ru_RU = {
   'cart.autoshipSavedtip':
     'Вы сэкономите {discount} от данного заказа при подписке',
   prevShipmentOn: 'Дата формирования заказа',
-  nextShipmentOn: 'Дата отправки заказа',
+  nextShipmentOn: 'Дата формирования заказа',
   addedtoCart: 'Добавлено в корзину',
   goToCart: 'Перейти в корзину',
   'order.inTranistTip': 'Ваш заказ отправлен, и вы скоро получите товар. {val}',
