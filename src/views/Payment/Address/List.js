@@ -1350,16 +1350,16 @@ class AddressList extends React.Component {
         let ckg = await dimensionsByPackage({
           goodsInfoDetails: goodsInfoDetails
         });
-        // console.log('666 >>> list 合并包裹: ', ckg);
+        console.log('666 >>> list 合并包裹: ', ckg);
         if (ckg.context?.dimensions) {
           let ckgobj = ckg.context;
-          data['dimensions'] = ckgobj.dimensions;
-          data['weight'] = ckgobj.weight;
+          data['dimensions'] = ckgobj?.dimensions;
+          data['weight'] = ckgobj?.weight;
         }
 
         // 根据城市信息查询运费
         let rfee = await pickupQueryCityFee(data);
-        if (rfee.context?.tariffs.length) {
+        if (rfee.context?.tariffs?.length) {
           let obj = rfee.context.tariffs;
 
           let addstr = '';
