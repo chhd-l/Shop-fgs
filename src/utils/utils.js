@@ -106,7 +106,7 @@ export function stgShowAuth() {
     'tmj400a@yopmail.com',
     'tmj400b@yopmail.com',
     'tmj400c@yopmail.com',
-    ' tmj400d@yopmail.com',
+    'tmj400d@yopmail.com',
     'tmj400e@yopmail.com'
     // '000003003',
     // '000018001',
