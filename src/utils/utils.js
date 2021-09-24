@@ -102,7 +102,12 @@ export function stgShowAuth() {
     'elisa.brami@royalcanin.com',
     'victor.sing@royalcanin.com',
     'alba.beatriz.brito.guerrero@royalcanin.com',
-    'tmj300h@yopmail.com'
+    'tmj300h@yopmail.com',
+    'tmj400a@yopmail.com',
+    'tmj400b@yopmail.com',
+    'tmj400c@yopmail.com',
+    ' tmj400d@yopmail.com',
+    'tmj400e@yopmail.com'
     // '000003003',
     // '000018001',
     // '000030505',
