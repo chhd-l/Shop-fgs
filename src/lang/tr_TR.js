@@ -426,7 +426,8 @@ const tr_TR = {
   'home.convenientTip3': 'Evcil hayvan uzmanları ile iletişimde olun',
   'home.convenientTip4': 'Otomatik gönderimle evinizde mama bitmesin',
   'home.convenientTitle': 'Neden Royal Canin?',
-  'home.note1': '125 TL ve üzeri alışverişlerinizde Ücretsiz Kargo fırsatı!',
+  'home.note1':
+    'Tüm Club abonelik siparişlerinizde 10% indirim. 125 TL ve üzeri alışverişlerinizde Ücretsiz Kargo fırsatı!',
   'home.note2': '',
   'home.pageNotFound': 'Sayfa bulunamadı…',
   'home.pageNotFoundInfo': 'Üzgünüz, aradığınız sayfa mevcut değil.',
@@ -493,7 +494,7 @@ const tr_TR = {
   mailAddress: 'E-posta',
   mandatoryFieldsError: 'Doldurulmamış zorunlu alanlarınız var!',
   menu: 'Menü',
-  miniBasket: 'Tüm abonelik siparişlerinizde %5 indirim',
+  miniBasket: 'Tüm abonelik siparişlerinizde %10 indirim',
   MMYY: 'AA / YY',
   modalCancelAllContent:
     'Aşağıdaki tüm teslimatları iptal etmek istediğinizden emin misiniz?',
