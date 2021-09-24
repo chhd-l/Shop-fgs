@@ -52,7 +52,8 @@ const en_US = {
   'account.myCommunicationPreferencesContent2':
     'Consents given for communication',
   'account.myCommunicationPreferencesDesc':
-    'Please click Edit to set your communication preferences.',
+    'Följ Royal Canins information om kommunikation',
+  //'Please click Edit to set your communication preferences.',
   'account.myCommunicationPreferencesTitle': 'Mina kommunikationsinställningar',
   'account.myPayments': 'Mina betalningssätt',
   'account.nickname': "What is your pet's nickname?",
@@ -454,6 +455,9 @@ const en_US = {
   'details.theSize': 'The size',
   'details.unitPrice': 'Unit price',
   'details.youCanSave': 'You can save',
+  'details.buyFromRetailer': 'Köp genom en återförsäljare',
+  'details.buyFromRetailerTip':
+    'Priserna kan variera beroende på återförsäljare',
   dogs: 'DOGS',
   dogs2: 'Dogs',
   Dog: 'Hund',
@@ -1625,7 +1629,7 @@ const en_US = {
   'subscription.all': 'all',
   'subscription.autoship': 'autoship',
   'subscription.club': 'club',
-  'detail.subscriptionBuyTip': 'Subscription without participation',
+  'detail.subscriptionBuyTip': 'Prenumeration utan deltagande',
   'detail.contextp1': "Sorry We Couldn't Find Any Products!",
   'detail.contextp2': 'Please note this product may have been discontinued',
   //NewLandingpageClub
