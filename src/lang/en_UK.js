@@ -1796,6 +1796,7 @@ const en_US = {
   'New Pet': 'Add a pet',
   'header.User.faq': "FAQ's",
   'Your Pet is a…': 'My Pet is a…',
-  Activity: 'How active is your dog?'
+  Activity: 'How active is your dog?',
+  'Subscription.orderPostCodeHit': '* Please update the delivery address'
 };
 export default en_US;

@@ -15,7 +15,7 @@ const ClubItem = ({ subItem, history }) => {
   console.log(subItem, 'subItem------');
   return (
     <div
-      className="row rc-margin-x--none row align-items-center card-container pb-3 clubBox"
+      className="row rc-margin-x--none row align-items-center card-container pb-3 clubBox ClubItem-wrap"
       style={{ marginTop: '0', marginBottom: '1.25rem' }}
       key={subItem.subscribeId}
     >
@@ -33,9 +33,13 @@ const ClubItem = ({ subItem, history }) => {
               {filterOrderId({ orderNo: subItem.subscribeId })}
             </p>
           </div>
-          <div className="col-4 col-md-2" />
-          <div className="col-4 col-md-2" />
-          <div className="col-4 col-md-2 pl-4" />
+          {/*<div className="col-4 col-md-2" />*/}
+          {/*<div className="col-4 col-md-2" />*/}
+          {subItem.postCodeValidResponse.validFlag ? null : (
+            <div className="col-8 pl-4 order-hint">
+              <span>{subItem.postCodeValidResponse.alert}</span>
+            </div>
+          )}
         </div>
       </div>
       <div className="col-12 col-md-4 d-flex flex-wrap">

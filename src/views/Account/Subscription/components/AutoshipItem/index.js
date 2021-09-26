@@ -8,12 +8,15 @@ import Skeleton from 'react-skeleton-loader';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { IMG_DEFAULT } from '@/utils/constant';
 import { filterOrderId } from '@/utils/utils';
+import './index.less';
 const localItemRoyal = window.__.localItemRoyal;
+
 const AutoshipItem = ({ subItem, history }) => {
   const isMobile = getDeviceType() !== 'PC';
+
   return (
     <div
-      className="card-container autoshipBox"
+      className="card-container autoshipBox AutoshipItem-wrap"
       style={{ marginTop: '0', marginBottom: '1.25rem' }}
       key={subItem.subscribeId}
     >
@@ -31,9 +34,13 @@ const AutoshipItem = ({ subItem, history }) => {
               {filterOrderId({ orderNo: subItem.subscribeId })}
             </p>
           </div>
-          <div className="col-4 col-md-2" />
-          <div className="col-4 col-md-2" />
-          <div className="col-4 col-md-2 pl-4" />
+          {/*<div className="col-4 col-md-2" />*/}
+          {/*<div className="col-4 col-md-2" />*/}
+          {subItem.postCodeValidResponse.validFlag ? null : (
+            <div className="col-8 pl-4 order-hint">
+              <span>{subItem.postCodeValidResponse.alert}</span>
+            </div>
+          )}
         </div>
       </div>
       <div className="row rc-margin-x--none row align-items-center pt-3 pb-3 1111">

@@ -23,7 +23,9 @@ import {
   validData,
   matchNamefromDict,
   formatMoney,
-  getDeviceType
+  getDeviceType,
+  isCanVerifyBlacklistPostCode,
+  getAddressPostalCodeAlertMessage
 } from '@/utils/utils';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
@@ -266,7 +268,8 @@ class AddressList extends React.Component {
         return ele.isDefaltAddress === 1;
       });
 
-      // 有默认地址选中默认地址，没有默认地址选中第一个地址
+      // 有默认地址选中默认地址，没有默认地址选中第一个地
+      // 邮编属于黑名单不能选中
       let tmpId =
         selectedId ||
         (defaultAddressItem && defaultAddressItem.deliveryAddressId) ||
@@ -275,7 +278,8 @@ class AddressList extends React.Component {
 
       Array.from(
         addressList,
-        (ele) => (ele.selected = ele.deliveryAddressId === tmpId)
+        (ele) =>
+          (ele.selected = ele.deliveryAddressId === tmpId && ele.validFlag)
       );
 
       // 有数据并且 type=billing，判断是否有billingAddress
@@ -773,7 +777,12 @@ class AddressList extends React.Component {
     let { allAddressList, addressList } = this.state;
 
     Array.from(addressList, (a) => (a.selected = false));
-    addressList[idx].selected = true;
+    // 邮编属于黑名单 不能选择地址
+    if (isCanVerifyBlacklistPostCode && !addressList[idx].validFlag) {
+      addressList[idx].selected = false;
+    } else {
+      addressList[idx].selected = true;
+    }
 
     this.setState(
       {
@@ -2018,59 +2027,66 @@ class AddressList extends React.Component {
     } = this.state;
 
     // 地址列表
-    const _list = addressList.map((item, i) => (
-      <div
-        className={`rounded address-item ${
-          item.selected ? 'selected' : 'border'
-        } ${foledMore && !item.selected ? 'address-item-none' : ''} ${
-          !item.selected && i !== addressList.length - 1
-            ? 'border-bottom-0'
-            : ''
-        } mb-3`}
-        key={item.deliveryAddressId}
-        onClick={(e) => this.selectAddress(e, i)}
-      >
-        <div className="row align-items-center pt-3 pb-3 ml-3 mr-3 align_items_wrap">
-          <div
-            className="d-flex col-10 col-md-8 pl-1 pr-1"
-            style={{ flexDirection: 'column' }}
-          >
-            <span className="font-weight-bold">{item.consigneeName}</span>
-            <p className="pd-0 md-0" style={{ marginBottom: '0' }}>
-              {item.consigneeNumber}
-              <br />
-              {this.setAddressFields(item)}
-              {item.deliveryDate && item.timeSlot ? (
-                <>
-                  <br />
-                  {/* 格式化 delivery date 格式: 星期, 15 月份 */}
-                  {this.getFormatDeliveryDateStr(item.deliveryDate)}{' '}
-                  {item.timeSlot}
-                </>
-              ) : null}
-              {item.selected &&
-              item.timeSlot &&
-              this.props.saveAddressNumber < 2 ? (
-                <span style={{ display: 'block' }}>
-                  <FormattedMessage id="payment.editDeliveryDateAndTime" />
-                </span>
-              ) : null}
-            </p>
-          </div>
-          <div className="col-12 col-md-4 mt-md-0 mt-1 pl-0 pr-0 text-right font-weight-bold address_opt_btn ">
-            <span
-              className="border-bottom-2"
-              onClick={this.addOrEditAddress.bind(this, i)}
+    const _list = addressList.map((item, i) => {
+      return (
+        <div
+          className={`rounded address-item ${
+            item.selected ? 'selected' : 'border'
+          } ${!item?.validFlag ? 'forbid' : ''} ${
+            foledMore && !item.selected ? 'address-item-none' : ''
+          } ${
+            !item.selected && i !== addressList.length - 1
+              ? 'border-bottom-0'
+              : ''
+          } mb-3`}
+          key={item.deliveryAddressId}
+          onClick={(e) => this.selectAddress(e, i)}
+        >
+          <div className="row align-items-center pt-3 pb-3 ml-3 mr-3 align_items_wrap">
+            <div
+              className="d-flex col-10 col-md-8 pl-1 pr-1"
+              style={{ flexDirection: 'column' }}
             >
-              <FormattedMessage id="edit" />
-            </span>
-            <span className="select_this_address border-bottom-2">
-              <FormattedMessage id="selectThisAddress" />
-            </span>
+              <span className="font-weight-bold">{item.consigneeName}</span>
+              <p className="pd-0 md-0" style={{ marginBottom: '0' }}>
+                {item.consigneeNumber}
+                <br />
+                {this.setAddressFields(item)}
+                {item.deliveryDate && item.timeSlot ? (
+                  <>
+                    <br />
+                    {/* 格式化 delivery date 格式: 星期, 15 月份 */}
+                    {this.getFormatDeliveryDateStr(item.deliveryDate)}{' '}
+                    {item.timeSlot}
+                  </>
+                ) : null}
+                {item.selected &&
+                item.timeSlot &&
+                this.props.saveAddressNumber < 2 ? (
+                  <span style={{ display: 'block' }}>
+                    <FormattedMessage id="payment.editDeliveryDateAndTime" />
+                  </span>
+                ) : null}
+              </p>
+              {!item?.validFlag ? (
+                <div className="address-item-forbid">{item.alert}</div>
+              ) : null}
+            </div>
+            <div className="col-12 col-md-4 mt-md-0 mt-1 pl-0 pr-0 text-right font-weight-bold address_opt_btn ">
+              <span
+                className="border-bottom-2"
+                onClick={this.addOrEditAddress.bind(this, i)}
+              >
+                <FormattedMessage id="edit" />
+              </span>
+              <span className="select_this_address border-bottom-2">
+                <FormattedMessage id="selectThisAddress" />
+              </span>
+            </div>
           </div>
         </div>
-      </div>
-    ));
+      );
+    });
     // 显示更多地址
     const _foldBtn = (
       <div

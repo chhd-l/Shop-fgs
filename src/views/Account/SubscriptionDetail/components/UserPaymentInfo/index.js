@@ -88,6 +88,17 @@ const UserPaymentInfo = ({
               </a>
             )}
           </div>
+          {!currentDeliveryAddress.validFlag ? null : (
+            <div
+              style={{
+                color: '#e2001a',
+                padding: '6px 0'
+              }}
+            >
+              {currentDeliveryAddress.alert}
+            </div>
+          )}
+
           <div className="ml-1 subscription_detail_userinfo">
             {/* 姓名 */}
             <p className="mb-0 sd_mb_name">
