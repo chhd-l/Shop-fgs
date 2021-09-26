@@ -1269,7 +1269,7 @@ const fr_FR = {
   royalCaninClub: 'Royal Canin Club',
   'salesCategory.cat': 'Pour chat',
   'salesCategory.content':
-    'Chaque formule a été créée pour fournir une nutrition adaptée ses besoins de santé quels que {val1} soient sa taille, sa race, son âge ou son mode de vie.',
+    'Chaque formule a été créée pour fournir une nutrition à ses besoins de santé quels que {val1} soient sa taille, sa race, son âge ou son mode de vie.',
   'salesCategory.dog': 'Pour chien',
   //salesCategory
   'salesCategory.title': 'Découvrez nos {val1} gammes d’aliments',
@@ -1794,7 +1794,7 @@ const fr_FR = {
   'details.recommendedDaily.info': '{val}',
   'details.backRecommendedDaily': 'Retour à la page de recommandation',
   'details.findProductTip':
-    "Besoin d'aide pour trouver l'aliment adapté aux besoins de votre animal {btn}",
+    "Besoin d'aide pour trouver l'aliment adapté aux besoins de votre animal ? {btn}",
   'details.findProductTips': "Trouver l'aliment adapté",
   'details.learnMore': 'En savoir plus',
   'subscriptionDetail.cantBindPetsErr1':
