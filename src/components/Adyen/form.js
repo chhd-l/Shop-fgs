@@ -259,7 +259,11 @@ class AdyenCreditCardForm extends React.Component {
                     name="contactInformation"
                     onClick={this.handleClickCancel}
                   >
-                    <FormattedMessage id="cancel" />
+                    {window.__.env.REACT_APP_COUNTRY === 'uk' ? (
+                      <FormattedMessage id="Delete card" />
+                    ) : (
+                      <FormattedMessage id="cancel" />
+                    )}
                   </span>{' '}
                   <span>
                     <FormattedMessage id="or" />{' '}
@@ -277,7 +281,11 @@ class AdyenCreditCardForm extends React.Component {
                   disabled={!isValid}
                   onClick={this.handleSave}
                 >
-                  <FormattedMessage id="save" />
+                  {window.__.env.REACT_APP_COUNTRY === 'uk' ? (
+                    <FormattedMessage id="Save card" />
+                  ) : (
+                    <FormattedMessage id="save" />
+                  )}
                 </button>
               )}
             </div>
