@@ -1498,7 +1498,7 @@ const en_US = {
   'payment.returnToCardList': 'Return to card list',
   'payment.codTip': 'I want to pay by cash or card upon receipt',
   'payment.codConfirmTip': 'Payment upon receipt',
-  'Special Need': 'Special Needs',
+  'Special Need': 'Medical needs',
   'orderStatus.COMPLETED': 'Completed',
   'subscription.see_more': 'See other Subscription',
   'bindPrescriber.modal.title':
@@ -1795,6 +1795,7 @@ const en_US = {
   'productFinder.weight': 'weight',
   'New Pet': 'Add a pet',
   'header.User.faq': "FAQ's",
-  'Your Pet is a…': 'My Pet is a…'
+  'Your Pet is a…': 'My Pet is a…',
+  Activity: 'How active is your dog?'
 };
 export default en_US;
