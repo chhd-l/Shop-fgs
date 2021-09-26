@@ -1361,7 +1361,7 @@ const en_US = {
   signUp: 'Create my account',
   single: 'Single',
   singlePurchase: 'Single purchase',
-  skip: 'Skip next delivery',
+  skip: 'Skip',
   skiped: 'Skipped',
   sofort: 'Sofort',
   sortBy: 'Sort by',
