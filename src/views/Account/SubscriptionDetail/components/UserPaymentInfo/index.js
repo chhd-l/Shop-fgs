@@ -7,7 +7,7 @@ import deliveryIcon from '../../images/deliveryAddress.png';
 import billingIcon from '../../images/billingAddress.png';
 import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import paymentIcon from '../../images/payment.png';
-import { getDictionary, getAddressPostalCodeAlertMessage } from '@/utils/utils';
+import { getDictionary } from '@/utils/utils';
 
 const UserPaymentInfo = ({
   currentCardInfo,
@@ -20,13 +20,9 @@ const UserPaymentInfo = ({
     getDictionary({ type: 'country' }).then((res) => {
       setCountryList(res || []);
     });
-    getAddressPostalCodeAlertMessage().then((res) => {
-      setPostalCodeAlertMessage(res);
-    });
   }, []);
   const { configStore } = useLocalStore(() => stores);
   const [countryList, setCountryList] = useState([]);
-  const [postalCodeAlertMessage, setPostalCodeAlertMessage] = useState('');
   // 获取本地存储的需要显示的地址字段
   const localAddressForm = configStore?.localAddressForm;
   let minDeliveryTime = null;
@@ -92,14 +88,17 @@ const UserPaymentInfo = ({
               </a>
             )}
           </div>
-          <div
-            style={{
-              color: '#e2001a',
-              padding: '6px 0'
-            }}
-          >
-            {postalCodeAlertMessage}
-          </div>
+          {!currentDeliveryAddress.validFlag ? null : (
+            <div
+              style={{
+                color: '#e2001a',
+                padding: '6px 0'
+              }}
+            >
+              {currentDeliveryAddress.alert}
+            </div>
+          )}
+
           <div className="ml-1 subscription_detail_userinfo">
             {/* 姓名 */}
             <p className="mb-0 sd_mb_name">

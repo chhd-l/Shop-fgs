@@ -24,8 +24,7 @@ import {
   getFormatDate,
   getZoneTime,
   getDeviceType,
-  isCanVerifyBlacklistPostCode,
-  getAddressPostalCodeAlertMessage
+  isCanVerifyBlacklistPostCode
 } from '@/utils/utils';
 import DatePicker from 'react-datepicker';
 import { daysInWeek, format } from 'date-fns';
@@ -35,7 +34,8 @@ import {
   getProvincesList,
   getAddressBykeyWord,
   getCityList,
-  getDeliveryDateAndTimeSlot
+  getDeliveryDateAndTimeSlot,
+  validPostCodeBlockForPortal
 } from '@/api/address';
 import { shippingCalculation } from '@/api/cart';
 import { inject, observer } from 'mobx-react';
@@ -125,7 +125,6 @@ class Form extends React.Component {
       timeSlotList: [], // time slot
       errMsgObj: {}
     };
-    this.postalCodeAlertMessage = '';
   }
   componentDidMount() {
     let timer = setInterval(() => {
@@ -143,11 +142,6 @@ class Form extends React.Component {
     });
     // 查询国家
     this.getCountryList();
-
-    // 获取邮编错误的提示语
-    if (isCanVerifyBlacklistPostCode) {
-      this.getAddressPostalCodeAlertMessage();
-    }
 
     // 美国 state 字段统一为 province
     caninForm.stateId = initData.provinceId;
@@ -963,19 +957,43 @@ class Form extends React.Component {
     });
   };
   // 法国和英国 postCode 黑名单失焦校验
-  inputPostCodeBlur = (e) => {
+  inputPostCodeBlur = async (e) => {
     const { caninForm, errMsgObj } = this.state;
     const target = e?.target;
     const tname = target?.name;
     caninForm[tname] =
       target?.type === 'checkbox' ? target?.checked : target?.value;
     console.log('inputPostCodeBlur', target);
-
-    this.setState({
-      errMsgObj: Object.assign({}, errMsgObj, {
-        [tname]: this.postalCodeAlertMessage
-      })
+    const postCodeAlertMessage =
+      '* Sorry we are not able to deliver your order in this area.';
+    this.setState({ caninForm }, () => {
+      this.updateDataToProps(this.state.caninForm);
     });
+    try {
+      const postCode = target?.value;
+      const res = await validPostCodeBlockForPortal(postCode);
+      const data = res?.context || {};
+      // validFlag 1 通过 0 不通过
+      if (res.code === 'K-000000') {
+        this.setState({
+          errMsgObj: Object.assign({}, errMsgObj, {
+            [tname]: !!data?.validFlag ? '' : data.alert
+          })
+        });
+      } else {
+        this.setState({
+          errMsgObj: Object.assign({}, errMsgObj, {
+            [tname]: postCodeAlertMessage
+          })
+        });
+      }
+    } catch (err) {
+      this.setState({
+        errMsgObj: Object.assign({}, errMsgObj, {
+          [tname]: postCodeAlertMessage
+        })
+      });
+    }
   };
 
   // 查询选择类型的文本框失去焦点
@@ -1247,7 +1265,7 @@ class Form extends React.Component {
     const { caninForm } = this.state;
     // uk和fr,才有postCode校验
     const isVerifyPostCodeBlacklist =
-      item.fieldKey === 'postCode' && isCanVerifyAddressPostCode;
+      item.fieldKey === 'postCode' && isCanVerifyBlacklistPostCode;
 
     return (
       <>
@@ -1418,13 +1436,6 @@ class Form extends React.Component {
         </div>
       </>
     );
-  };
-
-  // 获取邮编黑名单提示语
-  getAddressPostalCodeAlertMessage = () => {
-    getAddressPostalCodeAlertMessage().then((res) => {
-      this.postalCodeAlertMessage = res;
-    });
   };
 
   render() {

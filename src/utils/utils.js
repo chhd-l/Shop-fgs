@@ -1022,9 +1022,9 @@ export const isCanVerifyBlacklistPostCode = countryPostCode.includes(
   currentCountry
 );
 
-// 异步获取 Postal code alert message
+// 获取 Postal code alert message
 export async function getAddressPostalCodeAlertMessage() {
-  // 接口获取警示语 TODO
+  // 接口获取警示语
   const postCodeAlertMessage =
     '* Sorry we are not able to deliver your order in this area.';
 

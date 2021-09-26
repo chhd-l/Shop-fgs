@@ -59,7 +59,7 @@ function CardItem(props) {
         isMobile ? '' : 'd-flex'
       } rc-bg-colour--brand4 rounded p-4 pl-3 pr-3 h-100 card_item_border justify-content-between
       ${props.data.selected ? 'selected' : ''}
-      ${!props.data.forbid ? 'forbid' : ''}
+      ${!props.data.validFlag ? 'forbid' : ''}
       `}
       onClick={props.handleClickCoverItem}
     >
@@ -185,9 +185,6 @@ class AddressList extends React.Component {
         countryList: res
       });
     });
-    getAddressPostalCodeAlertMessage().then((res) => {
-      this.postalCodeAlertMessage = res;
-    });
   }
 
   // 获取地址列表
@@ -207,9 +204,9 @@ class AddressList extends React.Component {
 
       Array.from(allList, (a) => (a.selected = false));
 
-      // 设置默认选中状态 TODO 默认邮编在黑名单则不能选择
+      // 设置默认选中状态 邮编在黑名单则不能选择
       let defaultAddressItem = allList.filter((ele) => {
-        return ele.isDefaltAddress === 1;
+        return ele.isDefaltAddress === 1 && ele.validFlag;
       });
       if (defaultAddressItem?.length) {
         let tmpId = defaultAddressItem[0].deliveryAddressId;
@@ -501,11 +498,15 @@ class AddressList extends React.Component {
               <div className="align-items-center">
                 <div className="rc-input rc-input--inline mr-0">
                   <input
-                    disabled={!item.forbid} // 邮编黑名单禁止选择
+                    disabled={!item.validFlag} // 邮编黑名单禁止选择
                     type="radio"
                     id={item.deliveryAddressId}
                     className="rc-input__radio"
-                    checked={item.isDefaltAddress === 1 ? true : false}
+                    checked={
+                      item.isDefaltAddress === 1 && item.validFlag
+                        ? true
+                        : false
+                    }
                     name="setDefaultAddress"
                     value={item.deliveryAddressId}
                     onChange={this.toggleSetDefault.bind(this, item)}
@@ -621,16 +622,14 @@ class AddressList extends React.Component {
             </div>
 
             <div>
-              {!item?.forbid ? (
-                <p className="address-item-forbid">
-                  {this.postalCodeAlertMessage}
-                </p>
+              {!item?.validFlag ? (
+                <p className="address-item-forbid">{item.alert}</p>
               ) : null}
             </div>
           </div>
         }
         handleClickCoverItem={
-          !item.forbid ? null : this.handleClickCoverItem.bind(this, item)
+          !item.validFlag ? null : this.handleClickCoverItem.bind(this, item)
         }
         countryName={matchNamefromDict(countryList, item.countryId)}
       />

@@ -780,9 +780,12 @@ class AddressList extends React.Component {
     let { allAddressList, addressList } = this.state;
 
     Array.from(addressList, (a) => (a.selected = false));
-    addressList[idx].selected = true;
-    // 邮编属于黑名单 不能选择地址 TODO
-    if (isCanVerifyBlacklistPostCode && addressList[idx].forbid) return;
+    // 邮编属于黑名单 不能选择地址
+    if (isCanVerifyBlacklistPostCode && !addressList[idx].validFlag) {
+      addressList[idx].selected = false;
+    } else {
+      addressList[idx].selected = true;
+    }
 
     this.setState(
       {
@@ -2019,7 +2022,7 @@ class AddressList extends React.Component {
         <div
           className={`rounded address-item ${
             item.selected ? 'selected' : 'border'
-          } ${item?.forbid ? 'forbid' : ''} ${
+          } ${!item?.validFlag ? 'forbid' : ''} ${
             foledMore && !item.selected ? 'address-item-none' : ''
           } ${
             !item.selected && i !== addressList.length - 1
@@ -2055,10 +2058,8 @@ class AddressList extends React.Component {
                   </span>
                 ) : null}
               </p>
-              {item?.forbid ? (
-                <div className="address-item-forbid">
-                  {this.postalCodeAlertMessage}
-                </div>
+              {!item?.forbid ? (
+                <div className="address-item-forbid">{item.alert}</div>
               ) : null}
             </div>
             <div className="col-12 col-md-4 mt-md-0 mt-1 pl-0 pr-0 text-right font-weight-bold address_opt_btn ">

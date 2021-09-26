@@ -36,9 +36,11 @@ const AutoshipItem = ({ subItem, history }) => {
           </div>
           {/*<div className="col-4 col-md-2" />*/}
           {/*<div className="col-4 col-md-2" />*/}
-          <div className="col-8 pl-4 order-hint">
-            <FormattedMessage id="Subscription.orderPostCodeHit" />
-          </div>
+          {subItem.validFlag ? null : (
+            <div className="col-8 pl-4 order-hint">
+              <span>{subItem.alert}</span>
+            </div>
+          )}
         </div>
       </div>
       <div className="row rc-margin-x--none row align-items-center pt-3 pb-3 1111">

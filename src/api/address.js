@@ -15,7 +15,9 @@ const api = {
   getProvincesList: `/systemState/queryByStoreId`, // 查询省份列表
   getAddressBykeyWord: `/address-input-auto/list`, // DuData，根据输入的关键字返回详细地址信息
   addressValidation: `/addressValidation/validation`, // 地址校验接口
-  getDeliveryDateAndTimeSlot: '/delivery/timeSlot' // 俄罗斯获取 DeliveryDate 和 TimeSlot
+  getDeliveryDateAndTimeSlot: '/delivery/timeSlot', // 俄罗斯获取 DeliveryDate 和 TimeSlot
+  validPostCodeBlockForPortal:
+    '/addressDisplaySetting/validPostCodeBlockForPortal' // 邮编黑名单校验
 };
 
 export default api;
@@ -129,5 +131,12 @@ export function getDeliveryDateAndTimeSlot(parameter) {
     url: `${api.getDeliveryDateAndTimeSlot}`,
     method: 'post',
     data: parameter
+  });
+}
+
+export function validPostCodeBlockForPortal(postCode = '') {
+  return axios({
+    url: `${api.validPostCodeBlockForPortal}?postCode=${postCode}`,
+    method: 'get'
   });
 }
