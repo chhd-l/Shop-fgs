@@ -67,11 +67,19 @@ class AccountOrders extends React.Component {
       duringTimeOptions: [],
       defaultLocalDateTime: '',
       everHaveNoOrders: true,
-      tabNames: [
-        <FormattedMessage id="allOrders" />,
-        <FormattedMessage id="single" />,
-        <FormattedMessage id="autoship" />
-      ],
+      tabNames:
+        false && window.__.env.REACT_APP_COUNTRY === 'fr'
+          ? [
+              <FormattedMessage id="allOrders" />,
+              <FormattedMessage id="serverOrder" />,
+              <FormattedMessage id="single" />,
+              <FormattedMessage id="autoship" />
+            ]
+          : [
+              <FormattedMessage id="allOrders" />,
+              <FormattedMessage id="single" />,
+              <FormattedMessage id="autoship" />
+            ],
       activeTabIdx: 0,
       showOneOrderDetail: false,
       curOneOrderDetails: null
@@ -391,7 +399,10 @@ class AccountOrders extends React.Component {
       {
         activeTabIdx: i,
         form: Object.assign(this.state.form, {
-          orderCategory: { 0: '', 1: 'SINGLE', 2: 'FIRST_AUTOSHIP' }[i]
+          orderCategory:
+            false && window.__.env.REACT_APP_COUNTRY === 'fr'
+              ? { 0: '', 1: '', 2: 'SINGLE', 3: 'FIRST_AUTOSHIP' }[i]
+              : { 0: '', 1: 'SINGLE', 2: 'FIRST_AUTOSHIP' }[i]
         }),
         currentPage: 1
       },
