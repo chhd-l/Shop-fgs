@@ -40,23 +40,24 @@ export function Advantage() {
         {
           imgUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_PRODUCT-RECOS@x2.png`,
           imgAlt: 'ideal formula',
-          text: 'Find the Ideal Formula for Your Pet’s Health'
+          text: 'Expert recommendations on food tailored to your pet’s needs'
         },
         {
           imgUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_DISCOUNT@x2.png`,
           imgAlt: 'club benefits',
           text:
-            'Save 5% on Every Autoship Order Plus, 30% Off Your First Order Through Royal Canin Club'
+            'Save 30% off your first purchase through Royal Canin Club, and 5% off every autoship order'
         },
         {
           imgUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/COHORT-A_CLUB-BENEFITS_PET-ADVISOR@x2.png`,
           imgAlt: 'Welcome Box',
-          text: 'Get Expert Advice & Support with Royal Canin Pet Advisor Live'
+          text: 'Free automatic shipping – no minimum purchase'
         },
         {
           imgUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_FREE-SHIPPING@x2.png`,
           imgAlt: 'Free Automatic Shipping',
-          text: 'Free Automatic Shipping'
+          text:
+            'Expert feeding advice, product updates and support from a Royal Canin Advisor'
         }
       ],
       fr: [
