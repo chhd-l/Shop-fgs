@@ -35,7 +35,7 @@ import {
   getAddressBykeyWord,
   getCityList,
   getDeliveryDateAndTimeSlot,
-  validPostCodeBlockForPortal
+  validPostCodeBlock
 } from '@/api/address';
 import { shippingCalculation } from '@/api/cart';
 import { inject, observer } from 'mobx-react';
@@ -963,7 +963,6 @@ class Form extends React.Component {
     const tname = target?.name;
     caninForm[tname] =
       target?.type === 'checkbox' ? target?.checked : target?.value;
-    console.log('inputPostCodeBlur', target);
     const postCodeAlertMessage =
       '* Sorry we are not able to deliver your order in this area.';
     this.setState({ caninForm }, () => {
@@ -971,7 +970,8 @@ class Form extends React.Component {
     });
     try {
       const postCode = target?.value;
-      const res = await validPostCodeBlockForPortal(postCode);
+      const res = await validPostCodeBlock(postCode);
+      console.log('res', res);
       const data = res?.context || {};
       // validFlag 1 通过 0 不通过
       if (res.code === 'K-000000') {

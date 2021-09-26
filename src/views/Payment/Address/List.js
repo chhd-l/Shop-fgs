@@ -165,10 +165,6 @@ class AddressList extends React.Component {
       });
     });
 
-    getAddressPostalCodeAlertMessage().then((res) => {
-      this.postalCodeAlertMessage = res;
-    });
-
     this.setState(
       {
         listBtnLoading: false,
@@ -273,7 +269,8 @@ class AddressList extends React.Component {
         return ele.isDefaltAddress === 1;
       });
 
-      // 有默认地址选中默认地址，没有默认地址选中第一个地址
+      // 有默认地址选中默认地址，没有默认地址选中第一个地
+      // 邮编属于黑名单不能选中
       let tmpId =
         selectedId ||
         (defaultAddressItem && defaultAddressItem.deliveryAddressId) ||
@@ -282,7 +279,8 @@ class AddressList extends React.Component {
 
       Array.from(
         addressList,
-        (ele) => (ele.selected = ele.deliveryAddressId === tmpId)
+        (ele) =>
+          (ele.selected = ele.deliveryAddressId === tmpId && ele.validFlag)
       );
 
       // 有数据并且 type=billing，判断是否有billingAddress
@@ -2058,7 +2056,7 @@ class AddressList extends React.Component {
                   </span>
                 ) : null}
               </p>
-              {!item?.forbid ? (
+              {!item?.validFlag ? (
                 <div className="address-item-forbid">{item.alert}</div>
               ) : null}
             </div>
