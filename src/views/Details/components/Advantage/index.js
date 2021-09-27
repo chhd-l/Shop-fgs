@@ -10,8 +10,7 @@ const Advantage = () => {
   const defaultIconList = [
     {
       icon: <span className="rc-icon rc-vet--sm rc-brand1 rc-iconography" />,
-      text:
-        'Access to Royal Canin Pet Advisor Live to answer all your pet questions'
+      text: 'Access to Royal Canin Pet Advisor Live to answer all your pet questions'
     },
     {
       icon: (
@@ -20,7 +19,7 @@ const Advantage = () => {
       text: 'Free shipping and 5% off every autoship order'
     },
     {
-      icon: <span className="rc-icon rc-food--sm rc-brand1 rc-iconography" />,
+      icon: <span className="rc-brand1 rc-icon rc-friendly rc-iconography" />,
       text: 'Personalized product recommendations'
     }
   ];
