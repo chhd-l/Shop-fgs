@@ -78,10 +78,15 @@ class PayProductInfo extends React.Component {
       let giftArr = item.subscriptionPlanGiftList;
       item.num = item.goodsInfoFlag === 3 ? 1 : item.num;
       item.spuName =
-        item.goodsInfoFlag == 3
+        item.goodsInfoFlag == 3 ? (
           // ? `${item.petsName}'s personalized subscription`
-          ? <FormattedMessage id='subscription.personalized' values={{ val1: item.petsName }} />
-          : item.spuName;
+          <FormattedMessage
+            id="subscription.personalized"
+            values={{ val1: item.petsName }}
+          />
+        ) : (
+          item.spuName
+        );
       return (
         <div
           className="product-summary__products__item"
@@ -127,8 +132,12 @@ class PayProductInfo extends React.Component {
                       <FormattedMessage
                         id="quantityText"
                         values={{
-                          specText: window.__.env.REACT_APP_COUNTRY == 'fr'?
-                            (item.specDetails).toString().replace(".",","):item.specDetails,
+                          specText: item.specDetails,
+                          // window.__.env.REACT_APP_COUNTRY == 'fr'
+                          //   ? (item.specDetails || '')
+                          //       .toString()
+                          //       .replace('.', ',')
+                          //   : item.specDetails,
                           buyCount: item.num
                         }}
                       />

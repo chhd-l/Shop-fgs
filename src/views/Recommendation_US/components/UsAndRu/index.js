@@ -8,24 +8,24 @@ const howImageArr = [
   {
     img: `${imgUrlPreFix}/HOW-TO-JOIN-SHOP.png`,
     title: 'GRAB YOUR PRODUCTS',
-    des: 'Find your handpicked nutrition products in your cart.'
+    des: 'Add expert-recommended pet food and products to your cart'
   },
   {
     img: `${imgUrlPreFix}/HOW-TO-JOIN-AUTOSHIP.png`,
     title: 'CHOOSE AUTOMATIC SHIPPING',
-    des: 'Set your automatic shipping schedule  and input your payment method.'
+    des: 'Select automatic shipping and input your payment method'
   },
   {
     img: `${imgUrlPreFix}/HOW-TO-JOIN-SCHEDULE.png`,
     title: 'GET WHAT YOUR PET NEEDS, WHEN YOU NEED IT',
     des:
-      'Receive your product automatically based on your schedule. Change or cancel at any time.'
+      'Receive your autoship purchase based on your schedule––change or cancel at any time'
   },
   {
     img: `${imgUrlPreFix}/HOW-TO-JOIN-ENJOY.png`,
     title: 'ENJOY YOUR PERKS',
     des:
-      'Get your exclusive <strong>Royal Canin Club</strong> perks, including access to Royal Canin Pet Advisor Live.'
+      'Get your exclusive Royal Canin Club perks, including access to a Royal Canin Advisor'
   }
 ];
 
@@ -102,7 +102,9 @@ const UsAndRu = (props) => {
           <div className=" col-12 col-lg-6">
             <div className=" text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
               <h2 className="rc-beta markup-text">
-                <FormattedMessage id="recommendation.plusTitle" />
+                <strong>
+                  <FormattedMessage id="recommendation.plusTitle" />
+                </strong>
               </h2>
               <p style={{ color: 'rgb(23, 43, 77)' }}>
                 <FormattedMessage id="recommendation.plusContent" />

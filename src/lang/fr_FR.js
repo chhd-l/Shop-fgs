@@ -560,7 +560,7 @@ const fr_FR = {
   'details.vetBuyFromRetailer': 'Trouver un vétérinaire',
   'detail.contextp1': "Désolé, nous n'avons trouvé aucun produit!",
   'detail.contextp2': 'Veuillez noter que ce produit peut avoir été arrêté',
-  'detail.subscriptionBuyTip': 'Abonnement sans participation',
+  'detail.subscriptionBuyTip': 'Abonnement sans engagement',
   Dog: 'Chien',
   dogs: 'CHIENS',
   dogs2: 'chiens',
@@ -1269,7 +1269,7 @@ const fr_FR = {
   royalCaninClub: 'Royal Canin Club',
   'salesCategory.cat': 'Pour chat',
   'salesCategory.content':
-    'Chaque formule a été créée pour fournir une nutrition adaptée ses besoins de santé quels que {val1} soient sa taille, sa race, son âge ou son mode de vie.',
+    'Chaque formule a été créée pour fournir une nutrition à ses besoins de santé quels que {val1} soient sa taille, sa race, son âge ou son mode de vie.',
   'salesCategory.dog': 'Pour chien',
   //salesCategory
   'salesCategory.title': 'Découvrez nos {val1} gammes d’aliments',
@@ -1441,7 +1441,7 @@ const fr_FR = {
   'subscription.date': "Date d'abonnement",
   'subscription.deliveryDate': 'Prochaine date de livraison',
   'subscription.detail': "Détails de l'abonnement",
-  'subscription.personalized': "L'aliment et la portion adaptées à {val1}",
+  'subscription.personalized': "L'aliment et la portion adaptés à {val1}",
   'subscription.frequency': 'Fréquence : toutes les ',
   'minicart.frequency': 'Fréquence',
   'subscription.help.subTitle':
@@ -1788,13 +1788,15 @@ const fr_FR = {
   'subscription.viewDetails': 'Voir les détails',
   Expire: ' ',
   generalTermsConditions: 'Conditions Générales De Vente',
-  'details.recommendedDaily': 'The recommended daily ration for your pet is',
+  'details.recommendedDaily':
+    'La portion quotidienne recommandée pour votre animal est de',
   'subscription.dailyRation': 'Ration quotidienne',
   'details.recommendedDaily.info': '{val}',
-  'details.backRecommendedDaily': 'Go back to recommendation',
-  'details.findProductTip': 'Trouver le bon produit et utiliser notre {btn}',
-  'details.findProductTips': 'Recherche de produits',
-  'details.learnMore': 'Apprendre encore plus',
+  'details.backRecommendedDaily': 'Retour à la page de recommandation',
+  'details.findProductTip':
+    "Besoin d'aide pour trouver l'aliment adapté aux besoins de votre animal ? {btn}",
+  'details.findProductTips': "Trouver l'aliment adapté",
+  'details.learnMore': 'En savoir plus',
   'subscriptionDetail.cantBindPetsErr1':
     'There are club and autoship products, please go to the pet details to bind the products',
   'subscriptionDetail.cantBindPetsErr2':
@@ -1873,14 +1875,14 @@ const fr_FR = {
   //NewLandingpageClub
   'ClubLP.discount.content': '10% DE RÉDUCTION ET LIVRAISON OFFERTE',
   'ClubLP.LongBanner.title':
-    'OFFREZ À VOTRE ANIMAL UNE {val1} SOLUTION DE SANTÉ COMPLÈTE, {val2} EN VOUS ABONNANT',
+    'OFFREZ À VOTRE ANIMAL UNE {val1} SOLUTION POUR SOUTENIR SA {val2} SANTÉ EN VOUS ABONNANT',
   'ClubLP.LongBanner.content': 'à partir de 19,90 euros/réapprovisionnement',
   'ClubLP.LongBanner.button': 'Essayer maintenant',
   'ClubLP.LongBanner.content2': "S'abonner sans engagement",
   'ClubLP.LongBanner.SubscriptionTitle':
-    "LES AVANTAGES DE L'ABONNEMENT POUR {val}  VOTRE CHATS ET VOTRE CHIEN",
+    "LES AVANTAGES DE L'ABONNEMENT POUR {val}  VOTRE CHAT ET VOTRE CHIEN",
   'ClubLP.LongBanner.SubscriptionTitle1':
-    'Un aliment sur mesure pour  {val} une santé optimale',
+    'Un aliment sur mesure pour  {val} contribuer à sa bonne santé',
   'ClubLP.LongBanner.SubscriptionContent1':
     'Des ingrédients de haute qualité choisis pour  cibler les besoins spécifiques de votre  animal  et {val} dont les bienfaits ont été scientifiquement prouvés',
   'ClubLP.LongBanner.SubscriptionTitle2':
@@ -1891,7 +1893,7 @@ const fr_FR = {
     'La bonne quantité à {val} chaque fois',
   'ClubLP.LongBanner.SubscriptionTitle3.new': 'La bonne quantité à chaque fois',
   'ClubLP.LongBanner.SubscriptionContent3':
-    'Des quantités quotidiennes recommandées pour être sûr de donner la bonne ration à votre animal',
+    'Des quantités quotidiennes recommandées pour être sûr de donner la bonne portion à votre animal',
   'ClubLP.Advantage.title': 'UN ALIMENT SUR MESURE',
   'ClubLP.Advantage.content1':
     'Des aliments conçus pour répondre aux besoins uniques des chats et des chiens',
@@ -1950,7 +1952,7 @@ const fr_FR = {
   'ClubLP.Help.subtitle2': 'Vous pouvez nous joindre par les moyens suivants :',
   'ClubLP.Help.call.title': 'Appelez-nous',
   'ClubLP.Help.call.content':
-    'Nos conseillers sont heureux de vous aider tous les jours de 9 h à 18 h.',
+    'Nos conseillers sont heureux de vous aider entre 8h30 et 19h en semaine ou le samedi de 9h à 13h',
   'ClubLP.Help.call.number': '0800 41 51 61',
   'ClubLP.Help.call.mobile.number': '0800 41 51 61',
   'ClubLP.Help.email.title': 'Envoyez-nous un e-mail',
@@ -1970,7 +1972,7 @@ const fr_FR = {
   'preciseNutrition.bannertext2': 'Satisfait ou remboursé',
   'preciseNutrition.bannertext3': 'Qualité premium',
   'preciseNutrition.bannertext4': 'Livraison en 3 jours ouvrés offerte',
-  'preciseNutrition.banner.names': "L'aliment et la portion adaptées à {val}",
+  'preciseNutrition.banner.names': "L'aliment et la portion adaptés à {val}",
   'preciseNutrition.banner.des1':
     "30 jours d'alimentation complète et équilibrée pour chat adulte",
   'preciseNutrition.banner.portion': 'Quantité journalière ',
@@ -2169,6 +2171,7 @@ const fr_FR = {
   'preciseNutrition.bscTip2':
     '2. Touchez le corps de votre chat en exerçant une légère pression pour trouver les côtes.',
   'productFinder.mixBreed': 'Race mixte',
-  'productFinder.weight': 'Poids'
+  'productFinder.weight': 'Poids',
+  'Go back to recommendation': 'Retour à la page de recommandation'
 };
 export default fr_FR;

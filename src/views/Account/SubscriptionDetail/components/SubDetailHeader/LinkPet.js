@@ -103,41 +103,45 @@ const LinkPet = ({
         <ShowErrorDom errorMsg={errorMsg} />
         <div className="rc-padding-x--md" style={{ maxHeight: '80vh' }}>
           <div className="pets-list-wrap">
-            {petList.map((el) => (
-              <div
-                onClick={(e) => {
-                  linkPets(el.petsId);
-                }}
-                className=" border-solid d-flex pets-list-item align-items-center"
-              >
-                <div style={{ position: 'relative' }}>
-                  <img
-                    alt={el.petsName}
-                    src={
-                      (el.petsImg && el.petsImg.includes('https')
-                        ? el.petsImg
-                        : null) || (el.petsType === 'cat' ? Cat : Dog)
-                    }
-                    alt="pet img"
-                    className="pet-img"
-                  />
-                  <img
-                    style={{
-                      width: '1.25rem',
-                      position: 'absolute',
-                      bottom: 0,
-                      right: 0
-                    }}
-                    src={!el.petsSex ? Male : Female}
-                    alt="pet sex icon"
-                  />
+            {petList
+              .filter(
+                (el) => !(el.sourceType == 1 || el.sourceType == 'individual')
+              )
+              .map((el) => (
+                <div
+                  onClick={(e) => {
+                    linkPets(el.petsId);
+                  }}
+                  className=" border-solid d-flex pets-list-item align-items-center"
+                >
+                  <div style={{ position: 'relative' }}>
+                    <img
+                      alt={el.petsName}
+                      src={
+                        (el.petsImg && el.petsImg.includes('https')
+                          ? el.petsImg
+                          : null) || (el.petsType === 'cat' ? Cat : Dog)
+                      }
+                      alt="pet img"
+                      className="pet-img"
+                    />
+                    <img
+                      style={{
+                        width: '1.25rem',
+                        position: 'absolute',
+                        bottom: 0,
+                        right: 0
+                      }}
+                      src={!el.petsSex ? Male : Female}
+                      alt="pet sex icon"
+                    />
+                  </div>
+                  <div style={{ paddingLeft: '1rem' }}>
+                    <div style={{ color: '#e2001a' }}>{el.petsName}</div>
+                    <div>{getBreedName(el.petsType, el.petsBreed)}</div>
+                  </div>
                 </div>
-                <div style={{ paddingLeft: '1rem' }}>
-                  <div style={{ color: '#e2001a' }}>{el.petsName}</div>
-                  <div>{getBreedName(el.petsType, el.petsBreed)}</div>
-                </div>
-              </div>
-            ))}
+              ))}
             <Link
               onClick={() => {
                 sessionItemRoyal.set(

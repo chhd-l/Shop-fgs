@@ -126,24 +126,6 @@ const bannerTips = () => {
     >
       {window.__.env.REACT_APP_IS_PROMOTION === 'true' && (
         <div>
-          {/* 美国临时加一个写死的Notice  */}
-          {window.__.env.REACT_APP_COUNTRY === 'us' ? (
-            <div className="rc-bg-colour--brand4 text-center">
-              <div className="rc-layout-container rc-content-h-middle">
-                <div className="rc-column rc-content-v-middle rc-zeta rc-margin--none rc-padding--xs">
-                  <div className="d-flex align-items-center">
-                    {window.__.env.REACT_APP_COUNTRY == 'us' &&
-                    isLimitLogin() ? (
-                      <LimitLoginAlertTips />
-                    ) : (
-                      <AlertTips />
-                    )}
-                    <div></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : null}
           {show && window.__.env.REACT_APP_COUNTRY === 'de' ? mktMessage : null}
           <div className="rc-bg-colour--brand4 text-center">
             <div className="rc-layout-container rc-content-h-middle">
@@ -155,7 +137,8 @@ const bannerTips = () => {
                   <span className="rc-margin-right--xs rc-margin-left--xs rc-bannertip-text ui-cursor-pointer-pure">
                     <FormattedMessage id="home.promotionTip" />
                   </span>
-                  {window.__.env.REACT_APP_COUNTRY == 'de' ? (
+                  {window.__.env.REACT_APP_COUNTRY == 'uk' ? null : window.__
+                      .env.REACT_APP_COUNTRY == 'de' ? (
                     <Link
                       to="/how-to-order"
                       className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
