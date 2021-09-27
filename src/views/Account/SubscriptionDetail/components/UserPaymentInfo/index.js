@@ -88,7 +88,7 @@ const UserPaymentInfo = ({
               </a>
             )}
           </div>
-          {!currentDeliveryAddress.validFlag ? null : (
+          {currentDeliveryAddress.validFlag ? null : (
             <div
               style={{
                 color: '#e2001a',
