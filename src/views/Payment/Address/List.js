@@ -25,7 +25,6 @@ import {
   formatMoney,
   getDeviceType,
   isCanVerifyBlacklistPostCode,
-  getAddressPostalCodeAlertMessage
 } from '@/utils/utils';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
@@ -254,9 +253,9 @@ class AddressList extends React.Component {
       this.setState({ loading: true });
       let res = await getAddressList();
       let allAddress = res.context;
-      if (!allAddress.length) {
-        this.updateConfirmBtnDisabled(true);
-      }
+      // if (!allAddress.length) {
+      //   this.updateConfirmBtnDisabled(true);
+      // }
       let addressList = res.context.filter((ele) => {
         return (
           ele.type === this.props.type.toUpperCase() &&
@@ -265,21 +264,25 @@ class AddressList extends React.Component {
       });
       // 默认地址
       const defaultAddressItem = find(addressList, (ele) => {
-        return ele.isDefaltAddress === 1;
+        return ele.isDefaltAddress === 1 && (!!ele.validFlag);
       });
 
-      // 有默认地址选中默认地址，没有默认地址选中第一个地
+      // 有默认地址选中默认地址，没有默认地址选中第一个地址
       // 邮编属于黑名单不能选中
       let tmpId =
         selectedId ||
         (defaultAddressItem && defaultAddressItem.deliveryAddressId) ||
-        (allAddress.length && allAddress[0].deliveryAddressId) ||
+        (addressList.length && addressList.find(item => item.validFlag === 1)?.deliveryAddressId) ||
         '';
+
+      if (!tmpId) {
+        this.updateConfirmBtnDisabled(true);
+      }
 
       Array.from(
         addressList,
         (ele) =>
-          (ele.selected = ele.deliveryAddressId === tmpId && ele.validFlag)
+          (ele.selected = ele.deliveryAddressId === tmpId)
       );
 
       // 有数据并且 type=billing，判断是否有billingAddress
@@ -777,12 +780,8 @@ class AddressList extends React.Component {
     let { allAddressList, addressList } = this.state;
 
     Array.from(addressList, (a) => (a.selected = false));
-    // 邮编属于黑名单 不能选择地址
-    if (isCanVerifyBlacklistPostCode && !addressList[idx].validFlag) {
-      addressList[idx].selected = false;
-    } else {
-      addressList[idx].selected = true;
-    }
+
+    addressList[idx].selected = true;
 
     this.setState(
       {
@@ -947,6 +946,12 @@ class AddressList extends React.Component {
         this.props.updateFormValidStatus(this.state.isValid);
         this.props.updateData(data);
       });
+      // 异步校验邮编黑名单切换按钮状态
+      if(!!data.validPostCodeBlockErrMsg){
+        this.setState({ isValid: false }, () => {
+          this.props.updateFormValidStatus(this.state.isValid);
+        });
+      }
     } catch (err) {
       console.warn(' err msg: ', err);
       this.setState({ isValid: false }, () => {
@@ -2040,7 +2045,11 @@ class AddressList extends React.Component {
               : ''
           } mb-3`}
           key={item.deliveryAddressId}
-          onClick={(e) => this.selectAddress(e, i)}
+          onClick={
+            !!item.validFlag
+              ? (e) => this.selectAddress(e, i)
+              : null
+          }
         >
           <div className="row align-items-center pt-3 pb-3 ml-3 mr-3 align_items_wrap">
             <div

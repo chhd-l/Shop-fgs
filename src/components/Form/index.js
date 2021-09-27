@@ -619,6 +619,7 @@ class Form extends React.Component {
         ruleItem.regExp = regExp;
       }
 
+
       item.requiredFlag == 1 &&
       !(item.fieldKey == 'deliveryDate' || item.fieldKey == 'timeSlot')
         ? rule.push(ruleItem)
@@ -961,13 +962,11 @@ class Form extends React.Component {
     const { caninForm, errMsgObj } = this.state;
     const target = e?.target;
     const tname = target?.name;
-    caninForm[tname] =
-      target?.type === 'checkbox' ? target?.checked : target?.value;
-    const postCodeAlertMessage =
-      '* Sorry we are not able to deliver your order in this area.';
-    this.setState({ caninForm }, () => {
-      this.updateDataToProps(this.state.caninForm);
-    });
+    caninForm[tname] = target?.type === 'checkbox'
+      ? target?.checked
+      : target?.value;
+    const postCodeAlertMessage = '* Sorry we are not able to deliver your order in this area.';
+
     try {
       const postCode = target?.value;
       const res = await validPostCodeBlock(postCode);
@@ -975,25 +974,38 @@ class Form extends React.Component {
       const data = res?.context || {};
       // validFlag 1 通过 0 不通过
       if (res.code === 'K-000000') {
+
         this.setState({
           errMsgObj: Object.assign({}, errMsgObj, {
             [tname]: !!data?.validFlag ? '' : data.alert
           })
         });
+        caninForm.validPostCodeBlockErrMsg = !!data?.validFlag ? '' : data.alert;
       } else {
         this.setState({
           errMsgObj: Object.assign({}, errMsgObj, {
             [tname]: postCodeAlertMessage
           })
         });
+        caninForm.validPostCodeBlockErrMsg = postCodeAlertMessage;
       }
+
+      this.setState({ caninForm }, () => {
+        this.updateDataToProps(this.state.caninForm, 'postCode');
+      });
     } catch (err) {
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
           [tname]: postCodeAlertMessage
         })
       });
+      caninForm.validPostCodeBlockErrMsg = postCodeAlertMessage;
+
+      this.setState({ caninForm }, () => {
+        this.updateDataToProps(this.state.caninForm, 'postCode');
+      });
     }
+
   };
 
   // 查询选择类型的文本框失去焦点
