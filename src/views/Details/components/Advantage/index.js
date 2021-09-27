@@ -16,11 +16,10 @@ const Advantage = () => {
       icon: (
         <span className="rc-icon rc-delivery--sm rc-brand1 rc-iconography" />
       ),
-      text:
-        '5% off every autoship order + free shipping, with no minimum purchase'
+      text: '5% off every autoship order + free shipping, with no minimum purchase'
     },
     {
-      icon: <span className="rc-icon rc-food--sm rc-brand1 rc-iconography" />,
+      icon: <span className="rc-brand1 rc-icon rc-friendly rc-iconography" />,
       text: 'A Royal Canin Advisor to answer all your pet questions'
     }
   ];
