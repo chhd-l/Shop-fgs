@@ -323,8 +323,8 @@ class HomeDeliveryOrPickUp extends React.Component {
         // console.log('666 >>> 合并包裹: ', ckg);
         if (ckg.context?.dimensions) {
           let ckgobj = ckg.context;
-          data['dimensions'] = ckgobj.dimensions;
-          data['weight'] = ckgobj.weight;
+          data['dimensions'] = ckgobj?.dimensions;
+          data['weight'] = ckgobj?.weight;
         }
       } else {
         data['dimensions'] = null;
