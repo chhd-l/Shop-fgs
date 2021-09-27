@@ -23,7 +23,8 @@ import {
   validData,
   matchNamefromDict,
   formatMoney,
-  getDeviceType
+  getDeviceType,
+  isCanVerifyBlacklistPostCode,
 } from '@/utils/utils';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
@@ -252,9 +253,9 @@ class AddressList extends React.Component {
       this.setState({ loading: true });
       let res = await getAddressList();
       let allAddress = res.context;
-      if (!allAddress.length) {
-        this.updateConfirmBtnDisabled(true);
-      }
+      // if (!allAddress.length) {
+      //   this.updateConfirmBtnDisabled(true);
+      // }
       let addressList = res.context.filter((ele) => {
         return (
           ele.type === this.props.type.toUpperCase() &&
@@ -263,19 +264,25 @@ class AddressList extends React.Component {
       });
       // 默认地址
       const defaultAddressItem = find(addressList, (ele) => {
-        return ele.isDefaltAddress === 1;
+        return ele.isDefaltAddress === 1 && (!!ele.validFlag);
       });
 
       // 有默认地址选中默认地址，没有默认地址选中第一个地址
+      // 邮编属于黑名单不能选中
       let tmpId =
         selectedId ||
         (defaultAddressItem && defaultAddressItem.deliveryAddressId) ||
-        (allAddress.length && allAddress[0].deliveryAddressId) ||
+        (addressList.length && addressList.find(item => item.validFlag === 1)?.deliveryAddressId) ||
         '';
+
+      if (!tmpId) {
+        this.updateConfirmBtnDisabled(true);
+      }
 
       Array.from(
         addressList,
-        (ele) => (ele.selected = ele.deliveryAddressId === tmpId)
+        (ele) =>
+          (ele.selected = ele.deliveryAddressId === tmpId)
       );
 
       // 有数据并且 type=billing，判断是否有billingAddress
@@ -773,6 +780,7 @@ class AddressList extends React.Component {
     let { allAddressList, addressList } = this.state;
 
     Array.from(addressList, (a) => (a.selected = false));
+
     addressList[idx].selected = true;
 
     this.setState(
@@ -938,6 +946,12 @@ class AddressList extends React.Component {
         this.props.updateFormValidStatus(this.state.isValid);
         this.props.updateData(data);
       });
+      // 异步校验邮编黑名单切换按钮状态
+      if(!!data.validPostCodeBlockErrMsg){
+        this.setState({ isValid: false }, () => {
+          this.props.updateFormValidStatus(this.state.isValid);
+        });
+      }
     } catch (err) {
       console.warn(' err msg: ', err);
       this.setState({ isValid: false }, () => {
@@ -2018,59 +2032,70 @@ class AddressList extends React.Component {
     } = this.state;
 
     // 地址列表
-    const _list = addressList.map((item, i) => (
-      <div
-        className={`rounded address-item ${
-          item.selected ? 'selected' : 'border'
-        } ${foledMore && !item.selected ? 'address-item-none' : ''} ${
-          !item.selected && i !== addressList.length - 1
-            ? 'border-bottom-0'
-            : ''
-        } mb-3`}
-        key={item.deliveryAddressId}
-        onClick={(e) => this.selectAddress(e, i)}
-      >
-        <div className="row align-items-center pt-3 pb-3 ml-3 mr-3 align_items_wrap">
-          <div
-            className="d-flex col-10 col-md-8 pl-1 pr-1"
-            style={{ flexDirection: 'column' }}
-          >
-            <span className="font-weight-bold">{item.consigneeName}</span>
-            <p className="pd-0 md-0" style={{ marginBottom: '0' }}>
-              {item.consigneeNumber}
-              <br />
-              {this.setAddressFields(item)}
-              {item.deliveryDate && item.timeSlot ? (
-                <>
-                  <br />
-                  {/* 格式化 delivery date 格式: 星期, 15 月份 */}
-                  {this.getFormatDeliveryDateStr(item.deliveryDate)}{' '}
-                  {item.timeSlot}
-                </>
-              ) : null}
-              {item.selected &&
-              item.timeSlot &&
-              this.props.saveAddressNumber < 2 ? (
-                <span style={{ display: 'block' }}>
-                  <FormattedMessage id="payment.editDeliveryDateAndTime" />
-                </span>
-              ) : null}
-            </p>
-          </div>
-          <div className="col-12 col-md-4 mt-md-0 mt-1 pl-0 pr-0 text-right font-weight-bold address_opt_btn ">
-            <span
-              className="border-bottom-2"
-              onClick={this.addOrEditAddress.bind(this, i)}
+    const _list = addressList.map((item, i) => {
+      return (
+        <div
+          className={`rounded address-item ${
+            item.selected ? 'selected' : 'border'
+          } ${!item?.validFlag ? 'forbid' : ''} ${
+            foledMore && !item.selected ? 'address-item-none' : ''
+          } ${
+            !item.selected && i !== addressList.length - 1
+              ? 'border-bottom-0'
+              : ''
+          } mb-3`}
+          key={item.deliveryAddressId}
+          onClick={
+            !!item.validFlag
+              ? (e) => this.selectAddress(e, i)
+              : null
+          }
+        >
+          <div className="row align-items-center pt-3 pb-3 ml-3 mr-3 align_items_wrap">
+            <div
+              className="d-flex col-10 col-md-8 pl-1 pr-1"
+              style={{ flexDirection: 'column' }}
             >
-              <FormattedMessage id="edit" />
-            </span>
-            <span className="select_this_address border-bottom-2">
-              <FormattedMessage id="selectThisAddress" />
-            </span>
+              <span className="font-weight-bold">{item.consigneeName}</span>
+              <p className="pd-0 md-0" style={{ marginBottom: '0' }}>
+                {item.consigneeNumber}
+                <br />
+                {this.setAddressFields(item)}
+                {item.deliveryDate && item.timeSlot ? (
+                  <>
+                    <br />
+                    {/* 格式化 delivery date 格式: 星期, 15 月份 */}
+                    {this.getFormatDeliveryDateStr(item.deliveryDate)}{' '}
+                    {item.timeSlot}
+                  </>
+                ) : null}
+                {item.selected &&
+                item.timeSlot &&
+                this.props.saveAddressNumber < 2 ? (
+                  <span style={{ display: 'block' }}>
+                    <FormattedMessage id="payment.editDeliveryDateAndTime" />
+                  </span>
+                ) : null}
+              </p>
+              {!item?.validFlag ? (
+                <div className="address-item-forbid">{item.alert}</div>
+              ) : null}
+            </div>
+            <div className="col-12 col-md-4 mt-md-0 mt-1 pl-0 pr-0 text-right font-weight-bold address_opt_btn ">
+              <span
+                className="border-bottom-2"
+                onClick={this.addOrEditAddress.bind(this, i)}
+              >
+                <FormattedMessage id="edit" />
+              </span>
+              <span className="select_this_address border-bottom-2">
+                <FormattedMessage id="selectThisAddress" />
+              </span>
+            </div>
           </div>
         </div>
-      </div>
-    ));
+      );
+    });
     // 显示更多地址
     const _foldBtn = (
       <div

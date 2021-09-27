@@ -2172,6 +2172,9 @@ const fr_FR = {
     '2. Touchez le corps de votre chat en exerçant une légère pression pour trouver les côtes.',
   'productFinder.mixBreed': 'Race mixte',
   'productFinder.weight': 'Poids',
-  'Go back to recommendation': 'Retour à la page de recommandation'
+  'Go back to recommendation': 'Retour à la page de recommandation',
+  'productFinder.weight': 'Poids',
+  'Subscription.orderPostCodeHit':
+    "* Veuillez mettre à jour l'adresse de livraison"
 };
 export default fr_FR;

@@ -1015,3 +1015,20 @@ export function judgeIsIndividual(item) {
     (item.promotions || '').toLowerCase() === 'individual'
   );
 }
+// uk和fr,才有postCode校验
+const countryPostCode = ['uk', 'fr'];
+const currentCountry = window.__.env.REACT_APP_COUNTRY;
+export const isCanVerifyBlacklistPostCode = countryPostCode.includes(
+  currentCountry
+);
+
+// 获取 Postal code alert message
+export async function getAddressPostalCodeAlertMessage() {
+  // 接口获取警示语
+  const postCodeAlertMessage =
+    '* Sorry we are not able to deliver your order in this area.';
+
+  return new Promise((resolve, reject) => {
+    resolve(postCodeAlertMessage);
+  });
+}
