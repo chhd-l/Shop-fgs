@@ -325,10 +325,10 @@ class HomeDeliveryOrPickUp extends React.Component {
           let ckgobj = ckg.context;
           data['dimensions'] = ckgobj?.dimensions;
           data['weight'] = ckgobj?.weight;
+        } else {
+          data['dimensions'] = null;
+          data['weight'] = null;
         }
-      } else {
-        data['dimensions'] = null;
-        data['weight'] = null;
       }
 
       // 根据不同的城市信息查询
