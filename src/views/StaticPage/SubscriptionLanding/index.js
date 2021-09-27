@@ -208,7 +208,7 @@ class SubscriptionLanding extends React.Component {
                           <FormattedMessage
                             id="subscription.ad.list2"
                             values={{
-                              val1: <strong>l'expédition automatique</strong>
+                              val1: <strong>Expédition automatique</strong>
                             }}
                           />
                         </h7>
@@ -251,7 +251,7 @@ class SubscriptionLanding extends React.Component {
                           <FormattedMessage
                             id="subscription.ad.list4"
                             values={{
-                              val1: <strong>tout moment</strong>
+                              val1: <strong>A tout moment</strong>
                             }}
                           />
                         </h7>

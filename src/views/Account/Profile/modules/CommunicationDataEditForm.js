@@ -373,7 +373,10 @@ class CommunicationDataEditForm extends React.Component {
                   },
                   {
                     type: 'communicationEmail',
-                    langKey: 'email',
+                    langKey:
+                      window.__.env.REACT_APP_COUNTRY === 'uk'
+                        ? 'communicationEmail'
+                        : 'email',
                     visible: true
                   },
                   {

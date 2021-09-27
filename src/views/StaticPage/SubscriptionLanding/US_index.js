@@ -92,10 +92,11 @@ class SubscriptionLanding extends React.Component {
                           <p>
                             At Royal Canin®, we know that caring for a new pet
                             can bring a lot of questions. That’s why we offer
-                            exclusive benefits like 24/7 access to veterinarians
-                            and more through the Royal Canin Club. Joining is
-                            easy — sign up for automatic shipping on your pet’s
-                            tailored formulas to become a member today.
+                            exclusive benefits like access to a Royal Canin
+                            Advisor and more through the Royal Canin Club.
+                            Joining is easy — sign up for automatic shipping on
+                            your pet’s tailored formulas to become a member
+                            today.
                             <br />
                             <br />
                           </p>
@@ -125,23 +126,24 @@ class SubscriptionLanding extends React.Component {
                             <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                               <li className="rc-list__item">
                                 <em className="wof rc-margin-right--xs"></em>
-                                <strong>Royal Canin Pet Advisor Live</strong> -
-                                chat with veterinarians around the clock about
-                                your pet’s health, nutrition, behavior and more.
+                                <strong>Expert Guidance</strong> - Receive
+                                nutritional recommendations on Royal Canin food
+                                and products as your pet grows
                               </li>
                               <li className="rc-list__item">
                                 <em className="wof rc-margin-right--xs"></em>
-                                <strong>
-                                  Special Savings + FREE Shipping
-                                </strong>{' '}
-                                - save 30% on your first order and another 5% on
-                                every autoship order.
+                                <strong>Special Savings</strong> - Save 30% off
+                                your first purchase through Royal Canin Club,
+                                and 5% off every autoship order. Plus, free
+                                shipping –– with no minimum purchase
                               </li>
                               <li className="rc-list__item">
                                 <em className="wof rc-margin-right--xs"></em>
-                                <strong>Expert Recommendations</strong> -
-                                receive recommendations for pet food and
-                                products as your pet grows.
+                                <strong>Royal Canin Advisor</strong> - Like a
+                                coach for everything related to your pet’s
+                                nutrition, your Royal Canin Advisor can help
+                                with diet recommendations and expert feeding
+                                advice, updates on products, and more
                               </li>
                             </ul>
                             <div className="d-none d-md-block rc-btn-group m-0 rc-column rc-padding-x--none">
@@ -202,9 +204,8 @@ class SubscriptionLanding extends React.Component {
                           />
                           <div className="inherit-fontsize rc-large-body rc-padding-top--xs children-nomargin">
                             <p>
-                              Find your{' '}
-                              <strong>handpicked nutrition products</strong> in
-                              your cart.
+                              Add expert-recommended pet food and products to
+                              your cart
                             </p>
                           </div>
                         </div>
@@ -216,8 +217,8 @@ class SubscriptionLanding extends React.Component {
                           />
                           <div className="inherit-fontsize rc-large-body rc-padding-top--xs children-nomargin">
                             <p>
-                              Select <strong>automatic shipping</strong> and
-                              input your payment method.
+                              Select automatic shipping and input your payment
+                              method.
                             </p>
                           </div>
                         </div>
@@ -229,11 +230,8 @@ class SubscriptionLanding extends React.Component {
                           />
                           <div className="inherit-fontsize rc-large-body rc-padding-top--xs children-nomargin">
                             <p>
-                              <strong>
-                                Receive your product automatically
-                              </strong>{' '}
-                              based on your schedule. Change or cancel{' '}
-                              <strong>at any time</strong>.
+                              Receive your autoship purchase based on your
+                              schedule––change or cancel at any time
                             </p>
                           </div>
                         </div>
@@ -245,9 +243,8 @@ class SubscriptionLanding extends React.Component {
                           />
                           <div className="inherit-fontsize rc-large-body rc-padding-top--xs children-nomargin">
                             <p>
-                              Get your exclusive
-                              <strong> Royal Canin Club </strong>perks,
-                              including access to Royal Canin Pet Advisor Live.
+                              Get your exclusive Royal Canin Club perks,
+                              including access to a Royal Canin Advisor
                             </p>
                           </div>
                         </div>

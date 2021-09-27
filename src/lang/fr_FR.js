@@ -1269,7 +1269,7 @@ const fr_FR = {
   royalCaninClub: 'Royal Canin Club',
   'salesCategory.cat': 'Pour chat',
   'salesCategory.content':
-    'Chaque formule a été créée pour fournir une nutrition adaptée ses besoins de santé quels que {val1} soient sa taille, sa race, son âge ou son mode de vie.',
+    'Chaque formule a été créée pour fournir une nutrition à ses besoins de santé quels que {val1} soient sa taille, sa race, son âge ou son mode de vie.',
   'salesCategory.dog': 'Pour chien',
   //salesCategory
   'salesCategory.title': 'Découvrez nos {val1} gammes d’aliments',
@@ -1794,7 +1794,7 @@ const fr_FR = {
   'details.recommendedDaily.info': '{val}',
   'details.backRecommendedDaily': 'Retour à la page de recommandation',
   'details.findProductTip':
-    "Besoin d'aide pour trouver l'aliment adapté aux besoins de votre animal {btn}",
+    "Besoin d'aide pour trouver l'aliment adapté aux besoins de votre animal ? {btn}",
   'details.findProductTips': "Trouver l'aliment adapté",
   'details.learnMore': 'En savoir plus',
   'subscriptionDetail.cantBindPetsErr1':
@@ -1960,7 +1960,7 @@ const fr_FR = {
     'Nous ferons le maximum pour vous répondre le plus rapidement possible, dans les 12 heures. ',
   'ClubLP.Help.email.address': 'Envoyez-nous un e-mail',
   'ClubLP.Help.faq.content':
-    "Vous pouvez consulter notre {val} consulter si votre question n'a pas déjà été traitée.",
+    'Vous pouvez consulter notre {val} vérifier si votre question a déjà été traitée.',
   'plp.retail.cat.filter.specneed.title':
     'Offrez à votre chat un aliment adapté à ses besoins et une portion précise pour un poids idéal !',
   'plp.retail.cat.filter.specneed.tip': '-25% sur la première commande',

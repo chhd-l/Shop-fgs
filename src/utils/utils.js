@@ -90,7 +90,7 @@ export async function hanldePurchases(goodsInfoDTOList) {
 }
 
 export function stgShowAuth() {
-  // return true;
+  return true;
   // charles_dw@139.com fr sit  以及anhao的三个环境账号
   let whiteList = [
     'henri.thibaud@royalcanin.com',
@@ -102,7 +102,12 @@ export function stgShowAuth() {
     'elisa.brami@royalcanin.com',
     'victor.sing@royalcanin.com',
     'alba.beatriz.brito.guerrero@royalcanin.com',
-    'tmj300h@yopmail.com'
+    'tmj300h@yopmail.com',
+    'tmj400a@yopmail.com',
+    'tmj400b@yopmail.com',
+    'tmj400c@yopmail.com',
+    'tmj400d@yopmail.com',
+    'tmj400e@yopmail.com'
     // '000003003',
     // '000018001',
     // '000030505',

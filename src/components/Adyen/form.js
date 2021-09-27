@@ -59,8 +59,7 @@ class AdyenCreditCardForm extends React.Component {
       'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.css'
     );
     loadJS({
-      url:
-        'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
+      url: 'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
       callback: function () {
         if (!!window.AdyenCheckout) {
           //要有值
@@ -95,10 +94,8 @@ class AdyenCreditCardForm extends React.Component {
                   _this.getBrowserInfo(state);
                   console.log('adyen form state:', state);
                   console.log('adyen form card:', card);
-                  const {
-                    enableStoreDetails,
-                    mustSaveForFutherPayments
-                  } = _this.props;
+                  const { enableStoreDetails, mustSaveForFutherPayments } =
+                    _this.props;
                   let tmpValidSts;
                   if (enableStoreDetails && mustSaveForFutherPayments) {
                     tmpValidSts = card.data.storePaymentMethod && state.isValid;
@@ -259,7 +256,11 @@ class AdyenCreditCardForm extends React.Component {
                     name="contactInformation"
                     onClick={this.handleClickCancel}
                   >
-                    <FormattedMessage id="cancel" />
+                    {window.__.env.REACT_APP_COUNTRY === 'uk' ? (
+                      <FormattedMessage id="Delete card" />
+                    ) : (
+                      <FormattedMessage id="cancel" />
+                    )}
                   </span>{' '}
                   <span>
                     <FormattedMessage id="or" />{' '}
@@ -277,7 +278,11 @@ class AdyenCreditCardForm extends React.Component {
                   disabled={!isValid}
                   onClick={this.handleSave}
                 >
-                  <FormattedMessage id="save" />
+                  {window.__.env.REACT_APP_COUNTRY === 'uk' ? (
+                    <FormattedMessage id="Save card" />
+                  ) : (
+                    <FormattedMessage id="save" />
+                  )}
                 </button>
               )}
             </div>
