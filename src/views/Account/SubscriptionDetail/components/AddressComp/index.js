@@ -27,78 +27,166 @@ const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 
 function CardItem(props) {
   const { data, localAddressForm } = props;
-  return (
-    <div
-      className={`${
-        isMobile ? 'p-3' : 'd-flex  pt-4 pb-4 pl-2 pr-2'
-      } rc-bg-colour--brand4 rounded ui-cursor-pointer-pure h-100 address-item card_item_border ${
-        data.selected ? 'selected' : ''
-      }`}
-      style={{ wordBreak: 'break-word' }}
-      onClick={props.handleClick}
-    >
-      <div className={`${isMobile ? 'mb-3' : 'col-6'} d-flex flex-wrap`}>
-        {props.receiveType == 'PICK_UP' ? (
-          <>
-            {/* 自提点 */}
-            <div className="rc-full-width font-weight-bold mb-1 mp_mb_pickupName">
-              {data.pickupName}
-            </div>
-            {/* 地址 */}
-            <div className="rc-full-width mb-0 mp_mb_address1">
-              {data.address1}
-            </div>
-            {/* 营业时间 */}
-            <div className="rc-full-width mb-0 mp_mb_workTime">
-              {data.workTime}
-            </div>
-          </>
-        ) : (
-          <>
-            {/* 姓名 */}
-            <div className="rc-full-width font-weight-bold ccard-phone-title word-break mb-1">
-              <div className="address-name ac_mb_name">
-                <span>{data.firstName + ' ' + data.lastName}</span>
+
+  // PICK_UP 不需要邮编校验
+  if (props.receiveType == 'PICK_UP'){
+    return (
+      <div
+        className={`${
+          isMobile ? 'p-3' : 'd-flex  pt-4 pb-4 pl-2 pr-2'
+        } rc-bg-colour--brand4 rounded ui-cursor-pointer-pure h-100 address-item card_item_border ${
+          data.selected ? 'selected' : ''
+        }`}
+        style={{ wordBreak: 'break-word' }}
+        onClick={props.handleClick}
+      >
+        <div className={`${isMobile ? 'mb-3' : 'col-6'} d-flex flex-wrap`}>
+          {props.receiveType == 'PICK_UP' ? (
+            <>
+              {/* 自提点 */}
+              <div className="rc-full-width font-weight-bold mb-1 mp_mb_pickupName">
+                {data.pickupName}
               </div>
-            </div>
-            {/* 电话 */}
-            <div className="rc-full-width mb-0 ac_mb_tel">
-              {data.consigneeNumber}
-            </div>
-            {/* 国家 */}
-            {window.__.env.REACT_APP_COUNTRY === 'us' ? null : (
-              <>
-                <div className="rc-full-width mb-0 ac_mb_country">
-                  {props.countryName}
+              {/* 地址 */}
+              <div className="rc-full-width mb-0 mp_mb_address1">
+                {data.address1}
+              </div>
+              {/* 营业时间 */}
+              <div className="rc-full-width mb-0 mp_mb_workTime">
+                {data.workTime}
+              </div>
+            </>
+          ) : (
+            <>
+              {/* 姓名 */}
+              <div className="rc-full-width font-weight-bold ccard-phone-title word-break mb-1">
+                <div className="address-name ac_mb_name">
+                  <span>{data.firstName + ' ' + data.lastName}</span>
                 </div>
-              </>
-            )}
-            {/* 地址 */}
-            {localAddressForm?.address1 && data?.address1 && (
-              <div className="rc-full-width mb-0 ac_mb_address1">
-                {data?.address1}
               </div>
-            )}
+              {/* 电话 */}
+              <div className="rc-full-width mb-0 ac_mb_tel">
+                {data.consigneeNumber}
+              </div>
+              {/* 国家 */}
+              {window.__.env.REACT_APP_COUNTRY === 'us' ? null : (
+                <>
+                  <div className="rc-full-width mb-0 ac_mb_country">
+                    {props.countryName}
+                  </div>
+                </>
+              )}
+              {/* 地址 */}
+              {localAddressForm?.address1 && data?.address1 && (
+                <div className="rc-full-width mb-0 ac_mb_address1">
+                  {data?.address1}
+                </div>
+              )}
 
-            <div className="rc-full-width mb-0 ac_mb_cpp">
-              {/* 城市 */}
-              {localAddressForm?.city && data?.city + ', '}
+              <div className="rc-full-width mb-0 ac_mb_cpp">
+                {/* 城市 */}
+                {localAddressForm?.city && data?.city + ', '}
 
-              {/* 区域 */}
-              {localAddressForm?.region && data.area + ', '}
+                {/* 区域 */}
+                {localAddressForm?.region && data.area + ', '}
 
-              {/* 省份 / State */}
-              {localAddressForm?.state && data?.province + ' '}
+                {/* 省份 / State */}
+                {localAddressForm?.state && data?.province + ' '}
 
-              {/* 邮编 */}
-              {localAddressForm?.postCode && data?.postCode}
-            </div>
-          </>
-        )}
+                {/* 邮编 */}
+                {localAddressForm?.postCode && data?.postCode}
+              </div>
+            </>
+          )}
+        </div>
+        {props.operateBtnJSX}
       </div>
-      {props.operateBtnJSX}
-    </div>
-  );
+    );
+  }else {
+    return (
+      <div
+        className={`${
+          isMobile ? 'p-3' : 'd-flex  pt-4 pb-4 pl-2 pr-2'
+        } rc-bg-colour--brand4 rounded ui-cursor-pointer-pure h-100 address-item card_item_border ${
+          data.selected ? 'selected' : ''
+        } ${
+          !data?.validFlag ? 'forbid' : ''
+        }`}
+        style={{ wordBreak: 'break-word' }}
+        onClick={
+          props.handleClick
+        }
+      >
+        <div className={`${isMobile ? 'mb-3' : 'col-6'} d-flex flex-wrap`}>
+          {
+            props.receiveType == 'PICK_UP'
+            ? (<>
+              {/* 自提点 */}
+              <div className="rc-full-width font-weight-bold mb-1 mp_mb_pickupName">
+                {data.pickupName}
+              </div>
+              {/* 地址 */}
+              <div className="rc-full-width mb-0 mp_mb_address1">
+                {data.address1}
+              </div>
+              {/* 营业时间 */}
+              <div className="rc-full-width mb-0 mp_mb_workTime">
+                {data.workTime}
+              </div>
+            </>)
+            : (<>
+              {/* 姓名 */}
+              <div className="rc-full-width font-weight-bold ccard-phone-title word-break mb-1">
+                <div className="address-name ac_mb_name">
+                  <span>{data.firstName + ' ' + data.lastName}</span>
+                </div>
+              </div>
+              {/* 电话 */}
+              <div className="rc-full-width mb-0 ac_mb_tel">
+                {data.consigneeNumber}
+              </div>
+              {/* 国家 */}
+              {window.__.env.REACT_APP_COUNTRY === 'us' ? null : (
+                <>
+                  <div className="rc-full-width mb-0 ac_mb_country">
+                    {props.countryName}
+                  </div>
+                </>
+              )}
+              {/* 地址 */}
+              {localAddressForm?.address1 && data?.address1 && (
+                <div className="rc-full-width mb-0 ac_mb_address1">
+                  {data?.address1}
+                </div>
+              )}
+
+              <div className="rc-full-width mb-0 ac_mb_cpp">
+                {/* 城市 */}
+                {localAddressForm?.city && data?.city + ', '}
+
+                {/* 区域 */}
+                {localAddressForm?.region && data.area + ', '}
+
+                {/* 省份 / State */}
+                {localAddressForm?.state && data?.province + ' '}
+
+                {/* 邮编 */}
+                {localAddressForm?.postCode && data?.postCode}
+
+                {
+                  !data?.validFlag
+                  ? data.alert && (<div className="address-item-forbid">{data.alert}</div>)
+                  : null
+                }
+              </div>
+            </>)
+          }
+        </div>
+        {props.operateBtnJSX}
+      </div>
+    );
+  }
+
 }
 @inject('checkoutStore', 'configStore')
 @observer
@@ -465,6 +553,11 @@ class AddressList extends React.Component {
       await validData(deliveryAddress.formRule, deliveryAddress); // 数据验证
       // await validData(ADDRESS_RULE, deliveryAddress);
       this.setState({ isValid: true });
+
+      // 异步校验邮编黑名单切换按钮状态
+      if(!!deliveryAddress.validPostCodeBlockErrMsg){
+        this.setState({ isValid: false });
+      }
     } catch (err) {
       this.setState({ isValid: false });
     }
@@ -1022,8 +1115,7 @@ class AddressList extends React.Component {
         localAddressForm={localAddressForm}
         receiveType={item.receiveType}
         currentAddressId={deliveryAddressId}
-        operateBtnJSX={
-          <div
+        operateBtnJSX={<div
             className={`${
               isMobile ? '' : 'col-6'
             } d-flex flex-column justify-content-between`}
@@ -1085,7 +1177,13 @@ class AddressList extends React.Component {
             </div>
           </div>
         }
-        handleClick={() => this.selectAddress(item)}
+        handleClick={
+          item.receiveType == 'PICK_UP'
+            ? () => this.selectAddress(item)
+            : !!item.validFlag
+              ? () => this.selectAddress(item)
+              : null
+        }
         countryName={matchNamefromDict(countryList, item.countryId)}
       />
     );

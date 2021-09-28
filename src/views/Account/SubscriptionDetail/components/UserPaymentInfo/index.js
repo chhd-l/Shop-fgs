@@ -114,8 +114,9 @@ const UserPaymentInfo = ({
               </span>
             </p>
 
-            {currentDeliveryAddress.receiveType === 'PICK_UP' ? (
-              <>
+            {currentDeliveryAddress.receiveType === 'PICK_UP'
+              ? (
+                <>
                 {/* pickupName */}
                 <p className="mb-0 sd_mb_pickupName font-weight-bold">
                   {currentDeliveryAddress?.pickupName}
@@ -139,8 +140,9 @@ const UserPaymentInfo = ({
                   {currentDeliveryAddress?.workTime}
                 </p>
               </>
-            ) : (
-              <>
+              )
+              : (
+                <>
                 {/* 电话 */}
                 {localAddressForm?.phoneNumber &&
                   currentDeliveryAddress?.consigneeNumber && (
@@ -220,7 +222,8 @@ const UserPaymentInfo = ({
                   </>
                 )}
               </>
-            )}
+              )
+            }
 
             {/* delivery date */}
             {/* {currentDeliveryAddress?.deliveryDate && (
@@ -239,9 +242,11 @@ const UserPaymentInfo = ({
         </div>
       </div>
       {/* 不是美国或者不隐藏支付checkout billing addr时，才显示billing addr */}
-      {window.__.env.REACT_APP_COUNTRY !== 'us' &&
-      !Boolean(+window.__.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR) ? (
-        <div className={`col-12 col-md-4 mb-2`} style={{ padding: '5px' }}>
+      {
+        window.__.env.REACT_APP_COUNTRY !== 'us' &&
+      !Boolean(+window.__.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR)
+        ? (
+          <div className={`col-12 col-md-4 mb-2`} style={{ padding: '5px' }}>
           <div
             className="h-100 border border-d7d7d7"
             style={{
@@ -342,13 +347,12 @@ const UserPaymentInfo = ({
             </div>
           </div>
         </div>
-      ) : null}
+      )
+        : null
+      }
 
-      {currentCardInfo ? (
-        <div
-          className="col-12 col-md-4 mb-2"
-          style={{ padding: '5px', paddingRight: '0' }}
-        >
+      {currentCardInfo
+        ? (<div className="col-12 col-md-4 mb-2" style={{ padding: '5px', paddingRight: '0' }}>
           <div
             className="h-100 border border-d7d7d7"
             style={{
@@ -424,8 +428,9 @@ const UserPaymentInfo = ({
               {/* <p className="mb-0">{currentCardInfo.phone}</p> */}
             </div>
           </div>
-        </div>
-      ) : null}
+        </div>)
+        : null
+      }
     </div>
   );
 };
