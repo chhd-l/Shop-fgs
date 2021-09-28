@@ -276,10 +276,7 @@ class AddressList extends React.Component {
           addressList.find((item) => item.validFlag === 1)
             ?.deliveryAddressId) ||
         '';
-
-      if (!tmpId) {
-        this.updateConfirmBtnDisabled(true);
-      }
+      console.log('tmpId', tmpId);
 
       Array.from(
         addressList,
@@ -422,6 +419,9 @@ class AddressList extends React.Component {
             });
             // 按钮状态可用
             this.updateConfirmBtnDisabled(false);
+            if (isCanVerifyBlacklistPostCode && !tmpId){
+              this.updateConfirmBtnDisabled(true);
+            }
           }
 
           // 更新delivery address保存次数
@@ -2050,8 +2050,11 @@ class AddressList extends React.Component {
         <div
           className={`rounded address-item ${
             item.selected ? 'selected' : 'border'
-          } ${!item?.validFlag ? 'forbid' : ''} ${
-            foledMore && !item.selected ? 'address-item-none' : ''
+          } ${!item?.validFlag ? 'forbid' : ''}
+          ${
+            foledMore && !item.selected && (i !== 0)
+              ? 'address-item-none'
+              : ''
           } ${
             !item.selected && i !== addressList.length - 1
               ? 'border-bottom-0'
