@@ -91,8 +91,7 @@ class HomeDeliveryOrPickUp extends React.Component {
             require: true
           },
           {
-            regExp:
-              /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/,
+            regExp: /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/,
             errMsg: CURRENT_LANGFILE['payment.errorInfo2'],
             key: 'phoneNumber',
             require: true
@@ -185,7 +184,9 @@ class HomeDeliveryOrPickUp extends React.Component {
     });
 
     let sitem = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
-    sitem = JSON.parse(sitem);
+    if (sitem) {
+      sitem = JSON.parse(sitem);
+    }
 
     let defaultCity = this.props.defaultCity;
     console.log('666 >>> defaultCity : ', defaultCity);
@@ -517,7 +518,9 @@ class HomeDeliveryOrPickUp extends React.Component {
     // 再次编辑地址的时候，从缓存中取city数据
     if (pickupEditNumber > 0) {
       let sobj = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
-      sobj = JSON.parse(sobj);
+      if (sobj) {
+        sobj = JSON.parse(sobj);
+      }
       let cityData = sobj?.cityData;
       pkobj['provinceCode'] = cityData?.regionIsoCode || '';
       pkobj['provinceIdStr'] = cityData?.regionFias;

@@ -24,7 +24,7 @@ import {
   matchNamefromDict,
   formatMoney,
   getDeviceType,
-  isCanVerifyBlacklistPostCode,
+  isCanVerifyBlacklistPostCode
 } from '@/utils/utils';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
@@ -264,7 +264,7 @@ class AddressList extends React.Component {
       });
       // 默认地址
       const defaultAddressItem = find(addressList, (ele) => {
-        return ele.isDefaltAddress === 1 && (!!ele.validFlag);
+        return ele.isDefaltAddress === 1 && !!ele.validFlag;
       });
 
       // 有默认地址选中默认地址，没有默认地址选中第一个地址
@@ -272,7 +272,9 @@ class AddressList extends React.Component {
       let tmpId =
         selectedId ||
         (defaultAddressItem && defaultAddressItem.deliveryAddressId) ||
-        (addressList.length && addressList.find(item => item.validFlag === 1)?.deliveryAddressId) ||
+        (addressList.length &&
+          addressList.find((item) => item.validFlag === 1)
+            ?.deliveryAddressId) ||
         '';
 
       if (!tmpId) {
@@ -281,8 +283,7 @@ class AddressList extends React.Component {
 
       Array.from(
         addressList,
-        (ele) =>
-          (ele.selected = ele.deliveryAddressId === tmpId)
+        (ele) => (ele.selected = ele.deliveryAddressId === tmpId)
       );
 
       // 有数据并且 type=billing，判断是否有billingAddress
@@ -369,13 +370,15 @@ class AddressList extends React.Component {
               if (!pickupAddress?.length) {
                 let hpobj =
                   sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
-                hpobj = JSON.parse(hpobj);
-                if (hpobj?.cityData) {
-                  hpobj['cityData'] = null;
-                  sessionItemRoyal.set(
-                    'rc-homeDeliveryAndPickup',
-                    JSON.stringify(hpobj)
-                  );
+                if (hpobj) {
+                  hpobj = JSON.parse(hpobj);
+                  if (hpobj?.cityData) {
+                    hpobj['cityData'] = null;
+                    sessionItemRoyal.set(
+                      'rc-homeDeliveryAndPickup',
+                      JSON.stringify(hpobj)
+                    );
+                  }
                 }
                 this.setState({
                   defaultCity: ''
@@ -947,7 +950,7 @@ class AddressList extends React.Component {
         this.props.updateData(data);
       });
       // 异步校验邮编黑名单切换按钮状态
-      if(!!data.validPostCodeBlockErrMsg){
+      if (!!data.validPostCodeBlockErrMsg) {
         this.setState({ isValid: false }, () => {
           this.props.updateFormValidStatus(this.state.isValid);
         });
@@ -1403,7 +1406,9 @@ class AddressList extends React.Component {
           if (obj?.length) {
             let hpobj =
               sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
-            hpobj = JSON.parse(hpobj);
+            if (hpobj) {
+              hpobj = JSON.parse(hpobj);
+            }
 
             obj.map((e, i) => {
               let tp = e.type;
@@ -1491,7 +1496,9 @@ class AddressList extends React.Component {
     } = this.state;
 
     let hdpk = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
-    hdpk = JSON.parse(hdpk);
+    if (hdpk) {
+      hdpk = JSON.parse(hdpk);
+    }
 
     // 设置homeDelivery deliveryPrice初始值
     let homedobj = find(homeAndPickup, (e) => e.type == 'homeDelivery');
@@ -1638,7 +1645,9 @@ class AddressList extends React.Component {
         }
         // 修改本地存储的信息
         let sobj = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
-        sobj = JSON.parse(sobj);
+        if (sobj) {
+          sobj = JSON.parse(sobj);
+        }
         if (sobj?.cityData) {
           sobj['cityData'] = null;
           sessionItemRoyal.set(
@@ -1746,7 +1755,9 @@ class AddressList extends React.Component {
       () => {
         // 存储选择的数据
         let sobj = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
-        sobj = JSON.parse(sobj);
+        if (sobj) {
+          sobj = JSON.parse(sobj);
+        }
         let item = {
           cityData: sobj?.cityData || null,
           homeAndPickup: sitem
@@ -1766,7 +1777,9 @@ class AddressList extends React.Component {
       // let btndisabled = true; // 按钮状态
       let ichoise = 0;
       let obj = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
-      obj = JSON.parse(obj);
+      if (obj) {
+        obj = JSON.parse(obj);
+      }
       let hpk = obj?.homeAndPickup || null;
       if (hpk) {
         // 判断并设置之前的选择
@@ -2045,11 +2058,7 @@ class AddressList extends React.Component {
               : ''
           } mb-3`}
           key={item.deliveryAddressId}
-          onClick={
-            !!item.validFlag
-              ? (e) => this.selectAddress(e, i)
-              : null
-          }
+          onClick={!!item.validFlag ? (e) => this.selectAddress(e, i) : null}
         >
           <div className="row align-items-center pt-3 pb-3 ml-3 mr-3 align_items_wrap">
             <div
