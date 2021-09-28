@@ -62,7 +62,7 @@ const defaultList = {
               href={'/about-us/faqs'}
               ariaLabel="Links to faq"
             >
-              <a style={{ color: '#E2001A' }}>FAQ pour</a>
+              <a style={{ color: '#E2001A' }}>FAQ</a>
             </DistributeHubLinkOrATag>
           )
         }}
