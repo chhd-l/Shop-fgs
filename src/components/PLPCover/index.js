@@ -458,7 +458,7 @@ function ListItemForDefault(props) {
                     <img
                       src={
                         item.goodsImg ||
-                        item.goodsInfos.sort(
+                        item?.goodsInfos?.sort(
                           (a, b) => a.marketPrice - b.marketPrice
                         )[0]?.goodsInfoImg ||
                         IMG_DEFAULT

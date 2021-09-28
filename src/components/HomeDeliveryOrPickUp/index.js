@@ -184,7 +184,9 @@ class HomeDeliveryOrPickUp extends React.Component {
     });
 
     let sitem = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
-    sitem = JSON.parse(sitem);
+    if (sitem) {
+      sitem = JSON.parse(sitem);
+    }
 
     let defaultCity = this.props.defaultCity;
     console.log('666 >>> defaultCity : ', defaultCity);
@@ -318,10 +320,10 @@ class HomeDeliveryOrPickUp extends React.Component {
           let ckgobj = ckg.context;
           data['dimensions'] = ckgobj?.dimensions;
           data['weight'] = ckgobj?.weight;
+        } else {
+          data['dimensions'] = null;
+          data['weight'] = null;
         }
-      } else {
-        data['dimensions'] = null;
-        data['weight'] = null;
       }
 
       // 根据不同的城市信息查询
@@ -516,7 +518,9 @@ class HomeDeliveryOrPickUp extends React.Component {
     // 再次编辑地址的时候，从缓存中取city数据
     if (pickupEditNumber > 0) {
       let sobj = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
-      sobj = JSON.parse(sobj);
+      if (sobj) {
+        sobj = JSON.parse(sobj);
+      }
       let cityData = sobj?.cityData;
       pkobj['provinceCode'] = cityData?.regionIsoCode || '';
       pkobj['provinceIdStr'] = cityData?.regionFias;

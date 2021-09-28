@@ -71,7 +71,7 @@ const NextDelivery = ({
           className="card-header row rc-margin-x--none align-items-center pl-0 pr-0"
           style={{
             background: '#f9f9f9',
-            height: '60px',
+            // height: '60px',
             padding: 0
           }}
         >
