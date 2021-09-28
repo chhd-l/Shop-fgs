@@ -350,6 +350,10 @@ class ShippingAddressFrom extends React.Component {
       await validData(addressForm.formRule, addressForm); // 数据验证
       // await validData(ADDRESS_RULE, addressForm);
       this.setState({ isValid: true });
+      // 异步校验邮编黑名单切换按钮状态
+      if(!!deliveryAddress.validPostCodeBlockErrMsg){
+        this.setState({ isValid: false });
+      }
     } catch (err) {
       this.setState({ isValid: false });
     }

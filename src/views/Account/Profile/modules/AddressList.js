@@ -61,7 +61,9 @@ function CardItem(props) {
       ${props.data.selected ? 'selected' : ''}
       ${!props.data.validFlag ? 'forbid' : ''}
       `}
-      onClick={props.handleClickCoverItem}
+      onClick={
+        props.handleClickCoverItem
+      }
     >
       {/* <div className="font-weight-normal mt-4 pt-2 mt-md-0 pt-md-0">
         {data.type === 'DELIVERY' ? (
@@ -483,6 +485,7 @@ class AddressList extends React.Component {
   addressItemDetail = (item, i) => {
     const { countryList } = this.state;
     // console.log('666 >>> selected: ', item.selected);
+
     return (
       <CardItem
         data={item}
@@ -498,7 +501,7 @@ class AddressList extends React.Component {
               <div className="align-items-center">
                 <div className="rc-input rc-input--inline mr-0">
                   <input
-                    disabled={!item.validFlag} // 邮编黑名单禁止选择
+                    disabled={!item.validFlag && item.receiveType != 'PICK_UP'} // 邮编黑名单禁止选择
                     type="radio"
                     id={item.deliveryAddressId}
                     className="rc-input__radio"
