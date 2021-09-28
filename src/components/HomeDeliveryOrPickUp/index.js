@@ -91,7 +91,8 @@ class HomeDeliveryOrPickUp extends React.Component {
             require: true
           },
           {
-            regExp: /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/,
+            regExp:
+              /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/,
             errMsg: CURRENT_LANGFILE['payment.errorInfo2'],
             key: 'phoneNumber',
             require: true
@@ -318,10 +319,10 @@ class HomeDeliveryOrPickUp extends React.Component {
           let ckgobj = ckg.context;
           data['dimensions'] = ckgobj?.dimensions;
           data['weight'] = ckgobj?.weight;
+        } else {
+          data['dimensions'] = null;
+          data['weight'] = null;
         }
-      } else {
-        data['dimensions'] = null;
-        data['weight'] = null;
       }
 
       // 根据不同的城市信息查询

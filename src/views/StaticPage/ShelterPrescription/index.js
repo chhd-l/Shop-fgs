@@ -39,24 +39,19 @@ class ShelterPrescription extends React.Component {
     this.helpContentText = {
       title: this.props.intl.messages['recommendation.helpContentText.title'],
       des: this.props.intl.messages['recommendation.helpContentText.des'],
-      emailTitle: this.props.intl.messages[
-        'recommendation.helpContentText.emailTitle'
-      ],
-      emailDes: this.props.intl.messages[
-        'recommendation.helpContentText.emailDes'
-      ],
-      emailLink: this.props.intl.messages[
-        'recommendation.helpContentText.emailLink'
-      ],
-      phoneTitle: this.props.intl.messages[
-        'recommendation.helpContentText.phoneTitle'
-      ],
+      emailTitle:
+        this.props.intl.messages['recommendation.helpContentText.emailTitle'],
+      emailDes:
+        this.props.intl.messages['recommendation.helpContentText.emailDes'],
+      emailLink:
+        this.props.intl.messages['recommendation.helpContentText.emailLink'],
+      phoneTitle:
+        this.props.intl.messages['recommendation.helpContentText.phoneTitle'],
       phone: this.props.intl.messages['recommendation.helpContentText.phone'],
       email: this.props.intl.messages['recommendation.helpContentText.email'],
       phoneDes1: `<strong>${this.props.intl.messages['recommendation.helpContentText.phoneDes1']}</strong>`,
-      phoneDes2: this.props.intl.messages[
-        'recommendation.helpContentText.phoneDes2'
-      ]
+      phoneDes2:
+        this.props.intl.messages['recommendation.helpContentText.phoneDes2']
       // title: "We're Here to Help",
       // emailLink: '/help/contact',
       // des:
@@ -142,16 +137,16 @@ class ShelterPrescription extends React.Component {
                     </h6>
                     <div className="rc-layout-container rc-two-column banner-benefits-box red-dot-list row rc-margin-bottom--sm rc-margin-bottom--md--mobile text-left">
                       <div className="banner-benefits-li col-6">
-                        30% off your first purchase
+                        Expert food and product recommendations
                       </div>
                       <div className="banner-benefits-li col-6">
-                        5% off every autoship purchase
+                        Free shipping, with no minimum purchase
                       </div>
                       <div className="banner-benefits-li col-6">
-                        Royal Canin Pet Advisor Live
+                        5% off every autoship order
                       </div>
                       <div className="banner-benefits-li col-6">
-                        Free shipping right to your home
+                        Access to a Royal Canin Advisor
                       </div>
                     </div>
                     <div className="text-center">
@@ -178,11 +173,13 @@ class ShelterPrescription extends React.Component {
                     <p style={{ wordBreak: 'break-word' }}>
                       When you choose autoship, you’re automatically part of the
                       Royal Canin® Club. With your membership, you get tailored
-                      nutrition and support for your pet – along with automatic
+                      nutrition and support for your pet –– along with automatic
                       shipping and discounts. Your membership also includes
-                      Royal Canin Pet Advisor Live, where you can chat with a
-                      veterinarian around the clock about your pet’s health,
-                      nutrition, behavior and more.
+                      access to a Royal Canin Advisor (think of this person as
+                      your coach): get breed-specific diet information and
+                      nutrition advice, plus updates on Royal Canin products and
+                      services –– including auto-ship frequency, registration
+                      and transaction history.
                     </p>
                     <p>
                       <Link to="/subscription-landing">

@@ -85,11 +85,14 @@ const ClubItem = ({ subItem, history }) => {
                   {/*{`${item.petsName}'s personalized subscription`}*/}
                 </p>
                 <p>
+                  {item.specText} - 1 <FormattedMessage id="units" />
+                </p>
+                {/* <p>
                   {window.__.env.REACT_APP_COUNTRY == 'fr'
                     ? (item.subscribeNum / 1000).toString().replace('.', ',')
                     : item.subscribeNum / 1000 + 'kg'}{' '}
                   - 1 <FormattedMessage id="units" />
-                </p>
+                </p> */}
                 <p>
                   {/* 30 daily rations Delivered every month */}
                   <FormattedMessage id="subscription.frequency" />

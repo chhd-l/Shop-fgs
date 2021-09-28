@@ -1240,7 +1240,7 @@ const en_US = {
   'recommendation.helpContentText.phoneDes2': '8:00 AM - 4:30  PM CT',
   'recommendation.petsImg': 'dog-and-cat.png',
   'recommendation.plusTitle':
-    'Everything Your Pet Needs PLUS Royal Canin Pet Advisor Live',
+    'Everything You And Your Pet Need PLUS a Royal Canin Advisor',
   'recommendation.plusContent':
     ' No matter the need, we’ve got you covered with exclusive benefits like 24/7 access to pet experts and more through the Royal Canin Club. Joining is easy – sign up for automatic shipping on your pet’s tailored formulas to become a member today.',
   'recommendation.plusBtn': 'Start Now',
