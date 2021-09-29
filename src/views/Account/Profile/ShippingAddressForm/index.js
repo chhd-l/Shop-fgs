@@ -13,7 +13,7 @@ import {
   queryCityNameById,
   getProvincesList
 } from '@/api/address';
-import { getDictionary, validData, setSeoConfig } from '@/utils/utils';
+import { getDictionary, validData, setSeoConfig, isCanVerifyBlacklistPostCode } from '@/utils/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
 // import Selection from '@/components/Selection';
 import classNames from 'classnames';
@@ -348,9 +348,12 @@ class ShippingAddressFrom extends React.Component {
       // await validData(ADDRESS_RULE, addressForm);
       this.setState({ isValid: true });
       // 异步校验邮编黑名单切换按钮状态
-      if(!!deliveryAddress.validPostCodeBlockErrMsg){
-        this.setState({ isValid: false });
+      if (isCanVerifyBlacklistPostCode){
+        if(!!deliveryAddress.validPostCodeBlockErrMsg){
+          this.setState({ isValid: false });
+        }
       }
+
     } catch (err) {
       this.setState({ isValid: false });
     }
