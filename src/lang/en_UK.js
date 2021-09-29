@@ -257,8 +257,7 @@ const en_US = {
   'cart.firstOrderDiscountTip':
     'The 30% discount for your first order will be applied during checkout',
   'cart.fullPrice': 'Find your pet’s precise formula',
-  'cart.miniCartTitle':
-    '30% off first purchase, plus 5% off every order and additional perks with autoship',
+  'cart.miniCartTitle': '5% off every order and additional perks with autoship',
   // 'cart.totalProduct': '{val} item(s) in the basket',
   'cart.totalProduct': '{val} item(s)',
   'minicart.totalProduct': '{val} item(s)',
