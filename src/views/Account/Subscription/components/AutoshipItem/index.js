@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import autoshipIcon from '@/assets/images/autoship.png';
-import { getFormatDate, getDeviceType, getClubLogo } from '@/utils/utils';
+import { getFormatDate, getDeviceType, getClubLogo, isCanVerifyBlacklistPostCode } from '@/utils/utils';
 import FrequencyMatch from '@/components/FrequencyMatch';
 import LazyLoad from 'react-lazyload';
 import { getSubList } from '@/api/subscription';
@@ -36,11 +36,12 @@ const AutoshipItem = ({ subItem, history }) => {
           </div>
           {/*<div className="col-4 col-md-2" />*/}
           {/*<div className="col-4 col-md-2" />*/}
-          {subItem.postCodeValidResponse.validFlag ? null : (
-            <div className="col-8 pl-4 order-hint">
-              <span>{subItem.postCodeValidResponse.alert}</span>
-            </div>
-          )}
+          {subItem.postCodeValidResponse.validFlag
+            ? null
+            : isCanVerifyBlacklistPostCode
+              ? (<div className="col-8 pl-4 order-hint"><span>{subItem.postCodeValidResponse.alert}</span></div>)
+              : null
+          }
         </div>
       </div>
       <div className="row rc-margin-x--none row align-items-center pt-3 pb-3 1111">

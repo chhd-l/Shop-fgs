@@ -13,7 +13,8 @@ import {
   getDictionary,
   validData,
   matchNamefromDict,
-  getDeviceType
+  getDeviceType,
+  isCanVerifyBlacklistPostCode,
 } from '@/utils/utils';
 import EditForm from '@/components/Form';
 import Loading from '@/components/Loading';
@@ -110,7 +111,7 @@ function CardItem(props) {
         } rc-bg-colour--brand4 rounded ui-cursor-pointer-pure h-100 address-item card_item_border ${
           data.selected ? 'selected' : ''
         } ${
-          !data?.validFlag ? 'forbid' : ''
+          !data?.validFlag && isCanVerifyBlacklistPostCode ? 'forbid' : ''
         }`}
         style={{ wordBreak: 'break-word' }}
         onClick={
@@ -174,9 +175,9 @@ function CardItem(props) {
                 {localAddressForm?.postCode && data?.postCode}
 
                 {
-                  !data?.validFlag
-                  ? data.alert && (<div className="address-item-forbid">{data.alert}</div>)
-                  : null
+                  !data?.validFlag && isCanVerifyBlacklistPostCode
+                    ? (<div className="address-item-forbid">{data.alert}</div>)
+                    : null
                 }
               </div>
             </>)

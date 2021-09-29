@@ -2050,7 +2050,7 @@ class AddressList extends React.Component {
         <div
           className={`rounded address-item ${
             item.selected ? 'selected' : 'border'
-          } ${!item?.validFlag ? 'forbid' : ''}
+          } ${!item?.validFlag && isCanVerifyBlacklistPostCode ? 'forbid' : ''}
           ${
             foledMore && !item.selected && (i !== 0)
               ? 'address-item-none'
@@ -2061,7 +2061,13 @@ class AddressList extends React.Component {
               : ''
           } mb-3`}
           key={item.deliveryAddressId}
-          onClick={!!item.validFlag ? (e) => this.selectAddress(e, i) : null}
+          onClick={
+            isCanVerifyBlacklistPostCode
+              ? !!item.validFlag
+                ? (e) => this.selectAddress(e, i)
+                : null
+              : (e) => this.selectAddress(e, i)
+          }
         >
           <div className="row align-items-center pt-3 pb-3 ml-3 mr-3 align_items_wrap">
             <div
@@ -2089,9 +2095,11 @@ class AddressList extends React.Component {
                   </span>
                 ) : null}
               </p>
-              {!item?.validFlag ? (
-                <div className="address-item-forbid">{item.alert}</div>
-              ) : null}
+              {
+                !item?.validFlag && isCanVerifyBlacklistPostCode
+                  ? (<div className="address-item-forbid">{item.alert}</div>)
+                  : null
+              }
             </div>
             <div className="col-12 col-md-4 mt-md-0 mt-1 pl-0 pr-0 text-right font-weight-bold address_opt_btn ">
               <span

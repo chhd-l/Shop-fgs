@@ -59,7 +59,7 @@ function CardItem(props) {
         isMobile ? '' : 'd-flex'
       } rc-bg-colour--brand4 rounded p-4 pl-3 pr-3 h-100 card_item_border justify-content-between
       ${props.data.selected ? 'selected' : ''}
-      ${!props.data.validFlag ? 'forbid' : ''}
+      ${!props.data.validFlag && isCanVerifyBlacklistPostCode ? 'forbid' : ''}
       `}
       onClick={
         props.handleClickCoverItem
@@ -506,9 +506,9 @@ class AddressList extends React.Component {
                     id={item.deliveryAddressId}
                     className="rc-input__radio"
                     checked={
-                      item.isDefaltAddress === 1 && item.validFlag
-                        ? true
-                        : false
+                      item.receiveType != 'PICK_UP'
+                        ? item.isDefaltAddress === 1 && item.validFlag
+                        : item.isDefaltAddress === 1
                     }
                     name="setDefaultAddress"
                     value={item.deliveryAddressId}
@@ -625,14 +625,21 @@ class AddressList extends React.Component {
             </div>
 
             <div>
-              {!item?.validFlag ? (
-                <p className="address-item-forbid">{item.alert}</p>
-              ) : null}
+
+              {
+                !item?.validFlag  && isCanVerifyBlacklistPostCode
+                  ? (<p className="address-item-forbid">{item.alert}</p>)
+                  : null
+              }
             </div>
           </div>
         }
         handleClickCoverItem={
-          !item.validFlag ? null : this.handleClickCoverItem.bind(this, item)
+          isCanVerifyBlacklistPostCode
+            ? !item.validFlag
+              ? null
+              : this.handleClickCoverItem.bind(this, item)
+            : this.handleClickCoverItem.bind(this, item)
         }
         countryName={matchNamefromDict(countryList, item.countryId)}
       />
