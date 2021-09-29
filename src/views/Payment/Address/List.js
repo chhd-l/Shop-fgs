@@ -949,12 +949,7 @@ class AddressList extends React.Component {
         this.props.updateFormValidStatus(this.state.isValid);
         this.props.updateData(data);
       });
-      // 异步校验邮编黑名单切换按钮状态
-      if (!!data.validPostCodeBlockErrMsg) {
-        this.setState({ isValid: false }, () => {
-          this.props.updateFormValidStatus(this.state.isValid);
-        });
-      }
+
     } catch (err) {
       console.warn(' err msg: ', err);
       this.setState({ isValid: false }, () => {
