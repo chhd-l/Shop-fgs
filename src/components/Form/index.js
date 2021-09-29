@@ -41,6 +41,7 @@ import { shippingCalculation } from '@/api/cart';
 import { inject, observer } from 'mobx-react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import IMask from 'imask';
+import debounce from 'lodash/debounce';
 import './index.less';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
@@ -142,6 +143,7 @@ class Form extends React.Component {
     });
     // 查询国家
     this.getCountryList();
+    this.debounceValidvalidationData = debounce(this.validvalidationData, 300);
 
     // 美国 state 字段统一为 province
     caninForm.stateId = initData.provinceId;
@@ -939,10 +941,16 @@ class Form extends React.Component {
     }
     console.log('666 >> tname: ', tname);
     caninForm[tname] = tvalue;
+
     this.setState({ caninForm }, () => {
       this.updateDataToProps(this.state.caninForm);
-      this.validvalidationData(tname, tvalue);
+      if (tname == 'postCode' && isCanVerifyBlacklistPostCode){
+        this.debounceValidvalidationData(tname, tvalue);
+      }else {
+        this.validvalidationData(tname, tvalue);
+      }
     });
+
   };
   // 文本框失去焦点
   inputBlur = (e) => {
@@ -956,56 +964,6 @@ class Form extends React.Component {
       this.updateDataToProps(this.state.caninForm);
       this.validvalidationData(tname, tvalue);
     });
-  };
-  // 法国和英国 postCode 黑名单失焦校验
-  inputPostCodeBlur = async (e) => {
-    const { caninForm, errMsgObj } = this.state;
-    const target = e?.target;
-    const tname = target?.name;
-    caninForm[tname] = target?.type === 'checkbox'
-      ? target?.checked
-      : target?.value;
-    const postCodeAlertMessage = '* Sorry we are not able to deliver your order in this area.';
-
-    try {
-      const postCode = target?.value;
-      const res = await validPostCodeBlock(postCode);
-      console.log('res', res);
-      const data = res?.context || {};
-      // validFlag 1 通过 0 不通过
-      if (res.code === 'K-000000') {
-
-        this.setState({
-          errMsgObj: Object.assign({}, errMsgObj, {
-            [tname]: !!data?.validFlag ? '' : data.alert
-          })
-        });
-        caninForm.validPostCodeBlockErrMsg = !!data?.validFlag ? '' : data.alert;
-      } else {
-        this.setState({
-          errMsgObj: Object.assign({}, errMsgObj, {
-            [tname]: postCodeAlertMessage
-          })
-        });
-        caninForm.validPostCodeBlockErrMsg = postCodeAlertMessage;
-      }
-
-      this.setState({ caninForm }, () => {
-        this.updateDataToProps(this.state.caninForm, 'postCode');
-      });
-    } catch (err) {
-      this.setState({
-        errMsgObj: Object.assign({}, errMsgObj, {
-          [tname]: postCodeAlertMessage
-        })
-      });
-      caninForm.validPostCodeBlockErrMsg = postCodeAlertMessage;
-
-      this.setState({ caninForm }, () => {
-        this.updateDataToProps(this.state.caninForm, 'postCode');
-      });
-    }
-
   };
 
   // 查询选择类型的文本框失去焦点
@@ -1027,7 +985,36 @@ class Form extends React.Component {
     } else {
       targetRule = caninForm.formRule.filter((e) => e.key === tname);
     }
+    let postCodeAlertMessage = '* Sorry we are not able to deliver your order in this area.';
+
     try {
+      // 邮编需要黑名单校验
+      if (tname == 'postCode'
+        && targetRule[0].regExp.test(tvalue)
+        && isCanVerifyBlacklistPostCode
+      ){
+        const res = await validPostCodeBlock(tvalue);
+        console.log('res-validvalidationData', res);
+        const data = res?.context || {};
+        // validFlag 1 通过 0 不通过
+        if (res.code === 'K-000000' && !!data?.validFlag) {
+          targetRule[0].isBlacklist = false;
+          this.setState({
+            errMsgObj: Object.assign({}, errMsgObj, {
+              [tname]: ''
+            })
+          });
+        } else {
+          targetRule[0].isBlacklist = true;
+          postCodeAlertMessage = data.alert;
+          this.setState({
+            errMsgObj: Object.assign({}, errMsgObj, {
+              [tname]: postCodeAlertMessage
+            })
+          });
+        }
+      }
+
       await validData(targetRule, { [tname]: tvalue });
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
@@ -1041,7 +1028,9 @@ class Form extends React.Component {
     } catch (err) {
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
-          [tname]: err.message
+          [tname]: !!err.message
+            ? err.message
+            : postCodeAlertMessage
         })
       });
     }
@@ -1288,11 +1277,7 @@ class Form extends React.Component {
             type={item.filedType}
             value={caninForm[item.fieldKey] || ''}
             onChange={(e) => this.inputChange(e)}
-            onBlur={
-              isVerifyPostCodeBlacklist
-                ? this.inputPostCodeBlur
-                : this.inputBlur
-            }
+            onBlur={this.inputBlur}
             name={item.fieldKey}
             disabled={item?.disabled ? true : false}
             maxLength={item.maxLength}

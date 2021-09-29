@@ -261,6 +261,10 @@ export async function validData(rule, data) {
       ) {
         throw new Error(targetRule.errMsg);
       }
+      if(targetRule.isBlacklist){
+        throw new Error('')
+      }
+
     }
   }
 }

@@ -555,10 +555,6 @@ class AddressList extends React.Component {
       // await validData(ADDRESS_RULE, deliveryAddress);
       this.setState({ isValid: true });
 
-      // 异步校验邮编黑名单切换按钮状态
-      if(!!deliveryAddress.validPostCodeBlockErrMsg){
-        this.setState({ isValid: false });
-      }
     } catch (err) {
       this.setState({ isValid: false });
     }
