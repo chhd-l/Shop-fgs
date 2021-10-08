@@ -2052,7 +2052,6 @@ class List extends React.Component {
                                         headingTag={
                                           this.state.seoConfig.headingTag
                                         }
-                                        isVetProducts={this.state.isVetProducts}
                                         onClick={this.hanldeItemClick.bind(
                                           this,
                                           item,

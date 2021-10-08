@@ -487,8 +487,13 @@ function ListItemForDefault(props) {
   );
 }
 
-function ListItemBodyH5ForGlobalStyle({ item, configStore, isVetProducts }) {
-  const hiddenPrice = isVetProducts && window.__.env.REACT_APP_COUNTRY === 'fr';
+function ListItemBodyH5ForGlobalStyle({ item, configStore }) {
+  const vetProduct = item?.goodsCate?.cateName?.toLowerCase()?.includes('vet');
+  console.log(vetProduct, 'VVVV');
+  const trFr =
+    window.__.env.REACT_APP_COUNTRY === 'fr' ||
+    window.__.env.REACT_APP_COUNTRY === 'tr';
+  const hiddenPrice = vetProduct && trFr;
   return (
     <div className="fr-mobile-product-list text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start pr-0">
       <div className="product-name" title={item.goodsName}>
@@ -758,8 +763,13 @@ const PriceItemShow = ({ item, configStore }) => {
     </>
   );
 };
-function ListItemBody({ item, headingTag, configStore, isVetProducts }) {
-  const hiddenPrice = isVetProducts && window.__.env.REACT_APP_COUNTRY === 'fr';
+function ListItemBody({ item, headingTag, configStore }) {
+  const vetProduct = item?.goodsCate?.cateName?.toLowerCase()?.includes('vet');
+  console.log(vetProduct, 'VVVV');
+  const trFr =
+    window.__.env.REACT_APP_COUNTRY === 'fr' ||
+    window.__.env.REACT_APP_COUNTRY === 'tr';
+  const hiddenPrice = vetProduct && trFr;
   const goodHeading = `<${headingTag ? headingTag : 'h2'}
       class="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center"
       title="${item?.goodsName}">
@@ -899,7 +909,6 @@ export default class PLPCover extends React.Component {
           targetType={this.props.targetType}
           item={item}
           configStore={this.props.configStore}
-          isVetProducts={this.props.isVetProducts}
         />
       </ListItemH5ForGlobalStyle>
     ) : (
@@ -946,7 +955,6 @@ export default class PLPCover extends React.Component {
             configStore={this.props.configStore}
             item={item}
             headingTag={headingTag}
-            isVetProducts={this.props.isVetProducts}
           />
         </ListItemForDefault>
         {/* </div> */}
