@@ -1124,7 +1124,8 @@ class Details extends React.Component {
                                     'ru',
                                     'tr',
                                     'us',
-                                    'mx'
+                                    'mx',
+                                    'uk'
                                   ]) ? (
                                     <ImageMagnifier_fr
                                       sizeList={details.sizeList}
