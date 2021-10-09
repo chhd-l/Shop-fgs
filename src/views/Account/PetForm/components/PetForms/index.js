@@ -93,8 +93,9 @@ const PetForms = ({
     window.__.env.REACT_APP_COUNTRY == 'ru' ||
     window.__.env.REACT_APP_COUNTRY == 'tr' ||
     window.__.env.REACT_APP_COUNTRY == 'fr';
-  const notUsDe =
+  const notUsUkDe =
     window.__.env.REACT_APP_COUNTRY !== 'us' &&
+    window.__.env.REACT_APP_COUNTRY !== 'uk' &&
     window.__.env.REACT_APP_COUNTRY !== 'de';
   const isMobile = getDeviceType() !== 'PC';
   const { enterCatBreed, enterDogBreed } = intl.messages;
@@ -394,7 +395,7 @@ const PetForms = ({
       showErrorMsg(intl.messages.pleasecompleteTheRequiredItem);
       return;
     }
-    if (notUsDe) {
+    if (notUsUkDe) {
       if (!petForm.activity || (!petForm.lifestyle && isCat && RuTrFr)) {
         showErrorMsg(intl.messages.pleasecompleteTheRequiredItem);
         return;
@@ -778,7 +779,7 @@ const PetForms = ({
               </span>
             </div>
           )}
-          {notUsDe ? (
+          {notUsUkDe ? (
             <>
               {RuTrFr && isCat ? (
                 <div className="form-group col-lg-6 pull-left required">

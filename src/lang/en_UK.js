@@ -76,7 +76,7 @@ const en_US = {
   'account.paymentMethodTip': 'View and update payment information',
   'account.personalArea': 'My Account',
   'account.personalData': 'Personal data',
-  'account.pets': 'Pets',
+  'account.pets': 'My Pets',
   'account.petsTip': "Create and manage your pet's profile.",
   'account.petsTitle': 'My pets',
   'account.preferredContactMethod': 'Preferred Contact Method',
