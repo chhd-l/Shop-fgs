@@ -539,7 +539,7 @@ const en_US = {
   'forgetPassword.createNewPassword': 'Create new password',
   'forgetPassword.forgetPasswordTip':
     'You will be sent a letter with instructions for changing the password.',
-  freeShipping: 'Free shipping',
+  freeShipping: 'Free shipping above £30',
   FrequentQuestions: 'Common questions',
   from: 'From',
   plpFromText: 'From',
@@ -587,7 +587,7 @@ const en_US = {
   home: 'Account',
   'home.convenientTip1':
     'Selection of a diet according to the needs of your pet',
-  'home.convenientTip2': 'Fast free shipping when ordering from {val}.',
+  'home.convenientTip2': 'Fast free shipping when ordering from {val}',
   'home.convenientTip3':
     'Support service: ask a question about your pet to a specialist',
   'home.convenientTitle': 'Why Shop Royal Canin?',
@@ -597,7 +597,7 @@ const en_US = {
   'home.pageNotFoundInfo':
     'Sorry, the page you are looking for does not exist.',
   'home.point1': 'Secure Payment',
-  'home.point2': 'Free Automatic Shipping',
+  'home.point2': 'Free shipping above £30',
   'home.point3': 'Premium Quality',
   'home.point4': 'Expert Advice',
   'home.point5': 'HEALTH IS OUR OBSESSION SINCE 1968',
