@@ -1201,7 +1201,7 @@ class Recommendation extends React.Component {
         : nutritionalReco ||
           "Les quantités d'alimentation recommandées se trouvent au dos du sac. Assurez-vous de faire la transition des aliments lentement au cours de la semaine pour éviter les maux d'estomac.",
       us:
-        productList[activeIndex]?.productMessage ||
+        nutritionalReco ||
         'Recommended feeding amounts are located on the back of the bag. Make sure you transition food slowly over the course of the week to help prevent stomach upset.',
       ru: this.state.locationPath
     };
