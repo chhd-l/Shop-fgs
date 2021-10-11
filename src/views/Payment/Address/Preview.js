@@ -83,7 +83,7 @@ class AddressPreview extends React.Component {
   render() {
     const { form, boldName, isLogin } = this.props;
 
-    // console.log('666 >>> preview form: ', form);
+    // console.log('666 >>> preview form maxDeliveryTime: ', form.maxDeliveryTime);
     // 获取本地存储的需要显示的地址字段
     const localAddressForm = this.props.configStore.localAddressForm;
 

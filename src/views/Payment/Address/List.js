@@ -419,7 +419,7 @@ class AddressList extends React.Component {
             });
             // 按钮状态可用
             this.updateConfirmBtnDisabled(false);
-            if (isCanVerifyBlacklistPostCode && !tmpId){
+            if (isCanVerifyBlacklistPostCode && !tmpId) {
               this.updateConfirmBtnDisabled(true);
             }
           }
@@ -949,7 +949,6 @@ class AddressList extends React.Component {
         this.props.updateFormValidStatus(this.state.isValid);
         this.props.updateData(data);
       });
-
     } catch (err) {
       console.warn(' err msg: ', err);
       this.setState({ isValid: false }, () => {
@@ -1857,18 +1856,12 @@ class AddressList extends React.Component {
   };
   // 确认 pickup
   clickConfirmPickup = async () => {
-    const {
-      deliveryAddress,
-      pickupFormData,
-      homeAndPickup,
-      pickupCalculation
-    } = this.state;
+    const { deliveryAddress, pickupFormData, pickupCalculation } = this.state;
     this.setState({
       btnConfirmLoading: true,
       loading: true
     });
     try {
-      // console.log('666 >>> pickupFormData: ', pickupFormData);
       await this.getHomeDeliveryPrice(
         pickupFormData.city,
         pickupFormData?.receiveType
@@ -1879,14 +1872,15 @@ class AddressList extends React.Component {
         return Object.assign(pre, { [cur]: '' });
       }, {});
 
-      let pkobj = homeAndPickup.filter((e) => {
+      let pkobj = this.state.homeAndPickup.filter((e) => {
         return e.type == 'pickup';
       });
       let minDeliveryTime =
         pickupFormData.minDeliveryTime || pkobj[0]?.minDeliveryTime;
       let maxDeliveryTime =
         pickupFormData.maxDeliveryTime || pkobj[0]?.maxDeliveryTime;
-      // console.log('666 >>> pkobj: ', pkobj);
+      // console.log('666 >>> pickupFormData.minDeliveryTime: ', pickupFormData.minDeliveryTime);
+      // console.log('666 >>> pkobj[0]?.minDeliveryTime: ', pkobj[0]?.minDeliveryTime);
 
       let pkaddr = pickupFormData?.pickup?.address || null;
       let deliveryAdd = Object.assign({}, tempAddress, {
@@ -1954,11 +1948,6 @@ class AddressList extends React.Component {
             let newPickupData = this.state.pickupData;
             // pickup 相关信息传到 Payment
             // deliveryAdd['pickup'] = pickupFormData.pickup;
-            // console.log('666 >>> deliveryAdd maxDeliveryTime: ', deliveryAdd.maxDeliveryTime);
-            // console.log(
-            //   '666 >>> pickupData maxDeliveryTime: ',
-            //   newPickupData.maxDeliveryTime
-            // );
             // console.log('666 >>> -----------------------------------');
             this.props.updateData(newPickupData);
             this.calculateFreight(newPickupData);
@@ -2047,9 +2036,7 @@ class AddressList extends React.Component {
             item.selected ? 'selected' : 'border'
           } ${!item?.validFlag && isCanVerifyBlacklistPostCode ? 'forbid' : ''}
           ${
-            foledMore && !item.selected && (i !== 0)
-              ? 'address-item-none'
-              : ''
+            foledMore && !item.selected && i !== 0 ? 'address-item-none' : ''
           } ${
             !item.selected && i !== addressList.length - 1
               ? 'border-bottom-0'
@@ -2090,11 +2077,9 @@ class AddressList extends React.Component {
                   </span>
                 ) : null}
               </p>
-              {
-                !item?.validFlag && isCanVerifyBlacklistPostCode
-                  ? (<div className="address-item-forbid">{item.alert}</div>)
-                  : null
-              }
+              {!item?.validFlag && isCanVerifyBlacklistPostCode ? (
+                <div className="address-item-forbid">{item.alert}</div>
+              ) : null}
             </div>
             <div className="col-12 col-md-4 mt-md-0 mt-1 pl-0 pr-0 text-right font-weight-bold address_opt_btn ">
               <span
@@ -2565,7 +2550,7 @@ class AddressList extends React.Component {
                 ) : panelStatus.isCompleted ? (
                   <>
                     <AddressPreview
-                      key={this.state.pickupData}
+                      key={pickupData}
                       form={
                         shippingMethodType === 'pickup'
                           ? pickupData
