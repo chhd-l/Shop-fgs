@@ -5,7 +5,7 @@ import {
   filterOrderId,
   getDeviceType,
   getClubLogo,
-  isCanVerifyBlacklistPostCode,
+  isCanVerifyBlacklistPostCode
 } from '@/utils/utils';
 import FrequencyMatch from '@/components/FrequencyMatch';
 import LazyLoad from 'react-lazyload';
@@ -41,12 +41,12 @@ const ClubItem = ({ subItem, history }) => {
           </div>
           {/*<div className="col-4 col-md-2" />*/}
           {/*<div className="col-4 col-md-2" />*/}
-          {subItem.postCodeValidResponse.validFlag
-            ? null
-            : isCanVerifyBlacklistPostCode
-              ? (<div className="col-8 pl-4 order-hint"><span>{subItem.postCodeValidResponse.alert}</span></div>)
-              : null
-          }
+          {subItem?.postCodeValidResponse
+            ?.validFlag ? null : isCanVerifyBlacklistPostCode ? (
+            <div className="col-8 pl-4 order-hint">
+              <span>{subItem.postCodeValidResponse.alert}</span>
+            </div>
+          ) : null}
         </div>
       </div>
       <div className="col-12 col-md-4 d-flex flex-wrap">
