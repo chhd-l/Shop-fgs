@@ -845,7 +845,7 @@ const fr_FR = {
   'onlineStore.BottomInfo.faq.content2': 'Voir la FAQ',
   'onlineStore.BottomInfo.faq.title': 'Des questions?',
   'onlineStore.BottomInfo.phone.content2':
-    'De 8h30 à 12h30 et de 14h à 17h du lundi au vendredi {val1} (appel non surtaxé)',
+    'Entre 8h30 et 19h en semaine ou le samedi de 9h à 13h {val1} (appel non surtaxé)',
   'onlineStore.BottomInfo.phone.title': 'Par téléphone',
   'onlineStore.breedcrumb': 'Boutique Royal Canin',
   'onlineStore.footer.content':
