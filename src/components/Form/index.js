@@ -629,7 +629,7 @@ class Form extends React.Component {
         // ruleItem.errBlacklistMsg = postCodeAlertMessage;
         this.setState({
           errMsgObj: Object.assign({}, errMsgObj, {
-            [item.fieldKey]: postCodeAlertMessage
+            [item.fieldKey]: cfdata.alert || ''
           })
         });
       }
