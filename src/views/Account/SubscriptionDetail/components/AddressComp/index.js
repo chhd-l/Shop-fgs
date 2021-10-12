@@ -14,7 +14,7 @@ import {
   validData,
   matchNamefromDict,
   getDeviceType,
-  isCanVerifyBlacklistPostCode,
+  isCanVerifyBlacklistPostCode
 } from '@/utils/utils';
 import EditForm from '@/components/Form';
 import Loading from '@/components/Loading';
@@ -30,7 +30,7 @@ function CardItem(props) {
   const { data, localAddressForm } = props;
 
   // PICK_UP 不需要邮编校验
-  if (props.receiveType == 'PICK_UP'){
+  if (props.receiveType == 'PICK_UP') {
     return (
       <div
         className={`${
@@ -103,25 +103,20 @@ function CardItem(props) {
         {props.operateBtnJSX}
       </div>
     );
-  }else {
+  } else {
     return (
       <div
         className={`${
           isMobile ? 'p-3' : 'd-flex  pt-4 pb-4 pl-2 pr-2'
         } rc-bg-colour--brand4 rounded ui-cursor-pointer-pure h-100 address-item card_item_border ${
           data.selected ? 'selected' : ''
-        } ${
-          !data?.validFlag && isCanVerifyBlacklistPostCode ? 'forbid' : ''
-        }`}
+        } ${!data?.validFlag && isCanVerifyBlacklistPostCode ? 'forbid' : ''}`}
         style={{ wordBreak: 'break-word' }}
-        onClick={
-          props.handleClick
-        }
+        onClick={props.handleClick}
       >
         <div className={`${isMobile ? 'mb-3' : 'col-6'} d-flex flex-wrap`}>
-          {
-            props.receiveType == 'PICK_UP'
-            ? (<>
+          {props.receiveType == 'PICK_UP' ? (
+            <>
               {/* 自提点 */}
               <div className="rc-full-width font-weight-bold mb-1 mp_mb_pickupName">
                 {data.pickupName}
@@ -134,8 +129,9 @@ function CardItem(props) {
               <div className="rc-full-width mb-0 mp_mb_workTime">
                 {data.workTime}
               </div>
-            </>)
-            : (<>
+            </>
+          ) : (
+            <>
               {/* 姓名 */}
               <div className="rc-full-width font-weight-bold ccard-phone-title word-break mb-1">
                 <div className="address-name ac_mb_name">
@@ -174,20 +170,17 @@ function CardItem(props) {
                 {/* 邮编 */}
                 {localAddressForm?.postCode && data?.postCode}
 
-                {
-                  !data?.validFlag && isCanVerifyBlacklistPostCode
-                    ? (<div className="address-item-forbid">{data.alert}</div>)
-                    : null
-                }
+                {!data?.validFlag && isCanVerifyBlacklistPostCode ? (
+                  <div className="address-item-forbid">{data.alert}</div>
+                ) : null}
               </div>
-            </>)
-          }
+            </>
+          )}
         </div>
         {props.operateBtnJSX}
       </div>
     );
   }
-
 }
 @inject('checkoutStore', 'configStore')
 @observer
@@ -492,6 +485,10 @@ class AddressList extends React.Component {
         isDefalt: tmp.isDefaltAddress === 1 ? true : false
       };
 
+      if (isCanVerifyBlacklistPostCode) {
+        tmpDeliveryAddress.alert = tmp?.alert || '';
+        tmpDeliveryAddress.validFlag = tmp?.validFlag;
+      }
       this.setState(
         {
           deliveryAddress: Object.assign(
@@ -508,6 +505,11 @@ class AddressList extends React.Component {
         }
       );
     } else {
+      // 新增时删除属性
+      if (isCanVerifyBlacklistPostCode) {
+        delete deliveryAddress.validFlag;
+        delete deliveryAddress.alert;
+      }
       this.setState({
         deliveryAddress: {
           firstName: '',
@@ -554,7 +556,6 @@ class AddressList extends React.Component {
       await validData(deliveryAddress.formRule, deliveryAddress); // 数据验证
       // await validData(ADDRESS_RULE, deliveryAddress);
       this.setState({ isValid: true });
-
     } catch (err) {
       this.setState({ isValid: false });
     }
@@ -1112,7 +1113,8 @@ class AddressList extends React.Component {
         localAddressForm={localAddressForm}
         receiveType={item.receiveType}
         currentAddressId={deliveryAddressId}
-        operateBtnJSX={<div
+        operateBtnJSX={
+          <div
             className={`${
               isMobile ? '' : 'col-6'
             } d-flex flex-column justify-content-between`}
@@ -1178,8 +1180,8 @@ class AddressList extends React.Component {
           item.receiveType == 'PICK_UP'
             ? () => this.selectAddress(item)
             : !!item.validFlag
-              ? () => this.selectAddress(item)
-              : null
+            ? () => this.selectAddress(item)
+            : null
         }
         countryName={matchNamefromDict(countryList, item.countryId)}
       />

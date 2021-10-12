@@ -902,10 +902,20 @@ class AddressList extends React.Component {
         isDefalt: tmp.isDefaltAddress === 1 ? true : false,
         email: tmp.email
       };
+      if (isCanVerifyBlacklistPostCode) {
+        tmpDeliveryAddress.alert = tmp?.alert || '';
+        tmpDeliveryAddress.validFlag = tmp?.validFlag;
+      }
       this.setState({
         selectedId: tmp.deliveryAddressId,
         homeDeliverySelectedId: tmp.deliveryAddressId
       });
+    } else {
+      // 新增时删除属性
+      if (isCanVerifyBlacklistPostCode) {
+        delete deliveryAddress.validFlag;
+        delete deliveryAddress.alert;
+      }
     }
 
     this.setState(
@@ -1340,7 +1350,7 @@ class AddressList extends React.Component {
     if (!city) {
       return;
     }
-    // console.log('666 >>> deliveryType : ', deliveryType);
+    console.log('666 >>> deliveryType : ', deliveryType);
     try {
       this.setState({ validationLoading: true });
       let res = await pickupQueryCity({ keyword: city });
@@ -1361,7 +1371,7 @@ class AddressList extends React.Component {
         let ckg = await dimensionsByPackage({
           goodsInfoDetails: goodsInfoDetails
         });
-        console.log('666 >>> list 合并包裹: ', ckg);
+        // console.log('666 >>> list 合并包裹: ', ckg);
         if (ckg.context?.dimensions) {
           let ckgobj = ckg.context;
           data['dimensions'] = ckgobj?.dimensions;
@@ -1403,15 +1413,19 @@ class AddressList extends React.Component {
             if (hpobj) {
               hpobj = JSON.parse(hpobj);
             }
-
+            let homeDeliveryPrice = 0;
             obj.map((e, i) => {
               let tp = e.type;
               e.selected = false;
-              obj.length === 1 ? (e.selected = true) : '';
               if (tp == addstr) {
                 e.selected = true;
               } else {
                 e.selected = false;
+              }
+              obj.length === 1 ? (e.selected = true) : '';
+              if (obj.length === 1 && deliveryType === 'PICK_UP') {
+                e.selected = true;
+                this.handleRadioChange('homeDelivery');
               }
 
               // 修改类型名称，方便阅读
@@ -1421,12 +1435,12 @@ class AddressList extends React.Component {
               if (e.type == 'homeDelivery') {
                 // 'COURIER'=> home delivery
                 let hdAddr = obj.filter((e) => e.type == 'homeDelivery');
-                let dprice = hdAddr[0]?.deliveryPrice;
-                e.deliveryPrice = dprice;
+                homeDeliveryPrice = hdAddr[0]?.deliveryPrice;
+                e.deliveryPrice = homeDeliveryPrice;
                 if (hpobj?.homeAndPickup) {
                   hpobj.homeAndPickup.map((e) => {
                     if (e.type === 'homeDelivery') {
-                      e.deliveryPrice = dprice;
+                      e.deliveryPrice = homeDeliveryPrice;
                     }
                   });
                 }
@@ -1449,30 +1463,39 @@ class AddressList extends React.Component {
               }
             });
 
-            // 查询 homeDelivery 运费的时候不修改本地存储信息
-            if (deliveryType !== 'HOME_DELIVERY') {
+            // 修改本地存储信息
+            if (deliveryType === 'HOME_DELIVERY') {
+              // homeDelivery地址通过queryCityFee接口查询的结果不决定pickup地址是否展示
+              let hmapk = this.state.homeAndPickup;
+              hmapk.map((hp) => {
+                if (hp.type === 'homeDelivery') {
+                  hp.deliveryPrice = homeDeliveryPrice;
+                }
+              });
+              this.setState({
+                homeAndPickup: Object.assign([], hmapk)
+              });
+            } else {
+              // pickup delivery
               if (!hpobj) {
                 hpobj = {
                   cityData: null,
                   homeAndPickup: obj
                 };
               }
-              // 修改本地存储的信息
-              sessionItemRoyal.set(
-                'rc-homeDeliveryAndPickup',
-                JSON.stringify(hpobj)
-              );
-
               this.setState({
                 homeAndPickup: Object.assign([], obj)
               });
             }
+            // 修改本地存储的信息
+            sessionItemRoyal.set(
+              'rc-homeDeliveryAndPickup',
+              JSON.stringify(hpobj)
+            );
           }
         }
-        this.setState({ validationLoading: false });
-      } else {
-        this.setState({ validationLoading: false });
       }
+      this.setState({ validationLoading: false });
     } catch {
       this.setState({ validationLoading: false });
     }
@@ -1516,14 +1539,11 @@ class AddressList extends React.Component {
     } else {
       obj = hdpk?.homeAndPickup;
     }
-    // console.log('666 >>> saveAddressNumber ： ', saveAddressNumber);
-
     // ★★★★★ 设置默认选中项（按优先级）
     // 1、上一次选择
     // 2、有homeDelivery地址，没有pickup地址
     // 3、有pickup地址，没有homeDelivery地址
     // 4、有设置默认地址
-
     let addstr = null;
     if (hdpk?.homeAndPickup && saveAddressNumber > 1) {
       // console.log('666 >>> 1、上一次选择');
@@ -1604,6 +1624,12 @@ class AddressList extends React.Component {
             ) || null;
           if (tmpObj) {
             await this.getHomeDeliveryPrice(tmpObj?.city, tmpObj?.receiveType);
+          }
+          if (pickupAddress.length) {
+            await this.getHomeDeliveryPrice(
+              pickupAddress[0]?.city,
+              pickupAddress[0]?.receiveType
+            );
           }
         }
       }
@@ -1879,8 +1905,10 @@ class AddressList extends React.Component {
         pickupFormData.minDeliveryTime || pkobj[0]?.minDeliveryTime;
       let maxDeliveryTime =
         pickupFormData.maxDeliveryTime || pkobj[0]?.maxDeliveryTime;
+
       // console.log('666 >>> pickupFormData.minDeliveryTime: ', pickupFormData.minDeliveryTime);
       // console.log('666 >>> pkobj[0]?.minDeliveryTime: ', pkobj[0]?.minDeliveryTime);
+      console.log('666 >>> maxDeliveryTime: ', maxDeliveryTime);
 
       let pkaddr = pickupFormData?.pickup?.address || null;
       let deliveryAdd = Object.assign({}, tempAddress, {
