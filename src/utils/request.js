@@ -49,6 +49,7 @@ service.interceptors.request.use((config) => {
   config.headers['Permissions-Policy'] = 'microphone=()';
   config.headers['Referrer-Policy'] = 'no-referrer';
   config.headers['X-Frame-Options'] = 'sameorigin';
+  config.headers['Cache-Control'] = 'no-cache';
   config.headers['Strict-Transport-Security'] =
     'max-age=31536000; includeSubDomains';
 
