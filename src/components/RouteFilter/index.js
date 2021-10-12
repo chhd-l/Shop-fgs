@@ -190,6 +190,11 @@ class RouteFilter extends Component {
       return null;
     }
 
+    if (pathname == '/') {
+      var el = document.querySelector('html');
+      el.lang = window.__.env.REACT_APP_LANG;
+    }
+
     if (pathname !== '/login') {
       // loadJS({
       //   url: window.__.env.REACT_APP_ONTRUST_SRC,
