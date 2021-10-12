@@ -171,11 +171,10 @@ class Form extends React.Component {
       },
       () => {
         this.updateDataToProps(this.state.caninForm);
+        // 获取 session 存储的 address form 数据并处理
+        this.setAddressFormData();
       }
     );
-
-    // 获取 session 存储的 address form 数据并处理
-    this.setAddressFormData();
 
     // 如果有areaId
     if (initData?.areaId) {
@@ -446,7 +445,7 @@ class Form extends React.Component {
   };
   // 2、格式化表单json
   formListFormat(array) {
-    const { caninForm } = this.state;
+    const { caninForm, errMsgObj } = this.state;
     let rule = [];
     let ruleTimeSlot = [];
     let cfdata = Object.assign({}, caninForm);
@@ -617,10 +616,27 @@ class Form extends React.Component {
         key: item.fieldKey,
         require: item.requiredFlag == 1 ? true : false
       };
+
+      if (
+        isCanVerifyBlacklistPostCode &&
+        item.fieldKey == 'postCode' &&
+        !cfdata?.validFlag
+      ) {
+        // validFlag 1 通过 0 不通过
+        let postCodeAlertMessage =
+          '* Sorry we are not able to deliver your order in this area.';
+        ruleItem.isBlacklist = !cfdata?.validFlag;
+        // ruleItem.errBlacklistMsg = postCodeAlertMessage;
+        this.setState({
+          errMsgObj: Object.assign({}, errMsgObj, {
+            [item.fieldKey]: postCodeAlertMessage
+          })
+        });
+      }
+
       if (item.fieldKey == 'postCode' || item.fieldKey == 'phoneNumber') {
         ruleItem.regExp = regExp;
       }
-
 
       item.requiredFlag == 1 &&
       !(item.fieldKey == 'deliveryDate' || item.fieldKey == 'timeSlot')
@@ -944,13 +960,12 @@ class Form extends React.Component {
 
     this.setState({ caninForm }, () => {
       this.updateDataToProps(this.state.caninForm);
-      if (tname == 'postCode' && isCanVerifyBlacklistPostCode){
+      if (tname == 'postCode' && isCanVerifyBlacklistPostCode) {
         this.debounceValidvalidationData(tname, tvalue);
-      }else {
+      } else {
         this.validvalidationData(tname, tvalue);
       }
     });
-
   };
   // 文本框失去焦点
   inputBlur = (e) => {
@@ -985,14 +1000,16 @@ class Form extends React.Component {
     } else {
       targetRule = caninForm.formRule.filter((e) => e.key === tname);
     }
-    let postCodeAlertMessage = '* Sorry we are not able to deliver your order in this area.';
+    let postCodeAlertMessage =
+      '* Sorry we are not able to deliver your order in this area.';
 
     try {
       // 邮编需要黑名单校验
-      if (tname == 'postCode'
-        && targetRule[0].regExp.test(tvalue)
-        && isCanVerifyBlacklistPostCode
-      ){
+      if (
+        tname == 'postCode' &&
+        targetRule[0].regExp.test(tvalue) &&
+        isCanVerifyBlacklistPostCode
+      ) {
         const res = await validPostCodeBlock(tvalue);
         console.log('res-validvalidationData', res);
         const data = res?.context || {};
@@ -1007,6 +1024,9 @@ class Form extends React.Component {
         } else {
           targetRule[0].isBlacklist = true;
           postCodeAlertMessage = data.alert;
+
+          this.props.getFormAddressValidFlag(false);
+
           this.setState({
             errMsgObj: Object.assign({}, errMsgObj, {
               [tname]: postCodeAlertMessage
@@ -1030,7 +1050,7 @@ class Form extends React.Component {
         errMsgObj: Object.assign({}, errMsgObj, {
           [tname]: !!err.message
             ? err.message
-            : postCodeAlertMessage
+            : tname == 'postCode' && postCodeAlertMessage
         })
       });
     }
