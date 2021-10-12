@@ -16,8 +16,7 @@ export default class AdyenOxxoModal extends Component {
   };
   presentVoucher(action) {
     loadJS({
-      url:
-        'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
+      url: 'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
       callback: function () {
         if (!!window.AdyenCheckout) {
           const AdyenCheckout = window.AdyenCheckout;
@@ -67,9 +66,14 @@ export default class AdyenOxxoModal extends Component {
               <div
                 id="mainBody"
                 style={{
+                  position: 'absolute!important',
                   maxHeight: '80vh',
                   minHeight: '80vh',
-                  overflowY: 'auto'
+                  overflowY: 'auto',
+                  top: '50%',
+                  transform: 'translate(-50%,-50%)',
+                  left: '50%',
+                  width: '100%'
                 }}
               >
                 <div id="oxxo-container" style={{ padding: '10px' }}></div>
