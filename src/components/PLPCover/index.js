@@ -488,6 +488,12 @@ function ListItemForDefault(props) {
 }
 
 function ListItemBodyH5ForGlobalStyle({ item, configStore }) {
+  const vetProduct = item?.goodsCate?.cateName?.toLowerCase()?.includes('vet');
+  console.log(vetProduct, 'VVVV');
+  const trFr =
+    window.__.env.REACT_APP_COUNTRY === 'fr' ||
+    window.__.env.REACT_APP_COUNTRY === 'tr';
+  const hiddenPrice = vetProduct && trFr;
   return (
     <div className="fr-mobile-product-list text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start pr-0">
       <div className="product-name" title={item.goodsName}>
@@ -499,7 +505,9 @@ function ListItemBodyH5ForGlobalStyle({ item, configStore }) {
       {!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS && (
         <InlineRatings productId={item.goodsNo} />
       )}
-      <PriceItemShow item={item} configStore={configStore} />
+      {hiddenPrice ? null : (
+        <PriceItemShow item={item} configStore={configStore} />
+      )}
     </div>
   );
 }
@@ -756,6 +764,12 @@ const PriceItemShow = ({ item, configStore }) => {
   );
 };
 function ListItemBody({ item, headingTag, configStore }) {
+  const vetProduct = item?.goodsCate?.cateName?.toLowerCase()?.includes('vet');
+  console.log(vetProduct, 'VVVV');
+  const trFr =
+    window.__.env.REACT_APP_COUNTRY === 'fr' ||
+    window.__.env.REACT_APP_COUNTRY === 'tr';
+  const hiddenPrice = vetProduct && trFr;
   const goodHeading = `<${headingTag ? headingTag : 'h2'}
       class="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center"
       title="${item?.goodsName}">
@@ -792,7 +806,9 @@ function ListItemBody({ item, headingTag, configStore }) {
       </div>
       <br />
       {/*商品价格*/}
-      <PriceItemShow item={item} configStore={configStore} />
+      {hiddenPrice ? null : (
+        <PriceItemShow item={item} configStore={configStore} />
+      )}
     </>
   );
   return (
@@ -810,7 +826,9 @@ function ListItemBody({ item, headingTag, configStore }) {
           {!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS && (
             <InlineRatings productId={item.goodsNo} />
           )}
-          <PriceItemShow item={item} configStore={configStore} />
+          {hiddenPrice ? null : (
+            <PriceItemShow item={item} configStore={configStore} />
+          )}
           {item?.goodsNewSubtitle ? (
             <div
               className="rc-card__meta text-center ui-text-overflow-line2 col-12 pl-4 pr-4"
