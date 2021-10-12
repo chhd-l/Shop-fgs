@@ -144,6 +144,7 @@ const ChangeProduct = () => {
     form,
     initMainProduct,
     setForm,
+    mainProductDetails,
     setMainProductDetails,
     queryProductDetails,
     showModalArr,
