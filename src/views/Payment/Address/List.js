@@ -910,6 +910,12 @@ class AddressList extends React.Component {
         selectedId: tmp.deliveryAddressId,
         homeDeliverySelectedId: tmp.deliveryAddressId
       });
+    } else {
+      // 新增时删除属性
+      if (isCanVerifyBlacklistPostCode) {
+        delete deliveryAddress.validFlag;
+        delete deliveryAddress.alert;
+      }
     }
 
     this.setState(

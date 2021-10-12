@@ -143,7 +143,7 @@ class Form extends React.Component {
     });
     // 查询国家
     this.getCountryList();
-    this.debounceValidvalidationData = debounce(this.validvalidationData, 300);
+    this.debounceValidvalidationData = debounce(this.validvalidationData, 500);
 
     // 美国 state 字段统一为 province
     caninForm.stateId = initData.provinceId;
@@ -620,7 +620,7 @@ class Form extends React.Component {
       if (
         isCanVerifyBlacklistPostCode &&
         item.fieldKey == 'postCode' &&
-        !cfdata?.validFlag
+        cfdata?.validFlag === 0
       ) {
         // validFlag 1 通过 0 不通过
         let postCodeAlertMessage =
@@ -629,7 +629,7 @@ class Form extends React.Component {
         // ruleItem.errBlacklistMsg = postCodeAlertMessage;
         this.setState({
           errMsgObj: Object.assign({}, errMsgObj, {
-            [item.fieldKey]: postCodeAlertMessage
+            [item.fieldKey]: cfdata.alert || ''
           })
         });
       }
