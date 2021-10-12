@@ -1024,6 +1024,9 @@ class Form extends React.Component {
         } else {
           targetRule[0].isBlacklist = true;
           postCodeAlertMessage = data.alert;
+
+          this.props.getFormAddressValidFlag(false);
+
           this.setState({
             errMsgObj: Object.assign({}, errMsgObj, {
               [tname]: postCodeAlertMessage
