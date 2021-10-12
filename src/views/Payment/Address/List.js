@@ -902,6 +902,10 @@ class AddressList extends React.Component {
         isDefalt: tmp.isDefaltAddress === 1 ? true : false,
         email: tmp.email
       };
+      if (isCanVerifyBlacklistPostCode) {
+        tmpDeliveryAddress.alert = tmp?.alert || '';
+        tmpDeliveryAddress.validFlag = tmp?.validFlag;
+      }
       this.setState({
         selectedId: tmp.deliveryAddressId,
         homeDeliverySelectedId: tmp.deliveryAddressId
