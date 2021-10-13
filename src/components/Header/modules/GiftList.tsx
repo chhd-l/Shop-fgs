@@ -58,7 +58,7 @@ const GiftList = ({data}) => {
                       </div>
                       <b
                         className="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light"
-                        style={{ color: '#666', textDecoration: 'line-through' }}
+                        style={{ color: '#666'}}
                       >
                         {formatMoney(data.salePrice * data.buyCount)}
                       </b>
