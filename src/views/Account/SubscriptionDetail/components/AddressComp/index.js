@@ -457,9 +457,14 @@ class AddressList extends React.Component {
     this.setState({
       addOrEdit: true
     });
-
+    // console.log('666 >>> idx: ', idx);
+    // 编辑地址
     if (idx > -1) {
-      const tmp = addressList[idx];
+      let homeDeliveryAddress = addressList.filter(
+        (e) => e.receiveType !== 'PICK_UP'
+      );
+      const tmp = homeDeliveryAddress[idx];
+
       tmpDeliveryAddress = {
         firstName: tmp.firstName,
         lastName: tmp.lastName,
