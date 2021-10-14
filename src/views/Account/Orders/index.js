@@ -227,6 +227,9 @@ class AccountOrders extends React.Component {
               !!+window.__.env.REACT_APP_PDP_RATING_VISIBLE &&
               tradeState.flowState === 'COMPLETED' &&
               !ele.storeEvaluateVO,
+            // TODO 产品类别 是否是服务类型产品
+            canReviewService:
+              tradeState.flowState === 'COMPLETED' && !ele.storeEvaluateVO,
             canViewTrackInfo:
               tradeState.payState === 'PAID' &&
               tradeState.auditState === 'CHECKED' &&
@@ -464,6 +467,7 @@ class AccountOrders extends React.Component {
             </button>
           </>
         ) : null}
+        {/*普通产品评论*/}
         {order.canReview ? (
           <button className="rc-btn rc-btn--sm rc-btn--two ord-list-operation-btn">
             <FormattedMessage id="writeReview">
@@ -471,6 +475,23 @@ class AccountOrders extends React.Component {
                 <Link
                   className="red-text"
                   to={`/account/productReview/${order.id}`}
+                  title={txt}
+                  alt={txt}
+                >
+                  {txt}
+                </Link>
+              )}
+            </FormattedMessage>
+          </button>
+        ) : null}
+        {/*服务类产品评论*/}
+        {!order.canReviewServise ? (
+          <button className="rc-btn rc-btn--sm rc-btn--two ord-list-operation-btn">
+            <FormattedMessage id="writeReview">
+              {(txt) => (
+                <Link
+                  className="red-text"
+                  to={`/account/productReviewService/${order.id}`}
                   title={txt}
                   alt={txt}
                 >

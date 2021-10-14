@@ -61,6 +61,7 @@ import OktaLoginPage from '@/views/OktaLoginPage';
 import OktaLogoutPage from '@/views/OktaLogoutPage';
 import AccountPetList from '@/views/Account/PetList';
 import ProductReview from '@/views/Account/ProductReview';
+import ProductReviewService from '@/views/Account/ProductReviewService';
 // import AccountRefunds from "@/views/Account/Refunds";
 
 import Recommendation from '@/views/Recommendation';
@@ -515,6 +516,11 @@ const App = () => {
                   path="/account/productReview/:tid"
                   exact
                   component={ProductReview}
+                />
+                <Route
+                  path="/account/productReviewService/:tid"
+                  exact
+                  component={ProductReviewService}
                 />
                 <Route path="/required" exact component={RegisterRequired} />
 
