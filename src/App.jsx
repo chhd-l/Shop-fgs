@@ -189,9 +189,9 @@ const ClubLandingPageDeVet = loadable(() =>
 const DedicatedLandingPage = loadable(() =>
   import('@/views/DedicatedLandingPage')
 );
-// const Felin = loadable(() =>
-//   import('@/views/Felin')
-// );
+const Felin = loadable(() =>
+  import('@/views/Felin2')
+);
 // const FelinRecommendation = loadable(() =>
 //   import('@/views/FelinRecommendation')
 // );
@@ -715,11 +715,11 @@ const App = () => {
                   )}
                 />
                 <Route exact sensitive path="/FAQ" component={Exception} />
-                {/* <Route
-                  path="/FelinRecommendation/:id"
-                  component={FelinRecommendation}
-                />
-                <Route path="/latelier/felin" component={Felin} /> */}
+                {/* <Route*/}
+                {/*  path="/FelinRecommendation/:id"*/}
+                {/*  component={FelinRecommendation}*/}
+                {/*/>*/}
+                <Route path="/felin" component={Felin} />
                 <Route
                   path="/"
                   render={(props) => {
