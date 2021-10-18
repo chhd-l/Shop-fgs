@@ -751,6 +751,10 @@ const App = () => {
                         '/persan-bouchÃ©es-spÃ©cial-2030':
                           '/persan-bouchees-special-2030'
                       };
+                      // PDP文件重定向
+                      const specailPlpUrlMapping = {
+                        ...redirectFun()
+                      };
                       if (productNameMappping[pathname]) {
                         redirectUrl = productNameMappping[pathname];
                       } else if (pathname.split('--').length > 1) {
@@ -759,16 +763,10 @@ const App = () => {
                         redirectUrl = pathname.split(splitName)[0];
                       } else if (pathname.split('.html').length > 1) {
                         redirectUrl = pathname.split('.html')[0];
+                      } else if (specailPlpUrlMapping[pathname + search]) {
+                        redirectUrl = specailPlpUrlMapping[pathname + search];
                       }
 
-                      // PDP文件重定向start
-                      const specailPlpUrlMapping = {
-                        ...redirectFun()
-                      };
-
-                      redirectUrl = specailPlpUrlMapping[pathname + search];
-
-                      // PDP文件重定向end
                       if (redirectUrl) {
                         return (
                           <Redirect

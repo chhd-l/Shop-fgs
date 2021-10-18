@@ -50,7 +50,7 @@ const GiftList = ({ pitem }) => {
                   />
                 </p>
               </div>
-              <div className="line-item-total-price text-nowrap text-line-through">
+              <div className="line-item-total-price text-nowrap">
                 <span>{formatMoney(pitem.buyCount * pitem.salePrice)}</span>
               </div>
             </div>

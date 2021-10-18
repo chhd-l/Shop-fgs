@@ -96,7 +96,7 @@ class Recommendation extends React.Component {
       currentDetail: {},
       images: [],
       activeIndex: 0,
-      pageLoading: false,
+      pageLoading: isRu, // 俄罗斯的时候需要直接跳转购物车，需要pageLoading这种全遮罩
       loading: false,
       buttonLoading: false,
       errorMsg: '',
@@ -413,7 +413,7 @@ class Recommendation extends React.Component {
       })
       .catch((err) => {
         console.log(err, 'err');
-        this.setState({ noData: true, pageLoading: false });
+        this.setState({ noData: true, pageLoading: false, loading: false });
         // this.props.history.push('/home');
       });
 

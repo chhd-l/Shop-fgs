@@ -319,7 +319,7 @@ class PayOs extends React.Component {
               this.setState({
                 installMentTableData
               });
-              throw new Error();
+              throw new Error('This Error No Display');
             }
           }
         }
@@ -328,8 +328,10 @@ class PayOs extends React.Component {
       // this.props.onInstallMentParamChange(this.state.installMentParam);
       scrollPaymentPanelIntoView();
     } catch (err) {
-      this.setState({ payosdata: null });
-      this.props.showErrorMsg(err.message);
+      if (err?.message !== 'This Error No Display') {
+        this.setState({ payosdata: null });
+        this.props.showErrorMsg(err.message);
+      }
       throw new Error(err.message);
     } finally {
       this.setState({ saveLoading: false });
