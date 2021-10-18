@@ -569,7 +569,7 @@ const GoodsDetailTabs = function (props) {
 
     // 美国需临时加入一个tab
     if (window.__.env.REACT_APP_COUNTRY === 'us') {
-      let COHORTPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/COHORT-A_CLUB-BENEFITS_PET-ADVISOR2.png`;
+      let COHORTPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/COHORT-A_CLUB-BENEFITS_PET-ADVISOR_COPY2.png`;
       let BENEFITS_WELCOMEPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/CLUB-BENEFITS_WELCOME-BOX.png`;
       let BENEFITS_DISCOUNT = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/CLUB-BENEFITS_DISCOUNT.png`;
       let BENEFITS_PRODUCTPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/CLUB-BENEFITS_PRODUCT-RECOS.png`;

@@ -1242,7 +1242,7 @@ const en_US = {
   'recommendation.plusTitle':
     'Everything You And Your Pet Need PLUS a Royal Canin Advisor',
   'recommendation.plusContent':
-    ' No matter the need, we’ve got you covered with exclusive benefits like 24/7 access to pet experts and more through the Royal Canin Club. Joining is easy – sign up for automatic shipping on your pet’s tailored formulas to become a member today.',
+    ' No matter the need, we’ve got you covered with exclusive benefits like access to pet experts and more through the Royal Canin Club. Joining is easy – sign up for automatic shipping on your pet’s tailored formulas to become a member today.',
   'recommendation.plusBtn': 'Start Now',
   'recommendation.plusImg': 'MRRC-20046_D2C-Advisor_App-Puppy2.jpg',
   'recommendation.fiveContent':
