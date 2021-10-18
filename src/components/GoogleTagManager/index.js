@@ -73,6 +73,8 @@ class GoogleTagManager extends React.Component {
     };
 
     let userInfo = this.props.loginStore.userInfo;
+    const CLIENT_ID =
+      window.__.env.REACT_APP_CLIENT_ID || '0oar7ofrk3EJ4SYPT0h7';
 
     if (userInfo) {
       event.user = {
@@ -87,7 +89,7 @@ class GoogleTagManager extends React.Component {
       hubEvent.user = {
         segment: 'Authenticated',
         country: window.__.env.REACT_APP_GA_COUNTRY,
-        id: userInfo.customerId
+        id: CLIENT_ID
       };
     } else {
       event.user = {
@@ -99,9 +101,9 @@ class GoogleTagManager extends React.Component {
       };
 
       hubEvent.user = {
-        segment: 'Not Authenticated',
-        country: window.__.env.REACT_APP_GA_COUNTRY,
-        id: ''
+        // segment: 'Not Authenticated',
+        // country: window.__.env.REACT_APP_GA_COUNTRY,
+        id: 'Guest Checkout'
       };
     }
     event.user.country = window.__.env.REACT_APP_GA_COUNTRY;
