@@ -45,7 +45,7 @@ const UsAndRu = (props) => {
   const imagesArr = [
     {
       img: `${imgUrlPreFix}/COHORT-A_CLUB-BENEFITS_PET-ADVISOR_COPY2.jpg`,
-      text: 'Royal Canin Pet Advisor Live'
+      text: 'Access to a Royal Canin Advisor'
     },
     {
       img: `${imgUrlPreFix}/CLUB-BENEFITS_PRODUCT-RECOS.png`,
