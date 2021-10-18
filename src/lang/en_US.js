@@ -49,8 +49,7 @@ const en_US = {
   'account.myAddresses': 'My Addresses',
   'account.myCommunicationPreferencesContent1':
     'Perferred method of communication',
-  'account.myCommunicationPreferencesContent2':
-    'Consents given for communication',
+  'account.myCommunicationPreferencesContent2': 'Email Communication',
   'account.myCommunicationPreferencesDesc':
     'Please click Edit to set your communication preferences.',
   'account.myCommunicationPreferencesTitle': 'My Communication Preferences',

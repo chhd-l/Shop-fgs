@@ -21,13 +21,12 @@ import {
   getDictionary,
   validData,
   datePickerConfig,
-  getFormatDate,
   getZoneTime,
   getDeviceType,
   isCanVerifyBlacklistPostCode
 } from '@/utils/utils';
 import DatePicker from 'react-datepicker';
-import { daysInWeek, format } from 'date-fns';
+import { format } from 'date-fns';
 import Loading from '@/components/Loading';
 import {
   getRegionByCityId,
@@ -835,9 +834,6 @@ class Form extends React.Component {
       newForm.formRule = newForm.formRuleOther;
     }
     newForm.consigneeNumber = newForm.phoneNumber;
-    // console.log('666 >>> newForm: ', newForm);
-    // console.log('666 >>>>>> initData: ', this.props.initData);
-    // console.log('666 isDeliveryDateAndTimeSlot: ', isDeliveryDateAndTimeSlot);
     this.props.updateData(newForm);
   };
   // 下拉框选择

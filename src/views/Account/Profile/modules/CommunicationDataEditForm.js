@@ -363,9 +363,11 @@ class CommunicationDataEditForm extends React.Component {
             <div className={`${!isLoading && editFormVisible ? '' : 'hidden'}`}>
               <span className={`rc-meta`}></span>
               <div>
-                <label className="form-control-label rc-input--full-width w-100">
-                  <FormattedMessage id="account.preferredMethodOfCommunication" />
-                </label>
+                {window.__.env.REACT_APP_COUNTRY === 'us' ? null : (
+                  <label className="form-control-label rc-input--full-width w-100">
+                    <FormattedMessage id="account.preferredMethodOfCommunication" />
+                  </label>
+                )}
                 {[
                   {
                     type: 'communicationPhone',
@@ -378,7 +380,8 @@ class CommunicationDataEditForm extends React.Component {
                       window.__.env.REACT_APP_COUNTRY === 'uk'
                         ? 'communicationEmail'
                         : 'email',
-                    visible: true
+                    visible:
+                      window.__.env.REACT_APP_COUNTRY === 'us' ? false : true
                   },
                   {
                     type: 'communicationPrint',
