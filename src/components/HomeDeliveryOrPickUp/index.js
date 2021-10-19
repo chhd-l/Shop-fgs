@@ -329,6 +329,7 @@ class HomeDeliveryOrPickUp extends React.Component {
       // 根据不同的城市信息查询
       res = await pickupQueryCityFee(data);
       // if (res.context?.tariffs.length && ckg.context?.dimensions) {
+      console.log('666 >>> res: ', res);
       if (res.context?.tariffs.length) {
         // 先重置参数
         this.props.updateDeliveryOrPickup(0);
