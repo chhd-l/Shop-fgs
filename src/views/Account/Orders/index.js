@@ -225,11 +225,13 @@ class AccountOrders extends React.Component {
                 tradeState.flowState === 'VOID'),
             canReview:
               !!+window.__.env.REACT_APP_PDP_RATING_VISIBLE &&
+              ele.orderType !== 'ORDER_SERVICE' &&
               tradeState.flowState === 'COMPLETED' &&
               !ele.storeEvaluateVO,
-            // TODO 产品类别 是否是服务类型产品
             canReviewService:
-              tradeState.flowState === 'COMPLETED' && !ele.storeEvaluateVO,
+              ele.orderType === 'ORDER_SERVICE' &&
+              tradeState.flowState === 'COMPLETED' &&
+              !ele.storeEvaluateVO,
             canViewTrackInfo:
               tradeState.payState === 'PAID' &&
               tradeState.auditState === 'CHECKED' &&
