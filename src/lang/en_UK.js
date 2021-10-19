@@ -180,7 +180,7 @@ const en_US = {
   'smartFeederSubscription.tabDes2': 'pour 26,50 € la recharge *',
   //for 26,50 € per refill*
   'smartFeederSubscription.tabDes3': '* Engagement de 12 envois',
-  // Conﬁrm this product
+  // Conﬁrm this products
   'smartFeederSubscription.times': 'fois',
   //Easily detach and attach the machine to clean it with a damp cloth.
   'smartFeederSubscription.titleHow':
@@ -1425,6 +1425,18 @@ const en_US = {
   'subscriptionLanding.dogButton': 'Shop Dog Formulas',
   'subscriptionLanding.title1':
     'Your Pet Needs You. You Need Total Pet Support.',
+  'subscription.title': 'IT’S MORE THAN FREE DELIVERY',
+  'subscription.subTitle':
+    'At Royal Canin®, we know that caring for a new pet can bring a lot of questions. That’s why we offer exclusive benefits like access to a Royal Canin Advisor and more through the Royal Canin Club. Joining is easy — sign up for automatic shipping on your pet’s tailored formulas to become a member today.{val}',
+  'subscription.list1':
+    '{val} - Receive nutritional recommendations on Royal Canin food and products as your pet grows',
+  'subscription.list2':
+    '{val} - Save 30% off your first purchase through Royal Canin Club, and 5% off every autoship order. Plus, free shipping –– with no minimum purchase',
+  'subscription.list3':
+    '{val} - Like a coach for everything related to your pet’s nutrition, your Royal Canin Advisor can help with diet recommendations and expert feeding advice, updates on products, and more',
+  'Subscription.list.btn1': '',
+  'Subscription.list.btn2': '',
+
   supportCardTypeMismatch:
     'Sorry, the currently supported credit card types are: VISA, American Express, MasterCard',
   systemError: 'system error',

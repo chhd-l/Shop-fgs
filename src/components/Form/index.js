@@ -916,7 +916,11 @@ class Form extends React.Component {
       };
     });
     if (key == 'state') {
-      tmp.unshift({ value: '', name: 'State' });
+      if (window.__.env.REACT_APP_COUNTRY === 'uk') {
+        tmp.unshift({ value: '', name: 'County' });
+      } else {
+        tmp.unshift({ value: '', name: 'State' });
+      }
     } else if (key != 'country' && key != 'deliveryDate' && key != 'timeSlot') {
       tmp.unshift({ value: '', name: '' });
     }
@@ -1366,7 +1370,9 @@ class Form extends React.Component {
               }
               optionList={this.computedList(item.fieldKey)}
               choicesInput={true}
-              emptyFirstItem="State"
+              emptyFirstItem={
+                window.__.env.REACT_APP_COUNTRY === 'uk' ? 'County' : 'State'
+              }
               name={item.fieldKey}
               selectedItemData={{ value: caninForm[item.fieldKey + 'Id'] }}
               key={caninForm[item.fieldKey + 'Id']}
