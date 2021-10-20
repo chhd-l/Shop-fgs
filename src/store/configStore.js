@@ -35,6 +35,14 @@ class ConfigStore {
     ? JSON.parse(sessionItemRoyal.get('rc-address-form'))
     : addressFormNull;
 
+  // 当前地址表单类型
+  @computed get addressFormType() {
+    let form = sessionItemRoyal.get('rc-address-form')
+      ? JSON.parse(sessionItemRoyal.get('rc-address-form'))
+      : addressFormNull;
+    return form?.formType?.type ? form.formType.type : 'MANUALLY';
+  }
+
   @computed get maxGoodsPrice() {
     return this.info ? this.info.maxGoodsPrice : 0;
   }

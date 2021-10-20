@@ -34,7 +34,8 @@ import {
   getAddressBykeyWord,
   getCityList,
   getDeliveryDateAndTimeSlot,
-  validPostCodeBlock
+  validPostCodeBlock,
+  DQEAddressList
 } from '@/api/address';
 import { shippingCalculation } from '@/api/cart';
 import { inject, observer } from 'mobx-react';
@@ -67,7 +68,7 @@ class Form extends React.Component {
     this.state = {
       dataLoading: false,
       formLoading: false,
-      formSettingSwitch: 'MANUALLY',
+      formType: this.props.configStore.addressFormType,
       caninForm: {
         firstName: '',
         lastName: '',
@@ -158,8 +159,10 @@ class Form extends React.Component {
 
     // deliveryDate和timeSlot有值就显示
     // if (initData.deliveryDate && initData.timeSlot && this.props.showDeliveryDateTimeSlot) {
-    console.log('666  ', window.__.env.REACT_APP_COUNTRY);
-    if (window.__.env.REACT_APP_COUNTRY == 'ru') {
+    console.log('666 >>> country: ', window.__.env.REACT_APP_COUNTRY);
+    console.log('666 >>> formType: ', this.state.formType);
+    // MANUALLY 、 AUTOMATICALLY
+    if (this.state.formType === 'AUTOMATICALLY') {
       this.getAddressListByKeyWord(initData.address1);
     }
     // console.log('666  ★ EditForm initData: ', initData);
@@ -1247,6 +1250,9 @@ class Form extends React.Component {
         <SearchSelection
           queryList={async ({ inputVal }) => {
             let res = await getAddressBykeyWord({ keyword: inputVal });
+            // console.log('666 >>> inputVal: ',inputVal);
+            // let res = await DQEAddressList(inputVal);
+
             let robj = (
               (res?.context && res?.context?.addressList) ||
               []
