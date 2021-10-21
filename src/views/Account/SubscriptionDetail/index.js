@@ -498,6 +498,7 @@ class SubscriptionDetail extends React.Component {
           petType: petsType,
           isGift: isGift,
           subDetail: subDetail,
+          petName: subDetail?.petsInfo?.petsName,
           currentCardInfo: subDetail.payPaymentInfo,
           currentDeliveryAddress: subDetail.consignee,
           currentBillingAddress: subDetail.invoice,
