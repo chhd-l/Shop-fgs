@@ -98,7 +98,9 @@ class LoginCart extends React.Component {
         metaKeywords: 'Royal canin',
         metaDescription: 'Royal canin'
       },
-      relatedGoodsList: []
+      relatedGoodsList: [],
+
+      promotionsVisible: false
     };
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.hanldeToggleOneOffOrSub = this.hanldeToggleOneOffOrSub.bind(this);
@@ -1157,15 +1159,46 @@ class LoginCart extends React.Component {
         {/* 显示 promotionCode */}
         {!isShowValidCode &&
           this.promotionVOList?.map((el) => (
-            <div className={`row leading-lines shipping-item green d-flex`}>
+            <div className={`row shipping-item green d-flex`}>
               <div className="col-6">
-                <p className="ui-text-overflow-line1">
+                <p
+                  className="ui-text-overflow-line2"
+                  onMouseEnter={() => {
+                    if (el.marketingName.length > 32) {
+                      this.setState({
+                        promotionsVisible: true
+                      });
+                    }
+                  }}
+                  onMouseLeave={() => {
+                    this.setState({
+                      promotionsVisible: false
+                    });
+                  }}
+                >
                   {/* {this.promotionDesc || (
-                        <FormattedMessage id="NoPromotionDesc" />
-                      )} */}
+                            <FormattedMessage id="NoPromotionDesc" />
+                          )} */}
                   {/* <FormattedMessage id="promotion" /> */}
                   {el.marketingName}
                 </p>
+                <ConfirmTooltip
+                  arrowStyle={{ left: '10%' }}
+                  display={this.state.promotionsVisible}
+                  containerStyle={{ left: '120%' }}
+                  cancelBtnVisible={false}
+                  confirmBtnVisible={false}
+                  updateChildDisplay={(status) =>
+                    this.setState({
+                      promotionsVisible: status
+                    })
+                  }
+                  content={
+                    <div style={{ maxWidth: 250, wordWrap: 'break-word' }}>
+                      el.marketingName
+                    </div>
+                  }
+                />
               </div>
               <div className="col-6">
                 <p className="text-right shipping-cost text-nowrap">

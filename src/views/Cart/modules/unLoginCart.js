@@ -93,7 +93,9 @@ class UnLoginCart extends React.Component {
         metaKeywords: 'Royal canin',
         metaDescription: 'Royal canin'
       },
-      relatedGoodsList: []
+      relatedGoodsList: [],
+
+      promotionsVisible: false
     };
     this.amountChanger = this.amountChanger.bind(this);
     this.handleAmountChange = this.handleAmountChange.bind(this);
@@ -1277,15 +1279,49 @@ class UnLoginCart extends React.Component {
           <div>
             {!this.state.isShowValidCode &&
               this.promotionVOList?.map((el) => (
-                <div className={`row leading-lines shipping-item green d-flex`}>
+                <div
+                  className={`row shipping-item green d-flex`}
+                  style={{ alignItems: 'center' }}
+                >
                   <div className="col-6">
-                    <p className="ui-text-overflow-line1">
+                    <p
+                      className="ui-text-overflow-line2"
+                      onMouseEnter={() => {
+                        if (el.marketingName.length > 32) {
+                          this.setState({
+                            promotionsVisible: true
+                          });
+                        }
+                      }}
+                      onMouseLeave={() => {
+                        this.setState({
+                          promotionsVisible: false
+                        });
+                      }}
+                    >
                       {/* {this.promotionDesc || (
                             <FormattedMessage id="NoPromotionDesc" />
                           )} */}
                       {/* <FormattedMessage id="promotion" /> */}
                       {el.marketingName}
                     </p>
+                    <ConfirmTooltip
+                      arrowStyle={{ left: '10%' }}
+                      display={this.state.promotionsVisible}
+                      containerStyle={{ left: '120%' }}
+                      cancelBtnVisible={false}
+                      confirmBtnVisible={false}
+                      updateChildDisplay={(status) =>
+                        this.setState({
+                          promotionsVisible: status
+                        })
+                      }
+                      content={
+                        <div style={{ maxWidth: 250, wordWrap: 'break-word' }}>
+                          el.marketingName
+                        </div>
+                      }
+                    />
                   </div>
                   <div className="col-6">
                     <p className="text-right shipping-cost">
@@ -1296,6 +1332,7 @@ class UnLoginCart extends React.Component {
                 </div>
               ))}
           </div>
+
           <div className="row">
             <div className="col-8">
               <p>
