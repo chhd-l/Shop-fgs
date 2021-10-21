@@ -1808,6 +1808,8 @@ const en_US = {
   'header.User.faq': "FAQ's",
   'Your Pet is a…': 'My Pet is a…',
   Activity: 'How active is your dog?',
-  'Subscription.orderPostCodeHit': '* Please update the delivery address'
+  'Subscription.orderPostCodeHit': '* Please update the delivery address',
+  'subscription.ongoingOrderForPet': 'Order status for {val}',
+  'subscription.noPetOngoingOrder': 'Order status'
 };
 export default en_US;

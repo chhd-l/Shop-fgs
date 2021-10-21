@@ -1790,6 +1790,8 @@ const en_US = {
   'preciseNutrition.bscTip2':
     '2. Feel your cat’s body, gently applying pressure to find the ribs',
   'productFinder.mixBreed': 'Mix breed',
-  'productFinder.weight': 'weight'
+  'productFinder.weight': 'weight',
+  'subscription.ongoingOrderForPet': 'Order status for {val}',
+  'subscription.noPetOngoingOrder': 'Order status'
 };
 export default en_US;
