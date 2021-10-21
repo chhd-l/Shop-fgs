@@ -34,6 +34,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
 import { Helmet } from 'react-helmet';
 import GoogleTagManager from '@/components/GoogleTagManager';
+import OngoingOrder from './components/OngoingOrder';
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
@@ -147,7 +148,8 @@ class SubscriptionDetail extends React.Component {
       },
       isActive: false,
       isNotInactive: false,
-      isDataChange: false
+      isDataChange: false,
+      petName: '' //订阅单的petName
     };
   }
   paymentSave = (el) => {
@@ -496,6 +498,7 @@ class SubscriptionDetail extends React.Component {
           petType: petsType,
           isGift: isGift,
           subDetail: subDetail,
+          petName: subDetail?.petsInfo?.petsName,
           currentCardInfo: subDetail.payPaymentInfo,
           currentDeliveryAddress: subDetail.consignee,
           currentBillingAddress: subDetail.invoice,
@@ -701,7 +704,8 @@ class SubscriptionDetail extends React.Component {
       remainingsVisible,
       submitLoading,
       triggerShowChangeProduct,
-      seoConfig
+      seoConfig,
+      petName
     } = this.state;
     let isShowClub =
       subDetail.subscriptionType?.toLowerCase().includes('club') ||
@@ -844,6 +848,23 @@ class SubscriptionDetail extends React.Component {
                         />
                       </>
 
+                      {/* Ongoing Order */}
+                      <>
+                        <h4 className="h4">
+                          {petName ? (
+                            <FormattedMessage
+                              id="subscription.ongoingOrderForPet"
+                              values={{ val: petName }}
+                            />
+                          ) : (
+                            <FormattedMessage id="subscription.noPetOngoingOrder" />
+                          )}
+                        </h4>
+                        <div className="rc-max-width--xl">
+                          <OngoingOrder subDetail={subDetail} />
+                        </div>
+                      </>
+
                       {/* 历史订单 */}
                       <>
                         <h4 className="h4">
@@ -860,9 +881,7 @@ class SubscriptionDetail extends React.Component {
                             tabName={tabName}
                             noStartYearOption={noStartYearOption}
                             subDetail={subDetail}
-                            completedYearOption={completedYearOption}
                             isGift={isGift}
-                            completedYear={completedYear}
                             completedYear={completedYear}
                             activeTabIdx={activeTabIdx}
                           />

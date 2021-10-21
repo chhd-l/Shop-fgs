@@ -2173,8 +2173,9 @@ const fr_FR = {
   'productFinder.mixBreed': 'Race mixte',
   'productFinder.weight': 'Poids',
   'Go back to recommendation': 'Retour à la page de recommandation',
-  'productFinder.weight': 'Poids',
   'Subscription.orderPostCodeHit':
-    "* Veuillez mettre à jour l'adresse de livraison"
+    "* Veuillez mettre à jour l'adresse de livraison",
+  'subscription.ongoingOrderForPet': 'Commande en préparation pour {val}',
+  'subscription.noPetOngoingOrder': 'Commande en préparation'
 };
 export default fr_FR;

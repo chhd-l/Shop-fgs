@@ -1350,6 +1350,8 @@ const tr_TR = {
   'plp.retail.cat.filter.specneed.learnmore': 'Learn more',
   'checkout.zeroOrder.butSubscription':
     '0 Price orders do not support subscription, please change to a one-off purchase to pay this order',
-  'order.viewLogisticDetail': 'Lojistik ayrıntılarını görüntüle'
+  'order.viewLogisticDetail': 'Lojistik ayrıntılarını görüntüle',
+  'subscription.ongoingOrderForPet': "{val}'in siparişi hazırlanıyor",
+  'subscription.noPetOngoingOrder': 'Siparişiniz hazırlanıyor'
 };
 export default tr_TR;
