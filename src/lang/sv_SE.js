@@ -1050,6 +1050,7 @@ const en_US = {
   'payment.saveFor': 'Spara till nästa betalning',
   'payment.socialId': 'Social id',
   'payment.state': 'State',
+  'payment.county': 'County',
   'payment.region': 'Region',
   'payment.entrance': 'Entrance',
   'payment.apartment': 'Apartment',

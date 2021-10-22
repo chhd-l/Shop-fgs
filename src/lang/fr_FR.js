@@ -976,6 +976,7 @@ const fr_FR = {
   'payment.rfc': "Référence d'adresse",
   'payment.socialId': 'Identifiant social',
   'payment.state': 'État',
+  'payment.county': 'County',
   'payment.region': 'Région',
   'payment.entrance': 'Entrée',
   'payment.apartment': 'Appartement',

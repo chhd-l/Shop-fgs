@@ -640,6 +640,7 @@ const tr_TR = {
   'payment.rfc': 'Referans',
   'payment.socialId': 'Sosyal kimlik',
   'payment.state': 'Durum',
+  'payment.county': 'Eyalet',
   'payment.region': 'Bölge',
   'payment.entrance': 'giriş',
   'payment.apartment': 'daire',

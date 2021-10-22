@@ -727,6 +727,7 @@ const de_DE = {
   'payment.rfc': 'Adressreferenz',
   'payment.socialId': 'Soziale ID',
   'payment.state': 'Staat',
+  'payment.county': 'Grafschaft',
   'payment.region': 'Region',
   'payment.entrance': 'Eingang',
   'payment.apartment': 'Wohnung',
