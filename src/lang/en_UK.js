@@ -1810,6 +1810,10 @@ const en_US = {
   Activity: 'How active is your dog?',
   'Subscription.orderPostCodeHit': '* Please update the delivery address',
   'subscription.ongoingOrderForPet': 'Order status for {val}',
-  'subscription.noPetOngoingOrder': 'Order status'
+  'subscription.noPetOngoingOrder': 'Order status',
+  'product.plp.foodtype.drydog': 'Dry dog food',
+  'product.plp.foodtype.wetdog': 'Wet dog food',
+  'product.plp.foodtype.drycat': 'Dry cat food',
+  'product.plp.foodtype.wetcat': 'Wet cat food'
 };
 export default en_US;

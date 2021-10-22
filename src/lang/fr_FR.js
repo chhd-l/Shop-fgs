@@ -2176,6 +2176,10 @@ const fr_FR = {
   'Subscription.orderPostCodeHit':
     "* Veuillez mettre à jour l'adresse de livraison",
   'subscription.ongoingOrderForPet': 'Commande en préparation pour {val}',
-  'subscription.noPetOngoingOrder': 'Commande en préparation'
+  'subscription.noPetOngoingOrder': 'Commande en préparation',
+  'product.plp.foodtype.drydog': 'Nourriture sèche pour chiens',
+  'product.plp.foodtype.wetdog': 'Nourriture humide pour chiens',
+  'product.plp.foodtype.drycat': 'Nourriture sèche pour chats',
+  'product.plp.foodtype.wetcat': 'Nourriture humide pour chat'
 };
 export default fr_FR;

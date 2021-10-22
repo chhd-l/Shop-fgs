@@ -1407,7 +1407,11 @@ const de_DE = {
   'checkout.zeroOrder.butSubscription':
     '0 Price orders do not support subscription, please change to a one-off purchase to pay this order',
   'subscription.ongoingOrderForPet': 'Bestellung in Bearbeitung für {val}',
-  'subscription.noPetOngoingOrder': 'Bestellung in Bearbeitung'
+  'subscription.noPetOngoingOrder': 'Bestellung in Bearbeitung',
+  'product.plp.foodtype.drydog': 'Trockenfutter für Hunde',
+  'product.plp.foodtype.wetdog': 'Nassfutter für Hunde',
+  'product.plp.foodtype.drycat': 'Trockenfutter für Katzen',
+  'product.plp.foodtype.wetcat': 'Katzen Nassfutter'
 };
 
 export default de_DE;
