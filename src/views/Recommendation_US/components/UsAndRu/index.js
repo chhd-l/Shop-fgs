@@ -18,12 +18,14 @@ const howImageArr = [
   {
     img: `${imgUrlPreFix}/HOW-TO-JOIN-SCHEDULE.png`,
     title: 'GET WHAT YOUR PET NEEDS, WHEN YOU NEED IT',
-    des: 'Receive your autoship purchase based on your schedule––change or cancel at any time'
+    des:
+      'Receive your autoship purchase based on your schedule––change or cancel at any time'
   },
   {
     img: `${imgUrlPreFix}/HOW-TO-JOIN-ENJOY.png`,
     title: 'ENJOY YOUR PERKS',
-    des: 'Get your exclusive Royal Canin Club perks, including access to a Royal Canin Advisor'
+    des:
+      'Get your exclusive Royal Canin Club perks, including access to a Royal Canin Advisor'
   }
 ];
 
@@ -42,8 +44,8 @@ const UsAndRu = (props) => {
   let cur_recommendation4 = `${imgUrlPreFix}/3xquality.jpg`;
   const imagesArr = [
     {
-      img: `${imgUrlPreFix}/COHORT-A_CLUB-BENEFITS_PET-ADVISOR.png`,
-      text: 'Royal Canin Pet Advisor Live'
+      img: `${imgUrlPreFix}/COHORT-A_CLUB-BENEFITS_PET-ADVISOR_COPY2.jpg`,
+      text: 'Access to a Royal Canin Advisor'
     },
     {
       img: `${imgUrlPreFix}/CLUB-BENEFITS_PRODUCT-RECOS.png`,
@@ -78,6 +80,7 @@ const UsAndRu = (props) => {
                 <div className="img-hover-switch rc-margin-bottom--sm">
                   <LazyLoad>
                     <img
+                      style={{ width: '180px' }}
                       className="m-center"
                       src={item.img}
                       alt="recommendation image"
