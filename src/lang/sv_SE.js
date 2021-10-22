@@ -1837,6 +1837,10 @@ const en_US = {
     '2. Feel your cat’s body, gently applying pressure to find the ribs',
   'productFinder.mixBreed': 'Mix breed',
   'subscription.ongoingOrderForPet': 'Order status for {val}',
-  'subscription.noPetOngoingOrder': 'Order status'
+  'subscription.noPetOngoingOrder': 'Order status',
+  'product.plp.foodtype.drydog': 'Dry dog food',
+  'product.plp.foodtype.wetdog': 'Wet dog food',
+  'product.plp.foodtype.drycat': 'Dry cat food',
+  'product.plp.foodtype.wetcat': 'Wet cat food'
 };
 export default en_US;

@@ -1490,7 +1490,11 @@ const ru_RU = {
   'checkout.zeroOrder.butSubscription':
     '0 Price orders do not support subscription, please change to a one-off purchase to pay this order',
   'subscription.ongoingOrderForPet': 'Текущий заказ для {val}',
-  'subscription.noPetOngoingOrder': 'Текущий заказ'
+  'subscription.noPetOngoingOrder': 'Текущий заказ',
+  'product.plp.foodtype.drydog': 'Сухой корм для собак',
+  'product.plp.foodtype.wetdog': 'Влажный корм для собак',
+  'product.plp.foodtype.drycat': 'Сухой корм для кошек',
+  'product.plp.foodtype.wetcat': 'Влажный корм для кошек'
 };
 
 export default ru_RU;
