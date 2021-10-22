@@ -28,7 +28,7 @@
   
   function jsonpScriptSrc(e) {
     //   return __webpack_require__.p + "" + ({
-    return '/royal/royal-assets1/' + "" + ({
+    return '/royal/royal-assets2/' + "" + ({
           0: "jsSupport",
           1: "cssImport",
           2: "style-loader",
@@ -2186,7 +2186,7 @@
                       var l = RCDL.utilities.createElement({
                           tagName: "link",
                           attributes: {
-                              href: s()(a = s()(o = "".concat('/royal/royal-assets1/', "royal-canin.styles.")).call(o, e.name, ".min.css?v=")).call(a, window.RCDL.config.version.release),
+                              href: s()(a = s()(o = "".concat('/royal/royal-assets2/', "royal-canin.styles.")).call(o, e.name, ".min.css?v=")).call(a, window.RCDL.config.version.release),
                               type: "text/css",
                               rel: "stylesheet"
                           }
@@ -2202,7 +2202,7 @@
                   var v = RCDL.utilities.createElement({
                       tagName: "link",
                       attributes: {
-                          href: s()(d = s()(p = "".concat('/royal/royal-assets1/', "royal-canin.styles.")).call(p, e.name, ".min.css?v=")).call(d, window.RCDL.config.version.release),
+                          href: s()(d = s()(p = "".concat('/royal/royal-assets2/', "royal-canin.styles.")).call(p, e.name, ".min.css?v=")).call(d, window.RCDL.config.version.release),
                           as: "style",
                           type: "text/css",
                           rel: "preload"

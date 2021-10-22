@@ -345,170 +345,170 @@
     },
     756: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' + 'royal-canin.styles.alerts.min.css?v=8-7-9';
+        '/royal/royal-assets2/' + 'royal-canin.styles.alerts.min.css?v=8-7-9';
     },
     757: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' + 'royal-canin.styles.badges.min.css?v=8-7-9';
+        '/royal/royal-assets2/' + 'royal-canin.styles.badges.min.css?v=8-7-9';
     },
     758: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' +
+        '/royal/royal-assets2/' +
         'royal-canin.styles.bg-image.min.css?v=8-7-9';
     },
     759: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' + 'royal-canin.styles.border.min.css?v=8-7-9';
+        '/royal/royal-assets2/' + 'royal-canin.styles.border.min.css?v=8-7-9';
     },
     760: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' +
+        '/royal/royal-assets2/' +
         'royal-canin.styles.breadcrumbs.min.css?v=8-7-9';
     },
     761: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' + 'royal-canin.styles.cards.min.css?v=8-7-9';
+        '/royal/royal-assets2/' + 'royal-canin.styles.cards.min.css?v=8-7-9';
     },
     762: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' +
+        '/royal/royal-assets2/' +
         'royal-canin.styles.carousels.min.css?v=8-7-9';
     },
     763: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' +
+        '/royal/royal-assets2/' +
         'royal-canin.styles.cookie-bar.min.css?v=8-7-9';
     },
     764: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' +
+        '/royal/royal-assets2/' +
         'royal-canin.styles.countries.min.css?v=8-7-9';
     },
     765: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' +
+        '/royal/royal-assets2/' +
         'royal-canin.styles.data-visualisation.min.css?v=8-7-9';
     },
     766: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' +
+        '/royal/royal-assets2/' +
         'royal-canin.styles.datepicker.min.css?v=8-7-9';
     },
     767: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' + 'royal-canin.styles.filters.min.css?v=8-7-9';
+        '/royal/royal-assets2/' + 'royal-canin.styles.filters.min.css?v=8-7-9';
     },
     768: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' + 'royal-canin.styles.firefox.min.css?v=8-7-9';
+        '/royal/royal-assets2/' + 'royal-canin.styles.firefox.min.css?v=8-7-9';
     },
     769: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' + 'royal-canin.styles.flags.min.css?v=8-7-9';
+        '/royal/royal-assets2/' + 'royal-canin.styles.flags.min.css?v=8-7-9';
     },
     770: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' + 'royal-canin.styles.forms.min.css?v=8-7-9';
+        '/royal/royal-assets2/' + 'royal-canin.styles.forms.min.css?v=8-7-9';
     },
     771: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' + 'royal-canin.styles.icons.min.css?v=8-7-9';
+        '/royal/royal-assets2/' + 'royal-canin.styles.icons.min.css?v=8-7-9';
     },
     772: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' + 'royal-canin.styles.ie.min.css?v=8-7-9';
+        '/royal/royal-assets2/' + 'royal-canin.styles.ie.min.css?v=8-7-9';
     },
     773: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' + 'royal-canin.styles.image.min.css?v=8-7-9';
+        '/royal/royal-assets2/' + 'royal-canin.styles.image.min.css?v=8-7-9';
     },
     774: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' +
+        '/royal/royal-assets2/' +
         'royal-canin.styles.interactions.min.css?v=8-7-9';
     },
     775: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' + 'royal-canin.styles.lists.min.css?v=8-7-9';
+        '/royal/royal-assets2/' + 'royal-canin.styles.lists.min.css?v=8-7-9';
     },
     776: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' + 'royal-canin.styles.loader.min.css?v=8-7-9';
+        '/royal/royal-assets2/' + 'royal-canin.styles.loader.min.css?v=8-7-9';
     },
     777: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' + 'royal-canin.styles.modal.min.css?v=8-7-9';
+        '/royal/royal-assets2/' + 'royal-canin.styles.modal.min.css?v=8-7-9';
     },
     778: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' + 'royal-canin.styles.pager.min.css?v=8-7-9';
+        '/royal/royal-assets2/' + 'royal-canin.styles.pager.min.css?v=8-7-9';
     },
     779: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' +
+        '/royal/royal-assets2/' +
         'royal-canin.styles.pagination.min.css?v=8-7-9';
     },
     780: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' +
+        '/royal/royal-assets2/' +
         'royal-canin.styles.parallax.min.css?v=8-7-9';
     },
     781: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' + 'royal-canin.styles.prefix.min-v210702.css?v=8-7-9';
+        '/royal/royal-assets2/' + 'royal-canin.styles.prefix.min-v210702.css?v=8-7-9';
     },
     782: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' +
+        '/royal/royal-assets2/' +
         'royal-canin.styles.progress.min.css?v=8-7-9';
     },
     783: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' +
+        '/royal/royal-assets2/' +
         'royal-canin.styles.rc_type-medium.min.css?v=8-7-9';
     },
     784: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' +
+        '/royal/royal-assets2/' +
         'royal-canin.styles.rc_type-regular.min.css?v=8-7-9';
     },
     785: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' + 'royal-canin.styles.selects.min.css?v=8-7-9';
+        '/royal/royal-assets2/' + 'royal-canin.styles.selects.min.css?v=8-7-9';
     },
     786: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' + 'royal-canin.styles.shades.min.css?v=8-7-9';
+        '/royal/royal-assets2/' + 'royal-canin.styles.shades.min.css?v=8-7-9';
     },
     787: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' + 'royal-canin.styles.sliders.min.css?v=8-7-9';
+        '/royal/royal-assets2/' + 'royal-canin.styles.sliders.min.css?v=8-7-9';
     },
     788: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' +
+        '/royal/royal-assets2/' +
         'royal-canin.styles.styled-link.min.css?v=8-7-9';
     },
     789: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' + 'royal-canin.styles.tables.min.css?v=8-7-9';
+        '/royal/royal-assets2/' + 'royal-canin.styles.tables.min.css?v=8-7-9';
     },
     790: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' + 'royal-canin.styles.tags.min.css?v=8-7-9';
+        '/royal/royal-assets2/' + 'royal-canin.styles.tags.min.css?v=8-7-9';
     },
     791: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' +
+        '/royal/royal-assets2/' +
         'royal-canin.styles.toggle-group.min.css?v=8-7-9';
     },
     792: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' + 'royal-canin.styles.tooltip.min.css?v=8-7-9';
+        '/royal/royal-assets2/' + 'royal-canin.styles.tooltip.min.css?v=8-7-9';
     },
     793: function (t, n, s) {
       t.exports =
-        '/royal/royal-assets1/' + 'royal-canin.styles.wysiwyg.min.css?v=8-7-9';
+        '/royal/royal-assets2/' + 'royal-canin.styles.wysiwyg.min.css?v=8-7-9';
     }
   }
 ]);
