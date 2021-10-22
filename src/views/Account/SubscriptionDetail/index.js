@@ -849,21 +849,24 @@ class SubscriptionDetail extends React.Component {
                       </>
 
                       {/* Ongoing Order */}
-                      <>
-                        <h4 className="h4">
-                          {petName ? (
-                            <FormattedMessage
-                              id="subscription.ongoingOrderForPet"
-                              values={{ val: petName }}
-                            />
-                          ) : (
-                            <FormattedMessage id="subscription.noPetOngoingOrder" />
-                          )}
-                        </h4>
-                        <div className="rc-max-width--xl">
-                          <OngoingOrder subDetail={subDetail} />
-                        </div>
-                      </>
+                      {subDetail.onGoingTradeList &&
+                      subDetail.onGoingTradeList.length > 0 ? (
+                        <>
+                          <h4 className="h4">
+                            {petName ? (
+                              <FormattedMessage
+                                id="subscription.ongoingOrderForPet"
+                                values={{ val: petName }}
+                              />
+                            ) : (
+                              <FormattedMessage id="subscription.noPetOngoingOrder" />
+                            )}
+                          </h4>
+                          <div className="rc-max-width--xl">
+                            <OngoingOrder subDetail={subDetail} />
+                          </div>
+                        </>
+                      ) : null}
 
                       {/* 历史订单 */}
                       <>

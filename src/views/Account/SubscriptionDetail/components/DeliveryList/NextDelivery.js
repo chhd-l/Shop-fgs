@@ -13,6 +13,7 @@ import {
   formatMoney,
   getZoneTime
 } from '@/utils/utils';
+import { IMG_DEFAULT } from '@/utils/constant';
 
 const NextDelivery = ({
   el,
@@ -185,7 +186,10 @@ const NextDelivery = ({
           >
             <div className={`col-9 col-md-6 d-flex row align-items-center`}>
               <LazyLoad className="col-6 col-md-3">
-                <img src={tradeItem.pic} alt={tradeItem.skuName} />
+                <img
+                  src={tradeItem.pic || IMG_DEFAULT}
+                  alt={tradeItem.skuName}
+                />
               </LazyLoad>
               <div style={{ display: `${isIndv ? 'none' : 'block'}` }}>
                 <h5
