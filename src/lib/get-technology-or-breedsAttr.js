@@ -58,4 +58,25 @@ const getTechnologyOrBreedsAttr = (product) => {
   return goodsAttr;
 };
 
+export const getFoodType = (product) => {
+  const { goodsAttributesValueRelVOAllList } = product;
+  const technologyType =
+    filterAttrValue(
+      goodsAttributesValueRelVOAllList,
+      'technology',
+      'goodsAttributeValue'
+    ).findIndex((item) => item.toLowerCase() === 'dry') > -1
+      ? 'dry'
+      : 'wet';
+  const speciesType =
+    filterAttrValue(
+      goodsAttributesValueRelVOAllList,
+      'species',
+      'goodsAttributeValue'
+    ).findIndex((item) => item.toLowerCase() === 'dog') > -1
+      ? 'dog'
+      : 'cat';
+  return `${technologyType}${speciesType}`;
+};
+
 export default getTechnologyOrBreedsAttr;

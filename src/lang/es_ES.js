@@ -1162,6 +1162,12 @@ const es_ES = {
     'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
   'plp.retail.cat.filter.specneed.learnmore': 'Learn more',
   'checkout.zeroOrder.butSubscription':
-    '0 Price orders do not support subscription, please change to a one-off purchase to pay this order'
+    '0 Price orders do not support subscription, please change to a one-off purchase to pay this order',
+  'subscription.ongoingOrderForPet': 'Órden en curso de {val}',
+  'subscription.noPetOngoingOrder': 'Órden en curso',
+  'product.plp.foodtype.drydog': 'Alimento seco para perros',
+  'product.plp.foodtype.wetdog': 'Comida húmeda para perros',
+  'product.plp.foodtype.drycat': 'Comida seca para gatos',
+  'product.plp.foodtype.wetcat': 'Comida húmeda para gatos'
 };
 export default es_ES;

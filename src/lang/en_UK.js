@@ -1809,6 +1809,12 @@ const en_US = {
   'header.User.faq': "FAQ's",
   'Your Pet is a…': 'My Pet is a…',
   Activity: 'How active is your dog?',
-  'Subscription.orderPostCodeHit': '* Please update the delivery address'
+  'Subscription.orderPostCodeHit': '* Please update the delivery address',
+  'subscription.ongoingOrderForPet': 'Order status for {val}',
+  'subscription.noPetOngoingOrder': 'Order status',
+  'product.plp.foodtype.drydog': 'Dry dog food',
+  'product.plp.foodtype.wetdog': 'Wet dog food',
+  'product.plp.foodtype.drycat': 'Dry cat food',
+  'product.plp.foodtype.wetcat': 'Wet cat food'
 };
 export default en_US;
