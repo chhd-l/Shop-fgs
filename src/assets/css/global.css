@@ -23793,6 +23793,7 @@ tr.rc-table__row.inactive td:after {
   white-space: nowrap;
 }
 .ui-text-overflow-line2 {
+  word-wrap: break-word;
   text-overflow: -o-ellipsis-lastline;
   overflow: hidden;
   text-overflow: ellipsis;
