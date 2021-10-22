@@ -26,7 +26,7 @@ const OngoingOrder = ({ subDetail }) => {
                 borderColor: 'orange'
               }}
             >
-              <div className="col-12 col-md-5 d-flex flex-column justify-content-start align-items-center">
+              <div className="col-12 col-md-4 d-flex flex-column justify-content-start align-items-center">
                 {ele.tradeItems.map((item, idx) => (
                   <div className="d-flex flex-row align-items-center">
                     <div className="col-4">
@@ -37,11 +37,11 @@ const OngoingOrder = ({ subDetail }) => {
                         title={item.skuName}
                       />
                     </div>
-                    <div>
-                      <span className="medium text-bold color-444 ui-text-overflow-line2">
+                    <div className="flex flex-column">
+                      <span className="medium text-bold color-444 ui-text-overflow-line1">
                         {item.skuName}
                       </span>
-                      <span className="medium mt-2 ui-text-overflow-line2">
+                      <span className="medium mt-2 ui-text-overflow-line1">
                         <FormattedMessage
                           id="order.quantityText"
                           values={{
@@ -55,27 +55,27 @@ const OngoingOrder = ({ subDetail }) => {
                 ))}
               </div>
               <div
-                className="col-12 col-md-2"
+                className="col-12 col-md-2 flex flex-column"
                 style={{ paddingLeft: isMobile ? '26%' : '' }}
               >
-                <span className="medium text-bold color-444 ui-text-overflow-line2">
+                <span className="medium text-bold color-444 ui-text-overflow-line1">
                   <FormattedMessage id="order.orderDate" />
                 </span>
-                <span className="medium mt-2 ui-text-overflow-line2">
+                <span className="medium mt-2 ui-text-overflow-line1">
                   {getFormatDate(ele.tradeState.createTime.substr(0, 10))}
                 </span>
               </div>
               <div
-                className="col-12 col-md-2"
+                className="col-12 col-md-3 flex flex-column"
                 style={{
                   paddingLeft: isMobile ? '26%' : '',
                   marginTop: isMobile ? '14px' : ''
                 }}
               >
-                <span className="medium text-bold color-444 ui-text-overflow-line2">
+                <span className="medium text-bold color-444 ui-text-overflow-line1">
                   <FormattedMessage id="order.orderStatus" />
                 </span>
-                <span className="medium text-green mt-2 ui-text-overflow-line2">
+                <span className="medium text-green mt-2 ui-text-overflow-line1">
                   {ele.tradeState.orderStatus}
                 </span>
               </div>
