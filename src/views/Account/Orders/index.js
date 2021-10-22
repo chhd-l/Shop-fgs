@@ -487,7 +487,7 @@ class AccountOrders extends React.Component {
           </button>
         ) : null}
         {/*服务类产品评论*/}
-        {!order.canReviewServise ? (
+        {order.canReviewServise ? (
           <button className="rc-btn rc-btn--sm rc-btn--two ord-list-operation-btn">
             <FormattedMessage id="writeReview">
               {(txt) => (

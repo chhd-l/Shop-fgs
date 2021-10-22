@@ -792,6 +792,7 @@ const fr_FR = {
   'loginCart.totalProduct': 'Nombre:{}',
   loginFailed: 'Échec de la connexion',
   logisticsRating: 'Évaluation logistique',
+  expertAdvice: 'Expert advice',
   logOff: 'Se déconnecter',
   mailAddress: 'Adresse mail',
   manage: 'Gérer',

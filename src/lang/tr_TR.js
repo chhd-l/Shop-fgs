@@ -490,6 +490,7 @@ const tr_TR = {
   'login.thirdCheck': 'Pazarlama bültenini almayı kabul ediyorum',
   loginFailed: 'giriş başarısız',
   logisticsRating: 'Lojistik değerlendirme',
+  expertAdvice: 'Expert advice',
   logOff: 'Çıkış Yap',
   mailAddress: 'E-posta',
   mandatoryFieldsError: 'Doldurulmamış zorunlu alanlarınız var!',

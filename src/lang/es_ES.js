@@ -491,6 +491,7 @@ const es_ES = {
   loginFailed: 'error de inicio de sesion',
   logisticsCompany: 'Entreprise de logistique',
   logisticsRating: 'Calificación logística',
+  expertAdvice: 'Expert advice',
   logisticsSingleNumber: 'Numéro unique logistique',
   logOff: 'Desconectarse',
   mailAddress: 'Correo Electronico',
