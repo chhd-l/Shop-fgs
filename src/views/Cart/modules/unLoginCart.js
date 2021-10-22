@@ -1283,11 +1283,16 @@ class UnLoginCart extends React.Component {
                   className={`row shipping-item green d-flex`}
                   style={{ alignItems: 'center' }}
                 >
-                  <div className="col-6">
+                  <div className="col-6" style={{ paddingBottom: '1rem' }}>
                     <p
+                      style={{ marginBottom: 0 }}
+                      id="marketingName"
                       className="ui-text-overflow-line2"
-                      onMouseEnter={() => {
-                        if (el.marketingName.length > 32) {
+                      onMouseEnter={(e) => {
+                        if (
+                          document.getElementById('marketingName')
+                            .scrollHeight > 48
+                        ) {
                           this.setState({
                             promotionsVisible: true
                           });
@@ -1318,7 +1323,7 @@ class UnLoginCart extends React.Component {
                       }
                       content={
                         <div style={{ maxWidth: 250, wordWrap: 'break-word' }}>
-                          el.marketingName
+                          {el.marketingName}
                         </div>
                       }
                     />
