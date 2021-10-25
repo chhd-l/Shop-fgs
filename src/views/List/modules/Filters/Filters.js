@@ -174,7 +174,7 @@ class Filter extends React.Component {
         >
           <div className="rc-filters__form fr-mobile" name="example-filter">
             <div
-              onClick={this.props.handleCloseFilter(false)}
+              // onClick={this.props.handleCloseFilter(false)}
               className="flex w-100 align-items-center justify-content-between rc-padding-x--sm--mobile"
             >
               <div>
