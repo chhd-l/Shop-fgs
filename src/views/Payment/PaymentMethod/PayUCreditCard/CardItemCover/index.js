@@ -81,7 +81,13 @@ export default class CardItemCover extends React.Component {
               className="position-absolute"
               style={{ right: '1%', top: '2%', zIndex: 50 }}
             >
-              <span className="pull-right position-relative pl-2 ui-cursor-pointer-pure">
+              <span
+                className={`pull-right position-relative pl-2 ${
+                  el.paddingFlag
+                    ? 'ui-cursor-not-allowed'
+                    : 'ui-cursor-pointer-pure'
+                }`}
+              >
                 <span onClick={handleClickDeleteBtn}>
                   <FormattedMessage id="delete" />
                 </span>

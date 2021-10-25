@@ -249,6 +249,7 @@ class PaymentList extends React.Component {
     });
   }
   handleClickDeleteBtn(data, e) {
+    if (data?.paddingFlag) return;
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
@@ -467,7 +468,11 @@ class PaymentList extends React.Component {
                                 className={`position-relative p-2 ui-cursor-pointer-pure pdl-1`}
                               >
                                 <span
-                                  className="rc-styled-link"
+                                  className={`${
+                                    el.paddingFlag
+                                      ? 'ui-cursor-not-allowed'
+                                      : 'rc-styled-link'
+                                  }`}
                                   onClick={this.handleClickDeleteBtn.bind(
                                     this,
                                     el
