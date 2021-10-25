@@ -1,6 +1,8 @@
 import { action, observable, computed } from 'mobx';
 import { getConfig, getPrescriberSettingInfo } from '@/api';
 import { getAddressSetting, getSystemConfig } from '@/api/address';
+import { getPaymentMethodV2 } from '@/api/payment';
+import flatten from 'lodash/flatten';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const addressFormNull = {
@@ -34,6 +36,10 @@ class ConfigStore {
   @observable localAddressForm = sessionItemRoyal.get('rc-address-form')
     ? JSON.parse(sessionItemRoyal.get('rc-address-form'))
     : addressFormNull;
+
+  @observable paymentMethodCfg = sessionItemRoyal.get('rc-paymentCfg')
+    ? JSON.parse(sessionItemRoyal.get('rc-paymentCfg'))
+    : [];
 
   @computed get maxGoodsPrice() {
     return this.info ? this.info.maxGoodsPrice : 0;
@@ -279,6 +285,27 @@ class ConfigStore {
       console.log(err);
       sessionItemRoyal.set('rc-address-form', JSON.stringify(addressForm));
     }
+  }
+
+  @action.bound
+  async queryPaymentMethodCfg() {
+    const {
+      context: {
+        codPaymentMethodList,
+        offlinePaymentMethodList,
+        onlinePaymentMethodList
+      }
+    } = await getPaymentMethodV2();
+    const ret = flatten([
+      codPaymentMethodList,
+      offlinePaymentMethodList,
+      onlinePaymentMethodList
+    ])
+      .filter((f) => f.isOpen)
+      .map((f) => ({ imgUrl: f.imgUrl }));
+    console.log(ret);
+    debugger;
+    // this.paymentMethodCfg =
   }
 }
 export default ConfigStore;
