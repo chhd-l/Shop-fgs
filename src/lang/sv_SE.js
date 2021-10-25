@@ -1050,6 +1050,7 @@ const en_US = {
   'payment.saveFor': 'Spara till nästa betalning',
   'payment.socialId': 'Social id',
   'payment.state': 'State',
+  'payment.county': 'County',
   'payment.region': 'Region',
   'payment.entrance': 'Entrance',
   'payment.apartment': 'Apartment',
@@ -1835,6 +1836,12 @@ const en_US = {
     '1. Look at your cat from above and from the side',
   'preciseNutrition.bscTip2':
     '2. Feel your cat’s body, gently applying pressure to find the ribs',
-  'productFinder.mixBreed': 'Mix breed'
+  'productFinder.mixBreed': 'Mix breed',
+  'subscription.ongoingOrderForPet': 'Order status for {val}',
+  'subscription.noPetOngoingOrder': 'Order status',
+  'product.plp.foodtype.drydog': 'Dry dog food',
+  'product.plp.foodtype.wetdog': 'Wet dog food',
+  'product.plp.foodtype.drycat': 'Dry cat food',
+  'product.plp.foodtype.wetcat': 'Wet cat food'
 };
 export default en_US;

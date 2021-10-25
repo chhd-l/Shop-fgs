@@ -976,6 +976,7 @@ const fr_FR = {
   'payment.rfc': "Référence d'adresse",
   'payment.socialId': 'Identifiant social',
   'payment.state': 'État',
+  'payment.county': 'County',
   'payment.region': 'Région',
   'payment.entrance': 'Entrée',
   'payment.apartment': 'Appartement',
@@ -2173,8 +2174,13 @@ const fr_FR = {
   'productFinder.mixBreed': 'Race mixte',
   'productFinder.weight': 'Poids',
   'Go back to recommendation': 'Retour à la page de recommandation',
-  'productFinder.weight': 'Poids',
   'Subscription.orderPostCodeHit':
-    "* Veuillez mettre à jour l'adresse de livraison"
+    "* Veuillez mettre à jour l'adresse de livraison",
+  'subscription.ongoingOrderForPet': 'Commande en préparation pour {val}',
+  'subscription.noPetOngoingOrder': 'Commande en préparation',
+  'product.plp.foodtype.drydog': 'Nourriture sèche pour chiens',
+  'product.plp.foodtype.wetdog': 'Nourriture humide pour chiens',
+  'product.plp.foodtype.drycat': 'Nourriture sèche pour chats',
+  'product.plp.foodtype.wetcat': 'Nourriture humide pour chat'
 };
 export default fr_FR;

@@ -37,7 +37,9 @@ import {
 import { removeArgFromUrl, funcUrl, transferToObject } from '@/lib/url-utils';
 import { getSpecies } from '@/utils/GA';
 import bottomDescJson from './bottomDesc.json';
-import getTechnologyOrBreedsAttr from '@/lib/get-technology-or-breedsAttr';
+import getTechnologyOrBreedsAttr, {
+  getFoodType
+} from '@/lib/get-technology-or-breedsAttr';
 import loadable from '@/lib/loadable-component';
 
 import './index.less';
@@ -1476,6 +1478,7 @@ class List extends React.Component {
                 (e) => e.taggingType === 'Image' && e.showPage?.includes('PLP')
               )[0],
               technologyOrBreedsAttr: getTechnologyOrBreedsAttr(ele),
+              foodType: getFoodType(ele),
               fromPrice: ele.fromPrice,
               toPrice: ele.toPrice
             });

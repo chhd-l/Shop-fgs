@@ -100,6 +100,7 @@ class MemberCardList extends React.Component {
     this.setState({ listLoading: true });
     try {
       let res = await getPaymentMethod();
+
       let tmpList = res.context || [];
 
       const defaultItem = tmpList.filter((t) => t.isDefault === 1)[0];
