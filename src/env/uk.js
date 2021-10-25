@@ -25,7 +25,7 @@ const env = {
     REACT_APP_STOREID: '123457916',
 
     // #最低限额
-    REACT_APP_MINIMUM_AMOUNT: '30',
+    REACT_APP_MINIMUM_AMOUNT: 0,
     // #商品数量限制(所有产品)
     REACT_APP_LIMITED_NUM_ALL_PRODUCT: '100',
     // #商品数量限制(单个产品)

@@ -38,7 +38,7 @@ const OngoingOrder = ({ subDetail }) => {
                       />
                     </div>
                     <div className="flex flex-column">
-                      <span className="medium text-bold color-444 ui-text-overflow-line1">
+                      <span className="medium text-bold color-444">
                         {item.skuName}
                       </span>
                       <span className="medium mt-2 ui-text-overflow-line1">
@@ -56,7 +56,7 @@ const OngoingOrder = ({ subDetail }) => {
               </div>
               <div
                 className="col-12 col-md-2 flex flex-column"
-                style={{ paddingLeft: isMobile ? '26%' : '' }}
+                style={{ paddingLeft: isMobile ? '34%' : '' }}
               >
                 <span className="medium text-bold color-444 ui-text-overflow-line1">
                   <FormattedMessage id="order.orderDate" />
@@ -68,7 +68,7 @@ const OngoingOrder = ({ subDetail }) => {
               <div
                 className="col-12 col-md-3 flex flex-column"
                 style={{
-                  paddingLeft: isMobile ? '26%' : '',
+                  paddingLeft: isMobile ? '34%' : '',
                   marginTop: isMobile ? '14px' : ''
                 }}
               >
@@ -81,7 +81,7 @@ const OngoingOrder = ({ subDetail }) => {
               </div>
               <div
                 className=" col-12 col-md-3"
-                style={{ paddingLeft: isMobile ? '25%' : '' }}
+                style={{ paddingLeft: isMobile ? '33%' : '' }}
               >
                 <FormattedMessage id="orderDetail">
                   {(txt) => (
