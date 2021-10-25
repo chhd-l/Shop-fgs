@@ -27,14 +27,21 @@ class Footer extends React.Component {
   }
   componentDidMount() {
     const {
-      configStore,
+      configStore: {
+        queryPaymentMethodCfg,
+        queryConfig,
+        getPrescriberSettingInfo,
+        getSystemFormConfig
+      },
       intl: { messages }
     } = this.props;
-    configStore.queryConfig();
+    queryConfig();
 
-    configStore.getPrescriberSettingInfo(); //查询prescriber setting信息
+    getPrescriberSettingInfo(); //查询prescriber setting信息
 
-    configStore.getSystemFormConfig(); // 查询address form表单配置开关
+    getSystemFormConfig(); // 查询address form表单配置开关
+
+    queryPaymentMethodCfg();
 
     // 地址错误提示信息
     localItemRoyal.set(

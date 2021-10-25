@@ -828,6 +828,7 @@ const en_US = {
   'payment.saveFor': 'Save for next payment',
   'payment.socialId': 'Social id',
   'payment.state': 'State',
+  'payment.county': 'County',
   'payment.region': 'Region',
   'payment.entrance': 'Entrance',
   'payment.apartment': 'Apartment',

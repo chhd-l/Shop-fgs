@@ -53,10 +53,11 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =
   'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
-const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-  /\/$/,
-  ''
-);
+const urlPrefix =
+  `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+    /\/$/,
+    ''
+  );
 
 const filterAttrValue = (list, keyWords) => {
   return (list || [])
@@ -1598,8 +1599,9 @@ class List extends React.Component {
 
   stickyMobileRefineBar() {
     if (isMobilePhone) {
-      var t = document?.getElementById('refineBar')?.getBoundingClientRect()
-        .top;
+      var t = document
+        ?.getElementById('refineBar')
+        ?.getBoundingClientRect().top;
       window.addEventListener('scroll', () => {
         var choosedVal = document.querySelector('.filter-value'); // 有选择的时候才操作
         if (window.pageYOffset + 33 >= t && choosedVal) {
@@ -1858,7 +1860,8 @@ class List extends React.Component {
                             boxShadow: '0 2px 4px #f1f1f1'
                           }}
                         >
-                          <span
+                          {/* sprint5modify mobile不展示 */}
+                          {/* <span
                             style={{ marginRight: '1em' }}
                             className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0"
                           >
@@ -1881,22 +1884,50 @@ class List extends React.Component {
                                 }}
                               />
                             )}
-                          </span>
+                          </span> */}
                           {hiddenFilter ? null : (
-                            <em
-                              className={`rc-icon rc-filter--xs rc-iconography ${
-                                (filterModalVisible && !isTop) ||
-                                (!filterModalVisible && isTop)
-                                  ? 'rc-brand1'
-                                  : ''
-                              }`}
-                              data-filter-trigger="filter-example"
-                              style={{ position: 'relative', top: '0.4rem' }}
+                            <div
                               onClick={this.toggleFilterModal.bind(
                                 this,
                                 !filterModalVisible
                               )}
-                            />
+                              className="flex w-100 align-items-center justify-content-between"
+                            >
+                              <div>
+                                <em
+                                  className={`rc-icon rc-filter--xs rc-iconography ${
+                                    (filterModalVisible && !isTop) ||
+                                    (!filterModalVisible && isTop)
+                                      ? 'rc-brand1'
+                                      : ''
+                                  }`}
+                                  data-filter-trigger="filter-example"
+                                  style={{
+                                    position: 'relative',
+                                    top: '0.2rem'
+                                  }}
+                                />
+                                <span className=" font-weight-normal font-18 rc-padding-left--sm">
+                                  <FormattedMessage
+                                    id={
+                                      (filterModalVisible && !isTop) ||
+                                      (!filterModalVisible && isTop)
+                                        ? 'View filters'
+                                        : 'Close filters'
+                                    }
+                                  />
+                                </span>
+                              </div>
+                              <span
+                                className={`rc-icon rc-iconography ${
+                                  (filterModalVisible && !isTop) ||
+                                  (!filterModalVisible && isTop)
+                                    ? 'rc-close--xs'
+                                    : ' rc-right--xs'
+                                }`}
+                              />
+                              {/* <span className="rc-icon rc-iconography"/> */}
+                            </div>
                           )}
                           {/* <button
                         className="rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography FilterFitScreen"
@@ -1910,6 +1941,7 @@ class List extends React.Component {
                           }`}
                         >
                           {isMobilePhone ? (
+                            // <div className={`${showMegaMenu ? '' : 'rc-hidden'}`}>
                             <Filters
                               history={history}
                               maxGoodsPrice={maxGoodsPrice}

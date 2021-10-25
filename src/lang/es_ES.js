@@ -656,6 +656,7 @@ const es_ES = {
   'payment.rfc': 'Referencia',
   'payment.socialId': 'Identificación social',
   'payment.state': 'Estado',
+  'payment.county': 'Condado',
   'payment.region': 'Región',
   'payment.entrance': 'Entrada',
   'payment.apartment': 'Apartamento',

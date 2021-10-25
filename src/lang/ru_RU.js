@@ -706,6 +706,7 @@ const ru_RU = {
   'payment.rfc': 'Ссылка',
   'payment.socialId': 'Социальный идентификатор',
   'payment.state': 'область',
+  'payment.county': 'уезд',
   'payment.region': 'район',
   'payment.entrance': 'Подъезд',
   'payment.apartment': 'Квартира',
