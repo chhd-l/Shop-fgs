@@ -17,7 +17,8 @@ class Filter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      filterList: props.filterList
+      filterList: props.filterList,
+      selectedFilterParams: []
     };
     this.toggleContent = this.toggleContent.bind(this);
     this.hubGA = window.__.env.REACT_APP_HUB_GA == '1';
@@ -62,6 +63,49 @@ class Filter extends React.Component {
   // handleClickCloseBtn = () => {
   //   this.props.onToggleFilterModal(false);
   // };
+
+  handleClickItemFilter = (e, parentItem, childItem) => {
+    // this.props.updateFilterParams(parentItem,childItem)
+    const { selectedFilterParams } = this.state;
+    let selectedFilters = [];
+    if (selectedFilterParams.length) {
+      let choosedIndex = selectedFilterParams.findIndex(
+        (el) => el.prefn == parentItem.attributeName
+      );
+      if (choosedIndex > -1) {
+        selectedFilterParams[choosedIndex].prefvs = [
+          ...selectedFilterParams[choosedIndex].prefvs,
+          childItem.attributeDetailNameEnSplitByLine
+        ];
+      } else {
+        selectedFilterParams.push({
+          prefn: parentItem.attributeName,
+          prefvs: [childItem.attributeDetailNameEnSplitByLine]
+        });
+      }
+      selectedFilters = [...selectedFilterParams];
+    } else {
+      selectedFilters.push({
+        prefn: parentItem.attributeName,
+        prefvs: [childItem.attributeDetailNameEnSplitByLine]
+      });
+    }
+
+    this.setState(
+      {
+        selectedFilterParams: selectedFilters
+      },
+      () => {
+        console.log(this.state.selectedFilterParams, 'selectedFilterParams===');
+      }
+    );
+    // console.log(selectedFilterParams,'arr11==')
+  };
+
+  handleFilterApplyBtn = () => {
+    console.log(this.state.selectedFilterParams, 'ssss===');
+  };
+
   renderMultiChoiceJSX = (parentItem, childItem) => {
     const { inputLabelKey } = this.props;
     return (
@@ -73,13 +117,17 @@ class Filter extends React.Component {
         className="rc-list__item"
         key={childItem.id}
       >
-        <Link to={childItem.router} className="rc-input rc-input--stacked">
+        <span className="rc-input rc-input--stacked">
+          {/* <Link to={childItem.router} className="rc-input rc-input--stacked"> */}
           <input
             className={`rc-input__checkbox`}
             id={`filter-input-${childItem.id}-${inputLabelKey}`}
             type="checkbox"
             name="checkbox"
             checked={childItem.selected}
+            onChange={(e) =>
+              this.handleClickItemFilter(e, parentItem, childItem)
+            }
           />
           <label
             className="rc-input__label--inline"
@@ -87,7 +135,8 @@ class Filter extends React.Component {
           >
             {childItem.attributeDetailNameEn}
           </label>
-        </Link>
+          {/* </Link> */}
+        </span>
       </li>
     );
   };
@@ -175,7 +224,7 @@ class Filter extends React.Component {
           <div className="rc-filters__form fr-mobile" name="example-filter">
             <div
               // onClick={this.props.handleCloseFilter(false)}
-              className="flex w-100 align-items-center justify-content-between rc-padding-x--sm--mobile"
+              className="flex w-100 align-items-center justify-content-between rc-padding--sm--mobile"
             >
               <div>
                 <em
@@ -272,21 +321,33 @@ class Filter extends React.Component {
                               )}
                             >
                               {/* when name=markPrice/subscription, get dictionary to multi lang  */}
-                              {(parentItem.attributeName === 'markPrice' ||
-                                parentItem.attributeName === 'subscription') &&
-                              markPriceAndSubscriptionLangDict.filter(
-                                (ele) => ele.name === parentItem.attributeName
-                              ).length
-                                ? markPriceAndSubscriptionLangDict.filter(
-                                    (ele) =>
-                                      ele.name === parentItem.attributeName
-                                  )[0].valueEn
-                                : parentItem.attributeNameEn}
+                              <span>
+                                {(parentItem.attributeName === 'markPrice' ||
+                                  parentItem.attributeName ===
+                                    'subscription') &&
+                                markPriceAndSubscriptionLangDict.filter(
+                                  (ele) => ele.name === parentItem.attributeName
+                                ).length
+                                  ? markPriceAndSubscriptionLangDict.filter(
+                                      (ele) =>
+                                        ele.name === parentItem.attributeName
+                                    )[0].valueEn
+                                  : parentItem.attributeNameEn}
+                              </span>
+                              {this.state.selectedFilterParams.map((item) => {
+                                if (item.prefn == parentItem.attributeName) {
+                                  return (
+                                    <div className="filter-parent-item-count">
+                                      <span>{item.prefvs.length}</span>
+                                    </div>
+                                  );
+                                }
+                              })}
                             </div>
                           </div>
 
                           <ul
-                            className={`rc-list__content rc-expand--vertical ${
+                            className={`rc-list__content rc-expand--vertical  ${
                               parentItem.attributeName === 'markPrice'
                                 ? 'list-price'
                                 : ''
@@ -333,6 +394,14 @@ class Filter extends React.Component {
             )}
           </div>
         </nav>
+        <div className="filter-button-groups">
+          <button
+            className={`rc-btn rc-btn--one rc-margin-right--xs--mobile`}
+            onClick={this.handleFilterApplyBtn}
+          >
+            <span>Apply filters</span>
+          </button>
+        </div>
       </section>
     );
   }

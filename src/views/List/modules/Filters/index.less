@@ -26,8 +26,46 @@
 
 .filter-mobile-wrap {
   .rc-nav {
-    background-color:#fff
+    background-color:#fff;
+    padding-bottom: 8rem;
+    .rc-list__header {
+      border-bottom: none ;
+    }
   }
+  .filter-button-groups {
+    position: fixed;
+    bottom: 0;
+    z-index: 100;
+    background-color: #fff;
+  -webkit-box-shadow: 0 2px 0.625rem rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 0.625rem rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: 80px;
+    padding: 8px 18px;
+    text-align: center;
+    button {
+      width: 100%;
+    }
+  }
+}
+
+.filter-item-warp {
+ padding-top: 1rem !important;
+}
+
+.filter-parent-item-count {
+  position: absolute;
+  top: 12px;
+  right: 9%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 20px;
+  background: #333;
+    span {
+      color: #fff;
+    }
 }
 
 @media (max-width: 769px) {
