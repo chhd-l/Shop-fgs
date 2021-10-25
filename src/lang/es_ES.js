@@ -1169,6 +1169,8 @@ const es_ES = {
   'product.plp.foodtype.drydog': 'Alimento seco para perros',
   'product.plp.foodtype.wetdog': 'Comida húmeda para perros',
   'product.plp.foodtype.drycat': 'Comida seca para gatos',
-  'product.plp.foodtype.wetcat': 'Comida húmeda para gatos'
+  'product.plp.foodtype.wetcat': 'Comida húmeda para gatos',
+  'list.applyFilters': 'Aplicar filtros',
+  'list.clearFilters': 'Borrar todos los filtros'
 };
 export default es_ES;

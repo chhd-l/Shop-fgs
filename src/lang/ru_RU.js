@@ -1496,7 +1496,9 @@ const ru_RU = {
   'product.plp.foodtype.drydog': 'Сухой корм для собак',
   'product.plp.foodtype.wetdog': 'Влажный корм для собак',
   'product.plp.foodtype.drycat': 'Сухой корм для кошек',
-  'product.plp.foodtype.wetcat': 'Влажный корм для кошек'
+  'product.plp.foodtype.wetcat': 'Влажный корм для кошек',
+  'list.applyFilters': 'Применить фильтры',
+  'list.clearFilters': 'Очистить все фильтры'
 };
 
 export default ru_RU;

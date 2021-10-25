@@ -1358,6 +1358,8 @@ const tr_TR = {
   'product.plp.foodtype.drydog': 'Kuru köpek maması',
   'product.plp.foodtype.wetdog': 'ıslak köpek maması',
   'product.plp.foodtype.drycat': 'Kuru kedi maması',
-  'product.plp.foodtype.wetcat': 'ıslak kedi maması'
+  'product.plp.foodtype.wetcat': 'ıslak kedi maması',
+  'list.applyFilters': 'Filtreleri uygula',
+  'list.clearFilters': 'Tüm filtreleri temizle'
 };
 export default tr_TR;

@@ -2182,6 +2182,8 @@ const fr_FR = {
   'product.plp.foodtype.drydog': 'Nourriture sèche pour chiens',
   'product.plp.foodtype.wetdog': 'Nourriture humide pour chiens',
   'product.plp.foodtype.drycat': 'Nourriture sèche pour chats',
-  'product.plp.foodtype.wetcat': 'Nourriture humide pour chat'
+  'product.plp.foodtype.wetcat': 'Nourriture humide pour chat',
+  'list.applyFilters': 'Appliquer des filtres',
+  'list.clearFilters': 'Effacer tous les filtres'
 };
 export default fr_FR;

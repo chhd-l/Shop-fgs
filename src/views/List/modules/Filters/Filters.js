@@ -3,6 +3,7 @@ import Skeleton from 'react-skeleton-loader';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import PriceSlider from '@/components/PriceSlider';
+import { removeArgFromUrl, funcUrl, transferToObject } from '@/lib/url-utils';
 import '@/assets/css/search.css';
 import './index.less';
 
@@ -103,7 +104,13 @@ class Filter extends React.Component {
   };
 
   handleFilterApplyBtn = () => {
-    console.log(this.state.selectedFilterParams, 'ssss===');
+    const { pathname } = this.props.history.location;
+    const { baseSearchStr } = this.props;
+    console.log(
+      this.state.selectedFilterParams,
+      this.props.baseSearchStr,
+      'ssss==='
+    );
     const searchFilterParams = this.state.selectedFilterParams.reduce(
       (pre, cur) => {
         return {
@@ -115,6 +122,20 @@ class Filter extends React.Component {
       },
       { i: 1, ret: '' }
     );
+    const _search = searchFilterParams.ret
+      ? `?${
+          baseSearchStr ? `${baseSearchStr}&` : ''
+        }${searchFilterParams.ret.substr(1)}`
+      : `?${baseSearchStr}`;
+    const _router = {
+      pathname,
+      search: `?${removeArgFromUrl({
+        search: _search.substr(1),
+        name: 'p'
+      })}`
+    };
+    this.props.history.push(_router);
+    console.log(_router, '_____router====');
     console.log(searchFilterParams, 'searchFilterParams==');
   };
 
@@ -409,6 +430,16 @@ class Filter extends React.Component {
         <div className="filter-button-groups">
           <button
             className={`rc-btn rc-btn--one rc-margin-right--xs--mobile`}
+            onClick={this.handleFilterApplyBtn}
+          >
+            <span>
+              {' '}
+              <FormattedMessage id="list.applyFilters" />
+              Apply filters
+            </span>
+          </button>
+          <button
+            className={`rc-btn rc-btn--sm rc-btn--two`}
             onClick={this.handleFilterApplyBtn}
           >
             <span>Apply filters</span>

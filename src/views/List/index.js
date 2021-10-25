@@ -1290,7 +1290,6 @@ class List extends React.Component {
           },
           { i: 1, ret: '' }
         );
-        console.log(prefnParamList, decoParam, 'prefnParamList==');
 
         const search = decoParam.ret
           ? `?${baseSearchStr ? `${baseSearchStr}&` : ''}${decoParam.ret.substr(
@@ -1305,8 +1304,17 @@ class List extends React.Component {
             name: 'p'
           })}`
         };
+        console.log(
+          decoParam,
+          baseSearchStr,
+          search,
+          cEle.router,
+          'RIUIO====='
+        );
+
         return cEle;
       });
+
       return pEle;
     });
     this.setState({ filterList: allFilterList, initingFilter: false });
