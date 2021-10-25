@@ -27,7 +27,13 @@ function CardItem(props) {
   const { data, listVisible } = props;
   // console.log(2222, listVisible);
   return (
-    <div className="rc-bg-colour--brand4 rounded p-2 pl-3 pr-3 h-100 d-flex align-items-center justify-content-between">
+    <div
+      className={`${
+        data?.paddingFlag
+          ? 'creditCompleteInfoBox disabled'
+          : 'rc-bg-colour--brand4'
+      } rounded p-2 pl-3 pr-3 h-100 d-flex align-items-center justify-content-between`}
+    >
       <div
         className="position-absolute d-flex align-items-center"
         style={{ right: '2%', top: '2%' }}
@@ -275,6 +281,7 @@ class PaymentList extends React.Component {
     );
   };
   async toggleSetDefault(item, e) {
+    if (item?.paddingFlag) return;
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
@@ -416,7 +423,11 @@ class PaymentList extends React.Component {
                   <div className={classNames('row', 'ml-0', 'mr-0')}>
                     {creditCardList.map((el) => (
                       <div
-                        className="col-12 col-md-6 p-2 ui-cursor-pointer-pure"
+                        className={`col-12 col-md-6 p-2 ${
+                          el?.paddingFlag
+                            ? 'ui-cursor-not-allowed'
+                            : 'ui-cursor-pointer-pure'
+                        }`}
                         key={el.id}
                       >
                         <CardItem
@@ -438,10 +449,16 @@ class PaymentList extends React.Component {
                                 </div>
                               ) : (
                                 <div
-                                  className="ui-cursor-pointer"
+                                  className={`ui-cursor-pointer`}
                                   onClick={this.toggleSetDefault.bind(this, el)}
                                 >
-                                  <span className="rc-styled-link">
+                                  <span
+                                    className={`${
+                                      el?.paddingFlag
+                                        ? 'ui-cursor-not-allowed'
+                                        : 'rc-styled-link'
+                                    }`}
+                                  >
                                     <FormattedMessage id="setAsDefault" />
                                   </span>
                                 </div>

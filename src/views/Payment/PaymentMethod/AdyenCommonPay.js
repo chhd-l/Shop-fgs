@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
+import LazyLoad from 'react-lazyload';
+
 @inject('loginStore', 'paymentStore')
 @injectIntl
 @observer
 class AdyenCommonPay extends Component {
   static defaultProps = {
     billingJSX: null,
-    updateEmail: () => {}
+    updateEmail: () => {},
+    logoUrl: ''
   };
   constructor(props) {
     super(props);
@@ -46,12 +49,19 @@ class AdyenCommonPay extends Component {
     );
   }
   render() {
-    const { billingJSX } = this.props;
+    const { billingJSX, logoUrl } = this.props;
     return (
       <div className="customer-form">
         <div className="address">
           <form className="address-form">
             <div className="address-line" id="addressLine2">
+              <LazyLoad>
+                <img
+                  style={{ width: '50px' }}
+                  className="logo-payment-card mr-1 mb-2"
+                  src={logoUrl}
+                />
+              </LazyLoad>
               <div
                 className="address-input full-width"
                 style={{ marginBottom: '1.125rem' }}
