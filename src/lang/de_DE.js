@@ -554,7 +554,7 @@ const de_DE = {
   loginFailed: 'Login fehlgeschlagen',
   logisticsCompany: 'Logistikunternehmen',
   logisticsRating: 'Logistikbewertung',
-  expertAdvice: 'Expert advice',
+  expertAdvice: 'Beratung durch Experten',
   logisticsSingleNumber: 'DPD Paketnummer',
   logOff: 'Ausloggen',
   mailAddress: 'E-Mail-Addresse',
