@@ -9,7 +9,7 @@
   -ms-flex-direction: column !important;
   flex-direction: column!important;
 }
-.subscriptionDetail{ 
+.subscriptionDetail{
   #Selection[data-type*='select-one']:after {
     margin-top: -10.5px;
   }
@@ -100,7 +100,7 @@
     .pet-icon{
       height: 100px;
     }
-    
+
     .border-dot{
       border: 1px dashed rgb(211,211,211);
     }
@@ -109,7 +109,7 @@
     }
     .pets-list-item{
       padding-left: 2rem;
-      cursor: pointer; 
+      cursor: pointer;
       height: 100px;
       &:hover{
         border-color: #e2001a;
@@ -134,6 +134,13 @@
     font-size: 2rem;
     position: relative;
     top: 6px;
+  }
+}
+
+.width-full{
+  width:100%;
+  .choices{
+    width: 100%!important;
   }
 }
 
@@ -414,9 +421,9 @@
       display: inline-block;
       margin: 0;
     }
-    .choices {
-      max-width: 130px;
-    }
+    //.choices {
+    //  max-width: 130px;
+    //}
     .none {
       display: none;
     }
