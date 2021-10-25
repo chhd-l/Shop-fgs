@@ -377,6 +377,7 @@ const de_DE = {
   'footer.confidentiality': 'Privacidad',
   'footer.consistence': 'Nachhaltigkeit',
   'footer.contactRoyalCanin': 'Kontakt ROYAL CANIN®',
+  'footer.securePaymentMethods': 'Zahlungsmethoden',
   'footer.contacts': 'Kontakt',
   'footer.contactUs': 'Kontakt',
   'footer.cookieCollectionPolicy': 'Noch nicht übersetzt',

@@ -348,6 +348,7 @@ const es_ES = {
   'footer.Additionally': 'Ligas de Interés',
   'footer.confidentiality': 'Privacidad',
   'footer.contactRoyalCanin': 'Contacto ROYAL CANIN®',
+  'footer.securePaymentMethods': 'Métodos de pago seguros',
   'footer.contacts': 'Contacto',
   'footer.contactUs': 'Contacto',
   'footer.cookieCollectionPolicy': 'Política de recopilación de cookies',

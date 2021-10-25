@@ -560,7 +560,7 @@ class PayProductInfo extends React.Component {
       );
     } catch (err) {
       console.info('....', err);
-      debugger;
+      // debugger;
       this.setState({
         isClickApply: false
       });

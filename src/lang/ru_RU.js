@@ -395,6 +395,7 @@ const ru_RU = {
   'footer.Additionally': 'ДОПОЛНИТЕЛЬНО',
   'footer.confidentiality': 'Привацидад',
   'footer.contactRoyalCanin': 'Связаться с ROYAL CANIN®',
+  'footer.securePaymentMethods': 'Безопасная онлайн оплата',
   'footer.contacts': 'Контакты',
   'footer.contactUs': 'Связаться с нами',
   'footer.cookieCollectionPolicy': 'Политика сбора файлов cookie',

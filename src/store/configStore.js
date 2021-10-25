@@ -40,6 +40,7 @@ class ConfigStore {
   @observable paymentMethodCfg = sessionItemRoyal.get('rc-paymentCfg')
     ? JSON.parse(sessionItemRoyal.get('rc-paymentCfg'))
     : [];
+
   // 当前地址表单类型
   @computed get addressFormType() {
     let form = sessionItemRoyal.get('rc-address-form')
@@ -296,6 +297,10 @@ class ConfigStore {
 
   @action.bound
   async queryPaymentMethodCfg() {
+    let pmlogos = this.paymentMethodCfg;
+    if (pmlogos?.length) {
+      return pmlogos;
+    }
     const {
       context: {
         codPaymentMethodList,
@@ -308,11 +313,10 @@ class ConfigStore {
       offlinePaymentMethodList,
       onlinePaymentMethodList
     ])
-      .filter((f) => f.isOpen)
-      .map((f) => ({ imgUrl: f.imgUrl }));
-    console.log(ret);
-    debugger;
-    // this.paymentMethodCfg =
+      .filter((f) => f?.isOpen)
+      .map((f) => ({ imgUrl: f?.imgUrl }));
+    sessionItemRoyal.set('rc-paymentCfg', JSON.stringify(ret));
+    return ret;
   }
 }
 export default ConfigStore;

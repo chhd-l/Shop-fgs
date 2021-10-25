@@ -17,7 +17,8 @@ const api = {
   addressValidation: `/addressValidation/validation`, // 地址校验接口
   getDeliveryDateAndTimeSlot: '/delivery/timeSlot', // 俄罗斯获取 DeliveryDate 和 TimeSlot
   validPostCodeBlock: '/addressDisplaySetting/validPostCodeBlock', // 邮编黑名单校验
-  DQEAddressList: '/address-input-auto/DQElist' // DQE 地址查询
+  DQEAddressList: '/address-input-auto/DQElist', // DQE 地址查询
+  queryOpenedApi: '/addressApiSetting/query-opened-api' // DQE 地址查询
 };
 
 export default api;
@@ -126,6 +127,7 @@ export function addressValidation(parameter) {
     data: parameter
   });
 }
+
 export function getDeliveryDateAndTimeSlot(parameter) {
   return axios({
     url: `${api.getDeliveryDateAndTimeSlot}`,
@@ -145,5 +147,12 @@ export function DQEAddressList(address = '') {
   return axios({
     url: `${api.DQEAddressList}?address=${address}`,
     method: 'get'
+  });
+}
+
+export function queryOpenedApi() {
+  return axios({
+    url: `${api.queryOpenedApi}`,
+    method: 'post'
   });
 }

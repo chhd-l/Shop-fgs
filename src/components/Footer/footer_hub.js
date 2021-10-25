@@ -170,7 +170,7 @@ class FooterHub extends React.Component {
                 </div>
               </div>
             ) : null}
-            <div className="rc-divider rc-md-up" />
+            <div className="rc-divider rc-md-up rc-hub-divider2" />
             {/* MenuItems Mobile */}
             <div className="rc-md-down rc-layout-container rc-one-column rc-padding-x--xs--desktop rc-margin-top--md--desktop rc-padding-x--none--mobile">
               <div className="rc-column rc-padding-bottom--none">
@@ -225,6 +225,7 @@ class FooterHub extends React.Component {
                 </div>
               </div>
             </div>
+
             {/*MenuInfoItems */}
             {MenuInfoItems && MenuInfoItems[0] ? (
               <div className="rc-layout-container rc-one-column rc-padding-x--xs--desktop rc-margin-top--md--desktop rc-padding-x--none--mobile">
@@ -262,6 +263,7 @@ class FooterHub extends React.Component {
                 )}
               </div>
             ) : null}
+
             {/* 底部横向链接 */}
             <MarsFooterMap />
           </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
+import { toJS } from 'mobx';
 import { cookieSettingsBtn } from './cookieSettingsBtn';
 import MarsFooterMap from './MarsFooterMap';
 import { menubar } from './menubar';
@@ -9,6 +10,7 @@ import { contactInfo } from './contactInfo';
 import FooterHub from './footer_hub';
 import { withRouter } from 'react-router-dom';
 import { getDeviceType } from '@/utils/utils';
+import LazyLoad from 'react-lazyload';
 import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -22,10 +24,11 @@ class Footer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeIdx: -1
+      activeIdx: -1,
+      paymentLogos: []
     };
   }
-  componentDidMount() {
+  async componentDidMount() {
     const {
       configStore: {
         queryPaymentMethodCfg,
@@ -41,7 +44,16 @@ class Footer extends React.Component {
 
     getSystemFormConfig(); // 查询address form表单配置开关
 
-    queryPaymentMethodCfg();
+    // 查询 payment logos
+    let logos = await queryPaymentMethodCfg();
+    this.setState(
+      {
+        paymentLogos: toJS(logos)
+      },
+      () => {
+        console.log('666 >>> paymentLogos: ', this.state.paymentLogos);
+      }
+    );
 
     // 地址错误提示信息
     localItemRoyal.set(
@@ -53,6 +65,7 @@ class Footer extends React.Component {
         postCode: messages['payment.postCode'],
         house: messages['payment.house'],
         city: messages['payment.city'],
+        county: messages['payment.county'],
         districtCode: messages['payment.province'],
         settlement: messages['payment.settlement'],
         address1: messages['payment.address1'],
@@ -88,7 +101,7 @@ class Footer extends React.Component {
     );
   };
   footerInfo = () => {
-    const { activeIdx } = this.state;
+    const { activeIdx, paymentLogos } = this.state;
     return (
       <footer
         className="rc-bg-colour--interface-dark"
@@ -230,7 +243,8 @@ class Footer extends React.Component {
               </div>
             </div>
           ) : null}
-          <div className="rc-divider rc-md-up" />
+          <div className="rc-divider rc-md-up rc-shop-divider2" />
+
           {/*tips */}
           <div className="rc-layout-container rc-one-column rc-padding-x--xs--desktop rc-margin-top--md--desktop rc-padding-x--none--mobile">
             <div className="rc-column rc-padding-bottom--none rc-padding-top--lg--mobile">
@@ -255,7 +269,45 @@ class Footer extends React.Component {
                 )}
               </div>
             </div>
+
+            {/* payment logos */}
+            {paymentLogos?.length ? (
+              <div className="rc-column rc-padding-bottom--none rc-padding-top--lg--mobile">
+                <p
+                  className={`rc-espilon rc-text--inverse ${
+                    isMobile ? '' : 'text-right'
+                  }`}
+                >
+                  <FormattedMessage id="footer.securePaymentMethods" />
+                </p>
+                <div
+                  className={`rc-text--inverse flex ${
+                    isMobile ? 'justify-content-start' : 'justify-content-end'
+                  }`}
+                >
+                  <div
+                    className={`flex flex-wrap justify-content-start`}
+                    style={{ fontSize: '0', width: '12.5rem' }}
+                  >
+                    {paymentLogos.map((img, i) => (
+                      <LazyLoad
+                        className={`mb-2 ${
+                          paymentLogos.length != i + 1 ? 'mr-2' : ''
+                        }`}
+                      >
+                        <img
+                          src={img.imgUrl}
+                          alt=""
+                          style={{ width: '2.7rem' }}
+                        />
+                      </LazyLoad>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : null}
           </div>
+
           {/* mail and phone */}
           <div className="rc-layout-container rc-two-column rc-padding-x--xs--desktop">
             {cur_contactInfo && (
@@ -296,6 +348,7 @@ class Footer extends React.Component {
               </div>
             )}
           </div>
+
           {/* 底部横向链接 */}
           <MarsFooterMap />
         </div>

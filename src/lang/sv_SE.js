@@ -509,6 +509,7 @@ const en_US = {
   'footer.confidentiality': 'Privacy',
   'footer.consistence': 'durability',
   'footer.contactRoyalCanin': 'Contact Royal Canin',
+  'footer.securePaymentMethods': 'Secure Payment Methods',
   'footer.contacts': 'Contacts',
   'footer.contactUs': 'Contact Us',
   'footer.cookieCollectionPolicy': 'Cookie Collection Policy',

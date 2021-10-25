@@ -610,6 +610,7 @@ const fr_FR = {
   'footer.confidentiality': 'Privacidad',
   'footer.consistence': 'durabilité',
   'footer.contactRoyalCanin': 'Contacter Royal Canin',
+  'footer.securePaymentMethods': 'Paiement sécurisé',
   'footer.contacts': 'Contact',
   'footer.contactUs': 'Contact',
   'footer.cookieCollectionPolicy': 'Pas encore traduit',

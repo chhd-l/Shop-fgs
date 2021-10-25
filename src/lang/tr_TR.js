@@ -335,6 +335,7 @@ const tr_TR = {
   'footer.Additionally': 'BUNLARA EK OLARAK',
   'footer.confidentiality': 'Privacidad',
   'footer.contactRoyalCanin': 'ROYAL CANIN® ile iletişime geçin',
+  'footer.securePaymentMethods': 'Güvenli Ödeme',
   'footer.contacts': 'Kişiler',
   'footer.contactUs': 'Bize Ulaşın',
   'footer.cookieCollectionPolicy': 'Çerez Toplama Politikası',
