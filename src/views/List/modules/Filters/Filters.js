@@ -104,6 +104,18 @@ class Filter extends React.Component {
 
   handleFilterApplyBtn = () => {
     console.log(this.state.selectedFilterParams, 'ssss===');
+    const searchFilterParams = this.state.selectedFilterParams.reduce(
+      (pre, cur) => {
+        return {
+          ret:
+            pre.ret +
+            `&prefn${pre.i}=${cur.prefn}&prefv${pre.i}=${cur.prefvs.join('|')}`,
+          i: ++pre.i
+        };
+      },
+      { i: 1, ret: '' }
+    );
+    console.log(searchFilterParams, 'searchFilterParams==');
   };
 
   renderMultiChoiceJSX = (parentItem, childItem) => {
