@@ -180,7 +180,7 @@ const en_US = {
   'smartFeederSubscription.tabDes2': 'pour 26,50 € la recharge *',
   //for 26,50 € per refill*
   'smartFeederSubscription.tabDes3': '* Engagement de 12 envois',
-  // Conﬁrm this product
+  // Conﬁrm this products
   'smartFeederSubscription.times': 'fois',
   //Easily detach and attach the machine to clean it with a damp cloth.
   'smartFeederSubscription.titleHow':
@@ -1032,6 +1032,7 @@ const en_US = {
   'payment.saveFor': 'Save for next payment',
   'payment.socialId': 'Social id',
   'payment.state': 'State',
+  'payment.county': 'County',
   'payment.region': 'Region',
   'payment.entrance': 'Entrance',
   'payment.apartment': 'Apartment',
@@ -1244,7 +1245,7 @@ const en_US = {
   'recommendation.plusContent':
     ' No matter the need, we’ve got you covered with exclusive benefits like 24/7 access to pet experts and more through the Royal Canin Club. Joining is easy – sign up for automatic shipping on your pet’s tailored formulas to become a member today.',
   'recommendation.plusBtn': 'Start Now',
-  'recommendation.plusImg': 'MRRC-20046_D2C-Advisor_App-Puppy.jpg',
+  'recommendation.plusImg': 'MRRC-20046_D2C-Advisor_App-Puppy2.jpg',
   'recommendation.fiveContent':
     'While neither of ornare risus. Now that sometimes the United States, from high school kids. Earth is no fear that the makeup temperature at zero drink employee. Unfortunately, the price of convenience pot. Arc soccer scores, eu or mourning to invest in the refrigerator. Clinical developers dui dui ultricies arrows, it is sterilized. Financing warm thermal relay. Even before the great, as is the biggest eleifend gravida vel, aliquam sed justo. Unfortunately, developers of football. Freight wagons dis fears manufacturing, the biggest one ugly chocolate. Sed tempor lectus justo. However, it is just that the main clinical time. Tomorrow the diameter at which time we make a weekend. Mauris live skirt layer protein.',
   'recommendation.fourContent':
@@ -1425,6 +1426,18 @@ const en_US = {
   'subscriptionLanding.dogButton': 'Shop Dog Formulas',
   'subscriptionLanding.title1':
     'Your Pet Needs You. You Need Total Pet Support.',
+  'subscription.title': 'IT’S MORE THAN FREE DELIVERY',
+  'subscription.subTitle':
+    'At Royal Canin®, we know that caring for a new pet can bring a lot of questions. That’s why we offer exclusive benefits like access to a Royal Canin Advisor and more through the Royal Canin Club. Joining is easy — sign up for automatic shipping on your pet’s tailored formulas to become a member today.{val}',
+  'subscription.list1':
+    '{val} - Receive nutritional recommendations on Royal Canin food and products as your pet grows',
+  'subscription.list2':
+    '{val} - Save 30% off your first purchase through Royal Canin Club, and 5% off every autoship order. Plus, free shipping –– with no minimum purchase',
+  'subscription.list3':
+    '{val} - Like a coach for everything related to your pet’s nutrition, your Royal Canin Advisor can help with diet recommendations and expert feeding advice, updates on products, and more',
+  'Subscription.list.btn1': '',
+  'Subscription.list.btn2': '',
+
   supportCardTypeMismatch:
     'Sorry, the currently supported credit card types are: VISA, American Express, MasterCard',
   systemError: 'system error',
@@ -1796,6 +1809,12 @@ const en_US = {
   'header.User.faq': "FAQ's",
   'Your Pet is a…': 'My Pet is a…',
   Activity: 'How active is your dog?',
-  'Subscription.orderPostCodeHit': '* Please update the delivery address'
+  'Subscription.orderPostCodeHit': '* Please update the delivery address',
+  'subscription.ongoingOrderForPet': 'Order status for {val}',
+  'subscription.noPetOngoingOrder': 'Order status',
+  'product.plp.foodtype.drydog': 'Dry dog food',
+  'product.plp.foodtype.wetdog': 'Wet dog food',
+  'product.plp.foodtype.drycat': 'Dry cat food',
+  'product.plp.foodtype.wetcat': 'Wet cat food'
 };
 export default en_US;

@@ -16,7 +16,8 @@ const api = {
   getAddressBykeyWord: `/address-input-auto/list`, // DuData，根据输入的关键字返回详细地址信息
   addressValidation: `/addressValidation/validation`, // 地址校验接口
   getDeliveryDateAndTimeSlot: '/delivery/timeSlot', // 俄罗斯获取 DeliveryDate 和 TimeSlot
-  validPostCodeBlock: '/addressDisplaySetting/validPostCodeBlock' // 邮编黑名单校验
+  validPostCodeBlock: '/addressDisplaySetting/validPostCodeBlock', // 邮编黑名单校验
+  DQEAddressList: '/address-input-auto/DQElist' // DQE 地址查询
 };
 
 export default api;
@@ -136,6 +137,13 @@ export function getDeliveryDateAndTimeSlot(parameter) {
 export function validPostCodeBlock(postCode = '') {
   return axios({
     url: `${api.validPostCodeBlock}?postCode=${postCode}`,
+    method: 'get'
+  });
+}
+
+export function DQEAddressList(address = '') {
+  return axios({
+    url: `${api.DQEAddressList}?address=${address}`,
     method: 'get'
   });
 }

@@ -42,8 +42,8 @@ const UsAndRu = (props) => {
   let cur_recommendation4 = `${imgUrlPreFix}/3xquality.jpg`;
   const imagesArr = [
     {
-      img: `${imgUrlPreFix}/COHORT-A_CLUB-BENEFITS_PET-ADVISOR.png`,
-      text: 'Royal Canin Pet Advisor Live'
+      img: `${imgUrlPreFix}/COHORT-A_CLUB-BENEFITS_PET-ADVISOR_COPY2.jpg`,
+      text: 'Access to a Royal Canin Advisor'
     },
     {
       img: `${imgUrlPreFix}/CLUB-BENEFITS_PRODUCT-RECOS.png`,
@@ -78,6 +78,7 @@ const UsAndRu = (props) => {
                 <div className="img-hover-switch rc-margin-bottom--sm">
                   <LazyLoad>
                     <img
+                      style={{ width: '180px' }}
                       className="m-center"
                       src={item.img}
                       alt="recommendation image"

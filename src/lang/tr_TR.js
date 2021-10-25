@@ -640,6 +640,7 @@ const tr_TR = {
   'payment.rfc': 'Referans',
   'payment.socialId': 'Sosyal kimlik',
   'payment.state': 'Durum',
+  'payment.county': 'Eyalet',
   'payment.region': 'Bölge',
   'payment.entrance': 'giriş',
   'payment.apartment': 'daire',
@@ -1350,6 +1351,12 @@ const tr_TR = {
   'plp.retail.cat.filter.specneed.learnmore': 'Learn more',
   'checkout.zeroOrder.butSubscription':
     '0 Price orders do not support subscription, please change to a one-off purchase to pay this order',
-  'order.viewLogisticDetail': 'Lojistik ayrıntılarını görüntüle'
+  'order.viewLogisticDetail': 'Lojistik ayrıntılarını görüntüle',
+  'subscription.ongoingOrderForPet': "{val}'in siparişi hazırlanıyor",
+  'subscription.noPetOngoingOrder': 'Siparişiniz hazırlanıyor',
+  'product.plp.foodtype.drydog': 'Kuru köpek maması',
+  'product.plp.foodtype.wetdog': 'ıslak köpek maması',
+  'product.plp.foodtype.drycat': 'Kuru kedi maması',
+  'product.plp.foodtype.wetcat': 'ıslak kedi maması'
 };
 export default tr_TR;

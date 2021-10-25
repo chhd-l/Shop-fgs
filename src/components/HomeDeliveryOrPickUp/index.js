@@ -91,7 +91,8 @@ class HomeDeliveryOrPickUp extends React.Component {
             require: true
           },
           {
-            regExp: /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/,
+            regExp:
+              /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/,
             errMsg: CURRENT_LANGFILE['payment.errorInfo2'],
             key: 'phoneNumber',
             require: true
@@ -337,15 +338,51 @@ class HomeDeliveryOrPickUp extends React.Component {
         let obj = res.context.tariffs;
 
         // 有地址的时候，单独展示pickup，如果查询到不支持pickup，给出错误提示
+        let hmobj = obj.filter((e) => e.type == 'COURIER');
+        let pkobj = obj.filter((e) => e.type == 'PVZ');
         if (this.props.allAddressList.length) {
-          let pvzobj = obj.filter((e) => e.type == 'PVZ');
-          if (!pvzobj.length) {
+          if (!pkobj.length) {
             this.setState({
               searchNoResult: true
             });
             return;
           }
+        } else {
+          // ★ 新用户或者游客下单
+          let tmpres = null;
+          if (data.region == 'Москва' || data.region == 'Московская') {
+            // 俄罗斯和俄罗斯区域：
+            // 1、如果Tempoline接口只返回 pickup ，显示 homeDelivery和pickup；
+            // 2、如果Tempoline接口返回 pickup 和 homeDelivery，显示 homeDelivery和pickup；
+            // 3、如果Tempoline接口没返回，显示 homeDelivery。
+            if (
+              (pkobj.length && !hmobj.length) ||
+              (!pkobj.length && !hmobj.length)
+            ) {
+              tmpres = {
+                deliveryPrice: 400,
+                minDeliveryTime: 1,
+                maxDeliveryTime: 2,
+                selected: true,
+                type: 'homeDelivery'
+              };
+            }
+          } else {
+            // 其他区域：
+            // 1、如果Tempoline接口只返回 pickup，显示 pickup；
+            // 2、如果Tempoline接口返回 pickup 和 homeDelivery，都显示；
+            // 3、如果Tempoline接口只返回 homeDelivery，显示 homeDelivery；
+            // 4、如果Tempoline接口没返回，提示错误信息。
+            if (!pkobj.length && !hmobj.length) {
+              this.setState({
+                searchNoResult: true
+              });
+              return;
+            }
+          }
+          tmpres ? obj.push(tmpres) : null;
         }
+        console.log('666 >>> obj: ', obj);
 
         // 先清空数组
         let selitem = Object.assign({}, selectedItem);

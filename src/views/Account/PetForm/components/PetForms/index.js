@@ -751,7 +751,7 @@ const PetForms = ({
                   }}
                   disabled={isInputDisabled ? 'disabled' : null}
                 />
-                <div
+                <ul
                   className={`select-breed ${
                     showBreedList ? '' : 'hidden no-border'
                   }`}
@@ -762,7 +762,7 @@ const PetForms = ({
                     </div>
                   ) : null}
                   {breedList.map((item, i) => (
-                    <option
+                    <li
                       value={item.value}
                       key={item.id}
                       className={`pl-2 pr-1 optionStyle ui-cursor-pointer ${
@@ -772,9 +772,9 @@ const PetForms = ({
                       style={{ whiteSpace: 'initial' }}
                     >
                       {item.name}
-                    </option>
+                    </li>
                   ))}
-                </div>
+                </ul>
                 <label className="rc-input__label" htmlFor="breed"></label>
               </span>
             </div>

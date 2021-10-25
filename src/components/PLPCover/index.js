@@ -8,6 +8,7 @@ import { FormattedMessage } from 'react-intl';
 import { getDeviceType, formatMoney } from '@/utils/utils';
 import { IMG_DEFAULT } from '@/utils/constant';
 import InlineRatings from '@/components/BazaarVoice/inlineRatings';
+import InstockStatusComp from '@/components/InstockStatusComp/index.tsx';
 import './index.less';
 import catSpecImg from '@/assets/images/cats-spec.png';
 
@@ -241,11 +242,11 @@ function ListItemH5ForGlobalStyle(props) {
             ) : null}
             {props.children}
 
-            {item && item.goodsNewSubtitle ? (
+            {/* {item && item.goodsNewSubtitle ? (
               <div className="rc-card__meta text-center col-12 ui-text-overflow-line2 m-0">
                 {item.goodsNewSubtitle}
               </div>
-            ) : null}
+            ) : null} */}
           </article>
         </Link>
       </div>
@@ -494,13 +495,17 @@ function ListItemBodyH5ForGlobalStyle({ item, configStore }) {
     window.__.env.REACT_APP_COUNTRY === 'fr' ||
     window.__.env.REACT_APP_COUNTRY === 'tr';
   const hiddenPrice = vetProduct && trFr;
+  const inStock =
+    (item?.goodsInfos ?? []).findIndex((goods) => goods.stock > 0) > -1;
   return (
     <div className="fr-mobile-product-list text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start pr-0">
       <div className="product-name" title={item.goodsName}>
         {item.goodsName}
       </div>
-      {item.technologyOrBreedsAttr ? (
-        <div className="rc-card__meta">{item.technologyOrBreedsAttr}</div>
+      {item.foodType ? (
+        <div className="rc-card__meta">
+          <FormattedMessage id={`product.plp.foodtype.${item.foodType}`} />
+        </div>
       ) : null}
       {!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS && (
         <InlineRatings productId={item.goodsNo} />
@@ -508,6 +513,9 @@ function ListItemBodyH5ForGlobalStyle({ item, configStore }) {
       {hiddenPrice ? null : (
         <PriceItemShow item={item} configStore={configStore} />
       )}
+      <div className="plp-stock-status">
+        <InstockStatusComp status={inStock} />
+      </div>
     </div>
   );
 }
@@ -775,6 +783,8 @@ function ListItemBody({ item, headingTag, configStore }) {
       title="${item?.goodsName}">
       ${item?.goodsName}
   </${headingTag ? headingTag : 'h2'}>`;
+  const inStock =
+    (item?.goodsInfos ?? []).findIndex((goods) => goods.stock > 0) > -1;
 
   const defaultJSX = (
     <>
@@ -817,9 +827,11 @@ function ListItemBody({ item, headingTag, configStore }) {
         <>
           <div className="height-product-tile-plpOnly pl-4 pr-4">
             <div dangerouslySetInnerHTML={{ __html: goodHeading }} />
-            {item?.technologyOrBreedsAttr ? (
-              <p className="rc-card__meta text-center rc-padding-top--xs ui-text-overflow-line2">
-                {item.technologyOrBreedsAttr}
+            {item?.foodType ? (
+              <p className="rc-card__meta text-center rc-padding-top--xs rc-padding-bottom--xs ui-text-overflow-line2">
+                <FormattedMessage
+                  id={`product.plp.foodtype.${item.foodType}`}
+                />
               </p>
             ) : null}
           </div>
@@ -829,14 +841,17 @@ function ListItemBody({ item, headingTag, configStore }) {
           {hiddenPrice ? null : (
             <PriceItemShow item={item} configStore={configStore} />
           )}
-          {item?.goodsNewSubtitle ? (
+          {/* {item?.goodsNewSubtitle ? (
             <div
               className="rc-card__meta text-center ui-text-overflow-line2 col-12 pl-4 pr-4"
               style={{ marginBottom: '.625rem' }}
             >
               {item.goodsNewSubtitle}
             </div>
-          ) : null}
+          ) : null} */}
+          <div className="rc-card__meta text-center plp-stock-status">
+            <InstockStatusComp status={inStock} />
+          </div>
         </>
       ) : (
         defaultJSX
