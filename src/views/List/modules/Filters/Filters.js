@@ -28,14 +28,17 @@ class Filter extends React.Component {
   componentDidMount() {
     // 随着滚动，更改顶部距离
     window.onscroll = function () {
-      const headerClass = document.getElementsByClassName(
-        'rc-header--scrolled'
-      )[0];
-      const filterWrap = document.getElementsByClassName('filter-rc-nav')[0];
-      if (headerClass && filterWrap) {
-        filterWrap.style.top = '4.167rem';
-      } else if (filterWrap) {
-        filterWrap.style.top = '6.7rem';
+      const isHubUi = document.getElementsByClassName('ui-custom-hub')[0];
+      if (isHubUi) {
+        const headerClass = document.getElementsByClassName(
+          'rc-header--scrolled'
+        )[0];
+        const filterWrap = document.getElementsByClassName('filter-rc-nav')[0];
+        if (headerClass && filterWrap) {
+          filterWrap.style.top = '4.167rem';
+        } else if (filterWrap) {
+          filterWrap.style.top = '6.7rem';
+        }
       }
     };
   }
@@ -406,18 +409,18 @@ class Filter extends React.Component {
         </nav>
         <div className="filter-button-groups">
           <button
-            className={`rc-btn rc-btn--one rc-margin-right--xs--mobile rc-margin-bottom--xs--mobile`}
+            className={`rc-btn rc-btn--sm rc-btn--two rc-margin-bottom--xs--mobile`}
+            onClick={this.handleFilterClearBtn}
+          >
+            <FormattedMessage id="list.clearFilters" />
+          </button>
+          <button
+            className={`rc-btn rc-btn--one rc-margin-right--xs--mobile`}
             onClick={this.handleFilterApplyBtn}
           >
             <span>
               <FormattedMessage id="list.applyFilters" />
             </span>
-          </button>
-          <button
-            className={`rc-btn rc-btn--sm rc-btn--two`}
-            onClick={this.handleFilterClearBtn}
-          >
-            <FormattedMessage id="list.clearFilters" />
           </button>
         </div>
       </section>
