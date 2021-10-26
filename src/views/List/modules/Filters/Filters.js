@@ -3,7 +3,7 @@ import Skeleton from 'react-skeleton-loader';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import PriceSlider from '@/components/PriceSlider';
-import { removeArgFromUrl, funcUrl, transferToObject } from '@/lib/url-utils';
+import { removeArgFromUrl } from '@/lib/url-utils';
 import '@/assets/css/search.css';
 import './index.less';
 
@@ -217,7 +217,7 @@ class Filter extends React.Component {
           className="rc-input w-100 rc-margin-y--xs rc-input--full-width ml-2"
         >
           <input
-            className="rc-input__radio"
+            className="rc-input__radio filter-input-checkout"
             id={`filter-sub-radio-${childItem.id}-${inputLabelKey}`}
             type="radio"
             checked={childItem.selected}

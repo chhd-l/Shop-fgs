@@ -1990,6 +1990,10 @@ class List extends React.Component {
                                 markPriceAndSubscriptionLangDict
                               }
                               baseSearchStr={baseSearchStr}
+                              prefnParamListSearch={
+                                this.state.prefnParamListFromSearch
+                              }
+                              filtersCounts={filtersCounts}
                             />
                           )}
                           {/* 由于么数据暂时隐藏注释 */}
