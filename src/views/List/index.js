@@ -41,6 +41,7 @@ import getTechnologyOrBreedsAttr, {
   getFoodType
 } from '@/lib/get-technology-or-breedsAttr';
 import loadable from '@/lib/loadable-component';
+import SelectFilters from './modules/SelectFilters';
 
 import './index.less';
 
@@ -365,7 +366,9 @@ class List extends React.Component {
       keywordsSearch: '',
       baseSearchStr: '',
       hiddenFilter: false,
-      invalidPage: false //失效链接，如果storePortal配置了失效时间，页面不展示，呈现404
+      invalidPage: false, //失效链接，如果storePortal配置了失效时间，页面不展示，呈现404
+      prefnParamListFromSearch: [],
+      filtersCounts: 0
     };
     this.pageSize = isRetailProducts ? 8 : 12;
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
@@ -413,9 +416,9 @@ class List extends React.Component {
         this.pageGa();
       }
     );
-    setTimeout(() => {
-      this.stickyMobileRefineBar();
-    });
+    // setTimeout(() => {
+    //   this.stickyMobileRefineBar();
+    // });
 
     Promise.all([
       getDictionary({ type: 'filterMarketPrice' }),
@@ -1237,6 +1240,8 @@ class List extends React.Component {
       prefnParamListFromSearch.push({ prefn: fnEle, prefvs: fvEles });
     }
 
+    this.handleCountFilters(prefnParamListFromSearch);
+
     // 处理每个filter的router
     Array.from(tmpList, (pEle) => {
       Array.from(pEle.attributesValueList, (cEle) => {
@@ -1304,20 +1309,16 @@ class List extends React.Component {
             name: 'p'
           })}`
         };
-        console.log(
-          decoParam,
-          baseSearchStr,
-          search,
-          cEle.router,
-          'RIUIO====='
-        );
-
         return cEle;
       });
 
       return pEle;
     });
-    this.setState({ filterList: allFilterList, initingFilter: false });
+    this.setState({
+      filterList: allFilterList,
+      initingFilter: false,
+      prefnParamListFromSearch
+    });
   }
   initFilterSelectedSts({
     seletedValList,
@@ -1572,6 +1573,15 @@ class List extends React.Component {
       });
   }
 
+  // 根据路由上的filter选项，计算出其选中了的filter个数
+  handleCountFilters(prefnParamListSearch) {
+    let filtersCounts = 0;
+    prefnParamListSearch.map((item) => (filtersCounts += item.prefvs.length));
+    this.setState({
+      filtersCounts
+    });
+  }
+
   // 处理attributeDetailNameEn字段，处理空格为-
   handledAttributeDetailNameEn(list) {
     let tmpList = cloneDeep(list);
@@ -1693,7 +1703,8 @@ class List extends React.Component {
       prefv1,
       animalType,
       hiddenFilter,
-      invalidPage
+      invalidPage,
+      filtersCounts
     } = this.state;
     const _loadingJXS = Array(6)
       .fill(null)
@@ -1894,47 +1905,48 @@ class List extends React.Component {
                             )}
                           </span> */}
                           {hiddenFilter ? null : (
-                            <div
-                              onClick={this.toggleFilterModal.bind(
-                                this,
-                                !filterModalVisible
-                              )}
-                              className="flex w-100 align-items-center justify-content-between"
-                            >
-                              <div>
-                                <em
-                                  className={`rc-icon rc-filter--xs rc-iconography ${
-                                    (filterModalVisible && !isTop) ||
-                                    (!filterModalVisible && isTop)
-                                      ? 'rc-brand1'
-                                      : ''
-                                  }`}
-                                  data-filter-trigger="filter-example"
-                                  style={{
-                                    position: 'relative',
-                                    top: '0.2rem'
-                                  }}
+                            <div className="w-100">
+                              <div
+                                onClick={this.toggleFilterModal.bind(
+                                  this,
+                                  !filterModalVisible
+                                )}
+                                className="flex w-100 align-items-center justify-content-between"
+                              >
+                                <div>
+                                  <em
+                                    className={`rc-icon rc-filter--xs rc-iconography ${
+                                      (filterModalVisible && !isTop) ||
+                                      (!filterModalVisible && isTop)
+                                        ? 'rc-brand1'
+                                        : ''
+                                    }`}
+                                    data-filter-trigger="filter-example"
+                                    style={{
+                                      position: 'relative',
+                                      top: '0.2rem'
+                                    }}
+                                  />
+                                  <span className=" font-weight-normal font-18 rc-padding-left--sm">
+                                    <FormattedMessage id="list.viewFilters" />
+                                  </span>
+                                  {filtersCounts ? (
+                                    <span className=" font-weight-normal font-18 rc-padding-left--sm">
+                                      ({filtersCounts})
+                                    </span>
+                                  ) : null}
+                                </div>
+                                <span
+                                  className={`rc-icon rc-iconography rc-right--xs`}
                                 />
-                                <span className=" font-weight-normal font-18 rc-padding-left--sm">
-                                  <FormattedMessage id="list.viewFilters" />
-                                </span>
                               </div>
-                              <span
-                                className={`rc-icon rc-iconography ${
-                                  (filterModalVisible && !isTop) ||
-                                  (!filterModalVisible && isTop)
-                                    ? 'rc-close--xs'
-                                    : ' rc-right--xs'
-                                }`}
+                              <SelectFilters
+                                filterList={filterList}
+                                history={history}
+                                baseSearchStr={baseSearchStr}
                               />
-                              {/* <span className="rc-icon rc-iconography"/> */}
                             </div>
                           )}
-                          {/* <button
-                        className="rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography FilterFitScreen"
-                        data-filter-trigger="filter-example"
-                        onClick={this.toggleFilterModal.bind(this, true)}
-                      /> */}
                         </div>
                         <aside
                           className={`rc-filters ${
@@ -1958,6 +1970,9 @@ class List extends React.Component {
                                 markPriceAndSubscriptionLangDict
                               }
                               baseSearchStr={baseSearchStr}
+                              prefnParamListSearch={
+                                this.state.prefnParamListFromSearch
+                              }
                             />
                           ) : (
                             <FiltersPC
