@@ -1414,7 +1414,11 @@ const de_DE = {
   'product.plp.foodtype.drydog': 'Trockenfutter für Hunde',
   'product.plp.foodtype.wetdog': 'Nassfutter für Hunde',
   'product.plp.foodtype.drycat': 'Trockenfutter für Katzen',
-  'product.plp.foodtype.wetcat': 'Katzen Nassfutter'
+  'product.plp.foodtype.wetcat': 'Katzen Nassfutter',
+  'list.applyFilters': 'Filter anwenden',
+  'list.clearFilters': 'Alle Filter löschen',
+  'list.viewFilters': 'Filter anzeigen',
+  'list.closeFilters': 'Filter schließen'
 };
 
 export default de_DE;

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
+import KlarnaIcon from '@/components/Adyen/klarna_icon';
 
 @inject('loginStore', 'paymentStore')
 @injectIntl
@@ -10,7 +11,7 @@ class AdyenCommonPay extends Component {
   static defaultProps = {
     billingJSX: null,
     updateEmail: () => {},
-    logoUrl: ''
+    showIcon: false
   };
   constructor(props) {
     super(props);
@@ -49,21 +50,15 @@ class AdyenCommonPay extends Component {
     );
   }
   render() {
-    const { billingJSX, logoUrl } = this.props;
+    const { billingJSX, showIcon } = this.props;
     return (
       <div className="customer-form">
         <div className="address">
           <form className="address-form">
             <div className="address-line" id="addressLine2">
-              <LazyLoad>
-                <img
-                  style={{ width: '50px' }}
-                  className="logo-payment-card mr-1 mb-2"
-                  src={logoUrl}
-                />
-              </LazyLoad>
+              {showIcon ? <KlarnaIcon /> : <></>}
               <div
-                className="address-input full-width"
+                className="mt-2 address-input full-width"
                 style={{ marginBottom: '1.125rem' }}
               >
                 <label className="address-label" htmlFor="street">

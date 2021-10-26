@@ -41,6 +41,7 @@ import getTechnologyOrBreedsAttr, {
   getFoodType
 } from '@/lib/get-technology-or-breedsAttr';
 import loadable from '@/lib/loadable-component';
+import SelectFilters from './modules/SelectFilters';
 
 import './index.less';
 
@@ -53,11 +54,10 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =
   'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
-const urlPrefix =
-  `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-    /\/$/,
-    ''
-  );
+const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+  /\/$/,
+  ''
+);
 
 const filterAttrValue = (list, keyWords) => {
   return (list || [])
@@ -366,7 +366,9 @@ class List extends React.Component {
       keywordsSearch: '',
       baseSearchStr: '',
       hiddenFilter: false,
-      invalidPage: false //失效链接，如果storePortal配置了失效时间，页面不展示，呈现404
+      invalidPage: false, //失效链接，如果storePortal配置了失效时间，页面不展示，呈现404
+      prefnParamListFromSearch: [],
+      filtersCounts: 0
     };
     this.pageSize = isRetailProducts ? 8 : 12;
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
@@ -414,9 +416,9 @@ class List extends React.Component {
         this.pageGa();
       }
     );
-    setTimeout(() => {
-      this.stickyMobileRefineBar();
-    });
+    // setTimeout(() => {
+    //   this.stickyMobileRefineBar();
+    // });
 
     Promise.all([
       getDictionary({ type: 'filterMarketPrice' }),
@@ -1238,6 +1240,8 @@ class List extends React.Component {
       prefnParamListFromSearch.push({ prefn: fnEle, prefvs: fvEles });
     }
 
+    this.handleCountFilters(prefnParamListFromSearch);
+
     // 处理每个filter的router
     Array.from(tmpList, (pEle) => {
       Array.from(pEle.attributesValueList, (cEle) => {
@@ -1307,9 +1311,14 @@ class List extends React.Component {
         };
         return cEle;
       });
+
       return pEle;
     });
-    this.setState({ filterList: allFilterList, initingFilter: false });
+    this.setState({
+      filterList: allFilterList,
+      initingFilter: false,
+      prefnParamListFromSearch
+    });
   }
   initFilterSelectedSts({
     seletedValList,
@@ -1564,6 +1573,15 @@ class List extends React.Component {
       });
   }
 
+  // 根据路由上的filter选项，计算出其选中了的filter个数
+  handleCountFilters(prefnParamListSearch) {
+    let filtersCounts = 0;
+    prefnParamListSearch.map((item) => (filtersCounts += item.prefvs.length));
+    this.setState({
+      filtersCounts
+    });
+  }
+
   // 处理attributeDetailNameEn字段，处理空格为-
   handledAttributeDetailNameEn(list) {
     let tmpList = cloneDeep(list);
@@ -1599,9 +1617,8 @@ class List extends React.Component {
 
   stickyMobileRefineBar() {
     if (isMobilePhone) {
-      var t = document
-        ?.getElementById('refineBar')
-        ?.getBoundingClientRect().top;
+      var t = document?.getElementById('refineBar')?.getBoundingClientRect()
+        .top;
       window.addEventListener('scroll', () => {
         var choosedVal = document.querySelector('.filter-value'); // 有选择的时候才操作
         if (window.pageYOffset + 33 >= t && choosedVal) {
@@ -1657,6 +1674,7 @@ class List extends React.Component {
       );
     }, 500);
   };
+
   render() {
     const { breadListByDeco, lastBreadListName } = this;
     const { canonicalLink } = this.state;
@@ -1685,7 +1703,8 @@ class List extends React.Component {
       prefv1,
       animalType,
       hiddenFilter,
-      invalidPage
+      invalidPage,
+      filtersCounts
     } = this.state;
     const _loadingJXS = Array(6)
       .fill(null)
@@ -1886,54 +1905,48 @@ class List extends React.Component {
                             )}
                           </span> */}
                           {hiddenFilter ? null : (
-                            <div
-                              onClick={this.toggleFilterModal.bind(
-                                this,
-                                !filterModalVisible
-                              )}
-                              className="flex w-100 align-items-center justify-content-between"
-                            >
-                              <div>
-                                <em
-                                  className={`rc-icon rc-filter--xs rc-iconography ${
-                                    (filterModalVisible && !isTop) ||
-                                    (!filterModalVisible && isTop)
-                                      ? 'rc-brand1'
-                                      : ''
-                                  }`}
-                                  data-filter-trigger="filter-example"
-                                  style={{
-                                    position: 'relative',
-                                    top: '0.2rem'
-                                  }}
-                                />
-                                <span className=" font-weight-normal font-18 rc-padding-left--sm">
-                                  <FormattedMessage
-                                    id={
+                            <div className="w-100">
+                              <div
+                                onClick={this.toggleFilterModal.bind(
+                                  this,
+                                  !filterModalVisible
+                                )}
+                                className="flex w-100 align-items-center justify-content-between"
+                              >
+                                <div>
+                                  <em
+                                    className={`rc-icon rc-filter--xs rc-iconography ${
                                       (filterModalVisible && !isTop) ||
                                       (!filterModalVisible && isTop)
-                                        ? 'View filters'
-                                        : 'Close filters'
-                                    }
+                                        ? 'rc-brand1'
+                                        : ''
+                                    }`}
+                                    data-filter-trigger="filter-example"
+                                    style={{
+                                      position: 'relative',
+                                      top: '0.2rem'
+                                    }}
                                   />
-                                </span>
+                                  <span className=" font-weight-normal font-18 rc-padding-left--sm">
+                                    <FormattedMessage id="list.viewFilters" />
+                                  </span>
+                                  {filtersCounts ? (
+                                    <span className=" font-weight-normal font-18 rc-padding-left--sm">
+                                      ({filtersCounts})
+                                    </span>
+                                  ) : null}
+                                </div>
+                                <span
+                                  className={`rc-icon rc-iconography rc-right--xs`}
+                                />
                               </div>
-                              <span
-                                className={`rc-icon rc-iconography ${
-                                  (filterModalVisible && !isTop) ||
-                                  (!filterModalVisible && isTop)
-                                    ? 'rc-close--xs'
-                                    : ' rc-right--xs'
-                                }`}
+                              <SelectFilters
+                                filterList={filterList}
+                                history={history}
+                                baseSearchStr={baseSearchStr}
                               />
-                              {/* <span className="rc-icon rc-iconography"/> */}
                             </div>
                           )}
-                          {/* <button
-                        className="rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography FilterFitScreen"
-                        data-filter-trigger="filter-example"
-                        onClick={this.toggleFilterModal.bind(this, true)}
-                      /> */}
                         </div>
                         <aside
                           className={`rc-filters ${
@@ -1957,6 +1970,9 @@ class List extends React.Component {
                                 markPriceAndSubscriptionLangDict
                               }
                               baseSearchStr={baseSearchStr}
+                              prefnParamListSearch={
+                                this.state.prefnParamListFromSearch
+                              }
                             />
                           ) : (
                             <FiltersPC

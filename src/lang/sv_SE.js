@@ -1844,6 +1844,10 @@ const en_US = {
   'product.plp.foodtype.drydog': 'Dry dog food',
   'product.plp.foodtype.wetdog': 'Wet dog food',
   'product.plp.foodtype.drycat': 'Dry cat food',
-  'product.plp.foodtype.wetcat': 'Wet cat food'
+  'product.plp.foodtype.wetcat': 'Wet cat food',
+  'list.applyFilters': 'Apply filters',
+  'list.clearFilters': 'Clear all filters',
+  'list.viewFilters': 'View filters',
+  'list.closeFilters': 'Close filters'
 };
 export default en_US;
