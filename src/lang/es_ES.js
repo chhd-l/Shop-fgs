@@ -1171,6 +1171,8 @@ const es_ES = {
   'product.plp.foodtype.drycat': 'Comida seca para gatos',
   'product.plp.foodtype.wetcat': 'Comida húmeda para gatos',
   'list.applyFilters': 'Aplicar filtros',
-  'list.clearFilters': 'Borrar todos los filtros'
+  'list.clearFilters': 'Borrar todos los filtros',
+  'list.viewFilters': 'Ver filtros',
+  'list.closeFilters': 'Cerrar filtros'
 };
 export default es_ES;

@@ -24,6 +24,22 @@ class Filter extends React.Component {
     this.toggleContent = this.toggleContent.bind(this);
     this.hubGA = window.__.env.REACT_APP_HUB_GA == '1';
   }
+
+  componentDidMount() {
+    // 随着滚动，更改顶部距离
+    window.onscroll = function () {
+      const headerClass = document.getElementsByClassName(
+        'rc-header--scrolled'
+      )[0];
+      const filterWrap = document.getElementsByClassName('filter-rc-nav')[0];
+      if (headerClass && filterWrap) {
+        filterWrap.style.top = '4.167rem';
+      } else if (filterWrap) {
+        filterWrap.style.top = '6.7rem';
+      }
+    };
+  }
+
   get hasSelecedItems() {
     let ret = false;
     const { filterList } = this.state;
@@ -61,12 +77,14 @@ class Filter extends React.Component {
     // });
   }
 
-  // handleClickCloseBtn = () => {
-  //   this.props.onToggleFilterModal(false);
-  // };
+  handleClickCloseBtn = () => {
+    this.props.onToggleFilterModal(false);
+    // this.setState({
+    //   selectedFilterParams: []
+    // })
+  };
 
   handleClickItemFilter = (e, parentItem, childItem) => {
-    // this.props.updateFilterParams(parentItem,childItem)
     const { selectedFilterParams } = this.state;
     let selectedFilters = [];
     if (selectedFilterParams.length) {
@@ -92,25 +110,14 @@ class Filter extends React.Component {
       });
     }
 
-    this.setState(
-      {
-        selectedFilterParams: selectedFilters
-      },
-      () => {
-        console.log(this.state.selectedFilterParams, 'selectedFilterParams===');
-      }
-    );
-    // console.log(selectedFilterParams,'arr11==')
+    this.setState({
+      selectedFilterParams: selectedFilters
+    });
   };
 
   handleFilterApplyBtn = () => {
     const { pathname } = this.props.history.location;
     const { baseSearchStr } = this.props;
-    console.log(
-      this.state.selectedFilterParams,
-      this.props.baseSearchStr,
-      'ssss==='
-    );
     const searchFilterParams = this.state.selectedFilterParams.reduce(
       (pre, cur) => {
         return {
@@ -135,8 +142,19 @@ class Filter extends React.Component {
       })}`
     };
     this.props.history.push(_router);
-    console.log(_router, '_____router====');
-    console.log(searchFilterParams, 'searchFilterParams==');
+  };
+
+  handleFilterClearBtn = () => {
+    this.setState({
+      selectedFilterParams: []
+    });
+    const filterCheckBox = document.getElementsByClassName(
+      'filter-input-checkout'
+    );
+    for (let i = 0; i < filterCheckBox.length; i++) {
+      filterCheckBox[i].checked = '';
+    }
+    this.props.onToggleFilterModal(false);
   };
 
   renderMultiChoiceJSX = (parentItem, childItem) => {
@@ -153,7 +171,7 @@ class Filter extends React.Component {
         <span className="rc-input rc-input--stacked">
           {/* <Link to={childItem.router} className="rc-input rc-input--stacked"> */}
           <input
-            className={`rc-input__checkbox`}
+            className={`rc-input__checkbox filter-input-checkout`}
             id={`filter-input-${childItem.id}-${inputLabelKey}`}
             type="checkbox"
             name="checkbox"
@@ -250,13 +268,13 @@ class Filter extends React.Component {
       <section className="rc-max-width--xl filter-mobile-wrap">
         <nav
           id="headnav-mobile"
-          className="rc-nav rc-md-down "
+          className="rc-nav rc-md-down filter-rc-nav"
           data-toggle-group="mobile"
           data-toggle-effect="rc-expand--horizontal"
         >
           <div className="rc-filters__form fr-mobile" name="example-filter">
             <div
-              // onClick={this.props.handleCloseFilter(false)}
+              onClick={this.handleClickCloseBtn}
               className="flex w-100 align-items-center justify-content-between rc-padding--sm--mobile"
             >
               <div>
@@ -266,7 +284,7 @@ class Filter extends React.Component {
                   style={{ position: 'relative', top: '0.2rem' }}
                 />
                 <span className=" font-weight-normal font-18 rc-padding-left--sm">
-                  <FormattedMessage id={'Close filters'} />
+                  <FormattedMessage id={'list.closeFilters'} />
                 </span>
               </div>
               <span className={'rc-icon rc-iconography rc-close--xs'} />
@@ -367,7 +385,7 @@ class Filter extends React.Component {
                                     )[0].valueEn
                                   : parentItem.attributeNameEn}
                               </span>
-                              {this.state.selectedFilterParams.map((item) => {
+                              {this.state.selectedFilterParams?.map((item) => {
                                 if (item.prefn == parentItem.attributeName) {
                                   return (
                                     <div className="filter-parent-item-count">
@@ -429,20 +447,18 @@ class Filter extends React.Component {
         </nav>
         <div className="filter-button-groups">
           <button
-            className={`rc-btn rc-btn--one rc-margin-right--xs--mobile`}
+            className={`rc-btn rc-btn--one rc-margin-right--xs--mobile rc-margin-bottom--xs--mobile`}
             onClick={this.handleFilterApplyBtn}
           >
             <span>
-              {' '}
               <FormattedMessage id="list.applyFilters" />
-              Apply filters
             </span>
           </button>
           <button
             className={`rc-btn rc-btn--sm rc-btn--two`}
-            onClick={this.handleFilterApplyBtn}
+            onClick={this.handleFilterClearBtn}
           >
-            <span>Apply filters</span>
+            <FormattedMessage id="list.clearFilters" />
           </button>
         </div>
       </section>

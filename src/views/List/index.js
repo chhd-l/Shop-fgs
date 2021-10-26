@@ -1664,6 +1664,7 @@ class List extends React.Component {
       );
     }, 500);
   };
+
   render() {
     const { breadListByDeco, lastBreadListName } = this;
     const { canonicalLink } = this.state;
@@ -1915,14 +1916,7 @@ class List extends React.Component {
                                   }}
                                 />
                                 <span className=" font-weight-normal font-18 rc-padding-left--sm">
-                                  <FormattedMessage
-                                    id={
-                                      (filterModalVisible && !isTop) ||
-                                      (!filterModalVisible && isTop)
-                                        ? 'View filters'
-                                        : 'Close filters'
-                                    }
-                                  />
+                                  <FormattedMessage id="list.viewFilters" />
                                 </span>
                               </div>
                               <span

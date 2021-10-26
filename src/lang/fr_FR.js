@@ -2184,6 +2184,8 @@ const fr_FR = {
   'product.plp.foodtype.drycat': 'Nourriture sèche pour chats',
   'product.plp.foodtype.wetcat': 'Nourriture humide pour chat',
   'list.applyFilters': 'Appliquer des filtres',
-  'list.clearFilters': 'Effacer tous les filtres'
+  'list.clearFilters': 'Effacer tous les filtres',
+  'list.viewFilters': 'Afficher les filtres',
+  'list.closeFilters': 'Fermer les filtres'
 };
 export default fr_FR;
