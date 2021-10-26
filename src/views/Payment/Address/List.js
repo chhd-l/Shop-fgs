@@ -850,6 +850,7 @@ class AddressList extends React.Component {
       rfc: '',
       countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID || '',
       country: '',
+      county: '',
       cityId: '',
       city: '',
       provinceNo: '',
@@ -880,6 +881,7 @@ class AddressList extends React.Component {
         rfc: tmp.rfc,
         countryId: tmp.countryId,
         country: tmp.country,
+        county: tmp?.county,
         cityId: tmp.cityId,
         city: tmp.city,
         areaId: tmp.areaId,
@@ -986,7 +988,7 @@ class AddressList extends React.Component {
   };
   // 俄罗斯地址校验flag，控制按钮是否可用
   getFormAddressValidFlag = (flag) => {
-    // console.log('address1地址校验flag : ', flag);
+    // console.log('666 >>> address1地址校验flag : ', flag);
     const { deliveryAddress } = this.state;
     this.setState(
       {

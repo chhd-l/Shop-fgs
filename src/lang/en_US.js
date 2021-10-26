@@ -82,6 +82,7 @@ const en_US = {
   'account.profile': 'My Profile',
   'account.profileTip': 'View and edit your personal information.',
   'account.requiredFields': 'Required fields',
+  'account.requiredFields2': 'Required fields',
   'account.shippingAddressTip': 'Create and edit your shipping address.',
   'account.specialNeeds': 'Special Needs',
   'account.startAutoShipping': 'Learn More',

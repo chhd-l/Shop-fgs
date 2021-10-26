@@ -130,6 +130,7 @@ class Form extends React.Component {
       postCodeFiledType: 0, // 0、text，1、number，2、Letter & Number'
       errMsgObj: {}
     };
+    this.timer = null;
   }
   async componentDidMount() {
     let timer = setInterval(() => {
@@ -141,7 +142,7 @@ class Form extends React.Component {
       }
     }, 3000);
     const { initData = {} } = this.props;
-    const { caninForm } = this.state;
+    const { caninForm, COUNTRY } = this.state;
     this.setState({
       formLoading: true
     });
@@ -166,7 +167,7 @@ class Form extends React.Component {
     console.log('666 >>> country: ', this.state.COUNTRY);
     console.log('666 >>> formType: ', this.state.formType);
     // MANUALLY 、 AUTOMATICALLY
-    if (this.state.formType === 'AUTOMATICALLY') {
+    if (this.state.formType === 'AUTOMATICALLY' && COUNTRY === 'ru') {
       this.getAddressListByKeyWord(initData.address1);
     }
 
@@ -190,7 +191,7 @@ class Form extends React.Component {
     // 重置参数
     this.props.getFormAddressValidFlag(false);
 
-    // let res = await queryOpenedApi();
+    let res = await queryOpenedApi();
   }
 
   // 星期
@@ -268,6 +269,33 @@ class Form extends React.Component {
         address1 = address1.replace(/\|/g, '，');
         res = await DQEAddressList(address1);
         addls = res.context;
+        let guojia = COUNTRY.toUpperCase();
+        addls.map((item) => {
+          let newitem = {
+            area: null,
+            areaId: null,
+            block: null,
+            city: item?.localite,
+            cityId: null,
+            country: guojia,
+            countryCode: guojia,
+            entrance: null,
+            flat: null,
+            floor: null,
+            house: null,
+            houseId: null,
+            postCode: item?.codePostal,
+            state: item?.county,
+            provinceId: null,
+            settlement: null,
+            settlementId: null,
+            street: item?.voie,
+            streetId: null,
+            streetWithNoType: null,
+            unrestrictedValue: item?.label
+          };
+          Object.assign(item, newitem);
+        });
       }
       await this.handleAddressInputChange(addls[0]);
     } catch (err) {
@@ -1033,7 +1061,6 @@ class Form extends React.Component {
           });
         }
       }
-
       await validData(targetRule, { [tname]: tvalue });
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
@@ -1199,30 +1226,38 @@ class Form extends React.Component {
   };
   // 地址搜索框失去焦点 2
   handleSearchSelectionBlur = (e) => {
-    const { caninForm } = this.state;
+    const { caninForm, COUNTRY } = this.state;
     const target = e.target;
-    const value = target.value;
-    if (value == '') {
+    const tvalue = target?.value;
+    const tname = target?.name;
+    // if (tvalue == '') {
+    if (COUNTRY === 'ru') {
       this.props.getFormAddressValidFlag(false);
       caninForm.address1 = '';
-      this.setState(
-        {
-          caninForm,
-          address1Data: []
-        },
-        () => {
-          this.updateDataToProps(this.state.caninForm);
-          this.selectInputBlur(e);
-        }
-      );
+    } else {
+      caninForm[tname] = tvalue;
     }
+    this.setState(
+      {
+        caninForm,
+        address1Data: []
+      },
+      () => {
+        this.updateDataToProps(this.state.caninForm);
+        this.selectInputBlur(e);
+      }
+    );
+    // }
   };
   // 地址搜索框输入值接收，控制按钮状态 3
   getSearchInputChange = (e) => {
+    const { COUNTRY } = this.state;
     const target = e?.target;
     const tname = target?.name;
     const tvalue = target?.value;
-    this.props.getFormAddressValidFlag(false);
+    if (COUNTRY === 'ru') {
+      this.props.getFormAddressValidFlag(false);
+    }
     // 验证数据
     this.validvalidationData(tname, tvalue);
   };
@@ -1314,7 +1349,9 @@ class Form extends React.Component {
                 item = this.setDuDataAddressErrMsg(item);
               });
             } else {
-              this.props.getFormAddressValidFlag(false);
+              if (COUNTRY === 'ru') {
+                this.props.getFormAddressValidFlag(false);
+              }
             }
             return robj;
           }}

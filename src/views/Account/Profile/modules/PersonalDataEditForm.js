@@ -527,7 +527,7 @@ class PersonalDataEditForm extends React.Component {
               <span
                 className={`rc-meta mandatoryField ${isValid ? 'hidden' : ''}`}
               >
-                * <FormattedMessage id="account.requiredFields" />
+                * <FormattedMessage id="account.requiredFields2" />
               </span>
               <div className="text-right">
                 <span

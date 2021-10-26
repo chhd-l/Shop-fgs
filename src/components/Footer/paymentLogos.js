@@ -25,7 +25,7 @@ class PaymentLogos extends React.Component {
         paymentLogos: toJS(logos)
       },
       () => {
-        console.log('666 >>> paymentLogos hub: ', this.state.paymentLogos);
+        // console.log('666 >>> paymentLogos hub: ', this.state.paymentLogos);
       }
     );
   }
@@ -56,11 +56,13 @@ class PaymentLogos extends React.Component {
               >
                 {paymentLogos.map((img, i) => (
                   <LazyLoad
-                    className={`mb-2 ${
-                      paymentLogos.length != i + 1 ? 'mr-2' : ''
-                    }`}
+                    className={`mb-2 ${i % 4 == 0 && i > 0 ? '' : 'mr-2'}`}
                   >
-                    <img src={img.imgUrl} alt="" style={{ width: '2.7rem' }} />
+                    <img
+                      src={img.imgUrl}
+                      alt=""
+                      style={{ width: '2.7rem', height: '1.6rem' }}
+                    />
                   </LazyLoad>
                 ))}
               </div>
