@@ -791,13 +791,11 @@ function ListItemBody({ item, headingTag, configStore }) {
       <div className="height-product-tile-plpOnly">
         <div dangerouslySetInnerHTML={{ __html: goodHeading }} />
         {/*商品描述*/}
-        <h6
-          className="rc-card__meta text-center col-12 mt-2 mb-1 ui-text-overflow-line1"
-          style={{ color: '#4a4a4a' }}
-          title={item?.goodsNewSubtitle}
-        >
-          {item?.goodsNewSubtitle}
-        </h6>
+        {item?.foodType ? (
+          <p className="rc-card__meta text-center rc-padding-top--xs rc-padding-bottom--xs ui-text-overflow-line2">
+            <FormattedMessage id={`product.plp.foodtype.${item.foodType}`} />
+          </p>
+        ) : null}
       </div>
       {/*商品评分和评论数目*/}
       <div
@@ -819,6 +817,9 @@ function ListItemBody({ item, headingTag, configStore }) {
       {hiddenPrice ? null : (
         <PriceItemShow item={item} configStore={configStore} />
       )}
+      <div className="rc-card__meta text-center plp-stock-status">
+        <InstockStatusComp status={inStock} />
+      </div>
     </>
   );
   return (
