@@ -1434,7 +1434,7 @@ const ru_RU = {
   'ClubLP.SubscriptionBenefitsNew.icon4':
     'Приветственный подарок, подарки каждые 3 месяца участия в программе',
   'ClubLP.SubscriptionBenefitsNew.icon5':
-    'Персонализи-Рованные образовательные рассылки',
+    'Персонализи-рованные образовательные рассылки',
   'ClubLP.SubscriptionBenefitsNew.icon6':
     'Бесплатные онлайн-консультации нутрициолога в {val}',
   'ClubLP.SubscriptionBenefitsNew.button': 'Вступить в КЛУБ',
