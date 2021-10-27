@@ -90,7 +90,7 @@ class Filter extends React.Component {
   handleClickItemFilter = (e, parentItem, childItem) => {
     const { selectedFilterParams } = this.state;
     let selectedFilters = [];
-    if (selectedFilterParams.length) {
+    if (selectedFilterParams.length && e.target.checked) {
       let choosedIndex = selectedFilterParams.findIndex(
         (el) => el.prefn == parentItem.attributeName
       );
@@ -106,7 +106,21 @@ class Filter extends React.Component {
         });
       }
       selectedFilters = [...selectedFilterParams];
-    } else {
+    } else if (selectedFilterParams.length && !e.target.checked) {
+      let choosedIndex = selectedFilterParams.findIndex(
+        (el) => el.prefn == parentItem.attributeName
+      );
+      if (choosedIndex > -1) {
+        let deletedIdx = selectedFilterParams[choosedIndex].prefvs.findIndex(
+          (el) => el == childItem.attributeDetailNameEnSplitByLine
+        );
+        selectedFilterParams[choosedIndex].prefvs.splice(deletedIdx, 1);
+        selectedFilterParams.map((item, idx) => {
+          if (!item.prefvs.length) selectedFilterParams.splice(idx, 1);
+        });
+        selectedFilters = [...selectedFilterParams];
+      }
+    } else if (e.target.checked) {
       selectedFilters.push({
         prefn: parentItem.attributeName,
         prefvs: [childItem.attributeDetailNameEnSplitByLine]
@@ -245,7 +259,7 @@ class Filter extends React.Component {
     );
   };
   render() {
-    const { filterList } = this.state;
+    const { filterList, selectedFilterParams } = this.state;
     const {
       history,
       initing,
@@ -347,10 +361,13 @@ class Filter extends React.Component {
                                     )[0].valueEn
                                   : parentItem.attributeNameEn}
                               </span>
-                              {this.state.selectedFilterParams?.map((item) => {
+                              {selectedFilterParams?.map((item, idx) => {
                                 if (item.prefn == parentItem.attributeName) {
                                   return (
-                                    <div className="filter-parent-item-count">
+                                    <div
+                                      className="filter-parent-item-count"
+                                      key={idx}
+                                    >
                                       <span>{item.prefvs.length}</span>
                                     </div>
                                   );
@@ -407,22 +424,24 @@ class Filter extends React.Component {
             )}
           </div>
         </nav>
-        <div className="filter-button-groups">
-          <button
-            className={`rc-btn rc-btn--sm rc-btn--two rc-margin-bottom--xs--mobile`}
-            onClick={this.handleFilterClearBtn}
-          >
-            <FormattedMessage id="list.clearFilters" />
-          </button>
-          <button
-            className={`rc-btn rc-btn--one rc-margin-right--xs--mobile`}
-            onClick={this.handleFilterApplyBtn}
-          >
-            <span>
-              <FormattedMessage id="list.applyFilters" />
-            </span>
-          </button>
-        </div>
+        {selectedFilterParams.length ? (
+          <div className="filter-button-groups">
+            <button
+              className={`rc-btn rc-btn--sm rc-btn--two rc-margin-bottom--xs--mobile`}
+              onClick={this.handleFilterClearBtn}
+            >
+              <FormattedMessage id="list.clearFilters" />
+            </button>
+            <button
+              className={`rc-btn rc-btn--one rc-margin-right--xs--mobile`}
+              onClick={this.handleFilterApplyBtn}
+            >
+              <span>
+                <FormattedMessage id="list.applyFilters" />
+              </span>
+            </button>
+          </div>
+        ) : null}
       </section>
     );
   }

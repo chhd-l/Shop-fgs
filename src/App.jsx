@@ -636,7 +636,7 @@ const App = () => {
                   path="/Tailorednutrition"
                   exact
                   component={
-                    window.__.env.REACT_APP_COUNTRY == 'us'
+                    window.__.env.REACT_APP_COUNTRY == 'us'||window.__.env.REACT_APP_COUNTRY == 'uk'
                       ? US_Tailorednutrition
                       : Tailorednutrition
                   }
@@ -646,7 +646,7 @@ const App = () => {
                   path="/Quality-safety"
                   exact
                   component={
-                    window.__.env.REACT_APP_COUNTRY == 'us'
+                    window.__.env.REACT_APP_COUNTRY == 'us'||window.__.env.REACT_APP_COUNTRY == 'uk'
                       ? US_QualitySafety
                       : QualitySafety
                   }
@@ -766,7 +766,7 @@ const App = () => {
                         redirectUrl = pathname.split(splitName)[0];
                       } else if (pathname.split('.html').length > 1) {
                         redirectUrl = pathname.split('.html')[0];
-                      } 
+                      }
                       // else if (specailPlpUrlMapping[pathname + search]) {
                       //   redirectUrl = specailPlpUrlMapping[pathname + search];
                       // }
