@@ -456,7 +456,7 @@ class Filter extends React.Component {
                   <FormattedMessage id="list.errMsg3" />
                 </div>
               )}
-              {filterList.length && selectedFilterParams.length ? (
+              {selectedFilterParams.length ? (
                 <div className="filter-button-groups  text-center">
                   <button
                     className={`rc-btn rc-btn--sm rc-btn--two rc-margin-bottom--xs w-100`}
@@ -464,12 +464,14 @@ class Filter extends React.Component {
                   >
                     <FormattedMessage id="list.clearFilters" />
                   </button>
-                  <button
-                    className={`rc-btn rc-btn--one rc-btn--sm rc-margin-left--none rc-margin-bottom--xs w-100`}
-                    onClick={this.handleFilterApplyBtn}
-                  >
-                    <FormattedMessage id="list.applyFilters" />
-                  </button>
+                  {filterList.length ? (
+                    <button
+                      className={`rc-btn rc-btn--one rc-btn--sm rc-margin-left--none rc-margin-bottom--xs w-100`}
+                      onClick={this.handleFilterApplyBtn}
+                    >
+                      <FormattedMessage id="list.applyFilters" />
+                    </button>
+                  ) : null}
                 </div>
               ) : null}
             </div>
