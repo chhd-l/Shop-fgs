@@ -49,18 +49,16 @@ class PaymentLogos extends React.Component {
               }`}
             >
               <div
-                className={`flex flex-wrap ${
-                  isMobile ? 'justify-content-start' : 'justify-content-end'
-                }`}
+                className={`flex flex-wrap justify-content-start`}
                 style={{ fontSize: '0', width: '12.5rem' }}
               >
                 {paymentLogos.map((img, i) => (
                   <LazyLoad
-                    className={`mb-2 ${i % 4 == 0 && i > 0 ? '' : 'mr-2'}`}
+                    className={`mb-2 ${(i + 1) % 4 == 0 ? '' : 'mr-2'}`}
                   >
                     <img
                       src={img.imgUrl}
-                      alt=""
+                      alt={i}
                       style={{ width: '2.7rem', height: '1.6rem' }}
                     />
                   </LazyLoad>
