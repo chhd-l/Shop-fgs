@@ -326,7 +326,7 @@ class Filter extends React.Component {
               <div className="rc-filters__heading rc-padding-top--sm rc-padding-bottom--xs rc-header-with-icon rc-header-with-icon--alpha pt-0 pb-0">
                 <span className="md-up rc-icon rc-filter--xs rc-iconography fr-pc" />
                 <FormattedMessage id="filters" />
-                {filtersCounts ? (
+                {filtersCounts && filterList ? (
                   <span className=" font-weight-normal font-18 rc-padding-left--xs">
                     ({filtersCounts})
                   </span>
