@@ -43,7 +43,7 @@ class PaymentLogos extends React.Component {
             >
               <div
                 className={`flex flex-wrap justify-content-start`}
-                style={{ width: '12.5rem' }}
+                style={{ width: '14rem' }}
               >
                 <FormattedMessage id="footer.securePaymentMethods" />
               </div>
@@ -55,7 +55,7 @@ class PaymentLogos extends React.Component {
             >
               <div
                 className={`flex flex-wrap justify-content-start`}
-                style={{ fontSize: '0', width: '12.5rem' }}
+                style={{ fontSize: '0', width: '14rem' }}
               >
                 {paymentLogos.map((img, i) => (
                   <LazyLoad
