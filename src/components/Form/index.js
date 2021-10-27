@@ -27,6 +27,7 @@ import {
 } from '@/utils/utils';
 import DatePicker from 'react-datepicker';
 import { format } from 'date-fns';
+import find from 'lodash/find';
 import Loading from '@/components/Loading';
 import {
   getRegionByCityId,
@@ -70,6 +71,7 @@ class Form extends React.Component {
       dataLoading: false,
       formLoading: false,
       formType: this.props.configStore.addressFormType,
+      apiType: '',
       COUNTRY: window.__.env.REACT_APP_COUNTRY,
       caninForm: {
         firstName: '',
@@ -115,6 +117,8 @@ class Form extends React.Component {
         settlementIdStr: '', // pickup计算价格使用
         isDefalt: false
       },
+      newAddress1: '',
+      addrSearchSelectFlag: false, // 是否选择搜到的地址（DaData 或者 DQE）
       addressSettings: [],
       formList: [],
       addressList: [], // 地址列表
@@ -130,18 +134,18 @@ class Form extends React.Component {
       postCodeFiledType: 0, // 0、text，1、number，2、Letter & Number'
       errMsgObj: {}
     };
+    this.timer = null;
   }
   async componentDidMount() {
     let timer = setInterval(() => {
       let datePickerDom = document.querySelector('.receiveDate');
-      // datePickerDom.disabled = true;
       if (datePickerDom) {
         datePickerDom.placeholder = datePickerConfig.format.toUpperCase();
         clearInterval(timer);
       }
     }, 3000);
     const { initData = {} } = this.props;
-    const { caninForm } = this.state;
+    const { caninForm, COUNTRY } = this.state;
     this.setState({
       formLoading: true
     });
@@ -165,9 +169,25 @@ class Form extends React.Component {
     // if (initData.deliveryDate && initData.timeSlot && this.props.showDeliveryDateTimeSlot) {
     console.log('666 >>> country: ', this.state.COUNTRY);
     console.log('666 >>> formType: ', this.state.formType);
-    // MANUALLY 、 AUTOMATICALLY
-    if (this.state.formType === 'AUTOMATICALLY') {
-      this.getAddressListByKeyWord(initData.address1);
+
+    // 获取 DuData、DQE 等开关
+    // addressApiType: 0、validation ，1、suggestion
+    // isOpen: 0、关 , 1、开
+    let qoa = await queryOpenedApi();
+    let res = qoa?.context?.addressApiSettings || null;
+    if (res) {
+      let asobj =
+        find(res, (e) => e.name == 'DQE' || e.name == 'DADATA') || null;
+      if (asobj && asobj?.isOpen == 1 && asobj?.addressApiType == 1) {
+        this.setState({
+          apiType: asobj?.name
+        });
+        console.log('666 >>> apiType: ', asobj?.name);
+      }
+    }
+    // MANUALLY：手动填写 、 AUTOMATICALLY：自动填充
+    if (this.state.formType === 'AUTOMATICALLY' && COUNTRY === 'ru') {
+      await this.getAddressListByKeyWord(initData.address1);
     }
 
     // console.log('666  ★ EditForm initData: ', initData);
@@ -189,8 +209,6 @@ class Form extends React.Component {
     }
     // 重置参数
     this.props.getFormAddressValidFlag(false);
-
-    // let res = await queryOpenedApi();
   }
 
   // 星期
@@ -250,12 +268,12 @@ class Form extends React.Component {
   };
   // 根据address1查询地址信息
   getAddressListByKeyWord = async (address1) => {
-    const { COUNTRY } = this.state;
+    const { COUNTRY, apiType } = this.state;
     let res = null;
     let addls = null;
     try {
       // 自动填充
-      if (COUNTRY === 'ru') {
+      if (apiType === 'DADATA') {
         res = await getAddressBykeyWord({ keyword: address1 });
         if (res?.context && res?.context?.addressList.length) {
           addls = res.context.addressList;
@@ -264,10 +282,37 @@ class Form extends React.Component {
             v = this.setDuDataAddressErrMsg(v);
           });
         }
-      } else {
+      } else if (apiType === 'DQE') {
         address1 = address1.replace(/\|/g, '，');
         res = await DQEAddressList(address1);
         addls = res.context;
+        let guojia = COUNTRY.toUpperCase();
+        addls.map((item) => {
+          let newitem = {
+            area: null,
+            areaId: null,
+            block: null,
+            city: item?.localite,
+            cityId: null,
+            country: guojia,
+            countryCode: guojia,
+            entrance: null,
+            flat: null,
+            floor: null,
+            house: null,
+            houseId: null,
+            postCode: item?.codePostal,
+            state: item?.county,
+            provinceId: null,
+            settlement: null,
+            settlementId: null,
+            street: item?.voie,
+            streetId: null,
+            streetWithNoType: null,
+            unrestrictedValue: item?.label
+          };
+          Object.assign(item, newitem);
+        });
       }
       await this.handleAddressInputChange(addls[0]);
     } catch (err) {
@@ -1033,7 +1078,6 @@ class Form extends React.Component {
           });
         }
       }
-
       await validData(targetRule, { [tname]: tvalue });
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
@@ -1087,12 +1131,13 @@ class Form extends React.Component {
 
   // 地址搜索选择 1 (DuData、DQE)
   handleAddressInputChange = async (data) => {
-    // console.log('666 >>> 地址搜索选择 data: ', data);
-    const { caninForm, COUNTRY } = this.state;
+    console.log('666 >>> 地址搜索选择 data: ', data);
+    const { caninForm, apiType } = this.state;
     this.setState({
-      address1Data: data
+      address1Data: data,
+      addrSearchSelectFlag: true
     });
-    if (COUNTRY === 'ru') {
+    if (apiType === 'DADATA') {
       // 判断选中的地址是否有错误信息
       let errMsg = data.errMsg;
       if (!errMsg) {
@@ -1175,7 +1220,7 @@ class Form extends React.Component {
           isDeliveryDateAndTimeSlot: false
         });
       }
-    } else {
+    } else if (apiType === 'DQE') {
       Object.assign(caninForm, {
         address1: data.label,
         city: data.city,
@@ -1184,6 +1229,7 @@ class Form extends React.Component {
       });
       this.setState(
         {
+          newAddress1: data.label,
           caninForm
         },
         () => {
@@ -1199,10 +1245,11 @@ class Form extends React.Component {
   };
   // 地址搜索框失去焦点 2
   handleSearchSelectionBlur = (e) => {
-    const { caninForm } = this.state;
+    const { caninForm, apiType } = this.state;
     const target = e.target;
-    const value = target.value;
-    if (value == '') {
+    const tvalue = target?.value;
+    const tname = target?.name;
+    if (tvalue == '') {
       this.props.getFormAddressValidFlag(false);
       caninForm.address1 = '';
       this.setState(
@@ -1216,13 +1263,31 @@ class Form extends React.Component {
         }
       );
     }
+    if (apiType === 'DQE' && tvalue) {
+      setTimeout(() => {
+        if (!this.state.addrSearchSelectFlag) {
+          caninForm[tname] = this.state.newAddress1;
+          this.setState({
+            caninForm
+          });
+        }
+      }, 1000);
+    }
   };
   // 地址搜索框输入值接收，控制按钮状态 3
   getSearchInputChange = (e) => {
+    const { apiType } = this.state;
     const target = e?.target;
     const tname = target?.name;
     const tvalue = target?.value;
-    this.props.getFormAddressValidFlag(false);
+    if (apiType === 'DADATA') {
+      this.props.getFormAddressValidFlag(false);
+    } else {
+      this.setState({
+        newAddress1: tvalue,
+        addrSearchSelectFlag: false
+      });
+    }
     // 验证数据
     this.validvalidationData(tname, tvalue);
   };
@@ -1257,7 +1322,7 @@ class Form extends React.Component {
   };
   // 地址搜索框
   addressSearchSelectionJSX = (item) => {
-    const { caninForm, COUNTRY } = this.state;
+    const { caninForm, COUNTRY, apiType } = this.state;
     return (
       <>
         <SearchSelection
@@ -1265,7 +1330,7 @@ class Form extends React.Component {
             let res = null;
             let robj = null;
             // 自动填充
-            if (COUNTRY === 'ru') {
+            if (apiType === 'DADATA') {
               res = await getAddressBykeyWord({ keyword: inputVal });
               robj = (
                 (res?.context && res?.context?.addressList) ||
@@ -1273,7 +1338,7 @@ class Form extends React.Component {
               ).map((ele) =>
                 Object.assign(ele, { name: ele.unrestrictedValue })
               );
-            } else {
+            } else if (apiType === 'DQE') {
               inputVal = inputVal.replace(/\|/g, '，');
               res = await DQEAddressList(inputVal);
               robj = (res?.context || []).map((item) =>
@@ -1314,7 +1379,9 @@ class Form extends React.Component {
                 item = this.setDuDataAddressErrMsg(item);
               });
             } else {
-              this.props.getFormAddressValidFlag(false);
+              if (COUNTRY === 'ru') {
+                this.props.getFormAddressValidFlag(false);
+              }
             }
             return robj;
           }}

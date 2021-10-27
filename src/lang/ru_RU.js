@@ -81,6 +81,7 @@ const ru_RU = {
   'account.profile': 'Профиль',
   'account.profileTip': 'Просмотреть или изменить Ваш профиль.',
   'account.requiredFields': 'Обязательные поля',
+  'account.requiredFields2': 'Обязательные поля',
   'account.shippingAddressTip': 'Создайте и измените свой адрес доставки.',
   'account.specialNeeds': 'Особые потребности',
   'account.startAutoShipping': 'Узнать подробнее',

@@ -25,7 +25,7 @@ class PaymentLogos extends React.Component {
         paymentLogos: toJS(logos)
       },
       () => {
-        console.log('666 >>> paymentLogos hub: ', this.state.paymentLogos);
+        // console.log('666 >>> paymentLogos hub: ', this.state.paymentLogos);
       }
     );
   }
@@ -36,31 +36,36 @@ class PaymentLogos extends React.Component {
         {/* payment logos */}
         {paymentLogos?.length ? (
           <div className="rc-column rc-padding-bottom--none rc-padding-top--lg--mobile">
-            <p
-              className={`rc-espilon rc-text--inverse ${
-                isMobile ? '' : 'text-right'
+            <div
+              className={`rc-espilon rc-text--inverse flex ${
+                isMobile ? 'justify-content-start' : 'justify-content-end'
               }`}
             >
-              <FormattedMessage id="footer.securePaymentMethods" />
-            </p>
+              <div
+                className={`flex flex-wrap justify-content-start`}
+                style={{ width: '12.5rem' }}
+              >
+                <FormattedMessage id="footer.securePaymentMethods" />
+              </div>
+            </div>
             <div
               className={`rc-text--inverse flex ${
                 isMobile ? 'justify-content-start' : 'justify-content-end'
               }`}
             >
               <div
-                className={`flex flex-wrap ${
-                  isMobile ? 'justify-content-start' : 'justify-content-end'
-                }`}
+                className={`flex flex-wrap justify-content-start`}
                 style={{ fontSize: '0', width: '12.5rem' }}
               >
                 {paymentLogos.map((img, i) => (
                   <LazyLoad
-                    className={`mb-2 ${
-                      paymentLogos.length != i + 1 ? 'mr-2' : ''
-                    }`}
+                    className={`mb-2 ${(i + 1) % 4 == 0 ? '' : 'mr-2'}`}
                   >
-                    <img src={img.imgUrl} alt="" style={{ width: '2.7rem' }} />
+                    <img
+                      src={img.imgUrl}
+                      alt={i}
+                      style={{ width: '2.7rem', height: '1.6rem' }}
+                    />
                   </LazyLoad>
                 ))}
               </div>

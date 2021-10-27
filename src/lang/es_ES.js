@@ -85,6 +85,7 @@ const es_ES = {
   'account.profile': 'Mi informacion',
   'account.profileTip': 'Ver y editar su información personal.',
   'account.requiredFields': 'Campos requeridos',
+  'account.requiredFields2': 'Campos requeridos',
   'account.shippingAddressTip': 'Crea y edita tu dirección de envío.',
   'account.specialNeeds': 'Necesidades especiales',
   'account.startAutoShipping': 'Iniciar envío automático',

@@ -73,6 +73,7 @@ const tr_TR = {
   'account.profile': 'Bilgilerim',
   'account.profileTip': 'Bilgilerinize göz atın, veya profilinizi güncelleyin.',
   'account.requiredFields': 'Gerekli alanlar',
+  'account.requiredFields2': 'Gerekli alanlar',
   'account.shippingAddressTip': 'Gönderim adresinizi oluşturun ve düzenleyin.',
   'account.specialNeeds': 'Hassasiyet',
   'account.startAutoShipping': 'Daha fazlasını bul',

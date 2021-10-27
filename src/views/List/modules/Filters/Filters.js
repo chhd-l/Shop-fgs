@@ -3,7 +3,7 @@ import Skeleton from 'react-skeleton-loader';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import PriceSlider from '@/components/PriceSlider';
-import { removeArgFromUrl, funcUrl, transferToObject } from '@/lib/url-utils';
+import { removeArgFromUrl } from '@/lib/url-utils';
 import '@/assets/css/search.css';
 import './index.less';
 
@@ -19,7 +19,7 @@ class Filter extends React.Component {
     super(props);
     this.state = {
       filterList: props.filterList,
-      selectedFilterParams: []
+      selectedFilterParams: props.prefnParamListSearch || []
     };
     this.toggleContent = this.toggleContent.bind(this);
     this.hubGA = window.__.env.REACT_APP_HUB_GA == '1';
@@ -28,14 +28,17 @@ class Filter extends React.Component {
   componentDidMount() {
     // 随着滚动，更改顶部距离
     window.onscroll = function () {
-      const headerClass = document.getElementsByClassName(
-        'rc-header--scrolled'
-      )[0];
-      const filterWrap = document.getElementsByClassName('filter-rc-nav')[0];
-      if (headerClass && filterWrap) {
-        filterWrap.style.top = '4.167rem';
-      } else if (filterWrap) {
-        filterWrap.style.top = '6.7rem';
+      const isHubUi = document.getElementsByClassName('ui-custom-hub')[0];
+      if (isHubUi) {
+        const headerClass = document.getElementsByClassName(
+          'rc-header--scrolled'
+        )[0];
+        const filterWrap = document.getElementsByClassName('filter-rc-nav')[0];
+        if (headerClass && filterWrap) {
+          filterWrap.style.top = '4.167rem';
+        } else if (filterWrap) {
+          filterWrap.style.top = '6.7rem';
+        }
       }
     };
   }
@@ -87,7 +90,7 @@ class Filter extends React.Component {
   handleClickItemFilter = (e, parentItem, childItem) => {
     const { selectedFilterParams } = this.state;
     let selectedFilters = [];
-    if (selectedFilterParams.length) {
+    if (selectedFilterParams.length && e.target.checked) {
       let choosedIndex = selectedFilterParams.findIndex(
         (el) => el.prefn == parentItem.attributeName
       );
@@ -103,7 +106,21 @@ class Filter extends React.Component {
         });
       }
       selectedFilters = [...selectedFilterParams];
-    } else {
+    } else if (selectedFilterParams.length && !e.target.checked) {
+      let choosedIndex = selectedFilterParams.findIndex(
+        (el) => el.prefn == parentItem.attributeName
+      );
+      if (choosedIndex > -1) {
+        let deletedIdx = selectedFilterParams[choosedIndex].prefvs.findIndex(
+          (el) => el == childItem.attributeDetailNameEnSplitByLine
+        );
+        selectedFilterParams[choosedIndex].prefvs.splice(deletedIdx, 1);
+        selectedFilterParams.map((item, idx) => {
+          if (!item.prefvs.length) selectedFilterParams.splice(idx, 1);
+        });
+        selectedFilters = [...selectedFilterParams];
+      }
+    } else if (e.target.checked) {
       selectedFilters.push({
         prefn: parentItem.attributeName,
         prefvs: [childItem.attributeDetailNameEnSplitByLine]
@@ -144,17 +161,28 @@ class Filter extends React.Component {
     this.props.history.push(_router);
   };
 
+  // 判断router上是否已经选择了filters，如果选择了则清空filter跳转router,若没有直接清空目前正在操作选择的。
   handleFilterClearBtn = () => {
-    this.setState({
-      selectedFilterParams: []
-    });
-    const filterCheckBox = document.getElementsByClassName(
-      'filter-input-checkout'
-    );
-    for (let i = 0; i < filterCheckBox.length; i++) {
-      filterCheckBox[i].checked = '';
+    const { pathname, search } = this.props.history.location;
+    const { baseSearchStr } = this.props;
+    if (search.includes('prefn')) {
+      const _router = {
+        pathname,
+        search: baseSearchStr
+      };
+      this.props.history.push(_router);
+    } else {
+      this.setState({
+        selectedFilterParams: []
+      });
+      const filterCheckBox = document.getElementsByClassName(
+        'filter-input-checkout'
+      );
+      for (let i = 0; i < filterCheckBox.length; i++) {
+        filterCheckBox[i].checked = '';
+      }
+      this.props.onToggleFilterModal(false);
     }
-    this.props.onToggleFilterModal(false);
   };
 
   renderMultiChoiceJSX = (parentItem, childItem) => {
@@ -198,15 +226,18 @@ class Filter extends React.Component {
         key={childItem.id}
         className="row rc-margin-left--none rc-padding-left--none rc-margin-left--xs rc-padding-left--xs"
       >
-        <Link
-          to={childItem.router}
+        <span
+          // to={childItem.router}
           className="rc-input w-100 rc-margin-y--xs rc-input--full-width ml-2"
         >
           <input
-            className="rc-input__radio"
+            className="rc-input__radio filter-input-checkout"
             id={`filter-sub-radio-${childItem.id}-${inputLabelKey}`}
             type="radio"
             checked={childItem.selected}
+            onChange={(e) =>
+              this.handleClickItemFilter(e, parentItem, childItem)
+            }
           />
           <label
             className="rc-input__label--inline"
@@ -223,12 +254,12 @@ class Filter extends React.Component {
                 )[0].valueEn
               : childItem.attributeDetailNameEn}
           </label>
-        </Link>
+        </span>
       </div>
     );
   };
   render() {
-    const { filterList } = this.state;
+    const { filterList, selectedFilterParams } = this.state;
     const {
       history,
       initing,
@@ -301,61 +332,6 @@ class Filter extends React.Component {
               </div>
             ) : (
               <header>
-                <header
-                  className="rc-rc-filters__header rc-padding-left--none--desktop pointer-events-auto"
-                  style={{ backgroundColor: '#f6f6f6' }}
-                >
-                  {/* <button
-                className="rc-md-down rc-stick-left rc-btn rc-btn--icon rc-icon rc-close--xs rc-iconography"
-                type="button"
-                onClick={this.handleClickCloseBtn}
-              />
-              <div className="rc-filters__heading rc-padding-top--sm rc-padding-bottom--xs rc-header-with-icon rc-header-with-icon--alpha pt-0 pb-0">
-                <span className="md-up rc-icon rc-filter--xs rc-iconography" />
-                <FormattedMessage id="filters" />
-              </div> */}
-                  <div className="filter-bar">
-                    {isSelectedFilter ? (
-                      <ul className="mt-md-0">
-                        {filterList.map((pItem) => {
-                          return (
-                            pItem.attributesValueList ||
-                            pItem.storeGoodsFilterValueVOList ||
-                            []
-                          ).map((cItem) => {
-                            if (cItem.selected) {
-                              return (
-                                <li className="filter-value" key={cItem.id}>
-                                  <Link to={cItem.router}>
-                                    {cItem.attributeDetailNameEn}
-                                    <em className="filter-remove" />
-                                  </Link>
-                                </li>
-                              );
-                            } else {
-                              return null;
-                            }
-                          });
-                        })}
-                        {this.hasSelecedItems && (
-                          <li
-                            className="d-md-none rc-margin-top--sm--mobile rc-margin-left--md--mobile rc-margin-bottom--md--mobile d-inline-block"
-                            key="removeAllFilters"
-                          >
-                            <Link
-                              to={{ pathname, search: `?${baseSearchStr}` }}
-                            >
-                              <FormattedMessage id="removeAllFilters" />
-                            </Link>
-                          </li>
-                        )}
-                      </ul>
-                    ) : (
-                      <div style={{ borderBottom: '1px solid #ccc' }} />
-                    )}
-                  </div>
-                </header>
-
                 <div className="rc-padding-bottom--md--mobile">
                   {filterList.length ? (
                     filterList.map((parentItem, pIndex) => (
@@ -385,10 +361,13 @@ class Filter extends React.Component {
                                     )[0].valueEn
                                   : parentItem.attributeNameEn}
                               </span>
-                              {this.state.selectedFilterParams?.map((item) => {
+                              {selectedFilterParams?.map((item, idx) => {
                                 if (item.prefn == parentItem.attributeName) {
                                   return (
-                                    <div className="filter-parent-item-count">
+                                    <div
+                                      className="filter-parent-item-count"
+                                      key={idx}
+                                    >
                                       <span>{item.prefvs.length}</span>
                                     </div>
                                   );
@@ -445,22 +424,24 @@ class Filter extends React.Component {
             )}
           </div>
         </nav>
-        <div className="filter-button-groups">
-          <button
-            className={`rc-btn rc-btn--one rc-margin-right--xs--mobile rc-margin-bottom--xs--mobile`}
-            onClick={this.handleFilterApplyBtn}
-          >
-            <span>
-              <FormattedMessage id="list.applyFilters" />
-            </span>
-          </button>
-          <button
-            className={`rc-btn rc-btn--sm rc-btn--two`}
-            onClick={this.handleFilterClearBtn}
-          >
-            <FormattedMessage id="list.clearFilters" />
-          </button>
-        </div>
+        {selectedFilterParams.length ? (
+          <div className="filter-button-groups">
+            <button
+              className={`rc-btn rc-btn--sm rc-btn--two rc-margin-bottom--xs--mobile`}
+              onClick={this.handleFilterClearBtn}
+            >
+              <FormattedMessage id="list.clearFilters" />
+            </button>
+            <button
+              className={`rc-btn rc-btn--one rc-margin-right--xs--mobile`}
+              onClick={this.handleFilterApplyBtn}
+            >
+              <span>
+                <FormattedMessage id="list.applyFilters" />
+              </span>
+            </button>
+          </div>
+        ) : null}
       </section>
     );
   }

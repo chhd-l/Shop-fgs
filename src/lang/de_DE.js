@@ -86,6 +86,7 @@ const de_DE = {
   'account.profile': 'Meine Informationen',
   'account.profileTip': 'Aktualisieren Sie Ihre persönlichen Daten.',
   'account.requiredFields': 'Benötigte Felder',
+  'account.requiredFields2': 'Benötigte Felder',
   'account.shippingAddressTip':
     'Erstellen oder bearbeiten Sie Ihre Lieferadresse.',
   'account.specialNeeds': 'Empfohlene Nahrung der Tierarztpraxis',

@@ -89,6 +89,7 @@ const fr_FR = {
   'account.profile': 'Mes informations',
   'account.profileTip': 'Voir ou mettre à jour vos informations personnelles.',
   'account.requiredFields': 'Champs obligatoires',
+  'account.requiredFields2': 'Champs obligatoires',
   'account.shippingAddressTip': 'Créez ou modifiez votre adresse de livraison.',
   'account.specialNeeds': 'Besoins spéciaux',
   'account.startAutoShipping': 'En savoir plus',
