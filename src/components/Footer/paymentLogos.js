@@ -36,13 +36,18 @@ class PaymentLogos extends React.Component {
         {/* payment logos */}
         {paymentLogos?.length ? (
           <div className="rc-column rc-padding-bottom--none rc-padding-top--lg--mobile">
-            <p
-              className={`rc-espilon rc-text--inverse ${
-                isMobile ? '' : 'text-right'
+            <div
+              className={`rc-espilon rc-text--inverse flex ${
+                isMobile ? 'justify-content-start' : 'justify-content-end'
               }`}
             >
-              <FormattedMessage id="footer.securePaymentMethods" />
-            </p>
+              <div
+                className={`flex flex-wrap justify-content-start`}
+                style={{ width: '14rem' }}
+              >
+                <FormattedMessage id="footer.securePaymentMethods" />
+              </div>
+            </div>
             <div
               className={`rc-text--inverse flex ${
                 isMobile ? 'justify-content-start' : 'justify-content-end'
@@ -50,7 +55,7 @@ class PaymentLogos extends React.Component {
             >
               <div
                 className={`flex flex-wrap justify-content-start`}
-                style={{ fontSize: '0', width: '12.5rem' }}
+                style={{ fontSize: '0', width: '14rem' }}
               >
                 {paymentLogos.map((img, i) => (
                   <LazyLoad

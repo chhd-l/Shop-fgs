@@ -333,7 +333,7 @@ const SubGoodsInfos = ({
                           alignItems: 'center'
                         }}
                       >
-                        <div className="img-container">
+                        <div className="img-container mr-3">
                           {/* <LazyLoad> */}
                           <img
                             src={el.goodsPic || IMG_DEFAULT}
