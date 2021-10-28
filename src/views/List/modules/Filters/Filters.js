@@ -41,6 +41,16 @@ class Filter extends React.Component {
         }
       }
     };
+
+    const { filterList } = this.state;
+    filterList.map((item) => {
+      item.attributesValueList.map((el) =>
+        el.selected ? (el.notApplyChecked = true) : null
+      );
+    });
+    this.setState({
+      filterList
+    });
   }
 
   get hasSelecedItems() {
@@ -88,6 +98,17 @@ class Filter extends React.Component {
   };
 
   handleClickItemFilter = (e, parentItem, childItem) => {
+    const { filterList } = this.state;
+    filterList.map((item) => {
+      item.attributesValueList.map((el) => {
+        if (el.attributeDetailName == childItem.attributeDetailName) {
+          el.notApplyChecked = e.target.checked;
+        }
+      });
+    });
+    this.setState({
+      filterList
+    });
     const { selectedFilterParams } = this.state;
     let selectedFilters = [];
     if (selectedFilterParams.length && e.target.checked) {
@@ -203,7 +224,7 @@ class Filter extends React.Component {
             id={`filter-input-${childItem.id}-${inputLabelKey}`}
             type="checkbox"
             name="checkbox"
-            checked={childItem.selected}
+            checked={childItem.notApplyChecked}
             onChange={(e) =>
               this.handleClickItemFilter(e, parentItem, childItem)
             }
@@ -234,7 +255,7 @@ class Filter extends React.Component {
             className="rc-input__radio filter-input-checkout"
             id={`filter-sub-radio-${childItem.id}-${inputLabelKey}`}
             type="radio"
-            checked={childItem.selected}
+            checked={childItem.notApplyChecked}
             onChange={(e) =>
               this.handleClickItemFilter(e, parentItem, childItem)
             }
@@ -424,7 +445,8 @@ class Filter extends React.Component {
             )}
           </div>
         </nav>
-        {selectedFilterParams.length ? (
+        {selectedFilterParams.length ||
+        this.props.prefnParamListSearch.length ? (
           <div className="filter-button-groups">
             <button
               className={`rc-btn rc-btn--sm rc-btn--two rc-margin-bottom--xs--mobile`}
