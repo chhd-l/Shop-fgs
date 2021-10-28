@@ -475,6 +475,7 @@ class AddressList extends React.Component {
         rfc: tmp.rfc,
         countryId: tmp.countryId,
         country: tmp?.country,
+        county: tmp?.county,
         cityId: tmp.cityId,
         city: tmp.city,
         cityName: tmp.cityName,

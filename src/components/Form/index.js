@@ -81,7 +81,7 @@ class Form extends React.Component {
         address1: '',
         address2: '',
         country: '',
-        countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        countryId: '',
         cityId: '',
         city: '',
         county: '',
@@ -150,7 +150,7 @@ class Form extends React.Component {
       formLoading: true
     });
     // 查询国家
-    this.getCountryList();
+    await this.getCountryList();
     this.debounceValidvalidationData = debounce(this.validvalidationData, 500);
 
     // 美国 state 字段统一为 province
@@ -702,17 +702,21 @@ class Form extends React.Component {
   }
   // 3、查询国家
   getCountryList = async () => {
-    const { caninForm } = this.state;
     try {
       const res = await getDictionary({ type: 'country' });
       if (res) {
-        let cfm = Object.assign({}, caninForm);
-        cfm.country = res[0].value;
-        cfm.countryId = res[0].id;
-        this.setState({
-          countryList: res,
-          caninForm: Object.assign(this.state.caninForm, cfm)
-        });
+        this.setState(
+          {
+            countryList: res,
+            caninForm: Object.assign({}, this.state.caninForm, {
+              country: res[0].value,
+              countryId: res[0].id
+            })
+          },
+          () => {
+            this.updateDataToProps(this.state.caninForm);
+          }
+        );
       }
     } catch (err) {
       console.warn(err);
@@ -887,6 +891,7 @@ class Form extends React.Component {
       cform.stateNo = data.no; // 省份简写
     } else if (key == 'country') {
       cform.country = data.name;
+      cform.countryId = data.value;
     } else if (key == 'city') {
       cform.city = data.name;
       cform.areaId = '';
@@ -934,7 +939,6 @@ class Form extends React.Component {
         caninForm: Object.assign(caninForm, cform)
       },
       () => {
-        // console.log('666  key: '+key+' data: ',data);
         this.updateDataToProps(this.state.caninForm);
         // 验证数据
         this.validvalidationData(key, data.value);
@@ -943,7 +947,6 @@ class Form extends React.Component {
   }
   // 处理数组
   computedList(key) {
-    const { COUNTRY } = this.state;
     let tmp = '';
     tmp = this.state[`${key}List`].map((c) => {
       return {
@@ -1039,7 +1042,6 @@ class Form extends React.Component {
       COUNTRY
     } = this.state;
     let targetRule = null;
-
     if (isDeliveryDateAndTimeSlot) {
       targetRule = caninForm.formRuleRu.filter((e) => e.key === tname);
     } else {
@@ -1047,7 +1049,6 @@ class Form extends React.Component {
     }
     let postCodeAlertMessage =
       '* Sorry we are not able to deliver your order in this area.';
-
     try {
       // 邮编需要黑名单校验
       if (
@@ -1477,7 +1478,7 @@ class Form extends React.Component {
   };
   // 下拉框
   dropDownBoxJSX = (item) => {
-    const { caninForm } = this.state;
+    const { caninForm, countryList } = this.state;
     return (
       <>
         <span
@@ -1489,6 +1490,7 @@ class Form extends React.Component {
           {/* 下拉框 key 和 value 为 id , fieldKey+'Id' */}
           {item.fieldKey == 'state' ? (
             <Selection
+              key={caninForm[item.fieldKey + 'Id']}
               selectedItemChange={(data) =>
                 this.handleSelectedItemChange(item.fieldKey, data)
               }
@@ -1497,18 +1499,22 @@ class Form extends React.Component {
               emptyFirstItem={'State'}
               name={item.fieldKey}
               selectedItemData={{ value: caninForm[item.fieldKey + 'Id'] }}
-              key={caninForm[item.fieldKey + 'Id']}
             />
           ) : (
             <Selection
+              key={caninForm[item.fieldKey + 'Id']}
               selectedItemChange={(data) =>
                 this.handleSelectedItemChange(item.fieldKey, data)
               }
               optionList={this.computedList(item.fieldKey)}
               choicesInput={true}
               name={item.fieldKey}
-              selectedItemData={{ value: caninForm[item.fieldKey + 'Id'] }}
-              key={caninForm[item.fieldKey + 'Id']}
+              selectedItemData={{
+                value:
+                  item.fieldKey === 'country'
+                    ? countryList[0].id
+                    : caninForm[item.fieldKey + 'Id']
+              }}
             />
           )}
         </span>
