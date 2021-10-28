@@ -73,14 +73,22 @@ const CompletedDelivery = ({ i, isActive, el, subDetail }) => {
               <>
                 <div
                   style={{
-                    textAlign: 'left',
-                    paddingLeft: '2rem'
+                    textAlign: 'left'
                   }}
                 >
                   {el.id ? (
                     <>
                       <em className="greenCircle" />
-                      <span>{el.tradeState.orderStatus}</span>
+                      <span
+                        className="ui-text-overflow-line1"
+                        style={{
+                          width: '120px',
+                          display: 'block',
+                          paddingLeft: '20px'
+                        }}
+                      >
+                        {el.tradeState.orderStatus}
+                      </span>
                       <Link
                         className="rc-icon rc-right rc-iconography"
                         style={{

@@ -309,7 +309,7 @@ const NextDelivery = ({
             </div>
             {el.tradePrice.subscriptionDiscountPrice ? (
               <div className="row">
-                <label className="green col-6 text-left">
+                <label className="green col-6 text-left ui-text-overflow-line1">
                   <FormattedMessage id="promotion" />:
                 </label>
                 <div className="col-6 text-right green">
@@ -323,7 +323,7 @@ const NextDelivery = ({
               ?.filter((el) => el.discountPrice)
               ?.map((el) => (
                 <div className="row">
-                  <label className="green col-6 text-left">
+                  <label className="green col-6 text-left ui-text-overflow-line1">
                     {el.marketingName}:
                   </label>
                   <div className="col-6 text-right green">
