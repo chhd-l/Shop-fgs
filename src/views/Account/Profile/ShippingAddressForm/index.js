@@ -13,7 +13,12 @@ import {
   queryCityNameById,
   getProvincesList
 } from '@/api/address';
-import { getDictionary, validData, setSeoConfig, isCanVerifyBlacklistPostCode } from '@/utils/utils';
+import {
+  getDictionary,
+  validData,
+  setSeoConfig,
+  isCanVerifyBlacklistPostCode
+} from '@/utils/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
 // import Selection from '@/components/Selection';
 import classNames from 'classnames';
@@ -58,8 +63,9 @@ class ShippingAddressFrom extends React.Component {
         lastName: '',
         address1: '',
         address2: '',
-        countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID,
+        countryId: '',
         country: '',
+        county: '',
         city: '',
         cityId: '',
         provinceNo: '',
@@ -178,8 +184,11 @@ class ShippingAddressFrom extends React.Component {
   };
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmValidationAddress() {
-    const { addressForm, selectValidationOption, validationAddress } =
-      this.state;
+    const {
+      addressForm,
+      selectValidationOption,
+      validationAddress
+    } = this.state;
     let oldAddressForm = JSON.parse(JSON.stringify(addressForm));
     let theform = [];
     if (selectValidationOption == 'suggestedAddress') {
@@ -229,6 +238,7 @@ class ShippingAddressFrom extends React.Component {
       this.setState({
         saveLoading: true
       });
+      console.log('666 >>> data: ', data);
       let params = {
         address1: data.address1,
         address2: data.address2,
@@ -347,7 +357,6 @@ class ShippingAddressFrom extends React.Component {
       await validData(addressForm.formRule, addressForm); // 数据验证
       // await validData(ADDRESS_RULE, addressForm);
       this.setState({ isValid: true });
-
     } catch (err) {
       this.setState({ isValid: false });
     }
