@@ -25,6 +25,19 @@ class Filter extends React.Component {
     this.toggleContent = this.toggleContent.bind(this);
     this.hubGA = window.__.env.REACT_APP_HUB_GA == '1';
   }
+
+  componentDidMount() {
+    const { filterList } = this.state;
+    filterList.map((item) => {
+      item.attributesValueList.map((el) =>
+        el.selected ? (el.notApplyChecked = true) : null
+      );
+    });
+    this.setState({
+      filterList
+    });
+  }
+
   get hasSelecedItems() {
     let ret = false;
     const { filterList } = this.state;
@@ -78,6 +91,17 @@ class Filter extends React.Component {
   }
 
   handleClickItemFilter = (e, parentItem, childItem) => {
+    const { filterList } = this.state;
+    filterList.map((item) => {
+      item.attributesValueList.map((el) => {
+        if (el.attributeDetailName == childItem.attributeDetailName) {
+          el.notApplyChecked = e.target.checked;
+        }
+      });
+    });
+    this.setState({
+      filterList
+    });
     const { selectedFilterParams } = this.state;
     let selectedFilters = [];
     if (selectedFilterParams.length && e.target.checked) {
@@ -197,7 +221,7 @@ class Filter extends React.Component {
               id={`filter-input-${childItem.id}-${inputLabelKey}`}
               type="checkbox"
               name="checkbox"
-              checked={childItem.selected}
+              checked={childItem.notApplyChecked}
               onChange={(e) =>
                 this.handleClickItemFilter(e, parentItem, childItem)
               }
@@ -247,7 +271,7 @@ class Filter extends React.Component {
               className="rc-input__radio filter-input-checkout"
               id={`filter-sub-radio-${childItem.id}-${inputLabelKey}`}
               type="radio"
-              checked={childItem.selected}
+              checked={childItem.notApplyChecked}
               onChange={(e) =>
                 this.handleClickItemFilter(e, parentItem, childItem)
               }
@@ -456,7 +480,9 @@ class Filter extends React.Component {
                   <FormattedMessage id="list.errMsg3" />
                 </div>
               )}
-              {selectedFilterParams.length ? (
+              {/* 第一次选择和应用过filter后选择都需要展示 */}
+              {selectedFilterParams.length ||
+              this.props.prefnParamListSearch.length ? (
                 <div className="filter-button-groups  text-center">
                   <button
                     className={`rc-btn rc-btn--sm rc-btn--two rc-margin-bottom--xs w-100`}
