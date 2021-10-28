@@ -181,7 +181,11 @@ const env = {
 
     // #onetrust
     REACT_APP_ONTRUST_SRC:
-      'https://optanon.blob.core.windows.net/consent/82d92b37-7d64-443e-a23f-5efbb17770be-test.js',
+      'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js',
+
+    // #onetrust
+    REACT_APP_ONTRUST_DOMAIN_SCRIPT:
+      '83dcdb6d-4c72-4616-83c5-05930054b124-test',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/us',
@@ -208,7 +212,10 @@ const env = {
 
     // #onetrust
     REACT_APP_ONTRUST_SRC:
-      'https://optanon.blob.core.windows.net/consent/82d92b37-7d64-443e-a23f-5efbb17770be.js',
+      'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js',
+
+    // #onetrust
+    REACT_APP_ONTRUST_DOMAIN_SCRIPT: '83dcdb6d-4c72-4616-83c5-05930054b124',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/',
