@@ -61,9 +61,7 @@ function CardItem(props) {
       ${props.data.selected ? 'selected' : ''}
       ${!props.data.validFlag && isCanVerifyBlacklistPostCode ? 'forbid' : ''}
       `}
-      onClick={
-        props.handleClickCoverItem
-      }
+      onClick={props.handleClickCoverItem}
     >
       {/* <div className="font-weight-normal mt-4 pt-2 mt-md-0 pt-md-0">
         {data.type === 'DELIVERY' ? (
@@ -298,6 +296,7 @@ class AddressList extends React.Component {
       });
       this.scrollToTitle();
     } else {
+      // console.log('666 >>> item.receiveType: ', item.receiveType);
       this.changeEditFormVisible(true);
       this.setState({
         curAddressId: item.deliveryAddressId
@@ -484,7 +483,6 @@ class AddressList extends React.Component {
   // 地址项详细
   addressItemDetail = (item, i) => {
     const { countryList } = this.state;
-    // console.log('666 >>> selected: ', item.selected);
 
     return (
       <CardItem
@@ -625,12 +623,9 @@ class AddressList extends React.Component {
             </div>
 
             <div>
-
-              {
-                !item?.validFlag  && isCanVerifyBlacklistPostCode
-                  ? (<p className="address-item-forbid">{item.alert}</p>)
-                  : null
-              }
+              {!item?.validFlag && isCanVerifyBlacklistPostCode ? (
+                <p className="address-item-forbid">{item.alert}</p>
+              ) : null}
             </div>
           </div>
         }

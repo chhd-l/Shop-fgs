@@ -73,6 +73,7 @@ const tr_TR = {
   'account.profile': 'Bilgilerim',
   'account.profileTip': 'Bilgilerinize göz atın, veya profilinizi güncelleyin.',
   'account.requiredFields': 'Gerekli alanlar',
+  'account.requiredFields2': 'Gerekli alanlar',
   'account.shippingAddressTip': 'Gönderim adresinizi oluşturun ve düzenleyin.',
   'account.specialNeeds': 'Hassasiyet',
   'account.startAutoShipping': 'Daha fazlasını bul',
@@ -1358,6 +1359,10 @@ const tr_TR = {
   'product.plp.foodtype.drydog': 'Kuru köpek maması',
   'product.plp.foodtype.wetdog': 'ıslak köpek maması',
   'product.plp.foodtype.drycat': 'Kuru kedi maması',
-  'product.plp.foodtype.wetcat': 'ıslak kedi maması'
+  'product.plp.foodtype.wetcat': 'ıslak kedi maması',
+  'list.applyFilters': 'Filtreleri uygula',
+  'list.clearFilters': 'Tüm filtreleri temizle',
+  'list.viewFilters': 'Filtreleri görüntüle',
+  'list.closeFilters': 'Filtreleri kapat'
 };
 export default tr_TR;

@@ -38,6 +38,15 @@ import './list.less';
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
+
+const sleep = (time) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, time);
+  });
+};
+
 /**
  * address list(delivery/billing) - member
  */
@@ -542,11 +551,9 @@ class AddressList extends React.Component {
         addressList,
         (ele) => ele.deliveryAddressId === homeDeliverySelectedId
       ) || null;
-
     this.setState({
       selectedId: homeDeliverySelectedId
     });
-
     // 判断地址完整性
     const laddf = this.props.configStore.localAddressForm;
     let dfarr = laddf.settings;
@@ -580,6 +587,7 @@ class AddressList extends React.Component {
       this.showErrMsg(wrongAddressMsg['title'] + errMsgArr);
       return;
     }
+
     this.updateSelectedData('confirm');
 
     if (window.__.env.REACT_APP_COUNTRY != 'ru') {
@@ -850,6 +858,7 @@ class AddressList extends React.Component {
       rfc: '',
       countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID || '',
       country: '',
+      county: '',
       cityId: '',
       city: '',
       provinceNo: '',
@@ -880,6 +889,7 @@ class AddressList extends React.Component {
         rfc: tmp.rfc,
         countryId: tmp.countryId,
         country: tmp.country,
+        county: tmp?.county,
         cityId: tmp.cityId,
         city: tmp.city,
         areaId: tmp.areaId,
@@ -986,7 +996,7 @@ class AddressList extends React.Component {
   };
   // 俄罗斯地址校验flag，控制按钮是否可用
   getFormAddressValidFlag = (flag) => {
-    // console.log('address1地址校验flag : ', flag);
+    // console.log('666 >>> address1地址校验flag : ', flag);
     const { deliveryAddress } = this.state;
     this.setState(
       {

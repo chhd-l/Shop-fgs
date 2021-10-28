@@ -85,6 +85,7 @@ const es_ES = {
   'account.profile': 'Mi informacion',
   'account.profileTip': 'Ver y editar su información personal.',
   'account.requiredFields': 'Campos requeridos',
+  'account.requiredFields2': 'Campos requeridos',
   'account.shippingAddressTip': 'Crea y edita tu dirección de envío.',
   'account.specialNeeds': 'Necesidades especiales',
   'account.startAutoShipping': 'Iniciar envío automático',
@@ -1169,6 +1170,10 @@ const es_ES = {
   'product.plp.foodtype.drydog': 'Alimento seco para perros',
   'product.plp.foodtype.wetdog': 'Comida húmeda para perros',
   'product.plp.foodtype.drycat': 'Comida seca para gatos',
-  'product.plp.foodtype.wetcat': 'Comida húmeda para gatos'
+  'product.plp.foodtype.wetcat': 'Comida húmeda para gatos',
+  'list.applyFilters': 'Aplicar filtros',
+  'list.clearFilters': 'Borrar todos los filtros',
+  'list.viewFilters': 'Ver filtros',
+  'list.closeFilters': 'Cerrar filtros'
 };
 export default es_ES;

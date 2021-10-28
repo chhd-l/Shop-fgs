@@ -89,6 +89,7 @@ const fr_FR = {
   'account.profile': 'Mes informations',
   'account.profileTip': 'Voir ou mettre à jour vos informations personnelles.',
   'account.requiredFields': 'Champs obligatoires',
+  'account.requiredFields2': 'Champs obligatoires',
   'account.shippingAddressTip': 'Créez ou modifiez votre adresse de livraison.',
   'account.specialNeeds': 'Besoins spéciaux',
   'account.startAutoShipping': 'En savoir plus',
@@ -2182,6 +2183,10 @@ const fr_FR = {
   'product.plp.foodtype.drydog': 'Nourriture sèche pour chiens',
   'product.plp.foodtype.wetdog': 'Nourriture humide pour chiens',
   'product.plp.foodtype.drycat': 'Nourriture sèche pour chats',
-  'product.plp.foodtype.wetcat': 'Nourriture humide pour chat'
+  'product.plp.foodtype.wetcat': 'Nourriture humide pour chat',
+  'list.applyFilters': 'Appliquer des filtres',
+  'list.clearFilters': 'Effacer tous les filtres',
+  'list.viewFilters': 'Afficher les filtres',
+  'list.closeFilters': 'Fermer les filtres'
 };
 export default fr_FR;

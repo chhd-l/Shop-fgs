@@ -121,7 +121,8 @@ const UserJSX = (props) => {
                           window.__.env.REACT_APP_COUNTRY === 'ru' ||
                           window.__.env.REACT_APP_COUNTRY === 'fr' ||
                           window.__.env.REACT_APP_COUNTRY === 'us' ||
-                          window.__.env.REACT_APP_COUNTRY === 'de'
+                          window.__.env.REACT_APP_COUNTRY === 'de' ||
+                          window.__.env.REACT_APP_COUNTRY === 'uk'
                         ) {
                           localItemRoyal.set(
                             'okta-redirectUrl',

@@ -34,7 +34,6 @@ export default class Selection extends React.Component {
     this.searchRef = React.createRef();
   }
   componentDidMount() {
-    console.log(this.props);
     this.searchRef?.current && this.searchRef?.current?.focus();
   }
   hideOptions = () => {

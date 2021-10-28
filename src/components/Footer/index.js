@@ -2,15 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
-import { toJS } from 'mobx';
 import { cookieSettingsBtn } from './cookieSettingsBtn';
 import MarsFooterMap from './MarsFooterMap';
+import PaymentLogos from './paymentLogos';
 import { menubar } from './menubar';
 import { contactInfo } from './contactInfo';
 import FooterHub from './footer_hub';
 import { withRouter } from 'react-router-dom';
 import { getDeviceType } from '@/utils/utils';
-import LazyLoad from 'react-lazyload';
 import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -24,8 +23,7 @@ class Footer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeIdx: -1,
-      paymentLogos: []
+      activeIdx: -1
     };
   }
   async componentDidMount() {
@@ -45,15 +43,7 @@ class Footer extends React.Component {
     getSystemFormConfig(); // 查询address form表单配置开关
 
     // 查询 payment logos
-    let logos = await queryPaymentMethodCfg();
-    this.setState(
-      {
-        paymentLogos: toJS(logos)
-      },
-      () => {
-        console.log('666 >>> paymentLogos: ', this.state.paymentLogos);
-      }
-    );
+    await queryPaymentMethodCfg();
 
     // 地址错误提示信息
     localItemRoyal.set(
@@ -101,7 +91,7 @@ class Footer extends React.Component {
     );
   };
   footerInfo = () => {
-    const { activeIdx, paymentLogos } = this.state;
+    const { activeIdx } = this.state;
     return (
       <footer
         className="rc-bg-colour--interface-dark"
@@ -271,41 +261,7 @@ class Footer extends React.Component {
             </div>
 
             {/* payment logos */}
-            {paymentLogos?.length ? (
-              <div className="rc-column rc-padding-bottom--none rc-padding-top--lg--mobile">
-                <p
-                  className={`rc-espilon rc-text--inverse ${
-                    isMobile ? '' : 'text-right'
-                  }`}
-                >
-                  <FormattedMessage id="footer.securePaymentMethods" />
-                </p>
-                <div
-                  className={`rc-text--inverse flex ${
-                    isMobile ? 'justify-content-start' : 'justify-content-end'
-                  }`}
-                >
-                  <div
-                    className={`flex flex-wrap justify-content-start`}
-                    style={{ fontSize: '0', width: '12.5rem' }}
-                  >
-                    {paymentLogos.map((img, i) => (
-                      <LazyLoad
-                        className={`mb-2 ${
-                          paymentLogos.length != i + 1 ? 'mr-2' : ''
-                        }`}
-                      >
-                        <img
-                          src={img.imgUrl}
-                          alt=""
-                          style={{ width: '2.7rem' }}
-                        />
-                      </LazyLoad>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ) : null}
+            <PaymentLogos />
           </div>
 
           {/* mail and phone */}

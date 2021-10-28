@@ -2,6 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { cookieSettingsBtn } from './cookieSettingsBtn';
 import MarsFooterMap from './MarsFooterMap';
+import PaymentLogos from './paymentLogos';
 import { menubar } from './menubar';
 import { contactInfo } from './contactInfo';
 import './index.css';
@@ -225,7 +226,6 @@ class FooterHub extends React.Component {
                 </div>
               </div>
             </div>
-
             {/*MenuInfoItems */}
             {MenuInfoItems && MenuInfoItems[0] ? (
               <div className="rc-layout-container rc-one-column rc-padding-x--xs--desktop rc-margin-top--md--desktop rc-padding-x--none--mobile">
@@ -239,6 +239,9 @@ class FooterHub extends React.Component {
                 </div>
               </div>
             ) : null}
+
+            {/* payment logos */}
+            <PaymentLogos />
 
             {/* LocalMarketSettings */}
             {cur_contactInfo && ContactUsUrl ? (

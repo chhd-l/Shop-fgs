@@ -81,6 +81,7 @@ const ru_RU = {
   'account.profile': 'Профиль',
   'account.profileTip': 'Просмотреть или изменить Ваш профиль.',
   'account.requiredFields': 'Обязательные поля',
+  'account.requiredFields2': 'Обязательные поля',
   'account.shippingAddressTip': 'Создайте и измените свой адрес доставки.',
   'account.specialNeeds': 'Особые потребности',
   'account.startAutoShipping': 'Узнать подробнее',
@@ -1436,7 +1437,7 @@ const ru_RU = {
   'ClubLP.SubscriptionBenefitsNew.icon4':
     'Приветственный подарок, подарки каждые 3 месяца участия в программе',
   'ClubLP.SubscriptionBenefitsNew.icon5':
-    'Персонализи-Рованные образовательные рассылки',
+    'Персонализи-рованные образовательные рассылки',
   'ClubLP.SubscriptionBenefitsNew.icon6':
     'Бесплатные онлайн-консультации нутрициолога в {val}',
   'ClubLP.SubscriptionBenefitsNew.button': 'Вступить в КЛУБ',
@@ -1496,7 +1497,11 @@ const ru_RU = {
   'product.plp.foodtype.drydog': 'Сухой корм для собак',
   'product.plp.foodtype.wetdog': 'Влажный корм для собак',
   'product.plp.foodtype.drycat': 'Сухой корм для кошек',
-  'product.plp.foodtype.wetcat': 'Влажный корм для кошек'
+  'product.plp.foodtype.wetcat': 'Влажный корм для кошек',
+  'list.applyFilters': 'Применить фильтры',
+  'list.clearFilters': 'Очистить все фильтры',
+  'list.viewFilters': 'Праглядзець фільтры',
+  'list.closeFilters': 'Зачыніце фільтры'
 };
 
 export default ru_RU;
