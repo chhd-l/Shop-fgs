@@ -1577,9 +1577,22 @@ class List extends React.Component {
   handleCountFilters(prefnParamListSearch) {
     let filtersCounts = 0;
     prefnParamListSearch.map((item) => (filtersCounts += item.prefvs.length));
-    this.setState({
-      filtersCounts
-    });
+    this.setState(
+      {
+        filtersCounts
+      },
+      () => {
+        if (this.state.filtersCounts) {
+          let refineBarEl = document.getElementById('J-product-list');
+          if (refineBarEl) {
+            window.scrollTo({
+              top: refineBarEl.offsetTop - 100,
+              behavior: 'smooth'
+            });
+          }
+        }
+      }
+    );
   }
 
   // 处理attributeDetailNameEn字段，处理空格为-
@@ -1784,7 +1797,7 @@ class List extends React.Component {
               </DistributeHubLinkOrATag>
             </div>
             {titleData && titleData.title && titleData.description ? (
-              <div className="rc-max-width--lg rc-padding-x--sm">
+              <div className="rc-max-width--lg rc-padding-x--sm ">
                 <div className="rc-layout-container rc-three-column rc-content-h-middle d-flex flex-md-wrap flex-wrap-reverse">
                   <div className="rc-column rc-double-width text-center text-md-left">
                     <div className="rc-full-width rc-padding-x--md--mobile rc-margin-bottom--lg--mobile">
@@ -1930,7 +1943,7 @@ class List extends React.Component {
                                   <span className=" font-weight-normal font-18 rc-padding-left--sm">
                                     <FormattedMessage id="list.viewFilters" />
                                   </span>
-                                  {filtersCounts ? (
+                                  {filtersCounts && filterList ? (
                                     <span className=" font-weight-normal font-18 rc-padding-left--sm">
                                       ({filtersCounts})
                                     </span>

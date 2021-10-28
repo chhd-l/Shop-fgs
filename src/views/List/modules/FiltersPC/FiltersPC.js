@@ -326,7 +326,7 @@ class Filter extends React.Component {
               <div className="rc-filters__heading rc-padding-top--sm rc-padding-bottom--xs rc-header-with-icon rc-header-with-icon--alpha pt-0 pb-0">
                 <span className="md-up rc-icon rc-filter--xs rc-iconography fr-pc" />
                 <FormattedMessage id="filters" />
-                {filtersCounts ? (
+                {filtersCounts && filterList ? (
                   <span className=" font-weight-normal font-18 rc-padding-left--xs">
                     ({filtersCounts})
                   </span>
@@ -456,7 +456,7 @@ class Filter extends React.Component {
                   <FormattedMessage id="list.errMsg3" />
                 </div>
               )}
-              {filterList.length && selectedFilterParams.length ? (
+              {selectedFilterParams.length ? (
                 <div className="filter-button-groups  text-center">
                   <button
                     className={`rc-btn rc-btn--sm rc-btn--two rc-margin-bottom--xs w-100`}
@@ -464,12 +464,14 @@ class Filter extends React.Component {
                   >
                     <FormattedMessage id="list.clearFilters" />
                   </button>
-                  <button
-                    className={`rc-btn rc-btn--one rc-btn--sm rc-margin-left--none rc-margin-bottom--xs w-100`}
-                    onClick={this.handleFilterApplyBtn}
-                  >
-                    <FormattedMessage id="list.applyFilters" />
-                  </button>
+                  {filterList.length ? (
+                    <button
+                      className={`rc-btn rc-btn--one rc-btn--sm rc-margin-left--none rc-margin-bottom--xs w-100`}
+                      onClick={this.handleFilterApplyBtn}
+                    >
+                      <FormattedMessage id="list.applyFilters" />
+                    </button>
+                  ) : null}
                 </div>
               ) : null}
             </div>
