@@ -1892,31 +1892,6 @@ class List extends React.Component {
                             boxShadow: '0 2px 4px #f1f1f1'
                           }}
                         >
-                          {/* sprint5modify mobile不展示 */}
-                          {/* <span
-                            style={{ marginRight: '1em' }}
-                            className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0"
-                          >
-                            {sortList.length > 0 && (
-                              <Selection
-                                key={sortList.length}
-                                selectedItemChange={this.onSortChange}
-                                optionList={sortList}
-                                selectedItemData={{
-                                  value:
-                                    (selectedSortParam &&
-                                      selectedSortParam.value) ||
-                                    ''
-                                }}
-                                placeholder={<FormattedMessage id="sortBy" />}
-                                customInnerStyle={{
-                                  paddingTop: '.7em',
-                                  paddingBottom: '.7em',
-                                  bottom: 0
-                                }}
-                              />
-                            )}
-                          </span> */}
                           {hiddenFilter ? null : (
                             <div className="w-100">
                               <div
@@ -1924,7 +1899,7 @@ class List extends React.Component {
                                   this,
                                   !filterModalVisible
                                 )}
-                                className="flex w-100 align-items-center justify-content-between"
+                                className="flex w-100 align-items-center justify-content-between rc-md-down"
                               >
                                 <div>
                                   <em

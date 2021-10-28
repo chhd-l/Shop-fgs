@@ -150,6 +150,7 @@ class Filter extends React.Component {
 
   // 判断router上是否已经选择了filters，如果选择了则清空filter跳转router,若没有直接清空目前正在操作选择的。
   handleFilterClearBtn = () => {
+    const { filterList } = this.state;
     const { pathname, search } = this.props.history.location;
     const { baseSearchStr } = this.props;
     if (search.includes('prefn')) {
@@ -162,12 +163,20 @@ class Filter extends React.Component {
       this.setState({
         selectedFilterParams: []
       });
-      const filterCheckBox = document.getElementsByClassName(
-        'filter-input-checkout'
-      );
-      for (let i = 0; i < filterCheckBox.length; i++) {
-        filterCheckBox[i].checked = '';
-      }
+      // const filterCheckBox = document.getElementsByClassName(
+      //   'filter-input-checkout'
+      // );
+      // for (let i = 0; i < filterCheckBox.length; i++) {
+      //   filterCheckBox[i].checked = '';
+      // }
+      filterList.map((item) => {
+        item.attributesValueList.map((el) => {
+          el.notApplyChecked = '';
+        });
+      });
+      this.setState({
+        filterList
+      });
     }
   };
 
