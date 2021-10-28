@@ -197,7 +197,7 @@ class Form extends React.Component {
         caninForm: Object.assign(caninForm, initData)
       },
       () => {
-        this.updateDataToProps(this.state.caninForm);
+        this.updateDataToProps();
         // 获取 session 存储的 address form 数据并处理
         this.setAddressFormData();
       }
@@ -391,7 +391,7 @@ class Form extends React.Component {
           timeSlotList: tslist
         },
         () => {
-          this.updateDataToProps(this.state.caninForm);
+          this.updateDataToProps();
         }
       );
     } catch (err) {
@@ -486,7 +486,7 @@ class Form extends React.Component {
                   formLoading: false
                 },
                 () => {
-                  this.updateDataToProps(caninForm);
+                  this.updateDataToProps();
                 }
               );
               ress.forEach((item) => {
@@ -705,18 +705,13 @@ class Form extends React.Component {
     try {
       const res = await getDictionary({ type: 'country' });
       if (res) {
-        this.setState(
-          {
-            countryList: res,
-            caninForm: Object.assign({}, this.state.caninForm, {
-              country: res[0].value,
-              countryId: res[0].id
-            })
-          },
-          () => {
-            this.updateDataToProps(this.state.caninForm);
-          }
-        );
+        this.setState({
+          countryList: res,
+          caninForm: Object.assign({}, this.state.caninForm, {
+            country: res[0].value,
+            countryId: res[0].id
+          })
+        });
       }
     } catch (err) {
       console.warn(err);
@@ -857,9 +852,15 @@ class Form extends React.Component {
     }
   };
   // 7、this.props.updateData
-  updateDataToProps = (data) => {
-    const { isDeliveryDateAndTimeSlot, COUNTRY } = this.state;
-    let newForm = Object.assign({}, data);
+  updateDataToProps = () => {
+    const { caninForm, isDeliveryDateAndTimeSlot, COUNTRY } = this.state;
+    let ctl = find(this.state.countryList, (e) => e.value);
+
+    let newForm = Object.assign({}, caninForm, {
+      country: ctl.value,
+      countryId: ctl.id
+    });
+
     // 处理法国电话号码格式，(+33) 0X XX XX XX XX 保存为: (+33) X XX XX XX XX
     if (COUNTRY == 'fr') {
       let tvalue = newForm.phoneNumber;
@@ -874,7 +875,18 @@ class Form extends React.Component {
       newForm.formRule = newForm.formRuleOther;
     }
     newForm.consigneeNumber = newForm.phoneNumber;
-    this.props.updateData(newForm);
+
+    caninForm.country = ctl.value;
+    caninForm.countryId = ctl.id;
+    this.setState(
+      {
+        caninForm
+      },
+      () => {
+        this.props.updateData(newForm);
+        this.validvalidationData('country', newForm.countryId);
+      }
+    );
   };
   // 下拉框选择
   handleSelectedItemChange(key, data) {
@@ -1002,7 +1014,7 @@ class Form extends React.Component {
     caninForm[tname] = tvalue;
 
     this.setState({ caninForm }, () => {
-      this.updateDataToProps(this.state.caninForm);
+      this.updateDataToProps();
       if (tname == 'postCode' && isCanVerifyBlacklistPostCode) {
         this.debounceValidvalidationData(tname, tvalue);
       } else {
@@ -1019,7 +1031,7 @@ class Form extends React.Component {
       target?.type === 'checkbox' ? target?.checked : target?.value;
     caninForm[tname] = tvalue;
     this.setState({ caninForm }, () => {
-      this.updateDataToProps(this.state.caninForm);
+      this.updateDataToProps();
       this.validvalidationData(tname, tvalue);
     });
   };
@@ -1124,7 +1136,7 @@ class Form extends React.Component {
     caninForm.cityId = data.id;
     caninForm.city = data.cityName;
     this.setState({ caninForm }, () => {
-      this.updateDataToProps(this.state.caninForm);
+      this.updateDataToProps();
       // 验证数据
       this.validvalidationData('city', caninForm.city);
     });
@@ -1132,7 +1144,7 @@ class Form extends React.Component {
 
   // 地址搜索选择 1 (DuData、DQE)
   handleAddressInputChange = async (data) => {
-    console.log('666 >>> 地址搜索选择 data: ', data);
+    // console.log('666 >>> 地址搜索选择 data: ', data);
     const { caninForm, apiType } = this.state;
     this.setState({
       address1Data: data,
@@ -1207,7 +1219,7 @@ class Form extends React.Component {
               if (this.props.showDeliveryDateTimeSlot) {
                 this.getDeliveryDateAndTimeSlotData(data?.provinceId);
               } else {
-                this.updateDataToProps(caninForm);
+                this.updateDataToProps();
               }
             }
           );
@@ -1235,7 +1247,7 @@ class Form extends React.Component {
         },
         () => {
           this.validvalidationData('address1', caninForm.address1);
-          this.updateDataToProps(caninForm);
+          this.updateDataToProps();
         }
       );
     }
@@ -1259,7 +1271,7 @@ class Form extends React.Component {
           address1Data: []
         },
         () => {
-          this.updateDataToProps(this.state.caninForm);
+          this.updateDataToProps();
           this.selectInputBlur(e);
         }
       );
@@ -1527,7 +1539,7 @@ class Form extends React.Component {
     let newdate = format(date, 'yyyy/MM/dd');
     caninForm['birthdate'] = date ? newdate : '';
     this.setState({ caninForm }, () => {
-      this.updateDataToProps(this.state.caninForm);
+      this.updateDataToProps();
       // 验证数据
       this.validvalidationData('birthdate', newdate);
     });
