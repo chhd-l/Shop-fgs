@@ -20,7 +20,8 @@ class Filter extends React.Component {
     super(props);
     this.state = {
       filterList: props.filterList,
-      selectedFilterParams: props.prefnParamListSearch || []
+      selectedFilterParams: props.prefnParamListSearch || [],
+      filtersCounts: 0
     };
     this.toggleContent = this.toggleContent.bind(this);
     this.hubGA = window.__.env.REACT_APP_HUB_GA == '1';
@@ -28,13 +29,19 @@ class Filter extends React.Component {
 
   componentDidMount() {
     const { filterList } = this.state;
+    let filtersCounts = 0;
     filterList.map((item) => {
-      item.attributesValueList.map((el) =>
-        el.selected ? (el.notApplyChecked = true) : null
-      );
+      item.attributesValueList.map((el) => {
+        if (el.selected) {
+          filtersCounts += 1;
+          el.notApplyChecked = true;
+        }
+      });
     });
+
     this.setState({
-      filterList
+      filterList,
+      filtersCounts
     });
   }
 
@@ -209,6 +216,13 @@ class Filter extends React.Component {
     this.props.history.push(_router);
   };
 
+  handleParentFilterCounts = (parentItem) => {
+    const selectedList = parentItem.attributesValueList.filter(
+      (item) => item.notApplyChecked
+    );
+    return selectedList.length;
+  };
+
   renderMultiChoiceJSX = (parentItem, childItem) => {
     const { inputLabelKey } = this.props;
     return (
@@ -332,14 +346,13 @@ class Filter extends React.Component {
   };
 
   render() {
-    const { filterList, selectedFilterParams } = this.state;
+    const { filterList, selectedFilterParams, filtersCounts } = this.state;
     const {
       history,
       initing,
       hanldePriceSliderChange,
       markPriceAndSubscriptionLangDict,
-      baseSearchStr,
-      filtersCounts
+      baseSearchStr
     } = this.props;
     const { pathname } = history.location;
     return (
@@ -435,15 +448,13 @@ class Filter extends React.Component {
                                 )[0].valueEn
                               : parentItem.attributeNameEn}
                           </span>
-                          {selectedFilterParams?.map((item) => {
-                            if (item.prefn == parentItem.attributeName) {
-                              return (
-                                <div className="filter-parent-item-count">
-                                  <span>{item.prefvs.length}</span>
-                                </div>
-                              );
-                            }
-                          })}
+                          {this.handleParentFilterCounts(parentItem) && (
+                            <div className="filter-parent-item-count">
+                              <span>
+                                {this.handleParentFilterCounts(parentItem)}
+                              </span>
+                            </div>
+                          )}
                         </div>
                       </div>
 
