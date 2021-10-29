@@ -981,7 +981,7 @@ class UnLoginCart extends React.Component {
    * @param {*} index 当前product的索引
    */
   async handleChooseSize(sdItem, pitem, index) {
-    if (sdItem.isEmpty) {
+    if (sdItem.isEmpty || sdItem.isUnitPriceZero) {
       return false;
     }
     pitem.goodsSpecs
@@ -1118,8 +1118,12 @@ class UnLoginCart extends React.Component {
     );
   };
   sideCart({ className = '', style = {}, id = '' } = {}) {
-    const { checkoutLoading, discount, mobileCartVisibleKey, promotionCode } =
-      this.state;
+    const {
+      checkoutLoading,
+      discount,
+      mobileCartVisibleKey,
+      promotionCode
+    } = this.state;
     const { checkoutStore } = this.props;
     const subtractionSign = '-';
     return (
