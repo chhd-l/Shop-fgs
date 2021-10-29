@@ -622,6 +622,9 @@ class CheckoutStore {
                 if (el.isEmpty) {
                   sdItem.isEmpty = true;
                 }
+                if (el.marketPrice === 0) {
+                  sdItem.isUnitPriceZero = true;
+                }
               }
             });
 
