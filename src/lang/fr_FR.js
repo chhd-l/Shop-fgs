@@ -1263,6 +1263,7 @@ const fr_FR = {
   'required.logoTitle': 'Création de votre compte Royal Canin',
   requiredConsentCheckedTip: 'Finalisez votre inscription',
   requiredFields: '* Champs obligatoires',
+  requiredFields2: '* Champs obligatoires',
   resetPasswordEmail:
     'Réinitialiser le mot de passe Un e-mail a été envoyé dans votre boîte mail, veuillez noter que cochez!',
   results: '{val} résultat(s)',

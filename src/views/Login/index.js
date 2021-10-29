@@ -1447,7 +1447,7 @@ class Login extends React.Component {
                         </label>
                       </div>
                       <div style={{ marginLeft: "1.25rem" }}>
-                        <FormattedMessage id="requiredFields" />
+                        <FormattedMessage id="requiredFields2" />
                       </div>
                     </div>
 

@@ -984,6 +984,7 @@ const de_DE = {
   requiredConsentCheckedTip:
     'Bitte bestätigen Sie die Pflichtfelder, in dem Sie ein Häkchen in der Box setzen.',
   requiredFields: '* Benötigte Felder',
+  requiredFields2: '* Benötigte Felder',
   resetPasswordEmail:
     'Passwort zurücksetzen E-Mail wurde an Ihre Mailbox gesendet, bitte beachten Sie, dass überprüfen!',
   results: '{val} Ergebnisse',

@@ -476,7 +476,7 @@ const en_US = {
   estimatedTax: 'Estimated Tax',
   every: 'Every',
   example: 'Example',
-  examplePhone: 'xxx-xxx-xxxx',
+  examplePhone: '+44xxxx xxxxxx',
   examplePostCode: '12345',
   expirationDateIsInvalid: 'your card expiration date is invalid',
   'faq.frequentQuestions': 'Frequently Asked Questions',
@@ -1318,6 +1318,7 @@ const en_US = {
   requiredConsentCheckedTip:
     'Please confirm the mandatory fields by ticking the box.',
   requiredFields: '* Required fields',
+  requiredFields2: '* Mandatory field',
   resetPasswordEmail:
     'Reset password email has been sent to your mailbox, please note that check!',
   results: '{val} Results',
