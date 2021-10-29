@@ -20,7 +20,8 @@ class Filter extends React.Component {
     super(props);
     this.state = {
       filterList: props.filterList,
-      selectedFilterParams: props.prefnParamListSearch || []
+      selectedFilterParams: props.prefnParamListSearch || [],
+      filtersCounts: 0
     };
     this.toggleContent = this.toggleContent.bind(this);
     this.hubGA = window.__.env.REACT_APP_HUB_GA == '1';
@@ -28,13 +29,19 @@ class Filter extends React.Component {
 
   componentDidMount() {
     const { filterList } = this.state;
+    let filtersCounts = 0;
     filterList.map((item) => {
-      item.attributesValueList.map((el) =>
-        el.selected ? (el.notApplyChecked = true) : null
-      );
+      item.attributesValueList?.map((el) => {
+        if (el.selected) {
+          filtersCounts += 1;
+          el.notApplyChecked = true;
+        }
+      });
     });
+
     this.setState({
-      filterList
+      filterList,
+      filtersCounts
     });
   }
 
@@ -93,7 +100,7 @@ class Filter extends React.Component {
   handleClickItemFilter = (e, parentItem, childItem) => {
     const { filterList } = this.state;
     filterList.map((item) => {
-      item.attributesValueList.map((el) => {
+      item.attributesValueList?.map((el) => {
         if (el.attributeDetailName == childItem.attributeDetailName) {
           el.notApplyChecked = e.target.checked;
         }
@@ -129,7 +136,7 @@ class Filter extends React.Component {
           (el) => el == childItem.attributeDetailNameEnSplitByLine
         );
         selectedFilterParams[choosedIndex].prefvs.splice(deletedIdx, 1);
-        selectedFilterParams.map((item, idx) => {
+        selectedFilterParams?.map((item, idx) => {
           if (!item.prefvs.length) selectedFilterParams.splice(idx, 1);
         });
         selectedFilters = [...selectedFilterParams];
@@ -150,6 +157,7 @@ class Filter extends React.Component {
 
   // 判断router上是否已经选择了filters，如果选择了则清空filter跳转router,若没有直接清空目前正在操作选择的。
   handleFilterClearBtn = () => {
+    const { filterList } = this.state;
     const { pathname, search } = this.props.history.location;
     const { baseSearchStr } = this.props;
     if (search.includes('prefn')) {
@@ -162,12 +170,20 @@ class Filter extends React.Component {
       this.setState({
         selectedFilterParams: []
       });
-      const filterCheckBox = document.getElementsByClassName(
-        'filter-input-checkout'
-      );
-      for (let i = 0; i < filterCheckBox.length; i++) {
-        filterCheckBox[i].checked = '';
-      }
+      // const filterCheckBox = document.getElementsByClassName(
+      //   'filter-input-checkout'
+      // );
+      // for (let i = 0; i < filterCheckBox.length; i++) {
+      //   filterCheckBox[i].checked = '';
+      // }
+      filterList.map((item) => {
+        item.attributesValueList?.map((el) => {
+          el.notApplyChecked = '';
+        });
+      });
+      this.setState({
+        filterList
+      });
     }
   };
 
@@ -198,6 +214,21 @@ class Filter extends React.Component {
       })}`
     };
     this.props.history.push(_router);
+  };
+
+  handleParentFilterCounts = (parentItem) => {
+    const selectedList = parentItem.attributesValueList?.filter(
+      (item) => item.notApplyChecked
+    );
+    return (
+      <>
+        {selectedList?.length ? (
+          <div className="filter-parent-item-count">
+            <span>{selectedList.length}</span>
+          </div>
+        ) : null}
+      </>
+    );
   };
 
   renderMultiChoiceJSX = (parentItem, childItem) => {
@@ -323,14 +354,13 @@ class Filter extends React.Component {
   };
 
   render() {
-    const { filterList, selectedFilterParams } = this.state;
+    const { filterList, selectedFilterParams, filtersCounts } = this.state;
     const {
       history,
       initing,
       hanldePriceSliderChange,
       markPriceAndSubscriptionLangDict,
-      baseSearchStr,
-      filtersCounts
+      baseSearchStr
     } = this.props;
     const { pathname } = history.location;
     return (
@@ -426,15 +456,7 @@ class Filter extends React.Component {
                                 )[0].valueEn
                               : parentItem.attributeNameEn}
                           </span>
-                          {selectedFilterParams?.map((item) => {
-                            if (item.prefn == parentItem.attributeName) {
-                              return (
-                                <div className="filter-parent-item-count">
-                                  <span>{item.prefvs.length}</span>
-                                </div>
-                              );
-                            }
-                          })}
+                          {this.handleParentFilterCounts(parentItem)}
                         </div>
                       </div>
 

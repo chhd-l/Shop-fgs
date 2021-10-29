@@ -570,12 +570,13 @@ class AdyenCreditCardList extends React.Component {
     const { cardList } = this.state;
     return (
       <EditForm
+        showSetAsDefaultCheckobx={false}
         ref={this.editFormRef}
         cardList={cardList}
         isCheckoutPage={true}
         showSaveBtn={false}
         isOnepageCheckout={true}
-        enableStoreDetails={this.isLogin}
+        isShowEnableStoreDetails={this.isLogin}
         mustSaveForFutherPayments={subBuyWay === 'frequency'} // 所有商品均不订阅 才能不绑卡
         key={subBuyWay}
         showCancelBtn={false}

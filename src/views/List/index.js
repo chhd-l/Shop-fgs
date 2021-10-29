@@ -1688,6 +1688,28 @@ class List extends React.Component {
     }, 500);
   };
 
+  // 处理mobile端已经选中的filters数量
+  handleFilterCounts = (filterList) => {
+    let filtersCounts = 0;
+    filterList.map((item) => {
+      item.attributesValueList?.map((el) => {
+        if (el.selected) {
+          filtersCounts += 1;
+        }
+      });
+    });
+
+    return (
+      <>
+        {filtersCounts ? (
+          <span className=" font-weight-normal font-18 rc-padding-left--sm">
+            {filtersCounts}
+          </span>
+        ) : null}
+      </>
+    );
+  };
+
   render() {
     const { breadListByDeco, lastBreadListName } = this;
     const { canonicalLink } = this.state;
@@ -1892,31 +1914,6 @@ class List extends React.Component {
                             boxShadow: '0 2px 4px #f1f1f1'
                           }}
                         >
-                          {/* sprint5modify mobile不展示 */}
-                          {/* <span
-                            style={{ marginRight: '1em' }}
-                            className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0"
-                          >
-                            {sortList.length > 0 && (
-                              <Selection
-                                key={sortList.length}
-                                selectedItemChange={this.onSortChange}
-                                optionList={sortList}
-                                selectedItemData={{
-                                  value:
-                                    (selectedSortParam &&
-                                      selectedSortParam.value) ||
-                                    ''
-                                }}
-                                placeholder={<FormattedMessage id="sortBy" />}
-                                customInnerStyle={{
-                                  paddingTop: '.7em',
-                                  paddingBottom: '.7em',
-                                  bottom: 0
-                                }}
-                              />
-                            )}
-                          </span> */}
                           {hiddenFilter ? null : (
                             <div className="w-100">
                               <div
@@ -1924,7 +1921,7 @@ class List extends React.Component {
                                   this,
                                   !filterModalVisible
                                 )}
-                                className="flex w-100 align-items-center justify-content-between"
+                                className="flex w-100 align-items-center justify-content-between rc-md-down"
                               >
                                 <div>
                                   <em
@@ -1943,11 +1940,7 @@ class List extends React.Component {
                                   <span className=" font-weight-normal font-18 rc-padding-left--sm">
                                     <FormattedMessage id="list.viewFilters" />
                                   </span>
-                                  {filtersCounts && filterList ? (
-                                    <span className=" font-weight-normal font-18 rc-padding-left--sm">
-                                      ({filtersCounts})
-                                    </span>
-                                  ) : null}
+                                  {this.handleFilterCounts(filterList)}
                                 </div>
                                 <span
                                   className={`rc-icon rc-iconography rc-right--xs`}

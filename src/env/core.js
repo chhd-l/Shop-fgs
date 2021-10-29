@@ -86,7 +86,7 @@ const env_fr = {
     REACT_APP_GA_ENV: 'dev',
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      '83dcdb6d-4c72-4616-83c5-05930054b124-test',
+      'b8c1c839-ea27-4a17-8ffb-0c9f8ef918b5-test',
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/core'
   },
@@ -113,7 +113,7 @@ const env_fr = {
     REACT_APP_GA_ENV: 'sit',
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      '83dcdb6d-4c72-4616-83c5-05930054b124-test',
+      'b8c1c839-ea27-4a17-8ffb-0c9f8ef918b5-test',
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/core'
   },
@@ -144,7 +144,7 @@ const env_fr = {
 
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      '83dcdb6d-4c72-4616-83c5-05930054b124-test',
+      'b8c1c839-ea27-4a17-8ffb-0c9f8ef918b5-test',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/core'
@@ -176,7 +176,7 @@ const env_fr = {
 
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      '83dcdb6d-4c72-4616-83c5-05930054b124-test',
+      'b8c1c839-ea27-4a17-8ffb-0c9f8ef918b5-test',
 
     // #mars global footer
     REACT_APP_MARS_FOOTER:
@@ -240,7 +240,7 @@ const env_fr = {
 
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      '83dcdb6d-4c72-4616-83c5-05930054b124-test',
+      'b8c1c839-ea27-4a17-8ffb-0c9f8ef918b5-test',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/core'
@@ -272,7 +272,7 @@ const env_fr = {
 
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      '83dcdb6d-4c72-4616-83c5-05930054b124-test',
+      'b8c1c839-ea27-4a17-8ffb-0c9f8ef918b5-test',
 
     // #mars global footer
     REACT_APP_MARS_FOOTER:
@@ -335,7 +335,7 @@ const env_fr = {
     REACT_APP_GA_ENV: 'prd',
 
     // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT: '83dcdb6d-4c72-4616-83c5-05930054b124',
+    REACT_APP_ONTRUST_DOMAIN_SCRIPT: 'b8c1c839-ea27-4a17-8ffb-0c9f8ef918b5',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/'
@@ -364,7 +364,7 @@ const env_fr = {
     REACT_APP_GA_ENV: 'prd',
 
     // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT: '83dcdb6d-4c72-4616-83c5-05930054b124',
+    REACT_APP_ONTRUST_DOMAIN_SCRIPT: 'b8c1c839-ea27-4a17-8ffb-0c9f8ef918b5',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/core/shop',
