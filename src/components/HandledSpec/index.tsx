@@ -193,6 +193,7 @@ const HandledSpec = ({
             sdItem.isEmpty = filterproducts.every(
               (item: any) => item.stock === 0
             );
+            sdItem.isUnitPriceZero = filterproducts?.[0]?.marketPrice === 0
             // filterproduct.goodsInfoWeight = parseFloat(sdItem.detailName)
           }
           return sdItem.specId === sItem.specId;
@@ -277,9 +278,9 @@ const HandledSpec = ({
                   key={i}
                   className={`rc-swatch__item ${
                     sdItem.selected ? 'selected' : ''
-                  } ${sdItem.isEmpty ? 'outOfStock' : ''}`}
+                  } ${sdItem.isEmpty || sdItem.isUnitPriceZero ? 'outOfStock' : ''}`}
                   onClick={() => {
-                    if (sdItem.isEmpty || sdItem.selected) {
+                    if (sdItem.isEmpty || sdItem.selected || sdItem.isUnitPriceZero) {
                       return false;
                     } else {
                       handleChooseSize(sItem.specId, sdItem.specDetailId);

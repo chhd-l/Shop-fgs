@@ -979,7 +979,7 @@ class UnLoginCart extends React.Component {
    * @param {*} index 当前product的索引
    */
   async handleChooseSize(sdItem, pitem, index) {
-    if (sdItem.isEmpty) {
+    if (sdItem.isEmpty || sdItem.isUnitPriceZero) {
       return false;
     }
     pitem.goodsSpecs
