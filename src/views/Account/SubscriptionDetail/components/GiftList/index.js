@@ -131,7 +131,7 @@ const GiftList = ({
                               }}
                             >
                               <div
-                                className="rc-column flex-layout"
+                                className="rc-column flex-layout mr-3"
                                 style={{
                                   width: '80%',
                                   padding: 0

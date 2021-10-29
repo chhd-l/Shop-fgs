@@ -83,7 +83,8 @@ const en_US = {
   'account.preferredMethodOfCommunication': 'Preferred method of communication',
   'account.profile': 'My details',
   'account.profileTip': 'View or update your personal details.',
-  'account.requiredFields': 'Required fields',
+  // 'account.requiredFields': 'Required fields',
+  'account.requiredFields': 'Mandatory field',
   'account.shippingAddressTip': 'Create and edit your shipping address.',
   'account.specialNeeds': 'Special Needs',
   'account.startAutoShipping': 'Find out more',
@@ -475,7 +476,7 @@ const en_US = {
   estimatedTax: 'Estimated Tax',
   every: 'Every',
   example: 'Example',
-  examplePhone: 'xxx-xxx-xxxx',
+  examplePhone: '+44xxxx xxxxxx',
   examplePostCode: '12345',
   expirationDateIsInvalid: 'your card expiration date is invalid',
   'faq.frequentQuestions': 'Frequently Asked Questions',
@@ -1314,7 +1315,8 @@ const en_US = {
   'required.logoTitle': 'Welcome to ROYALCANIN® online store',
   requiredConsentCheckedTip:
     'Please confirm the mandatory fields by ticking the box.',
-  requiredFields: '* Required fields',
+  // requiredFields: '* Required fields',
+  requiredFields: '* Mandatory field',
   resetPasswordEmail:
     'Reset password email has been sent to your mailbox, please note that check!',
   results: '{val} Results',
