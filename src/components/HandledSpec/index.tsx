@@ -289,8 +289,8 @@ const HandledSpec = ({
                 >
                   <span
                     style={{
-                      backgroundColor: sdItem.isEmpty ? '#ccc' : '#fff',
-                      cursor: sdItem.isEmpty ? 'not-allowed' : 'pointer'
+                      backgroundColor: sdItem.isEmpty || sdItem.isUnitPriceZero ? '#ccc' : '#fff',
+                      cursor: sdItem.isEmpty || sdItem.isUnitPriceZero ? 'not-allowed' : 'pointer'
                     }}
                   >
                     {/* {parseFloat(sdItem.detailName)}{' '} */}

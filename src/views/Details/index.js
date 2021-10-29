@@ -1273,7 +1273,7 @@ class Details extends React.Component {
                                 </div>
                               </div>
                             </div>
-                            <div>
+                            <div className={`${currentUnitPrice ? '' : ''}`}>
                               <SingleBuyMethod
                                 configStore={this.props.configStore}
                                 form={form}
