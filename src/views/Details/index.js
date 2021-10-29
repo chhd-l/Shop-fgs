@@ -217,7 +217,6 @@ class Details extends React.Component {
       quantity &&
       (details.saleableFlag || !details.displayFlag) &&
       addedFlag &&
-      form.buyWay !== -1 &&
       !isUnitPriceZero
     );
   }
