@@ -787,6 +787,9 @@ class PaymentEditForm extends React.Component {
               </aside>
             </div>
             <AdyenEditForm
+              showSetAsDefaultCheckobx={
+                window.__.env.REACT_APP_COUNTRY === 'uk'
+              }
               showCancelBtn={true}
               queryList={this.props.refreshList}
               updateFormVisible={this.handleCancel}

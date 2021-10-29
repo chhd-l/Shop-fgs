@@ -151,6 +151,7 @@ const SubsriptionBenefitsNew = () => {
                       >
                         <FormattedMessage
                           id={'ClubLP.SubscriptionBenefitsNew.icon5'}
+                          values={{ val: <br /> }}
                         />
                       </p>
                     </div>

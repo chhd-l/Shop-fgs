@@ -136,6 +136,8 @@
     "start:shopsit_fr": "dotenv -e .env.development.local -e ./env/fr/.env.shopsit -e ./env/fr/.env node scripts/start.js",
     "start:stgwedding_fr": "dotenv -e .env.development.local -e ./env/fr/.env.stgwedding -e ./env/fr/.env node scripts/start.js",
     "start:uatwedding_fr": "dotenv -e .env.development.local -e ./env/fr/.env.uatwedding -e ./env/fr/.env node scripts/start.js",
+    "start:stgwedding_uk": "dotenv -e .env.development.local -e ./env/uk/.env.stgwedding -e ./env/uk/.env node scripts/start.js",
+    "start:uatwedding_uk": "dotenv -e .env.development.local -e ./env/uk/.env.uatwedding -e ./env/uk/.env node scripts/start.js",
     "start:prod_fr": "dotenv -e .env.development.local -e ./env/fr/.env.production -e ./env/fr/.env node scripts/start.js",
     "start:prod_fr_hub": "dotenv -e .env.development.local -e ./env/fr/.env.production.hub -e ./env/fr/.env node scripts/start.js",
     "start:ru": "dotenv -e .env.development.local -e ./env/ru/.env.development -e ./env/ru/.env node scripts/start.js",

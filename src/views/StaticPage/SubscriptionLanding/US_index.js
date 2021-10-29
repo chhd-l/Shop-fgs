@@ -14,6 +14,7 @@ import icon4 from './images/us_icon4.png';
 import emailImg from './images/Emailus_icon.png';
 import callImg from './images/customer-service.png';
 import helpImg from './images/FAQ_icon.png';
+import usImage from './images/DogWithLogo.png';
 import wof from './images/wof.png';
 import { inject, observer } from 'mobx-react';
 import { setSeoConfig } from '@/utils/utils';
@@ -165,7 +166,7 @@ class SubscriptionLanding extends React.Component {
                             <img
                               alt="Avec l'Abonnement, ils auront toujours ce dont ils ont besoin"
                               className="w-100 lazyloaded"
-                              src={autoship}
+                              src={usImage}
                             />
                           </LazyLoad>
                         </div>
