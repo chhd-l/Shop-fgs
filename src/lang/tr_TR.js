@@ -845,6 +845,7 @@ const tr_TR = {
   requiredConsentCheckedTip:
     'Lütfen kutuyu işaretleyerek zorunlu alanları onaylayın.',
   requiredFields: '* Zorunlu Alanlar',
+  requiredFields2: '* Zorunlu Alanlar',
   resetPasswordEmail:
     'Şifre sıfırlama e-postası posta kutunuza gönderildi, lütfen kontrol edin!',
   results: '{val} Sonuç',

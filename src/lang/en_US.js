@@ -1317,6 +1317,7 @@ const en_US = {
   requiredConsentCheckedTip:
     'Please confirm the mandatory fields by ticking the box.',
   requiredFields: '* Required fields',
+  requiredFields2: '* Required fields',
   resetPasswordEmail:
     'Reset password email has been sent to your mailbox, please note that check!',
   results: '{val} Results',

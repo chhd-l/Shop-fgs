@@ -417,6 +417,9 @@ class Form extends React.Component {
       case 'us':
         phoneReg = [{ mask: '000-000-0000' }];
         break;
+      case 'uk':
+        phoneReg = [{ mask: '+{44}0000 000000' }];
+        break;
       case 'ru':
         phoneReg = [{ mask: '+{7} (000) 000-00-00' }];
         break;
