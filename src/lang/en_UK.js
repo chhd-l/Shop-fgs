@@ -83,7 +83,7 @@ const en_US = {
   'account.preferredMethodOfCommunication': 'Preferred method of communication',
   'account.profile': 'My details',
   'account.profileTip': 'View or update your personal details.',
-  'account.requiredFields': 'Required fields',
+  'account.requiredFields': 'Mandatory fields',
   'account.shippingAddressTip': 'Create and edit your shipping address.',
   'account.specialNeeds': 'Special Needs',
   'account.startAutoShipping': 'Find out more',
@@ -1808,6 +1808,7 @@ const en_US = {
   'header.User.faq': "FAQ's",
   'Your Pet is a…': 'My Pet is a…',
   Activity: 'How active is your dog?',
-  'Subscription.orderPostCodeHit': '* Please update the delivery address'
+  'Subscription.orderPostCodeHit': '* Please update the delivery address',
+  BacktoSavedPayments: 'Return to saved payment'
 };
 export default en_US;
