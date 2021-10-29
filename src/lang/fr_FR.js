@@ -2061,7 +2061,7 @@ const fr_FR = {
   nutritionalRecommendation:
     'pour obtenir une recommandation nutritionnelle précise',
   'PreciseCatNutrition.LongBanner.title':
-    'OFFREZ À VOTRE CHAT UN ALIMENT ADAPTÉ À SES BESOINS ET UNE PORTION PRÉCISE POUR UN POIDS IDÉAL ! ',
+    'NOURRISSEZ VOTRE CHAT EN PORTIONS PRÉCISES POUR UN POIDS IDÉAL ! ',
   'PreciseCatNutrition.LongBanner.averagePrice1': 'Prix moyen',
   'PreciseCatNutrition.LongBanner.averagePrice2': '0,90 € / jour',
   'PreciseCatNutrition.LongBanner.averagePrice3': '25,50 € / mois',
@@ -2078,12 +2078,12 @@ const fr_FR = {
   'PreciseCatNutrition.DidYouKnow.paragraph1':
     "L'âge, la race, l’activité physique et le mode de vie influent sur les besoins nutritionnels des chats mais aussi sur la quantité d'aliments dont ils ont besoin chaque jour.",
   'PreciseCatNutrition.DidYouKnow.paragraph2':
-    "Par conséquent, un aliment complet et équilibré est essentiel pour soutenir la bonne santé de votre chat. Un aliment et une portion inadaptés peuvent conduire à un surpoids, voire à l'obésité, ce qui a un impact significatif sur le bien-être de votre chat et peut conduire à diminuer son espérance de vie de 2 ans*.",
+    'Par conséquent, un aliment complet et équilibré est essentiel pour soutenir la bonne santé de votre chat. Un aliment et une portion inadaptés peuvent conduire à un surpoids, ce qui a un impact significatif sur le bien-être de votre chat et peut conduire à diminuer son espérance de vie2.  ',
   'PreciseCatNutrition.DidYouKnow.tryIt': 'J’essaye maintenant',
   'PreciseCatNutrition.AdaptedFood.title':
     'UN ALIMENT ADAPTÉ À SES BESOINS ET UNE PORTION PRÉCISE POUR UN POIDS IDÉAL !',
   'PreciseCatNutrition.AdaptedFood.paragraph1':
-    "Notre programme d'abonnement est sans engagement et fournira à votre chat l'aliment le plus adapté à la gestion de son poids{val1} dans un emballage personnalisé avec la quantité journalière d'aliment idéale. ",
+    "Notre programme d'abonnement est sans engagement et fournira à votre chat l'aliment le plus adapté à la gestion de son poids* dans un emballage personnalisé avec la quantité journalière d'aliment idéale.",
   'PreciseCatNutrition.AdaptedFood.paragraph2':
     'Cette offre est le fruit de notre engagement dédié à améliorer la santé et le bien-être des chats, grâce à :',
   'PreciseCatNutrition.AdaptedFood.paragraph2.Li1':
@@ -2095,7 +2095,7 @@ const fr_FR = {
   'PreciseCatNutrition.AdaptedFood.paragraph2.Li4':
     'Un approvisionnement en nutriments de qualité et issus prioritairement de sources durables à faible empreinte carbone',
   'PreciseCatNutrition.AdaptedFood.paragraph3':
-    "**Cette offre n'est pas adaptée aux chats souffrant d'obésité ou de toute autre maladie, situations pour lesquelles, nous vous recommandons de consulter votre vétérinaire.",
+    "*Cette offre n'est pas adaptée aux chats souffrant d'obésité ou de toute autre maladie, situations pour lesquelles, nous vous recommandons de consulter votre vétérinaire.",
   'PreciseCatNutrition.AdaptedFood.findFood':
     'Trouvez l’aliment pour votre chat',
   'PreciseCatNutrition.Subscription.title':
@@ -2119,9 +2119,11 @@ const fr_FR = {
   'PreciseCatNutrition.HowItWorks.plate4':
     "Bénéficiez d'avantages exclusifs avec votre abonnement",
   'PreciseCatNutrition.Notes1':
-    '*Le surpoids peut réduire l’espérance de vie de votre animal de 2 ans. De plus il peut augmenter le risque de développer certaines maladies comme: le diabète, les maladies du bas appareil urinaire,  l’arthrose ou les problèmes de peau. Salt C et al. Association between life span and body condition in neutered client-owned dogs. J Vet Intern Med 2018;1-11.',
+    "(1) Le prix par jour est illustratif, cette offre n'est disponible que dans le cadre d'un abonnement de 30 jours.",
   'PreciseCatNutrition.Notes2':
-    "[1] Le prix par jour est illustratif, cette offre n'est disponible que dans le cadre d'un abonnement de 30 jours.",
+    '(2) Le surpoids peut réduire l’espérance de vie de votre animal de 2 ans. De plus il peut augmenter le risque de développer',
+  'PreciseCatNutrition.Notes3':
+    'certaines maladies comme: le diabète, les maladies du bas appareil urinaire,  l’arthrose ou les problèmes de peau. Salt C et al. Association between life span and body condition in neutered client-owned dogs. J Vet Intern Med 2018;1-11.',
   'PreciseCatNutrition.Help.title': "Besoin d'aide ?",
   'PreciseCatNutrition.Help.text1':
     'Nos conseillers sont de vrais experts et passionnés.',

@@ -493,8 +493,11 @@ class PreciseCatNutrition extends React.Component {
                         <p style={{ marginBottom: 0, fontSize: 12 }}>
                           <FormattedMessage id="PreciseCatNutrition.Notes1" />
                         </p>
-                        <p style={{ fontSize: 12 }}>
+                        <p style={{ fontSize: 12, marginBottom: 0 }}>
                           <FormattedMessage id="PreciseCatNutrition.Notes2" />
+                        </p>
+                        <p style={{ fontSize: 12 }}>
+                          <FormattedMessage id="PreciseCatNutrition.Notes3" />
                         </p>
                       </div>
                     </div>

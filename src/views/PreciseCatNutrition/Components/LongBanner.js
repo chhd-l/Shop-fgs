@@ -15,6 +15,7 @@ import LazyLoad from 'react-lazyload';
 import picto_delivery from '../images/picto_delivery.png';
 import picto_advisor from '../images/picto_advisor.png';
 import picto_welcome_pack from '../images/picto_welcome-pack.png';
+import imageicon from '../images/imageIcon.png';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
@@ -79,6 +80,18 @@ const LongBanner = () => {
                       <FormattedMessage id="PreciseCatNutrition.LongBanner.button" />
                     </button>
                   </a>
+
+                  <p
+                    style={{ fontSize: '16px', color: '#4A4A4A', margin: '0' }}
+                  >
+                    SANS ENGAGEMENT
+                  </p>
+                  <p
+                    style={{ fontSize: '16px', color: '#4A4A4A', margin: '0' }}
+                  >
+                    Des livraisons mensuelles offertes et flexibles, résiliables
+                    en quelques clics
+                  </p>
                   {/*<DistributeHubLinkOrATag*/}
                   {/*  // href={'/product-finder'}*/}
                   {/*  onClick={()=>this.scrollToAnchor('aboutPet')}*/}
@@ -178,8 +191,6 @@ const LongBanner = () => {
               <div
                 className="howItWorkNum2"
                 style={{
-                  borderRadius: '50%',
-                  backgroundColor: '#E2001A',
                   color: 'white',
                   textAlign: 'center',
                   lineHeight: 45,
@@ -187,11 +198,7 @@ const LongBanner = () => {
                   zIndex: 2
                 }}
               >
-                <p> </p>
-                <h3 className={'RadiusText1 font-weight-normal'}>-25%</h3>
-                <h6 className={'RadiusText2 font-weight-normal'}>
-                  <FormattedMessage id="PreciseCatNutrition.LongBanner.redRadius" />
-                </h6>
+                <img src={imageicon} />
               </div>
             </div>
             <div className="rc-bg-colour--brand3" id="benefits-box">
