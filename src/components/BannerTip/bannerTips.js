@@ -137,7 +137,43 @@ const bannerTips = () => {
                   <span className="rc-margin-right--xs rc-margin-left--xs rc-bannertip-text ui-cursor-pointer-pure">
                     <FormattedMessage id="home.promotionTip" />
                   </span>
-                  {window.__.env.REACT_APP_COUNTRY == 'uk' ? null : window.__
+                  {(() => {
+                    switch (window.__.env.REACT_APP_COUNTRY) {
+                      case 'uk':
+                        return null;
+                        break;
+                      case 'de':
+                        return (
+                          <Link
+                            to="/how-to-order"
+                            className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
+                          >
+                            <FormattedMessage id="bannerTip.btnText" />
+                          </Link>
+                        );
+                        break;
+                      case 'fr':
+                        return (
+                          <Link
+                            to="/club-subscription"
+                            className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
+                          >
+                            <FormattedMessage id="bannerTip.btnText" />
+                          </Link>
+                        );
+                        break;
+                      default:
+                        return (
+                          <Link
+                            to="/subscription-landing"
+                            className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
+                          >
+                            <FormattedMessage id="bannerTip.btnText" />
+                          </Link>
+                        );
+                    }
+                  })()}
+                  {/* {window.__.env.REACT_APP_COUNTRY == 'uk' ? null : window.__
                       .env.REACT_APP_COUNTRY == 'de' ? (
                     <Link
                       to="/how-to-order"
@@ -152,7 +188,7 @@ const bannerTips = () => {
                     >
                       <FormattedMessage id="bannerTip.btnText" />
                     </Link>
-                  )}
+                  )} */}
                 </span>
               </Container>
             </div>
