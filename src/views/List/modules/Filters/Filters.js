@@ -13,7 +13,8 @@ class Filter extends React.Component {
     initing: true,
     filterList: [],
     maxGoodsPrice: 100,
-    markPriceAndSubscriptionLangDict: []
+    markPriceAndSubscriptionLangDict: [],
+    filtersCounts: 0
   };
   constructor(props) {
     super(props);
@@ -43,13 +44,19 @@ class Filter extends React.Component {
     };
 
     const { filterList } = this.state;
+    let filtersCounts = 0;
     filterList.map((item) => {
-      item.attributesValueList.map((el) =>
-        el.selected ? (el.notApplyChecked = true) : null
-      );
+      item.attributesValueList.map((el) => {
+        if (el.selected) {
+          filtersCounts += 1;
+          el.notApplyChecked = true;
+        }
+      });
     });
+
     this.setState({
-      filterList
+      filterList,
+      filtersCounts
     });
   }
 
@@ -213,6 +220,13 @@ class Filter extends React.Component {
       });
       this.props.onToggleFilterModal(false);
     }
+  };
+
+  handleParentFilterCounts = (parentItem) => {
+    const selectedList = parentItem.attributesValueList.filter(
+      (item) => item.notApplyChecked
+    );
+    return selectedList.length;
   };
 
   renderMultiChoiceJSX = (parentItem, childItem) => {
@@ -391,7 +405,14 @@ class Filter extends React.Component {
                                     )[0].valueEn
                                   : parentItem.attributeNameEn}
                               </span>
-                              {selectedFilterParams?.map((item, idx) => {
+                              {this.handleParentFilterCounts(parentItem) && (
+                                <div className="filter-parent-item-count">
+                                  <span>
+                                    {this.handleParentFilterCounts(parentItem)}
+                                  </span>
+                                </div>
+                              )}
+                              {/* {selectedFilterParams?.map((item, idx) => {
                                 if (item.prefn == parentItem.attributeName) {
                                   return (
                                     <div
@@ -402,7 +423,7 @@ class Filter extends React.Component {
                                     </div>
                                   );
                                 }
-                              })}
+                              })} */}
                             </div>
                           </div>
 

@@ -217,9 +217,16 @@ class Filter extends React.Component {
   };
 
   handleParentFilterCounts = (parentItem) => {
-    const selectedList = parentItem.attributesValueList.filter(
+    const selectedList = parentItem.attributesValueList?.filter(
       (item) => item.notApplyChecked
     );
+    <>
+      {selectedList.length ? (
+        <div className="filter-parent-item-count">
+          <span>{selectedList.length}</span>
+        </div>
+      ) : null}
+    </>;
     return selectedList.length;
   };
 
@@ -448,13 +455,7 @@ class Filter extends React.Component {
                                 )[0].valueEn
                               : parentItem.attributeNameEn}
                           </span>
-                          {this.handleParentFilterCounts(parentItem) && (
-                            <div className="filter-parent-item-count">
-                              <span>
-                                {this.handleParentFilterCounts(parentItem)}
-                              </span>
-                            </div>
-                          )}
+                          {this.handleParentFilterCounts(parentItem)}
                         </div>
                       </div>
 
