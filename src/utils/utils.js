@@ -90,7 +90,7 @@ export async function hanldePurchases(goodsInfoDTOList) {
 }
 
 export function stgShowAuth() {
-  // return true;
+  return true; // 放开用户限制
   // charles_dw@139.com fr sit  以及anhao的三个环境账号
   let whiteList = [
     'henri.thibaud@royalcanin.com',
@@ -261,10 +261,9 @@ export async function validData(rule, data) {
       ) {
         throw new Error(targetRule.errMsg);
       }
-      if(targetRule.isBlacklist){
-        throw new Error('')
+      if (targetRule.isBlacklist) {
+        throw new Error('');
       }
-
     }
   }
 }
