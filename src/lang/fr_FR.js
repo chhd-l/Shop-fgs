@@ -1996,7 +1996,7 @@ const fr_FR = {
   'preciseNutrition.faq.content':
     "Vous pouvez consulter notre {val} consulter si votre question n'a pas déjà été traitée.",
   'preciseNutrition.Top.title':
-    '* Offre non cumulable avec la remise de 10% sur les abonnements produits',
+    "La réduction de 10 % sur les abonnements ne s'applique pas à cette offre.",
   'preciseNutrition.Address.title': 'Adresse',
   'preciseNutrition.Address.firstLine':
     'Service Consommateur Royal Canin France',
