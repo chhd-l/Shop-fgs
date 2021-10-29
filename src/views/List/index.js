@@ -1688,6 +1688,28 @@ class List extends React.Component {
     }, 500);
   };
 
+  // 处理mobile端已经选中的filters数量
+  handleFilterCounts = (filterList) => {
+    let filtersCounts = 0;
+    filterList.map((item) => {
+      item.attributesValueList?.map((el) => {
+        if (el.selected) {
+          filtersCounts += 1;
+        }
+      });
+    });
+
+    return (
+      <>
+        {filtersCounts ? (
+          <span className=" font-weight-normal font-18 rc-padding-left--sm">
+            {filtersCounts}
+          </span>
+        ) : null}
+      </>
+    );
+  };
+
   render() {
     const { breadListByDeco, lastBreadListName } = this;
     const { canonicalLink } = this.state;
@@ -1918,11 +1940,7 @@ class List extends React.Component {
                                   <span className=" font-weight-normal font-18 rc-padding-left--sm">
                                     <FormattedMessage id="list.viewFilters" />
                                   </span>
-                                  {filtersCounts && filterList ? (
-                                    <span className=" font-weight-normal font-18 rc-padding-left--sm">
-                                      ({filtersCounts})
-                                    </span>
-                                  ) : null}
+                                  {this.handleFilterCounts(filterList)}
                                 </div>
                                 <span
                                   className={`rc-icon rc-iconography rc-right--xs`}

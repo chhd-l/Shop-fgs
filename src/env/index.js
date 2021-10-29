@@ -138,7 +138,7 @@ switch (location.host) {
     break;
 }
 console.log(1111, process.env.REACT_APP_ENV_COUNTRY);
-debugger;
+// debugger;
 if (location.host.includes('localhost')) {
   countryKey = process.env.REACT_APP_ENV_COUNTRY;
   envKey = process.env.REACT_APP_ENV_CONFIG;

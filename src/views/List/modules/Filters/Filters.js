@@ -13,7 +13,8 @@ class Filter extends React.Component {
     initing: true,
     filterList: [],
     maxGoodsPrice: 100,
-    markPriceAndSubscriptionLangDict: []
+    markPriceAndSubscriptionLangDict: [],
+    filtersCounts: 0
   };
   constructor(props) {
     super(props);
@@ -43,13 +44,19 @@ class Filter extends React.Component {
     };
 
     const { filterList } = this.state;
+    let filtersCounts = 0;
     filterList.map((item) => {
-      item.attributesValueList.map((el) =>
-        el.selected ? (el.notApplyChecked = true) : null
-      );
+      item.attributesValueList?.map((el) => {
+        if (el.selected) {
+          filtersCounts += 1;
+          el.notApplyChecked = true;
+        }
+      });
     });
+
     this.setState({
-      filterList
+      filterList,
+      filtersCounts
     });
   }
 
@@ -100,7 +107,7 @@ class Filter extends React.Component {
   handleClickItemFilter = (e, parentItem, childItem) => {
     const { filterList } = this.state;
     filterList.map((item) => {
-      item.attributesValueList.map((el) => {
+      item.attributesValueList?.map((el) => {
         if (el.attributeDetailName == childItem.attributeDetailName) {
           el.notApplyChecked = e.target.checked;
         }
@@ -136,7 +143,7 @@ class Filter extends React.Component {
           (el) => el == childItem.attributeDetailNameEnSplitByLine
         );
         selectedFilterParams[choosedIndex].prefvs.splice(deletedIdx, 1);
-        selectedFilterParams.map((item, idx) => {
+        selectedFilterParams?.map((item, idx) => {
           if (!item.prefvs.length) selectedFilterParams.splice(idx, 1);
         });
         selectedFilters = [...selectedFilterParams];
@@ -204,7 +211,7 @@ class Filter extends React.Component {
       //   filterCheckBox[i].checked = '';
       // }
       filterList.map((item) => {
-        item.attributesValueList.map((el) => {
+        item.attributesValueList?.map((el) => {
           el.notApplyChecked = '';
         });
       });
@@ -213,6 +220,21 @@ class Filter extends React.Component {
       });
       this.props.onToggleFilterModal(false);
     }
+  };
+
+  handleParentFilterCounts = (parentItem) => {
+    const selectedList = parentItem.attributesValueList?.filter(
+      (item) => item.notApplyChecked
+    );
+    return (
+      <>
+        {selectedList?.length ? (
+          <div className="filter-parent-item-count">
+            <span>{selectedList.length}</span>
+          </div>
+        ) : null}
+      </>
+    );
   };
 
   renderMultiChoiceJSX = (parentItem, childItem) => {
@@ -391,7 +413,8 @@ class Filter extends React.Component {
                                     )[0].valueEn
                                   : parentItem.attributeNameEn}
                               </span>
-                              {selectedFilterParams?.map((item, idx) => {
+                              {this.handleParentFilterCounts(parentItem)}
+                              {/* {selectedFilterParams?.map((item, idx) => {
                                 if (item.prefn == parentItem.attributeName) {
                                   return (
                                     <div
@@ -402,7 +425,7 @@ class Filter extends React.Component {
                                     </div>
                                   );
                                 }
-                              })}
+                              })} */}
                             </div>
                           </div>
 
