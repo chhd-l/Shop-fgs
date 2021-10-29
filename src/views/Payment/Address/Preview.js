@@ -228,6 +228,14 @@ class AddressPreview extends React.Component {
                   {/* 省份 */}
                   {localAddressForm['state'] && <span>{form.province} </span>}
 
+                  {/* uk的街道 */}
+                  {localAddressForm['county'] && (
+                    <span>
+                      {form.county}
+                      {', '}
+                    </span>
+                  )}
+
                   {/* 邮编 */}
                   {localAddressForm['postCode'] && <span>{form.postCode}</span>}
                 </p>

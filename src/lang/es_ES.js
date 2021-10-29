@@ -897,6 +897,7 @@ const es_ES = {
   requiredConsentCheckedTip:
     'Confirme los campos obligatorios marcando la casilla.',
   requiredFields: '* Campos requeridos',
+  requiredFields2: '* Campos requeridos',
   resetPasswordEmail:
     'El correo electrónico de restablecimiento de contraseña se ha enviado a su buzón, tenga en cuenta que marque',
   results: '{val} Resultados',

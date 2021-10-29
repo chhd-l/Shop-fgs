@@ -248,6 +248,7 @@ class ShippingAddressFrom extends React.Component {
         lastName: data.lastName,
         countryId: data.countryId,
         country: data.country,
+        county: data?.county,
         city: data.city,
         cityId: data.cityId,
         consigneeName: data.firstName + ' ' + data.lastName,
@@ -510,7 +511,7 @@ class ShippingAddressFrom extends React.Component {
                   ) : null}
                 </div>
                 <span className="rc-meta mandatoryField">
-                  * <FormattedMessage id="account.requiredFields" />
+                  * <FormattedMessage id="account.requiredFields2" />
                 </span>
                 <div className="text-right">
                   <span

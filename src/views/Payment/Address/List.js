@@ -2114,6 +2114,7 @@ class AddressList extends React.Component {
                     <FormattedMessage id="payment.editDeliveryDateAndTime" />
                   </span>
                 ) : null}
+                {item?.county && ',' + item.county}
               </p>
               {!item?.validFlag && isCanVerifyBlacklistPostCode ? (
                 <div className="address-item-forbid">{item.alert}</div>
