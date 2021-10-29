@@ -1821,6 +1821,7 @@ const en_US = {
   'list.applyFilters': 'Apply filters',
   'list.clearFilters': 'Clear all filters',
   'list.viewFilters': 'View filters',
-  'list.closeFilters': 'Close filters'
+  'list.closeFilters': 'Close filters',
+  BacktoSavedPayments: 'Return to saved payment'
 };
 export default en_US;

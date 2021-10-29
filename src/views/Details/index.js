@@ -198,9 +198,13 @@ class Details extends React.Component {
       loading,
       form
     } = this.state;
+    const { sizeList } = details;
+    let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     let addedFlag = 1;
+    let isUnitPriceZero = false;
     if (details.sizeList.length) {
-      addedFlag = details.sizeList.filter((el) => el.selected)[0]?.addedFlag;
+      addedFlag = selectedSpecItem?.addedFlag;
+      isUnitPriceZero = form.buyWay === 0 && !selectedSpecItem?.marketPrice;
     }
     // details.sizeList.filter(el => el.selected).addedFlag
     // displayFlag 是否展示在前台
@@ -213,7 +217,8 @@ class Details extends React.Component {
       quantity &&
       (details.saleableFlag || !details.displayFlag) &&
       addedFlag &&
-      form.buyWay !== -1
+      form.buyWay !== -1 &&
+      !isUnitPriceZero
     );
   }
 

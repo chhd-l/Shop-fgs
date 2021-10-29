@@ -636,7 +636,7 @@ const App = () => {
                   path="/Tailorednutrition"
                   exact
                   component={
-                    window.__.env.REACT_APP_COUNTRY == 'us'||window.__.env.REACT_APP_COUNTRY == 'uk'
+                    window.__.env.REACT_APP_COUNTRY == 'us' || window.__.env.REACT_APP_COUNTRY == 'uk'
                       ? US_Tailorednutrition
                       : Tailorednutrition
                   }
@@ -646,7 +646,7 @@ const App = () => {
                   path="/Quality-safety"
                   exact
                   component={
-                    window.__.env.REACT_APP_COUNTRY == 'us'||window.__.env.REACT_APP_COUNTRY == 'uk'
+                    window.__.env.REACT_APP_COUNTRY == 'us' || window.__.env.REACT_APP_COUNTRY == 'uk'
                       ? US_QualitySafety
                       : QualitySafety
                   }
