@@ -46,7 +46,7 @@ class Filter extends React.Component {
     const { filterList } = this.state;
     let filtersCounts = 0;
     filterList.map((item) => {
-      item.attributesValueList.map((el) => {
+      item.attributesValueList?.map((el) => {
         if (el.selected) {
           filtersCounts += 1;
           el.notApplyChecked = true;
@@ -107,7 +107,7 @@ class Filter extends React.Component {
   handleClickItemFilter = (e, parentItem, childItem) => {
     const { filterList } = this.state;
     filterList.map((item) => {
-      item.attributesValueList.map((el) => {
+      item.attributesValueList?.map((el) => {
         if (el.attributeDetailName == childItem.attributeDetailName) {
           el.notApplyChecked = e.target.checked;
         }
@@ -143,7 +143,7 @@ class Filter extends React.Component {
           (el) => el == childItem.attributeDetailNameEnSplitByLine
         );
         selectedFilterParams[choosedIndex].prefvs.splice(deletedIdx, 1);
-        selectedFilterParams.map((item, idx) => {
+        selectedFilterParams?.map((item, idx) => {
           if (!item.prefvs.length) selectedFilterParams.splice(idx, 1);
         });
         selectedFilters = [...selectedFilterParams];
@@ -211,7 +211,7 @@ class Filter extends React.Component {
       //   filterCheckBox[i].checked = '';
       // }
       filterList.map((item) => {
-        item.attributesValueList.map((el) => {
+        item.attributesValueList?.map((el) => {
           el.notApplyChecked = '';
         });
       });
@@ -223,10 +223,18 @@ class Filter extends React.Component {
   };
 
   handleParentFilterCounts = (parentItem) => {
-    const selectedList = parentItem.attributesValueList.filter(
+    const selectedList = parentItem.attributesValueList?.filter(
       (item) => item.notApplyChecked
     );
-    return selectedList.length;
+    return (
+      <>
+        {selectedList?.length ? (
+          <div className="filter-parent-item-count">
+            <span>{selectedList.length}</span>
+          </div>
+        ) : null}
+      </>
+    );
   };
 
   renderMultiChoiceJSX = (parentItem, childItem) => {
@@ -405,13 +413,7 @@ class Filter extends React.Component {
                                     )[0].valueEn
                                   : parentItem.attributeNameEn}
                               </span>
-                              {this.handleParentFilterCounts(parentItem) && (
-                                <div className="filter-parent-item-count">
-                                  <span>
-                                    {this.handleParentFilterCounts(parentItem)}
-                                  </span>
-                                </div>
-                              )}
+                              {this.handleParentFilterCounts(parentItem)}
                               {/* {selectedFilterParams?.map((item, idx) => {
                                 if (item.prefn == parentItem.attributeName) {
                                   return (
