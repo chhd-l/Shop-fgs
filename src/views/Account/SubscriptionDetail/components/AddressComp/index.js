@@ -1372,7 +1372,7 @@ class AddressList extends React.Component {
                       <>
                         {/* homeDelivery 地址列表 */}
                         {this.addressTypePanel('homeDelivery')}
-                        <div className="address_list_panel">
+                        <div className="address_list_panel address_list_panel_homedelivery">
                           <div className="row ml-0 mr-0">
                             {/* 地址列表 */}
                             {addressList
