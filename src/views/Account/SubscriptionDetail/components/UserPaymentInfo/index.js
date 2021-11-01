@@ -42,15 +42,10 @@ const UserPaymentInfo = ({
       });
       return;
     }
-    setState(
-      {
-        type: 'AddressComp',
-        addressType: type
-      },
-      () => {
-        console.log('666 >>> addressType: ', addressType);
-      }
-    );
+    setState({
+      type: 'AddressComp',
+      addressType: type
+    });
   };
   return (
     <div className="row text-left text-break editCard ml-0 mr-0 subscription_detail_userinfo_box">
