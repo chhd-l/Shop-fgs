@@ -1882,7 +1882,20 @@ class AddressList extends React.Component {
   };
   // 确认 pickup
   clickConfirmPickup = async () => {
-    const { deliveryAddress, pickupFormData, pickupCalculation } = this.state;
+    const {
+      deliveryAddress,
+      pickupFormData,
+      pickupCalculation,
+      wrongAddressMsg
+    } = this.state;
+
+    // 如果地址字段有缺失，提示错误信息
+    if (!pickupFormData?.consigneeNumber) {
+      let fky = wrongAddressMsg['title'] + wrongAddressMsg['phoneNumber'];
+      this.showErrMsg(fky);
+      return;
+    }
+
     this.setState({
       btnConfirmLoading: true,
       loading: true
