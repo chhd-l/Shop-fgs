@@ -293,7 +293,8 @@ class AddressList extends React.Component {
     await this.queryAddressList();
   }
   async queryAddressList() {
-    const { deliveryAddressId } = this.props;
+    const { deliveryAddressId, billingAddressId, type } = this.props;
+
     const { selectedId } = this.state;
     this.setState({ loading: true });
     try {
@@ -327,8 +328,15 @@ class AddressList extends React.Component {
 
       // 设置选中的地址
       Array.from(addressList, (a) => (a.selected = false));
+      let addressIdStr = '';
+      if (type === 'billing') {
+        addressIdStr = billingAddressId;
+      }
+      if (type === 'delivery') {
+        addressIdStr = deliveryAddressId;
+      }
       addressList.map((e) => {
-        if (e.deliveryAddressId == deliveryAddressId) {
+        if (e.deliveryAddressId == addressIdStr) {
           e.selected = true;
         }
       });
@@ -340,7 +348,7 @@ class AddressList extends React.Component {
         defaultCity: pickupAddress ? pickupAddress.city : '',
         addressList: addressList,
         addOrEdit: !addressList.length,
-        selectedId: deliveryAddressId
+        selectedId: addressIdStr
       });
     } catch (err) {
       this.setState({
