@@ -151,7 +151,7 @@ class ContactUs extends Component {
         firstName: address.firstName,
         lastName: address.lastName,
         email: address.email,
-        phone: address.phoneNumber,
+        phoneNumber: address.phoneNumber,
         orderNumber: address.orderNumber,
         myQuestion: this.state.questionList.find((item) => {
           return item.value === address.question;
