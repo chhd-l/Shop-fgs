@@ -486,14 +486,16 @@ class Filter extends React.Component {
             >
               <FormattedMessage id="list.clearFilters" />
             </button>
-            <button
-              className={`rc-btn rc-btn--one rc-margin-right--xs--mobile`}
-              onClick={this.handleFilterApplyBtn}
-            >
-              <span>
-                <FormattedMessage id="list.applyFilters" />
-              </span>
-            </button>
+            {filterList.length ? (
+              <button
+                className={`rc-btn rc-btn--one rc-margin-right--xs--mobile`}
+                onClick={this.handleFilterApplyBtn}
+              >
+                <span>
+                  <FormattedMessage id="list.applyFilters" />
+                </span>
+              </button>
+            ) : null}
           </div>
         ) : null}
       </section>

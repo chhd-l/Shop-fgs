@@ -217,7 +217,6 @@ class Details extends React.Component {
       quantity &&
       (details.saleableFlag || !details.displayFlag) &&
       addedFlag &&
-      form.buyWay !== -1 &&
       !isUnitPriceZero
     );
   }
@@ -1273,7 +1272,9 @@ class Details extends React.Component {
                                 </div>
                               </div>
                             </div>
-                            <div>
+                            <div
+                              className={`${currentUnitPrice ? '' : 'hidden'}`}
+                            >
                               <SingleBuyMethod
                                 configStore={this.props.configStore}
                                 form={form}
