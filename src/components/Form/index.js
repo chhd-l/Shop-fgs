@@ -289,6 +289,7 @@ class Form extends React.Component {
         let guojia = COUNTRY.toUpperCase();
         addls.map((item) => {
           let newitem = {
+            address1: item?.address1,
             area: null,
             areaId: null,
             block: null,
@@ -1241,7 +1242,8 @@ class Form extends React.Component {
       }
     } else if (apiType === 'DQE') {
       Object.assign(caninForm, {
-        address1: data.label,
+        address1: data.address1,
+        deliveryAddress: data.label,
         city: data.city,
         county: data?.county || null,
         postCode: data.postCode
@@ -1366,6 +1368,7 @@ class Form extends React.Component {
               let guojia = COUNTRY.toUpperCase();
               robj.map((item) => {
                 let newitem = {
+                  address1: item?.address1,
                   area: null,
                   areaId: null,
                   block: null,

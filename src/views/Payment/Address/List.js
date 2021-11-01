@@ -285,7 +285,6 @@ class AddressList extends React.Component {
           addressList.find((item) => item.validFlag === 1)
             ?.deliveryAddressId) ||
         '';
-      console.log('tmpId', tmpId);
 
       Array.from(
         addressList,
@@ -341,6 +340,7 @@ class AddressList extends React.Component {
               v.deliveryDate = '';
               v.timeSlot = '';
             }
+            console.log('666 >>> ★ 修改地址： ', v);
             // 修改地址
             editaddObj = await editAddress(v);
             // if (addressList.length == i + 1) {
@@ -1892,7 +1892,20 @@ class AddressList extends React.Component {
   };
   // 确认 pickup
   clickConfirmPickup = async () => {
-    const { deliveryAddress, pickupFormData, pickupCalculation } = this.state;
+    const {
+      deliveryAddress,
+      pickupFormData,
+      pickupCalculation,
+      wrongAddressMsg
+    } = this.state;
+
+    // 如果地址字段有缺失，提示错误信息
+    if (!pickupFormData?.consigneeNumber) {
+      let fky = wrongAddressMsg['title'] + wrongAddressMsg['phoneNumber'];
+      this.showErrMsg(fky);
+      return;
+    }
+
     this.setState({
       btnConfirmLoading: true,
       loading: true
@@ -1916,8 +1929,6 @@ class AddressList extends React.Component {
       let maxDeliveryTime =
         pickupFormData.maxDeliveryTime || pkobj[0]?.maxDeliveryTime;
 
-      // console.log('666 >>> pickupFormData.minDeliveryTime: ', pickupFormData.minDeliveryTime);
-      // console.log('666 >>> pkobj[0]?.minDeliveryTime: ', pkobj[0]?.minDeliveryTime);
       console.log('666 >>> maxDeliveryTime: ', maxDeliveryTime);
 
       let pkaddr = pickupFormData?.pickup?.address || null;

@@ -33,8 +33,6 @@ const UserPaymentInfo = ({
     maxDeliveryTime = snsl.maxDeliveryTime;
   }
   const eidtModule = (type) => {
-    console.log('666 >>> type: ', type);
-
     if (type !== 'delivery') {
       window.scrollTo(0, 0);
     }
@@ -44,10 +42,15 @@ const UserPaymentInfo = ({
       });
       return;
     }
-    setState({
-      type: 'AddressComp',
-      addressType: type
-    });
+    setState(
+      {
+        type: 'AddressComp',
+        addressType: type
+      },
+      () => {
+        console.log('666 >>> addressType: ', addressType);
+      }
+    );
   };
   return (
     <div className="row text-left text-break editCard ml-0 mr-0 subscription_detail_userinfo_box">
