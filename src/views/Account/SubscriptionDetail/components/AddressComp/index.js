@@ -94,6 +94,9 @@ function CardItem(props) {
                 {/* 省份 / State */}
                 {localAddressForm?.state && data?.province + ' '}
 
+                {/* county */}
+                {localAddressForm?.county && data?.county + ' '}
+
                 {/* 邮编 */}
                 {localAddressForm?.postCode && data?.postCode}
               </div>
@@ -166,6 +169,9 @@ function CardItem(props) {
 
                 {/* 省份 / State */}
                 {localAddressForm?.state && data?.province + ' '}
+
+                {/* county */}
+                {localAddressForm?.county && data?.county + ' '}
 
                 {/* 邮编 */}
                 {localAddressForm?.postCode && data?.postCode}

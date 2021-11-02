@@ -50,9 +50,9 @@ const addressFormNull = {
 function CardItem(props) {
   const { data } = props;
   // 获取本地存储的需要显示的地址字段
-  const localAddressForm =
+  let localAddressForm =
     sessionItemRoyal.get('rc-address-form') || addressFormNull;
-
+  localAddressForm = JSON.parse(localAddressForm);
   return (
     <div
       className={`${
@@ -117,7 +117,7 @@ function CardItem(props) {
 
             <div className="rc-full-width mb-0 mp_mb_cpp">
               {/* 城市 */}
-              {localAddressForm['city'] && data.city + ', '}
+              {localAddressForm['city'] ? data.city + ', ' : null}
               {localAddressForm['region'] && data.area + ', '}
               {/* 省份 */}
               {localAddressForm['state'] && data.province + ' '}

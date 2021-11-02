@@ -1712,6 +1712,10 @@ class AccountOrders extends React.Component {
                                         {localAddressForm['state'] &&
                                           details.consignee.province + ' '}
 
+                                        {/* county */}
+                                        {localAddressForm['county'] &&
+                                          details.consignee.county + ' '}
+
                                         {/* 邮编 */}
                                         {localAddressForm['postCode'] &&
                                           details.consignee.postCode}
@@ -1838,6 +1842,10 @@ class AccountOrders extends React.Component {
                                           {/* 省份 */}
                                           {localAddressForm['state'] &&
                                             details.invoice.province + ' '}
+
+                                          {/* county */}
+                                          {localAddressForm['county'] &&
+                                            details.invoice.county + ' '}
 
                                           {/* 邮编 */}
                                           {localAddressForm['postCode'] &&

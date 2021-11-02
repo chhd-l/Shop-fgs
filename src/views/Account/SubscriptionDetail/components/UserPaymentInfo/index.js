@@ -183,6 +183,10 @@ const UserPaymentInfo = ({
                   {localAddressForm?.state &&
                     currentDeliveryAddress?.province + ' '}
 
+                  {/* county */}
+                  {localAddressForm?.county &&
+                    currentDeliveryAddress?.county + ' '}
+
                   {/* 邮编 */}
                   {localAddressForm?.postCode &&
                     currentDeliveryAddress?.postCode}
@@ -329,6 +333,10 @@ const UserPaymentInfo = ({
                 {/* 省份 / State */}
                 {localAddressForm?.state &&
                   currentBillingAddress?.province + ' '}
+
+                {/* county */}
+                {localAddressForm?.county &&
+                  currentDeliveryAddress?.county + ' '}
 
                 {/* 邮编 */}
                 {localAddressForm?.postCode && currentBillingAddress?.postCode}
