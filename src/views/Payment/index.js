@@ -1926,6 +1926,7 @@ class Payment extends React.Component {
             rfc: billingAddress.rfc,
             countryId: billingAddress.countryId,
             country: billingAddress.country,
+            county: billingAddress?.county,
             city: billingAddress.city,
             cityId: billingAddress.cityId,
             provinceId: billingAddress.provinceId,

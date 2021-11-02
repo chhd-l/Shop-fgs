@@ -2068,7 +2068,8 @@ const fr_FR = {
   'PreciseCatNutrition.LongBanner.averagePrice3': '25,50 € / mois',
   'PreciseCatNutrition.LongBanner.button': 'S‘abonner',
   'PreciseCatNutrition.LongBanner.redRadius': 'sur la première commande',
-  'PreciseCatNutrition.LongBanner.secondTitle': 'LES BÉNÉFICES POUR VOTRE CHAT',
+  'PreciseCatNutrition.LongBanner.secondTitle':
+    'LES BÉNÉFICES POUR VOTRE CHAT!',
   'PreciseCatNutrition.LongBanner.benefits1':
     'Une alimentation adaptée pour aider votre chat à maintenir son poids idéal',
   'PreciseCatNutrition.LongBanner.benefits2':
@@ -2079,7 +2080,7 @@ const fr_FR = {
   'PreciseCatNutrition.DidYouKnow.paragraph1':
     "L'âge, la race, l’activité physique et le mode de vie influent sur les besoins nutritionnels des chats mais aussi sur la quantité d'aliments dont ils ont besoin chaque jour.",
   'PreciseCatNutrition.DidYouKnow.paragraph2':
-    'Par conséquent, un aliment complet et équilibré est essentiel pour soutenir la bonne santé de votre chat. Un aliment et une portion inadaptés peuvent conduire à un surpoids, ce qui a un impact significatif sur le bien-être de votre chat et peut conduire à diminuer son espérance de vie2.  ',
+    'Par conséquent, un aliment complet et équilibré est essentiel pour soutenir la bonne santé de votre chat. Un aliment et une portion inadaptés peuvent conduire à un surpoids, ce qui a un impact significatif sur le bien-être de votre chat et peut conduire à diminuer son espérance de vie{val}.  ',
   'PreciseCatNutrition.DidYouKnow.tryIt': 'J’essaye maintenant',
   'PreciseCatNutrition.AdaptedFood.title':
     'UN ALIMENT ADAPTÉ À SES BESOINS ET UNE PORTION PRÉCISE POUR UN POIDS IDÉAL !',
