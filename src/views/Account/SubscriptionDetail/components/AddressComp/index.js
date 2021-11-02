@@ -135,7 +135,7 @@ function CardItem(props) {
             </>
           ) : (
             <>
-              {/* 姓名 */}
+              {/* 姓名  */}
               <div className="rc-full-width font-weight-bold ccard-phone-title word-break mb-1">
                 <div className="address-name ac_mb_name">
                   <span>{data.firstName + ' ' + data.lastName}</span>
@@ -307,8 +307,8 @@ class AddressList extends React.Component {
       let res = await getAddressList();
       let addressList = res.context.filter((ele) => {
         return (
-          // ele.type === this.props.type.toUpperCase()
-          ele.type === 'DELIVERY'
+          ele.type === type.toUpperCase()
+          // ele.type === 'DELIVERY'
         );
       });
 

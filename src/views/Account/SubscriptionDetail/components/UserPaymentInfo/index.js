@@ -336,7 +336,7 @@ const UserPaymentInfo = ({
 
                 {/* county */}
                 {localAddressForm?.county &&
-                  currentDeliveryAddress?.county + ' '}
+                  currentBillingAddress?.county + ' '}
 
                 {/* 邮编 */}
                 {localAddressForm?.postCode && currentBillingAddress?.postCode}
