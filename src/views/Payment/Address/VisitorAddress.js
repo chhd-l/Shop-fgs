@@ -16,6 +16,7 @@ import AddressPreview from './Preview';
 import './VisitorAddress.css';
 
 const localItemRoyal = window.__.localItemRoyal;
+const sessionItemRoyal = window.__.sessionItemRoyal;
 
 /**
  * delivery/billing adress module - visitor
@@ -72,9 +73,8 @@ class VisitorAddress extends React.Component {
       selectVisitorValidationOption: 'suggestedAddress',
       visitorBtnLoading: false
     };
-    this.confirmVisitorValidationAddress = this.confirmVisitorValidationAddress.bind(
-      this
-    );
+    this.confirmVisitorValidationAddress =
+      this.confirmVisitorValidationAddress.bind(this);
   }
   componentDidMount() {
     this.validData({
@@ -302,13 +302,15 @@ class VisitorAddress extends React.Component {
           {this.titleJSX()}
           <span className="iconfont font-weight-bold green ml-2">&#xe68c;</span>
         </h5>
-        <p
-          onClick={this.handleClickEdit}
-          className="rc-styled-link mb-1"
-          style={{ cursor: 'pointer' }}
-        >
-          <FormattedMessage id="edit" />
-        </p>
+        {!sessionItemRoyal.get('from-felin') && (
+          <p
+            onClick={this.handleClickEdit}
+            className="rc-styled-link mb-1"
+            style={{ cursor: 'pointer' }}
+          >
+            <FormattedMessage id="edit" />
+          </p>
+        )}
       </>
     );
   };
@@ -335,11 +337,8 @@ class VisitorAddress extends React.Component {
   };
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmVisitorValidationAddress() {
-    const {
-      form,
-      selectVisitorValidationOption,
-      validationAddress
-    } = this.state;
+    const { form, selectVisitorValidationOption, validationAddress } =
+      this.state;
     let oldForm = JSON.parse(JSON.stringify(form));
     this.setState({
       visitorBtnLoading: true

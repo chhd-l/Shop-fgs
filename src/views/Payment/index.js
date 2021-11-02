@@ -9,18 +9,15 @@ import md5 from 'js-md5';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import Progress from '@/components/Progress';
 import PayProductInfo from './PayProductInfo';
 import RePayProductInfo from '@/components/PayProductInfo';
 import Faq from './Faq';
 import Loading from '@/components/Loading';
 import LazyLoad from 'react-lazyload';
 import ValidationAddressModal from '@/components/validationAddressModal';
-
 import VisitorAddress from './Address/VisitorAddress';
 import AddressList from './Address/List';
 import AddressPreview from './Address/Preview';
-
 import PetModal from './PetModal';
 import RepayAddressPreview from './AddressPreview';
 import Confirmation from './modules/Confirmation';
@@ -80,6 +77,7 @@ import { doGetGAVal } from '@/utils/GA';
 // import { registerCustomerList, guestList, commonList } from './tr_consent';
 import ConsentData from '@/utils/consent';
 import CyberPayment from './PaymentMethod/Cyber';
+import felinAddr from './Address/FelinOfflineAddress';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -285,7 +283,8 @@ class Payment extends React.Component {
         address1: ''
       }, // 俄罗斯计算运费DuData对象，purchases接口用
       welcomeBoxValue: 'no', //first order welcome box:1、会员 2、首单 3、未填写学生购student promotion 50% discount
-      paymentPanelHasComplete: false //增加payment面板按钮的状态，方便0元订单判断是否已经填写完payment面板
+      paymentPanelHasComplete: false, //增加payment面板按钮的状态，方便0元订单判断是否已经填写完payment面板
+      isFormFelin: sessionItemRoyal.get('from-felin') //是否是felin下单
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
@@ -448,6 +447,7 @@ class Payment extends React.Component {
     sessionItemRoyal.remove('rc-tidList');
     sessionItemRoyal.remove('recommend_product');
     sessionItemRoyal.remove('orderSource');
+    sessionItemRoyal.remove('from-felin');
   }
   get billingAdd() {
     return this.state.billingAddress;
@@ -583,7 +583,7 @@ class Payment extends React.Component {
   }
   initPanelStatus() {
     const { paymentStore } = this.props;
-    const { tid } = this.state;
+    const { tid, isFormFelin } = this.state;
 
     //初始化的时候如果是0元订单将paymentMethod面板置为已完成
     if (this.tradePrice === 0 && !tid) {
@@ -592,7 +592,27 @@ class Payment extends React.Component {
       });
     }
 
-    // repay情况下，地址信息不可编辑，直接置为
+    //from felin情况下，地址信息不可编辑，直接置为completed
+    if (isFormFelin) {
+      paymentStore.setStsToCompleted({
+        key: 'deliveryAddr',
+        isFirstLoad: true
+      });
+      paymentStore.setStsToCompleted({
+        key: 'billingAddr',
+        isFirstLoad: true
+      });
+      if (this.isLogin) {
+        // 下一个最近的未complete的panel
+        const nextConfirmPanel = searchNextConfirmPanel({
+          list: toJS(paymentStore.panelStatus),
+          curKey: 'deliveryAddr'
+        });
+        paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
+      }
+    }
+
+    // repay或者from felin情况下，地址信息不可编辑，直接置为completed
     if (tid) {
       paymentStore.setStsToCompleted({
         key: 'deliveryAddr',
@@ -2208,7 +2228,7 @@ class Payment extends React.Component {
    */
   renderAddressPanel = () => {
     const { paymentStore } = this.props;
-    const { deliveryAddress, guestEmail } = this.state;
+    const { deliveryAddress, guestEmail, isFormFelin } = this.state;
     return (
       <>
         <div
@@ -2247,7 +2267,7 @@ class Payment extends React.Component {
               reSelectTimeSlot={this.getIntlMsg('payment.reselectTimeSlot')}
               showDeliveryDateTimeSlot={true}
               isDeliveryOrBilling="delivery"
-              initData={deliveryAddress}
+              initData={isFormFelin ? felinAddr[0] : deliveryAddress}
               isValidationModal={this.state.isShowValidationModal}
               saveAddressNumber={this.state.saveAddressNumber}
               paymentUpdateDeliveryOrPickup={this.paymentUpdateDeliveryOrPickup}
@@ -2275,7 +2295,8 @@ class Payment extends React.Component {
       adyenPayParam,
       tid,
       guestEmail,
-      cyberPaymentForm: { isSaveCard }
+      cyberPaymentForm: { isSaveCard },
+      isFormFelin
     } = this.state;
 
     if (hideBillingAddr) return null;
@@ -2316,7 +2337,7 @@ class Payment extends React.Component {
         {billingChecked ? (
           <div className="ml-custom mr-custom">
             {this.renderAddrPreview({
-              form: this.state.billingAddress,
+              form: isFormFelin ? felinAddr[0] : this.state.billingAddress,
               titleVisible: false,
               boldName: true
             })}
@@ -2355,7 +2376,7 @@ class Payment extends React.Component {
                 type="billing"
                 intlMessages={this.props.intl.messages}
                 isDeliveryOrBilling="billing"
-                initData={billingAddress}
+                initData={isFormFelin ? felinAddr[0] : billingAddress}
                 guestEmail={guestEmail}
                 isValidationModal={this.state.isShowValidationModal}
                 updateValidationStaus={this.updateValidationStaus}

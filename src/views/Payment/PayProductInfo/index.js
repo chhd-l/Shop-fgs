@@ -606,12 +606,23 @@ class PayProductInfo extends React.Component {
             />
           )}
         </span>
-        {/* goodsInfoFlag为3的时候是indv需要隐藏edit按钮 */}
+        {/*goodsInfoFlag为3的时候是indv需要隐藏edit按钮*/}
         {!localItemRoyal.get('rc-iframe-from-storepotal') &&
         this.props.operateBtnVisible &&
-        productList[0]?.goodsInfoFlag != 3 ? (
+        productList[0]?.goodsInfoFlag != 3 &&
+        !sessionItemRoyal.get('from-felin') ? (
           <Link to="/cart" className="product-summary__cartlink rc-styled-link">
             <FormattedMessage id="edit2" />
+          </Link>
+        ) : null}
+
+        {/* from-frlin的时候需要将edit换成re-book按钮 */}
+        {sessionItemRoyal.get('from-felin') ? (
+          <Link
+            to="/felin"
+            className="product-summary__cartlink rc-styled-link"
+          >
+            <FormattedMessage id="re-book" />
           </Link>
         ) : null}
       </div>
