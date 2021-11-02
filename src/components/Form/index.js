@@ -1259,7 +1259,7 @@ class Form extends React.Component {
           caninForm
         },
         () => {
-          this.validvalidationData('address1', caninForm.address1);
+          this.validvalidationData('address1', this.state.caninForm.address1);
           this.updateDataToProps();
         }
       );
@@ -1368,7 +1368,7 @@ class Form extends React.Component {
               inputVal = inputVal.replace(/\|/g, '，');
               res = await DQEAddressList(inputVal);
               robj = (res?.context || []).map((item) =>
-                Object.assign(item, { name: item.label })
+                Object.assign(item, { name: item.address1 })
               );
               let guojia = COUNTRY.toUpperCase();
               robj.map((item) => {

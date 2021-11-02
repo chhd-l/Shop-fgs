@@ -1625,7 +1625,8 @@ class AddressList extends React.Component {
                           </button>
                         </div> */}
 
-                        <div className="rc-md-up rc-full-width text-right">
+                        {/* <div className="rc-md-up rc-full-width text-right"> */}
+                        <div className="rc-full-width text-right">
                           <a
                             className="rc-styled-link"
                             onClick={() => this.handleClickCancel()}
