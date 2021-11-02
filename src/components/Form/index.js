@@ -1368,7 +1368,10 @@ class Form extends React.Component {
               inputVal = inputVal.replace(/\|/g, '，');
               res = await DQEAddressList(inputVal);
               robj = (res?.context || []).map((item) =>
-                Object.assign(item, { name: item.address1 })
+                Object.assign(item, {
+                  name: item.label,
+                  newName: item.address1
+                })
               );
               let guojia = COUNTRY.toUpperCase();
               robj.map((item) => {

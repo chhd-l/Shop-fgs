@@ -121,6 +121,8 @@ function CardItem(props) {
               {localAddressForm['region'] && data.area + ', '}
               {/* 省份 */}
               {localAddressForm['state'] && data.province + ' '}
+              {/* county */}
+              {localAddressForm['county'] && data?.county + ' '}
               {/* 邮编 */}
               {localAddressForm['postCode'] && data.postCode}
             </div>

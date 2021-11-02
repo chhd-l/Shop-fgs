@@ -956,7 +956,6 @@ class AddressList extends React.Component {
     });
   };
   updateDeliveryAddress = async (data) => {
-    console.log('666 >>> 地址搜索选择 list data: ', data);
     try {
       if (!data?.formRule || (data?.formRule).length <= 0) {
         return;
