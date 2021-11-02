@@ -69,7 +69,10 @@ const env_de = {
     REACT_APP_SHOW_CHECKOUT_WELCOMEBOX: '1',
 
     REACT_APP_SEARCH_LINK:
-      '/on/demandware.store/Sites-DE-Site/de_DE/Search-Show'
+      '/on/demandware.store/Sites-DE-Site/de_DE/Search-Show',
+    // #mars global footer
+    REACT_APP_MARS_FOOTER:
+      'https://footer.mars.com/js/footer.js.aspx?shop-royalcanin-de-'
   },
   development: {
     // #okta

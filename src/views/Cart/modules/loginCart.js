@@ -49,7 +49,7 @@ import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 import GiftList from '../components/GiftList/index.tsx';
 import foodDispenserPic from '../../SmartFeederSubscription/img/food_dispenser_pic.png';
-
+import PromotionCodeText from '../components/PromotionCodeText';
 const guid = uuidv4();
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -98,9 +98,7 @@ class LoginCart extends React.Component {
         metaKeywords: 'Royal canin',
         metaDescription: 'Royal canin'
       },
-      relatedGoodsList: [],
-
-      promotionsVisible: false
+      relatedGoodsList: []
     };
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.hanldeToggleOneOffOrSub = this.hanldeToggleOneOffOrSub.bind(this);
@@ -1158,59 +1156,8 @@ class LoginCart extends React.Component {
 
         {/* 显示 promotionCode */}
         {!isShowValidCode &&
-          this.promotionVOList?.map((el) => (
-            <div className={`row shipping-item green d-flex`}>
-              <div className="col-6" style={{ paddingBottom: '1rem' }}>
-                <p
-                  style={{ marginBottom: 0 }}
-                  id="marketingName"
-                  className="ui-text-overflow-line2"
-                  onMouseEnter={() => {
-                    if (
-                      document.getElementById('marketingName').scrollHeight > 48
-                    ) {
-                      this.setState({
-                        promotionsVisible: true
-                      });
-                    }
-                  }}
-                  onMouseLeave={() => {
-                    this.setState({
-                      promotionsVisible: false
-                    });
-                  }}
-                >
-                  {/* {this.promotionDesc || (
-                            <FormattedMessage id="NoPromotionDesc" />
-                          )} */}
-                  {/* <FormattedMessage id="promotion" /> */}
-                  {el.marketingName}
-                </p>
-                <ConfirmTooltip
-                  arrowStyle={{ left: '10%' }}
-                  display={this.state.promotionsVisible}
-                  containerStyle={{ left: '120%' }}
-                  cancelBtnVisible={false}
-                  confirmBtnVisible={false}
-                  updateChildDisplay={(status) =>
-                    this.setState({
-                      promotionsVisible: status
-                    })
-                  }
-                  content={
-                    <div style={{ maxWidth: 250, wordWrap: 'break-word' }}>
-                      {el.marketingName}
-                    </div>
-                  }
-                />
-              </div>
-              <div className="col-6">
-                <p className="text-right shipping-cost text-nowrap">
-                  {/* - {formatMoney(this.discountPrice)} */}
-                  <strong>-{formatMoney(el.discountPrice)}</strong>
-                </p>
-              </div>
-            </div>
+          this.promotionVOList?.map((el, i) => (
+            <PromotionCodeText el={el} i={i} />
           ))}
 
         {/* <div

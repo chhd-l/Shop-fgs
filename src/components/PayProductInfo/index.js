@@ -14,6 +14,7 @@ import foodDispenserPic from '../../views/SmartFeederSubscription/img/food_dispe
 import './index.css';
 import FrequencyMatch from '@/components/FrequencyMatch';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
+import PromotionCodeText from '../../views/Payment/PayProductInfo/components/promotionCodeText';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 @inject('checkoutStore', 'configStore')
@@ -31,8 +32,7 @@ class PayProductInfo extends React.Component {
     super(props);
     this.state = {
       productList: [],
-      pathname: '',
-      promotionsVisible: false
+      pathname: ''
     };
     this.handleClickProName = this.handleClickProName.bind(this);
   }
@@ -405,61 +405,8 @@ class PayProductInfo extends React.Component {
                         </div>
                       </div>
                     ) : null}
-                    {details.tradePrice.promotionVOList?.map((el) => (
-                      <div className="row shipping-item">
-                        <div className="col-7 start-lines">
-                          <p
-                            className="order-shipping-cost ui-text-overflow-line2"
-                            id="marketingName"
-                            onMouseEnter={(e) => {
-                              if (
-                                document.getElementById('marketingName')
-                                  .scrollHeight > 48
-                              ) {
-                                this.setState({
-                                  promotionsVisible: true
-                                });
-                              }
-                            }}
-                            onMouseLeave={() => {
-                              this.setState({
-                                promotionsVisible: false
-                              });
-                            }}
-                          >
-                            <span className="green">{el.marketingName}</span>
-                          </p>
-                          <ConfirmTooltip
-                            arrowStyle={{ left: '10%' }}
-                            display={this.state.promotionsVisible}
-                            containerStyle={{ left: '100%' }}
-                            cancelBtnVisible={false}
-                            confirmBtnVisible={false}
-                            updateChildDisplay={(status) =>
-                              this.setState({
-                                promotionsVisible: status
-                              })
-                            }
-                            content={
-                              <div
-                                style={{
-                                  maxWidth: 250,
-                                  wordWrap: 'break-word'
-                                }}
-                              >
-                                {el.marketingName}
-                              </div>
-                            }
-                          />
-                        </div>
-                        <div className="col-5 end-lines">
-                          <p className="text-right">
-                            <span className="shipping-total-cost green">
-                              -{formatMoney(el.discountPrice)}
-                            </span>
-                          </p>
-                        </div>
-                      </div>
+                    {details.tradePrice.promotionVOList?.map((el, i) => (
+                      <PromotionCodeText i={i} el={el} />
                     ))}
                     {/* 显示 delivereyPrice */}
                     <div className="row leading-lines shipping-item">

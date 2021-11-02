@@ -25,7 +25,7 @@ const env = {
     REACT_APP_STOREID: '123457916',
 
     // #最低限额
-    REACT_APP_MINIMUM_AMOUNT: '30',
+    REACT_APP_MINIMUM_AMOUNT: '0',
     // #商品数量限制(所有产品)
     REACT_APP_LIMITED_NUM_ALL_PRODUCT: '100',
     // #商品数量限制(单个产品)
@@ -162,7 +162,12 @@ const env = {
     REACT_APP_HOMEPAGE: '/uk',
 
     // #bazaarVoice环境配置
-    REACT_APP_BAZAARVOICE_ENV: 'staging'
+    REACT_APP_BAZAARVOICE_ENV: 'staging',
+
+    // #Adyen
+    REACT_APP_AdyenOriginKEY:
+      'pub.v2.8015632026961356.aHR0cHM6Ly9zaG9wdWF0LnJveWFsY2FuaW4uY29t.ACjjK1gDH6I6S1VqifJ1ifQlI9uZradDIClbzmdEuDQ',
+    REACT_APP_Adyen_ENV: 'test'
   },
   shopstg: {
     // #okta
