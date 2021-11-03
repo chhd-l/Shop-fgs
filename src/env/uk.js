@@ -157,7 +157,12 @@ const env = {
     REACT_APP_HOMEPAGE: '/uk',
 
     // #bazaarVoice环境配置
-    REACT_APP_BAZAARVOICE_ENV: 'staging'
+    REACT_APP_BAZAARVOICE_ENV: 'staging',
+
+    // #Adyen
+    REACT_APP_AdyenOriginKEY:
+      'pub.v2.8015632026961356.aHR0cHM6Ly9zaG9wdWF0LnJveWFsY2FuaW4uY29t.ACjjK1gDH6I6S1VqifJ1ifQlI9uZradDIClbzmdEuDQ',
+    REACT_APP_Adyen_ENV: 'test'
   },
   shopstg: {
     // #okta
