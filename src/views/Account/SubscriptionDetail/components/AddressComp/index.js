@@ -1099,6 +1099,11 @@ class AddressList extends React.Component {
   // 设置订阅地址
   setSubscriptionAddress = async (item) => {
     const { addressList, isBillSame } = this.state;
+    // 判断地址是否完整
+    let subAddressErrMsg = this.getSubAddressErrMsg(item);
+    if (subAddressErrMsg) {
+      return;
+    }
     await this.selectAddress(item);
     this.props.save(
       addressList.filter((el) => el.selected)[0],
