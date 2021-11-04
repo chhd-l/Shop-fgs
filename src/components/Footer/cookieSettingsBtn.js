@@ -15,5 +15,10 @@ export const cookieSettingsBtn = {
     <button id="ot-sdk-btn" class="ot-sdk-show-settings">
       Cookie Settings
     </button>
+  ),
+  tr: (
+    <button id="ot-sdk-btn" class="ot-sdk-show-settings">
+      Çerez Ayarları
+    </button>
   )
 };
