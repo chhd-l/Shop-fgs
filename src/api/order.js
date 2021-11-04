@@ -16,7 +16,8 @@ const api = {
   addEvaluate: '/evaluate',
   // addEvaluate: '/evaluate/addEvaluate',
   logistics: '/trade/logistics/refresh', // 查询物流信息
-  exportInvoicePDF: '/account/orderInvoice/exportPDF/'
+  exportInvoicePDF: '/account/orderInvoice/exportPDF/',
+  getAppoint: '/appt/findByNo' //根据appointNo查询appoint信息
 };
 
 export default api;
@@ -33,6 +34,14 @@ export function getOrderDetails(parameter) {
   return axios({
     url: `${api.details}/${parameter}`,
     method: 'get'
+  });
+}
+
+export function getAppointByApptNo(parameter) {
+  return axios({
+    url: api.getAppoint,
+    method: 'post',
+    data: parameter
   });
 }
 
