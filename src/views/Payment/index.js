@@ -31,7 +31,8 @@ import {
   getFormatDate,
   setSeoConfig,
   validData,
-  bindSubmitParam
+  bindSubmitParam,
+  getDictionary
 } from '@/utils/utils';
 import { EMAIL_REGEXP } from '@/utils/constant';
 import {
@@ -48,9 +49,11 @@ import {
   customerCommitAndPayMix,
   getWays,
   getPaymentMethod,
-  dimensionsByPackage
+  dimensionsByPackage,
+  confirmAndCommitFelin
 } from '@/api/payment';
-import { getOrderDetails } from '@/api/order';
+import { getOrderDetails, getAppointByApptNo } from '@/api/order';
+import { getLoginDetails, getDetails } from '@/api/details';
 import { batchAddPets } from '@/api/pet';
 import { editAddress } from '@/api/address';
 
@@ -78,6 +81,7 @@ import { doGetGAVal } from '@/utils/GA';
 import ConsentData from '@/utils/consent';
 import CyberPayment from './PaymentMethod/Cyber';
 import felinAddr from './Address/FelinOfflineAddress';
+import moment from 'moment';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -148,54 +152,58 @@ class Payment extends React.Component {
         metaKeywords: 'Royal canin',
         metaDescription: 'Royal canin'
       },
-      deliveryAddress: {
-        firstName: '',
-        lastName: '',
-        email: '',
-        birthdate: '',
-        address1: '',
-        address2: '',
-        country: '',
-        countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID || '',
-        cityId: '',
-        city: '',
-        area: '',
-        areaId: '',
-        regionId: '',
-        region: '',
-        provinceNo: '',
-        provinceId: '',
-        province: '',
-        stateId: '',
-        postCode: '',
-        phoneNumber: '',
-        entrance: '',
-        apartment: '',
-        street: '',
-        house: '',
-        housing: '',
-        comment: '',
-        minDeliveryTime: 0,
-        maxDeliveryTime: 0,
-        DuData: null, // 俄罗斯DuData
-        formRule: [] // form表单校验规则
-      },
-      billingAddress: {
-        firstName: '',
-        lastName: '',
-        address1: '',
-        address2: '',
-        rfc: '',
-        entrance: '',
-        apartment: '',
-        comment: '',
-        countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID || '',
-        country: '',
-        cityId: '',
-        city: '',
-        postCode: '',
-        phoneNumber: ''
-      },
+      deliveryAddress: sessionItemRoyal.get('from-felin')
+        ? felinAddr[0]
+        : {
+            firstName: '',
+            lastName: '',
+            email: '',
+            birthdate: '',
+            address1: '',
+            address2: '',
+            country: '',
+            countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID || '',
+            cityId: '',
+            city: '',
+            area: '',
+            areaId: '',
+            regionId: '',
+            region: '',
+            provinceNo: '',
+            provinceId: '',
+            province: '',
+            stateId: '',
+            postCode: '',
+            phoneNumber: '',
+            entrance: '',
+            apartment: '',
+            street: '',
+            house: '',
+            housing: '',
+            comment: '',
+            minDeliveryTime: 0,
+            maxDeliveryTime: 0,
+            DuData: null, // 俄罗斯DuData
+            formRule: [] // form表单校验规则
+          },
+      billingAddress: sessionItemRoyal.get('from-felin')
+        ? felinAddr[0]
+        : {
+            firstName: '',
+            lastName: '',
+            address1: '',
+            address2: '',
+            rfc: '',
+            entrance: '',
+            apartment: '',
+            comment: '',
+            countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID || '',
+            country: '',
+            cityId: '',
+            city: '',
+            postCode: '',
+            phoneNumber: ''
+          },
       wrongBillingAddress: localItemRoyal.get('rc-wrongAddressMsg')
         ? JSON.parse(localItemRoyal.get('rc-wrongAddressMsg'))
         : [],
@@ -284,7 +292,8 @@ class Payment extends React.Component {
       }, // 俄罗斯计算运费DuData对象，purchases接口用
       welcomeBoxValue: 'no', //first order welcome box:1、会员 2、首单 3、未填写学生购student promotion 50% discount
       paymentPanelHasComplete: false, //增加payment面板按钮的状态，方便0元订单判断是否已经填写完payment面板
-      isFormFelin: sessionItemRoyal.get('from-felin') //是否是felin下单
+      isFormFelin: sessionItemRoyal.get('from-felin'), //是否是felin下单
+      appointNo: sessionItemRoyal.get('appointment-no') //felin的预约单号
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
@@ -376,6 +385,14 @@ class Payment extends React.Component {
   }
   UNSAFE_componentWillMount() {
     isHubGA && this.getPetVal();
+    const appointNo =
+      sessionItemRoyal.get('appointment-no') ||
+      this.props.match.params.orderNumber ||
+      null;
+    if (appointNo) {
+      sessionItemRoyal.set('from-felin', true);
+      this.setState({ appointNo: appointNo });
+    }
   }
   async componentDidMount() {
     await this.props.configStore.getSystemFormConfig();
@@ -385,7 +402,7 @@ class Payment extends React.Component {
 
     try {
       const { history } = this.props;
-      const { tid } = this.state;
+      const { tid, appointNo } = this.state;
 
       setSeoConfig({
         pageName: 'Checkout page'
@@ -395,6 +412,10 @@ class Payment extends React.Component {
 
       if (tid) {
         this.queryOrderDetails();
+      }
+
+      if (appointNo) {
+        await this.queryAppointInfo();
       }
 
       this.setState(
@@ -417,7 +438,7 @@ class Payment extends React.Component {
 
       const recommendProductJson = sessionItemRoyal.get('recommend_product');
       if (!recommendProductJson) {
-        if (!this.computedCartData.length && !tid) {
+        if (!this.computedCartData.length && !tid && !appointNo) {
           sessionItemRoyal.remove('rc-iframe-from-storepotal');
           history.push('/cart');
           return false;
@@ -442,12 +463,14 @@ class Payment extends React.Component {
     this.initPanelStatus();
   }
   componentWillUnmount() {
+    //因设置了router refresh=true，此生命周期无效，需在RouterFilter文件中删除
     localItemRoyal.set('isRefresh', true);
     sessionItemRoyal.remove('rc-tid');
     sessionItemRoyal.remove('rc-tidList');
     sessionItemRoyal.remove('recommend_product');
     sessionItemRoyal.remove('orderSource');
     sessionItemRoyal.remove('from-felin');
+    sessionItemRoyal.remove('appointment-no');
   }
   get billingAdd() {
     return this.state.billingAddress;
@@ -586,7 +609,7 @@ class Payment extends React.Component {
     const { tid, isFormFelin } = this.state;
 
     //初始化的时候如果是0元订单将paymentMethod面板置为已完成
-    if (this.tradePrice === 0 && !tid) {
+    if (this.tradePrice === 0 && !tid && !this.state.appointNo) {
       paymentStore.setStsToCompleted({
         key: 'paymentMethod'
       });
@@ -864,6 +887,59 @@ class Payment extends React.Component {
         localItemRoyal.get('rc-calculation-param') || null;
       // 查询运费折扣
       this.updateDeliveryAddrData(calculationParam);
+    });
+  }
+  //获取appointment信息
+  async queryAppointInfo() {
+    getAppointByApptNo({ apptNo: this.state.appointNo }).then(async (res) => {
+      let resContext = res?.context?.settingVO;
+      const spuNo = resContext?.goodsInfoId;
+      const requestName = this.isLogin ? getLoginDetails : getDetails;
+      Promise.all([
+        requestName(spuNo),
+        getDictionary({
+          type: 'apprintment_type'
+        }),
+        getDictionary({
+          type: 'expert_type'
+        })
+      ]).then((resList) => {
+        const goodInfo = resList[0]?.context || { goodsName: 'Felin Service' };
+        const goodDetail = Object.assign(goodInfo, {
+          goodsInfoId: spuNo,
+          goodsInfoImg: goodInfo.goods.goodsImg,
+          goodsName: goodInfo.goods.goodsName,
+          buyCount: 1,
+          salePrice: goodInfo.goods.minMarketPrice,
+          selected: true
+        });
+        sessionItemRoyal.set('recommend_product', JSON.stringify([goodDetail]));
+        this.props.checkoutStore.updatePromotionFiled([goodDetail]);
+        const appointmentDictRes = resList[1].filter(
+          (item) => item.value === resContext?.apptTypeId
+        );
+        const expertDictRes = resList[2].filter(
+          (item) => item.value === resContext?.expertTypeId
+        );
+        const appointType =
+          appointmentDictRes.length > 0
+            ? appointmentDictRes[0].name
+            : 'Offline';
+        const expertName =
+          expertDictRes.length > 0 ? expertDictRes[0].name : 'Behaviorist';
+        const apptTime = resContext.apptTime.split('#')[0].split(' ');
+        const appointTime =
+          moment(apptTime[0]).format('YYYY-MM-DD') + ' ' + apptTime[1];
+        this.setState({
+          recommend_data: [
+            Object.assign(resContext, goodDetail, {
+              appointType,
+              expertName,
+              appointTime
+            })
+          ]
+        });
+      });
     });
   }
   showErrorMsg = (msg) => {
@@ -1175,28 +1251,64 @@ class Payment extends React.Component {
         const confirmAndCommitFun = () => {
           action = confirmAndCommit;
         }; //游客
+        const confirmAndCommitFelinFun = () => {
+          action = confirmAndCommitFelin;
+        }; //felin
         return new Map([
-          [{ isTid: /^true$/i, isLogin: /.*/, buyWay: /.*/ }, rePayFun],
           [
-            { isTid: /^false$/i, isLogin: /^true$/i, buyWay: /^once$/ },
+            {
+              isTid: /^true$/i,
+              isLogin: /.*/,
+              buyWay: /.*/,
+              isFelin: /^false$/i
+            },
+            rePayFun
+          ],
+          [
+            {
+              isTid: /^false$/i,
+              isLogin: /^true$/i,
+              buyWay: /^once$/,
+              isFelin: /^false$/i
+            },
             customerCommitAndPayFun
           ], //buyWay为once的时候均表示会员正常交易
           [
-            { isTid: /^false$/i, isLogin: /^true$/i, buyWay: /^frequency$/ },
+            {
+              isTid: /^false$/i,
+              isLogin: /^true$/i,
+              buyWay: /^frequency$/,
+              isFelin: /^false$/i
+            },
             customerCommitAndPayMixFun
           ],
           [
-            { isTid: /^false$/i, isLogin: /^false$/i, buyWay: /.*/ },
+            {
+              isTid: /^false$/i,
+              isLogin: /^false$/i,
+              buyWay: /.*/,
+              isFelin: /^false$/i
+            },
             confirmAndCommitFun
+          ],
+          [
+            {
+              isTid: /^false$/i,
+              isLogin: /.*/,
+              buyWay: /.*/,
+              isFelin: /^true$/i
+            },
+            confirmAndCommitFelinFun
           ]
         ]);
       };
-      const payFun = (isTid, isLogin, buyWay) => {
+      const payFun = (isTid, isLogin, buyWay, isFelin) => {
         let action = [...actions()].filter(
           ([key, value]) =>
             key.isTid.test(isTid) &&
             key.isLogin.test(isLogin) &&
-            key.buyWay.test(buyWay)
+            key.buyWay.test(buyWay) &&
+            key.isFelin.test(isFelin)
         );
         action.forEach(([key, value]) => value.call(this));
       };
@@ -1255,7 +1367,12 @@ class Payment extends React.Component {
         parameters.orderSource = orderSource;
       }
       let isRepay = this.state.tid ? true : false;
-      payFun(isRepay, this.isLogin, this.state.subForm.buyWay);
+      payFun(
+        isRepay,
+        this.isLogin,
+        this.state.subForm.buyWay,
+        Boolean(sessionItemRoyal.get('from-felin'))
+      );
 
       /* 4)调用支付 */
       const res = await action(parameters);
@@ -1539,8 +1656,9 @@ class Payment extends React.Component {
             return {
               verifyStock: false,
               buyCount: ele.buyCount,
-              goodsInfoId: find(ele.goods.sizeList, (s) => s.selected)
-                .goodsInfoId
+              goodsInfoId: sessionItemRoyal.get('from-felin')
+                ? ele.goodsInfoId
+                : find(ele.goods.sizeList, (s) => s.selected).goodsInfoId
             };
           })
         };
@@ -1616,7 +1734,8 @@ class Payment extends React.Component {
         calculationParam?.minDeliveryTime || deliveryAddress?.minDeliveryTime,
       promotionCode,
       guestEmail,
-      selectWelcomeBoxFlag: this.state.welcomeBoxValue === 'yes' //first order welcome box
+      selectWelcomeBoxFlag: this.state.welcomeBoxValue === 'yes', //first order welcome box
+      appointmentNo: this.state.recommend_data[0].apptNo //felin预约单号
     });
     let tokenObj = JSON.parse(localStorage.getItem('okta-token-storage'));
     if (tokenObj && tokenObj.accessToken) {
@@ -1633,9 +1752,6 @@ class Payment extends React.Component {
     if (deliveryAddress?.receiveType == 'PICK_UP') {
       param.deliverWay = 2;
     }
-
-    // console.log('666 >>> ★ 封装下单参数 deliveryAddress: ', deliveryAddress);
-    // console.log('666 >>> ★ 封装下单参数 param: ', param);
 
     if (payosdata) {
       param = Object.assign(param, {
@@ -1765,7 +1881,10 @@ class Payment extends React.Component {
       });
     }
 
-    if (this.isCurrentBuyWaySubscription) {
+    if (
+      this.isCurrentBuyWaySubscription &&
+      !sessionItemRoyal.get('from-felin')
+    ) {
       param.tradeItems = loginCartData
         // .filter((ele) => !ele.subscriptionStatus || !ele.subscriptionPrice)
         .filter((ele) => !ele.goodsInfoFlag)
@@ -2025,7 +2144,6 @@ class Payment extends React.Component {
         key: curPanelKey
       });
     }
-    // console.log('是否勾选自定义billingAddress: ',val);
     this.setState({
       billingChecked: val
     });
@@ -2109,7 +2227,6 @@ class Payment extends React.Component {
     data.minDeliveryTime =
       data?.minDeliveryTime || data?.calculation?.minDeliveryTime;
     localItemRoyal.set('rc-calculation-param', data);
-    // console.log('666 >>> Payment 计算税额、运费、运费折扣: ', data);
 
     param = {
       promotionCode: this.props.checkoutStore.promotionCode,
@@ -2136,8 +2253,6 @@ class Payment extends React.Component {
       param.deliverWay = 2;
     }
 
-    // console.log('666 ★★ -- Payment param: ', param);
-
     // PayProductInfo 组件中用到的参数
     localItemRoyal.set('rc-payment-purchases-param', param);
     try {
@@ -2156,7 +2271,6 @@ class Payment extends React.Component {
     }
   };
   updateDeliveryAddrData = (data) => {
-    // console.log('666 >>> updateDeliveryAddrData: ', data);
     this.setState(
       {
         deliveryAddress: data
@@ -2228,7 +2342,7 @@ class Payment extends React.Component {
    */
   renderAddressPanel = () => {
     const { paymentStore } = this.props;
-    const { deliveryAddress, guestEmail, isFormFelin } = this.state;
+    const { deliveryAddress, guestEmail } = this.state;
     return (
       <>
         <div
@@ -2267,7 +2381,7 @@ class Payment extends React.Component {
               reSelectTimeSlot={this.getIntlMsg('payment.reselectTimeSlot')}
               showDeliveryDateTimeSlot={true}
               isDeliveryOrBilling="delivery"
-              initData={isFormFelin ? felinAddr[0] : deliveryAddress}
+              initData={deliveryAddress}
               isValidationModal={this.state.isShowValidationModal}
               saveAddressNumber={this.state.saveAddressNumber}
               paymentUpdateDeliveryOrPickup={this.paymentUpdateDeliveryOrPickup}
@@ -2295,8 +2409,7 @@ class Payment extends React.Component {
       adyenPayParam,
       tid,
       guestEmail,
-      cyberPaymentForm: { isSaveCard },
-      isFormFelin
+      cyberPaymentForm: { isSaveCard }
     } = this.state;
 
     if (hideBillingAddr) return null;
@@ -2337,7 +2450,7 @@ class Payment extends React.Component {
         {billingChecked ? (
           <div className="ml-custom mr-custom">
             {this.renderAddrPreview({
-              form: isFormFelin ? felinAddr[0] : this.state.billingAddress,
+              form: this.state.billingAddress,
               titleVisible: false,
               boldName: true
             })}
@@ -2376,7 +2489,7 @@ class Payment extends React.Component {
                 type="billing"
                 intlMessages={this.props.intl.messages}
                 isDeliveryOrBilling="billing"
-                initData={isFormFelin ? felinAddr[0] : billingAddress}
+                initData={billingAddress}
                 guestEmail={guestEmail}
                 isValidationModal={this.state.isShowValidationModal}
                 updateValidationStaus={this.updateValidationStaus}
@@ -3404,7 +3517,6 @@ class Payment extends React.Component {
       this.userBindConsentFun();
     }
     const { paymentTypeVal } = this.state;
-    console.log('paymentTypeVal:', paymentTypeVal);
     this.initCommonPay({
       type: paymentTypeVal
     });
@@ -3445,7 +3557,8 @@ class Payment extends React.Component {
       paymentValidationLoading,
       validationModalVisible,
       billingAddress,
-      selectValidationOption
+      selectValidationOption,
+      isFormFelin
     } = this.state;
     const event = {
       page: {
