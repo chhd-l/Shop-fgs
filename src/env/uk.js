@@ -13,7 +13,8 @@ const env = {
     REACT_APP_Adyen_country: 'GB',
 
     // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT: '',
+    REACT_APP_ONTRUST_DOMAIN_SCRIPT:
+      '8923767a-c9c8-4c36-ae5f-97af6af42bdb-test',
     REACT_APP_ONTRUST_STYLE: '',
 
     // #language
@@ -24,6 +25,9 @@ const env = {
     // #storid
     REACT_APP_STOREID: '123457916',
 
+    // #onetrust
+    REACT_APP_ONTRUST_SRC:
+      'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js',
     // #最低限额
     REACT_APP_MINIMUM_AMOUNT: '0',
     // #商品数量限制(所有产品)
@@ -89,10 +93,6 @@ const env = {
     // #GA环境配置
     REACT_APP_GA_ENV: 'dev',
 
-    // #onetrust
-    REACT_APP_ONTRUST_SRC:
-      'https://optanon.blob.core.windows.net/consent/82d92b37-7d64-443e-a23f-5efbb17770be-test.js',
-
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/uk',
 
@@ -118,10 +118,6 @@ const env = {
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'sit',
-
-    // #onetrust
-    REACT_APP_ONTRUST_SRC:
-      'https://optanon.blob.core.windows.net/consent/82d92b37-7d64-443e-a23f-5efbb17770be-test.js',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/uk',
@@ -154,10 +150,6 @@ const env = {
     // #GA环境配置
     REACT_APP_GA_ENV: 'uat',
 
-    // #onetrust
-    REACT_APP_ONTRUST_SRC:
-      'https://optanon.blob.core.windows.net/consent/82d92b37-7d64-443e-a23f-5efbb17770be-test.js',
-
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/uk',
 
@@ -189,10 +181,6 @@ const env = {
     // #GA环境配置
     REACT_APP_GA_ENV: 'stg',
 
-    // #onetrust
-    REACT_APP_ONTRUST_SRC:
-      'https://optanon.blob.core.windows.net/consent/82d92b37-7d64-443e-a23f-5efbb17770be-test.js',
-
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/uk',
 
@@ -214,16 +202,13 @@ const env = {
     REACT_APP_RegisterCallback: 'https://shop.royalcanin.com',
     REACT_APP_FaceBook_IDP: '0oa75jv7oSeLBnnkt416',
     REACT_APP_Google_IDP: '0oa75klujN7PkgedM416',
+    REACT_APP_ONTRUST_DOMAIN_SCRIPT: '8923767a-c9c8-4c36-ae5f-97af6af42bdb',
 
     // #接口配置
     REACT_APP_BASEURL: 'https://shop.royalcanin.com/api',
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'prd',
-
-    // #onetrust
-    REACT_APP_ONTRUST_SRC:
-      'https://optanon.blob.core.windows.net/consent/82d92b37-7d64-443e-a23f-5efbb17770be.js',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/',
@@ -255,10 +240,6 @@ const env = {
     REACT_APP_AdyenOriginKEY:
       'pub.v2.8015632026961356.aHR0cHM6Ly9zdGd3ZWRkaW5nLnJveWFsY2FuaW4uY29t.85XdEx9CVlOgIcsh4wbG_at50lHOt-Pp-c87g6IJMaE',
     REACT_APP_Adyen_ENV: 'test',
-
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      'b8c1c839-ea27-4a17-8ffb-0c9f8ef918b5-test',
 
     // #mars global footer
     REACT_APP_MARS_FOOTER:
@@ -307,10 +288,6 @@ const env = {
     REACT_APP_AdyenOriginKEY:
       'pub.v2.8015632026961356.aHR0cHM6Ly91YXR3ZWRkaW5nLnJveWFsY2FuaW4uY29t.6fzWHm5A89YXisx2sZdrr_qOHKAdvji6rOXcwdB_lTA',
     REACT_APP_Adyen_ENV: 'test',
-
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      'b8c1c839-ea27-4a17-8ffb-0c9f8ef918b5-test',
 
     // #mars global footer
     REACT_APP_MARS_FOOTER:
