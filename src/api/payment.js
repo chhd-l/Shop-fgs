@@ -38,7 +38,8 @@ const api = {
 
   pickupQueryCity: '/pick-up/queryCity',
   pickupQueryCityFee: '/pick-up/queryCityFee',
-  dimensionsByPackage: '/pick-up/dimensionsByPackage' // 合并包裹
+  dimensionsByPackage: '/pick-up/dimensionsByPackage', // 合并包裹
+  confirmAndCommitFelin: `/${window.__.env.REACT_APP_STOREID}/feline/checkout` //felin checkout
 };
 
 export default api;
@@ -98,6 +99,14 @@ export function confirmAndCommit(parameter) {
     //     ? api.confirmAndCommitUs
     //     : api.confirmAndCommit,
     url: api.confirmAndCommit,
+    method: 'post',
+    data: parameter
+  });
+}
+
+export function confirmAndCommitFelin(parameter) {
+  return axios({
+    url: api.confirmAndCommitFelin,
     method: 'post',
     data: parameter
   });
