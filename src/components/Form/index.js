@@ -1260,6 +1260,7 @@ class Form extends React.Component {
         },
         () => {
           this.validvalidationData('address1', this.state.caninForm.address1);
+          this.validvalidationData('postCode', this.state.caninForm.postCode);
           this.updateDataToProps();
         }
       );
