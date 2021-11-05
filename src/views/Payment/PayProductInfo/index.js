@@ -392,7 +392,8 @@ class PayProductInfo extends React.Component {
                 {isFromFelin ? (
                   <div className="d-flex flex-column">
                     <span>
-                      {el.expertName} – {el.minutes}min – {el.appointType}
+                      {el.expertName} – {el.minutes}
+                      <FormattedMessage id="min" /> – {el.appointType}
                     </span>
                     <span>
                       <FormattedMessage id="Appointment time" />

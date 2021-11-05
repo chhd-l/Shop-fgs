@@ -2181,6 +2181,7 @@ const fr_FR = {
   'Appointment summary': 'Appointment summary',
   'Expert type': 'Expert type: ',
   'Appointment type': 'Appointment type: ',
-  'Appointment time': 'Appointment time: '
+  'Appointment time': 'Appointment time: ',
+  min: 'min'
 };
 export default fr_FR;
