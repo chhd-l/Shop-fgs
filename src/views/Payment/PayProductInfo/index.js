@@ -394,7 +394,9 @@ class PayProductInfo extends React.Component {
                     <span>
                       {el.expertName} – {el.minutes}min – {el.appointType}
                     </span>
-                    <span>Appointment time:</span>
+                    <span>
+                      <FormattedMessage id="Appointment time" />
+                    </span>
                     <span>{el.appointTime}</span>
                   </div>
                 ) : null}

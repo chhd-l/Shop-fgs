@@ -1,3 +1,5 @@
+import React from 'react';
+
 const fr_FR = {
   aboutUs: 'À propos de nous',
   'aboutUs.description':
@@ -2174,8 +2176,11 @@ const fr_FR = {
   'productFinder.mixBreed': 'Race mixte',
   'productFinder.weight': 'Poids',
   'Go back to recommendation': 'Retour à la page de recommandation',
-  'productFinder.weight': 'Poids',
   'Subscription.orderPostCodeHit':
-    "* Veuillez mettre à jour l'adresse de livraison"
+    "* Veuillez mettre à jour l'adresse de livraison",
+  'Appointment summary': 'Appointment summary',
+  'Expert type': 'Expert type: ',
+  'Appointment type': 'Appointment type: ',
+  'Appointment time': 'Appointment time: '
 };
 export default fr_FR;

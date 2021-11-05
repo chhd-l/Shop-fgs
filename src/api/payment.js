@@ -39,7 +39,8 @@ const api = {
   pickupQueryCity: '/pick-up/queryCity',
   pickupQueryCityFee: '/pick-up/queryCityFee',
   dimensionsByPackage: '/pick-up/dimensionsByPackage', // 合并包裹
-  confirmAndCommitFelin: `/${window.__.env.REACT_APP_STOREID}/feline/checkout` //felin checkout
+  confirmAndCommitFelin: `/${window.__.env.REACT_APP_STOREID}/feline/checkout`, //felin checkout
+  repayFelin: '/feline/repay' //felin repay
 };
 
 export default api;
@@ -172,6 +173,14 @@ export function rePay(parameter) {
   return axios({
     // url: window.__.env.REACT_APP_COUNTRY == 'us' ? api.rePayUs : api.rePay,
     url: api.rePay,
+    method: 'post',
+    data: parameter
+  });
+}
+
+export function rePayFelin(parameter) {
+  return axios({
+    url: api.repayFelin,
     method: 'post',
     data: parameter
   });
