@@ -234,14 +234,23 @@ class FAQ extends React.Component {
                               }}
                             />
 
-                            <span
-                              className={`rc-vertical-align icon-change ${
-                                this.state.showCur === item.id
-                                  ? 'rc-icon rc-up rc-brand1'
-                                  : 'rc-icon rc-down rc-iconography'
-                              }`}
-                              style={{ right: '1rem', height: '28px' }}
-                            ></span>
+                            {/*<span*/}
+                            {/*  className={`rc-vertical-align icon-change ${*/}
+                            {/*    this.state.showCur === item.id*/}
+                            {/*      ? 'rc-icon rc-up rc-brand1'*/}
+                            {/*      : 'rc-icon rc-down rc-iconography'*/}
+                            {/*  }`}*/}
+                            {/*  style={{ right: '1rem', height: '28px' }}*/}
+                            {/*></span>*/}
+                            {this.state.showCur === item.id ?
+                            <span className={`rc-vertical-align h4 icon iconfont`} style={{ right: '1rem', height: '28px' }}>
+                              &#xe604;
+                            </span>
+                              :
+                              <span className={` rc-vertical-align h4 icon iconfont`} style={{ right: '1rem', height: '28px' }}>
+                                &#xe60f;
+                            </span>
+                            }
                           </div>
                           <div className={`rc-list__content `}>
                             <p
