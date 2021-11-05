@@ -1444,8 +1444,8 @@ class Payment extends React.Component {
     const { checkoutStore } = this.props;
     if (this.isLogin) {
       checkoutStore.removeLoginCartData();
-      // 清空 delivery date 和 time slot
-      await this.clearTimeslotAndDeliverydate();
+      // 清空 delivery date 和 time slot (可能造成phoneNumber为空)
+      // await this.clearTimeslotAndDeliverydate();
     } else {
       checkoutStore.setCartData(
         checkoutStore.cartData.filter((ele) => !ele.selected)
