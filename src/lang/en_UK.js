@@ -255,8 +255,6 @@ const en_US = {
   'cart.errorMaxCate': "The shopping cart can't exceed {val} items",
   'cart.errorMaxInfo': "The number can't be exceed than {val}",
   'cart.errorAllProductNumLimit': 'The number of {val} orders is limited.',
-  'cart.firstOrderDiscountTip':
-    'The 30% discount for your first order will be applied during checkout',
   'cart.fullPrice': 'Find your pet’s precise formula',
   'cart.miniCartTitle': '5% off every order and additional perks with autoship',
   // 'cart.totalProduct': '{val} item(s) in the basket',
