@@ -96,7 +96,10 @@ const UserJSX = (props) => {
                       <FormattedMessage id="account.notRegistred" />
                     </div>
                     <span
+                      // style="cursor:pointer"
+                      style={{cursor:'pointer'}}
                       className="rc-styled-link"
+                      // className="rc-styled-link"
                       onClick={() => {
                         // if (
                         //   window.__.env.REACT_APP_COUNTRY == 'us' &&
