@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { addressValidation } from '@/api/address';
+import { addressValidation, queryOpenedApi } from '@/api/address';
+import find from 'lodash/find';
 import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -67,13 +68,28 @@ class ValidationAddressModal extends React.Component {
     let valres = null;
     let valaddFlag = false; // 是否返回地址校验数据
     try {
+      let apiType = '';
+      const oat = await queryOpenedApi();
+      if (oat?.context?.addressApiSettings) {
+        let apiobj = oat?.context?.addressApiSettings;
+        apiobj =
+          find(
+            apiobj,
+            (e) => e.name == 'DQE' || e.name == 'DADATA' || e.name == 'FEDEX'
+          ) || null;
+        apiobj?.isOpen == 1 && apiobj?.addressApiType == 1
+          ? (apiType = apiobj?.name)
+          : null; // DQE 、DADATA、FEDEX
+      }
+
       let data = {
         city: address.city,
         countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID,
         deliveryAddress: address.address1,
         postCode: address.postCode,
         province: address.province,
-        storeId: Number(window.__.env.REACT_APP_STOREID)
+        storeId: Number(window.__.env.REACT_APP_STOREID),
+        addressApiType: apiType === 'FEDEX' ? 1 : 0 // 0: VERIFY(验证), 1: AUTOFILL(建议地址)
       };
       let res = await addressValidation(data);
       if (res.context && res.context != null) {
@@ -94,7 +110,6 @@ class ValidationAddressModal extends React.Component {
       // 是否地址验证保存本地
       localItemRoyal.set('rc-address-validation-flag', valaddFlag);
     } catch (err) {
-      console.log('666 addressValidation:' + err.message);
       this.setState({
         modalVisible: false
       });

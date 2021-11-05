@@ -591,7 +591,8 @@ class Register extends Component {
                         </a>
                       </p>
                       {window.__.env.REACT_APP_COUNTRY !== 'ru' &&
-                      window.__.env.REACT_APP_COUNTRY !== 'tr' ? (
+                      window.__.env.REACT_APP_COUNTRY !== 'tr' &&
+                      window.__.env.REACT_APP_COUNTRY !== 'uk' ? (
                         <>
                           <SocialRegister />
                           <div className="rc-column">

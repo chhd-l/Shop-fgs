@@ -264,7 +264,10 @@ class PreciseCatNutrition extends React.Component {
                                 </li>
                                 <li className="rc-list__item flex">
                                   <div>
-                                    <FormattedMessage id="PreciseCatNutrition.DidYouKnow.paragraph2" />
+                                    <FormattedMessage
+                                      id="PreciseCatNutrition.DidYouKnow.paragraph2"
+                                      values={{ val: <sup>2</sup> }}
+                                    />
                                   </div>
                                 </li>
                                 {/*<li className="rc-list__item flex">*/}

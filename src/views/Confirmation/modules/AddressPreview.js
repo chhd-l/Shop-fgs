@@ -104,6 +104,10 @@ class InfosPreview extends React.Component {
                 {localAddressForm['state'] && (
                   <>{details.consignee.province} </>
                 )}
+                {/* county */}
+                {localAddressForm['county'] && (
+                  <>{details.consignee?.county} </>
+                )}
                 {/* 邮编 */}
                 {localAddressForm['postCode'] && (
                   <>{details.consignee.postCode}</>
@@ -231,6 +235,8 @@ class InfosPreview extends React.Component {
                 )}
                 {/* 区域 */}
                 {localAddressForm['state'] && <>{details.invoice.province} </>}
+                {/* county */}
+                {localAddressForm['county'] && <>{details.invoice.county} </>}
                 {/* 邮编 */}
                 {localAddressForm['postCode'] && (
                   <>{details.invoice.postCode}</>

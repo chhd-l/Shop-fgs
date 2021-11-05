@@ -159,6 +159,7 @@ class SearchSelection extends React.Component {
     } else {
       setTimeout(() => {
         // 没有选择有效item时，回填之前的值
+        console.log('666 >>> currentItem: ', this.state.currentItem);
         this.setState({
           form: Object.assign(this.state.form, {
             value: this.state.currentItem || ''
@@ -198,15 +199,15 @@ class SearchSelection extends React.Component {
   handleClickClinicItem = (e, item) => {
     e.nativeEvent.stopImmediatePropagation();
     const { form } = this.state;
-    form.value = item.name;
+    form.value = item?.newName || item.name;
     this.setState({
       form: form,
       optionList: [],
       optionPanelVisible: false,
-      currentItem: item.name,
-      otherValue: item.name
+      currentItem: item?.newName || item.name,
+      otherValue: item?.newName || item.name
     });
-    this.otherValue = item.name;
+    this.otherValue = item?.newName || item.name;
     this.props.selectedItemChange(item);
   };
   hanldeScroll = (e) => {

@@ -42,15 +42,10 @@ const UserPaymentInfo = ({
       });
       return;
     }
-    setState(
-      {
-        type: 'AddressComp',
-        addressType: type
-      },
-      () => {
-        console.log('666 >>> addressType: ', addressType);
-      }
-    );
+    setState({
+      type: 'AddressComp',
+      addressType: type
+    });
   };
   return (
     <div className="row text-left text-break editCard ml-0 mr-0 subscription_detail_userinfo_box">
@@ -187,6 +182,10 @@ const UserPaymentInfo = ({
                   {/* 省份 / State */}
                   {localAddressForm?.state &&
                     currentDeliveryAddress?.province + ' '}
+
+                  {/* county */}
+                  {localAddressForm?.county &&
+                    currentDeliveryAddress?.county + ' '}
 
                   {/* 邮编 */}
                   {localAddressForm?.postCode &&
@@ -334,6 +333,10 @@ const UserPaymentInfo = ({
                 {/* 省份 / State */}
                 {localAddressForm?.state &&
                   currentBillingAddress?.province + ' '}
+
+                {/* county */}
+                {localAddressForm?.county &&
+                  currentBillingAddress?.county + ' '}
 
                 {/* 邮编 */}
                 {localAddressForm?.postCode && currentBillingAddress?.postCode}

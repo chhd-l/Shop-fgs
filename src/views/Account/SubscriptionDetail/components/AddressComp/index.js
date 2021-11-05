@@ -94,6 +94,9 @@ function CardItem(props) {
                 {/* 省份 / State */}
                 {localAddressForm?.state && data?.province + ' '}
 
+                {/* county */}
+                {localAddressForm?.county && data?.county + ' '}
+
                 {/* 邮编 */}
                 {localAddressForm?.postCode && data?.postCode}
               </div>
@@ -132,7 +135,7 @@ function CardItem(props) {
             </>
           ) : (
             <>
-              {/* 姓名 */}
+              {/* 姓名  */}
               <div className="rc-full-width font-weight-bold ccard-phone-title word-break mb-1">
                 <div className="address-name ac_mb_name">
                   <span>{data.firstName + ' ' + data.lastName}</span>
@@ -166,6 +169,9 @@ function CardItem(props) {
 
                 {/* 省份 / State */}
                 {localAddressForm?.state && data?.province + ' '}
+
+                {/* county */}
+                {localAddressForm?.county && data?.county + ' '}
 
                 {/* 邮编 */}
                 {localAddressForm?.postCode && data?.postCode}
@@ -293,15 +299,16 @@ class AddressList extends React.Component {
     await this.queryAddressList();
   }
   async queryAddressList() {
-    const { deliveryAddressId } = this.props;
+    const { deliveryAddressId, billingAddressId, type } = this.props;
+
     const { selectedId } = this.state;
     this.setState({ loading: true });
     try {
       let res = await getAddressList();
       let addressList = res.context.filter((ele) => {
         return (
-          // ele.type === this.props.type.toUpperCase()
-          ele.type === 'DELIVERY'
+          ele.type === type.toUpperCase()
+          // ele.type === 'DELIVERY'
         );
       });
 
@@ -327,8 +334,15 @@ class AddressList extends React.Component {
 
       // 设置选中的地址
       Array.from(addressList, (a) => (a.selected = false));
+      let addressIdStr = '';
+      if (type === 'billing') {
+        addressIdStr = billingAddressId;
+      }
+      if (type === 'delivery') {
+        addressIdStr = deliveryAddressId;
+      }
       addressList.map((e) => {
-        if (e.deliveryAddressId == deliveryAddressId) {
+        if (e.deliveryAddressId == addressIdStr) {
           e.selected = true;
         }
       });
@@ -340,7 +354,7 @@ class AddressList extends React.Component {
         defaultCity: pickupAddress ? pickupAddress.city : '',
         addressList: addressList,
         addOrEdit: !addressList.length,
-        selectedId: deliveryAddressId
+        selectedId: addressIdStr
       });
     } catch (err) {
       this.setState({
@@ -1100,6 +1114,11 @@ class AddressList extends React.Component {
   // 设置订阅地址
   setSubscriptionAddress = async (item) => {
     const { addressList, isBillSame } = this.state;
+    // 判断地址是否完整
+    let subAddressErrMsg = this.getSubAddressErrMsg(item);
+    if (subAddressErrMsg) {
+      return;
+    }
     await this.selectAddress(item);
     this.props.save(
       addressList.filter((el) => el.selected)[0],
@@ -1617,7 +1636,8 @@ class AddressList extends React.Component {
                           </button>
                         </div> */}
 
-                        <div className="rc-md-up rc-full-width text-right">
+                        {/* <div className="rc-md-up rc-full-width text-right"> */}
+                        <div className="rc-full-width text-right">
                           <a
                             className="rc-styled-link"
                             onClick={() => this.handleClickCancel()}

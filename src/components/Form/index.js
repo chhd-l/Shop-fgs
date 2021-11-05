@@ -176,14 +176,19 @@ class Form extends React.Component {
     let qoa = await queryOpenedApi();
     let res = qoa?.context?.addressApiSettings || null;
     if (res) {
-      let asobj =
-        find(res, (e) => e.name == 'DQE' || e.name == 'DADATA') || null;
+      let asobj = null;
+      // DQE 、DADATA、FEDEX
+      asobj =
+        find(
+          res,
+          (e) => e.name == 'DQE' || e.name == 'DADATA' || e.name == 'FEDEX'
+        ) || null;
       if (asobj && asobj?.isOpen == 1 && asobj?.addressApiType == 1) {
         this.setState({
           apiType: asobj?.name
         });
-        console.log('666 >>> apiType: ', asobj?.name);
       }
+      console.log('666 >>> apiType: ', asobj?.name);
     }
     // MANUALLY：手动填写 、 AUTOMATICALLY：自动填充
     if (this.state.formType === 'AUTOMATICALLY' && COUNTRY === 'ru') {
@@ -1254,7 +1259,8 @@ class Form extends React.Component {
           caninForm
         },
         () => {
-          this.validvalidationData('address1', caninForm.address1);
+          this.validvalidationData('address1', this.state.caninForm.address1);
+          this.validvalidationData('postCode', this.state.caninForm.postCode);
           this.updateDataToProps();
         }
       );
@@ -1363,7 +1369,10 @@ class Form extends React.Component {
               inputVal = inputVal.replace(/\|/g, '，');
               res = await DQEAddressList(inputVal);
               robj = (res?.context || []).map((item) =>
-                Object.assign(item, { name: item.label })
+                Object.assign(item, {
+                  name: item.label,
+                  newName: item.address1
+                })
               );
               let guojia = COUNTRY.toUpperCase();
               robj.map((item) => {
