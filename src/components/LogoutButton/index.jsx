@@ -87,7 +87,7 @@ const LogoutButton = (props) => {
     return (
       <div
         className="logoff-style"
-        style={(props && props.containerStyle) || {}}
+        style={(props && props.containerStyle) || {cursor:'pointer'}}
       >
         <span
           className="rc-styled-link--external"
@@ -105,7 +105,7 @@ const LogoutButton = (props) => {
     return (
       <div
         className={props.containerClassName || 'logoff-style'}
-        style={props.containerStyle || {}}
+        style={props.containerStyle || {cursor:'pointer'}}
       >
         <span
           id="J-btn-logoff"
