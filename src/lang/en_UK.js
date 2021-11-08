@@ -319,7 +319,7 @@ const en_US = {
   'confirmation.rateTip3': 'Enter up to 50 characters',
   'confirmation.rateTip4': 'Please score first.',
   'confirmation.subscriptionDiscountPriceDes':
-    'You saved {val1}  with autoship',
+    'You saved {val1}  with subscription',
   'confirmation.visitOnlineStore': 'Visit online store',
   confirmDelete: 'Do you confirm to delete?',
   confirmDeleteAddress: 'Are you sure you want to delete this address?',
@@ -1506,7 +1506,7 @@ const en_US = {
   yourEmailNotVerified: 'Your email has not been verified!',
   yourPasswordNotVerified: 'Your password has not been verified',
   securePaymentProcessing: 'Secure payment processing',
-  'cart.autoshipSavedtip': 'You saved {discount} with Autoship',
+  'cart.autoshipSavedtip': 'You saved {discount} with subscription',
   'payment.returnToCardList': 'Return to card list',
   'payment.codTip': 'I want to pay by cash or card upon receipt',
   'payment.codConfirmTip': 'Payment upon receipt',
