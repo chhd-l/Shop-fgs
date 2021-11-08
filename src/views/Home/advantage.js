@@ -36,6 +36,30 @@ export function Advantage() {
 
   const list =
     {
+      uk: [
+        {
+          imgUrl: pack,
+          imgAlt: 'pack icon',
+          text: <FormattedMessage id="home.convenientTip1" />
+        },
+        {
+          imgUrl: delivery,
+          imgAlt: 'delivery image',
+          text: (
+            <FormattedMessage
+              id="home.convenientTip2"
+              values={{
+                val: formatMoney(30)
+              }}
+            />
+          )
+        },
+        {
+          imgUrl: question,
+          imgAlt: 'question icon',
+          text: <FormattedMessage id="home.convenientTip3" />
+        }
+      ],
       us: [
         {
           imgUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_PRODUCT-RECOS@x2.png`,
