@@ -60,9 +60,8 @@ const en_US = {
   'account.noPet':
     "Add your pet's information to create their profile and find tailored nutrition to fit their individual needs.",
   'account.noSubscription':
-    'You do not yet know the Subscription?\n' +
-    "The Subscription allows you to receive your pet's favorite foods regularly and easily. Just tell us where and when to ship it, and we'll make sure everything it needs arrives right at your doorstep.",
-  'account.noSubscriptionTitle': 'Discover the Subscription',
+    'Make sure that your pet never runs out of food by subscribing to regular deliveries. You can benefit from money savings and automatic reordering. What are you waiting for? Subscribe and save today!',
+  'account.noSubscriptionTitle': 'Subscribe and save!',
   'account.notRegistred': 'New customer?',
   'account.of': 'of',
   'account.orders': 'Orders',
@@ -1207,7 +1206,7 @@ const en_US = {
   ratingGrade2: 'Lowest to Highest Rating',
   ratingGrade3: 'Hightest to Lowest Rating',
   receiver: 'Receiver',
-  recommandedForyou: 'Recommanded for you',
+  recommandedForyou: 'Recommended for you',
   seeMoreText: 'see more',
   'recommendation.noMoreRecommendation':
     'The product is no longer available or not available for sale',
