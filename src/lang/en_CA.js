@@ -1003,7 +1003,7 @@ const en_US = {
   ratingGrade2: 'Lowest to Highest Rating',
   ratingGrade3: 'Hightest to Lowest Rating',
   receiver: 'Receiver',
-  recommandedForyou: 'Recommanded for you',
+  recommandedForyou: 'Recommended for you',
   seeMoreText: 'see more',
   'recommendation.noMoreRecommendation':
     'The product is no longer available or not available for sale',
