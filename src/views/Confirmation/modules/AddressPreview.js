@@ -77,8 +77,9 @@ class InfosPreview extends React.Component {
                   </>
                 )}
               </div>
-              <div>
-                {window.__.env.REACT_APP_COUNTRY == 'us' ? null : (
+              <div className="confirmation_delivery_address">
+                {window.__.env.REACT_APP_COUNTRY == 'us' ||
+                window.__.env.REACT_APP_COUNTRY == 'uk' ? null : (
                   <>
                     {matchNamefromDict(
                       this.state.countryList,
@@ -108,6 +109,15 @@ class InfosPreview extends React.Component {
                 {localAddressForm['county'] && (
                   <>{details.consignee?.county} </>
                 )}
+                {/* 国家，uk显示在这个位置 */}
+                {window.__.env.REACT_APP_COUNTRY == 'uk' ? (
+                  <>
+                    {matchNamefromDict(
+                      this.state.countryList,
+                      details.consignee.countryId
+                    )}{' '}
+                  </>
+                ) : null}
                 {/* 邮编 */}
                 {localAddressForm['postCode'] && (
                   <>{details.consignee.postCode}</>
@@ -210,8 +220,9 @@ class InfosPreview extends React.Component {
                   </>
                 )}
               </div>
-              <div>
-                {window.__.env.REACT_APP_COUNTRY == 'us' ? null : (
+              <div className="confirmation_billing_address">
+                {window.__.env.REACT_APP_COUNTRY == 'us' ||
+                window.__.env.REACT_APP_COUNTRY == 'uk' ? null : (
                   <>
                     {matchNamefromDict(
                       this.state.countryList,
@@ -237,6 +248,16 @@ class InfosPreview extends React.Component {
                 {localAddressForm['state'] && <>{details.invoice.province} </>}
                 {/* county */}
                 {localAddressForm['county'] && <>{details.invoice.county} </>}
+
+                {/* 国家，uk显示在这个位置 */}
+                {window.__.env.REACT_APP_COUNTRY == 'uk' ? (
+                  <>
+                    {matchNamefromDict(
+                      this.state.countryList,
+                      details.invoice.countryId
+                    )}{' '}
+                  </>
+                ) : null}
                 {/* 邮编 */}
                 {localAddressForm['postCode'] && (
                   <>{details.invoice.postCode}</>
