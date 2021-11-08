@@ -8,6 +8,9 @@ import {
   getFormatDate
 } from '@/utils/utils';
 import { format } from 'date-fns-tz';
+import moment from 'moment';
+import { getAppointByApptNo } from '@/api/order';
+
 @inject('configStore')
 @observer
 class InfosPreview extends React.Component {
@@ -20,7 +23,8 @@ class InfosPreview extends React.Component {
     this.state = {
       countryList: [],
       deviceType: '',
-      orderArr: []
+      orderArr: [],
+      appointmentInfo: null //felin 预约信息
     };
   }
   componentDidMount() {
@@ -32,6 +36,54 @@ class InfosPreview extends React.Component {
         countryList: res
       });
     });
+    if (this.props.details.appointmentNo) {
+      this.queryAppointInfo();
+    }
+  }
+  //获取appointment信息
+  async queryAppointInfo() {
+    getAppointByApptNo({ apptNo: this.props.details.appointmentNo }).then(
+      async (res) => {
+        let resContext = res?.context?.settingVO;
+        Promise.all([
+          getDictionary({
+            type: 'apprintment_type'
+          }),
+          getDictionary({
+            type: 'expert_type'
+          })
+        ]).then((resList) => {
+          const appointmentDictRes = resList[0].filter(
+            (item) => item.value === resContext?.apptTypeId
+          );
+          const expertDictRes = resList[1].filter(
+            (item) => item.value === resContext?.expertTypeId
+          );
+          const appointType =
+            appointmentDictRes.length > 0
+              ? appointmentDictRes[0].name
+              : 'Offline';
+          const expertName =
+            expertDictRes.length > 0 ? expertDictRes[0].name : 'Behaviorist';
+          const apptTime = resContext.apptTime.split('#');
+          const apptTime1 = apptTime[0].split(' ');
+          const apptTime2 = apptTime[1].split(' ');
+          const appointTime =
+            moment(apptTime1[0]).format('YYYY-MM-DD') +
+            ' ' +
+            apptTime1[1] +
+            ' - ' +
+            apptTime2[1];
+          this.setState({
+            appointmentInfo: {
+              appointType,
+              expertName,
+              appointTime
+            }
+          });
+        });
+      }
+    );
   }
   computedOrder = () => {
     if (this.state.deviceType == 'PC') {
@@ -42,11 +94,35 @@ class InfosPreview extends React.Component {
   };
   render() {
     const { payRecord, details } = this.props;
+    const { appointmentInfo } = this.state;
     // 获取本地存储的需要显示的地址字段
     const localAddressForm = this.props.configStore.localAddressForm;
     return (
       <div style={{ padding: '0 .9375rem' }}>
         <div className="row rc-bg-colour--brand3 pt-3 pb-3 text-break">
+          {/*Felin Appointment summary*/}
+          {appointmentInfo ? (
+            <div className="col-12 col-md-6 mb-3">
+              <div className="bold mt-1 mb-1" style={{ color: '#666' }}>
+                <FormattedMessage id="Appointment summary" />
+              </div>
+              <div className="d-flex flex-column">
+                <span>
+                  <FormattedMessage id="Expert type" />
+                  {appointmentInfo.expertName}
+                </span>
+                <span>
+                  <FormattedMessage id="Appointment type" />
+                  {appointmentInfo.appointType}
+                </span>
+                <span>
+                  <FormattedMessage id="Appointment time" />
+                </span>
+                <span>{appointmentInfo.appointTime}</span>
+              </div>
+            </div>
+          ) : null}
+
           {/* {JSON.stringify(details.consignee)} */}
           {details ? (
             <div
@@ -177,7 +253,7 @@ class InfosPreview extends React.Component {
             </div>
           ) : null}
           {/* {JSON.stringify(details.invoice)} */}
-          {details && !this.props.hideBillingAddr ? (
+          {details && !this.props.hideBillingAddr && details.invoice ? (
             <div
               className={[
                 'col-12',

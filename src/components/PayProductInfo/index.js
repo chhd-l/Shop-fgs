@@ -129,18 +129,22 @@ class PayProductInfo extends React.Component {
                     style={{ width: '77%' }}
                   >
                     <p className="mb-0">
-                      <FormattedMessage
-                        id="quantityText"
-                        values={{
-                          specText: item.specDetails,
-                          // window.__.env.REACT_APP_COUNTRY == 'fr'
-                          //   ? (item.specDetails || '')
-                          //       .toString()
-                          //       .replace('.', ',')
-                          //   : item.specDetails,
-                          buyCount: item.num
-                        }}
-                      />
+                      {details.appointmentNo ? (
+                        item.specDetails
+                      ) : (
+                        <FormattedMessage
+                          id="quantityText"
+                          values={{
+                            specText: item.specDetails,
+                            // window.__.env.REACT_APP_COUNTRY == 'fr'
+                            //   ? (item.specDetails || '')
+                            //       .toString()
+                            //       .replace('.', ',')
+                            //   : item.specDetails,
+                            buyCount: item.num
+                          }}
+                        />
+                      )}
                     </p>
                     {details.subscriptionResponseVO && item.goodsInfoFlag ? (
                       <p className="mb-0">
