@@ -58,7 +58,7 @@ export default class CardItemCover extends React.Component {
           </span>
         )}
 
-        <div className="pt-3 pb-3">
+        <div className="pt-4 pb-4">
           {canEdit && (
             <div
               className="position-absolute ui-cursor-pointer-pure"
