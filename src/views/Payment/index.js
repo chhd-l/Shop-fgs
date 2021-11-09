@@ -180,7 +180,8 @@ class Payment extends React.Component {
         minDeliveryTime: 0,
         maxDeliveryTime: 0,
         DuData: null, // 俄罗斯DuData
-        formRule: [] // form表单校验规则
+        formRule: [], // form表单校验规则
+        receiveType: ''
       },
       billingAddress: {
         firstName: '',
@@ -1423,6 +1424,9 @@ class Payment extends React.Component {
   // 下单后，清空 delivery date 和 time slot
   clearTimeslotAndDeliverydate = async () => {
     const { deliveryAddress } = this.state;
+    if (deliveryAddress?.receiveType === 'PICK_UP') {
+      return;
+    }
     try {
       let deliveryAdd = Object.assign({}, deliveryAddress, {
         deliveryDate: '',
@@ -1440,8 +1444,8 @@ class Payment extends React.Component {
     const { checkoutStore } = this.props;
     if (this.isLogin) {
       checkoutStore.removeLoginCartData();
-      // 清空 delivery date 和 time slot
-      await this.clearTimeslotAndDeliverydate();
+      // 清空 delivery date 和 time slot (可能造成phoneNumber为空)
+      // await this.clearTimeslotAndDeliverydate();
     } else {
       checkoutStore.setCartData(
         checkoutStore.cartData.filter((ele) => !ele.selected)
