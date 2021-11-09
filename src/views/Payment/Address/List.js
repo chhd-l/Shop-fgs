@@ -1344,7 +1344,9 @@ class AddressList extends React.Component {
       farr.push(data.province);
     } else {
       let country = matchNamefromDict(this.state.countryList, data.countryId);
-      farr.unshift(country);
+      if (window.__.env.REACT_APP_COUNTRY !== 'uk') {
+        farr.unshift(country);
+      }
       if (localAddressForm['region']) {
         farr.push(data.area);
       }
@@ -2125,7 +2127,11 @@ class AddressList extends React.Component {
                     <FormattedMessage id="payment.editDeliveryDateAndTime" />
                   </span>
                 ) : null}
+
                 {item?.county && ',' + item.county}
+
+                {',' +
+                  matchNamefromDict(this.state.countryList, item.countryId)}
               </p>
               {!item?.validFlag && isCanVerifyBlacklistPostCode ? (
                 <div className="address-item-forbid">{item.alert}</div>

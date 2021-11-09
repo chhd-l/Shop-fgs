@@ -143,7 +143,8 @@ const UserPaymentInfo = ({
                   )}
                 {/* 国家 */}
                 {window.__.env.REACT_APP_COUNTRY == 'us' ||
-                window.__.env.REACT_APP_COUNTRY == 'ru' ? null : (
+                window.__.env.REACT_APP_COUNTRY == 'ru' ||
+                window.__.env.REACT_APP_COUNTRY == 'uk' ? null : (
                   <p className="mb-0 sd_mb_country">
                     {countryList.length &&
                     countryList.filter(
@@ -185,7 +186,21 @@ const UserPaymentInfo = ({
 
                   {/* county */}
                   {localAddressForm?.county &&
-                    currentDeliveryAddress?.county + ' '}
+                    currentDeliveryAddress?.county + ', '}
+
+                  {/* 国家 */}
+                  {window.__.env.REACT_APP_COUNTRY == 'uk' ? (
+                    <>
+                      {countryList.length &&
+                      countryList.filter(
+                        (el) => el.id === currentDeliveryAddress.countryId
+                      ).length
+                        ? countryList.filter(
+                            (el) => el.id === currentDeliveryAddress.countryId
+                          )[0].valueEn
+                        : currentDeliveryAddress.countryId}{' '}
+                    </>
+                  ) : null}
 
                   {/* 邮编 */}
                   {localAddressForm?.postCode &&
@@ -296,7 +311,8 @@ const UserPaymentInfo = ({
 
               {/* 国家 */}
               {window.__.env.REACT_APP_COUNTRY == 'us' ||
-              window.__.env.REACT_APP_COUNTRY == 'ru' ? null : (
+              window.__.env.REACT_APP_COUNTRY == 'ru' ||
+              window.__.env.REACT_APP_COUNTRY == 'uk' ? null : (
                 <p className="mb-0 sd_mb_country">
                   {countryList.length &&
                   countryList.filter(
@@ -336,7 +352,21 @@ const UserPaymentInfo = ({
 
                 {/* county */}
                 {localAddressForm?.county &&
-                  currentBillingAddress?.county + ' '}
+                  currentBillingAddress?.county + ', '}
+
+                {/* 国家 */}
+                {window.__.env.REACT_APP_COUNTRY == 'uk' ? (
+                  <>
+                    {countryList.length &&
+                    countryList.filter(
+                      (el) => el.id === currentBillingAddress.countryId
+                    ).length
+                      ? countryList.filter(
+                          (el) => el.id === currentBillingAddress.countryId
+                        )[0].valueEn
+                      : currentBillingAddress.countryId}{' '}
+                  </>
+                ) : null}
 
                 {/* 邮编 */}
                 {localAddressForm?.postCode && currentBillingAddress?.postCode}

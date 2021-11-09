@@ -258,6 +258,7 @@ class InfosPreview extends React.Component {
                     )}{' '}
                   </>
                 ) : null}
+
                 {/* 邮编 */}
                 {localAddressForm['postCode'] && (
                   <>{details.invoice.postCode}</>

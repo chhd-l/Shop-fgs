@@ -1456,6 +1456,7 @@ class Form extends React.Component {
             name={item.fieldKey}
             disabled={item?.disabled ? true : false}
             maxLength={item.maxLength}
+            autocomplete="off"
           />
           <label className="rc-input__label" htmlFor="id-text1" />
         </span>
@@ -1477,6 +1478,7 @@ class Form extends React.Component {
             onBlur={this.inputBlur}
             name={item.fieldKey}
             maxLength={item.maxLength}
+            autocomplete="off"
           ></textarea>
           <label className="rc-input__label" htmlFor="id-text1" />
         </span>
@@ -1583,6 +1585,7 @@ class Form extends React.Component {
                 name="email"
                 value={caninForm.email || ''}
                 maxLength="50"
+                autocomplete="off"
                 disabled
               />
               <label className="rc-input__label" htmlFor="id-text1" />
@@ -1625,6 +1628,12 @@ class Form extends React.Component {
     } = this.state;
     return (
       <>
+        {/* 用于禁止浏览器自动填充的 */}
+        <input
+          type="password"
+          style={{ display: 'none' }}
+          autocomplete="new-password"
+        />
         {formLoading ? (
           <Skeleton color="#f5f5f5" width="100%" height="10%" count={4} />
         ) : (

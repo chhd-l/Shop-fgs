@@ -258,6 +258,7 @@ class SearchSelection extends React.Component {
             onBlur={this.handleInputBlur}
             ref={this.searchText}
             name={this.props.name}
+            autocomplete="off"
           />
           {this.props.customStyle && <label className="rc-input__label" />}
           {this.state.optionPanelVisible && (
