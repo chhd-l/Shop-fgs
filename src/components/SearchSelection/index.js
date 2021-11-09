@@ -20,6 +20,7 @@ function throttle(fn, delay) {
 class SearchSelection extends React.Component {
   static defaultProps = {
     customStyle: false,
+    timeout: 0,
     inputCustomStyle: false, //input框是否要全长
     customCls: '',
     isBottomPaging: false, // 滑倒底部翻页
@@ -78,13 +79,13 @@ class SearchSelection extends React.Component {
         },
         () => {
           if (this.props.freeText) {
-            // this.handleSetInputItem();
           }
         }
       );
 
       clearTimeout(this.timer);
-      let tm = this.props.isLoadingList ? 1000 : 50;
+      let timeout = this.props.timeout;
+      let tm = this.props.isLoadingList ? 1000 : timeout > 0 ? timeout : 80;
       this.timer = setTimeout(() => {
         this.queryList(); // 搜索
       }, tm);
@@ -159,7 +160,7 @@ class SearchSelection extends React.Component {
     } else {
       setTimeout(() => {
         // 没有选择有效item时，回填之前的值
-        console.log('666 >>> currentItem: ', this.state.currentItem);
+        // console.log('666 >>> currentItem: ', this.state.currentItem);
         this.setState({
           form: Object.assign(this.state.form, {
             value: this.state.currentItem || ''
@@ -241,7 +242,10 @@ class SearchSelection extends React.Component {
           } searchSelection`}
           onBlur={() => {
             setTimeout(() => {
-              this.setState({ optionList: [], optionPanelVisible: false });
+              this.setState({
+                optionList: [],
+                optionPanelVisible: false
+              });
             }, 500);
           }}
         >
@@ -258,7 +262,7 @@ class SearchSelection extends React.Component {
             onBlur={this.handleInputBlur}
             ref={this.searchText}
             name={this.props.name}
-            autocomplete="off"
+            autocomplete="new-password"
           />
           {this.props.customStyle && <label className="rc-input__label" />}
           {this.state.optionPanelVisible && (
