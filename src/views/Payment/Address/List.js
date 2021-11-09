@@ -1270,7 +1270,11 @@ class AddressList extends React.Component {
           {titleVisible ? (
             <>
               <em className="rc-icon rc-indoors--xs rc-iconography" />{' '}
-              <FormattedMessage id="payment.deliveryTitle" />
+              {sessionItemRoyal.get('from-felin') ? (
+                <FormattedMessage id="Felin Address" />
+              ) : (
+                <FormattedMessage id="payment.deliveryTitle" />
+              )}
               <span className="iconfont font-weight-bold green ml-2">
                 &#xe68c;
               </span>

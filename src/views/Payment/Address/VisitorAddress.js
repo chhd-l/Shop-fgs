@@ -265,7 +265,11 @@ class VisitorAddress extends React.Component {
           }`}
         />{' '}
         <span>
-          <FormattedMessage id="payment.deliveryTitle" />
+          {sessionItemRoyal.get('from-felin') ? (
+            <FormattedMessage id="Felin Address" />
+          ) : (
+            <FormattedMessage id="payment.deliveryTitle" />
+          )}
         </span>
       </>
     ) : (
@@ -513,7 +517,6 @@ class VisitorAddress extends React.Component {
         countryId: form.countryId,
         minDeliveryTime: pickupFormData.minDeliveryTime,
         maxDeliveryTime: pickupFormData.maxDeliveryTime,
-        workTime: pickupFormData.workTime,
         province: pkaddr?.region,
         provinceIdStr: pkaddr?.regionFias,
         provinceCode: pkaddr?.regionIsoCode,
