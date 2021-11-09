@@ -201,7 +201,7 @@ export default class Selection extends React.Component {
                 onClick={(e) => this.handleClickSearchInput(e)}
                 onChange={(e) => this.handleSearchInputChange(e)}
                 ref={this.searchRef}
-                autocomplete="off"
+                autoComplete="new-password"
               />
             ) : null}
 

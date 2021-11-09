@@ -283,6 +283,7 @@ class AdyenCreditCardForm extends React.Component {
                   onChange={this.handleDefaultChange}
                   value={Boolean(adyenFormData.isDefault)}
                   checked={Boolean(adyenFormData.isDefault)}
+                  autoComplete="new-password"
                 />
                 <label
                   className={`rc-input__label--inline text-break`}

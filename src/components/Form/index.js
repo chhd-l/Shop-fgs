@@ -1457,7 +1457,7 @@ class Form extends React.Component {
             name={item.fieldKey}
             disabled={item?.disabled ? true : false}
             maxLength={item.maxLength}
-            autocomplete="new-password"
+            autoComplete="new-password"
           />
           <label className="rc-input__label" htmlFor="id-text1" />
         </span>
@@ -1479,7 +1479,7 @@ class Form extends React.Component {
             onBlur={this.inputBlur}
             name={item.fieldKey}
             maxLength={item.maxLength}
-            autocomplete="new-password"
+            autoComplete="new-password"
           ></textarea>
           <label className="rc-input__label" htmlFor="id-text1" />
         </span>
@@ -1586,7 +1586,7 @@ class Form extends React.Component {
                 name="email"
                 value={caninForm.email || ''}
                 maxLength="50"
-                autocomplete="new-password"
+                autoComplete="new-password"
                 disabled
               />
               <label className="rc-input__label" htmlFor="id-text1" />
