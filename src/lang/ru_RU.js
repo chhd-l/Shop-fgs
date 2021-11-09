@@ -1501,8 +1501,8 @@ const ru_RU = {
   'product.plp.foodtype.wetcat': 'Влажный корм для кошек',
   'list.applyFilters': 'Применить фильтры',
   'list.clearFilters': 'Очистить все фильтры',
-  'list.viewFilters': 'Праглядзець фільтры',
-  'list.closeFilters': 'Зачыніце фільтры'
+  'list.viewFilters': 'Фильтры',
+  'list.closeFilters': 'Закрыть фильтры'
 };
 
 export default ru_RU;
