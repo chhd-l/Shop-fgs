@@ -5,7 +5,8 @@ import {
   getDictionary,
   matchNamefromDict,
   getDeviceType,
-  getFormatDate
+  getFormatDate,
+  getAppointmentInfo
 } from '@/utils/utils';
 import { format } from 'date-fns-tz';
 import moment from 'moment';
@@ -42,48 +43,17 @@ class InfosPreview extends React.Component {
   }
   //获取appointment信息
   async queryAppointInfo() {
-    getAppointByApptNo({ apptNo: this.props.details.appointmentNo }).then(
-      async (res) => {
-        let resContext = res?.context?.settingVO;
-        Promise.all([
-          getDictionary({
-            type: 'apprintment_type'
-          }),
-          getDictionary({
-            type: 'expert_type'
-          })
-        ]).then((resList) => {
-          const appointmentDictRes = resList[0].filter(
-            (item) => item.value === resContext?.apptTypeId
-          );
-          const expertDictRes = resList[1].filter(
-            (item) => item.value === resContext?.expertTypeId
-          );
-          const appointType =
-            appointmentDictRes.length > 0
-              ? appointmentDictRes[0].name
-              : 'Offline';
-          const expertName =
-            expertDictRes.length > 0 ? expertDictRes[0].name : 'Behaviorist';
-          const apptTime = resContext.apptTime.split('#');
-          const apptTime1 = apptTime[0].split(' ');
-          const apptTime2 = apptTime[1].split(' ');
-          const appointTime =
-            moment(apptTime1[0]).format('YYYY-MM-DD') +
-            ' ' +
-            apptTime1[1] +
-            ' - ' +
-            apptTime2[1];
-          this.setState({
-            appointmentInfo: {
-              appointType,
-              expertName,
-              appointTime
-            }
-          });
-        });
-      }
-    );
+    const res = await getAppointmentInfo(this.props.details.appointmentNo);
+    if (res) {
+      this.setState({
+        appointmentInfo: {
+          appointType: res?.appointType,
+          expertName: res?.expertName,
+          appointTime:
+            res?.appointStartTime + ' - ' + res?.appointEndTime.split(' ')[1]
+        }
+      });
+    }
   }
   computedOrder = () => {
     if (this.state.deviceType == 'PC') {

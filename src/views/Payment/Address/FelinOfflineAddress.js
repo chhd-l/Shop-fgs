@@ -47,10 +47,10 @@ const felinAddr = [
     type: 'DELIVERY',
     validFlag: 1,
     workTime: '',
-    firstName: 'Zuo',
-    lastName: 'Qin',
-    consigneeName: 'Zuo Qin',
-    consigneeNumber: '(+33) 4 37 92 70 83'
+    firstName: '',
+    lastName: '',
+    consigneeName: '',
+    consigneeNumber: ''
   }
 ];
 
