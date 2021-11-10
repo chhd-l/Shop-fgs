@@ -78,6 +78,7 @@ class Consent extends Component {
               this.props.sendList(this.props.list);
             }}
             checked={item.isChecked}
+            autoComplete="new-password"
           />
           <label
             className="rc-text--left"

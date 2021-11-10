@@ -1416,6 +1416,7 @@ class Form extends React.Component {
             }
             return robj;
           }}
+          timeout={apiType === 'DADATA' ? 80 : 1000}
           selectedItemChange={(data) => this.handleAddressInputChange(data)}
           searchSelectionBlur={this.handleSearchSelectionBlur}
           searchInputChange={this.getSearchInputChange}
@@ -1456,6 +1457,7 @@ class Form extends React.Component {
             name={item.fieldKey}
             disabled={item?.disabled ? true : false}
             maxLength={item.maxLength}
+            autoComplete="new-password"
           />
           <label className="rc-input__label" htmlFor="id-text1" />
         </span>
@@ -1477,6 +1479,7 @@ class Form extends React.Component {
             onBlur={this.inputBlur}
             name={item.fieldKey}
             maxLength={item.maxLength}
+            autoComplete="new-password"
           ></textarea>
           <label className="rc-input__label" htmlFor="id-text1" />
         </span>
@@ -1583,6 +1586,7 @@ class Form extends React.Component {
                 name="email"
                 value={caninForm.email || ''}
                 maxLength="50"
+                autoComplete="new-password"
                 disabled
               />
               <label className="rc-input__label" htmlFor="id-text1" />

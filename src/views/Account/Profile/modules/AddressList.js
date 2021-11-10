@@ -99,7 +99,8 @@ function CardItem(props) {
               {data.consigneeNumber}
             </div>
             {/* 国家 */}
-            {window.__.env.REACT_APP_COUNTRY == 'us' ? null : (
+            {window.__.env.REACT_APP_COUNTRY == 'us' ||
+            window.__.env.REACT_APP_COUNTRY == 'uk' ? null : (
               <div className="rc-full-width mb-0 mp_mb_country">
                 {props.countryName}
               </div>
@@ -122,7 +123,13 @@ function CardItem(props) {
               {/* 省份 */}
               {localAddressForm['state'] && data.province + ' '}
               {/* county */}
-              {localAddressForm['county'] && data?.county + ' '}
+              {localAddressForm['county'] && data?.county + ', '}
+
+              {/* 国家，uk显示在这个位置 */}
+              {window.__.env.REACT_APP_COUNTRY == 'uk'
+                ? props.countryName + ' '
+                : null}
+
               {/* 邮编 */}
               {localAddressForm['postCode'] && data.postCode}
             </div>

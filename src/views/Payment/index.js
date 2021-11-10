@@ -2937,6 +2937,7 @@ class Payment extends React.Component {
                   name="payment-info"
                   onChange={this.handlePaymentTypeChange}
                   checked={paymentTypeVal === item.paymentTypeVal}
+                  autoComplete="new-password"
                 />
                 <label
                   className="rc-input__label--inline"

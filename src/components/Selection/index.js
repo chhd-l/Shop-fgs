@@ -195,13 +195,13 @@ export default class Selection extends React.Component {
               <input
                 type="text"
                 className="selection_choices_input choices__input choices__input--cloned"
-                autoComplete="off"
                 autoCapitalize="off"
                 spellCheck="false"
                 placeholder=""
                 onClick={(e) => this.handleClickSearchInput(e)}
                 onChange={(e) => this.handleSearchInputChange(e)}
                 ref={this.searchRef}
+                autoComplete="new-password"
               />
             ) : null}
 

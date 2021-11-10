@@ -198,25 +198,25 @@ class Header extends React.Component {
     }
 
     // 埋点
-    setBuryPoint({
-      id: this.userInfo ? this.userInfo.customerId : '',
-      prescriber: this.props.clinicStore.clinicId,
-      clientType: getDeviceType(),
-      skuId:
-        this.props.match && this.props.match.path === '/details/:id'
-          ? this.props.match.params.id
-          : '',
-      shopId: window.__.env.REACT_APP_STOREID,
-      page:
-        clinicRecoCode || linkClinicId
-          ? '5'
-          : {
-              '/': '1',
-              '/cart': '2',
-              '/checkout': '3',
-              '/confirmation': '4'
-            }[this.props.match && this.props.match.path] || ''
-    });
+    // setBuryPoint({
+    //   id: this.userInfo ? this.userInfo.customerId : '',
+    //   prescriber: this.props.clinicStore.clinicId,
+    //   clientType: getDeviceType(),
+    //   skuId:
+    //     this.props.match && this.props.match.path === '/details/:id'
+    //       ? this.props.match.params.id
+    //       : '',
+    //   shopId: window.__.env.REACT_APP_STOREID,
+    //   page:
+    //     clinicRecoCode || linkClinicId
+    //       ? '5'
+    //       : {
+    //           '/': '1',
+    //           '/cart': '2',
+    //           '/checkout': '3',
+    //           '/confirmation': '4'
+    //         }[this.props.match && this.props.match.path] || ''
+    // });
 
     (+window.__.env.REACT_APP_HUB
       ? this.initNavigationsForHub

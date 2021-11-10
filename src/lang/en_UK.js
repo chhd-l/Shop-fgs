@@ -880,7 +880,7 @@ const en_US = {
   modalSkipContent: 'Are you sure you want to skip the next delivery?',
   modalSkipTitle: 'SKIP NEXT DELIVERY',
   month: 'Month',
-  moreAddress: '…(all my address)',
+  moreAddress: 'Show more',
   moreChoicesAvailable: 'More Choices Available',
   mustChooseACommunicationMethodTip:
     'Sorry, you checked communication consent, so you must choose a communication method',
@@ -1478,7 +1478,7 @@ const en_US = {
   twoPasswordsYouTypedDoNotMatch: 'The two passwords you typed do not match!',
   type: 'TYPE',
   uNeedHelp: 'You need help?',
-  unfoldAddress: 'Less Addresses',
+  unfoldAddress: 'Show less',
   unkown: 'Unkown',
   unLoginSubscriptionTips: 'Autoship subscription requires an account',
   userAgreement: 'User Agreement',
