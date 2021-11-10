@@ -366,7 +366,7 @@ const tr_TR = {
   freeShipping: 'Ücretsiz kargo.',
   oneoffFreeShipping: '125 TL Üzeri Ücretsiz kargo.',
   from: 'Kimden',
-  plpFromText: 'Kimden',
+  plpFromText: 'den başlayan',
   gender: 'Cinsiyet',
   getConsumerAccountFailed: 'Tüketici Hesabını Alma Başarısız Oldu',
   getDataFailed: 'Veri Alma Başarısız Oldu',
