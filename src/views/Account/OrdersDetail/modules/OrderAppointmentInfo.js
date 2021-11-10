@@ -1,6 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { FormattedMessage } from 'react-intl';
+import { handleFelinAppointTime } from '@/utils/utils';
 
 @inject('configStore')
 @observer
@@ -67,13 +68,10 @@ class OrderAppointmentInfo extends React.Component {
           <div className="col-12 col-md-4 mb-2">
             <div className="border rounded p-3 h-100">
               <div className="d-flex">
-                <svg
-                  className="svg-icon align-middle mr-3 ml-1"
-                  aria-hidden="true"
-                  style={{ width: '2em', height: '2em' }}
-                >
-                  <use xlinkHref="#iconyuyuexinxi" />
-                </svg>
+                <i
+                  className="iconfont iconyuyuexinxi mr-3 ml-1"
+                  style={{ fontSize: '24px', color: '#d81e06' }}
+                />
                 <div>
                   <div className="medium mb-3">
                     <FormattedMessage id="Appointment summary" />
