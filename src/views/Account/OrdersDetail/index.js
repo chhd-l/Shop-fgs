@@ -35,6 +35,11 @@ import LazyLoad from 'react-lazyload';
 import { format } from 'date-fns';
 import PageBaseInfo from '@/components/PageBaseInfo';
 import { injectIntl } from 'react-intl';
+import {
+  handleOrderStatusMap,
+  handleFelinOrderStatusMap
+} from './modules/handleOrderStatus';
+import OrderAppointmentInfo from './modules/OrderAppointmentInfo';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -226,7 +231,9 @@ class AccountOrders extends React.Component {
       activeTabIdx: 0,
       showLogisticsDetail: false,
       curLogisticInfo: null,
-      welcomeGiftLists: [] //first-order welcome box gifts
+      welcomeGiftLists: [], //first-order welcome box gifts
+      canChangeAppoint: false, //felin订单是否可以更改
+      canReviewService: false //felin订单是否可以评论
     };
     this.changeTab = this.changeTab.bind(this);
     this.handleClickLogisticsCard = this.handleClickLogisticsCard.bind(this);
@@ -276,7 +283,6 @@ class AccountOrders extends React.Component {
         let isIndv = false;
         resContext.tradeItems?.forEach((el) => {
           if (judgeIsIndividual(el)) {
-            // el.spuName = `${el.petsName}'s personalized subscription`;
             el.spuName = (
               <FormattedMessage
                 id="subscription.personalized"
@@ -302,61 +308,9 @@ class AccountOrders extends React.Component {
         const orderStatusMap = resContext.orderStatusMap;
         let currentProgerssIndex = -1;
         let currentCanceledProgerssIndex = -1;
-        normalProgressList = [1000, 2000, 4000, 5000].map((el) => {
-          let flowStateIds = [orderStatusMap[el]?.flowStateId];
-          // 组装所有归属于此状态的订单状态
-          switch (el) {
-            // case 1000:
-            //   flowStateIds.push(orderStatusMap[2000]?.flowStateId);
-            //   break;
-            case 2000:
-              flowStateIds.push(orderStatusMap[3000]?.flowStateId);
-              break;
-            // case 3000:
-            //   flowStateIds.push(orderStatusMap[3010]?.flowStateId);
-            //   break;
-            case 4000:
-              flowStateIds.push(orderStatusMap[3010]?.flowStateId);
-              // flowStateIds.push(orderStatusMap[5000]?.flowStateId);
-              break;
-            case 5000:
-              flowStateIds.push(orderStatusMap[4010]?.flowStateId);
-              flowStateIds.push(orderStatusMap[9000]?.flowStateId);
-              break;
-          }
-          return Object.assign(orderStatusMap[el], {
-            flowStateIds: [...flowStateIds],
-            showInFlow: true
-          });
-        });
-
-        // 处理取消订单流程
-        // cancelProgressList = [1000, 9999].map((el) => {
-        //   let flowStateIds2 = [orderStatusMap[el]?.flowStateId];
-        //   // 组装所有归属于此状态的订单状态
-        //   switch (el) {
-        //     case 1000:
-        //       flowStateIds2.push(
-        //         orderStatusMap[2000]?.flowStateId,
-        //         orderStatusMap[3000]?.flowStateId,
-        //         orderStatusMap[4000]?.flowStateId,
-        //         orderStatusMap[4010]?.flowStateId,
-        //         orderStatusMap[5000]?.flowStateId
-        //       );
-        //       break;
-        //     case 9999:
-        //       flowStateIds2.push(
-        //         orderStatusMap[9000]?.flowStateId,
-        //         orderStatusMap[9999]?.flowStateId
-        //       );
-        //       break;
-        //   }
-        //   return Object.assign(orderStatusMap[el], {
-        //     flowStateIds: [...flowStateIds2],
-        //     showInFlow: true
-        //   });
-        // });
-
+        normalProgressList = resContext.appointmentNo
+          ? handleFelinOrderStatusMap(orderStatusMap)
+          : handleOrderStatusMap(orderStatusMap);
         // 查询支付卡信息
         this.setState(
           {
@@ -440,7 +394,15 @@ class AccountOrders extends React.Component {
             tradeState.payState === 'NOT_PAID' &&
             new Date(resContext.orderTimeOut).getTime() >
               new Date(res.defaultLocalDateTime).getTime() &&
-            !['OXXO', 'COD'].includes(resContext.payWay?.toUpperCase())
+            !['OXXO', 'COD'].includes(resContext.payWay?.toUpperCase()),
+          canChangeAppoint:
+            resContext.orderType === 'FELINE_ORDER' &&
+            (tradeState.flowState === 'VOID' ||
+              tradeState.deliverStatus === 'NOT_YET_SHIPPED'),
+          canReviewService:
+            resContext.orderType === 'FELINE_ORDER' &&
+            tradeState.flowState === 'COMPLETED' &&
+            !ele.storeEvaluateVO
         });
       })
       .catch((err) => {
@@ -837,6 +799,7 @@ class AccountOrders extends React.Component {
       normalProgressList
     } = this.state;
     let ret = null;
+    console.log('currentProgerssIndex', currentProgerssIndex);
     switch (currentProgerssIndex) {
       case 0:
         // 订单创建
@@ -1077,6 +1040,43 @@ class AccountOrders extends React.Component {
     }
     return daystr + ', ' + ymd[2] + ' ' + month;
   };
+  renderOperationBtns = () => {
+    return (
+      <>
+        {/*服务类产品评论*/}
+        {this.state.canReviewService ? (
+          <button className="rc-btn rc-btn--sm rc-btn--two ord-list-operation-btn">
+            <FormattedMessage id="writeReview">
+              {(txt) => (
+                <Link
+                  className="red-text"
+                  to={`/account/productReviewService/${this.state.orderNumber}`}
+                  title={txt}
+                  alt={txt}
+                >
+                  {txt}
+                </Link>
+              )}
+            </FormattedMessage>
+          </button>
+        ) : null}
+        {/*felin订单change appoint*/}
+        {this.state.canChangeAppoint ? (
+          <button
+            className={`rc-btn rc-btn--sm rc-btn--two ord-list-operation-btn `}
+          >
+            <FormattedMessage id="Change Appointment">
+              {(txt) => (
+                <Link className="red-text" to={`/felin`} title={txt} alt={txt}>
+                  {txt}
+                </Link>
+              )}
+            </FormattedMessage>
+          </button>
+        ) : null}
+      </>
+    );
+  };
   render() {
     const event = {
       page: {
@@ -1189,8 +1189,8 @@ class AccountOrders extends React.Component {
                                   <span className="medium">
                                     {filterOrderId({
                                       orderNo: this.state.orderNumber,
-                                      orderNoForOMS: this.state
-                                        .orderNumberForOMS
+                                      orderNoForOMS:
+                                        this.state.orderNumberForOMS
                                     })}
                                   </span>
                                 </div>
@@ -1270,9 +1270,6 @@ class AccountOrders extends React.Component {
                                                 title={item.spuName}
                                               >
                                                 {judgeIsIndividual(item) ? (
-                                                  // ? (item.petsName ||
-                                                  //     'Your pet') +
-                                                  //   "'s personalized subscription"
                                                   <FormattedMessage
                                                     id="subscription.personalized"
                                                     values={{
@@ -1284,9 +1281,19 @@ class AccountOrders extends React.Component {
                                                 )}
                                               </span>
                                               <span className="ui-text-overflow-line2">
-                                                <span className="rc-md-up">
-                                                  {item.specDetails}
-                                                </span>
+                                                {details.appointmentNo ? (
+                                                  <span className="rc-md-up">
+                                                    {details.specialistType} –{' '}
+                                                    {details.appointmentTime}
+                                                    <FormattedMessage id="min" />{' '}
+                                                    –{details.appointmentType}
+                                                  </span>
+                                                ) : (
+                                                  <span className="rc-md-up">
+                                                    {item.specDetails}
+                                                  </span>
+                                                )}
+
                                                 <span className="rc-md-down">
                                                   {judgeIsIndividual(item) ? (
                                                     <span>
@@ -1324,9 +1331,9 @@ class AccountOrders extends React.Component {
                                                           {filterOrderId({
                                                             orderNo:
                                                               el.subscribeId,
-                                                            orderNoForOMS: this
-                                                              .state
-                                                              .orderNumberForOMS
+                                                            orderNoForOMS:
+                                                              this.state
+                                                                .orderNumberForOMS
                                                           })}
                                                         </Link>
                                                       </p>
@@ -1376,14 +1383,16 @@ class AccountOrders extends React.Component {
                                             </span>
                                           </div>
                                           <div className="col-6 col-md-2 text-right text-md-left rc-md-up">
-                                            <FormattedMessage
-                                              id="xProduct"
-                                              values={{
-                                                val: judgeIsIndividual(item)
-                                                  ? 1
-                                                  : item.num
-                                              }}
-                                            />
+                                            {!details.appointmentNo ? (
+                                              <FormattedMessage
+                                                id="xProduct"
+                                                values={{
+                                                  val: judgeIsIndividual(item)
+                                                    ? 1
+                                                    : item.num
+                                                }}
+                                              />
+                                            ) : null}
                                           </div>
                                           <div className="col-6 col-md-3 text-right text-md-left rc-md-up">
                                             {details.subscriptionResponseVO &&
@@ -1419,6 +1428,8 @@ class AccountOrders extends React.Component {
                                                     : item.subscriptionPrice *
                                                         item.num
                                                 )
+                                              : details.appointmentNo
+                                              ? this.renderOperationBtns()
                                               : formatMoney(
                                                   item.originalPrice * item.num
                                                 )}
@@ -1927,6 +1938,10 @@ class AccountOrders extends React.Component {
                               ) : null}
                             </div>
                           </div>
+                          {/*felin订单 appointmentInfo*/}
+                          {details.appointmentNo ? (
+                            <OrderAppointmentInfo details={details} />
+                          ) : null}
                         </div>
                       ) : this.state.errMsg ? (
                         <div className="text-center mt-5">

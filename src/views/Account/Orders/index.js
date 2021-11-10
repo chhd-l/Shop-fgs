@@ -38,7 +38,6 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
 const pageLink = window.location.href;
-let isIndv = false;
 @inject('checkoutStore')
 @injectIntl
 @observer
@@ -220,6 +219,7 @@ class AccountOrders extends React.Component {
               ele.payWay.toUpperCase() === 'OXXO',
             payNowLoading: false,
             canRePurchase:
+              ele.orderType !== 'FELINE_ORDER' &&
               !ele.tradeItems?.find((el) => el.goodsInfoFlag == 3) &&
               (tradeState.flowState === 'COMPLETED' ||
                 tradeState.flowState === 'VOID'),
@@ -228,8 +228,12 @@ class AccountOrders extends React.Component {
               ele.orderType !== 'ORDER_SERVICE' &&
               tradeState.flowState === 'COMPLETED' &&
               !ele.storeEvaluateVO,
+            canChangeAppoint:
+              ele.orderType === 'FELINE_ORDER' &&
+              (tradeState.flowState === 'VOID' ||
+                tradeState.deliverStatus === 'NOT_YET_SHIPPED'),
             canReviewService:
-              ele.orderType === 'ORDER_SERVICE' &&
+              ele.orderType === 'FELINE_ORDER' &&
               tradeState.flowState === 'COMPLETED' &&
               !ele.storeEvaluateVO,
             canViewTrackInfo:
@@ -487,7 +491,7 @@ class AccountOrders extends React.Component {
           </button>
         ) : null}
         {/*服务类产品评论*/}
-        {order.canReviewServise ? (
+        {order.canReviewService ? (
           <button className="rc-btn rc-btn--sm rc-btn--two ord-list-operation-btn">
             <FormattedMessage id="writeReview">
               {(txt) => (
@@ -497,6 +501,20 @@ class AccountOrders extends React.Component {
                   title={txt}
                   alt={txt}
                 >
+                  {txt}
+                </Link>
+              )}
+            </FormattedMessage>
+          </button>
+        ) : null}
+        {/*felin订单change appoint*/}
+        {order.canChangeAppoint ? (
+          <button
+            className={`rc-btn rc-btn--sm rc-btn--two rePurchase-btn ord-list-operation-btn `}
+          >
+            <FormattedMessage id="Change Appointment">
+              {(txt) => (
+                <Link className="red-text" to={`/felin`} title={txt} alt={txt}>
                   {txt}
                 </Link>
               )}
@@ -938,7 +956,6 @@ class AccountOrders extends React.Component {
                                           <div className="col-8 col-md-6">
                                             <span className="medium color-444 ui-text-overflow-line2">
                                               {judgeIsIndividual(item) ? (
-                                                // ? (item.petsName || 'Your pet') + "'s personalized subscription"
                                                 <FormattedMessage
                                                   id="subscription.personalized"
                                                   values={{
@@ -951,6 +968,13 @@ class AccountOrders extends React.Component {
                                             </span>
                                             {judgeIsIndividual(item) ? (
                                               <span>{item.specDetails}</span>
+                                            ) : order.appointmentNo ? (
+                                              <span>
+                                                {order.specialistType} –{' '}
+                                                {order.appointmentTime}
+                                                <FormattedMessage id="min" /> –
+                                                {order.appointmentType}
+                                              </span>
                                             ) : (
                                               <FormattedMessage
                                                 id="order.quantityText"

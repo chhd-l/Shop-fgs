@@ -1042,6 +1042,7 @@ export async function getAddressPostalCodeAlertMessage() {
   });
 }
 
+//根据预约单号获取预约信息
 export async function getAppointmentInfo(appointNo) {
   const res = await getAppointByApptNo({ apptNo: appointNo });
   let resContext = res?.context?.settingVO;
@@ -1065,7 +1066,20 @@ export async function getAppointmentInfo(appointNo) {
     appointmentDictRes.length > 0 ? appointmentDictRes[0].name : 'Offline';
   const expertName =
     expertDictRes.length > 0 ? expertDictRes[0].name : 'Behaviorist';
-  const apptTime = resContext.apptTime.split('#');
+  const appointTime = handleFelinAppointTime(resContext?.apptTime);
+  return Object.assign(
+    resContext,
+    {
+      appointType,
+      expertName
+    },
+    appointTime
+  );
+}
+
+//处理预约信息里面的预约时间
+export function handleFelinAppointTime(appointTime) {
+  const apptTime = appointTime.split('#');
   const appointStartTime =
     apptTime.length > 0
       ? moment(apptTime[0].split(' ')[0]).format('YYYY-MM-DD') +
@@ -1078,10 +1092,8 @@ export async function getAppointmentInfo(appointNo) {
         ' ' +
         apptTime[1].split(' ')[1]
       : '';
-  return Object.assign(resContext, {
-    appointType,
-    expertName,
+  return {
     appointStartTime,
     appointEndTime
-  });
+  };
 }

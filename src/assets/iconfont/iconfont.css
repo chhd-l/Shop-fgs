@@ -18,6 +18,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.iconyuyuexinxi:before {
+  content: '\e632';
+}
+
 .iconfemale1:before {
   content: '\e9ac';
 }

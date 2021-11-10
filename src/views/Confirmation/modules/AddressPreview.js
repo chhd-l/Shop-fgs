@@ -6,11 +6,9 @@ import {
   matchNamefromDict,
   getDeviceType,
   getFormatDate,
-  getAppointmentInfo
+  handleFelinAppointTime
 } from '@/utils/utils';
 import { format } from 'date-fns-tz';
-import moment from 'moment';
-import { getAppointByApptNo } from '@/api/order';
 
 @inject('configStore')
 @observer
@@ -24,8 +22,7 @@ class InfosPreview extends React.Component {
     this.state = {
       countryList: [],
       deviceType: '',
-      orderArr: [],
-      appointmentInfo: null //felin 预约信息
+      orderArr: []
     };
   }
   componentDidMount() {
@@ -37,23 +34,6 @@ class InfosPreview extends React.Component {
         countryList: res
       });
     });
-    if (this.props.details.appointmentNo) {
-      this.queryAppointInfo();
-    }
-  }
-  //获取appointment信息
-  async queryAppointInfo() {
-    const res = await getAppointmentInfo(this.props.details.appointmentNo);
-    if (res) {
-      this.setState({
-        appointmentInfo: {
-          appointType: res?.appointType,
-          expertName: res?.expertName,
-          appointTime:
-            res?.appointStartTime + ' - ' + res?.appointEndTime.split(' ')[1]
-        }
-      });
-    }
   }
   computedOrder = () => {
     if (this.state.deviceType == 'PC') {
@@ -62,16 +42,23 @@ class InfosPreview extends React.Component {
       this.setState({ orderArr: ['order1', 'order3', 'order2'] });
     }
   };
+  handleFelinOrderDate = (appointmentDate) => {
+    const orderTime = handleFelinAppointTime(appointmentDate);
+    return (
+      orderTime.appointStartTime +
+      ' - ' +
+      orderTime.appointEndTime.split(' ')[1]
+    );
+  };
   render() {
     const { payRecord, details } = this.props;
-    const { appointmentInfo } = this.state;
     // 获取本地存储的需要显示的地址字段
     const localAddressForm = this.props.configStore.localAddressForm;
     return (
       <div style={{ padding: '0 .9375rem' }}>
         <div className="row rc-bg-colour--brand3 pt-3 pb-3 text-break">
           {/*Felin Appointment summary*/}
-          {appointmentInfo ? (
+          {details.appointmentNo ? (
             <div className="col-12 col-md-6 mb-3">
               <div className="bold mt-1 mb-1" style={{ color: '#666' }}>
                 <FormattedMessage id="Appointment summary" />
@@ -79,16 +66,18 @@ class InfosPreview extends React.Component {
               <div className="d-flex flex-column">
                 <span>
                   <FormattedMessage id="Expert type" />
-                  {appointmentInfo.expertName}
+                  {details.specialistType}
                 </span>
                 <span>
                   <FormattedMessage id="Appointment type" />
-                  {appointmentInfo.appointType}
+                  {details.appointmentType}
                 </span>
                 <span>
                   <FormattedMessage id="Appointment time" />
                 </span>
-                <span>{appointmentInfo.appointTime}</span>
+                <span>
+                  {this.handleFelinOrderDate(details.appointmentDate)}
+                </span>
               </div>
             </div>
           ) : null}

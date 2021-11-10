@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "6562799",
+      "name": "预约信息",
+      "font_class": "yuyuexinxi",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    },
+    {
       "icon_id": "22064139",
       "name": "female",
       "font_class": "female1",

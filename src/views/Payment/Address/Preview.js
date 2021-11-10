@@ -139,9 +139,11 @@ class AddressPreview extends React.Component {
           </>
         ) : (
           <>
-            <p className={`font-weight-bold ${boldName ? 'medium' : ''}`}>
-              {form.firstName + ' ' + form.lastName}
-            </p>
+            {!sessionItemRoyal.get('from-felin') ? (
+              <p className={`font-weight-bold ${boldName ? 'medium' : ''}`}>
+                {form.firstName + ' ' + form.lastName}
+              </p>
+            ) : null}
             <p className="preview_address">{form.address1}</p>
             {localAddressForm['address2'] && form.address2 && (
               <p>{form.address2}</p>
@@ -231,7 +233,9 @@ class AddressPreview extends React.Component {
                   {/* 邮编 */}
                   {localAddressForm['postCode'] && <span>{form.postCode}</span>}
                 </p>
-                <p>{form.phoneNumber || form.consigneeNumber} </p>
+                {!sessionItemRoyal.get('from-felin') ? (
+                  <p>{form.phoneNumber || form.consigneeNumber} </p>
+                ) : null}
               </>
             )}
           </>

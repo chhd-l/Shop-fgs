@@ -2184,6 +2184,7 @@ const fr_FR = {
   'Appointment time': 'Appointment time: ',
   min: 'min',
   're-book': 're-book',
-  'Felin Address': 'Felin Address'
+  'Felin Address': 'Felin Address',
+  'Change Appointment': 'Change Appointment'
 };
 export default fr_FR;
