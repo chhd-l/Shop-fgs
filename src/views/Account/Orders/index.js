@@ -1018,7 +1018,7 @@ class AccountOrders extends React.Component {
                                           {this.renderOperationBtns(order)}
                                         </div>
                                         <span
-                                          className="iconfont iconjiantouyou1 bold"
+                                          className="iconfont iconjiantouyou1 bold rc-md-down"
                                           style={{ fontSize: '20px' }}
                                         />
                                       </div>
