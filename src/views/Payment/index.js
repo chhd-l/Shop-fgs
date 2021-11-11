@@ -83,7 +83,7 @@ import { doGetGAVal } from '@/utils/GA';
 import ConsentData from '@/utils/consent';
 import CyberPayment from './PaymentMethod/Cyber';
 import felinAddr from './Address/FelinOfflineAddress';
-import moment from 'moment';
+import { funcUrl } from '../../lib/url-utils';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -385,7 +385,7 @@ class Payment extends React.Component {
     isHubGA && this.getPetVal();
     const appointNo =
       sessionItemRoyal.get('appointment-no') ||
-      this.props.match.params.orderNumber ||
+      funcUrl({ name: 'appointmentNo' }) ||
       null;
     if (appointNo) {
       sessionItemRoyal.set('from-felin', true);

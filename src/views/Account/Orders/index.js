@@ -23,7 +23,7 @@ import {
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import { batchAdd } from '@/api/payment';
-import { getOrderList, getOrderDetails } from '@/api/order';
+import { getOrderList } from '@/api/order';
 import orderImg from './img/order.jpg';
 import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
@@ -31,13 +31,12 @@ import base64 from 'base-64';
 import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { filterOrderId } from '@/utils/utils';
-
 import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-
 const pageLink = window.location.href;
+
 @inject('checkoutStore')
 @injectIntl
 @observer
@@ -133,7 +132,6 @@ class AccountOrders extends React.Component {
     });
   }
   handleDuringTimeChange = (data) => {
-    // console.log("获取当前选择的天气",data,this.state.form.period)
     const { form } = this.state;
     form.period = data.value;
     this.setState(
@@ -181,7 +179,6 @@ class AccountOrders extends React.Component {
           const tradeState = ele.tradeState;
           ele.tradeItems.forEach((el) => {
             el.spuName = judgeIsIndividual(el) ? (
-              // ? `${el.petsName}'s personalized subscription`
               <FormattedMessage
                 id="subscription.personalized"
                 values={{ val1: el.petsName }}
@@ -190,11 +187,6 @@ class AccountOrders extends React.Component {
               el.spuName
             );
           });
-          console.log('orderCategory:', ele.orderCategory);
-          console.log(
-            'isnotIndv:',
-            !ele.tradeItems?.find((el) => el.goodsInfoFlag == 3)
-          );
           // orderCategory为RECURRENT_AUTOSHIP为refill订单，需要隐藏repay按钮
           // goodsInfoFlag=3是indv的商品，需要隐藏加入购物车这个按钮
           return Object.assign(ele, {
@@ -315,46 +307,6 @@ class AccountOrders extends React.Component {
       };
     });
     try {
-      const detailRes = await getOrderDetails(order.id);
-      const detailResCt = detailRes.context;
-      const tmpDeliveryAddress = {
-        firstName: detailResCt.consignee.firstName,
-        lastName: detailResCt.consignee.lastName,
-        address1: detailResCt.consignee.detailAddress1,
-        address2: detailResCt.consignee.detailAddress2,
-        rfc: detailResCt.consignee.rfc,
-        country: detailResCt.consignee.countryId
-          ? detailResCt.consignee.countryId.toString()
-          : '',
-        // city: detailResCt.consignee.cityId ? detailResCt.consignee.cityId.toString() : '',
-        city:
-          detailResCt.consignee.city == detailResCt.consignee.cityName
-            ? null
-            : detailResCt.consignee.city,
-        cityName: detailResCt.consignee.cityName,
-        postCode: detailResCt.consignee.postCode,
-        phoneNumber: detailResCt.consignee.phone,
-        addressId: detailResCt.consignee.id
-      };
-      const tmpBillingAddress = {
-        firstName: detailResCt.invoice.firstName,
-        lastName: detailResCt.invoice.lastName,
-        address1: detailResCt.invoice.address1,
-        address2: detailResCt.invoice.address2,
-        rfc: detailResCt.invoice.rfc,
-        country: detailResCt.invoice.countryId
-          ? detailResCt.invoice.countryId.toString()
-          : '',
-        // city: detailResCt.invoice.cityId ? detailResCt.invoice.cityId.toString() : '',
-        city:
-          detailResCt.invoice.city == detailResCt.invoice.cityName
-            ? null
-            : detailResCt.invoice.city,
-        cityName: detailResCt.invoice.cityName,
-        postCode: detailResCt.invoice.postCode,
-        phoneNumber: detailResCt.invoice.phone,
-        addressId: detailResCt.invoice.addressId
-      };
       this.props.checkoutStore.setLoginCartData(tradeItems);
       sessionItemRoyal.set('rc-tid', order.id);
       sessionItemRoyal.set('rc-rePaySubscribeId', order.subscribeId);
@@ -368,7 +320,6 @@ class AccountOrders extends React.Component {
         promotionDiscount: order.tradePrice.deliveryPrice,
         subscriptionPrice: order.tradePrice.subscriptionPrice
       });
-
       this.props.history.push('/checkout');
       order.payNowLoading = false;
     } catch (err) {
@@ -378,10 +329,7 @@ class AccountOrders extends React.Component {
       this.setState({ orderList });
     }
   }
-  rePurchase(order) {
-    this.hanldeLoginAddToCart(order);
-  }
-  async hanldeLoginAddToCart(order) {
+  async rePurchase(order) {
     try {
       const { orderList } = this.state;
       order.addToCartLoading = true;
@@ -755,7 +703,6 @@ class AccountOrders extends React.Component {
                                 (item) =>
                                   (item.subscriptionPlanId || []).length > 0
                               );
-                              console.info('isGift', isGift);
                               return (
                                 <div
                                   className="card-container"
