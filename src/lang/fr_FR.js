@@ -2185,6 +2185,9 @@ const fr_FR = {
   min: 'min',
   're-book': 're-book',
   'Felin Address': 'Felin Address',
-  'Change Appointment': 'Change Appointment'
+  'Change Appointment': 'Change Appointment',
+  'felinOrder.servicePaid': 'Service being prepared',
+  'felinOrder.servicePaidTip':
+    'Your appointment has been set up and we can’t wait to see you!'
 };
 export default fr_FR;

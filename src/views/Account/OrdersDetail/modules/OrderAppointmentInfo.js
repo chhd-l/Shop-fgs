@@ -70,7 +70,7 @@ class OrderAppointmentInfo extends React.Component {
               <div className="d-flex">
                 <i
                   className="iconfont iconyuyuexinxi mr-3 ml-1"
-                  style={{ fontSize: '24px', color: '#d81e06' }}
+                  style={{ fontSize: '36px', color: '#d81e06' }}
                 />
                 <div>
                   <div className="medium mb-3">
