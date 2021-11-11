@@ -290,7 +290,7 @@ class Payment extends React.Component {
       }, // 俄罗斯计算运费DuData对象，purchases接口用
       welcomeBoxValue: 'no', //first order welcome box:1、会员 2、首单 3、未填写学生购student promotion 50% discount
       paymentPanelHasComplete: false, //增加payment面板按钮的状态，方便0元订单判断是否已经填写完payment面板
-      isFormFelin: false, //是否是felin下单
+      isFromFelin: false, //是否是felin下单
       appointNo: null //felin的预约单号
     };
     this.timer = null;
@@ -391,17 +391,22 @@ class Payment extends React.Component {
       sessionItemRoyal.set('from-felin', true);
       let felinAddress = this.isLogin
         ? Object.assign(felinAddr[0], {
-            // firstName: this.userInfo.firstName,
-            // lastName: this.userInfo.lastName,
-            email: this.userInfo.email
-            // consigneeName: this.userInfo.customerName,
-            // consigneeNumber: this.userInfo.contactPhone
+            firstName: this.userInfo.firstName,
+            lastName: this.userInfo.lastName,
+            email: this.userInfo.email,
+            consigneeName: this.userInfo.customerName,
+            consigneeNumber: this.userInfo.contactPhone
           })
-        : felinAddr[0];
+        : Object.assign(felinAddr[0], {
+            firstName: 'guest',
+            lastName: 'guest',
+            consigneeName: 'guest guest',
+            consigneeNumber: '(+33) 4 37 92 70 83'
+          });
       this.setState(
         {
           appointNo: appointNo,
-          isFormFelin: true,
+          isFromFelin: true,
           deliveryAddress: felinAddress,
           billingAddress: felinAddress
         },
@@ -463,7 +468,7 @@ class Payment extends React.Component {
       } else {
         let recommend_data = JSON.parse(recommendProductJson);
         recommend_data = recommend_data.map((el) => {
-          el.goodsInfo.salePrice = el.goodsInfo.marketPrice;
+          el.goodsInfo.salePrice = el.goodsInfo?.marketPrice;
           el.goodsInfo.buyCount = el.recommendationNumber;
           return el.goodsInfo;
         });
@@ -623,7 +628,7 @@ class Payment extends React.Component {
   }
   initPanelStatus() {
     const { paymentStore } = this.props;
-    const { tid, isFormFelin } = this.state;
+    const { tid, isFromFelin } = this.state;
 
     //初始化的时候如果是0元订单将paymentMethod面板置为已完成
     if (this.tradePrice === 0 && !tid && !this.state.appointNo) {
@@ -633,7 +638,7 @@ class Payment extends React.Component {
     }
 
     //from felin情况下，地址信息不可编辑，直接置为completed
-    if (isFormFelin) {
+    if (isFromFelin) {
       paymentStore.setStsToCompleted({
         key: 'deliveryAddr',
         isFirstLoad: true
@@ -1694,49 +1699,64 @@ class Payment extends React.Component {
       creditCardInfo,
       payosdata,
       guestEmail,
-      promotionCode
+      promotionCode,
+      recommend_data,
+      isFromFelin
     } = this.state;
 
     // 获取本地存储的计算运费折扣参数
     const calculationParam = localItemRoyal.get('rc-calculation-param') || null;
+
+    //封装felin下单参数
+    let appointParam = {};
+    if (isFromFelin && recommend_data.length > 0) {
+      appointParam = {
+        appointmentNo: recommend_data[0]?.apptNo, //felin预约单号
+        specialistType: recommend_data[0]?.expertName, //专家类型
+        appointmentTime: recommend_data[0]?.minutes, //预约时长
+        appointmentType: recommend_data[0]?.appointType, //预约类型
+        appointmentDate: recommend_data[0]?.apptTime //预约时间
+      };
+    }
 
     /**
      * ★★★ 1
      * 封装下单参数的时候需要把新加的字段加上，
      * 否则支付时会刷新preview显示的参数
      */
-    let param = Object.assign({}, deliveryAddress, {
-      zipcode: deliveryAddress?.postCode,
-      phone: creditCardInfo?.phoneNumber,
-      email: creditCardInfo?.email || deliveryAddress?.email,
-      line1: deliveryAddress?.address1,
-      line2: deliveryAddress?.address2,
-      //审核者信息放订单行
-      clinicsId: clinicStore.selectClinicId,
-      clinicsName: clinicStore.selectClinicName,
-      //下单增加recommendationCode(clinicsCode)字段
-      clinicsCode: clinicStore.selectClinicCode,
-      storeId: window.__.env.REACT_APP_STOREID,
-      tradeItems: [], // once order products
-      subTradeItems: [], // subscription order products
-      tradeMarketingList: [],
-      payAccountName: creditCardInfo?.cardOwner,
-      payPhoneNumber: creditCardInfo?.phoneNumber,
-      petsId: '',
-      deliveryAddressId: deliveryAddress?.addressId,
-      billAddressId: billingAddress?.addressId,
-      maxDeliveryTime:
-        calculationParam?.maxDeliveryTime || deliveryAddress?.maxDeliveryTime,
-      minDeliveryTime:
-        calculationParam?.minDeliveryTime || deliveryAddress?.minDeliveryTime,
-      promotionCode,
-      guestEmail,
-      selectWelcomeBoxFlag: this.state.welcomeBoxValue === 'yes', //first order welcome box
-      appointmentNo:
-        this.state.recommend_data.length > 0
-          ? this.state.recommend_data[0]?.apptNo
-          : '' //felin预约单号
-    });
+    let param = Object.assign(
+      {},
+      deliveryAddress,
+      {
+        zipcode: deliveryAddress?.postCode,
+        phone: creditCardInfo?.phoneNumber,
+        email: creditCardInfo?.email || deliveryAddress?.email || guestEmail,
+        line1: deliveryAddress?.address1,
+        line2: deliveryAddress?.address2,
+        //审核者信息放订单行
+        clinicsId: clinicStore.selectClinicId,
+        clinicsName: clinicStore.selectClinicName,
+        //下单增加recommendationCode(clinicsCode)字段
+        clinicsCode: clinicStore.selectClinicCode,
+        storeId: window.__.env.REACT_APP_STOREID,
+        tradeItems: [], // once order products
+        subTradeItems: [], // subscription order products
+        tradeMarketingList: [],
+        payAccountName: creditCardInfo?.cardOwner,
+        payPhoneNumber: creditCardInfo?.phoneNumber,
+        petsId: '',
+        deliveryAddressId: deliveryAddress?.addressId,
+        billAddressId: billingAddress?.addressId,
+        maxDeliveryTime:
+          calculationParam?.maxDeliveryTime || deliveryAddress?.maxDeliveryTime,
+        minDeliveryTime:
+          calculationParam?.minDeliveryTime || deliveryAddress?.minDeliveryTime,
+        promotionCode,
+        guestEmail,
+        selectWelcomeBoxFlag: this.state.welcomeBoxValue === 'yes' //first order welcome box
+      },
+      appointParam
+    );
     let tokenObj = JSON.parse(localStorage.getItem('okta-token-storage'));
     if (tokenObj && tokenObj.accessToken) {
       param.oktaToken = 'Bearer ' + tokenObj.accessToken.accessToken;
@@ -3557,8 +3577,7 @@ class Payment extends React.Component {
       paymentValidationLoading,
       validationModalVisible,
       billingAddress,
-      selectValidationOption,
-      isFormFelin
+      selectValidationOption
     } = this.state;
     const event = {
       page: {

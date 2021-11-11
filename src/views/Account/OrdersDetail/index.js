@@ -1449,11 +1449,11 @@ class AccountOrders extends React.Component {
                                                       </span>
                                                     </>
                                                   )
-                                                ) : !this.isFelinOrder ? (
+                                                ) : (
                                                   formatMoney(
                                                     item.originalPrice
                                                   )
-                                                ) : null}
+                                                )}
                                               </span>
                                               {/* {details.subscriptionResponseVO &&
                                               item.subscriptionStatus && (
