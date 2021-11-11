@@ -58,7 +58,7 @@ class InfosPreview extends React.Component {
       <div style={{ padding: '0 .9375rem' }}>
         <div className="row rc-bg-colour--brand3 pt-3 pb-3 text-break">
           {/*Felin Appointment summary*/}
-          {details.appointmentNo ? (
+          {details.orderType === 'FELINE_ORDER' ? (
             <div className="col-12 col-md-6 mb-3">
               <div className="bold mt-1 mb-1" style={{ color: '#666' }}>
                 <FormattedMessage id="Appointment summary" />

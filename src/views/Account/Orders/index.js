@@ -968,7 +968,8 @@ class AccountOrders extends React.Component {
                                             </span>
                                             {judgeIsIndividual(item) ? (
                                               <span>{item.specDetails}</span>
-                                            ) : order.appointmentNo ? (
+                                            ) : order.orderType ===
+                                              'FELINE_ORDER' ? (
                                               <span>
                                                 {order.specialistType} –{' '}
                                                 {order.appointmentTime}

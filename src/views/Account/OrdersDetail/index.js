@@ -272,6 +272,11 @@ class AccountOrders extends React.Component {
       ? details.tradePrice.totalAddInstallmentPrice
       : details.tradePrice.totalPrice;
   }
+  //判断是否是felin 订单
+  get isFelinOrder() {
+    const { details } = this.state;
+    return details.orderType === 'FELINE_ORDER';
+  }
   init() {
     const { orderNumber, progressList } = this.state;
     this.setState({ loading: true });
@@ -799,7 +804,6 @@ class AccountOrders extends React.Component {
       normalProgressList
     } = this.state;
     let ret = null;
-    console.log('currentProgerssIndex', currentProgerssIndex);
     switch (currentProgerssIndex) {
       case 0:
         // 订单创建
@@ -981,6 +985,76 @@ class AccountOrders extends React.Component {
     // }
     return ret;
   };
+  renderFelinHeadTip = () => {
+    const { currentProgerssIndex, normalProgressList } = this.state;
+    let ret = null;
+    console.log('currentProgerssIndex', currentProgerssIndex);
+    switch (currentProgerssIndex) {
+      case 0:
+        // Appointment confirmed
+        ret = (
+          <>
+            <HeadTip
+              icon={
+                <svg
+                  className="svg-icon"
+                  aria-hidden="true"
+                  style={{ width: '3.5em', height: '3.5em' }}
+                >
+                  <use xlinkHref="#iconTobepaid" />
+                </svg>
+              }
+              title={normalProgressList[currentProgerssIndex]?.flowStateDesc}
+              titleColor="text-info"
+              tip={<FormattedMessage id="orderStatus.INITTip" />}
+            />
+            <hr />
+          </>
+        );
+        break;
+      case 1:
+        // Order paid
+        ret = (
+          <>
+            <HeadTip
+              icon={
+                <i
+                  className="iconfont iconfuwudiqiu ml-3"
+                  style={{ fontSize: '48px', color: '#d81e06' }}
+                />
+              }
+              title={<FormattedMessage id="felinOrder.servicePaid" />}
+              titleColor="text-warning"
+              tip={<FormattedMessage id="felinOrder.servicePaidTip" />}
+            />
+            <hr />
+          </>
+        );
+        break;
+      case 2:
+        // Check in
+        ret = (
+          <>
+            <HeadTip
+              icon={
+                <svg
+                  className="svg-icon"
+                  aria-hidden="true"
+                  style={{ width: '3.5em', height: '3.5em' }}
+                >
+                  <use xlinkHref="#iconCompleted" />
+                </svg>
+              }
+              title={normalProgressList[currentProgerssIndex]?.flowStateDesc}
+              tip={<FormattedMessage id="order.completeTip" />}
+            />
+            <hr />
+          </>
+        );
+        break;
+    }
+    return ret;
+  };
   // 对应的国际化字符串
   getIntlMsg = (str) => {
     return this.props.intl.messages[str];
@@ -1158,7 +1232,9 @@ class AccountOrders extends React.Component {
                         />
                       ) : details ? (
                         <div className="card-body p-0">
-                          {this.renderHeadTip()}
+                          {this.isFelinOrder
+                            ? this.renderFelinHeadTip()
+                            : this.renderHeadTip()}
                           {currentProgerssIndex > -1 ? (
                             <Progress
                               progressList={normalProgressList}
@@ -1238,6 +1314,11 @@ class AccountOrders extends React.Component {
                                 )}
                                 {/* {this.returnOrExchangeBtnJSX()} */}
                                 {/* {this.cancelOrderBtnJSX()} */}
+                                {this.isFelinOrder ? (
+                                  <div className="col-12 col-md-0 text-left mb-2 rc-md-down">
+                                    {this.renderOperationBtns()}
+                                  </div>
+                                ) : null}
                               </div>
                             </div>
                             <div className="col-12 table-body rounded mt-md-3 mb-2 pl-0 pr-0">
@@ -1281,7 +1362,7 @@ class AccountOrders extends React.Component {
                                                 )}
                                               </span>
                                               <span className="ui-text-overflow-line2">
-                                                {details.appointmentNo ? (
+                                                {this.isFelinOrder ? (
                                                   <span className="rc-md-up">
                                                     {details.specialistType} –{' '}
                                                     {details.appointmentTime}
@@ -1298,6 +1379,13 @@ class AccountOrders extends React.Component {
                                                   {judgeIsIndividual(item) ? (
                                                     <span>
                                                       {item.specDetails} x1
+                                                    </span>
+                                                  ) : this.isFelinOrder ? (
+                                                    <span className="rc-md-down">
+                                                      {details.specialistType} –{' '}
+                                                      {details.appointmentTime}
+                                                      <FormattedMessage id="min" />{' '}
+                                                      –{details.appointmentType}
                                                     </span>
                                                   ) : (
                                                     <FormattedMessage
@@ -1361,11 +1449,11 @@ class AccountOrders extends React.Component {
                                                       </span>
                                                     </>
                                                   )
-                                                ) : (
+                                                ) : !this.isFelinOrder ? (
                                                   formatMoney(
                                                     item.originalPrice
                                                   )
-                                                )}
+                                                ) : null}
                                               </span>
                                               {/* {details.subscriptionResponseVO &&
                                               item.subscriptionStatus && (
@@ -1383,7 +1471,7 @@ class AccountOrders extends React.Component {
                                             </span>
                                           </div>
                                           <div className="col-6 col-md-2 text-right text-md-left rc-md-up">
-                                            {!details.appointmentNo ? (
+                                            {!this.isFelinOrder ? (
                                               <FormattedMessage
                                                 id="xProduct"
                                                 values={{
@@ -1428,7 +1516,7 @@ class AccountOrders extends React.Component {
                                                     : item.subscriptionPrice *
                                                         item.num
                                                 )
-                                              : details.appointmentNo
+                                              : this.isFelinOrder
                                               ? this.renderOperationBtns()
                                               : formatMoney(
                                                   item.originalPrice * item.num
@@ -1939,7 +2027,7 @@ class AccountOrders extends React.Component {
                             </div>
                           </div>
                           {/*felin订单 appointmentInfo*/}
-                          {details.appointmentNo ? (
+                          {this.isFelinOrder ? (
                             <OrderAppointmentInfo details={details} />
                           ) : null}
                         </div>
