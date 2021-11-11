@@ -680,7 +680,7 @@ class AccountOrders extends React.Component {
                   </>
                 ) : (
                   <>
-                    <div className="row mb-3 ml-2 m-md-0">
+                    <div className="row mb-3 m-md-0" style={{ margin: 0 }}>
                       <div className="col-12 rc-md-down">
                         <Link to="/account">
                           <span className="red">&lt;</span>
@@ -713,7 +713,7 @@ class AccountOrders extends React.Component {
                         </ul>
                       </div>
 
-                      <div className="col-10 order-0 order-md-1 col-md-4">
+                      <div className="col-12 order-0 order-md-1 col-md-4">
                         <div className="rc-select rc-full-width rc-input--full-width rc-select-processed mt-0 mb-2 mb-md-0">
                           <Selection
                             optionList={duringTimeOptions}
@@ -1017,7 +1017,10 @@ class AccountOrders extends React.Component {
                                         <div className="rc-md-up">
                                           {this.renderOperationBtns(order)}
                                         </div>
-                                        <span className="rc-icon rc-right rc-iconography rc-md-down ord-list-operation-btn" />
+                                        <span
+                                          className="iconfont iconjiantouyou1 bold"
+                                          style={{ fontSize: '20px' }}
+                                        />
                                       </div>
                                     )}
                                     {/* {order.subscribeId && !isGift ? (

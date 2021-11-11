@@ -24,13 +24,13 @@ class OrderAppointmentInfo extends React.Component {
     const { details } = this.props;
     return (
       <div className="ml-2 mr-2 mr-md-0 ml-md-0">
-        <p className="mt-4 mb-2 red text-left">
+        <p className="mt-4 mb-3 red text-left">
           <FormattedMessage id="Appointment Information" />
         </p>
 
         <div className="row text-left text-break">
           {/*Felin Address*/}
-          <div className="col-12 col-md-4 mb-2">
+          <div className="col-12 col-md-4 mb-3">
             <div className="border rounded h-100">
               <div className="d-flex p-3 h-100">
                 <svg
@@ -65,7 +65,7 @@ class OrderAppointmentInfo extends React.Component {
             </div>
           </div>
           {/*Appointment summary*/}
-          <div className="col-12 col-md-4 mb-2">
+          <div className="col-12 col-md-4 mb-3">
             <div className="border rounded p-3 h-100">
               <div className="d-flex">
                 <i

@@ -1196,7 +1196,10 @@ class AccountOrders extends React.Component {
           <div className="p-md-2rem rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
               <SideMenu type="Orders" customCls="rc-md-up" />
-              <div className="my__account-content rc-column rc-quad-width">
+              <div
+                className="my__account-content rc-column rc-quad-width"
+                style={{ padding: '0.5rem' }}
+              >
                 {showLogisticsDetail ? (
                   <span onClick={this.handleClickBackToIndex}>
                     <span className="red">&lt;</span>
@@ -1207,7 +1210,7 @@ class AccountOrders extends React.Component {
                 ) : (
                   <Link
                     to="/account/orders"
-                    className="rc-md-down mt-3 inlineblock"
+                    className="rc-md-down mt-3 ml-2 inlineblock"
                   >
                     <span className="red">&lt;</span>
                     <span className="rc-styled-link rc-progress__breadcrumb ml-2">
@@ -1220,6 +1223,7 @@ class AccountOrders extends React.Component {
                   className={`row justify-content-center mt-3 mt-md-0 ${
                     showLogisticsDetail ? 'hidden' : ''
                   }`}
+                  style={{ margin: 0 }}
                 >
                   <div className="order_listing_details col-12 no-padding">
                     <div className="card confirm-details orderDetailsPage ml-0 mr-0 border-0">
@@ -1748,11 +1752,11 @@ class AccountOrders extends React.Component {
 
                           {/* 地址/支付信息 */}
                           <div className="ml-2 mr-2 mr-md-0 ml-md-0">
-                            <p className="mt-4 mb-2 red text-left">
+                            <p className="mt-4 mb-3 red text-left">
                               <FormattedMessage id="transactionInfomation" />
                             </p>
                             <div className="row text-left text-break">
-                              <div className="col-12 col-md-4 mb-2">
+                              <div className="col-12 col-md-4 mb-3">
                                 <div className="border rounded h-100">
                                   <div className="d-flex p-3 h-100">
                                     <svg
@@ -1879,7 +1883,7 @@ class AccountOrders extends React.Component {
                                 +window.__.env
                                   .REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
                               ) ? (
-                                <div className="col-12 col-md-4 mb-2">
+                                <div className="col-12 col-md-4 mb-3">
                                   <div className="border rounded p-3 h-100">
                                     <div className="d-flex">
                                       <svg
@@ -1953,7 +1957,7 @@ class AccountOrders extends React.Component {
                                 </div>
                               ) : null}
                               {payRecord && payRecord.lastFourDigits ? (
-                                <div className="col-12 col-md-4 mb-2">
+                                <div className="col-12 col-md-4 mb-3">
                                   <div className="border rounded p-3 h-100">
                                     <div className="d-flex">
                                       <svg
