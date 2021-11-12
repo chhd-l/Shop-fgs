@@ -328,7 +328,7 @@ class LoginCart extends React.Component {
                                           <FormattedMessage
                                             id="minicart.quantityText"
                                             values={{
-                                              specText: item.specText,
+                                              specText: item.specText || '',
                                               buyCount: item.buyCount
                                             }}
                                           />

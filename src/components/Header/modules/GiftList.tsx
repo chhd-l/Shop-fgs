@@ -44,7 +44,7 @@ const GiftList = ({data}) => {
                         <FormattedMessage
                           id="minicart.quantityText"
                           values={{
-                            specText: data.specText,
+                            specText: data.specText || '',
                             buyCount: data.buyCount
                           }}
                         />
