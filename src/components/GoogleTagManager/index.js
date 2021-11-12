@@ -3,6 +3,7 @@ import { inject, observer } from 'mobx-react';
 import { loadJS, filterObjectValueDeep } from '@/utils/utils';
 import { sha256 } from 'js-sha256';
 
+const localItemRoyal = window.__.localItemRoyal;
 @inject('loginStore')
 @observer
 class GoogleTagManager extends React.Component {
@@ -73,10 +74,9 @@ class GoogleTagManager extends React.Component {
     };
 
     let userInfo = this.props.loginStore.userInfo;
-    const CLIENT_ID =
-      window.__.env.REACT_APP_CLIENT_ID || '0oar7ofrk3EJ4SYPT0h7';
 
     if (userInfo) {
+      const oktaId = localItemRoyal.get('customer-okta-id') || '';
       event.user = {
         authentificationStatus: 'authenticated',
         email: userInfo.email && sha256(userInfo.email),
@@ -89,7 +89,7 @@ class GoogleTagManager extends React.Component {
       hubEvent.user = {
         segment: 'Authenticated',
         country: window.__.env.REACT_APP_GA_COUNTRY,
-        id: CLIENT_ID
+        id: oktaId
       };
     } else {
       event.user = {
