@@ -44,7 +44,7 @@ const GiftList = ({ pitem }) => {
                   <FormattedMessage
                     id="quantityText"
                     values={{
-                      specText: pitem.specText,
+                      specText: pitem.specText || '',
                       buyCount: pitem.buyCount
                     }}
                   />

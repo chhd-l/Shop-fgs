@@ -297,7 +297,7 @@ class PayProductInfo extends React.Component {
                       <FormattedMessage
                         id="quantityText"
                         values={{
-                          specText: selectedSizeItem.specText,
+                          specText: selectedSizeItem.specText || '',
                           buyCount: el.quantity
                         }}
                       />
@@ -418,7 +418,7 @@ class PayProductInfo extends React.Component {
                               //           .replace('.', ',')
                               //       : el.buyCount / 1000) + ' kg '
                               //   : el.specText,
-                              el.specText,
+                              el.specText || '',
                             buyCount: el.goodsInfoFlag == 3 ? 1 : el.buyCount
                           }}
                         />

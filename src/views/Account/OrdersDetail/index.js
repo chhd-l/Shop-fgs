@@ -1297,7 +1297,8 @@ class AccountOrders extends React.Component {
                                                       id="quantityText"
                                                       values={{
                                                         specText:
-                                                          item.specDetails,
+                                                          item.specDetails ||
+                                                          '',
                                                         buyCount: item.num
                                                       }}
                                                     />
@@ -1987,7 +1988,7 @@ class AccountOrders extends React.Component {
                               <FormattedMessage
                                 id="quantityText"
                                 values={{
-                                  specText: ele.specDetails,
+                                  specText: ele.specDetails || '',
                                   buyCount: ele.itemNum
                                 }}
                               />
