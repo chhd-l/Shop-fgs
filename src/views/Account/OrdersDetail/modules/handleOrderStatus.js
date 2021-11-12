@@ -38,18 +38,18 @@ export function handleFelinOrderStatusMap(orderStatusMap) {
     // 组装所有归属于此状态的订单状态
     switch (el) {
       case 1000:
-        flowStateDesc = 'Appointment confirmed';
+        // flowStateDesc = 'Appointment confirmed';
         //   flowStateIds.push(orderStatusMap[2000]?.flowStateId);
         break;
       case 2000:
-        flowStateDesc = 'Order paid';
+        // flowStateDesc = 'Order paid';
         flowStateIds.push(orderStatusMap[3000]?.flowStateId);
         break;
       // case 3000:
       //   flowStateIds.push(orderStatusMap[3010]?.flowStateId);
       //   break;
       case 5000:
-        flowStateDesc = 'Check in';
+        // flowStateDesc = 'Check in';
         flowStateIds.push(orderStatusMap[4010]?.flowStateId);
         flowStateIds.push(orderStatusMap[9000]?.flowStateId);
         break;

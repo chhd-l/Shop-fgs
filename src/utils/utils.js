@@ -1048,14 +1048,14 @@ export async function getAppointmentInfo(appointNo) {
   let resContext = res?.context?.settingVO;
   let appointDictRes = await Promise.all([
     getDictionary({
-      type: 'apprintment_type'
+      type: 'appointment_type'
     }),
     getDictionary({
       type: 'expert_type'
     })
   ]);
   // appointDictRes=flatten(appointDictRes)
-  console.log('appointmentInfo', appointDictRes);
+  console.log('appointDictRes', appointDictRes);
   const appointmentDictRes = appointDictRes[0].filter(
     (item) => item.value === resContext?.apptTypeId
   );

@@ -233,7 +233,8 @@ class AccountOrders extends React.Component {
       curLogisticInfo: null,
       welcomeGiftLists: [], //first-order welcome box gifts
       canChangeAppoint: false, //felin订单是否可以更改
-      canReviewService: false //felin订单是否可以评论
+      canReviewService: false, //felin订单是否可以评论
+      canCancelAppoint: false //felin订单是否可以cancel
     };
     this.changeTab = this.changeTab.bind(this);
     this.handleClickLogisticsCard = this.handleClickLogisticsCard.bind(this);
@@ -402,8 +403,12 @@ class AccountOrders extends React.Component {
             !['OXXO', 'COD'].includes(resContext.payWay?.toUpperCase()),
           canChangeAppoint:
             resContext.orderType === 'FELINE_ORDER' &&
-            (tradeState.flowState === 'VOID' ||
-              tradeState.deliverStatus === 'NOT_YET_SHIPPED'),
+            tradeState.flowState !== 'COMPLETED' &&
+            tradeState.payState === 'PAID',
+          canCancelAppoint:
+            resContext.orderType === 'FELINE_ORDER' &&
+            tradeState.flowState !== 'COMPLETED' &&
+            tradeState.payState === 'PAID',
           canReviewService:
             resContext.orderType === 'FELINE_ORDER' &&
             tradeState.flowState === 'COMPLETED' &&
@@ -1119,11 +1124,11 @@ class AccountOrders extends React.Component {
       <>
         {/*服务类产品评论*/}
         {this.state.canReviewService ? (
-          <button className="rc-btn rc-btn--sm rc-btn--two ord-list-operation-btn">
+          <button className="rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn">
             <FormattedMessage id="writeReview">
               {(txt) => (
                 <Link
-                  className="red-text"
+                  className="color-fff"
                   to={`/account/productReviewService/${this.state.orderNumber}`}
                   title={txt}
                   alt={txt}
@@ -1137,15 +1142,24 @@ class AccountOrders extends React.Component {
         {/*felin订单change appoint*/}
         {this.state.canChangeAppoint ? (
           <button
-            className={`rc-btn rc-btn--sm rc-btn--two ord-list-operation-btn `}
+            className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order`}
           >
             <FormattedMessage id="Change Appointment">
               {(txt) => (
-                <Link className="red-text" to={`/felin`} title={txt} alt={txt}>
+                <Link className="color-fff" to={`/felin`} title={txt} alt={txt}>
                   {txt}
                 </Link>
               )}
             </FormattedMessage>
+          </button>
+        ) : null}
+        {/*felin订单cancel appoint*/}
+        {this.state.canCancelAppoint ? (
+          <button
+            className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order`}
+            style={{ marginLeft: 0 }}
+          >
+            <FormattedMessage id="Cancel Appointment" />
           </button>
         ) : null}
       </>
@@ -1510,7 +1524,7 @@ class AccountOrders extends React.Component {
                                               formatMoney(item.originalPrice)
                                             )}
                                           </div>
-                                          <div className="col-12 col-md-2 text-right text-md-left text-nowrap rc-md-up font-weight-normal 111">
+                                          <div className="col-12 col-md-2 text-right text-md-left text-nowrap rc-md-up font-weight-normal d-flex justify-content-center flex-column">
                                             {details.subscriptionResponseVO &&
                                             item.subscriptionStatus
                                               ? formatMoney(
@@ -1750,160 +1764,34 @@ class AccountOrders extends React.Component {
                             </div>
                           </div>
 
-                          {/* 地址/支付信息 */}
-                          <div className="ml-2 mr-2 mr-md-0 ml-md-0">
-                            <p className="mt-4 mb-3 red text-left">
-                              <FormattedMessage id="transactionInfomation" />
-                            </p>
-                            <div className="row text-left text-break">
-                              <div className="col-12 col-md-4 mb-3">
-                                <div className="border rounded h-100">
-                                  <div className="d-flex p-3 h-100">
-                                    <svg
-                                      className="svg-icon align-middle mr-3 ml-1"
-                                      aria-hidden="true"
-                                      style={{ width: '2em', height: '2em' }}
-                                    >
-                                      <use xlinkHref="#iconaddresses" />
-                                    </svg>
-                                    <div>
-                                      <p className="medium mb-3">
-                                        <FormattedMessage id="delivery2" />
-                                      </p>
-                                      {/* 姓名 */}
-                                      <p className="medium mb-2 od_mb_name">
-                                        {details.consignee.name}
-                                      </p>
-                                      {/* 电话 */}
-                                      <p className="mb-0 od_mb_tel">
-                                        {details.consignee.phone}
-                                      </p>
-
-                                      {/* 国家 */}
-                                      {window.__.env.REACT_APP_COUNTRY ===
-                                        'us' ||
-                                      window.__.env.REACT_APP_COUNTRY ===
-                                        'ru' ? null : (
-                                        <p className="mb-0 od_mb_country">
-                                          {matchNamefromDict(
-                                            this.state.countryList,
-                                            details.consignee.countryId
-                                          )}
-                                        </p>
-                                      )}
-                                      {/* 地址 */}
-                                      <p className="mb-0 od_mb_address1">
-                                        {details.consignee.detailAddress1}
-                                      </p>
-                                      {localAddressForm['address2'] &&
-                                        details.consignee.detailAddress2 && (
-                                          <p className="mb-0 od_mb_address2">
-                                            {details.consignee.detailAddress2}
-                                          </p>
-                                        )}
-
-                                      <p className="mb-0 od_mb_cpp">
-                                        {/* 市 */}
-                                        {localAddressForm['city'] &&
-                                          details.consignee.city + ', '}
-
-                                        {/* 区域 */}
-                                        {localAddressForm['region'] &&
-                                          details.consignee.area + ', '}
-
-                                        {/* 省份 */}
-                                        {localAddressForm['state'] &&
-                                          details.consignee.province + ' '}
-
-                                        {/* 邮编 */}
-                                        {localAddressForm['postCode'] &&
-                                          details.consignee.postCode}
-                                      </p>
-                                      {details.consignee.rfc ? (
-                                        <p className="mb-0">
-                                          {details.consignee.rfc}
-                                        </p>
-                                      ) : null}
-                                      {details.buyerRemark ? (
-                                        <p className="mb-0">
-                                          {details.buyerRemark}
-                                        </p>
-                                      ) : null}
-
-                                      {/* 运费折扣 */}
-                                      {!details.consignee.timeSlot &&
-                                      details?.maxDeliveryTime != null &&
-                                      details?.minDeliveryTime != null ? (
-                                        <p className="mb-0 od_mb_yf">
-                                          {details.minDeliveryTime ===
-                                          details.maxDeliveryTime ? (
-                                            <FormattedMessage
-                                              id="payment.deliveryDate2"
-                                              values={{
-                                                val: details.minDeliveryTime
-                                              }}
-                                            />
-                                          ) : (
-                                            <FormattedMessage
-                                              id="payment.deliveryDate"
-                                              values={{
-                                                min: details.minDeliveryTime,
-                                                max: details.maxDeliveryTime
-                                              }}
-                                            />
-                                          )}
-                                        </p>
-                                      ) : null}
-
-                                      {/* delivery date */}
-                                      {newDeliveryDate && (
-                                        <p className="mb-0 od_mb_deliveryDate">
-                                          {newDeliveryDate}
-                                        </p>
-                                      )}
-
-                                      {/* time slot */}
-                                      {details.consignee.timeSlot && (
-                                        <p className="mb-0 od_mb_timeSlot">
-                                          {details.consignee.timeSlot}
-                                        </p>
-                                      )}
-
-                                      {/* workTime */}
-                                      {details.consignee.workTime && (
-                                        <p className="mb-0 od_mb_workTime">
-                                          {details.consignee.workTime}
-                                        </p>
-                                      )}
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              {!Boolean(
-                                +window.__.env
-                                  .REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
-                              ) ? (
+                          {/*felin订单? appointmentInfo :地址/支付信息 */}
+                          {!this.isFelinOrder ? (
+                            <div className="ml-2 mr-2 mr-md-0 ml-md-0">
+                              <p className="mt-4 mb-3 red text-left">
+                                <FormattedMessage id="transactionInfomation" />
+                              </p>
+                              <div className="row text-left text-break">
                                 <div className="col-12 col-md-4 mb-3">
-                                  <div className="border rounded p-3 h-100">
-                                    <div className="d-flex">
+                                  <div className="border rounded h-100">
+                                    <div className="d-flex p-3 h-100">
                                       <svg
                                         className="svg-icon align-middle mr-3 ml-1"
                                         aria-hidden="true"
                                         style={{ width: '2em', height: '2em' }}
                                       >
-                                        <use xlinkHref="#iconBillingAddress1" />
+                                        <use xlinkHref="#iconaddresses" />
                                       </svg>
                                       <div>
                                         <p className="medium mb-3">
-                                          <FormattedMessage id="billing2" />
+                                          <FormattedMessage id="delivery2" />
                                         </p>
                                         {/* 姓名 */}
                                         <p className="medium mb-2 od_mb_name">
-                                          {details.invoice.contacts}
+                                          {details.consignee.name}
                                         </p>
                                         {/* 电话 */}
                                         <p className="mb-0 od_mb_tel">
-                                          {details.invoice.phone}
+                                          {details.consignee.phone}
                                         </p>
 
                                         {/* 国家 */}
@@ -1914,126 +1802,259 @@ class AccountOrders extends React.Component {
                                           <p className="mb-0 od_mb_country">
                                             {matchNamefromDict(
                                               this.state.countryList,
-                                              details.invoice.countryId
+                                              details.consignee.countryId
                                             )}
                                           </p>
                                         )}
                                         {/* 地址 */}
                                         <p className="mb-0 od_mb_address1">
-                                          {details.invoice.address1}
+                                          {details.consignee.detailAddress1}
                                         </p>
                                         {localAddressForm['address2'] &&
-                                          details.invoice.address2 && (
+                                          details.consignee.detailAddress2 && (
                                             <p className="mb-0 od_mb_address2">
-                                              {details.invoice.address2}
+                                              {details.consignee.detailAddress2}
                                             </p>
                                           )}
 
                                         <p className="mb-0 od_mb_cpp">
-                                          {/* 城市 */}
+                                          {/* 市 */}
                                           {localAddressForm['city'] &&
-                                            details.invoice.city + ', '}
+                                            details.consignee.city + ', '}
 
                                           {/* 区域 */}
                                           {localAddressForm['region'] &&
-                                            details.invoice.area + ', '}
+                                            details.consignee.area + ', '}
 
                                           {/* 省份 */}
                                           {localAddressForm['state'] &&
-                                            details.invoice.province + ' '}
+                                            details.consignee.province + ' '}
 
                                           {/* 邮编 */}
                                           {localAddressForm['postCode'] &&
-                                            details.invoice.postCode + ' '}
+                                            details.consignee.postCode}
                                         </p>
-                                        {details.invoice.rfc ? (
+                                        {details.consignee.rfc ? (
                                           <p className="mb-0">
-                                            {details.invoice.rfc}
+                                            {details.consignee.rfc}
                                           </p>
                                         ) : null}
+                                        {details.buyerRemark ? (
+                                          <p className="mb-0">
+                                            {details.buyerRemark}
+                                          </p>
+                                        ) : null}
+
+                                        {/* 运费折扣 */}
+                                        {!details.consignee.timeSlot &&
+                                        details?.maxDeliveryTime != null &&
+                                        details?.minDeliveryTime != null ? (
+                                          <p className="mb-0 od_mb_yf">
+                                            {details.minDeliveryTime ===
+                                            details.maxDeliveryTime ? (
+                                              <FormattedMessage
+                                                id="payment.deliveryDate2"
+                                                values={{
+                                                  val: details.minDeliveryTime
+                                                }}
+                                              />
+                                            ) : (
+                                              <FormattedMessage
+                                                id="payment.deliveryDate"
+                                                values={{
+                                                  min: details.minDeliveryTime,
+                                                  max: details.maxDeliveryTime
+                                                }}
+                                              />
+                                            )}
+                                          </p>
+                                        ) : null}
+
+                                        {/* delivery date */}
+                                        {newDeliveryDate && (
+                                          <p className="mb-0 od_mb_deliveryDate">
+                                            {newDeliveryDate}
+                                          </p>
+                                        )}
+
+                                        {/* time slot */}
+                                        {details.consignee.timeSlot && (
+                                          <p className="mb-0 od_mb_timeSlot">
+                                            {details.consignee.timeSlot}
+                                          </p>
+                                        )}
+
+                                        {/* workTime */}
+                                        {details.consignee.workTime && (
+                                          <p className="mb-0 od_mb_workTime">
+                                            {details.consignee.workTime}
+                                          </p>
+                                        )}
                                       </div>
                                     </div>
                                   </div>
                                 </div>
-                              ) : null}
-                              {payRecord && payRecord.lastFourDigits ? (
-                                <div className="col-12 col-md-4 mb-3">
-                                  <div className="border rounded p-3 h-100">
-                                    <div className="d-flex">
-                                      <svg
-                                        className="svg-icon align-middle mr-3 ml-1"
-                                        aria-hidden="true"
-                                        style={{ width: '2em', height: '2em' }}
-                                      >
-                                        <use xlinkHref="#iconpayments" />
-                                      </svg>
-                                      <div>
-                                        <p className="medium mb-3">
-                                          <FormattedMessage id="payment.payment" />
-                                        </p>
-                                        <div className="medium mb-2">
-                                          <LazyLoad
-                                            style={{ display: 'inline' }}
-                                          >
-                                            <img
-                                              alt="card background"
-                                              className="d-inline-block mr-1"
-                                              style={{ width: '20%' }}
-                                              src={
-                                                CREDIT_CARD_IMG_ENUM[
-                                                  payRecord.paymentVendor.toUpperCase()
-                                                ] ||
-                                                'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                                              }
-                                            />
-                                          </LazyLoad>
-                                          {payRecord.lastFourDigits ? (
-                                            <span className="medium">
-                                              ********
-                                              {payRecord.lastFourDigits}
-                                            </span>
+                                {!Boolean(
+                                  +window.__.env
+                                    .REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
+                                ) ? (
+                                  <div className="col-12 col-md-4 mb-3">
+                                    <div className="border rounded p-3 h-100">
+                                      <div className="d-flex">
+                                        <svg
+                                          className="svg-icon align-middle mr-3 ml-1"
+                                          aria-hidden="true"
+                                          style={{
+                                            width: '2em',
+                                            height: '2em'
+                                          }}
+                                        >
+                                          <use xlinkHref="#iconBillingAddress1" />
+                                        </svg>
+                                        <div>
+                                          <p className="medium mb-3">
+                                            <FormattedMessage id="billing2" />
+                                          </p>
+                                          {/* 姓名 */}
+                                          <p className="medium mb-2 od_mb_name">
+                                            {details.invoice.contacts}
+                                          </p>
+                                          {/* 电话 */}
+                                          <p className="mb-0 od_mb_tel">
+                                            {details.invoice.phone}
+                                          </p>
+
+                                          {/* 国家 */}
+                                          {window.__.env.REACT_APP_COUNTRY ===
+                                            'us' ||
+                                          window.__.env.REACT_APP_COUNTRY ===
+                                            'ru' ? null : (
+                                            <p className="mb-0 od_mb_country">
+                                              {matchNamefromDict(
+                                                this.state.countryList,
+                                                details.invoice.countryId
+                                              )}
+                                            </p>
+                                          )}
+                                          {/* 地址 */}
+                                          <p className="mb-0 od_mb_address1">
+                                            {details.invoice.address1}
+                                          </p>
+                                          {localAddressForm['address2'] &&
+                                            details.invoice.address2 && (
+                                              <p className="mb-0 od_mb_address2">
+                                                {details.invoice.address2}
+                                              </p>
+                                            )}
+
+                                          <p className="mb-0 od_mb_cpp">
+                                            {/* 城市 */}
+                                            {localAddressForm['city'] &&
+                                              details.invoice.city + ', '}
+
+                                            {/* 区域 */}
+                                            {localAddressForm['region'] &&
+                                              details.invoice.area + ', '}
+
+                                            {/* 省份 */}
+                                            {localAddressForm['state'] &&
+                                              details.invoice.province + ' '}
+
+                                            {/* 邮编 */}
+                                            {localAddressForm['postCode'] &&
+                                              details.invoice.postCode + ' '}
+                                          </p>
+                                          {details.invoice.rfc ? (
+                                            <p className="mb-0">
+                                              {details.invoice.rfc}
+                                            </p>
                                           ) : null}
                                         </div>
-
-                                        {payRecord.holderName ? (
-                                          <p className="mb-0">
-                                            {payRecord.holderName}
-                                          </p>
-                                        ) : null}
-
-                                        {/* 分期费用明细 */}
-                                        {0 &&
-                                        details.tradePrice.installmentPrice ? (
-                                          <p>
-                                            {formatMoney(
-                                              details.tradePrice.totalPrice
-                                            )}{' '}
-                                            (
-                                            {
-                                              details.tradePrice
-                                                .installmentPrice
-                                                .installmentNumber
-                                            }{' '}
-                                            *{' '}
-                                            {formatMoney(
-                                              details.tradePrice
-                                                .installmentPrice
-                                                .installmentPrice
-                                            )}
-                                            )
-                                          </p>
-                                        ) : null}
                                       </div>
                                     </div>
                                   </div>
-                                </div>
-                              ) : null}
+                                ) : null}
+                                {payRecord && payRecord.lastFourDigits ? (
+                                  <div className="col-12 col-md-4 mb-3">
+                                    <div className="border rounded p-3 h-100">
+                                      <div className="d-flex">
+                                        <svg
+                                          className="svg-icon align-middle mr-3 ml-1"
+                                          aria-hidden="true"
+                                          style={{
+                                            width: '2em',
+                                            height: '2em'
+                                          }}
+                                        >
+                                          <use xlinkHref="#iconpayments" />
+                                        </svg>
+                                        <div>
+                                          <p className="medium mb-3">
+                                            <FormattedMessage id="payment.payment" />
+                                          </p>
+                                          <div className="medium mb-2">
+                                            <LazyLoad
+                                              style={{ display: 'inline' }}
+                                            >
+                                              <img
+                                                alt="card background"
+                                                className="d-inline-block mr-1"
+                                                style={{ width: '20%' }}
+                                                src={
+                                                  CREDIT_CARD_IMG_ENUM[
+                                                    payRecord.paymentVendor.toUpperCase()
+                                                  ] ||
+                                                  'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
+                                                }
+                                              />
+                                            </LazyLoad>
+                                            {payRecord.lastFourDigits ? (
+                                              <span className="medium">
+                                                ********
+                                                {payRecord.lastFourDigits}
+                                              </span>
+                                            ) : null}
+                                          </div>
+
+                                          {payRecord.holderName ? (
+                                            <p className="mb-0">
+                                              {payRecord.holderName}
+                                            </p>
+                                          ) : null}
+
+                                          {/* 分期费用明细 */}
+                                          {0 &&
+                                          details.tradePrice
+                                            .installmentPrice ? (
+                                            <p>
+                                              {formatMoney(
+                                                details.tradePrice.totalPrice
+                                              )}{' '}
+                                              (
+                                              {
+                                                details.tradePrice
+                                                  .installmentPrice
+                                                  .installmentNumber
+                                              }{' '}
+                                              *{' '}
+                                              {formatMoney(
+                                                details.tradePrice
+                                                  .installmentPrice
+                                                  .installmentPrice
+                                              )}
+                                              )
+                                            </p>
+                                          ) : null}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                ) : null}
+                              </div>
                             </div>
-                          </div>
-                          {/*felin订单 appointmentInfo*/}
-                          {this.isFelinOrder ? (
+                          ) : (
                             <OrderAppointmentInfo details={details} />
-                          ) : null}
+                          )}
                         </div>
                       ) : this.state.errMsg ? (
                         <div className="text-center mt-5">

@@ -2188,6 +2188,7 @@ const fr_FR = {
   'Change Appointment': 'Change Appointment',
   'felinOrder.servicePaid': 'Service being prepared',
   'felinOrder.servicePaidTip':
-    'Your appointment has been set up and we can’t wait to see you!'
+    'Your appointment has been set up and we can’t wait to see you!',
+  'Cancel Appointment': 'Cancel Appointment'
 };
 export default fr_FR;

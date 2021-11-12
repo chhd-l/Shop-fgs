@@ -222,8 +222,12 @@ class AccountOrders extends React.Component {
               !ele.storeEvaluateVO,
             canChangeAppoint:
               ele.orderType === 'FELINE_ORDER' &&
-              (tradeState.flowState === 'VOID' ||
-                tradeState.deliverStatus === 'NOT_YET_SHIPPED'),
+              tradeState.flowState !== 'COMPLETED' &&
+              tradeState.payState === 'PAID',
+            canCancelAppoint:
+              ele.orderType === 'FELINE_ORDER' &&
+              tradeState.flowState !== 'COMPLETED' &&
+              tradeState.payState === 'PAID',
             canReviewService:
               ele.orderType === 'FELINE_ORDER' &&
               tradeState.flowState === 'COMPLETED' &&
@@ -440,11 +444,11 @@ class AccountOrders extends React.Component {
         ) : null}
         {/*服务类产品评论*/}
         {order.canReviewService ? (
-          <button className="rc-btn rc-btn--sm rc-btn--two ord-list-operation-btn">
+          <button className="rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order">
             <FormattedMessage id="writeReview">
               {(txt) => (
                 <Link
-                  className="red-text"
+                  className="color-fff"
                   to={`/account/productReviewService/${order.id}`}
                   title={txt}
                   alt={txt}
@@ -458,15 +462,29 @@ class AccountOrders extends React.Component {
         {/*felin订单change appoint*/}
         {order.canChangeAppoint ? (
           <button
-            className={`rc-btn rc-btn--sm rc-btn--two rePurchase-btn ord-list-operation-btn `}
+            className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order color-fff`}
           >
             <FormattedMessage id="Change Appointment">
               {(txt) => (
-                <Link className="red-text" to={`/felin`} title={txt} alt={txt}>
+                <Link
+                  className="color-fff"
+                  to={`/felin/${order.id}`}
+                  title={txt}
+                  alt={txt}
+                >
                   {txt}
                 </Link>
               )}
             </FormattedMessage>
+          </button>
+        ) : null}
+        {/*felin订单cancel appoint*/}
+        {order.canCancelAppoint ? (
+          <button
+            className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order`}
+            style={{ marginLeft: 0 }}
+          >
+            <FormattedMessage id="Cancel Appointment" />
           </button>
         ) : null}
         {order.canRePurchase ? (

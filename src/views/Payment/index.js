@@ -928,6 +928,18 @@ class Payment extends React.Component {
     });
     sessionItemRoyal.set('recommend_product', JSON.stringify([goodDetail]));
     this.props.checkoutStore.updatePromotionFiled([goodDetail]);
+    if (!this.isLogin) {
+      const felinAddress = Object.assign(felinAddr[0], {
+        firstName: result.consumerName.split(' ')[0],
+        lastName: result.consumerName.split(' ')[1],
+        consigneeName: result.consumerName,
+        consigneeNumber: '(+33) 4 37 92 70 83'
+      });
+      this.setState({
+        deliveryAddress: felinAddress,
+        billingAddress: felinAddress
+      });
+    }
     this.setState({
       recommend_data: [Object.assign(result, goodDetail)]
     });
