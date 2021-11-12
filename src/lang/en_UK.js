@@ -255,7 +255,7 @@ const en_US = {
   'cart.errorMaxInfo': "The number can't be exceed than {val}",
   'cart.errorAllProductNumLimit': 'The number of {val} orders is limited.',
   'cart.fullPrice': 'Find your pet’s precise formula',
-  'cart.miniCartTitle': '5% off every order and additional perks with autoship',
+  'cart.miniCartTitle': 'Free delivery over £30 and 5% off all subscriptions',
   // 'cart.totalProduct': '{val} item(s) in the basket',
   'cart.totalProduct': '{val} item(s)',
   'minicart.totalProduct': '{val} item(s)',
