@@ -23,7 +23,7 @@ import {
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import { batchAdd } from '@/api/payment';
-import { getOrderList } from '@/api/order';
+import { getOrderList, cancelAppointByNo } from '@/api/order';
 import orderImg from './img/order.jpg';
 import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
@@ -355,6 +355,17 @@ class AccountOrders extends React.Component {
       order.addToCartLoading = false;
     }
   }
+  async cancelAppoint(order) {
+    try {
+      const { orderList } = this.state;
+      order.cancelAppointLoading = true;
+      this.setState({ orderList: orderList });
+      await cancelAppointByNo({ apptNo: order.appointmentNo });
+    } catch (err) {
+    } finally {
+      order.cancelAppointLoading = false;
+    }
+  }
   changeTab(i) {
     this.setState(
       {
@@ -371,6 +382,7 @@ class AccountOrders extends React.Component {
     );
   }
   handleClickCardItem(item) {
+    console.log(this.deviceType);
     if (this.deviceType === 'PC') return false;
     this.props.history.push(`/account/orders/detail/${item.id}`);
     return false;
@@ -483,6 +495,7 @@ class AccountOrders extends React.Component {
           <button
             className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order`}
             style={{ marginLeft: 0 }}
+            onClick={this.cancelAppoint.bind(this, order)}
           >
             <FormattedMessage id="Cancel Appointment" />
           </button>

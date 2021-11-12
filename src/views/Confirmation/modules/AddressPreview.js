@@ -83,7 +83,7 @@ class InfosPreview extends React.Component {
           ) : null}
 
           {/* {JSON.stringify(details.consignee)} */}
-          {details ? (
+          {details && details.orderType !== 'FELINE_ORDER' ? (
             <div
               className={[
                 'col-12',
@@ -212,7 +212,10 @@ class InfosPreview extends React.Component {
             </div>
           ) : null}
           {/* {JSON.stringify(details.invoice)} */}
-          {details && !this.props.hideBillingAddr && details.invoice ? (
+          {details &&
+          !this.props.hideBillingAddr &&
+          details.invoice &&
+          details.orderType !== 'FELINE_ORDER' ? (
             <div
               className={[
                 'col-12',

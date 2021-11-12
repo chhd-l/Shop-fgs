@@ -2441,12 +2441,13 @@ class Payment extends React.Component {
       adyenPayParam,
       tid,
       guestEmail,
-      cyberPaymentForm: { isSaveCard }
+      cyberPaymentForm: { isSaveCard },
+      isFromFelin
     } = this.state;
 
     if (hideBillingAddr) return null;
 
-    if (tid) return null;
+    if (tid || isFromFelin) return null;
 
     return (
       <>
@@ -3355,7 +3356,8 @@ class Payment extends React.Component {
       payosdata,
       selectedCardInfo,
       tid,
-      cyberPayParam
+      cyberPayParam,
+      isFromFelin
     } = this.state;
 
     //this.props.paymentStore.saveBillingAddressInfo(form)
@@ -3425,7 +3427,7 @@ class Payment extends React.Component {
       <div className="ml-custom mr-custom mb-3">
         <div className="row">
           {ret}
-          {!tid && !hideBillingAddr && (
+          {!tid && !hideBillingAddr && !isFromFelin && (
             <div className="col-12 col-md-6 mt-2 mt-md-0 visitor_address_preview">
               {this.renderAddrPreview({
                 form,

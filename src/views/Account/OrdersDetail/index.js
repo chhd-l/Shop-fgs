@@ -27,7 +27,8 @@ import {
   cancelOrder,
   getPayRecord,
   returnFindByTid,
-  queryLogistics
+  queryLogistics,
+  cancelAppointByNo
 } from '@/api/order';
 import { IMG_DEFAULT, CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import './index.less';
@@ -234,7 +235,8 @@ class AccountOrders extends React.Component {
       welcomeGiftLists: [], //first-order welcome box gifts
       canChangeAppoint: false, //felin订单是否可以更改
       canReviewService: false, //felin订单是否可以评论
-      canCancelAppoint: false //felin订单是否可以cancel
+      canCancelAppoint: false, //felin订单是否可以cancel
+      cancelAppointLoading: false
     };
     this.changeTab = this.changeTab.bind(this);
     this.handleClickLogisticsCard = this.handleClickLogisticsCard.bind(this);
@@ -1119,17 +1121,34 @@ class AccountOrders extends React.Component {
     }
     return daystr + ', ' + ymd[2] + ' ' + month;
   };
+  async cancelAppoint(order) {
+    try {
+      this.setState({ cancelAppointLoading: true });
+      await cancelAppointByNo({ apptNo: order.appointmentNo });
+    } catch (err) {
+    } finally {
+      this.setState({ cancelAppointLoading: false });
+    }
+  }
   renderOperationBtns = () => {
+    const {
+      canReviewService,
+      orderNumber,
+      canChangeAppoint,
+      canCancelAppoint,
+      cancelAppointLoading,
+      details
+    } = this.state;
     return (
       <>
         {/*服务类产品评论*/}
-        {this.state.canReviewService ? (
+        {canReviewService ? (
           <button className="rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn">
             <FormattedMessage id="writeReview">
               {(txt) => (
                 <Link
                   className="color-fff"
-                  to={`/account/productReviewService/${this.state.orderNumber}`}
+                  to={`/account/productReviewService/${orderNumber}`}
                   title={txt}
                   alt={txt}
                 >
@@ -1140,13 +1159,18 @@ class AccountOrders extends React.Component {
           </button>
         ) : null}
         {/*felin订单change appoint*/}
-        {this.state.canChangeAppoint ? (
+        {canChangeAppoint ? (
           <button
             className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order`}
           >
             <FormattedMessage id="Change Appointment">
               {(txt) => (
-                <Link className="color-fff" to={`/felin`} title={txt} alt={txt}>
+                <Link
+                  className="color-fff"
+                  to={`/felin${orderNumber}`}
+                  title={txt}
+                  alt={txt}
+                >
                   {txt}
                 </Link>
               )}
@@ -1154,10 +1178,13 @@ class AccountOrders extends React.Component {
           </button>
         ) : null}
         {/*felin订单cancel appoint*/}
-        {this.state.canCancelAppoint ? (
+        {canCancelAppoint ? (
           <button
-            className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order`}
+            className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order ${
+              cancelAppointLoading ? 'ui-btn-loading' : ''
+            }`}
             style={{ marginLeft: 0 }}
+            onClick={this.cancelAppoint.bind(this, details)}
           >
             <FormattedMessage id="Cancel Appointment" />
           </button>
