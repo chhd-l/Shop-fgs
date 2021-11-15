@@ -223,10 +223,12 @@ class AccountOrders extends React.Component {
             canChangeAppoint:
               ele.orderType === 'FELINE_ORDER' &&
               tradeState.flowState !== 'COMPLETED' &&
+              tradeState.flowState !== 'VOID' &&
               tradeState.payState === 'PAID',
             canCancelAppoint:
               ele.orderType === 'FELINE_ORDER' &&
               tradeState.flowState !== 'COMPLETED' &&
+              tradeState.flowState !== 'VOID' &&
               tradeState.payState === 'PAID',
             canReviewService:
               ele.orderType === 'FELINE_ORDER' &&
@@ -361,6 +363,7 @@ class AccountOrders extends React.Component {
       order.cancelAppointLoading = true;
       this.setState({ orderList: orderList });
       await cancelAppointByNo({ apptNo: order.appointmentNo });
+      this.queryOrderList();
     } catch (err) {
     } finally {
       order.cancelAppointLoading = false;

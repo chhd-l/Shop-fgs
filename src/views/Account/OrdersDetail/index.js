@@ -406,10 +406,12 @@ class AccountOrders extends React.Component {
           canChangeAppoint:
             resContext.orderType === 'FELINE_ORDER' &&
             tradeState.flowState !== 'COMPLETED' &&
+            tradeState.flowState !== 'VOID' &&
             tradeState.payState === 'PAID',
           canCancelAppoint:
             resContext.orderType === 'FELINE_ORDER' &&
             tradeState.flowState !== 'COMPLETED' &&
+            tradeState.flowState !== 'VOID' &&
             tradeState.payState === 'PAID',
           canReviewService:
             resContext.orderType === 'FELINE_ORDER' &&
@@ -1125,6 +1127,7 @@ class AccountOrders extends React.Component {
     try {
       this.setState({ cancelAppointLoading: true });
       await cancelAppointByNo({ apptNo: order.appointmentNo });
+      this.init();
     } catch (err) {
     } finally {
       this.setState({ cancelAppointLoading: false });
@@ -1167,7 +1170,7 @@ class AccountOrders extends React.Component {
               {(txt) => (
                 <Link
                   className="color-fff"
-                  to={`/felin${orderNumber}`}
+                  to={`/felin/${orderNumber}`}
                   title={txt}
                   alt={txt}
                 >
@@ -1527,7 +1530,13 @@ class AccountOrders extends React.Component {
                                               />
                                             ) : null}
                                           </div>
-                                          <div className="col-6 col-md-3 text-right text-md-left rc-md-up">
+                                          <div
+                                            className={`col-6 ${
+                                              this.isFelinOrder
+                                                ? 'col-md-2'
+                                                : 'col-md-3'
+                                            } text-right text-md-left rc-md-up`}
+                                          >
                                             {details.subscriptionResponseVO &&
                                             item.subscriptionStatus ? (
                                               judgeIsIndividual(item) ? (
@@ -1551,7 +1560,13 @@ class AccountOrders extends React.Component {
                                               formatMoney(item.originalPrice)
                                             )}
                                           </div>
-                                          <div className="col-12 col-md-2 text-right text-md-left text-nowrap rc-md-up font-weight-normal d-flex justify-content-center flex-column">
+                                          <div
+                                            className={`col-12 ${
+                                              this.isFelinOrder
+                                                ? 'col-md-3'
+                                                : 'col-md-2'
+                                            } text-right text-md-left text-nowrap rc-md-up font-weight-normal d-flex justify-content-center flex-column`}
+                                          >
                                             {details.subscriptionResponseVO &&
                                             item.subscriptionStatus
                                               ? formatMoney(
