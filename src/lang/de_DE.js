@@ -1419,7 +1419,8 @@ const de_DE = {
   'list.applyFilters': 'Filter anwenden',
   'list.clearFilters': 'Alle Filter löschen',
   'list.viewFilters': 'Filter anzeigen',
-  'list.closeFilters': 'Filter schließen'
+  'list.closeFilters': 'Filter schließen',
+  'order.goodwillOrder': '[Goodwill order]'
 };
 
 export default de_DE;

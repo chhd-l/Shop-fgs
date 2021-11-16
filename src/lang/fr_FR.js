@@ -2191,6 +2191,7 @@ const fr_FR = {
   'list.applyFilters': 'Appliquer des filtres',
   'list.clearFilters': 'Effacer tous les filtres',
   'list.viewFilters': 'Afficher les filtres',
-  'list.closeFilters': 'Fermer les filtres'
+  'list.closeFilters': 'Fermer les filtres',
+  'order.goodwillOrder': '[Goodwill order]'
 };
 export default fr_FR;
