@@ -45,6 +45,7 @@ import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 import GiftList from '../components/GiftList/index.tsx';
 import PromotionCodeText from '../components/PromotionCodeText';
+import CartSurvey from '../components/CartSurvey';
 
 const guid = uuidv4();
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -1119,12 +1120,8 @@ class UnLoginCart extends React.Component {
     );
   };
   sideCart({ className = '', style = {}, id = '' } = {}) {
-    const {
-      checkoutLoading,
-      discount,
-      mobileCartVisibleKey,
-      promotionCode
-    } = this.state;
+    const { checkoutLoading, discount, mobileCartVisibleKey, promotionCode } =
+      this.state;
     const { checkoutStore } = this.props;
     const subtractionSign = '-';
     return (
@@ -1563,6 +1560,15 @@ class UnLoginCart extends React.Component {
     pitem.periodTypeId = frequencyId;
     this.changeFrequencyType(pitem);
   }
+  //click survey
+  surveyCheckedChange = (isClick, surveyId) => {
+    const { checkoutStore } = this.props;
+    let paramData = checkoutStore.cartData.map((el) => {
+      el.surveyId = isClick ? surveyId : '';
+      return el;
+    });
+    checkoutStore.setCartData(paramData);
+  };
   render() {
     const { productList, errorMsg, goodsIdArr } = this.state;
     const { history, location } = this.props;
@@ -1646,6 +1652,14 @@ class UnLoginCart extends React.Component {
                         <GiftList pitem={el} />
                       ))}
                     </div>
+                    {window.__.env.REACT_APP_COUNTRY === 'us' && (
+                      <CartSurvey
+                        isLogin={false}
+                        surveyCheckedChange={this.surveyCheckedChange.bind(
+                          this
+                        )}
+                      />
+                    )}
                   </div>
                   <div className="rc-column totals cart__total pt-0">
                     <div className="rc-padding-bottom--xs">

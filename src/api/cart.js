@@ -9,7 +9,11 @@ const api = {
   mergePurchase: `/site/${window.__.env.REACT_APP_STOREID}/carts/merge`, // 合并前后台购物车
   switchSize: `/site/${window.__.env.REACT_APP_STOREID}/carts/specific`, // 切换规格
   goodsRelationBatch: '/goodsRelation/batch', //购物车related product
-  shippingCalculation: '/tempoline' // 计算运费
+  shippingCalculation: '/tempoline', // 计算运费
+  //todo  接口地址补充
+  querySurveyContent: '/', //us 获取问卷调查内容
+  accountHasClickSurvey: '/', //us 查询会员是否已经点击过survey
+  recordSurveyReview: '/' //统计survey 1 review
 };
 
 export default api;
@@ -134,5 +138,32 @@ export function shippingCalculation(parameter) {
     url: `${api.shippingCalculation}`,
     method: 'post',
     data: parameter
+  });
+}
+
+//us 获取问卷调查内容
+export function querySurveyContent(parameter) {
+  return axios({
+    url: `${api.querySurveyContent}`,
+    method: 'get',
+    params: parameter
+  });
+}
+
+//us 查询会员是否已经点击过survey
+export function accountHasClickSurvey(parameter) {
+  return axios({
+    url: `${api.accountHasClickSurvey}`,
+    method: 'get',
+    params: parameter
+  });
+}
+
+//统计survey 1 review
+export function recordSurveyReview(parameter) {
+  return axios({
+    url: `${api.recordSurveyReview}`,
+    method: 'get',
+    params: parameter
   });
 }
