@@ -1,7 +1,7 @@
 import { getSeoConfig, queryHeaderNavigations } from '@/api';
 import { purchases, mergePurchase } from '@/api/cart';
 import { findStoreCateList } from '@/api/home';
-import { getDict } from '@/api/dict';
+import { getDict, getAppointDict } from '@/api/dict';
 import { findFilterList, findSortList } from '@/api/list';
 import { getRation as getRation_api } from '@/api/pet';
 import find from 'lodash/find';
@@ -1056,12 +1056,12 @@ export async function getAppointmentInfo(appointNo) {
   ]);
   // appointDictRes=flatten(appointDictRes)
   console.log('appointDictRes', appointDictRes);
-  const appointmentDictRes = appointDictRes[0].filter(
-    (item) => item.value === resContext?.apptTypeId
-  );
-  const expertDictRes = appointDictRes[1].filter(
-    (item) => item.value === resContext?.expertTypeId
-  );
+  const appointmentDictRes = (
+    appointDictRes[0]?.context?.goodsDictionaryPage?.content || []
+  ).filter((item) => item.id === resContext?.apptTypeId);
+  const expertDictRes = (
+    appointDictRes[1]?.context?.goodsDictionaryPage?.content || []
+  ).filter((item) => item.id === resContext?.expertTypeId);
   const appointType =
     appointmentDictRes.length > 0 ? appointmentDictRes[0].name : 'Offline';
   const expertName =
