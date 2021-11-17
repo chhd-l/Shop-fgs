@@ -34,11 +34,17 @@ export default class CardItemCover extends React.Component {
       canDelete
     } = this.props;
     return (
+      // paddingFlag表示此卡正在pending，不能用于选择支付
       <div
-        className={`rounded pl-2 pr-2 creditCompleteInfoBox position-relative ui-cursor-pointer border ${
-          selectedSts ? 'active border-blue' : ''
-        } ${!selectedSts && !lastItem ? 'border-bottom-0' : ''}`}
+        className={`rounded pl-2 pr-2 creditCompleteInfoBox position-relative ${
+          el?.paddingFlag
+            ? 'ui-cursor-not-allowed disabled'
+            : 'ui-cursor-pointer border'
+        }  ${selectedSts ? 'active border-blue' : ''} ${
+          !selectedSts && !lastItem ? 'border-bottom-0' : ''
+        }`}
         onClick={handleClickCardItem}
+        title={`${el?.paddingFlag ? 'pending' : ''}`}
       >
         {el.isValid && (
           <span
@@ -52,7 +58,7 @@ export default class CardItemCover extends React.Component {
           </span>
         )}
 
-        <div className="pt-3 pb-3">
+        <div className="pt-4 pb-4">
           {canEdit && (
             <div
               className="position-absolute ui-cursor-pointer-pure"
@@ -75,7 +81,13 @@ export default class CardItemCover extends React.Component {
               className="position-absolute"
               style={{ right: '1%', top: '2%', zIndex: 50 }}
             >
-              <span className="pull-right position-relative pl-2 ui-cursor-pointer-pure">
+              <span
+                className={`pull-right position-relative pl-2 ${
+                  el.paddingFlag
+                    ? 'ui-cursor-not-allowed'
+                    : 'ui-cursor-pointer-pure'
+                }`}
+              >
                 <span onClick={handleClickDeleteBtn}>
                   <FormattedMessage id="delete" />
                 </span>

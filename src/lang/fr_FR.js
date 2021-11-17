@@ -1,3 +1,5 @@
+import React from 'react';
+
 const fr_FR = {
   aboutUs: 'À propos de nous',
   'aboutUs.description':
@@ -89,6 +91,7 @@ const fr_FR = {
   'account.profile': 'Mes informations',
   'account.profileTip': 'Voir ou mettre à jour vos informations personnelles.',
   'account.requiredFields': 'Champs obligatoires',
+  'account.requiredFields2': 'Champs obligatoires',
   'account.shippingAddressTip': 'Créez ou modifiez votre adresse de livraison.',
   'account.specialNeeds': 'Besoins spéciaux',
   'account.startAutoShipping': 'En savoir plus',
@@ -610,6 +613,7 @@ const fr_FR = {
   'footer.confidentiality': 'Privacidad',
   'footer.consistence': 'durabilité',
   'footer.contactRoyalCanin': 'Contacter Royal Canin',
+  'footer.securePaymentMethods': 'Paiement sécurisé',
   'footer.contacts': 'Contact',
   'footer.contactUs': 'Contact',
   'footer.cookieCollectionPolicy': 'Pas encore traduit',
@@ -792,6 +796,7 @@ const fr_FR = {
   'loginCart.totalProduct': 'Nombre:{}',
   loginFailed: 'Échec de la connexion',
   logisticsRating: 'Évaluation logistique',
+  expertAdvice: "Avis d'experts",
   logOff: 'Se déconnecter',
   mailAddress: 'Adresse mail',
   manage: 'Gérer',
@@ -976,6 +981,7 @@ const fr_FR = {
   'payment.rfc': "Référence d'adresse",
   'payment.socialId': 'Identifiant social',
   'payment.state': 'État',
+  'payment.county': 'County',
   'payment.region': 'Région',
   'payment.entrance': 'Entrée',
   'payment.apartment': 'Appartement',
@@ -1260,6 +1266,7 @@ const fr_FR = {
   'required.logoTitle': 'Création de votre compte Royal Canin',
   requiredConsentCheckedTip: 'Finalisez votre inscription',
   requiredFields: '* Champs obligatoires',
+  requiredFields2: '* Champs obligatoires',
   resetPasswordEmail:
     'Réinitialiser le mot de passe Un e-mail a été envoyé dans votre boîte mail, veuillez noter que cochez!',
   results: '{val} résultat(s)',
@@ -1992,7 +1999,7 @@ const fr_FR = {
   'preciseNutrition.faq.content':
     "Vous pouvez consulter notre {val} consulter si votre question n'a pas déjà été traitée.",
   'preciseNutrition.Top.title':
-    '* Offre non cumulable avec la remise de 10% sur les abonnements produits',
+    "La réduction de 10 % sur les abonnements ne s'applique pas à cette offre.",
   'preciseNutrition.Address.title': 'Adresse',
   'preciseNutrition.Address.firstLine':
     'Service Consommateur Royal Canin France',
@@ -2058,13 +2065,14 @@ const fr_FR = {
   nutritionalRecommendation:
     'pour obtenir une recommandation nutritionnelle précise',
   'PreciseCatNutrition.LongBanner.title':
-    'OFFREZ À VOTRE CHAT UN ALIMENT ADAPTÉ À SES BESOINS ET UNE PORTION PRÉCISE POUR UN POIDS IDÉAL ! ',
+    'NOURRISSEZ VOTRE CHAT EN PORTIONS PRÉCISES POUR UN POIDS IDÉAL ! ',
   'PreciseCatNutrition.LongBanner.averagePrice1': 'Prix moyen',
   'PreciseCatNutrition.LongBanner.averagePrice2': '0,90 € / jour',
   'PreciseCatNutrition.LongBanner.averagePrice3': '25,50 € / mois',
   'PreciseCatNutrition.LongBanner.button': 'S‘abonner',
   'PreciseCatNutrition.LongBanner.redRadius': 'sur la première commande',
-  'PreciseCatNutrition.LongBanner.secondTitle': 'LES BÉNÉFICES POUR VOTRE CHAT',
+  'PreciseCatNutrition.LongBanner.secondTitle':
+    'LES BÉNÉFICES POUR VOTRE CHAT!',
   'PreciseCatNutrition.LongBanner.benefits1':
     'Une alimentation adaptée pour aider votre chat à maintenir son poids idéal',
   'PreciseCatNutrition.LongBanner.benefits2':
@@ -2075,12 +2083,12 @@ const fr_FR = {
   'PreciseCatNutrition.DidYouKnow.paragraph1':
     "L'âge, la race, l’activité physique et le mode de vie influent sur les besoins nutritionnels des chats mais aussi sur la quantité d'aliments dont ils ont besoin chaque jour.",
   'PreciseCatNutrition.DidYouKnow.paragraph2':
-    "Par conséquent, un aliment complet et équilibré est essentiel pour soutenir la bonne santé de votre chat. Un aliment et une portion inadaptés peuvent conduire à un surpoids, voire à l'obésité, ce qui a un impact significatif sur le bien-être de votre chat et peut conduire à diminuer son espérance de vie de 2 ans*.",
+    'Par conséquent, un aliment complet et équilibré est essentiel pour soutenir la bonne santé de votre chat. Un aliment et une portion inadaptés peuvent conduire à un surpoids, ce qui a un impact significatif sur le bien-être de votre chat et peut conduire à diminuer son espérance de vie{val}.  ',
   'PreciseCatNutrition.DidYouKnow.tryIt': 'J’essaye maintenant',
   'PreciseCatNutrition.AdaptedFood.title':
     'UN ALIMENT ADAPTÉ À SES BESOINS ET UNE PORTION PRÉCISE POUR UN POIDS IDÉAL !',
   'PreciseCatNutrition.AdaptedFood.paragraph1':
-    "Notre programme d'abonnement est sans engagement et fournira à votre chat l'aliment le plus adapté à la gestion de son poids{val1} dans un emballage personnalisé avec la quantité journalière d'aliment idéale. ",
+    "Notre programme d'abonnement est sans engagement et fournira à votre chat l'aliment le plus adapté à la gestion de son poids* dans un emballage personnalisé avec la quantité journalière d'aliment idéale.",
   'PreciseCatNutrition.AdaptedFood.paragraph2':
     'Cette offre est le fruit de notre engagement dédié à améliorer la santé et le bien-être des chats, grâce à :',
   'PreciseCatNutrition.AdaptedFood.paragraph2.Li1':
@@ -2092,7 +2100,7 @@ const fr_FR = {
   'PreciseCatNutrition.AdaptedFood.paragraph2.Li4':
     'Un approvisionnement en nutriments de qualité et issus prioritairement de sources durables à faible empreinte carbone',
   'PreciseCatNutrition.AdaptedFood.paragraph3':
-    "**Cette offre n'est pas adaptée aux chats souffrant d'obésité ou de toute autre maladie, situations pour lesquelles, nous vous recommandons de consulter votre vétérinaire.",
+    "*Cette offre n'est pas adaptée aux chats souffrant d'obésité ou de toute autre maladie, situations pour lesquelles, nous vous recommandons de consulter votre vétérinaire.",
   'PreciseCatNutrition.AdaptedFood.findFood':
     'Trouvez l’aliment pour votre chat',
   'PreciseCatNutrition.Subscription.title':
@@ -2116,9 +2124,11 @@ const fr_FR = {
   'PreciseCatNutrition.HowItWorks.plate4':
     "Bénéficiez d'avantages exclusifs avec votre abonnement",
   'PreciseCatNutrition.Notes1':
-    '*Le surpoids peut réduire l’espérance de vie de votre animal de 2 ans. De plus il peut augmenter le risque de développer certaines maladies comme: le diabète, les maladies du bas appareil urinaire,  l’arthrose ou les problèmes de peau. Salt C et al. Association between life span and body condition in neutered client-owned dogs. J Vet Intern Med 2018;1-11.',
+    "(1) Le prix par jour est illustratif, cette offre n'est disponible que dans le cadre d'un abonnement de 30 jours.",
   'PreciseCatNutrition.Notes2':
-    "[1] Le prix par jour est illustratif, cette offre n'est disponible que dans le cadre d'un abonnement de 30 jours.",
+    '(2) Le surpoids peut réduire l’espérance de vie de votre animal de 2 ans. De plus il peut augmenter le risque de développer',
+  'PreciseCatNutrition.Notes3':
+    'certaines maladies comme: le diabète, les maladies du bas appareil urinaire,  l’arthrose ou les problèmes de peau. Salt C et al. Association between life span and body condition in neutered client-owned dogs. J Vet Intern Med 2018;1-11.',
   'PreciseCatNutrition.Help.title': "Besoin d'aide ?",
   'PreciseCatNutrition.Help.text1':
     'Nos conseillers sont de vrais experts et passionnés.',
@@ -2173,8 +2183,30 @@ const fr_FR = {
   'productFinder.mixBreed': 'Race mixte',
   'productFinder.weight': 'Poids',
   'Go back to recommendation': 'Retour à la page de recommandation',
-  'productFinder.weight': 'Poids',
   'Subscription.orderPostCodeHit':
-    "* Veuillez mettre à jour l'adresse de livraison"
+    "* Veuillez mettre à jour l'adresse de livraison",
+  'subscription.ongoingOrderForPet': 'Commande en préparation pour {val}',
+  'subscription.noPetOngoingOrder': 'Commande en préparation',
+  'product.plp.foodtype.drydog': 'Nourriture sèche pour chiens',
+  'product.plp.foodtype.wetdog': 'Nourriture humide pour chiens',
+  'product.plp.foodtype.drycat': 'Nourriture sèche pour chats',
+  'product.plp.foodtype.wetcat': 'Nourriture humide pour chat',
+  'list.applyFilters': 'Appliquer des filtres',
+  'list.clearFilters': 'Effacer tous les filtres',
+  'list.viewFilters': 'Afficher les filtres',
+  'list.closeFilters': 'Fermer les filtres',
+  'Appointment summary': 'Appointment summary',
+  'Expert type': 'Expert type: ',
+  'Appointment type': 'Appointment type: ',
+  'Appointment time': 'Appointment time: ',
+  min: 'min',
+  're-book': 're-book',
+  'Felin Address': 'Felin Address',
+  'Change Appointment': 'Change Appointment',
+  'felinOrder.servicePaid': 'Service being prepared',
+  'felinOrder.servicePaidTip':
+    'Your appointment has been set up and we can’t wait to see you!',
+  'Cancel Appointment': 'Cancel Appointment',
+  'Appointment Information': 'Appointment Information'
 };
 export default fr_FR;

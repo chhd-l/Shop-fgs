@@ -13,7 +13,12 @@ import {
   queryCityNameById,
   getProvincesList
 } from '@/api/address';
-import { getDictionary, validData, setSeoConfig, isCanVerifyBlacklistPostCode } from '@/utils/utils';
+import {
+  getDictionary,
+  validData,
+  setSeoConfig,
+  isCanVerifyBlacklistPostCode
+} from '@/utils/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
 // import Selection from '@/components/Selection';
 import classNames from 'classnames';
@@ -58,8 +63,9 @@ class ShippingAddressFrom extends React.Component {
         lastName: '',
         address1: '',
         address2: '',
-        countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID,
+        countryId: '',
         country: '',
+        county: '',
         city: '',
         cityId: '',
         provinceNo: '',
@@ -113,18 +119,18 @@ class ShippingAddressFrom extends React.Component {
     try {
       let res = await getAddressById({ id });
       let data = res.context;
-      let addressForm = data;
-      addressForm.phoneNumber = data.consigneeNumber;
-      addressForm.isDefalt = data.isDefaltAddress === 1 ? true : false;
-      addressForm.addressType = data.type;
-      if (addressForm.province) {
-        addressForm.provinceNo = data.provinceNo;
-        addressForm.province = data.province;
-        addressForm.provinceId = data.provinceId;
+      let addinfo = Object.assign({}, data);
+      addinfo.phoneNumber = data.consigneeNumber;
+      addinfo.isDefalt = data.isDefaltAddress === 1 ? true : false;
+      addinfo.addressType = data.type;
+      if (addinfo.province) {
+        addinfo.provinceNo = data.provinceNo;
+        addinfo.province = data.province;
+        addinfo.provinceId = data.provinceId;
       }
       this.setState(
         {
-          addressForm,
+          addressForm: addinfo,
           showModal: true,
           isAdd: false,
           loading: false,
@@ -229,6 +235,7 @@ class ShippingAddressFrom extends React.Component {
       this.setState({
         saveLoading: true
       });
+      // console.log('666 >>> data: ', data);
       let params = {
         address1: data.address1,
         address2: data.address2,
@@ -238,6 +245,7 @@ class ShippingAddressFrom extends React.Component {
         lastName: data.lastName,
         countryId: data.countryId,
         country: data.country,
+        county: data?.county,
         city: data.city,
         cityId: data.cityId,
         consigneeName: data.firstName + ' ' + data.lastName,
@@ -347,7 +355,6 @@ class ShippingAddressFrom extends React.Component {
       await validData(addressForm.formRule, addressForm); // 数据验证
       // await validData(ADDRESS_RULE, addressForm);
       this.setState({ isValid: true });
-
     } catch (err) {
       this.setState({ isValid: false });
     }
@@ -369,7 +376,7 @@ class ShippingAddressFrom extends React.Component {
   };
   // 俄罗斯地址校验flag，控制按钮是否可用
   getFormAddressValidFlag = (flag) => {
-    console.log('ShippingAddressForm: ', flag);
+    console.log('666 >>> ShippingAddressForm: ', flag);
     this.setState(
       {
         formAddressValid: flag
@@ -501,7 +508,7 @@ class ShippingAddressFrom extends React.Component {
                   ) : null}
                 </div>
                 <span className="rc-meta mandatoryField">
-                  * <FormattedMessage id="account.requiredFields" />
+                  * <FormattedMessage id="account.requiredFields2" />
                 </span>
                 <div className="text-right">
                   <span

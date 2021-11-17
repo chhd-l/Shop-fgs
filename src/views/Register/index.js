@@ -212,13 +212,8 @@ class Register extends Component {
   validInput(name, value) {
     switch (name) {
       case 'password':
-        const {
-          ruleLength,
-          ruleLower,
-          ruleUpper,
-          ruleAname,
-          ruleSpecial
-        } = this.state;
+        const { ruleLength, ruleLower, ruleUpper, ruleAname, ruleSpecial } =
+          this.state;
         const passwordValid =
           ruleLength && ruleLower && ruleUpper && ruleAname && ruleSpecial;
         this.setState({
@@ -266,7 +261,8 @@ class Register extends Component {
       var lowerReg = /[a-z]+/;
       var upperReg = /[A-Z]+/;
       var nameReg = /[\d]+/;
-      var specialReg = /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
+      var specialReg =
+        /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
       this.setState(
         {
           ruleLength: value.length >= 8,
@@ -591,7 +587,8 @@ class Register extends Component {
                         </a>
                       </p>
                       {window.__.env.REACT_APP_COUNTRY !== 'ru' &&
-                      window.__.env.REACT_APP_COUNTRY !== 'tr' ? (
+                      window.__.env.REACT_APP_COUNTRY !== 'tr' &&
+                      window.__.env.REACT_APP_COUNTRY !== 'uk' ? (
                         <>
                           <SocialRegister />
                           <div className="rc-column">
@@ -599,9 +596,8 @@ class Register extends Component {
                               {window.__.env.REACT_APP_COUNTRY === 'de' ? (
                                 <span
                                   dangerouslySetInnerHTML={{
-                                    __html: this.getIntlMsg(
-                                      'registerContinuing'
-                                    )
+                                    __html:
+                                      this.getIntlMsg('registerContinuing')
                                   }}
                                 ></span>
                               ) : (
@@ -760,7 +756,7 @@ class Register extends Component {
                                   className="rc-input__control"
                                   id="registerEmail"
                                   type="email"
-                                  maxLength="50"
+                                  maxLength="90"
                                   name="email"
                                   onChange={(e) => this.registerChange(e)}
                                   onBlur={(e) => this.inputBlur(e)}

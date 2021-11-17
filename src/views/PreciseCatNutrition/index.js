@@ -264,7 +264,10 @@ class PreciseCatNutrition extends React.Component {
                                 </li>
                                 <li className="rc-list__item flex">
                                   <div>
-                                    <FormattedMessage id="PreciseCatNutrition.DidYouKnow.paragraph2" />
+                                    <FormattedMessage
+                                      id="PreciseCatNutrition.DidYouKnow.paragraph2"
+                                      values={{ val: <sup>2</sup> }}
+                                    />
                                   </div>
                                 </li>
                                 {/*<li className="rc-list__item flex">*/}
@@ -493,8 +496,11 @@ class PreciseCatNutrition extends React.Component {
                         <p style={{ marginBottom: 0, fontSize: 12 }}>
                           <FormattedMessage id="PreciseCatNutrition.Notes1" />
                         </p>
-                        <p style={{ fontSize: 12 }}>
+                        <p style={{ fontSize: 12, marginBottom: 0 }}>
                           <FormattedMessage id="PreciseCatNutrition.Notes2" />
+                        </p>
+                        <p style={{ fontSize: 12 }}>
+                          <FormattedMessage id="PreciseCatNutrition.Notes3" />
                         </p>
                       </div>
                     </div>

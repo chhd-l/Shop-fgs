@@ -4,6 +4,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import { cookieSettingsBtn } from './cookieSettingsBtn';
 import MarsFooterMap from './MarsFooterMap';
+import PaymentLogos from './paymentLogos';
 import { menubar } from './menubar';
 import { contactInfo } from './contactInfo';
 import FooterHub from './footer_hub';
@@ -25,16 +26,24 @@ class Footer extends React.Component {
       activeIdx: -1
     };
   }
-  componentDidMount() {
+  async componentDidMount() {
     const {
-      configStore,
+      configStore: {
+        queryPaymentMethodCfg,
+        queryConfig,
+        getPrescriberSettingInfo,
+        getSystemFormConfig
+      },
       intl: { messages }
     } = this.props;
-    configStore.queryConfig();
+    queryConfig();
 
-    configStore.getPrescriberSettingInfo(); //查询prescriber setting信息
+    getPrescriberSettingInfo(); //查询prescriber setting信息
 
-    configStore.getSystemFormConfig(); // 查询address form表单配置开关
+    getSystemFormConfig(); // 查询address form表单配置开关
+
+    // 查询 payment logos
+    await queryPaymentMethodCfg();
 
     // 地址错误提示信息
     localItemRoyal.set(
@@ -46,6 +55,7 @@ class Footer extends React.Component {
         postCode: messages['payment.postCode'],
         house: messages['payment.house'],
         city: messages['payment.city'],
+        county: messages['payment.county'],
         districtCode: messages['payment.province'],
         settlement: messages['payment.settlement'],
         address1: messages['payment.address1'],
@@ -223,7 +233,8 @@ class Footer extends React.Component {
               </div>
             </div>
           ) : null}
-          <div className="rc-divider rc-md-up" />
+          <div className="rc-divider rc-md-up rc-shop-divider2" />
+
           {/*tips */}
           <div className="rc-layout-container rc-one-column rc-padding-x--xs--desktop rc-margin-top--md--desktop rc-padding-x--none--mobile">
             <div className="rc-column rc-padding-bottom--none rc-padding-top--lg--mobile">
@@ -248,7 +259,11 @@ class Footer extends React.Component {
                 )}
               </div>
             </div>
+
+            {/* payment logos */}
+            <PaymentLogos />
           </div>
+
           {/* mail and phone */}
           <div className="rc-layout-container rc-two-column rc-padding-x--xs--desktop">
             {cur_contactInfo && (
@@ -289,6 +304,7 @@ class Footer extends React.Component {
               </div>
             )}
           </div>
+
           {/* 底部横向链接 */}
           <MarsFooterMap />
         </div>

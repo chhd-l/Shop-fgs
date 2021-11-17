@@ -3,6 +3,7 @@ import Skeleton from 'react-skeleton-loader';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import PriceSlider from '@/components/PriceSlider';
+import { removeArgFromUrl } from '@/lib/url-utils';
 import '@/assets/css/search.css';
 import './index.less';
 
@@ -12,16 +13,53 @@ class Filter extends React.Component {
     initing: true,
     filterList: [],
     maxGoodsPrice: 100,
-    markPriceAndSubscriptionLangDict: []
+    markPriceAndSubscriptionLangDict: [],
+    filtersCounts: 0
   };
   constructor(props) {
     super(props);
     this.state = {
-      filterList: props.filterList
+      filterList: props.filterList,
+      selectedFilterParams: props.prefnParamListSearch || []
     };
     this.toggleContent = this.toggleContent.bind(this);
     this.hubGA = window.__.env.REACT_APP_HUB_GA == '1';
   }
+
+  componentDidMount() {
+    // 随着滚动，更改顶部距离
+    window.onscroll = function () {
+      const isHubUi = document.getElementsByClassName('ui-custom-hub')[0];
+      if (isHubUi) {
+        const headerClass = document.getElementsByClassName(
+          'rc-header--scrolled'
+        )[0];
+        const filterWrap = document.getElementsByClassName('filter-rc-nav')[0];
+        if (headerClass && filterWrap) {
+          filterWrap.style.top = '4.167rem';
+        } else if (filterWrap) {
+          filterWrap.style.top = '6.7rem';
+        }
+      }
+    };
+
+    const { filterList } = this.state;
+    let filtersCounts = 0;
+    filterList.map((item) => {
+      item.attributesValueList?.map((el) => {
+        if (el.selected) {
+          filtersCounts += 1;
+          el.notApplyChecked = true;
+        }
+      });
+    });
+
+    this.setState({
+      filterList,
+      filtersCounts
+    });
+  }
+
   get hasSelecedItems() {
     let ret = false;
     const { filterList } = this.state;
@@ -61,7 +99,144 @@ class Filter extends React.Component {
 
   handleClickCloseBtn = () => {
     this.props.onToggleFilterModal(false);
+    // this.setState({
+    //   selectedFilterParams: []
+    // })
   };
+
+  handleClickItemFilter = (e, parentItem, childItem) => {
+    const { filterList } = this.state;
+    filterList.map((item) => {
+      item.attributesValueList?.map((el) => {
+        if (el.attributeDetailName == childItem.attributeDetailName) {
+          el.notApplyChecked = e.target.checked;
+        }
+      });
+    });
+    this.setState({
+      filterList
+    });
+    const { selectedFilterParams } = this.state;
+    let selectedFilters = [];
+    if (selectedFilterParams.length && e.target.checked) {
+      let choosedIndex = selectedFilterParams.findIndex(
+        (el) => el.prefn == parentItem.attributeName
+      );
+      if (choosedIndex > -1) {
+        selectedFilterParams[choosedIndex].prefvs = [
+          ...selectedFilterParams[choosedIndex].prefvs,
+          childItem.attributeDetailNameEnSplitByLine
+        ];
+      } else {
+        selectedFilterParams.push({
+          prefn: parentItem.attributeName,
+          prefvs: [childItem.attributeDetailNameEnSplitByLine]
+        });
+      }
+      selectedFilters = [...selectedFilterParams];
+    } else if (selectedFilterParams.length && !e.target.checked) {
+      let choosedIndex = selectedFilterParams.findIndex(
+        (el) => el.prefn == parentItem.attributeName
+      );
+      if (choosedIndex > -1) {
+        let deletedIdx = selectedFilterParams[choosedIndex].prefvs.findIndex(
+          (el) => el == childItem.attributeDetailNameEnSplitByLine
+        );
+        selectedFilterParams[choosedIndex].prefvs.splice(deletedIdx, 1);
+        selectedFilterParams?.map((item, idx) => {
+          if (!item.prefvs.length) selectedFilterParams.splice(idx, 1);
+        });
+        selectedFilters = [...selectedFilterParams];
+      }
+    } else if (e.target.checked) {
+      selectedFilters.push({
+        prefn: parentItem.attributeName,
+        prefvs: [childItem.attributeDetailNameEnSplitByLine]
+      });
+    }
+
+    this.setState({
+      selectedFilterParams: selectedFilters
+    });
+  };
+
+  handleFilterApplyBtn = () => {
+    const { pathname } = this.props.history.location;
+    const { baseSearchStr } = this.props;
+    const searchFilterParams = this.state.selectedFilterParams.reduce(
+      (pre, cur) => {
+        return {
+          ret:
+            pre.ret +
+            `&prefn${pre.i}=${cur.prefn}&prefv${pre.i}=${cur.prefvs.join('|')}`,
+          i: ++pre.i
+        };
+      },
+      { i: 1, ret: '' }
+    );
+    const _search = searchFilterParams.ret
+      ? `?${
+          baseSearchStr ? `${baseSearchStr}&` : ''
+        }${searchFilterParams.ret.substr(1)}`
+      : `?${baseSearchStr}`;
+    const _router = {
+      pathname,
+      search: `?${removeArgFromUrl({
+        search: _search.substr(1),
+        name: 'p'
+      })}`
+    };
+    this.props.history.push(_router);
+  };
+
+  // 判断router上是否已经选择了filters，如果选择了则清空filter跳转router,若没有直接清空目前正在操作选择的。
+  handleFilterClearBtn = () => {
+    const { filterList } = this.state;
+    const { pathname, search } = this.props.history.location;
+    const { baseSearchStr } = this.props;
+    if (search.includes('prefn')) {
+      const _router = {
+        pathname,
+        search: baseSearchStr
+      };
+      this.props.history.push(_router);
+    } else {
+      this.setState({
+        selectedFilterParams: []
+      });
+      // const filterCheckBox = document.getElementsByClassName(
+      //   'filter-input-checkout'
+      // );
+      // for (let i = 0; i < filterCheckBox.length; i++) {
+      //   filterCheckBox[i].checked = '';
+      // }
+      filterList.map((item) => {
+        item.attributesValueList?.map((el) => {
+          el.notApplyChecked = '';
+        });
+      });
+      this.setState({
+        filterList
+      });
+      this.props.onToggleFilterModal(false);
+    }
+  };
+
+  handleParentFilterCounts = (parentItem) => {
+    const selectedList = parentItem.attributesValueList?.filter(
+      (item) => item.notApplyChecked
+    );
+    return (
+      <>
+        {selectedList?.length ? (
+          <div className="filter-parent-item-count">
+            <span>{selectedList.length}</span>
+          </div>
+        ) : null}
+      </>
+    );
+  };
+
   renderMultiChoiceJSX = (parentItem, childItem) => {
     const { inputLabelKey } = this.props;
     return (
@@ -73,13 +248,17 @@ class Filter extends React.Component {
         className="rc-list__item"
         key={childItem.id}
       >
-        <Link to={childItem.router} className="rc-input rc-input--stacked">
+        <span className="rc-input rc-input--stacked">
+          {/* <Link to={childItem.router} className="rc-input rc-input--stacked"> */}
           <input
-            className={`rc-input__checkbox`}
+            className={`rc-input__checkbox filter-input-checkout`}
             id={`filter-input-${childItem.id}-${inputLabelKey}`}
             type="checkbox"
             name="checkbox"
-            checked={childItem.selected}
+            checked={childItem.notApplyChecked}
+            onChange={(e) =>
+              this.handleClickItemFilter(e, parentItem, childItem)
+            }
           />
           <label
             className="rc-input__label--inline"
@@ -87,7 +266,8 @@ class Filter extends React.Component {
           >
             {childItem.attributeDetailNameEn}
           </label>
-        </Link>
+          {/* </Link> */}
+        </span>
       </li>
     );
   };
@@ -98,15 +278,18 @@ class Filter extends React.Component {
         key={childItem.id}
         className="row rc-margin-left--none rc-padding-left--none rc-margin-left--xs rc-padding-left--xs"
       >
-        <Link
-          to={childItem.router}
+        <span
+          // to={childItem.router}
           className="rc-input w-100 rc-margin-y--xs rc-input--full-width ml-2"
         >
           <input
-            className="rc-input__radio"
+            className="rc-input__radio filter-input-checkout"
             id={`filter-sub-radio-${childItem.id}-${inputLabelKey}`}
             type="radio"
-            checked={childItem.selected}
+            checked={childItem.notApplyChecked}
+            onChange={(e) =>
+              this.handleClickItemFilter(e, parentItem, childItem)
+            }
           />
           <label
             className="rc-input__label--inline"
@@ -123,12 +306,12 @@ class Filter extends React.Component {
                 )[0].valueEn
               : childItem.attributeDetailNameEn}
           </label>
-        </Link>
+        </span>
       </div>
     );
   };
   render() {
-    const { filterList } = this.state;
+    const { filterList, selectedFilterParams } = this.state;
     const {
       history,
       initing,
@@ -165,140 +348,157 @@ class Filter extends React.Component {
 
     // });(()=>)
     return (
-      <div className="rc-filters__form fr-mobile" name="example-filter">
-        {initing ? (
-          <div style={{ marginTop: '.625rem' }}>
-            <Skeleton color="#f5f5f5" width="100%" height="100%" count={7} />
-          </div>
-        ) : (
-          <header>
-            <header
-              className="rc-rc-filters__header rc-padding-left--none--desktop pointer-events-auto"
-              style={{ backgroundColor: '#f6f6f6' }}
+      <section className="rc-max-width--xl filter-mobile-wrap">
+        <nav
+          id="headnav-mobile"
+          className="rc-nav rc-md-down filter-rc-nav"
+          data-toggle-group="mobile"
+          data-toggle-effect="rc-expand--horizontal"
+        >
+          <div className="rc-filters__form fr-mobile" name="example-filter">
+            <div
+              onClick={this.handleClickCloseBtn}
+              className="flex w-100 align-items-center justify-content-between rc-padding--sm--mobile"
             >
-              {/* <button
-                className="rc-md-down rc-stick-left rc-btn rc-btn--icon rc-icon rc-close--xs rc-iconography"
-                type="button"
-                onClick={this.handleClickCloseBtn}
-              />
-              <div className="rc-filters__heading rc-padding-top--sm rc-padding-bottom--xs rc-header-with-icon rc-header-with-icon--alpha pt-0 pb-0">
-                <span className="md-up rc-icon rc-filter--xs rc-iconography" />
-                <FormattedMessage id="filters" />
-              </div> */}
-              <div className="filter-bar">
-                {isSelectedFilter ? (
-                  <ul className="mt-md-0">
-                    {filterList.map((pItem) => {
-                      return (
-                        pItem.attributesValueList ||
-                        pItem.storeGoodsFilterValueVOList ||
-                        []
-                      ).map((cItem) => {
-                        if (cItem.selected) {
-                          return (
-                            <li className="filter-value" key={cItem.id}>
-                              <Link to={cItem.router}>
-                                {cItem.attributeDetailNameEn}
-                                <em className="filter-remove" />
-                              </Link>
-                            </li>
-                          );
-                        } else {
-                          return null;
-                        }
-                      });
-                    })}
-                    {this.hasSelecedItems && (
-                      <li
-                        className="d-md-none rc-margin-top--sm--mobile rc-margin-left--md--mobile rc-margin-bottom--md--mobile d-inline-block"
-                        key="removeAllFilters"
-                      >
-                        <Link to={{ pathname, search: `?${baseSearchStr}` }}>
-                          <FormattedMessage id="removeAllFilters" />
-                        </Link>
-                      </li>
-                    )}
-                  </ul>
-                ) : (
-                  <div style={{ borderBottom: '1px solid #ccc' }} />
-                )}
+              <div>
+                <em
+                  className={`rc-icon rc-filter--xs rc-iconography`}
+                  data-filter-trigger="filter-example"
+                  style={{ position: 'relative', top: '0.2rem' }}
+                />
+                <span className=" font-weight-normal font-18 rc-padding-left--sm">
+                  <FormattedMessage id={'list.closeFilters'} />
+                </span>
               </div>
-            </header>
-
-            <div className="rc-padding-x--sm--mobile rc-padding-bottom--md--mobile active-border">
-              {filterList.length ? (
-                filterList.map((parentItem, pIndex) => (
-                  <React.Fragment key={parentItem.id}>
-                    <>
-                      <div role="heading">
-                        <div
-                          className="rc-list__header text-break"
-                          id={`accordion-header-${pIndex}`}
-                          onClick={this.toggleContent.bind(
-                            this,
-                            pIndex,
-                            parentItem.attributeName
-                          )}
-                        >
-                          {/* when name=markPrice/subscription, get dictionary to multi lang  */}
-                          {(parentItem.attributeName === 'markPrice' ||
-                            parentItem.attributeName === 'subscription') &&
-                          markPriceAndSubscriptionLangDict.filter(
-                            (ele) => ele.name === parentItem.attributeName
-                          ).length
-                            ? markPriceAndSubscriptionLangDict.filter(
-                                (ele) => ele.name === parentItem.attributeName
-                              )[0].valueEn
-                            : parentItem.attributeNameEn}
-                        </div>
-                      </div>
-
-                      <ul
-                        className={`rc-list__content rc-expand--vertical ${
-                          parentItem.attributeName === 'markPrice'
-                            ? 'list-price'
-                            : ''
-                        } ${parentItem.expand ? 'expand' : ''}`}
-                        id={`accordion-content-${pIndex}`}
-                      >
-                        {parentItem.attributeName === 'markPrice' ? (
-                          <PriceSlider
-                            max={this.props.maxGoodsPrice}
-                            defaultValue={[0, this.props.maxGoodsPrice]}
-                            // key={this.props.maxGoodsPrice}
-                            onChange={hanldePriceSliderChange}
-                          />
-                        ) : (
-                          (
-                            parentItem.attributesValueList ||
-                            parentItem.storeGoodsFilterValueVOList ||
-                            []
-                          ).map((childItem) => {
-                            return parentItem.choiceStatus === 'Single choice'
-                              ? this.renderSingleChoiceJSX(
-                                  parentItem,
-                                  childItem
-                                )
-                              : this.renderMultiChoiceJSX(
-                                  parentItem,
-                                  childItem
-                                );
-                          })
-                        )}
-                      </ul>
-                    </>
-                  </React.Fragment>
-                ))
-              ) : (
-                <div className="ui-font-nothing mt-2">
-                  <em className="rc-icon rc-incompatible--sm rc-iconography" />
-                  <FormattedMessage id="list.errMsg3" />
-                </div>
-              )}
+              <span className={'rc-icon rc-iconography rc-close--xs'} />
+              {/* <span className="rc-icon rc-iconography"/> */}
             </div>
-          </header>
-        )}
-      </div>
+            {initing ? (
+              <div style={{ marginTop: '.625rem' }}>
+                <Skeleton
+                  color="#f5f5f5"
+                  width="100%"
+                  height="100%"
+                  count={7}
+                />
+              </div>
+            ) : (
+              <header>
+                <div className="rc-padding-bottom--md--mobile">
+                  {filterList.length ? (
+                    filterList.map((parentItem, pIndex) => (
+                      <React.Fragment key={parentItem.id}>
+                        <>
+                          <div role="heading">
+                            <div
+                              className="rc-list__header text-break"
+                              id={`accordion-header-${pIndex}`}
+                              onClick={this.toggleContent.bind(
+                                this,
+                                pIndex,
+                                parentItem.attributeName
+                              )}
+                            >
+                              {/* when name=markPrice/subscription, get dictionary to multi lang  */}
+                              <span>
+                                {(parentItem.attributeName === 'markPrice' ||
+                                  parentItem.attributeName ===
+                                    'subscription') &&
+                                markPriceAndSubscriptionLangDict.filter(
+                                  (ele) => ele.name === parentItem.attributeName
+                                ).length
+                                  ? markPriceAndSubscriptionLangDict.filter(
+                                      (ele) =>
+                                        ele.name === parentItem.attributeName
+                                    )[0].valueEn
+                                  : parentItem.attributeNameEn}
+                              </span>
+                              {this.handleParentFilterCounts(parentItem)}
+                              {/* {selectedFilterParams?.map((item, idx) => {
+                                if (item.prefn == parentItem.attributeName) {
+                                  return (
+                                    <div
+                                      className="filter-parent-item-count"
+                                      key={idx}
+                                    >
+                                      <span>{item.prefvs.length}</span>
+                                    </div>
+                                  );
+                                }
+                              })} */}
+                            </div>
+                          </div>
+
+                          <ul
+                            className={`rc-list__content rc-expand--vertical  ${
+                              parentItem.attributeName === 'markPrice'
+                                ? 'list-price'
+                                : ''
+                            } ${parentItem.expand ? 'expand' : ''}`}
+                            id={`accordion-content-${pIndex}`}
+                          >
+                            {parentItem.attributeName === 'markPrice' ? (
+                              <PriceSlider
+                                max={this.props.maxGoodsPrice}
+                                defaultValue={[0, this.props.maxGoodsPrice]}
+                                // key={this.props.maxGoodsPrice}
+                                onChange={hanldePriceSliderChange}
+                              />
+                            ) : (
+                              (
+                                parentItem.attributesValueList ||
+                                parentItem.storeGoodsFilterValueVOList ||
+                                []
+                              ).map((childItem) => {
+                                return parentItem.choiceStatus ===
+                                  'Single choice'
+                                  ? this.renderSingleChoiceJSX(
+                                      parentItem,
+                                      childItem
+                                    )
+                                  : this.renderMultiChoiceJSX(
+                                      parentItem,
+                                      childItem
+                                    );
+                              })
+                            )}
+                          </ul>
+                        </>
+                      </React.Fragment>
+                    ))
+                  ) : (
+                    <div className="ui-font-nothing mt-2">
+                      <em className="rc-icon rc-incompatible--sm rc-iconography" />
+                      <FormattedMessage id="list.errMsg3" />
+                    </div>
+                  )}
+                </div>
+              </header>
+            )}
+          </div>
+        </nav>
+        {selectedFilterParams.length ||
+        this.props.prefnParamListSearch.length ? (
+          <div className="filter-button-groups">
+            <button
+              className={`rc-btn rc-btn--sm rc-btn--two rc-margin-bottom--xs--mobile`}
+              onClick={this.handleFilterClearBtn}
+            >
+              <FormattedMessage id="list.clearFilters" />
+            </button>
+            {filterList.length ? (
+              <button
+                className={`rc-btn rc-btn--one rc-margin-right--xs--mobile`}
+                onClick={this.handleFilterApplyBtn}
+              >
+                <span>
+                  <FormattedMessage id="list.applyFilters" />
+                </span>
+              </button>
+            ) : null}
+          </div>
+        ) : null}
+      </section>
     );
   }
 }

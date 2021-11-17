@@ -33,8 +33,6 @@ const UserPaymentInfo = ({
     maxDeliveryTime = snsl.maxDeliveryTime;
   }
   const eidtModule = (type) => {
-    console.log('666 >>> type: ', type);
-
     if (type !== 'delivery') {
       window.scrollTo(0, 0);
     }
@@ -88,12 +86,11 @@ const UserPaymentInfo = ({
               </a>
             )}
           </div>
-          {currentDeliveryAddress.validFlag
-            ? null
-            : isCanVerifyBlacklistPostCode
-              ? (<div style={{ color: '#e2001a', padding: '6px 0' }}>{currentDeliveryAddress.alert}</div>)
-              : null
-          }
+          {currentDeliveryAddress.validFlag ? null : isCanVerifyBlacklistPostCode ? (
+            <div style={{ color: '#e2001a', padding: '6px 0' }}>
+              {currentDeliveryAddress.alert}
+            </div>
+          ) : null}
 
           <div className="ml-1 subscription_detail_userinfo">
             {/* 姓名 */}
@@ -110,9 +107,8 @@ const UserPaymentInfo = ({
               </span>
             </p>
 
-            {currentDeliveryAddress.receiveType === 'PICK_UP'
-              ? (
-                <>
+            {currentDeliveryAddress.receiveType === 'PICK_UP' ? (
+              <>
                 {/* pickupName */}
                 <p className="mb-0 sd_mb_pickupName font-weight-bold">
                   {currentDeliveryAddress?.pickupName}
@@ -136,9 +132,8 @@ const UserPaymentInfo = ({
                   {currentDeliveryAddress?.workTime}
                 </p>
               </>
-              )
-              : (
-                <>
+            ) : (
+              <>
                 {/* 电话 */}
                 {localAddressForm?.phoneNumber &&
                   currentDeliveryAddress?.consigneeNumber && (
@@ -148,7 +143,8 @@ const UserPaymentInfo = ({
                   )}
                 {/* 国家 */}
                 {window.__.env.REACT_APP_COUNTRY == 'us' ||
-                window.__.env.REACT_APP_COUNTRY == 'ru' ? null : (
+                window.__.env.REACT_APP_COUNTRY == 'ru' ||
+                window.__.env.REACT_APP_COUNTRY == 'uk' ? null : (
                   <p className="mb-0 sd_mb_country">
                     {countryList.length &&
                     countryList.filter(
@@ -188,6 +184,24 @@ const UserPaymentInfo = ({
                   {localAddressForm?.state &&
                     currentDeliveryAddress?.province + ' '}
 
+                  {/* county */}
+                  {localAddressForm?.county &&
+                    currentDeliveryAddress?.county + ', '}
+
+                  {/* 国家 */}
+                  {window.__.env.REACT_APP_COUNTRY == 'uk' ? (
+                    <>
+                      {countryList.length &&
+                      countryList.filter(
+                        (el) => el.id === currentDeliveryAddress.countryId
+                      ).length
+                        ? countryList.filter(
+                            (el) => el.id === currentDeliveryAddress.countryId
+                          )[0].valueEn
+                        : currentDeliveryAddress.countryId}{' '}
+                    </>
+                  ) : null}
+
                   {/* 邮编 */}
                   {localAddressForm?.postCode &&
                     currentDeliveryAddress?.postCode}
@@ -218,8 +232,7 @@ const UserPaymentInfo = ({
                   </>
                 )}
               </>
-              )
-            }
+            )}
 
             {/* delivery date */}
             {/* {currentDeliveryAddress?.deliveryDate && (
@@ -237,12 +250,11 @@ const UserPaymentInfo = ({
           </div>
         </div>
       </div>
+
       {/* 不是美国或者不隐藏支付checkout billing addr时，才显示billing addr */}
-      {
-        window.__.env.REACT_APP_COUNTRY !== 'us' &&
-      !Boolean(+window.__.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR)
-        ? (
-          <div className={`col-12 col-md-4 mb-2`} style={{ padding: '5px' }}>
+      {window.__.env.REACT_APP_COUNTRY !== 'us' &&
+      !Boolean(+window.__.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR) ? (
+        <div className={`col-12 col-md-4 mb-2`} style={{ padding: '5px' }}>
           <div
             className="h-100 border border-d7d7d7"
             style={{
@@ -299,7 +311,8 @@ const UserPaymentInfo = ({
 
               {/* 国家 */}
               {window.__.env.REACT_APP_COUNTRY == 'us' ||
-              window.__.env.REACT_APP_COUNTRY == 'ru' ? null : (
+              window.__.env.REACT_APP_COUNTRY == 'ru' ||
+              window.__.env.REACT_APP_COUNTRY == 'uk' ? null : (
                 <p className="mb-0 sd_mb_country">
                   {countryList.length &&
                   countryList.filter(
@@ -337,18 +350,37 @@ const UserPaymentInfo = ({
                 {localAddressForm?.state &&
                   currentBillingAddress?.province + ' '}
 
+                {/* county */}
+                {localAddressForm?.county &&
+                  currentBillingAddress?.county + ', '}
+
+                {/* 国家 */}
+                {window.__.env.REACT_APP_COUNTRY == 'uk' ? (
+                  <>
+                    {countryList.length &&
+                    countryList.filter(
+                      (el) => el.id === currentBillingAddress.countryId
+                    ).length
+                      ? countryList.filter(
+                          (el) => el.id === currentBillingAddress.countryId
+                        )[0].valueEn
+                      : currentBillingAddress.countryId}{' '}
+                  </>
+                ) : null}
+
                 {/* 邮编 */}
                 {localAddressForm?.postCode && currentBillingAddress?.postCode}
               </p>
             </div>
           </div>
         </div>
-      )
-        : null
-      }
+      ) : null}
 
-      {currentCardInfo
-        ? (<div className="col-12 col-md-4 mb-2" style={{ padding: '5px', paddingRight: '0' }}>
+      {currentCardInfo ? (
+        <div
+          className="col-12 col-md-4 mb-2"
+          style={{ padding: '5px', paddingRight: '0' }}
+        >
           <div
             className="h-100 border border-d7d7d7"
             style={{
@@ -424,9 +456,8 @@ const UserPaymentInfo = ({
               {/* <p className="mb-0">{currentCardInfo.phone}</p> */}
             </div>
           </div>
-        </div>)
-        : null
-      }
+        </div>
+      ) : null}
     </div>
   );
 };

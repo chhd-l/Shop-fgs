@@ -34,10 +34,20 @@ import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
 import AddressPreview from './Preview';
 import './list.less';
+import felinAddr from './FelinOfflineAddress';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
+
+const sleep = (time) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, time);
+  });
+};
+
 /**
  * address list(delivery/billing) - member
  */
@@ -140,14 +150,12 @@ class AddressList extends React.Component {
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.addOrEditPickupAddress = this.addOrEditPickupAddress.bind(this);
-    this.handleCancelAddOrEditPickup = this.handleCancelAddOrEditPickup.bind(
-      this
-    );
+    this.handleCancelAddOrEditPickup =
+      this.handleCancelAddOrEditPickup.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.timer = null;
-    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
-      this
-    );
+    this.confirmListValidationAddress =
+      this.confirmListValidationAddress.bind(this);
     this.editFormRef = React.createRef();
   }
   async componentDidMount() {
@@ -163,15 +171,24 @@ class AddressList extends React.Component {
       });
     });
 
-    this.setState(
-      {
-        listBtnLoading: false,
-        wrongAddressMsg: JSON.parse(localItemRoyal.get('rc-wrongAddressMsg'))
-      },
-      async () => {
-        await this.queryAddressList({ init: true });
-      }
-    );
+    if (sessionItemRoyal.get('from-felin')) {
+      //from felin下单情况下，地址信息不可编辑
+      this.setState({
+        addressList: felinAddr,
+        selectedId: felinAddr[0].deliveryAddressId,
+        loading: false
+      });
+    } else {
+      this.setState(
+        {
+          listBtnLoading: false,
+          wrongAddressMsg: JSON.parse(localItemRoyal.get('rc-wrongAddressMsg'))
+        },
+        async () => {
+          await this.queryAddressList({ init: true });
+        }
+      );
+    }
   }
   get isDeliverAddress() {
     return this.props.type === 'delivery';
@@ -276,7 +293,6 @@ class AddressList extends React.Component {
           addressList.find((item) => item.validFlag === 1)
             ?.deliveryAddressId) ||
         '';
-      console.log('tmpId', tmpId);
 
       Array.from(
         addressList,
@@ -332,6 +348,7 @@ class AddressList extends React.Component {
               v.deliveryDate = '';
               v.timeSlot = '';
             }
+            console.log('666 >>> ★ 修改地址： ', v);
             // 修改地址
             editaddObj = await editAddress(v);
             // if (addressList.length == i + 1) {
@@ -542,11 +559,9 @@ class AddressList extends React.Component {
         addressList,
         (ele) => ele.deliveryAddressId === homeDeliverySelectedId
       ) || null;
-
     this.setState({
       selectedId: homeDeliverySelectedId
     });
-
     // 判断地址完整性
     const laddf = this.props.configStore.localAddressForm;
     let dfarr = laddf.settings;
@@ -580,6 +595,7 @@ class AddressList extends React.Component {
       this.showErrMsg(wrongAddressMsg['title'] + errMsgArr);
       return;
     }
+
     this.updateSelectedData('confirm');
 
     if (window.__.env.REACT_APP_COUNTRY != 'ru') {
@@ -850,6 +866,7 @@ class AddressList extends React.Component {
       rfc: '',
       countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID || '',
       country: '',
+      county: '',
       cityId: '',
       city: '',
       provinceNo: '',
@@ -880,6 +897,7 @@ class AddressList extends React.Component {
         rfc: tmp.rfc,
         countryId: tmp.countryId,
         country: tmp.country,
+        county: tmp?.county,
         cityId: tmp.cityId,
         city: tmp.city,
         areaId: tmp.areaId,
@@ -986,7 +1004,7 @@ class AddressList extends React.Component {
   };
   // 俄罗斯地址校验flag，控制按钮是否可用
   getFormAddressValidFlag = (flag) => {
-    // console.log('address1地址校验flag : ', flag);
+    // console.log('666 >>> address1地址校验flag : ', flag);
     const { deliveryAddress } = this.state;
     this.setState(
       {
@@ -1165,11 +1183,8 @@ class AddressList extends React.Component {
   };
   // 点击地址验证确认按钮
   confirmListValidationAddress = () => {
-    const {
-      deliveryAddress,
-      selectListValidationOption,
-      validationAddress
-    } = this.state;
+    const { deliveryAddress, selectListValidationOption, validationAddress } =
+      this.state;
     this.setState({
       listBtnLoading: true
     });
@@ -1265,20 +1280,26 @@ class AddressList extends React.Component {
           {titleVisible ? (
             <>
               <em className="rc-icon rc-indoors--xs rc-iconography" />{' '}
-              <FormattedMessage id="payment.deliveryTitle" />
+              {sessionItemRoyal.get('from-felin') ? (
+                <FormattedMessage id="Felin Address" />
+              ) : (
+                <FormattedMessage id="payment.deliveryTitle" />
+              )}
               <span className="iconfont font-weight-bold green ml-2">
                 &#xe68c;
               </span>
             </>
           ) : null}
         </h5>{' '}
-        <p
-          onClick={this.handleClickEdit}
-          className="rc-styled-link mb-1 checkout_edit_address"
-          style={{ cursor: 'pointer' }}
-        >
-          <FormattedMessage id="edit" />
-        </p>
+        {!sessionItemRoyal.get('from-felin') && (
+          <p
+            onClick={this.handleClickEdit}
+            className="rc-styled-link mb-1 checkout_edit_address"
+            style={{ cursor: 'pointer' }}
+          >
+            <FormattedMessage id="edit" />
+          </p>
+        )}
       </>
     );
   }
@@ -1334,7 +1355,9 @@ class AddressList extends React.Component {
       farr.push(data.province);
     } else {
       let country = matchNamefromDict(this.state.countryList, data.countryId);
-      farr.unshift(country);
+      if (window.__.env.REACT_APP_COUNTRY !== 'uk') {
+        farr.unshift(country);
+      }
       if (localAddressForm['region']) {
         farr.push(data.area);
       }
@@ -1882,7 +1905,20 @@ class AddressList extends React.Component {
   };
   // 确认 pickup
   clickConfirmPickup = async () => {
-    const { deliveryAddress, pickupFormData, pickupCalculation } = this.state;
+    const {
+      deliveryAddress,
+      pickupFormData,
+      pickupCalculation,
+      wrongAddressMsg
+    } = this.state;
+
+    // 如果地址字段有缺失，提示错误信息
+    if (!pickupFormData?.consigneeNumber) {
+      let fky = wrongAddressMsg['title'] + wrongAddressMsg['phoneNumber'];
+      this.showErrMsg(fky);
+      return;
+    }
+
     this.setState({
       btnConfirmLoading: true,
       loading: true
@@ -1906,8 +1942,6 @@ class AddressList extends React.Component {
       let maxDeliveryTime =
         pickupFormData.maxDeliveryTime || pkobj[0]?.maxDeliveryTime;
 
-      // console.log('666 >>> pickupFormData.minDeliveryTime: ', pickupFormData.minDeliveryTime);
-      // console.log('666 >>> pkobj[0]?.minDeliveryTime: ', pkobj[0]?.minDeliveryTime);
       console.log('666 >>> maxDeliveryTime: ', maxDeliveryTime);
 
       let pkaddr = pickupFormData?.pickup?.address || null;
@@ -2104,6 +2138,11 @@ class AddressList extends React.Component {
                     <FormattedMessage id="payment.editDeliveryDateAndTime" />
                   </span>
                 ) : null}
+
+                {item?.county && ',' + item.county}
+
+                {',' +
+                  matchNamefromDict(this.state.countryList, item.countryId)}
               </p>
               {!item?.validFlag && isCanVerifyBlacklistPostCode ? (
                 <div className="address-item-forbid">{item.alert}</div>

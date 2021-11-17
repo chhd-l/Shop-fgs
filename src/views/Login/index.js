@@ -252,7 +252,8 @@ class Login extends React.Component {
   };
 
   emailVerify = (email) => {
-    let reg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
+    let reg =
+      /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
     return reg.test(email);
   };
   passwordVerify = (password) => {
@@ -1447,7 +1448,7 @@ class Login extends React.Component {
                         </label>
                       </div>
                       <div style={{ marginLeft: "1.25rem" }}>
-                        <FormattedMessage id="requiredFields" />
+                        <FormattedMessage id="requiredFields2" />
                       </div>
                     </div>
 

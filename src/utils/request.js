@@ -42,7 +42,9 @@ service.interceptors.request.use((config) => {
     fr: 'fr',
     tr: 'tr',
     ru: 'ru',
-    cn: 'zh-CN'
+    cn: 'zh-CN',
+    uk: 'en-GB',
+    sv: 'sv-SE'
   }[window.__.env.REACT_APP_COUNTRY];
   config.headers['storeId'] = window.__.env.REACT_APP_STOREID;
   config.headers['X-Content-Type-Options'] = 'nosniff';

@@ -32,7 +32,11 @@ function CardItem(props) {
   const { data } = props;
   return (
     <div
-      className={`rc-bg-colour--brand4 rounded p-2 pl-3 pr-3 h-100 d-flex align-items-center justify-content-between creditCompleteInfoBox ${
+      className={`${
+        data?.paddingFlag
+          ? 'creditCompleteInfoBox disabled'
+          : 'rc-bg-colour--brand4'
+      } rounded p-2 pl-3 pr-3 h-100 d-flex align-items-center justify-content-between creditCompleteInfoBox ${
         data.selected ? 'active border-blue border' : ''
       }`}
       style={{ position: 'relative' }}
@@ -681,6 +685,7 @@ class PaymentComp extends React.Component {
     );
   };
   async toggleSetDefault(item, e) {
+    if (item?.paddingFlag) return;
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
@@ -747,7 +752,11 @@ class PaymentComp extends React.Component {
               <div className={classNames('row', 'ml-0', 'mr-0')}>
                 {creditCardList.map((el, idx) => (
                   <div
-                    className="col-12 col-md-6 p-2 ui-cursor-pointer-pure"
+                    className={`col-12 col-md-6 p-2 ${
+                      el?.paddingFlag
+                        ? 'ui-cursor-not-allowed'
+                        : 'ui-cursor-pointer-pure'
+                    }`}
                     key={el.id}
                   >
                     <CardItem
@@ -785,7 +794,13 @@ class PaymentComp extends React.Component {
                               onClick={this.toggleSetDefault.bind(this, el)}
                             >
                               <span className="iconfont mr-1">&#xe68c;</span>
-                              <span className="rc-styled-link">
+                              <span
+                                className={`${
+                                  el?.paddingFlag
+                                    ? 'ui-cursor-not-allowed'
+                                    : 'rc-styled-link'
+                                }`}
+                              >
                                 <FormattedMessage id="setAsDefault" />
                               </span>
                             </div>

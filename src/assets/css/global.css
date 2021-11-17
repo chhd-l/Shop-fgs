@@ -17708,7 +17708,7 @@ button.rc-menu--xs:after {
 }
 
 html.rc-nav-open button.rc-menu--xs:after {
-  background-image: url(%PUBLIC_URL%/royal/royal-assets1/royal-canin.sprite--iconography--xs.svg) !important;
+  background-image: url(%PUBLIC_URL%/royal/royal-assets2/royal-canin.sprite--iconography--xs.svg) !important;
   background-position: 38% 0 !important;
 }
 
@@ -23764,6 +23764,10 @@ tr.rc-table__row.inactive td:after {
 .ui-cursor-pointer {
   cursor: pointer;
 }
+
+.ui-cursor-not-allowed {
+  cursor: not-allowed;
+}
 .ui-cursor-pointer:hover {
   color: #ec001a !important;
 }
@@ -23793,6 +23797,7 @@ tr.rc-table__row.inactive td:after {
   white-space: nowrap;
 }
 .ui-text-overflow-line2 {
+  word-wrap: break-word;
   text-overflow: -o-ellipsis-lastline;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -23958,6 +23963,10 @@ span.rc-styled-link {
 }
 .creditCompleteInfoBox.active {
   background-color: #3856a719;
+}
+
+.creditCompleteInfoBox.disabled {
+  background-color: #d5d4d4;
 }
 
 @media (min-width: 769px) {

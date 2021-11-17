@@ -168,7 +168,8 @@ const SubGoodsInfos = ({
                                 triggerShowChangeProduct,
                                 {
                                   show: true,
-                                  firstShow: !triggerShowChangeProduct.firstShow,
+                                  firstShow:
+                                    !triggerShowChangeProduct.firstShow,
                                   goodsInfo: [el],
                                   isShowModal: true
                                 }
@@ -333,9 +334,10 @@ const SubGoodsInfos = ({
                           alignItems: 'center'
                         }}
                       >
-                        <div className="img-container">
+                        <div className="img-container mr-3">
                           {/* <LazyLoad> */}
                           <img
+                            style={{ maxHeight: '100%' }}
                             src={el.goodsPic || IMG_DEFAULT}
                             alt={el.goodsName}
                           />
@@ -367,7 +369,7 @@ const SubGoodsInfos = ({
                             {!isIndv && el.specText}
                           </p>
                           <div>
-                            <div>
+                            <div style={{ whiteSpace: 'nowrap' }}>
                               <span
                                 style={{
                                   display: isIndv ? 'none' : 'inline-block'
@@ -485,7 +487,8 @@ const SubGoodsInfos = ({
                                       triggerShowChangeProduct,
                                       {
                                         show: true,
-                                        firstShow: !triggerShowChangeProduct.firstShow,
+                                        firstShow:
+                                          !triggerShowChangeProduct.firstShow,
                                         goodsInfo: [el],
                                         isShowModal: true
                                       }

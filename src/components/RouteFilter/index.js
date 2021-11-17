@@ -117,6 +117,8 @@ class RouteFilter extends Component {
         sessionItemRoyal.remove('rc-tidList');
         sessionItemRoyal.remove('recommend_product');
         sessionItemRoyal.remove('orderSource');
+        sessionItemRoyal.remove('from-felin');
+        sessionItemRoyal.remove('appointment-no');
       }
       if (prevPath.includes('/confirmation')) {
         if (sessionItemRoyal.get('rc-paywith-login') === 'true') {
@@ -190,10 +192,11 @@ class RouteFilter extends Component {
       return null;
     }
 
-    if (pathname == '/') {
-      var el = document.querySelector('html');
-      el.lang = window.__.env.REACT_APP_LANG;
-    }
+    var el = document.querySelector('html');
+    el.lang =
+      window.__.env.REACT_APP_LANG == 'uk'
+        ? 'en-GB'
+        : window.__.env.REACT_APP_LANG;
 
     if (pathname !== '/login') {
       // loadJS({

@@ -100,6 +100,7 @@ class MemberCardList extends React.Component {
     this.setState({ listLoading: true });
     try {
       let res = await getPaymentMethod();
+
       let tmpList = res.context || [];
 
       const defaultItem = tmpList.filter((t) => t.isDefault === 1)[0];
@@ -517,6 +518,7 @@ class MemberCardList extends React.Component {
     });
   };
   handleClickCardItem(el) {
+    if (el?.paddingFlag) return; // paddingFlag表示此卡正在pending，不能用于选择支付
     const { selectedId, creditCardList, memberUnsavedCardList } = this.state;
     if (el.id === selectedId) return;
     this.setState(
@@ -531,6 +533,7 @@ class MemberCardList extends React.Component {
     );
   }
   handleClickDeleteBtn(el, e) {
+    if (el.paddingFlag) return;
     e.preventDefault();
     e.stopPropagation();
     this.updateConfirmTooltipVisible(el, true);

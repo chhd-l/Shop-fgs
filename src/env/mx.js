@@ -68,7 +68,10 @@ const env_mx = {
     REACT_APP_Adyen_country: 'MX',
 
     REACT_APP_SEARCH_LINK:
-      '/on/demandware.store/Sites-ES-Site/es_ES/Search-Show'
+      '/on/demandware.store/Sites-ES-Site/es_ES/Search-Show',
+    // #mars global footer
+    REACT_APP_MARS_FOOTER:
+      'https://footer.mars.com/js/footer.js.aspx?shop-royalcanin-mx'
   },
   development: {
     // #okta

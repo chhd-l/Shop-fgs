@@ -22,7 +22,7 @@ const CompletedDelivery = ({ i, isActive, el, subDetail }) => {
           {' '}
           {isActive ? (
             <div
-              className={`${isMobile ? 'col-5' : 'col-md-3'}`}
+              className={`${isMobile ? 'col-6' : 'col-md-3'}`}
               style={{ paddingLeft: '1.25rem' }}
             >
               <FormattedMessage id="prevShipmentOn" />:{' '}
@@ -64,7 +64,7 @@ const CompletedDelivery = ({ i, isActive, el, subDetail }) => {
             </div>
           )}
           <div
-            className="col-7 col-md-3"
+            className="col-6 col-md-3"
             style={{
               padding: isMobile ? '0' : '0 .9375rem'
             }}
@@ -73,14 +73,22 @@ const CompletedDelivery = ({ i, isActive, el, subDetail }) => {
               <>
                 <div
                   style={{
-                    textAlign: 'left',
-                    paddingLeft: '2rem'
+                    textAlign: 'left'
                   }}
                 >
                   {el.id ? (
                     <>
                       <em className="greenCircle" />
-                      <span>{el.tradeState.orderStatus}</span>
+                      <span
+                        className="ui-text-overflow-line1"
+                        style={{
+                          width: '120px',
+                          display: 'block',
+                          paddingLeft: '20px'
+                        }}
+                      >
+                        {el.tradeState.orderStatus}
+                      </span>
                       <Link
                         className="rc-icon rc-right rc-iconography"
                         style={{

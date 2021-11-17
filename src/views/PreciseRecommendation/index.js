@@ -21,6 +21,7 @@ const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 import { getRecommendationInfo } from '@/api/productFinder';
 import Loading from '@/components/Loading';
+import GroupOne from './image/GroupOne.png';
 
 console.info('productList', productList);
 const pageLink = window.location.href;
@@ -365,7 +366,7 @@ class PreciseRecommendation extends React.Component {
                                   <LazyLoad>
                                     <img
                                       className="w-100 lazyloaded"
-                                      src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/Group%206-1.png`}
+                                      src={GroupOne}
                                     />
                                   </LazyLoad>
                                 </div>

@@ -129,6 +129,16 @@ class ProductReview extends React.Component {
       this.setState({
         isSubmit: true
       });
+      if (!purchaseRate) {
+        throw new Error(
+          this.props.intl.messages['comment.noShoppingExperienceTip']
+        );
+      }
+      if (!logisticsRate) {
+        throw new Error(
+          this.props.intl.messages['comment.noLogisticsRatingTip']
+        );
+      }
       if (list) {
         list.forEach((item) => {
           if (!item.productRate) {
@@ -150,7 +160,9 @@ class ProductReview extends React.Component {
             goodsEvaluateImageList: item.goodsEvaluateImageList
               ? item.goodsEvaluateImageList
               : [],
-            evaluateReviewTitle: item.title
+            evaluateReviewTitle: item.title,
+            // 服务类型产品 1  普通产品 0
+            goodsTypeRelateEvaluate: 1
           };
           goodsParams.push(obj);
         });
@@ -344,7 +356,66 @@ class ProductReview extends React.Component {
                         </button>
                       </aside>
                     </div>
+                    <div className="rc-border-bottom rc-border-colour--interface ">
+                      <div className="rc-margin--none">
+                        <div>
+                          <div className="rc-column">
+                            <div>
+                              <span className=" rc-text-colour--text ui-text-overflow-line2 text-break">
+                                <span
+                                  className="rc-font-bold"
+                                  style={{ fontWeight: '500' }}
+                                >
+                                  <FormattedMessage id="purchaseRating"></FormattedMessage>
+                                </span>
+                              </span>
+                              <div className="rc-margin-top--xs">
+                                <Rate
+                                  def={this.state.purchaseRate}
+                                  disabled={false}
+                                  selectRate={this.selectPurchaseRate}
+                                  marginSize="maxRate"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="rc-border-bottom rc-border-colour--interface ">
+                      <div className="rc-margin--none pb-2">
+                        {/*rc-layout-container rc-one-column*/}
+                        <div className="">
+                          <div className="rc-column">
+                            <div>
+                              <span className=" rc-text-colour--text ui-text-overflow-line2 text-break">
+                                <span
+                                  className="rc-font-bold"
+                                  style={{ fontWeight: '500' }}
+                                >
+                                  <FormattedMessage id="expertAdvice"></FormattedMessage>
+                                </span>
+                              </span>
+                              <div className="rc-margin-top--xs">
+                                <Rate
+                                  def={this.state.logisticsRate}
+                                  disabled={false}
+                                  selectRate={this.selectLogisticsRate}
+                                  marginSize="maxRate"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
                     <div className="rc-border-bottom rc-border-colour--interface">
+                      {/*<div className="rc-column rc-triple-width pad-left0 pad-right0">*/}
+                      {/*    <ReviewList update={this.updateCurrent} />*/}
+                      {/*</div>*/}
+                      {/*<div className="rc-padding-right--xs rc-bg-colour--brand4"></div>*/}
+                      {/*rc-double-width*/}
                       <div className="rc-column">
                         <div className="rc-padding-top--xs">
                           <span className=" rc-text-colour--text ui-text-overflow-line2 text-break">

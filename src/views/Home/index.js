@@ -547,6 +547,15 @@ class Home extends React.Component {
       localItemRoyal.remove('logout-redirect-url');
       location.href = url;
     }
+    //不需要登录跳checkout下felin订单
+    if (
+      funcUrl({ name: 'toOkta' }) === 'false' &&
+      funcUrl({ name: 'redirect' }) === 'checkout'
+    ) {
+      this.props.history.push(
+        '/checkout?appointmentNo=' + funcUrl({ name: 'appointmentNo' })
+      );
+    }
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -588,6 +597,12 @@ class Home extends React.Component {
     }
     if (parametersString.indexOf('redirect=pets') >= 0) {
       localItemRoyal.set('okta-redirectUrl', '/account/pets');
+    }
+    if (parametersString.indexOf('redirect=checkout') >= 0) {
+      localItemRoyal.set(
+        'okta-redirectUrl',
+        '/checkout' + history.location.search
+      );
     }
     if (parametersString.indexOf('toOkta=true') >= 0) {
       this.props.oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);

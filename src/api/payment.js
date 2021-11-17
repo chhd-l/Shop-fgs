@@ -38,7 +38,10 @@ const api = {
 
   pickupQueryCity: '/pick-up/queryCity',
   pickupQueryCityFee: '/pick-up/queryCityFee',
-  dimensionsByPackage: '/pick-up/dimensionsByPackage' // 合并包裹
+  dimensionsByPackage: '/pick-up/dimensionsByPackage', // 合并包裹
+  confirmAndCommitFelin: `/${window.__.env.REACT_APP_STOREID}/feline/checkout`, //felin checkout
+  repayFelin: '/feline/repay', //felin repay
+  getPaymentMethodV2: `/payment-method/query-by-StoreId/${window.__.env.REACT_APP_STOREID}`
 };
 
 export default api;
@@ -98,6 +101,14 @@ export function confirmAndCommit(parameter) {
     //     ? api.confirmAndCommitUs
     //     : api.confirmAndCommit,
     url: api.confirmAndCommit,
+    method: 'post',
+    data: parameter
+  });
+}
+
+export function confirmAndCommitFelin(parameter) {
+  return axios({
+    url: api.confirmAndCommitFelin,
     method: 'post',
     data: parameter
   });
@@ -163,6 +174,14 @@ export function rePay(parameter) {
   return axios({
     // url: window.__.env.REACT_APP_COUNTRY == 'us' ? api.rePayUs : api.rePay,
     url: api.rePay,
+    method: 'post',
+    data: parameter
+  });
+}
+
+export function rePayFelin(parameter) {
+  return axios({
+    url: api.repayFelin,
     method: 'post',
     data: parameter
   });
@@ -271,5 +290,13 @@ export function dimensionsByPackage(parameter) {
     url: api.dimensionsByPackage,
     method: 'post',
     data: parameter
+  });
+}
+
+export function getPaymentMethodV2(parameter) {
+  return axios({
+    url: api.getPaymentMethodV2,
+    method: 'get',
+    params: parameter
   });
 }

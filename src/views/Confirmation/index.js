@@ -647,7 +647,11 @@ class Confirmation extends React.Component {
                   ))}
                   {/* 地址信息 */}
                   <div className="red mb-2">
-                    <FormattedMessage id="confirmation.customerInformation" />
+                    {this.state.details.orderType === 'FELINE_ORDER' ? (
+                      <FormattedMessage id="Appointment Information" />
+                    ) : (
+                      <FormattedMessage id="confirmation.customerInformation" />
+                    )}
                   </div>
                   <AddressPreview
                     hideBillingAddr={Boolean(

@@ -81,6 +81,7 @@ const ru_RU = {
   'account.profile': 'Профиль',
   'account.profileTip': 'Просмотреть или изменить Ваш профиль.',
   'account.requiredFields': 'Обязательные поля',
+  'account.requiredFields2': 'Обязательные поля',
   'account.shippingAddressTip': 'Создайте и измените свой адрес доставки.',
   'account.specialNeeds': 'Особые потребности',
   'account.startAutoShipping': 'Узнать подробнее',
@@ -395,6 +396,7 @@ const ru_RU = {
   'footer.Additionally': 'ДОПОЛНИТЕЛЬНО',
   'footer.confidentiality': 'Привацидад',
   'footer.contactRoyalCanin': 'Связаться с ROYAL CANIN®',
+  'footer.securePaymentMethods': 'Безопасная онлайн оплата',
   'footer.contacts': 'Контакты',
   'footer.contactUs': 'Связаться с нами',
   'footer.cookieCollectionPolicy': 'Политика сбора файлов cookie',
@@ -558,6 +560,7 @@ const ru_RU = {
   'login.thirdCheck': 'Я согласен получать маркетинговую рассылку',
   loginFailed: 'Вход в систему не удался',
   logisticsRating: 'Рейтинг логистики',
+  expertAdvice: 'Замечания экспертов',
   logOff: 'Выйти',
   // mailAddress: 'Почта Адрес',
   mailAddress: 'E-mail',
@@ -706,6 +709,7 @@ const ru_RU = {
   'payment.rfc': 'Ссылка',
   'payment.socialId': 'Социальный идентификатор',
   'payment.state': 'область',
+  'payment.county': 'уезд',
   'payment.region': 'район',
   'payment.entrance': 'Подъезд',
   'payment.apartment': 'Квартира',
@@ -913,6 +917,7 @@ const ru_RU = {
   requiredConsentCheckedTip:
     'Пожалуйста, подтвердите обязательные поля, установив галочку.',
   requiredFields: '* Обязательные поля',
+  requiredFields2: '* Обязательные поля',
   resetPasswordEmail:
     'На ваш почтовый ящик отправлено письмо для сброса пароля, обратите внимание, что проверьте!',
   results: '{val} Результатов',
@@ -997,7 +1002,7 @@ const ru_RU = {
   'subscription.subscriptionNumberTip': 'Пожалуйста, введите номер подписки',
   'subscription.toBeDelivered': 'Доставка',
   'subscription.total': 'Всего',
-  'day-unit': 'gün',
+  'day-unit': 'день (s)',
   'subscription.totalInclu': 'Итого (включая НДС)',
   'subscriptionLanding.catButton': 'Корм для Кошки',
   'subscriptionLanding.content1':
@@ -1434,7 +1439,7 @@ const ru_RU = {
   'ClubLP.SubscriptionBenefitsNew.icon4':
     'Приветственный подарок, подарки каждые 3 месяца участия в программе',
   'ClubLP.SubscriptionBenefitsNew.icon5':
-    'Персонализи-Рованные образовательные рассылки',
+    'Персонализи{val1}{val2}рованные образовательные рассылки',
   'ClubLP.SubscriptionBenefitsNew.icon6':
     'Бесплатные онлайн-консультации нутрициолога в {val}',
   'ClubLP.SubscriptionBenefitsNew.button': 'Вступить в КЛУБ',
@@ -1488,7 +1493,17 @@ const ru_RU = {
     'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
   'plp.retail.cat.filter.specneed.learnmore': 'Learn more',
   'checkout.zeroOrder.butSubscription':
-    '0 Price orders do not support subscription, please change to a one-off purchase to pay this order'
+    '0 Price orders do not support subscription, please change to a one-off purchase to pay this order',
+  'subscription.ongoingOrderForPet': 'Текущий заказ для {val}',
+  'subscription.noPetOngoingOrder': 'Текущий заказ',
+  'product.plp.foodtype.drydog': 'Сухой корм для собак',
+  'product.plp.foodtype.wetdog': 'Влажный корм для собак',
+  'product.plp.foodtype.drycat': 'Сухой корм для кошек',
+  'product.plp.foodtype.wetcat': 'Влажный корм для кошек',
+  'list.applyFilters': 'Применить фильтры',
+  'list.clearFilters': 'Очистить все фильтры',
+  'list.viewFilters': 'Фильтры',
+  'list.closeFilters': 'Закрыть фильтры'
 };
 
 export default ru_RU;

@@ -86,6 +86,7 @@ const de_DE = {
   'account.profile': 'Meine Informationen',
   'account.profileTip': 'Aktualisieren Sie Ihre persönlichen Daten.',
   'account.requiredFields': 'Benötigte Felder',
+  'account.requiredFields2': 'Benötigte Felder',
   'account.shippingAddressTip':
     'Erstellen oder bearbeiten Sie Ihre Lieferadresse.',
   'account.specialNeeds': 'Empfohlene Nahrung der Tierarztpraxis',
@@ -218,7 +219,7 @@ const de_DE = {
   'comment.noProductRatingTip': 'Bitte kommentieren Sie die Produkte',
   'comment.noShoppingExperienceTip':
     'Bitte kommentieren Sie das Einkaufserlebnis',
-  completed: 'Bereits versandt',
+  completed: 'Vergangene Lieferungen',
   CompleteRequiredItems: 'Bitte füllen Sie die erforderlichen Elemente aus',
   confirmation: 'Bestätigung',
   'confirmation.account': 'zu meinem Profil',
@@ -377,6 +378,7 @@ const de_DE = {
   'footer.confidentiality': 'Privacidad',
   'footer.consistence': 'Nachhaltigkeit',
   'footer.contactRoyalCanin': 'Kontakt ROYAL CANIN®',
+  'footer.securePaymentMethods': 'Zahlungsmethoden',
   'footer.contacts': 'Kontakt',
   'footer.contactUs': 'Kontakt',
   'footer.cookieCollectionPolicy': 'Noch nicht übersetzt',
@@ -554,6 +556,7 @@ const de_DE = {
   loginFailed: 'Login fehlgeschlagen',
   logisticsCompany: 'Logistikunternehmen',
   logisticsRating: 'Logistikbewertung',
+  expertAdvice: 'Beratung durch Experten',
   logisticsSingleNumber: 'DPD Paketnummer',
   logOff: 'Ausloggen',
   mailAddress: 'E-Mail-Addresse',
@@ -598,7 +601,7 @@ const de_DE = {
   noDefaultClinic: 'Keine Standardpraxis',
   NoPromotionDesc: 'Rabatt',
   noSpecialNeeds: 'Keine besonderen Bedürfnisse',
-  noStart: 'Ausstehend',
+  noStart: 'Geplante Lieferungen',
   notate: 'Alle Preise inkl. MwSt. und zzgl. {val}',
   notSterilized: 'Nein',
   of: 'von',
@@ -727,6 +730,7 @@ const de_DE = {
   'payment.rfc': 'Adressreferenz',
   'payment.socialId': 'Soziale ID',
   'payment.state': 'Staat',
+  'payment.county': 'Grafschaft',
   'payment.region': 'Region',
   'payment.entrance': 'Eingang',
   'payment.apartment': 'Wohnung',
@@ -981,6 +985,7 @@ const de_DE = {
   requiredConsentCheckedTip:
     'Bitte bestätigen Sie die Pflichtfelder, in dem Sie ein Häkchen in der Box setzen.',
   requiredFields: '* Benötigte Felder',
+  requiredFields2: '* Benötigte Felder',
   resetPasswordEmail:
     'Passwort zurücksetzen E-Mail wurde an Ihre Mailbox gesendet, bitte beachten Sie, dass überprüfen!',
   results: '{val} Ergebnisse',
@@ -1405,7 +1410,17 @@ const de_DE = {
     'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
   'plp.retail.cat.filter.specneed.learnmore': 'Learn more',
   'checkout.zeroOrder.butSubscription':
-    '0 Price orders do not support subscription, please change to a one-off purchase to pay this order'
+    '0 Price orders do not support subscription, please change to a one-off purchase to pay this order',
+  'subscription.ongoingOrderForPet': 'Bestellung in Bearbeitung für {val}',
+  'subscription.noPetOngoingOrder': 'Bestellung in Bearbeitung',
+  'product.plp.foodtype.drydog': 'Trockenfutter für Hunde',
+  'product.plp.foodtype.wetdog': 'Nassfutter für Hunde',
+  'product.plp.foodtype.drycat': 'Trockenfutter für Katzen',
+  'product.plp.foodtype.wetcat': 'Katzen Nassfutter',
+  'list.applyFilters': 'Filter anwenden',
+  'list.clearFilters': 'Alle Filter löschen',
+  'list.viewFilters': 'Filter anzeigen',
+  'list.closeFilters': 'Filter schließen'
 };
 
 export default de_DE;

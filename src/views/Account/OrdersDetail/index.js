@@ -27,7 +27,8 @@ import {
   cancelOrder,
   getPayRecord,
   returnFindByTid,
-  queryLogistics
+  queryLogistics,
+  cancelAppointByNo
 } from '@/api/order';
 import { IMG_DEFAULT, CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import './index.less';
@@ -35,6 +36,11 @@ import LazyLoad from 'react-lazyload';
 import { format } from 'date-fns';
 import PageBaseInfo from '@/components/PageBaseInfo';
 import { injectIntl } from 'react-intl';
+import {
+  handleOrderStatusMap,
+  handleFelinOrderStatusMap
+} from './modules/handleOrderStatus';
+import OrderAppointmentInfo from './modules/OrderAppointmentInfo';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -226,7 +232,11 @@ class AccountOrders extends React.Component {
       activeTabIdx: 0,
       showLogisticsDetail: false,
       curLogisticInfo: null,
-      welcomeGiftLists: [] //first-order welcome box gifts
+      welcomeGiftLists: [], //first-order welcome box gifts
+      canChangeAppoint: false, //felin订单是否可以更改
+      canReviewService: false, //felin订单是否可以评论
+      canCancelAppoint: false, //felin订单是否可以cancel
+      cancelAppointLoading: false
     };
     this.changeTab = this.changeTab.bind(this);
     this.handleClickLogisticsCard = this.handleClickLogisticsCard.bind(this);
@@ -265,6 +275,11 @@ class AccountOrders extends React.Component {
       ? details.tradePrice.totalAddInstallmentPrice
       : details.tradePrice.totalPrice;
   }
+  //判断是否是felin 订单
+  get isFelinOrder() {
+    const { details } = this.state;
+    return details.orderType === 'FELINE_ORDER';
+  }
   init() {
     const { orderNumber, progressList } = this.state;
     this.setState({ loading: true });
@@ -276,7 +291,6 @@ class AccountOrders extends React.Component {
         let isIndv = false;
         resContext.tradeItems?.forEach((el) => {
           if (judgeIsIndividual(el)) {
-            // el.spuName = `${el.petsName}'s personalized subscription`;
             el.spuName = (
               <FormattedMessage
                 id="subscription.personalized"
@@ -302,61 +316,9 @@ class AccountOrders extends React.Component {
         const orderStatusMap = resContext.orderStatusMap;
         let currentProgerssIndex = -1;
         let currentCanceledProgerssIndex = -1;
-        normalProgressList = [1000, 2000, 4000, 5000].map((el) => {
-          let flowStateIds = [orderStatusMap[el]?.flowStateId];
-          // 组装所有归属于此状态的订单状态
-          switch (el) {
-            // case 1000:
-            //   flowStateIds.push(orderStatusMap[2000]?.flowStateId);
-            //   break;
-            case 2000:
-              flowStateIds.push(orderStatusMap[3000]?.flowStateId);
-              break;
-            // case 3000:
-            //   flowStateIds.push(orderStatusMap[3010]?.flowStateId);
-            //   break;
-            case 4000:
-              flowStateIds.push(orderStatusMap[3010]?.flowStateId);
-              // flowStateIds.push(orderStatusMap[5000]?.flowStateId);
-              break;
-            case 5000:
-              flowStateIds.push(orderStatusMap[4010]?.flowStateId);
-              flowStateIds.push(orderStatusMap[9000]?.flowStateId);
-              break;
-          }
-          return Object.assign(orderStatusMap[el], {
-            flowStateIds: [...flowStateIds],
-            showInFlow: true
-          });
-        });
-
-        // 处理取消订单流程
-        // cancelProgressList = [1000, 9999].map((el) => {
-        //   let flowStateIds2 = [orderStatusMap[el]?.flowStateId];
-        //   // 组装所有归属于此状态的订单状态
-        //   switch (el) {
-        //     case 1000:
-        //       flowStateIds2.push(
-        //         orderStatusMap[2000]?.flowStateId,
-        //         orderStatusMap[3000]?.flowStateId,
-        //         orderStatusMap[4000]?.flowStateId,
-        //         orderStatusMap[4010]?.flowStateId,
-        //         orderStatusMap[5000]?.flowStateId
-        //       );
-        //       break;
-        //     case 9999:
-        //       flowStateIds2.push(
-        //         orderStatusMap[9000]?.flowStateId,
-        //         orderStatusMap[9999]?.flowStateId
-        //       );
-        //       break;
-        //   }
-        //   return Object.assign(orderStatusMap[el], {
-        //     flowStateIds: [...flowStateIds2],
-        //     showInFlow: true
-        //   });
-        // });
-
+        normalProgressList = resContext.appointmentNo
+          ? handleFelinOrderStatusMap(orderStatusMap)
+          : handleOrderStatusMap(orderStatusMap);
         // 查询支付卡信息
         this.setState(
           {
@@ -440,7 +402,21 @@ class AccountOrders extends React.Component {
             tradeState.payState === 'NOT_PAID' &&
             new Date(resContext.orderTimeOut).getTime() >
               new Date(res.defaultLocalDateTime).getTime() &&
-            !['OXXO', 'COD'].includes(resContext.payWay?.toUpperCase())
+            !['OXXO', 'COD'].includes(resContext.payWay?.toUpperCase()),
+          canChangeAppoint:
+            resContext.orderType === 'FELINE_ORDER' &&
+            tradeState.flowState !== 'COMPLETED' &&
+            tradeState.flowState !== 'VOID' &&
+            tradeState.payState === 'PAID',
+          canCancelAppoint:
+            resContext.orderType === 'FELINE_ORDER' &&
+            tradeState.flowState !== 'COMPLETED' &&
+            tradeState.flowState !== 'VOID' &&
+            tradeState.payState === 'PAID',
+          canReviewService:
+            resContext.orderType === 'FELINE_ORDER' &&
+            tradeState.flowState === 'COMPLETED' &&
+            !ele.storeEvaluateVO
         });
       })
       .catch((err) => {
@@ -1018,6 +994,76 @@ class AccountOrders extends React.Component {
     // }
     return ret;
   };
+  renderFelinHeadTip = () => {
+    const { currentProgerssIndex, normalProgressList } = this.state;
+    let ret = null;
+    console.log('currentProgerssIndex', currentProgerssIndex);
+    switch (currentProgerssIndex) {
+      case 0:
+        // Appointment confirmed
+        ret = (
+          <>
+            <HeadTip
+              icon={
+                <svg
+                  className="svg-icon"
+                  aria-hidden="true"
+                  style={{ width: '3.5em', height: '3.5em' }}
+                >
+                  <use xlinkHref="#iconTobepaid" />
+                </svg>
+              }
+              title={normalProgressList[currentProgerssIndex]?.flowStateDesc}
+              titleColor="text-info"
+              tip={<FormattedMessage id="orderStatus.INITTip" />}
+            />
+            <hr />
+          </>
+        );
+        break;
+      case 1:
+        // Order paid
+        ret = (
+          <>
+            <HeadTip
+              icon={
+                <i
+                  className="iconfont iconfuwudiqiu ml-3"
+                  style={{ fontSize: '48px', color: '#d81e06' }}
+                />
+              }
+              title={<FormattedMessage id="felinOrder.servicePaid" />}
+              titleColor="text-warning"
+              tip={<FormattedMessage id="felinOrder.servicePaidTip" />}
+            />
+            <hr />
+          </>
+        );
+        break;
+      case 2:
+        // Check in
+        ret = (
+          <>
+            <HeadTip
+              icon={
+                <svg
+                  className="svg-icon"
+                  aria-hidden="true"
+                  style={{ width: '3.5em', height: '3.5em' }}
+                >
+                  <use xlinkHref="#iconCompleted" />
+                </svg>
+              }
+              title={normalProgressList[currentProgerssIndex]?.flowStateDesc}
+              tip={<FormattedMessage id="order.completeTip" />}
+            />
+            <hr />
+          </>
+        );
+        break;
+    }
+    return ret;
+  };
   // 对应的国际化字符串
   getIntlMsg = (str) => {
     return this.props.intl.messages[str];
@@ -1077,6 +1123,78 @@ class AccountOrders extends React.Component {
     }
     return daystr + ', ' + ymd[2] + ' ' + month;
   };
+  async cancelAppoint(order) {
+    try {
+      this.setState({ cancelAppointLoading: true });
+      await cancelAppointByNo({ apptNo: order.appointmentNo });
+      this.init();
+    } catch (err) {
+    } finally {
+      this.setState({ cancelAppointLoading: false });
+    }
+  }
+  renderOperationBtns = () => {
+    const {
+      canReviewService,
+      orderNumber,
+      canChangeAppoint,
+      canCancelAppoint,
+      cancelAppointLoading,
+      details
+    } = this.state;
+    return (
+      <>
+        {/*服务类产品评论*/}
+        {canReviewService ? (
+          <button className="rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn">
+            <FormattedMessage id="writeReview">
+              {(txt) => (
+                <Link
+                  className="color-fff"
+                  to={`/account/productReviewService/${orderNumber}`}
+                  title={txt}
+                  alt={txt}
+                >
+                  {txt}
+                </Link>
+              )}
+            </FormattedMessage>
+          </button>
+        ) : null}
+        {/*felin订单change appoint*/}
+        {canChangeAppoint ? (
+          <button
+            className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order`}
+          >
+            <FormattedMessage id="Change Appointment">
+              {(txt) => (
+                <Link
+                  className="color-fff"
+                  to={`/felin/${orderNumber}`}
+                  title={txt}
+                  alt={txt}
+                >
+                  {txt}
+                </Link>
+              )}
+            </FormattedMessage>
+          </button>
+        ) : null}
+        {/*felin订单cancel appoint*/}
+        {canCancelAppoint ? (
+          <button
+            className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order ${
+              cancelAppointLoading ? 'ui-btn-loading' : ''
+            }`}
+            style={{ marginLeft: 0 }}
+            onClick={this.cancelAppoint.bind(this, details)}
+          >
+            <FormattedMessage id="Cancel Appointment" />
+          </button>
+        ) : null}
+      </>
+    );
+  };
   render() {
     const event = {
       page: {
@@ -1122,7 +1240,10 @@ class AccountOrders extends React.Component {
           <div className="p-md-2rem rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
               <SideMenu type="Orders" customCls="rc-md-up" />
-              <div className="my__account-content rc-column rc-quad-width">
+              <div
+                className="my__account-content rc-column rc-quad-width"
+                style={{ padding: '0.5rem' }}
+              >
                 {showLogisticsDetail ? (
                   <span onClick={this.handleClickBackToIndex}>
                     <span className="red">&lt;</span>
@@ -1133,7 +1254,7 @@ class AccountOrders extends React.Component {
                 ) : (
                   <Link
                     to="/account/orders"
-                    className="rc-md-down mt-3 inlineblock"
+                    className="rc-md-down mt-3 ml-2 inlineblock"
                   >
                     <span className="red">&lt;</span>
                     <span className="rc-styled-link rc-progress__breadcrumb ml-2">
@@ -1158,7 +1279,9 @@ class AccountOrders extends React.Component {
                         />
                       ) : details ? (
                         <div className="card-body p-0">
-                          {this.renderHeadTip()}
+                          {this.isFelinOrder
+                            ? this.renderFelinHeadTip()
+                            : this.renderHeadTip()}
                           {currentProgerssIndex > -1 ? (
                             <Progress
                               progressList={normalProgressList}
@@ -1189,8 +1312,8 @@ class AccountOrders extends React.Component {
                                   <span className="medium">
                                     {filterOrderId({
                                       orderNo: this.state.orderNumber,
-                                      orderNoForOMS: this.state
-                                        .orderNumberForOMS
+                                      orderNoForOMS:
+                                        this.state.orderNumberForOMS
                                     })}
                                   </span>
                                 </div>
@@ -1238,6 +1361,11 @@ class AccountOrders extends React.Component {
                                 )}
                                 {/* {this.returnOrExchangeBtnJSX()} */}
                                 {/* {this.cancelOrderBtnJSX()} */}
+                                {this.isFelinOrder ? (
+                                  <div className="col-12 col-md-0 text-left mb-2 rc-md-down">
+                                    {this.renderOperationBtns()}
+                                  </div>
+                                ) : null}
                               </div>
                             </div>
                             <div className="col-12 table-body rounded mt-md-3 mb-2 pl-0 pr-0">
@@ -1270,9 +1398,6 @@ class AccountOrders extends React.Component {
                                                 title={item.spuName}
                                               >
                                                 {judgeIsIndividual(item) ? (
-                                                  // ? (item.petsName ||
-                                                  //     'Your pet') +
-                                                  //   "'s personalized subscription"
                                                   <FormattedMessage
                                                     id="subscription.personalized"
                                                     values={{
@@ -1284,20 +1409,38 @@ class AccountOrders extends React.Component {
                                                 )}
                                               </span>
                                               <span className="ui-text-overflow-line2">
-                                                <span className="rc-md-up">
-                                                  {item.specDetails}
-                                                </span>
+                                                {this.isFelinOrder ? (
+                                                  <span className="rc-md-up">
+                                                    {details.specialistType} –{' '}
+                                                    {details.appointmentTime}
+                                                    <FormattedMessage id="min" />{' '}
+                                                    –{details.appointmentType}
+                                                  </span>
+                                                ) : (
+                                                  <span className="rc-md-up">
+                                                    {item.specDetails}
+                                                  </span>
+                                                )}
+
                                                 <span className="rc-md-down">
                                                   {judgeIsIndividual(item) ? (
                                                     <span>
                                                       {item.specDetails} x1
+                                                    </span>
+                                                  ) : this.isFelinOrder ? (
+                                                    <span className="rc-md-down">
+                                                      {details.specialistType} –{' '}
+                                                      {details.appointmentTime}
+                                                      <FormattedMessage id="min" />{' '}
+                                                      –{details.appointmentType}
                                                     </span>
                                                   ) : (
                                                     <FormattedMessage
                                                       id="quantityText"
                                                       values={{
                                                         specText:
-                                                          item.specDetails,
+                                                          item.specDetails ||
+                                                          '',
                                                         buyCount: item.num
                                                       }}
                                                     />
@@ -1324,9 +1467,9 @@ class AccountOrders extends React.Component {
                                                           {filterOrderId({
                                                             orderNo:
                                                               el.subscribeId,
-                                                            orderNoForOMS: this
-                                                              .state
-                                                              .orderNumberForOMS
+                                                            orderNoForOMS:
+                                                              this.state
+                                                                .orderNumberForOMS
                                                           })}
                                                         </Link>
                                                       </p>
@@ -1376,16 +1519,24 @@ class AccountOrders extends React.Component {
                                             </span>
                                           </div>
                                           <div className="col-6 col-md-2 text-right text-md-left rc-md-up">
-                                            <FormattedMessage
-                                              id="xProduct"
-                                              values={{
-                                                val: judgeIsIndividual(item)
-                                                  ? 1
-                                                  : item.num
-                                              }}
-                                            />
+                                            {!this.isFelinOrder ? (
+                                              <FormattedMessage
+                                                id="xProduct"
+                                                values={{
+                                                  val: judgeIsIndividual(item)
+                                                    ? 1
+                                                    : item.num
+                                                }}
+                                              />
+                                            ) : null}
                                           </div>
-                                          <div className="col-6 col-md-3 text-right text-md-left rc-md-up">
+                                          <div
+                                            className={`col-6 ${
+                                              this.isFelinOrder
+                                                ? 'col-md-2'
+                                                : 'col-md-3'
+                                            } text-right text-md-left rc-md-up`}
+                                          >
                                             {details.subscriptionResponseVO &&
                                             item.subscriptionStatus ? (
                                               judgeIsIndividual(item) ? (
@@ -1409,7 +1560,13 @@ class AccountOrders extends React.Component {
                                               formatMoney(item.originalPrice)
                                             )}
                                           </div>
-                                          <div className="col-12 col-md-2 text-right text-md-left text-nowrap rc-md-up font-weight-normal 111">
+                                          <div
+                                            className={`col-12 ${
+                                              this.isFelinOrder
+                                                ? 'col-md-3'
+                                                : 'col-md-2'
+                                            } text-right text-md-left text-nowrap rc-md-up font-weight-normal d-flex justify-content-center flex-column`}
+                                          >
                                             {details.subscriptionResponseVO &&
                                             item.subscriptionStatus
                                               ? formatMoney(
@@ -1419,6 +1576,8 @@ class AccountOrders extends React.Component {
                                                     : item.subscriptionPrice *
                                                         item.num
                                                 )
+                                              : this.isFelinOrder
+                                              ? this.renderOperationBtns()
                                               : formatMoney(
                                                   item.originalPrice * item.num
                                                 )}
@@ -1647,160 +1806,34 @@ class AccountOrders extends React.Component {
                             </div>
                           </div>
 
-                          {/* 地址/支付信息 */}
-                          <div className="ml-2 mr-2 mr-md-0 ml-md-0">
-                            <p className="mt-4 mb-2 red text-left">
-                              <FormattedMessage id="transactionInfomation" />
-                            </p>
-                            <div className="row text-left text-break">
-                              <div className="col-12 col-md-4 mb-2">
-                                <div className="border rounded h-100">
-                                  <div className="d-flex p-3 h-100">
-                                    <svg
-                                      className="svg-icon align-middle mr-3 ml-1"
-                                      aria-hidden="true"
-                                      style={{ width: '2em', height: '2em' }}
-                                    >
-                                      <use xlinkHref="#iconaddresses" />
-                                    </svg>
-                                    <div>
-                                      <p className="medium mb-3">
-                                        <FormattedMessage id="delivery2" />
-                                      </p>
-                                      {/* 姓名 */}
-                                      <p className="medium mb-2 od_mb_name">
-                                        {details.consignee.name}
-                                      </p>
-                                      {/* 电话 */}
-                                      <p className="mb-0 od_mb_tel">
-                                        {details.consignee.phone}
-                                      </p>
-
-                                      {/* 国家 */}
-                                      {window.__.env.REACT_APP_COUNTRY ===
-                                        'us' ||
-                                      window.__.env.REACT_APP_COUNTRY ===
-                                        'ru' ? null : (
-                                        <p className="mb-0 od_mb_country">
-                                          {matchNamefromDict(
-                                            this.state.countryList,
-                                            details.consignee.countryId
-                                          )}
-                                        </p>
-                                      )}
-                                      {/* 地址 */}
-                                      <p className="mb-0 od_mb_address1">
-                                        {details.consignee.detailAddress1}
-                                      </p>
-                                      {localAddressForm['address2'] &&
-                                        details.consignee.detailAddress2 && (
-                                          <p className="mb-0 od_mb_address2">
-                                            {details.consignee.detailAddress2}
-                                          </p>
-                                        )}
-
-                                      <p className="mb-0 od_mb_cpp">
-                                        {/* 市 */}
-                                        {localAddressForm['city'] &&
-                                          details.consignee.city + ', '}
-
-                                        {/* 区域 */}
-                                        {localAddressForm['region'] &&
-                                          details.consignee.area + ', '}
-
-                                        {/* 省份 */}
-                                        {localAddressForm['state'] &&
-                                          details.consignee.province + ' '}
-
-                                        {/* 邮编 */}
-                                        {localAddressForm['postCode'] &&
-                                          details.consignee.postCode}
-                                      </p>
-                                      {details.consignee.rfc ? (
-                                        <p className="mb-0">
-                                          {details.consignee.rfc}
-                                        </p>
-                                      ) : null}
-                                      {details.buyerRemark ? (
-                                        <p className="mb-0">
-                                          {details.buyerRemark}
-                                        </p>
-                                      ) : null}
-
-                                      {/* 运费折扣 */}
-                                      {!details.consignee.timeSlot &&
-                                      details?.maxDeliveryTime != null &&
-                                      details?.minDeliveryTime != null ? (
-                                        <p className="mb-0 od_mb_yf">
-                                          {details.minDeliveryTime ===
-                                          details.maxDeliveryTime ? (
-                                            <FormattedMessage
-                                              id="payment.deliveryDate2"
-                                              values={{
-                                                val: details.minDeliveryTime
-                                              }}
-                                            />
-                                          ) : (
-                                            <FormattedMessage
-                                              id="payment.deliveryDate"
-                                              values={{
-                                                min: details.minDeliveryTime,
-                                                max: details.maxDeliveryTime
-                                              }}
-                                            />
-                                          )}
-                                        </p>
-                                      ) : null}
-
-                                      {/* delivery date */}
-                                      {newDeliveryDate && (
-                                        <p className="mb-0 od_mb_deliveryDate">
-                                          {newDeliveryDate}
-                                        </p>
-                                      )}
-
-                                      {/* time slot */}
-                                      {details.consignee.timeSlot && (
-                                        <p className="mb-0 od_mb_timeSlot">
-                                          {details.consignee.timeSlot}
-                                        </p>
-                                      )}
-
-                                      {/* workTime */}
-                                      {details.consignee.workTime && (
-                                        <p className="mb-0 od_mb_workTime">
-                                          {details.consignee.workTime}
-                                        </p>
-                                      )}
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              {!Boolean(
-                                +window.__.env
-                                  .REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
-                              ) ? (
-                                <div className="col-12 col-md-4 mb-2">
-                                  <div className="border rounded p-3 h-100">
-                                    <div className="d-flex">
+                          {/*felin订单? appointmentInfo :地址/支付信息 */}
+                          {!this.isFelinOrder ? (
+                            <div className="ml-2 mr-2 mr-md-0 ml-md-0">
+                              <p className="mt-4 mb-3 red text-left">
+                                <FormattedMessage id="transactionInfomation" />
+                              </p>
+                              <div className="row text-left text-break">
+                                <div className="col-12 col-md-4 mb-3">
+                                  <div className="border rounded h-100">
+                                    <div className="d-flex p-3 h-100">
                                       <svg
                                         className="svg-icon align-middle mr-3 ml-1"
                                         aria-hidden="true"
                                         style={{ width: '2em', height: '2em' }}
                                       >
-                                        <use xlinkHref="#iconBillingAddress1" />
+                                        <use xlinkHref="#iconaddresses" />
                                       </svg>
                                       <div>
                                         <p className="medium mb-3">
-                                          <FormattedMessage id="billing2" />
+                                          <FormattedMessage id="delivery2" />
                                         </p>
                                         {/* 姓名 */}
                                         <p className="medium mb-2 od_mb_name">
-                                          {details.invoice.contacts}
+                                          {details.consignee.name}
                                         </p>
                                         {/* 电话 */}
                                         <p className="mb-0 od_mb_tel">
-                                          {details.invoice.phone}
+                                          {details.consignee.phone}
                                         </p>
 
                                         {/* 国家 */}
@@ -1811,122 +1844,267 @@ class AccountOrders extends React.Component {
                                           <p className="mb-0 od_mb_country">
                                             {matchNamefromDict(
                                               this.state.countryList,
-                                              details.invoice.countryId
+                                              details.consignee.countryId
                                             )}
                                           </p>
                                         )}
                                         {/* 地址 */}
                                         <p className="mb-0 od_mb_address1">
-                                          {details.invoice.address1}
+                                          {details.consignee.detailAddress1}
                                         </p>
                                         {localAddressForm['address2'] &&
-                                          details.invoice.address2 && (
+                                          details.consignee.detailAddress2 && (
                                             <p className="mb-0 od_mb_address2">
-                                              {details.invoice.address2}
+                                              {details.consignee.detailAddress2}
                                             </p>
                                           )}
 
                                         <p className="mb-0 od_mb_cpp">
-                                          {/* 城市 */}
+                                          {/* 市 */}
                                           {localAddressForm['city'] &&
-                                            details.invoice.city + ', '}
+                                            details.consignee.city + ', '}
 
                                           {/* 区域 */}
                                           {localAddressForm['region'] &&
-                                            details.invoice.area + ', '}
+                                            details.consignee.area + ', '}
 
                                           {/* 省份 */}
                                           {localAddressForm['state'] &&
-                                            details.invoice.province + ' '}
+                                            details.consignee.province + ' '}
+
+                                          {/* county */}
+                                          {localAddressForm['county'] &&
+                                            details.consignee.county + ' '}
 
                                           {/* 邮编 */}
                                           {localAddressForm['postCode'] &&
-                                            details.invoice.postCode + ' '}
+                                            details.consignee.postCode}
                                         </p>
-                                        {details.invoice.rfc ? (
+                                        {details.consignee.rfc ? (
                                           <p className="mb-0">
-                                            {details.invoice.rfc}
+                                            {details.consignee.rfc}
                                           </p>
                                         ) : null}
+                                        {details.buyerRemark ? (
+                                          <p className="mb-0">
+                                            {details.buyerRemark}
+                                          </p>
+                                        ) : null}
+
+                                        {/* 运费折扣 */}
+                                        {!details.consignee.timeSlot &&
+                                        details?.maxDeliveryTime != null &&
+                                        details?.minDeliveryTime != null ? (
+                                          <p className="mb-0 od_mb_yf">
+                                            {details.minDeliveryTime ===
+                                            details.maxDeliveryTime ? (
+                                              <FormattedMessage
+                                                id="payment.deliveryDate2"
+                                                values={{
+                                                  val: details.minDeliveryTime
+                                                }}
+                                              />
+                                            ) : (
+                                              <FormattedMessage
+                                                id="payment.deliveryDate"
+                                                values={{
+                                                  min: details.minDeliveryTime,
+                                                  max: details.maxDeliveryTime
+                                                }}
+                                              />
+                                            )}
+                                          </p>
+                                        ) : null}
+
+                                        {/* delivery date */}
+                                        {newDeliveryDate && (
+                                          <p className="mb-0 od_mb_deliveryDate">
+                                            {newDeliveryDate}
+                                          </p>
+                                        )}
+
+                                        {/* time slot */}
+                                        {details.consignee.timeSlot && (
+                                          <p className="mb-0 od_mb_timeSlot">
+                                            {details.consignee.timeSlot}
+                                          </p>
+                                        )}
+
+                                        {/* workTime */}
+                                        {details.consignee.workTime && (
+                                          <p className="mb-0 od_mb_workTime">
+                                            {details.consignee.workTime}
+                                          </p>
+                                        )}
                                       </div>
                                     </div>
                                   </div>
                                 </div>
-                              ) : null}
-                              {payRecord && payRecord.lastFourDigits ? (
-                                <div className="col-12 col-md-4 mb-2">
-                                  <div className="border rounded p-3 h-100">
-                                    <div className="d-flex">
-                                      <svg
-                                        className="svg-icon align-middle mr-3 ml-1"
-                                        aria-hidden="true"
-                                        style={{ width: '2em', height: '2em' }}
-                                      >
-                                        <use xlinkHref="#iconpayments" />
-                                      </svg>
-                                      <div>
-                                        <p className="medium mb-3">
-                                          <FormattedMessage id="payment.payment" />
-                                        </p>
-                                        <div className="medium mb-2">
-                                          <LazyLoad
-                                            style={{ display: 'inline' }}
-                                          >
-                                            <img
-                                              alt="card background"
-                                              className="d-inline-block mr-1"
-                                              style={{ width: '20%' }}
-                                              src={
-                                                CREDIT_CARD_IMG_ENUM[
-                                                  payRecord.paymentVendor.toUpperCase()
-                                                ] ||
-                                                'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                                              }
-                                            />
-                                          </LazyLoad>
-                                          {payRecord.lastFourDigits ? (
-                                            <span className="medium">
-                                              ********
-                                              {payRecord.lastFourDigits}
-                                            </span>
+                                {!Boolean(
+                                  +window.__.env
+                                    .REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
+                                ) ? (
+                                  <div className="col-12 col-md-4 mb-3">
+                                    <div className="border rounded p-3 h-100">
+                                      <div className="d-flex">
+                                        <svg
+                                          className="svg-icon align-middle mr-3 ml-1"
+                                          aria-hidden="true"
+                                          style={{
+                                            width: '2em',
+                                            height: '2em'
+                                          }}
+                                        >
+                                          <use xlinkHref="#iconBillingAddress1" />
+                                        </svg>
+                                        <div>
+                                          <p className="medium mb-3">
+                                            <FormattedMessage id="billing2" />
+                                          </p>
+                                          {/* 姓名 */}
+                                          <p className="medium mb-2 od_mb_name">
+                                            {details.invoice.contacts}
+                                          </p>
+                                          {/* 电话 */}
+                                          <p className="mb-0 od_mb_tel">
+                                            {details.invoice.phone}
+                                          </p>
+
+                                          {/* 国家 */}
+                                          {window.__.env.REACT_APP_COUNTRY ===
+                                            'us' ||
+                                          window.__.env.REACT_APP_COUNTRY ===
+                                            'ru' ? null : (
+                                            <p className="mb-0 od_mb_country">
+                                              {matchNamefromDict(
+                                                this.state.countryList,
+                                                details.invoice.countryId
+                                              )}
+                                            </p>
+                                          )}
+                                          {/* 地址 */}
+                                          <p className="mb-0 od_mb_address1">
+                                            {details.invoice.address1}
+                                          </p>
+                                          {localAddressForm['address2'] &&
+                                            details.invoice.address2 && (
+                                              <p className="mb-0 od_mb_address2">
+                                                {details.invoice.address2}
+                                              </p>
+                                            )}
+
+                                          <p className="mb-0 od_mb_cpp">
+                                            {/* 城市 */}
+                                            {localAddressForm['city'] &&
+                                              details.invoice.city + ', '}
+
+                                            {/* 区域 */}
+                                            {localAddressForm['region'] &&
+                                              details.invoice.area + ', '}
+
+                                            {/* 省份 */}
+                                            {localAddressForm['state'] &&
+                                              details.invoice.province + ' '}
+
+                                            {/* county */}
+                                            {localAddressForm['county'] &&
+                                              details.invoice.county + ' '}
+
+                                            {/* 邮编 */}
+                                            {localAddressForm['postCode'] &&
+                                              details.invoice.postCode + ' '}
+                                          </p>
+                                          {details.invoice.rfc ? (
+                                            <p className="mb-0">
+                                              {details.invoice.rfc}
+                                            </p>
                                           ) : null}
                                         </div>
-
-                                        {payRecord.holderName ? (
-                                          <p className="mb-0">
-                                            {payRecord.holderName}
-                                          </p>
-                                        ) : null}
-
-                                        {/* 分期费用明细 */}
-                                        {0 &&
-                                        details.tradePrice.installmentPrice ? (
-                                          <p>
-                                            {formatMoney(
-                                              details.tradePrice.totalPrice
-                                            )}{' '}
-                                            (
-                                            {
-                                              details.tradePrice
-                                                .installmentPrice
-                                                .installmentNumber
-                                            }{' '}
-                                            *{' '}
-                                            {formatMoney(
-                                              details.tradePrice
-                                                .installmentPrice
-                                                .installmentPrice
-                                            )}
-                                            )
-                                          </p>
-                                        ) : null}
                                       </div>
                                     </div>
                                   </div>
-                                </div>
-                              ) : null}
+                                ) : null}
+                                {payRecord && payRecord.lastFourDigits ? (
+                                  <div className="col-12 col-md-4 mb-2">
+                                    <div className="border rounded p-3 h-100">
+                                      <div className="d-flex">
+                                        <svg
+                                          className="svg-icon align-middle mr-3 ml-1"
+                                          aria-hidden="true"
+                                          style={{
+                                            width: '2em',
+                                            height: '2em'
+                                          }}
+                                        >
+                                          <use xlinkHref="#iconpayments" />
+                                        </svg>
+                                        <div>
+                                          <p className="medium mb-3">
+                                            <FormattedMessage id="payment.payment" />
+                                          </p>
+                                          <div className="medium mb-2">
+                                            <LazyLoad
+                                              style={{ display: 'inline' }}
+                                            >
+                                              <img
+                                                alt="card background"
+                                                className="d-inline-block mr-1"
+                                                style={{ width: '20%' }}
+                                                src={
+                                                  CREDIT_CARD_IMG_ENUM[
+                                                    payRecord.paymentVendor.toUpperCase()
+                                                  ] ||
+                                                  'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
+                                                }
+                                              />
+                                            </LazyLoad>
+                                            {payRecord.lastFourDigits ? (
+                                              <span className="medium">
+                                                ********
+                                                {payRecord.lastFourDigits}
+                                              </span>
+                                            ) : null}
+                                          </div>
+
+                                          {payRecord.holderName ? (
+                                            <p className="mb-0">
+                                              {payRecord.holderName}
+                                            </p>
+                                          ) : null}
+
+                                          {/* 分期费用明细 */}
+                                          {0 &&
+                                          details.tradePrice
+                                            .installmentPrice ? (
+                                            <p>
+                                              {formatMoney(
+                                                details.tradePrice.totalPrice
+                                              )}{' '}
+                                              (
+                                              {
+                                                details.tradePrice
+                                                  .installmentPrice
+                                                  .installmentNumber
+                                              }{' '}
+                                              *{' '}
+                                              {formatMoney(
+                                                details.tradePrice
+                                                  .installmentPrice
+                                                  .installmentPrice
+                                              )}
+                                              )
+                                            </p>
+                                          ) : null}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                ) : null}
+                              </div>
                             </div>
-                          </div>
+                          ) : (
+                            <OrderAppointmentInfo details={details} />
+                          )}
                         </div>
                       ) : this.state.errMsg ? (
                         <div className="text-center mt-5">
@@ -1979,7 +2157,7 @@ class AccountOrders extends React.Component {
                               <FormattedMessage
                                 id="quantityText"
                                 values={{
-                                  specText: ele.specDetails,
+                                  specText: ele.specDetails || '',
                                   buyCount: ele.itemNum
                                 }}
                               />

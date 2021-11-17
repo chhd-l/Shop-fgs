@@ -23,26 +23,37 @@ export function Ads() {
               <div className="rc-full-width">
                 <div className="experience-component experience-assets-banner">
                   <div className="rc-max-width--xl rc-padding-x--sm rc-margin-y--sm rc-margin-y--lg--mobile portfolio-content">
-                    <Link to="/dogs/retail-products?prefn1=Technology&prefv1=Aliment-humide">
+                    <Link
+                      to="/dogs/retail-products?prefn1=Technology&prefv1=Aliment-humide"
+                      // to="/cats/retail-products?prefn1=New%20Products&prefv1=La-Semaine-Du-Chat"
+                      to="/retail-products?prefn1=Samples%20bundles%20for%20banners&prefv1=Offre-Echantillons-Care-Chien"
+                    >
                       <picture data-rc-feature-objectfillpolyfill-setup="true">
                         <source
                           media="(max-width: 640px)"
-                          srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop_FR_md.jpg`}
+                          // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop_FR_md.jpg`}
+                          // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/FLAGSHIP_RC_PACK_COM_BANNIERE_JEU_MOBILE.jpg`}
+                          srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop__md_FR_211101_v2.jpg`}
                         />
                         <source
                           media="(min-width: 640px) and (max-width: 769px)"
-                          srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop_FR_md.jpg`}
+                          srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop__md_FR_211101_v2.jpg`}
+                          // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop_FR_md.jpg`}
+                          // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/FLAGSHIP_RC_PACK_COM_BANNIERE_JEU_MOBILE.jpg`}
                         />
                         <source
                           media="(min-width: 769px)"
-                          srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop_FR@2x.jpg`}
+                          // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop_FR@2x.jpg`}
+                          // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/FLAGSHIP_RC_PACK_COM_BANNIERE_JEU_DESKTOP.jpg`}
+                          srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop_FR_211101_v2.jpg`}
                         />
                         <img
                           className="w-100 lazyloaded"
                           alt="Large Gamme De Produits Royal Canin"
                           title="Large Gamme De Produits Royal Canin"
                           // src={BannerFRLg}
-                          src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop_FR@2x.jpg`}
+                          // src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/FLAGSHIP_RC_PACK_COM_BANNIERE_JEU_DESKTOP.jpg`}
+                          src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop_FR_211101_v2.jpg`}
                         />
                       </picture>
                     </Link>
