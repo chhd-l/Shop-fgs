@@ -15,6 +15,7 @@ import product3 from '../image/product3.png';
 import product4 from '../image/product4.png';
 import lefticon from '../image/lefticon.png';
 import righticon from '../image/righticon.png';
+import productback1 from '../image/productBack1.png';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -76,7 +77,7 @@ const BannerFour = ({ intl }) => {
 
 const bannerProductList = [
   {
-    imageSrc: product1,
+    imageSrc: productback1,
     imageCurrent: 0
   },
   {
@@ -255,6 +256,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                           <img
                             src={bannerProductDetailList[imageCurrent].imageSrc}
                             // src={productImg}
+                            style={{ height: '341px' }}
                           />
                         </LazyLoad>
                         <div className="row">
