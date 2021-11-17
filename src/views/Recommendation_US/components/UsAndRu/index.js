@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import LazyLoad from 'react-lazyload';
 import Help from '../../../SmartFeederSubscription/modules/Help';
 import { FormattedMessage, injectIntl } from 'react-intl';
+import usDog from '../../images/2usChange.jpg';
 
 const imgUrlPreFix = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
 const howImageArr = [
@@ -42,8 +43,8 @@ const UsAndRu = (props) => {
   let cur_recommendation4 = `${imgUrlPreFix}/3xquality.jpg`;
   const imagesArr = [
     {
-      img: `${imgUrlPreFix}/COHORT-A_CLUB-BENEFITS_PET-ADVISOR.png`,
-      text: 'Royal Canin Pet Advisor Live'
+      img: `${imgUrlPreFix}/COHORT-A_CLUB-BENEFITS_PET-ADVISOR_COPY2.jpg`,
+      text: 'Access to a Royal Canin Advisor'
     },
     {
       img: `${imgUrlPreFix}/CLUB-BENEFITS_PRODUCT-RECOS.png`,
@@ -78,6 +79,7 @@ const UsAndRu = (props) => {
                 <div className="img-hover-switch rc-margin-bottom--sm">
                   <LazyLoad>
                     <img
+                      style={{ width: '180px' }}
                       className="m-center"
                       src={item.img}
                       alt="recommendation image"
@@ -118,9 +120,15 @@ const UsAndRu = (props) => {
             </div>
           </div>
           <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
-            <LazyLoad>
-              <img src={PuppyJPG} alt="puppy image" />
-            </LazyLoad>
+            {window.__.env.REACT_APP_COUNTRY === 'us' ? (
+              <LazyLoad>
+                <img src={usDog} alt="puppy image" />
+              </LazyLoad>
+            ) : (
+              <LazyLoad>
+                <img src={PuppyJPG} alt="puppy image" />
+              </LazyLoad>
+            )}
           </div>
         </div>
       </div>

@@ -35,7 +35,7 @@ const DeliveryList = ({
       <div>
         <div
           className="rc-border-bottom rc-border-colour--interface"
-          style={{ width: '70%', display: 'inline-block' }}
+          style={{ width: isMobile ? '100%' : '70%', display: 'inline-block' }}
         >
           <nav className="rc-fade--x">
             <ul
@@ -60,7 +60,7 @@ const DeliveryList = ({
         </div>
         <div
           style={{
-            width: '30%',
+            width: isMobile ? '100%' : '30%',
             display: 'inline-block',
             textAlign: 'right',
             verticalAlign: 'middle'
@@ -69,13 +69,14 @@ const DeliveryList = ({
           <span
             style={{
               display: 'inline-block',
-              width: isMobile ? 'auto' : '230px',
+              width: isMobile ? '100%' : '230px',
               borderBottom: '1px solid #aaa',
               textAlign: 'left'
             }}
           >
             {activeTabIdx === 0 ? (
               <Selection
+                customCls={'width-full'}
                 optionList={noStartYearOption}
                 selectedItemData={noStartYear}
                 selectedItemChange={(el) => changeYearOption(el)}
@@ -84,6 +85,7 @@ const DeliveryList = ({
               />
             ) : (
               <Selection
+                customCls={'width-full'}
                 optionList={completedYearOption}
                 selectedItemData={completedYear}
                 selectedItemChange={(el) => changeYearOption(el)}

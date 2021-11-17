@@ -34,7 +34,6 @@ export default class Selection extends React.Component {
     this.searchRef = React.createRef();
   }
   componentDidMount() {
-    console.log(this.props);
     this.searchRef?.current && this.searchRef?.current?.focus();
   }
   hideOptions = () => {
@@ -101,7 +100,8 @@ export default class Selection extends React.Component {
     let resl = optionList.filter((item) =>
       item.name.match(new RegExp(keyword, 'i'))
     );
-    if (this.props.emptyFirstItem == 'State') {
+    if (this.props.emptyFirstItem) {
+      let efstr = this.props.emptyFirstItem;
       if (resl.length == 0) {
         this.setState({
           noResultsFound: true
@@ -110,8 +110,8 @@ export default class Selection extends React.Component {
         this.setState({
           noResultsFound: false
         });
-        if (resl[0]?.name != 'State') {
-          resl.unshift({ value: '', name: 'State' });
+        if (resl[0]?.name != efstr) {
+          resl.unshift({ value: '', name: efstr });
         }
       }
     }
@@ -195,13 +195,13 @@ export default class Selection extends React.Component {
               <input
                 type="text"
                 className="selection_choices_input choices__input choices__input--cloned"
-                autoComplete="off"
                 autoCapitalize="off"
                 spellCheck="false"
                 placeholder=""
                 onClick={(e) => this.handleClickSearchInput(e)}
                 onChange={(e) => this.handleSearchInputChange(e)}
                 ref={this.searchRef}
+                autoComplete="new-password"
               />
             ) : null}
 

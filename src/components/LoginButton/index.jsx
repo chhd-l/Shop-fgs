@@ -57,6 +57,8 @@ const LoginButton = (props) => {
       oktaAuth
         .getUser()
         .then((info) => {
+          console.log(info,'infoifoejfoijewoijf')
+          debugger
           if (
             loginStore.userInfo &&
             loginStore.userInfo.email &&
@@ -74,6 +76,7 @@ const LoginButton = (props) => {
             }&post_logout_redirect_uri=${redirectUri}`;
           } // Cross-store login
           setUserInfo(info);
+          localItemRoyal.set('customer-okta-id', info.sub);
           const oktaTokenString = authState.accessToken
             ? authState.accessToken.value
             : '';

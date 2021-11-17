@@ -184,7 +184,8 @@ class Payment extends React.Component {
         minDeliveryTime: 0,
         maxDeliveryTime: 0,
         DuData: null, // 俄罗斯DuData
-        formRule: [] // form表单校验规则
+        formRule: [], // form表单校验规则
+        receiveType: ''
       },
       billingAddress: {
         firstName: '',
@@ -1575,6 +1576,9 @@ class Payment extends React.Component {
   // 下单后，清空 delivery date 和 time slot
   clearTimeslotAndDeliverydate = async () => {
     const { deliveryAddress } = this.state;
+    if (deliveryAddress?.receiveType === 'PICK_UP') {
+      return;
+    }
     try {
       let deliveryAdd = Object.assign({}, deliveryAddress, {
         deliveryDate: '',
@@ -1592,8 +1596,8 @@ class Payment extends React.Component {
     const { checkoutStore } = this.props;
     if (this.isLogin) {
       checkoutStore.removeLoginCartData();
-      // 清空 delivery date 和 time slot
-      await this.clearTimeslotAndDeliverydate();
+      // 清空 delivery date 和 time slot (可能造成phoneNumber为空)
+      // await this.clearTimeslotAndDeliverydate();
     } else {
       checkoutStore.setCartData(
         checkoutStore.cartData.filter((ele) => !ele.selected)
@@ -2098,6 +2102,7 @@ class Payment extends React.Component {
             rfc: billingAddress.rfc,
             countryId: billingAddress.countryId,
             country: billingAddress.country,
+            county: billingAddress?.county,
             city: billingAddress.city,
             cityId: billingAddress.cityId,
             provinceId: billingAddress.provinceId,
@@ -3102,6 +3107,7 @@ class Payment extends React.Component {
                   name="payment-info"
                   onChange={this.handlePaymentTypeChange}
                   checked={paymentTypeVal === item.paymentTypeVal}
+                  autoComplete="new-password"
                 />
                 <label
                   className="rc-input__label--inline"
@@ -3244,6 +3250,12 @@ class Payment extends React.Component {
                     billingJSX={this.renderBillingJSX({
                       type: 'adyenKlarnaPayLater'
                     })}
+                    // logoUrl={
+                    //   payWayNameArr?.filter(
+                    //     (el) => el.code === 'adyen_klarna_pay_later'
+                    //   )[0].logoUrl
+                    // }
+                    showIcon={true}
                   />
                   {/* 校验状态
                   1 校验邮箱
@@ -3262,6 +3274,12 @@ class Payment extends React.Component {
                     billingJSX={this.renderBillingJSX({
                       type: 'adyenKlarnaPayNow'
                     })}
+                    // logoUrl={
+                    //   payWayNameArr?.filter(
+                    //     (el) => el.code === 'adyen_klarna_pay_now'
+                    //   )[0].logoUrl
+                    // }
+                    showIcon={true}
                   />
                   {payConfirmBtn({
                     disabled: !EMAIL_REGEXP.test(email) || validForBilling

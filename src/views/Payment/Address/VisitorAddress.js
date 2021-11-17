@@ -18,6 +18,14 @@ import './VisitorAddress.css';
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
+const sleep = (time) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, time);
+  });
+};
+
 /**
  * delivery/billing adress module - visitor
  */

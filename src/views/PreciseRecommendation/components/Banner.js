@@ -390,21 +390,6 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                               className="relative"
                               style={{ lineHeight: '1.2' }}
                             >
-                              <div
-                                className="rc-margin-bottom--xs"
-                                style={{
-                                  color: '#008900',
-                                  fontSize: '22px',
-                                  fontWeight: '550',
-                                  textAlign: 'left'
-                                }}
-                              >
-                                -25%{' '}
-                                <FormattedMessage id="PreciseCatNutrition.LongBanner.redRadius" />{' '}
-                                <a style={{ color: '#444', fontWeight: 300 }}>
-                                  *
-                                </a>
-                              </div>
                               {loginStore.isLogin ? (
                                 <button
                                   onClick={handleBuyNow}
@@ -567,14 +552,6 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
               {formatMoney(recommData.totalPrice)}/
               <FormattedMessage id="preciseNutrition.banner.month" />
             </div>
-          </div>
-          <div
-            className="rc-margin-bottom--xs"
-            style={{ color: '#008900', fontSize: '24px', fontWeight: 400 }}
-          >
-            -25%{' '}
-            <FormattedMessage id="PreciseCatNutrition.LongBanner.redRadius" />{' '}
-            <span style={{ color: '#444', fontWeight: 300 }}>*</span>
           </div>
           <div className="rc-margin-bottom--lg" style={{ lineHeight: '24px' }}>
             <FormattedMessage id="preciseNutrition.banner.des2" /> <br />

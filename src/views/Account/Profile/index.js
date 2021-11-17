@@ -129,6 +129,7 @@ class AccountProfile extends React.Component {
           ? context.birthDay.split('-').join('/')
           : context.birthDay,
         country: context.countryId,
+        county: context.county,
         cityId: context.cityId,
         city: context.city,
         areaId: context.areaId,

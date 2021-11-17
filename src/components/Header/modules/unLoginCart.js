@@ -366,10 +366,11 @@ class UnloginCart extends React.Component {
                                         <FormattedMessage
                                           id="minicart.quantityText"
                                           values={{
-                                            specText: find(
-                                              item.sizeList,
-                                              (s) => s.selected
-                                            ).specText,
+                                            specText:
+                                              find(
+                                                item.sizeList,
+                                                (s) => s.selected
+                                              ).specText || '',
                                             buyCount: item.quantity
                                           }}
                                         />

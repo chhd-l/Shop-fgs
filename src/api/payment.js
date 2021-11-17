@@ -40,7 +40,8 @@ const api = {
   pickupQueryCityFee: '/pick-up/queryCityFee',
   dimensionsByPackage: '/pick-up/dimensionsByPackage', // 合并包裹
   confirmAndCommitFelin: `/${window.__.env.REACT_APP_STOREID}/feline/checkout`, //felin checkout
-  repayFelin: '/feline/repay' //felin repay
+  repayFelin: '/feline/repay', //felin repay
+  getPaymentMethodV2: `/payment-method/query-by-StoreId/${window.__.env.REACT_APP_STOREID}`
 };
 
 export default api;
@@ -289,5 +290,13 @@ export function dimensionsByPackage(parameter) {
     url: api.dimensionsByPackage,
     method: 'post',
     data: parameter
+  });
+}
+
+export function getPaymentMethodV2(parameter) {
+  return axios({
+    url: api.getPaymentMethodV2,
+    method: 'get',
+    params: parameter
   });
 }

@@ -1267,7 +1267,6 @@ class AccountOrders extends React.Component {
                   className={`row justify-content-center mt-3 mt-md-0 ${
                     showLogisticsDetail ? 'hidden' : ''
                   }`}
-                  style={{ margin: 0 }}
                 >
                   <div className="order_listing_details col-12 no-padding">
                     <div className="card confirm-details orderDetailsPage ml-0 mr-0 border-0">
@@ -1440,7 +1439,8 @@ class AccountOrders extends React.Component {
                                                       id="quantityText"
                                                       values={{
                                                         specText:
-                                                          item.specDetails,
+                                                          item.specDetails ||
+                                                          '',
                                                         buyCount: item.num
                                                       }}
                                                     />
@@ -1872,6 +1872,10 @@ class AccountOrders extends React.Component {
                                           {localAddressForm['state'] &&
                                             details.consignee.province + ' '}
 
+                                          {/* county */}
+                                          {localAddressForm['county'] &&
+                                            details.consignee.county + ' '}
+
                                           {/* 邮编 */}
                                           {localAddressForm['postCode'] &&
                                             details.consignee.postCode}
@@ -2002,6 +2006,10 @@ class AccountOrders extends React.Component {
                                             {localAddressForm['state'] &&
                                               details.invoice.province + ' '}
 
+                                            {/* county */}
+                                            {localAddressForm['county'] &&
+                                              details.invoice.county + ' '}
+
                                             {/* 邮编 */}
                                             {localAddressForm['postCode'] &&
                                               details.invoice.postCode + ' '}
@@ -2017,7 +2025,7 @@ class AccountOrders extends React.Component {
                                   </div>
                                 ) : null}
                                 {payRecord && payRecord.lastFourDigits ? (
-                                  <div className="col-12 col-md-4 mb-3">
+                                  <div className="col-12 col-md-4 mb-2">
                                     <div className="border rounded p-3 h-100">
                                       <div className="d-flex">
                                         <svg
@@ -2149,7 +2157,7 @@ class AccountOrders extends React.Component {
                               <FormattedMessage
                                 id="quantityText"
                                 values={{
-                                  specText: ele.specDetails,
+                                  specText: ele.specDetails || '',
                                   buyCount: ele.itemNum
                                 }}
                               />

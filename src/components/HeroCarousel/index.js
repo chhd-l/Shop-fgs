@@ -74,7 +74,7 @@ class HeroCarousel extends React.Component {
     this.state = {
       banner: []
     };
-    this.GABannerClick = this.GABannerClick.bind(this);
+    // this.GABannerClick = this.GABannerClick.bind(this);
   }
   componentDidMount() {
     getBanner().then((res) => {
@@ -95,20 +95,25 @@ class HeroCarousel extends React.Component {
   GABannerImpression(idx) {
     const cur_banner = this.state.banner[idx];
     dataLayer.push({
-      event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComPromotionImpression`,
-      ecommerce: {
-        promoClick: {
-          promotions: [
-            {
-              id: cur_banner.bannerId, // Name or ID is required
-              name: cur_banner.bannerName,
-              creative: cur_banner.bannerName,
-              position: idx
-            }
-          ]
-        }
-      }
+      event: 'homepageCarousselDisplay',
+      slideName: cur_banner.bannerName,
+      slidePosition: idx
     });
+    // dataLayer.push({
+    //   event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComPromotionImpression`,
+    //   ecommerce: {
+    //     promoClick: {
+    //       promotions: [
+    //         {
+    //           id: cur_banner.bannerId, // Name or ID is required
+    //           name: cur_banner.bannerName,
+    //           creative: cur_banner.bannerName,
+    //           position: idx
+    //         }
+    //       ]
+    //     }
+    //   }
+    // });
   }
   // 点击banner跳转时触发
   GABannerClick(idx) {
@@ -160,7 +165,7 @@ class HeroCarousel extends React.Component {
             {el.mobiSkipUrl ? (
               <ATagContainer
                 className="h-100 mobileBanner"
-                onClick={this.GABannerClick.bind(this, i)}
+                // onClick={this.GABannerClick.bind(this, i)}
                 to={el.mobiSkipUrl}
                 href={el.mobiSkipUrl}
                 isOuterLink={el.isOuterLinkForMobile}
@@ -193,7 +198,7 @@ class HeroCarousel extends React.Component {
                 className="rc-btn rc-btn--one gtm-hero-carousel-btn font-16 rc-text-colour--brand3"
                 href={el.mobiSkipUrl}
                 to={el.mobiSkipUrl}
-                onClick={this.GABannerClick.bind(this, i)}
+                // onClick={this.GABannerClick.bind(this, i)}
                 isOuterLink={el.isOuterLinkForMobile}
               >
                 <FormattedMessage id="header.toBegin" />
@@ -221,7 +226,7 @@ class HeroCarousel extends React.Component {
                           to={el.webSkipUrl}
                           href={el.webSkipUrl}
                           isOuterLink={el.isOuterLinkForPC}
-                          onClick={this.GABannerClick.bind(this, i)}
+                          // onClick={this.GABannerClick.bind(this, i)}
                         >
                           <img
                             className="rc-md-up mh-100"
@@ -243,7 +248,7 @@ class HeroCarousel extends React.Component {
                           to={el.mobiSkipUrl}
                           href={el.mobiSkipUrl}
                           isOuterLink={el.isOuterLinkForMobile}
-                          onClick={this.GABannerClick.bind(this, i)}
+                          // onClick={this.GABannerClick.bind(this, i)}
                         >
                           <img
                             className="rc-md-down w-100 mh-100"

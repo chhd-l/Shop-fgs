@@ -37,8 +37,11 @@ import {
 import { removeArgFromUrl, funcUrl, transferToObject } from '@/lib/url-utils';
 import { getSpecies } from '@/utils/GA';
 import bottomDescJson from './bottomDesc.json';
-import getTechnologyOrBreedsAttr from '@/lib/get-technology-or-breedsAttr';
+import getTechnologyOrBreedsAttr, {
+  getFoodType
+} from '@/lib/get-technology-or-breedsAttr';
 import loadable from '@/lib/loadable-component';
+import SelectFilters from './modules/SelectFilters';
 
 import './index.less';
 
@@ -51,10 +54,11 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =
   'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
-const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-  /\/$/,
-  ''
-);
+const urlPrefix =
+  `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+    /\/$/,
+    ''
+  );
 
 const filterAttrValue = (list, keyWords) => {
   return (list || [])
@@ -363,7 +367,9 @@ class List extends React.Component {
       keywordsSearch: '',
       baseSearchStr: '',
       hiddenFilter: false,
-      invalidPage: false //失效链接，如果storePortal配置了失效时间，页面不展示，呈现404
+      invalidPage: false, //失效链接，如果storePortal配置了失效时间，页面不展示，呈现404
+      prefnParamListFromSearch: [],
+      filtersCounts: 0
     };
     this.pageSize = isRetailProducts ? 8 : 12;
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
@@ -411,9 +417,9 @@ class List extends React.Component {
         this.pageGa();
       }
     );
-    setTimeout(() => {
-      this.stickyMobileRefineBar();
-    });
+    // setTimeout(() => {
+    //   this.stickyMobileRefineBar();
+    // });
 
     Promise.all([
       getDictionary({ type: 'filterMarketPrice' }),
@@ -1235,6 +1241,8 @@ class List extends React.Component {
       prefnParamListFromSearch.push({ prefn: fnEle, prefvs: fvEles });
     }
 
+    this.handleCountFilters(prefnParamListFromSearch);
+
     // 处理每个filter的router
     Array.from(tmpList, (pEle) => {
       Array.from(pEle.attributesValueList, (cEle) => {
@@ -1304,9 +1312,14 @@ class List extends React.Component {
         };
         return cEle;
       });
+
       return pEle;
     });
-    this.setState({ filterList: allFilterList, initingFilter: false });
+    this.setState({
+      filterList: allFilterList,
+      initingFilter: false,
+      prefnParamListFromSearch
+    });
   }
   initFilterSelectedSts({
     seletedValList,
@@ -1476,6 +1489,7 @@ class List extends React.Component {
                 (e) => e.taggingType === 'Image' && e.showPage?.includes('PLP')
               )[0],
               technologyOrBreedsAttr: getTechnologyOrBreedsAttr(ele),
+              foodType: getFoodType(ele),
               fromPrice: ele.fromPrice,
               toPrice: ele.toPrice
             });
@@ -1560,6 +1574,28 @@ class List extends React.Component {
       });
   }
 
+  // 根据路由上的filter选项，计算出其选中了的filter个数
+  handleCountFilters(prefnParamListSearch) {
+    let filtersCounts = 0;
+    prefnParamListSearch.map((item) => (filtersCounts += item.prefvs.length));
+    this.setState(
+      {
+        filtersCounts
+      },
+      () => {
+        if (this.state.filtersCounts) {
+          let refineBarEl = document.getElementById('J-product-list');
+          if (refineBarEl) {
+            window.scrollTo({
+              top: refineBarEl.offsetTop - 100,
+              behavior: 'smooth'
+            });
+          }
+        }
+      }
+    );
+  }
+
   // 处理attributeDetailNameEn字段，处理空格为-
   handledAttributeDetailNameEn(list) {
     let tmpList = cloneDeep(list);
@@ -1595,8 +1631,9 @@ class List extends React.Component {
 
   stickyMobileRefineBar() {
     if (isMobilePhone) {
-      var t = document?.getElementById('refineBar')?.getBoundingClientRect()
-        .top;
+      var t = document
+        ?.getElementById('refineBar')
+        ?.getBoundingClientRect().top;
       window.addEventListener('scroll', () => {
         var choosedVal = document.querySelector('.filter-value'); // 有选择的时候才操作
         if (window.pageYOffset + 33 >= t && choosedVal) {
@@ -1652,6 +1689,29 @@ class List extends React.Component {
       );
     }, 500);
   };
+
+  // 处理mobile端已经选中的filters数量
+  handleFilterCounts = (filterList) => {
+    let filtersCounts = 0;
+    filterList.map((item) => {
+      item.attributesValueList?.map((el) => {
+        if (el.selected) {
+          filtersCounts += 1;
+        }
+      });
+    });
+
+    return (
+      <>
+        {filtersCounts ? (
+          <span className=" font-weight-normal font-18 rc-padding-left--sm">
+            {filtersCounts}
+          </span>
+        ) : null}
+      </>
+    );
+  };
+
   render() {
     const { breadListByDeco, lastBreadListName } = this;
     const { canonicalLink } = this.state;
@@ -1680,7 +1740,8 @@ class List extends React.Component {
       prefv1,
       animalType,
       hiddenFilter,
-      invalidPage
+      invalidPage,
+      filtersCounts
     } = this.state;
     const _loadingJXS = Array(6)
       .fill(null)
@@ -1760,7 +1821,7 @@ class List extends React.Component {
               </DistributeHubLinkOrATag>
             </div>
             {titleData && titleData.title && titleData.description ? (
-              <div className="rc-max-width--lg rc-padding-x--sm">
+              <div className="rc-max-width--lg rc-padding-x--sm ">
                 <div className="rc-layout-container rc-three-column rc-content-h-middle d-flex flex-md-wrap flex-wrap-reverse">
                   <div className="rc-column rc-double-width text-center text-md-left">
                     <div className="rc-full-width rc-padding-x--md--mobile rc-margin-bottom--lg--mobile">
@@ -1855,51 +1916,45 @@ class List extends React.Component {
                             boxShadow: '0 2px 4px #f1f1f1'
                           }}
                         >
-                          <span
-                            style={{ marginRight: '1em' }}
-                            className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0"
-                          >
-                            {sortList.length > 0 && (
-                              <Selection
-                                key={sortList.length}
-                                selectedItemChange={this.onSortChange}
-                                optionList={sortList}
-                                selectedItemData={{
-                                  value:
-                                    (selectedSortParam &&
-                                      selectedSortParam.value) ||
-                                    ''
-                                }}
-                                placeholder={<FormattedMessage id="sortBy" />}
-                                customInnerStyle={{
-                                  paddingTop: '.7em',
-                                  paddingBottom: '.7em',
-                                  bottom: 0
-                                }}
-                              />
-                            )}
-                          </span>
                           {hiddenFilter ? null : (
-                            <em
-                              className={`rc-icon rc-filter--xs rc-iconography ${
-                                (filterModalVisible && !isTop) ||
-                                (!filterModalVisible && isTop)
-                                  ? 'rc-brand1'
-                                  : ''
-                              }`}
-                              data-filter-trigger="filter-example"
-                              style={{ position: 'relative', top: '0.4rem' }}
-                              onClick={this.toggleFilterModal.bind(
-                                this,
-                                !filterModalVisible
-                              )}
-                            />
+                            <div className="w-100">
+                              <div
+                                onClick={this.toggleFilterModal.bind(
+                                  this,
+                                  !filterModalVisible
+                                )}
+                                className="flex w-100 align-items-center justify-content-between rc-md-down"
+                              >
+                                <div>
+                                  <em
+                                    className={`rc-icon rc-filter--xs rc-iconography ${
+                                      (filterModalVisible && !isTop) ||
+                                      (!filterModalVisible && isTop)
+                                        ? 'rc-brand1'
+                                        : ''
+                                    }`}
+                                    data-filter-trigger="filter-example"
+                                    style={{
+                                      position: 'relative',
+                                      top: '0.2rem'
+                                    }}
+                                  />
+                                  <span className=" font-weight-normal font-18 rc-padding-left--sm">
+                                    <FormattedMessage id="list.viewFilters" />
+                                  </span>
+                                  {this.handleFilterCounts(filterList)}
+                                </div>
+                                <span
+                                  className={`rc-icon rc-iconography rc-right--xs`}
+                                />
+                              </div>
+                              <SelectFilters
+                                filterList={filterList}
+                                history={history}
+                                baseSearchStr={baseSearchStr}
+                              />
+                            </div>
                           )}
-                          {/* <button
-                        className="rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography FilterFitScreen"
-                        data-filter-trigger="filter-example"
-                        onClick={this.toggleFilterModal.bind(this, true)}
-                      /> */}
                         </div>
                         <aside
                           className={`rc-filters ${
@@ -1907,6 +1962,7 @@ class List extends React.Component {
                           }`}
                         >
                           {isMobilePhone ? (
+                            // <div className={`${showMegaMenu ? '' : 'rc-hidden'}`}>
                             <Filters
                               history={history}
                               maxGoodsPrice={maxGoodsPrice}
@@ -1922,6 +1978,9 @@ class List extends React.Component {
                                 markPriceAndSubscriptionLangDict
                               }
                               baseSearchStr={baseSearchStr}
+                              prefnParamListSearch={
+                                this.state.prefnParamListFromSearch
+                              }
                             />
                           ) : (
                             <FiltersPC
@@ -1939,6 +1998,10 @@ class List extends React.Component {
                                 markPriceAndSubscriptionLangDict
                               }
                               baseSearchStr={baseSearchStr}
+                              prefnParamListSearch={
+                                this.state.prefnParamListFromSearch
+                              }
+                              filtersCounts={filtersCounts}
                             />
                           )}
                           {/* 由于么数据暂时隐藏注释 */}

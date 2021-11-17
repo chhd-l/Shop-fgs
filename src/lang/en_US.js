@@ -49,8 +49,7 @@ const en_US = {
   'account.myAddresses': 'My Addresses',
   'account.myCommunicationPreferencesContent1':
     'Perferred method of communication',
-  'account.myCommunicationPreferencesContent2':
-    'Consents given for communication',
+  'account.myCommunicationPreferencesContent2': 'Email Communication',
   'account.myCommunicationPreferencesDesc':
     'Please click Edit to set your communication preferences.',
   'account.myCommunicationPreferencesTitle': 'My Communication Preferences',
@@ -83,6 +82,7 @@ const en_US = {
   'account.profile': 'My Profile',
   'account.profileTip': 'View and edit your personal information.',
   'account.requiredFields': 'Required fields',
+  'account.requiredFields2': 'Required fields',
   'account.shippingAddressTip': 'Create and edit your shipping address.',
   'account.specialNeeds': 'Special Needs',
   'account.startAutoShipping': 'Learn More',
@@ -498,6 +498,7 @@ const en_US = {
   'footer.confidentiality': 'Privacy',
   'footer.consistence': 'durability',
   'footer.contactRoyalCanin': 'Contact Royal Canin',
+  'footer.securePaymentMethods': 'Secure Payment Methods',
   'footer.contacts': 'Contacts',
   'footer.contactUs': 'Contact Us',
   'footer.cookieCollectionPolicy': 'Cookie Collection Policy',
@@ -1033,6 +1034,7 @@ const en_US = {
   'payment.saveFor': 'Save for next payment',
   'payment.socialId': 'Social id',
   'payment.state': 'State',
+  'payment.county': 'County',
   'payment.region': 'Region',
   'payment.entrance': 'Entrance',
   'payment.apartment': 'Apartment',
@@ -1207,7 +1209,7 @@ const en_US = {
   ratingGrade2: 'Lowest to Highest Rating',
   ratingGrade3: 'Hightest to Lowest Rating',
   receiver: 'Receiver',
-  recommandedForyou: 'Recommanded for you',
+  recommandedForyou: 'Recommended for you',
   seeMoreText: 'see more',
   'recommendation.noMoreRecommendation':
     'The product is no longer available or not available for sale',
@@ -1243,9 +1245,9 @@ const en_US = {
   'recommendation.plusTitle':
     'Everything You And Your Pet Need PLUS a Royal Canin Advisor',
   'recommendation.plusContent':
-    ' No matter the need, we’ve got you covered with exclusive benefits like 24/7 access to pet experts and more through the Royal Canin Club. Joining is easy – sign up for automatic shipping on your pet’s tailored formulas to become a member today.',
+    ' No matter the need, we’ve got you covered with exclusive benefits like access to pet experts and more through the Royal Canin Club. Joining is easy – sign up for automatic shipping on your pet’s tailored formulas to become a member today.',
   'recommendation.plusBtn': 'Start Now',
-  'recommendation.plusImg': 'MRRC-20046_D2C-Advisor_App-Puppy.jpg',
+  'recommendation.plusImg': 'MRRC-20046_D2C-Advisor_App-Puppy2.jpg',
   'recommendation.fiveContent':
     'While neither of ornare risus. Now that sometimes the United States, from high school kids. Earth is no fear that the makeup temperature at zero drink employee. Unfortunately, the price of convenience pot. Arc soccer scores, eu or mourning to invest in the refrigerator. Clinical developers dui dui ultricies arrows, it is sterilized. Financing warm thermal relay. Even before the great, as is the biggest eleifend gravida vel, aliquam sed justo. Unfortunately, developers of football. Freight wagons dis fears manufacturing, the biggest one ugly chocolate. Sed tempor lectus justo. However, it is just that the main clinical time. Tomorrow the diameter at which time we make a weekend. Mauris live skirt layer protein.',
   'recommendation.fourContent':
@@ -1316,6 +1318,7 @@ const en_US = {
   requiredConsentCheckedTip:
     'Please confirm the mandatory fields by ticking the box.',
   requiredFields: '* Required fields',
+  requiredFields2: '* Required fields',
   resetPasswordEmail:
     'Reset password email has been sent to your mailbox, please note that check!',
   results: '{val} Results',
@@ -1792,6 +1795,16 @@ const en_US = {
   'preciseNutrition.bscTip2':
     '2. Feel your cat’s body, gently applying pressure to find the ribs',
   'productFinder.mixBreed': 'Mix breed',
-  'productFinder.weight': 'weight'
+  'productFinder.weight': 'weight',
+  'subscription.ongoingOrderForPet': 'Order status for {val}',
+  'subscription.noPetOngoingOrder': 'Order status',
+  'product.plp.foodtype.drydog': 'Dry dog food',
+  'product.plp.foodtype.wetdog': 'Wet dog food',
+  'product.plp.foodtype.drycat': 'Dry cat food',
+  'product.plp.foodtype.wetcat': 'Wet cat food',
+  'list.applyFilters': 'Apply filters',
+  'list.clearFilters': 'Clear all filters',
+  'list.viewFilters': 'View filters',
+  'list.closeFilters': 'Close filters'
 };
 export default en_US;

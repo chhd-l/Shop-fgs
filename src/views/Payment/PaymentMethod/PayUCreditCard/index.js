@@ -375,6 +375,7 @@ class PayOs extends React.Component {
       payosdata,
       installMentTableData
     } = this.state;
+
     const CreditCardImg = supportPaymentMethods.length > 0 && (
       <span className="logo-payment-card-list logo-credit-card">
         {supportPaymentMethods.map((el, idx) => (

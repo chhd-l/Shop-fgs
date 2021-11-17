@@ -60,9 +60,8 @@ const en_US = {
   'account.noPet':
     "Add your pet's information to create their profile and find tailored nutrition to fit their individual needs.",
   'account.noSubscription':
-    'You do not yet know the Subscription?\n' +
-    "The Subscription allows you to receive your pet's favorite foods regularly and easily. Just tell us where and when to ship it, and we'll make sure everything it needs arrives right at your doorstep.",
-  'account.noSubscriptionTitle': 'Discover the Subscription',
+    'Make sure that your pet never runs out of food by subscribing to regular deliveries. You can benefit from money savings and automatic reordering. What are you waiting for? Subscribe and save today!',
+  'account.noSubscriptionTitle': 'Subscribe and save!',
   'account.notRegistred': 'New customer?',
   'account.of': 'of',
   'account.orders': 'Orders',
@@ -84,6 +83,7 @@ const en_US = {
   'account.profile': 'My details',
   'account.profileTip': 'View or update your personal details.',
   'account.requiredFields': 'Required fields',
+  'account.requiredFields2': 'Mandatory field',
   'account.shippingAddressTip': 'Create and edit your shipping address.',
   'account.specialNeeds': 'Special Needs',
   'account.startAutoShipping': 'Find out more',
@@ -180,7 +180,7 @@ const en_US = {
   'smartFeederSubscription.tabDes2': 'pour 26,50 € la recharge *',
   //for 26,50 € per refill*
   'smartFeederSubscription.tabDes3': '* Engagement de 12 envois',
-  // Conﬁrm this product
+  // Conﬁrm this products
   'smartFeederSubscription.times': 'fois',
   //Easily detach and attach the machine to clean it with a damp cloth.
   'smartFeederSubscription.titleHow':
@@ -254,10 +254,8 @@ const en_US = {
   'cart.errorMaxCate': "The shopping cart can't exceed {val} items",
   'cart.errorMaxInfo': "The number can't be exceed than {val}",
   'cart.errorAllProductNumLimit': 'The number of {val} orders is limited.',
-  'cart.firstOrderDiscountTip':
-    'The 30% discount for your first order will be applied during checkout',
   'cart.fullPrice': 'Find your pet’s precise formula',
-  'cart.miniCartTitle': '5% off every order and additional perks with autoship',
+  'cart.miniCartTitle': 'Free delivery over £30 and 5% off all subscriptions',
   // 'cart.totalProduct': '{val} item(s) in the basket',
   'cart.totalProduct': '{val} item(s)',
   'minicart.totalProduct': '{val} item(s)',
@@ -320,7 +318,7 @@ const en_US = {
   'confirmation.rateTip3': 'Enter up to 50 characters',
   'confirmation.rateTip4': 'Please score first.',
   'confirmation.subscriptionDiscountPriceDes':
-    'You saved {val1}  with autoship',
+    'You saved {val1}  with subscription',
   'confirmation.visitOnlineStore': 'Visit online store',
   confirmDelete: 'Do you confirm to delete?',
   confirmDeleteAddress: 'Are you sure you want to delete this address?',
@@ -475,7 +473,7 @@ const en_US = {
   estimatedTax: 'Estimated Tax',
   every: 'Every',
   example: 'Example',
-  examplePhone: 'xxx-xxx-xxxx',
+  examplePhone: '+44xxxx xxxxxx',
   examplePostCode: '12345',
   expirationDateIsInvalid: 'your card expiration date is invalid',
   'faq.frequentQuestions': 'Frequently Asked Questions',
@@ -499,6 +497,7 @@ const en_US = {
   'footer.confidentiality': 'Privacy',
   'footer.consistence': 'durability',
   'footer.contactRoyalCanin': 'Contact Royal Canin',
+  'footer.securePaymentMethods': 'Secure Payment Methods',
   'footer.contacts': 'Contacts',
   'footer.contactUs': 'Contact Us',
   'footer.cookieCollectionPolicy': 'Cookie Collection Policy',
@@ -603,7 +602,7 @@ const en_US = {
   'home.point5': 'HEALTH IS OUR OBSESSION SINCE 1968',
   'home.point6': 'TOGETHER, WITH YOU.',
   'home.productsCategory': 'Find Your Formula',
-  'home.promotionTip': '5% off every autoship order',
+  'home.promotionTip': 'Free delivery over £30 and 5% off all subscriptions',
   'home.specialAnimalNutrition': 'Special animal nutrition',
   'home.specialInfo1': 'The splendor of each breed is',
   'home.specialInfo2': 'in its uniqueness.',
@@ -882,7 +881,7 @@ const en_US = {
   modalSkipContent: 'Are you sure you want to skip the next delivery?',
   modalSkipTitle: 'SKIP NEXT DELIVERY',
   month: 'Month',
-  moreAddress: '…(all my address)',
+  moreAddress: 'Show more',
   moreChoicesAvailable: 'More Choices Available',
   mustChooseACommunicationMethodTip:
     'Sorry, you checked communication consent, so you must choose a communication method',
@@ -1033,6 +1032,7 @@ const en_US = {
   'payment.saveFor': 'Save for next payment',
   'payment.socialId': 'Social id',
   'payment.state': 'State',
+  'payment.county': 'County',
   'payment.region': 'Region',
   'payment.entrance': 'Entrance',
   'payment.apartment': 'Apartment',
@@ -1207,7 +1207,7 @@ const en_US = {
   ratingGrade2: 'Lowest to Highest Rating',
   ratingGrade3: 'Hightest to Lowest Rating',
   receiver: 'Receiver',
-  recommandedForyou: 'Recommanded for you',
+  recommandedForyou: 'Recommended for you',
   seeMoreText: 'see more',
   'recommendation.noMoreRecommendation':
     'The product is no longer available or not available for sale',
@@ -1245,7 +1245,7 @@ const en_US = {
   'recommendation.plusContent':
     ' No matter the need, we’ve got you covered with exclusive benefits like 24/7 access to pet experts and more through the Royal Canin Club. Joining is easy – sign up for automatic shipping on your pet’s tailored formulas to become a member today.',
   'recommendation.plusBtn': 'Start Now',
-  'recommendation.plusImg': 'MRRC-20046_D2C-Advisor_App-Puppy.jpg',
+  'recommendation.plusImg': 'MRRC-20046_D2C-Advisor_App-Puppy2.jpg',
   'recommendation.fiveContent':
     'While neither of ornare risus. Now that sometimes the United States, from high school kids. Earth is no fear that the makeup temperature at zero drink employee. Unfortunately, the price of convenience pot. Arc soccer scores, eu or mourning to invest in the refrigerator. Clinical developers dui dui ultricies arrows, it is sterilized. Financing warm thermal relay. Even before the great, as is the biggest eleifend gravida vel, aliquam sed justo. Unfortunately, developers of football. Freight wagons dis fears manufacturing, the biggest one ugly chocolate. Sed tempor lectus justo. However, it is just that the main clinical time. Tomorrow the diameter at which time we make a weekend. Mauris live skirt layer protein.',
   'recommendation.fourContent':
@@ -1269,13 +1269,13 @@ const en_US = {
     'These recommendations were made based on your pet’s unique needs and have been automatically added to your cart. ',
   'recommendation.welcomeText1': 'Welcome',
   'recommendation.welcomeText2': 'To Your Customized Product Recommendations',
-  registerAname: 'A number',
+  registerAname: 'At least 1 number (0...9)',
   registerCloud: 'Commerce Cloud Storefront reference architecture',
   registerCompleteForm:
     'In order to create your account, please fill in your details.',
   registerContinuing:
     'By continuing you agree to our MARS privacy policy. We will collect and use your first name, last name and email address to provide you with a personalised experience. Link to the policy here?',
-  registerCreateYourAccout: 'Create your Royal Canin account',
+  registerCreateYourAccout: 'Create a ROYAL CANIN® account',
   registerEmail: 'Email address',
   registerEmailFormate:
     'The email address does not match the specified format.',
@@ -1283,24 +1283,23 @@ const en_US = {
     'An account with this email address already exists. Please log in or use a different email address. ',
   registerFeckbook: 'Create my account with Facebook',
   registerFillIn: 'Please fill in this field',
-  registerFooter1:
-    'You must be 13 years of age or older to submit a form. You can contact us at 1-844-673-3772 or click',
+  registerFooter1: '',
   registerGoogle: 'Create my account with Google',
   registerHaveAccount: 'Already have an account?',
-  registerLength: '8 characters',
+  registerLength: 'At least 8 characters',
   registerLoginIn: 'Log in',
-  registerLowercase: 'One lowercase letter',
+  registerLowercase: 'At least 1 lower case letter (a...z)',
   registerMandatory: 'Mandatory field',
-  registerName: 'Name',
+  registerName: 'First name',
   registerOr: 'OR',
   registerPassword: 'Password',
-  registerPasswordFormat: 'The password is not valid.',
+  registerPasswordFormat: 'Invalid password.',
   registerRules: 'Password must contain at least',
-  registerSpecial: 'A special character',
+  registerSpecial: 'At least 1 special character',
   registerTogglePassword: 'Toggle password visibility',
-  registerUppercase: 'One uppercase letter',
+  registerUppercase: 'At least 1 upper case letter (A...Z)',
   registerWelcome: 'Welcome to',
-  'register.royalCanin': 'Royal Canin',
+  'register.royalCanin': 'ROYAL CANIN®',
   remember48Hours:
     'Remember that the order before {val}, the payment will expire before {val} pm two days later, or after {val} pm, the payment will expire before {val} pm three days later.',
   rememberMe: 'Remember Me',
@@ -1316,6 +1315,7 @@ const en_US = {
   requiredConsentCheckedTip:
     'Please confirm the mandatory fields by ticking the box.',
   requiredFields: '* Required fields',
+  requiredFields2: '* Mandatory field',
   resetPasswordEmail:
     'Reset password email has been sent to your mailbox, please note that check!',
   results: '{val} Results',
@@ -1426,6 +1426,18 @@ const en_US = {
   'subscriptionLanding.dogButton': 'Shop Dog Formulas',
   'subscriptionLanding.title1':
     'Your Pet Needs You. You Need Total Pet Support.',
+  'subscription.title': 'IT’S MORE THAN FREE DELIVERY',
+  'subscription.subTitle':
+    'At Royal Canin®, we know that caring for a new pet can bring a lot of questions. That’s why we offer exclusive benefits like access to a Royal Canin Advisor and more through the Royal Canin Club. Joining is easy — sign up for automatic shipping on your pet’s tailored formulas to become a member today.{val}',
+  'subscription.list1':
+    '{val} - Receive nutritional recommendations on Royal Canin food and products as your pet grows',
+  'subscription.list2':
+    '{val} - Save 30% off your first purchase through Royal Canin Club, and 5% off every autoship order. Plus, free shipping –– with no minimum purchase',
+  'subscription.list3':
+    '{val} - Like a coach for everything related to your pet’s nutrition, your Royal Canin Advisor can help with diet recommendations and expert feeding advice, updates on products, and more',
+  'Subscription.list.btn1': '',
+  'Subscription.list.btn2': '',
+
   supportCardTypeMismatch:
     'Sorry, the currently supported credit card types are: VISA, American Express, MasterCard',
   systemError: 'system error',
@@ -1467,7 +1479,7 @@ const en_US = {
   twoPasswordsYouTypedDoNotMatch: 'The two passwords you typed do not match!',
   type: 'TYPE',
   uNeedHelp: 'You need help?',
-  unfoldAddress: 'Less Addresses',
+  unfoldAddress: 'Show less',
   unkown: 'Unkown',
   unLoginSubscriptionTips: 'Autoship subscription requires an account',
   userAgreement: 'User Agreement',
@@ -1494,7 +1506,7 @@ const en_US = {
   yourEmailNotVerified: 'Your email has not been verified!',
   yourPasswordNotVerified: 'Your password has not been verified',
   securePaymentProcessing: 'Secure payment processing',
-  'cart.autoshipSavedtip': 'You saved {discount} with Autoship',
+  'cart.autoshipSavedtip': 'You saved {discount} with subscription',
   'payment.returnToCardList': 'Return to card list',
   'payment.codTip': 'I want to pay by cash or card upon receipt',
   'payment.codConfirmTip': 'Payment upon receipt',
@@ -1797,6 +1809,17 @@ const en_US = {
   'header.User.faq': "FAQ's",
   'Your Pet is a…': 'My Pet is a…',
   Activity: 'How active is your dog?',
-  'Subscription.orderPostCodeHit': '* Please update the delivery address'
+  'Subscription.orderPostCodeHit': '* Please update the delivery address',
+  'subscription.ongoingOrderForPet': 'Order status for {val}',
+  'subscription.noPetOngoingOrder': 'Order status',
+  'product.plp.foodtype.drydog': 'Dry dog food',
+  'product.plp.foodtype.wetdog': 'Wet dog food',
+  'product.plp.foodtype.drycat': 'Dry cat food',
+  'product.plp.foodtype.wetcat': 'Wet cat food',
+  'list.applyFilters': 'Apply filters',
+  'list.clearFilters': 'Clear all filters',
+  'list.viewFilters': 'View filters',
+  'list.closeFilters': 'Close filters',
+  BacktoSavedPayments: 'Return to saved payment'
 };
 export default en_US;

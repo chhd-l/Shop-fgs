@@ -34,7 +34,7 @@ class PersonalDataEditForm extends React.Component {
         lastName: '',
         birthdate: '',
         email: '',
-        countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID,
+        countryId: '',
         country: '',
         provinceNo: '',
         provinceId: '',
@@ -50,7 +50,6 @@ class PersonalDataEditForm extends React.Component {
         postCode: ''
       },
       oldForm: {},
-      countryList: [],
       provinceList: [], // 省份列表
       isValid: false,
       errMsgObj: {},
@@ -59,9 +58,8 @@ class PersonalDataEditForm extends React.Component {
       validationModalVisible: false, // 地址校验查询开关
       selectValidationOption: 'suggestedAddress'
     };
-    this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
-      this
-    );
+    this.handleCommunicationCheckBoxChange =
+      this.handleCommunicationCheckBoxChange.bind(this);
   }
   componentDidMount() {
     const { data, editFormVisible } = this.props;
@@ -219,16 +217,6 @@ class PersonalDataEditForm extends React.Component {
   }
   // 保存数据
   handleSave = () => {
-    // 地址验证
-    // this.setState({
-    //   validationLoading: true
-    // });
-    // setTimeout(() => {
-    //   this.setState({
-    //     validationModalVisible: true
-    //   });
-    // }, 800);
-
     // 不校验地址，进入下一步
     this.showNextPanel();
   };
@@ -240,11 +228,9 @@ class PersonalDataEditForm extends React.Component {
     try {
       const { form } = this.state;
       this.setState({ loading: true });
-      const oktaTokenString =
-        this.props.authState && this.props.authState.accessToken
-          ? this.props.authState.accessToken.value
-          : '';
+      const oktaTokenString = this.props.authState?.accessToken?.value || '';
       let oktaToken = 'Bearer ' + oktaTokenString;
+      console.log('666 >>> this.props.authState: ', this.props.authState);
       let mydata = {
         firstName: form.firstName,
         lastName: form.lastName,
@@ -254,6 +240,7 @@ class PersonalDataEditForm extends React.Component {
           : form.birthdate,
         countryId: form.countryId,
         country: form.country,
+        county: form?.county,
         contactPhone: form.phoneNumber,
         reference: form.rfc,
         address1: form.address1,
@@ -274,6 +261,7 @@ class PersonalDataEditForm extends React.Component {
         mydata.provinceId = form.provinceId;
       }
       let param = Object.assign({}, this.props.originData, mydata);
+
       await updateCustomerBaseInfo(param);
 
       const customerId = this.userInfo && this.userInfo.customerId;
@@ -347,7 +335,7 @@ class PersonalDataEditForm extends React.Component {
   };
   // 俄罗斯地址校验flag，控制按钮是否可用
   getFormAddressValidFlag = (flag) => {
-    // console.log('PersonalDataEditForm: ',flag);
+    console.log('666 >>> PersonalDataEditForm: ', flag);
     this.setState(
       {
         formAddressValid: flag
@@ -527,7 +515,7 @@ class PersonalDataEditForm extends React.Component {
               <span
                 className={`rc-meta mandatoryField ${isValid ? 'hidden' : ''}`}
               >
-                * <FormattedMessage id="account.requiredFields" />
+                * <FormattedMessage id="account.requiredFields2" />
               </span>
               <div className="text-right">
                 <span

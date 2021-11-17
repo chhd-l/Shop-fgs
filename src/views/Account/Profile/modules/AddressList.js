@@ -50,9 +50,9 @@ const addressFormNull = {
 function CardItem(props) {
   const { data } = props;
   // 获取本地存储的需要显示的地址字段
-  const localAddressForm =
+  let localAddressForm =
     sessionItemRoyal.get('rc-address-form') || addressFormNull;
-
+  localAddressForm = JSON.parse(localAddressForm);
   return (
     <div
       className={`${
@@ -61,9 +61,7 @@ function CardItem(props) {
       ${props.data.selected ? 'selected' : ''}
       ${!props.data.validFlag && isCanVerifyBlacklistPostCode ? 'forbid' : ''}
       `}
-      onClick={
-        props.handleClickCoverItem
-      }
+      onClick={props.handleClickCoverItem}
     >
       {/* <div className="font-weight-normal mt-4 pt-2 mt-md-0 pt-md-0">
         {data.type === 'DELIVERY' ? (
@@ -101,7 +99,8 @@ function CardItem(props) {
               {data.consigneeNumber}
             </div>
             {/* 国家 */}
-            {window.__.env.REACT_APP_COUNTRY == 'us' ? null : (
+            {window.__.env.REACT_APP_COUNTRY == 'us' ||
+            window.__.env.REACT_APP_COUNTRY == 'uk' ? null : (
               <div className="rc-full-width mb-0 mp_mb_country">
                 {props.countryName}
               </div>
@@ -119,10 +118,18 @@ function CardItem(props) {
 
             <div className="rc-full-width mb-0 mp_mb_cpp">
               {/* 城市 */}
-              {localAddressForm['city'] && data.city + ', '}
+              {localAddressForm['city'] ? data.city + ', ' : null}
               {localAddressForm['region'] && data.area + ', '}
               {/* 省份 */}
               {localAddressForm['state'] && data.province + ' '}
+              {/* county */}
+              {localAddressForm['county'] && data?.county + ', '}
+
+              {/* 国家，uk显示在这个位置 */}
+              {window.__.env.REACT_APP_COUNTRY == 'uk'
+                ? props.countryName + ' '
+                : null}
+
               {/* 邮编 */}
               {localAddressForm['postCode'] && data.postCode}
             </div>
@@ -298,6 +305,7 @@ class AddressList extends React.Component {
       });
       this.scrollToTitle();
     } else {
+      // console.log('666 >>> item.receiveType: ', item.receiveType);
       this.changeEditFormVisible(true);
       this.setState({
         curAddressId: item.deliveryAddressId
@@ -484,7 +492,6 @@ class AddressList extends React.Component {
   // 地址项详细
   addressItemDetail = (item, i) => {
     const { countryList } = this.state;
-    // console.log('666 >>> selected: ', item.selected);
 
     return (
       <CardItem
@@ -625,12 +632,9 @@ class AddressList extends React.Component {
             </div>
 
             <div>
-
-              {
-                !item?.validFlag  && isCanVerifyBlacklistPostCode
-                  ? (<p className="address-item-forbid">{item.alert}</p>)
-                  : null
-              }
+              {!item?.validFlag && isCanVerifyBlacklistPostCode ? (
+                <p className="address-item-forbid">{item.alert}</p>
+              ) : null}
             </div>
           </div>
         }

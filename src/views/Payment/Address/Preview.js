@@ -200,7 +200,8 @@ class AddressPreview extends React.Component {
             ) : (
               <>
                 <p className="preview_infos">
-                  {window.__.env.REACT_APP_COUNTRY == 'us' ? null : (
+                  {window.__.env.REACT_APP_COUNTRY == 'us' ||
+                  window.__.env.REACT_APP_COUNTRY == 'uk' ? null : (
                     <>
                       <span>
                         {matchNamefromDict(
@@ -229,6 +230,26 @@ class AddressPreview extends React.Component {
 
                   {/* 省份 */}
                   {localAddressForm['state'] && <span>{form.province} </span>}
+
+                  {/* uk的街道 */}
+                  {localAddressForm['county'] && (
+                    <span>
+                      {form.county}
+                      {', '}
+                    </span>
+                  )}
+
+                  {/* 国家 */}
+                  {window.__.env.REACT_APP_COUNTRY == 'uk' ? (
+                    <>
+                      <span>
+                        {matchNamefromDict(
+                          this.state.countryList,
+                          form.country || form.countryId
+                        )}{' '}
+                      </span>
+                    </>
+                  ) : null}
 
                   {/* 邮编 */}
                   {localAddressForm['postCode'] && <span>{form.postCode}</span>}

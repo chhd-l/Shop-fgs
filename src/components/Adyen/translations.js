@@ -318,5 +318,11 @@ export default {
     'error.va.sf-cc-num.03': 'Unsupported card entered',
     'error.va.sf-cc-dat.01': 'Card too old',
     'error.va.sf-cc-dat.02': 'Date too far in the future'
+  },
+  en_US: {
+    holderName:
+      window.__.env.REACT_APP_COUNTRY === 'uk'
+        ? 'name of the card holder'
+        : 'Cardholder name'
   }
 };

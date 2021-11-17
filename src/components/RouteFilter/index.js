@@ -192,10 +192,11 @@ class RouteFilter extends Component {
       return null;
     }
 
-    if (pathname == '/') {
-      var el = document.querySelector('html');
-      el.lang = window.__.env.REACT_APP_LANG;
-    }
+    var el = document.querySelector('html');
+    el.lang =
+      window.__.env.REACT_APP_LANG == 'uk'
+        ? 'en-GB'
+        : window.__.env.REACT_APP_LANG;
 
     if (pathname !== '/login') {
       // loadJS({

@@ -71,6 +71,7 @@ const LogoutButton = (props) => {
       localItemRoyal.remove('rc-consent-list');
       localItemRoyal.remove('okta-session-token');
       localItemRoyal.remove('rc-userinfo');
+      localItemRoyal.remove('customer-okta-id');
       loginStore.removeUserInfo();
       checkoutStore.removeLoginCartData();
       clinicStore.removeDefaultClinicInfo();
@@ -87,7 +88,7 @@ const LogoutButton = (props) => {
     return (
       <div
         className="logoff-style"
-        style={(props && props.containerStyle) || {}}
+        style={(props && props.containerStyle) || {cursor:'pointer'}}
       >
         <span
           className="rc-styled-link--external"
@@ -105,7 +106,7 @@ const LogoutButton = (props) => {
     return (
       <div
         className={props.containerClassName || 'logoff-style'}
-        style={props.containerStyle || {}}
+        style={props.containerStyle || {cursor:'pointer'}}
       >
         <span
           id="J-btn-logoff"

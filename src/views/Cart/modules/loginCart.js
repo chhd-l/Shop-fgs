@@ -49,7 +49,7 @@ import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 import GiftList from '../components/GiftList/index.tsx';
 import foodDispenserPic from '../../SmartFeederSubscription/img/food_dispenser_pic.png';
-
+import PromotionCodeText from '../components/PromotionCodeText';
 const guid = uuidv4();
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -1156,24 +1156,8 @@ class LoginCart extends React.Component {
 
         {/* 显示 promotionCode */}
         {!isShowValidCode &&
-          this.promotionVOList?.map((el) => (
-            <div className={`row leading-lines shipping-item green d-flex`}>
-              <div className="col-6">
-                <p className="ui-text-overflow-line1">
-                  {/* {this.promotionDesc || (
-                        <FormattedMessage id="NoPromotionDesc" />
-                      )} */}
-                  {/* <FormattedMessage id="promotion" /> */}
-                  {el.marketingName}
-                </p>
-              </div>
-              <div className="col-6">
-                <p className="text-right shipping-cost text-nowrap">
-                  {/* - {formatMoney(this.discountPrice)} */}
-                  <strong>-{formatMoney(el.discountPrice)}</strong>
-                </p>
-              </div>
-            </div>
+          this.promotionVOList?.map((el, i) => (
+            <PromotionCodeText el={el} i={i} />
           ))}
 
         {/* <div
@@ -1372,7 +1356,7 @@ class LoginCart extends React.Component {
     );
   }
   async handleChooseSize(sdItem, pitem) {
-    if (sdItem.isEmpty) {
+    if (sdItem.isEmpty || sdItem.isUnitPriceZero) {
       return false;
     }
     if (this.state.checkoutLoading) {

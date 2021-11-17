@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 import './index.css';
 import FrequencyMatch from '@/components/FrequencyMatch';
 import WelcomeBox from '../WelcomeBox';
+import PromotionCodeText from './components/promotionCodeText';
 import GiftList from '../GiftList/index.tsx';
 import { isFirstOrder } from '@/api/user';
 
@@ -295,7 +296,7 @@ class PayProductInfo extends React.Component {
                       <FormattedMessage
                         id="quantityText"
                         values={{
-                          specText: selectedSizeItem.specText,
+                          specText: selectedSizeItem.specText || '',
                           buyCount: el.quantity
                         }}
                       />
@@ -549,7 +550,7 @@ class PayProductInfo extends React.Component {
       );
     } catch (err) {
       console.info('....', err);
-      debugger;
+      // debugger;
       this.setState({
         isClickApply: false
       });
@@ -847,23 +848,7 @@ class PayProductInfo extends React.Component {
                 {/* 显示 promotionCode */}
                 {!isShowValidCode
                   ? this.promotionVOList?.map((el, i) => (
-                      <div
-                        className="row leading-lines shipping-item green"
-                        key={i}
-                      >
-                        <div className="col-7 start-lines">
-                          <p className="order-receipt-label order-shipping-cost">
-                            {el.marketingName}
-                          </p>
-                        </div>
-                        <div className="col-5 end-lines">
-                          <p className="text-right">
-                            <span className="shipping-total-cost">
-                              <strong>-{formatMoney(el.discountPrice)}</strong>
-                            </span>
-                          </p>
-                        </div>
-                      </div>
+                      <PromotionCodeText el={el} i={i} />
                     ))
                   : null}
 

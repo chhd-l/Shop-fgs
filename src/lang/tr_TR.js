@@ -73,6 +73,7 @@ const tr_TR = {
   'account.profile': 'Bilgilerim',
   'account.profileTip': 'Bilgilerinize göz atın, veya profilinizi güncelleyin.',
   'account.requiredFields': 'Gerekli alanlar',
+  'account.requiredFields2': 'Gerekli alanlar',
   'account.shippingAddressTip': 'Gönderim adresinizi oluşturun ve düzenleyin.',
   'account.specialNeeds': 'Hassasiyet',
   'account.startAutoShipping': 'Daha fazlasını bul',
@@ -335,6 +336,7 @@ const tr_TR = {
   'footer.Additionally': 'BUNLARA EK OLARAK',
   'footer.confidentiality': 'Privacidad',
   'footer.contactRoyalCanin': 'ROYAL CANIN® ile iletişime geçin',
+  'footer.securePaymentMethods': 'Güvenli Ödeme',
   'footer.contacts': 'Kişiler',
   'footer.contactUs': 'Bize Ulaşın',
   'footer.cookieCollectionPolicy': 'Çerez Toplama Politikası',
@@ -364,7 +366,7 @@ const tr_TR = {
   freeShipping: 'Ücretsiz kargo.',
   oneoffFreeShipping: '125 TL Üzeri Ücretsiz kargo.',
   from: 'Kimden',
-  plpFromText: 'Kimden',
+  plpFromText: 'den başlayan',
   gender: 'Cinsiyet',
   getConsumerAccountFailed: 'Tüketici Hesabını Alma Başarısız Oldu',
   getDataFailed: 'Veri Alma Başarısız Oldu',
@@ -641,6 +643,7 @@ const tr_TR = {
   'payment.rfc': 'Referans',
   'payment.socialId': 'Sosyal kimlik',
   'payment.state': 'Durum',
+  'payment.county': 'Eyalet',
   'payment.region': 'Bölge',
   'payment.entrance': 'giriş',
   'payment.apartment': 'daire',
@@ -843,6 +846,7 @@ const tr_TR = {
   requiredConsentCheckedTip:
     'Lütfen kutuyu işaretleyerek zorunlu alanları onaylayın.',
   requiredFields: '* Zorunlu Alanlar',
+  requiredFields2: '* Zorunlu Alanlar',
   resetPasswordEmail:
     'Şifre sıfırlama e-postası posta kutunuza gönderildi, lütfen kontrol edin!',
   results: '{val} Sonuç',
@@ -1351,6 +1355,16 @@ const tr_TR = {
   'plp.retail.cat.filter.specneed.learnmore': 'Learn more',
   'checkout.zeroOrder.butSubscription':
     '0 Price orders do not support subscription, please change to a one-off purchase to pay this order',
-  'order.viewLogisticDetail': 'Lojistik ayrıntılarını görüntüle'
+  'order.viewLogisticDetail': 'Lojistik ayrıntılarını görüntüle',
+  'subscription.ongoingOrderForPet': "{val}'in siparişi hazırlanıyor",
+  'subscription.noPetOngoingOrder': 'Siparişiniz hazırlanıyor',
+  'product.plp.foodtype.drydog': 'Kuru köpek maması',
+  'product.plp.foodtype.wetdog': 'ıslak köpek maması',
+  'product.plp.foodtype.drycat': 'Kuru kedi maması',
+  'product.plp.foodtype.wetcat': 'ıslak kedi maması',
+  'list.applyFilters': 'Filtreleri uygula',
+  'list.clearFilters': 'Tüm filtreleri temizle',
+  'list.viewFilters': 'Filtreleri görüntüle',
+  'list.closeFilters': 'Filtreleri kapat'
 };
 export default tr_TR;

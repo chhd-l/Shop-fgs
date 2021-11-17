@@ -85,6 +85,7 @@ const es_ES = {
   'account.profile': 'Mi informacion',
   'account.profileTip': 'Ver y editar su información personal.',
   'account.requiredFields': 'Campos requeridos',
+  'account.requiredFields2': 'Campos requeridos',
   'account.shippingAddressTip': 'Crea y edita tu dirección de envío.',
   'account.specialNeeds': 'Necesidades especiales',
   'account.startAutoShipping': 'Iniciar envío automático',
@@ -348,6 +349,7 @@ const es_ES = {
   'footer.Additionally': 'Ligas de Interés',
   'footer.confidentiality': 'Privacidad',
   'footer.contactRoyalCanin': 'Contacto ROYAL CANIN®',
+  'footer.securePaymentMethods': 'Métodos de pago seguros',
   'footer.contacts': 'Contacto',
   'footer.contactUs': 'Contacto',
   'footer.cookieCollectionPolicy': 'Política de recopilación de cookies',
@@ -657,6 +659,7 @@ const es_ES = {
   'payment.rfc': 'Referencia',
   'payment.socialId': 'Identificación social',
   'payment.state': 'Estado',
+  'payment.county': 'Condado',
   'payment.region': 'Región',
   'payment.entrance': 'Entrada',
   'payment.apartment': 'Apartamento',
@@ -895,6 +898,7 @@ const es_ES = {
   requiredConsentCheckedTip:
     'Confirme los campos obligatorios marcando la casilla.',
   requiredFields: '* Campos requeridos',
+  requiredFields2: '* Campos requeridos',
   resetPasswordEmail:
     'El correo electrónico de restablecimiento de contraseña se ha enviado a su buzón, tenga en cuenta que marque',
   results: '{val} Resultados',
@@ -1162,6 +1166,16 @@ const es_ES = {
     'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
   'plp.retail.cat.filter.specneed.learnmore': 'Learn more',
   'checkout.zeroOrder.butSubscription':
-    '0 Price orders do not support subscription, please change to a one-off purchase to pay this order'
+    '0 Price orders do not support subscription, please change to a one-off purchase to pay this order',
+  'subscription.ongoingOrderForPet': 'Órden en curso de {val}',
+  'subscription.noPetOngoingOrder': 'Órden en curso',
+  'product.plp.foodtype.drydog': 'Alimento seco para perros',
+  'product.plp.foodtype.wetdog': 'Comida húmeda para perros',
+  'product.plp.foodtype.drycat': 'Comida seca para gatos',
+  'product.plp.foodtype.wetcat': 'Comida húmeda para gatos',
+  'list.applyFilters': 'Aplicar filtros',
+  'list.clearFilters': 'Borrar todos los filtros',
+  'list.viewFilters': 'Ver filtros',
+  'list.closeFilters': 'Cerrar filtros'
 };
 export default es_ES;

@@ -150,6 +150,7 @@ export default class AddressForm extends React.Component {
             onBlur={(e) => this.inputBlur(e)}
             name="email"
             maxLength="254"
+            autoComplete="new-password"
           />
           <label className="rc-input__label" htmlFor="shippingEmail"></label>
         </span>
@@ -187,6 +188,7 @@ export default class AddressForm extends React.Component {
             onBlur={(e) => this.inputBlur(e)}
             name="postCode"
             data-js-pattern="(*.*)"
+            autoComplete="new-password"
           />
           <label className="rc-input__label" htmlFor="id-text1"></label>
         </span>
@@ -229,6 +231,7 @@ export default class AddressForm extends React.Component {
             name="phoneNumber"
             maxLength="20"
             minLength="18"
+            autoComplete="new-password"
           />
           <label
             className="rc-input__label"
@@ -298,6 +301,7 @@ export default class AddressForm extends React.Component {
                 onBlur={(e) => this.inputBlur(e)}
                 name="firstName"
                 maxLength="50"
+                autoComplete="new-password"
               />
               <label className="rc-input__label" htmlFor="id-text1"></label>
             </span>
@@ -329,6 +333,7 @@ export default class AddressForm extends React.Component {
                 onBlur={(e) => this.inputBlur(e)}
                 name="lastName"
                 maxLength="50"
+                autoComplete="new-password"
               />
               <label className="rc-input__label" htmlFor="id-text1"></label>
             </span>
@@ -410,6 +415,7 @@ export default class AddressForm extends React.Component {
                 onBlur={(e) => this.inputBlur(e)}
                 name="address1"
                 maxLength="50"
+                autoComplete="new-password"
               />
               <label className="rc-input__label" htmlFor="id-text1"></label>
             </span>
@@ -441,6 +447,7 @@ export default class AddressForm extends React.Component {
                 onBlur={(e) => this.inputBlur(e)}
                 name="address2"
                 maxLength="50"
+                autoComplete="new-password"
               />
               <label className="rc-input__label" htmlFor="id-text1"></label>
             </span>

@@ -44,6 +44,7 @@ import ProductCarousel from '@/components/ProductCarousel';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 import GiftList from '../components/GiftList/index.tsx';
+import PromotionCodeText from '../components/PromotionCodeText';
 
 const guid = uuidv4();
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -93,7 +94,9 @@ class UnLoginCart extends React.Component {
         metaKeywords: 'Royal canin',
         metaDescription: 'Royal canin'
       },
-      relatedGoodsList: []
+      relatedGoodsList: [],
+
+      promotionsVisible: false
     };
     this.amountChanger = this.amountChanger.bind(this);
     this.handleAmountChange = this.handleAmountChange.bind(this);
@@ -979,7 +982,7 @@ class UnLoginCart extends React.Component {
    * @param {*} index 当前product的索引
    */
   async handleChooseSize(sdItem, pitem, index) {
-    if (sdItem.isEmpty) {
+    if (sdItem.isEmpty || sdItem.isUnitPriceZero) {
       return false;
     }
     pitem.goodsSpecs
@@ -1116,12 +1119,8 @@ class UnLoginCart extends React.Component {
     );
   };
   sideCart({ className = '', style = {}, id = '' } = {}) {
-    const {
-      checkoutLoading,
-      discount,
-      mobileCartVisibleKey,
-      promotionCode
-    } = this.state;
+    const { checkoutLoading, discount, mobileCartVisibleKey, promotionCode } =
+      this.state;
     const { checkoutStore } = this.props;
     const subtractionSign = '-';
     return (
@@ -1276,26 +1275,11 @@ class UnLoginCart extends React.Component {
           {/* 显示 promotionCode */}
           <div>
             {!this.state.isShowValidCode &&
-              this.promotionVOList?.map((el) => (
-                <div className={`row leading-lines shipping-item green d-flex`}>
-                  <div className="col-6">
-                    <p className="ui-text-overflow-line1">
-                      {/* {this.promotionDesc || (
-                            <FormattedMessage id="NoPromotionDesc" />
-                          )} */}
-                      {/* <FormattedMessage id="promotion" /> */}
-                      {el.marketingName}
-                    </p>
-                  </div>
-                  <div className="col-6">
-                    <p className="text-right shipping-cost">
-                      {/* - {formatMoney(this.discountPrice)} */}
-                      <strong>-{formatMoney(el.discountPrice)}</strong>
-                    </p>
-                  </div>
-                </div>
+              this.promotionVOList?.map((el, i) => (
+                <PromotionCodeText el={el} i={i} />
               ))}
           </div>
+
           <div className="row">
             <div className="col-8">
               <p>
