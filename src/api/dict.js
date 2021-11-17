@@ -3,7 +3,7 @@ import axios from '@/utils/request';
 const api = {
   // getDict:'/sysdict/querySysDictionary'
   getDict: '/sysdict/dictionary',
-  getAppointDict: '/goodsDictionary/pageView' //获取felin相关dictionary
+  getAppointDict: '/goodsDictionary/queryGoodsDictionary' //获取felin相关dictionary
 };
 
 export default api;

@@ -1047,20 +1047,20 @@ export async function getAppointmentInfo(appointNo) {
   const res = await getAppointByApptNo({ apptNo: appointNo });
   let resContext = res?.context?.settingVO;
   let appointDictRes = await Promise.all([
-    getDictionary({
+    getAppointDict({
       type: 'appointment_type'
     }),
-    getDictionary({
+    getAppointDict({
       type: 'expert_type'
     })
   ]);
   // appointDictRes=flatten(appointDictRes)
   console.log('appointDictRes', appointDictRes);
   const appointmentDictRes = (
-    appointDictRes[0]?.context?.goodsDictionaryPage?.content || []
+    appointDictRes[0]?.context?.goodsDictionaryVOS || []
   ).filter((item) => item.id === resContext?.apptTypeId);
   const expertDictRes = (
-    appointDictRes[1]?.context?.goodsDictionaryPage?.content || []
+    appointDictRes[1]?.context?.goodsDictionaryVOS || []
   ).filter((item) => item.id === resContext?.expertTypeId);
   const appointType =
     appointmentDictRes.length > 0 ? appointmentDictRes[0].name : 'Offline';

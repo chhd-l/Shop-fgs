@@ -58,7 +58,7 @@ const LoginButton = (props) => {
         .getUser()
         .then((info) => {
           console.log(info,'infoifoejfoijewoijf')
-          debugger
+          // debugger
           if (
             loginStore.userInfo &&
             loginStore.userInfo.email &&
