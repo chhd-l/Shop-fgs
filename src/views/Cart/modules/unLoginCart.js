@@ -1562,12 +1562,7 @@ class UnLoginCart extends React.Component {
   }
   //click survey
   surveyCheckedChange = (isClick, surveyId) => {
-    const { checkoutStore } = this.props;
-    let paramData = checkoutStore.cartData.map((el) => {
-      el.surveyId = isClick ? surveyId : '';
-      return el;
-    });
-    checkoutStore.setCartData(paramData);
+    sessionItemRoyal.set('rc-clicked-surveyId', isClick ? surveyId : '');
   };
   render() {
     const { productList, errorMsg, goodsIdArr } = this.state;
@@ -1652,7 +1647,7 @@ class UnLoginCart extends React.Component {
                         <GiftList pitem={el} />
                       ))}
                     </div>
-                    {window.__.env.REACT_APP_COUNTRY === 'us' && (
+                    {(true || window.__.env.REACT_APP_COUNTRY === 'us') && (
                       <CartSurvey
                         isLogin={false}
                         surveyCheckedChange={this.surveyCheckedChange.bind(
