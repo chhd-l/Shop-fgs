@@ -295,7 +295,9 @@ class Felin extends React.Component {
               ostéopathes qui vous guideront pour prendre soin de votre chat.
               Vous pouvez réserver une rendez-vous dans l’atelier ou un appel
               video. Avez-vous des questions?{' '}
-              <span onClick={this.goto}>Voir FAQs</span>
+              <span onClick={this.goto} style={{ cursor: 'pointer' }}>
+                Voir FAQs
+              </span>
             </div>
           </div>
           {/* 默认页面 */}
