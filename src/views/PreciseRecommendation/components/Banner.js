@@ -264,7 +264,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                           <div
                             className="col-1 flex align-self-center"
                             onClick={() => {
-                              if (imageCurrent > 1) {
+                              if (imageCurrent > 0) {
                                 setImageCurrent(imageCurrent - 1);
                               } else {
                                 setImageCurrent(3);
