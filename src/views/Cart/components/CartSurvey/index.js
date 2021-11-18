@@ -28,15 +28,6 @@ class CartSurvey extends React.Component {
     // if (this.state.isCanReviewSurvey) {
     //   await this.recordSurveyReview();
     // }
-    const { checkoutStore } = this.props;
-    const cartData = this.props.isLogin
-      ? checkoutStore.loginCartData
-      : checkoutStore.cartData;
-    console.log('cartData,', cartData);
-    const isChecked = cartData.filter(
-      (el) => el.surveyId && el.surveyId !== ''
-    );
-    this.setState({ checkedBox: isChecked.length > 0 });
   }
 
   //获取 survey content
