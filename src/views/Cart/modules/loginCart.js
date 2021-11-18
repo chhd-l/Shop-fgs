@@ -1531,14 +1531,6 @@ class LoginCart extends React.Component {
     pitem.periodTypeId = frequencyId;
     this.changeFrequencyType(pitem);
   }
-  //click survey
-  surveyCheckedChange(isClick, surveyId) {
-    let handledData = this.loginCartData.map((el, i) => {
-      el.surveyId = isClick ? surveyId : '';
-      return el;
-    });
-    this.props.checkoutStore.setLoginCartData(handledData);
-  }
   render() {
     const { productList, initLoading, errorMsg } = this.state;
     const List = this.getProducts(productList);
@@ -1627,12 +1619,7 @@ class LoginCart extends React.Component {
                           ))}
                         </div>
                         {window.__.env.REACT_APP_COUNTRY === 'us' && (
-                          <CartSurvey
-                            isLogin={true}
-                            surveyCheckedChange={this.surveyCheckedChange.bind(
-                              this
-                            )}
-                          />
+                          <CartSurvey />
                         )}
                       </div>
                       <div className="rc-column totals cart__total pt-0">

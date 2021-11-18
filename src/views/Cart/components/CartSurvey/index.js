@@ -11,7 +11,9 @@ import {
 } from '@/api/cart';
 import { inject, observer } from 'mobx-react';
 
-@inject('checkoutStore', 'loginStore')
+const sessionItemRoyal = window.__.sessionItemRoyal;
+
+@inject('loginStore')
 @observer
 class CartSurvey extends React.Component {
   constructor(props) {
@@ -28,13 +30,19 @@ class CartSurvey extends React.Component {
     // if (this.state.isCanReviewSurvey) {
     //   await this.recordSurveyReview();
     // }
+    this.setState({
+      checkedBox:
+        sessionItemRoyal.get('rc-clicked-surveyId') &&
+        sessionItemRoyal.get('rc-clicked-surveyId') !== ''
+    });
   }
 
   //获取 survey content
   async querySurveyContent() {
     try {
       const res = await querySurveyContent();
-      if (this.props.isLogin) {
+      if (this.props.loginStore.isLogin) {
+        // 查询会员是否 has clicked survey and placed an order successfully
         const result = await accountHasClickSurvey();
         if (!result?.context) {
           //会员未点击过survey
@@ -60,35 +68,44 @@ class CartSurvey extends React.Component {
   }
 
   surveyClickChange = (e) => {
-    this.props.surveyCheckedChange(!this.state.checkedBox, '111');
+    sessionItemRoyal.set(
+      'rc-clicked-surveyId',
+      !this.state.checkedBox ? '111' : ''
+    );
     this.setState({ checkedBox: !this.state.checkedBox });
   };
 
   render() {
-    const { checkedBox } = this.state;
+    const { checkedBox, isCanReviewSurvey } = this.state;
     return (
-      <div className="mb-4 cart-survey p-4">
-        <div className="rc-input rc-input--inline mw-100">
-          <input
-            className="rc-input__checkbox ui-cursor-pointer-pure"
-            id={`id-checkbox-survey`}
-            onChange={(e) => this.surveyClickChange(e)}
-            type="checkbox"
-            checked={checkedBox}
-            value={checkedBox}
-          />
-          <label
-            className="rc-input__label--inline text-break"
-            htmlFor={`id-checkbox-survey`}
-          >
-            11111
-          </label>
-        </div>
-        <div className="cart-survey-content">
-          PO can no longer see the survey if he tick the survey and placed an
-          order succefully in the same time
-        </div>
-      </div>
+      <>
+        {isCanReviewSurvey ? (
+          <div className="mb-4 cart-survey p-4">
+            <div className="rc-input rc-input--inline mw-100">
+              <input
+                className="rc-input__checkbox ui-cursor-pointer-pure"
+                id={`id-checkbox-survey`}
+                onChange={(e) => this.surveyClickChange(e)}
+                type="checkbox"
+                checked={checkedBox}
+                value={checkedBox}
+              />
+              <label
+                className="rc-input__label--inline text-break"
+                htmlFor={`id-checkbox-survey`}
+              >
+                11111
+              </label>
+            </div>
+            <div className="cart-survey-content">
+              PO can no longer see the survey if he tick the survey and placed
+              an order succefully in the same time
+            </div>
+          </div>
+        ) : (
+          <div />
+        )}
+      </>
     );
   }
 }

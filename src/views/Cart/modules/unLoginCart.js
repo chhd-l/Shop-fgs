@@ -1560,10 +1560,6 @@ class UnLoginCart extends React.Component {
     pitem.periodTypeId = frequencyId;
     this.changeFrequencyType(pitem);
   }
-  //click survey
-  surveyCheckedChange = (isClick, surveyId) => {
-    sessionItemRoyal.set('rc-clicked-surveyId', isClick ? surveyId : '');
-  };
   render() {
     const { productList, errorMsg, goodsIdArr } = this.state;
     const { history, location } = this.props;
@@ -1647,14 +1643,7 @@ class UnLoginCart extends React.Component {
                         <GiftList pitem={el} />
                       ))}
                     </div>
-                    {(true || window.__.env.REACT_APP_COUNTRY === 'us') && (
-                      <CartSurvey
-                        isLogin={false}
-                        surveyCheckedChange={this.surveyCheckedChange.bind(
-                          this
-                        )}
-                      />
-                    )}
+                    {window.__.env.REACT_APP_COUNTRY === 'us' && <CartSurvey />}
                   </div>
                   <div className="rc-column totals cart__total pt-0">
                     <div className="rc-padding-bottom--xs">
