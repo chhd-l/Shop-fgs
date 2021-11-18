@@ -80,6 +80,7 @@ import { doGetGAVal } from '@/utils/GA';
 // import { registerCustomerList, guestList, commonList } from './tr_consent';
 import ConsentData from '@/utils/consent';
 import CyberPayment from './PaymentMethod/Cyber';
+import { accountHasClickSurvey } from '@/api/cart';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -298,16 +299,16 @@ class Payment extends React.Component {
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
     this.cyberRef = React.createRef();
-    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
-      this
-    );
+    this.confirmListValidationAddress =
+      this.confirmListValidationAddress.bind(this);
   }
   //cyber查询卡类型-会员
   queryCyberCardType = async (params) => {
     try {
-      const res = await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
-        params
-      );
+      const res =
+        await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
+          params
+        );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -318,9 +319,10 @@ class Payment extends React.Component {
   //cyber查询卡类型-游客
   queryGuestCyberCardType = async (params) => {
     try {
-      const res = await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
-        params
-      );
+      const res =
+        await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
+          params
+        );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -1378,6 +1380,7 @@ class Payment extends React.Component {
       if (gotoConfirmationPage) {
         // 清除掉计算运费相关参数
         localItemRoyal.remove('rc-calculation-param');
+        sessionItemRoyal.remove('rc-clicked-surveyId');
         //支付成功清除推荐者信息
         this.props.clinicStore.removeLinkClinicInfo();
         this.props.clinicStore.removeLinkClinicRecommendationInfos();
@@ -1552,7 +1555,7 @@ class Payment extends React.Component {
   /**
    * 封装下单参数
    */
-  packagePayParam() {
+  async packagePayParam() {
     const loginCartData = this.loginCartData;
     const cartData = this.cartData.filter((ele) => ele.selected);
     const { clinicStore } = this.props;
@@ -1567,6 +1570,15 @@ class Payment extends React.Component {
 
     // 获取本地存储的计算运费折扣参数
     const calculationParam = localItemRoyal.get('rc-calculation-param') || null;
+
+    //登录状态下在cart勾选了survey需判断是否已下单
+    // let surveyId = sessionItemRoyal.get('rc-clicked-surveyId') || '';
+    // if (surveyId !== '' && this.isLogin) {
+    //   const result = await accountHasClickSurvey();
+    //   if (!result.context) {
+    //     surveyId = '';
+    //   }
+    // }
 
     /**
      * ★★★ 1
@@ -1600,6 +1612,7 @@ class Payment extends React.Component {
       promotionCode,
       guestEmail,
       selectWelcomeBoxFlag: this.state.welcomeBoxValue === 'yes' //first order welcome box
+      // surveyId: surveyId //cart勾选的survey id
     });
     let tokenObj = JSON.parse(localStorage.getItem('okta-token-storage'));
     if (tokenObj && tokenObj.accessToken) {
@@ -2516,9 +2529,10 @@ class Payment extends React.Component {
     const unLoginCyberSaveCard = async (params) => {
       // console.log('2080 params: ', params);
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -2530,9 +2544,10 @@ class Payment extends React.Component {
     //cyber会员绑卡
     const loginCyberSaveCard = async (params) => {
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -3300,9 +3315,8 @@ class Payment extends React.Component {
   };
   petComfirm = (data) => {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[
-        this.state.currentProIndex
-      ].petForm = data;
+      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
+        data;
     } else {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {
@@ -3390,9 +3404,8 @@ class Payment extends React.Component {
   clickPay = () => {
     if (this.tradePrice === 0 && this.isCurrentBuyWaySubscription) {
       //0元订单中含有订阅商品时不能下单
-      const errMsg = this.props.intl.messages[
-        'checkout.zeroOrder.butSubscription'
-      ];
+      const errMsg =
+        this.props.intl.messages['checkout.zeroOrder.butSubscription'];
       this.showErrorMsg(errMsg);
       return;
     }
