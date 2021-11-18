@@ -288,7 +288,7 @@ class Form extends React.Component {
           });
         }
       } else if (apiType === 'DQE') {
-        address1 = address1.replace(/\|/g, '，');
+        // address1 = address1.replace(/\|/g, '，');
         res = await DQEAddressList(address1);
         addls = res.context;
         let guojia = COUNTRY.toUpperCase();
@@ -1366,7 +1366,7 @@ class Form extends React.Component {
                 Object.assign(ele, { name: ele.unrestrictedValue })
               );
             } else if (apiType === 'DQE') {
-              inputVal = inputVal.replace(/\|/g, '，');
+              // inputVal = inputVal.replace(/\|/g, '，');
               res = await DQEAddressList(inputVal);
               robj = (res?.context || []).map((item) =>
                 Object.assign(item, {
