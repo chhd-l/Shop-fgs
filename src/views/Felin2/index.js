@@ -24,7 +24,8 @@ import open from './image/open.png';
 import close from './image/close.png';
 import LazyLoad from 'react-lazyload';
 import Rate from '../../components/Rate';
-
+import WeekCalender from './week/week-calender';
+import { queryDate } from '../../api/felin';
 const pageLink = window.location.href;
 
 PRESONAL_INFO_RULE.filter((el) => el.key === 'phoneNumber')[0].regExp = '';
@@ -35,6 +36,8 @@ class Felin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      key: '',
+      resources: [],
       seoConfig: {
         title: 'Royal canin',
         metaKeywords: 'Royal canin',
@@ -90,7 +93,7 @@ class Felin extends React.Component {
       activeMaxKey: null
     };
   }
-
+  componentDidMount() {}
   hanldeOpen = () => {
     this.setState({
       visible: true
@@ -194,6 +197,57 @@ class Felin extends React.Component {
     }
   };
 
+  queryDate = (type = false, chooseData = {}) => {
+    // const { getFieldsValue } = this.props.form;
+    setTimeout(async () => {
+      // let { apptTypeId, minutes, expertTypeId } = getFieldsValue(['apptTypeId', 'minutes', 'expertTypeId'])
+      // console.log(apptTypeId, minutes, expertTypeId)
+      const resources = await new Promise(async (reslove) => {
+        const { res } = await queryDate({
+          appointmentTypeId: apptTypeId,
+          minutes,
+          expertTypeId
+        });
+        if (res.code === Const.SUCCESS_CODE) {
+          let _resources = res.context.resources;
+          if (type && minutes === chooseData.minutes) {
+            let _temp = {
+              date: chooseData.bookSlotVO.dateNo,
+              minutes: chooseData.minutes,
+              minuteSlotVOList: []
+            };
+            _temp.minuteSlotVOList.push({
+              ...chooseData.bookSlotVO,
+              type: 'primary',
+              disabled: true
+            });
+            console.log(_temp, '=_temp');
+            if (_resources.length == 0) {
+              _resources.push(_temp);
+            } else {
+              _resources.map((item) => {
+                if (item.dateNo === _temp.dateNo) {
+                  item.minuteSlotVOList.map((it) => {
+                    if (it.startTime === _temp.startTime) {
+                      it = { ...it, ..._temp };
+                    }
+                  });
+                }
+              });
+            }
+          }
+          console.log(1);
+          reslove(_resources);
+        }
+      });
+      console.log(resources);
+
+      this.setState({
+        resources,
+        key: +new Date()
+      });
+    });
+  };
   render() {
     const settings = {
       dots: true,
@@ -405,7 +459,9 @@ class Felin extends React.Component {
                   Retour à l'étape précédente
                 </button>
                 <button
-                  disabled={this.state.activeOne == null}
+                  disabled={
+                    this.state.activeOne == null || this.state.butIndex === null
+                  }
                   onClick={this.handleGotoThree}
                   className="rc-btn rc-btn--one  rc-margin-bottom--xs"
                   style={{
@@ -495,7 +551,14 @@ class Felin extends React.Component {
           {/*第四步*/}
           {this.state.fourShow ? (
             <div>
-              4
+              <div
+                style={{ width: '700px', margin: 'auto', marginBottom: '40px' }}
+              >
+                <WeekCalender
+                  key={this.state.key}
+                  data={this.state.resources}
+                />
+              </div>
               <div className="txt-centr">
                 <button
                   onClick={this.handleReturnThree}
