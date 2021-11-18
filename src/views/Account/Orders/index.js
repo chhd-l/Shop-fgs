@@ -806,6 +806,10 @@ class AccountOrders extends React.Component {
                                               )}
                                             </FormattedMessage>
                                           </div>
+                                        ) : order.orderSource === 'SUPPLIER' ? (
+                                          <div>
+                                            <FormattedMessage id="order.goodwillOrder" />
+                                          </div>
                                         ) : null}
                                       </div>
                                       <div className="col-12 col-md-2 text-nowrap padding0">

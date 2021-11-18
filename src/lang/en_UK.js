@@ -1819,6 +1819,7 @@ const en_US = {
   'list.clearFilters': 'Clear all filters',
   'list.viewFilters': 'View filters',
   'list.closeFilters': 'Close filters',
-  BacktoSavedPayments: 'Return to saved payment'
+  BacktoSavedPayments: 'Return to saved payment',
+  'order.goodwillOrder': '[Goodwill order]'
 };
 export default en_US;

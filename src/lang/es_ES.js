@@ -1175,6 +1175,7 @@ const es_ES = {
   'list.applyFilters': 'Aplicar filtros',
   'list.clearFilters': 'Borrar todos los filtros',
   'list.viewFilters': 'Ver filtros',
-  'list.closeFilters': 'Cerrar filtros'
+  'list.closeFilters': 'Cerrar filtros',
+  'order.goodwillOrder': '[Goodwill order]'
 };
 export default es_ES;

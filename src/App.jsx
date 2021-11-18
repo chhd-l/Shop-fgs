@@ -74,6 +74,10 @@ const TermUse = loadable(() => import('@/views/StaticPage/TermUse'));
 const TermsAndConditions = loadable(() =>
   import('@/views/StaticPage/TermUse/TermsAndConditions')
 );
+const TermsOfUsePrescriber = loadable(() =>
+  import('@/views/StaticPage/TermsOfUsePrescriber')
+);
+
 const PrivacyPolicy = loadable(() =>
   import('@/views/StaticPage/PrivacyPolicy')
 );
@@ -466,6 +470,11 @@ const App = () => {
                   exact
                   path="/Terms-And-Conditions"
                   component={TermsAndConditions}
+                />
+                 <Route
+                  exact
+                  path="/terms-of-use-prescriber"
+                  component={TermsOfUsePrescriber}
                 />
                 <Route exact path="/privacypolicy" component={PrivacyPolicy} />
 

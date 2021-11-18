@@ -50,6 +50,7 @@ import { Helmet } from 'react-helmet';
 import GiftList from '../components/GiftList/index.tsx';
 import foodDispenserPic from '../../SmartFeederSubscription/img/food_dispenser_pic.png';
 import PromotionCodeText from '../components/PromotionCodeText';
+import CartSurvey from '../components/CartSurvey';
 const guid = uuidv4();
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -1617,6 +1618,9 @@ class LoginCart extends React.Component {
                             <GiftList pitem={el} />
                           ))}
                         </div>
+                        {window.__.env.REACT_APP_COUNTRY === 'us' && (
+                          <CartSurvey />
+                        )}
                       </div>
                       <div className="rc-column totals cart__total pt-0">
                         <div className="rc-padding-bottom--xs">
