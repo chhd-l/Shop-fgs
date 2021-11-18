@@ -12,7 +12,13 @@ import { authToken } from '@/api/login';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-@inject('configStore','checkoutStore', 'loginStore', 'checkoutStore', 'clinicStore')
+@inject(
+  'configStore',
+  'checkoutStore',
+  'loginStore',
+  'checkoutStore',
+  'clinicStore'
+)
 @withRouter
 class RouteFilter extends Component {
   get isLogin() {
@@ -23,25 +29,27 @@ class RouteFilter extends Component {
     // 默认了clinic后，再次编辑clinic
     const { history, location, checkoutStore } = this.props;
 
-
-    const searchUrl = this.props.history.location.search
-    function getQueryVariable(variable)
-    {
+    const searchUrl = this.props.history.location.search;
+    function getQueryVariable(variable) {
       let query = searchUrl.substring(1);
-      let vars = query.split("&");
-      for (let i=0;i<vars.length;i++) {
-        let pair = vars[i].split("=");
-        if(pair[0] == variable){return pair[1];}
+      let vars = query.split('&');
+      for (let i = 0; i < vars.length; i++) {
+        let pair = vars[i].split('=');
+        if (pair[0] == variable) {
+          return pair[1];
+        }
       }
-      return(false);
+      return false;
     }
 
     // console.log(getQueryVariable("search")+'222222222')
     // localItemRoyal.set("rc-promotionCode",'117343333')
     // console.log(getQueryVariable("spromocode"))
-    const sPromotionCodeFromSearch = getQueryVariable("spromocode")
+    const sPromotionCodeFromSearch = getQueryVariable('spromocode');
     if (sPromotionCodeFromSearch) {
-      checkoutStore.setPromotionCode(sPromotionCodeFromSearch)
+      checkoutStore.setPromotionCode(sPromotionCodeFromSearch);
+      // 代客下单 orderSource: 'SUPPLIER'
+      sessionItemRoyal.set('orderSource', 'SUPPLIER');
     }
 
     // debugger
@@ -51,7 +59,6 @@ class RouteFilter extends Component {
     ) {
       return false;
     }
-
 
     if (
       nextProps.location.pathname.indexOf('/account') !== -1 &&
