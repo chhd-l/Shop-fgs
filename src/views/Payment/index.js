@@ -1142,12 +1142,6 @@ class Payment extends React.Component {
   async allAdyenPayment(parameters, type) {
     try {
       let action;
-      // 代客下单 orderSource: 'SUPPLIER'
-      let supplier = sessionItemRoyal.get('rc-iframe-from-storepotal');
-      if (supplier) {
-        parameters['orderSource'] = 'SUPPLIER';
-      }
-
       const actions = () => {
         const rePayFun = () => {
           action = rePay;
