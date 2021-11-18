@@ -16,6 +16,7 @@ import product4 from '../image/product4.png';
 import lefticon from '../image/lefticon.png';
 import righticon from '../image/righticon.png';
 import productback1 from '../image/productBack1.png';
+import productImage2 from '../image/productImage2.png';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -100,7 +101,7 @@ const bannerProductDetailList = [
     imageCurrent: 0
   },
   {
-    imageSrc: productImg,
+    imageSrc: productImage2,
     imageCurrent: 1
   },
   {
@@ -121,7 +122,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
   const [loading, setLoading] = useState(false);
   const [addCartBtnStatus, setAddCartBtnStatus] = useState(false);
 
-  const [imageCurrent, setImageCurrent] = useState(1);
+  const [imageCurrent, setImageCurrent] = useState(0);
 
   useEffect(() => {
     if (!recommData.totalPackWeight) {
