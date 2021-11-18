@@ -364,6 +364,7 @@ class Details extends React.Component {
       details,
       spuImages,
       goodsDetailTab,
+      tmpGoodsDescriptionDetailList,
       goodsNo,
       form
     } = this.state;
@@ -380,7 +381,7 @@ class Details extends React.Component {
           instockStatus,
           details,
           spuImages,
-          goodsDetailTab,
+          goodsDetailTab:tmpGoodsDescriptionDetailList,
           goodsNo
         })
       );
@@ -586,7 +587,8 @@ class Details extends React.Component {
                 setTimeout(() => {
                   addSchemaOrgMarkup(
                     this.state.details,
-                    this.state.instockStatus
+                    this.state.instockStatus,
+                    <FormattedMessage id="homePage" />
                   );
                 }, 60000);
               }

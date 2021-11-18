@@ -620,7 +620,7 @@ class Home extends React.Component {
     };
     return (
       <div>
-        {!Ru ? (
+        {/* {!Ru ? ( */}
           <Helmet>
             <link rel="canonical" href={pageLink} />
             <title>{this.state.seoConfig.title}</title>
@@ -631,14 +631,14 @@ class Home extends React.Component {
             {renderLang('home')}
             <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
           </Helmet>
-        ) : (
+        {/* ) : (
           <Helmet>
             <title>{this.state.seoConfig.title}</title>
             <link rel="canonical" href={pageLink} />
             {renderLang('home')}
             <meta name="robots" content="noindex" />
           </Helmet>
-        )}
+        )} */}
         <GoogleTagManager
           additionalEvents={event}
           searchEvent={this.state.searchEvent}

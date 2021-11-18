@@ -1502,7 +1502,8 @@ const ru_RU = {
   'list.applyFilters': 'Применить фильтры',
   'list.clearFilters': 'Очистить все фильтры',
   'list.viewFilters': 'Фильтры',
-  'list.closeFilters': 'Закрыть фильтры'
+  'list.closeFilters': 'Закрыть фильтры',
+  'order.goodwillOrder': '[Goodwill order]'
 };
 
 export default ru_RU;

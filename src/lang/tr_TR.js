@@ -1364,6 +1364,7 @@ const tr_TR = {
   'list.applyFilters': 'Filtreleri uygula',
   'list.clearFilters': 'Tüm filtreleri temizle',
   'list.viewFilters': 'Filtreleri görüntüle',
-  'list.closeFilters': 'Filtreleri kapat'
+  'list.closeFilters': 'Filtreleri kapat',
+  'order.goodwillOrder': '[Goodwill order]'
 };
 export default tr_TR;

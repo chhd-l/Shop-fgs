@@ -1804,6 +1804,7 @@ const en_US = {
   'list.applyFilters': 'Apply filters',
   'list.clearFilters': 'Clear all filters',
   'list.viewFilters': 'View filters',
-  'list.closeFilters': 'Close filters'
+  'list.closeFilters': 'Close filters',
+  'order.goodwillOrder': '[Goodwill order]'
 };
 export default en_US;
