@@ -4,9 +4,17 @@ export function queryDate(params = {}) {
   return axios({
     url: '/resourceDatePlan/queryDate',
     method: 'post',
-    body: JSON.stringify({
+    data: {
       serviceTypeId: '6',
       ...params
-    })
+    }
+  });
+}
+
+export function gitDict(params = {}) {
+  return axios({
+    url: '/goodsDictionary/queryGoodsDictionary',
+    method: 'post',
+    data: params
   });
 }

@@ -22,9 +22,7 @@ class MyModal extends React.Component {
             NUM XXXX
             <br />
             <br />
-            X Rue XXX
-            <br />
-            XXX Paris
+            142 Bld Saint Germain 75006 PARIS
             <br />
             <br />
             Horaires d’ouverture :<br />

@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import './index.less';
+
 let index = -1;
+
 class WeekCalender extends Component {
   state = {
     weekDate: [],
     selectedIndex: ''
   };
+
   componentDidMount() {
     this.getCurrentWeek();
   }
+
   getCurrentWeek = async (date = undefined) => {
     let weekOfDay = moment(date).format('E'); // 指定日期的周的第几天
     let weekDate = [];
@@ -108,6 +112,7 @@ class WeekCalender extends Component {
     this.setState({ selectedIndex: item.dateNo + '_' + index });
     this.props.onChange(item);
   };
+
   render() {
     const { weekDate, selectedIndex } = this.state;
     return (
@@ -117,7 +122,7 @@ class WeekCalender extends Component {
             <div className="rc-icon rc-left rc-iconography"></div>
           </div>
           <div className="week-head-content" style={{ flex: 1 }}>
-            <ul>
+            <ul style={{ padding: 0 }}>
               {weekDate.map((item, index) => {
                 return (
                   <li key={index}>
@@ -140,11 +145,13 @@ class WeekCalender extends Component {
                   <button
                     onClick={() => this.clickAppointItem(it, idx)}
                     key={it.time + 1}
-                    type={
+                    className={`${
                       selectedIndex === it.dateNo + '_' + idx
-                        ? 'primary'
-                        : it.type
+                        ? 'rc-btn-active'
+                        : ''
                     }
+                         rc-margin-bottom--xs
+                      `}
                     disabled={it.disabled}
                     style={{ marginTop: 5 }}
                   >
@@ -159,4 +166,5 @@ class WeekCalender extends Component {
     );
   }
 }
+
 export default WeekCalender;

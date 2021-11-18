@@ -20,12 +20,16 @@ import nos from './image/nos.png';
 import one from './image/one.png';
 import two from './image/two.png';
 import three from './image/three.png';
+import four from './image/four.png';
+import five from './image/five.png';
 import open from './image/open.png';
 import close from './image/close.png';
 import LazyLoad from 'react-lazyload';
 import Rate from '../../components/Rate';
 import WeekCalender from './week/week-calender';
-import { queryDate } from '../../api/felin';
+import { gitDict, queryDate } from '../../api/felin';
+import moment from 'moment';
+
 const pageLink = window.location.href;
 
 PRESONAL_INFO_RULE.filter((el) => el.key === 'phoneNumber')[0].regExp = '';
@@ -46,16 +50,19 @@ class Felin extends React.Component {
       visible: false,
       list: [
         {
+          valueEn: 'Behaviorist',
           src: cat1,
           name: 'Comportementalistes',
           text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         },
         {
+          valueEn: 'Nutritionist',
           src: cat2,
           name: 'Expert en nutrition',
           text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         },
         {
+          valueEn: 'Osteopathist',
           src: cat3,
           name: 'Ostéopathes',
           text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
@@ -63,17 +70,17 @@ class Felin extends React.Component {
       ],
       timeList: [
         {
-          time: '15 min',
+          time: '15',
           text: 'Rapide et facile, échangez avec un expert pour reçevoir ses conseils et commencer le suivi de votre chat.',
           num: 'FREE'
         },
         {
-          time: '30 min',
+          time: '30',
           text: 'Allez plus en détails avec lexpert sélectionné.',
           num: 'XX EUR'
         },
         {
-          time: '45 min',
+          time: '45',
           text: 'Prenez le temps de vous offrir une session complète.',
           num: 'XX EUR'
         }
@@ -86,14 +93,32 @@ class Felin extends React.Component {
       twoShow: false,
       threeShow: false,
       fourShow: false,
+      fiveShow: false,
       activeKey: '',
       activeKey1: '',
       activeKey2: '',
       maxHeight: null,
-      activeMaxKey: null
+      activeMaxKey: null,
+      apptTypeList: [], // 线上线下
+      expertTypeList: [],
+      params: {
+        appointmentTypeId: '', // 线上线下
+        expertTypeId: '', // 专家类型
+        minutes: '' // 时间
+      },
+      votre: {
+        type: '',
+        expertise: '',
+        duree: '',
+        prix: '',
+        date: '',
+        heure: ''
+      }
     };
   }
+
   componentDidMount() {}
+
   hanldeOpen = () => {
     this.setState({
       visible: true
@@ -109,8 +134,32 @@ class Felin extends React.Component {
     window.scrollTo(0, anchorElement.offsetTop - window.innerHeight / 2);
   };
   // 点击咨询
-  handleOneShow = () => {
+  handleOneShow = async () => {
+    // 线上
+    const {
+      code: code1,
+      context: apptTypeList,
+      message: message1
+    } = await gitDict({
+      type: 'appointment_type'
+    });
+    // 专家
+    const {
+      code: code2,
+      context: list,
+      message: message2
+    } = await gitDict({
+      type: 'expert_type'
+    });
+    let expertTypeList = list.goodsDictionaryVOS.map((item) => {
+      let _temp = this.state.list.find(
+        (items) => items.valueEn === item.valueEn
+      );
+      return { ...item, ..._temp };
+    });
     this.setState({
+      apptTypeList: apptTypeList.goodsDictionaryVOS,
+      list: expertTypeList,
       isShow: false,
       oneShow: true
     });
@@ -149,6 +198,7 @@ class Felin extends React.Component {
       threeShow: false,
       fourShow: true
     });
+    this.queryDate();
   };
   // 返回第三步
   handleReturnThree = () => {
@@ -158,19 +208,29 @@ class Felin extends React.Component {
     });
   };
   // 最终跳转
-  handleGoto = () => {};
+  handleGoto = () => {
+    this.setState({
+      fourShow: false,
+      fiveShow: true
+    });
+  };
+
   // 选择专家
-  handleActiveBut = (val) => {
+  handleActiveBut = (index, id, name, key, key1, key2, value, key3) => {
     this.setState({
-      butIndex: val
+      params: {
+        ...this.state.params,
+        [key]: id
+      },
+      [key1]: index,
+      votre: {
+        ...this.state.votre,
+        [key2]: name,
+        [key3]: value
+      }
     });
   };
-  // 选择时间
-  handleActiveTime = (val) => {
-    this.setState({
-      timeIndex: val
-    });
-  };
+
   change = (val, num) => {
     this.setState({
       activeKey: num === 1 ? val : '',
@@ -198,18 +258,13 @@ class Felin extends React.Component {
   };
 
   queryDate = (type = false, chooseData = {}) => {
-    // const { getFieldsValue } = this.props.form;
     setTimeout(async () => {
-      // let { apptTypeId, minutes, expertTypeId } = getFieldsValue(['apptTypeId', 'minutes', 'expertTypeId'])
-      // console.log(apptTypeId, minutes, expertTypeId)
       const resources = await new Promise(async (reslove) => {
-        const { res } = await queryDate({
-          appointmentTypeId: apptTypeId,
-          minutes,
-          expertTypeId
+        const { code, context } = await queryDate({
+          ...this.state.params
         });
-        if (res.code === Const.SUCCESS_CODE) {
-          let _resources = res.context.resources;
+        if (code === 'K-000000') {
+          let _resources = context.resources;
           if (type && minutes === chooseData.minutes) {
             let _temp = {
               date: chooseData.bookSlotVO.dateNo,
@@ -240,15 +295,31 @@ class Felin extends React.Component {
           reslove(_resources);
         }
       });
-      console.log(resources);
-
+      console.log(resources, 222);
       this.setState({
         resources,
         key: +new Date()
       });
     });
   };
+  onChange = (data) => {
+    console.log(data, 22222);
+    this.setState({
+      votre: {
+        ...this.state.votre,
+        date: moment(data.dateNo).format('YYYY-MM-DD'),
+        heure: data.time
+      }
+    });
+  };
+  handleLogin = (val) => {
+    console.log(val);
+  };
   render() {
+    let appointName = {
+      Online: 'Appel video',
+      Offline: 'Sur place'
+    };
     const settings = {
       dots: true,
       infinite: true,
@@ -315,7 +386,7 @@ class Felin extends React.Component {
             <div className="time">
               Ouvert à tous du mardi au dimanche, de 10h à 19h
             </div>
-            <div className="place">X rue du X, 750XX Paris</div>
+            <div className="place">142 Bld Saint Germain 75006 PARIS</div>
           </div>
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile mb160">
             <div className="rc-max-width--xxl">
@@ -396,28 +467,32 @@ class Felin extends React.Component {
                     <div>Choisissez un type de rendez-vous</div>
                   </div>
                   <div className="mb32">
-                    <button
-                      onClick={() => this.handleActiveBut(1)}
-                      className={`rc-btn ${
-                        this.state.butIndex === 1 ? 'rc-btn-active ' : ''
-                      } rc-margin-bottom--xs`}
-                      style={{
-                        width: '9.375rem'
-                      }}
-                    >
-                      Appel video
-                    </button>
-                    <button
-                      onClick={() => this.handleActiveBut(2)}
-                      className={`rc-btn ${
-                        this.state.butIndex === 2 ? 'rc-btn-active ' : ''
-                      } rc-margin-bottom--xs`}
-                      style={{
-                        width: '9.375rem'
-                      }}
-                    >
-                      Sur place
-                    </button>
+                    {this.state.apptTypeList.map((item, index) => {
+                      return (
+                        <button
+                          onClick={() =>
+                            this.handleActiveBut(
+                              index,
+                              item.id,
+                              appointName[item.name],
+                              'appointmentTypeId',
+                              'butIndex',
+                              'type'
+                            )
+                          }
+                          className={`rc-btn ${
+                            this.state.butIndex === index
+                              ? 'rc-btn-active '
+                              : ''
+                          } rc-margin-bottom--xs`}
+                          style={{
+                            width: '9.375rem'
+                          }}
+                        >
+                          {appointName[item.name]}
+                        </button>
+                      );
+                    })}
                   </div>
                   <div className="size24 js-center">
                     <img src={two} alt="" className="mr10" />
@@ -429,7 +504,16 @@ class Felin extends React.Component {
                 {this.state.list.map((item, index) => {
                   return (
                     <li
-                      onClick={() => this.handleActive(index)}
+                      onClick={() =>
+                        this.handleActiveBut(
+                          index,
+                          item.id,
+                          item.name,
+                          'expertTypeId',
+                          'activeOne',
+                          'expertise'
+                        )
+                      }
                       className={index === 1 ? 'ul-li mglr40' : 'ul-li'}
                       style={{
                         boxShadow:
@@ -474,16 +558,34 @@ class Felin extends React.Component {
             </div>
           ) : null}
           {/* 选择综合 */}
-          {this.state.threeShow || this.state.fourShow ? (
+          {this.state.threeShow ||
+          this.state.fourShow ||
+          this.state.fiveShow ? (
             <div className="Choisissez votre-selection">
               <div className="mb16 colred size18">Votre sélection</div>
               <div className="js-between mb16">
                 <div>Type</div>
-                <div>Sur place</div>
+                <div>{this.state.votre.type}</div>
+              </div>
+              <div className="js-between mb16">
+                <div>Expertise</div>
+                <div>{this.state.votre.expertise}</div>
+              </div>
+              <div className="js-between mb16">
+                <div>Durée</div>
+                <div>{this.state.votre.duree} min</div>
+              </div>
+              <div className="js-between mb16">
+                <div>Prix</div>
+                <div>{this.state.votre.prix}</div>
+              </div>
+              <div className="js-between mb16">
+                <div>Date</div>
+                <div>{this.state.votre.date}</div>
               </div>
               <div className="js-between">
-                <div>Expertise</div>
-                <div>Expert en nutrition</div>
+                <div>Heure</div>
+                <div>{this.state.votre.heure}</div>
               </div>
             </div>
           ) : null}
@@ -504,7 +606,18 @@ class Felin extends React.Component {
                 {this.state.timeList.map((item, index) => {
                   return (
                     <li
-                      onClick={() => this.handleActiveTime(index)}
+                      onClick={() =>
+                        this.handleActiveBut(
+                          index,
+                          item.time,
+                          item.time,
+                          'minutes',
+                          'timeIndex',
+                          'duree',
+                          item.num,
+                          'prix'
+                        )
+                      }
                       className={
                         index === 1 ? 'ul-li mglr40 pd10' : 'ul-li pd10'
                       }
@@ -515,7 +628,7 @@ class Felin extends React.Component {
                             : '0px 0px 0px 2px #f0f0f0'
                       }}
                     >
-                      <div>{item.time}</div>
+                      <div>{item.time} min</div>
                       <div className="list-content">{item.text}</div>
                       <div className="js-between">
                         <div>Prix</div>
@@ -551,10 +664,15 @@ class Felin extends React.Component {
           {/*第四步*/}
           {this.state.fourShow ? (
             <div>
+              <div className="size24 js-center mb28">
+                <img src={four} alt="" className="mr10" />
+                <div>Choisissez un créneau</div>
+              </div>
               <div
                 style={{ width: '700px', margin: 'auto', marginBottom: '40px' }}
               >
                 <WeekCalender
+                  onChange={this.onChange}
                   key={this.state.key}
                   data={this.state.resources}
                 />
@@ -570,7 +688,7 @@ class Felin extends React.Component {
                   Retour à l'étape précédente
                 </button>
                 <button
-                  disabled={this.state.activeIndex == null}
+                  disabled={this.state.votre.heure === ''}
                   onClick={this.handleGoto}
                   className="rc-btn rc-btn--one  rc-margin-bottom--xs"
                   style={{
@@ -582,6 +700,48 @@ class Felin extends React.Component {
               </div>
             </div>
           ) : null}
+          {this.state.fiveShow ? (
+            <div>
+              <div className="size24 js-center mb28">
+                <img src={five} alt="" className="mr10" />
+                <div>Créez votre compte afin de confirmer votre sélection</div>
+              </div>
+              <div className="txt-centr">
+                <button
+                  onClick={() => this.handleLogin(1)}
+                  className="rc-btn rc-btn--one  rc-margin-bottom--xs mb28"
+                  style={{
+                    width: '16.875rem'
+                  }}
+                >
+                  Connexion
+                </button>
+                <br />
+                <button
+                  disabled={this.state.votre.heure === ''}
+                  onClick={() => this.handleLogin(2)}
+                  className="rc-btn rc-btn--one  rc-margin-bottom--xs mb28"
+                  style={{
+                    width: '16.875rem'
+                  }}
+                >
+                  Continuer en tant qu'invité
+                </button>
+                <br />
+                <button
+                  disabled={this.state.votre.heure === ''}
+                  onClick={() => this.handleLogin(3)}
+                  className="rc-btn rc-btn--one  rc-margin-bottom--xs"
+                  style={{
+                    width: '16.875rem'
+                  }}
+                >
+                  Créer un compte
+                </button>
+              </div>
+            </div>
+          ) : null}
+
           {/* 预约时间 */}
           <div className="txt-centr" style={{ marginBottom: '10rem' }}>
             <div
