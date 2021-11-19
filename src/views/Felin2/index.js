@@ -525,10 +525,7 @@ class Felin extends React.Component {
               <div className="cat-ul mb28">
                 {this.state.list.map((item, index) => {
                   return (
-                    <div
-                      className={index === 1 ? 'ul-li mglr40' : 'ul-li'}
-                      key={index}
-                    >
+                    <div className="ul-li" key={index}>
                       <img src={item.src} alt="" />
                       <div style={{ padding: '0.625rem' }}>
                         <div className="mt16">{item.name}</div>
