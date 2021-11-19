@@ -131,7 +131,8 @@ class Felin extends React.Component {
         employeeIds: []
       },
       userInfo: undefined,
-      appointmentNo: ''
+      appointmentNo: '',
+      id: ''
     };
   }
 
@@ -258,6 +259,7 @@ class Felin extends React.Component {
       serviceTypeId: 6
     });
     let appointmentNo = context.appointmentVO.apptNo;
+    let id = context.appointmentVO.id;
     if (appointmentNo) {
       sessionItemRoyal.set('appointment-no', appointmentNo);
       if (this.state.userInfo) {
@@ -265,6 +267,7 @@ class Felin extends React.Component {
       } else {
         this.setState({
           appointmentNo: appointmentNo,
+          id: id,
           fourShow: false,
           fiveShow: true
         });
@@ -385,7 +388,8 @@ class Felin extends React.Component {
     this.postUpdate(params);
   };
   postUpdate = async (params) => {
-    const { code, context } = await postUpdate({
+    const { code } = await postUpdate({
+      id: this.state.id,
       apptNo: this.state.appointmentNo,
       apptTypeId: this.state.params.appointmentTypeId,
       consumerName: params.firstName + ' ' + params.lastName,
@@ -424,14 +428,6 @@ class Felin extends React.Component {
         path: this.props.location.pathname
       }
     };
-    const expandIcon = (props) => {
-      if (props.isActive) {
-        return <img src={close} alt="" />;
-      } else {
-        return <img src={open} alt="" />;
-      }
-    };
-
     return (
       <div>
         <Helmet>
