@@ -174,6 +174,12 @@ class CommunicationDataEditForm extends React.Component {
       ).length;
       // 1 勾选了某条特殊consent情况下，phone/email/messengers不能同时取消
       // 2 勾选了phone/email/messengers，必须勾选某条特殊consent
+
+      // 美国隐藏了 email 勾选框，所以选择邮件沟通时需要赋值 communicationEmail = 1
+      hasCheckedTheConsent && window.__.env.REACT_APP_COUNTRY === 'us'
+        ? (form.communicationEmail = 1)
+        : (form.communicationEmail = 0);
+
       if (
         hasCheckedTheConsent &&
         !+form.communicationEmail &&
