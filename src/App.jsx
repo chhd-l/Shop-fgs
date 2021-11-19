@@ -66,6 +66,7 @@ import ProductReview from '@/views/Account/ProductReview';
 import Recommendation from '@/views/Recommendation';
 import Recommendation_FR from '@/views/Recommendation_FR';
 import Recommendation_US from '@/views/Recommendation_US';
+import Recommendation_FrBreeder from '@/views/Recommendation_FrBreeder';
 import ProductFinder from '@/views/ProductFinder';
 import ProductFinderResult from '@/views/ProductFinder/modules/Result';
 import ProductFinderNoResult from '@/views/ProductFinder/modules/NoResult';
@@ -458,7 +459,13 @@ const App = () => {
                 <Route
                   exact
                   path="/recommendation"
-                  render={(props) => <Recommendation_US {...props} />}
+                  render={(props)=>{
+                    let recommendationPage =  <Recommendation_US {...props} />
+                    if(window.__.env.REACT_APP_COUNTRY=='fr'&&props.location.search.includes('breeder')){
+                      recommendationPage = <Recommendation_FrBreeder {...props}/>
+                    }
+                    return recommendationPage;
+                  }}
                 />
 
                 <Route exact path="/termuse" component={TermUse} />
