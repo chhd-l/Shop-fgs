@@ -132,7 +132,7 @@ class Felin extends React.Component {
       },
       userInfo: undefined,
       appointmentNo: '',
-      id: ''
+      appointmentVO: {}
     };
   }
 
@@ -259,7 +259,7 @@ class Felin extends React.Component {
       serviceTypeId: 6
     });
     let appointmentNo = context.appointmentVO.apptNo;
-    let id = context.appointmentVO.id;
+    let appointmentVO = context.appointmentVO;
     if (appointmentNo) {
       sessionItemRoyal.set('appointment-no', appointmentNo);
       if (this.state.userInfo) {
@@ -267,7 +267,7 @@ class Felin extends React.Component {
       } else {
         this.setState({
           appointmentNo: appointmentNo,
-          id: id,
+          appointmentVO: appointmentVO,
           fourShow: false,
           fiveShow: true
         });
@@ -389,20 +389,8 @@ class Felin extends React.Component {
   };
   postUpdate = async (params) => {
     const { code } = await postUpdate({
-      id: this.state.id,
-      apptNo: this.state.appointmentNo,
-      apptTypeId: this.state.params.appointmentTypeId,
-      consumerName: params.firstName + ' ' + params.lastName,
-      consumerFirstName: params.firstName,
-      consumerLastName: params.lastName,
-      consumerEmail: params.email,
-      consumerPhone: params.phone,
-      customerId: this.state.userInfo?.customerId || undefined,
-      customerLevelId: this.state.userInfo?.customerId ? 234 : 233, // 233未登录 234登陆
-      bookSlotVO: this.state.bookSlotVO,
-      minutes: this.state.params.minutes,
-      expertTypeId: this.state.params.expertTypeId,
-      serviceTypeId: 6
+      ...this.state.appointmentVO,
+      ...params
     });
     if (code === 'K-000000') {
       this.props.history.push('/checkout');
