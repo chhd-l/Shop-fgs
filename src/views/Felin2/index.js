@@ -32,6 +32,8 @@ import { gitDict, postSave, queryDate } from '../../api/felin';
 import moment from 'moment';
 import LoginButton from '@/components/LoginButton';
 
+import Reviews from './Reviews/Reviews';
+
 const pageLink = window.location.href;
 const localItemRoyal = window.__.localItemRoyal;
 PRESONAL_INFO_RULE.filter((el) => el.key === 'phoneNumber')[0].regExp = '';
@@ -43,6 +45,10 @@ class Felin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      reviews: {
+        visible: false,
+        list: []
+      },
       key: '',
       resources: [],
       seoConfig: {
@@ -873,7 +879,7 @@ class Felin extends React.Component {
               </div>
             </MyModal>
           </div>
-          <div className="comment">
+          <div className="comment" style={{ flexDirection: 'column' }}>
             <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile">
               <div className="rc-max-width--xxl">
                 <div className="rc-layout-container rc-two-column rc-content-h-middle ">
@@ -922,6 +928,11 @@ class Felin extends React.Component {
                           style={{
                             width: '16.875rem'
                           }}
+                          onClick={() => {
+                            this.setState({
+                              reviews: { ...this.state.reviews, visible: true }
+                            });
+                          }}
                         >
                           Laisser un avis
                         </button>
@@ -934,7 +945,18 @@ class Felin extends React.Component {
                 </div>
               </div>
             </div>
+            {/*评论列表*/}
+            <Reviews
+              id="111"
+              visible={this.state.reviews.visible}
+              onClose={() => {
+                this.setState({
+                  reviews: { ...this.state.reviews, visible: false }
+                });
+              }}
+            />
           </div>
+
           <div className="nos-cont js-center">
             <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile">
               <div className="rc-max-width--xxl">

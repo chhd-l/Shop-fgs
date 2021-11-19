@@ -190,8 +190,14 @@ class Details extends React.Component {
     return this.props.checkoutStore;
   }
   get btnStatus() {
-    const { details, quantity, instockStatus, initing, loading, form } =
-      this.state;
+    const {
+      details,
+      quantity,
+      instockStatus,
+      initing,
+      loading,
+      form
+    } = this.state;
     const { sizeList } = details;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     let addedFlag = 1;
@@ -219,10 +225,16 @@ class Details extends React.Component {
   get retailerBtnStatus() {
     const { loading, goodsType, exclusiveFlag = false } = this.state;
     const sptGoods = goodsType === 0 || goodsType === 1;
-    const trSpt = Tr && sptGoods;
+    // const trSpt = Tr && sptGoods;
     let bundle = goodsType && goodsType === 2;
 
-    return !loading && !bundle && isHub && !Ru && !exclusiveFlag && !trSpt;
+    return (
+      !loading &&
+      !bundle &&
+      isHub &&
+      !exclusiveFlag &&
+      (Fr || (Tr && !sptGoods))
+    );
   }
 
   redirectCanonicalLink({ pageLink }) {
@@ -353,8 +365,14 @@ class Details extends React.Component {
   matchGoods(data, sizeList) {
     //pdpScreenLoad bungdle没有规格的商品，也要调用GA start
     //pdpScreenLoad bungdle没有规格的商品，也要调用GA end
-    let { instockStatus, details, spuImages, goodsDetailTab, goodsNo, form } =
-      this.state;
+    let {
+      instockStatus,
+      details,
+      spuImages,
+      goodsDetailTab,
+      goodsNo,
+      form
+    } = this.state;
 
     details.sizeList = sizeList;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
@@ -820,8 +838,13 @@ class Details extends React.Component {
     try {
       this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const { currentUnitPrice, quantity, form, details, questionParams } =
-        this.state;
+      const {
+        currentUnitPrice,
+        quantity,
+        form,
+        details,
+        questionParams
+      } = this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
