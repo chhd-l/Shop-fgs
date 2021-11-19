@@ -74,8 +74,8 @@ class SearchSelection extends React.Component {
       form.pageNum = 0;
       this.setState(
         {
-          form: form,
-          optionList: []
+          form: form
+          // optionList: []
         },
         () => {
           if (this.props.freeText) {
@@ -186,7 +186,7 @@ class SearchSelection extends React.Component {
         pageNum: form.pageNum
       });
       this.setState({
-        optionList: optionList.concat(...res),
+        optionList: res,
         loadingList: false,
         searchForNoResult: res.length > 0
       });
@@ -233,68 +233,70 @@ class SearchSelection extends React.Component {
   render() {
     const { optionList, form } = this.state;
     return (
-      <div style={{ flex: this.props.inputCustomStyle ? 'auto' : '' }}>
-        <div
-          className={`${this.props.customCls} ${
-            this.props.customStyle
-              ? 'rc-input rc-input--label rc-margin--none rc-input--full-width'
-              : 'rc-input rc-input--full-width rc-margin-y--xs'
-          } searchSelection`}
-          onBlur={() => {
-            setTimeout(() => {
-              this.setState({
-                optionList: [],
-                optionPanelVisible: false
-              });
-            }, 500);
-          }}
-        >
-          {this.props.prefixIcon}
-          <input
-            type="text"
-            placeholder={this.state.placeholder}
-            className={`${
-              this.props.customStyle ? 'rc-input__control' : 'form-control'
-            }`}
-            value={form.value || ''}
-            onChange={(e) => this.handleInputChange(e)}
-            onFocus={this.handleInputFocus}
-            onBlur={this.handleInputBlur}
-            ref={this.searchText}
-            name={this.props.name}
-            autoComplete="new-password"
-          />
-          {this.props.customStyle && <label className="rc-input__label" />}
-          {this.state.optionPanelVisible && (
-            <div className="clnc-overlay border mt-1 position-absolute w-100">
-              <ul
-                className="m-0 clinic-item-container test-scroll"
-                onScroll={this.hanldeScroll}
-              >
-                {optionList.map((item, idx) => (
-                  <li
-                    className={`clinic-item pl-2 pr-2 ${
-                      idx !== optionList.length - 1 ? 'border-bottom' : ''
-                    }`}
-                    key={idx}
-                    onClick={(e) => this.handleClickClinicItem(e, item)}
-                  >
-                    {item.name}
-                  </li>
-                ))}
-              </ul>
-              {this.state.loadingList && (
-                <div className="text-center p-2">
-                  <span className="ui-btn-loading ui-btn-loading-border-red" />
-                </div>
-              )}
-            </div>
-          )}
+      <form autoComplete="off">
+        <div style={{ flex: this.props.inputCustomStyle ? 'auto' : '' }}>
+          <div
+            className={`${this.props.customCls} ${
+              this.props.customStyle
+                ? 'rc-input rc-input--label rc-margin--none rc-input--full-width'
+                : 'rc-input rc-input--full-width rc-margin-y--xs'
+            } searchSelection`}
+            onBlur={() => {
+              // setTimeout(() => {
+              //   this.setState({
+              //     optionList: [],
+              //     optionPanelVisible: false
+              //   });
+              // }, 500);
+            }}
+          >
+            {this.props.prefixIcon}
+            <input
+              type="text"
+              placeholder={this.state.placeholder}
+              className={`${
+                this.props.customStyle ? 'rc-input__control' : 'form-control'
+              }`}
+              value={form.value || ''}
+              onChange={(e) => this.handleInputChange(e)}
+              onFocus={this.handleInputFocus}
+              onBlur={this.handleInputBlur}
+              ref={this.searchText}
+              name={this.props.name}
+              autoComplete="off"
+            />
+            {this.props.customStyle && <label className="rc-input__label" />}
+            {this.state.optionPanelVisible && (
+              <div className="clnc-overlay border mt-1 position-absolute w-100">
+                <ul
+                  className="m-0 clinic-item-container test-scroll"
+                  onScroll={this.hanldeScroll}
+                >
+                  {optionList.map((item, idx) => (
+                    <li
+                      className={`clinic-item pl-2 pr-2 ${
+                        idx !== optionList.length - 1 ? 'border-bottom' : ''
+                      }`}
+                      key={item.label}
+                      onClick={(e) => this.handleClickClinicItem(e, item)}
+                    >
+                      {item.name}
+                    </li>
+                  ))}
+                </ul>
+                {this.state.loadingList && (
+                  <div className="text-center p-2">
+                    <span className="ui-btn-loading ui-btn-loading-border-red" />
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+          {!this.state.searchForNoResult &&
+            optionList.length === 0 &&
+            this.props.nodataTipSlot}
         </div>
-        {!this.state.searchForNoResult &&
-          optionList.length === 0 &&
-          this.props.nodataTipSlot}
-      </div>
+      </form>
     );
   }
 }
