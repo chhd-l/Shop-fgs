@@ -385,8 +385,8 @@ class Felin extends React.Component {
     this.postUpdate(params);
   };
   postUpdate = async (params) => {
-    const { context } = await postUpdate({
-      appointmentNo: this.state.appointmentNo,
+    const { code, context } = await postUpdate({
+      apptNo: this.state.appointmentNo,
       apptTypeId: this.state.params.appointmentTypeId,
       consumerName: params.firstName + ' ' + params.lastName,
       consumerFirstName: params.firstName,
@@ -400,6 +400,9 @@ class Felin extends React.Component {
       expertTypeId: this.state.params.expertTypeId,
       serviceTypeId: 6
     });
+    if (code === 'K-000000') {
+      this.props.history.push('/checkout');
+    }
   };
   render() {
     let appointName = {
