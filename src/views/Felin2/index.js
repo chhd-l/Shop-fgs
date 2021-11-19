@@ -3,6 +3,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import MyModal from './modules/modal';
+import UpdatModal from './updatModules/modal';
 import { PRESONAL_INFO_RULE } from '@/utils/constant';
 import 'react-datepicker/dist/react-datepicker.css';
 import './index.less';
@@ -27,12 +28,14 @@ import close from './image/close.png';
 import LazyLoad from 'react-lazyload';
 import Rate from '../../components/Rate';
 import WeekCalender from './week/week-calender';
-import { gitDict, queryDate } from '../../api/felin';
+import { gitDict, postSave, queryDate } from '../../api/felin';
 import moment from 'moment';
+import LoginButton from '@/components/LoginButton';
 
 const pageLink = window.location.href;
-
+const localItemRoyal = window.__.localItemRoyal;
 PRESONAL_INFO_RULE.filter((el) => el.key === 'phoneNumber')[0].regExp = '';
+const sessionItemRoyal = window.__.sessionItemRoyal;
 
 @inject('loginStore')
 @observer
@@ -48,6 +51,7 @@ class Felin extends React.Component {
         metaDescription: 'Royal canin'
       },
       visible: false,
+      visibleUpdate: false,
       list: [
         {
           valueEn: 'Behaviorist',
@@ -113,11 +117,27 @@ class Felin extends React.Component {
         prix: '',
         date: '',
         heure: ''
-      }
+      },
+      bookSlotVO: {
+        dateNo: '',
+        startTime: '',
+        endTime: '',
+        employeeIds: []
+      },
+      userInfo: undefined
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    let userInfo = this.props.loginStore.userInfo;
+    if (userInfo) {
+      this.setState({
+        userInfo: {
+          ...userInfo
+        }
+      });
+    }
+  }
 
   hanldeOpen = () => {
     this.setState({
@@ -209,12 +229,36 @@ class Felin extends React.Component {
   };
   // 最终跳转
   handleGoto = () => {
-    this.setState({
-      fourShow: false,
-      fiveShow: true
-    });
+    this.postSave();
   };
-
+  postSave = async () => {
+    const { context } = await postSave({
+      apptTypeId: this.state.params.appointmentTypeId,
+      consumerName: this.state.userInfo?.lastName || undefined,
+      consumerFirstName: this.state.userInfo?.firstName || undefined,
+      consumerLastName: this.state.userInfo?.contactName || undefined,
+      consumerEmail: this.state.userInfo?.communicationEmail || undefined,
+      consumerPhone: this.state.userInfo?.communicationPhone || undefined,
+      customerId: this.state.userInfo?.customerId || undefined,
+      customerLevelId: this.state.userInfo?.customerId ? 234 : 233, // 233未登录 234登陆
+      bookSlotVO: this.state.bookSlotVO,
+      minutes: this.state.params.minutes,
+      expertTypeId: this.state.params.expertTypeId,
+      serviceTypeId: 6
+    });
+    let appointmentNo = context.appointmentVO.apptNo;
+    if (appointmentNo) {
+      sessionItemRoyal.set('appointment-no', appointmentNo);
+      if (this.state.userInfo) {
+        this.props.history.push('/checkout');
+      } else {
+        this.setState({
+          fourShow: false,
+          fiveShow: true
+        });
+      }
+    }
+  };
   // 选择专家
   handleActiveBut = (index, id, name, key, key1, key2, value, key3) => {
     this.setState({
@@ -263,6 +307,7 @@ class Felin extends React.Component {
         const { code, context } = await queryDate({
           ...this.state.params
         });
+
         if (code === 'K-000000') {
           let _resources = context.resources;
           if (type && minutes === chooseData.minutes) {
@@ -303,17 +348,26 @@ class Felin extends React.Component {
     });
   };
   onChange = (data) => {
-    console.log(data, 22222);
     this.setState({
       votre: {
         ...this.state.votre,
         date: moment(data.dateNo).format('YYYY-MM-DD'),
         heure: data.time
+      },
+      bookSlotVO: {
+        ...data
       }
     });
   };
   handleLogin = (val) => {
-    console.log(val);
+    this.setState({
+      visibleUpdate: true
+    });
+  };
+  handleCancelUpdate = () => {
+    this.setState({
+      visibleUpdate: false
+    });
   };
   render() {
     let appointName = {
@@ -434,7 +488,10 @@ class Felin extends React.Component {
               <div className="cat-ul mb28">
                 {this.state.list.map((item, index) => {
                   return (
-                    <div className={index === 1 ? 'ul-li mglr40' : 'ul-li'}>
+                    <div
+                      className={index === 1 ? 'ul-li mglr40' : 'ul-li'}
+                      key={index}
+                    >
                       <img src={item.src} alt="" />
                       <div style={{ padding: '0.625rem' }}>
                         <div className="mt16">{item.name}</div>
@@ -470,6 +527,7 @@ class Felin extends React.Component {
                     {this.state.apptTypeList.map((item, index) => {
                       return (
                         <button
+                          key={index}
                           onClick={() =>
                             this.handleActiveBut(
                               index,
@@ -504,6 +562,7 @@ class Felin extends React.Component {
                 {this.state.list.map((item, index) => {
                   return (
                     <li
+                      key={index}
                       onClick={() =>
                         this.handleActiveBut(
                           index,
@@ -606,6 +665,7 @@ class Felin extends React.Component {
                 {this.state.timeList.map((item, index) => {
                   return (
                     <li
+                      key={index}
                       onClick={() =>
                         this.handleActiveBut(
                           index,
@@ -700,37 +760,55 @@ class Felin extends React.Component {
               </div>
             </div>
           ) : null}
-          {this.state.fiveShow ? (
+          {/* 第五步 */}
+          {!this.state.fiveShow ? (
             <div>
               <div className="size24 js-center mb28">
                 <img src={five} alt="" className="mr10" />
                 <div>Créez votre compte afin de confirmer votre sélection</div>
               </div>
               <div className="txt-centr">
-                <button
-                  onClick={() => this.handleLogin(1)}
-                  className="rc-btn rc-btn--one  rc-margin-bottom--xs mb28"
-                  style={{
+                <LoginButton
+                  beforeLoginCallback={() => {
+                    localItemRoyal.set('okta-redirectUrl', '/checkout');
+                  }}
+                  btnClass={`rc-btn rc-btn--one  rc-margin-bottom--xs`}
+                  history={this.props.history}
+                  btnStyle={{
                     width: '16.875rem'
                   }}
                 >
                   Connexion
-                </button>
+                </LoginButton>
                 <br />
                 <button
-                  disabled={this.state.votre.heure === ''}
-                  onClick={() => this.handleLogin(2)}
-                  className="rc-btn rc-btn--one  rc-margin-bottom--xs mb28"
-                  style={{
-                    width: '16.875rem'
+                  onClick={() => {
+                    if (!window.__.env.REACT_APP_STOREID) {
+                      return;
+                    }
+                    if (
+                      window.__.env.REACT_APP_COUNTRY === 'tr' ||
+                      window.__.env.REACT_APP_COUNTRY === 'ru' ||
+                      window.__.env.REACT_APP_COUNTRY === 'fr' ||
+                      window.__.env.REACT_APP_COUNTRY === 'us' ||
+                      window.__.env.REACT_APP_COUNTRY === 'de' ||
+                      window.__.env.REACT_APP_COUNTRY === 'uk'
+                    ) {
+                      localItemRoyal.set(
+                        'okta-redirectUrl',
+                        this.props.history &&
+                          this.props.history.location.pathname +
+                            this.props.history.location.search
+                      );
+                      this.props.history.push('/register');
+                    } else {
+                      window.location.href =
+                        window.__.env.REACT_APP_RegisterPrefix +
+                        window.encodeURIComponent(
+                          window.__.env.REACT_APP_RegisterCallback
+                        );
+                    }
                   }}
-                >
-                  Continuer en tant qu'invité
-                </button>
-                <br />
-                <button
-                  disabled={this.state.votre.heure === ''}
-                  onClick={() => this.handleLogin(3)}
                   className="rc-btn rc-btn--one  rc-margin-bottom--xs"
                   style={{
                     width: '16.875rem'
@@ -738,10 +816,34 @@ class Felin extends React.Component {
                 >
                   Créer un compte
                 </button>
+                <br />
+                <button
+                  onClick={this.handleLogin}
+                  className="rc-btn rc-btn--one  rc-margin-bottom--xs mb28"
+                  style={{
+                    width: '16.875rem'
+                  }}
+                >
+                  Continuer en tant qu'invité
+                </button>
               </div>
             </div>
           ) : null}
-
+          <UpdatModal visible={this.state.visibleUpdate}>
+            <div
+              style={{
+                textAlign: 'right',
+                padding: '1.25rem',
+                paddingBottom: '0'
+              }}
+            >
+              <span
+                onClick={this.handleCancelUpdate}
+                className="rc-icon rc-close rc-iconography"
+                style={{ cursor: 'pointer' }}
+              />
+            </div>
+          </UpdatModal>
           {/* 预约时间 */}
           <div className="txt-centr" style={{ marginBottom: '10rem' }}>
             <div
@@ -939,7 +1041,7 @@ class Felin extends React.Component {
               <h3 style={{ marginBottom: '0.75rem' }}>Nous contacter</h3>
               {this.state.list.map((item, index) => {
                 return (
-                  <div>
+                  <div key={index}>
                     <button
                       className="accordion"
                       onClick={(e) => this.handleClick(e, index)}
@@ -979,7 +1081,7 @@ class Felin extends React.Component {
               </h3>
               {this.state.list.map((item, index) => {
                 return (
-                  <div>
+                  <div key={index}>
                     <button
                       className="accordion"
                       onClick={(e) => this.handleClick(e, index + 'a')}
@@ -1019,7 +1121,7 @@ class Felin extends React.Component {
               </h3>
               {this.state.list.map((item, index) => {
                 return (
-                  <div>
+                  <div key={index}>
                     <button
                       className="accordion"
                       onClick={(e) => this.handleClick(e, index + 'b')}

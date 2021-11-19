@@ -18,3 +18,10 @@ export function gitDict(params = {}) {
     data: params
   });
 }
+export function postSave(params = {}) {
+  return axios({
+    url: '/appt/save',
+    method: 'post',
+    data: params
+  });
+}
