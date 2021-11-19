@@ -90,7 +90,7 @@ export async function hanldePurchases(goodsInfoDTOList) {
 }
 
 export function stgShowAuth() {
-  // return true; // 放开用户限制
+  return true; // 放开用户限制
   // charles_dw@139.com fr sit  以及anhao的三个环境账号
   let whiteList = [
     'henri.thibaud@royalcanin.com',
@@ -1026,8 +1026,9 @@ export function judgeIsIndividual(item) {
 // uk和fr,才有postCode校验
 const countryPostCode = ['uk', 'fr'];
 const currentCountry = window.__.env.REACT_APP_COUNTRY;
-export const isCanVerifyBlacklistPostCode =
-  countryPostCode.includes(currentCountry);
+export const isCanVerifyBlacklistPostCode = countryPostCode.includes(
+  currentCountry
+);
 
 // 获取 Postal code alert message
 export async function getAddressPostalCodeAlertMessage() {
