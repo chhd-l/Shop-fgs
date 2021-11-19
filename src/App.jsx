@@ -197,9 +197,9 @@ const DedicatedLandingPage = loadable(() =>
 // const Felin = loadable(() =>
 //   import('@/views/Felin')
 // );
-// const FelinRecommendation = loadable(() =>
-//   import('@/views/FelinRecommendation')
-// );
+const FelinRecommendation = loadable(() =>
+  import('@/views/FelinRecommendation')
+);
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -734,11 +734,11 @@ const App = () => {
                   )}
                 />
                 <Route exact sensitive path="/FAQ" component={Exception} />
-                {/* <Route
+                <Route
                   path="/FelinRecommendation/:id"
                   component={FelinRecommendation}
                 />
-                <Route path="/latelier/felin" component={Felin} /> */}
+                {/* <Route path="/latelier/felin" component={Felin} /> */}
                 <Route
                   path="/"
                   render={(props) => {
