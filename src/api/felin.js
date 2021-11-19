@@ -25,3 +25,10 @@ export function postSave(params = {}) {
     data: params
   });
 }
+export function postUpdate(params = {}) {
+  return axios({
+    url: '/appt/update',
+    method: 'post',
+    data: params
+  });
+}

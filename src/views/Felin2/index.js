@@ -28,7 +28,7 @@ import close from './image/close.png';
 import LazyLoad from 'react-lazyload';
 import Rate from '../../components/Rate';
 import WeekCalender from './week/week-calender';
-import { gitDict, postSave, queryDate } from '../../api/felin';
+import { gitDict, postSave, postUpdate, queryDate } from '../../api/felin';
 import moment from 'moment';
 import LoginButton from '@/components/LoginButton';
 
@@ -130,7 +130,8 @@ class Felin extends React.Component {
         endTime: '',
         employeeIds: []
       },
-      userInfo: undefined
+      userInfo: undefined,
+      appointmentNo: ''
     };
   }
 
@@ -154,6 +155,10 @@ class Felin extends React.Component {
     this.setState({
       visible: false
     });
+  };
+  gotoAdd = () => {
+    let anchorElement = document.getElementById('experts');
+    window.scrollTo(0, anchorElement.offsetTop - window.innerHeight / 2);
   };
   goto = () => {
     let anchorElement = document.getElementById('faq');
@@ -240,9 +245,9 @@ class Felin extends React.Component {
   postSave = async () => {
     const { context } = await postSave({
       apptTypeId: this.state.params.appointmentTypeId,
-      consumerName: this.state.userInfo?.lastName || undefined,
+      consumerName: this.state.userInfo?.contactName || undefined,
       consumerFirstName: this.state.userInfo?.firstName || undefined,
-      consumerLastName: this.state.userInfo?.contactName || undefined,
+      consumerLastName: this.state.userInfo?.lastName || undefined,
       consumerEmail: this.state.userInfo?.communicationEmail || undefined,
       consumerPhone: this.state.userInfo?.communicationPhone || undefined,
       customerId: this.state.userInfo?.customerId || undefined,
@@ -259,6 +264,7 @@ class Felin extends React.Component {
         this.props.history.push('/checkout');
       } else {
         this.setState({
+          appointmentNo: appointmentNo,
           fourShow: false,
           fiveShow: true
         });
@@ -375,6 +381,26 @@ class Felin extends React.Component {
       visibleUpdate: false
     });
   };
+  handleUpdate = (params) => {
+    console.log(params);
+  };
+  postUpdate = async (params) => {
+    const { context } = await postUpdate({
+      appointmentNo: this.state.appointmentNo,
+      apptTypeId: this.state.params.appointmentTypeId,
+      consumerName: this.state.userInfo?.lastName || undefined,
+      consumerFirstName: params.firstName,
+      consumerLastName: params.lastName,
+      consumerEmail: params.email,
+      consumerPhone: params.phone,
+      customerId: this.state.userInfo?.customerId || undefined,
+      customerLevelId: this.state.userInfo?.customerId ? 234 : 233, // 233未登录 234登陆
+      bookSlotVO: this.state.bookSlotVO,
+      minutes: this.state.params.minutes,
+      expertTypeId: this.state.params.expertTypeId,
+      serviceTypeId: 6
+    });
+  };
   render() {
     let appointName = {
       Online: 'Appel video',
@@ -402,6 +428,7 @@ class Felin extends React.Component {
         return <img src={open} alt="" />;
       }
     };
+
     return (
       <div>
         <Helmet>
@@ -430,6 +457,7 @@ class Felin extends React.Component {
                 dédiée à la santé et au bien-être de votre chat
               </div>
               <button
+                onClick={this.gotoAdd}
                 className="rc-btn rc-btn--one  rc-margin-bottom--xs"
                 style={{
                   width: '16.875rem'
@@ -487,7 +515,7 @@ class Felin extends React.Component {
           </div>
           {/* 默认页面 */}
           {this.state.isShow ? (
-            <div>
+            <div id="experts">
               <div className="size24 txt-centr">
                 Réservez un rendez-vous avec un de nos experts
               </div>
@@ -767,7 +795,7 @@ class Felin extends React.Component {
             </div>
           ) : null}
           {/* 第五步 */}
-          {!this.state.fiveShow ? (
+          {this.state.fiveShow && !this.state.userInfo ? (
             <div>
               <div className="size24 js-center mb28">
                 <img src={five} alt="" className="mr10" />
@@ -835,7 +863,10 @@ class Felin extends React.Component {
               </div>
             </div>
           ) : null}
-          <UpdatModal visible={this.state.visibleUpdate}>
+          <UpdatModal
+            visible={this.state.visibleUpdate}
+            handleUpdate={this.handleUpdate}
+          >
             <div
               style={{
                 textAlign: 'right',
