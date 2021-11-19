@@ -59,7 +59,13 @@ const LongBanner = () => {
                   <sup style={{ color: '#666666', fontSize: 13, top: '-1em' }}>
                     [1]
                   </sup>
-                  <p style={{ color: '#555555', fontSize: '0.7em' }}>
+                  <p
+                    style={{
+                      color: '#555555',
+                      fontSize: '0.7em',
+                      marginBottom: '0.5rem'
+                    }}
+                  >
                     <FormattedMessage id="PreciseCatNutrition.LongBanner.averagePrice3" />
                   </p>
                   <a
@@ -73,7 +79,7 @@ const LongBanner = () => {
                   >
                     <button
                       style={{
-                        padding: '0 30px'
+                        padding: '0 55px'
                       }}
                       className="rc-btn rc-btn--one "
                     >
@@ -82,12 +88,20 @@ const LongBanner = () => {
                   </a>
 
                   <p
-                    style={{ fontSize: '16px', color: '#4A4A4A', margin: '0' }}
+                    style={{
+                      fontSize: '16px',
+                      color: '#4A4A4A',
+                      margin: '5px 0 0 0'
+                    }}
                   >
                     SANS ENGAGEMENT
                   </p>
                   <p
-                    style={{ fontSize: '16px', color: '#4A4A4A', margin: '0' }}
+                    style={{
+                      fontSize: '16px',
+                      color: '#4A4A4A',
+                      margin: isMobile ? '0' : '-12px 0 0 0'
+                    }}
                   >
                     Des livraisons mensuelles offertes et flexibles, résiliables
                     en quelques clics

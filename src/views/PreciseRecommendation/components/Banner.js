@@ -15,6 +15,8 @@ import product3 from '../image/product3.png';
 import product4 from '../image/product4.png';
 import lefticon from '../image/lefticon.png';
 import righticon from '../image/righticon.png';
+import productback1 from '../image/productBack1.png';
+import productImage2 from '../image/productImage2.png';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -76,7 +78,7 @@ const BannerFour = ({ intl }) => {
 
 const bannerProductList = [
   {
-    imageSrc: product1,
+    imageSrc: productback1,
     imageCurrent: 0
   },
   {
@@ -99,7 +101,7 @@ const bannerProductDetailList = [
     imageCurrent: 0
   },
   {
-    imageSrc: productImg,
+    imageSrc: productImage2,
     imageCurrent: 1
   },
   {
@@ -120,7 +122,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
   const [loading, setLoading] = useState(false);
   const [addCartBtnStatus, setAddCartBtnStatus] = useState(false);
 
-  const [imageCurrent, setImageCurrent] = useState(1);
+  const [imageCurrent, setImageCurrent] = useState(0);
 
   useEffect(() => {
     if (!recommData.totalPackWeight) {
@@ -255,13 +257,14 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                           <img
                             src={bannerProductDetailList[imageCurrent].imageSrc}
                             // src={productImg}
+                            style={{ height: '341px' }}
                           />
                         </LazyLoad>
                         <div className="row">
                           <div
                             className="col-1 flex align-self-center"
                             onClick={() => {
-                              if (imageCurrent > 1) {
+                              if (imageCurrent > 0) {
                                 setImageCurrent(imageCurrent - 1);
                               } else {
                                 setImageCurrent(3);
