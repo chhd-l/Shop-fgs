@@ -156,7 +156,12 @@ let clubListDataNew = [
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
   {
-    text: <FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon5'} />,
+    text: (
+      <FormattedMessage
+        id={'ClubLP.SubscriptionBenefitsNew.icon5'}
+        values={{ val1: null, val2: null }}
+      />
+    ),
     img: phoneicon,
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
@@ -455,8 +460,9 @@ const GoodsDetailTabs = function (props) {
     );
 
     let packProducts = ['BP04', 'BP07', 'BP06', 'BP05', 'BP02', 'BP01', 'BP03'];
-    let goodsNo =
-      location.pathname.split('-')[location.pathname.split('-').length - 1];
+    let goodsNo = location.pathname.split('-')[
+      location.pathname.split('-').length - 1
+    ];
     tmpGoodsDescriptionDetailList = tmpGoodsDescriptionDetailList
       .map((g) => {
         let ret = g.content;
