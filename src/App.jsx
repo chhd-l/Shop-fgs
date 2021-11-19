@@ -724,10 +724,10 @@ const App = () => {
                   )}
                 />
                 <Route exact sensitive path="/FAQ" component={Exception} />
-                {/* <Route*/}
-                {/*  path="/FelinRecommendation/:id"*/}
-                {/*  component={FelinRecommendation}*/}
-                {/*/>*/}
+               <Route
+                path="/FelinRecommendation/:id"
+                component={FelinRecommendation}
+                />
                 <Route path="/felin" component={Felin} />
                 <Route
                   path="/"
