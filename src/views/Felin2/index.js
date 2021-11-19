@@ -382,13 +382,13 @@ class Felin extends React.Component {
     });
   };
   handleUpdate = (params) => {
-    console.log(params);
+    this.postUpdate(params);
   };
   postUpdate = async (params) => {
     const { context } = await postUpdate({
       appointmentNo: this.state.appointmentNo,
       apptTypeId: this.state.params.appointmentTypeId,
-      consumerName: this.state.userInfo?.lastName || undefined,
+      consumerName: params.firstName + ' ' + params.lastName,
       consumerFirstName: params.firstName,
       consumerLastName: params.lastName,
       consumerEmail: params.email,
