@@ -193,9 +193,9 @@ const DedicatedLandingPage = loadable(() =>
 const Felin = loadable(() =>
   import('@/views/Felin2')
 );
-// const FelinRecommendation = loadable(() =>
-//   import('@/views/FelinRecommendation')
-// );
+const FelinRecommendation = loadable(() =>
+  import('@/views/FelinRecommendation')
+);
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
