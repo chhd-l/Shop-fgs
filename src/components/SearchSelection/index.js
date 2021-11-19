@@ -74,8 +74,8 @@ class SearchSelection extends React.Component {
       form.pageNum = 0;
       this.setState(
         {
-          form: form,
-          optionList: []
+          form: form
+          // optionList: []
         },
         () => {
           if (this.props.freeText) {
@@ -186,7 +186,7 @@ class SearchSelection extends React.Component {
         pageNum: form.pageNum
       });
       this.setState({
-        optionList: optionList.concat(...res),
+        optionList: res,
         loadingList: false,
         searchForNoResult: res.length > 0
       });
@@ -242,12 +242,12 @@ class SearchSelection extends React.Component {
                 : 'rc-input rc-input--full-width rc-margin-y--xs'
             } searchSelection`}
             onBlur={() => {
-              setTimeout(() => {
-                this.setState({
-                  optionList: [],
-                  optionPanelVisible: false
-                });
-              }, 500);
+              // setTimeout(() => {
+              //   this.setState({
+              //     optionList: [],
+              //     optionPanelVisible: false
+              //   });
+              // }, 500);
             }}
           >
             {this.props.prefixIcon}
@@ -277,7 +277,7 @@ class SearchSelection extends React.Component {
                       className={`clinic-item pl-2 pr-2 ${
                         idx !== optionList.length - 1 ? 'border-bottom' : ''
                       }`}
-                      key={idx}
+                      key={item.label}
                       onClick={(e) => this.handleClickClinicItem(e, item)}
                     >
                       {item.name}
