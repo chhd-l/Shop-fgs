@@ -859,6 +859,7 @@ const en_US = {
   loginFailed: 'login failed',
   logisticsCompany: 'Logistics company',
   logisticsRating: 'Logistics rating',
+  expertAdvice: 'Expert advice',
   logisticsSingleNumber: 'Logistics single number',
   logOff: 'Logout',
   mailAddress: 'Mail address',
