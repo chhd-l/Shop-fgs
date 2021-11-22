@@ -23,7 +23,7 @@ import {
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import { batchAdd } from '@/api/payment';
-import { getOrderList, getOrderDetails } from '@/api/order';
+import { getOrderList, cancelAppointByNo } from '@/api/order';
 import orderImg from './img/order.jpg';
 import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
@@ -31,14 +31,12 @@ import base64 from 'base-64';
 import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { filterOrderId } from '@/utils/utils';
-
 import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-
 const pageLink = window.location.href;
-let isIndv = false;
+
 @inject('checkoutStore')
 @injectIntl
 @observer
@@ -134,7 +132,6 @@ class AccountOrders extends React.Component {
     });
   }
   handleDuringTimeChange = (data) => {
-    // console.log("获取当前选择的天气",data,this.state.form.period)
     const { form } = this.state;
     form.period = data.value;
     this.setState(
@@ -182,7 +179,6 @@ class AccountOrders extends React.Component {
           const tradeState = ele.tradeState;
           ele.tradeItems.forEach((el) => {
             el.spuName = judgeIsIndividual(el) ? (
-              // ? `${el.petsName}'s personalized subscription`
               <FormattedMessage
                 id="subscription.personalized"
                 values={{ val1: el.petsName }}
@@ -191,11 +187,6 @@ class AccountOrders extends React.Component {
               el.spuName
             );
           });
-          console.log('orderCategory:', ele.orderCategory);
-          console.log(
-            'isnotIndv:',
-            !ele.tradeItems?.find((el) => el.goodsInfoFlag == 3)
-          );
           // orderCategory为RECURRENT_AUTOSHIP为refill订单，需要隐藏repay按钮
           // goodsInfoFlag=3是indv的商品，需要隐藏加入购物车这个按钮
           return Object.assign(ele, {
@@ -220,11 +211,27 @@ class AccountOrders extends React.Component {
               ele.payWay.toUpperCase() === 'OXXO',
             payNowLoading: false,
             canRePurchase:
+              ele.orderType !== 'FELINE_ORDER' &&
               !ele.tradeItems?.find((el) => el.goodsInfoFlag == 3) &&
               (tradeState.flowState === 'COMPLETED' ||
                 tradeState.flowState === 'VOID'),
             canReview:
               !!+window.__.env.REACT_APP_PDP_RATING_VISIBLE &&
+              ele.orderType !== 'ORDER_SERVICE' &&
+              tradeState.flowState === 'COMPLETED' &&
+              !ele.storeEvaluateVO,
+            canChangeAppoint:
+              ele.orderType === 'FELINE_ORDER' &&
+              tradeState.flowState !== 'COMPLETED' &&
+              tradeState.flowState !== 'VOID' &&
+              tradeState.payState === 'PAID',
+            canCancelAppoint:
+              ele.orderType === 'FELINE_ORDER' &&
+              tradeState.flowState !== 'COMPLETED' &&
+              tradeState.flowState !== 'VOID' &&
+              tradeState.payState === 'PAID',
+            canReviewService:
+              ele.orderType === 'FELINE_ORDER' &&
               tradeState.flowState === 'COMPLETED' &&
               !ele.storeEvaluateVO,
             canViewTrackInfo:
@@ -306,46 +313,6 @@ class AccountOrders extends React.Component {
       };
     });
     try {
-      const detailRes = await getOrderDetails(order.id);
-      const detailResCt = detailRes.context;
-      const tmpDeliveryAddress = {
-        firstName: detailResCt.consignee.firstName,
-        lastName: detailResCt.consignee.lastName,
-        address1: detailResCt.consignee.detailAddress1,
-        address2: detailResCt.consignee.detailAddress2,
-        rfc: detailResCt.consignee.rfc,
-        country: detailResCt.consignee.countryId
-          ? detailResCt.consignee.countryId.toString()
-          : '',
-        // city: detailResCt.consignee.cityId ? detailResCt.consignee.cityId.toString() : '',
-        city:
-          detailResCt.consignee.city == detailResCt.consignee.cityName
-            ? null
-            : detailResCt.consignee.city,
-        cityName: detailResCt.consignee.cityName,
-        postCode: detailResCt.consignee.postCode,
-        phoneNumber: detailResCt.consignee.phone,
-        addressId: detailResCt.consignee.id
-      };
-      const tmpBillingAddress = {
-        firstName: detailResCt.invoice.firstName,
-        lastName: detailResCt.invoice.lastName,
-        address1: detailResCt.invoice.address1,
-        address2: detailResCt.invoice.address2,
-        rfc: detailResCt.invoice.rfc,
-        country: detailResCt.invoice.countryId
-          ? detailResCt.invoice.countryId.toString()
-          : '',
-        // city: detailResCt.invoice.cityId ? detailResCt.invoice.cityId.toString() : '',
-        city:
-          detailResCt.invoice.city == detailResCt.invoice.cityName
-            ? null
-            : detailResCt.invoice.city,
-        cityName: detailResCt.invoice.cityName,
-        postCode: detailResCt.invoice.postCode,
-        phoneNumber: detailResCt.invoice.phone,
-        addressId: detailResCt.invoice.addressId
-      };
       this.props.checkoutStore.setLoginCartData(tradeItems);
       sessionItemRoyal.set('rc-tid', order.id);
       sessionItemRoyal.set('rc-rePaySubscribeId', order.subscribeId);
@@ -359,7 +326,6 @@ class AccountOrders extends React.Component {
         promotionDiscount: order.tradePrice.deliveryPrice,
         subscriptionPrice: order.tradePrice.subscriptionPrice
       });
-
       this.props.history.push('/checkout');
       order.payNowLoading = false;
     } catch (err) {
@@ -369,10 +335,7 @@ class AccountOrders extends React.Component {
       this.setState({ orderList });
     }
   }
-  rePurchase(order) {
-    this.hanldeLoginAddToCart(order);
-  }
-  async hanldeLoginAddToCart(order) {
+  async rePurchase(order) {
     try {
       const { orderList } = this.state;
       order.addToCartLoading = true;
@@ -394,6 +357,18 @@ class AccountOrders extends React.Component {
       order.addToCartLoading = false;
     }
   }
+  async cancelAppoint(order) {
+    try {
+      const { orderList } = this.state;
+      order.cancelAppointLoading = true;
+      this.setState({ orderList: orderList });
+      await cancelAppointByNo({ apptNo: order.appointmentNo });
+      this.queryOrderList();
+    } catch (err) {
+    } finally {
+      order.cancelAppointLoading = false;
+    }
+  }
   changeTab(i) {
     this.setState(
       {
@@ -410,6 +385,7 @@ class AccountOrders extends React.Component {
     );
   }
   handleClickCardItem(item) {
+    console.log(this.deviceType);
     if (this.deviceType === 'PC') return false;
     this.props.history.push(`/account/orders/detail/${item.id}`);
     return false;
@@ -464,6 +440,7 @@ class AccountOrders extends React.Component {
             </button>
           </>
         ) : null}
+        {/*普通产品评论*/}
         {order.canReview ? (
           <button className="rc-btn rc-btn--sm rc-btn--two ord-list-operation-btn">
             <FormattedMessage id="writeReview">
@@ -478,6 +455,52 @@ class AccountOrders extends React.Component {
                 </Link>
               )}
             </FormattedMessage>
+          </button>
+        ) : null}
+        {/*服务类产品评论*/}
+        {order.canReviewService ? (
+          <button className="rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order">
+            <FormattedMessage id="writeReview">
+              {(txt) => (
+                <Link
+                  className="color-fff"
+                  to={`/account/productReviewService/${order.id}`}
+                  title={txt}
+                  alt={txt}
+                >
+                  {txt}
+                </Link>
+              )}
+            </FormattedMessage>
+          </button>
+        ) : null}
+        {/*felin订单change appoint*/}
+        {order.canChangeAppoint ? (
+          <button
+            className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order color-fff`}
+          >
+            <FormattedMessage id="Change Appointment">
+              {(txt) => (
+                <Link
+                  className="color-fff"
+                  to={`/felin/${order.id}`}
+                  title={txt}
+                  alt={txt}
+                >
+                  {txt}
+                </Link>
+              )}
+            </FormattedMessage>
+          </button>
+        ) : null}
+        {/*felin订单cancel appoint*/}
+        {order.canCancelAppoint ? (
+          <button
+            className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order`}
+            style={{ marginLeft: 0 }}
+            onClick={this.cancelAppoint.bind(this, order)}
+          >
+            <FormattedMessage id="Cancel Appointment" />
           </button>
         ) : null}
         {order.canRePurchase ? (
@@ -639,7 +662,7 @@ class AccountOrders extends React.Component {
                   </>
                 ) : (
                   <>
-                    <div className="row mb-3 ml-2 m-md-0">
+                    <div className="row mb-3 m-md-0" style={{ margin: 0 }}>
                       <div className="col-12 rc-md-down">
                         <Link to="/account">
                           <span className="red">&lt;</span>
@@ -672,7 +695,7 @@ class AccountOrders extends React.Component {
                         </ul>
                       </div>
 
-                      <div className="col-10 order-0 order-md-1 col-md-4">
+                      <div className="col-12 order-0 order-md-1 col-md-4">
                         <div className="rc-select rc-full-width rc-input--full-width rc-select-processed mt-0 mb-2 mb-md-0">
                           <Selection
                             optionList={duringTimeOptions}
@@ -714,7 +737,6 @@ class AccountOrders extends React.Component {
                                 (item) =>
                                   (item.subscriptionPlanId || []).length > 0
                               );
-                              console.info('isGift', isGift);
                               return (
                                 <div
                                   className="card-container"
@@ -919,7 +941,6 @@ class AccountOrders extends React.Component {
                                           <div className="col-8 col-md-6">
                                             <span className="medium color-444 ui-text-overflow-line2">
                                               {judgeIsIndividual(item) ? (
-                                                // ? (item.petsName || 'Your pet') + "'s personalized subscription"
                                                 <FormattedMessage
                                                   id="subscription.personalized"
                                                   values={{
@@ -932,6 +953,14 @@ class AccountOrders extends React.Component {
                                             </span>
                                             {judgeIsIndividual(item) ? (
                                               <span>{item.specDetails}</span>
+                                            ) : order.orderType ===
+                                              'FELINE_ORDER' ? (
+                                              <span>
+                                                {order.specialistType} –{' '}
+                                                {order.appointmentTime}
+                                                <FormattedMessage id="min" /> –
+                                                {order.appointmentType}
+                                              </span>
                                             ) : (
                                               <FormattedMessage
                                                 id="order.quantityText"
@@ -973,7 +1002,10 @@ class AccountOrders extends React.Component {
                                         <div className="rc-md-up">
                                           {this.renderOperationBtns(order)}
                                         </div>
-                                        <span className="rc-icon rc-right rc-iconography rc-md-down ord-list-operation-btn" />
+                                        <span
+                                          className="iconfont iconjiantouyou1 bold rc-md-down"
+                                          style={{ fontSize: '20px' }}
+                                        />
                                       </div>
                                     )}
                                     {/* {order.subscribeId && !isGift ? (

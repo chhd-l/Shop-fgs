@@ -5,9 +5,11 @@ import {
   getDictionary,
   matchNamefromDict,
   getDeviceType,
-  getFormatDate
+  getFormatDate,
+  handleFelinAppointTime
 } from '@/utils/utils';
 import { format } from 'date-fns-tz';
+
 @inject('configStore')
 @observer
 class InfosPreview extends React.Component {
@@ -40,6 +42,14 @@ class InfosPreview extends React.Component {
       this.setState({ orderArr: ['order1', 'order3', 'order2'] });
     }
   };
+  handleFelinOrderDate = (appointmentDate) => {
+    const orderTime = handleFelinAppointTime(appointmentDate);
+    return (
+      orderTime.appointStartTime +
+      ' - ' +
+      orderTime.appointEndTime.split(' ')[1]
+    );
+  };
   render() {
     const { payRecord, details } = this.props;
     // 获取本地存储的需要显示的地址字段
@@ -47,8 +57,33 @@ class InfosPreview extends React.Component {
     return (
       <div style={{ padding: '0 .9375rem' }}>
         <div className="row rc-bg-colour--brand3 pt-3 pb-3 text-break">
+          {/*Felin Appointment summary*/}
+          {details.orderType === 'FELINE_ORDER' ? (
+            <div className="col-12 col-md-6 mb-3">
+              <div className="bold mt-1 mb-1" style={{ color: '#666' }}>
+                <FormattedMessage id="Appointment summary" />
+              </div>
+              <div className="d-flex flex-column">
+                <span>
+                  <FormattedMessage id="Expert type" />
+                  {details.specialistType}
+                </span>
+                <span>
+                  <FormattedMessage id="Appointment type" />
+                  {details.appointmentType}
+                </span>
+                <span>
+                  <FormattedMessage id="Appointment time" />
+                </span>
+                <span>
+                  {this.handleFelinOrderDate(details.appointmentDate)}
+                </span>
+              </div>
+            </div>
+          ) : null}
+
           {/* {JSON.stringify(details.consignee)} */}
-          {details ? (
+          {details && details.orderType !== 'FELINE_ORDER' ? (
             <div
               className={[
                 'col-12',
@@ -191,7 +226,10 @@ class InfosPreview extends React.Component {
             </div>
           ) : null}
           {/* {JSON.stringify(details.invoice)} */}
-          {details && !this.props.hideBillingAddr ? (
+          {details &&
+          !this.props.hideBillingAddr &&
+          details.invoice &&
+          details.orderType !== 'FELINE_ORDER' ? (
             <div
               className={[
                 'col-12',
