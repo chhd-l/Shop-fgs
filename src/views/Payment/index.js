@@ -306,16 +306,16 @@ class Payment extends React.Component {
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
     this.cyberRef = React.createRef();
-    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
-      this
-    );
+    this.confirmListValidationAddress =
+      this.confirmListValidationAddress.bind(this);
   }
   //cyber查询卡类型-会员
   queryCyberCardType = async (params) => {
     try {
-      const res = await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
-        params
-      );
+      const res =
+        await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
+          params
+        );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -326,9 +326,10 @@ class Payment extends React.Component {
   //cyber查询卡类型-游客
   queryGuestCyberCardType = async (params) => {
     try {
-      const res = await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
-        params
-      );
+      const res =
+        await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
+          params
+        );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -633,14 +634,14 @@ class Payment extends React.Component {
     const { tid, isFromFelin } = this.state;
 
     //初始化的时候如果是0元订单将paymentMethod面板置为已完成
-    if (this.tradePrice === 0 && !tid && !this.state.appointNo) {
+    if (this.tradePrice === 0 && !tid) {
       paymentStore.setStsToCompleted({
         key: 'paymentMethod'
       });
     }
 
-    //from felin情况下，地址信息不可编辑，直接置为completed
-    if (isFromFelin) {
+    //repay或者from felin情况下，地址信息不可编辑，直接置为completed
+    if (isFromFelin || tid) {
       paymentStore.setStsToCompleted({
         key: 'deliveryAddr',
         isFirstLoad: true
@@ -657,24 +658,6 @@ class Payment extends React.Component {
         });
         paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
       }
-    }
-
-    // repay或者from felin情况下，地址信息不可编辑，直接置为completed
-    if (tid) {
-      paymentStore.setStsToCompleted({
-        key: 'deliveryAddr',
-        isFirstLoad: true
-      });
-      paymentStore.setStsToCompleted({
-        key: 'billingAddr',
-        isFirstLoad: true
-      });
-      // 下一个最近的未complete的panel
-      const nextConfirmPanel = searchNextConfirmPanel({
-        list: toJS(paymentStore.panelStatus),
-        curKey: 'deliveryAddr'
-      });
-      paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
     }
   }
   updateSelectedCardInfo = (data) => {
@@ -1011,6 +994,7 @@ class Payment extends React.Component {
     ...otherParams
   }) {
     const { selectedCardInfo } = this.state;
+    console.log('selectedCardInfo', selectedCardInfo);
     parameters = Object.assign({}, commonParameter, {
       payPspItemEnum,
       country,
@@ -1226,7 +1210,7 @@ class Payment extends React.Component {
       if (!this.state.tid) {
         await this.valideCheckoutLimitRule();
       }
-      const commonParameter = this.packagePayParam();
+      const commonParameter = await this.packagePayParam();
       let phone = this.state.billingAddress?.phoneNumber; //获取电话号码
       return new Promise((resolve) => {
         resolve({ commonParameter, phone });
@@ -1240,7 +1224,7 @@ class Payment extends React.Component {
   async doGetAdyenPayParam(type) {
     try {
       let parameters = await this.getAdyenPayParam(type);
-      console.log('666 获取参数: ', parameters);
+      // console.log('666 获取参数: ', parameters);
       await this.allAdyenPayment(parameters, type);
     } catch (err) {
       console.warn(err);
@@ -1406,6 +1390,7 @@ class Payment extends React.Component {
 
       /* 4)调用支付 */
       const res = await action(parameters);
+
       const { tidList } = this.state;
       let orderNumber; // 主订单号
       let subOrderNumberList = []; // 拆单时，子订单号
@@ -2719,9 +2704,10 @@ class Payment extends React.Component {
     const unLoginCyberSaveCard = async (params) => {
       // console.log('2080 params: ', params);
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -2733,9 +2719,10 @@ class Payment extends React.Component {
     //cyber会员绑卡
     const loginCyberSaveCard = async (params) => {
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -3523,9 +3510,8 @@ class Payment extends React.Component {
   };
   petComfirm = (data) => {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[
-        this.state.currentProIndex
-      ].petForm = data;
+      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
+        data;
     } else {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {
@@ -3613,9 +3599,8 @@ class Payment extends React.Component {
   clickPay = () => {
     if (this.tradePrice === 0 && this.isCurrentBuyWaySubscription) {
       //0元订单中含有订阅商品时不能下单
-      const errMsg = this.props.intl.messages[
-        'checkout.zeroOrder.butSubscription'
-      ];
+      const errMsg =
+        this.props.intl.messages['checkout.zeroOrder.butSubscription'];
       this.showErrorMsg(errMsg);
       return;
     }
