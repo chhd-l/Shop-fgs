@@ -1370,7 +1370,7 @@ class Payment extends React.Component {
         isRepay,
         this.isLogin,
         this.state.subForm.buyWay,
-        Boolean(sessionItemRoyal.get('from-felin'))
+        this.state.isFromFelin
       );
 
       /* 4)调用支付 */
