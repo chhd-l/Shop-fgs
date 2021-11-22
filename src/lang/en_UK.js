@@ -858,6 +858,7 @@ const en_US = {
   loginFailed: 'login failed',
   logisticsCompany: 'Logistics company',
   logisticsRating: 'Logistics rating',
+  expertAdvice: 'Expert advice',
   logisticsSingleNumber: 'Logistics single number',
   logOff: 'Log out',
   mailAddress: 'Mail address',
@@ -1820,6 +1821,23 @@ const en_US = {
   'list.viewFilters': 'View filters',
   'list.closeFilters': 'Close filters',
   BacktoSavedPayments: 'Return to saved payment',
-  'order.goodwillOrder': '[Goodwill order]'
+  'order.goodwillOrder': '[Goodwill order]',
+  'header.User.alreadyRegistered': 'Already registered?',
+  'header.User.newUser': 'New user?',
+  'header.User.registerNow': 'Register now',
+  'salesCategory.cat': 'For cat',
+  'salesCategory.dog': 'For dog',
+  'salesCategory.content':
+    'Each formula has been formulated to provide nutrition that meets health needs based on size, breed, age or lifestyle.',
+  'salesCategory.title': 'Discover our food ranges',
+  'account.deleteMyaccountDesc':
+    'In this case, you will not be able to use the ROYAL CANIN® services. Access to the Club program and subscription to veterinary diets will be closed, and the purchase history will be deleted.',
+  'account.deleteMyaccountTitle': 'Delete account',
+  proceedToTheDeletion: 'Delete my account',
+  'header.User.home': 'Personal Area',
+  'header.User.myPersonalInformation': 'Profile',
+  'header.User.pets': 'Pets',
+  'header.User.myOrders': 'Orders',
+  'header.User.mySubscriptions': 'Feed subscriptions'
 };
 export default en_US;

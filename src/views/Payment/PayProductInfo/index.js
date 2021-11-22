@@ -17,7 +17,6 @@ import { isFirstOrder } from '@/api/user';
 const guid = uuidv4();
 let isGACheckoutLock = false;
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
-
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 @inject(
@@ -73,9 +72,10 @@ class PayProductInfo extends React.Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     let productList;
     if (
-      JSON.stringify(nextProps.data) !==
+      (JSON.stringify(nextProps.data) !==
         JSON.stringify(this.state.productList) &&
-      this.props.data.length
+        this.props.data.length) ||
+      sessionItemRoyal.get('from-felin')
     ) {
       productList = nextProps.data;
       this.setState(
@@ -201,7 +201,6 @@ class PayProductInfo extends React.Component {
         (ele) => ele.selected
       );
     }
-    // productList.map(el=>{el.goodsInfoFlag=3})
     this.setState(
       Object.assign({
         productList: productList || []
@@ -323,16 +322,10 @@ class PayProductInfo extends React.Component {
     return List;
   }
   isSubscription(el) {
-    // goodsInfoFlag =3作为indv 不需要展示划线价格
     return el.goodsInfoFlag && el.goodsInfoFlag != 3;
   }
   handleClickProName(item) {
     sessionItemRoyal.set('recomment-preview', this.props.location.pathname);
-    // this.props.history.push(
-    //   `/details/${
-    //     this.isLogin ? item.goodsInfoId : item.sizeList[0].goodsInfoId
-    //   }`
-    // );
     this.props.history.push(
       `/${item.goodsName.toLowerCase().split(' ').join('-').replace('/', '')}-${
         item.goodsNo
@@ -346,6 +339,7 @@ class PayProductInfo extends React.Component {
       let recommendateInfo = JSON.parse(paramsString);
       IndvPetInfo = recommendateInfo.customerPetsVo;
     }
+    const isFromFelin = sessionItemRoyal.get('from-felin');
     // 线下店数量展示和正常流程有区别
     let orderSource = sessionItemRoyal.get('orderSource');
     const List = plist.map((el, i) => {
@@ -365,8 +359,7 @@ class PayProductInfo extends React.Component {
                   <div
                     className="line-item-name ui-text-overflow-line2 text-break"
                     title={
-                      el?.goodsInfoFlag == 3 ? (
-                        // ? `${IndvPetInfo?.name}'s personalized subscription`
+                      el?.goodsInfoFlag === 3 ? (
                         <FormattedMessage
                           id="subscription.personalized"
                           values={{ val1: IndvPetInfo?.name }}
@@ -377,8 +370,7 @@ class PayProductInfo extends React.Component {
                     }
                   >
                     <span className="light 11111">
-                      {el?.goodsInfoFlag == 3 ? (
-                        // ? `${IndvPetInfo?.name}'s personalized subscription`
+                      {el?.goodsInfoFlag === 3 ? (
                         <FormattedMessage
                           id="subscription.personalized"
                           values={{ val1: IndvPetInfo?.name }}
@@ -398,44 +390,53 @@ class PayProductInfo extends React.Component {
                     ) : null}
                   </div>
                 </div>
-                <div className="d-flex align-items-center justify-content-between">
-                  <div
-                    className="line-item-total-price"
-                    style={{ width: '77%' }}
-                  >
-                    <p className="mb-0">
-                      {orderSource === 'L_ATELIER_FELIN' ? (
-                        `${10 * el.buyCount}g`
-                      ) : (
-                        <FormattedMessage
-                          id="quantityText"
-                          values={{
-                            specText:
-                              // el.goodsInfoFlag == 3
-                              //   ? (window.__.env.REACT_APP_COUNTRY == 'fr'
-                              //       ? (el.buyCount / 1000)
-                              //           .toString()
-                              //           .replace('.', ',')
-                              //       : el.buyCount / 1000) + ' kg '
-                              //   : el.specText,
-                              el.specText || '',
-                            buyCount: el.goodsInfoFlag == 3 ? 1 : el.buyCount
-                          }}
-                        />
-                      )}
-                    </p>
-                    {el.goodsInfoFlag ? (
-                      <p className="mb-0">
-                        <FormattedMessage id="subscription.frequency" />{' '}
-                        <FrequencyMatch currentId={el.periodTypeId} />
-                        {/* {el.goodsInfoFlag == 3 ? (
-                          '30 days'
-                        ) : (
-                          <FrequencyMatch currentId={el.periodTypeId} />
-                        )} */}
-                      </p>
-                    ) : null}
+                {isFromFelin ? (
+                  <div className="d-flex flex-column">
+                    <span>
+                      {el.expertName} – {el.minutes}
+                      <FormattedMessage id="min" /> – {el.appointType}
+                    </span>
+                    <span>
+                      <FormattedMessage id="Appointment time" />
+                    </span>
+                    <span>{el.appointStartTime}</span>
                   </div>
+                ) : null}
+
+                <div
+                  className={`${
+                    isFromFelin
+                      ? 'justify-content-end'
+                      : 'justify-content-between'
+                  } d-flex align-items-center`}
+                >
+                  {!isFromFelin ? (
+                    <div
+                      className="line-item-total-price"
+                      style={{ width: '77%' }}
+                    >
+                      <p className="mb-0">
+                        {orderSource === 'L_ATELIER_FELIN' ? (
+                          `${10 * el.buyCount}g`
+                        ) : (
+                          <FormattedMessage
+                            id="quantityText"
+                            values={{
+                              specText: el.specText,
+                              buyCount: el.goodsInfoFlag === 3 ? 1 : el.buyCount
+                            }}
+                          />
+                        )}
+                      </p>
+                      {el.goodsInfoFlag ? (
+                        <p className="mb-0">
+                          <FormattedMessage id="subscription.frequency" />{' '}
+                          <FrequencyMatch currentId={el.periodTypeId} />
+                        </p>
+                      ) : null}
+                    </div>
+                  ) : null}
+
                   <div className="line-item-total-price text-nowrap">
                     {this.isSubscription(el) ? (
                       <>
@@ -475,16 +476,6 @@ class PayProductInfo extends React.Component {
                         )
                       }}
                     />
-                    {/* <FormattedMessage id="confirmation.subscriptionDiscountPriceDes" values={{
-                      val1:(
-                        <span className="green">
-                          {formatMoney(
-                            el.buyCount * el.salePrice -
-                              el.buyCount * el.subscriptionPrice
-                          )}
-                        </span>
-                      )
-                    }}/> */}
                   </div>
                 ) : null}
               </div>
@@ -568,7 +559,6 @@ class PayProductInfo extends React.Component {
   getTotalItems() {
     const { headerIcon } = this.props;
     const { productList } = this.state;
-    console.info('productList', productList);
     let quantityKeyName = 'quantity';
     if (this.isLogin || this.props.data.length) {
       quantityKeyName = 'buyCount';
@@ -580,12 +570,12 @@ class PayProductInfo extends React.Component {
       >
         {headerIcon}
         <span className="medium">
-          {window.__.env.REACT_APP_COUNTRY == 'us' && this.props.isCheckOut ? (
+          {window.__.env.REACT_APP_COUNTRY === 'us' && this.props.isCheckOut ? (
             <FormattedMessage
               id="payment.totalProduct2"
               values={{
                 val:
-                  productList[0]?.goodsInfoFlag == 3
+                  productList[0]?.goodsInfoFlag === 3
                     ? 1
                     : productList.reduce(
                         (total, item) => total + item[quantityKeyName],
@@ -598,7 +588,8 @@ class PayProductInfo extends React.Component {
               id="payment.totalProduct"
               values={{
                 val:
-                  productList[0]?.goodsInfoFlag == 3
+                  productList[0]?.goodsInfoFlag === 3 ||
+                  sessionItemRoyal.get('from-felin')
                     ? 1
                     : productList.reduce(
                         (total, item) => total + item[quantityKeyName],
@@ -608,12 +599,23 @@ class PayProductInfo extends React.Component {
             />
           )}
         </span>
-        {/* goodsInfoFlag为3的时候是indv需要隐藏edit按钮 */}
+        {/*goodsInfoFlag为3的时候是indv需要隐藏edit按钮*/}
         {!localItemRoyal.get('rc-iframe-from-storepotal') &&
         this.props.operateBtnVisible &&
-        productList[0]?.goodsInfoFlag != 3 ? (
+        productList[0]?.goodsInfoFlag != 3 &&
+        !sessionItemRoyal.get('from-felin') ? (
           <Link to="/cart" className="product-summary__cartlink rc-styled-link">
             <FormattedMessage id="edit2" />
+          </Link>
+        ) : null}
+
+        {/* from-frlin的时候需要将edit换成re-book按钮 */}
+        {sessionItemRoyal.get('from-felin') ? (
+          <Link
+            to="/felin"
+            className="product-summary__cartlink rc-styled-link"
+          >
+            <FormattedMessage id="re-book" />
           </Link>
         ) : null}
       </div>
@@ -702,7 +704,6 @@ class PayProductInfo extends React.Component {
               </div>
               {isShowValidCode ? (
                 <div className="red" style={{ fontSize: '.875rem' }}>
-                  {/* Promotion code({this.state.lastPromotionInputValue}) is not Valid */}
                   <FormattedMessage id="validPromotionCode" />
                 </div>
               ) : null}
@@ -818,35 +819,6 @@ class PayProductInfo extends React.Component {
                     </p>
                   </div>
                 </div>
-                {/* 显示订阅折扣 */}
-                {/* <div
-                  className="row leading-lines shipping-item"
-                  style={{
-                    display:
-                      parseFloat(this.subscriptionPrice) > 0 ? 'flex' : 'none'
-                  }}
-                >
-                  <div className="col-7 start-lines">
-                    <p
-                      className="order-receipt-label order-shipping-cost"
-                      style={{ color: '#ec001a' }}
-                    >
-                      {this.promotionDesc || (
-                        <FormattedMessage id="promotion" />
-                      )}
-                    </p>
-                  </div>
-                  <div className="col-5 end-lines">
-                    <p className="text-right">
-                      <span
-                        className="shipping-total-cost red"
-                        style={{ color: '#ec001a' }}
-                      >
-                        - {formatMoney(this.subscriptionPrice)}
-                      </span>
-                    </p>
-                  </div>
-                </div> */}
                 {/* 显示 默认折扣 */}
                 <div
                   className={`row leading-lines shipping-item green ${
@@ -1058,12 +1030,6 @@ class PayProductInfo extends React.Component {
               {<FormattedMessage id="totalIncluMessage" />}
             </div>
           ) : null}
-
-          {/* {this.state.isShowValidCode ? (
-            <div className="red pl-3 pb-3 border-top pt-2">
-              Promotion code({this.state.lastPromotionInputValue}) is not Valid
-            </div>
-          ) : null} */}
         </div>
       </div>
     );

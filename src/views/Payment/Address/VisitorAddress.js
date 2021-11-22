@@ -16,6 +16,7 @@ import AddressPreview from './Preview';
 import './VisitorAddress.css';
 
 const localItemRoyal = window.__.localItemRoyal;
+const sessionItemRoyal = window.__.sessionItemRoyal;
 
 const sleep = (time) => {
   return new Promise((resolve) => {
@@ -273,7 +274,11 @@ class VisitorAddress extends React.Component {
           }`}
         />{' '}
         <span>
-          <FormattedMessage id="payment.deliveryTitle" />
+          {sessionItemRoyal.get('from-felin') ? (
+            <FormattedMessage id="Felin Address" />
+          ) : (
+            <FormattedMessage id="payment.deliveryTitle" />
+          )}
         </span>
       </>
     ) : (
@@ -310,13 +315,15 @@ class VisitorAddress extends React.Component {
           {this.titleJSX()}
           <span className="iconfont font-weight-bold green ml-2">&#xe68c;</span>
         </h5>
-        <p
-          onClick={this.handleClickEdit}
-          className="rc-styled-link mb-1"
-          style={{ cursor: 'pointer' }}
-        >
-          <FormattedMessage id="edit" />
-        </p>
+        {!sessionItemRoyal.get('from-felin') && (
+          <p
+            onClick={this.handleClickEdit}
+            className="rc-styled-link mb-1"
+            style={{ cursor: 'pointer' }}
+          >
+            <FormattedMessage id="edit" />
+          </p>
+        )}
       </>
     );
   };
@@ -522,7 +529,6 @@ class VisitorAddress extends React.Component {
         countryId: form.countryId,
         minDeliveryTime: pickupFormData.minDeliveryTime,
         maxDeliveryTime: pickupFormData.maxDeliveryTime,
-        workTime: pickupFormData.workTime,
         province: pkaddr?.region,
         provinceIdStr: pkaddr?.regionFias,
         provinceCode: pkaddr?.regionIsoCode,
