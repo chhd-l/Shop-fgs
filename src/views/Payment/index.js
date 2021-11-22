@@ -727,6 +727,11 @@ class Payment extends React.Component {
           langKey: 'adyenPayLater',
           paymentTypeVal: 'adyenKlarnaPayLater'
         },
+        adyen_paypal: {
+          name: 'adyen_paypal',
+          langKey: 'Paypal',
+          paymentTypeVal: 'adyenPaypal'
+        },
         directEbanking: {
           name: 'directEbanking',
           langKey: 'sofort',
@@ -3146,6 +3151,25 @@ class Payment extends React.Component {
                   />
                   {payConfirmBtn({
                     disabled: !EMAIL_REGEXP.test(email) || validForBilling
+                  })}
+                </>
+              )}
+              {/* adyen-paypal */}
+              {paymentTypeVal == 'adyenPaypal' && (
+                <>
+                  <Paypal
+                    billingJSX={this.renderBillingJSX({
+                      type: 'adyenCard'
+                    })}
+                  />
+                  {/* 校验状态
+                  1 卡校验，从adyen form传入校验状态
+                  2 billing校验 */}
+                  {payConfirmBtn({
+                    disabled: !validSts.adyenCard || validForBilling,
+                    loading: saveBillingLoading,
+                    aaa: validSts,
+                    bbb: validForBilling
                   })}
                 </>
               )}
