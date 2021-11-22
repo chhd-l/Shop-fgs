@@ -390,7 +390,11 @@ class Felin extends React.Component {
   postUpdate = async (params) => {
     const { code } = await postUpdate({
       ...this.state.appointmentVO,
-      ...params,
+      consumerName: params.firstName + ' ' + params.lastName,
+      consumerFirstName: params.firstName,
+      consumerLastName: params.lastName,
+      consumerEmail: params.email,
+      consumerPhone: params.phone,
       changeTimeBlock: false
     });
     if (code === 'K-000000') {
