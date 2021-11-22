@@ -1170,6 +1170,15 @@ class Payment extends React.Component {
             email
           });
         },
+        adyenPaypal: () => {
+          parameters = Object.assign(commonParameter, {
+            adyenType: 'paypal',
+            payPspItemEnum: 'ADYEN_PAYPAL',
+            shopperLocale: window.__.env.REACT_APP_SHOPPER_LOCALE,
+            currency: window.__.env.REACT_APP_CURRENCY,
+            country: window.__.env.REACT_APP_Adyen_country
+          });
+        },
         adyenOxxo: () => {
           parameters = Object.assign(commonParameter, {
             payPspItemEnum: 'ADYEN_OXXO',
@@ -1492,6 +1501,17 @@ class Payment extends React.Component {
           subOrderNumberList = res.context.tidList;
           this.removeLocalCartData();
           // 给klana支付跳转用
+          if (res.context.tid) {
+            sessionItemRoyal.set('orderNumber', res.context.tid);
+          }
+          if (res.context.redirectUrl) {
+            window.location.href = res.context.redirectUrl;
+          }
+          break;
+        case 'adyenPaypal':
+          subOrderNumberList = res.context.tidList;
+          this.removeLocalCartData();
+          // 给paypal支付跳转用
           if (res.context.tid) {
             sessionItemRoyal.set('orderNumber', res.context.tid);
           }
@@ -3243,11 +3263,6 @@ class Payment extends React.Component {
                       type: 'adyenCard'
                     })}
                   />
-                  {/* <Paypal 
-                    billingJSX={this.renderBillingJSX({
-                      type: 'adyenCard'
-                    })}
-                  /> */}
                   {/* 校验状态
                   1 卡校验，从adyen form传入校验状态
                   2 billing校验 */}
@@ -3324,14 +3339,14 @@ class Payment extends React.Component {
                 <>
                   <Paypal
                     billingJSX={this.renderBillingJSX({
-                      type: 'adyenCard'
+                      type: 'paypal'
                     })}
                   />
                   {/* 校验状态
                   1 卡校验，从adyen form传入校验状态
                   2 billing校验 */}
                   {payConfirmBtn({
-                    disabled: !validSts.adyenCard || validForBilling,
+                    disabled: validForBilling,
                     loading: saveBillingLoading,
                     aaa: validSts,
                     bbb: validForBilling
