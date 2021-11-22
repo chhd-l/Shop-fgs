@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 
-const menuList = [
+let menuList = [
   {
     catogery: 'Home',
     isShow: true,
@@ -81,6 +81,18 @@ class SideMenu extends React.Component {
   static defaultProps = {
     customCls: ''
   };
+  componentDidMount() {
+    if (window.__.env.LOYALTY_PROGRAMME_LINK) {
+      menuList.push({
+        catogery: 'loyaltyProgramme',
+        isShow: Boolean(window.__.env.LOYALTY_PROGRAMME_LINK),
+        icon: <span className="iconfont iconLogoff" />,
+        langKey: 'account.loyaltyProgramme',
+        href: window.__.env.LOYALTY_PROGRAMME_LINK,
+        isHubOuterLink: true
+      });
+    }
+  }
   render() {
     const { type } = this.props;
     return (
@@ -91,8 +103,7 @@ class SideMenu extends React.Component {
         {menuList.map((item, i) => (
           <h2
             key={i}
-            className={`
-            nav_item medium ui-cursor-pointer mb-4 ${
+            className={`nav_item medium ui-cursor-pointer mb-4 ${
               type === item.catogery ? 'active red' : ''
             } ${item.isShow ? '' : 'hidden'}
             `}
