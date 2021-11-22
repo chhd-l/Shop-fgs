@@ -390,7 +390,8 @@ class Felin extends React.Component {
   postUpdate = async (params) => {
     const { code } = await postUpdate({
       ...this.state.appointmentVO,
-      ...params
+      ...params,
+      changeTimeBlock: false
     });
     if (code === 'K-000000') {
       this.props.history.push('/checkout');
@@ -437,6 +438,7 @@ class Felin extends React.Component {
         />
         <main className="rc-content--fixed-header">
           <div className="header-content">
+            <div className="bg-module" />
             <img src={header} alt="" />
             <div className="hd-text-cont">
               <div className="introduce">
@@ -458,7 +460,7 @@ class Felin extends React.Component {
             </div>
           </div>
           <div className="time-content">
-            <div className="time">
+            <div className="time font-500">
               Ouvert à tous du mardi au dimanche, de 10h à 19h
             </div>
             <div className="place">142 Bld Saint Germain 75006 PARIS</div>
@@ -473,7 +475,7 @@ class Felin extends React.Component {
                 </div>
                 <div className="rc-column flx-around">
                   <div className="visit-text">
-                    <div className="visit-text-tip">
+                    <div className="visit-text-tip font-500 mb28">
                       Venez nous rendre visite
                     </div>
                     <div className="visit-text-cont">
@@ -487,7 +489,7 @@ class Felin extends React.Component {
             </div>
           </div>
           <div className="txt-centr">
-            <h2 className="rc-beta fwt size30">
+            <h2 className="rc-beta fwt size30 font-500">
               Réservez une séance avec un expert de l'Atelier Félin
             </h2>
             <div className="problem">
@@ -503,7 +505,7 @@ class Felin extends React.Component {
           {/* 默认页面 */}
           {this.state.isShow ? (
             <div id="experts">
-              <div className="size24 txt-centr">
+              <div className="size24 txt-centr font-500 visit-text">
                 Réservez un rendez-vous avec un de nos experts
               </div>
               <div className="cat-ul mb28">
@@ -512,7 +514,7 @@ class Felin extends React.Component {
                     <div className="ul-li" key={index}>
                       <img src={item.src} alt="" />
                       <div style={{ padding: '0.625rem' }}>
-                        <div className="mt16">{item.name}</div>
+                        <div className="mt16 font-500">{item.name}</div>
                         <div className="mt8">{item.text}</div>
                       </div>
                     </div>
@@ -602,7 +604,7 @@ class Felin extends React.Component {
                     >
                       <img src={item.src} alt="" />
                       <div style={{ padding: '0.625rem' }}>
-                        <div className="mt16">{item.name}</div>
+                        <div className="mt16 font-500">{item.name}</div>
                         <div className="mt8">{item.text}</div>
                       </div>
                     </li>
@@ -986,13 +988,15 @@ class Felin extends React.Component {
                       className="nos-cont-text"
                       style={{ marginLeft: '3.125rem' }}
                     >
-                      <h3 className="size30 mb16">Nos évènements</h3>
-                      <p className="size24 col0">
+                      <h3 className="size30 mb16 font-500 visit-text">
+                        Nos évènements
+                      </h3>
+                      <p className="size24 col0 font-500">
                         Rencontrez régulièrement nos profils d’experts et
                         partagez l'expérience avec les autres membres de notre
                         communauté !
                       </p>
-                      <p className="size16">
+                      <p className="size16 visit-text">
                         Profitez de notre programmation pour en savoir plus sur
                         les besoins de votre chat et guettez la mise en ligne du
                         planning.
@@ -1003,7 +1007,7 @@ class Felin extends React.Component {
               </div>
             </div>
           </div>
-          <div className="une-title">
+          <div className="une-title font-500">
             Une équipe engagée pour vous conseiller
           </div>
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile">
@@ -1075,7 +1079,9 @@ class Felin extends React.Component {
           </div>
           <div className="faq-coll">
             <div>
-              <h3 style={{ marginBottom: '0.75rem' }}>Nous contacter</h3>
+              <h3 style={{ marginBottom: '0.75rem' }} className="font-500">
+                Nous contacter
+              </h3>
               {this.state.list.map((item, index) => {
                 return (
                   <div key={index}>
@@ -1113,7 +1119,10 @@ class Felin extends React.Component {
               })}
             </div>
             <div>
-              <h3 style={{ marginBottom: '0.75rem', marginTop: '1.25rem' }}>
+              <h3
+                style={{ marginBottom: '0.75rem', marginTop: '1.25rem' }}
+                className="font-500"
+              >
                 Nous contacter
               </h3>
               {this.state.list.map((item, index) => {
@@ -1153,7 +1162,10 @@ class Felin extends React.Component {
               })}
             </div>
             <div>
-              <h3 style={{ marginBottom: '0.75rem', marginTop: '1.25rem' }}>
+              <h3
+                style={{ marginBottom: '0.75rem', marginTop: '1.25rem' }}
+                className="font-500"
+              >
                 Nous contacter
               </h3>
               {this.state.list.map((item, index) => {
