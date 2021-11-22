@@ -995,7 +995,7 @@ class Felin extends React.Component {
                       <h3 className="size30 mb16 font-500 visit-text">
                         Nos évènements
                       </h3>
-                      <p className="size24 col0 font-500">
+                      <p className="size24 col0 visit-text">
                         Rencontrez régulièrement nos profils d’experts et
                         partagez l'expérience avec les autres membres de notre
                         communauté !
