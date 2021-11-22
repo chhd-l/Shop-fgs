@@ -18,7 +18,8 @@ const api = {
   getDeliveryDateAndTimeSlot: '/delivery/timeSlot', // 俄罗斯获取 DeliveryDate 和 TimeSlot
   validPostCodeBlock: '/addressDisplaySetting/validPostCodeBlock', // 邮编黑名单校验
   DQEAddressList: '/address-input-auto/DQElist', // DQE 地址查询
-  queryOpenedApi: '/addressApiSetting/query-opened-api' // DQE 地址查询
+  queryOpenedApi: '/addressApiSetting/query-opened-api', // DQE 地址查询
+  returnDQE: '/address-input-auto/returnDQE'
 };
 
 export default api;
@@ -154,5 +155,13 @@ export function queryOpenedApi() {
   return axios({
     url: `${api.queryOpenedApi}`,
     method: 'post'
+  });
+}
+
+export function returnDQE(params) {
+  return axios({
+    url: `${api.returnDQE}`,
+    method: 'post',
+    data: params
   });
 }
