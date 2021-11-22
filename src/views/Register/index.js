@@ -342,7 +342,8 @@ class Register extends Component {
             // 注册的时候如果是预约专家就直接跳转checkout页面
             let appointmentNo = sessionItemRoyal.get('appointment-no');
             if (appointmentNo) {
-              window.location.href = '/checkout';
+              window.location.href =
+                window.location.origin + window.location.pathname + '/checkout';
             } else {
               window.location.href = callOktaCallBack;
             }
