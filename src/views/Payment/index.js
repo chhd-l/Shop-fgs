@@ -80,6 +80,7 @@ import { doGetGAVal } from '@/utils/GA';
 // import { registerCustomerList, guestList, commonList } from './tr_consent';
 import ConsentData from '@/utils/consent';
 import CyberPayment from './PaymentMethod/Cyber';
+import Paypal from './PaymentMethod/Paypal';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -3060,6 +3061,11 @@ class Payment extends React.Component {
                       type: 'adyenCard'
                     })}
                   />
+                  {/* <Paypal 
+                    billingJSX={this.renderBillingJSX({
+                      type: 'adyenCard'
+                    })}
+                  /> */}
                   {/* 校验状态
                   1 卡校验，从adyen form传入校验状态
                   2 billing校验 */}
