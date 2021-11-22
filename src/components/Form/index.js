@@ -165,43 +165,35 @@ class Form extends React.Component {
     caninForm.regionId = initData.areaId;
     initData.regionId = initData.areaId;
 
-    // deliveryDate和timeSlot有值就显示
-    // if (initData.deliveryDate && initData.timeSlot && this.props.showDeliveryDateTimeSlot) {
-    console.log('666 >>> country: ', this.state.COUNTRY);
-    console.log('666 >>> formType: ', this.state.formType);
-
-    // 获取 DuData、DQE 等开关
-    // addressApiType: 0、validation ，1、suggestion
-    // isOpen: 0、关 , 1、开
-    let qoa = await queryOpenedApi();
-    let res = qoa?.context?.addressApiSettings || null;
-    if (res) {
-      let asobj = null;
-      // DQE 、DADATA、FEDEX
-      asobj =
-        find(
-          res,
-          (e) => e.name == 'DQE' || e.name == 'DADATA' || e.name == 'FEDEX'
-        ) || null;
-      if (asobj && asobj?.isOpen == 1 && asobj?.addressApiType == 1) {
-        this.setState({
-          apiType: asobj?.name
-        });
-      }
-      console.log('666 >>> apiType: ', asobj?.name);
-    }
-    // MANUALLY：手动填写 、 AUTOMATICALLY：自动填充
-    if (this.state.formType === 'AUTOMATICALLY' && COUNTRY === 'ru') {
-      await this.getAddressListByKeyWord(initData.address1);
-    }
-
-    // console.log('666  ★ EditForm initData: ', initData);
-    // console.log('666 ---- ★ EditForm caninForm: ', caninForm);
     this.setState(
       {
         caninForm: Object.assign(caninForm, initData)
       },
-      () => {
+      async () => {
+        // 获取 DuData、DQE 等开关
+        // addressApiType: 0、validation ，1、suggestion
+        // isOpen: 0、关 , 1、开
+        let qoa = await queryOpenedApi();
+        let res = qoa?.context?.addressApiSettings || null;
+        if (res) {
+          let asobj = null;
+          // DQE 、DADATA、FEDEX
+          asobj =
+            find(
+              res,
+              (e) => e.name == 'DQE' || e.name == 'DADATA' || e.name == 'FEDEX'
+            ) || null;
+          if (asobj && asobj?.isOpen == 1 && asobj?.addressApiType == 1) {
+            this.setState({
+              apiType: asobj?.name
+            });
+          }
+        }
+        // MANUALLY：手动填写 、 AUTOMATICALLY：自动填充
+        if (this.state.formType === 'AUTOMATICALLY' && COUNTRY === 'ru') {
+          await this.getAddressListByKeyWord(initData.address1);
+        }
+
         this.updateDataToProps();
         // 获取 session 存储的 address form 数据并处理
         this.setAddressFormData();
@@ -288,7 +280,7 @@ class Form extends React.Component {
           });
         }
       } else if (apiType === 'DQE') {
-        address1 = address1.replace(/\|/g, '，');
+        // address1 = address1.replace(/\|/g, '，');
         res = await DQEAddressList(address1);
         addls = res.context;
         let guojia = COUNTRY.toUpperCase();
@@ -424,7 +416,11 @@ class Form extends React.Component {
         phoneReg = [{ mask: '000-000-0000' }];
         break;
       case 'uk':
-        phoneReg = [{ mask: '+{44}0000 000000' }];
+        // phoneReg = [{ mask: '+{44}0000 000000' }];
+        phoneReg = [
+          { mask: '(+44) 0 00 00 00 00' },
+          { mask: '(+44) 00 00 00 00 00' }
+        ];
         break;
       case 'ru':
         phoneReg = [{ mask: '+{7} (000) 000-00-00' }];
@@ -624,7 +620,8 @@ class Form extends React.Component {
             regExp = /^\(\+[3][3]\)[\s](([0][1-9])|[1-9])[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
           } else if (COUNTRY == 'uk') {
             // 英国
-            regExp = /^\+[4][4][0-9]{4}[\s][0-9]{6}$/;
+            // regExp = /^\+[4][4][0-9]{4}[\s][0-9]{6}$/;
+            regExp = /^\(\+[4][4]\)[\s](([0][1-9])|[1-9])[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
           } else if (COUNTRY == 'us') {
             // 美国
             regExp = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
@@ -873,8 +870,8 @@ class Form extends React.Component {
       countryId: ctl.id
     });
 
-    // 处理法国电话号码格式，(+33) 0X XX XX XX XX 保存为: (+33) X XX XX XX XX
-    if (COUNTRY == 'fr') {
+    // 处理法国、英国电话号码格式，(+33) 0X XX XX XX XX 保存为: (+33) X XX XX XX XX
+    if (COUNTRY == 'fr' || COUNTRY == 'uk') {
       let tvalue = newForm.phoneNumber;
       if (tvalue?.length > 19) {
         newForm['phoneNumber'] = tvalue.replace(/0/, '');
@@ -1065,12 +1062,19 @@ class Form extends React.Component {
       isDeliveryDateAndTimeSlot,
       COUNTRY
     } = this.state;
-    let targetRule = null;
-    if (isDeliveryDateAndTimeSlot) {
-      targetRule = caninForm.formRuleRu.filter((e) => e.key === tname);
-    } else {
-      targetRule = caninForm.formRule.filter((e) => e.key === tname);
+
+    if (!caninForm?.formRuleRu?.length) {
+      return;
     }
+
+    let targetRule = null;
+
+    if (isDeliveryDateAndTimeSlot) {
+      targetRule = caninForm?.formRuleRu.filter((e) => e.key === tname);
+    } else {
+      targetRule = caninForm?.formRule.filter((e) => e.key === tname);
+    }
+
     let postCodeAlertMessage =
       '* Sorry we are not able to deliver your order in this area.';
     try {
@@ -1156,7 +1160,6 @@ class Form extends React.Component {
 
   // 地址搜索选择 1 (DuData、DQE)
   handleAddressInputChange = async (data) => {
-    // console.log('666 >>> 地址搜索选择 data: ', data);
     const { caninForm, apiType } = this.state;
     this.setState({
       address1Data: data,
@@ -1213,16 +1216,16 @@ class Form extends React.Component {
           caninForm.calculation = calculation;
           caninForm.minDeliveryTime = calculation.minDeliveryTime;
           caninForm.maxDeliveryTime = calculation.maxDeliveryTime;
+
           // 重置地址相关信息并清空错误提示
           this.setState(
             {
-              caninForm,
+              caninForm: caninForm,
               errMsgObj: {
                 ['address1']: ''
               }
             },
             () => {
-              // console.log('666 ★ DuData地址搜索选择 caninForm: ',this.state.caninForm)
               // 控制按钮状态
               this.props.getFormAddressValidFlag(true);
               // purchases接口计算运费
@@ -1366,7 +1369,7 @@ class Form extends React.Component {
                 Object.assign(ele, { name: ele.unrestrictedValue })
               );
             } else if (apiType === 'DQE') {
-              inputVal = inputVal.replace(/\|/g, '，');
+              // inputVal = inputVal.replace(/\|/g, '，');
               res = await DQEAddressList(inputVal);
               robj = (res?.context || []).map((item) =>
                 Object.assign(item, {

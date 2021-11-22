@@ -551,7 +551,7 @@ class PayProductInfo extends React.Component {
       this.setState(
         {
           isClickApply: false,
-          promotionInputValue: ''
+          promotionInputValue: localItemRoyal.get('rc-promotionCode')
         },
         () => {
           result.code === 'K-000000' && this.handleClickPromotionApply(true);

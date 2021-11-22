@@ -44,7 +44,7 @@ function BreadCrumbsNavigation({ list }) {
                 ) : item.isHubOuterLink ? (
                   <>
                     <DistributeHubLinkOrATag href={item.href} to={item.link}>
-                      {item.name}
+                      <span itemProp="name">{item.name}</span>
                     </DistributeHubLinkOrATag>
                   </>
                 ) : (
@@ -59,6 +59,7 @@ function BreadCrumbsNavigation({ list }) {
                     </Link>
                   </>
                 )}
+                <meta itemprop="position" content={index + 1} />
               </li>
               {index !== decoList.length - 1 && (
                 <span className="font-weight-normal ml-2 mr-2">&gt;</span>

@@ -1189,8 +1189,8 @@ class AccountOrders extends React.Component {
                                   <span className="medium">
                                     {filterOrderId({
                                       orderNo: this.state.orderNumber,
-                                      orderNoForOMS:
-                                        this.state.orderNumberForOMS
+                                      orderNoForOMS: this.state
+                                        .orderNumberForOMS
                                     })}
                                   </span>
                                 </div>
@@ -1203,7 +1203,7 @@ class AccountOrders extends React.Component {
                                   </span>
                                 </div>
                                 {/* goodwill order flag */}
-                                {details.isGoodWillOrder && (
+                                {details.orderSource === 'SUPPLIER' && (
                                   <div className="col-12 col-md-3 text-left mb-2">
                                     <FormattedMessage id="order.goodwillOrder" />
                                   </div>
@@ -1330,9 +1330,9 @@ class AccountOrders extends React.Component {
                                                           {filterOrderId({
                                                             orderNo:
                                                               el.subscribeId,
-                                                            orderNoForOMS:
-                                                              this.state
-                                                                .orderNumberForOMS
+                                                            orderNoForOMS: this
+                                                              .state
+                                                              .orderNumberForOMS
                                                           })}
                                                         </Link>
                                                       </p>

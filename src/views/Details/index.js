@@ -225,10 +225,16 @@ class Details extends React.Component {
   get retailerBtnStatus() {
     const { loading, goodsType, exclusiveFlag = false } = this.state;
     const sptGoods = goodsType === 0 || goodsType === 1;
-    const trSpt = Tr && sptGoods;
+    // const trSpt = Tr && sptGoods;
     let bundle = goodsType && goodsType === 2;
 
-    return !loading && !bundle && isHub && !Ru && !exclusiveFlag && !trSpt;
+    return (
+      !loading &&
+      !bundle &&
+      isHub &&
+      !exclusiveFlag &&
+      (Fr || (Tr && !sptGoods))
+    );
   }
 
   redirectCanonicalLink({ pageLink }) {
@@ -364,6 +370,7 @@ class Details extends React.Component {
       details,
       spuImages,
       goodsDetailTab,
+      tmpGoodsDescriptionDetailList,
       goodsNo,
       form
     } = this.state;
@@ -380,7 +387,7 @@ class Details extends React.Component {
           instockStatus,
           details,
           spuImages,
-          goodsDetailTab,
+          goodsDetailTab: tmpGoodsDescriptionDetailList,
           goodsNo
         })
       );
@@ -586,7 +593,8 @@ class Details extends React.Component {
                 setTimeout(() => {
                   addSchemaOrgMarkup(
                     this.state.details,
-                    this.state.instockStatus
+                    this.state.instockStatus,
+                    <FormattedMessage id="homePage" />
                   );
                 }, 60000);
               }

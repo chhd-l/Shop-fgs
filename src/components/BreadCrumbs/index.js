@@ -40,6 +40,7 @@ const BreadCrumbs = withRouter((props) => {
                 <FormattedMessage id="homePage" />
               </span>
             </DistributeHubLinkOrATag>
+            <meta itemprop="position" content="1" />
           </li>
           {mapData.length > 0 && (
             <span itemProp="name" className="font-weight-normal ml-2 mr-2">
@@ -74,6 +75,7 @@ const BreadCrumbs = withRouter((props) => {
                     )}
                   </FormattedMessage>
                 )}
+                <meta itemprop="position" content={index + 2} />
               </li>
               {index !== mapData.length - 1 && (
                 <span className="font-weight-normal ml-2 mr-2">&gt;</span>

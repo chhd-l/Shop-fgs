@@ -57,8 +57,6 @@ const LoginButton = (props) => {
       oktaAuth
         .getUser()
         .then((info) => {
-          console.log(info,'infoifoejfoijewoijf')
-          debugger
           if (
             loginStore.userInfo &&
             loginStore.userInfo.email &&

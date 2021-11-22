@@ -256,9 +256,6 @@ const env = {
     // #delete接口前缀
     REACT_APP_HUB_APIURL: 'https://stgwedding.royalcanin.com/uk/api',
 
-    REACT_APP_HUB_MONROYALCANIN:
-      'https://mon.royalcanin.preprod.b2c.royalcanin.typhon.net/',
-
     // #HUB_GA
     REACT_APP_HUB_GA: '1',
 
