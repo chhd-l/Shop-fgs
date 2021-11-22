@@ -119,7 +119,16 @@ class AccountHome extends React.Component {
                         item={item}
                         key={i}
                       >
-                        <div className="d-flex margin-left0 align-items-center border w-100 h-100 m-2 p-3 text-break nav_content">
+                        <div className="d-flex margin-left0 align-items-center border w-100 h-100 m-2 p-3 text-break nav_content position-relative">
+                          <div
+                            style={{
+                              top: '2%',
+                              right: '2%',
+                              position: 'absolute'
+                            }}
+                          >
+                            {item.rightTopIcon}
+                          </div>
                           <div>{item.icon}</div>
                           <div className="ml-3">
                             <h3 className="rc-delta profileTextColor mb-1">

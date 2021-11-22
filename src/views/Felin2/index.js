@@ -820,9 +820,7 @@ class Felin extends React.Component {
                     ) {
                       localItemRoyal.set(
                         'okta-redirectUrl',
-                        this.props.history &&
-                          this.props.history.location.pathname +
-                            this.props.history.location.search
+                        window.__.env.REACT_APP_ACCESS_PATH + '/checkout'
                       );
                       this.props.history.push('/register');
                     } else {

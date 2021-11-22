@@ -335,13 +335,7 @@ class Register extends Component {
               'rc-consent-list',
               JSON.stringify(this.state.list)
             );
-            // 注册的时候如果是预约专家就直接跳转checkout页面
-            let appointmentNo = sessionItemRoyal.get('appointment-no');
-            if (appointmentNo) {
-              window.location.href = window.location.origin + '/fr/checkout';
-            } else {
-              window.location.href = callOktaCallBack;
-            }
+            window.location.href = callOktaCallBack;
           } else {
             let customerDetail = res.context.customerDetail;
             let submitParam = bindSubmitParam(this.state.list);
