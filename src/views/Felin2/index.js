@@ -63,29 +63,25 @@ class Felin extends React.Component {
           valueEn: 'Behaviorist',
           src: cat1,
           name: 'Comportementalistes',
-          text:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         },
         {
           valueEn: 'Nutritionist',
           src: cat2,
           name: 'Expert en nutrition',
-          text:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         },
         {
           valueEn: 'Osteopathist',
           src: cat3,
           name: 'Ostéopathes',
-          text:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         }
       ],
       timeList: [
         {
           time: '15',
-          text:
-            'Rapide et facile, échangez avec un expert pour reçevoir ses conseils et commencer le suivi de votre chat.',
+          text: 'Rapide et facile, échangez avec un expert pour reçevoir ses conseils et commencer le suivi de votre chat.',
           num: 'FREE'
         },
         {
@@ -180,7 +176,11 @@ class Felin extends React.Component {
       type: 'appointment_type'
     });
     // 专家
-    const { code: code2, context: list, message: message2 } = await gitDict({
+    const {
+      code: code2,
+      context: list,
+      message: message2
+    } = await gitDict({
       type: 'expert_type'
     });
     let expertTypeList = list.goodsDictionaryVOS.map((item) => {
@@ -1071,7 +1071,7 @@ class Felin extends React.Component {
             </div>
           </div>
           <div className="Faq-cont" id="faq">
-            <div className="size24 col0">FAQs</div>
+            <div className="size24 col0 font-500">FAQs</div>
             <div>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
               <br /> Curabitur finibus ut urna vitae placerat.
