@@ -560,6 +560,7 @@ const ru_RU = {
   'login.thirdCheck': 'Я согласен получать маркетинговую рассылку',
   loginFailed: 'Вход в систему не удался',
   logisticsRating: 'Рейтинг логистики',
+  expertAdvice: 'Замечания экспертов',
   logOff: 'Выйти',
   // mailAddress: 'Почта Адрес',
   mailAddress: 'E-mail',

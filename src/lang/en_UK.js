@@ -858,6 +858,7 @@ const en_US = {
   loginFailed: 'login failed',
   logisticsCompany: 'Logistics company',
   logisticsRating: 'Logistics rating',
+  expertAdvice: 'Expert advice',
   logisticsSingleNumber: 'Logistics single number',
   logOff: 'Log out',
   mailAddress: 'Mail address',
@@ -1820,6 +1821,14 @@ const en_US = {
   'list.viewFilters': 'View filters',
   'list.closeFilters': 'Close filters',
   BacktoSavedPayments: 'Return to saved payment',
-  'order.goodwillOrder': '[Goodwill order]'
+  'order.goodwillOrder': '[Goodwill order]',
+  'header.User.alreadyRegistered': 'Already registered?',
+  'header.User.newUser': 'New user?',
+  'header.User.registerNow': 'Register now',
+  'salesCategory.cat': 'For cat',
+  'salesCategory.dog': 'For dog',
+  'salesCategory.content':
+    'Each formula has been formulated to provide nutrition that meets health needs based on size, breed, age or lifestyle.',
+  'salesCategory.title': 'Discover our food ranges'
 };
 export default en_US;

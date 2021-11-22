@@ -178,6 +178,7 @@ const LoginButton = (props) => {
 
   return (
     <>
+      <LimitLoginModal />
       <button
         className={props.btnClass || props.className || 'rc-btn rc-btn--one'}
         style={props.btnStyle || {}}
@@ -187,7 +188,6 @@ const LoginButton = (props) => {
       >
         {props.children || <FormattedMessage id="login" />}
       </button>
-      <LimitLoginModal />
     </>
   );
 };

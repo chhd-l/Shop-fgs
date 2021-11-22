@@ -336,7 +336,7 @@ const SubGoodsInfos = ({
                         <div className="img-container mr-3">
                           {/* <LazyLoad> */}
                           <img
-                            style={{maxHeight:'100%'}}
+                            style={{ maxHeight: '100%' }}
                             src={el.goodsPic || IMG_DEFAULT}
                             alt={el.goodsName}
                           />
@@ -368,7 +368,7 @@ const SubGoodsInfos = ({
                             {!isIndv && el.specText}
                           </p>
                           <div>
-                            <div style={{whiteSpace:'nowrap'}}>
+                            <div style={{ whiteSpace: 'nowrap' }}>
                               <span
                                 style={{
                                   display: isIndv ? 'none' : 'inline-block'

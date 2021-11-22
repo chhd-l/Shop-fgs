@@ -1,7 +1,7 @@
 import { getSeoConfig, queryHeaderNavigations } from '@/api';
 import { purchases, mergePurchase } from '@/api/cart';
 import { findStoreCateList } from '@/api/home';
-import { getDict } from '@/api/dict';
+import { getDict, getAppointDict } from '@/api/dict';
 import { findFilterList, findSortList } from '@/api/list';
 import { getRation as getRation_api } from '@/api/pet';
 import find from 'lodash/find';
@@ -17,6 +17,7 @@ import us from 'date-fns/locale/en-US';
 import ru from 'date-fns/locale/ru';
 import { registerLocale } from 'react-datepicker';
 import { format, utcToZonedTime } from 'date-fns-tz';
+import { getAppointByApptNo } from '@/api/order';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -986,6 +987,7 @@ import Club_Logo_ru from '@/assets/images/Logo_club_ru.png';
 import indvLogo from '@/assets/images/indv_log.svg';
 
 import { el } from 'date-fns/locale';
+import moment from 'moment';
 export function getClubLogo({ goodsInfoFlag, subscriptionType }) {
   let logo = Club_Logo;
   if (window.__.env.REACT_APP_COUNTRY === 'ru') {
@@ -1039,4 +1041,60 @@ export async function getAddressPostalCodeAlertMessage() {
   return new Promise((resolve, reject) => {
     resolve(postCodeAlertMessage);
   });
+}
+
+//根据预约单号获取预约信息
+export async function getAppointmentInfo(appointNo) {
+  const res = await getAppointByApptNo({ apptNo: appointNo });
+  let resContext = res?.context?.settingVO;
+  let appointDictRes = await Promise.all([
+    getAppointDict({
+      type: 'appointment_type'
+    }),
+    getAppointDict({
+      type: 'expert_type'
+    })
+  ]);
+  // appointDictRes=flatten(appointDictRes)
+  console.log('appointDictRes', appointDictRes);
+  const appointmentDictRes = (
+    appointDictRes[0]?.context?.goodsDictionaryVOS || []
+  ).filter((item) => item.id === resContext?.apptTypeId);
+  const expertDictRes = (
+    appointDictRes[1]?.context?.goodsDictionaryVOS || []
+  ).filter((item) => item.id === resContext?.expertTypeId);
+  const appointType =
+    appointmentDictRes.length > 0 ? appointmentDictRes[0].name : 'Offline';
+  const expertName =
+    expertDictRes.length > 0 ? expertDictRes[0].name : 'Behaviorist';
+  const appointTime = handleFelinAppointTime(resContext?.apptTime);
+  return Object.assign(
+    resContext,
+    {
+      appointType,
+      expertName
+    },
+    appointTime
+  );
+}
+
+//处理预约信息里面的预约时间
+export function handleFelinAppointTime(appointTime) {
+  const apptTime = appointTime.split('#');
+  const appointStartTime =
+    apptTime.length > 0
+      ? moment(apptTime[0].split(' ')[0]).format('YYYY-MM-DD') +
+        ' ' +
+        apptTime[0].split(' ')[1]
+      : '';
+  const appointEndTime =
+    apptTime.length > 1
+      ? moment(apptTime[1].split(' ')[0]).format('YYYY-MM-DD') +
+        ' ' +
+        apptTime[1].split(' ')[1]
+      : '';
+  return {
+    appointStartTime,
+    appointEndTime
+  };
 }
