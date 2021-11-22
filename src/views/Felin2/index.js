@@ -464,7 +464,7 @@ class Felin extends React.Component {
             </div>
           </div>
           <div className="time-content">
-            <div className="time font-500">
+            <div className="time font-500 mb16">
               Ouvert à tous du mardi au dimanche, de 10h à 19h
             </div>
             <div className="place">142 Bld Saint Germain 75006 PARIS</div>
@@ -597,7 +597,7 @@ class Felin extends React.Component {
                           'expertise'
                         )
                       }
-                      className={index === 1 ? 'ul-li mglr40' : 'ul-li'}
+                      className={index === 1 ? 'ul-li' : 'ul-li'}
                       style={{
                         boxShadow:
                           this.state.activeOne === index
