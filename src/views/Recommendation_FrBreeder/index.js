@@ -44,8 +44,8 @@ const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
 let advantageArr = [
-  { img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/gifts@2x.png`, text: 'Livraison offerte et automatique' },
-  { img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/gifts@2x.png`, text: '10% de réduction pour toute commande1' },
+  { img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/shipping@2x.png`, text: 'Livraison offerte et automatique' },
+  { img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/cutoff10%25.svg`, text: '10% de réduction pour toute commande1' },
   { img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/gifts@2x.png`, text: 'Un conseiller à votre écoute' },
   { img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/gifts@2x.png`, text: 'Un kit de bienvenue et des cadeaux exclusifs' },
   { img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/gifts@2x.png`, text: 'Un accompagnement pédagogique individualisé' },
@@ -160,13 +160,14 @@ class Recommendation extends React.Component {
       });
     }
   }
-
   async componentDidMount() {
     // document.onclick = () => {
     //   this.setState({ showCoiedTips: false });
     // };
     console.time('begin');
+    let frequencyList = []
     getFrequencyDict().then((res) => {
+      frequencyList = res
       this.setState({
         frequencyList: res
       });
@@ -2157,10 +2158,20 @@ class Recommendation extends React.Component {
       el.goodsInfo.goods.goodsSpecs = specList;
       return el;
     });
+    let autoshipDictRes = frequencyList.filter(
+      (el) => el.goodsInfoFlag === 1
+    );
     // let promotionCode = res.context.promotionCode || '';
     let filterProducts = productLists.filter((el) => {
+      let defaultFrequencyId =
+      el?.defaultFrequencyId ||
+      this.props.configStore?.info?.storeVO?.defaultSubscriptionFrequencyId ||
+      (autoshipDictRes[0] && autoshipDictRes[0].id) ||
+      '';
+      el.defaultFrequencyId = defaultFrequencyId
       return el.goodsInfo.addedFlag && el.goods.saleableFlag;
     });
+    console.info('filterProductsfilterProducts', filterProducts)
     // 只展示上架商品
     if (!filterProducts.length) {
       this.setState({
@@ -2533,7 +2544,8 @@ class Recommendation extends React.Component {
             goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
             goodsNum: inStockProducts[i].recommendationNumber,
             goodsCategory: '',
-            goodsInfoFlag: 0,
+            goodsInfoFlag: 1,
+            periodTypeId:inStockProducts[i].defaultFrequencyId,
             recommendationId:
               this.props.clinicStore.linkClinicRecommendationInfos
                 ?.recommendationId || this.props.clinicStore.linkClinicId,
@@ -2548,7 +2560,7 @@ class Recommendation extends React.Component {
           this.setState({ buttonLoading: false });
         }
       }
-      this.props.history.push('/cart');
+      // this.props.history.push('/cart');
     }
   }
   async hanldeUnloginAddToCart(products, path) {
@@ -2564,8 +2576,8 @@ class Recommendation extends React.Component {
             selected: true,
             quantity: p.recommendationNumber,
             currentUnitPrice: p.goodsInfo.marketPrice,
-            goodsInfoFlag: 0,
-            periodTypeId: null,
+            goodsInfoFlag: 1,
+            periodTypeId: inStockProducts[i].defaultFrequencyId,
             recommendationInfos:
               this.props.clinicStore.linkClinicRecommendationInfos,
             recommendationId:
@@ -2716,8 +2728,9 @@ class Recommendation extends React.Component {
           await sitePurchase({
             goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
             goodsNum: inStockProducts[i].recommendationNumber,
+            periodTypeId: inStockProducts[i].defaultFrequencyId,
             goodsCategory: '',
-            goodsInfoFlag: 0
+            goodsInfoFlag: 1
           });
           await checkoutStore.updateLoginCart();
         } catch (e) {
@@ -2871,7 +2884,7 @@ class Recommendation extends React.Component {
     this.props.history.push('/cart');
   };
   tabChange(productList, index) {
-    let promotionCode = funcUrl({ name: 'coupon' });
+    let promotionCode = funcUrl({ name: 'coupon' }) || '';
     this.setState({ activeIndex: index });
     const currentProduct = productList.filter((item, i) => i == index && item);
     GARecommendationProduct(
@@ -2957,7 +2970,15 @@ class Recommendation extends React.Component {
         'Recommended feeding amounts are located on the back of the bag. Make sure you transition food slowly over the course of the week to help prevent stomach upset.',
       ru: this.state.locationPath
     };
+   
     let details = productList[activeIndex]||{}
+    const filterImages = 
+    details.images?.filter((i) => {
+      i.artworkUrl = i.goodsInfoImg||i.artworkUrl;
+      return i.goodsInfoImg;
+    }) || [];
+    console.info('detailsdetails',filterImages)
+    console.info('...............',details.images)
     return (
       <div className="Recommendation_FRBreeder">
         <GoogleTagManager additionalEvents={event} />
@@ -3005,9 +3026,10 @@ class Recommendation extends React.Component {
             Offrez à votre nouveau compagnon la nutrition adaptée à ses besoins
             spécifiques​
           </p>
-          <div className="goods-list-container  m-auto text-center">
+         {details?.goodsInfos? <div className="goods-list-container  m-auto text-center">
             <ul className="tab-list m-auto">
-              {productList.map(el=>(<li className="text-center" style={{display:'inline-block',padding:'0 4px'}}>
+              {productList.map((el,index)=>(<li onClick={()=>this.tabChange(productList,index)} className={`text-center ${activeIndex==index?'active':''}`}
+               style={{cursor:'pointer',display:'inline-block',padding:'0 1rem'}}>
                 <img className="tab-img"  src={el.images[0].artworkUrl}/>
                 <div>{el.goodsInfo.goodsInfoName}</div>
               </li>))}
@@ -3026,26 +3048,27 @@ class Recommendation extends React.Component {
                   taggingForImage={
                     details.taggingForImageAtPDP
                   }
-                  spuImages={[]}
-                  // spuImages={
-                  //   filterImages.length
-                  //     ? filterImages
-                  //     : spuImages
-                  // }
+                  // spuImages={[]}
+                  spuImages={
+                    filterImages.length
+                      ? filterImages
+                      : details.images
+                  }
                 />
               </div>
               <div className="goods-info  rc-triple-width rc-column text-left">
-                <h2>Kitten en sauce</h2>
+                <h2 title={details?.goodsInfo?.goodsInfoName}>{details?.goodsInfo?.goodsInfoName}</h2>
                 <p className="description">
-                  Donner le meilleur départ dans la vie à votre chaton commence
+                {details?.goodsInfos[0]?.goods.goodsSubtitle}
+                  {/* Donner le meilleur départ dans la vie à votre chaton commence
                   par une bonne nutrition. En lui apportant les nutriments
-                  essentiels dont il a besoin…
+                  essentiels dont il a besoin… */}
                 </p>
                 <div className="price">De 13,49€ à 14,99 €</div>
                 {/* <button>Ajouter au panier</button> */}
                 <button
-              className={`rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile 
-              `}
+                onClick={this.addCart}
+              className={`rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile md-up`}
                /*  ${ addToCartLoading ? 'ui-btn-loading' : ''} 
               ${btnStatus ? '' : 'rc-btn-solid-disabled'}*/
               // onClick={}
@@ -3055,7 +3078,7 @@ class Recommendation extends React.Component {
               <FormattedMessage id="details.addToCart" />
               </span>
             </button>
-                <p>Livraison en 3 jours ouvrés offerte</p>
+                <p className=" md-up">Livraison en 3 jours ouvrés offerte</p>
                 <div className="advantage-container">
                   <h5>Découvrez les avantages du CLUB Royal Canin</h5>
                   <p >Un abonnement <span style={{color:'#333'}}>flexible et sans engagement</span></p>
@@ -3070,10 +3093,10 @@ class Recommendation extends React.Component {
                     ))}
                   </div>
                 </div>
-                <p>1 Cumulable avec l'offre de bienvenue</p>
+                <p style={{marginTop:'0.75rem'}}><sup>1</sup> Cumulable avec l'offre de bienvenue</p>
               </div>
             </div>
-          </div>
+          </div>:null}
           <Footer />
         </main>
       </div>
