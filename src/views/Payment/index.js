@@ -1195,7 +1195,7 @@ class Payment extends React.Component {
       if (!this.state.tid) {
         await this.valideCheckoutLimitRule();
       }
-      const commonParameter = this.packagePayParam();
+      const commonParameter = await this.packagePayParam();
       let phone = this.state.billingAddress?.phoneNumber; //获取电话号码
       return new Promise((resolve) => {
         resolve({ commonParameter, phone });
@@ -1209,7 +1209,7 @@ class Payment extends React.Component {
   async doGetAdyenPayParam(type) {
     try {
       let parameters = await this.getAdyenPayParam(type);
-      console.log('666 获取参数: ', parameters);
+      // console.log('666 获取参数: ', parameters);
       await this.allAdyenPayment(parameters, type);
     } catch (err) {
       console.warn(err);
@@ -1375,6 +1375,7 @@ class Payment extends React.Component {
 
       /* 4)调用支付 */
       const res = await action(parameters);
+
       const { tidList } = this.state;
       let orderNumber; // 主订单号
       let subOrderNumberList = []; // 拆单时，子订单号
