@@ -66,7 +66,7 @@ class Consent extends Component {
             name="checkbox-2"
             disabled={disabled}
             onChange={() => {
-              if (item.id == 106) return; //此项不需要check事件
+              if (item.noChecked) return; //此项不需要check事件
               //勾选checkbox
               this.props.list.map((x) => {
                 if (x.id === item.id) {
