@@ -44,23 +44,38 @@ const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
 let advantageArr = [
-  { img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/shipping@2x.png`, text: 'Livraison offerte et automatique' },
-  { img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/cutoff10%25.svg`, text: '10% de réduction pour toute commande1' },
-  { img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/gifts@2x.png`, text: 'Un conseiller à votre écoute' },
-  { img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/gifts@2x.png`, text: 'Un kit de bienvenue et des cadeaux exclusifs' },
-  { img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/gifts@2x.png`, text: 'Un accompagnement pédagogique individualisé' },
+  {
+    img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/shipping@2x.png`,
+    text: 'Livraison offerte et automatique'
+  },
+  {
+    img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/cutoff10%25.svg`,
+    text: '10% de réduction pour toute commande1'
+  },
+  {
+    img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/gifts@2x.png`,
+    text: 'Un conseiller à votre écoute'
+  },
+  {
+    img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/gifts@2x.png`,
+    text: 'Un kit de bienvenue et des cadeaux exclusifs'
+  },
+  {
+    img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/gifts@2x.png`,
+    text: 'Un accompagnement pédagogique individualisé'
+  },
   { img: '', text: '' }
 ];
-let advantageList = []
-advantageArr.forEach((el,i)=>{
-  if(i%2==0){
-    advantageList[i/2] = []
-    advantageList[i/2].push(el)
-  }else{
-    advantageList[Math.floor(i/2)].push(el)
+let advantageList = [];
+advantageArr.forEach((el, i) => {
+  if (i % 2 == 0) {
+    advantageList[i / 2] = [];
+    advantageList[i / 2].push(el);
+  } else {
+    advantageList[Math.floor(i / 2)].push(el);
   }
-})
-console.info('advantageList',advantageList)
+});
+console.info('advantageList', advantageList);
 @inject('checkoutStore', 'loginStore', 'configStore', 'clinicStore')
 @injectIntl
 @observer
@@ -133,19 +148,24 @@ class Recommendation extends React.Component {
     this.helpContentText = {
       title: this.props.intl.messages['recommendation.helpContentText.title'],
       des: this.props.intl.messages['recommendation.helpContentText.des'],
-      emailTitle:
-        this.props.intl.messages['recommendation.helpContentText.emailTitle'],
-      emailDes:
-        this.props.intl.messages['recommendation.helpContentText.emailDes'],
-      emailLink:
-        this.props.intl.messages['recommendation.helpContentText.emailLink'], //俄罗斯是其他的链接
-      phoneTitle:
-        this.props.intl.messages['recommendation.helpContentText.phoneTitle'],
+      emailTitle: this.props.intl.messages[
+        'recommendation.helpContentText.emailTitle'
+      ],
+      emailDes: this.props.intl.messages[
+        'recommendation.helpContentText.emailDes'
+      ],
+      emailLink: this.props.intl.messages[
+        'recommendation.helpContentText.emailLink'
+      ], //俄罗斯是其他的链接
+      phoneTitle: this.props.intl.messages[
+        'recommendation.helpContentText.phoneTitle'
+      ],
       phone: this.props.intl.messages['recommendation.helpContentText.phone'],
       email: this.props.intl.messages['recommendation.helpContentText.email'],
       phoneDes1: `<strong>${this.props.intl.messages['recommendation.helpContentText.phoneDes1']}</strong>`,
-      phoneDes2:
-        this.props.intl.messages['recommendation.helpContentText.phoneDes2']
+      phoneDes2: this.props.intl.messages[
+        'recommendation.helpContentText.phoneDes2'
+      ]
     };
   }
 
@@ -165,9 +185,9 @@ class Recommendation extends React.Component {
     //   this.setState({ showCoiedTips: false });
     // };
     console.time('begin');
-    let frequencyList = []
+    let frequencyList = [];
     getFrequencyDict().then((res) => {
-      frequencyList = res
+      frequencyList = res;
       this.setState({
         frequencyList: res
       });
@@ -2158,20 +2178,18 @@ class Recommendation extends React.Component {
       el.goodsInfo.goods.goodsSpecs = specList;
       return el;
     });
-    let autoshipDictRes = frequencyList.filter(
-      (el) => el.goodsInfoFlag === 1
-    );
+    let autoshipDictRes = frequencyList.filter((el) => el.goodsInfoFlag === 1);
     // let promotionCode = res.context.promotionCode || '';
     let filterProducts = productLists.filter((el) => {
       let defaultFrequencyId =
-      el?.defaultFrequencyId ||
-      this.props.configStore?.info?.storeVO?.defaultSubscriptionFrequencyId ||
-      (autoshipDictRes[0] && autoshipDictRes[0].id) ||
-      '';
-      el.defaultFrequencyId = defaultFrequencyId
+        el?.defaultFrequencyId ||
+        this.props.configStore?.info?.storeVO?.defaultSubscriptionFrequencyId ||
+        (autoshipDictRes[0] && autoshipDictRes[0].id) ||
+        '';
+      el.defaultFrequencyId = defaultFrequencyId;
       return el.goodsInfo.addedFlag && el.goods.saleableFlag;
     });
-    console.info('filterProductsfilterProducts', filterProducts)
+    console.info('filterProductsfilterProducts', filterProducts);
     // 只展示上架商品
     if (!filterProducts.length) {
       this.setState({
@@ -2483,8 +2501,12 @@ class Recommendation extends React.Component {
     });
   };
   checkoutStock() {
-    let { productList, outOfStockProducts, inStockProducts, modalList } =
-      this.state;
+    let {
+      productList,
+      outOfStockProducts,
+      inStockProducts,
+      modalList
+    } = this.state;
     for (let i = 0; i < productList.length; i++) {
       if (
         productList[i].recommendationNumber > productList[i].goodsInfo.stock
@@ -2513,8 +2535,12 @@ class Recommendation extends React.Component {
     );
   }
   async hanldeLoginAddToCart() {
-    let { productList, outOfStockProducts, inStockProducts, modalList } =
-      this.state;
+    let {
+      productList,
+      outOfStockProducts,
+      inStockProducts,
+      modalList
+    } = this.state;
     GABigBreederAddToCar(productList);
     // console.log(outOfStockProducts, inStockProducts, '...1')
     // return
@@ -2545,12 +2571,12 @@ class Recommendation extends React.Component {
             goodsNum: inStockProducts[i].recommendationNumber,
             goodsCategory: '',
             goodsInfoFlag: 1,
-            periodTypeId:inStockProducts[i].defaultFrequencyId,
+            periodTypeId: inStockProducts[i].defaultFrequencyId,
             recommendationId:
               this.props.clinicStore.linkClinicRecommendationInfos
                 ?.recommendationId || this.props.clinicStore.linkClinicId,
-            recommendationInfos:
-              this.props.clinicStore.linkClinicRecommendationInfos,
+            recommendationInfos: this.props.clinicStore
+              .linkClinicRecommendationInfos,
             recommendationName:
               this.props.clinicStore.linkClinicRecommendationInfos
                 ?.recommendationName || this.props.clinicStore.linkClinicName
@@ -2578,8 +2604,8 @@ class Recommendation extends React.Component {
             currentUnitPrice: p.goodsInfo.marketPrice,
             goodsInfoFlag: 1,
             periodTypeId: inStockProducts[i].defaultFrequencyId,
-            recommendationInfos:
-              this.props.clinicStore.linkClinicRecommendationInfos,
+            recommendationInfos: this.props.clinicStore
+              .linkClinicRecommendationInfos,
             recommendationId:
               this.props.clinicStore.linkClinicRecommendationInfos
                 ?.recommendationId || this.props.clinicStore.linkClinicId,
@@ -2630,8 +2656,12 @@ class Recommendation extends React.Component {
       localItemRoyal.set('okta-redirectUrl', '/prescription');
     }
     this.setState({ needLogin });
-    let { productList, outOfStockProducts, inStockProducts, modalList } =
-      this.state;
+    let {
+      productList,
+      outOfStockProducts,
+      inStockProducts,
+      modalList
+    } = this.state;
     let totalPrice;
     inStockProducts.map((el) => {
       console.log(el, 'instock');
@@ -2719,8 +2749,12 @@ class Recommendation extends React.Component {
   };
   async hanldeClickSubmit() {
     const { checkoutStore, loginStore, history, clinicStore } = this.props;
-    let { currentModalObj, subDetail, outOfStockProducts, inStockProducts } =
-      this.state;
+    let {
+      currentModalObj,
+      subDetail,
+      outOfStockProducts,
+      inStockProducts
+    } = this.state;
     this.setState({ loading: true, modalShow: false });
     if (currentModalObj.type === 'addToCart') {
       for (let i = 0; i < inStockProducts.length; i++) {
@@ -2897,7 +2931,6 @@ class Recommendation extends React.Component {
   }
 
   render() {
-   
     const event = {
       page: {
         type: 'Recommendation',
@@ -2970,15 +3003,15 @@ class Recommendation extends React.Component {
         'Recommended feeding amounts are located on the back of the bag. Make sure you transition food slowly over the course of the week to help prevent stomach upset.',
       ru: this.state.locationPath
     };
-   
-    let details = productList[activeIndex]||{}
-    const filterImages = 
-    details.images?.filter((i) => {
-      i.artworkUrl = i.goodsInfoImg||i.artworkUrl;
-      return i.goodsInfoImg;
-    }) || [];
-    console.info('detailsdetails',filterImages)
-    console.info('...............',details.images)
+
+    let details = productList[activeIndex] || {};
+    const filterImages =
+      details.images?.filter((i) => {
+        i.artworkUrl = i.goodsInfoImg || i.artworkUrl;
+        return i.goodsInfoImg;
+      }) || [];
+    console.info('detailsdetails', filterImages);
+    console.info('...............', details.images);
     return (
       <div className="Recommendation_FRBreeder">
         <GoogleTagManager additionalEvents={event} />
@@ -3021,82 +3054,116 @@ class Recommendation extends React.Component {
         ) : null}
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
-          <p className="text-center sub-title m-auto">VOTRE RECOMMANDATION ÉLEVEUR</p>
+          <p className="text-center sub-title m-auto">
+            VOTRE RECOMMANDATION ÉLEVEUR
+          </p>
           <p className="text-center rc-beta m-auto recommendation-title">
             Offrez à votre nouveau compagnon la nutrition adaptée à ses besoins
             spécifiques​
           </p>
-         {details?.goodsInfos? <div className="goods-list-container  m-auto text-center">
-            <ul className="tab-list m-auto">
-              {productList.map((el,index)=>(<li onClick={()=>this.tabChange(productList,index)} className={`text-center ${activeIndex==index?'active':''}`}
-               style={{cursor:'pointer',display:'inline-block',padding:'0 1rem'}}>
-                <img className="tab-img"  src={el.images[0].artworkUrl}/>
-                <div>{el.goodsInfo.goodsInfoName}</div>
-              </li>))}
-            </ul>
-            <div className="goods-container rc-layout-container rc-five-column">
-              <div className="goods-imgs rc-double-width rc-column">
-                <ImageMagnifier_fr
-                  sizeList={details.sizeList||[]}
-                  video={details.goodsVideo}
-                  images={details.images || []}
-                  minImg={details.goodsImg}
-                  maxImg={details.goodsImg}
-                  imgAlt={details?.goodsName}
-                  config={this.state.imageMagnifierCfg?.config}
-                  taggingForText={details.taggingForTextAtPDP}
-                  taggingForImage={
-                    details.taggingForImageAtPDP
-                  }
-                  // spuImages={[]}
-                  spuImages={
-                    filterImages.length
-                      ? filterImages
-                      : details.images
-                  }
-                />
-              </div>
-              <div className="goods-info  rc-triple-width rc-column text-left">
-                <h2 title={details?.goodsInfo?.goodsInfoName}>{details?.goodsInfo?.goodsInfoName}</h2>
-                <p className="description">
-                {details?.goodsInfos[0]?.goods.goodsSubtitle}
-                  {/* Donner le meilleur départ dans la vie à votre chaton commence
+          {details?.goodsInfos ? (
+            <div className="goods-list-container  m-auto text-center">
+              <ul className="tab-list m-auto">
+                {productList.map((el, index) => (
+                  <li
+                    onClick={() => this.tabChange(productList, index)}
+                    className={`text-center ${
+                      activeIndex == index ? 'active' : ''
+                    }`}
+                    style={{
+                      cursor: 'pointer',
+                      display: 'inline-block',
+                      padding: '0 1rem'
+                    }}
+                  >
+                    <img className="tab-img" src={el.images[0].artworkUrl} />
+                    <div>{el.goodsInfo.goodsInfoName}</div>
+                  </li>
+                ))}
+              </ul>
+              <div className="goods-container rc-layout-container rc-five-column">
+                <div className="goods-imgs rc-double-width rc-column">
+                  <ImageMagnifier_fr
+                    sizeList={details.sizeList || []}
+                    video={details.goodsVideo}
+                    images={details.images || []}
+                    minImg={details.goodsImg}
+                    maxImg={details.goodsImg}
+                    imgAlt={details?.goodsName}
+                    config={this.state.imageMagnifierCfg?.config}
+                    taggingForText={details.taggingForTextAtPDP}
+                    taggingForImage={details.taggingForImageAtPDP}
+                    // spuImages={[]}
+                    spuImages={
+                      filterImages.length ? filterImages : details.images
+                    }
+                  />
+                </div>
+                <div className="goods-info  rc-triple-width rc-column text-left">
+                  <h2 title={details?.goodsInfo?.goodsInfoName}>
+                    {details?.goodsInfo?.goodsInfoName}
+                  </h2>
+                  <p className="description">
+                    {details?.goodsInfos[0]?.goods.goodsSubtitle}
+                    {/* Donner le meilleur départ dans la vie à votre chaton commence
                   par une bonne nutrition. En lui apportant les nutriments
                   essentiels dont il a besoin… */}
-                </p>
-                <div className="price">De 13,49€ à 14,99 €</div>
-                {/* <button>Ajouter au panier</button> */}
-                <button
-                onClick={this.addCart}
-              className={`rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile md-up`}
-               /*  ${ addToCartLoading ? 'ui-btn-loading' : ''} 
+                  </p>
+                  <div className="price">De 13,49€ à 14,99 €</div>
+                  {/* <button>Ajouter au panier</button> */}
+                  <button
+                    onClick={this.addCart}
+                    className={`rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile md-up`}
+                    /*  ${ addToCartLoading ? 'ui-btn-loading' : ''} 
               ${btnStatus ? '' : 'rc-btn-solid-disabled'}*/
-              // onClick={}
-            >
-              <span className="fa rc-icon rc-cart--xs rc-brand3" />
-              <span className="default-txt">
-              <FormattedMessage id="details.addToCart" />
-              </span>
-            </button>
-                <p className=" md-up">Livraison en 3 jours ouvrés offerte</p>
-                <div className="advantage-container">
-                  <h5>Découvrez les avantages du CLUB Royal Canin</h5>
-                  <p >Un abonnement <span style={{color:'#333'}}>flexible et sans engagement</span></p>
-                  <div className="advantage-list">
-                    {advantageList.map((advantages) => (
-                      <div className="rc-layout-container rc-two-colum">
-                        {advantages.map(el=>(<div  className="rc-column" style={{display:'flex',alignItems:'center'}}>
-                        {el.img&&<img style={{width:'60px',height:'60px'}} src={el.img} />}
-                        <span style={{display:'inline-block',flex:1}}>{el.text}</span>
-                      </div>))}
-                      </div>
-                    ))}
+                    // onClick={}
+                  >
+                    <span className="fa rc-icon rc-cart--xs rc-brand3" />
+                    <span className="default-txt">
+                      <FormattedMessage id="details.addToCart" />
+                    </span>
+                  </button>
+                  <p className=" md-up">Livraison en 3 jours ouvrés offerte</p>
+                  <div className="advantage-container">
+                    <h5>Découvrez les avantages du CLUB Royal Canin</h5>
+                    <p>
+                      Un abonnement{' '}
+                      <span style={{ color: '#333' }}>
+                        flexible et sans engagement
+                      </span>
+                    </p>
+                    <div className="advantage-list">
+                      {advantageList.map((advantages) => (
+                        <div className="rc-layout-container rc-two-colum">
+                          {advantages.map((el) => (
+                            <div
+                              className="rc-column"
+                              style={{ display: 'flex', alignItems: 'center' }}
+                            >
+                              {el.img && (
+                                <img
+                                  style={{ width: '60px', height: '60px' }}
+                                  src={el.img}
+                                />
+                              )}
+                              <span
+                                style={{ display: 'inline-block', flex: 1 }}
+                              >
+                                {el.text}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
                   </div>
+                  <p style={{ marginTop: '0.75rem' }}>
+                    <sup>1</sup> Cumulable avec l'offre de bienvenue
+                  </p>
                 </div>
-                <p style={{marginTop:'0.75rem'}}><sup>1</sup> Cumulable avec l'offre de bienvenue</p>
               </div>
             </div>
-          </div>:null}
+          ) : null}
           <Footer />
         </main>
       </div>
