@@ -32,3 +32,10 @@ export function postUpdate(params = {}) {
     data: params
   });
 }
+export function postQueryPrice(params = {}) {
+  return axios({
+    url: '/resourceDatePlan/queryPrice',
+    method: 'post',
+    data: params
+  });
+}

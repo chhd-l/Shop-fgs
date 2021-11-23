@@ -17,7 +17,7 @@ import PhoneAndEmail from './components/PhoneAndEmail/index.tsx';
 import DetailHeader from './components/DetailHeader/index.tsx';
 import ImageMagnifier from '@/components/ImageMagnifier';
 import ImageMagnifier_fr from './components/ImageMagnifier';
-import AddCartSuccessMobile from './components/AddCartSuccessMobile';
+import AddCartSuccessMobile from './components/AddCartSuccessMobile.tsx';
 import BannerTip from '@/components/BannerTip';
 import Reviews from './components/Reviews';
 import {
@@ -197,14 +197,8 @@ class Details extends React.Component {
     return this.props.checkoutStore;
   }
   get btnStatus() {
-    const {
-      details,
-      quantity,
-      instockStatus,
-      initing,
-      loading,
-      form
-    } = this.state;
+    const { details, quantity, instockStatus, initing, loading, form } =
+      this.state;
     const { sizeList } = details;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     let addedFlag = 1;
@@ -856,13 +850,8 @@ class Details extends React.Component {
     try {
       this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const {
-        currentUnitPrice,
-        quantity,
-        form,
-        details,
-        questionParams
-      } = this.state;
+      const { currentUnitPrice, quantity, form, details, questionParams } =
+        this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -1426,6 +1415,11 @@ class Details extends React.Component {
                   this.setState({ modalMobileCartSuccessVisible: false });
                 }}
                 mixFeedingData={this.state.mixFeeding}
+                goodsInfoFlag={
+                  form.buyWay && details.promotions?.includes('club')
+                    ? 2
+                    : form.buyWay
+                }
               />
             ) : null}
 

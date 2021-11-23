@@ -128,7 +128,7 @@ function ListItemH5ForGlobalStyle(props) {
               <div>
                 <div
                   className="d-flex position-relative"
-                  style={{ zIndex: 2,visibility:'hidden' }}
+                  style={{ zIndex: 2, visibility: 'hidden' }}
                 >
                   <FormattedMessage
                     id="plp.retail.cat.filter.specneed.tip.mobile"
@@ -368,7 +368,7 @@ function ListItemForDefault(props) {
               </div>
               <div
                 className=" text-center"
-                style={{ fontSize: 'large',visibility:'hidden' }}
+                style={{ fontSize: 'large', visibility: 'hidden' }}
               >
                 <FormattedMessage
                   id="plp.retail.cat.filter.specneed.tip"
@@ -556,37 +556,38 @@ const PriceItemShow = ({ item, configStore }) => {
             {priceDisplayMethod == 1 &&
               (window.__.env.REACT_APP_PLP_STYLE === 'layout-global' ? (
                 <>
-                  <FormattedMessage id='plpFromNew'
-                                    values={{
-                                      started: (
-                                        <div
-                                          className='text-left NameFitScreen'
-                                          style={{ color: 'rgb(74, 74, 74)', opacity: 2 }}
-                                        >
-                                          <FormattedMessage id='plpFromText' />
-                                        </div>
-                                      ),
-                                      plpValue: (
-                                        <div className='d-flex justify-content-center'>
-                                          <div
-                                            className='rc-full-width PriceFitScreen'
-                                            style={{ fontSize: '1.25rem' }}
-                                          >
-                                            <span className='value sales card--product-contaner-price'>
-                                              <span
-                                                className='contaner-price__value'
-                                                style={{
-                                                  color: '#323232',
-                                                  fontWeight: 400
-                                                }}
-                                              >
-                                                {formatMoney(item?.fromPrice)}
-                                              </span>
-                                            </span>
-                                          </div>
-                                        </div>
-                                      )
-                                    }}
+                  <FormattedMessage
+                    id="plpFromNew"
+                    values={{
+                      started: (
+                        <div
+                          className="text-left NameFitScreen"
+                          style={{ color: 'rgb(74, 74, 74)', opacity: 2 }}
+                        >
+                          <FormattedMessage id="plpFromText" />
+                        </div>
+                      ),
+                      plpValue: (
+                        <div className="d-flex justify-content-center">
+                          <div
+                            className="rc-full-width PriceFitScreen"
+                            style={{ fontSize: '1.25rem' }}
+                          >
+                            <span className="value sales card--product-contaner-price">
+                              <span
+                                className="contaner-price__value"
+                                style={{
+                                  color: '#323232',
+                                  fontWeight: 400
+                                }}
+                              >
+                                {formatMoney(item?.fromPrice)}
+                              </span>
+                            </span>
+                          </div>
+                        </div>
+                      )
+                    }}
                   />
                 </>
               ) : (
@@ -655,36 +656,38 @@ const PriceItemShow = ({ item, configStore }) => {
                 {priceDisplayMethod == 1 &&
                   (window.__.env.REACT_APP_PLP_STYLE === 'layout-global' ? (
                     <>
-                      <FormattedMessage id='plpFromNew'
-                                        values={{
-                                          started: (<div
-                                            className='text-center NameFitScreen'
-                                            style={{ color: 'rgb(74, 74, 74)', opacity: 2 }}
-                                          >
-                                            <FormattedMessage id='plpFromText' />
-                                          </div>),
-                                          plpValue: (
-                                            <div className='d-flex justify-content-center'>
-                                              <div
-                                                className='rc-full-width PriceFitScreen'
-                                                style={{ fontSize: '1.25rem' }}
-                                              >
-                                                <span className='value sales card--product-contaner-price'>
-                                                  <span
-                                                    className='contaner-price__value'
-                                                    style={{
-                                                      color: '#323232',
-                                                      fontWeight: 400
-                                                    }}
-                                                  >
-                                                    {formatMoney(item?.fromPrice)}
-                                                  </span>
-                                                </span>
-                                              </div>
-                                            </div>
-
-                                          )
-                                        }}
+                      <FormattedMessage
+                        id="plpFromNew"
+                        values={{
+                          started: (
+                            <div
+                              className="text-center NameFitScreen"
+                              style={{ color: 'rgb(74, 74, 74)', opacity: 2 }}
+                            >
+                              <FormattedMessage id="plpFromText" />
+                            </div>
+                          ),
+                          plpValue: (
+                            <div className="d-flex justify-content-center">
+                              <div
+                                className="rc-full-width PriceFitScreen"
+                                style={{ fontSize: '1.25rem' }}
+                              >
+                                <span className="value sales card--product-contaner-price">
+                                  <span
+                                    className="contaner-price__value"
+                                    style={{
+                                      color: '#323232',
+                                      fontWeight: 400
+                                    }}
+                                  >
+                                    {formatMoney(item?.fromPrice)}
+                                  </span>
+                                </span>
+                              </div>
+                            </div>
+                          )
+                        }}
                       />
                       {/*<div*/}
                       {/*  className="text-center NameFitScreen"*/}

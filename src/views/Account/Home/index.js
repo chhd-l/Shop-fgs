@@ -21,7 +21,11 @@ import { itemList } from './config';
 const pageLink = window.location.href;
 
 function Container({ className, item, children }) {
-  return item.isHubOuterLink ? (
+  return item.isOuter ? (
+    <a className={className} href={item.href} target="_blank">
+      {children}
+    </a>
+  ) : item.isHubOuterLink ? (
     <DistributeHubLinkOrATag
       className={className}
       to={item.link}

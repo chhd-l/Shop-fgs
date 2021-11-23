@@ -93,7 +93,7 @@ const loyaltyProgramme = {
   titleLangKey: 'account.loyaltyProgramme',
   textLangKey: 'account.loyaltyProgrammeTip',
   href: window.__.env.LOYALTY_PROGRAMME_LINK,
-  isHubOuterLink: true,
+  isOuter: true,
   rightTopIcon: <span className="iconfont iconLogoff" />
 };
 

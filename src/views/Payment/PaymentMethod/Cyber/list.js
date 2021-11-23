@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';
 import Skeleton from 'react-skeleton-loader';
-import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
+import getCardImg from '@/lib/get-card-img';
 import { getPaymentMethod, deleteCard } from '@/api/payment';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { loadJS } from '@/utils/utils';
@@ -62,9 +62,8 @@ class CyberCardList extends React.Component {
       memberUnsavedCardList: [], // 会员，选择不保存卡情况下，卡信息存储该字段中
       saveLoading: false
     };
-    this.handleClickConfirmDeleteBtn = this.handleClickConfirmDeleteBtn.bind(
-      this
-    );
+    this.handleClickConfirmDeleteBtn =
+      this.handleClickConfirmDeleteBtn.bind(this);
     this.handleClickDeleteBtn = this.handleClickDeleteBtn.bind(this);
     this.hanldeClickCardItem = this.hanldeClickCardItem.bind(this);
     this.editFormRef = React.createRef();
@@ -137,7 +136,8 @@ class CyberCardList extends React.Component {
           (ele) => ele.id === this.state.selectedId
         );
         if (!!firstSaveCard) {
-          firstSaveCard.encryptedSecurityCode = currentCardEncryptedSecurityCode;
+          firstSaveCard.encryptedSecurityCode =
+            currentCardEncryptedSecurityCode;
         }
         this.props.updateSelectedCardInfo(firstSaveCard);
       }
@@ -297,12 +297,11 @@ class CyberCardList extends React.Component {
             <img
               alt="card background"
               className="PayCardImgFitScreen"
-              src={
-                CREDIT_CARD_IMG_ENUM[
-                  data.paymentVendor && data.paymentVendor.toUpperCase()
-                ] ||
-                'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-              }
+              src={getCardImg({
+                supportPaymentMethods:
+                  this.props.paymentStore.supportPaymentMethods,
+                currentVendor: data.paymentVendor
+              })}
               style={{ width: '89%' }}
             />
           </LazyLoad>

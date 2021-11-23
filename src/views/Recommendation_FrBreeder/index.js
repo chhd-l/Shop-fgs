@@ -9,11 +9,11 @@ import ImageMagnifier from '@/components/ImageMagnifierForUS';
 import { formatMoney, getDeviceType } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import Loading from '@/components/Loading';
-import giftsImg from './images/gifts@2x.png'
-import discountImg from './images/discount@2x.svg'
-import petadviserimg from './images/petadviser@2x.png'
-import shippingImg from './images/shipping@2x.png'
-import supportImg from './images/support@2x.png'
+import giftsImg from './images/gifts@2x.png';
+import discountImg from './images/discount@2x.svg';
+import petadviserimg from './images/petadviser@2x.png';
+import shippingImg from './images/shipping@2x.png';
+import supportImg from './images/support@2x.png';
 
 import './index.less';
 import { inject, observer } from 'mobx-react';
@@ -32,6 +32,7 @@ import {
   getFrequencyDict
 } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
+import Description from './components/description';
 import {
   GARecommendationProduct,
   GABreederRecoPromoCodeCTA,
@@ -140,24 +141,19 @@ class Recommendation extends React.Component {
     this.helpContentText = {
       title: this.props.intl.messages['recommendation.helpContentText.title'],
       des: this.props.intl.messages['recommendation.helpContentText.des'],
-      emailTitle: this.props.intl.messages[
-        'recommendation.helpContentText.emailTitle'
-      ],
-      emailDes: this.props.intl.messages[
-        'recommendation.helpContentText.emailDes'
-      ],
-      emailLink: this.props.intl.messages[
-        'recommendation.helpContentText.emailLink'
-      ], //俄罗斯是其他的链接
-      phoneTitle: this.props.intl.messages[
-        'recommendation.helpContentText.phoneTitle'
-      ],
+      emailTitle:
+        this.props.intl.messages['recommendation.helpContentText.emailTitle'],
+      emailDes:
+        this.props.intl.messages['recommendation.helpContentText.emailDes'],
+      emailLink:
+        this.props.intl.messages['recommendation.helpContentText.emailLink'], //俄罗斯是其他的链接
+      phoneTitle:
+        this.props.intl.messages['recommendation.helpContentText.phoneTitle'],
       phone: this.props.intl.messages['recommendation.helpContentText.phone'],
       email: this.props.intl.messages['recommendation.helpContentText.email'],
       phoneDes1: `<strong>${this.props.intl.messages['recommendation.helpContentText.phoneDes1']}</strong>`,
-      phoneDes2: this.props.intl.messages[
-        'recommendation.helpContentText.phoneDes2'
-      ]
+      phoneDes2:
+        this.props.intl.messages['recommendation.helpContentText.phoneDes2']
     };
   }
 
@@ -2496,12 +2492,8 @@ class Recommendation extends React.Component {
     });
   };
   checkoutStock() {
-    let {
-      productList,
-      outOfStockProducts,
-      inStockProducts,
-      modalList
-    } = this.state;
+    let { productList, outOfStockProducts, inStockProducts, modalList } =
+      this.state;
     for (let i = 0; i < productList.length; i++) {
       if (
         productList[i].recommendationNumber > productList[i].goodsInfo.stock
@@ -2530,12 +2522,8 @@ class Recommendation extends React.Component {
     );
   }
   async hanldeLoginAddToCart() {
-    let {
-      productList,
-      outOfStockProducts,
-      inStockProducts,
-      modalList
-    } = this.state;
+    let { productList, outOfStockProducts, inStockProducts, modalList } =
+      this.state;
     GABigBreederAddToCar(productList);
     // console.log(outOfStockProducts, inStockProducts, '...1')
     // return
@@ -2570,8 +2558,8 @@ class Recommendation extends React.Component {
             recommendationId:
               this.props.clinicStore.linkClinicRecommendationInfos
                 ?.recommendationId || this.props.clinicStore.linkClinicId,
-            recommendationInfos: this.props.clinicStore
-              .linkClinicRecommendationInfos,
+            recommendationInfos:
+              this.props.clinicStore.linkClinicRecommendationInfos,
             recommendationName:
               this.props.clinicStore.linkClinicRecommendationInfos
                 ?.recommendationName || this.props.clinicStore.linkClinicName
@@ -2599,8 +2587,8 @@ class Recommendation extends React.Component {
             currentUnitPrice: p.goodsInfo.marketPrice,
             goodsInfoFlag: 1,
             periodTypeId: inStockProducts[i].defaultFrequencyId,
-            recommendationInfos: this.props.clinicStore
-              .linkClinicRecommendationInfos,
+            recommendationInfos:
+              this.props.clinicStore.linkClinicRecommendationInfos,
             recommendationId:
               this.props.clinicStore.linkClinicRecommendationInfos
                 ?.recommendationId || this.props.clinicStore.linkClinicId,
@@ -2651,12 +2639,8 @@ class Recommendation extends React.Component {
       localItemRoyal.set('okta-redirectUrl', '/prescription');
     }
     this.setState({ needLogin });
-    let {
-      productList,
-      outOfStockProducts,
-      inStockProducts,
-      modalList
-    } = this.state;
+    let { productList, outOfStockProducts, inStockProducts, modalList } =
+      this.state;
     let totalPrice;
     inStockProducts.map((el) => {
       console.log(el, 'instock');
@@ -2741,12 +2725,8 @@ class Recommendation extends React.Component {
   };
   async hanldeClickSubmit() {
     const { checkoutStore, loginStore, history, clinicStore } = this.props;
-    let {
-      currentModalObj,
-      subDetail,
-      outOfStockProducts,
-      inStockProducts
-    } = this.state;
+    let { currentModalObj, subDetail, outOfStockProducts, inStockProducts } =
+      this.state;
     this.setState({ loading: true, modalShow: false });
     if (currentModalObj.type === 'addToCart') {
       for (let i = 0; i < inStockProducts.length; i++) {
@@ -2911,8 +2891,8 @@ class Recommendation extends React.Component {
   };
   tabChange(productList, index) {
     let promotionCode = funcUrl({ name: 'coupon' }) || '';
-    this.setState({ activeIndex: index },()=>{
-      this.calcIsShowMore()
+    this.setState({ activeIndex: index }, () => {
+      this.calcIsShowMore();
     });
     const currentProduct = productList.filter((item, i) => i == index && item);
     GARecommendationProduct(
@@ -3126,53 +3106,72 @@ class Recommendation extends React.Component {
               className={`rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile md-up`}
                /*  ${ addToCartLoading ? 'ui-btn-loading' : ''} 
               ${btnStatus ? '' : 'rc-btn-solid-disabled'}*/
-              // onClick={}
-            >
-              <span className="fa rc-icon rc-cart--xs rc-brand3" />
-              <span className="default-txt">
-              <FormattedMessage id="details.addToCart" />
-              </span>
-            </button>
-                <p className=" md-up">Livraison en 3 jours ouvrés offerte</p>
-                <div className="advantage-container">
-                  <h5>Découvrez les avantages du CLUB Royal Canin</h5>
-                  <p >Un abonnement <span style={{color:'#333'}}>flexible et sans engagement</span></p>
-                  <div className="advantage-list">
-                    {advantageList.map((advantages) => (
-                      <div className="rc-layout-container rc-two-colum">
-                        {advantages.map(el=>(<div  className="rc-column" style={{display:'flex',alignItems:'center'}}>
-                        {el.img&&<img style={{width:'60px',height:'60px'}} src={el.img} />}
-                        {/* <div style={{width:'60px',height:'60px',background:`url(${el.img})`,backgroundSize:'250%',backgroundRepeat:'no-repeat',backgroundPosition:'center'}}></div> */}
-                        <span style={{display:'inline-block',flex:1}}>{el.text}</span>
-                      </div>))}
-                      </div>
-                    ))}
+                    // onClick={}
+                  >
+                    <span className="fa rc-icon rc-cart--xs rc-brand3" />
+                    <span className="default-txt">
+                      <FormattedMessage id="details.addToCart" />
+                    </span>
+                  </button>
+                  <p className=" md-up">Livraison en 3 jours ouvrés offerte</p>
+                  <div className="advantage-container">
+                    <h5>Découvrez les avantages du CLUB Royal Canin</h5>
+                    <p>
+                      Un abonnement{' '}
+                      <span style={{ color: '#333' }}>
+                        flexible et sans engagement
+                      </span>
+                    </p>
+                    <div className="advantage-list">
+                      {advantageList.map((advantages) => (
+                        <div className="rc-layout-container rc-two-colum">
+                          {advantages.map((el) => (
+                            <div
+                              className="rc-column"
+                              style={{ display: 'flex', alignItems: 'center' }}
+                            >
+                              {el.img && (
+                                <img
+                                  style={{ width: '60px', height: '60px' }}
+                                  src={el.img}
+                                />
+                              )}
+                              {/* <div style={{width:'60px',height:'60px',background:`url(${el.img})`,backgroundSize:'250%',backgroundRepeat:'no-repeat',backgroundPosition:'center'}}></div> */}
+                              <span
+                                style={{ display: 'inline-block', flex: 1 }}
+                              >
+                                {el.text}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                    <p style={{ marginTop: '0.75rem' }}>
+                      <sup>1</sup> Cumulable avec l'offre de bienvenue
+                    </p>
                   </div>
-                  <p style={{ marginTop: '0.75rem' }}>
-                    <sup>1</sup> Cumulable avec l'offre de bienvenue
-                  </p>
                 </div>
               </div>
-            </div>
-            <div className="md-down add-cart-for-mobile">
-            <button
-                onClick={this.addCart}
-              className={`rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile`}
-               /*  ${ addToCartLoading ? 'ui-btn-loading' : ''} 
+              <div className="md-down add-cart-for-mobile">
+                <button
+                  onClick={this.addCart}
+                  className={`rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile`}
+                  /*  ${ addToCartLoading ? 'ui-btn-loading' : ''} 
               ${btnStatus ? '' : 'rc-btn-solid-disabled'}*/
-              // onClick={}
-            >
-              <span className="fa rc-icon rc-cart--xs rc-brand3" />
-              <span className="default-txt">
-              <FormattedMessage id="details.addToCart" />
-              </span>
-            </button>
-            <p>
-            Livraison en 3 jours ouvrés offerte
-            </p>
+                  // onClick={}
+                >
+                  <span className="fa rc-icon rc-cart--xs rc-brand3" />
+                  <span className="default-txt">
+                    <FormattedMessage id="details.addToCart" />
+                  </span>
+                </button>
+                <p>Livraison en 3 jours ouvrés offerte</p>
+              </div>
             </div>
           </div>
          </div>:null}
+          <Description />
           <Footer />
         </main>
       </div>
