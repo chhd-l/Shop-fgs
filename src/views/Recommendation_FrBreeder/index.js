@@ -84,7 +84,8 @@ class Recommendation extends React.Component {
       promotionCodeText: '',
       prescriptionJson: '',
       // secondlist: secondlistArr,
-      showMore: false,
+      showMoreInit: false,
+      showMored:false,
       petType: 1, //0 dog;1 cat
       details: {
         id: '',
@@ -2196,7 +2197,9 @@ class Recommendation extends React.Component {
       },
       () => {
         this.checkoutStock();
+        setTimeout(()=>{
         this.calcIsShowMore()
+        },0)
       }
     );
     let recommendationInfos = {
@@ -2926,9 +2929,9 @@ class Recommendation extends React.Component {
       console.log("offsetHeight: ", descriptionDom.offsetHeight)
       if (descriptionDom.scrollHeight > descriptionDom.offsetHeight) {
         console.log("出现了省略号")
-        this.setState({showMore:true})
+        this.setState({showMoreInit:true})
       } else {
-        this.setState({showMore:false})
+        this.setState({showMoreInit:false})
         console.log("没有出现省略号")
       }
   }
@@ -3064,7 +3067,9 @@ class Recommendation extends React.Component {
             Offrez à votre nouveau compagnon la nutrition adaptée à ses besoins
             spécifiques​
           </p>
-         {details?.goodsInfos? <div className="goods-list-container  m-auto text-center">
+          <div className="triangle-for-mobile"></div>
+         {details?.goodsInfos?<div className="background-container">
+          <div className="goods-list-container  m-auto text-center">
             <ul className="tab-list m-auto">
               {productList.map((el,index)=>(<li onClick={()=>this.tabChange(productList,index)} className={`text-center ${activeIndex==index?'active':''}`}
                style={{cursor:'pointer',display:'inline-block',padding:'0 1rem'}}>
@@ -3096,15 +3101,18 @@ class Recommendation extends React.Component {
               </div>
               <div className="goods-info  rc-triple-width rc-column text-left">
                 <h2 title={details?.goodsInfo?.goodsInfoName}>{details?.goodsInfo?.goodsInfoName}</h2>
-                <p className="description">
+                <p className="description" style={{webkitLineClamp:!this.state.showMored?'2':'inherit'}}>
                 {details?.goodsInfos[0]?.goods.goodsSubtitle}
-                的角度讲活动结束精神抖擞结合实际都会上看记录卡拉卡拉卡拉卡拉看掉了上课的索拉卡双联单控实力坑爹双联单控塑料袋 
                   {/* Donner le meilleur départ dans la vie à votre chaton commence
                   par une bonne nutrition. En lui apportant les nutriments
                   essentiels dont il a besoin… */}
-                  <span className="show-more"><span>...</span><span style={{cursor:'pointer'}} onClick={()=>{()=>{
-
-                  }}}>Show More</span></span>
+                  <span className="show-more" style={{display:this.state.showMoreInit?'block':'none'}}><span style={{display:this.state.showMored?'none':'inline'}}>...</span>
+                  <span style={{cursor:'pointer'}} onClick={()=>{
+                    console.info('.......',this.state.showMored)
+                      this.setState({showMored: !this.state.showMored},()=>{
+                        console.info('.........showMored',this.state.showMored)
+                      })
+                  }}>{this.state.showMored?'Range ça':'Voir plus'}</span></span>
                 </p>
                 <div className="price">
                   <FormattedMessage id="from" />{' '}
@@ -3163,7 +3171,8 @@ class Recommendation extends React.Component {
             Livraison en 3 jours ouvrés offerte
             </p>
             </div>
-          </div>:null}
+          </div>
+         </div>:null}
           <Footer />
         </main>
       </div>
