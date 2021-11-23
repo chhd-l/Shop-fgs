@@ -16,7 +16,7 @@ import locales from '@/lang';
 import Skeleton from 'react-skeleton-loader';
 import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';
-import SearchSelection from '@/components/SearchSelection';
+import SearchSelection from '@/components/DqeSearchSelection';
 import {
   getDictionary,
   validData,
@@ -37,7 +37,8 @@ import {
   getDeliveryDateAndTimeSlot,
   validPostCodeBlock,
   DQEAddressList,
-  queryOpenedApi
+  queryOpenedApi,
+  returnDQE
 } from '@/api/address';
 import { shippingCalculation } from '@/api/cart';
 import { inject, observer } from 'mobx-react';
@@ -1160,6 +1161,7 @@ class Form extends React.Component {
 
   // 地址搜索选择 1 (DuData、DQE)
   handleAddressInputChange = async (data) => {
+    console.log('data', data);
     const { caninForm, apiType } = this.state;
     this.setState({
       address1Data: data,
@@ -1249,6 +1251,11 @@ class Form extends React.Component {
         });
       }
     } else if (apiType === 'DQE') {
+      returnDQE({
+        idvoie: data.idvoie,
+        streetNumber: data.selectedListeNumero,
+        pays: data.pays
+      });
       Object.assign(caninForm, {
         address1: data.address1,
         deliveryAddress: data.label,
@@ -1423,7 +1430,7 @@ class Form extends React.Component {
           selectedItemChange={(data) => this.handleAddressInputChange(data)}
           searchSelectionBlur={this.handleSearchSelectionBlur}
           searchInputChange={this.getSearchInputChange}
-          key={caninForm[item.fieldKey]}
+          // key={caninForm[item.fieldKey]}
           defaultValue={caninForm[item.fieldKey]}
           value={caninForm[item.fieldKey] || ''}
           freeText={item.inputFreeTextFlag == 1 ? true : false}

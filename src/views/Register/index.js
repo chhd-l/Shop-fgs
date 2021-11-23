@@ -212,8 +212,13 @@ class Register extends Component {
   validInput(name, value) {
     switch (name) {
       case 'password':
-        const { ruleLength, ruleLower, ruleUpper, ruleAname, ruleSpecial } =
-          this.state;
+        const {
+          ruleLength,
+          ruleLower,
+          ruleUpper,
+          ruleAname,
+          ruleSpecial
+        } = this.state;
         const passwordValid =
           ruleLength && ruleLower && ruleUpper && ruleAname && ruleSpecial;
         this.setState({
@@ -261,8 +266,7 @@ class Register extends Component {
       var lowerReg = /[a-z]+/;
       var upperReg = /[A-Z]+/;
       var nameReg = /[\d]+/;
-      var specialReg =
-        /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
+      var specialReg = /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
       this.setState(
         {
           ruleLength: value.length >= 8,
@@ -338,8 +342,7 @@ class Register extends Component {
             // 注册的时候如果是预约专家就直接跳转checkout页面
             let appointmentNo = sessionItemRoyal.get('appointment-no');
             if (appointmentNo) {
-              window.location.href =
-                window.location.origin + window.location.pathname + '/checkout';
+              window.location.href = window.location.origin + '/fr/checkout';
             } else {
               window.location.href = callOktaCallBack;
             }
@@ -603,8 +606,9 @@ class Register extends Component {
                               {window.__.env.REACT_APP_COUNTRY === 'de' ? (
                                 <span
                                   dangerouslySetInnerHTML={{
-                                    __html:
-                                      this.getIntlMsg('registerContinuing')
+                                    __html: this.getIntlMsg(
+                                      'registerContinuing'
+                                    )
                                   }}
                                 ></span>
                               ) : (

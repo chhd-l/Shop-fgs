@@ -13,7 +13,8 @@ class MyModal extends React.Component {
         lastName: '',
         email: '',
         phone: ''
-      }
+      },
+      emailShow: true
     };
   }
 
@@ -29,8 +30,14 @@ class MyModal extends React.Component {
         [key]: e.target.value
       }
     });
+    if (key === 'email') {
+      var emailReg = /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/;
+      let show = emailReg.test(e.target.value);
+      this.setState({
+        emailShow: show
+      });
+    }
   };
-
   render() {
     const { visible, children, handleUpdate } = this.props;
     return (
@@ -69,6 +76,11 @@ class MyModal extends React.Component {
             onChange={(e) => this.onChange(e, 'phone')}
           />
         </div>
+        {!this.state.emailShow ? (
+          <div style={{ padding: '0 3.75rem' }} className="col-red">
+            L'adresse e-mail ne correspond pas au format spécifié.
+          </div>
+        ) : null}
         <div
           style={{ padding: '0 3.75rem' }}
           className="mt50 cursor-pointer"
@@ -96,7 +108,8 @@ class MyModal extends React.Component {
               !this.state.params.firstName ||
               !this.state.params.lastName ||
               !this.state.params.email ||
-              !this.state.params.phone
+              !this.state.params.phone ||
+              !this.state.emailShow
             }
             className="rc-btn rc-btn--one  rc-margin-bottom--xs"
             style={{
