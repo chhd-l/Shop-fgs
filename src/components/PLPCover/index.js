@@ -127,8 +127,8 @@ function ListItemH5ForGlobalStyle(props) {
               </div>
               <div>
                 <div
-                  className="d-flex margin-top-mobile-20 position-relative"
-                  style={{ zIndex: 2 }}
+                  className="d-flex position-relative"
+                  style={{ zIndex: 2,visibility:'hidden' }}
                 >
                   <FormattedMessage
                     id="plp.retail.cat.filter.specneed.tip.mobile"
@@ -367,8 +367,8 @@ function ListItemForDefault(props) {
                 </FormattedMessage>
               </div>
               <div
-                className=" text-center rc-padding-top--xs"
-                style={{ fontSize: 'large' }}
+                className=" text-center"
+                style={{ fontSize: 'large',visibility:'hidden' }}
               >
                 <FormattedMessage
                   id="plp.retail.cat.filter.specneed.tip"
