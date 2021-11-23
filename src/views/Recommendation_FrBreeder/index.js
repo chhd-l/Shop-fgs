@@ -9,6 +9,12 @@ import ImageMagnifier from '@/components/ImageMagnifierForUS';
 import { formatMoney, getDeviceType } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import Loading from '@/components/Loading';
+import giftsImg from './images/gifts@2x.png'
+import discountImg from './images/discount@2x.svg'
+import petadviserimg from './images/petadviser@2x.png'
+import shippingImg from './images/shipping@2x.png'
+import supportImg from './images/support@2x.png'
+
 import './index.less';
 import { inject, observer } from 'mobx-react';
 import {
@@ -44,11 +50,11 @@ const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
 let advantageArr = [
-  { img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/shipping@2x.png`, text: 'Livraison offerte et automatique' },
-  { img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/cutoff10%25.svg`, text: '10% de réduction pour toute commande1' },
-  { img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/gifts@2x.png`, text: 'Un conseiller à votre écoute' },
-  { img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/gifts@2x.png`, text: 'Un kit de bienvenue et des cadeaux exclusifs' },
-  { img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/gifts@2x.png`, text: 'Un accompagnement pédagogique individualisé' },
+  { img: shippingImg, text: 'Livraison offerte et automatique' },
+  { img: discountImg, text: '10% de réduction pour toute commande1' },
+  { img: petadviserimg, text: 'Un conseiller à votre écoute' },
+  { img: giftsImg, text: 'Un kit de bienvenue et des cadeaux exclusifs' },
+  { img: supportImg, text: 'Un accompagnement pédagogique individualisé' },
   { img: '', text: '' }
 ];
 let advantageList = []
@@ -78,7 +84,7 @@ class Recommendation extends React.Component {
       promotionCodeText: '',
       prescriptionJson: '',
       // secondlist: secondlistArr,
-      showMore: true,
+      showMore: false,
       petType: 1, //0 dog;1 cat
       details: {
         id: '',
@@ -2187,6 +2193,7 @@ class Recommendation extends React.Component {
       },
       () => {
         this.checkoutStock();
+        this.calcIsShowMore()
       }
     );
     let recommendationInfos = {
@@ -2714,9 +2721,6 @@ class Recommendation extends React.Component {
     let trimStr = sliceText.trim();
     return trimStr ? trimStr + '...' : '';
   };
-  seeMore = () => {
-    this.setState({ showMore: true });
-  };
   async hanldeClickSubmit() {
     const { checkoutStore, loginStore, history, clinicStore } = this.props;
     let { currentModalObj, subDetail, outOfStockProducts, inStockProducts } =
@@ -2885,7 +2889,9 @@ class Recommendation extends React.Component {
   };
   tabChange(productList, index) {
     let promotionCode = funcUrl({ name: 'coupon' }) || '';
-    this.setState({ activeIndex: index });
+    this.setState({ activeIndex: index },()=>{
+      this.calcIsShowMore()
+    });
     const currentProduct = productList.filter((item, i) => i == index && item);
     GARecommendationProduct(
       currentProduct,
@@ -2894,6 +2900,18 @@ class Recommendation extends React.Component {
       promotionCode,
       this.state.activeIndex
     );
+  }
+  calcIsShowMore=()=>{
+    let descriptionDom = document.querySelector('.description')
+      console.log("scrollHeight: ", descriptionDom.scrollHeight)
+      console.log("offsetHeight: ", descriptionDom.offsetHeight)
+      if (descriptionDom.scrollHeight > descriptionDom.offsetHeight) {
+        console.log("出现了省略号")
+        this.setState({showMore:true})
+      } else {
+        this.setState({showMore:false})
+        console.log("没有出现省略号")
+      }
   }
 
   render() {
@@ -3060,11 +3078,20 @@ class Recommendation extends React.Component {
                 <h2 title={details?.goodsInfo?.goodsInfoName}>{details?.goodsInfo?.goodsInfoName}</h2>
                 <p className="description">
                 {details?.goodsInfos[0]?.goods.goodsSubtitle}
+                的角度讲活动结束精神抖擞结合实际都会上看记录卡拉卡拉卡拉卡拉看掉了上课的索拉卡双联单控实力坑爹双联单控塑料袋 
                   {/* Donner le meilleur départ dans la vie à votre chaton commence
                   par une bonne nutrition. En lui apportant les nutriments
                   essentiels dont il a besoin… */}
+                  <span className="show-more"><span>...</span><span style={{cursor:'pointer'}} onClick={()=>{()=>{
+
+                  }}}>Show More</span></span>
                 </p>
-                <div className="price">De 13,49€ à 14,99 €</div>
+                <div className="price">
+                  <FormattedMessage id="from" />{' '}
+                  {formatMoney(details.goodsInfo.subscriptionPrice)}{' '}
+                  <FormattedMessage id="to" />{' '}
+                  {formatMoney(details.goodsInfo.marketPrice)}
+                </div>
                 {/* <button>Ajouter au panier</button> */}
                 <button
                 onClick={this.addCart}
@@ -3087,6 +3114,7 @@ class Recommendation extends React.Component {
                       <div className="rc-layout-container rc-two-colum">
                         {advantages.map(el=>(<div  className="rc-column" style={{display:'flex',alignItems:'center'}}>
                         {el.img&&<img style={{width:'60px',height:'60px'}} src={el.img} />}
+                        {/* <div style={{width:'60px',height:'60px',background:`url(${el.img})`,backgroundSize:'250%',backgroundRepeat:'no-repeat',backgroundPosition:'center'}}></div> */}
                         <span style={{display:'inline-block',flex:1}}>{el.text}</span>
                       </div>))}
                       </div>
@@ -3095,6 +3123,23 @@ class Recommendation extends React.Component {
                 </div>
                 <p style={{marginTop:'0.75rem'}}><sup>1</sup> Cumulable avec l'offre de bienvenue</p>
               </div>
+            </div>
+            <div className="md-down add-cart-for-mobile">
+            <button
+                onClick={this.addCart}
+              className={`rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile`}
+               /*  ${ addToCartLoading ? 'ui-btn-loading' : ''} 
+              ${btnStatus ? '' : 'rc-btn-solid-disabled'}*/
+              // onClick={}
+            >
+              <span className="fa rc-icon rc-cart--xs rc-brand3" />
+              <span className="default-txt">
+              <FormattedMessage id="details.addToCart" />
+              </span>
+            </button>
+            <p>
+            Livraison en 3 jours ouvrés offerte
+            </p>
             </div>
           </div>:null}
           <Footer />

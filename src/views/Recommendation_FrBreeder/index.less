@@ -6,6 +6,20 @@
   font-weight: 500;
   padding: 2.5rem 0 .5rem;
 }
+.add-cart-for-mobile{
+  position: fixed;
+  box-shadow: 0 2px 0.625rem rgb(0 0 0 / 20%);
+  bottom: 0;
+  z-index: 10;
+  background: #F6F6F6;
+  padding: 1.25rem 0;
+  width: 100%;
+  p{
+    margin-top: 0.75rem;
+    margin-bottom: 0;
+    text-align: center;
+  }
+}
 .recommendation-title{
   font-weight: 400;
   font-size: 1.875rem;
@@ -30,7 +44,7 @@
 .tab-list{
   padding: 0;
   white-space: nowrap;
-  overflow-x: scroll;
+  overflow-x: auto;
   li{
     border-bottom: 4px solid transparent;
     &.active{
@@ -54,6 +68,20 @@
     line-height: 1.5;
     color: #666666;
     margin: 1rem 0;
+    word-break: break-word;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    position: relative;
+   -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  }
+  .show-more{
+    position: absolute;
+    bottom: 0;
+    box-shadow: -10px 0 7px -5px #fff;
+    right: 0;
+    background: #fff;
   }
   .price{
     font-size: 1.25rem;
