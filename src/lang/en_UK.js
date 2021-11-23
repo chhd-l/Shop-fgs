@@ -1834,10 +1834,19 @@ const en_US = {
     'In this case, you will not be able to use the ROYAL CANIN® services. Access to the Club program and subscription to veterinary diets will be closed, and the purchase history will be deleted.',
   'account.deleteMyaccountTitle': 'Delete account',
   proceedToTheDeletion: 'Delete my account',
-  'header.User.home': 'Personal Area',
-  'header.User.myPersonalInformation': 'Profile',
-  'header.User.pets': 'Pets',
+  'header.User.home': 'Account',
+  'header.User.myPersonalInformation': 'My details',
+  'header.User.pets': 'My Pets',
   'header.User.myOrders': 'Orders',
-  'header.User.mySubscriptions': 'Feed subscriptions'
+  'header.User.mySubscriptions': 'Subscriptions',
+  'account.loyaltyProgramme': 'Loyalty Programme',
+  'account.loyaltyProgrammeTip':
+    'Consult and manage Loyalty programme and your Coupons',
+  'lang.close': 'Close',
+  'lang.country': 'Country',
+  'lang.language': 'Language',
+  //language-choose
+  'lang.selectYourLocation': 'Select your location',
+  'lang.submit': 'Submit'
 };
 export default en_US;

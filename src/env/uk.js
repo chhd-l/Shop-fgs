@@ -77,7 +77,9 @@ const env = {
 
     // #删除账户
     REACT_APP_DELETE_My_ACCOUNT_URL:
-      'https://prd-weu1-rc-df-myaccount-app-webapp-stg.cloud-effem.com/en-us/manager/settings'
+      'https://prd-weu1-rc-df-myaccount-app-webapp-stg.cloud-effem.com/en-us/manager/settings',
+
+    LOYALTY_PROGRAMME_LINK: 'https://my.royalcanin.co.uk/account/loyalty'
   },
   development: {
     // #okta

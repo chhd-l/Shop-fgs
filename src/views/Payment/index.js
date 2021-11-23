@@ -305,16 +305,16 @@ class Payment extends React.Component {
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
     this.cyberRef = React.createRef();
-    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
-      this
-    );
+    this.confirmListValidationAddress =
+      this.confirmListValidationAddress.bind(this);
   }
   //cyber查询卡类型-会员
   queryCyberCardType = async (params) => {
     try {
-      const res = await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
-        params
-      );
+      const res =
+        await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
+          params
+        );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -325,9 +325,10 @@ class Payment extends React.Component {
   //cyber查询卡类型-游客
   queryGuestCyberCardType = async (params) => {
     try {
-      const res = await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
-        params
-      );
+      const res =
+        await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
+          params
+        );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -597,33 +598,35 @@ class Payment extends React.Component {
       setStsToPrepare,
       confirmationPanelStatus
     } = this.props.paymentStore;
-    const { paymentPanelHasComplete } = this.state;
+    const { paymentPanelHasComplete, tid, isFromFelin } = this.state;
 
-    if (this.tradePrice === 0) {
-      //变成0元订单
-      if (this.paymentMethodPanelStatus.isEdit) {
-        //如果当前正在编辑的是paymentInfo,隐藏paymentMethod面板去编辑confirmation面板
-        setStsToCompleted({
-          key: 'paymentMethod'
-        });
-        setStsToEdit({ key: 'confirmation' });
+    if (!tid && !isFromFelin) {
+      if (this.tradePrice === 0) {
+        //变成0元订单
+        if (this.paymentMethodPanelStatus.isEdit) {
+          //如果当前正在编辑的是paymentInfo,隐藏paymentMethod面板去编辑confirmation面板
+          setStsToCompleted({
+            key: 'paymentMethod'
+          });
+          setStsToEdit({ key: 'confirmation' });
+        } else {
+          //正在编辑其他面板的话只需要将paymentMethod面板隐藏
+          setStsToCompleted({
+            key: 'paymentMethod'
+          });
+        }
       } else {
-        //正在编辑其他面板的话只需要将paymentMethod面板隐藏
-        setStsToCompleted({
-          key: 'paymentMethod'
-        });
-      }
-    } else {
-      //变成不是0元订单
-      if (!paymentPanelHasComplete && confirmationPanelStatus.isEdit) {
-        //正在编辑的是confirm面板而且payment没有编辑完，切回payment面板
-        setStsToEdit({ key: 'paymentMethod' });
-        setStsToPrepare({ key: 'confirmation' });
-        return;
-      }
-      if (!paymentPanelHasComplete && !this.paymentMethodPanelStatus.isEdit) {
-        //正在编辑的是其他面板则将paymentMethod置为prePare
-        setStsToPrepare({ key: 'paymentMethod' });
+        //变成不是0元订单
+        if (!paymentPanelHasComplete && confirmationPanelStatus.isEdit) {
+          //正在编辑的是confirm面板而且payment没有编辑完，切回payment面板
+          setStsToEdit({ key: 'paymentMethod' });
+          setStsToPrepare({ key: 'confirmation' });
+          return;
+        }
+        if (!paymentPanelHasComplete && !this.paymentMethodPanelStatus.isEdit) {
+          //正在编辑的是其他面板则将paymentMethod置为prePare
+          setStsToPrepare({ key: 'paymentMethod' });
+        }
       }
     }
   }
@@ -632,7 +635,7 @@ class Payment extends React.Component {
     const { tid, isFromFelin } = this.state;
 
     //初始化的时候如果是0元订单将paymentMethod面板置为已完成
-    if (this.tradePrice === 0 && !tid) {
+    if (this.tradePrice === 0 && !tid && !isFromFelin) {
       paymentStore.setStsToCompleted({
         key: 'paymentMethod'
       });
@@ -2677,9 +2680,10 @@ class Payment extends React.Component {
     const unLoginCyberSaveCard = async (params) => {
       // console.log('2080 params: ', params);
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -2691,9 +2695,10 @@ class Payment extends React.Component {
     //cyber会员绑卡
     const loginCyberSaveCard = async (params) => {
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -3462,9 +3467,8 @@ class Payment extends React.Component {
   };
   petComfirm = (data) => {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[
-        this.state.currentProIndex
-      ].petForm = data;
+      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
+        data;
     } else {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {
@@ -3552,9 +3556,8 @@ class Payment extends React.Component {
   clickPay = () => {
     if (this.tradePrice === 0 && this.isCurrentBuyWaySubscription) {
       //0元订单中含有订阅商品时不能下单
-      const errMsg = this.props.intl.messages[
-        'checkout.zeroOrder.butSubscription'
-      ];
+      const errMsg =
+        this.props.intl.messages['checkout.zeroOrder.butSubscription'];
       this.showErrorMsg(errMsg);
       return;
     }
@@ -3889,7 +3892,9 @@ class Payment extends React.Component {
                 )}
                 <div
                   className={`card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 pb-0 border ${
-                    this.tradePrice === 0 ? 'hidden' : ''
+                    this.tradePrice === 0 && !this.state.isFromFelin
+                      ? 'hidden'
+                      : ''
                   } ${
                     paymentMethodPanelStatus.isEdit
                       ? 'border-333'
