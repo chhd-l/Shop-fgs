@@ -36,6 +36,7 @@ import { format } from 'date-fns';
 import PageBaseInfo from '@/components/PageBaseInfo';
 import { injectIntl } from 'react-intl';
 import getCardImg from '@/lib/get-card-img';
+import { getWays } from '@/api/payment';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -233,11 +234,7 @@ class AccountOrders extends React.Component {
     this.handleClickLogisticsCard = this.handleClickLogisticsCard.bind(this);
   }
   componentDidMount() {
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
+    const { paymentStore } = this.props;
     this.setState(
       {
         orderNumber: this.props.match.params.orderNumber
@@ -250,6 +247,11 @@ class AccountOrders extends React.Component {
       this.setState({
         countryList: res
       });
+    });
+    getWays().then((res) => {
+      paymentStore.setSupportPaymentMethods(
+        res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || []
+      );
     });
   }
   componentWillUnmount() {
