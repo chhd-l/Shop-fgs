@@ -131,7 +131,7 @@ class Felin extends React.Component {
         employeeIds: []
       },
       userInfo: undefined,
-      appointmentNo: '',
+      apptNo: '',
       appointmentVO: {}
     };
   }
@@ -246,6 +246,7 @@ class Felin extends React.Component {
   postSave = async () => {
     const { context } = await postSave({
       apptTypeId: this.state.params.appointmentTypeId,
+      appointmentTypeId: this.state.params.appointmentTypeId,
       consumerName: this.state.userInfo?.contactName || undefined,
       consumerFirstName: this.state.userInfo?.firstName || undefined,
       consumerLastName: this.state.userInfo?.lastName || undefined,
@@ -258,15 +259,15 @@ class Felin extends React.Component {
       expertTypeId: this.state.params.expertTypeId,
       serviceTypeId: 6
     });
-    let appointmentNo = context.appointmentVO.apptNo;
+    let apptNo = context.appointmentVO.apptNo;
     let appointmentVO = context.appointmentVO;
-    if (appointmentNo) {
-      sessionItemRoyal.set('appointment-no', appointmentNo);
+    if (apptNo) {
+      sessionItemRoyal.set('appointment-no', apptNo);
       if (this.state.userInfo) {
         this.props.history.push('/checkout');
       } else {
         this.setState({
-          appointmentNo: appointmentNo,
+          apptNo: apptNo,
           appointmentVO: appointmentVO,
           fourShow: false,
           fiveShow: true
@@ -389,13 +390,21 @@ class Felin extends React.Component {
   };
   postUpdate = async (params) => {
     const { code } = await postUpdate({
-      ...this.state.appointmentVO,
-      consumerName: params.firstName + ' ' + params.lastName,
+      apptNo: this.state.appointmentVO.apptNo,
+      id: this.state.appointmentVO.id,
+      apptTypeId: this.state.params.appointmentTypeId,
+      appointmentTypeId: this.state.params.appointmentTypeId,
+      customerId: this.state.appointmentVO.customerId || undefined,
+      customerLevelId: this.state.appointmentVO.customerId ? 234 : 233, // 233未登录 234登陆
+      bookSlotVO: this.state.bookSlotVO,
+      minutes: this.state.params.minutes,
+      expertTypeId: this.state.params.expertTypeId,
       consumerFirstName: params.firstName,
       consumerLastName: params.lastName,
+      consumerName: params.firstName + ' ' + params.lastName,
       consumerEmail: params.email,
       consumerPhone: params.phone,
-      changeTimeBlock: false
+      serviceTypeId: 6
     });
     if (code === 'K-000000') {
       this.props.history.push('/checkout');
