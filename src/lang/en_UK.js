@@ -473,7 +473,7 @@ const en_US = {
   estimatedTax: 'Estimated Tax',
   every: 'Every',
   example: 'Example',
-  examplePhone: 'Exemple: 6 23 45 67 89',
+  examplePhone: 'Exemple: 56 23 45 67 89',
   examplePostCode: '12345',
   expirationDateIsInvalid: 'your card expiration date is invalid',
   'faq.frequentQuestions': 'Frequently Asked Questions',
