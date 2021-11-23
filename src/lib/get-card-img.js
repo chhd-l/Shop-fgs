@@ -1,6 +1,6 @@
 import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 
-const getCardImg = ({ supportPaymentMethods, currentVendor }) => {
+const getCardImg = ({ supportPaymentMethods = [], currentVendor }) => {
   return (
     supportPaymentMethods.filter(
       (s) => s.cardType?.toUpperCase() === currentVendor?.toUpperCase()
