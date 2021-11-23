@@ -429,8 +429,8 @@ const tr_TR = {
   'home.convenientTip3': 'Evcil hayvan uzmanları ile iletişimde olun',
   'home.convenientTip4': 'Otomatik gönderimle evinizde mama bitmesin',
   'home.convenientTitle': 'Neden Royal Canin?',
-  'home.note1':
-    'Tüm Club abonelik siparişlerinizde 10% indirim. 125 TL ve üzeri alışverişlerinizde Ücretsiz Kargo fırsatı!',
+  'home.note1':'Black Friday\'e özel kedi ve köpek mamalarında ROYAL30 koduyla %30 indirim!',
+  // 'home.note1': 'Tüm Club abonelik siparişlerinizde 10% indirim. 125 TL ve üzeri alışverişlerinizde Ücretsiz Kargo fırsatı!',
   'home.note2': '',
   'home.pageNotFound': 'Sayfa bulunamadı…',
   'home.pageNotFoundInfo': 'Üzgünüz, aradığınız sayfa mevcut değil.',
