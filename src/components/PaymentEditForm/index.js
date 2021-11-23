@@ -3,7 +3,6 @@ import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import AdyenEditForm from '@/components/Adyen/form';
-import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import { getDictionary, validData } from '@/utils/utils';
 import axios from 'axios';
 import LazyLoad from 'react-lazyload';
@@ -21,6 +20,7 @@ import ValidationAddressModal from '@/components/validationAddressModal';
 import { ADDRESS_RULE } from './utils/constant';
 import IMask from 'imask';
 import { cyberCardTypeToValue } from '@/utils/constant/cyber';
+import getCardImg from '@/lib/get-card-img';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -132,9 +132,8 @@ class PaymentEditForm extends React.Component {
         phoneReg = [{ mask: '000-000-0000' }];
         break;
       case 'uk':
-        // phoneReg = [{ mask: '+{44}0000 000000' }];
         phoneReg = [
-          { mask: '(+44) 0 00 00 00 00' },
+          { mask: '(+44) 000 00 00 00 00' },
           { mask: '(+44) 00 00 00 00 00' }
         ];
         break;
@@ -888,12 +887,10 @@ class PaymentEditForm extends React.Component {
                           <LazyLoad>
                             <img
                               alt="Card img"
-                              src={
-                                CREDIT_CARD_IMG_ENUM[
-                                  currentVendor && currentVendor.toUpperCase()
-                                ] ||
-                                'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                              }
+                              src={getCardImg({
+                                supportPaymentMethods,
+                                currentVendor
+                              })}
                               className="img"
                             />
                           </LazyLoad>
@@ -1066,7 +1063,8 @@ class PaymentEditForm extends React.Component {
                   <div
                     className="rc-input w-100"
                     onClick={() => {
-                      creditCardInfoForm.isDefault = !creditCardInfoForm.isDefault;
+                      creditCardInfoForm.isDefault =
+                        !creditCardInfoForm.isDefault;
                       this.setState({ creditCardInfoForm });
                     }}
                   >

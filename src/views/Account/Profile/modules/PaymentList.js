@@ -14,7 +14,6 @@ import {
   setDefaltCard
 } from '@/api/payment';
 import {
-  CREDIT_CARD_IMG_ENUM,
   PAYMENT_METHOD_PAU_ACCOUNT_RULE,
   PAYMENT_METHOD_PAU_CHECKOUT_RULE
 } from '@/utils/constant';
@@ -22,9 +21,10 @@ import PaymentEditForm from '@/components/PaymentEditForm';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
 import { showCardType } from '@/utils/constant/cyber';
+import getCardImg from '@/lib/get-card-img';
 
 function CardItem(props) {
-  const { data, listVisible } = props;
+  const { data, listVisible, supportPaymentMethods } = props;
   // console.log(2222, listVisible);
   return (
     <div
@@ -54,10 +54,10 @@ function CardItem(props) {
               <img
                 className="PayCardImgFitScreen mw-100"
                 style={{ height: '5rem' }}
-                src={
-                  CREDIT_CARD_IMG_ENUM[data.paymentVendor.toUpperCase()] ||
-                  'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                }
+                src={getCardImg({
+                  supportPaymentMethods,
+                  currentVendor: data.paymentVendor
+                })}
                 alt="pay card img fit screen"
               />
             </LazyLoad>
@@ -303,6 +303,7 @@ class PaymentList extends React.Component {
       getPaymentMethodListFlag
     } = this.state;
     const curPageAtCover = !listVisible && !editFormVisible;
+    const { supportPaymentMethods } = this.props.paymentStore;
     return (
       <div>
         {listLoading ? (
@@ -405,7 +406,10 @@ class PaymentList extends React.Component {
                 >
                   {creditCardList.slice(0, 2).map((el, i) => (
                     <div className="col-12 col-md-4 p-2" key={i}>
-                      <CardItem data={el} />
+                      <CardItem
+                        data={el}
+                        supportPaymentMethods={supportPaymentMethods}
+                      />
                     </div>
                   ))}
                   {creditCardList.slice(0, 2).length < 2 && (
@@ -434,6 +438,7 @@ class PaymentList extends React.Component {
                         <CardItem
                           data={el}
                           listVisible={listVisible}
+                          supportPaymentMethods={supportPaymentMethods}
                           operateBtnJSX={
                             <>
                               {el.isDefault === 1 ? (
