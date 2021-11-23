@@ -11,7 +11,6 @@ import {
   queryIsSupportInstallMents
 } from '@/api/payment';
 import {
-  CREDIT_CARD_IMG_ENUM,
   PAYMENT_METHOD_PAU_CHECKOUT_RULE,
   PAYMENT_METHOD_PAU_ACCOUNT_RULE
 } from '@/utils/constant';
@@ -20,6 +19,7 @@ import LazyLoad from 'react-lazyload';
 import { scrollPaymentPanelIntoView } from '@/views/Payment/modules/utils';
 import InstallmentTable from '../InstallmentTable';
 import CardItemCover from '../CardItemCover';
+import getCardImg from '@/lib/get-card-img';
 
 import './index.css';
 
@@ -782,13 +782,10 @@ class MemberCardList extends React.Component {
                           <LazyLoad>
                             <img
                               alt="Card image"
-                              src={
-                                CREDIT_CARD_IMG_ENUM[this.state.currentVendor]
-                                  ? CREDIT_CARD_IMG_ENUM[
-                                      this.state.currentVendor.toUpperCase()
-                                    ]
-                                  : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                              }
+                              src={getCardImg({
+                                supportPaymentMethods,
+                                currentVendor: this.state.currentVendor
+                              })}
                               className="img"
                             />
                           </LazyLoad>

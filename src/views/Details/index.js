@@ -17,7 +17,7 @@ import PhoneAndEmail from './components/PhoneAndEmail/index.tsx';
 import DetailHeader from './components/DetailHeader/index.tsx';
 import ImageMagnifier from '@/components/ImageMagnifier';
 import ImageMagnifier_fr from './components/ImageMagnifier';
-import AddCartSuccessMobile from './components/AddCartSuccessMobile';
+import AddCartSuccessMobile from './components/AddCartSuccessMobile.tsx';
 import BannerTip from '@/components/BannerTip';
 import Reviews from './components/Reviews';
 import {
@@ -28,12 +28,18 @@ import {
   getDictionary,
   filterObjectValue,
   isCountriesContainer,
-  getClubFlag
+  getClubFlag,
+  handleRecommendation
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import find from 'lodash/find';
-import { getDetails, getLoginDetails, getDetailsBySpuNo } from '@/api/details';
+import {
+  getDetails,
+  getLoginDetails,
+  getDetailsBySpuNo,
+  getMixFeeding
+} from '@/api/details';
 import { sitePurchase } from '@/api/cart';
 import RelateProductCarousel from './components/RelateProductCarousel';
 import BuyFromRetailerBtn from './components/BuyFromRetailerBtn';
@@ -147,7 +153,8 @@ class Details extends React.Component {
       showErrorTip: false,
       modalMobileCartSuccessVisible: false,
       defaultSkuId: funcUrl({ name: 'skuId' }),
-      defaultGoodsInfoFlag: funcUrl({ name: 'goodsInfoFlag' })
+      defaultGoodsInfoFlag: funcUrl({ name: 'goodsInfoFlag' }),
+      mixFeeding: null
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -190,14 +197,8 @@ class Details extends React.Component {
     return this.props.checkoutStore;
   }
   get btnStatus() {
-    const {
-      details,
-      quantity,
-      instockStatus,
-      initing,
-      loading,
-      form
-    } = this.state;
+    const { details, quantity, instockStatus, initing, loading, form } =
+      this.state;
     const { sizeList } = details;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     let addedFlag = 1;
@@ -487,6 +488,15 @@ class Details extends React.Component {
         }
         if (goodsRes) {
           const { goods, images } = res.context;
+
+          // getMixFeeding(goods.goodsId)
+          getMixFeeding('2c918085773ea33001773eab7d060343').then((res) => {
+            let mixFeeding = handleRecommendation(
+              res?.context?.goodsRelationAndRelationInfos[0]
+            );
+            this.setState({ mixFeeding });
+          });
+
           const taggingList = (res.context?.taggingList || []).filter(
             (t) => t.displayStatus
           );
@@ -840,13 +850,8 @@ class Details extends React.Component {
     try {
       this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const {
-        currentUnitPrice,
-        quantity,
-        form,
-        details,
-        questionParams
-      } = this.state;
+      const { currentUnitPrice, quantity, form, details, questionParams } =
+        this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -1409,6 +1414,12 @@ class Details extends React.Component {
                 closeModal={() => {
                   this.setState({ modalMobileCartSuccessVisible: false });
                 }}
+                mixFeedingData={this.state.mixFeeding}
+                goodsInfoFlag={
+                  form.buyWay && details.promotions?.includes('club')
+                    ? 2
+                    : form.buyWay
+                }
               />
             ) : null}
 
