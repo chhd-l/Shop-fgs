@@ -425,6 +425,7 @@ const de_DE = {
   FrequentQuestions: 'Häufige Fragen',
   from: 'Von',
   plpFromText: 'Von',
+  plpFromNew:'{started}{plpValue}',
   gender: 'Geschlecht',
   getConsumerAccountFailed: 'Get Consumer Account Failed',
   getDataFailed: 'Get Data Failed',
