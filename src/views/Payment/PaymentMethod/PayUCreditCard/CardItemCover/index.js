@@ -1,10 +1,13 @@
 import React from 'react';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
-import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
+import getCardImg from '@/lib/get-card-img';
 import { FormattedMessage } from 'react-intl';
 import LazyLoad from 'react-lazyload';
+import { inject, observer } from 'mobx-react';
 
-export default class CardItemCover extends React.Component {
+@inject('paymentStore')
+@observer
+class CardItemCover extends React.Component {
   static defaultProps = {
     canEdit: false,
     canDelete: false,
@@ -31,7 +34,8 @@ export default class CardItemCover extends React.Component {
       deleteCard,
       currentCvvChange,
       canEdit,
-      canDelete
+      canDelete,
+      paymentStore
     } = this.props;
     return (
       // paddingFlag表示此卡正在pending，不能用于选择支付
@@ -108,10 +112,10 @@ export default class CardItemCover extends React.Component {
               <LazyLoad>
                 <img
                   className="PayCardImgFitScreen"
-                  src={
-                    CREDIT_CARD_IMG_ENUM[el?.paymentVendor?.toUpperCase()] ||
-                    'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                  }
+                  src={getCardImg({
+                    supportPaymentMethods: paymentStore.supportPaymentMethods,
+                    currentVendor: el?.paymentVendor
+                  })}
                   alt="card background"
                 />
               </LazyLoad>
@@ -179,3 +183,4 @@ export default class CardItemCover extends React.Component {
     );
   }
 }
+export default CardItemCover;
