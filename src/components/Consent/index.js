@@ -52,7 +52,11 @@ class Consent extends Component {
     };
     return list?.map((item, index) => {
       return (
-        <div key={index} id={index} style={{ display: 'flex' }}>
+        <div
+          key={index}
+          id={index}
+          style={{ display: item.notShow ? 'none' : 'flex' }}
+        >
           <input
             style={{ zoom: zoom }}
             className={[

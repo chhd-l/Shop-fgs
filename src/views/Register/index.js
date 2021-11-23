@@ -163,6 +163,7 @@ class Register extends Component {
             item.consentDesc == 'RC_DF_UK_MINIMUM_AGE_16'
               ? true
               : false,
+          notShow: item.consentDesc == 'RC_DF_UK_MINIMUM_AGE_16' ? true : false,
           consentDesc: item.consentDesc
         };
       });
@@ -171,13 +172,6 @@ class Register extends Component {
       list = [...requiredList, ...optioalList];
       if (window.__.env.REACT_APP_COUNTRY === 'uk') {
         list = [...optioalList, ...requiredList]; //uk的排序特殊化
-        list = list.sort((a, b) => {
-          if (a.consentDesc == 'RC_DF_UK_MINIMUM_AGE_16') {
-            return -1;
-          } else {
-            return 1;
-          }
-        });
       }
       this.setState({
         list,
@@ -1006,6 +1000,10 @@ class Register extends Component {
                                       Mars Petcare and its affiliates
                                     </a>
                                     .
+                                  </p>
+                                  <p>
+                                    I am over 16 years old, and would like to
+                                    receive these from:
                                   </p>
                                 </div>
                               ) : null}
