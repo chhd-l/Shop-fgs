@@ -2201,7 +2201,7 @@ const fr_FR = {
   'Appointment type': 'Appointment type: ',
   'Appointment time': 'Appointment time: ',
   min: 'min',
-  're-book': 're-book',
+  're-book': 'Re-book',
   'Felin Address': 'Felin Address',
   'Change Appointment': 'Change Appointment',
   'felinOrder.servicePaid': 'Service being prepared',
