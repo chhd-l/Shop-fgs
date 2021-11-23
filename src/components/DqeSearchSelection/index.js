@@ -200,7 +200,7 @@ class SearchSelection extends React.Component {
   }
   handleClickClinicItem = (e, item) => {
     e.nativeEvent.stopImmediatePropagation();
-    let streetNumbers = item.listeNumero?.split(';');
+    let streetNumbers = item.listeNumero?.split(';') || [];
     console.log('item', item);
     // debugger
     // selectedListeNumero
