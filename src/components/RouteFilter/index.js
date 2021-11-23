@@ -42,8 +42,13 @@ class RouteFilter extends Component {
       return false;
     }
 
+    /////
+    const isStorepotal = getQueryVariable('stoken');
+    if (isStorepotal) {
+      checkoutStore.removePromotionCode();
+    }
+
     // console.log(getQueryVariable("search")+'222222222')
-    // localItemRoyal.set("rc-promotionCode",'117343333')
     // console.log(getQueryVariable("spromocode"))
     const sPromotionCodeFromSearch = getQueryVariable('spromocode');
     if (sPromotionCodeFromSearch) {
