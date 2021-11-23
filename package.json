@@ -64,6 +64,7 @@
     "mini-css-extract-plugin": "0.9.0",
     "mobx": "4",
     "mobx-react": "^6.2.2",
+    "moment": "^2.29.1",
     "optimize-css-assets-webpack-plugin": "5.0.3",
     "pnp-webpack-plugin": "1.6.4",
     "postcss-flexbugs-fixes": "4.1.0",
@@ -168,14 +169,12 @@
     "build:shopsit_de": "dotenv -e ./env/de/.env.shopsit -e ./env/de/.env node scripts/build.js",
     "build:prod_de": "dotenv -e ./env/de/.env.production -e ./env/de/.env node scripts/build.js",
     "build:prodwww_de": "dotenv -e ./env/de/.env.production.www -e ./env/de/.env node scripts/build.js",
-
     "build:uk": "dotenv -e ./env/uk/.env.development -e ./env/uk/.env node scripts/build.js",
     "build:shopuat_uk": "dotenv -e ./env/uk/.env.shopuat -e ./env/uk/.env node scripts/build.js",
     "build:shopstg_uk": "dotenv -e ./env/uk/.env.shopstg -e ./env/uk/.env node scripts/build.js",
     "build:shopsit_uk": "dotenv -e ./env/uk/.env.shopsit -e ./env/uk/.env node scripts/build.js",
     "build:prod_uk": "dotenv -e ./env/uk/.env.production -e ./env/uk/.env node scripts/build.js",
     "build:prodwww_uk": "dotenv -e ./env/uk/.env.production.www -e ./env/de/.env node scripts/build.js",
-
     "build:us": "dotenv -e ./env/us/.env.development -e ./env/us/.env node scripts/build.js",
     "build:shopuat_us": "dotenv -e ./env/us/.env.shopuat -e ./env/us/.env node scripts/build.js",
     "build:shopstg_us": "dotenv -e ./env/us/.env.shopstg -e ./env/us/.env node scripts/build.js",

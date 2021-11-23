@@ -496,7 +496,9 @@ function ListItemBodyH5ForGlobalStyle({ item, configStore }) {
     window.__.env.REACT_APP_COUNTRY === 'tr';
   const hiddenPrice = vetProduct && trFr;
   const inStock =
-    (item?.goodsInfos ?? []).findIndex((goods) => goods.stock > 0) > -1;
+    (item?.goodsInfos ?? [])
+      .concat(item?.goodsInfoVOS ?? [])
+      .findIndex((goods) => goods.stock > 0) > -1;
   return (
     <div className="fr-mobile-product-list text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start pr-0">
       <div className="product-name" title={item.goodsName}>
@@ -784,7 +786,9 @@ function ListItemBody({ item, headingTag, configStore }) {
       ${item?.goodsName}
   </${headingTag ? headingTag : 'h2'}>`;
   const inStock =
-    (item?.goodsInfos ?? []).findIndex((goods) => goods.stock > 0) > -1;
+    (item?.goodsInfos ?? [])
+      .concat(item?.goodsInfoVOS ?? [])
+      .findIndex((goods) => goods.stock > 0) > -1;
 
   const defaultJSX = (
     <>

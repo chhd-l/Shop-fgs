@@ -9,7 +9,7 @@ import ImageMagnifier from '@/components/ImageMagnifierForUS';
 import { formatMoney, getDeviceType } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import Loading from '@/components/Loading';
-import './index.css';
+import './index.less';
 import { inject, observer } from 'mobx-react';
 import {
   getRecommendationList,
@@ -32,6 +32,7 @@ import {
   GABreederRecoSeeInCart,
   GABigBreederAddToCar
 } from '@/utils/GA';
+import ImageMagnifier_fr from '../Details/components/ImageMagnifier';
 
 const imgUrlPreFix = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
 const isUs = window.__.env.REACT_APP_COUNTRY === 'us';
@@ -42,19 +43,39 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
-// 不引入样式有问题
-const Test = () => {
-  return (
-    <div className="margin12" style={{ display: 'none' }}>
-      <div className="rc-card-grid rc-match-heights rc-card-grid--fixed rc-three-column">
-        <div className="rc-grid">
-          <article className="rc-card rc-card--a">test</article>
-        </div>
-      </div>
-    </div>
-  );
-};
-
+let advantageArr = [
+  {
+    img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/shipping@2x.png`,
+    text: 'Livraison offerte et automatique'
+  },
+  {
+    img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/cutoff10%25.svg`,
+    text: '10% de réduction pour toute commande1'
+  },
+  {
+    img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/gifts@2x.png`,
+    text: 'Un conseiller à votre écoute'
+  },
+  {
+    img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/gifts@2x.png`,
+    text: 'Un kit de bienvenue et des cadeaux exclusifs'
+  },
+  {
+    img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/gifts@2x.png`,
+    text: 'Un accompagnement pédagogique individualisé'
+  },
+  { img: '', text: '' }
+];
+let advantageList = [];
+advantageArr.forEach((el, i) => {
+  if (i % 2 == 0) {
+    advantageList[i / 2] = [];
+    advantageList[i / 2].push(el);
+  } else {
+    advantageList[Math.floor(i / 2)].push(el);
+  }
+});
+console.info('advantageList', advantageList);
 @inject('checkoutStore', 'loginStore', 'configStore', 'clinicStore')
 @injectIntl
 @observer
@@ -159,13 +180,14 @@ class Recommendation extends React.Component {
       });
     }
   }
-
   async componentDidMount() {
     // document.onclick = () => {
     //   this.setState({ showCoiedTips: false });
     // };
     console.time('begin');
+    let frequencyList = [];
     getFrequencyDict().then((res) => {
+      frequencyList = res;
       this.setState({
         frequencyList: res
       });
@@ -196,68 +218,1863 @@ class Recommendation extends React.Component {
     }
     console.timeEnd('begin');
     console.time('接口请求');
-    requestName(params)
-      .then(async (res) => {
-        console.timeEnd('接口请求');
-        console.time('js处理');
-        let petType = res.context.petSpecie?.toLowerCase() === 'cat' ? 1 : 0;
-        let productLists = res.context.recommendationGoodsInfoRels;
-        let prescriberId = res.context.prescriberId;
-        let curScrollTop = await sessionItemRoyal.get('recommendation-scroll');
-        let prescriptionJson = res.context.prescriptionJson || '';
-        const currentShowProduct = [].concat(productLists)?.splice(0, 1);
-        if (res.context.structureType != 'breeder' && isFr) {
-          // 法国区分stp和breeder
-          this.setState({ isSPT: true });
-        }
-        if (res.context.promotionCode && isRu) {
-          // ru需要直接应用promotioncode
-          this.setState({
-            promotionCodeText: res.context.promotionCode
-          });
-        }
-        setTimeout(() => {
-          GARecommendationProduct(
-            currentShowProduct,
-            1,
-            this.state.frequencyList,
-            promotionCode,
-            this.state.activeIndex
-          );
-        }, 3000);
+    let res = {
+      code: 'K-000000',
+      message: 'Opération réussie',
+      errorData: null,
+      context: {
+        id: null,
+        recommendationId: '60bf2fe0d04401001eb7d681',
+        consumerFirstName: null,
+        consumerLastName: null,
+        emailConsent: null,
+        consumerEmail: null,
+        consumerPhoneNumber: null,
+        prescriberId: '00uc6de49c5uiy7wW416',
+        prescriberName: null,
+        doctorId: null,
+        customerId: null,
+        taskId: null,
+        externalSellerOktaId: '00uc6de49c5uiy7wW416',
+        petName: 'Anubis',
+        petBirthDate: null,
+        petSpecie: '',
+        recommendationSuggestions: null,
+        linkStatus: null,
+        recommendationGoodsInfoRels: [
+          {
+            id: null,
+            recommendationId: null,
+            goods: {
+              goodsId: '2c918085768f3a4101768f3e1e9a0029',
+              cateId: 1134,
+              brandId: 400,
+              brandName: null,
+              goodsName: 'Ageing 12+ en gelée',
+              goodsSubtitle:
+                'Aliment complet pour chats seniors de plus de 12 ans (émincé en gelée).',
+              goodsNewSubtitle: 'Chats seniors de plus de 12 ans',
+              goodsDescription: '',
+              goodsDescriptionDetails: null,
+              goodsNo: '4153',
+              innerGoodsNo: 'FR_4153',
+              goodsUnit: null,
+              goodsCateName: 'Cat/Feline Health Nutrition Wet/Wet',
+              goodsImg:
+                'https://d2cstgstorage.z13.web.core.windows.net/FR_129171_master.jpg',
+              goodsWeight: 1.0,
+              marketPrice: null,
+              supplyPrice: null,
+              goodsType: 0,
+              costPrice: null,
+              createTime: '2021-09-30 06:43:26.000',
+              updateTime: '2021-09-30 06:43:26.000',
+              addedTime: '2021-09-30 06:43:26.000',
+              goodsSource: 1,
+              delFlag: 0,
+              addedFlag: 1,
+              moreSpecFlag: 1,
+              priceType: 2,
+              customFlag: 0,
+              levelDiscountFlag: 0,
+              companyInfoId: 1053,
+              supplierName: 'Royal Canin_France',
+              storeId: 123457909,
+              storeName: null,
+              cateName: null,
+              submitTime: '2021-09-30 06:43:26.000',
+              auditStatus: 1,
+              auditReason: null,
+              goodsDetail:
+                '[WsContentsDTO(type=Text, title=Text, content=[{"Prescriber Description":"ROYAL CANIN® Ageing 12+ en Gelée est spécialement conçu pour répondre aux besoins de votre chat âgé de 12 ans ou plus. ROYAL CANIN® Ageing 12+ en Gelée fournit également aux chats âgés des aliments spécialement formulés pour entretenir la santé de leurs articulations. - Santé articulaire - Instinctivement préféré - Santé rénale"}, {"EretailShort Description":"Pour vous assurer que votre chat âgé de 12 ans ou plus reçoit la nutrition spécifique dont il a besoin pour conserver une santé optimale, vous devrez lui donner une alimentation qu’il mangera volontiers et instinctivement. \\nC’est pourquoi ROYAL CANIN® Ageing 12+ en gelée est conçu pour correspondre au profil macro-nutritionnel optimal que les chats vieillissants comme le vôtre préfèrent instinctivement.\\n \\nROYAL CANIN® Ageing 12+ en gelée fournit également aux chats âgés des aliments spécialement formulés pour entretenir la santé de leurs articulations grâce à une teneur élevée en acides gras oméga-3 (EPA et DHA notamment).\\n \\nDe plus, ROYAL CANIN® Ageing 12+ en gelée contient également une teneur en phosphore adaptée pour entretenir la santé des reins et du système rénal dans son ensemble.\\n \\nPour répondre aux préférences de chaque chat, ROYAL CANIN® Ageing 12+ est également disponible en émincé en sauce ou en croquettes savoureuses et croquantes.\\nSi vous envisagez une alimentation mixte, il vous suffit de suivre nos instructions pour vous assurer que votre chat reçoive la quantité de nourriture sèche et humide nécessaire pour un bénéfice optimal.\\n"}, {"EretailLong Description":"Pour vous assurer que votre chat âgé de 12 ans ou plus reçoit la nutrition spécifique dont il a besoin pour conserver une santé optimale, vous devrez lui donner une alimentation qu’il mangera volontiers et instinctivement. C’est pourquoi ROYAL CANIN® Ageing 12+ en gelée est conçu pour correspondre au profil macro-nutritionnel optimal que les chats vieillissants comme le vôtre préfèrent instinctivement. ROYAL CANIN® Ageing 12+ en gelée fournit également aux chats âgés des aliments spécialement formulés pour entretenir la santé de leurs articulations grâce à une teneur élevée en acides gras oméga-3 (EPA et DHA notamment). De plus, ROYAL CANIN® Ageing 12+ en gelée contient également une teneur en phosphore adaptée pour entretenir la santé des reins et du système rénal dans son ensemble. Pour répondre aux préférences de chaque chat, ROYAL CANIN® Ageing 12+ est également disponible en émincé en sauce ou en croquettes savoureuses et croquantes.Si vous envisagez une alimentation mixte, il vous suffit de suivre nos instructions pour vous assurer que votre chat reçoive la quantité de nourriture sèche et humide nécessaire pour un bénéfice optimal."}]), WsContentsDTO(type=Text, title=Compositions, content=[{"COMPOSITION":"Composition : viandes et sous-produits animaux, extraits de protéines végétales, céréales, huiles et graisses, sous-produits d’origine végétale, substances minérales, sucres, mollusques et crustacés."}, {"ADDITIFS (AU KG)":"Additifs (au kg) : Additifs nutritionnels : Vitamine D3 : 350 UI, E1 (Fer) : 3 mg, E2 (Iode) : 0,31 mg, E4 (Cuivre) : 2,4 mg, E5 (Manganèse) : 1 mg, E6 (Zinc) : 10 mg."}, {"CONSTITUANTS ANALYTIQUES":"Constituants analytiques : Protéine : 9,5 % - Teneur en matières grasses : 4,5 % - Cendres brutes : 1,2 % - Cellulose brute : 0,9 % - Humidité : 81 % - EPA/DHA : 0,15 % - Phosphore : 0,12 %. "}, {"RATIONNEMENT":"Mode d’emploi : voir tableau. Numéro de lot et d’identifiant usine, à utiliser de préférence avant : voir sur l’emballage. À conserver dans un endroit sec et frais.   "}]), WsContentsDTO(type=Image, title=Benefits, content=[{"Santé articulaire EPA/DHA":{"Description":"Aide à maintenir la santé des articulations grâce à un niveau élevé d’acides gras EPA/DHA."}}, {"Instinctivement préféré":{"Description":"Formulé pour répondre au profil macro-nutritionnel optimal instinctivement préféré par les chats."}}, {"Santé rénale":{"Description":"Teneur adaptée en phosphore."}}]), WsContentsDTO(type=Image, title=Feeding Guidelines, content=[{"Table":{"Description":"<table><thead><tr><th>Poids du chat</th><th>Alimentation humide</th><th>Alimentation mixte</th></tr></thead><tbody><tr><td>3 kg</td><td>2 sachets</td><td>1 sachet + 22 g </td></tr><tr><td>4 kg</td><td>2+1/2 sachets</td><td>1 sachet + 31g </td></tr><tr><td>5 kg</td><td>3 sachets</td><td>1 sachet + 40 g </td></tr><tr><td>6 kg</td><td>3+1/2 sachets</td><td>1 sachet + 49 g </td></tr></tbody></table>"}}])]',
+              goodsMobileDetail: null,
+              stock: null,
+              goodsInfoIds: null,
+              storeCateIds: null,
+              storeCateNames: null,
+              companyType: null,
+              goodsCubage: 1.0,
+              freightTempId: 62,
+              freightTempName: 'Default template',
+              saleType: 0,
+              goodsVideo: null,
+              linePrice: null,
+              allowPriceSet: null,
+              goodsEvaluateNum: 0,
+              goodsCollectNum: 0,
+              goodsSalesNum: 238,
+              goodsFavorableCommentNum: 0,
+              grouponForbiddenFlag: false,
+              subscriptionStatus: 1,
+              minMarketPrice: 14.99,
+              minSubscriptionPrice: 13.49,
+              avgEvaluate: null,
+              avgEvaluateScore: null,
+              baseSpec: null,
+              saleableFlag: 1,
+              displayFlag: 0,
+              weShareId: 129171,
+              weightValue: '1020',
+              goodsStoreCateNames: null,
+              productCategoryNames: null,
+              defaultPurchaseType: null,
+              defaultFrequencyId: null,
+              resource: 1,
+              promotions: 'autoship',
+              goodsPillar: null,
+              exclusiveFlag: null,
+              wsEnergyCategory: 'normal_outdoor_fcn_breed',
+              wsReferenceEnergyValue: 935.0,
+              wsTechnologyCode: 'wet',
+              wsDensity: 1.0,
+              sourceCreateTime: null,
+              sourceUpdateTime: '2021-09-27 16:57:35.000',
+              serviceTypeId: null,
+              assignResources: null
+            },
+            goodsInfo: {
+              goodsInfoId: '2c91808576903fd8017690461ec3020e',
+              goodsId: '2c918085768f3a4101768f3e1e9a0029',
+              goodsInfoName: 'Ageing 12+ en gelée',
+              goodsInfoNo: '41530102',
+              innerGoodsInfoNo: 'FR_41530102',
+              goodsInfoImg: null,
+              goodsInfoBarcode: '9003579311813',
+              stock: 30,
+              marketPrice: 14.99,
+              supplyPrice: null,
+              retailPrice: null,
+              grouponPrice: null,
+              costPrice: null,
+              createTime: '2021-09-30 06:43:26.000',
+              updateTime: '2021-11-14 20:28:50.000',
+              addedTime: '2021-04-23 07:03:04.000',
+              delFlag: 0,
+              addedFlag: 1,
+              companyInfoId: 1053,
+              storeId: 123457909,
+              storeName: null,
+              customFlag: 0,
+              levelDiscountFlag: 0,
+              auditStatus: 1,
+              companyType: 0,
+              aloneFlag: false,
+              salePrice: 14.99,
+              priceType: 2,
+              mockSpecIds: [20757],
+              mockSpecDetailIds: [30097],
+              specDetailRelIds: null,
+              buyCount: 0,
+              count: null,
+              maxCount: null,
+              intervalPriceIds: null,
+              specText: '12X85G',
+              intervalMinPrice: null,
+              intervalMaxPrice: null,
+              validFlag: null,
+              cateId: 1134,
+              brandId: 400,
+              storeCateIds: null,
+              distributionCommission: null,
+              commissionRate: null,
+              distributionSalesCount: null,
+              distributionGoodsAudit: 0,
+              distributionGoodsAuditReason: null,
+              checked: false,
+              goodsStatus: 0,
+              goodsUnit: null,
+              marketingLabels: [],
+              grouponLabel: null,
+              couponLabels: [],
+              goodsCubage: null,
+              goodsWeight: null,
+              freightTempId: null,
+              saleType: 0,
+              allowPriceSet: null,
+              smallProgramCode: null,
+              joinDistributior: null,
+              goodsEvaluateNum: null,
+              goodsCollectNum: null,
+              goodsSalesNum: null,
+              goodsFavorableCommentNum: null,
+              enterPrisePrice: null,
+              enterPriseAuditState: null,
+              enterPriseGoodsAuditReason: null,
+              subscriptionStatus: 1,
+              subscriptionPrice: 13.49,
+              linePrice: 14.99,
+              basePrice: 0.01,
+              subscriptionBasePrice: 0.01,
+              basePriceType: '',
+              goodsInfoWeight: 1020.0,
+              goodsInfoUnit: 'G',
+              goods: null,
+              goodsPromotion: null,
+              description: null,
+              auditCatFlag: null,
+              prescriberFlag: null,
+              goodsMeasureNum: 1.0,
+              goodsMeasureUnit: 'UNIT',
+              subscriptionDiscountPrice: null,
+              goodsInfoFlag: null,
+              periodTypeId: null,
+              purchasePrice: null,
+              goodsInfoType: null,
+              goodsInfoBundleRels: [],
+              recommendationId: null,
+              recommendationName: null,
+              recommendationSerialCode: null,
+              weShareScode: '5011631',
+              packSize: '12X85G',
+              subscriptionPercentage: null,
+              maxStock: null,
+              subscriptionPlanId: null,
+              packageId: null,
+              subscriptionPlanPromotionFlag: null,
+              settingPrice: null,
+              virtualInventory: null,
+              virtualAlert: null,
+              marketingCode: null,
+              marketingName: null,
+              promotionDiscountPrice: null,
+              marketingId: null,
+              externalSku: '41530102',
+              promotions: 'autoship',
+              isOfflineStore: null,
+              petsId: null,
+              petsType: null,
+              questionParams: null,
+              referenceData: null,
+              depth: 0.0,
+              depthUnit: 'mm',
+              width: 0.0,
+              widthUnit: 'mm',
+              height: 0.0,
+              heightUnit: 'mm',
+              specification: null,
+              isNotShowCart: null,
+              externalStock: 30,
+              externalMarketPrice: 14.99,
+              externalSubscriptionPrice: 13.49,
+              externalLinePrice: 14.99,
+              externalPurchasePrice: null,
+              factor: 1,
+              stockUomId: 'f09127132fd011ec99b42c71b536ef0c',
+              priceUomId: 'f09127132fd011ec99b42c71b536ef0c',
+              priceUom: null,
+              stockUom: null
+            },
+            goodsSpecDetails: [
+              {
+                specDetailId: 30097,
+                goodsId: '2c918085768f3a4101768f3e1e9a0029',
+                specId: 20757,
+                detailName: '12X85G',
+                createTime: '2021-09-30 06:43:26.000',
+                updateTime: '2021-09-30 06:43:26.000',
+                delFlag: 0,
+                mockSpecId: null,
+                mockSpecDetailId: null,
+                calculateSort: 1285,
+                editable: true
+              }
+            ],
+            goodsInfos: [
+              {
+                goodsInfoId: '2c91808576903fd8017690461ec3020e',
+                goodsId: '2c918085768f3a4101768f3e1e9a0029',
+                goodsInfoName: 'Ageing 12+ en gelée',
+                goodsInfoNo: '41530102',
+                innerGoodsInfoNo: 'FR_41530102',
+                goodsInfoImg: null,
+                goodsInfoBarcode: '9003579311813',
+                stock: 30,
+                marketPrice: 14.99,
+                supplyPrice: null,
+                retailPrice: null,
+                grouponPrice: null,
+                costPrice: null,
+                createTime: '2021-09-30 06:43:26.000',
+                updateTime: '2021-11-14 20:28:50.000',
+                addedTime: '2021-04-23 07:03:04.000',
+                delFlag: 0,
+                addedFlag: 1,
+                companyInfoId: 1053,
+                storeId: 123457909,
+                storeName: null,
+                customFlag: 0,
+                levelDiscountFlag: 0,
+                auditStatus: 1,
+                companyType: 0,
+                aloneFlag: false,
+                salePrice: 14.99,
+                priceType: null,
+                mockSpecIds: [20757],
+                mockSpecDetailIds: [30097],
+                specDetailRelIds: null,
+                buyCount: 0,
+                count: null,
+                maxCount: null,
+                intervalPriceIds: null,
+                specText: '12X85G',
+                intervalMinPrice: null,
+                intervalMaxPrice: null,
+                validFlag: null,
+                cateId: 1134,
+                brandId: 400,
+                storeCateIds: null,
+                distributionCommission: null,
+                commissionRate: null,
+                distributionSalesCount: null,
+                distributionGoodsAudit: 0,
+                distributionGoodsAuditReason: null,
+                checked: false,
+                goodsStatus: 0,
+                goodsUnit: null,
+                marketingLabels: [],
+                grouponLabel: null,
+                couponLabels: [],
+                goodsCubage: null,
+                goodsWeight: null,
+                freightTempId: null,
+                saleType: 0,
+                allowPriceSet: null,
+                smallProgramCode: null,
+                joinDistributior: null,
+                goodsEvaluateNum: null,
+                goodsCollectNum: null,
+                goodsSalesNum: null,
+                goodsFavorableCommentNum: null,
+                enterPrisePrice: null,
+                enterPriseAuditState: null,
+                enterPriseGoodsAuditReason: null,
+                subscriptionStatus: 1,
+                subscriptionPrice: 13.49,
+                linePrice: 14.99,
+                basePrice: 0.01,
+                subscriptionBasePrice: 0.01,
+                basePriceType: '',
+                goodsInfoWeight: 1020.0,
+                goodsInfoUnit: 'G',
+                goods: {
+                  goodsId: '2c918085768f3a4101768f3e1e9a0029',
+                  cateId: 1134,
+                  brandId: 400,
+                  brandName: null,
+                  goodsName: 'Ageing 12+ en gelée',
+                  goodsSubtitle:
+                    'Aliment complet pour chats seniors de plus de 12 ans (émincé en gelée).',
+                  goodsNewSubtitle: 'Chats seniors de plus de 12 ans',
+                  goodsDescription: '',
+                  goodsDescriptionDetails: null,
+                  goodsNo: '4153',
+                  innerGoodsNo: 'FR_4153',
+                  goodsUnit: null,
+                  goodsCateName: 'Cat/Feline Health Nutrition Wet/Wet',
+                  goodsImg:
+                    'https://d2cstgstorage.z13.web.core.windows.net/FR_129171_master.jpg',
+                  goodsWeight: 1.0,
+                  marketPrice: null,
+                  supplyPrice: null,
+                  goodsType: 0,
+                  costPrice: null,
+                  createTime: '2021-09-30 06:43:26.000',
+                  updateTime: '2021-09-30 06:43:26.000',
+                  addedTime: '2021-09-30 06:43:26.000',
+                  goodsSource: 1,
+                  delFlag: 0,
+                  addedFlag: 1,
+                  moreSpecFlag: 1,
+                  priceType: 2,
+                  customFlag: 0,
+                  levelDiscountFlag: 0,
+                  companyInfoId: 1053,
+                  supplierName: 'Royal Canin_France',
+                  storeId: 123457909,
+                  storeName: null,
+                  cateName: null,
+                  submitTime: '2021-09-30 06:43:26.000',
+                  auditStatus: 1,
+                  auditReason: null,
+                  goodsDetail:
+                    '[WsContentsDTO(type=Text, title=Text, content=[{"Prescriber Description":"ROYAL CANIN® Ageing 12+ en Gelée est spécialement conçu pour répondre aux besoins de votre chat âgé de 12 ans ou plus. ROYAL CANIN® Ageing 12+ en Gelée fournit également aux chats âgés des aliments spécialement formulés pour entretenir la santé de leurs articulations. - Santé articulaire - Instinctivement préféré - Santé rénale"}, {"EretailShort Description":"Pour vous assurer que votre chat âgé de 12 ans ou plus reçoit la nutrition spécifique dont il a besoin pour conserver une santé optimale, vous devrez lui donner une alimentation qu’il mangera volontiers et instinctivement. \\nC’est pourquoi ROYAL CANIN® Ageing 12+ en gelée est conçu pour correspondre au profil macro-nutritionnel optimal que les chats vieillissants comme le vôtre préfèrent instinctivement.\\n \\nROYAL CANIN® Ageing 12+ en gelée fournit également aux chats âgés des aliments spécialement formulés pour entretenir la santé de leurs articulations grâce à une teneur élevée en acides gras oméga-3 (EPA et DHA notamment).\\n \\nDe plus, ROYAL CANIN® Ageing 12+ en gelée contient également une teneur en phosphore adaptée pour entretenir la santé des reins et du système rénal dans son ensemble.\\n \\nPour répondre aux préférences de chaque chat, ROYAL CANIN® Ageing 12+ est également disponible en émincé en sauce ou en croquettes savoureuses et croquantes.\\nSi vous envisagez une alimentation mixte, il vous suffit de suivre nos instructions pour vous assurer que votre chat reçoive la quantité de nourriture sèche et humide nécessaire pour un bénéfice optimal.\\n"}, {"EretailLong Description":"Pour vous assurer que votre chat âgé de 12 ans ou plus reçoit la nutrition spécifique dont il a besoin pour conserver une santé optimale, vous devrez lui donner une alimentation qu’il mangera volontiers et instinctivement. C’est pourquoi ROYAL CANIN® Ageing 12+ en gelée est conçu pour correspondre au profil macro-nutritionnel optimal que les chats vieillissants comme le vôtre préfèrent instinctivement. ROYAL CANIN® Ageing 12+ en gelée fournit également aux chats âgés des aliments spécialement formulés pour entretenir la santé de leurs articulations grâce à une teneur élevée en acides gras oméga-3 (EPA et DHA notamment). De plus, ROYAL CANIN® Ageing 12+ en gelée contient également une teneur en phosphore adaptée pour entretenir la santé des reins et du système rénal dans son ensemble. Pour répondre aux préférences de chaque chat, ROYAL CANIN® Ageing 12+ est également disponible en émincé en sauce ou en croquettes savoureuses et croquantes.Si vous envisagez une alimentation mixte, il vous suffit de suivre nos instructions pour vous assurer que votre chat reçoive la quantité de nourriture sèche et humide nécessaire pour un bénéfice optimal."}]), WsContentsDTO(type=Text, title=Compositions, content=[{"COMPOSITION":"Composition : viandes et sous-produits animaux, extraits de protéines végétales, céréales, huiles et graisses, sous-produits d’origine végétale, substances minérales, sucres, mollusques et crustacés."}, {"ADDITIFS (AU KG)":"Additifs (au kg) : Additifs nutritionnels : Vitamine D3 : 350 UI, E1 (Fer) : 3 mg, E2 (Iode) : 0,31 mg, E4 (Cuivre) : 2,4 mg, E5 (Manganèse) : 1 mg, E6 (Zinc) : 10 mg."}, {"CONSTITUANTS ANALYTIQUES":"Constituants analytiques : Protéine : 9,5 % - Teneur en matières grasses : 4,5 % - Cendres brutes : 1,2 % - Cellulose brute : 0,9 % - Humidité : 81 % - EPA/DHA : 0,15 % - Phosphore : 0,12 %. "}, {"RATIONNEMENT":"Mode d’emploi : voir tableau. Numéro de lot et d’identifiant usine, à utiliser de préférence avant : voir sur l’emballage. À conserver dans un endroit sec et frais.   "}]), WsContentsDTO(type=Image, title=Benefits, content=[{"Santé articulaire EPA/DHA":{"Description":"Aide à maintenir la santé des articulations grâce à un niveau élevé d’acides gras EPA/DHA."}}, {"Instinctivement préféré":{"Description":"Formulé pour répondre au profil macro-nutritionnel optimal instinctivement préféré par les chats."}}, {"Santé rénale":{"Description":"Teneur adaptée en phosphore."}}]), WsContentsDTO(type=Image, title=Feeding Guidelines, content=[{"Table":{"Description":"<table><thead><tr><th>Poids du chat</th><th>Alimentation humide</th><th>Alimentation mixte</th></tr></thead><tbody><tr><td>3 kg</td><td>2 sachets</td><td>1 sachet + 22 g </td></tr><tr><td>4 kg</td><td>2+1/2 sachets</td><td>1 sachet + 31g </td></tr><tr><td>5 kg</td><td>3 sachets</td><td>1 sachet + 40 g </td></tr><tr><td>6 kg</td><td>3+1/2 sachets</td><td>1 sachet + 49 g </td></tr></tbody></table>"}}])]',
+                  goodsMobileDetail: null,
+                  stock: null,
+                  goodsInfoIds: null,
+                  storeCateIds: null,
+                  storeCateNames: null,
+                  companyType: null,
+                  goodsCubage: 1.0,
+                  freightTempId: 62,
+                  freightTempName: null,
+                  saleType: 0,
+                  goodsVideo: null,
+                  linePrice: null,
+                  allowPriceSet: null,
+                  goodsEvaluateNum: 0,
+                  goodsCollectNum: 0,
+                  goodsSalesNum: 238,
+                  goodsFavorableCommentNum: 0,
+                  grouponForbiddenFlag: false,
+                  subscriptionStatus: 1,
+                  minMarketPrice: 14.99,
+                  minSubscriptionPrice: 13.49,
+                  avgEvaluate: null,
+                  avgEvaluateScore: null,
+                  baseSpec: null,
+                  saleableFlag: 1,
+                  displayFlag: 0,
+                  weShareId: 129171,
+                  weightValue: '1020',
+                  goodsStoreCateNames: null,
+                  productCategoryNames: null,
+                  defaultPurchaseType: null,
+                  defaultFrequencyId: null,
+                  resource: 1,
+                  promotions: 'autoship',
+                  goodsPillar: null,
+                  exclusiveFlag: null,
+                  wsEnergyCategory: 'normal_outdoor_fcn_breed',
+                  wsReferenceEnergyValue: 935.0,
+                  wsTechnologyCode: 'wet',
+                  wsDensity: 1.0,
+                  sourceCreateTime: null,
+                  sourceUpdateTime: '2021-09-27 16:57:35.000',
+                  serviceTypeId: null,
+                  assignResources: null
+                },
+                goodsPromotion: null,
+                description: null,
+                auditCatFlag: null,
+                prescriberFlag: null,
+                goodsMeasureNum: 1.0,
+                goodsMeasureUnit: 'UNIT',
+                subscriptionDiscountPrice: null,
+                goodsInfoFlag: null,
+                periodTypeId: null,
+                purchasePrice: null,
+                goodsInfoType: null,
+                goodsInfoBundleRels: [],
+                recommendationId: null,
+                recommendationName: null,
+                recommendationSerialCode: null,
+                weShareScode: '5011631',
+                packSize: '12X85G',
+                subscriptionPercentage: null,
+                maxStock: null,
+                subscriptionPlanId: null,
+                packageId: null,
+                subscriptionPlanPromotionFlag: null,
+                settingPrice: null,
+                virtualInventory: null,
+                virtualAlert: null,
+                marketingCode: null,
+                marketingName: null,
+                promotionDiscountPrice: null,
+                marketingId: null,
+                externalSku: '41530102',
+                promotions: 'autoship',
+                isOfflineStore: null,
+                petsId: null,
+                petsType: null,
+                questionParams: null,
+                referenceData: null,
+                depth: 0.0,
+                depthUnit: 'mm',
+                width: 0.0,
+                widthUnit: 'mm',
+                height: 0.0,
+                heightUnit: 'mm',
+                specification: null,
+                isNotShowCart: null,
+                externalStock: 30,
+                externalMarketPrice: 14.99,
+                externalSubscriptionPrice: 13.49,
+                externalLinePrice: 14.99,
+                externalPurchasePrice: null,
+                factor: 1,
+                stockUomId: 'f09127132fd011ec99b42c71b536ef0c',
+                priceUomId: 'f09127132fd011ec99b42c71b536ef0c',
+                priceUom: null,
+                stockUom: null
+              }
+            ],
+            images: [
+              {
+                imageId: 302162,
+                goodsId: '2c918085768f3a4101768f3e1e9a0029',
+                imageType: 'master',
+                goodsInfoId: null,
+                artworkUrl:
+                  'https://d2cstgstorage.z13.web.core.windows.net/FR_129171_master.jpg',
+                middleUrl: null,
+                thumbUrl: null,
+                bigUrl: null,
+                createTime: '2021-09-30 06:43:26.000',
+                updateTime: '2021-09-30 06:43:26.000',
+                delFlag: 0
+              },
+              {
+                imageId: 302163,
+                goodsId: '2c918085768f3a4101768f3e1e9a0029',
+                imageType: 'other',
+                goodsInfoId: null,
+                artworkUrl:
+                  'https://d2cstgstorage.z13.web.core.windows.net/FR_129171_other_328049.jpg',
+                middleUrl: null,
+                thumbUrl: null,
+                bigUrl: null,
+                createTime: '2021-09-30 06:43:26.000',
+                updateTime: '2021-09-30 06:43:26.000',
+                delFlag: 0
+              },
+              {
+                imageId: 302164,
+                goodsId: '2c918085768f3a4101768f3e1e9a0029',
+                imageType: 'hero',
+                goodsInfoId: null,
+                artworkUrl:
+                  'https://d2cstgstorage.z13.web.core.windows.net/FR_129171_hero_508324.jpg',
+                middleUrl: null,
+                thumbUrl: null,
+                bigUrl: null,
+                createTime: '2021-09-30 06:43:26.000',
+                updateTime: '2021-09-30 06:43:26.000',
+                delFlag: 0
+              },
+              {
+                imageId: 302165,
+                goodsId: '2c918085768f3a4101768f3e1e9a0029',
+                imageType: 'bag',
+                goodsInfoId: null,
+                artworkUrl:
+                  'https://d2cstgstorage.z13.web.core.windows.net/FR_129171_bag_498159.jpg',
+                middleUrl: null,
+                thumbUrl: null,
+                bigUrl: null,
+                createTime: '2021-09-30 06:43:26.000',
+                updateTime: '2021-09-30 06:43:26.000',
+                delFlag: 0
+              },
+              {
+                imageId: 302166,
+                goodsId: '2c918085768f3a4101768f3e1e9a0029',
+                imageType: 'other',
+                goodsInfoId: null,
+                artworkUrl:
+                  'https://d2cstgstorage.z13.web.core.windows.net/FR_129171_other_508353.jpg',
+                middleUrl: null,
+                thumbUrl: null,
+                bigUrl: null,
+                createTime: '2021-09-30 06:43:26.000',
+                updateTime: '2021-09-30 06:43:26.000',
+                delFlag: 0
+              },
+              {
+                imageId: 302167,
+                goodsId: '2c918085768f3a4101768f3e1e9a0029',
+                imageType: 'kibble',
+                goodsInfoId: null,
+                artworkUrl:
+                  'https://d2cstgstorage.z13.web.core.windows.net/FR_129171_kibble_328050.jpg',
+                middleUrl: null,
+                thumbUrl: null,
+                bigUrl: null,
+                createTime: '2021-09-30 06:43:26.000',
+                updateTime: '2021-09-30 06:43:26.000',
+                delFlag: 0
+              },
+              {
+                imageId: 302168,
+                goodsId: '2c918085768f3a4101768f3e1e9a0029',
+                imageType: 'other',
+                goodsInfoId: null,
+                artworkUrl:
+                  'https://d2cstgstorage.z13.web.core.windows.net/FR_129171_other_633479.jpg',
+                middleUrl: null,
+                thumbUrl: null,
+                bigUrl: null,
+                createTime: '2021-09-30 06:43:26.000',
+                updateTime: '2021-09-30 06:43:26.000',
+                delFlag: 0
+              }
+            ],
+            taggingList: null,
+            goodsAttributesValueRelVOAllList: [
+              {
+                id: 'GAR202109300643258350',
+                goodsId: '2c918085768f3a4101768f3e1e9a0029',
+                goodsAttributeId: 'A20210805061921392',
+                goodsAttributeValueId: 'AV87290813743648768',
+                goodsAttributeName: 'Species',
+                goodsAttributeNameEn: 'Species',
+                goodsAttributeValue: 'Cat',
+                goodsAttributeValueEn: 'Cat',
+                createTime: '2021-09-30 06:43:26.000',
+                updateTime: null,
+                delTime: null,
+                delFlag: false,
+                dataSource: 0
+              },
+              {
+                id: 'GAR202109300643258351',
+                goodsId: '2c918085768f3a4101768f3e1e9a0029',
+                goodsAttributeId: 'A20210802131015380',
+                goodsAttributeValueId: 'AV86307058661224448',
+                goodsAttributeName: 'Portfolio Classification',
+                goodsAttributeNameEn: 'Portfolio Classification',
+                goodsAttributeValue:
+                  'ROYAL CANIN / SPT Retail / Feline Health Nutrition Wet',
+                goodsAttributeValueEn:
+                  'ROYAL CANIN / SPT Retail / Feline Health Nutrition Wet',
+                createTime: '2021-09-30 06:43:26.000',
+                updateTime: null,
+                delTime: null,
+                delFlag: false,
+                dataSource: 0
+              },
+              {
+                id: 'GAR202109300643258352',
+                goodsId: '2c918085768f3a4101768f3e1e9a0029',
+                goodsAttributeId: 'A20210129065742589',
+                goodsAttributeValueId: 'AV202101290657426030',
+                goodsAttributeName: 'Pillar',
+                goodsAttributeNameEn: 'Pillar',
+                goodsAttributeValue: 'SPT Retail',
+                goodsAttributeValueEn: 'SPT retail',
+                createTime: '2021-09-30 06:43:26.000',
+                updateTime: null,
+                delTime: null,
+                delFlag: false,
+                dataSource: 0
+              },
+              {
+                id: 'GAR202109300643258353',
+                goodsId: '2c918085768f3a4101768f3e1e9a0029',
+                goodsAttributeId: 'A20201209075253707',
+                goodsAttributeValueId: 'AV202012160309154906',
+                goodsAttributeName: 'Sterilized',
+                goodsAttributeNameEn: 'STÉRILISÉ',
+                goodsAttributeValue: 'false',
+                goodsAttributeValueEn: 'NON',
+                createTime: '2021-09-30 06:43:26.000',
+                updateTime: null,
+                delTime: null,
+                delFlag: false,
+                dataSource: 0
+              },
+              {
+                id: 'GAR202109300643258354',
+                goodsId: '2c918085768f3a4101768f3e1e9a0029',
+                goodsAttributeId: 'A20201209071503738',
+                goodsAttributeValueId: 'AV202012160309230726',
+                goodsAttributeName: 'Range',
+                goodsAttributeNameEn: 'Gramme',
+                goodsAttributeValue: 'Feline Health Nutrition Wet_Cat',
+                goodsAttributeValueEn: 'Bouchées en sauce',
+                createTime: '2021-09-30 06:43:26.000',
+                updateTime: null,
+                delTime: null,
+                delFlag: false,
+                dataSource: 0
+              },
+              {
+                id: 'GAR202109300643258355',
+                goodsId: '2c918085768f3a4101768f3e1e9a0029',
+                goodsAttributeId: 'A20201209071341624',
+                goodsAttributeValueId: 'AV202012160309231106',
+                goodsAttributeName: 'Breeds',
+                goodsAttributeNameEn: 'RACE',
+                goodsAttributeValue: 'Cat_Cat',
+                goodsAttributeValueEn: 'Tous les chats',
+                createTime: '2021-09-30 06:43:26.000',
+                updateTime: null,
+                delTime: null,
+                delFlag: false,
+                dataSource: 0
+              },
+              {
+                id: 'GAR202109300643258356',
+                goodsId: '2c918085768f3a4101768f3e1e9a0029',
+                goodsAttributeId: 'A20201209071322816',
+                goodsAttributeValueId: 'AV202012160309158056',
+                goodsAttributeName: 'Technology',
+                goodsAttributeNameEn: 'TEXTURE',
+                goodsAttributeValue: 'Wet',
+                goodsAttributeValueEn: 'Aliment humide',
+                createTime: '2021-09-30 06:43:26.000',
+                updateTime: null,
+                delTime: null,
+                delFlag: false,
+                dataSource: 0
+              },
+              {
+                id: 'GAR202109300643258357',
+                goodsId: '2c918085768f3a4101768f3e1e9a0029',
+                goodsAttributeId: 'A20201209071242331',
+                goodsAttributeValueId: 'AV202012160309253586',
+                goodsAttributeName: 'Lifestages',
+                goodsAttributeNameEn: 'ÂGE',
+                goodsAttributeValue: 'Senior_Cat',
+                goodsAttributeValueEn: 'Senior (+12 ans)',
+                createTime: '2021-09-30 06:43:26.000',
+                updateTime: null,
+                delTime: null,
+                delFlag: false,
+                dataSource: 0
+              }
+            ],
+            recommendationNumber: 1,
+            createTime: null,
+            updateTime: null,
+            delFlag: null,
+            productMessage: null,
+            goodsDescriptionDetailList: [
+              {
+                id: 'GDD107590592036552704',
+                goodsCateId: 1134,
+                goodsId: '2c918085768f3a4101768f3e1e9a0029',
+                descriptionId: 'D20210225030745215',
+                descriptionName: 'Text',
+                contentType: 'json',
+                editable: true,
+                content:
+                  '[{"Prescriber Description":"ROYAL CANIN® Ageing 12+ en Gelée est spécialement conçu pour répondre aux besoins de votre chat âgé de 12 ans ou plus. ROYAL CANIN® Ageing 12+ en Gelée fournit également aux chats âgés des aliments spécialement formulés pour entretenir la santé de leurs articulations. - Santé articulaire - Instinctivement préféré - Santé rénale"}, {"EretailShort Description":"Pour vous assurer que votre chat âgé de 12 ans ou plus reçoit la nutrition spécifique dont il a besoin pour conserver une santé optimale, vous devrez lui donner une alimentation qu’il mangera volontiers et instinctivement. \\nC’est pourquoi ROYAL CANIN® Ageing 12+ en gelée est conçu pour correspondre au profil macro-nutritionnel optimal que les chats vieillissants comme le vôtre préfèrent instinctivement.\\n \\nROYAL CANIN® Ageing 12+ en gelée fournit également aux chats âgés des aliments spécialement formulés pour entretenir la santé de leurs articulations grâce à une teneur élevée en acides gras oméga-3 (EPA et DHA notamment).\\n \\nDe plus, ROYAL CANIN® Ageing 12+ en gelée contient également une teneur en phosphore adaptée pour entretenir la santé des reins et du système rénal dans son ensemble.\\n \\nPour répondre aux préférences de chaque chat, ROYAL CANIN® Ageing 12+ est également disponible en émincé en sauce ou en croquettes savoureuses et croquantes.\\nSi vous envisagez une alimentation mixte, il vous suffit de suivre nos instructions pour vous assurer que votre chat reçoive la quantité de nourriture sèche et humide nécessaire pour un bénéfice optimal.\\n"}, {"EretailLong Description":"Pour vous assurer que votre chat âgé de 12 ans ou plus reçoit la nutrition spécifique dont il a besoin pour conserver une santé optimale, vous devrez lui donner une alimentation qu’il mangera volontiers et instinctivement. C’est pourquoi ROYAL CANIN® Ageing 12+ en gelée est conçu pour correspondre au profil macro-nutritionnel optimal que les chats vieillissants comme le vôtre préfèrent instinctivement. ROYAL CANIN® Ageing 12+ en gelée fournit également aux chats âgés des aliments spécialement formulés pour entretenir la santé de leurs articulations grâce à une teneur élevée en acides gras oméga-3 (EPA et DHA notamment). De plus, ROYAL CANIN® Ageing 12+ en gelée contient également une teneur en phosphore adaptée pour entretenir la santé des reins et du système rénal dans son ensemble. Pour répondre aux préférences de chaque chat, ROYAL CANIN® Ageing 12+ est également disponible en émincé en sauce ou en croquettes savoureuses et croquantes.Si vous envisagez une alimentation mixte, il vous suffit de suivre nos instructions pour vous assurer que votre chat reçoive la quantité de nourriture sèche et humide nécessaire pour un bénéfice optimal."}]',
+                sort: 0,
+                status: true,
+                storeId: 123457909,
+                createTime: '2021-09-30 06:43:26.000',
+                updateTime: null,
+                delTime: null,
+                delFlag: false,
+                translateList: [
+                  {
+                    id: 'T202103150515288850',
+                    languageId: '5655',
+                    name: 'Text',
+                    translateName: 'Description',
+                    sort: 0,
+                    storeId: 123457909,
+                    createTime: '2021-03-15 05:15:29.000',
+                    updateTime: null,
+                    delTime: null,
+                    delFlag: false
+                  },
+                  {
+                    id: 'T202103150515289001',
+                    languageId: '5656',
+                    name: 'Text',
+                    translateName: '',
+                    sort: 1,
+                    storeId: 123457909,
+                    createTime: '2021-03-15 05:15:29.000',
+                    updateTime: null,
+                    delTime: null,
+                    delFlag: false
+                  }
+                ]
+              },
+              {
+                id: 'GDD107590592036552705',
+                goodsCateId: 1134,
+                goodsId: '2c918085768f3a4101768f3e1e9a0029',
+                descriptionId: 'D20210224090433046',
+                descriptionName: 'Benefits',
+                contentType: 'json',
+                editable: true,
+                content:
+                  '[{"Santé articulaire EPA/DHA":{"Description":"Aide à maintenir la santé des articulations grâce à un niveau élevé d’acides gras EPA/DHA."}}, {"Instinctivement préféré":{"Description":"Formulé pour répondre au profil macro-nutritionnel optimal instinctivement préféré par les chats."}}, {"Santé rénale":{"Description":"Teneur adaptée en phosphore."}}]',
+                sort: 1,
+                status: true,
+                storeId: 123457909,
+                createTime: '2021-09-30 06:43:26.000',
+                updateTime: null,
+                delTime: null,
+                delFlag: false,
+                translateList: [
+                  {
+                    id: 'T202103150515553980',
+                    languageId: '5655',
+                    name: 'Benefits',
+                    translateName: 'Bénéfices',
+                    sort: 0,
+                    storeId: 123457909,
+                    createTime: '2021-03-15 05:15:55.000',
+                    updateTime: null,
+                    delTime: null,
+                    delFlag: false
+                  },
+                  {
+                    id: 'T202103150515554071',
+                    languageId: '5656',
+                    name: 'Benefits',
+                    translateName: '',
+                    sort: 1,
+                    storeId: 123457909,
+                    createTime: '2021-03-15 05:15:55.000',
+                    updateTime: null,
+                    delTime: null,
+                    delFlag: false
+                  }
+                ]
+              },
+              {
+                id: 'GDD107590592036552706',
+                goodsCateId: 1134,
+                goodsId: '2c918085768f3a4101768f3e1e9a0029',
+                descriptionId: 'D20210224090754235',
+                descriptionName: 'Compositions',
+                contentType: 'json',
+                editable: true,
+                content:
+                  '[{"COMPOSITION":"Composition : viandes et sous-produits animaux, extraits de protéines végétales, céréales, huiles et graisses, sous-produits d’origine végétale, substances minérales, sucres, mollusques et crustacés."}, {"ADDITIFS (AU KG)":"Additifs (au kg) : Additifs nutritionnels : Vitamine D3 : 350 UI, E1 (Fer) : 3 mg, E2 (Iode) : 0,31 mg, E4 (Cuivre) : 2,4 mg, E5 (Manganèse) : 1 mg, E6 (Zinc) : 10 mg."}, {"CONSTITUANTS ANALYTIQUES":"Constituants analytiques : Protéine : 9,5 % - Teneur en matières grasses : 4,5 % - Cendres brutes : 1,2 % - Cellulose brute : 0,9 % - Humidité : 81 % - EPA/DHA : 0,15 % - Phosphore : 0,12 %. "}, {"RATIONNEMENT":"Mode d’emploi : voir tableau. Numéro de lot et d’identifiant usine, à utiliser de préférence avant : voir sur l’emballage. À conserver dans un endroit sec et frais.   "}]',
+                sort: 2,
+                status: true,
+                storeId: 123457909,
+                createTime: '2021-09-30 06:43:26.000',
+                updateTime: null,
+                delTime: null,
+                delFlag: false,
+                translateList: [
+                  {
+                    id: 'T202103150515421910',
+                    languageId: '5655',
+                    name: 'Compositions',
+                    translateName: 'informations nutritionelles',
+                    sort: 0,
+                    storeId: 123457909,
+                    createTime: '2021-03-15 05:15:42.000',
+                    updateTime: null,
+                    delTime: null,
+                    delFlag: false
+                  },
+                  {
+                    id: 'T202103150515422001',
+                    languageId: '5656',
+                    name: 'Compositions',
+                    translateName: '',
+                    sort: 1,
+                    storeId: 123457909,
+                    createTime: '2021-03-15 05:15:42.000',
+                    updateTime: null,
+                    delTime: null,
+                    delFlag: false
+                  }
+                ]
+              },
+              {
+                id: 'GDD107590592036552707',
+                goodsCateId: 1134,
+                goodsId: '2c918085768f3a4101768f3e1e9a0029',
+                descriptionId: 'D20210224090406862',
+                descriptionName: 'Guide',
+                contentType: 'json',
+                editable: true,
+                content:
+                  '[{"Table":{"Description":"<table><thead><tr><th>Poids du chat</th><th>Alimentation humide</th><th>Alimentation mixte</th></tr></thead><tbody><tr><td>3 kg</td><td>2 sachets</td><td>1 sachet + 22 g </td></tr><tr><td>4 kg</td><td>2+1/2 sachets</td><td>1 sachet + 31g </td></tr><tr><td>5 kg</td><td>3 sachets</td><td>1 sachet + 40 g </td></tr><tr><td>6 kg</td><td>3+1/2 sachets</td><td>1 sachet + 49 g </td></tr></tbody></table>"}}]',
+                sort: 3,
+                status: true,
+                storeId: 123457909,
+                createTime: '2021-09-30 06:43:26.000',
+                updateTime: null,
+                delTime: null,
+                delFlag: false,
+                translateList: [
+                  {
+                    id: 'T202104230752271620',
+                    languageId: '5655',
+                    name: 'Guide',
+                    translateName: 'rations',
+                    sort: 0,
+                    storeId: 123457909,
+                    createTime: '2021-04-23 07:52:27.000',
+                    updateTime: null,
+                    delTime: null,
+                    delFlag: false
+                  },
+                  {
+                    id: 'T202104230752271711',
+                    languageId: '5656',
+                    name: 'Guide',
+                    translateName: '',
+                    sort: 1,
+                    storeId: 123457909,
+                    createTime: '2021-04-23 07:52:27.000',
+                    updateTime: null,
+                    delTime: null,
+                    delFlag: false
+                  }
+                ]
+              }
+            ],
+            goodsSpecs: [
+              {
+                specId: 20757,
+                goodsId: '2c918085768f3a4101768f3e1e9a0029',
+                specName: 'Taille',
+                createTime: '2021-09-30 06:43:26.000',
+                updateTime: '2021-09-30 06:43:26.000',
+                delFlag: 0,
+                mockSpecId: 20757,
+                specDetailIds: null,
+                editable: true
+              }
+            ]
+          },
+          {
+            id: null,
+            recommendationId: null,
+            goods: {
+              goodsId: '2c918085768f3a4101768f3e1b2e0028',
+              cateId: 1134,
+              brandId: 400,
+              brandName: null,
+              goodsName: 'Ageing 12+ en sauce',
+              goodsSubtitle:
+                'Aliment complet pour chats seniors de plus de 12 ans (émincé en sauce).',
+              goodsNewSubtitle: 'Chats seniors de plus de 12 ans',
+              goodsDescription: '',
+              goodsDescriptionDetails: null,
+              goodsNo: '4082',
+              innerGoodsNo: 'FR_4082',
+              goodsUnit: null,
+              goodsCateName: 'Cat/Feline Health Nutrition Wet/Wet',
+              goodsImg:
+                'https://d2cstgstorage.z13.web.core.windows.net/FR_129161_master.jpg',
+              goodsWeight: 1.0,
+              marketPrice: null,
+              supplyPrice: null,
+              goodsType: 0,
+              costPrice: null,
+              createTime: '2021-10-01 15:23:16.000',
+              updateTime: '2021-11-19 01:33:33.000',
+              addedTime: '2021-10-01 15:23:16.000',
+              goodsSource: 1,
+              delFlag: 0,
+              addedFlag: 1,
+              moreSpecFlag: 1,
+              priceType: 2,
+              customFlag: 0,
+              levelDiscountFlag: 0,
+              companyInfoId: 1053,
+              supplierName: 'Royal Canin_France',
+              storeId: 123457909,
+              storeName: null,
+              cateName: null,
+              submitTime: '2021-10-01 15:23:16.000',
+              auditStatus: 1,
+              auditReason: null,
+              goodsDetail:
+                '[WsContentsDTO(type=Text, title=Text, content=[{"Prescriber Description":"ROYAL CANIN® Ageing 12+ en Sauce est spécialement conçu pour répondre aux besoins de votre chat âgé de 12 ans ou plus. ROYAL CANIN® Ageing 12+ en Sauce fournit également aux chats âgés des aliments spécialement formulés pour entretenir la santé de leurs articulations. - Santé articulaire - Instinctivement préféré - Santé rénale"}, {"EretailShort Description":"Pour vous assurer que votre chat âgé de 12 ans ou plus reçoit la nutrition spécifique dont il a besoin pour conserver une santé optimale, il faut que vous lui donniez l’alimentation qu’il préfère naturellement d’instinct.\\n \\nC’est pourquoi ROYAL CANIN® Ageing 12+ en sauce est conçu pour correspondre au profil macro-nutritionnel optimal que les chats vieillissants comme le vôtre préfèrent instinctivement.\\n \\nLes chats âgés auront souvent besoin de niveaux plus élevés d’apport nutritionnel pour le maintien général d’une bonne santé articulaire. C’est pourquoi ROYAL CANIN® Ageing 12+ en sauce est spécialement formulé pour entretenir la santé articulaire grâce à une teneur élevée en acides gras oméga-3 (EPA et DHA notamment).\\n \\nPour entretenir la santé des reins et du système rénal dans son ensemble, ROYAL CANIN® Ageing 12+ en Sauce contient de plus une teneur soigneusement dosée en phosphore.\\n \\nPour répondre aux préférences de chaque chat, ROYAL CANIN® Ageing 12+ est également disponible en émincé en gelée ou en croquettes savoureuses et croquantes.\\nSi vous envisagez une alimentation mixte, il vous suffit de suivre nos instructions pour vous assurer que votre chat reçoive la quantité de nourriture sèche et humide nécessaire pour un bénéfice optimal.\\n"}, {"EretailLong Description":"Pour vous assurer que votre chat âgé de 12 ans ou plus reçoit la nutrition spécifique dont il a besoin pour conserver une santé optimale, il faut que vous lui donniez l’alimentation qu’il préfère naturellement d’instinct. C’est pourquoi ROYAL CANIN® Ageing 12+ en sauce est conçu pour correspondre au profil macro-nutritionnel optimal que les chats vieillissants comme le vôtre préfèrent instinctivement. Les chats âgés auront souvent besoin de niveaux plus élevés d’apport nutritionnel pour le maintien général d’une bonne santé articulaire. C’est pourquoi ROYAL CANIN® Ageing 12+ en sauce est spécialement formulé pour entretenir la santé articulaire grâce à une teneur élevée en acides gras oméga-3 (EPA et DHA notamment). Pour entretenir la santé des reins et du système rénal dans son ensemble, ROYAL CANIN® Ageing 12+ en Sauce contient de plus une teneur soigneusement dosée en phosphore. Pour répondre aux préférences de chaque chat, ROYAL CANIN® Ageing 12+ est également disponible en émincé en gelée ou en croquettes savoureuses et croquantes.Si vous envisagez une alimentation mixte, il vous suffit de suivre nos instructions pour vous assurer que votre chat reçoive la quantité de nourriture sèche et humide nécessaire pour un bénéfice optimal."}]), WsContentsDTO(type=Text, title=Compositions, content=[{"COMPOSITION":"Composition : viandes et sous-produits animaux, céréales, extraits de protéines végétales, huiles et graisses, sous-produits d’origine végétale, substances minérales, sucres, mollusques et crustacés."}, {"ADDITIFS (AU KG)":"Additifs (au kg) : Additifs nutritionnels : Vitamine D3 : 300 UI, E1 (Fer) : 4 mg, E2 (Iode) : 0,34 mg, E4 (Cuivre) : 2,7 mg, E5 (Manganèse) : 1,3 mg, E6 (Zinc) : 13 mg."}, {"CONSTITUANTS ANALYTIQUES":"Constituants analytiques : Protéine : 9,5 % - Teneur en matières grasses : 4 % - Cendres brutes : 1,2 % - Cellulose brute : 1,1 % - Humidité : 80 % - EPA/DHA : 0,15 % - Phosphore : 0,13 %."}, {"RATIONNEMENT":"Mode d’emploi : voir tableau. Numéro de lot et d’identifiant usine, à utiliser de préférence avant : voir sur l’emballage. À conserver dans un endroit sec et frais.  "}]), WsContentsDTO(type=Image, title=Benefits, content=[{"Santé articulaire EPA/DHA":{"Description":"Aide à maintenir la santé des articulations grâce à un niveau élevé d’acides gras EPA/DHA."}}, {"Instinctivement préféré":{"Description":"Formulé pour répondre au profil macro-nutritionnel optimal instinctivement préféré par les chats."}}, {"Santé rénale":{"Description":"Teneur adaptée en phosphore."}}]), WsContentsDTO(type=Image, title=Feeding Guidelines, content=[{"Table":{"Description":"<table><thead><tr><th>Poids du chat</th><th>Alimentation humide</th><th>Alimentation mixte</th></tr></thead><tbody><tr><td>3 kg</td><td>2 sachets</td><td>1 sachet + 22 g </td></tr><tr><td>4 kg</td><td> 2+1/2 sachets</td><td>1 sachet + 31 g </td></tr><tr><td>5 kg</td><td>3 sachets</td><td>1 sachet + 40 g </td></tr><tr><td>6 kg</td><td>3+1/2 sachets</td><td>1 sachet + 48 g </td></tr></tbody></table>"}}])]',
+              goodsMobileDetail: null,
+              stock: null,
+              goodsInfoIds: null,
+              storeCateIds: null,
+              storeCateNames: null,
+              companyType: null,
+              goodsCubage: 1.0,
+              freightTempId: 62,
+              freightTempName: 'Default template',
+              saleType: 0,
+              goodsVideo: null,
+              linePrice: null,
+              allowPriceSet: null,
+              goodsEvaluateNum: 12,
+              goodsCollectNum: 0,
+              goodsSalesNum: 918,
+              goodsFavorableCommentNum: 12,
+              grouponForbiddenFlag: false,
+              subscriptionStatus: 1,
+              minMarketPrice: 14.99,
+              minSubscriptionPrice: 13.49,
+              avgEvaluate: null,
+              avgEvaluateScore: null,
+              baseSpec: null,
+              saleableFlag: 1,
+              displayFlag: 0,
+              weShareId: 129161,
+              weightValue: '1020',
+              goodsStoreCateNames: null,
+              productCategoryNames: null,
+              defaultPurchaseType: null,
+              defaultFrequencyId: null,
+              resource: 1,
+              promotions: 'autoship',
+              goodsPillar: null,
+              exclusiveFlag: null,
+              wsEnergyCategory: 'normal_outdoor_fcn_breed',
+              wsReferenceEnergyValue: 953.0,
+              wsTechnologyCode: 'wet',
+              wsDensity: 1.0,
+              sourceCreateTime: null,
+              sourceUpdateTime: '2021-09-14 06:51:50.000',
+              serviceTypeId: null,
+              assignResources: null
+            },
+            goodsInfo: {
+              goodsInfoId: '2c91808576903fd8017690461e5a020d',
+              goodsId: '2c918085768f3a4101768f3e1b2e0028',
+              goodsInfoName: 'Ageing 12+ en sauce',
+              goodsInfoNo: '40820102',
+              innerGoodsInfoNo: 'FR_40820102',
+              goodsInfoImg: null,
+              goodsInfoBarcode: '9003579310175',
+              stock: 26,
+              marketPrice: 14.99,
+              supplyPrice: null,
+              retailPrice: null,
+              grouponPrice: null,
+              costPrice: null,
+              createTime: '2021-10-01 15:23:16.000',
+              updateTime: '2021-11-13 16:01:38.000',
+              addedTime: '2021-04-23 07:03:03.000',
+              delFlag: 0,
+              addedFlag: 1,
+              companyInfoId: 1053,
+              storeId: 123457909,
+              storeName: null,
+              customFlag: 0,
+              levelDiscountFlag: 0,
+              auditStatus: 1,
+              companyType: 0,
+              aloneFlag: false,
+              salePrice: 14.99,
+              priceType: 2,
+              mockSpecIds: [20756],
+              mockSpecDetailIds: [30096],
+              specDetailRelIds: null,
+              buyCount: 0,
+              count: null,
+              maxCount: null,
+              intervalPriceIds: null,
+              specText: '12X85G',
+              intervalMinPrice: null,
+              intervalMaxPrice: null,
+              validFlag: null,
+              cateId: 1134,
+              brandId: 400,
+              storeCateIds: null,
+              distributionCommission: null,
+              commissionRate: null,
+              distributionSalesCount: null,
+              distributionGoodsAudit: 0,
+              distributionGoodsAuditReason: null,
+              checked: false,
+              goodsStatus: 0,
+              goodsUnit: null,
+              marketingLabels: [],
+              grouponLabel: null,
+              couponLabels: [],
+              goodsCubage: null,
+              goodsWeight: null,
+              freightTempId: null,
+              saleType: 0,
+              allowPriceSet: null,
+              smallProgramCode: null,
+              joinDistributior: null,
+              goodsEvaluateNum: null,
+              goodsCollectNum: null,
+              goodsSalesNum: null,
+              goodsFavorableCommentNum: null,
+              enterPrisePrice: null,
+              enterPriseAuditState: null,
+              enterPriseGoodsAuditReason: null,
+              subscriptionStatus: 1,
+              subscriptionPrice: 13.49,
+              linePrice: 14.99,
+              basePrice: 0.01,
+              subscriptionBasePrice: 0.01,
+              basePriceType: '',
+              goodsInfoWeight: 1020.0,
+              goodsInfoUnit: 'G',
+              goods: null,
+              goodsPromotion: null,
+              description: null,
+              auditCatFlag: null,
+              prescriberFlag: null,
+              goodsMeasureNum: 1.0,
+              goodsMeasureUnit: 'UNIT',
+              subscriptionDiscountPrice: null,
+              goodsInfoFlag: null,
+              periodTypeId: null,
+              purchasePrice: null,
+              goodsInfoType: null,
+              goodsInfoBundleRels: [],
+              recommendationId: null,
+              recommendationName: null,
+              recommendationSerialCode: null,
+              weShareScode: '5011478',
+              packSize: '12X85G',
+              subscriptionPercentage: null,
+              maxStock: null,
+              subscriptionPlanId: null,
+              packageId: null,
+              subscriptionPlanPromotionFlag: null,
+              settingPrice: null,
+              virtualInventory: null,
+              virtualAlert: null,
+              marketingCode: null,
+              marketingName: null,
+              promotionDiscountPrice: null,
+              marketingId: null,
+              externalSku: '40820102',
+              promotions: 'autoship',
+              isOfflineStore: null,
+              petsId: null,
+              petsType: null,
+              questionParams: null,
+              referenceData: null,
+              depth: 0.0,
+              depthUnit: 'mm',
+              width: 0.0,
+              widthUnit: 'mm',
+              height: 0.0,
+              heightUnit: 'mm',
+              specification: null,
+              isNotShowCart: null,
+              externalStock: 26,
+              externalMarketPrice: 14.99,
+              externalSubscriptionPrice: 13.49,
+              externalLinePrice: 14.99,
+              externalPurchasePrice: null,
+              factor: 1,
+              stockUomId: 'f09127132fd011ec99b42c71b536ef0c',
+              priceUomId: 'f09127132fd011ec99b42c71b536ef0c',
+              priceUom: null,
+              stockUom: null
+            },
+            goodsSpecDetails: [
+              {
+                specDetailId: 30096,
+                goodsId: '2c918085768f3a4101768f3e1b2e0028',
+                specId: 20756,
+                detailName: '12X85G',
+                createTime: '2021-10-01 15:23:16.000',
+                updateTime: '2021-10-01 15:23:16.000',
+                delFlag: 0,
+                mockSpecId: null,
+                mockSpecDetailId: null,
+                calculateSort: 1285,
+                editable: true
+              }
+            ],
+            goodsInfos: [
+              {
+                goodsInfoId: '2c91808576903fd8017690461e5a020d',
+                goodsId: '2c918085768f3a4101768f3e1b2e0028',
+                goodsInfoName: 'Ageing 12+ en sauce',
+                goodsInfoNo: '40820102',
+                innerGoodsInfoNo: 'FR_40820102',
+                goodsInfoImg: null,
+                goodsInfoBarcode: '9003579310175',
+                stock: 26,
+                marketPrice: 14.99,
+                supplyPrice: null,
+                retailPrice: null,
+                grouponPrice: null,
+                costPrice: null,
+                createTime: '2021-10-01 15:23:16.000',
+                updateTime: '2021-11-13 16:01:38.000',
+                addedTime: '2021-04-23 07:03:03.000',
+                delFlag: 0,
+                addedFlag: 1,
+                companyInfoId: 1053,
+                storeId: 123457909,
+                storeName: null,
+                customFlag: 0,
+                levelDiscountFlag: 0,
+                auditStatus: 1,
+                companyType: 0,
+                aloneFlag: false,
+                salePrice: 14.99,
+                priceType: null,
+                mockSpecIds: [20756],
+                mockSpecDetailIds: [30096],
+                specDetailRelIds: null,
+                buyCount: 0,
+                count: null,
+                maxCount: null,
+                intervalPriceIds: null,
+                specText: '12X85G',
+                intervalMinPrice: null,
+                intervalMaxPrice: null,
+                validFlag: null,
+                cateId: 1134,
+                brandId: 400,
+                storeCateIds: null,
+                distributionCommission: null,
+                commissionRate: null,
+                distributionSalesCount: null,
+                distributionGoodsAudit: 0,
+                distributionGoodsAuditReason: null,
+                checked: false,
+                goodsStatus: 0,
+                goodsUnit: null,
+                marketingLabels: [],
+                grouponLabel: null,
+                couponLabels: [],
+                goodsCubage: null,
+                goodsWeight: null,
+                freightTempId: null,
+                saleType: 0,
+                allowPriceSet: null,
+                smallProgramCode: null,
+                joinDistributior: null,
+                goodsEvaluateNum: null,
+                goodsCollectNum: null,
+                goodsSalesNum: null,
+                goodsFavorableCommentNum: null,
+                enterPrisePrice: null,
+                enterPriseAuditState: null,
+                enterPriseGoodsAuditReason: null,
+                subscriptionStatus: 1,
+                subscriptionPrice: 13.49,
+                linePrice: 14.99,
+                basePrice: 0.01,
+                subscriptionBasePrice: 0.01,
+                basePriceType: '',
+                goodsInfoWeight: 1020.0,
+                goodsInfoUnit: 'G',
+                goods: {
+                  goodsId: '2c918085768f3a4101768f3e1b2e0028',
+                  cateId: 1134,
+                  brandId: 400,
+                  brandName: null,
+                  goodsName: 'Ageing 12+ en sauce',
+                  goodsSubtitle:
+                    'Aliment complet pour chats seniors de plus de 12 ans (émincé en sauce).',
+                  goodsNewSubtitle: 'Chats seniors de plus de 12 ans',
+                  goodsDescription: '',
+                  goodsDescriptionDetails: null,
+                  goodsNo: '4082',
+                  innerGoodsNo: 'FR_4082',
+                  goodsUnit: null,
+                  goodsCateName: 'Cat/Feline Health Nutrition Wet/Wet',
+                  goodsImg:
+                    'https://d2cstgstorage.z13.web.core.windows.net/FR_129161_master.jpg',
+                  goodsWeight: 1.0,
+                  marketPrice: null,
+                  supplyPrice: null,
+                  goodsType: 0,
+                  costPrice: null,
+                  createTime: '2021-10-01 15:23:16.000',
+                  updateTime: '2021-11-19 01:33:33.000',
+                  addedTime: '2021-10-01 15:23:16.000',
+                  goodsSource: 1,
+                  delFlag: 0,
+                  addedFlag: 1,
+                  moreSpecFlag: 1,
+                  priceType: 2,
+                  customFlag: 0,
+                  levelDiscountFlag: 0,
+                  companyInfoId: 1053,
+                  supplierName: 'Royal Canin_France',
+                  storeId: 123457909,
+                  storeName: null,
+                  cateName: null,
+                  submitTime: '2021-10-01 15:23:16.000',
+                  auditStatus: 1,
+                  auditReason: null,
+                  goodsDetail:
+                    '[WsContentsDTO(type=Text, title=Text, content=[{"Prescriber Description":"ROYAL CANIN® Ageing 12+ en Sauce est spécialement conçu pour répondre aux besoins de votre chat âgé de 12 ans ou plus. ROYAL CANIN® Ageing 12+ en Sauce fournit également aux chats âgés des aliments spécialement formulés pour entretenir la santé de leurs articulations. - Santé articulaire - Instinctivement préféré - Santé rénale"}, {"EretailShort Description":"Pour vous assurer que votre chat âgé de 12 ans ou plus reçoit la nutrition spécifique dont il a besoin pour conserver une santé optimale, il faut que vous lui donniez l’alimentation qu’il préfère naturellement d’instinct.\\n \\nC’est pourquoi ROYAL CANIN® Ageing 12+ en sauce est conçu pour correspondre au profil macro-nutritionnel optimal que les chats vieillissants comme le vôtre préfèrent instinctivement.\\n \\nLes chats âgés auront souvent besoin de niveaux plus élevés d’apport nutritionnel pour le maintien général d’une bonne santé articulaire. C’est pourquoi ROYAL CANIN® Ageing 12+ en sauce est spécialement formulé pour entretenir la santé articulaire grâce à une teneur élevée en acides gras oméga-3 (EPA et DHA notamment).\\n \\nPour entretenir la santé des reins et du système rénal dans son ensemble, ROYAL CANIN® Ageing 12+ en Sauce contient de plus une teneur soigneusement dosée en phosphore.\\n \\nPour répondre aux préférences de chaque chat, ROYAL CANIN® Ageing 12+ est également disponible en émincé en gelée ou en croquettes savoureuses et croquantes.\\nSi vous envisagez une alimentation mixte, il vous suffit de suivre nos instructions pour vous assurer que votre chat reçoive la quantité de nourriture sèche et humide nécessaire pour un bénéfice optimal.\\n"}, {"EretailLong Description":"Pour vous assurer que votre chat âgé de 12 ans ou plus reçoit la nutrition spécifique dont il a besoin pour conserver une santé optimale, il faut que vous lui donniez l’alimentation qu’il préfère naturellement d’instinct. C’est pourquoi ROYAL CANIN® Ageing 12+ en sauce est conçu pour correspondre au profil macro-nutritionnel optimal que les chats vieillissants comme le vôtre préfèrent instinctivement. Les chats âgés auront souvent besoin de niveaux plus élevés d’apport nutritionnel pour le maintien général d’une bonne santé articulaire. C’est pourquoi ROYAL CANIN® Ageing 12+ en sauce est spécialement formulé pour entretenir la santé articulaire grâce à une teneur élevée en acides gras oméga-3 (EPA et DHA notamment). Pour entretenir la santé des reins et du système rénal dans son ensemble, ROYAL CANIN® Ageing 12+ en Sauce contient de plus une teneur soigneusement dosée en phosphore. Pour répondre aux préférences de chaque chat, ROYAL CANIN® Ageing 12+ est également disponible en émincé en gelée ou en croquettes savoureuses et croquantes.Si vous envisagez une alimentation mixte, il vous suffit de suivre nos instructions pour vous assurer que votre chat reçoive la quantité de nourriture sèche et humide nécessaire pour un bénéfice optimal."}]), WsContentsDTO(type=Text, title=Compositions, content=[{"COMPOSITION":"Composition : viandes et sous-produits animaux, céréales, extraits de protéines végétales, huiles et graisses, sous-produits d’origine végétale, substances minérales, sucres, mollusques et crustacés."}, {"ADDITIFS (AU KG)":"Additifs (au kg) : Additifs nutritionnels : Vitamine D3 : 300 UI, E1 (Fer) : 4 mg, E2 (Iode) : 0,34 mg, E4 (Cuivre) : 2,7 mg, E5 (Manganèse) : 1,3 mg, E6 (Zinc) : 13 mg."}, {"CONSTITUANTS ANALYTIQUES":"Constituants analytiques : Protéine : 9,5 % - Teneur en matières grasses : 4 % - Cendres brutes : 1,2 % - Cellulose brute : 1,1 % - Humidité : 80 % - EPA/DHA : 0,15 % - Phosphore : 0,13 %."}, {"RATIONNEMENT":"Mode d’emploi : voir tableau. Numéro de lot et d’identifiant usine, à utiliser de préférence avant : voir sur l’emballage. À conserver dans un endroit sec et frais.  "}]), WsContentsDTO(type=Image, title=Benefits, content=[{"Santé articulaire EPA/DHA":{"Description":"Aide à maintenir la santé des articulations grâce à un niveau élevé d’acides gras EPA/DHA."}}, {"Instinctivement préféré":{"Description":"Formulé pour répondre au profil macro-nutritionnel optimal instinctivement préféré par les chats."}}, {"Santé rénale":{"Description":"Teneur adaptée en phosphore."}}]), WsContentsDTO(type=Image, title=Feeding Guidelines, content=[{"Table":{"Description":"<table><thead><tr><th>Poids du chat</th><th>Alimentation humide</th><th>Alimentation mixte</th></tr></thead><tbody><tr><td>3 kg</td><td>2 sachets</td><td>1 sachet + 22 g </td></tr><tr><td>4 kg</td><td> 2+1/2 sachets</td><td>1 sachet + 31 g </td></tr><tr><td>5 kg</td><td>3 sachets</td><td>1 sachet + 40 g </td></tr><tr><td>6 kg</td><td>3+1/2 sachets</td><td>1 sachet + 48 g </td></tr></tbody></table>"}}])]',
+                  goodsMobileDetail: null,
+                  stock: null,
+                  goodsInfoIds: null,
+                  storeCateIds: null,
+                  storeCateNames: null,
+                  companyType: null,
+                  goodsCubage: 1.0,
+                  freightTempId: 62,
+                  freightTempName: null,
+                  saleType: 0,
+                  goodsVideo: null,
+                  linePrice: null,
+                  allowPriceSet: null,
+                  goodsEvaluateNum: 12,
+                  goodsCollectNum: 0,
+                  goodsSalesNum: 918,
+                  goodsFavorableCommentNum: 12,
+                  grouponForbiddenFlag: false,
+                  subscriptionStatus: 1,
+                  minMarketPrice: 14.99,
+                  minSubscriptionPrice: 13.49,
+                  avgEvaluate: null,
+                  avgEvaluateScore: null,
+                  baseSpec: null,
+                  saleableFlag: 1,
+                  displayFlag: 0,
+                  weShareId: 129161,
+                  weightValue: '1020',
+                  goodsStoreCateNames: null,
+                  productCategoryNames: null,
+                  defaultPurchaseType: null,
+                  defaultFrequencyId: null,
+                  resource: 1,
+                  promotions: 'autoship',
+                  goodsPillar: null,
+                  exclusiveFlag: null,
+                  wsEnergyCategory: 'normal_outdoor_fcn_breed',
+                  wsReferenceEnergyValue: 953.0,
+                  wsTechnologyCode: 'wet',
+                  wsDensity: 1.0,
+                  sourceCreateTime: null,
+                  sourceUpdateTime: '2021-09-14 06:51:50.000',
+                  serviceTypeId: null,
+                  assignResources: null
+                },
+                goodsPromotion: null,
+                description: null,
+                auditCatFlag: null,
+                prescriberFlag: null,
+                goodsMeasureNum: 1.0,
+                goodsMeasureUnit: 'UNIT',
+                subscriptionDiscountPrice: null,
+                goodsInfoFlag: null,
+                periodTypeId: null,
+                purchasePrice: null,
+                goodsInfoType: null,
+                goodsInfoBundleRels: [],
+                recommendationId: null,
+                recommendationName: null,
+                recommendationSerialCode: null,
+                weShareScode: '5011478',
+                packSize: '12X85G',
+                subscriptionPercentage: null,
+                maxStock: null,
+                subscriptionPlanId: null,
+                packageId: null,
+                subscriptionPlanPromotionFlag: null,
+                settingPrice: null,
+                virtualInventory: null,
+                virtualAlert: null,
+                marketingCode: null,
+                marketingName: null,
+                promotionDiscountPrice: null,
+                marketingId: null,
+                externalSku: '40820102',
+                promotions: 'autoship',
+                isOfflineStore: null,
+                petsId: null,
+                petsType: null,
+                questionParams: null,
+                referenceData: null,
+                depth: 0.0,
+                depthUnit: 'mm',
+                width: 0.0,
+                widthUnit: 'mm',
+                height: 0.0,
+                heightUnit: 'mm',
+                specification: null,
+                isNotShowCart: null,
+                externalStock: 26,
+                externalMarketPrice: 14.99,
+                externalSubscriptionPrice: 13.49,
+                externalLinePrice: 14.99,
+                externalPurchasePrice: null,
+                factor: 1,
+                stockUomId: 'f09127132fd011ec99b42c71b536ef0c',
+                priceUomId: 'f09127132fd011ec99b42c71b536ef0c',
+                priceUom: null,
+                stockUom: null
+              }
+            ],
+            images: [
+              {
+                imageId: 304359,
+                goodsId: '2c918085768f3a4101768f3e1b2e0028',
+                imageType: 'master',
+                goodsInfoId: null,
+                artworkUrl:
+                  'https://d2cstgstorage.z13.web.core.windows.net/FR_129161_master.jpg',
+                middleUrl: null,
+                thumbUrl: null,
+                bigUrl: null,
+                createTime: '2021-10-01 15:23:16.000',
+                updateTime: '2021-10-01 15:23:16.000',
+                delFlag: 0
+              },
+              {
+                imageId: 304360,
+                goodsId: '2c918085768f3a4101768f3e1b2e0028',
+                imageType: 'other',
+                goodsInfoId: null,
+                artworkUrl:
+                  'https://d2cstgstorage.z13.web.core.windows.net/FR_129161_other_328044.jpg',
+                middleUrl: null,
+                thumbUrl: null,
+                bigUrl: null,
+                createTime: '2021-10-01 15:23:16.000',
+                updateTime: '2021-10-01 15:23:16.000',
+                delFlag: 0
+              },
+              {
+                imageId: 304361,
+                goodsId: '2c918085768f3a4101768f3e1b2e0028',
+                imageType: 'other',
+                goodsInfoId: null,
+                artworkUrl:
+                  'https://d2cstgstorage.z13.web.core.windows.net/FR_129161_other_633476.jpg',
+                middleUrl: null,
+                thumbUrl: null,
+                bigUrl: null,
+                createTime: '2021-10-01 15:23:16.000',
+                updateTime: '2021-10-01 15:23:16.000',
+                delFlag: 0
+              },
+              {
+                imageId: 304362,
+                goodsId: '2c918085768f3a4101768f3e1b2e0028',
+                imageType: 'hero',
+                goodsInfoId: null,
+                artworkUrl:
+                  'https://d2cstgstorage.z13.web.core.windows.net/FR_129161_hero_508309.jpg',
+                middleUrl: null,
+                thumbUrl: null,
+                bigUrl: null,
+                createTime: '2021-10-01 15:23:16.000',
+                updateTime: '2021-10-01 15:23:16.000',
+                delFlag: 0
+              },
+              {
+                imageId: 304363,
+                goodsId: '2c918085768f3a4101768f3e1b2e0028',
+                imageType: 'bag',
+                goodsInfoId: null,
+                artworkUrl:
+                  'https://d2cstgstorage.z13.web.core.windows.net/FR_129161_bag_498164.jpg',
+                middleUrl: null,
+                thumbUrl: null,
+                bigUrl: null,
+                createTime: '2021-10-01 15:23:16.000',
+                updateTime: '2021-10-01 15:23:16.000',
+                delFlag: 0
+              },
+              {
+                imageId: 304364,
+                goodsId: '2c918085768f3a4101768f3e1b2e0028',
+                imageType: 'kibble',
+                goodsInfoId: null,
+                artworkUrl:
+                  'https://d2cstgstorage.z13.web.core.windows.net/FR_129161_kibble_328045.jpg',
+                middleUrl: null,
+                thumbUrl: null,
+                bigUrl: null,
+                createTime: '2021-10-01 15:23:16.000',
+                updateTime: '2021-10-01 15:23:16.000',
+                delFlag: 0
+              },
+              {
+                imageId: 304365,
+                goodsId: '2c918085768f3a4101768f3e1b2e0028',
+                imageType: 'other',
+                goodsInfoId: null,
+                artworkUrl:
+                  'https://d2cstgstorage.z13.web.core.windows.net/FR_129161_other_508315.jpg',
+                middleUrl: null,
+                thumbUrl: null,
+                bigUrl: null,
+                createTime: '2021-10-01 15:23:16.000',
+                updateTime: '2021-10-01 15:23:16.000',
+                delFlag: 0
+              }
+            ],
+            taggingList: null,
+            goodsAttributesValueRelVOAllList: [
+              {
+                id: 'GAR202110011523163900',
+                goodsId: '2c918085768f3a4101768f3e1b2e0028',
+                goodsAttributeId: 'A20210805061921392',
+                goodsAttributeValueId: 'AV87290813743648768',
+                goodsAttributeName: 'Species',
+                goodsAttributeNameEn: 'Species',
+                goodsAttributeValue: 'Cat',
+                goodsAttributeValueEn: 'Cat',
+                createTime: '2021-10-01 15:23:16.000',
+                updateTime: null,
+                delTime: null,
+                delFlag: false,
+                dataSource: 0
+              },
+              {
+                id: 'GAR202110011523163901',
+                goodsId: '2c918085768f3a4101768f3e1b2e0028',
+                goodsAttributeId: 'A20210802131015380',
+                goodsAttributeValueId: 'AV86307058661224448',
+                goodsAttributeName: 'Portfolio Classification',
+                goodsAttributeNameEn: 'Portfolio Classification',
+                goodsAttributeValue:
+                  'ROYAL CANIN / SPT Retail / Feline Health Nutrition Wet',
+                goodsAttributeValueEn:
+                  'ROYAL CANIN / SPT Retail / Feline Health Nutrition Wet',
+                createTime: '2021-10-01 15:23:16.000',
+                updateTime: null,
+                delTime: null,
+                delFlag: false,
+                dataSource: 0
+              },
+              {
+                id: 'GAR202110011523163902',
+                goodsId: '2c918085768f3a4101768f3e1b2e0028',
+                goodsAttributeId: 'A20210129065742589',
+                goodsAttributeValueId: 'AV202101290657426030',
+                goodsAttributeName: 'Pillar',
+                goodsAttributeNameEn: 'Pillar',
+                goodsAttributeValue: 'SPT Retail',
+                goodsAttributeValueEn: 'SPT retail',
+                createTime: '2021-10-01 15:23:16.000',
+                updateTime: null,
+                delTime: null,
+                delFlag: false,
+                dataSource: 0
+              },
+              {
+                id: 'GAR202110011523163903',
+                goodsId: '2c918085768f3a4101768f3e1b2e0028',
+                goodsAttributeId: 'A20201209075253707',
+                goodsAttributeValueId: 'AV202012160309154906',
+                goodsAttributeName: 'Sterilized',
+                goodsAttributeNameEn: 'STÉRILISÉ',
+                goodsAttributeValue: 'false',
+                goodsAttributeValueEn: 'NON',
+                createTime: '2021-10-01 15:23:16.000',
+                updateTime: null,
+                delTime: null,
+                delFlag: false,
+                dataSource: 0
+              },
+              {
+                id: 'GAR202110011523163904',
+                goodsId: '2c918085768f3a4101768f3e1b2e0028',
+                goodsAttributeId: 'A20201209071503738',
+                goodsAttributeValueId: 'AV202012160309230726',
+                goodsAttributeName: 'Range',
+                goodsAttributeNameEn: 'Gramme',
+                goodsAttributeValue: 'Feline Health Nutrition Wet_Cat',
+                goodsAttributeValueEn: 'Bouchées en sauce',
+                createTime: '2021-10-01 15:23:16.000',
+                updateTime: null,
+                delTime: null,
+                delFlag: false,
+                dataSource: 0
+              },
+              {
+                id: 'GAR202110011523163905',
+                goodsId: '2c918085768f3a4101768f3e1b2e0028',
+                goodsAttributeId: 'A20201209071341624',
+                goodsAttributeValueId: 'AV202012160309231106',
+                goodsAttributeName: 'Breeds',
+                goodsAttributeNameEn: 'RACE',
+                goodsAttributeValue: 'Cat_Cat',
+                goodsAttributeValueEn: 'Tous les chats',
+                createTime: '2021-10-01 15:23:16.000',
+                updateTime: null,
+                delTime: null,
+                delFlag: false,
+                dataSource: 0
+              },
+              {
+                id: 'GAR202110011523163906',
+                goodsId: '2c918085768f3a4101768f3e1b2e0028',
+                goodsAttributeId: 'A20201209071322816',
+                goodsAttributeValueId: 'AV202012160309158056',
+                goodsAttributeName: 'Technology',
+                goodsAttributeNameEn: 'TEXTURE',
+                goodsAttributeValue: 'Wet',
+                goodsAttributeValueEn: 'Aliment humide',
+                createTime: '2021-10-01 15:23:16.000',
+                updateTime: null,
+                delTime: null,
+                delFlag: false,
+                dataSource: 0
+              },
+              {
+                id: 'GAR202110011523163907',
+                goodsId: '2c918085768f3a4101768f3e1b2e0028',
+                goodsAttributeId: 'A20201209071242331',
+                goodsAttributeValueId: 'AV202012160309253586',
+                goodsAttributeName: 'Lifestages',
+                goodsAttributeNameEn: 'ÂGE',
+                goodsAttributeValue: 'Senior_Cat',
+                goodsAttributeValueEn: 'Senior (+12 ans)',
+                createTime: '2021-10-01 15:23:16.000',
+                updateTime: null,
+                delTime: null,
+                delFlag: false,
+                dataSource: 0
+              }
+            ],
+            recommendationNumber: 1,
+            createTime: null,
+            updateTime: null,
+            delFlag: null,
+            productMessage: null,
+            goodsDescriptionDetailList: [
+              {
+                id: 'GDD108083802475282432',
+                goodsCateId: 1134,
+                goodsId: '2c918085768f3a4101768f3e1b2e0028',
+                descriptionId: 'D20210225030745215',
+                descriptionName: 'Text',
+                contentType: 'json',
+                editable: true,
+                content:
+                  '[{"Prescriber Description":"ROYAL CANIN® Ageing 12+ en Sauce est spécialement conçu pour répondre aux besoins de votre chat âgé de 12 ans ou plus. ROYAL CANIN® Ageing 12+ en Sauce fournit également aux chats âgés des aliments spécialement formulés pour entretenir la santé de leurs articulations. - Santé articulaire - Instinctivement préféré - Santé rénale"}, {"EretailShort Description":"Pour vous assurer que votre chat âgé de 12 ans ou plus reçoit la nutrition spécifique dont il a besoin pour conserver une santé optimale, il faut que vous lui donniez l’alimentation qu’il préfère naturellement d’instinct.\\n \\nC’est pourquoi ROYAL CANIN® Ageing 12+ en sauce est conçu pour correspondre au profil macro-nutritionnel optimal que les chats vieillissants comme le vôtre préfèrent instinctivement.\\n \\nLes chats âgés auront souvent besoin de niveaux plus élevés d’apport nutritionnel pour le maintien général d’une bonne santé articulaire. C’est pourquoi ROYAL CANIN® Ageing 12+ en sauce est spécialement formulé pour entretenir la santé articulaire grâce à une teneur élevée en acides gras oméga-3 (EPA et DHA notamment).\\n \\nPour entretenir la santé des reins et du système rénal dans son ensemble, ROYAL CANIN® Ageing 12+ en Sauce contient de plus une teneur soigneusement dosée en phosphore.\\n \\nPour répondre aux préférences de chaque chat, ROYAL CANIN® Ageing 12+ est également disponible en émincé en gelée ou en croquettes savoureuses et croquantes.\\nSi vous envisagez une alimentation mixte, il vous suffit de suivre nos instructions pour vous assurer que votre chat reçoive la quantité de nourriture sèche et humide nécessaire pour un bénéfice optimal.\\n"}, {"EretailLong Description":"Pour vous assurer que votre chat âgé de 12 ans ou plus reçoit la nutrition spécifique dont il a besoin pour conserver une santé optimale, il faut que vous lui donniez l’alimentation qu’il préfère naturellement d’instinct. C’est pourquoi ROYAL CANIN® Ageing 12+ en sauce est conçu pour correspondre au profil macro-nutritionnel optimal que les chats vieillissants comme le vôtre préfèrent instinctivement. Les chats âgés auront souvent besoin de niveaux plus élevés d’apport nutritionnel pour le maintien général d’une bonne santé articulaire. C’est pourquoi ROYAL CANIN® Ageing 12+ en sauce est spécialement formulé pour entretenir la santé articulaire grâce à une teneur élevée en acides gras oméga-3 (EPA et DHA notamment). Pour entretenir la santé des reins et du système rénal dans son ensemble, ROYAL CANIN® Ageing 12+ en Sauce contient de plus une teneur soigneusement dosée en phosphore. Pour répondre aux préférences de chaque chat, ROYAL CANIN® Ageing 12+ est également disponible en émincé en gelée ou en croquettes savoureuses et croquantes.Si vous envisagez une alimentation mixte, il vous suffit de suivre nos instructions pour vous assurer que votre chat reçoive la quantité de nourriture sèche et humide nécessaire pour un bénéfice optimal."}]',
+                sort: 0,
+                status: true,
+                storeId: 123457909,
+                createTime: '2021-10-01 15:23:16.000',
+                updateTime: null,
+                delTime: null,
+                delFlag: false,
+                translateList: [
+                  {
+                    id: 'T202103150515288850',
+                    languageId: '5655',
+                    name: 'Text',
+                    translateName: 'Description',
+                    sort: 0,
+                    storeId: 123457909,
+                    createTime: '2021-03-15 05:15:29.000',
+                    updateTime: null,
+                    delTime: null,
+                    delFlag: false
+                  },
+                  {
+                    id: 'T202103150515289001',
+                    languageId: '5656',
+                    name: 'Text',
+                    translateName: '',
+                    sort: 1,
+                    storeId: 123457909,
+                    createTime: '2021-03-15 05:15:29.000',
+                    updateTime: null,
+                    delTime: null,
+                    delFlag: false
+                  }
+                ]
+              },
+              {
+                id: 'GDD108083802475282433',
+                goodsCateId: 1134,
+                goodsId: '2c918085768f3a4101768f3e1b2e0028',
+                descriptionId: 'D20210224090433046',
+                descriptionName: 'Benefits',
+                contentType: 'json',
+                editable: true,
+                content:
+                  '[{"Santé articulaire EPA/DHA":{"Description":"Aide à maintenir la santé des articulations grâce à un niveau élevé d’acides gras EPA/DHA."}}, {"Instinctivement préféré":{"Description":"Formulé pour répondre au profil macro-nutritionnel optimal instinctivement préféré par les chats."}}, {"Santé rénale":{"Description":"Teneur adaptée en phosphore."}}]',
+                sort: 1,
+                status: true,
+                storeId: 123457909,
+                createTime: '2021-10-01 15:23:16.000',
+                updateTime: null,
+                delTime: null,
+                delFlag: false,
+                translateList: [
+                  {
+                    id: 'T202103150515553980',
+                    languageId: '5655',
+                    name: 'Benefits',
+                    translateName: 'Bénéfices',
+                    sort: 0,
+                    storeId: 123457909,
+                    createTime: '2021-03-15 05:15:55.000',
+                    updateTime: null,
+                    delTime: null,
+                    delFlag: false
+                  },
+                  {
+                    id: 'T202103150515554071',
+                    languageId: '5656',
+                    name: 'Benefits',
+                    translateName: '',
+                    sort: 1,
+                    storeId: 123457909,
+                    createTime: '2021-03-15 05:15:55.000',
+                    updateTime: null,
+                    delTime: null,
+                    delFlag: false
+                  }
+                ]
+              },
+              {
+                id: 'GDD108083802475282434',
+                goodsCateId: 1134,
+                goodsId: '2c918085768f3a4101768f3e1b2e0028',
+                descriptionId: 'D20210224090754235',
+                descriptionName: 'Compositions',
+                contentType: 'json',
+                editable: true,
+                content:
+                  '[{"COMPOSITION":"Composition : viandes et sous-produits animaux, céréales, extraits de protéines végétales, huiles et graisses, sous-produits d’origine végétale, substances minérales, sucres, mollusques et crustacés."}, {"ADDITIFS (AU KG)":"Additifs (au kg) : Additifs nutritionnels : Vitamine D3 : 300 UI, E1 (Fer) : 4 mg, E2 (Iode) : 0,34 mg, E4 (Cuivre) : 2,7 mg, E5 (Manganèse) : 1,3 mg, E6 (Zinc) : 13 mg."}, {"CONSTITUANTS ANALYTIQUES":"Constituants analytiques : Protéine : 9,5 % - Teneur en matières grasses : 4 % - Cendres brutes : 1,2 % - Cellulose brute : 1,1 % - Humidité : 80 % - EPA/DHA : 0,15 % - Phosphore : 0,13 %."}, {"RATIONNEMENT":"Mode d’emploi : voir tableau. Numéro de lot et d’identifiant usine, à utiliser de préférence avant : voir sur l’emballage. À conserver dans un endroit sec et frais.  "}]',
+                sort: 2,
+                status: true,
+                storeId: 123457909,
+                createTime: '2021-10-01 15:23:16.000',
+                updateTime: null,
+                delTime: null,
+                delFlag: false,
+                translateList: [
+                  {
+                    id: 'T202103150515421910',
+                    languageId: '5655',
+                    name: 'Compositions',
+                    translateName: 'informations nutritionelles',
+                    sort: 0,
+                    storeId: 123457909,
+                    createTime: '2021-03-15 05:15:42.000',
+                    updateTime: null,
+                    delTime: null,
+                    delFlag: false
+                  },
+                  {
+                    id: 'T202103150515422001',
+                    languageId: '5656',
+                    name: 'Compositions',
+                    translateName: '',
+                    sort: 1,
+                    storeId: 123457909,
+                    createTime: '2021-03-15 05:15:42.000',
+                    updateTime: null,
+                    delTime: null,
+                    delFlag: false
+                  }
+                ]
+              },
+              {
+                id: 'GDD108083802475282435',
+                goodsCateId: 1134,
+                goodsId: '2c918085768f3a4101768f3e1b2e0028',
+                descriptionId: 'D20210224090406862',
+                descriptionName: 'Guide',
+                contentType: 'json',
+                editable: true,
+                content:
+                  '[{"Table":{"Description":"<table><thead><tr><th>Poids du chat</th><th>Alimentation humide</th><th>Alimentation mixte</th></tr></thead><tbody><tr><td>3 kg</td><td>2 sachets</td><td>1 sachet + 22 g </td></tr><tr><td>4 kg</td><td> 2+1/2 sachets</td><td>1 sachet + 31 g </td></tr><tr><td>5 kg</td><td>3 sachets</td><td>1 sachet + 40 g </td></tr><tr><td>6 kg</td><td>3+1/2 sachets</td><td>1 sachet + 48 g </td></tr></tbody></table>"}}]',
+                sort: 3,
+                status: true,
+                storeId: 123457909,
+                createTime: '2021-10-01 15:23:16.000',
+                updateTime: null,
+                delTime: null,
+                delFlag: false,
+                translateList: [
+                  {
+                    id: 'T202104230752271620',
+                    languageId: '5655',
+                    name: 'Guide',
+                    translateName: 'rations',
+                    sort: 0,
+                    storeId: 123457909,
+                    createTime: '2021-04-23 07:52:27.000',
+                    updateTime: null,
+                    delTime: null,
+                    delFlag: false
+                  },
+                  {
+                    id: 'T202104230752271711',
+                    languageId: '5656',
+                    name: 'Guide',
+                    translateName: '',
+                    sort: 1,
+                    storeId: 123457909,
+                    createTime: '2021-04-23 07:52:27.000',
+                    updateTime: null,
+                    delTime: null,
+                    delFlag: false
+                  }
+                ]
+              }
+            ],
+            goodsSpecs: [
+              {
+                specId: 20756,
+                goodsId: '2c918085768f3a4101768f3e1b2e0028',
+                specName: 'Taille',
+                createTime: '2021-10-01 15:23:16.000',
+                updateTime: '2021-10-01 15:23:16.000',
+                delFlag: 0,
+                mockSpecId: 20756,
+                specDetailIds: null,
+                editable: true
+              }
+            ]
+          }
+        ],
+        createTime: null,
+        updateTime: null,
+        delTime: null,
+        delFlag: null,
+        storeId: null,
+        promotionCode: null,
+        structureType: 'spt',
+        prescriptionJson:
+          '{"prescriber":{"country":"FR","structureType":"spt","oktaId":"00uc6de49c5uiy7wW416","__v":0,"structureId":"00uc6de49c5uiy7wW416","company":{},"_id":"609187954a7946001f83e6e2"},"nutritionalReco":"Merci de nous avoir rendu visite.\\n\\nAfin de répondre aux besoins uniques de votre animal je vous recommande un aliment Royal Canin pour lui fournir une nutrition équilibrée, la plus adaptée à son mode de vie et qui pourra l’aider à maintenir sa bonne santé.\\n\\nCliquez sur le bouton ci-dessous pour découvrir l’aliment Royal Canin le plus adapté pour votre animal et le commander en ligne. ","dateReco":"2021-06-08T08:52:47.281Z","__v":0,"statuses":[{"date":"2021-06-08T08:52:48.276Z","value":"send"}],"_id":"60bf2fe0d04401001eb7d681","pet":{"genderCode":"","birthdate":"","speciesCode":"","name":"Anubis","breedCode":"","id":""},"products":[{"productId":"129171"},{"productId":"129161"}]}'
+      },
+      defaultLocalDateTime: '2021-11-19 09:18:50.265',
+      i18nParams: null,
+      internalMessage: null
+    };
+    console.timeEnd('接口请求');
+    console.time('js处理');
+    let petType = res.context.petSpecie?.toLowerCase() === 'cat' ? 1 : 0;
+    let productLists = res.context.recommendationGoodsInfoRels;
+    let prescriberId = res.context.prescriberId;
+    let curScrollTop = await sessionItemRoyal.get('recommendation-scroll');
+    let prescriptionJson = res.context.prescriptionJson || '';
+    const currentShowProduct = [].concat(productLists)?.splice(0, 1);
+    if (res.context.structureType != 'breeder' && isFr) {
+      // 法国区分stp和breeder
+      this.setState({ isSPT: true });
+    }
+    if (res.context.promotionCode && isRu) {
+      // ru需要直接应用promotioncode
+      this.setState({
+        promotionCodeText: res.context.promotionCode
+      });
+    }
+    setTimeout(() => {
+      GARecommendationProduct(
+        currentShowProduct,
+        1,
+        this.state.frequencyList,
+        promotionCode,
+        this.state.activeIndex
+      );
+    }, 3000);
 
-        if (curScrollTop) {
-          window.scrollTo({
-            top: curScrollTop,
-            behavior: 'smooth'
-          });
-          setTimeout(() => {
-            sessionItemRoyal.set('recommendation-scroll', 0);
-          }, 100);
-        }
-        prescriberId &&
-          isRu &&
-          this.getPrescriberByPrescriberIdAndStoreId(prescriberId);
-        productLists.map((el) => {
-          el?.goodsDescriptionDetailList?.forEach((g) => {
-            if (g.content && g.contentType === 'json') {
-              try {
-                let tempContentMobile = [];
-                let tempContent = [];
-                switch (g.descriptionName) {
-                  case 'Benefits':
-                    const parsedContent = JSON.parse(g.content).map((el) => {
-                      // el = JSON.parse(el);
-                      return el;
-                    });
-                    parsedContent.map((ele, idx) => {
-                      // <div className="">${Object.keys(JSON.parse(ele))[0]}</div>
-                      tempContent.push(`<li>
+    if (curScrollTop) {
+      window.scrollTo({
+        top: curScrollTop,
+        behavior: 'smooth'
+      });
+      setTimeout(() => {
+        sessionItemRoyal.set('recommendation-scroll', 0);
+      }, 100);
+    }
+    prescriberId &&
+      isRu &&
+      this.getPrescriberByPrescriberIdAndStoreId(prescriberId);
+    productLists.map((el) => {
+      el?.goodsDescriptionDetailList?.forEach((g) => {
+        if (g.content && g.contentType === 'json') {
+          try {
+            let tempContentMobile = [];
+            let tempContent = [];
+            switch (g.descriptionName) {
+              case 'Benefits':
+                const parsedContent = JSON.parse(g.content).map((el) => {
+                  // el = JSON.parse(el);
+                  return el;
+                });
+                parsedContent.map((ele, idx) => {
+                  // <div className="">${Object.keys(JSON.parse(ele))[0]}</div>
+                  tempContent.push(`<li>
                       <div class="">${
                         Object.values(ele)[0]['Description']
                       }</div>
                     </li>`);
-                      tempContentMobile.push(`
+                  tempContentMobile.push(`
                       <div class="rc-list__accordion-item
                       ${
                         this.state.showCur === idx ? 'showItem' : 'hiddenItem'
@@ -284,12 +2101,12 @@ class Recommendation extends React.Component {
                       </dd>
                     </div>
                       `);
-                    });
-                    console.info('tempContent', tempContent);
-                    tempContent = `<ul class=" rc-md-up">
+                });
+                console.info('tempContent', tempContent);
+                tempContent = `<ul class=" rc-md-up">
                           ${tempContent.join('')}
                         </ul>`;
-                    tempContentMobile = `<div class="fr-faq rc-md-down" style="padding:0">
+                tempContentMobile = `<div class="fr-faq rc-md-down" style="padding:0">
                         <dl
                           data-toggle-group=""
                           data-toggle-effect="rc-expand--vertical"
@@ -298,22 +2115,22 @@ class Recommendation extends React.Component {
                         ${tempContentMobile.join('')}
                         </dl>
                       </div>`;
-                    el.benefit = tempContent;
-                    el.benefitMobile = tempContentMobile;
-                    break;
-                }
-              } catch (err) {
-                console.log(111, err);
-              }
-            } else {
-              switch (g.descriptionName) {
-                case 'Benefits':
-                  let content = g.content.replace(
-                    'ui-star-list rc_proudct_html_tab2 list-paddingleft-2',
-                    ''
-                  );
-                  el.benefit = `<div class=" rc-md-up"> ${content}</div>`;
-                  el.benefitMobile = `<div class="fr-faq rc-md-down" style="padding:0">
+                el.benefit = tempContent;
+                el.benefitMobile = tempContentMobile;
+                break;
+            }
+          } catch (err) {
+            console.log(111, err);
+          }
+        } else {
+          switch (g.descriptionName) {
+            case 'Benefits':
+              let content = g.content.replace(
+                'ui-star-list rc_proudct_html_tab2 list-paddingleft-2',
+                ''
+              );
+              el.benefit = `<div class=" rc-md-up"> ${content}</div>`;
+              el.benefitMobile = `<div class="fr-faq rc-md-down" style="padding:0">
                   <dl
                     data-toggle-group=""
                     data-toggle-effect="rc-expand--vertical"
@@ -322,103 +2139,326 @@ class Recommendation extends React.Component {
                   ${content}
                   </dl>
                 </div>`;
-              }
-            }
-          });
-          if (!el.goodsInfo.goodsInfoImg) {
-            el.goodsInfo.goodsInfoImg = el.goodsInfo?.goods?.goodsImg;
           }
-          if (!el.goodsInfo.goods) {
-            el.goodsInfo.goods = {};
-          }
-          el.goodsInfo.goods.sizeList = el.goodsInfos.map((g) => {
-            g = Object.assign({}, g, { selected: false });
-            if (g.goodsInfoId === el.goodsInfo.goodsInfoId) {
-              g.selected = true;
-            }
-            return g;
-          });
-          let specList = el.goodsSpecs;
-          let specDetailList = el.goodsSpecDetails;
-          if (specList) {
-            specList.map((sItem) => {
-              sItem.chidren = specDetailList.filter((sdItem, i) => {
-                return sdItem.specId === sItem.specId;
-              });
-              sItem.chidren.map((child) => {
-                if (
-                  el.goodsInfo.mockSpecDetailIds.indexOf(child.specDetailId) >
-                  -1
-                ) {
-                  child.selected = true;
-                }
-                return child;
-              });
-              return sItem;
-            });
-          }
-          el.goodsInfo.goods.goodsInfos = el.goodsInfos;
-          el.goodsInfo.goods.goodsSpecDetails = el.goodsSpecDetails;
-          el.goodsInfo.goods.goodsSpecs = specList;
-          return el;
-        });
-        let promotionCode = res.context.promotionCode || '';
-        let filterProducts = productLists.filter((el) => {
-          return el.goodsInfo.addedFlag && el.goods.saleableFlag;
-        });
-        // 只展示上架商品
-        if (!filterProducts.length) {
-          this.setState({
-            isNoMoreProduct: 'recommendation.noMoreRecommendation'
-          });
         }
-        this.setState(
-          {
-            productList: filterProducts,
-            petType,
-            promotionCode,
-            prescriptionJson
-          },
-          () => {
-            this.checkoutStock();
-          }
-        );
-        let recommendationInfos = {
-          recommenderName: res.context?.recommendationName || '',
-          recommenderId: res.context?.recommendationId || '',
-          recommendationName: res.context?.prescriberName || '',
-          recommendationId: res.context?.prescriberId || '',
-          referenceObject: res.context?.structureType || '',
-          referenceData: res.context?.prescriptionJson || ''
-        };
-        this.props.clinicStore.setLinkClinicRecommendationInfos(
-          recommendationInfos
-        );
-        // getPrescriptionById({ id: res.context.prescriberId }).then((res2) => {
-        if (!isRu || !isFr) {
-          this.props.clinicStore.setLinkClinicId(
-            res.context?.id || res.context.prescriberId
-          );
-          this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
-          this.props.clinicStore.setLinkClinicCode(
-            res.context.recommendationCode || ''
-          );
-        }
-        this.props.clinicStore.setAuditAuthority(false);
-        if (isRu) {
-          // Ru need redirected to the cart page and the recommended products added to cart automatically via clicking this link.
-          this.addCart();
-        } else {
-          this.setState({ loading: false, pageLoading: false });
-        }
-        console.timeEnd('js处理');
-        // });
-      })
-      .catch((err) => {
-        console.log(err, 'err');
-        this.setState({ noData: true, pageLoading: false, loading: false });
-        // this.props.history.push('/home');
       });
+      if (!el.goodsInfo.goodsInfoImg) {
+        el.goodsInfo.goodsInfoImg = el.goodsInfo?.goods?.goodsImg;
+      }
+      if (!el.goodsInfo.goods) {
+        el.goodsInfo.goods = {};
+      }
+      el.goodsInfo.goods.sizeList = el.goodsInfos.map((g) => {
+        g = Object.assign({}, g, { selected: false });
+        if (g.goodsInfoId === el.goodsInfo.goodsInfoId) {
+          g.selected = true;
+        }
+        return g;
+      });
+      let specList = el.goodsSpecs;
+      let specDetailList = el.goodsSpecDetails;
+      if (specList) {
+        specList.map((sItem) => {
+          sItem.chidren = specDetailList.filter((sdItem, i) => {
+            return sdItem.specId === sItem.specId;
+          });
+          sItem.chidren.map((child) => {
+            if (
+              el.goodsInfo.mockSpecDetailIds.indexOf(child.specDetailId) > -1
+            ) {
+              child.selected = true;
+            }
+            return child;
+          });
+          return sItem;
+        });
+      }
+      el.goodsInfo.goods.goodsInfos = el.goodsInfos;
+      el.goodsInfo.goods.goodsSpecDetails = el.goodsSpecDetails;
+      el.goodsInfo.goods.goodsSpecs = specList;
+      return el;
+    });
+    let autoshipDictRes = frequencyList.filter((el) => el.goodsInfoFlag === 1);
+    // let promotionCode = res.context.promotionCode || '';
+    let filterProducts = productLists.filter((el) => {
+      let defaultFrequencyId =
+        el?.defaultFrequencyId ||
+        this.props.configStore?.info?.storeVO?.defaultSubscriptionFrequencyId ||
+        (autoshipDictRes[0] && autoshipDictRes[0].id) ||
+        '';
+      el.defaultFrequencyId = defaultFrequencyId;
+      return el.goodsInfo.addedFlag && el.goods.saleableFlag;
+    });
+    console.info('filterProductsfilterProducts', filterProducts);
+    // 只展示上架商品
+    if (!filterProducts.length) {
+      this.setState({
+        isNoMoreProduct: 'recommendation.noMoreRecommendation'
+      });
+    }
+    this.setState(
+      {
+        productList: filterProducts,
+        petType,
+        promotionCode,
+        prescriptionJson
+      },
+      () => {
+        this.checkoutStock();
+      }
+    );
+    let recommendationInfos = {
+      recommenderName: res.context?.recommendationName || '',
+      recommenderId: res.context?.recommendationId || '',
+      recommendationName: res.context?.prescriberName || '',
+      recommendationId: res.context?.prescriberId || '',
+      referenceObject: res.context?.structureType || '',
+      referenceData: res.context?.prescriptionJson || ''
+    };
+    this.props.clinicStore.setLinkClinicRecommendationInfos(
+      recommendationInfos
+    );
+    // getPrescriptionById({ id: res.context.prescriberId }).then((res2) => {
+    if (!isRu || !isFr) {
+      this.props.clinicStore.setLinkClinicId(
+        res.context?.id || res.context.prescriberId
+      );
+      this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
+      this.props.clinicStore.setLinkClinicCode(
+        res.context.recommendationCode || ''
+      );
+    }
+    this.props.clinicStore.setAuditAuthority(false);
+    if (isRu) {
+      // Ru need redirected to the cart page and the recommended products added to cart automatically via clicking this link.
+      this.addCart();
+    } else {
+      this.setState({ loading: false, pageLoading: false });
+    }
+    console.timeEnd('js处理');
+    // requestName(params)
+    //   .then(async (res) => {
+    //     console.timeEnd('接口请求');
+    //     console.time('js处理');
+    //     let petType = res.context.petSpecie?.toLowerCase() === 'cat' ? 1 : 0;
+    //     let productLists = res.context.recommendationGoodsInfoRels;
+    //     let prescriberId = res.context.prescriberId;
+    //     let curScrollTop = await sessionItemRoyal.get('recommendation-scroll');
+    //     let prescriptionJson = res.context.prescriptionJson || '';
+    //     const currentShowProduct = [].concat(productLists)?.splice(0, 1);
+    //     if (res.context.structureType != 'breeder' && isFr) {
+    //       // 法国区分stp和breeder
+    //       this.setState({ isSPT: true });
+    //     }
+    //     if (res.context.promotionCode && isRu) {
+    //       // ru需要直接应用promotioncode
+    //       this.setState({
+    //         promotionCodeText: res.context.promotionCode
+    //       });
+    //     }
+    //     setTimeout(() => {
+    //       GARecommendationProduct(
+    //         currentShowProduct,
+    //         1,
+    //         this.state.frequencyList,
+    //         promotionCode,
+    //         this.state.activeIndex
+    //       );
+    //     }, 3000);
+
+    //     if (curScrollTop) {
+    //       window.scrollTo({
+    //         top: curScrollTop,
+    //         behavior: 'smooth'
+    //       });
+    //       setTimeout(() => {
+    //         sessionItemRoyal.set('recommendation-scroll', 0);
+    //       }, 100);
+    //     }
+    //     prescriberId &&
+    //       isRu &&
+    //       this.getPrescriberByPrescriberIdAndStoreId(prescriberId);
+    //     productLists.map((el) => {
+    //       el?.goodsDescriptionDetailList?.forEach((g) => {
+    //         if (g.content && g.contentType === 'json') {
+    //           try {
+    //             let tempContentMobile = [];
+    //             let tempContent = [];
+    //             switch (g.descriptionName) {
+    //               case 'Benefits':
+    //                 const parsedContent = JSON.parse(g.content).map((el) => {
+    //                   // el = JSON.parse(el);
+    //                   return el;
+    //                 });
+    //                 parsedContent.map((ele, idx) => {
+    //                   // <div className="">${Object.keys(JSON.parse(ele))[0]}</div>
+    //                   tempContent.push(`<li>
+    //                   <div class="">${
+    //                     Object.values(ele)[0]['Description']
+    //                   }</div>
+    //                 </li>`);
+    //                   tempContentMobile.push(`
+    //                   <div class="rc-list__accordion-item
+    //                   ${
+    //                     this.state.showCur === idx ? 'showItem' : 'hiddenItem'
+    //                   }">
+    //                   <dt>
+    //                     <button
+    //                       onClick=this.handleSelect.bind(this, idx)
+    //                       class="rc-list__header"
+    //                       id="heading-${idx}"
+    //                       data-toggle="content-${idx}"
+    //                     >
+    //                       <div>
+    //                       Benefit${idx + 1}
+    //                       </div>
+    //                     </button>
+    //                   </dt>
+    //                   <dd
+    //                     class="rc-list__content"
+    //                     id="content-${idx}"
+    //                     aria-labelledby="heading-${idx}"
+    //                     style="text-align:left"
+    //                   >
+    //                     ${Object.values(ele)[0]['Description']}
+    //                   </dd>
+    //                 </div>
+    //                   `);
+    //                 });
+    //                 console.info('tempContent', tempContent);
+    //                 tempContent = `<ul class=" rc-md-up">
+    //                       ${tempContent.join('')}
+    //                     </ul>`;
+    //                 tempContentMobile = `<div class="fr-faq rc-md-down" style="padding:0">
+    //                     <dl
+    //                       data-toggle-group=""
+    //                       data-toggle-effect="rc-expand--vertical"
+    //                       class=""
+    //                     >
+    //                     ${tempContentMobile.join('')}
+    //                     </dl>
+    //                   </div>`;
+    //                 el.benefit = tempContent;
+    //                 el.benefitMobile = tempContentMobile;
+    //                 break;
+    //             }
+    //           } catch (err) {
+    //             console.log(111, err);
+    //           }
+    //         } else {
+    //           switch (g.descriptionName) {
+    //             case 'Benefits':
+    //               let content = g.content.replace(
+    //                 'ui-star-list rc_proudct_html_tab2 list-paddingleft-2',
+    //                 ''
+    //               );
+    //               el.benefit = `<div class=" rc-md-up"> ${content}</div>`;
+    //               el.benefitMobile = `<div class="fr-faq rc-md-down" style="padding:0">
+    //               <dl
+    //                 data-toggle-group=""
+    //                 data-toggle-effect="rc-expand--vertical"
+    //                 class=""
+    //               >
+    //               ${content}
+    //               </dl>
+    //             </div>`;
+    //           }
+    //         }
+    //       });
+    //       if (!el.goodsInfo.goodsInfoImg) {
+    //         el.goodsInfo.goodsInfoImg = el.goodsInfo?.goods?.goodsImg;
+    //       }
+    //       if (!el.goodsInfo.goods) {
+    //         el.goodsInfo.goods = {};
+    //       }
+    //       el.goodsInfo.goods.sizeList = el.goodsInfos.map((g) => {
+    //         g = Object.assign({}, g, { selected: false });
+    //         if (g.goodsInfoId === el.goodsInfo.goodsInfoId) {
+    //           g.selected = true;
+    //         }
+    //         return g;
+    //       });
+    //       let specList = el.goodsSpecs;
+    //       let specDetailList = el.goodsSpecDetails;
+    //       if (specList) {
+    //         specList.map((sItem) => {
+    //           sItem.chidren = specDetailList.filter((sdItem, i) => {
+    //             return sdItem.specId === sItem.specId;
+    //           });
+    //           sItem.chidren.map((child) => {
+    //             if (
+    //               el.goodsInfo.mockSpecDetailIds.indexOf(child.specDetailId) >
+    //               -1
+    //             ) {
+    //               child.selected = true;
+    //             }
+    //             return child;
+    //           });
+    //           return sItem;
+    //         });
+    //       }
+    //       el.goodsInfo.goods.goodsInfos = el.goodsInfos;
+    //       el.goodsInfo.goods.goodsSpecDetails = el.goodsSpecDetails;
+    //       el.goodsInfo.goods.goodsSpecs = specList;
+    //       return el;
+    //     });
+    //     let promotionCode = res.context.promotionCode || '';
+    //     let filterProducts = productLists.filter((el) => {
+    //       return el.goodsInfo.addedFlag && el.goods.saleableFlag;
+    //     });
+    //     // 只展示上架商品
+    //     if (!filterProducts.length) {
+    //       this.setState({
+    //         isNoMoreProduct: 'recommendation.noMoreRecommendation'
+    //       });
+    //     }
+    //     this.setState(
+    //       {
+    //         productList: filterProducts,
+    //         petType,
+    //         promotionCode,
+    //         prescriptionJson
+    //       },
+    //       () => {
+    //         this.checkoutStock();
+    //       }
+    //     );
+    //     let recommendationInfos = {
+    //       recommenderName: res.context?.recommendationName || '',
+    //       recommenderId: res.context?.recommendationId || '',
+    //       recommendationName: res.context?.prescriberName || '',
+    //       recommendationId: res.context?.prescriberId || '',
+    //       referenceObject: res.context?.structureType || '',
+    //       referenceData: res.context?.prescriptionJson || ''
+    //     };
+    //     this.props.clinicStore.setLinkClinicRecommendationInfos(
+    //       recommendationInfos
+    //     );
+    //     // getPrescriptionById({ id: res.context.prescriberId }).then((res2) => {
+    //     if (!isRu || !isFr) {
+    //       this.props.clinicStore.setLinkClinicId(
+    //         res.context?.id || res.context.prescriberId
+    //       );
+    //       this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
+    //       this.props.clinicStore.setLinkClinicCode(
+    //         res.context.recommendationCode || ''
+    //       );
+    //     }
+    //     this.props.clinicStore.setAuditAuthority(false);
+    //     if (isRu) {
+    //       // Ru need redirected to the cart page and the recommended products added to cart automatically via clicking this link.
+    //       this.addCart();
+    //     } else {
+    //       this.setState({ loading: false, pageLoading: false });
+    //     }
+    //     console.timeEnd('js处理');
+    //     // });
+    //   })
+    //   .catch((err) => {
+    //     console.log(err, 'err');
+    //     this.setState({ noData: true, pageLoading: false, loading: false });
+    //     // this.props.history.push('/home');
+    //   });
 
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -530,7 +2570,8 @@ class Recommendation extends React.Component {
             goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
             goodsNum: inStockProducts[i].recommendationNumber,
             goodsCategory: '',
-            goodsInfoFlag: 0,
+            goodsInfoFlag: 1,
+            periodTypeId: inStockProducts[i].defaultFrequencyId,
             recommendationId:
               this.props.clinicStore.linkClinicRecommendationInfos
                 ?.recommendationId || this.props.clinicStore.linkClinicId,
@@ -545,7 +2586,7 @@ class Recommendation extends React.Component {
           this.setState({ buttonLoading: false });
         }
       }
-      this.props.history.push('/cart');
+      // this.props.history.push('/cart');
     }
   }
   async hanldeUnloginAddToCart(products, path) {
@@ -561,8 +2602,8 @@ class Recommendation extends React.Component {
             selected: true,
             quantity: p.recommendationNumber,
             currentUnitPrice: p.goodsInfo.marketPrice,
-            goodsInfoFlag: 0,
-            periodTypeId: null,
+            goodsInfoFlag: 1,
+            periodTypeId: inStockProducts[i].defaultFrequencyId,
             recommendationInfos: this.props.clinicStore
               .linkClinicRecommendationInfos,
             recommendationId:
@@ -721,8 +2762,9 @@ class Recommendation extends React.Component {
           await sitePurchase({
             goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
             goodsNum: inStockProducts[i].recommendationNumber,
+            periodTypeId: inStockProducts[i].defaultFrequencyId,
             goodsCategory: '',
-            goodsInfoFlag: 0
+            goodsInfoFlag: 1
           });
           await checkoutStore.updateLoginCart();
         } catch (e) {
@@ -876,7 +2918,7 @@ class Recommendation extends React.Component {
     this.props.history.push('/cart');
   };
   tabChange(productList, index) {
-    let promotionCode = funcUrl({ name: 'coupon' });
+    let promotionCode = funcUrl({ name: 'coupon' }) || '';
     this.setState({ activeIndex: index });
     const currentProduct = productList.filter((item, i) => i == index && item);
     GARecommendationProduct(
@@ -889,7 +2931,6 @@ class Recommendation extends React.Component {
   }
 
   render() {
-    console.info('helpContentText', this.helpContentText);
     const event = {
       page: {
         type: 'Recommendation',
@@ -900,8 +2941,6 @@ class Recommendation extends React.Component {
     const createMarkup = (text) => ({ __html: text });
     // const { details, images } = this.state
     console.log('productList', this.state.productList);
-    let details = JSON.parse(sessionItemRoyal.get('detailsTemp'));
-    let images = JSON.parse(sessionItemRoyal.get('imagesTemp'));
     let {
       productList,
       activeIndex,
@@ -911,6 +2950,8 @@ class Recommendation extends React.Component {
       promotionCodeText,
       isSPT
     } = this.state;
+    console.info('productList[activeIndex]', productList[activeIndex]);
+    console.info('productList', productList);
     let MaxLinePrice,
       MinLinePrice,
       MaxMarketPrice,
@@ -962,8 +3003,17 @@ class Recommendation extends React.Component {
         'Recommended feeding amounts are located on the back of the bag. Make sure you transition food slowly over the course of the week to help prevent stomach upset.',
       ru: this.state.locationPath
     };
+
+    let details = productList[activeIndex] || {};
+    const filterImages =
+      details.images?.filter((i) => {
+        i.artworkUrl = i.goodsInfoImg || i.artworkUrl;
+        return i.goodsInfoImg;
+      }) || [];
+    console.info('detailsdetails', filterImages);
+    console.info('...............', details.images);
     return (
-      <div className="Recommendation_FR Recommendation_US">
+      <div className="Recommendation_FRBreeder">
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
@@ -1004,7 +3054,116 @@ class Recommendation extends React.Component {
         ) : null}
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
-          sssss
+          <p className="text-center sub-title m-auto">
+            VOTRE RECOMMANDATION ÉLEVEUR
+          </p>
+          <p className="text-center rc-beta m-auto recommendation-title">
+            Offrez à votre nouveau compagnon la nutrition adaptée à ses besoins
+            spécifiques​
+          </p>
+          {details?.goodsInfos ? (
+            <div className="goods-list-container  m-auto text-center">
+              <ul className="tab-list m-auto">
+                {productList.map((el, index) => (
+                  <li
+                    onClick={() => this.tabChange(productList, index)}
+                    className={`text-center ${
+                      activeIndex == index ? 'active' : ''
+                    }`}
+                    style={{
+                      cursor: 'pointer',
+                      display: 'inline-block',
+                      padding: '0 1rem'
+                    }}
+                  >
+                    <img className="tab-img" src={el.images[0].artworkUrl} />
+                    <div>{el.goodsInfo.goodsInfoName}</div>
+                  </li>
+                ))}
+              </ul>
+              <div className="goods-container rc-layout-container rc-five-column">
+                <div className="goods-imgs rc-double-width rc-column">
+                  <ImageMagnifier_fr
+                    sizeList={details.sizeList || []}
+                    video={details.goodsVideo}
+                    images={details.images || []}
+                    minImg={details.goodsImg}
+                    maxImg={details.goodsImg}
+                    imgAlt={details?.goodsName}
+                    config={this.state.imageMagnifierCfg?.config}
+                    taggingForText={details.taggingForTextAtPDP}
+                    taggingForImage={details.taggingForImageAtPDP}
+                    // spuImages={[]}
+                    spuImages={
+                      filterImages.length ? filterImages : details.images
+                    }
+                  />
+                </div>
+                <div className="goods-info  rc-triple-width rc-column text-left">
+                  <h2 title={details?.goodsInfo?.goodsInfoName}>
+                    {details?.goodsInfo?.goodsInfoName}
+                  </h2>
+                  <p className="description">
+                    {details?.goodsInfos[0]?.goods.goodsSubtitle}
+                    {/* Donner le meilleur départ dans la vie à votre chaton commence
+                  par une bonne nutrition. En lui apportant les nutriments
+                  essentiels dont il a besoin… */}
+                  </p>
+                  <div className="price">De 13,49€ à 14,99 €</div>
+                  {/* <button>Ajouter au panier</button> */}
+                  <button
+                    onClick={this.addCart}
+                    className={`rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile md-up`}
+                    /*  ${ addToCartLoading ? 'ui-btn-loading' : ''} 
+              ${btnStatus ? '' : 'rc-btn-solid-disabled'}*/
+                    // onClick={}
+                  >
+                    <span className="fa rc-icon rc-cart--xs rc-brand3" />
+                    <span className="default-txt">
+                      <FormattedMessage id="details.addToCart" />
+                    </span>
+                  </button>
+                  <p className=" md-up">Livraison en 3 jours ouvrés offerte</p>
+                  <div className="advantage-container">
+                    <h5>Découvrez les avantages du CLUB Royal Canin</h5>
+                    <p>
+                      Un abonnement{' '}
+                      <span style={{ color: '#333' }}>
+                        flexible et sans engagement
+                      </span>
+                    </p>
+                    <div className="advantage-list">
+                      {advantageList.map((advantages) => (
+                        <div className="rc-layout-container rc-two-colum">
+                          {advantages.map((el) => (
+                            <div
+                              className="rc-column"
+                              style={{ display: 'flex', alignItems: 'center' }}
+                            >
+                              {el.img && (
+                                <img
+                                  style={{ width: '60px', height: '60px' }}
+                                  src={el.img}
+                                />
+                              )}
+                              <span
+                                style={{ display: 'inline-block', flex: 1 }}
+                              >
+                                {el.text}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <p style={{ marginTop: '0.75rem' }}>
+                    <sup>1</sup> Cumulable avec l'offre de bienvenue
+                  </p>
+                </div>
+              </div>
+            </div>
+          ) : null}
           <Footer />
         </main>
       </div>

@@ -97,7 +97,7 @@ const UserJSX = (props) => {
                     </div>
                     <span
                       // style="cursor:pointer"
-                      style={{cursor:'pointer'}}
+                      style={{ cursor: 'pointer' }}
                       className="rc-styled-link"
                       // className="rc-styled-link"
                       onClick={() => {

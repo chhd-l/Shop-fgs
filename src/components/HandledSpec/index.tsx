@@ -207,20 +207,24 @@ const HandledSpec = ({
             }
           }
         }
-        
+        const isSelectedDefaultSkuItem = sItem.chidren.findIndex(_item => _item.isSelected)
         if (defaultSelcetdSku > -1) {
           // 默认选择该sku
           if (!sItem.chidren[defaultSelcetdSku].isEmpty) {
             // 如果是sku进来的，需要默认当前sku被选择
             sItem.chidren[defaultSelcetdSku].selected = true;
           }
-        } else {
+        } else if(isSelectedDefaultSkuItem>-1){
+          // sprint6添加的需求，在storePortal设置了defaultSku那么该sku被选中.
+          sItem.chidren[isSelectedDefaultSkuItem].selected = true;
+        }else {
           if (
             window.__.env.REACT_APP_COUNTRY === 'de' &&
-            sItem.chidren.length > 1 &&
-            !sItem.chidren[1].isEmpty
+            sItem.chidren.length &&
+            !sItem.chidren[0].isEmpty
           ) {
-            sItem.chidren[1].selected = true;
+            // de设置最小的
+            sItem.chidren[0].selected = true;
           } else if (sItem.chidren.length > 1 && !sItem.chidren[1].isEmpty) {
             sItem.chidren[1].selected = true;
           } else {
@@ -260,7 +264,6 @@ const HandledSpec = ({
       }
     })();
   }, [sizeList]);
-
   return (
     <div className="spec">
       {goodsSpecs?.map((sItem: any, i: number) => (

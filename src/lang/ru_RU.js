@@ -560,6 +560,7 @@ const ru_RU = {
   'login.thirdCheck': 'Я согласен получать маркетинговую рассылку',
   loginFailed: 'Вход в систему не удался',
   logisticsRating: 'Рейтинг логистики',
+  expertAdvice: 'Замечания экспертов',
   logOff: 'Выйти',
   // mailAddress: 'Почта Адрес',
   mailAddress: 'E-mail',
@@ -1438,7 +1439,7 @@ const ru_RU = {
   'ClubLP.SubscriptionBenefitsNew.icon4':
     'Приветственный подарок, подарки каждые 3 месяца участия в программе',
   'ClubLP.SubscriptionBenefitsNew.icon5':
-    'Персонализи-{val}рованные образовательные рассылки',
+    'Персонализи{val1}{val2}рованные образовательные рассылки',
   'ClubLP.SubscriptionBenefitsNew.icon6':
     'Бесплатные онлайн-консультации нутрициолога в {val}',
   'ClubLP.SubscriptionBenefitsNew.button': 'Вступить в КЛУБ',
