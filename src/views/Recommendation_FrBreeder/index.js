@@ -3169,7 +3169,6 @@ class Recommendation extends React.Component {
                 <p>Livraison en 3 jours ouvrés offerte</p>
               </div>
             </div>
-          </div>
          </div>:null}
           <Description />
           <Footer />
