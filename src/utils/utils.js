@@ -1098,3 +1098,42 @@ export function handleFelinAppointTime(appointTime) {
     appointEndTime
   };
 }
+
+export function handleRecommendation(product) {
+  if (!product.goodsInfo.goodsInfoImg) {
+    product.goodsInfo.goodsInfoImg = product.goodsInfo.goods.goodsImg;
+  }
+  product.goodsInfo.goods.sizeList = product.goodsInfos.map((g) => {
+    g = Object.assign({}, g, { selected: false });
+    if (g.goodsInfoId === product.goodsInfo.goodsInfoId) {
+      g.selected = true;
+    }
+    return g;
+  });
+  let specList = product.goodsSpecs;
+  let specDetailList = product.goodsSpecDetails;
+  if (specList) {
+    specList.map((sItem) => {
+      sItem.chidren = specDetailList.filter((sdItem, i) => {
+        return sdItem.specId === sItem.specId;
+      });
+      sItem.chidren.map((child) => {
+        if (
+          product.goodsInfo.mockSpecDetailIds.indexOf(child.specDetailId) > -1
+        ) {
+          console.log(child, 'child');
+          child.selected = true;
+        }
+        return child;
+      });
+      return sItem;
+    });
+  }
+  product.goodsInfo.goods.goodsInfos = product.goodsInfos;
+  product.goodsInfo.goods.goodsSpecDetails = product.goodsSpecDetails;
+  product.goodsInfo.goods.goodsSpecs = specList;
+  return product.goodsInfo.goods;
+  // let filterProducts = productList.filter((product) => {
+  //   return product.goodsInfo.addedFlag;
+  // });
+}
