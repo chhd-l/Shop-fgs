@@ -63,25 +63,29 @@ class Felin extends React.Component {
           valueEn: 'Behaviorist',
           src: cat1,
           name: 'Comportementalistes',
-          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         },
         {
           valueEn: 'Nutritionist',
           src: cat2,
           name: 'Expert en nutrition',
-          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         },
         {
           valueEn: 'Osteopathist',
           src: cat3,
           name: 'Ostéopathes',
-          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         }
       ],
       timeList: [
         {
           time: '15',
-          text: 'Rapide et facile, échangez avec un expert pour reçevoir ses conseils et commencer le suivi de votre chat.',
+          text:
+            'Rapide et facile, échangez avec un expert pour reçevoir ses conseils et commencer le suivi de votre chat.',
           num: 'FREE'
         },
         {
@@ -131,7 +135,7 @@ class Felin extends React.Component {
         employeeIds: []
       },
       userInfo: undefined,
-      appointmentNo: '',
+      apptNo: '',
       appointmentVO: {}
     };
   }
@@ -176,11 +180,7 @@ class Felin extends React.Component {
       type: 'appointment_type'
     });
     // 专家
-    const {
-      code: code2,
-      context: list,
-      message: message2
-    } = await gitDict({
+    const { code: code2, context: list, message: message2 } = await gitDict({
       type: 'expert_type'
     });
     let expertTypeList = list.goodsDictionaryVOS.map((item) => {
@@ -246,6 +246,7 @@ class Felin extends React.Component {
   postSave = async () => {
     const { context } = await postSave({
       apptTypeId: this.state.params.appointmentTypeId,
+      appointmentTypeId: this.state.params.appointmentTypeId,
       consumerName: this.state.userInfo?.contactName || undefined,
       consumerFirstName: this.state.userInfo?.firstName || undefined,
       consumerLastName: this.state.userInfo?.lastName || undefined,
@@ -258,15 +259,15 @@ class Felin extends React.Component {
       expertTypeId: this.state.params.expertTypeId,
       serviceTypeId: 6
     });
-    let appointmentNo = context.appointmentVO.apptNo;
+    let apptNo = context.appointmentVO.apptNo;
     let appointmentVO = context.appointmentVO;
-    if (appointmentNo) {
-      sessionItemRoyal.set('appointment-no', appointmentNo);
+    if (apptNo) {
+      sessionItemRoyal.set('appointment-no', apptNo);
       if (this.state.userInfo) {
         this.props.history.push('/checkout');
       } else {
         this.setState({
-          appointmentNo: appointmentNo,
+          apptNo: apptNo,
           appointmentVO: appointmentVO,
           fourShow: false,
           fiveShow: true
@@ -389,13 +390,21 @@ class Felin extends React.Component {
   };
   postUpdate = async (params) => {
     const { code } = await postUpdate({
-      ...this.state.appointmentVO,
-      consumerName: params.firstName + ' ' + params.lastName,
+      apptNo: this.state.appointmentVO.apptNo,
+      id: this.state.appointmentVO.id,
+      apptTypeId: this.state.params.appointmentTypeId,
+      appointmentTypeId: this.state.params.appointmentTypeId,
+      customerId: this.state.appointmentVO.customerId || undefined,
+      customerLevelId: this.state.appointmentVO.customerId ? 234 : 233, // 233未登录 234登陆
+      bookSlotVO: this.state.bookSlotVO,
+      minutes: this.state.params.minutes,
+      expertTypeId: this.state.params.expertTypeId,
       consumerFirstName: params.firstName,
       consumerLastName: params.lastName,
+      consumerName: params.firstName + ' ' + params.lastName,
       consumerEmail: params.email,
       consumerPhone: params.phone,
-      changeTimeBlock: false
+      serviceTypeId: 6
     });
     if (code === 'K-000000') {
       this.props.history.push('/checkout');
