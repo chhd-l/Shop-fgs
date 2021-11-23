@@ -133,8 +133,8 @@ class PaymentEditForm extends React.Component {
         break;
       case 'uk':
         phoneReg = [
-          { mask: '(+44) 000 00 00 00 00' },
-          { mask: '(+44) 00 00 00 00 00' }
+          { mask: '(+44) 00 00 00 00 00' },
+          { mask: '(+44) 000 00 00 00 00' }
         ];
         break;
       case 'ru':
@@ -1063,8 +1063,7 @@ class PaymentEditForm extends React.Component {
                   <div
                     className="rc-input w-100"
                     onClick={() => {
-                      creditCardInfoForm.isDefault =
-                        !creditCardInfoForm.isDefault;
+                      creditCardInfoForm.isDefault = !creditCardInfoForm.isDefault;
                       this.setState({ creditCardInfoForm });
                     }}
                   >
