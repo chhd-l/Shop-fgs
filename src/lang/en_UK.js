@@ -542,6 +542,7 @@ const en_US = {
   FrequentQuestions: 'Common questions',
   from: 'From',
   plpFromText: 'From',
+  plpFromNew: '{started}{plpValue}',
   gender: 'Gender',
   getConsumerAccountFailed: 'Get Consumer Account Failed',
   getDataFailed: 'Get Data Failed',

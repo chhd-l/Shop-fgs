@@ -660,6 +660,7 @@ const fr_FR = {
   FrequentQuestions: 'Questions courantes',
   from: 'De',
   plpFromText: 'à partir de',
+  plpFromNew: '{started}{plpValue}',
   gender: 'Sexe',
   getConsumerAccountFailed: "Échec de l'obtention du compte consommateur",
   getDataFailed: 'Obtenir les données a échoué',

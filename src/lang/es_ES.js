@@ -379,6 +379,7 @@ const es_ES = {
   freeShipping: 'Envío gratis',
   from: 'De',
   plpFromText: 'De',
+  plpFromNew: '{started}{plpValue}',
   gender: 'Género',
   getConsumerAccountFailed: 'Obtener la cuenta del consumidor fallida',
   getDataFailed: 'Obtener datos fallidos',

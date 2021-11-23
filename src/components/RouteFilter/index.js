@@ -43,9 +43,9 @@ class RouteFilter extends Component {
     }
 
     /////
-    const isStorepotal = getQueryVariable('stoken')
-    if (isStorepotal){
-      checkoutStore.removePromotionCode()
+    const isStorepotal = getQueryVariable('stoken');
+    if (isStorepotal) {
+      checkoutStore.removePromotionCode();
     }
 
     // console.log(getQueryVariable("search")+'222222222')

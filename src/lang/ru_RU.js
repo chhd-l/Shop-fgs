@@ -427,6 +427,7 @@ const ru_RU = {
   freeShipping: 'Бесплатная доставка от 2500₽',
   from: 'От',
   plpFromText: 'От',
+  plpFromNew: '{started}{plpValue}',
   gender: 'Пол',
   GeneralConditions: 'Возврат покупки',
   getConsumerAccountFailed: 'Не удалось получить учетную запись потребителя',
