@@ -61,7 +61,7 @@ class MyModal extends React.Component {
         </div>
         <div style={{ padding: '0 3.75rem' }} className="input-box mt50">
           <input
-            type="text"
+            type="email"
             className="my-input"
             placeholder="Email"
             value={this.state.params.email}

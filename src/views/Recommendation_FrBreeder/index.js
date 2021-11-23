@@ -57,16 +57,16 @@ let advantageArr = [
   { img: supportImg, text: 'Un accompagnement pédagogique individualisé' },
   { img: '', text: '' }
 ];
-let advantageList = []
-advantageArr.forEach((el,i)=>{
-  if(i%2==0){
-    advantageList[i/2] = []
-    advantageList[i/2].push(el)
-  }else{
-    advantageList[Math.floor(i/2)].push(el)
+let advantageList = [];
+advantageArr.forEach((el, i) => {
+  if (i % 2 == 0) {
+    advantageList[i / 2] = [];
+    advantageList[i / 2].push(el);
+  } else {
+    advantageList[Math.floor(i / 2)].push(el);
   }
-})
-console.info('advantageList',advantageList)
+});
+console.info('advantageList', advantageList);
 @inject('checkoutStore', 'loginStore', 'configStore', 'clinicStore')
 @injectIntl
 @observer
@@ -139,19 +139,24 @@ class Recommendation extends React.Component {
     this.helpContentText = {
       title: this.props.intl.messages['recommendation.helpContentText.title'],
       des: this.props.intl.messages['recommendation.helpContentText.des'],
-      emailTitle:
-        this.props.intl.messages['recommendation.helpContentText.emailTitle'],
-      emailDes:
-        this.props.intl.messages['recommendation.helpContentText.emailDes'],
-      emailLink:
-        this.props.intl.messages['recommendation.helpContentText.emailLink'], //俄罗斯是其他的链接
-      phoneTitle:
-        this.props.intl.messages['recommendation.helpContentText.phoneTitle'],
+      emailTitle: this.props.intl.messages[
+        'recommendation.helpContentText.emailTitle'
+      ],
+      emailDes: this.props.intl.messages[
+        'recommendation.helpContentText.emailDes'
+      ],
+      emailLink: this.props.intl.messages[
+        'recommendation.helpContentText.emailLink'
+      ], //俄罗斯是其他的链接
+      phoneTitle: this.props.intl.messages[
+        'recommendation.helpContentText.phoneTitle'
+      ],
       phone: this.props.intl.messages['recommendation.helpContentText.phone'],
       email: this.props.intl.messages['recommendation.helpContentText.email'],
       phoneDes1: `<strong>${this.props.intl.messages['recommendation.helpContentText.phoneDes1']}</strong>`,
-      phoneDes2:
-        this.props.intl.messages['recommendation.helpContentText.phoneDes2']
+      phoneDes2: this.props.intl.messages[
+        'recommendation.helpContentText.phoneDes2'
+      ]
     };
   }
 
@@ -171,9 +176,9 @@ class Recommendation extends React.Component {
     //   this.setState({ showCoiedTips: false });
     // };
     console.time('begin');
-    let frequencyList = []
+    let frequencyList = [];
     getFrequencyDict().then((res) => {
-      frequencyList = res
+      frequencyList = res;
       this.setState({
         frequencyList: res
       });
@@ -2164,20 +2169,18 @@ class Recommendation extends React.Component {
       el.goodsInfo.goods.goodsSpecs = specList;
       return el;
     });
-    let autoshipDictRes = frequencyList.filter(
-      (el) => el.goodsInfoFlag === 1
-    );
+    let autoshipDictRes = frequencyList.filter((el) => el.goodsInfoFlag === 1);
     // let promotionCode = res.context.promotionCode || '';
     let filterProducts = productLists.filter((el) => {
       let defaultFrequencyId =
-      el?.defaultFrequencyId ||
-      this.props.configStore?.info?.storeVO?.defaultSubscriptionFrequencyId ||
-      (autoshipDictRes[0] && autoshipDictRes[0].id) ||
-      '';
-      el.defaultFrequencyId = defaultFrequencyId
+        el?.defaultFrequencyId ||
+        this.props.configStore?.info?.storeVO?.defaultSubscriptionFrequencyId ||
+        (autoshipDictRes[0] && autoshipDictRes[0].id) ||
+        '';
+      el.defaultFrequencyId = defaultFrequencyId;
       return el.goodsInfo.addedFlag && el.goods.saleableFlag;
     });
-    console.info('filterProductsfilterProducts', filterProducts)
+    console.info('filterProductsfilterProducts', filterProducts);
     // 只展示上架商品
     if (!filterProducts.length) {
       this.setState({
@@ -2490,8 +2493,12 @@ class Recommendation extends React.Component {
     });
   };
   checkoutStock() {
-    let { productList, outOfStockProducts, inStockProducts, modalList } =
-      this.state;
+    let {
+      productList,
+      outOfStockProducts,
+      inStockProducts,
+      modalList
+    } = this.state;
     for (let i = 0; i < productList.length; i++) {
       if (
         productList[i].recommendationNumber > productList[i].goodsInfo.stock
@@ -2520,8 +2527,12 @@ class Recommendation extends React.Component {
     );
   }
   async hanldeLoginAddToCart() {
-    let { productList, outOfStockProducts, inStockProducts, modalList } =
-      this.state;
+    let {
+      productList,
+      outOfStockProducts,
+      inStockProducts,
+      modalList
+    } = this.state;
     GABigBreederAddToCar(productList);
     // console.log(outOfStockProducts, inStockProducts, '...1')
     // return
@@ -2552,12 +2563,12 @@ class Recommendation extends React.Component {
             goodsNum: inStockProducts[i].recommendationNumber,
             goodsCategory: '',
             goodsInfoFlag: 1,
-            periodTypeId:inStockProducts[i].defaultFrequencyId,
+            periodTypeId: inStockProducts[i].defaultFrequencyId,
             recommendationId:
               this.props.clinicStore.linkClinicRecommendationInfos
                 ?.recommendationId || this.props.clinicStore.linkClinicId,
-            recommendationInfos:
-              this.props.clinicStore.linkClinicRecommendationInfos,
+            recommendationInfos: this.props.clinicStore
+              .linkClinicRecommendationInfos,
             recommendationName:
               this.props.clinicStore.linkClinicRecommendationInfos
                 ?.recommendationName || this.props.clinicStore.linkClinicName
@@ -2585,8 +2596,8 @@ class Recommendation extends React.Component {
             currentUnitPrice: p.goodsInfo.marketPrice,
             goodsInfoFlag: 1,
             periodTypeId: inStockProducts[i].defaultFrequencyId,
-            recommendationInfos:
-              this.props.clinicStore.linkClinicRecommendationInfos,
+            recommendationInfos: this.props.clinicStore
+              .linkClinicRecommendationInfos,
             recommendationId:
               this.props.clinicStore.linkClinicRecommendationInfos
                 ?.recommendationId || this.props.clinicStore.linkClinicId,
@@ -2637,8 +2648,12 @@ class Recommendation extends React.Component {
       localItemRoyal.set('okta-redirectUrl', '/prescription');
     }
     this.setState({ needLogin });
-    let { productList, outOfStockProducts, inStockProducts, modalList } =
-      this.state;
+    let {
+      productList,
+      outOfStockProducts,
+      inStockProducts,
+      modalList
+    } = this.state;
     let totalPrice;
     inStockProducts.map((el) => {
       console.log(el, 'instock');
@@ -2723,8 +2738,12 @@ class Recommendation extends React.Component {
   };
   async hanldeClickSubmit() {
     const { checkoutStore, loginStore, history, clinicStore } = this.props;
-    let { currentModalObj, subDetail, outOfStockProducts, inStockProducts } =
-      this.state;
+    let {
+      currentModalObj,
+      subDetail,
+      outOfStockProducts,
+      inStockProducts
+    } = this.state;
     this.setState({ loading: true, modalShow: false });
     if (currentModalObj.type === 'addToCart') {
       for (let i = 0; i < inStockProducts.length; i++) {
@@ -2915,7 +2934,6 @@ class Recommendation extends React.Component {
   }
 
   render() {
-   
     const event = {
       page: {
         type: 'Recommendation',
@@ -2988,15 +3006,15 @@ class Recommendation extends React.Component {
         'Recommended feeding amounts are located on the back of the bag. Make sure you transition food slowly over the course of the week to help prevent stomach upset.',
       ru: this.state.locationPath
     };
-   
-    let details = productList[activeIndex]||{}
-    const filterImages = 
-    details.images?.filter((i) => {
-      i.artworkUrl = i.goodsInfoImg||i.artworkUrl;
-      return i.goodsInfoImg;
-    }) || [];
-    console.info('detailsdetails',filterImages)
-    console.info('...............',details.images)
+
+    let details = productList[activeIndex] || {};
+    const filterImages =
+      details.images?.filter((i) => {
+        i.artworkUrl = i.goodsInfoImg || i.artworkUrl;
+        return i.goodsInfoImg;
+      }) || [];
+    console.info('detailsdetails', filterImages);
+    console.info('...............', details.images);
     return (
       <div className="Recommendation_FRBreeder">
         <GoogleTagManager additionalEvents={event} />
@@ -3039,7 +3057,9 @@ class Recommendation extends React.Component {
         ) : null}
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
-          <p className="text-center sub-title m-auto">VOTRE RECOMMANDATION ÉLEVEUR</p>
+          <p className="text-center sub-title m-auto">
+            VOTRE RECOMMANDATION ÉLEVEUR
+          </p>
           <p className="text-center rc-beta m-auto recommendation-title">
             Offrez à votre nouveau compagnon la nutrition adaptée à ses besoins
             spécifiques​
@@ -3120,8 +3140,10 @@ class Recommendation extends React.Component {
                       </div>
                     ))}
                   </div>
+                  <p style={{ marginTop: '0.75rem' }}>
+                    <sup>1</sup> Cumulable avec l'offre de bienvenue
+                  </p>
                 </div>
-                <p style={{marginTop:'0.75rem'}}><sup>1</sup> Cumulable avec l'offre de bienvenue</p>
               </div>
             </div>
             <div className="md-down add-cart-for-mobile">
