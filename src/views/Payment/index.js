@@ -914,7 +914,9 @@ class Payment extends React.Component {
       goodsInfoImg: goodInfo.goods.goodsImg,
       goodsName: goodInfo.goods.goodsName,
       buyCount: 1,
-      salePrice: goodInfo.goods.minMarketPrice,
+      salePrice: (goodInfo?.goodsInfos || []).filter(
+        (item) => item.goodsInfoId === result?.goodsInfoId
+      )[0].salePrice,
       selected: true
     });
     sessionItemRoyal.set('recommend_product', JSON.stringify([goodDetail]));
