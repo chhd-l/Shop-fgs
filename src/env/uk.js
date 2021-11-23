@@ -73,7 +73,11 @@ const env = {
     REACT_APP_SHOW_BAZAARVOICE_RATINGS: '0',
 
     REACT_APP_SEARCH_LINK:
-      '/on/demandware.store/Sites-EN-Site/en_EN/Search-Show'
+      '/on/demandware.store/Sites-EN-Site/en_EN/Search-Show',
+
+    // #删除账户
+    REACT_APP_DELETE_My_ACCOUNT_URL:
+      'https://prd-weu1-rc-df-myaccount-app-webapp-stg.cloud-effem.com/en-us/manager/settings'
   },
   development: {
     // #okta
@@ -214,7 +218,11 @@ const env = {
     REACT_APP_HOMEPAGE: '/',
 
     // #bazaarVoice环境配置
-    REACT_APP_BAZAARVOICE_ENV: 'production'
+    REACT_APP_BAZAARVOICE_ENV: 'production',
+
+    // #删除账户
+    REACT_APP_DELETE_My_ACCOUNT_URL:
+      'https://account.royalcanin.com/en-us/manager/settings'
   },
   stgwedding: {
     // #okta

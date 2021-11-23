@@ -542,6 +542,7 @@ const en_US = {
   FrequentQuestions: 'Common questions',
   from: 'From',
   plpFromText: 'From',
+  plpFromNew: '{started}{plpValue}',
   gender: 'Gender',
   getConsumerAccountFailed: 'Get Consumer Account Failed',
   getDataFailed: 'Get Data Failed',
@@ -1827,6 +1828,24 @@ const en_US = {
   'salesCategory.dog': 'For dog',
   'salesCategory.content':
     'Each formula has been formulated to provide nutrition that meets health needs based on size, breed, age or lifestyle.',
-  'salesCategory.title': 'Discover our food ranges'
+  'salesCategory.title': 'Discover our food ranges',
+  'account.deleteMyaccountDesc':
+    'In this case, you will not be able to use the ROYAL CANIN® services. Access to the Club program and subscription to veterinary diets will be closed, and the purchase history will be deleted.',
+  'account.deleteMyaccountTitle': 'Delete account',
+  proceedToTheDeletion: 'Delete my account',
+  'header.User.home': 'Account',
+  'header.User.myPersonalInformation': 'My details',
+  'header.User.pets': 'My Pets',
+  'header.User.myOrders': 'Orders',
+  'header.User.mySubscriptions': 'Subscriptions',
+  'account.loyaltyProgramme': 'Loyalty Programme',
+  'account.loyaltyProgrammeTip':
+    'Consult and manage Loyalty programme and your Coupons',
+  'lang.close': 'Close',
+  'lang.country': 'Country',
+  'lang.language': 'Language',
+  //language-choose
+  'lang.selectYourLocation': 'Select your location',
+  'lang.submit': 'Submit'
 };
 export default en_US;
