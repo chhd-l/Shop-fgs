@@ -469,7 +469,7 @@ class Felin extends React.Component {
             <div className="bg-module" />
             <img src={header} alt="" />
             <div className="hd-text-cont">
-              <div className="introduce">
+              <div className="introduce fontw-500">
                 Venez rencontrer nos experts à l'Atelier Félin, une boutique
                 dédiée à la santé et au bien-être de votre chat
               </div>
@@ -885,9 +885,7 @@ class Felin extends React.Component {
           >
             <div
               style={{
-                textAlign: 'right',
-                padding: '1.25rem',
-                paddingBottom: '0'
+                textAlign: 'right'
               }}
             >
               <span
