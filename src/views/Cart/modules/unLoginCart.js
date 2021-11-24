@@ -16,7 +16,8 @@ import {
   unique,
   cancelPrevRequest,
   getDeviceType,
-  handleRecommendation
+  handleRecommendation,
+  isShowMixFeeding
 } from '@/utils/utils';
 import {
   GAInitUnLogin,
@@ -319,21 +320,23 @@ class UnLoginCart extends React.Component {
       return el;
     });
 
-    getMixFeedings(productList.map((el) => el.goodsId)).then((res) => {
-      let unHandleMixFeedings = res?.context;
-      if (unHandleMixFeedings && unHandleMixFeedings.length) {
-        let mixFeedings = productList.map((el, i) => {
-          let mixFeeding = handleRecommendation(
-            unHandleMixFeedings[i].goodsRelationAndRelationInfos[0]
-          );
-          if (mixFeeding) {
-            mixFeeding.quantity = 1;
-          }
-          return mixFeeding;
-        });
-        this.setState({ mixFeedings });
-      }
-    });
+    if (isShowMixFeeding()) {
+      getMixFeedings(productList.map((el) => el.goodsId)).then((res) => {
+        let unHandleMixFeedings = res?.context;
+        if (unHandleMixFeedings && unHandleMixFeedings.length) {
+          let mixFeedings = productList.map((el, i) => {
+            let mixFeeding = handleRecommendation(
+              unHandleMixFeedings[i].goodsRelationAndRelationInfos[0]
+            );
+            if (mixFeeding) {
+              mixFeeding.quantity = 1;
+            }
+            return mixFeeding;
+          });
+          this.setState({ mixFeedings });
+        }
+      });
+    }
 
     this.setState(
       {

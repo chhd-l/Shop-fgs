@@ -29,7 +29,8 @@ import {
   filterObjectValue,
   isCountriesContainer,
   getClubFlag,
-  handleRecommendation
+  handleRecommendation,
+  isShowMixFeeding
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
@@ -495,15 +496,17 @@ class Details extends React.Component {
         if (goodsRes) {
           const { goods, images } = res.context;
 
-          getMixFeeding(goods.goodsId).then((res) => {
-            let mixFeeding = handleRecommendation(
-              res?.context?.goodsRelationAndRelationInfos[0]
-            );
-            if (mixFeeding) {
-              mixFeeding.quantity = 1;
-            }
-            this.setState({ mixFeeding });
-          });
+          if (isShowMixFeeding()) {
+            getMixFeeding(goods.goodsId).then((res) => {
+              let mixFeeding = handleRecommendation(
+                res?.context?.goodsRelationAndRelationInfos[0]
+              );
+              if (mixFeeding) {
+                mixFeeding.quantity = 1;
+              }
+              this.setState({ mixFeeding });
+            });
+          }
 
           const taggingList = (res.context?.taggingList || []).filter(
             (t) => t.displayStatus

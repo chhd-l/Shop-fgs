@@ -1247,3 +1247,7 @@ export async function addToLoginCartData(product) {
   // this.props.history.push('/cart');
   // }
 }
+
+export function isShowMixFeeding() {
+  return window.__.env.REACT_APP_COUNTRY === 'ru';
+}
