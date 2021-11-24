@@ -28,11 +28,9 @@ const env_mx = {
     REACT_APP_LIMITED_CATE_NUM: '100',
 
     REACT_APP_LANG: 'es',
+    REACT_APP_HTML_LANG: 'es',
     REACT_APP_NAVIGATOR_LANG: 'es-MX',
     REACT_APP_CURRENCY: 'MXN',
-
-    // #货币单位
-    REACT_APP_CURRENCY_TYPE: '1',
 
     // #是否开启promotion
     REACT_APP_IS_PROMOTION: 'false',

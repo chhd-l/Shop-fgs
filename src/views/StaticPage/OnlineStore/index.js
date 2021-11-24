@@ -161,7 +161,6 @@ class OnlineStore extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      canonicalforRuSpecialPageSearchFlag: false,//为ru特殊页面做特殊canonical处理
       seoConfig: {
         title: 'Royal canin',
         metaKeywords: 'Royal canin',
@@ -432,12 +431,6 @@ class OnlineStore extends React.Component {
   };
   componentWillUnmount() {}
   componentDidMount() {
-    const { search } = this.props.history.location;
-
-    const canonicalforRuSpecialPageSearch = ['?Breeds=20593290c7b240418c7d4021f0998cf4','?Breeds=1ee9220acf584cc292c884d7f5bd28a5','?Breeds=e6520f06c4f646aca454209302e09687&Sizes=0d5a89ea07ef4031a7ad66aef86b65b1','?Breeds=b6230b6f398347b397941f566400ada4&Sizes=83a4997cc9464552b380a496d399c593']
-    if( window.__.env.REACT_APP_COUNTRY === 'ru'&&canonicalforRuSpecialPageSearch.includes(search)){
-      this.setState({canonicalforRuSpecialPageSearchFlag:true})
-    }
     setSeoConfig().then((res) => {
       this.setState({ seoConfig: res });
     });
@@ -458,7 +451,7 @@ class OnlineStore extends React.Component {
       <div>
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
-          <link rel="canonical" href={this.state.canonicalforRuSpecialPageSearchFlag?pageLink.split('?')[0]:pageLink} />
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta
             name="description"

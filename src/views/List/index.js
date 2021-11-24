@@ -312,6 +312,7 @@ class List extends React.Component {
       isHub && location.pathname.includes('retail-products');
     const isVetProducts = isHub && location.pathname.includes('vet-products');
     this.state = {
+      canonicalforTRSpecialPageSearchFlag: false,//为ru特殊页面做特殊canonical处理
       sourceParam: '',
       GAListParam: '', //GA list参数
       eEvents: '',
@@ -379,6 +380,19 @@ class List extends React.Component {
   componentDidMount() {
     const { state, search, pathname } = this.props.history.location;
     const cateId = funcUrl({ name: 'cateId' });
+    const canonicalforRuSpecialPage = {
+      '/cats/retail-products': [
+        '?Breeds=20593290c7b240418c7d4021f0998cf4',
+        '?Breeds=1ee9220acf584cc292c884d7f5bd28a5'
+      ],
+      '/dogs/retail-products': [
+        '?Breeds=e6520f06c4f646aca454209302e09687&Sizes=0d5a89ea07ef4031a7ad66aef86b65b1',
+        '?Breeds=b6230b6f398347b397941f566400ada4&Sizes=83a4997cc9464552b380a496d399c593'
+      ]
+    };
+    if( window.__.env.REACT_APP_COUNTRY === 'tr'&&canonicalforRuSpecialPage[pathname].includes(search)){
+      this.setState({canonicalforTRSpecialPageSearchFlag:true})
+    }
     const utm_source = funcUrl({ name: 'utm_source' }); //有这个属性，表示是breeder商品，breeder商品才需要把search赋值给sourceParam
     if (utm_source) {
       this.setState({
@@ -1784,7 +1798,8 @@ class List extends React.Component {
           />
         )}
         <Helmet>
-          <link rel="canonical" href={canonicalLink.cur} />
+        <link rel="canonical" href={this.state.canonicalforTRSpecialPageSearchFlag?canonicalLink.cur.split('?')[0]:canonicalLink.cur} />
+          {/* <link rel="canonical" href={canonicalLink.cur} /> */}
           {canonicalLink.prev ? (
             <link rel="prev" href={canonicalLink.prev} />
           ) : null}

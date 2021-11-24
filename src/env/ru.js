@@ -34,11 +34,9 @@ const env = {
     // #商品种类限制
     REACT_APP_LIMITED_CATE_NUM: 100,
 
-    // #货币单位
-    REACT_APP_CURRENCY_TYPE: 3,
-
     // #language
     REACT_APP_LANG: 'ru',
+    REACT_APP_HTML_LANG: 'ru',
     REACT_APP_NAVIGATOR_LANG: 'ru',
     REACT_APP_CURRENCY: 'RUB',
 
