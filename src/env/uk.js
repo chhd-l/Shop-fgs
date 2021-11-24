@@ -95,7 +95,9 @@ const env = {
     REACT_APP_HOMEPAGE: '/uk',
 
     // #bazaarVoice环境配置
-    REACT_APP_BAZAARVOICE_ENV: 'staging'
+    REACT_APP_BAZAARVOICE_ENV: 'staging',
+    REACT_APP_DELETE_My_ACCOUNT_URL:
+      'https://prd-weu1-rc-df-myaccount-app-webapp-dev.cloud-effem.com/en-us/manager/settings'
   },
   shopsit: {
     // #okta
@@ -121,7 +123,9 @@ const env = {
     REACT_APP_HOMEPAGE: '/uk',
 
     // #bazaarVoice环境配置
-    REACT_APP_BAZAARVOICE_ENV: 'staging'
+    REACT_APP_BAZAARVOICE_ENV: 'staging',
+    REACT_APP_DELETE_My_ACCOUNT_URL:
+      'https://prd-weu1-rc-df-myaccount-app-webapp-dev.cloud-effem.com/en-us/manager/settings'
   },
   shopuat: {
     // #okta
@@ -147,7 +151,9 @@ const env = {
     REACT_APP_HOMEPAGE: '/uk',
 
     // #bazaarVoice环境配置
-    REACT_APP_BAZAARVOICE_ENV: 'staging'
+    REACT_APP_BAZAARVOICE_ENV: 'staging',
+    REACT_APP_DELETE_My_ACCOUNT_URL:
+      'https://prd-weu1-rc-df-myaccount-app-webapp-dev.cloud-effem.com/en-us/manager/settings'
   },
   shopstg: {
     // #okta
@@ -275,7 +281,9 @@ const env = {
     REACT_APP_HUB_URLPREFIX: 'https://uatwedding.royalcanin.com/uk',
 
     // #HUB_GA
-    REACT_APP_HUB_GA: '1'
+    REACT_APP_HUB_GA: '1',
+    REACT_APP_DELETE_My_ACCOUNT_URL:
+      'https://prd-weu1-rc-df-myaccount-app-webapp-dev.cloud-effem.com/en-us/manager/settings'
   }
 };
 
