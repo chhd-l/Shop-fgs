@@ -103,7 +103,9 @@ const env = {
     REACT_APP_HOMEPAGE: '/uk',
 
     // #bazaarVoice环境配置
-    REACT_APP_BAZAARVOICE_ENV: 'staging'
+    REACT_APP_BAZAARVOICE_ENV: 'staging',
+    REACT_APP_DELETE_My_ACCOUNT_URL:
+      'https://prd-weu1-rc-df-myaccount-app-webapp-dev.cloud-effem.com/en-us/manager/settings'
   },
   shopsit: {
     // #okta
@@ -134,7 +136,9 @@ const env = {
     // #Adyen
     REACT_APP_AdyenOriginKEY:
       'pub.v2.8015632026961356.aHR0cHM6Ly9zaG9wc2l0LnJveWFsY2FuaW4uY29t.dFwiVP07vLuJ0MRkzioYExlX4hnaBQnETquTzkjX49g',
-    REACT_APP_Adyen_ENV: 'test'
+    REACT_APP_Adyen_ENV: 'test',
+    REACT_APP_DELETE_My_ACCOUNT_URL:
+      'https://prd-weu1-rc-df-myaccount-app-webapp-dev.cloud-effem.com/en-us/manager/settings'
   },
   shopuat: {
     // #okta
@@ -165,7 +169,9 @@ const env = {
     // #Adyen
     REACT_APP_AdyenOriginKEY:
       'pub.v2.8015632026961356.aHR0cHM6Ly9zaG9wdWF0LnJveWFsY2FuaW4uY29t.ACjjK1gDH6I6S1VqifJ1ifQlI9uZradDIClbzmdEuDQ',
-    REACT_APP_Adyen_ENV: 'test'
+    REACT_APP_Adyen_ENV: 'test',
+    REACT_APP_DELETE_My_ACCOUNT_URL:
+      'https://prd-weu1-rc-df-myaccount-app-webapp-dev.cloud-effem.com/en-us/manager/settings'
   },
   shopstg: {
     // #okta
@@ -314,7 +320,9 @@ const env = {
     REACT_APP_HUB_URLPREFIX: 'https://uatwedding.royalcanin.com/uk',
 
     // #HUB_GA
-    REACT_APP_HUB_GA: '1'
+    REACT_APP_HUB_GA: '1',
+    REACT_APP_DELETE_My_ACCOUNT_URL:
+      'https://prd-weu1-rc-df-myaccount-app-webapp-dev.cloud-effem.com/en-us/manager/settings'
   }
 };
 
