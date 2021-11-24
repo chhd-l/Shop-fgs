@@ -197,8 +197,14 @@ class Details extends React.Component {
     return this.props.checkoutStore;
   }
   get btnStatus() {
-    const { details, quantity, instockStatus, initing, loading, form } =
-      this.state;
+    const {
+      details,
+      quantity,
+      instockStatus,
+      initing,
+      loading,
+      form
+    } = this.state;
     const { sizeList } = details;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     let addedFlag = 1;
@@ -489,11 +495,13 @@ class Details extends React.Component {
         if (goodsRes) {
           const { goods, images } = res.context;
 
-          // getMixFeeding(goods.goodsId)
-          getMixFeeding('2c918085773ea33001773eab7d060343').then((res) => {
+          getMixFeeding(goods.goodsId).then((res) => {
             let mixFeeding = handleRecommendation(
               res?.context?.goodsRelationAndRelationInfos[0]
             );
+            if (mixFeeding) {
+              mixFeeding.quantity = 1;
+            }
             this.setState({ mixFeeding });
           });
 
@@ -850,8 +858,13 @@ class Details extends React.Component {
     try {
       this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const { currentUnitPrice, quantity, form, details, questionParams } =
-        this.state;
+      const {
+        currentUnitPrice,
+        quantity,
+        form,
+        details,
+        questionParams
+      } = this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -1415,11 +1428,13 @@ class Details extends React.Component {
                   this.setState({ modalMobileCartSuccessVisible: false });
                 }}
                 mixFeedingData={this.state.mixFeeding}
+                periodTypeId={parseInt(form.buyWay) ? form.frequencyId : ''}
                 goodsInfoFlag={
                   form.buyWay && details.promotions?.includes('club')
                     ? 2
                     : form.buyWay
                 }
+                isLogin={this.isLogin}
               />
             ) : null}
 

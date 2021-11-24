@@ -15,7 +15,8 @@ import {
   distributeLinktoPrecriberOrPaymentPage,
   getDeviceType,
   unique,
-  cancelPrevRequest
+  cancelPrevRequest,
+  handleRecommendation
 } from '@/utils/utils';
 import {
   GAInitLogin,
@@ -51,6 +52,8 @@ import GiftList from '../components/GiftList/index.tsx';
 import foodDispenserPic from '../../SmartFeederSubscription/img/food_dispenser_pic.png';
 import PromotionCodeText from '../components/PromotionCodeText';
 import CartSurvey from '../components/CartSurvey';
+import { getMixFeedings } from '@/api/details';
+import MixFeedingBox from '../components/MixFeedingBox/index.tsx';
 const guid = uuidv4();
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -99,7 +102,8 @@ class LoginCart extends React.Component {
         metaKeywords: 'Royal canin',
         metaDescription: 'Royal canin'
       },
-      relatedGoodsList: []
+      relatedGoodsList: [],
+      mixFeedings: []
     };
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.hanldeToggleOneOffOrSub = this.hanldeToggleOneOffOrSub.bind(this);
@@ -383,6 +387,23 @@ class LoginCart extends React.Component {
       }
       return el;
     });
+
+    getMixFeedings(productList.map((el) => el.goodsId)).then((res) => {
+      let unHandleMixFeedings = res?.context;
+      if (unHandleMixFeedings && unHandleMixFeedings.length) {
+        let mixFeedings = productList.map((el, i) => {
+          let mixFeeding = handleRecommendation(
+            unHandleMixFeedings[i].goodsRelationAndRelationInfos[0]
+          );
+          if (mixFeeding) {
+            mixFeeding.quantity = 1;
+          }
+          return mixFeeding;
+        });
+        this.setState({ mixFeedings });
+      }
+    });
+
     this.setState(
       {
         productList,
@@ -702,7 +723,7 @@ class LoginCart extends React.Component {
     );
   };
   getProducts(plist) {
-    console.log(plist, 222);
+    const { mixFeedings } = this.state;
     const Lists = plist.map((pitem, index) => {
       {
         var isGift = !!pitem.subscriptionPlanGiftList;
@@ -924,6 +945,17 @@ class LoginCart extends React.Component {
               ) : null}
             </div>
           </div>
+          {mixFeedings && mixFeedings[index] ? (
+            <MixFeedingBox
+              isLogin={true}
+              mixFeedingData={mixFeedings[index]}
+              goodsInfoFlag={pitem.goodsInfoFlag}
+              periodTypeId={pitem.periodTypeId}
+              update={() => {
+                this.setData({ initPage: true });
+              }}
+            />
+          ) : null}
           {pitem.goods.promotions &&
           pitem.goods.promotions.includes('club') &&
           pitem.goodsInfoFlag === 2 &&
