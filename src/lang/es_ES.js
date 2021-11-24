@@ -501,7 +501,6 @@ const es_ES = {
   manage: 'Gestionar',
   mandatoryFieldsError: '¡Tienes campos obligatorios no completados!',
   menu: 'menú',
-  miniBasket: 'Mini Cesta',
   'mixed Breed': 'raza Mixta',
   'Mixed Breed': 'Raza Mixta',
   MMYY: 'MM/AA',

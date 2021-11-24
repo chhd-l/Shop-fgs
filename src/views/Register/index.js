@@ -133,28 +133,46 @@ class Register extends Component {
       const optioalList = result.context.optionalList.map((item) => {
         return {
           id: item.id,
-          consentTitle: item.consentTitle,
+          consentTitle:
+            window.__.env.REACT_APP_COUNTRY === 'uk'
+              ? item.consentRegisterTitle
+              : item.consentTitle,
           isChecked: false,
           isRequired: false,
-          detailList: item.detailList
+          detailList: item.detailList,
+          consentDesc: item.consentDesc
         };
       });
 
       const requiredList = result.context.requiredList.map((item) => {
         return {
           id: item.id,
-          consentTitle: item.consentTitle,
+          consentTitle:
+            window.__.env.REACT_APP_COUNTRY === 'uk'
+              ? item.consentRegisterTitle
+              : item.consentTitle,
           isChecked:
-            item.consentDesc == 'RC_DF_TR_FGS_PRIVACY_POLICY' ? true : false,
+            item.consentDesc == 'RC_DF_TR_FGS_PRIVACY_POLICY' ||
+            item.consentDesc == 'RC_DF_UK_MINIMUM_AGE_16'
+              ? true
+              : false,
           isRequired: true,
           detailList: item.detailList,
           noChecked:
-            item.consentDesc == 'RC_DF_TR_FGS_PRIVACY_POLICY' ? true : false
+            item.consentDesc == 'RC_DF_TR_FGS_PRIVACY_POLICY' ||
+            item.consentDesc == 'RC_DF_UK_MINIMUM_AGE_16'
+              ? true
+              : false,
+          notShow: item.consentDesc == 'RC_DF_UK_MINIMUM_AGE_16' ? true : false,
+          consentDesc: item.consentDesc
         };
       });
 
       let list = this.state.list;
       list = [...requiredList, ...optioalList];
+      if (window.__.env.REACT_APP_COUNTRY === 'uk') {
+        list = [...optioalList, ...requiredList]; //uk的排序特殊化
+      }
       this.setState({
         list,
         requiredConsentCount: requiredList.length
@@ -972,6 +990,29 @@ class Register extends Component {
                               </div>
                             </div>
                             <div id="wrap">
+                              {window.__.env.REACT_APP_COUNTRY === 'uk' ? (
+                                <div
+                                  className="footer-checkbox-title rc-text--left"
+                                  style={{ zoom: this.state.fontZoom }}
+                                >
+                                  <p>
+                                    We’d like to keep you and your pet up to
+                                    date with exciting promotions and new
+                                    product developments from{' '}
+                                    <a
+                                      href="https://www.mars.com/made-by-mars/petcare"
+                                      target="_blank"
+                                    >
+                                      Mars Petcare and its affiliates
+                                    </a>
+                                    .
+                                  </p>
+                                  <p>
+                                    I am over 16 years old, and would like to
+                                    receive these from:
+                                  </p>
+                                </div>
+                              ) : null}
                               <Consent
                                 url={url}
                                 list={this.state.list}
@@ -982,6 +1023,41 @@ class Register extends Component {
                                 auto={true}
                                 key={'required'}
                               />
+                              {window.__.env.REACT_APP_COUNTRY === 'uk' ? (
+                                <div
+                                  className="footer-checkbox-title rc-text--left"
+                                  style={{ zoom: this.state.fontZoom }}
+                                >
+                                  <p>
+                                    I understand that I may change these
+                                    preferences at any time by updating my
+                                    preferences in my account or by clicking the
+                                    unsubscribe link in any communication I
+                                    receive.
+                                  </p>
+                                  <p>
+                                    From time to time, we may use your data for
+                                    research to enhance our product and service
+                                    offerings. You can find out how{' '}
+                                    <a
+                                      href="https://www.mars.com/made-by-mars/petcare"
+                                      target="_blank"
+                                    >
+                                      Mars Petcare and its affiliates
+                                    </a>{' '}
+                                    collects and processes your data, contact us
+                                    with privacy questions, and exercise your
+                                    personal data rights via the{' '}
+                                    <a
+                                      href="https://www.mars.com/privacy-policy"
+                                      target="_blank"
+                                    >
+                                      Mars Privacy Statement
+                                    </a>
+                                    .
+                                  </p>
+                                </div>
+                              ) : null}
                             </div>
                           </div>
                           <p className="rc-body rc-margin-bottom--lg rc-margin-bottom--sm--desktop rc-text--left">

@@ -1045,7 +1045,13 @@ class Details extends React.Component {
       window.__.env.REACT_APP_HUB === '1' &&
       !details.saleableFlag &&
       details.displayFlag; //vet产品并且是hub的情况下
-
+    console.log(
+      vet,
+      window.__.env.REACT_APP_HUB,
+      !details.saleableFlag,
+      details.displayFlag,
+      'ishubvet'
+    );
     const goodHeading = `<${headingTag || 'h1'}
         class="rc-gamma ui-text-overflow-line2 text-break"
         title="${details.goodsName}">

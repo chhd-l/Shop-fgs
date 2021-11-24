@@ -26,31 +26,14 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const checkoutStore = stores.checkoutStore;
 const configStore = stores.configStore;
-const clinicStore = stores.clinicStore;
-const mapEnum = {
-  1: { mark: '$', break: ' ', atEnd: false },
-  2: { mark: 'Mex$', break: ' ', atEnd: false },
-  3: { mark: '€', break: ',', atEnd: true, twoDecimals: true }
-};
 
 /**
  *
  * @param {*} val
- * @param {*} currency 1-$ 2-Mex$ 3-€
  */
-export function formatMoney(
-  val,
-  currency = window.__.env.REACT_APP_CURRENCY_TYPE || 1,
-  noFixed
-) {
+export function formatMoney(val) {
   if (isNaN(val)) {
     val = 0;
-  }
-  val = noFixed ? Number(val) : Number(val).toFixed(2);
-  const tmp = mapEnum[currency];
-  if (!tmp.twoDecimals) {
-    // 保留两位小数时，不填充0
-    val = parseFloat(val);
   }
   val += '';
   let length = val.length;

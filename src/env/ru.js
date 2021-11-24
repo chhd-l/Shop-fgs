@@ -34,11 +34,9 @@ const env = {
     // #商品种类限制
     REACT_APP_LIMITED_CATE_NUM: 100,
 
-    // #货币单位
-    REACT_APP_CURRENCY_TYPE: 3,
-
     // #language
     REACT_APP_LANG: 'ru',
+    REACT_APP_HTML_LANG: 'ru',
     REACT_APP_NAVIGATOR_LANG: 'ru',
     REACT_APP_CURRENCY: 'RUB',
 
@@ -52,9 +50,6 @@ const env = {
 
     // #下单流程是否需要clinic
     REACT_APP_CHECKOUT_WITH_CLINIC: 'true',
-
-    // #PLP cover style
-    REACT_APP_PLP_STYLE: 'layout-global',
 
     // #PDP RATING SETTING
     REACT_APP_PDP_RATING_VISIBLE: 0,
@@ -282,9 +277,6 @@ const env = {
 
     REACT_APP_HUB_URLPREFIX: 'https://www.royalcanin.com/ru',
 
-    // #根节点自定义样式名
-    REACT_APP_ROOT_CLS: 'ui-custom-hub',
-
     REACT_APP_HUB: '1',
 
     // #删除账户
@@ -338,9 +330,6 @@ const env = {
     // #delete接口前缀
     REACT_APP_HUB_APIURL: 'https://stgwedding.royalcanin.com/ru/api',
 
-    // #根节点自定义样式名
-    REACT_APP_ROOT_CLS: 'ui-custom-hub',
-
     REACT_APP_HUB: '1',
 
     // #删除账户
@@ -393,9 +382,6 @@ const env = {
 
     // #delete接口前缀
     REACT_APP_HUB_APIURL: 'https://uatwedding.royalcanin.com/ru/api',
-
-    // #根节点自定义样式名
-    REACT_APP_ROOT_CLS: 'ui-custom-hub',
 
     REACT_APP_HUB: '1',
 

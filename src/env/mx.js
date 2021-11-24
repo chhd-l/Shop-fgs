@@ -28,11 +28,9 @@ const env_mx = {
     REACT_APP_LIMITED_CATE_NUM: '100',
 
     REACT_APP_LANG: 'es',
+    REACT_APP_HTML_LANG: 'es',
     REACT_APP_NAVIGATOR_LANG: 'es-MX',
     REACT_APP_CURRENCY: 'MXN',
-
-    // #货币单位
-    REACT_APP_CURRENCY_TYPE: '1',
 
     // #是否开启promotion
     REACT_APP_IS_PROMOTION: 'false',
@@ -58,14 +56,11 @@ const env_mx = {
     // #HUB_GA
     REACT_APP_HUB_GA: '1',
 
-    REACT_APP_SHOPPER_LOCALE: 'es_ES',
-
     REACT_APP_HIDE_ACCOUNT_COMMUNICATION_PHONE: '1',
     REACT_APP_HIDE_ACCOUNT_COMMUNICATION_MESSENGERS: '1',
 
     // #Adyen
-    REACT_APP_Adyen_locale: 'es_ES',
-    REACT_APP_Adyen_country: 'MX',
+    REACT_APP_CALENDAR_LOCALE: 'es_ES',
 
     REACT_APP_SEARCH_LINK:
       '/on/demandware.store/Sites-ES-Site/es_ES/Search-Show',
@@ -94,11 +89,6 @@ const env_mx = {
     REACT_APP_PaymentAPPID_MEMBER: 'com.razorfish.dev_mexico',
     REACT_APP_PaymentKEY_VISITOR: 'fd931719-5733-4b77-b146-2fd22f9ad2e3',
     REACT_APP_PaymentAPPID_VISITOR: 'com.razorfish.dev_mexico',
-
-    // #Adyen
-    REACT_APP_AdyenOriginKEY:
-      'pub.v2.8015632026961356.aHR0cHM6Ly9zaG9wdWF0LjQ2NjkyMC5jb20.q77RJ2MW5gIA3cRvKrL_ExnY97Lq7YQmKm_rwXdUZSE',
-    REACT_APP_Adyen_ENV: 'test',
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'dev',
@@ -134,11 +124,6 @@ const env_mx = {
     REACT_APP_PaymentKEY_VISITOR: 'fd931719-5733-4b77-b146-2fd22f9ad2e3',
     REACT_APP_PaymentAPPID_VISITOR: 'com.razorfish.dev_mexico',
 
-    // #Adyen
-    REACT_APP_AdyenOriginKEY:
-      'pub.v2.8015632026961356.aHR0cHM6Ly9zaG9wc2l0LnJveWFsY2FuaW4uY29t.dFwiVP07vLuJ0MRkzioYExlX4hnaBQnETquTzkjX49g',
-    REACT_APP_Adyen_ENV: 'test',
-
     // #GA环境配置
     REACT_APP_GA_ENV: 'sit',
 
@@ -172,11 +157,6 @@ const env_mx = {
     REACT_APP_PaymentAPPID_MEMBER: 'com.razorfish.dev_mexico',
     REACT_APP_PaymentKEY_VISITOR: 'fd931719-5733-4b77-b146-2fd22f9ad2e3',
     REACT_APP_PaymentAPPID_VISITOR: 'com.razorfish.dev_mexico',
-
-    // #Adyen
-    REACT_APP_AdyenOriginKEY:
-      'pub.v2.8015632026961356.aHR0cHM6Ly9zaG9wdWF0LnJveWFsY2FuaW4uY29t.ACjjK1gDH6I6S1VqifJ1ifQlI9uZradDIClbzmdEuDQ',
-    REACT_APP_Adyen_ENV: 'test',
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'uat',
@@ -212,11 +192,6 @@ const env_mx = {
     REACT_APP_PaymentKEY_VISITOR: 'fd931719-5733-4b77-b146-2fd22f9ad2e3',
     REACT_APP_PaymentAPPID_VISITOR: 'com.razorfish.dev_mexico',
 
-    // #Adyen
-    REACT_APP_AdyenOriginKEY:
-      'pub.v2.8015632026961356.aHR0cHM6Ly9zaG9wc3RnLnJveWFsY2FuaW4uY29t.ZJgztbWWD0AsiF8fRONvngA8Ar7WmuEKIoXl_SWOuTQ',
-    REACT_APP_Adyen_ENV: 'test',
-
     // #GA环境配置
     REACT_APP_GA_ENV: 'stg',
 
@@ -247,11 +222,6 @@ const env_mx = {
     REACT_APP_PaymentAPPID_MEMBER: 'com.razorfish.rc_d2c_fgs_mexico_autoship',
     REACT_APP_PaymentKEY_VISITOR: 'e13025c1-e45e-4ead-a18b-782efcee5250',
     REACT_APP_PaymentAPPID_VISITOR: 'com.razorfish.rc_b2b2_mexico',
-
-    // #Adyen
-    REACT_APP_AdyenOriginKEY:
-      'pub.v2.8015632026961356.aHR0cHM6Ly9zaG9wLnJveWFsY2FuaW4ubXg.xep6AFWzN-hmRPnzYfvPE3Yq8mdiB2zq1kNpIVBeujs',
-    REACT_APP_Adyen_ENV: 'live',
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'prd',

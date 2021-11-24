@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import './index.css';
 
 let menuList = [
   {
@@ -86,10 +87,10 @@ class SideMenu extends React.Component {
       menuList.push({
         catogery: 'loyaltyProgramme',
         isShow: Boolean(window.__.env.LOYALTY_PROGRAMME_LINK),
-        icon: <span className="iconfont iconLogoff" />,
+        icon: <span className="iconfont iconLogoff icon-loyaltyProgramme" />,
         langKey: 'account.loyaltyProgramme',
         href: window.__.env.LOYALTY_PROGRAMME_LINK,
-        isHubOuterLink: true
+        isOuterLink: true
       });
     }
   }
@@ -112,19 +113,21 @@ class SideMenu extends React.Component {
               {(txt) => (
                 <>
                   {item.icon}
-                  {item.isHubOuterLink ? (
-                    <DistributeHubLinkOrATag
-                      to={item.url}
-                      href={item.href}
-                      className="ml-2"
-                    >
-                      {txt}
-                    </DistributeHubLinkOrATag>
-                  ) : (
-                    <Link to={item.url} title={txt} alt={txt} className="ml-2">
-                      {txt}
-                    </Link>
-                  )}
+                  <span className="ml-2">
+                    {item.isOuterLink ? (
+                      <a href={item.href} target="_blank">
+                        {txt}
+                      </a>
+                    ) : item.isHubOuterLink ? (
+                      <DistributeHubLinkOrATag to={item.url} href={item.href}>
+                        {txt}
+                      </DistributeHubLinkOrATag>
+                    ) : (
+                      <Link to={item.url} title={txt} alt={txt}>
+                        {txt}
+                      </Link>
+                    )}
+                  </span>
                 </>
               )}
             </FormattedMessage>

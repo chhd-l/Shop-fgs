@@ -28,10 +28,15 @@ import close from './image/close.png';
 import LazyLoad from 'react-lazyload';
 import Rate from '../../components/Rate';
 import WeekCalender from './week/week-calender';
-import { gitDict, postSave, postUpdate, queryDate } from '../../api/felin';
+import {
+  gitDict,
+  postQueryPrice,
+  postSave,
+  postUpdate,
+  queryDate
+} from '../../api/felin';
 import moment from 'moment';
 import LoginButton from '@/components/LoginButton';
-
 import Reviews from './Reviews/Reviews';
 
 const pageLink = window.location.href;
@@ -83,20 +88,17 @@ class Felin extends React.Component {
       ],
       timeList: [
         {
-          time: '15',
+          duration: 15,
           text:
-            'Rapide et facile, échangez avec un expert pour reçevoir ses conseils et commencer le suivi de votre chat.',
-          num: 'FREE'
+            'Rapide et facile, échangez avec un expert pour reçevoir ses conseils et commencer le suivi de votre chat.'
         },
         {
-          time: '30',
-          text: 'Allez plus en détails avec lexpert sélectionné.',
-          num: 'XX EUR'
+          duration: 30,
+          text: 'Allez plus en détails avec lexpert sélectionné.'
         },
         {
-          time: '45',
-          text: 'Prenez le temps de vous offrir une session complète.',
-          num: 'XX EUR'
+          duration: 45,
+          text: 'Prenez le temps de vous offrir une session complète.'
         }
       ],
       activeOne: null,
@@ -210,11 +212,24 @@ class Felin extends React.Component {
     });
   };
   // 跳转第三步
-  handleGotoThree = () => {
-    this.setState({
-      oneShow: false,
-      threeShow: true
+  handleGotoThree = async () => {
+    const { code, context } = await postQueryPrice({
+      expertTypeId: this.state.params.expertTypeId,
+      serviceTypeId: 6
     });
+    if (code === 'K-000000') {
+      let timeList = this.state.timeList.map((item) => {
+        let _temp = context.priceVOs.find(
+          (items) => items.duration === item.duration
+        );
+        return { ...item, ..._temp };
+      });
+      this.setState({
+        timeList,
+        oneShow: false,
+        threeShow: true
+      });
+    }
   };
 
   // 返回第二步
@@ -454,7 +469,7 @@ class Felin extends React.Component {
             <div className="bg-module" />
             <img src={header} alt="" />
             <div className="hd-text-cont">
-              <div className="introduce">
+              <div className="introduce fontw-500">
                 Venez rencontrer nos experts à l'Atelier Félin, une boutique
                 dédiée à la santé et au bien-être de votre chat
               </div>
@@ -669,7 +684,7 @@ class Felin extends React.Component {
               </div>
               <div className="js-between mb16">
                 <div>Prix</div>
-                <div>{this.state.votre.prix}</div>
+                <div>{this.state.votre.prix + ' EUR' || 'FREE'}</div>
               </div>
               <div className="js-between mb16">
                 <div>Date</div>
@@ -702,12 +717,12 @@ class Felin extends React.Component {
                       onClick={() =>
                         this.handleActiveBut(
                           index,
-                          item.time,
-                          item.time,
+                          item.duration,
+                          item.duration,
                           'minutes',
                           'timeIndex',
                           'duree',
-                          item.num,
+                          item.goodsInfoVO.marketPrice,
                           'prix'
                         )
                       }
@@ -721,11 +736,13 @@ class Felin extends React.Component {
                             : '0px 0px 0px 2px #f0f0f0'
                       }}
                     >
-                      <div>{item.time} min</div>
+                      <div>{item.duration} min</div>
                       <div className="list-content">{item.text}</div>
                       <div className="js-between">
                         <div>Prix</div>
-                        <div>{item.num}</div>
+                        <div>
+                          {item.goodsInfoVO?.marketPrice + ' EUR' || 'FREE'}
+                        </div>
                       </div>
                     </li>
                   );
@@ -868,9 +885,7 @@ class Felin extends React.Component {
           >
             <div
               style={{
-                textAlign: 'right',
-                padding: '1.25rem',
-                paddingBottom: '0'
+                textAlign: 'right'
               }}
             >
               <span

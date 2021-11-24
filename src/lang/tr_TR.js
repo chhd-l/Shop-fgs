@@ -140,8 +140,7 @@ const tr_TR = {
   'cart.errorMaxInfo': "Sayı {val}'u geçemez",
   'cart.errorAllProductNumLimit': '{val} sipariş sayısı sınırlıdır.',
   'cart.fullPrice': ' ',
-  'cart.miniCartTitle':
-    'İlk satın alma işleminde% 10 indirim artı otomatik gönderim ile her siparişte% 5 indirim',
+  'cart.miniCartTitle': 'Tüm abonelik siparişlerinizde %10 indirim',
   'cart.totalProduct': '{val} ürün',
   'minicart.totalProduct': '{val} ürün',
   'cart.totalProduct_nounit': '{val} sepette',
@@ -499,7 +498,6 @@ const tr_TR = {
   mailAddress: 'E-posta',
   mandatoryFieldsError: 'Doldurulmamış zorunlu alanlarınız var!',
   menu: 'Menü',
-  miniBasket: 'Tüm abonelik siparişlerinizde %10 indirim',
   MMYY: 'AA / YY',
   modalCancelAllContent:
     'Aşağıdaki tüm teslimatları iptal etmek istediğinizden emin misiniz?',

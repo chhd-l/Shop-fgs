@@ -10,10 +10,7 @@ const env_de = {
     REACT_APP_GA_CURRENCY_CODE: 'EUR',
 
     // #Adyen
-    REACT_APP_Adyen_locale: 'de-DE',
-    REACT_APP_Adyen_country: 'DE',
-    // #adyenKlarnaPayNow,adyenKlarnaPayLater,directEbanking跳转到三方页面的语言
-    REACT_APP_SHOPPER_LOCALE: 'de_DE',
+    REACT_APP_CALENDAR_LOCALE: 'de-DE',
 
     // #onetrust
     REACT_APP_ONTRUST_SRC:
@@ -23,6 +20,7 @@ const env_de = {
 
     // #language
     REACT_APP_LANG: 'de',
+    REACT_APP_HTML_LANG: 'de',
     REACT_APP_NAVIGATOR_LANG: 'de-DE',
     REACT_APP_CURRENCY: 'EUR',
 
@@ -37,9 +35,6 @@ const env_de = {
     REACT_APP_LIMITED_NUM: '20',
     // #商品种类限制
     REACT_APP_LIMITED_CATE_NUM: '100',
-
-    // #货币单位
-    REACT_APP_CURRENCY_TYPE: '3',
 
     // #是否开启promotion
     REACT_APP_IS_PROMOTION: 'true',
@@ -89,11 +84,6 @@ const env_de = {
     // #接口配置
     REACT_APP_BASEURL: 'https://shopuat.466920.com/api',
 
-    // #Adyen
-    REACT_APP_AdyenOriginKEY:
-      'pub.v2.8015632026961356.aHR0cHM6Ly9zaG9wdWF0LjQ2NjkyMC5jb20.q77RJ2MW5gIA3cRvKrL_ExnY97Lq7YQmKm_rwXdUZSE',
-    REACT_APP_Adyen_ENV: 'test',
-
     // #GA环境配置
     REACT_APP_GA_ENV: 'dev',
 
@@ -131,11 +121,6 @@ const env_de = {
     // #GA环境配置
     REACT_APP_GA_ENV: 'sit',
 
-    // #Adyen
-    REACT_APP_AdyenOriginKEY:
-      'pub.v2.8015632026961356.aHR0cHM6Ly9zaG9wc2l0LnJveWFsY2FuaW4uY29t.dFwiVP07vLuJ0MRkzioYExlX4hnaBQnETquTzkjX49g',
-    REACT_APP_Adyen_ENV: 'test',
-
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
       'a78ac3fc-256e-4f7a-a2db-f4b6972214bf-test',
@@ -167,11 +152,6 @@ const env_de = {
     REACT_APP_PaymentKEY_VISITOR: 'fd931719-5733-4b77-b146-2fd22f9ad2e3',
     REACT_APP_PaymentAPPID_VISITOR: 'com.razorfish.dev_mexico',
 
-    // #Adyen
-    REACT_APP_AdyenOriginKEY:
-      'pub.v2.8015632026961356.aHR0cHM6Ly9zaG9wdWF0LnJveWFsY2FuaW4uY29t.ACjjK1gDH6I6S1VqifJ1ifQlI9uZradDIClbzmdEuDQ',
-    REACT_APP_Adyen_ENV: 'test',
-
     // #GA环境配置
     REACT_APP_GA_ENV: 'uat',
 
@@ -198,11 +178,6 @@ const env_de = {
 
     // #接口配置
     REACT_APP_BASEURL: 'https://shopstg.royalcanin.com/api',
-
-    // #Adyen
-    REACT_APP_AdyenOriginKEY:
-      'pub.v2.8015632026961356.aHR0cHM6Ly9zaG9wc3RnLnJveWFsY2FuaW4uY29t.ZJgztbWWD0AsiF8fRONvngA8Ar7WmuEKIoXl_SWOuTQ',
-    REACT_APP_Adyen_ENV: 'test',
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'stg',
@@ -231,11 +206,6 @@ const env_de = {
     // #接口配置
     REACT_APP_BASEURL: 'https://shop.royalcanin.de/api',
 
-    // #Adyen
-    REACT_APP_AdyenOriginKEY:
-      'pub.v2.4116105963663555.aHR0cHM6Ly9zaG9wLnJveWFsY2FuaW4uZGU.3BMa6HlRkpsM4ZMIgm7yJ5M30W8rL3Ccu8ns6K5GVQ8',
-    REACT_APP_Adyen_ENV: 'live',
-
     // #GA环境配置
     REACT_APP_GA_ENV: 'prd',
 
@@ -258,12 +228,6 @@ const env_de = {
 
     // #接口配置
     REACT_APP_BASEURL: 'https://www.shop.royalcanin.de/api',
-
-    // #Adyen
-    REACT_APP_AdyenOriginKEY:
-      'pub.v2.4116105963663555.aHR0cDovL3d3dy5yb3lhbGNhbmluLmNvbQ.O6vgqj5rS3bHzGVTI6PUpzWt9UpulJAIAyhC7BaSPmA',
-
-    REACT_APP_Adyen_ENV: 'live',
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'prd',

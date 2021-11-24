@@ -85,7 +85,8 @@ class Recommendation extends React.Component {
       promotionCodeText: '',
       prescriptionJson: '',
       // secondlist: secondlistArr,
-      showMore: false,
+      showMoreInit: false,
+      showMored: false,
       petType: 1, //0 dog;1 cat
       details: {
         id: '',
@@ -140,19 +141,24 @@ class Recommendation extends React.Component {
     this.helpContentText = {
       title: this.props.intl.messages['recommendation.helpContentText.title'],
       des: this.props.intl.messages['recommendation.helpContentText.des'],
-      emailTitle:
-        this.props.intl.messages['recommendation.helpContentText.emailTitle'],
-      emailDes:
-        this.props.intl.messages['recommendation.helpContentText.emailDes'],
-      emailLink:
-        this.props.intl.messages['recommendation.helpContentText.emailLink'], //俄罗斯是其他的链接
-      phoneTitle:
-        this.props.intl.messages['recommendation.helpContentText.phoneTitle'],
+      emailTitle: this.props.intl.messages[
+        'recommendation.helpContentText.emailTitle'
+      ],
+      emailDes: this.props.intl.messages[
+        'recommendation.helpContentText.emailDes'
+      ],
+      emailLink: this.props.intl.messages[
+        'recommendation.helpContentText.emailLink'
+      ], //俄罗斯是其他的链接
+      phoneTitle: this.props.intl.messages[
+        'recommendation.helpContentText.phoneTitle'
+      ],
       phone: this.props.intl.messages['recommendation.helpContentText.phone'],
       email: this.props.intl.messages['recommendation.helpContentText.email'],
       phoneDes1: `<strong>${this.props.intl.messages['recommendation.helpContentText.phoneDes1']}</strong>`,
-      phoneDes2:
-        this.props.intl.messages['recommendation.helpContentText.phoneDes2']
+      phoneDes2: this.props.intl.messages[
+        'recommendation.helpContentText.phoneDes2'
+      ]
     };
   }
 
@@ -2192,7 +2198,9 @@ class Recommendation extends React.Component {
       },
       () => {
         this.checkoutStock();
-        this.calcIsShowMore();
+        setTimeout(() => {
+          this.calcIsShowMore();
+        }, 0);
       }
     );
     let recommendationInfos = {
@@ -2489,8 +2497,12 @@ class Recommendation extends React.Component {
     });
   };
   checkoutStock() {
-    let { productList, outOfStockProducts, inStockProducts, modalList } =
-      this.state;
+    let {
+      productList,
+      outOfStockProducts,
+      inStockProducts,
+      modalList
+    } = this.state;
     for (let i = 0; i < productList.length; i++) {
       if (
         productList[i].recommendationNumber > productList[i].goodsInfo.stock
@@ -2519,8 +2531,12 @@ class Recommendation extends React.Component {
     );
   }
   async hanldeLoginAddToCart() {
-    let { productList, outOfStockProducts, inStockProducts, modalList } =
-      this.state;
+    let {
+      productList,
+      outOfStockProducts,
+      inStockProducts,
+      modalList
+    } = this.state;
     GABigBreederAddToCar(productList);
     // console.log(outOfStockProducts, inStockProducts, '...1')
     // return
@@ -2555,8 +2571,8 @@ class Recommendation extends React.Component {
             recommendationId:
               this.props.clinicStore.linkClinicRecommendationInfos
                 ?.recommendationId || this.props.clinicStore.linkClinicId,
-            recommendationInfos:
-              this.props.clinicStore.linkClinicRecommendationInfos,
+            recommendationInfos: this.props.clinicStore
+              .linkClinicRecommendationInfos,
             recommendationName:
               this.props.clinicStore.linkClinicRecommendationInfos
                 ?.recommendationName || this.props.clinicStore.linkClinicName
@@ -2584,8 +2600,8 @@ class Recommendation extends React.Component {
             currentUnitPrice: p.goodsInfo.marketPrice,
             goodsInfoFlag: 1,
             periodTypeId: inStockProducts[i].defaultFrequencyId,
-            recommendationInfos:
-              this.props.clinicStore.linkClinicRecommendationInfos,
+            recommendationInfos: this.props.clinicStore
+              .linkClinicRecommendationInfos,
             recommendationId:
               this.props.clinicStore.linkClinicRecommendationInfos
                 ?.recommendationId || this.props.clinicStore.linkClinicId,
@@ -2636,8 +2652,12 @@ class Recommendation extends React.Component {
       localItemRoyal.set('okta-redirectUrl', '/prescription');
     }
     this.setState({ needLogin });
-    let { productList, outOfStockProducts, inStockProducts, modalList } =
-      this.state;
+    let {
+      productList,
+      outOfStockProducts,
+      inStockProducts,
+      modalList
+    } = this.state;
     let totalPrice;
     inStockProducts.map((el) => {
       console.log(el, 'instock');
@@ -2722,8 +2742,12 @@ class Recommendation extends React.Component {
   };
   async hanldeClickSubmit() {
     const { checkoutStore, loginStore, history, clinicStore } = this.props;
-    let { currentModalObj, subDetail, outOfStockProducts, inStockProducts } =
-      this.state;
+    let {
+      currentModalObj,
+      subDetail,
+      outOfStockProducts,
+      inStockProducts
+    } = this.state;
     this.setState({ loading: true, modalShow: false });
     if (currentModalObj.type === 'addToCart') {
       for (let i = 0; i < inStockProducts.length; i++) {
@@ -2906,9 +2930,9 @@ class Recommendation extends React.Component {
     console.log('offsetHeight: ', descriptionDom.offsetHeight);
     if (descriptionDom.scrollHeight > descriptionDom.offsetHeight) {
       console.log('出现了省略号');
-      this.setState({ showMore: true });
+      this.setState({ showMoreInit: true });
     } else {
-      this.setState({ showMore: false });
+      this.setState({ showMoreInit: false });
       console.log('没有出现省略号');
     }
   };
@@ -3044,76 +3068,160 @@ class Recommendation extends React.Component {
             Offrez à votre nouveau compagnon la nutrition adaptée à ses besoins
             spécifiques​
           </p>
+          <div className="triangle-for-mobile"></div>
           {details?.goodsInfos ? (
-            <div className="goods-list-container  m-auto text-center">
-              <ul className="tab-list m-auto">
-                {productList.map((el, index) => (
-                  <li
-                    onClick={() => this.tabChange(productList, index)}
-                    className={`text-center ${
-                      activeIndex == index ? 'active' : ''
-                    }`}
-                    style={{
-                      cursor: 'pointer',
-                      display: 'inline-block',
-                      padding: '0 1rem'
-                    }}
-                  >
-                    <img className="tab-img" src={el.images[0].artworkUrl} />
-                    <div>{el.goodsInfo.goodsInfoName}</div>
-                  </li>
-                ))}
-              </ul>
-              <div className="goods-container rc-layout-container rc-five-column">
-                <div className="goods-imgs rc-double-width rc-column">
-                  <ImageMagnifier_fr
-                    sizeList={details.sizeList || []}
-                    video={details.goodsVideo}
-                    images={details.images || []}
-                    minImg={details.goodsImg}
-                    maxImg={details.goodsImg}
-                    imgAlt={details?.goodsName}
-                    config={this.state.imageMagnifierCfg?.config}
-                    taggingForText={details.taggingForTextAtPDP}
-                    taggingForImage={details.taggingForImageAtPDP}
-                    // spuImages={[]}
-                    spuImages={
-                      filterImages.length ? filterImages : details.images
-                    }
-                  />
-                </div>
-                <div className="goods-info  rc-triple-width rc-column text-left">
-                  <h2 title={details?.goodsInfo?.goodsInfoName}>
-                    {details?.goodsInfo?.goodsInfoName}
-                  </h2>
-                  <p className="description">
-                    {details?.goodsInfos[0]?.goods.goodsSubtitle}
-                    的角度讲活动结束精神抖擞结合实际都会上看记录卡拉卡拉卡拉卡拉看掉了上课的索拉卡双联单控实力坑爹双联单控塑料袋
-                    {/* Donner le meilleur départ dans la vie à votre chaton commence
+            <div className="background-container">
+              <div className="goods-list-container  m-auto text-center">
+                <ul className="tab-list m-auto">
+                  {productList.map((el, index) => (
+                    <li
+                      onClick={() => this.tabChange(productList, index)}
+                      className={`text-center ${
+                        activeIndex == index ? 'active' : ''
+                      }`}
+                      style={{
+                        cursor: 'pointer',
+                        display: 'inline-block',
+                        padding: '0 1rem'
+                      }}
+                    >
+                      <img className="tab-img" src={el.images[0].artworkUrl} />
+                      <div>{el.goodsInfo.goodsInfoName}</div>
+                    </li>
+                  ))}
+                </ul>
+                <div className="goods-container rc-layout-container rc-five-column">
+                  <div className="goods-imgs rc-double-width rc-column">
+                    <ImageMagnifier_fr
+                      sizeList={details.sizeList || []}
+                      video={details.goodsVideo}
+                      images={details.images || []}
+                      minImg={details.goodsImg}
+                      maxImg={details.goodsImg}
+                      imgAlt={details?.goodsName}
+                      config={this.state.imageMagnifierCfg?.config}
+                      taggingForText={details.taggingForTextAtPDP}
+                      taggingForImage={details.taggingForImageAtPDP}
+                      // spuImages={[]}
+                      spuImages={
+                        filterImages.length ? filterImages : details.images
+                      }
+                    />
+                  </div>
+                  <div className="goods-info  rc-triple-width rc-column text-left">
+                    <h2 title={details?.goodsInfo?.goodsInfoName}>
+                      {details?.goodsInfo?.goodsInfoName}
+                    </h2>
+                    <p
+                      className="description"
+                      style={{
+                        webkitLineClamp: !this.state.showMored ? '2' : 'inherit'
+                      }}
+                    >
+                      {details?.goodsInfos[0]?.goods.goodsSubtitle}
+                      {/* Donner le meilleur départ dans la vie à votre chaton commence
                   par une bonne nutrition. En lui apportant les nutriments
                   essentiels dont il a besoin… */}
-                    <span className="show-more">
-                      <span>...</span>
                       <span
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => {
-                          () => {};
+                        className="show-more"
+                        style={{
+                          display: this.state.showMoreInit ? 'block' : 'none'
                         }}
                       >
-                        Show More
+                        <span
+                          style={{
+                            display: this.state.showMored ? 'none' : 'inline'
+                          }}
+                        >
+                          ...
+                        </span>
+                        <span
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => {
+                            console.info('.......', this.state.showMored);
+                            this.setState(
+                              { showMored: !this.state.showMored },
+                              () => {
+                                console.info(
+                                  '.........showMored',
+                                  this.state.showMored
+                                );
+                              }
+                            );
+                          }}
+                        >
+                          {this.state.showMored ? 'Range ça' : 'Voir plus'}
+                        </span>
                       </span>
-                    </span>
-                  </p>
-                  <div className="price">
-                    <FormattedMessage id="from" />{' '}
-                    {formatMoney(details.goodsInfo.subscriptionPrice)}{' '}
-                    <FormattedMessage id="to" />{' '}
-                    {formatMoney(details.goodsInfo.marketPrice)}
+                    </p>
+                    <div className="price">
+                      <FormattedMessage id="from" />{' '}
+                      {formatMoney(details.goodsInfo.subscriptionPrice)}{' '}
+                      <FormattedMessage id="to" />{' '}
+                      {formatMoney(details.goodsInfo.marketPrice)}
+                    </div>
+                    {/* <button>Ajouter au panier</button> */}
+                    <button
+                      onClick={this.addCart}
+                      className={`rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile md-up`}
+                      /*  ${ addToCartLoading ? 'ui-btn-loading' : ''} 
+              ${btnStatus ? '' : 'rc-btn-solid-disabled'}*/
+                      // onClick={}
+                    >
+                      <span className="fa rc-icon rc-cart--xs rc-brand3" />
+                      <span className="default-txt">
+                        <FormattedMessage id="details.addToCart" />
+                      </span>
+                    </button>
+                    <p className=" md-up">
+                      Livraison en 3 jours ouvrés offerte
+                    </p>
+                    <div className="advantage-container">
+                      <h5>Découvrez les avantages du CLUB Royal Canin</h5>
+                      <p>
+                        Un abonnement{' '}
+                        <span style={{ color: '#333' }}>
+                          flexible et sans engagement
+                        </span>
+                      </p>
+                      <div className="advantage-list">
+                        {advantageList.map((advantages) => (
+                          <div className="rc-layout-container rc-two-colum">
+                            {advantages.map((el) => (
+                              <div
+                                className="rc-column"
+                                style={{
+                                  display: 'flex',
+                                  alignItems: 'center'
+                                }}
+                              >
+                                {el.img && (
+                                  <img
+                                    style={{ width: '60px', height: '60px' }}
+                                    src={el.img}
+                                  />
+                                )}
+                                {/* <div style={{width:'60px',height:'60px',background:`url(${el.img})`,backgroundSize:'250%',backgroundRepeat:'no-repeat',backgroundPosition:'center'}}></div> */}
+                                <span
+                                  style={{ display: 'inline-block', flex: 1 }}
+                                >
+                                  {el.text}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        ))}
+                      </div>
+                      <p style={{ marginTop: '0.75rem' }}>
+                        <sup>1</sup> Cumulable avec l'offre de bienvenue
+                      </p>
+                    </div>
                   </div>
-                  {/* <button>Ajouter au panier</button> */}
+                </div>
+                <div className="md-down add-cart-for-mobile">
                   <button
                     onClick={this.addCart}
-                    className={`rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile md-up`}
+                    className={`rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile`}
                     /*  ${ addToCartLoading ? 'ui-btn-loading' : ''} 
               ${btnStatus ? '' : 'rc-btn-solid-disabled'}*/
                     // onClick={}
@@ -3123,60 +3231,8 @@ class Recommendation extends React.Component {
                       <FormattedMessage id="details.addToCart" />
                     </span>
                   </button>
-                  <p className=" md-up">Livraison en 3 jours ouvrés offerte</p>
-                  <div className="advantage-container">
-                    <h5>Découvrez les avantages du CLUB Royal Canin</h5>
-                    <p>
-                      Un abonnement{' '}
-                      <span style={{ color: '#333' }}>
-                        flexible et sans engagement
-                      </span>
-                    </p>
-                    <div className="advantage-list">
-                      {advantageList.map((advantages) => (
-                        <div className="rc-layout-container rc-two-colum">
-                          {advantages.map((el) => (
-                            <div
-                              className="rc-column"
-                              style={{ display: 'flex', alignItems: 'center' }}
-                            >
-                              {el.img && (
-                                <img
-                                  style={{ width: '60px', height: '60px' }}
-                                  src={el.img}
-                                />
-                              )}
-                              {/* <div style={{width:'60px',height:'60px',background:`url(${el.img})`,backgroundSize:'250%',backgroundRepeat:'no-repeat',backgroundPosition:'center'}}></div> */}
-                              <span
-                                style={{ display: 'inline-block', flex: 1 }}
-                              >
-                                {el.text}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-                      ))}
-                    </div>
-                    <p style={{ marginTop: '0.75rem' }}>
-                      <sup>1</sup> Cumulable avec l'offre de bienvenue
-                    </p>
-                  </div>
+                  <p>Livraison en 3 jours ouvrés offerte</p>
                 </div>
-              </div>
-              <div className="md-down add-cart-for-mobile">
-                <button
-                  onClick={this.addCart}
-                  className={`rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile`}
-                  /*  ${ addToCartLoading ? 'ui-btn-loading' : ''} 
-              ${btnStatus ? '' : 'rc-btn-solid-disabled'}*/
-                  // onClick={}
-                >
-                  <span className="fa rc-icon rc-cart--xs rc-brand3" />
-                  <span className="default-txt">
-                    <FormattedMessage id="details.addToCart" />
-                  </span>
-                </button>
-                <p>Livraison en 3 jours ouvrés offerte</p>
               </div>
             </div>
           ) : null}
