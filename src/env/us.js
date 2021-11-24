@@ -18,6 +18,7 @@ const env = {
 
     // #language
     REACT_APP_LANG: 'en',
+    REACT_APP_HTML_LANG: 'en',
     REACT_APP_NAVIGATOR_LANG: 'en',
     REACT_APP_CURRENCY: 'USD',
 
@@ -32,9 +33,6 @@ const env = {
     REACT_APP_LIMITED_NUM: '20',
     // #商品种类限制
     REACT_APP_LIMITED_CATE_NUM: '100',
-
-    // #货币单位
-    REACT_APP_CURRENCY_TYPE: '3',
 
     // #是否开启promotion
     REACT_APP_IS_PROMOTION: 'true',
