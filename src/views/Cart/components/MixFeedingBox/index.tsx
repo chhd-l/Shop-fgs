@@ -18,7 +18,8 @@ const MixFeedingBox = function ({
   goodsInfoFlag,
   periodTypeId,
   isLogin,
-  update
+  update,
+  beforeUpdate
 }) {
   const History = useHistory();
   const [selectedSku, setSelectedSku] = useState(null);
@@ -194,14 +195,12 @@ const MixFeedingBox = function ({
                     className="rc-btn rc-btn--two  mt-4"
                     style={{ fontWeight: 400, color: '#e2001a' }}
                     onClick={async (e) => {
+                      beforeUpdate()
                       e.preventDefault();
                       mixFeedingData.goodsInfoFlag = goodsInfoFlag;
                       mixFeedingData.periodTypeId = periodTypeId;
-                      isLogin
-                        ? await addToLoginCartData(mixFeedingData)
-                        : await addToUnloginCartData(mixFeedingData);
+                      isLogin? await addToLoginCartData(mixFeedingData): await addToUnloginCartData(mixFeedingData);
                       update()
-                      // History.push('/cart')
                     }}
                   >
                     <FormattedMessage id="goToCart" />

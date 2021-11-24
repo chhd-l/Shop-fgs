@@ -26,6 +26,7 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const checkoutStore = stores.checkoutStore;
 const configStore = stores.configStore;
+const clinicStore = stores.clinicStore;
 
 /**
  *
@@ -1224,6 +1225,7 @@ export async function addToLoginCartData(product) {
     });
     await checkoutStore.updateLoginCart();
   } catch (e) {
+    console.log('hahaha1111', e);
     // this.setState({ buttonLoading: false });
   }
   // }
