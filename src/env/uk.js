@@ -58,9 +58,6 @@ const env = {
 
     REACT_APP_HIDE_ACCOUNT_COMMUNICATION_MESSENGERS: '1',
 
-    // #PLP cover style
-    REACT_APP_PLP_STYLE: 'layout-global',
-
     // #HUB_GA
     REACT_APP_HUB_GA: '1',
 
@@ -256,9 +253,6 @@ const env = {
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/uk/shop',
 
-    // #根节点自定义样式名
-    REACT_APP_ROOT_CLS: 'ui-custom-hub',
-
     REACT_APP_HUB: '1',
 
     // #delete接口前缀
@@ -300,9 +294,6 @@ const env = {
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/uk/shop',
-
-    // #根节点自定义样式名
-    REACT_APP_ROOT_CLS: 'ui-custom-hub',
 
     REACT_APP_HUB: '1',
 

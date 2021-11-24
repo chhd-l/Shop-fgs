@@ -52,9 +52,6 @@ const env = {
     // #下单流程是否需要clinic
     REACT_APP_CHECKOUT_WITH_CLINIC: 'false',
 
-    // #PLP cover style
-    REACT_APP_PLP_STYLE: 'layout-global',
-
     // #PDP RATING SETTING
     REACT_APP_PDP_RATING_VISIBLE: '0',
 
@@ -262,9 +259,6 @@ const env = {
 
     REACT_APP_HUB_URLPREFIX: 'https://www.royalcanin.com/tr',
 
-    // #根节点自定义样式名
-    REACT_APP_ROOT_CLS: 'ui-custom-hub',
-
     REACT_APP_HUB: '1',
 
     // #HUB_GA
@@ -309,9 +303,6 @@ const env = {
     // #delete接口前缀
     REACT_APP_HUB_APIURL: 'https://stgwedding.royalcanin.com/tr/api',
 
-    // #根节点自定义样式名
-    REACT_APP_ROOT_CLS: 'ui-custom-hub',
-
     REACT_APP_HUB: '1',
 
     // #HUB_GA
@@ -355,9 +346,6 @@ const env = {
 
     // #delete接口前缀
     REACT_APP_HUB_APIURL: 'https://uatwedding.royalcanin.com/tr/api',
-
-    // #根节点自定义样式名
-    REACT_APP_ROOT_CLS: 'ui-custom-hub',
 
     REACT_APP_HUB: '1',
 

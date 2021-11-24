@@ -48,9 +48,6 @@ const env_fr = {
     // #下单流程是否需要clinic
     REACT_APP_CHECKOUT_WITH_CLINIC: 'false',
 
-    // #PLP cover style
-    REACT_APP_PLP_STYLE: 'layout-global',
-
     // #PDP RATING SETTING
     REACT_APP_PDP_RATING_VISIBLE: '0',
 
@@ -183,9 +180,6 @@ const env_fr = {
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/core/shop',
 
-    // #根节点自定义样式名
-    REACT_APP_ROOT_CLS: 'ui-custom-hub',
-
     REACT_APP_HUB: '1',
 
     // #delete接口前缀
@@ -279,9 +273,6 @@ const env_fr = {
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/core/shop',
 
-    // #根节点自定义样式名
-    REACT_APP_ROOT_CLS: 'ui-custom-hub',
-
     REACT_APP_HUB: '1',
 
     // #delete接口前缀
@@ -369,9 +360,6 @@ const env_fr = {
 
     // #HUB_GA
     REACT_APP_HUB_GA: '1',
-
-    // #根节点自定义样式名
-    REACT_APP_ROOT_CLS: 'ui-custom-hub',
 
     REACT_APP_HUB: '1',
 

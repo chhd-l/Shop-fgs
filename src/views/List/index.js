@@ -42,6 +42,7 @@ import getTechnologyOrBreedsAttr, {
 } from '@/lib/get-technology-or-breedsAttr';
 import loadable from '@/lib/loadable-component';
 import SelectFilters from './modules/SelectFilters';
+import cn from 'classnames';
 
 import './index.less';
 
@@ -54,10 +55,11 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =
   'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
-const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-  /\/$/,
-  ''
-);
+const urlPrefix =
+  `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+    /\/$/,
+    ''
+  );
 
 const filterAttrValue = (list, keyWords) => {
   return (list || [])
@@ -1630,8 +1632,9 @@ class List extends React.Component {
 
   stickyMobileRefineBar() {
     if (isMobilePhone) {
-      var t = document?.getElementById('refineBar')?.getBoundingClientRect()
-        .top;
+      var t = document
+        ?.getElementById('refineBar')
+        ?.getBoundingClientRect().top;
       window.addEventListener('scroll', () => {
         var choosedVal = document.querySelector('.filter-value'); // 有选择的时候才操作
         if (window.pageYOffset + 33 >= t && choosedVal) {
@@ -2094,14 +2097,13 @@ class List extends React.Component {
                               : productList.map((item, i) => {
                                   return (
                                     <div
-                                      className={`${
-                                        window.__.env.REACT_APP_PLP_STYLE ===
-                                        'layout-global'
-                                          ? 'col-12 pr-0 pl-md-2 pr-md-2'
-                                          : 'col-6 pl-2 pr-2'
-                                      } ${
-                                        hiddenFilter ? 'col-md-3' : 'col-md-4'
-                                      } mb-3 pl-0 BoxFitMonileScreen`}
+                                      className={cn(
+                                        `col-12 pr-0 pl-md-2 pr-md-2 mb-3 pl-0 BoxFitMonileScreen`,
+                                        `${
+                                          hiddenFilter ? 'col-md-3' : 'col-md-4'
+                                        }`
+                                      )}
+                                      key={i}
                                     >
                                       <PLPCover
                                         item={item}
