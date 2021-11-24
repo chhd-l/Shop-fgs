@@ -9,9 +9,6 @@ const env = {
     REACT_APP_GA_COUNTRY: 'UK',
     REACT_APP_GA_CURRENCY_CODE: 'GBP',
 
-    // #Adyen
-    REACT_APP_Adyen_country: 'GB',
-
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
       '8923767a-c9c8-4c36-ae5f-97af6af42bdb-test',
@@ -124,12 +121,7 @@ const env = {
     REACT_APP_HOMEPAGE: '/uk',
 
     // #bazaarVoice环境配置
-    REACT_APP_BAZAARVOICE_ENV: 'staging',
-
-    // #Adyen
-    REACT_APP_AdyenOriginKEY:
-      'pub.v2.8015632026961356.aHR0cHM6Ly9zaG9wc2l0LnJveWFsY2FuaW4uY29t.dFwiVP07vLuJ0MRkzioYExlX4hnaBQnETquTzkjX49g',
-    REACT_APP_Adyen_ENV: 'test'
+    REACT_APP_BAZAARVOICE_ENV: 'staging'
   },
   shopuat: {
     // #okta
@@ -155,12 +147,7 @@ const env = {
     REACT_APP_HOMEPAGE: '/uk',
 
     // #bazaarVoice环境配置
-    REACT_APP_BAZAARVOICE_ENV: 'staging',
-
-    // #Adyen
-    REACT_APP_AdyenOriginKEY:
-      'pub.v2.8015632026961356.aHR0cHM6Ly9zaG9wdWF0LnJveWFsY2FuaW4uY29t.ACjjK1gDH6I6S1VqifJ1ifQlI9uZradDIClbzmdEuDQ',
-    REACT_APP_Adyen_ENV: 'test'
+    REACT_APP_BAZAARVOICE_ENV: 'staging'
   },
   shopstg: {
     // #okta
@@ -186,12 +173,7 @@ const env = {
     REACT_APP_HOMEPAGE: '/uk',
 
     // #bazaarVoice环境配置
-    REACT_APP_BAZAARVOICE_ENV: 'staging',
-
-    // #Adyen
-    REACT_APP_AdyenOriginKEY:
-      'pub.v2.8015632026961356.aHR0cHM6Ly9zaG9wc3RnLnJveWFsY2FuaW4uY29t.ZJgztbWWD0AsiF8fRONvngA8Ar7WmuEKIoXl_SWOuTQ',
-    REACT_APP_Adyen_ENV: 'test'
+    REACT_APP_BAZAARVOICE_ENV: 'staging'
   },
   production: {
     // #okta
@@ -241,11 +223,6 @@ const env = {
     // #GA环境配置
     REACT_APP_GA_ENV: 'stg',
 
-    // #Adyen
-    REACT_APP_AdyenOriginKEY:
-      'pub.v2.8015632026961356.aHR0cHM6Ly9zdGd3ZWRkaW5nLnJveWFsY2FuaW4uY29t.85XdEx9CVlOgIcsh4wbG_at50lHOt-Pp-c87g6IJMaE',
-    REACT_APP_Adyen_ENV: 'test',
-
     // #mars global footer
     REACT_APP_MARS_FOOTER:
       'https://footer.mars.com/js/footer.js.aspx?royalcanin-com-uk',
@@ -282,11 +259,6 @@ const env = {
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'uat',
-
-    // #Adyen
-    REACT_APP_AdyenOriginKEY:
-      'pub.v2.8015632026961356.aHR0cHM6Ly91YXR3ZWRkaW5nLnJveWFsY2FuaW4uY29t.6fzWHm5A89YXisx2sZdrr_qOHKAdvji6rOXcwdB_lTA',
-    REACT_APP_Adyen_ENV: 'test',
 
     // #mars global footer
     REACT_APP_MARS_FOOTER:

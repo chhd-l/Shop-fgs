@@ -2,7 +2,7 @@ import React from 'react';
 import { loadJS } from '@/utils/utils';
 import translations from './translations';
 import { inject, observer } from 'mobx-react';
-const sessionItemRoyal = window.__.sessionItemRoyal;
+import getAdyenConf from '@/lib/get-adyen-conf';
 
 @inject('paymentStore')
 @observer
@@ -11,8 +11,16 @@ class Adyen3DForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      action: {}
+      action: {},
+      adyenOriginKeyConf: null
     };
+  }
+  componentDidMount() {
+    getAdyenConf().then((res) => {
+      this.setState({
+        adyenOriginKeyConf: res
+      });
+    });
   }
   static getDerivedStateFromProps(props, state) {
     const { action } = props;
@@ -23,16 +31,16 @@ class Adyen3DForm extends React.Component {
     }
   }
   initForm(action) {
+    const { adyenOriginKeyConf } = this.state;
     loadJS({
-      url:
-        'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
+      url: 'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
       callback: function () {
         if (!!window.AdyenCheckout) {
           const AdyenCheckout = window.AdyenCheckout;
           const checkout = new AdyenCheckout({
-            environment: window.__.env.REACT_APP_Adyen_ENV,
-            originKey: window.__.env.REACT_APP_AdyenOriginKEY,
-            locale: window.__.env.REACT_APP_Adyen_locale,
+            environment: adyenOriginKeyConf?.env,
+            originKey: adyenOriginKeyConf?.originKey,
+            locale: adyenOriginKeyConf?.locale,
             translations
           });
 

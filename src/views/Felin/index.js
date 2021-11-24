@@ -1114,7 +1114,7 @@ export default class Felin extends React.Component {
                             <Calendar
                               value={this.state.currentDate}
                               calendarType="us"
-                              locale={window.__.env.REACT_APP_Adyen_locale}
+                              locale={window.__.env.REACT_APP_CALENDAR_LOCALE}
                               view="month"
                               onViewChange={() => {
                                 console.log(111);

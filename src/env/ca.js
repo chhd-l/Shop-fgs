@@ -12,9 +12,6 @@ const env = {
     REACT_APP_GA_COUNTRY: 'US',
     REACT_APP_GA_CURRENCY_CODE: 'USD',
 
-    // #Adyen
-    REACT_APP_Adyen_country: 'US',
-
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT: '',
     REACT_APP_ONTRUST_STYLE: '',

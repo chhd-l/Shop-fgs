@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './AdyenOxxoModal.css';
 import { FormattedMessage } from 'react-intl';
 import { loadJS } from '@/utils/utils';
+import getAdyenConf from '@/lib/get-adyen-conf';
 
 export default class AdyenOxxoModal extends Component {
   static defaultProps = {
@@ -14,17 +15,18 @@ export default class AdyenOxxoModal extends Component {
   close = () => {
     this.props.close();
   };
-  presentVoucher(action) {
+  async presentVoucher(action) {
+    const adyenOriginKeyConf = await getAdyenConf();
     loadJS({
       url: 'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
       callback: function () {
         if (!!window.AdyenCheckout) {
           const AdyenCheckout = window.AdyenCheckout;
           const checkout = new AdyenCheckout({
-            environment: window.__.env.REACT_APP_Adyen_ENV,
-            originKey: window.__.env.REACT_APP_AdyenOriginKEY,
-            locale: window.__.env.REACT_APP_Adyen_locale,
-            shopperLocale: window.__.env.REACT_APP_SHOPPER_LOCALE
+            environment: adyenOriginKeyConf?.env,
+            originKey: adyenOriginKeyConf?.originKey,
+            locale: adyenOriginKeyConf?.locale,
+            shopperLocale: adyenOriginKeyConf?.shopperLocale
           });
 
           //Present the voucher

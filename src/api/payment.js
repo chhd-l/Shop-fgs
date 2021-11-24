@@ -37,7 +37,8 @@ const api = {
   dimensionsByPackage: '/pick-up/dimensionsByPackage', // 合并包裹
   confirmAndCommitFelin: `/${window.__.env.REACT_APP_STOREID}/feline/checkout`, //felin checkout
   repayFelin: '/feline/repay', //felin repay
-  getPaymentMethodV2: `/payment-method/query-by-StoreId/${window.__.env.REACT_APP_STOREID}`
+  getPaymentMethodV2: `/payment-method/query-by-StoreId/${window.__.env.REACT_APP_STOREID}`,
+  adyenOriginClientKey: `/${window.__.env.REACT_APP_STOREID}/adyenPay/originClientKey`
 };
 
 export default api;
@@ -281,5 +282,12 @@ export function getPaymentMethodV2(parameter) {
     url: api.getPaymentMethodV2,
     method: 'get',
     params: parameter
+  });
+}
+
+export function fetchAdyenOriginClientKey() {
+  return axios({
+    url: api.adyenOriginClientKey,
+    method: 'get'
   });
 }
