@@ -53,10 +53,9 @@ if (
 //   document.getElementsByTagName('head')[0].appendChild(linkTag);
 // }
 
-
 dynamicLoadCss(window.__.env.REACT_APP_ONTRUST_STYLE);
 
 if (window.__.env.REACT_APP_HUB === '1') {
   let dom = document.querySelector('#root');
-  dom.className += ` ${window.__.env.REACT_APP_ROOT_CLS}`;
+  dom.className += ' ui-custom-hub';
 }

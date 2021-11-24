@@ -18,6 +18,7 @@ const env = {
 
     // #language
     REACT_APP_LANG: 'se',
+    REACT_APP_HTML_LANG: 'se',
     REACT_APP_NAVIGATOR_LANG: 'sv',
     REACT_APP_CURRENCY: 'SEK',
 
@@ -32,9 +33,6 @@ const env = {
     REACT_APP_LIMITED_NUM: '20',
     // #商品种类限制
     REACT_APP_LIMITED_CATE_NUM: '100',
-
-    // #货币单位
-    REACT_APP_CURRENCY_TYPE: '3',
 
     // #是否开启promotion
     REACT_APP_IS_PROMOTION: 'true',
@@ -55,9 +53,6 @@ const env = {
     REACT_APP_HIDE_ACCOUNT_BILLING_ADDR: '1',
 
     REACT_APP_HIDE_ACCOUNT_COMMUNICATION_MESSENGERS: '1',
-
-    // #PLP cover style
-    REACT_APP_PLP_STYLE: 'layout-global',
 
     // #HUB_GA
     REACT_APP_HUB_GA: '1',

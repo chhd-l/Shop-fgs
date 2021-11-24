@@ -884,7 +884,6 @@ const en_US = {
   manage: 'Hantera',
   mandatoryFieldsError: 'You have mandatory fields not filled out!',
   menu: 'Menu',
-  miniBasket: 'Mini basket',
   'mixed Breed': 'mixed Breed',
   'Mixed Breed': 'Mixed Breed',
   MMYY: 'MM/YY',

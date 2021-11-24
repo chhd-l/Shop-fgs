@@ -564,7 +564,6 @@ const de_DE = {
   manage: 'Verwalten',
   mandatoryFieldsError: 'Sie haben Pflichtfelder nicht ausgefüllt!',
   menu: 'Menü',
-  miniBasket: 'Minikorb',
   'mixed Breed': 'gemischte Rasse',
   'Mixed Breed': 'Gemischte Rasse',
   MMYY: 'MM / JJ',

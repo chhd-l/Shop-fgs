@@ -5,10 +5,10 @@ const env_fr = {
 
     // #Adyen
     REACT_APP_Adyen_locale: 'fr-FR',
-    REACT_APP_Adyen_country: 'FR',
+    REACT_APP_Adyen_country: 'FR', //在adyen优化后，会废弃
 
     // #GA环境配置
-    REACT_APP_GA_GTMID: 'GTM-PMW3VKL',
+    REACT_APP_GA_GTMID: 'GTM-PMW3VKL', //弃用，向小利确认，看GA插码被注释了
     REACT_APP_GTM_SITE_ID: 'RCGlobalPCO1',
     REACT_APP_GA_COUNTRY: 'FR',
     REACT_APP_GA_CURRENCY_CODE: 'EUR',
@@ -31,11 +31,9 @@ const env_fr = {
     // #商品种类限制
     REACT_APP_LIMITED_CATE_NUM: '100',
 
-    // #货币单位
-    REACT_APP_CURRENCY_TYPE: '3',
-
     // #language
     REACT_APP_LANG: 'fr',
+    REACT_APP_HTML_LANG: 'fr',
     REACT_APP_NAVIGATOR_LANG: 'fr',
     REACT_APP_CURRENCY: 'EUR',
 
@@ -49,9 +47,6 @@ const env_fr = {
 
     // #下单流程是否需要clinic
     REACT_APP_CHECKOUT_WITH_CLINIC: 'false',
-
-    // #PLP cover style
-    REACT_APP_PLP_STYLE: 'layout-global',
 
     // #PDP RATING SETTING
     REACT_APP_PDP_RATING_VISIBLE: '0',
@@ -188,9 +183,6 @@ const env_fr = {
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/fr/shop',
 
-    // #根节点自定义样式名
-    REACT_APP_ROOT_CLS: 'ui-custom-hub',
-
     REACT_APP_HUB: '1',
 
     // #delete接口前缀
@@ -284,9 +276,6 @@ const env_fr = {
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/fr/shop',
 
-    // #根节点自定义样式名
-    REACT_APP_ROOT_CLS: 'ui-custom-hub',
-
     REACT_APP_HUB: '1',
 
     // #delete接口前缀
@@ -374,9 +363,6 @@ const env_fr = {
 
     // #HUB_GA
     REACT_APP_HUB_GA: '1',
-
-    // #根节点自定义样式名
-    REACT_APP_ROOT_CLS: 'ui-custom-hub',
 
     REACT_APP_HUB: '1',
 
