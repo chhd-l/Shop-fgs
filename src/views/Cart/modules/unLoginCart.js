@@ -970,6 +970,9 @@ class UnLoginCart extends React.Component {
               mixFeedingData={mixFeedings[index]}
               goodsInfoFlag={pitem.goodsInfoFlag}
               periodTypeId={pitem.periodTypeId}
+              beforeUpdate={() => {
+                this.setState({ checkoutLoading: true });
+              }}
               update={() => {
                 this.setCartData({ initPage: true });
               }}
