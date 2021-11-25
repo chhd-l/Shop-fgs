@@ -21,13 +21,7 @@ class CartSurvey extends React.Component {
   }
 
   async componentDidMount() {
-    this.setState({
-      checkedBox: Boolean(sessionItemRoyal.get('rc-clicked-surveyId'))
-    });
-    await this.querySurveyContent();
-    if (this.state.surveyContent?.isShow && !this.state.checkedBox) {
-      await this.recordSurveyReview();
-    }
+    await this.initSurveyPanel();
   }
 
   get isLogin() {
@@ -38,27 +32,30 @@ class CartSurvey extends React.Component {
     return this.props.loginStore.userInfo;
   }
 
-  //获取 survey content 和是否可以展示
-  async querySurveyContent() {
+  async initSurveyPanel() {
     try {
+      //获取 survey content 和会员是否可以看到survey
       const res = await querySurveyContent({
         storeId: window.__.env.REACT_APP_STOREID,
         customerId: this.isLogin ? this.userInfo.customerId : ''
       });
+      const surveyContent = res?.context;
       this.setState({
-        surveyContent: res?.context
+        surveyContent: surveyContent,
+        checkedBox:
+          sessionItemRoyal.get('rc-clicked-surveyId') === surveyContent?.id
       });
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  //统计 survey 1 review
-  async recordSurveyReview() {
-    try {
-      await recordSurveyReview({ id: this.state.surveyContent.id });
-    } catch (e) {
-      console.log(e);
+      if (
+        surveyContent?.id &&
+        surveyContent?.isShow &&
+        sessionItemRoyal.get('rc-review-surveyId') !== surveyContent?.id
+      ) {
+        //如果可以展示并且当前survey没有review,统计 survey 1 review
+        await recordSurveyReview({ id: surveyContent.id });
+        sessionItemRoyal.set('rc-review-surveyId', surveyContent.id);
+      }
+    } catch (err) {
+      console.log(err);
     }
   }
 
