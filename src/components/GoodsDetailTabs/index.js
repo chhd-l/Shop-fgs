@@ -3,6 +3,7 @@ import { formatMoney, getDeviceType } from '@/utils/utils';
 import { FormattedMessage, injectIntl, useIntl } from 'react-intl';
 import LazyLoad from 'react-lazyload';
 
+import mixFeedingIcon from './image/mixFeeding_icon.png';
 import iconsixnew from './image/iconsixnew.png';
 import phoneicon from './image/phoneicon@4x.png';
 import gifticon from './image/pictogifts@4x.png';
@@ -460,9 +461,8 @@ const GoodsDetailTabs = function (props) {
     );
 
     let packProducts = ['BP04', 'BP07', 'BP06', 'BP05', 'BP02', 'BP01', 'BP03'];
-    let goodsNo = location.pathname.split('-')[
-      location.pathname.split('-').length - 1
-    ];
+    let goodsNo =
+      location.pathname.split('-')[location.pathname.split('-').length - 1];
     tmpGoodsDescriptionDetailList = tmpGoodsDescriptionDetailList
       .map((g) => {
         let ret = g.content;
@@ -605,6 +605,59 @@ const GoodsDetailTabs = function (props) {
           '><div class="inherit-fontsize rc-body rc-padding-top--xs children-nomargin"><p>Get your exclusive Royal Canin Club perks, including access to a Royal Canin Advisor</p></div></div></div></div></div>'
       });
     }
+
+    // 俄罗斯需添加 一个 tab
+    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+      const dom = `<div class='mixed-Feeding-box'>
+          <div class='rc-margin-bottom--md'>
+            <h2 class='mixed-Feeding-title rc-beta'>MIXED FEEDING</h2>
+          </div>
+          <h3 class='mixed-Feeding-title2 rc-beta'>
+            Give your pet the best of wet and dry food
+          </h3>
+
+          <p class='mixed-Feeding-text rc-intro rc-margin-bottom--none text-center d-md-block d-none'>Mixed feeding involves incorporating both Dry and Wet food into your pet's diet. While both types of food are nutritionally complete and
+            balanced on their own, a regular diet of dry and wet food is a great way for them to obtain the unique complementary benefits of each.
+          </p>
+           <div class='rc-margin-bottom--md rc-padding--sm'>
+            <h3 class='rc-beta'>Benefits of mixed feeding</h3>
+          </div>
+          <div class='mixed-Feeding-content'>
+            <div class='mixed-Feeding-content-item'>
+              <h3 class='mixed-Feeding-title'>ROYAL CANIN® Dry Food</h3>
+              <h4 >Extra benefits</h4>
+              <div class='mixed-Feeding-content-list'>
+                <li>Oral care</li>
+                <li>Addition of certain special nutrients</li>
+              </div>
+            </div>
+            <div class='mixed-Feeding-content-item rc-text--center'>
+              <LazyLoad>
+                <img
+                  src=${mixFeedingIcon}
+                  alt=''
+                  class="m-auto rc-margin--none--desktop rc-width"
+                />
+              </LazyLoad>
+            </div>
+            <div class='mixed-Feeding-content-item'>
+              <h3 class='mixed-Feeding-title'>ROYAL CANIN® Wet Food</h3>
+              <h4 >Extra benefits</h4>
+              <div>
+                <li>Weight management</li>
+                <li>Palatability</li>
+                <li>Sensoria textures</li>
+                <li>Promote hydration</li>
+              </div>
+            </div>
+          </div>
+        </div>`;
+      tmpGoodsDescriptionDetailList.push({
+        displayName: 'Mixed Feeding',
+        content: dom
+      });
+    }
+
     // if (window.__.env.REACT_APP_COUNTRY === 'ru' && saleableFlag && sptGoods) {
     //   let mixfeeding = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/Mixfeeding.png`;
     //   let MixfeedingFood = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/Mixfeeding-Food.png`;
