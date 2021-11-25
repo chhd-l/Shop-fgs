@@ -244,7 +244,7 @@ class Details extends React.Component {
       !bundle &&
       isHub &&
       !exclusiveFlag &&
-      (Fr || (Tr && !sptGoods))
+      (Fr || Uk || (Tr && !sptGoods))
     );
   }
 
@@ -562,7 +562,7 @@ class Details extends React.Component {
               originalProductInfo: Object.assign(
                 this.state.originalProductInfo,
                 {
-                  imageSrc: images?.[0].artworkUrl,
+                  imageSrc: images?.[0]?.artworkUrl || '',
                   goodsTitle: goodsRes.goodsName
                 }
               )
@@ -709,7 +709,7 @@ class Details extends React.Component {
         url: 'https://fi-v2.global.commerce-connector.com/cc.js',
         id: 'cci-widget',
         dataSets: {
-          token: '2257decde4d2d64a818fd4cd62349b235d8a74bb',
+          token: '2257decde4d2d64a818fd4cd62349b235d8a74bb', //uk，fr公用它
           locale: window.__.env.REACT_APP_HUBPAGE_RETAILER_LOCALE,
           displaylanguage:
             window.__.env.REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE,
