@@ -228,7 +228,7 @@ class Recommendation extends React.Component {
             promotionCodeText: res.context.promotionCode
           });
         }
-        setTimeout(() => {
+        // setTimeout(() => {
           GARecommendationProduct(
             currentShowProduct,
             1,
@@ -236,7 +236,7 @@ class Recommendation extends React.Component {
             promotionCode,
             this.state.activeIndex
           );
-        }, 3000);
+        // }, 3000gtm优化);
 
         if (curScrollTop) {
           window.scrollTo({
