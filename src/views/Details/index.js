@@ -501,7 +501,9 @@ class Details extends React.Component {
           if (isShowMixFeeding()) {
             getMixFeeding(goods.goodsId).then((res) => {
               let mixFeeding = handleRecommendation(
-                res?.context?.goodsRelationAndRelationInfos[0]
+                res?.context?.goodsRelationAndRelationInfos.filter(
+                  (el) => el.sort === 0
+                )[0] || res?.context?.goodsRelationAndRelationInfos[0]
               );
               // console.log(res,mixFeeding,'mixFeeding')
               if (mixFeeding) {
