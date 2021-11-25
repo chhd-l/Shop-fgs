@@ -189,6 +189,7 @@ const es_ES = {
   clickConfirmCvvButton:
     'Si desea utilizar esta tarjeta de crédito, ingrese CVV y haga clic en el botón Aplicar',
   clickHere: 'haga clic aquí',
+  here2: 'haga clic aquí',
   'clinic.cancel': 'Cancelar',
   'clinic.clinic': 'clínica',
   'clinic.clinicTip': '¿Qué clínica le ha proporcionado una receta?',

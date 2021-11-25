@@ -959,6 +959,7 @@ class LoginCart extends React.Component {
               }}
               update={() => {
                 this.setData({ initPage: true });
+                this.setState({ checkoutLoading: false });
               }}
             />
           ) : null}
