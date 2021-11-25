@@ -5,8 +5,9 @@ export default class index extends Component {
   static propTypes = {
     prop: PropTypes
   };
-
   render() {
+    let img = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/dog-and-cat.png`;
+
     return (
       <div className="description ">
         <div className="description-item">
@@ -16,6 +17,7 @@ export default class index extends Component {
           </div>
           <div className="description-content">
             <div className="content-bg">
+              <img src={img} className="img-pets" />
               Les quantités d'aliments recommandées sont indiquées au dos du
               sac. Veillez à ce que la transition alimentaire se fasse lentement
               au cours de la semaine pour éviter les troubles gastriques.
