@@ -619,7 +619,7 @@ const GoodsDetailTabs = function (props) {
           <p class='mixed-Feeding-text rc-intro rc-margin-bottom--none text-center d-md-block d-none'>Mixed feeding involves incorporating both Dry and Wet food into your pet's diet. While both types of food are nutritionally complete and
             balanced on their own, a regular diet of dry and wet food is a great way for them to obtain the unique complementary benefits of each.
           </p>
-           <div class='rc-margin-bottom--md rc-padding--sm'>
+           <div class='rc-margin-bottom--md--desktop rc-padding-top--md--mobile'>
             <h3 class='rc-beta'>Benefits of mixed feeding</h3>
           </div>
           <div class='mixed-Feeding-content'>
