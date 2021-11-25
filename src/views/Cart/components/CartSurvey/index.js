@@ -43,7 +43,7 @@ class CartSurvey extends React.Component {
     try {
       const res = await querySurveyContent({
         storeId: window.__.env.REACT_APP_STOREID,
-        customerId: this.isLogin ? this.userInfo.customerId : ' '
+        customerId: this.isLogin ? this.userInfo.customerId : ''
       });
       this.setState({
         surveyContent: res?.context

@@ -53,7 +53,7 @@ function CardItem(props) {
             <LazyLoad height={100}>
               <img
                 className="PayCardImgFitScreen mw-100"
-                style={{ height: '5rem' }}
+                // style={{ height: '5rem' }}
                 src={getCardImg({
                   supportPaymentMethods,
                   currentVendor: data.paymentVendor
