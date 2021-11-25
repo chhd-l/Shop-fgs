@@ -975,6 +975,7 @@ class UnLoginCart extends React.Component {
               }}
               update={() => {
                 this.setCartData({ initPage: true });
+                this.setState({ checkoutLoading: false });
               }}
             />
           ) : null}
