@@ -803,7 +803,6 @@ const fr_FR = {
   manage: 'Gérer',
   mandatoryFieldsError: "Vous n'avez pas rempli les champs obligatoires!",
   menu: 'menu',
-  miniBasket: 'Mini panier',
   'mixed Breed': 'race Mixte',
   'Mixed Breed': 'Race Mixte',
   MMYY: 'MM / AA',

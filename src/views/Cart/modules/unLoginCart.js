@@ -15,13 +15,16 @@ import {
   distributeLinktoPrecriberOrPaymentPage,
   unique,
   cancelPrevRequest,
-  getDeviceType
+  getDeviceType,
+  handleRecommendation,
+  isShowMixFeeding
 } from '@/utils/utils';
 import {
   GAInitUnLogin,
   GACartScreenLoad,
   GACartChangeSubscription
 } from '@/utils/GA';
+import { getMixFeedings } from '@/api/details';
 import { getGoodsRelationBatch } from '@/api/cart';
 import PayProductInfo from '../../Payment/PayProductInfo';
 import Loading from '@/components/Loading';
@@ -46,6 +49,7 @@ import { Helmet } from 'react-helmet';
 import GiftList from '../components/GiftList/index.tsx';
 import PromotionCodeText from '../components/PromotionCodeText';
 import CartSurvey from '../components/CartSurvey';
+import MixFeedingBox from '../components/MixFeedingBox/index.tsx';
 
 const guid = uuidv4();
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -96,7 +100,7 @@ class UnLoginCart extends React.Component {
         metaDescription: 'Royal canin'
       },
       relatedGoodsList: [],
-
+      mixFeedings: [],
       promotionsVisible: false
     };
     this.amountChanger = this.amountChanger.bind(this);
@@ -315,6 +319,25 @@ class UnLoginCart extends React.Component {
       }
       return el;
     });
+
+    if (isShowMixFeeding()) {
+      getMixFeedings(productList.map((el) => el.goodsId)).then((res) => {
+        let unHandleMixFeedings = res?.context;
+        if (unHandleMixFeedings && unHandleMixFeedings.length) {
+          let mixFeedings = productList.map((el, i) => {
+            let mixFeeding = handleRecommendation(
+              unHandleMixFeedings[i].goodsRelationAndRelationInfos[0]
+            );
+            if (mixFeeding) {
+              mixFeeding.quantity = 1;
+            }
+            return mixFeeding;
+          });
+          this.setState({ mixFeedings });
+        }
+      });
+    }
+
     this.setState(
       {
         productList
@@ -695,6 +718,7 @@ class UnLoginCart extends React.Component {
     );
   };
   getProducts(plist) {
+    const { mixFeedings } = this.state;
     const Lists = plist.map((pitem, index) => {
       {
         var isGift = !!pitem.subscriptionPlanGiftList;
@@ -940,6 +964,21 @@ class UnLoginCart extends React.Component {
               ) : null}
             </div>
           </div>
+          {mixFeedings && mixFeedings[index] ? (
+            <MixFeedingBox
+              isLogin={false}
+              mixFeedingData={mixFeedings[index]}
+              goodsInfoFlag={pitem.goodsInfoFlag}
+              periodTypeId={pitem.periodTypeId}
+              beforeUpdate={() => {
+                this.setState({ checkoutLoading: true });
+              }}
+              update={() => {
+                this.setCartData({ initPage: true });
+              }}
+            />
+          ) : null}
+
           {pitem.promotions &&
           pitem.promotions.includes('club') &&
           pitem.goodsInfoFlag === 2 &&
@@ -1120,8 +1159,12 @@ class UnLoginCart extends React.Component {
     );
   };
   sideCart({ className = '', style = {}, id = '' } = {}) {
-    const { checkoutLoading, discount, mobileCartVisibleKey, promotionCode } =
-      this.state;
+    const {
+      checkoutLoading,
+      discount,
+      mobileCartVisibleKey,
+      promotionCode
+    } = this.state;
     const { checkoutStore } = this.props;
     const subtractionSign = '-';
     return (

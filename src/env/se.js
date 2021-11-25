@@ -9,9 +9,6 @@ const env = {
     REACT_APP_GA_COUNTRY: 'SE',
     REACT_APP_GA_CURRENCY_CODE: 'USD',
 
-    // #Adyen
-    REACT_APP_Adyen_country: 'SE',
-
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT: '',
     REACT_APP_ONTRUST_STYLE: '',
@@ -53,9 +50,6 @@ const env = {
     REACT_APP_HIDE_ACCOUNT_BILLING_ADDR: '1',
 
     REACT_APP_HIDE_ACCOUNT_COMMUNICATION_MESSENGERS: '1',
-
-    // #PLP cover style
-    REACT_APP_PLP_STYLE: 'layout-global',
 
     // #HUB_GA
     REACT_APP_HUB_GA: '1',
@@ -185,12 +179,7 @@ const env = {
     REACT_APP_HOMEPAGE: '/se',
 
     // #bazaarVoice环境配置
-    REACT_APP_BAZAARVOICE_ENV: 'staging',
-
-    // #Adyen
-    REACT_APP_AdyenOriginKEY:
-      'pub.v2.8015632026961356.aHR0cHM6Ly9zaG9wc3RnLnJveWFsY2FuaW4uY29t.ZJgztbWWD0AsiF8fRONvngA8Ar7WmuEKIoXl_SWOuTQ',
-    REACT_APP_Adyen_ENV: 'test'
+    REACT_APP_BAZAARVOICE_ENV: 'staging'
   },
   production: {
     // #okta

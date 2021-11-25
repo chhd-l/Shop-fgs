@@ -42,6 +42,7 @@ import getTechnologyOrBreedsAttr, {
 } from '@/lib/get-technology-or-breedsAttr';
 import loadable from '@/lib/loadable-component';
 import SelectFilters from './modules/SelectFilters';
+import cn from 'classnames';
 
 import './index.less';
 
@@ -312,7 +313,7 @@ class List extends React.Component {
       isHub && location.pathname.includes('retail-products');
     const isVetProducts = isHub && location.pathname.includes('vet-products');
     this.state = {
-      canonicalforTRSpecialPageSearchFlag: false,//为ru特殊页面做特殊canonical处理
+      canonicalforTRSpecialPageSearchFlag: false, //为ru特殊页面做特殊canonical处理
       sourceParam: '',
       GAListParam: '', //GA list参数
       eEvents: '',
@@ -390,8 +391,11 @@ class List extends React.Component {
         '?Breeds=b6230b6f398347b397941f566400ada4&Sizes=83a4997cc9464552b380a496d399c593'
       ]
     };
-    if( window.__.env.REACT_APP_COUNTRY === 'tr'&&canonicalforRuSpecialPage[pathname].includes(search)){
-      this.setState({canonicalforTRSpecialPageSearchFlag:true})
+    if (
+      window.__.env.REACT_APP_COUNTRY === 'tr' &&
+      canonicalforRuSpecialPage[pathname].includes(search)
+    ) {
+      this.setState({ canonicalforTRSpecialPageSearchFlag: true });
     }
     const utm_source = funcUrl({ name: 'utm_source' }); //有这个属性，表示是breeder商品，breeder商品才需要把search赋值给sourceParam
     if (utm_source) {
@@ -1798,7 +1802,14 @@ class List extends React.Component {
           />
         )}
         <Helmet>
-        <link rel="canonical" href={this.state.canonicalforTRSpecialPageSearchFlag?canonicalLink.cur.split('?')[0]:canonicalLink.cur} />
+          <link
+            rel="canonical"
+            href={
+              this.state.canonicalforTRSpecialPageSearchFlag
+                ? canonicalLink.cur.split('?')[0]
+                : canonicalLink.cur
+            }
+          />
           {/* <link rel="canonical" href={canonicalLink.cur} /> */}
           {canonicalLink.prev ? (
             <link rel="prev" href={canonicalLink.prev} />
@@ -2109,14 +2120,13 @@ class List extends React.Component {
                               : productList.map((item, i) => {
                                   return (
                                     <div
-                                      className={`${
-                                        window.__.env.REACT_APP_PLP_STYLE ===
-                                        'layout-global'
-                                          ? 'col-12 pr-0 pl-md-2 pr-md-2'
-                                          : 'col-6 pl-2 pr-2'
-                                      } ${
-                                        hiddenFilter ? 'col-md-3' : 'col-md-4'
-                                      } mb-3 pl-0 BoxFitMonileScreen`}
+                                      className={cn(
+                                        `col-12 pr-0 pl-md-2 pr-md-2 mb-3 pl-0 BoxFitMonileScreen`,
+                                        `${
+                                          hiddenFilter ? 'col-md-3' : 'col-md-4'
+                                        }`
+                                      )}
+                                      key={i}
                                     >
                                       <PLPCover
                                         item={item}

@@ -12,9 +12,6 @@ const env = {
     REACT_APP_GA_COUNTRY: 'US',
     REACT_APP_GA_CURRENCY_CODE: 'USD',
 
-    // #Adyen
-    REACT_APP_Adyen_country: 'US',
-
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT: '',
     REACT_APP_ONTRUST_STYLE: '',
@@ -56,9 +53,6 @@ const env = {
     REACT_APP_HIDE_ACCOUNT_BILLING_ADDR: '1',
 
     REACT_APP_HIDE_ACCOUNT_COMMUNICATION_MESSENGERS: '1',
-
-    // #PLP cover style
-    REACT_APP_PLP_STYLE: 'layout-global',
 
     // #HUB_GA
     REACT_APP_HUB_GA: '1',
@@ -256,9 +250,6 @@ const env = {
     // #delete接口前缀
     REACT_APP_HUB_APIURL: 'https://stgwedding.royalcanin.com/ca/api',
 
-    // #根节点自定义样式名
-    REACT_APP_ROOT_CLS: 'ui-custom-hub',
-
     REACT_APP_HUB: '1',
 
     // #HUB_GA
@@ -302,9 +293,6 @@ const env = {
 
     // #delete接口前缀
     REACT_APP_HUB_APIURL: 'https://uatwedding.royalcanin.com/ca/api',
-
-    // #根节点自定义样式名
-    REACT_APP_ROOT_CLS: 'ui-custom-hub',
 
     REACT_APP_HUB: '1',
 

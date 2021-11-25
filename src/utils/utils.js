@@ -6,6 +6,7 @@ import { findFilterList, findSortList } from '@/api/list';
 import { getRation as getRation_api } from '@/api/pet';
 import find from 'lodash/find';
 import flatten from 'lodash/flatten';
+import findIndex from 'lodash/findIndex';
 import stores from '@/store';
 import { toJS } from 'mobx';
 import { createIntl, createIntlCache } from 'react-intl';
@@ -18,11 +19,14 @@ import ru from 'date-fns/locale/ru';
 import { registerLocale } from 'react-datepicker';
 import { format, utcToZonedTime } from 'date-fns-tz';
 import { getAppointByApptNo } from '@/api/order';
+import cloneDeep from 'lodash/cloneDeep';
+import { sitePurchase } from '@/api/cart';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const checkoutStore = stores.checkoutStore;
 const configStore = stores.configStore;
+const clinicStore = stores.clinicStore;
 
 /**
  *
@@ -1012,8 +1016,9 @@ export function judgeIsIndividual(item) {
 // uk和fr,才有postCode校验
 const countryPostCode = ['uk', 'fr'];
 const currentCountry = window.__.env.REACT_APP_COUNTRY;
-export const isCanVerifyBlacklistPostCode =
-  countryPostCode.includes(currentCountry);
+export const isCanVerifyBlacklistPostCode = countryPostCode.includes(
+  currentCountry
+);
 
 // 获取 Postal code alert message
 export async function getAddressPostalCodeAlertMessage() {
@@ -1083,6 +1088,7 @@ export function handleFelinAppointTime(appointTime) {
 }
 
 export function handleRecommendation(product) {
+  if (!product) return;
   if (!product.goodsInfo.goodsInfoImg) {
     product.goodsInfo.goodsInfoImg = product.goodsInfo.goods.goodsImg;
   }
@@ -1115,8 +1121,118 @@ export function handleRecommendation(product) {
   product.goodsInfo.goods.goodsInfos = product.goodsInfos;
   product.goodsInfo.goods.goodsSpecDetails = product.goodsSpecDetails;
   product.goodsInfo.goods.goodsSpecs = specList;
-  return product.goodsInfo.goods;
-  // let filterProducts = productList.filter((product) => {
-  //   return product.goodsInfo.addedFlag;
-  // });
+  return Object.assign({}, product.goodsInfo.goods, product.goodsInfo);
+}
+
+export async function addToUnloginCartData(product) {
+  // let quantityNew = product.recommendationNumber;
+  let quantityNew = 1;
+  let tmpData = Object.assign(product, {
+    quantity: quantityNew
+  });
+  let cartDataCopy = cloneDeep(toJS(checkoutStore.cartData).filter((el) => el));
+
+  let flag = true;
+  if (cartDataCopy && cartDataCopy.length) {
+    const historyItem = find(
+      cartDataCopy,
+      (c) =>
+        c.goodsId === product.goodsId &&
+        product.goodsInfoId ===
+          c.sizeList.filter((s) => s.selected)[0].goodsInfoId
+    );
+    if (historyItem) {
+      flag = false;
+      quantityNew += historyItem.quantity;
+      if (quantityNew > 30) {
+        this.setState({ addToCartLoading: false });
+        return;
+      }
+      tmpData = Object.assign(tmpData, { quantity: quantityNew });
+    }
+  }
+
+  const idx = findIndex(
+    cartDataCopy,
+    (c) =>
+      c.goodsId === product.goodsId &&
+      product.goodsInfoId === find(c.sizeList, (s) => s.selected).goodsInfoId
+  );
+  tmpData = Object.assign(tmpData, {
+    currentAmount: product.marketPrice * quantityNew,
+    selected: true,
+    quantity: quantityNew,
+    // goodsInfoFlag: 0,
+    // periodTypeId: null,
+    recommendationId: clinicStore.linkClinicId,
+    recommendationName: clinicStore.linkClinicName
+  });
+  if (idx > -1) {
+    cartDataCopy.splice(idx, 1, tmpData);
+  } else {
+    // if (cartDataCopy.length >= window.__.env.REACT_APP_LIMITED_CATE_NUM) {
+    //   this.setState({
+    //     checkOutErrMsg: (
+    //       <FormattedMessage
+    //         id="cart.errorMaxCate"
+    //         values={{ val: window.__.env.REACT_APP_LIMITED_CATE_NUM }}
+    //       />
+    //     )
+    //   });
+    //   return;
+    // }
+    cartDataCopy.push(tmpData);
+  }
+  await checkoutStore.updateUnloginCart({
+    cartData: cartDataCopy
+  });
+  // history.push(path);
+}
+
+export async function addToLoginCartData(product) {
+  // let {
+  //   productList,
+  //   outOfStockProducts,
+  //   inStockProducts,
+  //   modalList
+  // } = this.state;
+  // console.log(outOfStockProducts, inStockProducts, '...1')
+  // return
+
+  // for (let i = 0; i < productList.length; i++) {
+  //   if(productList[i].recommendationNumber > productList[i].goodsInfo.stock) {
+  //     outOfStockProducts.push(productList[i])
+  //     this.setState({ buttonLoading: false });
+  //     continue
+  //   }else {
+  //     inStockProducts.push(productList[i])
+  //   }
+  // }
+  // if (outOfStockProducts.length > 0) {
+  //   // this.setState({ modalShow: true, currentModalObj: modalList[0] });
+  // } else {
+  // this.setState({ buttonLoading: true });
+  // for (let i = 0; i < inStockProducts.length; i++) {
+  try {
+    await sitePurchase({
+      goodsInfoId: product.goodsInfoId,
+      goodsNum: product.quantity,
+      goodsCategory: '',
+      goodsInfoFlag: product.goodsInfoFlag,
+      periodTypeId: product.periodTypeId,
+      recommendationId: clinicStore.linkClinicId,
+      recommendationName: clinicStore.linkClinicName
+    });
+    await checkoutStore.updateLoginCart();
+  } catch (e) {
+    console.log('hahaha1111', e);
+    // this.setState({ buttonLoading: false });
+  }
+  // }
+  // this.props.history.push('/cart');
+  // }
+}
+
+export function isShowMixFeeding() {
+  return window.__.env.REACT_APP_COUNTRY === 'ru';
 }

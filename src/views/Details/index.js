@@ -29,7 +29,8 @@ import {
   filterObjectValue,
   isCountriesContainer,
   getClubFlag,
-  handleRecommendation
+  handleRecommendation,
+  isShowMixFeeding
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
@@ -197,8 +198,14 @@ class Details extends React.Component {
     return this.props.checkoutStore;
   }
   get btnStatus() {
-    const { details, quantity, instockStatus, initing, loading, form } =
-      this.state;
+    const {
+      details,
+      quantity,
+      instockStatus,
+      initing,
+      loading,
+      form
+    } = this.state;
     const { sizeList } = details;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     let addedFlag = 1;
@@ -489,13 +496,17 @@ class Details extends React.Component {
         if (goodsRes) {
           const { goods, images } = res.context;
 
-          // getMixFeeding(goods.goodsId)
-          getMixFeeding('2c918085773ea33001773eab7d060343').then((res) => {
-            let mixFeeding = handleRecommendation(
-              res?.context?.goodsRelationAndRelationInfos[0]
-            );
-            this.setState({ mixFeeding });
-          });
+          if (isShowMixFeeding()) {
+            getMixFeeding(goods.goodsId).then((res) => {
+              let mixFeeding = handleRecommendation(
+                res?.context?.goodsRelationAndRelationInfos[0]
+              );
+              if (mixFeeding) {
+                mixFeeding.quantity = 1;
+              }
+              this.setState({ mixFeeding });
+            });
+          }
 
           const taggingList = (res.context?.taggingList || []).filter(
             (t) => t.displayStatus
@@ -850,8 +861,13 @@ class Details extends React.Component {
     try {
       this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const { currentUnitPrice, quantity, form, details, questionParams } =
-        this.state;
+      const {
+        currentUnitPrice,
+        quantity,
+        form,
+        details,
+        questionParams
+      } = this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -1029,7 +1045,13 @@ class Details extends React.Component {
       window.__.env.REACT_APP_HUB === '1' &&
       !details.saleableFlag &&
       details.displayFlag; //vet产品并且是hub的情况下
-
+    console.log(
+      vet,
+      window.__.env.REACT_APP_HUB,
+      !details.saleableFlag,
+      details.displayFlag,
+      'ishubvet'
+    );
     const goodHeading = `<${headingTag || 'h1'}
         class="rc-gamma ui-text-overflow-line2 text-break"
         title="${details.goodsName}">
@@ -1415,11 +1437,13 @@ class Details extends React.Component {
                   this.setState({ modalMobileCartSuccessVisible: false });
                 }}
                 mixFeedingData={this.state.mixFeeding}
+                periodTypeId={parseInt(form.buyWay) ? form.frequencyId : ''}
                 goodsInfoFlag={
                   form.buyWay && details.promotions?.includes('club')
                     ? 2
                     : form.buyWay
                 }
+                isLogin={this.isLogin}
               />
             ) : null}
 

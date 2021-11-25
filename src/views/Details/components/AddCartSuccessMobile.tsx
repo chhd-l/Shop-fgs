@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from "react-router-dom";
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import cn from 'classnames';
 import LazyLoad from 'react-lazyload';
-import { getDeviceType, formatMoney } from '@/utils/utils';
+import {
+  getDeviceType,
+  formatMoney,
+  addToUnloginCartData,
+  addToLoginCartData
+} from '@/utils/utils';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
@@ -12,12 +18,17 @@ const AddCartSuccessMobile = ({
   visible,
   closeModal,
   mixFeedingData,
-  goodsInfoFlag
+  goodsInfoFlag,
+  periodTypeId,
+  isLogin
 }) => {
+  const History = useHistory()
   const [selectedSku, setSelectedSku] = useState(null);
+  const [loading, setLoading] = useState(false)
   useEffect(() => {
     setSelectedSku(mixFeedingData?.sizeList?.filter((el) => el.selected)[0]);
-  }, [mixFeedingData])
+    console.log('mixFeedingData', mixFeedingData);
+  }, [mixFeedingData]);
   return (
     <>
       <aside role="modal" className={cn('rc-modal', { 'rc-hidden': !visible })}>
@@ -113,13 +124,31 @@ const AddCartSuccessMobile = ({
                       </div>
                     </div>
                   </div>
-                  <Link
+                  {/* <Link
                     className="rc-btn rc-btn--two my-3"
                     style={{ fontWeight: 400 }}
                     to="/cart"
+                  > */}
+                  
+                  <a
+                    className={`rc-btn rc-btn--two my-3 ${loading?'ui-btn-loading': ''}`}
+                    style={{ fontWeight: 400, color: '#e2001a' }}
+                    onClick={async (e) => {
+                      setLoading(true)
+                      e.preventDefault()
+                      try {
+                        mixFeedingData.goodsInfoFlag = goodsInfoFlag
+                        mixFeedingData.periodTypeId = periodTypeId
+                        isLogin? await addToLoginCartData(mixFeedingData): await addToUnloginCartData(mixFeedingData)
+                        History.push('/cart')
+                      }catch {
+                        setLoading(false)
+                      }
+                    }}
                   >
                     <FormattedMessage id="goToCart" />
-                  </Link>
+                  </a>
+                  {/* </Link> */}
                 </div>
               ) : null}
 
