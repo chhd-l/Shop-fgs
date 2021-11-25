@@ -24,6 +24,7 @@ const MixFeedingBox = function ({
   const History = useHistory();
   const [selectedSku, setSelectedSku] = useState(null);
   const [quantity, setQuantity] = useState(mixFeedingData.quantity);
+  const [isInStock, setIsInStock] = useState(true);
 
   const hanldeAmountChange = (type) => {
     // this.setState({ checkOutErrMsg: '' });
@@ -66,7 +67,7 @@ const MixFeedingBox = function ({
     }
   };
   const updateInstockStatus = () => {
-    return mixFeedingData.quantity < selectedSku.stock;
+    setIsInStock(mixFeedingData.quantity <= selectedSku.stock);
   };
 
   useEffect(() => {
@@ -80,10 +81,19 @@ const MixFeedingBox = function ({
     setSelectedSku(mixFeedingData?.sizeList?.filter((el) => el.selected)[0]);
     console.log('mixFeedingData', mixFeedingData);
   }, [mixFeedingData]);
+
+  useEffect(() => {
+    if (selectedSku) {
+      updateInstockStatus();
+    }
+  }, [selectedSku]);
   return (
     <div>
       {mixFeedingData ? (
-        <div className="rc-border-all rc-border-colour--interface product-info p-3 rc-padding-bottom--none--mobile">
+        <div
+          className="rc-border-all rc-border-colour--interface product-info p-3 rc-padding-bottom--none--mobile"
+          style={{ borderColor: '#ee8b10' }}
+        >
           <div className="text-left mb-2">
             <strong>Общая стоимость Общая стоимость:</strong>
           </div>
@@ -105,16 +115,66 @@ const MixFeedingBox = function ({
               className="product-info__desc ui-text-overflow-line2 ui-text-overflow-md-line1 relative"
               style={{ flex: 1 }}
             >
+              <Link
+                className="ui-cursor-pointer rc-margin-top--xs rc-padding-right--sm  align-items-md-center flex-column flex-md-row"
+                to={`/${mixFeedingData.goodsName
+                  .toLowerCase()
+                  .split(' ')
+                  .join('-')
+                  .replace('/', '')}-${mixFeedingData.goods.goodsNo}`}
+                style={{ marginTop: '0' }}
+              >
+                <div className="d-flex">
+                  <h4
+                    className="rc-gamma rc-margin--none ui-text-overflow-line2 ui-text-overflow-md-line1 d-md-inline-block text-left"
+                    style={{ flex: 1 }}
+                    title={mixFeedingData.goodsName}
+                  >
+                    {mixFeedingData.goodsName}
+                  </h4>
+                </div>
+              </Link>
               <div className="d-flex">
-                <h4
-                  className="rc-gamma rc-margin--none ui-text-overflow-line2 ui-text-overflow-md-line1 d-md-inline-block text-left"
-                  style={{ flex: 1 }}
-                  title={mixFeedingData.goodsName}
-                >
-                  {mixFeedingData.goodsName}
-                </h4>
+                <div className="align-left flex" style={{ flex: 1 }}>
+                  <div className="stock__wrapper">
+                    <div className="stock">
+                      <label
+                        className={[
+                          'availability',
+                          mixFeedingData.addedFlag && isInStock
+                            ? 'instock'
+                            : 'outofstock'
+                        ].join(' ')}
+                      >
+                        <span className="title-select">
+                          {/* <FormattedMessage id="details.availability" /> : */}
+                        </span>
+                      </label>
+                      <span
+                        className="availability-msg"
+                        style={{ display: 'inline-block' }}
+                      >
+                        <div
+                          className={[
+                            mixFeedingData.addedFlag && isInStock
+                              ? ''
+                              : 'out-stock'
+                          ].join(' ')}
+                        >
+                          {mixFeedingData.addedFlag && isInStock ? (
+                            <FormattedMessage id="details.inStock" />
+                          ) : mixFeedingData.addedFlag ? (
+                            <FormattedMessage id="details.outStock" />
+                          ) : (
+                            <FormattedMessage id="details.OffShelves" />
+                          )}
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                </div>
                 <div
-                  className="price singlePrice text-nowrap text-left mt-2 mr-4"
+                  className="price singlePrice text-nowrap text-left mr-4"
                   style={{ fontSize: '1.5rem' }}
                 >
                   <strong>
@@ -126,7 +186,6 @@ const MixFeedingBox = function ({
                   </strong>
                 </div>
               </div>
-              {/* </Link> */}
               <div className="product-edit rc-margin-top--sm--mobile rc-margin-bottom--xs rc-padding--none rc-margin-top--xs d-flex flex-column flex-sm-row justify-content-between">
                 <div
                   style={{
@@ -157,9 +216,7 @@ const MixFeedingBox = function ({
                     </div>
                   </div>
                 </div>
-                <div
-                  className="cart-quantity-container"
-                >
+                <div className="cart-quantity-container">
                   <div className="product-card-footer product-card-price d-flex">
                     <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto">
                       <div className="rc-margin-bottom--xs">
@@ -192,15 +249,22 @@ const MixFeedingBox = function ({
                 </div>
                 <div>
                   <a
-                    className="rc-btn rc-btn--two  mt-4"
+                    className={`rc-btn rc-btn--two mt-4 ${
+                      !isInStock ? 'rc-btn-solid-disabled' : ''
+                    }`}
                     style={{ fontWeight: 400, color: '#e2001a' }}
                     onClick={async (e) => {
-                      beforeUpdate()
+                      if (!isInStock) {
+                        return false;
+                      }
+                      beforeUpdate();
                       e.preventDefault();
                       mixFeedingData.goodsInfoFlag = goodsInfoFlag;
                       mixFeedingData.periodTypeId = periodTypeId;
-                      isLogin? await addToLoginCartData(mixFeedingData): await addToUnloginCartData(mixFeedingData);
-                      update()
+                      isLogin
+                        ? await addToLoginCartData(mixFeedingData)
+                        : await addToUnloginCartData(mixFeedingData);
+                      update();
                     }}
                   >
                     <FormattedMessage id="goToCart" />

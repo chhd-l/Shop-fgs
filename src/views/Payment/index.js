@@ -1711,7 +1711,7 @@ class Payment extends React.Component {
         storeId: window.__.env.REACT_APP_STOREID,
         customerId: this.userInfo.customerId
       });
-      if (!result?.context.isShow) {
+      if (!result?.context?.isShow || surveyId !== result?.context?.id) {
         surveyId = '';
       }
     }

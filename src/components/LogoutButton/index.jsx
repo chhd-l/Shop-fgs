@@ -17,6 +17,7 @@ import { FormattedMessage } from 'react-intl';
 import stores from '@/store';
 
 const localItemRoyal = window.__.localItemRoyal;
+const sessionItemRoyal = window.__.sessionItemRoyal;
 const loginStore = stores.loginStore;
 const checkoutStore = stores.checkoutStore;
 const clinicStore = stores.clinicStore;
@@ -76,6 +77,8 @@ const LogoutButton = (props) => {
       checkoutStore.removeLoginCartData();
       clinicStore.removeDefaultClinicInfo();
       clinicStore.removeSelectClinicInfo();
+      sessionItemRoyal.remove('rc-review-surveyId');
+      sessionItemRoyal.remove('rc-clicked-surveyId');
       // await logout(props.callbackUrl || window.__.env.REACT_APP_HOMEPAGE);
       await logout(window.__.env.REACT_APP_HOMEPAGE);
     } catch (err) {
