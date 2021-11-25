@@ -66,6 +66,7 @@ import {
   GAPdpSizeChange
 } from './GA';
 import PrescriberCodeModal from '../ClubLandingPageNew/Components/DeStoreCode/Modal';
+import MixFeedingBanner from './components/MixFeedingBanner/index.tsx';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -155,7 +156,8 @@ class Details extends React.Component {
       modalMobileCartSuccessVisible: false,
       defaultSkuId: funcUrl({ name: 'skuId' }),
       defaultGoodsInfoFlag: funcUrl({ name: 'goodsInfoFlag' }),
-      mixFeeding: null
+      mixFeeding: null,
+      originalProductInfo: {}
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -499,8 +501,11 @@ class Details extends React.Component {
           if (isShowMixFeeding()) {
             getMixFeeding(goods.goodsId).then((res) => {
               let mixFeeding = handleRecommendation(
-                res?.context?.goodsRelationAndRelationInfos[0]
+                res?.context?.goodsRelationAndRelationInfos.filter(
+                  (el) => el.sort === 0
+                )[0] || res?.context?.goodsRelationAndRelationInfos[0]
               );
+              // console.log(res,mixFeeding,'mixFeeding')
               if (mixFeeding) {
                 mixFeeding.quantity = 1;
               }
@@ -552,7 +557,14 @@ class Details extends React.Component {
               breadCrumbs: [{ name: goodsRes.goodsName }],
               pageLink: this.redirectCanonicalLink({ pageLink }),
               goodsType: goods.goodsType,
-              exclusiveFlag: goods.exclusiveFlag
+              exclusiveFlag: goods.exclusiveFlag,
+              originalProductInfo: Object.assign(
+                this.state.originalProductInfo,
+                {
+                  imageSrc: images?.[0].artworkUrl,
+                  goodsTitle: goodsRes.goodsName
+                }
+              )
             },
             () => {
               this.handleBreadCrumbsData();
@@ -1045,13 +1057,6 @@ class Details extends React.Component {
       window.__.env.REACT_APP_HUB === '1' &&
       !details.saleableFlag &&
       details.displayFlag; //vet产品并且是hub的情况下
-    console.log(
-      vet,
-      window.__.env.REACT_APP_HUB,
-      !details.saleableFlag,
-      details.displayFlag,
-      'ishubvet'
-    );
     const goodHeading = `<${headingTag || 'h1'}
         class="rc-gamma ui-text-overflow-line2 text-break"
         title="${details.goodsName}">
@@ -1446,6 +1451,11 @@ class Details extends React.Component {
                 isLogin={this.isLogin}
               />
             ) : null}
+
+            {/* {PC ? <MixFeedingBanner 
+            // originalProductInfo={this.state.originalProductInfo}
+            // img={spuImages?.[0].artworkUrl || ''}
+            /> : null} */}
 
             {/* 最下方跳转更多板块 rita说现在hub 又不要了 暂时注释吧*/}
             {/* <More/> */}
