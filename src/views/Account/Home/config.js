@@ -82,13 +82,12 @@ const faqs = {
 
 const loyaltyProgramme = {
   icon: (
-    <svg
-      className="svg-icon account-home-icon"
-      aria-hidden="true"
-      style={{ width: '2.6rem' }}
+    <span
+      className="flex align-items-center rounded px-3 py-2"
+      style={{ background: '#EDEDED' }}
     >
-      <use xlinkHref="#iconFAQ" />
-    </svg>
+      <span className="iconfont iconlogo--crown rc-text-colour--brand1" />
+    </span>
   ),
   titleLangKey: 'account.loyaltyProgramme',
   textLangKey: 'account.loyaltyProgrammeTip',
