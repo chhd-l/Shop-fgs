@@ -2,11 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './index.less';
 export default class index extends Component {
-  state = {
-    first: true,
-    second: true
-  };
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      first: true,
+      second: true
+    };
+  
+  }
+ 
   clickItem = (key) => {
     this.setState({
       [key]: !this.state[key]
@@ -32,13 +36,10 @@ export default class index extends Component {
             </span>
           </div>
           <div className="description-content">
-            <div style={{ display: this.state.first ? 'block' : 'none' }}>
+            <div style={{ display: this.state.first ? 'block' : 'none',width:'100%' }}>
               <div className="content-bg">
                 <img src={img} className="img-pets" />
-                Les quantités d'aliments recommandées sont indiquées au dos du
-                sac. Veillez à ce que la transition alimentaire se fasse
-                lentement au cours de la semaine pour éviter les troubles
-                gastriques.
+                {this.props.text}
               </div>
 
               <div>
