@@ -77,6 +77,7 @@ const isHub = window.__.env.REACT_APP_HUB == '1';
 const Fr = window.__.env.REACT_APP_COUNTRY === 'fr';
 const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
 const Tr = window.__.env.REACT_APP_COUNTRY === 'tr';
+const Uk = window.__.env.REACT_APP_COUNTRY === 'uk';
 
 @inject(
   'checkoutStore',
@@ -1054,9 +1055,16 @@ class Details extends React.Component {
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     const vet =
-      window.__.env.REACT_APP_HUB === '1' &&
+      (window.__.env.REACT_APP_HUB === '1' || Uk) &&
       !details.saleableFlag &&
-      details.displayFlag; //vet产品并且是hub的情况下
+      details.displayFlag; //vet产品并且是hub的情况下,(uk不管stg还是wedding都用这个逻辑)
+    console.log(
+      vet,
+      window.__.env.REACT_APP_HUB,
+      !details.saleableFlag,
+      details.displayFlag,
+      'ishubvet'
+    );
     const goodHeading = `<${headingTag || 'h1'}
         class="rc-gamma ui-text-overflow-line2 text-break"
         title="${details.goodsName}">
