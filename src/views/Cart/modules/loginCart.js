@@ -395,7 +395,9 @@ class LoginCart extends React.Component {
         if (unHandleMixFeedings && unHandleMixFeedings.length) {
           let mixFeedings = productList.map((el, i) => {
             let mixFeeding = handleRecommendation(
-              unHandleMixFeedings[i].goodsRelationAndRelationInfos[0]
+              unHandleMixFeedings[i].goodsRelationAndRelationInfos.filter(
+                (el) => el.sort === 0
+              )[0] || unHandleMixFeedings[i].goodsRelationAndRelationInfos[0]
             );
             if (mixFeeding) {
               mixFeeding.quantity = 1;
@@ -948,7 +950,10 @@ class LoginCart extends React.Component {
               ) : null}
             </div>
           </div>
-          {mixFeedings && mixFeedings[index] ? (
+          {mixFeedings &&
+          mixFeedings[index] &&
+          plist.filter((el) => el.goodsNo === mixFeedings[index].goods.goodsNo)
+            .length === 0 ? (
             <MixFeedingBox
               isLogin={true}
               mixFeedingData={mixFeedings[index]}

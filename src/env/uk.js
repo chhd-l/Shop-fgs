@@ -183,34 +183,34 @@ const env = {
     // #bazaarVoice环境配置
     REACT_APP_BAZAARVOICE_ENV: 'staging'
   },
-  production: {
-    // #okta
-    REACT_APP_ACCESS_PATH: 'https://shop.royalcanin.com/',
-    REACT_APP_CLIENT_ID: '0oamkkuay3Bdq8tHc416',
-    REACT_APP_ISSUER: 'https://signin.royalcanin.com/oauth2/default',
-    REACT_APP_RedirectURL: 'https://shop.royalcanin.com/implicit/callback',
-    REACT_APP_RegisterPrefix: 'https://welcome.royalcanin.com/?redirect_uri=',
-    REACT_APP_RegisterCallback: 'https://shop.royalcanin.com',
-    REACT_APP_FaceBook_IDP: '0oa75jv7oSeLBnnkt416',
-    REACT_APP_Google_IDP: '0oa75klujN7PkgedM416',
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT: '8923767a-c9c8-4c36-ae5f-97af6af42bdb',
+  // production: {
+  //   // #okta
+  //   REACT_APP_ACCESS_PATH: 'https://shop.royalcanin.com/',
+  //   REACT_APP_CLIENT_ID: '0oamkkuay3Bdq8tHc416',
+  //   REACT_APP_ISSUER: 'https://signin.royalcanin.com/oauth2/default',
+  //   REACT_APP_RedirectURL: 'https://shop.royalcanin.com/implicit/callback',
+  //   REACT_APP_RegisterPrefix: 'https://welcome.royalcanin.com/?redirect_uri=',
+  //   REACT_APP_RegisterCallback: 'https://shop.royalcanin.com',
+  //   REACT_APP_FaceBook_IDP: '0oa75jv7oSeLBnnkt416',
+  //   REACT_APP_Google_IDP: '0oa75klujN7PkgedM416',
+  //   REACT_APP_ONTRUST_DOMAIN_SCRIPT: '8923767a-c9c8-4c36-ae5f-97af6af42bdb',
 
-    // #接口配置
-    REACT_APP_BASEURL: 'https://shop.royalcanin.com/api',
+  //   // #接口配置
+  //   REACT_APP_BASEURL: 'https://shop.royalcanin.com/api',
 
-    // #GA环境配置
-    REACT_APP_GA_ENV: 'prd',
+  //   // #GA环境配置
+  //   REACT_APP_GA_ENV: 'prd',
 
-    // #设置二级子目录访问页面
-    REACT_APP_HOMEPAGE: '/',
+  //   // #设置二级子目录访问页面
+  //   REACT_APP_HOMEPAGE: '/',
 
-    // #bazaarVoice环境配置
-    REACT_APP_BAZAARVOICE_ENV: 'production',
+  //   // #bazaarVoice环境配置
+  //   REACT_APP_BAZAARVOICE_ENV: 'production',
 
-    // #删除账户
-    REACT_APP_DELETE_My_ACCOUNT_URL:
-      'https://account.royalcanin.com/en-us/manager/settings'
-  },
+  //   // #删除账户
+  //   REACT_APP_DELETE_My_ACCOUNT_URL:
+  //     'https://account.royalcanin.com/en-us/manager/settings'
+  // },
   productionHub: {
     // #okta
     REACT_APP_ACCESS_PATH: 'https://www.royalcanin.com/uk/shop',

@@ -27,9 +27,7 @@ const MixFeedingBox = function ({
   const [isInStock, setIsInStock] = useState(true);
 
   const hanldeAmountChange = (type) => {
-    // this.setState({ checkOutErrMsg: '' });
     if (!type) return;
-    let { quantity } = mixFeedingData;
     let res;
     if (type === 'minus') {
       if (quantity <= 1) {
@@ -67,19 +65,18 @@ const MixFeedingBox = function ({
     }
   };
   const updateInstockStatus = () => {
-    setIsInStock(mixFeedingData.quantity <= selectedSku.stock);
+    setIsInStock(quantity <= selectedSku.stock);
   };
 
   useEffect(() => {
     if (quantity && selectedSku) {
-      mixFeedingData.quantity = quantity;
       updateInstockStatus();
     }
   }, [quantity]);
 
   useEffect(() => {
     setSelectedSku(mixFeedingData?.sizeList?.filter((el) => el.selected)[0]);
-    console.log('mixFeedingData', mixFeedingData);
+    setQuantity(mixFeedingData.quantity)
   }, [mixFeedingData]);
 
   useEffect(() => {
@@ -259,11 +256,14 @@ const MixFeedingBox = function ({
                       }
                       beforeUpdate();
                       e.preventDefault();
-                      mixFeedingData.goodsInfoFlag = goodsInfoFlag;
-                      mixFeedingData.periodTypeId = periodTypeId;
+                      let copyData = {...mixFeedingData}
+                      copyData.goodsInfoFlag = goodsInfoFlag;
+                      copyData.periodTypeId = periodTypeId;
+                      copyData.quantity = quantity
+                      console.log('copyData', copyData)
                       isLogin
-                        ? await addToLoginCartData(mixFeedingData)
-                        : await addToUnloginCartData(mixFeedingData);
+                        ? await addToLoginCartData(copyData)
+                        : await addToUnloginCartData(copyData);
                       update();
                     }}
                   >
