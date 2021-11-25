@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -35,8 +35,10 @@ import { redirectFun } from '@/redirect/utils';
 import '@/utils/init';
 import { stgShowAuth } from '@/utils/utils';
 import ScrollToTop from '@/components/ScrollToTop';
+import {getDynamicLanguage} from './lang';
 import RouteFilter from '@/components/RouteFilter';
 const Home = loadable(() => import('@/views/Home'), 'rc-carousel');
+
 
 import PickupMap from '@/views/PickupMap';
 const List = loadable(() => import('@/views/List'));
@@ -171,6 +173,7 @@ const ShelterPrescription = loadable(() =>
 );
 import CancelEmail from '@/views/StaticPage/CancelEmail';
 import PreciseCatNutrition from './views/PreciseCatNutrition';
+import Loading from './components/Loading';
 const VetLandingPage = loadable(() =>
   import('@/views/ClubLandingPage/vetlandingpage')
 );
@@ -265,6 +268,24 @@ const ImplicitLogin = () => {
   return <div />;
 };
 
+const useDynamicLanguage =()=>{
+    const[dynamicLanguage, setDynamicLanguage]=useState({})
+    const [loading,setLoading]=useState(true);
+    console.log(dynamicLanguage,'dynamicLanguage')
+
+    useEffect(()=>{
+      async function getLanguage(){
+        setLoading(true);
+        const lang = await getDynamicLanguage();
+        setDynamicLanguage(lang);
+        setLoading(false);
+      }
+      getLanguage();
+    },[]);
+
+    return [loading,dynamicLanguage]
+}
+
 const App = () => {
   const history = useHistory();
 
@@ -277,9 +298,20 @@ const App = () => {
   const restoreOriginalUri = async (_oktaAuth, originalUri) => {
     history.replace(toRelativeUrl(originalUri, window.location.origin));
   };
+
+  const [loading,dynamicLanguage]=useDynamicLanguage();
+
+  if(loading){
+    return (
+      <div>
+        <Loading/>
+      </div>
+    )
+  }
+
   return (
     <Provider {...stores}>
-      <IntlProvider locale={window.__.env.REACT_APP_LANG} messages={locales}>
+      <IntlProvider locale={window.__.env.REACT_APP_LANG} messages={dynamicLanguage}>
         <Router
           basename={window.__.env.REACT_APP_HOMEPAGE}
           path={'/'}
