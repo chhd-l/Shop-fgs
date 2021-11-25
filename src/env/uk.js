@@ -11,6 +11,7 @@ const env = {
 
     // #Adyen
     REACT_APP_Adyen_country: 'GB',
+    REACT_APP_Adyen_locale: 'en-GB',
 
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
