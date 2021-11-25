@@ -2,19 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { useLocalStore } from 'mobx-react';
 import stores from '@/store';
 import LazyLoad from 'react-lazyload';
-import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import deliveryIcon from '../../images/deliveryAddress.png';
 import billingIcon from '../../images/billingAddress.png';
-import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
+import getCardImg from '@/lib/get-card-img';
 import paymentIcon from '../../images/payment.png';
 import { getDictionary, isCanVerifyBlacklistPostCode } from '@/utils/utils';
+import { inject, observer } from 'mobx-react';
 
 const UserPaymentInfo = ({
   currentCardInfo,
   currentBillingAddress,
   subDetail,
   setState,
-  currentDeliveryAddress
+  currentDeliveryAddress,
+  paymentStore: { supportPaymentMethods }
 }) => {
   useEffect(() => {
     getDictionary({ type: 'country' }).then((res) => {
@@ -47,6 +49,7 @@ const UserPaymentInfo = ({
       addressType: type
     });
   };
+
   return (
     <div className="row text-left text-break editCard ml-0 mr-0 subscription_detail_userinfo_box">
       <div
@@ -441,12 +444,10 @@ const UserPaymentInfo = ({
                     <img
                       alt="card background"
                       className="d-inline-block"
-                      src={
-                        CREDIT_CARD_IMG_ENUM[
-                          currentCardInfo.paymentVendor.toUpperCase()
-                        ] ||
-                        'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                      }
+                      src={getCardImg({
+                        supportPaymentMethods,
+                        currentVendor: currentCardInfo.paymentVendor
+                      })}
                     />
                   </LazyLoad>
                 </>
@@ -461,4 +462,4 @@ const UserPaymentInfo = ({
     </div>
   );
 };
-export default UserPaymentInfo;
+export default inject('paymentStore')(observer(UserPaymentInfo));

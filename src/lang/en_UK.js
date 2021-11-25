@@ -473,7 +473,7 @@ const en_US = {
   estimatedTax: 'Estimated Tax',
   every: 'Every',
   example: 'Example',
-  examplePhone: 'Exemple: 6 23 45 67 89',
+  examplePhone: 'Exemple: 56 23 45 67 89',
   examplePostCode: '12345',
   expirationDateIsInvalid: 'your card expiration date is invalid',
   'faq.frequentQuestions': 'Frequently Asked Questions',
@@ -542,6 +542,7 @@ const en_US = {
   FrequentQuestions: 'Common questions',
   from: 'From',
   plpFromText: 'From',
+  plpFromNew: '{started}{plpValue}',
   gender: 'Gender',
   getConsumerAccountFailed: 'Get Consumer Account Failed',
   getDataFailed: 'Get Data Failed',
@@ -1819,6 +1820,32 @@ const en_US = {
   'list.clearFilters': 'Clear all filters',
   'list.viewFilters': 'View filters',
   'list.closeFilters': 'Close filters',
-  BacktoSavedPayments: 'Return to saved payment'
+  BacktoSavedPayments: 'Return to saved payment',
+  'header.User.alreadyRegistered': 'Already registered?',
+  'header.User.newUser': 'New user?',
+  'header.User.registerNow': 'Register now',
+  'salesCategory.cat': 'For cat',
+  'salesCategory.dog': 'For dog',
+  'salesCategory.content':
+    'Each formula has been formulated to provide nutrition that meets health needs based on size, breed, age or lifestyle.',
+  'salesCategory.title': 'Discover our food ranges',
+  'account.deleteMyaccountDesc':
+    'Once your account has been deleted, you will no longer be able to access Royal Canin services with this account.',
+  'account.deleteMyaccountTitle': 'Delete account',
+  proceedToTheDeletion: 'Delete my account',
+  'header.User.home': 'Account',
+  'header.User.myPersonalInformation': 'My details',
+  'header.User.pets': 'My Pets',
+  'header.User.myOrders': 'Orders',
+  'header.User.mySubscriptions': 'Subscriptions',
+  'account.loyaltyProgramme': 'Loyalty Programme',
+  'account.loyaltyProgrammeTip':
+    'Consult and manage Loyalty programme and your Coupons',
+  'lang.close': 'Close',
+  'lang.country': 'Country',
+  'lang.language': 'Language',
+  //language-choose
+  'lang.selectYourLocation': 'Select your location',
+  'lang.submit': 'Submit'
 };
 export default en_US;

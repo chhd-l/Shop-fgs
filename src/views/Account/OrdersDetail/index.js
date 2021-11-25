@@ -29,12 +29,14 @@ import {
   returnFindByTid,
   queryLogistics
 } from '@/api/order';
-import { IMG_DEFAULT, CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
+import { IMG_DEFAULT } from '@/utils/constant';
 import './index.less';
 import LazyLoad from 'react-lazyload';
 import { format } from 'date-fns';
 import PageBaseInfo from '@/components/PageBaseInfo';
 import { injectIntl } from 'react-intl';
+import getCardImg from '@/lib/get-card-img';
+import { getWays } from '@/api/payment';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -188,7 +190,7 @@ function LogisticsProgress(props) {
   );
 }
 
-@inject('checkoutStore', 'configStore')
+@inject('checkoutStore', 'configStore', 'paymentStore')
 @injectIntl
 @observer
 class AccountOrders extends React.Component {
@@ -232,11 +234,7 @@ class AccountOrders extends React.Component {
     this.handleClickLogisticsCard = this.handleClickLogisticsCard.bind(this);
   }
   componentDidMount() {
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
+    const { paymentStore } = this.props;
     this.setState(
       {
         orderNumber: this.props.match.params.orderNumber
@@ -249,6 +247,11 @@ class AccountOrders extends React.Component {
       this.setState({
         countryList: res
       });
+    });
+    getWays().then((res) => {
+      paymentStore.setSupportPaymentMethods(
+        res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || []
+      );
     });
   }
   componentWillUnmount() {
@@ -1113,6 +1116,9 @@ class AccountOrders extends React.Component {
 
     // details?.tradeItems?.map(el=>{el.subscriptionSourceList=[{subscribeId:'12323232323232'},{subscribeId:'12323232323232'}]})
     const isTr = window.__.env.REACT_APP_COUNTRY === 'tr'; //因为土耳其Total VAT Included的翻译，需要对Total VAT Included特殊化处理
+
+    const { paymentStore } = this.props;
+
     return (
       <div>
         <PageBaseInfo additionalEvents={event} />
@@ -1189,8 +1195,8 @@ class AccountOrders extends React.Component {
                                   <span className="medium">
                                     {filterOrderId({
                                       orderNo: this.state.orderNumber,
-                                      orderNoForOMS: this.state
-                                        .orderNumberForOMS
+                                      orderNoForOMS:
+                                        this.state.orderNumberForOMS
                                     })}
                                   </span>
                                 </div>
@@ -1325,9 +1331,9 @@ class AccountOrders extends React.Component {
                                                           {filterOrderId({
                                                             orderNo:
                                                               el.subscribeId,
-                                                            orderNoForOMS: this
-                                                              .state
-                                                              .orderNumberForOMS
+                                                            orderNoForOMS:
+                                                              this.state
+                                                                .orderNumberForOMS
                                                           })}
                                                         </Link>
                                                       </p>
@@ -1885,12 +1891,12 @@ class AccountOrders extends React.Component {
                                               alt="card background"
                                               className="d-inline-block mr-1"
                                               style={{ width: '20%' }}
-                                              src={
-                                                CREDIT_CARD_IMG_ENUM[
-                                                  payRecord.paymentVendor.toUpperCase()
-                                                ] ||
-                                                'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                                              }
+                                              src={getCardImg({
+                                                supportPaymentMethods:
+                                                  paymentStore.supportPaymentMethods,
+                                                currentVendor:
+                                                  payRecord.paymentVendor
+                                              })}
                                             />
                                           </LazyLoad>
                                           {payRecord.lastFourDigits ? (
