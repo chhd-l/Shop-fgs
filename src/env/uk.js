@@ -186,7 +186,7 @@ const env = {
   // production: {
   //   // #okta
   //   REACT_APP_ACCESS_PATH: 'https://shop.royalcanin.com/',
-  //   REACT_APP_CLIENT_ID: '0oamkkuay3Bdq8tHc416',
+  //   REACT_APP_CLIENT_ID: '0oa27u66xmv9zhxGI417',
   //   REACT_APP_ISSUER: 'https://signin.royalcanin.com/oauth2/default',
   //   REACT_APP_RedirectURL: 'https://shop.royalcanin.com/implicit/callback',
   //   REACT_APP_RegisterPrefix: 'https://welcome.royalcanin.com/?redirect_uri=',
@@ -214,7 +214,7 @@ const env = {
   productionHub: {
     // #okta
     REACT_APP_ACCESS_PATH: 'https://www.royalcanin.com/uk/shop',
-    REACT_APP_CLIENT_ID: '0oamkkuay3Bdq8tHc416',
+    REACT_APP_CLIENT_ID: '0oa27u66xmv9zhxGI417',
     REACT_APP_ISSUER: 'https://signin.royalcanin.com/oauth2/default',
     REACT_APP_RedirectURL:
       'https://www.royalcanin.com/uk/shop/implicit/callback',
