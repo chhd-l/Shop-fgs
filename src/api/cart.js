@@ -143,9 +143,12 @@ export function shippingCalculation(parameter) {
 //us 获取问卷调查内容
 export function querySurveyContent(parameter) {
   return axios({
-    url: `${api.querySurveyContent}/${parameter.storeId}/${parameter.customerId}`,
+    url:
+      parameter.customerId !== ''
+        ? `${api.querySurveyContent}/${parameter.storeId}/${parameter.customerId}`
+        : `${api.querySurveyContent}/${parameter.storeId}`,
     method: 'get',
-    params: parameter
+    params: {}
   });
 }
 

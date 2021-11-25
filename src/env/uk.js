@@ -124,6 +124,7 @@ const env = {
 
     // #bazaarVoice环境配置
     REACT_APP_BAZAARVOICE_ENV: 'staging',
+
     REACT_APP_DELETE_My_ACCOUNT_URL:
       'https://prd-weu1-rc-df-myaccount-app-webapp-dev.cloud-effem.com/en-us/manager/settings'
   },
@@ -152,6 +153,7 @@ const env = {
 
     // #bazaarVoice环境配置
     REACT_APP_BAZAARVOICE_ENV: 'staging',
+
     REACT_APP_DELETE_My_ACCOUNT_URL:
       'https://prd-weu1-rc-df-myaccount-app-webapp-dev.cloud-effem.com/en-us/manager/settings'
   },
@@ -208,6 +210,43 @@ const env = {
     // #删除账户
     REACT_APP_DELETE_My_ACCOUNT_URL:
       'https://account.royalcanin.com/en-us/manager/settings'
+  },
+  productionHub: {
+    // #okta
+    REACT_APP_ACCESS_PATH: 'https://www.royalcanin.com/uk/shop',
+    REACT_APP_CLIENT_ID: '0oamkkuay3Bdq8tHc416',
+    REACT_APP_ISSUER: 'https://signin.royalcanin.com/oauth2/default',
+    REACT_APP_RedirectURL:
+      'https://www.royalcanin.com/uk/shop/implicit/callback',
+    REACT_APP_RegisterPrefix: 'https://welcome.royalcanin.com/?redirect_uri=',
+    REACT_APP_RegisterCallback: 'https://www.royalcanin.com/uk/shop',
+    REACT_APP_FaceBook_IDP: '0oa75jv7oSeLBnnkt416',
+    REACT_APP_Google_IDP: '0oa75klujN7PkgedM416',
+
+    // #接口配置
+    REACT_APP_BASEURL: 'https://www.royalcanin.com/uk/shop/api',
+
+    // #GA环境配置
+    REACT_APP_GA_ENV: 'prd',
+
+    // #onetrust
+    REACT_APP_ONTRUST_DOMAIN_SCRIPT: '8923767a-c9c8-4c36-ae5f-97af6af42bdb',
+
+    // #设置二级子目录访问页面
+    REACT_APP_HOMEPAGE: '/uk/shop',
+
+    // #HUB_GA
+    REACT_APP_HUB_GA: '1',
+
+    // #根节点自定义样式名
+    REACT_APP_ROOT_CLS: 'ui-custom-hub',
+
+    REACT_APP_HUB: '1',
+
+    // #delete接口前缀
+    REACT_APP_HUB_APIURL: 'https://www.royalcanin.com/uk/api',
+
+    REACT_APP_HUB_URLPREFIX: 'https://www.royalcanin.com/uk'
   },
   stgwedding: {
     // #okta

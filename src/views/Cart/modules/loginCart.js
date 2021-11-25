@@ -954,8 +954,12 @@ class LoginCart extends React.Component {
               mixFeedingData={mixFeedings[index]}
               goodsInfoFlag={pitem.goodsInfoFlag}
               periodTypeId={pitem.periodTypeId}
+              beforeUpdate={() => {
+                this.setState({ checkoutLoading: true });
+              }}
               update={() => {
                 this.setData({ initPage: true });
+                this.setState({ checkoutLoading: false });
               }}
             />
           ) : null}

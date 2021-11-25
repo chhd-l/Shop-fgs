@@ -254,7 +254,7 @@ class SearchSelection extends React.Component {
   render() {
     const { optionList, form } = this.state;
     return (
-      <form autoComplete="off">
+      <form className="fullWidth" autoComplete="off">
         <div style={{ flex: this.props.inputCustomStyle ? 'auto' : '' }}>
           <div
             className={`${this.props.customCls} ${

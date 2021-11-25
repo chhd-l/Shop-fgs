@@ -24,6 +24,7 @@ const AddCartSuccessMobile = ({
 }) => {
   const History = useHistory()
   const [selectedSku, setSelectedSku] = useState(null);
+  const [loading, setLoading] = useState(false)
   useEffect(() => {
     setSelectedSku(mixFeedingData?.sizeList?.filter((el) => el.selected)[0]);
     console.log('mixFeedingData', mixFeedingData);
@@ -69,7 +70,7 @@ const AddCartSuccessMobile = ({
               <p style={{ color: '#5cae2a' }}>
                 <FormattedMessage id="addedtoCart" />
               </p>
-              {mixFeedingData ? (
+              {mixFeedingData && selectedSku?.stock > 0 ? (
                 <div className="rc-border-all rc-border-colour--interface product-info p-3 rc-padding-bottom--none--mobile">
                   <div className="text-left mb-2">
                     <strong>Общая стоимость Общая стоимость:</strong>
@@ -130,15 +131,19 @@ const AddCartSuccessMobile = ({
                   > */}
                   
                   <a
-                    className="rc-btn rc-btn--two my-3"
+                    className={`rc-btn rc-btn--two my-3 ${loading?'ui-btn-loading': ''}`}
                     style={{ fontWeight: 400, color: '#e2001a' }}
                     onClick={async (e) => {
-                      
+                      setLoading(true)
                       e.preventDefault()
-                      mixFeedingData.goodsInfoFlag = goodsInfoFlag
-                      mixFeedingData.periodTypeId = periodTypeId
-                      isLogin? await addToLoginCartData(mixFeedingData): await addToUnloginCartData(mixFeedingData)
-                      History.push('/cart')
+                      try {
+                        mixFeedingData.goodsInfoFlag = goodsInfoFlag
+                        mixFeedingData.periodTypeId = periodTypeId
+                        isLogin? await addToLoginCartData(mixFeedingData): await addToUnloginCartData(mixFeedingData)
+                        History.push('/cart')
+                      }catch {
+                        setLoading(false)
+                      }
                     }}
                   >
                     <FormattedMessage id="goToCart" />
