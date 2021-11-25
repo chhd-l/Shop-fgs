@@ -1126,7 +1126,7 @@ export function handleRecommendation(product) {
 
 export async function addToUnloginCartData(product) {
   // let quantityNew = product.recommendationNumber;
-  let quantityNew = 1;
+  let quantityNew = product.quantity;
   let tmpData = Object.assign(product, {
     quantity: quantityNew
   });

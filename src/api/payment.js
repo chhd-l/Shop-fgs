@@ -9,19 +9,15 @@ const api = {
   getPaymentMethod: `/${window.__.env.REACT_APP_STOREID}/pay-payment-info`, // query card list
   deleteCard: '/pay-payment-info', // delete a card
   setDefaltCard: '/pay-payment-info/default',
-  // confirmAndCommit: '/tradeCustom/confirmcommitAndPaySync'
 
   customerCommitAndPay: '/trade-custom/checkout',
   rePay: '/trade-custom/repay',
   customerCommitAndPayMix: '/trade-custom/mix/checkout',
   getMarketingDiscount: '/marketing/discount',
-  // getMarketingDiscount: '/marketing/getMarketingDiscount',
   getWays: `/${window.__.env.REACT_APP_STOREID}/pay/getPayPspList`,
   adyenPaymentsDetails: `/${window.__.env.REACT_APP_STOREID}/adyen/payment`,
   payu3dsPaymentsDetails: `/payCallback/${window.__.env.REACT_APP_STOREID}/payu/${window.__.env.REACT_APP_LANG}/authorization`,
-  // adyenPaymentsDetails: '/adyenPay/payments/details',
   getProductPetConfig: '/order/config/findPet',
-  // getProductPetConfig: '/order/config/findPet'
   adyen3DSResult: `/${window.__.env.REACT_APP_STOREID}/adyen/identity/verification/payment`,
   Adyen3DSResult: '/Adyen3DSResult',
   //CYBER
@@ -204,23 +200,16 @@ export function payu3dsPaymentsDetails(parameter) {
 }
 
 export function getProductPetConfig(parameter) {
-  // parameter.goodsInfos.map((ele) => {
-  //   if (ele.goods) {
-  //     ele.goods.goodsDetail = '';
-  //   }
-  //   if (ele.goodsInfos) {
-  //     ele.goodsInfos.map((el) => {
-  //       el.goods = null;
-  //     });
-  //   }
-  //   return Object.assign(ele, {
-  //     goodsDetail: ''
-  //   });
-  // });
   return axios({
     url: api.getProductPetConfig,
     method: 'post',
-    data: parameter
+    data: {
+      goodsInfos: parameter.goodsInfos.map((el) => {
+        return {
+          cateId: el.cateId
+        };
+      })
+    }
   });
 }
 export function setDefaltCard(parameter) {

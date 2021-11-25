@@ -70,7 +70,7 @@ const AddCartSuccessMobile = ({
               <p style={{ color: '#5cae2a' }}>
                 <FormattedMessage id="addedtoCart" />
               </p>
-              {mixFeedingData ? (
+              {mixFeedingData && selectedSku?.stock > 0 ? (
                 <div className="rc-border-all rc-border-colour--interface product-info p-3 rc-padding-bottom--none--mobile">
                   <div className="text-left mb-2">
                     <strong>Общая стоимость Общая стоимость:</strong>

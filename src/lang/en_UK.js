@@ -449,6 +449,7 @@ const en_US = {
   'details.theSize': 'The size',
   'details.unitPrice': 'Unit price',
   'details.youCanSave': 'You can save',
+  'details.buyFromRetailer': 'Buy Now',
   dogs: 'DOGS',
   dogs2: 'Dogs',
   dogs3: 'Dog',
