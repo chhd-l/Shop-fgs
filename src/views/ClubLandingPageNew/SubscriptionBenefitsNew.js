@@ -31,7 +31,7 @@ const SubsriptionBenefitsNew = () => {
             </h4>
             <div className="value-proposition__container">
               <div className="row mx-0 justify-content-between">
-                <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center ">
+                <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 md:pl-0 md:pr-2  pr-xxl-3 pl-xxl-0 justify-content-center ">
                   <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                       <LazyLoad height={200}>
@@ -56,7 +56,7 @@ const SubsriptionBenefitsNew = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 md:pl-0 md:pr-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                   <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                       <LazyLoad height={200}>
@@ -81,7 +81,7 @@ const SubsriptionBenefitsNew = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 md:pl-0 md:pr-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                   <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                       <LazyLoad height={200}>
@@ -106,7 +106,7 @@ const SubsriptionBenefitsNew = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 md:pl-0 md:pr-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                   <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                       <LazyLoad height={200}>
@@ -131,7 +131,7 @@ const SubsriptionBenefitsNew = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 md:pl-0 md:pr-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                   <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                       <LazyLoad height={200}>
@@ -158,7 +158,7 @@ const SubsriptionBenefitsNew = () => {
                   </div>
                 </div>
                 {window.__.env.REACT_APP_COUNTRY == 'ru' ? (
-                  <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                  <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 md:pl-0 md:pr-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                     <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
                       <div
                         style={{ display: 'flex', justifyContent: 'center' }}

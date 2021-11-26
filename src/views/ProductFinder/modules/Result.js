@@ -34,7 +34,7 @@ function QListAndPetJSX(props) {
   return (
     <div className="p-f-pet-box mt-4 pt-4 mb-4 pb-4">
       <div className="row">
-        <div className="col-12 col-md-6 mb-4 mb-md-0">
+        <div className="col-12 col-md-6 mb-4 md:mb-0">
           <div className="border rounded">
             <p
               className="text-center mt-2 mb-0"
@@ -80,8 +80,8 @@ function QListAndPetJSX(props) {
         </div>
         <div className="col-12 col-md-6">
           <div className="border rounded pr-2 pl-2">
-            <div className="row align-items-center mt-4 mb-2 mb-md-4">
-              <div className="col-12 col-md-5 mb-4 mb-md-0">
+            <div className="row align-items-center mt-4 mb-2 md:mb-4">
+              <div className="col-12 col-md-5 mb-4 md:mb-0">
                 <LazyLoad style={{ height: '100%', width: '100%' }}>
                   <img
                     src={{ cat: catImg, dog: dogImg }[props.type]}
@@ -95,30 +95,30 @@ function QListAndPetJSX(props) {
                   />
                 </LazyLoad>
               </div>
-              <div className="col-12 col-md-7 text-center text-md-left text-break">
+              <div className="col-12 col-md-7 text-center md:text-left text-break">
                 <div className="row">
-                  <div className="col-6 mb-2 mb-md-0">
+                  <div className="col-6 mb-2 md:mb-0">
                     <FormattedMessage id="age" />
                     <br />
                     <span className="font-weight-normal">
                       {(petBaseInfo && petBaseInfo.age) || '...'}
                     </span>
                   </div>
-                  <div className="col-6 mb-2 mb-md-0">
+                  <div className="col-6 mb-2 md:mb-0">
                     <FormattedMessage id="breed" />
                     <br />
                     <span className="font-weight-normal">
                       {(petBaseInfo && petBaseInfo.breed) || '...'}
                     </span>
                   </div>
-                  <div className="col-6 mb-2 mb-md-0">
+                  <div className="col-6 mb-2 md:mb-0">
                     <FormattedMessage id="gender" />
                     <br />
                     <span className="font-weight-normal">
                       {(petBaseInfo && petBaseInfo.gender) || '...'}
                     </span>
                   </div>
-                  <div className="col-6 mb-2 mb-md-0">
+                  <div className="col-6 mb-2 md:mb-0">
                     <FormattedMessage id="sterilized" />
                     <br />
                     <span className="font-weight-normal">{sterilizedText}</span>
@@ -235,11 +235,15 @@ class ProductFinderResult extends React.Component {
         let rations = rationRes?.context?.rationResponseItems;
         rations?.forEach((ration) => {
           if (mainProduct.spuCode == ration.mainItem) {
-            mainProduct.petsRation = `${Math.round(ration.weight)}${ration.weightUnit}/${this.props.intl.messages['day-unit']}`;
+            mainProduct.petsRation = `${Math.round(ration.weight)}${
+              ration.weightUnit
+            }/${this.props.intl.messages['day-unit']}`;
           }
           otherProducts?.map((el) => {
             if (el.spuCode == ration.mainItem) {
-              el.petsRation = `${Math.round(ration.weight)}${ration.weightUnit}/${this.props.intl.messages['day-unit']}`;
+              el.petsRation = `${Math.round(ration.weight)}${
+                ration.weightUnit
+              }/${this.props.intl.messages['day-unit']}`;
             }
           });
         });
@@ -560,7 +564,7 @@ class ProductFinderResult extends React.Component {
                   <div className="d-flex">
                     {productDetail.otherProducts.map((ele, i) => (
                       <div
-                        className={`border rounded pt-3 pb-3 pl-2 pr-2 pl-md-0 pr-md-0 ${
+                        className={`border rounded pt-3 pb-3 pl-2 pr-2 md:pl-0 md:pr-0 ${
                           i ? 'ml-2' : ''
                         }`}
                         key={ele.id}

@@ -292,7 +292,7 @@ class CyberCardList extends React.Component {
     let cvvId = data.id;
     return (
       <div className="row">
-        <div className="col-6 col-sm-4 d-flex flex-column pb-1 pb-md-0">
+        <div className="col-6 col-sm-4 d-flex flex-column pb-1 md:pb-0">
           <LazyLoad>
             <img
               alt="card background"
@@ -306,7 +306,7 @@ class CyberCardList extends React.Component {
             />
           </LazyLoad>
         </div>
-        <div className="col-12 col-sm-8 flex-column justify-content-around d-flex pb-1 pb-md-0">
+        <div className="col-12 col-sm-8 flex-column justify-content-around d-flex pb-1 md:pb-0">
           <div className="row ui-margin-top-1-md-down PayCardBoxMargin text-break">
             <div className={`col-12 mb-1`}>
               <div className="row align-items-center">

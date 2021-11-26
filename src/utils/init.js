@@ -41,9 +41,21 @@ if (
   document.getElementsByTagName('head')[0].appendChild(metaTag);
 }
 
+// add hreflang for ru
+// if (
+//   window.__.env.REACT_APP_COUNTRY === 'ru'
+// ) {
+//   var linkTag = document.createElement('link');
+//   linkTag.rel = 'alternate';
+//   // var country = window.__.env.REACT_APP_COUNTRY?.charAt(0).toUpperCase() + window.__.env.REACT_APP_COUNTRY?.slice(1)
+//   linkTag.hreflang = window.__.env.REACT_APP_COUNTRY
+//   linkTag.href = window.location.href
+//   document.getElementsByTagName('head')[0].appendChild(linkTag);
+// }
+
 dynamicLoadCss(window.__.env.REACT_APP_ONTRUST_STYLE);
 
 if (window.__.env.REACT_APP_HUB === '1') {
   let dom = document.querySelector('#root');
-  dom.className += ` ${window.__.env.REACT_APP_ROOT_CLS}`;
+  dom.className += ' ui-custom-hub';
 }

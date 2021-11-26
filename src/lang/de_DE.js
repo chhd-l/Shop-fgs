@@ -425,7 +425,7 @@ const de_DE = {
   FrequentQuestions: 'Häufige Fragen',
   from: 'Von',
   plpFromText: 'Von',
-  plpFromNew:'{started}{plpValue}',
+  plpFromNew: '{started}{plpValue}',
   gender: 'Geschlecht',
   getConsumerAccountFailed: 'Get Consumer Account Failed',
   getDataFailed: 'Get Data Failed',
@@ -557,13 +557,13 @@ const de_DE = {
   loginFailed: 'Login fehlgeschlagen',
   logisticsCompany: 'Logistikunternehmen',
   logisticsRating: 'Logistikbewertung',
+  expertAdvice: 'Beratung durch Experten',
   logisticsSingleNumber: 'DPD Paketnummer',
   logOff: 'Ausloggen',
   mailAddress: 'E-Mail-Addresse',
   manage: 'Verwalten',
   mandatoryFieldsError: 'Sie haben Pflichtfelder nicht ausgefüllt!',
   menu: 'Menü',
-  miniBasket: 'Minikorb',
   'mixed Breed': 'gemischte Rasse',
   'Mixed Breed': 'Gemischte Rasse',
   MMYY: 'MM / JJ',
@@ -1420,7 +1420,8 @@ const de_DE = {
   'list.applyFilters': 'Filter anwenden',
   'list.clearFilters': 'Alle Filter löschen',
   'list.viewFilters': 'Filter anzeigen',
-  'list.closeFilters': 'Filter schließen'
+  'list.closeFilters': 'Filter schließen',
+  'order.goodwillOrder': '[Goodwill order]'
 };
 
 export default de_DE;

@@ -215,8 +215,7 @@ const ru_RU = {
   'cart.errorMaxInfo': 'Число не может быть больше {val}',
   'cart.errorAllProductNumLimit': 'Количество "{val}" заказов ограничено.',
   'cart.fullPrice': 'Подберите подходящий рацион для своего питомца',
-  'cart.miniCartTitle':
-    'Скидка 10% на первую покупку, плюс 5% на каждый заказ с автоматической доставкой',
+  'cart.miniCartTitle': 'Мини-корзина',
   'cart.totalProduct': '{val} товар (а/ов)',
   'minicart.totalProduct': '{val} товара в',
   'cart.totalProduct_nounit': 'У вас {val} корзине',
@@ -427,7 +426,7 @@ const ru_RU = {
   freeShipping: 'Бесплатная доставка от 2500₽',
   from: 'От',
   plpFromText: 'От',
-  plpFromNew:'{started}{plpValue}',
+  plpFromNew: '{started}{plpValue}',
   gender: 'Пол',
   GeneralConditions: 'Возврат покупки',
   getConsumerAccountFailed: 'Не удалось получить учетную запись потребителя',
@@ -561,12 +560,12 @@ const ru_RU = {
   'login.thirdCheck': 'Я согласен получать маркетинговую рассылку',
   loginFailed: 'Вход в систему не удался',
   logisticsRating: 'Рейтинг логистики',
+  expertAdvice: 'Замечания экспертов',
   logOff: 'Выйти',
   // mailAddress: 'Почта Адрес',
   mailAddress: 'E-mail',
   mandatoryFieldsError: 'У вас не заполнены обязательные поля!',
   menu: 'Меню',
-  miniBasket: 'Мини-корзина',
   MMYY: 'ММ / ГГ',
   modalCancelAllContent: 'Вы уверены, что хотите удалить Вашу подписку?',
   modalCancelAllTitle: 'Удаление подписки?',
@@ -1503,7 +1502,8 @@ const ru_RU = {
   'list.applyFilters': 'Применить фильтры',
   'list.clearFilters': 'Очистить все фильтры',
   'list.viewFilters': 'Фильтры',
-  'list.closeFilters': 'Закрыть фильтры'
+  'list.closeFilters': 'Закрыть фильтры',
+  'order.goodwillOrder': '[Goodwill order]'
 };
 
 export default ru_RU;

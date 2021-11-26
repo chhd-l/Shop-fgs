@@ -63,11 +63,13 @@ import OktaLoginPage from '@/views/OktaLoginPage';
 import OktaLogoutPage from '@/views/OktaLogoutPage';
 import AccountPetList from '@/views/Account/PetList';
 import ProductReview from '@/views/Account/ProductReview';
+import ProductReviewService from '@/views/Account/ProductReviewService';
 // import AccountRefunds from "@/views/Account/Refunds";
 
 import Recommendation from '@/views/Recommendation';
 import Recommendation_FR from '@/views/Recommendation_FR';
 import Recommendation_US from '@/views/Recommendation_US';
+import Recommendation_FrBreeder from '@/views/Recommendation_FrBreeder';
 import ProductFinder from '@/views/ProductFinder';
 import ProductFinderResult from '@/views/ProductFinder/modules/Result';
 import ProductFinderNoResult from '@/views/ProductFinder/modules/NoResult';
@@ -76,6 +78,10 @@ const TermUse = loadable(() => import('@/views/StaticPage/TermUse'));
 const TermsAndConditions = loadable(() =>
   import('@/views/StaticPage/TermUse/TermsAndConditions')
 );
+const TermsOfUsePrescriber = loadable(() =>
+  import('@/views/StaticPage/TermsOfUsePrescriber')
+);
+
 const PrivacyPolicy = loadable(() =>
   import('@/views/StaticPage/PrivacyPolicy')
 );
@@ -192,12 +198,12 @@ const ClubLandingPageDeVet = loadable(() =>
 const DedicatedLandingPage = loadable(() =>
   import('@/views/DedicatedLandingPage')
 );
-// const Felin = loadable(() =>
-//   import('@/views/Felin')
-// );
-// const FelinRecommendation = loadable(() =>
-//   import('@/views/FelinRecommendation')
-// );
+const Felin = loadable(() =>
+  import('@/views/Felin2')
+);
+const FelinRecommendation = loadable(() =>
+  import('@/views/FelinRecommendation')
+);
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -261,6 +267,7 @@ const RegisterRequired = loadable(() =>
 );
 
 const Test = loadable(() => import('@/views/Test'));
+const Survey = loadable(() => import('@/views/Survey'));
 
 const ImplicitLogin = () => {
   const { oktaAuth } = useOktaAuth();
@@ -490,7 +497,13 @@ const App = () => {
                 <Route
                   exact
                   path="/recommendation"
-                  render={(props) => <Recommendation_US {...props} />}
+                  render={(props)=>{
+                    let recommendationPage =  <Recommendation_US {...props} />
+                    if(window.__.env.REACT_APP_COUNTRY=='fr'&&props.location.search.includes('breeder')){
+                      recommendationPage = <Recommendation_FrBreeder {...props}/>
+                    }
+                    return recommendationPage;
+                  }}
                 />
 
                 <Route exact path="/termuse" component={TermUse} />
@@ -498,6 +511,11 @@ const App = () => {
                   exact
                   path="/Terms-And-Conditions"
                   component={TermsAndConditions}
+                />
+                 <Route
+                  exact
+                  path="/terms-of-use-prescriber"
+                  component={TermsOfUsePrescriber}
                 />
                 <Route exact path="/privacypolicy" component={PrivacyPolicy} />
 
@@ -547,6 +565,11 @@ const App = () => {
                   path="/account/productReview/:tid"
                   exact
                   component={ProductReview}
+                />
+                <Route
+                  path="/account/productReviewService/:tid"
+                  exact
+                  component={ProductReviewService}
                 />
                 <Route path="/required" exact component={RegisterRequired} />
 
@@ -689,7 +712,7 @@ const App = () => {
                   component={ShipmentConditions}
                 />
 
-                <Route path="/404" component={Exception} />
+                {/* <Route path="/404" component={Exception} /> */}
                 <Route path="/403" component={Page403} />
                 <Route path="/500" component={Page500} />
 
@@ -699,6 +722,7 @@ const App = () => {
                 <Route path="/consent2-tr" component={Consent2TR} />
                 <Route path="/register" component={register} />
                 <Route path="/welcome/:id" component={welcome} />
+                <Route path="/survey/:id?" component={Survey} />
 
                 {/* <Route
                   path="/smart-feeder-subscription"
@@ -750,11 +774,11 @@ const App = () => {
                   )}
                 />
                 <Route exact sensitive path="/FAQ" component={Exception} />
-                {/* <Route
-                  path="/FelinRecommendation/:id"
-                  component={FelinRecommendation}
+               <Route
+                path="/FelinRecommendation/:id"
+                component={FelinRecommendation}
                 />
-                <Route path="/latelier/felin" component={Felin} /> */}
+                <Route path="/felin" component={Felin} />
                 <Route
                   path="/"
                   render={(props) => {

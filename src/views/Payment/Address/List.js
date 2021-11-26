@@ -34,6 +34,7 @@ import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
 import AddressPreview from './Preview';
 import './list.less';
+import felinAddr from './FelinOfflineAddress';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -149,14 +150,12 @@ class AddressList extends React.Component {
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.addOrEditPickupAddress = this.addOrEditPickupAddress.bind(this);
-    this.handleCancelAddOrEditPickup = this.handleCancelAddOrEditPickup.bind(
-      this
-    );
+    this.handleCancelAddOrEditPickup =
+      this.handleCancelAddOrEditPickup.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.timer = null;
-    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
-      this
-    );
+    this.confirmListValidationAddress =
+      this.confirmListValidationAddress.bind(this);
     this.editFormRef = React.createRef();
   }
   async componentDidMount() {
@@ -172,15 +171,24 @@ class AddressList extends React.Component {
       });
     });
 
-    this.setState(
-      {
-        listBtnLoading: false,
-        wrongAddressMsg: JSON.parse(localItemRoyal.get('rc-wrongAddressMsg'))
-      },
-      async () => {
-        await this.queryAddressList({ init: true });
-      }
-    );
+    if (sessionItemRoyal.get('from-felin')) {
+      //from felin下单情况下，地址信息不可编辑
+      this.setState({
+        addressList: felinAddr,
+        selectedId: felinAddr[0].deliveryAddressId,
+        loading: false
+      });
+    } else {
+      this.setState(
+        {
+          listBtnLoading: false,
+          wrongAddressMsg: JSON.parse(localItemRoyal.get('rc-wrongAddressMsg'))
+        },
+        async () => {
+          await this.queryAddressList({ init: true });
+        }
+      );
+    }
   }
   get isDeliverAddress() {
     return this.props.type === 'delivery';
@@ -1175,11 +1183,8 @@ class AddressList extends React.Component {
   };
   // 点击地址验证确认按钮
   confirmListValidationAddress = () => {
-    const {
-      deliveryAddress,
-      selectListValidationOption,
-      validationAddress
-    } = this.state;
+    const { deliveryAddress, selectListValidationOption, validationAddress } =
+      this.state;
     this.setState({
       listBtnLoading: true
     });
@@ -1275,20 +1280,26 @@ class AddressList extends React.Component {
           {titleVisible ? (
             <>
               <em className="rc-icon rc-indoors--xs rc-iconography" />{' '}
-              <FormattedMessage id="payment.deliveryTitle" />
+              {sessionItemRoyal.get('from-felin') ? (
+                <FormattedMessage id="Felin Address" />
+              ) : (
+                <FormattedMessage id="payment.deliveryTitle" />
+              )}
               <span className="iconfont font-weight-bold green ml-2">
                 &#xe68c;
               </span>
             </>
           ) : null}
         </h5>{' '}
-        <p
-          onClick={this.handleClickEdit}
-          className="rc-styled-link mb-1 checkout_edit_address"
-          style={{ cursor: 'pointer' }}
-        >
-          <FormattedMessage id="edit" />
-        </p>
+        {!sessionItemRoyal.get('from-felin') && (
+          <p
+            onClick={this.handleClickEdit}
+            className="rc-styled-link mb-1 checkout_edit_address"
+            style={{ cursor: 'pointer' }}
+          >
+            <FormattedMessage id="edit" />
+          </p>
+        )}
       </>
     );
   }
@@ -2137,7 +2148,7 @@ class AddressList extends React.Component {
                 <div className="address-item-forbid">{item.alert}</div>
               ) : null}
             </div>
-            <div className="col-12 col-md-4 mt-md-0 mt-1 pl-0 pr-0 text-right font-weight-bold address_opt_btn ">
+            <div className="col-12 col-md-4 md:mt-0 mt-1 pl-0 pr-0 text-right font-weight-bold address_opt_btn ">
               <span
                 className="border-bottom-2"
                 onClick={this.addOrEditAddress.bind(this, i)}

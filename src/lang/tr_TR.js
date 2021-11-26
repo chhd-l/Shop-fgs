@@ -140,8 +140,7 @@ const tr_TR = {
   'cart.errorMaxInfo': "Sayı {val}'u geçemez",
   'cart.errorAllProductNumLimit': '{val} sipariş sayısı sınırlıdır.',
   'cart.fullPrice': ' ',
-  'cart.miniCartTitle':
-    'İlk satın alma işleminde% 10 indirim artı otomatik gönderim ile her siparişte% 5 indirim',
+  'cart.miniCartTitle': 'Tüm abonelik siparişlerinizde %10 indirim',
   'cart.totalProduct': '{val} ürün',
   'minicart.totalProduct': '{val} ürün',
   'cart.totalProduct_nounit': '{val} sepette',
@@ -367,7 +366,7 @@ const tr_TR = {
   oneoffFreeShipping: '125 TL Üzeri Ücretsiz kargo.',
   from: 'Kimden',
   plpFromText: 'den başlayan',
-  plpFromNew:'{plpValue}{started}',
+  plpFromNew: '{plpValue}{started}',
   gender: 'Cinsiyet',
   getConsumerAccountFailed: 'Tüketici Hesabını Alma Başarısız Oldu',
   getDataFailed: 'Veri Alma Başarısız Oldu',
@@ -429,7 +428,8 @@ const tr_TR = {
   'home.convenientTip3': 'Evcil hayvan uzmanları ile iletişimde olun',
   'home.convenientTip4': 'Otomatik gönderimle evinizde mama bitmesin',
   'home.convenientTitle': 'Neden Royal Canin?',
-  'home.note1':'Black Friday\'e özel kedi ve köpek mamalarında ROYAL30 koduyla %30 indirim!',
+  'home.note1':
+    "Black Friday'e özel kedi ve köpek mamalarında ROYAL30 koduyla %30 indirim!",
   // 'home.note1': 'Tüm Club abonelik siparişlerinizde 10% indirim. 125 TL ve üzeri alışverişlerinizde Ücretsiz Kargo fırsatı!',
   'home.note2': '',
   'home.pageNotFound': 'Sayfa bulunamadı…',
@@ -493,11 +493,11 @@ const tr_TR = {
   'login.thirdCheck': 'Pazarlama bültenini almayı kabul ediyorum',
   loginFailed: 'giriş başarısız',
   logisticsRating: 'Lojistik değerlendirme',
+  expertAdvice: 'Замечания экспертов',
   logOff: 'Çıkış Yap',
   mailAddress: 'E-posta',
   mandatoryFieldsError: 'Doldurulmamış zorunlu alanlarınız var!',
   menu: 'Menü',
-  miniBasket: 'Tüm abonelik siparişlerinizde %10 indirim',
   MMYY: 'AA / YY',
   modalCancelAllContent:
     'Aşağıdaki tüm teslimatları iptal etmek istediğinizden emin misiniz?',
@@ -1365,6 +1365,18 @@ const tr_TR = {
   'list.applyFilters': 'Filtreleri uygula',
   'list.clearFilters': 'Tüm filtreleri temizle',
   'list.viewFilters': 'Filtreleri görüntüle',
-  'list.closeFilters': 'Filtreleri kapat'
+  'list.closeFilters': 'Filtreleri kapat',
+  'order.goodwillOrder': '[Goodwill order]',
+  'adyen.storeDetails': 'Guardar título para programar el próximo pago',
+  'adyen.creditCard.holderName.placeholder': 'J. Smith',
+  'adyen.creditCard.holderName.invalid': 'Geçersiz kart sahibi adı',
+  'adyen.creditCard.numberField.title': 'Kart numarası',
+  'adyen.creditCard.numberField.placeholder': '1234 5678 9012 3456',
+  'adyen.creditCard.numberField.invalid': 'geçersiz kart numarası',
+  'adyen.creditCard.expiryDateField.title': 'Son kullanma tarihi',
+  'adyen.creditCard.expiryDateField.placeholder': 'AA / YY',
+  'adyen.creditCard.expiryDateField.invalid': 'Geçersiz son kullanma tarihi',
+  'adyen.creditCard.cvcField.title': 'CVC / CVV',
+  'adyen.creditCard.cvcField.placeholder': '123'
 };
 export default tr_TR;

@@ -38,7 +38,7 @@ class FrTips extends Component {
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
-          <div className="rc-layout-container rc-three-column rc-match-heights text-center text-md-left">
+          <div className="rc-layout-container rc-three-column rc-match-heights text-center md:text-left">
             <div className="rc-column align-self-center">
               <h3 className="rc-gamma rc-margin--none rc-padding--sm rc-padding--lg--mobile">
                 Voici quelques sujets sur lesquels nous vous accompagnons:

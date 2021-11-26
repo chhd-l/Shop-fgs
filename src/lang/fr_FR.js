@@ -1,3 +1,5 @@
+import React from 'react';
+
 const fr_FR = {
   aboutUs: 'À propos de nous',
   'aboutUs.description':
@@ -658,7 +660,7 @@ const fr_FR = {
   FrequentQuestions: 'Questions courantes',
   from: 'De',
   plpFromText: 'à partir de',
-  plpFromNew:'{started}{plpValue}',
+  plpFromNew: '{started}{plpValue}',
   gender: 'Sexe',
   getConsumerAccountFailed: "Échec de l'obtention du compte consommateur",
   getDataFailed: 'Obtenir les données a échoué',
@@ -795,12 +797,12 @@ const fr_FR = {
   'loginCart.totalProduct': 'Nombre:{}',
   loginFailed: 'Échec de la connexion',
   logisticsRating: 'Évaluation logistique',
+  expertAdvice: "Avis d'experts",
   logOff: 'Se déconnecter',
   mailAddress: 'Adresse mail',
   manage: 'Gérer',
   mandatoryFieldsError: "Vous n'avez pas rempli les champs obligatoires!",
   menu: 'menu',
-  miniBasket: 'Mini panier',
   'mixed Breed': 'race Mixte',
   'Mixed Breed': 'Race Mixte',
   MMYY: 'MM / AA',
@@ -2192,6 +2194,20 @@ const fr_FR = {
   'list.applyFilters': 'Appliquer des filtres',
   'list.clearFilters': 'Effacer tous les filtres',
   'list.viewFilters': 'Afficher les filtres',
-  'list.closeFilters': 'Fermer les filtres'
+  'list.closeFilters': 'Fermer les filtres',
+  'order.goodwillOrder': '[Goodwill order]',
+  'Appointment summary': 'Appointment summary',
+  'Expert type': 'Expert type: ',
+  'Appointment type': 'Appointment type: ',
+  'Appointment time': 'Appointment time: ',
+  min: 'min',
+  're-book': 'Re-book',
+  'Felin Address': 'Felin Address',
+  'Change Appointment': 'Change Appointment',
+  'felinOrder.servicePaid': 'Service being prepared',
+  'felinOrder.servicePaidTip':
+    'Your appointment has been set up and we can’t wait to see you!',
+  'Cancel Appointment': 'Cancel Appointment',
+  'Appointment Information': 'Appointment Information'
 };
 export default fr_FR;

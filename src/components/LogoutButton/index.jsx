@@ -17,6 +17,7 @@ import { FormattedMessage } from 'react-intl';
 import stores from '@/store';
 
 const localItemRoyal = window.__.localItemRoyal;
+const sessionItemRoyal = window.__.sessionItemRoyal;
 const loginStore = stores.loginStore;
 const checkoutStore = stores.checkoutStore;
 const clinicStore = stores.clinicStore;
@@ -76,6 +77,8 @@ const LogoutButton = (props) => {
       checkoutStore.removeLoginCartData();
       clinicStore.removeDefaultClinicInfo();
       clinicStore.removeSelectClinicInfo();
+      sessionItemRoyal.remove('rc-review-surveyId');
+      sessionItemRoyal.remove('rc-clicked-surveyId');
       // await logout(props.callbackUrl || window.__.env.REACT_APP_HOMEPAGE);
       await logout(window.__.env.REACT_APP_HOMEPAGE);
     } catch (err) {
@@ -87,17 +90,20 @@ const LogoutButton = (props) => {
   const defaultLogoutBtnJSX = () => {
     return (
       <div
-        className="logoff-style"
-        style={(props && props.containerStyle) || {cursor:'pointer'}}
+        className="logoff-style flex align-items-center justify-content-center"
+        style={(props && props.containerStyle) || { cursor: 'pointer' }}
       >
         <span
-          className="rc-styled-link--external"
+          className="flex align-items-center ui-cursor-pointer"
           id="J-btn-logoff"
           onClick={clickLogoff}
           style={(props && props.btnStyle) || {}}
           ref={props && props.buttonRef}
         >
-          <FormattedMessage id="logOff" />
+          <span>
+            <FormattedMessage id="logOff" />
+          </span>
+          <span className="iconfont iconLogoff ml-2" />
         </span>
       </div>
     );
@@ -106,7 +112,7 @@ const LogoutButton = (props) => {
     return (
       <div
         className={props.containerClassName || 'logoff-style'}
-        style={props.containerStyle || {cursor:'pointer'}}
+        style={props.containerStyle || { cursor: 'pointer' }}
       >
         <span
           id="J-btn-logoff"
@@ -126,6 +132,8 @@ const LogoutButton = (props) => {
     );
   };
 
-  return +window.__.env.REACT_APP_HUB ? hubLogoutBtnJSX() : defaultLogoutBtnJSX();
+  return +window.__.env.REACT_APP_HUB
+    ? hubLogoutBtnJSX()
+    : defaultLogoutBtnJSX();
 };
 export default LogoutButton;

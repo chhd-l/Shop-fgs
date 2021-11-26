@@ -17,7 +17,7 @@ import PhoneAndEmail from './components/PhoneAndEmail/index.tsx';
 import DetailHeader from './components/DetailHeader/index.tsx';
 import ImageMagnifier from '@/components/ImageMagnifier';
 import ImageMagnifier_fr from './components/ImageMagnifier';
-import AddCartSuccessMobile from './components/AddCartSuccessMobile';
+import AddCartSuccessMobile from './components/AddCartSuccessMobile.tsx';
 import BannerTip from '@/components/BannerTip';
 import Reviews from './components/Reviews';
 import {
@@ -28,12 +28,19 @@ import {
   getDictionary,
   filterObjectValue,
   isCountriesContainer,
-  getClubFlag
+  getClubFlag,
+  handleRecommendation,
+  isShowMixFeeding
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import find from 'lodash/find';
-import { getDetails, getLoginDetails, getDetailsBySpuNo } from '@/api/details';
+import {
+  getDetails,
+  getLoginDetails,
+  getDetailsBySpuNo,
+  getMixFeeding
+} from '@/api/details';
 import { sitePurchase } from '@/api/cart';
 import RelateProductCarousel from './components/RelateProductCarousel';
 import BuyFromRetailerBtn from './components/BuyFromRetailerBtn';
@@ -59,6 +66,7 @@ import {
   GAPdpSizeChange
 } from './GA';
 import PrescriberCodeModal from '../ClubLandingPageNew/Components/DeStoreCode/Modal';
+import MixFeedingBanner from './components/MixFeedingBanner/index.tsx';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -148,7 +156,9 @@ class Details extends React.Component {
       showErrorTip: false,
       modalMobileCartSuccessVisible: false,
       defaultSkuId: funcUrl({ name: 'skuId' }),
-      defaultGoodsInfoFlag: funcUrl({ name: 'goodsInfoFlag' })
+      defaultGoodsInfoFlag: funcUrl({ name: 'goodsInfoFlag' }),
+      mixFeeding: null,
+      originalProductInfo: {}
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -234,7 +244,7 @@ class Details extends React.Component {
       !bundle &&
       isHub &&
       !exclusiveFlag &&
-      (Fr || (Tr && !sptGoods))
+      (Fr || Uk || (Tr && !sptGoods))
     );
   }
 
@@ -371,6 +381,7 @@ class Details extends React.Component {
       details,
       spuImages,
       goodsDetailTab,
+      tmpGoodsDescriptionDetailList,
       goodsNo,
       form,
       setDefaultPurchaseTypeParamId
@@ -387,7 +398,7 @@ class Details extends React.Component {
           instockStatus,
           details,
           spuImages,
-          goodsDetailTab,
+          goodsDetailTab: tmpGoodsDescriptionDetailList,
           goodsNo
         })
       );
@@ -490,6 +501,22 @@ class Details extends React.Component {
         }
         if (goodsRes) {
           const { goods, images } = res.context;
+
+          if (isShowMixFeeding()) {
+            getMixFeeding(goods.goodsId).then((res) => {
+              let mixFeeding = handleRecommendation(
+                res?.context?.goodsRelationAndRelationInfos.filter(
+                  (el) => el.sort === 0
+                )[0] || res?.context?.goodsRelationAndRelationInfos[0]
+              );
+              // console.log(res,mixFeeding,'mixFeeding')
+              if (mixFeeding) {
+                mixFeeding.quantity = 1;
+              }
+              this.setState({ mixFeeding });
+            });
+          }
+
           const taggingList = (res.context?.taggingList || []).filter(
             (t) => t.displayStatus
           );
@@ -535,6 +562,13 @@ class Details extends React.Component {
               pageLink: this.redirectCanonicalLink({ pageLink }),
               goodsType: goods.goodsType,
               exclusiveFlag: goods.exclusiveFlag,
+              originalProductInfo: Object.assign(
+                this.state.originalProductInfo,
+                {
+                  imageSrc: images?.[0]?.artworkUrl || '',
+                  goodsTitle: goodsRes.goodsName
+                }
+              ),
               setDefaultPurchaseTypeParamId:
                 goodsRes.defaultPurchaseType ||
                 configStore.info?.storeVO?.defaultPurchaseType
@@ -599,7 +633,8 @@ class Details extends React.Component {
                 setTimeout(() => {
                   addSchemaOrgMarkup(
                     this.state.details,
-                    this.state.instockStatus
+                    this.state.instockStatus,
+                    <FormattedMessage id="homePage" />
                   );
                 }, 60000);
               }
@@ -680,7 +715,7 @@ class Details extends React.Component {
         url: 'https://fi-v2.global.commerce-connector.com/cc.js',
         id: 'cci-widget',
         dataSets: {
-          token: '2257decde4d2d64a818fd4cd62349b235d8a74bb',
+          token: '2257decde4d2d64a818fd4cd62349b235d8a74bb', //uk，fr公用它
           locale: window.__.env.REACT_APP_HUBPAGE_RETAILER_LOCALE,
           displaylanguage:
             window.__.env.REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE,
@@ -1420,8 +1455,21 @@ class Details extends React.Component {
                 closeModal={() => {
                   this.setState({ modalMobileCartSuccessVisible: false });
                 }}
+                mixFeedingData={this.state.mixFeeding}
+                periodTypeId={parseInt(form.buyWay) ? form.frequencyId : ''}
+                goodsInfoFlag={
+                  form.buyWay && details.promotions?.includes('club')
+                    ? 2
+                    : form.buyWay
+                }
+                isLogin={this.isLogin}
               />
             ) : null}
+
+            {/* {PC ? <MixFeedingBanner 
+            // originalProductInfo={this.state.originalProductInfo}
+            // img={spuImages?.[0].artworkUrl || ''}
+            /> : null} */}
 
             {/* 最下方跳转更多板块 rita说现在hub 又不要了 暂时注释吧*/}
             {/* <More/> */}

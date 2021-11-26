@@ -92,9 +92,10 @@ class BuyFromRetailerBtn extends React.Component {
     const { ccidBtnDisplay } = this.state;
     const Fr = window.__.env.REACT_APP_COUNTRY === 'fr';
     const Tr = window.__.env.REACT_APP_COUNTRY === 'tr';
+    const Uk = window.__.env.REACT_APP_COUNTRY === 'uk';
     return (
       <div ref={(el) => this.ccidBtnRef(el)}>
-        {Fr ? (
+        {Fr || Uk ? (
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <div
               className={`other-buy-btn rc-btn rc-btn--sm rc-btn--two ${

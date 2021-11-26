@@ -64,7 +64,7 @@ class SalesCategory extends Component {
             <div
               className={`${
                 curListNum >= 6 ? '' : 'row'
-              } rc-match-heights text-center text-md-left`}
+              } rc-match-heights text-center md:text-left`}
             >
               <div
                 className={`${

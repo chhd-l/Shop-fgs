@@ -59,7 +59,13 @@ const LongBanner = () => {
                   <sup style={{ color: '#666666', fontSize: 13, top: '-1em' }}>
                     [1]
                   </sup>
-                  <p style={{ color: '#555555', fontSize: '0.7em' ,marginBottom:'0.5rem'}}>
+                  <p
+                    style={{
+                      color: '#555555',
+                      fontSize: '0.7em',
+                      marginBottom: '0.5rem'
+                    }}
+                  >
                     <FormattedMessage id="PreciseCatNutrition.LongBanner.averagePrice3" />
                   </p>
                   <a
@@ -82,12 +88,20 @@ const LongBanner = () => {
                   </a>
 
                   <p
-                    style={{ fontSize: '16px', color: '#4A4A4A', margin:'5px 0 0 0' }}
+                    style={{
+                      fontSize: '16px',
+                      color: '#4A4A4A',
+                      margin: '5px 0 0 0'
+                    }}
                   >
                     SANS ENGAGEMENT
                   </p>
                   <p
-                    style={{ fontSize: '16px', color: '#4A4A4A', margin:isMobile?'0' : '-12px 0 0 0' }}
+                    style={{
+                      fontSize: '16px',
+                      color: '#4A4A4A',
+                      margin: isMobile ? '0' : '-12px 0 0 0'
+                    }}
                   >
                     Des livraisons mensuelles offertes et flexibles, résiliables
                     en quelques clics
@@ -213,7 +227,7 @@ const LongBanner = () => {
 
                   <div className="value-proposition__container">
                     <div className="row  mx-lg-5 justify-content-between rc-text-align-center">
-                      <div className="col-12 col-md-4 col-xxl-4 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-4 pl-xxl-4 justify-content-center ">
+                      <div className="col-12 col-md-4 col-xxl-4 d-flex px-0 md:pl-0 md:pr-2  pr-xxl-4 pl-xxl-4 justify-content-center ">
                         <div className=" justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn flex-column">
                           <div
                             style={{
@@ -241,7 +255,7 @@ const LongBanner = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="col-12 col-md-4 col-xxl-4 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-4 pl-xxl-4 justify-content-center">
+                      <div className="col-12 col-md-4 col-xxl-4 d-flex px-0 md:pl-0 md:pr-2  pr-xxl-4 pl-xxl-4 justify-content-center">
                         <div className=" justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn flex-column">
                           <div
                             style={{
@@ -269,7 +283,7 @@ const LongBanner = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="col-12 col-md-4 col-xxl-4 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-4 pl-xxl-4 justify-content-center">
+                      <div className="col-12 col-md-4 col-xxl-4 d-flex px-0 md:pl-0 md:pr-2  pr-xxl-4 pl-xxl-4 justify-content-center">
                         <div className=" justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn flex-column">
                           <div
                             style={{

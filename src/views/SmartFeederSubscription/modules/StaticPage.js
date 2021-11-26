@@ -240,7 +240,7 @@ const staticPage = (props) => {
         {/* </section>
       <section className="rc-max-width--xl rc-padding-x--sm rc-padding-x--xl--mobil"> */}
         <div
-          className="rc-layout-container rc-two-column pt-md-4 phone_section"
+          className="rc-layout-container rc-two-column md:pt-4 phone_section"
           style={{ alignItems: 'center' }}
         >
           <div className="rc-column">

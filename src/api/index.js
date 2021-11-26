@@ -2,7 +2,7 @@ import axios from '@/utils/request';
 
 const api = {
   storeCate: '/storeCate',
-  uploadResource: '/common/uploadResource',
+  uploadResource: '/common/uploadResource?resourceType=IMAGE',
   buryPoint: '/fgs.gif',
   getConfig: `/config/store/${window.__.env.REACT_APP_STOREID}`,
   navigations: '/navigations', // 查询二级菜单

@@ -555,7 +555,7 @@ const en_US = {
   FrequentQuestions: 'Common questions',
   from: 'From',
   plpFromText: 'Från',
-  plpFromNew:'{started}{plpValue}',
+  plpFromNew: '{started}{plpValue}',
   gender: 'Kön',
   getConsumerAccountFailed: 'Get Consumer Account Failed',
   getDataFailed: 'Get Data Failed',
@@ -875,6 +875,7 @@ const en_US = {
   loginFailed: 'login failed',
   logisticsCompany: 'Logistics company',
   logisticsRating: 'Logistics rating',
+  expertAdvice: 'Expert advice',
   logisticsSingleNumber: 'Logistics single number',
   logOff: 'Logout',
   mailAddress: 'Mail address',
@@ -883,7 +884,6 @@ const en_US = {
   manage: 'Hantera',
   mandatoryFieldsError: 'You have mandatory fields not filled out!',
   menu: 'Menu',
-  miniBasket: 'Mini basket',
   'mixed Breed': 'mixed Breed',
   'Mixed Breed': 'Mixed Breed',
   MMYY: 'MM/YY',
@@ -1850,6 +1850,7 @@ const en_US = {
   'list.applyFilters': 'Apply filters',
   'list.clearFilters': 'Clear all filters',
   'list.viewFilters': 'View filters',
-  'list.closeFilters': 'Close filters'
+  'list.closeFilters': 'Close filters',
+  'order.goodwillOrder': '[Goodwill order]'
 };
 export default en_US;

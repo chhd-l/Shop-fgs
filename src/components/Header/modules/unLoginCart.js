@@ -220,11 +220,7 @@ class UnloginCart extends React.Component {
                   <div className="d-flex minicart_freeshipping_info align-items-center">
                     <em className="rc-icon rc-incompatible--xs rc-brand3 rc-padding-right--xs" />
                     <p>
-                      {window.__.env.REACT_APP_IS_PROMOTION === 'true' ? (
-                        <FormattedMessage id="cart.miniCartTitle" />
-                      ) : (
-                        <FormattedMessage id="miniBasket" />
-                      )}
+                      <FormattedMessage id="cart.miniCartTitle" />
                     </p>
                   </div>
                 </div>

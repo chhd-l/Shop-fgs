@@ -57,8 +57,6 @@ const LoginButton = (props) => {
       oktaAuth
         .getUser()
         .then((info) => {
-          console.log(info,'infoifoejfoijewoijf')
-          debugger
           if (
             loginStore.userInfo &&
             loginStore.userInfo.email &&
@@ -180,6 +178,7 @@ const LoginButton = (props) => {
 
   return (
     <>
+      <LimitLoginModal />
       <button
         className={props.btnClass || props.className || 'rc-btn rc-btn--one'}
         style={props.btnStyle || {}}
@@ -189,7 +188,6 @@ const LoginButton = (props) => {
       >
         {props.children || <FormattedMessage id="login" />}
       </button>
-      <LimitLoginModal />
     </>
   );
 };

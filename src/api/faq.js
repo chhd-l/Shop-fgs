@@ -5,10 +5,10 @@ const api = {
 };
 
 export default api;
-export function getFaq(data) {
+export function getFaq() {
   return axios({
     url: `${api.getFaq}`,
     method: 'get',
-    params: data
+    params: { storeId: window.__.env.REACT_APP_STOREID }
   });
 }

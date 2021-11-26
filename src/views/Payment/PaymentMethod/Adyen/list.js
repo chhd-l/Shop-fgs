@@ -7,9 +7,10 @@ import EditForm from '@/components/Adyen/form';
 import getCardImg from '@/lib/get-card-img';
 import { getPaymentMethod, deleteCard } from '@/api/payment';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
-import { loadJS } from '@/utils/utils';
+import { loadJS, dynamicLoadCss } from '@/utils/utils';
 import { scrollPaymentPanelIntoView } from '../../modules/utils';
 import LazyLoad from 'react-lazyload';
+import getPaymentConf from '@/lib/get-payment-conf';
 import './list.css';
 
 function CardItemCover({
@@ -70,6 +71,9 @@ class AdyenCreditCardList extends React.Component {
     this.editFormRef = React.createRef();
   }
   componentDidUpdate() {
+    dynamicLoadCss(
+      'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.css'
+    );
     if (this.props.paymentStore.isRreshList) {
       if (this.isLogin) {
         this.queryList();
@@ -223,7 +227,7 @@ class AdyenCreditCardList extends React.Component {
       () => this.hanldeUpdateSelectedCardInfo()
     );
   }
-  hanldeUpdateSelectedCardInfo = () => {
+  hanldeUpdateSelectedCardInfo = async () => {
     const { cardList, memberUnsavedCardList, selectedId } = this.state;
     const el =
       find(
@@ -232,7 +236,9 @@ class AdyenCreditCardList extends React.Component {
       ) || null;
     this.props.updateSelectedCardInfo(el);
     // 被选中的卡，才加载cvv
-    el && this.loadCvv(el);
+    if (el) {
+      await this.loadCvv(el);
+    }
     this.updateFormValidStatus(el);
   };
   updateFormValidStatus = (el) => {
@@ -243,11 +249,12 @@ class AdyenCreditCardList extends React.Component {
   getBrowserInfo(state) {
     this.props.paymentStore.setBrowserInfo(state.data.browserInfo);
   }
-  loadCvv = (el) => {
+  loadCvv = async (el) => {
     const _this = this;
     const { updateFormValidStatus } = this;
     const { cardList } = this.state;
     var { updateSelectedCardInfo, paymentStore } = this.props;
+    const { curPayWayInfo } = paymentStore;
     const { id, cardType: brand } = el;
     //第一次绑定这张卡,不需要填写CVV start
     if (paymentStore.firstSavedCardCvv == id) {
@@ -270,15 +277,19 @@ class AdyenCreditCardList extends React.Component {
 
     el.encryptedSecurityCode = ''; //loadCvv的时候先清空cvv
     let element = '#cvv_' + id;
+    const tmpConfArr = await getPaymentConf();
+    const adyenOriginKeyConf = tmpConfArr.filter(
+      (t) => t.pspItemCode === curPayWayInfo?.code
+    )[0];
     loadJS({
       url: 'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
       callback: function () {
         if (!!window.AdyenCheckout) {
           const AdyenCheckout = window.AdyenCheckout;
           const checkout = new AdyenCheckout({
-            environment: window.__.env.REACT_APP_Adyen_ENV,
-            originKey: window.__.env.REACT_APP_AdyenOriginKEY,
-            locale: window.__.env.REACT_APP_Adyen_locale
+            environment: adyenOriginKeyConf?.environment,
+            originKey: adyenOriginKeyConf?.openPlatformSecret,
+            locale: adyenOriginKeyConf?.locale
           });
           checkout
             .create('card', {
@@ -333,7 +344,7 @@ class AdyenCreditCardList extends React.Component {
     let cvvId = data.id;
     return (
       <div className="row">
-        <div className="col-6 col-sm-4 d-flex flex-column pb-1 pb-md-0">
+        <div className="col-6 col-sm-4 d-flex flex-column pb-1 md:pb-0">
           <LazyLoad>
             <img
               alt="card background"
@@ -346,7 +357,7 @@ class AdyenCreditCardList extends React.Component {
             />
           </LazyLoad>
         </div>
-        <div className="col-12 col-sm-8 flex-column justify-content-around d-flex pb-1 pb-md-0">
+        <div className="col-12 col-sm-8 flex-column justify-content-around d-flex pb-1 md:pb-0">
           <div className="row ui-margin-top-1-md-down PayCardBoxMargin text-break">
             <div className={`col-12 mb-1`}>
               <div className="row align-items-center">

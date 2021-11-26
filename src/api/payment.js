@@ -4,28 +4,20 @@ const api = {
   visitorRegisterAndLogin: `/${window.__.env.REACT_APP_STOREID}/guest/register`,
   batchAdd: `/site/${window.__.env.REACT_APP_STOREID}/batch-add`,
   confirmAndCommit: `/${window.__.env.REACT_APP_STOREID}/guest/checkout`,
-  confirmAndCommitUs: `/us/${window.__.env.REACT_APP_STOREID}/guest/checkout`,
   addOrUpdatePaymentMethod: `/${window.__.env.REACT_APP_STOREID}/pay-payment-info`, // add a new card
   addOrUpdatePaymentMethodRu: `/${window.__.env.REACT_APP_STOREID}/card-authorization`, // 俄罗斯新增 card
   getPaymentMethod: `/${window.__.env.REACT_APP_STOREID}/pay-payment-info`, // query card list
   deleteCard: '/pay-payment-info', // delete a card
   setDefaltCard: '/pay-payment-info/default',
-  // confirmAndCommit: '/tradeCustom/confirmcommitAndPaySync'
 
   customerCommitAndPay: '/trade-custom/checkout',
-  customerCommitAndPayUs: '/us/trade-custom/checkout',
   rePay: '/trade-custom/repay',
-  rePayUs: '/us/trade-custom/repay',
   customerCommitAndPayMix: '/trade-custom/mix/checkout',
-  customerCommitAndPayMixUs: 'us/trade-custom/mix/checkout',
   getMarketingDiscount: '/marketing/discount',
-  // getMarketingDiscount: '/marketing/getMarketingDiscount',
   getWays: `/${window.__.env.REACT_APP_STOREID}/pay/getPayPspList`,
   adyenPaymentsDetails: `/${window.__.env.REACT_APP_STOREID}/adyen/payment`,
   payu3dsPaymentsDetails: `/payCallback/${window.__.env.REACT_APP_STOREID}/payu/${window.__.env.REACT_APP_LANG}/authorization`,
-  // adyenPaymentsDetails: '/adyenPay/payments/details',
   getProductPetConfig: '/order/config/findPet',
-  // getProductPetConfig: '/order/config/findPet'
   adyen3DSResult: `/${window.__.env.REACT_APP_STOREID}/adyen/identity/verification/payment`,
   Adyen3DSResult: '/Adyen3DSResult',
   //CYBER
@@ -39,7 +31,11 @@ const api = {
   pickupQueryCity: '/pick-up/queryCity',
   pickupQueryCityFee: '/pick-up/queryCityFee',
   dimensionsByPackage: '/pick-up/dimensionsByPackage', // 合并包裹
-  getPaymentMethodV2: `/payment-method/query-by-StoreId/${window.__.env.REACT_APP_STOREID}`
+  confirmAndCommitFelin: `/${window.__.env.REACT_APP_STOREID}/feline/checkout`, //felin checkout
+  repayFelin: '/feline/repay', //felin repay
+  getPaymentMethodV2: `/payment-method/query-by-StoreId/${window.__.env.REACT_APP_STOREID}`,
+  adyenOriginClientKey: `/${window.__.env.REACT_APP_STOREID}/adyenPay/originClientKey`,
+  adyenOriginClientKeyV2: `/${window.__.env.REACT_APP_STOREID}/payment-method/origin-client-keys`
 };
 
 export default api;
@@ -94,11 +90,15 @@ export function batchAdd(parameter) {
 
 export function confirmAndCommit(parameter) {
   return axios({
-    // url:
-    //   window.__.env.REACT_APP_COUNTRY == 'us'
-    //     ? api.confirmAndCommitUs
-    //     : api.confirmAndCommit,
     url: api.confirmAndCommit,
+    method: 'post',
+    data: parameter
+  });
+}
+
+export function confirmAndCommitFelin(parameter) {
+  return axios({
+    url: api.confirmAndCommitFelin,
     method: 'post',
     data: parameter
   });
@@ -138,10 +138,6 @@ export function deleteCard(para) {
 
 export function customerCommitAndPay(parameter) {
   return axios({
-    // url:
-    //   window.__.env.REACT_APP_COUNTRY == 'us'
-    //     ? api.customerCommitAndPayUs
-    //     : api.customerCommitAndPay,
     url: api.customerCommitAndPay,
     method: 'post',
     data: parameter
@@ -150,10 +146,6 @@ export function customerCommitAndPay(parameter) {
 
 export function customerCommitAndPayMix(parameter) {
   return axios({
-    // url:
-    //   window.__.env.REACT_APP_COUNTRY == 'us'
-    //     ? api.customerCommitAndPayMixUs
-    //     : api.customerCommitAndPayMix,
     url: api.customerCommitAndPayMix,
     method: 'post',
     data: parameter
@@ -162,8 +154,15 @@ export function customerCommitAndPayMix(parameter) {
 
 export function rePay(parameter) {
   return axios({
-    // url: window.__.env.REACT_APP_COUNTRY == 'us' ? api.rePayUs : api.rePay,
     url: api.rePay,
+    method: 'post',
+    data: parameter
+  });
+}
+
+export function rePayFelin(parameter) {
+  return axios({
+    url: api.repayFelin,
     method: 'post',
     data: parameter
   });
@@ -273,5 +272,19 @@ export function getPaymentMethodV2(parameter) {
     url: api.getPaymentMethodV2,
     method: 'get',
     params: parameter
+  });
+}
+
+export function fetchAdyenOriginClientKey() {
+  return axios({
+    url: api.adyenOriginClientKey,
+    method: 'get'
+  });
+}
+
+export function fetchAdyenOriginClientKeyV2() {
+  return axios({
+    url: api.adyenOriginClientKeyV2,
+    method: 'get'
   });
 }

@@ -22,7 +22,7 @@
       console && console.log(a);
     }
   }
-  function m() {
+  function v() {
     i || ((i = !0), c());
   }
   function d() {
@@ -31,7 +31,7 @@
     } catch (a) {
       return void setTimeout(d, 50);
     }
-    m();
+    v();
   }
   (l = function () {
     var a, l;
@@ -59,6 +59,6 @@
         (i = !1),
         d(),
         (t.onreadystatechange = function () {
-          'complete' == t.readyState && ((t.onreadystatechange = null), m());
+          'complete' == t.readyState && ((t.onreadystatechange = null), v());
         }));
 })(window);
