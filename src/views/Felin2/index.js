@@ -130,7 +130,8 @@ class Felin extends React.Component {
         dateNo: '',
         startTime: '',
         endTime: '',
-        employeeIds: []
+        employeeIds: [],
+        employeeNames: []
       },
       userInfo: undefined,
       apptNo: '',
@@ -245,13 +246,21 @@ class Felin extends React.Component {
       threeShow: false,
       fourShow: true
     });
-    this.queryDate();
+    let type = this.state.bookSlotVO.dateNo ? true : false;
+    this.queryDate(type, {
+      minutes: this.state.votre.duree,
+      bookSlotVO: this.state.bookSlotVO
+    });
   };
   // 返回第三步
   handleReturnThree = () => {
     this.setState({
       threeShow: true,
-      fourShow: false
+      fourShow: false,
+      votre: {
+        ...this.state.votre,
+        heure: ''
+      }
     });
   };
   // 最终跳转
@@ -341,7 +350,7 @@ class Felin extends React.Component {
 
         if (code === 'K-000000') {
           let _resources = context.resources;
-          if (type && minutes === chooseData.minutes) {
+          if (type) {
             let _temp = {
               date: chooseData.bookSlotVO.dateNo,
               minutes: chooseData.minutes,
@@ -356,13 +365,31 @@ class Felin extends React.Component {
             if (_resources.length == 0) {
               _resources.push(_temp);
             } else {
+              console.log(222222);
               _resources.map((item) => {
-                if (item.dateNo === _temp.dateNo) {
-                  item.minuteSlotVOList.map((it) => {
-                    if (it.startTime === _temp.startTime) {
-                      it = { ...it, ..._temp };
+                console.log(item.date, _temp.date);
+                if (item.date === _temp.date) {
+                  console.log(item, '= ==2121====1');
+                  let isLoop = false;
+                  item.minuteSlotVOList = item.minuteSlotVOList.map(
+                    (it, index) => {
+                      const _t = _temp.minuteSlotVOList.find(
+                        (ii) => ii.startTime === it.startTime
+                      );
+                      if (_t) {
+                        console.log(_t, '----======');
+                        isLoop = true;
+                        it = { ...it, ..._t };
+                      }
+                      return it;
+                      // if(item.minuteSlotVOList.length===(index+1)&&!_t)isLoop=false
                     }
-                  });
+                  );
+                  if (!isLoop) {
+                    item.minuteSlotVOList = item.minuteSlotVOList.concat(
+                      _temp.minuteSlotVOList
+                    );
+                  }
                 }
               });
             }
@@ -379,6 +406,7 @@ class Felin extends React.Component {
     });
   };
   onChange = (data) => {
+    console.log(data);
     this.setState({
       votre: {
         ...this.state.votre,

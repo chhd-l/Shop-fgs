@@ -150,6 +150,11 @@ class WeekCalender extends Component {
                         ? 'bg-red-600 text-white p-px border-2 border-red-600'
                         : ''
                     }
+                     ${
+                       it.type === 'primary'
+                         ? 'bg-red-400 text-white p-px border-2 border-red-400'
+                         : ''
+                     }
                       `}
                     disabled={it.disabled}
                     style={{ marginTop: 5 }}
