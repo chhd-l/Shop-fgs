@@ -866,6 +866,12 @@ class Recommendation extends React.Component {
     document.execCommand('copy');
     window.removeEventListener('copy', copy);
   };
+  taggingDom = ()=>(<div className="tagging-wrap">
+    <div className="tagging-text">
+    <div style={{fontSize:'1.375rem'}}>– 5€ à -20€</div>
+    <div style={{fontSize:'0.8125rem'}}>offre de bienvenue*</div>
+    </div>
+  </div>)
   // 查看 promotion code
   checkPromotionCode = (e) => {
     this.copyPromotion();
@@ -1075,6 +1081,7 @@ class Recommendation extends React.Component {
                       minImg={details.goodsImg}
                       maxImg={details.goodsImg}
                       imgAlt={details?.goodsName}
+                      taggingChildren={this.taggingDom()}
                       config={this.state.imageMagnifierCfg?.config}
                       taggingForText={details.taggingForTextAtPDP}
                       taggingForImage={details.taggingForImageAtPDP}
@@ -1205,7 +1212,7 @@ class Recommendation extends React.Component {
               </div>
             </div>
           ) : null}
-          <Description />
+          <Description text={grayBoxInnerText[window.__.env.REACT_APP_COUNTRY]}/>
           <Footer />
         </main>
       </div>

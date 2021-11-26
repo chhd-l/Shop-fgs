@@ -102,6 +102,8 @@ module.exports = function (webpackEnv) {
           // https://github.com/facebook/create-react-app/issues/2677
           ident: 'postcss',
           plugins: () => [
+            require('tailwindcss'),
+            require('autoprefixer'),
             require('postcss-flexbugs-fixes'),
             require('postcss-preset-env')({
               autoprefixer: {
@@ -764,8 +766,8 @@ module.exports = function (webpackEnv) {
           formatter: isEnvProduction ? typescriptFormatter : undefined
         }),
       // 打包不同国家的seo文件到build目录 todo
-      isEnvProduction 
-      && fs.existsSync(paths.appSEO) 
+      isEnvProduction
+      && fs.existsSync(paths.appSEO)
       && new CopyPlugin([{ from: paths.appSEO, to: paths.appBuild }])
     ].filter(Boolean),
     // Some libraries import Node modules but don't use them in the browser.
