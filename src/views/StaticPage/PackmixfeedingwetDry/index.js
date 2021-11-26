@@ -123,7 +123,7 @@ class Packfeed extends React.Component {
                   <div className="rc-bg-colour--brand4">
                     <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
                       <div className="row rc-max-width--lg rc-match-heights rc-padding-y--sm">
-                        <div className="col-12 col-md-4 order-1 order-md-0">
+                        <div className="col-12 col-md-4 order-1 md:order-0">
                           <div className="rc-column rc-padding--none">
                             <LazyLoad>
                               <img
@@ -142,7 +142,7 @@ class Packfeed extends React.Component {
                             </Link>
                           </div>
                         </div>
-                        <div className="col-12 col-md-4 m-auto rc-padding-x--sm rc-padding-x--lg--mobile rc-padding-top--lg--mobile order-0 order-md-1">
+                        <div className="col-12 col-md-4 m-auto rc-padding-x--sm rc-padding-x--lg--mobile rc-padding-top--lg--mobile order-0 md:order-1">
                           <div className="rc-gamma rc-text--center rc-margin-bottom--xs">
                             Commencez dès maintenant votre Abonnement
                           </div>
@@ -167,7 +167,7 @@ class Packfeed extends React.Component {
                             </Link>
                           </div>
                         </div>
-                        <div className="col-12 col-md-4 order-2 order-md-2">
+                        <div className="col-12 col-md-4 order-2 md:order-2">
                           <div className="rc-column rc-padding--none">
                             <LazyLoad>
                               <img

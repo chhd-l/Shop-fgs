@@ -801,7 +801,7 @@ class UnLoginCart extends React.Component {
                     {pitem.goodsName}
                   </h4>
                   {pitem.taggingForImageAtCart?.taggingImgUrl ? (
-                    <LazyLoad className="order-1 order-md-3">
+                    <LazyLoad className="order-1 md:order-3">
                       <img
                         src={pitem.taggingForImageAtCart?.taggingImgUrl}
                         className="cart-item__tagging_image ml-2"

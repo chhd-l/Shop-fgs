@@ -672,7 +672,7 @@ class AccountOrders extends React.Component {
                         </Link>
                       </div>
 
-                      <div className="col-12 order-1 order-md-0 col-md-8 rc-fade--x">
+                      <div className="col-12 order-1 md:order-0 col-md-8 rc-fade--x">
                         <ul
                           className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank rc-border-bottom rc-border-colour--interface"
                           role="tablist"
@@ -695,7 +695,7 @@ class AccountOrders extends React.Component {
                         </ul>
                       </div>
 
-                      <div className="col-12 order-0 order-md-1 col-md-4">
+                      <div className="col-12 order-0 md:order-1 col-md-4">
                         <div className="rc-select rc-full-width rc-input--full-width rc-select-processed mt-0 mb-2 mb-md-0">
                           <Selection
                             optionList={duringTimeOptions}
@@ -828,7 +828,8 @@ class AccountOrders extends React.Component {
                                               )}
                                             </FormattedMessage>
                                           </div>
-                                        ) : order.orderSource === 'SUPPLIER' ? (
+                                        ) : order.orderSource ===
+                                          'GOOD_WILL' ? (
                                           <div>
                                             <FormattedMessage id="order.goodwillOrder" />
                                           </div>
@@ -890,7 +891,7 @@ class AccountOrders extends React.Component {
                                         'PART_SHIPPED' &&
                                         order.tradeState.flowState ===
                                           'DELIVERED_PART')) && (
-                                      <div className="col-12 mt-1 mt-md-0 mb-md-1 order-1 order-md-0">
+                                      <div className="col-12 mt-1 mt-md-0 mb-md-1 order-1 md:order-0">
                                         <p className="medium mb-0 color-444">
                                           <FormattedMessage id="deliveredTip" />
                                         </p>
@@ -906,7 +907,7 @@ class AccountOrders extends React.Component {
                                     order.tradeEventLogs[0] &&
                                     order.tradeEventLogs[0].eventType ===
                                       'COMPLETED' ? (
-                                      <div className="col-12 mt-1 mt-md-0 mb-md-1 order-1 order-md-0">
+                                      <div className="col-12 mt-1 mt-md-0 mb-md-1 order-1 md:order-0">
                                         <p className="medium mb-0 color-444">
                                           <FormattedMessage id="orderStatus.COMPLETED" />
                                           :{' '}

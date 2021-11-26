@@ -304,16 +304,16 @@ class Payment extends React.Component {
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
     this.cyberRef = React.createRef();
-    this.confirmListValidationAddress =
-      this.confirmListValidationAddress.bind(this);
+    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
+      this
+    );
   }
   //cyber查询卡类型-会员
   queryCyberCardType = async (params) => {
     try {
-      const res =
-        await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
-          params
-        );
+      const res = await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
+        params
+      );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -324,10 +324,9 @@ class Payment extends React.Component {
   //cyber查询卡类型-游客
   queryGuestCyberCardType = async (params) => {
     try {
-      const res =
-        await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
-          params
-        );
+      const res = await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
+        params
+      );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -398,12 +397,7 @@ class Payment extends React.Component {
             consigneeName: this.userInfo.customerName,
             consigneeNumber: this.userInfo.contactPhone
           })
-        : Object.assign(felinAddr[0], {
-            firstName: 'guest',
-            lastName: 'guest',
-            consigneeName: 'guest guest',
-            consigneeNumber: '(+33) 4 37 92 70 83'
-          });
+        : felinAddr[0];
       this.setState(
         {
           appointNo: appointNo,
@@ -915,12 +909,15 @@ class Payment extends React.Component {
     });
     sessionItemRoyal.set('recommend_product', JSON.stringify([goodDetail]));
     this.props.checkoutStore.updatePromotionFiled([goodDetail]);
-    if (!this.isLogin && result?.consumerName) {
+    if (!this.isLogin) {
       const felinAddress = Object.assign(felinAddr[0], {
-        firstName: result?.consumerName?.split(' ')[0] || 'guest',
-        lastName: result?.consumerName?.split(' ')[1] || 'guest',
-        consigneeName: result?.consumerName || 'guest guest',
-        consigneeNumber: '(+33) 4 37 92 70 83'
+        firstName: result?.consumerFirstName || '',
+        lastName: result?.consumerLastName || '',
+        consigneeName:
+          result?.consumerName ||
+          result?.consumerFirstName + ' ' + result?.consumerLastName ||
+          '',
+        consigneeNumber: result?.consumerPhone || ''
       });
       this.setState({
         deliveryAddress: felinAddress,
@@ -2677,10 +2674,9 @@ class Payment extends React.Component {
     const unLoginCyberSaveCard = async (params) => {
       // console.log('2080 params: ', params);
       try {
-        const res =
-          await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
-            params
-          );
+        const res = await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
+          params
+        );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -2692,10 +2688,9 @@ class Payment extends React.Component {
     //cyber会员绑卡
     const loginCyberSaveCard = async (params) => {
       try {
-        const res =
-          await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
-            params
-          );
+        const res = await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
+          params
+        );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -3464,8 +3459,9 @@ class Payment extends React.Component {
   };
   petComfirm = (data) => {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
-        data;
+      this.props.checkoutStore.AuditData[
+        this.state.currentProIndex
+      ].petForm = data;
     } else {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {
@@ -3553,8 +3549,9 @@ class Payment extends React.Component {
   clickPay = () => {
     if (this.tradePrice === 0 && this.isCurrentBuyWaySubscription) {
       //0元订单中含有订阅商品时不能下单
-      const errMsg =
-        this.props.intl.messages['checkout.zeroOrder.butSubscription'];
+      const errMsg = this.props.intl.messages[
+        'checkout.zeroOrder.butSubscription'
+      ];
       this.showErrorMsg(errMsg);
       return;
     }

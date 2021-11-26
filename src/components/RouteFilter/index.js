@@ -53,8 +53,8 @@ class RouteFilter extends Component {
     const sPromotionCodeFromSearch = getQueryVariable('spromocode');
     if (sPromotionCodeFromSearch) {
       checkoutStore.setPromotionCode(sPromotionCodeFromSearch);
-      // 代客下单 orderSource: 'SUPPLIER'
-      sessionItemRoyal.set('orderSource', 'SUPPLIER');
+      // goodwill单 orderSource: 'GOOD_WILL'
+      sessionItemRoyal.set('orderSource', 'GOOD_WILL');
     }
 
     // debugger

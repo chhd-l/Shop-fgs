@@ -680,7 +680,7 @@ class Question extends React.Component {
           </div>
         </div>
         <div className="row">
-          <div className="col-12 col-md-6 order-1 order-md-0 mt-4 mt-md-0 mb-4">
+          <div className="col-12 col-md-6 order-1 md:order-0 mt-4 mt-md-0 mb-4">
             {isPageLoading ? (
               <span className="mt-4">
                 <Skeleton color="#f5f5f5" width="100%" height="3%" count={5} />
@@ -788,7 +788,7 @@ class Question extends React.Component {
               </>
             )}
           </div>
-          <div className="col-12 col-md-6 order-0 order-md-1">
+          <div className="col-12 col-md-6 order-0 md:order-1">
             <LazyLoad>
               <img
                 src={{ cat: catImg, dog: dogImg }[type]}
