@@ -145,12 +145,11 @@ class WeekCalender extends Component {
                   <button
                     onClick={() => this.clickAppointItem(it, idx)}
                     key={it.time + 1}
-                    className={`${
+                    className={`border-2 border-black p-px ${
                       selectedIndex === it.dateNo + '_' + idx
-                        ? 'rc-btn-active'
+                        ? 'bg-red-600 text-white p-px border-2 border-red-600'
                         : ''
                     }
-                         bg-gray-300
                       `}
                     disabled={it.disabled}
                     style={{ marginTop: 5 }}
