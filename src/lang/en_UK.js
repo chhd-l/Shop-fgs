@@ -451,6 +451,7 @@ const en_US = {
   'details.youCanSave': 'You can save',
   'details.buyFromRetailer': 'Buy Online',
   'details.vetBuyFromRetailer': 'Buy Online',
+  'details.buyFromRetailerTip': 'Prices can vary from one retailer to another.',
   dogs: 'DOGS',
   dogs2: 'Dogs',
   dogs3: 'Dog',

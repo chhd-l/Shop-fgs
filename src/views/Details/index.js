@@ -499,6 +499,14 @@ class Details extends React.Component {
             backgroundSpaces: res.context.goods.cateId
           });
         }
+
+        const technologyList = (
+          res.context?.goodsAttributesValueRelList || []
+        ).filter((el) => el.goodsAttributeName.toLowerCase() === 'technology');
+        const dryOrWet = technologyList.filter(
+          (el) => el.goodsAttributeValue.toLowerCase() == ('dry' || 'wet')
+        )?.[0]?.goodsAttributeValueEn;
+
         if (goodsRes) {
           const { goods, images } = res.context;
 
@@ -513,6 +521,8 @@ class Details extends React.Component {
               if (mixFeeding) {
                 mixFeeding.quantity = 1;
               }
+              console.log(res, mixFeeding, 'resfse');
+
               this.setState({ mixFeeding });
             });
           }
@@ -566,7 +576,8 @@ class Details extends React.Component {
                 this.state.originalProductInfo,
                 {
                   imageSrc: images?.[0]?.artworkUrl || '',
-                  goodsTitle: goodsRes.goodsName
+                  goodsTitle: goodsRes.goodsName,
+                  technology: dryOrWet
                 }
               ),
               setDefaultPurchaseTypeParamId:
@@ -1467,8 +1478,7 @@ class Details extends React.Component {
             ) : null}
 
             {/* {PC ? <MixFeedingBanner 
-            // originalProductInfo={this.state.originalProductInfo}
-            // img={spuImages?.[0].artworkUrl || ''}
+            originalProductInfo={this.state.originalProductInfo}
             /> : null} */}
 
             {/* 最下方跳转更多板块 rita说现在hub 又不要了 暂时注释吧*/}
