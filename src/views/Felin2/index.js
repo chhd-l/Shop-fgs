@@ -256,11 +256,7 @@ class Felin extends React.Component {
   handleReturnThree = () => {
     this.setState({
       threeShow: true,
-      fourShow: false,
-      votre: {
-        ...this.state.votre,
-        heure: ''
-      }
+      fourShow: false
     });
   };
   // 最终跳转
@@ -361,15 +357,11 @@ class Felin extends React.Component {
               type: 'primary',
               disabled: true
             });
-            console.log(_temp, '=_temp');
             if (_resources.length == 0) {
               _resources.push(_temp);
             } else {
-              console.log(222222);
               _resources.map((item) => {
-                console.log(item.date, _temp.date);
                 if (item.date === _temp.date) {
-                  console.log(item, '= ==2121====1');
                   let isLoop = false;
                   item.minuteSlotVOList = item.minuteSlotVOList.map(
                     (it, index) => {
@@ -377,7 +369,6 @@ class Felin extends React.Component {
                         (ii) => ii.startTime === it.startTime
                       );
                       if (_t) {
-                        console.log(_t, '----======');
                         isLoop = true;
                         it = { ...it, ..._t };
                       }
@@ -394,11 +385,9 @@ class Felin extends React.Component {
               });
             }
           }
-          console.log(1);
           reslove(_resources);
         }
       });
-      console.log(resources, 222);
       this.setState({
         resources,
         key: +new Date()
