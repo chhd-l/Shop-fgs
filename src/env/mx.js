@@ -132,7 +132,9 @@ const env_mx = {
       'cb2f0d62-375e-4bb5-9ef8-08fcd670eb3c-test',
 
     // #设置二级子目录访问页面
-    REACT_APP_HOMEPAGE: '/mx'
+    REACT_APP_HOMEPAGE: '/mx',
+
+    REACT_APP_PDP_RATING_VISIBLE: '1'
   },
   shopuat: {
     // #okta
