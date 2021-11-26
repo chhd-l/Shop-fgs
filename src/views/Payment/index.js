@@ -304,16 +304,16 @@ class Payment extends React.Component {
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
     this.cyberRef = React.createRef();
-    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
-      this
-    );
+    this.confirmListValidationAddress =
+      this.confirmListValidationAddress.bind(this);
   }
   //cyber查询卡类型-会员
   queryCyberCardType = async (params) => {
     try {
-      const res = await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
-        params
-      );
+      const res =
+        await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
+          params
+        );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -324,9 +324,10 @@ class Payment extends React.Component {
   //cyber查询卡类型-游客
   queryGuestCyberCardType = async (params) => {
     try {
-      const res = await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
-        params
-      );
+      const res =
+        await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
+          params
+        );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -843,12 +844,13 @@ class Payment extends React.Component {
     const {
       paymentStore: { serCurPayWayVal }
     } = this.props;
+    const tmpVal = val || this.state.payWayNameArr[0]?.paymentTypeVal || '';
+    serCurPayWayVal(tmpVal);
     this.setState(
       {
-        paymentTypeVal: val || this.state.payWayNameArr[0]?.paymentTypeVal || ''
+        paymentTypeVal: tmpVal
       },
       () => {
-        serCurPayWayVal(this.state.paymentTypeVal);
         this.onPaymentTypeValChange();
       }
     );
@@ -2692,9 +2694,10 @@ class Payment extends React.Component {
     const unLoginCyberSaveCard = async (params) => {
       // console.log('2080 params: ', params);
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -2706,9 +2709,10 @@ class Payment extends React.Component {
     //cyber会员绑卡
     const loginCyberSaveCard = async (params) => {
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -3477,9 +3481,8 @@ class Payment extends React.Component {
   };
   petComfirm = (data) => {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[
-        this.state.currentProIndex
-      ].petForm = data;
+      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
+        data;
     } else {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {
@@ -3567,9 +3570,8 @@ class Payment extends React.Component {
   clickPay = () => {
     if (this.tradePrice === 0 && this.isCurrentBuyWaySubscription) {
       //0元订单中含有订阅商品时不能下单
-      const errMsg = this.props.intl.messages[
-        'checkout.zeroOrder.butSubscription'
-      ];
+      const errMsg =
+        this.props.intl.messages['checkout.zeroOrder.butSubscription'];
       this.showErrorMsg(errMsg);
       return;
     }
