@@ -741,7 +741,8 @@ class LoginCart extends React.Component {
           >
             <span className="remove-product-btn">
               <span
-                className="rc-icon rc-close--sm rc-iconography"
+                className="rc-icon rc-close--sm rc-iconography inline-block"
+                style={{ width: '32px', height: '32px' }}
                 onClick={() => {
                   this.updateConfirmTooltipVisible(pitem, true);
                   this.setState({ currentProductIdx: index });
@@ -952,8 +953,9 @@ class LoginCart extends React.Component {
           </div>
           {mixFeedings &&
           mixFeedings[index] &&
-          plist.filter((el) => el.goodsNo === mixFeedings[index].goods.goodsNo)
-            .length === 0 ? (
+          plist.filter(
+            (el) => el.goods.goodsNo === mixFeedings[index].goods.goodsNo
+          ).length === 0 ? (
             <MixFeedingBox
               isLogin={true}
               mixFeedingData={mixFeedings[index]}

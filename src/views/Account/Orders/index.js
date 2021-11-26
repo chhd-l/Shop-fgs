@@ -828,7 +828,8 @@ class AccountOrders extends React.Component {
                                               )}
                                             </FormattedMessage>
                                           </div>
-                                        ) : order.orderSource === 'SUPPLIER' ? (
+                                        ) : order.orderSource ===
+                                          'GOOD_WILL' ? (
                                           <div>
                                             <FormattedMessage id="order.goodwillOrder" />
                                           </div>

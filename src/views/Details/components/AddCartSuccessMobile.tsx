@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from "react-router-dom";
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import cn from 'classnames';
@@ -23,6 +23,7 @@ const AddCartSuccessMobile = ({
   isLogin
 }) => {
   const History = useHistory()
+  const Intl = useIntl()
   const [selectedSku, setSelectedSku] = useState(null);
   const [loading, setLoading] = useState(false)
   useEffect(() => {
@@ -73,7 +74,7 @@ const AddCartSuccessMobile = ({
               {mixFeedingData && selectedSku?.stock > 0 ? (
                 <div className="rc-border-all rc-border-colour--interface product-info p-3 rc-padding-bottom--none--mobile">
                   <div className="text-left mb-2">
-                    <strong>Общая стоимость Общая стоимость:</strong>
+                    <strong>Вашему питомцу могут также понравиться:</strong>
                   </div>
                   <div className="d-flex">
                     <div
@@ -107,7 +108,7 @@ const AddCartSuccessMobile = ({
                             width: isMobile ? '9rem' : 'inherit'
                           }}
                         >
-                          <div className="text-left ml-1 text-capitalize">{`${selectedSku?.specText} - quantity x 1`}</div>
+                          <div className="text-left ml-1 text-capitalize">{`${selectedSku?.specText} - ${Intl.formatMessage({id: "quantity"})} x 1`}</div>
                         </div>
                       </div>
                       <div
