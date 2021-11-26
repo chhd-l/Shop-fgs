@@ -611,7 +611,7 @@ class AccountOrders extends React.Component {
             <div className="rc-layout-container rc-five-column">
               <SideMenu type="Orders" customCls="rc-md-up" />
               <div
-                className={`my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop pl-0 pr-0 pr-md-3 pl-md-3 ${
+                className={`my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop pl-0 pr-0 md:pr-3 md:pl-3 ${
                   showOneOrderDetail ? 'hidden' : ''
                 }`}
               >
@@ -662,7 +662,7 @@ class AccountOrders extends React.Component {
                   </>
                 ) : (
                   <>
-                    <div className="row mb-3 m-md-0" style={{ margin: 0 }}>
+                    <div className="row mb-3 md:m-0" style={{ margin: 0 }}>
                       <div className="col-12 rc-md-down">
                         <Link to="/account">
                           <span className="red">&lt;</span>
@@ -696,7 +696,7 @@ class AccountOrders extends React.Component {
                       </div>
 
                       <div className="col-12 order-0 md:order-1 col-md-4">
-                        <div className="rc-select rc-full-width rc-input--full-width rc-select-processed mt-0 mb-2 mb-md-0">
+                        <div className="rc-select rc-full-width rc-input--full-width rc-select-processed mt-0 mb-2 md:mb-0">
                           <Selection
                             optionList={duringTimeOptions}
                             selectedItemChange={this.handleDuringTimeChange}
@@ -766,7 +766,7 @@ class AccountOrders extends React.Component {
                                           </span>
                                         </p>
                                       </div>
-                                      <div className="col-12 col-md-2 mb-2 mb-md-0">
+                                      <div className="col-12 col-md-2 mb-2 md:mb-0">
                                         <p className="text-nowrap">
                                           <FormattedMessage id="order.orderNumber" />
                                           <br className="d-none d-md-block" />
@@ -890,7 +890,7 @@ class AccountOrders extends React.Component {
                                         'PART_SHIPPED' &&
                                         order.tradeState.flowState ===
                                           'DELIVERED_PART')) && (
-                                      <div className="col-12 mt-1 mt-md-0 mb-md-1 order-1 md:order-0">
+                                      <div className="col-12 mt-1 md:mt-0 md:mb-1 order-1 md:order-0">
                                         <p className="medium mb-0 color-444">
                                           <FormattedMessage id="deliveredTip" />
                                         </p>
@@ -906,7 +906,7 @@ class AccountOrders extends React.Component {
                                     order.tradeEventLogs[0] &&
                                     order.tradeEventLogs[0].eventType ===
                                       'COMPLETED' ? (
-                                      <div className="col-12 mt-1 mt-md-0 mb-md-1 order-1 md:order-0">
+                                      <div className="col-12 mt-1 md:mt-0 md:mb-1 order-1 md:order-0">
                                         <p className="medium mb-0 color-444">
                                           <FormattedMessage id="orderStatus.COMPLETED" />
                                           :{' '}
@@ -993,12 +993,12 @@ class AccountOrders extends React.Component {
                                     </div>
                                     {isGift && !getDeviceType() === 'H5' ? (
                                       order.tradeItems.map((item, idx) => (
-                                        <div className="col-2 col-md-3 text-right pl-md-0">
+                                        <div className="col-2 col-md-3 text-right md:pl-0">
                                           {formatMoney(item.price)}
                                         </div>
                                       ))
                                     ) : (
-                                      <div className="col-2 col-md-3 text-center pl-md-0 pr-md-0">
+                                      <div className="col-2 col-md-3 text-center md:pl-0 md:pr-0">
                                         <div className="rc-md-up">
                                           {this.renderOperationBtns(order)}
                                         </div>
@@ -1041,7 +1041,7 @@ class AccountOrders extends React.Component {
                           </div>
                         )}
                         {tabErrMsg || !orderList.length ? null : (
-                          <div className="grid-footer rc-full-width mt-4 mt-md-2">
+                          <div className="grid-footer rc-full-width mt-4 md:mt-2">
                             <Pagination
                               loading={this.state.loading}
                               totalPage={this.state.totalPage}

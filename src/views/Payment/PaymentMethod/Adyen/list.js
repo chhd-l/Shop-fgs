@@ -10,7 +10,7 @@ import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { loadJS, dynamicLoadCss } from '@/utils/utils';
 import { scrollPaymentPanelIntoView } from '../../modules/utils';
 import LazyLoad from 'react-lazyload';
-import getAdyenConf from '@/lib/get-adyen-conf';
+import getPaymentConf from '@/lib/get-payment-conf';
 import './list.css';
 
 function CardItemCover({
@@ -64,9 +64,8 @@ class AdyenCreditCardList extends React.Component {
       memberUnsavedCardList: [], // 会员，选择不保存卡情况下，卡信息存储该字段中
       saveLoading: false
     };
-    this.handleClickConfirmDeleteBtn = this.handleClickConfirmDeleteBtn.bind(
-      this
-    );
+    this.handleClickConfirmDeleteBtn =
+      this.handleClickConfirmDeleteBtn.bind(this);
     this.handleClickDeleteBtn = this.handleClickDeleteBtn.bind(this);
     this.hanldeClickCardItem = this.hanldeClickCardItem.bind(this);
     this.editFormRef = React.createRef();
@@ -114,7 +113,8 @@ class AdyenCreditCardList extends React.Component {
           (ele) => ele.id === this.state.selectedId
         );
         if (!!firstSaveCard) {
-          firstSaveCard.encryptedSecurityCode = currentCardEncryptedSecurityCode;
+          firstSaveCard.encryptedSecurityCode =
+            currentCardEncryptedSecurityCode;
         }
         this.props.updateSelectedCardInfo(firstSaveCard);
       }
@@ -254,6 +254,7 @@ class AdyenCreditCardList extends React.Component {
     const { updateFormValidStatus } = this;
     const { cardList } = this.state;
     var { updateSelectedCardInfo, paymentStore } = this.props;
+    const { curPayWayInfo } = paymentStore;
     const { id, cardType: brand } = el;
     //第一次绑定这张卡,不需要填写CVV start
     if (paymentStore.firstSavedCardCvv == id) {
@@ -276,16 +277,18 @@ class AdyenCreditCardList extends React.Component {
 
     el.encryptedSecurityCode = ''; //loadCvv的时候先清空cvv
     let element = '#cvv_' + id;
-    const adyenOriginKeyConf = await getAdyenConf();
+    const tmpConfArr = await getPaymentConf();
+    const adyenOriginKeyConf = tmpConfArr.filter(
+      (t) => t.pspItemCode === curPayWayInfo?.code
+    )[0];
     loadJS({
-      url:
-        'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
+      url: 'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
       callback: function () {
         if (!!window.AdyenCheckout) {
           const AdyenCheckout = window.AdyenCheckout;
           const checkout = new AdyenCheckout({
-            environment: adyenOriginKeyConf?.env,
-            originKey: adyenOriginKeyConf?.originKey,
+            environment: adyenOriginKeyConf?.environment,
+            originKey: adyenOriginKeyConf?.openPlatformSecret,
             locale: adyenOriginKeyConf?.locale
           });
           checkout
@@ -341,7 +344,7 @@ class AdyenCreditCardList extends React.Component {
     let cvvId = data.id;
     return (
       <div className="row">
-        <div className="col-6 col-sm-4 d-flex flex-column pb-1 pb-md-0">
+        <div className="col-6 col-sm-4 d-flex flex-column pb-1 md:pb-0">
           <LazyLoad>
             <img
               alt="card background"
@@ -354,7 +357,7 @@ class AdyenCreditCardList extends React.Component {
             />
           </LazyLoad>
         </div>
-        <div className="col-12 col-sm-8 flex-column justify-content-around d-flex pb-1 pb-md-0">
+        <div className="col-12 col-sm-8 flex-column justify-content-around d-flex pb-1 md:pb-0">
           <div className="row ui-margin-top-1-md-down PayCardBoxMargin text-break">
             <div className={`col-12 mb-1`}>
               <div className="row align-items-center">

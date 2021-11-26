@@ -95,7 +95,7 @@ function QListAndPetJSX(props) {
                   />
                 </LazyLoad>
               </div>
-              <div className="col-12 col-md-7 text-center text-md-left text-break">
+              <div className="col-12 col-md-7 text-center md:text-left text-break">
                 <div className="row">
                   <div className="col-6 mb-2 mb-md-0">
                     <FormattedMessage id="age" />
@@ -235,11 +235,15 @@ class ProductFinderResult extends React.Component {
         let rations = rationRes?.context?.rationResponseItems;
         rations?.forEach((ration) => {
           if (mainProduct.spuCode == ration.mainItem) {
-            mainProduct.petsRation = `${Math.round(ration.weight)}${ration.weightUnit}/${this.props.intl.messages['day-unit']}`;
+            mainProduct.petsRation = `${Math.round(ration.weight)}${
+              ration.weightUnit
+            }/${this.props.intl.messages['day-unit']}`;
           }
           otherProducts?.map((el) => {
             if (el.spuCode == ration.mainItem) {
-              el.petsRation = `${Math.round(ration.weight)}${ration.weightUnit}/${this.props.intl.messages['day-unit']}`;
+              el.petsRation = `${Math.round(ration.weight)}${
+                ration.weightUnit
+              }/${this.props.intl.messages['day-unit']}`;
             }
           });
         });
