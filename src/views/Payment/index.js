@@ -844,12 +844,13 @@ class Payment extends React.Component {
     const {
       paymentStore: { serCurPayWayVal }
     } = this.props;
+    const tmpVal = val || this.state.payWayNameArr[0]?.paymentTypeVal || '';
+    serCurPayWayVal(tmpVal);
     this.setState(
       {
-        paymentTypeVal: val || this.state.payWayNameArr[0]?.paymentTypeVal || ''
+        paymentTypeVal: tmpVal
       },
       () => {
-        serCurPayWayVal(this.state.paymentTypeVal);
         this.onPaymentTypeValChange();
       }
     );
