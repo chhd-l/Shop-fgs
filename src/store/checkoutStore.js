@@ -307,7 +307,7 @@ class CheckoutStore {
   } = {}) {
     if (
       this.tradePrice < Number(window.__.env.REACT_APP_MINIMUM_AMOUNT) &&
-      sessionItemRoyal.get('orderSource') !== 'GOOD_WILL'
+      sessionItemRoyal.get('goodWillFlag') !== 'GOOD_WILL'
     ) {
       throw new Error(
         CURRENT_LANGFILE['cart.errorInfo3'].replace(/{.+}/, minimunAmountPrice)
