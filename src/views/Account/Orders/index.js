@@ -828,8 +828,7 @@ class AccountOrders extends React.Component {
                                               )}
                                             </FormattedMessage>
                                           </div>
-                                        ) : order.orderSource ===
-                                          'GOOD_WILL' ? (
+                                        ) : order.goodWillFlag === 1 ? (
                                           <div>
                                             <FormattedMessage id="order.goodwillOrder" />
                                           </div>

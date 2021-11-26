@@ -1332,7 +1332,7 @@ class AccountOrders extends React.Component {
                                   </span>
                                 </div>
                                 {/* goodwill order flag */}
-                                {details.orderSource === 'GOOD_WILL' && (
+                                {details.goodWillFlag === 1 && (
                                   <div className="col-12 col-md-3 text-left mb-2">
                                     <FormattedMessage id="order.goodwillOrder" />
                                   </div>

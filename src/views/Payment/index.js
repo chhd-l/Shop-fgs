@@ -304,16 +304,16 @@ class Payment extends React.Component {
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
     this.cyberRef = React.createRef();
-    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
-      this
-    );
+    this.confirmListValidationAddress =
+      this.confirmListValidationAddress.bind(this);
   }
   //cyber查询卡类型-会员
   queryCyberCardType = async (params) => {
     try {
-      const res = await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
-        params
-      );
+      const res =
+        await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
+          params
+        );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -324,9 +324,10 @@ class Payment extends React.Component {
   //cyber查询卡类型-游客
   queryGuestCyberCardType = async (params) => {
     try {
-      const res = await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
-        params
-      );
+      const res =
+        await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
+          params
+        );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -1514,6 +1515,7 @@ class Payment extends React.Component {
         // 清除掉计算运费相关参数
         localItemRoyal.remove('rc-calculation-param');
         sessionItemRoyal.remove('rc-clicked-surveyId');
+        sessionItemRoyal.remove('goodWillFlag');
         //支付成功清除推荐者信息
         this.props.clinicStore.removeLinkClinicInfo();
         this.props.clinicStore.removeLinkClinicRecommendationInfos();
@@ -1769,10 +1771,15 @@ class Payment extends React.Component {
         promotionCode,
         guestEmail,
         selectWelcomeBoxFlag: this.state.welcomeBoxValue === 'yes', //first order welcome box
-        surveyId
+        surveyId, //us cart survey
+        goodWillFlag:
+          sessionItemRoyal.get('goodWillFlag') === 'GOOD_WILL' ? 1 : 0
       },
       appointParam
     );
+    if (sessionItemRoyal.get('goodWillFlag') === 'GOOD_WILL') {
+      param.orderSource = 'SUPPLIER';
+    }
     let tokenObj = JSON.parse(localStorage.getItem('okta-token-storage'));
     if (tokenObj && tokenObj.accessToken) {
       param.oktaToken = 'Bearer ' + tokenObj.accessToken.accessToken;
@@ -2692,9 +2699,10 @@ class Payment extends React.Component {
     const unLoginCyberSaveCard = async (params) => {
       // console.log('2080 params: ', params);
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -2706,9 +2714,10 @@ class Payment extends React.Component {
     //cyber会员绑卡
     const loginCyberSaveCard = async (params) => {
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -3477,9 +3486,8 @@ class Payment extends React.Component {
   };
   petComfirm = (data) => {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[
-        this.state.currentProIndex
-      ].petForm = data;
+      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
+        data;
     } else {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {
@@ -3567,9 +3575,8 @@ class Payment extends React.Component {
   clickPay = () => {
     if (this.tradePrice === 0 && this.isCurrentBuyWaySubscription) {
       //0元订单中含有订阅商品时不能下单
-      const errMsg = this.props.intl.messages[
-        'checkout.zeroOrder.butSubscription'
-      ];
+      const errMsg =
+        this.props.intl.messages['checkout.zeroOrder.butSubscription'];
       this.showErrorMsg(errMsg);
       return;
     }
