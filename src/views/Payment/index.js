@@ -398,12 +398,7 @@ class Payment extends React.Component {
             consigneeName: this.userInfo.customerName,
             consigneeNumber: this.userInfo.contactPhone
           })
-        : Object.assign(felinAddr[0], {
-            firstName: 'guest',
-            lastName: 'guest',
-            consigneeName: 'guest guest',
-            consigneeNumber: '(+33) 4 37 92 70 83'
-          });
+        : felinAddr[0];
       this.setState(
         {
           appointNo: appointNo,
@@ -915,12 +910,15 @@ class Payment extends React.Component {
     });
     sessionItemRoyal.set('recommend_product', JSON.stringify([goodDetail]));
     this.props.checkoutStore.updatePromotionFiled([goodDetail]);
-    if (!this.isLogin && result?.consumerName) {
+    if (!this.isLogin) {
       const felinAddress = Object.assign(felinAddr[0], {
-        firstName: result?.consumerName?.split(' ')[0] || 'guest',
-        lastName: result?.consumerName?.split(' ')[1] || 'guest',
-        consigneeName: result?.consumerName || 'guest guest',
-        consigneeNumber: '(+33) 4 37 92 70 83'
+        firstName: result?.consumerFirstName || '',
+        lastName: result?.consumerLastName || '',
+        consigneeName:
+          result?.consumerName ||
+          result?.consumerFirstName + ' ' + result?.consumerLastName ||
+          '',
+        consigneeNumber: result?.consumerPhone || ''
       });
       this.setState({
         deliveryAddress: felinAddress,
