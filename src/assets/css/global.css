@@ -23948,6 +23948,7 @@ input[type='number'] {
   vertical-align: -0.15em;
   fill: currentColor;
   overflow: hidden;
+  display: inline-block;
 }
 
 a.rc-styled-link,
