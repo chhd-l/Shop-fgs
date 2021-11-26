@@ -69,6 +69,7 @@ const isHub = window.__.env.REACT_APP_HUB == '1';
 const Fr = window.__.env.REACT_APP_COUNTRY === 'fr';
 const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
 const Tr = window.__.env.REACT_APP_COUNTRY === 'tr';
+const Uk = window.__.env.REACT_APP_COUNTRY === 'uk';
 
 @inject(
   'checkoutStore',
@@ -255,7 +256,9 @@ class Details extends React.Component {
 
   setDefaultPurchaseType({ id }) {
     const { promotions, details, frequencyList, purchaseTypeDict } = this.state;
-    console.log(purchaseTypeDict, 'purchaseTypeDict...', id);
+    const skuPromotions =
+      details.sizeList?.filter((item) => item?.selected)?.[0]?.promotions || '';
+    console.log(skuPromotions, 'skuPromotions');
     const targetDefaultPurchaseTypeItem =
       purchaseTypeDict.filter(
         (ele) => ele.id && id && ele.id + '' === id + ''
@@ -276,8 +279,7 @@ class Details extends React.Component {
         this.state.defaultGoodsInfoFlag
       ) {
         buyWay =
-          parseInt(this.state.defaultGoodsInfoFlag) ||
-          details.promotions === 'club'
+          parseInt(this.state.defaultGoodsInfoFlag) || skuPromotions === 'club'
             ? 2
             : 1;
       } else {
@@ -312,7 +314,6 @@ class Details extends React.Component {
           (autoshipDictRes[0] && autoshipDictRes[0].id) ||
           '';
       }
-      console.log(details, defaultFrequencyId, 'defaultFrequencyId');
 
       this.setState({
         form: Object.assign(this.state.form, {
@@ -371,9 +372,9 @@ class Details extends React.Component {
       spuImages,
       goodsDetailTab,
       goodsNo,
-      form
+      form,
+      setDefaultPurchaseTypeParamId
     } = this.state;
-
     details.sizeList = sizeList;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     if (!selectedSpecItem?.subscriptionStatus && form.buyWay > 0) {
@@ -390,6 +391,9 @@ class Details extends React.Component {
           goodsNo
         })
       );
+      this.setDefaultPurchaseType({
+        id: setDefaultPurchaseTypeParamId
+      });
     });
 
     // bundle商品的ga初始化填充
@@ -530,15 +534,18 @@ class Details extends React.Component {
               breadCrumbs: [{ name: goodsRes.goodsName }],
               pageLink: this.redirectCanonicalLink({ pageLink }),
               goodsType: goods.goodsType,
-              exclusiveFlag: goods.exclusiveFlag
+              exclusiveFlag: goods.exclusiveFlag,
+              setDefaultPurchaseTypeParamId:
+                goodsRes.defaultPurchaseType ||
+                configStore.info?.storeVO?.defaultPurchaseType
             },
             () => {
               this.handleBreadCrumbsData();
-              this.setDefaultPurchaseType({
-                id:
-                  goodsRes.defaultPurchaseType ||
-                  configStore.info?.storeVO?.defaultPurchaseType
-              });
+              // this.setDefaultPurchaseType({
+              //   id:
+              //     goodsRes.defaultPurchaseType ||
+              //     configStore.info?.storeVO?.defaultPurchaseType
+              // });
             }
           );
         } else {
@@ -1019,9 +1026,9 @@ class Details extends React.Component {
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     const vet =
-      window.__.env.REACT_APP_HUB === '1' &&
+      (window.__.env.REACT_APP_HUB === '1' || Uk) &&
       !details.saleableFlag &&
-      details.displayFlag; //vet产品并且是hub的情况下
+      details.displayFlag; //vet产品并且是hub的情况下,(uk不管stg还是wedding都用这个逻辑)
     console.log(
       vet,
       window.__.env.REACT_APP_HUB,

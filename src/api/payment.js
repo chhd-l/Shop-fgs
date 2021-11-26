@@ -202,23 +202,16 @@ export function payu3dsPaymentsDetails(parameter) {
 }
 
 export function getProductPetConfig(parameter) {
-  // parameter.goodsInfos.map((ele) => {
-  //   if (ele.goods) {
-  //     ele.goods.goodsDetail = '';
-  //   }
-  //   if (ele.goodsInfos) {
-  //     ele.goodsInfos.map((el) => {
-  //       el.goods = null;
-  //     });
-  //   }
-  //   return Object.assign(ele, {
-  //     goodsDetail: ''
-  //   });
-  // });
   return axios({
     url: api.getProductPetConfig,
     method: 'post',
-    data: parameter
+    data: {
+      goodsInfos: parameter.goodsInfos.map((el) => {
+        return {
+          cateId: el.cateId
+        };
+      })
+    }
   });
 }
 export function setDefaltCard(parameter) {
