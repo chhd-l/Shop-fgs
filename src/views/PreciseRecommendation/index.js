@@ -287,7 +287,7 @@ class PreciseRecommendation extends React.Component {
                                 flexWrap: 'wrap'
                               }}
                             >
-                              <div className="col-12 col-md-5 rc-padding--none order-1 order-md-0  orderJoin1">
+                              <div className="col-12 col-md-5 rc-padding--none order-1 md:order-0  orderJoin1">
                                 <div className="rc-column rc-padding--none">
                                   <h4
                                     className="rc-beta font-weight-bold text-lg-left text-center"
@@ -352,7 +352,7 @@ class PreciseRecommendation extends React.Component {
                                   </ul>
                                 </div>
                               </div>
-                              <div className="col-12 col-md-7 rc-padding-right--none rc-padding-x--none order-1 order-md-0 orderJoin1">
+                              <div className="col-12 col-md-7 rc-padding-right--none rc-padding-x--none order-1 md:order-0 orderJoin1">
                                 <div
                                   className="rc-column rc-padding--none text-right"
                                   style={{

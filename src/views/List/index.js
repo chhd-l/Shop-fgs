@@ -55,10 +55,11 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =
   'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
-const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-  /\/$/,
-  ''
-);
+const urlPrefix =
+  `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+    /\/$/,
+    ''
+  );
 
 const filterAttrValue = (list, keyWords) => {
   return (list || [])
@@ -243,7 +244,7 @@ function ProductFinderAd({ isRetailProducts, isVetProducts, isDogPage }) {
   return (
     {
       fr: (
-        <div className="ml-4 mr-4 pl-4 pr-4 pb-4 pb-md-0">
+        <div className="ml-4 mr-4 pl-4 pr-4 pb-4 md:pb-0">
           {isRetailProducts || isVetProducts ? null : (
             <div className="row align-items-center">
               <div className="col-12 col-md-6">
@@ -901,14 +902,14 @@ class List extends React.Component {
 
     type !== 'pageChange' &&
       // setTimeout(() => {
-        dataLayer.push({
-          event: 'plpScreenLoad',
-          plpScreenLoad: {
-            nbResults: totalElements,
-            userRequest: keywords || ''
-          }
-        });
-      // }, 3000gtm优化);
+      dataLayer.push({
+        event: 'plpScreenLoad',
+        plpScreenLoad: {
+          nbResults: totalElements,
+          userRequest: keywords || ''
+        }
+      });
+    // }, 3000gtm优化);
 
     if (dataLayer[0] && dataLayer[0].search) {
       dataLayer[0].search.query = keywords;
@@ -1648,8 +1649,9 @@ class List extends React.Component {
 
   stickyMobileRefineBar() {
     if (isMobilePhone) {
-      var t = document?.getElementById('refineBar')?.getBoundingClientRect()
-        .top;
+      var t = document
+        ?.getElementById('refineBar')
+        ?.getBoundingClientRect().top;
       window.addEventListener('scroll', () => {
         var choosedVal = document.querySelector('.filter-value'); // 有选择的时候才操作
         if (window.pageYOffset + 33 >= t && choosedVal) {
@@ -1847,7 +1849,7 @@ class List extends React.Component {
             {titleData && titleData.title && titleData.description ? (
               <div className="rc-max-width--lg rc-padding-x--sm ">
                 <div className="rc-layout-container rc-three-column rc-content-h-middle d-flex flex-md-wrap flex-wrap-reverse">
-                  <div className="rc-column rc-double-width text-center text-md-left">
+                  <div className="rc-column rc-double-width text-center md:text-left">
                     <div className="rc-full-width rc-padding-x--md--mobile rc-margin-bottom--lg--mobile">
                       <h1 className="rc-gamma rc-margin--none">
                         {titleData.title}
@@ -1913,7 +1915,7 @@ class List extends React.Component {
                     {hiddenFilter && !isMobilePhone ? null : (
                       <div
                         id="refineBar"
-                        className="refine-bar refinements rc-column1 col-12 col-xl-3 ItemBoxFitSCreen pt-0 mb-0 mb-md-3 mb-md-0 pl-0 pl-md-3 pr-0"
+                        className="refine-bar refinements rc-column1 col-12 col-xl-3 ItemBoxFitSCreen pt-0 mb-0 md:mb-3 pl-0 md:pl-3 pr-0"
                       >
                         <div
                           className="rc-meta rc-md-down"
@@ -2052,7 +2054,7 @@ class List extends React.Component {
                     <div
                       className={`rc-column1 col-12 ${
                         hiddenFilter ? 'col-xl-12' : 'col-xl-9'
-                      } rc-triple-width rc-padding--xs product-tiles-container pt-4 pt-md-0`}
+                      } rc-triple-width rc-padding--xs product-tiles-container pt-4 md:pt-0`}
                     >
                       {!loading && (
                         <>
@@ -2121,7 +2123,7 @@ class List extends React.Component {
                                   return (
                                     <div
                                       className={cn(
-                                        `col-12 pr-0 pl-md-2 pr-md-2 mb-3 pl-0 BoxFitMonileScreen`,
+                                        `col-12 pr-0 md:pl-2 md:pr-2 mb-3 pl-0 BoxFitMonileScreen`,
                                         `${
                                           hiddenFilter ? 'col-md-3' : 'col-md-4'
                                         }`

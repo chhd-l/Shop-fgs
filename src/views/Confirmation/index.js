@@ -13,7 +13,6 @@ import Modal from '@/components/Modal';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import successImg from '@/assets/images/credit-cards/success.png';
-import { queryCityNameById } from '@/api/address';
 import { getOrderDetails, getPayRecord } from '@/api/order';
 import './index.less';
 import { setSeoConfig, getDeviceType } from '@/utils/utils';
@@ -439,7 +438,8 @@ class Confirmation extends React.Component {
       mktActivateSuccess,
       mktConsent,
       mktSelectedFlagChecked,
-      mktActivateChecked
+      mktActivateChecked,
+      payRecord
     } = this.state;
     const event = {
       page: {
@@ -471,7 +471,7 @@ class Confirmation extends React.Component {
           showNav={false}
           showUserBox={false}
         />
-        <main className="rc-content--fixed-header rc-bg-colour--brand4 pl-2 pr-2 pl-md-0 pr-md-0">
+        <main className="rc-content--fixed-header rc-bg-colour--brand4 pl-2 pr-2 md:pl-0 md:pr-0">
           {/* <BannerTip /> */}
           <div className="rc-max-width--xl pb-4">
             <div className="text-center mt-3">
@@ -694,6 +694,8 @@ class Confirmation extends React.Component {
             close={() => {
               this.setState({ oxxoModalShow: false });
             }}
+            pspItemCode={payRecord?.paymentItem}
+            key={payRecord?.paymentItem}
           />
         )}
       </div>

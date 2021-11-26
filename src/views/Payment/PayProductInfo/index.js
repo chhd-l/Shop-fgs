@@ -565,7 +565,7 @@ class PayProductInfo extends React.Component {
     }
     return (
       <div
-        className="product-summary__itemnbr border-bottom d-flex align-items-center justify-content-between pl-md-3 pr-md-3 pt-2 pb-2 pt-md-3 pb-md-3"
+        className="product-summary__itemnbr border-bottom d-flex align-items-center justify-content-between md:pl-3 md:pr-3 pt-2 pb-2 md:pt-3 md:pb-3"
         onClick={this.props.onClickHeader}
       >
         {headerIcon}
@@ -978,7 +978,7 @@ class PayProductInfo extends React.Component {
             </div>
           </div>
 
-          <div className="product-summary__total grand-total row leading-lines border-top pl-md-3 pr-md-3 pt-2 pb-2 pt-md-3 pb-md-3">
+          <div className="product-summary__total grand-total row leading-lines border-top md:pl-3 md:pr-3 pt-2 pb-2 md:pt-3 md:pb-3">
             <div className="col-6 start-lines">
               <span>
                 <FormattedMessage id="totalIncluIVA" />

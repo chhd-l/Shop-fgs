@@ -49,7 +49,7 @@ const localItemRoyal = window.__.localItemRoyal;
 
 function Progress({ progressList, currentProgerssIndex }) {
   return (
-    <div className="od-prg-container ml-2 mr-2 ml-md-4 mr-md-4">
+    <div className="od-prg-container ml-2 mr-2 md:ml-4 md:mr-4">
       <div className="od-prg d-flex align-items-center">
         {progressList.map((item, i) => (
           <>
@@ -112,7 +112,7 @@ function Progress({ progressList, currentProgerssIndex }) {
 function HeadTip(props) {
   return (
     <>
-      <div className="row align-items-center text-left ml-1 mr-1 ml-md-0 mr-md-0">
+      <div className="row align-items-center text-left ml-1 mr-1 md:ml-0 md:mr-0">
         <div className="col-3 col-md-1">{props.icon}</div>
         <div className={`col-9 ${props.operation ? 'col-md-7' : 'col-md-11'}`}>
           <span
@@ -124,7 +124,7 @@ function HeadTip(props) {
           {window.__.env.REACT_APP_COUNTRY !== 'us' ? props.tip : null}
         </div>
         {props.operation ? (
-          <div className="col-12 col-md-4 text-md-right text-center">
+          <div className="col-12 col-md-4 md:text-right text-center">
             <span className="sticky-operation-btn rc-md-down">
               {props.operation}
             </span>
@@ -753,7 +753,7 @@ class AccountOrders extends React.Component {
               </div>
             ) : null}
 
-            <div className="ml-4 mr-4 rc-md-down mt-2 mt-md-0">
+            <div className="ml-4 mr-4 rc-md-down mt-2 md:mt-0">
               {filteredLogisticsList.map(
                 (item, i) =>
                   item.tradeLogisticsDetails &&
@@ -1243,7 +1243,7 @@ class AccountOrders extends React.Component {
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3 ord-detail">
           <BannerTip />
           <BreadCrumbs />
-          <div className="p-md-2rem rc-max-width--xl">
+          <div className="md:p-8 rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
               <SideMenu type="Orders" customCls="rc-md-up" />
               <div
@@ -1270,7 +1270,7 @@ class AccountOrders extends React.Component {
                 )}
 
                 <div
-                  className={`row justify-content-center mt-3 mt-md-0 ${
+                  className={`row justify-content-center mt-3 md:mt-0 ${
                     showLogisticsDetail ? 'hidden' : ''
                   }`}
                 >
@@ -1308,9 +1308,9 @@ class AccountOrders extends React.Component {
                             className="rc-bg-colour--brand4 rc-md-down mt-3"
                             style={{ height: '.8rem' }}
                           />
-                          <div className="row m-0 ml-2 mr-2 ml-md-0 mr-md-0">
-                            <div className="col-12 border table-header rounded mt-3 mt-md-0">
-                              <div className="row pt-3 pb-2 pl-1 pr-1 pl-md-4 pr-md-4 pt-md-4 pb-md-3">
+                          <div className="row m-0 ml-2 mr-2 md:ml-0 md:mr-0">
+                            <div className="col-12 border table-header rounded mt-3 md:mt-0">
+                              <div className="row pt-3 pb-2 pl-1 pr-1 md:pl-4 md:pr-4 md:pt-4 md:pb-3">
                                 {/* 订单号 */}
                                 <div className="col-12 col-md-3 text-left mb-2">
                                   <FormattedMessage id="order.orderNumber" />
@@ -1318,8 +1318,8 @@ class AccountOrders extends React.Component {
                                   <span className="medium">
                                     {filterOrderId({
                                       orderNo: this.state.orderNumber,
-                                      orderNoForOMS: this.state
-                                        .orderNumberForOMS
+                                      orderNoForOMS:
+                                        this.state.orderNumberForOMS
                                     })}
                                   </span>
                                 </div>
@@ -1332,7 +1332,7 @@ class AccountOrders extends React.Component {
                                   </span>
                                 </div>
                                 {/* goodwill order flag */}
-                                {details.orderSource === 'SUPPLIER' && (
+                                {details.goodWillFlag === 1 && (
                                   <div className="col-12 col-md-3 text-left mb-2">
                                     <FormattedMessage id="order.goodwillOrder" />
                                   </div>
@@ -1379,7 +1379,7 @@ class AccountOrders extends React.Component {
                                 ) : null}
                               </div>
                             </div>
-                            <div className="col-12 table-body rounded mt-md-3 mb-2 pl-0 pr-0">
+                            <div className="col-12 table-body rounded md:mt-3 mb-2 pl-0 pr-0">
                               <div className="order__listing text-left">
                                 <div className="order-list-container">
                                   {details.tradeItems
@@ -1390,7 +1390,7 @@ class AccountOrders extends React.Component {
                                         key={i}
                                       >
                                         <div
-                                          className={`row align-items-center pl-2 pr-2 pl-md-0 pr-md-0`}
+                                          className={`row align-items-center pl-2 pr-2 md:pl-0 md:pr-0`}
                                         >
                                           <div className="col-4 col-md-2 d-flex justify-content-center align-items-center">
                                             <LazyLoad style={{ width: '100%' }}>
@@ -1478,9 +1478,9 @@ class AccountOrders extends React.Component {
                                                           {filterOrderId({
                                                             orderNo:
                                                               el.subscribeId,
-                                                            orderNoForOMS: this
-                                                              .state
-                                                              .orderNumberForOMS
+                                                            orderNoForOMS:
+                                                              this.state
+                                                                .orderNumberForOMS
                                                           })}
                                                         </Link>
                                                       </p>
@@ -1529,7 +1529,7 @@ class AccountOrders extends React.Component {
                                               )} */}
                                             </span>
                                           </div>
-                                          <div className="col-6 col-md-2 text-right text-md-left rc-md-up">
+                                          <div className="col-6 col-md-2 text-right md:text-left rc-md-up">
                                             {!this.isFelinOrder ? (
                                               <FormattedMessage
                                                 id="xProduct"
@@ -1546,7 +1546,7 @@ class AccountOrders extends React.Component {
                                               this.isFelinOrder
                                                 ? 'col-md-2'
                                                 : 'col-md-3'
-                                            } text-right text-md-left rc-md-up`}
+                                            } text-right md:text-left rc-md-up`}
                                           >
                                             {details.subscriptionResponseVO &&
                                             item.subscriptionStatus ? (
@@ -1576,7 +1576,7 @@ class AccountOrders extends React.Component {
                                               this.isFelinOrder
                                                 ? 'col-md-3'
                                                 : 'col-md-2'
-                                            } text-right text-md-left text-nowrap rc-md-up font-weight-normal d-flex justify-content-center flex-column`}
+                                            } text-right md:text-left text-nowrap rc-md-up font-weight-normal d-flex justify-content-center flex-column`}
                                           >
                                             {details.subscriptionResponseVO &&
                                             item.subscriptionStatus
@@ -1603,7 +1603,7 @@ class AccountOrders extends React.Component {
                                       key={i}
                                     >
                                       <div
-                                        className={`row align-items-center pl-2 pr-2 pl-md-0 pr-md-0`}
+                                        className={`row align-items-center pl-2 pr-2 md:pl-0 md:pr-0`}
                                       >
                                         <div className="col-4 col-md-2 d-flex justify-content-center align-items-center">
                                           <LazyLoad style={{ width: '100%' }}>
@@ -1646,7 +1646,7 @@ class AccountOrders extends React.Component {
                                               : formatMoney(item.marketPrice)}
                                           </span>
                                         </div>
-                                        <div className="col-6 col-md-2 text-right text-md-left rc-md-up">
+                                        <div className="col-6 col-md-2 text-right md:text-left rc-md-up">
                                           <FormattedMessage
                                             id="xProduct"
                                             values={{
@@ -1656,12 +1656,12 @@ class AccountOrders extends React.Component {
                                             }}
                                           />
                                         </div>
-                                        <div className="col-6 col-md-3 text-right text-md-left rc-md-up">
+                                        <div className="col-6 col-md-3 text-right md:text-left rc-md-up">
                                           {judgeIsIndividual(item)
                                             ? ''
                                             : formatMoney(item.marketPrice)}
                                         </div>
-                                        <div className="col-12 col-md-2 text-right text-md-left text-nowrap rc-md-up font-weight-normal 222">
+                                        <div className="col-12 col-md-2 text-right md:text-left text-nowrap rc-md-up font-weight-normal 222">
                                           {formatMoney(item.marketPrice)}
                                         </div>
                                       </div>
@@ -1669,7 +1669,7 @@ class AccountOrders extends React.Component {
                                   ))}
                                 </div>
                               </div>
-                              <div className="pt-2 pb-2 pl-md-4 pr-md-4">
+                              <div className="pt-2 pb-2 md:pl-4 md:pr-4">
                                 <div className="row mt-2 text-left">
                                   <div className="col-2 col-md-7 mb-2 rc-md-up">
                                     &nbsp;
@@ -1819,7 +1819,7 @@ class AccountOrders extends React.Component {
 
                           {/*felin订单? appointmentInfo :地址/支付信息 */}
                           {!this.isFelinOrder ? (
-                            <div className="ml-2 mr-2 mr-md-0 ml-md-0">
+                            <div className="ml-2 mr-2 md:mr-0 md:ml-0">
                               <p className="mt-4 mb-3 red text-left">
                                 <FormattedMessage id="transactionInfomation" />
                               </p>
