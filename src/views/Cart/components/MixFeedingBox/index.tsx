@@ -200,7 +200,7 @@ const MixFeedingBox = function ({
                           {mixFeedingData.goodsSpecs &&
                             mixFeedingData.goodsSpecs.map((sItem, i) => (
                               <div key={i} className="overflow-hidden">
-                                <div className="text-left ml-1 text-capitalize">
+                                <div className="text-left ml-1 text-capitalize rc-margin-bottom--xs">
                                   {sItem.specName}:
                                 </div>
                                 {sItem.chidren.filter(el => el.selected).map((sdItem, i2) => (
