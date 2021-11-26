@@ -613,6 +613,7 @@ const ErrMsgForCheckoutPanel = ({ checkOutErrMsg }) => {
   'configStore',
   'clinicStore'
 )
+@injectIntl
 @observer
 class SmartFeederSubscription extends Component {
   constructor(props) {
@@ -1415,7 +1416,8 @@ class SmartFeederSubscription extends Component {
     try {
       await checkoutStore.updateUnloginCart({
         cartData: cartDataCopy,
-        isThrowErr: true
+        isThrowErr: true,
+        intl: this.props.intl
       });
       if (redirect) {
         if (needLogin) {
@@ -1719,7 +1721,8 @@ class SmartFeederSubscription extends Component {
       await sitePurchase(param);
       await checkoutStore.updateLoginCart({
         isThrowErr: true,
-        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
+        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT),
+        intl: this.props.intl
       });
       if (isMobile) {
         // this.refs.showModalButton.click();
