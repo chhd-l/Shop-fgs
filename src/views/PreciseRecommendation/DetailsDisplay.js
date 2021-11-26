@@ -25,13 +25,10 @@ class DetailsDisplay extends React.Component {
     const { intl } = this.props;
     const modalShow = this.state.modalShow;
 
-    let productComposition1 = productComposition.analyticalConsitituentsTitle.slice(
-      0,
-      5
-    );
-    let productComposition2 = productComposition.analyticalConsitituentsTitle.slice(
-      5
-    );
+    let productComposition1 =
+      productComposition.analyticalConsitituentsTitle.slice(0, 5);
+    let productComposition2 =
+      productComposition.analyticalConsitituentsTitle.slice(5);
     return (
       <div className="experience-component experience-layouts-1column">
         <div
@@ -89,7 +86,7 @@ class DetailsDisplay extends React.Component {
                     <div className="experience-component experience-assets-contentBlock">
                       <div className="rc-content-block rc-padding-x--sm pt-0 rc-padding--none--mobile rc-margin-bottom--sm rc-margin-y--sm--mobile content-block rc-max-width--lg">
                         <div className="row mx-0 rc-margin-x--none--mobile">
-                          <div className="col-12 col-md-6 order-1 order-md-0  orderJoin1 rc-padding-left--none--desktop rc-margin-bottom--sm--mobile rc-padding--none--mobile">
+                          <div className="col-12 col-md-6 order-1 md:order-0  orderJoin1 rc-padding-left--none--desktop rc-margin-bottom--sm--mobile rc-padding--none--mobile">
                             <div
                               className="text-center text-lg-left rc-padding-x--sm rc-padding-y--sm rc-padding-y--md--mobile rc-padding-x--md--mobile"
                               style={{
@@ -168,7 +165,7 @@ class DetailsDisplay extends React.Component {
                     <div className="experience-component experience-assets-contentBlock">
                       <div className="rc-content-block rc-padding-x--sm pt-0 rc-padding--none--mobile rc-margin-y--sm--mobile content-block rc-max-width--lg">
                         <div className="row rc-full-width mx-0  rc-margin-x--none--mobile">
-                          <div className="col-12 col-md-6 order-1 order-md-0  orderJoin1 rc-padding-left--none--desktop rc-margin-bottom--sm--mobile rc-padding--none--mobile">
+                          <div className="col-12 col-md-6 order-1 md:order-0  orderJoin1 rc-padding-left--none--desktop rc-margin-bottom--sm--mobile rc-padding--none--mobile">
                             <div
                               className="text-center text-lg-left rc-padding-x--sm--mobile rc-padding-y--md--mobile rc-padding-x--md--mobile"
                               style={{ height: '100%' }}
@@ -194,7 +191,7 @@ class DetailsDisplay extends React.Component {
                               </p>
                             </div>
                           </div>
-                          <div className="col-12 col-md-6 order-1 order-md-0  orderJoin1 rc-padding-right--none--desktop rc-padding--none--mobile">
+                          <div className="col-12 col-md-6 order-1 md:order-0  orderJoin1 rc-padding-right--none--desktop rc-padding--none--mobile">
                             <div
                               className="row col-12 mx-0 text-left rc-padding-x--sm rc-padding-y--sm rc-padding-x--md--mobile rc-padding-y--md--mobile"
                               style={{

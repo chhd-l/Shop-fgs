@@ -210,10 +210,10 @@ class ProductFinderNoResult extends React.Component {
                   history={history}
                 />
                 <div className="row">
-                  <div className="col-12 order-0 order-md-1">
+                  <div className="col-12 order-0 md:order-1">
                     <div className="rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile rc-max-width--lg mb-0">
                       <div className="row">
-                        <div className="col-12 col-md-4 order-0 order-md-1 text-center">
+                        <div className="col-12 col-md-4 order-0 md:order-1 text-center">
                           <h2 className="rc-beta markup-text mb-4">
                             <FormattedMessage id="seeAllOurProducts" />
                           </h2>
@@ -226,7 +226,7 @@ class ProductFinderNoResult extends React.Component {
                             </Link>
                           </div>
                         </div>
-                        <div className="col-12 col-md-4 order-1 order-md-0">
+                        <div className="col-12 col-md-4 order-1 md:order-0">
                           <LazyLoad style={{ width: '100%' }}>
                             <img src={catImg} alt="cat image" />
                           </LazyLoad>
@@ -236,7 +236,7 @@ class ProductFinderNoResult extends React.Component {
                             </Link>
                           </div>
                         </div>
-                        <div className="col-12 col-md-4 order-2 order-md-2">
+                        <div className="col-12 col-md-4 order-2 md:order-2">
                           <LazyLoad style={{ width: '100%' }}>
                             <img src={dogImg} alt="dog image" />
                           </LazyLoad>
@@ -254,7 +254,7 @@ class ProductFinderNoResult extends React.Component {
             )}
           </div>
           <hr className="rc-md-down" />
-          <div className="col-12 order-1 order-md-0 rc-padding-bottom--lg">
+          <div className="col-12 order-1 md:order-0 rc-padding-bottom--lg">
             <div className="p-f-help-box mt-4">
               <p className="text-center pt-3" style={{ fontSize: '1.3rem' }}>
                 <FormattedMessage id="productFinder.helpTip1" />
