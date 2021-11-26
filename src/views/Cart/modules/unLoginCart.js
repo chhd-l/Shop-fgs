@@ -732,7 +732,7 @@ class UnLoginCart extends React.Component {
               isGift ? 'no-margin-bottom' : 'has-margin-bottom'
             }`}
           >
-            <span className="remove-product-btn">
+            <span className="remove-product-btn z-50">
               <span
                 className="rc-icon rc-close--sm rc-iconography inline-block"
                 style={{ width: '32px', height: '32px' }}
