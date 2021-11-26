@@ -150,7 +150,7 @@ class WeekCalender extends Component {
                         ? 'rc-btn-active'
                         : ''
                     }
-                         rc-margin-bottom--xs
+                         bg-gray-300
                       `}
                     disabled={it.disabled}
                     style={{ marginTop: 5 }}
