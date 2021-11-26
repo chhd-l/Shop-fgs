@@ -610,25 +610,21 @@ const GoodsDetailTabs = function (props) {
     if (window.__.env.REACT_APP_COUNTRY === 'ru') {
       const dom = `<div class='mixed-Feeding-box'>
           <div class='rc-margin-bottom--md'>
-            <h2 class='mixed-Feeding-title rc-beta'>MIXED FEEDING</h2>
+            <h2 class='mixed-Feeding-title rc-beta'>Смешанное кормление</h2>
           </div>
-          <h3 class='mixed-Feeding-title2 rc-beta'>
-            Give your pet the best of wet and dry food
-          </h3>
+          <h3 class='mixed-Feeding-title2 rc-beta'>Сочетайте преимущества сухого и влажного продуктов</h3>
 
-          <p class='mixed-Feeding-text rc-intro rc-margin-bottom--none text-center d-md-block d-none'>Mixed feeding involves incorporating both Dry and Wet food into your pet's diet. While both types of food are nutritionally complete and
-            balanced on their own, a regular diet of dry and wet food is a great way for them to obtain the unique complementary benefits of each.
-          </p>
+          <p class='mixed-Feeding-text rc-intro rc-margin-bottom--none text-center d-md-block d-none'>Смешанное кормление – это сочетание сухого и консервированного кормов в рационе вашего питомца. Каждый из кормов сам по себе является полноценным и сбалансированным, но ежедневное сочетание сухого и влажного кормов позволяет получить оптимальную комбинацию преимуществ обоих видов продуктов.</p>
            <div class='rc-margin-bottom--md--desktop rc-padding-top--md--mobile'>
-            <h3 class='rc-beta'>Benefits of mixed feeding</h3>
+            <h3 class='rc-beta'>Преимущества смешанного кормления</h3>
           </div>
           <div class='mixed-Feeding-content'>
             <div class='mixed-Feeding-content-item'>
-              <h3 class='mixed-Feeding-title'>ROYAL CANIN® Dry Food</h3>
-              <h4 >Extra benefits</h4>
+              <h3 class='mixed-Feeding-title'>Сухой корм ROYAL CANIN®</h3>
+              <h4 >Дополнительные преимущества</h4>
               <div class='mixed-Feeding-content-list'>
-                <li>Oral care</li>
-                <li>Addition of certain special nutrients</li>
+                <li>гигиена полости рта</li>
+                <li>добавление в рацион определенных нутриентов</li>
               </div>
             </div>
             <div class='mixed-Feeding-content-item rc-text--center'>
@@ -641,13 +637,13 @@ const GoodsDetailTabs = function (props) {
               </LazyLoad>
             </div>
             <div class='mixed-Feeding-content-item'>
-              <h3 class='mixed-Feeding-title'>ROYAL CANIN® Wet Food</h3>
-              <h4 >Extra benefits</h4>
+              <h3 class='mixed-Feeding-title'>Влажный корм ROYAL CANIN®</h3>
+              <h4 >Дополнительные преимущества</h4>
               <div>
-                <li>Weight management</li>
-                <li>Palatability</li>
-                <li>Sensoria textures</li>
-                <li>Promote hydration</li>
+                <li>контроль веса</li>
+                <li>стимуляция аппетита</li>
+                <li>стимуляция ощущений за счет текстуры</li>
+                <li>дополнительный источник влаги и поддержание здоровья мочевыделительной системы</li>
               </div>
             </div>
           </div>
