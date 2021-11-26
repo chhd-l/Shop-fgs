@@ -316,7 +316,15 @@ const env = {
     // #HUB_GA
     REACT_APP_HUB_GA: '1',
 
-    REACT_APP_HUB_URLPREFIX: 'https://stgwedding.royalcanin.com/uk'
+    REACT_APP_HUB_URLPREFIX: 'https://stgwedding.royalcanin.com/uk',
+
+    // #buyFromRetailBtn
+    REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE: 'en-US',
+    REACT_APP_HUBPAGE_RETAILER_WIDGETID:
+      'eQJAy3lYzN_bc061c10-9ad5-11ea-8690-bd692fbec1ed25',
+    REACT_APP_HUBPAGE_RETAILER_WIDGETID_VET:
+      'eQJAy3lYzN_56bc9e30-5036-11eb-b747-4948961b961c27',
+    REACT_APP_HUBPAGE_RETAILER_LOCALE: 'en-GB'
   },
   uatwedding: {
     // #okta
@@ -355,7 +363,15 @@ const env = {
     // #HUB_GA
     REACT_APP_HUB_GA: '1',
     REACT_APP_DELETE_My_ACCOUNT_URL:
-      'https://prd-weu1-rc-df-myaccount-app-webapp-dev.cloud-effem.com/en-us/manager/settings'
+      'https://prd-weu1-rc-df-myaccount-app-webapp-dev.cloud-effem.com/en-us/manager/settings',
+
+    // #buyFromRetailBtn
+    REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE: 'en-US',
+    REACT_APP_HUBPAGE_RETAILER_WIDGETID:
+      'eQJAy3lYzN_bc061c10-9ad5-11ea-8690-bd692fbec1ed25',
+    REACT_APP_HUBPAGE_RETAILER_WIDGETID_VET:
+      'eQJAy3lYzN_56bc9e30-5036-11eb-b747-4948961b961c27',
+    REACT_APP_HUBPAGE_RETAILER_LOCALE: 'en-GB'
   }
 };
 

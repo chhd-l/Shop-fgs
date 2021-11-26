@@ -73,10 +73,13 @@ const MixFeedingBox = function ({
       updateInstockStatus();
     }
   }, [quantity]);
+  useEffect(() => {
+    console.log('mixFeedingData', mixFeedingData);
+  });
 
   useEffect(() => {
     setSelectedSku(mixFeedingData?.sizeList?.filter((el) => el.selected)[0]);
-    setQuantity(mixFeedingData.quantity)
+    setQuantity(mixFeedingData.quantity);
   }, [mixFeedingData]);
 
   useEffect(() => {
@@ -191,23 +194,26 @@ const MixFeedingBox = function ({
                   }}
                 >
                   <div id="choose-select" className="spec-choose-select">
-                    <div className="rc-margin-bottom--xs">
-                      <FormattedMessage id={'taille'} />:
-                    </div>
-                    <div data-attr="size">
-                      <div
-                        className="rc-swatch __select-size d-flex justify-content-end justify-content-md-start flex-wrap"
-                        id="id-single-select-size"
-                      >
-                        <div className={`rc-swatch__item selected`}>
-                          <span
-                            style={{
-                              backgroundColor: '#fff',
-                              cursor: 'pointer'
-                            }}
-                          >
-                            {selectedSku?.specText}
-                          </span>
+                    <div data-attr="size" className="swatch">
+                      <div className="cart-and-ipay">
+                        <div className="rc-swatch __select-size">
+                          {mixFeedingData.goodsSpecs &&
+                            mixFeedingData.goodsSpecs.map((sItem, i) => (
+                              <div key={i} className="overflow-hidden">
+                                <div className="text-left ml-1 text-capitalize">
+                                  {sItem.specName}:
+                                </div>
+                                {sItem.chidren.filter(el => el.selected).map((sdItem, i2) => (
+                                  <div
+                                    style={{ display: 'initial' }}
+                                    className={`rc-swatch__item selected`}
+                                    key={i2}
+                                  >
+                                    <span key={i2}>{sdItem.detailName}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            ))}
                         </div>
                       </div>
                     </div>
@@ -256,11 +262,11 @@ const MixFeedingBox = function ({
                       }
                       beforeUpdate();
                       e.preventDefault();
-                      let copyData = {...mixFeedingData}
+                      let copyData = { ...mixFeedingData };
                       copyData.goodsInfoFlag = goodsInfoFlag;
                       copyData.periodTypeId = periodTypeId;
-                      copyData.quantity = quantity
-                      console.log('copyData', copyData)
+                      copyData.quantity = quantity;
+                      console.log('copyData', copyData);
                       isLogin
                         ? await addToLoginCartData(copyData)
                         : await addToUnloginCartData(copyData);

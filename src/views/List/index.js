@@ -900,7 +900,7 @@ class List extends React.Component {
     });
 
     type !== 'pageChange' &&
-      setTimeout(() => {
+      // setTimeout(() => {
         dataLayer.push({
           event: 'plpScreenLoad',
           plpScreenLoad: {
@@ -908,7 +908,7 @@ class List extends React.Component {
             userRequest: keywords || ''
           }
         });
-      }, 3000);
+      // }, 3000gtm优化);
 
     if (dataLayer[0] && dataLayer[0].search) {
       dataLayer[0].search.query = keywords;
