@@ -31,8 +31,8 @@ function PetJSX(props) {
         <div className="col-12">
           <div className="border rounded">
             <div className="row align-items-center text-break">
-              <div className="col-12 col-md-6 row mt-4 mb-2 mb-md-4">
-                <div className="col-12 col-md-5 mb-4 mb-md-0">
+              <div className="col-12 col-md-6 row mt-4 mb-2 md:mb-4">
+                <div className="col-12 col-md-5 mb-4 md:mb-0">
                   <LazyLoad style={{ height: '100%', width: '100%' }}>
                     <img
                       src={{ cat: catImg, dog: dogImg }[props.type]}
@@ -48,28 +48,28 @@ function PetJSX(props) {
                 </div>
                 <div className="col-12 col-md-7 text-center md:text-left">
                   <div className="row">
-                    <div className="col-6 mb-2 mb-md-0">
+                    <div className="col-6 mb-2 md:mb-0">
                       <FormattedMessage id="age" />
                       <br />
                       <span className="font-weight-normal">
                         {(petBaseInfo && petBaseInfo.age) || '...'}
                       </span>
                     </div>
-                    <div className="col-6 mb-2 mb-md-0">
+                    <div className="col-6 mb-2 md:mb-0">
                       <FormattedMessage id="breed" />
                       <br />
                       <span className="font-weight-normal">
                         {(petBaseInfo && petBaseInfo.breed) || '...'}
                       </span>
                     </div>
-                    <div className="col-6 mb-2 mb-md-0">
+                    <div className="col-6 mb-2 md:mb-0">
                       <FormattedMessage id="gender" />
                       <br />
                       <span className="font-weight-normal">
                         {(petBaseInfo && petBaseInfo.gender) || '...'}
                       </span>
                     </div>
-                    <div className="col-6 mb-2 mb-md-0">
+                    <div className="col-6 mb-2 md:mb-0">
                       <FormattedMessage id="sterilized" />
                       <br />
                       <span className="font-weight-normal">

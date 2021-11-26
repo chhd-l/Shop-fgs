@@ -26,7 +26,7 @@ const HowItWorks = () => {
               <div className="value-proposition__container">
                 <div className="row mx-0 justify-content-between">
                   {/*<div className="row rc-content-v-middle text-center rc-padding-top--md rc-margin-x--none">*/}
-                  <div className="borderBack1 col-12 col-md-3 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                  <div className="borderBack1 col-12 col-md-3 col-xxl-3 d-flex px-0 md:pl-0 md:pr-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                     <div className="howItWorkBorder centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
                       <div className="howItWorkStyle">
                         <div className="howItWorkNum">1</div>
@@ -51,7 +51,7 @@ const HowItWorks = () => {
                       {isMobile ? <br /> : null}
                     </div>
                   </div>
-                  <div className="borderBack2 col-12 col-md-3 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                  <div className="borderBack2 col-12 col-md-3 col-xxl-3 d-flex px-0 md:pl-0 md:pr-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                     <div className="howItWorkBorder centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
                       <div className="howItWorkStyle">
                         <div className="howItWorkNum">2</div>
@@ -71,7 +71,7 @@ const HowItWorks = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="borderBack2 col-12 col-md-3 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                  <div className="borderBack2 col-12 col-md-3 col-xxl-3 d-flex px-0 md:pl-0 md:pr-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                     <div className="howItWorkBorder centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
                       <div className="howItWorkStyle">
                         <div className="howItWorkNum">3</div>
@@ -91,7 +91,7 @@ const HowItWorks = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="borderBack3 col-12 col-md-3 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                  <div className="borderBack3 col-12 col-md-3 col-xxl-3 d-flex px-0 md:pl-0 md:pr-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                     <div className="howItWorkBorder centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
                       <div className="howItWorkStyle">
                         <div className="howItWorkNum">4</div>

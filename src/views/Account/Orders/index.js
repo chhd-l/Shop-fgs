@@ -607,7 +607,7 @@ class AccountOrders extends React.Component {
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbs />
-          <div className="p-md-2rem rc-max-width--xl ord-list">
+          <div className="md:p-8 rc-max-width--xl ord-list">
             <div className="rc-layout-container rc-five-column">
               <SideMenu type="Orders" customCls="rc-md-up" />
               <div
