@@ -86,7 +86,7 @@ const HelpComponents = (props) => {
                 {/*</p>*/}
                 <div className="experience-component experience-layouts-1to2columnRatio">
                   <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-                    <div className=" rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center text-md-left">
+                    <div className=" rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center md:text-left">
                       <div className="rc-padding--none flex justify-content-center margin-auto mobileHelp">
                         <article className="rc-full-width rc-column rc-margin-top--md--mobile">
                           <div className="rc-border-all rc-border-colour--interface fullHeight">

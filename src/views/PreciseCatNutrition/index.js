@@ -161,7 +161,7 @@ class PreciseCatNutrition extends React.Component {
                         <div className={'row w-100 rc-margin-x--none--mobile'}>
                           <div
                             className={
-                              'col-12 col-md-4 text-md-right relative nowrap'
+                              'col-12 col-md-4 md:text-right relative nowrap'
                             }
                             style={{
                               display: 'inline',
@@ -212,7 +212,7 @@ class PreciseCatNutrition extends React.Component {
                               VOUS ?
                             </h2>
                           </div>
-                          <div className={'col-12 col-md-8 text-md-left'}>
+                          <div className={'col-12 col-md-8 md:text-left'}>
                             <h2 className="font-weight-bold h2style">
                               {/*THAT HEAlTH IS NOT ONE SIZE FITS ALL*/}
                               CHAQUE CHAT A DES BESOINS SPÉCIFIQUES

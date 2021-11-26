@@ -8,6 +8,7 @@
   --purple: #6f42c1;
   --pink: #e83e8c;
   --red: #ec001a;
+  --rc-red: #e2001a;
   --orange: #ee8b00;
   --yellow: #ffc107;
   --green: #47b800;
@@ -9790,7 +9791,7 @@ button.bg-dark:hover {
   content: '';
   background-color: transparent;
 }
-
+/* 
 .m-0 {
   margin: 0 !important;
 }
@@ -9896,13 +9897,6 @@ button.bg-dark:hover {
   margin-top: 1.5rem !important;
 }
 
-/* @media (max-width: 768.98px) {
-  .mt-4,
-  .my-4 {
-    margin-top: 0 !important;
-  }
-} */
-
 .mr-4,
 .mx-4 {
   margin-right: 1.5rem !important;
@@ -9997,9 +9991,9 @@ button.bg-dark:hover {
 .pt-2,
 .py-2 {
   padding-top: 0.5rem !important;
-}
+} */
 
-.pr-2,
+/* .pr-2,
 .px-2 {
   padding-right: 0.5rem !important;
 }
@@ -10084,7 +10078,7 @@ button.bg-dark:hover {
 .pl-5,
 .px-5 {
   padding-left: 3rem !important;
-}
+} */
 
 .m-n1 {
   margin: -0.25rem !important;
@@ -23947,6 +23941,7 @@ input[type='number'] {
   vertical-align: -0.15em;
   fill: currentColor;
   overflow: hidden;
+  display: inline-block;
 }
 
 a.rc-styled-link,
@@ -23956,11 +23951,6 @@ span.rc-styled-link {
   border-bottom: 1px solid transparent;
 }
 
-@media (min-width: 769px) {
-  .p-md-2rem {
-    padding: 2rem;
-  }
-}
 .creditCompleteInfoBox.active {
   background-color: #3856a719;
 }

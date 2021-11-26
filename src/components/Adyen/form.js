@@ -8,7 +8,7 @@ import { addOrUpdatePaymentMethod } from '@/api/payment';
 import translations from './translations';
 import LazyLoad from 'react-lazyload';
 import { myAccountActionPushEvent } from '@/utils/GA';
-import getAdyenConf from '@/lib/get-adyen-conf';
+import getPaymentConf from '@/lib/get-payment-conf';
 
 let adyenFormData = {};
 
@@ -63,10 +63,15 @@ class AdyenCreditCardForm extends React.Component {
     this.props.paymentStore.setBrowserInfo(state.data.browserInfo);
   }
   async initAdyenConf() {
-    const tmp = await getAdyenConf();
+    const {
+      paymentStore: { curPayWayInfo }
+    } = this.props;
+    const tmp = await getPaymentConf();
     this.setState(
       {
-        adyenOriginKeyConf: tmp
+        adyenOriginKeyConf: tmp.filter(
+          (t) => t.pspItemCode === curPayWayInfo?.code
+        )[0]
       },
       () => {
         this.initForm();
@@ -80,16 +85,15 @@ class AdyenCreditCardForm extends React.Component {
       'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.css'
     );
     loadJS({
-      url:
-        'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
+      url: 'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
       callback: function () {
         if (!!window.AdyenCheckout) {
           //要有值
           const AdyenCheckout = window.AdyenCheckout;
           // (1) Create an instance of AdyenCheckout
           const checkout = new AdyenCheckout({
-            environment: adyenOriginKeyConf?.env,
-            originKey: adyenOriginKeyConf?.originKey,
+            environment: adyenOriginKeyConf?.environment,
+            originKey: adyenOriginKeyConf?.openPlatformSecret,
             locale: adyenOriginKeyConf?.locale,
             translations,
             allowAddedLocales: true

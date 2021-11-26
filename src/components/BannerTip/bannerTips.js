@@ -122,7 +122,7 @@ const bannerTips = () => {
   return (
     <div
       // id="bannerTip"
-      className="red font-weight-normal p-1 position-relative text-center pl-2 pr-2 pr-md-4 pl-md-4 rc-bg-colour--brand4 rc-bannertip-containner"
+      className="red font-weight-normal p-1 position-relative text-center pl-2 pr-2 md:pr-4 md:pl-4 rc-bg-colour--brand4 rc-bannertip-containner"
     >
       {window.__.env.REACT_APP_IS_PROMOTION === 'true' && (
         <div>

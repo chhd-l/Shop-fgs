@@ -395,7 +395,7 @@ class ImageMagnifier extends Component {
                 {taggingForText.taggingName}
               </div>
             ) : null}
-            {taggingChildren?taggingChildren:null}
+            {taggingChildren ? taggingChildren : null}
             <div
               className="bigImageInnerBox rc-loaded--final"
               style={{
@@ -509,7 +509,7 @@ class ImageMagnifier extends Component {
           </em>
           <div className="imageOutBox">
             <div
-              className="justify-content-center imageInnerBox text-center text-md-left"
+              className="justify-content-center imageInnerBox text-center md:text-left"
               style={{
                 marginTop: '2rem',
                 textAlign: imgCount <= 5 ? 'center' : 'left',

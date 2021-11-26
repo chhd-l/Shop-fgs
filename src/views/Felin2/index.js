@@ -130,7 +130,8 @@ class Felin extends React.Component {
         dateNo: '',
         startTime: '',
         endTime: '',
-        employeeIds: []
+        employeeIds: [],
+        employeeNames: []
       },
       userInfo: undefined,
       apptNo: '',
@@ -245,7 +246,11 @@ class Felin extends React.Component {
       threeShow: false,
       fourShow: true
     });
-    this.queryDate();
+    let type = this.state.bookSlotVO.dateNo ? true : false;
+    this.queryDate(type, {
+      minutes: this.state.votre.duree,
+      bookSlotVO: this.state.bookSlotVO
+    });
   };
   // 返回第三步
   handleReturnThree = () => {
@@ -341,7 +346,7 @@ class Felin extends React.Component {
 
         if (code === 'K-000000') {
           let _resources = context.resources;
-          if (type && minutes === chooseData.minutes) {
+          if (type) {
             let _temp = {
               date: chooseData.bookSlotVO.dateNo,
               minutes: chooseData.minutes,
@@ -352,26 +357,37 @@ class Felin extends React.Component {
               type: 'primary',
               disabled: true
             });
-            console.log(_temp, '=_temp');
             if (_resources.length == 0) {
               _resources.push(_temp);
             } else {
               _resources.map((item) => {
-                if (item.dateNo === _temp.dateNo) {
-                  item.minuteSlotVOList.map((it) => {
-                    if (it.startTime === _temp.startTime) {
-                      it = { ...it, ..._temp };
+                if (item.date === _temp.date) {
+                  let isLoop = false;
+                  item.minuteSlotVOList = item.minuteSlotVOList.map(
+                    (it, index) => {
+                      const _t = _temp.minuteSlotVOList.find(
+                        (ii) => ii.startTime === it.startTime
+                      );
+                      if (_t) {
+                        isLoop = true;
+                        it = { ...it, ..._t };
+                      }
+                      return it;
+                      // if(item.minuteSlotVOList.length===(index+1)&&!_t)isLoop=false
                     }
-                  });
+                  );
+                  if (!isLoop) {
+                    item.minuteSlotVOList = item.minuteSlotVOList.concat(
+                      _temp.minuteSlotVOList
+                    );
+                  }
                 }
               });
             }
           }
-          console.log(1);
           reslove(_resources);
         }
       });
-      console.log(resources, 222);
       this.setState({
         resources,
         key: +new Date()
@@ -379,6 +395,7 @@ class Felin extends React.Component {
     });
   };
   onChange = (data) => {
+    console.log(data);
     this.setState({
       votre: {
         ...this.state.votre,
@@ -586,11 +603,11 @@ class Felin extends React.Component {
                               'type'
                             )
                           }
-                          className={`rc-btn ${
+                          className={`text-base font-medium p-3 rounded-full mr-4 ${
                             this.state.butIndex === index
-                              ? 'rc-btn-active '
-                              : ''
-                          } rc-margin-bottom--xs`}
+                              ? 'bg-red-600 text-white'
+                              : 'bg-gray-300 text-white'
+                          }`}
                           style={{
                             width: '9.375rem'
                           }}
@@ -1043,52 +1060,52 @@ class Felin extends React.Component {
               <div className="rc-layout-container rc-two-column rc-content-h-middle flx-center">
                 <div className="rc-column rc-triple-width rc-padding--none--mobile product-tiles-container pt-0 flx-center">
                   <div className="rc-layout-container rc-three-column rc-layout-grid rc-match-heights product-tiles flx-center">
-                    <div className="col-md-2  col-2 pr-0 pl-md-2 pr-md-2  mb-3 pl-0 mglr16">
+                    <div className="col-md-2  col-2 pr-0 md:pl-2 md:pr-2  mb-3 pl-0 mglr16">
                       <img src={cat1} alt="" />
                       <div className="mtb10">Alexandre Blavier</div>
                       <div className="col0">Expertise</div>
                     </div>
-                    <div className="col-md-2 col-2 pr-0 pl-md-2 pr-md-2  mb-3 pl-0 mglr16">
+                    <div className="col-md-2 col-2 pr-0 md:pl-2 md:pr-2  mb-3 pl-0 mglr16">
                       <img src={cat1} alt="" />
                       <div className="mtb10">Alexandre Blavier</div>
                       <div className="col0">Expertise</div>
                     </div>
-                    <div className="col-md-2 col-2 pr-0 pl-md-2 pr-md-2  mb-3 pl-0 mglr16">
+                    <div className="col-md-2 col-2 pr-0 md:pl-2 md:pr-2  mb-3 pl-0 mglr16">
                       <img src={cat1} alt="" />
                       <div className="mtb10">Alexandre Blavier</div>
                       <div className="col0">Expertise</div>
                     </div>
-                    <div className="col-md-2 col-2 pr-0 pl-md-2 pr-md-2  mb-3 pl-0 mglr16">
+                    <div className="col-md-2 col-2 pr-0 md:pl-2 md:pr-2  mb-3 pl-0 mglr16">
                       <img src={cat1} alt="" />
                       <div className="mtb10">Alexandre Blavier</div>
                       <div className="col0">Expertise</div>
                     </div>
-                    <div className="col-md-2 col-2 pr-0 pl-md-2 pr-md-2  mb-3 pl-0 mglr16">
+                    <div className="col-md-2 col-2 pr-0 md:pl-2 md:pr-2  mb-3 pl-0 mglr16">
                       <img src={cat1} alt="" />
                       <div className="mtb10">Alexandre Blavier</div>
                       <div className="col0">Expertise</div>
                     </div>
-                    <div className="col-md-2 col-2 pr-0 pl-md-2 pr-md-2  mb-3 pl-0 mglr16">
+                    <div className="col-md-2 col-2 pr-0 md:pl-2 md:pr-2  mb-3 pl-0 mglr16">
                       <img src={cat1} alt="" />
                       <div className="mtb10">Alexandre Blavier</div>
                       <div className="col0">Expertise</div>
                     </div>
-                    <div className="col-md-2 col-2 pr-0 pl-md-2 pr-md-2  mb-3 pl-0 mglr16">
+                    <div className="col-md-2 col-2 pr-0 md:pl-2 md:pr-2  mb-3 pl-0 mglr16">
                       <img src={cat1} alt="" />
                       <div className="mtb10">Alexandre Blavier</div>
                       <div className="col0">Expertise</div>
                     </div>
-                    <div className="col-md-2 col-2 pr-0 pl-md-2 pr-md-2  mb-3 pl-0 mglr16">
+                    <div className="col-md-2 col-2 pr-0 md:pl-2 md:pr-2  mb-3 pl-0 mglr16">
                       <img src={cat1} alt="" />
                       <div className="mtb10">Alexandre Blavier</div>
                       <div className="col0">Expertise</div>
                     </div>
-                    <div className="col-md-2 col-2 pr-0 pl-md-2 pr-md-2  mb-3 pl-0 mglr16">
+                    <div className="col-md-2 col-2 pr-0 md:pl-2 md:pr-2  mb-3 pl-0 mglr16">
                       <img src={cat1} alt="" />
                       <div className="mtb10">Alexandre Blavier</div>
                       <div className="col0">Expertise</div>
                     </div>
-                    <div className="col-md-2 col-2 pr-0 pl-md-2 pr-md-2  mb-3 pl-0 mglr16">
+                    <div className="col-md-2 col-2 pr-0 md:pl-2 md:pr-2  mb-3 pl-0 mglr16">
                       <img src={cat1} alt="" />
                       <div className="mtb10">Alexandre Blavier</div>
                       <div className="col0">Expertise</div>

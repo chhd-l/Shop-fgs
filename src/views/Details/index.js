@@ -201,14 +201,8 @@ class Details extends React.Component {
     return this.props.checkoutStore;
   }
   get btnStatus() {
-    const {
-      details,
-      quantity,
-      instockStatus,
-      initing,
-      loading,
-      form
-    } = this.state;
+    const { details, quantity, instockStatus, initing, loading, form } =
+      this.state;
     const { sizeList } = details;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     let addedFlag = 1;
@@ -266,7 +260,9 @@ class Details extends React.Component {
 
   setDefaultPurchaseType({ id }) {
     const { promotions, details, frequencyList, purchaseTypeDict } = this.state;
-    console.log(purchaseTypeDict, 'purchaseTypeDict...', id);
+    const skuPromotions =
+      details.sizeList?.filter((item) => item?.selected)?.[0]?.promotions || '';
+    console.log(skuPromotions, 'skuPromotions');
     const targetDefaultPurchaseTypeItem =
       purchaseTypeDict.filter(
         (ele) => ele.id && id && ele.id + '' === id + ''
@@ -287,8 +283,7 @@ class Details extends React.Component {
         this.state.defaultGoodsInfoFlag
       ) {
         buyWay =
-          parseInt(this.state.defaultGoodsInfoFlag) ||
-          details.promotions === 'club'
+          parseInt(this.state.defaultGoodsInfoFlag) || skuPromotions === 'club'
             ? 2
             : 1;
       } else {
@@ -323,7 +318,6 @@ class Details extends React.Component {
           (autoshipDictRes[0] && autoshipDictRes[0].id) ||
           '';
       }
-      console.log(details, defaultFrequencyId, 'defaultFrequencyId');
 
       this.setState({
         form: Object.assign(this.state.form, {
@@ -383,9 +377,9 @@ class Details extends React.Component {
       goodsDetailTab,
       tmpGoodsDescriptionDetailList,
       goodsNo,
-      form
+      form,
+      setDefaultPurchaseTypeParamId
     } = this.state;
-
     details.sizeList = sizeList;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     if (!selectedSpecItem?.subscriptionStatus && form.buyWay > 0) {
@@ -402,6 +396,9 @@ class Details extends React.Component {
           goodsNo
         })
       );
+      this.setDefaultPurchaseType({
+        id: setDefaultPurchaseTypeParamId
+      });
     });
 
     // bundle商品的ga初始化填充
@@ -565,15 +562,18 @@ class Details extends React.Component {
                   imageSrc: images?.[0]?.artworkUrl || '',
                   goodsTitle: goodsRes.goodsName
                 }
-              )
+              ),
+              setDefaultPurchaseTypeParamId:
+                goodsRes.defaultPurchaseType ||
+                configStore.info?.storeVO?.defaultPurchaseType
             },
             () => {
               this.handleBreadCrumbsData();
-              this.setDefaultPurchaseType({
-                id:
-                  goodsRes.defaultPurchaseType ||
-                  configStore.info?.storeVO?.defaultPurchaseType
-              });
+              // this.setDefaultPurchaseType({
+              //   id:
+              //     goodsRes.defaultPurchaseType ||
+              //     configStore.info?.storeVO?.defaultPurchaseType
+              // });
             }
           );
         } else {
@@ -874,13 +874,8 @@ class Details extends React.Component {
     try {
       this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const {
-        currentUnitPrice,
-        quantity,
-        form,
-        details,
-        questionParams
-      } = this.state;
+      const { currentUnitPrice, quantity, form, details, questionParams } =
+        this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,

@@ -109,12 +109,12 @@ class SubscriptionLanding extends React.Component {
                         </div>
                         <div className="rc-btn-group d-block d-md-none rc-text--center">
                           <Link to="/cats">
-                            <button className="rc-btn rc-btn--one rc-margin-right--xs mb-2 mb-md-0">
+                            <button className="rc-btn rc-btn--one rc-margin-right--xs mb-2 md:mb-0">
                               Shop Cat Formulas
                             </button>
                           </Link>
                           <Link to="/dogs">
-                            <button className="rc-btn rc-btn--one mb-2 mb-md-0">
+                            <button className="rc-btn rc-btn--one mb-2 md:mb-0">
                               Shop Dog Formulas
                             </button>
                           </Link>
@@ -264,7 +264,7 @@ class SubscriptionLanding extends React.Component {
                   <div className="content-asset">
                     <div className="rc-bg-colour--brand4">
                       <div className="row rc-max-width--lg rc-match-heights rc-padding-y--sm">
-                        <div className="col-12 col-md-4 order-1 order-md-0">
+                        <div className="col-12 col-md-4 order-1 md:order-0">
                           <div className="rc-column rc-padding--none">
                             <img
                               src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship-landing/cat.jpg`}
@@ -280,7 +280,7 @@ class SubscriptionLanding extends React.Component {
                             </Link>
                           </div>
                         </div>
-                        <div className="col-12 col-md-4 m-auto rc-padding-x--sm rc-padding-x--lg--mobile rc-padding-top--lg--mobile order-0 order-md-1">
+                        <div className="col-12 col-md-4 m-auto rc-padding-x--sm rc-padding-x--lg--mobile rc-padding-top--lg--mobile order-0 md:order-1">
                           <div className="rc-gamma rc-text--center">
                             Get Started
                           </div>
@@ -305,7 +305,7 @@ class SubscriptionLanding extends React.Component {
                             </Link>
                           </div>
                         </div>
-                        <div className="col-12 col-md-4 order-2 order-md-2">
+                        <div className="col-12 col-md-4 order-2 md:order-2">
                           <div className="rc-column rc-padding--none">
                             <img
                               src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship-landing/dog.jpg`}
@@ -349,7 +349,7 @@ class SubscriptionLanding extends React.Component {
                         <article className="rc-full-width rc-column rc-padding-left--none--desktop">
                           <div className="rc-border-all rc-border-colour--interface fullHeight contact_options__card">
                             <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
-                              <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center text-md-left rc-padding-right--none--desktop">
+                              <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center md:text-left rc-padding-right--none--desktop">
                                 <div className="w-100">
                                   <b style={{ color: '#00A4A6' }}>Call us</b>
                                   <p>
@@ -388,7 +388,7 @@ class SubscriptionLanding extends React.Component {
                         <article className="rc-full-width rc-column rc-padding-left--none--desktop">
                           <div className="rc-border-all rc-border-colour--interface fullHeight contact_options__card">
                             <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
-                              <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center text-md-left rc-padding-right--none--desktop">
+                              <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center md:text-left rc-padding-right--none--desktop">
                                 <div className="w-100">
                                   <b style={{ color: '#0087BD' }}>Email Us</b>
                                   <p>
@@ -426,7 +426,7 @@ class SubscriptionLanding extends React.Component {
                         <article className="rc-full-width rc-column rc-padding-left--none--desktop">
                           <div className="rc-border-all rc-border-colour--interface fullHeight contact_options__card">
                             <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
-                              <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center text-md-left rc-padding-right--none--desktop">
+                              <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center md:text-left rc-padding-right--none--desktop">
                                 <div className="w-100">
                                   <strong>Have a question?</strong>
                                   <p>

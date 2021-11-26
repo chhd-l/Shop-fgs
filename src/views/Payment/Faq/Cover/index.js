@@ -66,7 +66,7 @@ class Faq extends Component {
             >
               <dt>
                 <button
-                  className={`rc-list__header pr-md-5 ${
+                  className={`rc-list__header md:pr-5 ${
                     activeIdx === idx ? 'rc-icon--rotate' : ''
                   }`}
                   data-toggle={`content-${idx}`}

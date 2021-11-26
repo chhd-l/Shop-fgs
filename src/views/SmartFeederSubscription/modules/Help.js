@@ -119,7 +119,7 @@ class Help extends React.Component {
                   <div
                     className={`rc-layout-container rc-five-column rc-match-heights ${
                       this.props.needReverse ? 'rc-reverse-layout-mobile' : ''
-                    } text-md-left food_dispenser-help`}
+                    } md:text-left food_dispenser-help`}
                   >
                     <div className="rc-column rc-double-width rc-padding--none">
                       <article className="rc-full-width rc-column rc-margin-top--md--mobile">

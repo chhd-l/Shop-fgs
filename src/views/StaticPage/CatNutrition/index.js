@@ -153,7 +153,7 @@ class CatNutrition extends React.Component {
                       </h4>
                       <div className="value-proposition__container">
                         <div className="row mx-0row mx-0">
-                          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 md:pl-0 md:pr-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                             <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
                               <LazyLoad>
                                 <img
@@ -170,7 +170,7 @@ class CatNutrition extends React.Component {
                               </div>
                             </div>
                           </div>
-                          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 md:pl-0 md:pr-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                             <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
                               <LazyLoad>
                                 <img
@@ -187,7 +187,7 @@ class CatNutrition extends React.Component {
                               </div>
                             </div>
                           </div>
-                          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 md:pl-0 md:pr-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                             <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
                               <LazyLoad>
                                 <img
@@ -203,7 +203,7 @@ class CatNutrition extends React.Component {
                               </div>
                             </div>
                           </div>
-                          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 md:pl-0 md:pr-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                             <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
                               <LazyLoad>
                                 <img

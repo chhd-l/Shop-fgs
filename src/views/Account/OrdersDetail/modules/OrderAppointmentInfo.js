@@ -23,7 +23,7 @@ class OrderAppointmentInfo extends React.Component {
     const localAddressForm = this.props.configStore.localAddressForm;
     const { details } = this.props;
     return (
-      <div className="ml-2 mr-2 mr-md-0 ml-md-0">
+      <div className="ml-2 mr-2 md:mr-0 md:ml-0">
         <p className="mt-4 mb-3 red text-left">
           <FormattedMessage id="Appointment Information" />
         </p>

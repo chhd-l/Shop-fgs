@@ -39,7 +39,7 @@ class FrFaq extends Component {
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
-          <div className="rc-layout-container rc-five-column rc-match-heights text-center text-md-left">
+          <div className="rc-layout-container rc-five-column rc-match-heights text-center md:text-left">
             <div className="rc-column rc-triple-width">
               <div
                 className="background-cover"
