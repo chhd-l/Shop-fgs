@@ -76,12 +76,8 @@ class Question extends React.Component {
       () => {
         // 从缓存中读取上次答题进度缓存
         if (cachedQuestionData) {
-          const {
-            finderNumber,
-            stepOrder,
-            questionParams,
-            configSizeAttach
-          } = cachedQuestionData;
+          const { finderNumber, stepOrder, questionParams, configSizeAttach } =
+            cachedQuestionData;
           this.setState(
             {
               finderNumber,
@@ -680,7 +676,7 @@ class Question extends React.Component {
           </div>
         </div>
         <div className="row">
-          <div className="col-12 col-md-6 order-1 md:order-0 mt-4 mt-md-0 mb-4">
+          <div className="col-12 col-md-6 order-1 md:order-0 mt-4 md:mt-0 mb-4">
             {isPageLoading ? (
               <span className="mt-4">
                 <Skeleton color="#f5f5f5" width="100%" height="3%" count={5} />
@@ -739,7 +735,7 @@ class Question extends React.Component {
                         <FormattedMessage id="next" />
                       </button>
                     </div>
-                    <div className="col-12 col-md-7 mt-2 mb-4 mt-md-0 mb-md-0">
+                    <div className="col-12 col-md-7 mt-2 mb-4 md:mt-0 md:mb-0">
                       <div className="position-relative inlineblock">
                         <p
                           className="rc-styled-link mb-0 mt-2"

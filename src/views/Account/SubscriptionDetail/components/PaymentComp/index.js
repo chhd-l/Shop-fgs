@@ -50,7 +50,7 @@ function CardItem(props) {
       >
         {props.operateBtnJSX}
       </div>
-      <div className={`pt-4 pt-md-4 pb-2 w-100`}>
+      <div className={`pt-4 md:pt-4 pb-2 w-100`}>
         <div className="row">
           <div className={`col-4 d-flex flex-column justify-content-center`}>
             <LazyLoad height={200}>
