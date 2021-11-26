@@ -779,7 +779,7 @@ class CheckoutStore {
               cartDataCopy.splice(historyItemIdx, 1, cartItem);
             }
           } else {
-            cartDataCopy.push(cartItem);
+            cartDataCopy.unshift(cartItem);
           }
 
           // 校验

@@ -293,7 +293,6 @@ class LoginCart extends React.Component {
     this.changeFrequencyType(pitem);
   }
   async updateCartCache({ callback, isThrowErr = false } = {}) {
-    console.log(444);
     try {
       this.setState({ checkoutLoading: true });
       await this.checkoutStore.updateLoginCart({
