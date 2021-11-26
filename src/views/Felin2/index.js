@@ -586,11 +586,11 @@ class Felin extends React.Component {
                               'type'
                             )
                           }
-                          className={`rc-btn ${
+                          className={`btn ${
                             this.state.butIndex === index
-                              ? 'rc-btn-active '
-                              : ''
-                          } rc-margin-bottom--xs`}
+                              ? 'btn--primary '
+                              : 'btn--secondary'
+                          }`}
                           style={{
                             width: '9.375rem'
                           }}
