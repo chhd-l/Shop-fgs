@@ -491,10 +491,11 @@ function ListItemForDefault(props) {
 function ListItemBodyH5ForGlobalStyle({ item, configStore }) {
   const vetProduct = item?.goodsCate?.cateName?.toLowerCase()?.includes('vet');
   console.log(vetProduct, 'VVVV');
-  const trFr =
+  const trFrUk =
     window.__.env.REACT_APP_COUNTRY === 'fr' ||
-    window.__.env.REACT_APP_COUNTRY === 'tr';
-  const hiddenPrice = vetProduct && trFr;
+    window.__.env.REACT_APP_COUNTRY === 'tr' ||
+    window.__.env.REACT_APP_COUNTRY === 'uk';
+  const hiddenPrice = vetProduct && trFrUk;
   const inStock =
     (item?.goodsInfos ?? [])
       .concat(item?.goodsInfoVOS ?? [])
@@ -740,10 +741,11 @@ const PriceItemShow = ({ item, configStore }) => {
 function ListItemBody({ item, headingTag, configStore }) {
   const vetProduct = item?.goodsCate?.cateName?.toLowerCase()?.includes('vet');
   console.log(vetProduct, 'VVVV');
-  const trFr =
+  const trFrUk =
     window.__.env.REACT_APP_COUNTRY === 'fr' ||
-    window.__.env.REACT_APP_COUNTRY === 'tr';
-  const hiddenPrice = vetProduct && trFr;
+    window.__.env.REACT_APP_COUNTRY === 'tr' ||
+    window.__.env.REACT_APP_COUNTRY === 'uk';
+  const hiddenPrice = vetProduct && trFrUk;
   const goodHeading = `<${headingTag ? headingTag : 'h2'}
       class="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center"
       title="${item?.goodsName}">
