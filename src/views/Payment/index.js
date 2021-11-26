@@ -730,6 +730,9 @@ class Payment extends React.Component {
   //获取支付方式
   initPaymentWay = async () => {
     try {
+      const {
+        paymentStore: { setPayWayNameArr }
+      } = this.props;
       const payWay = await getWays();
       // name:后台返回的支付方式，langKey：翻译id，paymentTypeVal：前端显示的支付方式
       let payMethodsObj = {
@@ -821,6 +824,7 @@ class Payment extends React.Component {
           payWayNameArr
         },
         () => {
+          setPayWayNameArr(payWayNameArr);
           sessionItemRoyal.set(
             'rc-payWayNameArr',
             JSON.stringify(payWayNameArr)
@@ -834,13 +838,19 @@ class Payment extends React.Component {
       });
     }
   };
+  //默认第一个,如没有支付方式,就不初始化方法
   initPaymentTypeVal(val) {
-    //默认第一个,如没有支付方式,就不初始化方法
+    const {
+      paymentStore: { serCurPayWayVal }
+    } = this.props;
     this.setState(
       {
         paymentTypeVal: val || this.state.payWayNameArr[0]?.paymentTypeVal || ''
       },
-      () => this.onPaymentTypeValChange()
+      () => {
+        serCurPayWayVal(this.state.paymentTypeVal);
+        this.onPaymentTypeValChange();
+      }
     );
   }
   onPaymentTypeValChange() {
@@ -2152,9 +2162,13 @@ class Payment extends React.Component {
     });
   };
   handlePaymentTypeChange = (e) => {
-    this.setState({ paymentTypeVal: e.target.value, email: '' }, () =>
-      this.onPaymentTypeValChange()
-    );
+    const {
+      paymentStore: { serCurPayWayVal }
+    } = this.props;
+    this.setState({ paymentTypeVal: e.target.value, email: '' }, () => {
+      serCurPayWayVal(this.state.paymentTypeVal);
+      this.onPaymentTypeValChange();
+    });
   };
 
   handleCardTypeChange = (e) => {
@@ -2298,6 +2312,9 @@ class Payment extends React.Component {
     }
   };
   updateDeliveryAddrData = (data) => {
+    const {
+      paymentStore: { setPayWayNameArr }
+    } = this.props;
     this.setState(
       {
         deliveryAddress: data
@@ -2326,6 +2343,7 @@ class Payment extends React.Component {
           console.log('666 -->> pmd: ', pmd);
 
           this.setState({ payWayNameArr: [...newPayWayName] }, () => {
+            setPayWayNameArr(this.state.payWayNameArr);
             this.initPaymentTypeVal();
           });
         }
@@ -3434,7 +3452,7 @@ class Payment extends React.Component {
         <div className="row">
           {ret}
           {!tid && !hideBillingAddr && !isFromFelin && (
-            <div className="col-12 col-md-6 mt-2 mt-md-0 visitor_address_preview">
+            <div className="col-12 col-md-6 mt-2 md:mt-0 visitor_address_preview">
               {this.renderAddrPreview({
                 form,
                 titleVisible: true,
@@ -3581,7 +3599,12 @@ class Payment extends React.Component {
 
   render() {
     const { paymentMethodPanelStatus } = this;
-    const { history, location, checkoutStore } = this.props;
+    const {
+      history,
+      location,
+      checkoutStore,
+      paymentStore: { curPayWayInfo }
+    } = this.props;
     const {
       loading,
       errorMsg,
@@ -3716,7 +3739,7 @@ class Payment extends React.Component {
                 </p>
               </div>
             </div>
-            <div className="rc-layout-container rc-three-column rc-max-width--xl mt-3 mt-md-0">
+            <div className="rc-layout-container rc-three-column rc-max-width--xl mt-3 md:mt-0">
               <div className="rc-column rc-double-width shipping__address">
                 {/* 错误提示，errorMsg==This Error No Display时不显示  */}
                 <div
@@ -3916,7 +3939,7 @@ class Payment extends React.Component {
                   }
                 />
               </div>
-              <div className="rc-column pl-md-0 rc-md-up ">
+              <div className="rc-column md:pl-0 rc-md-up ">
                 {tid ? (
                   <RePayProductInfo
                     fixToHeader={false}
@@ -3952,7 +3975,10 @@ class Payment extends React.Component {
                 <Faq />
               </div>
             </div>
-            <Adyen3DForm action={this.state.adyenAction} />
+            <Adyen3DForm
+              action={this.state.adyenAction}
+              key={curPayWayInfo?.code}
+            />
           </div>
           <div className="checkout-product-summary rc-bg-colour--brand3 rc-border-all rc-border-colour--brand4 rc-md-down">
             <div

@@ -501,7 +501,7 @@ function ListItemBodyH5ForGlobalStyle({ item, configStore }) {
       .concat(item?.goodsInfoVOS ?? [])
       .findIndex((goods) => goods.stock > 0) > -1;
   return (
-    <div className="fr-mobile-product-list text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start pr-0">
+    <div className="fr-mobile-product-list text-left md:text-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start pr-0">
       <div className="product-name" title={item.goodsName}>
         {item.goodsName}
       </div>

@@ -349,7 +349,7 @@ class SubscriptionLanding extends React.Component {
                         <article className="rc-full-width rc-column rc-padding-left--none--desktop">
                           <div className="rc-border-all rc-border-colour--interface fullHeight contact_options__card">
                             <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
-                              <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center text-md-left rc-padding-right--none--desktop">
+                              <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center md:text-left rc-padding-right--none--desktop">
                                 <div className="w-100">
                                   <b style={{ color: '#00A4A6' }}>Call us</b>
                                   <p>
@@ -388,7 +388,7 @@ class SubscriptionLanding extends React.Component {
                         <article className="rc-full-width rc-column rc-padding-left--none--desktop">
                           <div className="rc-border-all rc-border-colour--interface fullHeight contact_options__card">
                             <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
-                              <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center text-md-left rc-padding-right--none--desktop">
+                              <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center md:text-left rc-padding-right--none--desktop">
                                 <div className="w-100">
                                   <b style={{ color: '#0087BD' }}>Email Us</b>
                                   <p>
@@ -426,7 +426,7 @@ class SubscriptionLanding extends React.Component {
                         <article className="rc-full-width rc-column rc-padding-left--none--desktop">
                           <div className="rc-border-all rc-border-colour--interface fullHeight contact_options__card">
                             <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
-                              <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center text-md-left rc-padding-right--none--desktop">
+                              <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center md:text-left rc-padding-right--none--desktop">
                                 <div className="w-100">
                                   <strong>Have a question?</strong>
                                   <p>

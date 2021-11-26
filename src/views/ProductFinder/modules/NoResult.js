@@ -46,7 +46,7 @@ function PetJSX(props) {
                     />
                   </LazyLoad>
                 </div>
-                <div className="col-12 col-md-7 text-center text-md-left">
+                <div className="col-12 col-md-7 text-center md:text-left">
                   <div className="row">
                     <div className="col-6 mb-2 mb-md-0">
                       <FormattedMessage id="age" />

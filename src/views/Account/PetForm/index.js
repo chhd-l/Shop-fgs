@@ -388,13 +388,13 @@ class PetForm extends React.Component {
               )}
               {this.state.loading ? <Loading positionFixed="true" /> : null}
               <div
-                className="chooseTypeBox my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop mt-2 mt-md-0"
+                className="chooseTypeBox my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop mt-2 md:mt-0"
                 style={{ display: !isChoosePetType ? 'block' : 'none' }}
               >
                 <h5 style={{ color: '#333333', fontWeight: 400 }}>
                   <FormattedMessage id="New Pet" />
                 </h5>
-                <div className="content mt-2 mt-md-4">
+                <div className="content mt-2 md:mt-4">
                   <LazyLoad>
                     <img
                       src={Banner_Dog}

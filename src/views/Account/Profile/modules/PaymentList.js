@@ -45,7 +45,7 @@ function CardItem(props) {
           'pt-4',
           'pb-2',
           'w-100',
-          listVisible ? 'pt-md-4' : 'pt-md-2'
+          listVisible ? 'md:pt-4' : 'md:pt-2'
         ].join(' ')}
       >
         <div className="row">
@@ -104,14 +104,19 @@ class PaymentList extends React.Component {
   }
   componentDidMount() {
     const { paymentStore } = this.props;
+    const { setPayWayNameArr, serCurPayWayVal, setSupportPaymentMethods } =
+      paymentStore;
     this.getPaymentMethodList(); //获取绑卡列表
     getWays().then((res) => {
       this.setState({
         paymentType: res?.context?.name
       });
+      const payPspItemVOList = res?.context?.payPspItemVOList || [];
       const supportPaymentMethods =
-        res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || [];
-      paymentStore.setSupportPaymentMethods(supportPaymentMethods); //存储当前支付方式所支持的卡类型
+        payPspItemVOList[0]?.payPspItemCardTypeVOList || [];
+      setPayWayNameArr(payPspItemVOList);
+      setSupportPaymentMethods(supportPaymentMethods); //存储当前支付方式所支持的卡类型
+      serCurPayWayVal(supportPaymentMethods[0]?.code);
       this.setState(
         { defaultCardTypeVal: supportPaymentMethods[0]?.cardType }, //设置默认卡类型，例如visa
         () => {

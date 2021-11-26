@@ -164,7 +164,7 @@ export default class ReturnOrder extends React.Component {
                   </h4>
                 </div>
                 <div className="row justify-content-around">
-                  <div className="col-12 col-md-5 row align-items-center mt-2 mt-md-0">
+                  <div className="col-12 col-md-5 row align-items-center mt-2 md:mt-0">
                     <div className="col-md-5">
                       <FormattedMessage id="order.returnNumber" />
                     </div>
@@ -187,7 +187,7 @@ export default class ReturnOrder extends React.Component {
                       </span>
                     </div>
                   </div>
-                  <div className="col-12 col-md-5 row align-items-center mt-2 mt-md-0">
+                  <div className="col-12 col-md-5 row align-items-center mt-2 md:mt-0">
                     <div className="col-12">
                       <div className="rc-full-width rc-select-processed">
                         <select

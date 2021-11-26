@@ -387,7 +387,7 @@ class Filter extends React.Component {
                 ) : null}
               </div>
               <div className="filter-bar">
-                <ul className="mt-4 mt-md-0">
+                <ul className="mt-4 md:mt-0">
                   {filterList.map((pItem) => {
                     return (
                       pItem.attributesValueList ||
