@@ -32,6 +32,14 @@ export function postUpdate(params = {}) {
     data: params
   });
 }
+
+export function getServiceEvaluate(params = {}) {
+  return axios({
+    url: '/goodsEvaluate/getGoodsEvaluatePageContent',
+    method: 'post',
+    data: params
+  });
+}
 export function postQueryPrice(params = {}) {
   return axios({
     url: '/resourceDatePlan/queryPrice',

@@ -68,29 +68,25 @@ class Felin extends React.Component {
           valueEn: 'Behaviorist',
           src: cat1,
           name: 'Comportementalistes',
-          text:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         },
         {
           valueEn: 'Nutritionist',
           src: cat2,
           name: 'Expert en nutrition',
-          text:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         },
         {
           valueEn: 'Osteopathist',
           src: cat3,
           name: 'Ostéopathes',
-          text:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         }
       ],
       timeList: [
         {
           duration: 15,
-          text:
-            'Rapide et facile, échangez avec un expert pour reçevoir ses conseils et commencer le suivi de votre chat.'
+          text: 'Rapide et facile, échangez avec un expert pour reçevoir ses conseils et commencer le suivi de votre chat.'
         },
         {
           duration: 30,
@@ -182,7 +178,11 @@ class Felin extends React.Component {
       type: 'appointment_type'
     });
     // 专家
-    const { code: code2, context: list, message: message2 } = await gitDict({
+    const {
+      code: code2,
+      context: list,
+      message: message2
+    } = await gitDict({
       type: 'expert_type'
     });
     let expertTypeList = list.goodsDictionaryVOS.map((item) => {
@@ -924,7 +924,13 @@ class Felin extends React.Component {
               </div>
             </MyModal>
           </div>
-          <div className="comment" style={{ flexDirection: 'column' }}>
+          <div
+            className="comment"
+            style={{
+              flexDirection: 'column',
+              display: this.state.reviews.list.length === 0 ? 'none' : 'block'
+            }}
+          >
             <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile">
               <div className="rc-max-width--xxl">
                 <div className="rc-layout-container rc-two-column rc-content-h-middle ">
@@ -932,41 +938,29 @@ class Felin extends React.Component {
                     <LazyLoad>
                       <div className="comment-slider">
                         <Slider {...settings}>
-                          <div>
-                            <div className="rate-cont">
-                              <span style={{ marginRight: '1rem' }}>4.0</span>
-                              <Rate
-                                color=""
-                                def={2}
-                                disabled
-                                style={{ fontSize: 34 }}
-                              />
-                            </div>
-                            <div className="comment-text">
-                              "J'ai reçu des conseils très intéressants pour mon
-                              chat qui est très peureux."
-                            </div>
-                          </div>
-                          <div>
-                            <div className="rate-cont">
-                              <span style={{ marginRight: '1rem' }}>4.0</span>
-                              <Rate color="" def={3} disabled />
-                            </div>
-                            <div className="comment-text">
-                              "J'ai reçu des conseils très intéressants pour mon
-                              chat qui est très peureux."
-                            </div>
-                          </div>
-                          <div>
-                            <div className="rate-cont">
-                              <span style={{ marginRight: '1rem' }}>4.0</span>
-                              <Rate color="" def={4} disabled />
-                            </div>
-                            <div className="comment-text">
-                              "J'ai reçu des conseils très intéressants pour mon
-                              chat qui est très peureux."
-                            </div>
-                          </div>
+                          {this.state.reviews.list.map((item, index) => {
+                            if (index > 2) {
+                              return null;
+                            }
+                            return (
+                              <div key={index}>
+                                <div className="rate-cont">
+                                  <span style={{ marginRight: '1rem' }}>
+                                    {item.rate}.0
+                                  </span>
+                                  <Rate
+                                    color=""
+                                    def={item.rate}
+                                    disabled
+                                    style={{ fontSize: 34 }}
+                                  />
+                                </div>
+                                <div className="comment-text">
+                                  {item.description}
+                                </div>
+                              </div>
+                            );
+                          })}
                         </Slider>
                         <button
                           className="rc-btn rc-btn--one  rc-margin-bottom--xs"
@@ -992,12 +986,18 @@ class Felin extends React.Component {
             </div>
             {/*评论列表*/}
             <Reviews
-              id="111"
               visible={this.state.reviews.visible}
               onClose={() => {
                 this.setState({
                   reviews: { ...this.state.reviews, visible: false }
                 });
+              }}
+              onList={(list) => {
+                if (this.state.reviews.list.length === 0) {
+                  this.setState({
+                    reviews: { ...this.state.reviews, list: list }
+                  });
+                }
               }}
             />
           </div>
