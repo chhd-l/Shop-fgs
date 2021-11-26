@@ -306,7 +306,9 @@ class FelinRecommendation extends React.Component {
             goodsCategory: '',
             goodsInfoFlag: 0
           });
-          await this.props.checkoutStore.updateLoginCart();
+          await this.props.checkoutStore.updateLoginCart({
+            intl: this.props.intl
+          });
         } catch (e) {
           this.setState({ buttonLoading: false });
         }
@@ -321,6 +323,7 @@ class FelinRecommendation extends React.Component {
     }
   }
   async hanldeUnloginAddToCart(products, path) {
+    const { intl, checkoutStore } = this.props;
     let cartDataCopy = [];
     for (let i = 0; i < products.length; i++) {
       let product = products[i];
@@ -386,8 +389,9 @@ class FelinRecommendation extends React.Component {
       }
       console.log(cartDataCopy, 'cartDataCopy');
 
-      await this.props.checkoutStore.updateUnloginCart({
-        cartData: cartDataCopy
+      await checkoutStore.updateUnloginCart({
+        cartData: cartDataCopy,
+        intl
       });
     }
     this.props.history.push(path);
@@ -521,7 +525,7 @@ class FelinRecommendation extends React.Component {
             goodsCategory: '',
             goodsInfoFlag: 0
           });
-          await checkoutStore.updateLoginCart();
+          await checkoutStore.updateLoginCart({ intl: this.props.intl });
         } catch (e) {
           this.setState({ buttonLoading: false });
         }

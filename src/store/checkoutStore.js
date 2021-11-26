@@ -3,11 +3,8 @@ import { purchases, sitePurchases, siteMiniPurchases } from '@/api/cart';
 import cloneDeep from 'lodash/cloneDeep';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
-import locales from '@/lang';
 import { toJS } from 'mobx';
 import stores from './index';
-
-const CURRENT_LANGFILE = locales;
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -303,45 +300,47 @@ class CheckoutStore {
     outOfstockProNames = this.outOfstockProNames,
     deletedProNames = this.deletedProNames,
     notSeableProNames = this.notSeableProNames,
-    minimunAmountPrice = 0
+    minimunAmountPrice = 0,
+    intl = {}
   } = {}) {
+    const { formatMessage } = intl;
     if (
       this.tradePrice < Number(window.__.env.REACT_APP_MINIMUM_AMOUNT) &&
       sessionItemRoyal.get('orderSource') !== 'GOOD_WILL'
     ) {
       throw new Error(
-        CURRENT_LANGFILE['cart.errorInfo3'].replace(/{.+}/, minimunAmountPrice)
+        formatMessage({ id: 'cart.errorInfo3' }, { val: minimunAmountPrice })
       );
     }
     if (offShelvesProNames.length > 0) {
       throw new Error(
-        CURRENT_LANGFILE['cart.errorInfo4'].replace(
-          /{.+}/,
-          offShelvesProNames.join('/')
+        formatMessage(
+          { id: 'cart.errorInfo4' },
+          { val: offShelvesProNames.join('/') }
         )
       );
     }
     if (outOfstockProNames.length > 0) {
       throw new Error(
-        CURRENT_LANGFILE['cart.errorInfo2'].replace(
-          /{.+}/,
-          outOfstockProNames.join('/')
+        formatMessage(
+          { id: 'cart.errorInfo2' },
+          { val: outOfstockProNames.join('/') }
         )
       );
     }
     if (deletedProNames.length > 0) {
       throw new Error(
-        CURRENT_LANGFILE['cart.errorInfo5'].replace(
-          /{.+}/,
-          deletedProNames.join('/')
+        formatMessage(
+          { id: 'cart.errorInfo5' },
+          { val: deletedProNames.join('/') }
         )
       );
     }
     if (notSeableProNames.length > 0) {
       throw new Error(
-        CURRENT_LANGFILE['cart.errorInfo6'].replace(
-          /{.+}/,
-          notSeableProNames.join('/')
+        formatMessage(
+          { id: 'cart.errorInfo6' },
+          { val: notSeableProNames.join('/') }
         )
       );
     }
@@ -358,7 +357,8 @@ class CheckoutStore {
     minimunAmountPrice,
     isThrowErr,
     deliverWay,
-    shippingFeeAddress
+    shippingFeeAddress,
+    intl
   } = {}) {
     try {
       let recommend_data = null;
@@ -504,7 +504,7 @@ class CheckoutStore {
       this.notSeableProNames = tmpNotSeableProNames;
       // 抛出错误
       if (isThrowErr) {
-        await this.validCheckoutLimitRule({ minimunAmountPrice });
+        await this.validCheckoutLimitRule({ minimunAmountPrice, intl });
       }
       return new Promise(function (resolve) {
         resolve({ backCode, context: purchasesRes });
@@ -527,7 +527,8 @@ class CheckoutStore {
     minimunAmountPrice,
     isThrowErr = false,
     deliverWay,
-    shippingFeeAddress
+    shippingFeeAddress,
+    intl
   } = {}) {
     try {
       this.changeLoadingCartData(true);
@@ -704,7 +705,7 @@ class CheckoutStore {
       this.changeLoadingCartData(false);
       // 抛出错误
       if (isThrowErr) {
-        await this.validCheckoutLimitRule({ minimunAmountPrice });
+        await this.validCheckoutLimitRule({ minimunAmountPrice, intl });
       }
       return new Promise(function (resolve) {
         resolve({ backCode, context: sitePurchasesRes });
@@ -744,8 +745,10 @@ class CheckoutStore {
     valid,
     cartItemList,
     currentUnitPrice = 0,
-    isMobile
+    isMobile,
+    intl = {}
   }) {
+    const { formatMessage } = intl;
     if (valid) {
       try {
         let cartDataCopy = cloneDeep(toJS(this.cartData).filter((el) => el));
@@ -789,9 +792,9 @@ class CheckoutStore {
             cartItem.goodsInfoFlag != 3
           ) {
             throw new Error(
-              CURRENT_LANGFILE['cart.errorMaxInfo'].replace(
-                /{.+}/,
-                +window.__.env.REACT_APP_LIMITED_NUM
+              formatMessage(
+                { id: 'cart.errorMaxInfo' },
+                { val: +window.__.env.REACT_APP_LIMITED_NUM }
               )
             );
           }
@@ -810,21 +813,21 @@ class CheckoutStore {
           }, 0) > +window.__.env.REACT_APP_LIMITED_NUM_ALL_PRODUCT
         ) {
           throw new Error(
-            CURRENT_LANGFILE['cart.errorAllProductNumLimit'].replace(
-              /{.+}/,
-              +window.__.env.REACT_APP_LIMITED_NUM_ALL_PRODUCT
+            formatMessage(
+              { id: 'cart.errorAllProductNumLimit' },
+              { val: +window.__.env.REACT_APP_LIMITED_NUM_ALL_PRODUCT }
             )
           );
         }
         if (cartDataCopy.length >= +window.__.env.REACT_APP_LIMITED_CATE_NUM) {
           throw new Error(
-            CURRENT_LANGFILE['cart.errorMaxCate'].replace(
-              /{.+}/,
-              +window.__.env.REACT_APP_LIMITED_CATE_NUM
+            formatMessage(
+              { id: 'cart.errorMaxCate' },
+              { val: +window.__.env.REACT_APP_LIMITED_CATE_NUM }
             )
           );
         }
-        await this.updateUnloginCart({ cartData: cartDataCopy });
+        await this.updateUnloginCart({ cartData: cartDataCopy, intl });
         if (!isMobile) {
           stores.headerCartStore.show();
           clearTimeout(this.timer);

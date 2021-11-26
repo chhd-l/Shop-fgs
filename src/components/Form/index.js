@@ -12,7 +12,6 @@
  *
  *********/
 import React from 'react';
-import locales from '@/lang';
 import Skeleton from 'react-skeleton-loader';
 import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';
@@ -48,8 +47,6 @@ import debounce from 'lodash/debounce';
 import './index.less';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
-const sessionItemRoyal = window.__.sessionItemRoyal;
-const CURRENT_LANGFILE = locales;
 let tempolineCache = {};
 @inject('configStore')
 @injectIntl
@@ -513,6 +510,9 @@ class Form extends React.Component {
   };
   // 2、格式化表单json
   formListFormat(array) {
+    const {
+      intl: { messages, formatMessage }
+    } = this.props;
     const { caninForm, errMsgObj, COUNTRY } = this.state;
     let rule = [];
     let ruleTimeSlot = [];
@@ -608,11 +608,11 @@ class Form extends React.Component {
           } else {
             regExp = /\S/;
           }
-          errMsg = CURRENT_LANGFILE['enterCorrectPostCode'];
+          errMsg = formatMessage({ id: 'enterCorrectPostCode' });
           break;
         case 'email':
           regExp = /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/;
-          errMsg = CURRENT_LANGFILE['pleaseEnterTheCorrectEmail'];
+          errMsg = formatMessage({ id: 'pleaseEnterTheCorrectEmail' });
           break;
         case 'phoneNumber':
           if (COUNTRY == 'fr') {
@@ -641,7 +641,7 @@ class Form extends React.Component {
             // 其他国家
             regExp = /\S/;
           }
-          errMsg = CURRENT_LANGFILE['enterCorrectPhoneNumber'];
+          errMsg = formatMessage({ id: 'enterCorrectPhoneNumber' });
           break;
         default:
           regExp = /\S/;
@@ -651,9 +651,10 @@ class Form extends React.Component {
           } else {
             errstr = 'payment.errorInfo';
           }
-          errMsg = CURRENT_LANGFILE[errstr].replace(
-            /{.+}/,
-            CURRENT_LANGFILE[`payment.${item.fieldKey}`]
+
+          errMsg = formatMessage(
+            { id: errstr },
+            { val: messages[`payment.${item.fieldKey}`] }
           );
       }
 

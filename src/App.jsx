@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -35,10 +35,9 @@ import { redirectFun } from '@/redirect/utils';
 import '@/utils/init';
 import { stgShowAuth } from '@/utils/utils';
 import ScrollToTop from '@/components/ScrollToTop';
-import {getDynamicLanguage} from './lang';
+import { getDynamicLanguage } from './lang';
 import RouteFilter from '@/components/RouteFilter';
 const Home = loadable(() => import('@/views/Home'), 'rc-carousel');
-
 
 import PickupMap from '@/views/PickupMap';
 const List = loadable(() => import('@/views/List'));
@@ -198,9 +197,7 @@ const ClubLandingPageDeVet = loadable(() =>
 const DedicatedLandingPage = loadable(() =>
   import('@/views/DedicatedLandingPage')
 );
-const Felin = loadable(() =>
-  import('@/views/Felin2')
-);
+const Felin = loadable(() => import('@/views/Felin2'));
 const FelinRecommendation = loadable(() =>
   import('@/views/FelinRecommendation')
 );
@@ -275,23 +272,23 @@ const ImplicitLogin = () => {
   return <div />;
 };
 
-const useDynamicLanguage =()=>{
-    const[dynamicLanguage, setDynamicLanguage]=useState({})
-    const [loading,setLoading]=useState(true);
-    console.log(dynamicLanguage,'dynamicLanguage')
+const useDynamicLanguage = () => {
+  const [dynamicLanguage, setDynamicLanguage] = useState({});
+  const [loading, setLoading] = useState(true);
+  console.log(dynamicLanguage, 'dynamicLanguage');
 
-    useEffect(()=>{
-      async function getLanguage(){
-        setLoading(true);
-        const lang = await getDynamicLanguage();
-        setDynamicLanguage(lang);
-        setLoading(false);
-      }
-      getLanguage();
-    },[]);
+  useEffect(() => {
+    async function getLanguage() {
+      setLoading(true);
+      const lang = await getDynamicLanguage();
+      setDynamicLanguage(lang);
+      setLoading(false);
+    }
+    getLanguage();
+  }, []);
 
-    return [loading,dynamicLanguage]
-}
+  return [loading, dynamicLanguage];
+};
 
 const App = () => {
   const history = useHistory();
@@ -306,19 +303,22 @@ const App = () => {
     history.replace(toRelativeUrl(originalUri, window.location.origin));
   };
 
-  const [loading,dynamicLanguage]=useDynamicLanguage();
+  const [loading, dynamicLanguage] = useDynamicLanguage();
 
-  if(loading){
+  if (loading) {
     return (
       <div>
-        <Loading/>
+        <Loading />
       </div>
-    )
+    );
   }
 
   return (
     <Provider {...stores}>
-      <IntlProvider locale={window.__.env.REACT_APP_LANG} messages={dynamicLanguage}>
+      <IntlProvider
+        locale={window.__.env.REACT_APP_LANG}
+        messages={dynamicLanguage}
+      >
         <Router
           basename={window.__.env.REACT_APP_HOMEPAGE}
           path={'/'}
@@ -497,10 +497,15 @@ const App = () => {
                 <Route
                   exact
                   path="/recommendation"
-                  render={(props)=>{
-                    let recommendationPage =  <Recommendation_US {...props} />
-                    if(window.__.env.REACT_APP_COUNTRY=='fr'&&props.location.search.includes('breeder')){
-                      recommendationPage = <Recommendation_FrBreeder {...props}/>
+                  render={(props) => {
+                    let recommendationPage = <Recommendation_US {...props} />;
+                    if (
+                      window.__.env.REACT_APP_COUNTRY == 'fr' &&
+                      props.location.search.includes('breeder')
+                    ) {
+                      recommendationPage = (
+                        <Recommendation_FrBreeder {...props} />
+                      );
                     }
                     return recommendationPage;
                   }}
@@ -512,7 +517,7 @@ const App = () => {
                   path="/Terms-And-Conditions"
                   component={TermsAndConditions}
                 />
-                 <Route
+                <Route
                   exact
                   path="/terms-of-use-prescriber"
                   component={TermsOfUsePrescriber}
@@ -602,7 +607,7 @@ const App = () => {
                       case 'us':
                         sublanding = US_SubscriptionLanding;
                         break;
-                        case 'uk':
+                      case 'uk':
                         sublanding = US_SubscriptionLanding;
                         break;
                       case 'ru':
@@ -691,7 +696,8 @@ const App = () => {
                   path="/Tailorednutrition"
                   exact
                   component={
-                    window.__.env.REACT_APP_COUNTRY == 'us' || window.__.env.REACT_APP_COUNTRY == 'uk'
+                    window.__.env.REACT_APP_COUNTRY == 'us' ||
+                    window.__.env.REACT_APP_COUNTRY == 'uk'
                       ? US_Tailorednutrition
                       : Tailorednutrition
                   }
@@ -701,7 +707,8 @@ const App = () => {
                   path="/Quality-safety"
                   exact
                   component={
-                    window.__.env.REACT_APP_COUNTRY == 'us' || window.__.env.REACT_APP_COUNTRY == 'uk'
+                    window.__.env.REACT_APP_COUNTRY == 'us' ||
+                    window.__.env.REACT_APP_COUNTRY == 'uk'
                       ? US_QualitySafety
                       : QualitySafety
                   }
@@ -774,9 +781,9 @@ const App = () => {
                   )}
                 />
                 <Route exact sensitive path="/FAQ" component={Exception} />
-               <Route
-                path="/FelinRecommendation/:id"
-                component={FelinRecommendation}
+                <Route
+                  path="/FelinRecommendation/:id"
+                  component={FelinRecommendation}
                 />
                 <Route path="/felin" component={Felin} />
                 <Route

@@ -594,7 +594,8 @@ class UnLoginCart extends React.Component {
       await this.props.checkoutStore.updateUnloginCart({
         cartData: productList,
         isThrowErr,
-        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
+        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT),
+        intl: this.props.intl
       });
       callback && callback();
       this.getGoodsIdArr(); //删除相关商品
@@ -1166,12 +1167,8 @@ class UnLoginCart extends React.Component {
     );
   };
   sideCart({ className = '', style = {}, id = '' } = {}) {
-    const {
-      checkoutLoading,
-      discount,
-      mobileCartVisibleKey,
-      promotionCode
-    } = this.state;
+    const { checkoutLoading, discount, mobileCartVisibleKey, promotionCode } =
+      this.state;
     const { checkoutStore } = this.props;
     const subtractionSign = '-';
     return (
@@ -1514,7 +1511,7 @@ class UnLoginCart extends React.Component {
   }
   handleClickPromotionApply = async (falseCodeAndReRequest) => {
     //falseCodeAndReRequest 需要重新请求code填充公共code
-    const { checkoutStore, loginStore, buyWay } = this.props;
+    const { checkoutStore, loginStore, buyWay, intl } = this.props;
     let { promotionInputValue, discount } = this.state;
     if (!promotionInputValue && !falseCodeAndReRequest) return;
 
@@ -1527,11 +1524,13 @@ class UnLoginCart extends React.Component {
     if (loginStore.isLogin) {
       result = await checkoutStore.updateLoginCart({
         promotionCode: promotionInputValue,
-        subscriptionFlag: buyWay === 'frequency'
+        subscriptionFlag: buyWay === 'frequency',
+        intl
       });
     } else {
       result = await checkoutStore.updateUnloginCart({
-        promotionCode: promotionInputValue
+        promotionCode: promotionInputValue,
+        intl
       });
     }
     if (
@@ -1570,7 +1569,7 @@ class UnLoginCart extends React.Component {
     });
   };
   handleRemovePromotionCode = async () => {
-    const { checkoutStore, loginStore, buyWay } = this.props;
+    const { checkoutStore, loginStore, buyWay, intl } = this.props;
     let { discount } = this.state;
     let result = {};
     // await checkoutStore.removeCouponCodeFitFlag();
@@ -1578,12 +1577,13 @@ class UnLoginCart extends React.Component {
     await checkoutStore.removeCouponCode();
     if (!loginStore.isLogin) {
       //游客
-      result = await checkoutStore.updateUnloginCart();
+      result = await checkoutStore.updateUnloginCart({ intl });
     } else {
       //会员
       result = await checkoutStore.updateLoginCart({
         promotionCode: '',
-        subscriptionFlag: buyWay === 'frequency'
+        subscriptionFlag: buyWay === 'frequency',
+        intl
       });
     }
     this.setState({
