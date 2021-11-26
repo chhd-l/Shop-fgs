@@ -305,10 +305,7 @@ class CheckoutStore {
     notSeableProNames = this.notSeableProNames,
     minimunAmountPrice = 0
   } = {}) {
-    if (
-      this.tradePrice < Number(window.__.env.REACT_APP_MINIMUM_AMOUNT) &&
-      sessionItemRoyal.get('orderSource') !== 'SUPPLIER'
-    ) {
+    if (this.tradePrice < Number(window.__.env.REACT_APP_MINIMUM_AMOUNT)) {
       throw new Error(
         CURRENT_LANGFILE['cart.errorInfo3'].replace(/{.+}/, minimunAmountPrice)
       );
