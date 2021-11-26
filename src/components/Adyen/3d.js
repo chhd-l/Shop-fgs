@@ -2,7 +2,7 @@ import React from 'react';
 import { loadJS } from '@/utils/utils';
 import translations from './translations';
 import { inject, observer } from 'mobx-react';
-import getAdyenConf from '@/lib/get-adyen-conf';
+import getPaymentConf from '@/lib/get-payment-conf';
 
 @inject('paymentStore')
 @observer
@@ -16,9 +16,14 @@ class Adyen3DForm extends React.Component {
     };
   }
   componentDidMount() {
-    getAdyenConf().then((res) => {
+    const {
+      paymentStore: { curPayWayInfo }
+    } = this.props;
+    getPaymentConf().then((res) => {
       this.setState({
-        adyenOriginKeyConf: res
+        adyenOriginKeyConf: res.filter(
+          (t) => t.pspItemCode === curPayWayInfo?.code
+        )[0]
       });
     });
   }
@@ -33,8 +38,7 @@ class Adyen3DForm extends React.Component {
   initForm(action) {
     const { adyenOriginKeyConf } = this.state;
     loadJS({
-      url:
-        'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
+      url: 'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
       callback: function () {
         if (!!window.AdyenCheckout) {
           const AdyenCheckout = window.AdyenCheckout;
