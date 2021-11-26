@@ -135,7 +135,7 @@ class Register extends Component {
           id: item.id,
           consentTitle:
             window.__.env.REACT_APP_COUNTRY === 'uk'
-              ? item.consentRegisterTitle
+              ? item.consentRegisterTitle || item.consentTitle
               : item.consentTitle,
           isChecked: false,
           isRequired: false,
@@ -149,7 +149,7 @@ class Register extends Component {
           id: item.id,
           consentTitle:
             window.__.env.REACT_APP_COUNTRY === 'uk'
-              ? item.consentRegisterTitle
+              ? item.consentRegisterTitle || item.consentTitle
               : item.consentTitle,
           isChecked:
             item.consentDesc == 'RC_DF_TR_FGS_PRIVACY_POLICY' ||

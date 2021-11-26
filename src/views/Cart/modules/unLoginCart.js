@@ -800,7 +800,7 @@ class UnLoginCart extends React.Component {
                     {pitem.goodsName}
                   </h4>
                   {pitem.taggingForImageAtCart?.taggingImgUrl ? (
-                    <LazyLoad className="order-1 order-md-3">
+                    <LazyLoad className="order-1 md:order-3">
                       <img
                         src={pitem.taggingForImageAtCart?.taggingImgUrl}
                         className="cart-item__tagging_image ml-2"
@@ -1165,12 +1165,8 @@ class UnLoginCart extends React.Component {
     );
   };
   sideCart({ className = '', style = {}, id = '' } = {}) {
-    const {
-      checkoutLoading,
-      discount,
-      mobileCartVisibleKey,
-      promotionCode
-    } = this.state;
+    const { checkoutLoading, discount, mobileCartVisibleKey, promotionCode } =
+      this.state;
     const { checkoutStore } = this.props;
     const subtractionSign = '-';
     return (
