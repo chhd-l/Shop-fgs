@@ -264,6 +264,7 @@ const RegisterRequired = loadable(() =>
 );
 
 const Test = loadable(() => import('@/views/Test'));
+const Survey = loadable(() => import('@/views/Survey'));
 
 const ImplicitLogin = () => {
   const { oktaAuth } = useOktaAuth();
@@ -689,6 +690,7 @@ const App = () => {
                 <Route path="/consent2-tr" component={Consent2TR} />
                 <Route path="/register" component={register} />
                 <Route path="/welcome/:id" component={welcome} />
+                <Route path="/survey/:id?" component={Survey} />
 
                 {/* <Route
                   path="/smart-feeder-subscription"

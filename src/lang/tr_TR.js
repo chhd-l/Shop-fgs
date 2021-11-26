@@ -1366,6 +1366,17 @@ const tr_TR = {
   'list.clearFilters': 'Tüm filtreleri temizle',
   'list.viewFilters': 'Filtreleri görüntüle',
   'list.closeFilters': 'Filtreleri kapat',
-  'order.goodwillOrder': '[Goodwill order]'
+  'order.goodwillOrder': '[Goodwill order]',
+  'adyen.storeDetails': 'Guardar título para programar el próximo pago',
+  'adyen.creditCard.holderName.placeholder': 'J. Smith',
+  'adyen.creditCard.holderName.invalid': 'Geçersiz kart sahibi adı',
+  'adyen.creditCard.numberField.title': 'Kart numarası',
+  'adyen.creditCard.numberField.placeholder': '1234 5678 9012 3456',
+  'adyen.creditCard.numberField.invalid': 'geçersiz kart numarası',
+  'adyen.creditCard.expiryDateField.title': 'Son kullanma tarihi',
+  'adyen.creditCard.expiryDateField.placeholder': 'AA / YY',
+  'adyen.creditCard.expiryDateField.invalid': 'Geçersiz son kullanma tarihi',
+  'adyen.creditCard.cvcField.title': 'CVC / CVV',
+  'adyen.creditCard.cvcField.placeholder': '123'
 };
 export default tr_TR;

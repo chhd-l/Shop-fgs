@@ -9,9 +9,6 @@ const env = {
     REACT_APP_GA_COUNTRY: 'UK',
     REACT_APP_GA_CURRENCY_CODE: 'GBP',
 
-    // #Adyen
-    REACT_APP_Adyen_country: 'GB',
-
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
       '8923767a-c9c8-4c36-ae5f-97af6af42bdb-test',
@@ -98,7 +95,9 @@ const env = {
     REACT_APP_HOMEPAGE: '/uk',
 
     // #bazaarVoice环境配置
-    REACT_APP_BAZAARVOICE_ENV: 'staging'
+    REACT_APP_BAZAARVOICE_ENV: 'staging',
+    REACT_APP_DELETE_My_ACCOUNT_URL:
+      'https://prd-weu1-rc-df-myaccount-app-webapp-dev.cloud-effem.com/en-us/manager/settings'
   },
   shopsit: {
     // #okta
@@ -126,10 +125,8 @@ const env = {
     // #bazaarVoice环境配置
     REACT_APP_BAZAARVOICE_ENV: 'staging',
 
-    // #Adyen
-    REACT_APP_AdyenOriginKEY:
-      'pub.v2.8015632026961356.aHR0cHM6Ly9zaG9wc2l0LnJveWFsY2FuaW4uY29t.dFwiVP07vLuJ0MRkzioYExlX4hnaBQnETquTzkjX49g',
-    REACT_APP_Adyen_ENV: 'test'
+    REACT_APP_DELETE_My_ACCOUNT_URL:
+      'https://prd-weu1-rc-df-myaccount-app-webapp-dev.cloud-effem.com/en-us/manager/settings'
   },
   shopuat: {
     // #okta
@@ -157,10 +154,8 @@ const env = {
     // #bazaarVoice环境配置
     REACT_APP_BAZAARVOICE_ENV: 'staging',
 
-    // #Adyen
-    REACT_APP_AdyenOriginKEY:
-      'pub.v2.8015632026961356.aHR0cHM6Ly9zaG9wdWF0LnJveWFsY2FuaW4uY29t.ACjjK1gDH6I6S1VqifJ1ifQlI9uZradDIClbzmdEuDQ',
-    REACT_APP_Adyen_ENV: 'test'
+    REACT_APP_DELETE_My_ACCOUNT_URL:
+      'https://prd-weu1-rc-df-myaccount-app-webapp-dev.cloud-effem.com/en-us/manager/settings'
   },
   shopstg: {
     // #okta
@@ -196,7 +191,7 @@ const env = {
   production: {
     // #okta
     REACT_APP_ACCESS_PATH: 'https://shop.royalcanin.com/',
-    REACT_APP_CLIENT_ID: '0oamkkuay3Bdq8tHc416',
+    REACT_APP_CLIENT_ID: '0oa27u66xmv9zhxGI417',
     REACT_APP_ISSUER: 'https://signin.royalcanin.com/oauth2/default',
     REACT_APP_RedirectURL: 'https://shop.royalcanin.com/implicit/callback',
     REACT_APP_RegisterPrefix: 'https://welcome.royalcanin.com/?redirect_uri=',
@@ -221,6 +216,71 @@ const env = {
     REACT_APP_DELETE_My_ACCOUNT_URL:
       'https://account.royalcanin.com/en-us/manager/settings'
   },
+  // production: {
+  //   // #okta
+  //   REACT_APP_ACCESS_PATH: 'https://shop.royalcanin.com/',
+  //   REACT_APP_CLIENT_ID: '0oa27u66xmv9zhxGI417',
+  //   REACT_APP_ISSUER: 'https://signin.royalcanin.com/oauth2/default',
+  //   REACT_APP_RedirectURL: 'https://shop.royalcanin.com/implicit/callback',
+  //   REACT_APP_RegisterPrefix: 'https://welcome.royalcanin.com/?redirect_uri=',
+  //   REACT_APP_RegisterCallback: 'https://shop.royalcanin.com',
+  //   REACT_APP_FaceBook_IDP: '0oa75jv7oSeLBnnkt416',
+  //   REACT_APP_Google_IDP: '0oa75klujN7PkgedM416',
+  //   REACT_APP_ONTRUST_DOMAIN_SCRIPT: '8923767a-c9c8-4c36-ae5f-97af6af42bdb',
+
+  //   // #接口配置
+  //   REACT_APP_BASEURL: 'https://shop.royalcanin.com/api',
+
+  //   // #GA环境配置
+  //   REACT_APP_GA_ENV: 'prd',
+
+  //   // #设置二级子目录访问页面
+  //   REACT_APP_HOMEPAGE: '/',
+
+  //   // #bazaarVoice环境配置
+  //   REACT_APP_BAZAARVOICE_ENV: 'production',
+
+  //   // #删除账户
+  //   REACT_APP_DELETE_My_ACCOUNT_URL:
+  //     'https://account.royalcanin.com/en-us/manager/settings'
+  // },
+  productionHub: {
+    // #okta
+    REACT_APP_ACCESS_PATH: 'https://www.royalcanin.com/uk/shop',
+    REACT_APP_CLIENT_ID: '0oa27u66xmv9zhxGI417',
+    REACT_APP_ISSUER: 'https://signin.royalcanin.com/oauth2/default',
+    REACT_APP_RedirectURL:
+      'https://www.royalcanin.com/uk/shop/implicit/callback',
+    REACT_APP_RegisterPrefix: 'https://welcome.royalcanin.com/?redirect_uri=',
+    REACT_APP_RegisterCallback: 'https://www.royalcanin.com/uk/shop',
+    REACT_APP_FaceBook_IDP: '0oa75jv7oSeLBnnkt416',
+    REACT_APP_Google_IDP: '0oa75klujN7PkgedM416',
+
+    // #接口配置
+    REACT_APP_BASEURL: 'https://www.royalcanin.com/uk/shop/api',
+
+    // #GA环境配置
+    REACT_APP_GA_ENV: 'prd',
+
+    // #onetrust
+    REACT_APP_ONTRUST_DOMAIN_SCRIPT: '8923767a-c9c8-4c36-ae5f-97af6af42bdb',
+
+    // #设置二级子目录访问页面
+    REACT_APP_HOMEPAGE: '/uk/shop',
+
+    // #HUB_GA
+    REACT_APP_HUB_GA: '1',
+
+    // #根节点自定义样式名
+    REACT_APP_ROOT_CLS: 'ui-custom-hub',
+
+    REACT_APP_HUB: '1',
+
+    // #delete接口前缀
+    REACT_APP_HUB_APIURL: 'https://www.royalcanin.com/uk/api',
+
+    REACT_APP_HUB_URLPREFIX: 'https://www.royalcanin.com/uk'
+  },
   stgwedding: {
     // #okta
     REACT_APP_ACCESS_PATH: 'https://stgwedding.royalcanin.com/uk/shop/',
@@ -241,11 +301,6 @@ const env = {
     // #GA环境配置
     REACT_APP_GA_ENV: 'stg',
 
-    // #Adyen
-    REACT_APP_AdyenOriginKEY:
-      'pub.v2.8015632026961356.aHR0cHM6Ly9zdGd3ZWRkaW5nLnJveWFsY2FuaW4uY29t.85XdEx9CVlOgIcsh4wbG_at50lHOt-Pp-c87g6IJMaE',
-    REACT_APP_Adyen_ENV: 'test',
-
     // #mars global footer
     REACT_APP_MARS_FOOTER:
       'https://footer.mars.com/js/footer.js.aspx?royalcanin-com-uk',
@@ -261,7 +316,15 @@ const env = {
     // #HUB_GA
     REACT_APP_HUB_GA: '1',
 
-    REACT_APP_HUB_URLPREFIX: 'https://stgwedding.royalcanin.com/uk'
+    REACT_APP_HUB_URLPREFIX: 'https://stgwedding.royalcanin.com/uk',
+
+    // #buyFromRetailBtn
+    REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE: 'en-US',
+    REACT_APP_HUBPAGE_RETAILER_WIDGETID:
+      'eQJAy3lYzN_bc061c10-9ad5-11ea-8690-bd692fbec1ed25',
+    REACT_APP_HUBPAGE_RETAILER_WIDGETID_VET:
+      'eQJAy3lYzN_56bc9e30-5036-11eb-b747-4948961b961c27',
+    REACT_APP_HUBPAGE_RETAILER_LOCALE: 'en-GB'
   },
   uatwedding: {
     // #okta
@@ -283,11 +346,6 @@ const env = {
     // #GA环境配置
     REACT_APP_GA_ENV: 'uat',
 
-    // #Adyen
-    REACT_APP_AdyenOriginKEY:
-      'pub.v2.8015632026961356.aHR0cHM6Ly91YXR3ZWRkaW5nLnJveWFsY2FuaW4uY29t.6fzWHm5A89YXisx2sZdrr_qOHKAdvji6rOXcwdB_lTA',
-    REACT_APP_Adyen_ENV: 'test',
-
     // #mars global footer
     REACT_APP_MARS_FOOTER:
       'https://footer.mars.com/js/footer.js.aspx?royalcanin-com-uk',
@@ -303,7 +361,17 @@ const env = {
     REACT_APP_HUB_URLPREFIX: 'https://uatwedding.royalcanin.com/uk',
 
     // #HUB_GA
-    REACT_APP_HUB_GA: '1'
+    REACT_APP_HUB_GA: '1',
+    REACT_APP_DELETE_My_ACCOUNT_URL:
+      'https://prd-weu1-rc-df-myaccount-app-webapp-dev.cloud-effem.com/en-us/manager/settings',
+
+    // #buyFromRetailBtn
+    REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE: 'en-US',
+    REACT_APP_HUBPAGE_RETAILER_WIDGETID:
+      'eQJAy3lYzN_bc061c10-9ad5-11ea-8690-bd692fbec1ed25',
+    REACT_APP_HUBPAGE_RETAILER_WIDGETID_VET:
+      'eQJAy3lYzN_56bc9e30-5036-11eb-b747-4948961b961c27',
+    REACT_APP_HUBPAGE_RETAILER_LOCALE: 'en-GB'
   }
 };
 

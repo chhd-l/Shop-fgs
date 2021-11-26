@@ -1106,9 +1106,6 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             browserInfo: this.props.paymentStore.browserInfo,
             encryptedSecurityCode: adyenPayParam?.encryptedSecurityCode || '',
-            shopperLocale: window.__.env.REACT_APP_SHOPPER_LOCALE || 'en_US',
-            currency: window.__.env.REACT_APP_CURRENCY,
-            country: window.__.env.REACT_APP_Adyen_country,
             payPspItemEnum: 'ADYEN_CREDIT_CARD'
           });
           if (adyenPayParam?.paymentToken) {
@@ -1125,9 +1122,6 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             adyenType: 'klarna',
             payPspItemEnum: 'ADYEN_KLARNA_PAY_LATER',
-            shopperLocale: window.__.env.REACT_APP_SHOPPER_LOCALE,
-            currency: window.__.env.REACT_APP_CURRENCY,
-            country: window.__.env.REACT_APP_Adyen_country,
             email
           });
         },
@@ -1135,9 +1129,6 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             adyenType: 'klarna_paynow',
             payPspItemEnum: 'ADYEN_KLARNA_PAYNOW',
-            shopperLocale: window.__.env.REACT_APP_SHOPPER_LOCALE,
-            currency: window.__.env.REACT_APP_CURRENCY,
-            country: window.__.env.REACT_APP_Adyen_country,
             email
           });
         },
@@ -1145,27 +1136,24 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             adyenType: 'directEbanking',
             payPspItemEnum: 'ADYEN_SOFORT',
-            shopperLocale: window.__.env.REACT_APP_SHOPPER_LOCALE,
-            currency: window.__.env.REACT_APP_CURRENCY,
-            country: window.__.env.REACT_APP_Adyen_country,
             email
           });
         },
         adyenOxxo: () => {
           parameters = Object.assign(commonParameter, {
             payPspItemEnum: 'ADYEN_OXXO',
-            shopperLocale: window.__.env.REACT_APP_SHOPPER_LOCALE,
-            currency: window.__.env.REACT_APP_CURRENCY,
-            country: window.__.env.REACT_APP_Adyen_country,
             email
           });
         },
         cyber: () => {
+          const {
+            cyberPayParam: { id, cardCvv, accessToken }
+          } = this.state;
           parameters = Object.assign({}, commonParameter, {
             payPspItemEnum: 'CYBER',
-            paymentMethodId: this.state.cyberPayParam.id,
-            securityCode: this.state.cyberPayParam.cardCvv,
-            accessToken: this.state.cyberPayParam.accessToken
+            paymentMethodId: id,
+            securityCode: cardCvv,
+            accessToken: accessToken
           });
         }
       };
@@ -1721,9 +1709,9 @@ class Payment extends React.Component {
     ) {
       const result = await querySurveyContent({
         storeId: window.__.env.REACT_APP_STOREID,
-        customerId: this.isLogin ? this.userInfo.customerId : ' '
+        customerId: this.userInfo.customerId
       });
-      if (!result?.context.isShow) {
+      if (!result?.context?.isShow || surveyId !== result?.context?.id) {
         surveyId = '';
       }
     }

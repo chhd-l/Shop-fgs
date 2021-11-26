@@ -361,6 +361,7 @@ class ImageMagnifier extends Component {
       video,
       taggingForText,
       taggingForImage,
+      taggingChildren,
       spuImages,
       imgAlt
     } = this.props;
@@ -394,6 +395,7 @@ class ImageMagnifier extends Component {
                 {taggingForText.taggingName}
               </div>
             ) : null}
+            {taggingChildren?taggingChildren:null}
             <div
               className="bigImageInnerBox rc-loaded--final"
               style={{

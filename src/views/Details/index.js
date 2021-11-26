@@ -29,7 +29,8 @@ import {
   filterObjectValue,
   isCountriesContainer,
   getClubFlag,
-  handleRecommendation
+  handleRecommendation,
+  isShowMixFeeding
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
@@ -65,6 +66,7 @@ import {
   GAPdpSizeChange
 } from './GA';
 import PrescriberCodeModal from '../ClubLandingPageNew/Components/DeStoreCode/Modal';
+import MixFeedingBanner from './components/MixFeedingBanner/index.tsx';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -75,6 +77,7 @@ const isHub = window.__.env.REACT_APP_HUB == '1';
 const Fr = window.__.env.REACT_APP_COUNTRY === 'fr';
 const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
 const Tr = window.__.env.REACT_APP_COUNTRY === 'tr';
+const Uk = window.__.env.REACT_APP_COUNTRY === 'uk';
 
 @inject(
   'checkoutStore',
@@ -154,7 +157,8 @@ class Details extends React.Component {
       modalMobileCartSuccessVisible: false,
       defaultSkuId: funcUrl({ name: 'skuId' }),
       defaultGoodsInfoFlag: funcUrl({ name: 'goodsInfoFlag' }),
-      mixFeeding: null
+      mixFeeding: null,
+      originalProductInfo: {}
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -197,8 +201,14 @@ class Details extends React.Component {
     return this.props.checkoutStore;
   }
   get btnStatus() {
-    const { details, quantity, instockStatus, initing, loading, form } =
-      this.state;
+    const {
+      details,
+      quantity,
+      instockStatus,
+      initing,
+      loading,
+      form
+    } = this.state;
     const { sizeList } = details;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     let addedFlag = 1;
@@ -234,7 +244,7 @@ class Details extends React.Component {
       !bundle &&
       isHub &&
       !exclusiveFlag &&
-      (Fr || (Tr && !sptGoods))
+      (Fr || Uk || (Tr && !sptGoods))
     );
   }
 
@@ -489,13 +499,20 @@ class Details extends React.Component {
         if (goodsRes) {
           const { goods, images } = res.context;
 
-          // getMixFeeding(goods.goodsId)
-          getMixFeeding('2c918085773ea33001773eab7d060343').then((res) => {
-            let mixFeeding = handleRecommendation(
-              res?.context?.goodsRelationAndRelationInfos[0]
-            );
-            this.setState({ mixFeeding });
-          });
+          if (isShowMixFeeding()) {
+            getMixFeeding(goods.goodsId).then((res) => {
+              let mixFeeding = handleRecommendation(
+                res?.context?.goodsRelationAndRelationInfos.filter(
+                  (el) => el.sort === 0
+                )[0] || res?.context?.goodsRelationAndRelationInfos[0]
+              );
+              // console.log(res,mixFeeding,'mixFeeding')
+              if (mixFeeding) {
+                mixFeeding.quantity = 1;
+              }
+              this.setState({ mixFeeding });
+            });
+          }
 
           const taggingList = (res.context?.taggingList || []).filter(
             (t) => t.displayStatus
@@ -541,7 +558,14 @@ class Details extends React.Component {
               breadCrumbs: [{ name: goodsRes.goodsName }],
               pageLink: this.redirectCanonicalLink({ pageLink }),
               goodsType: goods.goodsType,
-              exclusiveFlag: goods.exclusiveFlag
+              exclusiveFlag: goods.exclusiveFlag,
+              originalProductInfo: Object.assign(
+                this.state.originalProductInfo,
+                {
+                  imageSrc: images?.[0]?.artworkUrl || '',
+                  goodsTitle: goodsRes.goodsName
+                }
+              )
             },
             () => {
               this.handleBreadCrumbsData();
@@ -685,7 +709,7 @@ class Details extends React.Component {
         url: 'https://fi-v2.global.commerce-connector.com/cc.js',
         id: 'cci-widget',
         dataSets: {
-          token: '2257decde4d2d64a818fd4cd62349b235d8a74bb',
+          token: '2257decde4d2d64a818fd4cd62349b235d8a74bb', //uk，fr公用它
           locale: window.__.env.REACT_APP_HUBPAGE_RETAILER_LOCALE,
           displaylanguage:
             window.__.env.REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE,
@@ -850,8 +874,13 @@ class Details extends React.Component {
     try {
       this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const { currentUnitPrice, quantity, form, details, questionParams } =
-        this.state;
+      const {
+        currentUnitPrice,
+        quantity,
+        form,
+        details,
+        questionParams
+      } = this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -1026,9 +1055,9 @@ class Details extends React.Component {
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     const vet =
-      window.__.env.REACT_APP_HUB === '1' &&
+      (window.__.env.REACT_APP_HUB === '1' || Uk) &&
       !details.saleableFlag &&
-      details.displayFlag; //vet产品并且是hub的情况下
+      details.displayFlag; //vet产品并且是hub的情况下,(uk不管stg还是wedding都用这个逻辑)
     console.log(
       vet,
       window.__.env.REACT_APP_HUB,
@@ -1421,13 +1450,20 @@ class Details extends React.Component {
                   this.setState({ modalMobileCartSuccessVisible: false });
                 }}
                 mixFeedingData={this.state.mixFeeding}
+                periodTypeId={parseInt(form.buyWay) ? form.frequencyId : ''}
                 goodsInfoFlag={
                   form.buyWay && details.promotions?.includes('club')
                     ? 2
                     : form.buyWay
                 }
+                isLogin={this.isLogin}
               />
             ) : null}
+
+            {/* {PC ? <MixFeedingBanner 
+            // originalProductInfo={this.state.originalProductInfo}
+            // img={spuImages?.[0].artworkUrl || ''}
+            /> : null} */}
 
             {/* 最下方跳转更多板块 rita说现在hub 又不要了 暂时注释吧*/}
             {/* <More/> */}

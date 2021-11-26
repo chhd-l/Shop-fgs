@@ -449,6 +449,7 @@ const en_US = {
   'details.theSize': 'The size',
   'details.unitPrice': 'Unit price',
   'details.youCanSave': 'You can save',
+  'details.buyFromRetailer': 'Buy Now',
   dogs: 'DOGS',
   dogs2: 'Dogs',
   dogs3: 'Dog',
@@ -1831,7 +1832,7 @@ const en_US = {
     'Each formula has been formulated to provide nutrition that meets health needs based on size, breed, age or lifestyle.',
   'salesCategory.title': 'Discover our food ranges',
   'account.deleteMyaccountDesc':
-    'In this case, you will not be able to use the ROYAL CANIN® services. Access to the Club program and subscription to veterinary diets will be closed, and the purchase history will be deleted.',
+    'Once your account has been deleted, you will no longer be able to access Royal Canin services with this account.',
   'account.deleteMyaccountTitle': 'Delete account',
   proceedToTheDeletion: 'Delete my account',
   'header.User.home': 'Account',

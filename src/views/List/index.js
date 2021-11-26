@@ -55,11 +55,10 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =
   'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
-const urlPrefix =
-  `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-    /\/$/,
-    ''
-  );
+const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+  /\/$/,
+  ''
+);
 
 const filterAttrValue = (list, keyWords) => {
   return (list || [])
@@ -314,7 +313,7 @@ class List extends React.Component {
       isHub && location.pathname.includes('retail-products');
     const isVetProducts = isHub && location.pathname.includes('vet-products');
     this.state = {
-      canonicalforTRSpecialPageSearchFlag: false,//为ru特殊页面做特殊canonical处理
+      canonicalforTRSpecialPageSearchFlag: false, //为ru特殊页面做特殊canonical处理
       sourceParam: '',
       GAListParam: '', //GA list参数
       eEvents: '',
@@ -392,8 +391,11 @@ class List extends React.Component {
         '?Breeds=b6230b6f398347b397941f566400ada4&Sizes=83a4997cc9464552b380a496d399c593'
       ]
     };
-    if( window.__.env.REACT_APP_COUNTRY === 'tr'&&canonicalforRuSpecialPage[pathname].includes(search)){
-      this.setState({canonicalforTRSpecialPageSearchFlag:true})
+    if (
+      window.__.env.REACT_APP_COUNTRY === 'tr' &&
+      canonicalforRuSpecialPage[pathname].includes(search)
+    ) {
+      this.setState({ canonicalforTRSpecialPageSearchFlag: true });
     }
     const utm_source = funcUrl({ name: 'utm_source' }); //有这个属性，表示是breeder商品，breeder商品才需要把search赋值给sourceParam
     if (utm_source) {
@@ -898,7 +900,7 @@ class List extends React.Component {
     });
 
     type !== 'pageChange' &&
-      setTimeout(() => {
+      // setTimeout(() => {
         dataLayer.push({
           event: 'plpScreenLoad',
           plpScreenLoad: {
@@ -906,7 +908,7 @@ class List extends React.Component {
             userRequest: keywords || ''
           }
         });
-      }, 3000);
+      // }, 3000gtm优化);
 
     if (dataLayer[0] && dataLayer[0].search) {
       dataLayer[0].search.query = keywords;
@@ -1646,9 +1648,8 @@ class List extends React.Component {
 
   stickyMobileRefineBar() {
     if (isMobilePhone) {
-      var t = document
-        ?.getElementById('refineBar')
-        ?.getBoundingClientRect().top;
+      var t = document?.getElementById('refineBar')?.getBoundingClientRect()
+        .top;
       window.addEventListener('scroll', () => {
         var choosedVal = document.querySelector('.filter-value'); // 有选择的时候才操作
         if (window.pageYOffset + 33 >= t && choosedVal) {
@@ -1801,7 +1802,14 @@ class List extends React.Component {
           />
         )}
         <Helmet>
-        <link rel="canonical" href={this.state.canonicalforTRSpecialPageSearchFlag?canonicalLink.cur.split('?')[0]:canonicalLink.cur} />
+          <link
+            rel="canonical"
+            href={
+              this.state.canonicalforTRSpecialPageSearchFlag
+                ? canonicalLink.cur.split('?')[0]
+                : canonicalLink.cur
+            }
+          />
           {/* <link rel="canonical" href={canonicalLink.cur} /> */}
           {canonicalLink.prev ? (
             <link rel="prev" href={canonicalLink.prev} />
