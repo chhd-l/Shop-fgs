@@ -95,7 +95,7 @@ const MixFeedingBox = function ({
           style={{ borderColor: '#ee8b10' }}
         >
           <div className="text-left mb-2">
-            <strong>Общая стоимость Общая стоимость:</strong>
+            <strong>Вашему питомцу могут также понравиться:</strong>
           </div>
           <div className="d-flex">
             <div
