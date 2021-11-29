@@ -60,12 +60,8 @@ function Progress({ progressList, currentProgerssIndex }) {
             >
               {i <= currentProgerssIndex ? (
                 <svg
-                  className="svg-icon align-middle"
+                  className="svg-icon align-middle w-6 h-6"
                   aria-hidden="true"
-                  style={{
-                    width: '1.5em',
-                    height: '1.5em'
-                  }}
                 >
                   <use xlinkHref="#iconwancheng" />
                 </svg>
@@ -779,16 +775,14 @@ class AccountOrders extends React.Component {
                       <div className="col-12 row mt-2">
                         {item.shippingItems.map((sItem) => (
                           <div
-                            className="col-3"
-                            style={{ display: 'flex', alignItems: 'flex-end' }}
+                            className="col-3 flex items-end"
                             key={sItem.skuId}
                           >
                             <LazyLoad>
                               <img
-                                className="rc-bg-colour--brand4"
+                                className="rc-bg-colour--brand4 w-3/4"
                                 src={sItem.pic}
                                 alt="shipping Items image"
-                                style={{ width: '70%' }}
                               />
                             </LazyLoad>
                           </div>
@@ -823,11 +817,7 @@ class AccountOrders extends React.Component {
           <>
             <HeadTip
               icon={
-                <svg
-                  className="svg-icon"
-                  aria-hidden="true"
-                  style={{ width: '3.5em', height: '3.5em' }}
-                >
+                <svg className="svg-icon w-14 h-14" aria-hidden="true">
                   <use xlinkHref="#iconTobepaid" />
                 </svg>
               }
@@ -878,11 +868,7 @@ class AccountOrders extends React.Component {
           <>
             <HeadTip
               icon={
-                <svg
-                  className="svg-icon"
-                  aria-hidden="true"
-                  style={{ width: '3.5em', height: '3.5em' }}
-                >
+                <svg className="svg-icon w-14 h-14" aria-hidden="true">
                   <use xlinkHref="#iconTobedelivered" />
                 </svg>
               }
@@ -899,11 +885,7 @@ class AccountOrders extends React.Component {
         ret = (
           <HeadTip
             icon={
-              <svg
-                className="svg-icon"
-                aria-hidden="true"
-                style={{ width: '3.5em', height: '3.5em' }}
-              >
+              <svg className="svg-icon w-14 h-14" aria-hidden="true">
                 <use xlinkHref="#iconIntransit" />
               </svg>
             }
@@ -940,11 +922,7 @@ class AccountOrders extends React.Component {
           <>
             <HeadTip
               icon={
-                <svg
-                  className="svg-icon"
-                  aria-hidden="true"
-                  style={{ width: '3.5em', height: '3.5em' }}
-                >
+                <svg className="svg-icon w-14 h-14" aria-hidden="true">
                   <use xlinkHref="#iconCompleted" />
                 </svg>
               }
@@ -1008,11 +986,7 @@ class AccountOrders extends React.Component {
           <>
             <HeadTip
               icon={
-                <svg
-                  className="svg-icon"
-                  aria-hidden="true"
-                  style={{ width: '3.5em', height: '3.5em' }}
-                >
+                <svg className="svg-icon w-14 h-14" aria-hidden="true">
                   <use xlinkHref="#iconTobepaid" />
                 </svg>
               }
@@ -1049,11 +1023,7 @@ class AccountOrders extends React.Component {
           <>
             <HeadTip
               icon={
-                <svg
-                  className="svg-icon"
-                  aria-hidden="true"
-                  style={{ width: '3.5em', height: '3.5em' }}
-                >
+                <svg className="svg-icon w-14 h-14" aria-hidden="true">
                   <use xlinkHref="#iconCompleted" />
                 </svg>
               }
@@ -1186,10 +1156,9 @@ class AccountOrders extends React.Component {
         {/*felin订单cancel appoint*/}
         {canCancelAppoint ? (
           <button
-            className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order ${
+            className={`rc-btn ml-0 rc-btn--sm rc-btn--one ord-list-operation-btn felin-order ${
               cancelAppointLoading ? 'ui-btn-loading' : ''
             }`}
-            style={{ marginLeft: 0 }}
             onClick={this.cancelAppoint.bind(this, details)}
           >
             <FormattedMessage id="Cancel Appointment" />
@@ -1246,10 +1215,7 @@ class AccountOrders extends React.Component {
           <div className="md:p-8 rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
               <SideMenu type="Orders" customCls="rc-md-up" />
-              <div
-                className="my__account-content rc-column rc-quad-width"
-                style={{ padding: '0.5rem' }}
-              >
+              <div className="my__account-content rc-column rc-quad-width p-2">
                 {showLogisticsDetail ? (
                   <span onClick={this.handleClickBackToIndex}>
                     <span className="red">&lt;</span>
@@ -1270,7 +1236,7 @@ class AccountOrders extends React.Component {
                 )}
 
                 <div
-                  className={`row justify-content-center mt-3 md:mt-0 ${
+                  className={`row m-0 justify-content-center mt-3 md:mt-0 ${
                     showLogisticsDetail ? 'hidden' : ''
                   }`}
                 >
@@ -1304,10 +1270,7 @@ class AccountOrders extends React.Component {
                             />
                           ) : null} */}
 
-                          <div
-                            className="rc-bg-colour--brand4 rc-md-down mt-3"
-                            style={{ height: '.8rem' }}
-                          />
+                          <div className="rc-bg-colour--brand4 rc-md-down mt-3 h-3.5" />
                           <div className="row m-0 ml-2 mr-2 md:ml-0 md:mr-0">
                             <div className="col-12 border table-header rounded mt-3 md:mt-0">
                               <div className="row pt-3 pb-2 pl-1 pr-1 md:pl-4 md:pr-4 md:pt-4 md:pb-3">
@@ -1318,8 +1281,8 @@ class AccountOrders extends React.Component {
                                   <span className="medium">
                                     {filterOrderId({
                                       orderNo: this.state.orderNumber,
-                                      orderNoForOMS: this.state
-                                        .orderNumberForOMS
+                                      orderNoForOMS:
+                                        this.state.orderNumberForOMS
                                     })}
                                   </span>
                                 </div>
@@ -1461,10 +1424,7 @@ class AccountOrders extends React.Component {
                                               {item.subscriptionSourceList
                                                 ?.length ? (
                                                 <span>
-                                                  <span
-                                                    className="iconfont mr-2"
-                                                    style={{ color: '#ec001a' }}
-                                                  >
+                                                  <span className="iconfont mr-2 text-rc-red">
                                                     &#xe675;
                                                   </span>
                                                   <FormattedMessage id="subscription.numberFirstWordUpperCase" />
@@ -1478,9 +1438,9 @@ class AccountOrders extends React.Component {
                                                           {filterOrderId({
                                                             orderNo:
                                                               el.subscribeId,
-                                                            orderNoForOMS: this
-                                                              .state
-                                                              .orderNumberForOMS
+                                                            orderNoForOMS:
+                                                              this.state
+                                                                .orderNumberForOMS
                                                           })}
                                                         </Link>
                                                       </p>
@@ -1828,9 +1788,8 @@ class AccountOrders extends React.Component {
                                   <div className="border rounded h-100">
                                     <div className="d-flex p-3 h-100">
                                       <svg
-                                        className="svg-icon align-middle mr-3 ml-1"
+                                        className="svg-icon align-middle mr-3 ml-1 w-8 h-8"
                                         aria-hidden="true"
-                                        style={{ width: '2em', height: '2em' }}
                                       >
                                         <use xlinkHref="#iconaddresses" />
                                       </svg>
@@ -1959,12 +1918,8 @@ class AccountOrders extends React.Component {
                                     <div className="border rounded p-3 h-100">
                                       <div className="d-flex">
                                         <svg
-                                          className="svg-icon align-middle mr-3 ml-1"
+                                          className="svg-icon align-middle mr-3 ml-1 w-8 h-8"
                                           aria-hidden="true"
-                                          style={{
-                                            width: '2em',
-                                            height: '2em'
-                                          }}
                                         >
                                           <use xlinkHref="#iconBillingAddress1" />
                                         </svg>
@@ -2040,12 +1995,8 @@ class AccountOrders extends React.Component {
                                     <div className="border rounded p-3 h-100">
                                       <div className="d-flex">
                                         <svg
-                                          className="svg-icon align-middle mr-3 ml-1"
+                                          className="svg-icon align-middle mr-3 ml-1 w-8 h-8"
                                           aria-hidden="true"
-                                          style={{
-                                            width: '2em',
-                                            height: '2em'
-                                          }}
                                         >
                                           <use xlinkHref="#iconpayments" />
                                         </svg>
@@ -2059,8 +2010,7 @@ class AccountOrders extends React.Component {
                                             >
                                               <img
                                                 alt="card background"
-                                                className="d-inline-block mr-1"
-                                                style={{ width: '20%' }}
+                                                className="d-inline-block mr-1 w-1/5"
                                                 src={getCardImg({
                                                   supportPaymentMethods:
                                                     paymentStore.supportPaymentMethods,
@@ -2140,10 +2090,7 @@ class AccountOrders extends React.Component {
                         }) || []
                       }
                     />
-                    <div
-                      className="col-12 rc-bg-colour--brand4 rc-md-down mb-3"
-                      style={{ height: '.8rem' }}
-                    />
+                    <div className="col-12 rc-bg-colour--brand4 rc-md-down mb-3 h-3.5" />
                     {(curLogisticInfo.shippingItems || []).map((ele) => (
                       <div className="row col-12" key={ele.skuId}>
                         <div className="col-6">
@@ -2177,10 +2124,7 @@ class AccountOrders extends React.Component {
                         </div>
                       </div>
                     ))}
-                    <div
-                      className="col-12 rc-bg-colour--brand4 rc-md-down mb-3"
-                      style={{ height: '.8rem' }}
-                    />
+                    <div className="col-12 rc-bg-colour--brand4 rc-md-down mb-3 h-3.5" />
                     <div className="row m-0 pt-2 pb-2">
                       <div className="col-12 col-md-3 d-flex">
                         <svg className="svg-icon mr-1" aria-hidden="true">
