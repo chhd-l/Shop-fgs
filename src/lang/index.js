@@ -63,10 +63,10 @@ async function getDynamicLanguage() {
     phraseRet = res;
   }
 
-  const language = phraseRet;
+  // const language = phraseRet;
   // const language = assignObj(localLanguage, phraseRet);
   // debugger;
-  // const language = localLanguage;
+  const language = localLanguage;
   // console.log(language, '拼接完成');
   return language;
 }
