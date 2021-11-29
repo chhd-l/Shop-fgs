@@ -590,7 +590,7 @@ const en_US = {
   home: 'Account',
   'home.convenientTip1':
     'Selection of a diet according to the needs of your pet',
-  'home.convenientTip2': 'Fast free shipping when ordering from {val}',
+  'home.convenientTip2': 'Fast free delivery when ordering from {val}',
   'home.convenientTip3':
     'Support service: ask a question about your pet to a specialist',
   'home.convenientTitle': 'Why Shop Royal Canin?',
@@ -600,7 +600,7 @@ const en_US = {
   'home.pageNotFoundInfo':
     'Sorry, the page you are looking for does not exist.',
   'home.point1': 'Secure Payment',
-  'home.point2': 'Free shipping above £30',
+  'home.point2': 'Free delivery above £30',
   'home.point3': 'Premium Quality',
   'home.point4': 'Expert Advice',
   'home.point5': 'HEALTH IS OUR OBSESSION SINCE 1968',
