@@ -839,12 +839,13 @@ class Payment extends React.Component {
     const {
       paymentStore: { serCurPayWayVal }
     } = this.props;
+    const tmpVal = val || this.state.payWayNameArr[0]?.paymentTypeVal || '';
+    serCurPayWayVal(tmpVal);
     this.setState(
       {
-        paymentTypeVal: val || this.state.payWayNameArr[0]?.paymentTypeVal || ''
+        paymentTypeVal: tmpVal
       },
       () => {
-        serCurPayWayVal(this.state.paymentTypeVal);
         this.onPaymentTypeValChange();
       }
     );
@@ -1510,6 +1511,7 @@ class Payment extends React.Component {
         // 清除掉计算运费相关参数
         localItemRoyal.remove('rc-calculation-param');
         sessionItemRoyal.remove('rc-clicked-surveyId');
+        sessionItemRoyal.remove('goodWillFlag');
         //支付成功清除推荐者信息
         this.props.clinicStore.removeLinkClinicInfo();
         this.props.clinicStore.removeLinkClinicRecommendationInfos();
@@ -1765,10 +1767,15 @@ class Payment extends React.Component {
         promotionCode,
         guestEmail,
         selectWelcomeBoxFlag: this.state.welcomeBoxValue === 'yes', //first order welcome box
-        surveyId
+        surveyId, //us cart survey
+        goodWillFlag:
+          sessionItemRoyal.get('goodWillFlag') === 'GOOD_WILL' ? 1 : 0
       },
       appointParam
     );
+    if (sessionItemRoyal.get('goodWillFlag') === 'GOOD_WILL') {
+      param.orderSource = 'SUPPLIER';
+    }
     let tokenObj = JSON.parse(localStorage.getItem('okta-token-storage'));
     if (tokenObj && tokenObj.accessToken) {
       param.oktaToken = 'Bearer ' + tokenObj.accessToken.accessToken;

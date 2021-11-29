@@ -53,8 +53,8 @@ class RouteFilter extends Component {
     const sPromotionCodeFromSearch = getQueryVariable('spromocode');
     if (sPromotionCodeFromSearch) {
       checkoutStore.setPromotionCode(sPromotionCodeFromSearch);
-      // goodwill单 orderSource: 'GOOD_WILL'
-      sessionItemRoyal.set('orderSource', 'GOOD_WILL');
+      // goodwill单标识 goodWillFlag: 'GOOD_WILL'
+      sessionItemRoyal.set('goodWillFlag', 'GOOD_WILL');
     }
 
     // debugger

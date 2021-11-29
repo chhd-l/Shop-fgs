@@ -306,7 +306,7 @@ class CheckoutStore {
     const { formatMessage } = intl;
     if (
       this.tradePrice < Number(window.__.env.REACT_APP_MINIMUM_AMOUNT) &&
-      sessionItemRoyal.get('orderSource') !== 'GOOD_WILL'
+      sessionItemRoyal.get('goodWillFlag') !== 'GOOD_WILL'
     ) {
       throw new Error(
         formatMessage({ id: 'cart.errorInfo3' }, { val: minimunAmountPrice })

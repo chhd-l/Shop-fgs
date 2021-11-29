@@ -158,7 +158,8 @@ class Details extends React.Component {
       defaultSkuId: funcUrl({ name: 'skuId' }),
       defaultGoodsInfoFlag: funcUrl({ name: 'goodsInfoFlag' }),
       mixFeeding: null,
-      originalProductInfo: {}
+      originalProductInfo: {},
+      mixFeedingByProductInfo: {}
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -381,10 +382,7 @@ class Details extends React.Component {
       setDefaultPurchaseTypeParamId
     } = this.state;
     details.sizeList = sizeList;
-    let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
-    if (!selectedSpecItem?.subscriptionStatus && form.buyWay > 0) {
-      form.buyWay = -1;
-    }
+
     this.setState(Object.assign({ details, form }, data), () => {
       this.updateInstockStatus();
       setTimeout(() =>
@@ -399,6 +397,15 @@ class Details extends React.Component {
       this.setDefaultPurchaseType({
         id: setDefaultPurchaseTypeParamId
       });
+
+      let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
+      if (!selectedSpecItem?.subscriptionStatus && this.state.form.buyWay > 0) {
+        this.setState({
+          form: Object.assign(this.state.form, {
+            buyWay: -1
+          })
+        });
+      }
     });
 
     // bundle商品的ga初始化填充
@@ -493,6 +500,20 @@ class Details extends React.Component {
             backgroundSpaces: res.context.goods.cateId
           });
         }
+
+        const technologyList = (
+          res.context?.goodsAttributesValueRelList || []
+        ).filter((el) => el.goodsAttributeName.toLowerCase() === 'technology');
+        const dryOrWetObj =
+          technologyList.filter((el) =>
+            ['dry', 'wet'].includes(el.goodsAttributeValue?.toLowerCase())
+          )?.[0] || {};
+        console.log(dryOrWetObj, 'dryOrWetObj');
+        let dryOrWet = {
+          value: dryOrWetObj.goodsAttributeValue.toLowerCase(),
+          valueEn: dryOrWetObj.goodsAttributeValueEn
+        };
+
         if (goodsRes) {
           const { goods, images } = res.context;
 
@@ -507,7 +528,15 @@ class Details extends React.Component {
               if (mixFeeding) {
                 mixFeeding.quantity = 1;
               }
-              this.setState({ mixFeeding });
+              console.log(mixFeeding, 'resfse');
+              let { goodsImg = '', goodsName = '' } = mixFeeding.goods || {};
+              this.setState({
+                mixFeeding,
+                mixFeedingByProductInfo: {
+                  imageSrc: goodsImg,
+                  goodsTitle: goodsName
+                }
+              });
             });
           }
 
@@ -560,7 +589,8 @@ class Details extends React.Component {
                 this.state.originalProductInfo,
                 {
                   imageSrc: images?.[0]?.artworkUrl || '',
-                  goodsTitle: goodsRes.goodsName
+                  goodsTitle: goodsRes.goodsName || '',
+                  technology: dryOrWet || {}
                 }
               ),
               setDefaultPurchaseTypeParamId:
@@ -1455,9 +1485,9 @@ class Details extends React.Component {
               />
             ) : null}
 
-            {/* {PC ? <MixFeedingBanner 
-            // originalProductInfo={this.state.originalProductInfo}
-            // img={spuImages?.[0].artworkUrl || ''}
+            {/* {PC && Ru && this.state.mixFeeding ? <MixFeedingBanner
+            originalProductInfo={this.state.originalProductInfo}
+            mixFeedingByProductInfo={this.state.mixFeedingByProductInfo}
             /> : null} */}
 
             {/* 最下方跳转更多板块 rita说现在hub 又不要了 暂时注释吧*/}

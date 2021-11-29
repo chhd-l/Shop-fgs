@@ -130,7 +130,8 @@ class Felin extends React.Component {
         dateNo: '',
         startTime: '',
         endTime: '',
-        employeeIds: []
+        employeeIds: [],
+        employeeNames: []
       },
       userInfo: undefined,
       apptNo: '',
@@ -245,7 +246,11 @@ class Felin extends React.Component {
       threeShow: false,
       fourShow: true
     });
-    this.queryDate();
+    let type = this.state.bookSlotVO.dateNo ? true : false;
+    this.queryDate(type, {
+      minutes: this.state.votre.duree,
+      bookSlotVO: this.state.bookSlotVO
+    });
   };
   // 返回第三步
   handleReturnThree = () => {
@@ -341,7 +346,7 @@ class Felin extends React.Component {
 
         if (code === 'K-000000') {
           let _resources = context.resources;
-          if (type && minutes === chooseData.minutes) {
+          if (type) {
             let _temp = {
               date: chooseData.bookSlotVO.dateNo,
               minutes: chooseData.minutes,
@@ -352,26 +357,37 @@ class Felin extends React.Component {
               type: 'primary',
               disabled: true
             });
-            console.log(_temp, '=_temp');
             if (_resources.length == 0) {
               _resources.push(_temp);
             } else {
               _resources.map((item) => {
-                if (item.dateNo === _temp.dateNo) {
-                  item.minuteSlotVOList.map((it) => {
-                    if (it.startTime === _temp.startTime) {
-                      it = { ...it, ..._temp };
+                if (item.date === _temp.date) {
+                  let isLoop = false;
+                  item.minuteSlotVOList = item.minuteSlotVOList.map(
+                    (it, index) => {
+                      const _t = _temp.minuteSlotVOList.find(
+                        (ii) => ii.startTime === it.startTime
+                      );
+                      if (_t) {
+                        isLoop = true;
+                        it = { ...it, ..._t };
+                      }
+                      return it;
+                      // if(item.minuteSlotVOList.length===(index+1)&&!_t)isLoop=false
                     }
-                  });
+                  );
+                  if (!isLoop) {
+                    item.minuteSlotVOList = item.minuteSlotVOList.concat(
+                      _temp.minuteSlotVOList
+                    );
+                  }
                 }
               });
             }
           }
-          console.log(1);
           reslove(_resources);
         }
       });
-      console.log(resources, 222);
       this.setState({
         resources,
         key: +new Date()
@@ -379,6 +395,7 @@ class Felin extends React.Component {
     });
   };
   onChange = (data) => {
+    console.log(data);
     this.setState({
       votre: {
         ...this.state.votre,
@@ -586,11 +603,11 @@ class Felin extends React.Component {
                               'type'
                             )
                           }
-                          className={`rc-btn ${
+                          className={`text-base font-medium p-3 rounded-full mr-4 ${
                             this.state.butIndex === index
-                              ? 'rc-btn-active '
-                              : ''
-                          } rc-margin-bottom--xs`}
+                              ? 'bg-red-600 text-white'
+                              : 'bg-gray-300 text-white'
+                          }`}
                           style={{
                             width: '9.375rem'
                           }}
@@ -924,7 +941,13 @@ class Felin extends React.Component {
               </div>
             </MyModal>
           </div>
-          <div className="comment" style={{ flexDirection: 'column' }}>
+          <div
+            className="comment"
+            style={{
+              flexDirection: 'column',
+              display: this.state.reviews.list.length === 0 ? 'none' : 'block'
+            }}
+          >
             <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile">
               <div className="rc-max-width--xxl">
                 <div className="rc-layout-container rc-two-column rc-content-h-middle ">
@@ -932,41 +955,29 @@ class Felin extends React.Component {
                     <LazyLoad>
                       <div className="comment-slider">
                         <Slider {...settings}>
-                          <div>
-                            <div className="rate-cont">
-                              <span style={{ marginRight: '1rem' }}>4.0</span>
-                              <Rate
-                                color=""
-                                def={2}
-                                disabled
-                                style={{ fontSize: 34 }}
-                              />
-                            </div>
-                            <div className="comment-text">
-                              "J'ai reçu des conseils très intéressants pour mon
-                              chat qui est très peureux."
-                            </div>
-                          </div>
-                          <div>
-                            <div className="rate-cont">
-                              <span style={{ marginRight: '1rem' }}>4.0</span>
-                              <Rate color="" def={3} disabled />
-                            </div>
-                            <div className="comment-text">
-                              "J'ai reçu des conseils très intéressants pour mon
-                              chat qui est très peureux."
-                            </div>
-                          </div>
-                          <div>
-                            <div className="rate-cont">
-                              <span style={{ marginRight: '1rem' }}>4.0</span>
-                              <Rate color="" def={4} disabled />
-                            </div>
-                            <div className="comment-text">
-                              "J'ai reçu des conseils très intéressants pour mon
-                              chat qui est très peureux."
-                            </div>
-                          </div>
+                          {this.state.reviews.list.map((item, index) => {
+                            if (index > 2) {
+                              return null;
+                            }
+                            return (
+                              <div key={index}>
+                                <div className="rate-cont">
+                                  <span style={{ marginRight: '1rem' }}>
+                                    {item.rate}.0
+                                  </span>
+                                  <Rate
+                                    color=""
+                                    def={item.rate}
+                                    disabled
+                                    style={{ fontSize: 34 }}
+                                  />
+                                </div>
+                                <div className="comment-text">
+                                  {item.description}
+                                </div>
+                              </div>
+                            );
+                          })}
                         </Slider>
                         <button
                           className="rc-btn rc-btn--one  rc-margin-bottom--xs"
@@ -992,12 +1003,18 @@ class Felin extends React.Component {
             </div>
             {/*评论列表*/}
             <Reviews
-              id="111"
               visible={this.state.reviews.visible}
               onClose={() => {
                 this.setState({
                   reviews: { ...this.state.reviews, visible: false }
                 });
+              }}
+              onList={(list) => {
+                if (this.state.reviews.list.length === 0) {
+                  this.setState({
+                    reviews: { ...this.state.reviews, list: list }
+                  });
+                }
               }}
             />
           </div>
