@@ -229,13 +229,13 @@ class Recommendation extends React.Component {
           });
         }
         // setTimeout(() => {
-          GARecommendationProduct(
-            currentShowProduct,
-            1,
-            this.state.frequencyList,
-            promotionCode,
-            this.state.activeIndex
-          );
+        GARecommendationProduct(
+          currentShowProduct,
+          1,
+          this.state.frequencyList,
+          promotionCode,
+          this.state.activeIndex
+        );
         // }, 3000gtm优化);
 
         if (curScrollTop) {
@@ -376,26 +376,30 @@ class Recommendation extends React.Component {
         let autoshipDictRes = frequencyList.filter(
           (el) => el.goodsInfoFlag === 1
         );
-        let clubDictRes = frequencyList.filter(
-          (el) => el.goodsInfoFlag === 2
-        );
+        let clubDictRes = frequencyList.filter((el) => el.goodsInfoFlag === 2);
         // let promotionCode = res.context.promotionCode || '';
         let filterProducts = productLists.filter((el) => {
-          let goodsInfoFlag = 0
-          let FrequencyIdDefault = ''
-          if(el.goods.subscriptionStatus){
-            if(el.goodsInfo.promotions!='club'){
-              goodsInfoFlag = 1
-              FrequencyIdDefault =  this.props.configStore?.info?.storeVO?.defaultSubscriptionFrequencyId||autoshipDictRes[0] && autoshipDictRes[0].id
-            }else{
-              goodsInfoFlag = 2
-              FrequencyIdDefault = this.props.configStore?.info?.storeVO?.defaultSubscriptionClubFrequencyId || clubDictRes[0] && clubDictRes[0].id
+          let goodsInfoFlag = 0;
+          let FrequencyIdDefault = '';
+          if (el.goods.subscriptionStatus) {
+            if (el.goodsInfo.promotions != 'club') {
+              goodsInfoFlag = 1;
+              FrequencyIdDefault =
+                this.props.configStore?.info?.storeVO
+                  ?.defaultSubscriptionFrequencyId ||
+                (autoshipDictRes[0] && autoshipDictRes[0].id);
+            } else {
+              goodsInfoFlag = 2;
+              FrequencyIdDefault =
+                this.props.configStore?.info?.storeVO
+                  ?.defaultSubscriptionClubFrequencyId ||
+                (clubDictRes[0] && clubDictRes[0].id);
             }
             let defaultFrequencyId =
               el?.defaultFrequencyId || FrequencyIdDefault || '';
             el.defaultFrequencyId = defaultFrequencyId;
           }
-          el.goodsInfoFlag = goodsInfoFlag
+          el.goodsInfoFlag = goodsInfoFlag;
           return el.goodsInfo.addedFlag && el.goods.saleableFlag;
         });
         // 只展示上架商品
@@ -599,8 +603,8 @@ class Recommendation extends React.Component {
             currentUnitPrice: p.goodsInfo.marketPrice,
             goodsInfoFlag: p.goodsInfoFlag,
             periodTypeId: p.defaultFrequencyId,
-            recommendationInfos:
-              this.props.clinicStore.linkClinicRecommendationInfos,
+            recommendationInfos: this.props.clinicStore
+              .linkClinicRecommendationInfos,
             recommendationId:
               this.props.clinicStore.linkClinicRecommendationInfos
                 ?.recommendationId || this.props.clinicStore.linkClinicId,
@@ -866,12 +870,14 @@ class Recommendation extends React.Component {
     document.execCommand('copy');
     window.removeEventListener('copy', copy);
   };
-  taggingDom = ()=>(<div className="tagging-wrap">
-    <div className="tagging-text">
-    <div style={{fontSize:'1.375rem'}}>– 5€ à -20€</div>
-    <div style={{fontSize:'0.8125rem'}}>offre de bienvenue*</div>
+  taggingDom = () => (
+    <div className="tagging-wrap">
+      <div className="tagging-text">
+        <div style={{ fontSize: '1.375rem' }}>– 5€ à -20€</div>
+        <div style={{ fontSize: '0.8125rem' }}>offre de bienvenue*</div>
+      </div>
     </div>
-  </div>)
+  );
   // 查看 promotion code
   checkPromotionCode = (e) => {
     this.copyPromotion();
@@ -1121,9 +1127,7 @@ class Recommendation extends React.Component {
                         <span
                           style={{ cursor: 'pointer' }}
                           onClick={() => {
-                            this.setState(
-                              { showMored: !this.state.showMored }
-                            );
+                            this.setState({ showMored: !this.state.showMored });
                           }}
                         >
                           {this.state.showMored ? 'Range ça' : 'Voir plus'}
@@ -1139,9 +1143,9 @@ class Recommendation extends React.Component {
                     {/* <button>Ajouter au panier</button> */}
                     <button
                       onClick={this.addCart}
-                      style={{width:'284px'}}
+                      style={{ width: '284px' }}
                       className={`rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile md-up
-                        ${ this.state.buttonLoading ? 'ui-btn-loading' : ''} 
+                        ${this.state.buttonLoading ? 'ui-btn-loading' : ''} 
               ${this.addCartBtnStatus ? '' : 'rc-btn-solid-disabled'}`}
                     >
                       <span className="fa rc-icon rc-cart--xs rc-brand3" />
@@ -1188,18 +1192,17 @@ class Recommendation extends React.Component {
                           </div>
                         ))}
                       </div>
-                      
                     </div>
                     <p style={{ marginTop: '0.75rem' }}>
-                        <sup>1</sup> Cumulable avec l'offre de bienvenue
-                      </p>
+                      <sup>1</sup> Cumulable avec l'offre de bienvenue
+                    </p>
                   </div>
                 </div>
                 <div className="md-down add-cart-for-mobile">
                   <button
                     onClick={this.addCart}
                     className={`rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile
-                     ${ this.state.buttonLoading ? 'ui-btn-loading' : ''} 
+                     ${this.state.buttonLoading ? 'ui-btn-loading' : ''} 
               ${this.addCartBtnStatus ? '' : 'rc-btn-solid-disabled'}`}
                   >
                     <span className="fa rc-icon rc-cart--xs rc-brand3" />
@@ -1212,7 +1215,9 @@ class Recommendation extends React.Component {
               </div>
             </div>
           ) : null}
-          <Description text={grayBoxInnerText[window.__.env.REACT_APP_COUNTRY]}/>
+          <Description
+            text={grayBoxInnerText[window.__.env.REACT_APP_COUNTRY]}
+          />
           <Footer />
         </main>
       </div>

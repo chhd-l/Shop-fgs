@@ -101,13 +101,16 @@ class FelinRecommendation extends React.Component {
     this.helpContentText = {
       title: this.props.intl.messages['recommendation.thirdTitle'],
       des: this.props.intl.messages['recommendation.thirdContent'],
-      emailTitle:
-        this.props.intl.messages['recommendation.helpContentText.emailTitle'],
-      emailDes:
-        this.props.intl.messages['recommendation.helpContentText.emailDes'],
+      emailTitle: this.props.intl.messages[
+        'recommendation.helpContentText.emailTitle'
+      ],
+      emailDes: this.props.intl.messages[
+        'recommendation.helpContentText.emailDes'
+      ],
       emailLink: '/help/contact',
-      phoneTitle:
-        this.props.intl.messages['recommendation.helpContentText.phoneTitle'],
+      phoneTitle: this.props.intl.messages[
+        'recommendation.helpContentText.phoneTitle'
+      ],
       phone: '0986568097',
       email: 'latelierfelin@royalcanin.com',
       phoneDes1: '',
@@ -246,8 +249,12 @@ class FelinRecommendation extends React.Component {
     // }
   }
   checkoutStock() {
-    let { productList, outOfStockProducts, inStockProducts, modalList } =
-      this.state;
+    let {
+      productList,
+      outOfStockProducts,
+      inStockProducts,
+      modalList
+    } = this.state;
     for (let i = 0; i < productList.length; i++) {
       if (
         productList[i].recommendationNumber > productList[i].goodsInfo.stock
@@ -277,8 +284,12 @@ class FelinRecommendation extends React.Component {
     );
   }
   async hanldeLoginAddToCart() {
-    let { productList, outOfStockProducts, inStockProducts, modalList } =
-      this.state;
+    let {
+      productList,
+      outOfStockProducts,
+      inStockProducts,
+      modalList
+    } = this.state;
     const { checkoutStore, loginStore, history, clinicStore } = this.props;
     // console.log(outOfStockProducts, inStockProducts, '...1')
     // return
@@ -414,8 +425,12 @@ class FelinRecommendation extends React.Component {
       localItemRoyal.set('okta-redirectUrl', '/prescription');
     }
     this.setState({ needLogin });
-    let { productList, outOfStockProducts, inStockProducts, modalList } =
-      this.state;
+    let {
+      productList,
+      outOfStockProducts,
+      inStockProducts,
+      modalList
+    } = this.state;
     let totalPrice;
     inStockProducts.map((el) => {
       console.log(el, 'instock');
@@ -508,8 +523,12 @@ class FelinRecommendation extends React.Component {
   };
   async hanldeClickSubmit() {
     const { checkoutStore, loginStore, history, clinicStore } = this.props;
-    let { currentModalObj, subDetail, outOfStockProducts, inStockProducts } =
-      this.state;
+    let {
+      currentModalObj,
+      subDetail,
+      outOfStockProducts,
+      inStockProducts
+    } = this.state;
     this.setState({ loading: true, modalShow: false });
     if (currentModalObj.type === 'addToCart') {
       for (let i = 0; i < inStockProducts.length; i++) {

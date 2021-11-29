@@ -135,10 +135,10 @@ export const getComputedWeeks = (frequencyList) => {
 export const myAccountPushEvent = (myAccountScreenName) => {
   if (!isHubGA) return;
   // setTimeout(() => {
-    dataLayer.push({
-      event: 'myAccountScreen',
-      myAccountScreenName //Values : 'Overview', 'Personal information', 'Pets', 'Orders & Subscriptions', 'Payment & Addresses', 'Security', 'Data & Settings'
-    });
+  dataLayer.push({
+    event: 'myAccountScreen',
+    myAccountScreenName //Values : 'Overview', 'Personal information', 'Pets', 'Orders & Subscriptions', 'Payment & Addresses', 'Security', 'Data & Settings'
+  });
   // }, 5000gtm优化);
 
   // console.log(myAccountScreenName)
@@ -172,9 +172,9 @@ export const faqClickDataLayerPushEvent = ({ item, clickType }) => {
 //cartScreenLoad
 export const GACartScreenLoad = () => {
   // setTimeout(() => {
-    dataLayer.push({
-      event: 'cartScreenLoad'
-    });
+  dataLayer.push({
+    event: 'cartScreenLoad'
+  });
   // }, 5000gtm优化);
 };
 
@@ -470,13 +470,13 @@ export const doGetGAVal = (props) => {
 export const checkoutDataLayerPushEvent = ({ name, options }) => {
   if (!isHubGA) return;
   // setTimeout(() => {
-    dataLayer.push({
-      event: 'checkoutStep',
-      checkoutStep: {
-        name, //Following values possible : 'Email', 'Delivery', 'Payment', 'Confirmation'
-        options //'Guest checkout', 'New account', 'Existing account'
-      }
-    });
+  dataLayer.push({
+    event: 'checkoutStep',
+    checkoutStep: {
+      name, //Following values possible : 'Email', 'Delivery', 'Payment', 'Confirmation'
+      options //'Guest checkout', 'New account', 'Existing account'
+    }
+  });
   // }, 5000gtm优化);
 };
 
@@ -497,7 +497,7 @@ export const orderConfirmationPushEvent = (details) => {
     })
   };
   // setTimeout(() => {
-    dataLayer.push(obj);
+  dataLayer.push(obj);
   // }, 3000gtm优化);
 };
 

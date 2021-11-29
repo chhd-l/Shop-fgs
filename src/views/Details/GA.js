@@ -43,7 +43,7 @@ const setGoogleProductStructuredDataMarkup = ({
     code: JSON.stringify({
       '@context': 'http://schema.org/',
       '@type': 'Product',
-      "brand": "Royal Canin",
+      brand: 'Royal Canin',
       name: details.goodsName,
       description: details.goodsSubtitle || 'Royal Canin',
       // description: goodsDetailTab[0] && goodsDetailTab[0].content,

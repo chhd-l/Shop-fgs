@@ -75,7 +75,7 @@ const BreadCrumbs = withRouter((props) => {
                     )}
                   </FormattedMessage>
                 )}
-                <meta itemprop="position" content={index+2} />
+                <meta itemprop="position" content={index + 2} />
               </li>
               {index !== mapData.length - 1 && (
                 <span className="font-weight-normal ml-2 mr-2">&gt;</span>

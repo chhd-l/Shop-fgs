@@ -104,8 +104,11 @@ class PaymentList extends React.Component {
   }
   componentDidMount() {
     const { paymentStore } = this.props;
-    const { setPayWayNameArr, serCurPayWayVal, setSupportPaymentMethods } =
-      paymentStore;
+    const {
+      setPayWayNameArr,
+      serCurPayWayVal,
+      setSupportPaymentMethods
+    } = paymentStore;
     this.getPaymentMethodList(); //获取绑卡列表
     getWays().then((res) => {
       this.setState({
