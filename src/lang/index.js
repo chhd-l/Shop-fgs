@@ -25,14 +25,8 @@ function assignObj(obj, source) {
 }
 
 async function getDynamicLanguage() {
-  const key = {
-    fr: 'fr',
-    de: 'de',
-    ru: 'ru',
-    uk: 'en',
-    us: 'en',
-    ca: 'ca'
-  }[window.__.env.REACT_APP_COUNTRY];
+  // key - 对应对应语言文件名
+  const key = window.__.env.REACT_APP_LANG_LOCALE || 'en-US';
   const sessionItemRoyal = window.__.sessionItemRoyal;
   const phraseSession = sessionItemRoyal.get('PHRASE_LANGUAGE');
   let phraseRet = {};

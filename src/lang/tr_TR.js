@@ -1366,6 +1366,7 @@ const tr_TR = {
   'list.viewFilters': 'Filtreleri görüntüle',
   'list.closeFilters': 'Filtreleri kapat',
   'order.goodwillOrder': '[Goodwill order]',
+
   'adyen.storeDetails': 'Guardar título para programar el próximo pago',
   'adyen.creditCard.holderName.placeholder': 'J. Smith',
   'adyen.creditCard.holderName.invalid': 'Geçersiz kart sahibi adı',

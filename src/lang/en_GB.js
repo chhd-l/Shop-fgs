@@ -1850,6 +1850,19 @@ const en_US = {
   'lang.language': 'Language',
   //language-choose
   'lang.selectYourLocation': 'Select your location',
-  'lang.submit': 'Submit'
+  'lang.submit': 'Submit',
+
+  'adyen.storeDetails': 'Save for my next payment',
+  'adyen.holderName': 'name of the card holder',
+  'adyen.creditCard.holderName.placeholder': 'J. Smith',
+  'adyen.creditCard.holderName.invalid': 'Invalid cardholder name',
+  'adyen.creditCard.numberField.title': 'Card Number',
+  'adyen.creditCard.numberField.placeholder': '1234 5678 9012 3456',
+  'adyen.creditCard.numberField.invalid': 'Invalid card number',
+  'adyen.creditCard.expiryDateField.title': 'Expiry Date',
+  'adyen.creditCard.expiryDateField.placeholder': 'MM/YY',
+  'adyen.creditCard.expiryDateField.invalid': 'Invalid expiration date',
+  'adyen.creditCard.cvcField.title': 'CVC / CVV',
+  'adyen.creditCard.cvcField.placeholder': '123'
 };
 export default en_US;

@@ -1421,7 +1421,20 @@ const de_DE = {
   'list.clearFilters': 'Alle Filter löschen',
   'list.viewFilters': 'Filter anzeigen',
   'list.closeFilters': 'Filter schließen',
-  'order.goodwillOrder': '[Goodwill order]'
+  'order.goodwillOrder': '[Goodwill order]',
+
+  'adyen.storeDetails': 'Für zukünftige Zahlvorgänge speichern',
+  'adyen.holderName': 'Name des Karteninhabers',
+  'adyen.creditCard.holderName.placeholder': 'A. Müller',
+  'adyen.creditCard.holderName.invalid': 'Ungültiger Karteninhabername',
+  'adyen.creditCard.numberField.title': 'Kartennummer',
+  'adyen.creditCard.numberField.placeholder': '1234 5678 9012 3456',
+  'adyen.creditCard.numberField.invalid': 'Ungültige Kartennummer',
+  'adyen.creditCard.expiryDateField.title': 'Expiry Date',
+  'adyen.creditCard.expiryDateField.placeholder': 'MM/JJ',
+  'adyen.creditCard.expiryDateField.invalid': 'Ungültiges Verfallsdatum',
+  'adyen.creditCard.cvcField.title': 'CVC / CVV',
+  'adyen.creditCard.cvcField.placeholder': '123'
 };
 
 export default de_DE;

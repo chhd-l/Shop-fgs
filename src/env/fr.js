@@ -3,7 +3,9 @@ const env_fr = {
     // #国家
     REACT_APP_COUNTRY: 'fr',
 
-    // #Adyen
+    // 语言文件
+    REACT_APP_LANG_LOCALE: 'fr-FR',
+
     REACT_APP_CALENDAR_LOCALE: 'fr-FR',
 
     // #GA环境配置

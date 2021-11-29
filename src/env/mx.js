@@ -3,6 +3,11 @@ const env_mx = {
     // #国家
     REACT_APP_COUNTRY: 'mx',
 
+    // 语言文件
+    REACT_APP_LANG_LOCALE: 'es-ES',
+
+    REACT_APP_CALENDAR_LOCALE: 'es-ES',
+
     // #GA环境配置
     REACT_APP_GA_GTMID: 'GTM-NCWZQ3',
     REACT_APP_GTM_SITE_ID: 'RCGlobalPCO1',

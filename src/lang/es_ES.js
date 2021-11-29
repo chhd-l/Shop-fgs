@@ -1179,17 +1179,19 @@ const es_ES = {
   'list.viewFilters': 'Ver filtros',
   'list.closeFilters': 'Cerrar filtros',
   'order.goodwillOrder': '[Goodwill order]',
-  'adyen.storeDetails': 'Guardar título para programar el próximo pago',
+
+  'adyen.storeDetails': 'Recordar para mi próximo pago',
   'adyen.holderName': 'Titular de la tarjeta',
-  'adyen.creditCard.holderName.placeholder': 'J. Smith',
-  'adyen.creditCard.holderName.invalid': 'Geçersiz kart sahibi adı',
+  'adyen.creditCard.holderName.placeholder': 'Juan Pérez',
+  'adyen.creditCard.holderName.invalid':
+    'Nombre del titular de la tarjeta no válido',
   'adyen.creditCard.numberField.title': 'Número de tarjeta',
-  'adyen.creditCard.numberField.placeholder': '1234 5678 9012 3456',
-  'adyen.creditCard.numberField.invalid': 'geçersiz kart numarası',
-  'adyen.creditCard.expiryDateField.title': 'Última fecha de uso',
-  'adyen.creditCard.expiryDateField.placeholder': 'AA / YY',
-  'adyen.creditCard.expiryDateField.invalid': 'Geçersiz son kullanma tarihi',
+  'adyen.creditCard.numberField.placeholder': '1234 5678 9012 3456999',
+  'adyen.creditCard.numberField.invalid': 'numero de tarjeta invalido',
+  'adyen.creditCard.expiryDateField.title': 'Fecha de expiración',
+  'adyen.creditCard.expiryDateField.placeholder': 'MM/AA',
+  'adyen.creditCard.expiryDateField.invalid': 'Fecha de expiracion inválida',
   'adyen.creditCard.cvcField.title': 'CVC / CVV',
-  'adyen.creditCard.cvcField.placeholder': '123'
+  'adyen.creditCard.cvcField.placeholder': '1234'
 };
 export default es_ES;

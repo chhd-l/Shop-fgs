@@ -3,14 +3,16 @@ const env_de = {
     // #国家
     REACT_APP_COUNTRY: 'de',
 
+    // 语言文件
+    REACT_APP_LANG_LOCALE: 'de-DE',
+
+    REACT_APP_CALENDAR_LOCALE: 'de-DE',
+
     // #GA环境配置
     REACT_APP_GA_GTMID: 'GTM-NCWZQ3',
     REACT_APP_GTM_SITE_ID: 'RCGlobalPCO1',
     REACT_APP_GA_COUNTRY: 'DE',
     REACT_APP_GA_CURRENCY_CODE: 'EUR',
-
-    // #Adyen
-    REACT_APP_CALENDAR_LOCALE: 'de-DE',
 
     // #onetrust
     REACT_APP_ONTRUST_SRC:
