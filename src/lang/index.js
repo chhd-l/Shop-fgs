@@ -1,12 +1,12 @@
 const locales = {
   us: require('@/lang/en_US'),
-  uk: require('@/lang/en_UK'),
+  uk: require('@/lang/en_GB'),
   mx: require('@/lang/es_ES'),
   de: require('@/lang/de_DE'),
   fr: require('@/lang/fr_FR'),
   ru: require('@/lang/ru_RU'),
   tr: require('@/lang/tr_TR'),
-  ca: require('@/lang/en_CA'),
+  ca: require('@/lang/en_US'),
   se: require('@/lang/sv_SE'),
   core: require('@/lang/en_US')
 };
