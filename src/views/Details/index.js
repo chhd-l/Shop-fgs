@@ -30,7 +30,9 @@ import {
   isCountriesContainer,
   getClubFlag,
   handleRecommendation,
-  isShowMixFeeding
+  isShowMixFeeding,
+  addToUnloginCartData,
+  addToLoginCartData
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
@@ -201,8 +203,14 @@ class Details extends React.Component {
     return this.props.checkoutStore;
   }
   get btnStatus() {
-    const { details, quantity, instockStatus, initing, loading, form } =
-      this.state;
+    const {
+      details,
+      quantity,
+      instockStatus,
+      initing,
+      loading,
+      form
+    } = this.state;
     const { sizeList } = details;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     let addedFlag = 1;
@@ -902,8 +910,13 @@ class Details extends React.Component {
     try {
       this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const { currentUnitPrice, quantity, form, details, questionParams } =
-        this.state;
+      const {
+        currentUnitPrice,
+        quantity,
+        form,
+        details,
+        questionParams
+      } = this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -1007,6 +1020,32 @@ class Details extends React.Component {
 
   handleBuyFromRetailer = () => {
     HubGaPdpBuyFromRetailer();
+  };
+
+  addMixFeedingToCart = async () => {
+    this.hanldeAddToCart();
+    const { mixFeeding, form, details } = this.state;
+    let mixFeedingSelected = mixFeeding?.sizeList?.filter(
+      (el) => el.selected
+    )[0];
+    if (!mixFeedingSelected?.stock) {
+      return;
+    }
+
+    let periodTypeId = parseInt(form.buyWay) ? form.frequencyId : '';
+    let goodsInfoFlag =
+      form.buyWay && details.promotions?.includes('club') ? 2 : form.buyWay;
+    const params = {
+      product: Object.assign(mixFeeding, {
+        periodTypeId,
+        goodsInfoFlag
+      }),
+      intl: this.props.intl
+    };
+    // this.state.mixFeeding
+    this.isLogin
+      ? await addToLoginCartData(params)
+      : await addToUnloginCartData(params);
   };
 
   getPdpScreenLoadCTAs() {
@@ -1486,6 +1525,8 @@ class Details extends React.Component {
             {/* {PC && Ru && this.state.mixFeeding ? <MixFeedingBanner
             originalProductInfo={this.state.originalProductInfo}
             mixFeedingByProductInfo={this.state.mixFeedingByProductInfo}
+            mixFeedingForm={this.state.form}
+            addMixFeedingToCart={this.addMixFeedingToCart}
             /> : null} */}
 
             {/* 最下方跳转更多板块 rita说现在hub 又不要了 暂时注释吧*/}
