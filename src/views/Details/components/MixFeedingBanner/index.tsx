@@ -25,6 +25,7 @@ const MixFeedingBanner = ({originalProductInfo, mixFeedingByProductInfo}) =>{
           <p className="mb-0 goods-info-title">{mixFeedingByProductInfo.goodsTitle}</p>
         </div>
       </div>
+      <button className="ml-6 rc-btn rc-btn--two rc-btn--sm ">add mixed feeding to cart</button>
     </div>
   )
 }
