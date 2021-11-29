@@ -158,7 +158,8 @@ class Details extends React.Component {
       defaultSkuId: funcUrl({ name: 'skuId' }),
       defaultGoodsInfoFlag: funcUrl({ name: 'goodsInfoFlag' }),
       mixFeeding: null,
-      originalProductInfo: {}
+      originalProductInfo: {},
+      mixFeedingByProductInfo: {}
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -201,8 +202,14 @@ class Details extends React.Component {
     return this.props.checkoutStore;
   }
   get btnStatus() {
-    const { details, quantity, instockStatus, initing, loading, form } =
-      this.state;
+    const {
+      details,
+      quantity,
+      instockStatus,
+      initing,
+      loading,
+      form
+    } = this.state;
     const { sizeList } = details;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     let addedFlag = 1;
@@ -497,9 +504,15 @@ class Details extends React.Component {
         const technologyList = (
           res.context?.goodsAttributesValueRelList || []
         ).filter((el) => el.goodsAttributeName.toLowerCase() === 'technology');
-        const dryOrWet = technologyList.filter(
-          (el) => el.goodsAttributeValue.toLowerCase() == ('dry' || 'wet')
-        )?.[0]?.goodsAttributeValueEn;
+        const dryOrWetObj =
+          technologyList.filter((el) =>
+            ['dry', 'wet'].includes(el.goodsAttributeValue?.toLowerCase())
+          )?.[0] || {};
+        console.log(dryOrWetObj, 'dryOrWetObj');
+        let dryOrWet = {
+          value: dryOrWetObj.goodsAttributeValue.toLowerCase(),
+          valueEn: dryOrWetObj.goodsAttributeValueEn
+        };
 
         if (goodsRes) {
           const { goods, images } = res.context;
@@ -515,9 +528,15 @@ class Details extends React.Component {
               if (mixFeeding) {
                 mixFeeding.quantity = 1;
               }
-              console.log(res, mixFeeding, 'resfse');
-
-              this.setState({ mixFeeding });
+              console.log(mixFeeding, 'resfse');
+              let { goodsImg = '', goodsName = '' } = mixFeeding.goods || {};
+              this.setState({
+                mixFeeding,
+                mixFeedingByProductInfo: {
+                  imageSrc: goodsImg,
+                  goodsTitle: goodsName
+                }
+              });
             });
           }
 
@@ -570,8 +589,8 @@ class Details extends React.Component {
                 this.state.originalProductInfo,
                 {
                   imageSrc: images?.[0]?.artworkUrl || '',
-                  goodsTitle: goodsRes.goodsName,
-                  technology: dryOrWet
+                  goodsTitle: goodsRes.goodsName || '',
+                  technology: dryOrWet || {}
                 }
               ),
               setDefaultPurchaseTypeParamId:
@@ -885,8 +904,13 @@ class Details extends React.Component {
     try {
       this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const { currentUnitPrice, quantity, form, details, questionParams } =
-        this.state;
+      const {
+        currentUnitPrice,
+        quantity,
+        form,
+        details,
+        questionParams
+      } = this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -1466,8 +1490,9 @@ class Details extends React.Component {
               />
             ) : null}
 
-            {/* {PC ? <MixFeedingBanner 
+            {/* {PC && Ru && this.state.mixFeeding ? <MixFeedingBanner
             originalProductInfo={this.state.originalProductInfo}
+            mixFeedingByProductInfo={this.state.mixFeedingByProductInfo}
             /> : null} */}
 
             {/* 最下方跳转更多板块 rita说现在hub 又不要了 暂时注释吧*/}
