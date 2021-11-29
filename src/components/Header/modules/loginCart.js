@@ -71,7 +71,7 @@ class LoginCart extends React.Component {
   }
   async handleCheckout() {
     try {
-      const { checkoutStore, history, clinicStore } = this.props;
+      const { checkoutStore, history, clinicStore, configStore } = this.props;
       this.setState({ checkoutLoading: true });
       await checkoutStore.updateLoginCart({
         isThrowErr: true,
