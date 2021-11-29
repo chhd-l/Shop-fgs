@@ -236,7 +236,7 @@ class ImageMagnifier extends Component {
   // 鼠标移动
   mouseMove = (event) => {
     let e = event.nativeEvent;
-    console.log(event, 'event', e);
+    // console.log(event, 'event', e);
     this.calculationBlock(e.offsetX, e.offsetY);
   };
 
@@ -298,7 +298,7 @@ class ImageMagnifier extends Component {
     });
   }
   imageChange(e, image, i) {
-    console.log(i);
+    // console.log(i);
     let cssStyle = JSON.parse(JSON.stringify(this.state.cssStyle));
     cssStyle.imgContainer.cursor = 'move';
     this.setState({
@@ -365,7 +365,7 @@ class ImageMagnifier extends Component {
       spuImages,
       imgAlt
     } = this.props;
-    console.log(spuImages, this.state.minImg, 'spuImages');
+    // console.log(spuImages, this.state.minImg, 'spuImages');
     if (window.__.env.REACT_APP_COUNTRY !== 'fr' && spuImages.length) {
       let idx = spuImages.findIndex((el) => el.imageType === 'master');
       let masterIndex = idx < 0 ? 0 : idx;

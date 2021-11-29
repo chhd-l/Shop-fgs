@@ -170,7 +170,6 @@ class Details extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
-    console.log(this.state.defaultSkuId, 'defaultSkuId');
     const { pathname } = this.props.location;
     let timer = setInterval(() => {
       if (document.querySelector('#mars-footer-panel')) {
@@ -269,7 +268,6 @@ class Details extends React.Component {
     const { promotions, details, frequencyList, purchaseTypeDict } = this.state;
     const skuPromotions =
       details.sizeList?.filter((item) => item?.selected)?.[0]?.promotions || '';
-    console.log(skuPromotions, 'skuPromotions');
     const targetDefaultPurchaseTypeItem =
       purchaseTypeDict.filter(
         (ele) => ele.id && id && ele.id + '' === id + ''
@@ -412,6 +410,8 @@ class Details extends React.Component {
           })
         });
       }
+
+      console.log(this.state.details, selectedSpecItem, 'details???');
     });
 
     // bundle商品的ga初始化填充
@@ -509,14 +509,13 @@ class Details extends React.Component {
 
         const technologyList = (
           res.context?.goodsAttributesValueRelList || []
-        ).filter((el) => el.goodsAttributeName.toLowerCase() === 'technology');
+        ).filter((el) => el.goodsAttributeName?.toLowerCase() === 'technology');
         const dryOrWetObj =
           technologyList.filter((el) =>
             ['dry', 'wet'].includes(el.goodsAttributeValue?.toLowerCase())
           )?.[0] || {};
-        console.log(dryOrWetObj, 'dryOrWetObj');
         let dryOrWet = {
-          value: dryOrWetObj.goodsAttributeValue.toLowerCase(),
+          value: dryOrWetObj?.goodsAttributeValue?.toLowerCase(),
           valueEn: dryOrWetObj.goodsAttributeValueEn
         };
 
@@ -534,7 +533,6 @@ class Details extends React.Component {
               if (mixFeeding) {
                 mixFeeding.quantity = 1;
               }
-              console.log(mixFeeding, 'resfse');
               let { goodsImg = '', goodsName = '' } = mixFeeding.goods || {};
               this.setState({
                 mixFeeding,
