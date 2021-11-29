@@ -388,10 +388,7 @@ class Details extends React.Component {
       setDefaultPurchaseTypeParamId
     } = this.state;
     details.sizeList = sizeList;
-    let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
-    if (!selectedSpecItem?.subscriptionStatus && form.buyWay > 0) {
-      form.buyWay = -1;
-    }
+
     this.setState(Object.assign({ details, form }, data), () => {
       this.updateInstockStatus();
       setTimeout(() =>
@@ -406,6 +403,15 @@ class Details extends React.Component {
       this.setDefaultPurchaseType({
         id: setDefaultPurchaseTypeParamId
       });
+
+      let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
+      if (!selectedSpecItem?.subscriptionStatus && this.state.form.buyWay > 0) {
+        this.setState({
+          form: Object.assign(this.state.form, {
+            buyWay: -1
+          })
+        });
+      }
     });
 
     // bundle商品的ga初始化填充
