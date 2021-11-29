@@ -51,8 +51,7 @@ const tr_TR = {
   'account.noPet':
     'Evcil hayvan profilinizi bugün oluşturun! Bilgileri doldurun ve en uygun diyeti seçin',
   'account.noSubscription':
-    '"Abonelik programımızı keşfetmek ister misiniz?\n' +
-    'Abonelik programımız, evcil hayvanınıza en uygun mamayı, düzenli ve kolay bir şekilde almanızı sağlar. Bize sadece nereye ve ne zaman göndereceğimizi söyleyin, biz de ihtiyaç duyduğu her şeyin kapınıza gelmesini sağlayalım. "',
+    'Abonelik programımızı keşfetmek ister misiniz?\nAbonelik programımız, evcil hayvanınıza en uygun mamayı, düzenli ve kolay bir şekilde almanızı sağlar. Bize sadece nereye ve ne zaman göndereceğimizi söyleyin, biz de ihtiyaç duyduğu her şeyin kapınıza gelmesini sağlayalım.',
   'account.noSubscriptionTitle': 'Aboneliği Keşfedin',
   'account.notRegistred': 'Yeni kullanıcı?',
   'account.of': 'nın-nin',
