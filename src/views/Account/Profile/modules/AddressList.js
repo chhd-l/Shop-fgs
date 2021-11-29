@@ -63,7 +63,7 @@ function CardItem(props) {
       `}
       onClick={props.handleClickCoverItem}
     >
-      {/* <div className="font-weight-normal mt-4 pt-2 mt-md-0 pt-md-0">
+      {/* <div className="font-weight-normal mt-4 pt-2 md:mt-0 md:pt-0">
         {data.type === 'DELIVERY' ? (
           <FormattedMessage id="deliveryAddress" />
         ) : (

@@ -52,7 +52,11 @@ class Consent extends Component {
     };
     return list?.map((item, index) => {
       return (
-        <div key={index} id={index} style={{ display: 'flex' }}>
+        <div
+          key={index}
+          id={index}
+          style={{ display: item.notShow ? 'none' : 'flex' }}
+        >
           <input
             style={{ zoom: zoom }}
             className={[
@@ -66,7 +70,7 @@ class Consent extends Component {
             name="checkbox-2"
             disabled={disabled}
             onChange={() => {
-              if (item.id == 106) return; //此项不需要check事件
+              if (item.noChecked) return; //此项不需要check事件
               //勾选checkbox
               this.props.list.map((x) => {
                 if (x.id === item.id) {

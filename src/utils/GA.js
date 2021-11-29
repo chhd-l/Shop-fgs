@@ -134,12 +134,12 @@ export const getComputedWeeks = (frequencyList) => {
 //myAccountScreen
 export const myAccountPushEvent = (myAccountScreenName) => {
   if (!isHubGA) return;
-  setTimeout(() => {
-    dataLayer.push({
-      event: 'myAccountScreen',
-      myAccountScreenName //Values : 'Overview', 'Personal information', 'Pets', 'Orders & Subscriptions', 'Payment & Addresses', 'Security', 'Data & Settings'
-    });
-  }, 5000);
+  // setTimeout(() => {
+  dataLayer.push({
+    event: 'myAccountScreen',
+    myAccountScreenName //Values : 'Overview', 'Personal information', 'Pets', 'Orders & Subscriptions', 'Payment & Addresses', 'Security', 'Data & Settings'
+  });
+  // }, 5000gtm优化);
 
   // console.log(myAccountScreenName)
   // debugger
@@ -171,11 +171,11 @@ export const faqClickDataLayerPushEvent = ({ item, clickType }) => {
 
 //cartScreenLoad
 export const GACartScreenLoad = () => {
-  setTimeout(() => {
-    dataLayer.push({
-      event: 'cartScreenLoad'
-    });
-  }, 5000);
+  // setTimeout(() => {
+  dataLayer.push({
+    event: 'cartScreenLoad'
+  });
+  // }, 5000gtm优化);
 };
 
 //init 游客(cart+checkout都使用)
@@ -469,15 +469,15 @@ export const doGetGAVal = (props) => {
 //checkout step
 export const checkoutDataLayerPushEvent = ({ name, options }) => {
   if (!isHubGA) return;
-  setTimeout(() => {
-    dataLayer.push({
-      event: 'checkoutStep',
-      checkoutStep: {
-        name, //Following values possible : 'Email', 'Delivery', 'Payment', 'Confirmation'
-        options //'Guest checkout', 'New account', 'Existing account'
-      }
-    });
-  }, 5000);
+  // setTimeout(() => {
+  dataLayer.push({
+    event: 'checkoutStep',
+    checkoutStep: {
+      name, //Following values possible : 'Email', 'Delivery', 'Payment', 'Confirmation'
+      options //'Guest checkout', 'New account', 'Existing account'
+    }
+  });
+  // }, 5000gtm优化);
 };
 
 //Order confirmation
@@ -496,9 +496,9 @@ export const orderConfirmationPushEvent = (details) => {
       shippingMode: details.clinicsId || clinic ? 'Clinic' : 'Standard Delivery'
     })
   };
-  setTimeout(() => {
-    dataLayer.push(obj);
-  }, 3000);
+  // setTimeout(() => {
+  dataLayer.push(obj);
+  // }, 3000gtm优化);
 };
 
 //product finder  productFinderScreen:{name}

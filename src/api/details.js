@@ -7,7 +7,9 @@ const api = {
   loginDetails: '/goods/spu',
   detailsBySpu: '/goods/spu_no',
   detailsBySpuIgnoreDisplayFlag: '/goods/ignoreDisplayFlag/spu_no',
-  goodsRelation: '/goodsRelation'
+  goodsRelation: '/goodsRelation',
+  getMixFeeding: '/goodsRelation/relatedInfo',
+  getMixFeedings: '/goodsRelation/relatedInfoBySpuIds'
 };
 
 export default api;
@@ -63,5 +65,22 @@ export function getGoodsRelation(parameter) {
   return axios({
     url: `${api.goodsRelation}/${parameter}`,
     method: 'get'
+  });
+}
+
+export function getMixFeeding(id) {
+  return axios({
+    url: `${api.getMixFeeding}/${id}`,
+    method: 'get'
+  });
+}
+
+export function getMixFeedings(ids) {
+  return axios({
+    url: `${api.getMixFeedings}`,
+    method: 'post',
+    data: {
+      goodsIds: ids
+    }
   });
 }

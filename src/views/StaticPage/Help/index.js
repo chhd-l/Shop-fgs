@@ -104,7 +104,7 @@ class Help extends React.Component {
                     <div className="rc-full-width">
                       <div className="experience-component experience-assets-contactUsBlock">
                         <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
-                          <div className="text-md-left rc-margin-top--lg--mobile text-center rc-margin-y--sm">
+                          <div className="md:text-left rc-margin-top--lg--mobile text-center rc-margin-y--sm">
                             <div className="rc-padding-bottom--none--mobile text-center rc-padding-top--lg">
                               <h1 className="rc-beta">
                                 <FormattedMessage id="help.title" />
@@ -121,7 +121,7 @@ class Help extends React.Component {
                               </div>
                             </div>
                           </div>
-                          <div className="rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center text-md-left">
+                          <div className="rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center md:text-left">
                             <div className="rc-column rc-double-width rc-padding--none">
                               <article className="rc-full-width rc-column rc-margin-top--md--mobile">
                                 <div className="rc-border-all rc-border-colour--interface fullHeight">

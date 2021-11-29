@@ -200,11 +200,13 @@ class SearchSelection extends React.Component {
   }
   handleClickClinicItem = (e, item) => {
     e.nativeEvent.stopImmediatePropagation();
-    let streetNumbers = item.listeNumero.split(';');
+    let streetNumbers = item.listeNumero?.split(';') || [];
+    console.log('item', item);
+    // debugger
+    // selectedListeNumero
     item.selectedListeNumero =
-      item.selectedListeNumero || streetNumbers.length === 1
-        ? item.listeNumero
-        : '';
+      item.selectedListeNumero ||
+      (streetNumbers.length === 1 ? item.listeNumero : '');
     if (streetNumbers.length > 1 && !item.selectedListeNumero) {
       let currentOptions = streetNumbers.map((el) => {
         let currentItem = { ...item };
@@ -252,7 +254,7 @@ class SearchSelection extends React.Component {
   render() {
     const { optionList, form } = this.state;
     return (
-      <form autoComplete="off">
+      <form className="fullWidth" autoComplete="off">
         <div style={{ flex: this.props.inputCustomStyle ? 'auto' : '' }}>
           <div
             className={`${this.props.customCls} ${

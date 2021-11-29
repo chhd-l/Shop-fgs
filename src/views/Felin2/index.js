@@ -28,10 +28,15 @@ import close from './image/close.png';
 import LazyLoad from 'react-lazyload';
 import Rate from '../../components/Rate';
 import WeekCalender from './week/week-calender';
-import { gitDict, postSave, postUpdate, queryDate } from '../../api/felin';
+import {
+  gitDict,
+  postQueryPrice,
+  postSave,
+  postUpdate,
+  queryDate
+} from '../../api/felin';
 import moment from 'moment';
 import LoginButton from '@/components/LoginButton';
-
 import Reviews from './Reviews/Reviews';
 
 const pageLink = window.location.href;
@@ -83,20 +88,17 @@ class Felin extends React.Component {
       ],
       timeList: [
         {
-          time: '15',
+          duration: 15,
           text:
-            'Rapide et facile, échangez avec un expert pour reçevoir ses conseils et commencer le suivi de votre chat.',
-          num: 'FREE'
+            'Rapide et facile, échangez avec un expert pour reçevoir ses conseils et commencer le suivi de votre chat.'
         },
         {
-          time: '30',
-          text: 'Allez plus en détails avec lexpert sélectionné.',
-          num: 'XX EUR'
+          duration: 30,
+          text: 'Allez plus en détails avec lexpert sélectionné.'
         },
         {
-          time: '45',
-          text: 'Prenez le temps de vous offrir une session complète.',
-          num: 'XX EUR'
+          duration: 45,
+          text: 'Prenez le temps de vous offrir une session complète.'
         }
       ],
       activeOne: null,
@@ -132,10 +134,11 @@ class Felin extends React.Component {
         dateNo: '',
         startTime: '',
         endTime: '',
-        employeeIds: []
+        employeeIds: [],
+        employeeNames: []
       },
       userInfo: undefined,
-      appointmentNo: '',
+      apptNo: '',
       appointmentVO: {}
     };
   }
@@ -210,11 +213,24 @@ class Felin extends React.Component {
     });
   };
   // 跳转第三步
-  handleGotoThree = () => {
-    this.setState({
-      oneShow: false,
-      threeShow: true
+  handleGotoThree = async () => {
+    const { code, context } = await postQueryPrice({
+      expertTypeId: this.state.params.expertTypeId,
+      serviceTypeId: 6
     });
+    if (code === 'K-000000') {
+      let timeList = this.state.timeList.map((item) => {
+        let _temp = context.priceVOs.find(
+          (items) => items.duration === item.duration
+        );
+        return { ...item, ..._temp };
+      });
+      this.setState({
+        timeList,
+        oneShow: false,
+        threeShow: true
+      });
+    }
   };
 
   // 返回第二步
@@ -230,7 +246,11 @@ class Felin extends React.Component {
       threeShow: false,
       fourShow: true
     });
-    this.queryDate();
+    let type = this.state.bookSlotVO.dateNo ? true : false;
+    this.queryDate(type, {
+      minutes: this.state.votre.duree,
+      bookSlotVO: this.state.bookSlotVO
+    });
   };
   // 返回第三步
   handleReturnThree = () => {
@@ -246,6 +266,7 @@ class Felin extends React.Component {
   postSave = async () => {
     const { context } = await postSave({
       apptTypeId: this.state.params.appointmentTypeId,
+      appointmentTypeId: this.state.params.appointmentTypeId,
       consumerName: this.state.userInfo?.contactName || undefined,
       consumerFirstName: this.state.userInfo?.firstName || undefined,
       consumerLastName: this.state.userInfo?.lastName || undefined,
@@ -258,15 +279,15 @@ class Felin extends React.Component {
       expertTypeId: this.state.params.expertTypeId,
       serviceTypeId: 6
     });
-    let appointmentNo = context.appointmentVO.apptNo;
+    let apptNo = context.appointmentVO.apptNo;
     let appointmentVO = context.appointmentVO;
-    if (appointmentNo) {
-      sessionItemRoyal.set('appointment-no', appointmentNo);
+    if (apptNo) {
+      sessionItemRoyal.set('appointment-no', apptNo);
       if (this.state.userInfo) {
         this.props.history.push('/checkout');
       } else {
         this.setState({
-          appointmentNo: appointmentNo,
+          apptNo: apptNo,
           appointmentVO: appointmentVO,
           fourShow: false,
           fiveShow: true
@@ -325,7 +346,7 @@ class Felin extends React.Component {
 
         if (code === 'K-000000') {
           let _resources = context.resources;
-          if (type && minutes === chooseData.minutes) {
+          if (type) {
             let _temp = {
               date: chooseData.bookSlotVO.dateNo,
               minutes: chooseData.minutes,
@@ -336,26 +357,37 @@ class Felin extends React.Component {
               type: 'primary',
               disabled: true
             });
-            console.log(_temp, '=_temp');
             if (_resources.length == 0) {
               _resources.push(_temp);
             } else {
               _resources.map((item) => {
-                if (item.dateNo === _temp.dateNo) {
-                  item.minuteSlotVOList.map((it) => {
-                    if (it.startTime === _temp.startTime) {
-                      it = { ...it, ..._temp };
+                if (item.date === _temp.date) {
+                  let isLoop = false;
+                  item.minuteSlotVOList = item.minuteSlotVOList.map(
+                    (it, index) => {
+                      const _t = _temp.minuteSlotVOList.find(
+                        (ii) => ii.startTime === it.startTime
+                      );
+                      if (_t) {
+                        isLoop = true;
+                        it = { ...it, ..._t };
+                      }
+                      return it;
+                      // if(item.minuteSlotVOList.length===(index+1)&&!_t)isLoop=false
                     }
-                  });
+                  );
+                  if (!isLoop) {
+                    item.minuteSlotVOList = item.minuteSlotVOList.concat(
+                      _temp.minuteSlotVOList
+                    );
+                  }
                 }
               });
             }
           }
-          console.log(1);
           reslove(_resources);
         }
       });
-      console.log(resources, 222);
       this.setState({
         resources,
         key: +new Date()
@@ -363,6 +395,7 @@ class Felin extends React.Component {
     });
   };
   onChange = (data) => {
+    console.log(data);
     this.setState({
       votre: {
         ...this.state.votre,
@@ -389,13 +422,21 @@ class Felin extends React.Component {
   };
   postUpdate = async (params) => {
     const { code } = await postUpdate({
-      ...this.state.appointmentVO,
-      consumerName: params.firstName + ' ' + params.lastName,
+      apptNo: this.state.appointmentVO.apptNo,
+      id: this.state.appointmentVO.id,
+      apptTypeId: this.state.params.appointmentTypeId,
+      appointmentTypeId: this.state.params.appointmentTypeId,
+      customerId: this.state.appointmentVO.customerId || undefined,
+      customerLevelId: this.state.appointmentVO.customerId ? 234 : 233, // 233未登录 234登陆
+      bookSlotVO: this.state.bookSlotVO,
+      minutes: this.state.params.minutes,
+      expertTypeId: this.state.params.expertTypeId,
       consumerFirstName: params.firstName,
       consumerLastName: params.lastName,
+      consumerName: params.firstName + ' ' + params.lastName,
       consumerEmail: params.email,
       consumerPhone: params.phone,
-      changeTimeBlock: false
+      serviceTypeId: 6
     });
     if (code === 'K-000000') {
       this.props.history.push('/checkout');
@@ -445,7 +486,7 @@ class Felin extends React.Component {
             <div className="bg-module" />
             <img src={header} alt="" />
             <div className="hd-text-cont">
-              <div className="introduce">
+              <div className="introduce fontw-500">
                 Venez rencontrer nos experts à l'Atelier Félin, une boutique
                 dédiée à la santé et au bien-être de votre chat
               </div>
@@ -562,11 +603,11 @@ class Felin extends React.Component {
                               'type'
                             )
                           }
-                          className={`rc-btn ${
+                          className={`text-base font-medium p-3 rounded-full mr-4 ${
                             this.state.butIndex === index
-                              ? 'rc-btn-active '
-                              : ''
-                          } rc-margin-bottom--xs`}
+                              ? 'bg-red-600 text-white'
+                              : 'bg-gray-300 text-white'
+                          }`}
                           style={{
                             width: '9.375rem'
                           }}
@@ -660,7 +701,7 @@ class Felin extends React.Component {
               </div>
               <div className="js-between mb16">
                 <div>Prix</div>
-                <div>{this.state.votre.prix}</div>
+                <div>{this.state.votre.prix + ' EUR' || 'FREE'}</div>
               </div>
               <div className="js-between mb16">
                 <div>Date</div>
@@ -693,12 +734,12 @@ class Felin extends React.Component {
                       onClick={() =>
                         this.handleActiveBut(
                           index,
-                          item.time,
-                          item.time,
+                          item.duration,
+                          item.duration,
                           'minutes',
                           'timeIndex',
                           'duree',
-                          item.num,
+                          item.goodsInfoVO.marketPrice,
                           'prix'
                         )
                       }
@@ -712,11 +753,13 @@ class Felin extends React.Component {
                             : '0px 0px 0px 2px #f0f0f0'
                       }}
                     >
-                      <div>{item.time} min</div>
+                      <div>{item.duration} min</div>
                       <div className="list-content">{item.text}</div>
                       <div className="js-between">
                         <div>Prix</div>
-                        <div>{item.num}</div>
+                        <div>
+                          {item.goodsInfoVO?.marketPrice + ' EUR' || 'FREE'}
+                        </div>
                       </div>
                     </li>
                   );
@@ -859,9 +902,7 @@ class Felin extends React.Component {
           >
             <div
               style={{
-                textAlign: 'right',
-                padding: '1.25rem',
-                paddingBottom: '0'
+                textAlign: 'right'
               }}
             >
               <span
@@ -900,7 +941,13 @@ class Felin extends React.Component {
               </div>
             </MyModal>
           </div>
-          <div className="comment" style={{ flexDirection: 'column' }}>
+          <div
+            className="comment"
+            style={{
+              flexDirection: 'column',
+              display: this.state.reviews.list.length === 0 ? 'none' : 'block'
+            }}
+          >
             <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile">
               <div className="rc-max-width--xxl">
                 <div className="rc-layout-container rc-two-column rc-content-h-middle ">
@@ -908,41 +955,29 @@ class Felin extends React.Component {
                     <LazyLoad>
                       <div className="comment-slider">
                         <Slider {...settings}>
-                          <div>
-                            <div className="rate-cont">
-                              <span style={{ marginRight: '1rem' }}>4.0</span>
-                              <Rate
-                                color=""
-                                def={2}
-                                disabled
-                                style={{ fontSize: 34 }}
-                              />
-                            </div>
-                            <div className="comment-text">
-                              "J'ai reçu des conseils très intéressants pour mon
-                              chat qui est très peureux."
-                            </div>
-                          </div>
-                          <div>
-                            <div className="rate-cont">
-                              <span style={{ marginRight: '1rem' }}>4.0</span>
-                              <Rate color="" def={3} disabled />
-                            </div>
-                            <div className="comment-text">
-                              "J'ai reçu des conseils très intéressants pour mon
-                              chat qui est très peureux."
-                            </div>
-                          </div>
-                          <div>
-                            <div className="rate-cont">
-                              <span style={{ marginRight: '1rem' }}>4.0</span>
-                              <Rate color="" def={4} disabled />
-                            </div>
-                            <div className="comment-text">
-                              "J'ai reçu des conseils très intéressants pour mon
-                              chat qui est très peureux."
-                            </div>
-                          </div>
+                          {this.state.reviews.list.map((item, index) => {
+                            if (index > 2) {
+                              return null;
+                            }
+                            return (
+                              <div key={index}>
+                                <div className="rate-cont">
+                                  <span style={{ marginRight: '1rem' }}>
+                                    {item.rate}.0
+                                  </span>
+                                  <Rate
+                                    color=""
+                                    def={item.rate}
+                                    disabled
+                                    style={{ fontSize: 34 }}
+                                  />
+                                </div>
+                                <div className="comment-text">
+                                  {item.description}
+                                </div>
+                              </div>
+                            );
+                          })}
                         </Slider>
                         <button
                           className="rc-btn rc-btn--one  rc-margin-bottom--xs"
@@ -968,12 +1003,18 @@ class Felin extends React.Component {
             </div>
             {/*评论列表*/}
             <Reviews
-              id="111"
               visible={this.state.reviews.visible}
               onClose={() => {
                 this.setState({
                   reviews: { ...this.state.reviews, visible: false }
                 });
+              }}
+              onList={(list) => {
+                if (this.state.reviews.list.length === 0) {
+                  this.setState({
+                    reviews: { ...this.state.reviews, list: list }
+                  });
+                }
               }}
             />
           </div>
@@ -1019,52 +1060,52 @@ class Felin extends React.Component {
               <div className="rc-layout-container rc-two-column rc-content-h-middle flx-center">
                 <div className="rc-column rc-triple-width rc-padding--none--mobile product-tiles-container pt-0 flx-center">
                   <div className="rc-layout-container rc-three-column rc-layout-grid rc-match-heights product-tiles flx-center">
-                    <div className="col-md-2  col-2 pr-0 pl-md-2 pr-md-2  mb-3 pl-0 mglr16">
+                    <div className="col-md-2  col-2 pr-0 md:pl-2 md:pr-2  mb-3 pl-0 mglr16">
                       <img src={cat1} alt="" />
                       <div className="mtb10">Alexandre Blavier</div>
                       <div className="col0">Expertise</div>
                     </div>
-                    <div className="col-md-2 col-2 pr-0 pl-md-2 pr-md-2  mb-3 pl-0 mglr16">
+                    <div className="col-md-2 col-2 pr-0 md:pl-2 md:pr-2  mb-3 pl-0 mglr16">
                       <img src={cat1} alt="" />
                       <div className="mtb10">Alexandre Blavier</div>
                       <div className="col0">Expertise</div>
                     </div>
-                    <div className="col-md-2 col-2 pr-0 pl-md-2 pr-md-2  mb-3 pl-0 mglr16">
+                    <div className="col-md-2 col-2 pr-0 md:pl-2 md:pr-2  mb-3 pl-0 mglr16">
                       <img src={cat1} alt="" />
                       <div className="mtb10">Alexandre Blavier</div>
                       <div className="col0">Expertise</div>
                     </div>
-                    <div className="col-md-2 col-2 pr-0 pl-md-2 pr-md-2  mb-3 pl-0 mglr16">
+                    <div className="col-md-2 col-2 pr-0 md:pl-2 md:pr-2  mb-3 pl-0 mglr16">
                       <img src={cat1} alt="" />
                       <div className="mtb10">Alexandre Blavier</div>
                       <div className="col0">Expertise</div>
                     </div>
-                    <div className="col-md-2 col-2 pr-0 pl-md-2 pr-md-2  mb-3 pl-0 mglr16">
+                    <div className="col-md-2 col-2 pr-0 md:pl-2 md:pr-2  mb-3 pl-0 mglr16">
                       <img src={cat1} alt="" />
                       <div className="mtb10">Alexandre Blavier</div>
                       <div className="col0">Expertise</div>
                     </div>
-                    <div className="col-md-2 col-2 pr-0 pl-md-2 pr-md-2  mb-3 pl-0 mglr16">
+                    <div className="col-md-2 col-2 pr-0 md:pl-2 md:pr-2  mb-3 pl-0 mglr16">
                       <img src={cat1} alt="" />
                       <div className="mtb10">Alexandre Blavier</div>
                       <div className="col0">Expertise</div>
                     </div>
-                    <div className="col-md-2 col-2 pr-0 pl-md-2 pr-md-2  mb-3 pl-0 mglr16">
+                    <div className="col-md-2 col-2 pr-0 md:pl-2 md:pr-2  mb-3 pl-0 mglr16">
                       <img src={cat1} alt="" />
                       <div className="mtb10">Alexandre Blavier</div>
                       <div className="col0">Expertise</div>
                     </div>
-                    <div className="col-md-2 col-2 pr-0 pl-md-2 pr-md-2  mb-3 pl-0 mglr16">
+                    <div className="col-md-2 col-2 pr-0 md:pl-2 md:pr-2  mb-3 pl-0 mglr16">
                       <img src={cat1} alt="" />
                       <div className="mtb10">Alexandre Blavier</div>
                       <div className="col0">Expertise</div>
                     </div>
-                    <div className="col-md-2 col-2 pr-0 pl-md-2 pr-md-2  mb-3 pl-0 mglr16">
+                    <div className="col-md-2 col-2 pr-0 md:pl-2 md:pr-2  mb-3 pl-0 mglr16">
                       <img src={cat1} alt="" />
                       <div className="mtb10">Alexandre Blavier</div>
                       <div className="col0">Expertise</div>
                     </div>
-                    <div className="col-md-2 col-2 pr-0 pl-md-2 pr-md-2  mb-3 pl-0 mglr16">
+                    <div className="col-md-2 col-2 pr-0 md:pl-2 md:pr-2  mb-3 pl-0 mglr16">
                       <img src={cat1} alt="" />
                       <div className="mtb10">Alexandre Blavier</div>
                       <div className="col0">Expertise</div>

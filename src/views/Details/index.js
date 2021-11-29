@@ -17,7 +17,7 @@ import PhoneAndEmail from './components/PhoneAndEmail/index.tsx';
 import DetailHeader from './components/DetailHeader/index.tsx';
 import ImageMagnifier from '@/components/ImageMagnifier';
 import ImageMagnifier_fr from './components/ImageMagnifier';
-import AddCartSuccessMobile from './components/AddCartSuccessMobile';
+import AddCartSuccessMobile from './components/AddCartSuccessMobile.tsx';
 import BannerTip from '@/components/BannerTip';
 import Reviews from './components/Reviews';
 import {
@@ -28,12 +28,19 @@ import {
   getDictionary,
   filterObjectValue,
   isCountriesContainer,
-  getClubFlag
+  getClubFlag,
+  handleRecommendation,
+  isShowMixFeeding
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import find from 'lodash/find';
-import { getDetails, getLoginDetails, getDetailsBySpuNo } from '@/api/details';
+import {
+  getDetails,
+  getLoginDetails,
+  getDetailsBySpuNo,
+  getMixFeeding
+} from '@/api/details';
 import { sitePurchase } from '@/api/cart';
 import RelateProductCarousel from './components/RelateProductCarousel';
 import BuyFromRetailerBtn from './components/BuyFromRetailerBtn';
@@ -59,6 +66,7 @@ import {
   GAPdpSizeChange
 } from './GA';
 import PrescriberCodeModal from '../ClubLandingPageNew/Components/DeStoreCode/Modal';
+import MixFeedingBanner from './components/MixFeedingBanner/index.tsx';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -69,6 +77,7 @@ const isHub = window.__.env.REACT_APP_HUB == '1';
 const Fr = window.__.env.REACT_APP_COUNTRY === 'fr';
 const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
 const Tr = window.__.env.REACT_APP_COUNTRY === 'tr';
+const Uk = window.__.env.REACT_APP_COUNTRY === 'uk';
 
 @inject(
   'checkoutStore',
@@ -147,7 +156,9 @@ class Details extends React.Component {
       showErrorTip: false,
       modalMobileCartSuccessVisible: false,
       defaultSkuId: funcUrl({ name: 'skuId' }),
-      defaultGoodsInfoFlag: funcUrl({ name: 'goodsInfoFlag' })
+      defaultGoodsInfoFlag: funcUrl({ name: 'goodsInfoFlag' }),
+      mixFeeding: null,
+      originalProductInfo: {}
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -233,7 +244,7 @@ class Details extends React.Component {
       !bundle &&
       isHub &&
       !exclusiveFlag &&
-      (Fr || (Tr && !sptGoods))
+      (Fr || Uk || (Tr && !sptGoods))
     );
   }
 
@@ -255,7 +266,9 @@ class Details extends React.Component {
 
   setDefaultPurchaseType({ id }) {
     const { promotions, details, frequencyList, purchaseTypeDict } = this.state;
-    console.log(purchaseTypeDict, 'purchaseTypeDict...', id);
+    const skuPromotions =
+      details.sizeList?.filter((item) => item?.selected)?.[0]?.promotions || '';
+    console.log(skuPromotions, 'skuPromotions');
     const targetDefaultPurchaseTypeItem =
       purchaseTypeDict.filter(
         (ele) => ele.id && id && ele.id + '' === id + ''
@@ -276,8 +289,7 @@ class Details extends React.Component {
         this.state.defaultGoodsInfoFlag
       ) {
         buyWay =
-          parseInt(this.state.defaultGoodsInfoFlag) ||
-          details.promotions === 'club'
+          parseInt(this.state.defaultGoodsInfoFlag) || skuPromotions === 'club'
             ? 2
             : 1;
       } else {
@@ -312,7 +324,6 @@ class Details extends React.Component {
           (autoshipDictRes[0] && autoshipDictRes[0].id) ||
           '';
       }
-      console.log(details, defaultFrequencyId, 'defaultFrequencyId');
 
       this.setState({
         form: Object.assign(this.state.form, {
@@ -372,9 +383,9 @@ class Details extends React.Component {
       goodsDetailTab,
       tmpGoodsDescriptionDetailList,
       goodsNo,
-      form
+      form,
+      setDefaultPurchaseTypeParamId
     } = this.state;
-
     details.sizeList = sizeList;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     if (!selectedSpecItem?.subscriptionStatus && form.buyWay > 0) {
@@ -391,6 +402,9 @@ class Details extends React.Component {
           goodsNo
         })
       );
+      this.setDefaultPurchaseType({
+        id: setDefaultPurchaseTypeParamId
+      });
     });
 
     // bundle商品的ga初始化填充
@@ -485,8 +499,34 @@ class Details extends React.Component {
             backgroundSpaces: res.context.goods.cateId
           });
         }
+
+        const technologyList = (
+          res.context?.goodsAttributesValueRelList || []
+        ).filter((el) => el.goodsAttributeName.toLowerCase() === 'technology');
+        const dryOrWet = technologyList.filter(
+          (el) => el.goodsAttributeValue.toLowerCase() == ('dry' || 'wet')
+        )?.[0]?.goodsAttributeValueEn;
+
         if (goodsRes) {
           const { goods, images } = res.context;
+
+          if (isShowMixFeeding()) {
+            getMixFeeding(goods.goodsId).then((res) => {
+              let mixFeeding = handleRecommendation(
+                res?.context?.goodsRelationAndRelationInfos.filter(
+                  (el) => el.sort === 0
+                )[0] || res?.context?.goodsRelationAndRelationInfos[0]
+              );
+              // console.log(res,mixFeeding,'mixFeeding')
+              if (mixFeeding) {
+                mixFeeding.quantity = 1;
+              }
+              console.log(res, mixFeeding, 'resfse');
+
+              this.setState({ mixFeeding });
+            });
+          }
+
           const taggingList = (res.context?.taggingList || []).filter(
             (t) => t.displayStatus
           );
@@ -531,15 +571,26 @@ class Details extends React.Component {
               breadCrumbs: [{ name: goodsRes.goodsName }],
               pageLink: this.redirectCanonicalLink({ pageLink }),
               goodsType: goods.goodsType,
-              exclusiveFlag: goods.exclusiveFlag
+              exclusiveFlag: goods.exclusiveFlag,
+              originalProductInfo: Object.assign(
+                this.state.originalProductInfo,
+                {
+                  imageSrc: images?.[0]?.artworkUrl || '',
+                  goodsTitle: goodsRes.goodsName,
+                  technology: dryOrWet
+                }
+              ),
+              setDefaultPurchaseTypeParamId:
+                goodsRes.defaultPurchaseType ||
+                configStore.info?.storeVO?.defaultPurchaseType
             },
             () => {
               this.handleBreadCrumbsData();
-              this.setDefaultPurchaseType({
-                id:
-                  goodsRes.defaultPurchaseType ||
-                  configStore.info?.storeVO?.defaultPurchaseType
-              });
+              // this.setDefaultPurchaseType({
+              //   id:
+              //     goodsRes.defaultPurchaseType ||
+              //     configStore.info?.storeVO?.defaultPurchaseType
+              // });
             }
           );
         } else {
@@ -675,7 +726,7 @@ class Details extends React.Component {
         url: 'https://fi-v2.global.commerce-connector.com/cc.js',
         id: 'cci-widget',
         dataSets: {
-          token: '2257decde4d2d64a818fd4cd62349b235d8a74bb',
+          token: '2257decde4d2d64a818fd4cd62349b235d8a74bb', //uk，fr公用它
           locale: window.__.env.REACT_APP_HUBPAGE_RETAILER_LOCALE,
           displaylanguage:
             window.__.env.REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE,
@@ -1021,10 +1072,16 @@ class Details extends React.Component {
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     const vet =
-      window.__.env.REACT_APP_HUB === '1' &&
+      (window.__.env.REACT_APP_HUB === '1' || Uk) &&
       !details.saleableFlag &&
-      details.displayFlag; //vet产品并且是hub的情况下
-
+      details.displayFlag; //vet产品并且是hub的情况下,(uk不管stg还是wedding都用这个逻辑)
+    console.log(
+      vet,
+      window.__.env.REACT_APP_HUB,
+      !details.saleableFlag,
+      details.displayFlag,
+      'ishubvet'
+    );
     const goodHeading = `<${headingTag || 'h1'}
         class="rc-gamma ui-text-overflow-line2 text-break"
         title="${details.goodsName}">
@@ -1409,8 +1466,20 @@ class Details extends React.Component {
                 closeModal={() => {
                   this.setState({ modalMobileCartSuccessVisible: false });
                 }}
+                mixFeedingData={this.state.mixFeeding}
+                periodTypeId={parseInt(form.buyWay) ? form.frequencyId : ''}
+                goodsInfoFlag={
+                  form.buyWay && details.promotions?.includes('club')
+                    ? 2
+                    : form.buyWay
+                }
+                isLogin={this.isLogin}
               />
             ) : null}
+
+            {/* {PC ? <MixFeedingBanner 
+            originalProductInfo={this.state.originalProductInfo}
+            /> : null} */}
 
             {/* 最下方跳转更多板块 rita说现在hub 又不要了 暂时注释吧*/}
             {/* <More/> */}

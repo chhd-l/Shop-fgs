@@ -181,7 +181,7 @@ export function Advantage() {
     <div
       className={`col-12 col-md-6 col-xxl-${
         12 / list.length
-      } d-flex px-0 pl-md-0 pr-md-2 pr-xxl-3 pl-xxl-0 justify-content-center`}
+      } d-flex px-0 md:pl-0 md:pr-2 pr-xxl-3 pl-xxl-0 justify-content-center`}
       key={i}
     >
       <div className="d-flex justify-content-center align-items-center w-100 value-proposition__content">

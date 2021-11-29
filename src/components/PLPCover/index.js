@@ -127,8 +127,8 @@ function ListItemH5ForGlobalStyle(props) {
               </div>
               <div>
                 <div
-                  className="d-flex margin-top-mobile-20 position-relative"
-                  style={{ zIndex: 2 }}
+                  className="d-flex position-relative"
+                  style={{ zIndex: 2, visibility: 'hidden' }}
                 >
                   <FormattedMessage
                     id="plp.retail.cat.filter.specneed.tip.mobile"
@@ -367,8 +367,8 @@ function ListItemForDefault(props) {
                 </FormattedMessage>
               </div>
               <div
-                className=" text-center rc-padding-top--xs"
-                style={{ fontSize: 'large' }}
+                className=" text-center"
+                style={{ fontSize: 'large', visibility: 'hidden' }}
               >
                 <FormattedMessage
                   id="plp.retail.cat.filter.specneed.tip"
@@ -491,16 +491,17 @@ function ListItemForDefault(props) {
 function ListItemBodyH5ForGlobalStyle({ item, configStore }) {
   const vetProduct = item?.goodsCate?.cateName?.toLowerCase()?.includes('vet');
   console.log(vetProduct, 'VVVV');
-  const trFr =
+  const trFrUk =
     window.__.env.REACT_APP_COUNTRY === 'fr' ||
-    window.__.env.REACT_APP_COUNTRY === 'tr';
-  const hiddenPrice = vetProduct && trFr;
+    window.__.env.REACT_APP_COUNTRY === 'tr' ||
+    window.__.env.REACT_APP_COUNTRY === 'uk';
+  const hiddenPrice = vetProduct && trFrUk;
   const inStock =
     (item?.goodsInfos ?? [])
       .concat(item?.goodsInfoVOS ?? [])
       .findIndex((goods) => goods.stock > 0) > -1;
   return (
-    <div className="fr-mobile-product-list text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start pr-0">
+    <div className="fr-mobile-product-list text-left md:text-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start pr-0">
       <div className="product-name" title={item.goodsName}>
         {item.goodsName}
       </div>
@@ -553,62 +554,43 @@ const PriceItemShow = ({ item, configStore }) => {
                   {formatMoney(item.fromPrice)}
                 </span>
               ))}
-            {priceDisplayMethod == 1 &&
-              (window.__.env.REACT_APP_PLP_STYLE === 'layout-global' ? (
-                <>
-                  <div
-                    className="text-left NameFitScreen"
-                    style={{ color: 'rgb(74, 74, 74)', opacity: 2 }}
-                  >
-                    <FormattedMessage id="plpFromText" />
-                  </div>
-                  <div className="d-flex justify-content-center">
-                    <div
-                      className="rc-full-width PriceFitScreen"
-                      style={{ fontSize: '1.25rem' }}
-                    >
-                      <span className="value sales card--product-contaner-price">
-                        <span
-                          className="contaner-price__value"
-                          style={{
-                            color: '#323232',
-                            fontWeight: 400
-                          }}
+            {priceDisplayMethod == 1 ? (
+              <>
+                <FormattedMessage
+                  id="plpFromNew"
+                  values={{
+                    started: (
+                      <div
+                        className="text-left NameFitScreen"
+                        style={{ color: 'rgb(74, 74, 74)', opacity: 2 }}
+                      >
+                        <FormattedMessage id="plpFromText" />
+                      </div>
+                    ),
+                    plpValue: (
+                      <div className="d-flex justify-content-center">
+                        <div
+                          className="rc-full-width PriceFitScreen"
+                          style={{ fontSize: '1.25rem' }}
                         >
-                          {formatMoney(item?.fromPrice)}
-                        </span>
-                      </span>
-                    </div>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div
-                    className="text-center NameFitScreen"
-                    style={{
-                      color: '#4a4a4a',
-                      opacity: item?.goodsInfos
-                        ? item?.goodsInfos.length
-                        : '' > 1
-                        ? 1
-                        : 0
-                    }}
-                  >
-                    <FormattedMessage id="startFrom" />
-                  </div>
-                  <div className=" text-center">
-                    <span
-                      style={{
-                        color: '#323232',
-                        fontWeight: 400
-                      }}
-                      className="contaner-price__value"
-                    >
-                      {formatMoney(item?.fromPrice)}
-                    </span>
-                  </div>
-                </>
-              ))}
+                          <span className="value sales card--product-contaner-price">
+                            <span
+                              className="contaner-price__value"
+                              style={{
+                                color: '#323232',
+                                fontWeight: 400
+                              }}
+                            >
+                              {formatMoney(item?.fromPrice)}
+                            </span>
+                          </span>
+                        </div>
+                      </div>
+                    )
+                  }}
+                />
+              </>
+            ) : null}
           </div>
         </div>
       ) : null}
@@ -644,60 +626,43 @@ const PriceItemShow = ({ item, configStore }) => {
                       {formatMoney(item.fromPrice)}
                     </span>
                   ))}
-                {priceDisplayMethod == 1 &&
-                  (window.__.env.REACT_APP_PLP_STYLE === 'layout-global' ? (
-                    <>
-                      <div
-                        className="text-center NameFitScreen"
-                        style={{ color: 'rgb(74, 74, 74)', opacity: 2 }}
-                      >
-                        <FormattedMessage id="plpFromText" />
-                      </div>
-                      <div className="d-flex justify-content-center">
-                        <div
-                          className="rc-full-width PriceFitScreen"
-                          style={{ fontSize: '1.25rem' }}
-                        >
-                          <span className="value sales card--product-contaner-price">
-                            <span
-                              className="contaner-price__value"
-                              style={{
-                                color: '#323232',
-                                fontWeight: 400
-                              }}
+                {priceDisplayMethod == 1 ? (
+                  <>
+                    <FormattedMessage
+                      id="plpFromNew"
+                      values={{
+                        started: (
+                          <div
+                            className="text-center NameFitScreen"
+                            style={{ color: 'rgb(74, 74, 74)', opacity: 2 }}
+                          >
+                            <FormattedMessage id="plpFromText" />
+                          </div>
+                        ),
+                        plpValue: (
+                          <div className="d-flex justify-content-center">
+                            <div
+                              className="rc-full-width PriceFitScreen"
+                              style={{ fontSize: '1.25rem' }}
                             >
-                              {formatMoney(item?.fromPrice)}
-                            </span>
-                          </span>
-                        </div>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div
-                        className="text-center NameFitScreen"
-                        style={{
-                          color: '#4a4a4a',
-                          opacity: item?.goodsInfos
-                            ? item?.goodsInfos.length
-                            : '' > 1
-                            ? 1
-                            : 0
-                        }}
-                      >
-                        <FormattedMessage id="startFrom" />
-                      </div>
-                      <span
-                        style={{
-                          color: '#323232',
-                          fontWeight: 400
-                        }}
-                        className="contaner-price__value"
-                      >
-                        {formatMoney(item?.fromPrice)}
-                      </span>
-                    </>
-                  ))}
+                              <span className="value sales card--product-contaner-price">
+                                <span
+                                  className="contaner-price__value"
+                                  style={{
+                                    color: '#323232',
+                                    fontWeight: 400
+                                  }}
+                                >
+                                  {formatMoney(item?.fromPrice)}
+                                </span>
+                              </span>
+                            </div>
+                          </div>
+                        )
+                      }}
+                    />
+                  </>
+                ) : null}
               </span>
             </div>
           </div>
@@ -776,10 +741,11 @@ const PriceItemShow = ({ item, configStore }) => {
 function ListItemBody({ item, headingTag, configStore }) {
   const vetProduct = item?.goodsCate?.cateName?.toLowerCase()?.includes('vet');
   console.log(vetProduct, 'VVVV');
-  const trFr =
+  const trFrUk =
     window.__.env.REACT_APP_COUNTRY === 'fr' ||
-    window.__.env.REACT_APP_COUNTRY === 'tr';
-  const hiddenPrice = vetProduct && trFr;
+    window.__.env.REACT_APP_COUNTRY === 'tr' ||
+    window.__.env.REACT_APP_COUNTRY === 'uk';
+  const hiddenPrice = vetProduct && trFrUk;
   const goodHeading = `<${headingTag ? headingTag : 'h2'}
       class="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center"
       title="${item?.goodsName}">
@@ -790,63 +756,24 @@ function ListItemBody({ item, headingTag, configStore }) {
       .concat(item?.goodsInfoVOS ?? [])
       .findIndex((goods) => goods.stock > 0) > -1;
 
-  const defaultJSX = (
-    <>
-      <div className="height-product-tile-plpOnly">
-        <div dangerouslySetInnerHTML={{ __html: goodHeading }} />
-        {/*商品描述*/}
-        {item?.foodType ? (
-          <p className="rc-card__meta text-center rc-padding-top--xs rc-padding-bottom--xs ui-text-overflow-line2">
-            <FormattedMessage id={`product.plp.foodtype.${item.foodType}`} />
-          </p>
-        ) : null}
-      </div>
-      {/*商品评分和评论数目*/}
-      <div
-        className={`d-flex align-items-center justify-content-center rc-card__price RateFitScreen`}
-      >
-        <div>
-          <Rate
-            def={item?.avgEvaluate}
-            disabled={true}
-            marginSize="smallRate"
-          />
-        </div>
-        <span className="comments rc-margin-left--xs rc-text-colour--text">
-          ({item?.goodsEvaluateNum})
-        </span>
-      </div>
-      <br />
-      {/*商品价格*/}
-      {hiddenPrice ? null : (
-        <PriceItemShow item={item} configStore={configStore} />
-      )}
-      <div className="rc-card__meta text-center plp-stock-status">
-        <InstockStatusComp status={inStock} />
-      </div>
-    </>
-  );
   return (
     <div className="rc-card__body rc-padding-top--none justify-content-start pl-0 pr-0 pc-product-card">
-      {window.__.env.REACT_APP_PLP_STYLE === 'layout-global' ? (
-        <>
-          <div className="height-product-tile-plpOnly pl-4 pr-4">
-            <div dangerouslySetInnerHTML={{ __html: goodHeading }} />
-            {item?.foodType ? (
-              <p className="rc-card__meta text-center rc-padding-top--xs rc-padding-bottom--xs ui-text-overflow-line2">
-                <FormattedMessage
-                  id={`product.plp.foodtype.${item.foodType}`}
-                />
-              </p>
-            ) : null}
-          </div>
-          {!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS && (
-            <InlineRatings productId={item.goodsNo} />
-          )}
-          {hiddenPrice ? null : (
-            <PriceItemShow item={item} configStore={configStore} />
-          )}
-          {/* {item?.goodsNewSubtitle ? (
+      <>
+        <div className="height-product-tile-plpOnly pl-4 pr-4">
+          <div dangerouslySetInnerHTML={{ __html: goodHeading }} />
+          {item?.foodType ? (
+            <p className="rc-card__meta text-center rc-padding-top--xs rc-padding-bottom--xs ui-text-overflow-line2">
+              <FormattedMessage id={`product.plp.foodtype.${item.foodType}`} />
+            </p>
+          ) : null}
+        </div>
+        {!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS && (
+          <InlineRatings productId={item.goodsNo} />
+        )}
+        {hiddenPrice ? null : (
+          <PriceItemShow item={item} configStore={configStore} />
+        )}
+        {/* {item?.goodsNewSubtitle ? (
             <div
               className="rc-card__meta text-center ui-text-overflow-line2 col-12 pl-4 pr-4"
               style={{ marginBottom: '.625rem' }}
@@ -854,13 +781,10 @@ function ListItemBody({ item, headingTag, configStore }) {
               {item.goodsNewSubtitle}
             </div>
           ) : null} */}
-          <div className="rc-card__meta text-center plp-stock-status">
-            <InstockStatusComp status={inStock} />
-          </div>
-        </>
-      ) : (
-        defaultJSX
-      )}
+        <div className="rc-card__meta text-center plp-stock-status">
+          <InstockStatusComp status={inStock} />
+        </div>
+      </>
     </div>
   );
 }
@@ -882,8 +806,7 @@ export default class PLPCover extends React.Component {
       showBorder,
       className
     } = this.props;
-    return window.__.env.REACT_APP_PLP_STYLE === 'layout-global' &&
-      isMobilePhone ? (
+    return isMobilePhone ? (
       <ListItemH5ForGlobalStyle
         showBorder={showBorder}
         targetType={this.props.targetType}

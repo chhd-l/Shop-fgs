@@ -42,6 +42,7 @@ import getTechnologyOrBreedsAttr, {
 } from '@/lib/get-technology-or-breedsAttr';
 import loadable from '@/lib/loadable-component';
 import SelectFilters from './modules/SelectFilters';
+import cn from 'classnames';
 
 import './index.less';
 
@@ -242,7 +243,7 @@ function ProductFinderAd({ isRetailProducts, isVetProducts, isDogPage }) {
   return (
     {
       fr: (
-        <div className="ml-4 mr-4 pl-4 pr-4 pb-4 pb-md-0">
+        <div className="ml-4 mr-4 pl-4 pr-4 pb-4 md:pb-0">
           {isRetailProducts || isVetProducts ? null : (
             <div className="row align-items-center">
               <div className="col-12 col-md-6">
@@ -312,6 +313,7 @@ class List extends React.Component {
       isHub && location.pathname.includes('retail-products');
     const isVetProducts = isHub && location.pathname.includes('vet-products');
     this.state = {
+      canonicalforTRSpecialPageSearchFlag: false, //为ru特殊页面做特殊canonical处理
       sourceParam: '',
       GAListParam: '', //GA list参数
       eEvents: '',
@@ -379,6 +381,22 @@ class List extends React.Component {
   componentDidMount() {
     const { state, search, pathname } = this.props.history.location;
     const cateId = funcUrl({ name: 'cateId' });
+    const canonicalforRuSpecialPage = {
+      '/cats/retail-products': [
+        '?Breeds=20593290c7b240418c7d4021f0998cf4',
+        '?Breeds=1ee9220acf584cc292c884d7f5bd28a5'
+      ],
+      '/dogs/retail-products': [
+        '?Breeds=e6520f06c4f646aca454209302e09687&Sizes=0d5a89ea07ef4031a7ad66aef86b65b1',
+        '?Breeds=b6230b6f398347b397941f566400ada4&Sizes=83a4997cc9464552b380a496d399c593'
+      ]
+    };
+    if (
+      window.__.env.REACT_APP_COUNTRY === 'tr' &&
+      canonicalforRuSpecialPage[pathname].includes(search)
+    ) {
+      this.setState({ canonicalforTRSpecialPageSearchFlag: true });
+    }
     const utm_source = funcUrl({ name: 'utm_source' }); //有这个属性，表示是breeder商品，breeder商品才需要把search赋值给sourceParam
     if (utm_source) {
       this.setState({
@@ -882,15 +900,15 @@ class List extends React.Component {
     });
 
     type !== 'pageChange' &&
-      setTimeout(() => {
-        dataLayer.push({
-          event: 'plpScreenLoad',
-          plpScreenLoad: {
-            nbResults: totalElements,
-            userRequest: keywords || ''
-          }
-        });
-      }, 3000);
+      // setTimeout(() => {
+      dataLayer.push({
+        event: 'plpScreenLoad',
+        plpScreenLoad: {
+          nbResults: totalElements,
+          userRequest: keywords || ''
+        }
+      });
+    // }, 3000gtm优化);
 
     if (dataLayer[0] && dataLayer[0].search) {
       dataLayer[0].search.query = keywords;
@@ -1784,7 +1802,15 @@ class List extends React.Component {
           />
         )}
         <Helmet>
-          <link rel="canonical" href={canonicalLink.cur} />
+          <link
+            rel="canonical"
+            href={
+              this.state.canonicalforTRSpecialPageSearchFlag
+                ? canonicalLink.cur.split('?')[0]
+                : canonicalLink.cur
+            }
+          />
+          {/* <link rel="canonical" href={canonicalLink.cur} /> */}
           {canonicalLink.prev ? (
             <link rel="prev" href={canonicalLink.prev} />
           ) : null}
@@ -1821,7 +1847,7 @@ class List extends React.Component {
             {titleData && titleData.title && titleData.description ? (
               <div className="rc-max-width--lg rc-padding-x--sm ">
                 <div className="rc-layout-container rc-three-column rc-content-h-middle d-flex flex-md-wrap flex-wrap-reverse">
-                  <div className="rc-column rc-double-width text-center text-md-left">
+                  <div className="rc-column rc-double-width text-center md:text-left">
                     <div className="rc-full-width rc-padding-x--md--mobile rc-margin-bottom--lg--mobile">
                       <h1 className="rc-gamma rc-margin--none">
                         {titleData.title}
@@ -1887,7 +1913,7 @@ class List extends React.Component {
                     {hiddenFilter && !isMobilePhone ? null : (
                       <div
                         id="refineBar"
-                        className="refine-bar refinements rc-column1 col-12 col-xl-3 ItemBoxFitSCreen pt-0 mb-0 mb-md-3 mb-md-0 pl-0 pl-md-3 pr-0"
+                        className="refine-bar refinements rc-column1 col-12 col-xl-3 ItemBoxFitSCreen pt-0 mb-0 md:mb-3 pl-0 md:pl-3 pr-0"
                       >
                         <div
                           className="rc-meta rc-md-down"
@@ -2026,7 +2052,7 @@ class List extends React.Component {
                     <div
                       className={`rc-column1 col-12 ${
                         hiddenFilter ? 'col-xl-12' : 'col-xl-9'
-                      } rc-triple-width rc-padding--xs product-tiles-container pt-4 pt-md-0`}
+                      } rc-triple-width rc-padding--xs product-tiles-container pt-4 md:pt-0`}
                     >
                       {!loading && (
                         <>
@@ -2094,14 +2120,13 @@ class List extends React.Component {
                               : productList.map((item, i) => {
                                   return (
                                     <div
-                                      className={`${
-                                        window.__.env.REACT_APP_PLP_STYLE ===
-                                        'layout-global'
-                                          ? 'col-12 pr-0 pl-md-2 pr-md-2'
-                                          : 'col-6 pl-2 pr-2'
-                                      } ${
-                                        hiddenFilter ? 'col-md-3' : 'col-md-4'
-                                      } mb-3 pl-0 BoxFitMonileScreen`}
+                                      className={cn(
+                                        `col-12 pr-0 md:pl-2 md:pr-2 mb-3 pl-0 BoxFitMonileScreen`,
+                                        `${
+                                          hiddenFilter ? 'col-md-3' : 'col-md-4'
+                                        }`
+                                      )}
+                                      key={i}
                                     >
                                       <PLPCover
                                         item={item}

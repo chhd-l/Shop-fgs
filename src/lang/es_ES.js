@@ -189,6 +189,7 @@ const es_ES = {
   clickConfirmCvvButton:
     'Si desea utilizar esta tarjeta de crédito, ingrese CVV y haga clic en el botón Aplicar',
   clickHere: 'haga clic aquí',
+  here2: 'haga clic aquí',
   'clinic.cancel': 'Cancelar',
   'clinic.clinic': 'clínica',
   'clinic.clinicTip': '¿Qué clínica le ha proporcionado una receta?',
@@ -379,6 +380,7 @@ const es_ES = {
   freeShipping: 'Envío gratis',
   from: 'De',
   plpFromText: 'De',
+  plpFromNew: '{started}{plpValue}',
   gender: 'Género',
   getConsumerAccountFailed: 'Obtener la cuenta del consumidor fallida',
   getDataFailed: 'Obtener datos fallidos',
@@ -500,7 +502,6 @@ const es_ES = {
   manage: 'Gestionar',
   mandatoryFieldsError: '¡Tienes campos obligatorios no completados!',
   menu: 'menú',
-  miniBasket: 'Mini Cesta',
   'mixed Breed': 'raza Mixta',
   'Mixed Breed': 'Raza Mixta',
   MMYY: 'MM/AA',
@@ -1177,6 +1178,18 @@ const es_ES = {
   'list.clearFilters': 'Borrar todos los filtros',
   'list.viewFilters': 'Ver filtros',
   'list.closeFilters': 'Cerrar filtros',
-  'order.goodwillOrder': '[Goodwill order]'
+  'order.goodwillOrder': '[Goodwill order]',
+  'adyen.storeDetails': 'Guardar título para programar el próximo pago',
+  'adyen.holderName': 'Titular de la tarjeta',
+  'adyen.creditCard.holderName.placeholder': 'J. Smith',
+  'adyen.creditCard.holderName.invalid': 'Geçersiz kart sahibi adı',
+  'adyen.creditCard.numberField.title': 'Número de tarjeta',
+  'adyen.creditCard.numberField.placeholder': '1234 5678 9012 3456',
+  'adyen.creditCard.numberField.invalid': 'geçersiz kart numarası',
+  'adyen.creditCard.expiryDateField.title': 'Última fecha de uso',
+  'adyen.creditCard.expiryDateField.placeholder': 'AA / YY',
+  'adyen.creditCard.expiryDateField.invalid': 'Geçersiz son kullanma tarihi',
+  'adyen.creditCard.cvcField.title': 'CVC / CVV',
+  'adyen.creditCard.cvcField.placeholder': '123'
 };
 export default es_ES;

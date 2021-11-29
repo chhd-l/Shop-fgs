@@ -42,14 +42,19 @@ class RouteFilter extends Component {
       return false;
     }
 
+    /////
+    const isStorepotal = getQueryVariable('stoken');
+    if (isStorepotal) {
+      checkoutStore.removePromotionCode();
+    }
+
     // console.log(getQueryVariable("search")+'222222222')
-    // localItemRoyal.set("rc-promotionCode",'117343333')
     // console.log(getQueryVariable("spromocode"))
     const sPromotionCodeFromSearch = getQueryVariable('spromocode');
     if (sPromotionCodeFromSearch) {
       checkoutStore.setPromotionCode(sPromotionCodeFromSearch);
-      // 代客下单 orderSource: 'SUPPLIER'
-      sessionItemRoyal.set('orderSource', 'SUPPLIER');
+      // goodwill单标识 goodWillFlag: 'GOOD_WILL'
+      sessionItemRoyal.set('goodWillFlag', 'GOOD_WILL');
     }
 
     // debugger
@@ -228,10 +233,7 @@ class RouteFilter extends Component {
     }
 
     var el = document.querySelector('html');
-    el.lang =
-      window.__.env.REACT_APP_LANG == 'uk'
-        ? 'en-GB'
-        : window.__.env.REACT_APP_LANG;
+    el.lang = window.__.env.REACT_APP_HTML_LANG;
 
     if (pathname !== '/login') {
       // loadJS({

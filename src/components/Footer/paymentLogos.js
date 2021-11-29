@@ -59,6 +59,7 @@ class PaymentLogos extends React.Component {
               >
                 {paymentLogos.map((img, i) => (
                   <LazyLoad
+                    key={i}
                     className={`mb-2 ${(i + 1) % 4 == 0 ? '' : 'mr-2'}`}
                   >
                     <img

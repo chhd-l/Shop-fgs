@@ -41,9 +41,12 @@ class MyModal extends React.Component {
   render() {
     const { visible, children, handleUpdate } = this.props;
     return (
-      <div className="my-model" style={{ display: visible ? 'block' : 'none' }}>
+      <div
+        className="my-models"
+        style={{ display: visible ? 'block' : 'none' }}
+      >
         {children}
-        <div style={{ padding: '0 3.75rem' }} className="input-box">
+        <div className="input-box">
           <input
             type="text"
             className="my-input"
@@ -59,9 +62,9 @@ class MyModal extends React.Component {
             onChange={(e) => this.onChange(e, 'lastName')}
           />
         </div>
-        <div style={{ padding: '0 3.75rem' }} className="input-box mt50">
+        <div className="input-box">
           <input
-            type="text"
+            type="email"
             className="my-input"
             placeholder="Email"
             value={this.state.params.email}
@@ -77,15 +80,11 @@ class MyModal extends React.Component {
           />
         </div>
         {!this.state.emailShow ? (
-          <div style={{ padding: '0 3.75rem' }} className="col-red">
+          <div className="col-red">
             L'adresse e-mail ne correspond pas au format spécifié.
           </div>
         ) : null}
-        <div
-          style={{ padding: '0 3.75rem' }}
-          className="mt50 cursor-pointer"
-          onClick={this.handleok}
-        >
+        <div className="cursor-pointer mt20" onClick={this.handleok}>
           <img
             src={yes}
             alt=""
@@ -98,9 +97,9 @@ class MyModal extends React.Component {
             style={{ display: !this.state.visible ? 'block' : 'none' }}
             className="mr20"
           />
-          <span>dsadsadsddsaxxxxxx</span>
+          <span>here is a consent xxxxxx(TBD)</span>
         </div>
-        <div style={{ padding: '0 3.75rem' }} className="mt50 text-center">
+        <div className="text-center">
           <button
             onClick={() => handleUpdate(this.state.params)}
             disabled={
@@ -113,7 +112,8 @@ class MyModal extends React.Component {
             }
             className="rc-btn rc-btn--one  rc-margin-bottom--xs"
             style={{
-              width: '16.875rem'
+              width: '16.875rem',
+              marginTop: '1.25rem'
             }}
           >
             Confirm

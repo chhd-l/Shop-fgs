@@ -15,13 +15,16 @@ import {
   distributeLinktoPrecriberOrPaymentPage,
   unique,
   cancelPrevRequest,
-  getDeviceType
+  getDeviceType,
+  handleRecommendation,
+  isShowMixFeeding
 } from '@/utils/utils';
 import {
   GAInitUnLogin,
   GACartScreenLoad,
   GACartChangeSubscription
 } from '@/utils/GA';
+import { getMixFeedings } from '@/api/details';
 import { getGoodsRelationBatch } from '@/api/cart';
 import PayProductInfo from '../../Payment/PayProductInfo';
 import Loading from '@/components/Loading';
@@ -46,6 +49,7 @@ import { Helmet } from 'react-helmet';
 import GiftList from '../components/GiftList/index.tsx';
 import PromotionCodeText from '../components/PromotionCodeText';
 import CartSurvey from '../components/CartSurvey';
+import MixFeedingBox from '../components/MixFeedingBox/index.tsx';
 
 const guid = uuidv4();
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -96,7 +100,7 @@ class UnLoginCart extends React.Component {
         metaDescription: 'Royal canin'
       },
       relatedGoodsList: [],
-
+      mixFeedings: [],
       promotionsVisible: false
     };
     this.amountChanger = this.amountChanger.bind(this);
@@ -315,6 +319,27 @@ class UnLoginCart extends React.Component {
       }
       return el;
     });
+
+    if (isShowMixFeeding()) {
+      getMixFeedings(productList.map((el) => el.goodsId)).then((res) => {
+        let unHandleMixFeedings = res?.context;
+        if (unHandleMixFeedings && unHandleMixFeedings.length) {
+          let mixFeedings = productList.map((el, i) => {
+            let mixFeeding = handleRecommendation(
+              unHandleMixFeedings[i].goodsRelationAndRelationInfos.filter(
+                (el) => el.sort === 0
+              )[0] || unHandleMixFeedings[i].goodsRelationAndRelationInfos[0]
+            );
+            if (mixFeeding) {
+              mixFeeding.quantity = 1;
+            }
+            return mixFeeding;
+          });
+          this.setState({ mixFeedings });
+        }
+      });
+    }
+
     this.setState(
       {
         productList
@@ -695,6 +720,7 @@ class UnLoginCart extends React.Component {
     );
   };
   getProducts(plist) {
+    const { mixFeedings } = this.state;
     const Lists = plist.map((pitem, index) => {
       {
         var isGift = !!pitem.subscriptionPlanGiftList;
@@ -706,9 +732,10 @@ class UnLoginCart extends React.Component {
               isGift ? 'no-margin-bottom' : 'has-margin-bottom'
             }`}
           >
-            <span className="remove-product-btn">
+            <span className="remove-product-btn z-50">
               <span
-                className="rc-icon rc-close--sm rc-iconography"
+                className="rc-icon rc-close--sm rc-iconography inline-block"
+                style={{ width: '32px', height: '32px' }}
                 onClick={() => {
                   this.updateConfirmTooltipVisible(pitem, true);
                   this.setState({ currentProductIdx: index });
@@ -774,7 +801,7 @@ class UnLoginCart extends React.Component {
                     {pitem.goodsName}
                   </h4>
                   {pitem.taggingForImageAtCart?.taggingImgUrl ? (
-                    <LazyLoad className="order-1 order-md-3">
+                    <LazyLoad className="order-1 md:order-3">
                       <img
                         src={pitem.taggingForImageAtCart?.taggingImgUrl}
                         className="cart-item__tagging_image ml-2"
@@ -940,6 +967,25 @@ class UnLoginCart extends React.Component {
               ) : null}
             </div>
           </div>
+          {mixFeedings &&
+          mixFeedings[index] &&
+          plist.filter((el) => el.goodsNo === mixFeedings[index].goods.goodsNo)
+            .length === 0 ? (
+            <MixFeedingBox
+              isLogin={false}
+              mixFeedingData={mixFeedings[index]}
+              goodsInfoFlag={pitem.goodsInfoFlag}
+              periodTypeId={pitem.periodTypeId}
+              beforeUpdate={() => {
+                this.setState({ checkoutLoading: true });
+              }}
+              update={() => {
+                this.setCartData({ initPage: true });
+                this.setState({ checkoutLoading: false });
+              }}
+            />
+          ) : null}
+
           {pitem.promotions &&
           pitem.promotions.includes('club') &&
           pitem.goodsInfoFlag === 2 &&

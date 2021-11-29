@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';
 import Skeleton from 'react-skeleton-loader';
-import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
+import getCardImg from '@/lib/get-card-img';
 import { getPaymentMethod, deleteCard } from '@/api/payment';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { loadJS } from '@/utils/utils';
@@ -292,22 +292,21 @@ class CyberCardList extends React.Component {
     let cvvId = data.id;
     return (
       <div className="row">
-        <div className="col-6 col-sm-4 d-flex flex-column pb-1 pb-md-0">
+        <div className="col-6 col-sm-4 d-flex flex-column pb-1 md:pb-0">
           <LazyLoad>
             <img
               alt="card background"
               className="PayCardImgFitScreen"
-              src={
-                CREDIT_CARD_IMG_ENUM[
-                  data.paymentVendor && data.paymentVendor.toUpperCase()
-                ] ||
-                'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-              }
+              src={getCardImg({
+                supportPaymentMethods: this.props.paymentStore
+                  .supportPaymentMethods,
+                currentVendor: data.paymentVendor
+              })}
               style={{ width: '89%' }}
             />
           </LazyLoad>
         </div>
-        <div className="col-12 col-sm-8 flex-column justify-content-around d-flex pb-1 pb-md-0">
+        <div className="col-12 col-sm-8 flex-column justify-content-around d-flex pb-1 md:pb-0">
           <div className="row ui-margin-top-1-md-down PayCardBoxMargin text-break">
             <div className={`col-12 mb-1`}>
               <div className="row align-items-center">

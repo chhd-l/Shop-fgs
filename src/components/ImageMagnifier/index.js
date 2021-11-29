@@ -488,7 +488,7 @@ class ImageMagnifier extends Component {
           {/* <img className="moveImg" src={LeftImg} /> */}
           <div className="imageOutBox">
             <div
-              className="justify-content-center imageInnerBox text-center text-md-left"
+              className="justify-content-center imageInnerBox text-center md:text-left"
               style={{
                 marginTop: '2rem',
                 textAlign: imgCount <= 5 ? 'center' : 'left',

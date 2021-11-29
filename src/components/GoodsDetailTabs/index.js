@@ -3,6 +3,7 @@ import { formatMoney, getDeviceType } from '@/utils/utils';
 import { FormattedMessage, injectIntl, useIntl } from 'react-intl';
 import LazyLoad from 'react-lazyload';
 
+import mixFeedingIcon from './image/mixFeeding_icon.png';
 import iconsixnew from './image/iconsixnew.png';
 import phoneicon from './image/phoneicon@4x.png';
 import gifticon from './image/pictogifts@4x.png';
@@ -605,6 +606,55 @@ const GoodsDetailTabs = function (props) {
           '><div class="inherit-fontsize rc-body rc-padding-top--xs children-nomargin"><p>Get your exclusive Royal Canin Club perks, including access to a Royal Canin Advisor</p></div></div></div></div></div>'
       });
     }
+
+    // 俄罗斯需添加 一个 tab
+    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+      const dom = `<div class='mixed-Feeding-box'>
+          <div class='rc-margin-bottom--md'>
+            <h2 class='mixed-Feeding-title rc-beta'>Смешанное кормление</h2>
+          </div>
+          <h3 class='mixed-Feeding-title2 rc-beta'>Сочетайте преимущества сухого и влажного продуктов</h3>
+
+          <p class='mixed-Feeding-text rc-intro rc-margin-bottom--none text-center d-md-block d-none'>Смешанное кормление – это сочетание сухого и консервированного кормов в рационе вашего питомца. Каждый из кормов сам по себе является полноценным и сбалансированным, но ежедневное сочетание сухого и влажного кормов позволяет получить оптимальную комбинацию преимуществ обоих видов продуктов.</p>
+           <div class='rc-margin-bottom--md--desktop rc-padding-top--md--mobile'>
+            <h3 class='rc-beta'>Преимущества смешанного кормления</h3>
+          </div>
+          <div class='mixed-Feeding-content'>
+            <div class='mixed-Feeding-content-item'>
+              <h3 class='mixed-Feeding-title'>Сухой корм ROYAL CANIN®</h3>
+              <h4 >Дополнительные преимущества</h4>
+              <div class='mixed-Feeding-content-list'>
+                <li>гигиена полости рта</li>
+                <li>добавление в рацион определенных нутриентов</li>
+              </div>
+            </div>
+            <div class='mixed-Feeding-content-item rc-text--center'>
+              <LazyLoad>
+                <img
+                  src=${mixFeedingIcon}
+                  alt=''
+                  class="m-auto rc-margin--none--desktop rc-width"
+                />
+              </LazyLoad>
+            </div>
+            <div class='mixed-Feeding-content-item'>
+              <h3 class='mixed-Feeding-title'>Влажный корм ROYAL CANIN®</h3>
+              <h4 >Дополнительные преимущества</h4>
+              <div>
+                <li>контроль веса</li>
+                <li>стимуляция аппетита</li>
+                <li>стимуляция ощущений за счет текстуры</li>
+                <li>дополнительный источник влаги и поддержание здоровья мочевыделительной системы</li>
+              </div>
+            </div>
+          </div>
+        </div>`;
+      tmpGoodsDescriptionDetailList.push({
+        displayName: 'Mixed Feeding',
+        content: dom
+      });
+    }
+
     // if (window.__.env.REACT_APP_COUNTRY === 'ru' && saleableFlag && sptGoods) {
     //   let mixfeeding = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/Mixfeeding.png`;
     //   let MixfeedingFood = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/Mixfeeding-Food.png`;

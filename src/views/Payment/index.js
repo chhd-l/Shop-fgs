@@ -32,7 +32,6 @@ import {
   setSeoConfig,
   validData,
   bindSubmitParam,
-  getDictionary,
   getAppointmentInfo
 } from '@/utils/utils';
 import { EMAIL_REGEXP } from '@/utils/constant';
@@ -54,7 +53,7 @@ import {
   confirmAndCommitFelin,
   rePayFelin
 } from '@/api/payment';
-import { getOrderDetails, getAppointByApptNo } from '@/api/order';
+import { getOrderDetails } from '@/api/order';
 import { getLoginDetails, getDetails } from '@/api/details';
 import { batchAddPets } from '@/api/pet';
 import { editAddress } from '@/api/address';
@@ -82,8 +81,7 @@ import { doGetGAVal } from '@/utils/GA';
 // import { registerCustomerList, guestList, commonList } from './tr_consent';
 import ConsentData from '@/utils/consent';
 import CyberPayment from './PaymentMethod/Cyber';
-import Paypal from './PaymentMethod/Paypal';
-import { accountHasClickSurvey } from '@/api/cart';
+import { querySurveyContent } from '@/api/cart';
 import felinAddr from './Address/FelinOfflineAddress';
 import { funcUrl } from '../../lib/url-utils';
 
@@ -399,12 +397,7 @@ class Payment extends React.Component {
             consigneeName: this.userInfo.customerName,
             consigneeNumber: this.userInfo.contactPhone
           })
-        : Object.assign(felinAddr[0], {
-            firstName: 'guest',
-            lastName: 'guest',
-            consigneeName: 'guest guest',
-            consigneeNumber: '(+33) 4 37 92 70 83'
-          });
+        : felinAddr[0];
       this.setState(
         {
           appointNo: appointNo,
@@ -737,6 +730,9 @@ class Payment extends React.Component {
   //获取支付方式
   initPaymentWay = async () => {
     try {
+      const {
+        paymentStore: { setPayWayNameArr }
+      } = this.props;
       const payWay = await getWays();
       // name:后台返回的支付方式，langKey：翻译id，paymentTypeVal：前端显示的支付方式
       let payMethodsObj = {
@@ -775,11 +771,6 @@ class Payment extends React.Component {
           name: 'adyen_klarna_pay_lat',
           langKey: 'adyenPayLater',
           paymentTypeVal: 'adyenKlarnaPayLater'
-        },
-        adyen_paypal: {
-          name: 'adyen_paypal',
-          langKey: 'Paypal',
-          paymentTypeVal: 'adyenPaypal'
         },
         directEbanking: {
           name: 'directEbanking',
@@ -833,6 +824,7 @@ class Payment extends React.Component {
           payWayNameArr
         },
         () => {
+          setPayWayNameArr(payWayNameArr);
           sessionItemRoyal.set(
             'rc-payWayNameArr',
             JSON.stringify(payWayNameArr)
@@ -846,13 +838,20 @@ class Payment extends React.Component {
       });
     }
   };
+  //默认第一个,如没有支付方式,就不初始化方法
   initPaymentTypeVal(val) {
-    //默认第一个,如没有支付方式,就不初始化方法
+    const {
+      paymentStore: { serCurPayWayVal }
+    } = this.props;
+    const tmpVal = val || this.state.payWayNameArr[0]?.paymentTypeVal || '';
+    serCurPayWayVal(tmpVal);
     this.setState(
       {
-        paymentTypeVal: val || this.state.payWayNameArr[0]?.paymentTypeVal || ''
+        paymentTypeVal: tmpVal
       },
-      () => this.onPaymentTypeValChange()
+      () => {
+        this.onPaymentTypeValChange();
+      }
     );
   }
   onPaymentTypeValChange() {
@@ -921,12 +920,15 @@ class Payment extends React.Component {
     });
     sessionItemRoyal.set('recommend_product', JSON.stringify([goodDetail]));
     this.props.checkoutStore.updatePromotionFiled([goodDetail]);
-    if (!this.isLogin && result?.consumerName) {
+    if (!this.isLogin) {
       const felinAddress = Object.assign(felinAddr[0], {
-        firstName: result?.consumerName?.split(' ')[0] || 'guest',
-        lastName: result?.consumerName?.split(' ')[1] || 'guest',
-        consigneeName: result?.consumerName || 'guest guest',
-        consigneeNumber: '(+33) 4 37 92 70 83'
+        firstName: result?.consumerFirstName || '',
+        lastName: result?.consumerLastName || '',
+        consigneeName:
+          result?.consumerName ||
+          result?.consumerFirstName + ' ' + result?.consumerLastName ||
+          '',
+        consigneeNumber: result?.consumerPhone || ''
       });
       this.setState({
         deliveryAddress: felinAddress,
@@ -1112,9 +1114,6 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             browserInfo: this.props.paymentStore.browserInfo,
             encryptedSecurityCode: adyenPayParam?.encryptedSecurityCode || '',
-            shopperLocale: window.__.env.REACT_APP_SHOPPER_LOCALE || 'en_US',
-            currency: window.__.env.REACT_APP_CURRENCY,
-            country: window.__.env.REACT_APP_Adyen_country,
             payPspItemEnum: 'ADYEN_CREDIT_CARD'
           });
           if (adyenPayParam?.paymentToken) {
@@ -1131,9 +1130,6 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             adyenType: 'klarna',
             payPspItemEnum: 'ADYEN_KLARNA_PAY_LATER',
-            shopperLocale: window.__.env.REACT_APP_SHOPPER_LOCALE,
-            currency: window.__.env.REACT_APP_CURRENCY,
-            country: window.__.env.REACT_APP_Adyen_country,
             email
           });
         },
@@ -1141,9 +1137,6 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             adyenType: 'klarna_paynow',
             payPspItemEnum: 'ADYEN_KLARNA_PAYNOW',
-            shopperLocale: window.__.env.REACT_APP_SHOPPER_LOCALE,
-            currency: window.__.env.REACT_APP_CURRENCY,
-            country: window.__.env.REACT_APP_Adyen_country,
             email
           });
         },
@@ -1151,36 +1144,24 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             adyenType: 'directEbanking',
             payPspItemEnum: 'ADYEN_SOFORT',
-            shopperLocale: window.__.env.REACT_APP_SHOPPER_LOCALE,
-            currency: window.__.env.REACT_APP_CURRENCY,
-            country: window.__.env.REACT_APP_Adyen_country,
             email
-          });
-        },
-        adyenPaypal: () => {
-          parameters = Object.assign(commonParameter, {
-            adyenType: 'paypal',
-            payPspItemEnum: 'ADYEN_PAYPAL',
-            shopperLocale: window.__.env.REACT_APP_SHOPPER_LOCALE,
-            currency: window.__.env.REACT_APP_CURRENCY,
-            country: window.__.env.REACT_APP_Adyen_country
           });
         },
         adyenOxxo: () => {
           parameters = Object.assign(commonParameter, {
             payPspItemEnum: 'ADYEN_OXXO',
-            shopperLocale: window.__.env.REACT_APP_SHOPPER_LOCALE,
-            currency: window.__.env.REACT_APP_CURRENCY,
-            country: window.__.env.REACT_APP_Adyen_country,
             email
           });
         },
         cyber: () => {
+          const {
+            cyberPayParam: { id, cardCvv, accessToken }
+          } = this.state;
           parameters = Object.assign({}, commonParameter, {
             payPspItemEnum: 'CYBER',
-            paymentMethodId: this.state.cyberPayParam.id,
-            securityCode: this.state.cyberPayParam.cardCvv,
-            accessToken: this.state.cyberPayParam.accessToken
+            paymentMethodId: id,
+            securityCode: cardCvv,
+            accessToken: accessToken
           });
         }
       };
@@ -1496,17 +1477,6 @@ class Payment extends React.Component {
             window.location.href = res.context.redirectUrl;
           }
           break;
-        case 'adyenPaypal':
-          subOrderNumberList = res.context.tidList;
-          this.removeLocalCartData();
-          // 给paypal支付跳转用
-          if (res.context.tid) {
-            sessionItemRoyal.set('orderNumber', res.context.tid);
-          }
-          if (res.context.redirectUrl) {
-            window.location.href = res.context.redirectUrl;
-          }
-          break;
         case 'cyber':
           subOrderNumberList =
             tidList.length && tidList[0]
@@ -1545,6 +1515,7 @@ class Payment extends React.Component {
         // 清除掉计算运费相关参数
         localItemRoyal.remove('rc-calculation-param');
         sessionItemRoyal.remove('rc-clicked-surveyId');
+        sessionItemRoyal.remove('goodWillFlag');
         //支付成功清除推荐者信息
         this.props.clinicStore.removeLinkClinicInfo();
         this.props.clinicStore.removeLinkClinicRecommendationInfos();
@@ -1738,14 +1709,21 @@ class Payment extends React.Component {
     // 获取本地存储的计算运费折扣参数
     const calculationParam = localItemRoyal.get('rc-calculation-param') || null;
 
-    //登录状态下在cart勾选了survey需判断是否已下单
-    // let surveyId = sessionItemRoyal.get('rc-clicked-surveyId') || '';
-    // if (surveyId !== '' && this.isLogin) {
-    //   const result = await accountHasClickSurvey();
-    //   if (!result.context) {
-    //     surveyId = '';
-    //   }
-    // }
+    //登录状态下在cart勾选了survey需判断是否已下过单
+    let surveyId = sessionItemRoyal.get('rc-clicked-surveyId') || '';
+    if (
+      surveyId !== '' &&
+      this.isLogin &&
+      window.__.env.REACT_APP_COUNTRY === 'us'
+    ) {
+      const result = await querySurveyContent({
+        storeId: window.__.env.REACT_APP_STOREID,
+        customerId: this.userInfo.customerId
+      });
+      if (!result?.context?.isShow || surveyId !== result?.context?.id) {
+        surveyId = '';
+      }
+    }
     //封装felin下单参数
     let appointParam = {};
     if (isFromFelin && recommend_data.length > 0) {
@@ -1792,10 +1770,16 @@ class Payment extends React.Component {
           calculationParam?.minDeliveryTime || deliveryAddress?.minDeliveryTime,
         promotionCode,
         guestEmail,
-        selectWelcomeBoxFlag: this.state.welcomeBoxValue === 'yes' //first order welcome box
+        selectWelcomeBoxFlag: this.state.welcomeBoxValue === 'yes', //first order welcome box
+        surveyId, //us cart survey
+        goodWillFlag:
+          sessionItemRoyal.get('goodWillFlag') === 'GOOD_WILL' ? 1 : 0
       },
       appointParam
     );
+    if (sessionItemRoyal.get('goodWillFlag') === 'GOOD_WILL') {
+      param.orderSource = 'SUPPLIER';
+    }
     let tokenObj = JSON.parse(localStorage.getItem('okta-token-storage'));
     if (tokenObj && tokenObj.accessToken) {
       param.oktaToken = 'Bearer ' + tokenObj.accessToken.accessToken;
@@ -2185,9 +2169,13 @@ class Payment extends React.Component {
     });
   };
   handlePaymentTypeChange = (e) => {
-    this.setState({ paymentTypeVal: e.target.value, email: '' }, () =>
-      this.onPaymentTypeValChange()
-    );
+    const {
+      paymentStore: { serCurPayWayVal }
+    } = this.props;
+    this.setState({ paymentTypeVal: e.target.value, email: '' }, () => {
+      serCurPayWayVal(this.state.paymentTypeVal);
+      this.onPaymentTypeValChange();
+    });
   };
 
   handleCardTypeChange = (e) => {
@@ -2331,6 +2319,9 @@ class Payment extends React.Component {
     }
   };
   updateDeliveryAddrData = (data) => {
+    const {
+      paymentStore: { setPayWayNameArr }
+    } = this.props;
     this.setState(
       {
         deliveryAddress: data
@@ -2359,6 +2350,7 @@ class Payment extends React.Component {
           console.log('666 -->> pmd: ', pmd);
 
           this.setState({ payWayNameArr: [...newPayWayName] }, () => {
+            setPayWayNameArr(this.state.payWayNameArr);
             this.initPaymentTypeVal();
           });
         }
@@ -3322,25 +3314,6 @@ class Payment extends React.Component {
                   })}
                 </>
               )}
-              {/* adyen-paypal */}
-              {paymentTypeVal == 'adyenPaypal' && (
-                <>
-                  <Paypal
-                    billingJSX={this.renderBillingJSX({
-                      type: 'paypal'
-                    })}
-                  />
-                  {/* 校验状态
-                  1 卡校验，从adyen form传入校验状态
-                  2 billing校验 */}
-                  {payConfirmBtn({
-                    disabled: validForBilling,
-                    loading: saveBillingLoading,
-                    aaa: validSts,
-                    bbb: validForBilling
-                  })}
-                </>
-              )}
 
               {/* todo 重构后的CYBER */}
               {paymentTypeVal === 'cyber' && (
@@ -3486,7 +3459,7 @@ class Payment extends React.Component {
         <div className="row">
           {ret}
           {!tid && !hideBillingAddr && !isFromFelin && (
-            <div className="col-12 col-md-6 mt-2 mt-md-0 visitor_address_preview">
+            <div className="col-12 col-md-6 mt-2 md:mt-0 visitor_address_preview">
               {this.renderAddrPreview({
                 form,
                 titleVisible: true,
@@ -3633,7 +3606,12 @@ class Payment extends React.Component {
 
   render() {
     const { paymentMethodPanelStatus } = this;
-    const { history, location, checkoutStore } = this.props;
+    const {
+      history,
+      location,
+      checkoutStore,
+      paymentStore: { curPayWayInfo }
+    } = this.props;
     const {
       loading,
       errorMsg,
@@ -3768,7 +3746,7 @@ class Payment extends React.Component {
                 </p>
               </div>
             </div>
-            <div className="rc-layout-container rc-three-column rc-max-width--xl mt-3 mt-md-0">
+            <div className="rc-layout-container rc-three-column rc-max-width--xl mt-3 md:mt-0">
               <div className="rc-column rc-double-width shipping__address">
                 {/* 错误提示，errorMsg==This Error No Display时不显示  */}
                 <div
@@ -3968,7 +3946,7 @@ class Payment extends React.Component {
                   }
                 />
               </div>
-              <div className="rc-column pl-md-0 rc-md-up ">
+              <div className="rc-column md:pl-0 rc-md-up ">
                 {tid ? (
                   <RePayProductInfo
                     fixToHeader={false}
@@ -4004,7 +3982,10 @@ class Payment extends React.Component {
                 <Faq />
               </div>
             </div>
-            <Adyen3DForm action={this.state.adyenAction} />
+            <Adyen3DForm
+              action={this.state.adyenAction}
+              key={curPayWayInfo?.code}
+            />
           </div>
           <div className="checkout-product-summary rc-bg-colour--brand3 rc-border-all rc-border-colour--brand4 rc-md-down">
             <div

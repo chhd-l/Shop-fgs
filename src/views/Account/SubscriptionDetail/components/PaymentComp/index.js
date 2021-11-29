@@ -17,19 +17,19 @@ import Loading from '@/components/Loading';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import AdyenEditForm from '@/components/Adyen/form';
 import {
-  CREDIT_CARD_IMG_ENUM,
   PAYMENT_METHOD_PAU_ACCOUNT_RULE,
   PAYMENT_METHOD_PAU_CHECKOUT_RULE
 } from '@/utils/constant';
 import './index.css';
 import LazyLoad from 'react-lazyload';
 import classNames from 'classnames';
+import getCardImg from '@/lib/get-card-img';
 
 import { myAccountActionPushEvent } from '@/utils/GA';
 import PaymentEditForm from '@/components/PaymentEditForm';
 
 function CardItem(props) {
-  const { data } = props;
+  const { data, supportPaymentMethods } = props;
   return (
     <div
       className={`${
@@ -50,17 +50,17 @@ function CardItem(props) {
       >
         {props.operateBtnJSX}
       </div>
-      <div className={`pt-4 pt-md-4 pb-2 w-100`}>
+      <div className={`pt-4 md:pt-4 pb-2 w-100`}>
         <div className="row">
           <div className={`col-4 d-flex flex-column justify-content-center`}>
             <LazyLoad height={200}>
               <img
                 className="PayCardImgFitScreen"
                 style={{ height: '5rem' }}
-                src={
-                  CREDIT_CARD_IMG_ENUM[data.paymentVendor.toUpperCase()] ||
-                  'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                }
+                src={getCardImg({
+                  supportPaymentMethods,
+                  currentVendor: data.paymentVendor
+                })}
                 alt="pay card img fit screen"
               />
             </LazyLoad>
@@ -131,21 +131,23 @@ class PaymentComp extends React.Component {
     };
   }
   async componentDidMount() {
+    const {
+      paymentStore: {
+        setPayWayNameArr,
+        serCurPayWayVal,
+        setSupportPaymentMethods
+      }
+    } = this.props;
     getWays().then((res) => {
       this.setState({
         paymentType: res?.context?.name
       });
-      // if (res?.context?.name === 'ADYEN') {
-      //   this.setState({
-      //     paymentType: 'ADYEN'
-      //   });
-      // }
-      // if (this.state.paymentType === 'PAYU') {
-      //   this.updateInitStatus(true);
-      // }
+      const payPspItemVOList = res?.context?.payPspItemVOList || [];
+      setPayWayNameArr(payPspItemVOList);
       const supportPaymentMethods =
-        res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || [];
-      this.props.paymentStore.setSupportPaymentMethods(supportPaymentMethods);
+        payPspItemVOList[0]?.payPspItemCardTypeVOList || [];
+      setSupportPaymentMethods(supportPaymentMethods);
+      serCurPayWayVal(supportPaymentMethods[0]?.code);
       this.setState(
         { defaultCardTypeVal: supportPaymentMethods[0]?.cardType },
         () => {
@@ -695,28 +697,12 @@ class PaymentComp extends React.Component {
     }
   }
   render() {
-    const { needEmail, needPhone } = this.props;
     const {
-      creditCardInfoForm,
-      creditCardList,
-      currentCardInfo,
-      supportPaymentMethods
-    } = this.state;
-    const CreditCardImg = (
-      <span className="logo-payment-card-list logo-credit-card">
-        {supportPaymentMethods.map((el, idx) => (
-          <LazyLoad>
-            <img
-              key={idx}
-              className="logo-payment-card"
-              src={el.img}
-              alt="logo payment card"
-            />
-          </LazyLoad>
-        ))}
-      </span>
-    );
-    const { isLogin } = this.props.loginStore;
+      needEmail,
+      needPhone,
+      paymentStore: { supportPaymentMethods }
+    } = this.props;
+    const { creditCardInfoForm, creditCardList, currentCardInfo } = this.state;
 
     return (
       <div
@@ -841,6 +827,7 @@ class PaymentComp extends React.Component {
                           </span>
                         </>
                       }
+                      supportPaymentMethods={supportPaymentMethods}
                     />
                   </div>
                 ))}
@@ -898,7 +885,7 @@ class PaymentComp extends React.Component {
             hideMyself={this.handleHideEditForm}
             refreshList={this.getPaymentMethodList}
             paymentType={this.state.paymentType}
-            supportPaymentMethods={this.state.supportPaymentMethods}
+            supportPaymentMethods={supportPaymentMethods}
             needEmail={this.props.needEmail}
             needPhone={this.props.needPhone}
             paymentStore={this.props.paymentStore}

@@ -131,7 +131,7 @@ const RecommendationList = ({ productDetail }) => {
             <div className="d-flex">
               {productDetail?.otherProducts?.map((ele, i) => (
                 <div
-                  className={`border rounded pt-3 pb-3 pl-2 pr-2 pl-md-0 pr-md-0 ${
+                  className={`border rounded pt-3 pb-3 pl-2 pr-2 md:pl-0 md:pr-0 ${
                     i ? 'ml-2' : ''
                   }`}
                   key={ele.id}

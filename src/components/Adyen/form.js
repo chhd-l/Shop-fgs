@@ -8,6 +8,7 @@ import { addOrUpdatePaymentMethod } from '@/api/payment';
 import translations from './translations';
 import LazyLoad from 'react-lazyload';
 import { myAccountActionPushEvent } from '@/utils/GA';
+import getPaymentConf from '@/lib/get-payment-conf';
 
 let adyenFormData = {};
 
@@ -37,11 +38,12 @@ class AdyenCreditCardForm extends React.Component {
     super(props);
     this.state = {
       adyenFormData: { isDefault: 0 },
-      isValid: false
+      isValid: false,
+      adyenOriginKeyConf: null
     };
   }
   componentDidMount() {
-    this.initForm();
+    this.initAdyenConf();
     this.setState({
       adyenFormData: Object.assign(adyenFormData, {
         isDefault: 0
@@ -60,8 +62,25 @@ class AdyenCreditCardForm extends React.Component {
   getBrowserInfo(state) {
     this.props.paymentStore.setBrowserInfo(state.data.browserInfo);
   }
+  async initAdyenConf() {
+    const {
+      paymentStore: { curPayWayInfo }
+    } = this.props;
+    const tmp = await getPaymentConf();
+    this.setState(
+      {
+        adyenOriginKeyConf: tmp.filter(
+          (t) => t.pspItemCode === curPayWayInfo?.code
+        )[0]
+      },
+      () => {
+        this.initForm();
+      }
+    );
+  }
   initForm() {
     const _this = this;
+    const { adyenOriginKeyConf } = this.state;
     dynamicLoadCss(
       'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.css'
     );
@@ -74,9 +93,9 @@ class AdyenCreditCardForm extends React.Component {
           const AdyenCheckout = window.AdyenCheckout;
           // (1) Create an instance of AdyenCheckout
           const checkout = new AdyenCheckout({
-            environment: window.__.env.REACT_APP_Adyen_ENV,
-            originKey: window.__.env.REACT_APP_AdyenOriginKEY,
-            locale: window.__.env.REACT_APP_Adyen_locale,
+            environment: adyenOriginKeyConf?.environment,
+            originKey: adyenOriginKeyConf?.openPlatformSecret,
+            locale: adyenOriginKeyConf?.locale,
             translations,
             allowAddedLocales: true
           });

@@ -53,10 +53,10 @@ const subscription = () => {
             <div className="value-proposition__container">
               <div className="row mx-0 justify-content-between">
                 <div />
-                <div className="col-12 col-md-6 col-xl-2 col-lg-4 d-flex px-0 py-1 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
+                <div className="col-12 col-md-6 col-xl-2 col-lg-4 d-flex px-0 py-1 md:pl-0 md:pr-2  pr-xxl-0 pl-xxl-0 justify-content-center">
                   <div className="row justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow flex-nowrap py-3">
                     <div
-                      className="col-4 col-md-6 text-md-right px-2 py-2"
+                      className="col-4 col-md-6 md:text-right px-2 py-2"
                       style={{
                         display: 'flex',
                         justifyContent: 'center',
@@ -77,10 +77,10 @@ const subscription = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-12 col-md-6 col-xl-2 col-lg-4 d-flex px-0 py-1 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
+                <div className="col-12 col-md-6 col-xl-2 col-lg-4 d-flex px-0 py-1 md:pl-0 md:pr-2  pr-xxl-0 pl-xxl-0 justify-content-center">
                   <div className="row justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow flex-nowrap py-3">
                     <div
-                      className="col-4 col-md-6 text-md-right px-2 py-2"
+                      className="col-4 col-md-6 md:text-right px-2 py-2"
                       style={{
                         display: 'flex',
                         justifyContent: 'center',
@@ -104,10 +104,10 @@ const subscription = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-12 col-md-6 col-xl-2 col-lg-4 d-flex px-0 py-1 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
+                <div className="col-12 col-md-6 col-xl-2 col-lg-4 d-flex px-0 py-1 md:pl-0 md:pr-2  pr-xxl-0 pl-xxl-0 justify-content-center">
                   <div className="row justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow flex-nowrap py-3">
                     <div
-                      className="col-4 col-md-6 text-md-right px-2 py-2"
+                      className="col-4 col-md-6 md:text-right px-2 py-2"
                       style={{
                         display: 'flex',
                         justifyContent: 'center',
@@ -131,10 +131,10 @@ const subscription = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-12 col-md-6 col-xl-2 col-lg-4 d-flex px-0 py-1 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
+                <div className="col-12 col-md-6 col-xl-2 col-lg-4 d-flex px-0 py-1 md:pl-0 md:pr-2  pr-xxl-0 pl-xxl-0 justify-content-center">
                   <div className="row justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow flex-nowrap py-3">
                     <div
-                      className="col-4 col-md-6 text-md-right px-2 py-2"
+                      className="col-4 col-md-6 md:text-right px-2 py-2"
                       style={{
                         display: 'flex',
                         justifyContent: 'center',

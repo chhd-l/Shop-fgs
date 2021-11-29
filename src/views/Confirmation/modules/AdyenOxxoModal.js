@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import './AdyenOxxoModal.css';
 import { FormattedMessage } from 'react-intl';
 import { loadJS } from '@/utils/utils';
+import getPaymentConf from '@/lib/get-payment-conf';
 
 export default class AdyenOxxoModal extends Component {
   static defaultProps = {
-    visible: true
+    visible: true,
+    pspItemCode: ''
   };
   constructor(props) {
     super(props);
@@ -14,17 +16,22 @@ export default class AdyenOxxoModal extends Component {
   close = () => {
     this.props.close();
   };
-  presentVoucher(action) {
+  async presentVoucher(action) {
+    const tmpConfArr = await getPaymentConf();
+    const adyenOriginKeyConf = tmpConfArr.filter(
+      (t) => t.pspItemCode === this.props.pspItemCode
+    )[0];
     loadJS({
-      url: 'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
+      url:
+        'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
       callback: function () {
         if (!!window.AdyenCheckout) {
           const AdyenCheckout = window.AdyenCheckout;
           const checkout = new AdyenCheckout({
-            environment: window.__.env.REACT_APP_Adyen_ENV,
-            originKey: window.__.env.REACT_APP_AdyenOriginKEY,
-            locale: window.__.env.REACT_APP_Adyen_locale,
-            shopperLocale: window.__.env.REACT_APP_SHOPPER_LOCALE
+            environment: adyenOriginKeyConf?.environment,
+            originKey: adyenOriginKeyConf?.openPlatformSecret,
+            locale: adyenOriginKeyConf?.locale,
+            shopperLocale: adyenOriginKeyConf?.locale
           });
 
           //Present the voucher
