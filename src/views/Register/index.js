@@ -18,6 +18,7 @@ import { userBindConsent } from '@/api/consent';
 import Modal from '@/components/Modal';
 import { inject, observer } from 'mobx-react';
 import { addEventListenerArr } from './addEventListener';
+import { EMAIL_REGEXP } from '@/utils/constant';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -257,9 +258,8 @@ class Register extends Component {
         });
         break;
       case 'email':
-        var emailReg = /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/;
         this.setState({
-          emailValid: emailReg.test(value),
+          emailValid: EMAIL_REGEXP.test(value),
           emailMessage: value
             ? this.props.intl.messages.registerEmailFormate
             : this.props.intl.messages.registerFillIn

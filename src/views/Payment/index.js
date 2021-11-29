@@ -674,7 +674,7 @@ class Payment extends React.Component {
     const targetRule = ADDRESS_RULE.filter((e) => e.key === target.name);
     const value = target.value;
     try {
-      await validData(targetRule, { [target.name]: value });
+      await validData({ rule: targetRule, data: { [target.name]: value } });
       this.setState({
         cyberErrMsgObj: Object.assign({}, cyberErrMsgObj, {
           [target.name]: ''

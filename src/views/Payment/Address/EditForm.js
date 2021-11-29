@@ -117,7 +117,7 @@ class EditForm extends React.Component {
     const targetRule = ADDRESS_RULE.filter((e) => e.key === target.name);
     const value = target.type === 'checkbox' ? target.checked : target.value;
     try {
-      await validData(targetRule, { [target.name]: value });
+      await validData({ rule: targetRule, data: { [target.name]: value } });
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
           [target.name]: ''

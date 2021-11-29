@@ -27,7 +27,6 @@ import './env';
 import oktaConfig from './oktaConfig';
 import '@/assets/iconfont/iconfont.css';
 import '@/assets/css/global.css';
-import locales from '@/lang';
 import '@/utils/global';
 import stores from './store';
 import { PDP_Regex } from '@/utils/constant';
@@ -35,7 +34,8 @@ import { redirectFun } from '@/redirect/utils';
 import '@/utils/init';
 import { stgShowAuth } from '@/utils/utils';
 import ScrollToTop from '@/components/ScrollToTop';
-import { getDynamicLanguage } from './lang';
+// import { getDynamicLanguage } from './lang';
+import { useDynamicLanguage } from '@/framework/common';
 import RouteFilter from '@/components/RouteFilter';
 const Home = loadable(() => import('@/views/Home'), 'rc-carousel');
 
@@ -270,24 +270,6 @@ const ImplicitLogin = () => {
   const { oktaAuth } = useOktaAuth();
   oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
   return <div />;
-};
-
-const useDynamicLanguage = () => {
-  const [dynamicLanguage, setDynamicLanguage] = useState({});
-  const [loading, setLoading] = useState(true);
-  console.log(dynamicLanguage, 'dynamicLanguage');
-
-  useEffect(() => {
-    async function getLanguage() {
-      setLoading(true);
-      const lang = await getDynamicLanguage();
-      setDynamicLanguage(lang);
-      setLoading(false);
-    }
-    getLanguage();
-  }, []);
-
-  return [loading, dynamicLanguage];
 };
 
 const App = () => {

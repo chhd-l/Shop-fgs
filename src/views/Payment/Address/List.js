@@ -971,7 +971,7 @@ class AddressList extends React.Component {
       this.setState({
         isValid: false
       });
-      await validData(data.formRule, data); // 数据验证
+      await validData({ rule: data.formRule, data }); // 数据验证
       this.setState({ isValid: true, saveErrorMsg: '' }, () => {
         // 设置按钮状态
         this.props.updateFormValidStatus(this.state.isValid);

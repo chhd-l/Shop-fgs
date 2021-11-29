@@ -44,6 +44,7 @@ import { inject, observer } from 'mobx-react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import IMask from 'imask';
 import debounce from 'lodash/debounce';
+import { EMAIL_REGEXP } from '@/utils/constant';
 import './index.less';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
@@ -611,7 +612,7 @@ class Form extends React.Component {
           errMsg = formatMessage({ id: 'enterCorrectPostCode' });
           break;
         case 'email':
-          regExp = /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/;
+          regExp = EMAIL_REGEXP;
           errMsg = formatMessage({ id: 'pleaseEnterTheCorrectEmail' });
           break;
         case 'phoneNumber':
@@ -1107,7 +1108,8 @@ class Form extends React.Component {
           });
         }
       }
-      await validData(targetRule, { [tname]: tvalue });
+
+      await validData({ rule: targetRule, data: { [tname]: tvalue } });
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
           [tname]: ''
@@ -1133,9 +1135,9 @@ class Form extends React.Component {
     try {
       // 验证整个表单
       if (isDeliveryDateAndTimeSlot) {
-        await validData(caninForm.formRuleRu, caninForm);
+        await validData({ rule: caninForm.formRuleRu, data: caninForm });
       } else {
-        await validData(caninForm.formRule, caninForm);
+        await validData({ rule: caninForm.formRule, data: caninForm });
       }
       this.props.getFormAddressValidFlag(true);
     } catch {

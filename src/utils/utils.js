@@ -234,13 +234,14 @@ export function getDeviceType() {
  * validate data
  * @param {Object} data - data needs validate
  */
-export async function validData(rule, data) {
+export async function validData({ rule, data, intl }) {
   for (let key in data) {
     const val = data[key];
     const targetRule = find(rule, (ele) => ele.key === key);
     if (targetRule) {
+      const errMsg = targetRule?.errMsg || targetRule.getErrMsg({ intl });
       if (targetRule.require && !val) {
-        throw new Error(targetRule.errMsg);
+        throw new Error(errMsg);
       }
       if (
         targetRule.require &&
@@ -248,7 +249,7 @@ export async function validData(rule, data) {
         val &&
         !targetRule.regExp.test(val)
       ) {
-        throw new Error(targetRule.errMsg);
+        throw new Error(errMsg);
       }
       if (targetRule.isBlacklist) {
         throw new Error('');

@@ -579,7 +579,10 @@ class AddressList extends React.Component {
       ) {
         return;
       }
-      await validData(deliveryAddress.formRule, deliveryAddress); // 数据验证
+      await validData({
+        rule: deliveryAddress.formRule,
+        data: deliveryAddress
+      }); // 数据验证
       // await validData(ADDRESS_RULE, deliveryAddress);
       this.setState({ isValid: true });
     } catch (err) {

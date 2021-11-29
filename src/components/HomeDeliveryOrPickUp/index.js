@@ -682,7 +682,7 @@ class HomeDeliveryOrPickUp extends React.Component {
     const { pickupForm, pickupErrMsgs } = this.state;
     let targetRule = pickupForm.formRule.filter((e) => e.key === tname);
     try {
-      await validData(targetRule, { [tname]: tvalue });
+      await validData({ rule: targetRule, data: { [tname]: tvalue } });
       this.setState({
         pickupErrMsgs: Object.assign({}, pickupErrMsgs, {
           [tname]: ''
@@ -702,7 +702,7 @@ class HomeDeliveryOrPickUp extends React.Component {
   validFormAllPickupData = async () => {
     const { pickupForm } = this.state;
     try {
-      await validData(pickupForm.formRule, pickupForm);
+      await validData({ rule: pickupForm.formRule, data: pickupForm });
       this.props.updateConfirmBtnDisabled(false);
       pickupForm.consigneeNumber = pickupForm.phoneNumber;
       this.props.updateData(pickupForm);
