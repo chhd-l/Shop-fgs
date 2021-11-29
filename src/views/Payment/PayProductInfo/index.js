@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';
 import { formatMoney, getFrequencyDict, getClubLogo } from '@/utils/utils';
@@ -26,6 +26,7 @@ const localItemRoyal = window.__.localItemRoyal;
   'clinicStore',
   'configStore'
 )
+@injectIntl
 @observer
 class PayProductInfo extends React.Component {
   static defaultProps = {
@@ -504,16 +505,17 @@ class PayProductInfo extends React.Component {
       purchasesPara.purchaseFlag = false; // 购物车: true，checkout: false
       purchasesPara.address1 = this.props.deliveryAddress?.address1;
       console.log('------- ', purchasesPara);
+      const tmpParam = Object.assign(purchasesPara, {
+        intl: this.props.intl
+      });
       if (!this.isLogin) {
         purchasesPara.guestEmail = this.props.guestEmail;
         //游客
-        result = await this.props.checkoutStore.updateUnloginCart(
-          purchasesPara
-        );
+        result = await this.props.checkoutStore.updateUnloginCart(tmpParam);
       } else {
         purchasesPara.subscriptionFlag = this.props.buyWay === 'frequency';
         //会员
-        result = await this.props.checkoutStore.updateLoginCart(purchasesPara);
+        result = await this.props.checkoutStore.updateLoginCart(tmpParam);
       }
 
       if (!result.context.promotionFlag || result.context.couponCodeFlag) {
@@ -772,17 +774,20 @@ class PayProductInfo extends React.Component {
                                   'rc-payment-purchases-param'
                                 ) || {};
                               purchasesPara.promotionCode = '';
+                              const param = Object.assign(purchasesPara, {
+                                intl: this.props.intl
+                              });
                               if (!this.props.loginStore.isLogin) {
                                 // 游客
                                 result = await checkoutStore.updateUnloginCart(
-                                  purchasesPara
+                                  param
                                 );
                               } else {
                                 purchasesPara.subscriptionFlag =
                                   this.props.buyWay === 'frequency';
                                 // 会员
                                 result = await checkoutStore.updateLoginCart(
-                                  purchasesPara
+                                  param
                                 );
                               }
                               discount.pop();

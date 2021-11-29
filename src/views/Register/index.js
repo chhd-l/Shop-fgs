@@ -18,6 +18,7 @@ import { userBindConsent } from '@/api/consent';
 import Modal from '@/components/Modal';
 import { inject, observer } from 'mobx-react';
 import { addEventListenerArr } from './addEventListener';
+import { EMAIL_REGEXP } from '@/utils/constant';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -230,13 +231,8 @@ class Register extends Component {
   validInput(name, value) {
     switch (name) {
       case 'password':
-        const {
-          ruleLength,
-          ruleLower,
-          ruleUpper,
-          ruleAname,
-          ruleSpecial
-        } = this.state;
+        const { ruleLength, ruleLower, ruleUpper, ruleAname, ruleSpecial } =
+          this.state;
         const passwordValid =
           ruleLength && ruleLower && ruleUpper && ruleAname && ruleSpecial;
         this.setState({
@@ -262,9 +258,8 @@ class Register extends Component {
         });
         break;
       case 'email':
-        var emailReg = /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/;
         this.setState({
-          emailValid: emailReg.test(value),
+          emailValid: EMAIL_REGEXP.test(value),
           emailMessage: value
             ? this.props.intl.messages.registerEmailFormate
             : this.props.intl.messages.registerFillIn
@@ -284,7 +279,8 @@ class Register extends Component {
       var lowerReg = /[a-z]+/;
       var upperReg = /[A-Z]+/;
       var nameReg = /[\d]+/;
-      var specialReg = /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
+      var specialReg =
+        /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
       this.setState(
         {
           ruleLength: value.length >= 8,
@@ -343,7 +339,7 @@ class Register extends Component {
             localItemRoyal.set('rc-register', true);
             if (checkoutStore.cartData.length) {
               await mergeUnloginCartData();
-              await checkoutStore.updateLoginCart();
+              await checkoutStore.updateLoginCart({ intl: this.props.intl });
             }
             loginStore.setUserInfo(res.context.customerDetail);
             localItemRoyal.set(
@@ -624,9 +620,8 @@ class Register extends Component {
                               {window.__.env.REACT_APP_COUNTRY === 'de' ? (
                                 <span
                                   dangerouslySetInnerHTML={{
-                                    __html: this.getIntlMsg(
-                                      'registerContinuing'
-                                    )
+                                    __html:
+                                      this.getIntlMsg('registerContinuing')
                                   }}
                                 ></span>
                               ) : (

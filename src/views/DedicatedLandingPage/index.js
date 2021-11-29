@@ -261,13 +261,15 @@ class DedicatedLandingPage extends React.Component {
           recommendationId:
             this.props.clinicStore.linkClinicRecommendationInfos
               ?.recommendationId || this.props.clinicStore.linkClinicId,
-          recommendationInfos: this.props.clinicStore
-            .linkClinicRecommendationInfos,
+          recommendationInfos:
+            this.props.clinicStore.linkClinicRecommendationInfos,
           recommendationName:
             this.props.clinicStore.linkClinicRecommendationInfos
               ?.recommendationName || this.props.clinicStore.linkClinicName
         });
-        await this.props.checkoutStore.updateLoginCart();
+        await this.props.checkoutStore.updateLoginCart({
+          intl: this.props.intl
+        });
         this.setState({ buttonLoading: false, showKitten: false });
         this.props.history.push('/cart');
       } catch (e) {
@@ -317,8 +319,8 @@ class DedicatedLandingPage extends React.Component {
         currentUnitPrice: choosedProduct[0]?.marketPrice,
         goodsInfoFlag: 0,
         periodTypeId: null,
-        recommendationInfos: this.props.clinicStore
-          .linkClinicRecommendationInfos,
+        recommendationInfos:
+          this.props.clinicStore.linkClinicRecommendationInfos,
         recommendationId:
           this.props.clinicStore.linkClinicRecommendationInfos
             ?.recommendationId || this.props.clinicStore.linkClinicId,

@@ -45,8 +45,7 @@ export function Advantage() {
         {
           imgUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_DISCOUNT@x2.png`,
           imgAlt: 'club benefits',
-          text:
-            'Save 5% on Every Autoship Order Plus, 30% Off Your First Order Through Royal Canin Club'
+          text: 'Save 5% on Every Autoship Order Plus, 30% Off Your First Order Through Royal Canin Club'
         },
         {
           imgUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/COHORT-A_CLUB-BENEFITS_PET-ADVISOR@x2.png`,

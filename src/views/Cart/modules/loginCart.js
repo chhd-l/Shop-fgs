@@ -152,7 +152,7 @@ class LoginCart extends React.Component {
       const unloginCartData = this.checkoutStore.cartData;
       if (unloginCartData.length) {
         await mergeUnloginCartData();
-        await this.checkoutStore.updateLoginCart();
+        await this.checkoutStore.updateLoginCart({ intl: this.props.intl });
       }
 
       GACartScreenLoad();
@@ -297,7 +297,8 @@ class LoginCart extends React.Component {
       this.setState({ checkoutLoading: true });
       await this.checkoutStore.updateLoginCart({
         isThrowErr,
-        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
+        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT),
+        intl: this.props.intl
       });
       callback && callback();
       this.setData();
@@ -1479,7 +1480,7 @@ class LoginCart extends React.Component {
     this.setState({ checkoutLoading: false });
   }
   handleRemovePromotionCode = async () => {
-    const { checkoutStore, loginStore, buyWay } = this.props;
+    const { checkoutStore, loginStore, buyWay, intl } = this.props;
     let { discount } = this.state;
     let result = {};
     await checkoutStore.removePromotionCode();
@@ -1488,10 +1489,11 @@ class LoginCart extends React.Component {
     if (loginStore.isLogin) {
       result = await checkoutStore.updateLoginCart({
         promotionCode: '',
-        subscriptionFlag: buyWay === 'frequency'
+        subscriptionFlag: buyWay === 'frequency',
+        intl
       });
     } else {
-      result = await checkoutStore.updateUnloginCart();
+      result = await checkoutStore.updateUnloginCart({ intl });
     }
     this.setState({
       discount: [],
@@ -1502,7 +1504,7 @@ class LoginCart extends React.Component {
   };
   handleClickPromotionApply = async (falseCodeAndReRequest = false) => {
     //falseCodeAndReRequest 需要重新请求code填充公共code
-    const { checkoutStore, loginStore, buyWay } = this.props;
+    const { checkoutStore, loginStore, buyWay, intl } = this.props;
     let { promotionInputValue, discount } = this.state;
     if (!promotionInputValue && !falseCodeAndReRequest) return;
     let result = {};
@@ -1516,11 +1518,13 @@ class LoginCart extends React.Component {
     if (loginStore.isLogin) {
       result = await checkoutStore.updateLoginCart({
         promotionCode: lastPromotionInputValue,
-        subscriptionFlag: buyWay === 'frequency'
+        subscriptionFlag: buyWay === 'frequency',
+        intl
       });
     } else {
       result = await checkoutStore.updateUnloginCart({
-        promotionCode: lastPromotionInputValue
+        promotionCode: lastPromotionInputValue,
+        intl
       });
     }
     if (

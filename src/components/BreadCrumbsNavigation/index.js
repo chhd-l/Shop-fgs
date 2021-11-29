@@ -59,7 +59,7 @@ function BreadCrumbsNavigation({ list }) {
                     </Link>
                   </>
                 )}
-                <meta itemprop="position" content={index + 1} />
+                <meta itemProp="position" content={index + 1} />
               </li>
               {index !== decoList.length - 1 && (
                 <span className="font-weight-normal ml-2 mr-2">&gt;</span>

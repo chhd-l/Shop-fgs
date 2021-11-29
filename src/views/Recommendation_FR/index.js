@@ -241,12 +241,8 @@ class Help extends React.Component {
     // }
   }
   checkoutStock() {
-    let {
-      productList,
-      outOfStockProducts,
-      inStockProducts,
-      modalList
-    } = this.state;
+    let { productList, outOfStockProducts, inStockProducts, modalList } =
+      this.state;
     for (let i = 0; i < productList.length; i++) {
       if (
         productList[i].recommendationNumber > productList[i].goodsInfo.stock
@@ -276,12 +272,8 @@ class Help extends React.Component {
     );
   }
   async hanldeLoginAddToCart() {
-    let {
-      productList,
-      outOfStockProducts,
-      inStockProducts,
-      modalList
-    } = this.state;
+    let { productList, outOfStockProducts, inStockProducts, modalList } =
+      this.state;
     // console.log(outOfStockProducts, inStockProducts, '...1')
     // return
 
@@ -308,7 +300,9 @@ class Help extends React.Component {
             recommendationId: this.props.clinicStore.linkClinicId,
             recommendationName: this.props.clinicStore.linkClinicName
           });
-          await this.props.checkoutStore.updateLoginCart();
+          await this.props.checkoutStore.updateLoginCart({
+            intl: this.props.intl
+          });
         } catch (e) {
           this.setState({ buttonLoading: false });
         }
@@ -384,7 +378,8 @@ class Help extends React.Component {
       }
       console.log(cartDataCopy, 'cartDataCopy');
       await this.props.checkoutStore.updateUnloginCart({
-        cartData: cartDataCopy
+        cartData: cartDataCopy,
+        intl: this.props.intl
       });
     }
     this.props.history.push(path);
@@ -410,12 +405,8 @@ class Help extends React.Component {
       localItemRoyal.set('okta-redirectUrl', '/prescription');
     }
     this.setState({ needLogin });
-    let {
-      productList,
-      outOfStockProducts,
-      inStockProducts,
-      modalList
-    } = this.state;
+    let { productList, outOfStockProducts, inStockProducts, modalList } =
+      this.state;
     let totalPrice;
     inStockProducts.map((el) => {
       console.log(el, 'instock');
@@ -496,12 +487,8 @@ class Help extends React.Component {
   }
   async hanldeClickSubmit() {
     const { checkoutStore, loginStore, history, clinicStore } = this.props;
-    let {
-      currentModalObj,
-      subDetail,
-      outOfStockProducts,
-      inStockProducts
-    } = this.state;
+    let { currentModalObj, subDetail, outOfStockProducts, inStockProducts } =
+      this.state;
     this.setState({ loading: true, modalShow: false });
     if (currentModalObj.type === 'addToCart') {
       for (let i = 0; i < inStockProducts.length; i++) {
@@ -512,7 +499,7 @@ class Help extends React.Component {
             goodsCategory: '',
             goodsInfoFlag: 0
           });
-          await checkoutStore.updateLoginCart();
+          await checkoutStore.updateLoginCart({ intl: this.props.intl });
         } catch (e) {
           this.setState({ buttonLoading: false });
         }

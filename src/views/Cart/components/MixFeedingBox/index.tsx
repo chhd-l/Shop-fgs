@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import cn from 'classnames';
@@ -22,6 +22,7 @@ const MixFeedingBox = function ({
   beforeUpdate
 }) {
   const History = useHistory();
+  const Intl = useIntl();
   const [selectedSku, setSelectedSku] = useState(null);
   const [quantity, setQuantity] = useState(mixFeedingData.quantity);
   const [isInStock, setIsInStock] = useState(true);
@@ -203,15 +204,17 @@ const MixFeedingBox = function ({
                                 <div className="text-left ml-1 text-capitalize rc-margin-bottom--xs">
                                   {sItem.specName}:
                                 </div>
-                                {sItem.chidren.filter(el => el.selected).map((sdItem, i2) => (
-                                  <div
-                                    style={{ display: 'initial' }}
-                                    className={`rc-swatch__item selected`}
-                                    key={i2}
-                                  >
-                                    <span key={i2}>{sdItem.detailName}</span>
-                                  </div>
-                                ))}
+                                {sItem.chidren
+                                  .filter((el) => el.selected)
+                                  .map((sdItem, i2) => (
+                                    <div
+                                      style={{ display: 'initial' }}
+                                      className={`rc-swatch__item selected`}
+                                      key={i2}
+                                    >
+                                      <span key={i2}>{sdItem.detailName}</span>
+                                    </div>
+                                  ))}
                               </div>
                             ))}
                         </div>
@@ -267,9 +270,13 @@ const MixFeedingBox = function ({
                       copyData.periodTypeId = periodTypeId;
                       copyData.quantity = quantity;
                       console.log('copyData', copyData);
+                      const param = {
+                        product: copyData,
+                        intl: Intl
+                      };
                       isLogin
-                        ? await addToLoginCartData(copyData)
-                        : await addToUnloginCartData(copyData);
+                        ? await addToLoginCartData(param)
+                        : await addToUnloginCartData(param);
                       update();
                     }}
                   >

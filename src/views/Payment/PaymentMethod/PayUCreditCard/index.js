@@ -261,10 +261,10 @@ class PayOs extends React.Component {
   };
   async validFormData() {
     try {
-      await validData(
-        PAYMENT_METHOD_PAU_CHECKOUT_RULE,
-        this.state.creditCardInfoForm
-      );
+      await validData({
+        rule: PAYMENT_METHOD_PAU_CHECKOUT_RULE,
+        data: this.state.creditCardInfoForm
+      });
       this.setState({ isValid: true });
     } catch (err) {
       this.setState({ isValid: false });

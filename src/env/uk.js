@@ -279,7 +279,11 @@ const env = {
     // #delete接口前缀
     REACT_APP_HUB_APIURL: 'https://www.royalcanin.com/uk/api',
 
-    REACT_APP_HUB_URLPREFIX: 'https://www.royalcanin.com/uk'
+    REACT_APP_HUB_URLPREFIX: 'https://www.royalcanin.com/uk',
+
+    // #删除账户
+    REACT_APP_DELETE_My_ACCOUNT_URL:
+      'https://account.royalcanin.com/en-us/manager/settings'
   },
   stgwedding: {
     // #okta

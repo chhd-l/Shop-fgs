@@ -579,7 +579,10 @@ class AddressList extends React.Component {
       ) {
         return;
       }
-      await validData(deliveryAddress.formRule, deliveryAddress); // 数据验证
+      await validData({
+        rule: deliveryAddress.formRule,
+        data: deliveryAddress
+      }); // 数据验证
       // await validData(ADDRESS_RULE, deliveryAddress);
       this.setState({ isValid: true });
     } catch (err) {
@@ -651,7 +654,9 @@ class AddressList extends React.Component {
     }
     try {
       // 获取税额
-      await this.props.checkoutStore.updateLoginCart(param);
+      await this.props.checkoutStore.updateLoginCart(
+        Object.assign(param, { intl: this.props.intl })
+      );
     } catch (err) {
       console.warn(err);
     }
@@ -752,11 +757,8 @@ class AddressList extends React.Component {
   };
   // 确认选择地址
   confirmValidationAddress() {
-    const {
-      deliveryAddress,
-      selectValidationOption,
-      validationAddress
-    } = this.state;
+    const { deliveryAddress, selectValidationOption, validationAddress } =
+      this.state;
     let oldDeliveryAddress = JSON.parse(JSON.stringify(deliveryAddress));
     let theform = [];
     if (selectValidationOption == 'suggestedAddress') {

@@ -16,6 +16,7 @@ import foodDispenserPic from '../../../views/SmartFeederSubscription/img/food_di
 import GiftList from './GiftList.tsx';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
+
 @injectIntl
 @inject('checkoutStore', 'headerCartStore', 'clinicStore')
 @observer
@@ -42,7 +43,7 @@ class LoginCart extends React.Component {
       !sessionItemRoyal.get('recommend_product') &&
       pathname !== '/checkout'
     ) {
-      this.checkoutStore.updateLoginCart();
+      this.checkoutStore.updateLoginCart({ intl: this.props.intl });
     }
   }
 
@@ -70,11 +71,12 @@ class LoginCart extends React.Component {
   }
   async handleCheckout() {
     try {
-      const { configStore, checkoutStore, history, clinicStore } = this.props;
+      const { checkoutStore, history, clinicStore, configStore } = this.props;
       this.setState({ checkoutLoading: true });
       await checkoutStore.updateLoginCart({
         isThrowErr: true,
-        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
+        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT),
+        intl: this.props.intl
       });
 
       let autoAuditFlag = false;
