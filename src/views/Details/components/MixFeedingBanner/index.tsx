@@ -4,7 +4,7 @@ import FrequencyMatch from '@/components/FrequencyMatch'
 import './index.less'
 
 // 只有ru hub 才在用
-const MixFeedingBanner = ({ originalProductInfo, mixFeedingByProductInfo, mixFeedingForm,addMixFeedingToCart,btnStatus }) => {
+const MixFeedingBanner = ({ originalProductInfo, mixFeedingByProductInfo, mixFeedingForm,addMixFeedingToCart,btnStatus,mixFeedingBtnLoading }) => {
   const { imageSrc, goodsTitle, technology } = originalProductInfo
   const { buyWay, frequencyId } = mixFeedingForm
   return (
@@ -36,7 +36,7 @@ const MixFeedingBanner = ({ originalProductInfo, mixFeedingByProductInfo, mixFee
         </p>
       </div>
       <button 
-      className={`ml-9 rc-btn rc-btn--two rc-btn--sm ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
+      className={`ml-9 rc-btn rc-btn--two rc-btn--sm ${btnStatus ? '' : 'rc-btn-solid-disabled'} ${mixFeedingBtnLoading?'ui-btn-loading' : ''}`}
       onClick={addMixFeedingToCart}
       >Добавить комплект в корзину</button>
     </div>
