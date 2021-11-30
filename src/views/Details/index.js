@@ -20,6 +20,7 @@ import ImageMagnifier_fr from './components/ImageMagnifier';
 import AddCartSuccessMobile from './components/AddCartSuccessMobile.tsx';
 import BannerTip from '@/components/BannerTip';
 import Reviews from './components/Reviews';
+import Loading from '@/components/Loading';
 import {
   getDeviceType,
   getFrequencyDict,
@@ -161,7 +162,8 @@ class Details extends React.Component {
       defaultGoodsInfoFlag: funcUrl({ name: 'goodsInfoFlag' }),
       mixFeeding: null,
       originalProductInfo: {},
-      mixFeedingByProductInfo: {}
+      mixFeedingByProductInfo: {},
+      mixFeedingBtnLoading: false
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -203,8 +205,14 @@ class Details extends React.Component {
     return this.props.checkoutStore;
   }
   get btnStatus() {
-    const { details, quantity, instockStatus, initing, loading, form } =
-      this.state;
+    const {
+      details,
+      quantity,
+      instockStatus,
+      initing,
+      loading,
+      form
+    } = this.state;
     const { sizeList } = details;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     let addedFlag = 1;
@@ -844,7 +852,7 @@ class Details extends React.Component {
       }
     } catch (err) {}
   }
-  async hanldeLoginAddToCart() {
+  async hanldeLoginAddToCart(type) {
     try {
       const {
         configStore,
@@ -859,7 +867,7 @@ class Details extends React.Component {
 
       const { sizeList } = details;
       let currentSelectedSize;
-      this.setState({ addToCartLoading: true });
+      !type && this.setState({ addToCartLoading: true });
       if (details.goodsSpecDetails) {
         currentSelectedSize = find(sizeList, (s) => s.selected);
       } else {
@@ -900,12 +908,17 @@ class Details extends React.Component {
       this.setState({ addToCartLoading: false });
     }
   }
-  async hanldeUnloginAddToCart() {
+  async hanldeUnloginAddToCart(type) {
     try {
-      this.setState({ addToCartLoading: true });
+      !type && this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const { currentUnitPrice, quantity, form, details, questionParams } =
-        this.state;
+      const {
+        currentUnitPrice,
+        quantity,
+        form,
+        details,
+        questionParams
+      } = this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -1012,7 +1025,14 @@ class Details extends React.Component {
   };
 
   addMixFeedingToCart = async () => {
-    await this.hanldeAddToCart();
+    this.setState({
+      mixFeedingBtnLoading: true
+    });
+    if (this.isLogin) {
+      await this.hanldeLoginAddToCart('mixFeedingToCartBtn');
+    } else {
+      await this.hanldeUnloginAddToCart('mixFeedingToCartBtn');
+    }
     this.handleAddMixFeeding();
   };
 
@@ -1039,6 +1059,10 @@ class Details extends React.Component {
     this.isLogin
       ? await addToLoginCartData(params)
       : await addToUnloginCartData(params);
+
+    this.setState({
+      mixFeedingBtnLoading: false
+    });
   };
 
   getPdpScreenLoadCTAs() {
@@ -1144,6 +1168,7 @@ class Details extends React.Component {
           history={history}
           match={match}
         />
+        {this.state.mixFeedingBtnLoading ? <Loading /> : null}
         {this.state.showErrorTip ? (
           <div className="context-null">
             <div>
@@ -1522,6 +1547,7 @@ class Details extends React.Component {
                 mixFeedingForm={this.state.form}
                 addMixFeedingToCart={this.addMixFeedingToCart}
                 btnStatus={btnStatus}
+                mixFeedingBtnLoading={this.state.mixFeedingBtnLoading}
               />
             ) : null}
 
