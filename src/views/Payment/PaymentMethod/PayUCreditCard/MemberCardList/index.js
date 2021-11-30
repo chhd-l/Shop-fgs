@@ -250,7 +250,12 @@ class MemberCardList extends React.Component {
     });
   };
   async validFormData() {
-    const { mustSaveForFutherPayments, needEmail, needPhone } = this.props;
+    const {
+      mustSaveForFutherPayments,
+      needEmail,
+      needPhone,
+      intl
+    } = this.props;
     const {
       creditCardInfoForm: { savedCardChecked },
       isEdit
@@ -268,7 +273,11 @@ class MemberCardList extends React.Component {
         } else {
           rules = PAYMENT_METHOD_PAU_CHECKOUT_RULE;
         }
-        await validData({ rule: rules, data: this.state.creditCardInfoForm });
+        await validData({
+          rule: rules,
+          data: this.state.creditCardInfoForm,
+          intl
+        });
       }
 
       this.setState({ isValid: true });

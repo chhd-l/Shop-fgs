@@ -1109,7 +1109,11 @@ class Form extends React.Component {
         }
       }
 
-      await validData({ rule: targetRule, data: { [tname]: tvalue } });
+      await validData({
+        rule: targetRule,
+        data: { [tname]: tvalue },
+        intl: this.props.intl
+      });
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
           [tname]: ''
@@ -1131,13 +1135,14 @@ class Form extends React.Component {
   };
   // 验证表单所有数据
   validFormAllData = async () => {
+    const { intl } = this.props;
     const { caninForm, isDeliveryDateAndTimeSlot } = this.state;
     try {
       // 验证整个表单
       if (isDeliveryDateAndTimeSlot) {
-        await validData({ rule: caninForm.formRuleRu, data: caninForm });
+        await validData({ rule: caninForm.formRuleRu, data: caninForm, intl });
       } else {
-        await validData({ rule: caninForm.formRule, data: caninForm });
+        await validData({ rule: caninForm.formRule, data: caninForm, intl });
       }
       this.props.getFormAddressValidFlag(true);
     } catch {

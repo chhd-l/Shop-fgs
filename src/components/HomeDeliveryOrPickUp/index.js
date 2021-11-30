@@ -89,8 +89,7 @@ class HomeDeliveryOrPickUp extends React.Component {
             require: true
           },
           {
-            regExp:
-              /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/,
+            regExp: /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/,
             errMsg: this.props.intl.messages['payment.errorInfo2'],
             key: 'phoneNumber',
             require: true
@@ -679,10 +678,15 @@ class HomeDeliveryOrPickUp extends React.Component {
   };
   // pickup表单验证
   pickupValidvalidat = async (tname, tvalue) => {
+    const { intl } = this.props;
     const { pickupForm, pickupErrMsgs } = this.state;
     let targetRule = pickupForm.formRule.filter((e) => e.key === tname);
     try {
-      await validData({ rule: targetRule, data: { [tname]: tvalue } });
+      await validData({
+        rule: targetRule,
+        data: { [tname]: tvalue },
+        intl
+      });
       this.setState({
         pickupErrMsgs: Object.assign({}, pickupErrMsgs, {
           [tname]: ''
@@ -700,9 +704,10 @@ class HomeDeliveryOrPickUp extends React.Component {
   };
   // 验证表单所有数据
   validFormAllPickupData = async () => {
+    const { intl } = this.props;
     const { pickupForm } = this.state;
     try {
-      await validData({ rule: pickupForm.formRule, data: pickupForm });
+      await validData({ rule: pickupForm.formRule, data: pickupForm, intl });
       this.props.updateConfirmBtnDisabled(false);
       pickupForm.consigneeNumber = pickupForm.phoneNumber;
       this.props.updateData(pickupForm);

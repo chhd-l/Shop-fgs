@@ -13,7 +13,6 @@ import getPaymentConf from '@/lib/get-payment-conf';
 let adyenFormData = {};
 
 @inject('loginStore', 'paymentStore')
-@injectIntl
 @observer
 class AdyenCreditCardForm extends React.Component {
   static defaultProps = {
@@ -119,7 +118,8 @@ class AdyenCreditCardForm extends React.Component {
       'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.css'
     );
     loadJS({
-      url: 'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
+      url:
+        'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
       callback: function () {
         if (!!window.AdyenCheckout) {
           //要有值
@@ -396,4 +396,4 @@ class AdyenCreditCardForm extends React.Component {
   }
 }
 
-export default AdyenCreditCardForm;
+export default injectIntl(AdyenCreditCardForm, { forwardRef: true });

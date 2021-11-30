@@ -9,7 +9,7 @@ import { backSpacerUP, backSpacerDOWN } from './utils/usPhone';
 import { validData, setSeoConfig } from '@/utils/utils';
 import successImg from '@/assets/images/credit-cards/success.png';
 import './index.less';
-import { submitContactUsInfo } from '@/api/contactUs';
+import { submitContactUsInfo } from '@/api/staticPageApi';
 import { Helmet } from 'react-helmet';
 
 const pageLink = window.location.href;

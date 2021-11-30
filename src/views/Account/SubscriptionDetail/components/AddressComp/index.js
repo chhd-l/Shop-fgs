@@ -571,6 +571,7 @@ class AddressList extends React.Component {
   }
   // 表单验证
   validFormData = async () => {
+    const { intl } = this.props;
     const { deliveryAddress } = this.state;
     try {
       if (
@@ -581,7 +582,8 @@ class AddressList extends React.Component {
       }
       await validData({
         rule: deliveryAddress.formRule,
-        data: deliveryAddress
+        data: deliveryAddress,
+        intl
       }); // 数据验证
       // await validData(ADDRESS_RULE, deliveryAddress);
       this.setState({ isValid: true });
@@ -757,8 +759,11 @@ class AddressList extends React.Component {
   };
   // 确认选择地址
   confirmValidationAddress() {
-    const { deliveryAddress, selectValidationOption, validationAddress } =
-      this.state;
+    const {
+      deliveryAddress,
+      selectValidationOption,
+      validationAddress
+    } = this.state;
     let oldDeliveryAddress = JSON.parse(JSON.stringify(deliveryAddress));
     let theform = [];
     if (selectValidationOption == 'suggestedAddress') {

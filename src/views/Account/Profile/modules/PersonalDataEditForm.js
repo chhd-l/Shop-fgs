@@ -58,8 +58,9 @@ class PersonalDataEditForm extends React.Component {
       validationModalVisible: false, // 地址校验查询开关
       selectValidationOption: 'suggestedAddress'
     };
-    this.handleCommunicationCheckBoxChange =
-      this.handleCommunicationCheckBoxChange.bind(this);
+    this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
+      this
+    );
   }
   componentDidMount() {
     const { data, editFormVisible } = this.props;
@@ -100,12 +101,17 @@ class PersonalDataEditForm extends React.Component {
     this.inputBlur(e);
   };
   inputBlur = async (e) => {
+    const { intl } = this.props;
     const { errMsgObj } = this.state;
     const target = e.target;
     const targetRule = PRESONAL_INFO_RULE.filter((e) => e.key === target.name);
     const value = target.type === 'checkbox' ? target.checked : target.value;
     try {
-      await validData({ rule: targetRule, data: { [target.name]: value } });
+      await validData({
+        rule: targetRule,
+        data: { [target.name]: value },
+        intl
+      });
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
           [target.name]: ''
@@ -289,13 +295,14 @@ class PersonalDataEditForm extends React.Component {
   };
   // 表单验证
   validFormData = async () => {
+    const { intl } = this.props;
     const { form } = this.state;
     try {
       // console.log('★★★★★★★★★ valiFormData: ', form);
       if (!form?.formRule || (form?.formRule).length <= 0) {
         return;
       }
-      await validData({ rule: form.formRule, data: form }); // 数据验证
+      await validData({ rule: form.formRule, data: form, intl }); // 数据验证
       // await validData(PRESONAL_INFO_RULE, form);
       this.setState({ isValid: true });
     } catch (err) {

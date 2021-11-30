@@ -1,7 +1,6 @@
 import axios from '@/utils/request';
 
 const api = {
-  miniPurchases: '/site/front/miniPurchases',
   purchases: '/site/front/purchases', // 游客计算价格
   sitePurchases: '/site/purchases', // 会员计算价格
   sitePurchase: `/site/${window.__.env.REACT_APP_STOREID}/carts`, // 加入后台购物车
@@ -16,14 +15,6 @@ const api = {
 };
 
 export default api;
-
-export function miniPurchases(parameter) {
-  return axios({
-    url: `${api.miniPurchases}`,
-    method: 'post',
-    data: parameter
-  });
-}
 
 export function purchases(parameter) {
   // let goodsMarketingDTOList = {

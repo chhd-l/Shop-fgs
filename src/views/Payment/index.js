@@ -299,16 +299,16 @@ class Payment extends React.Component {
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
     this.cyberRef = React.createRef();
-    this.confirmListValidationAddress =
-      this.confirmListValidationAddress.bind(this);
+    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
+      this
+    );
   }
   //cyber查询卡类型-会员
   queryCyberCardType = async (params) => {
     try {
-      const res =
-        await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
-          params
-        );
+      const res = await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
+        params
+      );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -319,10 +319,9 @@ class Payment extends React.Component {
   //cyber查询卡类型-游客
   queryGuestCyberCardType = async (params) => {
     try {
-      const res =
-        await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
-          params
-        );
+      const res = await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
+        params
+      );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -669,12 +668,17 @@ class Payment extends React.Component {
     }
   };
   inputBlur = async (e) => {
+    const { intl } = this.props;
     const { cyberErrMsgObj } = this.state;
     const target = e.target;
     const targetRule = ADDRESS_RULE.filter((e) => e.key === target.name);
     const value = target.value;
     try {
-      await validData({ rule: targetRule, data: { [target.name]: value } });
+      await validData({
+        rule: targetRule,
+        data: { [target.name]: value },
+        intl
+      });
       this.setState({
         cyberErrMsgObj: Object.assign({}, cyberErrMsgObj, {
           [target.name]: ''
@@ -2146,11 +2150,12 @@ class Payment extends React.Component {
   };
   // 校验邮箱/地址信息/最低额度/超库存商品等
   async valideCheckoutLimitRule() {
+    const { intl } = this.props;
     try {
       await this.saveAddressAndCommentPromise();
       await this.props.checkoutStore.validCheckoutLimitRule({
         minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT),
-        intl: this.props.intl
+        intl
       });
     } catch (err) {
       console.warn(err);
@@ -2241,6 +2246,7 @@ class Payment extends React.Component {
 
   // 计算税额、运费、运费折扣
   calculateFreight = async (data) => {
+    const { intl } = this.props;
     const { shippingFeeAddress, guestEmail } = this.state;
     let param = {};
     // this.setState({
@@ -2302,7 +2308,7 @@ class Payment extends React.Component {
     localItemRoyal.set('rc-payment-purchases-param', param);
     try {
       // 获取税额
-      param = Object.assign(param, { intl: this.props.intl });
+      param = Object.assign(param, { intl });
       if (this.isLogin) {
         await this.props.checkoutStore.updateLoginCart(param);
       } else {
@@ -2451,6 +2457,7 @@ class Payment extends React.Component {
   };
 
   renderBillingJSX = ({ type }) => {
+    const { intl } = this.props;
     const {
       billingAddressErrorMsg,
       billingChecked,
@@ -2518,7 +2525,7 @@ class Payment extends React.Component {
                 titleVisible={false}
                 type="billing"
                 isDeliveryOrBilling="billing"
-                intlMessages={this.props.intl.messages}
+                intlMessages={intl.messages}
                 showOperateBtn={false}
                 visible={!billingChecked}
                 updateData={this.updateBillingAddrData}
@@ -2538,7 +2545,7 @@ class Payment extends React.Component {
                 titleVisible={false}
                 showConfirmBtn={false}
                 type="billing"
-                intlMessages={this.props.intl.messages}
+                intlMessages={intl.messages}
                 isDeliveryOrBilling="billing"
                 initData={billingAddress}
                 guestEmail={guestEmail}
@@ -2697,10 +2704,9 @@ class Payment extends React.Component {
     const unLoginCyberSaveCard = async (params) => {
       // console.log('2080 params: ', params);
       try {
-        const res =
-          await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
-            params
-          );
+        const res = await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
+          params
+        );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -2712,10 +2718,9 @@ class Payment extends React.Component {
     //cyber会员绑卡
     const loginCyberSaveCard = async (params) => {
       try {
-        const res =
-          await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
-            params
-          );
+        const res = await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
+          params
+        );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -3484,8 +3489,9 @@ class Payment extends React.Component {
   };
   petComfirm = (data) => {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
-        data;
+      this.props.checkoutStore.AuditData[
+        this.state.currentProIndex
+      ].petForm = data;
     } else {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {
@@ -3540,10 +3546,15 @@ class Payment extends React.Component {
     });
   };
   updateGuestEmail = ({ email: guestEmail }) => {
-    this.props.paymentStore.setGuestEmail(guestEmail);
+    const {
+      intl,
+      paymentStore: { setGuestEmail },
+      checkoutStore: { updateUnloginCart }
+    } = this.props;
+    setGuestEmail(guestEmail);
     const { deliveryAddress } = this.state;
     this.setState({ guestEmail }, () => {
-      this.props.checkoutStore.updateUnloginCart({
+      updateUnloginCart({
         guestEmail,
         purchaseFlag: false, // 购物车: true，checkout: false
         taxFeeData: {
@@ -3555,7 +3566,7 @@ class Payment extends React.Component {
           customerAccount: guestEmail
         },
         shippingFeeAddress: this.state.shippingFeeAddress,
-        intl: this.props.intl
+        intl
       });
     });
   };
@@ -3574,8 +3585,9 @@ class Payment extends React.Component {
   clickPay = () => {
     if (this.tradePrice === 0 && this.isCurrentBuyWaySubscription) {
       //0元订单中含有订阅商品时不能下单
-      const errMsg =
-        this.props.intl.messages['checkout.zeroOrder.butSubscription'];
+      const errMsg = this.props.intl.messages[
+        'checkout.zeroOrder.butSubscription'
+      ];
       this.showErrorMsg(errMsg);
       return;
     }

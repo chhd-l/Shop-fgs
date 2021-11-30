@@ -154,9 +154,7 @@ const AddCartSuccessMobile = ({
                         isLogin
                           ? await addToLoginCartData(param)
                           : await addToUnloginCartData(param);
-                      console.log(param,'param')
-                          
-                        // History.push('/cart');
+                        History.push('/cart');
                       } catch {
                         setLoading(false);
                       }
