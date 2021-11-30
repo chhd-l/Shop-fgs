@@ -205,6 +205,8 @@ class Felin extends React.Component {
           {/* 默认页面 */}
           <Pcexperts history={this.props.history} />
           <Hexperts history={this.props.history} />
+
+          {/*评论展示*/}
           <div
             className="comment"
             style={{
@@ -212,60 +214,48 @@ class Felin extends React.Component {
               display: this.state.reviews.list.length === 0 ? 'none' : 'block'
             }}
           >
-            <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile">
-              <div className="rc-max-width--xxl">
-                <div className="rc-layout-container rc-two-column rc-content-h-middle ">
-                  <div className="rc-column" style={{ marginRight: '2.5rem' }}>
-                    <LazyLoad>
-                      <div className="comment-slider">
-                        <Slider {...settings}>
-                          {this.state.reviews.list.map((item, index) => {
-                            if (index > 2) {
-                              return null;
-                            }
-                            return (
-                              <div key={index}>
-                                <div className="rate-cont">
-                                  <span style={{ marginRight: '1rem' }}>
-                                    {item.rate}.0
-                                  </span>
-                                  <Rate
-                                    color=""
-                                    def={item.rate}
-                                    disabled
-                                    style={{ fontSize: 34 }}
-                                  />
-                                </div>
-                                <div className="comment-text">
-                                  {item.description}
-                                </div>
-                              </div>
-                            );
-                          })}
-                        </Slider>
-                        <button
-                          className="rc-btn rc-btn--one  rc-margin-bottom--xs"
-                          style={{
-                            width: '16.875rem'
-                          }}
-                          onClick={() => {
-                            this.setState({
-                              reviews: { ...this.state.reviews, visible: true }
-                            });
-                          }}
-                        >
-                          Laisser un avis
-                        </button>
+            <div className="comment-slider-box">
+              <div className="comment-slider">
+                <Slider {...settings}>
+                  {this.state.reviews.list.map((item, index) => {
+                    if (index > 2) {
+                      return null;
+                    }
+                    return (
+                      <div key={index}>
+                        <div className="rate-cont">
+                          <span style={{ marginRight: '1rem' }}>
+                            {item.rate}.0
+                          </span>
+                          <Rate
+                            color=""
+                            def={item.rate}
+                            disabled
+                            style={{ fontSize: 34 }}
+                          />
+                        </div>
+                        <div className="comment-text">{item.description}</div>
                       </div>
-                    </LazyLoad>
-                  </div>
-                  <div className="rc-column">
-                    <img src={thak} alt="" />
-                  </div>
-                </div>
+                    );
+                  })}
+                </Slider>
+                <button
+                  className="rc-btn rc-btn--one rc-margin-bottom--xs"
+                  style={{
+                    width: '16.875rem',
+                    marginTop: '20px'
+                  }}
+                  onClick={() => {
+                    this.setState({
+                      reviews: { ...this.state.reviews, visible: true }
+                    });
+                  }}
+                >
+                  Laisser un avis
+                </button>
               </div>
+              <img className="comment-img" src={thak} alt="" />
             </div>
-            {/*评论列表*/}
             <Reviews
               visible={this.state.reviews.visible}
               onClose={() => {
@@ -282,6 +272,7 @@ class Felin extends React.Component {
               }}
             />
           </div>
+
           <div className="nos-cont">
             <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile felin-mpd0">
               <div className="rc-max-width--xxl">
