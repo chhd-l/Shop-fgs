@@ -45,15 +45,31 @@ class Felin extends React.Component {
       visible: false,
       list: [
         {
-          name: 'Comportementalistes',
+          name: 'Où puis-je vous trouver ? Quelles sont vos horaires douverture ?',
           text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         },
         {
-          name: 'Expert en nutrition',
+          name: 'Jai une question sur le concept, à qui puis-je madresser ?',
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+        }
+      ],
+      list1: [
+        {
+          name: 'Comment créer mon compte Royal Canin ?',
           text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         },
         {
-          name: 'Ostéopathes',
+          name: 'Comment accéder à mon compte si jai perdu mon mot de passe ?',
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+        },
+        {
+          name: 'Jai une question sur le concept, à qui puis-je madresser ?',
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+        }
+      ],
+      list2: [
+        {
+          name: 'Je souhaite prendre rendez-vous, comment faire ?',
           text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         }
       ],
@@ -309,8 +325,8 @@ class Felin extends React.Component {
           <Conseiller />
           <ConseillerTwo />
           <div className="Faq-cont" id="faq">
-            <div className="size24 col0 font-500">FAQs</div>
-            <div>
+            <div className="title col0 font-500">FAQs</div>
+            <div className="tip">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
               <br /> Curabitur finibus ut urna vitae placerat.
             </div>
@@ -322,12 +338,12 @@ class Felin extends React.Component {
               </h3>
               {this.state.list.map((item, index) => {
                 return (
-                  <div key={index}>
+                  <div key={index} style={{ marginBottom: '0.625rem' }}>
                     <button
                       className="accordion"
                       onClick={(e) => this.handleClick(e, index)}
                     >
-                      {item.name}
+                      <span>{item.name}</span>
                       <div
                         style={{
                           float: 'right'
@@ -361,16 +377,16 @@ class Felin extends React.Component {
                 style={{ marginBottom: '0.75rem', marginTop: '1.25rem' }}
                 className="font-500"
               >
-                Nous contacter
+                Mon compte
               </h3>
-              {this.state.list.map((item, index) => {
+              {this.state.list1.map((item, index) => {
                 return (
-                  <div key={index}>
+                  <div key={index} style={{ marginBottom: '0.625rem' }}>
                     <button
                       className="accordion"
                       onClick={(e) => this.handleClick(e, index + 'a')}
                     >
-                      {item.name}
+                      <span>{item.name}</span>
                       <div
                         style={{
                           float: 'right'
@@ -404,16 +420,16 @@ class Felin extends React.Component {
                 style={{ marginBottom: '0.75rem', marginTop: '1.25rem' }}
                 className="font-500"
               >
-                Nous contacter
+                Rendez-vous
               </h3>
-              {this.state.list.map((item, index) => {
+              {this.state.list2.map((item, index) => {
                 return (
-                  <div key={index}>
+                  <div key={index} style={{ marginBottom: '0.625rem' }}>
                     <button
                       className="accordion"
                       onClick={(e) => this.handleClick(e, index + 'b')}
                     >
-                      {item.name}
+                      <span>{item.name}</span>
                       <div
                         style={{
                           float: 'right'

@@ -32,6 +32,7 @@ import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { filterOrderId } from '@/utils/utils';
 import './index.less';
+import { handleOrderItem } from './modules/handleOrderItem';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -65,19 +66,11 @@ class AccountOrders extends React.Component {
       duringTimeOptions: [],
       defaultLocalDateTime: '',
       everHaveNoOrders: true,
-      tabNames:
-        false && window.__.env.REACT_APP_COUNTRY === 'fr'
-          ? [
-              <FormattedMessage id="allOrders" />,
-              <FormattedMessage id="serverOrder" />,
-              <FormattedMessage id="single" />,
-              <FormattedMessage id="autoship" />
-            ]
-          : [
-              <FormattedMessage id="allOrders" />,
-              <FormattedMessage id="single" />,
-              <FormattedMessage id="autoship" />
-            ],
+      tabNames: [
+        <FormattedMessage id="allOrders" />,
+        <FormattedMessage id="single" />,
+        <FormattedMessage id="autoship" />
+      ],
       activeTabIdx: 0,
       showOneOrderDetail: false,
       curOneOrderDetails: null
@@ -114,15 +107,10 @@ class AccountOrders extends React.Component {
       }
     }
 
-    this.FormateOderTimeFilter();
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
+    await this.FormatOderTimeFilter();
     this.queryOrderList();
   }
-  async FormateOderTimeFilter() {
+  async FormatOderTimeFilter() {
     const res = await getDictionary({ type: 'orderTimeFilter' });
     this.setState({
       duringTimeOptions: (res || []).map((item) => ({
@@ -176,7 +164,6 @@ class AccountOrders extends React.Component {
     getOrderList(param)
       .then((res) => {
         let tmpList = Array.from(res.context.content, (ele) => {
-          const tradeState = ele.tradeState;
           ele.tradeItems.forEach((el) => {
             el.spuName = judgeIsIndividual(el) ? (
               <FormattedMessage
@@ -187,68 +174,7 @@ class AccountOrders extends React.Component {
               el.spuName
             );
           });
-          // orderCategory为RECURRENT_AUTOSHIP为refill订单，需要隐藏repay按钮
-          // goodsInfoFlag=3是indv的商品，需要隐藏加入购物车这个按钮
-          return Object.assign(ele, {
-            canPayNow:
-              ele.orderCategory !== 'RECURRENT_AUTOSHIP' &&
-              tradeState.flowState === 'INIT' &&
-              tradeState.auditState === 'NON_CHECKED' &&
-              tradeState.payState === 'NOT_PAID' &&
-              new Date(ele.orderTimeOut).getTime() >
-                new Date(res.defaultLocalDateTime).getTime() &&
-              (!ele.payWay ||
-                !['OXXO', 'ADYEN_OXXO', 'COD'].includes(
-                  ele.payWay.toUpperCase()
-                )),
-            showOXXOExpireTime:
-              tradeState.flowState === 'AUDIT' &&
-              tradeState.deliverStatus === 'NOT_YET_SHIPPED' &&
-              tradeState.payState === 'NOT_PAID' &&
-              new Date(ele.orderTimeOut).getTime() >
-                new Date(res.defaultLocalDateTime).getTime() &&
-              ele.payWay &&
-              ele.payWay.toUpperCase() === 'OXXO',
-            payNowLoading: false,
-            canRePurchase:
-              ele.orderType !== 'FELINE_ORDER' &&
-              !ele.tradeItems?.find((el) => el.goodsInfoFlag == 3) &&
-              (tradeState.flowState === 'COMPLETED' ||
-                tradeState.flowState === 'VOID'),
-            canReview:
-              !!+window.__.env.REACT_APP_PDP_RATING_VISIBLE &&
-              ele.orderType !== 'ORDER_SERVICE' &&
-              tradeState.flowState === 'COMPLETED' &&
-              !ele.storeEvaluateVO,
-            canChangeAppoint:
-              ele.orderType === 'FELINE_ORDER' &&
-              tradeState.flowState !== 'COMPLETED' &&
-              tradeState.flowState !== 'VOID' &&
-              tradeState.payState === 'PAID',
-            canCancelAppoint:
-              ele.orderType === 'FELINE_ORDER' &&
-              tradeState.flowState !== 'COMPLETED' &&
-              tradeState.flowState !== 'VOID' &&
-              tradeState.payState === 'PAID',
-            canReviewService:
-              ele.orderType === 'FELINE_ORDER' &&
-              tradeState.flowState === 'COMPLETED' &&
-              !ele.storeEvaluateVO,
-            canViewTrackInfo:
-              tradeState.payState === 'PAID' &&
-              tradeState.auditState === 'CHECKED' &&
-              (tradeState.deliverStatus === 'SHIPPED' ||
-                tradeState.deliverStatus === 'PARTIALLY_SHIPPED') &&
-              (tradeState.flowState === 'DELIVERED' ||
-                tradeState.flowState === 'PARTIALLY_DELIVERED') &&
-              ele.tradeDelivers &&
-              ele.tradeDelivers.length,
-            canDownInvoice:
-              ['fr'].includes(window.__.env.REACT_APP_COUNTRY) &&
-              (tradeState.deliverStatus === 'SHIPPED' ||
-                tradeState.deliverStatus === 'DELIVERED') &&
-              tradeState.invoiceState === 1
-          });
+          return handleOrderItem(ele);
         });
         if (this.state.initing) {
           this.setState({ everHaveNoOrders: !tmpList.length });
@@ -257,17 +183,18 @@ class AccountOrders extends React.Component {
           orderList: tmpList,
           currentPage: res.context.pageable.pageNumber + 1,
           totalPage: res.context.totalPages,
-          defaultLocalDateTime: res.defaultLocalDateTime,
-          loading: false,
-          initing: false,
-          initLoading: false
+          defaultLocalDateTime: res.defaultLocalDateTime
         });
       })
       .catch((err) => {
         this.setState({
-          loading: false,
           errMsg: err.message.toString(),
-          tabErrMsg: err.message.toString(),
+          tabErrMsg: err.message.toString()
+        });
+      })
+      .finally(() => {
+        this.setState({
+          loading: false,
           initing: false,
           initLoading: false
         });
@@ -374,10 +301,7 @@ class AccountOrders extends React.Component {
       {
         activeTabIdx: i,
         form: Object.assign(this.state.form, {
-          orderCategory:
-            false && window.__.env.REACT_APP_COUNTRY === 'fr'
-              ? { 0: '', 1: '', 2: 'SINGLE', 3: 'FIRST_AUTOSHIP' }[i]
-              : { 0: '', 1: 'SINGLE', 2: 'FIRST_AUTOSHIP' }[i]
+          orderCategory: { 0: '', 1: 'SINGLE', 2: 'FIRST_AUTOSHIP' }[i]
         }),
         currentPage: 1
       },
@@ -403,8 +327,6 @@ class AccountOrders extends React.Component {
     this.setState({ showOneOrderDetail: false });
   };
   handleDownInvoice(order) {
-    let orderInvoiceIds = [];
-    orderInvoiceIds.push(order.id);
     let params = {
       orderNo: order.id
     };
@@ -930,16 +852,7 @@ class AccountOrders extends React.Component {
                                           </div>
                                           <div className="col-8 col-md-6">
                                             <span className="medium color-444 ui-text-overflow-line2">
-                                              {judgeIsIndividual(item) ? (
-                                                <FormattedMessage
-                                                  id="subscription.personalized"
-                                                  values={{
-                                                    val1: item.petsName
-                                                  }}
-                                                />
-                                              ) : (
-                                                item.spuName
-                                              )}
+                                              {item.spuName}
                                             </span>
                                             {judgeIsIndividual(item) ? (
                                               <span>{item.specDetails}</span>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { Link } from 'react-router-dom'
 import FrequencyMatch from '@/components/FrequencyMatch'
 import './index.less'
 
@@ -7,9 +8,12 @@ import './index.less'
 const MixFeedingBanner = ({ originalProductInfo, mixFeedingByProductInfo, mixFeedingForm,addMixFeedingToCart,btnStatus,mixFeedingBtnLoading }) => {
   const { imageSrc, goodsTitle, technology } = originalProductInfo
   const { buyWay, frequencyId } = mixFeedingForm
+  const lowGoodsTitle = mixFeedingByProductInfo.goodsTitle?.toLowerCase()?.split(' ').join('-').replace('/', '') || ''
+  const LinkDetail = `${lowGoodsTitle}-${mixFeedingByProductInfo.goodsNo}`
+  console.log(lowGoodsTitle,LinkDetail)
   return (
     <div className="mix-feeding-sticky-banner">
-      <div className="goods-info-warp flex items-center p-3">
+      <div className="goods-info-warp flex items-center p-3 border-red">
         <div className="goods-info-image mr-4">
           <img src={imageSrc} />
         </div>
@@ -19,15 +23,19 @@ const MixFeedingBanner = ({ originalProductInfo, mixFeedingByProductInfo, mixFee
         </div>
       </div>
       <span className="rc-icon rc-plus--xs rc-iconography mx-3"></span>
-      <div className="goods-info-warp flex items-center p-3">
-        <div className="goods-info-image mr-4">
-          <img src={mixFeedingByProductInfo.imageSrc} />
+      <Link 
+        to={LinkDetail}
+      >
+        <div className="goods-info-warp flex items-center p-3 cursor-pointer">
+          <div className="goods-info-image mr-4">
+            <img src={mixFeedingByProductInfo.imageSrc} />
+          </div>
+          <div>
+            <p className="text-sm mb-1">{technology.value ? technology.value === 'dry' ? 'Корм консервированный' : "сухой корм" : ''}</p>
+            <p className="mb-0 goods-info-title">{mixFeedingByProductInfo.goodsTitle}</p>
+          </div>
         </div>
-        <div>
-          <p className="text-sm mb-1">{technology.value ? technology.value === 'dry' ? 'Корм консервированный' : "сухой корм" : ''}</p>
-          <p className="mb-0 goods-info-title">{mixFeedingByProductInfo.goodsTitle}</p>
-        </div>
-      </div>
+      </Link>
       <div className="ml-6">
         <p className="mb-1">Получать продукт каждые:</p>
         <p className="frequency-value">

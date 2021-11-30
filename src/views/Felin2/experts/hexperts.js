@@ -665,7 +665,7 @@ class Hcexperts extends React.Component {
           </div>
         ) : null}
         {/* 第四步选时间段 */}
-        {this.state.fourShow ? (
+        {!this.state.fourShow ? (
           <div>
             <div className="size24 js-center mb28">
               <div>Choisissez un créneau</div>
