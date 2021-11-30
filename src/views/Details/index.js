@@ -1023,7 +1023,11 @@ class Details extends React.Component {
   };
 
   addMixFeedingToCart = async () => {
-    this.hanldeAddToCart();
+    await this.hanldeAddToCart();
+    this.handleAddMixFeeding();
+  };
+
+  handleAddMixFeeding = async () => {
     const { mixFeeding, form, details } = this.state;
     let mixFeedingSelected = mixFeeding?.sizeList?.filter(
       (el) => el.selected
@@ -1522,12 +1526,15 @@ class Details extends React.Component {
               />
             ) : null}
 
-            {/* {PC && Ru && this.state.mixFeeding ? <MixFeedingBanner
-            originalProductInfo={this.state.originalProductInfo}
-            mixFeedingByProductInfo={this.state.mixFeedingByProductInfo}
-            mixFeedingForm={this.state.form}
-            addMixFeedingToCart={this.addMixFeedingToCart}
-            /> : null} */}
+            {PC && Ru && this.state.mixFeeding ? (
+              <MixFeedingBanner
+                originalProductInfo={this.state.originalProductInfo}
+                mixFeedingByProductInfo={this.state.mixFeedingByProductInfo}
+                mixFeedingForm={this.state.form}
+                addMixFeedingToCart={this.addMixFeedingToCart}
+                btnStatus={btnStatus}
+              />
+            ) : null}
 
             {/* 最下方跳转更多板块 rita说现在hub 又不要了 暂时注释吧*/}
             {/* <More/> */}
