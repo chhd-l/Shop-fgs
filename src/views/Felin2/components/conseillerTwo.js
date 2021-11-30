@@ -13,7 +13,7 @@ class ConseillerTwo extends React.Component {
   render() {
     return (
       <div className="conseiller-two">
-        <div className="grid gap-4 grid-cols-2">
+        <div className="grid grid-cols-2 gap-6">
           <div>
             <img src={cat1} alt="" />
             <div className="mtb10">Alexandre Blavier</div>

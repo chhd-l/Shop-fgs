@@ -791,7 +791,7 @@ class Hcexperts extends React.Component {
           </div>
         </UpdatModal>
         {/*预约时间 Contact us*/}
-        <div className="txt-centr" style={{ marginBottom: '10rem' }}>
+        <div className="txt-centr" style={{ marginBottom: '3.75rem' }}>
           <div
             onClick={this.hanldeOpen}
             style={{

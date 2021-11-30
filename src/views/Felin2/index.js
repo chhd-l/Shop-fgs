@@ -343,7 +343,6 @@ class Felin extends React.Component {
                       className="accordion"
                       onClick={(e) => this.handleClick(e, index)}
                     >
-                      <span>{item.name}</span>
                       <div
                         style={{
                           float: 'right'
@@ -356,6 +355,7 @@ class Felin extends React.Component {
                           <img src={open} alt="" />
                         )}
                       </div>
+                      {item.name}
                     </button>
                     <div
                       className="panel"
@@ -386,7 +386,6 @@ class Felin extends React.Component {
                       className="accordion"
                       onClick={(e) => this.handleClick(e, index + 'a')}
                     >
-                      <span>{item.name}</span>
                       <div
                         style={{
                           float: 'right'
@@ -399,6 +398,7 @@ class Felin extends React.Component {
                           <img src={open} alt="" />
                         )}
                       </div>
+                      {item.name}
                     </button>
                     <div
                       className="panel"
@@ -429,7 +429,6 @@ class Felin extends React.Component {
                       className="accordion"
                       onClick={(e) => this.handleClick(e, index + 'b')}
                     >
-                      <span>{item.name}</span>
                       <div
                         style={{
                           float: 'right'
@@ -442,6 +441,7 @@ class Felin extends React.Component {
                           <img src={open} alt="" />
                         )}
                       </div>
+                      {item.name}
                     </button>
                     <div
                       className="panel"
