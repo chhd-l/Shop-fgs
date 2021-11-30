@@ -24,12 +24,10 @@ import {
   dimensionsByPackage
 } from '@/api/payment';
 import IMask from 'imask';
-import locales from '@/lang';
 import './index.less';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
-const CURRENT_LANGFILE = locales;
 @inject('configStore')
 @injectIntl
 @observer
@@ -80,19 +78,20 @@ class HomeDeliveryOrPickUp extends React.Component {
         formRule: [
           {
             regExp: /\S/,
-            errMsg: CURRENT_LANGFILE['payment.errorInfo2'],
+            errMsg: this.props.intl.messages['payment.errorInfo2'],
             key: 'firstName',
             require: true
           },
           {
             regExp: /\S/,
-            errMsg: CURRENT_LANGFILE['payment.errorInfo2'],
+            errMsg: this.props.intl.messages['payment.errorInfo2'],
             key: 'lastName',
             require: true
           },
           {
-            regExp: /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/,
-            errMsg: CURRENT_LANGFILE['payment.errorInfo2'],
+            regExp:
+              /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/,
+            errMsg: this.props.intl.messages['payment.errorInfo2'],
             key: 'phoneNumber',
             require: true
           }
@@ -107,6 +106,10 @@ class HomeDeliveryOrPickUp extends React.Component {
   }
   async componentDidMount() {
     let initData = this.props.initData;
+    const {
+      intl: { messages }
+    } = this.props;
+
     this.setState(
       {
         pickupForm: Object.assign(this.state.pickupForm, initData)
@@ -676,10 +679,15 @@ class HomeDeliveryOrPickUp extends React.Component {
   };
   // pickup表单验证
   pickupValidvalidat = async (tname, tvalue) => {
+    const { intl } = this.props;
     const { pickupForm, pickupErrMsgs } = this.state;
     let targetRule = pickupForm.formRule.filter((e) => e.key === tname);
     try {
-      await validData(targetRule, { [tname]: tvalue });
+      await validData({
+        rule: targetRule,
+        data: { [tname]: tvalue },
+        intl
+      });
       this.setState({
         pickupErrMsgs: Object.assign({}, pickupErrMsgs, {
           [tname]: ''
@@ -697,9 +705,10 @@ class HomeDeliveryOrPickUp extends React.Component {
   };
   // 验证表单所有数据
   validFormAllPickupData = async () => {
+    const { intl } = this.props;
     const { pickupForm } = this.state;
     try {
-      await validData(pickupForm.formRule, pickupForm);
+      await validData({ rule: pickupForm.formRule, data: pickupForm, intl });
       this.props.updateConfirmBtnDisabled(false);
       pickupForm.consigneeNumber = pickupForm.phoneNumber;
       this.props.updateData(pickupForm);

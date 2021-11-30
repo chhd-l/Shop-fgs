@@ -184,11 +184,8 @@ class ShippingAddressFrom extends React.Component {
   };
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmValidationAddress() {
-    const {
-      addressForm,
-      selectValidationOption,
-      validationAddress
-    } = this.state;
+    const { addressForm, selectValidationOption, validationAddress } =
+      this.state;
     let oldAddressForm = JSON.parse(JSON.stringify(addressForm));
     let theform = [];
     if (selectValidationOption == 'suggestedAddress') {
@@ -350,12 +347,13 @@ class ShippingAddressFrom extends React.Component {
   };
 
   validFormData = async () => {
+    const { intl } = this.props;
     const { addressForm } = this.state;
     try {
       if (!addressForm?.formRule || (addressForm?.formRule).length <= 0) {
         return;
       }
-      await validData(addressForm.formRule, addressForm); // 数据验证
+      await validData({ rule: addressForm.formRule, data: addressForm, intl }); // 数据验证
       // await validData(ADDRESS_RULE, addressForm);
       this.setState({ isValid: true });
     } catch (err) {

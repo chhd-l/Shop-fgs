@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
@@ -22,10 +22,10 @@ const AddCartSuccessMobile = ({
   periodTypeId,
   isLogin
 }) => {
-  const History = useHistory()
-  const Intl = useIntl()
+  const History = useHistory();
+  const Intl = useIntl();
   const [selectedSku, setSelectedSku] = useState(null);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     setSelectedSku(mixFeedingData?.sizeList?.filter((el) => el.selected)[0]);
     console.log('mixFeedingData', mixFeedingData);
@@ -108,7 +108,12 @@ const AddCartSuccessMobile = ({
                             width: isMobile ? '9rem' : 'inherit'
                           }}
                         >
-                          <div className="text-left ml-1 text-capitalize">{`${selectedSku?.specText} - ${Intl.formatMessage({id: "quantity"})} x 1`}</div>
+                          <div className="text-left ml-1 text-capitalize">
+                            {Intl.formatMessage(
+                              { id: 'quantityText' },
+                              { specText: selectedSku?.specText, buyCount: 1 }
+                            )}
+                          </div>
                         </div>
                       </div>
                       <div
@@ -130,20 +135,28 @@ const AddCartSuccessMobile = ({
                     style={{ fontWeight: 400 }}
                     to="/cart"
                   > */}
-                  
+
                   <a
-                    className={`rc-btn rc-btn--two my-3 ${loading?'ui-btn-loading': ''}`}
+                    className={`rc-btn rc-btn--two my-3 ${
+                      loading ? 'ui-btn-loading' : ''
+                    }`}
                     style={{ fontWeight: 400, color: '#e2001a' }}
                     onClick={async (e) => {
-                      setLoading(true)
-                      e.preventDefault()
+                      setLoading(true);
+                      e.preventDefault();
                       try {
-                        mixFeedingData.goodsInfoFlag = goodsInfoFlag
-                        mixFeedingData.periodTypeId = periodTypeId
-                        isLogin? await addToLoginCartData(mixFeedingData): await addToUnloginCartData(mixFeedingData)
-                        History.push('/cart')
-                      }catch {
-                        setLoading(false)
+                        mixFeedingData.goodsInfoFlag = goodsInfoFlag;
+                        mixFeedingData.periodTypeId = periodTypeId;
+                        const param = {
+                          product: mixFeedingData,
+                          intl: Intl
+                        };
+                        isLogin
+                          ? await addToLoginCartData(param)
+                          : await addToUnloginCartData(param);
+                        History.push('/cart');
+                      } catch {
+                        setLoading(false);
                       }
                     }}
                   >

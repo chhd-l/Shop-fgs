@@ -350,7 +350,7 @@ class AccountOrders extends React.Component {
         };
       });
       await batchAdd({ goodsInfos: paramList });
-      await this.props.checkoutStore.updateLoginCart();
+      await this.props.checkoutStore.updateLoginCart({ intl: this.props.intl });
       this.props.history.push('/cart');
     } catch (err) {
     } finally {
@@ -496,8 +496,7 @@ class AccountOrders extends React.Component {
         {/*felin订单cancel appoint*/}
         {order.canCancelAppoint ? (
           <button
-            className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order`}
-            style={{ marginLeft: 0 }}
+            className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order ml-0`}
             onClick={this.cancelAppoint.bind(this, order)}
           >
             <FormattedMessage id="Cancel Appointment" />
@@ -662,7 +661,7 @@ class AccountOrders extends React.Component {
                   </>
                 ) : (
                   <>
-                    <div className="row mb-3 md:m-0" style={{ margin: 0 }}>
+                    <div className="row m-0 mb-3 md:m-0">
                       <div className="col-12 rc-md-down">
                         <Link to="/account">
                           <span className="red">&lt;</span>
@@ -740,10 +739,6 @@ class AccountOrders extends React.Component {
                               return (
                                 <div
                                   className="card-container"
-                                  // style={{
-                                  //   paddingBottom:
-                                  //     this.deviceType === 'H5' ? '1.25rem' : '0'
-                                  // }}
                                   key={order.id}
                                   onClick={this.handleClickCardItem.bind(
                                     this,
@@ -838,7 +833,7 @@ class AccountOrders extends React.Component {
                                         <FormattedMessage id="order.orderDetails">
                                           {(txt) => (
                                             <Link
-                                              className="d-flex rc-padding-left--none rc-btn rc-btn--icon-label rc-padding-right--none orderDetailBtn btn--inverse rc-btn--inverse text-wrap align-items-center"
+                                              className="d-flex rc-padding-left--none rc-btn rc-btn--icon-label rc-padding-right--none orderDetailBtn btn--inverse text-wrap align-items-center"
                                               to={`/account/orders/detail/${order.id}`}
                                             >
                                               <em className="rc-iconography rc-icon rc-news--xs" />
@@ -854,16 +849,11 @@ class AccountOrders extends React.Component {
                                       </div>
                                     </div>
                                   </div>
-                                  <div
-                                    className="row mb-3 mt-3 align-items-center m-0"
-                                    style={{ position: 'relative' }}
-                                  >
+                                  <div className="row mb-3 mt-3 align-items-center m-0 relative">
                                     <div
-                                      className="rc-md-down"
+                                      className="rc-md-down absolute -bottom-5"
                                       style={{
-                                        position: 'absolute',
-                                        right: '.9375rem',
-                                        bottom: '-1.25rem'
+                                        right: '.9375rem'
                                       }}
                                     >
                                       {order.canDownInvoice ? (

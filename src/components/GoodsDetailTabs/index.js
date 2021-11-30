@@ -615,7 +615,7 @@ const GoodsDetailTabs = function (props) {
           <h3 class='mixed-Feeding-title2 rc-beta'>Сочетайте преимущества сухого и влажного продуктов</h3>
 
           <p class='mixed-Feeding-text rc-intro rc-margin-bottom--none text-center d-md-block d-none'>Смешанное кормление – это сочетание сухого и консервированного кормов в рационе вашего питомца. Каждый из кормов сам по себе является полноценным и сбалансированным, но ежедневное сочетание сухого и влажного кормов позволяет получить оптимальную комбинацию преимуществ обоих видов продуктов.</p>
-           <div class='rc-margin-bottom--md--desktop rc-padding-top--md--mobile'>
+           <div class='rc-margin-bottom--md--desktop rc-padding-top--md'>
             <h3 class='rc-beta'>Преимущества смешанного кормления</h3>
           </div>
           <div class='mixed-Feeding-content'>
@@ -649,7 +649,7 @@ const GoodsDetailTabs = function (props) {
           </div>
         </div>`;
       tmpGoodsDescriptionDetailList.push({
-        displayName: 'Mixed Feeding',
+        displayName: 'Смешанное кормление',
         content: dom
       });
     }

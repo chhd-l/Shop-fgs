@@ -20,6 +20,7 @@ import ImageMagnifier_fr from './components/ImageMagnifier';
 import AddCartSuccessMobile from './components/AddCartSuccessMobile.tsx';
 import BannerTip from '@/components/BannerTip';
 import Reviews from './components/Reviews';
+import Loading from '@/components/Loading';
 import {
   getDeviceType,
   getFrequencyDict,
@@ -30,7 +31,9 @@ import {
   isCountriesContainer,
   getClubFlag,
   handleRecommendation,
-  isShowMixFeeding
+  isShowMixFeeding,
+  addToUnloginCartData,
+  addToLoginCartData
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
@@ -158,7 +161,9 @@ class Details extends React.Component {
       defaultSkuId: funcUrl({ name: 'skuId' }),
       defaultGoodsInfoFlag: funcUrl({ name: 'goodsInfoFlag' }),
       mixFeeding: null,
-      originalProductInfo: {}
+      originalProductInfo: {},
+      mixFeedingByProductInfo: {},
+      mixFeedingBtnLoading: false
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -169,7 +174,6 @@ class Details extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
-    console.log(this.state.defaultSkuId, 'defaultSkuId');
     const { pathname } = this.props.location;
     let timer = setInterval(() => {
       if (document.querySelector('#mars-footer-panel')) {
@@ -201,8 +205,14 @@ class Details extends React.Component {
     return this.props.checkoutStore;
   }
   get btnStatus() {
-    const { details, quantity, instockStatus, initing, loading, form } =
-      this.state;
+    const {
+      details,
+      quantity,
+      instockStatus,
+      initing,
+      loading,
+      form
+    } = this.state;
     const { sizeList } = details;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     let addedFlag = 1;
@@ -262,7 +272,6 @@ class Details extends React.Component {
     const { promotions, details, frequencyList, purchaseTypeDict } = this.state;
     const skuPromotions =
       details.sizeList?.filter((item) => item?.selected)?.[0]?.promotions || '';
-    console.log(skuPromotions, 'skuPromotions');
     const targetDefaultPurchaseTypeItem =
       purchaseTypeDict.filter(
         (ele) => ele.id && id && ele.id + '' === id + ''
@@ -381,10 +390,7 @@ class Details extends React.Component {
       setDefaultPurchaseTypeParamId
     } = this.state;
     details.sizeList = sizeList;
-    let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
-    if (!selectedSpecItem?.subscriptionStatus && form.buyWay > 0) {
-      form.buyWay = -1;
-    }
+
     this.setState(Object.assign({ details, form }, data), () => {
       this.updateInstockStatus();
       setTimeout(() =>
@@ -399,6 +405,17 @@ class Details extends React.Component {
       this.setDefaultPurchaseType({
         id: setDefaultPurchaseTypeParamId
       });
+
+      let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
+      if (!selectedSpecItem?.subscriptionStatus && this.state.form.buyWay > 0) {
+        this.setState({
+          form: Object.assign(this.state.form, {
+            buyWay: -1
+          })
+        });
+      }
+
+      console.log(this.state.details, selectedSpecItem, 'details???');
     });
 
     // bundle商品的ga初始化填充
@@ -496,10 +513,15 @@ class Details extends React.Component {
 
         const technologyList = (
           res.context?.goodsAttributesValueRelList || []
-        ).filter((el) => el.goodsAttributeName.toLowerCase() === 'technology');
-        const dryOrWet = technologyList.filter(
-          (el) => el.goodsAttributeValue.toLowerCase() == ('dry' || 'wet')
-        )?.[0]?.goodsAttributeValueEn;
+        ).filter((el) => el.goodsAttributeName?.toLowerCase() === 'technology');
+        const dryOrWetObj =
+          technologyList.filter((el) =>
+            ['dry', 'wet'].includes(el.goodsAttributeValue?.toLowerCase())
+          )?.[0] || {};
+        let dryOrWet = {
+          value: dryOrWetObj?.goodsAttributeValue?.toLowerCase(),
+          valueEn: dryOrWetObj.goodsAttributeValueEn
+        };
 
         if (goodsRes) {
           const { goods, images } = res.context;
@@ -515,9 +537,14 @@ class Details extends React.Component {
               if (mixFeeding) {
                 mixFeeding.quantity = 1;
               }
-              console.log(res, mixFeeding, 'resfse');
-
-              this.setState({ mixFeeding });
+              let { goodsImg = '', goodsName = '' } = mixFeeding.goods || {};
+              this.setState({
+                mixFeeding,
+                mixFeedingByProductInfo: {
+                  imageSrc: goodsImg,
+                  goodsTitle: goodsName
+                }
+              });
             });
           }
 
@@ -570,8 +597,8 @@ class Details extends React.Component {
                 this.state.originalProductInfo,
                 {
                   imageSrc: images?.[0]?.artworkUrl || '',
-                  goodsTitle: goodsRes.goodsName,
-                  technology: dryOrWet
+                  goodsTitle: goodsRes.goodsName || '',
+                  technology: dryOrWet || {}
                 }
               ),
               setDefaultPurchaseTypeParamId:
@@ -825,7 +852,7 @@ class Details extends React.Component {
       }
     } catch (err) {}
   }
-  async hanldeLoginAddToCart() {
+  async hanldeLoginAddToCart(type) {
     try {
       const {
         configStore,
@@ -840,7 +867,7 @@ class Details extends React.Component {
 
       const { sizeList } = details;
       let currentSelectedSize;
-      this.setState({ addToCartLoading: true });
+      !type && this.setState({ addToCartLoading: true });
       if (details.goodsSpecDetails) {
         currentSelectedSize = find(sizeList, (s) => s.selected);
       } else {
@@ -867,7 +894,7 @@ class Details extends React.Component {
         param = { ...param, ...this.state.requestJson };
       }
       await sitePurchase(param);
-      await checkoutStore.updateLoginCart();
+      await checkoutStore.updateLoginCart({ intl: this.props.intl });
       this.setState({ modalMobileCartSuccessVisible: true });
       if (!isMobile) {
         headerCartStore.show();
@@ -881,12 +908,17 @@ class Details extends React.Component {
       this.setState({ addToCartLoading: false });
     }
   }
-  async hanldeUnloginAddToCart() {
+  async hanldeUnloginAddToCart(type) {
     try {
-      this.setState({ addToCartLoading: true });
+      !type && this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const { currentUnitPrice, quantity, form, details, questionParams } =
-        this.state;
+      const {
+        currentUnitPrice,
+        quantity,
+        form,
+        details,
+        questionParams
+      } = this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -992,6 +1024,47 @@ class Details extends React.Component {
     HubGaPdpBuyFromRetailer();
   };
 
+  addMixFeedingToCart = async () => {
+    this.setState({
+      mixFeedingBtnLoading: true
+    });
+    if (this.isLogin) {
+      await this.hanldeLoginAddToCart('mixFeedingToCartBtn');
+    } else {
+      await this.hanldeUnloginAddToCart('mixFeedingToCartBtn');
+    }
+    this.handleAddMixFeeding();
+  };
+
+  handleAddMixFeeding = async () => {
+    const { mixFeeding, form, details } = this.state;
+    let mixFeedingSelected = mixFeeding?.sizeList?.filter(
+      (el) => el.selected
+    )[0];
+    if (!mixFeedingSelected?.stock) {
+      return;
+    }
+
+    let periodTypeId = parseInt(form.buyWay) ? form.frequencyId : '';
+    let goodsInfoFlag =
+      form.buyWay && details.promotions?.includes('club') ? 2 : form.buyWay;
+    const params = {
+      product: Object.assign(mixFeeding, {
+        quantity: 1,
+        periodTypeId,
+        goodsInfoFlag
+      }),
+      intl: this.props.intl
+    };
+    this.isLogin
+      ? await addToLoginCartData(params)
+      : await addToUnloginCartData(params);
+
+    this.setState({
+      mixFeedingBtnLoading: false
+    });
+  };
+
   getPdpScreenLoadCTAs() {
     const {
       currentSubscriptionStatus,
@@ -1095,6 +1168,7 @@ class Details extends React.Component {
           history={history}
           match={match}
         />
+        {this.state.mixFeedingBtnLoading ? <Loading /> : null}
         {this.state.showErrorTip ? (
           <div className="context-null">
             <div>
@@ -1466,9 +1540,16 @@ class Details extends React.Component {
               />
             ) : null}
 
-            {/* {PC ? <MixFeedingBanner 
-            originalProductInfo={this.state.originalProductInfo}
-            /> : null} */}
+            {PC && Ru && this.state.mixFeeding ? (
+              <MixFeedingBanner
+                originalProductInfo={this.state.originalProductInfo}
+                mixFeedingByProductInfo={this.state.mixFeedingByProductInfo}
+                mixFeedingForm={this.state.form}
+                addMixFeedingToCart={this.addMixFeedingToCart}
+                btnStatus={btnStatus}
+                mixFeedingBtnLoading={this.state.mixFeedingBtnLoading}
+              />
+            ) : null}
 
             {/* 最下方跳转更多板块 rita说现在hub 又不要了 暂时注释吧*/}
             {/* <More/> */}

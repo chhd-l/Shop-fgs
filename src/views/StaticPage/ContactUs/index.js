@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Selection from '@/components/Selection';
@@ -9,7 +9,7 @@ import { backSpacerUP, backSpacerDOWN } from './utils/usPhone';
 import { validData, setSeoConfig } from '@/utils/utils';
 import successImg from '@/assets/images/credit-cards/success.png';
 import './index.less';
-import { submitContactUsInfo } from '@/api/contactUs';
+import { submitContactUsInfo } from '@/api/staticPageApi';
 import { Helmet } from 'react-helmet';
 
 const pageLink = window.location.href;
@@ -91,7 +91,13 @@ class ContactUs extends Component {
     const targetRule = ADDRESS_RULE.filter((e) => e.key === target.name);
     const value = target.value;
     try {
-      await validData(targetRule, { [target.name]: value });
+      await validData({
+        rule: targetRule,
+        data: {
+          [target.name]: value
+        },
+        intl: this.props.intl
+      });
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
           [target.name]: ''
@@ -547,4 +553,4 @@ class ContactUs extends Component {
     );
   }
 }
-export default ContactUs;
+export default injectIntl(ContactUs);

@@ -215,7 +215,10 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
       await sitePurchase(params);
       let recommendProd = Object.assign({}, params, recommData, goodsInfo);
       // sessionItemRoyal.set('recommend_product', JSON.stringify([recommendProd]));
-      await checkoutStore.updateLoginCart({ delFlag: 1 });
+      await checkoutStore.updateLoginCart({
+        delFlag: 1,
+        intl
+      });
       history.push('/checkout');
       // const url = await distributeLinktoPrecriberOrPaymentPage({
       //   configStore,

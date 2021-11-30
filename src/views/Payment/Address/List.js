@@ -1,6 +1,6 @@
 import React from 'react';
 import Skeleton from 'react-skeleton-loader';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';
@@ -964,6 +964,7 @@ class AddressList extends React.Component {
     });
   };
   updateDeliveryAddress = async (data) => {
+    const { intl } = this.props;
     try {
       if (!data?.formRule || (data?.formRule).length <= 0) {
         return;
@@ -971,7 +972,7 @@ class AddressList extends React.Component {
       this.setState({
         isValid: false
       });
-      await validData(data.formRule, data); // 数据验证
+      await validData({ rule: data.formRule, data, intl }); // 数据验证
       this.setState({ isValid: true, saveErrorMsg: '' }, () => {
         // 设置按钮状态
         this.props.updateFormValidStatus(this.state.isValid);
@@ -2639,4 +2640,4 @@ class AddressList extends React.Component {
   }
 }
 
-export default AddressList;
+export default injectIntl(AddressList, { forwardRef: true });

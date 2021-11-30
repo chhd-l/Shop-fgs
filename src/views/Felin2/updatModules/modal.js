@@ -2,6 +2,7 @@ import React from 'react';
 import './index.less';
 import yes from '../image/yes.png';
 import no from '../image/no.png';
+import { EMAIL_REGEXP } from '@/utils/constant';
 
 class MyModal extends React.Component {
   constructor(props) {
@@ -31,8 +32,7 @@ class MyModal extends React.Component {
       }
     });
     if (key === 'email') {
-      var emailReg = /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/;
-      let show = emailReg.test(e.target.value);
+      let show = EMAIL_REGEXP.test(e.target.value);
       this.setState({
         emailShow: show
       });
