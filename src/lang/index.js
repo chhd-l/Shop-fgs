@@ -1,3 +1,11 @@
+/**
+ *
+ * Multi language has integrated to Phrase app flatform.
+ * https://app.phrase.com/
+ * minytang@deloitte.com.cn/Test1106,,,^^^^^^
+ *
+ */
+
 // const locales = {
 //   us: require('@/lang/en_US'),
 //   uk: require('@/lang/en_GB'),
@@ -12,8 +20,9 @@
 // };
 // export default locales[window.__.env.REACT_APP_COUNTRY].default;
 
-//Phrase翻译集成
-// const localLanguage = locales[window.__.env.REACT_APP_COUNTRY].default;
+import en_US from './en_US';
+
+const localLanguage = en_US;
 
 //拼接本地语言&phrase平台的语言用到的函数
 function assignObj(obj, source) {
@@ -53,12 +62,15 @@ async function getDynamicLanguage() {
           sessionItemRoyal.set('PHRASE_LANGUAGE', JSON.stringify(resRet));
         }
         return resRet;
+      })
+      .catch((err) => {
+        console.log('phrase langugage fetch error', err);
       });
     phraseRet = res;
   }
 
-  const language = phraseRet;
-  // const language = assignObj(localLanguage, phraseRet);
+  // const language = phraseRet;
+  const language = assignObj(localLanguage, phraseRet);
   // debugger;
   // const language = localLanguage;
   // console.log(language, '拼接完成');
