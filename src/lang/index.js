@@ -1,19 +1,19 @@
-const locales = {
-  us: require('@/lang/en_US'),
-  uk: require('@/lang/en_GB'),
-  mx: require('@/lang/es_ES'),
-  de: require('@/lang/de_DE'),
-  fr: require('@/lang/fr_FR'),
-  ru: require('@/lang/ru_RU'),
-  tr: require('@/lang/tr_TR'),
-  ca: require('@/lang/en_US'),
-  se: require('@/lang/sv_SE'),
-  core: require('@/lang/en_US')
-};
+// const locales = {
+//   us: require('@/lang/en_US'),
+//   uk: require('@/lang/en_GB'),
+//   mx: require('@/lang/es_ES'),
+//   de: require('@/lang/de_DE'),
+//   fr: require('@/lang/fr_FR'),
+//   ru: require('@/lang/ru_RU'),
+//   tr: require('@/lang/tr_TR'),
+//   ca: require('@/lang/en_US'),
+//   se: require('@/lang/sv_SE'),
+//   core: require('@/lang/en_US')
+// };
 // export default locales[window.__.env.REACT_APP_COUNTRY].default;
 
 //Phrase翻译集成
-const localLanguage = locales[window.__.env.REACT_APP_COUNTRY].default;
+// const localLanguage = locales[window.__.env.REACT_APP_COUNTRY].default;
 
 //拼接本地语言&phrase平台的语言用到的函数
 function assignObj(obj, source) {
@@ -25,14 +25,8 @@ function assignObj(obj, source) {
 }
 
 async function getDynamicLanguage() {
-  const key = {
-    fr: 'fr',
-    de: 'de',
-    ru: 'ru',
-    uk: 'en',
-    us: 'en',
-    ca: 'ca'
-  }[window.__.env.REACT_APP_COUNTRY];
+  // key - 对应对应语言文件名
+  const key = window.__.env.REACT_APP_LANG_LOCALE || 'en-US';
   const sessionItemRoyal = window.__.sessionItemRoyal;
   const phraseSession = sessionItemRoyal.get('PHRASE_LANGUAGE');
   let phraseRet = {};
@@ -63,12 +57,12 @@ async function getDynamicLanguage() {
     phraseRet = res;
   }
 
-  // const language = phraseRet;
+  const language = phraseRet;
   // const language = assignObj(localLanguage, phraseRet);
   // debugger;
-  const language = localLanguage;
+  // const language = localLanguage;
   // console.log(language, '拼接完成');
   return language;
 }
 
-export { localLanguage, getDynamicLanguage };
+export { getDynamicLanguage };

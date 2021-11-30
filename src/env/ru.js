@@ -3,6 +3,11 @@ const env = {
     // #国家
     REACT_APP_COUNTRY: 'ru',
 
+    // 语言文件
+    REACT_APP_LANG_LOCALE: 'ru-RU',
+
+    REACT_APP_CALENDAR_LOCALE: 'ru-RU',
+
     // #payu表单字段控制
     REACT_APP_PAYU_EMAIL: 0,
     REACT_APP_PAYU_PHONE: 0,
