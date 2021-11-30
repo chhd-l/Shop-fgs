@@ -7,6 +7,7 @@ import { ADDRESS_RULE } from './constant/utils';
 import { validData } from '@/utils/utils';
 import CyberSaveCardCheckbox from '@/views/Payment/Address/CyberSaveCardCheckbox';
 import { getPaymentMethod } from '@/api/payment';
+import { injectIntl } from 'react-intl';
 @inject('loginStore', 'paymentStore')
 @observer
 class CyberPayment extends React.Component {
@@ -133,12 +134,17 @@ class CyberPayment extends React.Component {
   };
   //失去焦点
   inputBlur = async (e) => {
+    const { intl } = this.props;
     const { cyberErrMsgObj } = this.state;
     const target = e.target;
     const targetRule = ADDRESS_RULE.filter((e) => e.key === target.name);
     const value = target.value;
     try {
-      await validData({ rule: targetRule, data: { [target.name]: value } });
+      await validData({
+        rule: targetRule,
+        data: { [target.name]: value },
+        intl
+      });
       this.setState({
         cyberErrMsgObj: Object.assign({}, cyberErrMsgObj, {
           [target.name]: ''
@@ -355,4 +361,4 @@ class CyberPayment extends React.Component {
   }
 }
 
-export default CyberPayment;
+export default injectIntl(CyberPayment, { forwardRef: true });

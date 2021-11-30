@@ -10,7 +10,7 @@ import {
   getDeviceType
 } from '@/utils/utils';
 import GoogleTagManager from '@/components/GoogleTagManager';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import Selection from '@/components/Selection';
 import { PRESONAL_INFO_RULE } from '@/utils/constant';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -108,6 +108,7 @@ function scrollPaymentPanelIntoView(id, additionalHeight = 0) {
 }
 
 @inject('loginStore')
+@injectIntl
 @observer
 export default class Felin extends React.Component {
   constructor(props) {
@@ -424,12 +425,17 @@ export default class Felin extends React.Component {
     this.setState({ userInfo });
   };
   inputBlur = async (e) => {
+    const { intl } = this.props;
     const { errMsgObj } = this.state;
     const target = e.target;
     const targetRule = PRESONAL_INFO_RULE.filter((e) => e.key === target.name);
     const value = target.type === 'checkbox' ? target.checked : target.value;
     try {
-      await validData({ rule: targetRule, data: { [target.name]: value } });
+      await validData({
+        rule: targetRule,
+        data: { [target.name]: value },
+        intl
+      });
       this.setState(
         {
           errMsgObj: Object.assign({}, errMsgObj, {
