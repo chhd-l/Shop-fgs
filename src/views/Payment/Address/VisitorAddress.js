@@ -108,6 +108,7 @@ class VisitorAddress extends React.Component {
     return this.props.type === 'delivery' ? 'deliveryAddr' : 'billingAddr';
   }
   validData = async ({ data }) => {
+    const { intl } = this.props;
     try {
       // 如果有返回运费数据，则计算运费折扣并显示
       if (data?.calculationStatus) {
@@ -116,7 +117,7 @@ class VisitorAddress extends React.Component {
       if (!data?.formRule || (data?.formRule).length <= 0) {
         return;
       }
-      await validData({ rule: data.formRule, data }); // 数据验证
+      await validData({ rule: data.formRule, data, intl }); // 数据验证
       this.setState({ isValid: true, unConfirmedForm: data }, () => {
         // console.log('--------- ★★★★★★ VisitorAddress 验证通过');
         this.props.updateFormValidStatus(this.state.isValid);
@@ -726,4 +727,4 @@ class VisitorAddress extends React.Component {
     );
   }
 }
-export default VisitorAddress;
+export default injectIntl(VisitorAddress, { forwardRef: true });

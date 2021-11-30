@@ -347,12 +347,13 @@ class ShippingAddressFrom extends React.Component {
   };
 
   validFormData = async () => {
+    const { intl } = this.props;
     const { addressForm } = this.state;
     try {
       if (!addressForm?.formRule || (addressForm?.formRule).length <= 0) {
         return;
       }
-      await validData({ rule: addressForm.formRule, data: addressForm }); // 数据验证
+      await validData({ rule: addressForm.formRule, data: addressForm, intl }); // 数据验证
       // await validData(ADDRESS_RULE, addressForm);
       this.setState({ isValid: true });
     } catch (err) {

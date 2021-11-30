@@ -679,10 +679,15 @@ class HomeDeliveryOrPickUp extends React.Component {
   };
   // pickup表单验证
   pickupValidvalidat = async (tname, tvalue) => {
+    const { intl } = this.props;
     const { pickupForm, pickupErrMsgs } = this.state;
     let targetRule = pickupForm.formRule.filter((e) => e.key === tname);
     try {
-      await validData({ rule: targetRule, data: { [tname]: tvalue } });
+      await validData({
+        rule: targetRule,
+        data: { [tname]: tvalue },
+        intl
+      });
       this.setState({
         pickupErrMsgs: Object.assign({}, pickupErrMsgs, {
           [tname]: ''
@@ -700,9 +705,10 @@ class HomeDeliveryOrPickUp extends React.Component {
   };
   // 验证表单所有数据
   validFormAllPickupData = async () => {
+    const { intl } = this.props;
     const { pickupForm } = this.state;
     try {
-      await validData({ rule: pickupForm.formRule, data: pickupForm });
+      await validData({ rule: pickupForm.formRule, data: pickupForm, intl });
       this.props.updateConfirmBtnDisabled(false);
       pickupForm.consigneeNumber = pickupForm.phoneNumber;
       this.props.updateData(pickupForm);
