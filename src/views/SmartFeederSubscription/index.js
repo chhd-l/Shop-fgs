@@ -1348,31 +1348,6 @@ class SmartFeederSubscription extends Component {
       }
     }
 
-    // 超过库存时，修改产品数量为最大值替换
-    // let res = await miniPurchases({
-    //   goodsInfoDTOList: [
-    //     {
-    //       goodsInfoId: currentSelectedSize.goodsInfoId,
-    //       goodsNum: quantityNew
-    //     }
-    //   ]
-    // });
-    // let tmpObj = find(
-    //   res.context.goodsList,
-    //   (ele) => ele.goodsInfoId === currentSelectedSize.goodsInfoId
-    // );
-    // if (tmpObj) {
-    //   if (quantityNew > tmpObj.stock) {
-    //     quantityNew = tmpObj.stock;
-    //     if (flag) {
-    //       this.setState({
-    //         quantity: quantityNew
-    //       });
-    //     }
-    //     tmpData = Object.assign(tmpData, { quantity: quantityNew });
-    //   }
-    // }
-
     const idx = findIndex(
       cartDataCopy,
       (c) =>
