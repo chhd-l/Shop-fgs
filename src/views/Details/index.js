@@ -163,7 +163,8 @@ class Details extends React.Component {
       mixFeeding: null,
       originalProductInfo: {},
       mixFeedingByProductInfo: {},
-      mixFeedingBtnLoading: false
+      mixFeedingBtnLoading: false,
+      hiddenMixFeedingBanner: false
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -524,26 +525,34 @@ class Details extends React.Component {
         };
 
         if (goodsRes) {
-          const { goods, images } = res.context;
-
+          const { goods = {}, images } = res.context;
           if (isShowMixFeeding()) {
-            getMixFeeding(goods.goodsId).then((res) => {
+            getMixFeeding(goods?.goodsId).then((res) => {
               let mixFeeding = handleRecommendation(
                 res?.context?.goodsRelationAndRelationInfos.filter(
                   (el) => el.sort === 0
                 )[0] || res?.context?.goodsRelationAndRelationInfos[0]
               );
-              // console.log(res,mixFeeding,'mixFeeding')
               if (mixFeeding) {
                 mixFeeding.quantity = 1;
               }
-              let { goodsImg = '', goodsName = '' } = mixFeeding.goods || {};
+              let { goodsImg = '', goodsName = '', goodsNo = '' } =
+                mixFeeding?.goods || {};
+              let _hiddenMixFeedingBanner = false;
+              let mixFeedingSelected = mixFeeding?.sizeList?.filter(
+                (el) => el.selected
+              )?.[0];
+              if (!mixFeedingSelected?.stock) {
+                _hiddenMixFeedingBanner = true;
+              }
               this.setState({
                 mixFeeding,
                 mixFeedingByProductInfo: {
                   imageSrc: goodsImg,
-                  goodsTitle: goodsName
-                }
+                  goodsTitle: goodsName,
+                  goodsNo
+                },
+                hiddenMixFeedingBanner: _hiddenMixFeedingBanner
               });
             });
           }
@@ -1038,12 +1047,6 @@ class Details extends React.Component {
 
   handleAddMixFeeding = async () => {
     const { mixFeeding, form, details } = this.state;
-    let mixFeedingSelected = mixFeeding?.sizeList?.filter(
-      (el) => el.selected
-    )[0];
-    if (!mixFeedingSelected?.stock) {
-      return;
-    }
 
     let periodTypeId = parseInt(form.buyWay) ? form.frequencyId : '';
     let goodsInfoFlag =
@@ -1124,7 +1127,8 @@ class Details extends React.Component {
       loading,
       skuPromotions,
       headingTag = 'h1',
-      replyNum
+      replyNum,
+      mixFeeding
     } = this.state;
     const filterImages =
       images?.filter((i) => {
@@ -1540,11 +1544,11 @@ class Details extends React.Component {
               />
             ) : null}
 
-            {PC && Ru && this.state.mixFeeding ? (
+            {PC && Ru && mixFeeding && !this.state.hiddenMixFeedingBanner ? (
               <MixFeedingBanner
                 originalProductInfo={this.state.originalProductInfo}
                 mixFeedingByProductInfo={this.state.mixFeedingByProductInfo}
-                mixFeedingForm={this.state.form}
+                mixFeedingForm={form}
                 addMixFeedingToCart={this.addMixFeedingToCart}
                 btnStatus={btnStatus}
                 mixFeedingBtnLoading={this.state.mixFeedingBtnLoading}
