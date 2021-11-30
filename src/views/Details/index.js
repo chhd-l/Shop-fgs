@@ -1050,12 +1050,12 @@ class Details extends React.Component {
       form.buyWay && details.promotions?.includes('club') ? 2 : form.buyWay;
     const params = {
       product: Object.assign(mixFeeding, {
+        quantity: 1,
         periodTypeId,
         goodsInfoFlag
       }),
       intl: this.props.intl
     };
-    // this.state.mixFeeding
     this.isLogin
       ? await addToLoginCartData(params)
       : await addToUnloginCartData(params);
