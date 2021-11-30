@@ -1010,14 +1010,12 @@ class AddressList extends React.Component {
   getFormAddressValidFlag = (flag) => {
     // console.log('666 >>> address1地址校验flag : ', flag);
     const { deliveryAddress, isValid } = this.state;
-    console.log({ deliveryAddress });
     this.setState(
       {
         formAddressValid: flag
       },
       () => {
         if (flag) {
-          console.log(isValid);
           this.updateDeliveryAddress(deliveryAddress);
         }
       }
