@@ -58,8 +58,9 @@ class PersonalDataEditForm extends React.Component {
       validationModalVisible: false, // 地址校验查询开关
       selectValidationOption: 'suggestedAddress'
     };
-    this.handleCommunicationCheckBoxChange =
-      this.handleCommunicationCheckBoxChange.bind(this);
+    this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
+      this
+    );
   }
   componentDidMount() {
     const { data, editFormVisible } = this.props;

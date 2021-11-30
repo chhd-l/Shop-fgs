@@ -1775,8 +1775,13 @@ class SmartFeederSubscription extends Component {
   };
   render() {
     const { location, history, match } = this.props;
-    const { headerHide, stepName, checkOutErrMsg, goodsDetailTab, enableFlag } =
-      this.state;
+    const {
+      headerHide,
+      stepName,
+      checkOutErrMsg,
+      goodsDetailTab,
+      enableFlag
+    } = this.state;
     let stepCom = null;
     return (
       <div>

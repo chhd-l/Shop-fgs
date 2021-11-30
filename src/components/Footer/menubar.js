@@ -182,6 +182,10 @@ export const menubar = {
               }
             },
             messageId: 'footer.FAQAllgemeines'
+          },
+          {
+            url: 'https://www.royalcanin.com/de/about-us/imprint',
+            messageId: 'footer.imprint'
           }
         ]
       }
@@ -191,7 +195,7 @@ export const menubar = {
         titleId: 'footer.Additionally2',
         list: [
           {
-            url: 'https://www.royalcanin.com/de/about-us/data-protection',
+            url: 'https://www.mars.com/privacy-policy-germany',
             messageId: 'footer.privacyPolicy2'
           },
           { link: '/Terms-And-Conditions', messageId: 'footer.termsOfService' },

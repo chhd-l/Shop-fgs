@@ -250,8 +250,12 @@ class MemberCardList extends React.Component {
     });
   };
   async validFormData() {
-    const { mustSaveForFutherPayments, needEmail, needPhone, intl } =
-      this.props;
+    const {
+      mustSaveForFutherPayments,
+      needEmail,
+      needPhone,
+      intl
+    } = this.props;
     const {
       creditCardInfoForm: { savedCardChecked },
       isEdit

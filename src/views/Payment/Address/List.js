@@ -150,12 +150,14 @@ class AddressList extends React.Component {
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.addOrEditPickupAddress = this.addOrEditPickupAddress.bind(this);
-    this.handleCancelAddOrEditPickup =
-      this.handleCancelAddOrEditPickup.bind(this);
+    this.handleCancelAddOrEditPickup = this.handleCancelAddOrEditPickup.bind(
+      this
+    );
     this.handleSave = this.handleSave.bind(this);
     this.timer = null;
-    this.confirmListValidationAddress =
-      this.confirmListValidationAddress.bind(this);
+    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
+      this
+    );
     this.editFormRef = React.createRef();
   }
   async componentDidMount() {
@@ -979,7 +981,8 @@ class AddressList extends React.Component {
         this.props.updateData(data);
       });
     } catch (err) {
-      console.warn(' err msg: ', err);
+      // console.warn(' err msg: ', err);
+      console.log(err.message);
       this.setState({ isValid: false }, () => {
         this.props.updateFormValidStatus(this.state.isValid);
       });
@@ -1006,13 +1009,15 @@ class AddressList extends React.Component {
   // 俄罗斯地址校验flag，控制按钮是否可用
   getFormAddressValidFlag = (flag) => {
     // console.log('666 >>> address1地址校验flag : ', flag);
-    const { deliveryAddress } = this.state;
+    const { deliveryAddress, isValid } = this.state;
+    console.log({ deliveryAddress });
     this.setState(
       {
         formAddressValid: flag
       },
       () => {
         if (flag) {
+          console.log(isValid);
           this.updateDeliveryAddress(deliveryAddress);
         }
       }
@@ -1184,8 +1189,11 @@ class AddressList extends React.Component {
   };
   // 点击地址验证确认按钮
   confirmListValidationAddress = () => {
-    const { deliveryAddress, selectListValidationOption, validationAddress } =
-      this.state;
+    const {
+      deliveryAddress,
+      selectListValidationOption,
+      validationAddress
+    } = this.state;
     this.setState({
       listBtnLoading: true
     });

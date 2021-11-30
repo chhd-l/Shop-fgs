@@ -759,8 +759,11 @@ class AddressList extends React.Component {
   };
   // 确认选择地址
   confirmValidationAddress() {
-    const { deliveryAddress, selectValidationOption, validationAddress } =
-      this.state;
+    const {
+      deliveryAddress,
+      selectValidationOption,
+      validationAddress
+    } = this.state;
     let oldDeliveryAddress = JSON.parse(JSON.stringify(deliveryAddress));
     let theform = [];
     if (selectValidationOption == 'suggestedAddress') {
