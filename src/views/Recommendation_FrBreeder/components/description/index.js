@@ -24,6 +24,7 @@ export default class index extends Component {
         <div className="description-item">
           <div
             className="descrition-title"
+            style={{ borderBottom: 0 }}
             onClick={() => this.clickItem('first')}
           >
             <span>Les recommandations de votre éleveur</span>
@@ -69,6 +70,7 @@ export default class index extends Component {
             </div>
           </div>
         </div>
+
         <div className="description-item">
           <div
             className="descrition-title"
@@ -85,29 +87,33 @@ export default class index extends Component {
           </div>
           <div className="description-content">
             <div style={{ display: this.state.second ? 'block' : 'none' }}>
-              <div className="content-bg">
-                Offre personnelle valable sur l'intégralité de nos aliments
-                chien & chat (hors aliments humides, Babycat milk, gamme Size
-                mini indoor & conditionnements de 1kg) et cumulable avec l'offre
-                d'abonnement. Valable une seule fois et uniquement sur la
-                boutique en ligne Royal Canin https://www.royalcanin.com/fr/shop
-                selon le format du produit acheté.
+              <div
+                className="content-bg"
+                style={{
+                  display: 'flex',
+                  textAlign: 'left',
+                  marginTop: 0,
+                  width: '100%',
+                  padding: '24px '
+                }}
+              >
+                <span style={{ color: 'red', marginRight: 20 }}>*</span>
+                <span>
+                  Offre personnelle valable sur l'intégralité de nos aliments
+                  chien & chat (hors aliments humides, Babycat milk, gamme Size
+                  mini indoor &<br /> conditionnements de 1kg) et cumulable avec
+                  l'offre d'abonnement. Valable une seule fois et uniquement sur
+                  la boutique en ligne Royal Canin{' '}
+                  <a
+                    className="font-bold"
+                    href="https://www.royalcanin.com/fr/shop"
+                  >
+                    https://www.royalcanin.com/fr/shop
+                  </a>{' '}
+                  . selon le format du produit acheté.
+                </span>
               </div>
-              <div style={{ height: 1, background: '#666666' }}></div>
-
-              <div style={{ display: 'flex', display: 'none' }}>
-                <div></div>
-                <div>
-                  Discover now the perfect tool to calculate the ideal ration
-                  for your pet. Fill in your pet’s information in the
-                  interactive feeding guide and you will get the daily feeding
-                  recommendation.{' '}
-                </div>
-
-                <div>
-                  <button>Calculate portion</button>
-                </div>
-              </div>
+              <div style={{ height: 75 }}></div>
             </div>
           </div>
         </div>

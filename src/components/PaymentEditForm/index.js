@@ -1069,8 +1069,7 @@ class PaymentEditForm extends React.Component {
                   <div
                     className="rc-input w-100"
                     onClick={() => {
-                      creditCardInfoForm.isDefault =
-                        !creditCardInfoForm.isDefault;
+                      creditCardInfoForm.isDefault = !creditCardInfoForm.isDefault;
                       this.setState({ creditCardInfoForm });
                     }}
                   >
