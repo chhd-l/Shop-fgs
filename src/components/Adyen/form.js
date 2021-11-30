@@ -13,7 +13,6 @@ import getPaymentConf from '@/lib/get-payment-conf';
 let adyenFormData = {};
 
 @inject('loginStore', 'paymentStore')
-@injectIntl
 @observer
 class AdyenCreditCardForm extends React.Component {
   static defaultProps = {
@@ -396,4 +395,4 @@ class AdyenCreditCardForm extends React.Component {
   }
 }
 
-export default AdyenCreditCardForm;
+export default injectIntl(AdyenCreditCardForm, { forwardRef: true });

@@ -300,6 +300,7 @@ const App = () => {
       <IntlProvider
         locale={window.__.env.REACT_APP_LANG}
         messages={dynamicLanguage}
+        defaultLocale={'en'}
       >
         <Router
           basename={window.__.env.REACT_APP_HOMEPAGE}
