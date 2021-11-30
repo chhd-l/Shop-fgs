@@ -7,11 +7,14 @@ class MyModal extends React.Component {
     return (
       <div className="my-model" style={{ display: visible ? 'block' : 'none' }}>
         {children}
-        <div style={{ padding: '0 3.75rem' }}>
-          <div className="size24 col0" style={{ marginBottom: '1rem' }}>
+        <div className="modal-box">
+          <div
+            className="size24 col0 modal-size"
+            style={{ marginBottom: '1rem' }}
+          >
             Contacter l’Atelier Félin
           </div>
-          <div>
+          <div className="modeal-cont">
             Contactez-nous pour en savoir plus sur l’Atelier Félin et
             <br />
             notre mission.
