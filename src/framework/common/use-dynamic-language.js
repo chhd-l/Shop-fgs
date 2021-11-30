@@ -4,15 +4,19 @@ import { getDynamicLanguage } from '@/lang';
 const useDynamicLanguage = () => {
   const [dynamicLanguage, setDynamicLanguage] = useState({});
   const [loading, setLoading] = useState(true);
-  console.log(dynamicLanguage, 'dynamicLanguage');
 
   useEffect(() => {
-    async function getLanguage() {
-      setLoading(true);
-      const lang = await getDynamicLanguage();
-      setDynamicLanguage(lang);
-      setLoading(false);
-    }
+    const getLanguage = async () => {
+      try {
+        setLoading(true);
+        const lang = await getDynamicLanguage();
+        setDynamicLanguage(lang);
+      } catch (err) {
+        console.log('phrase langugage fetch error', err);
+      } finally {
+        setLoading(false);
+      }
+    };
     getLanguage();
   }, []);
 
