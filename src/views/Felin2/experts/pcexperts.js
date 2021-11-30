@@ -410,7 +410,7 @@ class Pcexperts extends React.Component {
       Offline: 'Sur place'
     };
     return (
-      <div className="pcexperts">
+      <div className="pc-block">
         {/* 默认页面 */}
         {this.state.isShow ? (
           <div id="pcexperts">

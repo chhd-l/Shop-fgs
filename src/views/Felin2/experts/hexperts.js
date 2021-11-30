@@ -422,7 +422,7 @@ class Hcexperts extends React.Component {
       Offline: 'Sur place'
     };
     return (
-      <div id="hexperts" className="hexperts">
+      <div id="hexperts" className="h-block">
         {/* 默认页面 */}
         {this.state.isShow ? (
           <div className="txt-centr">

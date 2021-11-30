@@ -13,7 +13,7 @@ import { inject, observer } from 'mobx-react';
 import { Helmet } from 'react-helmet';
 import Slider from 'react-slick';
 import img from './image/img.png';
-import cat1 from './image/cat1.png';
+import header from './image/header.png';
 import thak from './image/thak.png';
 import nos from './image/nos.png';
 import open from './image/open.png';
@@ -147,6 +147,18 @@ class Felin extends React.Component {
         <main className="rc-content--fixed-header">
           <div className="header-content">
             <div className="bg-module" />
+            <LazyLoad className="w-100">
+              <img
+                className="pc-block"
+                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/header.jpg`}
+                alt=""
+              />
+              <img
+                className="h-block"
+                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/header1.jpg`}
+                alt=""
+              />
+            </LazyLoad>
             <div className="hd-text-cont">
               <div className="introduce fontw-500">
                 Venez rencontrer nos experts à l'Atelier Félin, une boutique
@@ -154,7 +166,7 @@ class Felin extends React.Component {
               </div>
               <button
                 onClick={this.gotoAddPc}
-                className="rc-btn rc-btn--one  rc-margin-bottom--xs pcgotobut"
+                className="rc-btn rc-btn--one  rc-margin-bottom--xs pc-block"
                 style={{
                   width: '16.875rem'
                 }}
@@ -163,7 +175,7 @@ class Felin extends React.Component {
               </button>
               <button
                 onClick={this.gotoAddH}
-                className="rc-btn rc-btn--one  rc-margin-bottom--xs hgotobut"
+                className="rc-btn rc-btn--one  rc-margin-bottom--xs h-block"
                 style={{
                   width: '16.875rem'
                 }}
@@ -186,7 +198,16 @@ class Felin extends React.Component {
               <div className="rc-layout-container rc-two-column rc-content-h-middle ">
                 <div className="rc-column felin-mpd0">
                   <LazyLoad className="w-100">
-                    <div className="time-img w-100"></div>
+                    <img
+                      className="pc-block time-img"
+                      src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/img.jpg`}
+                      alt=""
+                    />
+                    <img
+                      className="h-block time-img"
+                      src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/img1.jpg`}
+                      alt=""
+                    />
                   </LazyLoad>
                 </div>
                 <div className="rc-column flx-around">
@@ -295,7 +316,16 @@ class Felin extends React.Component {
                 <div className="rc-layout-container rc-two-column rc-content-h-middle ">
                   <div className="rc-column felin-mpd0">
                     <LazyLoad className="w-100">
-                      <div className="nos-img-box w-100"></div>
+                      <img
+                        className="pc-block nos-img-box"
+                        src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/nos.jpg`}
+                        alt=""
+                      />
+                      <img
+                        className="h-block nos-img-box"
+                        src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/nos1.jpg`}
+                        alt=""
+                      />
                     </LazyLoad>
                   </div>
                   <div className="rc-column">
