@@ -12,7 +12,6 @@
  *
  *********/
 import React from 'react';
-import locales from '@/lang';
 import Skeleton from 'react-skeleton-loader';
 import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';
@@ -45,11 +44,10 @@ import { inject, observer } from 'mobx-react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import IMask from 'imask';
 import debounce from 'lodash/debounce';
+import { EMAIL_REGEXP } from '@/utils/constant';
 import './index.less';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
-const sessionItemRoyal = window.__.sessionItemRoyal;
-const CURRENT_LANGFILE = locales;
 let tempolineCache = {};
 @inject('configStore')
 @injectIntl
@@ -513,6 +511,9 @@ class Form extends React.Component {
   };
   // 2、格式化表单json
   formListFormat(array) {
+    const {
+      intl: { messages, formatMessage }
+    } = this.props;
     const { caninForm, errMsgObj, COUNTRY } = this.state;
     let rule = [];
     let ruleTimeSlot = [];
@@ -608,11 +609,11 @@ class Form extends React.Component {
           } else {
             regExp = /\S/;
           }
-          errMsg = CURRENT_LANGFILE['enterCorrectPostCode'];
+          errMsg = formatMessage({ id: 'enterCorrectPostCode' });
           break;
         case 'email':
-          regExp = /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/;
-          errMsg = CURRENT_LANGFILE['pleaseEnterTheCorrectEmail'];
+          regExp = EMAIL_REGEXP;
+          errMsg = formatMessage({ id: 'pleaseEnterTheCorrectEmail' });
           break;
         case 'phoneNumber':
           if (COUNTRY == 'fr') {
@@ -641,7 +642,7 @@ class Form extends React.Component {
             // 其他国家
             regExp = /\S/;
           }
-          errMsg = CURRENT_LANGFILE['enterCorrectPhoneNumber'];
+          errMsg = formatMessage({ id: 'enterCorrectPhoneNumber' });
           break;
         default:
           regExp = /\S/;
@@ -651,9 +652,10 @@ class Form extends React.Component {
           } else {
             errstr = 'payment.errorInfo';
           }
-          errMsg = CURRENT_LANGFILE[errstr].replace(
-            /{.+}/,
-            CURRENT_LANGFILE[`payment.${item.fieldKey}`]
+
+          errMsg = formatMessage(
+            { id: errstr },
+            { val: messages[`payment.${item.fieldKey}`] }
           );
       }
 
@@ -1106,7 +1108,8 @@ class Form extends React.Component {
           });
         }
       }
-      await validData(targetRule, { [tname]: tvalue });
+
+      await validData({ rule: targetRule, data: { [tname]: tvalue } });
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
           [tname]: ''
@@ -1132,9 +1135,9 @@ class Form extends React.Component {
     try {
       // 验证整个表单
       if (isDeliveryDateAndTimeSlot) {
-        await validData(caninForm.formRuleRu, caninForm);
+        await validData({ rule: caninForm.formRuleRu, data: caninForm });
       } else {
-        await validData(caninForm.formRule, caninForm);
+        await validData({ rule: caninForm.formRule, data: caninForm });
       }
       this.props.getFormAddressValidFlag(true);
     } catch {

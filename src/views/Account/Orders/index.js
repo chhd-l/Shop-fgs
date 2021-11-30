@@ -350,7 +350,7 @@ class AccountOrders extends React.Component {
         };
       });
       await batchAdd({ goodsInfos: paramList });
-      await this.props.checkoutStore.updateLoginCart();
+      await this.props.checkoutStore.updateLoginCart({ intl: this.props.intl });
       this.props.history.push('/cart');
     } catch (err) {
     } finally {
@@ -496,8 +496,7 @@ class AccountOrders extends React.Component {
         {/*felin订单cancel appoint*/}
         {order.canCancelAppoint ? (
           <button
-            className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order`}
-            style={{ marginLeft: 0 }}
+            className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order ml-0`}
             onClick={this.cancelAppoint.bind(this, order)}
           >
             <FormattedMessage id="Cancel Appointment" />
@@ -607,11 +606,11 @@ class AccountOrders extends React.Component {
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbs />
-          <div className="p-md-2rem rc-max-width--xl ord-list">
+          <div className="md:p-8 rc-max-width--xl ord-list">
             <div className="rc-layout-container rc-five-column">
               <SideMenu type="Orders" customCls="rc-md-up" />
               <div
-                className={`my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop pl-0 pr-0 pr-md-3 pl-md-3 ${
+                className={`my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop pl-0 pr-0 md:pr-3 md:pl-3 ${
                   showOneOrderDetail ? 'hidden' : ''
                 }`}
               >
@@ -662,7 +661,7 @@ class AccountOrders extends React.Component {
                   </>
                 ) : (
                   <>
-                    <div className="row mb-3 m-md-0" style={{ margin: 0 }}>
+                    <div className="row m-0 mb-3 md:m-0">
                       <div className="col-12 rc-md-down">
                         <Link to="/account">
                           <span className="red">&lt;</span>
@@ -672,7 +671,7 @@ class AccountOrders extends React.Component {
                         </Link>
                       </div>
 
-                      <div className="col-12 order-1 order-md-0 col-md-8 rc-fade--x">
+                      <div className="col-12 order-1 md:order-0 col-md-8 rc-fade--x">
                         <ul
                           className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank rc-border-bottom rc-border-colour--interface"
                           role="tablist"
@@ -695,8 +694,8 @@ class AccountOrders extends React.Component {
                         </ul>
                       </div>
 
-                      <div className="col-12 order-0 order-md-1 col-md-4">
-                        <div className="rc-select rc-full-width rc-input--full-width rc-select-processed mt-0 mb-2 mb-md-0">
+                      <div className="col-12 order-0 md:order-1 col-md-4">
+                        <div className="rc-select rc-full-width rc-input--full-width rc-select-processed mt-0 mb-2 md:mb-0">
                           <Selection
                             optionList={duringTimeOptions}
                             selectedItemChange={this.handleDuringTimeChange}
@@ -740,10 +739,6 @@ class AccountOrders extends React.Component {
                               return (
                                 <div
                                   className="card-container"
-                                  // style={{
-                                  //   paddingBottom:
-                                  //     this.deviceType === 'H5' ? '1.25rem' : '0'
-                                  // }}
                                   key={order.id}
                                   onClick={this.handleClickCardItem.bind(
                                     this,
@@ -766,7 +761,7 @@ class AccountOrders extends React.Component {
                                           </span>
                                         </p>
                                       </div>
-                                      <div className="col-12 col-md-2 mb-2 mb-md-0">
+                                      <div className="col-12 col-md-2 mb-2 md:mb-0">
                                         <p className="text-nowrap">
                                           <FormattedMessage id="order.orderNumber" />
                                           <br className="d-none d-md-block" />
@@ -828,7 +823,7 @@ class AccountOrders extends React.Component {
                                               )}
                                             </FormattedMessage>
                                           </div>
-                                        ) : order.orderSource === 'SUPPLIER' ? (
+                                        ) : order.goodWillFlag === 1 ? (
                                           <div>
                                             <FormattedMessage id="order.goodwillOrder" />
                                           </div>
@@ -838,7 +833,7 @@ class AccountOrders extends React.Component {
                                         <FormattedMessage id="order.orderDetails">
                                           {(txt) => (
                                             <Link
-                                              className="d-flex rc-padding-left--none rc-btn rc-btn--icon-label rc-padding-right--none orderDetailBtn btn--inverse rc-btn--inverse text-wrap align-items-center"
+                                              className="d-flex rc-padding-left--none rc-btn rc-btn--icon-label rc-padding-right--none orderDetailBtn btn--inverse text-wrap align-items-center"
                                               to={`/account/orders/detail/${order.id}`}
                                             >
                                               <em className="rc-iconography rc-icon rc-news--xs" />
@@ -854,16 +849,11 @@ class AccountOrders extends React.Component {
                                       </div>
                                     </div>
                                   </div>
-                                  <div
-                                    className="row mb-3 mt-3 align-items-center m-0"
-                                    style={{ position: 'relative' }}
-                                  >
+                                  <div className="row mb-3 mt-3 align-items-center m-0 relative">
                                     <div
-                                      className="rc-md-down"
+                                      className="rc-md-down absolute -bottom-5"
                                       style={{
-                                        position: 'absolute',
-                                        right: '.9375rem',
-                                        bottom: '-1.25rem'
+                                        right: '.9375rem'
                                       }}
                                     >
                                       {order.canDownInvoice ? (
@@ -890,7 +880,7 @@ class AccountOrders extends React.Component {
                                         'PART_SHIPPED' &&
                                         order.tradeState.flowState ===
                                           'DELIVERED_PART')) && (
-                                      <div className="col-12 mt-1 mt-md-0 mb-md-1 order-1 order-md-0">
+                                      <div className="col-12 mt-1 md:mt-0 md:mb-1 order-1 md:order-0">
                                         <p className="medium mb-0 color-444">
                                           <FormattedMessage id="deliveredTip" />
                                         </p>
@@ -906,7 +896,7 @@ class AccountOrders extends React.Component {
                                     order.tradeEventLogs[0] &&
                                     order.tradeEventLogs[0].eventType ===
                                       'COMPLETED' ? (
-                                      <div className="col-12 mt-1 mt-md-0 mb-md-1 order-1 order-md-0">
+                                      <div className="col-12 mt-1 md:mt-0 md:mb-1 order-1 md:order-0">
                                         <p className="medium mb-0 color-444">
                                           <FormattedMessage id="orderStatus.COMPLETED" />
                                           :{' '}
@@ -993,12 +983,12 @@ class AccountOrders extends React.Component {
                                     </div>
                                     {isGift && !getDeviceType() === 'H5' ? (
                                       order.tradeItems.map((item, idx) => (
-                                        <div className="col-2 col-md-3 text-right pl-md-0">
+                                        <div className="col-2 col-md-3 text-right md:pl-0">
                                           {formatMoney(item.price)}
                                         </div>
                                       ))
                                     ) : (
-                                      <div className="col-2 col-md-3 text-center pl-md-0 pr-md-0">
+                                      <div className="col-2 col-md-3 text-center md:pl-0 md:pr-0">
                                         <div className="rc-md-up">
                                           {this.renderOperationBtns(order)}
                                         </div>
@@ -1041,7 +1031,7 @@ class AccountOrders extends React.Component {
                           </div>
                         )}
                         {tabErrMsg || !orderList.length ? null : (
-                          <div className="grid-footer rc-full-width mt-4 mt-md-2">
+                          <div className="grid-footer rc-full-width mt-4 md:mt-2">
                             <Pagination
                               loading={this.state.loading}
                               totalPage={this.state.totalPage}

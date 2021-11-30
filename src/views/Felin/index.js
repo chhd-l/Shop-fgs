@@ -429,7 +429,7 @@ export default class Felin extends React.Component {
     const targetRule = PRESONAL_INFO_RULE.filter((e) => e.key === target.name);
     const value = target.type === 'checkbox' ? target.checked : target.value;
     try {
-      await validData(targetRule, { [target.name]: value });
+      await validData({ rule: targetRule, data: { [target.name]: value } });
       this.setState(
         {
           errMsgObj: Object.assign({}, errMsgObj, {
@@ -619,13 +619,8 @@ export default class Felin extends React.Component {
   }
 
   updateButtonState() {
-    let {
-      step,
-      selectedTimeObj,
-      consentChecked1,
-      selectedDate,
-      felinType
-    } = this.state;
+    let { step, selectedTimeObj, consentChecked1, selectedDate, felinType } =
+      this.state;
     console.log(step, this.state.errMsgObj, consentChecked1, 'hahaha');
     if (step === 1 && selectedTimeObj.value && selectedDate) {
       this.setState({ nextBtnEnable: true });
@@ -1460,8 +1455,8 @@ export default class Felin extends React.Component {
                                 onClick={() => {
                                   this.setState(
                                     {
-                                      consentChecked1: !this.state
-                                        .consentChecked1
+                                      consentChecked1:
+                                        !this.state.consentChecked1
                                     },
                                     () => {
                                       this.updateButtonState();
@@ -1509,8 +1504,8 @@ export default class Felin extends React.Component {
                                 onClick={() => {
                                   this.setState(
                                     {
-                                      consentChecked2: !this.state
-                                        .consentChecked2
+                                      consentChecked2:
+                                        !this.state.consentChecked2
                                     },
                                     () => {
                                       this.updateButtonState();

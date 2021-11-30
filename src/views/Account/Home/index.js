@@ -101,8 +101,8 @@ class AccountHome extends React.Component {
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl pt-2">
             <div className="rc-layout-container rc-five-column">
-              <SideMenu type="Home" customCls="order-1 order-md-0 rc-md-up" />
-              <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop order-0 order-md-0">
+              <SideMenu type="Home" customCls="order-0 rc-md-up" />
+              <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop order-0">
                 <p className="mb-0">
                   {window.__.env.REACT_APP_COUNTRY !== 'uk' ? (
                     <FormattedMessage

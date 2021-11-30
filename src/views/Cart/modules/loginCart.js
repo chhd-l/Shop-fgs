@@ -152,7 +152,7 @@ class LoginCart extends React.Component {
       const unloginCartData = this.checkoutStore.cartData;
       if (unloginCartData.length) {
         await mergeUnloginCartData();
-        await this.checkoutStore.updateLoginCart();
+        await this.checkoutStore.updateLoginCart({ intl: this.props.intl });
       }
 
       GACartScreenLoad();
@@ -293,12 +293,12 @@ class LoginCart extends React.Component {
     this.changeFrequencyType(pitem);
   }
   async updateCartCache({ callback, isThrowErr = false } = {}) {
-    console.log(444);
     try {
       this.setState({ checkoutLoading: true });
       await this.checkoutStore.updateLoginCart({
         isThrowErr,
-        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
+        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT),
+        intl: this.props.intl
       });
       callback && callback();
       this.setData();
@@ -739,9 +739,10 @@ class LoginCart extends React.Component {
             className={`rc-border-all rc-border-colour--interface product-info p-3 rc-padding-bottom--none--mobile
             ${isGift ? 'no-margin-bottom' : 'has-margin-bottom'}`}
           >
-            <span className="remove-product-btn">
+            <span className="remove-product-btn z-50">
               <span
-                className="rc-icon rc-close--sm rc-iconography"
+                className="rc-icon rc-close--sm rc-iconography inline-block"
+                style={{ width: '32px', height: '32px' }}
                 onClick={() => {
                   this.updateConfirmTooltipVisible(pitem, true);
                   this.setState({ currentProductIdx: index });
@@ -803,7 +804,7 @@ class LoginCart extends React.Component {
                     {pitem.goodsName}
                   </h4>
                   {pitem.taggingForImage?.taggingImgUrl ? (
-                    <LazyLoad className="order-1 order-md-3">
+                    <LazyLoad className="order-1 md:order-3">
                       <img
                         src={pitem.taggingForImage?.taggingImgUrl}
                         className="cart-item__tagging_image ml-2"
@@ -952,8 +953,9 @@ class LoginCart extends React.Component {
           </div>
           {mixFeedings &&
           mixFeedings[index] &&
-          plist.filter((el) => el.goodsNo === mixFeedings[index].goods.goodsNo)
-            .length === 0 ? (
+          plist.filter(
+            (el) => el.goods.goodsNo === mixFeedings[index].goods.goodsNo
+          ).length === 0 ? (
             <MixFeedingBox
               isLogin={true}
               mixFeedingData={mixFeedings[index]}
@@ -1478,7 +1480,7 @@ class LoginCart extends React.Component {
     this.setState({ checkoutLoading: false });
   }
   handleRemovePromotionCode = async () => {
-    const { checkoutStore, loginStore, buyWay } = this.props;
+    const { checkoutStore, loginStore, buyWay, intl } = this.props;
     let { discount } = this.state;
     let result = {};
     await checkoutStore.removePromotionCode();
@@ -1487,10 +1489,11 @@ class LoginCart extends React.Component {
     if (loginStore.isLogin) {
       result = await checkoutStore.updateLoginCart({
         promotionCode: '',
-        subscriptionFlag: buyWay === 'frequency'
+        subscriptionFlag: buyWay === 'frequency',
+        intl
       });
     } else {
-      result = await checkoutStore.updateUnloginCart();
+      result = await checkoutStore.updateUnloginCart({ intl });
     }
     this.setState({
       discount: [],
@@ -1501,7 +1504,7 @@ class LoginCart extends React.Component {
   };
   handleClickPromotionApply = async (falseCodeAndReRequest = false) => {
     //falseCodeAndReRequest 需要重新请求code填充公共code
-    const { checkoutStore, loginStore, buyWay } = this.props;
+    const { checkoutStore, loginStore, buyWay, intl } = this.props;
     let { promotionInputValue, discount } = this.state;
     if (!promotionInputValue && !falseCodeAndReRequest) return;
     let result = {};
@@ -1515,11 +1518,13 @@ class LoginCart extends React.Component {
     if (loginStore.isLogin) {
       result = await checkoutStore.updateLoginCart({
         promotionCode: lastPromotionInputValue,
-        subscriptionFlag: buyWay === 'frequency'
+        subscriptionFlag: buyWay === 'frequency',
+        intl
       });
     } else {
       result = await checkoutStore.updateUnloginCart({
-        promotionCode: lastPromotionInputValue
+        promotionCode: lastPromotionInputValue,
+        intl
       });
     }
     if (

@@ -268,7 +268,7 @@ class MemberCardList extends React.Component {
         } else {
           rules = PAYMENT_METHOD_PAU_CHECKOUT_RULE;
         }
-        await validData(rules, this.state.creditCardInfoForm);
+        await validData({ rule: rules, data: this.state.creditCardInfoForm });
       }
 
       this.setState({ isValid: true });

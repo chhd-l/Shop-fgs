@@ -47,16 +47,16 @@ export default class Rate extends Component {
 
     const activeStar =
       color === 'red' ? (
-        <span className="iconfont red rate__icon">&#xe6f2;</span>
+        <span className="iconfont text-rc-red rate__icon icongrayStar" />
       ) : (
-        <span className="iconfont rate__icon yellow">&#xe6f2;</span>
+        <span className="iconfont rate__icon yellow icongrayStar" />
       );
 
     const halfStar = (
       <svg
         className="svg-icon"
         aria-hidden="true"
-        style={{ width: '1.3em', height: '1.3em', verticalAlign: 'middle' }}
+        style={{ width: '1.3rem', height: '1.3rem', verticalAlign: 'middle' }}
       >
         <use xlinkHref="#iconxingxing" />
       </svg>
@@ -70,7 +70,7 @@ export default class Rate extends Component {
       );
     return (
       <div>
-        <div className="rate flex 1111111">
+        <div className="rate flex 1111111 items-center">
           {new Array(count).fill().map((item, index) => (
             <span
               className="rate__icon__container"

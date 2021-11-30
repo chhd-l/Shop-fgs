@@ -34,7 +34,8 @@ const api = {
   confirmAndCommitFelin: `/${window.__.env.REACT_APP_STOREID}/feline/checkout`, //felin checkout
   repayFelin: '/feline/repay', //felin repay
   getPaymentMethodV2: `/payment-method/query-by-StoreId/${window.__.env.REACT_APP_STOREID}`,
-  adyenOriginClientKey: `/${window.__.env.REACT_APP_STOREID}/adyenPay/originClientKey`
+  adyenOriginClientKey: `/${window.__.env.REACT_APP_STOREID}/adyenPay/originClientKey`,
+  adyenOriginClientKeyV2: `/${window.__.env.REACT_APP_STOREID}/payment-method/origin-client-keys`
 };
 
 export default api;
@@ -277,6 +278,13 @@ export function getPaymentMethodV2(parameter) {
 export function fetchAdyenOriginClientKey() {
   return axios({
     url: api.adyenOriginClientKey,
+    method: 'get'
+  });
+}
+
+export function fetchAdyenOriginClientKeyV2() {
+  return axios({
+    url: api.adyenOriginClientKeyV2,
     method: 'get'
   });
 }

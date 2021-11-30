@@ -234,13 +234,14 @@ export function getDeviceType() {
  * validate data
  * @param {Object} data - data needs validate
  */
-export async function validData(rule, data) {
+export async function validData({ rule, data, intl }) {
   for (let key in data) {
     const val = data[key];
     const targetRule = find(rule, (ele) => ele.key === key);
     if (targetRule) {
+      const errMsg = targetRule?.errMsg || targetRule.getErrMsg({ intl });
       if (targetRule.require && !val) {
-        throw new Error(targetRule.errMsg);
+        throw new Error(errMsg);
       }
       if (
         targetRule.require &&
@@ -248,7 +249,7 @@ export async function validData(rule, data) {
         val &&
         !targetRule.regExp.test(val)
       ) {
-        throw new Error(targetRule.errMsg);
+        throw new Error(errMsg);
       }
       if (targetRule.isBlacklist) {
         throw new Error('');
@@ -1016,9 +1017,8 @@ export function judgeIsIndividual(item) {
 // uk和fr,才有postCode校验
 const countryPostCode = ['uk', 'fr'];
 const currentCountry = window.__.env.REACT_APP_COUNTRY;
-export const isCanVerifyBlacklistPostCode = countryPostCode.includes(
-  currentCountry
-);
+export const isCanVerifyBlacklistPostCode =
+  countryPostCode.includes(currentCountry);
 
 // 获取 Postal code alert message
 export async function getAddressPostalCodeAlertMessage() {
@@ -1124,7 +1124,7 @@ export function handleRecommendation(product) {
   return Object.assign({}, product.goodsInfo.goods, product.goodsInfo);
 }
 
-export async function addToUnloginCartData(product) {
+export async function addToUnloginCartData({ product, intl }) {
   // let quantityNew = product.recommendationNumber;
   let quantityNew = product.quantity;
   let tmpData = Object.assign(product, {
@@ -1184,12 +1184,13 @@ export async function addToUnloginCartData(product) {
     cartDataCopy.push(tmpData);
   }
   await checkoutStore.updateUnloginCart({
-    cartData: cartDataCopy
+    cartData: cartDataCopy,
+    intl
   });
   // history.push(path);
 }
 
-export async function addToLoginCartData(product) {
+export async function addToLoginCartData({ product, intl }) {
   // let {
   //   productList,
   //   outOfStockProducts,
@@ -1223,7 +1224,7 @@ export async function addToLoginCartData(product) {
       recommendationId: clinicStore.linkClinicId,
       recommendationName: clinicStore.linkClinicName
     });
-    await checkoutStore.updateLoginCart();
+    await checkoutStore.updateLoginCart({ intl });
   } catch (e) {
     console.log('hahaha1111', e);
     // this.setState({ buttonLoading: false });

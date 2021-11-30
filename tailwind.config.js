@@ -21,7 +21,14 @@ module.exports = {
     },
   },
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'rc-red': 'var(--rc-red)',
+      },
+      textColor:{
+        'rc-red': 'var(--rc-red)',
+      }
+    },
   },
   plugins: [],
 }

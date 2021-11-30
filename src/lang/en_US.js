@@ -1806,6 +1806,19 @@ const en_US = {
   'list.clearFilters': 'Clear all filters',
   'list.viewFilters': 'View filters',
   'list.closeFilters': 'Close filters',
-  'order.goodwillOrder': '[Goodwill order]'
+  'order.goodwillOrder': '[Goodwill order]',
+
+  'adyen.storeDetails': 'Save for my next payment',
+  'adyen.holderName': 'Cardholder name',
+  'adyen.creditCard.holderName.placeholder': 'J. Smith',
+  'adyen.creditCard.holderName.invalid': 'Invalid cardholder name',
+  'adyen.creditCard.numberField.title': 'Card Number',
+  'adyen.creditCard.numberField.placeholder': '1234 5678 9012 3456',
+  'adyen.creditCard.numberField.invalid': 'Invalid card number',
+  'adyen.creditCard.expiryDateField.title': 'Expiry Date',
+  'adyen.creditCard.expiryDateField.placeholder': 'MM/YY',
+  'adyen.creditCard.expiryDateField.invalid': 'Invalid expiration date',
+  'adyen.creditCard.cvcField.title': 'CVC / CVV',
+  'adyen.creditCard.cvcField.placeholder': '123'
 };
 export default en_US;

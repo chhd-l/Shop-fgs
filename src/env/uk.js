@@ -3,6 +3,11 @@ const env = {
     // #国家
     REACT_APP_COUNTRY: 'uk',
 
+    // 语言文件
+    REACT_APP_LANG_LOCALE: 'en-GB',
+
+    REACT_APP_CALENDAR_LOCALE: 'en-GB',
+
     // #GA环境配置
     REACT_APP_GA_GTMID: 'GTM-TML5H48',
     REACT_APP_GTM_SITE_ID: 'RCGlobalPCO1',
@@ -279,7 +284,11 @@ const env = {
     // #delete接口前缀
     REACT_APP_HUB_APIURL: 'https://www.royalcanin.com/uk/api',
 
-    REACT_APP_HUB_URLPREFIX: 'https://www.royalcanin.com/uk'
+    REACT_APP_HUB_URLPREFIX: 'https://www.royalcanin.com/uk',
+
+    // #删除账户
+    REACT_APP_DELETE_My_ACCOUNT_URL:
+      'https://account.royalcanin.com/en-us/manager/settings'
   },
   stgwedding: {
     // #okta
@@ -321,7 +330,7 @@ const env = {
     // #buyFromRetailBtn
     REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE: 'en-US',
     REACT_APP_HUBPAGE_RETAILER_WIDGETID:
-      'eQJAy3lYzN_bc061c10-9ad5-11ea-8690-bd692fbec1ed25',
+      'eQJAy3lYzN_4a90c5a0-9f60-11ea-9aad-0d70ed4f132015',
     REACT_APP_HUBPAGE_RETAILER_WIDGETID_VET:
       'eQJAy3lYzN_56bc9e30-5036-11eb-b747-4948961b961c27',
     REACT_APP_HUBPAGE_RETAILER_LOCALE: 'en-GB'
@@ -368,7 +377,7 @@ const env = {
     // #buyFromRetailBtn
     REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE: 'en-US',
     REACT_APP_HUBPAGE_RETAILER_WIDGETID:
-      'eQJAy3lYzN_bc061c10-9ad5-11ea-8690-bd692fbec1ed25',
+      'eQJAy3lYzN_4a90c5a0-9f60-11ea-9aad-0d70ed4f132015',
     REACT_APP_HUBPAGE_RETAILER_WIDGETID_VET:
       'eQJAy3lYzN_56bc9e30-5036-11eb-b747-4948961b961c27',
     REACT_APP_HUBPAGE_RETAILER_LOCALE: 'en-GB'

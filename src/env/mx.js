@@ -3,6 +3,11 @@ const env_mx = {
     // #国家
     REACT_APP_COUNTRY: 'mx',
 
+    // 语言文件
+    REACT_APP_LANG_LOCALE: 'es-ES',
+
+    REACT_APP_CALENDAR_LOCALE: 'es-ES',
+
     // #GA环境配置
     REACT_APP_GA_GTMID: 'GTM-NCWZQ3',
     REACT_APP_GTM_SITE_ID: 'RCGlobalPCO1',
@@ -132,7 +137,9 @@ const env_mx = {
       'cb2f0d62-375e-4bb5-9ef8-08fcd670eb3c-test',
 
     // #设置二级子目录访问页面
-    REACT_APP_HOMEPAGE: '/mx'
+    REACT_APP_HOMEPAGE: '/mx',
+
+    REACT_APP_PDP_RATING_VISIBLE: '1'
   },
   shopuat: {
     // #okta

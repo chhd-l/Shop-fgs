@@ -594,7 +594,8 @@ class UnLoginCart extends React.Component {
       await this.props.checkoutStore.updateUnloginCart({
         cartData: productList,
         isThrowErr,
-        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
+        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT),
+        intl: this.props.intl
       });
       callback && callback();
       this.getGoodsIdArr(); //删除相关商品
@@ -732,9 +733,10 @@ class UnLoginCart extends React.Component {
               isGift ? 'no-margin-bottom' : 'has-margin-bottom'
             }`}
           >
-            <span className="remove-product-btn">
+            <span className="remove-product-btn z-50">
               <span
-                className="rc-icon rc-close--sm rc-iconography"
+                className="rc-icon rc-close--sm rc-iconography inline-block"
+                style={{ width: '32px', height: '32px' }}
                 onClick={() => {
                   this.updateConfirmTooltipVisible(pitem, true);
                   this.setState({ currentProductIdx: index });
@@ -800,7 +802,7 @@ class UnLoginCart extends React.Component {
                     {pitem.goodsName}
                   </h4>
                   {pitem.taggingForImageAtCart?.taggingImgUrl ? (
-                    <LazyLoad className="order-1 order-md-3">
+                    <LazyLoad className="order-1 md:order-3">
                       <img
                         src={pitem.taggingForImageAtCart?.taggingImgUrl}
                         className="cart-item__tagging_image ml-2"
@@ -1165,12 +1167,8 @@ class UnLoginCart extends React.Component {
     );
   };
   sideCart({ className = '', style = {}, id = '' } = {}) {
-    const {
-      checkoutLoading,
-      discount,
-      mobileCartVisibleKey,
-      promotionCode
-    } = this.state;
+    const { checkoutLoading, discount, mobileCartVisibleKey, promotionCode } =
+      this.state;
     const { checkoutStore } = this.props;
     const subtractionSign = '-';
     return (
@@ -1513,7 +1511,7 @@ class UnLoginCart extends React.Component {
   }
   handleClickPromotionApply = async (falseCodeAndReRequest) => {
     //falseCodeAndReRequest 需要重新请求code填充公共code
-    const { checkoutStore, loginStore, buyWay } = this.props;
+    const { checkoutStore, loginStore, buyWay, intl } = this.props;
     let { promotionInputValue, discount } = this.state;
     if (!promotionInputValue && !falseCodeAndReRequest) return;
 
@@ -1526,11 +1524,13 @@ class UnLoginCart extends React.Component {
     if (loginStore.isLogin) {
       result = await checkoutStore.updateLoginCart({
         promotionCode: promotionInputValue,
-        subscriptionFlag: buyWay === 'frequency'
+        subscriptionFlag: buyWay === 'frequency',
+        intl
       });
     } else {
       result = await checkoutStore.updateUnloginCart({
-        promotionCode: promotionInputValue
+        promotionCode: promotionInputValue,
+        intl
       });
     }
     if (
@@ -1569,7 +1569,7 @@ class UnLoginCart extends React.Component {
     });
   };
   handleRemovePromotionCode = async () => {
-    const { checkoutStore, loginStore, buyWay } = this.props;
+    const { checkoutStore, loginStore, buyWay, intl } = this.props;
     let { discount } = this.state;
     let result = {};
     // await checkoutStore.removeCouponCodeFitFlag();
@@ -1577,12 +1577,13 @@ class UnLoginCart extends React.Component {
     await checkoutStore.removeCouponCode();
     if (!loginStore.isLogin) {
       //游客
-      result = await checkoutStore.updateUnloginCart();
+      result = await checkoutStore.updateUnloginCart({ intl });
     } else {
       //会员
       result = await checkoutStore.updateLoginCart({
         promotionCode: '',
-        subscriptionFlag: buyWay === 'frequency'
+        subscriptionFlag: buyWay === 'frequency',
+        intl
       });
     }
     this.setState({

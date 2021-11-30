@@ -8,9 +8,8 @@ export default class index extends Component {
       first: true,
       second: true
     };
-  
   }
- 
+
   clickItem = (key) => {
     this.setState({
       [key]: !this.state[key]
@@ -36,7 +35,12 @@ export default class index extends Component {
             </span>
           </div>
           <div className="description-content">
-            <div style={{ display: this.state.first ? 'block' : 'none',width:'100%' }}>
+            <div
+              style={{
+                display: this.state.first ? 'block' : 'none',
+                width: '100%'
+              }}
+            >
               <div className="content-bg">
                 <img src={img} className="img-pets" />
                 {this.props.text}

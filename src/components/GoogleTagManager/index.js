@@ -1,6 +1,10 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { loadJS, filterObjectValueDeep, loadNoScriptIframeJS } from '@/utils/utils';
+import {
+  loadJS,
+  filterObjectValueDeep,
+  loadNoScriptIframeJS
+} from '@/utils/utils';
 import { sha256 } from 'js-sha256';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -154,12 +158,12 @@ class GoogleTagManager extends React.Component {
     //   src: `https://maf.pagosonline.net/ws/fp/tags.js?id=1234480200`
     // });
     loadJS({
-      code:`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      code: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
       new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
       j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
       })(window,document,'script','dataLayer','GTM-N449MLX');`
-    })
+    });
 
     loadJS({
       code: `window.dataLayer = window.dataLayer || [];

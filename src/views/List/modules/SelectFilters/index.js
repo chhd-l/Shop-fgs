@@ -51,7 +51,7 @@ class SelectFilters extends React.Component {
       >
         <div className="filter-bar">
           {isSelectedFilter ? (
-            <ul className="mt-md-0">
+            <ul className="md:mt-0">
               {filterList.map((pItem) => {
                 return (
                   pItem.attributesValueList ||

@@ -6,20 +6,18 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import LazyLoad from 'react-lazyload';
 import './index.css';
 import Skeleton from 'react-skeleton-loader';
-import { getDeviceType } from '@/utils/utils';
 
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
+import { getServiceEvaluate, gitDict } from '@/api/felin';
+
 @injectIntl
 class Reviews extends React.Component {
   static defaultProps = {
-    id: null,
     visible: false,
     onClose: () => {}
   };
   constructor(props) {
     super(props);
     this.state = {
-      id: this.props.id,
       goodsEvaluatesList: [],
       evaluatesCurrentPage: 1,
       valuatesTotalPages: 0,
@@ -33,7 +31,7 @@ class Reviews extends React.Component {
     this.handleDirectionClick = this.handleDirectionClick.bind(this);
   }
   componentDidMount() {
-    this.state.id && this.getGoodsEvaluates(1, 5, null);
+    this.getGoodsEvaluates(1, 5);
   }
 
   sortByChange(e) {
@@ -42,7 +40,7 @@ class Reviews extends React.Component {
         selectedSortBy: e.value
       },
       () => {
-        this.getGoodsEvaluates(this.state.evaluatesCurrentPage, 5, null);
+        this.getGoodsEvaluates(this.state.evaluatesCurrentPage, 5);
       }
     );
   }
@@ -51,7 +49,7 @@ class Reviews extends React.Component {
     let currentPage = this.state.evaluatesCurrentPage;
     if (currentPage > 1) {
       currentPage--;
-      this.getGoodsEvaluates(currentPage, 5, null);
+      this.getGoodsEvaluates(currentPage, 5);
     }
   }
 
@@ -59,7 +57,7 @@ class Reviews extends React.Component {
     let currentPage = this.state.evaluatesCurrentPage;
     if (currentPage < this.state.valuatesTotalPages) {
       currentPage++;
-      this.getGoodsEvaluates(currentPage, 5, null);
+      this.getGoodsEvaluates(currentPage, 5);
     }
   }
 
@@ -74,95 +72,22 @@ class Reviews extends React.Component {
     );
   };
 
-  async getGoodsEvaluates(pageNum = 1, pageSize = 5, sort) {
+  async getGoodsEvaluates(pageNum = 1, pageSize = 5) {
     let parmas = {
       pageNum: pageNum - 1,
       pageSize: pageSize,
-      goodsId: this.state.id,
-      sortColumn: '',
-      sortRole: ''
+      storeId: window.__.env.REACT_APP_STOREID
     };
     this.setState({
       loading: true,
       goodsEvaluatesList: []
     });
-    switch (Number(this.state.selectedSortBy)) {
-      case 3:
-        parmas.sortColumn = 'evaluateTime';
-        parmas.sortRole = 'desc';
-        break;
-      case 1:
-        parmas.sortColumn = 'evaluateScore';
-        parmas.sortRole = 'asc';
-        break;
-      case 2:
-        parmas.sortColumn = 'evaluateScore';
-        parmas.sortRole = 'desc';
-        break;
-      default:
-        break;
-    }
 
-    // 测试数据
-    const getAllReviews = (params) => {
-      console.log(params);
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({
-            context: {
-              goodsEvaluateVOPage: {
-                total: 3,
-                totalPages: 1,
-                content: [
-                  {
-                    customerName: 'Zhang Sange',
-                    evaluateTime: '2021/11/11',
-                    evaluateContent: 'Test title this is good item',
-                    evaluateAnswer:
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.',
-                    evaluateScore: 4,
-                    evaluateImageList: [
-                      {
-                        artworkUrl:
-                          'https://vsassetscdn.azure.cn/ext/ms.vss-tfs-web/platform-content/Nav-Dashboard.S24hPDN9_BLImMxi.png'
-                      },
-                      {
-                        artworkUrl:
-                          'https://vsassetscdn.azure.cn/ext/ms.vss-tfs-web/platform-content/Nav-Dashboard.S24hPDN9_BLImMxi.png'
-                      },
-                      {
-                        artworkUrl:
-                          'https://vsassetscdn.azure.cn/ext/ms.vss-tfs-web/platform-content/Nav-Dashboard.S24hPDN9_BLImMxi.png'
-                      }
-                    ]
-                  },
-                  {
-                    customerName: 'Niersen',
-                    evaluateTime: '2021/11/11',
-                    evaluateContent: 'Test title',
-                    evaluateAnswer:
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.',
-                    evaluateScore: 3,
-                    evaluateImageList: []
-                  },
-                  {
-                    customerName: 'Lin Junjie',
-                    evaluateTime: '2021/11/11',
-                    evaluateContent: 'evaluateContent',
-                    evaluateAnswer:
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.',
-                    evaluateScore: 5,
-                    evaluateImageList: []
-                  }
-                ]
-              }
-            }
-          });
-        }, 500);
-      });
-    };
-    let res = await getAllReviews(parmas);
+    let res = await getServiceEvaluate(parmas);
 
+    this.setState({
+      loading: false
+    });
     if (res.context && res.context.goodsEvaluateVOPage) {
       let obj = res.context.goodsEvaluateVOPage;
       let list = obj.content;
@@ -175,20 +100,17 @@ class Reviews extends React.Component {
             .split(' ')
             .splice(1, 3)
             .join(' ');
-          item.title = item.evaluateContent;
-          item.description = item.evaluateAnswer;
+          item.title = item.evaluateReviewTitle;
+          item.description = item.evaluateContent;
           item.rate = item.evaluateScore;
         });
         this.setState({
-          loading: false,
           noData: false,
           valuatesTotalPages: obj.total ? obj.totalPages : 0,
           goodsEvaluatesList: list
         });
-      } else {
-        this.setState({
-          noData: true
-        });
+
+        this.props.onList(list);
       }
     }
   }
@@ -292,120 +214,124 @@ class Reviews extends React.Component {
             <div className="Mask" onClick={this.handleCancelMask.bind(this)} />
           </div>
         ) : null}
-        {!noData ? (
-          <div className="reviews-modal">
-            <div
-              className="reviews-header"
-              style={{ fontSize: '26px', padding: '1rem 1rem 2rem' }}
-            >
-              <FormattedMessage id="customerReviews" />
-              <span
-                className="rc-icon rc-close rc-iconography"
-                style={{ cursor: 'pointer' }}
-                onClick={onClose}
-              />
-            </div>
-            <div style={{ padding: '0 1rem' }}>
-              <form>
-                <span className="rc-select rc-select-processed">
-                  <label
-                    className="rc-select__label"
-                    htmlFor="id-single-select"
-                    style={{ fontSize: '1rem', top: '-1.6rem' }}
-                  >
-                    <FormattedMessage id="sortBy" />
-                  </label>
-                  <Selection
-                    selectedItemChange={(data) => this.sortByChange(data)}
-                    optionList={this.computedList()}
-                    selectedItemData={{
-                      value: this.state.selectedSortBy
-                    }}
-                    key={this.state.selectedSortBy}
-                  />
-                </span>
-              </form>
-              <div className="reviews-total">{total} Reviews</div>
-            </div>
+        <div className="reviews-modal">
+          <div
+            className="reviews-header"
+            style={{ fontSize: '26px', padding: '1rem 1rem 2rem' }}
+          >
+            <FormattedMessage id="customerReviews" />
+            <span
+              className="rc-icon rc-close rc-iconography"
+              style={{ cursor: 'pointer' }}
+              onClick={onClose}
+            />
+          </div>
+          <div style={{ padding: '0 1rem', display: 'none' }}>
+            <form>
+              <span className="rc-select rc-select-processed">
+                <label
+                  className="rc-select__label"
+                  htmlFor="id-single-select"
+                  style={{ fontSize: '1rem', top: '-1.6rem' }}
+                >
+                  <FormattedMessage id="sortBy" />
+                </label>
+                <Selection
+                  selectedItemChange={(data) => this.sortByChange(data)}
+                  optionList={this.computedList()}
+                  selectedItemData={{
+                    value: this.state.selectedSortBy
+                  }}
+                  key={this.state.selectedSortBy}
+                />
+              </span>
+            </form>
+            <div className="reviews-total">{total} Reviews</div>
+          </div>
 
-            <div className="reviews-list">
-              <div className="rc-padding-x--none--desktop">
-                {this.state.loading ? (
-                  <div style={{ marginLeft: '1rem' }}>
-                    <Skeleton color="#f5f5f5" width="100%" height="200px" />
-                  </div>
-                ) : (
-                  goodsEvaluatesList.map((item, i) => (
-                    <div
-                      className="rc-border-bottom rc-border-colour--interface"
-                      key={i}
-                    >
-                      <div className="reviews-item">
-                        <div className="reviews-item-left">
-                          <div className="reviews-item-name">
-                            {item.commentator}
-                          </div>
-                          <div className="reviews-item-time">
-                            {item.commentTime}
-                          </div>
+          <div className="reviews-list">
+            <div className="rc-padding-x--none--desktop">
+              {this.state.loading ? (
+                <div style={{ margin: '0 1rem' }}>
+                  <Skeleton
+                    color="#f5f5f5"
+                    width="100%"
+                    height="50px"
+                    count={2}
+                    widthRandomness={0}
+                  />
+                </div>
+              ) : (
+                goodsEvaluatesList.map((item, i) => (
+                  <div
+                    className="rc-border-bottom rc-border-colour--interface"
+                    key={i}
+                  >
+                    <div className="reviews-item">
+                      <div className="reviews-item-left">
+                        <div className="reviews-item-name">
+                          {item.commentator}
                         </div>
-                        <div className="reviews-item-right">
-                          <div className="reviews-item-star">
-                            <Rate
-                              def={item.evaluateScore}
-                              disabled={true}
-                              marginSize="maxRate"
-                              color="yellow"
-                            />
+                        <div className="reviews-item-time">
+                          {item.commentTime}
+                        </div>
+                      </div>
+                      <div className="reviews-item-right">
+                        <div className="reviews-item-star">
+                          <Rate
+                            def={item.evaluateScore}
+                            disabled={true}
+                            marginSize="maxRate"
+                            color="yellow"
+                          />
+                        </div>
+                        {item.title ? (
+                          <div className="reviews-item-title">{item.title}</div>
+                        ) : null}
+                        {item.evaluateAnswer ? (
+                          <div className="reviews-item-content">
+                            {item.evaluateAnswer}
                           </div>
-                          {item.title ? (
-                            <div className="reviews-item-title">
-                              {item.title}
-                            </div>
-                          ) : null}
-                          {item.evaluateAnswer ? (
-                            <div className="reviews-item-content">
-                              {item.evaluateAnswer}
-                            </div>
-                          ) : null}
-                          <div className="reviews-item-imgs">
-                            {item.evaluateImageList &&
-                            item.evaluateImageList.length > 0
-                              ? item.evaluateImageList.map((img, j) => {
-                                  if (j < 3) {
-                                    // 评论显示九宫格
-                                    return (
-                                      <LazyLoad height={200} key={j}>
-                                        <img
-                                          alt="artwork image"
-                                          className="rc-img--square rc-img--square-custom mr-1"
-                                          src={img.artworkUrl}
-                                          key={j}
-                                          style={{
-                                            width: '80px',
-                                            height: '80px'
-                                          }}
-                                          onClick={this.handleImgClick.bind(
-                                            this,
-                                            j,
-                                            item.evaluateImageList
-                                          )}
-                                        />
-                                      </LazyLoad>
-                                    );
-                                  } else {
-                                    return null;
-                                  }
-                                })
-                              : null}
-                          </div>
+                        ) : null}
+                        <div className="reviews-item-imgs">
+                          {item.evaluateImageList &&
+                          item.evaluateImageList.length > 0
+                            ? item.evaluateImageList.map((img, j) => {
+                                if (j < 3) {
+                                  // 评论显示九宫格
+                                  return (
+                                    <LazyLoad height={200} key={j}>
+                                      <img
+                                        alt="artwork image"
+                                        className="rc-img--square rc-img--square-custom mr-1"
+                                        src={img.artworkUrl}
+                                        key={j}
+                                        style={{
+                                          width: '80px',
+                                          height: '80px'
+                                        }}
+                                        onClick={this.handleImgClick.bind(
+                                          this,
+                                          j,
+                                          item.evaluateImageList
+                                        )}
+                                      />
+                                    </LazyLoad>
+                                  );
+                                } else {
+                                  return null;
+                                }
+                              })
+                            : null}
                         </div>
                       </div>
                     </div>
-                  ))
-                )}
-              </div>
-              {/*分頁*/}
+                  </div>
+                ))
+              )}
+            </div>
+            {/*分頁*/}
+            {goodsEvaluatesList.length ? (
               <div className="rc-column rc-margin-top--md">
                 <Pagination
                   loading={false}
@@ -415,9 +341,9 @@ class Reviews extends React.Component {
                   onPageNumChange={this.hanldePageNumChange}
                 />
               </div>
-            </div>
+            ) : null}
           </div>
-        ) : null}
+        </div>
       </div>
     );
   }

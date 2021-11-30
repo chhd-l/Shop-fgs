@@ -5,6 +5,7 @@ import { isNewAccount } from '@/api/user';
 import { checkoutDataLayerPushEvent } from '@/utils/GA';
 
 const localItemRoyal = window.__.localItemRoyal;
+const sessionItemRoyal = window.__.sessionItemRoyal;
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
 
 class PaymentStore {
@@ -108,6 +109,10 @@ class PaymentStore {
   };
 
   @observable isRreshList = false;
+  @observable payWayNameArr = sessionItemRoyal.get('rc-payWayNameArr')
+    ? JSON.parse(sessionItemRoyal.get('rc-payWayNameArr'))
+    : []; //当前店铺支持的支付方式集合
+  @observable curPayWayVal = '';
 
   @computed get emailPanelStatus() {
     return find(this.panelStatus, (ele) => ele.key === 'email').status;
@@ -127,6 +132,13 @@ class PaymentStore {
 
   @computed get confirmationPanelStatus() {
     return find(this.panelStatus, (ele) => ele.key === 'confirmation').status;
+  }
+
+  @computed get curPayWayInfo() {
+    return this.payWayNameArr.filter(
+      (p) =>
+        p.paymentTypeVal === this.curPayWayVal || p.code === this.curPayWayVal
+    )[0];
   }
 
   @action.bound
@@ -470,6 +482,17 @@ class PaymentStore {
   @action.bound
   setRreshCardList(bool) {
     this.isRreshList = bool;
+  }
+
+  @action.bound
+  setPayWayNameArr(list) {
+    sessionItemRoyal.set('rc-payWayNameArr', JSON.stringify(list));
+    this.payWayNameArr = list;
+  }
+
+  @action.bound
+  serCurPayWayVal(val) {
+    this.curPayWayVal = val;
   }
 }
 export default PaymentStore;

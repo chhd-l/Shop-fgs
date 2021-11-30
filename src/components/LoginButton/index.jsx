@@ -13,7 +13,7 @@
 import { useOktaAuth } from '@okta/okta-react';
 import React, { useState, useEffect } from 'react';
 import stores from '@/store';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { getToken } from '@/api/login';
 import { getCustomerInfo } from '@/api/user';
 import { mergeUnloginCartData, bindSubmitParam } from '@/utils/utils';
@@ -30,6 +30,7 @@ const checkoutStore = stores.checkoutStore;
 
 const LoginButton = (props) => {
   const { history } = props;
+  const intl = useIntl();
   const init = props.init;
   const [, setUserInfo] = useState(null);
   const [isGetUserInfoDown, setIsGetUserInfoDown] = useState(false);
@@ -132,8 +133,11 @@ const LoginButton = (props) => {
                     // tmpUrl !== '/cart' &&
                     checkoutStore.cartData.length
                   ) {
-                  await mergeUnloginCartData();
-                  await checkoutStore.updateLoginCart({delFlag:1});// indv登录的时候需要查询到相应的数据
+                    await mergeUnloginCartData();
+                    await checkoutStore.updateLoginCart({
+                      delFlag: 1,
+                      intl
+                    }); // indv登录的时候需要查询到相应的数据
                   }
 
                   setIsGetUserInfoDown(true);

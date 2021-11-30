@@ -50,7 +50,7 @@ function CardItem(props) {
       >
         {props.operateBtnJSX}
       </div>
-      <div className={`pt-4 pt-md-4 pb-2 w-100`}>
+      <div className={`pt-4 md:pt-4 pb-2 w-100`}>
         <div className="row">
           <div className={`col-4 d-flex flex-column justify-content-center`}>
             <LazyLoad height={200}>
@@ -131,21 +131,23 @@ class PaymentComp extends React.Component {
     };
   }
   async componentDidMount() {
+    const {
+      paymentStore: {
+        setPayWayNameArr,
+        serCurPayWayVal,
+        setSupportPaymentMethods
+      }
+    } = this.props;
     getWays().then((res) => {
       this.setState({
         paymentType: res?.context?.name
       });
-      // if (res?.context?.name === 'ADYEN') {
-      //   this.setState({
-      //     paymentType: 'ADYEN'
-      //   });
-      // }
-      // if (this.state.paymentType === 'PAYU') {
-      //   this.updateInitStatus(true);
-      // }
+      const payPspItemVOList = res?.context?.payPspItemVOList || [];
+      setPayWayNameArr(payPspItemVOList);
       const supportPaymentMethods =
-        res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || [];
-      this.props.paymentStore.setSupportPaymentMethods(supportPaymentMethods);
+        payPspItemVOList[0]?.payPspItemCardTypeVOList || [];
+      setSupportPaymentMethods(supportPaymentMethods);
+      serCurPayWayVal(supportPaymentMethods[0]?.code);
       this.setState(
         { defaultCardTypeVal: supportPaymentMethods[0]?.cardType },
         () => {

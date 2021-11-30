@@ -214,13 +214,13 @@ class Recommendation extends React.Component {
           });
         }
         // setTimeout(() => {
-          GARecommendationProduct(
-            currentShowProduct,
-            1,
-            this.state.frequencyList,
-            promotionCode,
-            this.state.activeIndex
-          );
+        GARecommendationProduct(
+          currentShowProduct,
+          1,
+          this.state.frequencyList,
+          promotionCode,
+          this.state.activeIndex
+        );
         // }, 3000gtm优化);
 
         if (curScrollTop) {
@@ -529,7 +529,9 @@ class Recommendation extends React.Component {
               this.props.clinicStore.linkClinicRecommendationInfos
                 ?.recommendationName || this.props.clinicStore.linkClinicName
           });
-          await this.props.checkoutStore.updateLoginCart();
+          await this.props.checkoutStore.updateLoginCart({
+            intl: this.props.intl
+          });
         } catch (e) {
           this.setState({ buttonLoading: false });
         }
@@ -705,7 +707,7 @@ class Recommendation extends React.Component {
             goodsCategory: '',
             goodsInfoFlag: 0
           });
-          await checkoutStore.updateLoginCart();
+          await checkoutStore.updateLoginCart({ intl: this.props.intl });
         } catch (e) {
           this.setState({ buttonLoading: false });
         }

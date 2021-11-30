@@ -30,7 +30,9 @@ import {
   isCountriesContainer,
   getClubFlag,
   handleRecommendation,
-  isShowMixFeeding
+  isShowMixFeeding,
+  addToUnloginCartData,
+  addToLoginCartData
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
@@ -158,7 +160,8 @@ class Details extends React.Component {
       defaultSkuId: funcUrl({ name: 'skuId' }),
       defaultGoodsInfoFlag: funcUrl({ name: 'goodsInfoFlag' }),
       mixFeeding: null,
-      originalProductInfo: {}
+      originalProductInfo: {},
+      mixFeedingByProductInfo: {}
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -169,7 +172,6 @@ class Details extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
-    console.log(this.state.defaultSkuId, 'defaultSkuId');
     const { pathname } = this.props.location;
     let timer = setInterval(() => {
       if (document.querySelector('#mars-footer-panel')) {
@@ -201,14 +203,8 @@ class Details extends React.Component {
     return this.props.checkoutStore;
   }
   get btnStatus() {
-    const {
-      details,
-      quantity,
-      instockStatus,
-      initing,
-      loading,
-      form
-    } = this.state;
+    const { details, quantity, instockStatus, initing, loading, form } =
+      this.state;
     const { sizeList } = details;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     let addedFlag = 1;
@@ -266,7 +262,8 @@ class Details extends React.Component {
 
   setDefaultPurchaseType({ id }) {
     const { promotions, details, frequencyList, purchaseTypeDict } = this.state;
-    console.log(purchaseTypeDict, 'purchaseTypeDict...', id);
+    const skuPromotions =
+      details.sizeList?.filter((item) => item?.selected)?.[0]?.promotions || '';
     const targetDefaultPurchaseTypeItem =
       purchaseTypeDict.filter(
         (ele) => ele.id && id && ele.id + '' === id + ''
@@ -287,8 +284,7 @@ class Details extends React.Component {
         this.state.defaultGoodsInfoFlag
       ) {
         buyWay =
-          parseInt(this.state.defaultGoodsInfoFlag) ||
-          details.promotions === 'club'
+          parseInt(this.state.defaultGoodsInfoFlag) || skuPromotions === 'club'
             ? 2
             : 1;
       } else {
@@ -323,7 +319,6 @@ class Details extends React.Component {
           (autoshipDictRes[0] && autoshipDictRes[0].id) ||
           '';
       }
-      console.log(details, defaultFrequencyId, 'defaultFrequencyId');
 
       this.setState({
         form: Object.assign(this.state.form, {
@@ -383,14 +378,11 @@ class Details extends React.Component {
       goodsDetailTab,
       tmpGoodsDescriptionDetailList,
       goodsNo,
-      form
+      form,
+      setDefaultPurchaseTypeParamId
     } = this.state;
-
     details.sizeList = sizeList;
-    let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
-    if (!selectedSpecItem?.subscriptionStatus && form.buyWay > 0) {
-      form.buyWay = -1;
-    }
+
     this.setState(Object.assign({ details, form }, data), () => {
       this.updateInstockStatus();
       setTimeout(() =>
@@ -402,6 +394,20 @@ class Details extends React.Component {
           goodsNo
         })
       );
+      this.setDefaultPurchaseType({
+        id: setDefaultPurchaseTypeParamId
+      });
+
+      let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
+      if (!selectedSpecItem?.subscriptionStatus && this.state.form.buyWay > 0) {
+        this.setState({
+          form: Object.assign(this.state.form, {
+            buyWay: -1
+          })
+        });
+      }
+
+      console.log(this.state.details, selectedSpecItem, 'details???');
     });
 
     // bundle商品的ga初始化填充
@@ -496,6 +502,19 @@ class Details extends React.Component {
             backgroundSpaces: res.context.goods.cateId
           });
         }
+
+        const technologyList = (
+          res.context?.goodsAttributesValueRelList || []
+        ).filter((el) => el.goodsAttributeName?.toLowerCase() === 'technology');
+        const dryOrWetObj =
+          technologyList.filter((el) =>
+            ['dry', 'wet'].includes(el.goodsAttributeValue?.toLowerCase())
+          )?.[0] || {};
+        let dryOrWet = {
+          value: dryOrWetObj?.goodsAttributeValue?.toLowerCase(),
+          valueEn: dryOrWetObj.goodsAttributeValueEn
+        };
+
         if (goodsRes) {
           const { goods, images } = res.context;
 
@@ -510,7 +529,14 @@ class Details extends React.Component {
               if (mixFeeding) {
                 mixFeeding.quantity = 1;
               }
-              this.setState({ mixFeeding });
+              let { goodsImg = '', goodsName = '' } = mixFeeding.goods || {};
+              this.setState({
+                mixFeeding,
+                mixFeedingByProductInfo: {
+                  imageSrc: goodsImg,
+                  goodsTitle: goodsName
+                }
+              });
             });
           }
 
@@ -563,17 +589,21 @@ class Details extends React.Component {
                 this.state.originalProductInfo,
                 {
                   imageSrc: images?.[0]?.artworkUrl || '',
-                  goodsTitle: goodsRes.goodsName
+                  goodsTitle: goodsRes.goodsName || '',
+                  technology: dryOrWet || {}
                 }
-              )
+              ),
+              setDefaultPurchaseTypeParamId:
+                goodsRes.defaultPurchaseType ||
+                configStore.info?.storeVO?.defaultPurchaseType
             },
             () => {
               this.handleBreadCrumbsData();
-              this.setDefaultPurchaseType({
-                id:
-                  goodsRes.defaultPurchaseType ||
-                  configStore.info?.storeVO?.defaultPurchaseType
-              });
+              // this.setDefaultPurchaseType({
+              //   id:
+              //     goodsRes.defaultPurchaseType ||
+              //     configStore.info?.storeVO?.defaultPurchaseType
+              // });
             }
           );
         } else {
@@ -856,7 +886,7 @@ class Details extends React.Component {
         param = { ...param, ...this.state.requestJson };
       }
       await sitePurchase(param);
-      await checkoutStore.updateLoginCart();
+      await checkoutStore.updateLoginCart({ intl: this.props.intl });
       this.setState({ modalMobileCartSuccessVisible: true });
       if (!isMobile) {
         headerCartStore.show();
@@ -874,13 +904,8 @@ class Details extends React.Component {
     try {
       this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const {
-        currentUnitPrice,
-        quantity,
-        form,
-        details,
-        questionParams
-      } = this.state;
+      const { currentUnitPrice, quantity, form, details, questionParams } =
+        this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -984,6 +1009,32 @@ class Details extends React.Component {
 
   handleBuyFromRetailer = () => {
     HubGaPdpBuyFromRetailer();
+  };
+
+  addMixFeedingToCart = async () => {
+    this.hanldeAddToCart();
+    const { mixFeeding, form, details } = this.state;
+    let mixFeedingSelected = mixFeeding?.sizeList?.filter(
+      (el) => el.selected
+    )[0];
+    if (!mixFeedingSelected?.stock) {
+      return;
+    }
+
+    let periodTypeId = parseInt(form.buyWay) ? form.frequencyId : '';
+    let goodsInfoFlag =
+      form.buyWay && details.promotions?.includes('club') ? 2 : form.buyWay;
+    const params = {
+      product: Object.assign(mixFeeding, {
+        periodTypeId,
+        goodsInfoFlag
+      }),
+      intl: this.props.intl
+    };
+    // this.state.mixFeeding
+    this.isLogin
+      ? await addToLoginCartData(params)
+      : await addToUnloginCartData(params);
   };
 
   getPdpScreenLoadCTAs() {
@@ -1460,9 +1511,11 @@ class Details extends React.Component {
               />
             ) : null}
 
-            {/* {PC ? <MixFeedingBanner 
-            // originalProductInfo={this.state.originalProductInfo}
-            // img={spuImages?.[0].artworkUrl || ''}
+            {/* {PC && Ru && this.state.mixFeeding ? <MixFeedingBanner
+            originalProductInfo={this.state.originalProductInfo}
+            mixFeedingByProductInfo={this.state.mixFeedingByProductInfo}
+            mixFeedingForm={this.state.form}
+            addMixFeedingToCart={this.addMixFeedingToCart}
             /> : null} */}
 
             {/* 最下方跳转更多板块 rita说现在hub 又不要了 暂时注释吧*/}

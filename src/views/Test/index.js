@@ -104,7 +104,7 @@ class Test extends React.Component {
   validData = async ({ data }) => {
     console.log('------------------- > validData data: ', data);
     try {
-      await validData(ADDRESS_RULE, data);
+      await validData({ rule: ADDRESS_RULE, data });
       // this.setState({ isValid: true, form: data }, () => {
       //   this.props.updateFormValidStatus(this.state.isValid);
       // });

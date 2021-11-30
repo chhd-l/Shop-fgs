@@ -39,7 +39,7 @@ class UnloginCart extends React.Component {
     ) {
       // await this.props.checkoutStore.removePromotionCode();
     }
-    this.props.checkoutStore.updateUnloginCart();
+    this.props.checkoutStore.updateUnloginCart({ intl: this.props.intl });
   }
   get selectedCartData() {
     return this.props.checkoutStore.cartData.filter(
@@ -83,7 +83,8 @@ class UnloginCart extends React.Component {
       this.setState({ checkoutLoading: true });
       await checkoutStore.updateUnloginCart({
         isThrowErr: true,
-        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
+        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT),
+        intl: this.props.intl
       });
 
       if (needLogin) {
