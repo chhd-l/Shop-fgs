@@ -649,7 +649,7 @@ class Pcexperts extends React.Component {
           </div>
         ) : null}
         {/*第四步*/}
-        {!this.state.fourShow ? (
+        {this.state.fourShow ? (
           <div>
             <div className="size24 js-center mb28">
               <img src={four} alt="" className="mr10" />
