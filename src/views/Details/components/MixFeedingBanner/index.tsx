@@ -4,7 +4,7 @@ import FrequencyMatch from '@/components/FrequencyMatch'
 import './index.less'
 
 // 只有ru hub 才在用
-const MixFeedingBanner = ({ originalProductInfo, mixFeedingByProductInfo, mixFeedingForm,addMixFeedingToCart }) => {
+const MixFeedingBanner = ({ originalProductInfo, mixFeedingByProductInfo, mixFeedingForm,addMixFeedingToCart,btnStatus }) => {
   const { imageSrc, goodsTitle, technology } = originalProductInfo
   const { buyWay, frequencyId } = mixFeedingForm
   return (
@@ -32,11 +32,11 @@ const MixFeedingBanner = ({ originalProductInfo, mixFeedingByProductInfo, mixFee
         <p className="mb-1">Получать продукт каждые:</p>
         <p className="frequency-value">
           {buyWay === 0 ? <FormattedMessage id="deliveryOneTimeOnly" /> : null}
-          {buyWay === (1 || 2) ? <> <FormattedMessage id="subscription.frequency" />&nbsp;<span><FrequencyMatch currentId={frequencyId} /></span></> : null}
+          {buyWay === 1 || buyWay === 2 ? <> <FormattedMessage id="subscription.frequency" />&nbsp;<span><FrequencyMatch currentId={frequencyId} /></span></> : null}
         </p>
       </div>
       <button 
-      className="ml-9 rc-btn rc-btn--two rc-btn--sm "
+      className={`ml-9 rc-btn rc-btn--two rc-btn--sm ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
       onClick={addMixFeedingToCart}
       >Добавить комплект в корзину</button>
     </div>
