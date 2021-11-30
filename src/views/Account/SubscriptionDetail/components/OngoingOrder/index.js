@@ -16,15 +16,9 @@ const OngoingOrder = ({ subDetail }) => {
       {onGoingTradeLists.length > 0
         ? onGoingTradeLists.map((ele) => (
             <div
-              className={`card-container rc-margin-x--none align-items-center justify-content-start ${
+              className={`card-container m-0 py-4 px-0 min-h-auto border-orange rc-margin-x--none align-items-center justify-content-start ${
                 isMobile ? 'flex-column' : 'row'
               }`}
-              style={{
-                padding: '1rem 0',
-                minHeight: 'auto',
-                margin: 0,
-                borderColor: 'orange'
-              }}
             >
               <div className="col-12 col-md-4 d-flex flex-column justify-content-start align-items-center">
                 {ele.tradeItems.map((item, idx) => (
@@ -86,7 +80,7 @@ const OngoingOrder = ({ subDetail }) => {
                 <FormattedMessage id="orderDetail">
                   {(txt) => (
                     <Link
-                      className="d-flex rc-padding-left--none rc-btn rc-btn--icon-label rc-padding-right--none subDetailDetailBtn btn--inverse rc-btn--inverse text-wrap align-items-center"
+                      className="d-flex rc-padding-left--none rc-btn rc-btn--icon-label rc-padding-right--none subDetailDetailBtn btn--inverse text-wrap align-items-center"
                       to={`/account/orders/detail/${ele.id}`}
                     >
                       <em className="rc-iconography rc-icon rc-news--xs" />
