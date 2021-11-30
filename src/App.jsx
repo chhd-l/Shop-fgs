@@ -300,6 +300,7 @@ const App = () => {
       <IntlProvider
         locale={window.__.env.REACT_APP_LANG}
         messages={dynamicLanguage}
+        defaultLocale={'en'}
       >
         <Router
           basename={window.__.env.REACT_APP_HOMEPAGE}
@@ -701,7 +702,7 @@ const App = () => {
                   component={ShipmentConditions}
                 />
 
-                {/* <Route path="/404" component={Exception} /> */}
+                <Route path="/404" component={Exception} />
                 <Route path="/403" component={Page403} />
                 <Route path="/500" component={Page500} />
 

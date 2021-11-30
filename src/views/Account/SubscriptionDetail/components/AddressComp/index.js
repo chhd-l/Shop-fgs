@@ -571,6 +571,7 @@ class AddressList extends React.Component {
   }
   // 表单验证
   validFormData = async () => {
+    const { intl } = this.props;
     const { deliveryAddress } = this.state;
     try {
       if (
@@ -581,7 +582,8 @@ class AddressList extends React.Component {
       }
       await validData({
         rule: deliveryAddress.formRule,
-        data: deliveryAddress
+        data: deliveryAddress,
+        intl
       }); // 数据验证
       // await validData(ADDRESS_RULE, deliveryAddress);
       this.setState({ isValid: true });

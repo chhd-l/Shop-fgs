@@ -62,7 +62,8 @@ class Register extends Component {
       hasError: false,
       errorMessage: '',
       firstNameValid: true,
-      lastNameValid: true
+      lastNameValid: true,
+      passwordInputType: 'password'
     };
     this.sendList = this.sendList.bind(this);
     this.initConsent = this.initConsent.bind(this);
@@ -474,7 +475,8 @@ class Register extends Component {
       requiredConsentCount,
       list,
       hasError,
-      errorMessage
+      errorMessage,
+      passwordInputType
     } = this.state;
     const allValid =
       (window.__.env.REACT_APP_COUNTRY !== 'de'
@@ -818,7 +820,7 @@ class Register extends Component {
                                 <input
                                   className="rc-input__control rc-input__password"
                                   id="registerPassword"
-                                  type="password"
+                                  type={passwordInputType}
                                   maxLength="255"
                                   minLength="8"
                                   name="password"
@@ -837,7 +839,20 @@ class Register extends Component {
                                 </label>
                                 <button
                                   type="button"
-                                  className="rc-btn rc-btn--icon rc-icon rc-show--xs rc-iconography rc-input__password-toggle"
+                                  className={`rc-btn rc-btn--icon rc-icon rc-iconography rc-input__password-toggle ${
+                                    passwordInputType === 'password'
+                                      ? 'rc-show--xs'
+                                      : 'rc-hide--xs'
+                                  }`}
+                                  onClick={() => {
+                                    this.setState({
+                                      passwordInputType:
+                                        this.state.passwordInputType ===
+                                        'password'
+                                          ? 'text'
+                                          : 'password'
+                                    });
+                                  }}
                                 >
                                   <span className="rc-screen-reader-text">
                                     <FormattedMessage id="registerTogglePassword" />

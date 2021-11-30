@@ -3,7 +3,7 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import logoAnimatedPng from '@/assets/images/logo--animated2.png';
 import './index.less';
-import { customerInfoSave } from '@/api/landing';
+import { customerInfoSave } from '@/api/staticPageApi';
 import Loading from '@/components/Loading';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';

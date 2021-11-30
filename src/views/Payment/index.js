@@ -669,12 +669,17 @@ class Payment extends React.Component {
     }
   };
   inputBlur = async (e) => {
+    const { intl } = this.props;
     const { cyberErrMsgObj } = this.state;
     const target = e.target;
     const targetRule = ADDRESS_RULE.filter((e) => e.key === target.name);
     const value = target.value;
     try {
-      await validData({ rule: targetRule, data: { [target.name]: value } });
+      await validData({
+        rule: targetRule,
+        data: { [target.name]: value },
+        intl
+      });
       this.setState({
         cyberErrMsgObj: Object.assign({}, cyberErrMsgObj, {
           [target.name]: ''
@@ -2146,11 +2151,12 @@ class Payment extends React.Component {
   };
   // 校验邮箱/地址信息/最低额度/超库存商品等
   async valideCheckoutLimitRule() {
+    const { intl } = this.props;
     try {
       await this.saveAddressAndCommentPromise();
       await this.props.checkoutStore.validCheckoutLimitRule({
         minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT),
-        intl: this.props.intl
+        intl
       });
     } catch (err) {
       console.warn(err);
@@ -2241,6 +2247,7 @@ class Payment extends React.Component {
 
   // 计算税额、运费、运费折扣
   calculateFreight = async (data) => {
+    const { intl } = this.props;
     const { shippingFeeAddress, guestEmail } = this.state;
     let param = {};
     // this.setState({
@@ -2302,7 +2309,7 @@ class Payment extends React.Component {
     localItemRoyal.set('rc-payment-purchases-param', param);
     try {
       // 获取税额
-      param = Object.assign(param, { intl: this.props.intl });
+      param = Object.assign(param, { intl });
       if (this.isLogin) {
         await this.props.checkoutStore.updateLoginCart(param);
       } else {
@@ -2451,6 +2458,7 @@ class Payment extends React.Component {
   };
 
   renderBillingJSX = ({ type }) => {
+    const { intl } = this.props;
     const {
       billingAddressErrorMsg,
       billingChecked,
@@ -2518,7 +2526,7 @@ class Payment extends React.Component {
                 titleVisible={false}
                 type="billing"
                 isDeliveryOrBilling="billing"
-                intlMessages={this.props.intl.messages}
+                intlMessages={intl.messages}
                 showOperateBtn={false}
                 visible={!billingChecked}
                 updateData={this.updateBillingAddrData}
@@ -2538,7 +2546,7 @@ class Payment extends React.Component {
                 titleVisible={false}
                 showConfirmBtn={false}
                 type="billing"
-                intlMessages={this.props.intl.messages}
+                intlMessages={intl.messages}
                 isDeliveryOrBilling="billing"
                 initData={billingAddress}
                 guestEmail={guestEmail}
@@ -3540,10 +3548,15 @@ class Payment extends React.Component {
     });
   };
   updateGuestEmail = ({ email: guestEmail }) => {
-    this.props.paymentStore.setGuestEmail(guestEmail);
+    const {
+      intl,
+      paymentStore: { setGuestEmail },
+      checkoutStore: { updateUnloginCart }
+    } = this.props;
+    setGuestEmail(guestEmail);
     const { deliveryAddress } = this.state;
     this.setState({ guestEmail }, () => {
-      this.props.checkoutStore.updateUnloginCart({
+      updateUnloginCart({
         guestEmail,
         purchaseFlag: false, // 购物车: true，checkout: false
         taxFeeData: {
@@ -3555,7 +3568,7 @@ class Payment extends React.Component {
           customerAccount: guestEmail
         },
         shippingFeeAddress: this.state.shippingFeeAddress,
-        intl: this.props.intl
+        intl
       });
     });
   };

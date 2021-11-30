@@ -842,7 +842,7 @@ const en_US = {
   'list.errMsg2':
     'No products found, please change the keywords and try again.',
   'list.errMsg3': 'No filters found, please try again later.',
-  'list.errMsg4':
+  'search.noResultTip':
     'No products found. Please change your search term and try again.',
   'list.youSearchedFor': 'You searched for',
   listPrice: 'List price',

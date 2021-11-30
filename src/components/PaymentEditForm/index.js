@@ -427,6 +427,7 @@ class PaymentEditForm extends React.Component {
     this.inputBlur(e);
   };
   inputBlur = async (e) => {
+    const { intl } = this.props;
     const { creditCardInfoForm, errMsgObj } = this.state;
     const target = e?.target;
     const tname = target?.name;
@@ -438,7 +439,7 @@ class PaymentEditForm extends React.Component {
       this.setState({ creditCardInfoForm });
     }
     try {
-      await validData({ rule: targetRule, data: { [tname]: value } });
+      await validData({ rule: targetRule, data: { [tname]: value }, intl });
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
           [tname]: ''
@@ -681,6 +682,7 @@ class PaymentEditForm extends React.Component {
   };
 
   updateCyberBillingAddress = async (data) => {
+    const { intl } = this.props;
     this.setState({
       isValidForm: false
     });
@@ -689,7 +691,7 @@ class PaymentEditForm extends React.Component {
       if (!data?.formRule || (data?.formRule).length <= 0) {
         return;
       }
-      await validData({ rule: data.formRule, data }); // 数据验证
+      await validData({ rule: data.formRule, data, intl }); // 数据验证
 
       data.zipCode = data.postCode; //后台接口需要，多加个属性
       data.phone = data.phoneNumber || ''; //后台接口需要，多加个属性
