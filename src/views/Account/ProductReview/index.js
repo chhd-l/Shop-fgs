@@ -8,7 +8,7 @@ import SideMenu from '@/components/SideMenu';
 import BannerTip from '@/components/BannerTip';
 import Rate from '@/components/Rate';
 import ReviewForm from './components/ReviewForm';
-import { getGoodsList, addGoodsEvaluate } from '@/api/review';
+import { getGoodsList, addGoodsEvaluate } from '@/api/order';
 //import ReviewList from './components/ReviewList';
 //import ImgUpload from '@/components/ImgUpload';
 import './index.css';
