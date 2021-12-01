@@ -43,6 +43,7 @@ import {
 import OrderAppointmentInfo from './modules/OrderAppointmentInfo';
 import getCardImg from '@/lib/get-card-img';
 import { getWays } from '@/api/payment';
+import { useConsigneeDeliveryDate } from '@/framework/common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -1037,65 +1038,6 @@ class AccountOrders extends React.Component {
     }
     return ret;
   };
-  // 对应的国际化字符串
-  getIntlMsg = (str) => {
-    return this.props.intl.messages[str];
-  };
-  // 星期
-  getWeekDay = (day) => {
-    let weekArr = [
-      this.getIntlMsg('payment.Sunday'),
-      this.getIntlMsg('payment.Monday'),
-      this.getIntlMsg('payment.Tuesday'),
-      this.getIntlMsg('payment.Wednesday'),
-      this.getIntlMsg('payment.Thursday'),
-      this.getIntlMsg('payment.Friday'),
-      this.getIntlMsg('payment.Saturday')
-    ];
-    return weekArr[day];
-  };
-  // 月份
-  getMonth = (num) => {
-    num = Number(num);
-    let monthArr = [
-      '0',
-      this.getIntlMsg('payment.January'),
-      this.getIntlMsg('payment.February'),
-      this.getIntlMsg('payment.March'),
-      this.getIntlMsg('payment.April'),
-      this.getIntlMsg('payment.May'),
-      this.getIntlMsg('payment.June'),
-      this.getIntlMsg('payment.July'),
-      this.getIntlMsg('payment.August'),
-      this.getIntlMsg('payment.September'),
-      this.getIntlMsg('payment.October'),
-      this.getIntlMsg('payment.November'),
-      this.getIntlMsg('payment.December')
-    ];
-    return monthArr[num];
-  };
-  // delivery date 格式转换: 星期, 15 月份
-  getFormatDeliveryDateStr = (date) => {
-    // 获取明天几号
-    let mdate = new Date();
-    let tomorrow = mdate.getDate() + 1;
-    // 获取星期
-    var week = new Date(date).getDay();
-    let weekday = this.getWeekDay(week);
-    // 获取月份
-    let ymd = date.split('-');
-    let month = this.getMonth(ymd[1]);
-
-    // 判断是否有 ‘明天’ 的日期
-    let thisday = Number(ymd[2]);
-    let daystr = '';
-    if (tomorrow == thisday) {
-      daystr = this.getIntlMsg('payment.tomorrow');
-    } else {
-      daystr = weekday;
-    }
-    return daystr + ', ' + ymd[2] + ' ' + month;
-  };
   async cancelAppoint(order) {
     try {
       this.setState({ cancelAppointLoading: true });
@@ -1196,8 +1138,9 @@ class AccountOrders extends React.Component {
 
     let newDeliveryDate = '';
     if (details?.consignee?.deliveryDate) {
-      newDeliveryDate = this.getFormatDeliveryDateStr(
-        details.consignee.deliveryDate
+      newDeliveryDate = useConsigneeDeliveryDate(
+        details?.consignee?.deliveryDate,
+        this.props.intl
       );
     }
 
