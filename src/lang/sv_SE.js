@@ -256,7 +256,7 @@ const en_US = {
   'cart.errorAllProductNumLimit': 'The number of {val} orders is limited.',
   'cart.firstOrderDiscountTip':
     'The 30% discount for your first order will be applied during checkout',
-  'cart.fullPrice': 'Find your pet’s precise formula',
+  'cart.fullPrice': 'Hitta ditt husdjurs exakta formel',
   'cart.miniCartTitle': '10% rabatt på alla prenumerationsbeställningar',
   // '30% off first purchase, plus 5% off every order and additional perks with autoship',
   // 'cart.totalProduct': '{val} item(s) in the basket',
@@ -566,7 +566,7 @@ const en_US = {
   goToCart: 'Go To Cart',
   guestCheckout: 'Continue as a Guest',
   'header.bannerTip': '30% off first purchase + 5% off autoship',
-  'header.basketEmpty': 'Your cart is empty',
+  'header.basketEmpty': 'din vagn är tom',
   'header.carouselInfo1': 'Vilket foder passar mitt sällskapsdjur?',
   'header.carouselInfo2':
     'Detta formulär med sex frågor hjälper dig att välja och få information om de foder som rekommenderas för ditt sällskapsdjur',
@@ -859,7 +859,7 @@ const en_US = {
     'No products found. Please change your search term and try again.',
   'list.youSearchedFor': 'You searched for',
   listPrice: 'List price',
-  login: 'Login',
+  login: 'Logga in',
   'login.firstCheck': '',
   'login.forgetPassword': 'Forget your password?',
   'login.guestContinue': 'Continue with a guest',
