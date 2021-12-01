@@ -604,8 +604,6 @@ const en_US = {
   'home.convenientTip3':
     'Ta del av fördelarna med en exceptionell service av våra rådgivare',
   'home.convenientTitle': 'Varför välja Royal Canin?',
-  'home.note1': '',
-  'home.note2': '',
   'home.pageNotFound': 'Page not found…',
   'home.pageNotFoundInfo':
     'Sorry, the page you are looking for does not exist.',

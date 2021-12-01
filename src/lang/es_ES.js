@@ -163,8 +163,7 @@ const es_ES = {
   'cart.errorMaxInfo': 'El número no puede exceder de {val}',
   'cart.errorAllProductNumLimit': 'El número de {val} pedidos es limitado.',
   'cart.fullPrice': 'Descubre nuestras dietas veterinarias',
-  'cart.miniCartTitle':
-    '10% de descuento en la primera compra, más 5% de descuento en cada pedido con envío automático',
+  'cart.miniCartTitle': 'Mini Cesta',
   'cart.totalProduct': '{val} artículo(s) en la canasta',
   'minicart.totalProduct': '{val} artículo(s)',
   'cart.totalProduct_nounit': '{val} en total en la canasta',
@@ -379,7 +378,7 @@ const es_ES = {
   freeShipping: 'Envío gratis',
   from: 'De',
   plpFromText: 'De',
-  plpFromNew:'{started}{plpValue}',
+  plpFromNew: '{started}{plpValue}',
   gender: 'Género',
   getConsumerAccountFailed: 'Obtener la cuenta del consumidor fallida',
   getDataFailed: 'Obtener datos fallidos',
@@ -431,10 +430,6 @@ const es_ES = {
     'Atención personalizada: Haz una pregunta acerca de tu gato o perro a nuestros especialistas.',
   'home.convenientTitle':
     '¿Por qué es conveniente realizar tus compras con Royal Canin®?',
-  'home.note1':
-    'A causa de la pandemia, el tiempo de entrega puede extenderse hasta 48 horas.',
-  'home.note2':
-    'Nuestras áreas de distribución se limitan a Ciudad de México, Guadalajara y Monterrey.',
   'home.pageNotFound': 'Página no encontrada…',
   'home.pageNotFoundInfo':
     'Apesadumbrada, la página que usted está buscando no existe.',
@@ -446,7 +441,7 @@ const es_ES = {
   'home.point6': 'Juntos contigo',
   'home.productsCategory': 'Nuestros productos por categoría',
   'home.promotionTip':
-    '10% de descuento en la primera compra + 5% de descuento en cada pedido de envío automático',
+    'A causa de la pandemia, el tiempo de entrega puede extenderse hasta 48 horas. Nuestras áreas de distribución se limitan a Ciudad de México, Guadalajara y Monterrey.',
   'home.specialAnimalNutrition': 'Nutrición animal especial',
   'home.specialInfo1': 'El esplendor de cada casta es',
   'home.specialInfo2': 'en su unicidad.',
@@ -500,7 +495,6 @@ const es_ES = {
   manage: 'Gestionar',
   mandatoryFieldsError: '¡Tienes campos obligatorios no completados!',
   menu: 'menú',
-  miniBasket: 'Mini Cesta',
   'mixed Breed': 'raza Mixta',
   'Mixed Breed': 'Raza Mixta',
   MMYY: 'MM/AA',

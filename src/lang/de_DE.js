@@ -425,7 +425,7 @@ const de_DE = {
   FrequentQuestions: 'Häufige Fragen',
   from: 'Von',
   plpFromText: 'Von',
-  plpFromNew:'{started}{plpValue}',
+  plpFromNew: '{started}{plpValue}',
   gender: 'Geschlecht',
   getConsumerAccountFailed: 'Get Consumer Account Failed',
   getDataFailed: 'Get Data Failed',
@@ -482,8 +482,6 @@ const de_DE = {
   'home.convenientTip4': 'Direkte Kontaktmöglichkeit zu unserem Expertenteam',
   'home.convenientTitle':
     'Ihre Vorteile des ROYAL CANIN® Shops auf einen Blick:',
-  'home.note1': ' ',
-  'home.note2': ' ',
   'home.pageNotFound': 'Seite nicht gefunden…',
   'home.pageNotFoundInfo':
     'Entschuldigung, die gesuchte Seite existiert nicht.',
@@ -563,7 +561,6 @@ const de_DE = {
   manage: 'Verwalten',
   mandatoryFieldsError: 'Sie haben Pflichtfelder nicht ausgefüllt!',
   menu: 'Menü',
-  miniBasket: 'Minikorb',
   'mixed Breed': 'gemischte Rasse',
   'Mixed Breed': 'Gemischte Rasse',
   MMYY: 'MM / JJ',

@@ -215,8 +215,7 @@ const ru_RU = {
   'cart.errorMaxInfo': 'Число не может быть больше {val}',
   'cart.errorAllProductNumLimit': 'Количество "{val}" заказов ограничено.',
   'cart.fullPrice': 'Подберите подходящий рацион для своего питомца',
-  'cart.miniCartTitle':
-    'Скидка 10% на первую покупку, плюс 5% на каждый заказ с автоматической доставкой',
+  'cart.miniCartTitle': 'Мини-корзина',
   'cart.totalProduct': '{val} товар (а/ов)',
   'minicart.totalProduct': '{val} товара в',
   'cart.totalProduct_nounit': 'У вас {val} корзине',
@@ -427,7 +426,7 @@ const ru_RU = {
   freeShipping: 'Бесплатная доставка от 2500₽',
   from: 'От',
   plpFromText: 'От',
-  plpFromNew:'{started}{plpValue}',
+  plpFromNew: '{started}{plpValue}',
   gender: 'Пол',
   GeneralConditions: 'Возврат покупки',
   getConsumerAccountFailed: 'Не удалось получить учетную запись потребителя',
@@ -494,10 +493,6 @@ const ru_RU = {
   'home.convenientTip4':
     'Доставка по подписке со скидкой 10% от суммы каждого заказа',
   'home.convenientTitle': 'Почему удобно совершать покупки с ROYAL CANIN®?',
-  'home.note1':
-    'Afectado por la epidemia, el tiempo de entrega puede extenderse.',
-  'home.note2':
-    'Nuestra área de distribución se limita a la Ciudad de México, Guadalajara y Monterrey.',
   'home.pageNotFound': 'Страница не найдена…',
   'home.pageNotFoundInfo':
     'Извините, страница, которую вы ищете, не существует.',
@@ -566,7 +561,6 @@ const ru_RU = {
   mailAddress: 'E-mail',
   mandatoryFieldsError: 'У вас не заполнены обязательные поля!',
   menu: 'Меню',
-  miniBasket: 'Мини-корзина',
   MMYY: 'ММ / ГГ',
   modalCancelAllContent: 'Вы уверены, что хотите удалить Вашу подписку?',
   modalCancelAllTitle: 'Удаление подписки?',
