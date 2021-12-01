@@ -174,7 +174,7 @@ class AccountOrders extends React.Component {
               el.spuName
             );
           });
-          return handleOrderItem(ele);
+          return handleOrderItem(ele, res);
         });
         if (this.state.initing) {
           this.setState({ everHaveNoOrders: !tmpList.length });
