@@ -652,7 +652,7 @@ class Form extends React.Component {
           );
       }
 
-      item.filedType = 'text';
+      //item.filedType = 0;
       item.regExp = regExp;
       item.errMsg = errMsg;
 
@@ -1001,7 +1001,6 @@ class Form extends React.Component {
           return;
         }
       }
-
       switch (COUNTRY) {
         case 'us':
           tvalue = tvalue
