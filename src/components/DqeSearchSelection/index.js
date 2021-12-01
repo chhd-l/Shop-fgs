@@ -239,17 +239,17 @@ class SearchSelection extends React.Component {
     let scrollTop = target.scrollTop;
     let divHeight = target.clientHeight;
     // 滚动到容器底部
-    if (scrollTop + divHeight >= wholeHeight && this.props.isBottomPaging) {
-      form.pageNum++;
-      this.setState(
-        {
-          form: form
-        },
-        () => {
-          this.queryList();
-        }
-      );
-    }
+    // if (scrollTop + divHeight >= wholeHeight && this.props.isBottomPaging) {
+    //   form.pageNum++;
+    //   this.setState(
+    //     {
+    //       form: form
+    //     },
+    //     () => {
+    //       this.queryList();
+    //     }
+    //   );
+    // }
   };
   render() {
     const { optionList, form } = this.state;
