@@ -46,6 +46,7 @@ import IMask from 'imask';
 import debounce from 'lodash/debounce';
 import { EMAIL_REGEXP } from '@/utils/constant';
 import './index.less';
+import { useConsigneeDeliveryDate } from '@/framework/common';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 let tempolineCache = {};
@@ -206,62 +207,6 @@ class Form extends React.Component {
     // 重置参数
     this.props.getFormAddressValidFlag(false);
   }
-
-  // 星期
-  getWeekDay = (day) => {
-    let weekArr = [
-      this.getIntlMsg('payment.Sunday'),
-      this.getIntlMsg('payment.Monday'),
-      this.getIntlMsg('payment.Tuesday'),
-      this.getIntlMsg('payment.Wednesday'),
-      this.getIntlMsg('payment.Thursday'),
-      this.getIntlMsg('payment.Friday'),
-      this.getIntlMsg('payment.Saturday')
-    ];
-    return weekArr[day];
-  };
-  // 月份
-  getMonth = (num) => {
-    num = Number(num);
-    let monthArr = [
-      '0',
-      this.getIntlMsg('payment.January'),
-      this.getIntlMsg('payment.February'),
-      this.getIntlMsg('payment.March'),
-      this.getIntlMsg('payment.April'),
-      this.getIntlMsg('payment.May'),
-      this.getIntlMsg('payment.June'),
-      this.getIntlMsg('payment.July'),
-      this.getIntlMsg('payment.August'),
-      this.getIntlMsg('payment.September'),
-      this.getIntlMsg('payment.October'),
-      this.getIntlMsg('payment.November'),
-      this.getIntlMsg('payment.December')
-    ];
-    return monthArr[num];
-  };
-  // delivery date 格式转换: 星期, 15 月份
-  getFormatDeliveryDateStr = (date) => {
-    // 获取明天几号
-    let mdate = new Date();
-    let tomorrow = mdate.getDate() + 1;
-    // 获取星期
-    var week = new Date(date).getDay();
-    let weekday = this.getWeekDay(week);
-    // 获取月份
-    let ymd = date.split('-');
-    let month = this.getMonth(ymd[1]);
-
-    // 判断是否有 ‘明天’ 的日期
-    let thisday = Number(ymd[2]);
-    let daystr = '';
-    if (tomorrow == thisday) {
-      daystr = this.getIntlMsg('payment.tomorrow');
-    } else {
-      daystr = weekday;
-    }
-    return daystr + ', ' + ymd[2] + ' ' + month;
-  };
   // 根据address1查询地址信息
   getAddressListByKeyWord = async (address1) => {
     const { COUNTRY, apiType } = this.state;
@@ -333,7 +278,7 @@ class Form extends React.Component {
         let robj = res.context.timeSlots;
         robj.forEach((v, i) => {
           // 格式化 delivery date 格式: 星期, 15 月份
-          let datestr = this.getFormatDeliveryDateStr(v.date);
+          let datestr = useConsigneeDeliveryDate(v.date, this.props.intl);
           // 所有数据
           alldata[v.date] = v.dateTimeInfos;
           ddlist.push({
@@ -618,10 +563,12 @@ class Form extends React.Component {
         case 'phoneNumber':
           if (COUNTRY == 'fr') {
             // 法国
-            regExp = /^\(\+[3][3]\)[\s](([0][1-9])|[1-9])[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
+            regExp =
+              /^\(\+[3][3]\)[\s](([0][1-9])|[1-9])[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
           } else if (COUNTRY == 'uk') {
             // 英国
-            regExp = /^\(\+[4][4]\)[\s](([0][1-9][1-9])|[1-9][1-9])[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
+            regExp =
+              /^\(\+[4][4]\)[\s](([0][1-9][1-9])|[1-9][1-9])[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
           } else if (COUNTRY == 'us') {
             // 美国
             regExp = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
@@ -630,10 +577,12 @@ class Form extends React.Component {
             regExp = /^\+\([5][2]\)[\s\-][0-9]{3}[\s\-][0-9]{3}[\s\-][0-9]{4}$/;
           } else if (COUNTRY == 'ru') {
             // 俄罗斯
-            regExp = /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
+            regExp =
+              /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
           } else if (COUNTRY == 'tr') {
             // 土耳其
-            regExp = /^0\s\(?([2-9][0-8][0-9])\)?\s([1-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
+            regExp =
+              /^0\s\(?([2-9][0-8][0-9])\)?\s([1-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
           } else {
             // 其他国家
             regExp = /\S/;
@@ -1057,12 +1006,8 @@ class Form extends React.Component {
   };
   // 验证数据
   validvalidationData = async (tname, tvalue) => {
-    const {
-      errMsgObj,
-      caninForm,
-      isDeliveryDateAndTimeSlot,
-      COUNTRY
-    } = this.state;
+    const { errMsgObj, caninForm, isDeliveryDateAndTimeSlot, COUNTRY } =
+      this.state;
 
     if (!caninForm?.formRuleRu?.length) {
       return;
@@ -1385,11 +1330,8 @@ class Form extends React.Component {
             // 自动填充
             if (apiType === 'DADATA') {
               res = await getAddressBykeyWord({ keyword: inputVal });
-              robj = (
-                (res?.context && res?.context?.addressList) ||
-                []
-              ).map((ele) =>
-                Object.assign(ele, { name: ele.unrestrictedValue })
+              robj = ((res?.context && res?.context?.addressList) || []).map(
+                (ele) => Object.assign(ele, { name: ele.unrestrictedValue })
               );
             } else if (apiType === 'DQE') {
               // inputVal = inputVal.replace(/\|/g, '，');

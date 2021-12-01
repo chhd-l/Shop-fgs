@@ -50,29 +50,25 @@ class Hcexperts extends React.Component {
           valueEn: 'Behaviorist',
           src: cat1,
           name: 'Comportementalistes',
-          text:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         },
         {
           valueEn: 'Nutritionist',
           src: cat2,
           name: 'Expert en nutrition',
-          text:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         },
         {
           valueEn: 'Osteopathist',
           src: cat3,
           name: 'Ostéopathes',
-          text:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         }
       ],
       timeList: [
         {
           duration: 15,
-          text:
-            'Rapide et facile, échangez avec un expert pour reçevoir ses conseils et commencer le suivi de votre chat.'
+          text: 'Rapide et facile, échangez avec un expert pour reçevoir ses conseils et commencer le suivi de votre chat.'
         },
         {
           duration: 30,
@@ -157,7 +153,11 @@ class Hcexperts extends React.Component {
       type: 'appointment_type'
     });
     // 专家
-    const { code: code2, context: list, message: message2 } = await gitDict({
+    const {
+      code: code2,
+      context: list,
+      message: message2
+    } = await gitDict({
       type: 'expert_type'
     });
     let expertTypeList = list.goodsDictionaryVOS.map((item) => {
@@ -421,8 +421,10 @@ class Hcexperts extends React.Component {
       Online: 'Appel video',
       Offline: 'Sur place'
     };
+    const { twoShow, threeShow, fourShow, fiveShow } = this.state;
+
     return (
-      <div id="hexperts" className="h-block">
+      <div id="hexperts" className="h-block hexperts">
         {/* 默认页面 */}
         {this.state.isShow ? (
           <div className="txt-centr">
@@ -439,14 +441,34 @@ class Hcexperts extends React.Component {
         ) : (
           <ul className="number-ul">
             <li className="opacity1">1</li>
-            <div className="line" />
-            <li>2</li>
-            <div className="line" />
-            <li>3</li>
-            <div className="line" />
-            <li>4</li>
-            <div className="line" />
-            <li>5</li>
+            <div
+              className={`line ${
+                twoShow || threeShow || fourShow || fiveShow ? 'opacity1' : ''
+              }`}
+            />
+            <li
+              className={`${
+                twoShow || threeShow || fourShow || fiveShow ? 'opacity1' : ''
+              }`}
+            >
+              2
+            </li>
+            <div
+              className={`line ${
+                threeShow || fourShow || fiveShow ? 'opacity1' : ''
+              }`}
+            />
+            <li
+              className={`${
+                threeShow || fourShow || fiveShow ? 'opacity1' : ''
+              }`}
+            >
+              3
+            </li>
+            <div className={`line ${fourShow || fiveShow ? 'opacity1' : ''}`} />
+            <li className={`${fourShow || fiveShow ? 'opacity1' : ''}`}>4</li>
+            <div className={`line ${fiveShow ? 'opacity1' : ''}`} />
+            <li className={`${fiveShow ? 'opacity1' : ''}`}>5</li>
           </ul>
         )}
         {/* 选择综合 */}

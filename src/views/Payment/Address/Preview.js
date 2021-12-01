@@ -2,6 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { formatMoney, matchNamefromDict, getDictionary } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
+import { useConsigneeDeliveryDate } from '@/framework/common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 @inject('configStore', 'paymentStore')
@@ -21,75 +22,16 @@ class AddressPreview extends React.Component {
       });
     });
   }
-  // 对应的国际化字符串
-  getIntlMsg = (str) => {
-    return this.props.intl.messages[str];
-  };
-  // 星期
-  getWeekDay = (day) => {
-    let weekArr = [
-      this.getIntlMsg('payment.Sunday'),
-      this.getIntlMsg('payment.Monday'),
-      this.getIntlMsg('payment.Tuesday'),
-      this.getIntlMsg('payment.Wednesday'),
-      this.getIntlMsg('payment.Thursday'),
-      this.getIntlMsg('payment.Friday'),
-      this.getIntlMsg('payment.Saturday')
-    ];
-    return weekArr[day];
-  };
-  // 月份
-  getMonth = (num) => {
-    num = Number(num);
-    let monthArr = [
-      '0',
-      this.getIntlMsg('payment.January'),
-      this.getIntlMsg('payment.February'),
-      this.getIntlMsg('payment.March'),
-      this.getIntlMsg('payment.April'),
-      this.getIntlMsg('payment.May'),
-      this.getIntlMsg('payment.June'),
-      this.getIntlMsg('payment.July'),
-      this.getIntlMsg('payment.August'),
-      this.getIntlMsg('payment.September'),
-      this.getIntlMsg('payment.October'),
-      this.getIntlMsg('payment.November'),
-      this.getIntlMsg('payment.December')
-    ];
-    return monthArr[num];
-  };
-  // delivery date 格式转换: 星期, 15 月份
-  getFormatDeliveryDateStr = (date) => {
-    // 获取明天几号
-    let mdate = new Date();
-    let tomorrow = mdate.getDate() + 1;
-    // 获取星期
-    var week = new Date(date).getDay();
-    let weekday = this.getWeekDay(week);
-    // 获取月份
-    let ymd = date.split('-');
-    let month = this.getMonth(ymd[1]);
-
-    // 判断是否有 ‘明天’ 的日期
-    let thisday = Number(ymd[2]);
-    let daystr = '';
-    if (tomorrow == thisday) {
-      daystr = this.getIntlMsg('payment.tomorrow');
-    } else {
-      daystr = weekday;
-    }
-    return daystr + ', ' + ymd[2] + ' ' + month;
-  };
   render() {
-    const { form, boldName, isLogin } = this.props;
-
-    // console.log('666 >>> preview form maxDeliveryTime: ', form.maxDeliveryTime);
+    const { form, boldName } = this.props;
     // 获取本地存储的需要显示的地址字段
     const localAddressForm = this.props.configStore.localAddressForm;
-
     let newDeliveryDate = '';
     if (form?.deliveryDate) {
-      newDeliveryDate = this.getFormatDeliveryDateStr(form.deliveryDate);
+      newDeliveryDate = useConsigneeDeliveryDate(
+        form.deliveryDate,
+        this.props.intl
+      );
     }
 
     return form ? (
