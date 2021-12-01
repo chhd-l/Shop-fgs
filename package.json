@@ -114,6 +114,7 @@
     "start:shopstg_core": "dotenv -e .env.development.local -e ./env/core/.env.shopstg -e ./env/core/.env node scripts/start.js",
     "start:shopstg_se": "dotenv -e .env.development.local -e ./env/se/.env.shopstg -e ./env/se/.env node scripts/start.js",
     "start:shopsit_se": "dotenv -e .env.development.local -e ./env/se/.env.shopsit -e ./env/se/.env node scripts/start.js",
+    "start:stgwedding_se": "dotenv -e .env.development.local -e ./env/se/.env.stgwedding -e ./env/se/.env node scripts/start.js",
     "start:shopsit_ca": "dotenv -e .env.development.local -e ./env/ca/.env.shopsit -e ./env/ca/.env node scripts/start.js",
     "start:shopstg_ca": "dotenv -e .env.development.local -e ./env/ca/.env.shopstg -e ./env/ca/.env node scripts/start.js",
     "start:mx": "dotenv -e .env.development.local -e ./env/mx/.env.development -e ./env/mx/.env node scripts/start.js",

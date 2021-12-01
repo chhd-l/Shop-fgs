@@ -543,7 +543,7 @@ const en_US = {
   'footer.RequestInvoice': 'Request Invoice',
   'footer.termsOfUse': 'Terms of use',
   // 'footer.toTheTop': 'To the top',
-  'footer.toTheTop': 'Back to Top',
+  'footer.toTheTop': 'Tillbaka till toppen',
   'footer.websiteTermsOfUse': 'Website Terms of Use',
   'footer.withdrawal': 'Right to retract',
   forgetPassword: 'Forget password?',
@@ -555,7 +555,7 @@ const en_US = {
   FrequentQuestions: 'Common questions',
   from: 'From',
   plpFromText: 'Från',
-  plpFromNew:'{started}{plpValue}',
+  plpFromNew: '{started}{plpValue}',
   gender: 'Kön',
   getConsumerAccountFailed: 'Get Consumer Account Failed',
   getDataFailed: 'Get Data Failed',
@@ -1362,7 +1362,7 @@ const en_US = {
   deleteSuccessFullly: 'Raderade',
   search: 'Search',
   searchBreed: 'Search breed',
-  searchForAProductOrArtical: 'Search for a product or article',
+  searchForAProductOrArtical: 'Sök efter en produkt eller artikel',
   searchNoBreed: 'not a pedigree',
   searchPrescriber: 'Search a clinic',
   searchShow: 'Search Results',
@@ -1850,6 +1850,15 @@ const en_US = {
   'list.applyFilters': 'Apply filters',
   'list.clearFilters': 'Clear all filters',
   'list.viewFilters': 'View filters',
-  'list.closeFilters': 'Close filters'
+  'list.closeFilters': 'Close filters',
+  'salesCategory.title': 'Upptäck vårt matsortiment',
+  'salesCategory.content':
+    'Varje formel har formulerats för att ge näring som möter hälsobehov baserat på storlek, ras, ålder eller livsstil.',
+  'salesCategory.cat': 'För katt',
+  'salesCategory.dog': 'För hund',
+  'Find a vet': 'Trouver un vétérinaire',
+  'header.User.alreadyRegistered': 'Redan registrerad?',
+  'header.User.newUser': 'Ny användare?',
+  'header.User.registerNow': 'Registrera nu'
 };
 export default en_US;
