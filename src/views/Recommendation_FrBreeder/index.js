@@ -574,7 +574,7 @@ class Recommendation extends React.Component {
           this.setState({ buttonLoading: false });
         }
       }
-      // this.props.history.push('/cart');
+      this.props.history.push('/cart');
     }
   }
   async hanldeUnloginAddToCart(products, path) {

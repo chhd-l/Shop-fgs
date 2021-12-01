@@ -1,5 +1,5 @@
 //处理order list item
-export function handleOrderItem(ele) {
+export function handleOrderItem(ele, res) {
   const tradeState = ele.tradeState;
   return Object.assign(ele, {
     canPayNow:
@@ -39,6 +39,7 @@ export function handleOrderItem(ele) {
       tradeState.flowState !== 'COMPLETED' &&
       tradeState.flowState !== 'VOID' &&
       tradeState.payState === 'PAID',
+    cancelAppointLoading: false,
     canReviewService:
       ele.orderType === 'FELINE_ORDER' &&
       tradeState.flowState === 'COMPLETED' &&

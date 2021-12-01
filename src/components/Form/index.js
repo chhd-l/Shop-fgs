@@ -604,7 +604,7 @@ class Form extends React.Component {
           );
       }
 
-      item.filedType = 'text';
+      //item.filedType = 'text';
       item.regExp = regExp;
       item.errMsg = errMsg;
 
@@ -953,7 +953,6 @@ class Form extends React.Component {
           return;
         }
       }
-
       switch (COUNTRY) {
         case 'us':
           tvalue = tvalue
@@ -1336,6 +1335,7 @@ class Form extends React.Component {
             } else if (apiType === 'DQE') {
               // inputVal = inputVal.replace(/\|/g, '，');
               res = await DQEAddressList(inputVal);
+              debugger;
               robj = (res?.context || []).map((item) =>
                 Object.assign(item, {
                   name: item.label,

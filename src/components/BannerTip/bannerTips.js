@@ -130,6 +130,7 @@ const bannerTips = () => {
           <div className="rc-bg-colour--brand4 text-center">
             <div className="rc-layout-container rc-content-h-middle">
               <Container>
+                {/* 订阅图标 */}
                 {window.__.env.REACT_APP_COUNTRY == 'de' ? null : (
                   <span className="rc-icon rc-refresh rc-brand1 rc-iconography" />
                 )}
@@ -174,30 +175,12 @@ const bannerTips = () => {
                         );
                     }
                   })()}
-                  {/* {window.__.env.REACT_APP_COUNTRY == 'uk' ? null : window.__
-                      .env.REACT_APP_COUNTRY == 'de' ? (
-                    <Link
-                      to="/how-to-order"
-                      className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
-                    >
-                      <FormattedMessage id="bannerTip.btnText" />
-                    </Link>
-                  ) : (
-                    <Link
-                      to="/subscription-landing"
-                      className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
-                    >
-                      <FormattedMessage id="bannerTip.btnText" />
-                    </Link>
-                  )} */}
                 </span>
               </Container>
             </div>
           </div>
         </div>
       )}
-      <FormattedMessage id="home.note1" defaultMessage={' '} />{' '}
-      <FormattedMessage id="home.note2" defaultMessage={' '} />
     </div>
   );
 };

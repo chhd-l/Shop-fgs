@@ -44,6 +44,7 @@ import OrderAppointmentInfo from './modules/OrderAppointmentInfo';
 import getCardImg from '@/lib/get-card-img';
 import { getWays } from '@/api/payment';
 import { useConsigneeDeliveryDate } from '@/framework/common';
+import { handleOrderItem } from '../Orders/modules/handleOrderItem';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -224,18 +225,12 @@ class AccountOrders extends React.Component {
       processMore: false,
       confirmTooltipVisible: true,
       auditRejectReason: '',
-      payNowLoading: false,
-      canPayNow: false,
       moreLogistics: false,
       logisticsList: [],
       activeTabIdx: 0,
       showLogisticsDetail: false,
       curLogisticInfo: null,
-      welcomeGiftLists: [], //first-order welcome box gifts
-      canChangeAppoint: false, //felin订单是否可以更改
-      canReviewService: false, //felin订单是否可以评论
-      canCancelAppoint: false, //felin订单是否可以cancel
-      cancelAppointLoading: false
+      welcomeGiftLists: [] //first-order welcome box gifts
     };
     this.changeTab = this.changeTab.bind(this);
     this.handleClickLogisticsCard = this.handleClickLogisticsCard.bind(this);
@@ -383,10 +378,8 @@ class AccountOrders extends React.Component {
         //   cityRes,
         //   resContext.invoice.cityId
         // );
-        console.log('orderCategory:', resContext.orderCategory);
-        // orderCategory为RECURRENT_AUTOSHIP为refill订单，需要隐藏repay按钮
         this.setState({
-          details: resContext,
+          details: handleOrderItem(resContext, res.context),
           loading: false,
           currentProgerssIndex,
           currentCanceledProgerssIndex,
@@ -394,29 +387,7 @@ class AccountOrders extends React.Component {
           cancelProgressList,
           defaultLocalDateTime: res.defaultLocalDateTime,
           subNumber: resContext?.subscriptionResponseVO?.subscribeId,
-          orderNumberForOMS: resContext?.tradeOms?.orderNo,
-          canPayNow:
-            resContext.orderCategory !== 'RECURRENT_AUTOSHIP' &&
-            tradeState.flowState === 'INIT' &&
-            tradeState.auditState === 'NON_CHECKED' &&
-            tradeState.payState === 'NOT_PAID' &&
-            new Date(resContext.orderTimeOut).getTime() >
-              new Date(res.defaultLocalDateTime).getTime() &&
-            !['OXXO', 'COD'].includes(resContext.payWay?.toUpperCase()),
-          canChangeAppoint:
-            resContext.orderType === 'FELINE_ORDER' &&
-            tradeState.flowState !== 'COMPLETED' &&
-            tradeState.flowState !== 'VOID' &&
-            tradeState.payState === 'PAID',
-          canCancelAppoint:
-            resContext.orderType === 'FELINE_ORDER' &&
-            tradeState.flowState !== 'COMPLETED' &&
-            tradeState.flowState !== 'VOID' &&
-            tradeState.payState === 'PAID',
-          canReviewService:
-            resContext.orderType === 'FELINE_ORDER' &&
-            tradeState.flowState === 'COMPLETED' &&
-            !ele.storeEvaluateVO
+          orderNumberForOMS: resContext?.tradeOms?.orderNo
         });
       })
       .catch((err) => {
@@ -564,7 +535,7 @@ class AccountOrders extends React.Component {
   }
   handleClickPayNow = async () => {
     const { details: order, details } = this.state;
-    this.setState({ payNowLoading: true });
+    this.setState({ details: Object.assign(details, { payNowLoading: true }) });
     const tradeItems = details.tradeItems.map((ele) => {
       return {
         goodsInfoImg: ele.pic,
@@ -593,10 +564,13 @@ class AccountOrders extends React.Component {
     });
 
     this.props.history.push('/checkout');
-    this.setState({ payNowLoading: false });
+    this.setState({
+      details: Object.assign(details, { payNowLoading: false })
+    });
   };
   handlePayNowTimeEnd = () => {
-    this.setState({ canPayNow: false });
+    const { details } = this.state;
+    this.setState({ details: Object.assign(details, { canPayNow: false }) });
   };
   handleToggleMoreLess = () => {
     this.setState((currentState) => ({
@@ -802,8 +776,6 @@ class AccountOrders extends React.Component {
     const {
       details,
       auditRejectReason,
-      canPayNow,
-      payNowLoading,
       defaultLocalDateTime,
       orderNumber,
       logisticsList,
@@ -830,11 +802,11 @@ class AccountOrders extends React.Component {
                   values={{
                     val: (
                       <>
-                        {canPayNow ? (
+                        {details.canPayNow ? (
                           <>
                             <span
                               className={`red ui-cursor-pointer ${
-                                payNowLoading
+                                details.payNowLoading
                                   ? 'ui-btn-loading ui-btn-loading-border-red'
                                   : ''
                               }`}
@@ -976,6 +948,7 @@ class AccountOrders extends React.Component {
     // }
     return ret;
   };
+  //特殊处理felin订单HeadTip
   renderFelinHeadTip = () => {
     const { currentProgerssIndex, normalProgressList } = this.state;
     let ret = null;
@@ -1039,28 +1012,27 @@ class AccountOrders extends React.Component {
     return ret;
   };
   async cancelAppoint(order) {
+    const { details } = this.state;
     try {
-      this.setState({ cancelAppointLoading: true });
+      this.setState({
+        details: Object.assign(details, { cancelAppointLoading: true })
+      });
       await cancelAppointByNo({ apptNo: order.appointmentNo });
       this.init();
     } catch (err) {
     } finally {
-      this.setState({ cancelAppointLoading: false });
+      this.setState({
+        details: Object.assign(details, { cancelAppointLoading: false })
+      });
     }
   }
+  //felin订单操作按钮显示
   renderOperationBtns = () => {
-    const {
-      canReviewService,
-      orderNumber,
-      canChangeAppoint,
-      canCancelAppoint,
-      cancelAppointLoading,
-      details
-    } = this.state;
+    const { orderNumber, details } = this.state;
     return (
       <>
         {/*服务类产品评论*/}
-        {canReviewService ? (
+        {details.canReviewService ? (
           <button className="rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn">
             <FormattedMessage id="writeReview">
               {(txt) => (
@@ -1077,7 +1049,7 @@ class AccountOrders extends React.Component {
           </button>
         ) : null}
         {/*felin订单change appoint*/}
-        {canChangeAppoint ? (
+        {details.canChangeAppoint ? (
           <button
             className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order`}
           >
@@ -1096,10 +1068,10 @@ class AccountOrders extends React.Component {
           </button>
         ) : null}
         {/*felin订单cancel appoint*/}
-        {canCancelAppoint ? (
+        {details.canCancelAppoint ? (
           <button
             className={`rc-btn ml-0 rc-btn--sm rc-btn--one ord-list-operation-btn felin-order ${
-              cancelAppointLoading ? 'ui-btn-loading' : ''
+              details.cancelAppointLoading ? 'ui-btn-loading' : ''
             }`}
             onClick={this.cancelAppoint.bind(this, details)}
           >

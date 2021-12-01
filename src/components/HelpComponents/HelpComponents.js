@@ -198,7 +198,7 @@ const HelpComponents = (props) => {
                                       values={{
                                         val: (
                                           <DistributeHubLinkOrATag
-                                            href={'/about-us/faqs'}
+                                            href={'/about-us/faq'}
                                             ariaLabel="Links to faq"
                                           >
                                             <a

@@ -33,7 +33,7 @@ const defaultList = {
         values={{
           val: ru ? (
             <DistributeHubLinkOrATag
-              href={'/about-us/faqs'}
+              href={'/about-us/faq'}
               ariaLabel="Links to faq"
             >
               <a
