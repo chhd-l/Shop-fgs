@@ -174,30 +174,12 @@ const bannerTips = () => {
                         );
                     }
                   })()}
-                  {/* {window.__.env.REACT_APP_COUNTRY == 'uk' ? null : window.__
-                      .env.REACT_APP_COUNTRY == 'de' ? (
-                    <Link
-                      to="/how-to-order"
-                      className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
-                    >
-                      <FormattedMessage id="bannerTip.btnText" />
-                    </Link>
-                  ) : (
-                    <Link
-                      to="/subscription-landing"
-                      className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
-                    >
-                      <FormattedMessage id="bannerTip.btnText" />
-                    </Link>
-                  )} */}
                 </span>
               </Container>
             </div>
           </div>
         </div>
       )}
-      <FormattedMessage id="home.note1" defaultMessage={' '} />{' '}
-      <FormattedMessage id="home.note2" defaultMessage={' '} />
     </div>
   );
 };

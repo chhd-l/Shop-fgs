@@ -543,7 +543,7 @@ const en_US = {
   FrequentQuestions: 'Common questions',
   from: 'From',
   plpFromText: 'From',
-  plpFromNew:'{started}{plpValue}',
+  plpFromNew: '{started}{plpValue}',
   gender: 'Gender',
   getConsumerAccountFailed: 'Get Consumer Account Failed',
   getDataFailed: 'Get Data Failed',
@@ -592,8 +592,6 @@ const en_US = {
   'home.convenientTip3':
     'Support service: ask a question about your pet to a specialist',
   'home.convenientTitle': 'Why Shop Royal Canin?',
-  'home.note1': '',
-  'home.note2': '',
   'home.pageNotFound': 'Page not found…',
   'home.pageNotFoundInfo':
     'Sorry, the page you are looking for does not exist.',
