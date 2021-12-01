@@ -130,6 +130,7 @@ const bannerTips = () => {
           <div className="rc-bg-colour--brand4 text-center">
             <div className="rc-layout-container rc-content-h-middle">
               <Container>
+                {/* 订阅图标 */}
                 {window.__.env.REACT_APP_COUNTRY == 'de' ? null : (
                   <span className="rc-icon rc-refresh rc-brand1 rc-iconography" />
                 )}
