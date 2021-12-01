@@ -1034,6 +1034,7 @@ class Details extends React.Component {
   };
 
   addMixFeedingToCart = async () => {
+    const btnStatus = this.btnStatus;
     if (!btnStatus) return;
     this.setState({
       mixFeedingBtnLoading: true
