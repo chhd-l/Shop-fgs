@@ -1085,7 +1085,7 @@ class AccountOrders extends React.Component {
               {(txt) => (
                 <Link
                   className="color-fff"
-                  to={`/felin/${orderNumber}`}
+                  to={`/felin?id=${orderNumber}`}
                   title={txt}
                   alt={txt}
                 >
