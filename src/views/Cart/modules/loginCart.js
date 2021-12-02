@@ -1079,7 +1079,7 @@ class LoginCart extends React.Component {
             </span>
           </div>
           <div className="col-6 no-padding-left">
-            <p className="text-right sub-total">
+            <p className="text-right sub-total mb-4">
               <button
                 id="promotionApply"
                 className={`rc-btn rc-btn--sm rc-btn--two mr-0 ${
@@ -1140,14 +1140,14 @@ class LoginCart extends React.Component {
                 } red`}
                 style={{ padding: 0 }}
               >
-                <p>
+                <p className="mb-4">
                   {!checkoutStore.couponCodeFitFlag && (
                     <FormattedMessage id="Non appliqué" />
                   )}
                 </p>
               </div>
               <div className="col-2" style={{ padding: '0 .9375rem 0 0' }}>
-                <p className="text-right shipping-cost">
+                <p className="text-right shipping-cost mb-4">
                   <span
                     className="rc-icon rc-close--sm rc-iconography"
                     style={{
@@ -1166,8 +1166,8 @@ class LoginCart extends React.Component {
           <div className="col-6">
             <FormattedMessage id="total2" />
           </div>
-          <div className="col-6 no-padding-left">
-            <p className="text-right sub-total text-nowrap">
+          <div className="col-6 no-padding-left mb-4">
+            <p className="text-right sub-total text-nowrap mb-4">
               {formatMoney(this.totalPrice)}
             </p>
           </div>
@@ -1194,7 +1194,7 @@ class LoginCart extends React.Component {
               <p>{<FormattedMessage id="promotion" />}</p>
             </div>
             <div className="col-4">
-              <p className="text-right shipping-cost text-nowrap">
+              <p className="text-right shipping-cost text-nowrap mb-4">
                 <strong>-{formatMoney(this.subscriptionDiscountPrice)}</strong>
               </p>
             </div>
@@ -1230,7 +1230,7 @@ class LoginCart extends React.Component {
             </p>
           </div>
           <div className="col-4">
-            <p className="text-right shipping-cost text-nowrap">
+            <p className="text-right shipping-cost text-nowrap mb-4">
               {formatMoney(this.deliveryPrice)}
             </p>
           </div>
@@ -1245,7 +1245,7 @@ class LoginCart extends React.Component {
               </p>
             </div>
             <div className="col-4">
-              <p className="text-right shipping-cost">
+              <p className="text-right shipping-cost mb-4">
                 {this.freeShippingDiscountPrice > 0 && '-'}
                 {formatMoney(this.freeShippingDiscountPrice)}
               </p>
@@ -1266,7 +1266,7 @@ class LoginCart extends React.Component {
               </p>
             </div>
             <div className="col-4">
-              <p className="text-right shipping-cost text-nowrap rc_login_cart">
+              <p className="text-right shipping-cost text-nowrap rc_login_cart mb-4">
                 {this.taxFeePrice > 0 ? (
                   formatMoney(this.taxFeePrice)
                 ) : (
@@ -1287,7 +1287,7 @@ class LoginCart extends React.Component {
               </strong>
             </div>
             <div className="col-5">
-              <p className="text-right grand-total-sum medium mb-0 text-nowrap">
+              <p className="text-right grand-total-sum medium mb-0 text-nowrap mb-4">
                 {this.props.configStore?.customTaxSettingOpenFlag == 0 &&
                 this.props.configStore?.enterPriceType == 1 ? (
                   <>
