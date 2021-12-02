@@ -289,7 +289,7 @@ class AdyenCreditCardList extends React.Component {
           const checkout = new AdyenCheckout({
             environment: adyenOriginKeyConf?.environment,
             originKey: adyenOriginKeyConf?.openPlatformSecret,
-            locale: adyenOriginKeyConf?.locale
+            locale: adyenOriginKeyConf?.locale || 'en-US'
           });
           checkout
             .create('card', {
