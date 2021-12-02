@@ -299,16 +299,16 @@ class Payment extends React.Component {
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
     this.cyberRef = React.createRef();
-    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
-      this
-    );
+    this.confirmListValidationAddress =
+      this.confirmListValidationAddress.bind(this);
   }
   //cyber查询卡类型-会员
   queryCyberCardType = async (params) => {
     try {
-      const res = await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
-        params
-      );
+      const res =
+        await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
+          params
+        );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -319,9 +319,10 @@ class Payment extends React.Component {
   //cyber查询卡类型-游客
   queryGuestCyberCardType = async (params) => {
     try {
-      const res = await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
-        params
-      );
+      const res =
+        await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
+          params
+        );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -401,7 +402,14 @@ class Payment extends React.Component {
           billingAddress: felinAddress
         },
         () => {
-          this.initPanelStatus();
+          this.props.paymentStore.setStsToCompleted({
+            key: 'deliveryAddr',
+            isFirstLoad: true
+          });
+          this.props.paymentStore.setStsToCompleted({
+            key: 'billingAddr',
+            isFirstLoad: true
+          });
         }
       );
     }
@@ -586,9 +594,9 @@ class Payment extends React.Component {
       setStsToPrepare,
       confirmationPanelStatus
     } = this.props.paymentStore;
-    const { paymentPanelHasComplete, tid, isFromFelin } = this.state;
+    const { paymentPanelHasComplete, tid } = this.state;
 
-    if (!tid && !isFromFelin) {
+    if (!tid) {
       if (this.tradePrice === 0) {
         //变成0元订单
         if (this.paymentMethodPanelStatus.isEdit) {
@@ -623,7 +631,7 @@ class Payment extends React.Component {
     const { tid, isFromFelin } = this.state;
 
     //初始化的时候如果是0元订单将paymentMethod面板置为已完成
-    if (this.tradePrice === 0 && !tid && !isFromFelin) {
+    if (this.tradePrice === 0 && !tid) {
       paymentStore.setStsToCompleted({
         key: 'paymentMethod'
       });
@@ -919,7 +927,8 @@ class Payment extends React.Component {
       selected: true
     });
     sessionItemRoyal.set('recommend_product', JSON.stringify([goodDetail]));
-    this.props.checkoutStore.updatePromotionFiled([goodDetail]);
+    await this.props.checkoutStore.updatePromotionFiled([goodDetail]);
+    this.handleZeroOrder();
     if (!this.isLogin) {
       const felinAddress = Object.assign(felinAddr[0], {
         firstName: result?.consumerFirstName || '',
@@ -2704,9 +2713,10 @@ class Payment extends React.Component {
     const unLoginCyberSaveCard = async (params) => {
       // console.log('2080 params: ', params);
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -2718,9 +2728,10 @@ class Payment extends React.Component {
     //cyber会员绑卡
     const loginCyberSaveCard = async (params) => {
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -3489,9 +3500,8 @@ class Payment extends React.Component {
   };
   petComfirm = (data) => {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[
-        this.state.currentProIndex
-      ].petForm = data;
+      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
+        data;
     } else {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {
@@ -3585,9 +3595,8 @@ class Payment extends React.Component {
   clickPay = () => {
     if (this.tradePrice === 0 && this.isCurrentBuyWaySubscription) {
       //0元订单中含有订阅商品时不能下单
-      const errMsg = this.props.intl.messages[
-        'checkout.zeroOrder.butSubscription'
-      ];
+      const errMsg =
+        this.props.intl.messages['checkout.zeroOrder.butSubscription'];
       this.showErrorMsg(errMsg);
       return;
     }
@@ -3655,7 +3664,7 @@ class Payment extends React.Component {
     };
     const paymentMethodTitleForPrepare = (
       <div className="ml-custom mr-custom d-flex justify-content-between align-items-center">
-        <h5 className="mb-0">
+        <h5 className="mb-0 text-xl">
           <em
             className="rc-icon rc-payment--sm rc-iconography inlineblock"
             style={{
@@ -3671,7 +3680,7 @@ class Payment extends React.Component {
 
     const paymentMethodTitleForEdit = (
       <div className="ml-custom mr-custom d-flex justify-content-between align-items-center red">
-        <h5 className="mb-0">
+        <h5 className="mb-0 text-xl">
           <em
             className="rc-icon rc-payment--sm rc-brand1 inlineblock"
             style={{
@@ -3687,7 +3696,7 @@ class Payment extends React.Component {
 
     const paymentMethodTitleForCompeleted = (
       <div className="ml-custom mr-custom d-flex justify-content-between align-items-center">
-        <h5 className="mb-0">
+        <h5 className="mb-0 text-xl">
           <em
             className="rc-icon rc-payment--sm rc-iconography inlineblock"
             style={{
@@ -3744,7 +3753,7 @@ class Payment extends React.Component {
             {/*checkout页面所有国家都不用流程图*/}
             <div className="rc-padding--sm rc-padding-top--none">
               <div className="title">
-                <h4>
+                <h4 className="text-2xl">
                   <FormattedMessage id="payment.checkout" />
                 </h4>
                 <p>
@@ -3799,7 +3808,7 @@ class Payment extends React.Component {
                 {checkoutStore.petFlag && checkoutStore.AuditData.length > 0 && (
                   <div className="card-panel checkout--padding pl-0 pr-0 rc-bg-colour--brand3 rounded pb-0">
                     <h5
-                      className="ml-custom mr-custom"
+                      className="ml-custom mr-custom text-xl"
                       style={{ overflow: 'hidden' }}
                     >
                       <em
@@ -3927,9 +3936,7 @@ class Payment extends React.Component {
                 )}
                 <div
                   className={`card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 pb-0 border ${
-                    this.tradePrice === 0 && !this.state.isFromFelin
-                      ? 'hidden'
-                      : ''
+                    this.tradePrice === 0 ? 'hidden' : ''
                   } ${
                     paymentMethodPanelStatus.isEdit
                       ? 'border-333'
