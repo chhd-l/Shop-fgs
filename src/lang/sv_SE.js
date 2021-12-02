@@ -432,11 +432,11 @@ const en_US = {
   deliveryOneTimeOnly: 'Avgiftsfri leverans',
   detail: '[Show more]',
   'detail.answer':
-    'Our advisers are real experts and passionate. They are at your disposal to answer any request.',
+    'Våra rådgivare är riktiga experter och passionerade. De står till ditt förfogande för att svara på alla önskemål.',
   'detail.email': 'By email',
   'detail.packagingDesc':
     'Our packaging / products may be subject to a sorting instruction',
-  'detail.question': 'Still have questions about this product?',
+  'detail.question': 'Har du fortfarande frågor om denna produkt?',
   'detail.telephone': 'By telephone',
   'details.addToCart': 'Prenumerera',
   'details.availability': 'Availability',
@@ -562,7 +562,7 @@ const en_US = {
   getPetFailed: 'Get Pet Failed',
   giveConsentPersonalData:
     'and give my consent to the processing of personal data, including cross-border transfer',
-  goods: 'Products',
+  goods: 'Produkter',
   goToCart: 'Go To Cart',
   guestCheckout: 'Continue as a Guest',
   'header.bannerTip': '30% off first purchase + 5% off autoship',
@@ -855,8 +855,7 @@ const en_US = {
   'list.errMsg2':
     'No products found, please change the keywords and try again.',
   'list.errMsg3': 'No filters found, please try again later.',
-  'list.errMsg4':
-    'No products found. Please change your search term and try again.',
+  'list.errMsg4': 'Inga produkter hittades. Ändra din sökterm och försök igen.',
   'list.youSearchedFor': 'You searched for',
   listPrice: 'List price',
   login: 'Logga in',
@@ -874,7 +873,7 @@ const en_US = {
   logisticsCompany: 'Logistics company',
   logisticsRating: 'Logistics rating',
   logisticsSingleNumber: 'Logistics single number',
-  logOff: 'Logout',
+  logOff: 'Logga ut',
   mailAddress: 'Mail address',
   // mailAddress: 'Mail address',
   // mailAddress: 'Email',
@@ -1522,7 +1521,7 @@ const en_US = {
   values: 'values',
   VAT_included: 'inklusive moms',
   viewAll: 'View all products',
-  viewAllResults: 'View all results',
+  viewAllResults: 'Se alla resultat',
   viewResults: 'Search Results',
   visitStoreMap: 'Visit store map',
   weight: 'Vikt',
@@ -1857,6 +1856,13 @@ const en_US = {
   'Find a vet': 'Trouver un vétérinaire',
   'header.User.alreadyRegistered': 'Redan registrerad?',
   'header.User.newUser': 'Ny användare?',
-  'header.User.registerNow': 'Registrera nu'
+  'header.User.registerNow': 'Registrera nu',
+  'header.User.faq': "FAQ's",
+  'header.User.home': 'konto',
+  'header.User.myPersonalInformation': 'Mina detaljer',
+  'header.User.pets': 'Mina husdjur',
+  'header.User.myOrders': 'Mina beställningar',
+  'header.User.mySubscriptions': 'Mina prenumerationer',
+  'header.User.logOut': 'Logga ut'
 };
 export default en_US;
