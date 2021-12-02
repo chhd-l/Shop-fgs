@@ -36,6 +36,7 @@ export function formatMoney(val) {
   if (isNaN(val)) {
     val = 0;
   }
+  val = Number(val).toFixed(2);
   val += '';
   let length = val.length;
   if (window.__.env.REACT_APP_COUNTRY === 'tr') {

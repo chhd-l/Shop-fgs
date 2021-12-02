@@ -421,8 +421,10 @@ class Hcexperts extends React.Component {
       Online: 'Appel video',
       Offline: 'Sur place'
     };
+    const { twoShow, threeShow, fourShow, fiveShow } = this.state;
+
     return (
-      <div id="hexperts" className="hexperts">
+      <div id="hexperts" className="h-block hexperts">
         {/* 默认页面 */}
         {this.state.isShow ? (
           <div className="txt-centr">
@@ -439,14 +441,34 @@ class Hcexperts extends React.Component {
         ) : (
           <ul className="number-ul">
             <li className="opacity1">1</li>
-            <div className="line" />
-            <li>2</li>
-            <div className="line" />
-            <li>3</li>
-            <div className="line" />
-            <li>4</li>
-            <div className="line" />
-            <li>5</li>
+            <div
+              className={`line ${
+                twoShow || threeShow || fourShow || fiveShow ? 'opacity1' : ''
+              }`}
+            />
+            <li
+              className={`${
+                twoShow || threeShow || fourShow || fiveShow ? 'opacity1' : ''
+              }`}
+            >
+              2
+            </li>
+            <div
+              className={`line ${
+                threeShow || fourShow || fiveShow ? 'opacity1' : ''
+              }`}
+            />
+            <li
+              className={`${
+                threeShow || fourShow || fiveShow ? 'opacity1' : ''
+              }`}
+            >
+              3
+            </li>
+            <div className={`line ${fourShow || fiveShow ? 'opacity1' : ''}`} />
+            <li className={`${fourShow || fiveShow ? 'opacity1' : ''}`}>4</li>
+            <div className={`line ${fiveShow ? 'opacity1' : ''}`} />
+            <li className={`${fiveShow ? 'opacity1' : ''}`}>5</li>
           </ul>
         )}
         {/* 选择综合 */}
@@ -791,7 +813,7 @@ class Hcexperts extends React.Component {
           </div>
         </UpdatModal>
         {/*预约时间 Contact us*/}
-        <div className="txt-centr" style={{ marginBottom: '10rem' }}>
+        <div className="txt-centr" style={{ marginBottom: '3.75rem' }}>
           <div
             onClick={this.hanldeOpen}
             style={{

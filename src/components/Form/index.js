@@ -46,6 +46,7 @@ import IMask from 'imask';
 import debounce from 'lodash/debounce';
 import { EMAIL_REGEXP } from '@/utils/constant';
 import './index.less';
+import { useConsigneeDeliveryDate } from '@/framework/common';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 let tempolineCache = {};
@@ -206,62 +207,6 @@ class Form extends React.Component {
     // 重置参数
     this.props.getFormAddressValidFlag(false);
   }
-
-  // 星期
-  getWeekDay = (day) => {
-    let weekArr = [
-      this.getIntlMsg('payment.Sunday'),
-      this.getIntlMsg('payment.Monday'),
-      this.getIntlMsg('payment.Tuesday'),
-      this.getIntlMsg('payment.Wednesday'),
-      this.getIntlMsg('payment.Thursday'),
-      this.getIntlMsg('payment.Friday'),
-      this.getIntlMsg('payment.Saturday')
-    ];
-    return weekArr[day];
-  };
-  // 月份
-  getMonth = (num) => {
-    num = Number(num);
-    let monthArr = [
-      '0',
-      this.getIntlMsg('payment.January'),
-      this.getIntlMsg('payment.February'),
-      this.getIntlMsg('payment.March'),
-      this.getIntlMsg('payment.April'),
-      this.getIntlMsg('payment.May'),
-      this.getIntlMsg('payment.June'),
-      this.getIntlMsg('payment.July'),
-      this.getIntlMsg('payment.August'),
-      this.getIntlMsg('payment.September'),
-      this.getIntlMsg('payment.October'),
-      this.getIntlMsg('payment.November'),
-      this.getIntlMsg('payment.December')
-    ];
-    return monthArr[num];
-  };
-  // delivery date 格式转换: 星期, 15 月份
-  getFormatDeliveryDateStr = (date) => {
-    // 获取明天几号
-    let mdate = new Date();
-    let tomorrow = mdate.getDate() + 1;
-    // 获取星期
-    var week = new Date(date).getDay();
-    let weekday = this.getWeekDay(week);
-    // 获取月份
-    let ymd = date.split('-');
-    let month = this.getMonth(ymd[1]);
-
-    // 判断是否有 ‘明天’ 的日期
-    let thisday = Number(ymd[2]);
-    let daystr = '';
-    if (tomorrow == thisday) {
-      daystr = this.getIntlMsg('payment.tomorrow');
-    } else {
-      daystr = weekday;
-    }
-    return daystr + ', ' + ymd[2] + ' ' + month;
-  };
   // 根据address1查询地址信息
   getAddressListByKeyWord = async (address1) => {
     const { COUNTRY, apiType } = this.state;
@@ -333,7 +278,7 @@ class Form extends React.Component {
         let robj = res.context.timeSlots;
         robj.forEach((v, i) => {
           // 格式化 delivery date 格式: 星期, 15 月份
-          let datestr = this.getFormatDeliveryDateStr(v.date);
+          let datestr = useConsigneeDeliveryDate(v.date, this.props.intl);
           // 所有数据
           alldata[v.date] = v.dateTimeInfos;
           ddlist.push({
@@ -659,7 +604,7 @@ class Form extends React.Component {
           );
       }
 
-      item.filedType = 'text';
+      //item.filedType = 'text';
       item.regExp = regExp;
       item.errMsg = errMsg;
 
@@ -1008,7 +953,6 @@ class Form extends React.Component {
           return;
         }
       }
-
       switch (COUNTRY) {
         case 'us':
           tvalue = tvalue
@@ -1165,10 +1109,46 @@ class Form extends React.Component {
     });
   };
 
+  // 对应的国际化字符串
+  getIntlMsg = (str) => {
+    return this.props.intl.messages[str];
+  };
+  // 地址搜索框失去焦点 2
+  handleSearchSelectionBlur = (e) => {
+    const { caninForm, apiType } = this.state;
+    const target = e.target;
+    const tvalue = target?.value;
+    const tname = target?.name;
+    if (tvalue == '') {
+      this.props.getFormAddressValidFlag(false);
+      caninForm.address1 = '';
+      this.setState(
+        {
+          caninForm,
+          address1Data: []
+        },
+        () => {
+          this.updateDataToProps();
+          this.selectInputBlur(e);
+        }
+      );
+    }
+    if (apiType === 'DQE' && tvalue) {
+      setTimeout(() => {
+        if (!this.state.addrSearchSelectFlag) {
+          caninForm[tname] = this.state.newAddress1;
+          this.setState({
+            caninForm
+          });
+        }
+      }, 1000);
+    }
+  };
   // 地址搜索选择 1 (DuData、DQE)
   handleAddressInputChange = async (data) => {
     console.log('data', data);
     const { caninForm, apiType } = this.state;
+
     this.setState({
       address1Data: data,
       addrSearchSelectFlag: true
@@ -1282,44 +1262,15 @@ class Form extends React.Component {
       );
     }
   };
-  // 对应的国际化字符串
-  getIntlMsg = (str) => {
-    return this.props.intl.messages[str];
-  };
-  // 地址搜索框失去焦点 2
-  handleSearchSelectionBlur = (e) => {
-    const { caninForm, apiType } = this.state;
-    const target = e.target;
-    const tvalue = target?.value;
-    const tname = target?.name;
-    if (tvalue == '') {
-      this.props.getFormAddressValidFlag(false);
-      caninForm.address1 = '';
-      this.setState(
-        {
-          caninForm,
-          address1Data: []
-        },
-        () => {
-          this.updateDataToProps();
-          this.selectInputBlur(e);
-        }
-      );
-    }
-    if (apiType === 'DQE' && tvalue) {
-      setTimeout(() => {
-        if (!this.state.addrSearchSelectFlag) {
-          caninForm[tname] = this.state.newAddress1;
-          this.setState({
-            caninForm
-          });
-        }
-      }, 1000);
-    }
-  };
   // 地址搜索框输入值接收，控制按钮状态 3
   getSearchInputChange = (e) => {
-    const { apiType } = this.state;
+    const { apiType, caninForm } = this.state;
+    //fix bug start
+    Object.assign(caninForm, {
+      address1: e.target.value,
+      deliveryAddress: e.target.value
+    });
+    //fix bug end
     const target = e?.target;
     const tname = target?.name;
     const tvalue = target?.value;
@@ -1328,11 +1279,13 @@ class Form extends React.Component {
     } else {
       this.setState({
         newAddress1: tvalue,
-        addrSearchSelectFlag: false
+        addrSearchSelectFlag: false,
+        caninForm
       });
     }
     // 验证数据
     this.validvalidationData(tname, tvalue);
+    this.updateDataToProps();
   };
 
   // 处理查询到的DuData地址信息，拼装errMsg
@@ -1366,6 +1319,7 @@ class Form extends React.Component {
   // 地址搜索框
   addressSearchSelectionJSX = (item) => {
     const { caninForm, COUNTRY, apiType } = this.state;
+
     return (
       <>
         <SearchSelection
@@ -1381,6 +1335,7 @@ class Form extends React.Component {
             } else if (apiType === 'DQE') {
               // inputVal = inputVal.replace(/\|/g, '，');
               res = await DQEAddressList(inputVal);
+              debugger;
               robj = (res?.context || []).map((item) =>
                 Object.assign(item, {
                   name: item.label,

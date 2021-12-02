@@ -241,15 +241,14 @@ class Details extends React.Component {
   get retailerBtnStatus() {
     const { loading, goodsType, exclusiveFlag = false } = this.state;
     const sptGoods = goodsType === 0 || goodsType === 1;
-    // const trSpt = Tr && sptGoods;
     let bundle = goodsType && goodsType === 2;
-
+    const widgetId = window.__.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID;
     return (
       !loading &&
       !bundle &&
       isHub &&
       !exclusiveFlag &&
-      (Fr || Uk || (Tr && !sptGoods))
+      (widgetId || (Tr && !sptGoods))
     );
   }
 
@@ -1034,6 +1033,8 @@ class Details extends React.Component {
   };
 
   addMixFeedingToCart = async () => {
+    const btnStatus = this.btnStatus;
+    if (!btnStatus) return;
     this.setState({
       mixFeedingBtnLoading: true
     });

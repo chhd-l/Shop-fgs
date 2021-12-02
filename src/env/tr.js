@@ -47,7 +47,7 @@ const env = {
     REACT_APP_CURRENCY: 'TRY',
 
     // #是否开启promotion
-    REACT_APP_IS_PROMOTION: 'false',
+    REACT_APP_IS_PROMOTION: 'true',
     // #是否显示banner上方tip
     REACT_APP_SHOW_BANNERTIP: 'true',
 
@@ -311,7 +311,9 @@ const env = {
     REACT_APP_HUB: '1',
 
     // #HUB_GA
-    REACT_APP_HUB_GA: '1'
+    REACT_APP_HUB_GA: '1',
+    REACT_APP_HUBPAGE_RETAILER_ISURL: '1',
+    REACT_APP_HUBPAGE_RETAILER_URL: 'http://www.royalcanin.com/tr/where-to-buy'
   },
   uatwedding: {
     // #okta
@@ -355,7 +357,9 @@ const env = {
     REACT_APP_HUB: '1',
 
     // #HUB_GA
-    REACT_APP_HUB_GA: '1'
+    REACT_APP_HUB_GA: '1',
+    REACT_APP_HUBPAGE_RETAILER_ISURL: '1',
+    REACT_APP_HUBPAGE_RETAILER_URL: 'http://www.royalcanin.com/tr/where-to-buy'
   }
 };
 

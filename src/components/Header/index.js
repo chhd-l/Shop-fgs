@@ -240,6 +240,7 @@ class Header extends React.Component {
           const targetRes = pageEnumRes.filter((ele) => ele.id === item.pageId);
           let tmpLink = null;
           let tmpHref = null;
+          // item.interaction 0-本窗口打开 1-新窗口打开
           if (item.interaction === 0 && targetRes.length) {
             const pageVal = targetRes[0].valueEn;
             if (pageVal) tmpLink = { pathname: `${item.navigationLink}` };
