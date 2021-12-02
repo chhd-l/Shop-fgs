@@ -101,7 +101,7 @@ class AccountOrders extends React.Component {
       let res = await getOrderList({ id: orderId });
       let hasDetails = res.context?.content?.length;
       if (hasDetails) {
-        let url = `/account/orders/detail/${orderId}`;
+        let url = `/Raccount/orders/detail/${orderId}`;
         this.props.history.push(url);
         return;
       }

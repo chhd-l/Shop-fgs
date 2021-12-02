@@ -22,10 +22,13 @@ import {
   postQueryPrice,
   postSave,
   postUpdate,
-  queryDate
+  queryDate,
+  getAppointByApptNo
 } from '@/api/felin';
 import moment from 'moment';
 import LoginButton from '@/components/LoginButton';
+import data from './index.json';
+import { getDeviceType } from '../../../utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 PRESONAL_INFO_RULE.filter((el) => el.key === 'phoneNumber')[0].regExp = '';
@@ -55,29 +58,25 @@ class Pcexperts extends React.Component {
           valueEn: 'Behaviorist',
           src: cat1,
           name: 'Comportementalistes',
-          text:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         },
         {
           valueEn: 'Nutritionist',
           src: cat2,
           name: 'Expert en nutrition',
-          text:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         },
         {
           valueEn: 'Osteopathist',
           src: cat3,
           name: 'Ostéopathes',
-          text:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         }
       ],
       timeList: [
         {
           duration: 15,
-          text:
-            'Rapide et facile, échangez avec un expert pour reçevoir ses conseils et commencer le suivi de votre chat.'
+          text: 'Rapide et facile, échangez avec un expert pour reçevoir ses conseils et commencer le suivi de votre chat.'
         },
         {
           duration: 30,
@@ -88,26 +87,20 @@ class Pcexperts extends React.Component {
           text: 'Prenez le temps de vous offrir une session complète.'
         }
       ],
-      activeOne: null,
-      timeIndex: null,
-      butIndex: null,
       isShow: true,
       oneShow: false,
       twoShow: false,
       threeShow: false,
       fourShow: false,
       fiveShow: false,
-      activeKey: '',
-      activeKey1: '',
-      activeKey2: '',
       maxHeight: null,
       activeMaxKey: null,
       apptTypeList: [], // 线上线下
       expertTypeList: [],
       params: {
-        appointmentTypeId: '', // 线上线下
-        expertTypeId: '', // 专家类型
-        minutes: '' // 时间
+        appointmentTypeId: null, // 线上线下
+        expertTypeId: null, // 专家类型
+        minutes: null // 时间
       },
       votre: {
         type: '',
@@ -132,6 +125,15 @@ class Pcexperts extends React.Component {
 
   componentDidMount() {
     let userInfo = this.props.loginStore.userInfo;
+    console.log(userInfo);
+    let id = window.location.search.split('=')[1];
+    if (
+      id &&
+      (getDeviceType() === 'PC' ||
+        (getDeviceType() === 'Pad' && document.body.clientWidth > 768))
+    ) {
+      this.setList(id);
+    }
     if (userInfo) {
       this.setState({
         userInfo: {
@@ -141,6 +143,84 @@ class Pcexperts extends React.Component {
     }
   }
 
+  getDeatalData = async (id) => {
+    let appointName = {
+      Online: 'Appel video',
+      Offline: 'Sur place'
+    };
+
+    const { code, context } = await getAppointByApptNo({ apptNo: id });
+    if (code === 'K-000000') {
+      let type =
+        appointName[
+          this.state.apptTypeList.find((item) => item.id === context.apptTypeId)
+            .name
+        ];
+      let expertise = this.state.list.find(
+        (item) => item.id === context.expertTypeId
+      ).name;
+      this.setState(
+        {
+          votre: {
+            type: type,
+            expertise: expertise,
+            duree: context.minutes,
+            date: moment(context.bookSlotVO.dateNo).format('YYYY-MM-DD'),
+            heure: moment(
+              moment(context.bookSlotVO.startTime, 'YYYY-MM-DD HH:mm')
+            ).format('HH:mm')
+          },
+          appointmentVO: {
+            ...this.state.appointmentVO,
+            id: context.id,
+            apptNo: context.apptNo
+          },
+          params: {
+            ...this.state.params,
+            appointmentTypeId: context.apptTypeId,
+            minutes: context.minutes,
+            expertTypeId: context.expertTypeId
+          },
+          bookSlotVO: {
+            ...this.state.bookSlotVO,
+            ...context.bookSlotVO
+          }
+        },
+        () => {
+          this.getPirx(context.expertTypeId, context.minutes);
+        }
+      );
+    }
+  };
+  getPirx = async (expertTypeId, minutes) => {
+    const { code, context } = await postQueryPrice({
+      expertTypeId,
+      serviceTypeId: 6
+    });
+    if (code === 'K-000000') {
+      let timeList = this.state.timeList.map((item) => {
+        let _temp = context.priceVOs.find(
+          (items) => items.duration === item.duration
+        );
+        return { ...item, ..._temp };
+      });
+      let prix = timeList.find((item) => item.duration === minutes).goodsInfoVO
+        .marketPrice;
+      this.setState(
+        {
+          timeList,
+          votre: {
+            ...this.state.votre,
+            prix
+          },
+          isShow: false
+        },
+        () => {
+          this.handleGotoFour();
+        }
+      );
+    }
+  };
   hanldeOpen = () => {
     this.setState({
       visible: true
@@ -154,15 +234,11 @@ class Pcexperts extends React.Component {
   // 点击咨询
   handleOneShow = async () => {
     // 线上
-    const {
-      code: code1,
-      context: apptTypeList,
-      message: message1
-    } = await gitDict({
+    const { context: apptTypeList } = await gitDict({
       type: 'appointment_type'
     });
     // 专家
-    const { code: code2, context: list, message: message2 } = await gitDict({
+    const { context: list } = await gitDict({
       type: 'expert_type'
     });
     let expertTypeList = list.goodsDictionaryVOS.map((item) => {
@@ -178,12 +254,33 @@ class Pcexperts extends React.Component {
       oneShow: true
     });
   };
-  // 第二步选择专家
-  handleActive = (index) => {
-    this.setState({
-      activeOne: index
+
+  setList = async (id) => {
+    // 线上
+    const { context: apptTypeList } = await gitDict({
+      type: 'appointment_type'
     });
+    // 专家
+    const { context: list } = await gitDict({
+      type: 'expert_type'
+    });
+    let expertTypeList = list.goodsDictionaryVOS.map((item) => {
+      let _temp = this.state.list.find(
+        (items) => items.valueEn === item.valueEn
+      );
+      return { ...item, ..._temp };
+    });
+    this.setState(
+      {
+        apptTypeList: apptTypeList.goodsDictionaryVOS,
+        list: expertTypeList
+      },
+      () => {
+        this.getDeatalData(id);
+      }
+    );
   };
+
   // 第二步返回上一步
   handleReturnOne = () => {
     this.setState({
@@ -240,7 +337,31 @@ class Pcexperts extends React.Component {
   };
   // 最终跳转
   handleGoto = () => {
-    this.postSave();
+    let id = window.location.search.split('=')[1];
+    if (id) {
+      this.postUpdate(
+        {
+          apptNo: this.state.appointmentVO.apptNo,
+          id: this.state.appointmentVO.id,
+          apptTypeId: this.state.params.appointmentTypeId,
+          appointmentTypeId: this.state.params.appointmentTypeId,
+          expertTypeId: this.state.params.expertTypeId,
+          consumerName: this.state.userInfo?.contactName || undefined,
+          consumerFirstName: this.state.userInfo?.firstName || undefined,
+          consumerLastName: this.state.userInfo?.lastName || undefined,
+          consumerEmail: this.state.userInfo?.email || undefined,
+          consumerPhone: this.state.userInfo?.contactPhone || undefined,
+          customerId: this.state.userInfo?.customerId || undefined,
+          customerLevelId: this.state.userInfo?.customerId ? 234 : 233, // 233未登录 234登陆
+          bookSlotVO: this.state.bookSlotVO,
+          minutes: this.state.params.minutes,
+          serviceTypeId: 6
+        },
+        id
+      );
+    } else {
+      this.postSave();
+    }
   };
   postSave = async () => {
     const { context } = await postSave({
@@ -249,8 +370,8 @@ class Pcexperts extends React.Component {
       consumerName: this.state.userInfo?.contactName || undefined,
       consumerFirstName: this.state.userInfo?.firstName || undefined,
       consumerLastName: this.state.userInfo?.lastName || undefined,
-      consumerEmail: this.state.userInfo?.communicationEmail || undefined,
-      consumerPhone: this.state.userInfo?.communicationPhone || undefined,
+      consumerEmail: this.state.userInfo?.email || undefined,
+      consumerPhone: this.state.userInfo?.contactPhone || undefined,
       customerId: this.state.userInfo?.customerId || undefined,
       customerLevelId: this.state.userInfo?.customerId ? 234 : 233, // 233未登录 234登陆
       bookSlotVO: this.state.bookSlotVO,
@@ -275,29 +396,19 @@ class Pcexperts extends React.Component {
     }
   };
   // 选择专家
-  handleActiveBut = (index, id, name, key, key1, key2, value, key3) => {
+  handleActiveBut = (id, name, key, key1, value, key2) => {
     this.setState({
       params: {
         ...this.state.params,
         [key]: id
       },
-      [key1]: index,
       votre: {
         ...this.state.votre,
-        [key2]: name,
-        [key3]: value
+        [key1]: name,
+        [key2]: value
       }
     });
   };
-
-  change = (val, num) => {
-    this.setState({
-      activeKey: num === 1 ? val : '',
-      activeKey1: num === 2 ? val : '',
-      activeKey2: num === 3 ? val : ''
-    });
-  };
-
   queryDate = (type = false, chooseData = {}) => {
     setTimeout(async () => {
       const resources = await new Promise(async (reslove) => {
@@ -342,6 +453,8 @@ class Pcexperts extends React.Component {
                       _temp.minuteSlotVOList
                     );
                   }
+                } else {
+                  _resources.push(_temp);
                 }
               });
             }
@@ -379,10 +492,7 @@ class Pcexperts extends React.Component {
     });
   };
   handleUpdate = (params) => {
-    this.postUpdate(params);
-  };
-  postUpdate = async (params) => {
-    const { code } = await postUpdate({
+    this.postUpdate({
       apptNo: this.state.appointmentVO.apptNo,
       id: this.state.appointmentVO.id,
       apptTypeId: this.state.params.appointmentTypeId,
@@ -399,7 +509,14 @@ class Pcexperts extends React.Component {
       consumerPhone: params.phone,
       serviceTypeId: 6
     });
+  };
+  postUpdate = async (params, id) => {
+    const { code } = await postUpdate(params);
     if (code === 'K-000000') {
+      if (id) {
+        sessionItemRoyal.set('appointment-no', this.state.appointmentVO.apptNo);
+        sessionItemRoyal.set('isChangeAppoint', true);
+      }
       this.props.history.push('/checkout');
     }
   };
@@ -459,16 +576,14 @@ class Pcexperts extends React.Component {
                         key={index}
                         onClick={() =>
                           this.handleActiveBut(
-                            index,
                             item.id,
                             appointName[item.name],
                             'appointmentTypeId',
-                            'butIndex',
                             'type'
                           )
                         }
                         className={`text-base font-medium p-3 rounded-full mr-4 ${
-                          this.state.butIndex === index
+                          this.state.params.appointmentTypeId === item.id
                             ? 'bg-red-600 text-white'
                             : 'bg-gray-300 text-white'
                         }`}
@@ -494,18 +609,16 @@ class Pcexperts extends React.Component {
                     key={index}
                     onClick={() =>
                       this.handleActiveBut(
-                        index,
                         item.id,
                         item.name,
                         'expertTypeId',
-                        'activeOne',
                         'expertise'
                       )
                     }
                     className={index === 1 ? 'ul-li mglr40' : 'ul-li'}
                     style={{
                       boxShadow:
-                        this.state.activeOne === index
+                        this.state.params.expertTypeId === item.id
                           ? ' 0px 0px 0px 2px #E2001A'
                           : '',
                       cursor: 'pointer'
@@ -532,7 +645,8 @@ class Pcexperts extends React.Component {
               </button>
               <button
                 disabled={
-                  this.state.activeOne == null || this.state.butIndex === null
+                  this.state.params.appointmentTypeId == null ||
+                  this.state.params.expertTypeId === null
                 }
                 onClick={this.handleGotoThree}
                 className="rc-btn rc-btn--one  rc-margin-bottom--xs"
@@ -595,11 +709,9 @@ class Pcexperts extends React.Component {
                     key={index}
                     onClick={() =>
                       this.handleActiveBut(
-                        index,
                         item.duration,
                         item.duration,
                         'minutes',
-                        'timeIndex',
                         'duree',
                         item.goodsInfoVO.marketPrice,
                         'prix'
@@ -608,7 +720,7 @@ class Pcexperts extends React.Component {
                     className={index === 1 ? 'ul-li mglr40 pd10' : 'ul-li pd10'}
                     style={{
                       boxShadow:
-                        this.state.timeIndex === index
+                        this.state.params.minutes === item.duration
                           ? ' 0px 0px 0px 2px #E2001A'
                           : '0px 0px 0px 2px #f0f0f0'
                     }}
@@ -636,7 +748,7 @@ class Pcexperts extends React.Component {
                 Retour à l'étape précédente
               </button>
               <button
-                disabled={this.state.timeIndex == null}
+                disabled={this.state.params.minutes == null}
                 onClick={this.handleGotoFour}
                 className="rc-btn rc-btn--one  rc-margin-bottom--xs"
                 style={{
