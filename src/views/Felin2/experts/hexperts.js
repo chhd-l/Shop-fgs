@@ -407,9 +407,9 @@ class Hcexperts extends React.Component {
         }
       },
       () => {
-        if (key2 === 'expertise') {
+        if (key1 === 'expertise') {
           this.handleGotoThree();
-        } else if (key2 === 'duree') {
+        } else if (key1 === 'duree') {
           this.handleGotoFour();
         }
       }
