@@ -79,18 +79,12 @@ class Hcexperts extends React.Component {
           text: 'Prenez le temps de vous offrir une session complète.'
         }
       ],
-      activeOne: null,
-      timeIndex: null,
-      butIndex: null,
       isShow: true,
       oneShow: false,
       twoShow: false,
       threeShow: false,
       fourShow: false,
       fiveShow: false,
-      activeKey: '',
-      activeKey1: '',
-      activeKey2: '',
       maxHeight: null,
       activeMaxKey: null,
       apptTypeList: [], // 线上线下
@@ -123,7 +117,6 @@ class Hcexperts extends React.Component {
 
   componentDidMount() {
     let userInfo = this.props.loginStore.userInfo;
-    console.log(userInfo);
     let id = window.location.search.split('=')[1];
     if (
       id &&
@@ -277,12 +270,7 @@ class Hcexperts extends React.Component {
       oneShow: true
     });
   };
-  // 第二步选择专家
-  handleActive = (index) => {
-    this.setState({
-      activeOne: index
-    });
-  };
+
   // 第一步返回上一步
   handleReturn = () => {
     this.setState({
@@ -405,18 +393,17 @@ class Hcexperts extends React.Component {
     }
   };
   // 选择专家
-  handleActiveBut = (index, id, name, key, key1, key2, value, key3) => {
+  handleActiveBut = (id, name, key, key1, value, key2) => {
     this.setState(
       {
         params: {
           ...this.state.params,
           [key]: id
         },
-        [key1]: index,
         votre: {
           ...this.state.votre,
-          [key2]: name,
-          [key3]: value
+          [key1]: name,
+          [key2]: value
         }
       },
       () => {
@@ -427,14 +414,6 @@ class Hcexperts extends React.Component {
         }
       }
     );
-  };
-
-  change = (val, num) => {
-    this.setState({
-      activeKey: num === 1 ? val : '',
-      activeKey1: num === 2 ? val : '',
-      activeKey2: num === 3 ? val : ''
-    });
   };
 
   queryDate = (type = false, chooseData = {}) => {
@@ -662,11 +641,9 @@ class Hcexperts extends React.Component {
                     key={index}
                     onClick={() => {
                       this.handleActiveBut(
-                        index,
                         item.id,
                         appointName[item.name],
                         'appointmentTypeId',
-                        'butIndex',
                         'type'
                       );
                       this.setState({
@@ -713,11 +690,9 @@ class Hcexperts extends React.Component {
                   <button
                     onClick={() => {
                       this.handleActiveBut(
-                        index,
                         item.id,
                         item.name,
                         'expertTypeId',
-                        'activeOne',
                         'expertise'
                       );
                     }}
@@ -767,11 +742,9 @@ class Hcexperts extends React.Component {
                     key={index}
                     onClick={() =>
                       this.handleActiveBut(
-                        index,
                         item.duration,
                         item.duration,
                         'minutes',
-                        'timeIndex',
                         'duree',
                         item.goodsInfoVO.marketPrice,
                         'prix'

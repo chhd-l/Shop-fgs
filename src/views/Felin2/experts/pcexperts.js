@@ -27,7 +27,6 @@ import {
 } from '@/api/felin';
 import moment from 'moment';
 import LoginButton from '@/components/LoginButton';
-import data from './index.json';
 import { getDeviceType } from '../../../utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
