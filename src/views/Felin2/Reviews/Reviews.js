@@ -288,9 +288,9 @@ class Reviews extends React.Component {
                         {item.title ? (
                           <div className="reviews-item-title">{item.title}</div>
                         ) : null}
-                        {item.evaluateAnswer ? (
+                        {item.description ? (
                           <div className="reviews-item-content">
-                            {item.evaluateAnswer}
+                            {item.description}
                           </div>
                         ) : null}
                         <div className="reviews-item-imgs">
