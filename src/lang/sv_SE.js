@@ -86,7 +86,7 @@ const en_US = {
   'account.requiredFields': 'Obligatoriska fält',
   'account.requiredFields2': 'Obligatoriska fält',
   'account.shippingAddressTip': 'Create and edit your shipping address.',
-  'account.specialNeeds': 'Special Needs',
+  'account.specialNeeds': 'Speciella behov',
   'account.startAutoShipping': 'Mer information',
   'account.step': 'Step',
   'account.sterilized': 'Is your pet sterilized?',
@@ -144,7 +144,7 @@ const en_US = {
   // *12 shipments engagement
   'smartFeederSubscription.learnMore': 'Apprendre encore plus',
   //times
-  'subscription.pause': 'Pause',
+  'subscription.pause': 'Paus',
   //is an automatic feeder designed to ensure your pet gets the right amount of food at the right time, even when you’re not home.
   'smartFeederSubscription.petDispenser': 'Le distributeur PetKit',
   //pause
@@ -433,11 +433,11 @@ const en_US = {
   detail: '[Show more]',
   'detail.answer':
     'Våra rådgivare är riktiga experter och passionerade. De står till ditt förfogande för att svara på alla önskemål.',
-  'detail.email': 'By email',
+  'detail.email': 'Via e-post',
   'detail.packagingDesc':
     'Our packaging / products may be subject to a sorting instruction',
   'detail.question': 'Har du fortfarande frågor om denna produkt?',
-  'detail.telephone': 'By telephone',
+  'detail.telephone': 'Per telefon',
   'details.addToCart': 'Prenumerera',
   'details.availability': 'Availability',
   'details.beneficialFeatures': 'Beneficial features',
@@ -1068,7 +1068,7 @@ const en_US = {
   'payment.tomorrow': 'tomorrow',
 
   'payment.homeDelivery': 'Hemleverans',
-  'payment.pickupDelivery': 'Pick up delivery',
+  'payment.pickupDelivery': 'Hämta leverans',
 
   'payment.staleDate': 'Please repeat the date and time of delivery',
 
@@ -1395,7 +1395,7 @@ const en_US = {
   startTypingToSearch: 'Start typing to search',
   sterilized: 'Kastrerad',
   submit: 'Submit',
-  subscribe: 'Subscribe',
+  subscribe: 'Prenumerera',
   clubSubscribe: 'Subscribe',
   subscribeDiscount: 'Subscription Save Discount',
   subscription: 'Prenumeration',
@@ -1544,7 +1544,7 @@ const en_US = {
   'payment.returnToCardList': 'Return to card list',
   'payment.codTip': 'I want to pay by cash or card upon receipt',
   'payment.codConfirmTip': 'Payment upon receipt',
-  'Special Need': 'Special Needs',
+  'Special Need': 'Speciella behov',
   'orderStatus.COMPLETED': 'Completed',
   'subscription.see_more': 'See other Subscription',
   'bindPrescriber.modal.title':
@@ -1863,6 +1863,8 @@ const en_US = {
   'header.User.pets': 'Mina husdjur',
   'header.User.myOrders': 'Mina beställningar',
   'header.User.mySubscriptions': 'Mina prenumerationer',
-  'header.User.logOut': 'Logga ut'
+  'header.User.logOut': 'Logga ut',
+  'payment.addPickup': 'Välj ett upphämtningsställe',
+  Weight: 'Vikt'
 };
 export default en_US;
