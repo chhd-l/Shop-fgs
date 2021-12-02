@@ -3664,7 +3664,7 @@ class Payment extends React.Component {
     };
     const paymentMethodTitleForPrepare = (
       <div className="ml-custom mr-custom d-flex justify-content-between align-items-center">
-        <h5 className="mb-0">
+        <h5 className="mb-0 text-xl">
           <em
             className="rc-icon rc-payment--sm rc-iconography inlineblock"
             style={{
@@ -3680,7 +3680,7 @@ class Payment extends React.Component {
 
     const paymentMethodTitleForEdit = (
       <div className="ml-custom mr-custom d-flex justify-content-between align-items-center red">
-        <h5 className="mb-0">
+        <h5 className="mb-0 text-xl">
           <em
             className="rc-icon rc-payment--sm rc-brand1 inlineblock"
             style={{
@@ -3696,7 +3696,7 @@ class Payment extends React.Component {
 
     const paymentMethodTitleForCompeleted = (
       <div className="ml-custom mr-custom d-flex justify-content-between align-items-center">
-        <h5 className="mb-0">
+        <h5 className="mb-0 text-xl">
           <em
             className="rc-icon rc-payment--sm rc-iconography inlineblock"
             style={{
@@ -3753,7 +3753,7 @@ class Payment extends React.Component {
             {/*checkout页面所有国家都不用流程图*/}
             <div className="rc-padding--sm rc-padding-top--none">
               <div className="title">
-                <h4>
+                <h4 className="text-2xl">
                   <FormattedMessage id="payment.checkout" />
                 </h4>
                 <p>
@@ -3808,7 +3808,7 @@ class Payment extends React.Component {
                 {checkoutStore.petFlag && checkoutStore.AuditData.length > 0 && (
                   <div className="card-panel checkout--padding pl-0 pr-0 rc-bg-colour--brand3 rounded pb-0">
                     <h5
-                      className="ml-custom mr-custom"
+                      className="ml-custom mr-custom text-xl"
                       style={{ overflow: 'hidden' }}
                     >
                       <em
