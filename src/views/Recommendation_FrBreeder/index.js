@@ -50,7 +50,10 @@ const pageLink = window.location.href;
 
 let advantageArr = [
   { img: shippingImg, text: 'Livraison offerte et automatique' },
-  { img: discountImg, text: '10% de réduction pour toute commande<sup>1</sup>' },
+  {
+    img: discountImg,
+    text: '10% de réduction pour toute commande<sup>1</sup>'
+  },
   { img: petadviserimg, text: 'Un conseiller à votre écoute' },
   { img: giftsImg, text: 'Un kit de bienvenue et des cadeaux exclusifs' },
   { img: supportImg, text: 'Un accompagnement pédagogique individualisé' },
@@ -852,10 +855,14 @@ class Recommendation extends React.Component {
     window.removeEventListener('copy', copy);
   };
   taggingDom = () => (
-    <div className="tagging-wrap" style={{paddingLeft: '2px'}}>
+    <div className="tagging-wrap" style={{ paddingLeft: '2px' }}>
       <div className="tagging-text">
-        <div style={{ fontSize: '1.37rem', fontWeight:'500' }}>– 5€ à -20€</div>
-        <div style={{ fontSize: '0.81rem', lineHeight:'0.5' }}>offre de bienvenue*</div>
+        <div style={{ fontSize: '1.37rem', fontWeight: '500' }}>
+          – 5€ à -20€
+        </div>
+        <div style={{ fontSize: '0.81rem', lineHeight: '0.5' }}>
+          offre de bienvenue*
+        </div>
       </div>
     </div>
   );
@@ -1141,7 +1148,7 @@ class Recommendation extends React.Component {
                       <h5>Découvrez les avantages du CLUB Royal Canin</h5>
                       <p>
                         Un abonnement{' '}
-                        <span style={{ color: '#333',fontWeight: '500' }}>
+                        <span style={{ color: '#333', fontWeight: '500' }}>
                           flexible et sans engagement
                         </span>
                       </p>
@@ -1166,8 +1173,7 @@ class Recommendation extends React.Component {
                                 <span
                                   dangerouslySetInnerHTML={{ __html: el.text }}
                                   style={{ display: 'inline-block', flex: 1 }}
-                                >
-                                </span>
+                                ></span>
                               </div>
                             ))}
                           </div>

@@ -831,7 +831,7 @@ class AccountOrders extends React.Component {
                 />
               }
             />
-            <hr />
+            <hr className="my-4" />
           </>
         );
         break;
@@ -849,7 +849,7 @@ class AccountOrders extends React.Component {
               titleColor="text-warning"
               tip={<FormattedMessage id="order.toBeDeliveredTip" />}
             />
-            <hr />
+            <hr className="my-4" />
           </>
         );
         break;
@@ -919,7 +919,7 @@ class AccountOrders extends React.Component {
               }
               moreTip={this.renderLogitiscsJSX()}
             />
-            <hr />
+            <hr className="my-4" />
           </>
         );
         break;
@@ -968,7 +968,7 @@ class AccountOrders extends React.Component {
               titleColor="text-info"
               tip={<FormattedMessage id="orderStatus.INITTip" />}
             />
-            <hr />
+            <hr className="my-4" />
           </>
         );
         break;
@@ -987,7 +987,7 @@ class AccountOrders extends React.Component {
               titleColor="text-warning"
               tip={<FormattedMessage id="felinOrder.servicePaidTip" />}
             />
-            <hr />
+            <hr className="my-4" />
           </>
         );
         break;
@@ -1004,7 +1004,7 @@ class AccountOrders extends React.Component {
               title={normalProgressList[currentProgerssIndex]?.flowStateDesc}
               tip={<FormattedMessage id="order.completeTip" />}
             />
-            <hr />
+            <hr className="my-4" />
           </>
         );
         break;

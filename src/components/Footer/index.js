@@ -14,7 +14,7 @@ import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
-const cur_menubar = menubar[window.__.env.REACT_APP_COUNTRY] || [];
+const cur_menubar = menubar[window.__.env.REACT_APP_COUNTRY] || menubar['us'];
 const cur_contactInfo = contactInfo[window.__.env.REACT_APP_COUNTRY] || null;
 @inject('configStore', 'loginStore')
 @injectIntl
