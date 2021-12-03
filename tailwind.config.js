@@ -24,11 +24,13 @@ module.exports = {
     extend: {
       colors: {
         'rc-red': 'var(--rc-red)',
-        'orange':'var(--orange)'
+        'orange':'var(--orange)',
+        'green':'var(--green)'
       },
       textColor:{
         'rc-red': 'var(--rc-red)',
-        'orange':'var(--orange)'
+        'orange':'var(--orange)',
+        'green':'var(--green)'
       },
       minHeight: {
         'auto':'auto'

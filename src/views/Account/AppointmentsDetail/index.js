@@ -202,6 +202,7 @@ class AccountOrders extends React.Component {
         {/*felin订单cancel appoint*/}
         {details.canCancelAppoint ? (
           <span
+            className="inline-flex items-center"
             onClick={() => {
               this.setState({ cancelAppointModalVisible: true });
             }}
@@ -212,8 +213,8 @@ class AccountOrders extends React.Component {
         ) : null}
         {/*felin订单change appoint*/}
         {details.canChangeAppoint ? (
-          <span className="ml-4 md:ml-8">
-            <span className="iconfont iconcancel text-rc-red mr-2" />
+          <span className="ml-4 md:ml-8 inline-flex items-center">
+            <span className="iconfont iconedit-data text-green mr-2" />
             <FormattedMessage id="appointment.reSchedule">
               {(txt) => (
                 <Link
@@ -280,7 +281,7 @@ class AccountOrders extends React.Component {
                       ) : details ? (
                         <div className="card-body p-0">
                           {this.renderFelineHeadTip()}
-                          <div className="row m-0 ml-2 mr-2 md:ml-0 md:mr-0">
+                          <div className="row mx-2 md:mx-0 mt-4">
                             <div className="col-12 flex md:flex-row flex-col border table-header rounded mt-3 md:mt-0 pt-3 pb-2 px-1 md:px-4 md:py-3">
                               <div className="col-md-3">
                                 <FormattedMessage id="appointment.appointmentPlacedOn" />
