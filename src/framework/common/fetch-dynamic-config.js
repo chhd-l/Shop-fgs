@@ -12,12 +12,12 @@ const fetchDynamicConfig = async () => {
       configType: param?.isHub ? 'baseHubConfig' : 'baseConfig'
     });
     const tmpCfg = res?.context?.context
-      ? decryptString(res?.context?.context)
+      ? JSON.parse(decryptString(res?.context?.context))
       : {};
 
     // 本地开发环境，需要额外加载本地ENV_LOCAL
     envVal = Object.assign(tmpCfg);
-    console.log(11111333, decryptString(res?.context?.context));
+    console.log(11111333, JSON.parse(decryptString(res?.context?.context)));
     if (process.env.NODE_ENV === 'development') {
       envVal = Object.assign(envVal, ENV_LOCAL);
     }

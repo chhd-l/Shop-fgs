@@ -1,12 +1,9 @@
 import { AES, enc, mode, pad } from 'crypto-js';
 
 // 字符串解密
-function decryptString(str) {
-  var key = enc.Utf8.parse('');
-  var decrypt = AES.decrypt(str, 'AYHRJqH1zrfgWuKL3mN5xQQhSs7Srd62', {
-    mode: mode.ECB,
-    padding: pad.Pkcs7
-  });
+function decryptString(word) {
+  var key = enc.Utf8.parse('AYHRJqH1zrfgWuKL3mN5xQQhSs7Srd62');
+  var decrypt = AES.decrypt(word, key, { mode: mode.ECB, padding: pad.Pkcs7 });
   return enc.Utf8.stringify(decrypt).toString();
 }
 
