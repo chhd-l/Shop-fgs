@@ -351,7 +351,7 @@ class Pcexperts extends React.Component {
           consumerEmail: this.state.userInfo?.email || undefined,
           consumerPhone: this.state.userInfo?.contactPhone || undefined,
           customerId: this.state.userInfo?.customerId || undefined,
-          customerLevelId: this.state.userInfo?.customerId ? 234 : 233, // 233未登录 234登陆
+          customerLevelId: 234, // 233未登录 234登陆
           bookSlotVO: this.state.bookSlotVO,
           minutes: this.state.params.minutes,
           serviceTypeId: 6
