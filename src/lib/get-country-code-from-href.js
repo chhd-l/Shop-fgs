@@ -45,7 +45,7 @@ const getCountryCodeFromHref = () => {
 
   // 此mapping关系暂时为之，后续讨论标准国家码
   return {
-    countryLink: { ru: 'RU', fr: 'FR' }[countryCode],
+    countryCode: { ru: 'RU', fr: 'FR' }[countryLink],
     isHub,
     countryLink
   };
