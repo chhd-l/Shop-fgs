@@ -1491,7 +1491,7 @@ class AddressList extends React.Component {
                         />
 
                         {/* 分割线 */}
-                        <hr className="account-info-hr-border-color" />
+                        <hr className="account-info-hr-border-color my-4" />
 
                         {/* 取消和保存按钮 */}
                         <div className="text-right">

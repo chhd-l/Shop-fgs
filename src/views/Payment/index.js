@@ -3745,10 +3745,10 @@ class Payment extends React.Component {
             {/*checkout页面所有国家都不用流程图*/}
             <div className="rc-padding--sm rc-padding-top--none">
               <div className="title">
-                <h4>
+                <h4 className="text-2xl">
                   <FormattedMessage id="payment.checkout" />
                 </h4>
-                <p>
+                <p className="mb-0">
                   <FormattedMessage
                     id="checkoutTip"
                     values={{
