@@ -221,7 +221,7 @@ class ClinicEditForm extends React.Component {
             </FormattedMessage>
           </div>
           <hr
-            className={classNames('account-info-hr-border-color', {
+            className={classNames('account-info-hr-border-color my-4', {
               'border-0': editFormVisible
             })}
           />
@@ -282,9 +282,10 @@ class ClinicEditForm extends React.Component {
                     (res.context && res.context.prescriberVo) || [];
                   if (prescriber.length === 0 && prescriberSelectTyped === 1) {
                     this.setState({
-                      errorMsg: this.props.intl.messages[
-                        'myAccount.dePrescriberCodeErrMsg'
-                      ]
+                      errorMsg:
+                        this.props.intl.messages[
+                          'myAccount.dePrescriberCodeErrMsg'
+                        ]
                     });
                     setTimeout(() => {
                       this.setState({
