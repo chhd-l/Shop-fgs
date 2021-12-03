@@ -220,7 +220,7 @@ class Pet extends React.Component {
                     </div>
                   ) : (
                     <div>
-                      <p className="title">
+                      <p className="title mb-4">
                         <FormattedMessage id="pet.petListTitle" />
                       </p>
                       {isMobile
@@ -336,10 +336,7 @@ class Pet extends React.Component {
                           display: 'block'
                         }}
                       >
-                        <span
-                          className="rc-icon rc-plus--xs rc-iconography plus-icon mt-1"
-                          style={{ fontSize: '42px' }}
-                        />{' '}
+                        <span className="iconfont iconjia mr-1 font-bold" />
                         <span>
                           <FormattedMessage id="pet.addNewPet" />
                         </span>

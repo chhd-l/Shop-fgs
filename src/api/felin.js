@@ -1,5 +1,13 @@
 import axios from '@/utils/request';
+import api from './order';
 
+export function getAppointByApptNo(parameter) {
+  return axios({
+    url: '/appt/findForUpdate',
+    method: 'post',
+    data: parameter
+  });
+}
 export function queryDate(params = {}) {
   return axios({
     url: '/resourceDatePlan/queryDate',

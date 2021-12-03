@@ -183,7 +183,7 @@ class ClinicEditForm extends React.Component {
         <div className="userContactPreferenceInfo">
           <div className="profileSubFormTitle pl-3 pr-3 pt-3">
             <h5
-              className="mb-0"
+              className="mb-0 text-xl"
               style={{ display: curPageAtCover ? 'block' : 'none' }}
             >
               <svg
@@ -196,7 +196,7 @@ class ClinicEditForm extends React.Component {
               <FormattedMessage id="account.clinicTitle2" />
             </h5>
             <h5
-              className="ui-cursor-pointer"
+              className="ui-cursor-pointer text-xl"
               style={{ display: curPageAtCover ? 'none' : 'block' }}
               onClick={this.handleClickGoBack}
             >
@@ -221,7 +221,7 @@ class ClinicEditForm extends React.Component {
             </FormattedMessage>
           </div>
           <hr
-            className={classNames('account-info-hr-border-color', {
+            className={classNames('account-info-hr-border-color my-4', {
               'border-0': editFormVisible
             })}
           />
@@ -282,9 +282,10 @@ class ClinicEditForm extends React.Component {
                     (res.context && res.context.prescriberVo) || [];
                   if (prescriber.length === 0 && prescriberSelectTyped === 1) {
                     this.setState({
-                      errorMsg: this.props.intl.messages[
-                        'myAccount.dePrescriberCodeErrMsg'
-                      ]
+                      errorMsg:
+                        this.props.intl.messages[
+                          'myAccount.dePrescriberCodeErrMsg'
+                        ]
                     });
                     setTimeout(() => {
                       this.setState({

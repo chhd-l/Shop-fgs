@@ -807,7 +807,7 @@ class AddressList extends React.Component {
             <div className="personalInfo" id="profile-personal-info">
               {/* 地址模块标题 */}
               <div className="profileSubFormTitle pl-3 pr-3 pt-3">
-                <h5 className="mb-0">
+                <h5 className="mb-0 text-xl">
                   <svg
                     className="svg-icon account-info-icon align-middle mr-3 ml-1"
                     aria-hidden="true"
@@ -819,7 +819,7 @@ class AddressList extends React.Component {
               </div>
 
               {/* 分割线 */}
-              <hr className="account-info-hr-border-color" />
+              <hr className="account-info-hr-border-color my-4" />
 
               {/* 地址部分 */}
               <div className="pb-3 pl-3 pr-3">
@@ -968,7 +968,7 @@ class AddressList extends React.Component {
                     />
 
                     {/* 分割线 */}
-                    <hr className="account-info-hr-border-color" />
+                    <hr className="account-info-hr-border-color my-4" />
 
                     {/* 取消和保存按钮 */}
                     <div className="text-right">

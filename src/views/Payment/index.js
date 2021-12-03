@@ -3756,7 +3756,7 @@ class Payment extends React.Component {
                 <h4 className="text-2xl">
                   <FormattedMessage id="payment.checkout" />
                 </h4>
-                <p>
+                <p className="mb-0">
                   <FormattedMessage
                     id="checkoutTip"
                     values={{
