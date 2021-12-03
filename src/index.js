@@ -6,6 +6,7 @@ import '@/assets/iconfont/iconfont.css';
 import '@/assets/css/global.css';
 import '@/utils/global';
 import './index.css';
+import '@/env/init';
 
 // import App from './App.jsx';
 
