@@ -526,10 +526,10 @@ class Pcexperts extends React.Component {
       Offline: 'Sur place'
     };
     return (
-      <div className="pc-block">
+      <div className="pc-block" id="pcexperts">
         {/* 默认页面 */}
         {this.state.isShow ? (
-          <div id="pcexperts">
+          <div>
             <div className="size24 txt-centr font-500 visit-text">
               Réservez un rendez-vous avec un de nos experts
             </div>
