@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -23,11 +23,7 @@ import { IntlProvider } from 'react-intl';
 import { Provider } from 'mobx-react';
 import loadable from '@/lib/loadable-component';
 
-import './env';
 import oktaConfig from './oktaConfig';
-import '@/assets/iconfont/iconfont.css';
-import '@/assets/css/global.css';
-import '@/utils/global';
 import stores from './store';
 import { PDP_Regex } from '@/utils/constant';
 import { redirectFun } from '@/redirect/utils';
