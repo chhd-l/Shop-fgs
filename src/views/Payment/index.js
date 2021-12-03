@@ -79,6 +79,7 @@ import CyberPayment from './PaymentMethod/Cyber';
 import { querySurveyContent } from '@/api/cart';
 import felinAddr from './Address/FelinOfflineAddress';
 import { funcUrl } from '../../lib/url-utils';
+import { postUpdateUser } from '../../api/felin';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -434,6 +435,7 @@ class Payment extends React.Component {
       }
 
       if (appointNo) {
+        await this.setFelinAppointInfo();
         await this.queryAppointInfo();
       }
 
@@ -894,6 +896,19 @@ class Payment extends React.Component {
       this.fingerprint = fingerprint;
     }
   };
+  // 更新felin预约的用户信息
+
+  async setFelinAppointInfo() {
+    await postUpdateUser({
+      apptNo: this.state.appointNo,
+      consumerName: this.userInfo?.contactName,
+      consumerFirstName: this.userInfo?.firstName,
+      consumerLastName: this.userInfo?.lastName,
+      consumerEmail: this.userInfo?.email,
+      consumerPhone: this.userInfo?.contactPhone
+    });
+  }
+
   // 获取订单详细
   queryOrderDetails() {
     getOrderDetails(this.state.tidList[0]).then(async (res) => {
