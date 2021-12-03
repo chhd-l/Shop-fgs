@@ -282,9 +282,10 @@ class ClinicEditForm extends React.Component {
                     (res.context && res.context.prescriberVo) || [];
                   if (prescriber.length === 0 && prescriberSelectTyped === 1) {
                     this.setState({
-                      errorMsg: this.props.intl.messages[
-                        'myAccount.dePrescriberCodeErrMsg'
-                      ]
+                      errorMsg:
+                        this.props.intl.messages[
+                          'myAccount.dePrescriberCodeErrMsg'
+                        ]
                     });
                     setTimeout(() => {
                       this.setState({

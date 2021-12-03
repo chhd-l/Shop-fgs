@@ -394,7 +394,7 @@ class List extends React.Component {
     };
     if (
       window.__.env.REACT_APP_COUNTRY === 'tr' &&
-      canonicalforRuSpecialPage[pathname].includes(search)
+      canonicalforRuSpecialPage[pathname]?.includes(search)
     ) {
       this.setState({ canonicalforTRSpecialPageSearchFlag: true });
     }

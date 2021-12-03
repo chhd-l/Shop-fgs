@@ -1,23 +1,15 @@
-.pcgotobut{
+.pc-block{
   display: block!important;
 }
-.hgotobut{
+.h-block{
   display: none!important;
 }
 
-.pcexperts{
-  display: block;
-}
-.hexperts{
-  display: none;
-}
 .header-content {
   position: relative;
   width: 100%;
   height: 30.3rem;
   color: #ffffff;
-  background: url("image/header.png") no-repeat;
-  background-size: 100% 100%;
   img {
     width: 100%;
     height: 30.3rem !important;
@@ -81,8 +73,6 @@
 
 .time-img{
   width: 100%;
-  background: url("image/img.png") no-repeat;
-  background-size: 100%;
   height: 21.0625rem;
   margin-bottom: 2.5rem;
 }
@@ -172,32 +162,36 @@
 }
 
 .comment {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 10rem;
+  max-width: 1044px;
+  margin: 0 auto;
+  padding-bottom: 8rem;
+}
+
+.comment-slider-box {
+  display: grid;
+  grid-template-columns: 500px 1fr;
+  grid-gap: 44px;
+  width: 100%;
 }
 
 .comment-slider {
-  width: 30rem;
-  height: 17rem;
+  width: 100%;
   font-size: 1.875rem;
-  color: #000000;
 
   .rate-cont {
     display: flex;
     justify-content: flex-start;
     align-items: center;
   }
-}
 
-.comment-text {
-  min-height: 8.4375rem;
-  font-size: 1.875rem;
-  color: #000000;
-  overflow: hidden; //超出部分隐藏
-  display: -webkit-box; //将对象作为弹性伸缩盒子模型显示
-  -webkit-line-clamp: 3; //可以显示的行数
-  -webkit-box-orient: vertical; //设置或检索伸缩盒对象的子元素的排列方式
+  .comment-text {
+    font-size: 1.875rem;
+    color: #000000;
+    overflow: hidden; //超出部分隐藏
+    display: -webkit-box; //将对象作为弹性伸缩盒子模型显示
+    -webkit-line-clamp: 3; //可以显示的行数
+    -webkit-box-orient: vertical; //设置或检索伸缩盒对象的子元素的排列方式
+  }
 }
 
 .js-center {
@@ -213,8 +207,8 @@
 }
 .nos-img-box{
   height: 21rem;
-  background: url("image/nos.png") no-repeat;
   background-size: 100%;
+  width: 100%;
 }
 
 .nos-img {
@@ -262,6 +256,12 @@
 .Faq-cont {
   text-align: center;
   margin-bottom: 2.5rem;
+  .title{
+    font-size: 1.5rem;
+  }
+  .tip{
+    font-size: 1rem;
+  }
 }
 
 .faq-coll {
@@ -361,7 +361,35 @@
 }
 .conseiller{
   display: block;
+  padding: 0 7.375rem;
+  margin-bottom: 3.75rem;
 }
 .conseiller-two{
   display: none;
+}
+
+
+@media screen and (max-width: 768px) {
+  .comment-slider-box {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .comment-slider {
+    width: 100%;
+    padding: 0 1rem;
+    overflow: hidden;
+
+    & > .rc-btn {
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+    }
+  }
+
+  .comment-img {
+    grid-row-start: 1;
+    grid-row-end: 2;
+    width: 100%;
+  }
 }

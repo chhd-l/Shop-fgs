@@ -41,6 +41,8 @@ const Details = loadable(() => import('@/views/Details'), 'rc-carousel');
 const Cart = loadable(() => import('@/views/Cart'));
 const Payment = loadable(() => import('@/views/Payment'));
 const Confirmation = loadable(() => import('@/views/Confirmation'));
+const AccountAppointments =loadable(()=>import('@/views/Account/Appointments'))
+const AccountAppointmentsDetail =loadable(()=>import('@/views/Account/AppointmentsDetail'))
 import Prescription from '@/views/Prescription';
 import MakerHandle from '@/components/GoogleMap/makerHandle';
 import PrescriptionNavigate from '@/views/PrescriptionNavigate';
@@ -511,10 +513,16 @@ const App = () => {
                 />
                 <Route path="/account/pets" exact component={AccountPets} />
                 <Route path="/account/orders" exact component={AccountOrders} />
+                <Route path="/account/appointments" exact component={AccountAppointments} />
                 <Route
                   path="/account/orders/detail/:orderNumber"
                   exact
                   component={AccountOrdersDetail}
+                />
+                <Route
+                  path="/account/appointments/detail/:appointmentNo"
+                  exact
+                  component={AccountAppointmentsDetail}
                 />
                 <Route
                   path="/account/pets/petForm/:id"

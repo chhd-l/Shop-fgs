@@ -42,8 +42,8 @@ class WeekCalender extends Component {
     console.log(date);
     let weekDate = [];
     let dateList = await this.getEnmbeData();
-    for (let i = 3; i < 1; i--) {
-      let _date = moment(date).subtract(i, 'days');
+    for (let i = 0; i < 3; i++) {
+      let _date = moment(date).subtract(i + 1, 'days');
       let nowDate = moment(_date).format('YYYYMMDD');
       let currentDate = dateList[nowDate] || {};
       let list = await this.intervals(
@@ -51,7 +51,7 @@ class WeekCalender extends Component {
         moment(_date).format('YYYYMMDD 17:00'),
         currentDate
       );
-      weekDate.push({
+      weekDate.unshift({
         weekDay: _date.format('dddd'),
         date: _date.format('YYYY-MM-DD'),
         times: list
@@ -99,7 +99,7 @@ class WeekCalender extends Component {
   };
 
   lastWeek = () => {
-    if (index === -1) return;
+    // if (index === -1) return;
     index++;
     const arr = this.state.weekDate;
     let dd = moment(arr[0].date);
@@ -198,7 +198,7 @@ class WeekCalender extends Component {
                   <button
                     onClick={() => this.clickAppointItem(it, idx)}
                     key={it.time + 1}
-                    className={`border-2 border-black p-px ${
+                    className={`time-but border-2 border-black p-px ${
                       selectedIndex === it.dateNo + '_' + idx
                         ? 'bg-red-600 text-white p-px border-2 border-red-600'
                         : ''

@@ -101,7 +101,7 @@ class AccountOrders extends React.Component {
       let res = await getOrderList({ id: orderId });
       let hasDetails = res.context?.content?.length;
       if (hasDetails) {
-        let url = `/account/orders/detail/${orderId}`;
+        let url = `/Raccount/orders/detail/${orderId}`;
         this.props.history.push(url);
         return;
       }
@@ -174,7 +174,7 @@ class AccountOrders extends React.Component {
               el.spuName
             );
           });
-          return handleOrderItem(ele);
+          return handleOrderItem(ele, res);
         });
         if (this.state.initing) {
           this.setState({ everHaveNoOrders: !tmpList.length });
@@ -405,7 +405,7 @@ class AccountOrders extends React.Component {
               {(txt) => (
                 <Link
                   className="color-fff"
-                  to={`/felin/${order.id}`}
+                  to={`/felin?id=${order.appointmentNo}`}
                   title={txt}
                   alt={txt}
                 >

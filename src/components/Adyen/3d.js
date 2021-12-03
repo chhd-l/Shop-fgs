@@ -45,7 +45,7 @@ class Adyen3DForm extends React.Component {
           const checkout = new AdyenCheckout({
             environment: adyenOriginKeyConf?.env,
             originKey: adyenOriginKeyConf?.originKey,
-            locale: adyenOriginKeyConf?.locale,
+            locale: adyenOriginKeyConf?.locale || 'en-US',
             translations
           });
 

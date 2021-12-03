@@ -6,21 +6,21 @@ import 'react-datepicker/dist/react-datepicker.css';
 import './hindex.less';
 import 'react-calendar/dist/Calendar.css';
 import { inject, observer } from 'mobx-react';
-import img from '../image/img.png';
 import cat1 from '../image/cat1.png';
 import cat2 from '../image/cat2.png';
 import cat3 from '../image/cat3.png';
-import four from '../image/four.png';
 import WeekCalender from '../week1/week-calender';
 import {
   gitDict,
   postQueryPrice,
   postSave,
   postUpdate,
-  queryDate
+  queryDate,
+  getAppointByApptNo
 } from '@/api/felin';
 import moment from 'moment';
 import LoginButton from '@/components/LoginButton';
+import { getDeviceType } from '../../../utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 PRESONAL_INFO_RULE.filter((el) => el.key === 'phoneNumber')[0].regExp = '';
@@ -79,18 +79,12 @@ class Hcexperts extends React.Component {
           text: 'Prenez le temps de vous offrir une session complète.'
         }
       ],
-      activeOne: null,
-      timeIndex: null,
-      butIndex: null,
       isShow: true,
       oneShow: false,
       twoShow: false,
       threeShow: false,
       fourShow: false,
       fiveShow: false,
-      activeKey: '',
-      activeKey1: '',
-      activeKey2: '',
       maxHeight: null,
       activeMaxKey: null,
       apptTypeList: [], // 线上线下
@@ -123,6 +117,14 @@ class Hcexperts extends React.Component {
 
   componentDidMount() {
     let userInfo = this.props.loginStore.userInfo;
+    let id = window.location.search.split('=')[1];
+    if (
+      id &&
+      (getDeviceType() === 'H5' ||
+        (getDeviceType() === 'Pad' && document.body.clientWidth <= 768))
+    ) {
+      this.setList(id);
+    }
     if (userInfo) {
       this.setState({
         userInfo: {
@@ -131,7 +133,110 @@ class Hcexperts extends React.Component {
       });
     }
   }
+  setList = async (id) => {
+    // 线上
+    const { context: apptTypeList } = await gitDict({
+      type: 'appointment_type'
+    });
+    // 专家
+    const { context: list } = await gitDict({
+      type: 'expert_type'
+    });
+    let expertTypeList = list.goodsDictionaryVOS.map((item) => {
+      let _temp = this.state.list.find(
+        (items) => items.valueEn === item.valueEn
+      );
+      return { ...item, ..._temp };
+    });
+    this.setState(
+      {
+        apptTypeList: apptTypeList.goodsDictionaryVOS,
+        list: expertTypeList
+      },
+      () => {
+        this.getDeatalData(id);
+      }
+    );
+  };
+  getDeatalData = async (id) => {
+    let appointName = {
+      Online: 'Appel video',
+      Offline: 'Sur place'
+    };
 
+    const { code, context } = await getAppointByApptNo({ apptNo: id });
+    if (code === 'K-000000') {
+      let type =
+        appointName[
+          this.state.apptTypeList.find((item) => item.id === context.apptTypeId)
+            .name
+        ];
+      let expertise = this.state.list.find(
+        (item) => item.id === context.expertTypeId
+      ).name;
+      this.setState(
+        {
+          votre: {
+            type: type,
+            expertise: expertise,
+            duree: context.minutes,
+            date: moment(context.bookSlotVO.dateNo).format('YYYY-MM-DD'),
+            heure: moment(
+              moment(context.bookSlotVO.startTime, 'YYYY-MM-DD HH:mm')
+            ).format('HH:mm')
+          },
+          appointmentVO: {
+            ...this.state.appointmentVO,
+            id: context.id,
+            apptNo: context.apptNo
+          },
+          params: {
+            ...this.state.params,
+            appointmentTypeId: context.apptTypeId,
+            minutes: context.minutes,
+            expertTypeId: context.expertTypeId
+          },
+          bookSlotVO: {
+            ...this.state.bookSlotVO,
+            ...context.bookSlotVO
+          }
+        },
+        () => {
+          this.getPirx(context.expertTypeId, context.minutes);
+        }
+      );
+    }
+  };
+  getPirx = async (expertTypeId, minutes) => {
+    const { code, context } = await postQueryPrice({
+      expertTypeId,
+      serviceTypeId: 6
+    });
+    if (code === 'K-000000') {
+      let timeList = this.state.timeList.map((item) => {
+        let _temp = context.priceVOs.find(
+          (items) => items.duration === item.duration
+        );
+        return { ...item, ..._temp };
+      });
+      let prix = timeList.find((item) => item.duration === minutes).goodsInfoVO
+        .marketPrice;
+      console.log(prix);
+      this.setState(
+        {
+          timeList,
+          votre: {
+            ...this.state.votre,
+            prix
+          },
+          isShow: false
+        },
+        () => {
+          this.handleGotoFour();
+        }
+      );
+    }
+  };
   hanldeOpen = () => {
     this.setState({
       visible: true
@@ -145,19 +250,11 @@ class Hcexperts extends React.Component {
   // 点击咨询
   handleOneShow = async () => {
     // 线上
-    const {
-      code: code1,
-      context: apptTypeList,
-      message: message1
-    } = await gitDict({
+    const { context: apptTypeList } = await gitDict({
       type: 'appointment_type'
     });
     // 专家
-    const {
-      code: code2,
-      context: list,
-      message: message2
-    } = await gitDict({
+    const { context: list } = await gitDict({
       type: 'expert_type'
     });
     let expertTypeList = list.goodsDictionaryVOS.map((item) => {
@@ -173,12 +270,7 @@ class Hcexperts extends React.Component {
       oneShow: true
     });
   };
-  // 第二步选择专家
-  handleActive = (index) => {
-    this.setState({
-      activeOne: index
-    });
-  };
+
   // 第一步返回上一步
   handleReturn = () => {
     this.setState({
@@ -241,9 +333,32 @@ class Hcexperts extends React.Component {
       fourShow: false
     });
   };
-  // 最终跳转
   handleGoto = () => {
-    this.postSave();
+    let id = window.location.search.split('=')[1];
+    if (id) {
+      this.postUpdate(
+        {
+          apptNo: this.state.appointmentVO.apptNo,
+          id: this.state.appointmentVO.id,
+          apptTypeId: this.state.params.appointmentTypeId,
+          appointmentTypeId: this.state.params.appointmentTypeId,
+          expertTypeId: this.state.params.expertTypeId,
+          consumerName: this.state.userInfo?.contactName || undefined,
+          consumerFirstName: this.state.userInfo?.firstName || undefined,
+          consumerLastName: this.state.userInfo?.lastName || undefined,
+          consumerEmail: this.state.userInfo?.email || undefined,
+          consumerPhone: this.state.userInfo?.contactPhone || undefined,
+          customerId: this.state.userInfo?.customerId || undefined,
+          customerLevelId: this.state.userInfo?.customerId ? 234 : 233, // 233未登录 234登陆
+          bookSlotVO: this.state.bookSlotVO,
+          minutes: this.state.params.minutes,
+          serviceTypeId: 6
+        },
+        id
+      );
+    } else {
+      this.postSave();
+    }
   };
   postSave = async () => {
     const { context } = await postSave({
@@ -278,36 +393,27 @@ class Hcexperts extends React.Component {
     }
   };
   // 选择专家
-  handleActiveBut = (index, id, name, key, key1, key2, value, key3) => {
+  handleActiveBut = (id, name, key, key1, value, key2) => {
     this.setState(
       {
         params: {
           ...this.state.params,
           [key]: id
         },
-        [key1]: index,
         votre: {
           ...this.state.votre,
-          [key2]: name,
-          [key3]: value
+          [key1]: name,
+          [key2]: value
         }
       },
       () => {
-        if (key2 === 'expertise') {
+        if (key1 === 'expertise') {
           this.handleGotoThree();
-        } else if (key2 === 'duree') {
+        } else if (key1 === 'duree') {
           this.handleGotoFour();
         }
       }
     );
-  };
-
-  change = (val, num) => {
-    this.setState({
-      activeKey: num === 1 ? val : '',
-      activeKey1: num === 2 ? val : '',
-      activeKey2: num === 3 ? val : ''
-    });
   };
 
   queryDate = (type = false, chooseData = {}) => {
@@ -354,6 +460,8 @@ class Hcexperts extends React.Component {
                       _temp.minuteSlotVOList
                     );
                   }
+                } else {
+                  _resources.push(_temp);
                 }
               });
             }
@@ -361,6 +469,7 @@ class Hcexperts extends React.Component {
           reslove(_resources);
         }
       });
+      console.log(resources, 'console.log(_resources);');
       this.setState({
         resources,
         key: +new Date()
@@ -391,10 +500,7 @@ class Hcexperts extends React.Component {
     });
   };
   handleUpdate = (params) => {
-    this.postUpdate(params);
-  };
-  postUpdate = async (params) => {
-    const { code } = await postUpdate({
+    this.postUpdate({
       apptNo: this.state.appointmentVO.apptNo,
       id: this.state.appointmentVO.id,
       apptTypeId: this.state.params.appointmentTypeId,
@@ -411,7 +517,15 @@ class Hcexperts extends React.Component {
       consumerPhone: params.phone,
       serviceTypeId: 6
     });
+  };
+
+  postUpdate = async (params, id) => {
+    const { code } = await postUpdate(params);
     if (code === 'K-000000') {
+      if (id) {
+        sessionItemRoyal.set('appointment-no', this.state.appointmentVO.apptNo);
+        sessionItemRoyal.set('isChangeAppoint', true);
+      }
       this.props.history.push('/checkout');
     }
   };
@@ -421,8 +535,10 @@ class Hcexperts extends React.Component {
       Online: 'Appel video',
       Offline: 'Sur place'
     };
+    const { twoShow, threeShow, fourShow, fiveShow } = this.state;
+
     return (
-      <div id="hexperts" className="hexperts">
+      <div id="hexperts" className="h-block hexperts">
         {/* 默认页面 */}
         {this.state.isShow ? (
           <div className="txt-centr">
@@ -439,14 +555,34 @@ class Hcexperts extends React.Component {
         ) : (
           <ul className="number-ul">
             <li className="opacity1">1</li>
-            <div className="line" />
-            <li>2</li>
-            <div className="line" />
-            <li>3</li>
-            <div className="line" />
-            <li>4</li>
-            <div className="line" />
-            <li>5</li>
+            <div
+              className={`line ${
+                twoShow || threeShow || fourShow || fiveShow ? 'opacity1' : ''
+              }`}
+            />
+            <li
+              className={`${
+                twoShow || threeShow || fourShow || fiveShow ? 'opacity1' : ''
+              }`}
+            >
+              2
+            </li>
+            <div
+              className={`line ${
+                threeShow || fourShow || fiveShow ? 'opacity1' : ''
+              }`}
+            />
+            <li
+              className={`${
+                threeShow || fourShow || fiveShow ? 'opacity1' : ''
+              }`}
+            >
+              3
+            </li>
+            <div className={`line ${fourShow || fiveShow ? 'opacity1' : ''}`} />
+            <li className={`${fourShow || fiveShow ? 'opacity1' : ''}`}>4</li>
+            <div className={`line ${fiveShow ? 'opacity1' : ''}`} />
+            <li className={`${fiveShow ? 'opacity1' : ''}`}>5</li>
           </ul>
         )}
         {/* 选择综合 */}
@@ -474,12 +610,10 @@ class Hcexperts extends React.Component {
                 <div>{this.state.votre.duree} min</div>
               </div>
             ) : null}
-            {this.state.votre.prix ? (
-              <div className="js-between mb16">
-                <div>Prix</div>
-                <div>{this.state.votre.prix + ' EUR' || 'FREE'}</div>
-              </div>
-            ) : null}
+            <div className="js-between mb16">
+              <div>Prix</div>
+              <div>{this.state.votre.prix + ' EUR' || 'FREE'}</div>
+            </div>
             {this.state.votre.date ? (
               <div className="js-between mb16">
                 <div>Date</div>
@@ -507,11 +641,9 @@ class Hcexperts extends React.Component {
                     key={index}
                     onClick={() => {
                       this.handleActiveBut(
-                        index,
                         item.id,
                         appointName[item.name],
                         'appointmentTypeId',
-                        'butIndex',
                         'type'
                       );
                       this.setState({
@@ -520,7 +652,7 @@ class Hcexperts extends React.Component {
                       });
                     }}
                     className={`text-xs font-medium p-3 rounded-full ${
-                      this.state.butIndex === index
+                      this.state.params.appointmentTypeId === item.id
                         ? 'bg-red-600 text-white'
                         : 'bg-gray-300 text-white'
                     }`}
@@ -558,16 +690,14 @@ class Hcexperts extends React.Component {
                   <button
                     onClick={() => {
                       this.handleActiveBut(
-                        index,
                         item.id,
                         item.name,
                         'expertTypeId',
-                        'activeOne',
                         'expertise'
                       );
                     }}
                     className={`text-xs font-medium p-3 rounded-full ${
-                      this.state.activeOne === index
+                      this.state.params.expertTypeId === item.id
                         ? 'bg-red-600 text-white'
                         : 'bg-gray-300 text-white'
                     }`}
@@ -612,11 +742,9 @@ class Hcexperts extends React.Component {
                     key={index}
                     onClick={() =>
                       this.handleActiveBut(
-                        index,
                         item.duration,
                         item.duration,
                         'minutes',
-                        'timeIndex',
                         'duree',
                         item.goodsInfoVO.marketPrice,
                         'prix'
@@ -624,7 +752,7 @@ class Hcexperts extends React.Component {
                     }
                     style={{
                       boxShadow:
-                        this.state.timeIndex === index
+                        this.state.params.minutes === item.duration
                           ? ' 0px 0px 0px 2px #E2001A'
                           : '0px 0px 0px 2px #f0f0f0'
                     }}
@@ -651,16 +779,6 @@ class Hcexperts extends React.Component {
               >
                 Retour à l'étape précédente
               </button>
-              {/*<button*/}
-              {/*  disabled={this.state.timeIndex == null}*/}
-              {/*  onClick={this.handleGotoFour}*/}
-              {/*  className='rc-btn rc-btn--one  rc-margin-bottom--xs'*/}
-              {/*  style={{*/}
-              {/*    width: '16.875rem'*/}
-              {/*  }}*/}
-              {/*>*/}
-              {/*  Continuer*/}
-              {/*</button>*/}
             </div>
           </div>
         ) : null}
@@ -677,7 +795,6 @@ class Hcexperts extends React.Component {
                 onChange={this.onChange}
                 key={this.state.key}
                 data={this.state.resources}
-                num={3}
               />
             </div>
             <div className="txt-centr">
@@ -791,7 +908,7 @@ class Hcexperts extends React.Component {
           </div>
         </UpdatModal>
         {/*预约时间 Contact us*/}
-        <div className="txt-centr" style={{ marginBottom: '10rem' }}>
+        <div className="txt-centr" style={{ marginBottom: '3.75rem' }}>
           <div
             onClick={this.hanldeOpen}
             style={{

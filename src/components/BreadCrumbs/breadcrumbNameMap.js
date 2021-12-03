@@ -20,6 +20,10 @@ const breadcrumbNameMap = {
     { name: 'account.personalArea', href: '/account' },
     { name: 'account.ordersTitle' }
   ],
+  '/account/appointments': [
+    { name: 'account.personalArea', href: '/account' },
+    { name: 'account.appointmentsTitle' }
+  ],
   '/account/subscription': [
     { name: 'account.personalArea', href: '/account' },
     { name: 'account.subscriptionTitle' }
@@ -37,6 +41,11 @@ const breadcrumbNameMap = {
     { name: 'account.personalArea', href: '/account' },
     { name: 'account.ordersTitle', href: '/account/orders' },
     { name: 'order.orderDetails' }
+  ],
+  '/account/appointments/detail/:appointmentNo': [
+    { name: 'account.personalArea', href: '/account' },
+    { name: 'account.appointmentsTitle', href: '/account/appointments' },
+    { name: 'appointment.appointmentDetails' }
   ],
   '/account/productReview/:tid': [
     { name: 'account.personalArea', href: '/account' },

@@ -109,24 +109,20 @@ export const menubar = {
         titleId: 'aboutUs',
         list: [
           {
-            url:
-              'https://www.royalcanin.com/de/about-us/our-history#Our%20history',
+            url: 'https://www.royalcanin.com/de/about-us/our-history#Our%20history',
             messageId: 'footer.history'
           },
           {
             props: 'ourValues',
-            url:
-              'https://www.royalcanin.com/de/about-us/our-values#Our%20values',
+            url: 'https://www.royalcanin.com/de/about-us/our-values#Our%20values',
             messageId: 'footer.ourValues'
           },
           {
-            url:
-              'https://www.royalcanin.com/de/about-us/sustainability#Sustainability',
+            url: 'https://www.royalcanin.com/de/about-us/sustainability#Sustainability',
             messageId: 'footer.consistence'
           },
           {
-            url:
-              'https://www.royalcanin.com/de/about-us/qualitat-und-futtermittelsicherheit',
+            url: 'https://www.royalcanin.com/de/about-us/qualitat-und-futtermittelsicherheit',
             messageId: 'footer.qualityAndSafety'
           },
           {
@@ -182,6 +178,10 @@ export const menubar = {
               }
             },
             messageId: 'footer.FAQAllgemeines'
+          },
+          {
+            url: 'https://www.royalcanin.com/de/about-us/imprint',
+            messageId: 'footer.imprint'
           }
         ]
       }
@@ -191,7 +191,7 @@ export const menubar = {
         titleId: 'footer.Additionally2',
         list: [
           {
-            url: 'https://www.royalcanin.com/de/about-us/data-protection',
+            url: 'https://www.mars.com/privacy-policy-germany',
             messageId: 'footer.privacyPolicy2'
           },
           { link: '/Terms-And-Conditions', messageId: 'footer.termsOfService' },
@@ -363,8 +363,7 @@ export const menubar = {
             messageId: 'Политика конфиденциальности'
           },
           {
-            url:
-              'https://www.mars.com/global/policies/note-to-parents/np-russian',
+            url: 'https://www.mars.com/global/policies/note-to-parents/np-russian',
             messageId: 'Информация для родителей'
           },
           {
@@ -434,8 +433,7 @@ export const menubar = {
         titleId: 'DİĞER',
         list: [
           {
-            url:
-              'https://www.shop.royalcanin.com.tr/tr/general-terms-conditions.html',
+            url: 'https://www.shop.royalcanin.com.tr/tr/general-terms-conditions.html',
             messageId: 'Şartlar ve Koşullar'
           },
           {
