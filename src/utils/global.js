@@ -1,29 +1,29 @@
 import store from 'storejs';
 import getCountryCodeFromHref from '@/lib/get-country-code-from-href';
 
-const countryCode = getCountryCodeFromHref()?.countryCode;
+const countryLink = getCountryCodeFromHref()?.countryLink;
 
 window.__ = Object.assign(window.__ || {}, {
   sessionItemRoyal: {
     set(key, val) {
-      sessionStorage.setItem(`${countryCode}-${key}`, val);
+      sessionStorage.setItem(`${countryLink}-${key}`, val);
     },
     get(key) {
-      return sessionStorage.getItem(`${countryCode}-${key}`);
+      return sessionStorage.getItem(`${countryLink}-${key}`);
     },
     remove(key) {
-      sessionStorage.removeItem(`${countryCode}-${key}`);
+      sessionStorage.removeItem(`${countryLink}-${key}`);
     }
   },
   localItemRoyal: {
     set(key, val) {
-      store.set(`${countryCode}-${key}`, val);
+      store.set(`${countryLink}-${key}`, val);
     },
     get(key) {
-      return store.get(`${countryCode}-${key}`);
+      return store.get(`${countryLink}-${key}`);
     },
     remove(key) {
-      store.remove(`${countryCode}-${key}`);
+      store.remove(`${countryLink}-${key}`);
     }
   }
 });
