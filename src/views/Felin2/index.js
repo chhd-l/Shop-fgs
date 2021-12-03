@@ -188,7 +188,8 @@ class Felin extends React.Component {
           </div>
           <div className="time-content">
             <div className="time font-500">
-              Ouvert à tous du mardi au dimanche, de 10h à 19h
+              Ouvert à tous du Mardi au Samedi de 10h à 20h et le Dimanche de
+              10h à 18h
             </div>
             <div className="place">142 Bld Saint Germain 75006 PARIS</div>
           </div>
