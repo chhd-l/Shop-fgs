@@ -759,11 +759,8 @@ class AddressList extends React.Component {
   };
   // 确认选择地址
   confirmValidationAddress() {
-    const {
-      deliveryAddress,
-      selectValidationOption,
-      validationAddress
-    } = this.state;
+    const { deliveryAddress, selectValidationOption, validationAddress } =
+      this.state;
     let oldDeliveryAddress = JSON.parse(JSON.stringify(deliveryAddress));
     let theform = [];
     if (selectValidationOption == 'suggestedAddress') {
@@ -1494,7 +1491,7 @@ class AddressList extends React.Component {
                         />
 
                         {/* 分割线 */}
-                        <hr className="account-info-hr-border-color" />
+                        <hr className="account-info-hr-border-color my-4" />
 
                         {/* 取消和保存按钮 */}
                         <div className="text-right">

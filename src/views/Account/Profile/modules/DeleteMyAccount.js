@@ -91,7 +91,7 @@ class DeleteMyAccount extends React.Component {
             </FormattedMessage>
           </div>
 
-          <hr className="account-info-hr-border-color" />
+          <hr className="account-info-hr-border-color my-4" />
 
           <div className="pl-3 pr-3 pb-3">
             {/* 错误提示 */}
