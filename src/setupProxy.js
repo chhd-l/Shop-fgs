@@ -64,7 +64,7 @@ const localEnv = {
 };
 
 const targetConfig = localEnv[process.env.REACT_APP_START_ENV]({
-  countryFromLink: process.env.REACT_APP_START_ENV
+  countryFromLink: process.env.REACT_APP_START_COUNTRY_LINK
 });
 
 // if (!process.env.REACT_APP_BASEURL) {

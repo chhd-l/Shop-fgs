@@ -172,7 +172,8 @@ class AccountOrders extends React.Component {
       <>
         {/*felin订单change appoint*/}
         {order.canChangeAppoint ? (
-          <span>
+          <span className="inline-flex items-center">
+            <span className="iconfont iconedit-data text-green mr-2" />
             <FormattedMessage id="appointment.reSchedule">
               {(txt) => (
                 <Link
