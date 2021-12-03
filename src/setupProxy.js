@@ -19,8 +19,8 @@ const localEnv = {
   },
   uatwedding: ({ countryFromLink }) => {
     return {
-      REACT_APP_BASEURL: `https://uatwedding.royalcanin.com/${countryCode}/shop/api`,
-      REACT_APP_HUB_APIURL: `https://uatwedding.royalcanin.com/${countryCode}/api`
+      REACT_APP_BASEURL: `https://uatwedding.royalcanin.com/${countryFromLink}/shop/api`,
+      REACT_APP_HUB_APIURL: `https://uatwedding.royalcanin.com/${countryFromLink}/api`
     };
   },
   shopstg: ({ countryFromLink }) => {
