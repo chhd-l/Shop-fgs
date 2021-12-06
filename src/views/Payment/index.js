@@ -439,7 +439,9 @@ class Payment extends React.Component {
       }
 
       if (appointNo) {
-        await this.setFelinAppointInfo();
+        if (this.isLogin) {
+          await this.setFelinAppointInfo();
+        }
         await this.queryAppointInfo();
       }
 
