@@ -300,16 +300,16 @@ class Payment extends React.Component {
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
     this.cyberRef = React.createRef();
-    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
-      this
-    );
+    this.confirmListValidationAddress =
+      this.confirmListValidationAddress.bind(this);
   }
   //cyber查询卡类型-会员
   queryCyberCardType = async (params) => {
     try {
-      const res = await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
-        params
-      );
+      const res =
+        await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
+          params
+        );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -320,9 +320,10 @@ class Payment extends React.Component {
   //cyber查询卡类型-游客
   queryGuestCyberCardType = async (params) => {
     try {
-      const res = await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
-        params
-      );
+      const res =
+        await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
+          params
+        );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -383,6 +384,9 @@ class Payment extends React.Component {
       sessionItemRoyal.get('appointment-no') ||
       funcUrl({ name: 'appointmentNo' }) ||
       null;
+    if (funcUrl({ name: 'isApptChange' }) === 'true') {
+      sessionItemRoyal.set('isChangeAppoint', true);
+    }
     if (appointNo) {
       sessionItemRoyal.set('from-felin', true);
       let felinAddress = this.isLogin
@@ -435,7 +439,9 @@ class Payment extends React.Component {
       }
 
       if (appointNo) {
-        await this.setFelinAppointInfo();
+        if (this.isLogin) {
+          await this.setFelinAppointInfo();
+        }
         await this.queryAppointInfo();
       }
 
@@ -899,6 +905,7 @@ class Payment extends React.Component {
   // 更新felin预约的用户信息
 
   async setFelinAppointInfo() {
+    if (!this.userInfo) return;
     await postUpdateUser({
       apptNo: this.state.appointNo,
       consumerName: this.userInfo?.contactName,
@@ -1796,7 +1803,8 @@ class Payment extends React.Component {
         selectWelcomeBoxFlag: this.state.welcomeBoxValue === 'yes', //first order welcome box
         surveyId, //us cart survey
         goodWillFlag:
-          sessionItemRoyal.get('goodWillFlag') === 'GOOD_WILL' ? 1 : 0
+          sessionItemRoyal.get('goodWillFlag') === 'GOOD_WILL' ? 1 : 0,
+        isApptChange: Boolean(sessionItemRoyal.get('isChangeAppoint'))
       },
       appointParam
     );
@@ -2727,9 +2735,10 @@ class Payment extends React.Component {
     const unLoginCyberSaveCard = async (params) => {
       // console.log('2080 params: ', params);
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -2741,9 +2750,10 @@ class Payment extends React.Component {
     //cyber会员绑卡
     const loginCyberSaveCard = async (params) => {
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -3513,9 +3523,8 @@ class Payment extends React.Component {
   };
   petComfirm = (data) => {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[
-        this.state.currentProIndex
-      ].petForm = data;
+      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
+        data;
     } else {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {
@@ -3609,9 +3618,8 @@ class Payment extends React.Component {
   clickPay = () => {
     if (this.tradePrice === 0 && this.isCurrentBuyWaySubscription) {
       //0元订单中含有订阅商品时不能下单
-      const errMsg = this.props.intl.messages[
-        'checkout.zeroOrder.butSubscription'
-      ];
+      const errMsg =
+        this.props.intl.messages['checkout.zeroOrder.butSubscription'];
       this.showErrorMsg(errMsg);
       return;
     }

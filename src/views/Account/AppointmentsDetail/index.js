@@ -280,7 +280,11 @@ class AccountOrders extends React.Component {
                             <FormattedMessage id="appointment.appointmentPlacedOn" />
                             <br />
                             <span className="medium orderHeaderTextColor">
-                              {moment(details.createTime).format('YYYY-MM-DD')}
+                              {details.createTime
+                                ? moment(details.createTime).format(
+                                    'YYYY-MM-DD'
+                                  )
+                                : ''}
                             </span>
                           </div>
                           <div className="col-md-3">

@@ -185,7 +185,9 @@ class SubscriptionLanding extends React.Component {
                               val1: <br />,
                               val2: (
                                 <strong>
-                                  répondant aux besoins de votre animal
+                                  <FormattedMessage
+                                    id="subscription.ad.list1.val2"
+                                  />
                                 </strong>
                               ),
                               val3: <br />
@@ -208,7 +210,11 @@ class SubscriptionLanding extends React.Component {
                           <FormattedMessage
                             id="subscription.ad.list2"
                             values={{
-                              val1: <strong>Expédition automatique</strong>
+                              val1: <strong>
+                                <FormattedMessage
+                                  id="subscription.ad.list2.val1"
+                                />
+                              </strong>
                             }}
                           />
                         </h7>
@@ -231,7 +237,9 @@ class SubscriptionLanding extends React.Component {
                             values={{
                               val1: (
                                 <strong>
-                                  Recevez votre produit automatiquement
+                                  <FormattedMessage
+                                    id="subscription.ad.list3.val1"
+                                  />
                                 </strong>
                               )
                             }}
@@ -251,7 +259,11 @@ class SubscriptionLanding extends React.Component {
                           <FormattedMessage
                             id="subscription.ad.list4"
                             values={{
-                              val1: <strong>A tout moment</strong>
+                              val1: <strong>
+                                <FormattedMessage
+                                  id="subscription.ad.list4.val1"
+                                />
+                              </strong>
                             }}
                           />
                         </h7>

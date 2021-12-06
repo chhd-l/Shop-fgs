@@ -90,7 +90,7 @@ class Hcexperts extends React.Component {
       apptTypeList: [], // 线上线下
       expertTypeList: [],
       params: {
-        appointmentTypeId: '', // 线上线下
+        apptTypeId: '', // 线上线下
         expertTypeId: '', // 专家类型
         minutes: '' // 时间
       },
@@ -187,12 +187,11 @@ class Hcexperts extends React.Component {
           },
           appointmentVO: {
             ...this.state.appointmentVO,
-            id: context.id,
-            apptNo: context.apptNo
+            ...context
           },
           params: {
             ...this.state.params,
-            appointmentTypeId: context.apptTypeId,
+            apptTypeId: context.apptTypeId,
             minutes: context.minutes,
             expertTypeId: context.expertTypeId
           },
@@ -310,7 +309,7 @@ class Hcexperts extends React.Component {
   // 返回第二步
   handleReturnTwo = () => {
     this.setState({
-      oneShow: true,
+      twoShow: true,
       threeShow: false
     });
   };
@@ -320,7 +319,7 @@ class Hcexperts extends React.Component {
       threeShow: false,
       fourShow: true
     });
-    let type = this.state.bookSlotVO.dateNo ? true : false;
+    let type = !!this.state.bookSlotVO.dateNo;
     this.queryDate(type, {
       minutes: this.state.votre.duree,
       bookSlotVO: this.state.bookSlotVO
@@ -338,20 +337,36 @@ class Hcexperts extends React.Component {
     if (id) {
       this.postUpdate(
         {
+          ...this.state.params,
           apptNo: this.state.appointmentVO.apptNo,
           id: this.state.appointmentVO.id,
-          apptTypeId: this.state.params.appointmentTypeId,
-          appointmentTypeId: this.state.params.appointmentTypeId,
-          expertTypeId: this.state.params.expertTypeId,
-          consumerName: this.state.userInfo?.contactName || undefined,
-          consumerFirstName: this.state.userInfo?.firstName || undefined,
-          consumerLastName: this.state.userInfo?.lastName || undefined,
-          consumerEmail: this.state.userInfo?.email || undefined,
-          consumerPhone: this.state.userInfo?.contactPhone || undefined,
-          customerId: this.state.userInfo?.customerId || undefined,
-          customerLevelId: this.state.userInfo?.customerId ? 234 : 233, // 233未登录 234登陆
+          createTime: this.state.appointmentVO.createTime,
+          consumerName:
+            this.state.userInfo?.contactName ||
+            this.state.appointmentVO.consumerName ||
+            undefined,
+          consumerFirstName:
+            this.state.userInfo?.firstName ||
+            this.state.appointmentVO.consumerFirstName ||
+            undefined,
+          consumerLastName:
+            this.state.userInfo?.lastName ||
+            this.state.appointmentVO.consumerLastName ||
+            undefined,
+          consumerEmail:
+            this.state.userInfo?.email ||
+            this.state.appointmentVO.consumerEmail ||
+            undefined,
+          consumerPhone:
+            this.state.userInfo?.contactPhone ||
+            this.state.appointmentVO.consumerPhone ||
+            undefined,
+          customerId:
+            this.state.userInfo?.customerId ||
+            this.state.appointmentVO.customerId ||
+            undefined,
+          customerLevelId: this.state.appointmentVO.customerId ? 234 : 233, // 233未登录 234登陆
           bookSlotVO: this.state.bookSlotVO,
-          minutes: this.state.params.minutes,
           serviceTypeId: 6
         },
         id
@@ -362,8 +377,7 @@ class Hcexperts extends React.Component {
   };
   postSave = async () => {
     const { context } = await postSave({
-      apptTypeId: this.state.params.appointmentTypeId,
-      appointmentTypeId: this.state.params.appointmentTypeId,
+      ...this.state.params,
       consumerName: this.state.userInfo?.contactName || undefined,
       consumerFirstName: this.state.userInfo?.firstName || undefined,
       consumerLastName: this.state.userInfo?.lastName || undefined,
@@ -372,8 +386,6 @@ class Hcexperts extends React.Component {
       customerId: this.state.userInfo?.customerId || undefined,
       customerLevelId: this.state.userInfo?.customerId ? 234 : 233, // 233未登录 234登陆
       bookSlotVO: this.state.bookSlotVO,
-      minutes: this.state.params.minutes,
-      expertTypeId: this.state.params.expertTypeId,
       serviceTypeId: 6
     });
     let apptNo = context.appointmentVO.apptNo;
@@ -385,7 +397,7 @@ class Hcexperts extends React.Component {
       } else {
         this.setState({
           apptNo: apptNo,
-          appointmentVO: appointmentVO,
+          appointmentVO,
           fourShow: false,
           fiveShow: true
         });
@@ -420,7 +432,8 @@ class Hcexperts extends React.Component {
     setTimeout(async () => {
       const resources = await new Promise(async (reslove) => {
         const { code, context } = await queryDate({
-          ...this.state.params
+          ...this.state.params,
+          appointmentTypeId: this.state.params.apptTypeId
         });
 
         if (code === 'K-000000') {
@@ -436,7 +449,7 @@ class Hcexperts extends React.Component {
               type: 'primary',
               disabled: true
             });
-            if (_resources.length == 0) {
+            if (_resources.length === 0) {
               _resources.push(_temp);
             } else {
               _resources.map((item) => {
@@ -452,7 +465,6 @@ class Hcexperts extends React.Component {
                         it = { ...it, ..._t };
                       }
                       return it;
-                      // if(item.minuteSlotVOList.length===(index+1)&&!_t)isLoop=false
                     }
                   );
                   if (!isLoop) {
@@ -501,15 +513,13 @@ class Hcexperts extends React.Component {
   };
   handleUpdate = (params) => {
     this.postUpdate({
+      ...this.state.params,
       apptNo: this.state.appointmentVO.apptNo,
       id: this.state.appointmentVO.id,
-      apptTypeId: this.state.params.appointmentTypeId,
-      appointmentTypeId: this.state.params.appointmentTypeId,
+      createTime: this.state.appointmentVO.createTime,
       customerId: this.state.appointmentVO.customerId || undefined,
       customerLevelId: this.state.appointmentVO.customerId ? 234 : 233, // 233未登录 234登陆
       bookSlotVO: this.state.bookSlotVO,
-      minutes: this.state.params.minutes,
-      expertTypeId: this.state.params.expertTypeId,
       consumerFirstName: params.firstName,
       consumerLastName: params.lastName,
       consumerName: params.firstName + ' ' + params.lastName,
@@ -643,7 +653,7 @@ class Hcexperts extends React.Component {
                       this.handleActiveBut(
                         item.id,
                         appointName[item.name],
-                        'appointmentTypeId',
+                        'apptTypeId',
                         'type'
                       );
                       this.setState({
@@ -652,7 +662,7 @@ class Hcexperts extends React.Component {
                       });
                     }}
                     className={`text-xs font-medium p-3 rounded-full ${
-                      this.state.params.appointmentTypeId === item.id
+                      this.state.params.apptTypeId === item.id
                         ? 'bg-red-600 text-white'
                         : 'bg-gray-300 text-white'
                     }`}

@@ -80,7 +80,8 @@ const LogoutButton = (props) => {
       sessionItemRoyal.remove('rc-review-surveyId');
       sessionItemRoyal.remove('rc-clicked-surveyId');
       // await logout(props.callbackUrl || window.__.env.REACT_APP_HOMEPAGE);
-      await logout(window.__.env.REACT_APP_HOMEPAGE);
+      // await logout(window.__.env.REACT_APP_HOMEPAGE);
+      await logout();
     } catch (err) {
       console.log(err);
       loginStore.changeLoginModal(false);
