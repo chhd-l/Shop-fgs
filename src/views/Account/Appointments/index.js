@@ -44,7 +44,6 @@ class AccountOrders extends React.Component {
       totalPage: 1,
       initing: true,
       errMsg: '',
-      tabErrMsg: '',
       everHaveNoOrders: true,
       showOneOrderDetail: false,
       curOneOrderDetails: null
@@ -116,8 +115,7 @@ class AccountOrders extends React.Component {
       });
     } catch (err) {
       this.setState({
-        errMsg: err.message.toString(),
-        tabErrMsg: err.message.toString()
+        errMsg: err.message.toString()
       });
     } finally {
       this.setState({
@@ -204,7 +202,6 @@ class AccountOrders extends React.Component {
       errMsg,
       everHaveNoOrders,
       appointmentList,
-      tabErrMsg,
       showOneOrderDetail,
       curOneOrderDetails
     } = this.state;
@@ -234,7 +231,7 @@ class AccountOrders extends React.Component {
             <div className="rc-layout-container rc-five-column">
               <SideMenu type="Appointments" customCls="rc-md-up" />
               <div
-                className={`my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop pl-0 pr-0 md:pr-3 md:pl-3 ${
+                className={`my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop px-0 md:px-3 ${
                   showOneOrderDetail ? 'hidden' : ''
                 }`}
               >
@@ -307,11 +304,6 @@ class AccountOrders extends React.Component {
                               count={4}
                             />
                           </div>
-                        ) : this.state.tabErrMsg ? (
-                          <div className="text-center mt-5">
-                            <span className="rc-icon rc-incompatible--xs rc-iconography" />
-                            {this.state.tabErrMsg}
-                          </div>
                         ) : appointmentList.length ? (
                           <>
                             {appointmentList.map((appointment) => {
@@ -331,9 +323,11 @@ class AccountOrders extends React.Component {
                                           <FormattedMessage id="appointment.appointmentPlacedOn" />
                                           <br className="d-none d-md-block" />
                                           <span className="medium orderHeaderTextColor">
-                                            {moment(
-                                              appointment.createTime
-                                            ).format('YYYY-MM-DD')}
+                                            {appointment.createTime
+                                              ? moment(
+                                                  appointment.createTime
+                                                ).format('YYYY-MM-DD')
+                                              : ''}
                                           </span>
                                         </p>
                                       </div>
@@ -436,7 +430,7 @@ class AccountOrders extends React.Component {
                             <FormattedMessage id="appointment.noDataTip" />
                           </div>
                         )}
-                        {tabErrMsg || !appointmentList.length ? null : (
+                        {!appointmentList.length ? null : (
                           <div className="grid-footer rc-full-width mt-4 md:mt-2">
                             <Pagination
                               loading={this.state.loading}
