@@ -1381,15 +1381,15 @@ class UnLoginCart extends React.Component {
               </div>
             </div>
           ) : null}
-
-          <div className="row rc-margin-bottom--xs">
+          {window.__.env.REACT_APP_COUNTRY === 'us'?<div className="row rc-margin-bottom--xs">
             <div className="col-12 greenColorText text-center">
               <FormattedMessage
                 id="cart.firstOrderDiscountTip"
                 defaultMessage={' '}
               />
             </div>
-          </div>
+          </div>:null}
+          
 
           <div className="group-total">
             <div className="row d-flex align-items-center">
