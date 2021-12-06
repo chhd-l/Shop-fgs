@@ -9,7 +9,7 @@ const getCountryCodeFromHref = () => {
    */
   let countryLink =
     process.env.REACT_APP_START_COUNTRY_LINK ||
-    href.match(/http[s]?:\/\/[^\/]+\/([a-zA-A]{2})\/*/i)[1];
+    href.match(/http[s]?:\/\/[^\/]+\/([a-zA-A]{2,4})\/*/i)[1];
   const isHub =
     process.env.REACT_APP_START_HUB === '1' ||
     href.includes('wedding') ||
