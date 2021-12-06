@@ -39,16 +39,15 @@ if (process.env.NODE_ENV === 'production') {
       startEnv = 'productionHub';
       break;
   }
+  const targetConfig = interfacePrefix[startEnv]({
+    countryFromLink: param?.countryLink
+  });
   console.log(11111, {
     startEnv,
     2: interfacePrefix[startEnv],
     3: param?.countryCode,
     4: targetConfig
   });
-  const targetConfig = interfacePrefix[startEnv]({
-    countryFromLink: param?.countryLink
-  });
-
   window.__ = Object.assign(window.__ || {}, {
     env: Object.assign(window.__?.env || {}, targetConfig)
   });
