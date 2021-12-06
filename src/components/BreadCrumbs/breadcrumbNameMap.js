@@ -6,7 +6,7 @@ const searchNoResult = {
   de: '/on/demandware.store/Sites-DE-Site/de_DE/Search-Show'
 };
 const breadcrumbNameMap = {
-  '/account': [{ name: 'home' }],
+  '/account': [{ name: 'account.home' }],
   '/account/information': [{ name: 'account.profile' }],
   '/account/pets': [
     { name: 'account.personalArea', href: '/account' },
