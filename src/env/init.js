@@ -24,6 +24,9 @@ if (process.env.NODE_ENV === 'production') {
     case 'uatwedding.royalcanin.com':
       startEnv = 'uatwedding';
       break;
+    case 'shopstg.royalcanin.com':
+      startEnv = 'shopstg';
+      break;
     case 'stgwedding.royalcanin.com':
       startEnv = 'stgwedding';
       break;
@@ -37,7 +40,7 @@ if (process.env.NODE_ENV === 'production') {
       break;
   }
   const targetConfig = interfacePrefix[startEnv]({
-    countryCode: param?.countryCode
+    countryFromLink: param?.countryLink
   });
   console.log(11111, {
     startEnv,
