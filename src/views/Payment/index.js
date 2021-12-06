@@ -439,7 +439,9 @@ class Payment extends React.Component {
       }
 
       if (appointNo) {
-        await this.setFelinAppointInfo();
+        if (this.isLogin) {
+          await this.setFelinAppointInfo();
+        }
         await this.queryAppointInfo();
       }
 
@@ -903,6 +905,7 @@ class Payment extends React.Component {
   // 更新felin预约的用户信息
 
   async setFelinAppointInfo() {
+    if (!this.userInfo) return;
     await postUpdateUser({
       apptNo: this.state.appointNo,
       consumerName: this.userInfo?.contactName,
