@@ -1,4 +1,4 @@
-import interfacePrefix from './interface-prefix';
+const interfacePrefix = require('./interface-prefix');
 import getCountryCodeFromHref from '@/lib/get-country-code-from-href';
 
 const param = getCountryCodeFromHref();

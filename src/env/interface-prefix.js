@@ -60,4 +60,5 @@ const localEnv = {
   }
 };
 
-export default localEnv;
+// export default localEnv;
+module.exports = localEnv;
