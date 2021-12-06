@@ -89,8 +89,7 @@ class HomeDeliveryOrPickUp extends React.Component {
             require: true
           },
           {
-            regExp:
-              /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/,
+            regExp: /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/,
             errMsg: this.props.intl.messages['payment.errorInfo2'],
             key: 'phoneNumber',
             require: true
@@ -202,9 +201,8 @@ class HomeDeliveryOrPickUp extends React.Component {
       pickupEditNumber > 0
     ) {
       // 没有默认城市但是有缓存
-      defaultCity
-        ? (defaultCity = defaultCity)
-        : (defaultCity = sitem?.cityData?.city);
+      defaultCity = defaultCity || sitem?.cityData?.city;
+
       let res = await pickupQueryCity({ keyword: defaultCity });
       let robj = res?.context?.pickUpQueryCityDTOs || [];
       if (robj) {
@@ -369,7 +367,7 @@ class HomeDeliveryOrPickUp extends React.Component {
               };
             }
           }
-          tmpres ? obj.unshift(tmpres) : null;
+          tmpres && obj.unshift(tmpres);
         }
 
         // 先清空数组
@@ -388,7 +386,7 @@ class HomeDeliveryOrPickUp extends React.Component {
               v.selected = false;
               // 只有homeDelivery, 则默认选中 homeDelivery
               if (type == 'COURIER') {
-                obj.length == 1 ? (v.selected = true) : '';
+                obj.length == 1 && (v.selected = true);
                 v.type = 'homeDelivery';
                 hdpu.push(v);
               }
@@ -573,7 +571,7 @@ class HomeDeliveryOrPickUp extends React.Component {
     sitem?.homeAndPickup.forEach((v, i) => {
       if (v.type == val) {
         // 选中 pickup
-        v.type == 'pickup' ? (pickupItem = v) : null;
+        v.type == 'pickup' && (pickupItem = v);
       }
     });
     let flag = false;
