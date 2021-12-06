@@ -160,7 +160,7 @@ const UserJSX = (props) => {
                     <div className="link-style">
                       <Link to="/account" className="click-hover">
                         <span className="iconfont">&#xe697;</span>{' '}
-                        <FormattedMessage id="home" />
+                        <FormattedMessage id="account.home" />
                       </Link>
                     </div>
                     <div className="link-style">

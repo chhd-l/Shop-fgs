@@ -239,7 +239,7 @@ class AccountProfile extends React.Component {
                   <Link to="/account" className="rc-md-down mb-2 inlineblock">
                     <span className="red">&lt;</span>
                     <span className="rc-styled-link rc-progress__breadcrumb ml-2">
-                      <FormattedMessage id="home" />
+                      <FormattedMessage id="account.home" />
                     </span>
                   </Link>
                 )}
