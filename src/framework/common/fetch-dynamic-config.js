@@ -1,6 +1,6 @@
 import { fetchShopConfig } from '@/api';
 import getCountryCodeFromHref from '@/lib/get-country-code-from-href';
-import { decryptString } from '@/lib/ase-utils';
+import { decryptString } from '@/lib/aes-utils';
 import ENV_LOCAL from '@/env/local';
 
 const fetchDynamicConfig = async () => {
