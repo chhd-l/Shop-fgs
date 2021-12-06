@@ -254,6 +254,8 @@ class Recommendation extends React.Component {
               try {
                 let tempContentMobile = [];
                 let tempContent = [];
+                let redSpanIconMargin = this.state.isMobile ? '10px' : '20px';
+
                 switch (g.descriptionName) {
                   case 'Benefits':
                     const parsedContent = JSON.parse(g.content).map((el) => {
@@ -262,7 +264,8 @@ class Recommendation extends React.Component {
                     });
                     parsedContent.map((ele, idx) => {
                       // <div className="">${Object.keys(JSON.parse(ele))[0]}</div>
-                      tempContent.push(`<li>
+                      tempContent.push(`<li class="flex">
+                      <span style="color: red; margin-right: ${redSpanIconMargin}">*</span>
                       <div class="">${
                         Object.values(ele)[0]['Description']
                       }</div>
@@ -295,7 +298,7 @@ class Recommendation extends React.Component {
                     </div>
                       `);
                     });
-                    tempContent = `<ul class=" rc-md-up">
+                    tempContent = `<ul class="">
                           ${tempContent.join('')}
                         </ul>`;
                     tempContentMobile = `<div class="fr-faq rc-md-down" style="padding:0">
@@ -1237,6 +1240,7 @@ class Recommendation extends React.Component {
           )}
 
           <Description
+            details={details}
             text={grayBoxInnerText[window.__.env.REACT_APP_COUNTRY]}
           />
           <Footer />

@@ -18,7 +18,7 @@ export default class index extends Component {
 
   render() {
     let img = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/dog-and-cat.png`;
-
+    const createMarkup = (text) => ({ __html: text });
     return (
       <div className="description ">
         <div className="description-item">
@@ -97,8 +97,19 @@ export default class index extends Component {
                   padding: '24px '
                 }}
               >
-                <span style={{ color: 'red', marginRight: 20 }}>*</span>
-                <span>
+                <p
+                  style={{ fontSize: 'auto' }}
+                  dangerouslySetInnerHTML={createMarkup(
+                    this.props.details.benefit
+                  )}
+                ></p>
+                {/* <p
+                  style={{ fontSize: '1rem' }}
+                  dangerouslySetInnerHTML={createMarkup(
+                    this.props.details.benefitMobile
+                  )}
+                ></p> */}
+                {/* <span>
                   Offre personnelle valable sur l'intégralité de nos aliments
                   chien & chat (hors aliments humides, Babycat milk, gamme Size
                   mini indoor &<br /> conditionnements de 1kg) et cumulable avec
@@ -111,7 +122,7 @@ export default class index extends Component {
                     https://www.royalcanin.com/fr/shop
                   </a>{' '}
                   . selon le format du produit acheté.
-                </span>
+                </span> */}
               </div>
               <div style={{ height: 75 }}></div>
             </div>
