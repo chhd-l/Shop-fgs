@@ -267,7 +267,10 @@ const env = {
     REACT_APP_HUB: '1',
 
     // #HUB_GA
-    REACT_APP_HUB_GA: '1'
+    REACT_APP_HUB_GA: '1',
+
+    REACT_APP_HUBPAGE_RETAILER_ISURL: '1',
+    REACT_APP_HUBPAGE_RETAILER_URL: 'http://www.royalcanin.com/tr/where-to-buy'
   },
   stgwedding: {
     // #okta

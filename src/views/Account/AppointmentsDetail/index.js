@@ -202,6 +202,7 @@ class AccountOrders extends React.Component {
         {/*felin订单cancel appoint*/}
         {details.canCancelAppoint ? (
           <span
+            className="inline-flex items-center"
             onClick={() => {
               this.setState({ cancelAppointModalVisible: true });
             }}
@@ -212,8 +213,8 @@ class AccountOrders extends React.Component {
         ) : null}
         {/*felin订单change appoint*/}
         {details.canChangeAppoint ? (
-          <span className="ml-8">
-            <span className="iconfont iconcancel text-rc-red mr-2" />
+          <span className="ml-4 md:ml-8 inline-flex items-center">
+            <span className="iconfont iconedit-data text-green mr-2" />
             <FormattedMessage id="appointment.reSchedule">
               {(txt) => (
                 <Link
@@ -253,17 +254,15 @@ class AccountOrders extends React.Component {
             <div className="rc-layout-container rc-five-column">
               <SideMenu type="Appointments" customCls="rc-md-up" />
               <div className="my__account-content rc-column rc-quad-width p-2">
-                {
-                  <Link
-                    to="/account/orders"
-                    className="rc-md-down mt-3 ml-2 inlineblock"
-                  >
-                    <span className="red">&lt;</span>
-                    <span className="rc-styled-link rc-progress__breadcrumb ml-2">
-                      <FormattedMessage id="account.ordersTitle" />
-                    </span>
-                  </Link>
-                }
+                <Link
+                  to="/account/appointments"
+                  className="rc-md-down mt-3 ml-2 inlineblock"
+                >
+                  <span className="red">&lt;</span>
+                  <span className="rc-styled-link rc-progress__breadcrumb ml-2">
+                    <FormattedMessage id="account.appointmentsTitle" />
+                  </span>
+                </Link>
 
                 <div
                   className={`row m-0 justify-content-center mt-3 md:mt-0 ${
@@ -282,88 +281,74 @@ class AccountOrders extends React.Component {
                       ) : details ? (
                         <div className="card-body p-0">
                           {this.renderFelineHeadTip()}
-
-                          <div className="rc-bg-colour--brand4 rc-md-down mt-3 h-3.5" />
-                          <div className="row m-0 ml-2 mr-2 md:ml-0 md:mr-0">
-                            <div className="col-12 border table-header rounded mt-3 md:mt-0">
-                              <div className="row pt-3 pb-2 pl-1 pr-1 md:pl-4 md:pr-4 md:pt-4 md:pb-3">
-                                <div className="col-12 col-md-3 text-left">
-                                  <FormattedMessage id="appointment.appointmentPlacedOn" />
-                                  <br className="d-none d-md-block" />
-                                  <span className="medium orderHeaderTextColor">
-                                    {moment(
-                                      details.tradeState.createTime
-                                    ).format('YYYY-MM-DD')}
-                                  </span>
-                                </div>
-                                <div className="col-12 col-md-3 text-left">
-                                  <FormattedMessage id="appointment.appointmentNumber" />
-                                  <br className="d-none d-md-block" />
-                                  <span className="medium orderHeaderTextColor">
-                                    {details.id}
-                                  </span>
-                                </div>
-                                <div className="col-12 col-md-3 text-left">
-                                  <FormattedMessage id="appointment.appointmentStatus" />
-                                  <br className="d-none d-md-block" />
-                                  <span
-                                    className="medium orderHeaderTextColor"
-                                    title={details.tradeState.orderStatus}
-                                  >
-                                    {details.tradeState.orderStatus}
-                                  </span>
-                                </div>
+                          <div className="row mx-2 md:mx-0 mt-4">
+                            <div className="col-12 flex md:flex-row flex-col border table-header rounded mt-3 md:mt-0 pt-3 pb-2 px-1 md:px-4 md:py-3">
+                              <div className="col-md-3">
+                                <FormattedMessage id="appointment.appointmentPlacedOn" />
+                                <br />
+                                <span className="medium orderHeaderTextColor">
+                                  {moment(details.tradeState.createTime).format(
+                                    'YYYY-MM-DD'
+                                  )}
+                                </span>
+                              </div>
+                              <div className="col-md-3">
+                                <FormattedMessage id="appointment.appointmentNumber" />
+                                <br />
+                                <span className="medium orderHeaderTextColor">
+                                  {details.id}
+                                </span>
+                              </div>
+                              <div className="col-md-3">
+                                <FormattedMessage id="appointment.appointmentStatus" />
+                                <br />
+                                <span
+                                  className="medium orderHeaderTextColor"
+                                  title={details.tradeState.orderStatus}
+                                >
+                                  {details.tradeState.orderStatus}
+                                </span>
                               </div>
                             </div>
-                            <div className="col-12 table-body rounded md:mt-3 mb-2 pl-0 pr-0">
-                              <div className="order__listing text-left">
-                                <div className="order-list-container">
-                                  {details.tradeItems.map((item, i) => (
-                                    <div
-                                      className="border-bottom pl-2 pr-2 pt-3 pb-3"
-                                      key={i}
+                            <div className="col-12 order-list-container rder__listing table-body rounded md:mt-3 mb-2 px-0">
+                              {details.tradeItems.map((item, i) => (
+                                <div
+                                  className={`row align-items-center p-2`}
+                                  key={i}
+                                >
+                                  <div className="col-4 col-md-2 d-flex justify-content-center align-items-center">
+                                    <LazyLoad style={{ width: '100%' }}>
+                                      <img
+                                        className="order-details-img-fluid w-100"
+                                        src={item.pic || IMG_DEFAULT}
+                                        alt={item.spuName}
+                                        title={item.spuName}
+                                      />
+                                    </LazyLoad>
+                                  </div>
+                                  <div className="col-8 col-md-3">
+                                    <span
+                                      className="medium ui-text-overflow-line2 text-break color-444"
+                                      title={item.spuName}
                                     >
-                                      <div
-                                        className={`row align-items-center pl-2 pr-2 md:pl-0 md:pr-0`}
-                                      >
-                                        <div className="col-4 col-md-2 d-flex justify-content-center align-items-center">
-                                          <LazyLoad style={{ width: '100%' }}>
-                                            <img
-                                              className="order-details-img-fluid w-100"
-                                              src={item.pic || IMG_DEFAULT}
-                                              alt={item.spuName}
-                                              title={item.spuName}
-                                            />
-                                          </LazyLoad>
-                                        </div>
-                                        <div className="col-8 col-md-3">
-                                          <span className="">
-                                            <span
-                                              className="medium ui-text-overflow-line2 text-break color-444"
-                                              title={item.spuName}
-                                            >
-                                              {item.spuName}
-                                            </span>
-                                            <span className="ui-text-overflow-line2">
-                                              <span>
-                                                {details.specialistType} –{' '}
-                                                {details.appointmentTime}
-                                                <FormattedMessage id="min" /> –
-                                                {details.appointmentType}
-                                              </span>
-                                            </span>
-                                          </span>
-                                        </div>
-                                        <div
-                                          className={`col-12 col-md-7 pr-8 rc-md-up font-weight-normal d-flex justify-end flex-row`}
-                                        >
-                                          {this.renderOperationBtns()}
-                                        </div>
-                                      </div>
-                                    </div>
-                                  ))}
+                                      {item.spuName}
+                                    </span>
+                                    <span className="ui-text-overflow-line2">
+                                      <span>
+                                        {details.specialistType} –{' '}
+                                        {details.appointmentTime}
+                                        <FormattedMessage id="min" /> –
+                                        {details.appointmentType}
+                                      </span>
+                                    </span>
+                                  </div>
+                                  <div
+                                    className={`col-12 col-md-7 md:pr-8 font-weight-normal d-flex justify-end flex-row`}
+                                  >
+                                    {this.renderOperationBtns()}
+                                  </div>
                                 </div>
-                              </div>
+                              ))}
                             </div>
                           </div>
                           <OrderAppointmentInfo details={details} />

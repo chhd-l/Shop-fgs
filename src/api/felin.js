@@ -1,6 +1,7 @@
 import axios from '@/utils/request';
 import api from './order';
 
+// 预约详情
 export function getAppointByApptNo(parameter) {
   return axios({
     url: '/appt/findForUpdate',
@@ -8,6 +9,7 @@ export function getAppointByApptNo(parameter) {
     data: parameter
   });
 }
+// 查询可预约时间
 export function queryDate(params = {}) {
   return axios({
     url: '/resourceDatePlan/queryDate',
@@ -18,7 +20,7 @@ export function queryDate(params = {}) {
     }
   });
 }
-
+// 数字字典
 export function gitDict(params = {}) {
   return axios({
     url: '/goodsDictionary/queryGoodsDictionary',
@@ -26,6 +28,7 @@ export function gitDict(params = {}) {
     data: params
   });
 }
+// 新增预约信息
 export function postSave(params = {}) {
   return axios({
     url: '/appt/save',
@@ -33,9 +36,18 @@ export function postSave(params = {}) {
     data: params
   });
 }
+// 更新预约信息
 export function postUpdate(params = {}) {
   return axios({
     url: '/appt/update',
+    method: 'post',
+    data: params
+  });
+}
+// 未登录预约的时候，登陆之后跟新用户信息
+export function postUpdateUser(params = {}) {
+  return axios({
+    url: '/appt/update-consumer-info',
     method: 'post',
     data: params
   });
@@ -48,6 +60,7 @@ export function getServiceEvaluate(params = {}) {
     data: params
   });
 }
+// 获取专家价格
 export function postQueryPrice(params = {}) {
   return axios({
     url: '/resourceDatePlan/queryPrice',

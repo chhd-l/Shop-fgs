@@ -289,7 +289,7 @@ class CommunicationDataEditForm extends React.Component {
         <div className="userContactPreferenceInfo">
           <div className="profileSubFormTitle pl-3 pr-3 pt-3">
             <h5
-              className="mb-0"
+              className="mb-0 text-xl"
               style={{ display: curPageAtCover ? 'block' : 'none' }}
             >
               <svg
@@ -302,7 +302,7 @@ class CommunicationDataEditForm extends React.Component {
               <FormattedMessage id="account.myCommunicationPreferencesTitle" />
             </h5>
             <h5
-              className="ui-cursor-pointer"
+              className="ui-cursor-pointer text-xl"
               style={{ display: curPageAtCover ? 'none' : 'block' }}
               onClick={this.handleClickGoBack}
             >

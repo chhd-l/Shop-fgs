@@ -351,7 +351,7 @@ class Pcexperts extends React.Component {
           consumerEmail: this.state.userInfo?.email || undefined,
           consumerPhone: this.state.userInfo?.contactPhone || undefined,
           customerId: this.state.userInfo?.customerId || undefined,
-          customerLevelId: this.state.userInfo?.customerId ? 234 : 233, // 233未登录 234登陆
+          customerLevelId: 234, // 233未登录 234登陆
           bookSlotVO: this.state.bookSlotVO,
           minutes: this.state.params.minutes,
           serviceTypeId: 6
@@ -526,10 +526,10 @@ class Pcexperts extends React.Component {
       Offline: 'Sur place'
     };
     return (
-      <div className="pc-block">
+      <div className="pc-block" id="pcexperts">
         {/* 默认页面 */}
         {this.state.isShow ? (
-          <div id="pcexperts">
+          <div>
             <div className="size24 txt-centr font-500 visit-text">
               Réservez un rendez-vous avec un de nos experts
             </div>

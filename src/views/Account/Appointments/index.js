@@ -22,6 +22,7 @@ import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { filterOrderId } from '@/utils/utils';
 import './index.less';
 import moment from 'moment';
+import { getAppointList } from '@/api/appointment';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
@@ -34,11 +35,6 @@ class AccountOrders extends React.Component {
     super(props);
     this.state = {
       orderList: [],
-      form: {
-        orderNumber: '',
-        period: 180,
-        orderCategory: '' // 订单类型
-      },
       loading: true,
       initLoading: true,
       seoConfig: {
@@ -96,11 +92,8 @@ class AccountOrders extends React.Component {
     }
     this.setState({ loading: true });
     let param = {
-      keywords: form.orderNumber,
       pageNum: currentPage - 1,
-      pageSize: this.pageSize,
-      period: form.period,
-      orderCategory: form.orderCategory
+      pageSize: this.pageSize
     };
     getOrderList(param)
       .then((res) => {
@@ -168,7 +161,7 @@ class AccountOrders extends React.Component {
     if (this.deviceType === 'PC') {
       return false;
     }
-    this.props.history.push(`/account/orders/detail/${item.id}`);
+    this.props.history.push(`/account/appointments/detail/${item.id}`);
     return false;
   }
   handleClickBackToIndex = () => {
@@ -179,7 +172,8 @@ class AccountOrders extends React.Component {
       <>
         {/*felin订单change appoint*/}
         {order.canChangeAppoint ? (
-          <span>
+          <span className="inline-flex items-center">
+            <span className="iconfont iconedit-data text-green mr-2" />
             <FormattedMessage id="appointment.reSchedule">
               {(txt) => (
                 <Link

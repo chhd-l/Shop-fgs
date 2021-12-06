@@ -807,7 +807,7 @@ class AddressList extends React.Component {
             <div className="personalInfo" id="profile-personal-info">
               {/* 地址模块标题 */}
               <div className="profileSubFormTitle pl-3 pr-3 pt-3">
-                <h5 className="mb-0">
+                <h5 className="mb-0 text-xl">
                   <svg
                     className="svg-icon account-info-icon align-middle mr-3 ml-1"
                     aria-hidden="true"
