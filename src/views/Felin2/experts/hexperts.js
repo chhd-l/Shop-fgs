@@ -343,13 +343,31 @@ class Hcexperts extends React.Component {
           apptTypeId: this.state.params.appointmentTypeId,
           appointmentTypeId: this.state.params.appointmentTypeId,
           expertTypeId: this.state.params.expertTypeId,
-          consumerName: this.state.userInfo?.contactName || undefined,
-          consumerFirstName: this.state.userInfo?.firstName || undefined,
-          consumerLastName: this.state.userInfo?.lastName || undefined,
-          consumerEmail: this.state.userInfo?.email || undefined,
-          consumerPhone: this.state.userInfo?.contactPhone || undefined,
-          customerId: this.state.userInfo?.customerId || undefined,
-          customerLevelId: this.state.userInfo?.customerId ? 234 : 233, // 233未登录 234登陆
+          consumerName:
+            this.state.userInfo?.contactName ||
+            this.state.appointmentVO.consumerName ||
+            undefined,
+          consumerFirstName:
+            this.state.userInfo?.firstName ||
+            this.state.appointmentVO.consumerFirstName ||
+            undefined,
+          consumerLastName:
+            this.state.userInfo?.lastName ||
+            this.state.appointmentVO.consumerLastName ||
+            undefined,
+          consumerEmail:
+            this.state.userInfo?.email ||
+            this.state.appointmentVO.consumerEmail ||
+            undefined,
+          consumerPhone:
+            this.state.userInfo?.contactPhone ||
+            this.state.appointmentVO.consumerPhone ||
+            undefined,
+          customerId:
+            this.state.userInfo?.customerId ||
+            this.state.appointmentVO.customerId ||
+            undefined,
+          customerLevelId: this.state.appointmentVO.customerId ? 234 : 233, // 233未登录 234登陆
           bookSlotVO: this.state.bookSlotVO,
           minutes: this.state.params.minutes,
           serviceTypeId: 6
