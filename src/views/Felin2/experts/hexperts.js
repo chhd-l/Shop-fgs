@@ -432,7 +432,8 @@ class Hcexperts extends React.Component {
     setTimeout(async () => {
       const resources = await new Promise(async (reslove) => {
         const { code, context } = await queryDate({
-          ...this.state.params
+          ...this.state.params,
+          appointmentTypeId: this.state.params.apptTypeId
         });
 
         if (code === 'K-000000') {
@@ -464,7 +465,6 @@ class Hcexperts extends React.Component {
                         it = { ...it, ..._t };
                       }
                       return it;
-                      // if(item.minuteSlotVOList.length===(index+1)&&!_t)isLoop=false
                     }
                   );
                   if (!isLoop) {

@@ -425,7 +425,8 @@ class Pcexperts extends React.Component {
     setTimeout(async () => {
       const resources = await new Promise(async (reslove) => {
         const { code, context } = await queryDate({
-          ...this.state.params
+          ...this.state.params,
+          appointmentTypeId: this.state.params.apptTypeId
         });
 
         if (code === 'K-000000') {
