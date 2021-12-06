@@ -171,8 +171,7 @@ class Pcexperts extends React.Component {
           },
           appointmentVO: {
             ...this.state.appointmentVO,
-            id: context.id,
-            apptNo: context.apptNo
+            ...context
           },
           params: {
             ...this.state.params,
@@ -342,6 +341,7 @@ class Pcexperts extends React.Component {
         {
           apptNo: this.state.appointmentVO.apptNo,
           id: this.state.appointmentVO.id,
+          createTime: this.state.appointmentVO.createTime,
           apptTypeId: this.state.params.appointmentTypeId,
           appointmentTypeId: this.state.params.appointmentTypeId,
           expertTypeId: this.state.params.expertTypeId,
@@ -494,6 +494,7 @@ class Pcexperts extends React.Component {
     this.postUpdate({
       apptNo: this.state.appointmentVO.apptNo,
       id: this.state.appointmentVO.id,
+      createTime: this.state.appointmentVO.createTime,
       apptTypeId: this.state.params.appointmentTypeId,
       appointmentTypeId: this.state.params.appointmentTypeId,
       customerId: this.state.appointmentVO.customerId || undefined,
