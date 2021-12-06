@@ -4,6 +4,8 @@ import { formatMoney } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import TermsCommon from '../Terms/common';
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
+
 @inject('paymentStore')
 @injectIntl
 @observer
@@ -120,6 +122,13 @@ class Confirmation extends React.Component {
                 this.setState({ isValid: val });
               }}
             />
+
+            {/*feline change appointment 下单提示*/}
+            {sessionItemRoyal.get('isChangeAppoint') && (
+              <div className="text-rc-red ml-6">
+                <FormattedMessage id="appointment.changeApptCheckout.tip" />
+              </div>
+            )}
 
             <div className="text-right">
               <button

@@ -159,6 +159,7 @@ class RouteFilter extends Component {
         sessionItemRoyal.remove('orderSource');
         sessionItemRoyal.remove('from-felin');
         sessionItemRoyal.remove('appointment-no');
+        sessionItemRoyal.remove('isChangeAppoint');
       }
       if (prevPath.includes('/confirmation')) {
         if (sessionItemRoyal.get('rc-paywith-login') === 'true') {

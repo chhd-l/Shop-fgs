@@ -9,7 +9,7 @@ const getCountryCodeFromHref = () => {
    */
   let countryLink =
     process.env.REACT_APP_START_COUNTRY_LINK ||
-    href.match(/http[s]?:\/\/[^\/]+\/([a-zA-A]{2})\/*/i)[1];
+    href.match(/http[s]?:\/\/[^\/]+\/([a-zA-A]{2,4})\/*/i)[1];
   const isHub =
     process.env.REACT_APP_START_HUB === '1' ||
     href.includes('wedding') ||
@@ -45,7 +45,17 @@ const getCountryCodeFromHref = () => {
 
   // 此mapping关系暂时为之，后续讨论标准国家码
   return {
-    countryCode: { ru: 'RU', fr: 'FR' }[countryLink],
+    countryCode: {
+      mx: 'MX',
+      de: 'DE',
+      us: 'US',
+      fr: 'FR',
+      ru: 'RU',
+      tr: 'TR',
+      uk: 'GB',
+      se: 'SE',
+      core: 'CORE'
+    }[countryLink],
     isHub,
     countryLink
   };

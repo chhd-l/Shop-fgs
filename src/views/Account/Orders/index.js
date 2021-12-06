@@ -23,7 +23,8 @@ import {
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import { batchAdd } from '@/api/payment';
-import { getOrderList, cancelAppointByNo } from '@/api/order';
+import { getOrderList } from '@/api/order';
+import { cancelAppointByNo } from '@/api/appointment';
 import orderImg from './img/order.jpg';
 import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
@@ -397,45 +398,45 @@ class AccountOrders extends React.Component {
           </button>
         ) : null}
         {/*felin订单change appoint*/}
-        {order.canChangeAppoint ? (
-          <button
-            className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order color-fff`}
-          >
-            <FormattedMessage id="Change Appointment">
-              {(txt) => (
-                <Link
-                  className="color-fff"
-                  to={`/felin?id=${order.appointmentNo}`}
-                  title={txt}
-                  alt={txt}
-                >
-                  {txt}
-                </Link>
-              )}
-            </FormattedMessage>
-          </button>
-        ) : null}
+        {/*{order.canChangeAppoint ? (*/}
+        {/*  <button*/}
+        {/*    className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order color-fff`}*/}
+        {/*  >*/}
+        {/*    <FormattedMessage id="Change Appointment">*/}
+        {/*      {(txt) => (*/}
+        {/*        <Link*/}
+        {/*          className="color-fff"*/}
+        {/*          to={`/felin?id=${order.appointmentNo}`}*/}
+        {/*          title={txt}*/}
+        {/*          alt={txt}*/}
+        {/*        >*/}
+        {/*          {txt}*/}
+        {/*        </Link>*/}
+        {/*      )}*/}
+        {/*    </FormattedMessage>*/}
+        {/*  </button>*/}
+        {/*) : null}*/}
         {/*felin订单cancel appoint*/}
-        {order.canCancelAppoint ? (
-          <button
-            className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order ml-0`}
-            onClick={this.cancelAppoint.bind(this, order)}
-          >
-            <FormattedMessage id="Cancel Appointment" />
-          </button>
-        ) : null}
-        {order.canRePurchase ? (
-          <button
-            className={`rc-btn rc-btn--sm rc-btn--two rePurchase-btn ord-list-operation-btn ${
-              order.addToCartLoading
-                ? 'ui-btn-loading ui-btn-loading-border-red'
-                : ''
-            }`}
-            onClick={this.rePurchase.bind(this, order)}
-          >
-            <FormattedMessage id="rePurchase" />
-          </button>
-        ) : null}
+        {/*{order.canCancelAppoint ? (*/}
+        {/*  <button*/}
+        {/*    className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order ml-0`}*/}
+        {/*    onClick={this.cancelAppoint.bind(this, order)}*/}
+        {/*  >*/}
+        {/*    <FormattedMessage id="Cancel Appointment" />*/}
+        {/*  </button>*/}
+        {/*) : null}*/}
+        {/*{order.canRePurchase ? (*/}
+        {/*  <button*/}
+        {/*    className={`rc-btn rc-btn--sm rc-btn--two rePurchase-btn ord-list-operation-btn ${*/}
+        {/*      order.addToCartLoading*/}
+        {/*        ? 'ui-btn-loading ui-btn-loading-border-red'*/}
+        {/*        : ''*/}
+        {/*    }`}*/}
+        {/*    onClick={this.rePurchase.bind(this, order)}*/}
+        {/*  >*/}
+        {/*    <FormattedMessage id="rePurchase" />*/}
+        {/*  </button>*/}
+        {/*) : null}*/}
         {order.canViewTrackInfo ? (
           <button className="rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn">
             <FormattedMessage id="trackDelivery">

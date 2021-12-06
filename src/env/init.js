@@ -1,4 +1,4 @@
-import interfacePrefix from './interface-prefix';
+const interfacePrefix = require('./interface-prefix');
 import getCountryCodeFromHref from '@/lib/get-country-code-from-href';
 
 const param = getCountryCodeFromHref();
@@ -39,7 +39,12 @@ if (process.env.NODE_ENV === 'production') {
   const targetConfig = interfacePrefix[startEnv]({
     countryCode: param?.countryCode
   });
-
+  console.log(11111, {
+    startEnv,
+    2: interfacePrefix[startEnv],
+    3: param?.countryCode,
+    4: targetConfig
+  });
   window.__ = Object.assign(window.__ || {}, {
     env: Object.assign(window.__?.env || {}, targetConfig)
   });

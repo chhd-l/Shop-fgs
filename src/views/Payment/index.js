@@ -384,6 +384,9 @@ class Payment extends React.Component {
       sessionItemRoyal.get('appointment-no') ||
       funcUrl({ name: 'appointmentNo' }) ||
       null;
+    if (funcUrl({ name: 'isApptChange' }) === 'true') {
+      sessionItemRoyal.set('isChangeAppoint', true);
+    }
     if (appointNo) {
       sessionItemRoyal.set('from-felin', true);
       let felinAddress = this.isLogin
@@ -436,7 +439,9 @@ class Payment extends React.Component {
       }
 
       if (appointNo) {
-        await this.setFelinAppointInfo();
+        if (this.isLogin) {
+          await this.setFelinAppointInfo();
+        }
         await this.queryAppointInfo();
       }
 
@@ -1798,7 +1803,8 @@ class Payment extends React.Component {
         selectWelcomeBoxFlag: this.state.welcomeBoxValue === 'yes', //first order welcome box
         surveyId, //us cart survey
         goodWillFlag:
-          sessionItemRoyal.get('goodWillFlag') === 'GOOD_WILL' ? 1 : 0
+          sessionItemRoyal.get('goodWillFlag') === 'GOOD_WILL' ? 1 : 0,
+        isApptChange: Boolean(sessionItemRoyal.get('isChangeAppoint'))
       },
       appointParam
     );

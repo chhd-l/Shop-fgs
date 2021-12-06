@@ -11,18 +11,16 @@ import Pagination from '@/components/Pagination';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { formatMoney, getDeviceType, setSeoConfig } from '@/utils/utils';
-import { funcUrl } from '@/lib/url-utils';
-import { getOrderList, cancelAppointByNo } from '@/api/order';
+import { getDeviceType, setSeoConfig } from '@/utils/utils';
 import orderImg from './img/order.jpg';
 import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
 import { myAccountPushEvent } from '@/utils/GA';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
-import { filterOrderId } from '@/utils/utils';
 import './index.less';
 import moment from 'moment';
-import { getAppointList } from '@/api/appointment';
+import { getAppointList, cancelAppointByNo } from '@/api/appointment';
+import { getAppointDict } from '@/api/dict';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
@@ -34,7 +32,7 @@ class AccountOrders extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      orderList: [],
+      appointmentList: [],
       loading: true,
       initLoading: true,
       seoConfig: {
@@ -52,7 +50,7 @@ class AccountOrders extends React.Component {
       curOneOrderDetails: null
     };
 
-    this.pageSize = 30;
+    this.pageSize = 6;
     this.deviceType = getDeviceType();
     this.handleClickCardItem = this.handleClickCardItem.bind(this);
   }
@@ -66,22 +64,10 @@ class AccountOrders extends React.Component {
     }).then((res) => {
       this.setState({ seoConfig: res });
     });
-
-    const orderId = funcUrl({ name: 'orderId' });
-    if (orderId) {
-      let res = await getOrderList({ id: orderId });
-      let hasDetails = res.context?.content?.length;
-      if (hasDetails) {
-        let url = `/account/orders/detail/${orderId}`;
-        this.props.history.push(url);
-        return;
-      }
-    }
-
-    this.queryOrderList();
+    await this.queryOrderList();
   }
-  queryOrderList() {
-    const { form, initing, currentPage } = this.state;
+  async queryOrderList() {
+    const { initing, currentPage } = this.state;
     if (!initing) {
       setTimeout(() => {
         window.scrollTo({
@@ -95,47 +81,51 @@ class AccountOrders extends React.Component {
       pageNum: currentPage - 1,
       pageSize: this.pageSize
     };
-    getOrderList(param)
-      .then((res) => {
-        let tmpList = Array.from(res.context.content, (ele) => {
-          const tradeState = ele.tradeState;
-          return Object.assign(ele, {
-            canChangeAppoint:
-              ele.orderType === 'FELINE_ORDER' &&
-              tradeState.flowState !== 'COMPLETED' &&
-              tradeState.flowState !== 'VOID' &&
-              tradeState.payState === 'PAID',
-            canCancelAppoint:
-              ele.orderType === 'FELINE_ORDER' &&
-              tradeState.flowState !== 'COMPLETED' &&
-              tradeState.flowState !== 'VOID' &&
-              tradeState.payState === 'PAID',
-            cancelAppointLoading: false
-          });
-        });
-        tmpList = tmpList.filter((item) => item.orderType === 'FELINE_ORDER');
-        if (this.state.initing) {
-          this.setState({ everHaveNoOrders: !tmpList.length });
-        }
-        this.setState({
-          orderList: tmpList,
-          currentPage: res.context.pageable.pageNumber + 1,
-          totalPage: res.context.totalPages
-        });
-      })
-      .catch((err) => {
-        this.setState({
-          errMsg: err.message.toString(),
-          tabErrMsg: err.message.toString()
-        });
-      })
-      .finally(() => {
-        this.setState({
-          loading: false,
-          initing: false,
-          initLoading: false
+    try {
+      const res = await getAppointList(param);
+      const appointDictRes = await Promise.all([
+        getAppointDict({
+          type: 'appointment_type'
+        }),
+        getAppointDict({
+          type: 'expert_type'
+        })
+      ]);
+      console.log('appointDictRes', appointDictRes);
+      let tmpList = Array.from(res.context.page.content, (ele) => {
+        return Object.assign(ele, {
+          canChangeAppoint: true,
+          canCancelAppoint: true,
+          cancelAppointLoading: false,
+          appointmentType: (
+            appointDictRes[0]?.context?.goodsDictionaryVOS || []
+          ).filter((item) => item.id === ele?.apptTypeId)[0].name,
+          expertType: (
+            appointDictRes[1]?.context?.goodsDictionaryVOS || []
+          ).filter((item) => item.id === ele?.expertTypeId)[0].name,
+          appointmentStatus:
+            ele.status === 0 ? 'Booked' : ele.status === 1 ? 'Arrive' : 'Cancel'
         });
       });
+      if (this.state.initing) {
+        this.setState({ everHaveNoOrders: !tmpList.length });
+      }
+      this.setState({
+        appointmentList: tmpList,
+        totalPage: res.context.page.totalPages
+      });
+    } catch (err) {
+      this.setState({
+        errMsg: err.message.toString(),
+        tabErrMsg: err.message.toString()
+      });
+    } finally {
+      this.setState({
+        loading: false,
+        initing: false,
+        initLoading: false
+      });
+    }
   }
   handlePageNumChange = (params) => {
     this.setState(
@@ -145,39 +135,39 @@ class AccountOrders extends React.Component {
       () => this.queryOrderList()
     );
   };
-  async cancelAppoint(order) {
+  async cancelAppoint(appointment) {
     try {
-      const { orderList } = this.state;
-      order.cancelAppointLoading = true;
-      this.setState({ orderList: orderList });
-      await cancelAppointByNo({ apptNo: order.appointmentNo });
+      const { appointmentList } = this.state;
+      appointment.cancelAppointLoading = true;
+      this.setState({ appointmentList: appointmentList });
+      await cancelAppointByNo({ apptNo: appointment.appointmentNo });
       this.queryOrderList();
     } catch (err) {
     } finally {
-      order.cancelAppointLoading = false;
+      appointment.cancelAppointLoading = false;
     }
   }
   handleClickCardItem(item) {
     if (this.deviceType === 'PC') {
       return false;
     }
-    this.props.history.push(`/account/appointments/detail/${item.id}`);
+    this.props.history.push(`/account/appointments/detail/${item.apptNo}`);
     return false;
   }
   handleClickBackToIndex = () => {
     this.setState({ showOneOrderDetail: false });
   };
-  renderOperationBtns = (order) => {
+  renderOperationBtns = (appointment) => {
     return (
       <>
         {/*felin订单change appoint*/}
-        {order.canChangeAppoint ? (
+        {appointment.canChangeAppoint ? (
           <span className="inline-flex items-center">
             <span className="iconfont iconedit-data text-green mr-2" />
             <FormattedMessage id="appointment.reSchedule">
               {(txt) => (
                 <Link
-                  to={`/felin?id=${order.appointmentNo}`}
+                  to={`/felin?id=${appointment.apptNo}`}
                   title={txt}
                   alt={txt}
                 >
@@ -188,10 +178,10 @@ class AccountOrders extends React.Component {
           </span>
         ) : null}
         {/*felin订单cancel appoint*/}
-        {/*{order.canCancelAppoint ? (*/}
+        {/*{appointment.canCancelAppoint ? (*/}
         {/*  <button*/}
-        {/*    className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order ml-0`}*/}
-        {/*    onClick={this.cancelAppoint.bind(this, order)}*/}
+        {/*    className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-appointment ml-0`}*/}
+        {/*    onClick={this.cancelAppoint.bind(this, appointment)}*/}
         {/*  >*/}
         {/*    <FormattedMessage id="Cancel Appointment" />*/}
         {/*  </button>*/}
@@ -213,7 +203,7 @@ class AccountOrders extends React.Component {
     const {
       errMsg,
       everHaveNoOrders,
-      orderList,
+      appointmentList,
       tabErrMsg,
       showOneOrderDetail,
       curOneOrderDetails
@@ -272,7 +262,7 @@ class AccountOrders extends React.Component {
                             <img
                               src={orderImg}
                               className="w-100"
-                              alt="order image"
+                              alt="appointment image"
                             />
                           </LazyLoad>
                         </div>
@@ -307,7 +297,7 @@ class AccountOrders extends React.Component {
                     </div>
 
                     <div className="order__listing">
-                      <div className="order-list-container">
+                      <div className="appointment-list-container">
                         {this.state.loading ? (
                           <div className="mt-4">
                             <Skeleton
@@ -322,16 +312,16 @@ class AccountOrders extends React.Component {
                             <span className="rc-icon rc-incompatible--xs rc-iconography" />
                             {this.state.tabErrMsg}
                           </div>
-                        ) : orderList.length ? (
+                        ) : appointmentList.length ? (
                           <>
-                            {orderList.map((order) => {
+                            {appointmentList.map((appointment) => {
                               return (
                                 <div
                                   className="card-container"
-                                  key={order.id}
+                                  key={appointment.id}
                                   onClick={this.handleClickCardItem.bind(
                                     this,
-                                    order
+                                    appointment
                                   )}
                                 >
                                   <div className="card rc-margin-y--none ml-0">
@@ -342,21 +332,17 @@ class AccountOrders extends React.Component {
                                           <br className="d-none d-md-block" />
                                           <span className="medium orderHeaderTextColor">
                                             {moment(
-                                              order.tradeState.createTime
+                                              appointment.createTime
                                             ).format('YYYY-MM-DD')}
                                           </span>
                                         </p>
                                       </div>
-                                      <div className="col-12 col-md-2">
+                                      <div className="col-12 col-md-3">
                                         <p>
                                           <FormattedMessage id="appointment.appointmentNumber" />
                                           <br className="d-none d-md-block" />
                                           <span className="medium orderHeaderTextColor">
-                                            {filterOrderId({
-                                              orderNo: order.id,
-                                              orderNoForOMS:
-                                                order.tradeOms?.orderNo
-                                            })}
+                                            {appointment.apptNo}
                                           </span>
                                         </p>
                                       </div>
@@ -366,19 +352,21 @@ class AccountOrders extends React.Component {
                                           <br className="d-none d-md-block" />
                                           <span
                                             className="medium orderHeaderTextColor"
-                                            title={order.tradeState.orderStatus}
+                                            title={
+                                              appointment.appointmentStatus
+                                            }
                                           >
-                                            {order.tradeState.orderStatus}
+                                            {appointment.appointmentStatus}
                                           </span>
                                         </p>
                                       </div>
-                                      <div className="col-12 col-md-4" />
+                                      <div className="col-12 col-md-3" />
                                       <div className="col-12 col-md-2 text-nowrap padding0">
                                         <FormattedMessage id="appointment.appointmentDetails">
                                           {(txt) => (
                                             <Link
                                               className="d-flex rc-padding-left--none rc-btn rc-btn--icon-label rc-padding-right--none orderDetailBtn btn--inverse text-wrap align-items-center"
-                                              to={`/account/appointments/detail/${order.id}`}
+                                              to={`/account/appointments/detail/${appointment.apptNo}`}
                                             >
                                               <em className="rc-iconography rc-icon rc-news--xs" />
                                               <span
@@ -394,83 +382,39 @@ class AccountOrders extends React.Component {
                                     </div>
                                   </div>
                                   <div className="row mb-3 mt-3 align-items-center m-0 relative">
-                                    {/* 订单发货tip */}
-                                    {((order.tradeState.payState === 'PAID' &&
-                                      order.tradeState.auditState ===
-                                        'CHECKED' &&
-                                      order.tradeState.deliverStatus ===
-                                        'SHIPPED' &&
-                                      order.tradeState.flowState ===
-                                        'DELIVERED') ||
-                                      (order.tradeState.deliverStatus ===
-                                        'PART_SHIPPED' &&
-                                        order.tradeState.flowState ===
-                                          'DELIVERED_PART')) && (
-                                      <div className="col-12 mt-1 md:mt-0 md:mb-1 order-1 md:order-0">
-                                        <p className="medium mb-0 color-444">
-                                          <FormattedMessage id="deliveredTip" />
-                                        </p>
-                                        <p className="green">
-                                          <FormattedMessage id="inTransit" />
-                                        </p>
-                                      </div>
-                                    )}
-                                    {/* 订单完成tip */}
-                                    {order.tradeState.flowState ===
-                                      'COMPLETED' &&
-                                    !order.storeEvaluateVO &&
-                                    order.tradeEventLogs[0] &&
-                                    order.tradeEventLogs[0].eventType ===
-                                      'COMPLETED' ? (
-                                      <div className="col-12 mt-1 md:mt-0 md:mb-1 order-1 md:order-0">
-                                        <p className="medium mb-0 color-444">
-                                          <FormattedMessage id="orderStatus.COMPLETED" />
-                                          :{' '}
-                                          {order.tradeEventLogs[0].eventTime.substr(
-                                            0,
-                                            10
-                                          )}
-                                        </p>
-                                        <p>
-                                          <FormattedMessage id="order.completeTip" />
-                                        </p>
-                                      </div>
-                                    ) : null}
                                     <div className="col-10 col-md-9">
-                                      {order.tradeItems.map((item, idx) => (
-                                        <div
-                                          className={`row rc-margin-x--none align-items-center ${
-                                            idx ? 'mt-2' : ''
-                                          }`}
-                                          key={item.oid}
-                                        >
-                                          <div className="col-4 col-md-2 d-flex justify-content-md-center">
-                                            <LazyLoad>
-                                              <img
-                                                className="ord-list-img-fluid"
-                                                src={item.pic || IMG_DEFAULT}
-                                                alt={item.spuName}
-                                                title={item.spuName}
-                                              />
-                                            </LazyLoad>
-                                          </div>
-                                          <div className="col-8 col-md-6">
-                                            <span className="medium color-444 ui-text-overflow-line2">
-                                              {item.spuName}
-                                            </span>
-                                            <span>
-                                              {order.specialistType} –{' '}
-                                              {order.appointmentTime}
-                                              <FormattedMessage id="min" /> –
-                                              {order.appointmentType}
-                                            </span>
-                                          </div>
+                                      <div
+                                        className={`row rc-margin-x--none align-items-center`}
+                                      >
+                                        <div className="col-4 col-md-2 d-flex justify-content-md-center">
+                                          <LazyLoad>
+                                            <img
+                                              className="ord-list-img-fluid"
+                                              src={
+                                                appointment.goodsInfoImg ||
+                                                IMG_DEFAULT
+                                              }
+                                              alt={appointment.goodsInfoName}
+                                              title={appointment.goodsInfoName}
+                                            />
+                                          </LazyLoad>
                                         </div>
-                                      ))}
+                                        <div className="col-8 col-md-6">
+                                          <span className="medium color-444 ui-text-overflow-line2">
+                                            {appointment.goodsInfoName}
+                                          </span>
+                                          <span>
+                                            {appointment.expertType} –{' '}
+                                            {appointment.minutes}
+                                            <FormattedMessage id="min" /> –
+                                            {appointment.appointmentType}
+                                          </span>
+                                        </div>
+                                      </div>
                                     </div>
                                     <div className="col-2 col-md-3 text-center md:pl-0 md:pr-0">
                                       <div className="rc-md-up">
-                                        {this.renderOperationBtns(order)}
+                                        {this.renderOperationBtns(appointment)}
                                       </div>
                                       <span
                                         className="iconfont iconjiantouyou1 bold rc-md-down"
@@ -489,10 +433,10 @@ class AccountOrders extends React.Component {
                             }}
                             className="text-center"
                           >
-                            <FormattedMessage id="order.noDataTip" />
+                            <FormattedMessage id="appointment.noDataTip" />
                           </div>
                         )}
-                        {tabErrMsg || !orderList.length ? null : (
+                        {tabErrMsg || !appointmentList.length ? null : (
                           <div className="grid-footer rc-full-width mt-4 md:mt-2">
                             <Pagination
                               loading={this.state.loading}
@@ -509,7 +453,7 @@ class AccountOrders extends React.Component {
                 )}
               </div>
 
-              {/* one order details for mobile */}
+              {/* one appointment details for mobile */}
               {showOneOrderDetail && (
                 <div className={`pl-4 pr-4 rc-md-down`}>
                   <div className="row">
@@ -517,48 +461,29 @@ class AccountOrders extends React.Component {
                       <span onClick={this.handleClickBackToIndex}>
                         <span className="red">&lt;</span>
                         <span className="rc-styled-link rc-progress__breadcrumb ml-2 mt-1">
-                          <FormattedMessage id="order" />
+                          <FormattedMessage id="appointment" />
                         </span>
                       </span>
                     </div>
-                    {curOneOrderDetails.tradeItems.map((item, idx) => (
-                      <div className="row col-12 mb-2" key={idx}>
-                        <div className="col-6 d-flex">
-                          <LazyLoad>
-                            <img
-                              className="ord-list-img-fluid"
-                              src={item.pic || IMG_DEFAULT}
-                              alt={item.spuName}
-                              title={item.spuName}
-                            />
-                          </LazyLoad>
-                        </div>
-                        <div className="col-6 d-flex align-items-center">
-                          <div>
-                            <span className="medium color-444 ui-text-overflow-line2">
-                              {item.spuName}
-                            </span>
-                            <span>
-                              {[
-                                item.specDetails,
-                                this.props.intl.formatMessage(
-                                  { id: 'xProduct' },
-                                  {
-                                    val: item.num
-                                  }
-                                )
-                              ]
-                                .filter((e) => e)
-                                .join(' - ')}
-                            </span>
-                            <br />
-                            <span style={{ fontSize: '1.1em' }}>
-                              {formatMoney(item.price)}
-                            </span>
-                          </div>
+                    <div className="row col-12 mb-2">
+                      <div className="col-6 d-flex">
+                        <LazyLoad>
+                          <img
+                            className="ord-list-img-fluid"
+                            src={curOneOrderDetails.goodsInfoImg || IMG_DEFAULT}
+                            alt={curOneOrderDetails.goodsInfoName}
+                            title={curOneOrderDetails.goodsInfoName}
+                          />
+                        </LazyLoad>
+                      </div>
+                      <div className="col-6 d-flex align-items-center">
+                        <div>
+                          <span className="medium color-444 ui-text-overflow-line2">
+                            {curOneOrderDetails.goodsInfoName}
+                          </span>
                         </div>
                       </div>
-                    ))}
+                    </div>
                     <div className="col-12 d-flex justify-content-center flex-column align-items-center mt-4 mb-4 ord-operation-btns">
                       {this.renderOperationBtns(curOneOrderDetails)}
                     </div>

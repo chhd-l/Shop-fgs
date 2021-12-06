@@ -27,9 +27,9 @@ import {
   cancelOrder,
   getPayRecord,
   returnFindByTid,
-  queryLogistics,
-  cancelAppointByNo
+  queryLogistics
 } from '@/api/order';
+import { cancelAppointByNo } from '@/api/appointment';
 import { IMG_DEFAULT } from '@/utils/constant';
 import './index.less';
 import LazyLoad from 'react-lazyload';
@@ -1049,35 +1049,35 @@ class AccountOrders extends React.Component {
           </button>
         ) : null}
         {/*felin订单change appoint*/}
-        {details.canChangeAppoint ? (
-          <button
-            className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order`}
-          >
-            <FormattedMessage id="Change Appointment">
-              {(txt) => (
-                <Link
-                  className="color-fff"
-                  to={`/felin?id=${details.appointmentNo}`}
-                  title={txt}
-                  alt={txt}
-                >
-                  {txt}
-                </Link>
-              )}
-            </FormattedMessage>
-          </button>
-        ) : null}
+        {/*{details.canChangeAppoint ? (*/}
+        {/*  <button*/}
+        {/*    className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order`}*/}
+        {/*  >*/}
+        {/*    <FormattedMessage id="Change Appointment">*/}
+        {/*      {(txt) => (*/}
+        {/*        <Link*/}
+        {/*          className="color-fff"*/}
+        {/*          to={`/felin?id=${details.appointmentNo}`}*/}
+        {/*          title={txt}*/}
+        {/*          alt={txt}*/}
+        {/*        >*/}
+        {/*          {txt}*/}
+        {/*        </Link>*/}
+        {/*      )}*/}
+        {/*    </FormattedMessage>*/}
+        {/*  </button>*/}
+        {/*) : null}*/}
         {/*felin订单cancel appoint*/}
-        {details.canCancelAppoint ? (
-          <button
-            className={`rc-btn ml-0 rc-btn--sm rc-btn--one ord-list-operation-btn felin-order ${
-              details.cancelAppointLoading ? 'ui-btn-loading' : ''
-            }`}
-            onClick={this.cancelAppoint.bind(this, details)}
-          >
-            <FormattedMessage id="Cancel Appointment" />
-          </button>
-        ) : null}
+        {/*{details.canCancelAppoint ? (*/}
+        {/*  <button*/}
+        {/*    className={`rc-btn ml-0 rc-btn--sm rc-btn--one ord-list-operation-btn felin-order ${*/}
+        {/*      details.cancelAppointLoading ? 'ui-btn-loading' : ''*/}
+        {/*    }`}*/}
+        {/*    onClick={this.cancelAppoint.bind(this, details)}*/}
+        {/*  >*/}
+        {/*    <FormattedMessage id="Cancel Appointment" />*/}
+        {/*  </button>*/}
+        {/*) : null}*/}
       </>
     );
   };
