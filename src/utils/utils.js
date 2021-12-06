@@ -18,7 +18,7 @@ import us from 'date-fns/locale/en-US';
 import ru from 'date-fns/locale/ru';
 import { registerLocale } from 'react-datepicker';
 import { format, utcToZonedTime } from 'date-fns-tz';
-import { getAppointByApptNo } from '@/api/order';
+import { getAppointDetail } from '@/api/appointment';
 import cloneDeep from 'lodash/cloneDeep';
 import { sitePurchase } from '@/api/cart';
 
@@ -1034,7 +1034,7 @@ export async function getAddressPostalCodeAlertMessage() {
 
 //根据预约单号获取预约信息
 export async function getAppointmentInfo(appointNo) {
-  const res = await getAppointByApptNo({ apptNo: appointNo });
+  const res = await getAppointDetail({ apptNo: appointNo });
   let resContext = res?.context?.settingVO;
   let appointDictRes = await Promise.all([
     getAppointDict({

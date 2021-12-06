@@ -4,7 +4,9 @@ const api = {
   getTimeOptions: '/appt/findByStoreAndDate',
   apptSave: '/appt/save',
   consentList: '/appt/listApptPageConsent',
-  getAppointList: '/appt/list'
+  getAppointList: '/appt/list',
+  cancelAppoint: '/appt/cancelByNo', //根据appointNo cancel appointment
+  getAppointDetail: '/appt/findByNo' //根据appointNo查询appoint信息
 };
 
 export default api;
@@ -36,6 +38,22 @@ export function getConsentList(parameter) {
 export function getAppointList(parameter) {
   return axios({
     url: `${api.getAppointList}`,
+    method: 'post',
+    data: parameter
+  });
+}
+
+export function cancelAppointByNo(parameter) {
+  return axios({
+    url: api.cancelAppoint,
+    method: 'post',
+    data: parameter
+  });
+}
+
+export function getAppointDetail(parameter) {
+  return axios({
+    url: api.getAppointDetail,
     method: 'post',
     data: parameter
   });
