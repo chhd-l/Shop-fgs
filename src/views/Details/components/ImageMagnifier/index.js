@@ -362,6 +362,7 @@ class ImageMagnifier extends Component {
       taggingForText,
       taggingForImage,
       taggingChildren,
+      bigImageOutBoxClassName,
       spuImages,
       imgAlt
     } = this.props;
@@ -383,7 +384,10 @@ class ImageMagnifier extends Component {
       <div>
         <div className="position-relative">
           {/* <div className="bigImageOutBox" style={cssStyle.imgContainer}> */}
-          <div className="bigImageOutBox" style={cssStyle.imgContainer}>
+          <div
+            className={`bigImageOutBox ${bigImageOutBoxClassName}`}
+            style={cssStyle.imgContainer}
+          >
             {taggingForText ? (
               <div
                 className="product-item-flag-text"
