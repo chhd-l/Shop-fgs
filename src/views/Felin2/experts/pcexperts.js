@@ -97,7 +97,7 @@ class Pcexperts extends React.Component {
       apptTypeList: [], // 线上线下
       expertTypeList: [],
       params: {
-        appointmentTypeId: null, // 线上线下
+        apptTypeId: null, // 线上线下
         expertTypeId: null, // 专家类型
         minutes: null // 时间
       },
@@ -175,7 +175,7 @@ class Pcexperts extends React.Component {
           },
           params: {
             ...this.state.params,
-            appointmentTypeId: context.apptTypeId,
+            apptTypeId: context.apptTypeId,
             minutes: context.minutes,
             expertTypeId: context.expertTypeId
           },
@@ -320,7 +320,8 @@ class Pcexperts extends React.Component {
       threeShow: false,
       fourShow: true
     });
-    let type = this.state.bookSlotVO.dateNo ? true : false;
+    let type = !!this.state.bookSlotVO.dateNo;
+    console.log(type);
     this.queryDate(type, {
       minutes: this.state.votre.duree,
       bookSlotVO: this.state.bookSlotVO
@@ -339,12 +340,10 @@ class Pcexperts extends React.Component {
     if (id) {
       this.postUpdate(
         {
+          ...this.state.params,
           apptNo: this.state.appointmentVO.apptNo,
           id: this.state.appointmentVO.id,
           createTime: this.state.appointmentVO.createTime,
-          apptTypeId: this.state.params.appointmentTypeId,
-          appointmentTypeId: this.state.params.appointmentTypeId,
-          expertTypeId: this.state.params.expertTypeId,
           consumerName:
             this.state.userInfo?.contactName ||
             this.state.appointmentVO.consumerName ||
@@ -371,7 +370,6 @@ class Pcexperts extends React.Component {
             undefined,
           customerLevelId: this.state.appointmentVO.customerId ? 234 : 233, // 233未登录 234登陆
           bookSlotVO: this.state.bookSlotVO,
-          minutes: this.state.params.minutes,
           serviceTypeId: 6
         },
         id
@@ -382,8 +380,7 @@ class Pcexperts extends React.Component {
   };
   postSave = async () => {
     const { context } = await postSave({
-      apptTypeId: this.state.params.appointmentTypeId,
-      appointmentTypeId: this.state.params.appointmentTypeId,
+      ...this.state.params,
       consumerName: this.state.userInfo?.contactName || undefined,
       consumerFirstName: this.state.userInfo?.firstName || undefined,
       consumerLastName: this.state.userInfo?.lastName || undefined,
@@ -392,8 +389,6 @@ class Pcexperts extends React.Component {
       customerId: this.state.userInfo?.customerId || undefined,
       customerLevelId: this.state.userInfo?.customerId ? 234 : 233, // 233未登录 234登陆
       bookSlotVO: this.state.bookSlotVO,
-      minutes: this.state.params.minutes,
-      expertTypeId: this.state.params.expertTypeId,
       serviceTypeId: 6
     });
     let apptNo = context.appointmentVO.apptNo;
@@ -510,16 +505,13 @@ class Pcexperts extends React.Component {
   };
   handleUpdate = (params) => {
     this.postUpdate({
+      ...this.state.params,
       apptNo: this.state.appointmentVO.apptNo,
       id: this.state.appointmentVO.id,
       createTime: this.state.appointmentVO.createTime,
-      apptTypeId: this.state.params.appointmentTypeId,
-      appointmentTypeId: this.state.params.appointmentTypeId,
       customerId: this.state.appointmentVO.customerId || undefined,
       customerLevelId: this.state.appointmentVO.customerId ? 234 : 233, // 233未登录 234登陆
       bookSlotVO: this.state.bookSlotVO,
-      minutes: this.state.params.minutes,
-      expertTypeId: this.state.params.expertTypeId,
       consumerFirstName: params.firstName,
       consumerLastName: params.lastName,
       consumerName: params.firstName + ' ' + params.lastName,
@@ -596,12 +588,12 @@ class Pcexperts extends React.Component {
                           this.handleActiveBut(
                             item.id,
                             appointName[item.name],
-                            'appointmentTypeId',
+                            'apptTypeId',
                             'type'
                           )
                         }
                         className={`text-base font-medium p-3 rounded-full mr-4 ${
-                          this.state.params.appointmentTypeId === item.id
+                          this.state.params.apptTypeId === item.id
                             ? 'bg-red-600 text-white'
                             : 'bg-gray-300 text-white'
                         }`}
@@ -663,7 +655,7 @@ class Pcexperts extends React.Component {
               </button>
               <button
                 disabled={
-                  this.state.params.appointmentTypeId == null ||
+                  this.state.params.apptTypeId == null ||
                   this.state.params.expertTypeId === null
                 }
                 onClick={this.handleGotoThree}

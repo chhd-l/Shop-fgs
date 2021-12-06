@@ -90,7 +90,7 @@ class Hcexperts extends React.Component {
       apptTypeList: [], // 线上线下
       expertTypeList: [],
       params: {
-        appointmentTypeId: '', // 线上线下
+        apptTypeId: '', // 线上线下
         expertTypeId: '', // 专家类型
         minutes: '' // 时间
       },
@@ -191,7 +191,7 @@ class Hcexperts extends React.Component {
           },
           params: {
             ...this.state.params,
-            appointmentTypeId: context.apptTypeId,
+            apptTypeId: context.apptTypeId,
             minutes: context.minutes,
             expertTypeId: context.expertTypeId
           },
@@ -319,7 +319,7 @@ class Hcexperts extends React.Component {
       threeShow: false,
       fourShow: true
     });
-    let type = this.state.bookSlotVO.dateNo ? true : false;
+    let type = !!this.state.bookSlotVO.dateNo;
     this.queryDate(type, {
       minutes: this.state.votre.duree,
       bookSlotVO: this.state.bookSlotVO
@@ -337,12 +337,10 @@ class Hcexperts extends React.Component {
     if (id) {
       this.postUpdate(
         {
+          ...this.state.params,
           apptNo: this.state.appointmentVO.apptNo,
           id: this.state.appointmentVO.id,
           createTime: this.state.appointmentVO.createTime,
-          apptTypeId: this.state.params.appointmentTypeId,
-          appointmentTypeId: this.state.params.appointmentTypeId,
-          expertTypeId: this.state.params.expertTypeId,
           consumerName:
             this.state.userInfo?.contactName ||
             this.state.appointmentVO.consumerName ||
@@ -369,7 +367,6 @@ class Hcexperts extends React.Component {
             undefined,
           customerLevelId: this.state.appointmentVO.customerId ? 234 : 233, // 233未登录 234登陆
           bookSlotVO: this.state.bookSlotVO,
-          minutes: this.state.params.minutes,
           serviceTypeId: 6
         },
         id
@@ -380,8 +377,7 @@ class Hcexperts extends React.Component {
   };
   postSave = async () => {
     const { context } = await postSave({
-      apptTypeId: this.state.params.appointmentTypeId,
-      appointmentTypeId: this.state.params.appointmentTypeId,
+      ...this.state.params,
       consumerName: this.state.userInfo?.contactName || undefined,
       consumerFirstName: this.state.userInfo?.firstName || undefined,
       consumerLastName: this.state.userInfo?.lastName || undefined,
@@ -390,8 +386,6 @@ class Hcexperts extends React.Component {
       customerId: this.state.userInfo?.customerId || undefined,
       customerLevelId: this.state.userInfo?.customerId ? 234 : 233, // 233未登录 234登陆
       bookSlotVO: this.state.bookSlotVO,
-      minutes: this.state.params.minutes,
-      expertTypeId: this.state.params.expertTypeId,
       serviceTypeId: 6
     });
     let apptNo = context.appointmentVO.apptNo;
@@ -454,7 +448,7 @@ class Hcexperts extends React.Component {
               type: 'primary',
               disabled: true
             });
-            if (_resources.length == 0) {
+            if (_resources.length === 0) {
               _resources.push(_temp);
             } else {
               _resources.map((item) => {
@@ -519,16 +513,13 @@ class Hcexperts extends React.Component {
   };
   handleUpdate = (params) => {
     this.postUpdate({
+      ...this.state.params,
       apptNo: this.state.appointmentVO.apptNo,
       id: this.state.appointmentVO.id,
       createTime: this.state.appointmentVO.createTime,
-      apptTypeId: this.state.params.appointmentTypeId,
-      appointmentTypeId: this.state.params.appointmentTypeId,
       customerId: this.state.appointmentVO.customerId || undefined,
       customerLevelId: this.state.appointmentVO.customerId ? 234 : 233, // 233未登录 234登陆
       bookSlotVO: this.state.bookSlotVO,
-      minutes: this.state.params.minutes,
-      expertTypeId: this.state.params.expertTypeId,
       consumerFirstName: params.firstName,
       consumerLastName: params.lastName,
       consumerName: params.firstName + ' ' + params.lastName,
@@ -662,7 +653,7 @@ class Hcexperts extends React.Component {
                       this.handleActiveBut(
                         item.id,
                         appointName[item.name],
-                        'appointmentTypeId',
+                        'apptTypeId',
                         'type'
                       );
                       this.setState({
@@ -671,7 +662,7 @@ class Hcexperts extends React.Component {
                       });
                     }}
                     className={`text-xs font-medium p-3 rounded-full ${
-                      this.state.params.appointmentTypeId === item.id
+                      this.state.params.apptTypeId === item.id
                         ? 'bg-red-600 text-white'
                         : 'bg-gray-300 text-white'
                     }`}
