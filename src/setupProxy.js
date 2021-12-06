@@ -1,8 +1,8 @@
 const proxy = require('http-proxy-middleware');
-const localEnv = require('./env/interface-prefix');
+const interfacePrefix = require('./env/interface-prefix');
 
 // fgs/hub代理map
-const targetConfig = localEnv[process.env.REACT_APP_START_ENV]({
+const targetConfig = interfacePrefix[process.env.REACT_APP_START_ENV]({
   countryFromLink: process.env.REACT_APP_START_COUNTRY_LINK
 });
 
