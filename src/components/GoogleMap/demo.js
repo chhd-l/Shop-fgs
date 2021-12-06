@@ -54,7 +54,7 @@ class SimpleMap extends Component {
       });
     });
 
-    new MarkerClusterer(map, markers, {
+    const marker = new MarkerClusterer(map, markers, {
       imagePath:
         'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
     });
