@@ -969,7 +969,7 @@
               var r = null;
               (function(e) {
                   try {
-                      new r("test");
+                    //   new r("test");
                       return false
                   } catch (t) {
                       r = function MouseEvent(t, r) {
@@ -3654,7 +3654,7 @@
   var f = !r(12)(function() {
       var e = [];
       e[l] = false;
-      return e.concat()[0] !== e
+      return e.concat()[0] != e
   });
   var p = r(50)("concat");
   var v = function(e) {
@@ -8326,7 +8326,8 @@
 }
 , function(e, t, r) {
   (function(e, t) {
-      true ? t() : undefined
+    //   true ? t() : undefined
+    t()
   }
   )(this, function() {
       "use strict";
