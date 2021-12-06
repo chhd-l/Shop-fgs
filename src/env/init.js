@@ -37,7 +37,7 @@ if (process.env.NODE_ENV === 'production') {
       break;
   }
   const targetConfig = interfacePrefix[startEnv]({
-    countryCode: param?.countryCode
+    countryFromLink: param?.countryLink
   });
   console.log(11111, {
     startEnv,
