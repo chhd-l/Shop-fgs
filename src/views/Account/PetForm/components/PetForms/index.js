@@ -165,17 +165,17 @@ const PetForms = ({
     let petFormData = Object.assign(petForm, currentPetParam);
 
     setPetForm(petFormData);
-    purebredOpitons.map((item) => {
+    purebredOpitons.forEach((item) => {
       let checked = item.value == currentPetParam.isPurebred;
       item.checked = checked;
     });
     setPurebredGroup(purebredOpitons);
-    genderOptions.map((item) => {
+    genderOptions.forEach((item) => {
       let checked = item.value == currentPetParam.petsSex;
       item.checked = checked;
     });
     setGenderGroup(genderOptions);
-    sterilizedOptions.map((item) => {
+    sterilizedOptions.forEach((item) => {
       let checked = item.value == currentPetParam.sterilized;
       item.checked = checked;
     });
