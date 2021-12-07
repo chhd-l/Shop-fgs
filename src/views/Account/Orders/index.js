@@ -315,14 +315,14 @@ class AccountOrders extends React.Component {
     this.props.history.push(`/account/orders/detail/${item.id}`);
     return false;
     // 测试要求改到跳转页面  1214
-    this.setState({ curOneOrderDetails: item });
-    setTimeout(() => {
-      this.setState({ showOneOrderDetail: true });
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    });
+    // this.setState({ curOneOrderDetails: item });
+    // setTimeout(() => {
+    //   this.setState({ showOneOrderDetail: true });
+    //   window.scrollTo({
+    //     top: 0,
+    //     behavior: 'smooth'
+    //   });
+    // });
   }
   handleClickBackToIndex = () => {
     this.setState({ showOneOrderDetail: false });
@@ -895,7 +895,7 @@ class AccountOrders extends React.Component {
                                         </div>
                                       ))}
                                     </div>
-                                    {isGift && !getDeviceType() === 'H5' ? (
+                                    {isGift && !(getDeviceType() === 'H5') ? (
                                       order.tradeItems.map((item, idx) => (
                                         <div className="col-2 col-md-3 text-right md:pl-0">
                                           {formatMoney(item.price)}

@@ -51,9 +51,8 @@ class addressStore {
             apiobj,
             (e) => e.name == 'DQE' || e.name == 'DADATA' || e.name == 'FEDEX'
           ) || null;
-        apiobj?.isOpen == 1 && apiobj?.addressApiType == 1
-          ? (apiType = apiobj?.name)
-          : null; // DQE 、DADATA、FEDEX
+        if (apiobj?.isOpen == 1 && apiobj?.addressApiType == 1)
+          apiType = apiobj?.name; // DQE 、DADATA、FEDEX
       }
       const res = await addressValidation({
         city: address.city,
@@ -73,9 +72,8 @@ class addressStore {
       }
       // 是否地址验证保存本地
       localItemRoyal.set('rc-address-validation-flag', valaddFlag);
+      return ret;
     } catch (err) {
-    } finally {
-      // this.setModalConfirmBtnLoading(false);
       return ret;
     }
   }
