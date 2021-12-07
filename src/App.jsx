@@ -22,6 +22,7 @@ import { Security, useOktaAuth } from '@okta/okta-react';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'mobx-react';
 import loadable from '@/lib/loadable-component';
+import '@/lang/momentLocale'
 
 import oktaConfig from './oktaConfig';
 import stores from './store';
