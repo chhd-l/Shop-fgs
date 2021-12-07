@@ -3,6 +3,11 @@ const env = {
     // #国家
     REACT_APP_COUNTRY: 'tr',
 
+    // 语言文件
+    REACT_APP_LANG_LOCALE: 'tr-TR',
+
+    REACT_APP_CALENDAR_LOCALE: 'tr-TR',
+
     // #payu表单字段控制
     REACT_APP_PAYU_EMAIL: '0',
     REACT_APP_PAYU_PHONE: '0',
@@ -21,7 +26,7 @@ const env = {
 
     // #mars global footer
     REACT_APP_MARS_FOOTER:
-      'https://footer.mars.com/js/footer.js.aspx?royalcanin-turkey',
+      'https://footer.mars.com/js/footer.js.aspx?royalcanin-com-tr',
 
     // #storid
     REACT_APP_STOREID: '123457911',
@@ -35,16 +40,14 @@ const env = {
     // #商品种类限制
     REACT_APP_LIMITED_CATE_NUM: '100',
 
-    // #货币单位
-    REACT_APP_CURRENCY_TYPE: '3',
-
     // #language
     REACT_APP_LANG: 'tr',
+    REACT_APP_HTML_LANG: 'tr',
     REACT_APP_NAVIGATOR_LANG: 'tr',
     REACT_APP_CURRENCY: 'TRY',
 
     // #是否开启promotion
-    REACT_APP_IS_PROMOTION: 'false',
+    REACT_APP_IS_PROMOTION: 'true',
     // #是否显示banner上方tip
     REACT_APP_SHOW_BANNERTIP: 'true',
 
@@ -53,9 +56,6 @@ const env = {
 
     // #下单流程是否需要clinic
     REACT_APP_CHECKOUT_WITH_CLINIC: 'false',
-
-    // #PLP cover style
-    REACT_APP_PLP_STYLE: 'layout-global',
 
     // #PDP RATING SETTING
     REACT_APP_PDP_RATING_VISIBLE: '0',
@@ -91,7 +91,7 @@ const env = {
     REACT_APP_GA_ENV: 'dev',
 
     // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT: '493fcc19-7d1b-4628-bb7f-4b66c21c5927-test'
+    REACT_APP_ONTRUST_DOMAIN_SCRIPT: '8e43358c-1784-48e1-88b1-b6d1dcd73576-test'
   },
   shopsit: {
     // #okta
@@ -122,7 +122,7 @@ const env = {
 
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      '493fcc19-7d1b-4628-bb7f-4b66c21c5927-test',
+      '8e43358c-1784-48e1-88b1-b6d1dcd73576-test',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/tr'
@@ -156,7 +156,7 @@ const env = {
 
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      '493fcc19-7d1b-4628-bb7f-4b66c21c5927-test',
+      '8e43358c-1784-48e1-88b1-b6d1dcd73576-test',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/tr'
@@ -190,7 +190,7 @@ const env = {
 
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      '493fcc19-7d1b-4628-bb7f-4b66c21c5927-test',
+      '8e43358c-1784-48e1-88b1-b6d1dcd73576-test',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/tr'
@@ -220,7 +220,7 @@ const env = {
     REACT_APP_GA_ENV: 'prd',
 
     // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT: '493fcc19-7d1b-4628-bb7f-4b66c21c5927',
+    REACT_APP_ONTRUST_DOMAIN_SCRIPT: '8e43358c-1784-48e1-88b1-b6d1dcd73576',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/',
@@ -254,7 +254,7 @@ const env = {
     REACT_APP_GA_ENV: 'prd',
 
     // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT: '493fcc19-7d1b-4628-bb7f-4b66c21c5927',
+    REACT_APP_ONTRUST_DOMAIN_SCRIPT: '8e43358c-1784-48e1-88b1-b6d1dcd73576',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/tr/shop',
@@ -264,13 +264,13 @@ const env = {
 
     REACT_APP_HUB_URLPREFIX: 'https://www.royalcanin.com/tr',
 
-    // #根节点自定义样式名
-    REACT_APP_ROOT_CLS: 'ui-custom-hub',
-
     REACT_APP_HUB: '1',
 
     // #HUB_GA
-    REACT_APP_HUB_GA: '1'
+    REACT_APP_HUB_GA: '1',
+
+    REACT_APP_HUBPAGE_RETAILER_ISURL: '1',
+    REACT_APP_HUBPAGE_RETAILER_URL: 'http://www.royalcanin.com/tr/where-to-buy'
   },
   stgwedding: {
     // #okta
@@ -301,7 +301,7 @@ const env = {
 
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      '493fcc19-7d1b-4628-bb7f-4b66c21c5927-test',
+      '8e43358c-1784-48e1-88b1-b6d1dcd73576-test',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/tr/shop',
@@ -311,13 +311,12 @@ const env = {
     // #delete接口前缀
     REACT_APP_HUB_APIURL: 'https://stgwedding.royalcanin.com/tr/api',
 
-    // #根节点自定义样式名
-    REACT_APP_ROOT_CLS: 'ui-custom-hub',
-
     REACT_APP_HUB: '1',
 
     // #HUB_GA
-    REACT_APP_HUB_GA: '1'
+    REACT_APP_HUB_GA: '1',
+    REACT_APP_HUBPAGE_RETAILER_ISURL: '1',
+    REACT_APP_HUBPAGE_RETAILER_URL: 'http://www.royalcanin.com/tr/where-to-buy'
   },
   uatwedding: {
     // #okta
@@ -348,7 +347,7 @@ const env = {
 
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      '493fcc19-7d1b-4628-bb7f-4b66c21c5927-test',
+      '8e43358c-1784-48e1-88b1-b6d1dcd73576-test',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/tr/shop',
@@ -358,13 +357,12 @@ const env = {
     // #delete接口前缀
     REACT_APP_HUB_APIURL: 'https://uatwedding.royalcanin.com/tr/api',
 
-    // #根节点自定义样式名
-    REACT_APP_ROOT_CLS: 'ui-custom-hub',
-
     REACT_APP_HUB: '1',
 
     // #HUB_GA
-    REACT_APP_HUB_GA: '1'
+    REACT_APP_HUB_GA: '1',
+    REACT_APP_HUBPAGE_RETAILER_ISURL: '1',
+    REACT_APP_HUBPAGE_RETAILER_URL: 'http://www.royalcanin.com/tr/where-to-buy'
   }
 };
 

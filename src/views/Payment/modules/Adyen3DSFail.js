@@ -17,7 +17,7 @@ class Adyen3DSFail extends Component {
       const tid = funcUrl({ name: 'tid' });
       const subscribeId = funcUrl({ name: 'subscribeId' });
       const tidList = funcUrl({ name: 'tidList' }).split('|');
-      if (isLogin) {
+      if (this.isLogin) {
         sessionItemRoyal.set('rc-tid', tid);
         sessionItemRoyal.set('rc-rePaySubscribeId', subscribeId);
         sessionItemRoyal.set('rc-tidList', JSON.stringify(tidList));

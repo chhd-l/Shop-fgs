@@ -4,12 +4,13 @@ import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';
 import Skeleton from 'react-skeleton-loader';
 import EditForm from '@/components/Adyen/form';
-import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
+import getCardImg from '@/lib/get-card-img';
 import { getPaymentMethod, deleteCard } from '@/api/payment';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
-import { loadJS } from '@/utils/utils';
+import { loadJS, dynamicLoadCss } from '@/utils/utils';
 import { scrollPaymentPanelIntoView } from '../../modules/utils';
 import LazyLoad from 'react-lazyload';
+import getPaymentConf from '@/lib/get-payment-conf';
 import './list.css';
 
 function CardItemCover({
@@ -63,14 +64,16 @@ class AdyenCreditCardList extends React.Component {
       memberUnsavedCardList: [], // 会员，选择不保存卡情况下，卡信息存储该字段中
       saveLoading: false
     };
-    this.handleClickConfirmDeleteBtn = this.handleClickConfirmDeleteBtn.bind(
-      this
-    );
+    this.handleClickConfirmDeleteBtn =
+      this.handleClickConfirmDeleteBtn.bind(this);
     this.handleClickDeleteBtn = this.handleClickDeleteBtn.bind(this);
     this.hanldeClickCardItem = this.hanldeClickCardItem.bind(this);
     this.editFormRef = React.createRef();
   }
   componentDidUpdate() {
+    dynamicLoadCss(
+      'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.css'
+    );
     if (this.props.paymentStore.isRreshList) {
       if (this.isLogin) {
         this.queryList();
@@ -110,7 +113,8 @@ class AdyenCreditCardList extends React.Component {
           (ele) => ele.id === this.state.selectedId
         );
         if (!!firstSaveCard) {
-          firstSaveCard.encryptedSecurityCode = currentCardEncryptedSecurityCode;
+          firstSaveCard.encryptedSecurityCode =
+            currentCardEncryptedSecurityCode;
         }
         this.props.updateSelectedCardInfo(firstSaveCard);
       }
@@ -223,7 +227,7 @@ class AdyenCreditCardList extends React.Component {
       () => this.hanldeUpdateSelectedCardInfo()
     );
   }
-  hanldeUpdateSelectedCardInfo = () => {
+  hanldeUpdateSelectedCardInfo = async () => {
     const { cardList, memberUnsavedCardList, selectedId } = this.state;
     const el =
       find(
@@ -232,7 +236,9 @@ class AdyenCreditCardList extends React.Component {
       ) || null;
     this.props.updateSelectedCardInfo(el);
     // 被选中的卡，才加载cvv
-    el && this.loadCvv(el);
+    if (el) {
+      await this.loadCvv(el);
+    }
     this.updateFormValidStatus(el);
   };
   updateFormValidStatus = (el) => {
@@ -243,11 +249,12 @@ class AdyenCreditCardList extends React.Component {
   getBrowserInfo(state) {
     this.props.paymentStore.setBrowserInfo(state.data.browserInfo);
   }
-  loadCvv = (el) => {
+  loadCvv = async (el) => {
     const _this = this;
     const { updateFormValidStatus } = this;
     const { cardList } = this.state;
     var { updateSelectedCardInfo, paymentStore } = this.props;
+    const { curPayWayInfo } = paymentStore;
     const { id, cardType: brand } = el;
     //第一次绑定这张卡,不需要填写CVV start
     if (paymentStore.firstSavedCardCvv == id) {
@@ -270,16 +277,19 @@ class AdyenCreditCardList extends React.Component {
 
     el.encryptedSecurityCode = ''; //loadCvv的时候先清空cvv
     let element = '#cvv_' + id;
+    const tmpConfArr = await getPaymentConf();
+    const adyenOriginKeyConf = tmpConfArr.filter(
+      (t) => t.pspItemCode === curPayWayInfo?.code
+    )[0];
     loadJS({
-      url:
-        'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
+      url: 'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
       callback: function () {
         if (!!window.AdyenCheckout) {
           const AdyenCheckout = window.AdyenCheckout;
           const checkout = new AdyenCheckout({
-            environment: window.__.env.REACT_APP_Adyen_ENV,
-            originKey: window.__.env.REACT_APP_AdyenOriginKEY,
-            locale: window.__.env.REACT_APP_Adyen_locale
+            environment: adyenOriginKeyConf?.environment,
+            originKey: adyenOriginKeyConf?.openPlatformSecret,
+            locale: adyenOriginKeyConf?.locale || 'en-US'
           });
           checkout
             .create('card', {
@@ -334,22 +344,20 @@ class AdyenCreditCardList extends React.Component {
     let cvvId = data.id;
     return (
       <div className="row">
-        <div className="col-6 col-sm-4 d-flex flex-column pb-1 pb-md-0">
+        <div className="col-6 col-sm-4 d-flex flex-column pb-1 md:pb-0">
           <LazyLoad>
             <img
               alt="card background"
               className="PayCardImgFitScreen"
-              src={
-                CREDIT_CARD_IMG_ENUM[
-                  data.paymentVendor && data.paymentVendor.toUpperCase()
-                ] ||
-                'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-              }
+              src={getCardImg({
+                supportPaymentMethods: this.props.supportPaymentMethods,
+                currentVendor: data.paymentVendor
+              })}
               style={{ width: '89%' }}
             />
           </LazyLoad>
         </div>
-        <div className="col-12 col-sm-8 flex-column justify-content-around d-flex pb-1 pb-md-0">
+        <div className="col-12 col-sm-8 flex-column justify-content-around d-flex pb-1 md:pb-0">
           <div className="row ui-margin-top-1-md-down PayCardBoxMargin text-break">
             <div className={`col-12 mb-1`}>
               <div className="row align-items-center">
@@ -570,12 +578,13 @@ class AdyenCreditCardList extends React.Component {
     const { cardList } = this.state;
     return (
       <EditForm
+        showSetAsDefaultCheckobx={false}
         ref={this.editFormRef}
         cardList={cardList}
         isCheckoutPage={true}
         showSaveBtn={false}
         isOnepageCheckout={true}
-        enableStoreDetails={this.isLogin}
+        isShowEnableStoreDetails={this.isLogin}
         mustSaveForFutherPayments={subBuyWay === 'frequency'} // 所有商品均不订阅 才能不绑卡
         key={subBuyWay}
         showCancelBtn={false}

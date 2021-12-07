@@ -16,7 +16,9 @@ const api = {
   addEvaluate: '/evaluate',
   // addEvaluate: '/evaluate/addEvaluate',
   logistics: '/trade/logistics/refresh', // 查询物流信息
-  exportInvoicePDF: '/account/orderInvoice/exportPDF/'
+  exportInvoicePDF: '/account/orderInvoice/exportPDF/',
+  getGoodsList: '/trade/goods',
+  addGoodsEvaluate: '/goods/evaluates'
 };
 
 export default api;
@@ -120,5 +122,19 @@ export function exportInvoicePDF(parameter) {
   return axios({
     url: `${api.exportInvoicePDF}/${parameter}`,
     method: 'get'
+  });
+}
+
+export function getGoodsList(tid) {
+  return axios({
+    url: `${api.getGoodsList}/${tid}`,
+    method: 'get'
+  });
+}
+export function addGoodsEvaluate(data) {
+  return axios({
+    url: `${api.addGoodsEvaluate}`,
+    method: 'post',
+    data
   });
 }

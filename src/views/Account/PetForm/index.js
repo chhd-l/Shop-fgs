@@ -388,13 +388,13 @@ class PetForm extends React.Component {
               )}
               {this.state.loading ? <Loading positionFixed="true" /> : null}
               <div
-                className="chooseTypeBox my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop mt-2 mt-md-0"
+                className="chooseTypeBox my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop mt-2 md:mt-0"
                 style={{ display: !isChoosePetType ? 'block' : 'none' }}
               >
                 <h5 style={{ color: '#333333', fontWeight: 400 }}>
                   <FormattedMessage id="New Pet" />
                 </h5>
-                <div className="content mt-2 mt-md-4">
+                <div className="content mt-2 md:mt-4">
                   <LazyLoad>
                     <img
                       src={Banner_Dog}
@@ -410,7 +410,9 @@ class PetForm extends React.Component {
                         fontSize: '1.375rem'
                       }}
                     >
-                      <FormattedMessage id="Choose your pet type" />
+                      {window.__.env.REACT_APP_COUNTRY !== 'uk' ? (
+                        <FormattedMessage id="Choose your pet type" />
+                      ) : null}
                     </p>
                     <p style={{ color: '#E2001A', fontSize: '1.375rem' }}>
                       <FormattedMessage id="Your Pet is a…" />
@@ -461,8 +463,13 @@ class PetForm extends React.Component {
                 setState={this.setState.bind(this)}
               />
             </div>
-            {/* 土耳其、俄罗斯club绑定订阅 */}
-            {currentPet.petsId && getClubFlag() ? (
+            {/* 土耳其、俄罗斯club绑定订阅,不是indv的时候才能绑定 */}
+            {currentPet.petsId &&
+            getClubFlag() &&
+            !(
+              currentPet.sourceType == 1 ||
+              currentPet.sourceType == 'individual'
+            ) ? (
               <LinkedSubs
                 petsId={this.props.match.params.id}
                 loading={this.state.loading}

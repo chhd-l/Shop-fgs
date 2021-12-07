@@ -1,0 +1,214 @@
+.Recommendation_FRBreeder {
+  .background-container {
+    position: relative;
+    &::before {
+      content: '';
+    width: 0px;
+    height: 0px;
+    border-top: 600px solid #fff;
+    border-right: 3000px solid transparent;
+    top: 0;
+    right: 0;
+    position: absolute;
+    z-index: 0;}
+    background-color: #F6F6F6;
+  }
+  .benefit li,.benefit ul{
+    list-style: disc;
+  }
+  .benefit li{
+    padding-bottom: 0.625rem;
+  }
+  .goods-container{
+    padding-top: 36px;
+  }
+  .pt-70px{
+    padding-top:70px
+  }
+  .tagging-wrap{
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    &::before{
+      content: '';
+      border-top: 89.11px solid #E2001A;
+      // border-left: 225px solid red;
+      // border-bottom: 89.11px solid transparent;
+      border-right: 225px solid transparent;
+      width: 0;
+      height: 0;
+      position: absolute;
+      z-index: 0;
+      left: 0;
+    }
+    width: 225px;
+    height: 89.11px;
+    
+  }
+  .tagging-text{
+    position: absolute;
+    z-index: 1;
+    color: #fff
+  }
+  .sub-title {
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 2.5rem 0 0.5rem;
+  }
+  .add-cart-for-mobile {
+    position: fixed;
+    box-shadow: 0 2px 0.625rem rgb(0 0 0 / 20%);
+    bottom: 0;
+    z-index: 10;
+    background: #f6f6f6;
+    padding: 1.25rem 0;
+    width: 100%;
+    p {
+      margin-top: 0.75rem;
+      margin-bottom: 0;
+      text-align: center;
+    }
+  }
+  .recommendation-title {
+    font-weight: 400;
+    font-size: 1.875rem;
+    line-height: 1.333;
+    padding-bottom: 2.5rem;
+  }
+  .goods-list-container {
+    min-height: 500px;
+    max-width: 1160px;
+    box-shadow: 1px 2px 10px #1500002b;
+    width: 80%;
+    background: #fff;
+    z-index: 1;
+    position: relative;
+  }
+  .tab-img {
+    margin: 0 auto;
+    // width: 60px;
+    width: auto;
+    height: 80px;
+    // max-width: 72px;
+    // height: auto;
+    // height: 100%;
+    // max-height: 72px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .tab-list {
+    padding: 0;
+    white-space: nowrap;
+    overflow-x: auto;
+    li {
+      border-bottom: 4px solid transparent;
+      &.active {
+        border-bottom-color: #e2001a;
+      }
+    }
+  }
+  .goods-info {
+    padding-right: 8%;
+    .add-to-cart-btn {
+      margin: 1rem 0 0.25rem;
+    }
+    h2 {
+      font-size: 1.875rem;
+      line-height: 1.33;
+      color: #e2001a;
+      font-weight: 400;
+    }
+    .description {
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #666666;
+      margin: 1rem 0;
+      word-break: break-word;
+      -webkit-line-clamp: 2;
+      display: -webkit-box;
+      position: relative;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .show-more {
+      position: absolute;
+      bottom: 0;
+      box-shadow: -10px 0 7px -5px #fff;
+      right: 0;
+      background: #fff;
+    }
+    .price {
+      font-size: 1.25rem;
+      line-height: 1.8;
+      columns: #666666;
+    }
+  }
+  .advantage-container {
+    margin-top: 1.375rem;
+    box-shadow: 1px 2px 10px #1500002b;
+    padding: 1.5rem;
+    p {
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+    h5 {
+      margin: 0 0 0.5rem;
+      font-size: 1.375rem;
+      color: #e2001a;
+      line-height: 1.364;
+    }
+  }
+  .recommendation-title,
+  .sub-title {
+    width: 100%;
+    max-width: 856px;
+  }
+}
+@media (max-width: 769px) {
+  .Recommendation_FRBreeder {
+    .goods-container{
+      padding-top: 12px;
+    }
+    .triangle-for-mobile{
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      height: 26px;
+     &::before{
+      border-bottom: 50px solid #F6F6F6; border-left: 800px solid transparent;width: 0;
+      height: 0;
+      content: '';    position: absolute;
+      bottom: 0;
+     }
+    }
+    .goods-list-container {
+      box-shadow: 1px 2px 10px #1500002b;
+      width: 100%;
+    }
+    .advantage-container {
+      margin-right: auto;
+      margin-left: auto;
+      h5,
+      p {
+        text-align: center;
+      }
+    }
+    .goods-info {
+      h2 {
+        font-size: 1.625rem;
+      }
+    }
+    .sub-title {
+      font-size: 0.875rem;
+    }
+    .recommendation-title {
+      font-size: 1.25rem;
+      font-size: 1.5;
+    }
+  }
+}
+@media (min-width: 769px) {
+  .Recommendation_FRBreeder {
+  }
+}

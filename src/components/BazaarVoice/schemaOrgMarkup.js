@@ -1,12 +1,11 @@
 import { loadJS } from '../../utils/utils';
 
-export function addSchemaOrgMarkup(details, instockStatus) {
+export function addSchemaOrgMarkup(details, instockStatus, homePageText) {
   const avgRatingComponent = document.getElementsByClassName(
     'bv_avgRating_component_container'
   );
-  const numReviewsComponent = document.getElementsByClassName(
-    'bv_numReviews_text'
-  );
+  const numReviewsComponent =
+    document.getElementsByClassName('bv_numReviews_text');
   const code = {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -17,6 +16,17 @@ export function addSchemaOrgMarkup(details, instockStatus) {
     image: details.goodsImg,
     brand: details.brandName || 'Royal Canin',
     description: details.goodsSubtitle || 'Royal Canin',
+    // "itemListElement": [{
+    //   "@type": "ListItem",
+    //   "position": 1,
+    //   "name": homePageText,
+    //   "item": location.href.replace(/[^\/]+(?!.*\/)/,'') // 首页链接
+    // },{
+    //   "@type": "ListItem",
+    //   "position": 2,
+    //   "name": details.goodsName,
+    //   "item": window.location.href,
+    // }],
     offers: {
       '@type': 'Offer',
       url: window.location.href,

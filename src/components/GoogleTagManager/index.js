@@ -1,8 +1,13 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { loadJS, filterObjectValueDeep } from '@/utils/utils';
+import {
+  loadJS,
+  filterObjectValueDeep,
+  loadNoScriptIframeJS
+} from '@/utils/utils';
 import { sha256 } from 'js-sha256';
 
+const localItemRoyal = window.__.localItemRoyal;
 @inject('loginStore')
 @observer
 class GoogleTagManager extends React.Component {
@@ -75,6 +80,7 @@ class GoogleTagManager extends React.Component {
     let userInfo = this.props.loginStore.userInfo;
 
     if (userInfo) {
+      const oktaId = localItemRoyal.get('customer-okta-id') || '';
       event.user = {
         authentificationStatus: 'authenticated',
         email: userInfo.email && sha256(userInfo.email),
@@ -87,7 +93,7 @@ class GoogleTagManager extends React.Component {
       hubEvent.user = {
         segment: 'Authenticated',
         country: window.__.env.REACT_APP_GA_COUNTRY,
-        id: userInfo.customerId
+        id: oktaId
       };
     } else {
       event.user = {
@@ -99,9 +105,9 @@ class GoogleTagManager extends React.Component {
       };
 
       hubEvent.user = {
-        segment: 'Not Authenticated',
-        country: window.__.env.REACT_APP_GA_COUNTRY,
-        id: ''
+        // segment: 'Not Authenticated',
+        // country: window.__.env.REACT_APP_GA_COUNTRY,
+        id: 'Guest Checkout'
       };
     }
     event.user.country = window.__.env.REACT_APP_GA_COUNTRY;
@@ -123,10 +129,11 @@ class GoogleTagManager extends React.Component {
     let { ecommerceEvents = {}, hubEcommerceEvents = {} } = this.props;
     let ecEvents = hubGA ? hubEcommerceEvents : ecommerceEvents;
 
-    loadJS({
-      url: `https://rcdfcdn.mars.com/consent-management/global-script.js`,
-      id: 'global-script'
-    });
+    //  需求修改 327383
+    // loadJS({
+    //   url: `https://rcdfcdn.mars.com/consent-management/global-script.js`,
+    //   id: 'global-script'
+    // });
 
     loadJS({
       url: `https://www.googleoptimize.com/optimize.js?id=OPT-K6SFSDH`,
@@ -145,6 +152,18 @@ class GoogleTagManager extends React.Component {
     //   className: 'optanon-category-2',
     //   type: 'text/plain'
     // });
+    // loadNoScriptIframeJS({
+    //   style:
+    //     'width: 100px; height: 100px; border: 0; position: absolute; top: -5000px;',
+    //   src: `https://maf.pagosonline.net/ws/fp/tags.js?id=1234480200`
+    // });
+    loadJS({
+      code: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-N449MLX');`
+    });
 
     loadJS({
       code: `window.dataLayer = window.dataLayer || [];

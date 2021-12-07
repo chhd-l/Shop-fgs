@@ -11,7 +11,6 @@ import {
   queryIsSupportInstallMents
 } from '@/api/payment';
 import {
-  CREDIT_CARD_IMG_ENUM,
   PAYMENT_METHOD_PAU_CHECKOUT_RULE,
   PAYMENT_METHOD_PAU_ACCOUNT_RULE
 } from '@/utils/constant';
@@ -20,6 +19,7 @@ import LazyLoad from 'react-lazyload';
 import { scrollPaymentPanelIntoView } from '@/views/Payment/modules/utils';
 import InstallmentTable from '../InstallmentTable';
 import CardItemCover from '../CardItemCover';
+import getCardImg from '@/lib/get-card-img';
 
 import './index.css';
 
@@ -100,6 +100,7 @@ class MemberCardList extends React.Component {
     this.setState({ listLoading: true });
     try {
       let res = await getPaymentMethod();
+
       let tmpList = res.context || [];
 
       const defaultItem = tmpList.filter((t) => t.isDefault === 1)[0];
@@ -249,7 +250,8 @@ class MemberCardList extends React.Component {
     });
   };
   async validFormData() {
-    const { mustSaveForFutherPayments, needEmail, needPhone } = this.props;
+    const { mustSaveForFutherPayments, needEmail, needPhone, intl } =
+      this.props;
     const {
       creditCardInfoForm: { savedCardChecked },
       isEdit
@@ -267,7 +269,11 @@ class MemberCardList extends React.Component {
         } else {
           rules = PAYMENT_METHOD_PAU_CHECKOUT_RULE;
         }
-        await validData(rules, this.state.creditCardInfoForm);
+        await validData({
+          rule: rules,
+          data: this.state.creditCardInfoForm,
+          intl
+        });
       }
 
       this.setState({ isValid: true });
@@ -517,6 +523,7 @@ class MemberCardList extends React.Component {
     });
   };
   handleClickCardItem(el) {
+    if (el?.paddingFlag) return; // paddingFlag表示此卡正在pending，不能用于选择支付
     const { selectedId, creditCardList, memberUnsavedCardList } = this.state;
     if (el.id === selectedId) return;
     this.setState(
@@ -531,6 +538,7 @@ class MemberCardList extends React.Component {
     );
   }
   handleClickDeleteBtn(el, e) {
+    if (el.paddingFlag) return;
     e.preventDefault();
     e.stopPropagation();
     this.updateConfirmTooltipVisible(el, true);
@@ -779,13 +787,10 @@ class MemberCardList extends React.Component {
                           <LazyLoad>
                             <img
                               alt="Card image"
-                              src={
-                                CREDIT_CARD_IMG_ENUM[this.state.currentVendor]
-                                  ? CREDIT_CARD_IMG_ENUM[
-                                      this.state.currentVendor.toUpperCase()
-                                    ]
-                                  : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                              }
+                              src={getCardImg({
+                                supportPaymentMethods,
+                                currentVendor: this.state.currentVendor
+                              })}
                               className="img"
                             />
                           </LazyLoad>

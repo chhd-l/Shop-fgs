@@ -46,9 +46,8 @@ class CommunicationDataEditForm extends React.Component {
       },
       errorMsg: ''
     };
-    this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
-      this
-    );
+    this.handleCommunicationCheckBoxChange =
+      this.handleCommunicationCheckBoxChange.bind(this);
   }
   componentDidUpdate() {
     if (window.__.env.REACT_APP_COUNTRY == 'tr') {
@@ -174,6 +173,15 @@ class CommunicationDataEditForm extends React.Component {
       ).length;
       // 1 勾选了某条特殊consent情况下，phone/email/messengers不能同时取消
       // 2 勾选了phone/email/messengers，必须勾选某条特殊consent
+
+      // 美国隐藏了 email 勾选框，所以选择邮件沟通时需要赋值 communicationEmail = 1
+      if (hasCheckedTheConsent && window.__.env.REACT_APP_COUNTRY === 'us') {
+        form.communicationEmail = 1;
+      }
+      if (!hasCheckedTheConsent && window.__.env.REACT_APP_COUNTRY === 'us') {
+        form.communicationEmail = 0;
+      }
+
       if (
         hasCheckedTheConsent &&
         !+form.communicationEmail &&
@@ -280,7 +288,7 @@ class CommunicationDataEditForm extends React.Component {
         <div className="userContactPreferenceInfo">
           <div className="profileSubFormTitle pl-3 pr-3 pt-3">
             <h5
-              className="mb-0"
+              className="mb-0 text-xl"
               style={{ display: curPageAtCover ? 'block' : 'none' }}
             >
               <svg
@@ -293,7 +301,7 @@ class CommunicationDataEditForm extends React.Component {
               <FormattedMessage id="account.myCommunicationPreferencesTitle" />
             </h5>
             <h5
-              className="ui-cursor-pointer"
+              className="ui-cursor-pointer text-xl"
               style={{ display: curPageAtCover ? 'none' : 'block' }}
               onClick={this.handleClickGoBack}
             >
@@ -318,7 +326,7 @@ class CommunicationDataEditForm extends React.Component {
             </FormattedMessage>
           </div>
           <hr
-            className={classNames('account-info-hr-border-color', {
+            className={classNames('account-info-hr-border-color my-4', {
               'border-0': editFormVisible
             })}
           />
@@ -363,9 +371,11 @@ class CommunicationDataEditForm extends React.Component {
             <div className={`${!isLoading && editFormVisible ? '' : 'hidden'}`}>
               <span className={`rc-meta`}></span>
               <div>
-                <label className="form-control-label rc-input--full-width w-100">
-                  <FormattedMessage id="account.preferredMethodOfCommunication" />
-                </label>
+                {window.__.env.REACT_APP_COUNTRY === 'us' ? null : (
+                  <label className="form-control-label rc-input--full-width w-100">
+                    <FormattedMessage id="account.preferredMethodOfCommunication" />
+                  </label>
+                )}
                 {[
                   {
                     type: 'communicationPhone',
@@ -374,8 +384,12 @@ class CommunicationDataEditForm extends React.Component {
                   },
                   {
                     type: 'communicationEmail',
-                    langKey: 'email',
-                    visible: true
+                    langKey:
+                      window.__.env.REACT_APP_COUNTRY === 'uk'
+                        ? 'communicationEmail'
+                        : 'email',
+                    visible:
+                      window.__.env.REACT_APP_COUNTRY === 'us' ? false : true
                   },
                   {
                     type: 'communicationPrint',

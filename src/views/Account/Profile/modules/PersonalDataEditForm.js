@@ -34,7 +34,7 @@ class PersonalDataEditForm extends React.Component {
         lastName: '',
         birthdate: '',
         email: '',
-        countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID,
+        countryId: '',
         country: '',
         provinceNo: '',
         provinceId: '',
@@ -50,7 +50,6 @@ class PersonalDataEditForm extends React.Component {
         postCode: ''
       },
       oldForm: {},
-      countryList: [],
       provinceList: [], // 省份列表
       isValid: false,
       errMsgObj: {},
@@ -59,9 +58,8 @@ class PersonalDataEditForm extends React.Component {
       validationModalVisible: false, // 地址校验查询开关
       selectValidationOption: 'suggestedAddress'
     };
-    this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
-      this
-    );
+    this.handleCommunicationCheckBoxChange =
+      this.handleCommunicationCheckBoxChange.bind(this);
   }
   componentDidMount() {
     const { data, editFormVisible } = this.props;
@@ -102,12 +100,17 @@ class PersonalDataEditForm extends React.Component {
     this.inputBlur(e);
   };
   inputBlur = async (e) => {
+    const { intl } = this.props;
     const { errMsgObj } = this.state;
     const target = e.target;
     const targetRule = PRESONAL_INFO_RULE.filter((e) => e.key === target.name);
     const value = target.type === 'checkbox' ? target.checked : target.value;
     try {
-      await validData(targetRule, { [target.name]: value });
+      await validData({
+        rule: targetRule,
+        data: { [target.name]: value },
+        intl
+      });
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
           [target.name]: ''
@@ -219,16 +222,6 @@ class PersonalDataEditForm extends React.Component {
   }
   // 保存数据
   handleSave = () => {
-    // 地址验证
-    // this.setState({
-    //   validationLoading: true
-    // });
-    // setTimeout(() => {
-    //   this.setState({
-    //     validationModalVisible: true
-    //   });
-    // }, 800);
-
     // 不校验地址，进入下一步
     this.showNextPanel();
   };
@@ -240,11 +233,9 @@ class PersonalDataEditForm extends React.Component {
     try {
       const { form } = this.state;
       this.setState({ loading: true });
-      const oktaTokenString =
-        this.props.authState && this.props.authState.accessToken
-          ? this.props.authState.accessToken.value
-          : '';
+      const oktaTokenString = this.props.authState?.accessToken?.value || '';
       let oktaToken = 'Bearer ' + oktaTokenString;
+      console.log('666 >>> this.props.authState: ', this.props.authState);
       let mydata = {
         firstName: form.firstName,
         lastName: form.lastName,
@@ -254,6 +245,7 @@ class PersonalDataEditForm extends React.Component {
           : form.birthdate,
         countryId: form.countryId,
         country: form.country,
+        county: form?.county,
         contactPhone: form.phoneNumber,
         reference: form.rfc,
         address1: form.address1,
@@ -274,6 +266,7 @@ class PersonalDataEditForm extends React.Component {
         mydata.provinceId = form.provinceId;
       }
       let param = Object.assign({}, this.props.originData, mydata);
+
       await updateCustomerBaseInfo(param);
 
       const customerId = this.userInfo && this.userInfo.customerId;
@@ -301,13 +294,14 @@ class PersonalDataEditForm extends React.Component {
   };
   // 表单验证
   validFormData = async () => {
+    const { intl } = this.props;
     const { form } = this.state;
     try {
       // console.log('★★★★★★★★★ valiFormData: ', form);
       if (!form?.formRule || (form?.formRule).length <= 0) {
         return;
       }
-      await validData(form.formRule, form); // 数据验证
+      await validData({ rule: form.formRule, data: form, intl }); // 数据验证
       // await validData(PRESONAL_INFO_RULE, form);
       this.setState({ isValid: true });
     } catch (err) {
@@ -347,7 +341,7 @@ class PersonalDataEditForm extends React.Component {
   };
   // 俄罗斯地址校验flag，控制按钮是否可用
   getFormAddressValidFlag = (flag) => {
-    // console.log('PersonalDataEditForm: ',flag);
+    console.log('666 >>> PersonalDataEditForm: ', flag);
     this.setState(
       {
         formAddressValid: flag
@@ -380,7 +374,7 @@ class PersonalDataEditForm extends React.Component {
         <div className="personalInfo">
           <div className="profileSubFormTitle pl-3 pr-3 pt-3">
             <h5
-              className="mb-0"
+              className="mb-0 text-xl"
               style={{ display: curPageAtCover ? 'block' : 'none' }}
             >
               <svg
@@ -393,12 +387,16 @@ class PersonalDataEditForm extends React.Component {
               <FormattedMessage id="account.myAccount" />
             </h5>
             <h5
-              className="ui-cursor-pointer"
+              className="ui-cursor-pointer text-xl"
               style={{ display: curPageAtCover ? 'none' : 'block' }}
               onClick={this.handleClickGoBack}
             >
               <span>&larr; </span>
-              <FormattedMessage id="account.myAccount" />
+              {window.__.env.REACT_APP_COUNTRY === 'uk' ? (
+                <FormattedMessage id="account.profile" />
+              ) : (
+                <FormattedMessage id="account.myAccount" />
+              )}
             </h5>
             <FormattedMessage id="edit">
               {(txt) => (
@@ -417,7 +415,7 @@ class PersonalDataEditForm extends React.Component {
             </FormattedMessage>
           </div>
           <hr
-            className={classNames('account-info-hr-border-color', {
+            className={classNames('account-info-hr-border-color my-4', {
               'border-0': editFormVisible
             })}
           />
@@ -523,7 +521,7 @@ class PersonalDataEditForm extends React.Component {
               <span
                 className={`rc-meta mandatoryField ${isValid ? 'hidden' : ''}`}
               >
-                * <FormattedMessage id="account.requiredFields" />
+                * <FormattedMessage id="account.requiredFields2" />
               </span>
               <div className="text-right">
                 <span

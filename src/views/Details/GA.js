@@ -9,11 +9,8 @@ const filterAttrValue = (list, keyWords) => {
 
 // 判断购买方式
 const getPdpScreenLoadCTAs = (data) => {
-  const {
-    currentSubscriptionStatus,
-    currentSubscriptionPrice,
-    skuPromotions
-  } = data;
+  const { currentSubscriptionStatus, currentSubscriptionPrice, skuPromotions } =
+    data;
   let content = ['Single Purchase'];
   if (
     currentSubscriptionStatus &&
@@ -43,8 +40,10 @@ const setGoogleProductStructuredDataMarkup = ({
     code: JSON.stringify({
       '@context': 'http://schema.org/',
       '@type': 'Product',
+      brand: 'Royal Canin',
       name: details.goodsName,
-      description: goodsDetailTab[0] && goodsDetailTab[0].content,
+      description: details.goodsSubtitle || 'Royal Canin',
+      // description: goodsDetailTab[0] && goodsDetailTab[0].content,
       mpn: goodsNo,
       sku: goodsNo,
       image: spuImages.map((s) => s.artworkUrl),

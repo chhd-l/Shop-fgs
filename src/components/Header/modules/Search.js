@@ -310,7 +310,7 @@ export default class Search extends React.Component {
                   ) : (
                     <p className="d-flex ml-2 mr-2">
                       <em className="rc-icon rc-incompatible--xs rc-iconography" />
-                      <FormattedMessage id="list.errMsg4" />
+                      <FormattedMessage id="search.noResultTip" />
                     </p>
                   )}
                 </div>

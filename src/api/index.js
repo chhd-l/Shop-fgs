@@ -2,13 +2,14 @@ import axios from '@/utils/request';
 
 const api = {
   storeCate: '/storeCate',
-  uploadResource: '/common/uploadResource',
+  uploadResource: '/common/uploadResource?resourceType=IMAGE',
   buryPoint: '/fgs.gif',
-  getConfig: `/config/store/${window.__.env.REACT_APP_STOREID}`,
+  getConfig: `/config/store/`,
   navigations: '/navigations', // 查询二级菜单
   seo: 'seo/setting',
   getPrescriberSettingInfo: '/order/config/listSystemConfig', // 查询是否需要显示用户选择绑定prescriber弹框
-  cancelEmail: '/customer/updateCustomerSendEmailFlag' // 取消用户邮箱绑定
+  cancelEmail: '/customer/updateCustomerSendEmailFlag', // 取消用户邮箱绑定
+  shopConfig: '/storeConfig/getShopConfig/' //查询基础配置信息
 };
 
 export default api;
@@ -42,7 +43,7 @@ export function setBuryPoint(parameter) {
 
 export function getConfig() {
   return axios({
-    url: `${api.getConfig}`,
+    url: `${api.getConfig}${window.__.env.REACT_APP_STOREID}`,
     method: 'get',
     params: { storeId: window.__.env.REACT_APP_STOREID }
   });
@@ -77,5 +78,13 @@ export function cancelEmailBind(parameter) {
     url: `${api.cancelEmail}`,
     method: 'put',
     data: parameter
+  });
+}
+
+export function fetchShopConfig(params) {
+  return axios({
+    url: `${api.shopConfig}${params}`,
+    method: 'get',
+    params
   });
 }

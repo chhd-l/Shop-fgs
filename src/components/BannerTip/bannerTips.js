@@ -72,7 +72,6 @@ const bannerTips = () => {
       consentId = searchList[1].split('=')[1];
       uuid = searchList[2].split('=')[1];
     }
-
     if (customerId && consentId && uuid) {
       mktCallBack({ customerId, consentId, uuid }).then((res) => {
         if (res.context && res.context.customerActivateStatus) {
@@ -80,9 +79,9 @@ const bannerTips = () => {
         } else {
           setMktMessage(<FormattedMessage id="home.MKTReturnNoUser" />);
         }
-        return showFiveSeconds();
+        return showFiveSeconds(true);
       });
-    } else if (oktaSessionToken) {
+    } else if (oktaSessionToken && isLogin) {
       let mtkOktaKey = 'already-show-MKT_' + oktaSessionToken;
       const alreadyShowMkt = localItemRoyal.get(mtkOktaKey);
       if (alreadyShowMkt === 'true') {
@@ -99,20 +98,24 @@ const bannerTips = () => {
           }
         }
         localItemRoyal.set(mtkOktaKey, 'true');
-        return showFiveSeconds();
+        return showFiveSeconds(true);
       });
     }
+    return showFiveSeconds(false);
   }
 
-  function showFiveSeconds() {
-    setShow(true);
+  function showFiveSeconds(isShow) {
+    if (!isShow) {
+      return;
+    }
+    setShow(isShow);
     return setTimeout(() => {
-      setShow(false);
+      setShow(!isShow);
     }, 5000);
   }
 
   useEffect(() => {
-    if (window.__.env.REACT_APP_COUNTRY === 'de' && isLogin) {
+    if (window.__.env.REACT_APP_COUNTRY === 'de') {
       const timeId = ShowMKTMessage();
       return () => {
         clearTimeout(timeId);
@@ -123,62 +126,62 @@ const bannerTips = () => {
   return (
     <div
       // id="bannerTip"
-      className="red font-weight-normal p-1 position-relative text-center pl-2 pr-2 pr-md-4 pl-md-4 rc-bg-colour--brand4 rc-bannertip-containner"
+      className="red font-weight-normal p-1 position-relative text-center pl-2 pr-2 md:pr-4 md:pl-4 rc-bg-colour--brand4 rc-bannertip-containner"
     >
       {window.__.env.REACT_APP_IS_PROMOTION === 'true' && (
         <div>
-          {/* 美国临时加一个写死的Notice  */}
-          {window.__.env.REACT_APP_COUNTRY === 'us' ? (
-            <div className="rc-bg-colour--brand4 text-center">
-              <div className="rc-layout-container rc-content-h-middle">
-                <div className="rc-column rc-content-v-middle rc-zeta rc-margin--none rc-padding--xs">
-                  <div className="d-flex align-items-center">
-                    {window.__.env.REACT_APP_COUNTRY == 'us' &&
-                    isLimitLogin() ? (
-                      <LimitLoginAlertTips />
-                    ) : (
-                      <AlertTips />
-                    )}
-                    <div></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : null}
           {show && window.__.env.REACT_APP_COUNTRY === 'de' ? mktMessage : null}
           <div className="rc-bg-colour--brand4 text-center">
             <div className="rc-layout-container rc-content-h-middle">
               <Container>
+                {/* 订阅图标 */}
                 {window.__.env.REACT_APP_COUNTRY == 'de' ? null : (
                   <span className="rc-icon rc-refresh rc-brand1 rc-iconography" />
                 )}
                 <span className="align-middle">
-                  <span className="rc-margin-right--xs rc-margin-left--xs rc-bannertip-text ui-cursor-pointer-pure">
+                  {/*<span className="rc-margin-right--xs rc-margin-left--xs rc-bannertip-text ui-cursor-pointer-pure">*/}
+                  <span className="rc-margin-right--xs rc-margin-left--xs">
                     <FormattedMessage id="home.promotionTip" />
                   </span>
-                  {window.__.env.REACT_APP_COUNTRY == 'de' ? (
-                    <Link
-                      to="/how-to-order"
-                      className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
-                    >
-                      <FormattedMessage id="bannerTip.btnText" />
-                    </Link>
-                  ) : (
-                    <Link
-                      to="/subscription-landing"
-                      className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
-                    >
-                      <FormattedMessage id="bannerTip.btnText" />
-                    </Link>
-                  )}
+                  {(() => {
+                    switch (window.__.env.REACT_APP_COUNTRY) {
+                      case 'uk':
+                        return null;
+                      case 'de':
+                        return (
+                          <Link
+                            to="/how-to-order"
+                            className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
+                          >
+                            <FormattedMessage id="bannerTip.btnText" />
+                          </Link>
+                        );
+                      case 'fr':
+                        return (
+                          <Link
+                            to="/club-subscription"
+                            className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
+                          >
+                            <FormattedMessage id="bannerTip.btnText" />
+                          </Link>
+                        );
+                      default:
+                        return (
+                          <Link
+                            to="/subscription-landing"
+                            className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
+                          >
+                            <FormattedMessage id="bannerTip.btnText" />
+                          </Link>
+                        );
+                    }
+                  })()}
                 </span>
               </Container>
             </div>
           </div>
         </div>
       )}
-      <FormattedMessage id="home.note1" defaultMessage={' '} />{' '}
-      <FormattedMessage id="home.note2" defaultMessage={' '} />
     </div>
   );
 };

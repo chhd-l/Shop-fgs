@@ -13,6 +13,7 @@ import {
   formatMoney,
   getZoneTime
 } from '@/utils/utils';
+import { IMG_DEFAULT } from '@/utils/constant';
 
 const NextDelivery = ({
   el,
@@ -69,15 +70,11 @@ const NextDelivery = ({
       <div className="card rc-margin-y--none ml-0">
         <div
           className="card-header row rc-margin-x--none align-items-center pl-0 pr-0"
-          style={{
-            background: '#f9f9f9',
-            height: '60px',
-            padding: 0
-          }}
+          style={{ background: '#f9f9f9', padding: 0 }}
         >
           {isActive ? (
             <div
-              className={`${isMobile ? 'col-4' : 'col-md-3'}`}
+              className={`${isMobile ? 'col-5' : 'col-md-3'}`}
               style={{
                 padding: isMobile ? '0 0 0 .625rem' : '0 .9375rem 0 1.25rem'
               }}
@@ -101,7 +98,7 @@ const NextDelivery = ({
           ) : null}
           <div className={`${isMobile ? 'col-0' : 'col-md-5'}`} />
           <div
-            className={`changeDate ${isMobile ? 'col-5' : 'col-md-3 pl-4'}`}
+            className={`changeDate ${isMobile ? 'col-4' : 'col-md-3 pl-4'}`}
             style={{
               textAlign: 'right',
               padding: isMobile ? '0' : '0 1.25rem 0 .9375rem'
@@ -167,7 +164,7 @@ const NextDelivery = ({
                 </LazyLoad>
                 <a
                   className="rc-styled-link ui-text-overflow-line1"
-                  style={{ width: '60px' }}
+                  style={{ width: '50px' }}
                   onClick={(e) => skipNext(el)}
                 >
                   <FormattedMessage id="skip" />
@@ -180,73 +177,47 @@ const NextDelivery = ({
       {el.tradeItems &&
         el.tradeItems.map((tradeItem, index) => (
           <div
-            className="row rc-margin-x--none row align-items-center 2"
+            className="row rc-margin-x--none row align-items-center"
             style={{
               padding: '1rem 0',
               borderBottom: '1px solid #d7d7d7'
             }}
             key={index}
           >
-            <div className={`${isMobile ? 'col-6' : 'col-4'} col-md-4`}>
-              <div
-                className="rc-layout-container rc-five-column"
-                style={{
-                  paddingRight: isMobile ? '0' : '60px',
-                  paddingTop: '0'
-                }}
-              >
-                <div
-                  className="rc-column flex-layout"
+            <div className={`col-9 col-md-6 d-flex row align-items-center`}>
+              <LazyLoad className="col-6 col-md-3">
+                <img
+                  src={tradeItem.pic || IMG_DEFAULT}
+                  alt={tradeItem.skuName}
+                />
+              </LazyLoad>
+              <div style={{ display: `${isIndv ? 'none' : 'block'}` }}>
+                <h5
+                  className="text-nowrap"
                   style={{
-                    width: '80%',
-                    padding: 0
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    overflowWrap: 'normal',
+                    fontSize: '.875rem',
+                    width: isMobile ? '100px' : 'auto'
                   }}
                 >
-                  <LazyLoad>
-                    <img
-                      style={{
-                        width: '70px',
-                        margin: '0 .625rem'
-                      }}
-                      src={tradeItem.pic}
-                      alt={tradeItem.skuName}
-                    />
-                  </LazyLoad>
-                  <div
-                    style={{
-                      width: '200px',
-                      paddingTop: '30px',
-                      display: `${isIndv ? 'none' : 'block'}`
-                    }}
-                  >
-                    <h5
-                      className="text-nowrap"
-                      style={{
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        overflowWrap: 'normal',
-                        fontSize: '.875rem',
-                        width: isMobile ? '95px' : 'auto'
-                      }}
-                    >
-                      {tradeItem.skuName}
-                    </h5>
-                    <p
-                      style={{
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        marginBottom: '8px',
-                        fontSize: '.875rem'
-                      }}
-                    >
-                      {tradeItem.specDetails}{' '}
-                      {isMobile ? `x ${tradeItem.num}` : null}
-                    </p>
-                  </div>
-                </div>
+                  {tradeItem.skuName}
+                </h5>
+                <p
+                  style={{
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    marginBottom: '8px',
+                    fontSize: '.875rem'
+                  }}
+                >
+                  {tradeItem.specDetails}{' '}
+                  {isMobile ? `x ${tradeItem.num}` : null}
+                </p>
               </div>
             </div>
-            <div className={`${isMobile ? 'none' : 'col-4'} col-md-4`}>
+            <div className={`${isMobile ? 'none' : 'col-4'} col-md-2`}>
               <p
                 style={{
                   textAlign: 'center',
@@ -257,14 +228,8 @@ const NextDelivery = ({
                 x {tradeItem.num}
               </p>
             </div>
-            <div className={`${isMobile ? 'col-6' : 'col-4'} col-md-4`}>
-              <p
-                style={{
-                  textAlign: 'right',
-                  paddingRight: '.625rem',
-                  marginBottom: '0'
-                }}
-              >
+            <div className="col-3 col-md-4">
+              <p style={{ textAlign: 'right', marginBottom: '0' }}>
                 <span className="red">
                   {formatMoney(
                     isIndv
@@ -289,10 +254,7 @@ const NextDelivery = ({
         ))}
       <div
         className="row rc-margin-x--none row align-items-center 3"
-        style={{
-          padding: '1rem 0'
-          // borderBottom: '1px solid #d7d7d7'
-        }}
+        style={{ padding: '1rem' }}
       >
         <div className={`col-12 col-md-6`}>
           <div
@@ -302,11 +264,6 @@ const NextDelivery = ({
               marginBottom: '.625rem',
               padding: '0 40px',
               display: 'none'
-              // display:
-              //   subDetail.subscribeStatus ===
-              //   '0'
-              //     ? 'block'
-              //     : 'none'
             }}
           >
             <span
@@ -343,21 +300,19 @@ const NextDelivery = ({
         <div className={`col-12 col-md-6`}>
           <div className="text-right">
             <div className="row">
-              <div className="col-1 col-md-3" />
-              <label className="col-5 text-left">
+              <label className="col-6 text-left">
                 <FormattedMessage id="subscription.total" />
               </label>
-              <div className="col-5 col-md-3 text-right">
+              <div className="col-6 text-right">
                 <strong>{formatMoney(el.tradePrice.goodsPrice)}</strong>
               </div>
             </div>
             {el.tradePrice.subscriptionDiscountPrice ? (
               <div className="row">
-                <div className="col-1 col-md-3" />
-                <label className="green col-5 text-left">
+                <label className="green col-6 text-left ui-text-overflow-line1">
                   <FormattedMessage id="promotion" />:
                 </label>
-                <div className="col-5 col-md-3 text-right green">
+                <div className="col-6 text-right green">
                   <strong>
                     -{formatMoney(el.tradePrice.subscriptionDiscountPrice)}
                   </strong>
@@ -368,11 +323,10 @@ const NextDelivery = ({
               ?.filter((el) => el.discountPrice)
               ?.map((el) => (
                 <div className="row">
-                  <div className="col-1 col-md-3" />
-                  <label className="green col-5 text-left">
+                  <label className="green col-6 text-left ui-text-overflow-line1">
                     {el.marketingName}:
                   </label>
-                  <div className="col-5 col-md-3 text-right green">
+                  <div className="col-6 text-right green">
                     <strong>-{formatMoney(el.discountPrice)}</strong>
                   </div>
                 </div>
@@ -380,17 +334,14 @@ const NextDelivery = ({
             {!isShowValidCode &&
               discount.map((el, i) => (
                 <div className="row" key={i}>
-                  <div className="col-1 col-md-3" />
                   <label
-                    className="red-text col-5"
-                    style={{
-                      flex: isMobile ? '1' : 'inherit'
-                    }}
+                    className="red-text col-6"
+                    style={{ flex: isMobile ? '1' : 'inherit' }}
                   >
                     {promotionDesc}
                   </label>
                   <div
-                    className="text-right red-text col-5 col-md-3"
+                    className="text-right red-text col-6"
                     style={{
                       position: 'relative',
                       flex: isMobile ? '1' : 'inherit'
@@ -419,11 +370,10 @@ const NextDelivery = ({
               ))}
 
             <div className="row">
-              <div className="col-1 col-md-3" />
-              <label className="col-5 text-left">
+              <label className="col-6 text-left">
                 <FormattedMessage id="subscription.shipping" />
               </label>
-              <div className="text-right red-text col-5 col-md-3">
+              <div className="text-right red-text col-6">
                 <strong>{formatMoney(el.tradePrice.deliveryPrice)}</strong>
               </div>
             </div>
@@ -432,11 +382,10 @@ const NextDelivery = ({
             {el.tradePrice.freeShippingFlag ? (
               <>
                 <div className="row">
-                  <div className="col-1 col-md-3" />
-                  <label className="col-5 text-left">
+                  <label className="col-6 text-left">
                     <FormattedMessage id="payment.shippingDiscount" />
                   </label>
-                  <div className="text-right col-5 col-md-3 green">
+                  <div className="text-right col-6 green">
                     <strong>
                       {el.tradePrice.freeShippingDiscountPrice > 0 && '-'}
                       {formatMoney(el.tradePrice.freeShippingDiscountPrice)}
@@ -453,11 +402,10 @@ const NextDelivery = ({
             {configStore?.customTaxSettingOpenFlag == 0 &&
             configStore?.enterPriceType == 1 ? (
               <div className="row">
-                <div className="col-1 col-md-3" />
-                <label className="col-5 text-left">
+                <label className="col-6 text-left">
                   <FormattedMessage id="estimatedTax" />
                 </label>
-                <div className="text-right red-text col-5 col-md-3 components_next_delivery">
+                <div className="text-right red-text col-6 components_next_delivery">
                   <strong>{formatMoney(el.tradePrice.taxFeePrice)}</strong>
                 </div>
               </div>
@@ -465,25 +413,15 @@ const NextDelivery = ({
 
             {/* 总价 */}
             <div className="row">
-              <div className="col-1 col-md-3" />
-              <label className="col-5 text-left">
-                <strong
-                  style={{
-                    fontSize: '1.25rem',
-                    color: '#333'
-                  }}
-                >
+              <label className="col-8 text-left">
+                <strong style={{ fontSize: '1.25rem', color: '#333' }}>
                   <FormattedMessage id="order.total" />
                 </strong>{' '}
-                <span
-                  style={{
-                    fontSize: '.75rem'
-                  }}
-                >
+                <span style={{ fontSize: '.75rem' }}>
                   <FormattedMessage id="order.iVAIncluido" defaultMessage=" " />
                 </span>
               </label>
-              <div className="text-right col-5 col-md-3">
+              <div className="text-right col-4">
                 <strong>{formatMoney(el.tradePrice.totalPrice)}</strong>
               </div>
             </div>
@@ -492,14 +430,6 @@ const NextDelivery = ({
                 <div className="col-1 col-md-3" />
                 <label className="col-9 text-left">
                   Tax will be calculated when your order is processed
-                  {/* <strong
-                    style={{
-                      fontSize: '1.25rem',
-                      color: '#333'
-                    }}
-                  >
-                    <FormattedMessage id="order.total" />
-                  </strong>{' '} */}
                 </label>
               </div>
             ) : null}

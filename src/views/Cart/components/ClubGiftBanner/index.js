@@ -28,7 +28,7 @@ export default function ClubGiftBanner(props) {
       alt="Club logo"
     />
   </div> */}
-      <div className="col-12 col-md-6 tips-info ml-4 ml-md-0">
+      <div className="col-12 col-md-6 tips-info ml-4 md:ml-0">
         <ul>
           <li
             className="rc-list__item"

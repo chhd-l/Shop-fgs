@@ -19,6 +19,7 @@ import Loading from '@/components/Loading';
 import { withOktaAuth } from '@okta/okta-react';
 import { Helmet } from 'react-helmet';
 import stores from '@/store';
+import { funcUrl } from '@/lib/url-utils';
 
 import PaymentSecureHome from '@/assets/images/home/Payment-secure@2x.png';
 import premiumHome from '@/assets/images/home/premium@2x.png';
@@ -28,6 +29,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
+import renderLinkLang from './hreflang';
 import question from '@/assets/images/home/question@2x.png';
 import HelpComponents from '../../components/HelpComponents/HelpComponents';
 const localItemRoyal = window.__.localItemRoyal;
@@ -525,6 +527,10 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
+    if (funcUrl({ name: 'couponCode' })) {
+      localItemRoyal.set('rc-couponCode', funcUrl({ name: 'couponCode' }));
+    }
+
     if (localItemRoyal.get('login-again')) {
       loginStore.changeLoginModal(true);
       var callOktaCallBack = getOktaCallBackUrl(
@@ -540,6 +546,15 @@ class Home extends React.Component {
       let url = localItemRoyal.get('logout-redirect-url');
       localItemRoyal.remove('logout-redirect-url');
       location.href = url;
+    }
+    //不需要登录跳checkout下felin订单
+    if (
+      funcUrl({ name: 'toOkta' }) === 'false' &&
+      funcUrl({ name: 'redirect' }) === 'checkout'
+    ) {
+      this.props.history.push(
+        '/checkout?appointmentNo=' + funcUrl({ name: 'appointmentNo' })
+      );
     }
   }
   componentWillUnmount() {
@@ -583,6 +598,12 @@ class Home extends React.Component {
     if (parametersString.indexOf('redirect=pets') >= 0) {
       localItemRoyal.set('okta-redirectUrl', '/account/pets');
     }
+    if (parametersString.indexOf('redirect=checkout') >= 0) {
+      localItemRoyal.set(
+        'okta-redirectUrl',
+        '/checkout' + history.location.search
+      );
+    }
     if (parametersString.indexOf('toOkta=true') >= 0) {
       this.props.oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
       return <Loading bgColor={'#fff'} />;
@@ -596,23 +617,43 @@ class Home extends React.Component {
       return null;
     }
     const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
+
+    //添加seo 收录标签链接
+    const renderLang = (position) => {
+      return renderLinkLang[position].map((item) => {
+        if (item.country !== window.__.env.REACT_APP_COUNTRY) {
+          return (
+            <link
+              key={item.country}
+              rel="alternate"
+              hreflang={item.lang}
+              href={item.href}
+            />
+          );
+        }
+      });
+    };
     return (
       <div>
-        {!Ru ? (
+        {/* {!Ru ? ( */}
+        <Helmet>
+          <link rel="canonical" href={pageLink} />
+          <title>{this.state.seoConfig.title}</title>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          {renderLang('home')}
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
+        </Helmet>
+        {/* ) : (
           <Helmet>
-            <link rel="canonical" href={pageLink} />
             <title>{this.state.seoConfig.title}</title>
-            <meta
-              name="description"
-              content={this.state.seoConfig.metaDescription}
-            />
-            <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
-          </Helmet>
-        ) : (
-          <Helmet>
+            <link rel="canonical" href={pageLink} />
+            {renderLang('home')}
             <meta name="robots" content="noindex" />
           </Helmet>
-        )}
+        )} */}
         <GoogleTagManager
           additionalEvents={event}
           searchEvent={this.state.searchEvent}

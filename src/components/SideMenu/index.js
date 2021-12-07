@@ -2,8 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import './index.css';
 
-const menuList = [
+let menuList = [
   {
     catogery: 'Home',
     isShow: true,
@@ -31,6 +32,13 @@ const menuList = [
     ),
     langKey: 'account.pets',
     url: '/account/pets'
+  },
+  {
+    catogery: 'Appointments',
+    isShow: window.__.env.REACT_APP_COUNTRY === 'fr',
+    icon: <span className="iconfont icontime" />,
+    langKey: 'account.appointment',
+    url: '/account/appointments'
   },
   {
     catogery: 'Orders',
@@ -81,6 +89,28 @@ class SideMenu extends React.Component {
   static defaultProps = {
     customCls: ''
   };
+  componentDidMount() {
+    if (window.__.env.LOYALTY_PROGRAMME_LINK) {
+      menuList.push({
+        catogery: 'loyaltyProgramme',
+        isShow: Boolean(window.__.env.LOYALTY_PROGRAMME_LINK),
+        icon: <span className="iconfont iconLogoff icon-loyaltyProgramme" />,
+        langKey: 'account.loyaltyProgramme',
+        href: window.__.env.LOYALTY_PROGRAMME_LINK,
+        isOuterLink: true
+      });
+    }
+    // if(window.__.env.REACT_APP_COUNTRY==='fr'){
+    //   menuList.splice(2,0,{
+    //     catogery: 'loyaltyProgramme',
+    //     isShow: Boolean(window.__.env.LOYALTY_PROGRAMME_LINK),
+    //     icon: <span className="iconfont iconLogoff icon-loyaltyProgramme" />,
+    //     langKey: 'account.loyaltyProgramme',
+    //     href: window.__.env.LOYALTY_PROGRAMME_LINK,
+    //     isOuterLink: true
+    //   })
+    // }
+  }
   render() {
     const { type } = this.props;
     return (
@@ -91,8 +121,7 @@ class SideMenu extends React.Component {
         {menuList.map((item, i) => (
           <h2
             key={i}
-            className={`
-            nav_item medium ui-cursor-pointer mb-4 ${
+            className={`nav_item medium ui-cursor-pointer mb-4 ${
               type === item.catogery ? 'active red' : ''
             } ${item.isShow ? '' : 'hidden'}
             `}
@@ -101,19 +130,21 @@ class SideMenu extends React.Component {
               {(txt) => (
                 <>
                   {item.icon}
-                  {item.isHubOuterLink ? (
-                    <DistributeHubLinkOrATag
-                      to={item.url}
-                      href={item.href}
-                      className="ml-2"
-                    >
-                      {txt}
-                    </DistributeHubLinkOrATag>
-                  ) : (
-                    <Link to={item.url} title={txt} alt={txt} className="ml-2">
-                      {txt}
-                    </Link>
-                  )}
+                  <span className="ml-2">
+                    {item.isOuterLink ? (
+                      <a href={item.href} target="_blank">
+                        {txt}
+                      </a>
+                    ) : item.isHubOuterLink ? (
+                      <DistributeHubLinkOrATag to={item.url} href={item.href}>
+                        {txt}
+                      </DistributeHubLinkOrATag>
+                    ) : (
+                      <Link to={item.url} title={txt} alt={txt}>
+                        {txt}
+                      </Link>
+                    )}
+                  </span>
                 </>
               )}
             </FormattedMessage>

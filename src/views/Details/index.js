@@ -17,9 +17,10 @@ import PhoneAndEmail from './components/PhoneAndEmail/index.tsx';
 import DetailHeader from './components/DetailHeader/index.tsx';
 import ImageMagnifier from '@/components/ImageMagnifier';
 import ImageMagnifier_fr from './components/ImageMagnifier';
-import AddCartSuccessMobile from './components/AddCartSuccessMobile';
+import AddCartSuccessMobile from './components/AddCartSuccessMobile.tsx';
 import BannerTip from '@/components/BannerTip';
 import Reviews from './components/Reviews';
+import Loading from '@/components/Loading';
 import {
   getDeviceType,
   getFrequencyDict,
@@ -28,12 +29,21 @@ import {
   getDictionary,
   filterObjectValue,
   isCountriesContainer,
-  getClubFlag
+  getClubFlag,
+  handleRecommendation,
+  isShowMixFeeding,
+  addToUnloginCartData,
+  addToLoginCartData
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import find from 'lodash/find';
-import { getDetails, getLoginDetails, getDetailsBySpuNo } from '@/api/details';
+import {
+  getDetails,
+  getLoginDetails,
+  getDetailsBySpuNo,
+  getMixFeeding
+} from '@/api/details';
 import { sitePurchase } from '@/api/cart';
 import RelateProductCarousel from './components/RelateProductCarousel';
 import BuyFromRetailerBtn from './components/BuyFromRetailerBtn';
@@ -59,6 +69,7 @@ import {
   GAPdpSizeChange
 } from './GA';
 import PrescriberCodeModal from '../ClubLandingPageNew/Components/DeStoreCode/Modal';
+import MixFeedingBanner from './components/MixFeedingBanner/index.tsx';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -69,6 +80,7 @@ const isHub = window.__.env.REACT_APP_HUB == '1';
 const Fr = window.__.env.REACT_APP_COUNTRY === 'fr';
 const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
 const Tr = window.__.env.REACT_APP_COUNTRY === 'tr';
+const Uk = window.__.env.REACT_APP_COUNTRY === 'uk';
 
 @inject(
   'checkoutStore',
@@ -145,7 +157,14 @@ class Details extends React.Component {
       headingTag: 'h1',
       showPrescriberCodeModal: false, //是否打开de PrescriberCodeModal
       showErrorTip: false,
-      modalMobileCartSuccessVisible: false
+      modalMobileCartSuccessVisible: false,
+      defaultSkuId: funcUrl({ name: 'skuId' }),
+      defaultGoodsInfoFlag: funcUrl({ name: 'goodsInfoFlag' }),
+      mixFeeding: null,
+      originalProductInfo: {},
+      mixFeedingByProductInfo: {},
+      mixFeedingBtnLoading: false,
+      hiddenMixFeedingBanner: false
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -187,17 +206,15 @@ class Details extends React.Component {
     return this.props.checkoutStore;
   }
   get btnStatus() {
-    const {
-      details,
-      quantity,
-      instockStatus,
-      initing,
-      loading,
-      form
-    } = this.state;
+    const { details, quantity, instockStatus, initing, loading, form } =
+      this.state;
+    const { sizeList } = details;
+    let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     let addedFlag = 1;
+    let isUnitPriceZero = false;
     if (details.sizeList.length) {
-      addedFlag = details.sizeList.filter((el) => el.selected)[0]?.addedFlag;
+      addedFlag = selectedSpecItem?.addedFlag;
+      isUnitPriceZero = form.buyWay === 0 && !selectedSpecItem?.marketPrice;
     }
     // details.sizeList.filter(el => el.selected).addedFlag
     // displayFlag 是否展示在前台
@@ -210,6 +227,7 @@ class Details extends React.Component {
       quantity &&
       (details.saleableFlag || !details.displayFlag) &&
       addedFlag &&
+      !isUnitPriceZero &&
       form.buyWay !== -1
     );
   }
@@ -217,10 +235,15 @@ class Details extends React.Component {
   get retailerBtnStatus() {
     const { loading, goodsType, exclusiveFlag = false } = this.state;
     const sptGoods = goodsType === 0 || goodsType === 1;
-    const trSpt = Tr && sptGoods;
     let bundle = goodsType && goodsType === 2;
-
-    return !loading && !bundle && isHub && !Ru && !exclusiveFlag && !trSpt;
+    const widgetId = window.__.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID;
+    return (
+      !loading &&
+      !bundle &&
+      isHub &&
+      !exclusiveFlag &&
+      (widgetId || (Tr && !sptGoods))
+    );
   }
 
   redirectCanonicalLink({ pageLink }) {
@@ -241,7 +264,8 @@ class Details extends React.Component {
 
   setDefaultPurchaseType({ id }) {
     const { promotions, details, frequencyList, purchaseTypeDict } = this.state;
-    console.log(purchaseTypeDict, 'purchaseTypeDict...', id);
+    const skuPromotions =
+      details.sizeList?.filter((item) => item?.selected)?.[0]?.promotions || '';
     const targetDefaultPurchaseTypeItem =
       purchaseTypeDict.filter(
         (ele) => ele.id && id && ele.id + '' === id + ''
@@ -258,11 +282,23 @@ class Details extends React.Component {
       if (
         defaultPurchaseType === 1 ||
         sessionItemRoyal.get('pf-result') ||
-        localStorage.getItem('pfls')
+        localStorage.getItem('pfls') ||
+        this.state.defaultGoodsInfoFlag
       ) {
-        buyWay = details.promotions === 'club' ? 2 : 1;
+        buyWay =
+          parseInt(this.state.defaultGoodsInfoFlag) || skuPromotions === 'club'
+            ? 2
+            : 1;
       } else {
         buyWay = defaultPurchaseType;
+      }
+      if (!isNaN(parseInt(this.state.defaultGoodsInfoFlag))) {
+        buyWay = parseInt(this.state.defaultGoodsInfoFlag);
+        if (parseInt(this.state.defaultGoodsInfoFlag) > 0) {
+          defaultPurchaseType = 1;
+        } else {
+          defaultPurchaseType = 0;
+        }
       }
 
       let autoshipDictRes = frequencyList.filter(
@@ -285,7 +321,6 @@ class Details extends React.Component {
           (autoshipDictRes[0] && autoshipDictRes[0].id) ||
           '';
       }
-      console.log(details, defaultFrequencyId, 'defaultFrequencyId');
 
       this.setState({
         form: Object.assign(this.state.form, {
@@ -343,15 +378,13 @@ class Details extends React.Component {
       details,
       spuImages,
       goodsDetailTab,
+      tmpGoodsDescriptionDetailList,
       goodsNo,
-      form
+      form,
+      setDefaultPurchaseTypeParamId
     } = this.state;
-
     details.sizeList = sizeList;
-    let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
-    if (!selectedSpecItem?.subscriptionStatus && form.buyWay > 0) {
-      form.buyWay = -1;
-    }
+
     this.setState(Object.assign({ details, form }, data), () => {
       this.updateInstockStatus();
       setTimeout(() =>
@@ -359,10 +392,24 @@ class Details extends React.Component {
           instockStatus,
           details,
           spuImages,
-          goodsDetailTab,
+          goodsDetailTab: tmpGoodsDescriptionDetailList,
           goodsNo
         })
       );
+      this.setDefaultPurchaseType({
+        id: setDefaultPurchaseTypeParamId
+      });
+
+      let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
+      if (!selectedSpecItem?.subscriptionStatus && this.state.form.buyWay > 0) {
+        this.setState({
+          form: Object.assign(this.state.form, {
+            buyWay: -1
+          })
+        });
+      }
+
+      console.log(this.state.details, selectedSpecItem, 'details???');
     });
 
     // bundle商品的ga初始化填充
@@ -457,8 +504,55 @@ class Details extends React.Component {
             backgroundSpaces: res.context.goods.cateId
           });
         }
+
+        const technologyList = (
+          res.context?.goodsAttributesValueRelList || []
+        ).filter((el) => el.goodsAttributeName?.toLowerCase() === 'technology');
+        const dryOrWetObj =
+          technologyList.filter((el) =>
+            ['dry', 'wet'].includes(el.goodsAttributeValue?.toLowerCase())
+          )?.[0] || {};
+        let dryOrWet = {
+          value: dryOrWetObj?.goodsAttributeValue?.toLowerCase(),
+          valueEn: dryOrWetObj.goodsAttributeValueEn
+        };
+
         if (goodsRes) {
-          const { goods, images } = res.context;
+          const { goods = {}, images } = res.context;
+          if (isShowMixFeeding()) {
+            getMixFeeding(goods?.goodsId).then((res) => {
+              let mixFeeding = handleRecommendation(
+                res?.context?.goodsRelationAndRelationInfos.filter(
+                  (el) => el.sort === 0
+                )[0] || res?.context?.goodsRelationAndRelationInfos[0]
+              );
+              if (mixFeeding) {
+                mixFeeding.quantity = 1;
+              }
+              let {
+                goodsImg = '',
+                goodsName = '',
+                goodsNo = ''
+              } = mixFeeding?.goods || {};
+              let _hiddenMixFeedingBanner = false;
+              let mixFeedingSelected = mixFeeding?.sizeList?.filter(
+                (el) => el.selected
+              )?.[0];
+              if (!mixFeedingSelected?.stock) {
+                _hiddenMixFeedingBanner = true;
+              }
+              this.setState({
+                mixFeeding,
+                mixFeedingByProductInfo: {
+                  imageSrc: goodsImg,
+                  goodsTitle: goodsName,
+                  goodsNo
+                },
+                hiddenMixFeedingBanner: _hiddenMixFeedingBanner
+              });
+            });
+          }
+
           const taggingList = (res.context?.taggingList || []).filter(
             (t) => t.displayStatus
           );
@@ -503,15 +597,26 @@ class Details extends React.Component {
               breadCrumbs: [{ name: goodsRes.goodsName }],
               pageLink: this.redirectCanonicalLink({ pageLink }),
               goodsType: goods.goodsType,
-              exclusiveFlag: goods.exclusiveFlag
+              exclusiveFlag: goods.exclusiveFlag,
+              originalProductInfo: Object.assign(
+                this.state.originalProductInfo,
+                {
+                  imageSrc: images?.[0]?.artworkUrl || '',
+                  goodsTitle: goodsRes.goodsName || '',
+                  technology: dryOrWet || {}
+                }
+              ),
+              setDefaultPurchaseTypeParamId:
+                goodsRes.defaultPurchaseType ||
+                configStore.info?.storeVO?.defaultPurchaseType
             },
             () => {
               this.handleBreadCrumbsData();
-              this.setDefaultPurchaseType({
-                id:
-                  goodsRes.defaultPurchaseType ||
-                  configStore.info?.storeVO?.defaultPurchaseType
-              });
+              // this.setDefaultPurchaseType({
+              //   id:
+              //     goodsRes.defaultPurchaseType ||
+              //     configStore.info?.storeVO?.defaultPurchaseType
+              // });
             }
           );
         } else {
@@ -565,7 +670,8 @@ class Details extends React.Component {
                 setTimeout(() => {
                   addSchemaOrgMarkup(
                     this.state.details,
-                    this.state.instockStatus
+                    this.state.instockStatus,
+                    <FormattedMessage id="homePage" />
                   );
                 }, 60000);
               }
@@ -646,7 +752,7 @@ class Details extends React.Component {
         url: 'https://fi-v2.global.commerce-connector.com/cc.js',
         id: 'cci-widget',
         dataSets: {
-          token: '2257decde4d2d64a818fd4cd62349b235d8a74bb',
+          token: '2257decde4d2d64a818fd4cd62349b235d8a74bb', //uk，fr公用它
           locale: window.__.env.REACT_APP_HUBPAGE_RETAILER_LOCALE,
           displaylanguage:
             window.__.env.REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE,
@@ -751,7 +857,7 @@ class Details extends React.Component {
       }
     } catch (err) {}
   }
-  async hanldeLoginAddToCart() {
+  async hanldeLoginAddToCart(type) {
     try {
       const {
         configStore,
@@ -766,7 +872,7 @@ class Details extends React.Component {
 
       const { sizeList } = details;
       let currentSelectedSize;
-      this.setState({ addToCartLoading: true });
+      !type && this.setState({ addToCartLoading: true });
       if (details.goodsSpecDetails) {
         currentSelectedSize = find(sizeList, (s) => s.selected);
       } else {
@@ -793,7 +899,7 @@ class Details extends React.Component {
         param = { ...param, ...this.state.requestJson };
       }
       await sitePurchase(param);
-      await checkoutStore.updateLoginCart();
+      await checkoutStore.updateLoginCart({ intl: this.props.intl });
       this.setState({ modalMobileCartSuccessVisible: true });
       if (!isMobile) {
         headerCartStore.show();
@@ -807,17 +913,12 @@ class Details extends React.Component {
       this.setState({ addToCartLoading: false });
     }
   }
-  async hanldeUnloginAddToCart() {
+  async hanldeUnloginAddToCart(type) {
     try {
-      this.setState({ addToCartLoading: true });
+      !type && this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const {
-        currentUnitPrice,
-        quantity,
-        form,
-        details,
-        questionParams
-      } = this.state;
+      const { currentUnitPrice, quantity, form, details, questionParams } =
+        this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -923,6 +1024,43 @@ class Details extends React.Component {
     HubGaPdpBuyFromRetailer();
   };
 
+  addMixFeedingToCart = async () => {
+    const btnStatus = this.btnStatus;
+    if (!btnStatus) return;
+    this.setState({
+      mixFeedingBtnLoading: true
+    });
+    if (this.isLogin) {
+      await this.hanldeLoginAddToCart('mixFeedingToCartBtn');
+    } else {
+      await this.hanldeUnloginAddToCart('mixFeedingToCartBtn');
+    }
+    this.handleAddMixFeeding();
+  };
+
+  handleAddMixFeeding = async () => {
+    const { mixFeeding, form, details } = this.state;
+
+    let periodTypeId = parseInt(form.buyWay) ? form.frequencyId : '';
+    let goodsInfoFlag =
+      form.buyWay && details.promotions?.includes('club') ? 2 : form.buyWay;
+    const params = {
+      product: Object.assign(mixFeeding, {
+        quantity: 1,
+        periodTypeId,
+        goodsInfoFlag
+      }),
+      intl: this.props.intl
+    };
+    this.isLogin
+      ? await addToLoginCartData(params)
+      : await addToUnloginCartData(params);
+
+    this.setState({
+      mixFeedingBtnLoading: false
+    });
+  };
+
   getPdpScreenLoadCTAs() {
     const {
       currentSubscriptionStatus,
@@ -982,7 +1120,8 @@ class Details extends React.Component {
       loading,
       skuPromotions,
       headingTag = 'h1',
-      replyNum
+      replyNum,
+      mixFeeding
     } = this.state;
     const filterImages =
       images?.filter((i) => {
@@ -992,10 +1131,16 @@ class Details extends React.Component {
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     const vet =
-      window.__.env.REACT_APP_HUB === '1' &&
+      (window.__.env.REACT_APP_HUB === '1' || Uk) &&
       !details.saleableFlag &&
-      details.displayFlag; //vet产品并且是hub的情况下
-
+      details.displayFlag; //vet产品并且是hub的情况下,(uk不管stg还是wedding都用这个逻辑)
+    console.log(
+      vet,
+      window.__.env.REACT_APP_HUB,
+      !details.saleableFlag,
+      details.displayFlag,
+      'ishubvet'
+    );
     const goodHeading = `<${headingTag || 'h1'}
         class="rc-gamma ui-text-overflow-line2 text-break"
         title="${details.goodsName}">
@@ -1020,6 +1165,7 @@ class Details extends React.Component {
           history={history}
           match={match}
         />
+        {this.state.mixFeedingBtnLoading ? <Loading /> : null}
         {this.state.showErrorTip ? (
           <div className="context-null">
             <div>
@@ -1108,7 +1254,8 @@ class Details extends React.Component {
                                     'ru',
                                     'tr',
                                     'us',
-                                    'mx'
+                                    'mx',
+                                    'uk'
                                   ]) ? (
                                     <ImageMagnifier_fr
                                       sizeList={details.sizeList}
@@ -1212,6 +1359,7 @@ class Details extends React.Component {
                                 setState={this.setState.bind(this)}
                                 updatedSku={this.matchGoods.bind(this)}
                                 updatedPriceOrCode={this.updatedPriceOrCode}
+                                defaultSkuId={this.state.defaultSkuId}
                               />
                               <div className="Quantity">
                                 <span className="amount">
@@ -1250,7 +1398,9 @@ class Details extends React.Component {
                                 </div>
                               </div>
                             </div>
-                            <div>
+                            <div
+                              className={`${currentUnitPrice ? '' : 'hidden'}`}
+                            >
                               <SingleBuyMethod
                                 configStore={this.props.configStore}
                                 form={form}
@@ -1376,8 +1526,28 @@ class Details extends React.Component {
                 closeModal={() => {
                   this.setState({ modalMobileCartSuccessVisible: false });
                 }}
+                mixFeedingData={this.state.mixFeeding}
+                periodTypeId={parseInt(form.buyWay) ? form.frequencyId : ''}
+                goodsInfoFlag={
+                  form.buyWay && details.promotions?.includes('club')
+                    ? 2
+                    : form.buyWay
+                }
+                isLogin={this.isLogin}
               />
             ) : null}
+
+            {/* sprint6暂时不上，延迟到sprint7 */}
+            {/* {PC && Ru && mixFeeding && !this.state.hiddenMixFeedingBanner ? (
+              <MixFeedingBanner
+                originalProductInfo={this.state.originalProductInfo}
+                mixFeedingByProductInfo={this.state.mixFeedingByProductInfo}
+                mixFeedingForm={form}
+                addMixFeedingToCart={this.addMixFeedingToCart}
+                btnStatus={btnStatus}
+                mixFeedingBtnLoading={this.state.mixFeedingBtnLoading}
+              />
+            ) : null} */}
 
             {/* 最下方跳转更多板块 rita说现在hub 又不要了 暂时注释吧*/}
             {/* <More/> */}

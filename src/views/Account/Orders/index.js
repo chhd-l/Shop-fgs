@@ -23,7 +23,8 @@ import {
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import { batchAdd } from '@/api/payment';
-import { getOrderList, getOrderDetails } from '@/api/order';
+import { getOrderList } from '@/api/order';
+import { cancelAppointByNo } from '@/api/appointment';
 import orderImg from './img/order.jpg';
 import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
@@ -31,14 +32,13 @@ import base64 from 'base-64';
 import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { filterOrderId } from '@/utils/utils';
-
 import './index.less';
+import { handleOrderItem } from './modules/handleOrderItem';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-
 const pageLink = window.location.href;
-let isIndv = false;
+
 @inject('checkoutStore')
 @injectIntl
 @observer
@@ -102,21 +102,16 @@ class AccountOrders extends React.Component {
       let res = await getOrderList({ id: orderId });
       let hasDetails = res.context?.content?.length;
       if (hasDetails) {
-        let url = `/account/orders/detail/${orderId}`;
+        let url = `/Raccount/orders/detail/${orderId}`;
         this.props.history.push(url);
         return;
       }
     }
 
-    this.FormateOderTimeFilter();
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
+    await this.FormatOderTimeFilter();
     this.queryOrderList();
   }
-  async FormateOderTimeFilter() {
+  async FormatOderTimeFilter() {
     const res = await getDictionary({ type: 'orderTimeFilter' });
     this.setState({
       duringTimeOptions: (res || []).map((item) => ({
@@ -126,7 +121,6 @@ class AccountOrders extends React.Component {
     });
   }
   handleDuringTimeChange = (data) => {
-    // console.log("获取当前选择的天气",data,this.state.form.period)
     const { form } = this.state;
     form.period = data.value;
     this.setState(
@@ -171,57 +165,17 @@ class AccountOrders extends React.Component {
     getOrderList(param)
       .then((res) => {
         let tmpList = Array.from(res.context.content, (ele) => {
-          const tradeState = ele.tradeState;
           ele.tradeItems.forEach((el) => {
-            el.spuName = judgeIsIndividual(el)
-              ? `${el.petsName}'s personalized subscription`
-              : el.spuName;
+            el.spuName = judgeIsIndividual(el) ? (
+              <FormattedMessage
+                id="subscription.personalized"
+                values={{ val1: el.petsName }}
+              />
+            ) : (
+              el.spuName
+            );
           });
-          console.log('orderCategory:', ele.orderCategory);
-          // orderCategory为RECURRENT_AUTOSHIP为refill订单，需要隐藏repay按钮
-          return Object.assign(ele, {
-            canPayNow:
-              ele.orderCategory !== 'RECURRENT_AUTOSHIP' &&
-              tradeState.flowState === 'INIT' &&
-              tradeState.auditState === 'NON_CHECKED' &&
-              tradeState.payState === 'NOT_PAID' &&
-              new Date(ele.orderTimeOut).getTime() >
-                new Date(res.defaultLocalDateTime).getTime() &&
-              (!ele.payWay ||
-                !['OXXO', 'ADYEN_OXXO', 'COD'].includes(
-                  ele.payWay.toUpperCase()
-                )),
-            showOXXOExpireTime:
-              tradeState.flowState === 'AUDIT' &&
-              tradeState.deliverStatus === 'NOT_YET_SHIPPED' &&
-              tradeState.payState === 'NOT_PAID' &&
-              new Date(ele.orderTimeOut).getTime() >
-                new Date(res.defaultLocalDateTime).getTime() &&
-              ele.payWay &&
-              ele.payWay.toUpperCase() === 'OXXO',
-            payNowLoading: false,
-            canRePurchase:
-              tradeState.flowState === 'COMPLETED' ||
-              tradeState.flowState === 'VOID',
-            canReview:
-              !!+window.__.env.REACT_APP_PDP_RATING_VISIBLE &&
-              tradeState.flowState === 'COMPLETED' &&
-              !ele.storeEvaluateVO,
-            canViewTrackInfo:
-              tradeState.payState === 'PAID' &&
-              tradeState.auditState === 'CHECKED' &&
-              (tradeState.deliverStatus === 'SHIPPED' ||
-                tradeState.deliverStatus === 'PARTIALLY_SHIPPED') &&
-              (tradeState.flowState === 'DELIVERED' ||
-                tradeState.flowState === 'PARTIALLY_DELIVERED') &&
-              ele.tradeDelivers &&
-              ele.tradeDelivers.length,
-            canDownInvoice:
-              ['fr'].includes(window.__.env.REACT_APP_COUNTRY) &&
-              (tradeState.deliverStatus === 'SHIPPED' ||
-                tradeState.deliverStatus === 'DELIVERED') &&
-              tradeState.invoiceState === 1
-          });
+          return handleOrderItem(ele, res);
         });
         if (this.state.initing) {
           this.setState({ everHaveNoOrders: !tmpList.length });
@@ -230,17 +184,18 @@ class AccountOrders extends React.Component {
           orderList: tmpList,
           currentPage: res.context.pageable.pageNumber + 1,
           totalPage: res.context.totalPages,
-          defaultLocalDateTime: res.defaultLocalDateTime,
-          loading: false,
-          initing: false,
-          initLoading: false
+          defaultLocalDateTime: res.defaultLocalDateTime
         });
       })
       .catch((err) => {
         this.setState({
-          loading: false,
           errMsg: err.message.toString(),
-          tabErrMsg: err.message.toString(),
+          tabErrMsg: err.message.toString()
+        });
+      })
+      .finally(() => {
+        this.setState({
+          loading: false,
           initing: false,
           initLoading: false
         });
@@ -286,46 +241,6 @@ class AccountOrders extends React.Component {
       };
     });
     try {
-      const detailRes = await getOrderDetails(order.id);
-      const detailResCt = detailRes.context;
-      const tmpDeliveryAddress = {
-        firstName: detailResCt.consignee.firstName,
-        lastName: detailResCt.consignee.lastName,
-        address1: detailResCt.consignee.detailAddress1,
-        address2: detailResCt.consignee.detailAddress2,
-        rfc: detailResCt.consignee.rfc,
-        country: detailResCt.consignee.countryId
-          ? detailResCt.consignee.countryId.toString()
-          : '',
-        // city: detailResCt.consignee.cityId ? detailResCt.consignee.cityId.toString() : '',
-        city:
-          detailResCt.consignee.city == detailResCt.consignee.cityName
-            ? null
-            : detailResCt.consignee.city,
-        cityName: detailResCt.consignee.cityName,
-        postCode: detailResCt.consignee.postCode,
-        phoneNumber: detailResCt.consignee.phone,
-        addressId: detailResCt.consignee.id
-      };
-      const tmpBillingAddress = {
-        firstName: detailResCt.invoice.firstName,
-        lastName: detailResCt.invoice.lastName,
-        address1: detailResCt.invoice.address1,
-        address2: detailResCt.invoice.address2,
-        rfc: detailResCt.invoice.rfc,
-        country: detailResCt.invoice.countryId
-          ? detailResCt.invoice.countryId.toString()
-          : '',
-        // city: detailResCt.invoice.cityId ? detailResCt.invoice.cityId.toString() : '',
-        city:
-          detailResCt.invoice.city == detailResCt.invoice.cityName
-            ? null
-            : detailResCt.invoice.city,
-        cityName: detailResCt.invoice.cityName,
-        postCode: detailResCt.invoice.postCode,
-        phoneNumber: detailResCt.invoice.phone,
-        addressId: detailResCt.invoice.addressId
-      };
       this.props.checkoutStore.setLoginCartData(tradeItems);
       sessionItemRoyal.set('rc-tid', order.id);
       sessionItemRoyal.set('rc-rePaySubscribeId', order.subscribeId);
@@ -339,7 +254,6 @@ class AccountOrders extends React.Component {
         promotionDiscount: order.tradePrice.deliveryPrice,
         subscriptionPrice: order.tradePrice.subscriptionPrice
       });
-
       this.props.history.push('/checkout');
       order.payNowLoading = false;
     } catch (err) {
@@ -349,10 +263,7 @@ class AccountOrders extends React.Component {
       this.setState({ orderList });
     }
   }
-  rePurchase(order) {
-    this.hanldeLoginAddToCart(order);
-  }
-  async hanldeLoginAddToCart(order) {
+  async rePurchase(order) {
     try {
       const { orderList } = this.state;
       order.addToCartLoading = true;
@@ -367,11 +278,23 @@ class AccountOrders extends React.Component {
         };
       });
       await batchAdd({ goodsInfos: paramList });
-      await this.props.checkoutStore.updateLoginCart();
+      await this.props.checkoutStore.updateLoginCart({ intl: this.props.intl });
       this.props.history.push('/cart');
     } catch (err) {
     } finally {
       order.addToCartLoading = false;
+    }
+  }
+  async cancelAppoint(order) {
+    try {
+      const { orderList } = this.state;
+      order.cancelAppointLoading = true;
+      this.setState({ orderList: orderList });
+      await cancelAppointByNo({ apptNo: order.appointmentNo });
+      this.queryOrderList();
+    } catch (err) {
+    } finally {
+      order.cancelAppointLoading = false;
     }
   }
   changeTab(i) {
@@ -387,25 +310,24 @@ class AccountOrders extends React.Component {
     );
   }
   handleClickCardItem(item) {
+    console.log(this.deviceType);
     if (this.deviceType === 'PC') return false;
     this.props.history.push(`/account/orders/detail/${item.id}`);
     return false;
     // 测试要求改到跳转页面  1214
-    this.setState({ curOneOrderDetails: item });
-    setTimeout(() => {
-      this.setState({ showOneOrderDetail: true });
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    });
+    // this.setState({ curOneOrderDetails: item });
+    // setTimeout(() => {
+    //   this.setState({ showOneOrderDetail: true });
+    //   window.scrollTo({
+    //     top: 0,
+    //     behavior: 'smooth'
+    //   });
+    // });
   }
   handleClickBackToIndex = () => {
     this.setState({ showOneOrderDetail: false });
   };
   handleDownInvoice(order) {
-    let orderInvoiceIds = [];
-    orderInvoiceIds.push(order.id);
     let params = {
       orderNo: order.id
     };
@@ -441,6 +363,7 @@ class AccountOrders extends React.Component {
             </button>
           </>
         ) : null}
+        {/*普通产品评论*/}
         {order.canReview ? (
           <button className="rc-btn rc-btn--sm rc-btn--two ord-list-operation-btn">
             <FormattedMessage id="writeReview">
@@ -457,18 +380,63 @@ class AccountOrders extends React.Component {
             </FormattedMessage>
           </button>
         ) : null}
-        {order.canRePurchase ? (
-          <button
-            className={`rc-btn rc-btn--sm rc-btn--two rePurchase-btn ord-list-operation-btn ${
-              order.addToCartLoading
-                ? 'ui-btn-loading ui-btn-loading-border-red'
-                : ''
-            }`}
-            onClick={this.rePurchase.bind(this, order)}
-          >
-            <FormattedMessage id="rePurchase" />
+        {/*服务类产品评论*/}
+        {order.canReviewService ? (
+          <button className="rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order">
+            <FormattedMessage id="writeReview">
+              {(txt) => (
+                <Link
+                  className="color-fff"
+                  to={`/account/productReviewService/${order.id}`}
+                  title={txt}
+                  alt={txt}
+                >
+                  {txt}
+                </Link>
+              )}
+            </FormattedMessage>
           </button>
         ) : null}
+        {/*felin订单change appoint*/}
+        {/*{order.canChangeAppoint ? (*/}
+        {/*  <button*/}
+        {/*    className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order color-fff`}*/}
+        {/*  >*/}
+        {/*    <FormattedMessage id="Change Appointment">*/}
+        {/*      {(txt) => (*/}
+        {/*        <Link*/}
+        {/*          className="color-fff"*/}
+        {/*          to={`/felin?id=${order.appointmentNo}`}*/}
+        {/*          title={txt}*/}
+        {/*          alt={txt}*/}
+        {/*        >*/}
+        {/*          {txt}*/}
+        {/*        </Link>*/}
+        {/*      )}*/}
+        {/*    </FormattedMessage>*/}
+        {/*  </button>*/}
+        {/*) : null}*/}
+        {/*felin订单cancel appoint*/}
+        {/*{order.canCancelAppoint ? (*/}
+        {/*  <button*/}
+        {/*    className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order ml-0`}*/}
+        {/*    onClick={this.cancelAppoint.bind(this, order)}*/}
+        {/*  >*/}
+        {/*    <FormattedMessage id="Cancel Appointment" />*/}
+        {/*  </button>*/}
+        {/*) : null}*/}
+        {/*{order.canRePurchase ? (*/}
+        {/*  <button*/}
+        {/*    className={`rc-btn rc-btn--sm rc-btn--two rePurchase-btn ord-list-operation-btn ${*/}
+        {/*      order.addToCartLoading*/}
+        {/*        ? 'ui-btn-loading ui-btn-loading-border-red'*/}
+        {/*        : ''*/}
+        {/*    }`}*/}
+        {/*    onClick={this.rePurchase.bind(this, order)}*/}
+        {/*  >*/}
+        {/*    <FormattedMessage id="rePurchase" />*/}
+        {/*  </button>*/}
+        {/*) : null}*/}
         {order.canViewTrackInfo ? (
           <button className="rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn">
             <FormattedMessage id="trackDelivery">
@@ -561,11 +529,11 @@ class AccountOrders extends React.Component {
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbs />
-          <div className="p-md-2rem rc-max-width--xl ord-list">
+          <div className="md:p-8 rc-max-width--xl ord-list">
             <div className="rc-layout-container rc-five-column">
               <SideMenu type="Orders" customCls="rc-md-up" />
               <div
-                className={`my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop pl-0 pr-0 pr-md-3 pl-md-3 ${
+                className={`my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop pl-0 pr-0 md:pr-3 md:pl-3 ${
                   showOneOrderDetail ? 'hidden' : ''
                 }`}
               >
@@ -616,17 +584,17 @@ class AccountOrders extends React.Component {
                   </>
                 ) : (
                   <>
-                    <div className="row mb-3 ml-2 m-md-0">
+                    <div className="row m-0 mb-3 md:m-0">
                       <div className="col-12 rc-md-down">
                         <Link to="/account">
                           <span className="red">&lt;</span>
                           <span className="rc-styled-link rc-progress__breadcrumb ml-2 mt-1">
-                            <FormattedMessage id="home" />
+                            <FormattedMessage id="account.home" />
                           </span>
                         </Link>
                       </div>
 
-                      <div className="col-12 order-1 order-md-0 col-md-8 rc-fade--x">
+                      <div className="col-12 order-1 md:order-0 col-md-8 rc-fade--x">
                         <ul
                           className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank rc-border-bottom rc-border-colour--interface"
                           role="tablist"
@@ -649,8 +617,8 @@ class AccountOrders extends React.Component {
                         </ul>
                       </div>
 
-                      <div className="col-10 order-0 order-md-1 col-md-4">
-                        <div className="rc-select rc-full-width rc-input--full-width rc-select-processed mt-0 mb-2 mb-md-0">
+                      <div className="col-12 order-0 md:order-1 col-md-4">
+                        <div className="rc-select rc-full-width rc-input--full-width rc-select-processed mt-0 mb-2 md:mb-0">
                           <Selection
                             optionList={duringTimeOptions}
                             selectedItemChange={this.handleDuringTimeChange}
@@ -691,14 +659,9 @@ class AccountOrders extends React.Component {
                                 (item) =>
                                   (item.subscriptionPlanId || []).length > 0
                               );
-                              console.info('isGift', isGift);
                               return (
                                 <div
                                   className="card-container"
-                                  // style={{
-                                  //   paddingBottom:
-                                  //     this.deviceType === 'H5' ? '1.25rem' : '0'
-                                  // }}
                                   key={order.id}
                                   onClick={this.handleClickCardItem.bind(
                                     this,
@@ -721,7 +684,7 @@ class AccountOrders extends React.Component {
                                           </span>
                                         </p>
                                       </div>
-                                      <div className="col-12 col-md-2 mb-2 mb-md-0">
+                                      <div className="col-12 col-md-2 mb-2 md:mb-0">
                                         <p className="text-nowrap">
                                           <FormattedMessage id="order.orderNumber" />
                                           <br className="d-none d-md-block" />
@@ -783,13 +746,17 @@ class AccountOrders extends React.Component {
                                               )}
                                             </FormattedMessage>
                                           </div>
+                                        ) : order.goodWillFlag === 1 ? (
+                                          <div>
+                                            <FormattedMessage id="order.goodwillOrder" />
+                                          </div>
                                         ) : null}
                                       </div>
                                       <div className="col-12 col-md-2 text-nowrap padding0">
                                         <FormattedMessage id="order.orderDetails">
                                           {(txt) => (
                                             <Link
-                                              className="d-flex rc-padding-left--none rc-btn rc-btn--icon-label rc-padding-right--none orderDetailBtn btn--inverse rc-btn--inverse text-wrap align-items-center"
+                                              className="d-flex rc-padding-left--none rc-btn rc-btn--icon-label rc-padding-right--none orderDetailBtn btn--inverse text-wrap align-items-center"
                                               to={`/account/orders/detail/${order.id}`}
                                             >
                                               <em className="rc-iconography rc-icon rc-news--xs" />
@@ -805,16 +772,11 @@ class AccountOrders extends React.Component {
                                       </div>
                                     </div>
                                   </div>
-                                  <div
-                                    className="row mb-3 mt-3 align-items-center m-0"
-                                    style={{ position: 'relative' }}
-                                  >
+                                  <div className="row mb-3 mt-3 align-items-center m-0 relative">
                                     <div
-                                      className="rc-md-down"
+                                      className="rc-md-down absolute -bottom-5"
                                       style={{
-                                        position: 'absolute',
-                                        right: '.9375rem',
-                                        bottom: '-1.25rem'
+                                        right: '.9375rem'
                                       }}
                                     >
                                       {order.canDownInvoice ? (
@@ -841,7 +803,7 @@ class AccountOrders extends React.Component {
                                         'PART_SHIPPED' &&
                                         order.tradeState.flowState ===
                                           'DELIVERED_PART')) && (
-                                      <div className="col-12 mt-1 mt-md-0 mb-md-1 order-1 order-md-0">
+                                      <div className="col-12 mt-1 md:mt-0 md:mb-1 order-1 md:order-0">
                                         <p className="medium mb-0 color-444">
                                           <FormattedMessage id="deliveredTip" />
                                         </p>
@@ -857,7 +819,7 @@ class AccountOrders extends React.Component {
                                     order.tradeEventLogs[0] &&
                                     order.tradeEventLogs[0].eventType ===
                                       'COMPLETED' ? (
-                                      <div className="col-12 mt-1 mt-md-0 mb-md-1 order-1 order-md-0">
+                                      <div className="col-12 mt-1 md:mt-0 md:mb-1 order-1 md:order-0">
                                         <p className="medium mb-0 color-444">
                                           <FormattedMessage id="orderStatus.COMPLETED" />
                                           :{' '}
@@ -891,14 +853,18 @@ class AccountOrders extends React.Component {
                                           </div>
                                           <div className="col-8 col-md-6">
                                             <span className="medium color-444 ui-text-overflow-line2">
-                                              {judgeIsIndividual(item)
-                                                ? (item.petsName ||
-                                                    'Your pet') +
-                                                  "'s personalized subscription"
-                                                : item.spuName}
+                                              {item.spuName}
                                             </span>
                                             {judgeIsIndividual(item) ? (
                                               <span>{item.specDetails}</span>
+                                            ) : order.orderType ===
+                                              'FELINE_ORDER' ? (
+                                              <span>
+                                                {order.specialistType} –{' '}
+                                                {order.appointmentTime}
+                                                <FormattedMessage id="min" /> –
+                                                {order.appointmentType}
+                                              </span>
                                             ) : (
                                               <FormattedMessage
                                                 id="order.quantityText"
@@ -929,18 +895,21 @@ class AccountOrders extends React.Component {
                                         </div>
                                       ))}
                                     </div>
-                                    {isGift && !getDeviceType() === 'H5' ? (
+                                    {isGift && !(getDeviceType() === 'H5') ? (
                                       order.tradeItems.map((item, idx) => (
-                                        <div className="col-2 col-md-3 text-right pl-md-0">
+                                        <div className="col-2 col-md-3 text-right md:pl-0">
                                           {formatMoney(item.price)}
                                         </div>
                                       ))
                                     ) : (
-                                      <div className="col-2 col-md-3 text-center pl-md-0 pr-md-0">
+                                      <div className="col-2 col-md-3 text-center md:pl-0 md:pr-0">
                                         <div className="rc-md-up">
                                           {this.renderOperationBtns(order)}
                                         </div>
-                                        <span className="rc-icon rc-right rc-iconography rc-md-down ord-list-operation-btn" />
+                                        <span
+                                          className="iconfont iconjiantouyou1 bold rc-md-down"
+                                          style={{ fontSize: '20px' }}
+                                        />
                                       </div>
                                     )}
                                     {/* {order.subscribeId && !isGift ? (
@@ -976,7 +945,7 @@ class AccountOrders extends React.Component {
                           </div>
                         )}
                         {tabErrMsg || !orderList.length ? null : (
-                          <div className="grid-footer rc-full-width mt-4 mt-md-2">
+                          <div className="grid-footer rc-full-width mt-4 md:mt-2">
                             <Pagination
                               loading={this.state.loading}
                               totalPage={this.state.totalPage}

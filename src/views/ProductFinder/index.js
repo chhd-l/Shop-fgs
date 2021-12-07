@@ -120,7 +120,7 @@ class ProductFinder extends React.Component {
     const homeJSX = (
       <>
         <div className="row">
-          <div className="col-12 col-md-4 order-0 order-md-1 text-center">
+          <div className="col-12 col-md-4 order-0 md:order-1 text-center">
             <h1 className="rc-gamma rc-padding--none text-center">
               <FormattedMessage id="productFinder.tip1" />
             </h1>
@@ -132,12 +132,12 @@ class ProductFinder extends React.Component {
             </h4>
             <div className="rc-md-up">{btnJSX}</div>
           </div>
-          <div className="col-6 col-md-4 order-1 order-md-0">
+          <div className="col-6 col-md-4 order-1 md:order-0">
             <LazyLoad style={{ width: '100%', height: '100%' }}>
               <img src={catImg} alt="cat image" />
             </LazyLoad>
           </div>
-          <div className="col-6 col-md-4 order-2 order-md-2">
+          <div className="col-6 col-md-4 order-2 md:order-2">
             <LazyLoad style={{ width: '100%', height: '100%' }}>
               <img src={dogImg} alt="dog image" />
             </LazyLoad>

@@ -50,7 +50,7 @@ const FrequencyMatch = ({ frequencyType, currentFrequencyId,disabled=false,class
     });
   }
   return (
-    <div style={wrapStyle} className={`freqency order-3 order-md-2 col-12 col-md-4 text-center ${className}`}>
+    <div style={wrapStyle} className={`freqency order-3 md:order-2 col-12 col-md-4 text-center ${className} nowrap`}>
       <span style={textStyle}>
         <FormattedMessage id="subscription.frequency" />
       </span>
@@ -58,8 +58,8 @@ const FrequencyMatch = ({ frequencyType, currentFrequencyId,disabled=false,class
         disabled={disabled}
         customContainerStyle={{
           display: 'inline-block',
-          marginLeft: isMobile ? '50px' : '1.5rem',
-          height: isMobile ? '70px' : 'auto',
+          marginLeft: isMobile ? '0.5rem' : '1.5rem',
+          // height: isMobile ? '70px' : 'auto',
           ...selectionStyle
         }}
         customCls="text-left"

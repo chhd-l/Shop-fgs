@@ -14,6 +14,7 @@ import icon4 from './images/us_icon4.png';
 import emailImg from './images/Emailus_icon.png';
 import callImg from './images/customer-service.png';
 import helpImg from './images/FAQ_icon.png';
+import usImage from './images/DogWithLogo.png';
 import wof from './images/wof.png';
 import { inject, observer } from 'mobx-react';
 import { setSeoConfig } from '@/utils/utils';
@@ -92,10 +93,11 @@ class SubscriptionLanding extends React.Component {
                           <p>
                             At Royal Canin®, we know that caring for a new pet
                             can bring a lot of questions. That’s why we offer
-                            exclusive benefits like 24/7 access to veterinarians
-                            and more through the Royal Canin Club. Joining is
-                            easy — sign up for automatic shipping on your pet’s
-                            tailored formulas to become a member today.
+                            exclusive benefits like access to a Royal Canin
+                            Advisor and more through the Royal Canin Club.
+                            Joining is easy — sign up for automatic shipping on
+                            your pet’s tailored formulas to become a member
+                            today.
                             <br />
                             <br />
                           </p>
@@ -107,12 +109,12 @@ class SubscriptionLanding extends React.Component {
                         </div>
                         <div className="rc-btn-group d-block d-md-none rc-text--center">
                           <Link to="/cats">
-                            <button className="rc-btn rc-btn--one rc-margin-right--xs mb-2 mb-md-0">
+                            <button className="rc-btn rc-btn--one rc-margin-right--xs mb-2 md:mb-0">
                               Shop Cat Formulas
                             </button>
                           </Link>
                           <Link to="/dogs">
-                            <button className="rc-btn rc-btn--one mb-2 mb-md-0">
+                            <button className="rc-btn rc-btn--one mb-2 md:mb-0">
                               Shop Dog Formulas
                             </button>
                           </Link>
@@ -125,23 +127,24 @@ class SubscriptionLanding extends React.Component {
                             <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                               <li className="rc-list__item">
                                 <em className="wof rc-margin-right--xs"></em>
-                                <strong>Royal Canin Pet Advisor Live</strong> -
-                                chat with veterinarians around the clock about
-                                your pet’s health, nutrition, behavior and more.
+                                <strong>Expert Guidance</strong> - Receive
+                                nutritional recommendations on Royal Canin food
+                                and products as your pet grows
                               </li>
                               <li className="rc-list__item">
                                 <em className="wof rc-margin-right--xs"></em>
-                                <strong>
-                                  Special Savings + FREE Shipping
-                                </strong>{' '}
-                                - save 30% on your first order and another 5% on
-                                every autoship order.
+                                <strong>Special Savings</strong> - Save 30% off
+                                your first purchase through Royal Canin Club,
+                                and 5% off every autoship order. Plus, free
+                                shipping –– with no minimum purchase
                               </li>
                               <li className="rc-list__item">
                                 <em className="wof rc-margin-right--xs"></em>
-                                <strong>Expert Recommendations</strong> -
-                                receive recommendations for pet food and
-                                products as your pet grows.
+                                <strong>Royal Canin Advisor</strong> - Like a
+                                coach for everything related to your pet’s
+                                nutrition, your Royal Canin Advisor can help
+                                with diet recommendations and expert feeding
+                                advice, updates on products, and more
                               </li>
                             </ul>
                             <div className="d-none d-md-block rc-btn-group m-0 rc-column rc-padding-x--none">
@@ -163,7 +166,7 @@ class SubscriptionLanding extends React.Component {
                             <img
                               alt="Avec l'Abonnement, ils auront toujours ce dont ils ont besoin"
                               className="w-100 lazyloaded"
-                              src={autoship}
+                              src={usImage}
                             />
                           </LazyLoad>
                         </div>
@@ -202,9 +205,8 @@ class SubscriptionLanding extends React.Component {
                           />
                           <div className="inherit-fontsize rc-large-body rc-padding-top--xs children-nomargin">
                             <p>
-                              Find your{' '}
-                              <strong>handpicked nutrition products</strong> in
-                              your cart.
+                              Add expert-recommended pet food and products to
+                              your cart
                             </p>
                           </div>
                         </div>
@@ -216,8 +218,8 @@ class SubscriptionLanding extends React.Component {
                           />
                           <div className="inherit-fontsize rc-large-body rc-padding-top--xs children-nomargin">
                             <p>
-                              Select <strong>automatic shipping</strong> and
-                              input your payment method.
+                              Select automatic shipping and input your payment
+                              method.
                             </p>
                           </div>
                         </div>
@@ -229,11 +231,8 @@ class SubscriptionLanding extends React.Component {
                           />
                           <div className="inherit-fontsize rc-large-body rc-padding-top--xs children-nomargin">
                             <p>
-                              <strong>
-                                Receive your product automatically
-                              </strong>{' '}
-                              based on your schedule. Change or cancel{' '}
-                              <strong>at any time</strong>.
+                              Receive your autoship purchase based on your
+                              schedule––change or cancel at any time
                             </p>
                           </div>
                         </div>
@@ -245,9 +244,8 @@ class SubscriptionLanding extends React.Component {
                           />
                           <div className="inherit-fontsize rc-large-body rc-padding-top--xs children-nomargin">
                             <p>
-                              Get your exclusive
-                              <strong> Royal Canin Club </strong>perks,
-                              including access to Royal Canin Pet Advisor Live.
+                              Get your exclusive Royal Canin Club perks,
+                              including access to a Royal Canin Advisor
                             </p>
                           </div>
                         </div>
@@ -266,7 +264,7 @@ class SubscriptionLanding extends React.Component {
                   <div className="content-asset">
                     <div className="rc-bg-colour--brand4">
                       <div className="row rc-max-width--lg rc-match-heights rc-padding-y--sm">
-                        <div className="col-12 col-md-4 order-1 order-md-0">
+                        <div className="col-12 col-md-4 order-1 md:order-0">
                           <div className="rc-column rc-padding--none">
                             <img
                               src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship-landing/cat.jpg`}
@@ -282,7 +280,7 @@ class SubscriptionLanding extends React.Component {
                             </Link>
                           </div>
                         </div>
-                        <div className="col-12 col-md-4 m-auto rc-padding-x--sm rc-padding-x--lg--mobile rc-padding-top--lg--mobile order-0 order-md-1">
+                        <div className="col-12 col-md-4 m-auto rc-padding-x--sm rc-padding-x--lg--mobile rc-padding-top--lg--mobile order-0 md:order-1">
                           <div className="rc-gamma rc-text--center">
                             Get Started
                           </div>
@@ -307,7 +305,7 @@ class SubscriptionLanding extends React.Component {
                             </Link>
                           </div>
                         </div>
-                        <div className="col-12 col-md-4 order-2 order-md-2">
+                        <div className="col-12 col-md-4 order-2 md:order-2">
                           <div className="rc-column rc-padding--none">
                             <img
                               src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship-landing/dog.jpg`}
@@ -351,7 +349,7 @@ class SubscriptionLanding extends React.Component {
                         <article className="rc-full-width rc-column rc-padding-left--none--desktop">
                           <div className="rc-border-all rc-border-colour--interface fullHeight contact_options__card">
                             <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
-                              <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center text-md-left rc-padding-right--none--desktop">
+                              <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center md:text-left rc-padding-right--none--desktop">
                                 <div className="w-100">
                                   <b style={{ color: '#00A4A6' }}>Call us</b>
                                   <p>
@@ -390,7 +388,7 @@ class SubscriptionLanding extends React.Component {
                         <article className="rc-full-width rc-column rc-padding-left--none--desktop">
                           <div className="rc-border-all rc-border-colour--interface fullHeight contact_options__card">
                             <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
-                              <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center text-md-left rc-padding-right--none--desktop">
+                              <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center md:text-left rc-padding-right--none--desktop">
                                 <div className="w-100">
                                   <b style={{ color: '#0087BD' }}>Email Us</b>
                                   <p>
@@ -428,7 +426,7 @@ class SubscriptionLanding extends React.Component {
                         <article className="rc-full-width rc-column rc-padding-left--none--desktop">
                           <div className="rc-border-all rc-border-colour--interface fullHeight contact_options__card">
                             <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
-                              <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center text-md-left rc-padding-right--none--desktop">
+                              <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center md:text-left rc-padding-right--none--desktop">
                                 <div className="w-100">
                                   <strong>Have a question?</strong>
                                   <p>

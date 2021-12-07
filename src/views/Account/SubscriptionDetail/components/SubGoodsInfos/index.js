@@ -156,30 +156,34 @@ const SubGoodsInfos = ({
                       alt={el.goodsName}
                     />
                     {/* </LazyLoad> */}
-                    {isShowClub && !!subDetail.petsId && !isIndv && (
-                      <span
-                        className={`rc-styled-link ${
-                          productListLoading ? 'ui-btn-loading' : ''
-                        }`}
-                        // onClick={() => showChangeProduct([el])}
-                        onClick={() => {
-                          setState({
-                            triggerShowChangeProduct: Object.assign(
-                              {},
-                              triggerShowChangeProduct,
-                              {
-                                show: true,
-                                firstShow: !triggerShowChangeProduct.firstShow,
-                                goodsInfo: [el],
-                                isShowModal: true
-                              }
-                            )
-                          });
-                        }}
-                      >
-                        <FormattedMessage id="subscriptionDetail.changeProduct" />
-                      </span>
-                    )}
+                    {isShowClub &&
+                      !!subDetail.petsId &&
+                      !isIndv &&
+                      subDetail?.goodsInfo.length == 1 && (
+                        <span
+                          className={`rc-styled-link ${
+                            productListLoading ? 'ui-btn-loading' : ''
+                          }`}
+                          // onClick={() => showChangeProduct([el])}
+                          onClick={() => {
+                            setState({
+                              triggerShowChangeProduct: Object.assign(
+                                {},
+                                triggerShowChangeProduct,
+                                {
+                                  show: true,
+                                  firstShow:
+                                    !triggerShowChangeProduct.firstShow,
+                                  goodsInfo: [el],
+                                  isShowModal: true
+                                }
+                              )
+                            });
+                          }}
+                        >
+                          <FormattedMessage id="subscriptionDetail.changeProduct" />
+                        </span>
+                      )}
                   </div>
                   <div
                     className="v-center"
@@ -334,9 +338,10 @@ const SubGoodsInfos = ({
                           alignItems: 'center'
                         }}
                       >
-                        <div className="img-container">
+                        <div className="img-container mr-3">
                           {/* <LazyLoad> */}
                           <img
+                            style={{ maxHeight: '100%' }}
                             src={el.goodsPic || IMG_DEFAULT}
                             alt={el.goodsName}
                           />
@@ -368,7 +373,7 @@ const SubGoodsInfos = ({
                             {!isIndv && el.specText}
                           </p>
                           <div>
-                            <div>
+                            <div style={{ whiteSpace: 'nowrap' }}>
                               <span
                                 style={{
                                   display: isIndv ? 'none' : 'inline-block'
@@ -474,7 +479,7 @@ const SubGoodsInfos = ({
                             // onClick={() => showChangeProduct([el])}
                           >
                             {/* indv不会展示该按钮 */}
-                            {!isIndv ? (
+                            {!isIndv && subDetail?.goodsInfo.length == 1 ? (
                               <span
                                 className={`${
                                   productListLoading ? 'ui-btn-loading' : ''
@@ -486,7 +491,8 @@ const SubGoodsInfos = ({
                                       triggerShowChangeProduct,
                                       {
                                         show: true,
-                                        firstShow: !triggerShowChangeProduct.firstShow,
+                                        firstShow:
+                                          !triggerShowChangeProduct.firstShow,
                                         goodsInfo: [el],
                                         isShowModal: true
                                       }

@@ -63,7 +63,7 @@ class CancelEmail extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
-          <div className="p-md-2rem cancel-email-main">
+          <div className="md:p-8 cancel-email-main">
             {!errMessage && consumerAccount ? (
               <p>
                 <FormattedMessage

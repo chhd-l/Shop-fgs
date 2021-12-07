@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-
 import React, { useEffect } from 'react';
 import {
   BrowserRouter as Router,
@@ -23,19 +22,17 @@ import { Security, useOktaAuth } from '@okta/okta-react';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'mobx-react';
 import loadable from '@/lib/loadable-component';
+import '@/lang/momentLocale'
 
-import './env';
 import oktaConfig from './oktaConfig';
-import '@/assets/iconfont/iconfont.css';
-import '@/assets/css/global.css';
-import locales from '@/lang';
-import '@/utils/global';
 import stores from './store';
 import { PDP_Regex } from '@/utils/constant';
 import { redirectFun } from '@/redirect/utils';
 import '@/utils/init';
-import {stgShowAuth} from '@/utils/utils'
+import { stgShowAuth } from '@/utils/utils';
 import ScrollToTop from '@/components/ScrollToTop';
+// import { getDynamicLanguage } from './lang';
+import { useDynamicLanguage } from '@/framework/common';
 import RouteFilter from '@/components/RouteFilter';
 import {initializePhraseAppEditor} from 'react-intl-phraseapp'
 import moment from 'moment';
@@ -49,6 +46,8 @@ const Details = loadable(() => import('@/views/Details'), 'rc-carousel');
 const Cart = loadable(() => import('@/views/Cart'));
 const Payment = loadable(() => import('@/views/Payment'));
 const Confirmation = loadable(() => import('@/views/Confirmation'));
+const AccountAppointments =loadable(()=>import('@/views/Account/Appointments'))
+const AccountAppointmentsDetail =loadable(()=>import('@/views/Account/AppointmentsDetail'))
 import Prescription from '@/views/Prescription';
 import MakerHandle from '@/components/GoogleMap/makerHandle';
 import PrescriptionNavigate from '@/views/PrescriptionNavigate';
@@ -66,11 +65,13 @@ import OktaLoginPage from '@/views/OktaLoginPage';
 import OktaLogoutPage from '@/views/OktaLogoutPage';
 import AccountPetList from '@/views/Account/PetList';
 import ProductReview from '@/views/Account/ProductReview';
+import ProductReviewService from '@/views/Account/ProductReviewService';
 // import AccountRefunds from "@/views/Account/Refunds";
 
 import Recommendation from '@/views/Recommendation';
 import Recommendation_FR from '@/views/Recommendation_FR';
 import Recommendation_US from '@/views/Recommendation_US';
+import Recommendation_FrBreeder from '@/views/Recommendation_FrBreeder';
 import ProductFinder from '@/views/ProductFinder';
 import ProductFinderResult from '@/views/ProductFinder/modules/Result';
 import ProductFinderNoResult from '@/views/ProductFinder/modules/NoResult';
@@ -79,6 +80,10 @@ const TermUse = loadable(() => import('@/views/StaticPage/TermUse'));
 const TermsAndConditions = loadable(() =>
   import('@/views/StaticPage/TermUse/TermsAndConditions')
 );
+const TermsOfUsePrescriber = loadable(() =>
+  import('@/views/StaticPage/TermsOfUsePrescriber')
+);
+
 const PrivacyPolicy = loadable(() =>
   import('@/views/StaticPage/PrivacyPolicy')
 );
@@ -176,11 +181,14 @@ const ShelterPrescription = loadable(() =>
 );
 import CancelEmail from '@/views/StaticPage/CancelEmail';
 import PreciseCatNutrition from './views/PreciseCatNutrition';
+import Loading from './components/Loading';
 const VetLandingPage = loadable(() =>
   import('@/views/ClubLandingPage/vetlandingpage')
 );
 const ClubLandingPageNew = loadable(() => import('@/views/ClubLandingPageNew'));
-const PreciseRecommendation = loadable(() => import('@/views/PreciseRecommendation'));
+const PreciseRecommendation = loadable(() =>
+  import('@/views/PreciseRecommendation')
+);
 // import PreciseRecommendation from './views/PreciseRecommendation';
 // const ClubLandingPageNew = loadable(() => import('@/views/ClubLandingPageNew'));
 const ClubLandingPageDe = loadable(() =>
@@ -191,6 +199,10 @@ const ClubLandingPageDeVet = loadable(() =>
 );
 const DedicatedLandingPage = loadable(() =>
   import('@/views/DedicatedLandingPage')
+);
+const Felin = loadable(() => import('@/views/Felin2'));
+const FelinRecommendation = loadable(() =>
+  import('@/views/FelinRecommendation')
 );
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -255,6 +267,7 @@ const RegisterRequired = loadable(() =>
 );
 
 const Test = loadable(() => import('@/views/Test'));
+const Survey = loadable(() => import('@/views/Survey'));
 
 const ImplicitLogin = () => {
   const { oktaAuth } = useOktaAuth();
@@ -285,10 +298,24 @@ const App = () => {
   const restoreOriginalUri = async (_oktaAuth, originalUri) => {
     history.replace(toRelativeUrl(originalUri, window.location.origin));
   };
+
+  const [loading, dynamicLanguage] = useDynamicLanguage();
+
+  if (loading) {
+    return (
+      <div>
+        <Loading />
+      </div>
+    );
+  }
+
   return (
     <Provider {...stores}>
-
-      <IntlProvider locale={window.__.env.REACT_APP_LANG} messages={locales}>
+      <IntlProvider
+        locale={window.__.env.REACT_APP_LANG}
+        messages={dynamicLanguage}
+        defaultLocale={'en'}
+      >
         <Router
           basename={window.__.env.REACT_APP_HOMEPAGE}
           path={'/'}
@@ -328,8 +355,17 @@ const App = () => {
                   render={() => <ImplicitLogin />}
                 />
 
-                <Route exact path="/precise-cat-nutrition-recommendation"
-                  render={(props)=>stgShowAuth()?<PreciseRecommendation {...props}/>:<List key={props.location.search} {...props} />}/>
+                <Route
+                  exact
+                  path="/precise-cat-nutrition-recommendation"
+                  render={(props) =>
+                    stgShowAuth() ? (
+                      <PreciseRecommendation {...props} />
+                    ) : (
+                      <List key={props.location.search} {...props} />
+                    )
+                  }
+                />
 
                 <Route path="/requestinvoice" component={RequestInvoices} />
                 <Route exact path="/cart" component={Cart} />
@@ -359,8 +395,17 @@ const App = () => {
                 />
                 <Route exact path="/Adyen3DSFail" component={Adyen3DSFail} />
                 <Route exact path="/prescription" component={Prescription} />
-                <Route exact path="/precise-cat-nutrition"
-                render={(props)=>stgShowAuth()?<PreciseCatNutrition {...props}/>:<List key={props.location.search} {...props} />} />
+                <Route
+                  exact
+                  path="/precise-cat-nutrition"
+                  render={(props) =>
+                    stgShowAuth() ? (
+                      <PreciseCatNutrition {...props} />
+                    ) : (
+                      <List key={props.location.search} {...props} />
+                    )
+                  }
+                />
                 <Route exact path="/makerHandle" component={MakerHandle} />
                 <Route
                   exact
@@ -449,7 +494,18 @@ const App = () => {
                 <Route
                   exact
                   path="/recommendation"
-                  render={(props) => <Recommendation_US {...props} />}
+                  render={(props) => {
+                    let recommendationPage = <Recommendation_US {...props} />;
+                    if (
+                      window.__.env.REACT_APP_COUNTRY == 'fr' &&
+                      props.location.search.includes('breeder')
+                    ) {
+                      recommendationPage = (
+                        <Recommendation_FrBreeder {...props} />
+                      );
+                    }
+                    return recommendationPage;
+                  }}
                 />
 
                 <Route exact path="/termuse" component={TermUse} />
@@ -457,6 +513,11 @@ const App = () => {
                   exact
                   path="/Terms-And-Conditions"
                   component={TermsAndConditions}
+                />
+                <Route
+                  exact
+                  path="/terms-of-use-prescriber"
+                  component={TermsOfUsePrescriber}
                 />
                 <Route exact path="/privacypolicy" component={PrivacyPolicy} />
 
@@ -468,10 +529,16 @@ const App = () => {
                 />
                 <Route path="/account/pets" exact component={AccountPets} />
                 <Route path="/account/orders" exact component={AccountOrders} />
+                <Route path="/account/appointments" exact component={AccountAppointments} />
                 <Route
                   path="/account/orders/detail/:orderNumber"
                   exact
                   component={AccountOrdersDetail}
+                />
+                <Route
+                  path="/account/appointments/detail/:appointmentNo"
+                  exact
+                  component={AccountAppointmentsDetail}
                 />
                 <Route
                   path="/account/pets/petForm/:id"
@@ -507,6 +574,11 @@ const App = () => {
                   exact
                   component={ProductReview}
                 />
+                <Route
+                  path="/account/productReviewService/:tid"
+                  exact
+                  component={ProductReviewService}
+                />
                 <Route path="/required" exact component={RegisterRequired} />
 
                 <Route
@@ -536,6 +608,9 @@ const App = () => {
                         sublanding = DE_SubscriptionLanding;
                         break;
                       case 'us':
+                        sublanding = US_SubscriptionLanding;
+                        break;
+                      case 'uk':
                         sublanding = US_SubscriptionLanding;
                         break;
                       case 'ru':
@@ -624,7 +699,8 @@ const App = () => {
                   path="/Tailorednutrition"
                   exact
                   component={
-                    window.__.env.REACT_APP_COUNTRY == 'us'
+                    window.__.env.REACT_APP_COUNTRY == 'us' ||
+                    window.__.env.REACT_APP_COUNTRY == 'uk'
                       ? US_Tailorednutrition
                       : Tailorednutrition
                   }
@@ -634,7 +710,8 @@ const App = () => {
                   path="/Quality-safety"
                   exact
                   component={
-                    window.__.env.REACT_APP_COUNTRY == 'us'
+                    window.__.env.REACT_APP_COUNTRY == 'us' ||
+                    window.__.env.REACT_APP_COUNTRY == 'uk'
                       ? US_QualitySafety
                       : QualitySafety
                   }
@@ -655,6 +732,7 @@ const App = () => {
                 <Route path="/consent2-tr" component={Consent2TR} />
                 <Route path="/register" component={register} />
                 <Route path="/welcome/:id" component={welcome} />
+                <Route path="/survey/:id?" component={Survey} />
 
                 {/* <Route
                   path="/smart-feeder-subscription"
@@ -707,6 +785,11 @@ const App = () => {
                 />
                 <Route exact sensitive path="/FAQ" component={Exception} />
                 <Route
+                  path="/FelinRecommendation/:id"
+                  component={FelinRecommendation}
+                />
+                <Route path="/felin" component={Felin} />
+                <Route
                   path="/"
                   render={(props) => {
                     const { location } = props;
@@ -737,6 +820,10 @@ const App = () => {
                         '/persan-bouchÃ©es-spÃ©cial-2030':
                           '/persan-bouchees-special-2030'
                       };
+                      // PDP文件重定向
+                      // const specailPlpUrlMapping = {
+                      //   ...redirectFun()
+                      // };
                       if (productNameMappping[pathname]) {
                         redirectUrl = productNameMappping[pathname];
                       } else if (pathname.split('--').length > 1) {
@@ -746,15 +833,10 @@ const App = () => {
                       } else if (pathname.split('.html').length > 1) {
                         redirectUrl = pathname.split('.html')[0];
                       }
+                      // else if (specailPlpUrlMapping[pathname + search]) {
+                      //   redirectUrl = specailPlpUrlMapping[pathname + search];
+                      // }
 
-                      // PDP文件重定向start
-                      const specailPlpUrlMapping = {
-                        ...redirectFun()
-                      };
-
-                      redirectUrl = specailPlpUrlMapping[pathname + search];
-
-                      // PDP文件重定向end
                       if (redirectUrl) {
                         return (
                           <Redirect
@@ -773,12 +855,12 @@ const App = () => {
                       }
                     } else {
                       // 除去PDP页面文件重定向start
-                      const specailPlpUrlMapping = {
-                        ...redirectFun()
-                      };
+                      // const specailPlpUrlMapping = {
+                      //   ...redirectFun()
+                      // };
 
                       let redirectUrl = '';
-                      redirectUrl = specailPlpUrlMapping[pathname + search];
+                      //redirectUrl = specailPlpUrlMapping[pathname + search];
 
                       // 除去PDP页面文件重定向end
                       if (redirectUrl) {

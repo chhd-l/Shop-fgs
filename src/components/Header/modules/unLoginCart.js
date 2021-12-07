@@ -39,7 +39,7 @@ class UnloginCart extends React.Component {
     ) {
       // await this.props.checkoutStore.removePromotionCode();
     }
-    this.props.checkoutStore.updateUnloginCart();
+    this.props.checkoutStore.updateUnloginCart({ intl: this.props.intl });
   }
   get selectedCartData() {
     return this.props.checkoutStore.cartData.filter(
@@ -83,7 +83,8 @@ class UnloginCart extends React.Component {
       this.setState({ checkoutLoading: true });
       await checkoutStore.updateUnloginCart({
         isThrowErr: true,
-        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
+        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT),
+        intl: this.props.intl
       });
 
       if (needLogin) {
@@ -220,11 +221,7 @@ class UnloginCart extends React.Component {
                   <div className="d-flex minicart_freeshipping_info align-items-center">
                     <em className="rc-icon rc-incompatible--xs rc-brand3 rc-padding-right--xs" />
                     <p>
-                      {window.__.env.REACT_APP_IS_PROMOTION === 'true' ? (
-                        <FormattedMessage id="cart.miniCartTitle" />
-                      ) : (
-                        <FormattedMessage id="miniBasket" />
-                      )}
+                      <FormattedMessage id="cart.miniCartTitle" />
                     </p>
                   </div>
                 </div>
@@ -366,10 +363,11 @@ class UnloginCart extends React.Component {
                                         <FormattedMessage
                                           id="minicart.quantityText"
                                           values={{
-                                            specText: find(
-                                              item.sizeList,
-                                              (s) => s.selected
-                                            ).specText,
+                                            specText:
+                                              find(
+                                                item.sizeList,
+                                                (s) => s.selected
+                                              ).specText || '',
                                             buyCount: item.quantity
                                           }}
                                         />

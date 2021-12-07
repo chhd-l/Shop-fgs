@@ -124,12 +124,12 @@ class Prescription extends React.Component {
   }
 
   hubGaModalPopup() {
-    setTimeout(() => {
-      dataLayer.push({
-        event: 'vetPrescPopin',
-        vetPrescPopinAction: 'display'
-      });
-    }, 3000);
+    // setTimeout(() => {
+    dataLayer.push({
+      event: 'vetPrescPopin',
+      vetPrescPopinAction: 'display'
+    });
+    // }, 3000gtm优化);
   }
 
   hubGaModalPopupClick(btnLabel) {

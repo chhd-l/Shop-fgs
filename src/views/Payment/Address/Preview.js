@@ -2,6 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { formatMoney, matchNamefromDict, getDictionary } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
+import { useConsigneeDeliveryDate } from '@/framework/common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 @inject('configStore', 'paymentStore')
@@ -21,75 +22,16 @@ class AddressPreview extends React.Component {
       });
     });
   }
-  // 对应的国际化字符串
-  getIntlMsg = (str) => {
-    return this.props.intl.messages[str];
-  };
-  // 星期
-  getWeekDay = (day) => {
-    let weekArr = [
-      this.getIntlMsg('payment.Sunday'),
-      this.getIntlMsg('payment.Monday'),
-      this.getIntlMsg('payment.Tuesday'),
-      this.getIntlMsg('payment.Wednesday'),
-      this.getIntlMsg('payment.Thursday'),
-      this.getIntlMsg('payment.Friday'),
-      this.getIntlMsg('payment.Saturday')
-    ];
-    return weekArr[day];
-  };
-  // 月份
-  getMonth = (num) => {
-    num = Number(num);
-    let monthArr = [
-      '0',
-      this.getIntlMsg('payment.January'),
-      this.getIntlMsg('payment.February'),
-      this.getIntlMsg('payment.March'),
-      this.getIntlMsg('payment.April'),
-      this.getIntlMsg('payment.May'),
-      this.getIntlMsg('payment.June'),
-      this.getIntlMsg('payment.July'),
-      this.getIntlMsg('payment.August'),
-      this.getIntlMsg('payment.September'),
-      this.getIntlMsg('payment.October'),
-      this.getIntlMsg('payment.November'),
-      this.getIntlMsg('payment.December')
-    ];
-    return monthArr[num];
-  };
-  // delivery date 格式转换: 星期, 15 月份
-  getFormatDeliveryDateStr = (date) => {
-    // 获取明天几号
-    let mdate = new Date();
-    let tomorrow = mdate.getDate() + 1;
-    // 获取星期
-    var week = new Date(date).getDay();
-    let weekday = this.getWeekDay(week);
-    // 获取月份
-    let ymd = date.split('-');
-    let month = this.getMonth(ymd[1]);
-
-    // 判断是否有 ‘明天’ 的日期
-    let thisday = Number(ymd[2]);
-    let daystr = '';
-    if (tomorrow == thisday) {
-      daystr = this.getIntlMsg('payment.tomorrow');
-    } else {
-      daystr = weekday;
-    }
-    return daystr + ', ' + ymd[2] + ' ' + month;
-  };
   render() {
-    const { form, boldName, isLogin } = this.props;
-
-    // console.log('666 preview form: ', form);
+    const { form, boldName } = this.props;
     // 获取本地存储的需要显示的地址字段
     const localAddressForm = this.props.configStore.localAddressForm;
-
     let newDeliveryDate = '';
     if (form?.deliveryDate) {
-      newDeliveryDate = this.getFormatDeliveryDateStr(form.deliveryDate);
+      newDeliveryDate = useConsigneeDeliveryDate(
+        form.deliveryDate,
+        this.props.intl
+      );
     }
 
     return form ? (
@@ -111,37 +53,39 @@ class AddressPreview extends React.Component {
                 </span>
               )}
             </p>
+            <p className="preview_pickup_address">{form.address1}</p>
+            <p className="preview_pickup_worktime">{form.workTime}</p>
             {/* 是否存在运费 */}
-            {form?.item?.minDeliveryTime && (
+            {form?.minDeliveryTime && (
               <>
                 <p className="preview_delivery_date">
-                  {form.item.minDeliveryTime == form.item.maxDeliveryTime ? (
+                  {form.minDeliveryTime == form.maxDeliveryTime ? (
                     <FormattedMessage
                       id="payment.deliveryDate2"
                       values={{
-                        val: form.item.minDeliveryTime
+                        val: form.minDeliveryTime
                       }}
                     />
                   ) : (
                     <FormattedMessage
                       id="payment.deliveryDate"
                       values={{
-                        min: form.item.minDeliveryTime,
-                        max: form.item.maxDeliveryTime
+                        min: form.minDeliveryTime,
+                        max: form.maxDeliveryTime
                       }}
                     />
                   )}
                 </p>
               </>
             )}
-            <p className="preview_pickup_address">{form.address1}</p>
-            <p className="preview_pickup_worktime">{form.workTime}</p>
           </>
         ) : (
           <>
-            <p className={`font-weight-bold ${boldName ? 'medium' : ''}`}>
-              {form.firstName + ' ' + form.lastName}
-            </p>
+            {!sessionItemRoyal.get('from-felin') ? (
+              <p className={`font-weight-bold ${boldName ? 'medium' : ''}`}>
+                {form.firstName + ' ' + form.lastName}
+              </p>
+            ) : null}
             <p className="preview_address">{form.address1}</p>
             {localAddressForm['address2'] && form.address2 && (
               <p>{form.address2}</p>
@@ -198,7 +142,8 @@ class AddressPreview extends React.Component {
             ) : (
               <>
                 <p className="preview_infos">
-                  {window.__.env.REACT_APP_COUNTRY == 'us' ? null : (
+                  {window.__.env.REACT_APP_COUNTRY == 'us' ||
+                  window.__.env.REACT_APP_COUNTRY == 'uk' ? null : (
                     <>
                       <span>
                         {matchNamefromDict(
@@ -228,10 +173,32 @@ class AddressPreview extends React.Component {
                   {/* 省份 */}
                   {localAddressForm['state'] && <span>{form.province} </span>}
 
+                  {/* uk的街道 */}
+                  {localAddressForm['county'] && (
+                    <span>
+                      {form.county}
+                      {', '}
+                    </span>
+                  )}
+
+                  {/* 国家 */}
+                  {window.__.env.REACT_APP_COUNTRY == 'uk' ? (
+                    <>
+                      <span>
+                        {matchNamefromDict(
+                          this.state.countryList,
+                          form.country || form.countryId
+                        )}{' '}
+                      </span>
+                    </>
+                  ) : null}
+
                   {/* 邮编 */}
                   {localAddressForm['postCode'] && <span>{form.postCode}</span>}
                 </p>
-                <p>{form.phoneNumber || form.consigneeNumber} </p>
+                {!sessionItemRoyal.get('from-felin') ? (
+                  <p>{form.phoneNumber || form.consigneeNumber} </p>
+                ) : null}
               </>
             )}
           </>

@@ -14,12 +14,8 @@ const RecommendationListModal = ({ intl }) => {
   const [productDetail, setProductDetail] = useState({});
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
   const ChangeProductValue = useContext(ChangeProductContext);
-  const {
-    triggerShowChangeProduct,
-    setState,
-    productListLoading,
-    subDetail
-  } = SubDetailHeaderValue;
+  const { triggerShowChangeProduct, setState, productListLoading, subDetail } =
+    SubDetailHeaderValue;
   const {
     setMainProductDetails,
     showModalArr,
@@ -81,11 +77,15 @@ const RecommendationListModal = ({ intl }) => {
           let rations = rationRes?.context?.rationResponseItems;
           rations?.forEach((ration) => {
             if (mainProduct.spuCode == ration.mainItem) {
-              mainProduct.petsRation = `${ration.weight}${ration.weightUnit}/${intl.messages['day-unit']}`;
+              mainProduct.petsRation = `${Math.round(ration.weight)}${
+                ration.weightUnit
+              }/${intl.messages['day-unit']}`;
             }
             otherProducts?.map((el) => {
               if (el.spuCode == ration.mainItem) {
-                el.petsRation = `${ration.weight}${ration.weightUnit}/${intl.messages['day-unit']}`;
+                el.petsRation = `${Math.round(ration.weight)}${
+                  ration.weightUnit
+                }/${intl.messages['day-unit']}`;
               }
             });
           });

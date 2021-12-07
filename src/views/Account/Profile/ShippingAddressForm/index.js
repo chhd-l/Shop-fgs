@@ -13,7 +13,12 @@ import {
   queryCityNameById,
   getProvincesList
 } from '@/api/address';
-import { getDictionary, validData, setSeoConfig } from '@/utils/utils';
+import {
+  getDictionary,
+  validData,
+  setSeoConfig,
+  isCanVerifyBlacklistPostCode
+} from '@/utils/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
 // import Selection from '@/components/Selection';
 import classNames from 'classnames';
@@ -58,8 +63,9 @@ class ShippingAddressFrom extends React.Component {
         lastName: '',
         address1: '',
         address2: '',
-        countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID,
+        countryId: '',
         country: '',
+        county: '',
         city: '',
         cityId: '',
         provinceNo: '',
@@ -113,18 +119,18 @@ class ShippingAddressFrom extends React.Component {
     try {
       let res = await getAddressById({ id });
       let data = res.context;
-      let addressForm = data;
-      addressForm.phoneNumber = data.consigneeNumber;
-      addressForm.isDefalt = data.isDefaltAddress === 1 ? true : false;
-      addressForm.addressType = data.type;
-      if (addressForm.province) {
-        addressForm.provinceNo = data.provinceNo;
-        addressForm.province = data.province;
-        addressForm.provinceId = data.provinceId;
+      let addinfo = Object.assign({}, data);
+      addinfo.phoneNumber = data.consigneeNumber;
+      addinfo.isDefalt = data.isDefaltAddress === 1 ? true : false;
+      addinfo.addressType = data.type;
+      if (addinfo.province) {
+        addinfo.provinceNo = data.provinceNo;
+        addinfo.province = data.province;
+        addinfo.provinceId = data.provinceId;
       }
       this.setState(
         {
-          addressForm,
+          addressForm: addinfo,
           showModal: true,
           isAdd: false,
           loading: false,
@@ -178,11 +184,8 @@ class ShippingAddressFrom extends React.Component {
   };
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmValidationAddress() {
-    const {
-      addressForm,
-      selectValidationOption,
-      validationAddress
-    } = this.state;
+    const { addressForm, selectValidationOption, validationAddress } =
+      this.state;
     let oldAddressForm = JSON.parse(JSON.stringify(addressForm));
     let theform = [];
     if (selectValidationOption == 'suggestedAddress') {
@@ -232,15 +235,16 @@ class ShippingAddressFrom extends React.Component {
       this.setState({
         saveLoading: true
       });
+      // console.log('666 >>> data: ', data);
       let params = {
         address1: data.address1,
         address2: data.address2,
-        area: data.area,
         areaId: data.areaId,
         firstName: data.firstName,
         lastName: data.lastName,
         countryId: data.countryId,
         country: data.country,
+        county: data?.county,
         city: data.city,
         cityId: data.cityId,
         consigneeName: data.firstName + ' ' + data.lastName,
@@ -248,6 +252,8 @@ class ShippingAddressFrom extends React.Component {
         customerId: data.customerId,
         deliveryAddress: data.address1 + ' ' + data.address2,
         deliveryAddressId: data.deliveryAddressId,
+        receiveType: 'HOME_DELIVERY', // HOME_DELIVERY , PICK_UP
+        deliverWay: 1, // 1: HOMEDELIVERY , 2: PICKUP
         isDefaltAddress:
           data.addressType === 'DELIVERY' ? (data.isDefalt ? 1 : 0) : 0,
         postCode: data.postCode,
@@ -340,12 +346,13 @@ class ShippingAddressFrom extends React.Component {
   };
 
   validFormData = async () => {
+    const { intl } = this.props;
     const { addressForm } = this.state;
     try {
       if (!addressForm?.formRule || (addressForm?.formRule).length <= 0) {
         return;
       }
-      await validData(addressForm.formRule, addressForm); // 数据验证
+      await validData({ rule: addressForm.formRule, data: addressForm, intl }); // 数据验证
       // await validData(ADDRESS_RULE, addressForm);
       this.setState({ isValid: true });
     } catch (err) {
@@ -369,7 +376,7 @@ class ShippingAddressFrom extends React.Component {
   };
   // 俄罗斯地址校验flag，控制按钮是否可用
   getFormAddressValidFlag = (flag) => {
-    console.log('ShippingAddressForm: ', flag);
+    console.log('666 >>> ShippingAddressForm: ', flag);
     this.setState(
       {
         formAddressValid: flag
@@ -474,7 +481,7 @@ class ShippingAddressFrom extends React.Component {
 
                 <div>
                   <EditForm
-                    key={addressForm?.isDefalt}
+                    key={addressForm}
                     initData={addressForm}
                     isLogin={true}
                     updateData={this.handleEditFormChange}
@@ -501,7 +508,7 @@ class ShippingAddressFrom extends React.Component {
                   ) : null}
                 </div>
                 <span className="rc-meta mandatoryField">
-                  * <FormattedMessage id="account.requiredFields" />
+                  * <FormattedMessage id="account.requiredFields2" />
                 </span>
                 <div className="text-right">
                   <span
@@ -509,7 +516,11 @@ class ShippingAddressFrom extends React.Component {
                     name="contactInformation"
                     onClick={this.handleCancel}
                   >
-                    <FormattedMessage id="cancel" />
+                    {window.__.env.REACT_APP_COUNTRY === 'uk' ? (
+                      <FormattedMessage id="cancelAddress" />
+                    ) : (
+                      <FormattedMessage id="cancel" />
+                    )}
                   </span>
                   &nbsp;
                   <FormattedMessage id="or" />
@@ -529,7 +540,11 @@ class ShippingAddressFrom extends React.Component {
                     disabled={isValid && formAddressValid ? false : true}
                     onClick={this.handleSave}
                   >
-                    <FormattedMessage id="save" />
+                    {window.__.env.REACT_APP_COUNTRY === 'uk' ? (
+                      <FormattedMessage id="saveAddress" />
+                    ) : (
+                      <FormattedMessage id="save" />
+                    )}
                   </button>
                 </div>
               </div>

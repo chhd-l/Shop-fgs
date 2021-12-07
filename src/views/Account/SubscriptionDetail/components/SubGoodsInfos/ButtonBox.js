@@ -58,7 +58,7 @@ const ButtonBox = () => {
   return (
     <div
       className="footerGroupButton"
-      style={{ display: isNotInactive ? 'block' : 'none' }}
+      style={{ display: isNotInactive ? 'inline-block' : 'none' }}
     >
       <p style={{ textAlign: isMobile ? 'center' : 'right' }}>
         <div

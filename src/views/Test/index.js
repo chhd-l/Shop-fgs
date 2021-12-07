@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl-phraseapp';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import Skeleton from 'react-skeleton-loader';
 import LazyLoad from 'react-lazyload';
 import { ADDRESS_RULE } from '@/utils/constant';
@@ -17,6 +17,7 @@ const options = [
   { value: 'vanilla', label: 'Vanilla' }
 ];
 
+@injectIntl
 class Test extends React.Component {
   constructor(props) {
     super(props);
@@ -104,7 +105,7 @@ class Test extends React.Component {
   validData = async ({ data }) => {
     console.log('------------------- > validData data: ', data);
     try {
-      await validData(ADDRESS_RULE, data);
+      await validData({ rule: ADDRESS_RULE, data, intl: this.props.intl });
       // this.setState({ isValid: true, form: data }, () => {
       //   this.props.updateFormValidStatus(this.state.isValid);
       // });
@@ -186,10 +187,10 @@ class Test extends React.Component {
         <br />
         {/* <PickUp /> */}
         <br />
-        <h1>0723_sprint3</h1>
+        <h1>1115_sprint6</h1>
         <br />
         <br />
-        <h1>2021-08-24 18:30:18</h1>
+        <h1>2021-11-23 15:10:18</h1>
         <br />
         <br />
         <h2>{this.state.aaa && this.state.bbb}</h2>

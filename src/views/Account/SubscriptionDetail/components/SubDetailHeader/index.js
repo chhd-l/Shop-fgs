@@ -108,7 +108,7 @@ const SubDetailHeader = ({
     productListLoading
   };
   return (
-    <div className="d-flex align-items-center align-items-center flex-wrap rc-margin-bottom--xs center-for-h5">
+    <div className="d-flex align-items-center flex-wrap rc-margin-bottom--xs">
       <LinkPet
         petType={petType}
         getBreedName={getBreedName}
@@ -167,7 +167,6 @@ const SubDetailHeader = ({
                       JSON.stringify({
                         isFromSubscriptionDetail:
                           subDetail.goodsInfo?.length == 1, //新增的宠物绑定club，如果club商品大于1个就不展示弹窗
-                        isFromSubscriptionDetail: true,
                         subscribeId: subDetail.subscribeId
                       })
                     );
@@ -199,7 +198,8 @@ const SubDetailHeader = ({
                     </h4>
                     <div>
                       {subDetail.subscriptionType == 'Individualization' ? (
-                        'Date of birth'
+                        // 'Date of birth'
+                        <FormattedMessage id="dateOfBirth" />
                       ) : (
                         <FormattedMessage id="age" />
                       )}
@@ -218,7 +218,6 @@ const SubDetailHeader = ({
                           JSON.stringify({
                             isFromSubscriptionDetail:
                               subDetail.goodsInfo?.length == 1, //新增的宠物绑定club，如果club商品大于1个就不展示痰喘
-                            isFromSubscriptionDetail: true,
                             subscribeId: subDetail.subscribeId
                           })
                         );
@@ -273,7 +272,7 @@ const SubDetailHeader = ({
                 <div
                   className="pet-img add-pet-btn text-center"
                   onClick={showAddNewPet}
-                ></div>
+                />
                 <div>
                   <FormattedMessage id="subscriptionDetail.better" />
                   <div>

@@ -3,7 +3,6 @@ import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import AdyenEditForm from '@/components/Adyen/form';
-import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import { getDictionary, validData } from '@/utils/utils';
 import axios from 'axios';
 import LazyLoad from 'react-lazyload';
@@ -21,6 +20,7 @@ import ValidationAddressModal from '@/components/validationAddressModal';
 import { ADDRESS_RULE } from './utils/constant';
 import IMask from 'imask';
 import { cyberCardTypeToValue } from '@/utils/constant/cyber';
+import getCardImg from '@/lib/get-card-img';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -130,6 +130,12 @@ class PaymentEditForm extends React.Component {
         break;
       case 'us':
         phoneReg = [{ mask: '000-000-0000' }];
+        break;
+      case 'uk':
+        phoneReg = [
+          { mask: '(+44) 00 00 00 00 00' },
+          { mask: '(+44) 000 00 00 00 00' }
+        ];
         break;
       case 'ru':
         phoneReg = [{ mask: '+{7} (000) 000-00-00' }];
@@ -379,7 +385,11 @@ class PaymentEditForm extends React.Component {
   };
   async validFormData() {
     try {
-      await validData(this.props.payuFormRule, this.state.creditCardInfoForm);
+      await validData({
+        rule: this.props.payuFormRule,
+        data: this.state.creditCardInfoForm,
+        intl: this.props.intl
+      });
       this.setState({ isValid: true });
     } catch (err) {
       console.log(err);
@@ -417,6 +427,7 @@ class PaymentEditForm extends React.Component {
     this.inputBlur(e);
   };
   inputBlur = async (e) => {
+    const { intl } = this.props;
     const { creditCardInfoForm, errMsgObj } = this.state;
     const target = e?.target;
     const tname = target?.name;
@@ -428,7 +439,7 @@ class PaymentEditForm extends React.Component {
       this.setState({ creditCardInfoForm });
     }
     try {
-      await validData(targetRule, { [tname]: value });
+      await validData({ rule: targetRule, data: { [tname]: value }, intl });
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
           [tname]: ''
@@ -671,6 +682,7 @@ class PaymentEditForm extends React.Component {
   };
 
   updateCyberBillingAddress = async (data) => {
+    const { intl } = this.props;
     this.setState({
       isValidForm: false
     });
@@ -679,7 +691,7 @@ class PaymentEditForm extends React.Component {
       if (!data?.formRule || (data?.formRule).length <= 0) {
         return;
       }
-      await validData(data.formRule, data); // 数据验证
+      await validData({ rule: data.formRule, data, intl }); // 数据验证
 
       data.zipCode = data.postCode; //后台接口需要，多加个属性
       data.phone = data.phoneNumber || ''; //后台接口需要，多加个属性
@@ -787,6 +799,9 @@ class PaymentEditForm extends React.Component {
               </aside>
             </div>
             <AdyenEditForm
+              showSetAsDefaultCheckobx={
+                window.__.env.REACT_APP_COUNTRY === 'uk'
+              }
               showCancelBtn={true}
               queryList={this.props.refreshList}
               updateFormVisible={this.handleCancel}
@@ -878,12 +893,10 @@ class PaymentEditForm extends React.Component {
                           <LazyLoad>
                             <img
                               alt="Card img"
-                              src={
-                                CREDIT_CARD_IMG_ENUM[
-                                  currentVendor && currentVendor.toUpperCase()
-                                ] ||
-                                'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                              }
+                              src={getCardImg({
+                                supportPaymentMethods,
+                                currentVendor
+                              })}
                               className="img"
                             />
                           </LazyLoad>
@@ -1056,7 +1069,8 @@ class PaymentEditForm extends React.Component {
                   <div
                     className="rc-input w-100"
                     onClick={() => {
-                      creditCardInfoForm.isDefault = !creditCardInfoForm.isDefault;
+                      creditCardInfoForm.isDefault =
+                        !creditCardInfoForm.isDefault;
                       this.setState({ creditCardInfoForm });
                     }}
                   >

@@ -15,7 +15,11 @@ const api = {
   getProvincesList: `/systemState/queryByStoreId`, // 查询省份列表
   getAddressBykeyWord: `/address-input-auto/list`, // DuData，根据输入的关键字返回详细地址信息
   addressValidation: `/addressValidation/validation`, // 地址校验接口
-  getDeliveryDateAndTimeSlot: '/delivery/timeSlot' // 俄罗斯获取 DeliveryDate 和 TimeSlot
+  getDeliveryDateAndTimeSlot: '/delivery/timeSlot', // 俄罗斯获取 DeliveryDate 和 TimeSlot
+  validPostCodeBlock: '/addressDisplaySetting/validPostCodeBlock', // 邮编黑名单校验
+  DQEAddressList: '/address-input-auto/DQElist', // DQE 地址查询
+  queryOpenedApi: '/addressApiSetting/query-opened-api', // DQE 地址查询
+  returnDQE: '/address-input-auto/returnDQE'
 };
 
 export default api;
@@ -124,10 +128,40 @@ export function addressValidation(parameter) {
     data: parameter
   });
 }
+
 export function getDeliveryDateAndTimeSlot(parameter) {
   return axios({
     url: `${api.getDeliveryDateAndTimeSlot}`,
     method: 'post',
     data: parameter
+  });
+}
+
+export function validPostCodeBlock(postCode = '') {
+  return axios({
+    url: `${api.validPostCodeBlock}?postCode=${postCode}`,
+    method: 'get'
+  });
+}
+
+export function DQEAddressList(address = '') {
+  return axios({
+    url: `${api.DQEAddressList}?address=${address}`,
+    method: 'get'
+  });
+}
+
+export function queryOpenedApi() {
+  return axios({
+    url: `${api.queryOpenedApi}`,
+    method: 'post'
+  });
+}
+
+export function returnDQE(params) {
+  return axios({
+    url: `${api.returnDQE}`,
+    method: 'post',
+    data: params
   });
 }

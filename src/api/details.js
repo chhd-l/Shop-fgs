@@ -6,7 +6,10 @@ const api = {
   // details: '/goods/unLogin/spu',
   loginDetails: '/goods/spu',
   detailsBySpu: '/goods/spu_no',
-  goodsRelation: '/goodsRelation'
+  detailsBySpuIgnoreDisplayFlag: '/goods/ignoreDisplayFlag/spu_no',
+  goodsRelation: '/goodsRelation',
+  getMixFeeding: '/goodsRelation/relatedInfo',
+  getMixFeedings: '/goodsRelation/relatedInfoBySpuIds'
 };
 
 export default api;
@@ -28,6 +31,14 @@ export function getLoginDetails(parameter) {
 export function getDetailsBySpuNo(parameter) {
   return axios({
     url: `${api.detailsBySpu}/${parameter}`,
+    method: 'get'
+  });
+}
+
+// display为no的时候也需要查询到商品详情数据
+export function getDetailsBySpuNoIgnoreDisplayFlag(parameter) {
+  return axios({
+    url: `${api.detailsBySpuIgnoreDisplayFlag}/${parameter}`,
     method: 'get'
   });
 }
@@ -54,5 +65,22 @@ export function getGoodsRelation(parameter) {
   return axios({
     url: `${api.goodsRelation}/${parameter}`,
     method: 'get'
+  });
+}
+
+export function getMixFeeding(id) {
+  return axios({
+    url: `${api.getMixFeeding}/${id}`,
+    method: 'get'
+  });
+}
+
+export function getMixFeedings(ids) {
+  return axios({
+    url: `${api.getMixFeedings}`,
+    method: 'post',
+    data: {
+      goodsIds: ids
+    }
   });
 }

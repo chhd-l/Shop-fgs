@@ -13,14 +13,8 @@ import FrequencyMatch from '@/components/FrequencyMatch';
 import { getFormatDate, datePickerConfig, getZoneTime } from '@/utils/utils';
 const ChangeSelection = ({ el }) => {
   const SubGoodsInfosValue = useContext(SubGoodsInfosContext);
-  const {
-    setState,
-    isIndv,
-    isActive,
-    onDateChange,
-    getMinDate,
-    isGift
-  } = SubGoodsInfosValue;
+  const { setState, isIndv, isActive, onDateChange, getMinDate, isGift } =
+    SubGoodsInfosValue;
 
   switch (el.goodsInfoFlag) {
     case 0:
@@ -33,6 +27,8 @@ const ChangeSelection = ({ el }) => {
       el.promotions = 'club';
       break;
   }
+  const isClub = el.promotions?.toLowerCase().includes('club');
+
   return (
     <>
       <div className="rc-card-content sub-frequency-wrap">
@@ -104,7 +100,14 @@ const ChangeSelection = ({ el }) => {
           }}
         >
           {/* Shipping Method: */}
-          <FormattedMessage id="autoShipStarted" />
+          {
+            isClub ? (
+              <FormattedMessage id="autoShipStarted" />
+            ) : (
+              <FormattedMessage id="autoShipStarted2" />
+            )
+            // 'Date de création de l\'Abonnement'
+          }
         </strong>
         <div
           className="rc-card__meta order-Id text-left"

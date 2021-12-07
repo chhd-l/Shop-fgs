@@ -19,7 +19,7 @@
     margin-bottom: 10px;
   }
   .margintopmobile {
-    margin-top: 200px;
+    margin-top: 210px;
   }
   .fontheight {
     height: 25vh;
@@ -34,6 +34,9 @@
   .mobileCenter {
     justify-content: center;
     display: flex;
+  }
+  .mobileBoxshadow {
+    box-shadow: 0vh 0vh 0.3vh 0.1vh #dcdcde;
   }
 }
 
@@ -65,6 +68,10 @@
   }
   .trmarginleft10vw {
     width: 266.07px;
+    text-align: center;
+  }
+  .frmarginleft10vw {
+    width: 306px;
     text-align: center;
   }
 }

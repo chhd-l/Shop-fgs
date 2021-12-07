@@ -21,7 +21,11 @@ import { itemList } from './config';
 const pageLink = window.location.href;
 
 function Container({ className, item, children }) {
-  return item.isHubOuterLink ? (
+  return item.isOuter ? (
+    <a className={className} href={item.href} target="_blank">
+      {children}
+    </a>
+  ) : item.isHubOuterLink ? (
     <DistributeHubLinkOrATag
       className={className}
       to={item.link}
@@ -97,16 +101,18 @@ class AccountHome extends React.Component {
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl pt-2">
             <div className="rc-layout-container rc-five-column">
-              <SideMenu type="Home" customCls="order-1 order-md-0 rc-md-up" />
-              <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop order-0 order-md-0">
+              <SideMenu type="Home" customCls="order-0 rc-md-up" />
+              <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop order-0">
                 <p className="mb-0">
-                  <FormattedMessage
-                    id="account.warmNotice"
-                    values={{
-                      val: this.userInfo && this.userInfo.firstName,
-                      br: <br />
-                    }}
-                  />
+                  {window.__.env.REACT_APP_COUNTRY !== 'uk' ? (
+                    <FormattedMessage
+                      id="account.warmNotice"
+                      values={{
+                        val: this.userInfo && this.userInfo.firstName,
+                        br: <br />
+                      }}
+                    />
+                  ) : null}
                 </p>
                 <div className="clearfix" />
                 <div className="dashboard__profile-cards">
@@ -117,7 +123,16 @@ class AccountHome extends React.Component {
                         item={item}
                         key={i}
                       >
-                        <div className="d-flex margin-left0 align-items-center border w-100 h-100 m-2 p-3 text-break nav_content">
+                        <div className="d-flex margin-left0 align-items-center border w-100 h-100 m-2 p-3 text-break nav_content position-relative">
+                          <div
+                            style={{
+                              top: '2%',
+                              right: '2%',
+                              position: 'absolute'
+                            }}
+                          >
+                            {item.rightTopIcon}
+                          </div>
                           <div>{item.icon}</div>
                           <div className="ml-3">
                             <h3 className="rc-delta profileTextColor mb-1">

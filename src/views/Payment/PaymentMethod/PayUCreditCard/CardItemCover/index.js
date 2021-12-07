@@ -1,10 +1,13 @@
 import React from 'react';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
-import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
+import getCardImg from '@/lib/get-card-img';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
+import { inject, observer } from 'mobx-react';
 
-export default class CardItemCover extends React.Component {
+@inject('paymentStore')
+@observer
+class CardItemCover extends React.Component {
   static defaultProps = {
     canEdit: false,
     canDelete: false,
@@ -31,14 +34,21 @@ export default class CardItemCover extends React.Component {
       deleteCard,
       currentCvvChange,
       canEdit,
-      canDelete
+      canDelete,
+      paymentStore
     } = this.props;
     return (
+      // paddingFlag表示此卡正在pending，不能用于选择支付
       <div
-        className={`rounded pl-2 pr-2 creditCompleteInfoBox position-relative ui-cursor-pointer border ${
-          selectedSts ? 'active border-blue' : ''
-        } ${!selectedSts && !lastItem ? 'border-bottom-0' : ''}`}
+        className={`rounded pl-2 pr-2 creditCompleteInfoBox position-relative ${
+          el?.paddingFlag
+            ? 'ui-cursor-not-allowed disabled'
+            : 'ui-cursor-pointer border'
+        }  ${selectedSts ? 'active border-blue' : ''} ${
+          !selectedSts && !lastItem ? 'border-bottom-0' : ''
+        }`}
         onClick={handleClickCardItem}
+        title={`${el?.paddingFlag ? 'pending' : ''}`}
       >
         {el.isValid && (
           <span
@@ -52,7 +62,7 @@ export default class CardItemCover extends React.Component {
           </span>
         )}
 
-        <div className="pt-3 pb-3">
+        <div className="pt-4 pb-4">
           {canEdit && (
             <div
               className="position-absolute ui-cursor-pointer-pure"
@@ -75,7 +85,13 @@ export default class CardItemCover extends React.Component {
               className="position-absolute"
               style={{ right: '1%', top: '2%', zIndex: 50 }}
             >
-              <span className="pull-right position-relative pl-2 ui-cursor-pointer-pure">
+              <span
+                className={`pull-right position-relative pl-2 ${
+                  el.paddingFlag
+                    ? 'ui-cursor-not-allowed'
+                    : 'ui-cursor-pointer-pure'
+                }`}
+              >
                 <span onClick={handleClickDeleteBtn}>
                   <FormattedMessage id="delete" />
                 </span>
@@ -96,10 +112,10 @@ export default class CardItemCover extends React.Component {
               <LazyLoad>
                 <img
                   className="PayCardImgFitScreen"
-                  src={
-                    CREDIT_CARD_IMG_ENUM[el?.paymentVendor?.toUpperCase()] ||
-                    'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                  }
+                  src={getCardImg({
+                    supportPaymentMethods: paymentStore.supportPaymentMethods,
+                    currentVendor: el?.paymentVendor
+                  })}
                   alt="card background"
                 />
               </LazyLoad>
@@ -167,3 +183,4 @@ export default class CardItemCover extends React.Component {
     );
   }
 }
+export default CardItemCover;

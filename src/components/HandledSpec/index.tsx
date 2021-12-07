@@ -14,13 +14,15 @@ interface Props {
   details: any;
   updatedSku: Function;
   updatedPriceOrCode: Function;
+  defaultSkuId: string
 }
 
 const HandledSpec = ({
   renderAgin,
   details,
   updatedSku,
-  updatedPriceOrCode = () => {}
+  updatedPriceOrCode = () => {},
+  defaultSkuId
 }: Props) => {
   const {
     goodsSpecs,
@@ -166,6 +168,16 @@ const HandledSpec = ({
       let specsItem = goodsInfos.filter(
         (item: any) => item.goodsInfoNo == goodsNo
       );
+      
+      choosedSpecsArr =
+        specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds;
+    }
+    if(defaultSkuId) {
+      // 通过sku查询
+      let specsItem = goodsInfos.filter(
+        (item: any) => item.goodsInfoId == defaultSkuId
+      );
+      
       choosedSpecsArr =
         specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds;
     }
@@ -181,6 +193,7 @@ const HandledSpec = ({
             sdItem.isEmpty = filterproducts.every(
               (item: any) => item.stock === 0
             );
+            sdItem.isUnitPriceZero = filterproducts?.[0]?.marketPrice === 0
             // filterproduct.goodsInfoWeight = parseFloat(sdItem.detailName)
           }
           return sdItem.specId === sItem.specId;
@@ -188,27 +201,30 @@ const HandledSpec = ({
         let defaultSelcetdSku = -1;
         if (choosedSpecsArr.length) {
           for (let i = 0; i < choosedSpecsArr.length; i++) {
-            let specDetailIndex = sItem.specDetailIds.indexOf(
-              choosedSpecsArr[i]
-            );
+            let specDetailIndex = sItem.chidren.findIndex(el => el.specDetailId === choosedSpecsArr[i])
             if (specDetailIndex > -1) {
               defaultSelcetdSku = specDetailIndex;
             }
           }
         }
+        const isSelectedDefaultSkuItem = sItem.chidren.findIndex(_item => _item.isSelected)
         if (defaultSelcetdSku > -1) {
           // 默认选择该sku
           if (!sItem.chidren[defaultSelcetdSku].isEmpty) {
             // 如果是sku进来的，需要默认当前sku被选择
             sItem.chidren[defaultSelcetdSku].selected = true;
           }
-        } else {
+        } else if(isSelectedDefaultSkuItem>-1){
+          // sprint6添加的需求，在storePortal设置了defaultSku那么该sku被选中.
+          sItem.chidren[isSelectedDefaultSkuItem].selected = true;
+        }else {
           if (
             window.__.env.REACT_APP_COUNTRY === 'de' &&
-            sItem.chidren.length > 1 &&
-            !sItem.chidren[1].isEmpty
+            sItem.chidren.length &&
+            !sItem.chidren[0].isEmpty
           ) {
-            sItem.chidren[1].selected = true;
+            // de设置最小的
+            sItem.chidren[0].selected = true;
           } else if (sItem.chidren.length > 1 && !sItem.chidren[1].isEmpty) {
             sItem.chidren[1].selected = true;
           } else {
@@ -237,8 +253,9 @@ const HandledSpec = ({
   }, [details.goodsNo,renderAgin]);
   useEffect(() => {
     (async () => {
-      if (sizeList.length) {
-        if (goodsSpecDetails) {
+      if (sizeList?.length) {
+        // goodsSpecDetails可能是数组可能是null
+        if (goodsSpecDetails?.length) {
           await matchGoods();
           getPriceOrCode();
         } else {
@@ -264,9 +281,9 @@ const HandledSpec = ({
                   key={i}
                   className={`rc-swatch__item ${
                     sdItem.selected ? 'selected' : ''
-                  } ${sdItem.isEmpty ? 'outOfStock' : ''}`}
+                  } ${sdItem.isEmpty || sdItem.isUnitPriceZero ? 'outOfStock' : ''}`}
                   onClick={() => {
-                    if (sdItem.isEmpty || sdItem.selected) {
+                    if (sdItem.isEmpty || sdItem.selected || sdItem.isUnitPriceZero) {
                       return false;
                     } else {
                       handleChooseSize(sItem.specId, sdItem.specDetailId);
@@ -275,8 +292,8 @@ const HandledSpec = ({
                 >
                   <span
                     style={{
-                      backgroundColor: sdItem.isEmpty ? '#ccc' : '#fff',
-                      cursor: sdItem.isEmpty ? 'not-allowed' : 'pointer'
+                      backgroundColor: sdItem.isEmpty || sdItem.isUnitPriceZero ? '#ccc' : '#fff',
+                      cursor: sdItem.isEmpty || sdItem.isUnitPriceZero ? 'not-allowed' : 'pointer'
                     }}
                   >
                     {/* {parseFloat(sdItem.detailName)}{' '} */}

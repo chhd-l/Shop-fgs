@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { loadJS } from '@/utils/utils';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { findUserConsentList } from '@/api/consent';
 //import { getProductPetConfig } from '@/api/payment';
 import { toJS } from 'mobx';
@@ -12,7 +12,13 @@ import { authToken } from '@/api/login';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-@inject('configStore', 'loginStore', 'checkoutStore', 'clinicStore')
+@inject(
+  'configStore',
+  'checkoutStore',
+  'loginStore',
+  'checkoutStore',
+  'clinicStore'
+)
 @withRouter
 class RouteFilter extends Component {
   get isLogin() {
@@ -21,6 +27,37 @@ class RouteFilter extends Component {
   // router refresh=true后，此生命周期无效
   async shouldComponentUpdate(nextProps) {
     // 默认了clinic后，再次编辑clinic
+    const { history, location, checkoutStore } = this.props;
+
+    const searchUrl = this.props.history.location.search;
+    function getQueryVariable(variable) {
+      let query = searchUrl.substring(1);
+      let vars = query.split('&');
+      for (let i = 0; i < vars.length; i++) {
+        let pair = vars[i].split('=');
+        if (pair[0] == variable) {
+          return pair[1];
+        }
+      }
+      return false;
+    }
+
+    /////
+    const isStorepotal = getQueryVariable('stoken');
+    if (isStorepotal) {
+      checkoutStore.removePromotionCode();
+    }
+
+    // console.log(getQueryVariable("search")+'222222222')
+    // console.log(getQueryVariable("spromocode"))
+    const sPromotionCodeFromSearch = getQueryVariable('spromocode');
+    if (sPromotionCodeFromSearch) {
+      checkoutStore.setPromotionCode(sPromotionCodeFromSearch);
+      // goodwill单标识 goodWillFlag: 'GOOD_WILL'
+      sessionItemRoyal.set('goodWillFlag', 'GOOD_WILL');
+    }
+
+    // debugger
     if (
       nextProps.location.pathname === '/prescription' &&
       sessionItemRoyal.get('clinic-reselect') === 'true'
@@ -35,7 +72,10 @@ class RouteFilter extends Component {
       this.props.history.push('/home');
       return false;
     }
+    // console.log(history.location.search,'123')
+    // console.log(this.props.history.location.search,'123')
 
+    // debugger
     if (
       nextProps.location.pathname === '/confirmation' &&
       !sessionItemRoyal.get('subOrderNumberList')
@@ -117,6 +157,9 @@ class RouteFilter extends Component {
         sessionItemRoyal.remove('rc-tidList');
         sessionItemRoyal.remove('recommend_product');
         sessionItemRoyal.remove('orderSource');
+        sessionItemRoyal.remove('from-felin');
+        sessionItemRoyal.remove('appointment-no');
+        sessionItemRoyal.remove('isChangeAppoint');
       }
       if (prevPath.includes('/confirmation')) {
         if (sessionItemRoyal.get('rc-paywith-login') === 'true') {
@@ -189,6 +232,9 @@ class RouteFilter extends Component {
       window.location.href = window.location.href.split('/#/').join('/');
       return null;
     }
+
+    var el = document.querySelector('html');
+    el.lang = window.__.env.REACT_APP_HTML_LANG;
 
     if (pathname !== '/login') {
       // loadJS({

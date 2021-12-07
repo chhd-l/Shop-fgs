@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import autoshipIcon from '@/assets/images/autoship.png';
-import { getFormatDate, getDeviceType, getClubLogo } from '@/utils/utils';
+import {
+  getFormatDate,
+  getDeviceType,
+  getClubLogo,
+  isCanVerifyBlacklistPostCode
+} from '@/utils/utils';
 import FrequencyMatch from '@/components/FrequencyMatch';
 import LazyLoad from 'react-lazyload';
 import { getSubList } from '@/api/subscription';
@@ -8,12 +13,15 @@ import Skeleton from 'react-skeleton-loader';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import { IMG_DEFAULT } from '@/utils/constant';
 import { filterOrderId } from '@/utils/utils';
+import './index.less';
 const localItemRoyal = window.__.localItemRoyal;
+
 const AutoshipItem = ({ subItem, history }) => {
   const isMobile = getDeviceType() !== 'PC';
+
   return (
     <div
-      className="card-container autoshipBox"
+      className="card-container autoshipBox AutoshipItem-wrap"
       style={{ marginTop: '0', marginBottom: '1.25rem' }}
       key={subItem.subscribeId}
     >
@@ -31,9 +39,14 @@ const AutoshipItem = ({ subItem, history }) => {
               {filterOrderId({ orderNo: subItem.subscribeId })}
             </p>
           </div>
-          <div className="col-4 col-md-2" />
-          <div className="col-4 col-md-2" />
-          <div className="col-4 col-md-2 pl-4" />
+          {/*<div className="col-4 col-md-2" />*/}
+          {/*<div className="col-4 col-md-2" />*/}
+          {subItem?.postCodeValidResponse
+            ?.validFlag ? null : isCanVerifyBlacklistPostCode ? (
+            <div className="col-8 pl-4 order-hint">
+              <span>{subItem.postCodeValidResponse.alert}</span>
+            </div>
+          ) : null}
         </div>
       </div>
       <div className="row rc-margin-x--none row align-items-center pt-3 pb-3 1111">
@@ -114,7 +127,7 @@ const AutoshipItem = ({ subItem, history }) => {
                 overflow: 'hidden'
               }}
             >
-              <FormattedMessage id="autoShipStarted" />
+              <FormattedMessage id="autoShipStarted2" />
             </p>
             <p style={{ color: '#666', fontSize: '1rem' }}>
               {getFormatDate(subItem.createTime.split(' ')[0])}
@@ -126,17 +139,17 @@ const AutoshipItem = ({ subItem, history }) => {
         {/* <div className="col-4 col-md-2">{subItem.frequency}</div> */}
         <div className="col-4 col-md-1 ml-3 status">
           {subItem.subscribeStatus === '0' ? (
-            <div className="ui-text-overflow-line1">
+            <div className="ui-text-overflow-line1 subscription_status_active">
               <em className="greenCircle" />
               <FormattedMessage id="active" />
             </div>
           ) : subItem.subscribeStatus === '1' ? (
-            <div className="ui-text-overflow-line1">
+            <div className="ui-text-overflow-line1 subscription_status_paused">
               <em className="yellowCircle" />
               <FormattedMessage id="paused" />
             </div>
           ) : (
-            <div className="ui-text-overflow-line1">
+            <div className="ui-text-overflow-line1 subscription_status_inactive">
               <em className="yellowCircle" />
               <FormattedMessage id="inactive" />
             </div>

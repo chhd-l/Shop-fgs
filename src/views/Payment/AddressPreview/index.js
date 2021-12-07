@@ -3,6 +3,11 @@ import { inject, observer } from 'mobx-react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { getDictionary, matchNamefromDict } from '@/utils/utils';
 import Skeleton from 'react-skeleton-loader';
+
+const hideBillingAddr = Boolean(
+  +window.__.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
+);
+
 @inject('checkoutStore', 'configStore')
 @observer
 class InfosPreview extends React.Component {
@@ -126,6 +131,17 @@ class InfosPreview extends React.Component {
                           </>
                         )}
 
+                        {localAddressForm['county'] && (
+                          <>
+                            <div className="col-12 col-md-6">
+                              <FormattedMessage id="payment.county" />
+                            </div>
+                            <div className="col-12 col-md-6">
+                              &nbsp;{details.consignee.county}
+                            </div>
+                          </>
+                        )}
+
                         {localAddressForm['postCode'] && (
                           <>
                             <div className="col-12 col-md-6">
@@ -162,7 +178,7 @@ class InfosPreview extends React.Component {
                         </div>
                       </div>
                     </div>
-                    {details.invoice ? (
+                    {details.invoice && !hideBillingAddr ? (
                       <div className="col-12 address-summary-left">
                         <h5 className="center">
                           <FormattedMessage id="payment.billTitle" />
@@ -246,6 +262,17 @@ class InfosPreview extends React.Component {
                               </div>
                               <div className="col-12 col-md-6">
                                 &nbsp;{details.invoice.province}
+                              </div>
+                            </>
+                          )}
+
+                          {localAddressForm['county'] && (
+                            <>
+                              <div className="col-12 col-md-6">
+                                <FormattedMessage id="payment.county" />
+                              </div>
+                              <div className="col-12 col-md-6">
+                                &nbsp;{details.invoice.county}
                               </div>
                             </>
                           )}

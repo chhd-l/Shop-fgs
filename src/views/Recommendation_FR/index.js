@@ -241,12 +241,8 @@ class Help extends React.Component {
     // }
   }
   checkoutStock() {
-    let {
-      productList,
-      outOfStockProducts,
-      inStockProducts,
-      modalList
-    } = this.state;
+    let { productList, outOfStockProducts, inStockProducts, modalList } =
+      this.state;
     for (let i = 0; i < productList.length; i++) {
       if (
         productList[i].recommendationNumber > productList[i].goodsInfo.stock
@@ -276,12 +272,8 @@ class Help extends React.Component {
     );
   }
   async hanldeLoginAddToCart() {
-    let {
-      productList,
-      outOfStockProducts,
-      inStockProducts,
-      modalList
-    } = this.state;
+    let { productList, outOfStockProducts, inStockProducts, modalList } =
+      this.state;
     // console.log(outOfStockProducts, inStockProducts, '...1')
     // return
 
@@ -308,7 +300,9 @@ class Help extends React.Component {
             recommendationId: this.props.clinicStore.linkClinicId,
             recommendationName: this.props.clinicStore.linkClinicName
           });
-          await this.props.checkoutStore.updateLoginCart();
+          await this.props.checkoutStore.updateLoginCart({
+            intl: this.props.intl
+          });
         } catch (e) {
           this.setState({ buttonLoading: false });
         }
@@ -384,7 +378,8 @@ class Help extends React.Component {
       }
       console.log(cartDataCopy, 'cartDataCopy');
       await this.props.checkoutStore.updateUnloginCart({
-        cartData: cartDataCopy
+        cartData: cartDataCopy,
+        intl: this.props.intl
       });
     }
     this.props.history.push(path);
@@ -410,12 +405,8 @@ class Help extends React.Component {
       localItemRoyal.set('okta-redirectUrl', '/prescription');
     }
     this.setState({ needLogin });
-    let {
-      productList,
-      outOfStockProducts,
-      inStockProducts,
-      modalList
-    } = this.state;
+    let { productList, outOfStockProducts, inStockProducts, modalList } =
+      this.state;
     let totalPrice;
     inStockProducts.map((el) => {
       console.log(el, 'instock');
@@ -496,12 +487,8 @@ class Help extends React.Component {
   }
   async hanldeClickSubmit() {
     const { checkoutStore, loginStore, history, clinicStore } = this.props;
-    let {
-      currentModalObj,
-      subDetail,
-      outOfStockProducts,
-      inStockProducts
-    } = this.state;
+    let { currentModalObj, subDetail, outOfStockProducts, inStockProducts } =
+      this.state;
     this.setState({ loading: true, modalShow: false });
     if (currentModalObj.type === 'addToCart') {
       for (let i = 0; i < inStockProducts.length; i++) {
@@ -512,7 +499,7 @@ class Help extends React.Component {
             goodsCategory: '',
             goodsInfoFlag: 0
           });
-          await checkoutStore.updateLoginCart();
+          await checkoutStore.updateLoginCart({ intl: this.props.intl });
         } catch (e) {
           this.setState({ buttonLoading: false });
         }
@@ -1299,7 +1286,7 @@ class Help extends React.Component {
                     <div className="rc-full-width">
                       <div className="experience-component experience-assets-contactUsBlock">
                         <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm">
-                          <div className="rc-layout-container rc-two-column rc-margin-y--sm text-center text-md-left rc-margin-top--lg--mobile">
+                          <div className="rc-layout-container rc-two-column rc-margin-y--sm text-center md:text-left rc-margin-top--lg--mobile">
                             {/* <div className="rc-padding-bottom--none--mobile" style={{ width: '40%' }}>
                               <h1 className="rc-beta" style={{ margin: '0 0 0 1rem' }}>
                                 <font style={{ verticalAlign: "inherit" }}>
@@ -1315,7 +1302,7 @@ class Help extends React.Component {
                               </div>
                             </div> */}
                           </div>
-                          <div className="rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center text-md-left">
+                          <div className="rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center md:text-left">
                             <div className="rc-column rc-double-width rc-padding--none">
                               <article className="rc-full-width rc-column rc-margin-top--md--mobile">
                                 <div className="rc-border-all rc-border-colour--interface fullHeight">

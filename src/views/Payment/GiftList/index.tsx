@@ -44,13 +44,13 @@ const GiftList = ({ pitem }) => {
                   <FormattedMessage
                     id="quantityText"
                     values={{
-                      specText: pitem.specText,
+                      specText: pitem.specText || '',
                       buyCount: pitem.buyCount
                     }}
                   />
                 </p>
               </div>
-              <div className="line-item-total-price text-nowrap text-line-through">
+              <div className="line-item-total-price text-nowrap">
                 <span>{formatMoney(pitem.buyCount * pitem.salePrice)}</span>
               </div>
             </div>

@@ -13,7 +13,7 @@
 import { useOktaAuth } from '@okta/okta-react';
 import React, { useState, useEffect } from 'react';
 import stores from '@/store';
-import { FormattedMessage } from 'react-intl-phraseapp';
+import { FormattedMessage, useIntl } from 'react-intl-phraseapp';
 import { getToken } from '@/api/login';
 import { getCustomerInfo } from '@/api/user';
 import { mergeUnloginCartData, bindSubmitParam } from '@/utils/utils';
@@ -30,6 +30,7 @@ const checkoutStore = stores.checkoutStore;
 
 const LoginButton = (props) => {
   const { history } = props;
+  const intl = useIntl();
   const init = props.init;
   const [, setUserInfo] = useState(null);
   const [isGetUserInfoDown, setIsGetUserInfoDown] = useState(false);
@@ -74,6 +75,7 @@ const LoginButton = (props) => {
             }&post_logout_redirect_uri=${redirectUri}`;
           } // Cross-store login
           setUserInfo(info);
+          localItemRoyal.set('customer-okta-id', info.sub);
           const oktaTokenString = authState.accessToken
             ? authState.accessToken.value
             : '';
@@ -131,8 +133,11 @@ const LoginButton = (props) => {
                     // tmpUrl !== '/cart' &&
                     checkoutStore.cartData.length
                   ) {
-                  await mergeUnloginCartData();
-                  await checkoutStore.updateLoginCart({delFlag:1});// indv登录的时候需要查询到相应的数据
+                    await mergeUnloginCartData();
+                    await checkoutStore.updateLoginCart({
+                      delFlag: 1,
+                      intl
+                    }); // indv登录的时候需要查询到相应的数据
                   }
 
                   setIsGetUserInfoDown(true);
@@ -177,6 +182,7 @@ const LoginButton = (props) => {
 
   return (
     <>
+      <LimitLoginModal />
       <button
         className={props.btnClass || props.className || 'rc-btn rc-btn--one'}
         style={props.btnStyle || {}}
@@ -186,7 +192,6 @@ const LoginButton = (props) => {
       >
         {props.children || <FormattedMessage id="login" />}
       </button>
-      <LimitLoginModal />
     </>
   );
 };

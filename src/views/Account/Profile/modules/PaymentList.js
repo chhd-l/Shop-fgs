@@ -14,7 +14,6 @@ import {
   setDefaltCard
 } from '@/api/payment';
 import {
-  CREDIT_CARD_IMG_ENUM,
   PAYMENT_METHOD_PAU_ACCOUNT_RULE,
   PAYMENT_METHOD_PAU_CHECKOUT_RULE
 } from '@/utils/constant';
@@ -22,12 +21,19 @@ import PaymentEditForm from '@/components/PaymentEditForm';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
 import { showCardType } from '@/utils/constant/cyber';
+import getCardImg from '@/lib/get-card-img';
 
 function CardItem(props) {
-  const { data, listVisible } = props;
+  const { data, listVisible, supportPaymentMethods } = props;
   // console.log(2222, listVisible);
   return (
-    <div className="rc-bg-colour--brand4 rounded p-2 pl-3 pr-3 h-100 d-flex align-items-center justify-content-between">
+    <div
+      className={`${
+        data?.paddingFlag
+          ? 'creditCompleteInfoBox disabled'
+          : 'rc-bg-colour--brand4'
+      } rounded p-2 pl-3 pr-3 h-100 d-flex align-items-center justify-content-between`}
+    >
       <div
         className="position-absolute d-flex align-items-center"
         style={{ right: '2%', top: '2%' }}
@@ -39,7 +45,7 @@ function CardItem(props) {
           'pt-4',
           'pb-2',
           'w-100',
-          listVisible ? 'pt-md-4' : 'pt-md-2'
+          listVisible ? 'md:pt-4' : 'md:pt-2'
         ].join(' ')}
       >
         <div className="row">
@@ -47,11 +53,11 @@ function CardItem(props) {
             <LazyLoad height={100}>
               <img
                 className="PayCardImgFitScreen mw-100"
-                style={{ height: '5rem' }}
-                src={
-                  CREDIT_CARD_IMG_ENUM[data.paymentVendor.toUpperCase()] ||
-                  'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                }
+                // style={{ height: '5rem' }}
+                src={getCardImg({
+                  supportPaymentMethods,
+                  currentVendor: data.paymentVendor
+                })}
                 alt="pay card img fit screen"
               />
             </LazyLoad>
@@ -98,14 +104,19 @@ class PaymentList extends React.Component {
   }
   componentDidMount() {
     const { paymentStore } = this.props;
+    const { setPayWayNameArr, serCurPayWayVal, setSupportPaymentMethods } =
+      paymentStore;
     this.getPaymentMethodList(); //获取绑卡列表
     getWays().then((res) => {
       this.setState({
         paymentType: res?.context?.name
       });
+      const payPspItemVOList = res?.context?.payPspItemVOList || [];
       const supportPaymentMethods =
-        res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || [];
-      paymentStore.setSupportPaymentMethods(supportPaymentMethods); //存储当前支付方式所支持的卡类型
+        payPspItemVOList[0]?.payPspItemCardTypeVOList || [];
+      setPayWayNameArr(payPspItemVOList);
+      setSupportPaymentMethods(supportPaymentMethods); //存储当前支付方式所支持的卡类型
+      serCurPayWayVal(supportPaymentMethods[0]?.code);
       this.setState(
         { defaultCardTypeVal: supportPaymentMethods[0]?.cardType }, //设置默认卡类型，例如visa
         () => {
@@ -243,6 +254,7 @@ class PaymentList extends React.Component {
     });
   }
   handleClickDeleteBtn(data, e) {
+    if (data?.paddingFlag) return;
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
@@ -275,6 +287,7 @@ class PaymentList extends React.Component {
     );
   };
   async toggleSetDefault(item, e) {
+    if (item?.paddingFlag) return;
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
@@ -295,6 +308,7 @@ class PaymentList extends React.Component {
       getPaymentMethodListFlag
     } = this.state;
     const curPageAtCover = !listVisible && !editFormVisible;
+    const { supportPaymentMethods } = this.props.paymentStore;
     return (
       <div>
         {listLoading ? (
@@ -305,7 +319,7 @@ class PaymentList extends React.Component {
             <div className="personalInfo">
               <div className="profileSubFormTitle pl-3 pr-3 pt-3">
                 <h5
-                  className="mb-0"
+                  className="mb-0 text-xl"
                   style={{ display: curPageAtCover ? 'block' : 'none' }}
                 >
                   <svg
@@ -318,7 +332,7 @@ class PaymentList extends React.Component {
                   <FormattedMessage id="account.myPayments" />
                 </h5>
                 <h5
-                  className="ui-cursor-pointer"
+                  className="ui-cursor-pointer text-xl"
                   style={{ display: curPageAtCover ? 'none' : 'block' }}
                   onClick={this.handleClickGoBack}
                 >
@@ -344,7 +358,7 @@ class PaymentList extends React.Component {
                 </FormattedMessage>
               </div>
               <hr
-                className={classNames('account-info-hr-border-color', {
+                className={classNames('account-info-hr-border-color my-4', {
                   'border-0': listVisible || editFormVisible
                 })}
               />
@@ -397,7 +411,10 @@ class PaymentList extends React.Component {
                 >
                   {creditCardList.slice(0, 2).map((el, i) => (
                     <div className="col-12 col-md-4 p-2" key={i}>
-                      <CardItem data={el} />
+                      <CardItem
+                        data={el}
+                        supportPaymentMethods={supportPaymentMethods}
+                      />
                     </div>
                   ))}
                   {creditCardList.slice(0, 2).length < 2 && (
@@ -416,12 +433,17 @@ class PaymentList extends React.Component {
                   <div className={classNames('row', 'ml-0', 'mr-0')}>
                     {creditCardList.map((el) => (
                       <div
-                        className="col-12 col-md-6 p-2 ui-cursor-pointer-pure"
+                        className={`col-12 col-md-6 p-2 ${
+                          el?.paddingFlag
+                            ? 'ui-cursor-not-allowed'
+                            : 'ui-cursor-pointer-pure'
+                        }`}
                         key={el.id}
                       >
                         <CardItem
                           data={el}
                           listVisible={listVisible}
+                          supportPaymentMethods={supportPaymentMethods}
                           operateBtnJSX={
                             <>
                               {el.isDefault === 1 ? (
@@ -438,10 +460,16 @@ class PaymentList extends React.Component {
                                 </div>
                               ) : (
                                 <div
-                                  className="ui-cursor-pointer"
+                                  className={`ui-cursor-pointer`}
                                   onClick={this.toggleSetDefault.bind(this, el)}
                                 >
-                                  <span className="rc-styled-link">
+                                  <span
+                                    className={`${
+                                      el?.paddingFlag
+                                        ? 'ui-cursor-not-allowed'
+                                        : 'rc-styled-link'
+                                    }`}
+                                  >
                                     <FormattedMessage id="setAsDefault" />
                                   </span>
                                 </div>
@@ -450,7 +478,11 @@ class PaymentList extends React.Component {
                                 className={`position-relative p-2 ui-cursor-pointer-pure pdl-1`}
                               >
                                 <span
-                                  className="rc-styled-link"
+                                  className={`${
+                                    el.paddingFlag
+                                      ? 'ui-cursor-not-allowed'
+                                      : 'rc-styled-link'
+                                  }`}
                                   onClick={this.handleClickDeleteBtn.bind(
                                     this,
                                     el

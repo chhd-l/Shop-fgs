@@ -96,7 +96,10 @@ const UserJSX = (props) => {
                       <FormattedMessage id="account.notRegistred" />
                     </div>
                     <span
+                      // style="cursor:pointer"
+                      style={{ cursor: 'pointer' }}
                       className="rc-styled-link"
+                      // className="rc-styled-link"
                       onClick={() => {
                         // if (
                         //   window.__.env.REACT_APP_COUNTRY == 'us' &&
@@ -121,7 +124,8 @@ const UserJSX = (props) => {
                           window.__.env.REACT_APP_COUNTRY === 'ru' ||
                           window.__.env.REACT_APP_COUNTRY === 'fr' ||
                           window.__.env.REACT_APP_COUNTRY === 'us' ||
-                          window.__.env.REACT_APP_COUNTRY === 'de'
+                          window.__.env.REACT_APP_COUNTRY === 'de' ||
+                          window.__.env.REACT_APP_COUNTRY === 'uk'
                         ) {
                           localItemRoyal.set(
                             'okta-redirectUrl',
@@ -156,7 +160,7 @@ const UserJSX = (props) => {
                     <div className="link-style">
                       <Link to="/account" className="click-hover">
                         <span className="iconfont">&#xe697;</span>{' '}
-                        <FormattedMessage id="home" />
+                        <FormattedMessage id="account.home" />
                       </Link>
                     </div>
                     <div className="link-style">

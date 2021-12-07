@@ -1,11 +1,12 @@
 import { getSeoConfig, queryHeaderNavigations } from '@/api';
 import { purchases, mergePurchase } from '@/api/cart';
 import { findStoreCateList } from '@/api/home';
-import { getDict } from '@/api/dict';
+import { getDict, getAppointDict } from '@/api/dict';
 import { findFilterList, findSortList } from '@/api/list';
 import { getRation as getRation_api } from '@/api/pet';
 import find from 'lodash/find';
 import flatten from 'lodash/flatten';
+import findIndex from 'lodash/findIndex';
 import stores from '@/store';
 import { toJS } from 'mobx';
 import { createIntl, createIntlCache } from 'react-intl-phraseapp';
@@ -17,36 +18,25 @@ import us from 'date-fns/locale/en-US';
 import ru from 'date-fns/locale/ru';
 import { registerLocale } from 'react-datepicker';
 import { format, utcToZonedTime } from 'date-fns-tz';
+import { getAppointDetail } from '@/api/appointment';
+import cloneDeep from 'lodash/cloneDeep';
+import { sitePurchase } from '@/api/cart';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const checkoutStore = stores.checkoutStore;
 const configStore = stores.configStore;
-const mapEnum = {
-  1: { mark: '$', break: ' ', atEnd: false },
-  2: { mark: 'Mex$', break: ' ', atEnd: false },
-  3: { mark: '€', break: ',', atEnd: true, twoDecimals: true }
-};
+const clinicStore = stores.clinicStore;
 
 /**
  *
  * @param {*} val
- * @param {*} currency 1-$ 2-Mex$ 3-€
  */
-export function formatMoney(
-  val,
-  currency = window.__.env.REACT_APP_CURRENCY_TYPE || 1,
-  noFixed
-) {
+export function formatMoney(val) {
   if (isNaN(val)) {
     val = 0;
   }
-  val = noFixed ? Number(val) : Number(val).toFixed(2);
-  const tmp = mapEnum[currency];
-  if (!tmp.twoDecimals) {
-    // 保留两位小数时，不填充0
-    val = parseFloat(val);
-  }
+  val = Number(val).toFixed(2);
   val += '';
   let length = val.length;
   if (window.__.env.REACT_APP_COUNTRY === 'tr') {
@@ -90,19 +80,62 @@ export async function hanldePurchases(goodsInfoDTOList) {
 }
 
 export function stgShowAuth() {
-  console.info(
-    " localItemRoyal.get('rc-userinfo')",
-    localItemRoyal.get('rc-userinfo')
-  );
-  let userInfo = localItemRoyal.get('rc-userinfo');
-  let isLogin = !!localItemRoyal.get('rc-token');
-  return true;
-  // if(!isLogin){
-  //   return false
+  return true; // 放开用户限制
+  // charles_dw@139.com fr sit  以及anhao的三个环境账号
+  // let whiteList = [
+  //   'henri.thibaud@royalcanin.com',
+  //   'pierre.charles.parsy@royalcanin.com',
+  //   'yann.maurin@royalcanin.com',
+  //   'Vincent.Delplancq@royalcanin.com',
+  //   'samia.hnich@royalcanin.com',
+  //   'alberic.paulze.divoy@royalcanin.com',
+  //   'elisa.brami@royalcanin.com',
+  //   'victor.sing@royalcanin.com',
+  //   'alba.beatriz.brito.guerrero@royalcanin.com',
+  //   'tmj400a@yopmail.com',
+  //   'tmj400b@yopmail.com',
+  //   'tmj400c@yopmail.com',
+  //   'tmj400d@yopmail.com',
+  //   'tmj400e@yopmail.com'
+  //   // '000003003',
+  //   // '000018001',
+  //   // '000030505',
+  //   // '000233563',
+  //   // '000268272',
+  //   // '000321536',
+  //   // '000321537',
+  //   // '000326583',
+  //   // '2c91808575b13d740175dc3f0bfd0151',
+  //   // '7ffffe87692ae8c42b207abb3fb5b235',
+  //   // '8000017b8cd9c81719bd0ecb24237fd4',
+  //   // '8000017b5deaa11672dc0b320ec0adc2',
+  //   // '7ffffe88f12360756059af4f5fd9c282',
+  //   // 'tmj852476785@139.com',
+  //   // 'tmj1226@qq.com',
+  //   // 'tmj1227@qq.com',
+  //   // 'tmj2021@qq.com',
+  //   // 'tmj1223tmj1223tmj1223tmj1223tmj1223@qq.com',
+  //   // 'tmj17772423840@163.com',
+  //   // 'tmja17772423840@163.com',
+  //   // 'tmjb17772423840@163.com',
+  //   // 'tmjc17772423840@163.com',
+  //   // 'tmjd17772423840@163.com',
+  //   // '88776543@yopmail.com',
+  //   // '88766543@yopmail.com'
+  // ];
+  // let userInfo = localItemRoyal.get('rc-userinfo');
+  // // let isLogin = !!localItemRoyal.get('rc-token');
+  // // if(!isLogin){
+  // //   return false
+  // // }
+  // if (
+  //   whiteList.includes(userInfo?.customerId) ||
+  //   whiteList.includes(userInfo?.customerAccount)
+  // ) {
+  //   //除了白名单以外的都不能看到indv的东西
+  //   return true;
   // }
-  // if(userInfo){
-  //   return false
-  // }
+  // return false;
 }
 /**
  * 合并购物车(登录后合并非登录态的购物车数据，购物车页面的合并在购物车页面本身触发)
@@ -202,13 +235,14 @@ export function getDeviceType() {
  * validate data
  * @param {Object} data - data needs validate
  */
-export async function validData(rule, data) {
+export async function validData({ rule, data, intl }) {
   for (let key in data) {
     const val = data[key];
     const targetRule = find(rule, (ele) => ele.key === key);
     if (targetRule) {
+      const errMsg = targetRule?.errMsg || targetRule.getErrMsg({ intl });
       if (targetRule.require && !val) {
-        throw new Error(targetRule.errMsg);
+        throw new Error(errMsg);
       }
       if (
         targetRule.require &&
@@ -216,7 +250,10 @@ export async function validData(rule, data) {
         val &&
         !targetRule.regExp.test(val)
       ) {
-        throw new Error(targetRule.errMsg);
+        throw new Error(errMsg);
+      }
+      if (targetRule.isBlacklist) {
+        throw new Error('');
       }
     }
   }
@@ -602,12 +639,9 @@ export async function queryStoreCateList() {
       ret = res.context;
       Array.from(ret, (ele) => {
         const tmpImgList = JSON.parse(ele.cateImg);
-        if (tmpImgList) {
-          ele.cateImgForHome =
-            (tmpImgList[0] && tmpImgList[0]?.artworkUrl) || '';
-          ele.cateImgForList =
-            tmpImgList.length > 1 && tmpImgList[1]?.artworkUrl;
-        }
+        ele.cateImgForHome =
+          (tmpImgList?.[0] && tmpImgList[0].artworkUrl) || '';
+        ele.cateImgForList = tmpImgList?.length > 1 && tmpImgList[1].artworkUrl;
         return ele;
       });
 
@@ -943,6 +977,7 @@ import Club_Logo_ru from '@/assets/images/Logo_club_ru.png';
 import indvLogo from '@/assets/images/indv_log.svg';
 
 import { el } from 'date-fns/locale';
+import moment from 'moment';
 export function getClubLogo({ goodsInfoFlag, subscriptionType }) {
   let logo = Club_Logo;
   if (window.__.env.REACT_APP_COUNTRY === 'ru') {
@@ -979,4 +1014,228 @@ export function judgeIsIndividual(item) {
     window.__.env.REACT_APP_COUNTRY === 'fr' &&
     (item.promotions || '').toLowerCase() === 'individual'
   );
+}
+// uk和fr,才有postCode校验
+const countryPostCode = ['uk', 'fr'];
+const currentCountry = window.__.env.REACT_APP_COUNTRY;
+export const isCanVerifyBlacklistPostCode =
+  countryPostCode.includes(currentCountry);
+
+// 获取 Postal code alert message
+export async function getAddressPostalCodeAlertMessage() {
+  // 接口获取警示语
+  const postCodeAlertMessage =
+    '* Sorry we are not able to deliver your order in this area.';
+
+  return new Promise((resolve, reject) => {
+    resolve(postCodeAlertMessage);
+  });
+}
+
+//根据预约单号获取预约信息
+export async function getAppointmentInfo(appointNo) {
+  const res = await getAppointDetail({ apptNo: appointNo });
+  let resContext = res?.context?.settingVO;
+  let appointDictRes = await Promise.all([
+    getAppointDict({
+      type: 'appointment_type'
+    }),
+    getAppointDict({
+      type: 'expert_type'
+    })
+  ]);
+  // appointDictRes=flatten(appointDictRes)
+  console.log('appointDictRes', appointDictRes);
+  const appointmentDictRes = (
+    appointDictRes[0]?.context?.goodsDictionaryVOS || []
+  ).filter((item) => item.id === resContext?.apptTypeId);
+  const expertDictRes = (
+    appointDictRes[1]?.context?.goodsDictionaryVOS || []
+  ).filter((item) => item.id === resContext?.expertTypeId);
+  const appointType =
+    appointmentDictRes.length > 0 ? appointmentDictRes[0].name : 'Offline';
+  const expertName =
+    expertDictRes.length > 0 ? expertDictRes[0].name : 'Behaviorist';
+  const appointTime = handleFelinAppointTime(resContext?.apptTime);
+  return Object.assign(
+    resContext,
+    {
+      appointType,
+      expertName
+    },
+    appointTime
+  );
+}
+
+//处理预约信息里面的预约时间
+export function handleFelinAppointTime(appointTime) {
+  const apptTime = appointTime.split('#');
+  const appointStartTime =
+    apptTime.length > 0
+      ? moment(apptTime[0].split(' ')[0]).format('YYYY-MM-DD') +
+        ' ' +
+        apptTime[0].split(' ')[1]
+      : '';
+  const appointEndTime =
+    apptTime.length > 1
+      ? moment(apptTime[1].split(' ')[0]).format('YYYY-MM-DD') +
+        ' ' +
+        apptTime[1].split(' ')[1]
+      : '';
+  return {
+    appointStartTime,
+    appointEndTime
+  };
+}
+
+export function handleRecommendation(product) {
+  if (!product) return;
+  if (!product.goodsInfo.goodsInfoImg) {
+    product.goodsInfo.goodsInfoImg = product.goodsInfo.goods.goodsImg;
+  }
+  product.goodsInfo.goods.sizeList = product.goodsInfos.map((g) => {
+    g = Object.assign({}, g, { selected: false });
+    if (g.goodsInfoId === product.goodsInfo.goodsInfoId) {
+      g.selected = true;
+    }
+    return g;
+  });
+  let specList = product.goodsSpecs;
+  let specDetailList = product.goodsSpecDetails;
+  if (specList) {
+    specList.map((sItem) => {
+      sItem.chidren = specDetailList.filter((sdItem, i) => {
+        return sdItem.specId === sItem.specId;
+      });
+      sItem.chidren.map((child) => {
+        if (
+          product.goodsInfo.mockSpecDetailIds.indexOf(child.specDetailId) > -1
+        ) {
+          console.log(child, 'child');
+          child.selected = true;
+        }
+        return child;
+      });
+      return sItem;
+    });
+  }
+  product.goodsInfo.goods.goodsInfos = product.goodsInfos;
+  product.goodsInfo.goods.goodsSpecDetails = product.goodsSpecDetails;
+  product.goodsInfo.goods.goodsSpecs = specList;
+  return Object.assign({}, product.goodsInfo.goods, product.goodsInfo);
+}
+
+export async function addToUnloginCartData({ product, intl }) {
+  // let quantityNew = product.recommendationNumber;
+  let quantityNew = product.quantity;
+  let tmpData = Object.assign(product, {
+    quantity: quantityNew
+  });
+  let cartDataCopy = cloneDeep(toJS(checkoutStore.cartData).filter((el) => el));
+
+  let flag = true;
+  if (cartDataCopy && cartDataCopy.length) {
+    const historyItem = find(
+      cartDataCopy,
+      (c) =>
+        c.goodsId === product.goodsId &&
+        product.goodsInfoId ===
+          c.sizeList.filter((s) => s.selected)[0].goodsInfoId
+    );
+    if (historyItem) {
+      flag = false;
+      quantityNew += historyItem.quantity;
+      if (quantityNew > 30) {
+        this.setState({ addToCartLoading: false });
+        return;
+      }
+      tmpData = Object.assign(tmpData, { quantity: quantityNew });
+    }
+  }
+
+  const idx = findIndex(
+    cartDataCopy,
+    (c) =>
+      c.goodsId === product.goodsId &&
+      product.goodsInfoId === find(c.sizeList, (s) => s.selected).goodsInfoId
+  );
+  tmpData = Object.assign(tmpData, {
+    currentAmount: product.marketPrice * quantityNew,
+    selected: true,
+    quantity: quantityNew,
+    // goodsInfoFlag: 0,
+    // periodTypeId: null,
+    recommendationId: clinicStore.linkClinicId,
+    recommendationName: clinicStore.linkClinicName
+  });
+  if (idx > -1) {
+    cartDataCopy.splice(idx, 1, tmpData);
+  } else {
+    // if (cartDataCopy.length >= window.__.env.REACT_APP_LIMITED_CATE_NUM) {
+    //   this.setState({
+    //     checkOutErrMsg: (
+    //       <FormattedMessage
+    //         id="cart.errorMaxCate"
+    //         values={{ val: window.__.env.REACT_APP_LIMITED_CATE_NUM }}
+    //       />
+    //     )
+    //   });
+    //   return;
+    // }
+    cartDataCopy.push(tmpData);
+  }
+  await checkoutStore.updateUnloginCart({
+    cartData: cartDataCopy,
+    intl
+  });
+  // history.push(path);
+}
+
+export async function addToLoginCartData({ product, intl }) {
+  // let {
+  //   productList,
+  //   outOfStockProducts,
+  //   inStockProducts,
+  //   modalList
+  // } = this.state;
+  // console.log(outOfStockProducts, inStockProducts, '...1')
+  // return
+
+  // for (let i = 0; i < productList.length; i++) {
+  //   if(productList[i].recommendationNumber > productList[i].goodsInfo.stock) {
+  //     outOfStockProducts.push(productList[i])
+  //     this.setState({ buttonLoading: false });
+  //     continue
+  //   }else {
+  //     inStockProducts.push(productList[i])
+  //   }
+  // }
+  // if (outOfStockProducts.length > 0) {
+  //   // this.setState({ modalShow: true, currentModalObj: modalList[0] });
+  // } else {
+  // this.setState({ buttonLoading: true });
+  // for (let i = 0; i < inStockProducts.length; i++) {
+  try {
+    await sitePurchase({
+      goodsInfoId: product.goodsInfoId,
+      goodsNum: product.quantity,
+      goodsCategory: '',
+      goodsInfoFlag: product.goodsInfoFlag,
+      periodTypeId: product.periodTypeId,
+      recommendationId: clinicStore.linkClinicId,
+      recommendationName: clinicStore.linkClinicName
+    });
+    await checkoutStore.updateLoginCart({ intl });
+  } catch (e) {
+    console.log('hahaha1111', e);
+    // this.setState({ buttonLoading: false });
+  }
+  // }
+  // this.props.history.push('/cart');
+  // }
+}
+
+export function isShowMixFeeding() {
+  return false;
+  // return window.__.env.REACT_APP_COUNTRY === 'ru';
 }

@@ -13,6 +13,8 @@ import LazyLoad from 'react-lazyload';
 import foodDispenserPic from '../../views/SmartFeederSubscription/img/food_dispenser_pic.png';
 import './index.css';
 import FrequencyMatch from '@/components/FrequencyMatch';
+import ConfirmTooltip from '@/components/ConfirmTooltip';
+import PromotionCodeText from '../../views/Payment/PayProductInfo/components/promotionCodeText';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 @inject('checkoutStore', 'configStore')
@@ -78,9 +80,15 @@ class PayProductInfo extends React.Component {
       let giftArr = item.subscriptionPlanGiftList;
       item.num = item.goodsInfoFlag === 3 ? 1 : item.num;
       item.spuName =
-        item.goodsInfoFlag == 3
-          ? `${item.petsName}'s personalized subscription`
-          : item.spuName;
+        item.goodsInfoFlag == 3 ? (
+          // ? `${item.petsName}'s personalized subscription`
+          <FormattedMessage
+            id="subscription.personalized"
+            values={{ val1: item.petsName }}
+          />
+        ) : (
+          item.spuName
+        );
       return (
         <div
           className="product-summary__products__item"
@@ -123,13 +131,22 @@ class PayProductInfo extends React.Component {
                     style={{ width: '77%' }}
                   >
                     <p className="mb-0">
-                      <FormattedMessage
-                        id="quantityText"
-                        values={{
-                          specText: item.specDetails,
-                          buyCount: item.num
-                        }}
-                      />
+                      {details.orderType === 'FELINE_ORDER' ? (
+                        item.specDetails
+                      ) : (
+                        <FormattedMessage
+                          id="quantityText"
+                          values={{
+                            specText: item.specDetails || '',
+                            // window.__.env.REACT_APP_COUNTRY == 'fr'
+                            //   ? (item.specDetails || '')
+                            //       .toString()
+                            //       .replace('.', ',')
+                            //   : item.specDetails,
+                            buyCount: item.num
+                          }}
+                        />
+                      )}
                     </p>
                     {details.subscriptionResponseVO && item.goodsInfoFlag ? (
                       <p className="mb-0">
@@ -392,21 +409,8 @@ class PayProductInfo extends React.Component {
                         </div>
                       </div>
                     ) : null}
-                    {details.tradePrice.promotionVOList?.map((el) => (
-                      <div className="row leading-lines shipping-item">
-                        <div className="col-7 start-lines">
-                          <p className="order-receipt-label order-shipping-cost">
-                            <span className="green">{el.marketingName}</span>
-                          </p>
-                        </div>
-                        <div className="col-5 end-lines">
-                          <p className="text-right">
-                            <span className="shipping-total-cost green">
-                              -{formatMoney(el.discountPrice)}
-                            </span>
-                          </p>
-                        </div>
-                      </div>
+                    {details.tradePrice.promotionVOList?.map((el, i) => (
+                      <PromotionCodeText i={i} el={el} />
                     ))}
                     {/* 显示 delivereyPrice */}
                     <div className="row leading-lines shipping-item">

@@ -3,7 +3,7 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
-import { getFaq } from '../../api/faq';
+import { getFaq } from '@/api/staticPageApi';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import Skeleton from 'react-skeleton-loader';
 import LazyLoad from 'react-lazyload';
@@ -48,10 +48,7 @@ class FAQ extends React.Component {
     //   return false;
     // }
     window.scrollTo({ top: 0 });
-    getFaq({
-      language: window.__.env.REACT_APP_LANG,
-      storeId: window.__.env.REACT_APP_STOREID
-    })
+    getFaq()
       .then((res) => {
         this.setState(
           {
@@ -234,14 +231,29 @@ class FAQ extends React.Component {
                               }}
                             />
 
-                            <span
-                              className={`rc-vertical-align icon-change ${
-                                this.state.showCur === item.id
-                                  ? 'rc-icon rc-up rc-brand1'
-                                  : 'rc-icon rc-down rc-iconography'
-                              }`}
-                              style={{ right: '1rem', height: '28px' }}
-                            ></span>
+                            {/*<span*/}
+                            {/*  className={`rc-vertical-align icon-change ${*/}
+                            {/*    this.state.showCur === item.id*/}
+                            {/*      ? 'rc-icon rc-up rc-brand1'*/}
+                            {/*      : 'rc-icon rc-down rc-iconography'*/}
+                            {/*  }`}*/}
+                            {/*  style={{ right: '1rem', height: '28px' }}*/}
+                            {/*></span>*/}
+                            {this.state.showCur === item.id ? (
+                              <span
+                                className={`rc-vertical-align h4 icon iconfont`}
+                                style={{ right: '1rem', height: '28px' }}
+                              >
+                                &#xe604;
+                              </span>
+                            ) : (
+                              <span
+                                className={` rc-vertical-align h4 icon iconfont`}
+                                style={{ right: '1rem', height: '28px' }}
+                              >
+                                &#xe60f;
+                              </span>
+                            )}
                           </div>
                           <div className={`rc-list__content `}>
                             <p

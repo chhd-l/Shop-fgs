@@ -1,6 +1,8 @@
 import { action, observable, computed } from 'mobx';
 import { getConfig, getPrescriberSettingInfo } from '@/api';
 import { getAddressSetting, getSystemConfig } from '@/api/address';
+import { getPaymentMethodV2 } from '@/api/payment';
+import flatten from 'lodash/flatten';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const addressFormNull = {
@@ -35,6 +37,18 @@ class ConfigStore {
     ? JSON.parse(sessionItemRoyal.get('rc-address-form'))
     : addressFormNull;
 
+  @observable paymentMethodCfg = sessionItemRoyal.get('rc-paymentCfg')
+    ? JSON.parse(sessionItemRoyal.get('rc-paymentCfg'))
+    : [];
+
+  // 当前地址表单类型
+  @computed get addressFormType() {
+    let form = sessionItemRoyal.get('rc-address-form')
+      ? JSON.parse(sessionItemRoyal.get('rc-address-form'))
+      : addressFormNull;
+    return form?.formType?.type ? form.formType.type : 'MANUALLY';
+  }
+
   @computed get maxGoodsPrice() {
     return this.info ? this.info.maxGoodsPrice : 0;
   }
@@ -46,20 +60,20 @@ class ConfigStore {
 
   // homeDelivery 开关
   @computed get isHomeDeliveryOpen() {
-    return this.info?.deliveryConfig?.HOME_DELIVERY || null;
+    return this.info?.deliveryConfig?.HOME_DELIVERY;
   }
 
   // pickup 开关
   @computed get isPickupOpen() {
-    return this.info?.deliveryConfig?.PICK_UP || null;
+    return this.info?.deliveryConfig?.PICK_UP;
   }
 
   // 买入价格开关 0：含税，1：不含税
   @computed get enterPriceType() {
-    return (
+    return Number(
       (this.info?.systemTaxSetting?.configVOList &&
         this.info?.systemTaxSetting?.configVOList[1]?.context) ||
-      0
+        0
     );
   }
 
@@ -279,6 +293,30 @@ class ConfigStore {
       console.log(err);
       sessionItemRoyal.set('rc-address-form', JSON.stringify(addressForm));
     }
+  }
+
+  @action.bound
+  async queryPaymentMethodCfg() {
+    let pmlogos = this.paymentMethodCfg;
+    if (pmlogos?.length) {
+      return pmlogos;
+    }
+    const {
+      context: {
+        codPaymentMethodList,
+        offlinePaymentMethodList,
+        onlinePaymentMethodList
+      }
+    } = await getPaymentMethodV2();
+    const ret = flatten([
+      codPaymentMethodList,
+      offlinePaymentMethodList,
+      onlinePaymentMethodList
+    ])
+      .filter((f) => f?.isOpen)
+      .map((f) => ({ imgUrl: f?.imgUrl }));
+    sessionItemRoyal.set('rc-paymentCfg', JSON.stringify(ret));
+    return ret;
   }
 }
 export default ConfigStore;

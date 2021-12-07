@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "5466032",
+      "name": "edit-data",
+      "font_class": "edit-data",
+      "unicode": "e716",
+      "unicode_decimal": 59158
+    },
+    {
+      "icon_id": "25993365",
+      "name": "logo--crown",
+      "font_class": "logo--crown",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
+      "icon_id": "4733921",
+      "name": "服务地球",
+      "font_class": "fuwudiqiu",
+      "unicode": "ec0f",
+      "unicode_decimal": 60431
+    },
+    {
+      "icon_id": "6562799",
+      "name": "预约信息",
+      "font_class": "yuyuexinxi",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    },
+    {
       "icon_id": "22064139",
       "name": "female",
       "font_class": "female1",
@@ -307,13 +335,6 @@
       "unicode_decimal": 59061
     },
     {
-      "icon_id": "18080495",
-      "name": "Pause Autoship",
-      "font_class": "PauseAutoship",
-      "unicode": "e6b6",
-      "unicode_decimal": 59062
-    },
-    {
       "icon_id": "18080496",
       "name": "Completed",
       "font_class": "Completed",
@@ -447,13 +468,6 @@
       "unicode_decimal": 59049
     },
     {
-      "icon_id": "18005514",
-      "name": "faq-1",
-      "font_class": "faq-1",
-      "unicode": "e695",
-      "unicode_decimal": 59029
-    },
-    {
       "icon_id": "18005515",
       "name": "faq",
       "font_class": "faq",
@@ -466,13 +480,6 @@
       "font_class": "home",
       "unicode": "e697",
       "unicode_decimal": 59031
-    },
-    {
-      "icon_id": "18005517",
-      "name": "Information-1",
-      "font_class": "Information-1",
-      "unicode": "e698",
-      "unicode_decimal": 59032
     },
     {
       "icon_id": "18005518",
@@ -489,46 +496,11 @@
       "unicode_decimal": 59034
     },
     {
-      "icon_id": "18005520",
-      "name": "home-1",
-      "font_class": "home-1",
-      "unicode": "e69b",
-      "unicode_decimal": 59035
-    },
-    {
       "icon_id": "18005521",
       "name": "Information",
       "font_class": "Information",
       "unicode": "e69c",
       "unicode_decimal": 59036
-    },
-    {
-      "icon_id": "18005522",
-      "name": "Orders-1",
-      "font_class": "Orders-1",
-      "unicode": "e69d",
-      "unicode_decimal": 59037
-    },
-    {
-      "icon_id": "18005523",
-      "name": "Pets-1",
-      "font_class": "Pets-1",
-      "unicode": "e69e",
-      "unicode_decimal": 59038
-    },
-    {
-      "icon_id": "18005524",
-      "name": "Subscriptions-1",
-      "font_class": "Subscriptions-1",
-      "unicode": "e69f",
-      "unicode_decimal": 59039
-    },
-    {
-      "icon_id": "18005525",
-      "name": "Services-1",
-      "font_class": "Services-1",
-      "unicode": "e6a0",
-      "unicode_decimal": 59040
     },
     {
       "icon_id": "18005526",

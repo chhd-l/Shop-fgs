@@ -1,12 +1,12 @@
 import axios from 'axios';
 import qs from 'qs';
+
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
 let env = process.env.NODE_ENV;
 let base_url;
 if (env === 'development') {
-  // base_url = window.__.env.REACT_APP_BASEURL
   base_url = '/api';
 } else if (env === 'production') {
   base_url = window.__.env.REACT_APP_BASEURL;
@@ -35,16 +35,33 @@ service.interceptors.request.use((config) => {
       }
     });
   }
-  config.headers['Accept-Language'] = {
-    us: 'en-US',
-    mx: 'es-MX',
-    de: 'de',
-    fr: 'fr',
-    tr: 'tr',
-    ru: 'ru',
-    cn: 'zh-CN'
-  }[window.__.env.REACT_APP_COUNTRY];
-  config.headers['storeId'] = window.__.env.REACT_APP_STOREID;
+  if (window.__.env?.REACT_APP_LANG_LOCALE) {
+    config.headers['Accept-Language'] = window.__.env.REACT_APP_LANG_LOCALE;
+  }
+  // if (window.__.env?.REACT_APP_COUNTRY) {
+  //   config.headers['Accept-Language'] = {
+  //     us: 'en-US',
+  //     mx: 'es-MX',
+  //     de: 'de',
+  //     fr: 'fr',
+  //     tr: 'tr',
+  //     ru: 'ru',
+  //     cn: 'zh-CN',
+  //     uk: 'en-GB',
+  //     sv: 'sv-SE'
+  //   }[window.__.env.REACT_APP_COUNTRY];
+  // }
+  if (window.__.env?.REACT_APP_STOREID) {
+    config.headers['storeId'] = window.__.env.REACT_APP_STOREID;
+  }
+  config.headers['X-Content-Type-Options'] = 'nosniff';
+  config.headers['Permissions-Policy'] = 'microphone=()';
+  config.headers['Referrer-Policy'] = 'no-referrer';
+  config.headers['X-Frame-Options'] = 'sameorigin';
+  config.headers['Cache-Control'] = 'no-cache';
+  config.headers['Strict-Transport-Security'] =
+    'max-age=31536000; includeSubDomains';
+
   // 添加取消标记
   config.cancelToken = new axios.CancelToken((cancel) => {
     window.axiosCancel = window.axiosCancel || [];

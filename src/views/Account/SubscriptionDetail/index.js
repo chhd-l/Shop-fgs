@@ -38,6 +38,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
 import { Helmet } from 'react-helmet';
 import GoogleTagManager from '@/components/GoogleTagManager';
+import OngoingOrder from './components/OngoingOrder';
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
@@ -151,7 +152,8 @@ class SubscriptionDetail extends React.Component {
       },
       isActive: false,
       isNotInactive: false,
-      isDataChange: false
+      isDataChange: false,
+      petName: '' //订阅单的petName
     };
   }
   paymentSave = (el) => {
@@ -188,8 +190,17 @@ class SubscriptionDetail extends React.Component {
   cancelEdit = () => {
     this.setState({ type: 'main' });
   };
+  // 返回某个地方
+  scrollToWhere = (str) => {
+    let pstit = document.getElementById(str);
+    if (pstit) {
+      pstit.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
   addressSave = (el, isBillSame, fn) => {
-    console.log(el, isBillSame);
+    // console.log(el, isBillSame);
+    this.scrollToWhere('page-top');
+    // this.scrollToWhere('sub-user-paymentinfo-title');
     if (this.state.addressType === 'delivery') {
       let param = {
         subscribeId: this.state.subDetail.subscribeId,
@@ -385,10 +396,23 @@ class SubscriptionDetail extends React.Component {
       subDetail.goodsInfo =
         subDetail.goodsInfo?.map((item) => {
           if (isIndv) {
-            item.spuName = `${item.petsName}'s personalized subscription`;
-            item.specDetails = item.num / 1000 + 'kg';
+            // item.spuName = `${item.petsName}'s personalized subscription`;
+            item.spuName = (
+              <FormattedMessage
+                id="subscription.personalized"
+                values={{ val1: item.petsName }}
+              />
+            );
+
+            // item.specDetails = item.num / 1000 + 'kg';
             item.num = 1;
-            item.goodsName = `${subDetail?.petsInfo?.petsName}'s personalized subscription`;
+            // item.goodsName = `${subDetail?.petsInfo?.petsName}'s personalized subscription`;
+            item.goodsName = (
+              <FormattedMessage
+                id="subscription.personalized"
+                values={{ val1: subDetail?.petsInfo?.petsName }}
+              />
+            );
           }
           return item;
         }) || []; //防止商品被删报错
@@ -419,7 +443,7 @@ class SubscriptionDetail extends React.Component {
       if (petsId) {
         if (isIndv) {
           subDetail.goodsInfo.map((item) => {
-            item.petsRation = item.subscribeNum / 30 + 'g/day';
+            item.petsRation = Math.round(item.subscribeNum / 30) + 'g/jour';
             // return item;
           });
         } else {
@@ -434,7 +458,9 @@ class SubscriptionDetail extends React.Component {
             subDetail.goodsInfo?.forEach((el) => {
               rations?.forEach((ration) => {
                 if (el.spuNo == ration.mainItem) {
-                  el.petsRation = `${ration.weight}${ration.weightUnit}/${this.props.intl.messages['day-unit']}`;
+                  el.petsRation = `${Math.round(ration.weight)}${
+                    ration.weightUnit
+                  }/${this.props.intl.messages['day-unit']}`;
                 }
               });
             });
@@ -476,6 +502,7 @@ class SubscriptionDetail extends React.Component {
           petType: petsType,
           isGift: isGift,
           subDetail: subDetail,
+          petName: subDetail?.petsInfo?.petsName,
           currentCardInfo: subDetail.payPaymentInfo,
           currentDeliveryAddress: subDetail.consignee,
           currentBillingAddress: subDetail.invoice,
@@ -681,9 +708,9 @@ class SubscriptionDetail extends React.Component {
       remainingsVisible,
       submitLoading,
       triggerShowChangeProduct,
-      seoConfig
+      seoConfig,
+      petName
     } = this.state;
-    // console.log(noStartYearOption, noStartYear, 'noStartYearOption----');
     let isShowClub =
       subDetail.subscriptionType?.toLowerCase().includes('club') ||
       subDetail.subscriptionType?.toLowerCase().includes('individualization'); //indv的展示和club类似
@@ -724,7 +751,7 @@ class SubscriptionDetail extends React.Component {
             <div className="rc-padding--sm rc-max-width--xl pb-1">
               <div className="rc-layout-container rc-five-column">
                 {loadingPage ? <Loading positionFixed="true" /> : null}
-                {/* <SideMenu type="Subscription" /> */}
+
                 {isMobile ? (
                   <div className="col-12 rc-md-down">
                     <Link to="/account/subscription">
@@ -753,8 +780,9 @@ class SubscriptionDetail extends React.Component {
                     />
                   )}
                 </div>
-                <div
-                  className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop"
+
+                {/* <div
+                  className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop subscription_address_list"
                   style={{ display: type === 'AddressComp' ? 'block' : 'none' }}
                 >
                   <AddressComp
@@ -768,10 +796,16 @@ class SubscriptionDetail extends React.Component {
                     }
                     cancel={this.cancelEdit}
                   />
-                </div>
+                </div> */}
+
                 <div
-                  className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop subscriptionDetail"
-                  style={{ display: type === 'main' ? 'block' : 'none' }}
+                  className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop subscription_detail_info"
+                  style={{
+                    display:
+                      type === 'main' || type === 'AddressComp'
+                        ? 'block'
+                        : 'none'
+                  }}
                 >
                   <SubDetailHeader
                     triggerShowChangeProduct={triggerShowChangeProduct}
@@ -798,64 +832,110 @@ class SubscriptionDetail extends React.Component {
                       </div>
                     )}
                     <div className={`${loading ? 'hidden' : ''} `}>
-                      <SubGoodsInfos
-                        getDetail={this.getDetail}
-                        handleSaveChange={this.handleSaveChange.bind(this)}
-                        modalList={modalList}
-                        triggerShowChangeProduct={triggerShowChangeProduct}
-                        isDataChange={isDataChange}
-                        isShowClub={isShowClub}
-                        isGift={isGift}
-                        onDateChange={this.onDateChange}
-                        productListLoading={productListLoading}
-                        errMsgPage={errMsgPage}
-                        setState={this.setState.bind(this)}
-                        getMinDate={this.getMinDate}
-                        showErrMsg={this.showErrMsg.bind(this)}
-                        subDetail={subDetail}
-                      />
-                      <h4 className="h4">
-                        <FormattedMessage id="myAutoshipOrder" />
-                      </h4>
-                      <div className="rc-max-width--xl">
-                        <DeliveryList
+                      {/* 商品详情 */}
+                      <>
+                        <SubGoodsInfos
+                          getDetail={this.getDetail}
+                          handleSaveChange={this.handleSaveChange.bind(this)}
                           modalList={modalList}
+                          triggerShowChangeProduct={triggerShowChangeProduct}
+                          isDataChange={isDataChange}
+                          isShowClub={isShowClub}
+                          isGift={isGift}
+                          onDateChange={this.onDateChange}
+                          productListLoading={productListLoading}
+                          errMsgPage={errMsgPage}
+                          setState={this.setState.bind(this)}
                           getMinDate={this.getMinDate}
-                          completedYearOption={completedYearOption}
-                          setState={this.setState.bind(this)}
-                          changeTab={this.changeTab}
-                          noStartYear={noStartYear}
-                          tabName={tabName}
-                          noStartYearOption={noStartYearOption}
+                          showErrMsg={this.showErrMsg.bind(this)}
                           subDetail={subDetail}
-                          completedYearOption={completedYearOption}
-                          isGift={isGift}
-                          completedYear={completedYear}
-                          completedYear={completedYear}
-                          activeTabIdx={activeTabIdx}
                         />
-                        <GiftList
-                          modalList={modalList}
-                          setState={this.setState.bind(this)}
-                          activeTabIdx={this.activeTabIdx}
-                          tabName={this.tabName}
-                          changeTab={this.changeTab}
-                          subDetail={subDetail}
-                          noStartYear={noStartYear}
-                          isGift={isGift}
-                        />
-                      </div>
+                      </>
 
-                      <h4 className="h4">
-                        <FormattedMessage id="transactionInfo" />
-                      </h4>
-                      <UserPaymentInfo
-                        currentCardInfo={currentCardInfo}
-                        currentBillingAddress={currentBillingAddress}
-                        subDetail={subDetail}
-                        setState={this.setState.bind(this)}
-                        currentDeliveryAddress={currentDeliveryAddress}
-                      />
+                      {/* Ongoing Order */}
+                      {subDetail.onGoingTradeList &&
+                      subDetail.onGoingTradeList.length > 0 ? (
+                        <>
+                          <h4 className="h4">
+                            {petName ? (
+                              <FormattedMessage
+                                id="subscription.ongoingOrderForPet"
+                                values={{ val: petName }}
+                              />
+                            ) : (
+                              <FormattedMessage id="subscription.noPetOngoingOrder" />
+                            )}
+                          </h4>
+                          <div className="rc-max-width--xl">
+                            <OngoingOrder subDetail={subDetail} />
+                          </div>
+                        </>
+                      ) : null}
+
+                      {/* 历史订单 */}
+                      <>
+                        <h4 className="h4">
+                          <FormattedMessage id="myAutoshipOrder" />
+                        </h4>
+                        <div className="rc-max-width--xl">
+                          <DeliveryList
+                            modalList={modalList}
+                            getMinDate={this.getMinDate}
+                            completedYearOption={completedYearOption}
+                            setState={this.setState.bind(this)}
+                            changeTab={this.changeTab}
+                            noStartYear={noStartYear}
+                            tabName={tabName}
+                            noStartYearOption={noStartYearOption}
+                            subDetail={subDetail}
+                            isGift={isGift}
+                            completedYear={completedYear}
+                            activeTabIdx={activeTabIdx}
+                          />
+                          <GiftList
+                            modalList={modalList}
+                            setState={this.setState.bind(this)}
+                            activeTabIdx={this.activeTabIdx}
+                            tabName={this.tabName}
+                            changeTab={this.changeTab}
+                            subDetail={subDetail}
+                            noStartYear={noStartYear}
+                            isGift={isGift}
+                          />
+                        </div>
+                      </>
+
+                      {/* 用户信息、地址列表 */}
+                      <>
+                        <h4 className="h4" id="sub-user-paymentinfo-title">
+                          <FormattedMessage id="transactionInfo" />
+                        </h4>
+                        {/* 订阅详情用户数据 */}
+                        {type === 'main' ? (
+                          <UserPaymentInfo
+                            currentCardInfo={currentCardInfo}
+                            currentBillingAddress={currentBillingAddress}
+                            subDetail={subDetail}
+                            setState={this.setState.bind(this)}
+                            currentDeliveryAddress={currentDeliveryAddress}
+                          />
+                        ) : null}
+
+                        {/* 地址列表 */}
+                        {type === 'AddressComp' ? (
+                          <AddressComp
+                            customerAccount={subDetail?.customerAccount}
+                            tradeItems={subDetail?.noStartTradeList}
+                            type={addressType}
+                            deliveryAddressId={subDetail.deliveryAddressId}
+                            billingAddressId={subDetail.billingAddressId}
+                            save={(el, isBillSame, fn) =>
+                              this.addressSave(el, isBillSame, fn)
+                            }
+                            cancel={this.cancelEdit}
+                          />
+                        ) : null}
+                      </>
                     </div>
                   </div>
                 </div>

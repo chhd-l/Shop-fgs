@@ -1,13 +1,14 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl-phraseapp';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { ADYEN_CREDIT_CARD_BRANDS } from '@/utils/constant';
 import { loadJS, dynamicLoadCss } from '@/utils/utils';
 import { getAdyenParam } from './utils';
 import { inject, observer } from 'mobx-react';
 import { addOrUpdatePaymentMethod } from '@/api/payment';
-import translations from './translations';
+// import translations from './translations';
 import LazyLoad from 'react-lazyload';
 import { myAccountActionPushEvent } from '@/utils/GA';
+import getPaymentConf from '@/lib/get-payment-conf';
 
 let adyenFormData = {};
 
@@ -18,7 +19,9 @@ class AdyenCreditCardForm extends React.Component {
     isCheckoutPage: false, // 是否为支付页
     showCancelBtn: false,
     showSaveBtn: true,
-    enableStoreDetails: false, // 是否显示保存卡checkbox
+    showSetAsDefaultCheckobx: false, // 是否显示设置为默认checkbox
+    isShowEnableStoreDetails: false, // 是否显示保存卡checkbox
+    enableStoreDetails: false, // 是否保存卡到后台checkbox
     mustSaveForFutherPayments: true, // 是否必须勾选保存卡checkbox，true-只有勾选了之后保存卡按钮才可用
     isOnepageCheckout: false,
     updateClickPayBtnValidStatus: () => {},
@@ -34,12 +37,50 @@ class AdyenCreditCardForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      adyenFormData: {},
-      isValid: false
+      adyenFormData: { isDefault: 0 },
+      isValid: false,
+      adyenOriginKeyConf: null
     };
+    this.translations = {};
   }
   componentDidMount() {
-    this.initForm();
+    const {
+      intl: { messages }
+    } = this.props;
+    this.translations = {
+      storeDetails: messages['adyen.storeDetails'],
+
+      holderName: messages['adyen.holderName'],
+      'creditCard.holderName.placeholder':
+        messages['adyen.creditCard.holderName.placeholder'],
+      'creditCard.holderName.invalid':
+        messages['adyen.creditCard.holderName.invalid'],
+
+      'creditCard.numberField.title':
+        messages['adyen.creditCard.numberField.title'],
+      'creditCard.numberField.placeholder':
+        messages['adyen.creditCard.numberField.placeholder'],
+      'creditCard.numberField.invalid':
+        messages['adyen.creditCard.numberField.invalid'],
+
+      'creditCard.expiryDateField.title':
+        messages['adyen.creditCard.expiryDateField.title'],
+      'creditCard.expiryDateField.placeholder':
+        messages['adyen.creditCard.expiryDateField.placeholder'],
+      'creditCard.expiryDateField.invalid':
+        messages['adyen.creditCard.expiryDateField.invalid'],
+
+      'creditCard.cvcField.title': messages['adyen.creditCard.cvcField.title'],
+      'creditCard.cvcField.placeholder':
+        messages['adyen.creditCard.cvcField.placeholder']
+    };
+
+    this.initAdyenConf();
+    this.setState({
+      adyenFormData: Object.assign(adyenFormData, {
+        isDefault: 0
+      })
+    });
   }
   get paymentMethodPanelStatus() {
     return this.props.paymentStore.paymentMethodPanelStatus;
@@ -53,24 +94,44 @@ class AdyenCreditCardForm extends React.Component {
   getBrowserInfo(state) {
     this.props.paymentStore.setBrowserInfo(state.data.browserInfo);
   }
+  async initAdyenConf() {
+    const {
+      paymentStore: { curPayWayInfo }
+    } = this.props;
+    const tmp = await getPaymentConf();
+    this.setState(
+      {
+        adyenOriginKeyConf: tmp.filter(
+          (t) => t.pspItemCode === curPayWayInfo?.code
+        )[0]
+      },
+      () => {
+        this.initForm();
+      }
+    );
+  }
   initForm() {
     const _this = this;
+    const { translations } = _this;
+    const { adyenOriginKeyConf } = this.state;
     dynamicLoadCss(
       'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.css'
     );
+    console.log({ adyenOriginKeyConf });
     loadJS({
-      url:
-        'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
+      url: 'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
       callback: function () {
         if (!!window.AdyenCheckout) {
           //要有值
           const AdyenCheckout = window.AdyenCheckout;
           // (1) Create an instance of AdyenCheckout
           const checkout = new AdyenCheckout({
-            environment: window.__.env.REACT_APP_Adyen_ENV,
-            originKey: window.__.env.REACT_APP_AdyenOriginKEY,
-            locale: window.__.env.REACT_APP_Adyen_locale,
-            translations
+            environment: adyenOriginKeyConf?.environment,
+            originKey: adyenOriginKeyConf?.openPlatformSecret,
+            locale: adyenOriginKeyConf?.locale || 'en-US',
+            // 只有adyen本身不支持的语言时，自定义翻译才有用
+            translations: { [adyenOriginKeyConf?.locale]: translations },
+            allowAddedLocales: true
           });
 
           // (2). Create and mount the Component
@@ -78,7 +139,8 @@ class AdyenCreditCardForm extends React.Component {
             .create('card', {
               hasHolderName: true,
               holderNameRequired: true,
-              enableStoreDetails: _this.props.enableStoreDetails,
+              // enableStoreDetails: _this.props.enableStoreDetails,
+              enableStoreDetails: _this.props.isShowEnableStoreDetails,
               styles: {},
               placeholders: {},
               showPayButton: false,
@@ -97,10 +159,11 @@ class AdyenCreditCardForm extends React.Component {
                   console.log('adyen form card:', card);
                   const {
                     enableStoreDetails,
+                    isShowEnableStoreDetails,
                     mustSaveForFutherPayments
                   } = _this.props;
                   let tmpValidSts;
-                  if (enableStoreDetails && mustSaveForFutherPayments) {
+                  if (isShowEnableStoreDetails && mustSaveForFutherPayments) {
                     tmpValidSts = card.data.storePaymentMethod && state.isValid;
                   } else {
                     tmpValidSts = state.isValid;
@@ -114,8 +177,11 @@ class AdyenCreditCardForm extends React.Component {
                       adyenFormData,
                       getAdyenParam(card.data),
                       {
-                        storePaymentMethod:
-                          card.data && card.data.storePaymentMethod
+                        storePaymentMethod: isShowEnableStoreDetails
+                          ? card.data && card.data.storePaymentMethod
+                          : mustSaveForFutherPayments
+                          ? true
+                          : false
                       }
                     );
                   }
@@ -153,6 +219,7 @@ class AdyenCreditCardForm extends React.Component {
           encryptedExpiryYear: adyenFormData.encryptedExpiryYear,
           encryptedSecurityCode: adyenFormData.encryptedSecurityCode,
           holderName: adyenFormData.hasHolderName,
+          isDefault: adyenFormData.isDefault ? 1 : 0,
           pspName: 'ADYEN'
         });
         tmpSelectedId = res.context.id;
@@ -192,6 +259,13 @@ class AdyenCreditCardForm extends React.Component {
     this.props.updateFormVisible(false);
     this.isLogin && this.props.queryList();
   };
+  handleDefaultChange = (e) => {
+    this.setState({
+      adyenFormData: Object.assign(adyenFormData, {
+        isDefault: Boolean(!adyenFormData.isDefault)
+      })
+    });
+  };
   render() {
     const {
       isOnepageCheckout,
@@ -200,7 +274,9 @@ class AdyenCreditCardForm extends React.Component {
       showSaveBtn,
       paymentStore,
       mustSaveForFutherPayments,
-      cardList
+      cardList,
+      isShowEnableStoreDetails,
+      showSetAsDefaultCheckobx
     } = this.props;
     const { saveLoading, isValid } = this.state;
     const { supportPaymentMethods } = paymentStore;
@@ -236,24 +312,45 @@ class AdyenCreditCardForm extends React.Component {
         />
         <div className="mt-3 d-flex justify-content-between row">
           <div
-            className={`text-danger-2 col-12 ${
+            className={`col-12 ${
               showCancelBtn || showSaveBtn ? 'col-md-6' : ''
             }`}
-            style={{
-              marginTop: '-1rem',
-              fontSize: '.8em'
-            }}
           >
-            {mustSaveForFutherPayments && (
-              <span>
+            {isShowEnableStoreDetails && mustSaveForFutherPayments && (
+              <span
+                className="text-danger-2"
+                style={{
+                  marginTop: '-1rem',
+                  fontSize: '.8em'
+                }}
+              >
                 * <FormattedMessage id="checkboxIsRequiredForSubscription" />
               </span>
             )}
+            {showSetAsDefaultCheckobx ? (
+              <div className="rc-input rc-input--inline w-100 mw-100">
+                <input
+                  id="addr-default-checkbox"
+                  type="checkbox"
+                  className="rc-input__checkbox"
+                  onChange={this.handleDefaultChange}
+                  value={Boolean(adyenFormData.isDefault)}
+                  checked={Boolean(adyenFormData.isDefault)}
+                  autoComplete="new-password"
+                />
+                <label
+                  className={`rc-input__label--inline text-break`}
+                  htmlFor="addr-default-checkbox"
+                >
+                  <FormattedMessage id="setDefaultPaymentMethod" />
+                </label>
+              </div>
+            ) : null}
           </div>
           {showCancelBtn || showSaveBtn ? (
             <div className="text-right col-12 col-md-6">
               {showCancelBtn && (
-                <div>
+                <span>
                   <span
                     className="rc-styled-link editPersonalInfoBtn"
                     name="contactInformation"
@@ -264,7 +361,7 @@ class AdyenCreditCardForm extends React.Component {
                   <span>
                     <FormattedMessage id="or" />{' '}
                   </span>
-                </div>
+                </span>
               )}
               {showSaveBtn && (
                 <button
@@ -299,4 +396,4 @@ class AdyenCreditCardForm extends React.Component {
   }
 }
 
-export default AdyenCreditCardForm;
+export default injectIntl(AdyenCreditCardForm, { forwardRef: true });

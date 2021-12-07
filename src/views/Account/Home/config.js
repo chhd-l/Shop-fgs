@@ -80,13 +80,32 @@ const faqs = {
   isHubOuterLink: true
 };
 
+const loyaltyProgramme = {
+  icon: (
+    <span
+      className="flex align-items-center rounded px-3 py-2"
+      style={{ background: '#EDEDED' }}
+    >
+      <span className="iconfont iconlogo--crown rc-text-colour--brand1" />
+    </span>
+  ),
+  titleLangKey: 'account.loyaltyProgramme',
+  textLangKey: 'account.loyaltyProgrammeTip',
+  href: window.__.env.LOYALTY_PROGRAMME_LINK,
+  isOuter: true,
+  rightTopIcon: <span className="iconfont iconLogoff" />
+};
+
 const itemList = (function () {
-  const defaultItemList = [information, pets, orders, subscription, faqs];
-  return (
-    {
-      // ru: [information, pets, orders, subscription] //ru 没有faqs
-    }[window.__.env.REACT_APP_COUNTRY] || defaultItemList
-  );
+  const defaultItemList = [
+    information,
+    pets,
+    orders,
+    subscription,
+    faqs,
+    Boolean(window.__.env.LOYALTY_PROGRAMME_LINK) ? loyaltyProgramme : ''
+  ].filter((c) => c);
+  return defaultItemList;
 })();
 
 export { itemList };

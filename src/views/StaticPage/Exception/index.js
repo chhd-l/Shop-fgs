@@ -55,7 +55,7 @@ class Exception extends React.Component {
           data-querystring=""
         >
           <BannerTip />
-          <div className="container full-vh">
+          <div className="container">
             <div className="rc-padding--md rc-text--center rc-bg-colour--interface">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -65,7 +65,7 @@ class Exception extends React.Component {
                 y="0px"
                 viewBox="0 0 260 265"
                 xmlSpace="preserve"
-                className="rc-svg--animated rc-padding-bottom--none"
+                className="rc-svg--animated rc-padding-bottom--none inline-block"
                 data-js-import-interactive-svg=""
                 svg-animate-processed="true"
               >

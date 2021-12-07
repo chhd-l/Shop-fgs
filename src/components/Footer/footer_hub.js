@@ -2,6 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { cookieSettingsBtn } from './cookieSettingsBtn';
 import MarsFooterMap from './MarsFooterMap';
+import PaymentLogos from './paymentLogos';
 import { menubar } from './menubar';
 import { contactInfo } from './contactInfo';
 import './index.css';
@@ -45,12 +46,8 @@ class FooterHub extends React.Component {
     const { footerInfo, cur_contactInfo } = this.state;
     const { isLogin, history } = this.props;
     if (Object.keys(footerInfo).length == 0) return null;
-    const {
-      LocalMarketSettings,
-      MenuGroups,
-      MenuInfoItems,
-      MenuItems
-    } = footerInfo;
+    const { LocalMarketSettings, MenuGroups, MenuInfoItems, MenuItems } =
+      footerInfo;
     const { ContactUsUrl, ContactPhone } = LocalMarketSettings || {};
 
     return (
@@ -170,7 +167,7 @@ class FooterHub extends React.Component {
                 </div>
               </div>
             ) : null}
-            <div className="rc-divider rc-md-up" />
+            <div className="rc-divider rc-md-up rc-hub-divider2" />
             {/* MenuItems Mobile */}
             <div className="rc-md-down rc-layout-container rc-one-column rc-padding-x--xs--desktop rc-margin-top--md--desktop rc-padding-x--none--mobile">
               <div className="rc-column rc-padding-bottom--none">
@@ -239,6 +236,9 @@ class FooterHub extends React.Component {
               </div>
             ) : null}
 
+            {/* payment logos */}
+            <PaymentLogos />
+
             {/* LocalMarketSettings */}
             {cur_contactInfo && ContactUsUrl ? (
               <div className="rc-layout-container rc-two-column rc-padding-x--xs--desktop">
@@ -262,6 +262,7 @@ class FooterHub extends React.Component {
                 )}
               </div>
             ) : null}
+
             {/* 底部横向链接 */}
             <MarsFooterMap />
           </div>

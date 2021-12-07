@@ -49,8 +49,7 @@ const en_US = {
   'account.myAddresses': 'My Addresses',
   'account.myCommunicationPreferencesContent1':
     'Perferred method of communication',
-  'account.myCommunicationPreferencesContent2':
-    'Consents given for communication',
+  'account.myCommunicationPreferencesContent2': 'Email Communication',
   'account.myCommunicationPreferencesDesc':
     'Please click Edit to set your communication preferences.',
   'account.myCommunicationPreferencesTitle': 'My Communication Preferences',
@@ -83,6 +82,7 @@ const en_US = {
   'account.profile': 'My Profile',
   'account.profileTip': 'View and edit your personal information.',
   'account.requiredFields': 'Required fields',
+  'account.requiredFields2': 'Required fields',
   'account.shippingAddressTip': 'Create and edit your shipping address.',
   'account.specialNeeds': 'Special Needs',
   'account.startAutoShipping': 'Learn More',
@@ -220,6 +220,7 @@ const en_US = {
   autoship_nos: 'Autoship',
   autoShipOrderDetails: 'Autoship order details',
   autoShipStarted: 'Autoship started',
+  autoShipStarted2: 'Autoship started',
   autoshop: 'Automatic Shipping',
   backToAuthorization: 'Back to authorization',
   bankCard: 'Credit Card',
@@ -497,6 +498,7 @@ const en_US = {
   'footer.confidentiality': 'Privacy',
   'footer.consistence': 'durability',
   'footer.contactRoyalCanin': 'Contact Royal Canin',
+  'footer.securePaymentMethods': 'Secure Payment Methods',
   'footer.contacts': 'Contacts',
   'footer.contactUs': 'Contact Us',
   'footer.cookieCollectionPolicy': 'Cookie Collection Policy',
@@ -541,6 +543,7 @@ const en_US = {
   FrequentQuestions: 'Common questions',
   from: 'From',
   plpFromText: 'From',
+  plpFromNew: '{started}{plpValue}',
   gender: 'Gender',
   getConsumerAccountFailed: 'Get Consumer Account Failed',
   getDataFailed: 'Get Data Failed',
@@ -589,8 +592,6 @@ const en_US = {
   'home.convenientTip3':
     'Support service: ask a question about your pet to a specialist',
   'home.convenientTitle': 'Why Shop Royal Canin?',
-  'home.note1': '',
-  'home.note2': '',
   'home.pageNotFound': 'Page not found…',
   'home.pageNotFoundInfo':
     'Sorry, the page you are looking for does not exist.',
@@ -666,7 +667,7 @@ const en_US = {
   'ind.IND10003.title3': 'STOOL ODOUR REDUCTION',
   'ind.IND10003.des3':
     'Contains highly digestible protein (L.I.P.)* and helps reduce the quantity and odour of stools. {val} *L.I.P.: protein selected for its very high digestibility',
-  'ind.IND10003.img3': 'image5.png',
+  'ind.IND10003.img3': 'image25.png',
   'ind.IND10003.title4': 'URINARY HEALTH',
   'ind.IND10003.des4':
     "Formulated to help maintain health of an adult cat's urinary system.",
@@ -679,7 +680,7 @@ const en_US = {
   'ind.IND10004.title2': 'STOOL ODOUR REDUCTION',
   'ind.IND10004.des2':
     'Highly digestible protein helps reduce the quantity and odour of stools.',
-  'ind.IND10004.img2': 'image5.png',
+  'ind.IND10004.img2': 'image25.png',
   'ind.IND10004.title3': 'SKIN & COAT HEALTH',
   'ind.IND10004.des3':
     'Contains specific nutrients including EPA and DHA to help maintain a healthy skin and a shiny coat.',
@@ -696,7 +697,7 @@ const en_US = {
   'ind.IND10005.title2': 'STOOL ODOUR REDUCTION',
   'ind.IND10005.des2':
     'Highly digestible protein helps reduce the quantity and odour of stools.',
-  'ind.IND10005.img2': 'image5.png',
+  'ind.IND10005.img2': 'image25.png',
   'ind.IND10005.title3': 'RENAL HEALTH',
   'ind.IND10005.des3':
     'Helps support renal health thanks to an adapted phosphorus level.',
@@ -839,7 +840,7 @@ const en_US = {
   'list.errMsg2':
     'No products found, please change the keywords and try again.',
   'list.errMsg3': 'No filters found, please try again later.',
-  'list.errMsg4':
+  'search.noResultTip':
     'No products found. Please change your search term and try again.',
   'list.youSearchedFor': 'You searched for',
   listPrice: 'List price',
@@ -857,6 +858,7 @@ const en_US = {
   loginFailed: 'login failed',
   logisticsCompany: 'Logistics company',
   logisticsRating: 'Logistics rating',
+  expertAdvice: 'Expert advice',
   logisticsSingleNumber: 'Logistics single number',
   logOff: 'Logout',
   mailAddress: 'Mail address',
@@ -865,7 +867,6 @@ const en_US = {
   manage: 'Manage',
   mandatoryFieldsError: 'You have mandatory fields not filled out!',
   menu: 'Menu',
-  miniBasket: 'Mini basket',
   'mixed Breed': 'mixed Breed',
   'Mixed Breed': 'Mixed Breed',
   MMYY: 'MM/YY',
@@ -893,6 +894,7 @@ const en_US = {
   newAddress: 'New address',
   newPassword: 'New Password',
   next: 'Next',
+  back: 'Back',
   nextShipment: 'Next shipment',
   noClinicTip:
     'Your recommendation code is not valid. {val} & check with our partner clinics for a valid code.',
@@ -1030,6 +1032,7 @@ const en_US = {
   'payment.saveFor': 'Save for next payment',
   'payment.socialId': 'Social id',
   'payment.state': 'State',
+  'payment.county': 'County',
   'payment.region': 'Region',
   'payment.entrance': 'Entrance',
   'payment.apartment': 'Apartment',
@@ -1204,7 +1207,7 @@ const en_US = {
   ratingGrade2: 'Lowest to Highest Rating',
   ratingGrade3: 'Hightest to Lowest Rating',
   receiver: 'Receiver',
-  recommandedForyou: 'Recommanded for you',
+  recommandedForyou: 'Recommended for you',
   seeMoreText: 'see more',
   'recommendation.noMoreRecommendation':
     'The product is no longer available or not available for sale',
@@ -1223,7 +1226,7 @@ const en_US = {
     'Our Autoship service is designed to simplify your life and ensure you always get the best diet for your pet delivered directly to your doorstep.',
   'recommendation.firstTitle':
     'Discover your personally-selected nutrition recommendation below.',
-  'recommendation.firstTitle': 'Never run out of your pet’s food!',
+  // 'recommendation.firstTitle': 'Never run out of your pet’s food!',
   'recommendation.helpContentText.title': "We're Here to Help",
   'recommendation.helpContentText.des':
     "As true pet lovers and experts in tailored nutrition, we're here to help you give your pet the healthiest life possible.",
@@ -1238,11 +1241,11 @@ const en_US = {
   'recommendation.helpContentText.phoneDes2': '8:00 AM - 4:30  PM CT',
   'recommendation.petsImg': 'dog-and-cat.png',
   'recommendation.plusTitle':
-    'Everything Your Pet Needs PLUS Royal Canin Pet Advisor Live',
+    'Everything You And Your Pet Need PLUS a Royal Canin Advisor',
   'recommendation.plusContent':
-    ' No matter the need, we’ve got you covered with exclusive benefits like 24/7 access to pet experts and more through the Royal Canin Club. Joining is easy – sign up for automatic shipping on your pet’s tailored formulas to become a member today.',
+    ' No matter the need, we’ve got you covered with exclusive benefits like access to pet experts and more through the Royal Canin Club. Joining is easy – sign up for automatic shipping on your pet’s tailored formulas to become a member today.',
   'recommendation.plusBtn': 'Start Now',
-  'recommendation.plusImg': 'MRRC-20046_D2C-Advisor_App-Puppy.jpg',
+  'recommendation.plusImg': 'MRRC-20046_D2C-Advisor_App-Puppy2.jpg',
   'recommendation.fiveContent':
     'While neither of ornare risus. Now that sometimes the United States, from high school kids. Earth is no fear that the makeup temperature at zero drink employee. Unfortunately, the price of convenience pot. Arc soccer scores, eu or mourning to invest in the refrigerator. Clinical developers dui dui ultricies arrows, it is sterilized. Financing warm thermal relay. Even before the great, as is the biggest eleifend gravida vel, aliquam sed justo. Unfortunately, developers of football. Freight wagons dis fears manufacturing, the biggest one ugly chocolate. Sed tempor lectus justo. However, it is just that the main clinical time. Tomorrow the diameter at which time we make a weekend. Mauris live skirt layer protein.',
   'recommendation.fourContent':
@@ -1313,6 +1316,7 @@ const en_US = {
   requiredConsentCheckedTip:
     'Please confirm the mandatory fields by ticking the box.',
   requiredFields: '* Required fields',
+  requiredFields2: '* Required fields',
   resetPasswordEmail:
     'Reset password email has been sent to your mailbox, please note that check!',
   results: '{val} Results',
@@ -1347,6 +1351,7 @@ const en_US = {
   setDefaltAddressFailed: 'Set Defalt Address Failed',
   setDefaltAddressSuccess: 'Set Defalt Address Success',
   setDefaultAddress: 'Set as default address',
+  setMyaccountDefaultAddress: 'Set as default address',
   setDefaultPaymentMethod: 'Set as Default Payment method',
   prevShipmentOn: 'Shipment on',
   nextShipmentOn: 'Shipment on',
@@ -1751,6 +1756,67 @@ const en_US = {
   'preciseNutrition.Product.list.content3':
     'Each Royal Canin diet has a precisely adapted nutritional profile, made up of at least 50 individual nutrients that are chosen specifically to support the health and sensitivities of cats and dogs.',
   'checkout.zeroOrder.butSubscription':
-    '0 Price orders do not support subscription, please change to a one-off purchase to pay this order'
+    '0 Price orders do not support subscription, please change to a one-off purchase to pay this order',
+  'preciseNutrition.bsc3.1': 'Ribs visible on shorthaired cats',
+  'preciseNutrition.bsc3.2': 'Obvious waist',
+  'preciseNutrition.bsc3.3': 'A very small amount of abdominal fat',
+  'preciseNutrition.bsc3.4':
+    'When viewed from the side, their abdomen appears tucked up behind their rib cage',
+
+  'preciseNutrition.bsc4.1': 'Ribs are not visible but can be easily felt',
+  'preciseNutrition.bsc4.2': 'Obvious waist',
+  'preciseNutrition.bsc4.3': 'A minimal amount of abdominal fat',
+  'preciseNutrition.bsc4.4': 'Slight abdominal tuck when viewed from the side',
+
+  'preciseNutrition.bsc5.1':
+    'Well proportioned body when viewed from above and from the side',
+  'preciseNutrition.bsc5.2': 'Ribs not visible but can be easily felt',
+  'preciseNutrition.bsc5.3': 'Obvious waist',
+  'preciseNutrition.bsc5.4': 'A small amount of abdominal fat',
+  'preciseNutrition.bsc5.5': 'Slight abdominal tuck when viewed from the side',
+
+  'preciseNutrition.bsc6.1': 'Ribs are not visible but can be felt',
+  'preciseNutrition.bsc6.2': 'Waist not clearly defined when seen from above',
+  'preciseNutrition.bsc6.3':
+    'Very slight abdominal tuck when viewed from the side',
+
+  'preciseNutrition.bsc7.1': 'Ribs are difficult to feel under the fat',
+  'preciseNutrition.bsc7.2': 'Waist barely visible',
+  'preciseNutrition.bsc7.3':
+    'When viewed from the side, their abdomen does not appear tucked up behind their rib cage',
+  'preciseNutrition.bsc7.4': 'Rounding of the abdomen',
+
+  'preciseNutrition.bscTip':
+    'To correctly assess your cat’s body follow this simple steps:',
+  'preciseNutrition.bscTip1':
+    '1. Look at your cat from above and from the side',
+  'preciseNutrition.bscTip2':
+    '2. Feel your cat’s body, gently applying pressure to find the ribs',
+  'productFinder.mixBreed': 'Mix breed',
+  'productFinder.weight': 'weight',
+  'subscription.ongoingOrderForPet': 'Order status for {val}',
+  'subscription.noPetOngoingOrder': 'Order status',
+  'product.plp.foodtype.drydog': 'Dry dog food',
+  'product.plp.foodtype.wetdog': 'Wet dog food',
+  'product.plp.foodtype.drycat': 'Dry cat food',
+  'product.plp.foodtype.wetcat': 'Wet cat food',
+  'list.applyFilters': 'Apply filters',
+  'list.clearFilters': 'Clear all filters',
+  'list.viewFilters': 'View filters',
+  'list.closeFilters': 'Close filters',
+  'order.goodwillOrder': '[Goodwill order]',
+
+  'adyen.storeDetails': 'Save for my next payment',
+  'adyen.holderName': 'Cardholder name',
+  'adyen.creditCard.holderName.placeholder': 'J. Smith',
+  'adyen.creditCard.holderName.invalid': 'Invalid cardholder name',
+  'adyen.creditCard.numberField.title': 'Card Number',
+  'adyen.creditCard.numberField.placeholder': '1234 5678 9012 3456',
+  'adyen.creditCard.numberField.invalid': 'Invalid card number',
+  'adyen.creditCard.expiryDateField.title': 'Expiry Date',
+  'adyen.creditCard.expiryDateField.placeholder': 'MM/YY',
+  'adyen.creditCard.expiryDateField.invalid': 'Invalid expiration date',
+  'adyen.creditCard.cvcField.title': 'CVC / CVV',
+  'adyen.creditCard.cvcField.placeholder': '123'
 };
 export default en_US;

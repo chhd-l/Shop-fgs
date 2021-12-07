@@ -22,7 +22,7 @@ const PhoneAndEmail = ({ loading, details, configStore }: Props) => {
     if (Fr) {
       contactUs = 'https://www.royalcanin.com/fr/contact-us';
     } else if (Tr) {
-      contactUs = 'mailto:opsroyalcanin@tr.webhelp.com'; //邮箱以后不要再代码里面修改了 可以直接在storePortal配置的哦
+      contactUs = 'https://www.royalcanin.com/tr/contact-us'; //邮箱以后不要再代码里面修改了 可以直接在storePortal配置的哦
       contactPhoneNumber = 'https://www.royalcanin.com/tr/contact-us';
     } else if (Ru) {
       contactUs = 'mailto:contact.ru@royalcanin.com';

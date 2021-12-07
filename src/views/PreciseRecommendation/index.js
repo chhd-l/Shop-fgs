@@ -21,6 +21,7 @@ const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 import { getRecommendationInfo } from '@/api/productFinder';
 import Loading from '@/components/Loading';
+import GroupOne from './image/GroupOne.png';
 
 console.info('productList', productList);
 const pageLink = window.location.href;
@@ -93,10 +94,15 @@ class PreciseRecommendation extends React.Component {
         loading: false
       });
       this.handleGA(res);
+    } else {
+      // 没有走回答问题的时候，需要重定向到landingpage
+      this.props.history.push('/precise-cat-nutrition');
     }
   }
 
   componentDidMount() {
+    console.log(this.props);
+    console.log(window);
     setSeoConfig({ pageName: 'preciseRecommendation' }).then((res) => {
       this.setState({ seoConfig: res });
     });
@@ -133,7 +139,7 @@ class PreciseRecommendation extends React.Component {
             values={{
               val: ru ? (
                 <DistributeHubLinkOrATag
-                  href={'/about-us/faqs'}
+                  href={'/about-us/faq'}
                   ariaLabel="Links to faq"
                 >
                   <a
@@ -281,11 +287,12 @@ class PreciseRecommendation extends React.Component {
                                 flexWrap: 'wrap'
                               }}
                             >
-                              <div className="col-12 col-md-5 rc-padding--none order-1 order-md-0  orderJoin1">
+                              <div className="col-12 col-md-5 rc-padding--none order-1 md:order-0  orderJoin1">
                                 <div className="rc-column rc-padding--none">
                                   <h4
                                     className="rc-beta font-weight-bold text-lg-left text-center"
                                     style={{
+                                      textTransform: 'uppercase',
                                       fontSize: isMobile ? '18px' : null
                                     }}
                                   >
@@ -298,7 +305,13 @@ class PreciseRecommendation extends React.Component {
                                     />
                                   </h4>
                                   <div className="text-lg-left text-center rc-padding-right--sm--desktop">
-                                    <FormattedMessage id="preciseNutrition.Below.content" />
+                                    <FormattedMessage
+                                      id="preciseNutrition.Below.content"
+                                      values={{
+                                        val: this.state.recommData
+                                          ?.customerPetsVo?.name
+                                      }}
+                                    />
                                   </div>
                                   <div className="text-lg-left text-center mb-3">
                                     <FormattedMessage id="preciseNutrition.Below.list" />
@@ -339,7 +352,7 @@ class PreciseRecommendation extends React.Component {
                                   </ul>
                                 </div>
                               </div>
-                              <div className="col-12 col-md-7 rc-padding-right--none rc-padding-x--none order-1 order-md-0 orderJoin1">
+                              <div className="col-12 col-md-7 rc-padding-right--none rc-padding-x--none order-1 md:order-0 orderJoin1">
                                 <div
                                   className="rc-column rc-padding--none text-right"
                                   style={{
@@ -353,7 +366,7 @@ class PreciseRecommendation extends React.Component {
                                   <LazyLoad>
                                     <img
                                       className="w-100 lazyloaded"
-                                      src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/Group%206-1.png`}
+                                      src={GroupOne}
                                     />
                                   </LazyLoad>
                                 </div>

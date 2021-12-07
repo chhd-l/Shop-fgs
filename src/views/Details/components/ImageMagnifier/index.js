@@ -236,7 +236,7 @@ class ImageMagnifier extends Component {
   // 鼠标移动
   mouseMove = (event) => {
     let e = event.nativeEvent;
-    console.log(event, 'event', e);
+    // console.log(event, 'event', e);
     this.calculationBlock(e.offsetX, e.offsetY);
   };
 
@@ -298,7 +298,7 @@ class ImageMagnifier extends Component {
     });
   }
   imageChange(e, image, i) {
-    console.log(i);
+    // console.log(i);
     let cssStyle = JSON.parse(JSON.stringify(this.state.cssStyle));
     cssStyle.imgContainer.cursor = 'move';
     this.setState({
@@ -361,10 +361,12 @@ class ImageMagnifier extends Component {
       video,
       taggingForText,
       taggingForImage,
+      taggingChildren,
+      bigImageOutBoxClassName,
       spuImages,
       imgAlt
     } = this.props;
-    console.log(spuImages, this.state.minImg, 'spuImages');
+    // console.log(spuImages, this.state.minImg, 'spuImages');
     if (window.__.env.REACT_APP_COUNTRY !== 'fr' && spuImages.length) {
       let idx = spuImages.findIndex((el) => el.imageType === 'master');
       let masterIndex = idx < 0 ? 0 : idx;
@@ -382,7 +384,10 @@ class ImageMagnifier extends Component {
       <div>
         <div className="position-relative">
           {/* <div className="bigImageOutBox" style={cssStyle.imgContainer}> */}
-          <div className="bigImageOutBox" style={cssStyle.imgContainer}>
+          <div
+            className={`bigImageOutBox ${bigImageOutBoxClassName}`}
+            style={cssStyle.imgContainer}
+          >
             {taggingForText ? (
               <div
                 className="product-item-flag-text"
@@ -394,6 +399,7 @@ class ImageMagnifier extends Component {
                 {taggingForText.taggingName}
               </div>
             ) : null}
+            {taggingChildren ? taggingChildren : null}
             <div
               className="bigImageInnerBox rc-loaded--final"
               style={{
@@ -507,7 +513,7 @@ class ImageMagnifier extends Component {
           </em>
           <div className="imageOutBox">
             <div
-              className="justify-content-center imageInnerBox text-center text-md-left"
+              className="justify-content-center imageInnerBox text-center md:text-left"
               style={{
                 marginTop: '2rem',
                 textAlign: imgCount <= 5 ? 'center' : 'left',

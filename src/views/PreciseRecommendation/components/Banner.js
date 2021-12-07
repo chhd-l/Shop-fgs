@@ -9,6 +9,15 @@ import { sitePurchase } from '@/api/cart';
 import LoginButton from '@/components/LoginButton';
 import './Banner.less';
 import productImg from '@/assets/images/preciseCatNutrition/productimg.png';
+import product1 from '../image/product1.png';
+import product2 from '../image/product2.png';
+import product3 from '../image/product3.png';
+import product4 from '../image/product4.png';
+import lefticon from '../image/lefticon.png';
+import righticon from '../image/righticon.png';
+import productback1 from '../image/productBack1.png';
+import productImage2 from '../image/productImage2.png';
+
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -32,9 +41,10 @@ const BannerFour = ({ intl }) => {
       text: intl.messages['preciseNutrition.bannertext4']
     }
   ];
+
   return (
     <div
-      className=" row col-12 text-center  rc-margin-top--md rc-padding-x--xl"
+      className=" row col-12 text-center  rc-margin-top--md--desktop rc-margin-top--lg--mobile rc-padding-x--xl"
       style={{
         maxWidth: 730,
         padding: isMobile ? null : 0,
@@ -42,7 +52,10 @@ const BannerFour = ({ intl }) => {
       }}
     >
       {bannerList.map((el, idx) => (
-        <div className={`${isMobile ? 'col-6' : 'col-3'}`}>
+        <div
+          className={`${isMobile ? 'col-6' : 'col-3'}`}
+          style={isMobile ? { marginBottom: '20px' } : {}}
+        >
           <LazyLoad>
             <img
               className="m-auto"
@@ -63,6 +76,44 @@ const BannerFour = ({ intl }) => {
   );
 };
 
+const bannerProductList = [
+  {
+    imageSrc: productback1,
+    imageCurrent: 0
+  },
+  {
+    imageSrc: product2,
+    imageCurrent: 1
+  },
+  {
+    imageSrc: product3,
+    imageCurrent: 2
+  },
+  {
+    imageSrc: product4,
+    imageCurrent: 3
+  }
+];
+
+const bannerProductDetailList = [
+  {
+    imageSrc: product1,
+    imageCurrent: 0
+  },
+  {
+    imageSrc: productImage2,
+    imageCurrent: 1
+  },
+  {
+    imageSrc: product3,
+    imageCurrent: 2
+  },
+  {
+    imageSrc: product4,
+    imageCurrent: 3
+  }
+];
+
 const Banner = ({ productShowInfo, intl, recommData, history }) => {
   const { loginStore, configStore, checkoutStore, clinicStore } = useLocalStore(
     () => stores
@@ -70,6 +121,9 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
   const [totalWeight, setTotalWeight] = useState('');
   const [loading, setLoading] = useState(false);
   const [addCartBtnStatus, setAddCartBtnStatus] = useState(false);
+
+  const [imageCurrent, setImageCurrent] = useState(0);
+
   useEffect(() => {
     if (!recommData.totalPackWeight) {
       return;
@@ -77,11 +131,6 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
     let newAddCartBtnStatus =
       recommData?.goodsInfo?.stock >= recommData?.goodsInfo?.buyCount;
     setAddCartBtnStatus(newAddCartBtnStatus);
-    let newTotalWeight = recommData.totalPackWeight + 'kg';
-    if (recommData?.weightUnit?.toLowerCase() == 'g') {
-      newTotalWeight = recommData.totalPackWeight / 1000 + 'kg';
-    }
-    setTotalWeight(newTotalWeight);
   }, [recommData.totalPackWeight]);
   const hanldeUnloginAddToCart = async () => {
     let { goodsInfo, customerPetsVo } = recommData;
@@ -140,6 +189,9 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
       console.info('err');
       return;
     }
+    if (!addCartBtnStatus) {
+      return;
+    }
     let petInfo = Object.assign({}, customerPetsVo, {
       petType: 'cat'
     });
@@ -163,7 +215,10 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
       await sitePurchase(params);
       let recommendProd = Object.assign({}, params, recommData, goodsInfo);
       // sessionItemRoyal.set('recommend_product', JSON.stringify([recommendProd]));
-      await checkoutStore.updateLoginCart({ delFlag: 1 });
+      await checkoutStore.updateLoginCart({
+        delFlag: 1,
+        intl
+      });
       history.push('/checkout');
       // const url = await distributeLinktoPrecriberOrPaymentPage({
       //   configStore,
@@ -203,26 +258,64 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                       <div className="rc-column rc-double-width pl-0">
                         <LazyLoad>
                           <img
-                            src={productImg}
+                            src={bannerProductDetailList[imageCurrent].imageSrc}
                             // src={productImg}
+                            style={{ height: '341px' }}
                           />
                         </LazyLoad>
-                        <LazyLoad>
-                          <img
-                            style={{ width: '100px', marginLeft: '-90%' }}
-                            src={productImg}
-                            // src={productImg}
-                          />
-                        </LazyLoad>
+                        <div className="row">
+                          <div
+                            className="col-1 flex align-self-center"
+                            onClick={() => {
+                              if (imageCurrent > 0) {
+                                setImageCurrent(imageCurrent - 1);
+                              } else {
+                                setImageCurrent(3);
+                              }
+                            }}
+                          >
+                            <LazyLoad>
+                              <img src={lefticon} style={{ width: '10px' }} />
+                            </LazyLoad>
+                          </div>
+                          {bannerProductList.map((index) => (
+                            <div
+                              onClick={() => {
+                                setImageCurrent(index.imageCurrent);
+                              }}
+                            >
+                              <LazyLoad>
+                                <img
+                                  style={{ width: '90px', margin: '5px' }}
+                                  src={index.imageSrc}
+                                />
+                              </LazyLoad>
+                            </div>
+                          ))}
+                          <div
+                            className="col-1 flex align-self-center"
+                            onClick={() => {
+                              if (imageCurrent < 3) {
+                                setImageCurrent(imageCurrent + 1);
+                              } else {
+                                setImageCurrent(0);
+                              }
+                            }}
+                          >
+                            <LazyLoad>
+                              <img src={righticon} style={{ width: '10px' }} />
+                            </LazyLoad>
+                          </div>
+                        </div>
                       </div>
 
                       <div className="rc-column rc-triple-width">
                         <h2
                           className="rc-text-colour--brand1"
                           style={{
-                            fontSize: '40px',
+                            fontSize: '34px',
                             textTransform: 'uppercase',
-                            fontWeight: '700',
+                            fontWeight: '600',
                             textAlign: 'left'
                           }}
                         >
@@ -242,7 +335,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                               style={{ lineHeight: '24px' }}
                             >
                               <FormattedMessage id="preciseNutrition.banner.des1" />
-                              ,
+                              .{' '}
                               <FormattedMessage
                                 id={productShowInfo.recoSentence}
                               />
@@ -257,7 +350,8 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                                 style={{ color: '#444', fontWeight: '600' }}
                               >
                                 {recommData.weight}
-                                {recommData.weightUnit}/
+                                {/* {recommData.weightUnit}/ */}
+                                /
                                 <FormattedMessage id="preciseNutrition.banner.day" />
                               </strong>
                               <br />
@@ -266,8 +360,9 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                               <strong
                                 style={{ color: '#444', fontWeight: '600' }}
                               >
-                                {totalWeight}
-                                {/* {recommData.totalPackWeight} {recommData.weightUnit}/day */}
+                                {/* {totalWeight} */}
+                                {recommData.totalPackWeight}
+                                {/* {recommData.weightUnit}/day */}
                               </strong>
                             </div>
                             <div
@@ -285,15 +380,15 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                                 style={{
                                   color: '#444',
                                   fontSize: '37px',
-                                  fontWeight: '600',
+                                  fontWeight: '550',
                                   margin: '-8px 0'
                                 }}
                               >
-                                {formatMoney(recommData.dailyPrice)}/
+                                {formatMoney(recommData.dailyPrice)} /&nbsp;
                                 <FormattedMessage id="preciseNutrition.banner.day" />
                               </div>
                               <div style={{ color: '#444', fontSize: '29px' }}>
-                                {formatMoney(recommData.totalPrice)}/
+                                {formatMoney(recommData.totalPrice)} /&nbsp;
                                 <FormattedMessage id="preciseNutrition.banner.month" />
                               </div>
                             </div>
@@ -301,29 +396,12 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                               className="relative"
                               style={{ lineHeight: '1.2' }}
                             >
-                              <div
-                                className="rc-margin-bottom--xs"
-                                style={{
-                                  color: '#008900',
-                                  fontSize: '24px',
-                                  fontWeight: '600',
-                                  whiteSpace: 'nowrap'
-                                }}
-                              >
-                                -25% on first order{' '}
-                                <span
-                                  style={{ color: '#444', fontWeight: 300 }}
-                                >
-                                  *
-                                </span>
-                              </div>
                               {loginStore.isLogin ? (
                                 <button
                                   onClick={handleBuyNow}
                                   className={`rc-btn rc-btn--one
                         ${loading ? 'ui-btn-loading' : ''} ${
-                                    recommData?.goodsInfo?.stock >=
-                                    recommData?.goodsInfo?.buyCount
+                                    addCartBtnStatus
                                       ? ''
                                       : 'rc-btn-solid-disabled'
                                   }`}
@@ -382,33 +460,86 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
             className="rc-margin-y--lg  text-left"
             style={{ lineHeight: '24px' }}
           >
-            <FormattedMessage id="preciseNutrition.banner.des1" />,
+            <FormattedMessage id="preciseNutrition.banner.des1" />.{' '}
             <FormattedMessage id={productShowInfo.recoSentence} />
           </div>
           <LazyLoad>
-            <img src={productImg} />
+            <img src={bannerProductDetailList[imageCurrent].imageSrc} />
           </LazyLoad>
-
-          <div className="rc-margin-y--md">
-            <LazyLoad>
-              <img
-                className="text-center"
-                style={{ width: '100px', marginLeft: '20%' }}
-                src={productImg}
-              />
-            </LazyLoad>
+          <div className="row justify-content-center align-items-center">
+            <div
+              className="col-1 flex align-self-center"
+              onClick={() => {
+                if (imageCurrent > 1) {
+                  setImageCurrent(imageCurrent - 1);
+                } else {
+                  setImageCurrent(3);
+                }
+              }}
+            >
+              <LazyLoad>
+                <img
+                  src={lefticon}
+                  style={{ width: '12px', maxWidth: 'inherit' }}
+                />
+              </LazyLoad>
+            </div>
+            {bannerProductList.map((index) => (
+              <div
+                className="col-2 flex align-self-center py-0 px-0"
+                onClick={() => {
+                  setImageCurrent(index.imageCurrent);
+                }}
+              >
+                <LazyLoad>
+                  <img
+                    src={index.imageSrc}
+                    // src={productImg}
+                  />
+                </LazyLoad>
+              </div>
+            ))}
+            <div
+              className="col-1 flex align-self-center"
+              onClick={() => {
+                if (imageCurrent < 3) {
+                  setImageCurrent(imageCurrent + 1);
+                } else {
+                  setImageCurrent(0);
+                }
+              }}
+            >
+              <LazyLoad>
+                <img
+                  src={righticon}
+                  style={{ width: '12px', maxWidth: 'inherit' }}
+                />
+              </LazyLoad>
+            </div>
           </div>
+
+          {/*<div className="rc-margin-y--md">*/}
+          {/*  <LazyLoad>*/}
+          {/*    <img*/}
+          {/*      className="text-center"*/}
+          {/*      style={{ width: '100px', marginLeft: '20%' }}*/}
+          {/*      src={productImg}*/}
+          {/*    />*/}
+          {/*  </LazyLoad>*/}
+          {/*</div>*/}
           <div className="rc-margin-bottom--xs" style={{ lineHeight: '24px' }}>
             <FormattedMessage id="preciseNutrition.banner.portion" />:{' '}
             <strong style={{ color: '#444', fontWeight: '600' }}>
-              {recommData.weight} {recommData.weightUnit}/
-              <FormattedMessage id="preciseNutrition.banner.day" />
+              {recommData.weight}
+              {/* {recommData.weightUnit}/ */}
+              /<FormattedMessage id="preciseNutrition.banner.day" />
             </strong>
             <br />
             <FormattedMessage id="preciseNutrition.banner.weight" />:{' '}
             <strong style={{ color: '#444', fontWeight: '600' }}>
-              {totalWeight}
-              {/* {recommData.totalPackWeight} {recommData.weightUnit}/day */}
+              {/* {totalWeight} */}
+              {recommData.totalPackWeight}
+              {/*  {recommData.weightUnit}/day */}
             </strong>
           </div>
           <div className="rc-margin-bottom--md">
@@ -428,13 +559,6 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
               <FormattedMessage id="preciseNutrition.banner.month" />
             </div>
           </div>
-          <div
-            className="rc-margin-bottom--xs"
-            style={{ color: '#008900', fontSize: '24px', fontWeight: 400 }}
-          >
-            -25% on first order{' '}
-            <span style={{ color: '#444', fontWeight: 300 }}>*</span>
-          </div>
           <div className="rc-margin-bottom--lg" style={{ lineHeight: '24px' }}>
             <FormattedMessage id="preciseNutrition.banner.des2" /> <br />
             <FormattedMessage id="preciseNutrition.banner.des3" />
@@ -446,9 +570,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
               onClick={handleBuyNow}
               className={`rc-btn rc-btn--one
           ${loading ? 'ui-btn-loading' : ''} ${
-                recommData?.goodsInfo?.stock >= recommData?.goodsInfo?.buyCount
-                  ? ''
-                  : 'rc-btn-solid-disabled'
+                addCartBtnStatus ? '' : 'rc-btn-solid-disabled'
               }`}
             >
               <FormattedMessage id="preciseNutrition.banner.button" />
@@ -506,9 +628,10 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
         <div className="rc-column">
           {productShowInfo.provenBenefits?.map((item) => (
             <div className="d-flex">
-              <div className="rc-padding-right--xs" style={{ width: '78px' }}>
+              <div className="rc-padding-right--xs">
                 <LazyLoad>
                   <img
+                    style={{ width: '70px' }}
                     // style={{ transform: 'scale(0.7)', transformOrigin: 'top' }}
                     src={`${
                       window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX

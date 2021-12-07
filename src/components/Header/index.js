@@ -116,6 +116,21 @@ class Header extends React.Component {
       this.handleLogout();
       return false;
     }
+    // 除了precise-cat-nutrition-recommendation，进入其他页面都需要清空precise-cat-nutrition-recommendation的进入标识
+    // let nutritionRecommendation = sessionItemRoyal.get(
+    //   'nutrition-recommendation-filter'
+    // );
+    // if (
+    //   nutritionRecommendation &&
+    //   !window.location.href.includes('/precise-cat-nutrition-recommendation')
+    // ) {
+    //   let newNutritionRecommendation = JSON.parse(nutritionRecommendation);
+    //   newNutritionRecommendation.nextPageIsReco = false;
+    //   sessionItemRoyal.set(
+    //     'nutrition-recommendation-filter',
+    //     JSON.stringify(newNutritionRecommendation)
+    //   );
+    // }
     // indv在未登录购物车的商品在刷新页面的时候均应该被删除
     let indvIdex = toJS(checkoutStore.cartData)?.findIndex(
       (el) => el.goodsInfoFlag == 3
@@ -130,8 +145,8 @@ class Header extends React.Component {
     }
     // this.props.checkoutStore.removeCartData()
     window.addEventListener('scroll', (e) => this.handleScroll(e));
-
     const { location, clinicStore } = this.props;
+
     let clinicRecoCode = funcUrl({ name: 'code' });
     let linkClinicId = funcUrl({ name: 'clinic' });
     let linkClinicName = '';
@@ -183,25 +198,25 @@ class Header extends React.Component {
     }
 
     // 埋点
-    setBuryPoint({
-      id: this.userInfo ? this.userInfo.customerId : '',
-      prescriber: this.props.clinicStore.clinicId,
-      clientType: getDeviceType(),
-      skuId:
-        this.props.match && this.props.match.path === '/details/:id'
-          ? this.props.match.params.id
-          : '',
-      shopId: window.__.env.REACT_APP_STOREID,
-      page:
-        clinicRecoCode || linkClinicId
-          ? '5'
-          : {
-              '/': '1',
-              '/cart': '2',
-              '/checkout': '3',
-              '/confirmation': '4'
-            }[this.props.match && this.props.match.path] || ''
-    });
+    // setBuryPoint({
+    //   id: this.userInfo ? this.userInfo.customerId : '',
+    //   prescriber: this.props.clinicStore.clinicId,
+    //   clientType: getDeviceType(),
+    //   skuId:
+    //     this.props.match && this.props.match.path === '/details/:id'
+    //       ? this.props.match.params.id
+    //       : '',
+    //   shopId: window.__.env.REACT_APP_STOREID,
+    //   page:
+    //     clinicRecoCode || linkClinicId
+    //       ? '5'
+    //       : {
+    //           '/': '1',
+    //           '/cart': '2',
+    //           '/checkout': '3',
+    //           '/confirmation': '4'
+    //         }[this.props.match && this.props.match.path] || ''
+    // });
 
     (+window.__.env.REACT_APP_HUB
       ? this.initNavigationsForHub
@@ -225,6 +240,7 @@ class Header extends React.Component {
           const targetRes = pageEnumRes.filter((ele) => ele.id === item.pageId);
           let tmpLink = null;
           let tmpHref = null;
+          // item.interaction 0-本窗口打开 1-新窗口打开
           if (item.interaction === 0 && targetRes.length) {
             const pageVal = targetRes[0].valueEn;
             if (pageVal) tmpLink = { pathname: `${item.navigationLink}` };

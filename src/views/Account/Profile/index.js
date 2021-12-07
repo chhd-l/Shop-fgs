@@ -129,6 +129,7 @@ class AccountProfile extends React.Component {
           ? context.birthDay.split('-').join('/')
           : context.birthDay,
         country: context.countryId,
+        county: context.county,
         cityId: context.cityId,
         city: context.city,
         areaId: context.areaId,
@@ -227,7 +228,10 @@ class AccountProfile extends React.Component {
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3 p-basicinfo">
           <BannerTip />
           <BreadCrumbs />
-          <div className="rc-padding--sm rc-max-width--xl">
+          <div
+            className="rc-padding--sm rc-max-width--xl"
+            id="rc_myaccount_profile"
+          >
             <div className="rc-layout-container rc-five-column">
               <SideMenu type="Profile" customCls="rc-md-up" />
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
@@ -235,7 +239,7 @@ class AccountProfile extends React.Component {
                   <Link to="/account" className="rc-md-down mb-2 inlineblock">
                     <span className="red">&lt;</span>
                     <span className="rc-styled-link rc-progress__breadcrumb ml-2">
-                      <FormattedMessage id="home" />
+                      <FormattedMessage id="account.home" />
                     </span>
                   </Link>
                 )}

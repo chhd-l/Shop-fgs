@@ -33,7 +33,7 @@ const JoinTodayNew = () => {
                       flexWrap: 'wrap'
                     }}
                   >
-                    <div className="col-12 col-md-4 order-1 order-md-0  orderJoin1">
+                    <div className="col-12 col-md-4 order-1 md:order-0  orderJoin1">
                       <div className="rc-column rc-padding--none">
                         <LazyLoad>
                           {window.__.env.REACT_APP_COUNTRY == 'ru' ? (
@@ -56,7 +56,7 @@ const JoinTodayNew = () => {
                         </LazyLoad>
                       </div>
                     </div>
-                    <div className="col-12 col-md-4 m-auto rc-padding-x--sm rc-padding-x--lg--mobile rc-padding-top--lg--mobile order-0 order-md-1 orderJoin2">
+                    <div className="col-12 col-md-4 m-auto rc-padding-x--sm rc-padding-x--lg--mobile rc-padding-top--lg--mobile order-0 md:order-1 orderJoin2">
                       <div className="text-center">
                         <h2 style={{ fontWeight: '550' }}>
                           <FormattedMessage id="ClubLP.NewJoinUs.title" />
@@ -75,6 +75,14 @@ const JoinTodayNew = () => {
                           ariaLabel="Links to product finder"
                         >
                           <button
+                            onClick={() => {
+                              window.__.env.REACT_APP_COUNTRY == 'ru' &&
+                                dataLayer.push({
+                                  event: 'ruClubSubscriptionCtA',
+                                  ruClubSubscriptionCtAName:
+                                    'Choose a diet - Middle'
+                                });
+                            }}
                             className="rc-btn rc-btn--one"
                             style={{
                               paddingLeft: '90px',
@@ -86,7 +94,7 @@ const JoinTodayNew = () => {
                         </DistributeHubLinkOrATag>
                       </div>
                     </div>
-                    <div className="col-12 col-md-4 order-2 order-md-2 ">
+                    <div className="col-12 col-md-4 order-2 md:order-2 ">
                       <div className="rc-column rc-padding--none">
                         <LazyLoad height={180}>
                           {window.__.env.REACT_APP_COUNTRY == 'ru' ? (

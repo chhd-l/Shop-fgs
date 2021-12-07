@@ -16,6 +16,15 @@ import AddressPreview from './Preview';
 import './VisitorAddress.css';
 
 const localItemRoyal = window.__.localItemRoyal;
+const sessionItemRoyal = window.__.sessionItemRoyal;
+
+const sleep = (time) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, time);
+  });
+};
 
 /**
  * delivery/billing adress module - visitor
@@ -72,9 +81,8 @@ class VisitorAddress extends React.Component {
       selectVisitorValidationOption: 'suggestedAddress',
       visitorBtnLoading: false
     };
-    this.confirmVisitorValidationAddress = this.confirmVisitorValidationAddress.bind(
-      this
-    );
+    this.confirmVisitorValidationAddress =
+      this.confirmVisitorValidationAddress.bind(this);
   }
   componentDidMount() {
     this.validData({
@@ -100,6 +108,7 @@ class VisitorAddress extends React.Component {
     return this.props.type === 'delivery' ? 'deliveryAddr' : 'billingAddr';
   }
   validData = async ({ data }) => {
+    const { intl } = this.props;
     try {
       // 如果有返回运费数据，则计算运费折扣并显示
       if (data?.calculationStatus) {
@@ -108,7 +117,7 @@ class VisitorAddress extends React.Component {
       if (!data?.formRule || (data?.formRule).length <= 0) {
         return;
       }
-      await validData(data.formRule, data); // 数据验证
+      await validData({ rule: data.formRule, data, intl }); // 数据验证
       this.setState({ isValid: true, unConfirmedForm: data }, () => {
         // console.log('--------- ★★★★★★ VisitorAddress 验证通过');
         this.props.updateFormValidStatus(this.state.isValid);
@@ -265,7 +274,11 @@ class VisitorAddress extends React.Component {
           }`}
         />{' '}
         <span>
-          <FormattedMessage id="payment.deliveryTitle" />
+          {sessionItemRoyal.get('from-felin') ? (
+            <FormattedMessage id="Felin Address" />
+          ) : (
+            <FormattedMessage id="payment.deliveryTitle" />
+          )}
         </span>
       </>
     ) : (
@@ -302,13 +315,15 @@ class VisitorAddress extends React.Component {
           {this.titleJSX()}
           <span className="iconfont font-weight-bold green ml-2">&#xe68c;</span>
         </h5>
-        <p
-          onClick={this.handleClickEdit}
-          className="rc-styled-link mb-1"
-          style={{ cursor: 'pointer' }}
-        >
-          <FormattedMessage id="edit" />
-        </p>
+        {!sessionItemRoyal.get('from-felin') && (
+          <p
+            onClick={this.handleClickEdit}
+            className="rc-styled-link mb-1"
+            style={{ cursor: 'pointer' }}
+          >
+            <FormattedMessage id="edit" />
+          </p>
+        )}
       </>
     );
   };
@@ -335,11 +350,8 @@ class VisitorAddress extends React.Component {
   };
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmVisitorValidationAddress() {
-    const {
-      form,
-      selectVisitorValidationOption,
-      validationAddress
-    } = this.state;
+    const { form, selectVisitorValidationOption, validationAddress } =
+      this.state;
     let oldForm = JSON.parse(JSON.stringify(form));
     this.setState({
       visitorBtnLoading: true
@@ -514,7 +526,6 @@ class VisitorAddress extends React.Component {
         countryId: form.countryId,
         minDeliveryTime: pickupFormData.minDeliveryTime,
         maxDeliveryTime: pickupFormData.maxDeliveryTime,
-        workTime: pickupFormData.workTime,
         province: pkaddr?.region,
         provinceIdStr: pkaddr?.regionFias,
         provinceCode: pkaddr?.regionIsoCode,
@@ -716,4 +727,4 @@ class VisitorAddress extends React.Component {
     );
   }
 }
-export default VisitorAddress;
+export default injectIntl(VisitorAddress, { forwardRef: true });

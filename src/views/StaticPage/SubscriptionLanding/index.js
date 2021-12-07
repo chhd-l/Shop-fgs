@@ -185,7 +185,7 @@ class SubscriptionLanding extends React.Component {
                               val1: <br />,
                               val2: (
                                 <strong>
-                                  répondant aux besoins de votre animal
+                                  <FormattedMessage id="subscription.ad.list1.val2" />
                                 </strong>
                               ),
                               val3: <br />
@@ -208,7 +208,11 @@ class SubscriptionLanding extends React.Component {
                           <FormattedMessage
                             id="subscription.ad.list2"
                             values={{
-                              val1: <strong>l'expédition automatique</strong>
+                              val1: (
+                                <strong>
+                                  <FormattedMessage id="subscription.ad.list2.val1" />
+                                </strong>
+                              )
                             }}
                           />
                         </h7>
@@ -231,7 +235,7 @@ class SubscriptionLanding extends React.Component {
                             values={{
                               val1: (
                                 <strong>
-                                  Recevez votre produit automatiquement
+                                  <FormattedMessage id="subscription.ad.list3.val1" />
                                 </strong>
                               )
                             }}
@@ -251,7 +255,11 @@ class SubscriptionLanding extends React.Component {
                           <FormattedMessage
                             id="subscription.ad.list4"
                             values={{
-                              val1: <strong>tout moment</strong>
+                              val1: (
+                                <strong>
+                                  <FormattedMessage id="subscription.ad.list4.val1" />
+                                </strong>
+                              )
                             }}
                           />
                         </h7>
@@ -270,7 +278,7 @@ class SubscriptionLanding extends React.Component {
                   <div className="rc-bg-colour--brand4">
                     <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
                       <div className="row rc-max-width--lg rc-match-heights rc-padding-y--sm">
-                        <div className="col-12 col-md-4 order-1 order-md-0">
+                        <div className="col-12 col-md-4 order-1 md:order-0">
                           <div className="rc-column rc-padding--none">
                             <LazyLoad>
                               <img
@@ -289,7 +297,7 @@ class SubscriptionLanding extends React.Component {
                             </Link>
                           </div>
                         </div>
-                        <div className="col-12 col-md-4 m-auto rc-padding-x--sm rc-padding-x--lg--mobile rc-padding-top--lg--mobile order-0 order-md-1">
+                        <div className="col-12 col-md-4 m-auto rc-padding-x--sm rc-padding-x--lg--mobile rc-padding-top--lg--mobile order-0 md:order-1">
                           <div className="rc-gamma rc-text--center rc-margin-bottom--xs">
                             <FormattedMessage id="subscription.banner.title" />
                           </div>
@@ -312,7 +320,7 @@ class SubscriptionLanding extends React.Component {
                                to="/dogs"><FormattedMessage id="account.dog" /></Link> */}
                           </div>
                         </div>
-                        <div className="col-12 col-md-4 order-2 order-md-2">
+                        <div className="col-12 col-md-4 order-2 md:order-2">
                           <div className="rc-column rc-padding--none">
                             <LazyLoad>
                               <img
@@ -357,8 +365,8 @@ class SubscriptionLanding extends React.Component {
                     <div className="rc-full-width">
                       <div className="experience-component experience-assets-contactUsBlock">
                         <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
-                          <div className="rc-layout-container rc-two-column rc-margin-y--sm text-center text-md-left rc-margin-top--lg--mobile"></div>
-                          <div className="rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center text-md-left">
+                          <div className="rc-layout-container rc-two-column rc-margin-y--sm text-center md:text-left rc-margin-top--lg--mobile"></div>
+                          <div className="rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center md:text-left">
                             <div className="rc-column rc-double-width rc-padding--none">
                               <article className="rc-full-width rc-column rc-margin-top--md--mobile">
                                 <div className="rc-border-all rc-border-colour--interface fullHeight">

@@ -3,14 +3,16 @@ const env = {
     // #国家
     REACT_APP_COUNTRY: 'us',
 
+    // 语言文件
+    REACT_APP_LANG_LOCALE: 'en-US',
+
+    REACT_APP_CALENDAR_LOCALE: 'en-US',
+
     // #GA环境配置
     REACT_APP_GA_GTMID: 'GTM-TML5H48',
     REACT_APP_GTM_SITE_ID: 'RCGlobalPCO1',
     REACT_APP_GA_COUNTRY: 'US',
     REACT_APP_GA_CURRENCY_CODE: 'USD',
-
-    // #Adyen
-    REACT_APP_Adyen_country: 'US',
 
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT: '',
@@ -18,6 +20,7 @@ const env = {
 
     // #language
     REACT_APP_LANG: 'en',
+    REACT_APP_HTML_LANG: 'en',
     REACT_APP_NAVIGATOR_LANG: 'en',
     REACT_APP_CURRENCY: 'USD',
 
@@ -32,9 +35,6 @@ const env = {
     REACT_APP_LIMITED_NUM: '20',
     // #商品种类限制
     REACT_APP_LIMITED_CATE_NUM: '100',
-
-    // #货币单位
-    REACT_APP_CURRENCY_TYPE: '3',
 
     // #是否开启promotion
     REACT_APP_IS_PROMOTION: 'true',
@@ -55,9 +55,6 @@ const env = {
     REACT_APP_HIDE_ACCOUNT_BILLING_ADDR: '1',
 
     REACT_APP_HIDE_ACCOUNT_COMMUNICATION_MESSENGERS: '1',
-
-    // #PLP cover style
-    REACT_APP_PLP_STYLE: 'layout-global',
 
     // #HUB_GA
     REACT_APP_HUB_GA: '1',
@@ -181,7 +178,11 @@ const env = {
 
     // #onetrust
     REACT_APP_ONTRUST_SRC:
-      'https://optanon.blob.core.windows.net/consent/82d92b37-7d64-443e-a23f-5efbb17770be-test.js',
+      'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js',
+
+    // #onetrust
+    REACT_APP_ONTRUST_DOMAIN_SCRIPT:
+      '83dcdb6d-4c72-4616-83c5-05930054b124-test',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/us',
@@ -208,7 +209,10 @@ const env = {
 
     // #onetrust
     REACT_APP_ONTRUST_SRC:
-      'https://optanon.blob.core.windows.net/consent/82d92b37-7d64-443e-a23f-5efbb17770be.js',
+      'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js',
+
+    // #onetrust
+    REACT_APP_ONTRUST_DOMAIN_SCRIPT: '83dcdb6d-4c72-4616-83c5-05930054b124',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/',

@@ -18,6 +18,7 @@ import { userBindConsent } from '@/api/consent';
 import Modal from '@/components/Modal';
 import { inject, observer } from 'mobx-react';
 import { addEventListenerArr } from './addEventListener';
+import { EMAIL_REGEXP } from '@/utils/constant';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -61,7 +62,8 @@ class Register extends Component {
       hasError: false,
       errorMessage: '',
       firstNameValid: true,
-      lastNameValid: true
+      lastNameValid: true,
+      passwordInputType: 'password'
     };
     this.sendList = this.sendList.bind(this);
     this.initConsent = this.initConsent.bind(this);
@@ -133,28 +135,46 @@ class Register extends Component {
       const optioalList = result.context.optionalList.map((item) => {
         return {
           id: item.id,
-          consentTitle: item.consentTitle,
+          consentTitle:
+            window.__.env.REACT_APP_COUNTRY === 'uk'
+              ? item.consentRegisterTitle || item.consentTitle
+              : item.consentTitle,
           isChecked: false,
           isRequired: false,
-          detailList: item.detailList
+          detailList: item.detailList,
+          consentDesc: item.consentDesc
         };
       });
 
       const requiredList = result.context.requiredList.map((item) => {
         return {
           id: item.id,
-          consentTitle: item.consentTitle,
+          consentTitle:
+            window.__.env.REACT_APP_COUNTRY === 'uk'
+              ? item.consentRegisterTitle || item.consentTitle
+              : item.consentTitle,
           isChecked:
-            item.consentDesc == 'RC_DF_TR_FGS_PRIVACY_POLICY' ? true : false,
+            item.consentDesc == 'RC_DF_TR_FGS_PRIVACY_POLICY' ||
+            item.consentDesc == 'RC_DF_UK_MINIMUM_AGE_16'
+              ? true
+              : false,
           isRequired: true,
           detailList: item.detailList,
           noChecked:
-            item.consentDesc == 'RC_DF_TR_FGS_PRIVACY_POLICY' ? true : false
+            item.consentDesc == 'RC_DF_TR_FGS_PRIVACY_POLICY' ||
+            item.consentDesc == 'RC_DF_UK_MINIMUM_AGE_16'
+              ? true
+              : false,
+          notShow: item.consentDesc == 'RC_DF_UK_MINIMUM_AGE_16' ? true : false,
+          consentDesc: item.consentDesc
         };
       });
 
       let list = this.state.list;
       list = [...requiredList, ...optioalList];
+      if (window.__.env.REACT_APP_COUNTRY === 'uk') {
+        list = [...optioalList, ...requiredList]; //uk的排序特殊化
+      }
       this.setState({
         list,
         requiredConsentCount: requiredList.length
@@ -212,13 +232,8 @@ class Register extends Component {
   validInput(name, value) {
     switch (name) {
       case 'password':
-        const {
-          ruleLength,
-          ruleLower,
-          ruleUpper,
-          ruleAname,
-          ruleSpecial
-        } = this.state;
+        const { ruleLength, ruleLower, ruleUpper, ruleAname, ruleSpecial } =
+          this.state;
         const passwordValid =
           ruleLength && ruleLower && ruleUpper && ruleAname && ruleSpecial;
         this.setState({
@@ -244,9 +259,8 @@ class Register extends Component {
         });
         break;
       case 'email':
-        var emailReg = /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/;
         this.setState({
-          emailValid: emailReg.test(value),
+          emailValid: EMAIL_REGEXP.test(value),
           emailMessage: value
             ? this.props.intl.messages.registerEmailFormate
             : this.props.intl.messages.registerFillIn
@@ -266,7 +280,8 @@ class Register extends Component {
       var lowerReg = /[a-z]+/;
       var upperReg = /[A-Z]+/;
       var nameReg = /[\d]+/;
-      var specialReg = /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
+      var specialReg =
+        /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
       this.setState(
         {
           ruleLength: value.length >= 8,
@@ -325,7 +340,7 @@ class Register extends Component {
             localItemRoyal.set('rc-register', true);
             if (checkoutStore.cartData.length) {
               await mergeUnloginCartData();
-              await checkoutStore.updateLoginCart();
+              await checkoutStore.updateLoginCart({ intl: this.props.intl });
             }
             loginStore.setUserInfo(res.context.customerDetail);
             localItemRoyal.set(
@@ -339,7 +354,13 @@ class Register extends Component {
               'rc-consent-list',
               JSON.stringify(this.state.list)
             );
-            window.location.href = callOktaCallBack;
+            // 注册的时候如果是预约专家就直接跳转checkout页面
+            let appointmentNo = sessionItemRoyal.get('appointment-no');
+            if (appointmentNo) {
+              window.location.href = window.location.origin + '/fr/checkout';
+            } else {
+              window.location.href = callOktaCallBack;
+            }
           } else {
             let customerDetail = res.context.customerDetail;
             let submitParam = bindSubmitParam(this.state.list);
@@ -454,7 +475,8 @@ class Register extends Component {
       requiredConsentCount,
       list,
       hasError,
-      errorMessage
+      errorMessage,
+      passwordInputType
     } = this.state;
     const allValid =
       (window.__.env.REACT_APP_COUNTRY !== 'de'
@@ -591,7 +613,8 @@ class Register extends Component {
                         </a>
                       </p>
                       {window.__.env.REACT_APP_COUNTRY !== 'ru' &&
-                      window.__.env.REACT_APP_COUNTRY !== 'tr' ? (
+                      window.__.env.REACT_APP_COUNTRY !== 'tr' &&
+                      window.__.env.REACT_APP_COUNTRY !== 'uk' ? (
                         <>
                           <SocialRegister />
                           <div className="rc-column">
@@ -599,9 +622,8 @@ class Register extends Component {
                               {window.__.env.REACT_APP_COUNTRY === 'de' ? (
                                 <span
                                   dangerouslySetInnerHTML={{
-                                    __html: this.getIntlMsg(
-                                      'registerContinuing'
-                                    )
+                                    __html:
+                                      this.getIntlMsg('registerContinuing')
                                   }}
                                 ></span>
                               ) : (
@@ -760,7 +782,7 @@ class Register extends Component {
                                   className="rc-input__control"
                                   id="registerEmail"
                                   type="email"
-                                  maxLength="50"
+                                  maxLength="90"
                                   name="email"
                                   onChange={(e) => this.registerChange(e)}
                                   onBlur={(e) => this.inputBlur(e)}
@@ -798,7 +820,7 @@ class Register extends Component {
                                 <input
                                   className="rc-input__control rc-input__password"
                                   id="registerPassword"
-                                  type="password"
+                                  type={passwordInputType}
                                   maxLength="255"
                                   minLength="8"
                                   name="password"
@@ -817,7 +839,20 @@ class Register extends Component {
                                 </label>
                                 <button
                                   type="button"
-                                  className="rc-btn rc-btn--icon rc-icon rc-show--xs rc-iconography rc-input__password-toggle"
+                                  className={`rc-btn rc-btn--icon rc-icon rc-iconography rc-input__password-toggle ${
+                                    passwordInputType === 'password'
+                                      ? 'rc-show--xs'
+                                      : 'rc-hide--xs'
+                                  }`}
+                                  onClick={() => {
+                                    this.setState({
+                                      passwordInputType:
+                                        this.state.passwordInputType ===
+                                        'password'
+                                          ? 'text'
+                                          : 'password'
+                                    });
+                                  }}
                                 >
                                   <span className="rc-screen-reader-text">
                                     <FormattedMessage id="registerTogglePassword" />
@@ -965,6 +1000,29 @@ class Register extends Component {
                               </div>
                             </div>
                             <div id="wrap">
+                              {window.__.env.REACT_APP_COUNTRY === 'uk' ? (
+                                <div
+                                  className="footer-checkbox-title rc-text--left"
+                                  style={{ zoom: this.state.fontZoom }}
+                                >
+                                  <p>
+                                    We’d like to keep you and your pet up to
+                                    date with exciting promotions and new
+                                    product developments from{' '}
+                                    <a
+                                      href="https://www.mars.com/made-by-mars/petcare"
+                                      target="_blank"
+                                    >
+                                      Mars Petcare and its affiliates
+                                    </a>
+                                    .
+                                  </p>
+                                  <p>
+                                    I am over 16 years old, and would like to
+                                    receive these from:
+                                  </p>
+                                </div>
+                              ) : null}
                               <Consent
                                 url={url}
                                 list={this.state.list}
@@ -975,6 +1033,41 @@ class Register extends Component {
                                 auto={true}
                                 key={'required'}
                               />
+                              {window.__.env.REACT_APP_COUNTRY === 'uk' ? (
+                                <div
+                                  className="footer-checkbox-title rc-text--left"
+                                  style={{ zoom: this.state.fontZoom }}
+                                >
+                                  <p>
+                                    I understand that I may change these
+                                    preferences at any time by updating my
+                                    preferences in my account or by clicking the
+                                    unsubscribe link in any communication I
+                                    receive.
+                                  </p>
+                                  <p>
+                                    From time to time, we may use your data for
+                                    research to enhance our product and service
+                                    offerings. You can find out how{' '}
+                                    <a
+                                      href="https://www.mars.com/made-by-mars/petcare"
+                                      target="_blank"
+                                    >
+                                      Mars Petcare and its affiliates
+                                    </a>{' '}
+                                    collects and processes your data, contact us
+                                    with privacy questions, and exercise your
+                                    personal data rights via the{' '}
+                                    <a
+                                      href="https://www.mars.com/privacy-policy"
+                                      target="_blank"
+                                    >
+                                      Mars Privacy Statement
+                                    </a>
+                                    .
+                                  </p>
+                                </div>
+                              ) : null}
                             </div>
                           </div>
                           <p className="rc-body rc-margin-bottom--lg rc-margin-bottom--sm--desktop rc-text--left">

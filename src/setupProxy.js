@@ -1,9 +1,21 @@
 const proxy = require('http-proxy-middleware');
+const interfacePrefix = require('./env/interface-prefix');
+
+// fgs/hub代理map
+const targetConfig = interfacePrefix[process.env.REACT_APP_START_ENV]({
+  countryFromLink: process.env.REACT_APP_START_COUNTRY_LINK
+});
+
+// if (!process.env.REACT_APP_BASEURL) {
+//   throw new Error(
+//     '亲爱的前端er, 您启动了开发模式，但接口代理未设置成功，请在.env文件中设置对应变量，以确保正常运行'
+//   );
+// }
 
 module.exports = function (app) {
   app.use(
     proxy('/api', {
-      target: process.env.REACT_APP_BASEURL,
+      target: targetConfig.REACT_APP_BASEURL,
       secure: false,
       changeOrigin: true,
       pathRewrite: {
@@ -11,11 +23,11 @@ module.exports = function (app) {
       }
     })
   );
-  if (process.env.REACT_APP_HUB_APIURL) {
+  if (targetConfig.REACT_APP_HUB_APIURL) {
     app
       .use(
         proxy('/navigation', {
-          target: `${process.env.REACT_APP_HUB_APIURL}/navigation`,
+          target: `${targetConfig.REACT_APP_HUB_APIURL}/navigation`,
           secure: false,
           changeOrigin: true,
           pathRewrite: {
@@ -25,7 +37,7 @@ module.exports = function (app) {
       )
       .use(
         proxy('/footer', {
-          target: `${process.env.REACT_APP_HUB_APIURL}/footer`,
+          target: `${targetConfig.REACT_APP_HUB_APIURL}/footer`,
           secure: false,
           changeOrigin: true,
           pathRewrite: {
@@ -35,7 +47,7 @@ module.exports = function (app) {
       )
       .use(
         proxy('/royalcanin', {
-          target: `${process.env.REACT_APP_HUB_APIURL}/royalcanin`,
+          target: `${targetConfig.REACT_APP_HUB_APIURL}/royalcanin`,
           secure: false,
           changeOrigin: true,
           pathRewrite: {
@@ -45,7 +57,7 @@ module.exports = function (app) {
       )
       .use(
         proxy('/languagepicker', {
-          target: `${process.env.REACT_APP_HUB_APIURL}/languagepicker`,
+          target: `${targetConfig.REACT_APP_HUB_APIURL}/languagepicker`,
           secure: false,
           changeOrigin: true,
           pathRewrite: {

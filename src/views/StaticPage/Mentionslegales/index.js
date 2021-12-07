@@ -66,7 +66,7 @@ class Mentionslegales extends React.Component {
               <div className="row rc-margin-x--none">
                 <div className="rc-full-width">
                   <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
-                    <div className="text-md-left rc-margin-top--lg--mobile text-center rc-margin-y--sm">
+                    <div className="md:text-left rc-margin-top--lg--mobile text-center rc-margin-y--sm">
                       <div className="rc-padding-bottom--none--mobile text-center rc-padding-top--lg">
                         <h1 className="rc-beta">MENTIONS LEGALES</h1>
                       </div>

@@ -24,9 +24,8 @@ const SubTitles = {
 };
 const LogoShows = {
   logo: (
-    <LazyLoad>
+    <LazyLoad style={{ width: '100px' }}>
       <img
-        style={{ width: '100px' }}
         src={
           window.__.env.REACT_APP_COUNTRY == 'ru'
             ? clubru
@@ -109,7 +108,7 @@ const LongBanner = () => {
             <div className="experience-component experience-assets-contentBlock">
               <div className="rc-max-width--xl rc-padding-x--sm rc-margin-top--sm rc-margin-bottom--lg rc-margin-y--lg--mobile">
                 <div
-                  className="rc-beta  rc-margin-bottom--sm rc-margin-bottom--lg--mobile fontheight rc-margin-x--xl longBannerTitleText"
+                  className="rc-beta  rc-margin-bottom--sm rc-margin-bottom--lg--mobile fontheight transformmobile10px"
                   style={{
                     marginBottom: '0px'
                   }}
@@ -134,6 +133,13 @@ const LongBanner = () => {
                     ariaLabel="Links to product finder"
                   >
                     <button
+                      onClick={() => {
+                        window.__.env.REACT_APP_COUNTRY == 'ru' &&
+                          dataLayer.push({
+                            event: 'ruClubSubscriptionCtA',
+                            ruClubSubscriptionCtAName: 'Join the club - Top'
+                          });
+                      }}
                       style={{
                         padding: '0',
                         paddingLeft: '80px',
@@ -153,6 +159,8 @@ const LongBanner = () => {
                     className={`longbannerwidth266 ${
                       window.__.env.REACT_APP_COUNTRY == 'tr'
                         ? `trmarginleft10vw`
+                        : window.__.env.REACT_APP_COUNTRY == 'fr'
+                        ? `frmarginleft10vw`
                         : ''
                     }`}
                   >

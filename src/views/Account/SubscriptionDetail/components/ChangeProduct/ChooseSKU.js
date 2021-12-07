@@ -28,6 +28,7 @@ const ChooseSKU = ({ intl }) => {
     renderDetailAgin,
     details,
     setDetails,
+    mainProductDetails,
     showModal,
     showProdutctDetail,
     setForm,
@@ -36,24 +37,32 @@ const ChooseSKU = ({ intl }) => {
     setCurrentGoodsItems,
     currentGoodsItems
   } = ChangeProductValue;
-  const [currentSubscriptionPrice, setCurrentSubscriptionPrice] = useState(
-    null
-  );
+  const [currentSubscriptionPrice, setCurrentSubscriptionPrice] =
+    useState(null);
   const [currentSubscriptionStatus, setCurrentSubscriptionStatus] = useState(
     {}
   );
   const [skuPromotions, setSkuPromotions] = useState(0);
   const [stock, setStock] = useState(0);
+  const [firstIn, setFirstIn] = useState(true);
+  const [mainSizeList, setMainSizeList] = useState([]);
   let timer = null;
+
   useEffect(() => {
     setSkuPromotions(0);
   }, [details?.goodsInfos]);
   const isNotInactive =
     subDetail.subscribeStatus === '0' || subDetail.subscribeStatus === '1';
   const matchGoods = (data, sizeList) => {
-    let newDetails = Object.assign({}, details, {
+    let newDetails = Object.assign(details, {
       sizeList
     });
+
+    // 兼容打开弹窗之后，重置黄色box不存在sizeList情况
+    if (sizeList && firstIn) {
+      setFirstIn(false);
+      setMainSizeList(sizeList);
+    }
     console.info('data', data);
     console.info('sizeList', sizeList);
     setSkuPromotions(data.skuPromotions);
@@ -115,7 +124,13 @@ const ChooseSKU = ({ intl }) => {
   };
   const doChangeSubscriptionGoods = () => {
     try {
-      const { sizeList } = details;
+      let { sizeList } = details;
+      if (
+        !sizeList &&
+        details.goodsNo == mainProductDetails?.context?.goods?.goodsNo
+      ) {
+        sizeList = mainSizeList;
+      }
       let currentSelectedSize = sizeList[0];
       if (details?.goodsSpecDetails) {
         currentSelectedSize = find(sizeList, (s) => s.selected);

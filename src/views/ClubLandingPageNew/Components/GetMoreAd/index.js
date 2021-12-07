@@ -69,8 +69,11 @@ const GetMoreAd = () => {
                       </div>
                     </div>
 
-                    <div style={{ height: '135px' }}>
-                      <div className="rc-column">
+                    <div className="getmoreaddheight">
+                      <div
+                        className="rc-column"
+                        style={{ paddingBottom: '12px' }}
+                      >
                         <div className="rc-full-width">
                           <ul className="rc-list rc-list--blank rc-list--large-icon textmobile15vw text21vw">
                             <li className="rc-list__item flex">
@@ -242,6 +245,14 @@ const GetMoreAd = () => {
                         ariaLabel="Links to product finder"
                       >
                         <button
+                          onClick={() => {
+                            window.__.env.REACT_APP_COUNTRY == 'ru' &&
+                              dataLayer.push({
+                                event: 'ruClubSubscriptionCtA',
+                                ruClubSubscriptionCtAName:
+                                  'Join the club - Bottom'
+                              });
+                          }}
                           className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs "
                           style={{ padding: '10px 90px' }}
                         >

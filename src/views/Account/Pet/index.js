@@ -31,7 +31,6 @@ class Pet extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false,
       petList: [],
       seoConfig: {
         title: 'Royal canin',
@@ -160,7 +159,7 @@ class Pet extends React.Component {
                   <Link to="/account">
                     <span className="red">&lt;</span>
                     <span className="rc-styled-link rc-progress__breadcrumb ml-2 mt-1">
-                      <FormattedMessage id="home" />
+                      <FormattedMessage id="account.home" />
                     </span>
                   </Link>
                 </div>
@@ -220,7 +219,7 @@ class Pet extends React.Component {
                     </div>
                   ) : (
                     <div>
-                      <p className="title">
+                      <p className="title mb-4">
                         <FormattedMessage id="pet.petListTitle" />
                       </p>
                       {isMobile
@@ -336,10 +335,7 @@ class Pet extends React.Component {
                           display: 'block'
                         }}
                       >
-                        <span
-                          className="rc-icon rc-plus--xs rc-iconography plus-icon mt-1"
-                          style={{ fontSize: '42px' }}
-                        />{' '}
+                        <span className="iconfont iconjia mr-1 font-bold" />
                         <span>
                           <FormattedMessage id="pet.addNewPet" />
                         </span>

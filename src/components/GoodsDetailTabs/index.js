@@ -3,6 +3,7 @@ import { formatMoney, getDeviceType } from '@/utils/utils';
 import { FormattedMessage, injectIntl, useIntl } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 
+import mixFeedingIcon from './image/mixFeeding_icon.png';
 import iconsixnew from './image/iconsixnew.png';
 import phoneicon from './image/phoneicon@4x.png';
 import gifticon from './image/pictogifts@4x.png';
@@ -156,7 +157,12 @@ let clubListDataNew = [
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
   {
-    text: <FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon5'} />,
+    text: (
+      <FormattedMessage
+        id={'ClubLP.SubscriptionBenefitsNew.icon5'}
+        values={{ val1: null, val2: null }}
+      />
+    ),
     img: phoneicon,
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
@@ -455,9 +461,8 @@ const GoodsDetailTabs = function (props) {
     );
 
     let packProducts = ['BP04', 'BP07', 'BP06', 'BP05', 'BP02', 'BP01', 'BP03'];
-    let goodsNo = location.pathname.split('-')[
-      location.pathname.split('-').length - 1
-    ];
+    let goodsNo =
+      location.pathname.split('-')[location.pathname.split('-').length - 1];
     tmpGoodsDescriptionDetailList = tmpGoodsDescriptionDetailList
       .map((g) => {
         let ret = g.content;
@@ -569,7 +574,7 @@ const GoodsDetailTabs = function (props) {
 
     // 美国需临时加入一个tab
     if (window.__.env.REACT_APP_COUNTRY === 'us') {
-      let COHORTPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/COHORT-A_CLUB-BENEFITS_PET-ADVISOR.png`;
+      let COHORTPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/COHORT-A_CLUB-BENEFITS_PET-ADVISOR_COPY2.png`;
       let BENEFITS_WELCOMEPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/CLUB-BENEFITS_WELCOME-BOX.png`;
       let BENEFITS_DISCOUNT = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/CLUB-BENEFITS_DISCOUNT.png`;
       let BENEFITS_PRODUCTPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/CLUB-BENEFITS_PRODUCT-RECOS.png`;
@@ -582,24 +587,73 @@ const GoodsDetailTabs = function (props) {
         displayName: 'Royal Canin Club',
         content:
           '<div class="row rc-margin-x--none flex-column-reverse flex-md-row"><div class="col-12 col-md-6 row rc-padding-x--none rc-margin-x--none rc-padding-top--lg--mobile"><div class="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none"><img src=' +
-          COHORTPng +
-          ' alt="CLUB BENEFITS PET ADVISOR" class="m-auto rc-margin--none--desktop"><div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-block d-md-none"><p style="text-align: left;"><strong>Royal Canin Pet Advisor Live </strong>- chat with veterinarians around the clock about your pet’s health, nutrition, behavior and more.</p></div><div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-md-block d-none"><p style="text-align: left;"><strong>Royal Canin Pet Advisor Live </strong>- chat with veterinarians around the clock about your pet’s health, nutrition, behavior and more.</p></div></div><div class="rc-hidden align-items-center col-6 col-md-12 rc-padding-left--none"><img src=' +
+          BENEFITS_PRODUCTPng +
+          ' alt="CLUB BENEFITS PET ADVISOR" class="m-auto rc-margin--none--desktop"><div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-block d-md-none"><p style="text-align: left;"><strong>Expert Guidance </strong>- Receive nutritional recommendations on Royal Canin food and products as your pet grows</p></div><div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-md-block d-none"><p style="text-align: left;"><strong>Expert Guidance </strong>- Receive nutritional recommendations on Royal Canin food and products as your pet grows</p></div></div><div class="rc-hidden align-items-center col-6 col-md-12 rc-padding-left--none"><img src=' +
           BENEFITS_WELCOMEPng +
           ' alt="CLUB BENEFITS DISCOUNT" class="m-auto rc-margin--none--desktop"><div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-block d-md-none"><p style="text-align: left;"><strong>Specialty Welcome Box&nbsp;</strong>- with your first order, you’ll get an assortment of gifts to help you welcome your new pet home.</p></div><div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-md-block d-none"><p style="text-align: left;"><strong>Specialty Welcome Box&nbsp;</strong>- with your first order, you’ll get an assortment of gifts to help you welcome your new pet home.</p></div></div><div class="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none"><img src=' +
           BENEFITS_DISCOUNT +
-          ' alt="CLUB BENEFITS DISCOUNT" class="m-auto rc-margin--none--desktop"><div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-block d-md-none"><p style="text-align: left;"><strong>Special Savings + FREE Shipping </strong>- save 30% on your first order and another 5% on every autoship order.</p></div><div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-md-block d-none"><p style="text-align: left;"><strong>Special Savings + FREE Shipping&nbsp;</strong>-&nbsp;save 30% on your first order and another 5% on every autoship order.</p></div></div><div class="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none"><img src=' +
-          BENEFITS_PRODUCTPng +
-          ' alt="CLUB BENEFITS PRODUCT RECOS" class="m-auto rc-margin--none--desktop"><div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-block d-md-none"><p style="text-align: left;"><strong>Expert Recommendations –</strong>&nbsp;receive recommendations for pet food and products as your pet grows.</p></div><div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-md-block d-none"><p style="text-align: left;"><strong>Expert Recommendations –</strong>&nbsp;receive recommendations for pet food and products as your pet grows.</p></div></div></div><div class="col-12 col-md-6"><div class="rc-video-wrapper"><iframe src="https://www.youtube.com/embed/FYwO1fiYoa8?enablejsapi=1&amp;origin=https%3A%2F%2Fshop.royalcanin.com" title="making a better world for pets" allowfullscreen="" frameborder="0"></iframe></div></div></div><div class="arrow-img-columns rc-max-width--lg rc-padding-y--md rc-padding-y--xl--mobile rc-padding-x--md--mobile"><div class="rc-margin-bottom--md"><h2 class="rc-beta">How to Join Royal Canin Club</h2></div><div class="rc-card-grid rc-match-heights rc-card-grid--fixed text-center rc-content-v-middle"><div class="rc-grid"><div><h3 class="rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs"><strong>GRAB YOUR PRODUCTS</strong></h3><img class="mx-auto rc-margin-bottom--xs" alt="HOW TO JOIN SHOP" src=' +
+          ' alt="CLUB BENEFITS DISCOUNT" class="m-auto rc-margin--none--desktop"><div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-block d-md-none"><p style="text-align: left;"><strong>Special Savings </strong>- Save 30% off your first purchase through Royal Canin Club, and 5% off every autoship order. Plus, free shipping –– with no minimum purchase</p></div><div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-md-block d-none"><p style="text-align: left;"><strong>Special Savings&nbsp;</strong>-&nbsp;Save 30% off your first purchase through Royal Canin Club, and 5% off every autoship order. Plus, free shipping –– with no minimum purchase</p></div></div><div class="d-block d-md-flex align-items-center col-6 col-md-12 rc-padding-left--none"><img src=' +
+          COHORTPng +
+          ' alt="CLUB BENEFITS PRODUCT RECOS" class="m-auto rc-margin--none--desktop"><div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-block d-md-none"><p style="text-align: left;"><strong>Royal Canin Advisor –</strong>&nbsp;Like a coach for everything related to your pet’s nutrition, your Royal Canin Advisor can help with diet recommendations and expert feeding advice, updates on products, and more</p></div><div class="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-md-block d-none"><p style="text-align: left;"><strong>Royal Canin Advisor –</strong>&nbsp;Like a coach for everything related to your pet’s nutrition, your Royal Canin Advisor can help with diet recommendations and expert feeding advice, updates on products, and more</p></div></div></div><div class="col-12 col-md-6"><div class="rc-video-wrapper"><iframe src="https://www.youtube.com/embed/FYwO1fiYoa8?enablejsapi=1&amp;origin=https%3A%2F%2Fshop.royalcanin.com" title="making a better world for pets" allowfullscreen="" frameborder="0"></iframe></div></div></div><div class="arrow-img-columns rc-max-width--lg rc-padding-y--md rc-padding-y--xl--mobile rc-padding-x--md--mobile"><div class="rc-margin-bottom--md"><h2 class="rc-beta">How to Join Royal Canin Club</h2></div><div class="rc-card-grid rc-match-heights rc-card-grid--fixed text-center rc-content-v-middle"><div class="rc-grid"><div><h3 class="rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs"><strong>GRAB YOUR PRODUCTS</strong></h3><img class="mx-auto rc-margin-bottom--xs" alt="HOW TO JOIN SHOP" src=' +
           HOWTOJOINSHOPpng +
-          '><div class="inherit-fontsize rc-body rc-padding-top--xs children-nomargin"><p>Find your handpicked nutrition products in your cart.</p></div></div></div><div class="rc-grid"><div><h3 class="rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs"><strong>CHOOSE AUTOMATIC SHIPPING</strong></h3><img class="mx-auto rc-margin-bottom--xs" alt="HOW TO JOIN AUTOSHIP" src=' +
+          '><div class="inherit-fontsize rc-body rc-padding-top--xs children-nomargin"><p>Add expert-recommended pet food and products to your cart</p></div></div></div><div class="rc-grid"><div><h3 class="rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs"><strong>CHOOSE AUTOMATIC SHIPPING</strong></h3><img class="mx-auto rc-margin-bottom--xs" alt="HOW TO JOIN AUTOSHIP" src=' +
           HOWTOJOINAUTOSHIPpng +
-          '><div class="inherit-fontsize rc-body rc-padding-top--xs children-nomargin"><p>Set your automatic shipping schedule and input your payment method.</p></div></div></div><div class="rc-grid"><div><h3 class="rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs"><strong>GET WHAT YOUR PET NEEDS, WHEN YOU NEED IT</strong></h3><img class="mx-auto rc-margin-bottom--xs" alt="HOW TO JOIN SCHEDULE" src=' +
+          '><div class="inherit-fontsize rc-body rc-padding-top--xs children-nomargin"><p>Select automatic shipping and input your payment method</p></div></div></div><div class="rc-grid"><div><h3 class="rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs"><strong>GET WHAT YOUR PET NEEDS, WHEN YOU NEED IT</strong></h3><img class="mx-auto rc-margin-bottom--xs" alt="HOW TO JOIN SCHEDULE" src=' +
           HOWTOJOINSCHEDULEpng +
-          '><div class="inherit-fontsize rc-body rc-padding-top--xs children-nomargin"><p>Receive your product automatically based on your schedule. Change or cancel at any time.</p></div></div></div><div class="rc-grid"><div><h3 class="rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs"><strong>ENJOY YOUR PERKS</strong></h3><img class="mx-auto rc-margin-bottom--xs" alt="HOW TO JOIN ENJOY" src=' +
+          '><div class="inherit-fontsize rc-body rc-padding-top--xs children-nomargin"><p>Receive your autoship purchase based on your schedule––change or cancel at any time</p></div></div></div><div class="rc-grid"><div><h3 class="rc-intro height-50 rc-margin-bottom--xs rc-padding-bottom--xs"><strong>ENJOY YOUR PERKS</strong></h3><img class="mx-auto rc-margin-bottom--xs" alt="HOW TO JOIN ENJOY" src=' +
           HOWTOJOINENJOYpng +
-          '><div class="inherit-fontsize rc-body rc-padding-top--xs children-nomargin"><p>Get your exclusive <strong>Royal Canin Club</strong> perks, including access to Royal Canin Pet Advisor Live.</p></div></div></div></div></div>'
+          '><div class="inherit-fontsize rc-body rc-padding-top--xs children-nomargin"><p>Get your exclusive Royal Canin Club perks, including access to a Royal Canin Advisor</p></div></div></div></div></div>'
       });
     }
+
+    // 俄罗斯需添加 一个 tab
+    // if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+    //   const dom = `<div class='mixed-Feeding-box'>
+    //       <div class='rc-margin-bottom--md'>
+    //         <h2 class='mixed-Feeding-title rc-beta'>Смешанное кормление</h2>
+    //       </div>
+    //       <h3 class='mixed-Feeding-title2 rc-beta'>Сочетайте преимущества сухого и влажного продуктов</h3>
+    //
+    //       <p class='mixed-Feeding-text rc-intro rc-margin-bottom--none text-center d-md-block d-none'>Смешанное кормление – это сочетание сухого и консервированного кормов в рационе вашего питомца. Каждый из кормов сам по себе является полноценным и сбалансированным, но ежедневное сочетание сухого и влажного кормов позволяет получить оптимальную комбинацию преимуществ обоих видов продуктов.</p>
+    //        <div class='rc-margin-bottom--md--desktop rc-padding-top--md'>
+    //         <h3 class='rc-beta'>Преимущества смешанного кормления</h3>
+    //       </div>
+    //       <div class='mixed-Feeding-content'>
+    //         <div class='mixed-Feeding-content-item'>
+    //           <h3 class='mixed-Feeding-title'>Сухой корм ROYAL CANIN®</h3>
+    //           <h4 >Дополнительные преимущества</h4>
+    //           <div class='mixed-Feeding-content-list'>
+    //             <li>гигиена полости рта</li>
+    //             <li>добавление в рацион определенных нутриентов</li>
+    //           </div>
+    //         </div>
+    //         <div class='mixed-Feeding-content-item rc-text--center'>
+    //           <LazyLoad>
+    //             <img
+    //               src=${mixFeedingIcon}
+    //               alt=''
+    //               class="m-auto rc-margin--none--desktop rc-width"
+    //             />
+    //           </LazyLoad>
+    //         </div>
+    //         <div class='mixed-Feeding-content-item'>
+    //           <h3 class='mixed-Feeding-title'>Влажный корм ROYAL CANIN®</h3>
+    //           <h4 >Дополнительные преимущества</h4>
+    //           <div>
+    //             <li>контроль веса</li>
+    //             <li>стимуляция аппетита</li>
+    //             <li>стимуляция ощущений за счет текстуры</li>
+    //             <li>дополнительный источник влаги и поддержание здоровья мочевыделительной системы</li>
+    //           </div>
+    //         </div>
+    //       </div>
+    //     </div>`;
+    //   tmpGoodsDescriptionDetailList.push({
+    //     displayName: 'Смешанное кормление',
+    //     content: dom
+    //   });
+    // }
+
     // if (window.__.env.REACT_APP_COUNTRY === 'ru' && saleableFlag && sptGoods) {
     //   let mixfeeding = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/Mixfeeding.png`;
     //   let MixfeedingFood = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/Mixfeeding-Food.png`;

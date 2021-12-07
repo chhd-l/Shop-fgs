@@ -358,7 +358,7 @@ class ClubLandingPageDeVet extends React.Component {
           <section>
             <div className="rc-bg-colour--brand3 rc-margin-bottom--xs">
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile category-cards rc-padding--sm">
-                <div className=" rc-match-heights text-center text-md-left">
+                <div className=" rc-match-heights text-center md:text-left">
                   <div className="DeCenter  align-self-center">
                     <h2 className="rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-center rc-padding-top--none">
                       Produkte für verschiedene Schwerpunkte der Tiergesundheit

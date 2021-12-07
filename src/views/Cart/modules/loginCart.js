@@ -15,7 +15,9 @@ import {
   distributeLinktoPrecriberOrPaymentPage,
   getDeviceType,
   unique,
-  cancelPrevRequest
+  cancelPrevRequest,
+  handleRecommendation,
+  isShowMixFeeding
 } from '@/utils/utils';
 import {
   GAInitLogin,
@@ -49,7 +51,10 @@ import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 import GiftList from '../components/GiftList/index.tsx';
 import foodDispenserPic from '../../SmartFeederSubscription/img/food_dispenser_pic.png';
-
+import PromotionCodeText from '../components/PromotionCodeText';
+import CartSurvey from '../components/CartSurvey';
+import { getMixFeedings } from '@/api/details';
+import MixFeedingBox from '../components/MixFeedingBox/index.tsx';
 const guid = uuidv4();
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -98,7 +103,8 @@ class LoginCart extends React.Component {
         metaKeywords: 'Royal canin',
         metaDescription: 'Royal canin'
       },
-      relatedGoodsList: []
+      relatedGoodsList: [],
+      mixFeedings: []
     };
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.hanldeToggleOneOffOrSub = this.hanldeToggleOneOffOrSub.bind(this);
@@ -146,7 +152,7 @@ class LoginCart extends React.Component {
       const unloginCartData = this.checkoutStore.cartData;
       if (unloginCartData.length) {
         await mergeUnloginCartData();
-        await this.checkoutStore.updateLoginCart();
+        await this.checkoutStore.updateLoginCart({ intl: this.props.intl });
       }
 
       GACartScreenLoad();
@@ -287,12 +293,12 @@ class LoginCart extends React.Component {
     this.changeFrequencyType(pitem);
   }
   async updateCartCache({ callback, isThrowErr = false } = {}) {
-    console.log(444);
     try {
       this.setState({ checkoutLoading: true });
       await this.checkoutStore.updateLoginCart({
         isThrowErr,
-        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
+        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT),
+        intl: this.props.intl
       });
       callback && callback();
       this.setData();
@@ -382,6 +388,27 @@ class LoginCart extends React.Component {
       }
       return el;
     });
+
+    if (isShowMixFeeding()) {
+      getMixFeedings(productList.map((el) => el.goodsId)).then((res) => {
+        let unHandleMixFeedings = res?.context;
+        if (unHandleMixFeedings && unHandleMixFeedings.length) {
+          let mixFeedings = productList.map((el, i) => {
+            let mixFeeding = handleRecommendation(
+              unHandleMixFeedings[i].goodsRelationAndRelationInfos.filter(
+                (el) => el.sort === 0
+              )[0] || unHandleMixFeedings[i].goodsRelationAndRelationInfos[0]
+            );
+            if (mixFeeding) {
+              mixFeeding.quantity = 1;
+            }
+            return mixFeeding;
+          });
+          this.setState({ mixFeedings });
+        }
+      });
+    }
+
     this.setState(
       {
         productList,
@@ -701,7 +728,7 @@ class LoginCart extends React.Component {
     );
   };
   getProducts(plist) {
-    console.log(plist, 222);
+    const { mixFeedings } = this.state;
     const Lists = plist.map((pitem, index) => {
       {
         var isGift = !!pitem.subscriptionPlanGiftList;
@@ -712,9 +739,10 @@ class LoginCart extends React.Component {
             className={`rc-border-all rc-border-colour--interface product-info p-3 rc-padding-bottom--none--mobile
             ${isGift ? 'no-margin-bottom' : 'has-margin-bottom'}`}
           >
-            <span className="remove-product-btn">
+            <span className="remove-product-btn z-50">
               <span
-                className="rc-icon rc-close--sm rc-iconography"
+                className="rc-icon rc-close--sm rc-iconography inline-block"
+                style={{ width: '32px', height: '32px' }}
                 onClick={() => {
                   this.updateConfirmTooltipVisible(pitem, true);
                   this.setState({ currentProductIdx: index });
@@ -776,7 +804,7 @@ class LoginCart extends React.Component {
                     {pitem.goodsName}
                   </h4>
                   {pitem.taggingForImage?.taggingImgUrl ? (
-                    <LazyLoad className="order-1 order-md-3">
+                    <LazyLoad className="order-1 md:order-3">
                       <img
                         src={pitem.taggingForImage?.taggingImgUrl}
                         className="cart-item__tagging_image ml-2"
@@ -923,6 +951,25 @@ class LoginCart extends React.Component {
               ) : null}
             </div>
           </div>
+          {mixFeedings &&
+          mixFeedings[index] &&
+          plist.filter(
+            (el) => el.goods.goodsNo === mixFeedings[index].goods.goodsNo
+          ).length === 0 ? (
+            <MixFeedingBox
+              isLogin={true}
+              mixFeedingData={mixFeedings[index]}
+              goodsInfoFlag={pitem.goodsInfoFlag}
+              periodTypeId={pitem.periodTypeId}
+              beforeUpdate={() => {
+                this.setState({ checkoutLoading: true });
+              }}
+              update={() => {
+                this.setData({ initPage: true });
+                this.setState({ checkoutLoading: false });
+              }}
+            />
+          ) : null}
           {pitem.goods.promotions &&
           pitem.goods.promotions.includes('club') &&
           pitem.goodsInfoFlag === 2 &&
@@ -1010,7 +1057,8 @@ class LoginCart extends React.Component {
               style={{
                 width: '150px',
                 marginBottom: '.625rem',
-                overflow: 'hidden'
+                overflow: 'hidden',
+                marginTop: '0px'
               }}
             >
               <FormattedMessage id="promotionCode">
@@ -1031,7 +1079,7 @@ class LoginCart extends React.Component {
             </span>
           </div>
           <div className="col-6 no-padding-left">
-            <p className="text-right sub-total">
+            <p className="text-right sub-total mb-4">
               <button
                 id="promotionApply"
                 className={`rc-btn rc-btn--sm rc-btn--two mr-0 ${
@@ -1092,14 +1140,14 @@ class LoginCart extends React.Component {
                 } red`}
                 style={{ padding: 0 }}
               >
-                <p>
+                <p className="mb-4">
                   {!checkoutStore.couponCodeFitFlag && (
                     <FormattedMessage id="Non appliqué" />
                   )}
                 </p>
               </div>
               <div className="col-2" style={{ padding: '0 .9375rem 0 0' }}>
-                <p className="text-right shipping-cost">
+                <p className="text-right shipping-cost mb-4">
                   <span
                     className="rc-icon rc-close--sm rc-iconography"
                     style={{
@@ -1118,8 +1166,8 @@ class LoginCart extends React.Component {
           <div className="col-6">
             <FormattedMessage id="total2" />
           </div>
-          <div className="col-6 no-padding-left">
-            <p className="text-right sub-total text-nowrap">
+          <div className="col-6 no-padding-left mb-4">
+            <p className="text-right sub-total text-nowrap mb-4">
               {formatMoney(this.totalPrice)}
             </p>
           </div>
@@ -1146,7 +1194,7 @@ class LoginCart extends React.Component {
               <p>{<FormattedMessage id="promotion" />}</p>
             </div>
             <div className="col-4">
-              <p className="text-right shipping-cost text-nowrap">
+              <p className="text-right shipping-cost text-nowrap mb-4">
                 <strong>-{formatMoney(this.subscriptionDiscountPrice)}</strong>
               </p>
             </div>
@@ -1155,24 +1203,8 @@ class LoginCart extends React.Component {
 
         {/* 显示 promotionCode */}
         {!isShowValidCode &&
-          this.promotionVOList?.map((el) => (
-            <div className={`row leading-lines shipping-item green d-flex`}>
-              <div className="col-6">
-                <p className="ui-text-overflow-line1">
-                  {/* {this.promotionDesc || (
-                        <FormattedMessage id="NoPromotionDesc" />
-                      )} */}
-                  {/* <FormattedMessage id="promotion" /> */}
-                  {el.marketingName}
-                </p>
-              </div>
-              <div className="col-6">
-                <p className="text-right shipping-cost text-nowrap">
-                  {/* - {formatMoney(this.discountPrice)} */}
-                  <strong>-{formatMoney(el.discountPrice)}</strong>
-                </p>
-              </div>
-            </div>
+          this.promotionVOList?.map((el, i) => (
+            <PromotionCodeText el={el} i={i} />
           ))}
 
         {/* <div
@@ -1198,7 +1230,7 @@ class LoginCart extends React.Component {
             </p>
           </div>
           <div className="col-4">
-            <p className="text-right shipping-cost text-nowrap">
+            <p className="text-right shipping-cost text-nowrap mb-4">
               {formatMoney(this.deliveryPrice)}
             </p>
           </div>
@@ -1213,7 +1245,7 @@ class LoginCart extends React.Component {
               </p>
             </div>
             <div className="col-4">
-              <p className="text-right shipping-cost">
+              <p className="text-right shipping-cost mb-4">
                 {this.freeShippingDiscountPrice > 0 && '-'}
                 {formatMoney(this.freeShippingDiscountPrice)}
               </p>
@@ -1234,7 +1266,7 @@ class LoginCart extends React.Component {
               </p>
             </div>
             <div className="col-4">
-              <p className="text-right shipping-cost text-nowrap rc_login_cart">
+              <p className="text-right shipping-cost text-nowrap rc_login_cart mb-4">
                 {this.taxFeePrice > 0 ? (
                   formatMoney(this.taxFeePrice)
                 ) : (
@@ -1255,7 +1287,7 @@ class LoginCart extends React.Component {
               </strong>
             </div>
             <div className="col-5">
-              <p className="text-right grand-total-sum medium mb-0 text-nowrap">
+              <p className="text-right grand-total-sum medium mb-0 text-nowrap mb-4">
                 {this.props.configStore?.customTaxSettingOpenFlag == 0 &&
                 this.props.configStore?.enterPriceType == 1 ? (
                   <>
@@ -1371,7 +1403,7 @@ class LoginCart extends React.Component {
     );
   }
   async handleChooseSize(sdItem, pitem) {
-    if (sdItem.isEmpty) {
+    if (sdItem.isEmpty || sdItem.isUnitPriceZero) {
       return false;
     }
     if (this.state.checkoutLoading) {
@@ -1448,18 +1480,20 @@ class LoginCart extends React.Component {
     this.setState({ checkoutLoading: false });
   }
   handleRemovePromotionCode = async () => {
-    const { checkoutStore, loginStore, buyWay } = this.props;
+    const { checkoutStore, loginStore, buyWay, intl } = this.props;
     let { discount } = this.state;
     let result = {};
     await checkoutStore.removePromotionCode();
+    await checkoutStore.removeCouponCode();
     // await checkoutStore.removeCouponCodeFitFlag();
     if (loginStore.isLogin) {
       result = await checkoutStore.updateLoginCart({
         promotionCode: '',
-        subscriptionFlag: buyWay === 'frequency'
+        subscriptionFlag: buyWay === 'frequency',
+        intl
       });
     } else {
-      result = await checkoutStore.updateUnloginCart();
+      result = await checkoutStore.updateUnloginCart({ intl });
     }
     this.setState({
       discount: [],
@@ -1470,7 +1504,7 @@ class LoginCart extends React.Component {
   };
   handleClickPromotionApply = async (falseCodeAndReRequest = false) => {
     //falseCodeAndReRequest 需要重新请求code填充公共code
-    const { checkoutStore, loginStore, buyWay } = this.props;
+    const { checkoutStore, loginStore, buyWay, intl } = this.props;
     let { promotionInputValue, discount } = this.state;
     if (!promotionInputValue && !falseCodeAndReRequest) return;
     let result = {};
@@ -1484,11 +1518,13 @@ class LoginCart extends React.Component {
     if (loginStore.isLogin) {
       result = await checkoutStore.updateLoginCart({
         promotionCode: lastPromotionInputValue,
-        subscriptionFlag: buyWay === 'frequency'
+        subscriptionFlag: buyWay === 'frequency',
+        intl
       });
     } else {
       result = await checkoutStore.updateUnloginCart({
-        promotionCode: lastPromotionInputValue
+        promotionCode: lastPromotionInputValue,
+        intl
       });
     }
     if (
@@ -1631,6 +1667,9 @@ class LoginCart extends React.Component {
                             <GiftList pitem={el} />
                           ))}
                         </div>
+                        {window.__.env.REACT_APP_COUNTRY === 'us' && (
+                          <CartSurvey />
+                        )}
                       </div>
                       <div className="rc-column totals cart__total pt-0">
                         <div className="rc-padding-bottom--xs">

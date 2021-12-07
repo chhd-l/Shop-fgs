@@ -613,6 +613,7 @@ const ErrMsgForCheckoutPanel = ({ checkOutErrMsg }) => {
   'configStore',
   'clinicStore'
 )
+@injectIntl
 @observer
 class SmartFeederSubscription extends Component {
   constructor(props) {
@@ -1347,31 +1348,6 @@ class SmartFeederSubscription extends Component {
       }
     }
 
-    // 超过库存时，修改产品数量为最大值替换
-    // let res = await miniPurchases({
-    //   goodsInfoDTOList: [
-    //     {
-    //       goodsInfoId: currentSelectedSize.goodsInfoId,
-    //       goodsNum: quantityNew
-    //     }
-    //   ]
-    // });
-    // let tmpObj = find(
-    //   res.context.goodsList,
-    //   (ele) => ele.goodsInfoId === currentSelectedSize.goodsInfoId
-    // );
-    // if (tmpObj) {
-    //   if (quantityNew > tmpObj.stock) {
-    //     quantityNew = tmpObj.stock;
-    //     if (flag) {
-    //       this.setState({
-    //         quantity: quantityNew
-    //       });
-    //     }
-    //     tmpData = Object.assign(tmpData, { quantity: quantityNew });
-    //   }
-    // }
-
     const idx = findIndex(
       cartDataCopy,
       (c) =>
@@ -1415,7 +1391,8 @@ class SmartFeederSubscription extends Component {
     try {
       await checkoutStore.updateUnloginCart({
         cartData: cartDataCopy,
-        isThrowErr: true
+        isThrowErr: true,
+        intl: this.props.intl
       });
       if (redirect) {
         if (needLogin) {
@@ -1719,7 +1696,8 @@ class SmartFeederSubscription extends Component {
       await sitePurchase(param);
       await checkoutStore.updateLoginCart({
         isThrowErr: true,
-        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
+        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT),
+        intl: this.props.intl
       });
       if (isMobile) {
         // this.refs.showModalButton.click();
@@ -1797,13 +1775,8 @@ class SmartFeederSubscription extends Component {
   };
   render() {
     const { location, history, match } = this.props;
-    const {
-      headerHide,
-      stepName,
-      checkOutErrMsg,
-      goodsDetailTab,
-      enableFlag
-    } = this.state;
+    const { headerHide, stepName, checkOutErrMsg, goodsDetailTab, enableFlag } =
+      this.state;
     let stepCom = null;
     return (
       <div>

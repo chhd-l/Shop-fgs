@@ -90,10 +90,11 @@ class BuyFromRetailerBtn extends React.Component {
   render() {
     const { onClick, barcode, goodsType } = this.props;
     const { ccidBtnDisplay } = this.state;
-    const Fr = window.__.env.REACT_APP_COUNTRY === 'fr';
+    const isApi = window.__.env.REACT_APP_HUBPAGE_RETAILER_ISAPI === '1';
+    const isUrl = window.__.env.REACT_APP_HUBPAGE_RETAILER_ISURL === '1';
     return (
       <div ref={(el) => this.ccidBtnRef(el)}>
-        {Fr ? (
+        {isApi ? (
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <div
               className={`other-buy-btn rc-btn rc-btn--sm rc-btn--two ${
@@ -121,15 +122,16 @@ class BuyFromRetailerBtn extends React.Component {
               {this.confirmTooltip()}
             </div>
           </div>
-        ) : (
+        ) : null}
+        {isUrl ? (
           <a
-            href="http://www.royalcanin.com/tr/where-to-buy"
+            href={window.__.env.REACT_APP_HUBPAGE_RETAILER_URL}
             className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
             style={{ padding: '7px 1.5rem' }}
           >
             <FormattedMessage id="details.buyFromRetailer" />
           </a>
-        )}
+        ) : null}
       </div>
     );
   }

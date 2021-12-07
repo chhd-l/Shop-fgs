@@ -1,7 +1,6 @@
 import axios from '@/utils/request';
 
 const api = {
-  miniPurchases: '/site/front/miniPurchases',
   purchases: '/site/front/purchases', // 游客计算价格
   sitePurchases: '/site/purchases', // 会员计算价格
   sitePurchase: `/site/${window.__.env.REACT_APP_STOREID}/carts`, // 加入后台购物车
@@ -9,18 +8,13 @@ const api = {
   mergePurchase: `/site/${window.__.env.REACT_APP_STOREID}/carts/merge`, // 合并前后台购物车
   switchSize: `/site/${window.__.env.REACT_APP_STOREID}/carts/specific`, // 切换规格
   goodsRelationBatch: '/goodsRelation/batch', //购物车related product
-  shippingCalculation: '/tempoline' // 计算运费
+  shippingCalculation: '/tempoline', // 计算运费
+  //todo  接口地址补充
+  querySurveyContent: '/survey/active', //us 获取问卷调查内容
+  recordSurveyReview: '/survey/views' //统计survey 1 review
 };
 
 export default api;
-
-export function miniPurchases(parameter) {
-  return axios({
-    url: `${api.miniPurchases}`,
-    method: 'post',
-    data: parameter
-  });
-}
 
 export function purchases(parameter) {
   // let goodsMarketingDTOList = {
@@ -76,7 +70,10 @@ export function deleteItemFromBackendCart(parameter) {
 
 export function siteMiniPurchases(parameter) {
   // delFlag在checkout页面和buynow查询的时候不能删除ind商品，需要删除该字段
-  if (location.pathname.includes('/checkout')) {
+  if (
+    location.pathname.includes('/checkout') ||
+    location.pathname.includes('/register')
+  ) {
     parameter.delFlag = 1;
   }
   if (parameter.delFlag == 1) {
@@ -129,6 +126,27 @@ export function getGoodsRelationBatch(parameter) {
 export function shippingCalculation(parameter) {
   return axios({
     url: `${api.shippingCalculation}`,
+    method: 'post',
+    data: parameter
+  });
+}
+
+//us 获取问卷调查内容
+export function querySurveyContent(parameter) {
+  return axios({
+    url:
+      parameter.customerId !== ''
+        ? `${api.querySurveyContent}/${parameter.storeId}/${parameter.customerId}`
+        : `${api.querySurveyContent}/${parameter.storeId}`,
+    method: 'get',
+    params: {}
+  });
+}
+
+//统计survey 1 review
+export function recordSurveyReview(parameter) {
+  return axios({
+    url: `${api.recordSurveyReview}`,
     method: 'post',
     data: parameter
   });

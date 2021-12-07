@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import autoshipIcon from '@/assets/images/autoship.png';
-import { getFormatDate, filterOrderId, getDeviceType } from '@/utils/utils';
+import {
+  getFormatDate,
+  filterOrderId,
+  getDeviceType,
+  isCanVerifyBlacklistPostCode
+} from '@/utils/utils';
 import FrequencyMatch from '@/components/FrequencyMatch';
 import LazyLoad from 'react-lazyload';
 import { getSubList } from '@/api/subscription';
@@ -9,13 +14,14 @@ import { getClubLogo } from '@/utils/utils';
 import { Link } from 'react-router-dom';
 import Skeleton from 'react-skeleton-loader';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
+import './index.less';
 const localItemRoyal = window.__.localItemRoyal;
 const ClubItem = ({ subItem, history }) => {
   const isMobile = getDeviceType() !== 'PC';
   console.log(subItem, 'subItem------');
   return (
     <div
-      className="row rc-margin-x--none row align-items-center card-container pb-3 clubBox"
+      className="row rc-margin-x--none row align-items-center card-container pb-3 clubBox ClubItem-wrap"
       style={{ marginTop: '0', marginBottom: '1.25rem' }}
       key={subItem.subscribeId}
     >
@@ -33,9 +39,14 @@ const ClubItem = ({ subItem, history }) => {
               {filterOrderId({ orderNo: subItem.subscribeId })}
             </p>
           </div>
-          <div className="col-4 col-md-2" />
-          <div className="col-4 col-md-2" />
-          <div className="col-4 col-md-2 pl-4" />
+          {/*<div className="col-4 col-md-2" />*/}
+          {/*<div className="col-4 col-md-2" />*/}
+          {subItem?.postCodeValidResponse
+            ?.validFlag ? null : isCanVerifyBlacklistPostCode ? (
+            <div className="col-8 pl-4 order-hint">
+              <span>{subItem.postCodeValidResponse.alert}</span>
+            </div>
+          ) : null}
         </div>
       </div>
       <div className="col-12 col-md-4 d-flex flex-wrap">
@@ -71,12 +82,23 @@ const ClubItem = ({ subItem, history }) => {
                     marginBottom: '5px'
                   }}
                 >
-                  {`${item.petsName}'s personalized subscription`}
+                  <FormattedMessage
+                    id="subscription.personalized"
+                    values={{
+                      val1: item.petsName
+                    }}
+                  />
+                  {/*{`${item.petsName}'s personalized subscription`}*/}
                 </p>
                 <p>
-                  {item.subscribeNum / 1000 + 'kg'} - 1{' '}
-                  <FormattedMessage id="units" />
+                  {item.specText} - 1 <FormattedMessage id="units" />
                 </p>
+                {/* <p>
+                  {window.__.env.REACT_APP_COUNTRY == 'fr'
+                    ? (item.subscribeNum / 1000).toString().replace('.', ',')
+                    : item.subscribeNum / 1000 + 'kg'}{' '}
+                  - 1 <FormattedMessage id="units" />
+                </p> */}
                 <p>
                   {/* 30 daily rations Delivered every month */}
                   <FormattedMessage id="subscription.frequency" />
@@ -125,8 +147,9 @@ const ClubItem = ({ subItem, history }) => {
               overflow: 'hidden'
             }}
           >
-            Subscription started
-            {/* <FormattedMessage id="autoShipStarted" /> */}
+            {/*Subscription started*/}
+            {/*date d'inscription au CLUB*/}
+            <FormattedMessage id="autoShipStarted2" />
           </p>
           <p style={{ color: '#666', fontSize: '1rem' }}>
             {getFormatDate(subItem.createTime.split(' ')[0])}

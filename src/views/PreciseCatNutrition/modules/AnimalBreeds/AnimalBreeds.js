@@ -53,7 +53,10 @@ export default function AnimalBreeds({ questionData }) {
       <div className="question-title">
         {questionData.metadata.label}
         {questionData.metadata.description ? (
-          <Tooltips description={questionData.metadata.description} />
+          <Tooltips
+            description={questionData.metadata.description}
+            // isIdea={true}
+          />
         ) : (
           ''
         )}
@@ -115,7 +118,7 @@ export default function AnimalBreeds({ questionData }) {
                 className="rc-input__label--inline text-break"
                 htmlFor="pf-checkbox-mixbreed"
               >
-                <FormattedMessage id="account.mixBreed" />
+                <FormattedMessage id="productFinder.mixBreed" />
               </label>
             </div>
 

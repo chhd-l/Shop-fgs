@@ -12,38 +12,43 @@
  *
  *********/
 import React from 'react';
-import locales from '@/lang';
 import Skeleton from 'react-skeleton-loader';
 import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';
-import SearchSelection from '@/components/SearchSelection';
+import SearchSelection from '@/components/DqeSearchSelection';
 import {
   getDictionary,
   validData,
   datePickerConfig,
-  getFormatDate,
   getZoneTime,
-  getDeviceType
+  getDeviceType,
+  isCanVerifyBlacklistPostCode
 } from '@/utils/utils';
 import DatePicker from 'react-datepicker';
-import { daysInWeek, format } from 'date-fns';
+import { format } from 'date-fns';
+import find from 'lodash/find';
 import Loading from '@/components/Loading';
 import {
   getRegionByCityId,
   getProvincesList,
   getAddressBykeyWord,
   getCityList,
-  getDeliveryDateAndTimeSlot
+  getDeliveryDateAndTimeSlot,
+  validPostCodeBlock,
+  DQEAddressList,
+  queryOpenedApi,
+  returnDQE
 } from '@/api/address';
 import { shippingCalculation } from '@/api/cart';
 import { inject, observer } from 'mobx-react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import IMask from 'imask';
+import debounce from 'lodash/debounce';
+import { EMAIL_REGEXP } from '@/utils/constant';
 import './index.less';
+import { useConsigneeDeliveryDate } from '@/framework/common';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
-const sessionItemRoyal = window.__.sessionItemRoyal;
-const CURRENT_LANGFILE = locales;
 let tempolineCache = {};
 @inject('configStore')
 @injectIntl
@@ -65,7 +70,9 @@ class Form extends React.Component {
     this.state = {
       dataLoading: false,
       formLoading: false,
-      formSettingSwitch: 'MANUALLY',
+      formType: this.props.configStore.addressFormType,
+      apiType: '',
+      COUNTRY: window.__.env.REACT_APP_COUNTRY,
       caninForm: {
         firstName: '',
         lastName: '',
@@ -74,9 +81,10 @@ class Form extends React.Component {
         address1: '',
         address2: '',
         country: '',
-        countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        countryId: '',
         cityId: '',
         city: '',
+        county: '',
         areaId: '',
         area: '',
         regionId: '',
@@ -87,6 +95,7 @@ class Form extends React.Component {
         stateId: '',
         postCode: '',
         phoneNumber: '',
+        consigneeNumber: '',
         entrance: '',
         apartment: '',
         comment: '',
@@ -108,6 +117,8 @@ class Form extends React.Component {
         settlementIdStr: '', // pickup计算价格使用
         isDefalt: false
       },
+      newAddress1: '',
+      addrSearchSelectFlag: false, // 是否选择搜到的地址（DaData 或者 DQE）
       addressSettings: [],
       formList: [],
       addressList: [], // 地址列表
@@ -120,25 +131,27 @@ class Form extends React.Component {
       deliveryDataTimeSlotList: [],
       deliveryDateList: [], // delivery date
       timeSlotList: [], // time slot
+      postCodeFiledType: 0, // 0、text，1、number，2、Letter & Number'
       errMsgObj: {}
     };
+    this.timer = null;
   }
-  componentDidMount() {
+  async componentDidMount() {
     let timer = setInterval(() => {
       let datePickerDom = document.querySelector('.receiveDate');
-      // datePickerDom.disabled = true;
       if (datePickerDom) {
         datePickerDom.placeholder = datePickerConfig.format.toUpperCase();
         clearInterval(timer);
       }
     }, 3000);
     const { initData = {} } = this.props;
-    const { caninForm } = this.state;
+    const { caninForm, COUNTRY } = this.state;
     this.setState({
       formLoading: true
     });
     // 查询国家
-    this.getCountryList();
+    await this.getCountryList();
+    this.debounceValidvalidationData = debounce(this.validvalidationData, 500);
 
     // 美国 state 字段统一为 province
     caninForm.stateId = initData.provinceId;
@@ -152,103 +165,98 @@ class Form extends React.Component {
     caninForm.regionId = initData.areaId;
     initData.regionId = initData.areaId;
 
-    // deliveryDate和timeSlot有值就显示
-    // if (initData.deliveryDate && initData.timeSlot && this.props.showDeliveryDateTimeSlot) {
-    console.log('666  ', window.__.env.REACT_APP_COUNTRY);
-    if (window.__.env.REACT_APP_COUNTRY == 'ru') {
-      this.getAddressListByKeyWord(initData.address1);
-    }
-    // console.log('666  ★ EditForm initData: ', initData);
-    // console.log('666 ---- ★ EditForm caninForm: ', caninForm);
     this.setState(
       {
         caninForm: Object.assign(caninForm, initData)
       },
-      () => {
-        this.updateDataToProps(this.state.caninForm);
+      async () => {
+        // 获取 DuData、DQE 等开关
+        // addressApiType: 0、validation ，1、suggestion
+        // isOpen: 0、关 , 1、开
+        let qoa = await queryOpenedApi();
+        let res = qoa?.context?.addressApiSettings || null;
+        if (res) {
+          let asobj = null;
+          // DQE 、DADATA、FEDEX
+          asobj =
+            find(
+              res,
+              (e) => e.name == 'DQE' || e.name == 'DADATA' || e.name == 'FEDEX'
+            ) || null;
+          if (asobj && asobj?.isOpen == 1 && asobj?.addressApiType == 1) {
+            this.setState({
+              apiType: asobj?.name
+            });
+          }
+        }
+        // MANUALLY：手动填写 、 AUTOMATICALLY：自动填充
+        if (this.state.formType === 'AUTOMATICALLY' && COUNTRY === 'ru') {
+          await this.getAddressListByKeyWord(initData.address1);
+        }
+
+        this.updateDataToProps();
+        // 获取 session 存储的 address form 数据并处理
+        this.setAddressFormData();
       }
     );
-
-    // 获取 session 存储的 address form 数据并处理
-    this.setAddressFormData();
 
     // 如果有areaId
     if (initData?.areaId) {
       this.getRegionDataByCityId(initData.cityId);
     }
-
     // 重置参数
     this.props.getFormAddressValidFlag(false);
   }
-
-  // 星期
-  getWeekDay = (day) => {
-    let weekArr = [
-      this.getIntlMsg('payment.Sunday'),
-      this.getIntlMsg('payment.Monday'),
-      this.getIntlMsg('payment.Tuesday'),
-      this.getIntlMsg('payment.Wednesday'),
-      this.getIntlMsg('payment.Thursday'),
-      this.getIntlMsg('payment.Friday'),
-      this.getIntlMsg('payment.Saturday')
-    ];
-    return weekArr[day];
-  };
-  // 月份
-  getMonth = (num) => {
-    num = Number(num);
-    let monthArr = [
-      '0',
-      this.getIntlMsg('payment.January'),
-      this.getIntlMsg('payment.February'),
-      this.getIntlMsg('payment.March'),
-      this.getIntlMsg('payment.April'),
-      this.getIntlMsg('payment.May'),
-      this.getIntlMsg('payment.June'),
-      this.getIntlMsg('payment.July'),
-      this.getIntlMsg('payment.August'),
-      this.getIntlMsg('payment.September'),
-      this.getIntlMsg('payment.October'),
-      this.getIntlMsg('payment.November'),
-      this.getIntlMsg('payment.December')
-    ];
-    return monthArr[num];
-  };
-  // delivery date 格式转换: 星期, 15 月份
-  getFormatDeliveryDateStr = (date) => {
-    // 获取明天几号
-    let mdate = new Date();
-    let tomorrow = mdate.getDate() + 1;
-    // 获取星期
-    var week = new Date(date).getDay();
-    let weekday = this.getWeekDay(week);
-    // 获取月份
-    let ymd = date.split('-');
-    let month = this.getMonth(ymd[1]);
-
-    // 判断是否有 ‘明天’ 的日期
-    let thisday = Number(ymd[2]);
-    let daystr = '';
-    if (tomorrow == thisday) {
-      daystr = this.getIntlMsg('payment.tomorrow');
-    } else {
-      daystr = weekday;
-    }
-    return daystr + ', ' + ymd[2] + ' ' + month;
-  };
   // 根据address1查询地址信息
   getAddressListByKeyWord = async (address1) => {
+    const { COUNTRY, apiType } = this.state;
     let res = null;
+    let addls = null;
     try {
-      res = await getAddressBykeyWord({ keyword: address1 });
-      if (res?.context && res?.context?.addressList.length) {
-        let addls = res.context.addressList;
-        // 给查询到的地址拼接 errMsg
-        addls.forEach((v, i) => {
-          v = this.setDuDataAddressErrMsg(v);
+      // 自动填充
+      if (apiType === 'DADATA') {
+        res = await getAddressBykeyWord({ keyword: address1 });
+        if (res?.context && res?.context?.addressList.length) {
+          addls = res.context.addressList;
+          // 给查询到的地址拼接 errMsg
+          addls.forEach((v, i) => {
+            v = this.setDuDataAddressErrMsg(v);
+          });
+        }
+      } else if (apiType === 'DQE') {
+        // address1 = address1.replace(/\|/g, '，');
+        res = await DQEAddressList(address1);
+        addls = res.context;
+        let guojia = COUNTRY.toUpperCase();
+        addls.map((item) => {
+          let newitem = {
+            address1: item?.address1,
+            area: null,
+            areaId: null,
+            block: null,
+            city: item?.localite,
+            cityId: null,
+            country: guojia,
+            countryCode: guojia,
+            entrance: null,
+            flat: null,
+            floor: null,
+            house: null,
+            houseId: null,
+            postCode: item?.codePostal,
+            state: item?.county,
+            provinceId: null,
+            settlement: null,
+            settlementId: null,
+            street: item?.voie,
+            streetId: null,
+            streetWithNoType: null,
+            unrestrictedValue: item?.label
+          };
+          Object.assign(item, newitem);
         });
-        await this.handleAddressInputChange(addls[0]);
       }
+      await this.handleAddressInputChange(addls[0]);
     } catch (err) {
       console.warn(err);
     }
@@ -270,7 +278,7 @@ class Form extends React.Component {
         let robj = res.context.timeSlots;
         robj.forEach((v, i) => {
           // 格式化 delivery date 格式: 星期, 15 月份
-          let datestr = this.getFormatDeliveryDateStr(v.date);
+          let datestr = useConsigneeDeliveryDate(v.date, this.props.intl);
           // 所有数据
           alldata[v.date] = v.dateTimeInfos;
           ddlist.push({
@@ -325,7 +333,7 @@ class Form extends React.Component {
           timeSlotList: tslist
         },
         () => {
-          this.updateDataToProps(this.state.caninForm);
+          this.updateDataToProps();
         }
       );
     } catch (err) {
@@ -337,10 +345,11 @@ class Form extends React.Component {
   };
   // 设置手机号输入限制
   setPhoneNumberReg = () => {
+    const { COUNTRY } = this.state;
     let element = document.getElementById('phoneNumberShipping');
     let maskOptions = [];
     let phoneReg = '';
-    switch (window.__.env.REACT_APP_COUNTRY) {
+    switch (COUNTRY) {
       case 'fr':
         phoneReg = [
           { mask: '(+33) 0 00 00 00 00' },
@@ -349,6 +358,12 @@ class Form extends React.Component {
         break;
       case 'us':
         phoneReg = [{ mask: '000-000-0000' }];
+        break;
+      case 'uk':
+        phoneReg = [
+          { mask: '(+44) 00 00 00 00 00' },
+          { mask: '(+44) 000 00 00 00 00' }
+        ];
         break;
       case 'ru':
         phoneReg = [{ mask: '+{7} (000) 000-00-00' }];
@@ -366,11 +381,11 @@ class Form extends React.Component {
     maskOptions = {
       mask: phoneReg
     };
-    let pval = IMask(element, maskOptions);
+    IMask(element, maskOptions);
   };
   // 1、获取 session 存储的 address form 数据并处理
   setAddressFormData = async () => {
-    const { caninForm } = this.state;
+    const { caninForm, COUNTRY } = this.state;
     // todo
     await this.props.configStore.getSystemFormConfig();
     const localAddressForm = this.props.configStore.localAddressForm;
@@ -393,7 +408,7 @@ class Form extends React.Component {
           } else if (this.props.personalData) {
             // persnalData不需要展示comment
             narr = narr.filter((item) => item.fieldKey != 'comment');
-            if (window.__.env.REACT_APP_COUNTRY == 'us') {
+            if (COUNTRY == 'us') {
               // 美国个人中心只展示：firstName、lastName
               narr = narr.filter((e, i) => {
                 return e.fieldKey == 'firstName' || e.fieldKey == 'lastName';
@@ -419,7 +434,7 @@ class Form extends React.Component {
                   formLoading: false
                 },
                 () => {
-                  this.updateDataToProps(caninForm);
+                  this.updateDataToProps();
                 }
               );
               ress.forEach((item) => {
@@ -441,7 +456,10 @@ class Form extends React.Component {
   };
   // 2、格式化表单json
   formListFormat(array) {
-    const { caninForm } = this.state;
+    const {
+      intl: { messages, formatMessage }
+    } = this.props;
+    const { caninForm, errMsgObj, COUNTRY } = this.state;
     let rule = [];
     let ruleTimeSlot = [];
     let cfdata = Object.assign({}, caninForm);
@@ -479,37 +497,6 @@ class Form extends React.Component {
       },
       defaultObj
     );
-    // My Contact Information
-    // let birthDay = Object.assign(
-    //   {
-    //     id: 99999998,
-    //     sequence: 99999998,
-    //     fieldKey: 'account.birthDate',
-    //     fieldName: 'birthDate',
-    //     inputFreeTextFlag: 0,
-    //     inputSearchBoxFlag: 0,
-    //     inputDropDownBoxFlag: 0
-    //   },
-    //   defaultObj
-    // );
-    // let email = Object.assign(
-    //   {
-    //     id: 99999997,
-    //     sequence: 99999997,
-    //     fieldKey: 'Email',
-    //     fieldName: 'email',
-    //     inputFreeTextFlag: 1,
-    //     inputSearchBoxFlag: 0,
-    //     inputDropDownBoxFlag: 0,
-    //     disabled: true,
-    //   },
-    //   defaultObj
-    // );
-    // if (this.props.personalData) {
-    //   array.push(birthDay);
-    //   array.push(email);
-    // }
-
     // delivery date
     let deliveryDateObj = Object.assign(
       {
@@ -542,7 +529,7 @@ class Form extends React.Component {
     }
 
     if (
-      window.__.env.REACT_APP_COUNTRY == 'ru' &&
+      COUNTRY == 'ru' &&
       !this.props.isCyberBillingAddress &&
       !this.props.personalData
     ) {
@@ -551,57 +538,73 @@ class Form extends React.Component {
     }
     array.sort((a, b) => a.sequence - b.sequence);
     array.forEach((item) => {
-      // filedType '字段类型:0.text,1.number'
-      // item.filedType = item.filedType == 0 ? 'text' : 'number';
-      item.filedType = 'text';
+      // filedType '字段类型:0、text，1、number，2、Letter & Number'
       let regExp = '';
       let errMsg = '';
       switch (item.fieldKey) {
         case 'postCode':
-          window.__.env.REACT_APP_COUNTRY == 'us'
-            ? (regExp = /(^\d{5}$)|(^\d{5}-\d{4}$)/)
-            : (regExp = /^\d{5}$/);
-          errMsg = CURRENT_LANGFILE['enterCorrectPostCode'];
+          let ft = item.filedType;
+          this.setState({
+            postCodeFiledType: ft
+          });
+          if (ft === 0 || ft === 1) {
+            COUNTRY == 'us'
+              ? (regExp = /(^\d{5}$)|(^\d{5}-\d{4}$)/)
+              : (regExp = /^\d{5}$/);
+          } else {
+            regExp = /\S/;
+          }
+          errMsg = formatMessage({ id: 'enterCorrectPostCode' });
           break;
         case 'email':
-          regExp = /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/;
-          errMsg = CURRENT_LANGFILE['pleaseEnterTheCorrectEmail'];
+          regExp = EMAIL_REGEXP;
+          errMsg = formatMessage({ id: 'pleaseEnterTheCorrectEmail' });
           break;
         case 'phoneNumber':
-          if (window.__.env.REACT_APP_COUNTRY == 'fr') {
+          if (COUNTRY == 'fr') {
             // 法国
-            regExp = /^\(\+[3][3]\)[\s](([0][1-9])|[1-9])[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
-          } else if (window.__.env.REACT_APP_COUNTRY == 'us') {
+            regExp =
+              /^\(\+[3][3]\)[\s](([0][1-9])|[1-9])[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
+          } else if (COUNTRY == 'uk') {
+            // 英国
+            regExp =
+              /^\(\+[4][4]\)[\s](([0][1-9][1-9])|[1-9][1-9])[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
+          } else if (COUNTRY == 'us') {
             // 美国
             regExp = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
-          } else if (window.__.env.REACT_APP_COUNTRY == 'mx') {
+          } else if (COUNTRY == 'mx') {
             // 墨西哥
             regExp = /^\+\([5][2]\)[\s\-][0-9]{3}[\s\-][0-9]{3}[\s\-][0-9]{4}$/;
-          } else if (window.__.env.REACT_APP_COUNTRY == 'ru') {
+          } else if (COUNTRY == 'ru') {
             // 俄罗斯
-            regExp = /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
-          } else if (window.__.env.REACT_APP_COUNTRY == 'tr') {
+            regExp =
+              /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
+          } else if (COUNTRY == 'tr') {
             // 土耳其
-            regExp = /^0\s\(?([2-9][0-8][0-9])\)?\s([1-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
+            regExp =
+              /^0\s\(?([2-9][0-8][0-9])\)?\s([1-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
           } else {
             // 其他国家
             regExp = /\S/;
           }
-          errMsg = CURRENT_LANGFILE['enterCorrectPhoneNumber'];
+          errMsg = formatMessage({ id: 'enterCorrectPhoneNumber' });
           break;
         default:
           regExp = /\S/;
           let errstr = '';
-          if (window.__.env.REACT_APP_COUNTRY == 'ru') {
+          if (COUNTRY == 'ru') {
             errstr = 'payment.errorInfo2';
           } else {
             errstr = 'payment.errorInfo';
           }
-          errMsg = CURRENT_LANGFILE[errstr].replace(
-            /{.+}/,
-            CURRENT_LANGFILE[`payment.${item.fieldKey}`]
+
+          errMsg = formatMessage(
+            { id: errstr },
+            { val: messages[`payment.${item.fieldKey}`] }
           );
       }
+
+      //item.filedType = 'text';
       item.regExp = regExp;
       item.errMsg = errMsg;
 
@@ -612,16 +615,35 @@ class Form extends React.Component {
         key: item.fieldKey,
         require: item.requiredFlag == 1 ? true : false
       };
+
+      if (
+        isCanVerifyBlacklistPostCode &&
+        item.fieldKey == 'postCode' &&
+        cfdata?.validFlag === 0
+      ) {
+        // validFlag 1 通过 0 不通过
+        let postCodeAlertMessage =
+          '* Sorry we are not able to deliver your order in this area.';
+        ruleItem.isBlacklist = !cfdata?.validFlag;
+        // ruleItem.errBlacklistMsg = postCodeAlertMessage;
+        this.setState({
+          errMsgObj: Object.assign({}, errMsgObj, {
+            [item.fieldKey]: cfdata.alert || ''
+          })
+        });
+      }
+
       if (item.fieldKey == 'postCode' || item.fieldKey == 'phoneNumber') {
         ruleItem.regExp = regExp;
       }
 
-      item.requiredFlag == 1 &&
-      !(item.fieldKey == 'deliveryDate' || item.fieldKey == 'timeSlot')
-        ? rule.push(ruleItem)
-        : null;
+      if (
+        item.requiredFlag == 1 &&
+        !(item.fieldKey == 'deliveryDate' || item.fieldKey == 'timeSlot')
+      )
+        rule.push(ruleItem);
       // 有 deliveryDate 和 timeSlot 的验证规则
-      item.requiredFlag == 1 ? ruleTimeSlot.push(ruleItem) : null;
+      if (item.requiredFlag == 1) ruleTimeSlot.push(ruleItem);
 
       // 查询城市列表
       if (item.fieldKey == 'city' && item.inputDropDownBoxFlag == 1) {
@@ -633,28 +655,22 @@ class Form extends React.Component {
     cfdata.formRuleOther = rule;
     cfdata.formRuleRu = ruleTimeSlot;
     cfdata.receiveType = 'HOME_DELIVERY';
-    this.setState(
-      {
-        caninForm: Object.assign(caninForm, cfdata)
-      },
-      () => {
-        // console.log('666 caninForm:', this.state.caninForm);
-      }
-    );
+    this.setState({
+      caninForm: Object.assign(caninForm, cfdata)
+    });
     return array;
   }
   // 3、查询国家
   getCountryList = async () => {
-    const { caninForm } = this.state;
     try {
       const res = await getDictionary({ type: 'country' });
       if (res) {
-        let cfm = Object.assign({}, caninForm);
-        cfm.country = res[0].value;
-        cfm.countryId = res[0].id;
         this.setState({
           countryList: res,
-          caninForm: Object.assign(this.state.caninForm, cfm)
+          caninForm: Object.assign({}, this.state.caninForm, {
+            country: res[0].value,
+            countryId: res[0].id
+          })
         });
       }
     } catch (err) {
@@ -796,11 +812,17 @@ class Form extends React.Component {
     }
   };
   // 7、this.props.updateData
-  updateDataToProps = (data) => {
-    const { isDeliveryDateAndTimeSlot } = this.state;
-    let newForm = Object.assign({}, data);
-    // 处理法国电话号码格式，(+33) 0X XX XX XX XX 保存为: (+33) X XX XX XX XX
-    if (window.__.env.REACT_APP_COUNTRY == 'fr') {
+  updateDataToProps = () => {
+    const { caninForm, isDeliveryDateAndTimeSlot, COUNTRY } = this.state;
+    let ctl = find(this.state.countryList, (e) => e.value);
+
+    let newForm = Object.assign({}, caninForm, {
+      country: ctl.value,
+      countryId: ctl.id
+    });
+
+    // 处理法国、英国电话号码格式，(+33) 0X XX XX XX XX 保存为: (+33) X XX XX XX XX
+    if (COUNTRY == 'fr' || COUNTRY == 'uk') {
       let tvalue = newForm.phoneNumber;
       if (tvalue?.length > 19) {
         newForm['phoneNumber'] = tvalue.replace(/0/, '');
@@ -812,11 +834,19 @@ class Form extends React.Component {
     } else {
       newForm.formRule = newForm.formRuleOther;
     }
+    newForm.consigneeNumber = newForm.phoneNumber;
 
-    console.log('666 >>>>>> newForm: ', newForm);
-    console.log('666 >>>>>> initData: ', this.props.initData);
-    // console.log('666 isDeliveryDateAndTimeSlot: ', isDeliveryDateAndTimeSlot);
-    this.props.updateData(newForm);
+    caninForm.country = ctl.value;
+    caninForm.countryId = ctl.id;
+    this.setState(
+      {
+        caninForm
+      },
+      () => {
+        this.props.updateData(newForm);
+        this.validvalidationData('country', newForm.countryId);
+      }
+    );
   };
   // 下拉框选择
   handleSelectedItemChange(key, data) {
@@ -833,6 +863,7 @@ class Form extends React.Component {
       cform.stateNo = data.no; // 省份简写
     } else if (key == 'country') {
       cform.country = data.name;
+      cform.countryId = data.value;
     } else if (key == 'city') {
       cform.city = data.name;
       cform.areaId = '';
@@ -880,7 +911,6 @@ class Form extends React.Component {
         caninForm: Object.assign(caninForm, cform)
       },
       () => {
-        // console.log('666  key: '+key+' data: ',data);
         this.updateDataToProps(this.state.caninForm);
         // 验证数据
         this.validvalidationData(key, data.value);
@@ -911,17 +941,20 @@ class Form extends React.Component {
   };
   // 文本框输入改变
   inputChange = (e) => {
-    const { caninForm } = this.state;
+    const { caninForm, postCodeFiledType, COUNTRY } = this.state;
     const target = e.target;
     let tvalue = target.type === 'checkbox' ? target.checked : target.value;
     const tname = target.name;
     if (tname == 'postCode') {
-      tvalue = tvalue.replace(/\s+/g, '');
-      if (!this.isNumber(tvalue)) {
-        tvalue = '';
-        return;
+      // 可以输入字母+数字
+      if (postCodeFiledType !== 2) {
+        tvalue = tvalue.replace(/\s+/g, '');
+        if (!this.isNumber(tvalue)) {
+          tvalue = '';
+          return;
+        }
       }
-      switch (window.__.env.REACT_APP_COUNTRY) {
+      switch (COUNTRY) {
         case 'us':
           tvalue = tvalue
             .replace(/\s/g, '')
@@ -929,14 +962,23 @@ class Form extends React.Component {
             .replace(/(\d{5})(?:\d)/g, '$1-');
           break;
         default:
-          tvalue = tvalue.replace(/\s+/g, '');
+          if (postCodeFiledType !== 2) {
+            tvalue = tvalue.replace(/\s+/g, '');
+          } else {
+            // 添加字母+数字格式限制
+          }
           break;
       }
     }
     caninForm[tname] = tvalue;
+
     this.setState({ caninForm }, () => {
-      this.updateDataToProps(this.state.caninForm);
-      this.validvalidationData(tname, tvalue);
+      this.updateDataToProps();
+      if (tname == 'postCode' && isCanVerifyBlacklistPostCode) {
+        this.debounceValidvalidationData(tname, tvalue);
+      } else {
+        this.validvalidationData(tname, tvalue);
+      }
     });
   };
   // 文本框失去焦点
@@ -948,11 +990,11 @@ class Form extends React.Component {
       target?.type === 'checkbox' ? target?.checked : target?.value;
     caninForm[tname] = tvalue;
     this.setState({ caninForm }, () => {
-      this.updateDataToProps(this.state.caninForm);
-      // 验证数据
+      this.updateDataToProps();
       this.validvalidationData(tname, tvalue);
     });
   };
+
   // 查询选择类型的文本框失去焦点
   selectInputBlur = (e) => {
     const target = e?.target;
@@ -964,42 +1006,88 @@ class Form extends React.Component {
   };
   // 验证数据
   validvalidationData = async (tname, tvalue) => {
-    const { errMsgObj, caninForm, isDeliveryDateAndTimeSlot } = this.state;
+    const { errMsgObj, caninForm, isDeliveryDateAndTimeSlot, COUNTRY } =
+      this.state;
+
+    if (!caninForm?.formRuleRu?.length) {
+      return;
+    }
+
     let targetRule = null;
 
     if (isDeliveryDateAndTimeSlot) {
-      targetRule = caninForm.formRuleRu.filter((e) => e.key === tname);
+      targetRule = caninForm?.formRuleRu.filter((e) => e.key === tname);
     } else {
-      targetRule = caninForm.formRule.filter((e) => e.key === tname);
+      targetRule = caninForm?.formRule.filter((e) => e.key === tname);
     }
+
+    let postCodeAlertMessage =
+      '* Sorry we are not able to deliver your order in this area.';
     try {
-      await validData(targetRule, { [tname]: tvalue });
+      // 邮编需要黑名单校验
+      if (
+        tname == 'postCode' &&
+        targetRule[0].regExp.test(tvalue) &&
+        isCanVerifyBlacklistPostCode
+      ) {
+        const res = await validPostCodeBlock(tvalue);
+        const data = res?.context || {};
+        // validFlag 1 通过 0 不通过
+        if (res.code === 'K-000000' && !!data?.validFlag) {
+          targetRule[0].isBlacklist = false;
+          this.setState({
+            errMsgObj: Object.assign({}, errMsgObj, {
+              [tname]: ''
+            })
+          });
+        } else {
+          targetRule[0].isBlacklist = true;
+          postCodeAlertMessage = data.alert;
+
+          this.props.getFormAddressValidFlag(false);
+
+          this.setState({
+            errMsgObj: Object.assign({}, errMsgObj, {
+              [tname]: postCodeAlertMessage
+            })
+          });
+        }
+      }
+
+      await validData({
+        rule: targetRule,
+        data: { [tname]: tvalue },
+        intl: this.props.intl
+      });
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
           [tname]: ''
         })
       });
-      if (window.__.env.REACT_APP_COUNTRY != 'ru') {
+      if (COUNTRY != 'ru') {
         // 俄罗斯需要先校验 DuData 再校验所有表单数据
         this.validFormAllData(); // 验证表单所有数据
       }
     } catch (err) {
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
-          [tname]: err.message
+          [tname]: !!err.message
+            ? err.message
+            : tname == 'postCode' && postCodeAlertMessage
         })
       });
     }
   };
   // 验证表单所有数据
   validFormAllData = async () => {
+    const { intl } = this.props;
     const { caninForm, isDeliveryDateAndTimeSlot } = this.state;
     try {
       // 验证整个表单
       if (isDeliveryDateAndTimeSlot) {
-        await validData(caninForm.formRuleRu, caninForm);
+        await validData({ rule: caninForm.formRuleRu, data: caninForm, intl });
       } else {
-        await validData(caninForm.formRule, caninForm);
+        await validData({ rule: caninForm.formRule, data: caninForm, intl });
       }
       this.props.getFormAddressValidFlag(true);
     } catch {
@@ -1016,113 +1104,23 @@ class Form extends React.Component {
     caninForm.cityId = data.id;
     caninForm.city = data.cityName;
     this.setState({ caninForm }, () => {
-      this.updateDataToProps(this.state.caninForm);
+      this.updateDataToProps();
       // 验证数据
       this.validvalidationData('city', caninForm.city);
     });
   };
 
-  // DuData地址搜索选择 1
-  handleAddressInputChange = async (data) => {
-    console.log('666 DuData地址搜索选择 data: ', data);
-    const { caninForm } = this.state;
-    this.setState({
-      address1Data: data
-    });
-    // 判断选中的地址是否有错误信息
-    let errMsg = data.errMsg;
-    if (!errMsg) {
-      // DuData相关参数
-      caninForm.province = data.province;
-      caninForm.area = data.area;
-      caninForm.settlement = data.settlement;
-      caninForm.street = data.street;
-      caninForm.house = data.house;
-      caninForm.housing = data.block;
-      caninForm.entrance = data.entrance;
-      caninForm.apartment = data.flat;
-
-      // 这里的Id都是DuData返回的字符串
-      caninForm.provinceIdStr = data.provinceId;
-      caninForm.cityIdStr = data.cityId;
-      caninForm.areaIdStr = data.areaId;
-      caninForm.settlementIdStr = data.settlementId;
-
-      // 赋值查询到的地址信息
-      caninForm.DuData = data;
-      caninForm.address1 = data.unrestrictedValue;
-      caninForm.city = data.city;
-      caninForm.postCode = data.postCode;
-
-      this.setState({ caninForm }, async () => {
-        // 判断暂存地址 tempolineCache 中是否有要查询的地址
-        const key = data.unrestrictedValue;
-        let calculation = tempolineCache[key];
-        if (!calculation) {
-          calculation = await this.getShippingCalculation(data);
-          // 把地址暂存到 tempolineCache
-          tempolineCache[key] = calculation;
-        }
-
-        // Москва 和 Московская 不请求查询运费接口
-        // delivery fee= 400, MinDeliveryTime= 1, MaxDeliveryTime= 2
-        if (data.province == 'Москва' || data.province == 'Московская') {
-          calculation = {
-            deliveryPrice: 400,
-            price: 400,
-            maxDeliveryTime: 2,
-            minDeliveryTime: 1
-          };
-        }
-
-        // 赋值查询到的地址信息
-        caninForm.calculation = calculation;
-        caninForm.minDeliveryTime = calculation.minDeliveryTime;
-        caninForm.maxDeliveryTime = calculation.maxDeliveryTime;
-        // 重置地址相关信息并清空错误提示
-        this.setState(
-          {
-            caninForm,
-            errMsgObj: {
-              ['address1']: ''
-            }
-          },
-          () => {
-            // console.log('666 ★ DuData地址搜索选择 caninForm: ',this.state.caninForm)
-            // 控制按钮状态
-            this.props.getFormAddressValidFlag(true);
-            // purchases接口计算运费
-            this.props.calculateFreight(this.state.caninForm);
-            // delivery date and time slot
-            if (this.props.showDeliveryDateTimeSlot) {
-              this.getDeliveryDateAndTimeSlotData(data?.provinceId);
-            } else {
-              this.updateDataToProps(caninForm);
-            }
-          }
-        );
-      });
-    } else {
-      // errMsg = this.getIntlMsg('payment.wrongAddress');
-      // 显示错误信息
-      this.setState({
-        errMsgObj: {
-          ['address1']: this.getIntlMsg('payment.pleaseInput') + errMsg
-        },
-        isDeliveryDateAndTimeSlot: false
-      });
-    }
-  };
   // 对应的国际化字符串
   getIntlMsg = (str) => {
     return this.props.intl.messages[str];
   };
   // 地址搜索框失去焦点 2
   handleSearchSelectionBlur = (e) => {
-    const { caninForm } = this.state;
+    const { caninForm, apiType } = this.state;
     const target = e.target;
-    const value = target.value;
-    if (value == '') {
+    const tvalue = target?.value;
+    const tname = target?.name;
+    if (tvalue == '') {
       this.props.getFormAddressValidFlag(false);
       caninForm.address1 = '';
       this.setState(
@@ -1131,20 +1129,164 @@ class Form extends React.Component {
           address1Data: []
         },
         () => {
-          this.updateDataToProps(this.state.caninForm);
+          this.updateDataToProps();
           this.selectInputBlur(e);
+        }
+      );
+    }
+    if (apiType === 'DQE' && tvalue) {
+      setTimeout(() => {
+        if (!this.state.addrSearchSelectFlag) {
+          caninForm[tname] = this.state.newAddress1;
+          this.setState({
+            caninForm
+          });
+        }
+      }, 1000);
+    }
+  };
+  // 地址搜索选择 1 (DuData、DQE)
+  handleAddressInputChange = async (data) => {
+    console.log('data', data);
+    const { caninForm, apiType } = this.state;
+
+    this.setState({
+      address1Data: data,
+      addrSearchSelectFlag: true
+    });
+    if (apiType === 'DADATA') {
+      // 判断选中的地址是否有错误信息
+      let errMsg = data.errMsg;
+      if (!errMsg) {
+        // DuData相关参数
+        caninForm.province = data.province;
+        caninForm.area = data.area;
+        caninForm.settlement = data.settlement;
+        caninForm.street = data.street;
+        caninForm.house = data.house;
+        caninForm.housing = data.block;
+        caninForm.entrance = data.entrance;
+        caninForm.apartment = data.flat;
+
+        // 这里的Id都是DuData返回的字符串
+        caninForm.provinceIdStr = data.provinceId;
+        caninForm.cityIdStr = data.cityId;
+        caninForm.areaIdStr = data.areaId;
+        caninForm.settlementIdStr = data.settlementId;
+
+        // 赋值查询到的地址信息
+        caninForm.DuData = data;
+        caninForm.address1 = data.unrestrictedValue;
+        caninForm.city = data.city;
+        caninForm.postCode = data.postCode;
+
+        this.setState({ caninForm }, async () => {
+          // 判断暂存地址 tempolineCache 中是否有要查询的地址
+          const key = data.unrestrictedValue;
+          let calculation = tempolineCache[key];
+          if (!calculation) {
+            calculation = await this.getShippingCalculation(data);
+            // 把地址暂存到 tempolineCache
+            tempolineCache[key] = calculation;
+          }
+
+          // Москва 和 Московская 不请求查询运费接口
+          // delivery fee= 400, MinDeliveryTime= 1, MaxDeliveryTime= 2
+          if (data.province == 'Москва' || data.province == 'Московская') {
+            calculation = {
+              deliveryPrice: 400,
+              price: 400,
+              maxDeliveryTime: 2,
+              minDeliveryTime: 1
+            };
+          }
+
+          // 赋值查询到的地址信息
+          caninForm.calculation = calculation;
+          caninForm.minDeliveryTime = calculation.minDeliveryTime;
+          caninForm.maxDeliveryTime = calculation.maxDeliveryTime;
+
+          // 重置地址相关信息并清空错误提示
+          this.setState(
+            {
+              caninForm: caninForm,
+              errMsgObj: {
+                ['address1']: ''
+              }
+            },
+            () => {
+              // 控制按钮状态
+              this.props.getFormAddressValidFlag(true);
+              // purchases接口计算运费
+              this.props.calculateFreight(this.state.caninForm);
+              // delivery date and time slot
+              if (this.props.showDeliveryDateTimeSlot) {
+                this.getDeliveryDateAndTimeSlotData(data?.provinceId);
+              } else {
+                this.updateDataToProps();
+              }
+            }
+          );
+        });
+      } else {
+        // 显示错误信息
+        this.setState({
+          errMsgObj: {
+            ['address1']: this.getIntlMsg('payment.pleaseInput') + errMsg
+          },
+          isDeliveryDateAndTimeSlot: false
+        });
+      }
+    } else if (apiType === 'DQE') {
+      returnDQE({
+        idVoie: data.idvoie,
+        streetNumber: data.selectedListeNumero,
+        pays: data.pays
+      });
+      Object.assign(caninForm, {
+        address1: data.address1,
+        deliveryAddress: data.label,
+        city: data.city,
+        county: data?.county || null,
+        postCode: data.postCode
+      });
+      this.setState(
+        {
+          newAddress1: data.label,
+          caninForm
+        },
+        () => {
+          this.validvalidationData('address1', this.state.caninForm.address1);
+          this.validvalidationData('postCode', this.state.caninForm.postCode);
+          this.updateDataToProps();
         }
       );
     }
   };
   // 地址搜索框输入值接收，控制按钮状态 3
   getSearchInputChange = (e) => {
+    const { apiType, caninForm } = this.state;
+    //fix bug start
+    Object.assign(caninForm, {
+      address1: e.target.value,
+      deliveryAddress: e.target.value
+    });
+    //fix bug end
     const target = e?.target;
     const tname = target?.name;
     const tvalue = target?.value;
-    this.props.getFormAddressValidFlag(false);
+    if (apiType === 'DADATA') {
+      this.props.getFormAddressValidFlag(false);
+    } else {
+      this.setState({
+        newAddress1: tvalue,
+        addrSearchSelectFlag: false,
+        caninForm
+      });
+    }
     // 验证数据
     this.validvalidationData(tname, tvalue);
+    this.updateDataToProps();
   };
 
   // 处理查询到的DuData地址信息，拼装errMsg
@@ -1165,42 +1307,88 @@ class Form extends React.Component {
       province = this.getIntlMsg('payment.state'),
       settlement = this.getIntlMsg('payment.settlement');
 
-    data.street ? '' : errArr.push(streets);
-    data.postCode ? '' : errArr.push(postCode);
-    data.house ? '' : errArr.push(house);
-    data.city ? '' : errArr.push(city);
-    data.province ? '' : errArr.push(province);
-    data.settlement ? '' : errArr.push(settlement);
+    !data.street && errArr.push(streets);
+    !data.postCode && errArr.push(postCode);
+    !data.house && errArr.push(house);
+    !data.city && errArr.push(city);
+    !data.province && errArr.push(province);
+    !data.settlement && errArr.push(settlement);
 
     data.errMsg = errArr.join(',');
     return data;
   };
   // 地址搜索框
   addressSearchSelectionJSX = (item) => {
-    const { caninForm } = this.state;
+    const { caninForm, COUNTRY, apiType } = this.state;
+
     return (
       <>
         <SearchSelection
           queryList={async ({ inputVal }) => {
-            let res = await getAddressBykeyWord({ keyword: inputVal });
-            let robj = (
-              (res?.context && res?.context?.addressList) ||
-              []
-            ).map((ele) => Object.assign(ele, { name: ele.unrestrictedValue }));
+            let res = null;
+            let robj = null;
+            // 自动填充
+            if (apiType === 'DADATA') {
+              res = await getAddressBykeyWord({ keyword: inputVal });
+              robj = ((res?.context && res?.context?.addressList) || []).map(
+                (ele) => Object.assign(ele, { name: ele.unrestrictedValue })
+              );
+            } else if (apiType === 'DQE') {
+              // inputVal = inputVal.replace(/\|/g, '，');
+              res = await DQEAddressList(inputVal);
+              robj = (res?.context || []).map((item) =>
+                Object.assign(item, {
+                  name: item.label,
+                  newName: item.address1
+                })
+              );
+              let guojia = COUNTRY.toUpperCase();
+              robj.map((item) => {
+                let newitem = {
+                  address1: item?.address1,
+                  area: null,
+                  areaId: null,
+                  block: null,
+                  city: item?.localite,
+                  cityId: null,
+                  country: guojia,
+                  countryCode: guojia,
+                  entrance: null,
+                  flat: null,
+                  floor: null,
+                  house: null,
+                  houseId: null,
+                  postCode: item?.codePostal,
+                  state: item?.county,
+                  provinceId: null,
+                  settlement: null,
+                  settlementId: null,
+                  street: item?.voie,
+                  streetId: null,
+                  streetWithNoType: null,
+                  unrestrictedValue: item?.label
+                };
+                Object.assign(item, newitem);
+              });
+            }
+
             if (robj.length) {
               // 给查询到的地址拼接 errMsg
               robj.forEach((item) => {
                 item = this.setDuDataAddressErrMsg(item);
               });
             } else {
-              this.props.getFormAddressValidFlag(false);
+              if (COUNTRY === 'ru') {
+                this.props.getFormAddressValidFlag(false);
+              }
             }
             return robj;
           }}
+          timeout={apiType === 'DADATA' ? 80 : 1000}
           selectedItemChange={(data) => this.handleAddressInputChange(data)}
           searchSelectionBlur={this.handleSearchSelectionBlur}
           searchInputChange={this.getSearchInputChange}
-          key={caninForm[item.fieldKey]}
+          // key={caninForm[item.fieldKey]}
           defaultValue={caninForm[item.fieldKey]}
           value={caninForm[item.fieldKey] || ''}
           freeText={item.inputFreeTextFlag == 1 ? true : false}
@@ -1220,6 +1408,10 @@ class Form extends React.Component {
   // 文本框
   inputJSX = (item) => {
     const { caninForm } = this.state;
+    // uk和fr,才有postCode校验
+    const isVerifyPostCodeBlacklist =
+      item.fieldKey === 'postCode' && isCanVerifyBlacklistPostCode;
+
     return (
       <>
         <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
@@ -1233,6 +1425,7 @@ class Form extends React.Component {
             name={item.fieldKey}
             disabled={item?.disabled ? true : false}
             maxLength={item.maxLength}
+            autoComplete="new-password"
           />
           <label className="rc-input__label" htmlFor="id-text1" />
         </span>
@@ -1254,6 +1447,7 @@ class Form extends React.Component {
             onBlur={this.inputBlur}
             name={item.fieldKey}
             maxLength={item.maxLength}
+            autoComplete="new-password"
           ></textarea>
           <label className="rc-input__label" htmlFor="id-text1" />
         </span>
@@ -1285,7 +1479,7 @@ class Form extends React.Component {
   };
   // 下拉框
   dropDownBoxJSX = (item) => {
-    const { caninForm } = this.state;
+    const { caninForm, countryList } = this.state;
     return (
       <>
         <span
@@ -1297,26 +1491,31 @@ class Form extends React.Component {
           {/* 下拉框 key 和 value 为 id , fieldKey+'Id' */}
           {item.fieldKey == 'state' ? (
             <Selection
+              key={caninForm[item.fieldKey + 'Id']}
               selectedItemChange={(data) =>
                 this.handleSelectedItemChange(item.fieldKey, data)
               }
               optionList={this.computedList(item.fieldKey)}
               choicesInput={true}
-              emptyFirstItem="State"
+              emptyFirstItem={'State'}
               name={item.fieldKey}
               selectedItemData={{ value: caninForm[item.fieldKey + 'Id'] }}
-              key={caninForm[item.fieldKey + 'Id']}
             />
           ) : (
             <Selection
+              key={caninForm[item.fieldKey + 'Id']}
               selectedItemChange={(data) =>
                 this.handleSelectedItemChange(item.fieldKey, data)
               }
               optionList={this.computedList(item.fieldKey)}
               choicesInput={true}
               name={item.fieldKey}
-              selectedItemData={{ value: caninForm[item.fieldKey + 'Id'] }}
-              key={caninForm[item.fieldKey + 'Id']}
+              selectedItemData={{
+                value:
+                  item.fieldKey === 'country'
+                    ? countryList[0].id
+                    : caninForm[item.fieldKey + 'Id']
+              }}
             />
           )}
         </span>
@@ -1329,7 +1528,7 @@ class Form extends React.Component {
     let newdate = format(date, 'yyyy/MM/dd');
     caninForm['birthdate'] = date ? newdate : '';
     this.setState({ caninForm }, () => {
-      this.updateDataToProps(this.state.caninForm);
+      this.updateDataToProps();
       // 验证数据
       this.validvalidationData('birthdate', newdate);
     });
@@ -1355,6 +1554,7 @@ class Form extends React.Component {
                 name="email"
                 value={caninForm.email || ''}
                 maxLength="50"
+                autoComplete="new-password"
                 disabled
               />
               <label className="rc-input__label" htmlFor="id-text1" />
@@ -1386,6 +1586,7 @@ class Form extends React.Component {
       </>
     );
   };
+
   render() {
     const {
       dataLoading,

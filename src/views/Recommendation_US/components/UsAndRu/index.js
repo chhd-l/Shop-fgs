@@ -2,30 +2,29 @@ import React, { useEffect, useState } from 'react';
 import LazyLoad from 'react-lazyload';
 import Help from '../../../SmartFeederSubscription/modules/Help';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
+import usDog from '../../images/2usChange.jpg';
 
 const imgUrlPreFix = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
 const howImageArr = [
   {
     img: `${imgUrlPreFix}/HOW-TO-JOIN-SHOP.png`,
     title: 'GRAB YOUR PRODUCTS',
-    des: 'Find your handpicked nutrition products in your cart.'
+    des: 'Add expert-recommended pet food and products to your cart'
   },
   {
     img: `${imgUrlPreFix}/HOW-TO-JOIN-AUTOSHIP.png`,
     title: 'CHOOSE AUTOMATIC SHIPPING',
-    des: 'Set your automatic shipping schedule  and input your payment method.'
+    des: 'Select automatic shipping and input your payment method'
   },
   {
     img: `${imgUrlPreFix}/HOW-TO-JOIN-SCHEDULE.png`,
     title: 'GET WHAT YOUR PET NEEDS, WHEN YOU NEED IT',
-    des:
-      'Receive your product automatically based on your schedule. Change or cancel at any time.'
+    des: 'Receive your autoship purchase based on your schedule––change or cancel at any time'
   },
   {
     img: `${imgUrlPreFix}/HOW-TO-JOIN-ENJOY.png`,
     title: 'ENJOY YOUR PERKS',
-    des:
-      'Get your exclusive <strong>Royal Canin Club</strong> perks, including access to Royal Canin Pet Advisor Live.'
+    des: 'Get your exclusive Royal Canin Club perks, including access to a Royal Canin Advisor'
   }
 ];
 
@@ -44,8 +43,8 @@ const UsAndRu = (props) => {
   let cur_recommendation4 = `${imgUrlPreFix}/3xquality.jpg`;
   const imagesArr = [
     {
-      img: `${imgUrlPreFix}/COHORT-A_CLUB-BENEFITS_PET-ADVISOR.png`,
-      text: 'Royal Canin Pet Advisor Live'
+      img: `${imgUrlPreFix}/COHORT-A_CLUB-BENEFITS_PET-ADVISOR_COPY2.jpg`,
+      text: 'Access to a Royal Canin Advisor'
     },
     {
       img: `${imgUrlPreFix}/CLUB-BENEFITS_PRODUCT-RECOS.png`,
@@ -80,6 +79,7 @@ const UsAndRu = (props) => {
                 <div className="img-hover-switch rc-margin-bottom--sm">
                   <LazyLoad>
                     <img
+                      style={{ width: '180px' }}
                       className="m-center"
                       src={item.img}
                       alt="recommendation image"
@@ -102,7 +102,9 @@ const UsAndRu = (props) => {
           <div className=" col-12 col-lg-6">
             <div className=" text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
               <h2 className="rc-beta markup-text">
-                <FormattedMessage id="recommendation.plusTitle" />
+                <strong>
+                  <FormattedMessage id="recommendation.plusTitle" />
+                </strong>
               </h2>
               <p style={{ color: 'rgb(23, 43, 77)' }}>
                 <FormattedMessage id="recommendation.plusContent" />
@@ -118,9 +120,15 @@ const UsAndRu = (props) => {
             </div>
           </div>
           <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
-            <LazyLoad>
-              <img src={PuppyJPG} alt="puppy image" />
-            </LazyLoad>
+            {window.__.env.REACT_APP_COUNTRY === 'us' ? (
+              <LazyLoad>
+                <img src={usDog} alt="puppy image" />
+              </LazyLoad>
+            ) : (
+              <LazyLoad>
+                <img src={PuppyJPG} alt="puppy image" />
+              </LazyLoad>
+            )}
           </div>
         </div>
       </div>

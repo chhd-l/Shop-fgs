@@ -119,6 +119,8 @@ const FrhowitworksnewListmobile = [
   }
 ];
 
+const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
+
 class ClubLandingPageNew extends React.Component {
   constructor(props) {
     super(props);
@@ -231,19 +233,6 @@ class ClubLandingPageNew extends React.Component {
         />
         <main className={'rc-content--fixed-header'}>
           <BannerTip />
-          <div
-            style={{
-              textAlign: 'center',
-              height: '42px',
-              backgroundColor: '#F6F6F6',
-              display: 'flex',
-              justifyContent: 'center'
-            }}
-          >
-            <div style={{ alignSelf: 'center', color: '#E2001A' }}>
-              <FormattedMessage id="ClubLP.discount.content"></FormattedMessage>
-            </div>
-          </div>
 
           <LongBanner />
 
@@ -270,7 +259,14 @@ class ClubLandingPageNew extends React.Component {
                     <div className="rc-layout-container rc-two-column rc-content-h-middle flex-md-row ">
                       <div className="rc-column">
                         <div className=" rc-full-width">
-                          <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
+                          <ul
+                            className="rc-list rc-list--blank rc-list--align rc-list--large-icon"
+                            style={
+                              window.__.env.REACT_APP_COUNTRY == 'fr'
+                                ? { fontWeight: '550' }
+                                : {}
+                            }
+                          >
                             <li className="rc-list__item flex">
                               <div>
                                 <em className="bingo rc-margin-right--xs"></em>
@@ -307,20 +303,34 @@ class ClubLandingPageNew extends React.Component {
                           <div className="rc-padding--xs detextcenter">
                             <DistributeHubLinkOrATag
                               href={'/product-finder'}
+                              data-tms-ruproductfinderlandingpage="1"
                               ariaLabel="Links to product finder"
                             >
                               <button
+                                onClick={() => {
+                                  window.__.env.REACT_APP_COUNTRY == 'ru' &&
+                                    dataLayer.push({
+                                      event: 'ruClubSubscriptionCtA',
+                                      ruClubSubscriptionCtAName:
+                                        'Choose a diet - Top'
+                                    });
+                                }}
                                 className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs"
                                 style={
                                   window.__.env.REACT_APP_COUNTRY === 'fr'
                                     ? {
-                                        paddingLeft: '8px',
-                                        paddingRight: '8px'
+                                        paddingLeft: '20px',
+                                        paddingRight: '20px'
                                       }
                                     : null
                                 }
                               >
-                                <FormattedMessage id="ClubLP.Advantage.button" />
+                                <FormattedMessage
+                                  id="ClubLP.Advantage.button"
+                                  values={
+                                    isMobile ? { val: <br /> } : { val: null }
+                                  }
+                                />
                               </button>
                             </DistributeHubLinkOrATag>
                           </div>
@@ -409,7 +419,16 @@ class ClubLandingPageNew extends React.Component {
                               </span>
                             </p>
                             <Link to="subscription-landing">
-                              <button className="rc-btn rc-btn--two">
+                              <button
+                                className="rc-btn rc-btn--two"
+                                onClick={() => {
+                                  window.__.env.REACT_APP_COUNTRY == 'ru' &&
+                                    dataLayer.push({
+                                      event: 'ruClubSubscriptionCtA',
+                                      ruClubSubscriptionCtAName: 'Learn More'
+                                    });
+                                }}
+                              >
                                 Узнать подробнее
                               </button>
                             </Link>

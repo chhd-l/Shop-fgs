@@ -16,11 +16,15 @@ import stores from '@/store';
 import kittencute from './img/kittencute.png';
 import kittenimgone from './img/kittenimgone.png';
 import kittenimgtwo from './img/kittenimgtwo.png';
+import { getOtherSpecies, getSpecies } from '@/utils/GA';
 
 import BreadCrumbs from '../../components/BreadCrumbs';
 import Logo from '../../components/Logo';
 import Help from './modules/help';
-import { getDetailsBySpuNo } from '@/api/details';
+import {
+  getDetailsBySpuNoIgnoreDisplayFlag,
+  getDetailsBySpuNo
+} from '@/api/details';
 import { sitePurchase } from '@/api/cart';
 import './index.css';
 
@@ -52,6 +56,7 @@ const kittyData = [
     dataCurrent: 2
   }
 ];
+let skuArr = ['FGS20049', 'FGS20050'];
 
 @inject('configStore', 'checkoutStore', 'loginStore', 'clinicStore')
 @observer
@@ -69,12 +74,13 @@ class DedicatedLandingPage extends React.Component {
       },
       searchEvent: {},
       showKitten: false,
-      selectLine: 0,
+      selectLine: 3,
       buttonLoading: false,
       productList: [],
       promotionCode: '',
-      listOne: [], // 商品数据1
-      listTwo: [], // 商品数据2
+      choosedProduct: [],
+      // listOne: [], // 商品数据1
+      // listTwo: [], // 商品数据2
       details: {
         id: '',
         goodsName: '',
@@ -109,8 +115,58 @@ class DedicatedLandingPage extends React.Component {
       localItemRoyal.remove('logout-redirect-url');
       location.href = url;
     }
-    this.setState({ promotionCode: this.props.match.params.id });
+    let res = await Promise.all([
+      getDetailsBySpuNoIgnoreDisplayFlag('FGS20049'),
+      getDetailsBySpuNoIgnoreDisplayFlag('FGS20050')
+    ]);
+    let productList = [res[0]?.context, res[1]?.context];
+    console.info(' productList[selectLine]', productList);
+    this.handleGoodsGA(productList);
+    // dataLayer.push({
+    //   products: productList.map((el) => handleGoodsGA(el))
+    // });
+
+    this.setState({ productList, promotionCode: this.props.match.params.id });
   }
+  handleGoodsGA = (productList) => {
+    try {
+      if (!productList) {
+        return;
+      }
+      let products = productList.map((goodsData) => {
+        let technology = (
+          getOtherSpecies(goodsData, 'Technology') || []
+        ).toString();
+        let range = (getOtherSpecies(goodsData, 'Range') || []).toString();
+        let breed = getOtherSpecies(goodsData, 'breeds') || [];
+        let choosedItem =
+          goodsData.goodsInfos.find((el) => el.selected) ||
+          goodsData.goodsInfos[0];
+        return {
+          price: goodsData.goodsInfos[0]?.marketPrice, //Product Price, including discount if promo code activated for this product
+          specie: getSpecies(goodsData), //'Cat' or 'Dog',
+          range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
+          name: choosedItem.goodsInfoName, //WeShare product name, always in English
+          mainItemCode: choosedItem.goodsInfoNo, //Main item code
+          SKU: choosedItem.goodsInfoNo, //product SKU
+          subscription: 'One Shot', //'One Shot', 'Subscription', 'Club'
+          subscriptionFrequency: '', //Frequency in weeks, to populate only if 'subscription' equals 'Subscription or Club'
+          technology, //'Dry', 'Wet', 'Pack'
+          brand: 'Royal Canin', //'Royal Canin' or 'Eukanuba'
+          size: choosedItem.specText || '', //?Same wording as displayed on the site, with units depending on the country (oz, grams...)
+          breed, //All animal breeds associated with the product in an array
+          quantity: choosedItem.buyCount || 1, //Number of products, only if already added to cart
+          sizeCategory: '', //'Less than 4Kg', 'Over 45kg'... reflecting the 'Weight of my animal' field present in the PLP filters
+          promoCodeName: '', //Promo code name, only if promo activated
+          promoCodeAmount: '' //Promo code amount, only if promo activated
+        };
+      });
+      console.info('GADataproductsproducts', products);
+      dataLayer.push({ products });
+    } catch (err) {
+      console.info('err', err);
+    }
+  };
 
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -126,7 +182,7 @@ class DedicatedLandingPage extends React.Component {
     this.setState({
       showKitten: !this.state.showKitten,
       buttonLoading: false,
-      selectLine: 0
+      selectLine: 3
     });
   };
   // 选中哪一项商品
@@ -139,73 +195,81 @@ class DedicatedLandingPage extends React.Component {
   // 添加商品并跳转购物车
   addCart = async () => {
     const { selectLine } = this.state;
-    if (selectLine === 0) {
+
+    dataLayer.push({
+      event: 'kitKittenRecoAddToCart',
+      landingPageAddProduct: {
+        SKU: skuArr[selectLine] //product SKU, must absolutely be coherent with the SKU displayed in the initial product array
+      }
+    });
+    if (selectLine > 1) {
       return;
     }
     this.setState({ buttonLoading: true });
-    if (selectLine === 1) {
-      const { context } = await getDetailsBySpuNo(2544);
-      this.setState({ listOne: context });
-      this.getProductList();
-    } else if (selectLine === 2) {
-      const { context } = await getDetailsBySpuNo(2522);
-      this.setState({ listTwo: context });
-      this.getProductList();
-    }
+    this.getProductList();
+
+    // if (selectLine === 1) {
+    //   const { context } = await getDetailsBySpuNoIgnoreDisplayFlag('FGS20049');
+    //   this.setState({ listOne: context });
+    //   this.getProductList();
+    // } else if (selectLine === 2) {
+    //   const { context } = await getDetailsBySpuNoIgnoreDisplayFlag('FGS20050');
+    //   this.setState({ listTwo: context });
+    //   this.getProductList();
+    // }
   };
   // 获取选中商品sku
   getProductList = async () => {
-    const { selectLine, listOne, listTwo } = this.state;
-    let list = [];
-    let unProductList = [];
-    if (selectLine === 1) {
-      list = listOne.goodsInfos;
-      unProductList = listOne;
-    } else {
-      list = listTwo.goodsInfos;
-      unProductList = listTwo;
-    }
-    let productList = {};
-    for (let i = 0; i < list.length; i++) {
-      if (list[i].stock !== 0) {
-        list[i].selected = true;
-        productList = list[i];
-        break;
-      }
-    }
+    const { selectLine, productList } = this.state;
+    // let productList = {};
+    // let unProductList = [];
+    productList[selectLine].goodsInfos[0].selected = true;
+    let unProductList = productList[selectLine];
+    let choosedProduct = productList[selectLine].goodsInfos[0];
+    // if (selectLine === 1) {
+    //   listOne.goodsInfos[0].selected = true;
+    //   unProductList = listOne;
+    //   productList = listOne.goodsInfos[0];
+    // } else {
+    //   unProductList = listTwo;
+    //   listTwo.goodsInfos[1].selected = true;
+    //   productList = listTwo.goodsInfos[1];
+    // }
     this.setState({
-      productList: [productList],
+      choosedProduct: [choosedProduct],
       unProductList
     });
     // 判断是否登陆
     if (this.props.loginStore.isLogin) {
-      this.hanldeLoginAddToCart();
+      this.hanldeLoginAddToCart(choosedProduct);
     } else {
-      this.hanldeUnloginAddToCart();
+      this.hanldeUnloginAddToCart(choosedProduct, unProductList);
     }
   };
 
   // 已登录
-  async hanldeLoginAddToCart() {
-    let { productList, promotionCode } = this.state;
-    if (productList.length > 0) {
+  async hanldeLoginAddToCart(choosedProduct) {
+    let { promotionCode } = this.state;
+    if (choosedProduct.length > 0) {
       try {
         await this.props.checkoutStore.setPromotionCode(promotionCode);
         await sitePurchase({
-          goodsInfoId: productList[0].goodsInfoId,
+          goodsInfoId: choosedProduct[0].goodsInfoId,
           goodsNum: 1,
           goodsCategory: '',
           goodsInfoFlag: 0,
           recommendationId:
             this.props.clinicStore.linkClinicRecommendationInfos
               ?.recommendationId || this.props.clinicStore.linkClinicId,
-          recommendationInfos: this.props.clinicStore
-            .linkClinicRecommendationInfos,
+          recommendationInfos:
+            this.props.clinicStore.linkClinicRecommendationInfos,
           recommendationName:
             this.props.clinicStore.linkClinicRecommendationInfos
               ?.recommendationName || this.props.clinicStore.linkClinicName
         });
-        await this.props.checkoutStore.updateLoginCart();
+        await this.props.checkoutStore.updateLoginCart({
+          intl: this.props.intl
+        });
         this.setState({ buttonLoading: false, showKitten: false });
         this.props.history.push('/cart');
       } catch (e) {
@@ -217,12 +281,12 @@ class DedicatedLandingPage extends React.Component {
   }
 
   get addCartBtnStatus() {
-    return this.state.productList.length > 0;
+    return this.state.choosedProduct.length > 0;
   }
 
   // 未登录
-  async hanldeUnloginAddToCart() {
-    let { productList, unProductList, promotionCode } = this.state;
+  async hanldeUnloginAddToCart(choosedProduct, unProductList) {
+    let { promotionCode } = this.state;
     await this.props.checkoutStore.setPromotionCode(promotionCode);
     let specList = unProductList.goodsSpecs;
     let specDetailList = unProductList.goodsSpecDetails;
@@ -233,7 +297,8 @@ class DedicatedLandingPage extends React.Component {
         });
         sItem.chidren.map((child) => {
           if (
-            productList[0]?.mockSpecDetailIds.indexOf(child.specDetailId) > -1
+            choosedProduct[0]?.mockSpecDetailIds.indexOf(child.specDetailId) >
+            -1
           ) {
             child.selected = true;
           }
@@ -249,13 +314,13 @@ class DedicatedLandingPage extends React.Component {
       {
         selected: true,
         sizeList: unProductList.goodsInfos,
-        goodsInfo: { ...productList },
+        goodsInfo: { ...choosedProduct },
         quantity: 1,
-        currentUnitPrice: productList[0]?.marketPrice,
+        currentUnitPrice: choosedProduct[0]?.marketPrice,
         goodsInfoFlag: 0,
         periodTypeId: null,
-        recommendationInfos: this.props.clinicStore
-          .linkClinicRecommendationInfos,
+        recommendationInfos:
+          this.props.clinicStore.linkClinicRecommendationInfos,
         recommendationId:
           this.props.clinicStore.linkClinicRecommendationInfos
             ?.recommendationId || this.props.clinicStore.linkClinicId,
@@ -279,6 +344,7 @@ class DedicatedLandingPage extends React.Component {
       valid: this.addCartBtnStatus,
       cartItemList: [cartItem]
     });
+
     this.setState({ buttonLoading: false, showKitten: false });
     this.props.history.push('/cart');
   }
@@ -412,7 +478,12 @@ class DedicatedLandingPage extends React.Component {
                                   paddingLeft: '80px',
                                   paddingRight: '80px'
                                 }}
-                                onClick={() => this.changeShowKitten()}
+                                onClick={() => {
+                                  dataLayer.push({
+                                    'event ': 'kitKittenRecoTabClick'
+                                  });
+                                  this.changeShowKitten();
+                                }}
                               >
                                 J’en profite
                               </button>
@@ -483,9 +554,9 @@ class DedicatedLandingPage extends React.Component {
                         </p>
                         <article
                           className="rc-card rc-card--a pd27"
-                          onClick={() => this.changeSetLine(index.dataCurrent)}
+                          onClick={() => this.changeSetLine(indexs)}
                           style={
-                            selectLine == index.dataCurrent
+                            selectLine == indexs
                               ? {
                                   boxShadow: ' 0vh 0vh 0.3vh 0.1vh #E2001A'
                                 }
@@ -529,7 +600,7 @@ class DedicatedLandingPage extends React.Component {
                     className={`rc-btn rc-btn--one ${
                       this.state.buttonLoading ? 'ui-btn-loading' : ''
                     }  ${
-                      this.state.selectLine === 0 ? 'rc-btn-solid-disabled' : ''
+                      this.state.selectLine > 1 ? 'rc-btn-solid-disabled' : ''
                     }`}
                     onClick={this.addCart}
                   >
@@ -592,11 +663,9 @@ class DedicatedLandingPage extends React.Component {
                           </p>
                           <article
                             className="rc-card rc-card--a pd27"
-                            onClick={() =>
-                              this.changeSetLine(index.dataCurrent)
-                            }
+                            onClick={() => this.changeSetLine(indexs)}
                             style={
-                              selectLine == index.dataCurrent
+                              selectLine == indexs
                                 ? { boxShadow: ' 0vh 0vh 0.3vh 0.1vh #E2001A' }
                                 : null
                             }
@@ -643,9 +712,7 @@ class DedicatedLandingPage extends React.Component {
                       className={`rc-btn rc-btn--one ${
                         this.state.buttonLoading ? 'ui-btn-loading' : ''
                       }  ${
-                        this.state.selectLine === 0
-                          ? 'rc-btn-solid-disabled'
-                          : ''
+                        this.state.selectLine > 1 ? 'rc-btn-solid-disabled' : ''
                       }`}
                       onClick={this.addCart}
                     >
@@ -801,8 +868,8 @@ class DedicatedLandingPage extends React.Component {
                     <div className="rc-full-width">
                       <div className="experience-component experience-assets-contactUsBlock">
                         <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
-                          <div className="rc-layout-container rc-two-column rc-margin-y--sm text-center text-md-left rc-margin-top--lg--mobile"></div>
-                          <div className="rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center text-md-left">
+                          <div className="rc-layout-container rc-two-column rc-margin-y--sm text-center md:text-left rc-margin-top--lg--mobile"></div>
+                          <div className="rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center md:text-left">
                             <div className="rc-column rc-double-width rc-padding--none">
                               <article className="rc-full-width rc-column rc-margin-top--md--mobile">
                                 <div className="rc-border-all rc-border-colour--interface fullHeight">

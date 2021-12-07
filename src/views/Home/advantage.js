@@ -36,27 +36,50 @@ export function Advantage() {
 
   const list =
     {
+      uk: [
+        {
+          imgUrl: pack,
+          imgAlt: 'pack icon',
+          text: <FormattedMessage id="home.convenientTip1" />
+        },
+        {
+          imgUrl: delivery,
+          imgAlt: 'delivery image',
+          text: (
+            <FormattedMessage
+              id="home.convenientTip2"
+              values={{
+                val: formatMoney(30)
+              }}
+            />
+          )
+        },
+        {
+          imgUrl: question,
+          imgAlt: 'question icon',
+          text: <FormattedMessage id="home.convenientTip3" />
+        }
+      ],
       us: [
         {
           imgUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_PRODUCT-RECOS@x2.png`,
           imgAlt: 'ideal formula',
-          text: 'Find the Ideal Formula for Your Pet’s Health'
+          text: 'Expert recommendations on food tailored to your pet’s needs'
         },
         {
           imgUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_DISCOUNT@x2.png`,
           imgAlt: 'club benefits',
-          text:
-            'Save 5% on Every Autoship Order Plus, 30% Off Your First Order Through Royal Canin Club'
-        },
-        {
-          imgUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/COHORT-A_CLUB-BENEFITS_PET-ADVISOR@x2.png`,
-          imgAlt: 'Welcome Box',
-          text: 'Get Expert Advice & Support with Royal Canin Pet Advisor Live'
+          text: 'Save 30% off your first purchase through Royal Canin Club, and 5% off every autoship order'
         },
         {
           imgUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_FREE-SHIPPING@x2.png`,
           imgAlt: 'Free Automatic Shipping',
-          text: 'Free Automatic Shipping'
+          text: 'Free automatic shipping – no minimum purchase'
+        },
+        {
+          imgUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/COHORT-A_CLUB-BENEFITS_PET-ADVISOR2@x2.png`,
+          imgAlt: 'Welcome Box',
+          text: 'Expert feeding advice, product updates and support from a Royal Canin Advisor'
         }
       ],
       fr: [
@@ -181,7 +204,7 @@ export function Advantage() {
     <div
       className={`col-12 col-md-6 col-xxl-${
         12 / list.length
-      } d-flex px-0 pl-md-0 pr-md-2 pr-xxl-3 pl-xxl-0 justify-content-center`}
+      } d-flex px-0 md:pl-0 md:pr-2 pr-xxl-3 pl-xxl-0 justify-content-center`}
       key={i}
     >
       <div className="d-flex justify-content-center align-items-center w-100 value-proposition__content">

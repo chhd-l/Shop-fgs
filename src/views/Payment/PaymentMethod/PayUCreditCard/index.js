@@ -261,10 +261,12 @@ class PayOs extends React.Component {
   };
   async validFormData() {
     try {
-      await validData(
-        PAYMENT_METHOD_PAU_CHECKOUT_RULE,
-        this.state.creditCardInfoForm
-      );
+      const { intl } = this.props;
+      await validData({
+        rule: PAYMENT_METHOD_PAU_CHECKOUT_RULE,
+        data: this.state.creditCardInfoForm,
+        intl
+      });
       this.setState({ isValid: true });
     } catch (err) {
       this.setState({ isValid: false });
@@ -319,7 +321,7 @@ class PayOs extends React.Component {
               this.setState({
                 installMentTableData
               });
-              throw new Error();
+              throw new Error('This Error No Display');
             }
           }
         }
@@ -328,8 +330,11 @@ class PayOs extends React.Component {
       // this.props.onInstallMentParamChange(this.state.installMentParam);
       scrollPaymentPanelIntoView();
     } catch (err) {
-      this.props.showErrorMsg(err.message);
-      throw new Error();
+      if (err?.message !== 'This Error No Display') {
+        this.setState({ payosdata: null });
+        this.props.showErrorMsg(err.message);
+      }
+      throw new Error(err.message);
     } finally {
       this.setState({ saveLoading: false });
     }
@@ -372,6 +377,7 @@ class PayOs extends React.Component {
       payosdata,
       installMentTableData
     } = this.state;
+
     const CreditCardImg = supportPaymentMethods.length > 0 && (
       <span className="logo-payment-card-list logo-credit-card">
         {supportPaymentMethods.map((el, idx) => (

@@ -8,7 +8,7 @@ import SideMenu from '@/components/SideMenu';
 import BannerTip from '@/components/BannerTip';
 import Rate from '@/components/Rate';
 import ReviewForm from './components/ReviewForm';
-import { getGoodsList, addGoodsEvaluate } from '@/api/review';
+import { getGoodsList, addGoodsEvaluate } from '@/api/order';
 //import ReviewList from './components/ReviewList';
 //import ImgUpload from '@/components/ImgUpload';
 import './index.css';
@@ -160,7 +160,9 @@ class ProductReview extends React.Component {
             goodsEvaluateImageList: item.goodsEvaluateImageList
               ? item.goodsEvaluateImageList
               : [],
-            evaluateReviewTitle: item.title
+            evaluateReviewTitle: item.title,
+            // 服务类型产品 1  普通产品 0
+            goodsTypeRelateEvaluate: 0
           };
           goodsParams.push(obj);
         });

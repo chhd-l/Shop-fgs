@@ -28,7 +28,7 @@
   
   function jsonpScriptSrc(e) {
     //   return __webpack_require__.p + "" + ({
-    return '/royal/royal-assets1/' + "" + ({
+    return '/royal/royal-assets2/' + "" + ({
           0: "jsSupport",
           1: "cssImport",
           2: "style-loader",
@@ -969,7 +969,7 @@
               var r = null;
               (function(e) {
                   try {
-                      new r("test");
+                    //   new r("test");
                       return false
                   } catch (t) {
                       r = function MouseEvent(t, r) {
@@ -2186,7 +2186,7 @@
                       var l = RCDL.utilities.createElement({
                           tagName: "link",
                           attributes: {
-                              href: s()(a = s()(o = "".concat('/royal/royal-assets1/', "royal-canin.styles.")).call(o, e.name, ".min.css?v=")).call(a, window.RCDL.config.version.release),
+                              href: s()(a = s()(o = "".concat('/royal/royal-assets2/', "royal-canin.styles.")).call(o, e.name, ".min.css?v=")).call(a, window.RCDL.config.version.release),
                               type: "text/css",
                               rel: "stylesheet"
                           }
@@ -2202,7 +2202,7 @@
                   var v = RCDL.utilities.createElement({
                       tagName: "link",
                       attributes: {
-                          href: s()(d = s()(p = "".concat('/royal/royal-assets1/', "royal-canin.styles.")).call(p, e.name, ".min.css?v=")).call(d, window.RCDL.config.version.release),
+                          href: s()(d = s()(p = "".concat('/royal/royal-assets2/', "royal-canin.styles.")).call(p, e.name, ".min.css?v=")).call(d, window.RCDL.config.version.release),
                           as: "style",
                           type: "text/css",
                           rel: "preload"
@@ -2547,7 +2547,7 @@
                           var r = t.assets[e].elements.length !== 0 ? "preload" : "prefetch";
                         //   打标记
                         //   console.log(t.assets[e].url, '11')
-                          t.assets[e].url = t.assets[e].url.replace(/https:\/\/d1a19ys8w1wkc1.cloudfront.net/, '/royal/royal-assets1')
+                          t.assets[e].url = t.assets[e].url.replace(/https:\/\/d1a19ys8w1wkc1.cloudfront.net/, '/royal/royal-assets2')
                           t.assets[e].url = t.assets[e].url.replace(/\?v=8-7-8/, '')
                         //   console.log(t.assets[e].url, '11')
                           var i = document.createElement("link");
@@ -2646,7 +2646,7 @@
                       if (window.matchMedia(window.RCDL.breakpointData[l].mediaQuery).matches) {
                           var u = document.createElement("link");
                           
-                          window.RCDL.breakpointData[l].url = window.RCDL.breakpointData[l].url.replace(/https:\/\/d1a19ys8w1wkc1.cloudfront.net/, '/royal/royal-assets1')
+                          window.RCDL.breakpointData[l].url = window.RCDL.breakpointData[l].url.replace(/https:\/\/d1a19ys8w1wkc1.cloudfront.net/, '/royal/royal-assets2')
                           window.RCDL.breakpointData[l].url = window.RCDL.breakpointData[l].url.replace(/\?v=8-7-8/, '')
                         //   console.log(window.RCDL.breakpointData[l].url, 333)
                           u.href = window.RCDL.breakpointData[l].url;
@@ -3654,7 +3654,7 @@
   var f = !r(12)(function() {
       var e = [];
       e[l] = false;
-      return e.concat()[0] !== e
+      return e.concat()[0] != e
   });
   var p = r(50)("concat");
   var v = function(e) {
@@ -8326,7 +8326,8 @@
 }
 , function(e, t, r) {
   (function(e, t) {
-      true ? t() : undefined
+    //   true ? t() : undefined
+    t()
   }
   )(this, function() {
       "use strict";

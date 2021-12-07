@@ -6,7 +6,7 @@ const searchNoResult = {
   de: '/on/demandware.store/Sites-DE-Site/de_DE/Search-Show'
 };
 const breadcrumbNameMap = {
-  '/account': [{ name: 'home' }],
+  '/account': [{ name: 'account.home' }],
   '/account/information': [{ name: 'account.profile' }],
   '/account/pets': [
     { name: 'account.personalArea', href: '/account' },
@@ -19,6 +19,10 @@ const breadcrumbNameMap = {
   '/account/orders': [
     { name: 'account.personalArea', href: '/account' },
     { name: 'account.ordersTitle' }
+  ],
+  '/account/appointments': [
+    { name: 'account.personalArea', href: '/account' },
+    { name: 'account.appointmentsTitle' }
   ],
   '/account/subscription': [
     { name: 'account.personalArea', href: '/account' },
@@ -37,6 +41,11 @@ const breadcrumbNameMap = {
     { name: 'account.personalArea', href: '/account' },
     { name: 'account.ordersTitle', href: '/account/orders' },
     { name: 'order.orderDetails' }
+  ],
+  '/account/appointments/detail/:appointmentNo': [
+    { name: 'account.personalArea', href: '/account' },
+    { name: 'account.appointmentsTitle', href: '/account/appointments' },
+    { name: 'appointment.appointmentDetails' }
   ],
   '/account/productReview/:tid': [
     { name: 'account.personalArea', href: '/account' },

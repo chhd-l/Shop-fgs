@@ -93,8 +93,9 @@ const PetForms = ({
     window.__.env.REACT_APP_COUNTRY == 'ru' ||
     window.__.env.REACT_APP_COUNTRY == 'tr' ||
     window.__.env.REACT_APP_COUNTRY == 'fr';
-  const notUsDe =
+  const notUsUkDe =
     window.__.env.REACT_APP_COUNTRY !== 'us' &&
+    window.__.env.REACT_APP_COUNTRY !== 'uk' &&
     window.__.env.REACT_APP_COUNTRY !== 'de';
   const isMobile = getDeviceType() !== 'PC';
   const { enterCatBreed, enterDogBreed } = intl.messages;
@@ -164,17 +165,17 @@ const PetForms = ({
     let petFormData = Object.assign(petForm, currentPetParam);
 
     setPetForm(petFormData);
-    purebredOpitons.map((item) => {
+    purebredOpitons.forEach((item) => {
       let checked = item.value == currentPetParam.isPurebred;
       item.checked = checked;
     });
     setPurebredGroup(purebredOpitons);
-    genderOptions.map((item) => {
+    genderOptions.forEach((item) => {
       let checked = item.value == currentPetParam.petsSex;
       item.checked = checked;
     });
     setGenderGroup(genderOptions);
-    sterilizedOptions.map((item) => {
+    sterilizedOptions.forEach((item) => {
       let checked = item.value == currentPetParam.sterilized;
       item.checked = checked;
     });
@@ -394,7 +395,7 @@ const PetForms = ({
       showErrorMsg(intl.messages.pleasecompleteTheRequiredItem);
       return;
     }
-    if (notUsDe) {
+    if (notUsUkDe) {
       if (!petForm.activity || (!petForm.lifestyle && isCat && RuTrFr)) {
         showErrorMsg(intl.messages.pleasecompleteTheRequiredItem);
         return;
@@ -750,7 +751,7 @@ const PetForms = ({
                   }}
                   disabled={isInputDisabled ? 'disabled' : null}
                 />
-                <div
+                <ul
                   className={`select-breed ${
                     showBreedList ? '' : 'hidden no-border'
                   }`}
@@ -761,7 +762,7 @@ const PetForms = ({
                     </div>
                   ) : null}
                   {breedList.map((item, i) => (
-                    <option
+                    <li
                       value={item.value}
                       key={item.id}
                       className={`pl-2 pr-1 optionStyle ui-cursor-pointer ${
@@ -771,14 +772,14 @@ const PetForms = ({
                       style={{ whiteSpace: 'initial' }}
                     >
                       {item.name}
-                    </option>
+                    </li>
                   ))}
-                </div>
+                </ul>
                 <label className="rc-input__label" htmlFor="breed"></label>
               </span>
             </div>
           )}
-          {notUsDe ? (
+          {notUsUkDe ? (
             <>
               {RuTrFr && isCat ? (
                 <div className="form-group col-lg-6 pull-left required">
@@ -893,17 +894,21 @@ const PetForms = ({
                   <FormattedMessage id="saveChange" />
                 </button>
                 <br />
-                {/* sourceType为0 和 individual的时候都是individual的，不能删除宠物*/}
-                {paramsId && currentPetParam.sourceType != 'individual' && (
-                  <span
-                    className="rc-styled-link"
-                    onClick={() => {
-                      handleDelPets(false);
-                    }}
-                  >
-                    <FormattedMessage id="pet.deletePet" />
-                  </span>
-                )}
+                {/* sourceType为1 和 individual的时候都是individual的，不能删除宠物*/}
+                {paramsId &&
+                  !(
+                    currentPetParam.sourceType == 1 ||
+                    currentPetParam.sourceType == 'individual'
+                  ) && (
+                    <span
+                      className="rc-styled-link"
+                      onClick={() => {
+                        handleDelPets(false);
+                      }}
+                    >
+                      <FormattedMessage id="pet.deletePet" />
+                    </span>
+                  )}
               </p>
             ) : (
               <p style={{ textAlign: 'right' }}>

@@ -33,6 +33,11 @@
   .address-item .align_items_wrap {
     width: 100%;
     border-bottom: 2px solid #e5e5e5;
+    .address-item-forbid {
+      color: #e2001a;
+      font-size: 14px;
+      padding: 6px 0;
+    }
   }
 
   .address-item:hover,
@@ -42,6 +47,10 @@
 
   .address-item.selected {
     border: 2px solid #008900 !important;
+  }
+
+  .address-item.forbid {
+    border: 2px solid #e2001a !important;
   }
 
   .address-item.selected .select_this_address {

@@ -73,6 +73,7 @@ const CommentCarouselNew = () => {
 
   const ru = window.__.env.REACT_APP_COUNTRY === 'ru';
   const tr = window.__.env.REACT_APP_COUNTRY == 'tr';
+  const fr = window.__.env.REACT_APP_COUNTRY == 'fr';
   return (
     <div className="experience-component experience-layouts-1column">
       <div className="row rc-margin-x--none">

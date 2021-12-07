@@ -20,7 +20,7 @@ const defaultList = {
         values={{
           val: ru ? (
             <DistributeHubLinkOrATag
-              href={'/about-us/faqs'}
+              href={'/about-us/faq'}
               ariaLabel="Links to faq"
             >
               <a
@@ -49,7 +49,7 @@ const defaultList = {
               href={'/about-us/faqs'}
               ariaLabel="Links to faq"
             >
-              <a style={{ color: '#E2001A' }}>FAQ pour</a>
+              <a style={{ color: '#E2001A' }}>FAQ</a>
             </DistributeHubLinkOrATag>
           )
         }}
@@ -67,7 +67,10 @@ const HelpComponents = (props) => {
             <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
                 <div>
-                  <h2 className="font-weight-normal rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
+                  <h2
+                    className="font-weight-normal rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile"
+                    style={{ fontSize: 28 }}
+                  >
                     <FormattedMessage id="PreciseCatNutrition.Help.title" />
                   </h2>
                 </div>
@@ -83,7 +86,7 @@ const HelpComponents = (props) => {
                 {/*</p>*/}
                 <div className="experience-component experience-layouts-1to2columnRatio">
                   <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-                    <div className=" rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center text-md-left">
+                    <div className=" rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center md:text-left">
                       <div className="rc-padding--none flex justify-content-center margin-auto mobileHelp">
                         <article className="rc-full-width rc-column rc-margin-top--md--mobile">
                           <div className="rc-border-all rc-border-colour--interface fullHeight">
@@ -163,9 +166,9 @@ const HelpComponents = (props) => {
                                     {/*as possible and within 12 hours*/}
                                     <FormattedMessage id="ClubLP.Help.email.content" />
                                   </p>
-                                  <DistributeHubLinkOrATag
+                                  <a
                                     href={
-                                      '/serviceclients.france@royalcanin.com'
+                                      'mailto:serviceclients.france@royalcanin.com'
                                     }
                                     ariaLabel="Links to contact us"
                                   >
@@ -178,7 +181,7 @@ const HelpComponents = (props) => {
                                     >
                                       <FormattedMessage id="ClubLP.Help.email.address" />
                                     </p>
-                                  </DistributeHubLinkOrATag>
+                                  </a>
                                 </div>
                               </div>
                               <div className="rc-column rc-content-v-middle">
