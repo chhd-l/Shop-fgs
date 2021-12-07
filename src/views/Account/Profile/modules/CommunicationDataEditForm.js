@@ -21,8 +21,7 @@ const SPECAIL_CONSENT_ENUM =
     ],
     fr: ['RC_DF_FR_FGS_OPT_MOBILE', 'RC_DF_FR_FGS_OPT_EMAIL'],
     ru: ['RC_DF_RU_FGS_OPT_EMAIL', 'RC_DF_RU_FGS_OPT_MOBILE'],
-    tr: ['RC_DF_TR_FGS_OPT_EMAIL', 'RC_DF_TR_FGS_OPT_MOBILE'],
-    uk: ['RC_DF_UK_CLIXRAY_OPT_EMAIL']
+    tr: ['RC_DF_TR_FGS_OPT_EMAIL', 'RC_DF_TR_FGS_OPT_MOBILE']
   }[window.__.env.REACT_APP_COUNTRY] || [];
 @inject('paymentStore')
 @observer
