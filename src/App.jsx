@@ -266,7 +266,7 @@ const ImplicitLogin = () => {
 //多语言集成
 moment.locale('zh-cn');
 var config = {
-  projectId: 'b499590cce7612135d58841aa002c6a8',
+  projectId: 'c951c01b8f8e14d72bc4694460f26bee',
   phraseEnabled: true,
   prefix: '[[__',
   suffix: '__]]'

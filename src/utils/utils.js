@@ -602,8 +602,12 @@ export async function queryStoreCateList() {
       ret = res.context;
       Array.from(ret, (ele) => {
         const tmpImgList = JSON.parse(ele.cateImg);
-        ele.cateImgForHome = (tmpImgList[0] && tmpImgList[0].artworkUrl) || '';
-        ele.cateImgForList = tmpImgList.length > 1 && tmpImgList[1].artworkUrl;
+        if (tmpImgList) {
+          ele.cateImgForHome =
+            (tmpImgList[0] && tmpImgList[0]?.artworkUrl) || '';
+          ele.cateImgForList =
+            tmpImgList.length > 1 && tmpImgList[1]?.artworkUrl;
+        }
         return ele;
       });
 
