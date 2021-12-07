@@ -347,7 +347,7 @@ class AddressList extends React.Component {
       if (type === 'delivery') {
         addressIdStr = deliveryAddressId;
       }
-      addressList.map((e) => {
+      addressList.forEach((e) => {
         if (e.deliveryAddressId == addressIdStr) {
           e.selected = true;
         }
@@ -404,22 +404,22 @@ class AddressList extends React.Component {
     dfarr.forEach((v, i) => {
       let akey = v.fieldKey;
       // state 对应数据库字段 province
-      v.fieldKey == 'state' ? (akey = 'province') : v.fieldKey;
+      akey = v.fieldKey == 'state' ? 'province' : v.fieldKey;
       // region 对应数据库字段 area
-      v.fieldKey == 'region' ? (akey = 'area') : v.fieldKey;
+      akey = v.fieldKey == 'region' ? 'area' : v.fieldKey;
       // phoneNumber 对应数据库字段 consigneeNumber
-      v.fieldKey == 'phoneNumber' ? (akey = 'consigneeNumber') : v.fieldKey;
+      akey = v.fieldKey == 'phoneNumber' ? 'consigneeNumber' : v.fieldKey;
 
       let fky = wrongAddressMsg[akey];
       // 判断city和cityId 是否均为空
       if (v.fieldKey == 'city') {
-        data.city || data.cityId ? (akey = '') : akey;
+        akey = data.city || data.cityId ? '' : akey;
       }
       // 判断country和countryId 是否均为空
       if (v.fieldKey == 'country') {
-        data.country || data.countryId ? (akey = '') : akey;
+        akey = data.country || data.countryId ? '' : akey;
       }
-      if (akey) data[akey] ? '' : errMsgArr.push(fky);
+      if (akey && !data[akey]) errMsgArr.push(fky);
     });
     errMsgArr = errMsgArr.join(', ');
     // 如果地址字段有缺失，提示错误信息
@@ -448,12 +448,12 @@ class AddressList extends React.Component {
       city = wrongAddressMsg['city'],
       province = wrongAddressMsg['province'],
       settlement = wrongAddressMsg['settlement'];
-    data.street ? '' : errArr.push(streets);
-    data.postCode ? '' : errArr.push(postCode);
-    data.house ? '' : errArr.push(house);
-    data.city ? '' : errArr.push(city);
-    data.province ? '' : errArr.push(province);
-    data.settlement ? '' : errArr.push(settlement);
+    !data.street && errArr.push(streets);
+    !data.postCode && errArr.push(postCode);
+    !data.house && errArr.push(house);
+    !data.city && errArr.push(city);
+    !data.province && errArr.push(province);
+    !data.settlement && errArr.push(settlement);
     return errArr.join(',');
   };
   // 新增或者编辑地址 edit or add
@@ -759,8 +759,11 @@ class AddressList extends React.Component {
   };
   // 确认选择地址
   confirmValidationAddress() {
-    const { deliveryAddress, selectValidationOption, validationAddress } =
-      this.state;
+    const {
+      deliveryAddress,
+      selectValidationOption,
+      validationAddress
+    } = this.state;
     let oldDeliveryAddress = JSON.parse(JSON.stringify(deliveryAddress));
     let theform = [];
     if (selectValidationOption == 'suggestedAddress') {
@@ -1078,7 +1081,6 @@ class AddressList extends React.Component {
           isDefaltAddress: pickupFormData.isDefaltAddress ? 1 : 0,
           minDeliveryTime: pickupFormData.minDeliveryTime,
           maxDeliveryTime: pickupFormData.maxDeliveryTime,
-          workTime: pickupFormData.workTime,
           province: pkaddr?.region || pickupFormData.province,
           provinceIdStr: pkaddr?.regionFias || pickupFormData.provinceIdStr,
           provinceCode: pickupFormData?.provinceCode,

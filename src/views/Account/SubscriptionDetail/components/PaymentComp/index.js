@@ -92,11 +92,11 @@ class PaymentComp extends React.Component {
     this.state = {
       // 111
       fromPage: '',
-      paymentType: 'CYBER',
-      supportPaymentMethods: [],
+      // paymentType: 'CYBER',
+      // supportPaymentMethods: [],
       editFormVisible: false,
       listVisible: false,
-      listLoading: false,
+      // listLoading: false,
       creditCardList: [],
       successMsg: '',
       getPaymentMethodListFlag: false,
@@ -160,11 +160,11 @@ class PaymentComp extends React.Component {
 
     await this.getPaymentMethodList();
     if (this.state.creditCardList.length) {
-      this.state.creditCardList.map((el) => {
+      this.state.creditCardList.forEach((el) => {
         if (el.id === this.props.paymentId) {
           el.selected = true;
         }
-        return el;
+        // return el;
       });
     }
     this.setState({ creditCardList: this.state.creditCardList });
@@ -751,7 +751,7 @@ class PaymentComp extends React.Component {
                       dataLength={creditCardList.length}
                       handleClick={() => {
                         if (creditCardList[idx].selected) return;
-                        creditCardList.map((el) => (el.selected = false));
+                        // creditCardList.map((el) => (el.selected = false));
                         el.selected = true;
                         // this.props.getSelectedValue &&
                         //   this.props.getSelectedValue(el);
