@@ -79,7 +79,7 @@ const bannerTips = () => {
         } else {
           setMktMessage(<FormattedMessage id="home.MKTReturnNoUser" />);
         }
-        return showFiveSeconds();
+        return showFiveSeconds(true);
       });
     } else if (oktaSessionToken && isLogin) {
       let mtkOktaKey = 'already-show-MKT_' + oktaSessionToken;
@@ -98,15 +98,19 @@ const bannerTips = () => {
           }
         }
         localItemRoyal.set(mtkOktaKey, 'true');
-        return showFiveSeconds();
+        return showFiveSeconds(true);
       });
     }
+    return showFiveSeconds(false);
   }
 
-  function showFiveSeconds() {
-    setShow(true);
+  function showFiveSeconds(isShow) {
+    if (!isShow) {
+      return;
+    }
+    setShow(isShow);
     return setTimeout(() => {
-      setShow(false);
+      setShow(!isShow);
     }, 5000);
   }
 
@@ -143,7 +147,6 @@ const bannerTips = () => {
                     switch (window.__.env.REACT_APP_COUNTRY) {
                       case 'uk':
                         return null;
-                        break;
                       case 'de':
                         return (
                           <Link
@@ -153,7 +156,6 @@ const bannerTips = () => {
                             <FormattedMessage id="bannerTip.btnText" />
                           </Link>
                         );
-                        break;
                       case 'fr':
                         return (
                           <Link
@@ -163,7 +165,6 @@ const bannerTips = () => {
                             <FormattedMessage id="bannerTip.btnText" />
                           </Link>
                         );
-                        break;
                       default:
                         return (
                           <Link

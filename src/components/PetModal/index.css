@@ -1,19 +1,16 @@
 .img-box {
-    width: 100%;
-    height: 30%;
-    display: flex;
-    flex-display: row;
+  width: 100%;
+  height: 30%;
+  display: flex;
 }
 .img-wrapper {
-    /* width: 100px; */
-    height: auto;
+  /* width: 100px; */
+  height: auto;
 }
 .flex-row {
-    display: flex;
-    flex-display: row;
+  display: flex;
 }
 
 .vertical-middle {
-    align-items: center;
+  align-items: center;
 }
-

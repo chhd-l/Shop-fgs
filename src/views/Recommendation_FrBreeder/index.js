@@ -80,7 +80,7 @@ class Recommendation extends React.Component {
       showCur: -1,
       isSPT: false,
       frequencyList: [],
-      isNoMoreProduct: '', //页面error的时候的翻译id
+      isNoMoreProduct: false, //页面error的时候
       promotionCode: '',
       promotionCodeText: '',
       prescriptionJson: '',
@@ -254,6 +254,8 @@ class Recommendation extends React.Component {
               try {
                 let tempContentMobile = [];
                 let tempContent = [];
+                let redSpanIconMargin = this.state.isMobile ? '10px' : '20px';
+
                 switch (g.descriptionName) {
                   case 'Benefits':
                     const parsedContent = JSON.parse(g.content).map((el) => {
@@ -262,7 +264,7 @@ class Recommendation extends React.Component {
                     });
                     parsedContent.map((ele, idx) => {
                       // <div className="">${Object.keys(JSON.parse(ele))[0]}</div>
-                      tempContent.push(`<li>
+                      tempContent.push(`<li class="">
                       <div class="">${
                         Object.values(ele)[0]['Description']
                       }</div>
@@ -295,7 +297,7 @@ class Recommendation extends React.Component {
                     </div>
                       `);
                     });
-                    tempContent = `<ul class=" rc-md-up">
+                    tempContent = `<ul class="">
                           ${tempContent.join('')}
                         </ul>`;
                     tempContentMobile = `<div class="fr-faq rc-md-down" style="padding:0">
@@ -403,7 +405,9 @@ class Recommendation extends React.Component {
         // 只展示上架商品
         if (!filterProducts.length) {
           this.setState({
-            isNoMoreProduct: 'recommendation.noMoreRecommendation'
+            // isNoMoreProduct: 'recommendation.noMoreRecommendation'
+            isNoMoreProduct: true,
+            noData: true
           });
         }
         this.setState(
@@ -1045,164 +1049,197 @@ class Recommendation extends React.Component {
             spécifiques​
           </p>
           <div className="triangle-for-mobile"></div>
-          {details?.goodsInfos ? (
+          {this.state.noData ? null : (
             <div className="background-container">
               <div className="goods-list-container  m-auto text-center">
-                <ul className="tab-list m-auto">
-                  {productList.map((el, index) => (
-                    <li
-                      onClick={() => this.tabChange(productList, index)}
-                      className={`text-center ${
-                        activeIndex == index ? 'active' : ''
-                      }`}
-                      style={{
-                        cursor: 'pointer',
-                        display: 'inline-block',
-                        padding: '0 1rem'
-                      }}
-                    >
-                      <img className="tab-img" src={el.images[0].artworkUrl} />
-                      <div>{el.goodsInfo.goodsInfoName}</div>
-                    </li>
-                  ))}
-                </ul>
-                <div className="goods-container rc-layout-container rc-five-column">
-                  <div className="goods-imgs rc-double-width rc-column">
-                    <ImageMagnifier_fr
-                      sizeList={details.sizeList || []}
-                      video={details.goodsVideo}
-                      images={details.images || []}
-                      minImg={details.goodsImg}
-                      maxImg={details.goodsImg}
-                      imgAlt={details?.goodsName}
-                      taggingChildren={this.taggingDom()}
-                      config={this.state.imageMagnifierCfg?.config}
-                      taggingForText={details.taggingForTextAtPDP}
-                      taggingForImage={details.taggingForImageAtPDP}
-                      // spuImages={[]}
-                      spuImages={
-                        filterImages.length ? filterImages : details.images
-                      }
-                    />
-                  </div>
-                  <div className="goods-info  rc-triple-width rc-column text-left">
-                    <h2 title={details?.goodsInfo?.goodsInfoName}>
-                      {details?.goodsInfo?.goodsInfoName}
-                    </h2>
-                    <p
-                      className="description"
-                      style={{
-                        webkitLineClamp: !this.state.showMored ? '2' : 'inherit'
-                      }}
-                    >
-                      {details?.goodsInfos[0]?.goods.goodsSubtitle}
-                      {/* Donner le meilleur départ dans la vie à votre chaton commence
+                {details?.goodsInfos ? (
+                  <>
+                    <ul className="tab-list m-auto">
+                      {productList.map((el, index) => (
+                        <li
+                          onClick={() => this.tabChange(productList, index)}
+                          className={`text-center ${
+                            activeIndex == index ? 'active' : ''
+                          }`}
+                          style={{
+                            cursor: 'pointer',
+                            display: 'inline-block',
+                            padding: '0 1rem'
+                          }}
+                        >
+                          <img
+                            className="tab-img"
+                            src={el.images[0].artworkUrl}
+                          />
+                          <div>{el.goodsInfo.goodsInfoName}</div>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="goods-container rc-layout-container rc-five-column">
+                      <div className="goods-imgs rc-double-width rc-column">
+                        <ImageMagnifier_fr
+                          sizeList={details.sizeList || []}
+                          video={details.goodsVideo}
+                          images={details.images || []}
+                          minImg={details.goodsImg}
+                          maxImg={details.goodsImg}
+                          imgAlt={details?.goodsName}
+                          bigImageOutBoxClassName="pt-70px"
+                          taggingChildren={this.taggingDom()}
+                          config={this.state.imageMagnifierCfg?.config}
+                          taggingForText={details.taggingForTextAtPDP}
+                          taggingForImage={details.taggingForImageAtPDP}
+                          // spuImages={[]}
+                          spuImages={
+                            filterImages.length ? filterImages : details.images
+                          }
+                        />
+                      </div>
+                      <div className="goods-info  rc-triple-width rc-column text-left">
+                        <h2 title={details?.goodsInfo?.goodsInfoName}>
+                          {details?.goodsInfo?.goodsInfoName}
+                        </h2>
+                        <p
+                          className="description"
+                          style={{
+                            webkitLineClamp: !this.state.showMored
+                              ? '2'
+                              : 'inherit'
+                          }}
+                        >
+                          {details?.goodsInfos[0]?.goods.goodsSubtitle}
+                          {/* Donner le meilleur départ dans la vie à votre chaton commence
                   par une bonne nutrition. En lui apportant les nutriments
                   essentiels dont il a besoin… */}
-                      <span
-                        className="show-more"
-                        style={{
-                          display: this.state.showMoreInit ? 'block' : 'none'
-                        }}
-                      >
-                        <span
-                          style={{
-                            display: this.state.showMored ? 'none' : 'inline'
-                          }}
-                        >
-                          ...
-                        </span>
-                        <span
-                          style={{ cursor: 'pointer' }}
-                          onClick={() => {
-                            this.setState({ showMored: !this.state.showMored });
-                          }}
-                        >
-                          {this.state.showMored ? 'Range ça' : 'Voir plus'}
-                        </span>
-                      </span>
-                    </p>
-                    <div className="price">
-                      <FormattedMessage id="from" />{' '}
-                      {formatMoney(details.goodsInfo.subscriptionPrice)}{' '}
-                      <FormattedMessage id="to" />{' '}
-                      {formatMoney(details.goodsInfo.marketPrice)}
-                    </div>
-                    {/* <button>Ajouter au panier</button> */}
-                    <button
-                      onClick={this.addCart}
-                      style={{ width: '284px' }}
-                      className={`rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile md-up
+                          <span
+                            className="show-more"
+                            style={{
+                              display: this.state.showMoreInit
+                                ? 'block'
+                                : 'none'
+                            }}
+                          >
+                            <span
+                              style={{
+                                display: this.state.showMored
+                                  ? 'none'
+                                  : 'inline'
+                              }}
+                            >
+                              ...
+                            </span>
+                            <span
+                              style={{ cursor: 'pointer' }}
+                              onClick={() => {
+                                this.setState({
+                                  showMored: !this.state.showMored
+                                });
+                              }}
+                            >
+                              {this.state.showMored ? 'Range ça' : 'Voir plus'}
+                            </span>
+                          </span>
+                        </p>
+                        <div className="price">
+                          <FormattedMessage id="from" />{' '}
+                          {formatMoney(details.goodsInfo.subscriptionPrice)}{' '}
+                          <FormattedMessage id="to" />{' '}
+                          {formatMoney(details.goodsInfo.marketPrice)}
+                        </div>
+                        {/* <button>Ajouter au panier</button> */}
+                        <button
+                          onClick={this.addCart}
+                          style={{ width: '284px' }}
+                          className={`rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile md-up
                         ${this.state.buttonLoading ? 'ui-btn-loading' : ''} 
               ${this.addCartBtnStatus ? '' : 'rc-btn-solid-disabled'}`}
-                    >
-                      <span className="fa rc-icon rc-cart--xs rc-brand3" />
-                      <span className="default-txt">
-                        <FormattedMessage id="details.addToCart" />
-                      </span>
-                    </button>
-                    <p className=" md-up">
-                      Livraison en 3 jours ouvrés offerte
-                    </p>
-                    <div className="advantage-container">
-                      <h5>Découvrez les avantages du CLUB Royal Canin</h5>
-                      <p>
-                        Un abonnement{' '}
-                        <span style={{ color: '#333', fontWeight: '500' }}>
-                          flexible et sans engagement
-                        </span>
-                      </p>
-                      <div className="advantage-list">
-                        {advantageList.map((advantages) => (
-                          <div className="rc-layout-container rc-two-colum">
-                            {advantages.map((el) => (
-                              <div
-                                className="rc-column"
-                                style={{
-                                  display: 'flex',
-                                  alignItems: 'center'
-                                }}
-                              >
-                                {el.img && (
-                                  <img
-                                    style={{ width: '60px', height: '60px' }}
-                                    src={el.img}
-                                  />
-                                )}
-                                {/* <div style={{width:'60px',height:'60px',background:`url(${el.img})`,backgroundSize:'250%',backgroundRepeat:'no-repeat',backgroundPosition:'center'}}></div> */}
-                                <span
-                                  dangerouslySetInnerHTML={{ __html: el.text }}
-                                  style={{ display: 'inline-block', flex: 1 }}
-                                ></span>
+                        >
+                          <span className="fa rc-icon rc-cart--xs rc-brand3" />
+                          <span className="default-txt">
+                            <FormattedMessage id="details.addToCart" />
+                          </span>
+                        </button>
+                        <p className=" md-up">
+                          Livraison en 3 jours ouvrés offerte
+                        </p>
+                        <div className="advantage-container">
+                          <h5>Découvrez les avantages du CLUB Royal Canin</h5>
+                          <p>
+                            Un abonnement{' '}
+                            <span style={{ color: '#333', fontWeight: '500' }}>
+                              flexible et sans engagement
+                            </span>
+                          </p>
+                          <div className="advantage-list">
+                            {advantageList.map((advantages) => (
+                              <div className="rc-layout-container rc-two-colum">
+                                {advantages.map((el) => (
+                                  <div
+                                    className="rc-column"
+                                    style={{
+                                      display: 'flex',
+                                      alignItems: 'center'
+                                    }}
+                                  >
+                                    {el.img && (
+                                      <img
+                                        style={{
+                                          width: '60px',
+                                          height: '60px'
+                                        }}
+                                        src={el.img}
+                                      />
+                                    )}
+                                    {/* <div style={{width:'60px',height:'60px',background:`url(${el.img})`,backgroundSize:'250%',backgroundRepeat:'no-repeat',backgroundPosition:'center'}}></div> */}
+                                    <span
+                                      dangerouslySetInnerHTML={{
+                                        __html: el.text
+                                      }}
+                                      style={{
+                                        display: 'inline-block',
+                                        flex: 1
+                                      }}
+                                    ></span>
+                                  </div>
+                                ))}
                               </div>
                             ))}
                           </div>
-                        ))}
+                        </div>
+                        <p style={{ marginTop: '0.75rem' }}>
+                          <sup>1</sup> Cumulable avec l'offre de bienvenue
+                        </p>
                       </div>
                     </div>
-                    <p style={{ marginTop: '0.75rem' }}>
-                      <sup>1</sup> Cumulable avec l'offre de bienvenue
-                    </p>
-                  </div>
-                </div>
-                <div className="md-down add-cart-for-mobile">
-                  <button
-                    onClick={this.addCart}
-                    className={`rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile
+                    <div className="md-down add-cart-for-mobile">
+                      <button
+                        onClick={this.addCart}
+                        className={`rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile
                      ${this.state.buttonLoading ? 'ui-btn-loading' : ''} 
               ${this.addCartBtnStatus ? '' : 'rc-btn-solid-disabled'}`}
-                  >
-                    <span className="fa rc-icon rc-cart--xs rc-brand3" />
-                    <span className="default-txt">
-                      <FormattedMessage id="details.addToCart" />
-                    </span>
-                  </button>
-                  <p>Livraison en 3 jours ouvrés offerte</p>
-                </div>
+                      >
+                        <span className="fa rc-icon rc-cart--xs rc-brand3" />
+                        <span className="default-txt">
+                          <FormattedMessage id="details.addToCart" />
+                        </span>
+                      </button>
+                      <p>Livraison en 3 jours ouvrés offerte</p>
+                    </div>
+                  </>
+                ) : (
+                  <Skeleton
+                    color="#f5f5f5"
+                    width="100%"
+                    height="100%"
+                    count="3"
+                  />
+                )}
               </div>
             </div>
-          ) : null}
+          )}
+
           <Description
+            details={details}
             text={grayBoxInnerText[window.__.env.REACT_APP_COUNTRY]}
           />
           <Footer />

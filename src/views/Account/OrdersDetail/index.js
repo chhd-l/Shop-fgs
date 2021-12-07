@@ -597,6 +597,7 @@ class AccountOrders extends React.Component {
       ) {
         logisticsList.push(item);
       }
+      return;
     });
     console.log('logisticsList:', logisticsList);
     const filteredLogisticsList = logisticsList
@@ -1196,8 +1197,8 @@ class AccountOrders extends React.Component {
                                   <span className="medium">
                                     {filterOrderId({
                                       orderNo: this.state.orderNumber,
-                                      orderNoForOMS:
-                                        this.state.orderNumberForOMS
+                                      orderNoForOMS: this.state
+                                        .orderNumberForOMS
                                     })}
                                   </span>
                                 </div>
@@ -1353,9 +1354,9 @@ class AccountOrders extends React.Component {
                                                           {filterOrderId({
                                                             orderNo:
                                                               el.subscribeId,
-                                                            orderNoForOMS:
-                                                              this.state
-                                                                .orderNumberForOMS
+                                                            orderNoForOMS: this
+                                                              .state
+                                                              .orderNumberForOMS
                                                           })}
                                                         </Link>
                                                       </p>
