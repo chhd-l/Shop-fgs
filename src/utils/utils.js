@@ -1236,5 +1236,6 @@ export async function addToLoginCartData({ product, intl }) {
 }
 
 export function isShowMixFeeding() {
-  return window.__.env.REACT_APP_COUNTRY === 'ru';
+  return false;
+  // return window.__.env.REACT_APP_COUNTRY === 'ru';
 }
