@@ -85,7 +85,7 @@ export default class index extends Component {
             </span>
             {/* <span class="h4 icon iconfont" style={{right:'1rem', height:28}}></span> */}
           </div>
-          <div className="description-content">
+          <div className="description-content benefit">
             <div style={{ display: this.state.second ? 'block' : 'none' }}>
               <div
                 className="content-bg"
@@ -94,11 +94,12 @@ export default class index extends Component {
                   textAlign: 'left',
                   marginTop: 0,
                   width: '100%',
-                  padding: '24px '
+                  padding: '24px ',
+                  backgroundColor: '#fff'
                 }}
               >
                 <p
-                  style={{ fontSize: 'auto' }}
+                  style={{ fontSize: 'auto', paddingLeft: '20px' }}
                   dangerouslySetInnerHTML={createMarkup(
                     this.props.details.benefit
                   )}
@@ -123,6 +124,38 @@ export default class index extends Component {
                   </a>{' '}
                   . selon le format du produit acheté.
                 </span> */}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="description-item">
+          <div style={{ marginTop: 0 }} className="description-content">
+            <div>
+              <div
+                className="content-bg"
+                style={{
+                  display: 'flex',
+                  textAlign: 'left',
+                  marginTop: 0,
+                  width: '100%',
+                  padding: '24px '
+                }}
+              >
+                <span style={{ color: 'red', marginRight: '20px' }}>*</span>
+                <span>
+                  Offre personnelle valable sur l'intégralité de nos aliments
+                  chien & chat (hors aliments humides, Babycat milk, gamme Size
+                  mini indoor &<br /> conditionnements de 1kg) et cumulable avec
+                  l'offre d'abonnement. Valable une seule fois et uniquement sur
+                  la boutique en ligne Royal Canin{' '}
+                  <a
+                    className="font-bold"
+                    href="https://www.royalcanin.com/fr/shop"
+                  >
+                    https://www.royalcanin.com/fr/shop
+                  </a>{' '}
+                  . selon le format du produit acheté.
+                </span>
               </div>
               <div style={{ height: 75 }}></div>
             </div>

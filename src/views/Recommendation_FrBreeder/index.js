@@ -264,8 +264,7 @@ class Recommendation extends React.Component {
                     });
                     parsedContent.map((ele, idx) => {
                       // <div className="">${Object.keys(JSON.parse(ele))[0]}</div>
-                      tempContent.push(`<li class="flex">
-                      <span style="color: red; margin-right: ${redSpanIconMargin}">*</span>
+                      tempContent.push(`<li class="">
                       <div class="">${
                         Object.values(ele)[0]['Description']
                       }</div>
