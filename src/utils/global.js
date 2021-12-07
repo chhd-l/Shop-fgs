@@ -3,8 +3,6 @@ import getCountryCodeFromHref from '@/lib/get-country-code-from-href';
 
 const countryLink = getCountryCodeFromHref()?.countryLink;
 
-console.log('countryLink', countryLink);
-
 window.__ = Object.assign(window.__ || {}, {
   sessionItemRoyal: {
     set(key, val) {
