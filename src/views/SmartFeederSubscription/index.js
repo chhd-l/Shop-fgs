@@ -552,7 +552,7 @@ const Step3 = (props) => {
                     btnClass={`wid100 rc-btn rc-btn--one rc-btn--sm btn-block cart__checkout-btn checkout-btn ${
                       checkoutLoading ? 'ui-btn-loading' : ''
                     }`}
-                    history={props.history}
+                    intl={intl}
                   >
                     <FormattedMessage id="checkout" />
                   </LoginButton>
@@ -1775,8 +1775,13 @@ class SmartFeederSubscription extends Component {
   };
   render() {
     const { location, history, match } = this.props;
-    const { headerHide, stepName, checkOutErrMsg, goodsDetailTab, enableFlag } =
-      this.state;
+    const {
+      headerHide,
+      stepName,
+      checkOutErrMsg,
+      goodsDetailTab,
+      enableFlag
+    } = this.state;
     let stepCom = null;
     return (
       <div>
@@ -1870,6 +1875,7 @@ class SmartFeederSubscription extends Component {
                           toOtherStep={this.toOtherStep}
                           isLogin={this.isLogin}
                           hanldeAddToCart={this.hanldeAddToCart}
+                          {...this.props}
                         />
                       );
                       break;

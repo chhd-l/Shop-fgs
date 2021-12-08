@@ -625,8 +625,13 @@ export default class Felin extends React.Component {
   }
 
   updateButtonState() {
-    let { step, selectedTimeObj, consentChecked1, selectedDate, felinType } =
-      this.state;
+    let {
+      step,
+      selectedTimeObj,
+      consentChecked1,
+      selectedDate,
+      felinType
+    } = this.state;
     console.log(step, this.state.errMsgObj, consentChecked1, 'hahaha');
     if (step === 1 && selectedTimeObj.value && selectedDate) {
       this.setState({ nextBtnEnable: true });
@@ -662,6 +667,7 @@ export default class Felin extends React.Component {
   }
 
   render() {
+    const { intl } = this.props;
     let {
       userInfo,
       errMsgObj,
@@ -1319,7 +1325,7 @@ export default class Felin extends React.Component {
                             <LoginButton
                               className="rc-btn rc-btn--two"
                               btnStyle={{ margin: '5px 0', width: '100%' }}
-                              history={this.props.history}
+                              intl={intl}
                               beforeLoginCallback={async () => {
                                 sessionItemRoyal.set('from-felin', true);
                               }}
@@ -1461,8 +1467,8 @@ export default class Felin extends React.Component {
                                 onClick={() => {
                                   this.setState(
                                     {
-                                      consentChecked1:
-                                        !this.state.consentChecked1
+                                      consentChecked1: !this.state
+                                        .consentChecked1
                                     },
                                     () => {
                                       this.updateButtonState();
@@ -1510,8 +1516,8 @@ export default class Felin extends React.Component {
                                 onClick={() => {
                                   this.setState(
                                     {
-                                      consentChecked2:
-                                        !this.state.consentChecked2
+                                      consentChecked2: !this.state
+                                        .consentChecked2
                                     },
                                     () => {
                                       this.updateButtonState();

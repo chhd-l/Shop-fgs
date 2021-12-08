@@ -728,6 +728,7 @@ class LoginCart extends React.Component {
     );
   };
   getProducts(plist) {
+    const { intl } = this.props;
     const { mixFeedings } = this.state;
     const Lists = plist.map((pitem, index) => {
       {
@@ -968,13 +969,14 @@ class LoginCart extends React.Component {
                 this.setData({ initPage: true });
                 this.setState({ checkoutLoading: false });
               }}
+              intl={intl}
             />
           ) : null}
           {pitem.goods.promotions &&
           pitem.goods.promotions.includes('club') &&
           pitem.goodsInfoFlag === 2 &&
           window.__.env.REACT_APP_COUNTRY !== 'ru' ? (
-            <ClubGiftBanner intl={this.props.intl} />
+            <ClubGiftBanner intl={intl} />
           ) : null}
           {isGift &&
             false &&

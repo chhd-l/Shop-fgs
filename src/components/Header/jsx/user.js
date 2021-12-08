@@ -25,7 +25,7 @@ const UserJSX = (props) => {
 
   const firstNameLetter =
     userInfo && userInfo.firstName && userInfo.firstName.slice(0, 1);
-  const { self, showUserIcon, history, showCart, showCenter } = props;
+  const { self, showUserIcon, history, showCart, showCenter, intl } = props;
   const defaultJSX = (
     <>
       {showUserIcon ? (
@@ -90,7 +90,7 @@ const UserJSX = (props) => {
                   <div className="login-style">
                     <LoginButton
                       btnStyle={{ width: '11rem', margin: '2rem 0' }}
-                      history={history}
+                      intl={intl}
                     />
                     <div>
                       <FormattedMessage id="account.notRegistred" />

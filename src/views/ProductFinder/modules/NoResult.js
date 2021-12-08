@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl-phraseapp';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import BannerTip from '@/components/BannerTip';
 import Skeleton from 'react-skeleton-loader';
@@ -18,7 +18,7 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
 function PetJSX(props) {
-  const { petBaseInfo } = props;
+  const { petBaseInfo, intl } = props;
   let sterilized = (petBaseInfo && petBaseInfo.sterilized) || '...';
   let sterilizedText = sterilized;
   if (sterilized.toLocaleLowerCase().includes('stérilisé')) {
@@ -99,7 +99,7 @@ function PetJSX(props) {
                         localItemRoyal.set('okta-redirectUrl', '/account/pets');
                       }}
                       btnClass="col-12 col-md-6 rc-btn rc-btn--one mb-3"
-                      history={props.history}
+                      intl={intl}
                     >
                       <FormattedMessage id="productFinder.createMyPetProfile" />
                     </LoginButton>
@@ -121,6 +121,7 @@ function PetJSX(props) {
 }
 
 @inject('loginStore')
+@injectIntl
 @observer
 class ProductFinderNoResult extends React.Component {
   constructor(props) {
@@ -208,6 +209,7 @@ class ProductFinderNoResult extends React.Component {
                   petBaseInfo={petBaseInfo}
                   handleClickGotoStart={this.handleClickGotoStart}
                   history={history}
+                  {...this.props}
                 />
                 <div className="row">
                   <div className="col-12 order-0 md:order-1">

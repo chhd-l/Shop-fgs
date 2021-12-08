@@ -13,7 +13,7 @@
 import { useOktaAuth } from '@okta/okta-react';
 import React, { useState, useEffect } from 'react';
 import stores from '@/store';
-import { FormattedMessage, useIntl } from 'react-intl-phraseapp';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { getToken } from '@/api/login';
 import { getCustomerInfo } from '@/api/user';
 import { mergeUnloginCartData, bindSubmitParam } from '@/utils/utils';
@@ -22,6 +22,7 @@ import { userBindConsent } from '@/api/consent';
 import Modal from '@/components/Modal';
 import LimitLoginModal from '@/views/Home/modules/LimitLoginModal';
 import loginRedirection from '@/lib/login-redirection';
+import { useHistory } from 'react-router-dom';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -29,8 +30,8 @@ const loginStore = stores.loginStore;
 const checkoutStore = stores.checkoutStore;
 
 const LoginButton = (props) => {
-  const { history } = props;
-  const intl = useIntl();
+  const { intl } = props;
+  const history = useHistory();
   const init = props.init;
   const [, setUserInfo] = useState(null);
   const [isGetUserInfoDown, setIsGetUserInfoDown] = useState(false);
