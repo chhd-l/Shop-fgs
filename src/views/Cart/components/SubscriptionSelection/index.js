@@ -5,14 +5,8 @@ import ConfirmTooltip from '@/components/ConfirmTooltip';
 import FrequencySelection from '@/components/FrequencySelection/index.tsx';
 
 const SubscriptionSelection = function (props) {
-  const {
-    isGift,
-    pitem,
-    activeToolTipIndex,
-    index,
-    toolTipVisible,
-    isLogin
-  } = props;
+  const { isGift, pitem, activeToolTipIndex, index, toolTipVisible, isLogin } =
+    props;
   return (
     <div
       className="buyMethod rc-margin-bottom--xs"

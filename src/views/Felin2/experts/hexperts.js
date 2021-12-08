@@ -22,6 +22,7 @@ import moment from 'moment';
 import LoginButton from '@/components/LoginButton';
 import { getDeviceType } from '../../../utils/utils';
 import { injectIntl } from 'react-intl-phraseapp';
+import { postcustomerUpdate } from '../../../api/felin';
 
 const localItemRoyal = window.__.localItemRoyal;
 PRESONAL_INFO_RULE.filter((el) => el.key === 'phoneNumber')[0].regExp = '';
@@ -52,29 +53,25 @@ class Hcexperts extends React.Component {
           valueEn: 'Behaviorist',
           src: cat1,
           name: 'Comportementalistes',
-          text:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         },
         {
           valueEn: 'Nutritionist',
           src: cat2,
           name: 'Expert en nutrition',
-          text:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         },
         {
           valueEn: 'Osteopathist',
           src: cat3,
           name: 'Ostéopathes',
-          text:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         }
       ],
       timeList: [
         {
           duration: 15,
-          text:
-            'Rapide et facile, échangez avec un expert pour reçevoir ses conseils et commencer le suivi de votre chat.'
+          text: 'Rapide et facile, échangez avec un expert pour reçevoir ses conseils et commencer le suivi de votre chat.'
         },
         {
           duration: 30,
@@ -341,42 +338,39 @@ class Hcexperts extends React.Component {
   handleGoto = () => {
     let id = window.location.search.split('=')[1];
     if (id) {
-      this.postUpdate(
-        {
-          ...this.state.params,
-          apptNo: this.state.appointmentVO.apptNo,
-          id: this.state.appointmentVO.id,
-          createTime: this.state.appointmentVO.createTime,
-          consumerName:
-            this.state.userInfo?.contactName ||
-            this.state.appointmentVO.consumerName ||
-            undefined,
-          consumerFirstName:
-            this.state.userInfo?.firstName ||
-            this.state.appointmentVO.consumerFirstName ||
-            undefined,
-          consumerLastName:
-            this.state.userInfo?.lastName ||
-            this.state.appointmentVO.consumerLastName ||
-            undefined,
-          consumerEmail:
-            this.state.userInfo?.email ||
-            this.state.appointmentVO.consumerEmail ||
-            undefined,
-          consumerPhone:
-            this.state.userInfo?.contactPhone ||
-            this.state.appointmentVO.consumerPhone ||
-            undefined,
-          customerId:
-            this.state.userInfo?.customerId ||
-            this.state.appointmentVO.customerId ||
-            undefined,
-          customerLevelId: this.state.appointmentVO.customerId ? 234 : 233, // 233未登录 234登陆
-          bookSlotVO: this.state.bookSlotVO,
-          serviceTypeId: 6
-        },
-        id
-      );
+      this.postUpdate({
+        ...this.state.params,
+        apptNo: this.state.appointmentVO.apptNo,
+        id: this.state.appointmentVO.id,
+        createTime: this.state.appointmentVO.createTime,
+        consumerName:
+          this.state.userInfo?.contactName ||
+          this.state.appointmentVO.consumerName ||
+          undefined,
+        consumerFirstName:
+          this.state.userInfo?.firstName ||
+          this.state.appointmentVO.consumerFirstName ||
+          undefined,
+        consumerLastName:
+          this.state.userInfo?.lastName ||
+          this.state.appointmentVO.consumerLastName ||
+          undefined,
+        consumerEmail:
+          this.state.userInfo?.email ||
+          this.state.appointmentVO.consumerEmail ||
+          undefined,
+        consumerPhone:
+          this.state.userInfo?.contactPhone ||
+          this.state.appointmentVO.consumerPhone ||
+          undefined,
+        customerId:
+          this.state.userInfo?.customerId ||
+          this.state.appointmentVO.customerId ||
+          undefined,
+        customerLevelId: this.state.appointmentVO.customerId ? 234 : 233, // 233未登录 234登陆
+        bookSlotVO: this.state.bookSlotVO,
+        serviceTypeId: 6
+      });
     } else {
       this.postSave();
     }
@@ -402,7 +396,7 @@ class Hcexperts extends React.Component {
         this.props.history.push('/checkout');
       } else {
         this.setState({
-          apptNo: apptNo,
+          apptNo,
           appointmentVO,
           fourShow: false,
           fiveShow: true
@@ -517,31 +511,25 @@ class Hcexperts extends React.Component {
       visibleUpdate: false
     });
   };
-  handleUpdate = (params) => {
-    this.postUpdate({
-      ...this.state.params,
+  handleUpdate = async (params) => {
+    const { code } = await postcustomerUpdate({
       apptNo: this.state.appointmentVO.apptNo,
-      id: this.state.appointmentVO.id,
-      createTime: this.state.appointmentVO.createTime,
-      customerId: this.state.appointmentVO.customerId || undefined,
-      customerLevelId: this.state.appointmentVO.customerId ? 234 : 233, // 233未登录 234登陆
-      bookSlotVO: this.state.bookSlotVO,
       consumerFirstName: params.firstName,
       consumerLastName: params.lastName,
       consumerName: params.firstName + ' ' + params.lastName,
       consumerEmail: params.email,
-      consumerPhone: params.phone,
-      serviceTypeId: 6
+      consumerPhone: params.phone
     });
+    if (code === 'K-000000') {
+      this.props.history.push('/checkout');
+    }
   };
 
-  postUpdate = async (params, id) => {
+  postUpdate = async (params) => {
     const { code } = await postUpdate(params);
     if (code === 'K-000000') {
-      if (id) {
-        sessionItemRoyal.set('appointment-no', this.state.appointmentVO.apptNo);
-        sessionItemRoyal.set('isChangeAppoint', true);
-      }
+      sessionItemRoyal.set('appointment-no', this.state.appointmentVO.apptNo);
+      sessionItemRoyal.set('isChangeAppoint', true);
       this.props.history.push('/checkout');
     }
   };

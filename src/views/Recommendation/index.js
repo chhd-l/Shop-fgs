@@ -191,12 +191,8 @@ class Help extends React.Component {
       });
   }
   checkoutStock() {
-    let {
-      productList,
-      outOfStockProducts,
-      inStockProducts,
-      modalList
-    } = this.state;
+    let { productList, outOfStockProducts, inStockProducts, modalList } =
+      this.state;
     for (let i = 0; i < productList.length; i++) {
       if (
         productList[i].recommendationNumber > productList[i].goodsInfo.stock
@@ -226,12 +222,8 @@ class Help extends React.Component {
     );
   }
   async hanldeLoginAddToCart() {
-    let {
-      productList,
-      outOfStockProducts,
-      inStockProducts,
-      modalList
-    } = this.state;
+    let { productList, outOfStockProducts, inStockProducts, modalList } =
+      this.state;
     // console.log(outOfStockProducts, inStockProducts, '...1')
 
     if (outOfStockProducts.length > 0) {
@@ -355,12 +347,8 @@ class Help extends React.Component {
       localItemRoyal.set('okta-redirectUrl', '/prescription');
     }
     this.setState({ needLogin });
-    let {
-      productList,
-      outOfStockProducts,
-      inStockProducts,
-      modalList
-    } = this.state;
+    let { productList, outOfStockProducts, inStockProducts, modalList } =
+      this.state;
     let totalPrice;
     inStockProducts.forEach((el) => {
       // console.log(el, 'instock');
@@ -442,12 +430,8 @@ class Help extends React.Component {
   }
   async hanldeClickSubmit() {
     const { checkoutStore, loginStore, history, clinicStore } = this.props;
-    let {
-      currentModalObj,
-      subDetail,
-      outOfStockProducts,
-      inStockProducts
-    } = this.state;
+    let { currentModalObj, subDetail, outOfStockProducts, inStockProducts } =
+      this.state;
     this.setState({ loading: true, modalShow: false });
     if (currentModalObj.type === 'addToCart') {
       for (let i = 0; i < inStockProducts.length; i++) {

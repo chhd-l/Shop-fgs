@@ -6,14 +6,8 @@ import FrequencySelection from '@/components/FrequencySelection/index.tsx';
 
 const ClubSelection = function (props) {
   useEffect(() => {}, []);
-  const {
-    isGift,
-    pitem,
-    activeToolTipIndex,
-    index,
-    toolTipVisible,
-    isLogin
-  } = props;
+  const { isGift, pitem, activeToolTipIndex, index, toolTipVisible, isLogin } =
+    props;
   return (
     <div
       className="buyMethod rc-margin-bottom--xs ClubSelection"

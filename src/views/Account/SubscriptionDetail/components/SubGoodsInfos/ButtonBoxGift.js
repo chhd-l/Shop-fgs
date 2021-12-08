@@ -21,9 +21,8 @@ const ButtonBoxGift = () => {
   } = SubGoodsInfosValue;
   const handleGiftSubCancel = async (e, subDetail) => {
     e.preventDefault();
-    let {
-      subscriptionPlanId: planId
-    } = subDetail.noStartTradeList[0]?.tradeItems[0];
+    let { subscriptionPlanId: planId } =
+      subDetail.noStartTradeList[0]?.tradeItems[0];
     let params = {
       planId,
       storeId: window.__.env.REACT_APP_STOREID

@@ -53,7 +53,8 @@ class ForgetPassword extends React.Component {
     }, 5000);
   };
   emailVerify = (email) => {
-    let reg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
+    let reg =
+      /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
     return reg.test(email);
   };
   backToLogin() {
