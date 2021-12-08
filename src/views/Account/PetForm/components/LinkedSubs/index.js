@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import autoshipIcon from '@/assets/images/autoship.png';
-import {
-  getFormatDate,
-  getFrequencyDict,
-  getDeviceType,
-  getClubLogo
-} from '@/utils/utils';
+import { getFrequencyDict, getDeviceType, getClubLogo } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { getSubListForPet } from '@/api/subscription';
 import { changeSubscriptionGoodsByPets } from '@/api/pet';
@@ -174,7 +169,7 @@ const LinkedSubs = (props) => {
                         <FormattedMessage id="autoShipStarted" />
                       </p>
                       <p style={{ color: '#666', fontSize: '1rem' }}>
-                        {getFormatDate(subItem.createTime.split(' ')[0])}
+                        {momentNormalizeDate(subItem.createTime)}
                       </p>
                     </span>
                   </div>

@@ -30,3 +30,5 @@ export function momentNormalizeDate(date, format = '') {
   console.log(normalizeDate);
   return normalizeDate;
 }
+
+window.momentNormalizeDate = momentNormalizeDate;

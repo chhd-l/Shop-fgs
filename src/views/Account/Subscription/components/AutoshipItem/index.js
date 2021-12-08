@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import autoshipIcon from '@/assets/images/autoship.png';
 import {
-  getFormatDate,
   getDeviceType,
   getClubLogo,
   isCanVerifyBlacklistPostCode
@@ -130,7 +129,7 @@ const AutoshipItem = ({ subItem, history }) => {
               <FormattedMessage id="autoShipStarted2" />
             </p>
             <p style={{ color: '#666', fontSize: '1rem' }}>
-              {getFormatDate(subItem.createTime.split(' ')[0])}
+              {momentNormalizeDate(subItem.createTime)}
               {/* <FormattedDate value={subItem.createTime.split(' ')[0]}/> */}
               {/* {subItem.createTime.split(' ')[0]} */}
             </p>

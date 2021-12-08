@@ -703,47 +703,6 @@ export async function fetchHeaderNavigations() {
   return ret;
 }
 
-export function getFormatDate(date, callback, lang) {
-  if (isMatchedLang(['fr'])) {
-    const cache = createIntlCache();
-    const intl = createIntl(
-      {
-        locale: 'fr-FR',
-        messages: {}
-      },
-      cache
-    );
-    if (callback && typeof callback === 'function') {
-      return callback(intl.formatDate(getZoneTime(date)));
-    } else {
-      return intl.formatDate(getZoneTime(date));
-    }
-  } else if (isMatchedLang(['us'])) {
-    return format(getZoneTime(date), 'MM/dd/yyyy', {
-      locale: datePickerConfig.locale_module
-    });
-  } else if (isMatchedLang(['tr'])) {
-    return format(getZoneTime(date), 'dd-MM-yyyy', {
-      locale: datePickerConfig.locale_module
-    });
-  } else if (isMatchedLang(['ru'])) {
-    return format(getZoneTime(date), 'dd/MM/yyyy', {
-      locale: datePickerConfig.locale_module
-    });
-  } else if (isMatchedLang(['de'])) {
-    return format(getZoneTime(date), 'dd.MM.yyyy', {
-      locale: datePickerConfig.locale_module
-    });
-  } else {
-    if (callback && typeof callback === 'function') {
-      return callback(date);
-    } else {
-      return date;
-    }
-  }
-}
-window.getFormatDate = getFormatDate;
-
 function getDatePickerConfig() {
   const lang = window.__.env.REACT_APP_COUNTRY;
 
@@ -967,11 +926,7 @@ export function getZoneTime(date) {
   }
   return new Date(date);
 }
-function isMatchedLang(langArr, lang) {
-  return langArr?.find(
-    (crLang) => window.__.env.REACT_APP_COUNTRY === crLang || lang === crLang
-  );
-}
+
 import Club_Logo from '@/assets/images/Logo_club.png';
 import Club_Logo_ru from '@/assets/images/Logo_club_ru.png';
 import indvLogo from '@/assets/images/indv_log.svg';
@@ -1018,9 +973,8 @@ export function judgeIsIndividual(item) {
 // uk和fr,才有postCode校验
 const countryPostCode = ['uk', 'fr'];
 const currentCountry = window.__.env.REACT_APP_COUNTRY;
-export const isCanVerifyBlacklistPostCode = countryPostCode.includes(
-  currentCountry
-);
+export const isCanVerifyBlacklistPostCode =
+  countryPostCode.includes(currentCountry);
 
 // 获取 Postal code alert message
 export async function getAddressPostalCodeAlertMessage() {

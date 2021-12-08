@@ -8,12 +8,12 @@ import skipIcon from '../../images/skip.png';
 import dateIcon from '../../images/date.png';
 import {
   getDeviceType,
-  getFormatDate,
   datePickerConfig,
   formatMoney,
   getZoneTime
 } from '@/utils/utils';
 import { IMG_DEFAULT } from '@/utils/constant';
+import { momentNormalizeDate } from '@/utils/momentNormalized';
 
 const NextDelivery = ({
   el,
@@ -89,9 +89,7 @@ const NextDelivery = ({
                 }}
               >
                 {isNotInactive
-                  ? getFormatDate(
-                      el.tradeItems[0].nextDeliveryTime.split(' ')[0]
-                    )
+                  ? momentNormalizeDate(el.tradeItems[0].nextDeliveryTime)
                   : ''}
               </span>
             </div>

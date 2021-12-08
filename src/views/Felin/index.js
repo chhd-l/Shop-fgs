@@ -1,23 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import LazyLoad from 'react-lazyload';
-import dateIcon from '@/assets/images/date.png';
-import {
-  getFormatDate,
-  datePickerConfig,
-  validData,
-  getDeviceType
-} from '@/utils/utils';
+import { validData, getDeviceType } from '@/utils/utils';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import Selection from '@/components/Selection';
 import { PRESONAL_INFO_RULE } from '@/utils/constant';
 import 'react-datepicker/dist/react-datepicker.css';
 import './index.less';
-import { Link } from 'react-router-dom';
 import LoginButton from '@/components/LoginButton';
-import { loadJS } from '@/utils/utils';
 import { format } from 'date-fns';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -158,11 +150,6 @@ export default class Felin extends React.Component {
       consentList: {
         requiredList: [],
         optionalList: []
-      },
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
       },
       toDay: new Date()
     };

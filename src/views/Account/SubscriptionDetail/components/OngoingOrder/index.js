@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { IMG_DEFAULT } from '@/utils/constant';
 import './index.less';
+import { momentNormalizeDate } from '@/utils/momentNormalized';
 
 const OngoingOrder = ({ subDetail }) => {
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
@@ -56,7 +57,7 @@ const OngoingOrder = ({ subDetail }) => {
                   <FormattedMessage id="order.orderDate" />
                 </span>
                 <span className="medium mt-2 ui-text-overflow-line1">
-                  {getFormatDate(ele.tradeState.createTime.substr(0, 10))}
+                  {momentNormalizeDate(ele.tradeState.createTime)}
                 </span>
               </div>
               <div

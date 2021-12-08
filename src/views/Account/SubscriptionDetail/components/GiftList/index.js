@@ -110,10 +110,8 @@ const GiftList = ({
                                   fontWeight: '400'
                                 }}
                               >
-                                {getFormatDate(
-                                  el.tradeItems[0].nextDeliveryTime.split(
-                                    ' '
-                                  )[0]
+                                {momentNormalizeDate(
+                                  el.tradeItems[0].nextDeliveryTime
                                 )}
                               </span>
                             </p>

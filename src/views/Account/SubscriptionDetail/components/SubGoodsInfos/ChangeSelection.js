@@ -1,4 +1,4 @@
-import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import React, { useContext } from 'react';
 import FrequencySelection from '@/components/FrequencySelection/index.tsx';
 import LazyLoad from 'react-lazyload';
@@ -6,17 +6,13 @@ import { SubGoodsInfosContext } from './index';
 import DatePicker from 'react-datepicker';
 import dateIcon from '../../images/date.png';
 import FrequencyMatch from '@/components/FrequencyMatch';
-import { getFormatDate, datePickerConfig, getZoneTime } from '@/utils/utils';
+import { datePickerConfig, getZoneTime } from '@/utils/utils';
+import { momentNormalizeDate } from '@/utils/momentNormalized';
+
 const ChangeSelection = ({ el }) => {
   const SubGoodsInfosValue = useContext(SubGoodsInfosContext);
-  const {
-    setState,
-    isIndv,
-    isActive,
-    onDateChange,
-    getMinDate,
-    isGift
-  } = SubGoodsInfosValue;
+  const { setState, isIndv, isActive, onDateChange, getMinDate, isGift } =
+    SubGoodsInfosValue;
 
   switch (el.goodsInfoFlag) {
     case 0:
@@ -120,7 +116,7 @@ const ChangeSelection = ({ el }) => {
             fontSize: '1.25rem'
           }}
         >
-          {getFormatDate(el.createTime.split(' ')[0])}
+          {momentNormalizeDate(el.createTime)}
         </div>
       </div>
       <div style={{ overflow: 'hidden' }} className="rc-card-content">

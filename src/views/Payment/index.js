@@ -28,7 +28,6 @@ import { searchNextConfirmPanel } from './modules/utils';
 import {
   formatMoney,
   generatePayUScript,
-  getFormatDate,
   setSeoConfig,
   validData,
   bindSubmitParam,
@@ -80,6 +79,7 @@ import { querySurveyContent } from '@/api/cart';
 import felinAddr from './Address/FelinOfflineAddress';
 import { funcUrl } from '../../lib/url-utils';
 import { postUpdateUser } from '../../api/felin';
+import { momentNormalizeDate } from '../../utils/momentNormalized';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -107,15 +107,7 @@ function CreditCardInfoPreview({
       {expirationDate ? (
         <>
           <br />
-          <span>
-            {getFormatDate(expirationDate, (date) => {
-              if (window.__.env.REACT_APP_COUNTRY === 'fr') {
-                return date.slice(3);
-              } else {
-                return date;
-              }
-            })}
-          </span>
+          <span>{momentNormalizeDate(expirationDate)}</span>
         </>
       ) : null}
     </div>

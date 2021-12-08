@@ -6,9 +6,12 @@ import LinkPet from './LinkPet';
 import { filterOrderId, getClubLogo } from '@/utils/utils';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
+import { getDictionary } from '@/utils/utils';
+import { momentNormalizeDate } from '@/utils/momentNormalized';
+
 const sessionItemRoyal = window.__.sessionItemRoyal;
 export const SubDetailHeaderContext = createContext();
-import { getDictionary } from '@/utils/utils';
+
 const StatusText = ({ subDetail }) => {
   return subDetail.subscribeId ? (
     subDetail.subscribeStatus === '0' ? (
@@ -202,7 +205,7 @@ const SubDetailHeader = ({
                       :
                       <strong>
                         {' '}
-                        {getFormatDate(petsInfo?.birthOfPets || '')}
+                        {momentNormalizeDate(petsInfo?.birthOfPets || '')}
                       </strong>
                     </div>
                   </div>

@@ -5,10 +5,10 @@ import {
   getDictionary,
   matchNamefromDict,
   getDeviceType,
-  getFormatDate,
   handleFelinAppointTime
 } from '@/utils/utils';
 import { format } from 'date-fns-tz';
+import { momentNormalizeDate } from '../../../utils/momentNormalized';
 
 @inject('configStore')
 @observer
@@ -199,7 +199,7 @@ class InfosPreview extends React.Component {
                             new Date(payRecord.expirationDate).addHours(12),
                             'MM/yyyy'
                           )
-                        : getFormatDate(payRecord.expirationDate.substr(0, 7))}
+                        : momentNormalizeDate(payRecord.expirationDate)}
                     </span>
                     <br />
                   </>
