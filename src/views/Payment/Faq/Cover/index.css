@@ -39,7 +39,7 @@
 
 .rc_list_content ul,
 .rc_list_content li {
-  list-style-type: disc !important;
+  /*list-style-type: disc !important;*/
   list-style: disc !important;
 }
 .rc_list_content ul li::marker {

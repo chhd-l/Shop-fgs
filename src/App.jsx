@@ -799,6 +799,7 @@ const App = () => {
                 <Route
                   path="/"
                   render={(props) => {
+                    console.log('进入了/路由');
                     const { location } = props;
                     const { pathname, search } = location;
 
@@ -861,6 +862,7 @@ const App = () => {
                         );
                       }
                     } else {
+                      console.log('没匹配pdp路由');
                       // 除去PDP页面文件重定向start
                       // const specailPlpUrlMapping = {
                       //   ...redirectFun()
@@ -871,6 +873,7 @@ const App = () => {
 
                       // 除去PDP页面文件重定向end
                       if (redirectUrl) {
+                        console.log(`匹配${redirectUrl}路由`);
                         return (
                           <Redirect
                             to={{
@@ -882,6 +885,7 @@ const App = () => {
                           />
                         );
                       } else {
+                        console.log(`匹配plp路由`);
                         return (
                           <List
                             key={
@@ -895,7 +899,16 @@ const App = () => {
                     }
                   }}
                 />
-                <Route path="*" component={Exception} />
+                <Route
+                  path="*"
+                  render={(props) => {
+                    const { location } = props;
+                    const { pathname, search } = location;
+                    console.log('进入了404路由', { pathname, search });
+                    return <Exception {...props} />;
+                  }}
+                  // component={Exception}
+                />
               </Switch>
             </Security>
           </ScrollToTop>

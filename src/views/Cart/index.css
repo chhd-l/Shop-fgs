@@ -303,9 +303,9 @@ div.product-info .strike-through {
 .product-info .remove-btn-lg {
   border: none;
   border-radius: 0;
-  font-size: 1.625em;
+  /*font-size: 1.625em;*/
   position: absolute;
-  top: 0;
+  /*top: 0;*/
   bottom: 0;
   padding-left: 0.3125rem;
   padding-right: 0.3125rem;

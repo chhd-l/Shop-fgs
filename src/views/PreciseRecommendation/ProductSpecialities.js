@@ -36,7 +36,7 @@ class ProductSpecialities extends React.Component {
                       className="image-container text-center rc-column"
                       style={{
                         display: 'flex',
-                        justifyContent: isMobile ? 'center' : 'center',
+                        justifyContent: 'center',
                         width: '100%'
                       }}
                     >

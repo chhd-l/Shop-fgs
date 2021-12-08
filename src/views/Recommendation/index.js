@@ -208,7 +208,7 @@ class Help extends React.Component {
     }
     // console.log(inStockProducts, 'instock');
     let outOfStockVal = '';
-    outOfStockProducts.map((el, i) => {
+    outOfStockProducts.forEach((el, i) => {
       if (i === outOfStockProducts.length - 1) {
         outOfStockVal = outOfStockVal + el.goodsInfo.goodsInfoName;
       } else {
@@ -362,7 +362,7 @@ class Help extends React.Component {
       modalList
     } = this.state;
     let totalPrice;
-    inStockProducts.map((el) => {
+    inStockProducts.forEach((el) => {
       // console.log(el, 'instock');
       totalPrice =
         totalPrice + el.recommendationNumber * el.goodsInfo.salePrice;

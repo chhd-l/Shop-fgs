@@ -151,12 +151,14 @@ class AddressList extends React.Component {
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.addOrEditPickupAddress = this.addOrEditPickupAddress.bind(this);
-    this.handleCancelAddOrEditPickup =
-      this.handleCancelAddOrEditPickup.bind(this);
+    this.handleCancelAddOrEditPickup = this.handleCancelAddOrEditPickup.bind(
+      this
+    );
     this.handleSave = this.handleSave.bind(this);
     this.timer = null;
-    this.confirmListValidationAddress =
-      this.confirmListValidationAddress.bind(this);
+    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
+      this
+    );
     this.editFormRef = React.createRef();
   }
   async componentDidMount() {
@@ -1131,8 +1133,11 @@ class AddressList extends React.Component {
   };
   // 点击地址验证确认按钮
   confirmListValidationAddress = () => {
-    const { deliveryAddress, selectListValidationOption, validationAddress } =
-      this.state;
+    const {
+      deliveryAddress,
+      selectListValidationOption,
+      validationAddress
+    } = this.state;
     this.setState({
       listBtnLoading: true
     });
@@ -1195,7 +1200,7 @@ class AddressList extends React.Component {
   titleJSXForPrepare() {
     const { titleVisible } = this.props;
     return (
-      <h5 className={`mb-0 text-nowrap`}>
+      <h5 className={`mb-0 text-nowrap text-xl`}>
         {titleVisible ? (
           <>
             <em className="rc-icon rc-indoors--xs rc-iconography" />{' '}
@@ -1209,7 +1214,7 @@ class AddressList extends React.Component {
     const { titleVisible } = this.props;
     return (
       <>
-        <h5 className={`mb-0 text-nowrap red`}>
+        <h5 className={`mb-0 text-nowrap red text-xl`}>
           {titleVisible ? (
             <>
               <em className="rc-icon rc-indoors--xs rc-brand1" />{' '}
@@ -1224,7 +1229,7 @@ class AddressList extends React.Component {
     const { titleVisible } = this.props;
     return (
       <>
-        <h5 className={`mb-0 text-nowrap`}>
+        <h5 className={`mb-0 text-nowrap text-xl`}>
           {titleVisible ? (
             <>
               <em className="rc-icon rc-indoors--xs rc-iconography" />{' '}
