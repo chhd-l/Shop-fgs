@@ -6,7 +6,7 @@ import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import HubSalesCategory from '@/components/HubSalesCategory';
 import { salesCategoryFilterRule2 } from '@/components/HubSalesCategory/utils';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';

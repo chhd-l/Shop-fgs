@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import cn from 'classnames';
 import LazyLoad from 'react-lazyload';
 import {
@@ -19,10 +18,10 @@ const MixFeedingBox = function ({
   periodTypeId,
   isLogin,
   update,
-  beforeUpdate
+  beforeUpdate,
+  intl
 }) {
   const History = useHistory();
-  const Intl = useIntl();
   const [selectedSku, setSelectedSku] = useState(null);
   const [quantity, setQuantity] = useState(mixFeedingData.quantity);
   const [isInStock, setIsInStock] = useState(true);
@@ -272,7 +271,7 @@ const MixFeedingBox = function ({
                       console.log('copyData', copyData);
                       const param = {
                         product: copyData,
-                        intl: Intl
+                        intl
                       };
                       isLogin
                         ? await addToLoginCartData(param)

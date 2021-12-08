@@ -2,7 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import { Link } from 'react-router-dom';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import SearchSelection from '@/components/SearchSelection';
 import { getPrescriberByCode } from '@/api/clinic';
 import { searchNextConfirmPanel } from '../modules/utils';
@@ -160,7 +160,7 @@ class ClinicForm extends React.Component {
     const defaultJSX = (
       <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
         <div className="bg-transparent d-flex justify-content-between align-items-center">
-          <h5 className="mb-0">
+          <h5 className="mb-0 text-xl">
             <em className="rc-icon rc-vet--xs rc-iconography" />{' '}
             {this.isLogin ? (
               <FormattedMessage id="payment.clinicTitle2" />
@@ -186,7 +186,7 @@ class ClinicForm extends React.Component {
     const searchJSX = (
       <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
         <div className="bg-transparent d-flex justify-content-between align-items-center">
-          <h5 className={`mb-0 ${isEdit ? 'red' : ''}`}>
+          <h5 className={`mb-0 text-xl ${isEdit ? 'red' : ''}`}>
             <em
               className={`rc-icon rc-vet--xs ${
                 isEdit ? 'rc-brand1' : 'rc-iconography'

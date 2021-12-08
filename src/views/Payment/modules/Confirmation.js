@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { formatMoney } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import TermsCommon from '../Terms/common';
@@ -76,7 +76,7 @@ class Confirmation extends React.Component {
     const { tradePrice } = this.props;
     const { isValid } = this.state;
     const titleJSXForPrepare = (
-      <h5 className={`mb-0`}>
+      <h5 className={`mb-0 text-xl`}>
         <em
           className="iconfont font-weight-bold ml-1"
           style={{ marginRight: '.7rem' }}
@@ -87,7 +87,7 @@ class Confirmation extends React.Component {
       </h5>
     );
     const titleJSXForEdit = (
-      <h5 className={`mb-0 red`}>
+      <h5 className={`mb-0 red text-xl`}>
         <em
           className="iconfont font-weight-bold ml-1"
           style={{ marginRight: '.7rem' }}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { cookieSettingsBtn } from './cookieSettingsBtn';
 import MarsFooterMap from './MarsFooterMap';
 import PaymentLogos from './paymentLogos';
@@ -13,6 +13,7 @@ import { queryApiFromSessionCache } from '@/utils/utils';
 import { getFooter } from '@/api/hub';
 import footerHubResult from './mock';
 
+@injectIntl
 class FooterHub extends React.Component {
   constructor(props) {
     super(props);
@@ -44,14 +45,10 @@ class FooterHub extends React.Component {
   };
   render() {
     const { footerInfo, cur_contactInfo } = this.state;
-    const { isLogin, history } = this.props;
+    const { isLogin, intl } = this.props;
     if (Object.keys(footerInfo).length == 0) return null;
-    const {
-      LocalMarketSettings,
-      MenuGroups,
-      MenuInfoItems,
-      MenuItems
-    } = footerInfo;
+    const { LocalMarketSettings, MenuGroups, MenuInfoItems, MenuItems } =
+      footerInfo;
     const { ContactUsUrl, ContactPhone } = LocalMarketSettings || {};
 
     return (
@@ -180,8 +177,8 @@ class FooterHub extends React.Component {
                     {item.Icon === 'user' && !isLogin ? (
                       <div>
                         <LoginButton
+                          intl={intl}
                           className={`rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-${item.Icon}--xs rc-brand3`}
-                          history={history}
                           btnStyle={{
                             marginLeft: '-.8rem',
                             fontSize: 'inherit'

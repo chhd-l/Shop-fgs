@@ -1,6 +1,6 @@
 //卡form表单
 import React from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import AdyenEditForm from '@/components/Adyen/form';
 import { getDictionary, validData } from '@/utils/utils';

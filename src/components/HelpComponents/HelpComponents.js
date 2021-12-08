@@ -3,7 +3,7 @@ import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 import callImg from '@/assets/images/customer-service@2x.jpg';
 import helpImg from '@/assets/images/slider-img-help.jpg';
 import pictofaq from './img/pictofaq.png';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 import './index.css';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';

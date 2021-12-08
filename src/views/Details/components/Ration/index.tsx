@@ -6,7 +6,7 @@ import {
   getRation
 } from '@/utils/utils';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { ObjectConstructor } from '@/utils/types.ts';
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const Tr = window.__.env.REACT_APP_COUNTRY === 'tr';

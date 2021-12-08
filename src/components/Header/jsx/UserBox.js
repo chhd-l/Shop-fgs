@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import LoginButton from '@/components/LoginButton';
 import LogoutButton from '@/components/LogoutButton';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import '../css/user.less';
 
 const localItemRoyal = window.__.localItemRoyal;
 
-export const UnLoginUserBox = ({ history, className }) => {
+export const UnLoginUserBox = ({ history, className, intl }) => {
   return (
     <div className={`user-unLogin-popover ${className}`}>
       <div className="already">
@@ -17,7 +17,7 @@ export const UnLoginUserBox = ({ history, className }) => {
       <LoginButton
         className="rc-btn rc-btn--one mt-1 mb-1"
         btnStyle={{ width: '14rem', padding: '5px 0' }}
-        history={history}
+        intl={intl}
       />
       <div className="newUser">
         <FormattedMessage id="header.User.newUser" />
@@ -74,11 +74,8 @@ export const UnLoginUserBox = ({ history, className }) => {
 };
 
 export const LoginUserBox = ({ self, className }) => {
-  const {
-    personInformationRouter,
-    petsRouter,
-    subscriptionsRouter
-  } = self.props;
+  const { personInformationRouter, petsRouter, subscriptionsRouter } =
+    self.props;
   const menuList = [
     {
       link: '/account',

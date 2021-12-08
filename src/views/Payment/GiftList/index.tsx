@@ -2,7 +2,7 @@ import React from 'react';
 import OneOffSelection from '../OneOffSelection';
 import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { getDeviceType, formatMoney } from '@/utils/utils';
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 

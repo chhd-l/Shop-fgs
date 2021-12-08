@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 
 function Item({ className, onClick, to, children }) {

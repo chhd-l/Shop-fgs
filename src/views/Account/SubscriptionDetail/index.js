@@ -1,6 +1,6 @@
 import React from 'react';
 import './index.less';
-import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import Skeleton from 'react-skeleton-loader';
 import { inject, observer } from 'mobx-react';
 import Header from '@/components/Header';
@@ -845,6 +845,7 @@ class SubscriptionDetail extends React.Component {
                           getMinDate={this.getMinDate}
                           showErrMsg={this.showErrMsg.bind(this)}
                           subDetail={subDetail}
+                          {...this.props}
                         />
                       </>
 
@@ -863,7 +864,10 @@ class SubscriptionDetail extends React.Component {
                             )}
                           </h4>
                           <div className="rc-max-width--xl">
-                            <OngoingOrder subDetail={subDetail} />
+                            <OngoingOrder
+                              subDetail={subDetail}
+                              {...this.props}
+                            />
                           </div>
                         </>
                       ) : null}
@@ -887,6 +891,7 @@ class SubscriptionDetail extends React.Component {
                             isGift={isGift}
                             completedYear={completedYear}
                             activeTabIdx={activeTabIdx}
+                            {...this.props}
                           />
                           <GiftList
                             modalList={modalList}
@@ -897,6 +902,7 @@ class SubscriptionDetail extends React.Component {
                             subDetail={subDetail}
                             noStartYear={noStartYear}
                             isGift={isGift}
+                            {...this.props}
                           />
                         </div>
                       </>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import Skeleton from 'react-skeleton-loader';
 // import CitySearchSelection from '@/components/CitySearchSelection';
 import ValidationAddressModal from '@/components/validationAddressModal';
@@ -184,11 +184,8 @@ class ShippingAddressFrom extends React.Component {
   };
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmValidationAddress() {
-    const {
-      addressForm,
-      selectValidationOption,
-      validationAddress
-    } = this.state;
+    const { addressForm, selectValidationOption, validationAddress } =
+      this.state;
     let oldAddressForm = JSON.parse(JSON.stringify(addressForm));
     let theform = [];
     if (selectValidationOption == 'suggestedAddress') {

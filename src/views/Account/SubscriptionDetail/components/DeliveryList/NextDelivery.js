@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import stores from '@/store';
 import LazyLoad from 'react-lazyload';
 import { useLocalStore } from 'mobx-react';
@@ -89,9 +89,10 @@ const NextDelivery = ({
                 }}
               >
                 {isNotInactive
-                  ? getFormatDate(
-                      el.tradeItems[0].nextDeliveryTime.split(' ')[0]
-                    )
+                  ? getFormatDate({
+                      date: el.tradeItems[0].nextDeliveryTime.split(' ')[0],
+                      intl
+                    })
                   : ''}
               </span>
             </div>

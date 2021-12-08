@@ -9,7 +9,7 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import Modal from '@/components/Modal';
 import BannerTip from '@/components/BannerTip';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import {
   formatMoney,
   getDictionary,
@@ -35,7 +35,7 @@ import './index.less';
 import LazyLoad from 'react-lazyload';
 import { format } from 'date-fns';
 import PageBaseInfo from '@/components/PageBaseInfo';
-import { injectIntl } from 'react-intl';
+import { injectIntl } from 'react-intl-phraseapp';
 import {
   handleOrderStatusMap,
   handleFelinOrderStatusMap
@@ -49,7 +49,7 @@ import { handleOrderItem } from '../Orders/modules/handleOrderItem';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-function Progress({ progressList, currentProgerssIndex }) {
+function Progress({ progressList, currentProgerssIndex, intl }) {
   return (
     <div className="od-prg-container ml-2 mr-2 md:ml-4 md:mr-4">
       <div className="od-prg d-flex align-items-center">
@@ -78,10 +78,15 @@ function Progress({ progressList, currentProgerssIndex }) {
               </span>
               <span className="od-prg-time position-absolute">
                 <span className="rc-md-up">
-                  {item.time1 ? getFormatDate(item.time1) : null} {item.time2}
+                  {item.time1
+                    ? getFormatDate({ date: item.time1, intl })
+                    : null}{' '}
+                  {item.time2}
                 </span>
                 <span className="rc-md-down">
-                  {item.time1 ? getFormatDate(item.time1) : null}
+                  {item.time1
+                    ? getFormatDate({ date: item.time1, intl })
+                    : null}
                   <br />
                   {item.time2 || (
                     <span style={{ color: 'transparent' }}>&nbsp;</span>
@@ -584,6 +589,7 @@ class AccountOrders extends React.Component {
     this.setState({ showLogisticsDetail: false });
   };
   renderLogitiscsJSX = () => {
+    const { intl } = this.props;
     const { moreLogistics, activeTabIdx } = this.state;
     //没有详细物流信息的package不显示
     const logisticsList = [];
@@ -682,9 +688,13 @@ class AccountOrders extends React.Component {
                             <FormattedMessage id="deliveryDate" />:{' '}
                             <span className="medium">
                               {item.deliverTime
-                                ? getFormatDate(
-                                    (item.deliverTime || '').substr(0, 10)
-                                  )
+                                ? getFormatDate({
+                                    date: (item.deliverTime || '').substr(
+                                      0,
+                                      10
+                                    ),
+                                    intl
+                                  })
                                 : ''}
                             </span>
                           </div>
@@ -1092,6 +1102,7 @@ class AccountOrders extends React.Component {
         filters: ''
       }
     };
+    const { intl } = this.props;
 
     // 获取本地存储的需要显示的地址字段
     const localAddressForm = this.props.configStore.localAddressForm;
@@ -1112,7 +1123,7 @@ class AccountOrders extends React.Component {
     if (details?.consignee?.deliveryDate) {
       newDeliveryDate = useConsigneeDeliveryDate(
         details?.consignee?.deliveryDate,
-        this.props.intl
+        intl
       );
     }
 
@@ -1173,6 +1184,7 @@ class AccountOrders extends React.Component {
                             <Progress
                               progressList={normalProgressList}
                               currentProgerssIndex={currentProgerssIndex}
+                              {...this.props}
                             />
                           ) : null}
                           {/* 取消状态不展示进度条 */}
@@ -1196,8 +1208,8 @@ class AccountOrders extends React.Component {
                                   <span className="medium">
                                     {filterOrderId({
                                       orderNo: this.state.orderNumber,
-                                      orderNoForOMS: this.state
-                                        .orderNumberForOMS
+                                      orderNoForOMS:
+                                        this.state.orderNumberForOMS
                                     })}
                                   </span>
                                 </div>
@@ -1353,9 +1365,9 @@ class AccountOrders extends React.Component {
                                                           {filterOrderId({
                                                             orderNo:
                                                               el.subscribeId,
-                                                            orderNoForOMS: this
-                                                              .state
-                                                              .orderNumberForOMS
+                                                            orderNoForOMS:
+                                                              this.state
+                                                                .orderNumberForOMS
                                                           })}
                                                         </Link>
                                                       </p>
@@ -2051,10 +2063,12 @@ class AccountOrders extends React.Component {
                           <span className="medium color-444">
                             {curLogisticInfo.deliverTime
                               ? getFormatDate(
-                                  (curLogisticInfo.deliverTime || '').substr(
-                                    0,
-                                    10
-                                  )
+                                  {
+                                    date: (
+                                      curLogisticInfo.deliverTime || ''
+                                    ).substr(0, 10)
+                                  },
+                                  intl
                                 )
                               : ''}
                           </span>

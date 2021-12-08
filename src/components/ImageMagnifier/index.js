@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './index.css';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import noPic from '@/assets/images/noPic.png';
 // import noPic from './images/noPic1.png';
 //import LeftImg from '@/assets/images/left.png'

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import './index.less';
 import Footer from '@/components/Footer';
 

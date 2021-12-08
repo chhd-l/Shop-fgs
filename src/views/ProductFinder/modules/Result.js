@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import Skeleton from 'react-skeleton-loader';
 import { inject, observer } from 'mobx-react';
 import Header from '@/components/Header';
@@ -24,7 +24,7 @@ const pageLink = window.location.href;
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
 
 function QListAndPetJSX(props) {
-  const { questionlist, petBaseInfo } = props;
+  const { questionlist, petBaseInfo, intl } = props;
   let sterilized = (petBaseInfo && petBaseInfo.sterilized) || '...';
   let sterilizedText = sterilized;
   if (sterilized.toLocaleLowerCase().includes('stérilisé')) {
@@ -141,7 +141,7 @@ function QListAndPetJSX(props) {
                     localItemRoyal.set('okta-redirectUrl', '/account/pets');
                   }}
                   btnClass="rc-btn rc-btn--one mb-3"
-                  history={props.history}
+                  intl={intl}
                 >
                   <FormattedMessage id="productFinder.createMyPetProfile" />
                 </LoginButton>
@@ -163,6 +163,7 @@ function QListAndPetJSX(props) {
 }
 
 @inject('loginStore')
+@injectIntl
 @observer
 class ProductFinderResult extends React.Component {
   constructor(props) {
@@ -450,6 +451,7 @@ class ProductFinderResult extends React.Component {
                       handleClickEditBtn={this.handleClickEditBtn}
                       handleClickGotoStart={this.handleClickGotoStart}
                       petBaseInfo={petBaseInfo}
+                      {...this.props}
                     />
                   </div>
                 )}

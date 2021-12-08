@@ -1,6 +1,6 @@
 import React from 'react';
 import Skeleton from 'react-skeleton-loader';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import PriceSlider from '@/components/PriceSlider';
 import { removeArgFromUrl } from '@/lib/url-utils';

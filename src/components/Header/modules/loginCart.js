@@ -1,6 +1,6 @@
 import React from 'react';
 import Skeleton from 'react-skeleton-loader';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import FrequencyMatch from '@/components/FrequencyMatch';
 import {
@@ -464,8 +464,8 @@ class LoginCart extends React.Component {
                       </div>
                     ))
                   )}
-                  {this.giftList.map((el) => (
-                    <GiftList data={el} />
+                  {this.giftList.map((el, i) => (
+                    <GiftList data={el} key={i} {...this.props} />
                   ))}
                 </div>
               </div>

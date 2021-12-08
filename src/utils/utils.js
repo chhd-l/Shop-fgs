@@ -9,7 +9,6 @@ import flatten from 'lodash/flatten';
 import findIndex from 'lodash/findIndex';
 import stores from '@/store';
 import { toJS } from 'mobx';
-import { createIntl, createIntlCache } from 'react-intl';
 import mx from 'date-fns/locale/es';
 import de from 'date-fns/locale/de';
 import fr from 'date-fns/locale/fr';
@@ -73,8 +72,8 @@ export async function hanldePurchases(goodsInfoDTOList) {
       goodsMarketingDTOList: []
     });
     ret = res.context;
+    return ret;
   } catch (e) {
-  } finally {
     return ret;
   }
 }
@@ -703,16 +702,8 @@ export async function fetchHeaderNavigations() {
   return ret;
 }
 
-export function getFormatDate(date, callback, lang) {
+export function getFormatDate({ date, callback, intl }) {
   if (isMatchedLang(['fr'])) {
-    const cache = createIntlCache();
-    const intl = createIntl(
-      {
-        locale: 'fr-FR',
-        messages: {}
-      },
-      cache
-    );
     if (callback && typeof callback === 'function') {
       return callback(intl.formatDate(getZoneTime(date)));
     } else {
@@ -1018,9 +1009,8 @@ export function judgeIsIndividual(item) {
 // uk和fr,才有postCode校验
 const countryPostCode = ['uk', 'fr'];
 const currentCountry = window.__.env.REACT_APP_COUNTRY;
-export const isCanVerifyBlacklistPostCode = countryPostCode.includes(
-  currentCountry
-);
+export const isCanVerifyBlacklistPostCode =
+  countryPostCode.includes(currentCountry);
 
 // 获取 Postal code alert message
 export async function getAddressPostalCodeAlertMessage() {

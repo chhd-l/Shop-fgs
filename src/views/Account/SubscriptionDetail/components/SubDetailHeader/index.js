@@ -1,5 +1,9 @@
 import React, { useEffect, useState, createContext } from 'react';
-import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
+import {
+  FormattedMessage,
+  injectIntl,
+  FormattedDate
+} from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import ChangeProduct from '../ChangeProduct';
 import LinkPet from './LinkPet';
@@ -202,7 +206,10 @@ const SubDetailHeader = ({
                       :
                       <strong>
                         {' '}
-                        {getFormatDate(petsInfo?.birthOfPets || '')}
+                        {getFormatDate({
+                          date: petsInfo?.birthOfPets || '',
+                          intl
+                        })}
                       </strong>
                     </div>
                   </div>

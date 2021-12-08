@@ -1,5 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
+import {
+  FormattedMessage,
+  injectIntl,
+  FormattedDate
+} from 'react-intl-phraseapp';
 import { SubGoodsInfosContext } from './index';
 import { getRemainings } from '@/api/dispenser';
 import { myAccountActionPushEvent } from '@/utils/GA';
@@ -17,9 +21,8 @@ const ButtonBoxGift = () => {
   } = SubGoodsInfosValue;
   const handleGiftSubCancel = async (e, subDetail) => {
     e.preventDefault();
-    let {
-      subscriptionPlanId: planId
-    } = subDetail.noStartTradeList[0]?.tradeItems[0];
+    let { subscriptionPlanId: planId } =
+      subDetail.noStartTradeList[0]?.tradeItems[0];
     let params = {
       planId,
       storeId: window.__.env.REACT_APP_STOREID

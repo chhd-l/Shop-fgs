@@ -29,12 +29,14 @@ import moment from 'moment';
 import LoginButton from '@/components/LoginButton';
 import { getDeviceType } from '../../../utils/utils';
 import { postcustomerUpdate } from '../../../api/felin';
+import { injectIntl } from 'react-intl-phraseapp';
 
 const localItemRoyal = window.__.localItemRoyal;
 PRESONAL_INFO_RULE.filter((el) => el.key === 'phoneNumber')[0].regExp = '';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 @inject('loginStore')
+@injectIntl
 @observer
 class Pcexperts extends React.Component {
   constructor(props) {
@@ -525,6 +527,7 @@ class Pcexperts extends React.Component {
   };
 
   render() {
+    const { intl } = this.props;
     let appointName = {
       Online: 'Appel video',
       Offline: 'Sur place'
@@ -815,7 +818,7 @@ class Pcexperts extends React.Component {
                   localItemRoyal.set('okta-redirectUrl', '/checkout');
                 }}
                 btnClass={`rc-btn rc-btn--one  rc-margin-bottom--xs`}
-                history={this.props.history}
+                intl={intl}
                 btnStyle={{
                   width: '16.875rem'
                 }}

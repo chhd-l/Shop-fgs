@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import LoginButton from '@/components/LoginButton';
 import {
@@ -151,7 +151,7 @@ class UnloginCart extends React.Component {
   };
 
   render() {
-    const { headerCartStore } = this.props;
+    const { headerCartStore, intl } = this.props;
     return (
       <span
         className="minicart inlineblock"
@@ -276,7 +276,7 @@ class UnloginCart extends React.Component {
                     btnClass={`rc-btn rc-btn--one rc-btn--sm btn-block cart__checkout-btn checkout-btn ${
                       this.state.checkoutLoading ? 'ui-btn-loading' : ''
                     }`}
-                    history={this.props.history}
+                    intl={intl}
                   >
                     <FormattedMessage id="minicart.checkout" />
                   </LoginButton>
@@ -311,7 +311,7 @@ class UnloginCart extends React.Component {
                       values={{
                         val: (
                           <b style={{ fontWeight: 500 }}>
-                            {this.props.intl.formatMessage(
+                            {intl.formatMessage(
                               { id: 'minicart.totalProduct' },
                               { val: this.totalNum }
                             )}
@@ -506,8 +506,8 @@ class UnloginCart extends React.Component {
                       </div>
                     </div>
                   ))}
-                  {this.giftList.map((el) => (
-                    <GiftList data={el} />
+                  {this.giftList.map((el, i) => (
+                    <GiftList data={el} key={i} {...this.props} />
                   ))}
                 </div>
               </div>

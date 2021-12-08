@@ -41,7 +41,7 @@ import {
 } from '@/api/address';
 import { shippingCalculation } from '@/api/cart';
 import { inject, observer } from 'mobx-react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import IMask from 'imask';
 import debounce from 'lodash/debounce';
 import { EMAIL_REGEXP } from '@/utils/constant';
@@ -563,10 +563,12 @@ class Form extends React.Component {
         case 'phoneNumber':
           if (COUNTRY == 'fr') {
             // 法国
-            regExp = /^\(\+[3][3]\)[\s](([0][1-9])|[1-9])[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
+            regExp =
+              /^\(\+[3][3]\)[\s](([0][1-9])|[1-9])[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
           } else if (COUNTRY == 'uk') {
             // 英国
-            regExp = /^\(\+[4][4]\)[\s](([0][1-9][1-9])|[1-9][1-9])[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
+            regExp =
+              /^\(\+[4][4]\)[\s](([0][1-9][1-9])|[1-9][1-9])[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
           } else if (COUNTRY == 'us') {
             // 美国
             regExp = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
@@ -575,10 +577,12 @@ class Form extends React.Component {
             regExp = /^\+\([5][2]\)[\s\-][0-9]{3}[\s\-][0-9]{3}[\s\-][0-9]{4}$/;
           } else if (COUNTRY == 'ru') {
             // 俄罗斯
-            regExp = /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
+            regExp =
+              /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
           } else if (COUNTRY == 'tr') {
             // 土耳其
-            regExp = /^0\s\(?([2-9][0-8][0-9])\)?\s([1-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
+            regExp =
+              /^0\s\(?([2-9][0-8][0-9])\)?\s([1-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
           } else {
             // 其他国家
             regExp = /\S/;
@@ -1002,12 +1006,8 @@ class Form extends React.Component {
   };
   // 验证数据
   validvalidationData = async (tname, tvalue) => {
-    const {
-      errMsgObj,
-      caninForm,
-      isDeliveryDateAndTimeSlot,
-      COUNTRY
-    } = this.state;
+    const { errMsgObj, caninForm, isDeliveryDateAndTimeSlot, COUNTRY } =
+      this.state;
 
     if (!caninForm?.formRuleRu?.length) {
       return;
@@ -1330,11 +1330,8 @@ class Form extends React.Component {
             // 自动填充
             if (apiType === 'DADATA') {
               res = await getAddressBykeyWord({ keyword: inputVal });
-              robj = (
-                (res?.context && res?.context?.addressList) ||
-                []
-              ).map((ele) =>
-                Object.assign(ele, { name: ele.unrestrictedValue })
+              robj = ((res?.context && res?.context?.addressList) || []).map(
+                (ele) => Object.assign(ele, { name: ele.unrestrictedValue })
               );
             } else if (apiType === 'DQE') {
               // inputVal = inputVal.replace(/\|/g, '，');

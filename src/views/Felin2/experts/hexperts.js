@@ -21,6 +21,7 @@ import {
 import moment from 'moment';
 import LoginButton from '@/components/LoginButton';
 import { getDeviceType } from '../../../utils/utils';
+import { injectIntl } from 'react-intl-phraseapp';
 import { postcustomerUpdate } from '../../../api/felin';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -28,6 +29,7 @@ PRESONAL_INFO_RULE.filter((el) => el.key === 'phoneNumber')[0].regExp = '';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 @inject('loginStore')
+@injectIntl
 @observer
 class Hcexperts extends React.Component {
   constructor(props) {
@@ -134,7 +136,6 @@ class Hcexperts extends React.Component {
       });
     }
   }
-
   setList = async (id) => {
     // 线上
     const { context: apptTypeList } = await gitDict({
@@ -538,6 +539,7 @@ class Hcexperts extends React.Component {
       Online: 'Appel video',
       Offline: 'Sur place'
     };
+    const { intl } = this.props;
     const { twoShow, threeShow, fourShow, fiveShow } = this.state;
 
     return (
@@ -838,7 +840,7 @@ class Hcexperts extends React.Component {
                   localItemRoyal.set('okta-redirectUrl', '/checkout');
                 }}
                 btnClass={`rc-btn rc-btn--one  rc-margin-bottom--xs`}
-                history={this.props.history}
+                intl={intl}
                 btnStyle={{
                   width: '16.875rem'
                 }}

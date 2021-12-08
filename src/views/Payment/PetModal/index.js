@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { injectIntl } from 'react-intl';
+import { injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import NewPetModal from './components/NewPetModal';
 import SelectPetModal from './components/SelectPetModal';
@@ -8,9 +8,7 @@ import { getPetList } from '@/api/pet';
 
 const localItemRoyal = window.__.localItemRoyal;
 
-@inject(
-  'loginStore'
-)
+@inject('loginStore')
 @injectIntl
 @observer
 class PetModal extends Component {
@@ -23,8 +21,8 @@ class PetModal extends Component {
     };
   }
   componentDidMount() {
-    console.log(this.props.loginStore, 'islogin')
-    if(this.props.loginStore.isLogin) {
+    console.log(this.props.loginStore, 'islogin');
+    if (this.props.loginStore.isLogin) {
       this.getPetList();
     }
   }
@@ -33,7 +31,7 @@ class PetModal extends Component {
   }
 
   async getPetList() {
-    if (!this.userInfo||!this.userInfo.customerAccount) {
+    if (!this.userInfo || !this.userInfo.customerAccount) {
       this.setState({
         loading: false
       });

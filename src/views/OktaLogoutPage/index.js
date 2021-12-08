@@ -1,5 +1,5 @@
 import React from 'react';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import Header from '@/components/Header';
 import Loading from '@/components/Loading';
 import Logo from '@/components/Logo';

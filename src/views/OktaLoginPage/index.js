@@ -1,5 +1,5 @@
 import React from 'react';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading';
 import Logo from '@/components/Logo';
@@ -50,13 +50,13 @@ class OktaLoginPage extends React.Component {
   }
 
   render() {
-    const { loginStore, history } = this.props;
+    const { loginStore, intl } = this.props;
     return (
       <>
         <LoginButton
           buttonRef={this.LoginButton}
           btnStyle={{ width: '11rem', margin: '2rem 0', visibility: 'hidden' }}
-          history={history}
+          intl={intl}
           callbackUrl="/okta-login-page"
         />
         {loginStore.loginModal || this.state.loadingShow ? <Loading /> : null}

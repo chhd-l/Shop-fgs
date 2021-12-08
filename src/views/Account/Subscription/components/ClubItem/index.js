@@ -13,10 +13,12 @@ import { getSubList } from '@/api/subscription';
 import { IMG_DEFAULT } from '@/utils/constant';
 import { Link } from 'react-router-dom';
 import Skeleton from 'react-skeleton-loader';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import './index.less';
+
 const localItemRoyal = window.__.localItemRoyal;
-const ClubItem = ({ subItem, history }) => {
+
+const ClubItem = ({ subItem, history, intl }) => {
   const isMobile = getDeviceType() !== 'PC';
   console.log(subItem, 'subItem------');
   return (
@@ -136,7 +138,7 @@ const ClubItem = ({ subItem, history }) => {
             <FormattedMessage id="autoShipStarted" />
           </p>
           <p style={{ color: '#666', fontSize: '1rem' }}>
-            {getFormatDate(subItem.createTime.split(' ')[0])}
+            {getFormatDate({ date: subItem.createTime.split(' ')[0], intl })}
           </p>
         </span>
       </div>

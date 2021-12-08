@@ -1,6 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import Selection from '@/components/Selection';
 import {
   usGuestPaymentInfo,
@@ -290,11 +290,8 @@ class CyberPaymentForm extends React.Component {
   };
 
   render() {
-    const {
-      CyberSaveCardCheckboxJSX,
-      billingJSX,
-      backToSavedPaymentsJSX
-    } = this.props;
+    const { CyberSaveCardCheckboxJSX, billingJSX, backToSavedPaymentsJSX } =
+      this.props;
     return (
       <div>
         {/* Name on Card */}

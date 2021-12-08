@@ -4,7 +4,7 @@ import logoad from './image/logoad.png';
 import logoclubad from './image/CLUBLOGOSUBSCIPTION@4x.png';
 import rulogo from '../../image/CLUB_logoRU@2x.png';
 import './index.css';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 
 const GetMoreAd = () => {

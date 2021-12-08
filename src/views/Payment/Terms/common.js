@@ -1,7 +1,7 @@
 // 条款组件
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import './index.css';
 // import { confirmAndCommit } from "@/api/payment";
