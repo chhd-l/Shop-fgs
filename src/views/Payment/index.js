@@ -1144,7 +1144,11 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             browserInfo: this.props.paymentStore.browserInfo,
             encryptedSecurityCode: adyenPayParam?.encryptedSecurityCode || '',
-            payPspItemEnum: 'ADYEN_CREDIT_CARD'
+            payPspItemEnum:
+              sessionItemRoyal.get('goodWillFlag') === 'GOOD_WILL' ||
+              this.tradePrice === 0
+                ? 'ZEROPRICE'
+                : 'ADYEN_CREDIT_CARD'
           });
           if (adyenPayParam?.paymentToken) {
             parameters = Object.assign(parameters, {
