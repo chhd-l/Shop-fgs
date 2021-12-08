@@ -622,11 +622,9 @@ class SmartFeederSubscription extends Component {
       planId: '',
       enableFlag: true,
       step3Choosed: {},
-      quantity: 1,
       loading: false,
       headerHide: false,
       stepName: 'step1',
-      addToCartLoading: false,
       isDisabled: true,
       productList: [],
       requestJson: {
@@ -1564,26 +1562,24 @@ class SmartFeederSubscription extends Component {
     let selectedArr = [];
     let idArr = [];
     let baseSpecId = details.baseSpec;
-    specList.map((el) => {
+    specList.forEach((el) => {
       if (el.chidren.filter((item) => item.selected).length) {
         selectedArr.push(el.chidren.filter((item) => item.selected)[0]);
       }
-      return el;
     });
     selectedArr = selectedArr.sort((a, b) => a.specDetailId - b.specDetailId);
     idArr = selectedArr.map((el) => el.specDetailId);
     currentUnitPrice = details.marketPrice;
 
-    details.sizeList.map((item, i) => {
+    details.sizeList.forEach((item, i) => {
       item.basePrice = 0;
-      details.goodsSpecDetails.map((el) => {
+      details.goodsSpecDetails.forEach((el) => {
         if (
           el.specId === baseSpecId &&
           item.mockSpecDetailIds.includes(el.specDetailId)
         ) {
           item.baseSpecLabel = el.detailName;
         }
-        return el;
       });
       let specTextArr = [];
       for (let specItem of specList) {
@@ -1620,8 +1616,6 @@ class SmartFeederSubscription extends Component {
       } else {
         item.selected = false;
       }
-
-      return item;
     });
     console.log(details, 'details');
     this.setState(

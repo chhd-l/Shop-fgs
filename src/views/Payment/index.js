@@ -1034,7 +1034,8 @@ class Payment extends React.Component {
   }) {
     const { selectedCardInfo } = this.state;
     console.log('selectedCardInfo', selectedCardInfo);
-    parameters = Object.assign({}, commonParameter, {
+    let _parameters = parameters;
+    _parameters = Object.assign({}, commonParameter, {
       payPspItemEnum,
       country,
       ...otherParams
@@ -1056,7 +1057,7 @@ class Payment extends React.Component {
           );
         });
         cvvResult = JSON.parse(cvvResult);
-        parameters = Object.assign(parameters, {
+        _parameters = Object.assign(parameters, {
           paymentMethodId: selectedCardInfo.id,
           creditDardCvv: cvvResult && cvvResult.token
         });
@@ -1066,7 +1067,7 @@ class Payment extends React.Component {
       }
     }
     return new Promise((resolve) => {
-      resolve(parameters);
+      resolve(_parameters);
     });
   }
 
@@ -1148,7 +1149,11 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             browserInfo: this.props.paymentStore.browserInfo,
             encryptedSecurityCode: adyenPayParam?.encryptedSecurityCode || '',
-            payPspItemEnum: 'ADYEN_CREDIT_CARD'
+            payPspItemEnum:
+              sessionItemRoyal.get('goodWillFlag') === 'GOOD_WILL' ||
+              this.tradePrice === 0
+                ? 'ZEROPRICE'
+                : 'ADYEN_CREDIT_CARD'
           });
           if (adyenPayParam?.paymentToken) {
             parameters = Object.assign(parameters, {
@@ -2857,23 +2862,26 @@ class Payment extends React.Component {
       dfarr.forEach((v, i) => {
         let akey = v.fieldKey;
         // state 对应数据库字段 province
-        v.fieldKey == 'state' ? (akey = 'province') : v.fieldKey;
+        akey = v.fieldKey == 'state' ? 'province' : v.fieldKey;
         // region 对应数据库字段 area
-        v.fieldKey == 'region' ? (akey = 'area') : v.fieldKey;
+        akey = v.fieldKey == 'region' ? 'area' : v.fieldKey;
         // phoneNumber 对应数据库字段 consigneeNumber
         if (billaddr?.consigneeNumber) {
-          v.fieldKey == 'phoneNumber' ? (akey = 'consigneeNumber') : v.fieldKey;
+          akey = v.fieldKey == 'phoneNumber' ? 'consigneeNumber' : v.fieldKey;
         }
         let fky = wrongBillingAddress[akey];
         // 判断city和cityId 是否均为空
-        if (v.fieldKey == 'city') {
-          billaddr.city || billaddr.cityId ? (akey = '') : akey;
+        if (v.fieldKey == 'city' && (billaddr.city || billaddr.cityId)) {
+          akey = '';
         }
         // 判断country和countryId 是否均为空
-        if (v.fieldKey == 'country') {
-          billaddr.country || billaddr.countryId ? (akey = '') : akey;
+        if (
+          v.fieldKey == 'country' &&
+          (billaddr.country || billaddr.countryId)
+        ) {
+          akey = '';
         }
-        if (akey) billaddr[akey] ? '' : errMsgArr.push(fky);
+        if (akey && !billaddr[akey]) errMsgArr.push(fky);
       });
 
       errMsgArr = errMsgArr.join(', ');
