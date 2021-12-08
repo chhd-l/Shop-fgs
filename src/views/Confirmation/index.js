@@ -186,7 +186,7 @@ class Confirmation extends React.Component {
           mktSelectedFlag: res.context.mktSelectedFlag,
           mktActivateFlag: res.context.mktActivateFlag
         });
-        if (!res.mktSelectedFlag && !res.mktSelectedFlag) {
+        if (!res.mktSelectedFlag && !res.mktActivateFlag) {
           findUserSelectedList({
             customerId,
             oktaToken: localItemRoyal.get('oktaToken')

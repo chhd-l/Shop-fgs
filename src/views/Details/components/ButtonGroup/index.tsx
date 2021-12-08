@@ -74,9 +74,7 @@ const ButtonGroup = ({
                 // ccidBtnDisplay={ccidBtnDisplay}
                 barcode={barcode}
                 goodsType={goodsType}
-                onClick={() => {
-                  handleBuyFromRetailer;
-                }}
+                onClick={handleBuyFromRetailer}
                 // ref={(el) => this.ccidBtnRef(el)}
               />
             </>
