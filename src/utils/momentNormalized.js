@@ -6,7 +6,7 @@ export function getCurCountryDateFormat() {
   const datePickerCfg = {
     mx: { format: 'yyyy-MM-dd' },
     de: { format: 'dd.MM.yyyy' },
-    fr: { format: 'dd/MM/yyyy' },
+    fr: { format: 'DD/MM/YYYY' },
     us: { format: 'MM/dd/yyyy' },
     ru: { format: 'dd/MM/yyyy' },
     tr: { format: 'dd-MM-yyyy' },
@@ -16,15 +16,17 @@ export function getCurCountryDateFormat() {
 }
 
 //格式化日期时间格式
-export function normalizeDate(date, format = '') {
+export function momentNormalizeDate(date, format = '') {
+  console.log(date);
   const isValidDate = moment(date).isValid();
-  if (isValidDate) {
-    if (format) {
-      return moment(date).format(format);
+  let normalizeDate = '';
+  if (date && isValidDate) {
+    if (format !== '') {
+      normalizeDate = moment(date).format(format);
     } else {
-      return moment(date).format(getCurCountryDateFormat());
+      normalizeDate = moment(date).format(getCurCountryDateFormat());
     }
-  } else {
-    return '';
   }
+  console.log(normalizeDate);
+  return normalizeDate;
 }

@@ -13,7 +13,6 @@ import { FormattedMessage } from 'react-intl';
 import {
   formatMoney,
   getDictionary,
-  getFormatDate,
   matchNamefromDict,
   filterOrderId,
   getClubLogo,
@@ -45,11 +44,13 @@ import getCardImg from '@/lib/get-card-img';
 import { getWays } from '@/api/payment';
 import { useConsigneeDeliveryDate } from '@/framework/common';
 import { handleOrderItem } from '../Orders/modules/handleOrderItem';
+import { momentNormalizeDate } from '@/utils/momentNormalized';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
 function Progress({ progressList, currentProgerssIndex }) {
+  console.log(progressList);
   return (
     <div className="od-prg-container ml-2 mr-2 md:ml-4 md:mr-4">
       <div className="od-prg d-flex align-items-center">
@@ -78,10 +79,10 @@ function Progress({ progressList, currentProgerssIndex }) {
               </span>
               <span className="od-prg-time position-absolute">
                 <span className="rc-md-up">
-                  {item.time1 ? getFormatDate(item.time1) : null} {item.time2}
+                  {momentNormalizeDate(item.time1)} {item.time2}
                 </span>
                 <span className="rc-md-down">
-                  {item.time1 ? getFormatDate(item.time1) : null}
+                  {momentNormalizeDate(item.time1)}
                   <br />
                   {item.time2 || (
                     <span style={{ color: 'transparent' }}>&nbsp;</span>
@@ -681,11 +682,7 @@ class AccountOrders extends React.Component {
                             </svg>
                             <FormattedMessage id="deliveryDate" />:{' '}
                             <span className="medium">
-                              {item.deliverTime
-                                ? getFormatDate(
-                                    (item.deliverTime || '').substr(0, 10)
-                                  )
-                                : ''}
+                              {momentNormalizeDate(item.deliverTime)}
                             </span>
                           </div>
                           <div className="col-12 col-md-4">
@@ -1196,8 +1193,8 @@ class AccountOrders extends React.Component {
                                   <span className="medium">
                                     {filterOrderId({
                                       orderNo: this.state.orderNumber,
-                                      orderNoForOMS: this.state
-                                        .orderNumberForOMS
+                                      orderNoForOMS:
+                                        this.state.orderNumberForOMS
                                     })}
                                   </span>
                                 </div>
@@ -1353,9 +1350,9 @@ class AccountOrders extends React.Component {
                                                           {filterOrderId({
                                                             orderNo:
                                                               el.subscribeId,
-                                                            orderNoForOMS: this
-                                                              .state
-                                                              .orderNumberForOMS
+                                                            orderNoForOMS:
+                                                              this.state
+                                                                .orderNumberForOMS
                                                           })}
                                                         </Link>
                                                       </p>
@@ -2049,14 +2046,7 @@ class AccountOrders extends React.Component {
                           <FormattedMessage id="deliveryDate" />
                           <br />
                           <span className="medium color-444">
-                            {curLogisticInfo.deliverTime
-                              ? getFormatDate(
-                                  (curLogisticInfo.deliverTime || '').substr(
-                                    0,
-                                    10
-                                  )
-                                )
-                              : ''}
+                            {item.deliverTime(curLogisticInfo.deliverTime)}
                           </span>
                         </p>
                       </div>

@@ -18,7 +18,6 @@ import {
   getDictionary,
   getDeviceType,
   setSeoConfig,
-  getFormatDate,
   judgeIsIndividual
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
@@ -34,6 +33,7 @@ import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { filterOrderId } from '@/utils/utils';
 import './index.less';
 import { handleOrderItem } from './modules/handleOrderItem';
+import { momentNormalizeDate } from '@/utils/momentNormalized';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -675,11 +675,8 @@ class AccountOrders extends React.Component {
                                           <FormattedMessage id="order.orderPlacedOn" />
                                           <br className="d-none d-md-block" />
                                           <span className="medium orderHeaderTextColor">
-                                            {getFormatDate(
-                                              order.tradeState.createTime.substr(
-                                                0,
-                                                10
-                                              )
+                                            {momentNormalizeDate(
+                                              order.tradeState.createTime
                                             )}
                                           </span>
                                         </p>

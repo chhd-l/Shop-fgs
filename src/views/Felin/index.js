@@ -28,6 +28,7 @@ import { getTimeOptions, apptSave, getConsentList } from '@/api/appointment';
 import { inject, observer } from 'mobx-react';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
+import { momentNormalizeDate } from '@/utils/momentNormalized';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -1107,10 +1108,8 @@ export default class Felin extends React.Component {
                                   // cursor: 'pointer'
                                 }}
                                 disabled
-                                value={getFormatDate(
-                                  this.state.currentDate,
-                                  null,
-                                  'fr'
+                                value={momentNormalizeDate(
+                                  this.state.currentDate
                                 )}
                               />
                             </h4>
@@ -1295,7 +1294,7 @@ export default class Felin extends React.Component {
                             className="text-center"
                             style={{ margin: '1.25rem 0 .625rem' }}
                           >
-                            {getFormatDate(this.state.currentDate, null, 'fr')}
+                            {momentNormalizeDate(this.state.currentDate)}
                           </p>
                           <p
                             className="text-center"
@@ -1558,7 +1557,7 @@ export default class Felin extends React.Component {
                             className="text-center"
                             style={{ margin: '1.25rem 0 .625rem' }}
                           >
-                            {getFormatDate(this.state.currentDate, null, 'fr')}
+                            {momentNormalizeDate(this.state.currentDate)}
                           </p>
                           <p
                             className="text-center"
@@ -1639,11 +1638,7 @@ export default class Felin extends React.Component {
                               className="text-center"
                               style={{ margin: '1.25rem 0 .625rem' }}
                             >
-                              {getFormatDate(
-                                this.state.currentDate,
-                                null,
-                                'fr'
-                              )}
+                              {momentNormalizeDate(this.state.currentDate)}
                             </p>
                             <p
                               className="text-center"
