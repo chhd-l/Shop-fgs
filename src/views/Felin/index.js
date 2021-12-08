@@ -77,11 +77,11 @@ function scrollIntoView(element, additionalHeight) {
         )
       ).reduce((acc, el) => acc + el.offsetHeight, 0) - 1;
     let headerHeight = height + additionalHeight;
-    if (getElementTop(element) > document.documentElement.scrollTop) {
-      headerHeight = height + additionalHeight;
-    } else {
-      headerHeight = height + additionalHeight;
-    }
+    // if (getElementTop(element) > document.documentElement.scrollTop) {
+    //   headerHeight = height + additionalHeight;
+    // } else {
+    //   headerHeight = height + additionalHeight;
+    // }
     console.info(
       'getElementTop(element) - headerHeight - additionalHeight - 60',
       getElementTop(element) - headerHeight - additionalHeight - 60
@@ -114,11 +114,6 @@ export default class Felin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       loading: false,
       saveLoading: false,
       showModal: false,
@@ -225,33 +220,36 @@ export default class Felin extends React.Component {
             '.rc-header__nav, .search-full-input-container'
           )
         ).reduce((acc, el) => acc + el.offsetHeight, 0) - 1;
-      if (document.querySelector('.rc-header--scrolled')) {
-        this.setState({
-          topVal: height + (isMobile ? 0 : this.state.languageHeight) + 'px'
-        });
-      } else {
-        this.setState({
-          topVal: height + (isMobile ? 0 : this.state.languageHeight) + 'px'
-        });
-      }
+      // if (document.querySelector('.rc-header--scrolled')) {
+      //   this.setState({
+      //     topVal: height + (isMobile ? 0 : this.state.languageHeight) + 'px'
+      //   });
+      // } else {
+      //   this.setState({
+      //     topVal: height + (isMobile ? 0 : this.state.languageHeight) + 'px'
+      //   });
+      // }
+      this.setState({
+        topVal: height + (isMobile ? 0 : this.state.languageHeight) + 'px'
+      });
     });
-    let timer = setInterval(() => {
-      let height =
-        Array.from(
-          document.querySelectorAll(
-            '.rc-header__nav, .search-full-input-container'
-          )
-        ).reduce((acc, el) => acc + el.offsetHeight, 0) - 1;
-      if (document.querySelector('.rc-header--scrolled')) {
-        this.setState({
-          topVal: height + (isMobile ? 0 : this.state.languageHeight) + 'px'
-        });
-      } else {
-        this.setState({
-          topVal: height + (isMobile ? 0 : this.state.languageHeight) + 'px'
-        });
-      }
-    }, 100);
+    // let timer = setInterval(() => {
+    //   let height =
+    //     Array.from(
+    //       document.querySelectorAll(
+    //         '.rc-header__nav, .search-full-input-container'
+    //       )
+    //     ).reduce((acc, el) => acc + el.offsetHeight, 0) - 1;
+    //   if (document.querySelector('.rc-header--scrolled')) {
+    //     this.setState({
+    //       topVal: height + (isMobile ? 0 : this.state.languageHeight) + 'px'
+    //     });
+    //   } else {
+    //     this.setState({
+    //       topVal: height + (isMobile ? 0 : this.state.languageHeight) + 'px'
+    //     });
+    //   }
+    // }, 100);
     document.querySelector(
       '.react-calendar__navigation__prev-button'
     ).innerHTML = `<span class="icon iconfont">
@@ -320,7 +318,7 @@ export default class Felin extends React.Component {
   buildTimeOption() {
     let timeOption = [];
     let arr = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
-    arr.map((el) => {
+    arr.forEach((el) => {
       if (el < 19) {
         timeOption.push({
           name: `${el}:00 - ${el}:20 ${el >= 12 ? 'PM' : 'AM'}`,
@@ -378,7 +376,7 @@ export default class Felin extends React.Component {
       .then((res) => {
         let { timeOption } = this.state;
         let { appointmentVOList } = res.context;
-        timeOption.map((timeItem) => {
+        timeOption.forEach((timeItem) => {
           timeItem.disabled = false;
           if (
             appointmentVOList.filter(
@@ -625,8 +623,13 @@ export default class Felin extends React.Component {
   }
 
   updateButtonState() {
-    let { step, selectedTimeObj, consentChecked1, selectedDate, felinType } =
-      this.state;
+    let {
+      step,
+      selectedTimeObj,
+      consentChecked1,
+      selectedDate,
+      felinType
+    } = this.state;
     console.log(step, this.state.errMsgObj, consentChecked1, 'hahaha');
     if (step === 1 && selectedTimeObj.value && selectedDate) {
       this.setState({ nextBtnEnable: true });
@@ -1461,8 +1464,8 @@ export default class Felin extends React.Component {
                                 onClick={() => {
                                   this.setState(
                                     {
-                                      consentChecked1:
-                                        !this.state.consentChecked1
+                                      consentChecked1: !this.state
+                                        .consentChecked1
                                     },
                                     () => {
                                       this.updateButtonState();
@@ -1510,8 +1513,8 @@ export default class Felin extends React.Component {
                                 onClick={() => {
                                   this.setState(
                                     {
-                                      consentChecked2:
-                                        !this.state.consentChecked2
+                                      consentChecked2: !this.state
+                                        .consentChecked2
                                     },
                                     () => {
                                       this.updateButtonState();

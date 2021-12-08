@@ -84,7 +84,6 @@ function QuestionnaireForm(
       switch (item.metadata.questionDisplayType) {
         case 'freeTextSkippable':
           return <TextFiled questionData={item} key={item.metadata.name} />;
-          break;
         case 'weightSelect':
           return (
             <AgeSelect
@@ -101,7 +100,6 @@ function QuestionnaireForm(
               questionData={item}
             />
           );
-          break;
         case 'singleSelect':
           if (item.name === 'lifestyle') {
             return <LifeStyle questionData={item} key={item.metadata.name} />;
@@ -110,7 +108,6 @@ function QuestionnaireForm(
           } else {
             return <RadioButton questionData={item} key={item.metadata.name} />;
           }
-          break;
         case 'ageSelect':
           // return <AgeInput questionData={item} key={item.metadata.name}/>;
           return (
@@ -128,15 +125,12 @@ function QuestionnaireForm(
               questionData={item}
             />
           );
-          break;
         case 'breedSelect':
           return <AnimalBreeds questionData={item} key={item.metadata.name} />;
-          break;
         case 'bcsSelect':
           return (
             <QuestionnaireRadio questionData={item} key={item.metadata.name} />
           );
-          break;
         default:
           console.log('do nothing');
       }

@@ -393,7 +393,6 @@
   display: -moz-inline-stack;
   display: inline-block;
   zoom: 1;
-  *display: inline;
 }
 
 .selectize-control.multi .selectize-input > div {
@@ -7242,7 +7241,10 @@
 }
 
 .miaa .text-hide {
-  font: 0/0 a;
+  /* font: 0/0 a; */
+  font-size: 0px;
+  line-height: 0;
+  font-family: a, sans-serif;
   color: transparent;
   text-shadow: none;
   background-color: transparent;
@@ -7549,7 +7551,7 @@ html .miaa {
 .miaa .engage_widget .janrain-provider-icon-facebook:before,
 .miaa .engage_widget .janrain-provider-icon-googleplus:before,
 .miaa .engage_widget .janrain-provider-icon-linkedin:before {
-  font-family: FontAwesome;
+  font-family: FontAwesome, sans-serif;
   font-style: normal;
   font-weight: normal;
   text-decoration: inherit;
@@ -7595,7 +7597,6 @@ html .miaa {
 .miaa .engage_widget .janrain-provider-text-color-facebook,
 .miaa .engage_widget .janrain-provider-text-color-googleplus,
 .miaa .engage_widget .janrain-provider-text-color-linkedin {
-  margin-left: 0.75rem;
   color: #fff !important;
   text-overflow: ellipsis;
   display: none;
@@ -7644,7 +7645,7 @@ html .miaa {
   .link-accounts-wrapper
   .link-accounts-providers
   .provider-icon-linkedin:before {
-  font-family: FontAwesome;
+  font-family: FontAwesome, sans-serif;
   font-style: normal;
   font-weight: normal;
   text-decoration: inherit;
@@ -8136,10 +8137,10 @@ html .miaa {
   border-radius: 50%;
   width: 1em;
   height: 1em;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
   -webkit-animation: load7 1.8s infinite ease-in-out;
   animation: load7 1.8s infinite ease-in-out;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
 }
 
 .miaa .capture_processing {
@@ -8218,7 +8219,7 @@ html .miaa {
   font-weight: lighter;
   line-height: 1;
   color: #000;
-  text-shadow: 0 1px 0 #fff;
+  /* text-shadow: 0 1px 0 #fff; */
   opacity: 1;
   position: absolute;
   top: 0;
@@ -8260,7 +8261,7 @@ html .miaa {
 }
 
 .miaa .btn {
-  white-space: normal;
+  /* white-space: normal; */
   text-decoration: none;
   font-size: 1.125rem;
   font-weight: 600;
@@ -8271,7 +8272,7 @@ html .miaa {
 .miaa .btn-primary:not(.btn-sm):after,
 .miaa .btn-secondary:not(.btn-sm):after {
   content: '\f105';
-  font-family: FontAwesome;
+  font-family: FontAwesome, sans-serif;
   position: relative;
   right: -1.25rem;
 }
