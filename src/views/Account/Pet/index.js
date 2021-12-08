@@ -31,7 +31,6 @@ class Pet extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false,
       petList: [],
       seoConfig: {
         title: 'Royal canin',
@@ -160,7 +159,7 @@ class Pet extends React.Component {
                   <Link to="/account">
                     <span className="red">&lt;</span>
                     <span className="rc-styled-link rc-progress__breadcrumb ml-2 mt-1">
-                      <FormattedMessage id="home" />
+                      <FormattedMessage id="account.home" />
                     </span>
                   </Link>
                 </div>

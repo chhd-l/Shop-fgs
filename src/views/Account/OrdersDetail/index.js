@@ -587,7 +587,7 @@ class AccountOrders extends React.Component {
     const { moreLogistics, activeTabIdx } = this.state;
     //没有详细物流信息的package不显示
     const logisticsList = [];
-    this.state.logisticsList.map((item, index) => {
+    this.state.logisticsList.forEach((item, index) => {
       if (
         !(
           item.trackingUrl === null &&
@@ -1196,8 +1196,8 @@ class AccountOrders extends React.Component {
                                   <span className="medium">
                                     {filterOrderId({
                                       orderNo: this.state.orderNumber,
-                                      orderNoForOMS:
-                                        this.state.orderNumberForOMS
+                                      orderNoForOMS: this.state
+                                        .orderNumberForOMS
                                     })}
                                   </span>
                                 </div>
@@ -1353,9 +1353,9 @@ class AccountOrders extends React.Component {
                                                           {filterOrderId({
                                                             orderNo:
                                                               el.subscribeId,
-                                                            orderNoForOMS:
-                                                              this.state
-                                                                .orderNumberForOMS
+                                                            orderNoForOMS: this
+                                                              .state
+                                                              .orderNumberForOMS
                                                           })}
                                                         </Link>
                                                       </p>

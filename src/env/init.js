@@ -24,6 +24,9 @@ if (process.env.NODE_ENV === 'production') {
     case 'uatwedding.royalcanin.com':
       startEnv = 'uatwedding';
       break;
+    case 'shopstg.royalcanin.com':
+      startEnv = 'shopstg';
+      break;
     case 'stgwedding.royalcanin.com':
       startEnv = 'stgwedding';
       break;
@@ -37,13 +40,7 @@ if (process.env.NODE_ENV === 'production') {
       break;
   }
   const targetConfig = interfacePrefix[startEnv]({
-    countryCode: param?.countryCode
-  });
-  console.log(11111, {
-    startEnv,
-    2: interfacePrefix[startEnv],
-    3: param?.countryCode,
-    4: targetConfig
+    countryFromLink: param?.countryLink
   });
   window.__ = Object.assign(window.__ || {}, {
     env: Object.assign(window.__?.env || {}, targetConfig)

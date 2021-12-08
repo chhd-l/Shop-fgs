@@ -77,9 +77,10 @@ class ValidationAddressModal extends React.Component {
             apiobj,
             (e) => e.name == 'DQE' || e.name == 'DADATA' || e.name == 'FEDEX'
           ) || null;
-        apiobj?.isOpen == 1 && apiobj?.addressApiType == 1
-          ? (apiType = apiobj?.name)
-          : null; // DQE 、DADATA、FEDEX
+
+        if (apiobj?.isOpen == 1 && apiobj?.addressApiType == 1) {
+          apiType = apiobj?.name;
+        } // DQE 、DADATA、FEDEX
       }
 
       let data = {

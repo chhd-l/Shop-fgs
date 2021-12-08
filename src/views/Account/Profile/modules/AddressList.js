@@ -284,7 +284,7 @@ class AddressList extends React.Component {
     const { allAddressList } = this.state;
     let dliveryId = item.deliveryAddressId;
     Array.from(allAddressList, (a) => (a.selected = false));
-    allAddressList.map((e) => {
+    allAddressList.forEach((e) => {
       if (e.deliveryAddressId == dliveryId) {
         e.selected = true;
       }
@@ -739,7 +739,6 @@ class AddressList extends React.Component {
           isDefaltAddress: pickupFormData.isDefaltAddress ? 1 : 0,
           minDeliveryTime: pickupFormData.minDeliveryTime,
           maxDeliveryTime: pickupFormData.maxDeliveryTime,
-          workTime: pickupFormData.workTime,
           province: pkaddr?.region || pickupFormData.province,
           provinceIdStr: pkaddr?.regionFias || pickupFormData.provinceIdStr,
           provinceCode: pickupFormData?.provinceCode,

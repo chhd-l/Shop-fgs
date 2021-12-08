@@ -10,11 +10,6 @@ const getCountryCodeFromHref = () => {
   let countryLink =
     process.env.REACT_APP_START_COUNTRY_LINK ||
     href.match(/http[s]?:\/\/[^\/]+\/([a-zA-A]{2,4})\/*/i)[1];
-  const isHub =
-    process.env.REACT_APP_START_HUB === '1' ||
-    href.includes('wedding') ||
-    /\/shop\/*$/gi.test(href) ||
-    /\/shop\//gi.test(href); //包含wedding字样，或以/shop结尾，或包含/shop/字样
 
   // 从地址上获取不到时，进行强制匹配
   if (!countryLink) {
@@ -56,7 +51,6 @@ const getCountryCodeFromHref = () => {
       se: 'SE',
       core: 'CORE'
     }[countryLink],
-    isHub,
     countryLink
   };
 };
