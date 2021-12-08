@@ -15,9 +15,9 @@ import PageBaseInfo from '@/components/PageBaseInfo';
 import { injectIntl } from 'react-intl';
 import AppointmentInfo from './modules/AppointmentInfo';
 import { getWays } from '@/api/payment';
-import moment from 'moment';
 import { getAppointDetail, cancelAppointByNo } from '@/api/appointment';
 import { getAppointDict } from '@/api/dict';
+import { getFormatDate } from '@/utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -110,11 +110,13 @@ class AccountOrders extends React.Component {
           appointDictRes[1]?.context?.goodsDictionaryVOS || []
         ).filter((item) => item.id === resContext?.expertTypeId)[0].name,
         appointmentStatus:
-          resContext.status === 0
-            ? 'Booked'
-            : resContext.status === 1
-            ? 'Arrive'
-            : 'Cancel'
+          resContext.status === 0 ? (
+            <FormattedMessage id="appointment.status.Booked" />
+          ) : resContext.status === 1 ? (
+            <FormattedMessage id="appointment.status.Arrived" />
+          ) : (
+            <FormattedMessage id="appointment.status.Cancel" />
+          )
       });
       this.setState({
         details: details,
@@ -212,7 +214,7 @@ class AccountOrders extends React.Component {
             }}
           >
             <span className="iconfont iconcancel text-rc-red mr-2" />
-            <FormattedMessage id="Cancel" />
+            <FormattedMessage id="cancel" />
           </span>
         ) : null}
         {/*felin订单change appoint*/}
@@ -281,9 +283,10 @@ class AccountOrders extends React.Component {
                             <br />
                             <span className="medium orderHeaderTextColor">
                               {details.createTime
-                                ? moment(details.createTime).format(
-                                    'YYYY-MM-DD'
-                                  )
+                                ? getFormatDate({
+                                    date: details.createTime,
+                                    intl: this.props.intl
+                                  })
                                 : ''}
                             </span>
                           </div>
