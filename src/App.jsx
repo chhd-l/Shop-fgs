@@ -22,7 +22,7 @@ import { Security, useOktaAuth } from '@okta/okta-react';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'mobx-react';
 import loadable from '@/lib/loadable-component';
-import '@/lang/momentLocale'
+import '@/lang/momentLocale';
 
 import oktaConfig from './oktaConfig';
 import stores from './store';
@@ -34,6 +34,9 @@ import ScrollToTop from '@/components/ScrollToTop';
 // import { getDynamicLanguage } from './lang';
 import { useDynamicLanguage } from '@/framework/common';
 import RouteFilter from '@/components/RouteFilter';
+import { initializePhraseAppEditor } from 'react-intl-phraseapp';
+import moment from 'moment';
+
 const Home = loadable(() => import('@/views/Home'), 'rc-carousel');
 
 import PickupMap from '@/views/PickupMap';
@@ -42,8 +45,12 @@ const Details = loadable(() => import('@/views/Details'), 'rc-carousel');
 const Cart = loadable(() => import('@/views/Cart'));
 const Payment = loadable(() => import('@/views/Payment'));
 const Confirmation = loadable(() => import('@/views/Confirmation'));
-const AccountAppointments =loadable(()=>import('@/views/Account/Appointments'))
-const AccountAppointmentsDetail =loadable(()=>import('@/views/Account/AppointmentsDetail'))
+const AccountAppointments = loadable(() =>
+  import('@/views/Account/Appointments')
+);
+const AccountAppointmentsDetail = loadable(() =>
+  import('@/views/Account/AppointmentsDetail')
+);
 import Prescription from '@/views/Prescription';
 import MakerHandle from '@/components/GoogleMap/makerHandle';
 import PrescriptionNavigate from '@/views/PrescriptionNavigate';
@@ -270,6 +277,17 @@ const ImplicitLogin = () => {
   oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
   return <div />;
 };
+
+//多语言集成
+moment.locale('zh-cn');
+var config = {
+  projectId: '8f0d7f6b0396b8af7f08bf9f36d81259',
+  phraseEnabled: Boolean(window.__.env.REACT_APP_PHRASE_CONTEXT_EDITORE),
+  autoLowercase: false,
+  prefix: '[[__',
+  suffix: '__]]'
+};
+initializePhraseAppEditor(config);
 
 const App = () => {
   const history = useHistory();
@@ -514,7 +532,11 @@ const App = () => {
                 />
                 <Route path="/account/pets" exact component={AccountPets} />
                 <Route path="/account/orders" exact component={AccountOrders} />
-                <Route path="/account/appointments" exact component={AccountAppointments} />
+                <Route
+                  path="/account/appointments"
+                  exact
+                  component={AccountAppointments}
+                />
                 <Route
                   path="/account/orders/detail/:orderNumber"
                   exact
@@ -777,6 +799,7 @@ const App = () => {
                 <Route
                   path="/"
                   render={(props) => {
+                    console.log('进入了/路由');
                     const { location } = props;
                     const { pathname, search } = location;
 
@@ -839,6 +862,7 @@ const App = () => {
                         );
                       }
                     } else {
+                      console.log('没匹配pdp路由');
                       // 除去PDP页面文件重定向start
                       // const specailPlpUrlMapping = {
                       //   ...redirectFun()
@@ -849,6 +873,7 @@ const App = () => {
 
                       // 除去PDP页面文件重定向end
                       if (redirectUrl) {
+                        console.log(`匹配${redirectUrl}路由`);
                         return (
                           <Redirect
                             to={{
@@ -860,6 +885,7 @@ const App = () => {
                           />
                         );
                       } else {
+                        console.log(`匹配plp路由`);
                         return (
                           <List
                             key={
@@ -873,7 +899,16 @@ const App = () => {
                     }
                   }}
                 />
-                <Route path="*" component={Exception} />
+                <Route
+                  path="*"
+                  render={(props) => {
+                    const { location } = props;
+                    const { pathname, search } = location;
+                    console.log('进入了404路由', { pathname, search });
+                    return <Exception {...props} />;
+                  }}
+                  // component={Exception}
+                />
               </Switch>
             </Security>
           </ScrollToTop>

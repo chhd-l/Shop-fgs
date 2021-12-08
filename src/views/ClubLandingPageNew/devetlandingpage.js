@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import BannerTip from '@/components/BannerTip';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';

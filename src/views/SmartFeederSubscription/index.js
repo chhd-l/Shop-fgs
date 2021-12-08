@@ -20,7 +20,7 @@ import './index.less';
 import AddCartSuccessMobile from '../Details/components/AddCartSuccessMobile';
 // import Swiper from 'swiper';
 import Selection from '@/components/Selection';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 // import 'swiper/swiper-bundle.min.css';
 import Slider from 'react-slick';
 import {
@@ -552,7 +552,7 @@ const Step3 = (props) => {
                     btnClass={`wid100 rc-btn rc-btn--one rc-btn--sm btn-block cart__checkout-btn checkout-btn ${
                       checkoutLoading ? 'ui-btn-loading' : ''
                     }`}
-                    history={props.history}
+                    intl={intl}
                   >
                     <FormattedMessage id="checkout" />
                   </LoginButton>
@@ -1869,6 +1869,7 @@ class SmartFeederSubscription extends Component {
                           toOtherStep={this.toOtherStep}
                           isLogin={this.isLogin}
                           hanldeAddToCart={this.hanldeAddToCart}
+                          {...this.props}
                         />
                       );
                       break;

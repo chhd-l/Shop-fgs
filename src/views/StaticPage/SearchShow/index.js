@@ -7,7 +7,7 @@ import BannerTip from '@/components/BannerTip';
 import { setSeoConfig } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import { getEmailWay } from './config';
 

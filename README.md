@@ -1,6 +1,6 @@
 ## 启动方法
 1. `npm run start`
-2. .env.development.local中，指定启动国家/环境/是否开启HUB
+2. .env.development.local中，指定启动国家/环境
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

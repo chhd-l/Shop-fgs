@@ -1,5 +1,9 @@
 import React, { useEffect, useState, createContext } from 'react';
-import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
+import {
+  FormattedMessage,
+  injectIntl,
+  FormattedDate
+} from 'react-intl-phraseapp';
 import { IMG_DEFAULT } from '@/utils/constant';
 import ButtonBoxGift from './ButtonBoxGift';
 import ButtonBox from './ButtonBox';
@@ -168,7 +172,8 @@ const SubGoodsInfos = ({
                                 triggerShowChangeProduct,
                                 {
                                   show: true,
-                                  firstShow: !triggerShowChangeProduct.firstShow,
+                                  firstShow:
+                                    !triggerShowChangeProduct.firstShow,
                                   goodsInfo: [el],
                                   isShowModal: true
                                 }
@@ -486,7 +491,8 @@ const SubGoodsInfos = ({
                                       triggerShowChangeProduct,
                                       {
                                         show: true,
-                                        firstShow: !triggerShowChangeProduct.firstShow,
+                                        firstShow:
+                                          !triggerShowChangeProduct.firstShow,
                                         goodsInfo: [el],
                                         isShowModal: true
                                       }

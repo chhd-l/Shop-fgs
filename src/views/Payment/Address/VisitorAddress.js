@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import Loading from '@/components/Loading';
@@ -81,8 +81,9 @@ class VisitorAddress extends React.Component {
       selectVisitorValidationOption: 'suggestedAddress',
       visitorBtnLoading: false
     };
-    this.confirmVisitorValidationAddress =
-      this.confirmVisitorValidationAddress.bind(this);
+    this.confirmVisitorValidationAddress = this.confirmVisitorValidationAddress.bind(
+      this
+    );
   }
   componentDidMount() {
     this.validData({
@@ -297,21 +298,23 @@ class VisitorAddress extends React.Component {
   titleJSXForPrepare = () => {
     return (
       <>
-        <h5 className={`mb-0`}>{this.titleJSX()}</h5>
+        <h5 className={`mb-0 text-xl`}>{this.titleJSX()}</h5>
       </>
     );
   };
   titleJSXForEdit = () => {
     return (
       <>
-        <h5 className={`mb-0 red`}>{this.titleJSX({ redColor: true })}</h5>
+        <h5 className={`mb-0 red text-xl`}>
+          {this.titleJSX({ redColor: true })}
+        </h5>
       </>
     );
   };
   titleJSXForCompeleted = () => {
     return (
       <>
-        <h5 className={`mb-0`}>
+        <h5 className={`mb-0 text-xl`}>
           {this.titleJSX()}
           <span className="iconfont font-weight-bold green ml-2">&#xe68c;</span>
         </h5>
@@ -350,8 +353,11 @@ class VisitorAddress extends React.Component {
   };
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmVisitorValidationAddress() {
-    const { form, selectVisitorValidationOption, validationAddress } =
-      this.state;
+    const {
+      form,
+      selectVisitorValidationOption,
+      validationAddress
+    } = this.state;
     let oldForm = JSON.parse(JSON.stringify(form));
     this.setState({
       visitorBtnLoading: true

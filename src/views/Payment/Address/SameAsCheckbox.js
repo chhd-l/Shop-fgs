@@ -1,6 +1,6 @@
 import React from 'react';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 
 const localItemRoyal = window.__.localItemRoyal;

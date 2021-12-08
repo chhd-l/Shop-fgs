@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { formatMoney } from '@/utils/utils';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import FrequencySelection from '@/components/FrequencySelection/index.tsx';
 

@@ -4,7 +4,7 @@ import DistributeHubLinkOrATag from '../../../../components/DistributeHubLinkOrA
 
 import hos from '../../../../assets/images/preciseCatNutrition/hos.png';
 import recommend from '../../../../assets/images/preciseCatNutrition/recomment.jpg';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 
 let resultObj = {
   redirectToVet: {

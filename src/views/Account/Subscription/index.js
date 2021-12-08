@@ -8,7 +8,11 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import Selection from '@/components/Selection';
 import Pagination from '@/components/Pagination';
-import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
+import {
+  FormattedMessage,
+  injectIntl,
+  FormattedDate
+} from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import { getSubList } from '@/api/subscription';
 import {
@@ -317,14 +321,8 @@ class Subscription extends React.Component {
   };
 
   getPageBox = (isGift) => {
-    let {
-      isMobile,
-      subList,
-      loading,
-      errMsg,
-      currentPage,
-      totalPage
-    } = this.state;
+    let { isMobile, subList, loading, errMsg, currentPage, totalPage } =
+      this.state;
     let subscription = 'subscription';
 
     return (

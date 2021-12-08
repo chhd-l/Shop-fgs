@@ -4,9 +4,8 @@ export function addSchemaOrgMarkup(details, instockStatus, homePageText) {
   const avgRatingComponent = document.getElementsByClassName(
     'bv_avgRating_component_container'
   );
-  const numReviewsComponent = document.getElementsByClassName(
-    'bv_numReviews_text'
-  );
+  const numReviewsComponent =
+    document.getElementsByClassName('bv_numReviews_text');
   const code = {
     '@context': 'https://schema.org',
     '@type': 'Product',

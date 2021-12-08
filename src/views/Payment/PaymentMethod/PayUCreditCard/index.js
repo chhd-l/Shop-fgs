@@ -2,7 +2,7 @@ import React from 'react';
 import findIndex from 'lodash/findIndex';
 import { PAYMENT_METHOD_PAU_CHECKOUT_RULE } from '@/utils/constant';
 import { validData, loadJS } from '@/utils/utils';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
 import { queryIsSupportInstallMents } from '@/api/payment';

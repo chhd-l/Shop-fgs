@@ -10,7 +10,7 @@ import {
   getDeviceType
 } from '@/utils/utils';
 import GoogleTagManager from '@/components/GoogleTagManager';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import Selection from '@/components/Selection';
 import { PRESONAL_INFO_RULE } from '@/utils/constant';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -665,6 +665,7 @@ export default class Felin extends React.Component {
   }
 
   render() {
+    const { intl } = this.props;
     let {
       userInfo,
       errMsgObj,
@@ -1322,7 +1323,7 @@ export default class Felin extends React.Component {
                             <LoginButton
                               className="rc-btn rc-btn--two"
                               btnStyle={{ margin: '5px 0', width: '100%' }}
-                              history={this.props.history}
+                              intl={intl}
                               beforeLoginCallback={async () => {
                                 sessionItemRoyal.set('from-felin', true);
                               }}

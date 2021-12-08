@@ -1,5 +1,5 @@
 import React from 'react';
-import { injectIntl } from 'react-intl';
+import { injectIntl } from 'react-intl-phraseapp';
 import SearchSelection from '@/components/SearchSelection';
 import { queryCityByName } from '@/api/address';
 

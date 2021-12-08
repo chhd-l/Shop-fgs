@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import SearchSelection from '../../../../components/SearchSelection';
 import { FormContext } from '../QuestionnaireForm';
 import Tooltips from '../tooltips';

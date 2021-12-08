@@ -1,6 +1,6 @@
 // 卡列表页+卡form页
 import React from 'react';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 import Loading from '@/components/Loading';
 import { inject, observer } from 'mobx-react';

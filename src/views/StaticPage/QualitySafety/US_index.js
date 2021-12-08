@@ -4,7 +4,7 @@ import Header from '@/components/Header';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import Help from '../modules/Help';
 import NavItem from '../modules/NavItem';

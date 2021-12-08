@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 import footerpet from '@/assets/images/home/footerpet@2x.jpg';
 import togetherwithu from '@/assets/images/home/togetherwithu.jpg';

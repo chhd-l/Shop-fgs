@@ -9,7 +9,7 @@ import flatten from 'lodash/flatten';
 import findIndex from 'lodash/findIndex';
 import stores from '@/store';
 import { toJS } from 'mobx';
-import { createIntl, createIntlCache } from 'react-intl';
+import { createIntl, createIntlCache } from 'react-intl-phraseapp';
 import mx from 'date-fns/locale/es';
 import de from 'date-fns/locale/de';
 import fr from 'date-fns/locale/fr';
@@ -1018,9 +1018,8 @@ export function judgeIsIndividual(item) {
 // uk和fr,才有postCode校验
 const countryPostCode = ['uk', 'fr'];
 const currentCountry = window.__.env.REACT_APP_COUNTRY;
-export const isCanVerifyBlacklistPostCode = countryPostCode.includes(
-  currentCountry
-);
+export const isCanVerifyBlacklistPostCode =
+  countryPostCode.includes(currentCountry);
 
 // 获取 Postal code alert message
 export async function getAddressPostalCodeAlertMessage() {

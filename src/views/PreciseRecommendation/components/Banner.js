@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getDeviceType, formatMoney } from '@/utils/utils';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 import { useLocalStore } from 'mobx-react';
 import cloneDeep from 'lodash/cloneDeep';
@@ -412,6 +412,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                               ) : (
                                 <LoginButton
                                   btnStyle={{ width: '230px', padding: '15px' }}
+                                  intl={intl}
                                   className={`rc-btn rc-btn--one rc-btn--sm`}
                                   // btnStyle={{ margin: '5px 0', width: '100%' }}
                                   // history={this.props.history}
@@ -584,6 +585,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
               beforeLoginCallback={async () => {
                 await hanldeUnloginAddToCart();
               }}
+              intl={intl}
             >
               <FormattedMessage id="preciseNutrition.banner.button" />
             </LoginButton>

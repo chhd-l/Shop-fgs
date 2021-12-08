@@ -1,5 +1,9 @@
 import React from 'react';
-import { IntlProvider, FormattedMessage, FormattedNumber } from 'react-intl';
+import {
+  IntlProvider,
+  FormattedMessage,
+  FormattedNumber
+} from 'react-intl-phraseapp';
 import image from '@/assets/images/500.png';
 import logo from '@/assets/images/logo--animated.png';
 import { setSeoConfig } from '@/utils/utils';

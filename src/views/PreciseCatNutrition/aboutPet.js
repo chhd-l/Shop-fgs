@@ -4,7 +4,7 @@ import './index.less';
 import QuestionnaireForm from './modules/QuestionnaireForm';
 import { getAllStep, getNextStep } from './api';
 import { getRecommendationInfo } from '@/api/productFinder';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import ResultPage from './modules/resultPage';
 import Skeleton from 'react-skeleton-loader';
 import { getDeviceType } from '../../utils/utils';

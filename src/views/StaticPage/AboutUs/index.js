@@ -4,7 +4,7 @@ import Header from '@/components/Header';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import cat from './images/cat.jpg';
 import dog from './images/dog.jpg';
 import { inject, observer } from 'mobx-react';

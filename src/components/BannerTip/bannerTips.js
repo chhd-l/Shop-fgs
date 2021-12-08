@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { getDeviceType } from '@/utils/utils';
 import { isLimitLogin } from '@/components/LoginButton/utils';
 import './index.less';

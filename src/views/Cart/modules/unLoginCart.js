@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
@@ -181,7 +181,7 @@ class UnLoginCart extends React.Component {
       clubFlag = false,
       numFlag = true;
     var reg = /^[0-9]*/;
-    productList.map((el) => {
+    productList.forEach((el) => {
       if (!reg.test(el.buyCount)) {
         numFlag = false;
       }
@@ -721,6 +721,7 @@ class UnLoginCart extends React.Component {
     );
   };
   getProducts(plist) {
+    const { intl } = this.props;
     const { mixFeedings } = this.state;
     const Lists = plist.map((pitem, index) => {
       {
@@ -984,6 +985,7 @@ class UnLoginCart extends React.Component {
                 this.setCartData({ initPage: true });
                 this.setState({ checkoutLoading: false });
               }}
+              intl={intl}
             />
           ) : null}
 
@@ -991,7 +993,7 @@ class UnLoginCart extends React.Component {
           pitem.promotions.includes('club') &&
           pitem.goodsInfoFlag === 2 &&
           window.__.env.REACT_APP_COUNTRY !== 'ru' ? (
-            <ClubGiftBanner intl={this.props.intl} />
+            <ClubGiftBanner intl={intl} />
           ) : null}
           {isGift &&
             false &&
@@ -1098,6 +1100,7 @@ class UnLoginCart extends React.Component {
     });
   };
   getCheckotBtn = () => {
+    const { intl } = this.props;
     const { checkoutLoading, mobileCartVisibleKey } = this.state;
     return (
       <a className={`${checkoutLoading ? 'ui-btn-loading' : ''}`}>
@@ -1114,7 +1117,7 @@ class UnLoginCart extends React.Component {
               btnClass={`${this.btnStatus ? '' : 'rc-btn-solid-disabled'} ${
                 checkoutLoading ? 'ui-btn-loading' : ''
               } rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width`}
-              history={this.props.history}
+              intl={intl}
             >
               <FormattedMessage id="checkout" />
             </LoginButton>
@@ -1167,8 +1170,7 @@ class UnLoginCart extends React.Component {
     );
   };
   sideCart({ className = '', style = {}, id = '' } = {}) {
-    const { checkoutLoading, discount, mobileCartVisibleKey, promotionCode } =
-      this.state;
+    const { mobileCartVisibleKey, promotionCode } = this.state;
     const { checkoutStore } = this.props;
     const subtractionSign = '-';
     return (
@@ -1381,15 +1383,16 @@ class UnLoginCart extends React.Component {
               </div>
             </div>
           ) : null}
-          {window.__.env.REACT_APP_COUNTRY === 'us'?<div className="row rc-margin-bottom--xs">
-            <div className="col-12 greenColorText text-center">
-              <FormattedMessage
-                id="cart.firstOrderDiscountTip"
-                defaultMessage={' '}
-              />
+          {window.__.env.REACT_APP_COUNTRY === 'us' ? (
+            <div className="row rc-margin-bottom--xs">
+              <div className="col-12 greenColorText text-center">
+                <FormattedMessage
+                  id="cart.firstOrderDiscountTip"
+                  defaultMessage={' '}
+                />
+              </div>
             </div>
-          </div>:null}
-          
+          ) : null}
 
           <div className="group-total">
             <div className="row d-flex align-items-center">

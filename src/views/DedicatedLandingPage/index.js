@@ -1,7 +1,7 @@
 import React from 'react';
 import Skeleton from '@/components/NormalSkeleton';
 import { Link } from 'react-router-dom';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 import BannerTip from '@/components/BannerTip';
 import GoogleTagManager from '@/components/GoogleTagManager';

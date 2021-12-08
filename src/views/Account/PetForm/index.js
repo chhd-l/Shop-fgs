@@ -1,5 +1,5 @@
 import React from 'react';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Modal from '@/components/Modal';
 import { inject, observer } from 'mobx-react';

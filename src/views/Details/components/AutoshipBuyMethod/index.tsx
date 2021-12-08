@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import FrequencySelection from '@/components/FrequencySelection/index.tsx';
 import { formatMoney } from '@/utils/utils';
@@ -84,7 +84,7 @@ const AutoshipBuyMethod = ({
                   content={<FormattedMessage id="subscription.promotionTip2" />}
                 />
                 </span>
-                
+
               </span>
             </label>
           </div>

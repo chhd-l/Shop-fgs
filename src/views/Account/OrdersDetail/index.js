@@ -9,7 +9,7 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import Modal from '@/components/Modal';
 import BannerTip from '@/components/BannerTip';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import {
   formatMoney,
   getDictionary,
@@ -35,7 +35,7 @@ import './index.less';
 import LazyLoad from 'react-lazyload';
 import { format } from 'date-fns';
 import PageBaseInfo from '@/components/PageBaseInfo';
-import { injectIntl } from 'react-intl';
+import { injectIntl } from 'react-intl-phraseapp';
 import {
   handleOrderStatusMap,
   handleFelinOrderStatusMap
@@ -1196,8 +1196,8 @@ class AccountOrders extends React.Component {
                                   <span className="medium">
                                     {filterOrderId({
                                       orderNo: this.state.orderNumber,
-                                      orderNoForOMS: this.state
-                                        .orderNumberForOMS
+                                      orderNoForOMS:
+                                        this.state.orderNumberForOMS
                                     })}
                                   </span>
                                 </div>
@@ -1353,9 +1353,9 @@ class AccountOrders extends React.Component {
                                                           {filterOrderId({
                                                             orderNo:
                                                               el.subscribeId,
-                                                            orderNoForOMS: this
-                                                              .state
-                                                              .orderNumberForOMS
+                                                            orderNoForOMS:
+                                                              this.state
+                                                                .orderNumberForOMS
                                                           })}
                                                         </Link>
                                                       </p>

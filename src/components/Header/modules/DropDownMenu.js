@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import Help from './Help';
 import NavItem from './NavItem';
 import LazyLoad from 'react-lazyload';
@@ -20,8 +20,9 @@ export default class DropDownMenu extends React.Component {
     super(props);
     this.state = { currentDesc: null };
     this.hanldeListItemMouseOver = this.hanldeListItemMouseOver.bind(this);
-    this.handleNavChildrenMouseOver =
-      this.handleNavChildrenMouseOver.bind(this);
+    this.handleNavChildrenMouseOver = this.handleNavChildrenMouseOver.bind(
+      this
+    );
     this.handleClickNavItem = this.handleClickNavItem.bind(this);
     this.hubGA = window.__.env.REACT_APP_HUB_GA == '1';
   }

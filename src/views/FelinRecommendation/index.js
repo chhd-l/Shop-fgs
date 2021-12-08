@@ -4,7 +4,7 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Skeleton from 'react-skeleton-loader';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import BannerTip from '@/components/BannerTip';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 import callImg from '@/assets/images/customer-service@2x.jpg';
@@ -101,13 +101,16 @@ class FelinRecommendation extends React.Component {
     this.helpContentText = {
       title: this.props.intl.messages['recommendation.thirdTitle'],
       des: this.props.intl.messages['recommendation.thirdContent'],
-      emailTitle:
-        this.props.intl.messages['recommendation.helpContentText.emailTitle'],
-      emailDes:
-        this.props.intl.messages['recommendation.helpContentText.emailDes'],
+      emailTitle: this.props.intl.messages[
+        'recommendation.helpContentText.emailTitle'
+      ],
+      emailDes: this.props.intl.messages[
+        'recommendation.helpContentText.emailDes'
+      ],
       emailLink: '/help/contact',
-      phoneTitle:
-        this.props.intl.messages['recommendation.helpContentText.phoneTitle'],
+      phoneTitle: this.props.intl.messages[
+        'recommendation.helpContentText.phoneTitle'
+      ],
       phone: '0986568097',
       email: 'latelierfelin@royalcanin.com',
       phoneDes1: '',
@@ -246,8 +249,12 @@ class FelinRecommendation extends React.Component {
     // }
   }
   checkoutStock() {
-    let { productList, outOfStockProducts, inStockProducts, modalList } =
-      this.state;
+    let {
+      productList,
+      outOfStockProducts,
+      inStockProducts,
+      modalList
+    } = this.state;
     for (let i = 0; i < productList.length; i++) {
       if (
         productList[i].recommendationNumber > productList[i].goodsInfo.stock
@@ -259,7 +266,7 @@ class FelinRecommendation extends React.Component {
     }
     console.log(inStockProducts, 'instock');
     let outOfStockVal = '';
-    outOfStockProducts.map((el, i) => {
+    outOfStockProducts.forEach((el, i) => {
       if (i === outOfStockProducts.length - 1) {
         outOfStockVal = outOfStockVal + el.goodsInfo.goodsInfoName;
       } else {
@@ -277,8 +284,12 @@ class FelinRecommendation extends React.Component {
     );
   }
   async hanldeLoginAddToCart() {
-    let { productList, outOfStockProducts, inStockProducts, modalList } =
-      this.state;
+    let {
+      productList,
+      outOfStockProducts,
+      inStockProducts,
+      modalList
+    } = this.state;
     const { checkoutStore, loginStore, history, clinicStore } = this.props;
     // console.log(outOfStockProducts, inStockProducts, '...1')
     // return
@@ -418,10 +429,14 @@ class FelinRecommendation extends React.Component {
       localItemRoyal.set('okta-redirectUrl', '/prescription');
     }
     this.setState({ needLogin });
-    let { productList, outOfStockProducts, inStockProducts, modalList } =
-      this.state;
+    let {
+      productList,
+      outOfStockProducts,
+      inStockProducts,
+      modalList
+    } = this.state;
     let totalPrice;
-    inStockProducts.map((el) => {
+    inStockProducts.forEach((el) => {
       console.log(el, 'instock');
       totalPrice =
         totalPrice + el.recommendationNumber * el.goodsInfo.salePrice;
@@ -512,8 +527,12 @@ class FelinRecommendation extends React.Component {
   };
   async hanldeClickSubmit() {
     const { checkoutStore, loginStore, history, clinicStore } = this.props;
-    let { currentModalObj, subDetail, outOfStockProducts, inStockProducts } =
-      this.state;
+    let {
+      currentModalObj,
+      subDetail,
+      outOfStockProducts,
+      inStockProducts
+    } = this.state;
     this.setState({ loading: true, modalShow: false });
     if (currentModalObj.type === 'addToCart') {
       for (let i = 0; i < inStockProducts.length; i++) {
@@ -1017,8 +1036,8 @@ class FelinRecommendation extends React.Component {
                               //   }
                               // }}
                             >
-                            <FormattedMessage id="recommendation.viewInCart" /> 
-                              
+                            <FormattedMessage id="recommendation.viewInCart" />
+
                             </button>
                           </p> */}
                         </div>
@@ -1257,7 +1276,7 @@ class FelinRecommendation extends React.Component {
             className="help-page"
             style={{ marginBottom: isMobile ? 0 : '1rem' }}
           >
-           
+
            <div className="experience-region experience-main">
               <div className="experience-region experience-main">
                 <div className="experience-component experience-layouts-1column">

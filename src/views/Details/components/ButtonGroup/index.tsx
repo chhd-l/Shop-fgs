@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import BuyFromRetailerBtn from '../BuyFromRetailerBtn';
 import ErrMsgForCheckoutPanel from '../ErrMsgForCheckoutPanel/index.tsx';
 const isHub = window.__.env.REACT_APP_HUB == '1';

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 
 function Item({ className, onClick, to, children }) {
@@ -29,8 +29,9 @@ export default class Pagination extends Component {
     };
 
     this.handlePrevOrNextPage = this.handlePrevOrNextPage.bind(this);
-    this.handleCurrentPageNumChange =
-      this.handleCurrentPageNumChange.bind(this);
+    this.handleCurrentPageNumChange = this.handleCurrentPageNumChange.bind(
+      this
+    );
   }
   handleCurrentPageNumChange(e) {
     if (this.props.loading) {

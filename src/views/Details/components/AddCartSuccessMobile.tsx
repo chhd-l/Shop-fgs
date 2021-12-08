@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import cn from 'classnames';
@@ -20,10 +20,10 @@ const AddCartSuccessMobile = ({
   mixFeedingData,
   goodsInfoFlag,
   periodTypeId,
-  isLogin
+  isLogin,
+  intl
 }) => {
   const History = useHistory();
-  const Intl = useIntl();
   const [selectedSku, setSelectedSku] = useState(null);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
@@ -109,10 +109,13 @@ const AddCartSuccessMobile = ({
                           }}
                         >
                           <div className="text-left ml-1 text-capitalize">
-                            {Intl.formatMessage(
-                              { id: 'quantityText' },
-                              { specText: selectedSku?.specText, buyCount: 1 }
-                            )}
+                            <FormattedMessage
+                              id="quantityText"
+                              values={{
+                                specText: selectedSku?.specText,
+                                buyCount: 1
+                              }}
+                            />
                           </div>
                         </div>
                       </div>
@@ -149,7 +152,7 @@ const AddCartSuccessMobile = ({
                         mixFeedingData.periodTypeId = periodTypeId;
                         const param = {
                           product: mixFeedingData,
-                          intl: Intl
+                          intl
                         };
                         isLogin
                           ? await addToLoginCartData(param)

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 import { getDeviceType } from '../../utils/utils';
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
@@ -36,7 +36,7 @@ class ProductSpecialities extends React.Component {
                       className="image-container text-center rc-column"
                       style={{
                         display: 'flex',
-                        justifyContent: isMobile ? 'center' : 'center',
+                        justifyContent: 'center',
                         width: '100%'
                       }}
                     >

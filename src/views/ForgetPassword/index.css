@@ -34,7 +34,7 @@
 }
 
 .miaa-footer .btn {
-  white-space: normal;
+  /*white-space: normal;*/
   text-decoration: none;
   font-size: 1.125rem;
   font-weight: 600;
@@ -45,7 +45,7 @@
 .btn-primary:not(.btn-sm):after,
 .btn-secondary:not(.btn-sm):after {
   content: '\f105';
-  font-family: FontAwesome;
+  /*font-family: FontAwesome;*/
   position: relative;
   right: -1.25rem;
 }

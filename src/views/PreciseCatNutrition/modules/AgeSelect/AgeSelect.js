@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Selection from '@/components/Selection';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { FormContext } from '../QuestionnaireForm';
 import Tooltips from '../tooltips';
 

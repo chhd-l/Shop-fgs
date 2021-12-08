@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './AdyenOxxoModal.css';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { loadJS } from '@/utils/utils';
 import getPaymentConf from '@/lib/get-payment-conf';
 

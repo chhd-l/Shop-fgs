@@ -12,7 +12,7 @@ import AnimalBreeds from './AnimalBreeds/AnimalBreeds';
 import QuestionnaireRadio from './QuestionnaireRadio';
 import AgeSelect from './AgeSelect/AgeSelect';
 import RadioGroup from './radioGroup';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 export const FormContext = React.createContext({});
 function QuestionnaireForm(
   { components, changeCanNext, step, defaultValue },

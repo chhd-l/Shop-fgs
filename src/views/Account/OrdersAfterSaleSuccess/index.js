@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import Skeleton from 'react-skeleton-loader';
 import { Link } from 'react-router-dom';
 import { getReturnDetails } from '@/api/order';

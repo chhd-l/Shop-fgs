@@ -36,7 +36,7 @@ import {
   addToLoginCartData
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import find from 'lodash/find';
 import {
   getDetails,
@@ -862,13 +862,7 @@ class Details extends React.Component {
   }
   async hanldeLoginAddToCart(type) {
     try {
-      const {
-        configStore,
-        checkoutStore,
-        history,
-        clinicStore,
-        headerCartStore
-      } = this.props;
+      const { checkoutStore, intl, headerCartStore } = this.props;
       const { quantity, form, details, questionParams } = this.state;
 
       hubGAAToCar(quantity, form);
@@ -902,7 +896,7 @@ class Details extends React.Component {
         param = { ...param, ...this.state.requestJson };
       }
       await sitePurchase(param);
-      await checkoutStore.updateLoginCart({ intl: this.props.intl });
+      await checkoutStore.updateLoginCart({ intl });
       this.setState({ modalMobileCartSuccessVisible: true });
       if (!isMobile) {
         headerCartStore.show();
@@ -1094,7 +1088,7 @@ class Details extends React.Component {
   }
 
   render() {
-    const { history, location, match, configStore } = this.props;
+    const { history, location, match, configStore, intl } = this.props;
     const {
       goodsId,
       details,
@@ -1542,6 +1536,7 @@ class Details extends React.Component {
                     : form.buyWay
                 }
                 isLogin={this.isLogin}
+                intl={intl}
               />
             ) : null}
 

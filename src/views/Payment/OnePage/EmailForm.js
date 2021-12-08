@@ -1,7 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 import { EMAIL_REGEXP } from '@/utils/constant';
 import { checkoutDataLayerPushEvent } from '@/utils/GA';
@@ -99,7 +99,7 @@ class EmailForm extends React.Component {
 
     const titleForPrepare = (
       <>
-        <h5 className={`mb-0`}>
+        <h5 className={`mb-0 text-xl`}>
           <em
             className={`rc-icon d-inline-block rc-email--xs rc-margin-right--xs rc-iconography`}
           />{' '}
@@ -110,7 +110,7 @@ class EmailForm extends React.Component {
 
     const titleForEdit = (
       <>
-        <h5 className={`mb-0 red`}>
+        <h5 className={`mb-0 red text-xl`}>
           <em
             className={`rc-icon d-inline-block rc-email--xs rc-margin-right--xs rc-brand1`}
           />{' '}
@@ -121,7 +121,7 @@ class EmailForm extends React.Component {
 
     const titleForCompleted = (
       <>
-        <h5 className={`mb-0`}>
+        <h5 className={`mb-0 text-xl`}>
           <em
             className={`rc-icon d-inline-block rc-email--xs rc-margin-right--xs rc-iconography`}
           />{' '}
