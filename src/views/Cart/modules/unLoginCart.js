@@ -181,7 +181,7 @@ class UnLoginCart extends React.Component {
       clubFlag = false,
       numFlag = true;
     var reg = /^[0-9]*/;
-    productList.map((el) => {
+    productList.forEach((el) => {
       if (!reg.test(el.buyCount)) {
         numFlag = false;
       }
@@ -1389,7 +1389,7 @@ class UnLoginCart extends React.Component {
               />
             </div>
           </div>:null}
-          
+
 
           <div className="group-total">
             <div className="row d-flex align-items-center">
