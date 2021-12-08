@@ -184,8 +184,11 @@ class ShippingAddressFrom extends React.Component {
   };
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmValidationAddress() {
-    const { addressForm, selectValidationOption, validationAddress } =
-      this.state;
+    const {
+      addressForm,
+      selectValidationOption,
+      validationAddress
+    } = this.state;
     let oldAddressForm = JSON.parse(JSON.stringify(addressForm));
     let theform = [];
     if (selectValidationOption == 'suggestedAddress') {
@@ -239,7 +242,6 @@ class ShippingAddressFrom extends React.Component {
       let params = {
         address1: data.address1,
         address2: data.address2,
-        area: data.area,
         areaId: data.areaId,
         firstName: data.firstName,
         lastName: data.lastName,

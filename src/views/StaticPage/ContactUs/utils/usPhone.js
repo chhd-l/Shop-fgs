@@ -13,7 +13,7 @@ function ParseForNumber2(object) {
 
 function backSpacerUP(e) {
     if (e) {
-        e = e
+        // e = e
     } else {
         e = window.event
     }
@@ -33,7 +33,7 @@ function backSpacerUP(e) {
 
 function backSpacerDOWN(e) {
     if (e) {
-        e = e
+        // e = e
     } else {
         e = window.event
     }

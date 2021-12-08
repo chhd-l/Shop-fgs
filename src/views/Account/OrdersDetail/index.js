@@ -587,7 +587,7 @@ class AccountOrders extends React.Component {
     const { moreLogistics, activeTabIdx } = this.state;
     //没有详细物流信息的package不显示
     const logisticsList = [];
-    this.state.logisticsList.map((item, index) => {
+    this.state.logisticsList.forEach((item, index) => {
       if (
         !(
           item.trackingUrl === null &&
@@ -597,7 +597,6 @@ class AccountOrders extends React.Component {
       ) {
         logisticsList.push(item);
       }
-      return;
     });
     console.log('logisticsList:', logisticsList);
     const filteredLogisticsList = logisticsList
