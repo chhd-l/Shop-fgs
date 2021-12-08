@@ -15,8 +15,6 @@ import LazyLoad from 'react-lazyload';
 import PetForms from './components/PetForms';
 import { petsById, getRecommendProducts } from '@/api/pet';
 import Loading from '@/components/Loading';
-const sessionItemRoyal = window.__.sessionItemRoyal;
-
 import {
   getDictionary,
   getDeviceType,
@@ -26,13 +24,15 @@ import {
   getClubFlag
 } from '@/utils/utils';
 import 'react-datepicker/dist/react-datepicker.css';
-import { format } from 'date-fns-tz';
 import Banner_Cat from './images/banner_Cat.jpg';
 import Banner_Dog from './images/banner_Dog.jpg';
 import ProductCarousel from '@/components/ProductCarousel';
 import { findPetProductForClub } from '@/api/subscription';
+
+const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
+
 @inject('loginStore')
 @observer
 class PetForm extends React.Component {

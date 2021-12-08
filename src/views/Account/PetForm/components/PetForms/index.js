@@ -14,7 +14,6 @@ import RadioBox from '../FormItem/RadioBox';
 import UploadImg from '../ImgUpload';
 import Modal from '@/components/Modal';
 import { getDict } from '@/api/dict';
-import { format } from 'date-fns-tz';
 import { changeSubscriptionDetailPets } from '@/api/subscription';
 import { addPet, delPets, editPets } from '@/api/pet';
 import {
@@ -23,6 +22,7 @@ import {
   getDeviceType,
   getDictionary
 } from '@/utils/utils';
+import { momentNormalizeDate } from '@/utils/momentNormalized';
 const purebredOpitons = [
   {
     value: 1,
@@ -278,7 +278,7 @@ const PetForms = ({
     setNewPetForm('sterilized', sterilized);
   };
   const onDateChange = (date) => {
-    setNewPetForm('birthdate', date ? format(date, 'yyyy-MM-dd') : '');
+    setNewPetForm('birthdate', momentNormalizeDate(date, 'YYYY-MM-DD'));
   };
   const selectedBreed = (item) => {
     let newPetFrom = Object.assign({}, petForm, {

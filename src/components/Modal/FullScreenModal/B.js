@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react';
-import { formatMoney } from '@/utils/utils';
 import { format, utcToZonedTime } from 'date-fns-tz';
 import { Observer, useLocalStore } from 'mobx-react';
 import stores from '@/store';
@@ -9,7 +8,7 @@ import Address from './Address';
 
 export default function Modal(props) {
   const value = useContext(FullScreenModalContext);
-  const { loginStore, paymentStore, configStore } = useLocalStore(() => stores);
+  const { loginStore, paymentStore } = useLocalStore(() => stores);
   const { isLogin, userInfo } = loginStore;
   const {
     fullScreenModalB,
@@ -17,7 +16,6 @@ export default function Modal(props) {
     billingAddressInfo,
     guestEmail
   } = paymentStore;
-  const { localAddressForm } = configStore;
 
   const { close } = value;
 
@@ -44,7 +42,7 @@ export default function Modal(props) {
                 <button
                   className="rc-btn rc-icon rc-btn--icon-label rc-modal__close rc-close--xs rc-iconography"
                   onClick={() => close('fullScreenModalB')}
-                ></button>
+                />
               </header>
               <section className="rc-modal__content rc-scroll--y h-100 rc-padding-top--lg--desktop ">
                 <div className="rc-margin-top--none">
@@ -74,7 +72,7 @@ export default function Modal(props) {
                     <h4>1.2. Alici:</h4>
                     <p>
                       Ad Soyad / Unvan:
-                      <span data-represents-field="#billingAddressTitle"></span>
+                      <span data-represents-field="#billingAddressTitle" />
                       <span data-represents-field="#shippingFirstName">
                         {deliveryAddressInfo?.firstName}
                       </span>{' '}
@@ -145,7 +143,7 @@ export default function Modal(props) {
                     </p>
                     <p>
                       Ad Soyad / Unvan:
-                      <span data-represents-field="#billingAddressTitle"></span>
+                      <span data-represents-field="#billingAddressTitle" />
                       <span data-represents-field="#shippingFirstName">
                         {deliveryAddressInfo?.firstName}
                       </span>{' '}
@@ -173,7 +171,7 @@ export default function Modal(props) {
                     </p>
                     <p>
                       Ad Soyad / Unvan:
-                      <span data-represents-field="#billingAddressTitle"></span>
+                      <span data-represents-field="#billingAddressTitle" />
                       <span data-represents-field="#billingFirstName">
                         {billingAddressInfo?.firstName}
                       </span>{' '}
