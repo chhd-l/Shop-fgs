@@ -1057,7 +1057,7 @@ class Payment extends React.Component {
           );
         });
         cvvResult = JSON.parse(cvvResult);
-        _parameters = Object.assign(parameters, {
+        _parameters = Object.assign(_parameters, {
           paymentMethodId: selectedCardInfo.id,
           creditDardCvv: cvvResult && cvvResult.token
         });
