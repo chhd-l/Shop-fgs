@@ -7,7 +7,6 @@ import {
   getDeviceType,
   handleFelinAppointTime
 } from '@/utils/utils';
-import { format } from 'date-fns-tz';
 import { momentNormalizeDate } from '../../../utils/momentNormalized';
 
 @inject('configStore')
@@ -195,9 +194,9 @@ class InfosPreview extends React.Component {
                     <span className="medium">
                       <FormattedMessage id="Expire" />{' '}
                       {window.__.env.REACT_APP_COUNTRY == 'us'
-                        ? format(
+                        ? momentNormalizeDate(
                             new Date(payRecord.expirationDate).addHours(12),
-                            'MM/yyyy'
+                            'MM/YYYY'
                           )
                         : momentNormalizeDate(payRecord.expirationDate)}
                     </span>

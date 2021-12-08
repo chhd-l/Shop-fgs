@@ -10,7 +10,6 @@ import { PRESONAL_INFO_RULE } from '@/utils/constant';
 import 'react-datepicker/dist/react-datepicker.css';
 import './index.less';
 import LoginButton from '@/components/LoginButton';
-import { format } from 'date-fns';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import FaceBook_Icon from '@/assets/images/facebookIcon.png';
@@ -341,11 +340,6 @@ export default class Felin extends React.Component {
     this.getTimeOptions();
   }
   get virtualAppointmentFlag() {
-    // let { currentDate } = this.state;
-    // return (
-    //   +format(currentDate, 'yyyyMMdd') >= 20210420 &&
-    //   +format(currentDate, 'yyyyMMdd') <= 20210502
-    // );
     return false;
   }
   get virtualDisabledFlag() {
@@ -361,7 +355,7 @@ export default class Felin extends React.Component {
   getTimeOptions() {
     this.setState({ loading: true });
     getTimeOptions({
-      apptDate: format(this.state.currentDate, 'yyyyMMdd')
+      apptDate: momentNormalizeDate(this.state.currentDate, 'yyyyMMdd')
     })
       .then((res) => {
         let { timeOption } = this.state;
@@ -475,7 +469,7 @@ export default class Felin extends React.Component {
       }
       if (
         currentDate.getDay() === 1 ||
-        format(currentDate, 'yyyy-MM-dd') === '2021-05-01'
+        momentNormalizeDate(currentDate, 'yyyy-MM-dd') === '2021-05-01'
       ) {
         this.setState({
           errMsg: 'La date actuelle ne peut pas être sélectionnée'
@@ -532,7 +526,7 @@ export default class Felin extends React.Component {
         storeId: window.__.env.REACT_APP_STOREID,
         customerId: userInfo ? userInfo.customerId : null,
         type: this.state.felinType,
-        apptDate: format(this.state.currentDate, 'yyyyMMdd'),
+        apptDate: momentNormalizeDate(this.state.currentDate, 'yyyyMMdd'),
         apptTime: this.state.selectedTimeObj.value,
         status: 0,
         qrCode1: null,
@@ -1114,30 +1108,46 @@ export default class Felin extends React.Component {
                               }}
                               tileDisabled={({ activeStartDate, date, view }) =>
                                 date.getDay() === 1 ||
-                                format(date, 'yyyy-MM-dd') === '2021-05-01'
+                                momentNormalizeDate(date, 'yyyy-MM-dd') ===
+                                  '2021-05-01'
                               }
                               minDate={
                                 new Date(
-                                  format(this.state.toDay, 'yyyy-MM-dd')
+                                  momentNormalizeDate(
+                                    this.state.toDay,
+                                    'yyyy-MM-dd'
+                                  )
                                 ) > new Date('2021-04-20')
                                   ? new Date(
-                                      format(this.state.toDay, 'yyyy-MM-dd')
+                                      momentNormalizeDate(
+                                        this.state.toDay,
+                                        'yyyy-MM-dd'
+                                      )
                                     )
                                   : new Date('2021-04-20')
                               }
                               maxDate={
                                 new Date(
-                                  format(this.state.toDay, 'yyyy-MM-dd')
+                                  momentNormalizeDate(
+                                    this.state.toDay,
+                                    'yyyy-MM-dd'
+                                  )
                                 ) < new Date('2021-06-13')
                                   ? new Date('2021-06-13')
                                   : new Date(
-                                      format(this.state.toDay, 'yyyy-MM-dd')
+                                      momentNormalizeDate(
+                                        this.state.toDay,
+                                        'yyyy-MM-dd'
+                                      )
                                     )
                               }
                               onChange={(date) => {
                                 if (
-                                  format(date, 'yyyy-MM-dd') ===
-                                  format(this.state.currentDate, 'yyyy-MM-dd')
+                                  momentNormalizeDate(date, 'yyyy-MM-dd') ===
+                                  momentNormalizeDate(
+                                    this.state.currentDate,
+                                    'yyyy-MM-dd'
+                                  )
                                 ) {
                                   return false;
                                 }
