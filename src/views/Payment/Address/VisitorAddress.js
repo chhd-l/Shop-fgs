@@ -297,21 +297,23 @@ class VisitorAddress extends React.Component {
   titleJSXForPrepare = () => {
     return (
       <>
-        <h5 className={`mb-0`}>{this.titleJSX()}</h5>
+        <h5 className={`mb-0 text-xl`}>{this.titleJSX()}</h5>
       </>
     );
   };
   titleJSXForEdit = () => {
     return (
       <>
-        <h5 className={`mb-0 red`}>{this.titleJSX({ redColor: true })}</h5>
+        <h5 className={`mb-0 red text-xl`}>
+          {this.titleJSX({ redColor: true })}
+        </h5>
       </>
     );
   };
   titleJSXForCompeleted = () => {
     return (
       <>
-        <h5 className={`mb-0`}>
+        <h5 className={`mb-0 text-xl`}>
           {this.titleJSX()}
           <span className="iconfont font-weight-bold green ml-2">&#xe68c;</span>
         </h5>

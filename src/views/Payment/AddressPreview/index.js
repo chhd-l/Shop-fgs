@@ -32,7 +32,7 @@ class InfosPreview extends React.Component {
     return (
       <div className="card mb-3 shipping-summary checkout--padding">
         <div className="bg-transparent d-flex justify-content-between align-items-center">
-          <h5 className="mb-0">
+          <h5 className="mb-0 text-xl">
             <em className="rc-icon rc-indoors--xs rc-iconography" />{' '}
             <FormattedMessage id="payment.addressTitle" />
           </h5>
