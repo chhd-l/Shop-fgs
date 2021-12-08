@@ -1692,8 +1692,8 @@ class UnLoginCart extends React.Component {
                     </div>
                     <div id="product-cards-container">{List}</div>
                     <div id="product-cards-container">
-                      {this.giftList.map((el) => (
-                        <GiftList pitem={el} />
+                      {this.giftList.map((el, i) => (
+                        <GiftList pitem={el} key={i} {...this.props} />
                       ))}
                     </div>
                     {window.__.env.REACT_APP_COUNTRY === 'us' && <CartSurvey />}

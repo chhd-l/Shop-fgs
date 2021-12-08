@@ -476,6 +476,7 @@ class PetForm extends React.Component {
                 setState={this.setState.bind(this)}
                 errorMsg={this.state.errorMsg}
                 petsType={currentPet.petsType}
+                {...this.props}
               />
             ) : null}
             <div>

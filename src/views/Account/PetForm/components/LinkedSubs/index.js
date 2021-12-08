@@ -10,14 +10,13 @@ import LazyLoad from 'react-lazyload';
 import { getSubListForPet } from '@/api/subscription';
 import { changeSubscriptionGoodsByPets } from '@/api/pet';
 import Skeleton from 'react-skeleton-loader';
-import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { IMG_DEFAULT } from '@/utils/constant';
 import './index.css';
 import FrequencyMatch from '@/components/FrequencyMatch';
 
-const localItemRoyal = window.__.localItemRoyal;
-
 const LinkedSubs = (props) => {
+  const { intl } = props;
   let [subList, setSubList] = useState([]);
   let [btnLoading, setBtnLoading] = useState(false);
   let [isShowAll, setIsShowAll] = useState(false);
@@ -174,7 +173,10 @@ const LinkedSubs = (props) => {
                         <FormattedMessage id="autoShipStarted" />
                       </p>
                       <p style={{ color: '#666', fontSize: '1rem' }}>
-                        {getFormatDate(subItem.createTime.split(' ')[0])}
+                        {getFormatDate({
+                          date: subItem.createTime.split(' ')[0],
+                          intl
+                        })}
                       </p>
                     </span>
                   </div>

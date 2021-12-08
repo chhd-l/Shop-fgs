@@ -1113,11 +1113,10 @@ export default class Felin extends React.Component {
                                   // cursor: 'pointer'
                                 }}
                                 disabled
-                                value={getFormatDate(
-                                  this.state.currentDate,
-                                  null,
-                                  'fr'
-                                )}
+                                value={getFormatDate({
+                                  date: this.state.currentDate,
+                                  intl
+                                })}
                               />
                             </h4>
                             <span className="icon iconfont iconfont-date">
@@ -1564,7 +1563,10 @@ export default class Felin extends React.Component {
                             className="text-center"
                             style={{ margin: '1.25rem 0 .625rem' }}
                           >
-                            {getFormatDate(this.state.currentDate, null, 'fr')}
+                            {getFormatDate({
+                              date: this.state.currentDate,
+                              intl
+                            })}
                           </p>
                           <p
                             className="text-center"
@@ -1645,11 +1647,10 @@ export default class Felin extends React.Component {
                               className="text-center"
                               style={{ margin: '1.25rem 0 .625rem' }}
                             >
-                              {getFormatDate(
-                                this.state.currentDate,
-                                null,
-                                'fr'
-                              )}
+                              {getFormatDate({
+                                date: this.state.currentDate,
+                                intl
+                              })}
                             </p>
                             <p
                               className="text-center"

@@ -497,6 +497,7 @@ class AccountOrders extends React.Component {
         filters: ''
       }
     };
+    const { intl } = this.props;
     const {
       errMsg,
       everHaveNoOrders,
@@ -675,12 +676,13 @@ class AccountOrders extends React.Component {
                                           <FormattedMessage id="order.orderPlacedOn" />
                                           <br className="d-none d-md-block" />
                                           <span className="medium orderHeaderTextColor">
-                                            {getFormatDate(
-                                              order.tradeState.createTime.substr(
+                                            {getFormatDate({
+                                              date: order.tradeState.createTime.substr(
                                                 0,
                                                 10
-                                              )
-                                            )}
+                                              ),
+                                              intl
+                                            })}
                                           </span>
                                         </p>
                                       </div>
@@ -993,7 +995,7 @@ class AccountOrders extends React.Component {
                             <span>
                               {[
                                 item.specDetails,
-                                this.props.intl.formatMessage(
+                                intl.formatMessage(
                                   { id: 'xProduct' },
                                   {
                                     val: item.num

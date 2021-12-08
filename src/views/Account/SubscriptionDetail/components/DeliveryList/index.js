@@ -16,7 +16,8 @@ const DeliveryList = ({
   modalList,
   activeTabIdx,
   getMinDate,
-  setState
+  setState,
+  intl
 }) => {
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   const isActive = subDetail.subscribeStatus === '0';
@@ -105,13 +106,14 @@ const DeliveryList = ({
                   el.tradeItems[0].nextDeliveryTime.split('-')[0] ===
                     noStartYear.value
               )
-              .map((el) => (
+              .map((el, i) => (
                 <NextDelivery
                   subDetail={subDetail}
                   modalList={modalList}
                   setState={setState}
                   getMinDate={getMinDate}
                   el={el}
+                  key={i}
                 />
               ))}
           {activeTabIdx === 1 &&
@@ -128,6 +130,8 @@ const DeliveryList = ({
                   el={el}
                   isActive={isActive}
                   i={i}
+                  key={i}
+                  intl={intl}
                 />
               ))}
         </div>

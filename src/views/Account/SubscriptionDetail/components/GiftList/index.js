@@ -8,7 +8,8 @@ const GiftList = ({
   subDetail,
   noStartYear,
   isGift,
-  changeTab
+  changeTab,
+  intl
 }) => {
   const isNotInactive =
     subDetail.subscribeStatus === '0' || subDetail.subscribeStatus === '1';
@@ -110,11 +111,12 @@ const GiftList = ({
                                   fontWeight: '400'
                                 }}
                               >
-                                {getFormatDate(
-                                  el.tradeItems[0].nextDeliveryTime.split(
+                                {getFormatDate({
+                                  date: el.tradeItems[0].nextDeliveryTime.split(
                                     ' '
-                                  )[0]
-                                )}
+                                  )[0],
+                                  intl
+                                })}
                               </span>
                             </p>
                           </div>

@@ -206,7 +206,10 @@ const SubDetailHeader = ({
                       :
                       <strong>
                         {' '}
-                        {getFormatDate(petsInfo?.birthOfPets || '')}
+                        {getFormatDate({
+                          date: petsInfo?.birthOfPets || '',
+                          intl
+                        })}
                       </strong>
                     </div>
                   </div>

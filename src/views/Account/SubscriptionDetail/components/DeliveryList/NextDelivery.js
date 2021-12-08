@@ -89,9 +89,10 @@ const NextDelivery = ({
                 }}
               >
                 {isNotInactive
-                  ? getFormatDate(
-                      el.tradeItems[0].nextDeliveryTime.split(' ')[0]
-                    )
+                  ? getFormatDate({
+                      date: el.tradeItems[0].nextDeliveryTime.split(' ')[0],
+                      intl
+                    })
                   : ''}
               </span>
             </div>

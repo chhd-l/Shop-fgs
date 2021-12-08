@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
 import dateIcon from '../../images/date.png';
 import { getDeviceType, getFormatDate, formatMoney } from '@/utils/utils';
-const CompletedDelivery = ({ i, isActive, el, subDetail }) => {
+
+const CompletedDelivery = ({ i, isActive, el, subDetail, intl }) => {
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   const isIndv = subDetail.subscriptionType
     ?.toLowerCase()
@@ -32,7 +33,10 @@ const CompletedDelivery = ({ i, isActive, el, subDetail }) => {
                   fontWeight: '400'
                 }}
               >
-                {getFormatDate(el.tradeState.createTime.split(' ')[0])}
+                {getFormatDate({
+                  date: el.tradeState.createTime.split(' ')[0],
+                  intl
+                })}
                 {/* <FormattedDate value={el.tradeState.createTime.split(' ')[0]}/> */}
               </span>
             </div>

@@ -321,8 +321,14 @@ class Subscription extends React.Component {
   };
 
   getPageBox = (isGift) => {
-    let { isMobile, subList, loading, errMsg, currentPage, totalPage } =
-      this.state;
+    let {
+      isMobile,
+      subList,
+      loading,
+      errMsg,
+      currentPage,
+      totalPage
+    } = this.state;
     let subscription = 'subscription';
 
     return (
@@ -368,11 +374,7 @@ class Subscription extends React.Component {
                   let subItemComp = null;
                   if (subItem.subscriptionType === 'Individualization') {
                     subItemComp = (
-                      <IndvItem
-                        history={this.props.history}
-                        subItem={subItem}
-                        idx={i}
-                      />
+                      <IndvItem subItem={subItem} idx={i} {...this.props} />
                     );
                   } else if (subItem.subscriptionType === 'Club') {
                     subItemComp = (
@@ -380,21 +382,16 @@ class Subscription extends React.Component {
                         history={this.props.history}
                         subItem={subItem}
                         idx={i}
+                        {...this.props}
                       />
                     );
                   } else if (subItem.subscriptionType === 'Autoship') {
                     subItemComp = (
-                      <AutoshipItem
-                        subItem={subItem}
-                        history={this.props.history}
-                      />
+                      <AutoshipItem subItem={subItem} {...this.props} />
                     );
                   } else {
                     subItemComp = (
-                      <AutoshipItem
-                        subItem={subItem}
-                        history={this.props.history}
-                      />
+                      <AutoshipItem subItem={subItem} {...this.props} />
                     );
                   }
                   return subItemComp;

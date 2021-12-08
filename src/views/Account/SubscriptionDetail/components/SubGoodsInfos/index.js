@@ -1,9 +1,5 @@
 import React, { useEffect, useState, createContext } from 'react';
-import {
-  FormattedMessage,
-  injectIntl,
-  FormattedDate
-} from 'react-intl-phraseapp';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { IMG_DEFAULT } from '@/utils/constant';
 import ButtonBoxGift from './ButtonBoxGift';
 import ButtonBox from './ButtonBox';
@@ -12,6 +8,7 @@ import DailyRation from '../DailyRation';
 import ShowErrorDom from '../ShowErrorDom';
 export const SubGoodsInfosContext = createContext();
 import { getDeviceType, formatMoney } from '@/utils/utils';
+
 const SubGoodsInfos = ({
   triggerShowChangeProduct,
   getDetail,
@@ -26,7 +23,8 @@ const SubGoodsInfos = ({
   errMsgPage,
   setState,
   getMinDate,
-  isShowClub
+  isShowClub,
+  intl
 }) => {
   const isNotInactive =
     subDetail.subscribeStatus === '0' || subDetail.subscribeStatus === '1';
@@ -172,8 +170,7 @@ const SubGoodsInfos = ({
                                 triggerShowChangeProduct,
                                 {
                                   show: true,
-                                  firstShow:
-                                    !triggerShowChangeProduct.firstShow,
+                                  firstShow: !triggerShowChangeProduct.firstShow,
                                   goodsInfo: [el],
                                   isShowModal: true
                                 }
@@ -491,8 +488,7 @@ const SubGoodsInfos = ({
                                       triggerShowChangeProduct,
                                       {
                                         show: true,
-                                        firstShow:
-                                          !triggerShowChangeProduct.firstShow,
+                                        firstShow: !triggerShowChangeProduct.firstShow,
                                         goodsInfo: [el],
                                         isShowModal: true
                                       }

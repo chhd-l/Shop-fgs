@@ -1,11 +1,11 @@
 import React from 'react';
 import { getDeviceType } from '@/utils/utils';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import { IMG_DEFAULT } from '@/utils/constant';
 import './index.less';
 
-const OngoingOrder = ({ subDetail }) => {
+const OngoingOrder = ({ subDetail, intl }) => {
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   const onGoingTradeLists = subDetail.onGoingTradeList
     ? subDetail.onGoingTradeList
@@ -14,11 +14,12 @@ const OngoingOrder = ({ subDetail }) => {
   return (
     <>
       {onGoingTradeLists.length > 0
-        ? onGoingTradeLists.map((ele) => (
+        ? onGoingTradeLists.map((ele, i) => (
             <div
               className={`card-container m-0 py-4 px-0 min-h-auto border-orange rc-margin-x--none align-items-center justify-content-start ${
                 isMobile ? 'flex-column' : 'row'
               }`}
+              key={i}
             >
               <div className="col-12 col-md-4 d-flex flex-column justify-content-start align-items-center">
                 {ele.tradeItems.map((item, idx) => (
@@ -56,7 +57,10 @@ const OngoingOrder = ({ subDetail }) => {
                   <FormattedMessage id="order.orderDate" />
                 </span>
                 <span className="medium mt-2 ui-text-overflow-line1">
-                  {getFormatDate(ele.tradeState.createTime.substr(0, 10))}
+                  {getFormatDate({
+                    date: ele.tradeState.createTime.substr(0, 10),
+                    intl
+                  })}
                 </span>
               </div>
               <div

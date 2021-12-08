@@ -11,10 +11,17 @@ import DatePicker from 'react-datepicker';
 import dateIcon from '../../images/date.png';
 import FrequencyMatch from '@/components/FrequencyMatch';
 import { getFormatDate, datePickerConfig, getZoneTime } from '@/utils/utils';
-const ChangeSelection = ({ el }) => {
+
+const ChangeSelection = ({ el, intl }) => {
   const SubGoodsInfosValue = useContext(SubGoodsInfosContext);
-  const { setState, isIndv, isActive, onDateChange, getMinDate, isGift } =
-    SubGoodsInfosValue;
+  const {
+    setState,
+    isIndv,
+    isActive,
+    onDateChange,
+    getMinDate,
+    isGift
+  } = SubGoodsInfosValue;
 
   switch (el.goodsInfoFlag) {
     case 0:
@@ -118,7 +125,7 @@ const ChangeSelection = ({ el }) => {
             fontSize: '1.25rem'
           }}
         >
-          {getFormatDate(el.createTime.split(' ')[0])}
+          {getFormatDate({ date: el.createTime.split(' ')[0], intl })}
         </div>
       </div>
       <div style={{ overflow: 'hidden' }} className="rc-card-content">

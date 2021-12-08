@@ -506,8 +506,8 @@ class UnloginCart extends React.Component {
                       </div>
                     </div>
                   ))}
-                  {this.giftList.map((el) => (
-                    <GiftList data={el} />
+                  {this.giftList.map((el, i) => (
+                    <GiftList data={el} key={i} {...this.props} />
                   ))}
                 </div>
               </div>
