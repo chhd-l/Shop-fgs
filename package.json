@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/core": "7.9.0",
+    "@babel/helper-builder-react-jsx": "^7.16.0",
     "@babel/plugin-proposal-decorators": "^7.10.1",
     "@googlemaps/markerclustererplus": "^1.2.0",
     "@okta/okta-auth-js": "^4.8.0",
@@ -63,7 +64,6 @@
     "less": "^3.11.3",
     "less-loader": "^6.1.2",
     "mini-css-extract-plugin": "0.9.0",
-    "moment": "^2.24.0",
     "mobx": "4",
     "mobx-react": "^6.2.2",
     "moment": "^2.29.1",

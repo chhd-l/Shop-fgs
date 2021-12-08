@@ -283,6 +283,7 @@ moment.locale('zh-cn');
 var config = {
   projectId: '8f0d7f6b0396b8af7f08bf9f36d81259',
   phraseEnabled: Boolean(window.__.env.REACT_APP_PHRASE_CONTEXT_EDITORE),
+  autoLowercase: false,
   prefix: '[[__',
   suffix: '__]]'
 };
