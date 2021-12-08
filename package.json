@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/core": "7.9.0",
+    "@babel/helper-builder-react-jsx": "^7.16.0",
     "@babel/plugin-proposal-decorators": "^7.10.1",
     "@googlemaps/markerclustererplus": "^1.2.0",
     "@okta/okta-auth-js": "^4.8.0",
@@ -83,6 +84,7 @@
     "react-dev-utils": "^10.2.1",
     "react-dom": "^16.13.1",
     "react-intl": "5.6.8",
+    "react-intl-phraseapp": "^3.0.0",
     "react-lazyload": "^3.1.0",
     "react-loadable": "^5.5.0",
     "react-scripts": "^3.4.0",

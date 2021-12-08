@@ -4,7 +4,7 @@ import LazyLoad from 'react-lazyload';
 import { inject } from 'mobx-react';
 import Rate from '@/components/Rate';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { getDeviceType, formatMoney } from '@/utils/utils';
 import { IMG_DEFAULT } from '@/utils/constant';
 import InlineRatings from '@/components/BazaarVoice/inlineRatings';

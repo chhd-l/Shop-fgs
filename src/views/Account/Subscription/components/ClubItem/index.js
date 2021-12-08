@@ -13,7 +13,7 @@ import { getSubList } from '@/api/subscription';
 import { IMG_DEFAULT } from '@/utils/constant';
 import { Link } from 'react-router-dom';
 import Skeleton from 'react-skeleton-loader';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import './index.less';
 const localItemRoyal = window.__.localItemRoyal;
 const ClubItem = ({ subItem, history }) => {

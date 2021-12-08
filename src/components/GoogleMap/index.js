@@ -1,7 +1,7 @@
 import React from 'react';
 import GoogleMapReact from 'google-map-react';
 import MarkerClusterer from '@googlemaps/markerclustererplus';
-import { injectIntl } from 'react-intl';
+import { injectIntl } from 'react-intl-phraseapp';
 import findIndex from 'lodash/findIndex';
 
 @injectIntl

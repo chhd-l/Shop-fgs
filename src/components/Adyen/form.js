@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { ADYEN_CREDIT_CARD_BRANDS } from '@/utils/constant';
 import { loadJS, dynamicLoadCss } from '@/utils/utils';
 import { getAdyenParam } from './utils';

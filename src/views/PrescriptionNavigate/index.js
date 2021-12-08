@@ -5,7 +5,7 @@ import Pagination from '@/components/Pagination';
 import MapFlag from '@/components/MapFlag';
 import GoogleMap from '@/components/GoogleMap';
 import BannerTip from '@/components/BannerTip';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { getPrescription, getAllPrescription } from '@/api/clinic';
 import meImg from '@/assets/images/map-default-marker.png';
 import initLocation from './location';

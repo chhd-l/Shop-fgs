@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
 import KlarnaIcon from '@/components/Adyen/klarna_icon';

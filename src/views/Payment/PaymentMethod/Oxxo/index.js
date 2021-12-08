@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import oxxo from '@/assets/images/oxxo.png';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 class OxxoConfirm extends Component {
   constructor(props) {

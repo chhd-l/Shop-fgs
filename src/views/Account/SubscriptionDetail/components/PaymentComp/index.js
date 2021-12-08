@@ -1,6 +1,6 @@
 // 订阅卡列表+卡form页
 import React from 'react';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import Skeleton from 'react-skeleton-loader';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';

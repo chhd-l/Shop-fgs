@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import image from '@/assets/images/500.png';
 import logo from '@/assets/images/logo--animated.png';

@@ -4,7 +4,7 @@ import Header from '@/components/Header';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import image1 from './images/image1.jpg';
 import image2 from './images/image2.jpg';
 import image3 from './images/image3.jpg';

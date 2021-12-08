@@ -3,7 +3,7 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Skeleton from 'react-skeleton-loader';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import BannerTip from '@/components/BannerTip';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 import callImg from '@/assets/images/customer-service@2x.jpg';
@@ -48,8 +48,13 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
-@inject('checkoutStore', 'loginStore', 'clinicStore', 'clinicStore')
-@inject('configStore')
+@inject(
+  'checkoutStore',
+  'loginStore',
+  'clinicStore',
+  'clinicStore',
+  'configStore'
+)
 @injectIntl
 @observer
 class Help extends React.Component {
@@ -186,8 +191,12 @@ class Help extends React.Component {
       });
   }
   checkoutStock() {
-    let { productList, outOfStockProducts, inStockProducts, modalList } =
-      this.state;
+    let {
+      productList,
+      outOfStockProducts,
+      inStockProducts,
+      modalList
+    } = this.state;
     for (let i = 0; i < productList.length; i++) {
       if (
         productList[i].recommendationNumber > productList[i].goodsInfo.stock
@@ -217,8 +226,12 @@ class Help extends React.Component {
     );
   }
   async hanldeLoginAddToCart() {
-    let { productList, outOfStockProducts, inStockProducts, modalList } =
-      this.state;
+    let {
+      productList,
+      outOfStockProducts,
+      inStockProducts,
+      modalList
+    } = this.state;
     // console.log(outOfStockProducts, inStockProducts, '...1')
 
     if (outOfStockProducts.length > 0) {
@@ -342,8 +355,12 @@ class Help extends React.Component {
       localItemRoyal.set('okta-redirectUrl', '/prescription');
     }
     this.setState({ needLogin });
-    let { productList, outOfStockProducts, inStockProducts, modalList } =
-      this.state;
+    let {
+      productList,
+      outOfStockProducts,
+      inStockProducts,
+      modalList
+    } = this.state;
     let totalPrice;
     inStockProducts.forEach((el) => {
       // console.log(el, 'instock');
@@ -425,8 +442,12 @@ class Help extends React.Component {
   }
   async hanldeClickSubmit() {
     const { checkoutStore, loginStore, history, clinicStore } = this.props;
-    let { currentModalObj, subDetail, outOfStockProducts, inStockProducts } =
-      this.state;
+    let {
+      currentModalObj,
+      subDetail,
+      outOfStockProducts,
+      inStockProducts
+    } = this.state;
     this.setState({ loading: true, modalShow: false });
     if (currentModalObj.type === 'addToCart') {
       for (let i = 0; i < inStockProducts.length; i++) {
@@ -487,7 +508,7 @@ class Help extends React.Component {
     }
   }
   render(h) {
-    const { loginStore, history, configStore } = this.props;
+    const { loginStore, intl, configStore } = this.props;
     const event = {
       page: {
         type: 'Content',
@@ -929,7 +950,7 @@ class Help extends React.Component {
                                 ? ''
                                 : 'rc-btn-solid-disabled'
                             }`}
-                            history={history}
+                            intl={intl}
                           >
                             <FormattedMessage id="checkout" />
                           </LoginButton>
@@ -1116,7 +1137,7 @@ class Help extends React.Component {
                                   ? ''
                                   : 'rc-btn-solid-disabled'
                               }`}
-                              history={history}
+                              intl={intl}
                             >
                               <FormattedMessage id="checkout" />
                             </LoginButton>

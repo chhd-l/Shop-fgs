@@ -4,7 +4,7 @@ import { getStoreOpenConsentList } from '@/api/consent';
 import Loading from '@/components/Loading';
 import './index.less';
 import SocialRegister from './components/socialRegister';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import { oktaRegister } from '@/api/user';
 import stores from '@/store';
 import {

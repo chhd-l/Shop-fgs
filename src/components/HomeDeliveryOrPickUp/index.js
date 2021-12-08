@@ -14,7 +14,7 @@
 
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import Loading from '@/components/Loading';
 import SearchSelection from '@/components/SearchSelection';
 import { validData, formatMoney, getDeviceType } from '@/utils/utils';
@@ -89,7 +89,8 @@ class HomeDeliveryOrPickUp extends React.Component {
             require: true
           },
           {
-            regExp: /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/,
+            regExp:
+              /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/,
             errMsg: this.props.intl.messages['payment.errorInfo2'],
             key: 'phoneNumber',
             require: true
@@ -905,7 +906,7 @@ class HomeDeliveryOrPickUp extends React.Component {
             </div>
             {/* 城市搜索 end */}
 
-            {/* 
+            {/*
                 要显示选择 homeDelivery or pickup 的场景：
                   1、游客
                   2、会员：地址列表为空

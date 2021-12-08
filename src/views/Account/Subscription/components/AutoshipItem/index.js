@@ -10,7 +10,7 @@ import FrequencyMatch from '@/components/FrequencyMatch';
 import LazyLoad from 'react-lazyload';
 import { getSubList } from '@/api/subscription';
 import Skeleton from 'react-skeleton-loader';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import { IMG_DEFAULT } from '@/utils/constant';
 import { filterOrderId } from '@/utils/utils';
 import './index.less';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import FullScreenModal from './FullScreenModal';
 
 export default class Modal extends React.Component {

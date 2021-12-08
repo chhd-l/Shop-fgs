@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 import { getDeviceType } from '@/utils/utils';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';

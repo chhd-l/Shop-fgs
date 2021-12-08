@@ -28,12 +28,14 @@ import {
 import moment from 'moment';
 import LoginButton from '@/components/LoginButton';
 import { getDeviceType } from '../../../utils/utils';
+import { injectIntl } from 'react-intl-phraseapp';
 
 const localItemRoyal = window.__.localItemRoyal;
 PRESONAL_INFO_RULE.filter((el) => el.key === 'phoneNumber')[0].regExp = '';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 @inject('loginStore')
+@injectIntl
 @observer
 class Pcexperts extends React.Component {
   constructor(props) {
@@ -57,25 +59,29 @@ class Pcexperts extends React.Component {
           valueEn: 'Behaviorist',
           src: cat1,
           name: 'Comportementalistes',
-          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         },
         {
           valueEn: 'Nutritionist',
           src: cat2,
           name: 'Expert en nutrition',
-          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         },
         {
           valueEn: 'Osteopathist',
           src: cat3,
           name: 'Ostéopathes',
-          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         }
       ],
       timeList: [
         {
           duration: 15,
-          text: 'Rapide et facile, échangez avec un expert pour reçevoir ses conseils et commencer le suivi de votre chat.'
+          text:
+            'Rapide et facile, échangez avec un expert pour reçevoir ses conseils et commencer le suivi de votre chat.'
         },
         {
           duration: 30,
@@ -533,6 +539,7 @@ class Pcexperts extends React.Component {
   };
 
   render() {
+    const { intl } = this.props;
     let appointName = {
       Online: 'Appel video',
       Offline: 'Sur place'
@@ -823,7 +830,7 @@ class Pcexperts extends React.Component {
                   localItemRoyal.set('okta-redirectUrl', '/checkout');
                 }}
                 btnClass={`rc-btn rc-btn--one  rc-margin-bottom--xs`}
-                history={this.props.history}
+                intl={intl}
                 btnStyle={{
                   width: '16.875rem'
                 }}

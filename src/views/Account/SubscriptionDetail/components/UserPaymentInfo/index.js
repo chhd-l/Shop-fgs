@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useLocalStore } from 'mobx-react';
 import stores from '@/store';
 import LazyLoad from 'react-lazyload';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedMessage,
+  injectIntl,
+  FormattedDate
+} from 'react-intl-phraseapp';
 import deliveryIcon from '../../images/deliveryAddress.png';
 import billingIcon from '../../images/billingAddress.png';
 import getCardImg from '@/lib/get-card-img';

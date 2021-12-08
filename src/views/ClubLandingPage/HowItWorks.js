@@ -8,7 +8,7 @@ import how02 from './ClubImage/How02@2x.png';
 import how04 from './ClubImage/How04@2x.png';
 import hownew04 from './ClubImage/How-RU@2x.png';
 import workflowicon from './ClubImage/howitworkflow.png';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import './index.css';
 
 const HowItWorks = (props) => {
