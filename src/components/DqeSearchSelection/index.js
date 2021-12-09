@@ -298,7 +298,7 @@ class SearchSelection extends React.Component {
                       className={`clinic-item pl-2 pr-2 ${
                         idx !== optionList.length - 1 ? 'border-bottom' : ''
                       }`}
-                      key={item.label}
+                      key={`${item.label}_${idx}`}
                       onClick={(e) => this.handleClickClinicItem(e, item)}
                     >
                       {item.name}
