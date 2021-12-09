@@ -19,6 +19,7 @@ import Modal from '@/components/Modal';
 import { inject, observer } from 'mobx-react';
 import { addEventListenerArr } from './addEventListener';
 import { EMAIL_REGEXP } from '@/utils/constant';
+import { isString } from 'lodash';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -219,8 +220,12 @@ class Register extends Component {
 
   inputBlur = (e) => {
     const target = e.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
+    let value = target.type === 'checkbox' ? target.checked : target.value;
+    value =
+      isString(target.value) && name != 'password'
+        ? target.value?.trim()
+        : target.value;
     if (name === 'password') {
       this.setState({
         passwordChanged: false
@@ -232,8 +237,13 @@ class Register extends Component {
   validInput(name, value) {
     switch (name) {
       case 'password':
-        const { ruleLength, ruleLower, ruleUpper, ruleAname, ruleSpecial } =
-          this.state;
+        const {
+          ruleLength,
+          ruleLower,
+          ruleUpper,
+          ruleAname,
+          ruleSpecial
+        } = this.state;
         const passwordValid =
           ruleLength && ruleLower && ruleUpper && ruleAname && ruleSpecial;
         this.setState({
@@ -280,8 +290,7 @@ class Register extends Component {
       var lowerReg = /[a-z]+/;
       var upperReg = /[A-Z]+/;
       var nameReg = /[\d]+/;
-      var specialReg =
-        /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
+      var specialReg = /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
       this.setState(
         {
           ruleLength: value.length >= 8,
@@ -622,8 +631,9 @@ class Register extends Component {
                               {window.__.env.REACT_APP_COUNTRY === 'de' ? (
                                 <span
                                   dangerouslySetInnerHTML={{
-                                    __html:
-                                      this.getIntlMsg('registerContinuing')
+                                    __html: this.getIntlMsg(
+                                      'registerContinuing'
+                                    )
                                   }}
                                 ></span>
                               ) : (
