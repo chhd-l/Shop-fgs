@@ -3,7 +3,7 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Skeleton from 'react-skeleton-loader';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import BannerTip from '@/components/BannerTip';
 import { formatMoney, getDeviceType } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
@@ -141,19 +141,24 @@ class Recommendation extends React.Component {
     this.helpContentText = {
       title: this.props.intl.messages['recommendation.helpContentText.title'],
       des: this.props.intl.messages['recommendation.helpContentText.des'],
-      emailTitle:
-        this.props.intl.messages['recommendation.helpContentText.emailTitle'],
-      emailDes:
-        this.props.intl.messages['recommendation.helpContentText.emailDes'],
-      emailLink:
-        this.props.intl.messages['recommendation.helpContentText.emailLink'], //俄罗斯是其他的链接
-      phoneTitle:
-        this.props.intl.messages['recommendation.helpContentText.phoneTitle'],
+      emailTitle: this.props.intl.messages[
+        'recommendation.helpContentText.emailTitle'
+      ],
+      emailDes: this.props.intl.messages[
+        'recommendation.helpContentText.emailDes'
+      ],
+      emailLink: this.props.intl.messages[
+        'recommendation.helpContentText.emailLink'
+      ], //俄罗斯是其他的链接
+      phoneTitle: this.props.intl.messages[
+        'recommendation.helpContentText.phoneTitle'
+      ],
       phone: this.props.intl.messages['recommendation.helpContentText.phone'],
       email: this.props.intl.messages['recommendation.helpContentText.email'],
       phoneDes1: `<strong>${this.props.intl.messages['recommendation.helpContentText.phoneDes1']}</strong>`,
-      phoneDes2:
-        this.props.intl.messages['recommendation.helpContentText.phoneDes2']
+      phoneDes2: this.props.intl.messages[
+        'recommendation.helpContentText.phoneDes2'
+      ]
     };
   }
 
@@ -502,8 +507,12 @@ class Recommendation extends React.Component {
     });
   };
   checkoutStock() {
-    let { productList, outOfStockProducts, inStockProducts, modalList } =
-      this.state;
+    let {
+      productList,
+      outOfStockProducts,
+      inStockProducts,
+      modalList
+    } = this.state;
     for (let i = 0; i < productList.length; i++) {
       if (
         productList[i].recommendationNumber > productList[i].goodsInfo.stock
@@ -532,8 +541,12 @@ class Recommendation extends React.Component {
     );
   }
   async hanldeLoginAddToCart() {
-    let { productList, outOfStockProducts, inStockProducts, modalList } =
-      this.state;
+    let {
+      productList,
+      outOfStockProducts,
+      inStockProducts,
+      modalList
+    } = this.state;
     GABigBreederAddToCar(productList);
     // console.log(outOfStockProducts, inStockProducts, '...1')
     // return
@@ -568,8 +581,8 @@ class Recommendation extends React.Component {
             recommendationId:
               this.props.clinicStore.linkClinicRecommendationInfos
                 ?.recommendationId || this.props.clinicStore.linkClinicId,
-            recommendationInfos:
-              this.props.clinicStore.linkClinicRecommendationInfos,
+            recommendationInfos: this.props.clinicStore
+              .linkClinicRecommendationInfos,
             recommendationName:
               this.props.clinicStore.linkClinicRecommendationInfos
                 ?.recommendationName || this.props.clinicStore.linkClinicName
@@ -599,8 +612,8 @@ class Recommendation extends React.Component {
             currentUnitPrice: p.goodsInfo.marketPrice,
             goodsInfoFlag: p.goodsInfoFlag,
             periodTypeId: p.defaultFrequencyId,
-            recommendationInfos:
-              this.props.clinicStore.linkClinicRecommendationInfos,
+            recommendationInfos: this.props.clinicStore
+              .linkClinicRecommendationInfos,
             recommendationId:
               this.props.clinicStore.linkClinicRecommendationInfos
                 ?.recommendationId || this.props.clinicStore.linkClinicId,
@@ -651,8 +664,12 @@ class Recommendation extends React.Component {
       localItemRoyal.set('okta-redirectUrl', '/prescription');
     }
     this.setState({ needLogin });
-    let { productList, outOfStockProducts, inStockProducts, modalList } =
-      this.state;
+    let {
+      productList,
+      outOfStockProducts,
+      inStockProducts,
+      modalList
+    } = this.state;
     let totalPrice;
     inStockProducts.map((el) => {
       console.log(el, 'instock');
@@ -724,8 +741,12 @@ class Recommendation extends React.Component {
   };
   async hanldeClickSubmit() {
     const { checkoutStore, loginStore, history, clinicStore } = this.props;
-    let { currentModalObj, subDetail, outOfStockProducts, inStockProducts } =
-      this.state;
+    let {
+      currentModalObj,
+      subDetail,
+      outOfStockProducts,
+      inStockProducts
+    } = this.state;
     this.setState({ loading: true, modalShow: false });
     if (currentModalObj.type === 'addToCart') {
       for (let i = 0; i < inStockProducts.length; i++) {

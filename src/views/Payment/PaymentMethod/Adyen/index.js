@@ -76,6 +76,7 @@ class AdyenCreditCard extends React.Component {
           paymentStore={paymentStore}
           billingJSX={this.props.billingJSX}
           updateFormValidStatus={this.props.updateFormValidStatus}
+          {...this.props}
         />
       </>
     );

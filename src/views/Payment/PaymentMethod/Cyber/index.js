@@ -7,7 +7,7 @@ import { ADDRESS_RULE } from './constant/utils';
 import { validData } from '@/utils/utils';
 import CyberSaveCardCheckbox from '@/views/Payment/Address/CyberSaveCardCheckbox';
 import { getPaymentMethod } from '@/api/payment';
-import { injectIntl } from 'react-intl';
+import { injectIntl } from 'react-intl-phraseapp';
 @inject('loginStore', 'paymentStore')
 @observer
 class CyberPayment extends React.Component {
@@ -361,4 +361,5 @@ class CyberPayment extends React.Component {
   }
 }
 
-export default injectIntl(CyberPayment, { forwardRef: true });
+export default CyberPayment;
+// export default injectIntl(CyberPayment, { forwardRef: true });
