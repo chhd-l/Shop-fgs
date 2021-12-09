@@ -158,7 +158,7 @@ function LogisticsProgress(props) {
               key={i}
             >
               <span className={`logi-time text-right ${customDateCls}`}>
-                {momentNormalizeDate(item.timestamp, 'yyyy-MM-dd')}
+                {momentNormalizeDate(item.timestamp, 'YYYY-MM-DD')}
                 <br />
                 {momentNormalizeDate(item.timestamp, 'HH:mm:ss')}
               </span>
@@ -730,7 +730,7 @@ class AccountOrders extends React.Component {
                         <span>
                           {momentNormalizeDate(
                             item.deliverTime,
-                            'yyyy-MM-dd HH:mm:ss'
+                            'YYYY-MM-DD HH:mm:ss'
                           )}
                         </span>
                       </div>

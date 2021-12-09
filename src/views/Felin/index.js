@@ -355,7 +355,7 @@ export default class Felin extends React.Component {
   getTimeOptions() {
     this.setState({ loading: true });
     getTimeOptions({
-      apptDate: momentNormalizeDate(this.state.currentDate, 'yyyyMMdd')
+      apptDate: momentNormalizeDate(this.state.currentDate, 'YYYYMMDD')
     })
       .then((res) => {
         let { timeOption } = this.state;
@@ -469,7 +469,7 @@ export default class Felin extends React.Component {
       }
       if (
         currentDate.getDay() === 1 ||
-        momentNormalizeDate(currentDate, 'yyyy-MM-dd') === '2021-05-01'
+        momentNormalizeDate(currentDate, 'YYYY-MM-DD') === '2021-05-01'
       ) {
         this.setState({
           errMsg: 'La date actuelle ne peut pas être sélectionnée'
@@ -526,7 +526,7 @@ export default class Felin extends React.Component {
         storeId: window.__.env.REACT_APP_STOREID,
         customerId: userInfo ? userInfo.customerId : null,
         type: this.state.felinType,
-        apptDate: momentNormalizeDate(this.state.currentDate, 'yyyyMMdd'),
+        apptDate: momentNormalizeDate(this.state.currentDate, 'YYYYMMDD'),
         apptTime: this.state.selectedTimeObj.value,
         status: 0,
         qrCode1: null,
@@ -1108,20 +1108,20 @@ export default class Felin extends React.Component {
                               }}
                               tileDisabled={({ activeStartDate, date, view }) =>
                                 date.getDay() === 1 ||
-                                momentNormalizeDate(date, 'yyyy-MM-dd') ===
+                                momentNormalizeDate(date, 'YYYY-MM-DD') ===
                                   '2021-05-01'
                               }
                               minDate={
                                 new Date(
                                   momentNormalizeDate(
                                     this.state.toDay,
-                                    'yyyy-MM-dd'
+                                    'YYYY-MM-DD'
                                   )
                                 ) > new Date('2021-04-20')
                                   ? new Date(
                                       momentNormalizeDate(
                                         this.state.toDay,
-                                        'yyyy-MM-dd'
+                                        'YYYY-MM-DD'
                                       )
                                     )
                                   : new Date('2021-04-20')
@@ -1130,23 +1130,23 @@ export default class Felin extends React.Component {
                                 new Date(
                                   momentNormalizeDate(
                                     this.state.toDay,
-                                    'yyyy-MM-dd'
+                                    'YYYY-MM-DD'
                                   )
                                 ) < new Date('2021-06-13')
                                   ? new Date('2021-06-13')
                                   : new Date(
                                       momentNormalizeDate(
                                         this.state.toDay,
-                                        'yyyy-MM-dd'
+                                        'YYYY-MM-DD'
                                       )
                                     )
                               }
                               onChange={(date) => {
                                 if (
-                                  momentNormalizeDate(date, 'yyyy-MM-dd') ===
+                                  momentNormalizeDate(date, 'YYYY-MM-DD') ===
                                   momentNormalizeDate(
                                     this.state.currentDate,
-                                    'yyyy-MM-dd'
+                                    'YYYY-MM-DD'
                                   )
                                 ) {
                                   return false;

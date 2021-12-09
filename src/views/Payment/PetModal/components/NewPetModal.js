@@ -180,10 +180,10 @@ class NewPetModal extends Component {
     console.log(date);
     let { petForm, isShowBirthErorr } = this.state;
     if (date) {
-      petForm['birthday'] = momentNormalizeDate(date, 'yyyy-MM-dd');
+      petForm['birthday'] = momentNormalizeDate(date, 'YYYY-MM-DD');
       isShowBirthErorr = false;
     } else {
-      petForm['birthday'] = momentNormalizeDate(date, 'yyyy-MM-dd');
+      petForm['birthday'] = momentNormalizeDate(date, 'YYYY-MM-DD');
       isShowBirthErorr = true;
     }
     this.setState({ petForm, isShowBirthErorr });

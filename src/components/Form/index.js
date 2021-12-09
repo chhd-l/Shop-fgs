@@ -1524,7 +1524,7 @@ class Form extends React.Component {
   // birthData onchange
   onDateChange(date) {
     const { caninForm } = this.state;
-    let newdate = momentNormalizeDate(date, 'yyyy/MM/dd');
+    let newdate = momentNormalizeDate(date, 'YYYY/MM/DD');
     caninForm['birthdate'] = date ? newdate : '';
     this.setState({ caninForm }, () => {
       this.updateDataToProps();
