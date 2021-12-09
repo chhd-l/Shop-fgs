@@ -32,7 +32,6 @@ import { cancelAppointByNo } from '@/api/appointment';
 import { IMG_DEFAULT } from '@/utils/constant';
 import './index.less';
 import LazyLoad from 'react-lazyload';
-import { format } from 'date-fns';
 import PageBaseInfo from '@/components/PageBaseInfo';
 import { injectIntl } from 'react-intl';
 import {
@@ -159,13 +158,9 @@ function LogisticsProgress(props) {
               key={i}
             >
               <span className={`logi-time text-right ${customDateCls}`}>
-                {item.timestamp
-                  ? format(new Date(item.timestamp).getTime(), 'yyyy-MM-dd')
-                  : ''}
+                {momentNormalizeDate(item.timestamp, 'yyyy-MM-dd')}
                 <br />
-                {item.timestamp
-                  ? format(new Date(item.timestamp).getTime(), 'HH:mm:ss')
-                  : ''}
+                {momentNormalizeDate(item.timestamp, 'HH:mm:ss')}
               </span>
               <div className="logi-text pl-4 pr-4 pt-3 pb-3">
                 <svg className="svg-icon logi-icon" aria-hidden="true">
@@ -733,12 +728,10 @@ class AccountOrders extends React.Component {
                     >
                       <div className="col-10 medium color-444 d-flex align-items-center">
                         <span>
-                          {item.deliverTime
-                            ? format(
-                                new Date(item.deliverTime).getTime(),
-                                'yyyy-MM-dd HH:mm:ss'
-                              )
-                            : ''}
+                          {momentNormalizeDate(
+                            item.deliverTime,
+                            'yyyy-MM-dd HH:mm:ss'
+                          )}
                         </span>
                       </div>
                       <div className="col-2">

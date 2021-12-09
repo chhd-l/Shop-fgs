@@ -1,10 +1,10 @@
 import React, { useState, useContext } from 'react';
-import { format, utcToZonedTime } from 'date-fns-tz';
 import { Observer, useLocalStore } from 'mobx-react';
 import stores from '@/store';
 import { FullScreenModalContext } from './index';
 import Table from './Table';
 import Address from './Address';
+import moment from 'moment-timezone';
 
 export default function Modal(props) {
   const value = useContext(FullScreenModalContext);
@@ -20,10 +20,10 @@ export default function Modal(props) {
   const { close } = value;
 
   function getCurrentDate() {
-    const date = new Date();
-    const timeZone = 'Europe/Istanbul';
-    const IsDate = utcToZonedTime(date, timeZone);
-    return format(IsDate, 'dd/MM/yyyy', { timeZone: timeZone });
+    return momentNormalizeDate(
+      moment(new Date()).tz('Europe/Istanbul'),
+      'DD/MM/YYYY'
+    );
   }
 
   const [currentDate] = useState(getCurrentDate());

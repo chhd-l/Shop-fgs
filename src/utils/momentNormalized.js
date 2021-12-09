@@ -9,7 +9,7 @@ export function getCurCountryDateFormat() {
     fr: { format: 'DD/MM/YYYY' },
     us: { format: 'MM/dd/yyyy' },
     ru: { format: 'dd/MM/yyyy' },
-    tr: { format: 'dd-MM-yyyy' },
+    tr: { format: 'DD-MM-YYYY' },
     default: { format: 'yyyy-MM-dd' }
   };
   return datePickerCfg[window.__.env.REACT_APP_COUNTRY || 'default'].format;

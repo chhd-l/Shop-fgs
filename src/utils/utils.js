@@ -16,15 +16,17 @@ import tr from 'date-fns/locale/tr';
 import us from 'date-fns/locale/en-US';
 import ru from 'date-fns/locale/ru';
 import { registerLocale } from 'react-datepicker';
-import { utcToZonedTime } from 'date-fns-tz';
 import { getAppointDetail } from '@/api/appointment';
 import cloneDeep from 'lodash/cloneDeep';
 import { sitePurchase } from '@/api/cart';
+import Club_Logo from '@/assets/images/Logo_club.png';
+import Club_Logo_ru from '@/assets/images/Logo_club_ru.png';
+import indvLogo from '@/assets/images/indv_log.svg';
+import moment from 'moment';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const checkoutStore = stores.checkoutStore;
-const configStore = stores.configStore;
 const clinicStore = stores.clinicStore;
 
 /**
@@ -885,15 +887,6 @@ export const getRation = async (params) => {
   let res = await getRation_api(params);
   return res;
 };
-/**
- * transTime [把传进来的时间，通过时区转化成当地时间]
- * @param    date   [date:Date] [需要转换的时间,默认为当前时间]
- * @param    timeZone   [timeZone: String]   [需要转的时区]
- * @return   Date
- */
-export const transTime = ({ date = new Date(), timeZone }) => {
-  return utcToZonedTime(date, timeZone);
-};
 
 /**
  * isDuringDate(判断时间是否处于某个时间段内)
@@ -926,12 +919,6 @@ export function getZoneTime(date) {
   return new Date(date);
 }
 
-import Club_Logo from '@/assets/images/Logo_club.png';
-import Club_Logo_ru from '@/assets/images/Logo_club_ru.png';
-import indvLogo from '@/assets/images/indv_log.svg';
-
-import { el } from 'date-fns/locale';
-import moment from 'moment';
 export function getClubLogo({ goodsInfoFlag, subscriptionType }) {
   let logo = Club_Logo;
   if (window.__.env.REACT_APP_COUNTRY === 'ru') {
