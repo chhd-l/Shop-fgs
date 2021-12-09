@@ -20,7 +20,6 @@ import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import './index.less';
 import { getAppointList, cancelAppointByNo } from '@/api/appointment';
 import { getAppointDict } from '@/api/dict';
-import { getFormatDate } from '@/utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
