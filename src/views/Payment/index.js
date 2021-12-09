@@ -2468,6 +2468,7 @@ class Payment extends React.Component {
               calculateFreight={this.calculateFreight}
               cartData={this.computedCartData}
               isLogin={true}
+              {...this.props}
             />
           ) : (
             <VisitorAddress
@@ -2489,6 +2490,7 @@ class Payment extends React.Component {
               calculateFreight={this.calculateFreight}
               cartData={this.computedCartData}
               isLogin={false}
+              {...this.props}
             />
           )}
         </div>
@@ -2577,6 +2579,7 @@ class Payment extends React.Component {
                 })}
                 catchErrorMessage={this.catchAddOrEditAddressErrorMessage}
                 isLogin={true}
+                {...this.props}
               />
             ) : (
               <VisitorAddress
@@ -2598,6 +2601,7 @@ class Payment extends React.Component {
                 })}
                 catchErrorMessage={this.catchAddOrEditAddressErrorMessage}
                 isLogin={false}
+                {...this.props}
               />
             )}
           </>
@@ -3292,6 +3296,7 @@ class Payment extends React.Component {
                     billingJSX={this.renderBillingJSX({
                       type: 'adyenCard'
                     })}
+                    {...this.props}
                   />
                   {/* 校验状态
                   1 卡校验，从adyen form传入校验状态
@@ -3394,6 +3399,7 @@ class Payment extends React.Component {
                     cyberBtnLoading={this.state.cyberBtnLoading}
                     showErrorMsg={this.showErrorMsg}
                     ref={this.cyberRef}
+                    {...this.props}
                   />
                 </>
               )}
