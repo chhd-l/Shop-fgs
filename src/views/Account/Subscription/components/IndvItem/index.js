@@ -12,10 +12,12 @@ import { IMG_DEFAULT } from '@/utils/constant';
 import { getClubLogo } from '@/utils/utils';
 import { Link } from 'react-router-dom';
 import Skeleton from 'react-skeleton-loader';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import './index.less';
+
 const localItemRoyal = window.__.localItemRoyal;
-const ClubItem = ({ subItem, history }) => {
+
+const IndvItem = ({ subItem, history, intl }) => {
   const isMobile = getDeviceType() !== 'PC';
   console.log(subItem, 'subItem------');
   return (
@@ -202,4 +204,4 @@ const ClubItem = ({ subItem, history }) => {
     </div>
   );
 };
-export default ClubItem;
+export default IndvItem;

@@ -1,5 +1,9 @@
 import React, { useEffect, useState, useContext, createContext } from 'react';
-import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
+import {
+  FormattedMessage,
+  injectIntl,
+  FormattedDate
+} from 'react-intl-phraseapp';
 import stores from '@/store';
 import { useLocalStore } from 'mobx-react';
 import Skeleton from 'react-skeleton-loader';

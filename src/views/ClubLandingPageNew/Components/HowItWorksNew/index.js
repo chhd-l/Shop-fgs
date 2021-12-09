@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import howitworknew1 from './image/howitworksnew1.png';
 import howitworknew2 from './image/howitworksnew2.png';
 import howitworknew3 from './image/howitworksnew3.png';

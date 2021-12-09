@@ -3,24 +3,31 @@ import getCountryCodeFromHref from '@/lib/get-country-code-from-href';
 import { decryptString } from '@/lib/aes-utils';
 import ENV_LOCAL from '@/env/local';
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
+
 const fetchDynamicConfig = async () => {
+  const baseConfig = sessionItemRoyal.get('base-config')
+    ? JSON.parse(sessionItemRoyal.get('base-config'))
+    : null;
   let envVal = {};
   try {
-    const param = getCountryCodeFromHref();
-    const res = await fetchShopConfig(param?.countryCode);
-    const tmpCfg = res?.context?.context
-      ? JSON.parse(decryptString(res?.context?.context))
-      : {};
+    if (baseConfig) {
+      envVal = Object.assign(baseConfig);
+    } else {
+      const param = getCountryCodeFromHref();
+      const res = await fetchShopConfig(param?.countryCode);
+      const tmpCfg = res?.context?.context
+        ? JSON.parse(decryptString(res?.context?.context))
+        : {};
 
-    // 本地开发环境，需要额外加载本地ENV_LOCAL
-    envVal = Object.assign(tmpCfg);
-    console.log(
-      '★★★★★★★★★ current shop configuration:',
-      JSON.parse(decryptString(res?.context?.context))
-    );
-    if (tmpCfg?.REACT_APP_HUB === '1') {
+      envVal = Object.assign(tmpCfg);
+      sessionItemRoyal.set('base-config', JSON.stringify(tmpCfg));
+    }
+    console.log('★★★★★★★★★ current shop configuration:', envVal);
+    if (envVal?.REACT_APP_HUB === '1') {
       console.warn('当前配置为HUB mode，请勿使用fgs mode.');
     }
+    // 本地开发环境，需要额外加载本地ENV_LOCAL
     if (process.env.NODE_ENV === 'development') {
       envVal = Object.assign(envVal, ENV_LOCAL);
     }

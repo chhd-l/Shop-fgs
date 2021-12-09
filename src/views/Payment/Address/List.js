@@ -1,6 +1,6 @@
 import React from 'react';
 import Skeleton from 'react-skeleton-loader';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';
@@ -1195,7 +1195,7 @@ class AddressList extends React.Component {
   titleJSXForPrepare() {
     const { titleVisible } = this.props;
     return (
-      <h5 className={`mb-0 text-nowrap`}>
+      <h5 className={`mb-0 text-nowrap text-xl`}>
         {titleVisible ? (
           <>
             <em className="rc-icon rc-indoors--xs rc-iconography" />{' '}
@@ -1209,7 +1209,7 @@ class AddressList extends React.Component {
     const { titleVisible } = this.props;
     return (
       <>
-        <h5 className={`mb-0 text-nowrap red`}>
+        <h5 className={`mb-0 text-nowrap red text-xl`}>
           {titleVisible ? (
             <>
               <em className="rc-icon rc-indoors--xs rc-brand1" />{' '}
@@ -1224,7 +1224,7 @@ class AddressList extends React.Component {
     const { titleVisible } = this.props;
     return (
       <>
-        <h5 className={`mb-0 text-nowrap`}>
+        <h5 className={`mb-0 text-nowrap text-xl`}>
           {titleVisible ? (
             <>
               <em className="rc-icon rc-indoors--xs rc-iconography" />{' '}

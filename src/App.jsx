@@ -34,6 +34,9 @@ import ScrollToTop from '@/components/ScrollToTop';
 // import { getDynamicLanguage } from './lang';
 import { useDynamicLanguage } from '@/framework/common';
 import RouteFilter from '@/components/RouteFilter';
+import { initializePhraseAppEditor } from 'react-intl-phraseapp';
+import moment from 'moment';
+
 const Home = loadable(() => import('@/views/Home'), 'rc-carousel');
 
 import PickupMap from '@/views/PickupMap';
@@ -274,6 +277,17 @@ const ImplicitLogin = () => {
   oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
   return <div />;
 };
+
+//多语言集成
+moment.locale('zh-cn');
+var config = {
+  projectId: '8f0d7f6b0396b8af7f08bf9f36d81259',
+  phraseEnabled: Boolean(window.__.env.REACT_APP_PHRASE_CONTEXT_EDITORE),
+  autoLowercase: false,
+  prefix: '[[__',
+  suffix: '__]]'
+};
+initializePhraseAppEditor(config);
 
 const App = () => {
   const history = useHistory();

@@ -1,7 +1,7 @@
 import React from 'react';
 import Loading from '@/components/Loading';
 import './index.less';
-import { getDeviceType } from '@/utils/utils';
+import { getDeviceType, loadJS } from '@/utils/utils';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 
@@ -15,53 +15,58 @@ class PickupMap extends React.Component {
     };
   }
   componentDidMount() {
-    // 初始化地图控件。在完全绘制页面后调用。
-    document.addEventListener('DOMContentLoaded', (e) => {
-      kaktusMap({
-        domain: 'shop3505331', // shop3505331  shop4995727
-        host: '//app.kak2c.ru'
-      });
-    });
+    loadJS({
+      url: 'https://static.kak2c.ru/kak2c.pvz-map.js',
+      callback: () => {
+        // 初始化地图控件。在完全绘制页面后调用。
+        // document.addEventListener('DOMContentLoaded', (e) => {
+        window.kaktusMap({
+          domain: 'shop3505331', // shop3505331  shop4995727
+          host: '//app.kak2c.ru'
+        });
+        // });
 
-    // 地图控件点击事件
-    document.addEventListener('kaktusEvent', (e) => {
-      try {
-        // 传递给父页面
-        window.parent.postMessage(e.detail, '*');
-      } catch (error) {
-        console.log('666 error >>: ', error);
-      }
-    });
-
-    // 页面加载完后打开地图
-    window.addEventListener('load', () => {
-      this.setState({
-        mapLoading: false
-      });
-      this.sendMsgLoadComplete();
-
-      // 接收父页面发来的数据
-      window.addEventListener(
-        'message',
-        (e) => {
-          // console.log('666 ★ 接收组件发来的数据: ', e.data?.msg);
-          if (e?.data?.msg) {
-            let msg = e.data.msg;
-            if (msg == 'clearMap') {
-              // 关闭地图，避免下次打开地图数据异常
-              if (document.getElementsByClassName('close-button')[0]) {
-                document.getElementsByClassName('close-button')[0].click();
-              }
-            } else {
-              this.setState({
-                city: msg
-              });
-              this.openKaktusWidget(msg);
-            }
+        // 地图控件点击事件
+        document.addEventListener('kaktusEvent', (e) => {
+          try {
+            // 传递给父页面
+            window.parent.postMessage(e.detail, '*');
+          } catch (error) {
+            console.log('666 error >>: ', error);
           }
-        },
-        false
-      );
+        });
+
+        // 页面加载完后打开地图
+        window.addEventListener('load', () => {
+          this.setState({
+            mapLoading: false
+          });
+          this.sendMsgLoadComplete();
+
+          // 接收父页面发来的数据
+          window.addEventListener(
+            'message',
+            (e) => {
+              // console.log('666 ★ 接收组件发来的数据: ', e.data?.msg);
+              if (e?.data?.msg) {
+                let msg = e.data.msg;
+                if (msg == 'clearMap') {
+                  // 关闭地图，避免下次打开地图数据异常
+                  if (document.getElementsByClassName('close-button')[0]) {
+                    document.getElementsByClassName('close-button')[0].click();
+                  }
+                } else {
+                  this.setState({
+                    city: msg
+                  });
+                  this.openKaktusWidget(msg);
+                }
+              }
+            },
+            false
+          );
+        });
+      }
     });
   }
   // 打开地图

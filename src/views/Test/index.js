@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import Skeleton from 'react-skeleton-loader';
 import LazyLoad from 'react-lazyload';
 import { ADDRESS_RULE } from '@/utils/constant';

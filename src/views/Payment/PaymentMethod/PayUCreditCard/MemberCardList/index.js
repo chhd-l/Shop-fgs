@@ -1,5 +1,5 @@
 import React from 'react';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import Skeleton from 'react-skeleton-loader';
 import findIndex from 'lodash/findIndex';
 import { inject, observer } from 'mobx-react';
@@ -330,7 +330,7 @@ class MemberCardList extends React.Component {
       }
       return resData;
     } catch (err) {
-      throw new Error(this.props.intl.messages['payment.cardInfoErr']);
+      throw new Error(this.props.intl?.messages['payment.cardInfoErr']);
     }
   }
   // save card form， 保存卡
@@ -819,7 +819,7 @@ class MemberCardList extends React.Component {
                                     name="cardNumber"
                                     maxLength="254"
                                     placeholder={
-                                      this.props.intl.messages.cardNumber
+                                      this.props.intl?.messages.cardNumber
                                     }
                                   />
                                 </span>
@@ -1033,5 +1033,5 @@ class MemberCardList extends React.Component {
     );
   }
 }
-
-export default injectIntl(MemberCardList, { forwardRef: true });
+export default MemberCardList;
+// export default injectIntl(MemberCardList, { forwardRef: true });

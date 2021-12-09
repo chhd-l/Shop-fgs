@@ -4,7 +4,7 @@ import './index.less';
 import QuestionnaireForm from './modules/QuestionnaireForm';
 import { getAllStep, getNextStep } from './api';
 import { getRecommendationInfo } from '@/api/productFinder';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import ResultPage from './modules/resultPage';
 import Skeleton from 'react-skeleton-loader';
 import { getDeviceType } from '../../utils/utils';
@@ -250,18 +250,18 @@ function AboutPet() {
     switch (result) {
       case '':
         return Question;
-        break;
+      // break;
       case 'redirectToVet':
         return <ResultPage getInit={getInit} result="redirectToVet" />;
-        break;
+      // break;
       case 'redirectToProductFinder':
         return (
           <ResultPage getInit={getInit} result="redirectToProductFinder" />
         );
-        break;
+      // break;
       case 'printSPTProducts':
         return <Skeleton color="#f5f5f5" width="100%" height="3%" count={6} />;
-        break;
+      // break;
     }
   };
 
@@ -343,7 +343,7 @@ function AboutPet() {
                   className="back-btn-box"
                   onClick={(e) => {
                     e.preventDefault();
-                    goBack(step);
+                    goBack();
                   }}
                 >
                   <span className="back-btn">

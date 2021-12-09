@@ -4,7 +4,7 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Skeleton from 'react-skeleton-loader';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import BannerTip from '@/components/BannerTip';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 import callImg from '@/assets/images/customer-service@2x.jpg';
@@ -254,7 +254,7 @@ class Help extends React.Component {
     }
     console.log(inStockProducts, 'instock');
     let outOfStockVal = '';
-    outOfStockProducts.map((el, i) => {
+    outOfStockProducts.forEach((el, i) => {
       if (i === outOfStockProducts.length - 1) {
         outOfStockVal = outOfStockVal + el.goodsInfo.goodsInfoName;
       } else {
@@ -408,7 +408,7 @@ class Help extends React.Component {
     let { productList, outOfStockProducts, inStockProducts, modalList } =
       this.state;
     let totalPrice;
-    inStockProducts.map((el) => {
+    inStockProducts.for((el) => {
       console.log(el, 'instock');
       totalPrice =
         totalPrice + el.recommendationNumber * el.goodsInfo.salePrice;

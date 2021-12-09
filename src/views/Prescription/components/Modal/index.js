@@ -3,7 +3,7 @@
  * 询问是否绑定prescriber弹框
  */
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import './index.less';
 
 export default class Modal extends React.Component {

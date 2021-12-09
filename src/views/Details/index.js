@@ -36,7 +36,7 @@ import {
   addToLoginCartData
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import find from 'lodash/find';
 import {
   getDetails,
@@ -206,14 +206,8 @@ class Details extends React.Component {
     return this.props.checkoutStore;
   }
   get btnStatus() {
-    const {
-      details,
-      quantity,
-      instockStatus,
-      initing,
-      loading,
-      form
-    } = this.state;
+    const { details, quantity, instockStatus, initing, loading, form } =
+      this.state;
     const { sizeList } = details;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     let addedFlag = 1;
@@ -535,8 +529,11 @@ class Details extends React.Component {
               if (mixFeeding) {
                 mixFeeding.quantity = 1;
               }
-              let { goodsImg = '', goodsName = '', goodsNo = '' } =
-                mixFeeding?.goods || {};
+              let {
+                goodsImg = '',
+                goodsName = '',
+                goodsNo = ''
+              } = mixFeeding?.goods || {};
               let _hiddenMixFeedingBanner = false;
               let mixFeedingSelected = mixFeeding?.sizeList?.filter(
                 (el) => el.selected
@@ -862,13 +859,7 @@ class Details extends React.Component {
   }
   async hanldeLoginAddToCart(type) {
     try {
-      const {
-        configStore,
-        checkoutStore,
-        history,
-        clinicStore,
-        headerCartStore
-      } = this.props;
+      const { checkoutStore, intl, headerCartStore } = this.props;
       const { quantity, form, details, questionParams } = this.state;
 
       hubGAAToCar(quantity, form);
@@ -902,7 +893,7 @@ class Details extends React.Component {
         param = { ...param, ...this.state.requestJson };
       }
       await sitePurchase(param);
-      await checkoutStore.updateLoginCart({ intl: this.props.intl });
+      await checkoutStore.updateLoginCart({ intl });
       this.setState({ modalMobileCartSuccessVisible: true });
       if (!isMobile) {
         headerCartStore.show();
@@ -920,13 +911,8 @@ class Details extends React.Component {
     try {
       !type && this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const {
-        currentUnitPrice,
-        quantity,
-        form,
-        details,
-        questionParams
-      } = this.state;
+      const { currentUnitPrice, quantity, form, details, questionParams } =
+        this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -1094,7 +1080,7 @@ class Details extends React.Component {
   }
 
   render() {
-    const { history, location, match, configStore } = this.props;
+    const { history, location, match, configStore, intl } = this.props;
     const {
       goodsId,
       details,
@@ -1542,6 +1528,7 @@ class Details extends React.Component {
                     : form.buyWay
                 }
                 isLogin={this.isLogin}
+                intl={intl}
               />
             ) : null}
 

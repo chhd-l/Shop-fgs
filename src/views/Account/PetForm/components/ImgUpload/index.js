@@ -2,7 +2,7 @@ import React from 'react';
 import { uploadResource } from '@/api';
 import './index.less';
 import LazyLoad from 'react-lazyload';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { myAccountActionPushEvent } from '@/utils/GA';
 
 @injectIntl

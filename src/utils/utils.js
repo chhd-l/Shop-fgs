@@ -74,8 +74,8 @@ export async function hanldePurchases(goodsInfoDTOList) {
       goodsMarketingDTOList: []
     });
     ret = res.context;
+    return ret;
   } catch (e) {
-  } finally {
     return ret;
   }
 }

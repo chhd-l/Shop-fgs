@@ -1,7 +1,7 @@
 import React from 'react';
 import faqJson from './faq.json';
 // import { getFaq } from '../../api/faq';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import Skeleton from 'react-skeleton-loader';
 import LazyLoad from 'react-lazyload';
 import { getRemainings } from '@/api/dispenser';

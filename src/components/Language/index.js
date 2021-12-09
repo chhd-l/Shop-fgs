@@ -1,6 +1,6 @@
 import React from 'react';
 import LanguagePage from './modules';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 
 class Language extends React.Component {
   constructor(props) {

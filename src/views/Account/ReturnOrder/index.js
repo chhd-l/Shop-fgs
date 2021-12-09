@@ -7,7 +7,7 @@ import BannerTip from '@/components/BannerTip';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import Pagination from '@/components/Pagination';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import { formatMoney, setSeoConfig } from '@/utils/utils';
 import { getReturnList } from '@/api/order';

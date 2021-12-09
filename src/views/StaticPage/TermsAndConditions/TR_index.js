@@ -2,7 +2,7 @@ import React from 'react';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import { setSeoConfig } from '@/utils/utils';
 import BreadCrumbs from '@/components/BreadCrumbs';

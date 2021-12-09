@@ -5,7 +5,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import Help from './Fr/help';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 import callImg from '@/assets/images/customer-service@2x.jpg';
@@ -185,9 +185,7 @@ class SubscriptionLanding extends React.Component {
                               val1: <br />,
                               val2: (
                                 <strong>
-                                  <FormattedMessage
-                                    id="subscription.ad.list1.val2"
-                                  />
+                                  <FormattedMessage id="subscription.ad.list1.val2" />
                                 </strong>
                               ),
                               val3: <br />
@@ -210,11 +208,11 @@ class SubscriptionLanding extends React.Component {
                           <FormattedMessage
                             id="subscription.ad.list2"
                             values={{
-                              val1: <strong>
-                                <FormattedMessage
-                                  id="subscription.ad.list2.val1"
-                                />
-                              </strong>
+                              val1: (
+                                <strong>
+                                  <FormattedMessage id="subscription.ad.list2.val1" />
+                                </strong>
+                              )
                             }}
                           />
                         </h7>
@@ -237,9 +235,7 @@ class SubscriptionLanding extends React.Component {
                             values={{
                               val1: (
                                 <strong>
-                                  <FormattedMessage
-                                    id="subscription.ad.list3.val1"
-                                  />
+                                  <FormattedMessage id="subscription.ad.list3.val1" />
                                 </strong>
                               )
                             }}
@@ -259,11 +255,11 @@ class SubscriptionLanding extends React.Component {
                           <FormattedMessage
                             id="subscription.ad.list4"
                             values={{
-                              val1: <strong>
-                                <FormattedMessage
-                                  id="subscription.ad.list4.val1"
-                                />
-                              </strong>
+                              val1: (
+                                <strong>
+                                  <FormattedMessage id="subscription.ad.list4.val1" />
+                                </strong>
+                              )
                             }}
                           />
                         </h7>

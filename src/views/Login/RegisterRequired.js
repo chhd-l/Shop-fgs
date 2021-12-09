@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import logoAnimatedPng from '@/assets/images/logo--animated2.png';
 import './index.css';
@@ -37,6 +37,7 @@ function ErrMsg({ msg }) {
   'clinicStore',
   'paymentStore'
 )
+@injectIntl
 @observer
 class RegisterRequired extends Component {
   constructor(props) {
@@ -271,7 +272,8 @@ class RegisterRequired extends Component {
   }
   render() {
     const { errMsg } = this.state;
-    const url = this.props.match.url;
+    const { intl, match } = this.props;
+    const { url } = match;
 
     return (
       <div className="rc-padding-bottom--sm rc-padding-bottom--xl--mobile">
@@ -281,7 +283,7 @@ class RegisterRequired extends Component {
             {this.state.circleLoading ? <Loading bgColor={'#fff'} /> : null}
             {/* 加载token */}
             <div style={{ visibility: 'hidden' }}>
-              <LoginButton history={this.props.history} init={this.init} />
+              <LoginButton intl={intl} init={this.init} />
             </div>
 
             <div style={this.state.styleObj}>

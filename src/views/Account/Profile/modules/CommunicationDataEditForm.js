@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { findUserSelectedList, userBindConsent } from '@/api/consent';
 import { withOktaAuth } from '@okta/okta-react';
 import Consent from '@/components/Consent';

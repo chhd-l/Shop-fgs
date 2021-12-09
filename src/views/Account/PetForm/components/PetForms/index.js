@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocalStore } from 'mobx-react';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import stores from '@/store';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import Skeleton from 'react-skeleton-loader';
 import Selection from '@/components/Selection';
 import SelectMultiple from '@/components/SelectMultiple';

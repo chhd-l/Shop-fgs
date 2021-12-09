@@ -1,7 +1,7 @@
 import React from 'react';
 import Skeleton from 'react-skeleton-loader';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';

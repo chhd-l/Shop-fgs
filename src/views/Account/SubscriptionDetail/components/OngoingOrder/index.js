@@ -15,11 +15,12 @@ const OngoingOrder = ({ subDetail }) => {
   return (
     <>
       {onGoingTradeLists.length > 0
-        ? onGoingTradeLists.map((ele) => (
+        ? onGoingTradeLists.map((ele, i) => (
             <div
               className={`card-container m-0 py-4 px-0 min-h-auto border-orange rc-margin-x--none align-items-center justify-content-start ${
                 isMobile ? 'flex-column' : 'row'
               }`}
+              key={i}
             >
               <div className="col-12 col-md-4 d-flex flex-column justify-content-start align-items-center">
                 {ele.tradeItems.map((item, idx) => (

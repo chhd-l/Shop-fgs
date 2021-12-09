@@ -96,11 +96,13 @@ class AccountOrders extends React.Component {
         canCancelAppoint: true,
         cancelAppointLoading: false,
         appointmentStatus:
-          resContext.status === 0
-            ? 'Booked'
-            : resContext.status === 1
-            ? 'Arrive'
-            : 'Cancel'
+          resContext.status === 0 ? (
+            <FormattedMessage id="appointment.status.Booked" />
+          ) : resContext.status === 1 ? (
+            <FormattedMessage id="appointment.status.Arrived" />
+          ) : (
+            <FormattedMessage id="appointment.status.Cancel" />
+          )
       });
       this.setState({
         details: details,
@@ -198,7 +200,7 @@ class AccountOrders extends React.Component {
             }}
           >
             <span className="iconfont iconcancel text-rc-red mr-2" />
-            <FormattedMessage id="Cancel" />
+            <FormattedMessage id="cancel" />
           </span>
         ) : null}
         {/*felin订单change appoint*/}

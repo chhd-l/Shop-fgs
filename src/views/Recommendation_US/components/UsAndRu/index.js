@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import LazyLoad from 'react-lazyload';
 import Help from '../../../SmartFeederSubscription/modules/Help';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import usDog from '../../images/2usChange.jpg';
 
 const imgUrlPreFix = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;

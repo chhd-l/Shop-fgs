@@ -40,7 +40,7 @@ import {
 } from '@/api/address';
 import { shippingCalculation } from '@/api/cart';
 import { inject, observer } from 'mobx-react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import IMask from 'imask';
 import debounce from 'lodash/debounce';
 import { EMAIL_REGEXP } from '@/utils/constant';

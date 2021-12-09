@@ -1,5 +1,5 @@
 import React from 'react';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Modal from '@/components/Modal';
 import { inject, observer } from 'mobx-react';
@@ -476,6 +476,7 @@ class PetForm extends React.Component {
                 setState={this.setState.bind(this)}
                 errorMsg={this.state.errorMsg}
                 petsType={currentPet.petsType}
+                {...this.props}
               />
             ) : null}
             <div>

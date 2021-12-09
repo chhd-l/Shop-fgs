@@ -3,7 +3,7 @@
  * First order Welcome Box:1、会员 2、首单 3、未填写学生购student promotion 50% discount
  */
 import React from 'react';
-import { injectIntl } from 'react-intl';
+import { injectIntl } from 'react-intl-phraseapp';
 
 @injectIntl
 class InfosPreview extends React.Component {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import Help from './Help';
 import NavItem from './NavItem';
 import LazyLoad from 'react-lazyload';

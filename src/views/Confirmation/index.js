@@ -10,7 +10,7 @@ import AdyenOxxoModal from './modules/AdyenOxxoModal';
 import PayProductInfo from '@/components/PayProductInfo';
 import AddressPreview from './modules/AddressPreview';
 import Modal from '@/components/Modal';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import successImg from '@/assets/images/credit-cards/success.png';
 import { getOrderDetails, getPayRecord } from '@/api/order';
@@ -186,7 +186,7 @@ class Confirmation extends React.Component {
           mktSelectedFlag: res.context.mktSelectedFlag,
           mktActivateFlag: res.context.mktActivateFlag
         });
-        if (!res.mktSelectedFlag && !res.mktSelectedFlag) {
+        if (!res.mktSelectedFlag && !res.mktActivateFlag) {
           findUserSelectedList({
             customerId,
             oktaToken: localItemRoyal.get('oktaToken')

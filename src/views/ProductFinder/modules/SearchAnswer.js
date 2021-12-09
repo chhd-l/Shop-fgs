@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import SearchSelection from '@/components/SearchSelection';
 import RadioAnswer from './RadioAnswer';
 
@@ -11,7 +11,7 @@ class SearchAnswer extends React.Component {
       form: '',
       sizeForm: null,
       hasSizeRadio: !!this.props.configSizeAttach,
-      defaultData:''
+      defaultData: ''
     };
   }
   componentDidMount() {

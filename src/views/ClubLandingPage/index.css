@@ -32,7 +32,7 @@
 }
 
 .ui-pop .pop-close {
-  position: relative;
+  position: absolute;
   border: 1px solid #fff;
   border-radius: 50%;
   width: 1.6rem;
@@ -41,7 +41,6 @@
   line-height: 1.6rem;
   color: #fff;
   font-weight: normal;
-  position: absolute;
   right: 0.2rem;
   top: 0.2rem;
   display: block;
