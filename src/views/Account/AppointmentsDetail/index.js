@@ -92,8 +92,8 @@ class AccountOrders extends React.Component {
     try {
       const resContext = await getAppointmentInfo(appointmentNo);
       const details = Object.assign(resContext, {
-        canChangeAppoint: true,
-        canCancelAppoint: true,
+        canChangeAppoint: resContext.status !== 1,
+        canCancelAppoint: resContext.status !== 1,
         cancelAppointLoading: false,
         appointmentStatus:
           resContext.status === 0 ? (
@@ -268,11 +268,7 @@ class AccountOrders extends React.Component {
                             <FormattedMessage id="appointment.appointmentPlacedOn" />
                             <br />
                             <span className="medium orderHeaderTextColor">
-                              {details.createTime
-                                ? moment(details.createTime).format(
-                                    'YYYY-MM-DD'
-                                  )
-                                : ''}
+                              {momentNormalizeDate(details.createTime)}
                             </span>
                           </div>
                           <div className="col-md-3">
@@ -313,9 +309,9 @@ class AccountOrders extends React.Component {
                             </span>
                             <span className="ui-text-overflow-line2">
                               <span>
-                                {details.expertType} – {details.minutes}
+                                {details.expertName} – {details.minutes}
                                 <FormattedMessage id="min" /> –
-                                {details.appointmentType}
+                                {details.appointType}
                               </span>
                             </span>
                           </div>

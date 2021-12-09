@@ -69,11 +69,11 @@ class AppointmentInfo extends React.Component {
                   </div>
                   <p className="mb-0">
                     <FormattedMessage id="Expert type" />
-                    {details.expertType}
+                    {details.expertName}
                   </p>
                   <p className="mb-0">
                     <FormattedMessage id="Appointment type" />
-                    {details.appointmentType}
+                    {details.appointType}
                   </p>
                   <p className="mb-0">
                     <FormattedMessage id="Appointment time" />

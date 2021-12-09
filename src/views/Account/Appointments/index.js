@@ -93,8 +93,8 @@ class AccountOrders extends React.Component {
       console.log('appointDictRes', appointDictRes);
       let tmpList = Array.from(res.context.page.content, (ele) => {
         return Object.assign(ele, {
-          canChangeAppoint: true,
-          canCancelAppoint: true,
+          canChangeAppoint: ele.status !== 1,
+          canCancelAppoint: ele.status !== 1,
           cancelAppointLoading: false,
           appointmentType: (
             appointDictRes[0]?.context?.goodsDictionaryVOS || []
@@ -329,12 +329,9 @@ class AccountOrders extends React.Component {
                                           <FormattedMessage id="appointment.appointmentPlacedOn" />
                                           <br className="d-none d-md-block" />
                                           <span className="medium orderHeaderTextColor">
-                                            {appointment.createTime
-                                              ? getFormatDate({
-                                                  date: appointment.createTime,
-                                                  intl: this.props.intl
-                                                })
-                                              : ''}
+                                            {momentNormalizeDate(
+                                              appointment.createTime
+                                            )}
                                           </span>
                                         </p>
                                       </div>

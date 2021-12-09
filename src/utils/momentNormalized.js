@@ -13,7 +13,7 @@ export function getCurCountryDateFormat() {
     tr: { format: 'DD-MM-YYYY', timezone: 'Europe/Istanbul' },
     default: { format: 'YYYY-MM-DD' }
   };
-  return datePickerCfg[window.__.env.REACT_APP_COUNTRY || 'default'].format;
+  return datePickerCfg[window.__.env.REACT_APP_COUNTRY || 'default'];
 }
 
 /**
