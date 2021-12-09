@@ -4,7 +4,6 @@ import stores from '@/store';
 import { FullScreenModalContext } from './index';
 import Table from './Table';
 import Address from './Address';
-import moment from 'moment-timezone';
 
 export default function Modal(props) {
   const value = useContext(FullScreenModalContext);
@@ -20,10 +19,7 @@ export default function Modal(props) {
   const { close } = value;
 
   function getCurrentDate() {
-    return momentNormalizeDate(
-      moment(new Date()).tz('Europe/Istanbul'),
-      'DD/MM/YYYY'
-    );
+    return momentNormalizeDate(new Date(), 'DD/MM/YYYY');
   }
 
   const [currentDate] = useState(getCurrentDate());

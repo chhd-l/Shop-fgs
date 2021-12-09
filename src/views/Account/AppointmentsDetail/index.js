@@ -18,6 +18,7 @@ import { getWays } from '@/api/payment';
 import moment from 'moment';
 import { getAppointDetail, cancelAppointByNo } from '@/api/appointment';
 import { getAppointDict } from '@/api/dict';
+import { getAppointmentInfo } from '@/utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -33,7 +34,7 @@ function HeadTip(props) {
             {props.title}
           </span>
           <br />
-          {window.__.env.REACT_APP_COUNTRY !== 'us' ? props.tip : null}
+          {props.tip}
         </div>
         {props.operation ? (
           <div className="col-12 col-md-4 md:text-right text-center">
@@ -89,26 +90,11 @@ class AccountOrders extends React.Component {
     const { appointmentNo } = this.state;
     this.setState({ loading: true });
     try {
-      const res = await getAppointDetail({ apptNo: appointmentNo });
-      let resContext = res.context.settingVO;
-      const appointDictRes = await Promise.all([
-        getAppointDict({
-          type: 'appointment_type'
-        }),
-        getAppointDict({
-          type: 'expert_type'
-        })
-      ]);
+      const resContext = await getAppointmentInfo(appointmentNo);
       const details = Object.assign(resContext, {
         canChangeAppoint: true,
         canCancelAppoint: true,
         cancelAppointLoading: false,
-        appointmentType: (
-          appointDictRes[0]?.context?.goodsDictionaryVOS || []
-        ).filter((item) => item.id === resContext?.apptTypeId)[0].name,
-        expertType: (
-          appointDictRes[1]?.context?.goodsDictionaryVOS || []
-        ).filter((item) => item.id === resContext?.expertTypeId)[0].name,
         appointmentStatus:
           resContext.status === 0
             ? 'Booked'
