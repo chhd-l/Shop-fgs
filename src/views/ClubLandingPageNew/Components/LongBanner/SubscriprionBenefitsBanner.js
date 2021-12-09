@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 import benefitsone from './image/benefitsone2.png';
 import benefitstwo from './image/benefitstwo.png';

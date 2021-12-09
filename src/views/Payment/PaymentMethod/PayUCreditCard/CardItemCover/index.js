@@ -1,7 +1,7 @@
 import React from 'react';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import getCardImg from '@/lib/get-card-img';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 import { inject, observer } from 'mobx-react';
 

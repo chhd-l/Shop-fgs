@@ -1,5 +1,5 @@
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import React, { Component } from 'react';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import Help from './HelpForHub';
 import NavItem from './NavItemForHub';
 import PromotionPanel from '../modules/PromotionPanel';
@@ -40,7 +40,8 @@ function SecondItemContainer(props) {
   );
 }
 
-class MegaMenuMobileForHub extends React.Component {
+@injectIntl
+class MegaMenuMobileForHub extends Component {
   static defaultProps = {
     menuData: [],
     handleClickNavItem: () => {}
@@ -283,7 +284,7 @@ class MegaMenuMobileForHub extends React.Component {
     );
   };
   render() {
-    const { history, isLogin, userInfo } = this.props;
+    const { history, isLogin, userInfo, intl } = this.props;
     const { showMegaMenu, menuData, shareData, portalData } = this.state;
     return (
       <>
@@ -367,7 +368,7 @@ class MegaMenuMobileForHub extends React.Component {
                           btnClass={`rc-list__header bg-transparent border-0 ${
                             shareData.length ? 'pb-0' : ''
                           }`}
-                          history={history}
+                          intl={intl}
                         >
                           <span className="iconfont rc-text-colour--text">
                             &#xe69c;

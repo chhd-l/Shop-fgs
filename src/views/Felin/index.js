@@ -10,7 +10,7 @@ import {
   getDeviceType
 } from '@/utils/utils';
 import GoogleTagManager from '@/components/GoogleTagManager';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import Selection from '@/components/Selection';
 import { PRESONAL_INFO_RULE } from '@/utils/constant';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -77,11 +77,11 @@ function scrollIntoView(element, additionalHeight) {
         )
       ).reduce((acc, el) => acc + el.offsetHeight, 0) - 1;
     let headerHeight = height + additionalHeight;
-    if (getElementTop(element) > document.documentElement.scrollTop) {
-      headerHeight = height + additionalHeight;
-    } else {
-      headerHeight = height + additionalHeight;
-    }
+    // if (getElementTop(element) > document.documentElement.scrollTop) {
+    //   headerHeight = height + additionalHeight;
+    // } else {
+    //   headerHeight = height + additionalHeight;
+    // }
     console.info(
       'getElementTop(element) - headerHeight - additionalHeight - 60',
       getElementTop(element) - headerHeight - additionalHeight - 60
@@ -114,11 +114,6 @@ export default class Felin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       loading: false,
       saveLoading: false,
       showModal: false,
@@ -225,33 +220,36 @@ export default class Felin extends React.Component {
             '.rc-header__nav, .search-full-input-container'
           )
         ).reduce((acc, el) => acc + el.offsetHeight, 0) - 1;
-      if (document.querySelector('.rc-header--scrolled')) {
-        this.setState({
-          topVal: height + (isMobile ? 0 : this.state.languageHeight) + 'px'
-        });
-      } else {
-        this.setState({
-          topVal: height + (isMobile ? 0 : this.state.languageHeight) + 'px'
-        });
-      }
+      // if (document.querySelector('.rc-header--scrolled')) {
+      //   this.setState({
+      //     topVal: height + (isMobile ? 0 : this.state.languageHeight) + 'px'
+      //   });
+      // } else {
+      //   this.setState({
+      //     topVal: height + (isMobile ? 0 : this.state.languageHeight) + 'px'
+      //   });
+      // }
+      this.setState({
+        topVal: height + (isMobile ? 0 : this.state.languageHeight) + 'px'
+      });
     });
-    let timer = setInterval(() => {
-      let height =
-        Array.from(
-          document.querySelectorAll(
-            '.rc-header__nav, .search-full-input-container'
-          )
-        ).reduce((acc, el) => acc + el.offsetHeight, 0) - 1;
-      if (document.querySelector('.rc-header--scrolled')) {
-        this.setState({
-          topVal: height + (isMobile ? 0 : this.state.languageHeight) + 'px'
-        });
-      } else {
-        this.setState({
-          topVal: height + (isMobile ? 0 : this.state.languageHeight) + 'px'
-        });
-      }
-    }, 100);
+    // let timer = setInterval(() => {
+    //   let height =
+    //     Array.from(
+    //       document.querySelectorAll(
+    //         '.rc-header__nav, .search-full-input-container'
+    //       )
+    //     ).reduce((acc, el) => acc + el.offsetHeight, 0) - 1;
+    //   if (document.querySelector('.rc-header--scrolled')) {
+    //     this.setState({
+    //       topVal: height + (isMobile ? 0 : this.state.languageHeight) + 'px'
+    //     });
+    //   } else {
+    //     this.setState({
+    //       topVal: height + (isMobile ? 0 : this.state.languageHeight) + 'px'
+    //     });
+    //   }
+    // }, 100);
     document.querySelector(
       '.react-calendar__navigation__prev-button'
     ).innerHTML = `<span class="icon iconfont">
@@ -320,7 +318,7 @@ export default class Felin extends React.Component {
   buildTimeOption() {
     let timeOption = [];
     let arr = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
-    arr.map((el) => {
+    arr.forEach((el) => {
       if (el < 19) {
         timeOption.push({
           name: `${el}:00 - ${el}:20 ${el >= 12 ? 'PM' : 'AM'}`,
@@ -378,7 +376,7 @@ export default class Felin extends React.Component {
       .then((res) => {
         let { timeOption } = this.state;
         let { appointmentVOList } = res.context;
-        timeOption.map((timeItem) => {
+        timeOption.forEach((timeItem) => {
           timeItem.disabled = false;
           if (
             appointmentVOList.filter(
@@ -662,6 +660,7 @@ export default class Felin extends React.Component {
   }
 
   render() {
+    const { intl } = this.props;
     let {
       userInfo,
       errMsgObj,
@@ -1107,11 +1106,10 @@ export default class Felin extends React.Component {
                                   // cursor: 'pointer'
                                 }}
                                 disabled
-                                value={getFormatDate(
-                                  this.state.currentDate,
-                                  null,
-                                  'fr'
-                                )}
+                                value={getFormatDate({
+                                  date: this.state.currentDate,
+                                  intl
+                                })}
                               />
                             </h4>
                             <span className="icon iconfont iconfont-date">
@@ -1319,7 +1317,7 @@ export default class Felin extends React.Component {
                             <LoginButton
                               className="rc-btn rc-btn--two"
                               btnStyle={{ margin: '5px 0', width: '100%' }}
-                              history={this.props.history}
+                              intl={intl}
                               beforeLoginCallback={async () => {
                                 sessionItemRoyal.set('from-felin', true);
                               }}
@@ -1558,7 +1556,10 @@ export default class Felin extends React.Component {
                             className="text-center"
                             style={{ margin: '1.25rem 0 .625rem' }}
                           >
-                            {getFormatDate(this.state.currentDate, null, 'fr')}
+                            {getFormatDate({
+                              date: this.state.currentDate,
+                              intl
+                            })}
                           </p>
                           <p
                             className="text-center"
@@ -1639,11 +1640,10 @@ export default class Felin extends React.Component {
                               className="text-center"
                               style={{ margin: '1.25rem 0 .625rem' }}
                             >
-                              {getFormatDate(
-                                this.state.currentDate,
-                                null,
-                                'fr'
-                              )}
+                              {getFormatDate({
+                                date: this.state.currentDate,
+                                intl
+                              })}
                             </p>
                             <p
                               className="text-center"

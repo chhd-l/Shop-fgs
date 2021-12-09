@@ -1,6 +1,6 @@
 import React from 'react';
 import Skeleton from 'react-skeleton-loader';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';
 import {
@@ -759,11 +759,8 @@ class AddressList extends React.Component {
   };
   // 确认选择地址
   confirmValidationAddress() {
-    const {
-      deliveryAddress,
-      selectValidationOption,
-      validationAddress
-    } = this.state;
+    const { deliveryAddress, selectValidationOption, validationAddress } =
+      this.state;
     let oldDeliveryAddress = JSON.parse(JSON.stringify(deliveryAddress));
     let theform = [];
     if (selectValidationOption == 'suggestedAddress') {

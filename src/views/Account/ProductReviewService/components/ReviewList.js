@@ -1,4 +1,4 @@
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import React from 'react';
 import Rate from '@/components/Rate';
 import ImgUpload from '@/components/ImgUpload';

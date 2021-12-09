@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import EditForm from '@/components/Form';
 class CyberBillingAddress extends React.Component {
   static defaultProps = {

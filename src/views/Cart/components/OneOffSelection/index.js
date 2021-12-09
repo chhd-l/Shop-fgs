@@ -1,20 +1,14 @@
 import React from 'react';
 import { formatMoney } from '@/utils/utils';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import Selection from '@/components/Selection';
 import cartImg from '../../modules/images/cart.png';
 import LazyLoad from 'react-lazyload';
 
 const OneOffSelection = function (props) {
-  const {
-    isGift,
-    pitem,
-    activeToolTipIndex,
-    index,
-    toolTipVisible,
-    isLogin
-  } = props;
+  const { isGift, pitem, activeToolTipIndex, index, toolTipVisible, isLogin } =
+    props;
   return (
     <div
       className="buyMethod for_ipad_pro_price rc-margin-bottom--xs--desktop"

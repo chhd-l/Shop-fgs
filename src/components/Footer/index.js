@@ -5,7 +5,7 @@ import { inject, observer } from 'mobx-react';
 import { cookieSettingsBtn } from './cookieSettingsBtn';
 import MarsFooterMap from './MarsFooterMap';
 import PaymentLogos from './paymentLogos';
-import { menubar } from './menubar';
+import { menubar, menubarJSON } from './menubar';
 import { contactInfo } from './contactInfo';
 import FooterHub from './footer_hub';
 import { withRouter } from 'react-router-dom';
@@ -114,6 +114,17 @@ class Footer extends React.Component {
           {cur_menubar.length > 0 ? (
             <div className="rc-layout-container rc-one-column rc-padding-x--xs">
               <div className="rc-column rc-padding-x--xs">
+                {/* footer改造json test */}
+                {false && (
+                  <nav
+                    data-toggle-group="mobile"
+                    data-toggle-effect="rc-expand--vertical"
+                    className="rc-padding-x--xs--desktop rc-padding-x--none--mobile"
+                    dangerouslySetInnerHTML={{
+                      __html: menubarJSON[window.__.env.REACT_APP_COUNTRY]
+                    }}
+                  />
+                )}
                 <nav
                   data-toggle-group="mobile"
                   data-toggle-effect="rc-expand--vertical"

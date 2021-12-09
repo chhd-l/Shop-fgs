@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import CardList from './list';
 import { scrollPaymentPanelIntoView } from '../../modules/utils';
@@ -76,6 +76,7 @@ class AdyenCreditCard extends React.Component {
           paymentStore={paymentStore}
           billingJSX={this.props.billingJSX}
           updateFormValidStatus={this.props.updateFormValidStatus}
+          {...this.props}
         />
       </>
     );

@@ -1,5 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
+import {
+  FormattedMessage,
+  injectIntl,
+  FormattedDate
+} from 'react-intl-phraseapp';
 import ShowErrorDom from '../../ShowErrorDom';
 import { getClubLogo, formatMoney } from '@/utils/utils';
 import { ChangeProductContext } from '../index';

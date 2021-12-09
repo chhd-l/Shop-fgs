@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { addressValidation, queryOpenedApi } from '@/api/address';
 import find from 'lodash/find';
 import './index.css';

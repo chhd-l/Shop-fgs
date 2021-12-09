@@ -1,6 +1,6 @@
 //卡form表单
 import React from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import AdyenEditForm from '@/components/Adyen/form';
 import { getDictionary, validData } from '@/utils/utils';
@@ -809,6 +809,7 @@ class PaymentEditForm extends React.Component {
               enableStoreDetails={true}
               mustSaveForFutherPayments={true}
               showErrorMsg={this.showErrorMsg}
+              {...this.props}
             />
           </div>
         )}
@@ -1069,8 +1070,7 @@ class PaymentEditForm extends React.Component {
                   <div
                     className="rc-input w-100"
                     onClick={() => {
-                      creditCardInfoForm.isDefault =
-                        !creditCardInfoForm.isDefault;
+                      creditCardInfoForm.isDefault = !creditCardInfoForm.isDefault;
                       this.setState({ creditCardInfoForm });
                     }}
                   >

@@ -1,11 +1,11 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import LoginButton from '@/components/LoginButton';
 
-const sessionItemRoyal = window.__.sessionItemRoyal;
-
 @inject('loginStore')
+@injectIntl
+@observer
 class Modal extends React.Component {
   static defaultProps = {
     modalTitle: <FormattedMessage id="information" />,
@@ -22,7 +22,7 @@ class Modal extends React.Component {
     this.props.hanldeClickConfirm();
   }
   render() {
-    const { visible } = this.props;
+    const { visible, intl } = this.props;
     return (
       <React.Fragment>
         {/* modal */}
@@ -99,6 +99,7 @@ class Modal extends React.Component {
                     beforeLoginCallback={() => {
                       localItemRoyal.set('okta-redirectUrl', '/prescription');
                     }}
+                    intl={intl}
                   >
                     <FormattedMessage id="yes" />
                   </LoginButton>

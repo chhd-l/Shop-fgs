@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { useOktaAuth } from '@okta/okta-react';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 
 const SocialRegister = () => {
   const { oktaAuth, authState } = useOktaAuth();

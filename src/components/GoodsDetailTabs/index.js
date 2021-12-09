@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { formatMoney, getDeviceType } from '@/utils/utils';
-import { FormattedMessage, injectIntl, useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 
 import mixFeedingIcon from './image/mixFeeding_icon.png';
@@ -429,7 +429,6 @@ const GoodsDetailTabs = function (props) {
       )
     }
   ];
-  const intl = useIntl();
   let hubGA = window.__.env.REACT_APP_HUB_GA == '1';
   let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
   let [goodsDetailTabsData, setGoodsDetailTabsData] = useState([]);
@@ -770,11 +769,9 @@ const GoodsDetailTabs = function (props) {
                   ele: { descriptionName: 'club' }
                 })}
               >
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: intl.messages['club']
-                  }}
-                />
+                <div>
+                  <FormattedMessage id="club" />
+                </div>
                 <span
                   className={`rc-vertical-align icon-change ${
                     activeTabIdxLists.includes(goodsDetailTabsData.length)

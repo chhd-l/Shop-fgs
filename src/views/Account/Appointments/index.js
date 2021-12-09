@@ -8,7 +8,7 @@ import BannerTip from '@/components/BannerTip';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import Pagination from '@/components/Pagination';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { getDeviceType, setSeoConfig } from '@/utils/utils';
@@ -18,9 +18,9 @@ import LazyLoad from 'react-lazyload';
 import { myAccountPushEvent } from '@/utils/GA';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import './index.less';
-import moment from 'moment';
 import { getAppointList, cancelAppointByNo } from '@/api/appointment';
 import { getAppointDict } from '@/api/dict';
+import { getFormatDate } from '@/utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
@@ -103,7 +103,13 @@ class AccountOrders extends React.Component {
             appointDictRes[1]?.context?.goodsDictionaryVOS || []
           ).filter((item) => item.id === ele?.expertTypeId)[0].name,
           appointmentStatus:
-            ele.status === 0 ? 'Booked' : ele.status === 1 ? 'Arrive' : 'Cancel'
+            ele.status === 0 ? (
+              <FormattedMessage id="appointment.status.Booked" />
+            ) : ele.status === 1 ? (
+              <FormattedMessage id="appointment.status.Arrived" />
+            ) : (
+              <FormattedMessage id="appointment.status.Cancel" />
+            )
         });
       });
       if (this.state.initing) {
@@ -139,7 +145,7 @@ class AccountOrders extends React.Component {
       appointment.cancelAppointLoading = true;
       this.setState({ appointmentList: appointmentList });
       await cancelAppointByNo({ apptNo: appointment.appointmentNo });
-      this.queryOrderList();
+      await this.queryOrderList();
     } catch (err) {
     } finally {
       appointment.cancelAppointLoading = false;
@@ -324,9 +330,10 @@ class AccountOrders extends React.Component {
                                           <br className="d-none d-md-block" />
                                           <span className="medium orderHeaderTextColor">
                                             {appointment.createTime
-                                              ? moment(
-                                                  appointment.createTime
-                                                ).format('YYYY-MM-DD')
+                                              ? getFormatDate({
+                                                  date: appointment.createTime,
+                                                  intl: this.props.intl
+                                                })
                                               : ''}
                                           </span>
                                         </p>
@@ -340,7 +347,7 @@ class AccountOrders extends React.Component {
                                           </span>
                                         </p>
                                       </div>
-                                      <div className="col-12 col-md-2">
+                                      <div className="col-12 col-md-3">
                                         <p>
                                           <FormattedMessage id="appointment.appointmentStatus" />
                                           <br className="d-none d-md-block" />
@@ -354,8 +361,8 @@ class AccountOrders extends React.Component {
                                           </span>
                                         </p>
                                       </div>
-                                      <div className="col-12 col-md-3" />
-                                      <div className="col-12 col-md-2 text-nowrap padding0">
+                                      <div className="col-12 col-md-1" />
+                                      <div className="col-12 col-md-3 text-nowrap padding0">
                                         <FormattedMessage id="appointment.appointmentDetails">
                                           {(txt) => (
                                             <Link

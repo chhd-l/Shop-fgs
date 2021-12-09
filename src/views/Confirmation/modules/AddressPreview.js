@@ -1,6 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import {
   getDictionary,
   matchNamefromDict,
@@ -11,6 +11,7 @@ import {
 import { format } from 'date-fns-tz';
 
 @inject('configStore')
+@injectIntl
 @observer
 class InfosPreview extends React.Component {
   static defaultProps = {
@@ -51,7 +52,7 @@ class InfosPreview extends React.Component {
     );
   };
   render() {
-    const { payRecord, details } = this.props;
+    const { payRecord, details, intl } = this.props;
     // 获取本地存储的需要显示的地址字段
     const localAddressForm = this.props.configStore.localAddressForm;
     return (
@@ -199,7 +200,10 @@ class InfosPreview extends React.Component {
                             new Date(payRecord.expirationDate).addHours(12),
                             'MM/yyyy'
                           )
-                        : getFormatDate(payRecord.expirationDate.substr(0, 7))}
+                        : getFormatDate({
+                            date: payRecord.expirationDate.substr(0, 7),
+                            intl
+                          })}
                     </span>
                     <br />
                   </>

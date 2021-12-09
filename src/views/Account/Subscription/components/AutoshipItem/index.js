@@ -10,13 +10,13 @@ import FrequencyMatch from '@/components/FrequencyMatch';
 import LazyLoad from 'react-lazyload';
 import { getSubList } from '@/api/subscription';
 import Skeleton from 'react-skeleton-loader';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { IMG_DEFAULT } from '@/utils/constant';
 import { filterOrderId } from '@/utils/utils';
 import './index.less';
 const localItemRoyal = window.__.localItemRoyal;
 
-const AutoshipItem = ({ subItem, history }) => {
+const AutoshipItem = ({ subItem, history, intl }) => {
   const isMobile = getDeviceType() !== 'PC';
 
   return (
@@ -130,7 +130,7 @@ const AutoshipItem = ({ subItem, history }) => {
               <FormattedMessage id="autoShipStarted2" />
             </p>
             <p style={{ color: '#666', fontSize: '1rem' }}>
-              {getFormatDate(subItem.createTime.split(' ')[0])}
+              {getFormatDate({ date: subItem.createTime.split(' ')[0], intl })}
               {/* <FormattedDate value={subItem.createTime.split(' ')[0]}/> */}
               {/* {subItem.createTime.split(' ')[0]} */}
             </p>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { useLocalStore } from 'mobx-react';
 import Modal from '@/components/Modal';
 import stores from '@/store';

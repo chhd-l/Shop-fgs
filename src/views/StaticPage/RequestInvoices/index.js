@@ -2,7 +2,7 @@ import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import './index.css';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 

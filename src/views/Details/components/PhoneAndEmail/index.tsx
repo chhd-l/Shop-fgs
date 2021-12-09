@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getDeviceType } from '@/utils/utils';
 import Skeleton from '@/components/NormalSkeleton';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';

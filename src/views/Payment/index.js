@@ -1,5 +1,5 @@
 import React from 'react';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import Modal from '@/components/Modal';
 import find from 'lodash/find';
 import { inject, observer } from 'mobx-react';
@@ -91,7 +91,8 @@ const hideBillingAddr = Boolean(
 );
 
 function CreditCardInfoPreview({
-  data: { holderNameDeco, brandDeco, lastFourDeco, expirationDate }
+  data: { holderNameDeco, brandDeco, lastFourDeco, expirationDate },
+  intl
 }) {
   return (
     <div className="col-12 col-md-6">
@@ -108,11 +109,15 @@ function CreditCardInfoPreview({
         <>
           <br />
           <span>
-            {getFormatDate(expirationDate, (date) => {
-              if (window.__.env.REACT_APP_COUNTRY === 'fr') {
-                return date.slice(3);
-              } else {
-                return date;
+            {getFormatDate({
+              date: expirationDate,
+              intl,
+              callback: (date) => {
+                if (window.__.env.REACT_APP_COUNTRY === 'fr') {
+                  return date.slice(3);
+                } else {
+                  return date;
+                }
               }
             })}
           </span>
@@ -300,16 +305,16 @@ class Payment extends React.Component {
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
     this.cyberRef = React.createRef();
-    this.confirmListValidationAddress =
-      this.confirmListValidationAddress.bind(this);
+    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
+      this
+    );
   }
   //cyber查询卡类型-会员
   queryCyberCardType = async (params) => {
     try {
-      const res =
-        await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
-          params
-        );
+      const res = await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
+        params
+      );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -320,10 +325,9 @@ class Payment extends React.Component {
   //cyber查询卡类型-游客
   queryGuestCyberCardType = async (params) => {
     try {
-      const res =
-        await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
-          params
-        );
+      const res = await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
+        params
+      );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -1030,7 +1034,8 @@ class Payment extends React.Component {
   }) {
     const { selectedCardInfo } = this.state;
     console.log('selectedCardInfo', selectedCardInfo);
-    parameters = Object.assign({}, commonParameter, {
+    let _parameters = parameters;
+    _parameters = Object.assign({}, commonParameter, {
       payPspItemEnum,
       country,
       ...otherParams
@@ -1052,7 +1057,7 @@ class Payment extends React.Component {
           );
         });
         cvvResult = JSON.parse(cvvResult);
-        parameters = Object.assign(parameters, {
+        _parameters = Object.assign(_parameters, {
           paymentMethodId: selectedCardInfo.id,
           creditDardCvv: cvvResult && cvvResult.token
         });
@@ -1062,7 +1067,7 @@ class Payment extends React.Component {
       }
     }
     return new Promise((resolve) => {
-      resolve(parameters);
+      resolve(_parameters);
     });
   }
 
@@ -1144,7 +1149,11 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             browserInfo: this.props.paymentStore.browserInfo,
             encryptedSecurityCode: adyenPayParam?.encryptedSecurityCode || '',
-            payPspItemEnum: 'ADYEN_CREDIT_CARD'
+            payPspItemEnum:
+              sessionItemRoyal.get('goodWillFlag') === 'GOOD_WILL' ||
+              this.tradePrice === 0
+                ? 'ZEROPRICE'
+                : 'ADYEN_CREDIT_CARD'
           });
           if (adyenPayParam?.paymentToken) {
             parameters = Object.assign(parameters, {
@@ -2459,6 +2468,7 @@ class Payment extends React.Component {
               calculateFreight={this.calculateFreight}
               cartData={this.computedCartData}
               isLogin={true}
+              {...this.props}
             />
           ) : (
             <VisitorAddress
@@ -2480,6 +2490,7 @@ class Payment extends React.Component {
               calculateFreight={this.calculateFreight}
               cartData={this.computedCartData}
               isLogin={false}
+              {...this.props}
             />
           )}
         </div>
@@ -2568,6 +2579,7 @@ class Payment extends React.Component {
                 })}
                 catchErrorMessage={this.catchAddOrEditAddressErrorMessage}
                 isLogin={true}
+                {...this.props}
               />
             ) : (
               <VisitorAddress
@@ -2589,6 +2601,7 @@ class Payment extends React.Component {
                 })}
                 catchErrorMessage={this.catchAddOrEditAddressErrorMessage}
                 isLogin={false}
+                {...this.props}
               />
             )}
           </>
@@ -2735,10 +2748,9 @@ class Payment extends React.Component {
     const unLoginCyberSaveCard = async (params) => {
       // console.log('2080 params: ', params);
       try {
-        const res =
-          await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
-            params
-          );
+        const res = await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
+          params
+        );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -2750,10 +2762,9 @@ class Payment extends React.Component {
     //cyber会员绑卡
     const loginCyberSaveCard = async (params) => {
       try {
-        const res =
-          await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
-            params
-          );
+        const res = await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
+          params
+        );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -2855,23 +2866,26 @@ class Payment extends React.Component {
       dfarr.forEach((v, i) => {
         let akey = v.fieldKey;
         // state 对应数据库字段 province
-        v.fieldKey == 'state' ? (akey = 'province') : v.fieldKey;
+        akey = v.fieldKey == 'state' ? 'province' : v.fieldKey;
         // region 对应数据库字段 area
-        v.fieldKey == 'region' ? (akey = 'area') : v.fieldKey;
+        akey = v.fieldKey == 'region' ? 'area' : v.fieldKey;
         // phoneNumber 对应数据库字段 consigneeNumber
         if (billaddr?.consigneeNumber) {
-          v.fieldKey == 'phoneNumber' ? (akey = 'consigneeNumber') : v.fieldKey;
+          akey = v.fieldKey == 'phoneNumber' ? 'consigneeNumber' : v.fieldKey;
         }
         let fky = wrongBillingAddress[akey];
         // 判断city和cityId 是否均为空
-        if (v.fieldKey == 'city') {
-          billaddr.city || billaddr.cityId ? (akey = '') : akey;
+        if (v.fieldKey == 'city' && (billaddr.city || billaddr.cityId)) {
+          akey = '';
         }
         // 判断country和countryId 是否均为空
-        if (v.fieldKey == 'country') {
-          billaddr.country || billaddr.countryId ? (akey = '') : akey;
+        if (
+          v.fieldKey == 'country' &&
+          (billaddr.country || billaddr.countryId)
+        ) {
+          akey = '';
         }
-        if (akey) billaddr[akey] ? '' : errMsgArr.push(fky);
+        if (akey && !billaddr[akey]) errMsgArr.push(fky);
       });
 
       errMsgArr = errMsgArr.join(', ');
@@ -3259,6 +3273,7 @@ class Payment extends React.Component {
                       type: 'payUCreditCard'
                     })}
                     defaultCardDataFromAddr={this.defaultCardDataFromAddr}
+                    {...this.props}
                   />
                   {payConfirmBtn({
                     disabled: !validSts.payUCreditCard || validForBilling,
@@ -3281,6 +3296,7 @@ class Payment extends React.Component {
                     billingJSX={this.renderBillingJSX({
                       type: 'adyenCard'
                     })}
+                    {...this.props}
                   />
                   {/* 校验状态
                   1 卡校验，从adyen form传入校验状态
@@ -3383,6 +3399,7 @@ class Payment extends React.Component {
                     cyberBtnLoading={this.state.cyberBtnLoading}
                     showErrorMsg={this.showErrorMsg}
                     ref={this.cyberRef}
+                    {...this.props}
                   />
                 </>
               )}
@@ -3478,6 +3495,7 @@ class Payment extends React.Component {
               lastFourDeco,
               expirationDate
             }}
+            {...this.props}
           />
         );
         break;
@@ -3523,8 +3541,9 @@ class Payment extends React.Component {
   };
   petComfirm = (data) => {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
-        data;
+      this.props.checkoutStore.AuditData[
+        this.state.currentProIndex
+      ].petForm = data;
     } else {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {
@@ -3618,8 +3637,9 @@ class Payment extends React.Component {
   clickPay = () => {
     if (this.tradePrice === 0 && this.isCurrentBuyWaySubscription) {
       //0元订单中含有订阅商品时不能下单
-      const errMsg =
-        this.props.intl.messages['checkout.zeroOrder.butSubscription'];
+      const errMsg = this.props.intl.messages[
+        'checkout.zeroOrder.butSubscription'
+      ];
       this.showErrorMsg(errMsg);
       return;
     }

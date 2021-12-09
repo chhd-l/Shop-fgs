@@ -44,10 +44,18 @@ export function postUpdate(params = {}) {
     data: params
   });
 }
-// 未登录预约的时候，登陆之后跟新用户信息
+// 登陆之后跟新用户信息
 export function postUpdateUser(params = {}) {
   return axios({
     url: '/appt/update-consumer-info',
+    method: 'post',
+    data: params
+  });
+}
+// 未登录预约的时候，更新用户信息
+export function postcustomerUpdate(params = {}) {
+  return axios({
+    url: '/appt/customer-update-consumer-info',
     method: 'post',
     data: params
   });

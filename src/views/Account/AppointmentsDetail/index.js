@@ -7,17 +7,16 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import Modal from '@/components/Modal';
 import BannerTip from '@/components/BannerTip';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { IMG_DEFAULT } from '@/utils/constant';
 import './index.less';
 import LazyLoad from 'react-lazyload';
 import PageBaseInfo from '@/components/PageBaseInfo';
-import { injectIntl } from 'react-intl';
 import AppointmentInfo from './modules/AppointmentInfo';
 import { getWays } from '@/api/payment';
-import moment from 'moment';
 import { getAppointDetail, cancelAppointByNo } from '@/api/appointment';
 import { getAppointDict } from '@/api/dict';
+import { getFormatDate } from '@/utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -110,11 +109,13 @@ class AccountOrders extends React.Component {
           appointDictRes[1]?.context?.goodsDictionaryVOS || []
         ).filter((item) => item.id === resContext?.expertTypeId)[0].name,
         appointmentStatus:
-          resContext.status === 0
-            ? 'Booked'
-            : resContext.status === 1
-            ? 'Arrive'
-            : 'Cancel'
+          resContext.status === 0 ? (
+            <FormattedMessage id="appointment.status.Booked" />
+          ) : resContext.status === 1 ? (
+            <FormattedMessage id="appointment.status.Arrived" />
+          ) : (
+            <FormattedMessage id="appointment.status.Cancel" />
+          )
       });
       this.setState({
         details: details,
@@ -212,7 +213,7 @@ class AccountOrders extends React.Component {
             }}
           >
             <span className="iconfont iconcancel text-rc-red mr-2" />
-            <FormattedMessage id="Cancel" />
+            <FormattedMessage id="cancel" />
           </span>
         ) : null}
         {/*felin订单change appoint*/}
@@ -281,9 +282,10 @@ class AccountOrders extends React.Component {
                             <br />
                             <span className="medium orderHeaderTextColor">
                               {details.createTime
-                                ? moment(details.createTime).format(
-                                    'YYYY-MM-DD'
-                                  )
+                                ? getFormatDate({
+                                    date: details.createTime,
+                                    intl: this.props.intl
+                                  })
                                 : ''}
                             </span>
                           </div>

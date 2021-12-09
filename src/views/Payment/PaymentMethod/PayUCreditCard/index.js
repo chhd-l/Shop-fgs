@@ -2,7 +2,7 @@ import React from 'react';
 import findIndex from 'lodash/findIndex';
 import { PAYMENT_METHOD_PAU_CHECKOUT_RULE } from '@/utils/constant';
 import { validData, loadJS } from '@/utils/utils';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
 import { queryIsSupportInstallMents } from '@/api/payment';
@@ -403,7 +403,6 @@ class PayOs extends React.Component {
         showInstallMentTable: creditCardInfoForm.installmentChecked
       }
     ].filter((c) => c.visible);
-
     return (
       <>
         <div className="card payment-form Card-border rounded rc-border-colour--interface border-0">
@@ -441,6 +440,7 @@ class PayOs extends React.Component {
                         defaultCardDataFromAddr={defaultCardDataFromAddr}
                         updateFormValidStatus={this.props.updateFormValidStatus}
                         inited={this.state.inited}
+                        {...this.props}
                       />
                     </div>
                   ) : (
@@ -561,4 +561,5 @@ class PayOs extends React.Component {
   }
 }
 
-export default injectIntl(PayOs, { forwardRef: true });
+export default PayOs;
+// export default injectIntl(PayOs, { forwardRef: true });
