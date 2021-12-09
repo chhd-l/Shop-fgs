@@ -64,7 +64,8 @@ class Register extends Component {
       errorMessage: '',
       firstNameValid: true,
       lastNameValid: true,
-      passwordInputType: 'password'
+      passwordInputType: 'password',
+      illegalSymbol: false
     };
     this.sendList = this.sendList.bind(this);
     this.initConsent = this.initConsent.bind(this);
@@ -235,6 +236,7 @@ class Register extends Component {
   };
 
   validInput(name, value) {
+    const ukIllegalSymbol = value === '?' || value === '-';
     switch (name) {
       case 'password':
         const {
@@ -260,12 +262,14 @@ class Register extends Component {
         break;
       case 'firstName':
         this.setState({
-          firstNameValid: !!value
+          firstNameValid: !!value && !ukIllegalSymbol,
+          illegalSymbol: ukIllegalSymbol
         });
         break;
       case 'lastName':
         this.setState({
-          lastNameValid: !!value
+          lastNameValid: !!value && !ukIllegalSymbol,
+          illegalSymbol: ukIllegalSymbol
         });
         break;
       case 'email':
@@ -284,7 +288,11 @@ class Register extends Component {
   registerChange = (e) => {
     const { registerForm } = this.state;
     const target = e.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+    let value = target.type === 'checkbox' ? target.checked : target.value;
+    value =
+      isString(target.value) && name != 'password'
+        ? target.value?.trim()
+        : target.value;
     const name = target.name;
     if (name === 'password') {
       var lowerReg = /[a-z]+/;
@@ -736,7 +744,11 @@ class Register extends Component {
                                     )}
                                   </div>
                                   <div className="invalid-feedback">
-                                    <FormattedMessage id="registerFillIn" />
+                                    {this.state.illegalSymbol ? (
+                                      <FormattedMessage id="registerIllegalSymbol" />
+                                    ) : (
+                                      <FormattedMessage id="registerFillIn" />
+                                    )}
                                   </div>
                                 </div>
                                 <div className="form-group rc-margin-bottom--md required rc-text--left">
@@ -775,7 +787,11 @@ class Register extends Component {
                                     )}
                                   </div>
                                   <div className="invalid-feedback">
-                                    <FormattedMessage id="registerFillIn" />
+                                    {this.state.illegalSymbol ? (
+                                      <FormattedMessage id="registerIllegalSymbol" />
+                                    ) : (
+                                      <FormattedMessage id="registerFillIn" />
+                                    )}
                                   </div>
                                 </div>
                               </>
