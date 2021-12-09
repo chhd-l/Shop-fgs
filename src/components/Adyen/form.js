@@ -233,7 +233,9 @@ class AdyenCreditCardForm extends React.Component {
           showListLoading: false
         });
         this.setState({ saveLoading: false });
-        this.props.updateAdyenPayParam(decoAdyenFormData);
+        this.props.updateAdyenPayParam(
+          Object.assign(res.context, decoAdyenFormData)
+        );
       } else {
         tmpSelectedId = new Date().getTime() + '';
         decoAdyenFormData = Object.assign(decoAdyenFormData, {

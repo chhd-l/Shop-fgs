@@ -23,6 +23,8 @@ const SPECAIL_CONSENT_ENUM =
     ru: ['RC_DF_RU_FGS_OPT_EMAIL', 'RC_DF_RU_FGS_OPT_MOBILE'],
     tr: ['RC_DF_TR_FGS_OPT_EMAIL', 'RC_DF_TR_FGS_OPT_MOBILE']
   }[window.__.env.REACT_APP_COUNTRY] || [];
+
+const ukTipInfoConsentEnum = ['RC_DF_UK_CLIXRAY_OPT_EMAIL'];
 @inject('paymentStore')
 @observer
 class CommunicationDataEditForm extends React.Component {
@@ -46,8 +48,9 @@ class CommunicationDataEditForm extends React.Component {
       },
       errorMsg: ''
     };
-    this.handleCommunicationCheckBoxChange =
-      this.handleCommunicationCheckBoxChange.bind(this);
+    this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
+      this
+    );
   }
   componentDidUpdate() {
     if (window.__.env.REACT_APP_COUNTRY == 'tr') {
@@ -171,6 +174,10 @@ class CommunicationDataEditForm extends React.Component {
       const hasCheckedTheConsent = list.filter(
         (l) => SPECAIL_CONSENT_ENUM.includes(l.consentDesc) && l.isChecked
       ).length;
+
+      const ukTipInfoCheckedConsent = list.filter(
+        (l) => ukTipInfoConsentEnum.includes(l.consentDesc) && l.isChecked
+      ).length;
       // 1 勾选了某条特殊consent情况下，phone/email/messengers不能同时取消
       // 2 勾选了phone/email/messengers，必须勾选某条特殊consent
 
@@ -180,6 +187,13 @@ class CommunicationDataEditForm extends React.Component {
       }
       if (!hasCheckedTheConsent && window.__.env.REACT_APP_COUNTRY === 'us') {
         form.communicationEmail = 0;
+      }
+      if (
+        ukTipInfoCheckedConsent &&
+        window.__.env.REACT_APP_COUNTRY === 'uk' &&
+        form.communicationEmail === '0'
+      ) {
+        errMsg = <FormattedMessage id="doNotChooseCommunicationTip" />;
       }
 
       if (
