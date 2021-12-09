@@ -37,9 +37,9 @@ export default function Table(props) {
             </tr>
           </thead>
           <tbody className="rc-table__tbody">
-            {productList.map((el) => {
+            {productList.map((el, i) => {
               return (
-                <tr className="rc-table__row">
+                <tr className="rc-table__row" key={i}>
                   <td className="rc-table__td">
                     {isLogin
                       ? el.goodsInfoNo

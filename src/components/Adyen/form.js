@@ -119,9 +119,11 @@ class AdyenCreditCardForm extends React.Component {
     );
     console.log({ adyenOriginKeyConf });
     loadJS({
-      url: 'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
+      url:
+        'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
       callback: function () {
         if (!!window.AdyenCheckout) {
+          console.log('render adyen form start');
           //要有值
           const AdyenCheckout = window.AdyenCheckout;
           // (1) Create an instance of AdyenCheckout
@@ -396,4 +398,5 @@ class AdyenCreditCardForm extends React.Component {
   }
 }
 
-export default injectIntl(AdyenCreditCardForm, { forwardRef: true });
+export default AdyenCreditCardForm;
+// export default injectIntl(AdyenCreditCardForm, { forwardRef: true });
