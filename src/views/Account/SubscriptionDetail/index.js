@@ -31,13 +31,15 @@ import {
 } from '@/api/subscription';
 import Modal from '@/components/Modal';
 import 'react-datepicker/dist/react-datepicker.css';
-import { format } from 'date-fns';
 import { Helmet } from 'react-helmet';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import OngoingOrder from './components/OngoingOrder';
+import { momentNormalizeDate } from '@/utils/momentNormalized';
+
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
+
 @inject('configStore')
 @injectIntl
 @observer
@@ -333,7 +335,7 @@ class SubscriptionDetail extends React.Component {
   };
   onDateChange(date, goodsInfo) {
     let { subDetail } = this.state;
-    subDetail.nextDeliveryTime = format(date, 'YYYY-MM-DD');
+    subDetail.nextDeliveryTime = momentNormalizeDate(date, 'YYYY-MM-DD');
     let param = {
       subscribeId: subDetail.subscribeId,
       nextDeliveryTime: subDetail.nextDeliveryTime,
