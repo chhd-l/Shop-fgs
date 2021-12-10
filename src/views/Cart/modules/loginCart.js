@@ -1168,7 +1168,7 @@ class LoginCart extends React.Component {
           <div className="col-6">
             <FormattedMessage id="total2" />
           </div>
-          <div className="col-6 no-padding-left mb-4">
+          <div className="col-6 no-padding-left">
             <p className="text-right sub-total text-nowrap mb-4">
               {formatMoney(this.totalPrice)}
             </p>
