@@ -652,7 +652,7 @@ class PayProductInfo extends React.Component {
               {/* <div style={{ padding: '1.25rem 0' }}> */}
               {!needHideProductList && List}
               {this.giftList.map((el, i) => (
-                <GiftList pitem={el} key={i} {...this.props} />
+                <GiftList {...this.props} pitem={el} key={i} />
               ))}
               {/*新增First Order Welcome Box:1、会员 2、首单 3、未填写学生购student promotion 50% discount*/}
               {!!+window.__.env.REACT_APP_SHOW_CHECKOUT_WELCOMEBOX &&
