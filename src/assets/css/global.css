@@ -9790,7 +9790,7 @@ button.bg-dark:hover {
   content: '';
   background-color: transparent;
 }
-/* 
+/*
 .m-0 {
   margin: 0 !important;
 }
@@ -12776,7 +12776,7 @@ a.text-dark:hover {
 .carousel .icon-next:before,
 .carousel .icon-prev:before {
   color: #000;
-  font-family: FontAwesome;
+  font-family: FontAwesome, sans-serif;
 }
 
 .carousel .icon-prev:before {
@@ -21673,7 +21673,6 @@ input.search-field {
     /* position: fixed; */
     width: 100%;
     height: 100%;
-    top: 50px;
     position: relative;
     top: -1px;
     -webkit-box-shadow: none;
@@ -22413,7 +22412,7 @@ h6 {
   right: -32px;
   top: 35%;
   font-size: 2.625rem;
-  font-family: iconfont !important;
+  font-family: iconfont, sans-serif !important;
   speak: none;
   font-style: normal;
   font-weight: 400;
@@ -23079,7 +23078,7 @@ h6 {
 }
 
 .tablesorter-custom {
-  font: 0.6875rem verdana, Arial;
+  font: 0.6875rem verdana, Arial, sans-serif;
   background-color: #cdcdcd;
   margin: 0.625rem 0 0.9375rem;
   width: 100%;
@@ -23097,7 +23096,7 @@ h6 {
 
 .tablesorter-custom th,
 .tablesorter-custom thead td {
-  font: 0.6875rem verdana, Arial;
+  font: 0.6875rem verdana, Arial, sans-serif;
   font-weight: 700;
   background-color: #e69999;
   color: #000;
@@ -23793,7 +23792,6 @@ tr.rc-table__row.inactive td:after {
 }
 .ui-text-overflow-line2 {
   word-wrap: break-word;
-  text-overflow: -o-ellipsis-lastline;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -23802,7 +23800,6 @@ tr.rc-table__row.inactive td:after {
   -webkit-box-orient: vertical;
 }
 .ui-text-overflow-line3 {
-  text-overflow: -o-ellipsis-lastline;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
