@@ -471,12 +471,12 @@ class PetForm extends React.Component {
               currentPet.sourceType == 'individual'
             ) ? (
               <LinkedSubs
+                {...this.props}
                 petsId={this.props.match.params.id}
                 loading={this.state.loading}
                 setState={this.setState.bind(this)}
                 errorMsg={this.state.errorMsg}
                 petsType={currentPet.petsType}
-                {...this.props}
               />
             ) : null}
             <div>

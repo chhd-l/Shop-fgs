@@ -1182,9 +1182,9 @@ class AccountOrders extends React.Component {
                             : this.renderHeadTip()}
                           {currentProgerssIndex > -1 ? (
                             <Progress
+                              {...this.props}
                               progressList={normalProgressList}
                               currentProgerssIndex={currentProgerssIndex}
-                              {...this.props}
                             />
                           ) : null}
                           {/* 取消状态不展示进度条 */}
@@ -1208,8 +1208,8 @@ class AccountOrders extends React.Component {
                                   <span className="medium">
                                     {filterOrderId({
                                       orderNo: this.state.orderNumber,
-                                      orderNoForOMS:
-                                        this.state.orderNumberForOMS
+                                      orderNoForOMS: this.state
+                                        .orderNumberForOMS
                                     })}
                                   </span>
                                 </div>
@@ -1365,9 +1365,9 @@ class AccountOrders extends React.Component {
                                                           {filterOrderId({
                                                             orderNo:
                                                               el.subscribeId,
-                                                            orderNoForOMS:
-                                                              this.state
-                                                                .orderNumberForOMS
+                                                            orderNoForOMS: this
+                                                              .state
+                                                              .orderNumberForOMS
                                                           })}
                                                         </Link>
                                                       </p>

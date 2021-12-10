@@ -1666,7 +1666,7 @@ class LoginCart extends React.Component {
                         <div id="product-cards-container">{List}</div>
                         <div id="product-cards-container">
                           {this.giftList.map((el, i) => (
-                            <GiftList pitem={el} key={i} {...this.props} />
+                            <GiftList {...this.props} pitem={el} key={i} />
                           ))}
                         </div>
                         {window.__.env.REACT_APP_COUNTRY === 'us' && (
