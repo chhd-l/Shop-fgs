@@ -106,7 +106,12 @@ function CreditCardInfoPreview({
       {expirationDate ? (
         <>
           <br />
-          <span>{momentNormalizeDate(expirationDate)}</span>
+          <span>
+            {momentNormalizeDate(
+              expirationDate,
+              window.__.env.REACT_APP_COUNTRY === 'fr' ? 'MM/YYYY' : ''
+            )}
+          </span>
         </>
       ) : null}
     </div>
