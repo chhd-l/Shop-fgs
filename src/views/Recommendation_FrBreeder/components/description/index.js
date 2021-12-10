@@ -54,7 +54,7 @@ export default class index extends Component {
 
               {/* <div style={{ height: 1, background: '#666666' }}></div> */}
 
-              <div style={{ display: 'flex', display: 'none' }}>
+              <div style={{ display: 'none' }}>
                 <div></div>
                 <div>
                   Discover now the perfect tool to calculate the ideal ration

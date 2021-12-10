@@ -1293,7 +1293,7 @@ label.availability {
   align-items: center;
   height: 100%;
   /* -ms-flex-item-align: center; */
-  align-self: center;
+  /*align-self: center;*/
   -ms-flex-item-align: start;
   align-self: flex-start;
 }
