@@ -99,7 +99,6 @@ class WeekCalender extends Component {
   };
 
   lastWeek = () => {
-    // if (index === -1) return;
     index++;
     const arr = this.state.weekDate;
     let dd = moment(arr[0].date);
@@ -107,14 +106,9 @@ class WeekCalender extends Component {
   };
 
   nextWeek = () => {
-    // if (index === -2) return;
     index--;
     const arr = this.state.weekDate;
-    const cc = this.getWeek();
-    let dd = moment(arr[arr.length - 1].date); //.add(3, 'days').format('YYYY-MM-DD');
-    console.log(arr, dd);
-
-    // this.getCurrentWeek(dd);
+    let dd = moment(arr[arr.length - 1].date);
     this.getCurrentWeek2(dd);
   };
   getWeek = () => {
