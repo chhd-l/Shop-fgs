@@ -757,7 +757,7 @@ class Hcexperts extends React.Component {
                     }
                     style={{
                       boxShadow:
-                        this.state.params.minutes === item.duration
+                        this.state.params.minutes == item.duration
                           ? ' 0px 0px 0px 2px #E2001A'
                           : '0px 0px 0px 2px #f0f0f0'
                     }}

@@ -376,7 +376,7 @@ class AddressList extends React.Component {
     Array.from(addressList, (a) => (a.selected = false));
     let dliveryId = item.deliveryAddressId;
     // 设置选中的地址
-    addressList.map((e) => {
+    addressList.forEach((e) => {
       if (e.deliveryAddressId == dliveryId) {
         e.selected = true;
       }
