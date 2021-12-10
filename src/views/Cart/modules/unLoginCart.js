@@ -1214,7 +1214,7 @@ class UnLoginCart extends React.Component {
                 <label className="rc-input__label" htmlFor="id-text2" />
               </span>
             </div>
-            <div className="col-6 no-padding-left mb-4">
+            <div className="col-6 no-padding-left">
               <p className="text-right sub-total">
                 <button
                   id="promotionApply"
@@ -1303,7 +1303,7 @@ class UnLoginCart extends React.Component {
             <div className="col-6">
               <FormattedMessage id="total2" />
             </div>
-            <div className="col-6 no-padding-left mb-4">
+            <div className="col-6 no-padding-left">
               <p className="text-right sub-total">
                 {formatMoney(this.totalPrice)}
               </p>
