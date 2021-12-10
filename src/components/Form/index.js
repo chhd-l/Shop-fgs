@@ -1419,7 +1419,7 @@ class Form extends React.Component {
             id={`${item.fieldKey}Shipping`}
             type={item.filedType}
             value={caninForm[item.fieldKey] || ''}
-            onChange={(e) => this.inputChange(e)}
+            onInput={(e) => this.inputChange(e)}
             onBlur={this.inputBlur}
             name={item.fieldKey}
             disabled={item?.disabled ? true : false}

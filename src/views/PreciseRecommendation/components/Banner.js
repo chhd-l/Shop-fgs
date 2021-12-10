@@ -396,7 +396,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                               className="relative"
                               style={{ lineHeight: '1.2' }}
                             >
-                              {loginStore.isLogin ? (
+                              {loginStore.isLogin || !addCartBtnStatus ? (
                                 <button
                                   onClick={handleBuyNow}
                                   className={`rc-btn rc-btn--one
@@ -564,7 +564,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
             <FormattedMessage id="preciseNutrition.banner.des2" /> <br />
             <FormattedMessage id="preciseNutrition.banner.des3" />
           </div>
-          {loginStore.isLogin ? (
+          {loginStore.isLogin || !addCartBtnStatus ? (
             <button
               style={{ width: 160 }}
               className="rc-btn rc-btn--one"

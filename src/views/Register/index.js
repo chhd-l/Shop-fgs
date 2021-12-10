@@ -19,6 +19,7 @@ import Modal from '@/components/Modal';
 import { inject, observer } from 'mobx-react';
 import { addEventListenerArr } from './addEventListener';
 import { EMAIL_REGEXP } from '@/utils/constant';
+import { isString } from 'lodash';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -63,7 +64,8 @@ class Register extends Component {
       errorMessage: '',
       firstNameValid: true,
       lastNameValid: true,
-      passwordInputType: 'password'
+      passwordInputType: 'password',
+      illegalSymbol: false
     };
     this.sendList = this.sendList.bind(this);
     this.initConsent = this.initConsent.bind(this);
@@ -219,8 +221,12 @@ class Register extends Component {
 
   inputBlur = (e) => {
     const target = e.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
+    let value = target.type === 'checkbox' ? target.checked : target.value;
+    value =
+      isString(target.value) && name != 'password'
+        ? target.value?.trim()
+        : target.value;
     if (name === 'password') {
       this.setState({
         passwordChanged: false
@@ -230,10 +236,16 @@ class Register extends Component {
   };
 
   validInput(name, value) {
+    const ukIllegalSymbol = value === '?' || value === '-';
     switch (name) {
       case 'password':
-        const { ruleLength, ruleLower, ruleUpper, ruleAname, ruleSpecial } =
-          this.state;
+        const {
+          ruleLength,
+          ruleLower,
+          ruleUpper,
+          ruleAname,
+          ruleSpecial
+        } = this.state;
         const passwordValid =
           ruleLength && ruleLower && ruleUpper && ruleAname && ruleSpecial;
         this.setState({
@@ -250,12 +262,14 @@ class Register extends Component {
         break;
       case 'firstName':
         this.setState({
-          firstNameValid: !!value
+          firstNameValid: !!value && !ukIllegalSymbol,
+          illegalSymbol: ukIllegalSymbol
         });
         break;
       case 'lastName':
         this.setState({
-          lastNameValid: !!value
+          lastNameValid: !!value && !ukIllegalSymbol,
+          illegalSymbol: ukIllegalSymbol
         });
         break;
       case 'email':
@@ -274,14 +288,17 @@ class Register extends Component {
   registerChange = (e) => {
     const { registerForm } = this.state;
     const target = e.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+    let value = target.type === 'checkbox' ? target.checked : target.value;
+    value =
+      isString(target.value) && name != 'password'
+        ? target.value?.trim()
+        : target.value;
     const name = target.name;
     if (name === 'password') {
       var lowerReg = /[a-z]+/;
       var upperReg = /[A-Z]+/;
       var nameReg = /[\d]+/;
-      var specialReg =
-        /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
+      var specialReg = /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
       this.setState(
         {
           ruleLength: value.length >= 8,
@@ -622,8 +639,9 @@ class Register extends Component {
                               {window.__.env.REACT_APP_COUNTRY === 'de' ? (
                                 <span
                                   dangerouslySetInnerHTML={{
-                                    __html:
-                                      this.getIntlMsg('registerContinuing')
+                                    __html: this.getIntlMsg(
+                                      'registerContinuing'
+                                    )
                                   }}
                                 ></span>
                               ) : (
@@ -726,7 +744,11 @@ class Register extends Component {
                                     )}
                                   </div>
                                   <div className="invalid-feedback">
-                                    <FormattedMessage id="registerFillIn" />
+                                    {this.state.illegalSymbol ? (
+                                      <FormattedMessage id="registerIllegalSymbol" />
+                                    ) : (
+                                      <FormattedMessage id="registerFillIn" />
+                                    )}
                                   </div>
                                 </div>
                                 <div className="form-group rc-margin-bottom--md required rc-text--left">
@@ -765,7 +787,11 @@ class Register extends Component {
                                     )}
                                   </div>
                                   <div className="invalid-feedback">
-                                    <FormattedMessage id="registerFillIn" />
+                                    {this.state.illegalSymbol ? (
+                                      <FormattedMessage id="registerIllegalSymbol" />
+                                    ) : (
+                                      <FormattedMessage id="registerFillIn" />
+                                    )}
                                   </div>
                                 </div>
                               </>

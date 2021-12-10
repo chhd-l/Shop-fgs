@@ -23,6 +23,8 @@ const SPECAIL_CONSENT_ENUM =
     ru: ['RC_DF_RU_FGS_OPT_EMAIL', 'RC_DF_RU_FGS_OPT_MOBILE'],
     tr: ['RC_DF_TR_FGS_OPT_EMAIL', 'RC_DF_TR_FGS_OPT_MOBILE']
   }[window.__.env.REACT_APP_COUNTRY] || [];
+
+const ukTipInfoConsentEnum = ['RC_DF_UK_CLIXRAY_OPT_EMAIL'];
 @inject('paymentStore')
 @observer
 class CommunicationDataEditForm extends React.Component {
@@ -44,10 +46,12 @@ class CommunicationDataEditForm extends React.Component {
         communicationEmail: '',
         communicationPrint: ''
       },
-      errorMsg: ''
+      errorMsg: '',
+      showWarningTip: false
     };
-    this.handleCommunicationCheckBoxChange =
-      this.handleCommunicationCheckBoxChange.bind(this);
+    this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
+      this
+    );
   }
   componentDidUpdate() {
     if (window.__.env.REACT_APP_COUNTRY == 'tr') {
@@ -171,6 +175,7 @@ class CommunicationDataEditForm extends React.Component {
       const hasCheckedTheConsent = list.filter(
         (l) => SPECAIL_CONSENT_ENUM.includes(l.consentDesc) && l.isChecked
       ).length;
+
       // 1 勾选了某条特殊consent情况下，phone/email/messengers不能同时取消
       // 2 勾选了phone/email/messengers，必须勾选某条特殊consent
 
@@ -181,7 +186,6 @@ class CommunicationDataEditForm extends React.Component {
       if (!hasCheckedTheConsent && window.__.env.REACT_APP_COUNTRY === 'us') {
         form.communicationEmail = 0;
       }
-
       if (
         hasCheckedTheConsent &&
         !+form.communicationEmail &&
@@ -251,8 +255,33 @@ class CommunicationDataEditForm extends React.Component {
   };
   //从子组件传回
   sendList = (list) => {
-    this.setState({ list });
+    this.setState({ list }, () => {
+      this.ukConsentInfoTip();
+    });
   };
+
+  // uk的提示
+  ukConsentInfoTip = () => {
+    if (window.__.env.REACT_APP_COUNTRY != 'uk') return;
+    const { form, list } = this.state;
+    const ukTipInfoCheckedConsent = list.filter(
+      (l) => ukTipInfoConsentEnum.includes(l.consentDesc) && l.isChecked
+    ).length;
+    if (
+      ukTipInfoCheckedConsent &&
+      window.__.env.REACT_APP_COUNTRY === 'uk' &&
+      form.communicationEmail === '0'
+    ) {
+      this.setState({
+        showWarningTip: true
+      });
+    } else {
+      this.setState({
+        showWarningTip: false
+      });
+    }
+  };
+
   changeEditFormVisible = async (status) => {
     this.setState({ editFormVisible: status });
     this.props.updateEditOperationPanelName(status ? 'Communication' : '');
@@ -278,7 +307,9 @@ class CommunicationDataEditForm extends React.Component {
   handleCommunicationCheckBoxChange(item) {
     let { form } = this.state;
     form[item.type] = !+form[item.type] ? '1' : '0';
-    this.setState({ form });
+    this.setState({ form }, () => {
+      this.ukConsentInfoTip();
+    });
   }
   render() {
     const { editFormVisible, list, form, errorMsg, isLoading } = this.state;
@@ -435,34 +466,39 @@ class CommunicationDataEditForm extends React.Component {
                   zoom={'150%'}
                   key={'profile'}
                 />
-                {/* 取消和保存 按钮 */}
-                <div className={`text-right contactPreferenceFormBtn`}>
-                  <span
-                    className="rc-styled-link editPersonalInfoBtn"
-                    name="contactPreference"
-                    onClick={this.handleCancel}
-                  >
-                    <FormattedMessage id="cancel" />
+              </div>
+              {this.state.showWarningTip ? (
+                <aside
+                  className="rc-alert rc-alert--warning mb-4 mt-2"
+                  role="alert"
+                >
+                  <span className="pl-0">
+                    <FormattedMessage id="doNotChooseCommunicationTip" />
                   </span>
-                  &nbsp;
-                  <FormattedMessage id="or" />
-                  &nbsp;
-                  <button
-                    className={classNames(
-                      'rc-btn',
-                      'rc-btn--one',
-                      'submitBtn',
-                      {
-                        'ui-btn-loading': this.state.saveLoading
-                      }
-                    )}
-                    name="contactPreference"
-                    type="submit"
-                    onClick={this.handleSave}
-                  >
-                    <FormattedMessage id="save" />
-                  </button>
-                </div>
+                </aside>
+              ) : null}
+              {/* 取消和保存 按钮 */}
+              <div className={`text-right contactPreferenceFormBtn`}>
+                <span
+                  className="rc-styled-link editPersonalInfoBtn"
+                  name="contactPreference"
+                  onClick={this.handleCancel}
+                >
+                  <FormattedMessage id="cancel" />
+                </span>
+                &nbsp;
+                <FormattedMessage id="or" />
+                &nbsp;
+                <button
+                  className={classNames('rc-btn', 'rc-btn--one', 'submitBtn', {
+                    'ui-btn-loading': this.state.saveLoading
+                  })}
+                  name="contactPreference"
+                  type="submit"
+                  onClick={this.handleSave}
+                >
+                  <FormattedMessage id="save" />
+                </button>
               </div>
             </div>
           </div>

@@ -68,6 +68,7 @@ class AdyenCreditCard extends React.Component {
       <>
         {_errJSX}
         <CardList
+          {...this.props}
           ref={this.cardListRef}
           updateSelectedCardInfo={this.updateSelectedCardInfo}
           showErrorMsg={this.showErrorMsg}

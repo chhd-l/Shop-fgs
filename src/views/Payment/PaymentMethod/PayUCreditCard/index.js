@@ -418,6 +418,7 @@ class PayOs extends React.Component {
                   {isLogin ? (
                     <div className="rc-border-colour--interface">
                       <MemberCardList
+                        {...this.props}
                         key={Object.values(defaultCardDataFromAddr || {}).join(
                           '|'
                         )}
@@ -440,7 +441,6 @@ class PayOs extends React.Component {
                         defaultCardDataFromAddr={defaultCardDataFromAddr}
                         updateFormValidStatus={this.props.updateFormValidStatus}
                         inited={this.state.inited}
-                        {...this.props}
                       />
                     </div>
                   ) : (

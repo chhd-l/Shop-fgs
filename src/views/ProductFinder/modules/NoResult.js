@@ -203,13 +203,13 @@ class ProductFinderNoResult extends React.Component {
                 </p>
 
                 <PetJSX
+                  {...this.props}
                   type={type}
                   isLogin={this.isLogin}
                   questionlist={questionlist}
                   petBaseInfo={petBaseInfo}
                   handleClickGotoStart={this.handleClickGotoStart}
                   history={history}
-                  {...this.props}
                 />
                 <div className="row">
                   <div className="col-12 order-0 md:order-1">

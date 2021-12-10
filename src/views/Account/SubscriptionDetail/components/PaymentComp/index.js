@@ -15,7 +15,6 @@ import {
 } from '@/api/payment';
 import Loading from '@/components/Loading';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
-import AdyenEditForm from '@/components/Adyen/form';
 import {
   PAYMENT_METHOD_PAU_ACCOUNT_RULE,
   PAYMENT_METHOD_PAU_CHECKOUT_RULE

@@ -440,6 +440,7 @@ class ProductFinderResult extends React.Component {
                 {qListVisible && (
                   <div>
                     <QListAndPetJSX
+                      {...this.props}
                       summaryIcon={
                         <span className="rc-icon rc-down--xs rc-iconography" />
                       }
@@ -451,7 +452,6 @@ class ProductFinderResult extends React.Component {
                       handleClickEditBtn={this.handleClickEditBtn}
                       handleClickGotoStart={this.handleClickGotoStart}
                       petBaseInfo={petBaseInfo}
-                      {...this.props}
                     />
                   </div>
                 )}

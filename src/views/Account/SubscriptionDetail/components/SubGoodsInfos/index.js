@@ -170,8 +170,7 @@ const SubGoodsInfos = ({
                                 triggerShowChangeProduct,
                                 {
                                   show: true,
-                                  firstShow:
-                                    !triggerShowChangeProduct.firstShow,
+                                  firstShow: !triggerShowChangeProduct.firstShow,
                                   goodsInfo: [el],
                                   isShowModal: true
                                 }
@@ -291,7 +290,7 @@ const SubGoodsInfos = ({
                 // className="col-4 col-md-5"
                 // style={{ paddingLeft: '60px' }}
                 >
-                  <ChangeSelection el={el} />
+                  <ChangeSelection el={el} intl={intl} />
                 </div>
                 {isGift && subDetail.subscribeStatus != 2 ? (
                   <ButtonBoxGift />
@@ -489,8 +488,7 @@ const SubGoodsInfos = ({
                                       triggerShowChangeProduct,
                                       {
                                         show: true,
-                                        firstShow:
-                                          !triggerShowChangeProduct.firstShow,
+                                        firstShow: !triggerShowChangeProduct.firstShow,
                                         goodsInfo: [el],
                                         isShowModal: true
                                       }
@@ -518,7 +516,7 @@ const SubGoodsInfos = ({
                   </div>
                   <div className="col-4 col-md-1" />
                   <div className="col-4 col-md-5" style={{ padding: 0 }}>
-                    <ChangeSelection el={el} />
+                    <ChangeSelection el={el} intl={intl} />
                   </div>
                 </div>
                 {isGift && subDetail.subscribeStatus != 2 ? (

@@ -2443,6 +2443,7 @@ class Payment extends React.Component {
         >
           {this.isLogin ? (
             <AddressList
+              {...this.props}
               id="1"
               type="delivery"
               intlMessages={this.props.intl.messages}
@@ -2463,6 +2464,7 @@ class Payment extends React.Component {
             />
           ) : (
             <VisitorAddress
+              {...this.props}
               key={1}
               type="delivery"
               intlMessages={this.props.intl.messages}
@@ -2552,6 +2554,7 @@ class Payment extends React.Component {
           <>
             {this.isLogin ? (
               <AddressList
+                {...this.props}
                 ref={this.loginBillingAddrRef}
                 key={2}
                 titleVisible={false}
@@ -2572,6 +2575,7 @@ class Payment extends React.Component {
               />
             ) : (
               <VisitorAddress
+                {...this.props}
                 ref={this.unLoginBillingAddrRef}
                 key={2}
                 titleVisible={false}
@@ -3276,6 +3280,7 @@ class Payment extends React.Component {
               {paymentTypeVal === 'adyenCard' && (
                 <>
                   <AdyenCreditCard
+                    {...this.props}
                     ref={this.adyenCardRef}
                     subBuyWay={subForm.buyWay}
                     showErrorMsg={this.showErrorMsg}
@@ -3363,6 +3368,7 @@ class Payment extends React.Component {
               {paymentTypeVal === 'cyber' && (
                 <>
                   <CyberPayment
+                    {...this.props}
                     renderBillingJSX={this.renderBillingJSX}
                     renderSecurityCodeTipsJSX={this.renderSecurityCodeTipsJSX}
                     renderBackToSavedPaymentsJSX={
@@ -3477,13 +3483,13 @@ class Payment extends React.Component {
       case 'cyber':
         ret = (
           <CreditCardInfoPreview
+            {...this.props}
             data={{
               holderNameDeco,
               brandDeco,
               lastFourDeco,
               expirationDate
             }}
-            {...this.props}
           />
         );
         break;
