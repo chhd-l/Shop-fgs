@@ -446,7 +446,7 @@ class Pcexperts extends React.Component {
               type: 'primary',
               disabled: true
             });
-            if (_resources.length == 0) {
+            if (_resources.length === 0) {
               _resources.push(_temp);
             } else {
               _resources.map((item) => {
@@ -462,7 +462,6 @@ class Pcexperts extends React.Component {
                         it = { ...it, ..._t };
                       }
                       return it;
-                      // if(item.minuteSlotVOList.length===(index+1)&&!_t)isLoop=false
                     }
                   );
                   if (!isLoop) {
@@ -479,6 +478,7 @@ class Pcexperts extends React.Component {
           reslove(_resources);
         }
       });
+      console.log(resources, 'console.log(_resources);');
       this.setState({
         resources,
         key: +new Date()
