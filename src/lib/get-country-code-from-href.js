@@ -7,12 +7,9 @@ const getCountryCodeFromHref = () => {
    * 1. 开发环境，根据process.env
    * 2. 其他环境，根据二级路径，判断国家 eg: https://www.royalcanin.com/fr/shop https://shopsit.royalcanin.com/fr
    */
-  let countryLink =
-    process.env.REACT_APP_START_COUNTRY_LINK ||
-    (href.match(/http[s]?:\/\/[^\/]+\/([a-zA-A]{2,4})\/*/i) &&
-      href.match(/http[s]?:\/\/[^\/]+\/([a-zA-A]{2,4})\/*/i)[1]);
+  let countryLink = process.env.REACT_APP_START_COUNTRY_LINK;
 
-  // 从地址上获取不到时，进行强制匹配
+  // 根据域名，进行强制匹配
   if (!countryLink) {
     switch (host) {
       case 'shop.royalcanin.mx':
@@ -37,6 +34,13 @@ const getCountryCodeFromHref = () => {
         countryLink = 'tr';
         break;
     }
+  }
+
+  // 从地址上获取
+  if (!countryLink) {
+    countryLink =
+      href.match(/http[s]?:\/\/[^\/]+\/([a-zA-A]{2,4})\/*/i) &&
+      href.match(/http[s]?:\/\/[^\/]+\/([a-zA-A]{2,4})\/*/i)[1];
   }
 
   // 此mapping关系暂时为之，后续讨论标准国家码
