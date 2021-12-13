@@ -1117,17 +1117,17 @@ class Register extends Component {
                               <FormattedMessage id="registerCreateYourAccout" />
                             </button>
                           </div>
-                          <div className="rc-meta rc-margin-top--sm rc-text--left">
-                            <p>
-                              <FormattedMessage
-                                id="registerFooter1"
-                                defaultMessage={' '}
-                              />
-                              {window.__.env.REACT_APP_COUNTRY === 'us' ? (
+                          {window.__.env.REACT_APP_COUNTRY === 'us' ? (
+                            <div className="rc-meta rc-margin-top--sm rc-text--left">
+                              <p>
+                                <FormattedMessage
+                                  id="registerFooter1"
+                                  defaultMessage={' '}
+                                />
                                 <a href={homePage + contactUrl}>&nbsp;here</a>
-                              ) : null}
-                            </p>
-                          </div>
+                              </p>
+                            </div>
+                          ) : null}
                         </form>
                       </div>
                     </div>
