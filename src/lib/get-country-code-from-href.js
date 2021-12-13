@@ -9,7 +9,8 @@ const getCountryCodeFromHref = () => {
    */
   let countryLink =
     process.env.REACT_APP_START_COUNTRY_LINK ||
-    href.match(/http[s]?:\/\/[^\/]+\/([a-zA-A]{2,4})\/*/i)[1];
+    (href.match(/http[s]?:\/\/[^\/]+\/([a-zA-A]{2,4})\/*/i) &&
+      href.match(/http[s]?:\/\/[^\/]+\/([a-zA-A]{2,4})\/*/i)[1]);
 
   // 从地址上获取不到时，进行强制匹配
   if (!countryLink) {
