@@ -333,7 +333,7 @@ class Register extends Component {
       symbolReg2.test(_firstName) || symbolReg2.test(_lastName);
     let deValidRule =
       De && (!_firstName || !_lastName || deIllegalSymbol1 || deIllegalSymbol2);
-    if (deValidRule || !_name) {
+    if (deValidRule || (!De && !_name)) {
       this.setState(
         {
           showValidErrorMsg: true
