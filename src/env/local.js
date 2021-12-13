@@ -6,6 +6,9 @@ const ENV_LOCAL = {
     'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=',
   REACT_APP_RegisterCallback: 'http://localhost:3000?origin=register',
 
+  REACT_APP_AdyenOriginKEY:
+    'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4',
+
   // #stg de
   // #REACT_APP_CLIENT_ID: '0oaq4l7mz80pZlTd00x6',
   // #stg fr
