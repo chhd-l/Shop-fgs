@@ -236,15 +236,7 @@ class Register extends Component {
   };
 
   validInput(name, value) {
-    const symbolReg1 = /^\?+$/;
-    const symbolReg2 = /^\-+$/;
-    const deIllegalSymbol = symbolReg1.test(value) || symbolReg2.test(value);
-    console.log(
-      value,
-      symbolReg1.test(value),
-      symbolReg2.test(value),
-      'symbolReg1---'
-    );
+    const ukIllegalSymbol = value === '?' || value === '-';
     switch (name) {
       case 'password':
         const {
@@ -270,14 +262,14 @@ class Register extends Component {
         break;
       case 'firstName':
         this.setState({
-          firstNameValid: !!value && !deIllegalSymbol,
-          illegalSymbol: deIllegalSymbol
+          firstNameValid: !!value && !ukIllegalSymbol,
+          illegalSymbol: ukIllegalSymbol
         });
         break;
       case 'lastName':
         this.setState({
-          lastNameValid: !!value && !deIllegalSymbol,
-          illegalSymbol: deIllegalSymbol
+          lastNameValid: !!value && !ukIllegalSymbol,
+          illegalSymbol: ukIllegalSymbol
         });
         break;
       case 'email':
@@ -1125,14 +1117,16 @@ class Register extends Component {
                               <FormattedMessage id="registerCreateYourAccout" />
                             </button>
                           </div>
-                          {window.__.env.REACT_APP_COUNTRY === 'us' ? (
+                          {window.__.env.REACT_APP_COUNTRY !== 'ru' ? (
                             <div className="rc-meta rc-margin-top--sm rc-text--left">
                               <p>
                                 <FormattedMessage
                                   id="registerFooter1"
                                   defaultMessage={' '}
                                 />
-                                <a href={homePage + contactUrl}>&nbsp;here</a>
+                                {window.__.env.REACT_APP_COUNTRY === 'us' ? (
+                                  <a href={homePage + contactUrl}>&nbsp;here</a>
+                                ) : null}
                               </p>
                             </div>
                           ) : null}
