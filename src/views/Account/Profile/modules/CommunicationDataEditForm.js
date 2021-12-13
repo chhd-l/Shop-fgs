@@ -50,8 +50,9 @@ class CommunicationDataEditForm extends React.Component {
       errorMsg: '',
       showWarningTip: false
     };
-    this.handleCommunicationCheckBoxChange =
-      this.handleCommunicationCheckBoxChange.bind(this);
+    this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
+      this
+    );
   }
   componentDidUpdate() {
     if (window.__.env.REACT_APP_COUNTRY == 'tr') {
@@ -256,7 +257,7 @@ class CommunicationDataEditForm extends React.Component {
   //从子组件传回
   sendList = (list) => {
     this.setState({ list }, () => {
-      this.ukConsentInfoTip();
+      // this.ukConsentInfoTip();
     });
   };
 
@@ -308,7 +309,7 @@ class CommunicationDataEditForm extends React.Component {
     let { form } = this.state;
     form[item.type] = !+form[item.type] ? '1' : '0';
     this.setState({ form }, () => {
-      this.ukConsentInfoTip();
+      // this.ukConsentInfoTip();
     });
   }
   render() {
