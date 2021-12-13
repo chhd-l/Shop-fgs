@@ -579,6 +579,7 @@ class AdyenCreditCardList extends React.Component {
     const { cardList } = this.state;
     return (
       <EditForm
+        {...this.props}
         showSetAsDefaultCheckobx={false}
         ref={this.editFormRef}
         cardList={cardList}
@@ -599,7 +600,6 @@ class AdyenCreditCardList extends React.Component {
         showErrorMsg={showErrorMsg}
         supportPaymentMethods={this.props.supportPaymentMethods}
         getFormAddressValidFlag={this.getFormAddressValidFlag}
-        {...this.props}
       />
     );
   };

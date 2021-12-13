@@ -22,20 +22,13 @@ let menuList = [
   {
     catogery: 'Pets',
     isShow: true,
-    icon: (
-      <span
-        className="iconfont"
-        style={{ fontSize: '1.1rem', marginLeft: '-.1rem' }}
-      >
-        &#xe69a;
-      </span>
-    ),
+    icon: <span className="iconfont text-lg -ml-0.5">&#xe69a;</span>,
     langKey: 'account.pets',
     url: '/account/pets'
   },
   {
     catogery: 'Appointments',
-    isShow: window.__.env.REACT_APP_COUNTRY === 'fr',
+    isShow: false && window.__.env.REACT_APP_COUNTRY === 'fr',
     icon: <span className="iconfont icontime" />,
     langKey: 'account.appointment',
     url: '/account/appointments'
@@ -61,7 +54,7 @@ let menuList = [
     langKey: 'footer.FAQ',
     url: '/faq',
     href:
-      window.__.env.REACT_APP_COUNTRY == 'ru'
+      window.__.env.REACT_APP_COUNTRY === 'ru'
         ? '/about-us/faq'
         : '/about-us/faqs',
     isHubOuterLink: true
@@ -100,16 +93,6 @@ class SideMenu extends React.Component {
         isOuterLink: true
       });
     }
-    // if(window.__.env.REACT_APP_COUNTRY==='fr'){
-    //   menuList.splice(2,0,{
-    //     catogery: 'loyaltyProgramme',
-    //     isShow: Boolean(window.__.env.LOYALTY_PROGRAMME_LINK),
-    //     icon: <span className="iconfont iconLogoff icon-loyaltyProgramme" />,
-    //     langKey: 'account.loyaltyProgramme',
-    //     href: window.__.env.LOYALTY_PROGRAMME_LINK,
-    //     isOuterLink: true
-    //   })
-    // }
   }
   render() {
     const { type } = this.props;

@@ -73,7 +73,7 @@ function AboutPet() {
       setPerStep([]);
       setDefaultValue({});
     }
-    setStep(result.context.steps[0].metadata.step);
+    setStep(result.context.steps[0]?.metadata.step);
     setResult('');
     setLoading(false);
   };

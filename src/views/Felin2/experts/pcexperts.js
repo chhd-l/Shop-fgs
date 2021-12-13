@@ -60,25 +60,29 @@ class Pcexperts extends React.Component {
           valueEn: 'Behaviorist',
           src: cat1,
           name: 'Comportementalistes',
-          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         },
         {
           valueEn: 'Nutritionist',
           src: cat2,
           name: 'Expert en nutrition',
-          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         },
         {
           valueEn: 'Osteopathist',
           src: cat3,
           name: 'Ostéopathes',
-          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         }
       ],
       timeList: [
         {
           duration: 15,
-          text: 'Rapide et facile, échangez avec un expert pour reçevoir ses conseils et commencer le suivi de votre chat.'
+          text:
+            'Rapide et facile, échangez avec un expert pour reçevoir ses conseils et commencer le suivi de votre chat.'
         },
         {
           duration: 30,
@@ -442,7 +446,7 @@ class Pcexperts extends React.Component {
               type: 'primary',
               disabled: true
             });
-            if (_resources.length == 0) {
+            if (_resources.length === 0) {
               _resources.push(_temp);
             } else {
               _resources.map((item) => {
@@ -458,7 +462,6 @@ class Pcexperts extends React.Component {
                         it = { ...it, ..._t };
                       }
                       return it;
-                      // if(item.minuteSlotVOList.length===(index+1)&&!_t)isLoop=false
                     }
                   );
                   if (!isLoop) {
@@ -475,6 +478,7 @@ class Pcexperts extends React.Component {
           reslove(_resources);
         }
       });
+      console.log(resources, 'console.log(_resources);');
       this.setState({
         resources,
         key: +new Date()
@@ -482,7 +486,6 @@ class Pcexperts extends React.Component {
     });
   };
   onChange = (data) => {
-    console.log(data);
     this.setState({
       votre: {
         ...this.state.votre,

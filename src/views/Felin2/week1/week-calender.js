@@ -86,10 +86,10 @@ class WeekCalender extends Component {
     return new Promise((reslove) => {
       let _data = [...this.props.data];
       let _dataObj = {};
-      _data.map((item) => {
+      _data.forEach((item) => {
         _dataObj[item.date] = item;
         _dataObj[item.date]['minuteList'] = {};
-        item.minuteSlotVOList.map((list) => {
+        item.minuteSlotVOList.forEach((list) => {
           _dataObj[item.date]['minuteList'][list.startTime] = list;
         });
       });

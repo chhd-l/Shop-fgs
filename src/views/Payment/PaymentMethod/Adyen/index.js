@@ -68,6 +68,7 @@ class AdyenCreditCard extends React.Component {
       <>
         {_errJSX}
         <CardList
+          {...this.props}
           ref={this.cardListRef}
           updateSelectedCardInfo={this.updateSelectedCardInfo}
           showErrorMsg={this.showErrorMsg}
@@ -76,7 +77,6 @@ class AdyenCreditCard extends React.Component {
           paymentStore={paymentStore}
           billingJSX={this.props.billingJSX}
           updateFormValidStatus={this.props.updateFormValidStatus}
-          {...this.props}
         />
       </>
     );

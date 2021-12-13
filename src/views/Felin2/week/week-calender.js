@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import './index.less';
 
-let index = -1;
+let index = 0;
 
 class WeekCalender extends Component {
   state = {
     weekDate: [],
-    selectedIndex: ''
+    selectedIndex: '',
+    index: 0
   };
 
   componentDidMount() {
@@ -33,16 +34,17 @@ class WeekCalender extends Component {
         times: list
       });
     }
+    console.log(weekDate);
     this.setState({ weekDate });
   };
   getEnmbeData = () => {
     return new Promise((reslove) => {
       let _data = [...this.props.data];
       let _dataObj = {};
-      _data.map((item) => {
+      _data.forEach((item) => {
         _dataObj[item.date] = item;
         _dataObj[item.date]['minuteList'] = {};
-        item.minuteSlotVOList.map((list) => {
+        item.minuteSlotVOList.forEach((list) => {
           _dataObj[item.date]['minuteList'][list.startTime] = list;
         });
       });
@@ -52,20 +54,37 @@ class WeekCalender extends Component {
   };
 
   lastWeek = () => {
-    if (index === -1) return;
+    if (index === 0) return;
     index++;
-    const cc = this.getWeek();
-    this.getCurrentWeek(cc[0]);
+    this.setState(
+      {
+        index
+      },
+      () => {
+        const cc = this.getWeek();
+        console.log(cc);
+        this.getCurrentWeek(cc[0]);
+      }
+    );
   };
 
   nextWeek = () => {
-    if (index === -2) return;
+    if (index === -1) return;
     index--;
-    const cc = this.getWeek();
-    this.getCurrentWeek(cc[0]);
+    this.setState(
+      {
+        index
+      },
+      () => {
+        const cc = this.getWeek();
+        console.log(cc);
+        this.getCurrentWeek(cc[0]);
+      }
+    );
   };
   getWeek = () => {
-    let i = index;
+    let i = this.state.index;
+    console.log(i);
     let begin = moment()
       .week(moment().week() - i)
       .startOf('week')
