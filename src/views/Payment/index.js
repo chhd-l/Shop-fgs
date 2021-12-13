@@ -909,15 +909,19 @@ class Payment extends React.Component {
   // 更新felin预约的用户信息
 
   async setFelinAppointInfo() {
-    if (!this.userInfo) return;
-    await postUpdateUser({
-      apptNo: this.state.appointNo,
-      consumerName: this.userInfo?.contactName,
-      consumerFirstName: this.userInfo?.firstName,
-      consumerLastName: this.userInfo?.lastName,
-      consumerEmail: this.userInfo?.email,
-      consumerPhone: this.userInfo?.contactPhone
-    });
+    try {
+      if (!this.userInfo) return;
+      await postUpdateUser({
+        apptNo: this.state.appointNo,
+        consumerName: this.userInfo?.contactName,
+        consumerFirstName: this.userInfo?.firstName,
+        consumerLastName: this.userInfo?.lastName,
+        consumerEmail: this.userInfo?.email,
+        consumerPhone: this.userInfo?.contactPhone
+      });
+    } catch (err) {
+      this.showErrorMsg(err.message);
+    }
   }
 
   // 获取订单详细
@@ -936,42 +940,46 @@ class Payment extends React.Component {
   }
   //获取appointment信息
   async queryAppointInfo() {
-    const result = await getAppointmentInfo(this.state.appointNo);
-    console.log('appointmentInfo', result);
-    const requestName = this.isLogin ? getLoginDetails : getDetails;
-    const goodInfoRes = await requestName(result?.goodsInfoId);
-    const goodInfo = goodInfoRes?.context || { goodsName: 'Felin Service' };
-    const goodDetail = Object.assign(goodInfo, {
-      goodsInfoId: result?.goodsInfoId,
-      goodsInfoImg: goodInfo.goods.goodsImg,
-      goodsName: goodInfo.goods.goodsName,
-      buyCount: 1,
-      salePrice: (goodInfo?.goodsInfos || []).filter(
-        (item) => item.goodsInfoId === result?.goodsInfoId
-      )[0].salePrice,
-      selected: true
-    });
-    sessionItemRoyal.set('recommend_product', JSON.stringify([goodDetail]));
-    await this.props.checkoutStore.updatePromotionFiled([goodDetail]);
-    this.handleZeroOrder();
-    if (!this.isLogin) {
-      const felinAddress = Object.assign(felinAddr[0], {
-        firstName: result?.consumerFirstName || '',
-        lastName: result?.consumerLastName || '',
-        consigneeName:
-          result?.consumerName ||
-          result?.consumerFirstName + ' ' + result?.consumerLastName ||
-          '',
-        consigneeNumber: result?.consumerPhone || ''
+    try {
+      const result = await getAppointmentInfo(this.state.appointNo);
+      console.log('appointmentInfo', result);
+      const requestName = this.isLogin ? getLoginDetails : getDetails;
+      const goodInfoRes = await requestName(result?.goodsInfoId);
+      const goodInfo = goodInfoRes?.context || { goodsName: 'Felin Service' };
+      const goodDetail = Object.assign(goodInfo, {
+        goodsInfoId: result?.goodsInfoId,
+        goodsInfoImg: goodInfo.goods.goodsImg,
+        goodsName: goodInfo.goods.goodsName,
+        buyCount: 1,
+        salePrice: (goodInfo?.goodsInfos || []).filter(
+          (item) => item.goodsInfoId === result?.goodsInfoId
+        )[0].salePrice,
+        selected: true
       });
+      sessionItemRoyal.set('recommend_product', JSON.stringify([goodDetail]));
+      await this.props.checkoutStore.updatePromotionFiled([goodDetail]);
+      this.handleZeroOrder();
+      if (!this.isLogin) {
+        const felinAddress = Object.assign(felinAddr[0], {
+          firstName: result?.consumerFirstName || '',
+          lastName: result?.consumerLastName || '',
+          consigneeName:
+            result?.consumerName ||
+            result?.consumerFirstName + ' ' + result?.consumerLastName ||
+            '',
+          consigneeNumber: result?.consumerPhone || ''
+        });
+        this.setState({
+          deliveryAddress: felinAddress,
+          billingAddress: felinAddress
+        });
+      }
       this.setState({
-        deliveryAddress: felinAddress,
-        billingAddress: felinAddress
+        recommend_data: [Object.assign(result, goodDetail)]
       });
+    } catch (err) {
+      this.showErrorMsg(err.message);
     }
-    this.setState({
-      recommend_data: [Object.assign(result, goodDetail)]
-    });
   }
   showErrorMsg = (msg) => {
     this.setState({

@@ -60,12 +60,6 @@ class Hcexperts extends React.Component {
           src: cat2,
           name: 'Expert en nutrition',
           text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
-        },
-        {
-          valueEn: 'Osteopathist',
-          src: cat3,
-          name: 'Ostéopathes',
-          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         }
       ],
       timeList: [
