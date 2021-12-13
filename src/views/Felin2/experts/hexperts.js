@@ -74,6 +74,10 @@ class Hcexperts extends React.Component {
         {
           duration: 45,
           text: 'Prenez le temps de vous offrir une session complète.'
+        },
+        {
+          duration: 60,
+          text: 'Prenez le temps de vous offrir une session complète.'
         }
       ],
       isShow: true,
