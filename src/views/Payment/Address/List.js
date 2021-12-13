@@ -151,14 +151,12 @@ class AddressList extends React.Component {
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.addOrEditPickupAddress = this.addOrEditPickupAddress.bind(this);
-    this.handleCancelAddOrEditPickup = this.handleCancelAddOrEditPickup.bind(
-      this
-    );
+    this.handleCancelAddOrEditPickup =
+      this.handleCancelAddOrEditPickup.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.timer = null;
-    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
-      this
-    );
+    this.confirmListValidationAddress =
+      this.confirmListValidationAddress.bind(this);
     this.editFormRef = React.createRef();
   }
   async componentDidMount() {
@@ -520,22 +518,29 @@ class AddressList extends React.Component {
     dfarr.forEach((v, i) => {
       let akey = v.fieldKey;
       // state 对应数据库字段 province
-      v.fieldKey == 'state' ? (akey = 'province') : v.fieldKey;
+      v.fieldKey === 'state' && (akey = 'province');
       // region 对应数据库字段 area
-      v.fieldKey == 'region' ? (akey = 'area') : v.fieldKey;
+      v.fieldKey === 'region' && (akey = 'area');
       // phoneNumber 对应数据库字段 consigneeNumber
-      v.fieldKey == 'phoneNumber' ? (akey = 'consigneeNumber') : v.fieldKey;
+      v.fieldKey === 'phoneNumber' && (akey = 'consigneeNumber');
 
       let fky = wrongAddressMsg[akey];
       // 判断city和cityId 是否均为空
-      if (v.fieldKey == 'city') {
-        tmpObj.city || tmpObj.cityId ? (akey = '') : akey;
+      if (v.fieldKey === 'city') {
+        if (tmpObj.city || tmpObj.cityId) {
+          akey = '';
+        }
       }
       // 判断country和countryId 是否均为空
-      if (v.fieldKey == 'country') {
-        tmpObj.country || tmpObj.countryId ? (akey = '') : akey;
+      if (v.fieldKey === 'country') {
+        if (tmpObj.country || tmpObj.countryId) {
+          akey = '';
+        }
       }
-      if (akey) tmpObj[akey] ? '' : errMsgArr.push(fky);
+
+      if (akey && !tmpObj[akey]) {
+        errMsgArr.push(fky);
+      }
     });
     errMsgArr = errMsgArr.join(', ');
     // 如果地址字段有缺失，提示错误信息
@@ -561,12 +566,12 @@ class AddressList extends React.Component {
       province = wrongAddressMsg['province'],
       settlement = wrongAddressMsg['settlement'];
 
-    data.street ? '' : errArr.push(streets);
-    data.postCode ? '' : errArr.push(postCode);
-    data.house ? '' : errArr.push(house);
-    data.city ? '' : errArr.push(city);
-    data.province ? '' : errArr.push(province);
-    data.settlement ? '' : errArr.push(settlement);
+    !data.street && errArr.push(streets);
+    !data.postCode && errArr.push(postCode);
+    !data.house && errArr.push(house);
+    !data.city && errArr.push(city);
+    !data.province && errArr.push(province);
+    !data.settlement && errArr.push(settlement);
 
     return errArr.join(',');
   };
@@ -1133,11 +1138,8 @@ class AddressList extends React.Component {
   };
   // 点击地址验证确认按钮
   confirmListValidationAddress = () => {
-    const {
-      deliveryAddress,
-      selectListValidationOption,
-      validationAddress
-    } = this.state;
+    const { deliveryAddress, selectListValidationOption, validationAddress } =
+      this.state;
     this.setState({
       listBtnLoading: true
     });
@@ -1370,7 +1372,7 @@ class AddressList extends React.Component {
           }
           // 两个都有时，如果有默认地址，则选择默认
           if (addressList.length && pickupAddress.length) {
-            allAddressList.map((e) => {
+            allAddressList.forEach((e) => {
               // 有默认地址
               if (e.isDefaltAddress == 1) {
                 if (e.receiveType === 'PICK_UP') {
@@ -1380,7 +1382,7 @@ class AddressList extends React.Component {
                 }
               }
             });
-            addstr ? addstr : (addstr = 'COURIER');
+            !addstr && (addstr = 'COURIER');
           }
 
           if (obj?.length) {
@@ -1398,7 +1400,7 @@ class AddressList extends React.Component {
               } else {
                 e.selected = false;
               }
-              obj.length === 1 ? (e.selected = true) : '';
+              obj.length === 1 && (e.selected = true);
               if (obj.length === 1 && deliveryType === 'PICK_UP') {
                 e.selected = true;
                 this.handleRadioChange('homeDelivery');
@@ -1443,7 +1445,7 @@ class AddressList extends React.Component {
             if (deliveryType === 'HOME_DELIVERY') {
               // homeDelivery地址通过queryCityFee接口查询的结果不决定pickup地址是否展示
               let hmapk = this.state.homeAndPickup;
-              hmapk.map((hp) => {
+              hmapk.forEach((hp) => {
                 if (hp.type === 'homeDelivery') {
                   hp.deliveryPrice = homeDeliveryPrice;
                 }
@@ -1542,7 +1544,7 @@ class AddressList extends React.Component {
       }
       // 4、两个都有时，如果有默认地址，则选择默认
       if (addressList.length && pickupAddress.length) {
-        allAddressList.map((e) => {
+        allAddressList.forEach((e) => {
           // 有默认地址
           if (e.isDefaltAddress == 1) {
             if (e.receiveType === 'PICK_UP') {
@@ -1552,7 +1554,7 @@ class AddressList extends React.Component {
             }
           }
         });
-        addstr ? addstr : (addstr = 'homeDelivery');
+        !addstr && (addstr = 'homeDelivery');
         // console.log('666 >>> 4、both ： ',addstr);
         this.handleRadioChange(addstr);
       }
@@ -1714,7 +1716,7 @@ class AddressList extends React.Component {
             (ele) => ele.deliveryAddressId === theAddressId
           );
           Array.from(addressList, (a) => (a.selected = false));
-          addressList.map((e) => {
+          addressList.forEach((e) => {
             if (e.deliveryAddressId === theAddressId) {
               e.selected = true;
             }
@@ -1923,7 +1925,6 @@ class AddressList extends React.Component {
         isDefaltAddress: pickupFormData.isDefaltAddress ? 1 : 0,
         minDeliveryTime: minDeliveryTime,
         maxDeliveryTime: maxDeliveryTime,
-        workTime: pickupFormData.workTime,
         province: pkaddr?.region || pickupFormData.province,
         provinceIdStr: pkaddr?.regionFias || pickupFormData.provinceIdStr,
         provinceCode: pickupFormData?.provinceCode,

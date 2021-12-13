@@ -831,6 +831,7 @@ class SubscriptionDetail extends React.Component {
                       {/* 商品详情 */}
                       <>
                         <SubGoodsInfos
+                          {...this.props}
                           getDetail={this.getDetail}
                           handleSaveChange={this.handleSaveChange.bind(this)}
                           modalList={modalList}
@@ -845,7 +846,6 @@ class SubscriptionDetail extends React.Component {
                           getMinDate={this.getMinDate}
                           showErrMsg={this.showErrMsg.bind(this)}
                           subDetail={subDetail}
-                          {...this.props}
                         />
                       </>
 
@@ -865,8 +865,8 @@ class SubscriptionDetail extends React.Component {
                           </h4>
                           <div className="rc-max-width--xl">
                             <OngoingOrder
-                              subDetail={subDetail}
                               {...this.props}
+                              subDetail={subDetail}
                             />
                           </div>
                         </>
@@ -879,6 +879,7 @@ class SubscriptionDetail extends React.Component {
                         </h4>
                         <div className="rc-max-width--xl">
                           <DeliveryList
+                            {...this.props}
                             modalList={modalList}
                             getMinDate={this.getMinDate}
                             completedYearOption={completedYearOption}
@@ -891,9 +892,9 @@ class SubscriptionDetail extends React.Component {
                             isGift={isGift}
                             completedYear={completedYear}
                             activeTabIdx={activeTabIdx}
-                            {...this.props}
                           />
                           <GiftList
+                            {...this.props}
                             modalList={modalList}
                             setState={this.setState.bind(this)}
                             activeTabIdx={this.activeTabIdx}
@@ -902,7 +903,6 @@ class SubscriptionDetail extends React.Component {
                             subDetail={subDetail}
                             noStartYear={noStartYear}
                             isGift={isGift}
-                            {...this.props}
                           />
                         </div>
                       </>

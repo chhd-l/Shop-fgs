@@ -1769,8 +1769,13 @@ class SmartFeederSubscription extends Component {
   };
   render() {
     const { location, history, match } = this.props;
-    const { headerHide, stepName, checkOutErrMsg, goodsDetailTab, enableFlag } =
-      this.state;
+    const {
+      headerHide,
+      stepName,
+      checkOutErrMsg,
+      goodsDetailTab,
+      enableFlag
+    } = this.state;
     let stepCom = null;
     return (
       <div>
@@ -1856,6 +1861,7 @@ class SmartFeederSubscription extends Component {
                     case 'step3':
                       stepCom = (
                         <Step3
+                          {...this.props}
                           handleCheckout={this.handleCheckout}
                           history={this.props.history}
                           specList={this.state.specList}
@@ -1864,7 +1870,6 @@ class SmartFeederSubscription extends Component {
                           toOtherStep={this.toOtherStep}
                           isLogin={this.isLogin}
                           hanldeAddToCart={this.hanldeAddToCart}
-                          {...this.props}
                         />
                       );
                       break;

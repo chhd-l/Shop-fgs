@@ -37,10 +37,10 @@ class RequestInvoices extends React.Component {
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
+          {...this.props}
           showMiniIcons={true}
           showUserIcon={true}
           match={this.props.match}
-          {...this.props}
         />
         <div className="RequestInvoices">
           <h1>

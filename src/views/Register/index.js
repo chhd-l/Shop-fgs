@@ -236,7 +236,15 @@ class Register extends Component {
   };
 
   validInput(name, value) {
-    const ukIllegalSymbol = value === '?' || value === '-';
+    const symbolReg1 = /^\?+$/;
+    const symbolReg2 = /^\-+$/;
+    const deIllegalSymbol = symbolReg1.test(value) || symbolReg2.test(value);
+    console.log(
+      value,
+      symbolReg1.test(value),
+      symbolReg2.test(value),
+      'symbolReg1---'
+    );
     switch (name) {
       case 'password':
         const {
@@ -262,14 +270,14 @@ class Register extends Component {
         break;
       case 'firstName':
         this.setState({
-          firstNameValid: !!value && !ukIllegalSymbol,
-          illegalSymbol: ukIllegalSymbol
+          firstNameValid: !!value && !deIllegalSymbol,
+          illegalSymbol: deIllegalSymbol
         });
         break;
       case 'lastName':
         this.setState({
-          lastNameValid: !!value && !ukIllegalSymbol,
-          illegalSymbol: ukIllegalSymbol
+          lastNameValid: !!value && !deIllegalSymbol,
+          illegalSymbol: deIllegalSymbol
         });
         break;
       case 'email':
