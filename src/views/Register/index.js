@@ -223,10 +223,10 @@ class Register extends Component {
     const target = e.target;
     const name = target.name;
     let value = target.type === 'checkbox' ? target.checked : target.value;
-    value =
-      isString(target.value) && name != 'password'
-        ? target.value?.trim()
-        : target.value;
+    // value =
+    //   isString(target.value) && name != 'password'
+    //     ? target.value?.trim()
+    //     : target.value;
     if (name === 'password') {
       this.setState({
         passwordChanged: false
@@ -289,10 +289,10 @@ class Register extends Component {
     const { registerForm } = this.state;
     const target = e.target;
     let value = target.type === 'checkbox' ? target.checked : target.value;
-    value =
-      isString(target.value) && name != 'password'
-        ? target.value?.trim()
-        : target.value;
+    // value =
+    //   isString(target.value) && name != 'password'
+    //     ? target.value?.trim()
+    //     : target.value;
     const name = target.name;
     if (name === 'password') {
       var lowerReg = /[a-z]+/;
