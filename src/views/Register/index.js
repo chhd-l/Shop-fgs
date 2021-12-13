@@ -324,17 +324,16 @@ class Register extends Component {
     let De = window.__.env.REACT_APP_COUNTRY == 'de';
     let _firstName = registerForm.firstName?.trim();
     let _lastName = registerForm.lastName?.trim();
+    let _name = registerForm.name?.trim();
     const symbolReg1 = /^\?+$/;
     const symbolReg2 = /^\-+$/;
     const deIllegalSymbol1 =
       symbolReg1.test(_firstName) || symbolReg1.test(_lastName);
     const deIllegalSymbol2 =
       symbolReg2.test(_firstName) || symbolReg2.test(_lastName);
-
-    if (
-      De &&
-      (!_firstName || !_lastName || deIllegalSymbol1 || deIllegalSymbol2)
-    ) {
+    let deValidRule =
+      De && (!_firstName || !_lastName || deIllegalSymbol1 || deIllegalSymbol2);
+    if (deValidRule || (!De && !_name)) {
       this.setState(
         {
           showValidErrorMsg: true
