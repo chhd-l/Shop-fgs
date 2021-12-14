@@ -21,7 +21,8 @@ const SPECAIL_CONSENT_ENUM =
     ],
     fr: ['RC_DF_FR_FGS_OPT_MOBILE', 'RC_DF_FR_FGS_OPT_EMAIL'],
     ru: ['RC_DF_RU_FGS_OPT_EMAIL', 'RC_DF_RU_FGS_OPT_MOBILE'],
-    tr: ['RC_DF_TR_FGS_OPT_EMAIL', 'RC_DF_TR_FGS_OPT_MOBILE']
+    tr: ['RC_DF_TR_FGS_OPT_EMAIL', 'RC_DF_TR_FGS_OPT_MOBILE'],
+    uk: ['RC_DF_UK_CLIXRAY_OPT_EMAIL']
   }[window.__.env.REACT_APP_COUNTRY] || [];
 
 const ukTipInfoConsentEnum = ['RC_DF_UK_CLIXRAY_OPT_EMAIL'];
@@ -256,7 +257,7 @@ class CommunicationDataEditForm extends React.Component {
   //从子组件传回
   sendList = (list) => {
     this.setState({ list }, () => {
-      this.ukConsentInfoTip();
+      // this.ukConsentInfoTip();
     });
   };
 
@@ -308,7 +309,7 @@ class CommunicationDataEditForm extends React.Component {
     let { form } = this.state;
     form[item.type] = !+form[item.type] ? '1' : '0';
     this.setState({ form }, () => {
-      this.ukConsentInfoTip();
+      // this.ukConsentInfoTip();
     });
   }
   render() {
