@@ -586,6 +586,12 @@ class Home extends React.Component {
         '/account/orders' + history.location.search
       );
     }
+    if (parametersString.indexOf('redirect=appointDetail') >= 0) {
+      localItemRoyal.set(
+        'okta-redirectUrl',
+        '/account/appointments' + history.location.search
+      );
+    }
     if (parametersString.indexOf('redirect=subscription') >= 0) {
       localItemRoyal.set(
         'okta-redirectUrl',
