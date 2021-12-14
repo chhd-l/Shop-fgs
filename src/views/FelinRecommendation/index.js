@@ -29,6 +29,8 @@ import cloneDeep from 'lodash/cloneDeep';
 import { toJS } from 'mobx';
 import LoginButton from '@/components/LoginButton';
 import Modal from './components/Modal';
+import { funcUrl } from '@/lib/url-utils';
+
 import {
   setSeoConfig,
   distributeLinktoPrecriberOrPaymentPage
@@ -36,7 +38,7 @@ import {
 import LazyLoad from 'react-lazyload';
 import transparentImg from './images/transparent.svg';
 import { Helmet } from 'react-helmet';
-
+import Loading from '@/components/Loading';
 import './index.css';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -50,6 +52,7 @@ class FelinRecommendation extends React.Component {
     super(props);
     this.state = {
       isNoMoreProduct: false,
+      pageLoading: true,
       details: {
         id: '',
         goodsName: '',
@@ -61,6 +64,7 @@ class FelinRecommendation extends React.Component {
         goodsSpecDetails: [],
         goodsSpecs: []
       },
+      couponCode: '',
       seoConfig: {
         title: 'Royal canin',
         metaKeywords: 'Royal canin',
@@ -101,13 +105,16 @@ class FelinRecommendation extends React.Component {
     this.helpContentText = {
       title: this.props.intl.messages['recommendation.thirdTitle'],
       des: this.props.intl.messages['recommendation.thirdContent'],
-      emailTitle:
-        this.props.intl.messages['recommendation.helpContentText.emailTitle'],
-      emailDes:
-        this.props.intl.messages['recommendation.helpContentText.emailDes'],
+      emailTitle: this.props.intl.messages[
+        'recommendation.helpContentText.emailTitle'
+      ],
+      emailDes: this.props.intl.messages[
+        'recommendation.helpContentText.emailDes'
+      ],
       emailLink: '/help/contact',
-      phoneTitle:
-        this.props.intl.messages['recommendation.helpContentText.phoneTitle'],
+      phoneTitle: this.props.intl.messages[
+        'recommendation.helpContentText.phoneTitle'
+      ],
       phone: '0986568097',
       email: 'latelierfelin@royalcanin.com',
       phoneDes1: '',
@@ -127,6 +134,8 @@ class FelinRecommendation extends React.Component {
     });
     this.setState({ isMobile: getDeviceType() === 'H5' });
     this.setState({ loading: true });
+    let couponCode = funcUrl({ name: 'couponCode' });
+    this.setState({ couponCode });
     getFelinReco(id)
       .then((res) => {
         let productList = res.context.recommendationGoodsInfoRels;
@@ -233,10 +242,12 @@ class FelinRecommendation extends React.Component {
         this.props.clinicStore.setLinkClinicName('');
         this.props.clinicStore.setAuditAuthority(false);
         this.setState({ loading: false });
+        this.buyNow();
         // });
       })
       .catch((err) => {
         console.log(err, 'err');
+        this.setState({ pageLoading: false });
         // this.props.history.push('/home');
       });
     // if (localItemRoyal.get('isRefresh')) {
@@ -246,8 +257,12 @@ class FelinRecommendation extends React.Component {
     // }
   }
   checkoutStock() {
-    let { productList, outOfStockProducts, inStockProducts, modalList } =
-      this.state;
+    let {
+      productList,
+      outOfStockProducts,
+      inStockProducts,
+      modalList
+    } = this.state;
     for (let i = 0; i < productList.length; i++) {
       if (
         productList[i].recommendationNumber > productList[i].goodsInfo.stock
@@ -277,8 +292,12 @@ class FelinRecommendation extends React.Component {
     );
   }
   async hanldeLoginAddToCart() {
-    let { productList, outOfStockProducts, inStockProducts, modalList } =
-      this.state;
+    let {
+      productList,
+      outOfStockProducts,
+      inStockProducts,
+      modalList
+    } = this.state;
     const { checkoutStore, loginStore, history, clinicStore } = this.props;
     // console.log(outOfStockProducts, inStockProducts, '...1')
     // return
@@ -418,8 +437,12 @@ class FelinRecommendation extends React.Component {
       localItemRoyal.set('okta-redirectUrl', '/prescription');
     }
     this.setState({ needLogin });
-    let { productList, outOfStockProducts, inStockProducts, modalList } =
-      this.state;
+    let {
+      productList,
+      outOfStockProducts,
+      inStockProducts,
+      modalList
+    } = this.state;
     let totalPrice;
     inStockProducts.forEach((el) => {
       console.log(el, 'instock');
@@ -458,6 +481,7 @@ class FelinRecommendation extends React.Component {
       //     this.setState({ buttonLoading: false });
       //   }
       // }
+      await this.props.checkoutStore.setPromotionCode(this.state.couponCode);
       this.setState({ buttonLoading: true });
       try {
         if (loginStore.isLogin) {
@@ -512,8 +536,12 @@ class FelinRecommendation extends React.Component {
   };
   async hanldeClickSubmit() {
     const { checkoutStore, loginStore, history, clinicStore } = this.props;
-    let { currentModalObj, subDetail, outOfStockProducts, inStockProducts } =
-      this.state;
+    let {
+      currentModalObj,
+      subDetail,
+      outOfStockProducts,
+      inStockProducts
+    } = this.state;
     this.setState({ loading: true, modalShow: false });
     if (currentModalObj.type === 'addToCart') {
       for (let i = 0; i < inStockProducts.length; i++) {
@@ -639,6 +667,9 @@ class FelinRecommendation extends React.Component {
         >
           <span>{currentModalObj.content}</span>
         </Modal>
+        {this.state.pageLoading ? (
+          <Loading bgColor={'#fff'} opacity={1} />
+        ) : null}
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
           <div
