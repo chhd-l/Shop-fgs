@@ -326,9 +326,9 @@ class AccountOrders extends React.Component {
                             </span>
                             <span className="ui-text-overflow-line2">
                               <span>
-                                {details.expertName} – {details.minutes}
+                                {details.expertType} – {details.minutes}
                                 <FormattedMessage id="min" /> –
-                                {details.appointType}
+                                {details.appointmentType}
                               </span>
                             </span>
                           </div>
