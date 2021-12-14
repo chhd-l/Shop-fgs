@@ -329,7 +329,7 @@ class Register extends Component {
       symbolReg2.test(_firstName) || symbolReg2.test(_lastName);
     let deValidRule =
       De && (!_firstName || !_lastName || deIllegalSymbol1 || deIllegalSymbol2);
-    if (deValidRule || !_name) {
+    if (deValidRule || (!De && !_name)) {
       this.setState(
         {
           showValidErrorMsg: true
@@ -406,7 +406,12 @@ class Register extends Component {
             // 注册的时候如果是预约专家就直接跳转checkout页面
             let appointmentNo = sessionItemRoyal.get('appointment-no');
             if (appointmentNo) {
-              window.location.href = window.location.origin + '/fr/checkout';
+              // let type ={
+              //   sit:'/fr/checkout',
+              //   uat: '/fr/shop/checkout',
+              // }
+              // window.location.href = window.location.origin + type[window.__.env.REACT_APP_GA_ENV];
+              this.props.history.push('/checkout');
             } else {
               window.location.href = callOktaCallBack;
             }

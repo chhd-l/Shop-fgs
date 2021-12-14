@@ -24026,3 +24026,14 @@ html:not(.rc-loaded--final) .rc-header__nav .rc-list__content.hidden {
 .react-datepicker-popper {
   z-index: 9 !important;
 }
+
+.rc-list-overwrite .rc-list__header + .rc-list {
+  max-height: 0 !important;
+}
+.rc-list-overwrite .rc-list__header.rc-list__header-open + .rc-list {
+  max-height: initial !important;
+}
+.rc-list-overwrite .rc-list__header-open .icon-down {
+  display: inline-block;
+  transform: rotate(180deg);
+}
