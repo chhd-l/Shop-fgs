@@ -90,16 +90,19 @@ class AccountOrders extends React.Component {
       ]);
       console.log('appointDictRes', appointDictRes);
       let tmpList = Array.from(res.context.page.content, (ele) => {
+        const appointmentType = (
+          appointDictRes[0]?.context?.goodsDictionaryVOS || []
+        ).filter((item) => item.id === ele?.apptTypeId);
+        const expertType = (
+          appointDictRes[1]?.context?.goodsDictionaryVOS || []
+        ).filter((item) => item.id === ele?.expertTypeId);
         return Object.assign(ele, {
           canChangeAppoint: ele.status !== 1,
           canCancelAppoint: ele.status !== 1,
           cancelAppointLoading: false,
-          appointmentType: (
-            appointDictRes[0]?.context?.goodsDictionaryVOS || []
-          ).filter((item) => item.id === ele?.apptTypeId)[0].name,
-          expertType: (
-            appointDictRes[1]?.context?.goodsDictionaryVOS || []
-          ).filter((item) => item.id === ele?.expertTypeId)[0].name,
+          appointmentType:
+            appointmentType.length > 0 ? appointmentType[0].name : '',
+          expertType: expertType.length > 0 ? expertType[0].name : '',
           appointmentStatus:
             ele.status === 0 ? (
               <FormattedMessage id="appointment.status.Booked" />
