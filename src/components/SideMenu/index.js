@@ -28,7 +28,9 @@ let menuList = [
   },
   {
     catogery: 'Appointments',
-    isShow: false && window.__.env.REACT_APP_COUNTRY === 'fr',
+    isShow:
+      window.__.env.REACT_APP_GA_ENV !== 'prd' &&
+      window.__.env.REACT_APP_COUNTRY === 'fr',
     icon: <span className="iconfont icontime" />,
     langKey: 'account.appointment',
     url: '/account/appointments'

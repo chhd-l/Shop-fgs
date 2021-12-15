@@ -952,6 +952,24 @@ class ClubLandingPageDe extends React.Component {
                                           service.de@royalcanin.com
                                         </a>
                                       </p>
+                                      <p
+                                        style={{
+                                          fontSize: '12px',
+                                          marginBottom: '0px'
+                                        }}
+                                        className="w-60"
+                                      >
+                                        Informationen zur Verarbeitung Ihrer
+                                        Daten finden Sie in unserer
+                                        <a
+                                          href="https://www.mars.com/privacy-policy-germany"
+                                          className="rc-styled-link defontsize24px demargintop15px"
+                                          style={{ color: '#E2001A' }}
+                                        >
+                                          Datenschutzerklärung
+                                        </a>
+                                        .
+                                      </p>
                                     </div>
                                   </div>
                                   <div className="rc-column rc-content-v-middle">
