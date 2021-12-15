@@ -710,7 +710,7 @@ class SmartFeederSubscription extends Component {
     // 未登录情况下，直接跳转登录，food dispenser需要登录之后才能checkout
     // this.GAAccessToGuestCheck();
     try {
-      localItemRoyal.set('okta-redirectUrl', '/cart');
+      localItemRoyal.set('okta-redirectUrl', '/cart-force-to-checkout');
       this.setState({ checkoutLoading: true });
     } catch (err) {
     } finally {
@@ -1769,13 +1769,8 @@ class SmartFeederSubscription extends Component {
   };
   render() {
     const { location, history, match } = this.props;
-    const {
-      headerHide,
-      stepName,
-      checkOutErrMsg,
-      goodsDetailTab,
-      enableFlag
-    } = this.state;
+    const { headerHide, stepName, checkOutErrMsg, goodsDetailTab, enableFlag } =
+      this.state;
     let stepCom = null;
     return (
       <div>

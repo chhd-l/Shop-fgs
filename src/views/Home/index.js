@@ -15,11 +15,11 @@ import { TopAds, Ads } from './ad';
 import { Advantage } from './advantage';
 import { setSeoConfig, getDeviceType, getOktaCallBackUrl } from '@/utils/utils';
 import './index.css';
-import Loading from '@/components/Loading';
 import { withOktaAuth } from '@okta/okta-react';
 import { Helmet } from 'react-helmet';
 import stores from '@/store';
 import { funcUrl } from '@/lib/url-utils';
+import { redirectHoc } from '@/framework/common';
 
 import PaymentSecureHome from '@/assets/images/home/Payment-secure@2x.png';
 import premiumHome from '@/assets/images/home/premium@2x.png';
@@ -30,14 +30,13 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 import renderLinkLang from './hreflang';
-import question from '@/assets/images/home/question@2x.png';
-import HelpComponents from '../../components/HelpComponents/HelpComponents';
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const loginStore = stores.loginStore;
 const pageLink = window.location.href;
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 let RCDrawPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
+
 function Divider() {
   return (
     <div className="experience-component experience-assets-divider">
@@ -547,15 +546,6 @@ class Home extends React.Component {
       localItemRoyal.remove('logout-redirect-url');
       location.href = url;
     }
-    //不需要登录跳checkout下felin订单
-    if (
-      funcUrl({ name: 'toOkta' }) === 'false' &&
-      funcUrl({ name: 'redirect' }) === 'checkout'
-    ) {
-      this.props.history.push(
-        '/checkout?appointmentNo=' + funcUrl({ name: 'appointmentNo' })
-      );
-    }
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -579,51 +569,6 @@ class Home extends React.Component {
       }
     };
 
-    const parametersString = history.location.search;
-    if (parametersString.indexOf('redirect=order') >= 0) {
-      localItemRoyal.set(
-        'okta-redirectUrl',
-        '/account/orders' + history.location.search
-      );
-    }
-    if (parametersString.indexOf('redirect=appointDetail') >= 0) {
-      localItemRoyal.set(
-        'okta-redirectUrl',
-        '/account/appointments' + history.location.search
-      );
-    }
-    if (parametersString.indexOf('redirect=subscription') >= 0) {
-      localItemRoyal.set(
-        'okta-redirectUrl',
-        '/account/subscription' + history.location.search
-      );
-    }
-    if (parametersString.indexOf('redirect=baseinfo') >= 0) {
-      localItemRoyal.set('okta-redirectUrl', '/account/information');
-    }
-    if (parametersString.indexOf('redirect=pets') >= 0) {
-      localItemRoyal.set('okta-redirectUrl', '/account/pets');
-    }
-    if (parametersString.indexOf('redirect=checkout') >= 0) {
-      localItemRoyal.set(
-        'okta-redirectUrl',
-        '/checkout' + history.location.search
-      );
-    }
-    if (parametersString.indexOf('toOkta=true') >= 0) {
-      this.props.oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
-      return <Loading bgColor={'#fff'} />;
-    }
-    if (parametersString.indexOf('origin=forgot') >= 0) {
-      this.props.oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
-      return <Loading bgColor={'#fff'} />;
-    }
-
-    if (localItemRoyal.get('login-again')) {
-      return null;
-    }
-    const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
-
     //添加seo 收录标签链接
     const renderLang = (position) => {
       return renderLinkLang[position].map((item) => {
@@ -641,7 +586,6 @@ class Home extends React.Component {
     };
     return (
       <div>
-        {/* {!Ru ? ( */}
         <Helmet>
           <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
@@ -652,14 +596,6 @@ class Home extends React.Component {
           {renderLang('home')}
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
-        {/* ) : (
-          <Helmet>
-            <title>{this.state.seoConfig.title}</title>
-            <link rel="canonical" href={pageLink} />
-            {renderLang('home')}
-            <meta name="robots" content="noindex" />
-          </Helmet>
-        )} */}
         <GoogleTagManager
           additionalEvents={event}
           searchEvent={this.state.searchEvent}
@@ -731,4 +667,4 @@ class Home extends React.Component {
   }
 }
 
-export default withOktaAuth(Home);
+export default withOktaAuth(redirectHoc(Home));
