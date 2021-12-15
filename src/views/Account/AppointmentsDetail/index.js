@@ -106,8 +106,8 @@ class AccountOrders extends React.Component {
         appointDictRes[1]?.context?.goodsDictionaryVOS || []
       ).filter((item) => item.id === resContext?.expertTypeId);
       const details = Object.assign(resContext, {
-        canChangeAppoint: resContext.status !== 1,
-        canCancelAppoint: resContext.status !== 1,
+        canChangeAppoint: resContext.status === 0,
+        canCancelAppoint: resContext.status === 0,
         cancelAppointLoading: false,
         appointmentType:
           appointmentType.length > 0 ? appointmentType[0].name : '',
