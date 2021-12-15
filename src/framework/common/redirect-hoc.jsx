@@ -30,6 +30,9 @@ const redirectHoc = (WrappedComponent) => {
         case 'order':
           ret = '/account/orders';
           break;
+        case 'appointDetail':
+          ret = '/account/appointments';
+          break;
         case 'subscription':
           ret = '/account/subscription';
           break;
@@ -45,11 +48,7 @@ const redirectHoc = (WrappedComponent) => {
           }
       }
       if (redirectSearchVal) {
-        // 如果存在appointmentNo值，需要添加这个search参数
-        const appointmentNoSearchParam = funcUrl({ name: 'appointmentNo' });
-        if (appointmentNoSearchParam) {
-          ret += `?appointmentNo=${appointmentNoSearchParam}`;
-        }
+        ret += this.props.history.location.search;
       }
 
       return ret;
