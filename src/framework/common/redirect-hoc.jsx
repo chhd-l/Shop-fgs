@@ -20,7 +20,9 @@ const redirectHoc = (WrappedComponent) => {
         }
       }
     }
-    // 处理邮件链接redirect参数
+    /**
+     * 处理邮件链接redirect参数, 针对redirect=order/subscription/baseinfo/pets特殊处理，其他直接跳转shop内置路由
+     */
     generateRedirectUrl = () => {
       const redirectSearchVal = funcUrl({ name: 'redirect' });
       let ret = '';

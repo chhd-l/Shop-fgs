@@ -11,14 +11,23 @@ const loginRedirection = async ({
   history,
   isLogin
 }) => {
+  const {
+    loginCartData,
+    cartData,
+    setLoginCartData,
+    setCartData,
+    setAuditData,
+    setAutoAuditFlag,
+    setPetFlag
+  } = checkoutStore;
   const tmpUrl = localItemRoyal.get('okta-redirectUrl')
     ? localItemRoyal.get('okta-redirectUrl')
     : '/';
   if (tmpUrl === '/prescription' || tmpUrl === '/cart') {
     let autoAuditFlag = false;
     let paramData = isLogin
-      ? checkoutStore.loginCartData
-      : checkoutStore.cartData.map((el) => {
+      ? loginCartData
+      : cartData.map((el) => {
           el.goodsInfoId = el.sizeList.filter(
             (item) => item.selected
           )[0].goodsInfoId;
@@ -32,14 +41,12 @@ const loginRedirection = async ({
       el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
       return el;
     });
-    isLogin
-      ? checkoutStore.setLoginCartData(handledData)
-      : checkoutStore.setCartData(handledData);
+    isLogin ? setLoginCartData(handledData) : setCartData(handledData);
     let AuditData = handledData.filter((el) => el.auditCatFlag);
-    checkoutStore.setAuditData(AuditData);
+    setAuditData(AuditData);
     autoAuditFlag = res.context.autoAuditFlag;
-    checkoutStore.setAutoAuditFlag(autoAuditFlag);
-    checkoutStore.setPetFlag(res.context.petFlag);
+    setAutoAuditFlag(autoAuditFlag);
+    setPetFlag(res.context.petFlag);
     const url = await distributeLinktoPrecriberOrPaymentPage({
       configStore,
       checkoutStore,

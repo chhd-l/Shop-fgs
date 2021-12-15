@@ -11,7 +11,7 @@
  * 3、imask.js 插件，设置文本框输入内容格式。https://imask.js.org/
  *
  *********/
-import React from 'react';
+import React, { Fragment } from 'react';
 import Skeleton from 'react-skeleton-loader';
 import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';
@@ -48,6 +48,7 @@ import './index.less';
 import { useConsigneeDeliveryDate } from '@/framework/common';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
+const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 let tempolineCache = {};
 @inject('configStore')
 @injectIntl
@@ -71,7 +72,7 @@ class Form extends React.Component {
       formLoading: false,
       formType: this.props.configStore.addressFormType,
       apiType: '',
-      COUNTRY: window.__.env.REACT_APP_COUNTRY,
+
       caninForm: {
         firstName: '',
         lastName: '',
@@ -144,7 +145,7 @@ class Form extends React.Component {
       }
     }, 3000);
     const { initData = {} } = this.props;
-    const { caninForm, COUNTRY } = this.state;
+    const { caninForm } = this.state;
     this.setState({
       formLoading: true
     });
@@ -208,7 +209,7 @@ class Form extends React.Component {
   }
   // 根据address1查询地址信息
   getAddressListByKeyWord = async (address1) => {
-    const { COUNTRY, apiType } = this.state;
+    const { apiType } = this.state;
     let res = null;
     let addls = null;
     try {
@@ -344,7 +345,6 @@ class Form extends React.Component {
   };
   // 设置手机号输入限制
   setPhoneNumberReg = () => {
-    const { COUNTRY } = this.state;
     let element = document.getElementById('phoneNumberShipping');
     let maskOptions = [];
     let phoneReg = '';
@@ -384,10 +384,10 @@ class Form extends React.Component {
   };
   // 1、获取 session 存储的 address form 数据并处理
   setAddressFormData = async () => {
-    const { caninForm, COUNTRY } = this.state;
-    // todo
-    await this.props.configStore.getSystemFormConfig();
-    const localAddressForm = this.props.configStore.localAddressForm;
+    const {
+      configStore: { getSystemFormConfig, localAddressForm }
+    } = this.props;
+    await getSystemFormConfig();
     // 表单类型，手动输入地址: MANUALLY，自动填充地址: AUTOMATICALLY
     // console.log('获取 session 存储的需要显示的地址字段: ', localAddressForm);
     if (localAddressForm?.settings) {
@@ -458,7 +458,7 @@ class Form extends React.Component {
     const {
       intl: { messages, formatMessage }
     } = this.props;
-    const { caninForm, errMsgObj, COUNTRY } = this.state;
+    const { caninForm, errMsgObj } = this.state;
     let rule = [];
     let ruleTimeSlot = [];
     let cfdata = Object.assign({}, caninForm);
@@ -567,7 +567,7 @@ class Form extends React.Component {
           } else if (COUNTRY == 'uk') {
             // 英国
             regExp =
-              /^\(\+[4][4]\)[\s](([0][1-9][1-9])|[1-9][1-9])[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
+              /^\(\+[4][4]\)[\s](([0][0-9][0-9])|[0-9][0-9])[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
           } else if (COUNTRY == 'us') {
             // 美国
             regExp = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
@@ -812,7 +812,7 @@ class Form extends React.Component {
   };
   // 7、this.props.updateData
   updateDataToProps = () => {
-    const { caninForm, isDeliveryDateAndTimeSlot, COUNTRY } = this.state;
+    const { caninForm, isDeliveryDateAndTimeSlot } = this.state;
     let ctl = find(this.state.countryList, (e) => e.value);
 
     let newForm = Object.assign({}, caninForm, {
@@ -940,34 +940,40 @@ class Form extends React.Component {
   };
   // 文本框输入改变
   inputChange = (e) => {
-    const { caninForm, postCodeFiledType, COUNTRY } = this.state;
+    const { caninForm, postCodeFiledType } = this.state;
     const target = e.target;
     let tvalue = target.type === 'checkbox' ? target.checked : target.value;
     const tname = target.name;
-    if (tname == 'postCode') {
-      // 可以输入字母+数字
-      if (postCodeFiledType !== 2) {
-        tvalue = tvalue.replace(/\s+/g, '');
-        if (!this.isNumber(tvalue)) {
-          tvalue = '';
-          return;
-        }
-      }
-      switch (COUNTRY) {
-        case 'us':
-          tvalue = tvalue
-            .replace(/\s/g, '')
-            .replace(/-$/, '')
-            .replace(/(\d{5})(?:\d)/g, '$1-');
-          break;
-        default:
-          if (postCodeFiledType !== 2) {
-            tvalue = tvalue.replace(/\s+/g, '');
-          } else {
-            // 添加字母+数字格式限制
+    switch (tname) {
+      case 'firstName':
+      case 'lastName':
+        tvalue = tvalue.replace(COUNTRY === 'de' ? /[-|\s]/gi : '', '');
+        break;
+      case 'postCode':
+        // 可以输入字母+数字
+        if (postCodeFiledType !== 2) {
+          tvalue = tvalue.replace(/\s+/g, '');
+          if (!this.isNumber(tvalue)) {
+            tvalue = '';
+            return;
           }
-          break;
-      }
+        }
+        switch (COUNTRY) {
+          case 'us':
+            tvalue = tvalue
+              .replace(/\s/g, '')
+              .replace(/-$/, '')
+              .replace(/(\d{5})(?:\d)/g, '$1-');
+            break;
+          default:
+            if (postCodeFiledType !== 2) {
+              tvalue = tvalue.replace(/\s+/g, '');
+            } else {
+              // 添加字母+数字格式限制
+            }
+            break;
+        }
+        break;
     }
     caninForm[tname] = tvalue;
 
@@ -1005,8 +1011,7 @@ class Form extends React.Component {
   };
   // 验证数据
   validvalidationData = async (tname, tvalue) => {
-    const { errMsgObj, caninForm, isDeliveryDateAndTimeSlot, COUNTRY } =
-      this.state;
+    const { errMsgObj, caninForm, isDeliveryDateAndTimeSlot } = this.state;
 
     if (!caninForm?.formRuleRu?.length) {
       return;
@@ -1052,7 +1057,7 @@ class Form extends React.Component {
           });
         }
       }
-
+      console.log('targetRule', targetRule);
       await validData({
         rule: targetRule,
         data: { [tname]: tvalue },
@@ -1318,7 +1323,7 @@ class Form extends React.Component {
   };
   // 地址搜索框
   addressSearchSelectionJSX = (item) => {
-    const { caninForm, COUNTRY, apiType } = this.state;
+    const { caninForm, apiType } = this.state;
 
     return (
       <>
@@ -1603,114 +1608,112 @@ class Form extends React.Component {
             className="row rc_form_box"
             style={{ display: isMobile ? 'block' : 'flex' }}
           >
-            {formList &&
-              formList.map((item, index) => (
-                <>
+            {(formList || []).map((item, index) => (
+              <Fragment key={index}>
+                <div
+                  className={`col-md-${item.occupancyNum == 1 ? 6 : 12} ${
+                    !isDeliveryDateAndTimeSlot &&
+                    (item.fieldKey == 'deliveryDate' ||
+                      item.fieldKey == 'timeSlot')
+                      ? 'hidden'
+                      : ''
+                  }`}
+                >
+                  {/* requiredFlag '是否必填: 0.关闭,1.开启' */}
                   <div
-                    className={`col-md-${item.occupancyNum == 1 ? 6 : 12} ${
-                      !isDeliveryDateAndTimeSlot &&
-                      (item.fieldKey == 'deliveryDate' ||
-                        item.fieldKey == 'timeSlot')
-                        ? 'hidden'
-                        : ''
+                    className={`form-group ${
+                      item.requiredFlag == 1 ? 'required' : ''
                     }`}
-                    key={index}
                   >
-                    {/* requiredFlag '是否必填: 0.关闭,1.开启' */}
-                    <div
-                      className={`form-group ${
-                        item.requiredFlag == 1 ? 'required' : ''
-                      }`}
+                    <label
+                      className="form-control-label"
+                      htmlFor={`${item.fieldKey}Shipping`}
                     >
-                      <label
-                        className="form-control-label"
-                        htmlFor={`${item.fieldKey}Shipping`}
-                      >
-                        {item.fieldKey == 'deliveryDate' ? (
-                          <FormattedMessage id={`payment.deliveryDateText`} />
-                        ) : (
-                          <FormattedMessage id={`payment.${item.fieldKey}`} />
-                        )}
-                      </label>
-
-                      {/* 当 inputFreeTextFlag=1，inputSearchBoxFlag=0 时，为普通文本框（text、number） */}
-                      {item.inputFreeTextFlag == 1 &&
-                      item.inputSearchBoxFlag == 0 ? (
-                        <>
-                          {item.fieldKey == 'comment'
-                            ? this.textareaJSX(item)
-                            : this.inputJSX(item)}
-                        </>
-                      ) : null}
-
-                      {/* 只是 searchbox */}
-                      {item.inputFreeTextFlag == 0 &&
-                      item.inputDropDownBoxFlag == 0 &&
-                      item.inputSearchBoxFlag == 1
-                        ? this.citySearchSelectiontJSX(item)
-                        : null}
-
-                      {/* inputSearchBoxFlag 是否允许搜索:0.不允许,1.允许 */}
-                      {item.inputDropDownBoxFlag == 0 &&
-                      item.inputFreeTextFlag == 1 &&
-                      item.inputSearchBoxFlag == 1 ? (
-                        <>
-                          {item.fieldKey == 'address1'
-                            ? this.addressSearchSelectionJSX(item)
-                            : null}
-                          {item.fieldKey == 'city'
-                            ? this.citySearchSelectiontJSX(item)
-                            : null}
-                        </>
-                      ) : null}
-
-                      {/* inputDropDownBoxFlag 是否是下拉框选择:0.不是,1.是 */}
-                      {/* 当 inputDropDownBoxFlag=1，必定：inputFreeTextFlag=0 && inputSearchBoxFlag=0 */}
-                      {item.inputFreeTextFlag == 0 &&
-                      item.inputSearchBoxFlag == 0 &&
-                      item.inputDropDownBoxFlag == 1
-                        ? this.dropDownBoxJSX(item)
-                        : null}
-
-                      {/* 输入邮编提示 */}
-                      {item.fieldKey == 'postCode' && (
-                        <span className="ui-lighter">
-                          <FormattedMessage id="example" />:{' '}
-                          <FormattedMessage id="examplePostCode" />
-                        </span>
+                      {item.fieldKey == 'deliveryDate' ? (
+                        <FormattedMessage id={`payment.deliveryDateText`} />
+                      ) : (
+                        <FormattedMessage id={`payment.${item.fieldKey}`} />
                       )}
-                      {/* 输入电话号码提示 */}
-                      {item.fieldKey == 'phoneNumber' && (
-                        <span className="ui-lighter">
-                          <FormattedMessage id="examplePhone" />
-                        </span>
-                      )}
-                      {/* 输入提示 */}
-                      {errMsgObj[item.fieldKey] && item.requiredFlag == 1 ? (
-                        <div className="text-danger-2">
-                          {errMsgObj[item.fieldKey]}
-                        </div>
-                      ) : null}
-                    </div>
+                    </label>
+
+                    {/* 当 inputFreeTextFlag=1，inputSearchBoxFlag=0 时，为普通文本框（text、number） */}
+                    {item.inputFreeTextFlag == 1 &&
+                    item.inputSearchBoxFlag == 0 ? (
+                      <>
+                        {item.fieldKey == 'comment'
+                          ? this.textareaJSX(item)
+                          : this.inputJSX(item)}
+                      </>
+                    ) : null}
+
+                    {/* 只是 searchbox */}
+                    {item.inputFreeTextFlag == 0 &&
+                    item.inputDropDownBoxFlag == 0 &&
+                    item.inputSearchBoxFlag == 1
+                      ? this.citySearchSelectiontJSX(item)
+                      : null}
+
+                    {/* inputSearchBoxFlag 是否允许搜索:0.不允许,1.允许 */}
+                    {item.inputDropDownBoxFlag == 0 &&
+                    item.inputFreeTextFlag == 1 &&
+                    item.inputSearchBoxFlag == 1 ? (
+                      <>
+                        {item.fieldKey == 'address1'
+                          ? this.addressSearchSelectionJSX(item)
+                          : null}
+                        {item.fieldKey == 'city'
+                          ? this.citySearchSelectiontJSX(item)
+                          : null}
+                      </>
+                    ) : null}
+
+                    {/* inputDropDownBoxFlag 是否是下拉框选择:0.不是,1.是 */}
+                    {/* 当 inputDropDownBoxFlag=1，必定：inputFreeTextFlag=0 && inputSearchBoxFlag=0 */}
+                    {item.inputFreeTextFlag == 0 &&
+                    item.inputSearchBoxFlag == 0 &&
+                    item.inputDropDownBoxFlag == 1
+                      ? this.dropDownBoxJSX(item)
+                      : null}
+
+                    {/* 输入邮编提示 */}
+                    {item.fieldKey == 'postCode' && (
+                      <span className="ui-lighter">
+                        <FormattedMessage id="example" />:{' '}
+                        <FormattedMessage id="examplePostCode" />
+                      </span>
+                    )}
+                    {/* 输入电话号码提示 */}
+                    {item.fieldKey == 'phoneNumber' && (
+                      <span className="ui-lighter">
+                        <FormattedMessage id="examplePhone" />
+                      </span>
+                    )}
+                    {/* 输入提示 */}
+                    {errMsgObj[item.fieldKey] && item.requiredFlag == 1 ? (
+                      <div className="text-danger-2">
+                        {errMsgObj[item.fieldKey]}
+                      </div>
+                    ) : null}
                   </div>
+                </div>
 
-                  {/* 这是一个空的div，deliveryDate和timeSlot存在时显示 */}
-                  {item.fieldKey == 'phoneNumber' ? (
-                    <>
-                      <div
-                        className={`col-md-6 ${
-                          isDeliveryDateAndTimeSlot ? '' : 'hidden'
-                        }`}
-                      ></div>
-                    </>
-                  ) : null}
+                {/* 这是一个空的div，deliveryDate和timeSlot存在时显示 */}
+                {item.fieldKey == 'phoneNumber' ? (
+                  <>
+                    <div
+                      className={`col-md-6 ${
+                        isDeliveryDateAndTimeSlot ? '' : 'hidden'
+                      }`}
+                    ></div>
+                  </>
+                ) : null}
 
-                  {/* 个人中心添加 email 和 birthData */}
-                  {this.props.personalData &&
-                    item.fieldKey == 'lastName' &&
-                    this.emailAndBirthDataJSX()}
-                </>
-              ))}
+                {/* 个人中心添加 email 和 birthData */}
+                {this.props.personalData &&
+                  item.fieldKey == 'lastName' &&
+                  this.emailAndBirthDataJSX()}
+              </Fragment>
+            ))}
 
             {/* 根据接口返回判断是否显示 DeliveryDate 和 TimeSlot */}
           </div>
