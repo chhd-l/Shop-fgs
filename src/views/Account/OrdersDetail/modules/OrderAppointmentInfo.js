@@ -10,7 +10,7 @@ class OrderAppointmentInfo extends React.Component {
     super(props);
     this.state = {};
   }
-  handleFelinOrderDate = (appointmentDate) => {
+  handleFelineOrderDate = (appointmentDate) => {
     const orderTime = handleFelinAppointTime(appointmentDate);
     return (
       orderTime.appointStartTime +
@@ -19,8 +19,6 @@ class OrderAppointmentInfo extends React.Component {
     );
   };
   render() {
-    // 获取本地存储的需要显示的地址字段
-    const localAddressForm = this.props.configStore.localAddressForm;
     const { details } = this.props;
     return (
       <div className="ml-2 mr-2 md:mr-0 md:ml-0">
@@ -46,20 +44,9 @@ class OrderAppointmentInfo extends React.Component {
                   </p>
                   {/* 地址 */}
                   <p className="mb-0 od_mb_address1">
-                    {details.consignee.detailAddress1}
+                    142 BOULEVARD SAINT GERMAIN
                   </p>
-                  <p className="mb-0 od_mb_cpp">
-                    {/* 市 */}
-                    {localAddressForm['city'] && details.consignee.city + ', '}
-                    {/* 区域 */}
-                    {localAddressForm['region'] &&
-                      details.consignee.area + ', '}
-                    {/* 省份 */}
-                    {localAddressForm['state'] &&
-                      details.consignee.province + ' '}
-                    {/* 邮编 */}
-                    {localAddressForm['postCode'] && details.consignee.postCode}
-                  </p>
+                  <p className="mb-0 od_mb_cpp">PARIS,75006</p>
                 </div>
               </div>
             </div>
@@ -92,7 +79,7 @@ class OrderAppointmentInfo extends React.Component {
                     <FormattedMessage id="Appointment time" />
                   </p>
                   <p className="mb-0">
-                    {this.handleFelinOrderDate(details.appointmentDate)}
+                    {this.handleFelineOrderDate(details.appointmentDate)}
                   </p>
                 </div>
               </div>
