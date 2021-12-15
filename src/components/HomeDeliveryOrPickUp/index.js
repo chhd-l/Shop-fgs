@@ -739,6 +739,7 @@ class HomeDeliveryOrPickUp extends React.Component {
   };
   // 文本框
   inputJSX = (key) => {
+    const { intl } = this.props;
     const { pickupForm, pickupErrMsgs } = this.state;
     let flag = 1;
     key == 'comment' ? (flag = 0) : (flag = 1);
@@ -755,14 +756,14 @@ class HomeDeliveryOrPickUp extends React.Component {
             <>
               <textarea
                 className="rc_input_textarea"
-                placeholder={`${this.props.intl.messages['payment.comment']}`}
+                placeholder={intl.messages['payment.comment']}
                 id={`${item.fieldKey}ShippingPickup`}
                 value={pickupForm[item.fieldKey] || ''}
                 onChange={(e) => this.inputChange(e)}
                 onBlur={this.inputBlur}
                 name={item.fieldKey}
                 maxLength={item.maxLength}
-              ></textarea>
+              />
             </>
           ) : (
             <>
@@ -1032,7 +1033,7 @@ class HomeDeliveryOrPickUp extends React.Component {
                 <span
                   className="pk_btn_close"
                   onClick={this.hidePickupDetailDialog}
-                ></span>
+                />
                 <div className="pk_tit_box">
                   <div className="pk_detail_title">
                     {pickupForm.pickupName} ({pickupForm.pickupCode})
