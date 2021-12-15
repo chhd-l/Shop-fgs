@@ -4,6 +4,11 @@ import { getProductPetConfig } from '@/api/payment';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
+/**
+ * 登录链接重定向
+ * 1. 当从这两个链接(/prescription /cart-force-to-checkout)登录过来时，自动下单并重定向到checkout
+ * 2. 否则重定向到登录之前的页面
+ */
 const loginRedirection = async ({
   clinicStore,
   configStore,
@@ -11,23 +16,14 @@ const loginRedirection = async ({
   history,
   isLogin
 }) => {
-  const {
-    loginCartData,
-    cartData,
-    setLoginCartData,
-    setCartData,
-    setAuditData,
-    setAutoAuditFlag,
-    setPetFlag
-  } = checkoutStore;
   const tmpUrl = localItemRoyal.get('okta-redirectUrl')
     ? localItemRoyal.get('okta-redirectUrl')
     : '/';
-  if (tmpUrl === '/prescription' || tmpUrl === '/cart') {
+  if (tmpUrl === '/prescription' || tmpUrl === '/cart-force-to-checkout') {
     let autoAuditFlag = false;
     let paramData = isLogin
-      ? loginCartData
-      : cartData.map((el) => {
+      ? checkoutStore.loginCartData
+      : checkoutStore.cartData.map((el) => {
           el.goodsInfoId = el.sizeList.filter(
             (item) => item.selected
           )[0].goodsInfoId;
@@ -41,12 +37,14 @@ const loginRedirection = async ({
       el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
       return el;
     });
-    isLogin ? setLoginCartData(handledData) : setCartData(handledData);
+    isLogin
+      ? checkoutStore.setLoginCartData(handledData)
+      : checkoutStore.setCartData(handledData);
     let AuditData = handledData.filter((el) => el.auditCatFlag);
-    setAuditData(AuditData);
+    checkoutStore.setAuditData(AuditData);
     autoAuditFlag = res.context.autoAuditFlag;
-    setAutoAuditFlag(autoAuditFlag);
-    setPetFlag(res.context.petFlag);
+    checkoutStore.setAutoAuditFlag(autoAuditFlag);
+    checkoutStore.setPetFlag(res.context.petFlag);
     const url = await distributeLinktoPrecriberOrPaymentPage({
       configStore,
       checkoutStore,

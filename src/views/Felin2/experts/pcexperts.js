@@ -248,7 +248,7 @@ class Pcexperts extends React.Component {
     });
     this.setState({
       apptTypeList: apptTypeList.goodsDictionaryVOS,
-      list: expertTypeList,
+      list: expertTypeList.reverse(),
       isShow: false,
       oneShow: true
     });
@@ -272,7 +272,7 @@ class Pcexperts extends React.Component {
     this.setState(
       {
         apptTypeList: apptTypeList.goodsDictionaryVOS,
-        list: expertTypeList
+        list: expertTypeList.reverse()
       },
       () => {
         this.getDeatalData(id);
@@ -585,10 +585,10 @@ class Pcexperts extends React.Component {
                             'type'
                           )
                         }
-                        className={`text-base font-medium p-3 rounded-full mr-4 ${
+                        className={`border-2 text-base font-medium p-2.5  rounded-full mr-4 ${
                           this.state.params.apptTypeId === item.id
-                            ? 'bg-red-600 text-white'
-                            : 'bg-gray-300 text-white'
+                            ? 'bg-red-600 text-white border-red-600'
+                            : 'border-gray-400'
                         }`}
                         style={{
                           width: '9.375rem'
@@ -618,7 +618,7 @@ class Pcexperts extends React.Component {
                         'expertise'
                       )
                     }
-                    className={index === 1 ? 'ul-li mglr40' : 'ul-li'}
+                    className="ul-li"
                     style={{
                       boxShadow:
                         this.state.params.expertTypeId === item.id
@@ -639,7 +639,7 @@ class Pcexperts extends React.Component {
             <div className="txt-centr">
               <button
                 onClick={this.handleReturnOne}
-                className="rc-btn rc-btn--one  rc-margin-bottom--xs"
+                className="rc-btn rc-btn--two"
                 style={{
                   width: '16.875rem'
                 }}
@@ -720,7 +720,7 @@ class Pcexperts extends React.Component {
                         'prix'
                       )
                     }
-                    className={index === 1 ? 'ul-li mglr40 pd10' : 'ul-li pd10'}
+                    className="ul-li pd10"
                     style={{
                       boxShadow:
                         this.state.params.minutes === item.duration
@@ -743,7 +743,7 @@ class Pcexperts extends React.Component {
             <div className="txt-centr">
               <button
                 onClick={this.handleReturnTwo}
-                className="rc-btn rc-btn--one  rc-margin-bottom--xs"
+                className="rc-btn rc-btn--two"
                 style={{
                   width: '16.875rem'
                 }}
@@ -782,7 +782,7 @@ class Pcexperts extends React.Component {
             <div className="txt-centr">
               <button
                 onClick={this.handleReturnThree}
-                className="rc-btn rc-btn--one  rc-margin-bottom--xs"
+                className="rc-btn rc-btn--two"
                 style={{
                   width: '16.875rem'
                 }}
@@ -861,7 +861,7 @@ class Pcexperts extends React.Component {
               <br />
               <button
                 onClick={this.handleLogin}
-                className="rc-btn rc-btn--one  rc-margin-bottom--xs mb28"
+                className="rc-btn rc-btn--one  rc-margin-bottom--xs"
                 style={{
                   width: '16.875rem'
                 }}

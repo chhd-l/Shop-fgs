@@ -152,7 +152,7 @@ class Hcexperts extends React.Component {
     this.setState(
       {
         apptTypeList: apptTypeList.goodsDictionaryVOS,
-        list: expertTypeList
+        list: expertTypeList.reverse()
       },
       () => {
         this.getDeatalData(id);
@@ -265,7 +265,7 @@ class Hcexperts extends React.Component {
     });
     this.setState({
       apptTypeList: apptTypeList.goodsDictionaryVOS,
-      list: expertTypeList,
+      list: expertTypeList.reverse(),
       isShow: false,
       oneShow: true
     });
@@ -654,10 +654,10 @@ class Hcexperts extends React.Component {
                         oneShow: false
                       });
                     }}
-                    className={`text-xs font-medium p-3 rounded-full ${
+                    className={`border text-xs font-medium p-2 rounded-full ${
                       this.state.params.apptTypeId === item.id
-                        ? 'bg-red-600 text-white'
-                        : 'bg-gray-300 text-white'
+                        ? 'bg-red-600 text-white border-red-600'
+                        : 'border-gray-400'
                     }`}
                     style={{
                       width: '9.375rem'
@@ -671,7 +671,7 @@ class Hcexperts extends React.Component {
             <div className="js-center mt20">
               <button
                 onClick={this.handleReturn}
-                className="rc-btn rc-btn--one  rc-margin-bottom--xs"
+                className="rc-btn rc-btn--two  rc-margin-bottom--xs"
                 style={{
                   width: '16.875rem'
                 }}
@@ -699,10 +699,10 @@ class Hcexperts extends React.Component {
                         'expertise'
                       );
                     }}
-                    className={`text-xs font-medium p-3 rounded-full ${
+                    className={`border text-xs font-medium p-2 rounded-full ${
                       this.state.params.expertTypeId === item.id
-                        ? 'bg-red-600 text-white'
-                        : 'bg-gray-300 text-white'
+                        ? 'bg-red-600 text-white border-red-600'
+                        : 'border-gray-400'
                     }`}
                     style={{
                       width: '9.75rem'
@@ -716,7 +716,7 @@ class Hcexperts extends React.Component {
             <div className="js-center mt20">
               <button
                 onClick={this.handleReturnOne}
-                className="rc-btn rc-btn--one  rc-margin-bottom--xs"
+                className="rc-btn rc-btn--two  rc-margin-bottom--xs"
                 style={{
                   width: '16.875rem'
                 }}
@@ -775,7 +775,7 @@ class Hcexperts extends React.Component {
             <div className="txt-centr">
               <button
                 onClick={this.handleReturnTwo}
-                className="rc-btn rc-btn--one  rc-margin-bottom--xs"
+                className="rc-btn rc-btn--two  rc-margin-bottom--xs"
                 style={{
                   width: '16.875rem'
                 }}
@@ -802,15 +802,6 @@ class Hcexperts extends React.Component {
             </div>
             <div className="txt-centr">
               <button
-                onClick={this.handleReturnThree}
-                className="rc-btn rc-btn--one  rc-margin-bottom--xs"
-                style={{
-                  width: '16.875rem'
-                }}
-              >
-                Retour à l'étape précédente
-              </button>
-              <button
                 disabled={this.state.votre.heure === ''}
                 onClick={this.handleGoto}
                 className="rc-btn rc-btn--one  rc-margin-bottom--xs"
@@ -819,6 +810,15 @@ class Hcexperts extends React.Component {
                 }}
               >
                 Continuer
+              </button>
+              <button
+                onClick={this.handleReturnThree}
+                className="rc-btn rc-btn--two  rc-margin-bottom--xs"
+                style={{
+                  width: '16.875rem'
+                }}
+              >
+                Retour à l'étape précédente
               </button>
             </div>
           </div>

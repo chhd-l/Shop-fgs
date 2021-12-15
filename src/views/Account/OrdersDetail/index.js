@@ -1187,8 +1187,8 @@ class AccountOrders extends React.Component {
                                   <span className="medium">
                                     {filterOrderId({
                                       orderNo: this.state.orderNumber,
-                                      orderNoForOMS: this.state
-                                        .orderNumberForOMS
+                                      orderNoForOMS:
+                                        this.state.orderNumberForOMS
                                     })}
                                   </span>
                                 </div>
@@ -1344,9 +1344,9 @@ class AccountOrders extends React.Component {
                                                           {filterOrderId({
                                                             orderNo:
                                                               el.subscribeId,
-                                                            orderNoForOMS: this
-                                                              .state
-                                                              .orderNumberForOMS
+                                                            orderNoForOMS:
+                                                              this.state
+                                                                .orderNumberForOMS
                                                           })}
                                                         </Link>
                                                       </p>
@@ -1684,7 +1684,7 @@ class AccountOrders extends React.Component {
                           </div>
 
                           {/*felin订单? appointmentInfo :地址/支付信息 */}
-                          {!this.isFelinOrder ? (
+                          {!this.isFelinOrder && details.consignee ? (
                             <div className="ml-2 mr-2 md:mr-0 md:ml-0">
                               <p className="mt-4 mb-3 red text-left">
                                 <FormattedMessage id="transactionInfomation" />
