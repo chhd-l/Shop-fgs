@@ -19,6 +19,7 @@ import { myAccountPushEvent } from '@/utils/GA';
 import './index.less';
 import { getAppointList, cancelAppointByNo } from '@/api/appointment';
 import { getAppointDict } from '@/api/dict';
+import { funcUrl } from '@/lib/url-utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
@@ -61,6 +62,11 @@ class AccountOrders extends React.Component {
     }).then((res) => {
       this.setState({ seoConfig: res });
     });
+    const appointmentNo = funcUrl({ name: 'appointmentNo' });
+    if (appointmentNo) {
+      this.props.history.push(`/account/appointments/detail/${appointmentNo}`);
+      return;
+    }
     await this.queryOrderList();
   }
   async queryOrderList() {
