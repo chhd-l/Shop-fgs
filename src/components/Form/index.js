@@ -568,7 +568,7 @@ class Form extends React.Component {
           } else if (COUNTRY == 'uk') {
             // 英国
             regExp =
-              /^\(\+[4][4]\)[\s](([0][1-9][1-9])|[1-9][1-9])[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
+              /^\(\+[4][4]\)[\s](([0][0-9][0-9])|[0-9][0-9])[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
           } else if (COUNTRY == 'us') {
             // 美国
             regExp = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
@@ -1058,7 +1058,7 @@ class Form extends React.Component {
           });
         }
       }
-
+      console.log('targetRule', targetRule);
       await validData({
         rule: targetRule,
         data: { [tname]: tvalue },
