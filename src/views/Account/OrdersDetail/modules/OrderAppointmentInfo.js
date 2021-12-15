@@ -22,6 +22,9 @@ class OrderAppointmentInfo extends React.Component {
     // 获取本地存储的需要显示的地址字段
     const localAddressForm = this.props.configStore.localAddressForm;
     const { details } = this.props;
+    if (!details.consignee) {
+      return null;
+    }
     return (
       <div className="ml-2 mr-2 md:mr-0 md:ml-0">
         <p className="mt-4 mb-3 red text-left">
