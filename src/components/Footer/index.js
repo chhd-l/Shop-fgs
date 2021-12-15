@@ -10,6 +10,7 @@ import { contactInfo } from './contactInfo';
 import FooterHub from './footer_hub';
 import { withRouter } from 'react-router-dom';
 import { getDeviceType } from '@/utils/utils';
+import DynamicFooter from './DynamicFooter';
 import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -115,71 +116,68 @@ class Footer extends React.Component {
             <div className="rc-layout-container rc-one-column rc-padding-x--xs">
               <div className="rc-column rc-padding-x--xs">
                 {/* footer改造json test */}
-                {false && (
+                {false && <DynamicFooter />}
+                {/* 原有footer */}
+                {true && (
                   <nav
                     data-toggle-group="mobile"
                     data-toggle-effect="rc-expand--vertical"
                     className="rc-padding-x--xs--desktop rc-padding-x--none--mobile"
-                    dangerouslySetInnerHTML={{
-                      __html: menubarJSON[window.__.env.REACT_APP_COUNTRY]
-                    }}
-                  />
-                )}
-                <nav
-                  data-toggle-group="mobile"
-                  data-toggle-effect="rc-expand--vertical"
-                  className="rc-padding-x--xs--desktop rc-padding-x--none--mobile"
-                >
-                  <ul
-                    className="rc-list rc-list--footer-columns rc-list--blank rc-list--align rc-list--inverse"
-                    role="menubar"
                   >
-                    {cur_menubar.map((item, index) => {
-                      return (
-                        <li
-                          className="rc-list__item rc-list__item--group"
-                          key={index}
-                        >
-                          <h3
-                            className={`rc-list__header ${
-                              activeIdx === index ? 'rc-icon--rotate' : ''
-                            }`}
-                            role="menuitem"
-                            data-toggle={`nav-footer-list-${index}`}
-                            aria-haspopup={isMobile ? 'true' : 'false'}
-                            aria-selected={
-                              activeIdx === index && isMobile ? 'true' : 'false'
-                            }
-                            id={`nav-footer-${index}`}
-                            onClick={() => this.toggleExpand(index)}
+                    <ul
+                      className="rc-list rc-list--footer-columns rc-list--blank rc-list--align rc-list--inverse"
+                      role="menubar"
+                    >
+                      {cur_menubar.map((item, index) => {
+                        return (
+                          <li
+                            className="rc-list__item rc-list__item--group"
+                            key={index}
                           >
-                            <FormattedMessage id={item[0].titleId} />
-                          </h3>
-                          <ul
-                            className={`rc-list rc-list--blank rc-list--align overflow-hidden`}
-                            role="menu"
-                            id={`nav-footer-list-${index}`}
-                            aria-labelledby={`nav-footer-${index}`}
-                            style={{
-                              maxHeight:
-                                activeIdx === index || !isMobile ? 'initial' : 0
-                            }}
-                          >
-                            {item[0].list.map((listItem, i) => {
-                              return (
-                                <li className="rc-list__item" key={i}>
-                                  {!!listItem.link ? (
-                                    listItem.needLogin && !this.isLogin ? (
-                                      <>
-                                        <Link
-                                          to="/account"
-                                          className="rc-list__link text-decoration-none color-f6f6f6 55"
-                                        >
-                                          <FormattedMessage
-                                            id={listItem.messageId}
-                                          />
-                                        </Link>
-                                        {/* <LoginButton
+                            <h3
+                              className={`rc-list__header ${
+                                activeIdx === index ? 'rc-icon--rotate' : ''
+                              }`}
+                              role="menuitem"
+                              data-toggle={`nav-footer-list-${index}`}
+                              aria-haspopup={isMobile ? 'true' : 'false'}
+                              aria-selected={
+                                activeIdx === index && isMobile
+                                  ? 'true'
+                                  : 'false'
+                              }
+                              id={`nav-footer-${index}`}
+                              onClick={() => this.toggleExpand(index)}
+                            >
+                              <FormattedMessage id={item[0].titleId} />
+                            </h3>
+                            <ul
+                              className={`rc-list rc-list--blank rc-list--align overflow-hidden`}
+                              role="menu"
+                              id={`nav-footer-list-${index}`}
+                              aria-labelledby={`nav-footer-${index}`}
+                              style={{
+                                maxHeight:
+                                  activeIdx === index || !isMobile
+                                    ? 'initial'
+                                    : 0
+                              }}
+                            >
+                              {item[0].list.map((listItem, i) => {
+                                return (
+                                  <li className="rc-list__item" key={i}>
+                                    {!!listItem.link ? (
+                                      listItem.needLogin && !this.isLogin ? (
+                                        <>
+                                          <Link
+                                            to="/account"
+                                            className="rc-list__link text-decoration-none color-f6f6f6 55"
+                                          >
+                                            <FormattedMessage
+                                              id={listItem.messageId}
+                                            />
+                                          </Link>
+                                          {/* <LoginButton
                                         beforeLoginCallback={async () => {
                                           sessionItemRoyal.set(
                                             'okta-redirectUrl',
@@ -193,54 +191,55 @@ class Footer extends React.Component {
                                           id={listItem.messageId}
                                         />
                                       </LoginButton> */}
-                                      </>
+                                        </>
+                                      ) : (
+                                        <Link
+                                          className="rc-list__link text-decoration-none color-f6f6f6 66"
+                                          to={listItem.link}
+                                          role="menuitem"
+                                        >
+                                          <FormattedMessage
+                                            id={listItem.messageId}
+                                          />
+                                        </Link>
+                                      )
                                     ) : (
-                                      <Link
-                                        className="rc-list__link text-decoration-none color-f6f6f6 66"
-                                        to={listItem.link}
+                                      <a
+                                        className="rc-list__link text-decoration-none color-f6f6f6 1111"
+                                        href={
+                                          (!!listItem.prop &&
+                                            this.props.configStore[
+                                              listItem.prop
+                                            ]) ||
+                                          listItem.url
+                                        }
+                                        target="_blank"
                                         role="menuitem"
+                                        rel="nofollow"
                                       >
                                         <FormattedMessage
                                           id={listItem.messageId}
                                         />
-                                      </Link>
-                                    )
-                                  ) : (
-                                    <a
-                                      className="rc-list__link text-decoration-none color-f6f6f6 1111"
-                                      href={
-                                        (!!listItem.prop &&
-                                          this.props.configStore[
-                                            listItem.prop
-                                          ]) ||
-                                        listItem.url
-                                      }
-                                      target="_blank"
-                                      role="menuitem"
-                                      rel="nofollow"
-                                    >
-                                      <FormattedMessage
-                                        id={listItem.messageId}
-                                      />
-                                      {Boolean(
-                                        window.__.env
-                                          .REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
-                                      ) && (
-                                        <span className="warning_blank">
-                                          Opens a new window
-                                        </span>
-                                      )}
-                                    </a>
-                                  )}
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </nav>
+                                        {Boolean(
+                                          window.__.env
+                                            .REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                                        ) && (
+                                          <span className="warning_blank">
+                                            Opens a new window
+                                          </span>
+                                        )}
+                                      </a>
+                                    )}
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </nav>
+                )}
               </div>
             </div>
           ) : null}
