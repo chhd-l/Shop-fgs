@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import { inject, observer } from 'mobx-react';
 import { addEventListenerArr } from './addEventListener';
+import ConsentAdditionalText from '@/components/Consent/ConsentAdditionalText';
 
 const localItemRoyal = window.__.localItemRoyal;
 const SPECAIL_CONSENT_ENUM =
@@ -50,8 +51,9 @@ class CommunicationDataEditForm extends React.Component {
       errorMsg: '',
       showWarningTip: false
     };
-    this.handleCommunicationCheckBoxChange =
-      this.handleCommunicationCheckBoxChange.bind(this);
+    this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
+      this
+    );
   }
   componentDidUpdate() {
     if (window.__.env.REACT_APP_COUNTRY == 'tr') {
@@ -421,7 +423,7 @@ class CommunicationDataEditForm extends React.Component {
             ) : null}
             <div className={`${!isLoading && editFormVisible ? '' : 'hidden'}`}>
               <span className={`rc-meta`}></span>
-              <div>
+              <div className="mb-3">
                 {communicationPreferencesList.length > 0 ? (
                   <label className="form-control-label rc-input--full-width w-100">
                     <FormattedMessage id="account.preferredMethodOfCommunication" />
@@ -450,6 +452,8 @@ class CommunicationDataEditForm extends React.Component {
                 ))}
               </div>
 
+              <ConsentAdditionalText textPosition="top" />
+
               <span className={`rc-meta`}>
                 <strong>
                   <FormattedMessage id="account.myCommunicationPreferencesContent2" />
@@ -466,6 +470,7 @@ class CommunicationDataEditForm extends React.Component {
                   key={'profile'}
                 />
               </div>
+              <ConsentAdditionalText textPosition="bottom" />
               {this.state.showWarningTip ? (
                 <aside
                   className="rc-alert rc-alert--warning mb-4 mt-2"

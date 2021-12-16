@@ -20,6 +20,7 @@ import { inject, observer } from 'mobx-react';
 import { addEventListenerArr } from './addEventListener';
 import { EMAIL_REGEXP } from '@/utils/constant';
 import { isString } from 'lodash';
+import ConsentAdditionalText from '@/components/Consent/ConsentAdditionalText';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -1148,30 +1149,7 @@ class Register extends Component {
                             <FormattedMessage id="registerMandatory" />
                           </p>
                           {window.__.env.REACT_APP_COUNTRY === 'us' ? (
-                            <div className="explain-txt">
-                              <p>
-                                I understand that I may change these preferences
-                                at any time by contacting Mars Petcare at
-                                1-844-673-3772 or by clicking &nbsp;
-                                <a
-                                  href="https://shop.royalcanin.com/help/contact"
-                                  target="_blank"
-                                >
-                                  here
-                                </a>
-                              </p>
-                              <p>
-                                For more information about how we use your data,
-                                please see Mars Privacy Statement:
-                                <a
-                                  href="https://www.mars.com/privacy"
-                                  target="_blank"
-                                >
-                                  https://www.mars.com/privacy
-                                </a>
-                                .
-                              </p>
-                            </div>
+                            <ConsentAdditionalText textPosition="bottom" />
                           ) : null}
                           {this.state.showValidErrorMsg ? (
                             <aside
