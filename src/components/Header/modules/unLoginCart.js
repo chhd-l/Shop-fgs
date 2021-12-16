@@ -259,6 +259,7 @@ class UnloginCart extends React.Component {
                     <span className="pl-0">{headerCartStore.errMsg}</span>
                   </aside>
                 </div>
+                {/* 操作按钮组 start */}
                 <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
                   <LoginButton
                     beforeLoginCallback={async () => {
@@ -301,6 +302,7 @@ class UnloginCart extends React.Component {
                     <FormattedMessage id="unLoginSubscriptionTips" />
                   </div>
                 )}
+                {/* 操作按钮组 end */}
 
                 <div className="rc-bg-colour--brand4 minicart-padding rc-body rc-margin--none rc-padding-y--xs">
                   <span className="rc-meta">
@@ -319,188 +321,179 @@ class UnloginCart extends React.Component {
                     />
                   </span>
                 </div>
-                <div className="minicart-error cart-error" />
                 <div className="product-summary limit">
                   {this.selectedCartData.map((item, idx) => (
-                    <div className="minicart__product" key={item.goodsId + idx}>
-                      <div>
-                        <div className="product-summary__products__item">
-                          <div className="product-line-item">
-                            <div className="product-line-item-details d-flex flex-row">
-                              <div className="item-image">
-                                {/* <LazyLoad> */}
-                                <img
-                                  className="product-image"
-                                  src={
-                                    find(item.sizeList, (s) => s.selected)
-                                      .goodsInfoImg
-                                  }
-                                  alt={item.goodsName}
+                    <div className="minicart__product" key={idx}>
+                      <div className="product-summary__products__item">
+                        <div className="product-line-item">
+                          <div className="product-line-item-details d-flex flex-row">
+                            <div className="item-image">
+                              {/* <LazyLoad> */}
+                              <img
+                                className="product-image"
+                                src={
+                                  find(item.sizeList, (s) => s.selected)
+                                    .goodsInfoImg
+                                }
+                                alt={item.goodsName}
+                                title={item.goodsName}
+                              />
+                              {/* </LazyLoad> */}
+                            </div>
+                            <div className="wrap-item-title">
+                              <div className="item-title">
+                                <div
+                                  className="line-item-name ui-text-overflow-line2 text-break"
                                   title={item.goodsName}
-                                />
-                                {/* </LazyLoad> */}
+                                >
+                                  <span className="light">
+                                    {item.goodsName}
+                                  </span>
+                                </div>
                               </div>
-                              <div className="wrap-item-title">
-                                <div className="item-title">
-                                  <div
-                                    className="line-item-name ui-text-overflow-line2 text-break"
-                                    title={item.goodsName}
-                                  >
-                                    <span className="light">
-                                      {item.goodsName}
-                                    </span>
+                              <div className="w-100 overflow-hidden">
+                                <div className="line-item-total-price justify-content-start pull-left">
+                                  <div className="item-attributes">
+                                    <p className="line-item-attributes">
+                                      <FormattedMessage
+                                        id="minicart.quantityText"
+                                        values={{
+                                          specText:
+                                            find(
+                                              item.sizeList,
+                                              (s) => s.selected
+                                            ).specText || '',
+                                          buyCount: item.quantity
+                                        }}
+                                      />
+                                    </p>
                                   </div>
                                 </div>
+                                <div className="line-item-total-price justify-content-end pull-right priceBox">
+                                  <div className="price relative">
+                                    <div className="strike-through non-adjusted-price">
+                                      null
+                                    </div>
+                                    <b
+                                      className="pricing line-item-total-price-amount light"
+                                      style={{
+                                        color: item.goodsInfoFlag
+                                          ? '#888'
+                                          : '#666',
+                                        textDecoration: item.goodsInfoFlag
+                                          ? 'line-through'
+                                          : ''
+                                        // textDecoration: 'line-through'
+                                      }}
+                                    >
+                                      {formatMoney(
+                                        (item.sizeList.filter(
+                                          (s) => s.selected
+                                        )[0] &&
+                                          item.sizeList.filter(
+                                            (s) => s.selected
+                                          )[0].currentAmount) ||
+                                          0
+                                      )}
+                                    </b>
+                                  </div>
+                                </div>
+                              </div>
+                              {item.goodsInfoFlag ? (
                                 <div
-                                  className="w-100"
-                                  style={{ overflow: 'hidden' }}
+                                  style={{
+                                    width: '100%',
+                                    overflow: 'hidden'
+                                  }}
                                 >
                                   <div className="line-item-total-price justify-content-start pull-left">
                                     <div className="item-attributes">
                                       <p className="line-item-attributes">
-                                        <FormattedMessage
-                                          id="minicart.quantityText"
-                                          values={{
-                                            specText:
-                                              find(
-                                                item.sizeList,
-                                                (s) => s.selected
-                                              ).specText || '',
-                                            buyCount: item.quantity
-                                          }}
+                                        <FormattedMessage id="minicart.frequency" />
+                                        :{' '}
+                                        <FrequencyMatch
+                                          currentId={item.periodTypeId}
                                         />
                                       </p>
                                     </div>
                                   </div>
                                   <div className="line-item-total-price justify-content-end pull-right priceBox">
-                                    <div className="price relative">
+                                    <div className="item-total-07984de212e393df75a36856b6 price relative">
                                       <div className="strike-through non-adjusted-price">
                                         null
                                       </div>
-                                      <b
-                                        className="pricing line-item-total-price-amount light"
-                                        style={{
-                                          color: item.goodsInfoFlag
-                                            ? '#888'
-                                            : '#666',
-                                          textDecoration: item.goodsInfoFlag
-                                            ? 'line-through'
-                                            : ''
-                                          // textDecoration: 'line-through'
-                                        }}
-                                      >
-                                        {formatMoney(
-                                          (item.sizeList.filter(
-                                            (s) => s.selected
-                                          )[0] &&
+                                      <b className="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light">
+                                        <span
+                                          className="iconfont font-weight-bold green"
+                                          style={{ fontSize: '.8em' }}
+                                        >
+                                          &#xe675;
+                                        </span>
+                                        &nbsp;
+                                        <span
+                                          className="red"
+                                          style={{ fontSize: '.875rem' }}
+                                        >
+                                          {formatMoney(
                                             item.sizeList.filter(
-                                              (s) => s.selected
-                                            )[0].currentAmount) ||
-                                            0
-                                        )}
+                                              (el) => el.selected
+                                            )[0].subscriptionPrice *
+                                              item.quantity
+                                          )}
+                                        </span>
                                       </b>
                                     </div>
                                   </div>
                                 </div>
-                                {item.goodsInfoFlag ? (
+                              ) : null}
+                            </div>
+                          </div>
+                          <div className="item-options" />
+                        </div>
+                        {toJS(
+                          item.sizeList.filter((e) => e.selected)[0].planId
+                        ) && false
+                          ? toJS(
+                              item.sizeList.filter((e) => e.selected)[0]
+                                .planGifts
+                            ).map((gift) => (
+                              <div className="product-line-item-details d-flex flex-row gift-box">
+                                <div className="item-image">
+                                  {/* <LazyLoad> */}
+                                  <img
+                                    className="product-image"
+                                    src={gift.goodsInfoImg || foodDispenserPic}
+                                    alt={gift.goodsInfoName}
+                                    title={gift.goodsInfoName}
+                                  />
+                                  {/* </LazyLoad> */}
+                                </div>
+                                <div className="wrap-item-title">
+                                  <div className="item-title">
+                                    <div
+                                      style={{ color: '#333' }}
+                                      className="line-item-name ui-text-overflow-line2 text-break"
+                                      title={item.goodsName}
+                                    >
+                                      <span className="light">
+                                        {item.goodsName}
+                                      </span>
+                                    </div>
+                                  </div>
+
                                   <div
+                                    className="w-100 overflow-hidden"
                                     style={{
-                                      width: '100%',
-                                      overflow: 'hidden'
+                                      fontSize: '.75rem'
                                     }}
                                   >
-                                    <div className="line-item-total-price justify-content-start pull-left">
-                                      <div className="item-attributes">
-                                        <p className="line-item-attributes">
-                                          <FormattedMessage id="minicart.frequency" />
-                                          :{' '}
-                                          <FrequencyMatch
-                                            currentId={item.periodTypeId}
-                                          />
-                                        </p>
-                                      </div>
-                                    </div>
-                                    <div className="line-item-total-price justify-content-end pull-right priceBox">
-                                      <div className="item-total-07984de212e393df75a36856b6 price relative">
-                                        <div className="strike-through non-adjusted-price">
-                                          null
-                                        </div>
-                                        <b className="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light">
-                                          <span
-                                            className="iconfont font-weight-bold green"
-                                            style={{ fontSize: '.8em' }}
-                                          >
-                                            &#xe675;
-                                          </span>
-                                          &nbsp;
-                                          <span
-                                            className="red"
-                                            style={{ fontSize: '.875rem' }}
-                                          >
-                                            {formatMoney(
-                                              item.sizeList.filter(
-                                                (el) => el.selected
-                                              )[0].subscriptionPrice *
-                                                item.quantity
-                                            )}
-                                          </span>
-                                        </b>
-                                      </div>
-                                    </div>
-                                  </div>
-                                ) : null}
-                              </div>
-                            </div>
-                            <div className="item-options" />
-                          </div>
-                          {toJS(
-                            item.sizeList.filter((e) => e.selected)[0].planId
-                          ) && false
-                            ? toJS(
-                                item.sizeList.filter((e) => e.selected)[0]
-                                  .planGifts
-                              ).map((gift) => (
-                                <div className="product-line-item-details d-flex flex-row gift-box">
-                                  <div className="item-image">
-                                    {/* <LazyLoad> */}
-                                    <img
-                                      className="product-image"
-                                      src={
-                                        gift.goodsInfoImg || foodDispenserPic
-                                      }
-                                      alt={gift.goodsInfoName}
-                                      title={gift.goodsInfoName}
-                                    />
-                                    {/* </LazyLoad> */}
-                                  </div>
-                                  <div className="wrap-item-title">
-                                    <div className="item-title">
-                                      <div
-                                        style={{ color: '#333' }}
-                                        className="line-item-name ui-text-overflow-line2 text-break"
-                                        title={item.goodsName}
-                                      >
-                                        <span className="light">
-                                          {item.goodsName}
-                                        </span>
-                                      </div>
-                                    </div>
-
-                                    <div
-                                      style={{
-                                        width: '100%',
-                                        overflow: 'hidden',
-                                        fontSize: '.75rem'
-                                      }}
-                                    >
-                                      x1{' '}
-                                      <FormattedMessage id="smartFeederSubscription.shopmentTimes" />
-                                    </div>
+                                    x1{' '}
+                                    <FormattedMessage id="smartFeederSubscription.shopmentTimes" />
                                   </div>
                                 </div>
-                              ))
-                            : null}
-                        </div>
+                              </div>
+                            ))
+                          : null}
                       </div>
                     </div>
                   ))}
