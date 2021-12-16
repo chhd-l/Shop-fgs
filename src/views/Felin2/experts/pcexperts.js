@@ -255,7 +255,7 @@ class Pcexperts extends React.Component {
       },
       () => {
         let anchorElement = document.getElementById('oneBox');
-        window.scrollTo(0, anchorElement.offsetTop - window.innerHeight / 2);
+        window.scrollTo(0, anchorElement.offsetTop - window.innerHeight / 4);
       }
     );
   };
@@ -316,10 +316,16 @@ class Pcexperts extends React.Component {
 
   // 返回第二步
   handleReturnTwo = () => {
-    this.setState({
-      oneShow: true,
-      threeShow: false
-    });
+    this.setState(
+      {
+        oneShow: true,
+        threeShow: false
+      },
+      () => {
+        let anchorElement = document.getElementById('oneBox');
+        window.scrollTo(0, anchorElement.offsetTop - window.innerHeight / 4);
+      }
+    );
   };
   // 跳转第四步
   handleGotoFour = () => {
