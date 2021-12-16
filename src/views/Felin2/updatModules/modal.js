@@ -100,18 +100,17 @@ class MyModal extends React.Component {
           />
           <span style={{ fontSize: '15px' }}>
             Je confirme avoir lu et accepter les{' '}
+            <Link to="/latelier/felin-terms-conditions" target="_blank">
+              <span
+                style={{
+                  fontSize: '0.9375rem',
+                  textDecoration: 'underline'
+                }}
+              >
+                conditions générales de réservation
+              </span>
+            </Link>
           </span>
-          <Link to="/latelier/felin-terms-conditions" target="_blank">
-            <span
-              style={{
-                fontSize: '0.9375rem',
-                textDecoration: 'underline',
-                marginLeft: '0.3125rem'
-              }}
-            >
-              conditions générales de réservation
-            </span>
-          </Link>
         </div>
         <div className="text-center">
           <button
