@@ -60,7 +60,7 @@ const ButtonBox = () => {
       className="footerGroupButton"
       style={{ display: isNotInactive ? 'inline-block' : 'none' }}
     >
-      <p style={{ textAlign: isMobile ? 'center' : 'right' }}>
+      <p style={{ textAlign: isMobile ? 'left' : 'right' }}>
         <div
           className="pause-btn"
           style={{ display: 'inline-block', marginBottom: '10px' }}

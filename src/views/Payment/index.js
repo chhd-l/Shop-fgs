@@ -997,15 +997,20 @@ class Payment extends React.Component {
       console.log('appointmentInfo', result);
       const requestName = this.isLogin ? getLoginDetails : getDetails;
       const goodInfoRes = await requestName(result?.goodsInfoId);
-      const goodInfo = goodInfoRes?.context || { goodsName: 'Felin Service' };
+      const goodInfo = goodInfoRes?.context;
+      if (!goodInfoRes?.context) {
+        this.showErrorMsg('Cannot get product info from api');
+      }
       const goodDetail = Object.assign(goodInfo, {
         goodsInfoId: result?.goodsInfoId,
-        goodsInfoImg: goodInfo.goods.goodsImg,
-        goodsName: goodInfo.goods.goodsName,
+        goodsInfoImg: goodInfo?.goods?.goodsImg,
+        goodsName: goodInfo?.goods?.goodsName,
         buyCount: 1,
-        salePrice: (goodInfo?.goodsInfos || []).filter(
-          (item) => item.goodsInfoId === result?.goodsInfoId
-        )[0].salePrice,
+        salePrice: goodInfo?.goodsInfos
+          ? goodInfo?.goodsInfos.filter(
+              (item) => item.goodsInfoId === result?.goodsInfoId
+            )[0].salePrice
+          : 0,
         selected: true
       });
       sessionItemRoyal.set('recommend_product', JSON.stringify([goodDetail]));
