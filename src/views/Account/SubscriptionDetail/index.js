@@ -35,6 +35,7 @@ import { Helmet } from 'react-helmet';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import OngoingOrder from './components/OngoingOrder';
 import { momentNormalizeDate } from '@/utils/momentNormalized';
+import TempolineAPIError from './components/TempolineAPIError';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
@@ -151,7 +152,8 @@ class SubscriptionDetail extends React.Component {
       isActive: false,
       isNotInactive: false,
       isDataChange: false,
-      petName: '' //订阅单的petName
+      petName: '', //订阅单的petName
+      showTempolineError: false
     };
   }
   paymentSave = (el) => {
@@ -850,6 +852,14 @@ class SubscriptionDetail extends React.Component {
                           subDetail={subDetail}
                         />
                       </>
+
+                      {/*tempoline api error message tip*/}
+                      <TempolineAPIError
+                        showError={this.state.showTempolineError}
+                        closeError={() => {
+                          this.setState({ showTempolineError: false });
+                        }}
+                      />
 
                       {/* Ongoing Order */}
                       {subDetail.onGoingTradeList &&
