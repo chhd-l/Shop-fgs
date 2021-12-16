@@ -59,9 +59,11 @@ class LoginCart extends React.Component {
     return this.props.checkoutStore.giftList || [];
   }
   get totalNum() {
-    return this.cartData.reduce((prev, cur) => {
-      return Number(prev) + Number(cur.buyCount);
-    }, 0);
+    return (
+      this.cartData.reduce((prev, cur) => {
+        return Number(prev) + Number(cur.buyCount);
+      }, 0) + this.giftList.reduce((total, el) => total + el.buyCount, 0)
+    );
   }
   get loading() {
     return this.checkoutStore.loadingCartData;
@@ -161,13 +163,8 @@ class LoginCart extends React.Component {
         >
           <em className="minicart-icon rc-btn rc-btn less-width-xs rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive" />
           {totalNum > 0 ? (
-            <span className="minicart-quantity">
-              {totalNum +
-                this.giftList.reduce((total, el) => total + el.buyCount, 0)}
-            </span>
-          ) : (
-            ''
-          )}
+            <span className="minicart-quantity">{totalNum}</span>
+          ) : null}
         </Link>
         {!totalNum && !loading ? (
           <div
