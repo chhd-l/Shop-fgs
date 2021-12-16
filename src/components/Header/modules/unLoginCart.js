@@ -50,9 +50,11 @@ class UnloginCart extends React.Component {
     return this.props.checkoutStore.giftList || [];
   }
   get totalNum() {
-    return this.selectedCartData.reduce((pre, cur) => {
-      return Number(pre) + Number(cur.quantity);
-    }, 0);
+    return (
+      this.selectedCartData.reduce((pre, cur) => {
+        return Number(pre) + Number(cur.quantity);
+      }, 0) + this.giftList.reduce((total, el) => total + el.buyCount, 0)
+    );
   }
   get totalMinusSubPrice() {
     return this.props.checkoutStore.totalMinusSubPrice;
@@ -151,6 +153,7 @@ class UnloginCart extends React.Component {
   };
 
   render() {
+    const { totalNum } = this;
     const { headerCartStore, intl } = this.props;
     return (
       <span
@@ -169,16 +172,11 @@ class UnloginCart extends React.Component {
           onClick={this.clickBasket}
         >
           <em className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive" />
-          {this.totalNum > 0 ? (
-            <span className="minicart-quantity">
-              {this.totalNum +
-                this.giftList.reduce((total, el) => total + el.buyCount, 0)}
-            </span>
-          ) : (
-            ''
-          )}
+          {totalNum > 0 ? (
+            <span className="minicart-quantity">{totalNum}</span>
+          ) : null}
         </Link>
-        {!this.totalNum ? (
+        {!totalNum ? (
           <div
             className={`popover popover-bottom ${
               headerCartStore.visible ? 'show' : ''
@@ -313,7 +311,7 @@ class UnloginCart extends React.Component {
                           <b style={{ fontWeight: 500 }}>
                             {intl.formatMessage(
                               { id: 'minicart.totalProduct' },
-                              { val: this.totalNum }
+                              { val: totalNum }
                             )}
                           </b>
                         )
