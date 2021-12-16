@@ -21,7 +21,6 @@ import Rate from '../../components/Rate';
 import Reviews from './Reviews/Reviews';
 import Conseiller from './components/conseiller';
 import ConseillerTwo from './components/conseillerTwo';
-
 const pageLink = window.location.href;
 PRESONAL_INFO_RULE.filter((el) => el.key === 'phoneNumber')[0].regExp = '';
 

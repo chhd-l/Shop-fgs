@@ -2,6 +2,7 @@ import React from 'react';
 import './index.less';
 import yes from '../image/yes.png';
 import no from '../image/no.png';
+import { Link } from 'react-router-dom';
 import { EMAIL_REGEXP } from '@/utils/constant';
 
 class MyModal extends React.Component {
@@ -97,7 +98,14 @@ class MyModal extends React.Component {
             style={{ display: !this.state.visible ? 'block' : 'none' }}
             className="mr20"
           />
-          <span>here is a consent xxxxxx(TBD)</span>
+          <span style={{ fontSize: '15px' }}>
+            Je confirme avoir lu et accepter les{' '}
+          </span>
+          <Link to="/latelier/felin-terms-conditions" target="_blank">
+            <span style={{ fontSize: '15px', textDecoration: 'underline' }}>
+              conditions générales de réservation
+            </span>
+          </Link>
         </div>
         <div className="text-center">
           <button
