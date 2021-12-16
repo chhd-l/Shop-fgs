@@ -41,9 +41,11 @@ import {
 import OrderAppointmentInfo from './modules/OrderAppointmentInfo';
 import getCardImg from '@/lib/get-card-img';
 import { getWays } from '@/api/payment';
-import { useConsigneeDeliveryDate } from '@/framework/common';
 import { handleOrderItem } from '../Orders/modules/handleOrderItem';
-import { momentNormalizeDate } from '@/utils/momentNormalized';
+import {
+  momentNormalizeDate,
+  deliverDateFormat
+} from '@/utils/momentNormalized';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -1098,13 +1100,10 @@ class AccountOrders extends React.Component {
       welcomeGiftLists
     } = this.state;
 
-    let newDeliveryDate = '';
-    if (details?.consignee?.deliveryDate) {
-      newDeliveryDate = useConsigneeDeliveryDate(
-        details?.consignee?.deliveryDate,
-        this.props.intl
-      );
-    }
+    let newDeliveryDate = momentNormalizeDate(
+      details?.consignee?.deliveryDate,
+      deliverDateFormat
+    );
 
     // details?.tradeItems?.map(el=>{el.subscriptionSourceList=[{subscribeId:'12323232323232'},{subscribeId:'12323232323232'}]})
     const isTr = window.__.env.REACT_APP_COUNTRY === 'tr'; //因为土耳其Total VAT Included的翻译，需要对Total VAT Included特殊化处理
