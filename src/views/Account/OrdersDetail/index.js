@@ -42,7 +42,10 @@ import OrderAppointmentInfo from './modules/OrderAppointmentInfo';
 import getCardImg from '@/lib/get-card-img';
 import { getWays } from '@/api/payment';
 import { handleOrderItem } from '../Orders/modules/handleOrderItem';
-import { momentNormalizeDate } from '@/utils/momentNormalized';
+import {
+  momentNormalizeDate,
+  deliverDateFormat
+} from '@/utils/momentNormalized';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -1099,7 +1102,7 @@ class AccountOrders extends React.Component {
 
     let newDeliveryDate = momentNormalizeDate(
       details?.consignee?.deliveryDate,
-      'dddd, D MMMM'
+      deliverDateFormat
     );
 
     // details?.tradeItems?.map(el=>{el.subscriptionSourceList=[{subscribeId:'12323232323232'},{subscribeId:'12323232323232'}]})
