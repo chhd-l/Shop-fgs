@@ -50,7 +50,7 @@ const FrequencyMatch = ({ frequencyType, currentFrequencyId,disabled=false,class
     });
   }
   return (
-    <div style={wrapStyle} className={`freqency order-3 md:order-2 col-12 col-md-4 text-center ${className} nowrap`}>
+    <div style={wrapStyle} className={`freqency order-3 md:order-2 col-12 col-md-4 text-center ${className} nowrap px-0`}>
       <span style={textStyle}>
         <FormattedMessage id="subscription.frequency" />
       </span>

@@ -183,6 +183,13 @@ const ShelterPrescription = loadable(() =>
   import('@/views/StaticPage/ShelterPrescription')
 );
 import CancelEmail from '@/views/StaticPage/CancelEmail';
+
+
+import FelinTermsConditions from '@/views/StaticPage/FelinTermsConditions';
+
+
+
+
 import PreciseCatNutrition from './views/PreciseCatNutrition';
 import Loading from './components/Loading';
 const VetLandingPage = loadable(() =>
@@ -206,6 +213,9 @@ const DedicatedLandingPage = loadable(() =>
 const Felin = loadable(() => import('@/views/Felin2'));
 const FelinRecommendation = loadable(() =>
   import('@/views/FelinRecommendation')
+);
+const Adoptions = loadable(() =>
+  import('@/views/Adoptions')
 );
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -436,6 +446,12 @@ const App = () => {
                     }
                     return fragment;
                   }}
+                />
+                
+                <Route
+                  exact
+                  path="/latelier/felin-terms-conditions"
+                  component={FelinTermsConditions}
                 />
                 <Route
                   exact
@@ -794,6 +810,10 @@ const App = () => {
                 <Route
                   path="/FelinRecommendation/:id"
                   component={FelinRecommendation}
+                />
+                 <Route
+                  path="/adoptions"
+                  component={Adoptions}
                 />
                 <Route path="/felin" component={Felin} />
                 <Route

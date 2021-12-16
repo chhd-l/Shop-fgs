@@ -8,13 +8,8 @@ export const getPaymentConf = async () => {
     : [];
   if (!adyenOriginKeyConf.length) {
     // 先读取店铺基础配置，若没有，再请求client-key接口
-    console.log(
-      'adyen local config',
-      window.__.env.REACT_APP_Adyen_locale &&
-        window.__.env.REACT_APP_AdyenOriginKEY &&
-        window.__.env.REACT_APP_Adyen_ENV
-    );
     if (
+      false &&
       window.__.env.REACT_APP_Adyen_locale &&
       window.__.env.REACT_APP_AdyenOriginKEY &&
       window.__.env.REACT_APP_Adyen_ENV
