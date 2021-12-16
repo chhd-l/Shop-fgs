@@ -45,7 +45,7 @@ import IMask from 'imask';
 import debounce from 'lodash/debounce';
 import { EMAIL_REGEXP } from '@/utils/constant';
 import './index.less';
-import { useConsigneeDeliveryDate } from '@/framework/common';
+import { momentNormalizeDate } from '@/utils/momentNormalized';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
@@ -278,7 +278,7 @@ class Form extends React.Component {
         let robj = res.context.timeSlots;
         robj.forEach((v, i) => {
           // 格式化 delivery date 格式: 星期, 15 月份
-          let datestr = useConsigneeDeliveryDate(v.date, this.props.intl);
+          let datestr = momentNormalizeDate(v.date, 'dddd, D MMMM');
           // 所有数据
           alldata[v.date] = v.dateTimeInfos;
           ddlist.push({
