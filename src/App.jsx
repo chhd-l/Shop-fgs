@@ -183,6 +183,13 @@ const ShelterPrescription = loadable(() =>
   import('@/views/StaticPage/ShelterPrescription')
 );
 import CancelEmail from '@/views/StaticPage/CancelEmail';
+
+
+import FelinTermsConditions from '@/views/StaticPage/FelinTermsConditions';
+
+
+
+
 import PreciseCatNutrition from './views/PreciseCatNutrition';
 import Loading from './components/Loading';
 const VetLandingPage = loadable(() =>
@@ -436,6 +443,12 @@ const App = () => {
                     }
                     return fragment;
                   }}
+                />
+                
+                <Route
+                  exact
+                  path="/latelier/felin-terms-conditions"
+                  component={FelinTermsConditions}
                 />
                 <Route
                   exact

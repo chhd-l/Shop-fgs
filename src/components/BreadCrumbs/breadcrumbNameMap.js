@@ -101,6 +101,11 @@ const breadcrumbNameMap = {
       name: 'generalTermsConditions'
     }
   ],
+  '/latelier/felin-terms-conditions': [
+    {
+      name: 'CONDITIONS GÉNÉRALES DE RESERVATION'
+    }
+  ],
   '/termsandconditions': [
     {
       name: 'Terms & Conditions'
