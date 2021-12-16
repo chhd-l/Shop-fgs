@@ -207,6 +207,9 @@ const Felin = loadable(() => import('@/views/Felin2'));
 const FelinRecommendation = loadable(() =>
   import('@/views/FelinRecommendation')
 );
+const Adoptions = loadable(() =>
+  import('@/views/Adoptions')
+);
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -794,6 +797,10 @@ const App = () => {
                 <Route
                   path="/FelinRecommendation/:id"
                   component={FelinRecommendation}
+                />
+                 <Route
+                  path="/adoptions"
+                  component={Adoptions}
                 />
                 <Route path="/felin" component={Felin} />
                 <Route
