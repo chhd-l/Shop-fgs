@@ -238,8 +238,13 @@ class Register extends Component {
     const deIllegalSymbol = symbolReg1.test(value) || symbolReg2.test(value);
     switch (name) {
       case 'password':
-        const { ruleLength, ruleLower, ruleUpper, ruleAname, ruleSpecial } =
-          this.state;
+        const {
+          ruleLength,
+          ruleLower,
+          ruleUpper,
+          ruleAname,
+          ruleSpecial
+        } = this.state;
         const passwordValid =
           ruleLength && ruleLower && ruleUpper && ruleAname && ruleSpecial;
         this.setState({
@@ -288,8 +293,7 @@ class Register extends Component {
       var lowerReg = /[a-z]+/;
       var upperReg = /[A-Z]+/;
       var nameReg = /[\d]+/;
-      var specialReg =
-        /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
+      var specialReg = /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
       this.setState(
         {
           ruleLength: value.length >= 8,
@@ -676,8 +680,9 @@ class Register extends Component {
                               {window.__.env.REACT_APP_COUNTRY === 'de' ? (
                                 <span
                                   dangerouslySetInnerHTML={{
-                                    __html:
-                                      this.getIntlMsg('registerContinuing')
+                                    __html: this.getIntlMsg(
+                                      'registerContinuing'
+                                    )
                                   }}
                                 ></span>
                               ) : (
@@ -1094,6 +1099,7 @@ class Register extends Component {
                                 fontZoom={this.state.fontZoom}
                                 auto={true}
                                 key={'required'}
+                                pageType="register"
                               />
                               {window.__.env.REACT_APP_COUNTRY === 'uk' ? (
                                 <div
@@ -1141,6 +1147,32 @@ class Register extends Component {
                             </span>
                             <FormattedMessage id="registerMandatory" />
                           </p>
+                          {window.__.env.REACT_APP_COUNTRY === 'us' ? (
+                            <div className="explain-txt">
+                              <p>
+                                I understand that I may change these preferences
+                                at any time by contacting Mars Petcare at
+                                1-844-673-3772 or by clicking &nbsp;
+                                <a
+                                  href="https://shop.royalcanin.com/help/contact"
+                                  target="_blank"
+                                >
+                                  here
+                                </a>
+                              </p>
+                              <p>
+                                For more information about how we use your data,
+                                please see Mars Privacy Statement:
+                                <a
+                                  href="https://www.mars.com/privacy"
+                                  target="_blank"
+                                >
+                                  https://www.mars.com/privacy
+                                </a>
+                                .
+                              </p>
+                            </div>
+                          ) : null}
                           {this.state.showValidErrorMsg ? (
                             <aside
                               className="rc-alert rc-alert--error mb-2"
@@ -1163,16 +1195,17 @@ class Register extends Component {
                               <FormattedMessage id="registerCreateYourAccout" />
                             </button>
                           </div>
-                          {window.__.env.REACT_APP_COUNTRY !== 'ru' ? (
+                          {window.__.env.REACT_APP_COUNTRY !== 'ru' &&
+                          window.__.env.REACT_APP_COUNTRY !== 'us' ? (
                             <div className="rc-meta rc-margin-top--sm rc-text--left">
                               <p>
                                 <FormattedMessage
                                   id="registerFooter1"
                                   defaultMessage={' '}
                                 />
-                                {window.__.env.REACT_APP_COUNTRY === 'us' ? (
+                                {/* {window.__.env.REACT_APP_COUNTRY === 'us' ? (
                                   <a href={homePage + contactUrl}>&nbsp;here</a>
-                                ) : null}
+                                ) : null} */}
                               </p>
                             </div>
                           ) : null}
