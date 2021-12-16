@@ -179,11 +179,17 @@ class CommunicationDataEditForm extends React.Component {
       // 1 勾选了某条特殊consent情况下，phone/email/messengers不能同时取消
       // 2 勾选了phone/email/messengers，必须勾选某条特殊consent
 
-      // 美国隐藏了 email 勾选框，所以选择邮件沟通时需要赋值 communicationEmail = 1
-      if (hasCheckedTheConsent && window.__.env.REACT_APP_COUNTRY === 'us') {
+      // 美国、英国隐藏了 email 勾选框，所以选择邮件沟通时需要赋值 communicationEmail = 1
+      if (
+        hasCheckedTheConsent &&
+        ['us', 'uk'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1
+      ) {
         form.communicationEmail = 1;
       }
-      if (!hasCheckedTheConsent && window.__.env.REACT_APP_COUNTRY === 'us') {
+      if (
+        !hasCheckedTheConsent &&
+        ['us', 'uk'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1
+      ) {
         form.communicationEmail = 0;
       }
       if (
@@ -402,7 +408,8 @@ class CommunicationDataEditForm extends React.Component {
             <div className={`${!isLoading && editFormVisible ? '' : 'hidden'}`}>
               <span className={`rc-meta`}></span>
               <div>
-                {window.__.env.REACT_APP_COUNTRY === 'us' ? null : (
+                {['us', 'uk'].indexOf(window.__.env.REACT_APP_COUNTRY) >
+                -1 ? null : (
                   <label className="form-control-label rc-input--full-width w-100">
                     <FormattedMessage id="account.preferredMethodOfCommunication" />
                   </label>
@@ -420,7 +427,8 @@ class CommunicationDataEditForm extends React.Component {
                         ? 'communicationEmail'
                         : 'email',
                     visible:
-                      window.__.env.REACT_APP_COUNTRY === 'us' ? false : true
+                      ['us', 'uk'].indexOf(window.__.env.REACT_APP_COUNTRY) ===
+                      -1
                   },
                   {
                     type: 'communicationPrint',
