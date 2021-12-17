@@ -39,6 +39,9 @@ class Consent extends Component {
     const fontZoom = this.props.fontZoom || '100%';
     const checkboxPadding = this.props.checkboxPadding || '1.25rem';
     const url = this.props.url;
+    const { pageType = '' } = this.props;
+    const Fr = window.__.env.REACT_APP_COUNTRY === 'fr';
+    const Us = window.__.env.REACT_APP_COUNTRY === 'us';
     //组件传参end
     const createMarkup = (text, isRequired, isNoChecked) => {
       if (isRequired && text && !isNoChecked) {
@@ -57,16 +60,17 @@ class Consent extends Component {
         {list?.map((item, index) => {
           return (
             <div>
-              {index === 1 &&
-              window.__.env.REACT_APP_COUNTRY === 'us' &&
-              this.props.pageType === 'register' ? (
+              {index === 1 && Us && pageType === 'register' ? (
                 <div style={{ marginLeft: '-30px' }}>
                   <ConsentAdditionalText textPosition="top" />
                 </div>
               ) : null}
-              {index === 2 &&
-              window.__.env.REACT_APP_COUNTRY === 'fr' &&
-              this.props.pageType === 'register' ? (
+              {index === 0 && Us && pageType === 'checkout' ? (
+                <div style={{ marginLeft: '-22px' }}>
+                  <ConsentAdditionalText textPosition="top" />
+                </div>
+              ) : null}
+              {index === 2 && Fr && pageType === 'register' ? (
                 <div style={{ marginLeft: '-30px' }}>
                   <ConsentAdditionalText textPosition="top" />
                 </div>
@@ -142,6 +146,11 @@ class Consent extends Component {
             </div>
           );
         })}
+        {list.length && Us && pageType === 'checkout' ? (
+          <div style={{ marginLeft: '-22px' }}>
+            <ConsentAdditionalText textPosition="bottom" />
+          </div>
+        ) : null}
       </>
     );
   }
