@@ -97,8 +97,7 @@ const UserJSX = (props) => {
                     </div>
                     <span
                       // style="cursor:pointer"
-                      style={{ cursor: 'pointer' }}
-                      className="rc-styled-link"
+                      className="rc-styled-link cursor-pointer"
                       // className="rc-styled-link"
                       onClick={() => {
                         // if (
@@ -116,17 +115,8 @@ const UserJSX = (props) => {
                         //   );
                         // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=http%3A%2F%2Flocalhost%3A3000%3Forigin%3Dregister'
                         // this.signUp()
-                        if (!window.__.env.REACT_APP_STOREID) {
-                          return;
-                        }
-                        if (
-                          window.__.env.REACT_APP_COUNTRY === 'tr' ||
-                          window.__.env.REACT_APP_COUNTRY === 'ru' ||
-                          window.__.env.REACT_APP_COUNTRY === 'fr' ||
-                          window.__.env.REACT_APP_COUNTRY === 'us' ||
-                          window.__.env.REACT_APP_COUNTRY === 'de' ||
-                          window.__.env.REACT_APP_COUNTRY === 'uk'
-                        ) {
+
+                        if (window.__.REACT_APP_CUSTOM_REGISTER === '1') {
                           localItemRoyal.set(
                             'okta-redirectUrl',
                             history &&
@@ -159,31 +149,31 @@ const UserJSX = (props) => {
                   <div className="link-group">
                     <div className="link-style">
                       <Link to="/account" className="click-hover">
-                        <span className="iconfont">&#xe697;</span>{' '}
+                        <span className="iconfont iconhome" />{' '}
                         <FormattedMessage id="account.home" />
                       </Link>
                     </div>
                     <div className="link-style">
                       <Link to="/account/information" className="click-hover">
-                        <span className="iconfont">&#xe69c;</span>{' '}
+                        <span className="iconfont iconInformation" />{' '}
                         <FormattedMessage id="account.profile" />
                       </Link>
                     </div>
                     <div className="link-style">
                       <Link to="/account/pets" className="click-hover">
-                        <span className="iconfont">&#xe69a;</span>{' '}
+                        <span className="iconfont iconPets" />{' '}
                         <FormattedMessage id="account.pets" />
                       </Link>
                     </div>
                     <div className="link-style">
                       <Link to="/account/orders" className="click-hover">
-                        <span className="iconfont">&#xe699;</span>{' '}
+                        <span className="iconfont iconOrders" />{' '}
                         <FormattedMessage id="account.ordersTitle" />
                       </Link>
                     </div>
                     <div className="link-style">
                       <Link to="/account/subscription" className="click-hover">
-                        <span className="iconfont">&#xe6a2;</span>{' '}
+                        <span className="iconfont iconSubscriptions" />{' '}
                         <FormattedMessage id="account.subscriptionTitle" />
                       </Link>
                     </div>
@@ -193,7 +183,7 @@ const UserJSX = (props) => {
                         to="/faq"
                         className="click-hover"
                       >
-                        <span className="iconfont">&#xe696;</span>{' '}
+                        <span className="iconfont iconfaq" />{' '}
                         <FormattedMessage id="footer.FAQ" />
                       </DistributeHubLinkOrATag>
                     </div>

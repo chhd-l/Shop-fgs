@@ -282,7 +282,7 @@ class UnloginCart extends React.Component {
                 </div>
                 {!this.selectedCartData.filter((el) => el.goodsInfoFlag)
                   .length ? (
-                  window.__.env.REACT_APP_COUNTRY !== 'us' ? (
+                  window.__.env.REACT_APP_LIMIT_MEMBER_PAY === '1' ? (
                     <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4 text-center">
                       <span
                         id="unLoginCarCheckout"
