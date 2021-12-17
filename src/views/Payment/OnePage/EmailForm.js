@@ -6,6 +6,8 @@ import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 import { EMAIL_REGEXP } from '@/utils/constant';
 import { checkoutDataLayerPushEvent } from '@/utils/GA';
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
+
 @inject('paymentStore', 'loginStore')
 @injectIntl
 @observer
@@ -128,13 +130,15 @@ class EmailForm extends React.Component {
           <FormattedMessage id="account.Email" />
           <span className="iconfont font-weight-bold green ml-2">&#xe68c;</span>
         </h5>
-        <p
-          onClick={this.handleClickEdit}
-          className="rc-styled-link mb-1"
-          style={{ cursor: 'pointer' }}
-        >
-          <FormattedMessage id="edit" />
-        </p>
+        {!sessionItemRoyal.get('from-felin') && (
+          <p
+            onClick={this.handleClickEdit}
+            className="rc-styled-link mb-1"
+            style={{ cursor: 'pointer' }}
+          >
+            <FormattedMessage id="edit" />
+          </p>
+        )}
       </>
     );
 

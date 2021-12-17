@@ -246,12 +246,18 @@ class Pcexperts extends React.Component {
       );
       return { ...item, ..._temp };
     });
-    this.setState({
-      apptTypeList: apptTypeList.goodsDictionaryVOS,
-      list: expertTypeList.reverse(),
-      isShow: false,
-      oneShow: true
-    });
+    this.setState(
+      {
+        apptTypeList: apptTypeList.goodsDictionaryVOS,
+        list: expertTypeList.reverse(),
+        isShow: false,
+        oneShow: true
+      },
+      () => {
+        let anchorElement = document.getElementById('oneBox');
+        window.scrollTo(0, anchorElement.offsetTop - window.innerHeight / 4);
+      }
+    );
   };
 
   setList = async (id) => {
@@ -310,10 +316,16 @@ class Pcexperts extends React.Component {
 
   // 返回第二步
   handleReturnTwo = () => {
-    this.setState({
-      oneShow: true,
-      threeShow: false
-    });
+    this.setState(
+      {
+        oneShow: true,
+        threeShow: false
+      },
+      () => {
+        let anchorElement = document.getElementById('oneBox');
+        window.scrollTo(0, anchorElement.offsetTop - window.innerHeight / 4);
+      }
+    );
   };
   // 跳转第四步
   handleGotoFour = () => {
@@ -565,7 +577,7 @@ class Pcexperts extends React.Component {
         ) : null}
         {/* 第一步第二步 */}
         {this.state.oneShow ? (
-          <div>
+          <div id="oneBox">
             <div className="Choisissez">
               <div>
                 <div className="size24 mb32 js-center">
