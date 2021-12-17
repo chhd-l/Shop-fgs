@@ -21,6 +21,7 @@ import Rate from '../../components/Rate';
 import Reviews from './Reviews/Reviews';
 import Conseiller from './components/conseiller';
 import ConseillerTwo from './components/conseillerTwo';
+
 const pageLink = window.location.href;
 PRESONAL_INFO_RULE.filter((el) => el.key === 'phoneNumber')[0].regExp = '';
 
@@ -73,6 +74,20 @@ class Felin extends React.Component {
       maxHeight: null
     };
   }
+
+  // componentDidMount() {
+  //   if (window.location.pathname === '/felin/event') {
+  //     setTimeout(() => {
+  //       this.gotoUrl('event');
+  //     });
+  //   }
+  // }
+  //
+  // gotoUrl = (name) => {
+  //   let anchorElement = document.getElementById(name);
+  //   console.log(anchorElement);
+  //   window.scrollTo(0, anchorElement.offsetTop - window.innerHeight / 2);
+  // };
 
   gotoAddPc = () => {
     let anchorElement = document.getElementById('pcexperts');
@@ -306,7 +321,7 @@ class Felin extends React.Component {
               }}
             />
           </div>
-          <div className="nos-cont">
+          <div className="nos-cont" id="event">
             <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile felin-mpd0">
               <div className="rc-max-width--xxl">
                 <div className="rc-layout-container rc-two-column rc-content-h-middle ">

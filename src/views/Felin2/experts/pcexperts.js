@@ -141,16 +141,7 @@ class Pcexperts extends React.Component {
         }
       });
     }
-    // if(window.location.pathname==='/felin/event'){
-    //   this.gotoUrl('pcexperts')
-    // }
   }
-  // gotoUrl = (name) => {
-  //   let anchorElement = document.getElementById(name);
-  //   console.log(anchorElement);
-  //   window.scrollTo(0, anchorElement.offsetTop - window.innerHeight / 2);
-  // };
-
   getDeatalData = async (id) => {
     let appointName = {
       Online: 'Appel video',
@@ -357,7 +348,7 @@ class Pcexperts extends React.Component {
   };
   // 最终跳转
   handleGoto = () => {
-    let id = window.location.search.split('=')[1];
+    let id = funcUrl({ name: 'id' });
     if (id) {
       this.postUpdate({
         ...this.state.params,
@@ -492,7 +483,6 @@ class Pcexperts extends React.Component {
           reslove(_resources);
         }
       });
-      console.log(resources, 'console.log(_resources);');
       this.setState({
         resources,
         key: +new Date()

@@ -335,7 +335,7 @@ class Hcexperts extends React.Component {
     });
   };
   handleGoto = () => {
-    let id = window.location.search.split('=')[1];
+    let id = funcUrl({ name: 'id' });
     if (id) {
       this.postUpdate({
         ...this.state.params,
