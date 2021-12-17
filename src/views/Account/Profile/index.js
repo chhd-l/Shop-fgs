@@ -335,6 +335,12 @@ class AccountProfile extends React.Component {
                       data={personalData}
                       userInfo={this.userInfo}
                       // 俄罗斯 需要message
+                      needEmail={
+                        !Boolean(
+                          +window.__.env
+                            .REACT_APP_HIDE_ACCOUNT_COMMUNICATION_EMAIL
+                        )
+                      }
                       needMessengers={
                         !Boolean(
                           +window.__.env

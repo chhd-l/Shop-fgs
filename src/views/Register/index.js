@@ -673,16 +673,11 @@ class Register extends Component {
                           <SocialRegister />
                           <div className="rc-column">
                             <p className="rc-margin-bottom--none text-center rc-padding--xs">
-                              {window.__.env.REACT_APP_COUNTRY === 'de' ? (
-                                <span
-                                  dangerouslySetInnerHTML={{
-                                    __html:
-                                      this.getIntlMsg('registerContinuing')
-                                  }}
-                                ></span>
-                              ) : (
-                                <FormattedMessage id="registerContinuing" />
-                              )}
+                              <span
+                                dangerouslySetInnerHTML={{
+                                  __html: this.getIntlMsg('registerContinuing')
+                                }}
+                              />
                             </p>
                           </div>
                           <div className="rc-column ouPadding">

@@ -70,7 +70,7 @@ async function getDynamicLanguage() {
   }
 
   // const language = phraseRet;
-  const language = assignObj(localLanguage, phraseRet);
+  const language = assignObj(localLanguage, phraseRet || {});
   // debugger;
   // const language = localLanguage;
   // console.log(language, '拼接完成');
