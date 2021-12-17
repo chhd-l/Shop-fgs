@@ -320,6 +320,26 @@ class CommunicationDataEditForm extends React.Component {
   render() {
     const { editFormVisible, list, form, errorMsg, isLoading } = this.state;
     const curPageAtCover = !editFormVisible;
+    const communicationPreferencesList = [
+      {
+        type: 'communicationPhone',
+        langKey: 'phone',
+        visible: this.props.needPhone
+      },
+      {
+        type: 'communicationEmail',
+        langKey:
+          window.__.env.REACT_APP_COUNTRY === 'uk'
+            ? 'communicationEmail'
+            : 'email',
+        visible: this.props.needEmail
+      },
+      {
+        type: 'communicationPrint',
+        langKey: 'messengers',
+        visible: this.props.needMessengers
+      }
+    ].filter((c) => c.visible);
     return (
       <div className={classNames({ border: curPageAtCover })}>
         <div className="userContactPreferenceInfo">
@@ -408,55 +428,32 @@ class CommunicationDataEditForm extends React.Component {
             <div className={`${!isLoading && editFormVisible ? '' : 'hidden'}`}>
               <span className={`rc-meta`}></span>
               <div>
-                {['us', 'uk'].indexOf(window.__.env.REACT_APP_COUNTRY) >
-                -1 ? null : (
+                {communicationPreferencesList.length > 0 ? (
                   <label className="form-control-label rc-input--full-width w-100">
                     <FormattedMessage id="account.preferredMethodOfCommunication" />
                   </label>
-                )}
-                {[
-                  {
-                    type: 'communicationPhone',
-                    langKey: 'phone',
-                    visible: this.props.needPhone
-                  },
-                  {
-                    type: 'communicationEmail',
-                    langKey:
-                      window.__.env.REACT_APP_COUNTRY === 'uk'
-                        ? 'communicationEmail'
-                        : 'email',
-                    visible:
-                      ['us', 'uk'].indexOf(window.__.env.REACT_APP_COUNTRY) ===
-                      -1
-                  },
-                  {
-                    type: 'communicationPrint',
-                    langKey: 'messengers',
-                    visible: this.props.needMessengers
-                  }
-                ]
-                  .filter((c) => c.visible)
-                  .map((ele, idx) => (
-                    <div className="rc-input rc-input--inline" key={idx}>
-                      <input
-                        type="checkbox"
-                        className="rc-input__checkbox"
-                        id={`basicinfo-communication-checkbox-${ele.type}`}
-                        onChange={this.handleCommunicationCheckBoxChange.bind(
-                          this,
-                          ele
-                        )}
-                        checked={+form[ele.type] || false}
-                      />
-                      <label
-                        className="rc-input__label--inline text-break"
-                        htmlFor={`basicinfo-communication-checkbox-${ele.type}`}
-                      >
-                        <FormattedMessage id={ele.langKey} />
-                      </label>
-                    </div>
-                  ))}
+                ) : null}
+
+                {communicationPreferencesList.map((ele, idx) => (
+                  <div className="rc-input rc-input--inline" key={idx}>
+                    <input
+                      type="checkbox"
+                      className="rc-input__checkbox"
+                      id={`basicinfo-communication-checkbox-${ele.type}`}
+                      onChange={this.handleCommunicationCheckBoxChange.bind(
+                        this,
+                        ele
+                      )}
+                      checked={+form[ele.type] || false}
+                    />
+                    <label
+                      className="rc-input__label--inline text-break"
+                      htmlFor={`basicinfo-communication-checkbox-${ele.type}`}
+                    >
+                      <FormattedMessage id={ele.langKey} />
+                    </label>
+                  </div>
+                ))}
               </div>
 
               <span className={`rc-meta`}>

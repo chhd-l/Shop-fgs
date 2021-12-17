@@ -533,18 +533,6 @@ class Header extends React.Component {
       this.toggleShowBodyMask({ visible: activeTopParentId !== -1 });
     });
   };
-  hanldeClickSignUp = () => {
-    if (
-      window.__.env.REACT_APP_COUNTRY === 'fr' ||
-      window.__.env.REACT_APP_COUNTRY === 'us'
-    ) {
-      this.props.history.push('/register');
-    } else {
-      window.location.href =
-        window.__.env.REACT_APP_RegisterPrefix +
-        window.encodeURIComponent(window.__.env.REACT_APP_RegisterCallback);
-    }
-  };
   toggleSearchIcon = () => {
     this.setState(
       (curState) => ({

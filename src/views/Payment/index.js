@@ -4130,6 +4130,7 @@ class Payment extends React.Component {
               </div>
             </div>
             <Adyen3DForm
+              {...this.props}
               action={this.state.adyenAction}
               key={curPayWayInfo?.code}
             />
