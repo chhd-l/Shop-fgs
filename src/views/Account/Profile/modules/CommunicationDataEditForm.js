@@ -451,14 +451,12 @@ class CommunicationDataEditForm extends React.Component {
                   </div>
                 ))}
               </div>
-
-              <ConsentAdditionalText textPosition="top" />
-
               <span className={`rc-meta`}>
                 <strong>
                   <FormattedMessage id="account.myCommunicationPreferencesContent2" />
                 </strong>
               </span>
+              <ConsentAdditionalText textPosition="top" />
               <div id="wrap" style={{ marginLeft: '30px' }}>
                 {/* checkbox组 */}
                 <Consent

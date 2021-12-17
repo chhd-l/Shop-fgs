@@ -64,6 +64,13 @@ class Consent extends Component {
                   <ConsentAdditionalText textPosition="top" />
                 </div>
               ) : null}
+              {index === 2 &&
+              window.__.env.REACT_APP_COUNTRY === 'fr' &&
+              this.props.pageType === 'register' ? (
+                <div style={{ marginLeft: '-30px' }}>
+                  <ConsentAdditionalText textPosition="top" />
+                </div>
+              ) : null}
               <div
                 key={index}
                 id={index}

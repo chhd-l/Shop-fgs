@@ -17,9 +17,28 @@ const ConsentAdditionalText = ({ textPosition }) => {
         our consumers. If you are over the age of 16 years old, please confirm
         your choice by clicking the boxes below.
       </p>
+    ),
+    fr: (
+      <div className="consent-txt">
+        <p>
+          Je souhaite recevoir par mail des conseils personnalisés et des offres
+          sur la nutrition, la santé, le bien-être et l’éducation de mon animal
+          de la part de &nbsp;
+          <a
+            href="https://fra.mars.com/mars-et-ses-marques/petcare"
+            target="_blank"
+          >
+            Mars Petcare et ses filiales
+          </a>
+          .
+        </p>
+        <p>
+          Je suis âgé(e) de plus de 16 ans et je souhaite recevoir ces
+          informations de la part de :{' '}
+        </p>
+      </div>
     )
   };
-
   const bottomText = {
     us: (
       <div className="explain-txt">
@@ -38,6 +57,31 @@ const ConsentAdditionalText = ({ textPosition }) => {
             https://www.mars.com/privacy
           </a>
           .
+        </p>
+      </div>
+    ),
+    fr: (
+      <div className="explain-txt">
+        <p>
+          Je comprends que je peux modifier ces préférences à tout moment en me
+          connectant sur
+          <a href="https://account.royalcanin.com/fr-fr" target="_blank">
+            « Mon Compte »
+          </a>
+          .
+        </p>
+        <p>
+          De façon ponctuelle, vos données pourront être utilisées à des fins
+          d’études statistiques anonymes afin d'améliorer nos offres de produits
+          et de services. Vous pouvez en savoir plus sur la manière dont Mars
+          Petcare et ses filiales collectent et traitent vos données, nous
+          contacter pour toute question relative à la confidentialité et exercer
+          vos droits en matière de données à caractère personnel via la &nbsp;
+          <a href="https://www.mars.com/privacy-policy-france" target="_blank">
+            déclaration de confidentialité de Mars
+          </a>
+          . Vous avez également le droit d’introduire une réclamation auprès de
+          la CNIL.
         </p>
       </div>
     )

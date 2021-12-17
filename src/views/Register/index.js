@@ -1148,9 +1148,7 @@ class Register extends Component {
                             </span>
                             <FormattedMessage id="registerMandatory" />
                           </p>
-                          {window.__.env.REACT_APP_COUNTRY === 'us' ? (
-                            <ConsentAdditionalText textPosition="bottom" />
-                          ) : null}
+                          <ConsentAdditionalText textPosition="bottom" />
                           {this.state.showValidErrorMsg ? (
                             <aside
                               className="rc-alert rc-alert--error mb-2"
