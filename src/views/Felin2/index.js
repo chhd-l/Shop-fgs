@@ -73,6 +73,7 @@ class Felin extends React.Component {
       maxHeight: null
     };
   }
+
   gotoAddPc = () => {
     let anchorElement = document.getElementById('pcexperts');
     window.scrollTo(0, anchorElement.offsetTop - window.innerHeight / 2);

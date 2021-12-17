@@ -447,7 +447,7 @@ const App = () => {
                     return fragment;
                   }}
                 />
-                
+
                 <Route
                   exact
                   path="/latelier/felin-terms-conditions"
@@ -816,6 +816,7 @@ const App = () => {
                   component={Adoptions}
                 />
                 <Route path="/felin" component={Felin} />
+                <Route path="/felin/event" component={Felin} />
                 <Route
                   path="/"
                   render={(props) => {
