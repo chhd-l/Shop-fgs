@@ -1,14 +1,14 @@
 import React from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { ADYEN_CREDIT_CARD_BRANDS } from '@/utils/constant';
 import { loadJS, dynamicLoadCss } from '@/utils/utils';
 import { getAdyenParam } from './utils';
 import { inject, observer } from 'mobx-react';
 import { addOrUpdatePaymentMethod } from '@/api/payment';
-// import translations from './translations';
 import LazyLoad from 'react-lazyload';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import getPaymentConf from '@/lib/get-payment-conf';
+import packageTranslations from './translations';
 
 let adyenFormData = {};
 
@@ -41,40 +41,8 @@ class AdyenCreditCardForm extends React.Component {
       isValid: false,
       adyenOriginKeyConf: null
     };
-    this.translations = {};
   }
   componentDidMount() {
-    const {
-      intl: { messages }
-    } = this.props;
-    this.translations = {
-      storeDetails: messages['adyen.storeDetails'],
-
-      holderName: messages['adyen.holderName'],
-      'creditCard.holderName.placeholder':
-        messages['adyen.creditCard.holderName.placeholder'],
-      'creditCard.holderName.invalid':
-        messages['adyen.creditCard.holderName.invalid'],
-
-      'creditCard.numberField.title':
-        messages['adyen.creditCard.numberField.title'],
-      'creditCard.numberField.placeholder':
-        messages['adyen.creditCard.numberField.placeholder'],
-      'creditCard.numberField.invalid':
-        messages['adyen.creditCard.numberField.invalid'],
-
-      'creditCard.expiryDateField.title':
-        messages['adyen.creditCard.expiryDateField.title'],
-      'creditCard.expiryDateField.placeholder':
-        messages['adyen.creditCard.expiryDateField.placeholder'],
-      'creditCard.expiryDateField.invalid':
-        messages['adyen.creditCard.expiryDateField.invalid'],
-
-      'creditCard.cvcField.title': messages['adyen.creditCard.cvcField.title'],
-      'creditCard.cvcField.placeholder':
-        messages['adyen.creditCard.cvcField.placeholder']
-    };
-
     this.initAdyenConf();
     this.setState({
       adyenFormData: Object.assign(adyenFormData, {
@@ -111,8 +79,11 @@ class AdyenCreditCardForm extends React.Component {
     );
   }
   initForm() {
+    const {
+      intl: { messages }
+    } = this.props;
     const _this = this;
-    const { translations } = _this;
+    const { translations } = packageTranslations({ messages });
     const { adyenOriginKeyConf } = this.state;
     dynamicLoadCss(
       'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.css'
@@ -132,7 +103,9 @@ class AdyenCreditCardForm extends React.Component {
             originKey: adyenOriginKeyConf?.openPlatformSecret,
             locale: adyenOriginKeyConf?.locale || 'en-US',
             // 只有adyen本身不支持的语言时，自定义翻译才有用
-            translations: { [adyenOriginKeyConf?.locale]: translations },
+            translations: {
+              [adyenOriginKeyConf?.locale || 'en-US']: translations
+            },
             allowAddedLocales: true
           });
 

@@ -238,8 +238,13 @@ class Register extends Component {
     const deIllegalSymbol = symbolReg1.test(value) || symbolReg2.test(value);
     switch (name) {
       case 'password':
-        const { ruleLength, ruleLower, ruleUpper, ruleAname, ruleSpecial } =
-          this.state;
+        const {
+          ruleLength,
+          ruleLower,
+          ruleUpper,
+          ruleAname,
+          ruleSpecial
+        } = this.state;
         const passwordValid =
           ruleLength && ruleLower && ruleUpper && ruleAname && ruleSpecial;
         this.setState({
@@ -288,8 +293,7 @@ class Register extends Component {
       var lowerReg = /[a-z]+/;
       var upperReg = /[A-Z]+/;
       var nameReg = /[\d]+/;
-      var specialReg =
-        /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
+      var specialReg = /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
       this.setState(
         {
           ruleLength: value.length >= 8,
@@ -673,16 +677,11 @@ class Register extends Component {
                           <SocialRegister />
                           <div className="rc-column">
                             <p className="rc-margin-bottom--none text-center rc-padding--xs">
-                              {window.__.env.REACT_APP_COUNTRY === 'de' ? (
-                                <span
-                                  dangerouslySetInnerHTML={{
-                                    __html:
-                                      this.getIntlMsg('registerContinuing')
-                                  }}
-                                ></span>
-                              ) : (
-                                <FormattedMessage id="registerContinuing" />
-                              )}
+                              <span
+                                dangerouslySetInnerHTML={{
+                                  __html: this.getIntlMsg('registerContinuing')
+                                }}
+                              />
                             </p>
                           </div>
                           <div className="rc-column ouPadding">
