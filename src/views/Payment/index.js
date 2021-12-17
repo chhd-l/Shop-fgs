@@ -414,6 +414,10 @@ class Payment extends React.Component {
             key: 'billingAddr',
             isFirstLoad: true
           });
+          this.props.paymentStore.setStsToCompleted({
+            key: 'email',
+            isFirstLoad: true
+          });
         }
       );
     }
@@ -671,14 +675,12 @@ class Payment extends React.Component {
         key: 'billingAddr',
         isFirstLoad: true
       });
-      if (this.isLogin) {
-        // 下一个最近的未complete的panel
-        const nextConfirmPanel = searchNextConfirmPanel({
-          list: toJS(paymentStore.panelStatus),
-          curKey: 'deliveryAddr'
-        });
-        paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
-      }
+      // 下一个最近的未complete的panel
+      const nextConfirmPanel = searchNextConfirmPanel({
+        list: toJS(paymentStore.panelStatus),
+        curKey: 'deliveryAddr'
+      });
+      paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
     }
   }
 
@@ -1028,7 +1030,8 @@ class Payment extends React.Component {
         });
         this.setState({
           deliveryAddress: felinAddress,
-          billingAddress: felinAddress
+          billingAddress: felinAddress,
+          guestEmail: result?.consumerEmail
         });
       }
       this.setState({
