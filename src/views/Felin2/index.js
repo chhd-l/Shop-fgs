@@ -22,6 +22,7 @@ import Reviews from './Reviews/Reviews';
 import Conseiller from './components/conseiller';
 import ConseillerTwo from './components/conseillerTwo';
 import { getDeviceType } from '../../utils/utils';
+import { scrollIntoView } from '@/lib/scroll-to-utils';
 
 const pageLink = window.location.href;
 PRESONAL_INFO_RULE.filter((el) => el.key === 'phoneNumber')[0].regExp = '';
@@ -77,35 +78,13 @@ class Felin extends React.Component {
   }
 
   componentDidMount() {
+    // this.scrollEventPanelIntoView();
+  }
+
+  scrollEventPanelIntoView() {
     if (window.location.pathname === '/felin/event') {
-      let anchorElement = document.getElementById('event');
-      window.scroll({
-        top: anchorElement.offsetTop + 7,
-        behavior: 'smooth'
-      });
+      scrollIntoView(document.querySelector(`#event`));
     }
-  }
-
-  scrollIntoView(element) {
-    const headerElement = document.querySelector(`.rc-header__nav`);
-    if (element && headerElement) {
-      window.scroll({
-        top: this.getElementTop(element) - headerElement.offsetHeight,
-        behavior: 'smooth'
-      });
-    }
-  }
-
-  getElementTop(element) {
-    var actualTop = element.offsetTop;
-    var current = element.offsetParent;
-
-    while (current !== null) {
-      actualTop += current.offsetTop;
-      current = current.offsetParent;
-    }
-
-    return actualTop;
   }
 
   gotoAddPc = () => {
@@ -334,9 +313,14 @@ class Felin extends React.Component {
               }}
               onList={(list) => {
                 if (this.state.reviews.list.length === 0) {
-                  this.setState({
-                    reviews: { ...this.state.reviews, list: list }
-                  });
+                  this.setState(
+                    {
+                      reviews: { ...this.state.reviews, list: list }
+                    },
+                    () => {
+                      this.scrollEventPanelIntoView();
+                    }
+                  );
                 }
               }}
             />
