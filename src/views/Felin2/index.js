@@ -323,7 +323,9 @@ class Felin extends React.Component {
                     reviews: { ...this.state.reviews, list: list }
                   });
                 }
-                this.scrollEventPanelIntoView();
+                setTimeout(() => {
+                  this.scrollEventPanelIntoView();
+                });
               }}
             />
           </div>
