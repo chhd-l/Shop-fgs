@@ -21,6 +21,7 @@ import Rate from '../../components/Rate';
 import Reviews from './Reviews/Reviews';
 import Conseiller from './components/conseiller';
 import ConseillerTwo from './components/conseillerTwo';
+import { getDeviceType } from '../../utils/utils';
 
 const pageLink = window.location.href;
 PRESONAL_INFO_RULE.filter((el) => el.key === 'phoneNumber')[0].regExp = '';
@@ -75,19 +76,37 @@ class Felin extends React.Component {
     };
   }
 
-  // componentDidMount() {
-  //   if (window.location.pathname === '/felin/event') {
-  //     setTimeout(() => {
-  //       this.gotoUrl('event');
-  //     });
-  //   }
-  // }
-  //
-  // gotoUrl = (name) => {
-  //   let anchorElement = document.getElementById(name);
-  //   console.log(anchorElement);
-  //   window.scrollTo(0, anchorElement.offsetTop - window.innerHeight / 2);
-  // };
+  componentDidMount() {
+    if (window.location.pathname === '/felin/event') {
+      let anchorElement = document.getElementById('event');
+      window.scroll({
+        top: anchorElement.offsetTop + 7,
+        behavior: 'smooth'
+      });
+    }
+  }
+
+  scrollIntoView(element) {
+    const headerElement = document.querySelector(`.rc-header__nav`);
+    if (element && headerElement) {
+      window.scroll({
+        top: this.getElementTop(element) - headerElement.offsetHeight,
+        behavior: 'smooth'
+      });
+    }
+  }
+
+  getElementTop(element) {
+    var actualTop = element.offsetTop;
+    var current = element.offsetParent;
+
+    while (current !== null) {
+      actualTop += current.offsetTop;
+      current = current.offsetParent;
+    }
+
+    return actualTop;
+  }
 
   gotoAddPc = () => {
     let anchorElement = document.getElementById('pcexperts');
@@ -257,6 +276,7 @@ class Felin extends React.Component {
           <Hexperts history={this.props.history} />
           {/*评论展示*/}
           <div
+            id="comment"
             className="comment"
             style={{
               flexDirection: 'column',
@@ -321,7 +341,7 @@ class Felin extends React.Component {
               }}
             />
           </div>
-          <div className="nos-cont" id="event">
+          <div id="event" className="nos-cont">
             <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile felin-mpd0">
               <div className="rc-max-width--xxl">
                 <div className="rc-layout-container rc-two-column rc-content-h-middle ">
