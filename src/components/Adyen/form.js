@@ -12,6 +12,20 @@ import packageTranslations from './translations';
 
 let adyenFormData = {};
 
+const isShowSupportCreditCardType = {
+  fr: 'hide',
+  uk: 'hide',
+  se: 'hide',
+  default: 'show'
+};
+
+const showSupportCreditCardType = (country) => {
+  let isShow =
+    isShowSupportCreditCardType[country] ||
+    isShowSupportCreditCardType['default'];
+  return isShow;
+};
+
 @inject('loginStore', 'paymentStore')
 @observer
 class AdyenCreditCardForm extends React.Component {
@@ -259,22 +273,24 @@ class AdyenCreditCardForm extends React.Component {
     return (
       <div>
         {/* 支持卡的类型 Visa和master */}
-        {supportPaymentMethods.length > 0 && (
-          <p className="mb-2">
-            <span className="logo-payment-card-list logo-credit-card ml-0">
-              {supportPaymentMethods.map((el, idx) => (
-                <LazyLoad key={idx}>
-                  <img
-                    style={{ width: '50px' }}
-                    className="logo-payment-card mr-1"
-                    src={el.imgUrl}
-                    alt={el.cardType}
-                  />
-                </LazyLoad>
-              ))}
-            </span>
-          </p>
-        )}
+        {showSupportCreditCardType(window.__.env.REACT_APP_COUNTRY) ===
+          'show' &&
+          supportPaymentMethods.length > 0 && (
+            <p className="mb-2">
+              <span className="logo-payment-card-list logo-credit-card ml-0">
+                {supportPaymentMethods.map((el, idx) => (
+                  <LazyLoad key={idx}>
+                    <img
+                      style={{ width: '50px' }}
+                      className="logo-payment-card mr-1"
+                      src={el.imgUrl}
+                      alt={el.cardType}
+                    />
+                  </LazyLoad>
+                ))}
+              </span>
+            </p>
+          )}
         <div
           id="adyen-card-container"
           className={`payment-method__container ${
