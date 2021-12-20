@@ -71,7 +71,13 @@ class SalesCategory extends Component {
                   curListNum >= 6 ? 'DeCenter' : ''
                 } col-lg-3 align-self-center`}
               >
-                <h2 className="rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-center rc-padding-top--none">
+                <h2
+                  className="rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-center rc-padding-top--none"
+                  onClick={() => {
+                    window.location =
+                      'swish://paymentrequest?token=c28a4061470f4af48973bd2a4642b4fa&callbackurl=merchant%253A%252F%252F';
+                  }}
+                >
                   <FormattedMessage id="home.productsCategory" />
                 </h2>
               </div>
