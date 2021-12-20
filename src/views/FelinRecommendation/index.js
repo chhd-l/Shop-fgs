@@ -29,6 +29,8 @@ import cloneDeep from 'lodash/cloneDeep';
 import { toJS } from 'mobx';
 import LoginButton from '@/components/LoginButton';
 import Modal from './components/Modal';
+import { funcUrl } from '@/lib/url-utils';
+
 import {
   setSeoConfig,
   distributeLinktoPrecriberOrPaymentPage
@@ -36,7 +38,7 @@ import {
 import LazyLoad from 'react-lazyload';
 import transparentImg from './images/transparent.svg';
 import { Helmet } from 'react-helmet';
-
+import Loading from '@/components/Loading';
 import './index.css';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -50,6 +52,7 @@ class FelinRecommendation extends React.Component {
     super(props);
     this.state = {
       isNoMoreProduct: false,
+      pageLoading: true,
       details: {
         id: '',
         goodsName: '',
@@ -61,6 +64,7 @@ class FelinRecommendation extends React.Component {
         goodsSpecDetails: [],
         goodsSpecs: []
       },
+      couponCode: '',
       seoConfig: {
         title: 'Royal canin',
         metaKeywords: 'Royal canin',
@@ -127,6 +131,8 @@ class FelinRecommendation extends React.Component {
     });
     this.setState({ isMobile: getDeviceType() === 'H5' });
     this.setState({ loading: true });
+    let couponCode = funcUrl({ name: 'couponCode' });
+    this.setState({ couponCode });
     getFelinReco(id)
       .then((res) => {
         let productList = res.context.recommendationGoodsInfoRels;
@@ -219,9 +225,14 @@ class FelinRecommendation extends React.Component {
           return el;
         });
         let filterProducts = productList.filter((el) => {
-          return el.goodsInfo.addedFlag;
+          return (
+            el.goodsInfo.addedFlag &&
+            !el.goodsInfo.delFlag &&
+            el.goodsInfo?.goods?.saleableFlag &&
+            el.goodsInfo?.goods?.displayFlag
+          );
         });
-        // 只展示上架商品
+        // 只展示上架的，未删除的，可销售的，可展示的商品
         if (!filterProducts.length) {
           this.setState({ isNoMoreProduct: true });
         }
@@ -233,10 +244,12 @@ class FelinRecommendation extends React.Component {
         this.props.clinicStore.setLinkClinicName('');
         this.props.clinicStore.setAuditAuthority(false);
         this.setState({ loading: false });
+        this.buyNow();
         // });
       })
       .catch((err) => {
         console.log(err, 'err');
+        this.setState({ pageLoading: false });
         // this.props.history.push('/home');
       });
     // if (localItemRoyal.get('isRefresh')) {
@@ -458,6 +471,7 @@ class FelinRecommendation extends React.Component {
       //     this.setState({ buttonLoading: false });
       //   }
       // }
+      await this.props.checkoutStore.setPromotionCode(this.state.couponCode);
       this.setState({ buttonLoading: true });
       try {
         if (loginStore.isLogin) {
@@ -639,6 +653,9 @@ class FelinRecommendation extends React.Component {
         >
           <span>{currentModalObj.content}</span>
         </Modal>
+        {this.state.pageLoading ? (
+          <Loading bgColor={'#fff'} opacity={1} />
+        ) : null}
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
           <div

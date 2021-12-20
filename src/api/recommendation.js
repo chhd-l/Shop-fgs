@@ -5,7 +5,7 @@ const api = {
   getRecommendations: '/recommendation',
   getPrescriberByPrescriberIdAndStoreId:
     '/prescriber/getPrescriberByPrescriberIdAndStoreId',
-  felinReco: '/reco'
+  felinReco: '/felin/reco'
 };
 
 export default api;

@@ -23,6 +23,7 @@ import LoginButton from '@/components/LoginButton';
 import { getDeviceType } from '../../../utils/utils';
 import { injectIntl } from 'react-intl-phraseapp';
 import { postcustomerUpdate } from '../../../api/felin';
+import { funcUrl } from '@/lib/url-utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 PRESONAL_INFO_RULE.filter((el) => el.key === 'phoneNumber')[0].regExp = '';
@@ -60,12 +61,6 @@ class Hcexperts extends React.Component {
           src: cat2,
           name: 'Expert en nutrition',
           text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
-        },
-        {
-          valueEn: 'Osteopathist',
-          src: cat3,
-          name: 'Ostéopathes',
-          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         }
       ],
       timeList: [
@@ -79,6 +74,10 @@ class Hcexperts extends React.Component {
         },
         {
           duration: 45,
+          text: 'Prenez le temps de vous offrir une session complète.'
+        },
+        {
+          duration: 60,
           text: 'Prenez le temps de vous offrir une session complète.'
         }
       ],
@@ -119,8 +118,8 @@ class Hcexperts extends React.Component {
   }
 
   componentDidMount() {
+    let id = funcUrl({ name: 'id' });
     let userInfo = this.props.loginStore.userInfo;
-    let id = window.location.search.split('=')[1];
     if (
       id &&
       (getDeviceType() === 'H5' ||
@@ -154,7 +153,7 @@ class Hcexperts extends React.Component {
     this.setState(
       {
         apptTypeList: apptTypeList.goodsDictionaryVOS,
-        list: expertTypeList
+        list: expertTypeList.reverse()
       },
       () => {
         this.getDeatalData(id);
@@ -267,7 +266,7 @@ class Hcexperts extends React.Component {
     });
     this.setState({
       apptTypeList: apptTypeList.goodsDictionaryVOS,
-      list: expertTypeList,
+      list: expertTypeList.reverse(),
       isShow: false,
       oneShow: true
     });
@@ -336,7 +335,7 @@ class Hcexperts extends React.Component {
     });
   };
   handleGoto = () => {
-    let id = window.location.search.split('=')[1];
+    let id = funcUrl({ name: 'id' });
     if (id) {
       this.postUpdate({
         ...this.state.params,
@@ -656,10 +655,10 @@ class Hcexperts extends React.Component {
                         oneShow: false
                       });
                     }}
-                    className={`text-xs font-medium p-3 rounded-full ${
+                    className={`border text-xs font-medium p-2 rounded-full ${
                       this.state.params.apptTypeId === item.id
-                        ? 'bg-red-600 text-white'
-                        : 'bg-gray-300 text-white'
+                        ? 'bg-red-600 text-white border-red-600'
+                        : 'border-gray-400'
                     }`}
                     style={{
                       width: '9.375rem'
@@ -673,7 +672,7 @@ class Hcexperts extends React.Component {
             <div className="js-center mt20">
               <button
                 onClick={this.handleReturn}
-                className="rc-btn rc-btn--one  rc-margin-bottom--xs"
+                className="rc-btn rc-btn--two  rc-margin-bottom--xs"
                 style={{
                   width: '16.875rem'
                 }}
@@ -701,10 +700,10 @@ class Hcexperts extends React.Component {
                         'expertise'
                       );
                     }}
-                    className={`text-xs font-medium p-3 rounded-full ${
+                    className={`border text-xs font-medium p-2 rounded-full ${
                       this.state.params.expertTypeId === item.id
-                        ? 'bg-red-600 text-white'
-                        : 'bg-gray-300 text-white'
+                        ? 'bg-red-600 text-white border-red-600'
+                        : 'border-gray-400'
                     }`}
                     style={{
                       width: '9.75rem'
@@ -718,7 +717,7 @@ class Hcexperts extends React.Component {
             <div className="js-center mt20">
               <button
                 onClick={this.handleReturnOne}
-                className="rc-btn rc-btn--one  rc-margin-bottom--xs"
+                className="rc-btn rc-btn--two  rc-margin-bottom--xs"
                 style={{
                   width: '16.875rem'
                 }}
@@ -777,7 +776,7 @@ class Hcexperts extends React.Component {
             <div className="txt-centr">
               <button
                 onClick={this.handleReturnTwo}
-                className="rc-btn rc-btn--one  rc-margin-bottom--xs"
+                className="rc-btn rc-btn--two  rc-margin-bottom--xs"
                 style={{
                   width: '16.875rem'
                 }}
@@ -804,15 +803,6 @@ class Hcexperts extends React.Component {
             </div>
             <div className="txt-centr">
               <button
-                onClick={this.handleReturnThree}
-                className="rc-btn rc-btn--one  rc-margin-bottom--xs"
-                style={{
-                  width: '16.875rem'
-                }}
-              >
-                Retour à l'étape précédente
-              </button>
-              <button
                 disabled={this.state.votre.heure === ''}
                 onClick={this.handleGoto}
                 className="rc-btn rc-btn--one  rc-margin-bottom--xs"
@@ -821,6 +811,15 @@ class Hcexperts extends React.Component {
                 }}
               >
                 Continuer
+              </button>
+              <button
+                onClick={this.handleReturnThree}
+                className="rc-btn rc-btn--two  rc-margin-bottom--xs"
+                style={{
+                  width: '16.875rem'
+                }}
+              >
+                Retour à l'étape précédente
               </button>
             </div>
           </div>

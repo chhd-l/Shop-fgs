@@ -1,7 +1,12 @@
 import moment from 'moment';
 import momentTz from 'moment-timezone';
 
-//当前国家要显示的时间格式
+//原getFormatDeliveryDateStr方法 delivery date 格式转换: 星期, 日 月份 用moment.js实现
+export const deliverDateFormat = 'dddd, D MMMM';
+
+/**
+ * 获取当前国家店铺显示的日期时间格式
+ */
 export function getCurCountryDateFormat() {
   //todo 从配置接口获取当前国家要显示的时间格式
   const datePickerCfg = {
@@ -13,7 +18,9 @@ export function getCurCountryDateFormat() {
     tr: { format: 'DD-MM-YYYY', timezone: 'Europe/Istanbul' },
     default: { format: 'YYYY-MM-DD' }
   };
-  return datePickerCfg[window.__.env.REACT_APP_COUNTRY || 'default'];
+  return (
+    datePickerCfg[window.__.env.REACT_APP_COUNTRY] || datePickerCfg['default']
+  );
 }
 
 /**

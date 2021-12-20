@@ -65,7 +65,8 @@ class Register extends Component {
       firstNameValid: true,
       lastNameValid: true,
       passwordInputType: 'password',
-      illegalSymbol: false
+      illegalSymbol: false,
+      showValidErrorMsg: false
     };
     this.sendList = this.sendList.bind(this);
     this.initConsent = this.initConsent.bind(this);
@@ -223,10 +224,6 @@ class Register extends Component {
     const target = e.target;
     const name = target.name;
     let value = target.type === 'checkbox' ? target.checked : target.value;
-    value =
-      isString(target.value) && name != 'password'
-        ? target.value?.trim()
-        : target.value;
     if (name === 'password') {
       this.setState({
         passwordChanged: false
@@ -236,16 +233,13 @@ class Register extends Component {
   };
 
   validInput(name, value) {
-    const ukIllegalSymbol = value === '?' || value === '-';
+    const symbolReg1 = /^\?+$/;
+    const symbolReg2 = /^\-+$/;
+    const deIllegalSymbol = symbolReg1.test(value) || symbolReg2.test(value);
     switch (name) {
       case 'password':
-        const {
-          ruleLength,
-          ruleLower,
-          ruleUpper,
-          ruleAname,
-          ruleSpecial
-        } = this.state;
+        const { ruleLength, ruleLower, ruleUpper, ruleAname, ruleSpecial } =
+          this.state;
         const passwordValid =
           ruleLength && ruleLower && ruleUpper && ruleAname && ruleSpecial;
         this.setState({
@@ -262,14 +256,14 @@ class Register extends Component {
         break;
       case 'firstName':
         this.setState({
-          firstNameValid: !!value && !ukIllegalSymbol,
-          illegalSymbol: ukIllegalSymbol
+          firstNameValid: !!value && !deIllegalSymbol,
+          illegalSymbol: deIllegalSymbol
         });
         break;
       case 'lastName':
         this.setState({
-          lastNameValid: !!value && !ukIllegalSymbol,
-          illegalSymbol: ukIllegalSymbol
+          lastNameValid: !!value && !deIllegalSymbol,
+          illegalSymbol: deIllegalSymbol
         });
         break;
       case 'email':
@@ -289,16 +283,13 @@ class Register extends Component {
     const { registerForm } = this.state;
     const target = e.target;
     let value = target.type === 'checkbox' ? target.checked : target.value;
-    value =
-      isString(target.value) && name != 'password'
-        ? target.value?.trim()
-        : target.value;
     const name = target.name;
     if (name === 'password') {
       var lowerReg = /[a-z]+/;
       var upperReg = /[A-Z]+/;
       var nameReg = /[\d]+/;
-      var specialReg = /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
+      var specialReg =
+        /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
       this.setState(
         {
           ruleLength: value.length >= 8,
@@ -315,8 +306,49 @@ class Register extends Component {
     this.setState({ registerForm });
   };
 
+  hiddenValidErrorMsg() {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      this.setState({
+        showValidErrorMsg: false
+      });
+    }, 5000);
+  }
+
+  validDeName = () => {
+    const { registerForm } = this.state;
+    let De = window.__.env.REACT_APP_COUNTRY == 'de';
+    let _firstName = registerForm.firstName?.trim();
+    let _lastName = registerForm.lastName?.trim();
+    let _name = registerForm.name?.trim();
+    const symbolReg1 = /^\?+$/;
+    const symbolReg2 = /^\-+$/;
+    const deIllegalSymbol1 =
+      symbolReg1.test(_firstName) || symbolReg1.test(_lastName);
+    const deIllegalSymbol2 =
+      symbolReg2.test(_firstName) || symbolReg2.test(_lastName);
+    let deValidRule =
+      De && (!_firstName || !_lastName || deIllegalSymbol1 || deIllegalSymbol2);
+    if (deValidRule || (!De && !_name)) {
+      this.setState(
+        {
+          showValidErrorMsg: true
+        },
+        () => {
+          this.hiddenValidErrorMsg();
+        }
+      );
+      return false;
+    } else {
+      return true;
+    }
+  };
+
   register = async () => {
     const { registerForm } = this.state;
+    console.log(this.validDeName(), '9898');
+    if (!this.validDeName()) return;
+
     this.setState({
       circleLoading: true
     });
@@ -374,7 +406,12 @@ class Register extends Component {
             // 注册的时候如果是预约专家就直接跳转checkout页面
             let appointmentNo = sessionItemRoyal.get('appointment-no');
             if (appointmentNo) {
-              window.location.href = window.location.origin + '/fr/checkout';
+              // let type ={
+              //   sit:'/fr/checkout',
+              //   uat: '/fr/shop/checkout',
+              // }
+              // window.location.href = window.location.origin + type[window.__.env.REACT_APP_GA_ENV];
+              this.props.history.push('/checkout');
             } else {
               window.location.href = callOktaCallBack;
             }
@@ -636,17 +673,11 @@ class Register extends Component {
                           <SocialRegister />
                           <div className="rc-column">
                             <p className="rc-margin-bottom--none text-center rc-padding--xs">
-                              {window.__.env.REACT_APP_COUNTRY === 'de' ? (
-                                <span
-                                  dangerouslySetInnerHTML={{
-                                    __html: this.getIntlMsg(
-                                      'registerContinuing'
-                                    )
-                                  }}
-                                ></span>
-                              ) : (
-                                <FormattedMessage id="registerContinuing" />
-                              )}
+                              <span
+                                dangerouslySetInnerHTML={{
+                                  __html: this.getIntlMsg('registerContinuing')
+                                }}
+                              />
                             </p>
                           </div>
                           <div className="rc-column ouPadding">
@@ -1105,6 +1136,16 @@ class Register extends Component {
                             </span>
                             <FormattedMessage id="registerMandatory" />
                           </p>
+                          {this.state.showValidErrorMsg ? (
+                            <aside
+                              className="rc-alert rc-alert--error mb-2"
+                              role="alert"
+                            >
+                              <span className="pl-0">
+                                <FormattedMessage id="registerIllegalSymbol" />
+                              </span>
+                            </aside>
+                          ) : null}
                           <div className="rc-content-v-middle--mobile rc-margin-bottom--lg rc-margin-bottom--sm--desktop">
                             <button
                               id="registerSubmitBtn"
@@ -1117,17 +1158,19 @@ class Register extends Component {
                               <FormattedMessage id="registerCreateYourAccout" />
                             </button>
                           </div>
-                          <div className="rc-meta rc-margin-top--sm rc-text--left">
-                            <p>
-                              <FormattedMessage
-                                id="registerFooter1"
-                                defaultMessage={' '}
-                              />
-                              {window.__.env.REACT_APP_COUNTRY === 'us' ? (
-                                <a href={homePage + contactUrl}>&nbsp;here</a>
-                              ) : null}
-                            </p>
-                          </div>
+                          {window.__.env.REACT_APP_COUNTRY !== 'ru' ? (
+                            <div className="rc-meta rc-margin-top--sm rc-text--left">
+                              <p>
+                                <FormattedMessage
+                                  id="registerFooter1"
+                                  defaultMessage={' '}
+                                />
+                                {window.__.env.REACT_APP_COUNTRY === 'us' ? (
+                                  <a href={homePage + contactUrl}>&nbsp;here</a>
+                                ) : null}
+                              </p>
+                            </div>
+                          ) : null}
                         </form>
                       </div>
                     </div>

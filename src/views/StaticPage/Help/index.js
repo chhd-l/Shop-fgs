@@ -220,6 +220,35 @@ class Help extends React.Component {
                                             </font>
                                           </span>
                                         </p>
+                                        {window.__.env.REACT_APP_COUNTRY ===
+                                        'de' ? (
+                                          <div className="rc-margin-top--xs">
+                                            <span
+                                              style={{ color: 'rgb(0, 0, 0)' }}
+                                            >
+                                              <font
+                                                style={{
+                                                  verticalAlign: 'inherit'
+                                                }}
+                                              >
+                                                <FormattedMessage id="help.protectionDeclaration" />
+                                              </font>
+                                            </span>
+                                            <span>
+                                              <a
+                                                href="https://www.mars.com/privacy-policy-germany"
+                                                style={{
+                                                  fontSize: '1rem',
+                                                  color: 'rgb(0, 135, 189)',
+                                                  lineHeight: '1.5rem'
+                                                }}
+                                                className="rc-styled-link"
+                                              >
+                                                <FormattedMessage id="help.protectionDeclarationUrl" />
+                                              </a>
+                                            </span>
+                                          </div>
+                                        ) : null}
                                         <div className="rc-margin-top--xs">
                                           <p
                                             className="rc-numeric"

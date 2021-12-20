@@ -16,10 +16,10 @@ import orderImg from './img/order.jpg';
 import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
 import { myAccountPushEvent } from '@/utils/GA';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import './index.less';
 import { getAppointList, cancelAppointByNo } from '@/api/appointment';
 import { getAppointDict } from '@/api/dict';
+import { funcUrl } from '@/lib/url-utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
@@ -62,6 +62,11 @@ class AccountOrders extends React.Component {
     }).then((res) => {
       this.setState({ seoConfig: res });
     });
+    const appointmentNo = funcUrl({ name: 'appointmentNo' });
+    if (appointmentNo) {
+      this.props.history.push(`/account/appointments/detail/${appointmentNo}`);
+      return;
+    }
     await this.queryOrderList();
   }
   async queryOrderList() {
@@ -91,16 +96,19 @@ class AccountOrders extends React.Component {
       ]);
       console.log('appointDictRes', appointDictRes);
       let tmpList = Array.from(res.context.page.content, (ele) => {
+        const appointmentType = (
+          appointDictRes[0]?.context?.goodsDictionaryVOS || []
+        ).filter((item) => item.id === ele?.apptTypeId);
+        const expertType = (
+          appointDictRes[1]?.context?.goodsDictionaryVOS || []
+        ).filter((item) => item.id === ele?.expertTypeId);
         return Object.assign(ele, {
-          canChangeAppoint: ele.status !== 1,
-          canCancelAppoint: ele.status !== 1,
+          canChangeAppoint: ele.status === 0,
+          canCancelAppoint: ele.status === 0,
           cancelAppointLoading: false,
-          appointmentType: (
-            appointDictRes[0]?.context?.goodsDictionaryVOS || []
-          ).filter((item) => item.id === ele?.apptTypeId)[0].name,
-          expertType: (
-            appointDictRes[1]?.context?.goodsDictionaryVOS || []
-          ).filter((item) => item.id === ele?.expertTypeId)[0].name,
+          appointmentType:
+            appointmentType.length > 0 ? appointmentType[0].name : '',
+          expertType: expertType.length > 0 ? expertType[0].name : '',
           appointmentStatus:
             ele.status === 0 ? (
               <FormattedMessage id="appointment.status.Booked" />
@@ -270,16 +278,16 @@ class AccountOrders extends React.Component {
                         </div>
                         <div className="rc-column d-flex align-items-center justify-content-center">
                           <div>
-                            <p>
-                              <FormattedMessage id="account.orders.tips" />
+                            <p className="mb-2">
+                              <FormattedMessage id="account.appointment.tips" />
                             </p>
-                            <DistributeHubLinkOrATag
+                            <Link
                               href=""
-                              to="/home"
+                              to="/felin"
                               className="rc-btn rc-btn--one"
                             >
-                              <FormattedMessage id="account.orders.btns" />
-                            </DistributeHubLinkOrATag>
+                              <FormattedMessage id="account.appointment.btns" />
+                            </Link>
                           </div>
                         </div>
                       </div>

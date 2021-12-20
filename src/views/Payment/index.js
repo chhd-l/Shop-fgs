@@ -83,8 +83,10 @@ import CyberPayment from './PaymentMethod/Cyber';
 import { querySurveyContent } from '@/api/cart';
 import felinAddr from './Address/FelinOfflineAddress';
 import { funcUrl } from '../../lib/url-utils';
-import { postUpdateUser } from '../../api/felin';
 import swishLogo from '@/assets/images/swish-logo.svg';
+
+import { postUpdateUser, getAppointByApptNo } from '../../api/felin';
+import UpdatModal from './updatModules/modal';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
@@ -260,6 +262,7 @@ class Payment extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      visibleUpdate: false,
       authorizationCode: '',
       subscriptionID: '',
       cyberBtnLoading: false,
@@ -428,6 +431,7 @@ class Payment extends React.Component {
     this.confirmListValidationAddress =
       this.confirmListValidationAddress.bind(this);
   }
+
   //cyber查询卡类型-会员
   queryCyberCardType = async (params) => {
     try {
@@ -503,6 +507,7 @@ class Payment extends React.Component {
     });
     return cyberParams;
   }
+
   UNSAFE_componentWillMount() {
     isHubGA && this.getPetVal();
     const appointNo =
@@ -539,10 +544,15 @@ class Payment extends React.Component {
             key: 'billingAddr',
             isFirstLoad: true
           });
+          this.props.paymentStore.setStsToCompleted({
+            key: 'email',
+            isFirstLoad: true
+          });
         }
       );
     }
   }
+
   async componentDidMount() {
     await this.props.configStore.getSystemFormConfig();
     if (this.isLogin) {
@@ -565,7 +575,7 @@ class Payment extends React.Component {
 
       if (appointNo) {
         if (this.isLogin) {
-          await this.setFelinAppointInfo();
+          await this.getDeatalData();
         }
         await this.queryAppointInfo();
       }
@@ -614,6 +624,7 @@ class Payment extends React.Component {
     this.initPaymentWay();
     this.initPanelStatus();
   }
+
   componentWillUnmount() {
     //因设置了router refresh=true，此生命周期无效，需在RouterFilter文件中删除
     localItemRoyal.set('isRefresh', true);
@@ -624,44 +635,56 @@ class Payment extends React.Component {
     sessionItemRoyal.remove('from-felin');
     sessionItemRoyal.remove('appointment-no');
   }
+
   get billingAdd() {
     return this.state.billingAddress;
   }
+
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
+
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
+
   get cartData() {
     return this.props.checkoutStore.cartData;
   }
+
   get loginCartData() {
     return this.props.checkoutStore.loginCartData;
   }
+
   get computedCartData() {
     return this.isLogin ? this.loginCartData : this.cartData;
   }
+
   get tradePrice() {
     return this.props.checkoutStore.tradePrice;
   }
+
   get paymentMethodPanelStatus() {
     return this.props.paymentStore.paymentMethodPanelStatus;
   }
+
   get defaultCardDataFromAddr() {
     return this.props.paymentStore.defaultCardDataFromAddr;
   }
+
   get isPayUPaymentTypeVal() {
     return ['payUCreditCard', 'payUCreditCardRU', 'payUCreditCardTU'].includes(
       this.state.paymentTypeVal
     );
   }
+
   // 更新delivery address保存次数
   updateSaveAddressNumber = async (number) => {
     this.setState({
       saveAddressNumber: number
     });
   };
+
   // 当前是否为订阅购买
   get isCurrentBuyWaySubscription() {
     let isSubscription =
@@ -672,6 +695,7 @@ class Payment extends React.Component {
     //this.state.orderDetails?.subscriptionResponseVO 这个是repay通过订单号查询的是否订阅的字段
     return isSubscription;
   }
+
   /**
    * init panel prepare/edit/complete status
    */
@@ -718,6 +742,7 @@ class Payment extends React.Component {
     //cardholderName, cardNumber, expirationMonth, expirationYear, securityCode变化时去查询卡类型---end---
     this.setState({ cyberPaymentForm });
   };
+
   //判断是否是0元订单，0元订单处理：隐藏paymentMethod，用户不用填写支付信息
   handleZeroOrder() {
     const {
@@ -758,6 +783,7 @@ class Payment extends React.Component {
       }
     }
   }
+
   initPanelStatus() {
     const { paymentStore } = this.props;
     const { tid, isFromFelin } = this.state;
@@ -779,16 +805,15 @@ class Payment extends React.Component {
         key: 'billingAddr',
         isFirstLoad: true
       });
-      if (this.isLogin) {
-        // 下一个最近的未complete的panel
-        const nextConfirmPanel = searchNextConfirmPanel({
-          list: toJS(paymentStore.panelStatus),
-          curKey: 'deliveryAddr'
-        });
-        paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
-      }
+      // 下一个最近的未complete的panel
+      const nextConfirmPanel = searchNextConfirmPanel({
+        list: toJS(paymentStore.panelStatus),
+        curKey: 'deliveryAddr'
+      });
+      paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
     }
   }
+
   updateSelectedCardInfo = (data) => {
     let cyberMd5Cvv;
     if (data?.cardCvv) {
@@ -832,11 +857,13 @@ class Payment extends React.Component {
       });
     }
   };
+
   getPetVal() {
     let obj = doGetGAVal(this.props);
     this.setState({ pet: obj });
     sessionItemRoyal.set('gaPet', JSON.stringify(obj));
   }
+
   queryList = async () => {
     try {
       let res = await getPaymentMethod();
@@ -855,6 +882,7 @@ class Payment extends React.Component {
       requiredList
     });
   };
+
   //重新组装listData
   rebindListData(listData) {
     this.setState(
@@ -988,6 +1016,7 @@ class Payment extends React.Component {
       });
     }
   };
+
   //默认第一个,如没有支付方式,就不初始化方法
   initPaymentTypeVal(val) {
     const {
@@ -1004,6 +1033,7 @@ class Payment extends React.Component {
       }
     );
   }
+
   onPaymentTypeValChange() {
     const supportPaymentMethods =
       this.state.payWayNameArr.filter(
@@ -1017,6 +1047,7 @@ class Payment extends React.Component {
       }
     );
   }
+
   onCardTypeValChange() {
     const { paymentStore } = this.props;
     paymentStore.setCurrentCardTypeInfo(
@@ -1025,6 +1056,7 @@ class Payment extends React.Component {
       )[0] || null
     );
   }
+
   generatePayUParam = () => {
     const jsessionid =
       Cookies.get('jsessionid') ||
@@ -1037,19 +1069,53 @@ class Payment extends React.Component {
       this.fingerprint = fingerprint;
     }
   };
+
   // 更新felin预约的用户信息
 
-  async setFelinAppointInfo() {
+  async setFelinAppointInfo(params) {
     if (!this.userInfo) return;
     await postUpdateUser({
       apptNo: this.state.appointNo,
-      consumerName: this.userInfo?.contactName,
-      consumerFirstName: this.userInfo?.firstName,
-      consumerLastName: this.userInfo?.lastName,
-      consumerEmail: this.userInfo?.email,
-      consumerPhone: this.userInfo?.contactPhone
+      consumerName: params.firstName + ' ' + params.lastName,
+      consumerFirstName: params.firstName,
+      consumerLastName: params.lastName,
+      consumerEmail: params.email,
+      consumerPhone: params.phone
+    });
+    this.setState({
+      visibleUpdate: false
     });
   }
+
+  async getDeatalData() {
+    const { code, context } = await getAppointByApptNo({
+      apptNo: this.state.appointNo
+    });
+    if (code === 'K-000000') {
+      const {
+        consumerFirstName,
+        consumerEmail,
+        consumerLastName,
+        consumerName,
+        consumerPhone
+      } = context;
+      if (
+        !consumerFirstName ||
+        !consumerEmail ||
+        !consumerLastName ||
+        !consumerName ||
+        !consumerPhone
+      ) {
+        this.setState({
+          visibleUpdate: true
+        });
+      }
+    }
+  }
+
+  handleUpdate = async (params) => {
+    this.setFelinAppointInfo(params);
+  };
 
   // 获取订单详细
   queryOrderDetails() {
@@ -1065,45 +1131,57 @@ class Payment extends React.Component {
       this.updateDeliveryAddrData(calculationParam);
     });
   }
+
   //获取appointment信息
   async queryAppointInfo() {
-    const result = await getAppointmentInfo(this.state.appointNo);
-    console.log('appointmentInfo', result);
-    const requestName = this.isLogin ? getLoginDetails : getDetails;
-    const goodInfoRes = await requestName(result?.goodsInfoId);
-    const goodInfo = goodInfoRes?.context || { goodsName: 'Felin Service' };
-    const goodDetail = Object.assign(goodInfo, {
-      goodsInfoId: result?.goodsInfoId,
-      goodsInfoImg: goodInfo.goods.goodsImg,
-      goodsName: goodInfo.goods.goodsName,
-      buyCount: 1,
-      salePrice: (goodInfo?.goodsInfos || []).filter(
-        (item) => item.goodsInfoId === result?.goodsInfoId
-      )[0].salePrice,
-      selected: true
-    });
-    sessionItemRoyal.set('recommend_product', JSON.stringify([goodDetail]));
-    await this.props.checkoutStore.updatePromotionFiled([goodDetail]);
-    this.handleZeroOrder();
-    if (!this.isLogin) {
-      const felinAddress = Object.assign(felinAddr[0], {
-        firstName: result?.consumerFirstName || '',
-        lastName: result?.consumerLastName || '',
-        consigneeName:
-          result?.consumerName ||
-          result?.consumerFirstName + ' ' + result?.consumerLastName ||
-          '',
-        consigneeNumber: result?.consumerPhone || ''
+    try {
+      const result = await getAppointmentInfo(this.state.appointNo);
+      console.log('appointmentInfo', result);
+      const requestName = this.isLogin ? getLoginDetails : getDetails;
+      const goodInfoRes = await requestName(result?.goodsInfoId);
+      const goodInfo = goodInfoRes?.context;
+      if (!goodInfoRes?.context) {
+        this.showErrorMsg('Cannot get product info from api');
+      }
+      const goodDetail = Object.assign(goodInfo, {
+        goodsInfoId: result?.goodsInfoId,
+        goodsInfoImg: goodInfo?.goods?.goodsImg,
+        goodsName: goodInfo?.goods?.goodsName,
+        buyCount: 1,
+        salePrice: goodInfo?.goodsInfos
+          ? goodInfo?.goodsInfos.filter(
+              (item) => item.goodsInfoId === result?.goodsInfoId
+            )[0].salePrice
+          : 0,
+        selected: true
       });
+      sessionItemRoyal.set('recommend_product', JSON.stringify([goodDetail]));
+      await this.props.checkoutStore.updatePromotionFiled([goodDetail]);
+      this.handleZeroOrder();
+      if (!this.isLogin) {
+        const felinAddress = Object.assign(felinAddr[0], {
+          firstName: result?.consumerFirstName || '',
+          lastName: result?.consumerLastName || '',
+          consigneeName:
+            result?.consumerName ||
+            result?.consumerFirstName + ' ' + result?.consumerLastName ||
+            '',
+          consigneeNumber: result?.consumerPhone || ''
+        });
+        this.setState({
+          deliveryAddress: felinAddress,
+          billingAddress: felinAddress,
+          guestEmail: result?.consumerEmail
+        });
+      }
       this.setState({
-        deliveryAddress: felinAddress,
-        billingAddress: felinAddress
+        recommend_data: [Object.assign(result, goodDetail)]
       });
+    } catch (err) {
+      this.showErrorMsg(err.message);
     }
-    this.setState({
-      recommend_data: [Object.assign(result, goodDetail)]
-    });
   }
+
   showErrorMsg = (msg) => {
     this.setState({
       errorMsg: msg,
@@ -1387,6 +1465,7 @@ class Payment extends React.Component {
       throw new Error(err.message);
     }
   }
+
   // 5、获取参数
   async doGetAdyenPayParam(type) {
     try {
@@ -1403,6 +1482,7 @@ class Payment extends React.Component {
       this.endLoading();
     }
   }
+
   // 根据条件-调用不同的支付接口,进行支付,支付成功跳转到 confirmation
   async allAdyenPayment(parameters, type) {
     try {
@@ -1755,6 +1835,7 @@ class Payment extends React.Component {
       this.endLoading();
     }
   }
+
   // 下单后，清空 delivery date 和 time slot
   clearTimeslotAndDeliverydate = async () => {
     const { deliveryAddress } = this.state;
@@ -1773,6 +1854,7 @@ class Payment extends React.Component {
       console.log(err);
     }
   };
+
   // 删除本地购物车
   async removeLocalCartData() {
     const { checkoutStore } = this.props;
@@ -2339,12 +2421,14 @@ class Payment extends React.Component {
       throw new Error(err.message);
     }
   }
+
   startLoading = () => {
     this.setState({ loading: true });
   };
   endLoading = () => {
     this.setState({ loading: false });
   };
+
   // 校验邮箱/地址信息/最低额度/超库存商品等
   async valideCheckoutLimitRule() {
     const { intl } = this.props;
@@ -2875,6 +2959,7 @@ class Payment extends React.Component {
 
     // 当billing未确认时，需确认
     const { billingChecked } = this.state;
+
     async function handleClickSaveAdyenForm(_this) {
       try {
         if (
@@ -3227,6 +3312,7 @@ class Payment extends React.Component {
       });
     }
   };
+
   updateValidStatus({ key }, status) {
     const { billingChecked, billingAddressAddOrEdit } = this.state;
     this.setState({
@@ -3808,9 +3894,11 @@ class Payment extends React.Component {
       });
     });
   };
+
   toggleMobileCart(name) {
     this.setState({ mobileCartVisibleKey: name });
   }
+
   updateAdyenPayParam = (data) => {
     this.setState({ adyenPayParam: data }, () => {
       // console.log(this.state.adyenPayParam);
@@ -3840,6 +3928,7 @@ class Payment extends React.Component {
       type: paymentTypeVal
     });
   };
+
   // 2、
   userBindConsentFun() {
     const oktaTokenString =
@@ -3979,6 +4068,15 @@ class Payment extends React.Component {
           match={this.props.match}
         />
         {loading ? <Loading /> : null}
+        {this.state.visibleUpdate ? (
+          <div className="modal-upadt">
+            <UpdatModal
+              userInfo={this.userInfo}
+              visible={this.state.visibleUpdate}
+              handleUpdate={this.handleUpdate}
+            />
+          </div>
+        ) : null}
         <main className="rc-content--fixed-header rc-bg-colour--brand4">
           <div className="rc-bottom-spacing data-checkout-stage1 rc-max-width--lg">
             {/*<Progress type="payment" />*/}
@@ -4233,6 +4331,7 @@ class Payment extends React.Component {
               </div>
             </div>
             <Adyen3DForm
+              {...this.props}
               action={this.state.adyenAction}
               key={curPayWayInfo?.code}
             />

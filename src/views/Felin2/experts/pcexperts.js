@@ -30,6 +30,7 @@ import LoginButton from '@/components/LoginButton';
 import { getDeviceType } from '../../../utils/utils';
 import { postcustomerUpdate } from '../../../api/felin';
 import { injectIntl } from 'react-intl-phraseapp';
+import { funcUrl } from '@/lib/url-utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 PRESONAL_INFO_RULE.filter((el) => el.key === 'phoneNumber')[0].regExp = '';
@@ -60,29 +61,19 @@ class Pcexperts extends React.Component {
           valueEn: 'Behaviorist',
           src: cat1,
           name: 'Comportementalistes',
-          text:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         },
         {
           valueEn: 'Nutritionist',
           src: cat2,
           name: 'Expert en nutrition',
-          text:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
-        },
-        {
-          valueEn: 'Osteopathist',
-          src: cat3,
-          name: 'Ostéopathes',
-          text:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         }
       ],
       timeList: [
         {
           duration: 15,
-          text:
-            'Rapide et facile, échangez avec un expert pour reçevoir ses conseils et commencer le suivi de votre chat.'
+          text: 'Rapide et facile, échangez avec un expert pour reçevoir ses conseils et commencer le suivi de votre chat.'
         },
         {
           duration: 30,
@@ -90,6 +81,10 @@ class Pcexperts extends React.Component {
         },
         {
           duration: 45,
+          text: 'Prenez le temps de vous offrir une session complète.'
+        },
+        {
+          duration: 60,
           text: 'Prenez le temps de vous offrir une session complète.'
         }
       ],
@@ -131,8 +126,7 @@ class Pcexperts extends React.Component {
 
   componentDidMount() {
     let userInfo = this.props.loginStore.userInfo;
-    console.log(userInfo);
-    let id = window.location.search.split('=')[1];
+    let id = funcUrl({ name: 'id' });
     if (
       id &&
       (getDeviceType() === 'PC' ||
@@ -148,7 +142,6 @@ class Pcexperts extends React.Component {
       });
     }
   }
-
   getDeatalData = async (id) => {
     let appointName = {
       Online: 'Appel video',
@@ -252,12 +245,18 @@ class Pcexperts extends React.Component {
       );
       return { ...item, ..._temp };
     });
-    this.setState({
-      apptTypeList: apptTypeList.goodsDictionaryVOS,
-      list: expertTypeList,
-      isShow: false,
-      oneShow: true
-    });
+    this.setState(
+      {
+        apptTypeList: apptTypeList.goodsDictionaryVOS,
+        list: expertTypeList.reverse(),
+        isShow: false,
+        oneShow: true
+      },
+      () => {
+        let anchorElement = document.getElementById('oneBox');
+        window.scrollTo(0, anchorElement.offsetTop - window.innerHeight / 4);
+      }
+    );
   };
 
   setList = async (id) => {
@@ -278,7 +277,7 @@ class Pcexperts extends React.Component {
     this.setState(
       {
         apptTypeList: apptTypeList.goodsDictionaryVOS,
-        list: expertTypeList
+        list: expertTypeList.reverse()
       },
       () => {
         this.getDeatalData(id);
@@ -316,10 +315,16 @@ class Pcexperts extends React.Component {
 
   // 返回第二步
   handleReturnTwo = () => {
-    this.setState({
-      oneShow: true,
-      threeShow: false
-    });
+    this.setState(
+      {
+        oneShow: true,
+        threeShow: false
+      },
+      () => {
+        let anchorElement = document.getElementById('oneBox');
+        window.scrollTo(0, anchorElement.offsetTop - window.innerHeight / 4);
+      }
+    );
   };
   // 跳转第四步
   handleGotoFour = () => {
@@ -343,7 +348,7 @@ class Pcexperts extends React.Component {
   };
   // 最终跳转
   handleGoto = () => {
-    let id = window.location.search.split('=')[1];
+    let id = funcUrl({ name: 'id' });
     if (id) {
       this.postUpdate({
         ...this.state.params,
@@ -478,7 +483,6 @@ class Pcexperts extends React.Component {
           reslove(_resources);
         }
       });
-      console.log(resources, 'console.log(_resources);');
       this.setState({
         resources,
         key: +new Date()
@@ -571,7 +575,7 @@ class Pcexperts extends React.Component {
         ) : null}
         {/* 第一步第二步 */}
         {this.state.oneShow ? (
-          <div>
+          <div id="oneBox">
             <div className="Choisissez">
               <div>
                 <div className="size24 mb32 js-center">
@@ -591,10 +595,10 @@ class Pcexperts extends React.Component {
                             'type'
                           )
                         }
-                        className={`text-base font-medium p-3 rounded-full mr-4 ${
+                        className={`border-2 text-base font-medium p-2.5  rounded-full mr-4 ${
                           this.state.params.apptTypeId === item.id
-                            ? 'bg-red-600 text-white'
-                            : 'bg-gray-300 text-white'
+                            ? 'bg-red-600 text-white border-red-600'
+                            : 'border-gray-400'
                         }`}
                         style={{
                           width: '9.375rem'
@@ -624,7 +628,7 @@ class Pcexperts extends React.Component {
                         'expertise'
                       )
                     }
-                    className={index === 1 ? 'ul-li mglr40' : 'ul-li'}
+                    className="ul-li"
                     style={{
                       boxShadow:
                         this.state.params.expertTypeId === item.id
@@ -645,7 +649,7 @@ class Pcexperts extends React.Component {
             <div className="txt-centr">
               <button
                 onClick={this.handleReturnOne}
-                className="rc-btn rc-btn--one  rc-margin-bottom--xs"
+                className="rc-btn rc-btn--two"
                 style={{
                   width: '16.875rem'
                 }}
@@ -726,7 +730,7 @@ class Pcexperts extends React.Component {
                         'prix'
                       )
                     }
-                    className={index === 1 ? 'ul-li mglr40 pd10' : 'ul-li pd10'}
+                    className="ul-li pd10"
                     style={{
                       boxShadow:
                         this.state.params.minutes === item.duration
@@ -749,7 +753,7 @@ class Pcexperts extends React.Component {
             <div className="txt-centr">
               <button
                 onClick={this.handleReturnTwo}
-                className="rc-btn rc-btn--one  rc-margin-bottom--xs"
+                className="rc-btn rc-btn--two"
                 style={{
                   width: '16.875rem'
                 }}
@@ -788,7 +792,7 @@ class Pcexperts extends React.Component {
             <div className="txt-centr">
               <button
                 onClick={this.handleReturnThree}
-                className="rc-btn rc-btn--one  rc-margin-bottom--xs"
+                className="rc-btn rc-btn--two"
                 style={{
                   width: '16.875rem'
                 }}
@@ -867,7 +871,7 @@ class Pcexperts extends React.Component {
               <br />
               <button
                 onClick={this.handleLogin}
-                className="rc-btn rc-btn--one  rc-margin-bottom--xs mb28"
+                className="rc-btn rc-btn--one  rc-margin-bottom--xs"
                 style={{
                   width: '16.875rem'
                 }}

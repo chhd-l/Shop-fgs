@@ -89,11 +89,29 @@ class AccountOrders extends React.Component {
     const { appointmentNo } = this.state;
     this.setState({ loading: true });
     try {
-      const resContext = await getAppointmentInfo(appointmentNo);
+      const res = await getAppointDetail({ apptNo: appointmentNo });
+      let resContext = res.context.settingVO;
+      const appointDictRes = await Promise.all([
+        getAppointDict({
+          type: 'appointment_type'
+        }),
+        getAppointDict({
+          type: 'expert_type'
+        })
+      ]);
+      const appointmentType = (
+        appointDictRes[0]?.context?.goodsDictionaryVOS || []
+      ).filter((item) => item.id === resContext?.apptTypeId);
+      const expertType = (
+        appointDictRes[1]?.context?.goodsDictionaryVOS || []
+      ).filter((item) => item.id === resContext?.expertTypeId);
       const details = Object.assign(resContext, {
-        canChangeAppoint: resContext.status !== 1,
-        canCancelAppoint: resContext.status !== 1,
+        canChangeAppoint: resContext.status === 0,
+        canCancelAppoint: resContext.status === 0,
         cancelAppointLoading: false,
+        appointmentType:
+          appointmentType.length > 0 ? appointmentType[0].name : '',
+        expertType: expertType.length > 0 ? expertType[0].name : '',
         appointmentStatus:
           resContext.status === 0 ? (
             <FormattedMessage id="appointment.status.Booked" />
@@ -308,9 +326,9 @@ class AccountOrders extends React.Component {
                             </span>
                             <span className="ui-text-overflow-line2">
                               <span>
-                                {details.expertName} – {details.minutes}
+                                {details.expertType} – {details.minutes}
                                 <FormattedMessage id="min" /> –
-                                {details.appointType}
+                                {details.appointmentType}
                               </span>
                             </span>
                           </div>

@@ -1,4 +1,5 @@
 import find from 'lodash/find';
+import { scrollIntoView } from '@/lib/scroll-to-utils';
 
 /**
  * 查找下一个最近的未complete的panel
@@ -30,45 +31,6 @@ export function isPrevReady({ list, curKey }) {
     .filter((ele) => ele.order < targetObj.order)
     .every((ele) => ele.status.isCompleted);
   return isReadyPrev;
-}
-
-// 滑动到视野区域内
-// export function scrollIntoView(element) {
-//   if (element) {
-//     window.scrollTo({
-//       top: getElementToPageTop(element) - 300,
-//       behavior: 'smooth'
-//     });
-//   }
-// }
-
-function getElementToPageTop(el) {
-  if (el.parentElement) {
-    return getElementToPageTop(el.parentElement) + el.offsetTop;
-  }
-  return el.offsetTop;
-}
-
-function getElementTop(element) {
-  var actualTop = element.offsetTop;
-  var current = element.offsetParent;
-
-  while (current !== null) {
-    actualTop += current.offsetTop;
-    current = current.offsetParent;
-  }
-
-  return actualTop;
-}
-
-function scrollIntoView(element) {
-  const headerElement = document.querySelector(`.rc-header__nav`);
-  if (element && headerElement) {
-    window.scroll({
-      top: getElementTop(element) - headerElement.offsetHeight,
-      behavior: 'smooth'
-    });
-  }
 }
 
 export function scrollPaymentPanelIntoView() {

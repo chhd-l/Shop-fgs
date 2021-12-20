@@ -59,6 +59,7 @@ const env = {
     REACT_APP_HIDE_ACCOUNT_BILLING_ADDR: '1',
 
     REACT_APP_HIDE_ACCOUNT_COMMUNICATION_MESSENGERS: '1',
+    REACT_APP_HIDE_ACCOUNT_COMMUNICATION_EMAIL: '1',
 
     // #HUB_GA
     REACT_APP_HUB_GA: '1',
@@ -76,7 +77,8 @@ const env = {
     REACT_APP_DELETE_My_ACCOUNT_URL:
       'https://prd-weu1-rc-df-myaccount-app-webapp-stg.cloud-effem.com/en-us/manager/settings',
 
-    LOYALTY_PROGRAMME_LINK: 'https://my.royalcanin.co.uk/account/loyalty'
+    LOYALTY_PROGRAMME_LINK: 'https://my.royalcanin.co.uk/account/loyalty',
+    REACT_APP_CUSTOM_REGISTER: '1'
   },
   development: {
     // #okta

@@ -21,6 +21,8 @@ import Rate from '../../components/Rate';
 import Reviews from './Reviews/Reviews';
 import Conseiller from './components/conseiller';
 import ConseillerTwo from './components/conseillerTwo';
+import { getDeviceType } from '../../utils/utils';
+import { scrollIntoView } from '@/lib/scroll-to-utils';
 
 const pageLink = window.location.href;
 PRESONAL_INFO_RULE.filter((el) => el.key === 'phoneNumber')[0].regExp = '';
@@ -43,47 +45,57 @@ class Felin extends React.Component {
       visible: false,
       list: [
         {
-          name:
-            'Où puis-je vous trouver ? Quelles sont vos horaires douverture ?',
-          text:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          name: 'Où puis-je vous trouver ? Quelles sont vos horaires douverture ?',
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         },
         {
           name: 'Jai une question sur le concept, à qui puis-je madresser ?',
-          text:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         }
       ],
       list1: [
         {
           name: 'Comment créer mon compte Royal Canin ?',
-          text:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         },
         {
           name: 'Comment accéder à mon compte si jai perdu mon mot de passe ?',
-          text:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         },
         {
           name: 'Jai une question sur le concept, à qui puis-je madresser ?',
-          text:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         }
       ],
       list2: [
         {
           name: 'Je souhaite prendre rendez-vous, comment faire ?',
-          text:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         }
       ],
       maxHeight: null
     };
+    this.hasRePositioned = false;
   }
+
+  componentDidMount() {
+    // this.scrollEventPanelIntoView();
+  }
+
+  scrollEventPanelIntoView() {
+    const { history } = this.props;
+    if (
+      history.location.pathname.includes('/felin/event') &&
+      !this.hasRePositioned
+    ) {
+      this.hasRePositioned = true;
+      scrollIntoView(document.querySelector(`#event`));
+    }
+  }
+
   gotoAddPc = () => {
     let anchorElement = document.getElementById('pcexperts');
-    window.scrollTo(0, anchorElement.offsetTop - window.innerHeight / 2);
+    window.scrollTo(0, anchorElement.offsetTop - window.innerHeight / 3);
   };
   gotoAddH = () => {
     let anchorElement = document.getElementById('hexperts');
@@ -215,7 +227,7 @@ class Felin extends React.Component {
                     />
                   </LazyLoad>
                 </div>
-                <div className="rc-column flx-around">
+                <div className="rc-column flx-around felin-p30">
                   <div className="visit-text">
                     <div className="visit-text-tip font-500">
                       Venez nous rendre visite
@@ -249,6 +261,7 @@ class Felin extends React.Component {
           <Hexperts history={this.props.history} />
           {/*评论展示*/}
           <div
+            id="comment"
             className="comment"
             style={{
               flexDirection: 'column',
@@ -310,10 +323,13 @@ class Felin extends React.Component {
                     reviews: { ...this.state.reviews, list: list }
                   });
                 }
+                setTimeout(() => {
+                  this.scrollEventPanelIntoView();
+                });
               }}
             />
           </div>
-          <div className="nos-cont">
+          <div id="event" className="nos-cont">
             <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile felin-mpd0">
               <div className="rc-max-width--xxl">
                 <div className="rc-layout-container rc-two-column rc-content-h-middle ">
@@ -326,12 +342,12 @@ class Felin extends React.Component {
                       />
                       <img
                         className="h-block nos-img-box"
-                        src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/nos1.jpg`}
+                        src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/nos1_v2.jpg`}
                         alt=""
                       />
                     </LazyLoad>
                   </div>
-                  <div className="rc-column">
+                  <div className="rc-column felin-p30">
                     <div className="nos-cont-text">
                       <h3 className="mb16 font-500 visit-text-h3">
                         Nos évènements
@@ -366,7 +382,10 @@ class Felin extends React.Component {
           </div>
           <div className="faq-coll">
             <div>
-              <h3 style={{ marginBottom: '0.75rem' }} className="font-500">
+              <h3
+                style={{ marginBottom: '0.75rem' }}
+                className="font-500 tx-center"
+              >
                 Nous contacter
               </h3>
               {this.state.list.map((item, index) => {
@@ -407,8 +426,8 @@ class Felin extends React.Component {
             </div>
             <div>
               <h3
-                style={{ marginBottom: '0.75rem', marginTop: '1.25rem' }}
-                className="font-500"
+                style={{ marginBottom: '0.75rem', marginTop: '2rem' }}
+                className="font-500 tx-center"
               >
                 Mon compte
               </h3>
@@ -450,8 +469,8 @@ class Felin extends React.Component {
             </div>
             <div>
               <h3
-                style={{ marginBottom: '0.75rem', marginTop: '1.25rem' }}
-                className="font-500"
+                style={{ marginBottom: '0.75rem', marginTop: '2rem' }}
+                className="font-500 tx-center"
               >
                 Rendez-vous
               </h3>

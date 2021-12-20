@@ -21,7 +21,8 @@ const SPECAIL_CONSENT_ENUM =
     ],
     fr: ['RC_DF_FR_FGS_OPT_MOBILE', 'RC_DF_FR_FGS_OPT_EMAIL'],
     ru: ['RC_DF_RU_FGS_OPT_EMAIL', 'RC_DF_RU_FGS_OPT_MOBILE'],
-    tr: ['RC_DF_TR_FGS_OPT_EMAIL', 'RC_DF_TR_FGS_OPT_MOBILE']
+    tr: ['RC_DF_TR_FGS_OPT_EMAIL', 'RC_DF_TR_FGS_OPT_MOBILE'],
+    uk: ['RC_DF_UK_CLIXRAY_OPT_EMAIL']
   }[window.__.env.REACT_APP_COUNTRY] || [];
 
 const ukTipInfoConsentEnum = ['RC_DF_UK_CLIXRAY_OPT_EMAIL'];
@@ -49,9 +50,8 @@ class CommunicationDataEditForm extends React.Component {
       errorMsg: '',
       showWarningTip: false
     };
-    this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
-      this
-    );
+    this.handleCommunicationCheckBoxChange =
+      this.handleCommunicationCheckBoxChange.bind(this);
   }
   componentDidUpdate() {
     if (window.__.env.REACT_APP_COUNTRY == 'tr') {
@@ -179,11 +179,17 @@ class CommunicationDataEditForm extends React.Component {
       // 1 勾选了某条特殊consent情况下，phone/email/messengers不能同时取消
       // 2 勾选了phone/email/messengers，必须勾选某条特殊consent
 
-      // 美国隐藏了 email 勾选框，所以选择邮件沟通时需要赋值 communicationEmail = 1
-      if (hasCheckedTheConsent && window.__.env.REACT_APP_COUNTRY === 'us') {
+      // 美国、英国隐藏了 email 勾选框，所以选择邮件沟通时需要赋值 communicationEmail = 1
+      if (
+        hasCheckedTheConsent &&
+        ['us', 'uk'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1
+      ) {
         form.communicationEmail = 1;
       }
-      if (!hasCheckedTheConsent && window.__.env.REACT_APP_COUNTRY === 'us') {
+      if (
+        !hasCheckedTheConsent &&
+        ['us', 'uk'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1
+      ) {
         form.communicationEmail = 0;
       }
       if (
@@ -256,7 +262,7 @@ class CommunicationDataEditForm extends React.Component {
   //从子组件传回
   sendList = (list) => {
     this.setState({ list }, () => {
-      this.ukConsentInfoTip();
+      // this.ukConsentInfoTip();
     });
   };
 
@@ -308,12 +314,32 @@ class CommunicationDataEditForm extends React.Component {
     let { form } = this.state;
     form[item.type] = !+form[item.type] ? '1' : '0';
     this.setState({ form }, () => {
-      this.ukConsentInfoTip();
+      // this.ukConsentInfoTip();
     });
   }
   render() {
     const { editFormVisible, list, form, errorMsg, isLoading } = this.state;
     const curPageAtCover = !editFormVisible;
+    const communicationPreferencesList = [
+      {
+        type: 'communicationPhone',
+        langKey: 'phone',
+        visible: this.props.needPhone
+      },
+      {
+        type: 'communicationEmail',
+        langKey:
+          window.__.env.REACT_APP_COUNTRY === 'uk'
+            ? 'communicationEmail'
+            : 'email',
+        visible: this.props.needEmail
+      },
+      {
+        type: 'communicationPrint',
+        langKey: 'messengers',
+        visible: this.props.needMessengers
+      }
+    ].filter((c) => c.visible);
     return (
       <div className={classNames({ border: curPageAtCover })}>
         <div className="userContactPreferenceInfo">
@@ -402,53 +428,32 @@ class CommunicationDataEditForm extends React.Component {
             <div className={`${!isLoading && editFormVisible ? '' : 'hidden'}`}>
               <span className={`rc-meta`}></span>
               <div>
-                {window.__.env.REACT_APP_COUNTRY === 'us' ? null : (
+                {communicationPreferencesList.length > 0 ? (
                   <label className="form-control-label rc-input--full-width w-100">
                     <FormattedMessage id="account.preferredMethodOfCommunication" />
                   </label>
-                )}
-                {[
-                  {
-                    type: 'communicationPhone',
-                    langKey: 'phone',
-                    visible: this.props.needPhone
-                  },
-                  {
-                    type: 'communicationEmail',
-                    langKey:
-                      window.__.env.REACT_APP_COUNTRY === 'uk'
-                        ? 'communicationEmail'
-                        : 'email',
-                    visible:
-                      window.__.env.REACT_APP_COUNTRY === 'us' ? false : true
-                  },
-                  {
-                    type: 'communicationPrint',
-                    langKey: 'messengers',
-                    visible: this.props.needMessengers
-                  }
-                ]
-                  .filter((c) => c.visible)
-                  .map((ele, idx) => (
-                    <div className="rc-input rc-input--inline" key={idx}>
-                      <input
-                        type="checkbox"
-                        className="rc-input__checkbox"
-                        id={`basicinfo-communication-checkbox-${ele.type}`}
-                        onChange={this.handleCommunicationCheckBoxChange.bind(
-                          this,
-                          ele
-                        )}
-                        checked={+form[ele.type] || false}
-                      />
-                      <label
-                        className="rc-input__label--inline text-break"
-                        htmlFor={`basicinfo-communication-checkbox-${ele.type}`}
-                      >
-                        <FormattedMessage id={ele.langKey} />
-                      </label>
-                    </div>
-                  ))}
+                ) : null}
+
+                {communicationPreferencesList.map((ele, idx) => (
+                  <div className="rc-input rc-input--inline" key={idx}>
+                    <input
+                      type="checkbox"
+                      className="rc-input__checkbox"
+                      id={`basicinfo-communication-checkbox-${ele.type}`}
+                      onChange={this.handleCommunicationCheckBoxChange.bind(
+                        this,
+                        ele
+                      )}
+                      checked={+form[ele.type] || false}
+                    />
+                    <label
+                      className="rc-input__label--inline text-break"
+                      htmlFor={`basicinfo-communication-checkbox-${ele.type}`}
+                    >
+                      <FormattedMessage id={ele.langKey} />
+                    </label>
+                  </div>
+                ))}
               </div>
 
               <span className={`rc-meta`}>

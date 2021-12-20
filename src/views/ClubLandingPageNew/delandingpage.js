@@ -79,22 +79,9 @@ class ClubLandingPageDe extends React.Component {
   }
 
   async componentDidMount() {
-    if (localItemRoyal.get('login-again')) {
-      loginStore.changeLoginModal(true);
-      var callOktaCallBack = getOktaCallBackUrl(
-        localItemRoyal.get('okta-session-token')
-      );
-      localItemRoyal.remove('login-again');
-      window.location.href = callOktaCallBack;
-    } // Cross-store login
     setSeoConfig({ pageName: 'Home Page' }).then((res) => {
       this.setState({ seoConfig: res });
     });
-    if (localItemRoyal.get('logout-redirect-url')) {
-      let url = localItemRoyal.get('logout-redirect-url');
-      localItemRoyal.remove('logout-redirect-url');
-      location.href = url;
-    }
   }
 
   mobileDial = () => {
@@ -124,38 +111,6 @@ class ClubLandingPageDe extends React.Component {
         filters: ''
       }
     };
-
-    const parametersString = history.location.search;
-    if (parametersString.indexOf('redirect=order') >= 0) {
-      sessionItemRoyal.set(
-        'okta-redirectUrl',
-        '/account/orders' + history.location.search
-      );
-    }
-    if (parametersString.indexOf('redirect=subscription') >= 0) {
-      sessionItemRoyal.set(
-        'okta-redirectUrl',
-        '/account/subscription' + history.location.search
-      );
-    }
-    if (parametersString.indexOf('redirect=baseinfo') >= 0) {
-      sessionItemRoyal.set('okta-redirectUrl', '/account/information');
-    }
-    if (parametersString.indexOf('redirect=pets') >= 0) {
-      sessionItemRoyal.set('okta-redirectUrl', '/account/pets');
-    }
-    if (parametersString.indexOf('toOkta=true') >= 0) {
-      this.props.oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
-      return <Loading bgColor={'#fff'} />;
-    }
-    if (parametersString.indexOf('origin=forgot') >= 0) {
-      this.props.oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
-      return <Loading bgColor={'#fff'} />;
-    }
-
-    if (localItemRoyal.get('login-again')) {
-      return null;
-    }
 
     return (
       <div>
@@ -951,6 +906,24 @@ class ClubLandingPageDe extends React.Component {
                                         >
                                           service.de@royalcanin.com
                                         </a>
+                                      </p>
+                                      <p
+                                        style={{
+                                          fontSize: '12px',
+                                          marginBottom: '0px'
+                                        }}
+                                        className="w-60"
+                                      >
+                                        Informationen zur Verarbeitung Ihrer
+                                        Daten finden Sie in unserer
+                                        <a
+                                          href="https://www.mars.com/privacy-policy-germany"
+                                          className="rc-styled-link defontsize24px demargintop15px"
+                                          style={{ color: '#E2001A' }}
+                                        >
+                                          Datenschutzerklärung
+                                        </a>
+                                        .
                                       </p>
                                     </div>
                                   </div>
