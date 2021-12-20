@@ -423,34 +423,36 @@ class CommunicationDataEditForm extends React.Component {
             ) : null}
             <div className={`${!isLoading && editFormVisible ? '' : 'hidden'}`}>
               <span className={`rc-meta`}></span>
-              <div className="mb-3">
-                {communicationPreferencesList.length > 0 ? (
-                  <label className="form-control-label rc-input--full-width w-100">
-                    <FormattedMessage id="account.preferredMethodOfCommunication" />
-                  </label>
-                ) : null}
-
-                {communicationPreferencesList.map((ele, idx) => (
-                  <div className="rc-input rc-input--inline" key={idx}>
-                    <input
-                      type="checkbox"
-                      className="rc-input__checkbox"
-                      id={`basicinfo-communication-checkbox-${ele.type}`}
-                      onChange={this.handleCommunicationCheckBoxChange.bind(
-                        this,
-                        ele
-                      )}
-                      checked={+form[ele.type] || false}
-                    />
-                    <label
-                      className="rc-input__label--inline text-break"
-                      htmlFor={`basicinfo-communication-checkbox-${ele.type}`}
-                    >
-                      <FormattedMessage id={ele.langKey} />
+              {window.__.env.REACT_APP_COUNTRY != 'fr' ? (
+                <div className="mb-3">
+                  {communicationPreferencesList.length > 0 ? (
+                    <label className="form-control-label rc-input--full-width w-100">
+                      <FormattedMessage id="account.preferredMethodOfCommunication" />
                     </label>
-                  </div>
-                ))}
-              </div>
+                  ) : null}
+
+                  {communicationPreferencesList.map((ele, idx) => (
+                    <div className="rc-input rc-input--inline" key={idx}>
+                      <input
+                        type="checkbox"
+                        className="rc-input__checkbox"
+                        id={`basicinfo-communication-checkbox-${ele.type}`}
+                        onChange={this.handleCommunicationCheckBoxChange.bind(
+                          this,
+                          ele
+                        )}
+                        checked={+form[ele.type] || false}
+                      />
+                      <label
+                        className="rc-input__label--inline text-break"
+                        htmlFor={`basicinfo-communication-checkbox-${ele.type}`}
+                      >
+                        <FormattedMessage id={ele.langKey} />
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
               <span className={`rc-meta`}>
                 <strong>
                   <FormattedMessage id="account.myCommunicationPreferencesContent2" />
