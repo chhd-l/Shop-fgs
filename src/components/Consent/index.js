@@ -65,11 +65,6 @@ class Consent extends Component {
                   <ConsentAdditionalText textPosition="top" />
                 </div>
               ) : null}
-              {index === 0 && Us && pageType === 'checkout' ? (
-                <div style={{ marginLeft: '-22px' }}>
-                  <ConsentAdditionalText textPosition="top" />
-                </div>
-              ) : null}
               {index === 2 && Fr && pageType === 'register' ? (
                 <div style={{ marginLeft: '-30px' }}>
                   <ConsentAdditionalText textPosition="top" />
@@ -146,11 +141,6 @@ class Consent extends Component {
             </div>
           );
         })}
-        {list.length && Us && pageType === 'checkout' ? (
-          <div style={{ marginLeft: '-22px' }}>
-            <ConsentAdditionalText textPosition="bottom" />
-          </div>
-        ) : null}
       </>
     );
   }
