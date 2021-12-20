@@ -33,11 +33,16 @@ export const usTelephoneCheck =
 // 俄罗斯电话正则
 export const ruTelephoneCheck =
   /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
+// 瑞典正则
+export const seTelephoneCheck = /[+(46)|0]\d{10}$/;
 
 const TELEPHONE_REGEXP =
-  { fr: /[+(33)|0]\d{9}$/, us: usTelephoneCheck, ru: ruTelephoneCheck }[
-    window.__.env.REACT_APP_COUNTRY
-  ] || '';
+  {
+    fr: /[+(33)|0]\d{9}$/,
+    us: usTelephoneCheck,
+    ru: ruTelephoneCheck,
+    se: seTelephoneCheck
+  }[window.__.env.REACT_APP_COUNTRY] || '';
 
 export const ADDRESS_RULE = [
   {
