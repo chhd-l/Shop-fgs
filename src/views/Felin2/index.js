@@ -83,7 +83,11 @@ class Felin extends React.Component {
   }
 
   scrollEventPanelIntoView() {
-    if (window.location.pathname === '/felin/event' && !this.hasRePositioned) {
+    const { history } = this.props;
+    if (
+      history.location.pathname.includes('/felin/event') &&
+      !this.hasRePositioned
+    ) {
       this.hasRePositioned = true;
       scrollIntoView(document.querySelector(`#event`));
     }
