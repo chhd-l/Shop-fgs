@@ -67,7 +67,9 @@ const env = {
     REACT_APP_SHOW_BAZAARVOICE_RATINGS: '1',
 
     REACT_APP_SEARCH_LINK:
-      '/on/demandware.store/Sites-EN-Site/en_EN/Search-Show'
+      '/on/demandware.store/Sites-EN-Site/en_EN/Search-Show',
+    REACT_APP_CUSTOM_REGISTER: '1',
+    REACT_APP_LIMIT_MEMBER_PAY: '1' // 该店铺只允许会员下单
   },
   development: {
     // #okta

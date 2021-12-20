@@ -62,7 +62,9 @@ const env_fr = {
 
     // #mars global footer
     REACT_APP_MARS_FOOTER:
-      'https://footer.mars.com/js/footer.js.aspx?royalcanin-com-fr'
+      'https://footer.mars.com/js/footer.js.aspx?royalcanin-com-fr',
+
+    REACT_APP_CUSTOM_REGISTER: '1'
   },
   development: {
     // #okta
