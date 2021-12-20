@@ -75,6 +75,7 @@ class Felin extends React.Component {
       ],
       maxHeight: null
     };
+    this.hasRePositioned = false;
   }
 
   componentDidMount() {
@@ -82,7 +83,8 @@ class Felin extends React.Component {
   }
 
   scrollEventPanelIntoView() {
-    if (window.location.pathname === '/felin/event') {
+    if (window.location.pathname === '/felin/event' && !this.hasRePositioned) {
+      this.hasRePositioned = true;
       scrollIntoView(document.querySelector(`#event`));
     }
   }
@@ -313,15 +315,11 @@ class Felin extends React.Component {
               }}
               onList={(list) => {
                 if (this.state.reviews.list.length === 0) {
-                  this.setState(
-                    {
-                      reviews: { ...this.state.reviews, list: list }
-                    },
-                    () => {
-                      this.scrollEventPanelIntoView();
-                    }
-                  );
+                  this.setState({
+                    reviews: { ...this.state.reviews, list: list }
+                  });
                 }
+                this.scrollEventPanelIntoView();
               }}
             />
           </div>
