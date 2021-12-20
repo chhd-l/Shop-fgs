@@ -90,7 +90,7 @@ class Reviews extends React.Component {
     });
     if (res.context && res.context.goodsEvaluateVOPage) {
       let obj = res.context.goodsEvaluateVOPage;
-      let list = obj.content;
+      let list = obj.content || [];
       this.setState({ total: obj.total });
       if (list.length > 0) {
         list.forEach((item) => {
@@ -109,9 +109,8 @@ class Reviews extends React.Component {
           valuatesTotalPages: obj.total ? obj.totalPages : 0,
           goodsEvaluatesList: list
         });
-
-        this.props.onList(list);
       }
+      this.props.onList(list);
     }
   }
 

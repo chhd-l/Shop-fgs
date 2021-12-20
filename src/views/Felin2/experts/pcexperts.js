@@ -30,6 +30,7 @@ import LoginButton from '@/components/LoginButton';
 import { getDeviceType } from '../../../utils/utils';
 import { postcustomerUpdate } from '../../../api/felin';
 import { injectIntl } from 'react-intl-phraseapp';
+import { funcUrl } from '@/lib/url-utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 PRESONAL_INFO_RULE.filter((el) => el.key === 'phoneNumber')[0].regExp = '';
@@ -125,8 +126,7 @@ class Pcexperts extends React.Component {
 
   componentDidMount() {
     let userInfo = this.props.loginStore.userInfo;
-    console.log(userInfo);
-    let id = window.location.search.split('=')[1];
+    let id = funcUrl({ name: 'id' });
     if (
       id &&
       (getDeviceType() === 'PC' ||
@@ -142,7 +142,6 @@ class Pcexperts extends React.Component {
       });
     }
   }
-
   getDeatalData = async (id) => {
     let appointName = {
       Online: 'Appel video',
@@ -349,7 +348,7 @@ class Pcexperts extends React.Component {
   };
   // 最终跳转
   handleGoto = () => {
-    let id = window.location.search.split('=')[1];
+    let id = funcUrl({ name: 'id' });
     if (id) {
       this.postUpdate({
         ...this.state.params,
@@ -484,7 +483,6 @@ class Pcexperts extends React.Component {
           reslove(_resources);
         }
       });
-      console.log(resources, 'console.log(_resources);');
       this.setState({
         resources,
         key: +new Date()

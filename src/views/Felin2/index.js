@@ -21,6 +21,9 @@ import Rate from '../../components/Rate';
 import Reviews from './Reviews/Reviews';
 import Conseiller from './components/conseiller';
 import ConseillerTwo from './components/conseillerTwo';
+import { getDeviceType } from '../../utils/utils';
+import { scrollIntoView } from '@/lib/scroll-to-utils';
+
 const pageLink = window.location.href;
 PRESONAL_INFO_RULE.filter((el) => el.key === 'phoneNumber')[0].regExp = '';
 
@@ -72,10 +75,27 @@ class Felin extends React.Component {
       ],
       maxHeight: null
     };
+    this.hasRePositioned = false;
   }
+
+  componentDidMount() {
+    // this.scrollEventPanelIntoView();
+  }
+
+  scrollEventPanelIntoView() {
+    const { history } = this.props;
+    if (
+      history.location.pathname.includes('/felin/event') &&
+      !this.hasRePositioned
+    ) {
+      this.hasRePositioned = true;
+      scrollIntoView(document.querySelector(`#event`));
+    }
+  }
+
   gotoAddPc = () => {
     let anchorElement = document.getElementById('pcexperts');
-    window.scrollTo(0, anchorElement.offsetTop - window.innerHeight / 2);
+    window.scrollTo(0, anchorElement.offsetTop - window.innerHeight / 3);
   };
   gotoAddH = () => {
     let anchorElement = document.getElementById('hexperts');
@@ -241,6 +261,7 @@ class Felin extends React.Component {
           <Hexperts history={this.props.history} />
           {/*评论展示*/}
           <div
+            id="comment"
             className="comment"
             style={{
               flexDirection: 'column',
@@ -302,10 +323,13 @@ class Felin extends React.Component {
                     reviews: { ...this.state.reviews, list: list }
                   });
                 }
+                setTimeout(() => {
+                  this.scrollEventPanelIntoView();
+                });
               }}
             />
           </div>
-          <div className="nos-cont">
+          <div id="event" className="nos-cont">
             <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile felin-mpd0">
               <div className="rc-max-width--xxl">
                 <div className="rc-layout-container rc-two-column rc-content-h-middle ">

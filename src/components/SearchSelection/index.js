@@ -242,12 +242,12 @@ class SearchSelection extends React.Component {
                 : 'rc-input rc-input--full-width rc-margin-y--xs'
             } searchSelection`}
             onBlur={() => {
-              // setTimeout(() => {
-              //   this.setState({
-              //     optionList: [],
-              //     optionPanelVisible: false
-              //   });
-              // }, 500);
+              setTimeout(() => {
+                this.setState({
+                  optionList: [],
+                  optionPanelVisible: false
+                });
+              }, 500);
             }}
           >
             {this.props.prefixIcon}

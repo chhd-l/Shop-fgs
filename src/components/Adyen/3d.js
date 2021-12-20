@@ -1,6 +1,6 @@
 import React from 'react';
 import { loadJS } from '@/utils/utils';
-import translations from './translations';
+import packageTranslations from './translations';
 import { inject, observer } from 'mobx-react';
 import getPaymentConf from '@/lib/get-payment-conf';
 
@@ -36,6 +36,10 @@ class Adyen3DForm extends React.Component {
     }
   }
   initForm(action) {
+    const {
+      intl: { messages }
+    } = this.props;
+    const { translations } = packageTranslations({ messages });
     const { adyenOriginKeyConf } = this.state;
     loadJS({
       url: 'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
@@ -46,7 +50,9 @@ class Adyen3DForm extends React.Component {
             environment: adyenOriginKeyConf?.env,
             originKey: adyenOriginKeyConf?.originKey,
             locale: adyenOriginKeyConf?.locale || 'en-US',
-            translations
+            translations: {
+              [adyenOriginKeyConf?.locale || 'en-US']: translations
+            }
           });
 
           // 跳转到3DS页面
@@ -59,7 +65,7 @@ class Adyen3DForm extends React.Component {
     if (Object.keys(this.state.action).length > 0) {
       this.initForm(this.state.action);
     }
-    return <div id="adyen-3d-form"></div>;
+    return <div id="adyen-3d-form" />;
   }
 }
 
