@@ -1817,6 +1817,11 @@ const en_US = {
   'adyen.creditCard.expiryDateField.placeholder': 'MM/YY',
   'adyen.creditCard.expiryDateField.invalid': 'Invalid expiration date',
   'adyen.creditCard.cvcField.title': 'CVC / CVV',
-  'adyen.creditCard.cvcField.placeholder': '123'
+  'adyen.creditCard.cvcField.placeholder': '123',
+
+  /************ Daily Portion *************/
+  'dailyPortion.title':
+    'Discover now the perfect tool to calculate the ideal ration for your pet. Fill in your pet’s information in the interactive feeding guide and you will get the daily feeding recommendation. ',
+  'dailyPortion.calculatePortion': 'Calculate portion'
 };
 export default en_US;

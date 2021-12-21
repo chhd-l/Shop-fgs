@@ -21,6 +21,7 @@ import AddCartSuccessMobile from './components/AddCartSuccessMobile.tsx';
 import BannerTip from '@/components/BannerTip';
 import Reviews from './components/Reviews';
 import Loading from '@/components/Loading';
+import DailyPortion from './components/DailyPortion';
 import {
   getDeviceType,
   getFrequencyDict,
@@ -1079,6 +1080,10 @@ class Details extends React.Component {
     return content;
   }
 
+  DailyPortionComponent = (details) => {
+    return <DailyPortion />;
+  };
+
   render() {
     const { history, location, match, configStore, intl } = this.props;
     const {
@@ -1489,6 +1494,8 @@ class Details extends React.Component {
                 goodsDetailSpace={backgroundSpaces}
               />
             ) : null}
+
+            <div>{this.DailyPortionComponent(details)}</div>
 
             {!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS &&
               !!details.goodsNo && (

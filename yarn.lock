@@ -1166,7 +1166,7 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.0", "@babel/runtime@^7.12.1", "@babel/runtime@^7.12.13", "@babel/runtime@^7.12.5", "@babel/runtime@^7.13.10", "@babel/runtime@^7.13.8", "@babel/runtime@^7.14.0", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.5", "@babel/runtime@^7.5.1", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.3", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.0", "@babel/runtime@^7.12.1", "@babel/runtime@^7.12.13", "@babel/runtime@^7.12.5", "@babel/runtime@^7.13.10", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.5", "@babel/runtime@^7.5.1", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7":
   version "7.15.4"
   resolved "https://registry.npmmirror.com/@babel/runtime/download/@babel/runtime-7.15.4.tgz"
   integrity "sha1-/RfRa/34eObdAtGXU6OfqKjZyEo= sha512-99catp6bHCaxr4sJ/DbTGgHS4+Rs2RVd2g7iOap6SLGPDknRK9ztKNsE/Fg6QhSeh1FGE5f6gHGQmvvn3I3xhw=="
@@ -1706,23 +1706,6 @@
     "@babel/runtime" "^7.11.2"
     "@okta/okta-auth-js" "^4.8.0"
 
-"@popperjs/core@^2.8.6":
-  version "2.10.2"
-  resolved "https://registry.npmmirror.com/@popperjs/core/download/@popperjs/core-2.10.2.tgz"
-  integrity "sha1-B5jAM1Hw3qGlpMq93yalWny+5ZA= sha512-IXf3XA7+XyN7CP9gGh/XB0UxVMlvARGEgGXLubFICsUMGz6Q+DU+i4gGlpOxTjKvXjkJDJC8YdqdKkDj9qZHEQ=="
-
-"@restart/context@^2.1.4":
-  version "2.1.4"
-  resolved "https://registry.nlark.com/@restart/context/download/@restart/context-2.1.4.tgz"
-  integrity "sha1-qZ2HwpmjTCi9hbtInLB7/SMUnAI= sha512-INJYZQJP7g+IoDUh/475NlGiTeMfwTXUEr3tmRneckHIxNolGOW9CTq83S8cxq0CgJwwcMzMJFchxvlwe7Rk8Q=="
-
-"@restart/hooks@^0.3.26":
-  version "0.3.27"
-  resolved "https://registry.npmmirror.com/@restart/hooks/download/@restart/hooks-0.3.27.tgz"
-  integrity "sha1-kfNW1m1GmajNiz0AhAJwi2qdxQU= sha512-s984xV/EapUIfkjlf8wz9weP2O9TNKR96C68FfMEy2bE69+H4cNv3RD4Mf97lW7Htt7PjZrYTjSC8f3SB9VCXw=="
-  dependencies:
-    dequal "^2.0.2"
-
 "@sheerun/mutationobserver-shim@^0.3.2":
   version "0.3.3"
   resolved "https://registry.nlark.com/@sheerun/mutationobserver-shim/download/@sheerun/mutationobserver-shim-0.3.3.tgz"
@@ -1959,11 +1942,6 @@
     "@types/react" "*"
     hoist-non-react-statics "^3.3.0"
 
-"@types/invariant@^2.2.33":
-  version "2.2.35"
-  resolved "https://registry.npmmirror.com/@types/invariant/download/@types/invariant-2.2.35.tgz"
-  integrity "sha1-zT6/WBplV0UnNWiNjaumzwvVo74= sha512-DxX1V9P8zdJPYQat1gHyY0xj3efl8gnMVjiM9iCY6y27lj+PoQWkgjt8jDqmovPqULkKVpKRg8J36iQiA+EtEg=="
-
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0":
   version "2.0.3"
   resolved "https://registry.npmmirror.com/@types/istanbul-lib-coverage/download/@types/istanbul-lib-coverage-2.0.3.tgz"
@@ -2029,7 +2007,7 @@
   resolved "https://registry.npmmirror.com/@types/parse-json/download/@types/parse-json-4.0.0.tgz?cache=0&sync_timestamp=1637270060808&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40types%2Fparse-json%2Fdownload%2F%40types%2Fparse-json-4.0.0.tgz"
   integrity "sha1-L4u0QUNNFjs1+4/9zNcTiSf/uMA= sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA=="
 
-"@types/prop-types@*", "@types/prop-types@^15.7.3":
+"@types/prop-types@*":
   version "15.7.4"
   resolved "https://registry.npmmirror.com/@types/prop-types/download/@types/prop-types-15.7.4.tgz"
   integrity "sha1-/PcgXCXf95Xuea8eMNosl5CAjxE= sha512-rZ5drC/jWjrArrS8BR6SIr4cWpW09RNTYt9AMZo3Jwwif+iacXAqgVjm0B0Bv/S1jhDXKHqRVNCbACkJ89RAnQ=="
@@ -2053,14 +2031,7 @@
   dependencies:
     react-intl "*"
 
-"@types/react-transition-group@^4.4.1":
-  version "4.4.3"
-  resolved "https://registry.npmmirror.com/@types/react-transition-group/download/@types/react-transition-group-4.4.3.tgz"
-  integrity "sha1-sJlNoKcCPWfbtKiRCmIRK8ANVog= sha512-fUx5muOWSYP8Bw2BUQ9M9RK9+W1XBK/7FLJ8PTQpnpTEkn0ccyMffyEQvan4C3h53gHdx7KE5Qrxi/LnUGQtdg=="
-  dependencies:
-    "@types/react" "*"
-
-"@types/react@*", "@types/react@>=16.14.8", "@types/react@>=16.9.11", "@types/react@^16.14.6":
+"@types/react@*", "@types/react@^16.14.6":
   version "16.14.17"
   resolved "https://registry.npmmirror.com/@types/react/download/@types/react-16.14.17.tgz"
   integrity "sha1-xX/PsF76ZCP1tl/NSnX2PwWxYr8= sha512-pMLc/7+7SEdQa9A+hN9ujI8blkjFqYAZVqh3iNXqdZ0cQ8TIR502HMkNJniaOGv9SAgc47jxVKoiBJ7c0AakvQ=="
@@ -2094,11 +2065,6 @@
     "@types/react-dom" "*"
     "@types/testing-library__dom" "*"
     pretty-format "^25.1.0"
-
-"@types/warning@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.nlark.com/@types/warning/download/@types/warning-3.0.0.tgz?cache=0&sync_timestamp=1629710027018&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fwarning%2Fdownload%2F%40types%2Fwarning-3.0.0.tgz"
-  integrity sha1-DSUBJorY+ZYrdA04fEZU9fjiPlI=
 
 "@types/yargs-parser@*":
   version "20.2.1"
@@ -3120,11 +3086,6 @@ boolbase@^1.0.0, boolbase@~1.0.0:
   resolved "https://registry.nlark.com/boolbase/download/boolbase-1.0.0.tgz"
   integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
 
-bootstrap@^4.6.0:
-  version "4.6.0"
-  resolved "https://registry.npmmirror.com/bootstrap/download/bootstrap-4.6.0.tgz"
-  integrity "sha1-l7nymsmPmN+kO/dGgmLYQ5JVL9c= sha512-Io55IuQY3kydzHtbGvQya3H+KorS/M9rSNyfCGCg9WZ4pyT/lCxIlpJgG1GXW/PswzC84Tr2fBYi+7+jFVQQBw=="
-
 boxen@^4.2.0:
   version "4.2.0"
   resolved "https://registry.npmmirror.com/boxen/download/boxen-4.2.0.tgz?cache=0&sync_timestamp=1634028659618&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fboxen%2Fdownload%2Fboxen-4.2.0.tgz"
@@ -3631,7 +3592,7 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-classnames@^2.2.5, classnames@^2.2.6, classnames@^2.3.1:
+classnames@^2.2.5, classnames@^2.2.6:
   version "2.3.1"
   resolved "https://registry.npm.taobao.org/classnames/download/classnames-2.3.1.tgz"
   integrity "sha1-38+jiR4wbsHa0QXQ6I9EF7hTXo4= sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA=="
@@ -4629,11 +4590,6 @@ depd@~1.1.2:
   resolved "https://registry.npm.taobao.org/depd/download/depd-1.1.2.tgz"
   integrity sha1-m81S4UwJd2PnSbJ0xDRu0uVgtak=
 
-dequal@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.nlark.com/dequal/download/dequal-2.0.2.tgz"
-  integrity "sha1-hcoiAl46h+Ze91p6Q3s1KEp+MZ0= sha512-q9K8BlJVxK7hQYqa6XISGmBZbtQQWVXSrRrWreHC94rMt1QL/Impruc+7p2CYSYuVIUr+YCt6hjrs1kkdJRTug=="
-
 des.js@^1.0.0:
   version "1.0.1"
   resolved "https://registry.npm.taobao.org/des.js/download/des.js-1.0.1.tgz"
@@ -4786,7 +4742,7 @@ dom-helpers@^3.2.0:
   dependencies:
     "@babel/runtime" "^7.1.2"
 
-dom-helpers@^5.0.1, dom-helpers@^5.2.0, dom-helpers@^5.2.1:
+dom-helpers@^5.0.1:
   version "5.2.1"
   resolved "https://registry.nlark.com/dom-helpers/download/dom-helpers-5.2.1.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fdom-helpers%2Fdownload%2Fdom-helpers-5.2.1.tgz"
   integrity "sha1-2UAFNrK/giWtmP4FLgKUUaxA6QI= sha512-nRCa7CK3VTrM2NmGkIy4cbK7IZlgBE/PYMn55rrXefr5xXDP0LdtfPnblFDoVdcAfslJ7or6iqAUnx0CCGIWQA=="
@@ -10623,14 +10579,6 @@ prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types-extra@^1.1.0:
-  version "1.1.1"
-  resolved "https://registry.nlark.com/prop-types-extra/download/prop-types-extra-1.1.1.tgz"
-  integrity "sha1-WMO3TL+7ldMEYll1qi8ISDKaAQs= sha512-59+AHNnHYCdiC+vMwY52WmvP5dM3QLeoumYuEyceQDi9aEhtwN9zIQ2ZNo25sMyXnbh32h+P1ezDsUpUH3JAew=="
-  dependencies:
-    react-is "^16.3.2"
-    warning "^4.0.0"
-
 prop-types@^15.5.0, prop-types@^15.5.6, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.npm.taobao.org/prop-types/download/prop-types-15.7.2.tgz?cache=0&sync_timestamp=1594736040896&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fprop-types%2Fdownload%2Fprop-types-15.7.2.tgz"
@@ -10858,29 +10806,6 @@ react-app-rewired@^2.1.6:
   dependencies:
     semver "^5.6.0"
 
-react-bootstrap@^1.5.1:
-  version "1.6.4"
-  resolved "https://registry.npmmirror.com/react-bootstrap/download/react-bootstrap-1.6.4.tgz"
-  integrity "sha1-lNXSQi4mu6J3ZW01KRKOFPg4t8o= sha512-z3BhBD4bEZuLP8VrYqAD7OT7axdcSkkyvWBWnS2U/4MhyabUihrUyucPWkan7aMI1XIHbmH4LCpEtzWGfx/yfA=="
-  dependencies:
-    "@babel/runtime" "^7.14.0"
-    "@restart/context" "^2.1.4"
-    "@restart/hooks" "^0.3.26"
-    "@types/invariant" "^2.2.33"
-    "@types/prop-types" "^15.7.3"
-    "@types/react" ">=16.14.8"
-    "@types/react-transition-group" "^4.4.1"
-    "@types/warning" "^3.0.0"
-    classnames "^2.3.1"
-    dom-helpers "^5.2.1"
-    invariant "^2.2.4"
-    prop-types "^15.7.2"
-    prop-types-extra "^1.1.0"
-    react-overlays "^5.1.1"
-    react-transition-group "^4.4.1"
-    uncontrollable "^7.2.1"
-    warning "^4.0.3"
-
 react-calendar@^3.3.1:
   version "3.4.0"
   resolved "https://registry.npmmirror.com/react-calendar/download/react-calendar-3.4.0.tgz"
@@ -11005,7 +10930,7 @@ react-intl@*, react-intl@5.6.8:
     intl-messageformat-parser "^6.0.1"
     shallow-equal "^1.2.1"
 
-react-is@^16.12.0, react-is@^16.3.2, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4:
+react-is@^16.12.0, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4:
   version "16.13.1"
   resolved "https://registry.npmmirror.com/react-is/download/react-is-16.13.1.tgz"
   integrity "sha1-eJcppNw23imZ3BVt1sHZwYzqVqQ= sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ=="
@@ -11020,11 +10945,6 @@ react-lazyload@^3.1.0:
   resolved "https://registry.nlark.com/react-lazyload/download/react-lazyload-3.2.0.tgz"
   integrity "sha1-SXvQam29cBXjN24RN6Z9xH0t0CE= sha512-zJlrG8QyVZz4+xkYZH5v1w3YaP5wEFaYSUWC4CT9UXfK75IfRAIEdnyIUF+dXr3kX2MOtL1lUaZmaQZqrETwgw=="
 
-react-lifecycles-compat@^3.0.4:
-  version "3.0.4"
-  resolved "https://registry.npmmirror.com/react-lifecycles-compat/download/react-lifecycles-compat-3.0.4.tgz"
-  integrity "sha1-TxonOv38jzSIqMUWv9p4+HI1I2I= sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA=="
-
 react-loadable@^5.5.0:
   version "5.5.0"
   resolved "https://registry.nlark.com/react-loadable/download/react-loadable-5.5.0.tgz"
@@ -11036,20 +10956,6 @@ react-onclickoutside@^6.10.0:
   version "6.12.0"
   resolved "https://registry.npmmirror.com/react-onclickoutside/download/react-onclickoutside-6.12.0.tgz"
   integrity "sha1-xj2y48LIUrKIFgzbbP9ENgTijbQ= sha512-oPlOTYcISLHfpMog2lUZMFSbqOs4LFcA4+vo7fpfevB5v9Z0D5VBDBkfeO5lv+hpEcGoaGk67braLT+QT+eICA=="
-
-react-overlays@^5.1.1:
-  version "5.1.1"
-  resolved "https://registry.nlark.com/react-overlays/download/react-overlays-5.1.1.tgz"
-  integrity "sha1-Lnz0l0S1ZTfHgozLlM/GPdd4rk8= sha512-eCN2s2/+GVZzpnId4XVWtvDPYYBD2EtOGP74hE+8yDskPzFy9+pV1H3ZZihxuRdEbQzzacySaaDkR7xE0ydl4Q=="
-  dependencies:
-    "@babel/runtime" "^7.13.8"
-    "@popperjs/core" "^2.8.6"
-    "@restart/hooks" "^0.3.26"
-    "@types/warning" "^3.0.0"
-    dom-helpers "^5.2.0"
-    prop-types "^15.7.2"
-    uncontrollable "^7.2.1"
-    warning "^4.0.3"
 
 react-popper@^1.3.8:
   version "1.3.11"
@@ -11210,7 +11116,7 @@ react-transition-group@^1.2.0:
     prop-types "^15.5.6"
     warning "^3.0.0"
 
-react-transition-group@^4.3.0, react-transition-group@^4.4.1:
+react-transition-group@^4.3.0:
   version "4.4.2"
   resolved "https://registry.nlark.com/react-transition-group/download/react-transition-group-4.4.2.tgz"
   integrity "sha1-i1mlbwnO17VcvVPDZ2i5IokNVHA= sha512-/RNYfRAMlZwDSr6z4zNKV6xu53/e2BuaBbGhbyYIXTrmgu/bGHzmqOs7mJSJBHy9Ud+ApHx3QjrkKSp1pxvlFg=="
@@ -13098,16 +13004,6 @@ unbox-primitive@^1.0.1:
     has-symbols "^1.0.2"
     which-boxed-primitive "^1.0.2"
 
-uncontrollable@^7.2.1:
-  version "7.2.1"
-  resolved "https://registry.nlark.com/uncontrollable/download/uncontrollable-7.2.1.tgz"
-  integrity "sha1-H6cLoMV6FNX3iQXVM89jkW3HVzg= sha512-svtcfoTADIB0nT9nltgjujTi7BzVmwjZClOmskKu/E8FW9BXzg9os8OLr4f8Dlnk0rYWJIWr4wv9eKUXiQvQwQ=="
-  dependencies:
-    "@babel/runtime" "^7.6.3"
-    "@types/react" ">=16.9.11"
-    invariant "^2.2.4"
-    react-lifecycles-compat "^3.0.4"
-
 unicode-canonical-property-names-ecmascript@^2.0.0:
   version "2.0.0"
   resolved "https://registry.nlark.com/unicode-canonical-property-names-ecmascript/download/unicode-canonical-property-names-ecmascript-2.0.0.tgz?cache=0&sync_timestamp=1631615543957&other_urls=https%3A%2F%2Fregistry.nlark.com%2Funicode-canonical-property-names-ecmascript%2Fdownload%2Funicode-canonical-property-names-ecmascript-2.0.0.tgz"
@@ -13397,7 +13293,7 @@ warning@^3.0.0:
   dependencies:
     loose-envify "^1.0.0"
 
-warning@^4.0.0, warning@^4.0.2, warning@^4.0.3:
+warning@^4.0.2, warning@^4.0.3:
   version "4.0.3"
   resolved "https://registry.npm.taobao.org/warning/download/warning-4.0.3.tgz?cache=0&sync_timestamp=1586264004611&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fwarning%2Fdownload%2Fwarning-4.0.3.tgz"
   integrity "sha1-Fungd+uKhtavfWSqHgX9hbRnjKM= sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w=="
