@@ -107,20 +107,19 @@ class Felin extends React.Component {
   };
 
   handleClick = (e, index) => {
-    this.setState({
-      activeMaxKey: index
-    });
     e.target.classList.toggle('active');
     var panel = e.target.nextElementSibling
       ? e.target.nextElementSibling
       : e.target.parentNode.parentNode.nextElementSibling;
     if (panel.style.maxHeight) {
       this.setState({
-        maxHeight: null
+        maxHeight: null,
+        activeMaxKey: null
       });
     } else {
       this.setState({
-        maxHeight: panel.scrollHeight + 'px'
+        maxHeight: panel.scrollHeight + 'px',
+        activeMaxKey: index
       });
     }
   };
@@ -390,21 +389,26 @@ class Felin extends React.Component {
               </h3>
               {this.state.list.map((item, index) => {
                 return (
-                  <div key={index} style={{ marginBottom: '0.625rem' }}>
+                  <div key={index} className="fqabox">
                     <button
                       className="accordion"
                       onClick={(e) => this.handleClick(e, index)}
+                      style={{
+                        marginBottom:
+                          this.state.activeMaxKey === index ? '10px' : '0'
+                      }}
                     >
                       <div
                         style={{
-                          float: 'right'
+                          float: 'right',
+                          height: '1.5rem'
                         }}
                       >
                         {this.state.activeMaxKey === index &&
                         this.state.maxHeight ? (
-                          <img src={close} alt="" />
+                          <span className="iconfont iconUp" />
                         ) : (
-                          <img src={open} alt="" />
+                          <div className="rc-icon rc-down--xs rc-iconography" />
                         )}
                       </div>
                       {item.name}
@@ -433,21 +437,26 @@ class Felin extends React.Component {
               </h3>
               {this.state.list1.map((item, index) => {
                 return (
-                  <div key={index} style={{ marginBottom: '0.625rem' }}>
+                  <div key={index} className="fqabox">
                     <button
                       className="accordion"
                       onClick={(e) => this.handleClick(e, index + 'a')}
+                      style={{
+                        marginBottom:
+                          this.state.activeMaxKey === index + 'a' ? '10px' : '0'
+                      }}
                     >
                       <div
                         style={{
-                          float: 'right'
+                          float: 'right',
+                          height: '1.5rem'
                         }}
                       >
                         {this.state.activeMaxKey === index + 'a' &&
                         this.state.maxHeight ? (
-                          <img src={close} alt="" />
+                          <div className="rc-icon rc-up--xs rc-iconography" />
                         ) : (
-                          <img src={open} alt="" />
+                          <div className="rc-icon rc-down--xs rc-iconography" />
                         )}
                       </div>
                       {item.name}
@@ -476,21 +485,26 @@ class Felin extends React.Component {
               </h3>
               {this.state.list2.map((item, index) => {
                 return (
-                  <div key={index} style={{ marginBottom: '0.625rem' }}>
+                  <div key={index} className="fqabox">
                     <button
                       className="accordion"
                       onClick={(e) => this.handleClick(e, index + 'b')}
+                      style={{
+                        marginBottom:
+                          this.state.activeMaxKey === index + 'b' ? '10px' : '0'
+                      }}
                     >
                       <div
                         style={{
-                          float: 'right'
+                          float: 'right',
+                          height: '1.5rem'
                         }}
                       >
                         {this.state.activeMaxKey === index + 'b' &&
                         this.state.maxHeight ? (
-                          <img src={close} alt="" />
+                          <div className="rc-icon rc-up--xs rc-iconography" />
                         ) : (
-                          <img src={open} alt="" />
+                          <div className="rc-icon rc-down--xs rc-iconography" />
                         )}
                       </div>
                       {item.name}
