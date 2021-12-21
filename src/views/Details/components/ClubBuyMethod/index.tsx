@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import FrequencySelection from '@/components/FrequencySelection/index.tsx';
 import { formatMoney } from '@/utils/utils';
+import {Decimal} from 'decimal.js';
 const De = window.__.env.REACT_APP_COUNTRY === 'de';
 
 interface Props {
@@ -32,6 +33,10 @@ const ClubBuyMethod = ({
   const handleToClubTab = () => {
     toClubTab();
   };
+  const discountAmount = new Decimal(currentUnitPrice).sub(new Decimal(currentSubscriptionPrice)).toNumber()
+  const discountAmountUnit = formatMoney(discountAmount)
+  console.log(currentUnitPrice,currentSubscriptionPrice,discountAmount,discountAmountUnit,'discountAmount')
+  console.log(configStore,configStore.discountDisplayTypeInfo,'discountDisplayTypeInfo==')
   return (
     <div
       className={`buyMethod rc-margin-bottom--xs d-flex row align-items-center 3 ml-0 mr-0 ui-cursor-pointer-pure ${
@@ -77,12 +82,14 @@ const ClubBuyMethod = ({
         </div>
         <br />
         <div className="discountBox" style={{ background: '#3ab41d' }}>
-          <FormattedMessage
+          {configStore.discountDisplayTypeInfo == "Percentage"?
+          <span>{formatMoney(discountAmountUnit)}</span>
+          :<FormattedMessage
             id="saveExtra"
             values={{
               val: selectedSpecItem?.subscriptionPercentage
             }}
-          />
+          />}
         </div>
         <br />
         <div className="freeshippingBox">
