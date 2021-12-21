@@ -406,9 +406,15 @@ class Felin extends React.Component {
                       >
                         {this.state.activeMaxKey === index &&
                         this.state.maxHeight ? (
-                          <span className="iconfont iconUp" />
+                          <span
+                            className="iconfont iconUp"
+                            style={{ fontSize: '1.25rem' }}
+                          />
                         ) : (
-                          <div className="rc-icon rc-down--xs rc-iconography" />
+                          <span
+                            className="iconfont iconDown"
+                            style={{ fontSize: '1.25rem' }}
+                          />
                         )}
                       </div>
                       {item.name}
@@ -454,9 +460,15 @@ class Felin extends React.Component {
                       >
                         {this.state.activeMaxKey === index + 'a' &&
                         this.state.maxHeight ? (
-                          <div className="rc-icon rc-up--xs rc-iconography" />
+                          <span
+                            className="iconfont iconUp"
+                            style={{ fontSize: '1.25rem' }}
+                          />
                         ) : (
-                          <div className="rc-icon rc-down--xs rc-iconography" />
+                          <span
+                            className="iconfont iconDown"
+                            style={{ fontSize: '1.25rem' }}
+                          />
                         )}
                       </div>
                       {item.name}
@@ -502,9 +514,15 @@ class Felin extends React.Component {
                       >
                         {this.state.activeMaxKey === index + 'b' &&
                         this.state.maxHeight ? (
-                          <div className="rc-icon rc-up--xs rc-iconography" />
+                          <span
+                            className="iconfont iconUp"
+                            style={{ fontSize: '1.25rem' }}
+                          />
                         ) : (
-                          <div className="rc-icon rc-down--xs rc-iconography" />
+                          <span
+                            className="iconfont iconDown"
+                            style={{ fontSize: '1.25rem' }}
+                          />
                         )}
                       </div>
                       {item.name}
