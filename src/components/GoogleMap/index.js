@@ -105,7 +105,7 @@ class GoogleMap extends React.Component {
                 <a class="rc-btn rc-btn--one rc-btn--sm" href="${window.__.env.REACT_APP_HOMEPAGE.replace(
                   /\/$/gi,
                   ''
-                )}makerHandle?type=${pic.type}&id=${pic.id}&prescriberName=${
+                )}/makerHandle?type=${pic.type}&id=${pic.id}&prescriberName=${
               pic.prescriberName
             }&lat=${pic.lat}&lng=${pic.lng}">${pic.btnValue}</a></div>
                 </div>
