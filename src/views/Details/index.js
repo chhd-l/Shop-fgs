@@ -1117,12 +1117,11 @@ class Details extends React.Component {
       replyNum,
       mixFeeding
     } = this.state;
-    // 未登录加购的时候会给goodsInfoImg塞上可能存在的值，会存在图片列表都是同样的图片问题，先注释
-    // const filterImages =
-    //   images?.filter((i) => {
-    //     i.artworkUrl = i.goodsInfoImg;
-    //     return i.goodsInfoImg;
-    //   }) || [];
+    const filterImages =
+      images?.filter((i) => {
+        i.artworkUrl = i.goodsInfoImg;
+        return i.goodsInfoImg;
+      }) || [];
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     const vet =
@@ -1268,12 +1267,11 @@ class Details extends React.Component {
                                       taggingForImage={
                                         details.taggingForImageAtPDP
                                       }
-                                      spuImages={spuImages}
-                                      // spuImages={
-                                      //   filterImages.length
-                                      //     ? filterImages
-                                      //     : spuImages
-                                      // }
+                                      spuImages={
+                                        filterImages.length
+                                          ? filterImages
+                                          : spuImages
+                                      }
                                     />
                                   ) : (
                                     <ImageMagnifier
