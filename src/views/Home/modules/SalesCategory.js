@@ -71,7 +71,13 @@ class SalesCategory extends Component {
                   curListNum >= 6 ? 'DeCenter' : ''
                 } col-lg-3 align-self-center`}
               >
-                <h2 className="rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-center rc-padding-top--none">
+                <h2
+                  className="rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-center rc-padding-top--none"
+                  onClick={() => {
+                    window.location =
+                      'swish://paymentrequest?callbackurl=http%3A%2F%2Flocalhost%3A3000%2FPayResult%3Fpp%3D3JHH83rBmeXC6daYRvK%252BlT6Mj0WITloV9iTaJHtE3%252F%252B%252FH07ByZKWclJ8Rb1TEstUbG8BU1HBb2RnY9XiiWCP1Nkr%252Bl9YOgueV7W4Ve%252BUMTA0XKzSKQKhlByh8fmR0NwZtCU3dxA37NxRYYRoNX6xbQ%253D%253D&token=19f06b44c8ff4ae58b74c744523bbd60';
+                  }}
+                >
                   <FormattedMessage id="home.productsCategory" />
                 </h2>
               </div>

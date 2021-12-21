@@ -25,6 +25,7 @@ import SameAsCheckbox from './Address/SameAsCheckbox';
 // import CyberSaveCardCheckbox from './Address/CyberSaveCardCheckbox';
 import { withOktaAuth } from '@okta/okta-react';
 import { searchNextConfirmPanel } from './modules/utils';
+import { getDeviceType } from '@/utils/utils';
 import {
   formatMoney,
   generatePayUScript,
@@ -33,7 +34,7 @@ import {
   bindSubmitParam,
   getAppointmentInfo
 } from '@/utils/utils';
-import { EMAIL_REGEXP } from '@/utils/constant';
+import { EMAIL_REGEXP, seTelephoneCheck } from '@/utils/constant';
 import { userBindConsent } from '@/api/consent';
 import {
   postVisitorRegisterAndLogin,
@@ -54,6 +55,10 @@ import { editAddress } from '@/api/address';
 
 import PayUCreditCard from './PaymentMethod/PayUCreditCard';
 import AdyenCreditCard from './PaymentMethod/Adyen';
+import Paypal from './PaymentMethod/Paypal';
+import Swish from './PaymentMethod/Swish';
+import { PaypalLogo, PaypalLogo2 } from './PaymentMethod/Paypal';
+import { SwishLogo } from './PaymentMethod/Swish';
 // import CyberCardList from './PaymentMethod/Cyber/list';
 import Cod from './PaymentMethod/Cod';
 import OxxoConfirm from './PaymentMethod/Oxxo';
@@ -78,8 +83,12 @@ import CyberPayment from './PaymentMethod/Cyber';
 import { querySurveyContent } from '@/api/cart';
 import felinAddr from './Address/FelinOfflineAddress';
 import { funcUrl } from '../../lib/url-utils';
+import swishLogo from '@/assets/images/swish-logo.svg';
+
 import { postUpdateUser, getAppointByApptNo } from '../../api/felin';
 import UpdatModal from './updatModules/modal';
+
+const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -118,6 +127,126 @@ function CreditCardInfoPreview({
     </div>
   );
 }
+
+function emptyFun(num) {
+  return num.split('').join('');
+}
+
+//支付方式圆形单选框
+const InputCirclePaymethords = ({
+  payWayNameArr,
+  paymentTypeVal,
+  handlePaymentTypeChange
+}) => {
+  return (
+    <div className={`ml-custom mr-custom`}>
+      {payWayNameArr.map((item, i) => (
+        <div className={`rc-input rc-input--inline`} key={i}>
+          <input
+            className="rc-input__radio"
+            id={`payment-info-${item.id}`}
+            value={item.paymentTypeVal}
+            type="radio"
+            name="payment-info"
+            onChange={handlePaymentTypeChange}
+            checked={paymentTypeVal === item.paymentTypeVal}
+            autoComplete="new-password"
+          />
+          <label
+            className="rc-input__label--inline"
+            htmlFor={`payment-info-${item.id}`}
+          >
+            {item.langKey ? <FormattedMessage id={item.langKey} /> : null}
+            {/* <FormattedMessage id={''} /> */}
+          </label>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+//支付方式方块盒子
+const InputBoxPaymethords = ({
+  payWayNameArr,
+  paymentTypeVal,
+  handlePaymentTypeClick,
+  paymentStore
+}) => {
+  const { supportPaymentMethods } = paymentStore;
+  return (
+    <>
+      {payWayNameArr.map((item, index) => (
+        <div
+          className={`flex justify-between items-center text-grey-400 w-full border rounded-md pl-5 py-2 my-4 cursor-pointer ${
+            paymentTypeVal === item.paymentTypeVal
+              ? 'border-green'
+              : 'border-gray-300 '
+          }`}
+          key={index}
+          onClick={() => handlePaymentTypeClick(item.paymentTypeVal)}
+        >
+          <div className="text-sm md:text-lg">
+            {item.langKey ? <FormattedMessage id={item.langKey} /> : null}
+          </div>
+
+          {/* adyenCard 支持卡的类型 */}
+          {item.paymentTypeVal === 'adyenCard' &&
+            supportPaymentMethods.length > 0 && (
+              <AdyenCreditCardPic
+                supportPaymentMethods={supportPaymentMethods}
+              />
+            )}
+
+          {/* adyenPaypal的logo */}
+          {item.paymentTypeVal === 'adyenPaypal' && (
+            <div className="flex">
+              <div className="w-4 md:w-6 mr-2">
+                <PaypalLogo2 />
+              </div>
+              <div className="w-12 md:w-20 mr-5">
+                <PaypalLogo />
+              </div>
+            </div>
+          )}
+          {/* adyen swish */}
+          {item.paymentTypeVal === 'adyen_swish' && (
+            <div className="w-12 md:w-20 mr-5">
+              <img src={swishLogo} />
+            </div>
+          )}
+        </div>
+      ))}
+    </>
+  );
+};
+
+const AdyenCreditCardPic = ({ supportPaymentMethods }) => (
+  <p>
+    <span className="logo-payment-card-list logo-credit-card ml-0 mr-0 md:mr-5">
+      {supportPaymentMethods.map((el, idx) => (
+        <LazyLoad key={idx}>
+          <img
+            className="logo-payment-card mr-1 w-7 md:w-10"
+            src={el.imgUrl}
+            alt={el.cardType}
+          />
+        </LazyLoad>
+      ))}
+    </span>
+  </p>
+);
+
+const radioTypes = {
+  fr: 'box',
+  uk: 'box',
+  se: 'box',
+  default: 'circle'
+};
+
+const chooseRadioType = (country) => {
+  let radioType = radioTypes[country] || radioTypes['default'];
+  return radioType;
+};
 
 @inject(
   'loginStore',
@@ -221,6 +350,7 @@ class Payment extends React.Component {
       adyenPayParam: null,
       payWayNameArr: [],
       email: '',
+      swishPhone: '',
       orderDetails: null,
       tid: sessionItemRoyal.get('rc-tid'),
       tidList: sessionItemRoyal.get('rc-tidList')
@@ -772,7 +902,7 @@ class Payment extends React.Component {
         paymentStore: { setPayWayNameArr }
       } = this.props;
       const payWay = await getWays();
-      // name:后台返回的支付方式，langKey：翻译id，paymentTypeVal：前端显示的支付方式
+      // name:后台返回的支付方式，langKey：翻译id，paymentTypeVal：前端选择的支付方式，作为用来判断的变量
       let payMethodsObj = {
         PAYU: {
           name: 'payu',
@@ -820,10 +950,20 @@ class Payment extends React.Component {
           langKey: 'oxxo',
           paymentTypeVal: 'adyenOxxo'
         },
+        adyen_paypal: {
+          name: 'adyen_paypal',
+          langKey: 'paypal',
+          paymentTypeVal: 'adyenPaypal'
+        },
         pc_web: {
           name: 'cyber',
           langKey: 'cyber',
           paymentTypeVal: 'cyber'
+        },
+        adyen_swish: {
+          name: 'adyen_swish',
+          langKey: 'Swish',
+          paymentTypeVal: 'adyen_swish'
         }
       };
       if (
@@ -1143,7 +1283,7 @@ class Payment extends React.Component {
   // 6、组装支付共同的参数
   async getAdyenPayParam(type) {
     try {
-      const { email } = this.state;
+      const { email, swishPhone } = this.state;
       const { isLogin } = this;
       let obj = await this.getPayCommonParam();
       let commonParameter = obj.commonParameter;
@@ -1259,6 +1399,19 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             payPspItemEnum: 'ADYEN_OXXO',
             email
+          });
+        },
+        adyenPaypal: () => {
+          parameters = Object.assign(commonParameter, {
+            adyenType: 'paypal',
+            payPspItemEnum: 'ADYEN_PAYPAL'
+          });
+        },
+        adyen_swish: () => {
+          parameters = Object.assign(commonParameter, {
+            adyenType: 'swish',
+            payPspItemEnum: 'ADYEN_SWISH',
+            adyenSwishPhone: swishPhone
           });
         },
         cyber: () => {
@@ -1505,6 +1658,8 @@ class Payment extends React.Component {
         case 'payUCreditCardRU':
         case 'payUCreditCardTU':
         case 'payUCreditCard':
+        // case 'adyen_swish':
+        case 'adyenPaypal':
         case 'cod':
           subOrderNumberList = tidList.length
             ? tidList
@@ -1515,6 +1670,17 @@ class Payment extends React.Component {
             window.location.href = res.context.redirectUrl;
           } else {
             gotoConfirmationPage = true;
+          }
+          break;
+        case 'adyen_swish':
+          subOrderNumberList = tidList.length
+            ? tidList
+            : res.context && res.context.tidList;
+          subNumber = (res.context && res.context.subscribeId) || '';
+
+          if (isMobile) {
+            window.location =
+              'swish://paymentrequest?token=c28a4061470f4af48973bd2a4642b4fa&callbackurl=merchant%253A%252F%252F';
           }
           break;
         case 'adyenOxxo':
@@ -2290,6 +2456,15 @@ class Payment extends React.Component {
       paymentStore: { serCurPayWayVal }
     } = this.props;
     this.setState({ paymentTypeVal: e.target.value, email: '' }, () => {
+      serCurPayWayVal(this.state.paymentTypeVal);
+      this.onPaymentTypeValChange();
+    });
+  };
+  handlePaymentTypeClick = (paymentTypeVal) => {
+    const {
+      paymentStore: { serCurPayWayVal }
+    } = this.props;
+    this.setState({ paymentTypeVal, email: '' }, () => {
       serCurPayWayVal(this.state.paymentTypeVal);
       this.onPaymentTypeValChange();
     });
@@ -3154,6 +3329,7 @@ class Payment extends React.Component {
    * 渲染支付方式
    */
   renderPayTab = ({ visible = false }) => {
+    const { paymentStore } = this.props;
     const {
       paymentStore: { supportPaymentMethods }
     } = this.props;
@@ -3163,6 +3339,7 @@ class Payment extends React.Component {
       payWayErr,
       billingChecked,
       email,
+      swishPhone,
       validSts,
       saveBillingLoading,
       payWayNameArr,
@@ -3237,36 +3414,24 @@ class Payment extends React.Component {
     };
     return (
       <div className={`pb-3 ${visible ? '' : 'hidden'}`}>
-        {/* *******************支付tab栏start************************************ */}
-        {/* payWayObj为支付方式，如果大于1种，才显示此tab栏 */}
-        {payWayNameArr.length > 1 && (
-          <div className={`ml-custom mr-custom`}>
-            {payWayNameArr.map((item, i) => (
-              <div className={`rc-input rc-input--inline`} key={i}>
-                <input
-                  className="rc-input__radio"
-                  id={`payment-info-${item.id}`}
-                  value={item.paymentTypeVal}
-                  type="radio"
-                  name="payment-info"
-                  onChange={this.handlePaymentTypeChange}
-                  checked={paymentTypeVal === item.paymentTypeVal}
-                  autoComplete="new-password"
-                />
-                <label
-                  className="rc-input__label--inline"
-                  htmlFor={`payment-info-${item.id}`}
-                >
-                  {item.langKey ? <FormattedMessage id={item.langKey} /> : null}
-                  {/* <FormattedMessage id={''} /> */}
-                </label>
-              </div>
-            ))}
-          </div>
-        )}
-        {/* ********************支付tab栏end********************************** */}
+        {chooseRadioType(window.__.env.REACT_APP_COUNTRY) === 'circle' &&
+          payWayNameArr.length > 1 && (
+            <InputCirclePaymethords
+              payWayNameArr={payWayNameArr}
+              paymentTypeVal={paymentTypeVal}
+              handlePaymentTypeChange={this.handlePaymentTypeChange}
+            />
+          )}
 
         <div className="checkout--padding ml-custom mr-custom pt-3 pb-3 border rounded">
+          {chooseRadioType(window.__.env.REACT_APP_COUNTRY) === 'box' && (
+            <InputBoxPaymethords
+              payWayNameArr={payWayNameArr}
+              paymentTypeVal={paymentTypeVal}
+              handlePaymentTypeClick={this.handlePaymentTypeClick}
+              paymentStore={paymentStore}
+            />
+          )}
           {/* ***********************支付选项卡的内容start******************************* */}
           {payWayErr ? (
             payWayErr
@@ -3445,6 +3610,35 @@ class Payment extends React.Component {
                   />
                   {payConfirmBtn({
                     disabled: !EMAIL_REGEXP.test(email) || validForBilling
+                  })}
+                </>
+              )}
+              {/* adyenPaypal */}
+              {paymentTypeVal === 'adyenPaypal' && (
+                <>
+                  <Paypal
+                    billingJSX={this.renderBillingJSX({
+                      type: 'adyen_paypal'
+                    })}
+                  />
+                  {payConfirmBtn({
+                    disabled: validForBilling
+                  })}
+                </>
+              )}
+              {/* adyenSwish */}
+              {paymentTypeVal === 'adyen_swish' && (
+                <>
+                  <Swish
+                    updateSwishPhone={this.updateSwishPhone}
+                    billingJSX={this.renderBillingJSX({
+                      type: 'adyen_swish'
+                    })}
+                  />
+                  {payConfirmBtn({
+                    disabled:
+                      !seTelephoneCheck.test(swishPhone.split(' ').join('')) ||
+                      validForBilling
                   })}
                 </>
               )}
@@ -3712,6 +3906,10 @@ class Payment extends React.Component {
   };
   updateEmail = (email) => {
     this.setState({ email });
+  };
+  updateSwishPhone = (swishPhone) => {
+    console.log({ swishPhone });
+    this.setState({ swishPhone });
   };
   // 1、点击支付
   clickPay = () => {
