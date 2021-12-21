@@ -69,7 +69,8 @@ const env = {
     REACT_APP_SEARCH_LINK:
       '/on/demandware.store/Sites-RU-Site/ru_RU/Search-Show',
 
-    REACT_APP_CUSTOM_REGISTER: '1' // 自定义注册页面
+    REACT_APP_CUSTOM_REGISTER: '1', // 自定义注册页面
+    REACT_APP_COOKIE_SETTINGS_BTN_VISIBLE: '1'
   },
   development: {
     // #okta

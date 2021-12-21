@@ -9,7 +9,8 @@ const api = {
   seo: 'seo/setting',
   getPrescriberSettingInfo: '/order/config/listSystemConfig', // 查询是否需要显示用户选择绑定prescriber弹框
   cancelEmail: '/customer/updateCustomerSendEmailFlag', // 取消用户邮箱绑定
-  shopConfig: '/storeConfig/getShopConfig/' //查询基础配置信息
+  shopConfig: '/storeConfig/getShopConfig/', //查询基础配置信息
+  footerHtml: '/storeConfig/getFooterConfig/'
 };
 
 export default api;
@@ -84,6 +85,14 @@ export function cancelEmailBind(parameter) {
 export function fetchShopConfig(params) {
   return axios({
     url: `${api.shopConfig}${params}`,
+    method: 'get',
+    params
+  });
+}
+
+export function fetchFooterConfig(params) {
+  return axios({
+    url: `${api.footerHtml}${params}`,
     method: 'get',
     params
   });
