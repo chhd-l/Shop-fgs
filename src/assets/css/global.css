@@ -24027,13 +24027,21 @@ html:not(.rc-loaded--final) .rc-header__nav .rc-list__content.hidden {
   z-index: 9 !important;
 }
 
-.rc-list-overwrite .rc-list__header + .rc-list {
-  max-height: 0 !important;
+/* footer手机端交互 */
+.rc-list-overwrite .icon-down {
+  display: none;
 }
-.rc-list-overwrite .rc-list__header.rc-list__header-open + .rc-list {
-  max-height: initial !important;
-}
-.rc-list-overwrite .rc-list__header-open .icon-down {
-  display: inline-block;
-  transform: rotate(180deg);
+@media (max-width: 768.98px) {
+  .rc-list-overwrite .rc-list__header + .rc-list {
+    max-height: 0 !important;
+  }
+  .rc-list-overwrite .rc-list__header.rc-list__header-open + .rc-list {
+    max-height: initial !important;
+  }
+  .rc-list-overwrite .icon-down {
+    display: inline-block;
+  }
+  .rc-list-overwrite .rc-list__header-open .icon-down {
+    transform: rotate(180deg);
+  }
 }

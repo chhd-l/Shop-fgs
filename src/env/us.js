@@ -69,7 +69,13 @@ const env = {
     REACT_APP_SEARCH_LINK:
       '/on/demandware.store/Sites-EN-Site/en_EN/Search-Show',
     REACT_APP_CUSTOM_REGISTER: '1',
-    REACT_APP_LIMIT_MEMBER_PAY: '1' // 该店铺只允许会员下单
+    REACT_APP_LIMIT_MEMBER_PAY: '1', // 该店铺只允许会员下单
+
+    REACT_APP_ONTRUST_SRC:
+      'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js',
+    REACT_APP_ONTRUST_DOMAIN_SCRIPT:
+      '83dcdb6d-4c72-4616-83c5-05930054b124-test',
+    REACT_APP_COOKIE_SETTINGS_BTN_VISIBLE: '1'
   },
   development: {
     // #okta
@@ -88,10 +94,6 @@ const env = {
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'dev',
-
-    // #onetrust
-    REACT_APP_ONTRUST_SRC:
-      'https://optanon.blob.core.windows.net/consent/82d92b37-7d64-443e-a23f-5efbb17770be-test.js',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/us',
@@ -119,10 +121,6 @@ const env = {
     // #GA环境配置
     REACT_APP_GA_ENV: 'sit',
 
-    // #onetrust
-    REACT_APP_ONTRUST_SRC:
-      'https://optanon.blob.core.windows.net/consent/82d92b37-7d64-443e-a23f-5efbb17770be-test.js',
-
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/us',
 
@@ -148,10 +146,6 @@ const env = {
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'uat',
-
-    // #onetrust
-    REACT_APP_ONTRUST_SRC:
-      'https://optanon.blob.core.windows.net/consent/82d92b37-7d64-443e-a23f-5efbb17770be-test.js',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/us',
@@ -179,14 +173,6 @@ const env = {
     // #GA环境配置
     REACT_APP_GA_ENV: 'stg',
 
-    // #onetrust
-    REACT_APP_ONTRUST_SRC:
-      'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js',
-
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      '83dcdb6d-4c72-4616-83c5-05930054b124-test',
-
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/us',
 
@@ -209,10 +195,6 @@ const env = {
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'prd',
-
-    // #onetrust
-    REACT_APP_ONTRUST_SRC:
-      'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js',
 
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT: '83dcdb6d-4c72-4616-83c5-05930054b124',

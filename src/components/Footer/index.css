@@ -266,9 +266,6 @@
   color: #ffffff !important;
   font-weight: 500;
 }
-.hub-footer .rc-list__item > a {
-  color: #f6f6f6 !important;
-}
 
 @media screen and (min-width: 767px) {
   .hub-footer .rc-list--footer-columns {
