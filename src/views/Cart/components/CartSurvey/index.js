@@ -1,9 +1,9 @@
-/*
+/**
  * Created By ZuoQin On 2021/11/16
- * cart survey : 1、guest  2、never answered the survey 的会员
+ * show the survey to: everyone/Breeder customers(recommendation link Breeder Id always start with BRD)/Shelter customers(recommendation link Shelter Id always start with BRM)
+ * shop cart isShow the survey : 1、guest  2、never answered the survey 的会员
  */
 import React from 'react';
-import './index.less';
 import { querySurveyContent, recordSurveyReview } from '@/api/cart';
 import { inject, observer } from 'mobx-react';
 
@@ -34,11 +34,19 @@ class CartSurvey extends React.Component {
 
   async initSurveyPanel() {
     try {
-      //获取 survey content 和会员是否可以看到survey
-      const res = await querySurveyContent({
+      const params = {
         storeId: window.__.env.REACT_APP_STOREID,
         customerId: this.isLogin ? this.userInfo.customerId : ''
-      });
+      };
+      const breedOrShelterId = sessionItemRoyal.get('BreedOrShelterId') || '';
+      params.breedOrShelter =
+        breedOrShelterId.indexOf('BRD') === 0
+          ? 'Breeder'
+          : breedOrShelterId.indexOf('BRM') === 0
+          ? 'Shelter'
+          : 'Everyone';
+      //获取 survey content 和会员是否可以看到survey
+      const res = await querySurveyContent(params);
       const surveyContent = res?.context;
       this.setState({
         surveyContent: surveyContent,
@@ -72,7 +80,10 @@ class CartSurvey extends React.Component {
     return (
       <>
         {surveyContent?.isShow ? (
-          <div className="mb-4 cart-survey p-4">
+          <div
+            className="mb-4 border border-rc-green p-4"
+            style={{ background: 'rgb(226, 244, 228)' }}
+          >
             <div className="rc-input rc-input--inline mw-100">
               <input
                 className="rc-input__checkbox ui-cursor-pointer-pure"
@@ -89,9 +100,7 @@ class CartSurvey extends React.Component {
                 {surveyContent?.title}
               </label>
             </div>
-            <div className="cart-survey-content">
-              {surveyContent?.description}
-            </div>
+            <div className="text-rc-green">{surveyContent?.description}</div>
           </div>
         ) : (
           <div />

@@ -25,12 +25,14 @@ module.exports = {
       colors: {
         'rc-red': 'var(--rc-red)',
         'orange':'var(--orange)',
-        'green':'var(--green)'
+        'green':'var(--green)',
+        'rc-green':'var(--rc-green)'
       },
       textColor:{
         'rc-red': 'var(--rc-red)',
         'orange':'var(--orange)',
-        'green':'var(--green)'
+        'green':'var(--green)',
+        'rc-green':'var(--rc-green)'
       },
       minHeight: {
         'auto':'auto'

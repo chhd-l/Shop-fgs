@@ -9,7 +9,6 @@ const api = {
   switchSize: `/site/${window.__.env.REACT_APP_STOREID}/carts/specific`, // 切换规格
   goodsRelationBatch: '/goodsRelation/batch', //购物车related product
   shippingCalculation: '/tempoline', // 计算运费
-  //todo  接口地址补充
   querySurveyContent: '/survey/active', //us 获取问卷调查内容
   recordSurveyReview: '/survey/views' //统计survey 1 review
 };
@@ -136,8 +135,8 @@ export function querySurveyContent(parameter) {
   return axios({
     url:
       parameter.customerId !== ''
-        ? `${api.querySurveyContent}/${parameter.storeId}/${parameter.customerId}`
-        : `${api.querySurveyContent}/${parameter.storeId}`,
+        ? `${api.querySurveyContent}/${parameter.storeId}/${parameter.customerId}/${parameter.breedOrShelter}`
+        : `${api.querySurveyContent}/${parameter.storeId}/${parameter.breedOrShelter}`,
     method: 'get',
     params: {}
   });
