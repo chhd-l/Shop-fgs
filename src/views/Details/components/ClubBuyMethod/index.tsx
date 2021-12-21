@@ -35,8 +35,7 @@ const ClubBuyMethod = ({
   };
   const discountAmount = new Decimal(currentUnitPrice).sub(new Decimal(currentSubscriptionPrice)).toNumber()
   const discountAmountUnit = formatMoney(discountAmount)
-  console.log(currentUnitPrice,currentSubscriptionPrice,discountAmount,discountAmountUnit,'discountAmount')
-  console.log(configStore,configStore.discountDisplayTypeInfo,'discountDisplayTypeInfo==')
+
   return (
     <div
       className={`buyMethod rc-margin-bottom--xs d-flex row align-items-center 3 ml-0 mr-0 ui-cursor-pointer-pure ${
@@ -83,11 +82,16 @@ const ClubBuyMethod = ({
         <br />
         <div className="discountBox" style={{ background: '#3ab41d' }}>
           {configStore.discountDisplayTypeInfo == "Percentage"?
-          <span>{formatMoney(discountAmountUnit)}</span>
+          <FormattedMessage
+          id="saveExtra"
+          values={{
+            val: selectedSpecItem?.subscriptionPercentage
+          }}
+        />
           :<FormattedMessage
             id="saveExtra"
             values={{
-              val: selectedSpecItem?.subscriptionPercentage
+            val:discountAmountUnit
             }}
           />}
         </div>
