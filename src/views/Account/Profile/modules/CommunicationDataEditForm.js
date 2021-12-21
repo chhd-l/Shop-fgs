@@ -188,6 +188,15 @@ class CommunicationDataEditForm extends React.Component {
       if (!hasCheckedTheConsent && window.__.env.REACT_APP_COUNTRY === 'us') {
         form.communicationEmail = 0;
       }
+      // sprint6~7直接的紧急需求：fr新的consent隐藏了email和phone,但是勾选了第一个consent，默认勾选选中email和phone
+      if (hasCheckedTheConsent && window.__.env.REACT_APP_COUNTRY === 'fr') {
+        form.communicationEmail = 1;
+        form.communicationPhone = 1;
+      }
+      if (!hasCheckedTheConsent && window.__.env.REACT_APP_COUNTRY === 'fr') {
+        form.communicationEmail = 0;
+        form.communicationPhone = 0;
+      }
       if (
         hasCheckedTheConsent &&
         !+form.communicationEmail &&
