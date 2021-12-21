@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import FrequencySelection from '@/components/FrequencySelection/index.tsx';
 import { formatMoney } from '@/utils/utils';
+import { Decimal } from 'decimal.js';
 const De = window.__.env.REACT_APP_COUNTRY === 'de';
 
 interface Props {
@@ -27,12 +28,13 @@ const AutoshipBuyMethod = ({
   changeFreqency
 }: Props) => {
   const [toolTipVisible, setToolTipVisible] = useState(false);
+  const discountAmount = new Decimal(currentUnitPrice).sub(new Decimal(currentSubscriptionPrice)).toNumber()
+  const discountAmountUnit = formatMoney(discountAmount)
   return (
     <div>
       <div
-        className={`buyMethod rc-margin-bottom--xs d-flex row align-items-md-center justify-content-between 2 ml-0 mr-0 ui-cursor-pointer-pure ${
-          form.buyWay === 1 ? 'border-red' : 'border-d7d7d7'
-        }`}
+        className={`buyMethod rc-margin-bottom--xs d-flex row align-items-md-center justify-content-between 2 ml-0 mr-0 ui-cursor-pointer-pure ${form.buyWay === 1 ? 'border-red' : 'border-d7d7d7'
+          }`}
         onClick={changeMethod.bind(this)}
       >
         <div className="radioBox order-1 md:order-1 col-8 col-md-5">
@@ -71,18 +73,18 @@ const AutoshipBuyMethod = ({
                 >
                   i
                   <ConfirmTooltip
-                  arrowStyle={{ left: '50%' }}
-                  containerStyle={{
-                    transform: 'translate(-50%, 110%)'
-                  }}
-                  display={toolTipVisible}
-                  cancelBtnVisible={false}
-                  confirmBtnVisible={false}
-                  updateChildDisplay={(status) => {
-                    setToolTipVisible(status);
-                  }}
-                  content={<FormattedMessage id="subscription.promotionTip2" />}
-                />
+                    arrowStyle={{ left: '50%' }}
+                    containerStyle={{
+                      transform: 'translate(-50%, 110%)'
+                    }}
+                    display={toolTipVisible}
+                    cancelBtnVisible={false}
+                    confirmBtnVisible={false}
+                    updateChildDisplay={(status) => {
+                      setToolTipVisible(status);
+                    }}
+                    content={<FormattedMessage id="subscription.promotionTip2" />}
+                  />
                 </span>
 
               </span>
@@ -96,12 +98,18 @@ const AutoshipBuyMethod = ({
                 window.__.env.REACT_APP_COUNTRY === 'ru' ? '#3ab41d' : '#ec001a'
             }}
           >
-            <FormattedMessage
-              id="saveExtra"
-              values={{
-                val: selectedSpecItem?.subscriptionPercentage
-              }}
-            />
+            {configStore.discountDisplayTypeInfo == "Percentage" ?
+              <FormattedMessage
+                id="saveExtra"
+                values={{
+                  val: selectedSpecItem?.subscriptionPercentage
+                }}
+              /> : <FormattedMessage
+                id="saveExtra"
+                values={{
+                  val: discountAmountUnit
+                }}
+              />}
           </div>
           <br />
           <div className="freeshippingBox">
@@ -113,7 +121,7 @@ const AutoshipBuyMethod = ({
             frequencyType={skuPromotions}
             currentFrequencyId={form.frequencyId}
             handleConfirm={(data) => changeFreqency(data)}
-            // handleConfirm={}
+          // handleConfirm={}
           />
         )}
         <div className="price font-weight-normal text-right position-relative order-2 md:order-3 col-4 col-md-3 text-nowrap">
@@ -127,8 +135,8 @@ const AutoshipBuyMethod = ({
             </span>
           </div>
           {configStore?.info?.storeVO?.basePricePDPShowedFlag &&
-          selectedSpecItem?.goodsInfoWeight &&
-          selectedSpecItem?.goodsInfoUnit ? (
+            selectedSpecItem?.goodsInfoWeight &&
+            selectedSpecItem?.goodsInfoUnit ? (
             <div
               style={{
                 fontSize: '.875rem',

@@ -1,11 +1,8 @@
 import React from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
-import { getDeviceType } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
-import { toJS } from 'mobx';
-
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
+import cn from 'classnames';
 
 @inject('configStore')
 @injectIntl
@@ -20,53 +17,35 @@ class PaymentLogos extends React.Component {
   async componentDidMount() {
     // 查询 payment logos
     let logos = await this.props.configStore.queryPaymentMethodCfg();
-    this.setState(
-      {
-        paymentLogos: toJS(logos)
-      },
-      () => {
-        // console.log('666 >>> paymentLogos hub: ', this.state.paymentLogos);
-      }
-    );
+    this.setState({
+      paymentLogos: logos
+    });
   }
   render() {
+    const {
+      intl: { messages },
+      className
+    } = this.props;
     const { paymentLogos } = this.state;
     return (
       <>
         {/* payment logos */}
         {paymentLogos?.length ? (
-          <div className="rc-column rc-padding-bottom--none rc-padding-top--lg--mobile">
-            <div
-              className={`rc-espilon rc-text--inverse flex ${
-                isMobile ? 'justify-content-start' : 'justify-content-end'
-              }`}
-            >
-              <div
-                className={`flex flex-wrap justify-content-start`}
-                style={{ width: '14rem' }}
-              >
-                <FormattedMessage id="footer.securePaymentMethods" />
-              </div>
+          <div className={cn(className)}>
+            <div className={cn(`rc-espilon rc-text--inverse`)}>
+              {messages['footer.securePaymentMethods']}
             </div>
-            <div
-              className={`rc-text--inverse flex ${
-                isMobile ? 'justify-content-start' : 'justify-content-end'
-              }`}
-            >
+            <div className={`rc-text--inverse`}>
               <div
                 className={`flex flex-wrap justify-content-start`}
-                style={{ fontSize: '0', width: '14rem' }}
+                style={{ fontSize: '0' }}
               >
                 {paymentLogos.map((img, i) => (
                   <LazyLoad
                     key={i}
                     className={`mb-2 ${(i + 1) % 4 == 0 ? '' : 'mr-2'}`}
                   >
-                    <img
-                      src={img.imgUrl}
-                      alt={i}
-                      style={{ width: '2.7rem', height: '1.6rem' }}
-                    />
+                    <img src={img.imgUrl} alt={i} style={{ width: '2.7rem' }} />
                   </LazyLoad>
                 ))}
               </div>
