@@ -87,61 +87,16 @@ class ConfigStore {
       : '';
   }
 
-  @computed get privacyPolicyUrl() {
-    return this.info && this.info.storeVO
-      ? this.info.storeVO.privacyPolicyUrl
-      : '';
-  }
-
-  @computed get legalTerms() {
-    return this.info && this.info.storeVO ? this.info.storeVO.legalTerms : '';
-  }
-
   @computed get contactTimePeriod() {
     return this.info && this.info.storeVO
       ? this.info.storeVO.contactTimePeriod
       : '';
   }
 
-  @computed get contactUsUrl() {
-    return this.info && this.info.storeVO ? this.info.storeVO.contactUsUrl : '';
-  }
-
   @computed get storeContactEmail() {
     return this.info && this.info.storeVO
       ? this.info.storeVO.storeContactEmail
       : '';
-  }
-
-  @computed get ourValues() {
-    return this.info && this.info.storeVO ? this.info.storeVO.ourValues : '';
-  }
-
-  @computed get qualityAndSafety() {
-    return this.info && this.info.storeVO
-      ? this.info.storeVO.qualityAndSafety
-      : '';
-  }
-
-  @computed get specificNutrition() {
-    return this.info && this.info.storeVO
-      ? this.info.storeVO.specificNutrition
-      : '';
-  }
-
-  @computed get informationForParents() {
-    return this.info && this.info.storeVO
-      ? this.info.storeVO.informationForParents
-      : '';
-  }
-
-  @computed get cookiesUrl() {
-    return this.info && this.info.storeVO ? this.info.storeVO.cookiesUrl : '';
-  }
-
-  // 显示profile payment method开关
-  @computed get profilePaymentMethod() {
-    return true;
   }
 
   // 返回prescription页面是否需要显示用户选择绑定prescriber弹框 0:不显示 1：显示
@@ -159,25 +114,12 @@ class ConfigStore {
       : '';
   }
 
-  // 显示onePageCheckout样式
-  @computed get isOnePageCheckout() {
-    return (
-      this.info &&
-      this.info.storeVO &&
-      this.info.storeVO.onePageCheckout === '1'
-    );
-  }
-
   @computed get defaultPurchaseType() {
-    return this.info && this.info.storeVO
-      ? this.info.storeVO.defaultPurchaseType
-      : '';
+    return this.info?.storeVO?.defaultPurchaseType || '';
   }
 
   @computed get defaultSubscriptionFrequencyId() {
-    return this.info && this.info.storeVO
-      ? this.info.storeVO.defaultSubscriptionFrequencyId
-      : '';
+    return this.info?.storeVO?.defaultSubscriptionFrequencyId || '';
   }
 
   @action.bound
