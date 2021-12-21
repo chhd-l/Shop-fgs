@@ -110,7 +110,7 @@ const UsAndRu = (props) => {
                 <FormattedMessage id="recommendation.plusContent" />
               </p>
               <button
-                className={`rc-btn rc-btn--two ${
+                className={`rc-btn rc-btn--two rc-margin-top--sm ${
                   props.buttonLoading ? 'ui-btn-loading' : ''
                 } ${props.addCartBtnStatus ? '' : 'rc-btn-disabled'}`}
                 onClick={props.addCart}

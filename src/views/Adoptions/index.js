@@ -19,7 +19,7 @@ import { getShelterList } from '@/api/recommendation';
 import { getDetails, getLoginDetails } from '@/api/details';
 import { getFrequencyDict } from '@/utils/utils';
 let goodsInfoNos = [
-  2152, 541425, 41018, 541506, 471574, 493013, 493817, 492818, 512514, 517417,
+  8989212258325995, 8989131736500375, 493013, 493817, 492818, 512514, 517417,
   517906
 ];
 const Adoptions = (props) => {
@@ -33,10 +33,7 @@ const Adoptions = (props) => {
   });
   const [btnLoading, setBtnLoading] = useState(false);
   const [shelterId, setShelterId] = useState('');
-  const [shelterList, setShelterList] = useState([
-    { value: 1, name: 'test1' },
-    { value: 2, name: 'test2' }
-  ]);
+  const [shelterList, setShelterList] = useState([]);
   const [goodsList, setGoodsList] = useState([]);
 
   useEffect(() => {
@@ -54,18 +51,27 @@ const Adoptions = (props) => {
   };
   const getShelters = async () => {
     const res = await getShelterList({ prescriberType: ['Spt'] });
-    let list = res.context;
-    setShelterList([]);
+    let list = res.context.map((el) => {
+      return {
+        name: el.prescriberName,
+        value: el.prescriberId
+      };
+    });
+    setShelterList(list);
   };
   const addCart = async (product) => {
     console.info('product', product);
-    if (!shelterId || !product.goodsInfo?.goodsInfoId) {
+    if (
+      !shelterId ||
+      !product.goodsInfo?.goodsInfoId ||
+      product.goodsInfo.stock < 1
+    ) {
+      console.info('....');
       return;
     }
     // 获取detail
     let details = await getDetail(product.goodsInfo.goodsInfoId);
     // details = Object.assign({},details,details.goodsInfo)
-    debugger;
     setBtnLoading(true);
 
     if (loginStore.isLogin) {
@@ -77,46 +83,41 @@ const Adoptions = (props) => {
   const getDetail = async (goodsInfoId) => {
     let requestName = loginStore.isLogin ? getLoginDetails : getDetails;
     let details = {};
-    await Promise.all([requestName(goodsInfoId), getFrequencyDict()]).then(
-      (resList) => {
-        const res = resList[0]?.context;
-        const frequencyDictRes = resList[1];
-        res.goodsInfo = res.goodsInfos.find(
-          (el) => el.goodsInfoId == goodsInfoId
-        );
-        // let goodsRes = Object.assign(res)
-        console.info('resList', resList);
-        handleFrequencyIdDefault(res, frequencyDictRes);
-        res.sizeList = res.goodsInfos.map((g) => {
-          g = Object.assign({}, g, { selected: false });
-          if (g.goodsInfoId === goodsInfoId) {
-            g.selected = true;
-          }
-          return g;
-        });
-        let specList = res.goodsSpecs;
-        let specDetailList = res.goodsSpecDetails;
-        if (specList) {
-          specList.map((sItem) => {
-            sItem.chidren = specDetailList.filter((sdItem, i) => {
-              return sdItem.specId === sItem.specId;
-            });
-            sItem.chidren.map((child) => {
-              if (
-                res.goodsInfo.mockSpecDetailIds.indexOf(child.specDetailId) > -1
-              ) {
-                child.selected = true;
-              }
-              return child;
-            });
-            return sItem;
-          });
-        }
-        res.goodsSpecDetails = res.goodsSpecDetails;
-        res.goodsSpecs = specList;
-        details = Object.assign({}, res, res.goods, res.goodsInfo?.goods);
+    const [goodsRes, frequencyDictRes] = await Promise.all([
+      requestName(goodsInfoId),
+      getFrequencyDict()
+    ]);
+    let res = goodsRes.context;
+    res.goodsInfo = res.goodsInfos.find((el) => el.goodsInfoId == goodsInfoId);
+    // handleFrequencyIdDefault(res, frequencyDictRes);
+    res.sizeList = res.goodsInfos.map((g) => {
+      g = Object.assign({}, g, { selected: false });
+      if (g.goodsInfoId === goodsInfoId) {
+        g.selected = true;
       }
-    );
+      return g;
+    });
+    let specList = res.goodsSpecs;
+    let specDetailList = res.goodsSpecDetails;
+    if (specList) {
+      specList.map((sItem) => {
+        sItem.chidren = specDetailList.filter((sdItem, i) => {
+          return sdItem.specId === sItem.specId;
+        });
+        sItem.chidren.map((child) => {
+          if (
+            res.goodsInfo.mockSpecDetailIds.indexOf(child.specDetailId) > -1
+          ) {
+            child.selected = true;
+          }
+          return child;
+        });
+        return sItem;
+      });
+    }
+    res.goodsSpecDetails = res.goodsSpecDetails;
+    res.goodsSpecs = specList;
+    details = Object.assign({}, res, res.goods, res.goodsInfo?.goods);
     return details;
   };
   const handleFrequencyIdDefault = (goodsRes, frequencyList) => {
@@ -149,14 +150,21 @@ const Adoptions = (props) => {
       selected: true,
       quantity: 1,
       currentUnitPrice: product.goodsInfo?.marketPrice,
-      goodsInfoFlag: product.goodsInfoFlag,
-      periodTypeId: product.defaultFrequencyId,
+      goodsInfoFlag: 0,
+      periodTypeId: null,
+      // goodsInfoFlag: product.goodsInfoFlag,
+      // periodTypeId: product.defaultFrequencyId,
       recommendationId: shelterId
     });
-    checkoutStore.hanldeUnloginAddToCart({
-      valid: product.goodsInfo.stock > 0,
-      cartItemList: [cartItem]
-    });
+    try {
+      await checkoutStore.hanldeUnloginAddToCart({
+        valid: product.goodsInfo.stock > 0,
+        cartItemList: [cartItem]
+      });
+      props.history.push('/cart');
+    } catch (err) {
+      setBtnLoading(false);
+    }
   };
   const hanldeLoginAddToCart = async (details) => {
     let param = {
@@ -164,11 +172,11 @@ const Adoptions = (props) => {
       goodsNum: 1,
       recommendationId: shelterId,
       currentUnitPrice: details.goodsInfo?.marketPrice,
-      goodsInfoFlag: details.goodsInfoFlag,
-      periodTypeId: details.defaultFrequencyId
+      goodsInfoFlag: 0,
+      periodTypeId: null
+      // goodsInfoFlag: details.goodsInfoFlag,
+      // periodTypeId: details.defaultFrequencyId
     };
-    debugger;
-
     try {
       await sitePurchase(param);
       await checkoutStore.updateLoginCart({
@@ -189,18 +197,17 @@ const Adoptions = (props) => {
       goodsLists.forEach((el) => {
         let goodsInfo = el.goodsInfos.find((info) => info.goodsInfoNo == id);
         if (goodsInfo) {
-          debugger;
           el.goodsInfo = goodsInfo;
         }
       });
     });
     // 查出的其他数据不应该被展示
     let list = goodsLists.filter((el) => el.goodsInfo);
+    console.info('list', list);
     setGoodsList(list);
   };
   const handleSelectChange = (data) => {
     setShelterId(data.value);
-    console.info('...', data);
   };
   return (
     <div>
@@ -230,19 +237,23 @@ const Adoptions = (props) => {
               </h1>
             </div>
             <div
-              className="text-center rc-padding-x--md"
-              style={{ fontSize: '1.125rem', color: '#666666' }}
+              className="text-center rc-padding-x--md font-18px  rc-margin-bottom--sm"
+              style={{ color: '#666666' }}
             >
               Get started by selecting the adoption bundle that was recommended
               to you by your shelter.
             </div>
-            <div className="rc-layout-container rc-two-column">
+            <div className=" rc-padding-bottom--md rc-md-down"></div>
+            <div className="rc-layout-container rc-two-column text-center-h5">
               <div className="rc-column">
-                <h1 className="rc-espilon"> images </h1>
+                <img
+                  className="rc-md-up"
+                  src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/catdog.jpg`}
+                />
               </div>
               <div className="rc-column introduce-container">
                 <h6 className="introduce-title rc-padding-bottom--xs rc-margin-bottom--xs">
-                  Shop royal canin®. give back to your shelter.
+                  Shop Royal Canin®. Give Back to Your Shelter.
                 </h6>
                 <div>
                   You can help make a better world for shelter pets. 10% of
@@ -253,22 +264,26 @@ const Adoptions = (props) => {
                   className="introduce-title rc-padding-top--md rc-padding-bottom--xs rc-margin-bottom--xs"
                   style={{ fontSize: '1.125rem' }}
                 >
-                  Sign up for autoship to join the royal canin club, and you’ll
+                  Sign up for autoship to join the Royal Canin Club, and you’ll
                   receive
                 </h6>
-                <div>
-                  • Free shipping, with no minimum purchase
+                <div className="text-left">
+                  <span className="font-bold">• Free shipping</span>, with no
+                  minimum purchase
                   <br />
-                  • 5% off every future autoship order
+                  <span className="font-bold">• 5% discount </span>every future
+                  autoship order
                   <br />
-                  • Expert food and product recommendations
+                  <span className="font-bold">• </span>Expert food and product
+                  recommendations
                   <br />
-                  • Access to a royal canin advisor
+                  <span className="font-bold">• </span>Access to a royal canin
+                  advisor
                   <br />
                 </div>
               </div>
             </div>
-            <div className="rc-margin--md shelter-box">
+            <div className="rc-margin-y--md shelter-box">
               <div className="rc-layout-container rc-five-column   padding-x--lg-forpc">
                 <div className="rc-column rc-double-width sub-title font-26px">
                   Get started by selecting your shelter
@@ -307,21 +322,28 @@ const Adoptions = (props) => {
             {goodsList.map((item) => (
               <div className="rc-grid padding-x--md-forh5">
                 <article className="rc-card rc-card--a rc-padding-top--xs">
-                  <picture className="rc-card__image rc-padding-top--xs">
-                    <img
-                      src={
-                        item.goodsImg ||
-                        item.goodsInfos.sort(
-                          (a, b) => a.marketPrice - b.marketPrice
-                        )[0].goodsInfoImg ||
-                        IMG_DEFAULT
-                      }
-                      alt="A Dachshund jumping"
-                    />
-                  </picture>
+                  <div style={{ height: '18rem' }}>
+                    <picture
+                      style={{ height: '100%' }}
+                      className="rc-card__image rc-padding-top--xs"
+                    >
+                      <img
+                        style={{ height: '100%' }}
+                        src={
+                          item.goodsImg ||
+                          item.goodsInfos.sort(
+                            (a, b) => a.marketPrice - b.marketPrice
+                          )[0].goodsInfoImg ||
+                          IMG_DEFAULT
+                        }
+                        alt={item.goodsName}
+                      />
+                    </picture>
+                  </div>
+
                   <div className="rc-card__body text-center">
                     <div
-                      className="rc-card__title"
+                      className="rc-card__title ui-text-overflow-line2"
                       style={{ fontSize: '1.625rem' }}
                     >
                       {item.goodsName}
@@ -332,7 +354,9 @@ const Adoptions = (props) => {
                         btnLoading ? 'ui-btn-loading' : ''
                       }
                       ${
-                        item.goodsInfo.stock > 0 ? '' : 'rc-btn-solid-disabled'
+                        item.goodsInfo.stock > 0 && shelterId
+                          ? ''
+                          : 'rc-btn-disabled'
                       }`}
                       style={{ fontSize: '1rem' }}
                     >
@@ -344,6 +368,7 @@ const Adoptions = (props) => {
             ))}
           </div>
         </div>
+        <div className="rc-padding-top--lg rc-md-down"></div>
         <div
           className="rc-border-bottom rc-border-colour--brand4 rc-margin-top--md"
           style={{ borderBottomWidth: '4px' }}
