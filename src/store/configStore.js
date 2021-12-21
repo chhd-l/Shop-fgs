@@ -53,6 +53,10 @@ class ConfigStore {
     return this.info ? this.info.maxGoodsPrice : 0;
   }
 
+  @computed get discountDisplayTypeInfo() {
+    return this.info?.discountDisplayTypeInfo || '';
+  }
+
   // 税额开关 0: 开, 1: 关
   @computed get customTaxSettingOpenFlag() {
     return this.info?.customTaxSettingOpenFlag;
