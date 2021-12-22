@@ -625,6 +625,7 @@ class Payment extends React.Component {
     }
 
     let consentData = await ConsentData(this.props);
+    console.log(consentData, 'consentData==');
     this.rebindListData(consentData);
     this.initPaymentWay();
     this.initPanelStatus();
