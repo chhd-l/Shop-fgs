@@ -10,9 +10,7 @@ import { getDict } from '@/api/dict';
 import SearchSelection from '@/components/SearchSelection';
 import { inject, observer } from 'mobx-react';
 import './NewPetModal.css';
-import { datePickerConfig } from '@/utils/utils';
-
-const localItemRoyal = window.__.localItemRoyal;
+import { datePickerConfig, formatDate } from '@/utils/utils';
 
 @inject('loginStore')
 @observer
@@ -180,10 +178,10 @@ class NewPetModal extends Component {
     console.log(date);
     let { petForm, isShowBirthErorr } = this.state;
     if (date) {
-      petForm['birthday'] = momentNormalizeDate(date, 'YYYY-MM-DD');
+      petForm['birthday'] = formatDate({ date });
       isShowBirthErorr = false;
     } else {
-      petForm['birthday'] = momentNormalizeDate(date, 'YYYY-MM-DD');
+      petForm['birthday'] = formatDate({ date });
       isShowBirthErorr = true;
     }
     this.setState({ petForm, isShowBirthErorr });

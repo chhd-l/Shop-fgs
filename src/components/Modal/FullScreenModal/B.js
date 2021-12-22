@@ -4,6 +4,7 @@ import stores from '@/store';
 import { FullScreenModalContext } from './index';
 import Table from './Table';
 import Address from './Address';
+import { formatDate } from '@/utils/utils';
 
 export default function Modal(props) {
   const value = useContext(FullScreenModalContext);
@@ -19,7 +20,7 @@ export default function Modal(props) {
   const { close } = value;
 
   function getCurrentDate() {
-    return momentNormalizeDate(new Date(), 'DD/MM/YYYY');
+    return formatDate({ date: new Date() });
   }
 
   const [currentDate] = useState(getCurrentDate());
