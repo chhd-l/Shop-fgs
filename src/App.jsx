@@ -22,7 +22,6 @@ import { Security, useOktaAuth } from '@okta/okta-react';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'mobx-react';
 import loadable from '@/lib/loadable-component';
-import '@/lang/momentLocale';
 
 import oktaConfig from './oktaConfig';
 import stores from './store';
@@ -35,7 +34,6 @@ import ScrollToTop from '@/components/ScrollToTop';
 import { useDynamicLanguage } from '@/framework/common';
 import RouteFilter from '@/components/RouteFilter';
 import { initializePhraseAppEditor } from 'react-intl-phraseapp';
-import moment from 'moment';
 
 const Home = loadable(() => import('@/views/Home'), 'rc-carousel');
 
@@ -288,8 +286,6 @@ const ImplicitLogin = () => {
   return <div />;
 };
 
-//多语言集成
-moment.locale('zh-cn');
 var config = {
   projectId: '8f0d7f6b0396b8af7f08bf9f36d81259',
   phraseEnabled: Boolean(window.__.env.REACT_APP_PHRASE_CONTEXT_EDITORE),

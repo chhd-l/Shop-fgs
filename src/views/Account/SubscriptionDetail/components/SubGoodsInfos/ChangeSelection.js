@@ -6,8 +6,7 @@ import { SubGoodsInfosContext } from './index';
 import DatePicker from 'react-datepicker';
 import dateIcon from '../../images/date.png';
 import FrequencyMatch from '@/components/FrequencyMatch';
-import { datePickerConfig, getZoneTime } from '@/utils/utils';
-import { momentNormalizeDate } from '@/utils/momentNormalized';
+import { datePickerConfig, getZoneTime, formatDate } from '@/utils/utils';
 
 const ChangeSelection = ({ el }) => {
   const SubGoodsInfosValue = useContext(SubGoodsInfosContext);
@@ -116,7 +115,7 @@ const ChangeSelection = ({ el }) => {
             fontSize: '1.25rem'
           }}
         >
-          {momentNormalizeDate(el.createTime)}
+          {formatDate({ date: el.createTime })}
         </div>
       </div>
       <div style={{ overflow: 'hidden' }} className="rc-card-content">

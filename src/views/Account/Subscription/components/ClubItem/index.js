@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import Skeleton from 'react-skeleton-loader';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import './index.less';
+import { formatDate } from '../../../../../utils/utils';
 const localItemRoyal = window.__.localItemRoyal;
 const ClubItem = ({ subItem, history }) => {
   const isMobile = getDeviceType() !== 'PC';
@@ -135,7 +136,7 @@ const ClubItem = ({ subItem, history }) => {
             <FormattedMessage id="autoShipStarted" />
           </p>
           <p style={{ color: '#666', fontSize: '1rem' }}>
-            {momentNormalizeDate(subItem.createTime)}
+            {formatDate({ date: subItem.createTime })}
           </p>
         </span>
       </div>
