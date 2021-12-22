@@ -32,7 +32,8 @@ import {
   setSeoConfig,
   validData,
   bindSubmitParam,
-  getAppointmentInfo
+  getAppointmentInfo,
+  formatDate
 } from '@/utils/utils';
 import { EMAIL_REGEXP, seTelephoneCheck } from '@/utils/constant';
 import { userBindConsent } from '@/api/consent';
@@ -120,12 +121,7 @@ function CreditCardInfoPreview({
       {expirationDate ? (
         <>
           <br />
-          <span>
-            {momentNormalizeDate(
-              expirationDate,
-              window.__.env.REACT_APP_COUNTRY === 'fr' ? 'MM/YYYY' : ''
-            )}
-          </span>
+          <span>{formatDate({ date: expirationDate })}</span>
         </>
       ) : null}
     </div>
