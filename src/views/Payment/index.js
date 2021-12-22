@@ -25,7 +25,7 @@ import SameAsCheckbox from './Address/SameAsCheckbox';
 // import CyberSaveCardCheckbox from './Address/CyberSaveCardCheckbox';
 import { withOktaAuth } from '@okta/okta-react';
 import { searchNextConfirmPanel } from './modules/utils';
-import { getDeviceType } from '@/utils/utils';
+import { getDeviceType, payCountDown } from '@/utils/utils';
 import {
   formatMoney,
   generatePayUScript,
@@ -57,7 +57,7 @@ import PayUCreditCard from './PaymentMethod/PayUCreditCard';
 import AdyenCreditCard from './PaymentMethod/Adyen';
 import Paypal from './PaymentMethod/Paypal';
 import Swish from './PaymentMethod/Swish';
-import { PaypalLogo, PaypalLogo2 } from './PaymentMethod/Paypal';
+import Swish2 from './PaymentMethod/Swish/index2.js';
 import { SwishLogo } from './PaymentMethod/Swish';
 // import CyberCardList from './PaymentMethod/Cyber/list';
 import Cod from './PaymentMethod/Cod';
@@ -84,9 +84,13 @@ import { querySurveyContent } from '@/api/cart';
 import felinAddr from './Address/FelinOfflineAddress';
 import { funcUrl } from '../../lib/url-utils';
 import swishLogo from '@/assets/images/swish-logo.svg';
+import swishIcon from '@/assets/images/swish-icon.svg';
+import swishError from '@/assets/images/swish-error.svg';
+import paypalLogo from '@/assets/images/paypal-logo.svg';
 
 import { postUpdateUser, getAppointByApptNo } from '../../api/felin';
 import UpdatModal from './updatModules/modal';
+import QRCode from 'qrcode.react';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
@@ -200,18 +204,13 @@ const InputBoxPaymethords = ({
           {/* adyenPaypal的logo */}
           {item.paymentTypeVal === 'adyenPaypal' && (
             <div className="flex">
-              <div className="w-4 md:w-6 mr-2">
-                <PaypalLogo2 />
-              </div>
-              <div className="w-12 md:w-20 mr-5">
-                <PaypalLogo />
-              </div>
+              <img src={paypalLogo} className="w-24 mr-5" />
             </div>
           )}
           {/* adyen swish */}
           {item.paymentTypeVal === 'adyen_swish' && (
-            <div className="w-12 md:w-20 mr-5">
-              <img src={swishLogo} />
+            <div>
+              <img src={swishLogo} className="w-12 md:w-20 mr-5" />
             </div>
           )}
         </div>
@@ -262,6 +261,10 @@ class Payment extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      swishQrcode: '',
+      swishQrcodeModal: false,
+      countDown: '', //倒计时
+      swishQrcodeError: false,
       visibleUpdate: false,
       authorizationCode: '',
       subscriptionID: '',
@@ -431,7 +434,9 @@ class Payment extends React.Component {
     this.confirmListValidationAddress =
       this.confirmListValidationAddress.bind(this);
   }
-
+  handelQrcodeModalClose = () => {
+    this.setState({ swishQrcodeModal: false });
+  };
   //cyber查询卡类型-会员
   queryCyberCardType = async (params) => {
     try {
@@ -1022,6 +1027,7 @@ class Payment extends React.Component {
     const {
       paymentStore: { serCurPayWayVal }
     } = this.props;
+    if (chooseRadioType(window.__.env.REACT_APP_COUNTRY) === 'box') return; //box的方式不默认第一种支付方式
     const tmpVal = val || this.state.payWayNameArr[0]?.paymentTypeVal || '';
     serCurPayWayVal(tmpVal);
     this.setState(
@@ -1658,8 +1664,6 @@ class Payment extends React.Component {
         case 'payUCreditCardRU':
         case 'payUCreditCardTU':
         case 'payUCreditCard':
-        // case 'adyen_swish':
-        case 'adyenPaypal':
         case 'cod':
           subOrderNumberList = tidList.length
             ? tidList
@@ -1678,9 +1682,18 @@ class Payment extends React.Component {
             : res.context && res.context.tidList;
           subNumber = (res.context && res.context.subscribeId) || '';
 
+          if (res.context.qrCodeData) {
+            //模态框
+            this.setState({
+              swishQrcode: res.context.qrCodeData,
+              swishQrcodeModal: true
+            });
+            payCountDown(10, 1, (res, swishQrcodeError) => {
+              this.setState({ countDown: res, swishQrcodeError });
+            });
+          }
           if (isMobile) {
-            window.location =
-              'swish://paymentrequest?token=c28a4061470f4af48973bd2a4642b4fa&callbackurl=merchant%253A%252F%252F';
+            window.location = res.context.redirectUrl;
           }
           break;
         case 'adyenOxxo':
@@ -1743,6 +1756,7 @@ class Payment extends React.Component {
         case 'adyenKlarnaPayLater':
         case 'adyenKlarnaPayNow':
         case 'directEbanking':
+        case 'adyenPaypal':
           subOrderNumberList = res.context.tidList;
           this.removeLocalCartData();
           // 给klana支付跳转用
@@ -3635,6 +3649,11 @@ class Payment extends React.Component {
                       type: 'adyen_swish'
                     })}
                   />
+                  {/* <Swish2
+                    billingJSX={this.renderBillingJSX({
+                      type: 'adyen_swish'
+                    })}
+                  /> */}
                   {payConfirmBtn({
                     disabled:
                       !seTelephoneCheck.test(swishPhone.split(' ').join('')) ||
@@ -4427,6 +4446,52 @@ class Payment extends React.Component {
           // close={() => this.handelClose()}
           // hanldeClickConfirm={() => this.hanldeConfirm()}
         />
+        {/* Swish Qrcode Modal */}
+        <Modal
+          visible={this.state.swishQrcodeModal ? true : false}
+          footerVisible={false}
+          modalTitle=""
+          close={() => this.handelQrcodeModalClose()}
+        >
+          {this.state.swishQrcodeError ? (
+            <div className="h-64 flex flex-col justify-center items-center">
+              <img src={swishError}></img>
+              <div className="mt-6 text-black text-base">Payment failed</div>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center">
+              <div className="pt-1 pb-6 text-black text-base">Scan QR code</div>
+              <QRCode
+                value={this.state.swishQrcode}
+                size={148}
+                bgColor={'#ffffff'}
+                fgColor={'#000000'}
+                level={'L'}
+                includeMargin={false}
+                renderAs={'svg'}
+                imageSettings={{
+                  src: swishIcon,
+                  x: null,
+                  y: null,
+                  height: 36,
+                  width: 36,
+                  excavate: true
+                }}
+              />
+              <div className="text-black font-bold text-base pt-6">
+                {formatMoney(this.tradePrice)}
+              </div>
+              <div className="text-sm pt-6">
+                You have {this.state.countDown} to pay
+              </div>
+              <div className="w-64 md:w-96 text-center py-6 text-gray-600">
+                After you scan, the status can be pending for up to 10 minutes.
+                Attempting to pay again within this time may result in multiple
+                charges.
+              </div>
+            </div>
+          )}
+        </Modal>
       </div>
     );
   }
