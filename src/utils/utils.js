@@ -1180,3 +1180,26 @@ export function isShowMixFeeding() {
   return false;
   // return window.__.env.REACT_APP_COUNTRY === 'ru';
 }
+
+//倒计时分秒 10:00
+export const payCountDown = (maxTime, step, callback) => {
+  let timer = null;
+  timer = setInterval(() => {
+    if (maxTime > 0) {
+      let minutes =
+        Math.floor(maxTime / 60) >= 10
+          ? Math.floor(maxTime / 60)
+          : '0' + Math.floor(maxTime / 60);
+      let seconds =
+        Math.floor(maxTime % 60) >= 10
+          ? Math.floor(maxTime % 60)
+          : '0' + Math.floor(maxTime % 60);
+      let msg = minutes + ':' + seconds;
+      maxTime -= step;
+      callback(msg, false);
+    } else {
+      clearInterval(timer);
+      callback('00:00', true);
+    }
+  }, 1000);
+};
