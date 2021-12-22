@@ -1682,9 +1682,7 @@ class Payment extends React.Component {
             : res.context && res.context.tidList;
           subNumber = (res.context && res.context.subscribeId) || '';
 
-          if (isMobile) {
-            window.location = res.context.redirectUrl;
-          } else if (res.context.qrCodeData) {
+          if (res.context.qrCodeData) {
             //模态框
             this.setState({
               swishQrcode: res.context.qrCodeData,
@@ -1693,6 +1691,9 @@ class Payment extends React.Component {
             payCountDown(10, 1, (res, swishQrcodeError) => {
               this.setState({ countDown: res, swishQrcodeError });
             });
+          }
+          if (isMobile) {
+            window.location = res.context.redirectUrl;
           }
           break;
         case 'adyenOxxo':
