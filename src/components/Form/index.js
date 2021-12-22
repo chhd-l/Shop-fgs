@@ -22,7 +22,8 @@ import {
   datePickerConfig,
   getZoneTime,
   getDeviceType,
-  isCanVerifyBlacklistPostCode
+  isCanVerifyBlacklistPostCode,
+  formatDate
 } from '@/utils/utils';
 import DatePicker from 'react-datepicker';
 import find from 'lodash/find';
@@ -45,10 +46,6 @@ import IMask from 'imask';
 import debounce from 'lodash/debounce';
 import { EMAIL_REGEXP } from '@/utils/constant';
 import './index.less';
-import {
-  momentNormalizeDate,
-  deliverDateFormat
-} from '@/utils/momentNormalized';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
@@ -281,7 +278,10 @@ class Form extends React.Component {
         let robj = res.context.timeSlots;
         robj.forEach((v, i) => {
           // 格式化 delivery date 格式: 星期, 15 月份
-          let datestr = momentNormalizeDate(v.date, deliverDateFormat);
+          let datestr = formatDate({
+            date: v.date,
+            formatOption: { weekday: 'long', day: '2-digit', month: 'long' }
+          });
           // 所有数据
           alldata[v.date] = v.dateTimeInfos;
           ddlist.push({
@@ -1532,7 +1532,7 @@ class Form extends React.Component {
   // birthData onchange
   onDateChange(date) {
     const { caninForm } = this.state;
-    let newdate = momentNormalizeDate(date, 'YYYY/MM/DD');
+    let newdate = formatDate({ date: date });
     caninForm['birthdate'] = date ? newdate : '';
     this.setState({ caninForm }, () => {
       this.updateDataToProps();

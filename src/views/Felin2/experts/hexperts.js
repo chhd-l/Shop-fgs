@@ -525,9 +525,11 @@ class Hcexperts extends React.Component {
   };
 
   postUpdate = async (params) => {
+    let id = funcUrl({ name: 'id' });
     const { code } = await postUpdate(params);
     if (code === 'K-000000') {
       sessionItemRoyal.set('appointment-no', this.state.appointmentVO.apptNo);
+      sessionItemRoyal.set('oldAppointNo', id);
       sessionItemRoyal.set('isChangeAppoint', true);
       this.props.history.push('/checkout');
     }

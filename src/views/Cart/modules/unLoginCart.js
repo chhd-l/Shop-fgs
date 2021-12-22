@@ -1138,7 +1138,7 @@ class UnLoginCart extends React.Component {
               <div className="text-center" style={{ fontSize: '.9375rem' }}>
                 <FormattedMessage id="unLoginSubscriptionTips" />
               </div>
-            ) : window.__.env.REACT_APP_COUNTRY !== 'us' ? (
+            ) : window.__.env.REACT_APP_LIMIT_MEMBER_PAY !== '1' ? (
               <div
                 className="text-center"
                 onClick={() => this.handleCheckout()}
@@ -1155,7 +1155,7 @@ class UnLoginCart extends React.Component {
                 </div>
               </div>
             ) : null
-          ) : window.__.env.REACT_APP_COUNTRY !== 'us' ? (
+          ) : window.__.env.REACT_APP_LIMIT_MEMBER_PAY !== '1' ? (
             <div className="text-center">
               <div className="rc-styled-link color-999 rc-btn-disabled">
                 <FormattedMessage id="guestCheckout" />
@@ -1304,7 +1304,7 @@ class UnLoginCart extends React.Component {
               <FormattedMessage id="total2" />
             </div>
             <div className="col-6 no-padding-left">
-              <p className="text-right sub-total">
+              <p className="text-right sub-total mb-4">
                 {formatMoney(this.totalPrice)}
               </p>
             </div>

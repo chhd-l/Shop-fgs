@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatDate } from '@/utils/utils';
 
 const GiftList = ({
   modalList,
@@ -110,9 +111,9 @@ const GiftList = ({
                                   fontWeight: '400'
                                 }}
                               >
-                                {momentNormalizeDate(
-                                  el.tradeItems[0].nextDeliveryTime
-                                )}
+                                {formatDate({
+                                  date: el.tradeItems[0].nextDeliveryTime
+                                })}
                               </span>
                             </p>
                           </div>

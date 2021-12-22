@@ -3,6 +3,7 @@ import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { formatMoney } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import TermsCommon from '../Terms/common';
+import ConsentAdditionalText from '@/components/Consent/ConsentAdditionalText';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -114,6 +115,7 @@ class Confirmation extends React.Component {
             {_title}
           </div>
           <div className={`pt-3 ${!panelStatus.isPrepare ? '' : 'hidden'}`}>
+            <ConsentAdditionalText textPosition="top" />
             {/* 条款 */}
             <TermsCommon
               id={'confirmation'}
@@ -122,6 +124,7 @@ class Confirmation extends React.Component {
                 this.setState({ isValid: val });
               }}
             />
+            <ConsentAdditionalText textPosition="bottom" />
 
             {/*feline change appointment 下单提示*/}
             {sessionItemRoyal.get('isChangeAppoint') && (

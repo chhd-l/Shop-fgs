@@ -36,15 +36,16 @@ class CartSurvey extends React.Component {
     try {
       const params = {
         storeId: window.__.env.REACT_APP_STOREID,
-        customerId: this.isLogin ? this.userInfo.customerId : ''
+        customerId: this.isLogin ? this.userInfo.customerId : '',
+        breedOrShelter: 'Everyone'
       };
       const breedOrShelterId = sessionItemRoyal.get('BreedOrShelterId') || '';
-      params.breedOrShelter =
+      params.breedOrShelter +=
         breedOrShelterId.indexOf('BRD') === 0
-          ? 'Breeder'
+          ? ',Breeder'
           : breedOrShelterId.indexOf('BRM') === 0
-          ? 'Shelter'
-          : 'Everyone';
+          ? ',Shelter'
+          : '';
       //获取 survey content 和会员是否可以看到survey
       const res = await querySurveyContent(params);
       const surveyContent = res?.context;

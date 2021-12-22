@@ -5,9 +5,9 @@ import {
   getDictionary,
   matchNamefromDict,
   getDeviceType,
-  handleFelinAppointTime
+  handleFelinAppointTime,
+  formatDate
 } from '@/utils/utils';
-import { momentNormalizeDate } from '../../../utils/momentNormalized';
 
 @inject('configStore')
 @injectIntl
@@ -195,11 +195,12 @@ class InfosPreview extends React.Component {
                     <span className="medium">
                       <FormattedMessage id="Expire" />{' '}
                       {window.__.env.REACT_APP_COUNTRY == 'us'
-                        ? momentNormalizeDate(
-                            new Date(payRecord.expirationDate).addHours(12),
-                            'MM/YYYY'
-                          )
-                        : momentNormalizeDate(payRecord.expirationDate)}
+                        ? formatDate({
+                            date: new Date(payRecord.expirationDate).addHours(
+                              12
+                            )
+                          })
+                        : formatDate({ date: payRecord.expirationDate })}
                     </span>
                     <br />
                   </>

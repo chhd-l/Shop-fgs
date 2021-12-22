@@ -3,7 +3,8 @@ import autoshipIcon from '@/assets/images/autoship.png';
 import {
   getDeviceType,
   getClubLogo,
-  isCanVerifyBlacklistPostCode
+  isCanVerifyBlacklistPostCode,
+  formatDate
 } from '@/utils/utils';
 import FrequencyMatch from '@/components/FrequencyMatch';
 import LazyLoad from 'react-lazyload';
@@ -129,7 +130,7 @@ const AutoshipItem = ({ subItem, history }) => {
               <FormattedMessage id="autoShipStarted2" />
             </p>
             <p style={{ color: '#666', fontSize: '1rem' }}>
-              {momentNormalizeDate(subItem.createTime)}
+              {formatDate({ date: subItem.createTime })}
               {/* <FormattedDate value={subItem.createTime.split(' ')[0]}/> */}
               {/* {subItem.createTime.split(' ')[0]} */}
             </p>

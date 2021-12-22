@@ -3,8 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
 import dateIcon from '../../images/date.png';
-import { getDeviceType, formatMoney } from '@/utils/utils';
-import { momentNormalizeDate } from '@/utils/momentNormalized';
+import { getDeviceType, formatMoney, formatDate } from '@/utils/utils';
 
 const CompletedDelivery = ({ i, isActive, el, subDetail }) => {
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
@@ -34,7 +33,7 @@ const CompletedDelivery = ({ i, isActive, el, subDetail }) => {
                   fontWeight: '400'
                 }}
               >
-                {momentNormalizeDate(el.tradeState.createTime)}
+                {formatDate({ date: el.tradeState.createTime })}
                 {/* <FormattedDate value={el.tradeState.createTime.split(' ')[0]}/> */}
               </span>
             </div>

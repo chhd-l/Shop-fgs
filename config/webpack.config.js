@@ -22,8 +22,8 @@ const getClientEnvironment = require('./env');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin =
+  require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CopyPlugin = require('copy-webpack-plugin');
 
 const postcssNormalize = require('postcss-normalize');
@@ -502,15 +502,11 @@ module.exports = function (webpackEnv) {
               test: lessModuleRegex,
               use: getStyleLoaders(
                 {
-                  importLoaders: 3,
-                  modules: true,
-                  getLocalIdent: getCSSModuleLocalIdent,
-                  modifyVars: {
-                    'primary-color': '#1DA57A',
-                    'link-color': '#1DA57A',
-                    'border-radius-base': '2px'
-                  },
-                  javascriptEnabled: true
+                  importLoaders: 1,
+                  sourceMap: isEnvProduction && shouldUseSourceMap,
+                  modules: {
+                    getLocalIdent: getCSSModuleLocalIdent
+                  }
                 },
                 'less-loader'
               )
@@ -766,9 +762,9 @@ module.exports = function (webpackEnv) {
           formatter: isEnvProduction ? typescriptFormatter : undefined
         }),
       // 打包不同国家的seo文件到build目录 todo
-      isEnvProduction
-      && fs.existsSync(paths.appSEO)
-      && new CopyPlugin([{ from: paths.appSEO, to: paths.appBuild }])
+      isEnvProduction &&
+        fs.existsSync(paths.appSEO) &&
+        new CopyPlugin([{ from: paths.appSEO, to: paths.appBuild }])
     ].filter(Boolean),
     // Some libraries import Node modules but don't use them in the browser.
     // Tell webpack to provide empty mocks for them so importing them works.
