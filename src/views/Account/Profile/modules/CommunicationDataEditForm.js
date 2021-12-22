@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import { inject, observer } from 'mobx-react';
 import { addEventListenerArr } from './addEventListener';
+import ConsentAdditionalText from '@/components/Consent/ConsentAdditionalText';
 
 const localItemRoyal = window.__.localItemRoyal;
 const SPECAIL_CONSENT_ENUM =
@@ -50,8 +51,9 @@ class CommunicationDataEditForm extends React.Component {
       errorMsg: '',
       showWarningTip: false
     };
-    this.handleCommunicationCheckBoxChange =
-      this.handleCommunicationCheckBoxChange.bind(this);
+    this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
+      this
+    );
   }
   componentDidUpdate() {
     if (window.__.env.REACT_APP_COUNTRY == 'tr') {
@@ -185,6 +187,15 @@ class CommunicationDataEditForm extends React.Component {
       }
       if (!hasCheckedTheConsent && window.__.env.REACT_APP_COUNTRY === 'us') {
         form.communicationEmail = 0;
+      }
+      // sprint6~7直接的紧急需求：fr新的consent隐藏了email和phone,但是勾选了第一个consent，默认勾选选中email和phone
+      if (hasCheckedTheConsent && window.__.env.REACT_APP_COUNTRY === 'fr') {
+        form.communicationEmail = 1;
+        form.communicationPhone = 1;
+      }
+      if (!hasCheckedTheConsent && window.__.env.REACT_APP_COUNTRY === 'fr') {
+        form.communicationEmail = 0;
+        form.communicationPhone = 0;
       }
       if (
         hasCheckedTheConsent &&
@@ -421,40 +432,42 @@ class CommunicationDataEditForm extends React.Component {
             ) : null}
             <div className={`${!isLoading && editFormVisible ? '' : 'hidden'}`}>
               <span className={`rc-meta`}></span>
-              <div>
-                {communicationPreferencesList.length > 0 ? (
-                  <label className="form-control-label rc-input--full-width w-100">
-                    <FormattedMessage id="account.preferredMethodOfCommunication" />
-                  </label>
-                ) : null}
-
-                {communicationPreferencesList.map((ele, idx) => (
-                  <div className="rc-input rc-input--inline" key={idx}>
-                    <input
-                      type="checkbox"
-                      className="rc-input__checkbox"
-                      id={`basicinfo-communication-checkbox-${ele.type}`}
-                      onChange={this.handleCommunicationCheckBoxChange.bind(
-                        this,
-                        ele
-                      )}
-                      checked={+form[ele.type] || false}
-                    />
-                    <label
-                      className="rc-input__label--inline text-break"
-                      htmlFor={`basicinfo-communication-checkbox-${ele.type}`}
-                    >
-                      <FormattedMessage id={ele.langKey} />
+              {window.__.env.REACT_APP_COUNTRY != 'fr' ? (
+                <div className="mb-3">
+                  {communicationPreferencesList.length > 0 ? (
+                    <label className="form-control-label rc-input--full-width w-100">
+                      <FormattedMessage id="account.preferredMethodOfCommunication" />
                     </label>
-                  </div>
-                ))}
-              </div>
+                  ) : null}
 
+                  {communicationPreferencesList.map((ele, idx) => (
+                    <div className="rc-input rc-input--inline" key={idx}>
+                      <input
+                        type="checkbox"
+                        className="rc-input__checkbox"
+                        id={`basicinfo-communication-checkbox-${ele.type}`}
+                        onChange={this.handleCommunicationCheckBoxChange.bind(
+                          this,
+                          ele
+                        )}
+                        checked={+form[ele.type] || false}
+                      />
+                      <label
+                        className="rc-input__label--inline text-break"
+                        htmlFor={`basicinfo-communication-checkbox-${ele.type}`}
+                      >
+                        <FormattedMessage id={ele.langKey} />
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
               <span className={`rc-meta`}>
                 <strong>
                   <FormattedMessage id="account.myCommunicationPreferencesContent2" />
                 </strong>
               </span>
+              <ConsentAdditionalText textPosition="top" />
               <div id="wrap" style={{ marginLeft: '30px' }}>
                 {/* checkbox组 */}
                 <Consent
@@ -466,6 +479,7 @@ class CommunicationDataEditForm extends React.Component {
                   key={'profile'}
                 />
               </div>
+              <ConsentAdditionalText textPosition="bottom" />
               {this.state.showWarningTip ? (
                 <aside
                   className="rc-alert rc-alert--warning mb-4 mt-2"
