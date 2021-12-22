@@ -262,23 +262,3 @@
     border: none !important;
   }
 }
-.hub-footer h3 > a {
-  color: #ffffff !important;
-  font-weight: 500;
-}
-
-@media screen and (min-width: 767px) {
-  .hub-footer .rc-list--footer-columns {
-    -webkit-column-break-inside: avoid;
-    page-break-inside: avoid;
-    break-inside: avoid;
-    -webkit-column-count: 6;
-    column-count: 6;
-    display: block;
-  }
-  .hub-footer .rc-list--footer-columns > .rc-list__item {
-    -webkit-column-break-inside: avoid;
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
-}
