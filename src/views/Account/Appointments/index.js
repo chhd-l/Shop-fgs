@@ -11,7 +11,7 @@ import Pagination from '@/components/Pagination';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { getDeviceType, setSeoConfig } from '@/utils/utils';
+import { getDeviceType, setSeoConfig, formatDate } from '@/utils/utils';
 import orderImg from './img/order.jpg';
 import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
@@ -336,9 +336,9 @@ class AccountOrders extends React.Component {
                                           <FormattedMessage id="appointment.appointmentPlacedOn" />
                                           <br className="d-none d-md-block" />
                                           <span className="medium orderHeaderTextColor">
-                                            {momentNormalizeDate(
-                                              appointment.createTime
-                                            )}
+                                            {formatDate({
+                                              date: appointment.createTime
+                                            })}
                                           </span>
                                         </p>
                                       </div>

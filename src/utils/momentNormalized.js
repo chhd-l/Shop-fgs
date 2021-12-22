@@ -50,3 +50,21 @@ export function momentNormalizeDate(date, format = '', needTz = false) {
 }
 
 window.momentNormalizeDate = momentNormalizeDate;
+
+export function formatDate(date) {
+  const options = {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+    timeZone: 'America/Los_Angeles'
+  };
+  console.log('dateFormatCountry:', window.__.env.REACT_APP_NAVIGATOR_LANG);
+  return new Intl.DateTimeFormat(
+    window.__.env.REACT_APP_NAVIGATOR_LANG,
+    options
+  ).format(date);
+}
