@@ -1027,6 +1027,7 @@ class Payment extends React.Component {
     const {
       paymentStore: { serCurPayWayVal }
     } = this.props;
+    if (chooseRadioType(window.__.env.REACT_APP_COUNTRY) === 'box') return; //box的方式不默认第一种支付方式
     const tmpVal = val || this.state.payWayNameArr[0]?.paymentTypeVal || '';
     serCurPayWayVal(tmpVal);
     this.setState(
