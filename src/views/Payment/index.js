@@ -1664,7 +1664,6 @@ class Payment extends React.Component {
         case 'payUCreditCardRU':
         case 'payUCreditCardTU':
         case 'payUCreditCard':
-        case 'adyenPaypal':
         case 'cod':
           subOrderNumberList = tidList.length
             ? tidList
@@ -1756,6 +1755,7 @@ class Payment extends React.Component {
         case 'adyenKlarnaPayLater':
         case 'adyenKlarnaPayNow':
         case 'directEbanking':
+        case 'adyenPaypal':
           subOrderNumberList = res.context.tidList;
           this.removeLocalCartData();
           // 给klana支付跳转用
