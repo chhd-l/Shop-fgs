@@ -234,37 +234,8 @@ class RouteFilter extends Component {
       return null;
     }
 
-    var el = document.querySelector('html');
+    const el = document.querySelector('html');
     el.lang = window.__.env.REACT_APP_HTML_LANG;
-
-    if (pathname !== '/login') {
-      // loadJS({
-      //   url: window.__.env.REACT_APP_ONTRUST_SRC,
-      //   dataSets: {
-      //     domainScript: window.__.env.REACT_APP_ONTRUST_DOMAIN_SCRIPT,
-      //     documentLanguage: 'true'
-      //   }
-      // });
-    }
-    // if (window.__.env.REACT_APP_CONSENT_SCRIPT) {
-    //   loadJS({
-    //     url: window.__.env.REACT_APP_CONSENT_SCRIPT,
-    //     id: 'global-script'
-    //   });
-    // }
-    if (
-      window.__.env.REACT_APP_MARS_FOOTER &&
-      !/^\/implicit\/callback|^\/required|^\/refuge|^\/okta-login-page|^\/okta-logout-page/.test(
-        pathname
-      )
-    ) {
-      // 特殊页面，不加
-      if (pathname != '/pickupmap') {
-        loadJS({
-          url: window.__.env.REACT_APP_MARS_FOOTER
-        });
-      }
-    }
   }
   //判断consent接口是否存在必填项
   isExistRequiredListFun(result) {

@@ -139,6 +139,13 @@
       "unicode_decimal": 58891
     },
     {
+      "icon_id": "26674959",
+      "name": "Down",
+      "font_class": "Up",
+      "unicode": "ec10",
+      "unicode_decimal": 60432
+    },
+    {
       "icon_id": "1397992",
       "name": "Down",
       "font_class": "Down",

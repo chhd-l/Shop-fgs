@@ -132,6 +132,7 @@ class FelinRecommendation extends React.Component {
     this.setState({ isMobile: getDeviceType() === 'H5' });
     this.setState({ loading: true });
     let couponCode = funcUrl({ name: 'couponCode' });
+    let noLink = funcUrl({ name: 'noLink' }); //兼容不跳转页面方便调试
     this.setState({ couponCode });
     getFelinReco(id)
       .then((res) => {
@@ -244,7 +245,11 @@ class FelinRecommendation extends React.Component {
         this.props.clinicStore.setLinkClinicName('');
         this.props.clinicStore.setAuditAuthority(false);
         this.setState({ loading: false });
-        this.buyNow();
+        if (noLink) {
+          this.setState({ pageLoading: false });
+        } else {
+          this.buyNow();
+        }
         // });
       })
       .catch((err) => {

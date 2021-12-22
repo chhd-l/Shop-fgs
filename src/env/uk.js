@@ -78,7 +78,8 @@ const env = {
       'https://prd-weu1-rc-df-myaccount-app-webapp-stg.cloud-effem.com/en-us/manager/settings',
 
     LOYALTY_PROGRAMME_LINK: 'https://my.royalcanin.co.uk/account/loyalty',
-    REACT_APP_CUSTOM_REGISTER: '1'
+    REACT_APP_CUSTOM_REGISTER: '1',
+    REACT_APP_COOKIE_SETTINGS_BTN_VISIBLE: '1'
   },
   development: {
     // #okta

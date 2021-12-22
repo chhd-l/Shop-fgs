@@ -65,7 +65,8 @@ const env = {
     REACT_APP_SEARCH_LINK:
       '/on/demandware.store/Sites-TR-Site/tr_TR/Search-Show',
 
-    REACT_APP_CUSTOM_REGISTER: '1'
+    REACT_APP_CUSTOM_REGISTER: '1',
+    REACT_APP_COOKIE_SETTINGS_BTN_VISIBLE: '1'
   },
   development: {
     // #okta

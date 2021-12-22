@@ -1,50 +1,81 @@
-import React, { useEffect } from 'react';
-import { menubarJSON } from './menubar';
+import React, { useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
+import { fetchFooterConfig } from '@/api';
+import getCountryCodeFromHref from '@/lib/get-country-code-from-href';
+import LazyLoad from 'react-lazyload';
+import { inject, observer } from 'mobx-react';
+import { queryApiFromSessionCache } from '@/utils/utils';
 
-const DynamicFooter = () => {
+const DynamicFooter = ({ configStore, intl }) => {
+  const [footHtml, setFooterHtml] = useState('');
+
   useEffect(() => {
-    window.addEventListener('click', (e) => {
-      let currentTargetDom = e.target;
-      if (!currentTargetDom.classList.contains('J_rc-list__header')) {
-        currentTargetDom = e.target.closest('.J_rc-list__header');
-      }
-      if (!currentTargetDom) {
-        return false;
-      }
-
-      // 需要打开时，指定父级rc-list下的，所有子节点rc-list，全部关闭;同级的指定兄弟节点,打开
-      // 需要关闭时，同级的指定兄弟节点，关闭
-      const needToOpen = !currentTargetDom.classList.contains(
-        'rc-list__header-open'
-      );
-      currentTargetDom
-        .closest('ul.rc-list')
-        .querySelectorAll('.rc-list__item--group')
-        .forEach((el) => {
-          el.querySelector('.J_rc-list__header').classList.remove(
-            'rc-list__header-open'
-          );
-        });
-
-      if (needToOpen) {
-        currentTargetDom.classList.add('rc-list__header-open');
-      } else {
-        currentTargetDom.classList.remove('rc-list__header-open');
-      }
-    });
-    return () => {};
+    const getData = async () => {
+      const param = getCountryCodeFromHref();
+      const res = await queryApiFromSessionCache({
+        sessionKey: 'footer-hub',
+        api: () => fetchFooterConfig(param?.countryCode)
+      });
+      setFooterHtml(res?.context?.footer || '');
+    };
+    getData();
   }, []);
 
-  return (
-    <nav
-      data-toggle-group="mobile"
-      data-toggle-effect="rc-expand--vertical"
-      className="rc-padding-x--xs--desktop rc-padding-x--none--mobile"
+  useEffect(() => {
+    const paymentLogosBox = document.querySelector('#J_footer_payment_box');
+
+    // 查询 payment logos
+    const getPaymentLogos = async () => {
+      const logos = await configStore.queryPaymentMethodCfg();
+      setTimeout(() => {
+        ReactDOM.render(renderPayLogosHtml({ logos }), paymentLogosBox);
+      });
+    };
+
+    if (footHtml && paymentLogosBox) {
+      getPaymentLogos();
+    }
+  }, [footHtml]);
+
+  const renderPayLogosHtml = ({ logos }) => {
+    const { messages } = intl;
+    return (
+      <>
+        {/* payment logos */}
+        {logos?.length ? (
+          <>
+            <div className={`rc-espilon rc-text--inverse`}>
+              {messages['footer.securePaymentMethods']}
+            </div>
+            <div className={`rc-text--inverse`}>
+              <div
+                className={`flex flex-wrap justify-content-start`}
+                style={{ fontSize: '0' }}
+              >
+                {logos.map((img, i) => (
+                  <LazyLoad
+                    key={i}
+                    className={`mb-2 ${(i + 1) % 4 == 0 ? '' : 'mr-2'}`}
+                  >
+                    <img src={img.imgUrl} alt={i} style={{ width: '2.7rem' }} />
+                  </LazyLoad>
+                ))}
+              </div>
+            </div>
+          </>
+        ) : null}
+      </>
+    );
+  };
+
+  return footHtml ? (
+    <div
+      className="col-span-12 grid grid-cols-12"
       dangerouslySetInnerHTML={{
-        __html: menubarJSON[window.__.env.REACT_APP_COUNTRY]
+        __html: footHtml
       }}
     />
-  );
+  ) : null;
 };
 
-export default DynamicFooter;
+export default inject('configStore')(observer(DynamicFooter));

@@ -110,7 +110,7 @@ const UsAndRu = (props) => {
                 <FormattedMessage id="recommendation.plusContent" />
               </p>
               <button
-                className={`rc-btn rc-btn--two ${
+                className={`rc-btn rc-btn--two rc-margin-top--sm ${
                   props.buttonLoading ? 'ui-btn-loading' : ''
                 } ${props.addCartBtnStatus ? '' : 'rc-btn-disabled'}`}
                 onClick={props.addCart}
@@ -177,7 +177,7 @@ const UsAndRu = (props) => {
           <LineModule />
           <section
             style={{ textAlign: 'center' }}
-            className="rc-max-width--md text-center rc-margin-top--md"
+            className="rc-max-width--md text-center rc-margin-top--md rc-padding-x--md"
           >
             <h2 style={{ color: '#E2001A' }}>
               <FormattedMessage id="recommendation.fourTitle" />
@@ -191,7 +191,7 @@ const UsAndRu = (props) => {
             </p>
             <p>
               <button
-                className={`rc-btn rc-btn--one ${
+                className={`rc-btn rc-btn--one rc-margin-y--xs mr-auto ml-auto ${
                   props.buttonLoading ? 'ui-btn-loading' : ''
                 } ${props.addCartBtnStatus ? '' : 'rc-btn-solid-disabled'}`}
                 onClick={props.addCart}

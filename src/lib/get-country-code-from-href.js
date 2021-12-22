@@ -54,7 +54,8 @@ const getCountryCodeFromHref = () => {
       tr: 'TR',
       uk: 'GB',
       se: 'SE',
-      core: 'CORE'
+      core: 'CORE',
+      ca: 'CA'
     }[countryLink],
     countryLink
   };

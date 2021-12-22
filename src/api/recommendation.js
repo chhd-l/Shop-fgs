@@ -5,7 +5,8 @@ const api = {
   getRecommendations: '/recommendation',
   getPrescriberByPrescriberIdAndStoreId:
     '/prescriber/getPrescriberByPrescriberIdAndStoreId',
-  felinReco: '/felin/reco'
+  felinReco: '/felin/reco',
+  shelterList: '/prescriber/shelter'
 };
 
 export default api;
@@ -50,5 +51,13 @@ export function getRecommendationList_prescriberId(data) {
   return axios({
     url: `${api.getRecommendations}/prescriberId=${data}`,
     method: 'get'
+  });
+}
+
+export function getShelterList(data) {
+  return axios({
+    url: `${api.shelterList}`,
+    method: 'post',
+    data
   });
 }
