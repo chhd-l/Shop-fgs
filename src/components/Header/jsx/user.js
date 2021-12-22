@@ -116,7 +116,7 @@ const UserJSX = (props) => {
                         // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=http%3A%2F%2Flocalhost%3A3000%3Forigin%3Dregister'
                         // this.signUp()
 
-                        if (window.__.REACT_APP_CUSTOM_REGISTER === '1') {
+                        if (+window.__.env.REACT_APP_CUSTOM_REGISTER) {
                           localItemRoyal.set(
                             'okta-redirectUrl',
                             history &&

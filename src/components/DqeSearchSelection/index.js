@@ -42,14 +42,31 @@ class SearchSelection extends React.Component {
       },
       loadingList: false,
       placeholder: this.props.placeholder,
-      searchForNoResult: true
+      searchForNoResult: true,
+      random: Math.random()
     };
     this.timer = null;
     this.otherValue = '';
     this.searchText = React.createRef();
   }
   componentDidMount = () => {
-    // console.log('666 searchSelection form: ',this.state.form);
+    window.addEventListener('click', (e) => {
+      let str = '';
+      let path = Array.from(e.path);
+      path.pop();
+      path.map((el) => {
+        str = str + JSON.stringify(el.classList);
+      });
+      const isDqeClicked = str.includes(`dqeFormSpace_${this.state.random}`);
+      if (!isDqeClicked) {
+        setTimeout(() => {
+          this.setState({
+            optionList: [],
+            optionPanelVisible: false
+          });
+        }, 500);
+      }
+    });
   };
   componentWillUnmount = () => {
     this.setState = (state, callback) => {
@@ -58,7 +75,6 @@ class SearchSelection extends React.Component {
   };
   handleInputChange = (e) => {
     e.nativeEvent.stopImmediatePropagation();
-    console.log('haha', e.target.value);
     const target = e.target;
     const { form } = this.state;
     try {
@@ -252,9 +268,9 @@ class SearchSelection extends React.Component {
     // }
   };
   render() {
-    const { optionList, form } = this.state;
+    const { optionList, form, random } = this.state;
     return (
-      <form className="fullWidth" autoComplete="off">
+      <form className={`fullWidth dqeFormSpace_${random}`} autoComplete="off">
         <div style={{ flex: this.props.inputCustomStyle ? 'auto' : '' }}>
           <div
             className={`${this.props.customCls} ${
@@ -262,14 +278,14 @@ class SearchSelection extends React.Component {
                 ? 'rc-input rc-input--label rc-margin--none rc-input--full-width'
                 : 'rc-input rc-input--full-width rc-margin-y--xs'
             } searchSelection`}
-            onBlur={() => {
-              setTimeout(() => {
-                this.setState({
-                  optionList: [],
-                  optionPanelVisible: false
-                });
-              }, 500);
-            }}
+            // onBlur={() => {
+            //   setTimeout(() => {
+            //     this.setState({
+            //       optionList: [],
+            //       optionPanelVisible: false
+            //     });
+            //   }, 500);
+            // }}
           >
             {this.props.prefixIcon}
             <input
