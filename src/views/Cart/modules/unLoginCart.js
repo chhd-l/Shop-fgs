@@ -1304,7 +1304,7 @@ class UnLoginCart extends React.Component {
               <FormattedMessage id="total2" />
             </div>
             <div className="col-6 no-padding-left">
-              <p className="text-right sub-total">
+              <p className="text-right sub-total mb-4">
                 {formatMoney(this.totalPrice)}
               </p>
             </div>
