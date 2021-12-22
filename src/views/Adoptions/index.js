@@ -32,7 +32,7 @@ const Adoptions = (props) => {
     metaDescription: 'Royal canin'
   });
   const [btnLoading, setBtnLoading] = useState(false);
-  const [shelterId, setShelterId] = useState('');
+  const [shelter, setShelter] = useState({});
   const [shelterList, setShelterList] = useState([]);
   const [goodsList, setGoodsList] = useState([]);
 
@@ -41,7 +41,6 @@ const Adoptions = (props) => {
     getGoodsInfos();
     // getSeoConfig()
   }, []);
-  // useEffect(()=>{},[shelterId])
   const getSeoConfig = () => {
     setSeoConfig({
       pageName: 'adoptions page'
@@ -62,7 +61,7 @@ const Adoptions = (props) => {
   const addCart = async (product) => {
     console.info('product', product);
     if (
-      !shelterId ||
+      !shelter.value ||
       !product.goodsInfo?.goodsInfoId ||
       product.goodsInfo.stock < 1
     ) {
@@ -154,7 +153,8 @@ const Adoptions = (props) => {
       periodTypeId: null,
       // goodsInfoFlag: product.goodsInfoFlag,
       // periodTypeId: product.defaultFrequencyId,
-      recommendationId: shelterId
+      recommendationId: shelter.value,
+      recommendationName: shelter.name
     });
     try {
       await checkoutStore.hanldeUnloginAddToCart({
@@ -170,7 +170,8 @@ const Adoptions = (props) => {
     let param = {
       goodsInfoId: details.goodsInfo.goodsInfoId,
       goodsNum: 1,
-      recommendationId: shelterId,
+      recommendationId: shelter.value,
+      recommendationName: shelter.name,
       currentUnitPrice: details.goodsInfo?.marketPrice,
       goodsInfoFlag: 0,
       periodTypeId: null
@@ -207,7 +208,7 @@ const Adoptions = (props) => {
     setGoodsList(list);
   };
   const handleSelectChange = (data) => {
-    setShelterId(data.value);
+    setShelter(data);
   };
   return (
     <div>
@@ -303,7 +304,7 @@ const Adoptions = (props) => {
                     optionList={shelterList}
                     selectedItemChange={(data) => handleSelectChange(data)}
                     selectedItemData={{
-                      value: shelterId
+                      value: shelter.value
                     }}
                     placeholder="Please select..."
                   />
@@ -354,7 +355,7 @@ const Adoptions = (props) => {
                         btnLoading ? 'ui-btn-loading' : ''
                       }
                       ${
-                        item.goodsInfo.stock > 0 && shelterId
+                        item.goodsInfo.stock > 0 && shelter.value
                           ? ''
                           : 'rc-btn-disabled'
                       }`}
