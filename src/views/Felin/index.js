@@ -17,9 +17,9 @@ import Insgram_Icon from '@/assets/images/insgramIcon.png';
 import qrcode_border from '@/assets/images/qrcode_border.jpg';
 import { getTimeOptions, apptSave, getConsentList } from '@/api/appointment';
 import { inject, observer } from 'mobx-react';
-import { setSeoConfig } from '@/utils/utils';
+import { setSeoConfig, formatDate } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
-import { momentNormalizeDate } from '@/utils/momentNormalized';
+import { format } from 'date-fns';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -358,7 +358,7 @@ export default class Felin extends React.Component {
   getTimeOptions() {
     this.setState({ loading: true });
     getTimeOptions({
-      apptDate: momentNormalizeDate(this.state.currentDate, 'YYYYMMDD')
+      apptDate: format(this.state.currentDate, 'YYYYMMDD')
     })
       .then((res) => {
         let { timeOption } = this.state;
@@ -472,7 +472,7 @@ export default class Felin extends React.Component {
       }
       if (
         currentDate.getDay() === 1 ||
-        momentNormalizeDate(currentDate, 'YYYY-MM-DD') === '2021-05-01'
+        format(currentDate, 'YYYY-MM-DD') === '2021-05-01'
       ) {
         this.setState({
           errMsg: 'La date actuelle ne peut pas être sélectionnée'
@@ -529,7 +529,7 @@ export default class Felin extends React.Component {
         storeId: window.__.env.REACT_APP_STOREID,
         customerId: userInfo ? userInfo.customerId : null,
         type: this.state.felinType,
-        apptDate: momentNormalizeDate(this.state.currentDate, 'YYYYMMDD'),
+        apptDate: format(this.state.currentDate, 'YYYYMMDD'),
         apptTime: this.state.selectedTimeObj.value,
         status: 0,
         qrCode1: null,
@@ -1092,9 +1092,9 @@ export default class Felin extends React.Component {
                                   // cursor: 'pointer'
                                 }}
                                 disabled
-                                value={momentNormalizeDate(
-                                  this.state.currentDate
-                                )}
+                                value={formatDate({
+                                  date: this.state.currentDate
+                                })}
                               />
                             </h4>
                             <span className="icon iconfont iconfont-date">
@@ -1111,46 +1111,30 @@ export default class Felin extends React.Component {
                               }}
                               tileDisabled={({ activeStartDate, date, view }) =>
                                 date.getDay() === 1 ||
-                                momentNormalizeDate(date, 'YYYY-MM-DD') ===
-                                  '2021-05-01'
+                                format(date, 'YYYY-MM-DD') === '2021-05-01'
                               }
                               minDate={
                                 new Date(
-                                  momentNormalizeDate(
-                                    this.state.toDay,
-                                    'YYYY-MM-DD'
-                                  )
+                                  format(this.state.toDay, 'YYYY-MM-DD')
                                 ) > new Date('2021-04-20')
                                   ? new Date(
-                                      momentNormalizeDate(
-                                        this.state.toDay,
-                                        'YYYY-MM-DD'
-                                      )
+                                      format(this.state.toDay, 'YYYY-MM-DD')
                                     )
                                   : new Date('2021-04-20')
                               }
                               maxDate={
                                 new Date(
-                                  momentNormalizeDate(
-                                    this.state.toDay,
-                                    'YYYY-MM-DD'
-                                  )
+                                  format(this.state.toDay, 'YYYY-MM-DD')
                                 ) < new Date('2021-06-13')
                                   ? new Date('2021-06-13')
                                   : new Date(
-                                      momentNormalizeDate(
-                                        this.state.toDay,
-                                        'YYYY-MM-DD'
-                                      )
+                                      format(this.state.toDay, 'YYYY-MM-DD')
                                     )
                               }
                               onChange={(date) => {
                                 if (
-                                  momentNormalizeDate(date, 'YYYY-MM-DD') ===
-                                  momentNormalizeDate(
-                                    this.state.currentDate,
-                                    'YYYY-MM-DD'
-                                  )
+                                  format(date, 'YYYY-MM-DD') ===
+                                  format(this.state.currentDate, 'YYYY-MM-DD')
                                 ) {
                                   return false;
                                 }
@@ -1294,7 +1278,7 @@ export default class Felin extends React.Component {
                             className="text-center"
                             style={{ margin: '1.25rem 0 .625rem' }}
                           >
-                            {momentNormalizeDate(this.state.currentDate)}
+                            {formatDate({ date: this.state.currentDate })}
                           </p>
                           <p
                             className="text-center"
@@ -1557,7 +1541,7 @@ export default class Felin extends React.Component {
                             className="text-center"
                             style={{ margin: '1.25rem 0 .625rem' }}
                           >
-                            {momentNormalizeDate(this.state.currentDate)}
+                            {formatDate({ date: this.state.currentDate })}
                           </p>
                           <p
                             className="text-center"
@@ -1638,7 +1622,7 @@ export default class Felin extends React.Component {
                               className="text-center"
                               style={{ margin: '1.25rem 0 .625rem' }}
                             >
-                              {momentNormalizeDate(this.state.currentDate)}
+                              {formatDate({ date: this.state.currentDate })}
                             </p>
                             <p
                               className="text-center"

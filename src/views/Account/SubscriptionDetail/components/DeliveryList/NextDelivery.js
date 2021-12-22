@@ -10,10 +10,10 @@ import {
   getDeviceType,
   datePickerConfig,
   formatMoney,
-  getZoneTime
+  getZoneTime,
+  formatDate
 } from '@/utils/utils';
 import { IMG_DEFAULT } from '@/utils/constant';
-import { momentNormalizeDate } from '@/utils/momentNormalized';
 
 const NextDelivery = ({
   el,
@@ -89,7 +89,7 @@ const NextDelivery = ({
                 }}
               >
                 {isNotInactive
-                  ? momentNormalizeDate(el.tradeItems[0].nextDeliveryTime)
+                  ? formatDate({ date: el.tradeItems[0].nextDeliveryTime })
                   : ''}
               </span>
             </div>

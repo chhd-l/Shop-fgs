@@ -35,10 +35,7 @@ import ValidationAddressModal from '@/components/validationAddressModal';
 import AddressPreview from './Preview';
 import './list.less';
 import felinAddr from './FelinOfflineAddress';
-import {
-  momentNormalizeDate,
-  deliverDateFormat
-} from '@/utils/momentNormalized';
+import { formatDate } from '@/utils/utils';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -2084,10 +2081,14 @@ class AddressList extends React.Component {
                   <>
                     <br />
                     {/* 格式化 delivery date 格式: 星期, 15 月份 */}
-                    {momentNormalizeDate(
-                      item.deliveryDate,
-                      deliverDateFormat
-                    )}{' '}
+                    {formatDate({
+                      date: item.deliveryDate,
+                      formatOption: {
+                        weekday: 'long',
+                        day: '2-digit',
+                        month: 'long'
+                      }
+                    })}{' '}
                     {item.timeSlot}
                   </>
                 ) : null}

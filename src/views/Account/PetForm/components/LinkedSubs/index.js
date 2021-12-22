@@ -9,6 +9,7 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import { IMG_DEFAULT } from '@/utils/constant';
 import './index.css';
 import FrequencyMatch from '@/components/FrequencyMatch';
+import { formatDate } from '../../../../../utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -169,7 +170,7 @@ const LinkedSubs = (props) => {
                         <FormattedMessage id="autoShipStarted" />
                       </p>
                       <p style={{ color: '#666', fontSize: '1rem' }}>
-                        {momentNormalizeDate(subItem.createTime)}
+                        {formatDate({ date: subItem.createTime })}
                       </p>
                     </span>
                   </div>

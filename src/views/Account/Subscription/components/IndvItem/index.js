@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import Skeleton from 'react-skeleton-loader';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import './index.less';
+import { formatDate } from '../../../../../utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -153,7 +154,7 @@ const IndvItem = ({ subItem, history, intl }) => {
             <FormattedMessage id="autoShipStarted2" />
           </p>
           <p style={{ color: '#666', fontSize: '1rem' }}>
-            {momentNormalizeDate(subItem.createTime)}
+            {formatDate({ date: subItem.createTime })}
           </p>
         </span>
       </div>

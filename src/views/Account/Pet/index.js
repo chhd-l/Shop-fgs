@@ -21,6 +21,7 @@ import Dog from '@/assets/images/dog.png';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import { myAccountPushEvent } from '@/utils/GA';
+import { formatDate } from '../../../utils/utils';
 
 const pageLink = window.location.href;
 
@@ -260,7 +261,9 @@ class Pet extends React.Component {
                                   </span>
                                 </div>
                                 <div className="value">
-                                  <span>{el.birthOfPets}</span>
+                                  <span>
+                                    {formatDate({ date: el.birthOfPets })}
+                                  </span>
                                   <span>{this.petBreed(el)}</span>
                                 </div>
                               </div>
@@ -314,7 +317,9 @@ class Pet extends React.Component {
                                   </span>
                                 </div>
                                 <div className="value">
-                                  <span>{el.birthOfPets}</span>
+                                  <span>
+                                    {formatDate({ date: el.birthOfPets })}
+                                  </span>
                                   <span>{this.petBreed(el)}</span>
                                 </div>
                               </div>

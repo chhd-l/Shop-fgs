@@ -20,9 +20,9 @@ import {
   getZoneTime,
   datePickerConfig,
   getDeviceType,
-  getDictionary
+  getDictionary,
+  formatDate
 } from '@/utils/utils';
-import { momentNormalizeDate } from '@/utils/momentNormalized';
 const purebredOpitons = [
   {
     value: 1,
@@ -278,7 +278,7 @@ const PetForms = ({
     setNewPetForm('sterilized', sterilized);
   };
   const onDateChange = (date) => {
-    setNewPetForm('birthdate', momentNormalizeDate(date, 'YYYY-MM-DD'));
+    setNewPetForm('birthdate', formatDate({ date: date }));
   };
   const selectedBreed = (item) => {
     let newPetFrom = Object.assign({}, petForm, {
