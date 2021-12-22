@@ -34,8 +34,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { Helmet } from 'react-helmet';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import OngoingOrder from './components/OngoingOrder';
-import { momentNormalizeDate } from '@/utils/momentNormalized';
 import TempolineAPIError from './components/TempolineAPIError';
+import { formatDate } from '@/utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
@@ -337,7 +337,7 @@ class SubscriptionDetail extends React.Component {
   };
   onDateChange(date, goodsInfo) {
     let { subDetail } = this.state;
-    subDetail.nextDeliveryTime = momentNormalizeDate(date, 'YYYY-MM-DD');
+    subDetail.nextDeliveryTime = formatDate({ date: date });
     let param = {
       subscribeId: subDetail.subscribeId,
       nextDeliveryTime: subDetail.nextDeliveryTime,

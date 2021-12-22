@@ -14,10 +14,9 @@ import LazyLoad from 'react-lazyload';
 import PageBaseInfo from '@/components/PageBaseInfo';
 import AppointmentInfo from './modules/AppointmentInfo';
 import { getWays } from '@/api/payment';
-import moment from 'moment';
 import { getAppointDetail, cancelAppointByNo } from '@/api/appointment';
 import { getAppointDict } from '@/api/dict';
-import { getAppointmentInfo } from '@/utils/utils';
+import { formatDate } from '@/utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -285,7 +284,7 @@ class AccountOrders extends React.Component {
                             <FormattedMessage id="appointment.appointmentPlacedOn" />
                             <br />
                             <span className="medium orderHeaderTextColor">
-                              {momentNormalizeDate(details.createTime)}
+                              {formatDate({ date: details.createTime })}
                             </span>
                           </div>
                           <div className="col-md-3">
