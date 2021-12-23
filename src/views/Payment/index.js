@@ -556,13 +556,19 @@ class Payment extends React.Component {
   }
 
   async componentDidMount() {
-    await this.props.configStore.getSystemFormConfig();
+    const { history } = this.props;
+    let { getSystemFormConfig, paymentAuthority } = this.props.configStore;
+
+    // 游客不能checkout 且 没有登录
+    if (paymentAuthority !== '2' && !this.isLogin) {
+      history.push('/');
+    }
+    await getSystemFormConfig();
     if (this.isLogin) {
       this.queryList();
     }
 
     try {
-      const { history } = this.props;
       const { tid, appointNo } = this.state;
 
       setSeoConfig({
