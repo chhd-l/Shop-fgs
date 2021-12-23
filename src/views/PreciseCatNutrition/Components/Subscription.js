@@ -14,7 +14,6 @@ import advisernew from '../../ClubLandingPageNew/image/pictospetadvisernew@4x.pn
 import gifticonnew from '../../ClubLandingPageNew/image/pictosgiftsnew@4x.png';
 import phoneicon from '../../ClubLandingPageNew/image/phoneicon@4x.png';
 import iconsix from '../../ClubLandingPageNew/image/iconsix.png';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { isMobileDevice } from 'react-select/dist/index-fe3694ff.cjs.dev';
 import { getDeviceType } from '../../../utils/utils';
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';

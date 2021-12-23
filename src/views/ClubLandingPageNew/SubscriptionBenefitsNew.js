@@ -8,7 +8,7 @@ import discountnew from './image/discountnew@4x.png';
 import discountnewtr from './image/discountnewtr.png';
 import advisernew from './image/pictospetadvisernew@4x.png';
 import iconsix from './image/iconsix.png';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 
 const SubsriptionBenefitsNew = () => {
   return (

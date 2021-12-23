@@ -7,7 +7,7 @@ import joinusnewru from './image/joinusnewrightru2.png';
 import joinusnewtr from './image/joinusnewrighttr.png';
 import './index.css';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 
 const JoinTodayNew = () => {
   return (

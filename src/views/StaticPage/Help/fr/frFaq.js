@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { Helmet } from 'react-helmet';
 
 const pageLink = window.location.href;
