@@ -982,6 +982,16 @@ export function getClubLogo({ goodsInfoFlag, subscriptionType }) {
 
 export function bindSubmitParam(list) {
   let obj = { optionalList: [], requiredList: [] };
+  if (window.__.env.REACT_APP_COUNTRY === 'fr') {
+    const noIsRequiredList = list?.filter((item) => !item.isRequired);
+    const firstOptionalList = noIsRequiredList?.filter(
+      (l) => ['RC_DF_FR_FGS_OPT_EMAIL']?.includes(l.consentDesc) && !l.isChecked
+    ).length;
+    if (firstOptionalList) {
+      obj.communicationEmail = 0;
+      obj.communicationPhone = 0;
+    }
+  }
   list
     .filter((item) => !item.isRequired)
     .forEach((item) => {
@@ -1009,8 +1019,9 @@ export function judgeIsIndividual(item) {
 // uk和fr,才有postCode校验
 const countryPostCode = ['uk', 'fr'];
 const currentCountry = window.__.env.REACT_APP_COUNTRY;
-export const isCanVerifyBlacklistPostCode =
-  countryPostCode.includes(currentCountry);
+export const isCanVerifyBlacklistPostCode = countryPostCode.includes(
+  currentCountry
+);
 
 // 获取 Postal code alert message
 export async function getAddressPostalCodeAlertMessage() {

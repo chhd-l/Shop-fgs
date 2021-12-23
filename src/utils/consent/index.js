@@ -13,14 +13,14 @@ const customConsentCountry =
   ['fr', 'us'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1;
 function isExistListFun(result) {
   let listData = [];
-
   let optionalList = result.context.optionalList.map((item) => {
     return {
       id: item.id,
       consentTitle: item.consentTitle,
       isChecked: customConsentCountry ? item.selectedFlag : false,
       isRequired: false,
-      detailList: item.detailList
+      detailList: item.detailList,
+      consentDesc: item.consentDesc
     };
   });
   let requiredList = result.context.requiredList.map((item) => {
@@ -29,7 +29,8 @@ function isExistListFun(result) {
       consentTitle: item.consentTitle,
       isChecked: customConsentCountry ? item.selectedFlag : false,
       isRequired: true,
-      detailList: item.detailList
+      detailList: item.detailList,
+      consentDesc: item.consentDesc
     };
   });
 
