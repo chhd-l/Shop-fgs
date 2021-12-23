@@ -1080,8 +1080,26 @@ class Details extends React.Component {
     return content;
   }
 
-  DailyPortionComponent = (details) => {
-    return <DailyPortion />;
+  DailyPortionComponent = (details, barcode) => {
+    let { goodsInfos = [], goodsAttributesValueRelList = [] } = details;
+
+    let isShowDailyPortion = ['wet', 'dry'].includes(details?.wsTechnologyCode);
+    let currentGoodsInfoId = goodsInfos.find(
+      (item) => item.goodsInfoBarcode === barcode
+    )?.goodsInfoId;
+    let speciesValue = goodsAttributesValueRelList.find(
+      (item) => item.goodsAttributeName === 'Species'
+    )?.goodsAttributeValue;
+
+    if (!isShowDailyPortion) return null;
+
+    return (
+      <DailyPortion
+        speciesValue={speciesValue}
+        goodsInfoId={currentGoodsInfoId}
+        details={details}
+      />
+    );
   };
 
   render() {
@@ -1145,6 +1163,7 @@ class Details extends React.Component {
         title="${details.goodsName}">
         ${details.goodsName}
       </${headingTag || 'h1'}>`;
+
     //
     return (
       <div id="Details">
@@ -1495,7 +1514,7 @@ class Details extends React.Component {
               />
             ) : null}
 
-            <div>{this.DailyPortionComponent(details)}</div>
+            <div>{this.DailyPortionComponent(details, barcode)}</div>
 
             {!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS &&
               !!details.goodsNo && (

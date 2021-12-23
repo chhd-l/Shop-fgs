@@ -10,8 +10,6 @@ import RadioSelect from './components/RadioSelect';
 import BcsSelect from './components/BcsSelect';
 import DailyPortion_icon from '@/assets/images/dailyPortion/dailyPortion_logo.png';
 import DailyPortion_icon_text from '@/assets/images/dailyPortion/dailyPortion_icon.png';
-
-// dailyPortion_icon.png
 import './index.less';
 
 /**
@@ -351,18 +349,20 @@ const testArr = [
     ]
   }
 ]
-export default function DailyPortion({
-  isShow = true, // 是否展示计算工具
-  isCalculateDisabled = false, // calculate 按钮是否禁止点击
-  isBreedDisabled = false, // Breed问题是否禁止选择
-  ...rest
+export default function DailyPortion(
+  {
+    speciesValue='', // species
+    goodsInfoId='', // 当前已选择的size
+    isCalculateDisabled = false, // calculate 按钮是否禁止点击
+    isBreedDisabled = false, // Breed问题是否禁止选择
+    ...rest
 }){
 
-  if (!isShow) return null;
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [isShowQuestion, setShowQuestion] = useState(false);
   const [step, setStep] = useState(1);
   const [stepOneDisabled, setStepOneDisabled] = useState(true);
+  const [breedOptions,setBreedOptions] = useState([]);
 
   /**
    * 问题的结果
@@ -400,6 +400,11 @@ export default function DailyPortion({
     setStepOneDisabled(stepOneDisabled);
 
   }, [ breedData, isMixedBreed, gender, year, month, petActivityCode, weight, neutered ])
+
+  useEffect(() =>{
+    if (!speciesValue) return;
+    getBreedOptions(speciesValue);
+  }, [speciesValue])
 
   const showQuestion = () => {
     setShowQuestion(true)
@@ -450,9 +455,18 @@ export default function DailyPortion({
     })
   }
 
+  // 计算结果 TODO
   const getResult = () => {
-    // 接口请求 TODO
-
+    let param = {
+      breedCode: breedData.key,
+      genderCode: gender,
+      age: year * 12 + month,
+      weight,
+      neutered,
+      petActivityCode,
+      bcs,
+    }
+    console.log('param', param);
     setStep(3)
 
     dataLayer.push({
@@ -469,8 +483,7 @@ export default function DailyPortion({
 
   // 重新开始计算
   const againCalculation =() => {
-    // 全部结果重置， 返回第一步
-    setStep(1)
+    // 全部结果重置
     setBreedData({});
     setMixedBreed(false);
     setGender('');
@@ -480,6 +493,8 @@ export default function DailyPortion({
     setWeight('');
     setNeutered('');
     setBcs('');
+    // 返回第一步
+    setStep(1)
     dataLayer.push({
       'event' : 'rationingToolInteraction',
       'rationingToolInteraction' : 'Start a new calculation'
@@ -629,6 +644,18 @@ export default function DailyPortion({
       )
       default: return null
     }
+  }
+
+  // 获取BreedOptions TODO
+  const getBreedOptions = (speciesValue) => {
+    if(!speciesValue) return [];
+
+    // window.__.env.REACT_APP_COUNTRY
+    let param = {
+      speciesValue,
+
+    }
+    setBreedOptions([])
   }
 
   return (

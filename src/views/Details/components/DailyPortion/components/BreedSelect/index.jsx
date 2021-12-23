@@ -1,207 +1,15 @@
 import React, { useState } from 'react';
 import SearchSelection from '@/components/SearchSelection';
 import { FormattedMessage } from 'react-intl-phraseapp';
+import classNames from 'classnames';
 
-const testOptions = [
-  {
-    "key":"american_curl_longhair",
-    "label":"American Curl Longhair"
-  },
-  {
-    "key":"serengeti",
-    "label":"Serengeti"
-  },
-  {
-    "key":"tiffanie",
-    "label":"Tiffany"
-  },
-  {
-    "key":"thai_lilac",
-    "label":"Thai lilac"
-  },
-  {
-    "key":"chantilly_tiffany",
-    "label":"Chantilly tiffany"
-  },
-  {
-    "key":"donskoy",
-    "label":"Donskoy"
-  },
-  {
-    "key":"oriental_shorthair",
-    "label":"Oriental Shorthair"
-  },
-  {
-    "key":"colourpoint_shorthair",
-    "label":"Colourpoint shorthair"
-  },
-  {
-    "key":"selkirk_rex_shorthair",
-    "label":"Selkirk Rex Shorthair"
-  },
-  {
-    "key":"californian_rex",
-    "label":"Californian Rex"
-  },
-  {
-    "key":"undefined",
-    "label":"Non défini"
-  },
-  {
-    "key":"kurilian_bobtail",
-    "label":"Bobtail des Kouriles"
-  },
-  {
-    "key":"peterbald",
-    "label":"Peterbald"
-  },
-  {
-    "key":"ural_rex",
-    "label":"Rex de l'oural"
-  },
-  {
-    "key":"chausie",
-    "label":"Chausie"
-  },
-  {
-    "key":"ceylan",
-    "label":"Ceylan"
-  },
-  {
-    "key":"american_bobtail",
-    "label":"Bobtail Americain"
-  },
-  {
-    "key":"munchkin",
-    "label":"Munchkin"
-  },
-  {
-    "key":"laperm_longhair",
-    "label":"LaPerm Longhair"
-  },
-  {
-    "key":"singapura",
-    "label":"Singapura"
-  },
-  {
-    "key":"arabian_mau",
-    "label":"Mau arabe"
-  },
-  {
-    "key":"ragdoll",
-    "label":"Ragdoll"
-  },
-  {
-    "key":"aphrodite_giant",
-    "label":"Aphrodite giant"
-  },
-  {
-    "key":"laperm",
-    "label":"LaPerm"
-  },
-  {
-    "key":"turks",
-    "label":"Angora Turc"
-  },
-  {
-    "key":"american_shorthair",
-    "label":"American Shorthair"
-  },
-  {
-    "key":"ocicat",
-    "label":"Ocicat"
-  },
-  {
-    "key":"persian",
-    "label":"Persan"
-  },
-  {
-    "key":"mixed_breed",
-    "label":"Croisé"
-  },
-  {
-    "key":"ussuri",
-    "label":"Ussuri"
-  },
-  {
-    "key":"heilige_birma",
-    "label":"Sacré de Birmanie"
-  },
-  {
-    "key":"chartreux",
-    "label":"Chartreux"
-  },
-  {
-    "key":"abyssinian",
-    "label":"Abyssin"
-  },
-  {
-    "key":"british_shorthair",
-    "label":"British Shorthair"
-  },
-  {
-    "key":"russie",
-    "label":"Russe"
-  },
-  {
-    "key":"cornish_rex",
-    "label":"Cornish Rex"
-  },
-  {
-    "key":"manx_longhair",
-    "label":"Cymric"
-  },
-  {
-    "key":"highlander",
-    "label":"Highlander"
-  },
-  {
-    "key":"asian",
-    "label":"Asian"
-  },
-  {
-    "key":"ojos_azules",
-    "label":"Ojos azules"
-  },
-  {
-    "key":"classicat",
-    "label":"Classicat"
-  },
-  {
-    "key":"balinese",
-    "label":"Balinais"
-  },
-  {
-    "key":"toyger",
-    "label":"Toyger"
-  },
-  {
-    "key":"lykoi",
-    "label":"Lykoï"
-  },
-  {
-    "key":"american_polydactyl",
-    "label":"American polydactyl"
-  },
-  {
-    "key":"siberian",
-    "label":"Sibérien"
-  },
-  {
-    "key":"bambino",
-    "label":"Bambino"
-  },
-  {
-    "key":"thai_blue_point",
-    "label":"Thai blue point"
-  },
-]
 export default function BreedSelect(
   {
     label='Breed', // 表单标题
-    options= testOptions,
+    options= [],
     value={}, // BreedSelect的已选择的值,
     isBreedDisabled=false, // 是否禁止选择breed
+    isPreselected= false, // 是否是预选产品
     ...rest
   }
   ){
@@ -212,7 +20,7 @@ export default function BreedSelect(
   const [checked, setChecked] = useState(false);
 
   React.useEffect(() => {
-    const defaultValue = options.find((item) => item.label === value.name)
+    const defaultValue = options.find((item) => item.key === value.key)
     setInputValue(defaultValue ? defaultValue.label : undefined)
   }, [value])
 
@@ -241,7 +49,7 @@ export default function BreedSelect(
           <FormattedMessage id="searchBreed">
             {(placeholder) => (
               <SearchSelection
-                disabled={checked}
+                disabled={checked || isPreselected}
                 queryList={async ({ inputVal, pageNum }) => {
                   let reg = new RegExp(`${inputVal}`, 'i')
                   return options
@@ -259,7 +67,9 @@ export default function BreedSelect(
             )}
           </FormattedMessage>
         </span>
-        <div className={"content-section"}>
+        <div className={classNames("content-section", {
+          'hidden': isPreselected
+        })}>
           {/*form-group*/}
           <div className="mt-3">
             <div className="rc-input rc-input--inline">
