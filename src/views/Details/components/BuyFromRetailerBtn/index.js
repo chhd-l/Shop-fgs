@@ -1,13 +1,14 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
-
+let clickInit = false;
 class BuyFromRetailerBtn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       toolTipVisible: false,
-      ccidBtnDisplay: false
+      ccidBtnDisplay: false,
+      gaFlag: false // 主动触发和手动点击会重复埋点，暂未想到处理办法
     };
   }
 
@@ -36,18 +37,21 @@ class BuyFromRetailerBtn extends React.Component {
   ccidBtnRef(el) {
     const self = this;
     const nodeBtn = document.querySelector('.other-buy-btn');
-    if (el && nodeBtn) {
+    let eanDoms = document.querySelectorAll('.eanIcon');
+    if (el && nodeBtn && eanDoms[0].nextElementSibling) {
       const config = { attributes: true, childList: true, subtree: true };
       // 当观察到变动时执行的回调函数
       const callback = function (mutationsList, observer) {
-        let eanDoms = document.querySelectorAll('.eanIcon');
-        eanDoms[0].parentElement.addEventListener(
-          'click',
-          function () {
-            eanDoms[0].nextElementSibling.click();
-          },
-          false
-        );
+        if (!clickInit) {
+          clickInit = true;
+          eanDoms[0].parentElement.addEventListener(
+            'click',
+            function () {
+              eanDoms[0].nextElementSibling.click();
+            },
+            false
+          );
+        }
 
         for (let mutation of mutationsList) {
           if (mutation.type === 'childList') {
@@ -102,7 +106,11 @@ class BuyFromRetailerBtn extends React.Component {
               }`}
               data-ccid="wtb-target"
               data-ean={barcode}
-              onClick={onClick}
+              onClick={() => {
+                let gaFlag = this.state.gaFlag;
+                gaFlag && onClick();
+                this.setState({ gaFlag: !gaFlag });
+              }}
             >
               <span className="rc-icon rc-location--xs rc-iconography rc-brand1 eanIcon" />
               {!ccidBtnDisplay ? (

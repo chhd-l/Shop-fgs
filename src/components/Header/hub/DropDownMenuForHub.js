@@ -67,7 +67,8 @@ export default class DropDownMenuForHub extends React.Component {
 
   menuItemEvent({ item, cItem, type }) {
     const Level1 = item?.Link?.Text;
-    const Level2 = type ? cItem?.Title : cItem?.Link?.Text;
+    const Level2 =
+      (type ? cItem?.Title : cItem?.Link?.Text) || cItem.PrimaryLink.Text; //兼容图片链接ga
     dataLayer.push({
       event: 'navTopClick',
       navTopClick: {
@@ -249,12 +250,8 @@ export default class DropDownMenuForHub extends React.Component {
     );
   };
   render() {
-    const {
-      headerNavigationList,
-      activeTopParentId,
-      showNav,
-      showLoginBtn
-    } = this.props;
+    const { headerNavigationList, activeTopParentId, showNav, showLoginBtn } =
+      this.props;
     return (
       <>
         {showNav ? (

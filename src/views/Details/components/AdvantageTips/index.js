@@ -10,7 +10,7 @@ const AdvantageTips = ({ secondIconvisible = true }) => {
   return (
     <div
       className="rc-full-width advantage-tips"
-      data-tms="Product description"
+      // data-tms="Product description" 和detail重复
     >
       <div className="experience-component experience-assets-centeredIconList">
         <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile centered-icon-list">
