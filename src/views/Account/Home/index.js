@@ -3,7 +3,7 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import { inject, observer } from 'mobx-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import BannerTip from '@/components/BannerTip';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';

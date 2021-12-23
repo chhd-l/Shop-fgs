@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import benefitsone from './image/benefitsone2.png';
 import benefitstwo from './image/benefitstwo.webp';
 import benefitsthree from './image/benefitsthree2.png';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import clublogo from './image/clublogo.png';
 import clubru from './image/Clubru.png';
 import clubfr from './image/clublogofr.png';

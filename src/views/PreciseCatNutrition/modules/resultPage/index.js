@@ -1,7 +1,6 @@
 import React from 'react';
 import './index.less';
-import DistributeHubLinkOrATag from '../../../../components/DistributeHubLinkOrATag';
-
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import hos from '../../../../assets/images/preciseCatNutrition/hos.png';
 import recommend from '../../../../assets/images/preciseCatNutrition/recomment.jpg';
 import { FormattedMessage } from 'react-intl-phraseapp';

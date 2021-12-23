@@ -6,7 +6,7 @@ import pictofaq from './img/pictofaq.png';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 import './index.css';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { Link } from 'react-router-dom';
 
 const HelpComponents = (props) => {
