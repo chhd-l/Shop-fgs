@@ -8,8 +8,10 @@ import AgeSelect from './components/AgeSelect';
 import WeightSelect from './components/WeightSelect';
 import RadioSelect from './components/RadioSelect';
 import BcsSelect from './components/BcsSelect';
-import DailyPortion_icon from '@/assets/images/salesCategory_cat.png';
+import DailyPortion_icon from '@/assets/images/dailyPortion/dailyPortion_logo.png';
+import DailyPortion_icon_text from '@/assets/images/dailyPortion/dailyPortion_icon.png';
 
+// dailyPortion_icon.png
 import './index.less';
 
 /**
@@ -359,9 +361,8 @@ export default function DailyPortion({
   if (!isShow) return null;
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [isShowQuestion, setShowQuestion] = useState(false);
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(1);
   const [stepOneDisabled, setStepOneDisabled] = useState(true);
-  const [stepTwoDisabled, setStepTwoDisabled] = useState(true);
 
   /**
    * 问题的结果
@@ -376,12 +377,29 @@ export default function DailyPortion({
   const [neutered, setNeutered] = useState('');
   const [bcs, setBcs] = useState('');
 
-
   useEffect(() => {
-    let stepOneDisabled = false;
+    let breedBool = isMixedBreed
+    let ageBool = ((year * 12) + month) > 0;
+    let weightBool = parseFloat(weight) > 0;
 
-  }, [breedData,isMixedBreed, gender, year, month, petActivityCode, weight, neutered])
+    if (isMixedBreed){
+      breedBool = true
+    }else {
+      breedBool = !!(breedData?.key)
+    }
 
+    let stepOneDisabled = !(
+      breedBool
+      && gender
+      && ageBool
+      && weightBool
+      && neutered
+      && petActivityCode
+    );
+
+    setStepOneDisabled(stepOneDisabled);
+
+  }, [ breedData, isMixedBreed, gender, year, month, petActivityCode, weight, neutered ])
 
   const showQuestion = () => {
     setShowQuestion(true)
@@ -394,15 +412,78 @@ export default function DailyPortion({
 
   const handleGenderCode = (data) => {
     setGender(data)
+    dataLayer.push({
+      'event' : 'rationingToolInteraction',
+      'rationingToolInteraction' : 'Gender'
+    })
+  }
+
+  const handleSetYear = (data) => {
+    setYear(data)
+    dataLayer.push({
+      'event' : 'rationingToolInteraction',
+      'rationingToolInteraction' : 'Pet Age'
+    })
+  }
+
+  const handleSetMouth = (data) => {
+    setMonth(data)
+    dataLayer.push({
+      'event' : 'rationingToolInteraction',
+      'rationingToolInteraction' : 'Pet Age'
+    })
+  }
+
+  const handleSetNeutered = (data) => {
+    setNeutered(data)
+    dataLayer.push({
+      'event' : 'rationingToolInteraction',
+      'rationingToolInteraction' : 'Pet neutered'
+    })
   }
 
   const handlePetActivityCode = (data) => {
     setpetActivityCode(data)
+    dataLayer.push({
+      'event' : 'rationingToolInteraction',
+      'rationingToolInteraction' : 'Pet Activity'
+    })
   }
 
   const getResult = () => {
     // 接口请求 TODO
+
     setStep(3)
+
+    dataLayer.push({
+      'event' : 'rationingToolInteraction',
+      'rationingToolInteraction' : 'Calculate portion'
+    })
+    // When the result is displayed
+    dataLayer.push({
+      'event' : 'rationingToolInteraction',
+      'rationingToolInteraction' : 'Display result'
+    })
+
+  }
+
+  // 重新开始计算
+  const againCalculation =() => {
+    // 全部结果重置， 返回第一步
+    setStep(1)
+    setBreedData({});
+    setMixedBreed(false);
+    setGender('');
+    setYear(0);
+    setMonth(0);
+    setpetActivityCode('');
+    setWeight('');
+    setNeutered('');
+    setBcs('');
+    dataLayer.push({
+      'event' : 'rationingToolInteraction',
+      'rationingToolInteraction' : 'Start a new calculation'
+    })
   }
 
   const renderStep = (step) => {
@@ -419,13 +500,15 @@ export default function DailyPortion({
         return (
           <div>
             <div className='flex flex-wrap'>
-              <div className='w-full lg:w-1/3'>
+              <div className='w-full lg:w-1/3 pb-4 lg:pb-0'>
                 <BreedSelect
+                  label={breedCodeData?.metadata?.label ?? ''}
+                  options={breedCodeData?.possibleValues ?? []}
                   value={breedData}
                   onChange={handleBreedData}
                 />
               </div>
-              <div className='w-full lg:w-1/3'>
+              <div className='w-full lg:w-1/3 pb-4 lg:pb-0'>
                 <SingleSelect
                   label={genderCodeData?.metadata?.label ?? ''}
                   value={gender}
@@ -434,20 +517,21 @@ export default function DailyPortion({
                   onChange={handleGenderCode}
                 />
               </div>
-              <div className='w-full lg:w-1/3'>
+              <div className='w-full lg:w-1/3 pb-4 lg:pb-0'>
                 <AgeSelect
                   label={ageCodeData?.metadata?.label ?? ''}
                   yearValue={year}
                   monthValue={month}
-                  onChangeYear={setYear}
-                  onChangeMonth={setMonth}
+                  onChangeYear={handleSetYear}
+                  onChangeMonth={handleSetMouth}
                 />
               </div>
             </div>
-            <div className='flex flex-wrap lg:pt-10'>
+            <div className='flex flex-wrap lg:pt-6'>
               <div className='w-full pt-4 lg:pt-0 lg:w-1/3'>
                 <WeightSelect
                   label={weightData?.metadata?.label ?? 'Current pet weight'}
+                  value={weight}
                   onChange={setWeight}
                 />
               </div>
@@ -455,7 +539,8 @@ export default function DailyPortion({
                 <RadioSelect
                   label={neuteredData?.metadata?.label ?? ''}
                   options={neuteredData?.possibleValues ?? []}
-                  onChange={setNeutered}
+                  value={neutered}
+                  onChange={handleSetNeutered}
                 />
               </div>
               <div className='w-full pt-4 lg:pt-0 lg:w-1/3'>
@@ -486,16 +571,17 @@ export default function DailyPortion({
           <BcsSelect
             label={bcsData?.metadata?.label ?? "Select your pets’s body condition"}
             options={bcsData?.possibleValues ?? []}
+            value={bcs}
             onChange={setBcs}
           />
-          <div className='py-10 text-center'>
+          <div className='py-6 lg:py-10 text-center'>
             <div className='pb-6'>
               <button
-                disabled={!!bcs}
-                onClick={showQuestion}
+                disabled={!bcs}
+                onClick={() => getResult()}
                 className={classNames(
                   'rc-btn rc-btn--one rc-margin-right--xs--mobile',
-                  {'rc-btn-solid-disabled': !!bcs},
+                  {'rc-btn-solid-disabled': !bcs},
                 )}
               >
                 <FormattedMessage id='dailyPortion.calculatePortion'/>
@@ -503,20 +589,42 @@ export default function DailyPortion({
             </div>
             <div>
               <button
+                onClick={() => setStep(1)}
                 className={
                   classNames(
                     'rc-btn dailyPortion-startBtn',
                   )
-                } onClick={() => getResult()}>
-                <FormattedMessage id='continue'/>
+                }>
+                <FormattedMessage id='dailyPortion.editInformations'/>
               </button>
             </div>
           </div>
         </div>
       );
       case 3: return (
-        <div>
-          <h1>结果</h1>
+        <div className='mt-4 text-center'>
+          <div className='resultText-box p-6'>
+            <p className='pb-10'>
+              <FormattedMessage id={'dailyPortion.resultText'}/>
+            </p>
+            <div className='flex justify-center items-center'>
+              <span><img className='resultText-box-icon px-2' src={DailyPortion_icon_text} alt={''}/></span>
+              <span className='resultText-num'>50g</span>
+              <span className='pl-2'>/day</span>
+            </div>
+          </div>
+          <div className='mt-6'>
+            <button
+              onClick={againCalculation}
+              className={
+                classNames(
+                  'rc-btn dailyPortion-startBtn',
+                )
+              }>
+              <FormattedMessage id='dailyPortion.newCalculationBtnText'/>
+            </button>
+          </div>
+
         </div>
       )
       default: return null
@@ -526,13 +634,13 @@ export default function DailyPortion({
   return (
     <div className='DailyPortion-wrap container '>
       <div className='lg:flex'>
-        <div className='w-full lg:w-1/5 p-4'>
+        <div className='w-full lg:w-1/4 p-4 text-center'>
           <LazyLoad>
             <img src={DailyPortion_icon} alt={'Daily Portion'}/>
           </LazyLoad>
         </div>
-        <div className='w-full lg:w-4/5 p-4'>
-          <p className='py-8'>
+        <div className='w-full lg:w-3/4 p-4'>
+          <p className='py-4 lg:py-6'>
             <FormattedMessage id='dailyPortion.title'/>
           </p>
           <div className='flex justify-center lg:justify-start'>
@@ -543,7 +651,7 @@ export default function DailyPortion({
                 'rc-btn rc-btn--one rc-margin-right--xs--mobile',
                 {'rc-btn-solid-disabled': isCalculateDisabled},
                 {
-                  'invisible': isShowQuestion
+                  'hidden': isShowQuestion
                 }
               )}
             >

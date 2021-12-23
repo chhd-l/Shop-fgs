@@ -1,34 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 
-import radioImage1 from '@/assets/images/preciseCatNutrition/radio.png';
-import radioImage2 from '@/assets/images/preciseCatNutrition/radio1.png';
-import radioImage3 from '@/assets/images/preciseCatNutrition/radio2.png';
+import underweightImage from '@/assets/images/dailyPortion/Cat_underweight.png';
+import idealImage from '@/assets/images/dailyPortion/Cat_ideal.png';
+import overweightImage from '@/assets/images/dailyPortion/Cat_overweight.png';
 
 import './index.less';
 
 const getImg = (key) => {
   switch (key) {
-    case '3': return radioImage1;
-    case '5': return radioImage2;
-    case '7': return radioImage3;
+    case '3': return underweightImage;
+    case '5': return idealImage;
+    case '7': return overweightImage;
     default: return '';
   }
 }
 export default function BcsSelect(
   {
     label='',
+    value='',
     options=[],
     ...rest
   }
 ){
   const { onChange } = rest;
-  const [value, setValue] = useState('');
+  const [bCSValue, setBCSValue] = useState('');
 
   const handleChange = (key) => {
-    setValue(key)
     onChange && onChange(key)
   }
+
+  useEffect(() => {
+    setBCSValue(value)
+  }, [value])
 
   return (
     <div className='BcsSelect-wrap'>
@@ -38,11 +42,11 @@ export default function BcsSelect(
       <div className='flex py-6 flex-col lg:flex-row lg:justify-between'>
         {
           options.map(item => (
-            <div className='w-full lg:w-50 p-4'>
+            <div className='w-full lg:w-3/12 mb-4 lg:mb-0'>
               <div className={classNames(
-                'flex BcsSelect-box',
+                'flex BcsSelect-box p-4',
                 {
-                  'selected': value === item.key
+                  'selected': bCSValue === item.key
                 }
               )}
                    onClick={() => handleChange(item.key)}

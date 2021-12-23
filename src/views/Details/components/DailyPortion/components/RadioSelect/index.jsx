@@ -1,9 +1,10 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 
 export default function RadioSelect(
   {
     label='Is you pet neutered ? ', // 表单标题
+    value='',
     options= [],
     ...rest
   }
@@ -12,15 +13,17 @@ export default function RadioSelect(
   const { onChange } = rest;
   const handleChange = (e) => {
     let value = e.target.value;
-    setChecked(value)
     onChange && onChange(value);
   }
+  useEffect(() => {
+    setChecked(value)
+  }, [value])
   return (
     <div>
       <div className="question-title">
         { label }
       </div>
-      <div className='flex items-center pt-6'>
+      <div className='flex items-center lg:pt-6'>
         {
           options.map((item, index) => (
             <div className={classNames(

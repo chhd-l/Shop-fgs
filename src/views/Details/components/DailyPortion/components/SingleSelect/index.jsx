@@ -14,6 +14,7 @@ export default function RadioButton(
   const [selectValue, setSelectValue] = useState('')
 
   const { onChange } = rest;
+
   const handleRadio = (key) => {
     if (!onChange) return;
     onChange(key)

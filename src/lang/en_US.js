@@ -1822,6 +1822,9 @@ const en_US = {
   /************ Daily Portion *************/
   'dailyPortion.title':
     'Discover now the perfect tool to calculate the ideal ration for your pet. Fill in your pet’s information in the interactive feeding guide and you will get the daily feeding recommendation. ',
-  'dailyPortion.calculatePortion': 'Calculate portion'
+  'dailyPortion.calculatePortion': 'Calculate portion',
+  'dailyPortion.editInformations': 'Edit pet’s informations',
+  'dailyPortion.resultText': 'Recommended daily portion for your pet',
+  'dailyPortion.newCalculationBtnText': 'Start a new calculation'
 };
 export default en_US;

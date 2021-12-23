@@ -217,16 +217,17 @@ export default function BreedSelect(
   }, [value])
 
   const handleSelectChange = (val) => {
-    console.log('val', val);
     onChange && onChange(val, false)
   }
 
   const handleSelectMixedBreedChange = (e) => {
     let bool = e.target.checked;
-    console.log('handleSelectMixedBreedChange', bool);
     setChecked(bool)
     if (bool){
       onChange && onChange(undefined, true)
+    }else {
+      const defaultValue = options.find((item) => item.label === value.name)
+      onChange && onChange(defaultValue, false)
     }
   }
 
