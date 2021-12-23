@@ -236,6 +236,7 @@ class FelinRecommendation extends React.Component {
         });
         // 只展示上架的，未删除的，可销售的，可展示的商品
         if (!filterProducts.length) {
+          this.props.push('/cats'); //没数据需要跳转plp
           this.setState({ isNoMoreProduct: true });
         }
         this.setState({ productList: filterProducts }, () => {
