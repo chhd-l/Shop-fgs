@@ -155,7 +155,8 @@ class UnloginCart extends React.Component {
 
   render() {
     const { totalNum } = this;
-    const { headerCartStore, intl } = this.props;
+    const { headerCartStore, intl, configStore } = this.props;
+    const { paymentAuthority } = configStore;
     return (
       <span
         className="minicart inlineblock"
