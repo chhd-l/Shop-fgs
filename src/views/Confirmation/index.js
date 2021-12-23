@@ -117,11 +117,6 @@ class Confirmation extends React.Component {
     }
   };
   UNSAFE_componentWillMount() {
-    if (Boolean(sessionItemRoyal.get('refresh-confirm-page'))) {
-      this.props.history.push('/');
-    } else {
-      sessionItemRoyal.set('refresh-confirm-page', true);
-    }
     this.getPetVal();
   }
   get userInfo() {

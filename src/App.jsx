@@ -385,7 +385,20 @@ const App = () => {
                     <Payment key={props.match.params.type} {...props} />
                   )}
                 />
-                <Route exact path="/confirmation" component={Confirmation} />
+                <Route exact path="/confirmation" render={(props)=>{
+                  if(sessionItemRoyal.get('refresh-confirm-page')){
+                    sessionItemRoyal.remove('refresh-confirm-page', true)
+                    return (
+                      <Redirect
+                        to={{ pathname: '/'}}
+                        {...props}
+                      />
+                    )
+                  }else{
+                    sessionItemRoyal.set('refresh-confirm-page', true)
+                    return <Confirmation  {...props}/>
+                  }
+                }} />
                 <Route exact path="/PayResult" component={PayResult} />
                 <Route
                   exact
