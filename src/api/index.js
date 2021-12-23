@@ -10,7 +10,8 @@ const api = {
   getPrescriberSettingInfo: '/order/config/listSystemConfig', // 查询是否需要显示用户选择绑定prescriber弹框
   cancelEmail: '/customer/updateCustomerSendEmailFlag', // 取消用户邮箱绑定
   shopConfig: '/storeConfig/getShopConfig/', //查询基础配置信息
-  footerHtml: '/storeConfig/getFooterConfig/'
+  footerHtml: '/storeConfig/getFooterConfig/',
+  paymentAuthority: '/order/config/getListSystemAccountConfig'
 };
 
 export default api;
@@ -95,5 +96,12 @@ export function fetchFooterConfig(params) {
     url: `${api.footerHtml}${params}`,
     method: 'get',
     params
+  });
+}
+
+export function fetchPaymentAuthority() {
+  return axios({
+    url: api.paymentAuthority,
+    method: 'get'
   });
 }

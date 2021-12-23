@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { inject, observer } from 'mobx-react';
 import Skeleton from 'react-skeleton-loader';
 import Header from '@/components/Header';
@@ -1606,13 +1606,7 @@ class LoginCart extends React.Component {
             opacity={this.state.checkoutLoading ? 0.3 : 1}
           />
         ) : null}
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
-        />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main
           className={`rc-content--fixed-header ${
             productList.length ? '' : 'cart-empty'

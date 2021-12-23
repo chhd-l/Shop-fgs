@@ -5,7 +5,7 @@ import logoclubad from './image/CLUBLOGOSUBSCIPTION@4x.png';
 import rulogo from '../../image/CLUB_logoRU@2x.png';
 import './index.css';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 
 const GetMoreAd = () => {
   return (

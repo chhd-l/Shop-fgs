@@ -1,6 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Skeleton from 'react-skeleton-loader';
 import Header from '@/components/Header';
@@ -470,12 +470,7 @@ class Confirmation extends React.Component {
           />
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
-        <Header
-          history={this.props.history}
-          match={this.props.match}
-          showNav={false}
-          showUserBox={false}
-        />
+        <Header {...this.props} showNav={false} showUserBox={false} />
         <main className="rc-content--fixed-header rc-bg-colour--brand4 pl-2 pr-2 md:pl-0 md:pr-0">
           {/* <BannerTip /> */}
           <div className="rc-max-width--xl pb-4">

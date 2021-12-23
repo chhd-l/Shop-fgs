@@ -1,5 +1,5 @@
 import React from 'react';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 
 export function StaticItemTemplateH5ForGlobalStyle({
   title,

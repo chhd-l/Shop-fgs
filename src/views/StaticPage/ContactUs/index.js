@@ -501,13 +501,7 @@ class ContactUs extends Component {
         </Helmet>
         <div className="contactUs">
           {this.state.isLoading ? <Loading bgColor={'#fff'} /> : null}
-          <Header
-            showMiniIcons={true}
-            showUserIcon={true}
-            location={this.props.location}
-            history={this.props.history}
-            match={this.props.match}
-          />
+          <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
           <div
             className="rc-content--fixed-header rc-bg-colour--brand3"
             style={{ background: '#f6f6f6' }}

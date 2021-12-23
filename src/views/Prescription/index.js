@@ -14,7 +14,7 @@ import LazyLoad from 'react-lazyload';
 import Modal from './components/Modal';
 import initLocation from '../PrescriptionNavigate/location';
 import PageBaseInfo from '@/components/PageBaseInfo';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;

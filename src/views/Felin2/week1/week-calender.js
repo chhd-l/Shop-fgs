@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import './index.less';
+import 'moment/locale/fr';
+moment.locale('fr');
 
 let index = -1;
 

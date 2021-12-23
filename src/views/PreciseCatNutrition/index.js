@@ -11,7 +11,7 @@ import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import paw from './images/paw.png';
 import cat_wellbeing from './images/cat_wellbeing.png';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { getDeviceType } from '../../utils/utils';
 import goldenfood from '../ClubLandingPageNew/image/goldenfood.png';
 import '../ClubLandingPageNew/index.css';
@@ -110,11 +110,9 @@ class PreciseCatNutrition extends React.Component {
             searchEvent={this.state.searchEvent}
           />
           <Header
+            {...this.props}
             showMiniIcons={true}
             showUserIcon={true}
-            match={match}
-            location={location}
-            history={history}
             sendGAHeaderSearch={this.sendGAHeaderSearch}
             showNav={true}
             notScroll={true}

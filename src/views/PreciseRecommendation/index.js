@@ -5,7 +5,7 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { getOtherSpecies } from '@/utils/GA';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { Helmet } from 'react-helmet';
 import HelpComponentsNew from '../../components/HelpComponentsNew/HelpComponents';
 import './index.css';
@@ -241,11 +241,9 @@ class PreciseRecommendation extends React.Component {
             searchEvent={this.state.searchEvent}
           />
           <Header
+            {...this.props}
             showMiniIcons={true}
             showUserIcon={true}
-            match={match}
-            location={location}
-            history={history}
             sendGAHeaderSearch={this.sendGAHeaderSearch}
           />
           {this.state.loading ? <Loading bgColor={'#fff'} opacity={1} /> : null}
