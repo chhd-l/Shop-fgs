@@ -515,7 +515,8 @@ class Payment extends React.Component {
       sessionItemRoyal.get('appointment-no') ||
       funcUrl({ name: 'appointmentNo' }) ||
       null;
-    if (funcUrl({ name: 'isApptChange' }) === 'true') {
+    if (funcUrl({ name: 'oldAppointNo' })) {
+      sessionItemRoyal.set('oldAppointNo', funcUrl({ name: 'oldAppointNo' }));
       sessionItemRoyal.set('isChangeAppoint', true);
     }
     if (appointNo) {
@@ -2063,7 +2064,8 @@ class Payment extends React.Component {
         surveyId, //us cart survey
         goodWillFlag:
           sessionItemRoyal.get('goodWillFlag') === 'GOOD_WILL' ? 1 : 0,
-        isApptChange: Boolean(sessionItemRoyal.get('isChangeAppoint'))
+        isApptChange: Boolean(sessionItemRoyal.get('isChangeAppoint')),
+        oldAppointNo: sessionItemRoyal.get('oldAppointNo')
       },
       appointParam
     );
