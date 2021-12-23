@@ -138,6 +138,7 @@ class FelinRecommendation extends React.Component {
       .then((res) => {
         let productList = res.context.recommendationGoodsInfoRels;
         productList.map((el) => {
+          el.goodsInfo.goods = el.goodsInfo.goods || {};
           let tmpGoodsDetail = el.goodsInfo.goods.goodsDetail;
           if (tmpGoodsDetail) {
             try {

@@ -308,6 +308,12 @@ const Adoptions = (props) => {
                     }}
                     placeholder="Please select..."
                   />
+                  <p
+                    style={{ color: '#E2001A', fontWeight: '400' }}
+                    className="rc-padding-top--xs"
+                  >
+                    Please select a shelter before adding product to cart
+                  </p>
                 </div>
               </div>
             </div>

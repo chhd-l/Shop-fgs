@@ -7,7 +7,7 @@ import DynamicFooter from './DynamicFooter';
 import { queryApiFromSessionCache, loadJS } from '@/utils/utils';
 import { getFooter } from '@/api/hub';
 import cn from 'classnames';
-import './index.css';
+import { FooterWrapper } from './style';
 
 const localItemRoyal = window.__.localItemRoyal;
 const isHub = +window.__.env.REACT_APP_HUB;
@@ -178,12 +178,16 @@ class Footer extends React.Component {
     const { showHubFooter } = this;
     const { hubFooterInfo, isInitdQueryHubFooter } = this.state;
     return (
-      <footer
-        className={cn('rc-bg-colour--interface-dark', { 'hub-footer': isHub })}
+      <FooterWrapper
+        className={cn('rc-bg-colour--interface-dark')}
         id="footer"
         data-tms="Footer"
       >
-        <div className="rc-max-width--xl rc-scroll--y grid grid-cols-12">
+        <div
+          className={cn('rc-max-width--xl rc-scroll--y grid grid-cols-12', {
+            'hub-footer': isHub
+          })}
+        >
           {isInitdQueryHubFooter ? (
             showHubFooter ? (
               <FooterHub
@@ -222,7 +226,7 @@ class Footer extends React.Component {
           </div>
         )}
         {/* <!-- OneTrust Cookies Settings button end --> */}
-      </footer>
+      </FooterWrapper>
     );
   }
 }

@@ -4,7 +4,6 @@ import PaymentLogos from './paymentLogos';
 import LoginButton from '@/components/LoginButton';
 import { withRouter } from 'react-router-dom';
 import Language from '@/components/Language';
-import './index.css';
 
 @injectIntl
 class FooterHub extends React.Component {
