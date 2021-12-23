@@ -1830,13 +1830,7 @@ class List extends React.Component {
             content={this.state.prefv1 ? filterSeoWords : metaKeywords}
           />
         </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={history}
-          match={this.props.match}
-        />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         {!invalidPage ? (
           <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
             <BannerTip />

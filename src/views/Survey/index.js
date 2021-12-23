@@ -44,13 +44,7 @@ export default class Survey extends React.Component {
 
     return (
       <div>
-        <Header
-          showMiniIcons={false}
-          showUserIcon={false}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
-        />
+        <Header {...this.props} showMiniIcons={false} showUserIcon={false} />
         <div style={{ height: 650, marginTop: 150 }}>
           <iframe
             src={surveyUrl}

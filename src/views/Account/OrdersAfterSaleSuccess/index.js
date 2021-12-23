@@ -86,7 +86,7 @@ export default class OrdersAfterSaleSuccess extends React.Component {
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
 
-        <Header history={this.props.history} match={this.props.match} />
+        <Header {...this.props} />
         <main className="rc-content--fixed-header">
           <BannerTip />
           <div className="rc-layout-container rc-three-column rc-max-width--xl">

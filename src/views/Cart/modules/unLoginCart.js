@@ -1639,13 +1639,7 @@ class UnLoginCart extends React.Component {
             opacity={this.state.checkoutLoading ? 0.3 : 1}
           />
         ) : null}
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
-        />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main
           className={`rc-content--fixed-header ${
             productList.length ? '' : 'cart-empty'

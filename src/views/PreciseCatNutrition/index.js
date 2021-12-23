@@ -110,11 +110,9 @@ class PreciseCatNutrition extends React.Component {
             searchEvent={this.state.searchEvent}
           />
           <Header
+            {...this.props}
             showMiniIcons={true}
             showUserIcon={true}
-            match={match}
-            location={location}
-            history={history}
             sendGAHeaderSearch={this.sendGAHeaderSearch}
             showNav={true}
             notScroll={true}
