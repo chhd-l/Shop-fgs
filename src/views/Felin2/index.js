@@ -14,14 +14,11 @@ import { Helmet } from 'react-helmet';
 import Slider from 'react-slick';
 import img from './image/img.png';
 import thak from './image/thak.png';
-import open from './image/open.png';
-import close from './image/close.png';
 import LazyLoad from 'react-lazyload';
 import Rate from '../../components/Rate';
 import Reviews from './Reviews/Reviews';
 import Conseiller from './components/conseiller';
 import ConseillerTwo from './components/conseillerTwo';
-import { getDeviceType } from '../../utils/utils';
 import { scrollIntoView } from '@/lib/scroll-to-utils';
 
 const pageLink = window.location.href;
@@ -95,7 +92,7 @@ class Felin extends React.Component {
 
   gotoAddPc = () => {
     let anchorElement = document.getElementById('pcexperts');
-    window.scrollTo(0, anchorElement.offsetTop - window.innerHeight / 3);
+    window.scrollTo(0, anchorElement.offsetTop - window.innerHeight / 6);
   };
   gotoAddH = () => {
     let anchorElement = document.getElementById('hexperts');
@@ -209,7 +206,7 @@ class Felin extends React.Component {
             </div>
             <div className="place">142 Bld Saint Germain 75006 PARIS</div>
           </div>
-          <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile mb160 felin-mpd0">
+          <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile felin-mpd0">
             <div className="rc-max-width--xxl">
               <div className="rc-layout-container rc-two-column rc-content-h-middle ">
                 <div className="rc-column felin-mpd0">
@@ -226,7 +223,7 @@ class Felin extends React.Component {
                     />
                   </LazyLoad>
                 </div>
-                <div className="rc-column flx-around felin-p30">
+                <div className="rc-column felin-p30">
                   <div className="visit-text">
                     <div className="visit-text-tip font-500">
                       Venez nous rendre visite
@@ -241,8 +238,8 @@ class Felin extends React.Component {
               </div>
             </div>
           </div>
-          <div className="txt-centr mt60">
-            <h2 className="rc-beta fwt size26 font-500">
+          <div className="txt-centr" id="pcexperts">
+            <h2 className="rc-beta size18 font-500">
               Réservez une séance avec un expert de l'Atelier Félin
             </h2>
             <div className="problem">
