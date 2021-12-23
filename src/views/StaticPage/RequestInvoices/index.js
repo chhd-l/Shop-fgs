@@ -36,12 +36,7 @@ class RequestInvoices extends React.Component {
           />
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
-        <Header
-          {...this.props}
-          showMiniIcons={true}
-          showUserIcon={true}
-          match={this.props.match}
-        />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <div className="RequestInvoices">
           <h1>
             <FormattedMessage id="requestInvoices.title" />

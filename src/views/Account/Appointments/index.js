@@ -103,7 +103,7 @@ class AccountOrders extends React.Component {
           appointDictRes[1]?.context?.goodsDictionaryVOS || []
         ).filter((item) => item.id === ele?.expertTypeId);
         return Object.assign(ele, {
-          canChangeAppoint: ele.status === 0,
+          canChangeAppoint: ele.status === 0 && ele.businessPaid,
           canCancelAppoint: ele.status === 0,
           cancelAppointLoading: false,
           appointmentType:
@@ -230,13 +230,7 @@ class AccountOrders extends React.Component {
           />
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
-        />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbs />

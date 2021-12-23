@@ -241,11 +241,9 @@ class PreciseRecommendation extends React.Component {
             searchEvent={this.state.searchEvent}
           />
           <Header
+            {...this.props}
             showMiniIcons={true}
             showUserIcon={true}
-            match={match}
-            location={location}
-            history={history}
             sendGAHeaderSearch={this.sendGAHeaderSearch}
           />
           {this.state.loading ? <Loading bgColor={'#fff'} opacity={1} /> : null}
