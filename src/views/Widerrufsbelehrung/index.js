@@ -58,7 +58,7 @@ class Widerrufsbelehrung extends React.Component {
           />
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
-        <Header history={this.props.history} match={this.props.match} />
+        <Header {...this.props} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
           <div

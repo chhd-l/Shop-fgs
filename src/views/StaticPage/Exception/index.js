@@ -43,12 +43,7 @@ class Exception extends React.Component {
           />
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
-        <Header
-          showMiniIcons={false}
-          match={match}
-          location={location}
-          history={history}
-        />
+        <Header showMiniIcons={false} {...this.props} />
         <div
           className="page rc-content--fixed-header"
           data-action="RedirectURL-Start"

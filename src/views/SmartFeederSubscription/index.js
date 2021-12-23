@@ -1775,13 +1775,7 @@ class SmartFeederSubscription extends Component {
     return (
       <div>
         {!headerHide ? (
-          <Header
-            showMiniIcons={true}
-            showUserIcon={true}
-            location={location}
-            history={history}
-            match={match}
-          />
+          <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         ) : (
           <div
             className="rc-text--center rc-header rc-padding-y--sm border-bottom-shadow"

@@ -4084,12 +4084,11 @@ class Payment extends React.Component {
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
+          {...this.props}
           showNav={false}
           showLoginBtn={false}
-          history={this.props.history}
           showMiniIcons={false}
           showUserIcon={true}
-          match={this.props.match}
         />
         {loading ? <Loading /> : null}
         {this.state.visibleUpdate ? (

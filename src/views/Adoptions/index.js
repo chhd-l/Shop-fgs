@@ -218,16 +218,7 @@ const Adoptions = (props) => {
         <meta name="description" content={seoConfig.metaDescription} />
         <meta name="keywords" content={seoConfig.metaKeywords} />
       </Helmet>
-      <Header
-        showMiniIcons={true}
-        showUserIcon={true}
-        location={props.location}
-        history={props.history}
-        match={props.match}
-        showBannerTip={false}
-        // showBannerTip={isUs ? true : false}
-        bannerTipShowBtn={true}
-      />
+      <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
       <main className=" adoptions-page m-auto rc-content--fixed-header rc-bg-colour--brand3">
         <BannerTip />
         <div className="rc-max-width--lg ">

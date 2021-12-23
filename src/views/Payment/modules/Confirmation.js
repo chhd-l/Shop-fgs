@@ -115,7 +115,6 @@ class Confirmation extends React.Component {
             {_title}
           </div>
           <div className={`pt-3 ${!panelStatus.isPrepare ? '' : 'hidden'}`}>
-            <ConsentAdditionalText textPosition="top" />
             {/* 条款 */}
             <TermsCommon
               id={'confirmation'}

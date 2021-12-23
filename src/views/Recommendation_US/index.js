@@ -911,19 +911,15 @@ class Recommendation extends React.Component {
     </div>
   );
   commonUp = () => {
-    let {
+    const {
       promotionCodeText,
       isMobile,
       checkPromotionCodeAndCopy,
       viewShoppingCartWidth
     } = this.state;
-    let showBannerTip = true;
-    let bannerHight = showBannerTip
-      ? document.querySelector('.nav-slim-banner')?.offsetHeight
-      : 0;
 
     return (
-      <div style={{ paddingTop: bannerHight }}>
+      <div>
         <section
           className="text-center"
           style={{ width: isMobile ? '95%' : '60%', margin: '0 auto' }}
@@ -1219,16 +1215,7 @@ class Recommendation extends React.Component {
           />
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
-          showBannerTip={false}
-          // showBannerTip={isUs ? true : false}
-          bannerTipShowBtn={isUs ? true : false}
-        />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <Modal
           key="1"
           needLogin={this.state.needLogin}
