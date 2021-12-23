@@ -8,7 +8,7 @@ import callImg from '@/assets/images/customer-service@2x.jpg';
 import helpImg from '@/assets/images/slider-img-help.jpg';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 const sessionItemRoyal = window.__.sessionItemRoyal;
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 
 @inject('configStore')
 @observer

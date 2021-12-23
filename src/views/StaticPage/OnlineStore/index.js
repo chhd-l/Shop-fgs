@@ -19,7 +19,7 @@ import emailImg from '@/assets/images/online-store-email.png';
 import messageImg from '@/assets/images/online-store-message.png';
 import { Link, withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import './index.less';
 
 const localItemRoyal = window.__.localItemRoyal;

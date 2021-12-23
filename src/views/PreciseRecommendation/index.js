@@ -5,7 +5,7 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { getOtherSpecies } from '@/utils/GA';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { Helmet } from 'react-helmet';
 import HelpComponentsNew from '../../components/HelpComponentsNew/HelpComponents';
 import './index.css';

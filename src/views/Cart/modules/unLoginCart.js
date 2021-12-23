@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import Header from '@/components/Header';
@@ -1138,7 +1138,7 @@ class UnLoginCart extends React.Component {
               <div className="text-center" style={{ fontSize: '.9375rem' }}>
                 <FormattedMessage id="unLoginSubscriptionTips" />
               </div>
-            ) : window.__.env.REACT_APP_LIMIT_MEMBER_PAY !== '1' ? (
+            ) : paymentAuthority === '2' ? (
               <div
                 className="text-center"
                 onClick={() => this.handleCheckout()}
@@ -1155,7 +1155,7 @@ class UnLoginCart extends React.Component {
                 </div>
               </div>
             ) : null
-          ) : window.__.env.REACT_APP_LIMIT_MEMBER_PAY !== '1' ? (
+          ) : paymentAuthority === '2' ? (
             <div className="text-center">
               <div className="rc-styled-link color-999 rc-btn-disabled">
                 <FormattedMessage id="guestCheckout" />

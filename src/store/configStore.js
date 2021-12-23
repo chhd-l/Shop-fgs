@@ -1,5 +1,9 @@
 import { action, observable, computed } from 'mobx';
-import { getConfig, getPrescriberSettingInfo } from '@/api';
+import {
+  getConfig,
+  getPrescriberSettingInfo,
+  fetchPaymentAuthority
+} from '@/api';
 import { getAddressSetting, getSystemConfig } from '@/api/address';
 import { getPaymentMethodV2 } from '@/api/payment';
 import flatten from 'lodash/flatten';
@@ -40,6 +44,11 @@ class ConfigStore {
   @observable paymentMethodCfg = sessionItemRoyal.get('rc-paymentCfg')
     ? JSON.parse(sessionItemRoyal.get('rc-paymentCfg'))
     : [];
+
+  // 1-会员，2-会员和游客
+  @observable paymentAuthority = sessionItemRoyal.get('rc-paymentAuthority')
+    ? JSON.parse(sessionItemRoyal.get('rc-paymentAuthority'))
+    : '2';
 
   // 当前地址表单类型
   @computed get addressFormType() {
@@ -263,6 +272,17 @@ class ConfigStore {
       .map((f) => ({ imgUrl: f?.imgUrl }));
     sessionItemRoyal.set('rc-paymentCfg', JSON.stringify(ret));
     return ret;
+  }
+
+  @action.bound
+  async queryPaymentAuthority() {
+    let res = await fetchPaymentAuthority();
+    this.setPaymentAuthority(res?.context[0].context);
+  }
+
+  async setPaymentAuthority(val) {
+    this.paymentAuthority = val;
+    sessionItemRoyal.set('rc-paymentAuthority', JSON.stringify(val));
   }
 }
 export default ConfigStore;

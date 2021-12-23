@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
 import { inject } from 'mobx-react';
 import Rate from '@/components/Rate';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { getDeviceType, formatMoney } from '@/utils/utils';
 import { IMG_DEFAULT } from '@/utils/constant';

@@ -8,7 +8,7 @@ import benefitsthree from '../images/picto_nutrients.png';
 // import topCat from '../images/BRITISH_SHORTHAIR_ADULT___WEIGHT_MANAGEMENT_EMBLEMATIC_Low_Res.___Web-removebg-preview.png';
 import topCat from '../images/pfCat.png';
 import topCatEat from '../images/SacKRAFT-RVB-bis-det.png';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import clublogo from '../images/img.png';
 import { getDeviceType } from '../../../utils/utils';
 import LazyLoad from 'react-lazyload';

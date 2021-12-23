@@ -5,7 +5,7 @@ import {
   getClubFlag,
   getRation
 } from '@/utils/utils';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { ObjectConstructor } from '@/utils/types.ts';
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
