@@ -2,7 +2,20 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import './index.less';
 import 'moment/locale/fr';
-moment.locale('fr');
+moment.locale('fr', {
+  months:
+    'janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre'.split(
+      '_'
+    ),
+  monthsShort:
+    'janv._févr._mars_avr._mai_juin_juil._août_sept._oct._nov._déc.'.split('_'),
+  monthsParseExact: true,
+  weekdays: 'dimanche_lundi_mardi_mercredi_jeudi_vendredi_samedi'.split('_'),
+  weekdaysShort: 'dim._lun._mar._mer._jeu._ven._sam.'.split('_'),
+  longDateFormat: {
+    LL: 'D MMM'
+  }
+});
 let index = 0;
 
 class WeekCalender extends Component {
@@ -30,8 +43,8 @@ class WeekCalender extends Component {
         currentDate
       );
       weekDate.push({
-        weekDay: _date.format('dddd'),
-        date: _date.format('YYYY-MM-DD'),
+        weekDay: _date.format('ddd'),
+        date: _date.format('LL'),
         times: list
       });
     }
