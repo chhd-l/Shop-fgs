@@ -205,7 +205,7 @@ const Adoptions = (props) => {
       goodsLists.forEach((el) => {
         let goodsInfo = el.goodsInfos.find((info) => info.goodsInfoNo == id);
         if (goodsInfo) {
-          el.goodsName = goodsInfoNosObj[id];
+          el.goodsNameStr = goodsInfoNosObj[id];
           el.goodsInfo = goodsInfo;
         }
       });
@@ -342,7 +342,7 @@ const Adoptions = (props) => {
                           )[0].goodsInfoImg ||
                           IMG_DEFAULT
                         }
-                        alt={item.goodsName?.replace('<br/>', '')}
+                        alt={item.goodsNameStr?.replace('<br/>', '')}
                       />
                     </picture>
                   </div>
@@ -352,7 +352,7 @@ const Adoptions = (props) => {
                       className="rc-card__title ui-text-overflow-line2"
                       style={{ fontSize: '1.625rem' }}
                       dangerouslySetInnerHTML={{
-                        __html: item.goodsName
+                        __html: item.goodsNameStr
                       }}
                     ></div>
                     <button

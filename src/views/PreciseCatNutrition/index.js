@@ -136,6 +136,27 @@ class PreciseCatNutrition extends React.Component {
 
             <LongBanner />
             <br />
+            <div className="experience-component experience-layouts-1column">
+              <div className={'preciseCatNutritionTop'}>
+                <div className="row rc-margin-x--none">
+                  <div className="rc-full-width">
+                    <div className="experience-component experience-assets-contentBlock">
+                      <div style={{ position: 'relative' }}>
+                        <div
+                          id="aboutPet"
+                          style={{
+                            position: 'absolute',
+                            marginTop: isMobile ? '-60px' : '-100px'
+                          }}
+                        ></div>
+                      </div>
+                      <AboutPet />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/*<div style={{*/}
             {/*  height: 828,*/}
             {/*  background: "linear-gradient(white, #d8d8d8)",*/}
@@ -225,6 +246,7 @@ class PreciseCatNutrition extends React.Component {
                 </div>
               </div>
             </div>
+
             <div>
               <div className="experience-component experience-layouts-1column">
                 <div className="row rc-margin-x--none">
@@ -463,25 +485,6 @@ class PreciseCatNutrition extends React.Component {
                 <br />
                 <HowItWorks />
                 <br />
-              </div>
-
-              <div className={'preciseCatNutritionTop'}>
-                <div className="row rc-margin-x--none">
-                  <div className="rc-full-width">
-                    <div className="experience-component experience-assets-contentBlock">
-                      <div style={{ position: 'relative' }}>
-                        <div
-                          id="aboutPet"
-                          style={{
-                            position: 'absolute',
-                            marginTop: isMobile ? '-60px' : '-100px'
-                          }}
-                        ></div>
-                      </div>
-                      <AboutPet />
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
 
