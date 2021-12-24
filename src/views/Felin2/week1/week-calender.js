@@ -129,18 +129,6 @@ class WeekCalender extends Component {
     let dd = moment(arr[arr.length - 1].showDate);
     this.getCurrentWeek2(dd);
   };
-  getWeek = () => {
-    let i = index;
-    let begin = moment()
-      .week(moment().week() - i)
-      .startOf('week')
-      .format('YYYY-MM-DD');
-    let end = moment()
-      .week(moment().week() - i)
-      .endOf('week')
-      .format('YYYY-MM-DD');
-    return [begin, end];
-  };
   intervals = async (startString, endString, currentDate) => {
     return new Promise((reslove) => {
       let start = moment(startString, 'YYYYMMDD HH:mm');
