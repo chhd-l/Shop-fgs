@@ -13,6 +13,7 @@ import WelcomeBox from '../WelcomeBox';
 import PromotionCodeText from './components/promotionCodeText';
 import GiftList from '../GiftList/index.tsx';
 import { isFirstOrder } from '@/api/user';
+import { formatDate } from '../../../utils/utils';
 
 const guid = uuidv4();
 let isGACheckoutLock = false;
@@ -400,7 +401,17 @@ class PayProductInfo extends React.Component {
                     <span>
                       <FormattedMessage id="Appointment time" />
                     </span>
-                    <span>{el.appointStartTime}</span>
+                    <span>
+                      {formatDate({
+                        date: el.appointStartTime,
+                        formatOption: {
+                          day: '2-digit',
+                          month: 'short',
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        }
+                      })}
+                    </span>
                   </div>
                 ) : null}
 
