@@ -20,8 +20,8 @@ export default function BreedSelect(
   const [checked, setChecked] = useState(false);
 
   React.useEffect(() => {
-    const defaultValue = options.find((item) => item.key === value.key)
-    setInputValue(defaultValue ? defaultValue.label : undefined)
+    const defaultValue = options.find((item) => item.breedCode === value.key)
+    setInputValue(defaultValue ? defaultValue.localName : undefined)
   }, [value])
 
   const handleSelectChange = (val) => {
@@ -34,7 +34,7 @@ export default function BreedSelect(
     if (bool){
       onChange && onChange(undefined, true)
     }else {
-      const defaultValue = options.find((item) => item.label === value.name)
+      const defaultValue = options.find((item) => item.localName === value.name)
       onChange && onChange(defaultValue, false)
     }
   }
@@ -50,12 +50,13 @@ export default function BreedSelect(
             {(placeholder) => (
               <SearchSelection
                 disabled={checked || isPreselected}
-                queryList={async ({ inputVal, pageNum }) => {
+                queryList={async ({ inputVal }) => {
                   let reg = new RegExp(`${inputVal}`, 'i')
                   return options
                     .filter((item) => reg.test(item.label))
                     .map((item) => ({
-                      ...item, name: item.label
+                      key: item.breedCode,
+                      name: item.localName,
                     }))
                 }}
                 selectedItemChange={handleSelectChange}

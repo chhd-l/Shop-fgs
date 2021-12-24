@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import LazyLoad from 'react-lazyload';
 import { FormattedMessage } from 'react-intl';
 import classNames from 'classnames';
+import {
+  productFinderDailyPortion
+} from '@/api/details';
 import BreedSelect from './components/BreedSelect';
 import SingleSelect from './components/SingleSelect'
 import AgeSelect from './components/AgeSelect';
@@ -23,14 +26,14 @@ import './index.less';
  * bcsSelect: bcs
  **/
 
-const testArr = [
+const questionList = [
   {
     "name":"age",
     "label":"null",
     "metadata":{
       "step":1,
       "questionDisplayType":"data",
-      "label":"Quel âge a votre chat ?",
+      "label": <FormattedMessage id={'dailyPortion.age.label'}/>,
       "description":"Votre animal de compagnie peut avoir des besoins de santé différents à chaque étape de sa vie.",
       "description3":null
     },
@@ -42,18 +45,18 @@ const testArr = [
     "metadata":{
       "step":1,
       "questionDisplayType":"radio",
-      "label":"Votre chat est-il stérilisé ?",
+      "label": <FormattedMessage id={'dailyPortion.neutered.label'}/>,
       "description":"Un animal stérilisé peut avoir tendance à prendre du poids en raison d'un appétit accru. Il est important de trouver un régime alimentaire moins calorique et plus riche en nutriments.",
       "description3":null
     },
     "possibleValues":[
       {
         "key":"true",
-        "label":"Oui"
+        "label":<FormattedMessage id={'yes'}/>
       },
       {
         "key":"false",
-        "label":"Non"
+        "label":<FormattedMessage id={'account.no'}/>
       }
     ]
   },
@@ -63,7 +66,7 @@ const testArr = [
     "metadata":{
       "step":1,
       "questionDisplayType":"breed",
-      "label":"Quelle est la race de votre chat?",
+      "label": <FormattedMessage id={'dailyPortion.breedCode.label'}/>,
       "description":"Chaque race a des besoins nutritionnels différents. Mieux connaître leur race peut nous aider à choisir un régime alimentaire adapté à leurs besoins.",
       "description3":null
     },
@@ -268,18 +271,18 @@ const testArr = [
     "metadata":{
       "step":1,
       "questionDisplayType":"singleSelect",
-      "label":"Quel est le sexe de votre chat ?",
+      "label": <FormattedMessage id={'dailyPortion.genderCode.label'}/>,
       "description":"Les animaux de compagnie mâles et femelles ont des besoins alimentaires différents. Il s'agit de trouver ce qui convient le mieux à votre animal de compagnie.",
       "description3":null
     },
     "possibleValues":[
       {
         "key":"male",
-        "label":"Mâle"
+        "label": <FormattedMessage id={'petMale'}/>
       },
       {
         "key":"female",
-        "label":"Femelle"
+        "label": <FormattedMessage id={'petFemale'}/>
       }
     ]
   },
@@ -289,7 +292,7 @@ const testArr = [
     "metadata": {
       "step": 2,
       "questionDisplayType": "weightSelect",
-      "label": "Quel est le poids de votre chat ?",
+      "label": <FormattedMessage id={'dailyPortion.weight.label'}/>,
       "description": "[\"Vous n'êtes pas sûr du poids de votre chat ?\",\"1. Montez sur la balance en tenant votre chat dans vos bras. Notez le poids.\",\"2. Montez sur la balance sans votre chat. Notez à nouveau le poids.\",\"3. Soustrayez ces deux valeurs et le résultat sera le poids de votre chat.\",\"Vous pouvez également consulter votre vétérinaire.\"]",
       "description3": null
     },
@@ -301,22 +304,22 @@ const testArr = [
     "metadata": {
       "step": 2,
       "questionDisplayType": "singleSelect",
-      "label": "Quel est le niveau d'activité physique de votre chat ?",
+      "label": <FormattedMessage id={'dailyPortion.petActivityCode.label'}/>,
       "description": "L'activité de votre animal détermine son métabolisme, qui fonctionne à un rythme variable.",
       "description3": null
     },
     "possibleValues": [
       {
         "key": "low",
-        "label": "Très faible <1h/day"
+        "label": <FormattedMessage id={'dailyPortion.petActivityCode.low'}/>
       },
       {
         "key": "moderate",
-        "label": "Modéré <2h/day"
+        "label": <FormattedMessage id={'dailyPortion.petActivityCode.Medium'}/>
       },
       {
         "key": "high",
-        "label": "Très élevé >3h/day"
+        "label": <FormattedMessage id={'dailyPortion.petActivityCode.High'}/>
       }
     ]
   },
@@ -326,25 +329,25 @@ const testArr = [
     "metadata": {
       "step": 3,
       "questionDisplayType": "bcsSelect",
-      "label": "Comment décririez-vous l'état corporel de votre chat ?",
+      "label": <FormattedMessage id={'dailyPortion.bcs.label'}/>,
       "description": null,
       "description3": null
     },
     "possibleValues": [
       {
         "key": "3",
-        "label": "Underweight",
-        'description':"Loss of mass muscle",
+        "label": <FormattedMessage id={'dailyPortion.bcs.underweight'}/>,
+        'description': <FormattedMessage id={'dailyPortion.bcs.underweight.description'}/>,
       },
       {
         "key": "5",
-        "label": "Ideal",
-        'description':"Well proportioned",
+        "label": <FormattedMessage id={'dailyPortion.bcs.Ideal'}/>,
+        'description': <FormattedMessage id={'dailyPortion.bcs.Ideal.description'}/>,
       },
       {
         "key": "7",
-        "label": "Overweight",
-        'description':"Waist barely visible",
+        "label": <FormattedMessage id={'dailyPortion.bcs.Overweight'}/>,
+        'description': <FormattedMessage id={'dailyPortion.bcs.Overweight.description'}/>,
       }
     ]
   }
@@ -458,7 +461,7 @@ export default function DailyPortion(
   // 计算结果 TODO
   const getResult = () => {
     let param = {
-      breedCode: breedData.key,
+      breedCode: isMixedBreed ? '' : breedData.key,
       genderCode: gender,
       age: year * 12 + month,
       weight,
@@ -502,13 +505,14 @@ export default function DailyPortion(
   }
 
   const renderStep = (step) => {
-    const breedCodeData = testArr.find((item) => item.name === 'breedCode');
-    const genderCodeData = testArr.find((item) => item.name === 'genderCode');
-    const ageCodeData = testArr.find((item) => item.name === 'age');
-    const petActivityCodeData = testArr.find((item) => item.name === 'petActivityCode');
-    const weightData = testArr.find((item) => item.name === 'weight');
-    const neuteredData = testArr.find((item) => item.name === 'neutered');
-    const bcsData = testArr.find((item) => item.name === 'bcs');
+
+    const breedCodeData = questionList.find((item) => item.name === 'breedCode');
+    const genderCodeData = questionList.find((item) => item.name === 'genderCode');
+    const ageCodeData = questionList.find((item) => item.name === 'age');
+    const petActivityCodeData = questionList.find((item) => item.name === 'petActivityCode');
+    const weightData = questionList.find((item) => item.name === 'weight');
+    const neuteredData = questionList.find((item) => item.name === 'neutered');
+    const bcsData = questionList.find((item) => item.name === 'bcs');
 
     switch (step){
       case 1:
@@ -518,7 +522,7 @@ export default function DailyPortion(
               <div className='w-full lg:w-1/3 pb-4 lg:pb-0'>
                 <BreedSelect
                   label={breedCodeData?.metadata?.label ?? ''}
-                  options={breedCodeData?.possibleValues ?? []}
+                  options={breedOptions ?? []}
                   value={breedData}
                   onChange={handleBreedData}
                 />
@@ -647,15 +651,20 @@ export default function DailyPortion(
   }
 
   // 获取BreedOptions TODO
-  const getBreedOptions = (speciesValue) => {
+  const getBreedOptions = async (speciesValue) => {
     if(!speciesValue) return [];
 
-    // window.__.env.REACT_APP_COUNTRY
     let param = {
-      speciesValue,
-
+      countryCode: window.__.env.REACT_APP_COUNTRY,
+      species: speciesValue
     }
-    setBreedOptions([])
+    let res = await productFinderDailyPortion(param);
+
+    if(res.code === 'K-000000'){
+      setBreedOptions(res.context.breeds ?? [])
+    }else {
+      setBreedOptions([])
+    }
   }
 
   return (
