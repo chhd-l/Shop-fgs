@@ -54,7 +54,8 @@ class Consent extends Component {
       }
       return { __html: text };
     };
-    console.log(list, 'listtt--==');
+    const noIsRequired = list?.findIndex((_item) => _item?.isRequired == false);
+    console.log(list, 'listtt--==', noIsRequired);
     return (
       <>
         {list?.map((item, index) => {
@@ -67,6 +68,14 @@ class Consent extends Component {
               ) : null}
               {index === 2 && Fr && pageType === 'register' ? (
                 <div style={{ marginLeft: '-30px' }}>
+                  <ConsentAdditionalText textPosition="top" />
+                </div>
+              ) : null}
+              {noIsRequired > -1 &&
+              noIsRequired == index &&
+              (Fr || Us) &&
+              pageType === 'checkout' ? (
+                <div style={{ marginLeft: '-24px' }}>
                   <ConsentAdditionalText textPosition="top" />
                 </div>
               ) : null}
@@ -141,6 +150,11 @@ class Consent extends Component {
             </div>
           );
         })}
+        {noIsRequired === -1 && (Fr || Us) && pageType === 'checkout' ? (
+          <div style={{ marginLeft: '-24px', marginBottom: '24px' }}>
+            <ConsentAdditionalText textPosition="top" />
+          </div>
+        ) : null}
       </>
     );
   }

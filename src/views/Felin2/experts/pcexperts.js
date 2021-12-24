@@ -254,7 +254,7 @@ class Pcexperts extends React.Component {
       },
       () => {
         let anchorElement = document.getElementById('oneBox');
-        window.scrollTo(0, anchorElement.offsetTop - window.innerHeight / 4);
+        window.scrollTo(0, anchorElement.offsetTop - window.innerHeight / 3);
       }
     );
   };
@@ -322,7 +322,7 @@ class Pcexperts extends React.Component {
       },
       () => {
         let anchorElement = document.getElementById('oneBox');
-        window.scrollTo(0, anchorElement.offsetTop - window.innerHeight / 4);
+        window.scrollTo(0, anchorElement.offsetTop - window.innerHeight / 3);
       }
     );
   };
@@ -542,21 +542,21 @@ class Pcexperts extends React.Component {
       Offline: 'Sur place'
     };
     return (
-      <div className="pc-block" id="pcexperts">
+      <div className="pc-block">
         {/* 默认页面 */}
         {this.state.isShow ? (
           <div>
-            <div className="size24 txt-centr font-500 visit-text">
+            <div className="size18 txt-centr font-500">
               Réservez un rendez-vous avec un de nos experts
             </div>
-            <div className="cat-ul mb28">
+            <div className="cat-ul">
               {this.state.list.map((item, index) => {
                 return (
                   <div className="ul-li" key={index}>
                     <img src={item.src} alt="" />
                     <div style={{ padding: '0.625rem' }}>
-                      <div className="mt16 font-500">{item.name}</div>
-                      <div className="mt8">{item.text}</div>
+                      <div className="font-500 size14">{item.name}</div>
+                      <div className="mt8 size12">{item.text}</div>
                     </div>
                   </div>
                 );
@@ -567,7 +567,8 @@ class Pcexperts extends React.Component {
                 onClick={this.handleOneShow}
                 className="rc-btn rc-btn--one  rc-margin-bottom--xs"
                 style={{
-                  width: '16.875rem'
+                  width: '13.875rem',
+                  fontSize: '0.75rem'
                 }}
               >
                 Reserver un rendez-vous
@@ -580,11 +581,16 @@ class Pcexperts extends React.Component {
           <div id="oneBox">
             <div className="Choisissez">
               <div>
-                <div className="size24 mb32 js-center">
-                  <img src={one} alt="" className="mr10" />
+                <div className="size16 mb16 js-center">
+                  <img
+                    src={one}
+                    alt=""
+                    className="mr10"
+                    style={{ width: '1.25rem' }}
+                  />
                   <div>Choisissez un type de rendez-vous</div>
                 </div>
-                <div className="mb32">
+                <div className="mb16">
                   {this.state.apptTypeList.map((item, index) => {
                     return (
                       <button
@@ -597,13 +603,13 @@ class Pcexperts extends React.Component {
                             'type'
                           )
                         }
-                        className={`border-2 text-base font-medium p-2.5  rounded-full mr-4 ${
+                        className={`border-2 text-base font-medium p-1  rounded-full mr-4 ${
                           this.state.params.apptTypeId === item.id
                             ? 'bg-red-600 text-white border-red-600'
                             : 'border-gray-400'
                         }`}
                         style={{
-                          width: '9.375rem'
+                          width: '8.375rem'
                         }}
                       >
                         {appointName[item.name]}
@@ -611,13 +617,18 @@ class Pcexperts extends React.Component {
                     );
                   })}
                 </div>
-                <div className="size24 js-center">
-                  <img src={two} alt="" className="mr10" />
+                <div className="size16 js-center">
+                  <img
+                    src={two}
+                    alt=""
+                    className="mr10"
+                    style={{ width: '1.25rem' }}
+                  />
                   <div>Choisissez un expert</div>
                 </div>
               </div>
             </div>
-            <ul className="cat-ul mb28">
+            <ul className="cat-ul mb16">
               {this.state.list.map((item, index) => {
                 return (
                   <li
@@ -641,8 +652,8 @@ class Pcexperts extends React.Component {
                   >
                     <img src={item.src} alt="" />
                     <div style={{ padding: '0.625rem' }}>
-                      <div className="mt16 font-500">{item.name}</div>
-                      <div className="mt8">{item.text}</div>
+                      <div className="font-500 size14">{item.name}</div>
+                      <div className="mt8 size12">{item.text}</div>
                     </div>
                   </li>
                 );
@@ -653,7 +664,8 @@ class Pcexperts extends React.Component {
                 onClick={this.handleReturnOne}
                 className="rc-btn rc-btn--two"
                 style={{
-                  width: '16.875rem'
+                  width: '13.875rem',
+                  fontSize: '0.75rem'
                 }}
               >
                 Retour à l'étape précédente
@@ -666,7 +678,8 @@ class Pcexperts extends React.Component {
                 onClick={this.handleGotoThree}
                 className="rc-btn rc-btn--one  rc-margin-bottom--xs"
                 style={{
-                  width: '16.875rem'
+                  width: '13.875rem',
+                  fontSize: '0.75rem'
                 }}
               >
                 Continuer
@@ -677,7 +690,7 @@ class Pcexperts extends React.Component {
         {/* 选择综合 */}
         {this.state.threeShow || this.state.fourShow || this.state.fiveShow ? (
           <div className="Choisissez votre-selection">
-            <div className="mb16 colred size18">Votre sélection</div>
+            <div className="mb16 colred size16">Votre sélection</div>
             <div className="js-between mb16">
               <div>Type</div>
               <div>{this.state.votre.type}</div>
@@ -708,8 +721,13 @@ class Pcexperts extends React.Component {
         {this.state.threeShow ? (
           <div>
             <div className="Choisissez">
-              <div className="size24 mb16 js-center">
-                <img src={three} alt="" className="mr10" />
+              <div className="size16 mb16 js-center">
+                <img
+                  src={three}
+                  alt=""
+                  className="mr10"
+                  style={{ width: '1.25rem' }}
+                />
                 <div>Choisissez la durée du rendez-vous</div>
               </div>
               <div>
@@ -717,7 +735,7 @@ class Pcexperts extends React.Component {
                 fonction de leurs disponibilités.
               </div>
             </div>
-            <ul className="cat-ul mb28">
+            <ul className="cat-ul mb16">
               {this.state.timeList.map((item, index) => {
                 return (
                   <li
@@ -741,7 +759,7 @@ class Pcexperts extends React.Component {
                     }}
                   >
                     <div>{item.duration} min</div>
-                    <div className="list-content">{item.text}</div>
+                    <div className="list-content size12">{item.text}</div>
                     <div className="js-between">
                       <div>Prix</div>
                       <div>
@@ -757,7 +775,8 @@ class Pcexperts extends React.Component {
                 onClick={this.handleReturnTwo}
                 className="rc-btn rc-btn--two"
                 style={{
-                  width: '16.875rem'
+                  width: '13.875rem',
+                  fontSize: '0.75rem'
                 }}
               >
                 Retour à l'étape précédente
@@ -767,7 +786,8 @@ class Pcexperts extends React.Component {
                 onClick={this.handleGotoFour}
                 className="rc-btn rc-btn--one  rc-margin-bottom--xs"
                 style={{
-                  width: '16.875rem'
+                  width: '13.875rem',
+                  fontSize: '0.75rem'
                 }}
               >
                 Continuer
@@ -778,8 +798,13 @@ class Pcexperts extends React.Component {
         {/*第四步*/}
         {this.state.fourShow ? (
           <div>
-            <div className="size24 js-center mb28">
-              <img src={four} alt="" className="mr10" />
+            <div className="size16 js-center mb16">
+              <img
+                src={four}
+                alt=""
+                className="mr10"
+                style={{ width: '1.25rem' }}
+              />
               <div>Choisissez un créneau</div>
             </div>
             <div
@@ -796,7 +821,8 @@ class Pcexperts extends React.Component {
                 onClick={this.handleReturnThree}
                 className="rc-btn rc-btn--two"
                 style={{
-                  width: '16.875rem'
+                  width: '13.875rem',
+                  fontSize: '0.75rem'
                 }}
               >
                 Retour à l'étape précédente
@@ -806,7 +832,8 @@ class Pcexperts extends React.Component {
                 onClick={this.handleGoto}
                 className="rc-btn rc-btn--one  rc-margin-bottom--xs"
                 style={{
-                  width: '16.875rem'
+                  width: '13.875rem',
+                  fontSize: '0.75rem'
                 }}
               >
                 Continuer
@@ -818,7 +845,12 @@ class Pcexperts extends React.Component {
         {this.state.fiveShow && !this.state.userInfo ? (
           <div>
             <div className="size24 js-center mb28">
-              <img src={five} alt="" className="mr10" />
+              <img
+                src={five}
+                alt=""
+                className="mr10"
+                style={{ width: '1.25rem' }}
+              />
               <div>Créez votre compte afin de confirmer votre sélection</div>
             </div>
             <div className="txt-centr">
@@ -828,8 +860,9 @@ class Pcexperts extends React.Component {
                 }}
                 btnClass={`rc-btn rc-btn--one  rc-margin-bottom--xs`}
                 intl={intl}
-                btnStyle={{
-                  width: '16.875rem'
+                style={{
+                  width: '13.875rem',
+                  fontSize: '0.75rem'
                 }}
               >
                 Connexion
@@ -865,7 +898,8 @@ class Pcexperts extends React.Component {
                 }}
                 className="rc-btn rc-btn--one  rc-margin-bottom--xs"
                 style={{
-                  width: '16.875rem'
+                  width: '13.875rem',
+                  fontSize: '0.75rem'
                 }}
               >
                 Créer un compte
@@ -875,7 +909,8 @@ class Pcexperts extends React.Component {
                 onClick={this.handleLogin}
                 className="rc-btn rc-btn--one  rc-margin-bottom--xs"
                 style={{
-                  width: '16.875rem'
+                  width: '13.875rem',
+                  fontSize: '0.75rem'
                 }}
               >
                 Continuer en tant qu'invité
@@ -900,7 +935,7 @@ class Pcexperts extends React.Component {
           </div>
         </UpdatModal>
         {/* 预约时间 Contact us */}
-        <div className="txt-centr" style={{ marginBottom: '10rem' }}>
+        <div className="txt-centr" style={{ marginBottom: '3rem' }}>
           <div
             onClick={this.hanldeOpen}
             style={{

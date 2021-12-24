@@ -202,6 +202,14 @@ class Recommendation extends React.Component {
         let prescriberId = res.context.prescriberId;
         let curScrollTop = await sessionItemRoyal.get('recommendation-scroll');
         let prescriptionJson = res.context.prescriptionJson || '';
+        if (isUs) {
+          let breedOrShelterId =
+            JSON.parse(prescriptionJson)?.prescriber?.customerId ||
+            res.context.structureType ||
+            '';
+          sessionItemRoyal.set('BreedOrShelterId', breedOrShelterId);
+        }
+
         const currentShowProduct = [].concat(productLists)?.splice(0, 1);
         if (res.context.structureType != 'breeder' && isFr) {
           // 法国区分stp和breeder

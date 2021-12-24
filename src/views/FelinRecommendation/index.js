@@ -227,6 +227,11 @@ class FelinRecommendation extends React.Component {
           return el;
         });
         let filterProducts = productList.filter((el) => {
+          console.info('============', el.goodsInfo.goodsInfoId);
+          console.info('addedFlag', el.goodsInfo.addedFlag);
+          console.info('delFlag', el.goodsInfo.delFlag);
+          console.info('saleableFlag', el.goodsInfo?.goods?.saleableFlag);
+          console.info('displayFlag', el.goodsInfo?.goods?.displayFlag);
           return (
             el.goodsInfo.addedFlag &&
             !el.goodsInfo.delFlag &&
@@ -234,8 +239,10 @@ class FelinRecommendation extends React.Component {
             el.goodsInfo?.goods?.displayFlag
           );
         });
+
         // 只展示上架的，未删除的，可销售的，可展示的商品
         if (!filterProducts.length) {
+          this.props.history.push('/cats'); //没数据需要跳转plp
           this.setState({ isNoMoreProduct: true });
         }
         this.setState({ productList: filterProducts }, () => {

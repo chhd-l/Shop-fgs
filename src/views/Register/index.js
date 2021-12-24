@@ -1092,6 +1092,7 @@ class Register extends Component {
                                 key={'required'}
                                 pageType="register"
                               />
+                              <ConsentAdditionalText textPosition="bottom" />
                               {window.__.env.REACT_APP_COUNTRY === 'uk' ? (
                                 <div
                                   className="footer-checkbox-title rc-text--left"
@@ -1138,7 +1139,6 @@ class Register extends Component {
                             </span>
                             <FormattedMessage id="registerMandatory" />
                           </p>
-                          <ConsentAdditionalText textPosition="bottom" />
                           {this.state.showValidErrorMsg ? (
                             <aside
                               className="rc-alert rc-alert--error mb-2"
