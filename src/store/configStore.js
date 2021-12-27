@@ -140,6 +140,9 @@ class ConfigStore {
     }
     this.info = res;
     sessionItemRoyal.set('storeContentInfo', JSON.stringify(this.info));
+    if (this.info?.orderConfig?.context) {
+      this.setPaymentAuthority(this.info.orderConfig.context);
+    }
   }
 
   //查询prescriber Setting相关配置信息
