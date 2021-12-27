@@ -38,11 +38,6 @@ const env_fr = {
     REACT_APP_NAVIGATOR_LANG: 'en',
     REACT_APP_CURRENCY: 'USD',
 
-    // #是否开启promotion
-    REACT_APP_IS_PROMOTION: 'true',
-    // #是否显示banner上方tip
-    REACT_APP_SHOW_BANNERTIP: 'true',
-
     // #默认country
     REACT_APP_DEFAULT_COUNTRYID: '2612',
 

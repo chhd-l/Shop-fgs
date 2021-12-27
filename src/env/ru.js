@@ -45,11 +45,6 @@ const env = {
     REACT_APP_NAVIGATOR_LANG: 'ru',
     REACT_APP_CURRENCY: 'RUB',
 
-    // #是否开启promotion
-    REACT_APP_IS_PROMOTION: false,
-    // #是否显示banner上方tip
-    REACT_APP_SHOW_BANNERTIP: false,
-
     // #默认country
     REACT_APP_DEFAULT_COUNTRYID: 1969,
 

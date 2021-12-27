@@ -37,11 +37,6 @@ const env_mx = {
     REACT_APP_NAVIGATOR_LANG: 'es-MX',
     REACT_APP_CURRENCY: 'MXN',
 
-    // #是否开启promotion
-    REACT_APP_IS_PROMOTION: 'true',
-    // #是否显示banner上方tip
-    REACT_APP_SHOW_BANNERTIP: 'true',
-
     // #默认country
     REACT_APP_DEFAULT_COUNTRYID: '6',
 
