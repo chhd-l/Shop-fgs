@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { loadJS } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import { findUserConsentList } from '@/api/consent';
 //import { getProductPetConfig } from '@/api/payment';
-import { toJS } from 'mobx';
 import { PDP_Regex } from '@/utils/constant';
 import { withOktaAuth } from '@okta/okta-react';
 import { authToken } from '@/api/login';
@@ -24,10 +22,14 @@ class RouteFilter extends Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
+  get userInfo() {
+    return this.props.loginStore.userInfo;
+  }
+  // todo 验证此生命周期
   // router refresh=true后，此生命周期无效
   async shouldComponentUpdate(nextProps) {
     // 默认了clinic后，再次编辑clinic
-    const { history, location, checkoutStore } = this.props;
+    const { checkoutStore } = this.props;
 
     const searchUrl = this.props.history.location.search;
     function getQueryVariable(variable) {
@@ -69,7 +71,7 @@ class RouteFilter extends Component {
       nextProps.location.pathname.indexOf('/account') !== -1 &&
       !localItemRoyal.get('rc-token')
     ) {
-      this.props.history.push('/home');
+      this.props.history.replace('/home');
       return false;
     }
     // console.log(history.location.search,'123')
@@ -80,7 +82,7 @@ class RouteFilter extends Component {
       nextProps.location.pathname === '/confirmation' &&
       !sessionItemRoyal.get('subOrderNumberList')
     ) {
-      this.props.history.push('/home');
+      this.props.history.replace('/home');
       return false;
     }
     return true;
@@ -247,10 +249,6 @@ class RouteFilter extends Component {
         state: { path: pathname }
       });
     }
-  }
-
-  get userInfo() {
-    return this.props.loginStore.userInfo;
   }
 
   render() {

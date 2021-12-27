@@ -36,11 +36,6 @@ const env = {
     // #商品种类限制
     REACT_APP_LIMITED_CATE_NUM: '100',
 
-    // #是否开启promotion
-    REACT_APP_IS_PROMOTION: 'true',
-    // #是否显示banner上方tip
-    REACT_APP_SHOW_BANNERTIP: 'true',
-
     // #默认country
     REACT_APP_DEFAULT_COUNTRYID: '3620',
 
@@ -69,7 +64,6 @@ const env = {
     REACT_APP_SEARCH_LINK:
       '/on/demandware.store/Sites-EN-Site/en_EN/Search-Show',
     REACT_APP_CUSTOM_REGISTER: '1',
-    REACT_APP_LIMIT_MEMBER_PAY: '1', // 该店铺只允许会员下单
 
     REACT_APP_ONTRUST_SRC:
       'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js',

@@ -40,11 +40,6 @@ const env = {
     // #商品种类限制
     REACT_APP_LIMITED_CATE_NUM: '100',
 
-    // #是否开启promotion
-    REACT_APP_IS_PROMOTION: 'true',
-    // #是否显示banner上方tip
-    REACT_APP_SHOW_BANNERTIP: 'true',
-
     // #默认country
     REACT_APP_DEFAULT_COUNTRYID: '3620',
 
