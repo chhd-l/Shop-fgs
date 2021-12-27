@@ -526,9 +526,9 @@ class Pcexperts extends React.Component {
   };
   postUpdate = async (params) => {
     let id = funcUrl({ name: 'id' });
-    const { code } = await postUpdate(params);
+    const { code, context } = await postUpdate(params);
     if (code === 'K-000000') {
-      sessionItemRoyal.set('appointment-no', this.state.appointmentVO.apptNo);
+      sessionItemRoyal.set('appointment-no', context.appointmentVO.apptNo);
       sessionItemRoyal.set('oldAppointNo', id);
       sessionItemRoyal.set('isChangeAppoint', true);
       this.props.history.push('/checkout');
@@ -860,7 +860,7 @@ class Pcexperts extends React.Component {
                 }}
                 btnClass={`rc-btn rc-btn--one  rc-margin-bottom--xs`}
                 intl={intl}
-                style={{
+                btnStyle={{
                   width: '13.875rem',
                   fontSize: '0.75rem'
                 }}
