@@ -19,10 +19,6 @@ const env = {
     REACT_APP_GA_COUNTRY: 'TR',
     REACT_APP_GA_CURRENCY_CODE: 'TRY',
 
-    // #mars global footer
-    REACT_APP_MARS_FOOTER:
-      'https://footer.mars.com/js/footer.js.aspx?royalcanin-com-tr',
-
     // #storid
     REACT_APP_STOREID: '123457911',
 

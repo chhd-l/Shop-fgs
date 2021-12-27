@@ -17,11 +17,6 @@ const env = {
     REACT_APP_GTM_SITE_ID: 'RCGlobalPCO1',
     REACT_APP_GA_COUNTRY: 'RU',
     REACT_APP_GA_CURRENCY_CODE: 'RUB',
-
-    // #mars global footer
-    REACT_APP_MARS_FOOTER:
-      'https://footer.mars.com/js/footer.js.aspx?royalcanin-com-ru',
-
     // #storid
     REACT_APP_STOREID: '123457907',
 

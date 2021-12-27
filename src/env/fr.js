@@ -49,10 +49,6 @@ const env_fr = {
     REACT_APP_SEARCH_LINK:
       '/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show',
 
-    // #mars global footer
-    REACT_APP_MARS_FOOTER:
-      'https://footer.mars.com/js/footer.js.aspx?royalcanin-com-fr',
-
     REACT_APP_CUSTOM_REGISTER: '1',
     REACT_APP_COOKIE_SETTINGS_BTN_VISIBLE: '1'
   },
@@ -137,10 +133,6 @@ const env_fr = {
     // #GA环境配置
     REACT_APP_GA_ENV: 'uat',
 
-    // #mars global footer
-    REACT_APP_MARS_FOOTER:
-      'https://footer.mars.com/js/footer.js.aspx?royalcanin-com-fr',
-
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/fr/shop',
 
@@ -212,10 +204,6 @@ const env_fr = {
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'stg',
-
-    // #mars global footer
-    REACT_APP_MARS_FOOTER:
-      'https://footer.mars.com/js/footer.js.aspx?royalcanin-com-fr',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/fr/shop',

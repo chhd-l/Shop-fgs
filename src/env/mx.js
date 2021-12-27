@@ -58,9 +58,6 @@ const env_mx = {
 
     REACT_APP_SEARCH_LINK:
       '/on/demandware.store/Sites-ES-Site/es_ES/Search-Show',
-    // #mars global footer
-    REACT_APP_MARS_FOOTER:
-      'https://footer.mars.com/js/footer.js.aspx?shop-royalcanin-mx',
     REACT_APP_COOKIE_SETTINGS_BTN_VISIBLE: '1'
   },
   development: {

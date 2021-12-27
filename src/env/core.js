@@ -131,10 +131,6 @@ const env_fr = {
     // #GA环境配置
     REACT_APP_GA_ENV: 'uat',
 
-    // #mars global footer
-    REACT_APP_MARS_FOOTER:
-      'https://footer.mars.com/js/footer.js.aspx?royalcanin-com-fr',
-
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/core/shop',
 
@@ -205,10 +201,6 @@ const env_fr = {
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'stg',
-
-    // #mars global footer
-    REACT_APP_MARS_FOOTER:
-      'https://footer.mars.com/js/footer.js.aspx?royalcanin-com-fr',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/core/shop',
