@@ -58,8 +58,6 @@ import PayUCreditCard from './PaymentMethod/PayUCreditCard';
 import AdyenCreditCard from './PaymentMethod/Adyen';
 import Paypal from './PaymentMethod/Paypal';
 import Swish from './PaymentMethod/Swish';
-import Swish2 from './PaymentMethod/Swish/index2.js';
-import { SwishLogo } from './PaymentMethod/Swish';
 // import CyberCardList from './PaymentMethod/Cyber/list';
 import Cod from './PaymentMethod/Cod';
 import OxxoConfirm from './PaymentMethod/Oxxo';
@@ -948,13 +946,14 @@ class Payment extends React.Component {
     const {
       paymentStore: { serCurPayWayVal }
     } = this.props;
+
+    const tmpVal = val || this.state.payWayNameArr[0]?.paymentTypeVal || '';
+    serCurPayWayVal(tmpVal);
     if (
       chooseRadioType(window.__.env.REACT_APP_COUNTRY) === 'box' &&
       this.tradePrice != 0
     )
       return; //box的方式不默认第一种支付方式,0元订单还是默认第一种credit card支付方式
-    const tmpVal = val || this.state.payWayNameArr[0]?.paymentTypeVal || '';
-    serCurPayWayVal(tmpVal);
     this.setState(
       {
         paymentTypeVal: tmpVal

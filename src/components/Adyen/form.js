@@ -81,6 +81,7 @@ class AdyenCreditCardForm extends React.Component {
       paymentStore: { curPayWayInfo }
     } = this.props;
     const tmp = await getPaymentConf();
+
     this.setState(
       {
         adyenOriginKeyConf: tmp.filter(
