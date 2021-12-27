@@ -927,6 +927,9 @@ class Payment extends React.Component {
         },
         () => {
           setPayWayNameArr(payWayNameArr);
+          this.props.paymentStore.setSupportPaymentMethods(
+            payWayNameArr[0]?.payPspItemCardTypeVOList
+          );
           sessionItemRoyal.set(
             'rc-payWayNameArr',
             JSON.stringify(payWayNameArr)
@@ -963,13 +966,17 @@ class Payment extends React.Component {
       }
     );
   }
-
-  onPaymentTypeValChange() {
-    const supportPaymentMethods =
+  // adyenCard支持的卡类型
+  setSupportPaymentMethods() {
+    return (
       this.state.payWayNameArr.filter(
         (p) => p.paymentTypeVal === this.state.paymentTypeVal
-      )[0]?.payPspItemCardTypeVOList || [];
-    this.props.paymentStore.setSupportPaymentMethods(supportPaymentMethods);
+      )[0]?.payPspItemCardTypeVOList || []
+    );
+  }
+
+  onPaymentTypeValChange() {
+    const supportPaymentMethods = this.setSupportPaymentMethods();
     this.setState(
       { cardTypeVal: supportPaymentMethods[0]?.cardType || '' },
       () => {
