@@ -969,9 +969,8 @@ export function judgeIsIndividual(item) {
 // uk和fr,才有postCode校验
 const countryPostCode = ['uk', 'fr'];
 const currentCountry = window.__.env.REACT_APP_COUNTRY;
-export const isCanVerifyBlacklistPostCode = countryPostCode.includes(
-  currentCountry
-);
+export const isCanVerifyBlacklistPostCode =
+  countryPostCode.includes(currentCountry);
 
 // 获取 Postal code alert message
 export async function getAddressPostalCodeAlertMessage() {
@@ -1247,3 +1246,33 @@ export function formatDate({
     ).format(new Date(date));
   }
 }
+
+/**
+ * 动态渲染script html或link html
+ * @param  {String} {htmlStr} 需要处理的html字符串
+ */
+export const renderScriptOrLinkHtmlStr = ({ htmlStr, callback }) => {
+  const div = window.document.createElement('div');
+  div.innerHTML = htmlStr;
+  const scripts = div.querySelectorAll('script');
+  const links = div.querySelectorAll('link');
+  let scriptsCount = scripts.length;
+  let linksCount = links.length;
+  while (scriptsCount--) {
+    const curScript = scripts[scriptsCount];
+    let param = {
+      url: curScript.src,
+      dataSets: { ...curScript.dataset },
+      callback
+    };
+    if (curScript.innerHTML) {
+      param = { ...param, ...{ code: curScript.innerHTML } };
+    }
+    loadJS(param);
+  }
+
+  while (linksCount--) {
+    const curLink = links[linksCount];
+    dynamicLoadCss(curLink.href);
+  }
+};

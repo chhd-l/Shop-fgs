@@ -1,25 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-import { fetchFooterConfig } from '@/api';
-import getCountryCodeFromHref from '@/lib/get-country-code-from-href';
 import LazyLoad from 'react-lazyload';
 import { inject, observer } from 'mobx-react';
-import { queryApiFromSessionCache } from '@/utils/utils';
 
 const DynamicFooter = ({ configStore, intl }) => {
   const [footHtml, setFooterHtml] = useState('');
 
   useEffect(() => {
-    const getData = async () => {
-      const param = getCountryCodeFromHref();
-      const res = await queryApiFromSessionCache({
-        sessionKey: 'footer-hub',
-        api: () => fetchFooterConfig(param?.countryCode)
-      });
-      setFooterHtml(res?.context?.footer || '');
-    };
-    getData();
-  }, []);
+    setFooterHtml(configStore.info?.footer);
+  }, [configStore.info?.footer]);
 
   useEffect(() => {
     const paymentLogosBox = document.querySelector('#J_footer_payment_box');
@@ -49,7 +38,7 @@ const DynamicFooter = ({ configStore, intl }) => {
             </div>
             <div className={`rc-text--inverse`}>
               <div
-                className={`flex flex-wrap justify-content-start`}
+                className={`flex flex-wrap justify-content-start items-center`}
                 style={{ fontSize: '0' }}
               >
                 {logos.map((img, i) => (
