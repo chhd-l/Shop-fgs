@@ -14,11 +14,6 @@ const env = {
     REACT_APP_GA_COUNTRY: 'UK',
     REACT_APP_GA_CURRENCY_CODE: 'GBP',
 
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      '8923767a-c9c8-4c36-ae5f-97af6af42bdb-test',
-    REACT_APP_ONTRUST_STYLE: '',
-
     // #language
     REACT_APP_LANG: 'uk',
     REACT_APP_HTML_LANG: 'en-GB',
@@ -28,9 +23,6 @@ const env = {
     // #storid
     REACT_APP_STOREID: '123457916',
 
-    // #onetrust
-    REACT_APP_ONTRUST_SRC:
-      'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js',
     // #最低限额
     REACT_APP_MINIMUM_AMOUNT: '0',
     // #商品数量限制(所有产品)
@@ -201,7 +193,6 @@ const env = {
     REACT_APP_RegisterCallback: 'https://shop.royalcanin.com',
     REACT_APP_FaceBook_IDP: '0oa75jv7oSeLBnnkt416',
     REACT_APP_Google_IDP: '0oa75klujN7PkgedM416',
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT: '8923767a-c9c8-4c36-ae5f-97af6af42bdb',
 
     // #接口配置
     REACT_APP_BASEURL: 'https://shop.royalcanin.com/api',
@@ -229,7 +220,6 @@ const env = {
   //   REACT_APP_RegisterCallback: 'https://shop.royalcanin.com',
   //   REACT_APP_FaceBook_IDP: '0oa75jv7oSeLBnnkt416',
   //   REACT_APP_Google_IDP: '0oa75klujN7PkgedM416',
-  //   REACT_APP_ONTRUST_DOMAIN_SCRIPT: '8923767a-c9c8-4c36-ae5f-97af6af42bdb',
 
   //   // #接口配置
   //   REACT_APP_BASEURL: 'https://shop.royalcanin.com/api',
@@ -264,9 +254,6 @@ const env = {
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'prd',
-
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT: '8923767a-c9c8-4c36-ae5f-97af6af42bdb',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/uk/shop',

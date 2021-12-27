@@ -19,11 +19,6 @@ const env = {
     REACT_APP_GA_COUNTRY: 'TR',
     REACT_APP_GA_CURRENCY_CODE: 'TRY',
 
-    // #onetrust
-    REACT_APP_ONTRUST_SRC:
-      'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js',
-    REACT_APP_ONTRUST_STYLE: '',
-
     // #mars global footer
     REACT_APP_MARS_FOOTER:
       'https://footer.mars.com/js/footer.js.aspx?royalcanin-com-tr',
@@ -86,10 +81,7 @@ const env = {
     REACT_APP_PaymentAPPID_VISITOR: 'com.razorfish.dev_ru_ms',
 
     // #GA环境配置
-    REACT_APP_GA_ENV: 'dev',
-
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT: '8e43358c-1784-48e1-88b1-b6d1dcd73576-test'
+    REACT_APP_GA_ENV: 'dev'
   },
   shopsit: {
     // #okta
@@ -117,10 +109,6 @@ const env = {
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'sit',
-
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      '8e43358c-1784-48e1-88b1-b6d1dcd73576-test',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/tr'
@@ -152,10 +140,6 @@ const env = {
     // #GA环境配置
     REACT_APP_GA_ENV: 'uat',
 
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      '8e43358c-1784-48e1-88b1-b6d1dcd73576-test',
-
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/tr'
   },
@@ -186,10 +170,6 @@ const env = {
     // #GA环境配置
     REACT_APP_GA_ENV: 'stg',
 
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      '8e43358c-1784-48e1-88b1-b6d1dcd73576-test',
-
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/tr'
   },
@@ -216,9 +196,6 @@ const env = {
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'prd',
-
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT: '8e43358c-1784-48e1-88b1-b6d1dcd73576',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/',
@@ -250,9 +227,6 @@ const env = {
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'prd',
-
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT: '8e43358c-1784-48e1-88b1-b6d1dcd73576',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/tr/shop',
@@ -297,10 +271,6 @@ const env = {
     REACT_APP_PaymentKEY_VISITOR: 'f2346509-9c34-4299-8c07-9719dc4574e9',
     REACT_APP_PaymentAPPID_VISITOR: 'com.razorfish.dev_ru_ms',
 
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      '8e43358c-1784-48e1-88b1-b6d1dcd73576-test',
-
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/tr/shop',
 
@@ -342,10 +312,6 @@ const env = {
     REACT_APP_PaymentAPPID_MEMBER: 'com.razorfish.dev_ru_ms',
     REACT_APP_PaymentKEY_VISITOR: 'f2346509-9c34-4299-8c07-9719dc4574e9',
     REACT_APP_PaymentAPPID_VISITOR: 'com.razorfish.dev_ru_ms',
-
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      '8e43358c-1784-48e1-88b1-b6d1dcd73576-test',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/tr/shop',
