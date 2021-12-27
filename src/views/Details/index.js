@@ -1081,6 +1081,7 @@ class Details extends React.Component {
   }
 
   DailyPortionComponent = (details, barcode) => {
+    let storeContentInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
     let { goodsInfos = [], goodsAttributesValueRelList = [] } = details;
     let currentGoodsInfo = goodsInfos.find(
       (item) => item.goodsInfoBarcode === barcode
@@ -1093,19 +1094,16 @@ class Details extends React.Component {
      *    1.2、Bundle products are excluded => goodsInfos - goodsInfoType === 2
      * **/
 
-    if (details?.wsTechnologyCode === 'liquid') {
-      return null;
-    }
-    if (currentGoodsInfo?.goodsInfoType === 2) {
-      return null;
-    }
+    if (!storeContentInfo?.dailyPortion) return null;
+    if (details?.wsTechnologyCode === 'liquid') return null;
+    if (currentGoodsInfo?.goodsInfoType === 2) return null;
 
     // 产品动物的种类
     let speciesValue = goodsAttributesValueRelList.find(
       (item) => item.goodsAttributeName === 'Species'
     )?.goodsAttributeValue;
 
-    // 产品的breed
+    // 产品的breed serengeti
     let initBreedValue = goodsAttributesValueRelList.find(
       (item) => item.goodsAttributeName === 'Breeds'
     )?.goodsAttributeValue;

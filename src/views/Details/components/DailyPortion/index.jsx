@@ -73,196 +73,196 @@ const questionList = [
     },
     "possibleValues":[
       {
-        "key":"american_curl_longhair",
-        "label":"American Curl Longhair"
+        "breedCode":"american_curl_longhair",
+        "localName":"American Curl Longhair"
       },
       {
-        "key":"serengeti",
-        "label":"Serengeti"
+        "breedCode":"serengeti",
+        "localName":"Serengeti"
       },
       {
-        "key":"tiffanie",
-        "label":"Tiffany"
+        "breedCode":"tiffanie",
+        "localName":"Tiffany"
       },
       {
-        "key":"thai_lilac",
-        "label":"Thai lilac"
+        "breedCode":"thai_lilac",
+        "localName":"Thai lilac"
       },
       {
-        "key":"chantilly_tiffany",
-        "label":"Chantilly tiffany"
+        "breedCode":"chantilly_tiffany",
+        "localName":"Chantilly tiffany"
       },
       {
-        "key":"donskoy",
-        "label":"Donskoy"
+        "breedCode":"donskoy",
+        "localName":"Donskoy"
       },
       {
-        "key":"oriental_shorthair",
-        "label":"Oriental Shorthair"
+        "breedCode":"oriental_shorthair",
+        "localName":"Oriental Shorthair"
       },
       {
-        "key":"colourpoint_shorthair",
-        "label":"Colourpoint shorthair"
+        "breedCode":"colourpoint_shorthair",
+        "localName":"Colourpoint shorthair"
       },
       {
-        "key":"selkirk_rex_shorthair",
-        "label":"Selkirk Rex Shorthair"
+        "breedCode":"selkirk_rex_shorthair",
+        "localName":"Selkirk Rex Shorthair"
       },
       {
-        "key":"californian_rex",
-        "label":"Californian Rex"
+        "breedCode":"californian_rex",
+        "localName":"Californian Rex"
       },
       {
-        "key":"undefined",
-        "label":"Non défini"
+        "breedCode":"undefined",
+        "localName":"Non défini"
       },
       {
-        "key":"kurilian_bobtail",
-        "label":"Bobtail des Kouriles"
+        "breedCode":"kurilian_bobtail",
+        "localName":"Bobtail des Kouriles"
       },
       {
-        "key":"peterbald",
-        "label":"Peterbald"
+        "breedCode":"peterbald",
+        "localName":"Peterbald"
       },
       {
-        "key":"ural_rex",
-        "label":"Rex de l'oural"
+        "breedCode":"ural_rex",
+        "localName":"Rex de l'oural"
       },
       {
-        "key":"chausie",
-        "label":"Chausie"
+        "breedCode":"chausie",
+        "localName":"Chausie"
       },
       {
-        "key":"ceylan",
-        "label":"Ceylan"
+        "breedCode":"ceylan",
+        "localName":"Ceylan"
       },
       {
-        "key":"american_bobtail",
-        "label":"Bobtail Americain"
+        "breedCode":"american_bobtail",
+        "localName":"Bobtail Americain"
       },
       {
-        "key":"munchkin",
-        "label":"Munchkin"
+        "breedCode":"munchkin",
+        "localName":"Munchkin"
       },
       {
-        "key":"laperm_longhair",
-        "label":"LaPerm Longhair"
+        "breedCode":"laperm_longhair",
+        "localName":"LaPerm Longhair"
       },
       {
-        "key":"singapura",
-        "label":"Singapura"
+        "breedCode":"singapura",
+        "localName":"Singapura"
       },
       {
-        "key":"arabian_mau",
-        "label":"Mau arabe"
+        "breedCode":"arabian_mau",
+        "localName":"Mau arabe"
       },
       {
-        "key":"ragdoll",
-        "label":"Ragdoll"
+        "breedCode":"ragdoll",
+        "localName":"Ragdoll"
       },
       {
-        "key":"aphrodite_giant",
-        "label":"Aphrodite giant"
+        "breedCode":"aphrodite_giant",
+        "localName":"Aphrodite giant"
       },
       {
-        "key":"laperm",
-        "label":"LaPerm"
+        "breedCode":"laperm",
+        "localName":"LaPerm"
       },
       {
-        "key":"turks",
-        "label":"Angora Turc"
+        "breedCode":"turks",
+        "localName":"Angora Turc"
       },
       {
-        "key":"american_shorthair",
-        "label":"American Shorthair"
+        "breedCode":"american_shorthair",
+        "localName":"American Shorthair"
       },
       {
-        "key":"ocicat",
-        "label":"Ocicat"
+        "breedCode":"ocicat",
+        "localName":"Ocicat"
       },
       {
-        "key":"persian",
-        "label":"Persan"
+        "breedCode":"persian",
+        "localName":"Persan"
       },
       {
-        "key":"mixed_breed",
-        "label":"Croisé"
+        "breedCode":"mixed_breed",
+        "localName":"Croisé"
       },
       {
-        "key":"ussuri",
-        "label":"Ussuri"
+        "breedCode":"ussuri",
+        "localName":"Ussuri"
       },
       {
-        "key":"heilige_birma",
-        "label":"Sacré de Birmanie"
+        "breedCode":"heilige_birma",
+        "localName":"Sacré de Birmanie"
       },
       {
-        "key":"chartreux",
-        "label":"Chartreux"
+        "breedCode":"chartreux",
+        "localName":"Chartreux"
       },
       {
-        "key":"abyssinian",
-        "label":"Abyssin"
+        "breedCode":"abyssinian",
+        "localName":"Abyssin"
       },
       {
-        "key":"british_shorthair",
-        "label":"British Shorthair"
+        "breedCode":"british_shorthair",
+        "localName":"British Shorthair"
       },
       {
-        "key":"russie",
-        "label":"Russe"
+        "breedCode":"russie",
+        "localName":"Russe"
       },
       {
-        "key":"cornish_rex",
-        "label":"Cornish Rex"
+        "breedCode":"cornish_rex",
+        "localName":"Cornish Rex"
       },
       {
-        "key":"manx_longhair",
-        "label":"Cymric"
+        "breedCode":"manx_longhair",
+        "localName":"Cymric"
       },
       {
-        "key":"highlander",
-        "label":"Highlander"
+        "breedCode":"highlander",
+        "localName":"Highlander"
       },
       {
-        "key":"asian",
-        "label":"Asian"
+        "breedCode":"asian",
+        "localName":"Asian"
       },
       {
-        "key":"ojos_azules",
-        "label":"Ojos azules"
+        "breedCode":"ojos_azules",
+        "localName":"Ojos azules"
       },
       {
-        "key":"classicat",
-        "label":"Classicat"
+        "breedCode":"classicat",
+        "localName":"Classicat"
       },
       {
-        "key":"balinese",
-        "label":"Balinais"
+        "breedCode":"balinese",
+        "localName":"Balinais"
       },
       {
-        "key":"toyger",
-        "label":"Toyger"
+        "breedCode":"toyger",
+        "localName":"Toyger"
       },
       {
-        "key":"lykoi",
-        "label":"Lykoï"
+        "breedCode":"lykoi",
+        "localName":"Lykoï"
       },
       {
-        "key":"american_polydactyl",
-        "label":"American polydactyl"
+        "breedCode":"american_polydactyl",
+        "localName":"American polydactyl"
       },
       {
-        "key":"siberian",
-        "label":"Sibérien"
+        "breedCode":"siberian",
+        "localName":"Sibérien"
       },
       {
-        "key":"bambino",
-        "label":"Bambino"
+        "breedCode":"bambino",
+        "localName":"Bambino"
       },
       {
-        "key":"thai_blue_point",
-        "label":"Thai blue point"
+        "breedCode":"thai_blue_point",
+        "localName":"Thai blue point"
       },
     ]
   },
@@ -369,6 +369,7 @@ export default function DailyPortion(
   const [stepOneDisabled, setStepOneDisabled] = useState(true);
   const [breedOptions,setBreedOptions] = useState([]);
   const [ration, setRation] = useState({})
+  const [loading, setLoading] = useState(false);
 
   /**
    * 问题的结果
@@ -409,6 +410,7 @@ export default function DailyPortion(
 
   useEffect(() =>{
     if (!speciesValue) return;
+
     getBreedOptions(speciesValue).then(() => {
       if (Array.isArray(breedOptions) && breedOptions.length > 0 && initBreedValue){
         const value = breedOptions.find((item) => item.breedCode === initBreedValue)
@@ -469,7 +471,6 @@ export default function DailyPortion(
     })
   }
 
-  // 计算结果
   const getResult = async () => {
     let param = {
       "breedCode": isMixedBreed ? 'mixed_breed' : breedData.key,
@@ -487,14 +488,6 @@ export default function DailyPortion(
       "packWeight": goodsInfo?.goodsInfoWeight,
       "goodsInfoUnit": goodsInfo?.goodsInfoUnit,
     }
-    let res = await productFinderDailyPortionRation(param);
-    if(res.code === 'K-000000'){
-      // setRation({})
-      setStep(3)
-    }else {
-      setRation({})
-    }
-
     dataLayer.push({
       'event' : 'rationingToolInteraction',
       'rationingToolInteraction' : 'Calculate portion'
@@ -504,6 +497,17 @@ export default function DailyPortion(
       'event' : 'rationingToolInteraction',
       'rationingToolInteraction' : 'Display result'
     })
+
+    setLoading(true);
+    try {
+      let res = await productFinderDailyPortionRation(param);
+      setLoading(false);
+      setStep(3)
+    }catch (e) {
+      setLoading(false);
+      setRation({})
+    }
+    console.log('productFinderDailyPortionRation - end', );
 
   }
 
@@ -543,7 +547,7 @@ export default function DailyPortion(
             <div className='flex flex-wrap'>
               <div className='w-full lg:w-1/3 pb-4 lg:pb-0'>
                 <BreedSelect
-                  isPreselected={!!initBreedValue}
+                  isPreselected={!!breedData.key}
                   label={breedCodeData?.metadata?.label ?? ''}
                   options={breedOptions ?? []}
                   value={breedData}
@@ -624,6 +628,7 @@ export default function DailyPortion(
                 className={classNames(
                   'rc-btn rc-btn--one rc-margin-right--xs--mobile',
                   {'rc-btn-solid-disabled': !bcs},
+                  {'ui-btn-loading': loading}
                 )}
               >
                 <FormattedMessage id='dailyPortion.calculatePortion'/>
@@ -681,7 +686,7 @@ export default function DailyPortion(
 
     let param = {
       countryCode: window.__.env.REACT_APP_COUNTRY,
-      species: speciesValue
+      species: String(speciesValue).toLowerCase()
     }
     let res = await productFinderDailyPortion(param);
 
