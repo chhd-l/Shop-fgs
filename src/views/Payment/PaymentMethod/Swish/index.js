@@ -3,25 +3,25 @@ import { FormattedMessage } from 'react-intl';
 import IMask from 'imask';
 
 const Swish = ({ billingJSX, updateSwishPhone }) => {
-  const handleChange = (e) => {
-    let val = e.target.value;
-    setMobile(val);
-    updateSwishPhone(val);
-  };
-  const [phone, setMobile] = useState('');
+  // const handleChange = (e) => {
+  //   let val = e.target.value;
+  //   setMobile(val);
+  //   updateSwishPhone(val);
+  // };
+  // const [phone, setMobile] = useState('');
 
-  useEffect(() => {
-    let element = document.getElementById('phoneNumber');
-    let phoneReg = [{ mask: '(+46) 00 00 00 00 00' }];
-    let maskOptions = {
-      mask: phoneReg
-    };
-    IMask(element, maskOptions);
-  }, []);
+  // useEffect(() => {
+  //   let element = document.getElementById('phoneNumber');
+  //   let phoneReg = [{ mask: '(+46) 00 00 00 00 00' }];
+  //   let maskOptions = {
+  //     mask: phoneReg
+  //   };
+  //   IMask(element, maskOptions);
+  // }, []);
 
   return (
     <>
-      <div id="swish-container">
+      {/* <div id="swish-container">
         <div className="text-lg text-gray-500 font-medium mb-4 mt-6">
           Your phone number
         </div>
@@ -36,7 +36,7 @@ const Swish = ({ billingJSX, updateSwishPhone }) => {
         />
         <br />
         <FormattedMessage id="swish.bref" />
-      </div>
+      </div> */}
       {billingJSX}
     </>
   );
