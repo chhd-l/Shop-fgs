@@ -38,7 +38,7 @@ const DynamicFooter = ({ configStore, intl }) => {
             </div>
             <div className={`rc-text--inverse`}>
               <div
-                className={`flex flex-wrap justify-content-start`}
+                className={`flex flex-wrap justify-content-start items-center`}
                 style={{ fontSize: '0' }}
               >
                 {logos.map((img, i) => (
