@@ -4,7 +4,8 @@ const api = {
   getBanner: `/${window.__.env.REACT_APP_STOREID}/banners`,
   findStoreCateList: `/${window.__.env.REACT_APP_STOREID}/categories`, // 查询首页产品分类
   mktCallBack: '/consent/mkt/callback',
-  accountCallBack: '/consent/account/callback'
+  accountCallBack: '/consent/account/callback',
+  marketingBanner: `/marketingBanner/getMarketingBanner/${window.__.env.REACT_APP_STOREID}`
 };
 
 export default api;
@@ -36,5 +37,12 @@ export function mktCallBack(parameter) {
     url: `${api.mktCallBack}`,
     method: 'POST',
     data: parameter
+  });
+}
+
+export function getMarketingBanner() {
+  return axios({
+    url: `${api.marketingBanner}`,
+    method: 'get'
   });
 }

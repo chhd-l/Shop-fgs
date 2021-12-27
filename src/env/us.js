@@ -14,10 +14,6 @@ const env = {
     REACT_APP_GA_COUNTRY: 'US',
     REACT_APP_GA_CURRENCY_CODE: 'USD',
 
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT: '',
-    REACT_APP_ONTRUST_STYLE: '',
-
     // #language
     REACT_APP_LANG: 'en',
     REACT_APP_HTML_LANG: 'en',
@@ -35,11 +31,6 @@ const env = {
     REACT_APP_LIMITED_NUM: '20',
     // #商品种类限制
     REACT_APP_LIMITED_CATE_NUM: '100',
-
-    // #是否开启promotion
-    REACT_APP_IS_PROMOTION: 'true',
-    // #是否显示banner上方tip
-    REACT_APP_SHOW_BANNERTIP: 'true',
 
     // #默认country
     REACT_APP_DEFAULT_COUNTRYID: '3620',
@@ -69,12 +60,7 @@ const env = {
     REACT_APP_SEARCH_LINK:
       '/on/demandware.store/Sites-EN-Site/en_EN/Search-Show',
     REACT_APP_CUSTOM_REGISTER: '1',
-    REACT_APP_LIMIT_MEMBER_PAY: '1', // 该店铺只允许会员下单
 
-    REACT_APP_ONTRUST_SRC:
-      'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js',
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      '83dcdb6d-4c72-4616-83c5-05930054b124-test',
     REACT_APP_COOKIE_SETTINGS_BTN_VISIBLE: '1'
   },
   development: {
@@ -195,9 +181,6 @@ const env = {
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'prd',
-
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT: '83dcdb6d-4c72-4616-83c5-05930054b124',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/',

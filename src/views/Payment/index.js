@@ -58,8 +58,6 @@ import PayUCreditCard from './PaymentMethod/PayUCreditCard';
 import AdyenCreditCard from './PaymentMethod/Adyen';
 import Paypal from './PaymentMethod/Paypal';
 import Swish from './PaymentMethod/Swish';
-import Swish2 from './PaymentMethod/Swish/index2.js';
-import { SwishLogo } from './PaymentMethod/Swish';
 // import CyberCardList from './PaymentMethod/Cyber/list';
 import Cod from './PaymentMethod/Cod';
 import OxxoConfirm from './PaymentMethod/Oxxo';
@@ -929,6 +927,9 @@ class Payment extends React.Component {
         },
         () => {
           setPayWayNameArr(payWayNameArr);
+          this.props.paymentStore.setSupportPaymentMethods(
+            payWayNameArr[0]?.payPspItemCardTypeVOList
+          );
           sessionItemRoyal.set(
             'rc-payWayNameArr',
             JSON.stringify(payWayNameArr)
@@ -948,13 +949,14 @@ class Payment extends React.Component {
     const {
       paymentStore: { serCurPayWayVal }
     } = this.props;
+
+    const tmpVal = val || this.state.payWayNameArr[0]?.paymentTypeVal || '';
+    serCurPayWayVal(tmpVal);
     if (
       chooseRadioType(window.__.env.REACT_APP_COUNTRY) === 'box' &&
       this.tradePrice != 0
     )
       return; //box的方式不默认第一种支付方式,0元订单还是默认第一种credit card支付方式
-    const tmpVal = val || this.state.payWayNameArr[0]?.paymentTypeVal || '';
-    serCurPayWayVal(tmpVal);
     this.setState(
       {
         paymentTypeVal: tmpVal
@@ -964,13 +966,17 @@ class Payment extends React.Component {
       }
     );
   }
-
-  onPaymentTypeValChange() {
-    const supportPaymentMethods =
+  // adyenCard支持的卡类型
+  setSupportPaymentMethods() {
+    return (
       this.state.payWayNameArr.filter(
         (p) => p.paymentTypeVal === this.state.paymentTypeVal
-      )[0]?.payPspItemCardTypeVOList || [];
-    this.props.paymentStore.setSupportPaymentMethods(supportPaymentMethods);
+      )[0]?.payPspItemCardTypeVOList || []
+    );
+  }
+
+  onPaymentTypeValChange() {
+    const supportPaymentMethods = this.setSupportPaymentMethods();
     this.setState(
       { cardTypeVal: supportPaymentMethods[0]?.cardType || '' },
       () => {
@@ -3505,7 +3511,8 @@ class Payment extends React.Component {
               ))}
             </>
           )}
-          {paymentTypeVal === 'adyenCard' &&
+          {chooseRadioType(window.__.env.REACT_APP_COUNTRY) === 'box' &&
+            paymentTypeVal === 'adyenCard' &&
             payConfirmBtn({
               disabled: !validSts.adyenCard || validForBilling,
               loading: saveBillingLoading,
@@ -3836,6 +3843,20 @@ class Payment extends React.Component {
         ret = (
           <div className="col-12 col-md-6">
             <FormattedMessage id="payment.codConfirmTip" />
+          </div>
+        );
+        break;
+      case 'adyenPaypal':
+        ret = (
+          <div className="col-12 col-md-6">
+            <img src={paypalLogo} className="w-24 ml-8" />
+          </div>
+        );
+        break;
+      case 'adyen_swish':
+        ret = (
+          <div className="col-12 col-md-6">
+            <img src={swishLogo} className="w-24 ml-8" />
           </div>
         );
         break;

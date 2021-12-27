@@ -2,7 +2,6 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
-import Progress from '@/components/Progress';
 import Pagination from '@/components/Pagination';
 import './index.css';
 import MapFlag from '@/components/MapFlag';
@@ -95,28 +94,15 @@ class Prescription extends React.Component {
         id: ''
       },
       loading: true,
-      modalShow: false //是否显示询问绑定prescriber弹框
+      modalShow: this.props.configStore.isShowPrescriberModal || false //是否显示询问绑定prescriber弹框
     };
-    this.hubGA = window.__.env.REACT_APP_HUB_GA == '1';
+    this.hubGA = window.__.env.REACT_APP_HUB_GA === '1';
   }
-  async componentDidMount() {
+  componentDidMount() {
     //获取是否显示prescriber弹框
-    this.setState(
-      {
-        modalShow: this.props.configStore.isShowPrescriberModal
-      },
-      () => {
-        this.state.modalShow && this.hubGA && this.hubGaModalPopup();
-      }
-    );
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
-    this.handleInit();
-
+    this.state.modalShow && this.hubGA && this.hubGaModalPopup();
     this.getAllPrescription();
+    this.handleInit();
   }
   componentWillUnmount() {
     sessionItemRoyal.remove('clinic-reselect');
@@ -146,7 +132,7 @@ class Prescription extends React.Component {
     });
   };
 
-  handleInit = (e) => {
+  handleInit = () => {
     const { params } = this.state;
     //获取当前地理位置信息
     navigator.geolocation.getCurrentPosition((position) => {
@@ -176,7 +162,6 @@ class Prescription extends React.Component {
   async getPrescription(params) {
     this.setState({ loading: true });
     const res = await getPrescription(params);
-    //const res = mockResult
     let totalPage = Math.ceil(res.context.total / this.state.params.pageSize);
     this.setState({
       currentClinicArr: res.context.content,
@@ -296,34 +281,34 @@ class Prescription extends React.Component {
   }
 
   render(h) {
+    const { me, meLocation, clinicArr, currentSelectClinic } = this.state;
     let flags = [];
     flags.push(
       <AnyReactComponent
-        key={this.state.me.id}
-        lat={+this.state.meLocation.lat}
-        lng={+this.state.meLocation.lng}
-        obj={this.state.me}
+        key={me.id}
+        lat={+meLocation.lat}
+        lng={+meLocation.lng}
+        obj={me}
         // show={false}
       />
     );
-    for (var i = 0; i < this.state.clinicArr.length; i++) {
+    for (const item of clinicArr) {
       flags.push(
         <AnyReactComponent
           props={this.props}
-          key={this.state.clinicArr[i].id}
-          lat={+this.state.clinicArr[i].latitude}
-          lng={+this.state.clinicArr[i].longitude}
-          obj={this.state.clinicArr[i]}
+          key={item.id}
+          lat={+item.latitude}
+          lng={+item.longitude}
+          obj={item}
           sonMess={this.getSonMess.bind(this)}
           show={
-            +this.state.clinicArr[i].longitude ===
-              +this.state.currentSelectClinic.lng &&
-            +this.state.clinicArr[i].latitude ===
-              +this.state.currentSelectClinic.lat
+            +item.longitude === +currentSelectClinic.lng &&
+            +item.latitude === +currentSelectClinic.lat
           }
         />
       );
     }
+
     const event = {
       page: {
         type: 'Checkout',
