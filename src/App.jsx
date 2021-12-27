@@ -387,7 +387,7 @@ const App = () => {
                 />
                 <Route exact path="/confirmation" render={(props)=>{
                   if(sessionItemRoyal.get('refresh-confirm-page')){
-                    sessionItemRoyal.remove('refresh-confirm-page', true)
+                    sessionItemRoyal.remove('refresh-confirm-page')
                     return (
                       <Redirect
                         to={{ pathname: '/'}}
