@@ -19,8 +19,8 @@ import { getShelterList } from '@/api/recommendation';
 import { getDetails, getLoginDetails } from '@/api/details';
 import { getFrequencyDict } from '@/utils/utils';
 let goodsInfoNosObj = {
-  8989212258325995: 'Kitten <br/> (3-12 months)',
-  8989131736500375: 'Adult Cat<br/> (1+ years)',
+  8172118196590126: 'Kitten <br/> (3-12 months)',
+  8172256907894156: 'Adult Cat<br/> (1+ years)',
   493013: 'Small Puppy <br/> (3-12 months)',
   493817: 'Medium Puppy <br/>(3-12 months)',
   492818: 'Large Puppy <br/>(3-12 months)',
@@ -55,7 +55,7 @@ const Adoptions = (props) => {
     });
   };
   const getShelters = async () => {
-    const res = await getShelterList({ prescriberType: ['Spt'] });
+    const res = await getShelterList({ prescriberType: ['Shelter'] });
     let list = res.context.map((el) => {
       return {
         name: el.prescriberName,
