@@ -3840,6 +3840,20 @@ class Payment extends React.Component {
           </div>
         );
         break;
+      case 'adyenPaypal':
+        ret = (
+          <div className="col-12 col-md-6">
+            <img src={paypalLogo} className="w-24 ml-8" />
+          </div>
+        );
+        break;
+      case 'adyen_swish':
+        ret = (
+          <div className="col-12 col-md-6">
+            <img src={swishLogo} className="w-24 ml-8" />
+          </div>
+        );
+        break;
       default:
         ret = <div className="col-12 col-md-6">{email}</div>;
         break;
