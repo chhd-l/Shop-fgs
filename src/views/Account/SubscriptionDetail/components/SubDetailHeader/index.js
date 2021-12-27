@@ -1,17 +1,12 @@
 import React, { useEffect, useState, createContext } from 'react';
-import {
-  FormattedMessage,
-  injectIntl,
-  FormattedDate
-} from 'react-intl-phraseapp';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import ChangeProduct from '../ChangeProduct';
 import LinkPet from './LinkPet';
-import { filterOrderId, getClubLogo } from '@/utils/utils';
+import { filterOrderId, getClubLogo, formatDate } from '@/utils/utils';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
 import { getDictionary } from '@/utils/utils';
-import { momentNormalizeDate } from '@/utils/momentNormalized';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 export const SubDetailHeaderContext = createContext();
@@ -209,7 +204,7 @@ const SubDetailHeader = ({
                       :
                       <strong>
                         {' '}
-                        {momentNormalizeDate(petsInfo?.birthOfPets || '')}
+                        {formatDate({ date: petsInfo?.birthOfPets })}
                       </strong>
                     </div>
                   </div>

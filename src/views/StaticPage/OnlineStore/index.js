@@ -19,7 +19,7 @@ import emailImg from '@/assets/images/online-store-email.png';
 import messageImg from '@/assets/images/online-store-message.png';
 import { Link, withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import './index.less';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -459,13 +459,7 @@ class OnlineStore extends React.Component {
           />
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
-        />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbs />

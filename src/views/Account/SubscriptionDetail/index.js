@@ -34,8 +34,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { Helmet } from 'react-helmet';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import OngoingOrder from './components/OngoingOrder';
-import { momentNormalizeDate } from '@/utils/momentNormalized';
 import TempolineAPIError from './components/TempolineAPIError';
+import { formatDate } from '@/utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
@@ -337,7 +337,7 @@ class SubscriptionDetail extends React.Component {
   };
   onDateChange(date, goodsInfo) {
     let { subDetail } = this.state;
-    subDetail.nextDeliveryTime = momentNormalizeDate(date, 'YYYY-MM-DD');
+    subDetail.nextDeliveryTime = formatDate({ date: date });
     let param = {
       subscribeId: subDetail.subscribeId,
       nextDeliveryTime: subDetail.nextDeliveryTime,
@@ -725,13 +725,7 @@ class SubscriptionDetail extends React.Component {
             <meta name="description" content={seoConfig.metaDescription} />
             <meta name="keywords" content={seoConfig.metaKeywords} />
           </Helmet>
-          <Header
-            showMiniIcons={true}
-            showUserIcon={true}
-            location={this.props.location}
-            history={this.props.history}
-            match={this.props.match}
-          />
+          <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
           <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
             <BreadCrumbs />
             <Modal

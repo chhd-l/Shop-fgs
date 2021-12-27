@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import Header from '@/components/Header';
@@ -1100,7 +1100,8 @@ class UnLoginCart extends React.Component {
     });
   };
   getCheckotBtn = () => {
-    const { intl } = this.props;
+    const { intl, configStore } = this.props;
+    const { paymentAuthority } = configStore;
     const { checkoutLoading, mobileCartVisibleKey } = this.state;
     return (
       <a className={`${checkoutLoading ? 'ui-btn-loading' : ''}`}>
@@ -1138,7 +1139,7 @@ class UnLoginCart extends React.Component {
               <div className="text-center" style={{ fontSize: '.9375rem' }}>
                 <FormattedMessage id="unLoginSubscriptionTips" />
               </div>
-            ) : window.__.env.REACT_APP_COUNTRY !== 'us' ? (
+            ) : paymentAuthority === '2' ? (
               <div
                 className="text-center"
                 onClick={() => this.handleCheckout()}
@@ -1155,7 +1156,7 @@ class UnLoginCart extends React.Component {
                 </div>
               </div>
             ) : null
-          ) : window.__.env.REACT_APP_COUNTRY !== 'us' ? (
+          ) : paymentAuthority === '2' ? (
             <div className="text-center">
               <div className="rc-styled-link color-999 rc-btn-disabled">
                 <FormattedMessage id="guestCheckout" />
@@ -1304,7 +1305,7 @@ class UnLoginCart extends React.Component {
               <FormattedMessage id="total2" />
             </div>
             <div className="col-6 no-padding-left">
-              <p className="text-right sub-total">
+              <p className="text-right sub-total mb-4">
                 {formatMoney(this.totalPrice)}
               </p>
             </div>
@@ -1639,13 +1640,7 @@ class UnLoginCart extends React.Component {
             opacity={this.state.checkoutLoading ? 0.3 : 1}
           />
         ) : null}
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
-        />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main
           className={`rc-content--fixed-header ${
             productList.length ? '' : 'cart-empty'

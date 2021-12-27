@@ -18,7 +18,8 @@ import {
   getDictionary,
   getDeviceType,
   setSeoConfig,
-  judgeIsIndividual
+  judgeIsIndividual,
+  formatDate
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import { batchAdd } from '@/api/payment';
@@ -29,11 +30,10 @@ import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
 import base64 from 'base-64';
 import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { filterOrderId } from '@/utils/utils';
 import './index.less';
 import { handleOrderItem } from './modules/handleOrderItem';
-import { momentNormalizeDate } from '@/utils/momentNormalized';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -519,13 +519,7 @@ class AccountOrders extends React.Component {
           />
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
-        />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbs />
@@ -675,9 +669,9 @@ class AccountOrders extends React.Component {
                                           <FormattedMessage id="order.orderPlacedOn" />
                                           <br className="d-none d-md-block" />
                                           <span className="medium orderHeaderTextColor">
-                                            {momentNormalizeDate(
-                                              order.tradeState.createTime
-                                            )}
+                                            {formatDate({
+                                              date: order.tradeState.createTime
+                                            })}
                                           </span>
                                         </p>
                                       </div>

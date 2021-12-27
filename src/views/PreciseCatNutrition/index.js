@@ -11,7 +11,7 @@ import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import paw from './images/paw.png';
 import cat_wellbeing from './images/cat_wellbeing.png';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { getDeviceType } from '../../utils/utils';
 import goldenfood from '../ClubLandingPageNew/image/goldenfood.png';
 import '../ClubLandingPageNew/index.css';
@@ -110,11 +110,9 @@ class PreciseCatNutrition extends React.Component {
             searchEvent={this.state.searchEvent}
           />
           <Header
+            {...this.props}
             showMiniIcons={true}
             showUserIcon={true}
-            match={match}
-            location={location}
-            history={history}
             sendGAHeaderSearch={this.sendGAHeaderSearch}
             showNav={true}
             notScroll={true}
@@ -138,6 +136,27 @@ class PreciseCatNutrition extends React.Component {
 
             <LongBanner />
             <br />
+            <div className="experience-component experience-layouts-1column">
+              <div className={'preciseCatNutritionTop'}>
+                <div className="row rc-margin-x--none">
+                  <div className="rc-full-width">
+                    <div className="experience-component experience-assets-contentBlock">
+                      <div style={{ position: 'relative' }}>
+                        <div
+                          id="aboutPet"
+                          style={{
+                            position: 'absolute',
+                            marginTop: isMobile ? '-60px' : '-100px'
+                          }}
+                        ></div>
+                      </div>
+                      <AboutPet />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/*<div style={{*/}
             {/*  height: 828,*/}
             {/*  background: "linear-gradient(white, #d8d8d8)",*/}
@@ -227,6 +246,7 @@ class PreciseCatNutrition extends React.Component {
                 </div>
               </div>
             </div>
+
             <div>
               <div className="experience-component experience-layouts-1column">
                 <div className="row rc-margin-x--none">
@@ -465,25 +485,6 @@ class PreciseCatNutrition extends React.Component {
                 <br />
                 <HowItWorks />
                 <br />
-              </div>
-
-              <div className={'preciseCatNutritionTop'}>
-                <div className="row rc-margin-x--none">
-                  <div className="rc-full-width">
-                    <div className="experience-component experience-assets-contentBlock">
-                      <div style={{ position: 'relative' }}>
-                        <div
-                          id="aboutPet"
-                          style={{
-                            position: 'absolute',
-                            marginTop: isMobile ? '-60px' : '-100px'
-                          }}
-                        ></div>
-                      </div>
-                      <AboutPet />
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
 

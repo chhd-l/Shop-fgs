@@ -160,6 +160,7 @@ class RouteFilter extends Component {
         sessionItemRoyal.remove('from-felin');
         sessionItemRoyal.remove('appointment-no');
         sessionItemRoyal.remove('isChangeAppoint');
+        sessionItemRoyal.remove('oldAppointNo');
       }
       if (prevPath.includes('/confirmation')) {
         if (sessionItemRoyal.get('rc-paywith-login') === 'true') {
@@ -175,7 +176,6 @@ class RouteFilter extends Component {
         sessionItemRoyal.remove('oxxoPayUrl');
         sessionItemRoyal.remove('adyenOxxoAction');
         sessionItemRoyal.remove('gaPet');
-        sessionItemRoyal.remove('refresh-confirm-page');
       }
       if (prevPath.includes('/prescription')) {
         sessionItemRoyal.remove('clinic-reselect');

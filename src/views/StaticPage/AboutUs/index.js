@@ -69,13 +69,7 @@ class AboutUs extends React.Component {
           <meta name="description" content={seoConfig.metaDescription} />
           <meta name="keywords" content={seoConfig.metaKeywords} />
         </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
-        />
+        <Header showMiniIcons={true} showUserIcon={true} {...this.props} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <h1 style={{ display: 'none' }}>
             {seoConfig.metaDescription || 'Royal canin'}

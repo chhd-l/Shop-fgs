@@ -20,6 +20,7 @@ import { inject, observer } from 'mobx-react';
 import { addEventListenerArr } from './addEventListener';
 import { EMAIL_REGEXP } from '@/utils/constant';
 import { isString } from 'lodash';
+import ConsentAdditionalText from '@/components/Consent/ConsentAdditionalText';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -1089,7 +1090,9 @@ class Register extends Component {
                                 fontZoom={this.state.fontZoom}
                                 auto={true}
                                 key={'required'}
+                                pageType="register"
                               />
+                              <ConsentAdditionalText textPosition="bottom" />
                               {window.__.env.REACT_APP_COUNTRY === 'uk' ? (
                                 <div
                                   className="footer-checkbox-title rc-text--left"
@@ -1158,16 +1161,17 @@ class Register extends Component {
                               <FormattedMessage id="registerCreateYourAccout" />
                             </button>
                           </div>
-                          {window.__.env.REACT_APP_COUNTRY !== 'ru' ? (
+                          {window.__.env.REACT_APP_COUNTRY !== 'ru' &&
+                          window.__.env.REACT_APP_COUNTRY !== 'us' ? (
                             <div className="rc-meta rc-margin-top--sm rc-text--left">
                               <p>
                                 <FormattedMessage
                                   id="registerFooter1"
                                   defaultMessage={' '}
                                 />
-                                {window.__.env.REACT_APP_COUNTRY === 'us' ? (
+                                {/* {window.__.env.REACT_APP_COUNTRY === 'us' ? (
                                   <a href={homePage + contactUrl}>&nbsp;here</a>
-                                ) : null}
+                                ) : null} */}
                               </p>
                             </div>
                           ) : null}

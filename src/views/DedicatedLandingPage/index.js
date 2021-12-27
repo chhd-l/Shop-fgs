@@ -392,11 +392,9 @@ class DedicatedLandingPage extends React.Component {
           searchEvent={this.state.searchEvent}
         />
         <Header
+          {...this.props}
           showMiniIcons={true}
           showUserIcon={true}
-          match={match}
-          location={location}
-          history={history}
           sendGAHeaderSearch={this.sendGAHeaderSearch}
         />
         <main className={'rc-content--fixed-header'}>

@@ -1,6 +1,6 @@
 import React from 'react';
 import GoogleTagManager from '@/components/GoogleTagManager';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
@@ -65,13 +65,7 @@ class SubscriptionLanding extends React.Component {
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <GoogleTagManager additionalEvents={event} />
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
-        />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
           <div className="experience-component experience-layouts-1column">

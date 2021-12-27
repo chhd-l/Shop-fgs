@@ -16,7 +16,8 @@ import {
   matchNamefromDict,
   filterOrderId,
   getClubLogo,
-  judgeIsIndividual
+  judgeIsIndividual,
+  formatDate
 } from '@/utils/utils';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
@@ -42,10 +43,6 @@ import OrderAppointmentInfo from './modules/OrderAppointmentInfo';
 import getCardImg from '@/lib/get-card-img';
 import { getWays } from '@/api/payment';
 import { handleOrderItem } from '../Orders/modules/handleOrderItem';
-import {
-  momentNormalizeDate,
-  deliverDateFormat
-} from '@/utils/momentNormalized';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -80,10 +77,10 @@ function Progress({ progressList, currentProgerssIndex }) {
               </span>
               <span className="od-prg-time position-absolute">
                 <span className="rc-md-up">
-                  {momentNormalizeDate(item.time1)} {item.time2}
+                  {formatDate({ date: item.time1 })} {item.time2}
                 </span>
                 <span className="rc-md-down">
-                  {momentNormalizeDate(item.time1)}
+                  {formatDate({ date: item.time1 })}
                   <br />
                   {item.time2 || (
                     <span style={{ color: 'transparent' }}>&nbsp;</span>
@@ -160,9 +157,13 @@ function LogisticsProgress(props) {
               key={i}
             >
               <span className={`logi-time text-right ${customDateCls}`}>
-                {momentNormalizeDate(item.timestamp, 'YYYY-MM-DD')}
+                {formatDate({ date: item.timestamp })}
                 <br />
-                {momentNormalizeDate(item.timestamp, 'HH:mm:ss')}
+                {formatDate({
+                  date: item.timestamp,
+                  showYear: false,
+                  showMinute: true
+                })}
               </span>
               <div className="logi-text pl-4 pr-4 pt-3 pb-3">
                 <svg className="svg-icon logi-icon" aria-hidden="true">
@@ -679,7 +680,7 @@ class AccountOrders extends React.Component {
                             </svg>
                             <FormattedMessage id="deliveryDate" />:{' '}
                             <span className="medium">
-                              {momentNormalizeDate(item.deliverTime)}
+                              {formatDate({ date: item.deliverTime })}
                             </span>
                           </div>
                           <div className="col-12 col-md-4">
@@ -730,10 +731,10 @@ class AccountOrders extends React.Component {
                     >
                       <div className="col-10 medium color-444 d-flex align-items-center">
                         <span>
-                          {momentNormalizeDate(
-                            item.deliverTime,
-                            'YYYY-MM-DD HH:mm:ss'
-                          )}
+                          {formatDate({
+                            date: item.deliverTime,
+                            showMinute: true
+                          })}
                         </span>
                       </div>
                       <div className="col-2">
@@ -1100,10 +1101,10 @@ class AccountOrders extends React.Component {
       welcomeGiftLists
     } = this.state;
 
-    let newDeliveryDate = momentNormalizeDate(
-      details?.consignee?.deliveryDate,
-      deliverDateFormat
-    );
+    let newDeliveryDate = formatDate({
+      date: details?.consignee?.deliveryDate,
+      formatOption: { weekday: 'long', day: '2-digit', month: 'long' }
+    });
 
     // details?.tradeItems?.map(el=>{el.subscriptionSourceList=[{subscribeId:'12323232323232'},{subscribeId:'12323232323232'}]})
     const isTr = window.__.env.REACT_APP_COUNTRY === 'tr'; //因为土耳其Total VAT Included的翻译，需要对Total VAT Included特殊化处理

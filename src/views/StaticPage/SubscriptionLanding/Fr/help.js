@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 // import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { inject, observer } from 'mobx-react';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 // import { Helmet } from 'react-helmet'; // 父组件引用导致了seo没显示上去，先注释
 
 @inject('configStore')

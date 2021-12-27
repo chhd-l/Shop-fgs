@@ -81,6 +81,7 @@ class UnloginCart extends React.Component {
     this.GAAccessToGuestCheck(type);
     try {
       const { configStore, checkoutStore, history, clinicStore } = this.props;
+      const { paymentAuthority } = configStore;
       localItemRoyal.set('okta-redirectUrl', '/cart-force-to-checkout');
       this.setState({ checkoutLoading: true });
       await checkoutStore.updateUnloginCart({
@@ -154,7 +155,8 @@ class UnloginCart extends React.Component {
 
   render() {
     const { totalNum } = this;
-    const { headerCartStore, intl } = this.props;
+    const { headerCartStore, intl, configStore } = this.props;
+    const { paymentAuthority } = configStore;
     return (
       <span
         className="minicart inlineblock"
@@ -282,7 +284,7 @@ class UnloginCart extends React.Component {
                 </div>
                 {!this.selectedCartData.filter((el) => el.goodsInfoFlag)
                   .length ? (
-                  window.__.env.REACT_APP_LIMIT_MEMBER_PAY === '1' ? (
+                  paymentAuthority === '2' ? (
                     <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4 text-center">
                       <span
                         id="unLoginCarCheckout"

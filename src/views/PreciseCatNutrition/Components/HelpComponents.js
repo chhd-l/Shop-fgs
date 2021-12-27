@@ -5,7 +5,7 @@ import faqImgNew from '../images/FAQ icon@2x.png';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 import '../index.less';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { Link } from 'react-router-dom';
 import { getDeviceType } from '../../../utils/utils';
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';

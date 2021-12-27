@@ -6,7 +6,7 @@ import BannerTip from '@/components/BannerTip';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { setSeoConfig, getDeviceType, getOktaCallBackUrl } from '@/utils/utils';
 import './index.css';
 import Loading from '@/components/Loading';
@@ -179,11 +179,9 @@ class ClubLandingPageNew extends React.Component {
           searchEvent={this.state.searchEvent}
         />
         <Header
+          {...this.props}
           showMiniIcons={true}
           showUserIcon={true}
-          match={match}
-          location={location}
-          history={history}
           sendGAHeaderSearch={this.sendGAHeaderSearch}
         />
         <main className={'rc-content--fixed-header'}>

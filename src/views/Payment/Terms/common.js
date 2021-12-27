@@ -118,6 +118,7 @@ class TermsCommon extends Component {
           sendList={this.sendList}
           key="payment"
           id={this.props.id}
+          pageType="checkout"
         />
 
         {window.__.env.REACT_APP_COUNTRY === 'de' ? (

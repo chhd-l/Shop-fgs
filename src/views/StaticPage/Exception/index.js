@@ -1,5 +1,5 @@
 import React from 'react';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -43,12 +43,7 @@ class Exception extends React.Component {
           />
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
-        <Header
-          showMiniIcons={false}
-          match={match}
-          location={location}
-          history={history}
-        />
+        <Header showMiniIcons={false} {...this.props} />
         <div
           className="page rc-content--fixed-header"
           data-action="RedirectURL-Start"

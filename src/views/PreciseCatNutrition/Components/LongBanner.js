@@ -8,7 +8,7 @@ import benefitsthree from '../images/picto_nutrients.png';
 // import topCat from '../images/BRITISH_SHORTHAIR_ADULT___WEIGHT_MANAGEMENT_EMBLEMATIC_Low_Res.___Web-removebg-preview.png';
 import topCat from '../images/pfCat.png';
 import topCatEat from '../images/SacKRAFT-RVB-bis-det.png';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import clublogo from '../images/img.png';
 import { getDeviceType } from '../../../utils/utils';
 import LazyLoad from 'react-lazyload';
@@ -91,7 +91,8 @@ const LongBanner = () => {
                     style={{
                       fontSize: '16px',
                       color: '#4A4A4A',
-                      margin: '5px 0 0 0'
+                      margin: '5px 0 0 0',
+                      visibility: 'hidden'
                     }}
                   >
                     SANS ENGAGEMENT
@@ -100,7 +101,8 @@ const LongBanner = () => {
                     style={{
                       fontSize: '16px',
                       color: '#4A4A4A',
-                      margin: isMobile ? '0' : '-12px 0 0 0'
+                      margin: isMobile ? '0' : '-12px 0 0 0',
+                      visibility: 'hidden'
                     }}
                   >
                     Des livraisons mensuelles offertes et flexibles, résiliables
@@ -202,7 +204,7 @@ const LongBanner = () => {
                 height={214}
               />
               <img className={'topCatEat'} src={topCatEat} />
-              <div
+              {/* <div
                 className="howItWorkNum2"
                 style={{
                   color: 'white',
@@ -213,7 +215,7 @@ const LongBanner = () => {
                 }}
               >
                 <img src={imageicon} />
-              </div>
+              </div> */}
             </div>
             <div className="rc-bg-colour--brand3" id="benefits-box">
               <div className="rc-full-width">

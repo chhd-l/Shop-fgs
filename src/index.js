@@ -3,7 +3,7 @@ import 'react-app-polyfill/stable';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import '@/assets/iconfont/iconfont.css';
-import '@/assets/css/global.css';
+import '@/assets/css/global.less';
 import '@/utils/global';
 import './index.css';
 import '@/env/init';

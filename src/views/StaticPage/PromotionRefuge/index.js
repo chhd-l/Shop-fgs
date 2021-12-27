@@ -8,7 +8,7 @@ import LazyLoad from 'react-lazyload';
 import ProductCarousel from '@/components/ProductCarousel';
 import { list1, list2, list3, list4 } from './goods';
 import { Link } from 'react-router-dom';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 
 class PromotionRefuge extends React.Component {
   render(h) {
@@ -26,13 +26,7 @@ class PromotionRefuge extends React.Component {
     return (
       <div className="recommendation">
         <GoogleTagManager additionalEvents={event} />
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
-        />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbs />

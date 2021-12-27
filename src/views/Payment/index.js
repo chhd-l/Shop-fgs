@@ -32,7 +32,8 @@ import {
   setSeoConfig,
   validData,
   bindSubmitParam,
-  getAppointmentInfo
+  getAppointmentInfo,
+  formatDate
 } from '@/utils/utils';
 import { EMAIL_REGEXP, seTelephoneCheck } from '@/utils/constant';
 import { userBindConsent } from '@/api/consent';
@@ -120,12 +121,7 @@ function CreditCardInfoPreview({
       {expirationDate ? (
         <>
           <br />
-          <span>
-            {momentNormalizeDate(
-              expirationDate,
-              window.__.env.REACT_APP_COUNTRY === 'fr' ? 'MM/YYYY' : ''
-            )}
-          </span>
+          <span>{formatDate({ date: expirationDate })}</span>
         </>
       ) : null}
     </div>
@@ -436,7 +432,8 @@ class Payment extends React.Component {
       sessionItemRoyal.get('appointment-no') ||
       funcUrl({ name: 'appointmentNo' }) ||
       null;
-    if (funcUrl({ name: 'isApptChange' }) === 'true') {
+    if (funcUrl({ name: 'oldAppointNo' })) {
+      sessionItemRoyal.set('oldAppointNo', funcUrl({ name: 'oldAppointNo' }));
       sessionItemRoyal.set('isChangeAppoint', true);
     }
     if (appointNo) {
@@ -476,13 +473,19 @@ class Payment extends React.Component {
   }
 
   async componentDidMount() {
-    await this.props.configStore.getSystemFormConfig();
+    const { history } = this.props;
+    let { getSystemFormConfig, paymentAuthority } = this.props.configStore;
+
+    // 游客不能checkout 且 没有登录
+    if (paymentAuthority !== '2' && !this.isLogin) {
+      history.push('/');
+    }
+    await getSystemFormConfig();
     if (this.isLogin) {
       this.queryList();
     }
 
     try {
-      const { history } = this.props;
       const { tid, appointNo } = this.state;
 
       setSeoConfig({
@@ -542,6 +545,7 @@ class Payment extends React.Component {
     }
 
     let consentData = await ConsentData(this.props);
+    console.log(consentData, 'consentData==');
     this.rebindListData(consentData);
     this.initPaymentWay();
     this.initPanelStatus();
@@ -1987,7 +1991,8 @@ class Payment extends React.Component {
         surveyId, //us cart survey
         goodWillFlag:
           sessionItemRoyal.get('goodWillFlag') === 'GOOD_WILL' ? 1 : 0,
-        isApptChange: Boolean(sessionItemRoyal.get('isChangeAppoint'))
+        isApptChange: Boolean(sessionItemRoyal.get('isChangeAppoint')),
+        oldAppointNo: sessionItemRoyal.get('oldAppointNo')
       },
       appointParam
     );
@@ -4114,12 +4119,11 @@ class Payment extends React.Component {
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
+          {...this.props}
           showNav={false}
           showLoginBtn={false}
-          history={this.props.history}
           showMiniIcons={false}
           showUserIcon={true}
-          match={this.props.match}
         />
         {loading ? <Loading /> : null}
         {this.state.visibleUpdate ? (

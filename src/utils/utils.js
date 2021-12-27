@@ -932,6 +932,16 @@ export function getClubLogo({ goodsInfoFlag, subscriptionType }) {
 
 export function bindSubmitParam(list) {
   let obj = { optionalList: [], requiredList: [] };
+  if (window.__.env.REACT_APP_COUNTRY === 'fr') {
+    const noIsRequiredList = list?.filter((item) => !item.isRequired);
+    const firstOptionalList = noIsRequiredList?.filter(
+      (l) => ['RC_DF_FR_FGS_OPT_EMAIL']?.includes(l.consentDesc) && !l.isChecked
+    ).length;
+    if (firstOptionalList) {
+      obj.communicationEmail = 0;
+      obj.communicationPhone = 0;
+    }
+  }
   list
     .filter((item) => !item.isRequired)
     .forEach((item) => {
@@ -959,8 +969,9 @@ export function judgeIsIndividual(item) {
 // uk和fr,才有postCode校验
 const countryPostCode = ['uk', 'fr'];
 const currentCountry = window.__.env.REACT_APP_COUNTRY;
-export const isCanVerifyBlacklistPostCode =
-  countryPostCode.includes(currentCountry);
+export const isCanVerifyBlacklistPostCode = countryPostCode.includes(
+  currentCountry
+);
 
 // 获取 Postal code alert message
 export async function getAddressPostalCodeAlertMessage() {
@@ -1010,15 +1021,15 @@ export async function getAppointmentInfo(appointNo) {
 
 //处理预约信息里面的预约时间
 export function handleFelinAppointTime(appointTime) {
-  const apptTime = appointTime.split('#');
+  const apptTime = appointTime?.split('#');
   const appointStartTime =
-    apptTime.length > 0
+    apptTime?.length > 0
       ? moment(apptTime[0].split(' ')[0]).format('YYYY-MM-DD') +
         ' ' +
         apptTime[0].split(' ')[1]
       : '';
   const appointEndTime =
-    apptTime.length > 1
+    apptTime?.length > 1
       ? moment(apptTime[1].split(' ')[0]).format('YYYY-MM-DD') +
         ' ' +
         apptTime[1].split(' ')[1]
@@ -1203,3 +1214,36 @@ export const payCountDown = (maxTime, step, callback) => {
     }
   }, 1000);
 };
+
+export function formatDate({
+  date,
+  formatOption = null,
+  showMinute = false,
+  showYear = true
+}) {
+  if (date !== null && date !== undefined && date !== '') {
+    let options = {};
+    if (formatOption) {
+      options = formatOption;
+    } else {
+      options = Object.assign(
+        {},
+        showYear
+          ? {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit'
+            }
+          : {},
+        showMinute
+          ? { hour: '2-digit', minute: '2-digit', second: '2-digit' }
+          : {}
+      );
+    }
+    console.log('dateFormatCountry:', window.__.env.REACT_APP_NAVIGATOR_LANG);
+    return new Intl.DateTimeFormat(
+      window.__.env.REACT_APP_NAVIGATOR_LANG,
+      options
+    ).format(new Date(date));
+  }
+}

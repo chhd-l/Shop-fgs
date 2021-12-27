@@ -1,29 +1,36 @@
 import stores from '@/store';
-import { findUserConsentList, getStoreOpenConsentList } from '@/api/consent';
+import {
+  findUserConsentList,
+  getStoreOpenConsentList,
+  findUserSelectedList
+} from '@/api/consent';
 const { loginStore, checkoutStore } = stores;
 
 const { isLogin, userInfo } = loginStore;
 const customerId = userInfo?.customerId;
-
+// us /fr 在checkout的consent接口调用selected的接口，并且选中状态根据接口来
+const customConsentCountry =
+  ['fr', 'us'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1;
 function isExistListFun(result) {
   let listData = [];
-
   let optionalList = result.context.optionalList.map((item) => {
     return {
       id: item.id,
       consentTitle: item.consentTitle,
-      isChecked: false,
+      isChecked: customConsentCountry ? item.selectedFlag : false,
       isRequired: false,
-      detailList: item.detailList
+      detailList: item.detailList,
+      consentDesc: item.consentDesc
     };
   });
   let requiredList = result.context.requiredList.map((item) => {
     return {
       id: item.id,
       consentTitle: item.consentTitle,
-      isChecked: false,
+      isChecked: customConsentCountry ? item.selectedFlag : false,
       isRequired: true,
-      detailList: item.detailList
+      detailList: item.detailList,
+      consentDesc: item.consentDesc
     };
   });
 
@@ -103,6 +110,9 @@ function isExistListFun(result) {
 
 const ConsentData = async (props) => {
   let params = {};
+  const customConsentList = customConsentCountry
+    ? findUserSelectedList
+    : findUserConsentList;
   // add subscriptionPlan consent
   let subscriptionPlanIds = checkoutStore.loginCartData?.filter(
     (item) => item.subscriptionPlanId?.length > 0
@@ -128,9 +138,7 @@ const ConsentData = async (props) => {
   let res = '';
 
   try {
-    res = await (isLogin ? findUserConsentList : getStoreOpenConsentList)(
-      params
-    );
+    res = await (isLogin ? customConsentList : getStoreOpenConsentList)(params);
   } catch (err) {
     console.log(err.message);
   }

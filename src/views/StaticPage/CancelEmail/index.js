@@ -55,13 +55,7 @@ class CancelEmail extends React.Component {
           <meta name="description" content={seoConfig.metaDescription} />
           <meta name="keywords" content={seoConfig.metaKeywords} />
         </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
-        />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <div className="md:p-8 cancel-email-main">
             {!errMessage && consumerAccount ? (

@@ -138,6 +138,7 @@ class FelinRecommendation extends React.Component {
       .then((res) => {
         let productList = res.context.recommendationGoodsInfoRels;
         productList.map((el) => {
+          el.goodsInfo.goods = el.goodsInfo.goods || {};
           let tmpGoodsDetail = el.goodsInfo.goods.goodsDetail;
           if (tmpGoodsDetail) {
             try {
@@ -226,6 +227,11 @@ class FelinRecommendation extends React.Component {
           return el;
         });
         let filterProducts = productList.filter((el) => {
+          console.info('============', el.goodsInfo.goodsInfoId);
+          console.info('addedFlag', el.goodsInfo.addedFlag);
+          console.info('delFlag', el.goodsInfo.delFlag);
+          console.info('saleableFlag', el.goodsInfo?.goods?.saleableFlag);
+          console.info('displayFlag', el.goodsInfo?.goods?.displayFlag);
           return (
             el.goodsInfo.addedFlag &&
             !el.goodsInfo.delFlag &&
@@ -233,8 +239,10 @@ class FelinRecommendation extends React.Component {
             el.goodsInfo?.goods?.displayFlag
           );
         });
+
         // 只展示上架的，未删除的，可销售的，可展示的商品
         if (!filterProducts.length) {
+          this.props.history.push('/cats'); //没数据需要跳转plp
           this.setState({ isNoMoreProduct: true });
         }
         this.setState({ productList: filterProducts }, () => {
@@ -636,13 +644,7 @@ class FelinRecommendation extends React.Component {
           />
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
-        />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <Modal
           key="1"
           needLogin={this.state.needLogin}

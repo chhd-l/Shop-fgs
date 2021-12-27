@@ -1,6 +1,6 @@
 import React from 'react';
 import Skeleton from 'react-skeleton-loader';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
@@ -55,10 +55,11 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =
   'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
-const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-  /\/$/,
-  ''
-);
+const urlPrefix =
+  `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+    /\/$/,
+    ''
+  );
 
 const filterAttrValue = (list, keyWords) => {
   return (list || [])
@@ -1648,8 +1649,9 @@ class List extends React.Component {
 
   stickyMobileRefineBar() {
     if (isMobilePhone) {
-      var t = document?.getElementById('refineBar')?.getBoundingClientRect()
-        .top;
+      var t = document
+        ?.getElementById('refineBar')
+        ?.getBoundingClientRect().top;
       window.addEventListener('scroll', () => {
         var choosedVal = document.querySelector('.filter-value'); // 有选择的时候才操作
         if (window.pageYOffset + 33 >= t && choosedVal) {
@@ -1828,13 +1830,7 @@ class List extends React.Component {
             content={this.state.prefv1 ? filterSeoWords : metaKeywords}
           />
         </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={history}
-          match={this.props.match}
-        />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         {!invalidPage ? (
           <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
             <BannerTip />

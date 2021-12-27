@@ -1,11 +1,12 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { formatMoney, matchNamefromDict, getDictionary } from '@/utils/utils';
-import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import {
-  momentNormalizeDate,
-  deliverDateFormat
-} from '@/utils/momentNormalized';
+  formatMoney,
+  matchNamefromDict,
+  getDictionary,
+  formatDate
+} from '@/utils/utils';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 @inject('configStore', 'paymentStore')
@@ -29,10 +30,10 @@ class AddressPreview extends React.Component {
     const { form, boldName } = this.props;
     // 获取本地存储的需要显示的地址字段
     const localAddressForm = this.props.configStore.localAddressForm;
-    let newDeliveryDate = momentNormalizeDate(
-      form?.deliveryDate,
-      deliverDateFormat
-    );
+    let newDeliveryDate = formatDate({
+      date: form?.deliveryDate,
+      formatOption: { weekday: 'long', day: '2-digit', month: 'long' }
+    });
 
     return form ? (
       <div className="children-nomargin">

@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import BreadcrumbNameMap from './breadcrumbNameMap';
 import { FormattedMessage } from 'react-intl-phraseapp';
 

@@ -21,6 +21,7 @@ import Dog from '@/assets/images/dog.png';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import { myAccountPushEvent } from '@/utils/GA';
+import { formatDate } from '../../../utils/utils';
 
 const pageLink = window.location.href;
 
@@ -142,13 +143,7 @@ class Pet extends React.Component {
           />
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
-        />
+        <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbs />
@@ -260,7 +255,9 @@ class Pet extends React.Component {
                                   </span>
                                 </div>
                                 <div className="value">
-                                  <span>{el.birthOfPets}</span>
+                                  <span>
+                                    {formatDate({ date: el.birthOfPets })}
+                                  </span>
                                   <span>{this.petBreed(el)}</span>
                                 </div>
                               </div>
@@ -314,7 +311,9 @@ class Pet extends React.Component {
                                   </span>
                                 </div>
                                 <div className="value">
-                                  <span>{el.birthOfPets}</span>
+                                  <span>
+                                    {formatDate({ date: el.birthOfPets })}
+                                  </span>
                                   <span>{this.petBreed(el)}</span>
                                 </div>
                               </div>

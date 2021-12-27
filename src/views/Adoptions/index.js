@@ -18,10 +18,16 @@ import stores from '@/store';
 import { getShelterList } from '@/api/recommendation';
 import { getDetails, getLoginDetails } from '@/api/details';
 import { getFrequencyDict } from '@/utils/utils';
-let goodsInfoNos = [
-  8989212258325995, 8989131736500375, 493013, 493817, 492818, 512514, 517417,
-  517906
-];
+let goodsInfoNosObj = {
+  8989212258325995: 'Kitten <br/> (3-12 months)',
+  8989131736500375: 'Adult Cat<br/> (1+ years)',
+  493013: 'Small Puppy <br/> (3-12 months)',
+  493817: 'Medium Puppy <br/>(3-12 months)',
+  492818: 'Large Puppy <br/>(3-12 months)',
+  512514: 'Small Adult Dog<br/> (1+ years)',
+  517417: 'Medium Adult Dog<br/> (1+ years)',
+  517906: 'Large Adult Dog <br/>(1+ years)'
+};
 const Adoptions = (props) => {
   const { loginStore, paymentStore, checkoutStore, configStore } =
     useLocalStore(() => stores);
@@ -189,6 +195,7 @@ const Adoptions = (props) => {
     }
   };
   const getGoodsInfos = async () => {
+    let goodsInfoNos = Object.keys(goodsInfoNosObj);
     let res = await getList({
       goodsInfoNos
     });
@@ -198,6 +205,7 @@ const Adoptions = (props) => {
       goodsLists.forEach((el) => {
         let goodsInfo = el.goodsInfos.find((info) => info.goodsInfoNo == id);
         if (goodsInfo) {
+          el.goodsNameStr = goodsInfoNosObj[id];
           el.goodsInfo = goodsInfo;
         }
       });
@@ -218,16 +226,7 @@ const Adoptions = (props) => {
         <meta name="description" content={seoConfig.metaDescription} />
         <meta name="keywords" content={seoConfig.metaKeywords} />
       </Helmet>
-      <Header
-        showMiniIcons={true}
-        showUserIcon={true}
-        location={props.location}
-        history={props.history}
-        match={props.match}
-        showBannerTip={false}
-        // showBannerTip={isUs ? true : false}
-        bannerTipShowBtn={true}
-      />
+      <Header {...props} showMiniIcons={true} showUserIcon={true} />
       <main className=" adoptions-page m-auto rc-content--fixed-header rc-bg-colour--brand3">
         <BannerTip />
         <div className="rc-max-width--lg ">
@@ -272,8 +271,8 @@ const Adoptions = (props) => {
                   <span className="font-bold">• Free shipping</span>, with no
                   minimum purchase
                   <br />
-                  <span className="font-bold">• 5% discount </span>every future
-                  autoship order
+                  <span className="font-bold">• 5% on discount </span>every
+                  future autoship order
                   <br />
                   <span className="font-bold">• </span>Expert food and product
                   recommendations
@@ -308,6 +307,12 @@ const Adoptions = (props) => {
                     }}
                     placeholder="Please select..."
                   />
+                  <p
+                    style={{ color: '#E2001A', fontWeight: '400' }}
+                    className="rc-padding-top--xs"
+                  >
+                    Please select a shelter before adding product to cart
+                  </p>
                 </div>
               </div>
             </div>
@@ -337,7 +342,7 @@ const Adoptions = (props) => {
                           )[0].goodsInfoImg ||
                           IMG_DEFAULT
                         }
-                        alt={item.goodsName}
+                        alt={item.goodsNameStr?.replace('<br/>', '')}
                       />
                     </picture>
                   </div>
@@ -346,9 +351,10 @@ const Adoptions = (props) => {
                     <div
                       className="rc-card__title ui-text-overflow-line2"
                       style={{ fontSize: '1.625rem' }}
-                    >
-                      {item.goodsName}
-                    </div>
+                      dangerouslySetInnerHTML={{
+                        __html: item.goodsNameStr
+                      }}
+                    ></div>
                     <button
                       onClick={() => addCart(item)}
                       class={`rc-btn rc-btn--two ${
