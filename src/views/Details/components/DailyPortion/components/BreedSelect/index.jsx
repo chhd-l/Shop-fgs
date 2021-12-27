@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchSelection from '@/components/SearchSelection';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import classNames from 'classnames';
@@ -19,7 +19,7 @@ export default function BreedSelect(
   const [inputValue, setInputValue] = useState(value?.name ?? undefined)
   const [checked, setChecked] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const defaultValue = options.find((item) => item.breedCode === value.key)
     setInputValue(defaultValue ? defaultValue.localName : undefined)
   }, [value])
@@ -86,7 +86,7 @@ export default function BreedSelect(
                 className="rc-input__label--inline text-break"
                 htmlFor="pf-checkbox-mixbreed"
               >
-                <FormattedMessage id="productFinder.mixBreed" />
+                <FormattedMessage id="dailyPortion.breed.UnknownMixedBreed" />
               </label>
             </div>
           </div>

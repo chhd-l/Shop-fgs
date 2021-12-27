@@ -3,7 +3,8 @@ import LazyLoad from 'react-lazyload';
 import { FormattedMessage } from 'react-intl';
 import classNames from 'classnames';
 import {
-  productFinderDailyPortion
+  productFinderDailyPortion,
+  productFinderDailyPortionRation
 } from '@/api/details';
 import BreedSelect from './components/BreedSelect';
 import SingleSelect from './components/SingleSelect'
@@ -52,7 +53,7 @@ const questionList = [
     "possibleValues":[
       {
         "key":"true",
-        "label":<FormattedMessage id={'yes'}/>
+        "label":<FormattedMessage id={'account.yes'}/>
       },
       {
         "key":"false",
@@ -355,9 +356,10 @@ const questionList = [
 export default function DailyPortion(
   {
     speciesValue='', // species
-    goodsInfoId='', // 当前已选择的size
+    goodsInfo='', // 当前已选择的size
     isCalculateDisabled = false, // calculate 按钮是否禁止点击
-    isBreedDisabled = false, // Breed问题是否禁止选择
+    initBreedValue='',
+    details={}, // 产品详情数据
     ...rest
 }){
 
@@ -366,6 +368,7 @@ export default function DailyPortion(
   const [step, setStep] = useState(1);
   const [stepOneDisabled, setStepOneDisabled] = useState(true);
   const [breedOptions,setBreedOptions] = useState([]);
+  const [ration, setRation] = useState({})
 
   /**
    * 问题的结果
@@ -406,7 +409,15 @@ export default function DailyPortion(
 
   useEffect(() =>{
     if (!speciesValue) return;
-    getBreedOptions(speciesValue);
+    getBreedOptions(speciesValue).then(() => {
+      if (Array.isArray(breedOptions) && breedOptions.length > 0 && initBreedValue){
+        const value = breedOptions.find((item) => item.breedCode === initBreedValue)
+        setBreedData({
+          key: value.breedCode,
+          name: value.localName,
+        } ?? {})
+      }
+    });
   }, [speciesValue])
 
   const showQuestion = () => {
@@ -458,19 +469,31 @@ export default function DailyPortion(
     })
   }
 
-  // 计算结果 TODO
-  const getResult = () => {
+  // 计算结果
+  const getResult = async () => {
     let param = {
-      breedCode: isMixedBreed ? '' : breedData.key,
-      genderCode: gender,
-      age: year * 12 + month,
-      weight,
-      neutered,
-      petActivityCode,
-      bcs,
+      "breedCode": isMixedBreed ? 'mixed_breed' : breedData.key,
+      "petActivityCode": petActivityCode,
+      "genderCode": gender,
+      "neutered": neutered,
+      "age": year * 12 + month,
+      "weight": weight,
+      "bcs": bcs,
+      "speciesCode": speciesValue,
+      "technologyCode": details?.wsTechnologyCode,
+      "energyCategory": details?.wsEnergyCategory,
+      "referenceEnergyValue": details?.wsReferenceEnergyValue,
+      "density": details?.wsDensity,
+      "packWeight": goodsInfo?.goodsInfoWeight,
+      "goodsInfoUnit": goodsInfo?.goodsInfoUnit,
     }
-    console.log('param', param);
-    setStep(3)
+    let res = await productFinderDailyPortionRation(param);
+    if(res.code === 'K-000000'){
+      // setRation({})
+      setStep(3)
+    }else {
+      setRation({})
+    }
 
     dataLayer.push({
       'event' : 'rationingToolInteraction',
@@ -484,10 +507,9 @@ export default function DailyPortion(
 
   }
 
-  // 重新开始计算
   const againCalculation =() => {
     // 全部结果重置
-    setBreedData({});
+    (!initBreedValue) && setBreedData({});
     setMixedBreed(false);
     setGender('');
     setYear(0);
@@ -521,6 +543,7 @@ export default function DailyPortion(
             <div className='flex flex-wrap'>
               <div className='w-full lg:w-1/3 pb-4 lg:pb-0'>
                 <BreedSelect
+                  isPreselected={!!initBreedValue}
                   label={breedCodeData?.metadata?.label ?? ''}
                   options={breedOptions ?? []}
                   value={breedData}
@@ -628,7 +651,10 @@ export default function DailyPortion(
             </p>
             <div className='flex justify-center items-center'>
               <span><img className='resultText-box-icon px-2' src={DailyPortion_icon_text} alt={''}/></span>
-              <span className='resultText-num'>50g</span>
+              <span className='resultText-num'>
+                <span>{ration.quantityPerDay}</span>
+                <span>{ration.unit}</span>
+              </span>
               <span className='pl-2'>/day</span>
             </div>
           </div>
@@ -650,7 +676,6 @@ export default function DailyPortion(
     }
   }
 
-  // 获取BreedOptions TODO
   const getBreedOptions = async (speciesValue) => {
     if(!speciesValue) return [];
 

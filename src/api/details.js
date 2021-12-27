@@ -10,7 +10,8 @@ const api = {
   goodsRelation: '/goodsRelation',
   getMixFeeding: '/goodsRelation/relatedInfo',
   getMixFeedings: '/goodsRelation/relatedInfoBySpuIds',
-  productFinderDailyPortion: '/productFinderDailyPortion/breeds'
+  productFinderDailyPortion: '/productFinderDailyPortion/breeds',
+  productFinderDailyPortionRation: 'productFinderDailyPortion/ration'
 };
 
 export default api;
@@ -18,6 +19,14 @@ export default api;
 export function productFinderDailyPortion(data) {
   return axios({
     url: `${api.productFinderDailyPortion}`,
+    method: 'post',
+    data
+  });
+}
+
+export function productFinderDailyPortionRation(data) {
+  return axios({
+    url: `${api.productFinderDailyPortionRation}`,
     method: 'post',
     data
   });

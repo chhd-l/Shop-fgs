@@ -1843,6 +1843,7 @@ const en_US = {
   'dailyPortion.weight.label': 'Current pet weight',
   'dailyPortion.petActivityCode.label':
     'Select the activity’s level of your pet',
-  'dailyPortion.bcs.label': 'Select your pets’s body condition'
+  'dailyPortion.bcs.label': 'Select your pets’s body condition',
+  'dailyPortion.breed.UnknownMixedBreed': 'Unknown or mixed breed '
 };
 export default en_US;

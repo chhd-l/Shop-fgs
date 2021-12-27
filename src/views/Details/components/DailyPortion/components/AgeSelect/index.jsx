@@ -1,14 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import Selection from '@/components/Selection';
+import { FormattedMessage } from 'react-intl';
+
 
 import './index.less';
 const optionList = [
   {
-    name: 'year',
+    name: <FormattedMessage id={'year'}/>,
     value: 'year',
   },
   {
-    name: 'month',
+    name: <FormattedMessage id={'month'}/>,
     value: 'month',
   },
 ]
