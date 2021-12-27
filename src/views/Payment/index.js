@@ -3505,7 +3505,8 @@ class Payment extends React.Component {
               ))}
             </>
           )}
-          {paymentTypeVal === 'adyenCard' &&
+          {chooseRadioType(window.__.env.REACT_APP_COUNTRY) === 'box' &&
+            paymentTypeVal === 'adyenCard' &&
             payConfirmBtn({
               disabled: !validSts.adyenCard || validForBilling,
               loading: saveBillingLoading,
