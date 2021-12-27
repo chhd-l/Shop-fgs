@@ -17,10 +17,6 @@ const env = {
     REACT_APP_GA_COUNTRY: 'US',
     REACT_APP_GA_CURRENCY_CODE: 'USD',
 
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT: '',
-    REACT_APP_ONTRUST_STYLE: '',
-
     // #language
     REACT_APP_LANG: 'en',
     REACT_APP_HTML_LANG: 'en',
@@ -38,11 +34,6 @@ const env = {
     REACT_APP_LIMITED_NUM: '20',
     // #商品种类限制
     REACT_APP_LIMITED_CATE_NUM: '100',
-
-    // #是否开启promotion
-    REACT_APP_IS_PROMOTION: 'true',
-    // #是否显示banner上方tip
-    REACT_APP_SHOW_BANNERTIP: 'true',
 
     // #默认country
     REACT_APP_DEFAULT_COUNTRYID: '3620',
@@ -89,10 +80,6 @@ const env = {
     // #GA环境配置
     REACT_APP_GA_ENV: 'dev',
 
-    // #onetrust
-    REACT_APP_ONTRUST_SRC:
-      'https://optanon.blob.core.windows.net/consent/82d92b37-7d64-443e-a23f-5efbb17770be-test.js',
-
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/ca',
 
@@ -118,10 +105,6 @@ const env = {
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'sit',
-
-    // #onetrust
-    REACT_APP_ONTRUST_SRC:
-      'https://optanon.blob.core.windows.net/consent/82d92b37-7d64-443e-a23f-5efbb17770be-test.js',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/ca',
@@ -149,10 +132,6 @@ const env = {
     // #GA环境配置
     REACT_APP_GA_ENV: 'uat',
 
-    // #onetrust
-    REACT_APP_ONTRUST_SRC:
-      'https://optanon.blob.core.windows.net/consent/82d92b37-7d64-443e-a23f-5efbb17770be-test.js',
-
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/ca',
 
@@ -179,10 +158,6 @@ const env = {
     // #GA环境配置
     REACT_APP_GA_ENV: 'stg',
 
-    // #onetrust
-    REACT_APP_ONTRUST_SRC:
-      'https://optanon.blob.core.windows.net/consent/82d92b37-7d64-443e-a23f-5efbb17770be-test.js',
-
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/ca',
 
@@ -205,10 +180,6 @@ const env = {
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'prd',
-
-    // #onetrust
-    REACT_APP_ONTRUST_SRC:
-      'https://optanon.blob.core.windows.net/consent/82d92b37-7d64-443e-a23f-5efbb17770be.js',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/',
@@ -242,10 +213,6 @@ const env = {
     REACT_APP_PaymentAPPID_MEMBER: 'com.razorfish.dev_ru_ms',
     REACT_APP_PaymentKEY_VISITOR: 'f2346509-9c34-4299-8c07-9719dc4574e9',
     REACT_APP_PaymentAPPID_VISITOR: 'com.razorfish.dev_ru_ms',
-
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      '493fcc19-7d1b-4628-bb7f-4b66c21c5927-test',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/ca/shop',
@@ -286,10 +253,6 @@ const env = {
     REACT_APP_PaymentAPPID_MEMBER: 'com.razorfish.dev_ru_ms',
     REACT_APP_PaymentKEY_VISITOR: 'f2346509-9c34-4299-8c07-9719dc4574e9',
     REACT_APP_PaymentAPPID_VISITOR: 'com.razorfish.dev_ru_ms',
-
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      '493fcc19-7d1b-4628-bb7f-4b66c21c5927-test',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/ca/shop',

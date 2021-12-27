@@ -236,7 +236,7 @@ class Felin extends React.Component {
             <h2 className="rc-beta size18 font-500">
               Réservez une séance avec un expert de l'Atelier Félin
             </h2>
-            <div className="problem">
+            <div className="problem" id="Voir-fqas">
               Venez rencontrer nos comportementalistes, experts de nutrition et
               ostéopathes qui vous guideront pour prendre soin de votre chat.
               Vous pouvez réserver une rendez-vous dans l’atelier ou un appel

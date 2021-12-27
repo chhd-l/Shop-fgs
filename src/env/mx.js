@@ -14,12 +14,6 @@ const env_mx = {
     REACT_APP_GA_COUNTRY: 'MX',
     REACT_APP_GA_CURRENCY_CODE: 'MXN',
 
-    // #onetrust
-    REACT_APP_ONTRUST_SRC:
-      'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js',
-    REACT_APP_ONTRUST_STYLE:
-      'https://d1a19ys8w1wkc1.cloudfront.net/one-trust-rc-styles.css?v=one-trust-rc-styles--001',
-
     // #storid
     REACT_APP_STOREID: '123456858',
 
@@ -36,11 +30,6 @@ const env_mx = {
     REACT_APP_HTML_LANG: 'es',
     REACT_APP_NAVIGATOR_LANG: 'es-MX',
     REACT_APP_CURRENCY: 'MXN',
-
-    // #是否开启promotion
-    REACT_APP_IS_PROMOTION: 'true',
-    // #是否显示banner上方tip
-    REACT_APP_SHOW_BANNERTIP: 'true',
 
     // #默认country
     REACT_APP_DEFAULT_COUNTRYID: '6',
@@ -99,10 +88,6 @@ const env_mx = {
     // #GA环境配置
     REACT_APP_GA_ENV: 'dev',
 
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      'cb2f0d62-375e-4bb5-9ef8-08fcd670eb3c-test',
-
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/mx'
   },
@@ -132,10 +117,6 @@ const env_mx = {
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'sit',
-
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      'cb2f0d62-375e-4bb5-9ef8-08fcd670eb3c-test',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/mx',
@@ -169,10 +150,6 @@ const env_mx = {
     // #GA环境配置
     REACT_APP_GA_ENV: 'uat',
 
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      'cb2f0d62-375e-4bb5-9ef8-08fcd670eb3c-test',
-
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/mx'
   },
@@ -203,10 +180,6 @@ const env_mx = {
     // #GA环境配置
     REACT_APP_GA_ENV: 'stg',
 
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      'cb2f0d62-375e-4bb5-9ef8-08fcd670eb3c-test',
-
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/mx'
   },
@@ -233,9 +206,6 @@ const env_mx = {
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'prd',
-
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT: 'cb2f0d62-375e-4bb5-9ef8-08fcd670eb3c',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/'

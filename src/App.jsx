@@ -33,6 +33,7 @@ import ScrollToTop from '@/components/ScrollToTop';
 // import { getDynamicLanguage } from './lang';
 import { useDynamicLanguage } from '@/framework/common';
 import RouteFilter from '@/components/RouteFilter';
+import RouteFilterHook from '@/components/RouteFilter/RouteFilterHook';
 import { initializePhraseAppEditor } from 'react-intl-phraseapp';
 
 const Home = loadable(() => import('@/views/Home'), 'rc-carousel');
@@ -182,11 +183,7 @@ const ShelterPrescription = loadable(() =>
 );
 import CancelEmail from '@/views/StaticPage/CancelEmail';
 
-
 import FelinTermsConditions from '@/views/StaticPage/FelinTermsConditions';
-
-
-
 
 import PreciseCatNutrition from './views/PreciseCatNutrition';
 import Loading from './components/Loading';
@@ -212,9 +209,7 @@ const Felin = loadable(() => import('@/views/Felin2'));
 const FelinRecommendation = loadable(() =>
   import('@/views/FelinRecommendation')
 );
-const Adoptions = loadable(() =>
-  import('@/views/Adoptions')
-);
+const Adoptions = loadable(() => import('@/views/Adoptions'));
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -337,6 +332,7 @@ const App = () => {
               restoreOriginalUri={restoreOriginalUri}
             >
               <RouteFilter />
+              <RouteFilterHook />
               <Switch>
                 <Route exact path={'/'} component={Home} />
                 <Route exact path={'/cancelEmail'} component={CancelEmail} />
@@ -385,20 +381,19 @@ const App = () => {
                     <Payment key={props.match.params.type} {...props} />
                   )}
                 />
-                <Route exact path="/confirmation" render={(props)=>{
-                  if(sessionItemRoyal.get('refresh-confirm-page')){
-                    sessionItemRoyal.remove('refresh-confirm-page')
-                    return (
-                      <Redirect
-                        to={{ pathname: '/'}}
-                        {...props}
-                      />
-                    )
-                  }else{
-                    sessionItemRoyal.set('refresh-confirm-page', true)
-                    return <Confirmation  {...props}/>
-                  }
-                }} />
+                <Route
+                  exact
+                  path="/confirmation"
+                  render={(props) => {
+                    if (sessionItemRoyal.get('refresh-confirm-page')) {
+                      sessionItemRoyal.remove('refresh-confirm-page', true);
+                      return <Redirect to={{ pathname: '/' }} {...props} />;
+                    } else {
+                      sessionItemRoyal.set('refresh-confirm-page', true);
+                      return <Confirmation {...props} />;
+                    }
+                  }}
+                />
                 <Route exact path="/PayResult" component={PayResult} />
                 <Route
                   exact
@@ -820,10 +815,7 @@ const App = () => {
                   path="/FelinRecommendation/:id"
                   component={FelinRecommendation}
                 />
-                 <Route
-                  path="/adoptions"
-                  component={Adoptions}
-                />
+                <Route path="/adoptions" component={Adoptions} />
                 <Route path="/felin" component={Felin} />
                 <Route path="/felin/event" component={Felin} />
                 <Route

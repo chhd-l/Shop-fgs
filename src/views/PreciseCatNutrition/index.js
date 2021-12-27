@@ -135,7 +135,7 @@ class PreciseCatNutrition extends React.Component {
             {/*</div>*/}
 
             <LongBanner />
-            <br />
+            <div className="rc-full-width" style={{ height: '4px' }}></div>
             <div className="experience-component experience-layouts-1column">
               <div className={'preciseCatNutritionTop'}>
                 <div className="row rc-margin-x--none">
