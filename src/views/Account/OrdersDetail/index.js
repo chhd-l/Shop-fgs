@@ -43,6 +43,7 @@ import OrderAppointmentInfo from './modules/OrderAppointmentInfo';
 import getCardImg from '@/lib/get-card-img';
 import { getWays } from '@/api/payment';
 import { handleOrderItem } from '../Orders/modules/handleOrderItem';
+import paypalLogo from '@/assets/images/paypal-logo.svg';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -229,7 +230,8 @@ class AccountOrders extends React.Component {
       activeTabIdx: 0,
       showLogisticsDetail: false,
       curLogisticInfo: null,
-      welcomeGiftLists: [] //first-order welcome box gifts
+      welcomeGiftLists: [], //first-order welcome box gifts
+      paymentItem: '' //支付方式 paypal，swish
     };
     this.changeTab = this.changeTab.bind(this);
     this.handleClickLogisticsCard = this.handleClickLogisticsCard.bind(this);
@@ -303,8 +305,10 @@ class AccountOrders extends React.Component {
             return el;
           }
         );
+        let paymentItem = resContext.paymentItem;
         this.setState({
-          welcomeGiftLists
+          welcomeGiftLists,
+          paymentItem
         });
         const tradeState = resContext.tradeState;
         const orderStatusMap = resContext.orderStatusMap;
@@ -1098,7 +1102,8 @@ class AccountOrders extends React.Component {
       cancelProgressList,
       showLogisticsDetail,
       curLogisticInfo,
-      welcomeGiftLists
+      welcomeGiftLists,
+      paymentItem
     } = this.state;
 
     let newDeliveryDate = formatDate({
@@ -1962,6 +1967,38 @@ class AccountOrders extends React.Component {
                                               )
                                             </p>
                                           ) : null}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                ) : null}
+                                {paymentItem == 'adyen_paypal' ? (
+                                  <div className="col-12 col-md-4 mb-2">
+                                    <div className="border rounded p-3 h-100">
+                                      <div className="d-flex">
+                                        <svg
+                                          className="svg-icon align-middle mr-3 ml-1 w-8 h-8"
+                                          aria-hidden="true"
+                                        >
+                                          <use xlinkHref="#iconpayments" />
+                                        </svg>
+                                        <div>
+                                          <p className="medium mb-3">
+                                            <FormattedMessage id="payment.payment" />
+                                          </p>
+                                          <div className="medium mb-2">
+                                            <LazyLoad
+                                              style={{
+                                                display: 'd-inline-block'
+                                              }}
+                                            >
+                                              <img
+                                                alt="paypal"
+                                                className="w-20 h-10"
+                                                src={paypalLogo}
+                                              />
+                                            </LazyLoad>
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
