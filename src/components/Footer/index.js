@@ -34,12 +34,7 @@ class Footer extends React.Component {
   async componentDidMount() {
     const { location } = this.props;
     const {
-      configStore: {
-        queryPaymentMethodCfg,
-        queryConfig,
-        getPrescriberSettingInfo,
-        getSystemFormConfig
-      },
+      configStore: { queryPaymentMethodCfg, queryConfig, getSystemFormConfig },
       intl: { messages }
     } = this.props;
 
@@ -62,8 +57,6 @@ class Footer extends React.Component {
     }
 
     queryConfig();
-
-    getPrescriberSettingInfo(); //查询prescriber setting信息
 
     getSystemFormConfig(); // 查询address form表单配置开关
 

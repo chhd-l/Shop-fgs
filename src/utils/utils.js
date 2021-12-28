@@ -556,7 +556,7 @@ export async function distributeLinktoPrecriberOrPaymentPage({
     }
   }
   //3.2 如果selectType是recommendation Code直接进入checkout并且在页面上方显示prescriber--recommendation code输入框
-  if (configStore.prescriberSelectTyped === 1) {
+  if (configStore.prescriberSelectTyped === 'RECOMMENDATION_CODE') {
     localItemRoyal.set('checkOutNeedShowPrescriber', 'true');
     return '/checkout';
   }

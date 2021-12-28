@@ -174,8 +174,11 @@ class ClinicEditForm extends React.Component {
     this.changeEditFormVisible(false);
   };
   render() {
+    const {
+      configStore: { info },
+      intl
+    } = this.props;
     const { editFormVisible, form, errorMsg } = this.state;
-    const { prescriberSelectTyped } = this.props.configStore;
     const curPageAtCover = !editFormVisible;
     return (
       <div className={classNames({ border: curPageAtCover })}>
@@ -269,23 +272,24 @@ class ClinicEditForm extends React.Component {
             <div className={`${editFormVisible ? '' : 'hidden'}`}>
               <SearchSelection
                 queryList={async ({ inputVal }) => {
-                  const res = await (prescriberSelectTyped === 0
-                    ? getPrescriberByKeyWord({
-                        storeId: window.__.env.REACT_APP_STOREID,
-                        keyWord: inputVal
-                      })
-                    : getPrescriberByCode({
-                        storeId: window.__.env.REACT_APP_STOREID,
-                        code: inputVal
-                      }));
+                  const param = {
+                    storeId: window.__.env.REACT_APP_STOREID,
+                    keyWord: inputVal
+                  };
+
+                  const res = await (info?.prescriberSelectTyped ===
+                    'PRESCRIBER_MAP'
+                    ? getPrescriberByKeyWord
+                    : getPrescriberByCode)(param);
                   const prescriber =
                     (res.context && res.context.prescriberVo) || [];
-                  if (prescriber.length === 0 && prescriberSelectTyped === 1) {
+                  if (
+                    prescriber.length === 0 &&
+                    info?.prescriberSelectTyped === 'RECOMMENDATION_CODE'
+                  ) {
                     this.setState({
                       errorMsg:
-                        this.props.intl.messages[
-                          'myAccount.dePrescriberCodeErrMsg'
-                        ]
+                        intl.messages['myAccount.dePrescriberCodeErrMsg']
                     });
                     setTimeout(() => {
                       this.setState({
@@ -297,7 +301,9 @@ class ClinicEditForm extends React.Component {
                     Object.assign(ele, {
                       name: ele.prescriberName,
                       recommendationCode:
-                        prescriberSelectTyped === 0 ? '' : inputVal
+                        info?.prescriberSelectTyped === 'PRESCRIBER_MAP'
+                          ? ''
+                          : inputVal
                     })
                   );
                 }}
