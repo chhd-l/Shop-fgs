@@ -392,8 +392,6 @@ class Form extends React.Component {
       configStore: { getSystemFormConfig, localAddressForm }
     } = this.props;
     await getSystemFormConfig();
-    // 表单类型，手动输入地址: MANUALLY，自动填充地址: AUTOMATICALLY
-    // console.log('获取 session 存储的需要显示的地址字段: ', localAddressForm);
     if (localAddressForm?.settings) {
       this.setState(
         {
