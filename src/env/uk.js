@@ -69,14 +69,6 @@ const env = {
     REACT_APP_COOKIE_SETTINGS_BTN_VISIBLE: '1'
   },
   development: {
-    // #okta
-    REACT_APP_ACCESS_PATH: 'https://shopuat.466920.com/uk/',
-    REACT_APP_CLIENT_ID: '0oaxwyr03sTQfHG7K0h7',
-    REACT_APP_ISSUER: 'https://accountdev.royalcanin.com/oauth2/default',
-    REACT_APP_RedirectURL: 'https://shopuat.466920.com/uk/implicit/callback',
-    REACT_APP_RegisterPrefix:
-      'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=',
-    REACT_APP_RegisterCallback: 'https://shopuat.466920.com/uk?origin=register',
     REACT_APP_FaceBook_IDP: '0oat2htelxpazCKA70h7',
     REACT_APP_Google_IDP: '0oas0dmwhfcnkpIW80h7',
 
@@ -95,16 +87,6 @@ const env = {
       'https://prd-weu1-rc-df-myaccount-app-webapp-dev.cloud-effem.com/en-us/manager/settings'
   },
   shopsit: {
-    // #okta
-    REACT_APP_ACCESS_PATH: 'https://shopsit.royalcanin.com/uk',
-    REACT_APP_CLIENT_ID: '0oa22exzn8qt1uwnk0x7',
-    REACT_APP_ISSUER: 'https://accountpreview.royalcanin.com/oauth2/default',
-    REACT_APP_RedirectURL:
-      'https://shopsit.royalcanin.com/uk/implicit/callback',
-    REACT_APP_RegisterPrefix:
-      'https://prd-weu1-rc-df-ciam-app-webapp-stg.cloud-effem.com/?redirect_uri=',
-    REACT_APP_RegisterCallback:
-      'https://shopsit.royalcanin.com/uk?origin=register',
     REACT_APP_FaceBook_IDP: '0oarsmtlhd1q9NyPb0x6',
     REACT_APP_Google_IDP: '0oarsoyvckBINudT70x6',
 
@@ -124,16 +106,6 @@ const env = {
       'https://prd-weu1-rc-df-myaccount-app-webapp-dev.cloud-effem.com/en-us/manager/settings'
   },
   shopuat: {
-    // #okta
-    REACT_APP_ACCESS_PATH: 'https://shopuat.royalcanin.com/uk',
-    REACT_APP_CLIENT_ID: '0oa22exzn8qt1uwnk0x7',
-    REACT_APP_ISSUER: 'https://accountpreview.royalcanin.com/oauth2/default',
-    REACT_APP_RedirectURL:
-      'https://shopuat.royalcanin.com/uk/implicit/callback',
-    REACT_APP_RegisterPrefix:
-      'https://prd-weu1-rc-df-ciam-app-webapp-stg.cloud-effem.com/?redirect_uri=',
-    REACT_APP_RegisterCallback:
-      'https://shopuat.royalcanin.com/uk?origin=register',
     REACT_APP_FaceBook_IDP: '0oarsmtlhd1q9NyPb0x6',
     REACT_APP_Google_IDP: '0oarsoyvckBINudT70x6',
 
@@ -153,16 +125,6 @@ const env = {
       'https://prd-weu1-rc-df-myaccount-app-webapp-dev.cloud-effem.com/en-us/manager/settings'
   },
   shopstg: {
-    // #okta
-    REACT_APP_ACCESS_PATH: 'https://shopstg.royalcanin.com/uk/',
-    REACT_APP_CLIENT_ID: '0oa22exzn8qt1uwnk0x7',
-    REACT_APP_ISSUER: 'https://accountpreview.royalcanin.com/oauth2/default',
-    REACT_APP_RedirectURL:
-      'https://shopstg.royalcanin.com/uk/implicit/callback',
-    REACT_APP_RegisterPrefix:
-      'https://prd-weu1-rc-df-ciam-app-webapp-stg.cloud-effem.com/?redirect_uri=',
-    REACT_APP_RegisterCallback:
-      'https://shopstg.royalcanin.com/uk?origin=register',
     REACT_APP_FaceBook_IDP: '0oarsmtlhd1q9NyPb0x6',
     REACT_APP_Google_IDP: '0oarsoyvckBINudT70x6',
 
@@ -184,13 +146,6 @@ const env = {
     REACT_APP_Adyen_ENV: 'test'
   },
   production: {
-    // #okta
-    REACT_APP_ACCESS_PATH: 'https://shop.royalcanin.com/',
-    REACT_APP_CLIENT_ID: '0oa27u66xmv9zhxGI417',
-    REACT_APP_ISSUER: 'https://signin.royalcanin.com/oauth2/default',
-    REACT_APP_RedirectURL: 'https://shop.royalcanin.com/implicit/callback',
-    REACT_APP_RegisterPrefix: 'https://welcome.royalcanin.com/?redirect_uri=',
-    REACT_APP_RegisterCallback: 'https://shop.royalcanin.com',
     REACT_APP_FaceBook_IDP: '0oa75jv7oSeLBnnkt416',
     REACT_APP_Google_IDP: '0oa75klujN7PkgedM416',
 
@@ -238,14 +193,6 @@ const env = {
   //     'https://account.royalcanin.com/en-us/manager/settings'
   // },
   productionHub: {
-    // #okta
-    REACT_APP_ACCESS_PATH: 'https://www.royalcanin.com/uk/shop',
-    REACT_APP_CLIENT_ID: '0oa27u66xmv9zhxGI417',
-    REACT_APP_ISSUER: 'https://signin.royalcanin.com/oauth2/default',
-    REACT_APP_RedirectURL:
-      'https://www.royalcanin.com/uk/shop/implicit/callback',
-    REACT_APP_RegisterPrefix: 'https://welcome.royalcanin.com/?redirect_uri=',
-    REACT_APP_RegisterCallback: 'https://www.royalcanin.com/uk/shop',
     REACT_APP_FaceBook_IDP: '0oa75jv7oSeLBnnkt416',
     REACT_APP_Google_IDP: '0oa75klujN7PkgedM416',
 
@@ -285,16 +232,6 @@ const env = {
     REACT_APP_HUBPAGE_RETAILER_ISAPI: '1'
   },
   stgwedding: {
-    // #okta
-    REACT_APP_ACCESS_PATH: 'https://stgwedding.royalcanin.com/uk/shop/',
-    REACT_APP_CLIENT_ID: '0oa22exzn8qt1uwnk0x7',
-    REACT_APP_ISSUER: 'https://accountpreview.royalcanin.com/oauth2/default',
-    REACT_APP_RedirectURL:
-      'https://stgwedding.royalcanin.com/uk/shop/implicit/callback',
-    REACT_APP_RegisterPrefix:
-      'https://prd-weu1-rc-df-ciam-app-webapp-stg.cloud-effem.com/?redirect_uri=',
-    REACT_APP_RegisterCallback:
-      'https://stgwedding.royalcanin.com/uk/shop?origin=register',
     REACT_APP_FaceBook_IDP: '0oarsmtlhd1q9NyPb0x6',
     REACT_APP_Google_IDP: '0oarsoyvckBINudT70x6',
 
@@ -327,16 +264,6 @@ const env = {
     REACT_APP_HUBPAGE_RETAILER_ISAPI: '1'
   },
   uatwedding: {
-    // #okta
-    REACT_APP_ACCESS_PATH: 'https://uatwedding.royalcanin.com/uk/shop',
-    REACT_APP_CLIENT_ID: '0oa22exzn8qt1uwnk0x7',
-    REACT_APP_ISSUER: 'https://accountpreview.royalcanin.com/oauth2/default',
-    REACT_APP_RedirectURL:
-      'https://uatwedding.royalcanin.com/uk/shop/implicit/callback',
-    REACT_APP_RegisterPrefix:
-      'https://prd-weu1-rc-df-ciam-app-webapp-stg.cloud-effem.com/?redirect_uri=',
-    REACT_APP_RegisterCallback:
-      'https://uatwedding.royalcanin.com/uk/shop?origin=register',
     REACT_APP_FaceBook_IDP: '0oarsmtlhd1q9NyPb0x6',
     REACT_APP_Google_IDP: '0oarsoyvckBINudT70x6',
 
