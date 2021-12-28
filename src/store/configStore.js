@@ -41,12 +41,9 @@ class ConfigStore {
     return PAYMENTAUTHORITY_ENUM[this.info?.orderConfig?.context || '2'];
   }
 
-  // 当前地址表单类型
+  // 当前地址表单类型 MANUALLY：手动填写 、 AUTOMATICALLY：自动填充
   @computed get addressFormType() {
-    let form = sessionItemRoyal.get('rc-address-form')
-      ? JSON.parse(sessionItemRoyal.get('rc-address-form'))
-      : addressFormNull;
-    return form?.formType?.type ? form.formType.type : 'MANUALLY';
+    return this.localAddressForm?.formType || 'MANUALLY';
   }
 
   @computed get maxGoodsPrice() {
@@ -142,26 +139,15 @@ class ConfigStore {
     }
     try {
       const res = await getSystemConfig({ configType: 'address_input_type' });
-      if (res?.context?.configVOList) {
-        let manually = '',
-          automatically = '';
-        let robj = res.context.configVOList;
-        robj.forEach((item) => {
-          if (item.configKey == 'address_input_type_manually') {
-            manually = item.context;
-          } else if (item.configKey == 'address_input_type_automatically') {
-            automatically = item.context;
-          }
-        });
-        // 根据接口类型查询表单数据
-        this.getAddressSettingByApi(manually, automatically);
-      } else {
-        console.error('地址表单接口返回空，找后端配置。');
-        sessionItemRoyal.set(
-          'rc-address-form',
-          JSON.stringify(addressFormNull)
-        );
-      }
+      const formSettingSwitch =
+        (res.context.configVOList || []).find(
+          (ele) => ele.configKey === 'address_input_type_manually'
+        )?.context === '1'
+          ? 'MANUALLY'
+          : 'AUTOMATICALLY';
+
+      // 根据接口类型查询表单数据
+      this.getAddressSettingByApi(formSettingSwitch);
     } catch (err) {
       console.log(err);
       sessionItemRoyal.set('rc-address-form', JSON.stringify(addressFormNull));
@@ -170,11 +156,9 @@ class ConfigStore {
 
   // 2、根据接口类型（自己接口: MANUALLY，自动填充: AUTOMATICALLY）查询表单数据
   @action.bound
-  async getAddressSettingByApi(manually, automatically) {
+  async getAddressSettingByApi(formSettingSwitch) {
     let addressForm = addressFormNull;
     try {
-      let formSettingSwitch =
-        manually == 1 && automatically == 0 ? 'MANUALLY' : 'AUTOMATICALLY';
       const res = await getAddressSetting({
         addressApiType: formSettingSwitch
       });
@@ -183,11 +167,7 @@ class ConfigStore {
         // 拼接json
         addressForm = {
           settings: addressSettings,
-          formType: {
-            type: formSettingSwitch,
-            manually: manually,
-            automatically: automatically
-          }
+          formType: formSettingSwitch
         };
         // 标记可用字段
         addressSettings.forEach((item) => {

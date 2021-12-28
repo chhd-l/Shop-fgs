@@ -24,35 +24,19 @@ import AddressEditForm from '../ShippingAddressForm';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import HomeDeliveryOrPickUp from '@/components/HomeDeliveryOrPickUp';
 import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
-
 import './AddressList.less';
 
-const isPad = getDeviceType() === 'Pad';
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
-const addressFormNull = {
-  firstName: '',
-  lastName: '',
-  address1: '',
-  address2: '',
-  city: '',
-  state: '',
-  country: '',
-  region: '',
-  postCode: '',
-  entrance: '',
-  apartment: '',
-  phoneNumber: '',
-  comment: ''
-};
 
 // 地址项
 function CardItem(props) {
-  const { data } = props;
-  // 获取本地存储的需要显示的地址字段
-  let localAddressForm =
-    sessionItemRoyal.get('rc-address-form') || addressFormNull;
-  localAddressForm = JSON.parse(localAddressForm);
+  const {
+    data,
+    // 获取本地存储的需要显示的地址字段
+    configStore: { localAddressForm }
+  } = props;
+
   return (
     <div
       className={`${
@@ -495,6 +479,7 @@ class AddressList extends React.Component {
 
     return (
       <CardItem
+        {...this.props}
         data={item}
         receiveType={item.receiveType}
         operateBtnJSX={
