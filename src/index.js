@@ -4,7 +4,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import '@/assets/iconfont/iconfont.css';
 import '@/assets/css/global.less';
-console.log(111111);
 import '@/utils/global';
 import './index.css';
 import '@/env/init';
