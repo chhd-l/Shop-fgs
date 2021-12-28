@@ -9,9 +9,9 @@ import './index.less';
 
 const getImg = (key) => {
   switch (key) {
-    case '3': return underweightImage;
-    case '5': return idealImage;
-    case '7': return overweightImage;
+    case 3: return underweightImage;
+    case 5: return idealImage;
+    case 7: return overweightImage;
     default: return '';
   }
 }

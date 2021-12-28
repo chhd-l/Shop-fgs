@@ -1103,7 +1103,7 @@ class Details extends React.Component {
       (item) => item.goodsAttributeName === 'Species'
     )?.goodsAttributeValue;
 
-    // 产品的breed serengeti
+    // 产品的breed
     let initBreedValue = goodsAttributesValueRelList.find(
       (item) => item.goodsAttributeName === 'Breeds'
     )?.goodsAttributeValue;

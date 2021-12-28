@@ -336,17 +336,17 @@ const questionList = [
     },
     "possibleValues": [
       {
-        "key": "3",
+        "key": 3,
         "label": <FormattedMessage id={'dailyPortion.bcs.underweight'}/>,
         'description': <FormattedMessage id={'dailyPortion.bcs.underweight.description'}/>,
       },
       {
-        "key": "5",
+        "key": 5,
         "label": <FormattedMessage id={'dailyPortion.bcs.Ideal'}/>,
         'description': <FormattedMessage id={'dailyPortion.bcs.Ideal.description'}/>,
       },
       {
-        "key": "7",
+        "key": 7,
         "label": <FormattedMessage id={'dailyPortion.bcs.Overweight'}/>,
         'description': <FormattedMessage id={'dailyPortion.bcs.Overweight.description'}/>,
       }
@@ -370,6 +370,7 @@ export default function DailyPortion(
   const [breedOptions,setBreedOptions] = useState([]);
   const [ration, setRation] = useState({})
   const [loading, setLoading] = useState(false);
+  const [isPreselected, setPreselected] = useState(false);
 
   /**
    * 问题的结果
@@ -414,13 +415,20 @@ export default function DailyPortion(
     getBreedOptions(speciesValue).then(() => {
       if (Array.isArray(breedOptions) && breedOptions.length > 0 && initBreedValue){
         const value = breedOptions.find((item) => item.breedCode === initBreedValue)
-        setBreedData({
-          key: value.breedCode,
-          name: value.localName,
-        } ?? {})
+        console.log('getBreedOptions-initBreedValue', value )
+        if (value){
+          setPreselected(true);
+          setBreedData({
+            key: value.breedCode,
+            name: value.localName,
+          } )
+        }else {
+          setBreedData({});
+          setPreselected(false);
+        }
       }
     });
-  }, [speciesValue])
+  }, [speciesValue, initBreedValue])
 
   const showQuestion = () => {
     setShowQuestion(true)
@@ -478,15 +486,15 @@ export default function DailyPortion(
       "genderCode": gender,
       "neutered": neutered,
       "age": year * 12 + month,
-      "weight": weight,
-      "bcs": bcs,
-      "speciesCode": speciesValue,
+      "weight": parseFloat(weight),
+      "bcs": parseInt(bcs, 10),
+      "speciesCode": String(speciesValue).toLowerCase(),
       "technologyCode": details?.wsTechnologyCode,
       "energyCategory": details?.wsEnergyCategory,
       "referenceEnergyValue": details?.wsReferenceEnergyValue,
       "density": details?.wsDensity,
       "packWeight": goodsInfo?.goodsInfoWeight,
-      "goodsInfoUnit": goodsInfo?.goodsInfoUnit,
+      "goodsInfoUnit": goodsInfo?.goodsInfoUnit ? String(goodsInfo?.goodsInfoUnit).toLowerCase():null,
     }
     dataLayer.push({
       'event' : 'rationingToolInteraction',
@@ -501,13 +509,13 @@ export default function DailyPortion(
     setLoading(true);
     try {
       let res = await productFinderDailyPortionRation(param);
+      console.log('productFinderDailyPortionRation-res', res);
       setLoading(false);
       setStep(3)
     }catch (e) {
       setLoading(false);
       setRation({})
     }
-    console.log('productFinderDailyPortionRation - end', );
 
   }
 
@@ -547,10 +555,11 @@ export default function DailyPortion(
             <div className='flex flex-wrap'>
               <div className='w-full lg:w-1/3 pb-4 lg:pb-0'>
                 <BreedSelect
-                  isPreselected={!!breedData.key}
+                  isPreselected={isPreselected}
                   label={breedCodeData?.metadata?.label ?? ''}
                   options={breedOptions ?? []}
                   value={breedData}
+                  mixedBreedValue={isMixedBreed}
                   onChange={handleBreedData}
                 />
               </div>

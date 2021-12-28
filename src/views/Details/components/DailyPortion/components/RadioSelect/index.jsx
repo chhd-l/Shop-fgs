@@ -32,16 +32,16 @@ export default function RadioSelect(
             )}>
               <input
                 className="rc-input__radio"
-                id={item.label}
+                id={`DailyPortion-neutered-${item.key}`}
                 type="radio"
                 value={item.key}
-                name={item.label}
+                name={`DailyPortion-neutered-${item.key}`}
                 checked={checked === item.key}
                 onChange={handleChange}
               />
               <label
                 className="rc-input__label--inline"
-                for={item.label}
+                for={`DailyPortion-neutered-${item.key}`}
               >
                 {item.label}
               </label>

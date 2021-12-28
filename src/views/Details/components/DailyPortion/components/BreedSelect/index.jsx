@@ -8,6 +8,7 @@ export default function BreedSelect(
     label='Breed', // 表单标题
     options= [],
     value={}, // BreedSelect的已选择的值,
+    mixedBreedValue=false,
     isBreedDisabled=false, // 是否禁止选择breed
     isPreselected= false, // 是否是预选产品
     ...rest
@@ -17,12 +18,16 @@ export default function BreedSelect(
     onChange
   } = rest;
   const [inputValue, setInputValue] = useState(value?.name ?? undefined)
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(mixedBreedValue);
 
   useEffect(() => {
     const defaultValue = options.find((item) => item.breedCode === value.key)
     setInputValue(defaultValue ? defaultValue.localName : undefined)
   }, [value])
+  useEffect(()=>{
+    setChecked(mixedBreedValue)
+  }, [mixedBreedValue])
+
 
   const handleSelectChange = (val) => {
     onChange && onChange(val, false)
@@ -53,7 +58,7 @@ export default function BreedSelect(
                 queryList={async ({ inputVal }) => {
                   let reg = new RegExp(`${inputVal}`, 'i')
                   return options
-                    .filter((item) => reg.test(item.label))
+                    .filter((item) => reg.test(item.localName))
                     .map((item) => ({
                       key: item.breedCode,
                       name: item.localName,
