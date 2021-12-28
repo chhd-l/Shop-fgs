@@ -51,7 +51,8 @@ import {
   getWays,
   getPaymentMethod,
   confirmAndCommitFelin,
-  rePayFelin
+  rePayFelin,
+  adyenPaymentsDetails
 } from '@/api/payment';
 import { getOrderDetails } from '@/api/order';
 import { getLoginDetails, getDetails } from '@/api/details';
@@ -1618,6 +1619,25 @@ class Payment extends React.Component {
           subNumber = (res.context && res.context.subscribeId) || '';
 
           if (res.context.qrCodeData) {
+            function getData() {
+              return adyenPaymentsDetails({
+                redirectResult: res.context.paymentData,
+                businessId: res.context.tid
+              })
+                .then(function (response) {
+                  if (
+                    response.context.status == 'SUCCEED' ||
+                    response.context.status == 'PROCESSING'
+                  )
+                    return getData();
+                })
+                .catch(function () {
+                  this.setState({ swishQrcodeError: true });
+                });
+            }
+
+            getData();
+
             //模态框
             this.setState({
               swishQrcode: res.context.qrCodeData,

@@ -1,5 +1,5 @@
 import { action, observable, computed } from 'mobx';
-import { getConfig, getPrescriberSettingInfo } from '@/api';
+import { getConfig } from '@/api';
 import { getAddressSetting, getSystemConfig } from '@/api/address';
 import { getPaymentMethodV2 } from '@/api/payment';
 import flatten from 'lodash/flatten';
@@ -25,12 +25,6 @@ class ConfigStore {
   @observable info = sessionItemRoyal.get('storeContentInfo')
     ? JSON.parse(sessionItemRoyal.get('storeContentInfo'))
     : null;
-
-  @observable prescriberSettingInfo = sessionItemRoyal.get(
-    'prescriberSettingInfo'
-  )
-    ? JSON.parse(sessionItemRoyal.get('prescriberSettingInfo'))
-    : null; //prescriber Setting相关配置信息
 
   // 需要显示的 address form 地址字段
   @observable localAddressForm = sessionItemRoyal.get('rc-address-form')
@@ -61,7 +55,7 @@ class ConfigStore {
 
   // 税额开关 0: 开, 1: 关
   @computed get customTaxSettingOpenFlag() {
-    return this.info?.customTaxSettingOpenFlag;
+    return this.info?.customTaxSettingOpenFlag === 0;
   }
 
   // homeDelivery 开关
@@ -76,11 +70,14 @@ class ConfigStore {
 
   // 买入价格开关 0：含税，1：不含税
   @computed get enterPriceType() {
-    return Number(
-      (this.info?.systemTaxSetting?.configVOList &&
-        this.info?.systemTaxSetting?.configVOList[1]?.context) ||
-        0
-    );
+    const enterPriceTypeEnum = { 0: 'TAX', 1: 'NO_TAX' };
+    return enterPriceTypeEnum[
+      Number(
+        (this.info?.systemTaxSetting?.configVOList &&
+          this.info?.systemTaxSetting?.configVOList[1]?.context) ||
+          0
+      )
+    ];
   }
 
   @computed get storeContactPhoneNumber() {
@@ -97,17 +94,26 @@ class ConfigStore {
 
   // 返回prescription页面是否需要显示用户选择绑定prescriber弹框 0:不显示 1：显示
   @computed get isShowPrescriberModal() {
-    return (
-      this.prescriberSettingInfo &&
-      this.prescriberSettingInfo.isNeedPrescriber === 1
-    );
+    const isNeedPrescriber = (this.info?.auditOrderConfigList || []).find(
+      (item) => {
+        return item.configType === 'if_prescriber_is_not_mandatory';
+      }
+    )?.status;
+    return isNeedPrescriber === 1;
   }
 
   // 返回prescriber select Type:0:Prescriber Map / 1:Recommendation Code
   @computed get prescriberSelectTyped() {
-    return this.prescriberSettingInfo
-      ? this.prescriberSettingInfo.prescriberSelectType
-      : '';
+    const prescriberSelectTypedEnum = {
+      0: 'PRESCRIBER_MAP',
+      1: 'RECOMMENDATION_CODE'
+    };
+    const prescriberSelectType = (this.info?.auditOrderConfigList || []).find(
+      (item) => {
+        return item.configType === 'selection_type';
+      }
+    )?.status;
+    return prescriberSelectTypedEnum[prescriberSelectType || ''];
   }
 
   @computed get defaultPurchaseType() {
@@ -126,39 +132,6 @@ class ConfigStore {
       res = res.context;
       this.updateInfo(res);
     }
-  }
-
-  //查询prescriber Setting相关配置信息
-  @action.bound
-  async getPrescriberSettingInfo() {
-    let ret = this.prescriberSettingInfo;
-    if (!ret) {
-      let res = await getPrescriberSettingInfo();
-      let isNeedPrescriber = null;
-      let prescriberSelectType = null;
-      if (res.context) {
-        isNeedPrescriber = res.context.find((item) => {
-          return item.configType === 'if_prescriber_is_not_mandatory';
-        });
-        prescriberSelectType = res.context.find((item) => {
-          return item.configType === 'selection_type';
-        });
-        isNeedPrescriber = isNeedPrescriber ? isNeedPrescriber.status : null;
-        prescriberSelectType = prescriberSelectType
-          ? prescriberSelectType.status
-          : null;
-      }
-      ret = {
-        isNeedPrescriber: isNeedPrescriber,
-        prescriberSelectType: prescriberSelectType || '',
-        isShowPrescriberModal: isNeedPrescriber === 1,
-        prescriberSelectTyped: prescriberSelectType || ''
-      };
-      sessionItemRoyal.set('prescriberSettingInfo', JSON.stringify(ret));
-      this.prescriberSettingInfo = ret;
-    }
-
-    return ret;
   }
 
   // 1、查询form表单配置开关

@@ -155,8 +155,10 @@ class ClinicForm extends React.Component {
     }
   }
   render() {
+    const {
+      configStore: { info }
+    } = this.props;
     const { isEdit } = this.state;
-    const { prescriberSelectTyped } = this.props.configStore;
     const defaultJSX = (
       <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
         <div className="bg-transparent d-flex justify-content-between align-items-center">
@@ -320,7 +322,7 @@ class ClinicForm extends React.Component {
     return (
       <>
         {this.checkoutWithClinic
-          ? prescriberSelectTyped === 0
+          ? info?.prescriberSelectTyped === 'PRESCRIBER_MAP'
             ? defaultJSX
             : searchJSX
           : null}
