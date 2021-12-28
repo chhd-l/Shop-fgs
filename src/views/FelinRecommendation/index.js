@@ -136,57 +136,60 @@ class FelinRecommendation extends React.Component {
     this.setState({ couponCode });
     getFelinReco(id)
       .then((res) => {
-        let productList = res.context.recommendationGoodsInfoRels;
-        productList.map((el) => {
+        let productLists = res.context;
+        productLists.map((el) => {
           el.goodsInfo.goods = el.goodsInfo.goods || {};
+          // el.goodsInfo.specText = 'specTextspecText'
+          // el.goodsInfo.mockSpecDetailIds = [29805]
+          // el.goodsInfo.mockSpecIds = [20612];
           let tmpGoodsDetail = el.goodsInfo.goods.goodsDetail;
-          if (tmpGoodsDetail) {
-            try {
-              tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
-              for (let key in tmpGoodsDetail) {
-                if (tmpGoodsDetail[key]) {
-                  if (window.__.env.REACT_APP_COUNTRY === 'fr') {
-                    let tempObj = {};
-                    let tempContent = '';
-                    try {
-                      if (key === 'Description') {
-                        tmpGoodsDetail[key].map((el) => {
-                          tempContent =
-                            tempContent +
-                            `<p>${Object.values(JSON.parse(el))[0]}</p>`;
-                        });
-                        el.tabDescription = tempContent;
-                      }
-                      if (key === 'Bénéfices') {
-                        tmpGoodsDetail[key].map((ele) => {
-                          // <div className="">${Object.keys(JSON.parse(ele))[0]}</div>
-                          tempContent =
-                            tempContent +
-                            `<li>
-                            <div class="">${
-                              Object.values(JSON.parse(ele))[0]['Description']
-                            }</div>
-                          </li>`;
-                        });
-                        tempContent = `<ul class="">
-                          ${tempContent}
-                        </ul>`;
-                        // this.setState({currentBenefit: tempContent})
-                        el.benefit = tempContent;
-                      }
-                      // console.log(tempContent, 'tempContent')
-                      // el.goodsInfo.benefit = tempContent
-                    } catch (e) {
-                      console.log(e);
-                    }
-                  } else {
-                  }
-                }
-              }
-            } catch (e) {
-              console.log(e);
-            }
-          }
+          // if (tmpGoodsDetail) {
+          //   try {
+          //     tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
+          //     for (let key in tmpGoodsDetail) {
+          //       if (tmpGoodsDetail[key]) {
+          //         if (window.__.env.REACT_APP_COUNTRY === 'fr') {
+          //           let tempObj = {};
+          //           let tempContent = '';
+          //           try {
+          //             if (key === 'Description') {
+          //               tmpGoodsDetail[key].map((el) => {
+          //                 tempContent =
+          //                   tempContent +
+          //                   `<p>${Object.values(JSON.parse(el))[0]}</p>`;
+          //               });
+          //               el.tabDescription = tempContent;
+          //             }
+          //             if (key === 'Bénéfices') {
+          //               tmpGoodsDetail[key].map((ele) => {
+          //                 // <div className="">${Object.keys(JSON.parse(ele))[0]}</div>
+          //                 tempContent =
+          //                   tempContent +
+          //                   `<li>
+          //                   <div class="">${
+          //                     Object.values(JSON.parse(ele))[0]['Description']
+          //                   }</div>
+          //                 </li>`;
+          //               });
+          //               tempContent = `<ul class="">
+          //                 ${tempContent}
+          //               </ul>`;
+          //               // this.setState({currentBenefit: tempContent})
+          //               el.benefit = tempContent;
+          //             }
+          //             // console.log(tempContent, 'tempContent')
+          //             // el.goodsInfo.benefit = tempContent
+          //           } catch (e) {
+          //             console.log(e);
+          //           }
+          //         } else {
+          //         }
+          //       }
+          //     }
+          //   } catch (e) {
+          //     console.log(e);
+          //   }
+          // }
           if (!el.goodsInfo.goodsInfoImg) {
             el.goodsInfo.goodsInfoImg = el.goodsInfo.goods.goodsImg;
           }
@@ -195,6 +198,7 @@ class FelinRecommendation extends React.Component {
             console.log(g.goodsInfoId, el, 'hhhh');
             if (g.goodsInfoId === el.goodsInfo.goodsInfoId) {
               g.selected = true;
+              g.specText = el.goodsInfo.specText;
             }
             return g;
           });
@@ -210,8 +214,9 @@ class FelinRecommendation extends React.Component {
 
               sItem.chidren.map((child) => {
                 if (
-                  el.goodsInfo.mockSpecDetailIds.indexOf(child.specDetailId) >
-                  -1
+                  [29805].indexOf(child.specDetailId) > -1
+                  // el.goodsInfo.mockSpecDetailIds.indexOf(child.specDetailId) >
+                  // -1
                 ) {
                   console.log(child, 'child');
                   child.selected = true;
@@ -221,24 +226,24 @@ class FelinRecommendation extends React.Component {
               return sItem;
             });
           }
-          el.goodsInfo.goods.goodsInfos = el.goodsInfos;
-          el.goodsInfo.goods.goodsSpecDetails = el.goodsSpecDetails;
-          el.goodsInfo.goods.goodsSpecs = specList;
-          return el;
+          el.goodsSpecs = specList;
         });
-        let filterProducts = productList.filter((el) => {
-          console.info('============', el.goodsInfo.goodsInfoId);
-          console.info('addedFlag', el.goodsInfo.addedFlag);
-          console.info('delFlag', el.goodsInfo.delFlag);
-          console.info('saleableFlag', el.goodsInfo?.goods?.saleableFlag);
-          console.info('displayFlag', el.goodsInfo?.goods?.displayFlag);
-          return (
-            el.goodsInfo.addedFlag &&
-            !el.goodsInfo.delFlag &&
-            el.goodsInfo?.goods?.saleableFlag &&
-            el.goodsInfo?.goods?.displayFlag
-          );
+        let filterProducts = productLists.map((el) => {
+          return Object.assign({}, el, el.goods, el.goodsInfo?.goods);
         });
+        // let filterProducts = productList.filter((el) => {
+        //   console.info('============', el.goodsInfo.goodsInfoId);
+        //   console.info('addedFlag', el.goodsInfo.addedFlag);
+        //   console.info('delFlag', el.goodsInfo.delFlag);
+        //   console.info('saleableFlag', el.goodsInfo?.goods?.saleableFlag);
+        //   console.info('displayFlag', el.goodsInfo?.goods?.displayFlag);
+        //   return (
+        //     el.goodsInfo.addedFlag &&
+        //     !el.goodsInfo.delFlag &&
+        //     el.goodsInfo?.goods?.saleableFlag &&
+        //     el.goodsInfo?.goods?.displayFlag
+        //   );
+        // });
 
         // 只展示上架的，未删除的，可销售的，可展示的商品
         if (!filterProducts.length) {
@@ -346,82 +351,83 @@ class FelinRecommendation extends React.Component {
         isLogin: loginStore.isLogin
       });
       this.props.history.push(url);
+      // this.props.history.push('/cart');
     }
   }
-  async hanldeUnloginAddToCart(products, path) {
-    const { intl, checkoutStore } = this.props;
-    let cartDataCopy = [];
-    for (let i = 0; i < products.length; i++) {
-      let product = products[i];
+  // async hanldeUnloginAddToCart(products, path) {
+  //   const { intl, checkoutStore } = this.props;
+  //   let cartDataCopy = [];
+  //   for (let i = 0; i < products.length; i++) {
+  //     let product = products[i];
 
-      let quantityNew = product.recommendationNumber;
-      let tmpData = Object.assign({}, product.goodsInfo.goods, {
-        quantity: quantityNew
-      });
-      // let cartDataCopy = cloneDeep(
-      //   toJS(this.props.checkoutStore.cartData).filter((el) => el)
-      // )
-      let flag = true;
-      if (cartDataCopy && cartDataCopy.length) {
-        const historyItem = find(
-          cartDataCopy,
-          (c) =>
-            c.goodsId === product.goodsInfo.goodsId &&
-            product.goodsInfo.goodsInfoId ===
-              c.sizeList.filter((s) => s.selected)[0].goodsInfoId
-        );
-        console.log(historyItem, 'historyItem');
-        if (historyItem) {
-          flag = false;
-          quantityNew += historyItem.quantity;
-          if (quantityNew > 30) {
-            this.setState({ addToCartLoading: false });
-            return;
-          }
-          tmpData = Object.assign(tmpData, { quantity: quantityNew });
-        }
-      }
+  //     let quantityNew = product.recommendationNumber;
+  //     let tmpData = Object.assign({}, product.goodsInfo.goods, {
+  //       quantity: quantityNew
+  //     });
+  //     // let cartDataCopy = cloneDeep(
+  //     //   toJS(this.props.checkoutStore.cartData).filter((el) => el)
+  //     // )
+  //     let flag = true;
+  //     if (cartDataCopy && cartDataCopy.length) {
+  //       const historyItem = find(
+  //         cartDataCopy,
+  //         (c) =>
+  //           c.goodsId === product.goodsInfo.goodsId &&
+  //           product.goodsInfo.goodsInfoId ===
+  //             c.sizeList.filter((s) => s.selected)[0].goodsInfoId
+  //       );
+  //       console.log(historyItem, 'historyItem');
+  //       if (historyItem) {
+  //         flag = false;
+  //         quantityNew += historyItem.quantity;
+  //         if (quantityNew > 30) {
+  //           this.setState({ addToCartLoading: false });
+  //           return;
+  //         }
+  //         tmpData = Object.assign(tmpData, { quantity: quantityNew });
+  //       }
+  //     }
 
-      const idx = findIndex(
-        cartDataCopy,
-        (c) =>
-          c.goodsId === product.goodsInfo.goodsId &&
-          product.goodsInfo.goodsInfoId ===
-            find(c.sizeList, (s) => s.selected).goodsInfoId
-      );
-      tmpData = Object.assign(tmpData, {
-        currentAmount: product.goodsInfo.marketPrice * quantityNew,
-        selected: true,
-        quantity: quantityNew,
-        goodsInfoFlag: 0,
-        periodTypeId: null
-      });
-      console.log(idx, 'idx');
-      if (idx > -1) {
-        cartDataCopy.splice(idx, 1, tmpData);
-      } else {
-        if (cartDataCopy.length >= window.__.env.REACT_APP_LIMITED_CATE_NUM) {
-          this.setState({
-            checkOutErrMsg: (
-              <FormattedMessage
-                id="cart.errorMaxCate"
-                values={{ val: window.__.env.REACT_APP_LIMITED_CATE_NUM }}
-              />
-            )
-          });
-          return;
-        }
-        cartDataCopy.push(tmpData);
-      }
-      console.log(cartDataCopy, 'cartDataCopy');
+  //     const idx = findIndex(
+  //       cartDataCopy,
+  //       (c) =>
+  //         c.goodsId === product.goodsInfo.goodsId &&
+  //         product.goodsInfo.goodsInfoId ===
+  //           find(c.sizeList, (s) => s.selected).goodsInfoId
+  //     );
+  //     tmpData = Object.assign(tmpData, {
+  //       currentAmount: product.goodsInfo.marketPrice * quantityNew,
+  //       selected: true,
+  //       quantity: quantityNew,
+  //       goodsInfoFlag: 0,
+  //       periodTypeId: null
+  //     });
+  //     console.log(idx, 'idx');
+  //     if (idx > -1) {
+  //       cartDataCopy.splice(idx, 1, tmpData);
+  //     } else {
+  //       if (cartDataCopy.length >= window.__.env.REACT_APP_LIMITED_CATE_NUM) {
+  //         this.setState({
+  //           checkOutErrMsg: (
+  //             <FormattedMessage
+  //               id="cart.errorMaxCate"
+  //               values={{ val: window.__.env.REACT_APP_LIMITED_CATE_NUM }}
+  //             />
+  //           )
+  //         });
+  //         return;
+  //       }
+  //       cartDataCopy.push(tmpData);
+  //     }
+  //     console.log(cartDataCopy, 'cartDataCopy');
 
-      await checkoutStore.updateUnloginCart({
-        cartData: cartDataCopy,
-        intl
-      });
-    }
-    this.props.history.push(path);
-  }
+  //     await checkoutStore.updateUnloginCart({
+  //       cartData: cartDataCopy,
+  //       intl
+  //     });
+  //   }
+  //   this.props.history.push(path);
+  // }
   showErrorMsg = (msg) => {
     this.setState({
       errorMsg: msg
@@ -436,6 +442,56 @@ class FelinRecommendation extends React.Component {
         errorMsg: ''
       });
     }, 5000);
+  };
+  //  hanldeLoginAddToCart = async (details) => {
+  //   let param = {
+  //     goodsInfoId: details.goodsInfo.goodsInfoId,
+  //     goodsNum: 1,
+  //     recommendationId: shelter.value,
+  //     recommendationName: shelter.name,
+  //     currentUnitPrice: details.goodsInfo?.marketPrice,
+  //     goodsInfoFlag: 0,
+  //     periodTypeId: null
+  //     // goodsInfoFlag: details.goodsInfoFlag,
+  //     // periodTypeId: details.defaultFrequencyId
+  //   };
+  //   try {
+  //     await sitePurchase(param);
+  //     await checkoutStore.updateLoginCart({
+  //       intl: props.intl
+  //     });
+  //     props.history.push('/cart');
+  //   } catch (err) {
+  //     setBtnLoading(false);
+  //   }
+  // };
+  hanldeUnloginAddToCart = async (products) => {
+    const { intl, checkoutStore, history } = this.props;
+
+    let cartItems = products.map((product) => {
+      return Object.assign({}, product, product.goodsInfo, {
+        selected: true,
+        quantity: 1,
+        currentUnitPrice: product.goodsInfo?.marketPrice,
+        goodsInfoFlag: 0,
+        periodTypeId: null,
+        orderSource: 'L_ATELIER_FELIN'
+        // goodsInfoFlag: product.goodsInfoFlag,
+        // periodTypeId: product.defaultFrequencyId,
+      });
+    });
+    try {
+      checkoutStore.hanldeUnloginAddToCart({
+        cartItemList: cartItems,
+        intl,
+        valid: true
+      });
+      // history.push('/cart');
+    } catch (err) {
+      console.info('err', err);
+      this.setState({ buttonLoading: false });
+      // setBtnLoading(false);
+    }
   };
   buyNow = async () => {
     let needLogin = false; // one off商品
@@ -488,11 +544,11 @@ class FelinRecommendation extends React.Component {
       this.setState({ buttonLoading: true });
       try {
         if (loginStore.isLogin) {
-          sessionItemRoyal.set(
-            'recommend_product',
-            JSON.stringify(inStockProducts)
-          );
-          sessionItemRoyal.set('orderSource', 'L_ATELIER_FELIN');
+          // sessionItemRoyal.set(
+          //   'recommend_product',
+          //   JSON.stringify(inStockProducts)
+          // );
+          // sessionItemRoyal.set('orderSource', 'L_ATELIER_FELIN');
           await this.hanldeLoginAddToCart();
         } else {
           let res = await getProductPetConfig({
@@ -513,11 +569,11 @@ class FelinRecommendation extends React.Component {
           let autoAuditFlag = res.context.autoAuditFlag;
           checkoutStore.setPetFlag(res.context.petFlag);
           checkoutStore.setAutoAuditFlag(autoAuditFlag);
-          sessionItemRoyal.set(
-            'recommend_product',
-            JSON.stringify(inStockProducts)
-          );
-          sessionItemRoyal.set('orderSource', 'L_ATELIER_FELIN');
+          // sessionItemRoyal.set(
+          //   'recommend_product',
+          //   JSON.stringify(inStockProducts)
+          // );
+          // sessionItemRoyal.set('orderSource', 'L_ATELIER_FELIN');
           if (!needLogin) {
             const url = await distributeLinktoPrecriberOrPaymentPage({
               configStore: this.props.configStore,
@@ -526,7 +582,8 @@ class FelinRecommendation extends React.Component {
               isLogin: loginStore.isLogin
             });
             await this.hanldeUnloginAddToCart(this.state.productList, url);
-            // url && history.push(url);
+            //  history.push('/cart')
+            url && history.push(url);
             // history.push('/prescription');
           }
         }

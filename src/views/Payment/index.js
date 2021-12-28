@@ -1081,14 +1081,15 @@ class Payment extends React.Component {
       console.log('appointmentInfo', result);
       const requestName = this.isLogin ? getLoginDetails : getDetails;
       const goodInfoRes = await requestName(result?.goodsInfoId);
-      const goodInfo = goodInfoRes?.context;
+      const goodInfo = goodInfoRes?.context || {};
       if (!goodInfoRes?.context) {
         this.showErrorMsg('Cannot get product info from api');
+        return;
       }
       const goodDetail = Object.assign(goodInfo, {
         goodsInfoId: result?.goodsInfoId,
         goodsInfoImg: goodInfo?.goods?.goodsImg,
-        goodsName: goodInfo?.goods?.goodsName,
+        goodsName: goodInfo?.goods?.goodsName || '',
         buyCount: 1,
         salePrice: goodInfo?.goodsInfos
           ? goodInfo?.goodsInfos.filter(
