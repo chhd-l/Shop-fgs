@@ -475,8 +475,8 @@ class Payment extends React.Component {
     let { getSystemFormConfig, paymentAuthority } = this.props.configStore;
 
     // 游客不能checkout 且 没有登录
-    if (paymentAuthority !== '2' && !this.isLogin) {
-      history.push('/');
+    if (paymentAuthority === 'MEMBER' && !this.isLogin) {
+      history.replace('/');
     }
     await getSystemFormConfig();
     if (this.isLogin) {
