@@ -1,12 +1,13 @@
 import { action, observable, computed } from 'mobx';
-import {
-  getConfig,
-  getPrescriberSettingInfo,
-  fetchPaymentAuthority
-} from '@/api';
+import { getConfig } from '@/api';
 import { getAddressSetting, getSystemConfig } from '@/api/address';
 import { getPaymentMethodV2 } from '@/api/payment';
 import flatten from 'lodash/flatten';
+import {
+  PAYMENTAUTHORITY_ENUM,
+  ENTERPRICETYPE_ENUM,
+  PRESCRIBERSELECTTYPED_ENUM
+} from '@/utils/enum';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const addressFormNull = {
@@ -30,36 +31,23 @@ class ConfigStore {
     ? JSON.parse(sessionItemRoyal.get('storeContentInfo'))
     : null;
 
-  @observable prescriberSettingInfo = sessionItemRoyal.get(
-    'prescriberSettingInfo'
-  )
-    ? JSON.parse(sessionItemRoyal.get('prescriberSettingInfo'))
-    : null; //prescriber Setting相关配置信息
-
   // 需要显示的 address form 地址字段
   @observable localAddressForm = sessionItemRoyal.get('rc-address-form')
     ? JSON.parse(sessionItemRoyal.get('rc-address-form'))
     : addressFormNull;
 
-  @observable paymentMethodCfg = sessionItemRoyal.get('rc-paymentCfg')
-    ? JSON.parse(sessionItemRoyal.get('rc-paymentCfg'))
-    : [];
-
   // 1-会员，2-会员和游客
-  @observable paymentAuthority = sessionItemRoyal.get('rc-paymentAuthority')
-    ? JSON.parse(sessionItemRoyal.get('rc-paymentAuthority'))
-    : '2';
+  @computed get paymentAuthority() {
+    return PAYMENTAUTHORITY_ENUM[this.info?.orderConfig?.context || '2'];
+  }
 
-  // 当前地址表单类型
+  // 当前地址表单类型 MANUALLY：手动填写 、 AUTOMATICALLY：自动填充
   @computed get addressFormType() {
-    let form = sessionItemRoyal.get('rc-address-form')
-      ? JSON.parse(sessionItemRoyal.get('rc-address-form'))
-      : addressFormNull;
-    return form?.formType?.type ? form.formType.type : 'MANUALLY';
+    return this.localAddressForm?.formType || 'MANUALLY';
   }
 
   @computed get maxGoodsPrice() {
-    return this.info ? this.info.maxGoodsPrice : 0;
+    return this.info?.maxGoodsPrice || 0;
   }
 
   @computed get discountDisplayTypeInfo() {
@@ -68,7 +56,7 @@ class ConfigStore {
 
   // 税额开关 0: 开, 1: 关
   @computed get customTaxSettingOpenFlag() {
-    return this.info?.customTaxSettingOpenFlag;
+    return this.info?.customTaxSettingOpenFlag === 0;
   }
 
   // homeDelivery 开关
@@ -83,44 +71,45 @@ class ConfigStore {
 
   // 买入价格开关 0：含税，1：不含税
   @computed get enterPriceType() {
-    return Number(
-      (this.info?.systemTaxSetting?.configVOList &&
-        this.info?.systemTaxSetting?.configVOList[1]?.context) ||
-        0
-    );
+    return ENTERPRICETYPE_ENUM[
+      Number(
+        (this.info?.systemTaxSetting?.configVOList &&
+          this.info?.systemTaxSetting?.configVOList[1]?.context) ||
+          0
+      )
+    ];
   }
 
   @computed get storeContactPhoneNumber() {
-    return this.info && this.info.storeVO
-      ? this.info.storeVO.storeContactPhoneNumber
-      : '';
+    return this.info?.storeVO?.storeContactPhoneNumber || '';
   }
 
   @computed get contactTimePeriod() {
-    return this.info && this.info.storeVO
-      ? this.info.storeVO.contactTimePeriod
-      : '';
+    return this.info?.storeVO?.contactTimePeriod || '';
   }
 
   @computed get storeContactEmail() {
-    return this.info && this.info.storeVO
-      ? this.info.storeVO.storeContactEmail
-      : '';
+    return this.info?.storeVO?.storeContactEmail || '';
   }
 
   // 返回prescription页面是否需要显示用户选择绑定prescriber弹框 0:不显示 1：显示
   @computed get isShowPrescriberModal() {
-    return (
-      this.prescriberSettingInfo &&
-      this.prescriberSettingInfo.isNeedPrescriber === 1
-    );
+    const isNeedPrescriber = (this.info?.auditOrderConfigList || []).find(
+      (item) => {
+        return item.configType === 'if_prescriber_is_not_mandatory';
+      }
+    )?.status;
+    return isNeedPrescriber === 1;
   }
 
   // 返回prescriber select Type:0:Prescriber Map / 1:Recommendation Code
   @computed get prescriberSelectTyped() {
-    return this.prescriberSettingInfo
-      ? this.prescriberSettingInfo.prescriberSelectType
-      : '';
+    const prescriberSelectType = (this.info?.auditOrderConfigList || []).find(
+      (item) => {
+        return item.configType === 'selection_type';
+      }
+    )?.status;
+    return PRESCRIBERSELECTTYPED_ENUM[prescriberSelectType || ''];
   }
 
   @computed get defaultPurchaseType() {
@@ -137,43 +126,8 @@ class ConfigStore {
     if (!res) {
       res = await getConfig();
       res = res.context;
+      this.updateInfo(res);
     }
-    this.info = res;
-    sessionItemRoyal.set('storeContentInfo', JSON.stringify(this.info));
-    if (this.info?.orderConfig?.context) {
-      this.setPaymentAuthority(this.info.orderConfig.context);
-    }
-  }
-
-  //查询prescriber Setting相关配置信息
-  @action.bound
-  async getPrescriberSettingInfo() {
-    let res = await getPrescriberSettingInfo();
-    let isNeedPrescriber = null;
-    let prescriberSelectType = null;
-    if (res.context) {
-      isNeedPrescriber = res.context.find((item) => {
-        return item.configType === 'if_prescriber_is_not_mandatory';
-      });
-      prescriberSelectType = res.context.find((item) => {
-        return item.configType === 'selection_type';
-      });
-      isNeedPrescriber = isNeedPrescriber ? isNeedPrescriber.status : null;
-      prescriberSelectType = prescriberSelectType
-        ? prescriberSelectType.status
-        : null;
-    }
-    sessionItemRoyal.set(
-      'prescriberSettingInfo',
-      JSON.stringify({
-        isNeedPrescriber: isNeedPrescriber,
-        prescriberSelectType: prescriberSelectType
-      })
-    );
-    this.prescriberSettingInfo = {
-      isNeedPrescriber: isNeedPrescriber,
-      prescriberSelectType: prescriberSelectType
-    };
   }
 
   // 1、查询form表单配置开关
@@ -185,26 +139,15 @@ class ConfigStore {
     }
     try {
       const res = await getSystemConfig({ configType: 'address_input_type' });
-      if (res?.context?.configVOList) {
-        let manually = '',
-          automatically = '';
-        let robj = res.context.configVOList;
-        robj.forEach((item) => {
-          if (item.configKey == 'address_input_type_manually') {
-            manually = item.context;
-          } else if (item.configKey == 'address_input_type_automatically') {
-            automatically = item.context;
-          }
-        });
-        // 根据接口类型查询表单数据
-        this.getAddressSettingByApi(manually, automatically);
-      } else {
-        console.error('地址表单接口返回空，找后端配置。');
-        sessionItemRoyal.set(
-          'rc-address-form',
-          JSON.stringify(addressFormNull)
-        );
-      }
+      const formSettingSwitch =
+        (res.context.configVOList || []).find(
+          (ele) => ele.configKey === 'address_input_type_manually'
+        )?.context === '1'
+          ? 'MANUALLY'
+          : 'AUTOMATICALLY';
+
+      // 根据接口类型查询表单数据
+      this.getAddressSettingByApi(formSettingSwitch);
     } catch (err) {
       console.log(err);
       sessionItemRoyal.set('rc-address-form', JSON.stringify(addressFormNull));
@@ -213,11 +156,9 @@ class ConfigStore {
 
   // 2、根据接口类型（自己接口: MANUALLY，自动填充: AUTOMATICALLY）查询表单数据
   @action.bound
-  async getAddressSettingByApi(manually, automatically) {
+  async getAddressSettingByApi(formSettingSwitch) {
     let addressForm = addressFormNull;
     try {
-      let formSettingSwitch =
-        manually == 1 && automatically == 0 ? 'MANUALLY' : 'AUTOMATICALLY';
       const res = await getAddressSetting({
         addressApiType: formSettingSwitch
       });
@@ -226,11 +167,7 @@ class ConfigStore {
         // 拼接json
         addressForm = {
           settings: addressSettings,
-          formType: {
-            type: formSettingSwitch,
-            manually: manually,
-            automatically: automatically
-          }
+          formType: formSettingSwitch
         };
         // 标记可用字段
         addressSettings.forEach((item) => {
@@ -255,8 +192,8 @@ class ConfigStore {
 
   @action.bound
   async queryPaymentMethodCfg() {
-    let pmlogos = this.paymentMethodCfg;
-    if (pmlogos?.length) {
+    let pmlogos = this.info?.paymentMethodList;
+    if (pmlogos) {
       return pmlogos;
     }
     const {
@@ -273,19 +210,16 @@ class ConfigStore {
     ])
       .filter((f) => f?.isOpen)
       .map((f) => ({ imgUrl: f?.imgUrl }));
-    sessionItemRoyal.set('rc-paymentCfg', JSON.stringify(ret));
-    return ret;
+
+    this.updateInfo({ paymentMethodList: ret });
+    return this.info?.paymentMethodList;
   }
 
   @action.bound
-  async queryPaymentAuthority() {
-    let res = await fetchPaymentAuthority();
-    this.setPaymentAuthority(res?.context[0].context);
-  }
-
-  async setPaymentAuthority(val) {
-    this.paymentAuthority = val;
-    sessionItemRoyal.set('rc-paymentAuthority', JSON.stringify(val));
+  updateInfo(info) {
+    const ret = Object.assign(this.info || {}, info || {});
+    this.info = ret;
+    sessionItemRoyal.set('storeContentInfo', JSON.stringify(ret));
   }
 }
 export default ConfigStore;

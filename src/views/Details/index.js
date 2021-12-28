@@ -21,6 +21,7 @@ import AddCartSuccessMobile from './components/AddCartSuccessMobile.tsx';
 import BannerTip from '@/components/BannerTip';
 import Reviews from './components/Reviews';
 import Loading from '@/components/Loading';
+import DailyPortion from './components/DailyPortion';
 import {
   getDeviceType,
   getFrequencyDict,
@@ -1080,6 +1081,52 @@ class Details extends React.Component {
     return content;
   }
 
+  DailyPortionComponent = (details, barcode) => {
+    const { configStore } = this.props;
+    let {
+      goodsInfos = [],
+      goodsAttributesValueRelList = [],
+      wsEnergyCategory,
+      wsReferenceEnergyValue,
+      wsDensity
+    } = details;
+    let currentGoodsInfo = goodsInfos.find(
+      (item) => item.goodsInfoBarcode === barcode
+    );
+    let isTechnology = ['dry', 'wet'].includes(details?.wsTechnologyCode);
+
+    /**
+     * 是否显示计算工具
+     *  1、Product status show/hide
+     *    1.1、liquid products are excluded => wsTechnologyCode
+     *    1.2、Bundle products are excluded => goodsInfos - goodsInfoType === 2
+     *    1.3  details => wsTechnologyCode wsEnergyCategory wsReferenceEnergyValue
+     * **/
+    if (!configStore?.info?.dailyPortion) return null;
+    if (!isTechnology) return null;
+    if (currentGoodsInfo?.goodsInfoType === 2) return null;
+    if (!(wsEnergyCategory && wsReferenceEnergyValue && wsDensity)) return null;
+
+    // 产品动物的种类
+    let speciesValue = goodsAttributesValueRelList.find(
+      (item) => item.goodsAttributeName === 'Species'
+    )?.goodsAttributeValue;
+
+    // 产品的breed
+    let initBreedValue = goodsAttributesValueRelList.find(
+      (item) => item.goodsAttributeName === 'Breeds'
+    )?.goodsAttributeValue;
+
+    return (
+      <DailyPortion
+        initBreedValue={initBreedValue}
+        speciesValue={speciesValue}
+        goodsInfo={currentGoodsInfo}
+        details={details}
+      />
+    );
+  };
+
   render() {
     const { history, location, match, configStore, intl } = this.props;
     const {
@@ -1141,6 +1188,7 @@ class Details extends React.Component {
         title="${details.goodsName}">
         ${details.goodsName}
       </${headingTag || 'h1'}>`;
+
     //
     return (
       <div id="Details">
@@ -1471,20 +1519,24 @@ class Details extends React.Component {
             {/* 描述、好处、组成、指南板块*/}
             {details.goodsDescriptionDetailList &&
             details.goodsType !== undefined ? (
-              <GoodsDetailTabs
-                activeTabIdxList={activeTabIdxList}
-                goodsType={details.goodsType}
-                goodsDescriptionDetailList={details.goodsDescriptionDetailList}
-                saleableFlag={details.saleableFlag}
-                displayFlag={details.displayFlag}
-                setState={this.setState.bind(this)}
-                isClub={
-                  details.promotions && details.promotions.includes('club')
-                }
-                goodsDetailSpace={backgroundSpaces}
-              />
+              <div>
+                <GoodsDetailTabs
+                  activeTabIdxList={activeTabIdxList}
+                  goodsType={details.goodsType}
+                  goodsDescriptionDetailList={
+                    details.goodsDescriptionDetailList
+                  }
+                  saleableFlag={details.saleableFlag}
+                  displayFlag={details.displayFlag}
+                  setState={this.setState.bind(this)}
+                  isClub={
+                    details.promotions && details.promotions.includes('club')
+                  }
+                  goodsDetailSpace={backgroundSpaces}
+                />
+                <div>{this.DailyPortionComponent(details, barcode)}</div>
+              </div>
             ) : null}
-
             {!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS &&
               !!details.goodsNo && (
                 <BazaarVoiceReviews productId={details.goodsNo} />

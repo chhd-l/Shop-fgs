@@ -556,7 +556,7 @@ export async function distributeLinktoPrecriberOrPaymentPage({
     }
   }
   //3.2 如果selectType是recommendation Code直接进入checkout并且在页面上方显示prescriber--recommendation code输入框
-  if (configStore.prescriberSelectTyped === 1) {
+  if (configStore.prescriberSelectTyped === 'RECOMMENDATION_CODE') {
     localItemRoyal.set('checkOutNeedShowPrescriber', 'true');
     return '/checkout';
   }
@@ -735,7 +735,7 @@ function getDatePickerConfig() {
     de: { format: 'dd.MM.yyyy', locale: 'de', locale_module: de },
     fr: { format: 'dd/MM/yyyy', locale: 'fr', locale_module: fr },
     us: { format: 'MM/dd/yyyy', locale: 'en', locale_module: us },
-    ru: { format: 'dd/MM/yyyy', locale: 'ru', locale_module: ru },
+    ru: { format: 'dd.MM.yyyy', locale: 'ru', locale_module: ru },
     tr: { format: 'dd-MM-yyyy', locale: 'tr', locale_module: tr },
     default: { format: 'yyyy-MM-dd', locale: '' }
   };

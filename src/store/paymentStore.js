@@ -113,6 +113,7 @@ class PaymentStore {
     ? JSON.parse(sessionItemRoyal.get('rc-payWayNameArr'))
     : []; //当前店铺支持的支付方式集合
   @observable curPayWayVal = '';
+  @observable addCardDirectToPayFlag = false; //是否新增卡直接下单
 
   @computed get emailPanelStatus() {
     return find(this.panelStatus, (ele) => ele.key === 'email').status;
@@ -493,6 +494,11 @@ class PaymentStore {
   @action.bound
   serCurPayWayVal(val) {
     this.curPayWayVal = val;
+  }
+
+  @action.bound
+  setAddCardDirectToPayFlag(status) {
+    this.addCardDirectToPayFlag = status;
   }
 }
 export default PaymentStore;

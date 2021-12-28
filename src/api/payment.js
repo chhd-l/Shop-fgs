@@ -33,7 +33,7 @@ const api = {
   dimensionsByPackage: '/pick-up/dimensionsByPackage', // 合并包裹
   confirmAndCommitFelin: `/${window.__.env.REACT_APP_STOREID}/feline/checkout`, //felin checkout
   repayFelin: '/feline/repay', //felin repay
-  getPaymentMethodV2: `/payment-method/query-by-StoreId/${window.__.env.REACT_APP_STOREID}`,
+  getPaymentMethodV2: `/payment-method/query-by-StoreId/${window.__.env.REACT_APP_STOREID}`, //查询所有支持的支付方式图片
   adyenOriginClientKeyV2: `/${window.__.env.REACT_APP_STOREID}/payment-method/origin-client-keys`
 };
 

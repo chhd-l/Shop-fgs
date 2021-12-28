@@ -907,12 +907,8 @@ class PayProductInfo extends React.Component {
                   </div>
                 ) : null}
 
-                {/*
-                  customTaxSettingOpenFlag 税额开关 0: 开, 1: 关
-                  enterPriceType 买入价格开关 0：含税，1：不含税
-                */}
-                {this.props.configStore?.customTaxSettingOpenFlag == 0 &&
-                this.props.configStore?.enterPriceType == 1 ? (
+                {this.props.configStore?.customTaxSettingOpenFlag &&
+                this.props.configStore?.enterPriceType === 'NO_TAX' ? (
                   <div className="row leading-lines shipping-item">
                     <div className="col-7 start-lines">
                       <p className="order-receipt-label order-shipping-cost">
@@ -1008,8 +1004,8 @@ class PayProductInfo extends React.Component {
                     {/* 是否在cart页面 */}
                     {this.props.isGuestCart && (
                       <>
-                        {this.props.configStore?.customTaxSettingOpenFlag ==
-                          0 && this.props.configStore?.enterPriceType == 1 ? (
+                        {this.props.configStore?.customTaxSettingOpenFlag &&
+                        this.props.configStore?.enterPriceType === 'NO_TAX' ? (
                           <strong>{subtractionSign}</strong>
                         ) : (
                           formatMoney(this.tradePrice)

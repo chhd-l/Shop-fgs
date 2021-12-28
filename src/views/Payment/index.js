@@ -24,9 +24,13 @@ import Confirmation from './modules/Confirmation';
 import SameAsCheckbox from './Address/SameAsCheckbox';
 // import CyberSaveCardCheckbox from './Address/CyberSaveCardCheckbox';
 import { withOktaAuth } from '@okta/okta-react';
-import { searchNextConfirmPanel } from './modules/utils';
-import { getDeviceType, payCountDown } from '@/utils/utils';
 import {
+  searchNextConfirmPanel,
+  handleRecoProductParamByItem
+} from './modules/utils';
+import {
+  getDeviceType,
+  payCountDown,
   formatMoney,
   generatePayUScript,
   setSeoConfig,
@@ -47,7 +51,8 @@ import {
   getWays,
   getPaymentMethod,
   confirmAndCommitFelin,
-  rePayFelin
+  rePayFelin,
+  adyenPaymentsDetails
 } from '@/api/payment';
 import { getOrderDetails } from '@/api/order';
 import { getLoginDetails, getDetails } from '@/api/details';
@@ -475,8 +480,8 @@ class Payment extends React.Component {
     let { getSystemFormConfig, paymentAuthority } = this.props.configStore;
 
     // 游客不能checkout 且 没有登录
-    if (paymentAuthority !== '2' && !this.isLogin) {
-      history.push('/');
+    if (paymentAuthority === 'MEMBER' && !this.isLogin) {
+      history.replace('/');
     }
     await getSystemFormConfig();
     if (this.isLogin) {
@@ -1076,14 +1081,15 @@ class Payment extends React.Component {
       console.log('appointmentInfo', result);
       const requestName = this.isLogin ? getLoginDetails : getDetails;
       const goodInfoRes = await requestName(result?.goodsInfoId);
-      const goodInfo = goodInfoRes?.context;
+      const goodInfo = goodInfoRes?.context || {};
       if (!goodInfoRes?.context) {
         this.showErrorMsg('Cannot get product info from api');
+        return;
       }
       const goodDetail = Object.assign(goodInfo, {
         goodsInfoId: result?.goodsInfoId,
         goodsInfoImg: goodInfo?.goods?.goodsImg,
-        goodsName: goodInfo?.goods?.goodsName,
+        goodsName: goodInfo?.goods?.goodsName || '',
         buyCount: 1,
         salePrice: goodInfo?.goodsInfos
           ? goodInfo?.goodsInfos.filter(
@@ -1614,6 +1620,25 @@ class Payment extends React.Component {
           subNumber = (res.context && res.context.subscribeId) || '';
 
           if (res.context.qrCodeData) {
+            function getData() {
+              return adyenPaymentsDetails({
+                redirectResult: res.context.paymentData,
+                businessId: res.context.tid
+              })
+                .then(function (response) {
+                  if (
+                    response.context.status == 'SUCCEED' ||
+                    response.context.status == 'PROCESSING'
+                  )
+                    return getData();
+                })
+                .catch(function () {
+                  this.setState({ swishQrcodeError: true });
+                });
+            }
+
+            getData();
+
             //模态框
             this.setState({
               swishQrcode: res.context.qrCodeData,
@@ -1917,7 +1942,10 @@ class Payment extends React.Component {
   async packagePayParam() {
     const loginCartData = this.loginCartData;
     const cartData = this.cartData.filter((ele) => ele.selected);
-    const { clinicStore } = this.props;
+    const {
+      clinicStore,
+      paymentStore: { addCardDirectToPayFlag }
+    } = this.props;
     let {
       deliveryAddress,
       billingAddress,
@@ -1934,11 +1962,7 @@ class Payment extends React.Component {
 
     //登录状态下在cart勾选了survey需判断是否已下过单
     let surveyId = sessionItemRoyal.get('rc-clicked-surveyId') || '';
-    if (
-      surveyId !== '' &&
-      this.isLogin &&
-      window.__.env.REACT_APP_COUNTRY === 'us'
-    ) {
+    if (surveyId !== '' && this.isLogin) {
       const result = await querySurveyContent({
         storeId: window.__.env.REACT_APP_STOREID,
         customerId: this.userInfo.customerId
@@ -1998,7 +2022,8 @@ class Payment extends React.Component {
         goodWillFlag:
           sessionItemRoyal.get('goodWillFlag') === 'GOOD_WILL' ? 1 : 0,
         isApptChange: Boolean(sessionItemRoyal.get('isChangeAppoint')),
-        oldAppointNo: sessionItemRoyal.get('oldAppointNo')
+        oldAppointNo: sessionItemRoyal.get('oldAppointNo'),
+        paymentMethodIdFlag: addCardDirectToPayFlag
       },
       appointParam
     );
@@ -2033,119 +2058,37 @@ class Payment extends React.Component {
         expirationDate: payosdata.expiration_date
       });
     }
+
     if (sessionItemRoyal.get('recommend_product')) {
       param.tradeItems = this.state.recommend_data.map((ele) => {
-        let recommendationInfos = {};
-        if (ele.recommendationInfos && ele.recommendationInfos != 'null') {
-          recommendationInfos =
-            typeof ele.recommendationInfos == 'string'
-              ? JSON.parse(ele.recommendationInfos)
-              : ele.recommendationInfos;
-        }
-        let {
-          recommendationName = '',
-          recommendationId = '',
-          referenceObject = '',
-          recommenderId = '',
-          referenceData = '',
-          recommenderName = ''
-        } = recommendationInfos;
-        let referenceId = recommenderId || recommendationId;
-        return {
-          //shelter和breeder产品参数 start
-          utmSource: ele.utmSource || '',
-          utmMedium: ele.utmMedium || '',
-          utmCampaign: ele.utmCampaign || '',
-          prefixFn: ele.prefixFn || '',
-          prefixBreed: ele.prefixBreed || '',
-          //shelter和breeder产品参数 end
+        const recoProductParam = handleRecoProductParamByItem(ele);
+        return Object.assign(recoProductParam, {
           num: ele.buyCount,
           skuId: ele.goodsInfoId,
           petsId: ele.petsId,
           petsName: ele.petsName,
-          goodsInfoFlag: 0,
-          referenceObject,
-          recommenderId,
-          referenceData,
-          recommenderName,
-          referenceId,
-          recommendationId: recommendationId || ele.recommendationId || '', // 优先去取recommendationInfos里面的recommendationId
-          recommendationName: recommendationName || ele.recommendationName || ''
-        };
+          goodsInfoFlag: 0
+        });
       });
     } else if (this.isLogin) {
       param.tradeItems = loginCartData.map((ele) => {
-        let recommendationInfos = {};
-        if (ele.recommendationInfos && ele.recommendationInfos != 'null') {
-          recommendationInfos =
-            typeof ele.recommendationInfos == 'string'
-              ? JSON.parse(ele.recommendationInfos)
-              : ele.recommendationInfos;
-        }
-        let {
-          recommendationName = '',
-          recommendationId = '',
-          referenceObject = '',
-          recommenderId = '',
-          referenceData = '',
-          recommenderName = ''
-        } = recommendationInfos;
-        let referenceId = recommenderId || recommendationId;
-        return {
-          utmSource: ele.utmSource || '',
-          utmMedium: ele.utmMedium || '',
-          utmCampaign: ele.utmCampaign || '',
-          prefixFn: ele.prefixFn || '',
-          prefixBreed: ele.prefixBreed || '',
+        const recoProductParam = handleRecoProductParamByItem(ele);
+        return Object.assign(recoProductParam, {
           num: ele.buyCount,
           skuId: ele.goodsInfoId,
           petsId: ele.petsId,
           petsName: ele.petsName,
-          goodsInfoFlag: ele.goodsInfoFlag,
-          referenceObject,
-          recommenderId,
-          referenceData,
-          recommenderName,
-          referenceId,
-          recommendationId: recommendationId || ele.recommendationId || '',
-          recommendationName: recommendationName || ele.recommendationName || ''
-        };
+          goodsInfoFlag: ele.goodsInfoFlag
+        });
       });
     } else {
       param.tradeItems = cartData.map((ele) => {
-        let recommendationInfos = {};
-        if (ele.recommendationInfos && ele.recommendationInfos != 'null') {
-          recommendationInfos =
-            typeof ele.recommendationInfos == 'string'
-              ? JSON.parse(ele.recommendationInfos)
-              : ele.recommendationInfos;
-        }
-        let {
-          recommendationName = '',
-          recommendationId = '',
-          referenceObject = '',
-          recommenderId = '',
-          referenceData = '',
-          recommenderName = ''
-        } = recommendationInfos;
-        let referenceId = recommenderId || ele.recommendationId;
-        return {
-          utmSource: ele.utmSource || '',
-          utmMedium: ele.utmMedium || '',
-          utmCampaign: ele.utmCampaign || '',
-          prefixFn: ele.prefixFn || '',
-          prefixBreed: ele.prefixBreed || '',
+        const recoProductParam = handleRecoProductParamByItem(ele);
+        return Object.assign(recoProductParam, {
           num: ele.quantity,
           skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
-          goodsInfoFlag: ele.goodsInfoFlag,
-          referenceObject,
-          recommenderId,
-          referenceData,
-          recommenderName,
-          referenceId,
-          recommendationId: recommendationId || ele.recommendationId || '',
-          recommendationName: recommendationName || ele.recommendationName || ''
-        };
+          goodsInfoFlag: ele.goodsInfoFlag
+        });
       });
     }
 
@@ -2157,42 +2100,15 @@ class Payment extends React.Component {
         // .filter((ele) => !ele.subscriptionStatus || !ele.subscriptionPrice)
         .filter((ele) => !ele.goodsInfoFlag)
         .map((g) => {
-          let recommendationInfos = {};
-          if (g.recommendationInfos && g.recommendationInfos != 'null') {
-            recommendationInfos =
-              typeof g.recommendationInfos == 'string'
-                ? JSON.parse(g.recommendationInfos)
-                : g.recommendationInfos;
-          }
-          let {
-            recommendationName = '',
-            recommendationId = '',
-            referenceObject = '',
-            recommenderId = '',
-            referenceData = '',
-            recommenderName = ''
-          } = recommendationInfos;
-          let referenceId = recommenderId || g.recommendationId;
-          return {
-            utmSource: g.utmSource || '',
-            utmMedium: g.utmMedium || '',
-            utmCampaign: g.utmCampaign || '',
-            prefixFn: g.prefixFn || '',
-            prefixBreed: g.prefixBreed || '',
+          const recoProductParam = handleRecoProductParamByItem(g);
+          return Object.assign(recoProductParam, {
             num: g.buyCount,
             skuId: g.goodsInfoId,
             petsId: g.petsId,
             petsName: g.petsName,
             goodsInfoFlag: g.goodsInfoFlag,
-            periodTypeId: g.periodTypeId,
-            referenceObject,
-            recommenderId,
-            referenceData,
-            recommenderName,
-            referenceId,
-            recommendationId: recommendationId || g.recommendationId || '',
-            recommendationName: recommendationName || g.recommendationName || ''
-          };
+            periodTypeId: g.periodTypeId
+          });
         });
       // if(sessionItemRoyal.get('recommend_product')) {
       //   param.subTradeItems = this.state.recommend_data
@@ -2214,32 +2130,12 @@ class Payment extends React.Component {
             ele.goodsInfoFlag
         )
         .map((g) => {
-          let recommendationInfos = {};
-          if (g.recommendationInfos && g.recommendationInfos != 'null') {
-            recommendationInfos =
-              typeof g.recommendationInfos == 'string'
-                ? JSON.parse(g.recommendationInfos)
-                : g.recommendationInfos;
-          }
-          let {
-            recommendationName = '',
-            recommendationId = '',
-            referenceObject = '',
-            recommenderId = '',
-            referenceData = '',
-            recommenderName = ''
-          } = recommendationInfos;
-          let referenceId = recommenderId || g.recommendationId;
-          return {
+          const recoProductParam = handleRecoProductParamByItem(g);
+          return Object.assign(recoProductParam, {
             settingPrice: g.settingPrice,
             packageId: g.packageId,
             subscriptionPlanPromotionFlag: g.subscriptionPlanPromotionFlag,
             subscriptionPlanId: g.subscriptionPlanId,
-            utmSource: g.utmSource || '',
-            utmMedium: g.utmMedium || '',
-            utmCampaign: g.utmCampaign || '',
-            prefixFn: g.prefixFn || '',
-            prefixBreed: g.prefixBreed || '',
             goodsInfoFlag:
               parseInt(g.goodsInfoFlag) && g.promotions?.includes('club')
                 ? 2
@@ -2250,15 +2146,8 @@ class Payment extends React.Component {
             petsId: g.petsId,
             petsType: g.petsType,
             petsName: g.petsName,
-            periodTypeId: g.periodTypeId,
-            referenceObject,
-            recommenderId,
-            referenceData,
-            recommenderName,
-            referenceId,
-            recommendationId: recommendationId || g.recommendationId || '',
-            recommendationName: recommendationName || g.recommendationName || ''
-          };
+            periodTypeId: g.periodTypeId
+          });
         });
       // }
 
@@ -2908,13 +2797,9 @@ class Payment extends React.Component {
 
     async function handleClickSaveAdyenForm(_this) {
       try {
-        if (
-          _this.adyenCardRef &&
-          _this.adyenCardRef.current &&
-          _this.adyenCardRef.current.cardListRef &&
-          _this.adyenCardRef.current.cardListRef.current
-        ) {
-          await _this.adyenCardRef.current.cardListRef.current.clickConfirm();
+        const cardListRef = _this.adyenCardRef?.current?.cardListRef?.current;
+        if (cardListRef) {
+          await cardListRef.clickConfirm();
         }
       } catch (e) {
         throw new Error(e.message);
@@ -2923,17 +2808,14 @@ class Payment extends React.Component {
 
     async function handleClickSavePayUForm(_this) {
       try {
-        if (_this.payUCreditCardRef && _this.payUCreditCardRef.current) {
-          // 会员
-          if (
-            _this.payUCreditCardRef.current.paymentCompRef &&
-            _this.payUCreditCardRef.current.paymentCompRef.current
-          ) {
-            // 保存/修改 地址
-            await _this.payUCreditCardRef.current.paymentCompRef.current.handleSave();
+        const payUCreditCardRef = _this.payUCreditCardRef?.current;
+        if (payUCreditCardRef) {
+          const paymentCompRef = payUCreditCardRef.paymentCompRef?.current;
+          // if-会员 else-游客
+          if (paymentCompRef) {
+            await paymentCompRef.handleSave();
           } else {
-            // 游客
-            await _this.payUCreditCardRef.current.handleClickCardConfirm();
+            await payUCreditCardRef.handleClickCardConfirm();
           }
         }
       } catch (e) {
@@ -3235,16 +3117,24 @@ class Payment extends React.Component {
 
   // 编辑
   handleClickPaymentPanelEdit = async () => {
-    const { paymentStore } = this.props;
+    const {
+      checkoutStore,
+      paymentStore: {
+        setAddCardDirectToPayFlag,
+        setRreshCardList,
+        setStsToEdit
+      }
+    } = this.props;
 
-    paymentStore.setRreshCardList(true);
+    setAddCardDirectToPayFlag(false);
+    setRreshCardList(true);
 
     const { billingChecked, paymentTypeVal } = this.state;
     if (paymentTypeVal == 'cyber' && this.isLogin) {
       await this.queryList();
     }
-    this.props.checkoutStore.setInstallMentParam(null);
-    paymentStore.setStsToEdit({
+    checkoutStore.setInstallMentParam(null);
+    setStsToEdit({
       key: 'paymentMethod',
       hideOthers: true
     });
@@ -3253,7 +3143,7 @@ class Payment extends React.Component {
     this.paymentUpdateDeliveryOrPickup(0); // 隐藏pickup和delivery home
 
     if (!billingChecked) {
-      paymentStore.setStsToEdit({
+      setStsToEdit({
         key: 'billingAddr'
       });
     }

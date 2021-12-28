@@ -70,9 +70,7 @@ class Form extends React.Component {
     this.state = {
       dataLoading: false,
       formLoading: false,
-      formType: this.props.configStore.addressFormType,
       apiType: '',
-
       caninForm: {
         firstName: '',
         lastName: '',
@@ -137,6 +135,9 @@ class Form extends React.Component {
     this.timer = null;
   }
   async componentDidMount() {
+    const {
+      configStore: { localAddressForm }
+    } = this.props;
     let timer = setInterval(() => {
       let datePickerDom = document.querySelector('.receiveDate');
       if (datePickerDom) {
@@ -189,8 +190,8 @@ class Form extends React.Component {
             });
           }
         }
-        // MANUALLY：手动填写 、 AUTOMATICALLY：自动填充
-        if (this.state.formType === 'AUTOMATICALLY' && COUNTRY === 'ru') {
+
+        if (localAddressForm.formType === 'AUTOMATICALLY' && COUNTRY === 'ru') {
           await this.getAddressListByKeyWord(initData.address1);
         }
 
@@ -425,7 +426,7 @@ class Form extends React.Component {
               formList: ress
             },
             () => {
-              if (localAddressForm.formType.manually == 1) {
+              if (localAddressForm.formType === 'MANUALLY') {
                 // 查询州列表（美国 state）
                 this.getUsStateList();
                 // 设置控制按钮可点的其中一个参数为 true

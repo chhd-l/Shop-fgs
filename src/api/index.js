@@ -7,10 +7,8 @@ const api = {
   getConfig: `/config/store/`,
   navigations: '/navigations', // 查询二级菜单
   seo: 'seo/setting',
-  getPrescriberSettingInfo: '/order/config/listSystemConfig', // 查询是否需要显示用户选择绑定prescriber弹框
   cancelEmail: '/customer/updateCustomerSendEmailFlag', // 取消用户邮箱绑定
-  shopConfig: '/storeConfig/getShopConfig/', //查询基础配置信息
-  paymentAuthority: '/order/config/getListSystemAccountConfig'
+  shopConfig: '/storeConfig/getShopConfig/' //查询基础配置信息
 };
 
 export default api;
@@ -64,15 +62,6 @@ export function getSeoConfig(parameter) {
   });
 }
 
-//查询prescription页面是否需要显示用户选择绑定prescriber弹框
-export function getPrescriberSettingInfo() {
-  return axios({
-    url: `${api.getPrescriberSettingInfo}`,
-    method: 'get',
-    params: { storeId: window.__.env.REACT_APP_STOREID }
-  });
-}
-
 //取消用户邮箱的绑定
 export function cancelEmailBind(parameter) {
   return axios({
@@ -87,12 +76,5 @@ export function fetchShopConfig(params) {
     url: `${api.shopConfig}${params}`,
     method: 'get',
     params
-  });
-}
-
-export function fetchPaymentAuthority() {
-  return axios({
-    url: api.paymentAuthority,
-    method: 'get'
   });
 }
