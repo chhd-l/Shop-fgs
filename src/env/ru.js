@@ -277,7 +277,7 @@ const env = {
 
     // #删除账户
     REACT_APP_DELETE_My_ACCOUNT_URL:
-      'https://account.royalcanin.com/ru-ru/manager/settings',
+      'https://prd-weu1-rc-df-myaccount-app-webapp-stg.cloud-effem.com/ru-ru/manager/settings',
 
     REACT_APP_HUB_BREEDER_PORTAL:
       'https://www.royal-canin.ru/breeders/?_ga=2.244801221.1134902572.1608548748-267828147.1607589014',
