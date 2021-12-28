@@ -191,7 +191,8 @@ class FelinRecommendation extends React.Component {
           //   }
           // }
           if (!el.goodsInfo.goodsInfoImg) {
-            el.goodsInfo.goodsInfoImg = el.goodsInfo.goods.goodsImg;
+            el.goodsInfo.goodsInfoImg =
+              el.goodsInfo.goods.goodsImg || el.images[0]?.artworkUrl;
           }
           el.goodsInfo.goods.sizeList = el.goodsInfos.map((g) => {
             g = Object.assign({}, g, { selected: false });
@@ -214,9 +215,8 @@ class FelinRecommendation extends React.Component {
 
               sItem.chidren.map((child) => {
                 if (
-                  [29805].indexOf(child.specDetailId) > -1
-                  // el.goodsInfo.mockSpecDetailIds.indexOf(child.specDetailId) >
-                  // -1
+                  el.goodsInfo.mockSpecDetailIds.indexOf(child.specDetailId) >
+                  -1
                 ) {
                   console.log(child, 'child');
                   child.selected = true;
@@ -228,22 +228,28 @@ class FelinRecommendation extends React.Component {
           }
           el.goodsSpecs = specList;
         });
-        let filterProducts = productLists.map((el) => {
-          return Object.assign({}, el, el.goods, el.goodsInfo?.goods);
+        let productList = productLists.map((el) => {
+          return Object.assign(
+            {},
+            el,
+            { goodsName: el.goodsInfo.goodsInfoName },
+            { goodsImg: el.goodsInfo.goodsInfoImg },
+            el.goods,
+            el.goodsInfo?.goods
+          );
         });
-        // let filterProducts = productList.filter((el) => {
-        //   console.info('============', el.goodsInfo.goodsInfoId);
-        //   console.info('addedFlag', el.goodsInfo.addedFlag);
-        //   console.info('delFlag', el.goodsInfo.delFlag);
-        //   console.info('saleableFlag', el.goodsInfo?.goods?.saleableFlag);
-        //   console.info('displayFlag', el.goodsInfo?.goods?.displayFlag);
-        //   return (
-        //     el.goodsInfo.addedFlag &&
-        //     !el.goodsInfo.delFlag &&
-        //     el.goodsInfo?.goods?.saleableFlag &&
-        //     el.goodsInfo?.goods?.displayFlag
-        //   );
-        // });
+        let filterProducts = productList.filter((el) => {
+          console.info('============', el.goodsInfo.goodsInfoId);
+          console.info('addedFlag', el.goodsInfo.addedFlag);
+          console.info('delFlag', el.goodsInfo.delFlag);
+          console.info('saleableFlag', el.goodsInfo?.goods?.saleableFlag);
+          console.info('displayFlag', el.goodsInfo?.goods?.displayFlag);
+          return (
+            el.goodsInfo.addedFlag &&
+            !el.goodsInfo.delFlag &&
+            el.goodsInfo.stock >= el.recommendationNumber
+          );
+        });
 
         // 只展示上架的，未删除的，可销售的，可展示的商品
         if (!filterProducts.length) {
@@ -268,7 +274,7 @@ class FelinRecommendation extends React.Component {
       .catch((err) => {
         console.log(err, 'err');
         this.setState({ pageLoading: false });
-        // this.props.history.push('/home');
+        this.props.history.push('/cats');
       });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -283,7 +289,7 @@ class FelinRecommendation extends React.Component {
       if (
         productList[i].recommendationNumber > productList[i].goodsInfo.stock
       ) {
-        outOfStockProducts.push(productList[i]);
+        // outOfStockProducts.push(productList[i]);
       } else {
         inStockProducts.push(productList[i]);
       }
@@ -323,7 +329,6 @@ class FelinRecommendation extends React.Component {
     //     inStockProducts.push(productList[i])
     //   }
     // }
-    console.info('outOfStockProducts', outOfStockProducts);
     if (outOfStockProducts.length > 0) {
       this.setState({ modalShow: true, currentModalObj: modalList[0] });
     } else {
@@ -465,13 +470,15 @@ class FelinRecommendation extends React.Component {
   //     setBtnLoading(false);
   //   }
   // };
-  hanldeUnloginAddToCart = async (products) => {
+  hanldeUnloginAddToCart = async (products, url = '/cart') => {
     const { intl, checkoutStore, history } = this.props;
 
     let cartItems = products.map((product) => {
       return Object.assign({}, product, product.goodsInfo, {
         selected: true,
-        quantity: 1,
+        currentAmount:
+          product.goodsInfo.marketPrice * product.recommendationNumber,
+        quantity: product.recommendationNumber,
         currentUnitPrice: product.goodsInfo?.marketPrice,
         goodsInfoFlag: 0,
         periodTypeId: null,
@@ -481,11 +488,12 @@ class FelinRecommendation extends React.Component {
       });
     });
     try {
-      checkoutStore.hanldeUnloginAddToCart({
+      await checkoutStore.hanldeUnloginAddToCart({
         cartItemList: cartItems,
         intl,
         valid: true
       });
+      this.props.history.push(url);
       // history.push('/cart');
     } catch (err) {
       console.info('err', err);
@@ -582,9 +590,6 @@ class FelinRecommendation extends React.Component {
               isLogin: loginStore.isLogin
             });
             await this.hanldeUnloginAddToCart(this.state.productList, url);
-            //  history.push('/cart')
-            url && history.push(url);
-            // history.push('/prescription');
           }
         }
       } catch (err) {
