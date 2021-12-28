@@ -1075,6 +1075,10 @@ class AccountOrders extends React.Component {
     );
   };
   render() {
+    // 获取本地存储的需要显示的地址字段
+    const { configStore } = this.props;
+    const { localAddressForm, customTaxSettingOpenFlag, enterPriceType } =
+      configStore;
     const event = {
       page: {
         type: 'Account',
@@ -1086,8 +1090,6 @@ class AccountOrders extends React.Component {
       }
     };
 
-    // 获取本地存储的需要显示的地址字段
-    const localAddressForm = this.props.configStore.localAddressForm;
     const {
       details,
       payRecord,
@@ -1613,14 +1615,8 @@ class AccountOrders extends React.Component {
                                     </>
                                   ) : null}
 
-                                  {/*
-                                    customTaxSettingOpenFlag 税额开关 0: 开, 1: 关
-                                    enterPriceType 买入价格开关 0：含税，1：不含税
-                                  */}
-                                  {this.props.configStore
-                                    ?.customTaxSettingOpenFlag === 0 &&
-                                  this.props.configStore?.enterPriceType ===
-                                    1 ? (
+                                  {customTaxSettingOpenFlag &&
+                                  enterPriceType === 'NO_TAX' ? (
                                     <>
                                       <div className="col-2 col-md-7 mb-2 rc-md-up">
                                         &nbsp;

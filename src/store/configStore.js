@@ -55,7 +55,7 @@ class ConfigStore {
 
   // 税额开关 0: 开, 1: 关
   @computed get customTaxSettingOpenFlag() {
-    return this.info?.customTaxSettingOpenFlag;
+    return this.info?.customTaxSettingOpenFlag === 0;
   }
 
   // homeDelivery 开关
@@ -70,11 +70,14 @@ class ConfigStore {
 
   // 买入价格开关 0：含税，1：不含税
   @computed get enterPriceType() {
-    return Number(
-      (this.info?.systemTaxSetting?.configVOList &&
-        this.info?.systemTaxSetting?.configVOList[1]?.context) ||
-        0
-    );
+    const enterPriceTypeEnum = { 0: 'TAX', 1: 'NO_TAX' };
+    return enterPriceTypeEnum[
+      Number(
+        (this.info?.systemTaxSetting?.configVOList &&
+          this.info?.systemTaxSetting?.configVOList[1]?.context) ||
+          0
+      )
+    ];
   }
 
   @computed get storeContactPhoneNumber() {
