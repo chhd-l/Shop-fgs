@@ -18,7 +18,8 @@ const api = {
   updateNextDeliveryTime: `/${window.__.env.REACT_APP_STOREID}/sub/next-deliver/`,
   changeSubscriptionGoods: `/${window.__.env.REACT_APP_STOREID}/subs/changeSubscriptionGoods`,
   getListForPet: `/${window.__.env.REACT_APP_STOREID}/subGoodsByPetsId`,
-  findPetProductForClub: '/product/finder/club/pets/products'
+  findPetProductForClub: '/product/finder/club/pets/products',
+  checkSubscriptionAddressPickPoint: `/${window.__.env.REACT_APP_STOREID}/sub/checkSubscriptionAddressPickPoint` //订阅详情修改quantity、address、product时tempoline api验证
 };
 
 export default api;
@@ -136,5 +137,13 @@ export function findPetProductForClub(parameter) {
     url: `${api.findPetProductForClub}`,
     method: 'get',
     params: parameter
+  });
+}
+
+export function checkSubscriptionAddressPickPoint(parameter) {
+  return axios({
+    url: `${api.checkSubscriptionAddressPickPoint}`,
+    method: 'post',
+    data: parameter
   });
 }

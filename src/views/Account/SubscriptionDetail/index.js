@@ -27,7 +27,8 @@ import {
   skipNextSub,
   cancelAllSub,
   orderNowSub,
-  updateNextDeliveryTime
+  updateNextDeliveryTime,
+  checkSubscriptionAddressPickPoint
 } from '@/api/subscription';
 import Modal from '@/components/Modal';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -198,14 +199,34 @@ class SubscriptionDetail extends React.Component {
     }
   };
   addressSave = (el, isBillSame, fn) => {
+    const { subDetail } = this.state;
     // console.log(el, isBillSame);
     this.scrollToWhere('page-top');
     // this.scrollToWhere('sub-user-paymentinfo-title');
+    console.log('this.state.addressType:', this.state.addressType);
     if (this.state.addressType === 'delivery') {
+      checkSubscriptionAddressPickPoint({
+        subscribeId: subDetail.subscribeId,
+        goodsItems: subDetail.goodsInfo?.map((el) => {
+          return {
+            skuId: el.skuId,
+            subscribeNum: el.subscribeNum,
+            subscribeGoodsId: el.subscribeGoodsId,
+            subscribeId: el.subscribeId
+          };
+        }),
+        paymentId: subDetail.paymentId,
+        deliveryAddressId: el.deliveryAddressId
+      })
+        .then()
+        .catch((err) => {
+          this.setState({ showTempolineError: err.message });
+          return;
+        });
       let param = {
-        subscribeId: this.state.subDetail.subscribeId,
+        subscribeId: subDetail.subscribeId,
         deliveryAddressId: el.deliveryAddressId,
-        goodsItems: this.state.subDetail.goodsInfo.map((el) => {
+        goodsItems: subDetail.goodsInfo.map((el) => {
           return {
             skuId: el.skuId,
             subscribeNum: el.subscribeNum,
@@ -652,6 +673,19 @@ class SubscriptionDetail extends React.Component {
       Object.assign(param, {
         subscribeStatus: subDetail.subscribeStatus
       });
+      await checkSubscriptionAddressPickPoint({
+        subscribeId: subDetail.subscribeId,
+        goodsItems: subDetail.goodsInfo?.map((el) => {
+          return {
+            skuId: el.skuId,
+            subscribeNum: el.subscribeNum,
+            subscribeGoodsId: el.subscribeGoodsId,
+            subscribeId: el.subscribeId
+          };
+        }),
+        paymentId: subDetail.paymentId,
+        deliveryAddressId: subDetail.deliveryAddressId
+      });
       await this.doUpdateDetail(param);
       if (this.state.isGift) {
         this.props.history.push('/account/subscription');
@@ -664,6 +698,7 @@ class SubscriptionDetail extends React.Component {
       });
     } catch (err) {
       this.showErrMsg(err.message);
+      this.setState({ showTempolineError: err.message });
     } finally {
       this.setState({ loading: false });
     }
