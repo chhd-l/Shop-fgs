@@ -19,9 +19,27 @@ const fetchDynamicConfig = async () => {
       const tmpCfg = res?.context?.context
         ? JSON.parse(decryptString(res?.context?.context))
         : {};
-
       envVal = Object.assign(tmpCfg);
-      sessionItemRoyal.set('base-config', JSON.stringify(tmpCfg));
+
+      const oktaSettingConfig = res?.context?.oktaSettingConfig;
+      if (oktaSettingConfig) {
+        envVal = Object.assign(envVal, {
+          REACT_APP_ACCESS_PATH: oktaSettingConfig.domainName,
+          REACT_APP_CLIENT_ID: decryptString(oktaSettingConfig.clientId),
+          REACT_APP_ISSUER: `${oktaSettingConfig.oktaDomain.replace(
+            /\/$/gi,
+            ''
+          )}/oauth2/default`,
+          REACT_APP_RedirectURL: `${oktaSettingConfig.domainName.replace(
+            /\/$/gi,
+            ''
+          )}/implicit/callback`,
+          REACT_APP_RegisterPrefix: `${oktaSettingConfig.ciamDomain}?redirect_uri=`,
+          REACT_APP_RegisterCallback: `${oktaSettingConfig.domainName}?origin=register`
+        });
+      }
+
+      sessionItemRoyal.set('base-config', JSON.stringify(envVal));
     }
     console.log('★★★★★★★★★ current shop configuration:', envVal);
     if (envVal?.REACT_APP_HUB === '1') {
