@@ -33,43 +33,10 @@ class Footer extends React.Component {
   }
   async componentDidMount() {
     const { location } = this.props;
-    const { pathname } = location;
     const {
-      configStore: {
-        queryPaymentMethodCfg,
-        queryConfig,
-        getPrescriberSettingInfo,
-        getSystemFormConfig
-      },
+      configStore: { queryPaymentMethodCfg, queryConfig, getSystemFormConfig },
       intl: { messages }
     } = this.props;
-
-    // 1.加载marsfooter 2.根据marsfooter状态，处理cookie settings button
-    if (
-      !/^\/implicit\/callback|^\/required|^\/refuge|^\/okta-login-page|^\/okta-logout-page|^\/pickupmap/.test(
-        pathname
-      )
-    ) {
-      if (window.__.env.REACT_APP_MARS_FOOTER) {
-        loadJS({
-          url: window.__.env.REACT_APP_MARS_FOOTER,
-          callback: () => {
-            const cookieDomBox = document.querySelector('.cookieSettingBox');
-            const marsFooterDomBox =
-              document.querySelector('#mars-footer-panel');
-            if (cookieDomBox && marsFooterDomBox) {
-              marsFooterDomBox.append(cookieDomBox);
-              cookieDomBox.style.visibility = 'visible';
-            }
-          }
-        });
-      } else {
-        const cookieDomBox = document.querySelector('.cookieSettingBox');
-        if (cookieDomBox) {
-          cookieDomBox.style.visibility = 'visible';
-        }
-      }
-    }
 
     if (isHub) {
       queryApiFromSessionCache({
@@ -91,12 +58,7 @@ class Footer extends React.Component {
 
     queryConfig();
 
-    getPrescriberSettingInfo(); //查询prescriber setting信息
-
     getSystemFormConfig(); // 查询address form表单配置开关
-
-    // 查询 payment logos
-    queryPaymentMethodCfg();
 
     // 地址错误提示信息
     localItemRoyal.set(

@@ -337,7 +337,10 @@ class MemberCardList extends React.Component {
   handleSave = async (e) => {
     try {
       // 是否直接返回预览封面 true-返回列表 false-返回封面
-      const { isSupportInstallMent } = this.props;
+      const {
+        isSupportInstallMent,
+        paymentStore: { setAddCardDirectToPayFlag }
+      } = this.props;
       const { isValid, isEdit, creditCardInfoForm } = this.state;
       const isReturnToCardList = isEdit && isSupportInstallMent;
       e && e.preventDefault();
@@ -385,6 +388,7 @@ class MemberCardList extends React.Component {
           selectedId: tmpSelectedId,
           saveLoading: false
         });
+        setAddCardDirectToPayFlag(true);
       } else {
         const tmpSelectedId = new Date().getTime() + '';
         let { memberUnsavedCardList } = this.state;

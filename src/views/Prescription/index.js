@@ -102,7 +102,6 @@ class Prescription extends React.Component {
     //获取是否显示prescriber弹框
     this.state.modalShow && this.hubGA && this.hubGaModalPopup();
     this.getAllPrescription();
-    this.handleInit();
   }
   componentWillUnmount() {
     sessionItemRoyal.remove('clinic-reselect');
@@ -133,30 +132,47 @@ class Prescription extends React.Component {
   };
 
   handleInit = () => {
-    const { params } = this.state;
+    const { params, center } = this.state;
     //获取当前地理位置信息
-    navigator.geolocation.getCurrentPosition((position) => {
-      this.handldKey(this.state.mapKey);
-      params.latitude = position.coords.latitude.toString();
-      params.longitude = position.coords.longitude.toString();
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.handldKey(this.state.mapKey);
+        params.latitude = position.coords.latitude.toString();
+        params.longitude = position.coords.longitude.toString();
 
-      this.setState({
-        center: {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        },
-        zoom: 12,
-        meLocation: {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        },
-        params: params
-      });
-    });
-    setTimeout(() => {
-      this.getPrescription(params);
-      this.mapShowGa();
-    }, 1000);
+        this.setState(
+          {
+            center: {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            },
+            meLocation: {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            },
+            params: params
+          },
+          () => {
+            this.getPrescription(params);
+            this.mapShowGa();
+          }
+        );
+      },
+      () => {
+        this.handldKey(this.state.mapKey);
+        params.latitude = center.lat.toString();
+        params.longitude = center.lng.toString();
+        this.setState(
+          {
+            params: params
+          },
+          () => {
+            this.getPrescription(params);
+            this.mapShowGa();
+          }
+        );
+      }
+    );
   };
 
   async getPrescription(params) {
@@ -190,9 +206,14 @@ class Prescription extends React.Component {
         +item.longitude <= 180
       );
     });
-    this.setState({
-      clinicArr
-    });
+    this.setState(
+      {
+        clinicArr
+      },
+      () => {
+        this.handleInit();
+      }
+    );
   }
   //不需要绑定prescriber，关闭弹框直接跳转checkout页面
   closeModal = () => {

@@ -99,6 +99,7 @@ const LongBanner = () => {
                     SANS ENGAGEMENT
                   </p>
                   <p
+                    className="rc-md-up"
                     style={{
                       fontSize: '16px',
                       color: '#4A4A4A',

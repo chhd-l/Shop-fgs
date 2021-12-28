@@ -36,3 +36,43 @@ export function isPrevReady({ list, curKey }) {
 export function scrollPaymentPanelIntoView() {
   scrollIntoView(document.querySelector(`#J_checkout_panel_paymentMethod`));
 }
+
+/**
+ * 处理recomendation product参数
+ * @param {Object} ele 产品item info
+ * @returns
+ */
+export function handleRecoProductParamByItem(ele) {
+  let recommendationInfos = {};
+  if (ele.recommendationInfos && ele.recommendationInfos != 'null') {
+    recommendationInfos =
+      typeof ele.recommendationInfos == 'string'
+        ? JSON.parse(ele.recommendationInfos)
+        : ele.recommendationInfos;
+  }
+  const {
+    recommendationName = '',
+    recommendationId = '',
+    referenceObject = '',
+    recommenderId = '',
+    referenceData = '',
+    recommenderName = ''
+  } = recommendationInfos;
+  const referenceId = recommenderId || recommendationId;
+  return {
+    //shelter和breeder产品参数 start
+    utmSource: ele.utmSource || '',
+    utmMedium: ele.utmMedium || '',
+    utmCampaign: ele.utmCampaign || '',
+    prefixFn: ele.prefixFn || '',
+    prefixBreed: ele.prefixBreed || '',
+    //shelter和breeder产品参数 end
+    referenceObject,
+    recommenderId,
+    referenceData,
+    recommenderName,
+    referenceId,
+    recommendationId: recommendationId || ele.recommendationId || '', // 优先去取recommendationInfos里面的recommendationId
+    recommendationName: recommendationName || ele.recommendationName || ''
+  };
+}

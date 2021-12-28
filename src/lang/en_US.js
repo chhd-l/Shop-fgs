@@ -1791,6 +1791,33 @@ const en_US = {
   'adyen.creditCard.expiryDateField.placeholder': 'MM/YY',
   'adyen.creditCard.expiryDateField.invalid': 'Invalid expiration date',
   'adyen.creditCard.cvcField.title': 'CVC / CVV',
-  'adyen.creditCard.cvcField.placeholder': '123'
+  'adyen.creditCard.cvcField.placeholder': '123',
+
+  /************ Daily Portion *************/
+  'dailyPortion.title':
+    'Discover now the perfect tool to calculate the ideal ration for your pet. Fill in your pet’s information in the interactive feeding guide and you will get the daily feeding recommendation. ',
+  'dailyPortion.calculatePortion': 'Calculate portion',
+  'dailyPortion.editInformations': 'Edit pet’s informations',
+  'dailyPortion.resultText': 'Recommended daily portion for your pet',
+  'dailyPortion.newCalculationBtnText': 'Start a new calculation',
+  'dailyPortion.petActivityCode.low': 'Low <1h /day',
+  'dailyPortion.petActivityCode.Medium': 'Medium <2h /day',
+  'dailyPortion.petActivityCode.High': 'High <3h /day',
+  'dailyPortion.bcs.underweight': 'Underweight',
+  'dailyPortion.bcs.underweight.description': 'Loss of mass muscle',
+  'dailyPortion.bcs.Ideal': 'Ideal',
+  'dailyPortion.bcs.Ideal.description': 'Well proportioned',
+  'dailyPortion.bcs.Overweight': 'Overweight',
+  'dailyPortion.bcs.Overweight.description': 'Waist barely visible',
+
+  'dailyPortion.age.label': 'How old is your pet ? ',
+  'dailyPortion.neutered.label': 'Is you pet neutered ? ',
+  'dailyPortion.breedCode.label': 'Breed',
+  'dailyPortion.genderCode.label': 'Gender',
+  'dailyPortion.weight.label': 'Current pet weight',
+  'dailyPortion.petActivityCode.label':
+    'Select the activity’s level of your pet',
+  'dailyPortion.bcs.label': 'Select your pets’s body condition',
+  'dailyPortion.breed.UnknownMixedBreed': 'Unknown or mixed breed '
 };
 export default en_US;

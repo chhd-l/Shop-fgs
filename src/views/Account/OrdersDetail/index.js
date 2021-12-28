@@ -994,12 +994,14 @@ class AccountOrders extends React.Component {
           <>
             <HeadTip
               icon={
-                <svg className="svg-icon w-14 h-14" aria-hidden="true">
-                  <use xlinkHref="#iconCompleted" />
-                </svg>
+                <i
+                  className="iconfont iconfuwudiqiu ml-3"
+                  style={{ fontSize: '48px', color: '#d81e06' }}
+                />
               }
-              title={normalProgressList[currentProgerssIndex]?.flowStateDesc}
-              tip={<FormattedMessage id="order.completeTip" />}
+              title={<FormattedMessage id="appointment.serviceArrived" />}
+              titleColor="text-warning"
+              tip={<FormattedMessage id="appointment.serviceArrivedTip" />}
             />
             <hr className="my-4" />
           </>

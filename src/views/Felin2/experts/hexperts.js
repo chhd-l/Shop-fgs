@@ -23,6 +23,7 @@ import LoginButton from '@/components/LoginButton';
 import { getDeviceType } from '../../../utils/utils';
 import { injectIntl } from 'react-intl-phraseapp';
 import { postcustomerUpdate } from '../../../api/felin';
+import { scrollIntoView } from '@/lib/scroll-to-utils';
 import { funcUrl } from '@/lib/url-utils';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -317,10 +318,15 @@ class Hcexperts extends React.Component {
   };
   // 跳转第四步
   handleGotoFour = () => {
-    this.setState({
-      threeShow: false,
-      fourShow: true
-    });
+    this.setState(
+      {
+        threeShow: false,
+        fourShow: true
+      },
+      () => {
+        scrollIntoView(document.querySelector(`#Voir-fqas`));
+      }
+    );
     let type = !!this.state.bookSlotVO.dateNo;
     this.queryDate(type, {
       minutes: this.state.votre.duree,
