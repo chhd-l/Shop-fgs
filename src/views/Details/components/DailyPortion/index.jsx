@@ -509,7 +509,10 @@ export default function DailyPortion(
     setLoading(true);
     try {
       let res = await productFinderDailyPortionRation(param);
-      console.log('productFinderDailyPortionRation-res', res);
+      setRation({
+        quantityPerDay: res?.context?.quantityPerDay ?? 0,
+        unit: res?.context?.unit ?? '',
+      })
       setLoading(false);
       setStep(3)
     }catch (e) {
@@ -666,10 +669,10 @@ export default function DailyPortion(
             <div className='flex justify-center items-center'>
               <span><img className='resultText-box-icon px-2' src={DailyPortion_icon_text} alt={''}/></span>
               <span className='resultText-num'>
-                <span>{ration.quantityPerDay}</span>
-                <span>{ration.unit}</span>
+                <span>{ration?.quantityPerDay}</span>
+                <span>{ration?.unit}</span>
               </span>
-              <span className='pl-2'>/day</span>
+              <span className='pl-2'>/<FormattedMessage id={'day-unit'}/></span>
             </div>
           </div>
           <div className='mt-6'>

@@ -53,10 +53,11 @@ export default function AgeSelect(
   }
 
   const handleAddition = () => {
-    if (year > 25 || month > 12) return;
     if (type === 'year'){
+      if (year >= 25) return;
       onChangeYear(++year)
     }else {
+      if (month >= 12) return;
       onChangeMonth(++month);
     }
   }
