@@ -37,8 +37,8 @@ export default function RadioButton(
               selectValue === item.key ? 'radio-button-wrapper-checked' : ''
             }`}
             style={{
-              minHeight: 44,
-              height: type === 'petActivityCode' ? 76 : 'auto',
+              // minHeight: 44,
+              minHeight: type === 'petActivityCode' ? 76 : 44,
               flexDirection:
                 type === 'petActivityCode' ? 'column' : 'row'
             }}
