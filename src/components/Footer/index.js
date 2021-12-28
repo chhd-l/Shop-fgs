@@ -67,9 +67,6 @@ class Footer extends React.Component {
 
     getSystemFormConfig(); // 查询address form表单配置开关
 
-    // 查询 payment logos
-    queryPaymentMethodCfg();
-
     // 地址错误提示信息
     localItemRoyal.set(
       'rc-wrongAddressMsg',
