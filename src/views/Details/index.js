@@ -1083,20 +1083,29 @@ class Details extends React.Component {
 
   DailyPortionComponent = (details, barcode) => {
     const { configStore } = this.props;
-    let { goodsInfos = [], goodsAttributesValueRelList = [] } = details;
+    let {
+      goodsInfos = [],
+      goodsAttributesValueRelList = [],
+      wsEnergyCategory,
+      wsReferenceEnergyValue,
+      wsDensity
+    } = details;
     let currentGoodsInfo = goodsInfos.find(
       (item) => item.goodsInfoBarcode === barcode
     );
+    let isTechnology = ['dry', 'wet'].includes(details?.wsTechnologyCode);
 
     /**
      * 是否显示计算工具
      *  1、Product status show/hide
      *    1.1、liquid products are excluded => wsTechnologyCode
      *    1.2、Bundle products are excluded => goodsInfos - goodsInfoType === 2
+     *    1.3  details => wsTechnologyCode wsEnergyCategory wsReferenceEnergyValue
      * **/
     if (!configStore?.info?.dailyPortion) return null;
-    if (details?.wsTechnologyCode === 'liquid') return null;
+    if (!isTechnology) return null;
     if (currentGoodsInfo?.goodsInfoType === 2) return null;
+    if (!(wsEnergyCategory && wsReferenceEnergyValue && wsDensity)) return null;
 
     // 产品动物的种类
     let speciesValue = goodsAttributesValueRelList.find(
@@ -1510,22 +1519,24 @@ class Details extends React.Component {
             {/* 描述、好处、组成、指南板块*/}
             {details.goodsDescriptionDetailList &&
             details.goodsType !== undefined ? (
-              <GoodsDetailTabs
-                activeTabIdxList={activeTabIdxList}
-                goodsType={details.goodsType}
-                goodsDescriptionDetailList={details.goodsDescriptionDetailList}
-                saleableFlag={details.saleableFlag}
-                displayFlag={details.displayFlag}
-                setState={this.setState.bind(this)}
-                isClub={
-                  details.promotions && details.promotions.includes('club')
-                }
-                goodsDetailSpace={backgroundSpaces}
-              />
+              <div>
+                <GoodsDetailTabs
+                  activeTabIdxList={activeTabIdxList}
+                  goodsType={details.goodsType}
+                  goodsDescriptionDetailList={
+                    details.goodsDescriptionDetailList
+                  }
+                  saleableFlag={details.saleableFlag}
+                  displayFlag={details.displayFlag}
+                  setState={this.setState.bind(this)}
+                  isClub={
+                    details.promotions && details.promotions.includes('club')
+                  }
+                  goodsDetailSpace={backgroundSpaces}
+                />
+                <div>{this.DailyPortionComponent(details, barcode)}</div>
+              </div>
             ) : null}
-
-            <div>{this.DailyPortionComponent(details, barcode)}</div>
-
             {!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS &&
               !!details.goodsNo && (
                 <BazaarVoiceReviews productId={details.goodsNo} />

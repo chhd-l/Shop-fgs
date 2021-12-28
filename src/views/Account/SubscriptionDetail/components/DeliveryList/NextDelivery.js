@@ -393,12 +393,8 @@ const NextDelivery = ({
               </>
             ) : null}
 
-            {/*
-            customTaxSettingOpenFlag 税额开关 0: 开, 1: 关
-            enterPriceType 买入价格开关 0：含税，1：不含税
-          */}
-            {configStore?.customTaxSettingOpenFlag == 0 &&
-            configStore?.enterPriceType == 1 ? (
+            {configStore?.customTaxSettingOpenFlag &&
+            configStore?.enterPriceType === 'NO_TAX' ? (
               <div className="row">
                 <label className="col-6 text-left">
                   <FormattedMessage id="estimatedTax" />
