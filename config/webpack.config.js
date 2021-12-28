@@ -301,7 +301,7 @@ module.exports = function (webpackEnv) {
       //   }
       // },
       splitChunks: {
-        chunks: 'initial',
+        chunks: 'async',
         minSize: 92160, // 比特
         maxSize: 1024000,
         minChunks: 4,
