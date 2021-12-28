@@ -178,6 +178,7 @@ class RouteFilter extends Component {
         sessionItemRoyal.remove('oxxoPayUrl');
         sessionItemRoyal.remove('adyenOxxoAction');
         sessionItemRoyal.remove('gaPet');
+        sessionItemRoyal.remove('refresh-confirm-page');
       }
       if (prevPath.includes('/prescription')) {
         sessionItemRoyal.remove('clinic-reselect');

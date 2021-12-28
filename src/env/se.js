@@ -14,10 +14,6 @@ const env = {
     REACT_APP_GA_COUNTRY: 'SE',
     REACT_APP_GA_CURRENCY_CODE: 'USD',
 
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT: '',
-    REACT_APP_ONTRUST_STYLE: '',
-
     // #language
     REACT_APP_LANG: 'se',
     REACT_APP_HTML_LANG: 'se',
@@ -81,10 +77,6 @@ const env = {
     // #GA环境配置
     REACT_APP_GA_ENV: 'dev',
 
-    // #onetrust
-    REACT_APP_ONTRUST_SRC:
-      'https://optanon.blob.core.windows.net/consent/82d92b37-7d64-443e-a23f-5efbb17770be-test.js',
-
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/se',
 
@@ -110,10 +102,6 @@ const env = {
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'sit',
-
-    // #onetrust
-    REACT_APP_ONTRUST_SRC:
-      'https://optanon.blob.core.windows.net/consent/82d92b37-7d64-443e-a23f-5efbb17770be-test.js',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/se',
@@ -141,10 +129,6 @@ const env = {
     // #GA环境配置
     REACT_APP_GA_ENV: 'uat',
 
-    // #onetrust
-    REACT_APP_ONTRUST_SRC:
-      'https://optanon.blob.core.windows.net/consent/82d92b37-7d64-443e-a23f-5efbb17770be-test.js',
-
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/se',
 
@@ -171,10 +155,6 @@ const env = {
     // #GA环境配置
     REACT_APP_GA_ENV: 'stg',
 
-    // #onetrust
-    REACT_APP_ONTRUST_SRC:
-      'https://optanon.blob.core.windows.net/consent/82d92b37-7d64-443e-a23f-5efbb17770be-test.js',
-
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/se',
 
@@ -197,10 +177,6 @@ const env = {
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'prd',
-
-    // #onetrust
-    REACT_APP_ONTRUST_SRC:
-      'https://optanon.blob.core.windows.net/consent/82d92b37-7d64-443e-a23f-5efbb17770be.js',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/',
@@ -225,9 +201,6 @@ const env = {
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'prd',
-
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT: '8923767a-c9c8-4c36-ae5f-97af6af42bdb',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/se/shop',

@@ -14,10 +14,6 @@ const env = {
     REACT_APP_GA_COUNTRY: 'US',
     REACT_APP_GA_CURRENCY_CODE: 'USD',
 
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT: '',
-    REACT_APP_ONTRUST_STYLE: '',
-
     // #language
     REACT_APP_LANG: 'en',
     REACT_APP_HTML_LANG: 'en',
@@ -65,10 +61,6 @@ const env = {
       '/on/demandware.store/Sites-EN-Site/en_EN/Search-Show',
     REACT_APP_CUSTOM_REGISTER: '1',
 
-    REACT_APP_ONTRUST_SRC:
-      'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js',
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      '83dcdb6d-4c72-4616-83c5-05930054b124-test',
     REACT_APP_COOKIE_SETTINGS_BTN_VISIBLE: '1'
   },
   development: {
@@ -189,9 +181,6 @@ const env = {
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'prd',
-
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT: '83dcdb6d-4c72-4616-83c5-05930054b124',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/',

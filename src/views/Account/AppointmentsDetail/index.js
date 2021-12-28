@@ -60,9 +60,7 @@ class AccountOrders extends React.Component {
       loading: true,
       cancelOrderLoading: false,
       errMsg: '',
-      cancelAppointModalVisible: false,
-      normalProgressList: [],
-      currentProgressIndex: -1
+      cancelAppointModalVisible: false
     };
   }
   componentDidMount() {
@@ -122,8 +120,7 @@ class AccountOrders extends React.Component {
       });
       this.setState({
         details: details,
-        loading: false,
-        currentProgressIndex: 1 || resContext.status
+        loading: false
       });
     } catch (err) {
       this.setState({
@@ -134,27 +131,10 @@ class AccountOrders extends React.Component {
   }
   //特殊处理feline订单HeadTip
   renderFelineHeadTip = () => {
-    const { currentProgressIndex, normalProgressList } = this.state;
+    const { details } = this.state;
     let ret = null;
-    switch (currentProgressIndex) {
-      case 0: // Appointment confirmed
-        ret = (
-          <>
-            <HeadTip
-              icon={
-                <svg className="svg-icon w-14 h-14" aria-hidden="true">
-                  <use xlinkHref="#iconTobepaid" />
-                </svg>
-              }
-              title={normalProgressList[currentProgressIndex]?.flowStateDesc}
-              titleColor="text-info"
-              tip={<FormattedMessage id="orderStatus.INITTip" />}
-            />
-            <hr />
-          </>
-        );
-        break;
-      case 1: // Order paid
+    switch (details.status) {
+      case 0: // Booked
         ret = (
           <>
             <HeadTip
@@ -164,25 +144,27 @@ class AccountOrders extends React.Component {
                   style={{ fontSize: '48px', color: '#d81e06' }}
                 />
               }
-              title={<FormattedMessage id="felinOrder.servicePaid" />}
+              title={<FormattedMessage id="appointment.serviceBooked" />}
               titleColor="text-warning"
-              tip={<FormattedMessage id="felinOrder.servicePaidTip" />}
+              tip={<FormattedMessage id="appointment.serviceBookedTip" />}
             />
             <hr />
           </>
         );
         break;
-      case 2: // Check in
+      case 1: // Arrived
         ret = (
           <>
             <HeadTip
               icon={
-                <svg className="svg-icon w-14 h-14" aria-hidden="true">
-                  <use xlinkHref="#iconCompleted" />
-                </svg>
+                <i
+                  className="iconfont iconfuwudiqiu ml-3"
+                  style={{ fontSize: '48px', color: '#d81e06' }}
+                />
               }
-              title={normalProgressList[currentProgressIndex]?.flowStateDesc}
-              tip={<FormattedMessage id="order.completeTip" />}
+              title={<FormattedMessage id="appointment.serviceArrived" />}
+              titleColor="text-warning"
+              tip={<FormattedMessage id="appointment.serviceArrivedTip" />}
             />
             <hr />
           </>

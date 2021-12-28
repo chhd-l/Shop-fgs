@@ -16,7 +16,7 @@ class PaymentLogos extends React.Component {
   }
   async componentDidMount() {
     // 查询 payment logos
-    let logos = await this.props.configStore.queryPaymentMethodCfg();
+    const logos = await this.props.configStore.queryPaymentMethodCfg();
     this.setState({
       paymentLogos: logos
     });
@@ -37,7 +37,7 @@ class PaymentLogos extends React.Component {
             </div>
             <div className={`rc-text--inverse`}>
               <div
-                className={`flex flex-wrap justify-content-start`}
+                className={`flex flex-wrap justify-content-start items-center`}
                 style={{ fontSize: '0' }}
               >
                 {paymentLogos.map((img, i) => (

@@ -14,12 +14,6 @@ const env_fr = {
     REACT_APP_GA_COUNTRY: 'FR',
     REACT_APP_GA_CURRENCY_CODE: 'EUR',
 
-    // #onetrust
-    REACT_APP_ONTRUST_SRC:
-      'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js',
-    REACT_APP_ONTRUST_STYLE:
-      'https://d1a19ys8w1wkc1.cloudfront.net/one-trust-rc-styles.css?v=one-trust-rc-styles--001',
-
     // #storid
     REACT_APP_STOREID: '123457909',
 
@@ -55,10 +49,6 @@ const env_fr = {
     REACT_APP_SEARCH_LINK:
       '/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show',
 
-    // #mars global footer
-    REACT_APP_MARS_FOOTER:
-      'https://footer.mars.com/js/footer.js.aspx?royalcanin-com-fr',
-
     REACT_APP_CUSTOM_REGISTER: '1',
     REACT_APP_COOKIE_SETTINGS_BTN_VISIBLE: '1'
   },
@@ -77,9 +67,6 @@ const env_fr = {
     REACT_APP_BASEURL: 'https://shopuat.466920.com/api',
     // #GA环境配置
     REACT_APP_GA_ENV: 'dev',
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      'b8c1c839-ea27-4a17-8ffb-0c9f8ef918b5-test',
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/fr'
   },
@@ -100,9 +87,6 @@ const env_fr = {
     REACT_APP_BASEURL: 'https://shopsit.royalcanin.com/api',
     // #GA环境配置
     REACT_APP_GA_ENV: 'sit',
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      'b8c1c839-ea27-4a17-8ffb-0c9f8ef918b5-test',
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/fr'
   },
@@ -126,10 +110,6 @@ const env_fr = {
     // #GA环境配置
     REACT_APP_GA_ENV: 'uat',
 
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      'b8c1c839-ea27-4a17-8ffb-0c9f8ef918b5-test',
-
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/fr'
   },
@@ -152,14 +132,6 @@ const env_fr = {
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'uat',
-
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      'b8c1c839-ea27-4a17-8ffb-0c9f8ef918b5-test',
-
-    // #mars global footer
-    REACT_APP_MARS_FOOTER:
-      'https://footer.mars.com/js/footer.js.aspx?royalcanin-com-fr',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/fr/shop',
@@ -210,10 +182,6 @@ const env_fr = {
     // #GA环境配置
     REACT_APP_GA_ENV: 'stg',
 
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      'b8c1c839-ea27-4a17-8ffb-0c9f8ef918b5-test',
-
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/fr'
   },
@@ -236,14 +204,6 @@ const env_fr = {
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'stg',
-
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      'b8c1c839-ea27-4a17-8ffb-0c9f8ef918b5-test',
-
-    // #mars global footer
-    REACT_APP_MARS_FOOTER:
-      'https://footer.mars.com/js/footer.js.aspx?royalcanin-com-fr',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/fr/shop',
@@ -294,9 +254,6 @@ const env_fr = {
     // #GA环境配置
     REACT_APP_GA_ENV: 'prd',
 
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT: 'b8c1c839-ea27-4a17-8ffb-0c9f8ef918b5',
-
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/'
   },
@@ -317,9 +274,6 @@ const env_fr = {
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'prd',
-
-    // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT: 'b8c1c839-ea27-4a17-8ffb-0c9f8ef918b5',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/fr/shop',

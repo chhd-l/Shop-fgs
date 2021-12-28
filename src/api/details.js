@@ -9,10 +9,28 @@ const api = {
   detailsBySpuIgnoreDisplayFlag: '/goods/ignoreDisplayFlag/spu_no',
   goodsRelation: '/goodsRelation',
   getMixFeeding: '/goodsRelation/relatedInfo',
-  getMixFeedings: '/goodsRelation/relatedInfoBySpuIds'
+  getMixFeedings: '/goodsRelation/relatedInfoBySpuIds',
+  productFinderDailyPortion: '/productFinderDailyPortion/breeds',
+  productFinderDailyPortionRation: 'productFinderDailyPortion/ration'
 };
 
 export default api;
+
+export function productFinderDailyPortion(data) {
+  return axios({
+    url: `${api.productFinderDailyPortion}`,
+    method: 'post',
+    data
+  });
+}
+
+export function productFinderDailyPortionRation(data) {
+  return axios({
+    url: `${api.productFinderDailyPortionRation}`,
+    method: 'post',
+    data
+  });
+}
 
 export function getDetails(parameter) {
   return axios({

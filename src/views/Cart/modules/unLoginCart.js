@@ -1139,7 +1139,7 @@ class UnLoginCart extends React.Component {
               <div className="text-center" style={{ fontSize: '.9375rem' }}>
                 <FormattedMessage id="unLoginSubscriptionTips" />
               </div>
-            ) : paymentAuthority === '2' ? (
+            ) : paymentAuthority === 'MEMBER_AND_VISITOR' ? (
               <div
                 className="text-center"
                 onClick={() => this.handleCheckout()}
@@ -1156,7 +1156,7 @@ class UnLoginCart extends React.Component {
                 </div>
               </div>
             ) : null
-          ) : paymentAuthority === '2' ? (
+          ) : paymentAuthority === 'MEMBER_AND_VISITOR' ? (
             <div className="text-center">
               <div className="rc-styled-link color-999 rc-btn-disabled">
                 <FormattedMessage id="guestCheckout" />
@@ -1361,12 +1361,8 @@ class UnLoginCart extends React.Component {
             </div>
           ) : null}
 
-          {/*
-            customTaxSettingOpenFlag 税额开关 0: 开, 1: 关
-            enterPriceType 买入价格开关 0：含税，1：不含税
-          */}
-          {this.props.configStore?.customTaxSettingOpenFlag == 0 &&
-          this.props.configStore?.enterPriceType == 1 ? (
+          {this.props.configStore?.customTaxSettingOpenFlag &&
+          this.props.configStore?.enterPriceType === 'NO_TAX' ? (
             <div className="row">
               <div className="col-8">
                 <p>
@@ -1404,8 +1400,8 @@ class UnLoginCart extends React.Component {
               </div>
               <div className="col-5">
                 <p className="text-right grand-total-sum medium mb-0 mb-4">
-                  {this.props.configStore?.customTaxSettingOpenFlag == 0 &&
-                  this.props.configStore?.enterPriceType == 1 ? (
+                  {this.props.configStore?.customTaxSettingOpenFlag &&
+                  this.props.configStore?.enterPriceType === 'NO_TAX' ? (
                     <>
                       {this.tradePrice > 0 ? (
                         formatMoney(this.tradePrice)
