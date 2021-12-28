@@ -1082,7 +1082,7 @@ class Details extends React.Component {
   }
 
   DailyPortionComponent = (details, barcode) => {
-    let storeContentInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
+    const { configStore } = this.props;
     let { goodsInfos = [], goodsAttributesValueRelList = [] } = details;
     let currentGoodsInfo = goodsInfos.find(
       (item) => item.goodsInfoBarcode === barcode
@@ -1094,8 +1094,7 @@ class Details extends React.Component {
      *    1.1、liquid products are excluded => wsTechnologyCode
      *    1.2、Bundle products are excluded => goodsInfos - goodsInfoType === 2
      * **/
-
-    if (!storeContentInfo?.dailyPortion) return null;
+    if (!configStore?.info?.dailyPortion) return null;
     if (details?.wsTechnologyCode === 'liquid') return null;
     if (currentGoodsInfo?.goodsInfoType === 2) return null;
 
