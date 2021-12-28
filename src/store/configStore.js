@@ -3,6 +3,11 @@ import { getConfig } from '@/api';
 import { getAddressSetting, getSystemConfig } from '@/api/address';
 import { getPaymentMethodV2 } from '@/api/payment';
 import flatten from 'lodash/flatten';
+import {
+  PAYMENTAUTHORITY_ENUM,
+  ENTERPRICETYPE_ENUM,
+  PRESCRIBERSELECTTYPED_ENUM
+} from '@/utils/enum';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const addressFormNull = {
@@ -33,8 +38,7 @@ class ConfigStore {
 
   // 1-会员，2-会员和游客
   @computed get paymentAuthority() {
-    const paymentAuthorityEnum = { 1: 'MEMBER', 2: 'MEMBER_AND_VISITOR' };
-    return paymentAuthorityEnum[this.info?.orderConfig?.context || '2'];
+    return PAYMENTAUTHORITY_ENUM[this.info?.orderConfig?.context || '2'];
   }
 
   // 当前地址表单类型
@@ -70,8 +74,7 @@ class ConfigStore {
 
   // 买入价格开关 0：含税，1：不含税
   @computed get enterPriceType() {
-    const enterPriceTypeEnum = { 0: 'TAX', 1: 'NO_TAX' };
-    return enterPriceTypeEnum[
+    return ENTERPRICETYPE_ENUM[
       Number(
         (this.info?.systemTaxSetting?.configVOList &&
           this.info?.systemTaxSetting?.configVOList[1]?.context) ||
@@ -104,16 +107,12 @@ class ConfigStore {
 
   // 返回prescriber select Type:0:Prescriber Map / 1:Recommendation Code
   @computed get prescriberSelectTyped() {
-    const prescriberSelectTypedEnum = {
-      0: 'PRESCRIBER_MAP',
-      1: 'RECOMMENDATION_CODE'
-    };
     const prescriberSelectType = (this.info?.auditOrderConfigList || []).find(
       (item) => {
         return item.configType === 'selection_type';
       }
     )?.status;
-    return prescriberSelectTypedEnum[prescriberSelectType || ''];
+    return PRESCRIBERSELECTTYPED_ENUM[prescriberSelectType || ''];
   }
 
   @computed get defaultPurchaseType() {

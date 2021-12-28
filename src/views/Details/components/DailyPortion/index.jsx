@@ -493,8 +493,8 @@ export default function DailyPortion(
       "energyCategory": details?.wsEnergyCategory,
       "referenceEnergyValue": details?.wsReferenceEnergyValue,
       "density": details?.wsDensity,
-      "packWeight": goodsInfo?.goodsInfoWeight,
-      "goodsInfoUnit": goodsInfo?.goodsInfoUnit ? String(goodsInfo?.goodsInfoUnit).toLowerCase():null,
+      "packWeight": goodsInfo?.goodsInfoWeight ?? 1,
+      "goodsInfoUnit": goodsInfo?.goodsInfoUnit ? String(goodsInfo?.goodsInfoUnit).toLowerCase():'kg',
     }
     dataLayer.push({
       'event' : 'rationingToolInteraction',
