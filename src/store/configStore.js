@@ -1,9 +1,5 @@
 import { action, observable, computed } from 'mobx';
-import {
-  getConfig,
-  getPrescriberSettingInfo,
-  fetchPaymentAuthority
-} from '@/api';
+import { getConfig, getPrescriberSettingInfo } from '@/api';
 import { getAddressSetting, getSystemConfig } from '@/api/address';
 import { getPaymentMethodV2 } from '@/api/payment';
 import flatten from 'lodash/flatten';
@@ -46,9 +42,10 @@ class ConfigStore {
     : [];
 
   // 1-会员，2-会员和游客
-  @observable paymentAuthority = sessionItemRoyal.get('rc-paymentAuthority')
-    ? JSON.parse(sessionItemRoyal.get('rc-paymentAuthority'))
-    : '2';
+  @computed get paymentAuthority() {
+    const paymentAuthorityEnum = { 1: 'MEMBER', 2: 'MEMBER_AND_VISITOR' };
+    return paymentAuthorityEnum[this.info?.orderConfig?.context || '2'];
+  }
 
   // 当前地址表单类型
   @computed get addressFormType() {
@@ -59,7 +56,7 @@ class ConfigStore {
   }
 
   @computed get maxGoodsPrice() {
-    return this.info ? this.info.maxGoodsPrice : 0;
+    return this.info?.maxGoodsPrice || 0;
   }
 
   @computed get discountDisplayTypeInfo() {
@@ -91,21 +88,15 @@ class ConfigStore {
   }
 
   @computed get storeContactPhoneNumber() {
-    return this.info && this.info.storeVO
-      ? this.info.storeVO.storeContactPhoneNumber
-      : '';
+    return this.info?.storeVO?.storeContactPhoneNumber || '';
   }
 
   @computed get contactTimePeriod() {
-    return this.info && this.info.storeVO
-      ? this.info.storeVO.contactTimePeriod
-      : '';
+    return this.info?.storeVO?.contactTimePeriod || '';
   }
 
   @computed get storeContactEmail() {
-    return this.info && this.info.storeVO
-      ? this.info.storeVO.storeContactEmail
-      : '';
+    return this.info?.storeVO?.storeContactEmail || '';
   }
 
   // 返回prescription页面是否需要显示用户选择绑定prescriber弹框 0:不显示 1：显示
@@ -137,43 +128,42 @@ class ConfigStore {
     if (!res) {
       res = await getConfig();
       res = res.context;
-    }
-    this.info = res;
-    sessionItemRoyal.set('storeContentInfo', JSON.stringify(this.info));
-    if (this.info?.orderConfig?.context) {
-      this.setPaymentAuthority(this.info.orderConfig.context);
+      this.info = res;
+      sessionItemRoyal.set('storeContentInfo', JSON.stringify(this.info));
     }
   }
 
   //查询prescriber Setting相关配置信息
   @action.bound
   async getPrescriberSettingInfo() {
-    let res = await getPrescriberSettingInfo();
-    let isNeedPrescriber = null;
-    let prescriberSelectType = null;
-    if (res.context) {
-      isNeedPrescriber = res.context.find((item) => {
-        return item.configType === 'if_prescriber_is_not_mandatory';
-      });
-      prescriberSelectType = res.context.find((item) => {
-        return item.configType === 'selection_type';
-      });
-      isNeedPrescriber = isNeedPrescriber ? isNeedPrescriber.status : null;
-      prescriberSelectType = prescriberSelectType
-        ? prescriberSelectType.status
-        : null;
-    }
-    sessionItemRoyal.set(
-      'prescriberSettingInfo',
-      JSON.stringify({
+    let ret = this.prescriberSettingInfo;
+    if (!ret) {
+      let res = await getPrescriberSettingInfo();
+      let isNeedPrescriber = null;
+      let prescriberSelectType = null;
+      if (res.context) {
+        isNeedPrescriber = res.context.find((item) => {
+          return item.configType === 'if_prescriber_is_not_mandatory';
+        });
+        prescriberSelectType = res.context.find((item) => {
+          return item.configType === 'selection_type';
+        });
+        isNeedPrescriber = isNeedPrescriber ? isNeedPrescriber.status : null;
+        prescriberSelectType = prescriberSelectType
+          ? prescriberSelectType.status
+          : null;
+      }
+      ret = {
         isNeedPrescriber: isNeedPrescriber,
-        prescriberSelectType: prescriberSelectType
-      })
-    );
-    this.prescriberSettingInfo = {
-      isNeedPrescriber: isNeedPrescriber,
-      prescriberSelectType: prescriberSelectType
-    };
+        prescriberSelectType: prescriberSelectType || '',
+        isShowPrescriberModal: isNeedPrescriber === 1,
+        prescriberSelectTyped: prescriberSelectType || ''
+      };
+      sessionItemRoyal.set('prescriberSettingInfo', JSON.stringify(ret));
+      this.prescriberSettingInfo = ret;
+    }
+
+    return ret;
   }
 
   // 1、查询form表单配置开关
@@ -275,17 +265,6 @@ class ConfigStore {
       .map((f) => ({ imgUrl: f?.imgUrl }));
     sessionItemRoyal.set('rc-paymentCfg', JSON.stringify(ret));
     return ret;
-  }
-
-  @action.bound
-  async queryPaymentAuthority() {
-    let res = await fetchPaymentAuthority();
-    this.setPaymentAuthority(res?.context[0].context);
-  }
-
-  async setPaymentAuthority(val) {
-    this.paymentAuthority = val;
-    sessionItemRoyal.set('rc-paymentAuthority', JSON.stringify(val));
   }
 }
 export default ConfigStore;

@@ -1139,7 +1139,7 @@ class UnLoginCart extends React.Component {
               <div className="text-center" style={{ fontSize: '.9375rem' }}>
                 <FormattedMessage id="unLoginSubscriptionTips" />
               </div>
-            ) : paymentAuthority === '2' ? (
+            ) : paymentAuthority === 'MEMBER_AND_VISITOR' ? (
               <div
                 className="text-center"
                 onClick={() => this.handleCheckout()}
@@ -1156,7 +1156,7 @@ class UnLoginCart extends React.Component {
                 </div>
               </div>
             ) : null
-          ) : paymentAuthority === '2' ? (
+          ) : paymentAuthority === 'MEMBER_AND_VISITOR' ? (
             <div className="text-center">
               <div className="rc-styled-link color-999 rc-btn-disabled">
                 <FormattedMessage id="guestCheckout" />
