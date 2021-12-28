@@ -16,7 +16,7 @@ class PaymentLogos extends React.Component {
   }
   async componentDidMount() {
     // 查询 payment logos
-    let logos = await this.props.configStore.queryPaymentMethodCfg();
+    const logos = await this.props.configStore.queryPaymentMethodCfg();
     this.setState({
       paymentLogos: logos
     });

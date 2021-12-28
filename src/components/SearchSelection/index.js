@@ -20,6 +20,7 @@ function throttle(fn, delay) {
 class SearchSelection extends React.Component {
   static defaultProps = {
     customStyle: false,
+    disabled: false,
     timeout: 0,
     inputCustomStyle: false, //input框是否要全长
     customCls: '',
@@ -51,6 +52,17 @@ class SearchSelection extends React.Component {
   componentDidMount = () => {
     // console.log('666 searchSelection form: ',this.state.form);
   };
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    if (this.props.defaultValue !== prevProps.defaultValue) {
+      this.setState({
+        form: {
+          ...this.state.form,
+          value: this.props.defaultValue
+        }
+      });
+    }
+  }
   componentWillUnmount = () => {
     this.setState = (state, callback) => {
       return;
@@ -252,6 +264,7 @@ class SearchSelection extends React.Component {
           >
             {this.props.prefixIcon}
             <input
+              disabled={this.props.disabled}
               type="text"
               placeholder={this.state.placeholder}
               className={`${

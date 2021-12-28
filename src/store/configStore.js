@@ -31,10 +31,6 @@ class ConfigStore {
     ? JSON.parse(sessionItemRoyal.get('rc-address-form'))
     : addressFormNull;
 
-  @observable paymentMethodCfg = sessionItemRoyal.get('rc-paymentCfg')
-    ? JSON.parse(sessionItemRoyal.get('rc-paymentCfg'))
-    : [];
-
   // 1-会员，2-会员和游客
   @computed get paymentAuthority() {
     const paymentAuthorityEnum = { 1: 'MEMBER', 2: 'MEMBER_AND_VISITOR' };
@@ -131,8 +127,7 @@ class ConfigStore {
     if (!res) {
       res = await getConfig();
       res = res.context;
-      this.info = res;
-      sessionItemRoyal.set('storeContentInfo', JSON.stringify(this.info));
+      this.updateInfo(res);
     }
   }
 
@@ -215,8 +210,8 @@ class ConfigStore {
 
   @action.bound
   async queryPaymentMethodCfg() {
-    let pmlogos = this.paymentMethodCfg;
-    if (pmlogos?.length) {
+    let pmlogos = this.info?.paymentMethodList;
+    if (pmlogos) {
       return pmlogos;
     }
     const {
@@ -233,8 +228,16 @@ class ConfigStore {
     ])
       .filter((f) => f?.isOpen)
       .map((f) => ({ imgUrl: f?.imgUrl }));
-    sessionItemRoyal.set('rc-paymentCfg', JSON.stringify(ret));
-    return ret;
+
+    this.updateInfo({ paymentMethodList: ret });
+    return this.info?.paymentMethodList;
+  }
+
+  @action.bound
+  updateInfo(info) {
+    const ret = Object.assign(this.info || {}, info || {});
+    this.info = ret;
+    sessionItemRoyal.set('storeContentInfo', JSON.stringify(ret));
   }
 }
 export default ConfigStore;
