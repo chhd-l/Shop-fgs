@@ -2,6 +2,7 @@ import store from 'storejs';
 import getCountryCodeFromHref from '@/lib/get-country-code-from-href';
 
 const countryLink = getCountryCodeFromHref()?.countryLink;
+console.log(222);
 
 window.__ = Object.assign(window.__ || {}, {
   sessionItemRoyal: {
