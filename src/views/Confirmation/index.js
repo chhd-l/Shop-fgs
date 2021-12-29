@@ -642,7 +642,7 @@ class Confirmation extends React.Component {
                   ))}
                   {/* 地址信息 */}
                   <div className="red mb-2">
-                    {this.state.details.orderType === 'FELINE_ORDER' ? (
+                    {this.state.details?.appointmentNo ? (
                       <FormattedMessage id="Appointment Information" />
                     ) : (
                       <FormattedMessage id="confirmation.customerInformation" />

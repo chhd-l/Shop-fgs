@@ -50,7 +50,7 @@ class InfosPreview extends React.Component {
     return (
       <div className="row1 rc-bg-colour--brand3 p-3 text-break grid grid-cols-12">
         {/*Felin Appointment summary*/}
-        {details.orderType === 'FELINE_ORDER' ? (
+        {details?.appointmentNo ? (
           <div className="col-span-12 md:col-span-6 mb-3">
             <div className="bold mt-1 mb-1" style={{ color: '#666' }}>
               <FormattedMessage id="Appointment summary" />
@@ -73,7 +73,7 @@ class InfosPreview extends React.Component {
         ) : null}
 
         {/* {JSON.stringify(details.consignee)} */}
-        {details && details.orderType !== 'FELINE_ORDER' ? (
+        {details && !details.appointmentNo ? (
           <div className={cn('col-span-12 md:col-span-6 mb-3 order-1')}>
             <div className="bold mt-1 mb-1" style={{ color: '#666' }}>
               <FormattedMessage id="deliveryAddress" />
@@ -184,7 +184,7 @@ class InfosPreview extends React.Component {
         {details &&
         !this.props.hideBillingAddr &&
         details.invoice &&
-        details.orderType !== 'FELINE_ORDER' ? (
+        !details.appointmentNo ? (
           <div className={cn('col-span-12 md:col-span-6 mb-3 order-3')}>
             <div className="bold mt-1 mb-1" style={{ color: '#666' }}>
               <FormattedMessage id="billingAddress" />
