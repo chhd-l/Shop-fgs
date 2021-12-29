@@ -1,4 +1,4 @@
-import { action, observable, computed } from 'mobx';
+import { action, observable, computed, toJS } from 'mobx';
 import { getConfig } from '@/api';
 import { fetchAddressDisplaySetting } from '@/api/address';
 import { getPaymentMethodV2 } from '@/api/payment';
@@ -8,6 +8,7 @@ import {
   ENTERPRICETYPE_ENUM,
   PRESCRIBERSELECTTYPED_ENUM
 } from '@/utils/enum';
+import cloneDeep from 'lodash/cloneDeep';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const addressFormNull = {
@@ -186,7 +187,7 @@ class ConfigStore {
 
   @action.bound
   updateInfo(info) {
-    const ret = Object.assign(this.info || {}, info || {});
+    const ret = cloneDeep(toJS(Object.assign(this.info || {}, info || {})));
     this.info = ret;
     sessionItemRoyal.set('storeContentInfo', JSON.stringify(ret));
   }
