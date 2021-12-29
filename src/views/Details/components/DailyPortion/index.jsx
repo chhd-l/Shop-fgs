@@ -415,7 +415,6 @@ export default function DailyPortion(
     getBreedOptions(speciesValue).then(() => {
       if (Array.isArray(breedOptions) && breedOptions.length > 0 && initBreedValue){
         const value = breedOptions.find((item) => item.breedCode === initBreedValue)
-        console.log('getBreedOptions-initBreedValue', value )
         if (value){
           setPreselected(true);
           setBreedData({
@@ -500,11 +499,6 @@ export default function DailyPortion(
       'event' : 'rationingToolInteraction',
       'rationingToolInteraction' : 'Calculate portion'
     })
-    // When the result is displayed
-    dataLayer.push({
-      'event' : 'rationingToolInteraction',
-      'rationingToolInteraction' : 'Display result'
-    })
 
     setLoading(true);
     try {
@@ -515,6 +509,11 @@ export default function DailyPortion(
       })
       setLoading(false);
       setStep(3)
+      // When the result is displayed
+      dataLayer.push({
+        'event' : 'rationingToolInteraction',
+        'rationingToolInteraction' : 'Display result'
+      })
     }catch (e) {
       setLoading(false);
       setRation({})
@@ -524,7 +523,9 @@ export default function DailyPortion(
 
   const againCalculation =() => {
     // 全部结果重置
-    (!initBreedValue) && setBreedData({});
+    if(!isPreselected){
+      setBreedData({});
+    }
     setMixedBreed(false);
     setGender('');
     setYear(0);
