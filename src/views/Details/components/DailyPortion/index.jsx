@@ -356,23 +356,32 @@ const questionList = [
 const mixedBreedPossibleOptions = [
   {
     "value":"mixed_breed_xsmall_1_4kg",
-    "name":"Très petit (moins de 4 kg)"
+    name: <FormattedMessage id={'dailyPortion.breed.searchBreedSize.xsmall'}/>
+    // "name":"Très petit (moins de 4 kg)"
   },
   {
     "value":"mixed_breed_mini_4_10kg",
-    "name":"Petit (4-10 kg)"
+    // "name":"Petit (4-10 kg)"
+    name: <FormattedMessage id={'dailyPortion.breed.searchBreedSize.mini'}/>
+
   },
   {
     "value":"mixed_breed_medium_11_25kg",
-    "name":"Moyen (11-25 kg)"
+    // "name":"Moyen (11-25 kg)",
+    name: <FormattedMessage id={'dailyPortion.breed.searchBreedSize.medium'}/>
+
   },
   {
     "value":"mixed_breed_maxi_26_44kg",
-    "name":"Grand (26-44 kg)"
+    // "name":"Grand (26-44 kg)",
+    name: <FormattedMessage id={'dailyPortion.breed.searchBreedSize.maxi'}/>
+
   },
   {
     "value":"mixed_breed_giant_45kg",
-    "name":"Géant (plus de 45 kg)"
+    // "name":"Géant (plus de 45 kg)",
+    name: <FormattedMessage id={'dailyPortion.breed.searchBreedSize.giant'}/>
+
   }
 ]
 export default function DailyPortion(
