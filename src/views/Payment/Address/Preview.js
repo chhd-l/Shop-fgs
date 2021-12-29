@@ -27,9 +27,14 @@ class AddressPreview extends React.Component {
     });
   }
   render() {
-    const { form, boldName } = this.props;
+    const {
+      form,
+      boldName,
+      configStore: {
+        localAddressForm: { fieldKeyEnableStatus }
+      }
+    } = this.props;
     // 获取本地存储的需要显示的地址字段
-    const localAddressForm = this.props.configStore.localAddressForm;
     let newDeliveryDate = formatDate({
       date: form?.deliveryDate,
       formatOption: { weekday: 'long', day: '2-digit', month: 'long' }
@@ -88,7 +93,7 @@ class AddressPreview extends React.Component {
               </p>
             ) : null}
             <p className="preview_address">{form.address1}</p>
-            {localAddressForm['address2'] && form.address2 && (
+            {fieldKeyEnableStatus['address2'] && form.address2 && (
               <p>{form.address2}</p>
             )}
             {/* 俄罗斯计算运费 */}
@@ -156,7 +161,7 @@ class AddressPreview extends React.Component {
                   )}
 
                   {/* 城市 */}
-                  {localAddressForm['city'] && (
+                  {fieldKeyEnableStatus['city'] && (
                     <span>
                       {form.city}
                       {', '}
@@ -164,7 +169,7 @@ class AddressPreview extends React.Component {
                   )}
 
                   {/* 区域 */}
-                  {localAddressForm['region'] && (
+                  {fieldKeyEnableStatus['region'] && (
                     <span>
                       {form.area}
                       {', '}
@@ -172,10 +177,12 @@ class AddressPreview extends React.Component {
                   )}
 
                   {/* 省份 */}
-                  {localAddressForm['state'] && <span>{form.province} </span>}
+                  {fieldKeyEnableStatus['state'] && (
+                    <span>{form.province} </span>
+                  )}
 
                   {/* uk的街道 */}
-                  {localAddressForm['county'] && (
+                  {fieldKeyEnableStatus['county'] && (
                     <span>
                       {form.county}
                       {', '}
@@ -195,7 +202,9 @@ class AddressPreview extends React.Component {
                   ) : null}
 
                   {/* 邮编 */}
-                  {localAddressForm['postCode'] && <span>{form.postCode}</span>}
+                  {fieldKeyEnableStatus['postCode'] && (
+                    <span>{form.postCode}</span>
+                  )}
                 </p>
                 {!sessionItemRoyal.get('from-felin') ? (
                   <p>{form.phoneNumber || form.consigneeNumber} </p>

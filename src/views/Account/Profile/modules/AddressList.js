@@ -34,7 +34,9 @@ function CardItem(props) {
   const {
     data,
     // 获取本地存储的需要显示的地址字段
-    configStore: { localAddressForm }
+    configStore: {
+      localAddressForm: { fieldKeyEnableStatus }
+    }
   } = props;
 
   return (
@@ -94,7 +96,7 @@ function CardItem(props) {
               {data.address1}
             </div>
 
-            {localAddressForm['address2'] && data.address2 && (
+            {fieldKeyEnableStatus['address2'] && data.address2 && (
               <div className="rc-full-width mb-0 mp_mb_address2">
                 {data.address2}
               </div>
@@ -102,12 +104,12 @@ function CardItem(props) {
 
             <div className="rc-full-width mb-0 mp_mb_cpp">
               {/* 城市 */}
-              {localAddressForm['city'] ? data.city + ', ' : null}
-              {localAddressForm['region'] && data.area + ', '}
+              {fieldKeyEnableStatus['city'] ? data.city + ', ' : null}
+              {fieldKeyEnableStatus['region'] && data.area + ', '}
               {/* 省份 */}
-              {localAddressForm['state'] && data.province + ' '}
+              {fieldKeyEnableStatus['state'] && data.province + ' '}
               {/* county */}
-              {localAddressForm['county'] && data?.county + ', '}
+              {fieldKeyEnableStatus['county'] && data?.county + ', '}
 
               {/* 国家，uk显示在这个位置 */}
               {window.__.env.REACT_APP_COUNTRY == 'uk'
@@ -115,7 +117,7 @@ function CardItem(props) {
                 : null}
 
               {/* 邮编 */}
-              {localAddressForm['postCode'] && data.postCode}
+              {fieldKeyEnableStatus['postCode'] && data.postCode}
             </div>
           </>
         )}

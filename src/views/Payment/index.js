@@ -2933,6 +2933,9 @@ class Payment extends React.Component {
   // 点击confirm cvv
   clickReInputCvvConfirm = () => {
     const {
+      configStore: { localAddressForm: laddf }
+    } = this.props;
+    const {
       wrongBillingAddress,
       deliveryAddress,
       billingAddress,
@@ -2946,7 +2949,6 @@ class Payment extends React.Component {
     if (!tid || tid == null) {
       let billaddr = Object.assign({}, billingAddress);
       // 判断 BillingAddress 完整性
-      const laddf = this.props.configStore.localAddressForm;
       let dfarr = laddf.settings;
       dfarr = dfarr.filter(
         (item) => item.enableFlag == 1 && item.requiredFlag == 1

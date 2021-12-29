@@ -27,7 +27,10 @@ const localItemRoyal = window.__.localItemRoyal;
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 
 function CardItem(props) {
-  const { data, localAddressForm } = props;
+  const {
+    data,
+    localAddressForm: { fieldKeyEnableStatus }
+  } = props;
 
   // PICK_UP 不需要邮编校验
   if (props.receiveType == 'PICK_UP') {
@@ -78,7 +81,7 @@ function CardItem(props) {
                 </>
               )}
               {/* 地址 */}
-              {localAddressForm?.address1 && data?.address1 && (
+              {fieldKeyEnableStatus?.address1 && data?.address1 && (
                 <div className="rc-full-width mb-0 ac_mb_address1">
                   {data?.address1}
                 </div>
@@ -86,19 +89,19 @@ function CardItem(props) {
 
               <div className="rc-full-width mb-0 ac_mb_cpp">
                 {/* 城市 */}
-                {localAddressForm?.city && data?.city + ', '}
+                {fieldKeyEnableStatus?.city && data?.city + ', '}
 
                 {/* 区域 */}
-                {localAddressForm?.region && data.area + ', '}
+                {fieldKeyEnableStatus?.region && data.area + ', '}
 
                 {/* 省份 / State */}
-                {localAddressForm?.state && data?.province + ' '}
+                {fieldKeyEnableStatus?.state && data?.province + ' '}
 
                 {/* county */}
-                {localAddressForm?.county && data?.county + ' '}
+                {fieldKeyEnableStatus?.county && data?.county + ' '}
 
                 {/* 邮编 */}
-                {localAddressForm?.postCode && data?.postCode}
+                {fieldKeyEnableStatus?.postCode && data?.postCode}
               </div>
             </>
           )}
@@ -155,7 +158,7 @@ function CardItem(props) {
                 </>
               )}
               {/* 地址 */}
-              {localAddressForm?.address1 && data?.address1 && (
+              {fieldKeyEnableStatus?.address1 && data?.address1 && (
                 <div className="rc-full-width mb-0 ac_mb_address1">
                   {data?.address1}
                 </div>
@@ -163,16 +166,16 @@ function CardItem(props) {
 
               <div className="rc-full-width mb-0 ac_mb_cpp">
                 {/* 城市 */}
-                {localAddressForm?.city && data?.city + ', '}
+                {fieldKeyEnableStatus?.city && data?.city + ', '}
 
                 {/* 区域 */}
-                {localAddressForm?.region && data.area + ', '}
+                {fieldKeyEnableStatus?.region && data.area + ', '}
 
                 {/* 省份 / State */}
-                {localAddressForm?.state && data?.province + ' '}
+                {fieldKeyEnableStatus?.state && data?.province + ' '}
 
                 {/* county */}
-                {localAddressForm?.county && data?.county + ', '}
+                {fieldKeyEnableStatus?.county && data?.county + ', '}
 
                 {/* 国家，uk 显示在这个位置 */}
                 {window.__.env.REACT_APP_COUNTRY === 'uk' ? (
@@ -180,7 +183,7 @@ function CardItem(props) {
                 ) : null}
 
                 {/* 邮编 */}
-                {localAddressForm?.postCode && data?.postCode}
+                {fieldKeyEnableStatus?.postCode && data?.postCode}
 
                 {!data?.validFlag && isCanVerifyBlacklistPostCode ? (
                   <div className="address-item-forbid">{data.alert}</div>
@@ -393,10 +396,11 @@ class AddressList extends React.Component {
   }
   // 判断地址完整性
   getSubAddressErrMsg = (data) => {
-    console.log(data);
+    const {
+      configStore: { localAddressForm }
+    } = this.props;
     let { wrongAddressMsg } = this.state;
-    const laddf = this.props.configStore.localAddressForm;
-    let dfarr = laddf.settings;
+    let dfarr = localAddressForm.settings;
     dfarr = dfarr.filter(
       (item) => item.enableFlag == 1 && item.requiredFlag == 1
     );
@@ -1137,10 +1141,11 @@ class AddressList extends React.Component {
   };
   // 地址项详细
   addressItemDetail = (item, i) => {
-    const { deliveryAddressId } = this.props;
+    const {
+      deliveryAddressId,
+      configStore: { localAddressForm }
+    } = this.props;
     const { countryList } = this.state;
-    // 获取本地存储的需要显示的地址字段
-    const localAddressForm = this.props.configStore.localAddressForm;
     return (
       <CardItem
         data={item}
@@ -1159,7 +1164,7 @@ class AddressList extends React.Component {
                 className={`d-flex mb-3 ${
                   isMobile ? 'justify-content-center' : 'justify-content-end'
                 }`}
-              ></div>
+              />
             ) : (
               <div
                 className={`d-flex mb-3 ${
