@@ -755,13 +755,17 @@ function ListItemBody({ item, headingTag, configStore }) {
     (item?.goodsInfos ?? [])
       .concat(item?.goodsInfoVOS ?? [])
       .findIndex((goods) => goods.stock > 0) > -1;
-
   return (
     <div className="rc-card__body rc-padding-top--none justify-content-start pl-0 pr-0 pc-product-card">
       <>
         <div className="height-product-tile-plpOnly pl-4 pr-4">
           <div dangerouslySetInnerHTML={{ __html: goodHeading }} />
-          {item?.foodType ? (
+          {/* 目前只有ru展示newSubtitle */}
+          {window.__.env.REACT_APP_PRODUCT_CARD_NOT_DISPLAY_TECHNOLOGY ? (
+            <p className="text-center  ui-text-overflow-line2 rc-card__meta">
+              {item.goodsNewSubtitle}
+            </p>
+          ) : item?.foodType ? (
             <p className="rc-card__meta text-center rc-padding-top--xs rc-padding-bottom--xs ui-text-overflow-line2">
               <FormattedMessage id={`product.plp.foodtype.${item.foodType}`} />
             </p>
