@@ -353,6 +353,28 @@ const questionList = [
     ]
   }
 ]
+const mixedBreedPossibleOptions = [
+  {
+    "value":"mixed_breed_xsmall_1_4kg",
+    "name":"Très petit (moins de 4 kg)"
+  },
+  {
+    "value":"mixed_breed_mini_4_10kg",
+    "name":"Petit (4-10 kg)"
+  },
+  {
+    "value":"mixed_breed_medium_11_25kg",
+    "name":"Moyen (11-25 kg)"
+  },
+  {
+    "value":"mixed_breed_maxi_26_44kg",
+    "name":"Grand (26-44 kg)"
+  },
+  {
+    "value":"mixed_breed_giant_45kg",
+    "name":"Géant (plus de 45 kg)"
+  }
+]
 export default function DailyPortion(
   {
     speciesValue='', // species
@@ -376,6 +398,8 @@ export default function DailyPortion(
    * 问题的结果
    **/
   const [breedData, setBreedData] = useState({});
+  // species is dog, the “please select a breed size
+  const [mixedBreedPossibleValue, setMixedBreedPossibleValue] = useState({});
   const [isMixedBreed, setMixedBreed] = useState(false);
   const [gender, setGender] = useState('');
   let [year, setYear] = useState(0);
@@ -391,7 +415,11 @@ export default function DailyPortion(
     let weightBool = parseFloat(weight) > 0;
 
     if (isMixedBreed){
+      const isMixedBreedPossibleValues = isMixedBreed && speciesValue === 'Dog';
       breedBool = true
+      if (isMixedBreedPossibleValues){
+        breedBool = mixedBreedPossibleValue?.value
+      }
     }else {
       breedBool = !!(breedData?.key)
     }
@@ -407,7 +435,7 @@ export default function DailyPortion(
 
     setStepOneDisabled(stepOneDisabled);
 
-  }, [ breedData, isMixedBreed, gender, year, month, petActivityCode, weight, neutered ])
+  }, [ breedData, isMixedBreed, gender, year, month, petActivityCode, weight, neutered, mixedBreedPossibleValue ])
 
   useEffect(() =>{
     if (!speciesValue) return;
@@ -479,6 +507,8 @@ export default function DailyPortion(
   }
 
   const getResult = async () => {
+    const isMixedBreedPossibleValues = isMixedBreed && speciesValue === 'Dog';
+
     let param = {
       "breedCode": isMixedBreed ? 'mixed_breed' : breedData.key,
       "petActivityCode": petActivityCode,
@@ -494,6 +524,9 @@ export default function DailyPortion(
       "density": details?.wsDensity,
       "packWeight": goodsInfo?.goodsInfoWeight ?? 1,
       "goodsInfoUnit": goodsInfo?.goodsInfoUnit ? String(goodsInfo?.goodsInfoUnit).toLowerCase():'kg',
+    }
+    if (isMixedBreedPossibleValues){
+      param.breedCode = mixedBreedPossibleValue?.value
     }
     dataLayer.push({
       'event' : 'rationingToolInteraction',
@@ -526,6 +559,7 @@ export default function DailyPortion(
     if(!isPreselected){
       setBreedData({});
     }
+    setMixedBreedPossibleValue({});
     setMixedBreed(false);
     setGender('');
     setYear(0);
@@ -552,6 +586,8 @@ export default function DailyPortion(
     const neuteredData = questionList.find((item) => item.name === 'neutered');
     const bcsData = questionList.find((item) => item.name === 'bcs');
 
+    const isMixedBreedPossibleValues = isMixedBreed && speciesValue === 'Dog';
+
     switch (step){
       case 1:
         return (
@@ -559,12 +595,16 @@ export default function DailyPortion(
             <div className='flex flex-wrap'>
               <div className='w-full lg:w-1/3 pb-4 lg:pb-0'>
                 <BreedSelect
+                  isMixedBreedPossibleValues={isMixedBreedPossibleValues}
                   isPreselected={isPreselected}
                   label={breedCodeData?.metadata?.label ?? ''}
                   options={breedOptions ?? []}
+                  mixedBreedPossibleOptions={mixedBreedPossibleOptions}
                   value={breedData}
+                  mixedBreedPossibleValue={mixedBreedPossibleValue}
                   mixedBreedValue={isMixedBreed}
                   onChange={handleBreedData}
+                  onChangeMixedBreedPossible={setMixedBreedPossibleValue}
                 />
               </div>
               <div className='w-full lg:w-1/3 pb-4 lg:pb-0'>
