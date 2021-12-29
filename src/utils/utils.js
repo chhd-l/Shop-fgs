@@ -842,13 +842,14 @@ export function getOktaCallBackUrl(sessionToken) {
     'Opb8u3tUtFEVO9Y9Fpj4XG3xevZOTh0r9ue8lF3seJP8DFQNxM7YOHM8I1OcJyKo';
   const nonce =
     '49HBgn9gMZs4BBUAWkMLOlGwerv7Cw89sT6gooduzyPfg98fOOaCBQ2oDOyCgb3T';
-  // hard code
+  // hard code可以不用变
   let homePage = window.__.env.REACT_APP_HOMEPAGE;
   const regiserUrl =
     homePage.substring(homePage.length - 1, homePage.length) === '/'
       ? 'implicit/callback'
       : '/implicit/callback';
   const redirectUri = window.location.origin + homePage + regiserUrl;
+  //OKTA的注册方法，最主要的是sessionToken
   var callOktaCallBack = `${window.__.env.REACT_APP_ISSUER}/v1/authorize?client_id=${window.__.env.REACT_APP_CLIENT_ID}&response_type=id_token token&scope=openid&prompt=none&response_mode=fragment&redirect_uri=${redirectUri}&state=${state}&nonce=${nonce}&sessionToken=${sessionToken}`;
   return callOktaCallBack;
 }
@@ -969,8 +970,9 @@ export function judgeIsIndividual(item) {
 // uk和fr,才有postCode校验
 const countryPostCode = ['uk', 'fr'];
 const currentCountry = window.__.env.REACT_APP_COUNTRY;
-export const isCanVerifyBlacklistPostCode =
-  countryPostCode.includes(currentCountry);
+export const isCanVerifyBlacklistPostCode = countryPostCode.includes(
+  currentCountry
+);
 
 // 获取 Postal code alert message
 export async function getAddressPostalCodeAlertMessage() {
