@@ -1633,7 +1633,7 @@ class Payment extends React.Component {
                     return getData();
                 })
                 .catch(function () {
-                  this.setState({ swishQrcodeError: true });
+                  //this.setState({ swishQrcodeError: true });
                 });
             }
 
@@ -1644,7 +1644,7 @@ class Payment extends React.Component {
               swishQrcode: res.context.qrCodeData,
               swishQrcodeModal: true
             });
-            payCountDown(10, 1, (res, swishQrcodeError) => {
+            payCountDown(10 * 60, 1, (res, swishQrcodeError) => {
               this.setState({ countDown: res, swishQrcodeError });
             });
           }
@@ -4413,7 +4413,7 @@ class Payment extends React.Component {
               <div className="pt-1 pb-6 text-black text-base">Scan QR code</div>
               <QRCode
                 value={this.state.swishQrcode}
-                size={148}
+                size={256}
                 bgColor={'#ffffff'}
                 fgColor={'#000000'}
                 level={'L'}

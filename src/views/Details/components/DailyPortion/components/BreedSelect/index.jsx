@@ -21,9 +21,10 @@ export default function BreedSelect(
   const [checked, setChecked] = useState(mixedBreedValue);
 
   useEffect(() => {
-    const defaultValue = options.find((item) => item.breedCode === value.key)
-    setInputValue(defaultValue ? defaultValue.localName : undefined)
+    const defaultValue = options.find((item) => item.breedCode === value?.key)
+    setInputValue(defaultValue ? defaultValue?.localName : undefined)
   }, [value])
+
   useEffect(()=>{
     setChecked(mixedBreedValue)
   }, [mixedBreedValue])
