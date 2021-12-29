@@ -342,8 +342,8 @@ class PayProductInfo extends React.Component {
       IndvPetInfo = recommendateInfo.customerPetsVo;
     }
     const isFromFelin = sessionItemRoyal.get('from-felin');
-    // 线下店数量展示和正常流程有区别
-    let orderSource = sessionItemRoyal.get('orderSource');
+    // 线下店数量展示和正常流程有区别（没区别）
+    let orderSource = sessionItemRoyal.get('orderSource') && false;
     const List = plist.map((el, i) => {
       return (
         <div className="product-summary__products__item" key={i}>
