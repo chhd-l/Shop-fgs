@@ -32,9 +32,8 @@ class Footer extends React.Component {
     };
   }
   async componentDidMount() {
-    const { location } = this.props;
     const {
-      configStore: { queryPaymentMethodCfg, queryConfig, getSystemFormConfig },
+      configStore: { queryConfig, getSystemFormConfig },
       intl: { messages }
     } = this.props;
 
