@@ -239,8 +239,13 @@ class Register extends Component {
     const deIllegalSymbol = symbolReg1.test(value) || symbolReg2.test(value);
     switch (name) {
       case 'password':
-        const { ruleLength, ruleLower, ruleUpper, ruleAname, ruleSpecial } =
-          this.state;
+        const {
+          ruleLength,
+          ruleLower,
+          ruleUpper,
+          ruleAname,
+          ruleSpecial
+        } = this.state;
         const passwordValid =
           ruleLength && ruleLower && ruleUpper && ruleAname && ruleSpecial;
         this.setState({
@@ -289,8 +294,7 @@ class Register extends Component {
       var lowerReg = /[a-z]+/;
       var upperReg = /[A-Z]+/;
       var nameReg = /[\d]+/;
-      var specialReg =
-        /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
+      var specialReg = /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
       this.setState(
         {
           ruleLength: value.length >= 8,
@@ -383,6 +387,7 @@ class Register extends Component {
           //GA 注册成功 end
 
           if (res.context.oktaSessionToken) {
+            //自动登录
             loginStore.changeLoginModal(false);
             loginStore.changeIsLogin(true);
 
@@ -399,11 +404,11 @@ class Register extends Component {
             );
             var callOktaCallBack = getOktaCallBackUrl(
               res.context.oktaSessionToken
-            );
+            ); //获取okta的登录的url
             localItemRoyal.set(
               'rc-consent-list',
               JSON.stringify(this.state.list)
-            );
+            ); // 把consent放入缓存，登录完成后，注册consent
             // 注册的时候如果是预约专家就直接跳转checkout页面
             let appointmentNo = sessionItemRoyal.get('appointment-no');
             if (appointmentNo) {
@@ -414,9 +419,10 @@ class Register extends Component {
               // window.location.href = window.location.origin + type[window.__.env.REACT_APP_GA_ENV];
               this.props.history.push('/checkout');
             } else {
-              window.location.href = callOktaCallBack;
+              window.location.href = callOktaCallBack; // 调用一次OKTA的登录
             }
           } else {
+            //发送邮件，跳转welcome页面
             let customerDetail = res.context.customerDetail;
             let submitParam = bindSubmitParam(this.state.list);
             userBindConsent({
@@ -487,18 +493,18 @@ class Register extends Component {
   render() {
     const registerBack =
       window.location.search.indexOf('?origin=register') >= 0 &&
-      window.location.search.indexOf('&token') >= 0;
+      window.location.search.indexOf('&token') >= 0; // 注册邮件点回来后，自动登录
     if (registerBack) {
       //example ?origin=register&token=20111jIFz6c2R4OpVzInpzlH9dBwgtgy2dgUi5toMSwMBGdC7JjEbWm
       var searchList = window.location.search.split('&');
       var tokenUrl = searchList.length > 1 ? searchList[1].split('=') : '';
-      var sessionToken = tokenUrl.length > 1 ? tokenUrl[1] : '';
+      var sessionToken = tokenUrl.length > 1 ? tokenUrl[1] : ''; // 获取邮件返回的sessionToken
       if (sessionToken) {
         localItemRoyal.set('okta-session-token', sessionToken);
         var callOktaCallBack = getOktaCallBackUrl(
           localItemRoyal.get('okta-session-token')
-        );
-        window.location.href = callOktaCallBack;
+        ); //获取okta的登录的url
+        window.location.href = callOktaCallBack; // 调用一次OKTA的登录
       }
     } // from email register and the login automatically
     const event = {

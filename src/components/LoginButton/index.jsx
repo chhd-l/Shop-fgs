@@ -74,7 +74,7 @@ const LoginButton = (props) => {
             }/v1/logout?id_token_hint=${
               idToken ? idToken.value : ''
             }&post_logout_redirect_uri=${redirectUri}`;
-          } // Cross-store login
+          } // 跨店铺登录后需要logout再登录
           setUserInfo(info);
           localItemRoyal.set('customer-okta-id', info.sub);
           const oktaTokenString = authState.accessToken
@@ -83,7 +83,7 @@ const LoginButton = (props) => {
           let oktaToken = 'Bearer ' + oktaTokenString;
           localItemRoyal.set('oktaToken', oktaToken);
           const consentString = localItemRoyal.get('rc-consent-list');
-          if (consentString && loginStore.isLogin) {
+          if (consentString && loginStore.isLogin) { // 自动登录后，注册consent
             var consents = JSON.parse(consentString);
             let submitParam = bindSubmitParam(consents);
             // 不知道能不能拿到customerId

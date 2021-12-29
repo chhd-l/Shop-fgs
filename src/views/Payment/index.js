@@ -1620,31 +1620,33 @@ class Payment extends React.Component {
           subNumber = (res.context && res.context.subscribeId) || '';
 
           if (res.context.qrCodeData) {
-            function getData() {
+            async function getData() {
               return adyenPaymentsDetails({
                 redirectResult: res.context.paymentData,
                 businessId: res.context.tid
               })
-                .then(function (response) {
-                  if (
-                    response.context.status == 'SUCCEED' ||
-                    response.context.status == 'PROCESSING'
-                  )
-                    return getData();
+                .then(async function (response) {
+                  if (response.context.status == 'PROCESSING') {
+                    return await getData();
+                  } else if (response.context.status == 'SUCCEED') {
+                    gotoConfirmationPage = true;
+                  } else if (response.context.status == 'FAILURE') {
+                    this.setState({ swishQrcodeError: true });
+                  }
                 })
                 .catch(function () {
-                  this.setState({ swishQrcodeError: true });
+                  //this.setState({ swishQrcodeError: true });
                 });
             }
 
-            getData();
+            await getData();
 
             //模态框
             this.setState({
               swishQrcode: res.context.qrCodeData,
               swishQrcodeModal: true
             });
-            payCountDown(10, 1, (res, swishQrcodeError) => {
+            payCountDown(10 * 60, 1, (res, swishQrcodeError) => {
               this.setState({ countDown: res, swishQrcodeError });
             });
           }
@@ -4415,7 +4417,7 @@ class Payment extends React.Component {
               <div className="pt-1 pb-6 text-black text-base">Scan QR code</div>
               <QRCode
                 value={this.state.swishQrcode}
-                size={148}
+                size={256}
                 bgColor={'#ffffff'}
                 fgColor={'#000000'}
                 level={'L'}
