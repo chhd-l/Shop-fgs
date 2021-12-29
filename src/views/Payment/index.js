@@ -1620,24 +1620,26 @@ class Payment extends React.Component {
           subNumber = (res.context && res.context.subscribeId) || '';
 
           if (res.context.qrCodeData) {
-            function getData() {
+            async function getData() {
               return adyenPaymentsDetails({
                 redirectResult: res.context.paymentData,
                 businessId: res.context.tid
               })
-                .then(function (response) {
-                  if (
-                    response.context.status == 'SUCCEED' ||
-                    response.context.status == 'PROCESSING'
-                  )
-                    return getData();
+                .then(async function (response) {
+                  if (response.context.status == 'PROCESSING') {
+                    return await getData();
+                  } else if (response.context.status == 'SUCCEED') {
+                    gotoConfirmationPage = true;
+                  } else if (response.context.status == 'FAILURE') {
+                    this.setState({ swishQrcodeError: true });
+                  }
                 })
                 .catch(function () {
                   //this.setState({ swishQrcodeError: true });
                 });
             }
 
-            getData();
+            await getData();
 
             //模态框
             this.setState({
