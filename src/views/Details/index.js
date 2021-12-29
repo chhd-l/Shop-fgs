@@ -1094,15 +1094,23 @@ class Details extends React.Component {
       (item) => item.goodsInfoBarcode === barcode
     );
     let isTechnology = ['dry', 'wet'].includes(details?.wsTechnologyCode);
+    let reg = new RegExp('baby', 'i');
+    let isBaby = goodsAttributesValueRelList.find(
+      (item) =>
+        item.goodsAttributeName === 'Lifestages' &&
+        reg.test(item.goodsAttributeValue)
+    );
 
     /**
-     * 是否显示计算工具
-     *  1、Product status show/hide
+     *  是否显示计算工具
+     *  1、dailyPortion show/hide
+     *    1.0 Product status show/hide
      *    1.1、liquid products are excluded => wsTechnologyCode
      *    1.2、Bundle products are excluded => goodsInfos - goodsInfoType === 2
      *    1.3  details => wsTechnologyCode wsEnergyCategory wsReferenceEnergyValue
      * **/
     if (!configStore?.info?.dailyPortion) return null;
+    if (isBaby) return null;
     if (!isTechnology) return null;
     if (currentGoodsInfo?.goodsInfoType === 2) return null;
     if (!(wsEnergyCategory && wsReferenceEnergyValue && wsDensity)) return null;
