@@ -138,18 +138,16 @@ class ConfigStore {
       const res1 = await fetchAddressDisplaySetting();
       let addressSettings = res1?.context?.addressDisplaySettings;
       if (addressSettings) {
+        let fieldKeyEnableStatus = {};
         // 标记可用字段
         addressSettings.forEach((item) => {
-          if (item.enableFlag == 1) {
-            addressForm[item.fieldKey] = item.fieldKey;
-          } else {
-            addressForm[item.fieldKey] = '';
-          }
+          fieldKeyEnableStatus[item.fieldKey] = item.enableFlag === 1;
         });
         // 拼接json
         addressForm = {
           settings: addressSettings,
-          formType: res1?.context?.addressInputType //当前地址表单类型 MANUALLY：手动填写 、 AUTOMATICALLY：自动填充
+          formType: res1?.context?.addressInputType, //当前地址表单类型 MANUALLY：手动填写 、 AUTOMATICALLY：自动填充
+          fieldKeyEnableStatus
         };
 
         this.updateInfo({ localAddressForm: addressForm });

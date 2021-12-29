@@ -1083,8 +1083,11 @@ class AccountOrders extends React.Component {
   render() {
     // 获取本地存储的需要显示的地址字段
     const { configStore } = this.props;
-    const { localAddressForm, customTaxSettingOpenFlag, enterPriceType } =
-      configStore;
+    const {
+      localAddressForm: { fieldKeyEnableStatus },
+      customTaxSettingOpenFlag,
+      enterPriceType
+    } = configStore;
     const event = {
       page: {
         type: 'Account',
@@ -1731,7 +1734,7 @@ class AccountOrders extends React.Component {
                                         <p className="mb-0 od_mb_address1">
                                           {details.consignee.detailAddress1}
                                         </p>
-                                        {localAddressForm['address2'] &&
+                                        {fieldKeyEnableStatus['address2'] &&
                                           details.consignee.detailAddress2 && (
                                             <p className="mb-0 od_mb_address2">
                                               {details.consignee.detailAddress2}
@@ -1740,23 +1743,23 @@ class AccountOrders extends React.Component {
 
                                         <p className="mb-0 od_mb_cpp">
                                           {/* 市 */}
-                                          {localAddressForm['city'] &&
+                                          {fieldKeyEnableStatus['city'] &&
                                             details.consignee.city + ', '}
 
                                           {/* 区域 */}
-                                          {localAddressForm['region'] &&
+                                          {fieldKeyEnableStatus['region'] &&
                                             details.consignee.area + ', '}
 
                                           {/* 省份 */}
-                                          {localAddressForm['state'] &&
+                                          {fieldKeyEnableStatus['state'] &&
                                             details.consignee.province + ' '}
 
                                           {/* county */}
-                                          {localAddressForm['county'] &&
+                                          {fieldKeyEnableStatus['county'] &&
                                             details.consignee.county + ' '}
 
                                           {/* 邮编 */}
-                                          {localAddressForm['postCode'] &&
+                                          {fieldKeyEnableStatus['postCode'] &&
                                             details.consignee.postCode}
                                         </p>
                                         {details.consignee.rfc ? (
@@ -1861,7 +1864,7 @@ class AccountOrders extends React.Component {
                                           <p className="mb-0 od_mb_address1">
                                             {details.invoice.address1}
                                           </p>
-                                          {localAddressForm['address2'] &&
+                                          {fieldKeyEnableStatus['address2'] &&
                                             details.invoice.address2 && (
                                               <p className="mb-0 od_mb_address2">
                                                 {details.invoice.address2}
@@ -1870,23 +1873,23 @@ class AccountOrders extends React.Component {
 
                                           <p className="mb-0 od_mb_cpp">
                                             {/* 城市 */}
-                                            {localAddressForm['city'] &&
+                                            {fieldKeyEnableStatus['city'] &&
                                               details.invoice.city + ', '}
 
                                             {/* 区域 */}
-                                            {localAddressForm['region'] &&
+                                            {fieldKeyEnableStatus['region'] &&
                                               details.invoice.area + ', '}
 
                                             {/* 省份 */}
-                                            {localAddressForm['state'] &&
+                                            {fieldKeyEnableStatus['state'] &&
                                               details.invoice.province + ' '}
 
                                             {/* county */}
-                                            {localAddressForm['county'] &&
+                                            {fieldKeyEnableStatus['county'] &&
                                               details.invoice.county + ' '}
 
                                             {/* 邮编 */}
-                                            {localAddressForm['postCode'] &&
+                                            {fieldKeyEnableStatus['postCode'] &&
                                               details.invoice.postCode + ' '}
                                           </p>
                                           {details.invoice.rfc ? (

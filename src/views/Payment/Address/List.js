@@ -495,6 +495,9 @@ class AddressList extends React.Component {
   // 会员确认地址列表信息，并展示封面
   clickConfirmAddressPanel = async () => {
     const {
+      configStore: { localAddressForm: laddf }
+    } = this.props;
+    const {
       homeDeliverySelectedId,
       allAddressList,
       addressList,
@@ -509,7 +512,6 @@ class AddressList extends React.Component {
       selectedId: homeDeliverySelectedId
     });
     // 判断地址完整性
-    const laddf = this.props.configStore.localAddressForm;
     let dfarr = laddf.settings;
     dfarr = (dfarr || []).filter(
       (item) => item.enableFlag == 1 && item.requiredFlag == 1
@@ -1304,7 +1306,11 @@ class AddressList extends React.Component {
   // 处理要显示的字段
   setAddressFields = (data) => {
     // 获取本地存储的需要显示的地址字段
-    const localAddressForm = this.props.configStore.localAddressForm;
+    const {
+      configStore: {
+        localAddressForm: { fieldKeyEnableStatus }
+      }
+    } = this.props;
     let farr = [data.address1, data.city];
     if (window.__.env.REACT_APP_COUNTRY == 'us') {
       farr.push(data.province);
@@ -1313,7 +1319,7 @@ class AddressList extends React.Component {
       if (window.__.env.REACT_APP_COUNTRY !== 'uk') {
         farr.unshift(country);
       }
-      if (localAddressForm['region']) {
+      if (fieldKeyEnableStatus['region']) {
         farr.push(data.area);
       }
     }

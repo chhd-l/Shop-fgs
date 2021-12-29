@@ -25,9 +25,12 @@ class InfosPreview extends React.Component {
     });
   }
   render() {
-    const { details } = this.props;
-    // 获取本地存储的需要显示的地址字段
-    const localAddressForm = this.props.configStore.localAddressForm;
+    const {
+      details,
+      configStore: {
+        localAddressForm: { fieldKeyEnableStatus }
+      }
+    } = this.props;
 
     return (
       <div className="card mb-3 shipping-summary checkout--padding">
@@ -70,7 +73,7 @@ class InfosPreview extends React.Component {
                           &nbsp;{details.consignee.detailAddress1}
                         </div>
 
-                        {localAddressForm['address2'] &&
+                        {fieldKeyEnableStatus['address2'] &&
                           details.consignee.detailAddress2 && (
                             <>
                               <div className="col-12 col-md-6">
@@ -98,7 +101,7 @@ class InfosPreview extends React.Component {
                           </>
                         )}
 
-                        {localAddressForm['city'] && (
+                        {fieldKeyEnableStatus['city'] && (
                           <>
                             <div className="col-12 col-md-6">
                               <FormattedMessage id="payment.city" />
@@ -109,7 +112,7 @@ class InfosPreview extends React.Component {
                           </>
                         )}
 
-                        {localAddressForm['region'] && (
+                        {fieldKeyEnableStatus['region'] && (
                           <>
                             <div className="col-12 col-md-6">
                               <FormattedMessage id="payment.region" />
@@ -120,7 +123,7 @@ class InfosPreview extends React.Component {
                           </>
                         )}
 
-                        {localAddressForm['state'] && (
+                        {fieldKeyEnableStatus['state'] && (
                           <>
                             <div className="col-12 col-md-6">
                               <FormattedMessage id="payment.state" />
@@ -131,7 +134,7 @@ class InfosPreview extends React.Component {
                           </>
                         )}
 
-                        {localAddressForm['county'] && (
+                        {fieldKeyEnableStatus['county'] && (
                           <>
                             <div className="col-12 col-md-6">
                               <FormattedMessage id="payment.county" />
@@ -142,7 +145,7 @@ class InfosPreview extends React.Component {
                           </>
                         )}
 
-                        {localAddressForm['postCode'] && (
+                        {fieldKeyEnableStatus['postCode'] && (
                           <>
                             <div className="col-12 col-md-6">
                               <FormattedMessage id="payment.postCode" />
@@ -206,7 +209,7 @@ class InfosPreview extends React.Component {
                             &nbsp;{details.invoice.address1}
                           </div>
 
-                          {localAddressForm['address2'] &&
+                          {fieldKeyEnableStatus['address2'] &&
                             details.invoice.detailAddress2 && (
                               <>
                                 <div className="col-12 col-md-6">
@@ -233,7 +236,7 @@ class InfosPreview extends React.Component {
                             </>
                           )}
 
-                          {localAddressForm['city'] && (
+                          {fieldKeyEnableStatus['city'] && (
                             <>
                               <div className="col-12 col-md-6">
                                 <FormattedMessage id="payment.city" />
@@ -244,7 +247,7 @@ class InfosPreview extends React.Component {
                             </>
                           )}
 
-                          {localAddressForm['region'] && (
+                          {fieldKeyEnableStatus['region'] && (
                             <>
                               <div className="col-12 col-md-6">
                                 <FormattedMessage id="payment.region" />
@@ -255,7 +258,7 @@ class InfosPreview extends React.Component {
                             </>
                           )}
 
-                          {localAddressForm['state'] && (
+                          {fieldKeyEnableStatus['state'] && (
                             <>
                               <div className="col-12 col-md-6">
                                 <FormattedMessage id="payment.state" />
@@ -266,7 +269,7 @@ class InfosPreview extends React.Component {
                             </>
                           )}
 
-                          {localAddressForm['county'] && (
+                          {fieldKeyEnableStatus['county'] && (
                             <>
                               <div className="col-12 col-md-6">
                                 <FormattedMessage id="payment.county" />
@@ -277,7 +280,7 @@ class InfosPreview extends React.Component {
                             </>
                           )}
 
-                          {localAddressForm['postCode'] && (
+                          {fieldKeyEnableStatus['postCode'] && (
                             <>
                               <div className="col-12 col-md-6">
                                 <FormattedMessage id="payment.postCode" />

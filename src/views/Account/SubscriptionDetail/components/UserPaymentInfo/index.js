@@ -27,10 +27,12 @@ const UserPaymentInfo = ({
       setCountryList(res || []);
     });
   }, []);
-  const { configStore } = useLocalStore(() => stores);
+  const {
+    configStore: {
+      localAddressForm: { fieldKeyEnableStatus }
+    }
+  } = useLocalStore(() => stores);
   const [countryList, setCountryList] = useState([]);
-  // 获取本地存储的需要显示的地址字段
-  const localAddressForm = configStore?.localAddressForm;
   let minDeliveryTime = null;
   let maxDeliveryTime = null;
   if (subDetail?.noStartTradeList) {
@@ -121,14 +123,14 @@ const UserPaymentInfo = ({
                   {currentDeliveryAddress?.pickupName}
                 </p>
                 {/* 电话 */}
-                {localAddressForm?.phoneNumber &&
+                {fieldKeyEnableStatus?.phoneNumber &&
                   currentDeliveryAddress?.consigneeNumber && (
                     <p className="mb-0 sd_mb_tel">
                       {currentDeliveryAddress?.consigneeNumber}
                     </p>
                   )}
                 {/* 地址 */}
-                {localAddressForm?.address1 &&
+                {fieldKeyEnableStatus?.address1 &&
                   currentDeliveryAddress?.address1 && (
                     <p className="mb-0 sd_mb_address1">
                       {currentDeliveryAddress?.address1}
@@ -142,7 +144,7 @@ const UserPaymentInfo = ({
             ) : (
               <>
                 {/* 电话 */}
-                {localAddressForm?.phoneNumber &&
+                {fieldKeyEnableStatus?.phoneNumber &&
                   currentDeliveryAddress?.consigneeNumber && (
                     <p className="mb-0 sd_mb_tel">
                       {currentDeliveryAddress?.consigneeNumber}
@@ -165,13 +167,13 @@ const UserPaymentInfo = ({
                   </p>
                 )}
                 {/* 地址 */}
-                {localAddressForm?.address1 &&
+                {fieldKeyEnableStatus?.address1 &&
                   currentDeliveryAddress?.address1 && (
                     <p className="mb-0 sd_mb_address1">
                       {currentDeliveryAddress?.address1}
                     </p>
                   )}
-                {localAddressForm?.address2 &&
+                {fieldKeyEnableStatus?.address2 &&
                   currentDeliveryAddress?.address2 && (
                     <p className="mb-0 sd_mb_address2">
                       {currentDeliveryAddress?.address2}
@@ -180,19 +182,19 @@ const UserPaymentInfo = ({
 
                 <p className="mb-0 sd_mb_cpp">
                   {/* 城市 */}
-                  {localAddressForm?.city &&
+                  {fieldKeyEnableStatus?.city &&
                     currentDeliveryAddress?.city + ', '}
 
                   {/* 区域 */}
-                  {localAddressForm?.region &&
+                  {fieldKeyEnableStatus?.region &&
                     currentDeliveryAddress.area + ', '}
 
                   {/* 省份 / State */}
-                  {localAddressForm?.state &&
+                  {fieldKeyEnableStatus?.state &&
                     currentDeliveryAddress?.province + ' '}
 
                   {/* county */}
-                  {localAddressForm?.county &&
+                  {fieldKeyEnableStatus?.county &&
                     currentDeliveryAddress?.county + ', '}
 
                   {/* 国家 */}
@@ -210,7 +212,7 @@ const UserPaymentInfo = ({
                   ) : null}
 
                   {/* 邮编 */}
-                  {localAddressForm?.postCode &&
+                  {fieldKeyEnableStatus?.postCode &&
                     currentDeliveryAddress?.postCode}
                 </p>
 
@@ -309,7 +311,7 @@ const UserPaymentInfo = ({
               </p>
 
               {/* 电话 */}
-              {localAddressForm?.phoneNumber &&
+              {fieldKeyEnableStatus?.phoneNumber &&
                 currentBillingAddress?.consigneeNumber && (
                   <p className="mb-0 sd_mb_tel">
                     {currentBillingAddress.consigneeNumber}
@@ -334,13 +336,13 @@ const UserPaymentInfo = ({
               )}
 
               {/* 地址 */}
-              {localAddressForm?.address1 &&
+              {fieldKeyEnableStatus?.address1 &&
                 currentBillingAddress?.address1 && (
                   <p className="mb-0 sd_mb_address1">
                     {currentBillingAddress?.address1}
                   </p>
                 )}
-              {localAddressForm?.address2 &&
+              {fieldKeyEnableStatus?.address2 &&
                 currentBillingAddress?.address2 && (
                   <p className="mb-0 sd_mb_address2">
                     {currentBillingAddress?.address2}
@@ -348,17 +350,19 @@ const UserPaymentInfo = ({
                 )}
               <p className="mb-0 sd_mb_cpp">
                 {/* 城市 */}
-                {localAddressForm?.city && currentBillingAddress?.city + ', '}
+                {fieldKeyEnableStatus?.city &&
+                  currentBillingAddress?.city + ', '}
 
                 {/* 区域 */}
-                {localAddressForm?.region && currentBillingAddress.area + ', '}
+                {fieldKeyEnableStatus?.region &&
+                  currentBillingAddress.area + ', '}
 
                 {/* 省份 / State */}
-                {localAddressForm?.state &&
+                {fieldKeyEnableStatus?.state &&
                   currentBillingAddress?.province + ' '}
 
                 {/* county */}
-                {localAddressForm?.county &&
+                {fieldKeyEnableStatus?.county &&
                   currentBillingAddress?.county + ', '}
 
                 {/* 国家 */}
@@ -376,7 +380,8 @@ const UserPaymentInfo = ({
                 ) : null}
 
                 {/* 邮编 */}
-                {localAddressForm?.postCode && currentBillingAddress?.postCode}
+                {fieldKeyEnableStatus?.postCode &&
+                  currentBillingAddress?.postCode}
               </p>
             </div>
           </div>

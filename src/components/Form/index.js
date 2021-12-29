@@ -851,6 +851,12 @@ class Form extends React.Component {
   };
   // 下拉框选择
   handleSelectedItemChange(key, data) {
+    // 获取本地存储的需要显示的地址字段
+    const {
+      configStore: {
+        localAddressForm: { fieldKeyEnableStatus }
+      }
+    } = this.props;
     const { caninForm, deliveryDataTimeSlotList } = this.state;
     let cform = Object.assign({}, caninForm);
     cform[key + 'Id'] = data.value;
@@ -874,9 +880,8 @@ class Form extends React.Component {
       this.setState({
         regionList: []
       });
-      // 获取本地存储的需要显示的地址字段
-      const localAddressForm = this.props.configStore.localAddressForm;
-      if (localAddressForm['region']) {
+
+      if (fieldKeyEnableStatus['region']) {
         this.getRegionDataByCityId(data.value);
       }
     } else if (key == 'region') {
