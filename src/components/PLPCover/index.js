@@ -760,6 +760,7 @@ function ListItemBody({ item, headingTag, configStore }) {
       <>
         <div className="height-product-tile-plpOnly pl-4 pr-4">
           <div dangerouslySetInnerHTML={{ __html: goodHeading }} />
+          {/* 目前只有ru展示newSubtitle */}
           {window.__.env.REACT_APP_PRODUCT_CARD_NOT_DISPLAY_TECHNOLOGY ? (
             <p className="text-center  ui-text-overflow-line2 rc-card__meta">
               {item.goodsNewSubtitle}
