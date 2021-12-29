@@ -1630,6 +1630,7 @@ class Payment extends React.Component {
                     return await getData();
                   } else if (response.context.status == 'SUCCEED') {
                     gotoConfirmationPage = true;
+                    //return await getData();
                   } else if (response.context.status == 'FAILURE') {
                     this.setState({ swishQrcodeError: true });
                   }
@@ -1639,16 +1640,21 @@ class Payment extends React.Component {
                 });
             }
 
-            await getData();
-
             //模态框
-            this.setState({
-              swishQrcode: res.context.qrCodeData,
-              swishQrcodeModal: true
-            });
+            this.setState(
+              {
+                swishQrcode: res.context.qrCodeData,
+                swishQrcodeModal: true
+              },
+              () => {
+                this.endLoading();
+              }
+            );
             payCountDown(10 * 60, 1, (res, swishQrcodeError) => {
               this.setState({ countDown: res, swishQrcodeError });
             });
+
+            await getData();
           }
           if (isMobile) {
             window.location = res.context.redirectUrl;
