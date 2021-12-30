@@ -1,9 +1,16 @@
 import React from 'react';
 import './index.less';
-import frame from '../image/frame.png';
+
 class MyModal extends React.Component {
+  handleTo(val) {
+    if (val === 1) {
+      window.open('https://www.facebook.com/RoyalCaninFrance');
+    } else {
+      window.open('https://www.instagram.com/royalcaninfrance');
+    }
+  }
   render() {
-    const { visible, handleCancel, children } = this.props;
+    const { visible, children } = this.props;
     return (
       <div className="my-model" style={{ display: visible ? 'block' : 'none' }}>
         {children}
@@ -29,11 +36,11 @@ class MyModal extends React.Component {
             <br />
             <br />
             Horaires d’ouverture :<br />
-            Mardi - Dimanche, 10h - 20h
+            Mardi - Dimanche, 10h - 18h
           </div>
           <div className="img-link">
-            <div className="img1" />
-            <div className="img2" />
+            <div className="img1" onClick={() => this.handleTo(1)} />
+            <div className="img2" onClick={() => this.handleTo(2)} />
           </div>
         </div>
       </div>

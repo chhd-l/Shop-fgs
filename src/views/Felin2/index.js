@@ -195,7 +195,7 @@ class Felin extends React.Component {
           </div>
           <div className="time-content">
             <div className="time font-500">
-              Ouvert à tous du Mardi au Samedi de 10h à 20h et le Dimanche de
+              Ouvert à tous du Mardi au Samedi de 10h à 18h et le Dimanche de
               10h à 18h
             </div>
             <div className="place">142 Bld Saint Germain 75006 PARIS</div>
@@ -233,7 +233,7 @@ class Felin extends React.Component {
             </div>
           </div>
           <div className="txt-centr" id="pcexperts">
-            <h2 className="rc-beta size18 font-500">
+            <h2 className="size18 font-500" style={{ color: '#e2001a' }}>
               Réservez une séance avec un expert de l'Atelier Félin
             </h2>
             <div className="problem" id="Voir-fqas">
