@@ -708,6 +708,7 @@ class PayProductInfo extends React.Component {
                         ? 'ui-btn-loading ui-btn-loading-border-red'
                         : ''
                     }`}
+                    disabled={sessionItemRoyal.get('recommend_product')}
                     style={{ marginTop: '5px', float: 'right' }}
                     onClick={() => this.handleClickPromotionApply(false)}
                   >
