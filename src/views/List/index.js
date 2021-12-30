@@ -1057,7 +1057,9 @@ class List extends React.Component {
           (targetRouter && targetRouter.storeCateId) ||
           '';
         breadList = getParentNodesByChild({
-          data: generateOptions(res[1] || []).concat(res[0] || []),
+          data: generateOptions(res[1]?.navigationResponseList || []).concat(
+            res[0] || []
+          ),
           id: targetId,
           matchIdName:
             targetRouter && targetRouter.id
