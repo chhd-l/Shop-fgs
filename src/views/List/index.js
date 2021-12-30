@@ -987,7 +987,10 @@ class List extends React.Component {
       fetchFilterList()
     ])
       .then((res) => {
-        const routers = [...(res[0] || []), ...(res[1] || [])];
+        const routers = [
+          ...(res[0] || []),
+          ...(res[1]?.navigationResponseList || [])
+        ];
         // console.log('666 >>> res: ',res);
         const targetRouter = routers.filter((r) => {
           const tempArr = [

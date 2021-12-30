@@ -5,12 +5,7 @@ import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading';
 import Logo from '@/components/Logo';
 import { toJS } from 'mobx';
-import {
-  getDeviceType,
-  generateOptions,
-  getDictionary,
-  unique
-} from '@/utils/utils';
+import { getDeviceType, generateOptions, unique } from '@/utils/utils';
 import {
   getPrescriptionById,
   getPrescriberByEncryptCode,
@@ -226,8 +221,9 @@ class Header extends React.Component {
     // window.removeEventListener('scroll', this.handleScroll)
   }
   initNavigations = async () => {
-    let res = await fetchHeaderNavigations();
-    const pageEnumRes = await getDictionary({ type: 'pageType' });
+    const navigationConf = await fetchHeaderNavigations();
+    let res = navigationConf?.navigationResponseList;
+    const pageEnumRes = navigationConf.sysDictionaryVOS;
     if (res) {
       let treeData = generateOptions(res);
 

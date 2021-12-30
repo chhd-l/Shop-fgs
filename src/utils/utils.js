@@ -697,7 +697,8 @@ export async function fetchHeaderNavigations() {
   } else {
     const res = await queryHeaderNavigations();
     if (res.context) {
-      ret = (res.context.navigationResponseList || []).filter(
+      ret = res.context;
+      ret.navigationResponseList = (ret?.navigationResponseList || []).filter(
         (el) => el.enable
       );
       sessionItemRoyal.set('header-navigations', JSON.stringify(ret));
