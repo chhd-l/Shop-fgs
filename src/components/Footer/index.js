@@ -44,7 +44,7 @@ class Footer extends React.Component {
       })
         .then((res) => {
           this.setState({
-            hubFooterInfo: res.data?.LocalMarketSettings ? res.data : null,
+            hubFooterInfo: res.data,
             isInitdQueryHubFooter: true
           });
         })
