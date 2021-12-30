@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useLocalStore } from 'mobx-react';
-import stores from '@/store';
 import LazyLoad from 'react-lazyload';
-import {
-  FormattedMessage,
-  injectIntl,
-  FormattedDate
-} from 'react-intl-phraseapp';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import deliveryIcon from '../../images/deliveryAddress.png';
 import billingIcon from '../../images/billingAddress.png';
 import getCardImg from '@/lib/get-card-img';
 import paymentIcon from '../../images/payment.png';
 import { getDictionary, isCanVerifyBlacklistPostCode } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
+import AddressPreview from '@/components/AddressPreview';
 
 const UserPaymentInfo = ({
   currentCardInfo,
@@ -27,11 +22,6 @@ const UserPaymentInfo = ({
       setCountryList(res || []);
     });
   }, []);
-  const {
-    configStore: {
-      localAddressForm: { fieldKeyEnableStatus }
-    }
-  } = useLocalStore(() => stores);
   const [countryList, setCountryList] = useState([]);
   let minDeliveryTime = null;
   let maxDeliveryTime = null;
@@ -116,132 +106,17 @@ const UserPaymentInfo = ({
               </span>
             </p>
 
-            {currentDeliveryAddress.receiveType === 'PICK_UP' ? (
-              <>
-                {/* pickupName */}
-                <p className="mb-0 sd_mb_pickupName font-weight-bold">
-                  {currentDeliveryAddress?.pickupName}
-                </p>
-                {/* 电话 */}
-                {fieldKeyEnableStatus?.phoneNumber &&
-                  currentDeliveryAddress?.consigneeNumber && (
-                    <p className="mb-0 sd_mb_tel">
-                      {currentDeliveryAddress?.consigneeNumber}
-                    </p>
-                  )}
-                {/* 地址 */}
-                {fieldKeyEnableStatus?.address1 &&
-                  currentDeliveryAddress?.address1 && (
-                    <p className="mb-0 sd_mb_address1">
-                      {currentDeliveryAddress?.address1}
-                    </p>
-                  )}
-                {/* workTime */}
-                <p className="mb-0 sd_mb_workTime">
-                  {currentDeliveryAddress?.workTime}
-                </p>
-              </>
-            ) : (
-              <>
-                {/* 电话 */}
-                {fieldKeyEnableStatus?.phoneNumber &&
-                  currentDeliveryAddress?.consigneeNumber && (
-                    <p className="mb-0 sd_mb_tel">
-                      {currentDeliveryAddress?.consigneeNumber}
-                    </p>
-                  )}
-                {/* 国家 */}
-                {window.__.env.REACT_APP_COUNTRY == 'us' ||
-                window.__.env.REACT_APP_COUNTRY == 'ru' ||
-                window.__.env.REACT_APP_COUNTRY == 'uk' ? null : (
-                  <p className="mb-0 sd_mb_country">
-                    {countryList.length &&
-                    countryList.filter(
-                      (el) => el.id === currentDeliveryAddress.countryId
-                    ).length
-                      ? countryList.filter(
-                          (el) => el.id === currentDeliveryAddress.countryId
-                        )[0].valueEn
-                      : currentDeliveryAddress.countryId}
-                    ,
-                  </p>
-                )}
-                {/* 地址 */}
-                {fieldKeyEnableStatus?.address1 &&
-                  currentDeliveryAddress?.address1 && (
-                    <p className="mb-0 sd_mb_address1">
-                      {currentDeliveryAddress?.address1}
-                    </p>
-                  )}
-                {fieldKeyEnableStatus?.address2 &&
-                  currentDeliveryAddress?.address2 && (
-                    <p className="mb-0 sd_mb_address2">
-                      {currentDeliveryAddress?.address2}
-                    </p>
-                  )}
-
-                <p className="mb-0 sd_mb_cpp">
-                  {/* 城市 */}
-                  {fieldKeyEnableStatus?.city &&
-                    currentDeliveryAddress?.city + ', '}
-
-                  {/* 区域 */}
-                  {fieldKeyEnableStatus?.region &&
-                    currentDeliveryAddress.area + ', '}
-
-                  {/* 省份 / State */}
-                  {fieldKeyEnableStatus?.state &&
-                    currentDeliveryAddress?.province + ' '}
-
-                  {/* county */}
-                  {fieldKeyEnableStatus?.county &&
-                    currentDeliveryAddress?.county + ', '}
-
-                  {/* 国家 */}
-                  {window.__.env.REACT_APP_COUNTRY == 'uk' ? (
-                    <>
-                      {countryList.length &&
-                      countryList.filter(
-                        (el) => el.id === currentDeliveryAddress.countryId
-                      ).length
-                        ? countryList.filter(
-                            (el) => el.id === currentDeliveryAddress.countryId
-                          )[0].valueEn
-                        : currentDeliveryAddress.countryId}{' '}
-                    </>
-                  ) : null}
-
-                  {/* 邮编 */}
-                  {fieldKeyEnableStatus?.postCode &&
-                    currentDeliveryAddress?.postCode}
-                </p>
-
-                {maxDeliveryTime && minDeliveryTime && (
-                  <>
-                    {minDeliveryTime && (
-                      <>
-                        {minDeliveryTime == maxDeliveryTime ? (
-                          <FormattedMessage
-                            id="payment.deliveryDate2"
-                            values={{
-                              val: minDeliveryTime
-                            }}
-                          />
-                        ) : (
-                          <FormattedMessage
-                            id="payment.deliveryDate"
-                            values={{
-                              min: minDeliveryTime,
-                              max: maxDeliveryTime
-                            }}
-                          />
-                        )}
-                      </>
-                    )}
-                  </>
-                )}
-              </>
-            )}
+            <AddressPreview
+              data={Object.assign({}, currentDeliveryAddress, {
+                phone: currentDeliveryAddress?.consigneeNumber,
+                countryName:
+                  (countryList || []).filter(
+                    (el) => el.id === currentDeliveryAddress.countryId
+                  )[0]?.valueEn || currentDeliveryAddress.countryId,
+                maxDeliveryTime,
+                minDeliveryTime
+              })}
+            />
 
             {/* delivery date */}
             {/* {currentDeliveryAddress?.deliveryDate && (
@@ -296,93 +171,24 @@ const UserPaymentInfo = ({
               )}
             </div>
             <div className="ml-1">
-              {/* 姓名 */}
-              <p className="mb-0 sd_mb_name">
-                <span
-                  className="medium"
-                  style={{
-                    fontSize: '1.125rem',
-                    color: '#333',
-                    margin: '25px 0 .625rem'
-                  }}
-                >
-                  {currentBillingAddress.consigneeName}
-                </span>
-              </p>
-
-              {/* 电话 */}
-              {fieldKeyEnableStatus?.phoneNumber &&
-                currentBillingAddress?.consigneeNumber && (
-                  <p className="mb-0 sd_mb_tel">
-                    {currentBillingAddress.consigneeNumber}
-                  </p>
-                )}
-
-              {/* 国家 */}
-              {window.__.env.REACT_APP_COUNTRY == 'us' ||
-              window.__.env.REACT_APP_COUNTRY == 'ru' ||
-              window.__.env.REACT_APP_COUNTRY == 'uk' ? null : (
-                <p className="mb-0 sd_mb_country">
-                  {countryList.length &&
-                  countryList.filter(
-                    (el) => el.id === currentBillingAddress.countryId
-                  ).length
-                    ? countryList.filter(
-                        (el) => el.id === currentBillingAddress.countryId
-                      )[0].valueEn
-                    : currentBillingAddress.countryId}
-                  ,
-                </p>
-              )}
-
-              {/* 地址 */}
-              {fieldKeyEnableStatus?.address1 &&
-                currentBillingAddress?.address1 && (
-                  <p className="mb-0 sd_mb_address1">
-                    {currentBillingAddress?.address1}
-                  </p>
-                )}
-              {fieldKeyEnableStatus?.address2 &&
-                currentBillingAddress?.address2 && (
-                  <p className="mb-0 sd_mb_address2">
-                    {currentBillingAddress?.address2}
-                  </p>
-                )}
-              <p className="mb-0 sd_mb_cpp">
-                {/* 城市 */}
-                {fieldKeyEnableStatus?.city &&
-                  currentBillingAddress?.city + ', '}
-
-                {/* 区域 */}
-                {fieldKeyEnableStatus?.region &&
-                  currentBillingAddress.area + ', '}
-
-                {/* 省份 / State */}
-                {fieldKeyEnableStatus?.state &&
-                  currentBillingAddress?.province + ' '}
-
-                {/* county */}
-                {fieldKeyEnableStatus?.county &&
-                  currentBillingAddress?.county + ', '}
-
-                {/* 国家 */}
-                {window.__.env.REACT_APP_COUNTRY == 'uk' ? (
-                  <>
-                    {countryList.length &&
-                    countryList.filter(
+              <AddressPreview
+                nameCls="medium"
+                data={{
+                  name: currentBillingAddress.consigneeName,
+                  phone: currentBillingAddress?.consigneeNumber,
+                  countryName:
+                    (countryList || []).filter(
                       (el) => el.id === currentBillingAddress.countryId
-                    ).length
-                      ? countryList.filter(
-                          (el) => el.id === currentBillingAddress.countryId
-                        )[0].valueEn
-                      : currentBillingAddress.countryId}{' '}
-                  </>
-                ) : null}
-
-                {/* 邮编 */}
-                {fieldKeyEnableStatus?.postCode &&
-                  currentBillingAddress?.postCode}
-              </p>
+                    )[0]?.valueEn || currentBillingAddress.countryId,
+                  address1: currentBillingAddress?.address1,
+                  address2: currentBillingAddress?.address2,
+                  city: currentBillingAddress?.city,
+                  area: currentBillingAddress.area,
+                  province: currentBillingAddress.province,
+                  county: currentBillingAddress.county,
+                  postCode: currentBillingAddress.postCode
+                }}
+              />
             </div>
           </div>
         </div>

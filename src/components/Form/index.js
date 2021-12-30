@@ -881,7 +881,7 @@ class Form extends React.Component {
         regionList: []
       });
 
-      if (fieldKeyEnableStatus['region']) {
+      if (fieldKeyEnableStatus?.region) {
         this.getRegionDataByCityId(data.value);
       }
     } else if (key == 'region') {

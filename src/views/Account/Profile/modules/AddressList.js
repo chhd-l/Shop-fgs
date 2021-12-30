@@ -24,6 +24,7 @@ import AddressEditForm from '../ShippingAddressForm';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import HomeDeliveryOrPickUp from '@/components/HomeDeliveryOrPickUp';
 import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
+import AddressPreview from '@/components/AddressPreview';
 import './AddressList.less';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
@@ -31,13 +32,7 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 
 // 地址项
 function CardItem(props) {
-  const {
-    data,
-    // 获取本地存储的需要显示的地址字段
-    configStore: {
-      localAddressForm: { fieldKeyEnableStatus }
-    }
-  } = props;
+  const { data } = props;
 
   return (
     <div
@@ -57,70 +52,24 @@ function CardItem(props) {
         )}
       </div> */}
       <div className={`${isMobile ? 'mb-3' : 'col-6'} d-flex flex-wrap`}>
-        {props.receiveType == 'PICK_UP' ? (
-          <>
-            {/* 自提点 */}
-            <div className="rc-full-width font-weight-normal mb-1 mp_mb_pickupName">
-              {data.pickupName}
-            </div>
-            {/* 地址 */}
-            <div className="rc-full-width mb-0 mp_mb_address1">
-              {data.address1}
-            </div>
-            {/* 营业时间 */}
-            <div className="rc-full-width mb-0 mp_mb_workTime">
-              {data.workTime}
-            </div>
-          </>
-        ) : (
-          <>
-            {/* 姓名 */}
-            <div className="rc-full-width font-weight-normal ccard-phone-title word-break mb-1">
-              <div className="address-name mp_mb_name">
-                <span>{data.firstName + ' ' + data.lastName}</span>
-              </div>
-            </div>
-            {/* 电话 */}
-            <div className="rc-full-width mb-0 mp_mb_tel">
-              {data.consigneeNumber}
-            </div>
-            {/* 国家 */}
-            {window.__.env.REACT_APP_COUNTRY == 'us' ||
-            window.__.env.REACT_APP_COUNTRY == 'uk' ? null : (
-              <div className="rc-full-width mb-0 mp_mb_country">
-                {props.countryName}
-              </div>
-            )}
-            {/* 地址 */}
-            <div className="rc-full-width mb-0 mp_mb_address1">
-              {data.address1}
-            </div>
-
-            {fieldKeyEnableStatus['address2'] && data.address2 && (
-              <div className="rc-full-width mb-0 mp_mb_address2">
-                {data.address2}
-              </div>
-            )}
-
-            <div className="rc-full-width mb-0 mp_mb_cpp">
-              {/* 城市 */}
-              {fieldKeyEnableStatus['city'] ? data.city + ', ' : null}
-              {fieldKeyEnableStatus['region'] && data.area + ', '}
-              {/* 省份 */}
-              {fieldKeyEnableStatus['state'] && data.province + ' '}
-              {/* county */}
-              {fieldKeyEnableStatus['county'] && data?.county + ', '}
-
-              {/* 国家，uk显示在这个位置 */}
-              {window.__.env.REACT_APP_COUNTRY == 'uk'
-                ? props.countryName + ' '
-                : null}
-
-              {/* 邮编 */}
-              {fieldKeyEnableStatus['postCode'] && data.postCode}
-            </div>
-          </>
-        )}
+        <AddressPreview
+          nameCls="font-weight-normal word-break mb-1"
+          data={{
+            receiveType: props.receiveType,
+            pickupName: data.pickupName,
+            workTime: data.workTime,
+            name: [data.firstName, data.lastName].join(' '),
+            phone: data.consigneeNumber,
+            countryName: props.countryName,
+            address1: data.address1,
+            address2: data.address2,
+            city: data.city,
+            area: data.area,
+            province: data.province,
+            county: data.county,
+            postCode: data.postCode
+          }}
+        />
       </div>
       {props.operateBtnJSX}
     </div>
