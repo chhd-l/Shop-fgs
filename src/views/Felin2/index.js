@@ -233,7 +233,7 @@ class Felin extends React.Component {
             </div>
           </div>
           <div className="txt-centr" id="pcexperts">
-            <h2 className="rc-beta size18 font-500">
+            <h2 className="size18 font-500" style={{ color: '#e2001a' }}>
               Réservez une séance avec un expert de l'Atelier Félin
             </h2>
             <div className="problem" id="Voir-fqas">

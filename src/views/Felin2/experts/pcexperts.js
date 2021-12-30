@@ -572,8 +572,8 @@ class Pcexperts extends React.Component {
                 onClick={this.handleOneShow}
                 className="rc-btn rc-btn--one  rc-margin-bottom--xs"
                 style={{
-                  width: '13.875rem',
-                  fontSize: '0.75rem'
+                  width: '16.875rem',
+                  fontSize: '1rem'
                 }}
               >
                 Reserver un rendez-vous
@@ -669,8 +669,8 @@ class Pcexperts extends React.Component {
                 onClick={this.handleReturnOne}
                 className="rc-btn rc-btn--two"
                 style={{
-                  width: '13.875rem',
-                  fontSize: '0.75rem'
+                  width: '16.875rem',
+                  fontSize: '1rem'
                 }}
               >
                 Retour à l'étape précédente
@@ -683,8 +683,8 @@ class Pcexperts extends React.Component {
                 onClick={this.handleGotoThree}
                 className="rc-btn rc-btn--one  rc-margin-bottom--xs"
                 style={{
-                  width: '13.875rem',
-                  fontSize: '0.75rem'
+                  width: '16.875rem',
+                  fontSize: '1rem'
                 }}
               >
                 Continuer
@@ -780,8 +780,8 @@ class Pcexperts extends React.Component {
                 onClick={this.handleReturnTwo}
                 className="rc-btn rc-btn--two"
                 style={{
-                  width: '13.875rem',
-                  fontSize: '0.75rem'
+                  width: '16.875rem',
+                  fontSize: '1rem'
                 }}
               >
                 Retour à l'étape précédente
@@ -791,8 +791,8 @@ class Pcexperts extends React.Component {
                 onClick={this.handleGotoFour}
                 className="rc-btn rc-btn--one  rc-margin-bottom--xs"
                 style={{
-                  width: '13.875rem',
-                  fontSize: '0.75rem'
+                  width: '16.875rem',
+                  fontSize: '1rem'
                 }}
               >
                 Continuer
@@ -826,8 +826,8 @@ class Pcexperts extends React.Component {
                 onClick={this.handleReturnThree}
                 className="rc-btn rc-btn--two"
                 style={{
-                  width: '13.875rem',
-                  fontSize: '0.75rem'
+                  width: '16.875rem',
+                  fontSize: '1rem'
                 }}
               >
                 Retour à l'étape précédente
@@ -837,8 +837,8 @@ class Pcexperts extends React.Component {
                 onClick={this.handleGoto}
                 className="rc-btn rc-btn--one  rc-margin-bottom--xs"
                 style={{
-                  width: '13.875rem',
-                  fontSize: '0.75rem'
+                  width: '16.875rem',
+                  fontSize: '1rem'
                 }}
               >
                 Continuer
@@ -866,8 +866,8 @@ class Pcexperts extends React.Component {
                 btnClass={`rc-btn rc-btn--one  rc-margin-bottom--xs`}
                 intl={intl}
                 btnStyle={{
-                  width: '13.875rem',
-                  fontSize: '0.75rem'
+                  width: '16.875rem',
+                  fontSize: '1rem'
                 }}
               >
                 Connexion
@@ -903,8 +903,8 @@ class Pcexperts extends React.Component {
                 }}
                 className="rc-btn rc-btn--one  rc-margin-bottom--xs"
                 style={{
-                  width: '13.875rem',
-                  fontSize: '0.75rem'
+                  width: '16.875rem',
+                  fontSize: '1rem'
                 }}
               >
                 Créer un compte
@@ -914,8 +914,8 @@ class Pcexperts extends React.Component {
                 onClick={this.handleLogin}
                 className="rc-btn rc-btn--one  rc-margin-bottom--xs"
                 style={{
-                  width: '13.875rem',
-                  fontSize: '0.75rem'
+                  width: '16.875rem',
+                  fontSize: '1rem'
                 }}
               >
                 Continuer en tant qu'invité
