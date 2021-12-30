@@ -131,7 +131,7 @@ class PayProductInfo extends React.Component {
                     style={{ width: '77%' }}
                   >
                     <p className="mb-0">
-                      {details.orderType === 'FELINE_ORDER' ? (
+                      {details.appointmentNo ? (
                         item.specDetails
                       ) : (
                         <FormattedMessage

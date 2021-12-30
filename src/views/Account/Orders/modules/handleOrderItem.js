@@ -21,7 +21,7 @@ export function handleOrderItem(ele, res) {
       ele.payWay.toUpperCase() === 'OXXO',
     payNowLoading: false,
     canRePurchase:
-      ele.orderType !== 'FELINE_ORDER' &&
+      !ele.appointmentNo &&
       !ele.tradeItems?.find((el) => el.goodsInfoFlag === 3) &&
       (tradeState.flowState === 'COMPLETED' || tradeState.flowState === 'VOID'), // goodsInfoFlag=3是indv的商品，需要隐藏加入购物车这个按钮
     canReview:
@@ -30,18 +30,18 @@ export function handleOrderItem(ele, res) {
       tradeState.flowState === 'COMPLETED' &&
       !ele.storeEvaluateVO,
     canChangeAppoint:
-      ele.orderType === 'FELINE_ORDER' &&
+      ele.appointmentNo &&
       tradeState.flowState !== 'COMPLETED' &&
       tradeState.flowState !== 'VOID' &&
       tradeState.payState === 'PAID',
     canCancelAppoint:
-      ele.orderType === 'FELINE_ORDER' &&
+      ele.appointmentNo &&
       tradeState.flowState !== 'COMPLETED' &&
       tradeState.flowState !== 'VOID' &&
       tradeState.payState === 'PAID',
     cancelAppointLoading: false,
     canReviewService:
-      ele.orderType === 'FELINE_ORDER' &&
+      ele.appointmentNo &&
       tradeState.flowState === 'COMPLETED' &&
       !ele.storeEvaluateVO,
     canViewTrackInfo:

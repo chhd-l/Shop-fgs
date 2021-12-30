@@ -274,7 +274,7 @@ class AccountOrders extends React.Component {
   //判断是否是felin 订单
   get isFelinOrder() {
     const { details } = this.state;
-    return details.orderType === 'FELINE_ORDER';
+    return details?.appointmentNo;
   }
   init() {
     const { orderNumber, progressList } = this.state;
