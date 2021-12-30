@@ -1319,7 +1319,7 @@ class AddressList extends React.Component {
       if (window.__.env.REACT_APP_COUNTRY !== 'uk') {
         farr.unshift(country);
       }
-      if (fieldKeyEnableStatus['region']) {
+      if (fieldKeyEnableStatus?.region) {
         farr.push(data.area);
       }
     }
