@@ -123,6 +123,7 @@ class Footer extends React.Component {
   }
   get showHubFooter() {
     const { hubFooterInfo } = this.state;
+    console.log('showHubFooter', isHub && hubFooterInfo);
     return isHub && hubFooterInfo;
   }
   scrollToTop = () => {
