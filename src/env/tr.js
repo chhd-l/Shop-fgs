@@ -3,9 +3,6 @@ const env = {
     // #国家
     REACT_APP_COUNTRY: 'tr',
 
-    // 语言文件
-    REACT_APP_LANG_LOCALE: 'tr-TR',
-
     REACT_APP_CALENDAR_LOCALE: 'tr-TR',
 
     // #payu表单字段控制

@@ -3,9 +3,6 @@ const env = {
     // #国家
     REACT_APP_COUNTRY: 'se',
 
-    // 语言文件
-    REACT_APP_LANG_LOCALE: 'sv-SE',
-
     REACT_APP_CALENDAR_LOCALE: 'sv-SE',
 
     // #GA环境配置
