@@ -44,7 +44,7 @@ class Footer extends React.Component {
       })
         .then((res) => {
           this.setState({
-            hubFooterInfo: res.data,
+            hubFooterInfo: res.data?.LocalMarketSettings ? res.data : null,
             isInitdQueryHubFooter: true
           });
         })
@@ -123,7 +123,6 @@ class Footer extends React.Component {
   }
   get showHubFooter() {
     const { hubFooterInfo } = this.state;
-    console.log('showHubFooter', isHub && hubFooterInfo);
     return isHub && hubFooterInfo;
   }
   scrollToTop = () => {

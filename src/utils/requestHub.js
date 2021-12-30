@@ -31,6 +31,7 @@ service.interceptors.request.use((config) => {
 service.interceptors.response.use(
   (response) => {
     if (response.status === 200) {
+      console.log('response', response);
       return response.data;
     } else {
       return Promise.reject(response.data || 'Error');
