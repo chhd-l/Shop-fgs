@@ -19,7 +19,9 @@ const fetchDynamicConfig = async () => {
       const tmpCfg = res?.context?.context
         ? JSON.parse(decryptString(res?.context?.context))
         : {};
-      envVal = Object.assign(tmpCfg);
+      envVal = Object.assign(tmpCfg, {
+        REACT_APP_HUB: Boolean(res?.context?.enableHub)
+      });
 
       const oktaSettingConfig = res?.context?.oktaSettingConfig;
       if (oktaSettingConfig) {
@@ -42,7 +44,7 @@ const fetchDynamicConfig = async () => {
       sessionItemRoyal.set('base-config', JSON.stringify(envVal));
     }
     console.log('★★★★★★★★★ current shop configuration:', envVal);
-    if (envVal?.REACT_APP_HUB === '1') {
+    if (envVal?.REACT_APP_HUB) {
       console.warn('当前配置为HUB mode，请勿使用fgs mode.');
     }
     // 本地开发环境，需要额外加载本地ENV_LOCAL

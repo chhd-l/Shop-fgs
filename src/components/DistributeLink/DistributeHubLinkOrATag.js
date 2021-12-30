@@ -14,7 +14,7 @@ const DistributeHubLinkOrATag = ({
   target = '_self',
   ...rest
 }) => {
-  return +window.__.env.REACT_APP_HUB ? (
+  return window.__.env.REACT_APP_HUB ? (
     <a
       href={`${window.__.env.REACT_APP_HUB_URLPREFIX}${href}`}
       className={className}

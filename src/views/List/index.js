@@ -49,7 +49,7 @@ import './index.less';
 import pfRecoImg from '@/assets/images/product-finder-recomend.jpg';
 
 const Exception = loadable(() => import('@/views/StaticPage/Exception'));
-const isHub = window.__.env.REACT_APP_HUB == '1';
+const isHub = window.__.env.REACT_APP_HUB;
 const isMobilePhone = getDeviceType() === 'H5';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;

@@ -239,13 +239,8 @@ class Register extends Component {
     const deIllegalSymbol = symbolReg1.test(value) || symbolReg2.test(value);
     switch (name) {
       case 'password':
-        const {
-          ruleLength,
-          ruleLower,
-          ruleUpper,
-          ruleAname,
-          ruleSpecial
-        } = this.state;
+        const { ruleLength, ruleLower, ruleUpper, ruleAname, ruleSpecial } =
+          this.state;
         const passwordValid =
           ruleLength && ruleLower && ruleUpper && ruleAname && ruleSpecial;
         this.setState({
@@ -294,7 +289,8 @@ class Register extends Component {
       var lowerReg = /[a-z]+/;
       var upperReg = /[A-Z]+/;
       var nameReg = /[\d]+/;
-      var specialReg = /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
+      var specialReg =
+        /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
       this.setState(
         {
           ruleLength: value.length >= 8,
@@ -554,7 +550,7 @@ class Register extends Component {
       list.filter((x) => x.isChecked && x.isRequired).length ===
       requiredConsentCount;
     const registerDisabled = !(allValid && requireCheckd);
-    const isHub = window.__.env.REACT_APP_HUB == '1';
+    const isHub = window.__.env.REACT_APP_HUB;
     const isTr = window.__.env.REACT_APP_COUNTRY === 'tr'; //因为土耳其welcome to royal canin的翻译，需要对welcome to royal canin特殊化处理
     let homePage = window.__.env.REACT_APP_HOMEPAGE;
     const contactUrl =

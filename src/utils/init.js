@@ -28,7 +28,7 @@ if (window.__.env.REACT_APP_COUNTRY === 'ru') {
   document.getElementsByTagName('head')[0].appendChild(linkTag);
 }
 
-if (window.__.env.REACT_APP_HUB === '1') {
+if (window.__.env.REACT_APP_HUB) {
   let dom = document.querySelector('#root');
   dom.className += ' ui-custom-hub';
 }

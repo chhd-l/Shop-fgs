@@ -133,7 +133,7 @@ const LogoutButton = (props) => {
     );
   };
 
-  return +window.__.env.REACT_APP_HUB
+  return window.__.env.REACT_APP_HUB
     ? hubLogoutBtnJSX()
     : defaultLogoutBtnJSX();
 };

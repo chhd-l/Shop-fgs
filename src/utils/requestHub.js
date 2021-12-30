@@ -27,4 +27,21 @@ service.interceptors.request.use((config) => {
   return config;
 });
 
+// response interceptor
+service.interceptors.response.use(
+  (response) => {
+    if (
+      response.status === 200 &&
+      response.headers['content-type'].includes('application/json')
+    ) {
+      return response.data;
+    } else {
+      return Promise.reject(response.data || 'Error');
+    }
+  },
+  (err) => {
+    return Promise.reject(err);
+  }
+);
+
 export default service;

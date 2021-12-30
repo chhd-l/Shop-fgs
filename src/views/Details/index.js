@@ -78,7 +78,7 @@ const localItemRoyal = window.__.localItemRoyal;
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const PC = getDeviceType() === 'PC' || getDeviceType() === 'Pad';
-const isHub = window.__.env.REACT_APP_HUB == '1';
+const isHub = window.__.env.REACT_APP_HUB;
 const Fr = window.__.env.REACT_APP_COUNTRY === 'fr';
 const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
 const Tr = window.__.env.REACT_APP_COUNTRY === 'tr';
@@ -655,7 +655,7 @@ class Details extends React.Component {
               // 不可销售，并且展示在前台的商品，获取envCode,去请求cc.js
               const { goods, goodsInfos } = res.context;
               const notSaleGoods =
-                window.__.env.REACT_APP_HUB === '1' &&
+                window.__.env.REACT_APP_HUB &&
                 !goods.saleableFlag &&
                 goods.displayFlag;
               const goodsInfoBarcode = goodsInfos?.[0]?.goodsInfoBarcode;
@@ -1190,7 +1190,7 @@ class Details extends React.Component {
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     const vet =
-      (window.__.env.REACT_APP_HUB === '1' || Uk) &&
+      (window.__.env.REACT_APP_HUB || Uk) &&
       !details.saleableFlag &&
       details.displayFlag; //vet产品并且是hub的情况下,(uk不管stg还是wedding都用这个逻辑)
     console.log(
@@ -1560,7 +1560,7 @@ class Details extends React.Component {
               )}
 
             <div className="split-line rc-bg-colour--brand4" />
-            {window.__.env.REACT_APP_HUB === '1' && goodsType !== 3 ? (
+            {window.__.env.REACT_APP_HUB && goodsType !== 3 ? (
               <AdvantageTips />
             ) : null}
             {/* 电话邮箱联系板块 */}
