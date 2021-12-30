@@ -155,11 +155,6 @@ const env = {
     // #HUB_GA
     REACT_APP_HUB_GA: '1',
 
-    // #根节点自定义样式名
-    REACT_APP_ROOT_CLS: 'ui-custom-hub',
-
-    REACT_APP_HUB: '1',
-
     // #delete接口前缀
     REACT_APP_HUB_APIURL: 'https://www.royalcanin.com/se/api',
 
@@ -177,8 +172,6 @@ const env = {
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/se/shop',
-
-    REACT_APP_HUB: '1',
 
     // #delete接口前缀
     REACT_APP_HUB_APIURL: 'https://stgwedding.royalcanin.com/se/api',
@@ -200,8 +193,6 @@ const env = {
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/se/shop',
-
-    REACT_APP_HUB: '1',
 
     // #delete接口前缀
     REACT_APP_HUB_APIURL: 'https://uatwedding.royalcanin.com/se/api',

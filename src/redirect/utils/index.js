@@ -6,20 +6,14 @@ import tempHubFrRedirect from '../fr/temp_hub';
 
 let New_RedirectUrlJSON_fr = { ...RedirectUrlJSON_fr };
 
-if (
-  window.__.env.REACT_APP_COUNTRY == 'fr' &&
-  window.__.env.REACT_APP_HUB != 1
-) {
+if (window.__.env.REACT_APP_COUNTRY == 'fr' && !window.__.env.REACT_APP_HUB) {
   //说明是法国fgs环境,加上fgs环境需要加上的跳转链接
   for (let item of fgsJSON_fr.RECORDS) {
     New_RedirectUrlJSON_fr.RECORDS.push(item);
   }
 }
 
-if (
-  window.__.env.REACT_APP_COUNTRY == 'fr' &&
-  window.__.env.REACT_APP_HUB == 1
-) {
+if (window.__.env.REACT_APP_COUNTRY == 'fr' && window.__.env.REACT_APP_HUB) {
   // cancel redirection, instead of canonical tag
   //说明是法国hub环境,加上hub环境需要加上的跳转链接
   // for (let item of tempHubFrRedirect.RECORDS) {

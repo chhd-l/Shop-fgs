@@ -212,7 +212,7 @@ class Header extends React.Component {
     //         }[this.props.match && this.props.match.path] || ''
     // });
 
-    (+window.__.env.REACT_APP_HUB
+    (window.__.env.REACT_APP_HUB
       ? this.initNavigationsForHub
       : this.initNavigations)();
   }
@@ -563,7 +563,7 @@ class Header extends React.Component {
             (!window.__.env.REACT_APP_HUB || isMobile) && !this.props.notScroll
           }
         >
-          {!!+window.__.env.REACT_APP_HUB ? (
+          {window.__.env.REACT_APP_HUB ? (
             <div className="rc-language-banner rc-bg-colour--brand4 rc-lg-up">
               <div className="rc-layout-container rc-one-column rc-max-width--xxl rc-text--right pt-0">
                 <div className="rc-column p-0">
@@ -605,7 +605,7 @@ class Header extends React.Component {
             >
               {showMiniIcons ? (
                 <li className="rc-list__item">
-                  {!!+window.__.env.REACT_APP_HUB ? (
+                  {window.__.env.REACT_APP_HUB ? (
                     <MegaMenuMobileForHub
                       menuData={headerNavigationListForHub}
                       handleClickNavItem={this.handleClickNavItem}
@@ -646,7 +646,7 @@ class Header extends React.Component {
               <li className="rc-list__item d-flex align-items-center">
                 {showMiniIcons ? (
                   <>
-                    {!!+window.__.env.REACT_APP_HUB && isMobile ? (
+                    {window.__.env.REACT_APP_HUB && isMobile ? (
                       <span
                         className="iconfont icon-search mr-2 icon-search-mini"
                         onClick={this.toggleSearchIcon}
@@ -683,13 +683,13 @@ class Header extends React.Component {
             </ul>
           </nav>
           {/* 向下滑动页面时，才会出现搜索条 */}
-          {showMiniIcons && !!+window.__.env.REACT_APP_HUB && isMobile && (
+          {showMiniIcons && window.__.env.REACT_APP_HUB && isMobile && (
             <nav className="bg-white nav-search pl-3 pr-3 pb-2 search-full-input-container">
               <Search history={history} />
             </nav>
           )}
 
-          {+window.__.env.REACT_APP_HUB ? (
+          {window.__.env.REACT_APP_HUB ? (
             <DropDownMenuForHub
               activeTopParentId={this.state.activeTopParentId}
               updateActiveTopParentId={this.updateActiveTopParentId}

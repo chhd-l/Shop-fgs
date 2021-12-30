@@ -74,8 +74,6 @@ const env = {
     // #GA环境配置
     REACT_APP_GA_ENV: 'dev',
 
-    REACT_APP_HUB: 0,
-
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/ru'
   },
@@ -195,8 +193,6 @@ const env = {
 
     REACT_APP_HUB_URLPREFIX: 'https://www.royalcanin.com/ru',
 
-    REACT_APP_HUB: '1',
-
     // #删除账户
     REACT_APP_DELETE_My_ACCOUNT_URL:
       'https://account.royalcanin.com/ru-ru/manager/settings',
@@ -234,8 +230,6 @@ const env = {
     // #delete接口前缀
     REACT_APP_HUB_APIURL: 'https://stgwedding.royalcanin.com/ru/api',
 
-    REACT_APP_HUB: '1',
-
     // #删除账户
     REACT_APP_DELETE_My_ACCOUNT_URL:
       'https://prd-weu1-rc-df-myaccount-app-webapp-stg.cloud-effem.com/ru-ru/manager/settings',
@@ -272,8 +266,6 @@ const env = {
 
     // #delete接口前缀
     REACT_APP_HUB_APIURL: 'https://uatwedding.royalcanin.com/ru/api',
-
-    REACT_APP_HUB: '1',
 
     // #删除账户
     REACT_APP_DELETE_My_ACCOUNT_URL:

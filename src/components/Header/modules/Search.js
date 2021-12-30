@@ -16,7 +16,7 @@ import {
   GAInstantSearchResultClick
 } from '@/utils/GA.js';
 
-const isHub = window.__.env.REACT_APP_HUB === '1';
+const isHub = window.__.env.REACT_APP_HUB;
 let sessionItemRoyal = window.__.sessionItemRoyal;
 export default class Search extends React.Component {
   static defaultProps = {
@@ -374,7 +374,7 @@ export default class Search extends React.Component {
     return (
       <div className="inlineblock w-100">
         {loading ? <Loading /> : null}
-        {+window.__.env.REACT_APP_HUB ? (
+        {isHub ? (
           <>
             <div className="search-contaner">
               <form

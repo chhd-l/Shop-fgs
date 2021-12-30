@@ -198,7 +198,7 @@ const UserJSX = (props) => {
     </>
   );
 
-  return +window.__.env.REACT_APP_HUB ? (
+  return window.__.env.REACT_APP_HUB ? (
     //clientWidth用于兼容 ipad pro展示
     !isMobile || clientWidth > 769 ? (
       // <li onMouseOver={self.handleMouseOver} onMouseOut={self.handleMouseOut} onClick={self.loginIcon}>

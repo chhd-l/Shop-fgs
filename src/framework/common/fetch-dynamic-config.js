@@ -19,7 +19,9 @@ const fetchDynamicConfig = async () => {
       const tmpCfg = res?.context?.context
         ? JSON.parse(decryptString(res?.context?.context))
         : {};
-      envVal = Object.assign(tmpCfg);
+      envVal = Object.assign(tmpCfg, {
+        REACT_APP_HUB: Boolean(res?.context?.enableHub)
+      });
 
       const oktaSettingConfig = res?.context?.oktaSettingConfig;
       if (oktaSettingConfig) {

@@ -613,7 +613,7 @@ class Home extends React.Component {
               <HeroCarousel history={history} />
             </div>
           </div>
-          {window.__.env.REACT_APP_HUB == 1 ? (
+          {window.__.env.REACT_APP_HUB ? (
             <HubSalesCategory rule={salesCategoryFilterRule} />
           ) : (
             <SalesCategory />

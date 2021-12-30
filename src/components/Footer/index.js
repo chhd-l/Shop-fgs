@@ -10,7 +10,7 @@ import cn from 'classnames';
 import { FooterWrapper } from './style';
 
 const localItemRoyal = window.__.localItemRoyal;
-const isHub = +window.__.env.REACT_APP_HUB;
+const isHub = window.__.env.REACT_APP_HUB;
 
 /**
  * footer控制

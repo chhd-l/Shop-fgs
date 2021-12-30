@@ -387,9 +387,10 @@ const App = () => {
                   render={(props) => {
                     if (Boolean(sessionItemRoyal.get('refresh-confirm-page'))) {
                       sessionItemRoyal.remove('refresh-confirm-page');
-                      if(+window.__.env.REACT_APP_HUB){
-                        window.location.href=window.__.env.REACT_APP_HUB_URLPREFIX;
-                      }else{
+                      if (window.__.env.REACT_APP_HUB) {
+                        window.location.href =
+                          window.__.env.REACT_APP_HUB_URLPREFIX;
+                      } else {
                         return <Redirect to={{ pathname: '/' }} {...props} />;
                       }
                     } else {

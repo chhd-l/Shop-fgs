@@ -167,8 +167,6 @@ const env = {
     // #delete接口前缀
     REACT_APP_HUB_APIURL: 'https://stgwedding.royalcanin.com/ca/api',
 
-    REACT_APP_HUB: '1',
-
     // #HUB_GA
     REACT_APP_HUB_GA: '1'
   },
@@ -196,8 +194,6 @@ const env = {
 
     // #delete接口前缀
     REACT_APP_HUB_APIURL: 'https://uatwedding.royalcanin.com/ca/api',
-
-    REACT_APP_HUB: '1',
 
     // #HUB_GA
     REACT_APP_HUB_GA: '1'
