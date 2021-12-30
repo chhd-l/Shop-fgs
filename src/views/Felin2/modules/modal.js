@@ -36,7 +36,7 @@ class MyModal extends React.Component {
             <br />
             <br />
             Horaires d’ouverture :<br />
-            Mardi - Dimanche, 10h - 18h
+            Mardi - Dimanche, 10h - 20h
           </div>
           <div className="img-link">
             <div className="img1" onClick={() => this.handleTo(1)} />
