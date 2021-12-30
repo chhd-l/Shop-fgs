@@ -46,27 +46,27 @@ export default class Survey extends React.Component {
       <div>
         <Header {...this.props} showMiniIcons={false} showUserIcon={false} />
         <div style={{ height: 650, marginTop: 150 }}>
-          <iframe
+          {/* <iframe
             src={surveyUrl}
             frameBorder="0"
             style={{ width: '100%', height: 650 }}
-          ></iframe>
+          ></iframe> */}
         </div>
         <Footer />
       </div>
     );
   }
 
-  // componentDidMount() {
-  //   loadJS({
-  //     code: `(function(h,o,t,j,a,r){
-  //       h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-  //       h._hjSettings={hjid:2718868,hjsv:6};
-  //       a=o.getElementsByTagName('head')[0];
-  //       r=o.createElement('script');r.async=1;
-  //       r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-  //       a.appendChild(r);
-  //     })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');`
-  //   });
-  // }
+  componentDidMount() {
+    loadJS({
+      code: `(function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:2764827,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+      })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');`
+    });
+  }
 }
