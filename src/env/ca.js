@@ -3,9 +3,6 @@ const env = {
     // #国家
     REACT_APP_COUNTRY: 'ca',
 
-    // 语言文件
-    REACT_APP_LANG_LOCALE: 'en-US',
-
     REACT_APP_CALENDAR_LOCALE: 'en-US',
 
     // #接口配置
