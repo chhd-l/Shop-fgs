@@ -6,7 +6,7 @@ import {
   handleFelinAppointTime,
   formatDate
 } from '@/utils/utils';
-import AddressPreview from '@/components/AddressPreview';
+import { AddressPreview } from '@/components/Address';
 import cn from 'classnames';
 
 @injectIntl

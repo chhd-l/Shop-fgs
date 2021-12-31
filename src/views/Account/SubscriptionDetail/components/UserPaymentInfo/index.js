@@ -7,7 +7,7 @@ import getCardImg from '@/lib/get-card-img';
 import paymentIcon from '../../images/payment.png';
 import { getDictionary, isCanVerifyBlacklistPostCode } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
-import AddressPreview from '@/components/AddressPreview';
+import { AddressPreview } from '@/components/Address';
 
 const UserPaymentInfo = ({
   currentCardInfo,

@@ -44,7 +44,7 @@ import getCardImg from '@/lib/get-card-img';
 import { getWays } from '@/api/payment';
 import { handleOrderItem } from '../Orders/modules/handleOrderItem';
 import paypalLogo from '@/assets/images/paypal-logo.svg';
-import AddressPreview from '@/components/AddressPreview';
+import { AddressPreview } from '@/components/Address';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;

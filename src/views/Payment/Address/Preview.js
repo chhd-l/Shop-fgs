@@ -1,7 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { matchNamefromDict, getDictionary, formatDate } from '@/utils/utils';
-import AddressPreview from '@/components/AddressPreview';
+import { AddressPreview } from '@/components/Address';
 import cn from 'classnames';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;

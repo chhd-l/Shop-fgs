@@ -24,7 +24,7 @@ import AddressEditForm from '../ShippingAddressForm';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import HomeDeliveryOrPickUp from '@/components/HomeDeliveryOrPickUp';
 import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
-import AddressPreview from '@/components/AddressPreview';
+import { AddressPreview } from '@/components/Address';
 import './AddressList.less';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';

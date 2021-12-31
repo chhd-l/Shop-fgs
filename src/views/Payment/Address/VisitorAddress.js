@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
-import EditForm from '@/components/Form';
+import { AddressForm } from '@/components/Address';
 import HomeDeliveryOrPickUp from '@/components/HomeDeliveryOrPickUp';
 import { validData } from '@/utils/utils';
 import { getAddressBykeyWord, getDeliveryDateAndTimeSlot } from '@/api/address';
@@ -81,9 +81,8 @@ class VisitorAddress extends React.Component {
       selectVisitorValidationOption: 'suggestedAddress',
       visitorBtnLoading: false
     };
-    this.confirmVisitorValidationAddress = this.confirmVisitorValidationAddress.bind(
-      this
-    );
+    this.confirmVisitorValidationAddress =
+      this.confirmVisitorValidationAddress.bind(this);
   }
   componentDidMount() {
     this.validData({
@@ -353,11 +352,8 @@ class VisitorAddress extends React.Component {
   };
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmVisitorValidationAddress() {
-    const {
-      form,
-      selectVisitorValidationOption,
-      validationAddress
-    } = this.state;
+    const { form, selectVisitorValidationOption, validationAddress } =
+      this.state;
     let oldForm = JSON.parse(JSON.stringify(form));
     this.setState({
       visitorBtnLoading: true
@@ -614,7 +610,7 @@ class VisitorAddress extends React.Component {
     // console.log(234, form);
 
     const _editForm = (
-      <EditForm
+      <AddressForm
         type="delivery"
         initData={form}
         isLogin={false}

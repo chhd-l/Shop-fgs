@@ -16,11 +16,11 @@ import {
   getDeviceType,
   isCanVerifyBlacklistPostCode
 } from '@/utils/utils';
-import EditForm from '@/components/Form';
+import { AddressForm } from '@/components/Address';
 import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
 import HomeDeliveryOrPickUp from '@/components/HomeDeliveryOrPickUp';
-import AddressPreview from '@/components/AddressPreview';
+import { AddressPreview } from '@/components/Address';
 import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -1513,7 +1513,7 @@ class AddressList extends React.Component {
                       ? this.addressTypePanel('edit')
                       : null}
                     <div className="p-2">
-                      <EditForm
+                      <AddressForm
                         key={deliveryAddress?.isDefalt}
                         initData={deliveryAddress}
                         type={this.props.type}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { inject, observer } from 'mobx-react';
 import cn from 'classnames';
 import { formatMoney } from '@/utils/utils';
@@ -42,30 +42,51 @@ const AddressPreview = ({ configStore, data, nameCls, pickupNameCls }) => {
     buyerRemark
   } = data;
 
-  const tmpArr2 = [];
-  settings
-    .filter(
-      (ele) =>
-        fieldKeyEnableStatus[ele.fieldKey] &&
-        ['city', 'region', 'state', 'county', 'country', 'postCode'].includes(
-          ele.fieldKey
-        )
-    )
-    .sort((a, b) => a.sequence - b.sequence)
-    .forEach((item) => {
-      const tmpMap = {
-        city: city,
-        region: area,
-        state: province,
-        county: county,
-        country: countryName,
-        postCode: postCode
-      };
-      if (tmpMap[item.fieldKey]) {
-        tmpArr2.push({ fieldKey: item.fieldKey, value: tmpMap[item.fieldKey] });
-      }
-    });
-  // 把他们对应的值，按照这个顺序，join
+  /**
+   * 根据接口字段设置，进行排序/过滤，然后显示到页面
+   * @param {*} list 需要排序的列表
+   * @returns 排序后的列表
+   */
+  const handleSortAndFilter = (list) => {
+    const ret = list
+      .sort((a, b) => {
+        const targetA = settings.find((ele) => ele.fieldKey === a.fieldKey);
+        const targetB = settings.find((ele) => ele.fieldKey === b.fieldKey);
+        return targetA?.sequence - targetB?.sequence;
+      })
+      .filter(
+        (ele) =>
+          !ele.fieldKey || (fieldKeyEnableStatus[ele.fieldKey] && ele.value)
+      );
+    return ret;
+  };
+
+  const arrangedList = useMemo(() => {
+    const tmpList = [
+      {
+        fieldKey: 'city',
+        value: city
+      },
+      {
+        fieldKey: 'region',
+        value: area
+      },
+      {
+        fieldKey: 'state',
+        value: province
+      },
+      {
+        fieldKey: 'county',
+        value: county
+      },
+      {
+        fieldKey: 'postCode',
+        value: postCode
+      },
+      { fieldKey: 'country', value: countryName }
+    ];
+    return handleSortAndFilter(tmpList);
+  });
 
   return (
     <DivWrapper>
@@ -165,13 +186,13 @@ const AddressPreview = ({ configStore, data, nameCls, pickupNameCls }) => {
               {fieldKeyEnableStatus['address2'] && address2 ? (
                 <p>{address2}</p>
               ) : null}
-              {tmpArr2.length ? (
+              {arrangedList.length ? (
                 <p
                   className={cn(
-                    `preview_${tmpArr2.map((t) => t.fieldKey).join('|')}`
+                    `preview_${arrangedList.map((t) => t.fieldKey).join('|')}`
                   )}
                 >
-                  {tmpArr2.map((t) => t.value).join(', ')}
+                  {arrangedList.map((t) => t.value).join(', ')}
                 </p>
               ) : null}
               {phone ? <p>{phone}</p> : null}

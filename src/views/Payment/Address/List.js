@@ -28,7 +28,7 @@ import {
 } from '@/utils/utils';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
-import EditForm from '@/components/Form';
+import { AddressForm } from '@/components/Address';
 import HomeDeliveryOrPickUp from '@/components/HomeDeliveryOrPickUp';
 import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
@@ -2194,7 +2194,7 @@ class AddressList extends React.Component {
         }`}
       >
         {addOrEdit && (
-          <EditForm
+          <AddressForm
             key={deliveryAddress}
             ref={this.editFormRef}
             type={this.props.type}

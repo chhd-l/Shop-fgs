@@ -3,7 +3,7 @@ import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import Skeleton from 'react-skeleton-loader';
 // import CitySearchSelection from '@/components/CitySearchSelection';
 import ValidationAddressModal from '@/components/validationAddressModal';
-import EditForm from '@/components/Form';
+import { AddressForm } from '@/components/Address';
 import Loading from '@/components/Loading';
 import './index.less';
 import {
@@ -480,7 +480,7 @@ class ShippingAddressFrom extends React.Component {
                 )} */}
 
                 <div>
-                  <EditForm
+                  <AddressForm
                     key={addressForm}
                     initData={addressForm}
                     isLogin={true}
