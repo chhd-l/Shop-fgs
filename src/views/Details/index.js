@@ -1146,7 +1146,7 @@ class Details extends React.Component {
       defaultBreed &&
       breedAttr
         ?.filter((item) => item !== ('Cat_Cat' || 'Dog_Dog'))?.[0]
-        .split('_')?.[0];
+        ?.split('_')?.[0];
 
     return (
       <DailyPortion
