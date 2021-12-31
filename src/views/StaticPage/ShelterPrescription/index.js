@@ -81,6 +81,7 @@ class ShelterPrescription extends React.Component {
 
     const clinicId = funcUrl({ name: 'shelterID' });
     clinicStore.setLinkClinicId(clinicId);
+    sessionItemRoyal.set('BreedOrShelterId', clinicId);
     clinicStore.setLinkClinicName('');
     clinicStore.setAuditAuthority(false);
   }
