@@ -448,22 +448,7 @@ export default function DailyPortion(
 
   useEffect(() =>{
     if (!speciesValue) return;
-
-    getBreedOptions(speciesValue).then(() => {
-      if (Array.isArray(breedOptions) && breedOptions.length > 0 && initBreedValue){
-        const value = breedOptions.find((item) => item.breedCode === initBreedValue)
-        if (value){
-          setPreselected(true);
-          setBreedData({
-            key: value.breedCode,
-            name: value.localName,
-          } )
-        }else {
-          setBreedData({});
-          setPreselected(false);
-        }
-      }
-    });
+    getBreedOptions(speciesValue);
   }, [speciesValue, initBreedValue])
 
   const showQuestion = () => {
@@ -754,8 +739,26 @@ export default function DailyPortion(
 
     if(res.code === 'K-000000'){
       setBreedOptions(res.context.breeds ?? [])
+      handleInitBreedDisabled(res.context.breeds ?? [])
     }else {
       setBreedOptions([])
+    }
+  }
+
+  const handleInitBreedDisabled = (breeds) => {
+    if (Array.isArray(breeds) && breeds.length > 0 && initBreedValue) {
+      // const value = breeds.find((item) => item.breedCode === initBreedValue)
+      const value = breeds.find((item) => item.name === initBreedValue)
+      if (value) {
+        setPreselected(true);
+        setBreedData({
+          key: value.breedCode,
+          name: value.localName,
+        })
+      } else {
+        setBreedData({});
+        setPreselected(false);
+      }
     }
   }
 
