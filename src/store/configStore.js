@@ -34,7 +34,9 @@ class ConfigStore {
 
   // 需要显示的 address form 地址字段
   @computed get localAddressForm() {
-    return this.info?.localAddressForm || addressFormNull;
+    return (
+      this.info?.localAddressForm || { settings: [], fieldKeyEnableStatus: {} }
+    );
   }
 
   // 1-会员，2-会员和游客
