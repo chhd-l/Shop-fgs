@@ -1685,8 +1685,8 @@ class AccountOrders extends React.Component {
                             </div>
                           </div>
 
-                          {/*felin订单? appointmentInfo :地址/支付信息 */}
-                          {!this.isFelinOrder && details.consignee ? (
+                          {/*felin订单? appointmentInfo :地址/支付信息   !this.isFelinOrder(不是felin订单) */}
+                          {details.consignee ? (
                             <div className="ml-2 mr-2 md:mr-0 md:ml-0">
                               <p className="mt-4 mb-3 red text-left">
                                 <FormattedMessage id="transactionInfomation" />
