@@ -526,6 +526,7 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
+    sessionItemRoyal.remove('refresh-confirm-page');
     if (funcUrl({ name: 'couponCode' })) {
       localItemRoyal.set('rc-couponCode', funcUrl({ name: 'couponCode' }));
     }
