@@ -44,7 +44,7 @@ class Footer extends React.Component {
       })
         .then((res) => {
           this.setState({
-            hubFooterInfo: res.data,
+            hubFooterInfo: res,
             isInitdQueryHubFooter: true
           });
         })

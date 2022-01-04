@@ -283,11 +283,8 @@ class Header extends React.Component {
         api: getNavigation
       });
       // const res = await queryNavigation();
-      const contactPhone = res && res.data && res.data.ContactPhone;
-      let headerNavigationListForHub = (
-        (res && res.data && res.data.MenuGroups) ||
-        []
-      ).map((ele, i) => {
+      const contactPhone = res?.ContactPhone;
+      let headerNavigationListForHub = (res?.MenuGroups || []).map((ele, i) => {
         ele.MenuItems = (ele.MenuItems || []).map((cEle, j) => {
           if (cEle.Icon === 'contact' && contactPhone) {
             cEle.contactPhone = contactPhone;
