@@ -174,7 +174,8 @@ class Felin extends React.Component {
                 onClick={this.gotoAddPc}
                 className="rc-btn rc-btn--one  rc-margin-bottom--xs pc-block"
                 style={{
-                  width: '16.875rem'
+                  width: '16.875rem',
+                  fontSize: '0.875rem'
                 }}
               >
                 Reserver un rendez-vous

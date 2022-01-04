@@ -456,10 +456,11 @@ class Pcexperts extends React.Component {
               type: 'primary',
               disabled: true
             });
+
             if (_resources.length === 0) {
               _resources.push(_temp);
             } else {
-              _resources.map((item) => {
+              _resources.forEach((item) => {
                 if (item.date === _temp.date) {
                   let isLoop = false;
                   item.minuteSlotVOList = item.minuteSlotVOList.map(
@@ -479,12 +480,11 @@ class Pcexperts extends React.Component {
                       _temp.minuteSlotVOList
                     );
                   }
-                } else {
-                  _resources.push(_temp);
                 }
               });
             }
           }
+          console.log(_resources, '_resources');
           reslove(_resources);
         }
       });
@@ -551,7 +551,7 @@ class Pcexperts extends React.Component {
         {/* 默认页面 */}
         {this.state.isShow ? (
           <div>
-            <div className="size18 txt-centr font-500">
+            <div className="size16 txt-centr font-500">
               Réservez un rendez-vous avec un de nos experts
             </div>
             <div className="cat-ul">
