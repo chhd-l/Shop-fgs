@@ -123,6 +123,7 @@ class Confirmation extends React.Component {
     return this.props.loginStore.userInfo;
   }
   async componentDidMount() {
+    sessionItemRoyal.set('refresh-confirm-page', true);
     const GA_product = localItemRoyal.get('rc-ga-product');
     dataLayer.push(GA_product);
 
