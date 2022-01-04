@@ -477,8 +477,6 @@ class Hcexperts extends React.Component {
                       _temp.minuteSlotVOList
                     );
                   }
-                } else {
-                  _resources.push(_temp);
                 }
               });
             }
