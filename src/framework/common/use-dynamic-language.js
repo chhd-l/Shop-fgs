@@ -12,6 +12,7 @@ const useDynamicLanguage = () => {
         const lang = await getDynamicLanguage();
         setDynamicLanguage(lang);
       } catch (err) {
+        console.log(88888);
         console.log('phrase langugage fetch error', err);
       } finally {
         setLoading(false);

@@ -38,8 +38,10 @@ async function getDynamicLanguage() {
   const key = '111' || window.__.env.REACT_APP_LANG_LOCALE || 'en-US';
   const sessionItemRoyal = window.__.sessionItemRoyal;
   const phraseSession = sessionItemRoyal.get('PHRASE_LANGUAGE');
+  console.log(1111);
   let phraseRet = {};
   if (phraseSession) {
+    console.log(2222);
     phraseRet = JSON.parse(phraseSession);
   } else {
     const url = `https://api.phrase.com/v2/projects/8f0d7f6b0396b8af7f08bf9f36d81259/locales/${key}/download?access_token=31950e3e49b165b8b2c604b65574e6cf279d9ea395e3718ce52b1ec335bef6e5&include_empty_translations=true&file_format=node_json`;
@@ -54,10 +56,14 @@ async function getDynamicLanguage() {
     });
     try {
       const res = await resJson.json();
+      console.log(3333);
       sessionItemRoyal.set('PHRASE_LANGUAGE', JSON.stringify(res));
       phraseRet = res;
     } catch (err) {
+      console.log(4444);
       console.log('phrase langugage fetch error', err);
+    } finally {
+      console.log(5555);
     }
   }
 
