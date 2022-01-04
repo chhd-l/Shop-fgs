@@ -1,6 +1,5 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import { formatMoney } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 
 import pack from '@/assets/images/home/pack@2x.png';
@@ -13,53 +12,27 @@ export function Advantage() {
     {
       imgUrl: pack,
       imgAlt: 'pack icon',
-      text: <FormattedMessage id="home.convenientTip1" />
+      text: <FormattedMessage id="home.whyShopRoyalCanin.findDiet" />
+    },
+    {
+      imgUrl: autoship,
+      imgAlt: 'autoship icon',
+      text: <FormattedMessage id="home.whyShopRoyalCanin.autoShip" />
     },
     {
       imgUrl: delivery,
-      imgAlt: 'delivery image',
-      text: (
-        <FormattedMessage
-          id="home.convenientTip2"
-          values={{
-            val: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
-          }}
-        />
-      )
+      imgAlt: 'delivery icon',
+      text: <FormattedMessage id="home.whyShopRoyalCanin.goodDelivery" />
     },
     {
       imgUrl: question,
       imgAlt: 'question icon',
-      text: <FormattedMessage id="home.convenientTip3" />
+      text: <FormattedMessage id="home.whyShopRoyalCanin.goodAfterService" />
     }
   ];
 
   const list =
     {
-      uk: [
-        {
-          imgUrl: pack,
-          imgAlt: 'pack icon',
-          text: <FormattedMessage id="home.convenientTip1" />
-        },
-        {
-          imgUrl: delivery,
-          imgAlt: 'delivery image',
-          text: (
-            <FormattedMessage
-              id="home.convenientTip2"
-              values={{
-                val: formatMoney(30)
-              }}
-            />
-          )
-        },
-        {
-          imgUrl: question,
-          imgAlt: 'question icon',
-          text: <FormattedMessage id="home.convenientTip3" />
-        }
-      ],
       us: [
         {
           imgUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_PRODUCT-RECOS@x2.png`,
@@ -80,122 +53,6 @@ export function Advantage() {
           imgUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/COHORT-A_CLUB-BENEFITS_PET-ADVISOR2@x2.png`,
           imgAlt: 'Welcome Box',
           text: 'Expert feeding advice, product updates and support from a Royal Canin Advisor'
-        }
-      ],
-      fr: [
-        {
-          imgUrl: pack,
-          imgAlt: 'pack icon',
-          text: <FormattedMessage id="home.convenientTip1" />
-        },
-        {
-          imgUrl: autoship,
-          imgAlt: 'autoship icon',
-          text: "Bénéficiez d'une livraison automatique"
-        },
-        {
-          imgUrl: delivery,
-          imgAlt: 'delivery icon',
-          text: (
-            <FormattedMessage
-              id="home.convenientTip2"
-              values={{
-                val: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
-              }}
-            />
-          )
-        },
-        {
-          imgUrl: question,
-          imgAlt: 'question icon',
-          text: <FormattedMessage id="home.convenientTip3" />
-        }
-      ],
-      de: [
-        {
-          imgUrl: pack,
-          imgAlt: 'pack icon',
-          text: <FormattedMessage id="home.convenientTip1" />
-        },
-        {
-          imgUrl: autoship,
-          imgAlt: 'autoship icon',
-          text: <FormattedMessage id="home.convenientTip2" />
-        },
-        {
-          imgUrl: delivery,
-          imgAlt: 'delivery icon',
-          text: (
-            <FormattedMessage
-              id="home.convenientTip3"
-              values={{
-                val: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
-              }}
-            />
-          )
-        },
-        {
-          imgUrl: question,
-          imgAlt: 'question icon',
-          text: <FormattedMessage id="home.convenientTip4" />
-        }
-      ],
-      ru: [
-        {
-          imgUrl: pack,
-          imgAlt: 'pack icon',
-          text: <FormattedMessage id="home.convenientTip1" />
-        },
-        {
-          imgUrl: autoship,
-          imgAlt: 'autoship icon',
-          text: <FormattedMessage id="home.convenientTip4" />
-        },
-        {
-          imgUrl: delivery,
-          imgAlt: 'delivery icon',
-          text: (
-            <FormattedMessage
-              id="home.convenientTip2"
-              values={{
-                val: 2500
-              }}
-            />
-          )
-        },
-        {
-          imgUrl: question,
-          imgAlt: 'question icon',
-          text: <FormattedMessage id="home.convenientTip3" />
-        }
-      ],
-      tr: [
-        {
-          imgUrl: pack,
-          imgAlt: 'pack icon',
-          text: <FormattedMessage id="home.convenientTip1" />
-        },
-        {
-          imgUrl: autoship,
-          imgAlt: 'autoship icon',
-          text: <FormattedMessage id="home.convenientTip4" />
-        },
-        {
-          imgUrl: delivery,
-          imgAlt: 'delivery image',
-          text: (
-            <FormattedMessage
-              id="home.convenientTip2"
-              values={{
-                val: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
-              }}
-            />
-          )
-        },
-        {
-          imgUrl: question,
-          imgAlt: 'question icon',
-          text: <FormattedMessage id="home.convenientTip3" />
         }
       ]
     }[window.__.env.REACT_APP_COUNTRY] || defaultList;
