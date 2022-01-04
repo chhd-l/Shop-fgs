@@ -305,14 +305,6 @@ const App = () => {
 
   const [loading, dynamicLanguage] = useDynamicLanguage();
 
-  if (loading) {
-    return (
-      <div>
-        <Loading />
-      </div>
-    );
-  }
-
   return (
     <Provider {...stores}>
       <IntlProvider

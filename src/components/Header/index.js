@@ -223,7 +223,7 @@ class Header extends React.Component {
   initNavigations = async () => {
     const navigationConf = await fetchHeaderNavigations();
     let res = navigationConf?.navigationResponseList;
-    const pageEnumRes = navigationConf.sysDictionaryVOS;
+    const pageEnumRes = navigationConf?.sysDictionaryVOS;
     if (res) {
       let treeData = generateOptions(res);
 
