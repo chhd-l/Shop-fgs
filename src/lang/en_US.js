@@ -655,10 +655,12 @@ const en_US = {
   here2: 'here',
   home: 'Home',
   'home.convenientTip1':
-    'Selection of a diet according to the needs of your pet',
-  'home.convenientTip2': 'Fast free shipping when ordering from {val}.',
-  'home.convenientTip3':
-    'Support service: ask a question about your pet to a specialist',
+    'Expert recommendations on food tailored to your pet’s needs',
+  'home.convenientTip2':
+    'Save 30% off your first purchase through Royal Canin Club, and 5% off every autoship order',
+  'home.convenientTip3': 'Free automatic shipping – no minimum purchase',
+  'home.convenientTip4':
+    'Expert feeding advice, product updates and support from a Royal Canin Advisor',
   'home.convenientTitle': 'Why Shop Royal Canin?',
   'home.pageNotFound': 'Page not found…',
   'home.pageNotFoundInfo':
@@ -678,6 +680,12 @@ const en_US = {
   'home.specialInfo4':
     'For more than 50 years, we have been following the principle of “Well-being for dogs and cats, above all.” We create adapted food for animals according to their special needs.',
   'home.viewProducts': 'View Products',
+  'home.whyShopRoyalCanin.autoShip': 'Benefit from automatic delivery',
+  'home.whyShopRoyalCanin.findDiet': 'Find the right diet for your pet',
+  'home.whyShopRoyalCanin.goodAfterService':
+    'Benefit from an exceptional after-sales service, with an advisor at your service!',
+  'home.whyShopRoyalCanin.goodDelivery':
+    'Take advantage of fast and free delivery',
   homePage: 'Home',
   ihaveADefaultClinic: 'I have a default clinic',
   iHaveReadThe: 'I have read the',
