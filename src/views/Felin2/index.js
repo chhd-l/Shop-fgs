@@ -174,8 +174,8 @@ class Felin extends React.Component {
                 onClick={this.gotoAddPc}
                 className="rc-btn rc-btn--one  rc-margin-bottom--xs pc-block"
                 style={{
-                  width: '16.875rem',
-                  fontSize: '0.875rem'
+                  width: '13.875rem',
+                  fontSize: '0.75rem'
                 }}
               >
                 Reserver un rendez-vous
@@ -276,7 +276,7 @@ class Felin extends React.Component {
                             color=""
                             def={item.rate}
                             disabled
-                            style={{ fontSize: 34 }}
+                            style={{ fontSize: 20 }}
                           />
                         </div>
                         <div className="comment-text">{item.description}</div>
@@ -287,8 +287,9 @@ class Felin extends React.Component {
                 <button
                   className="rc-btn rc-btn--one rc-margin-bottom--xs"
                   style={{
-                    width: '16.875rem',
-                    marginTop: '20px'
+                    width: '13.875rem',
+                    marginTop: '20px',
+                    fontSize: '0.75rem'
                   }}
                   onClick={() => {
                     this.setState({

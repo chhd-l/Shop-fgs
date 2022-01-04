@@ -572,8 +572,8 @@ class Pcexperts extends React.Component {
                 onClick={this.handleOneShow}
                 className="rc-btn rc-btn--one  rc-margin-bottom--xs"
                 style={{
-                  width: '16.875rem',
-                  fontSize: '1rem'
+                  width: '13.875rem',
+                  fontSize: '0.75rem'
                 }}
               >
                 Reserver un rendez-vous
@@ -608,7 +608,7 @@ class Pcexperts extends React.Component {
                             'type'
                           )
                         }
-                        className={`border-2 text-base font-medium p-1  rounded-full mr-4 ${
+                        className={`border-2 text-xs font-medium p-2  rounded-full mr-4 ${
                           this.state.params.apptTypeId === item.id
                             ? 'bg-red-600 text-white border-red-600'
                             : 'border-gray-400'
@@ -669,8 +669,8 @@ class Pcexperts extends React.Component {
                 onClick={this.handleReturnOne}
                 className="rc-btn rc-btn--two"
                 style={{
-                  width: '16.875rem',
-                  fontSize: '1rem'
+                  width: '13.875rem',
+                  fontSize: '0.75rem'
                 }}
               >
                 Retour à l'étape précédente
@@ -683,8 +683,8 @@ class Pcexperts extends React.Component {
                 onClick={this.handleGotoThree}
                 className="rc-btn rc-btn--one  rc-margin-bottom--xs"
                 style={{
-                  width: '16.875rem',
-                  fontSize: '1rem'
+                  width: '13.875rem',
+                  fontSize: '0.75rem'
                 }}
               >
                 Continuer
@@ -780,8 +780,8 @@ class Pcexperts extends React.Component {
                 onClick={this.handleReturnTwo}
                 className="rc-btn rc-btn--two"
                 style={{
-                  width: '16.875rem',
-                  fontSize: '1rem'
+                  width: '13.875rem',
+                  fontSize: '0.75rem'
                 }}
               >
                 Retour à l'étape précédente
@@ -791,8 +791,8 @@ class Pcexperts extends React.Component {
                 onClick={this.handleGotoFour}
                 className="rc-btn rc-btn--one  rc-margin-bottom--xs"
                 style={{
-                  width: '16.875rem',
-                  fontSize: '1rem'
+                  width: '13.875rem',
+                  fontSize: '0.75rem'
                 }}
               >
                 Continuer
@@ -826,8 +826,8 @@ class Pcexperts extends React.Component {
                 onClick={this.handleReturnThree}
                 className="rc-btn rc-btn--two"
                 style={{
-                  width: '16.875rem',
-                  fontSize: '1rem'
+                  width: '13.875rem',
+                  fontSize: '0.75rem'
                 }}
               >
                 Retour à l'étape précédente
@@ -837,8 +837,8 @@ class Pcexperts extends React.Component {
                 onClick={this.handleGoto}
                 className="rc-btn rc-btn--one  rc-margin-bottom--xs"
                 style={{
-                  width: '16.875rem',
-                  fontSize: '1rem'
+                  width: '13.875rem',
+                  fontSize: '0.75rem'
                 }}
               >
                 Continuer
@@ -866,8 +866,8 @@ class Pcexperts extends React.Component {
                 btnClass={`rc-btn rc-btn--one  rc-margin-bottom--xs`}
                 intl={intl}
                 btnStyle={{
-                  width: '16.875rem',
-                  fontSize: '1rem'
+                  width: '13.875rem',
+                  fontSize: '0.75rem'
                 }}
               >
                 Connexion
@@ -903,8 +903,8 @@ class Pcexperts extends React.Component {
                 }}
                 className="rc-btn rc-btn--one  rc-margin-bottom--xs"
                 style={{
-                  width: '16.875rem',
-                  fontSize: '1rem'
+                  width: '13.875rem',
+                  fontSize: '0.75rem'
                 }}
               >
                 Créer un compte
@@ -914,8 +914,8 @@ class Pcexperts extends React.Component {
                 onClick={this.handleLogin}
                 className="rc-btn rc-btn--one  rc-margin-bottom--xs"
                 style={{
-                  width: '16.875rem',
-                  fontSize: '1rem'
+                  width: '13.875rem',
+                  fontSize: '0.75rem'
                 }}
               >
                 Continuer en tant qu'invité
