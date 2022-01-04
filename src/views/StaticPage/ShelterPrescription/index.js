@@ -14,7 +14,7 @@ import ProductCarousel from '@/components/ProductCarousel';
 import Help from '../../SmartFeederSubscription/modules/Help';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
-
+const sessionItemRoyal = window.__.sessionItemRoyal;
 const pageLink = window.location.href;
 
 @inject('clinicStore')
