@@ -3,6 +3,7 @@ const en_US = {
   'aboutUs.description':
     'Animal health is the key to its beauty and well-being. We carefully study the smallest physiological features of dogs and cats in order to understand what their needs are and to offer them a unique individual nutrition.',
   'aboutUs.FoodQualityandSafety': 'Food Quality and Safety',
+  'aboutUs.foodQualityAndSafetyBtn': 'See our Commitment',
   'aboutUs.FoodQualityandSafetyDetail':
     'Our commitment to nutritional quality and product safety is at the heart of our operations worldwide.',
   'aboutUs.history': 'Our History',
@@ -11,7 +12,6 @@ const en_US = {
   'aboutUs.IncredibleDetail': 'Incredible in Every Detail',
   'aboutUs.learnMore': 'Learn More',
   'aboutUs.ourValues': 'Our Values',
-  'aboutUs.foodQualityAndSafetyBtn': 'See our Commitment',
   'aboutUs.ourValuesBtn': 'Discover our Passion',
   'aboutUs.ourValuesDetail':
     'Find out more about the ideas and values that shape Royal Canin’s role in the world.',
@@ -23,6 +23,9 @@ const en_US = {
   'aboutUs.title': 'About ROYAL CANIN',
   aboutUs2: 'About Us',
   'account.addPet': 'Add Pet',
+  'account.appointment': 'My appointment',
+  'account.appointment.btns': 'Start appointment',
+  'account.appointment.tips': 'You have not made any appointments yet.',
   'account.basicInfomation': 'Basic Infomation',
   'account.birthDate': 'Date of Birth',
   'account.breed': 'What breed {val}?',
@@ -43,6 +46,7 @@ const en_US = {
   'account.gender': 'What gender is your pet?',
   'account.helpTip':
     'If you have questions, we are always ready to help you and your pet.',
+  'account.home': 'My Account',
   'account.male': 'Male',
   'account.mixBreed': 'Mix breed',
   'account.myAccount': 'My Contact Information',
@@ -99,97 +103,6 @@ const en_US = {
   'account.weight': 'What is the weight of an adult dog of your breed {val}?',
   'account.welcome': 'Welcome to the ROYAL CANIN® family!',
   'account.yes': 'Yes',
-  //view product details
-  'smartFeederSubscription.backToProduct': 'retourner au produit',
-  //go back to product
-  'smartFeederSubscription.backToProductTitle':
-    'Faites livrer vos recharges de croquettes automatiquement, sélectionnez simplement la fréquence de livraison souhaitée et ajoutez-les au panier',
-  //Finalise your order
-  'smartFeederSubscription.chooseProduct': 'choisir le produit',
-  //Learn more
-  'smartFeederSubscription.chooseYourProduct': 'Choisissez votre produit',
-  //select another product
-  'smartFeederSubscription.conﬁrmThisProduct': 'Con ﬁ rmez ce produit',
-  //Easy Maintenance
-  'smartFeederSubscription.dispenser1Des':
-    "Un anneau d'étanchéité en silicone souple de qualité alimentaire et une boîte déshydratante garantissent que la nourriture de votre animal reste fraîche.",
-  // The PetKit Dispenser
-  'smartFeederSubscription.dispenser1Title': 'Un double système «Fresh Lock»',
-  //A food-grade Soft Silicone Sealing Ring and a desiccant box ensures your pet’s food stays fresh.
-  'smartFeederSubscription.dispenser2Des':
-    'Votre mangeoire ne restera jamais coincé en distribuant des aliments grâce à un système auto-adaptatif.',
-  //A Double “Fresh Lock” System
-  'smartFeederSubscription.dispenser2Title': 'Mécanisme de distribution',
-  //Your feeder will never get stuck dispensing food thanks to a self-adapting system.
-  'smartFeederSubscription.dispenser3Des':
-    'Détachez et fixez facilement la machine pour la nettoyer avec un chiffon humide.',
-  //Dispensing Mechanism
-  'smartFeederSubscription.dispenser3Title': 'Entretien facile',
-  //Control the Petkit Dispenser Remotely from your Phone
-  'smartFeederSubscription.dispenserWithPhoneDes':
-    "Avec la technologie de contrôle des applications, vous pouvez définir des heures d'alimentation pour nourrir automatiquement votre animal ou choisir de le nourrir manuellement. Téléchargez simplement l'application, ajoutez votre appareil et le tour est joué!",
-  //how the Smart Feeder Subscription works?
-  'smartFeederSubscription.dispenserWithPhoneTitle':
-    'Contrôlez le distributeur Petkit à distance depuis votre téléphone',
-  //Receive the PetKit Dispenser for just 1.50 € more/refill compared to our standard Autoship price
-  'smartFeederSubscription.feederDes':
-    "{val}est un distributeur automatique conçu pour que votre animal reçoive la bonne quantité de nourriture au bon moment, même lorsque vous n'êtes pas à la maison.",
-  //Select your product
-  'smartFeederSubscription.finaliseYourOrder': 'Finalisez votre commande',
-  //choose product
-  'smartFeederSubscription.helpSubTitle':
-    "Nous sommes prêts à vous aider pour toute autre question que vous pourriez avoir à propos de l'abonnement Smart Feeder.",
-  // *12 shipments engagement
-  'smartFeederSubscription.learnMore': 'Apprendre encore plus',
-  //times
-  'subscription.pause': 'Pause',
-  //is an automatic feeder designed to ensure your pet gets the right amount of food at the right time, even when you’re not home.
-  'smartFeederSubscription.petDispenser': 'Le distributeur PetKit',
-  //pause
-  'subscription.restart': 'Restart',
-  //restart
-  //Smart feeder subscription
-  //Delivered at the first shipment
-  'smartFeederSubscription.selectAnotherProduct':
-    'sélectionnez un autre produit',
-  // With app control technology, you can set feeding times to automatically feed your pet or choose to feed them manually. Simply download the app, add your device and you’re set!
-  'smartFeederSubscription.selectYourProduct': 'Sélectionnez votre produit',
-  //Get your kibble refills delivered automatically, just select your desired delivery frequency and add to cart
-  'smartFeederSubscription.shopmentTimes': 'Livré lors du premier envoi',
-  //select your frequency
-  'smartFeederSubscription.smartFeederSubscription': 'Abonnement Smart Feeder',
-  //Feed your dog with precision
-  'smartFeederSubscription.stepDes1':
-    'Grâce au distributeur PetKit, votre animal recevra toujours la bonne quantité de nourriture au bon moment',
-  //Free automatic delivery
-  'smartFeederSubscription.stepDes2':
-    'Simplifiez-vous la vie avec la livraison automatique gratuite à votre porte',
-  //PetKit Dispenser for 1.50 € more/refill
-  'smartFeederSubscription.stepDes3':
-    'Recevez le distributeur PetKit pour seulement 1,50 € de plus / recharge par rapport à notre prix standard de livraison automatique',
-  //Why choose the Smart Feeder Subscription?
-  'smartFeederSubscription.stepTitl1': 'Nourrissez votre chien avec précision',
-  //Thanks to the PetKit Dispenser your pet will always get the right amount of food at the right time
-  'smartFeederSubscription.stepTitl2': 'Livraison automatique gratuite',
-  //Make your life easier with free automatic delivery to your door
-  'smartFeederSubscription.stepTitl3':
-    'Distributeur PetKit pour 1,50 € de plus / recharge',
-  'smartFeederSubscription.tabDes1':
-    'Avec expédition automatique à votre porte',
-  //With automatic shipment to your door
-  'smartFeederSubscription.tabDes2': 'pour 26,50 € la recharge *',
-  //for 26,50 € per refill*
-  'smartFeederSubscription.tabDes3': '* Engagement de 12 envois',
-  // Conﬁrm this product
-  'smartFeederSubscription.times': 'fois',
-  //Easily detach and attach the machine to clean it with a damp cloth.
-  'smartFeederSubscription.titleHow':
-    "comment fonctionne l'abonnement Smart Feeder?",
-  //Choose your product
-  'smartFeederSubscription.titleWhy':
-    "Pourquoi choisir l'abonnement Smart Feeder?",
-  //We’re ready to help you with any further questions you might have about the Smart Feeder Subscription.
-  'smartFeederSubscription.viewProductDetails': 'voir les détails du produit',
   active: 'Active',
   addANewAddress: 'Add a new Address',
   addANewPaymentMethod: 'Add a new payment method',
@@ -201,6 +114,18 @@ const en_US = {
   addressType: 'Address Type',
   addShippingAddress: 'Add New Address',
   adyen: 'Adyen',
+  'adyen.creditCard.cvcField.placeholder': '123',
+  'adyen.creditCard.cvcField.title': 'CVC / CVV',
+  'adyen.creditCard.expiryDateField.invalid': 'Invalid expiration date',
+  'adyen.creditCard.expiryDateField.placeholder': 'MM/YY',
+  'adyen.creditCard.expiryDateField.title': 'Expiry Date',
+  'adyen.creditCard.holderName.invalid': 'Invalid cardholder name',
+  'adyen.creditCard.holderName.placeholder': 'J. Smith',
+  'adyen.creditCard.numberField.invalid': 'Invalid card number',
+  'adyen.creditCard.numberField.placeholder': '1234 5678 9012 3456',
+  'adyen.creditCard.numberField.title': 'Card Number',
+  'adyen.holderName': 'Cardholder name',
+  'adyen.storeDetails': 'Save for my next payment',
   adyenPayFail: 'AdyenPayFail',
   adyenPayLater: 'KlarnaPayLater',
   adyenPayNow: 'KlarnaPayNow',
@@ -214,6 +139,31 @@ const en_US = {
   answer: 'Answer *',
   answeredQuestions: 'Answered questions',
   apply: 'Apply',
+  'Appointment Information': 'Appointment Information',
+  'Appointment summary': 'Appointment summary',
+  'Appointment time': 'Appointment time : ',
+  'Appointment type': 'Appointment type ：',
+  'appointment.appointmentDetails': 'appointment details',
+  'appointment.appointmentNumber': 'appointment number',
+  'appointment.appointmentPlacedOn': 'appointment placed on',
+  'appointment.appointmentStatus': 'appointment status',
+  'appointment.changeApptCheckout.tip':
+    'You’ll get the money back for the previous appointment.',
+  'appointment.delApptModalContent':
+    'Are you sure you want to cancel the appointment?',
+  'appointment.delApptModalTitle': 'CANCEL THE  APPOINTMENT',
+  'appointment.delApptModel.cancel': 'To cancel',
+  'appointment.delApptModel.confirm': 'To confirm',
+  'appointment.reSchedule': 'Re-schedule',
+  'appointment.serviceArrived': 'Service delivered',
+  'appointment.serviceArrivedTip':
+    'We hope that you enjoyed your time at Atelier félin',
+  'appointment.serviceBooked': 'Service in preparation',
+  'appointment.serviceBookedTip':
+    "Your appt is taken and we can't wait to see you! \n",
+  'appointment.status.Arrived': 'Arrived',
+  'appointment.status.Booked': 'Booked',
+  'appointment.status.Cancel': 'Cancel',
   aQuestion: 'A question ?',
   area: 'Area',
   autoship: 'Automatic Shipping',
@@ -222,7 +172,9 @@ const en_US = {
   autoShipStarted: 'Autoship started',
   autoShipStarted2: 'Autoship started',
   autoshop: 'Automatic Shipping',
+  back: 'Back',
   backToAuthorization: 'Back to authorization',
+  BacktoSavedPayments: 'Return to saved payment',
   bankCard: 'Credit Card',
   'bannerTip.btnText': 'Join the Club',
   basket: 'Basket',
@@ -230,6 +182,13 @@ const en_US = {
   billing: 'BILLING',
   billing2: 'Billing Address',
   billingAddress: 'Billing Address',
+  'bindPrescriber.modal.content':
+    'Мы настоятельно рекомендуем применять ветеринарные диеты только после консультации с ветеринарным врачом. Обращаем Ваше внимание, что большинство ветеринарных диет имеют ряд противопоказаний или ограничений в применении, которые необходимо учитывать при кормлении питомца',
+  'bindPrescriber.modal.no': 'Нет, перейти к покупке',
+  'bindPrescriber.modal.or': 'или',
+  'bindPrescriber.modal.title':
+    'Есть ли у вас рекомендация от ветеринарного врача?',
+  'bindPrescriber.modal.yes': 'Да, выбрать клинику',
   birthday: 'Birthday',
   breed: 'Breed',
   callUs: 'Call us',
@@ -238,10 +197,12 @@ const en_US = {
   cardCvvIsInvalid: 'your card cvv is invalid',
   cardNumber: 'Card Number',
   cardNumberIsInvalid: 'your card number is invalid',
+  'cart.autoshipSavedtip': 'You saved {discount} with Autoship',
   'cart.catDiet': 'Shop Cat formulas',
   'cart.deletInfo': 'Delete product?',
   'cart.delivery': 'Shipping',
   'cart.dogDiet': 'Shop Dog formulas',
+  'cart.errorAllProductNumLimit': 'The number of {val} orders is limited.',
   'cart.errorInfo': "The number can't be less than 1",
   'cart.errorInfo2': 'You cannot place your order, out of stock product: {val}',
   'cart.errorInfo3':
@@ -251,18 +212,14 @@ const en_US = {
   'cart.errorInfo6': 'You cannot place your order, not seable: {val}',
   'cart.errorMaxCate': "The shopping cart can't exceed {val} items",
   'cart.errorMaxInfo': "The number can't be exceed than {val}",
-  'cart.errorAllProductNumLimit': 'The number of {val} orders is limited.',
   'cart.firstOrderDiscountTip':
     'The 30% discount for your first order will be applied during checkout',
   'cart.fullPrice': 'Find your pet’s precise formula',
   'cart.miniCartTitle':
     '30% off first purchase, plus 5% off every order and additional perks with autoship',
-  // 'cart.totalProduct': '{val} item(s) in the basket',
   'cart.totalProduct': '{val} item(s)',
-  'minicart.totalProduct': '{val} item(s)',
   'cart.totalProduct_nounit': 'You have {val} in your cart',
   'cart.yourShoppingCart': 'Your shopping cart',
-  giftList: 'gift promotion',
   catNutrition: 'Cat nutrition',
   cats: 'CATS',
   cats2: 'Cats',
@@ -274,7 +231,8 @@ const en_US = {
   checkboxIsRequiredForSubscription:
     'this checkbox is required for subscription',
   checkout: 'Buy now',
-  'minicart.checkout': 'Buy now',
+  'checkout.zeroOrder.butSubscription':
+    '0 Price orders do not support subscription, please change to a one-off purchase to pay this order',
   checkoutTip: 'Please enter your information below',
   choosePayment: 'Choose payment',
   choosePrescriber: 'Please choose the correct prescriber',
@@ -284,7 +242,6 @@ const en_US = {
     'If you want to use this credit card, please enter CVV and click the Apply button',
   clickHere: 'Click here',
   clickHere2: 'Here',
-  here2: 'here',
   'clinic.cancel': 'Cancel',
   'clinic.clinic': 'clinic',
   'clinic.clinicTip': 'Which clinic has provided prescription for you？',
@@ -294,8 +251,89 @@ const en_US = {
   'clinic.navigate': 'Navigate',
   'clinic.selectVetClinics': 'Select Vet Clinics',
   'clinic.vet': 'Vet',
+  'clinic.vetClinicsTip1':
+    'You do not find the clinic at the origin of the prescription in the list? Do not hesitate to {val}.',
+  'clinic.vetClinicsTip2': 'Contact us',
   close: 'Close',
   club: 'club',
+  'clubListData.tip1': 'tailored and evolving premium nutrition',
+  'clubListData.tip2': 'A welcome box, rewards and services',
+  'clubListData.tip3': 'A pet advisor and personalized newsletters',
+  'clubListData.tip4': 'Automatic food reﬁlls with free shipping',
+  'clubListData.tip5': 'Full control and free from engagement',
+  'ClubLP.Advantage.button': 'Find your tailored food now',
+  'ClubLP.Advantage.content1':
+    'Nutrition tailored to the unique health needs of cats and dogs',
+  'ClubLP.Advantage.content2':
+    'Complete and balanced nutrients in each pet’s diet',
+  'ClubLP.Advantage.content3':
+    'Highly digestible ingredients sourced and combined to meet each tailored nutritional profile',
+  'ClubLP.Advantage.content4':
+    'High quality nutrients selected from more sustainable sources with a lower carbon footprint',
+  'ClubLP.Advantage.title': 'Health is not one size fits all',
+  'ClubLP.discount.content': '10% OFF & FREE DELIVERY',
+  'ClubLP.GetMoreAd.button': 'Get started',
+  'ClubLP.GetMoreAd.Club.tip1': 'Tailored nutrition',
+  'ClubLP.GetMoreAd.Club.tip2': 'Free shipping',
+  'ClubLP.GetMoreAd.Club.tip3': '10% discount on every order',
+  'ClubLP.GetMoreAd.Club.tip4': 'Automatic refills to your door',
+  'ClubLP.GetMoreAd.Club.tip5': 'Free personalized newsletters',
+  'ClubLP.GetMoreAd.Club.tip6': 'Welcome pack',
+  'ClubLP.GetMoreAd.Club.tip7': 'Exclusive perks & services',
+  'ClubLP.GetMoreAd.Single.tip1': 'Tailored nutrition',
+  'ClubLP.GetMoreAd.Single.tip2': 'Free shipping from $50',
+  'ClubLP.GetMoreAd.subtitle1': 'SINGLE {val} Purchase',
+  'ClubLP.GetMoreAd.subtitle2': 'Club {val} Subscription',
+  'ClubLP.GetMoreAd.title': 'Get more with CLUB Subscription',
+  'ClubLP.Help.call.content':
+    'Our Pet Experts are happy to help you everyday from 9 am to 6 pm',
+  'ClubLP.Help.call.mobile.number': 'O874 657 890',
+  'ClubLP.Help.call.number': 'O874 657 890',
+  'ClubLP.Help.call.title': 'Call us',
+  'ClubLP.Help.email.address': 'Send us an Email',
+  'ClubLP.Help.email.content':
+    "We'll do our best to get back to you as fast as possible and within 12 hours",
+  'ClubLP.Help.email.title': 'Email us',
+  'ClubLP.Help.faq.content':
+    'Send us an EmailYou can check our FAQ section to see if your question has already been answered',
+  'ClubLP.Help.subtitle1':
+    'Our team is available to answer your questions and ensure you have the best possible experience.',
+  'ClubLP.Help.subtitle2': 'You can reach us through the following options:',
+  'ClubLP.Help.title': "We're here to help",
+  'ClubLP.LongBanner.button': 'Try it now',
+  'ClubLP.LongBanner.content': 'starting from 19.90€ /refill',
+  'ClubLP.LongBanner.content2': 'Free from engagement',
+  'ClubLP.LongBanner.SubscriptionContent1':
+    "High quality ingredients chosen for your pet's specific needs with scientifically proven health benefits",
+  'ClubLP.LongBanner.SubscriptionContent2':
+    'A feeding plan designed to adapt to long term health',
+  'ClubLP.LongBanner.SubscriptionContent3':
+    'Daily rationing instructions so your pet always gets the right amount of food',
+  'ClubLP.LongBanner.SubscriptionTitle':
+    'SUBSCRIPTION BENEFITS FOR CATS & DOGS',
+  'ClubLP.LongBanner.SubscriptionTitle1':
+    'Tailored nutrition for optimal health',
+  'ClubLP.LongBanner.SubscriptionTitle2': 'A diet that adapts with your pet',
+  'ClubLP.LongBanner.SubscriptionTitle3': 'The right portion every time',
+  'ClubLP.LongBanner.SubscriptionTitle3.new': 'The right portion every time',
+  'ClubLP.LongBanner.title':
+    'GIVE YOUR PET A {val1} COMPLETE HEALTH SOLUTION, {val2} BY SUBSCRIPTION',
+  'ClubLP.NewHowItWorks.title': 'HOW IT WORKS',
+  'ClubLP.NewJoinUs.button': 'Get Started',
+  'ClubLP.NewJoinUs.content': 'to get a precise nutritional recommendation.',
+  'ClubLP.NewJoinUs.title': 'Tell us about your pet',
+  'ClubLP.OurCustomers.title': 'Our Loyal Customers',
+  'ClubLP.SubscriptionBenefitsNew.button': 'Get Started',
+  'ClubLP.SubscriptionBenefitsNew.icon1':
+    'Automatic delivery with free shipping',
+  'ClubLP.SubscriptionBenefitsNew.icon2': '10% off on every order',
+  'ClubLP.SubscriptionBenefitsNew.icon3': 'Access to a personal pet advisor',
+  'ClubLP.SubscriptionBenefitsNew.icon4': 'A welcome box & exclusive rewards',
+  'ClubLP.SubscriptionBenefitsNew.icon5':
+    'Tailored support & educational content',
+  'ClubLP.SubscriptionBenefitsNew.title':
+    'A subscription that makes your life easier',
+  clubSubscribe: 'Subscribe',
   comment: 'Comment',
   'comment.commentsTooLong': "Product comments can't more than 500 characters",
   'comment.noLogisticsRatingTip': 'Please comment on the logistics service',
@@ -322,9 +360,9 @@ const en_US = {
     'You saved {val1}  with autoship',
   'confirmation.visitOnlineStore': 'Visit online store',
   confirmDelete: 'Do you confirm to delete?',
-  confirmDeleteAddress: 'Do you confirm to delete?',
   confirmDelete2:
     'Are you sure you want to remove the following payment method? {val1} {val2}',
+  confirmDeleteAddress: 'Do you confirm to delete?',
   confirmDeleteProduct:
     'Are you sure you want to remove this product from the cart?',
   confirmPassword: 'Confirm Password *',
@@ -373,7 +411,38 @@ const en_US = {
   'cyber.form.state': 'State',
   'cyber.form.theBox': 'This box is required for subscription',
   'cyber.form.zipCode': 'ZIP Code',
+  'dailyPortion.age.label': 'How old is your pet ?',
+  'dailyPortion.bcs.Ideal': 'Ideal',
+  'dailyPortion.bcs.Ideal.description': 'Well proportioned',
+  'dailyPortion.bcs.label': 'Select your pets’s body condition',
+  'dailyPortion.bcs.Overweight': 'Overweight',
+  'dailyPortion.bcs.Overweight.description': 'Waist barely visible',
+  'dailyPortion.bcs.underweight': 'Underweight',
+  'dailyPortion.bcs.underweight.description': 'Loss of mass muscle',
+  'dailyPortion.breed.searchBreedSize': 'please select a breed size',
+  'dailyPortion.breed.searchBreedSize.giant': 'Giant (+45kg)',
+  'dailyPortion.breed.searchBreedSize.maxi': 'Large (26-44kg)',
+  'dailyPortion.breed.searchBreedSize.medium': 'Medium (11-25kg)',
+  'dailyPortion.breed.searchBreedSize.mini': 'Mini (4-10kg)',
+  'dailyPortion.breed.searchBreedSize.xsmall': 'Très petit (moins de 4 kg)',
+  'dailyPortion.breed.UnknownMixedBreed': 'Unknown or mixed breed ',
+  'dailyPortion.breedCode.label': 'Breed',
+  'dailyPortion.calculatePortion': 'Calculate portion',
+  'dailyPortion.editInformations': 'Edit pet’s informations',
+  'dailyPortion.genderCode.label': 'Gender',
+  'dailyPortion.neutered.label': 'Is you pet neutered ?',
+  'dailyPortion.newCalculationBtnText': 'Start a new calculation',
+  'dailyPortion.petActivityCode.High': 'High <3h /day',
+  'dailyPortion.petActivityCode.label':
+    "Select the activity's level of your pet ?",
+  'dailyPortion.petActivityCode.low': 'Low <1h /day',
+  'dailyPortion.petActivityCode.Medium': 'Medium <2h /day',
+  'dailyPortion.resultText': 'Recommended daily portion for your pet',
+  'dailyPortion.title':
+    'Discover now the perfect tool to calculate the ideal ration for your pet. Fill in your pet’s information in the interactive feeding guide and you will get the daily feeding recommendation. ',
+  'dailyPortion.weight.label': 'Current pet weight',
   dataProtection: 'privacy policy',
+  dateOfBirth: 'Date of Birth',
   'datePicker.months': [
     'January',
     'February',
@@ -408,6 +477,7 @@ const en_US = {
     'Fri',
     'Sat'
   ],
+  'day-unit': 'day',
   de_cats: 'For cats',
   de_dogs: 'For dogs',
   default: 'Default',
@@ -419,33 +489,46 @@ const en_US = {
     'Sorry, this address  has already been subject to a subscription, so it cannot be deleted.',
   deleteCardTip:
     'Sorry, this credit card has already been subject to a subscription, so it cannot be deleted.',
+  deleteSuccessFullly: 'Delete successfullly',
   deliveredTip: 'Expected to arrive in about 3 days',
   delivery: 'delivery',
   delivery2: 'Shipping Address',
   deliveryAddress: 'Shipping Address',
   deliveryDate: 'Delivery date',
   deliveryOneTimeOnly: 'One-Time Delivery',
+  dePrescriberCodeErrMsg:
+    'The Code entered invalid.<br>Please try another code',
   detail: '[Show more]',
   'detail.answer':
     'Our advisers are real experts and passionate. They are at your disposal to answer any request.',
+  'detail.contextp1': "Sorry We Couldn't Find Any Products!",
+  'detail.contextp2': 'Please note this product may have been discontinued',
   'detail.email': 'By email',
   'detail.packagingDesc':
     'Our packaging / products may be subject to a sorting instruction',
   'detail.question': 'Still have questions about this product?',
+  'detail.subscriptionBuyTip': 'Subscription without participation',
   'detail.telephone': 'By telephone',
   'details.addToCart': 'Add to Cart',
   'details.availability': 'Availability',
+  'details.backRecommendedDaily': 'Go back to recommendation',
   'details.beneficialFeatures': 'Beneficial features',
   'details.bySubscription': 'by subscription',
   'details.description': 'Description',
   'details.errMsg': 'The product has no specs, please try again later.',
   'details.errMsg2': 'No details found, please try again later.',
   'details.feedingRecommendations': 'Feeding recommendations',
+  'details.findProductTip':
+    'Find the right product and calculate your pet ration using our {btn}',
+  'details.findProductTips': ' Product finder',
   'details.ingredients': 'Ingredients',
   'details.inStock': 'In stock',
+  'details.learnMore': 'Learn more',
   'details.OffShelves': 'off shelves',
   'details.OneOFF': 'One-off purchase',
   'details.outStock': 'Out of stock',
+  'details.recommendedDaily': 'The recommended daily ration for your pet is',
+  'details.recommendedDaily.info': '{val}',
   'details.shippedTime': 'shipped within 2 working days',
   'details.Subscription': 'Subscription',
   'details.theSize': 'The size',
@@ -457,7 +540,6 @@ const en_US = {
   dontHesitateToContactUs: 'Do not hesitate to contact us',
   download: 'Download',
   edit: 'Edit',
-  selectThisAddress: 'Select this address',
   edit2: 'Edit',
   email: 'Email',
   emailAddress: 'Email Address *',
@@ -476,9 +558,10 @@ const en_US = {
   example: 'Example',
   examplePhone: 'xxx-xxx-xxxx',
   examplePostCode: '12345',
+  expertAdvice: 'Expert advice',
   expirationDateIsInvalid: 'your card expiration date is invalid',
+  Expire: 'Expire',
   'faq.frequentQuestions': 'Frequently Asked Questions',
-  // 'faq.title': "Got a question? Take a look below to see if it's already been answered. If you can't find what you are looking for, click {val1} to contact us.",
   'faq.title':
     "Got a question? Take a look below to see if it's already been answered. If you can't find what you are looking for, click {val1}.",
   'faq.title2': 'Entrega del alimento',
@@ -498,15 +581,16 @@ const en_US = {
   'footer.confidentiality': 'Privacy',
   'footer.consistence': 'durability',
   'footer.contactRoyalCanin': 'Contact Royal Canin',
-  'footer.securePaymentMethods': 'Secure Payment Methods',
   'footer.contacts': 'Contacts',
   'footer.contactUs': 'Contact Us',
   'footer.cookieCollectionPolicy': 'Cookie Collection Policy',
   'footer.cookies': 'Cookies',
+  'footer.cookieSettings': 'Cookie Settings',
   'footer.email': 'Contact Us',
   'footer.FAQ': 'FAQ',
   'footer.FAQ2': 'FAQ',
   'footer.qualityAndSafety': 'Quality and safety',
+  'footer.securePaymentMethods': 'Secure Payment Methods',
   'footer.toTheTop': 'Back to Top',
   forgetPassword: 'Forget password?',
   'forgetPassword.back': 'Back to log in',
@@ -516,12 +600,11 @@ const en_US = {
   freeShipping: 'Free shipping',
   FrequentQuestions: 'Common questions',
   from: 'From',
-  plpFromText: 'From',
-  plpFromNew: '{started}{plpValue}',
   gender: 'Gender',
   getConsumerAccountFailed: 'Get Consumer Account Failed',
   getDataFailed: 'Get Data Failed',
   getPetFailed: 'Get Pet Failed',
+  giftList: 'gift promotion',
   giveConsentPersonalData:
     'and give my consent to the processing of personal data, including cross-border transfer',
   goods: 'Products',
@@ -530,6 +613,8 @@ const en_US = {
   'header.bannerTip': '30% off first purchase + 5% off autoship',
   'header.basketEmpty': 'Your cart is empty',
   'header.carouselInfo1': 'Tailored Nutrition For Your Pet',
+  'header.carouselInfo10': 'Personal Consultant ROYAL CANIN® CLUB',
+  'header.carouselInfo11': 'ROYAL CANIN® CLUB for kittens',
   'header.carouselInfo2':
     'Find precise nutrition based on the unique needs of your pet.',
   'header.carouselInfo3': 'Pet Nutrition',
@@ -540,12 +625,20 @@ const en_US = {
   'header.carouselInfo8': 'Our experts will do everything to help you!',
   'header.carouselInfo9':
     'Your personal consultant in touch every day from 9.00 to 21.00',
-  'header.carouselInfo10': 'Personal Consultant ROYAL CANIN® CLUB',
-  'header.carouselInfo11': 'ROYAL CANIN® CLUB for kittens',
   'header.startTypingToSearch': 'Start typing to search',
   'header.toBegin': 'Start now',
   'header.toLearnMore': 'To learn more',
   'header.toOrder': 'Buy now',
+  'header.User.alreadyRegistered': 'Already registered?',
+  'header.User.faq': "FAQ's",
+  'header.User.home': 'Account',
+  'header.User.myOrders': 'Orders',
+  'header.User.myPersonalInformation': 'My details',
+  'header.User.mySubscriptions': 'Subscriptions',
+  'header.User.newUser': 'New user?',
+  'header.User.or': 'or',
+  'header.User.pets': 'My Pets',
+  'header.User.registerNow': 'Register now',
   healthAndNutrition: 'Health & Nutrition',
   help: 'Help',
   'help.byEmail': 'By email',
@@ -559,7 +652,8 @@ const en_US = {
   'help.tip4': 'They can answer any problems at any time.',
   'help.title': 'Need help?',
   here: 'here to contact us',
-  home: 'My Account',
+  here2: 'here',
+  home: 'Home',
   'home.convenientTip1':
     'Selection of a diet according to the needs of your pet',
   'home.convenientTip2': 'Fast free shipping when ordering from {val}.',
@@ -587,7 +681,196 @@ const en_US = {
   homePage: 'Home',
   ihaveADefaultClinic: 'I have a default clinic',
   iHaveReadThe: 'I have read the',
+  imageLargeError: 'Image uploaded is too large',
   inactive: 'Inactive',
+  'ind.additives': 'ADDITIVES (per kg)',
+  'ind.composition': 'COMPOSITION',
+  'ind.crudeAsh': 'Crude ash',
+  'ind.crudeCellulose': 'Crude cellulose',
+  'ind.crudeFibre': 'Crude fibre',
+  'ind.EPADHA': 'EPA/DHA',
+  'ind.fatContent': 'Fat content',
+  'ind.IND10001.Additives':
+    ' Additifs nutritionnels : Vitamine A : 21000 UI, Vitamine D3 : 800 UI, Fer(3b103) : 30 mg, Iode(3b201, 3b202) : 3 mg, Cuivre(3b405, 3b406) : 9 mg, Manganèse(3b502, 3b504) : 39 mg, Zinc(3b603, 3b605, 3b606) : 128 mg, Sélénium(3b801, 3b811, 3b812) : 0,06 mg, L-carnitine : 200 mg - Conservateurs - Antioxygènes. ',
+  'ind.IND10001.Composition':
+    'protéines de volaille déshydratées, fibres végétales, isolat de protéines végétales*, maïs, hydrolysat de protéines animales, gluten de maïs, farine de maïs, riz, blé, graisses animales, sels minéraux, pulpe de betterave, levures et composants de levures, huile de poisson, téguments et graines de psyllium, huile de soja. ',
+  'ind.IND10001.crudeAshVal': '7.5 % ',
+  'ind.IND10001.crudeFibreVal': '10.4 %',
+  'ind.IND10001.des1':
+    ' - Ideal fibre blend to support the feeling of fullness. - Adapted protein content to help maintain muscle mass for healthy weight maintenance. - Hunger-satisfying nutrition with a rich taste, formulated to help keep your cat fit.',
+  'ind.IND10001.des2':
+    'Enriched with L-carnitine, involved in a healthy fat metabolism.',
+  'ind.IND10001.des3':
+    'Formulé avec un équilibre de minéraux pour contribuer à la santé du système urinaire du chat adulte.',
+  'ind.IND10001.fatContentVal': '10.0 % ',
+  'ind.IND10001.img1': 'image7.png',
+  'ind.IND10001.img2': 'image8.png',
+  'ind.IND10001.img3': 'image4.png',
+  'ind.IND10001.proteinVal': '36.0 % ',
+  'ind.IND10001.title2': 'ENRICHED WITH L-CARNITINE',
+  'ind.IND10001.title3': 'URINARY HEALTH',
+  'ind.IND10002.Additives':
+    'Nutritional additives: Vitamin A: 19500 IU, Vitamin D3: 700 IU, Iron(3b103): 41 mg, Iodine(3b201, 3b202): 4,1 mg, Copper(3b405, 3b406): 13 mg, Manganese(3b502, 3b504): 53 mg, Zinc(3b603, 3b605, 3b606): 126 mg, Selenium(3b801, 3b811, 3b812): 0.07 mg - Technological additives: Clinoptilolite of sedimentary origin: 10 g - Preservatives - Antioxidants.',
+  'ind.IND10002.Composition':
+    'dehydrated poultry proteins, vegetable fibers, corn, wheat, wheat gluten*, corn gluten, animal protein hydrolysate, animal fats, rice, beet pulp, yeast by-products, mineral salts, soybean oil, fish oil, psyllium seed coatings and seeds, fructo-oligosaccharides',
+  'ind.IND10002.crudeAshVal': '8.0 % ',
+  'ind.IND10002.crudeFibreVal': '9.2 %',
+  'ind.IND10002.des1':
+    'Helps reduce the feeling of hunger with a specific blend of fibres to help satisfy the appetite of cats that have a tendency to beg for food between meals.',
+  'ind.IND10002.des2':
+    'Crafted with moderate fat and precise energy content to help your cat stay fit.',
+  'ind.IND10002.des3':
+    'Enriched with L-carnitine, involved in a healthy fat metabolism.',
+  'ind.IND10002.des4':
+    "Formulated with a balance of minerals to help maintain the health of an adult cat's urinary system.",
+  'ind.IND10002.fatContentVal': '10.0 % ',
+  'ind.IND10002.img1': 'image11.png',
+  'ind.IND10002.img2': 'image12.png',
+  'ind.IND10002.img3': 'image8.png',
+  'ind.IND10002.img4': 'image4.png',
+  'ind.IND10002.LcarnitineVal': '200 mg/kg',
+  'ind.IND10002.proteinVal': '36.0 % ',
+  'ind.IND10002.title1': 'HUNGER REGULATION',
+  'ind.IND10002.title2': 'WEIGHT MANAGEMENT',
+  'ind.IND10002.title3': 'ENRICHED WITH L-CARNITINE',
+  'ind.IND10002.title4': 'URINARY HEALTH',
+  'ind.IND10003.Additives':
+    'Nutritional additives: Vitamin A: 13500 IU, Vitamin D3: 700 IU, E1 (Iron): 42 mg, E2 (Iodine): 4,2 mg, E4 (Copper): 13 mg, E5 (Manganese): 55 mg, E6 (Zinc): 164 mg, E8 (Selenium): 0,09 mg - Technological additives: Clinoptilolite of sedimentary origin: 10 g - Preservatives - Antioxidants. ',
+  'ind.IND10003.Composition':
+    'dehydrated poultry protein, rice, wheat, corn, vegetable protein isolate*, animal fat, animal protein hydrolysate, wheat flour, vegetable fiber, beet pulp, yeast and yeast components, soybean oil, mineral salts, fructo-oligosaccharides, fish oil, seed coatings and psyllium seeds (0.5%) ',
+  'ind.IND10003.crudeAshVal': '7.3 %',
+  'ind.IND10003.crudeCellulosenVal': '4 %. ',
+  'ind.IND10003.des1':
+    'A moderate fat content adapted to the lower activity of indoor cats.',
+  'ind.IND10003.des2':
+    'Helps stimulate the elimination of ingested hair thanks to specific fibres including psyllium.',
+  'ind.IND10003.des3':
+    'Contains highly digestible protein (L.I.P.)* and helps reduce the quantity and odour of stools. {val} *L.I.P.: protein selected for its very high digestibility',
+  'ind.IND10003.des4':
+    "Formulated to help maintain health of an adult cat's urinary system.",
+  'ind.IND10003.fatContentVal': '13 %',
+  'ind.IND10003.img1': 'image7.png',
+  'ind.IND10003.img2': 'image6.png',
+  'ind.IND10003.img3': 'image25.png',
+  'ind.IND10003.img4': 'image4.png',
+  'ind.IND10003.proteinVal': '27 % ',
+  'ind.IND10003.title1': 'MODERATE CALORIE',
+  'ind.IND10003.title2': 'HAIRBALL REDUCTION',
+  'ind.IND10003.title3': 'STOOL ODOUR REDUCTION',
+  'ind.IND10003.title4': 'URINARY HEALTH',
+  'ind.IND10004.Additives':
+    'Nutritional additives: Vitamin A: 22000 IU, Vitamin D3: 800 IU, E1 (Iron): 37 mg, E2 (Iodine): 3.7 mg, E4 (Copper): 11 mg, E5 (Manganese): 48 mg, E6 (Zinc): 145 mg, E8 (Selenium): 0.06 mg - Technological additives: Clinoptilolite of sedimentary origin: 10 g - Preservatives - Antioxidants. ',
+  'ind.IND10004.Composition':
+    'dehydrated poultry proteins, corn, rice, vegetable protein isolate*, wheat, animal fats, animal protein hydrolysate, wheat flour, vegetable fibers, soybean oil, beet pulp, mineral salts, yeast and yeast components, fish oil, fructo-oligosaccharides, psyllium seed coatings and seeds (0.5%), borage oil ',
+  'ind.IND10004.crudeAshVal': '8.1 % ',
+  'ind.IND10004.crudeFibreVal': '4.1 %',
+  'ind.IND10004.des1':
+    'Helps stimulate intestinal transit and the elimination of ingested hair in a natural way thanks to specific fibres including psyllium.',
+  'ind.IND10004.des2':
+    'Highly digestible protein helps reduce the quantity and odour of stools.',
+  'ind.IND10004.des3':
+    'Contains specific nutrients including EPA and DHA to help maintain a healthy skin and a shiny coat.',
+  'ind.IND10004.des4':
+    "Formulated to help maintain health of an adult cat's urinary system.",
+  'ind.IND10004.EPADHAVal': '3.1 g/kg',
+  'ind.IND10004.fatContentVal': '15 % ',
+  'ind.IND10004.img1': 'image6.png',
+  'ind.IND10004.img2': 'image25.png',
+  'ind.IND10004.img3': 'image13.png',
+  'ind.IND10004.img4': 'image4.png',
+  'ind.IND10004.proteinVal': '30 % ',
+  'ind.IND10004.title1': 'HAIRBALL REDUCTION',
+  'ind.IND10004.title2': 'STOOL ODOUR REDUCTION',
+  'ind.IND10004.title3': 'SKIN & COAT HEALTH',
+  'ind.IND10004.title4': 'URINARY HEALTH',
+  'ind.IND10005.Additives':
+    'Nutritional additives: Vitamin A: 22500 IU, Vitamin D3: 900 IU, Vitamin C: 290 IU, E1 (Iron): 34 mg, E2 (Iodine): 3,4 mg, E4 (Copper): 10 mg, E5 (Manganese): 44 mg, E6 (Zinc): 131 mg, E8 (Selenium): 0.05 mg - Technological additives: Clinoptilolite of sedimentary origin: 5 g - Sensory additives: Tea extract (source of polyphenols): 0.6 g - Zootechnical additives: Ammonium chloride: 5 g - Preservatives - Antioxidants. ',
+  'ind.IND10005.Composition':
+    'corn, dehydrated poultry protein, barley, corn flour, wheat, vegetable protein isolate*, animal fat, corn gluten, animal protein hydrolysate, vegetable fiber, beet pulp, mineral salts, soybean oil, yeast and yeast components, fish oil, fructo-oligosaccharides, psyllium teguments and seeds, crustacean hydrolysate (source of glucosamine), marigold extract (source of lutein), cartilage hydrolysate (source of chondroitin). ',
+  'ind.IND10005.crudeAshVal': '6.9 % ',
+  'ind.IND10005.crudeFibreVal': '3.6 %',
+  'ind.IND10005.des1':
+    'Enriched with specific nutrients including green tea polyphenols, vitamin C, EPA and DHA.',
+  'ind.IND10005.des2':
+    'Highly digestible protein helps reduce the quantity and odour of stools.',
+  'ind.IND10005.des3':
+    'Helps support renal health thanks to an adapted phosphorus level.',
+  'ind.IND10005.des4':
+    "Formulated to help maintain health of an adult cat's urinary system.",
+  'ind.IND10005.EPADHAVal': '3.8 g/kg',
+  'ind.IND10005.fatContentVal': '13 % ',
+  'ind.IND10005.img1': 'image14.png',
+  'ind.IND10005.img2': 'image25.png',
+  'ind.IND10005.img3': 'image15.png',
+  'ind.IND10005.img4': 'image4.png',
+  'ind.IND10005.PhosphorusVal': '0.75 %',
+  'ind.IND10005.proteinVal': '27 %',
+  'ind.IND10005.title1': 'VITALITY COMPLEX',
+  'ind.IND10005.title2': 'STOOL ODOUR REDUCTION',
+  'ind.IND10005.title3': 'RENAL HEALTH',
+  'ind.IND10005.title4': 'URINARY HEALTH',
+  'ind.IND10006.Additives':
+    'Nutritional additives: Vitamin A: 19000 IU, Vitamin D3: 700 IU, E1 (Iron): 37 mg, E2 (Iodine): 3,7 mg, E4 (Copper): 11 mg, E5 (Manganese): 48 mg, E6 (Zinc): 145 mg, E8 (Selenium): 0.06 mg - Sensory additives: Tea extract (source of polyphenols): 0.6 g - Preservatives - Antioxidants. ',
+  'ind.IND10006.Composition':
+    'vegetable protein isolate*, precooked wheat flour, animal fat, dehydrated poultry protein, rice, corn, vegetable fiber, animal protein hydrolysate, chicory pulp, mineral salts, fish oil, soybean oil, yeast and yeast components, tomato (source of lycopene), fructo-oligosaccharides, psyllium teguments and seeds, yeast hydrolysate (source of manno-oligosaccharides), shellfish hydrolysate (source of glucosamine), borage oil, marigold extract (source of lutein), cartilage hydrolysate (source of chondroitin). ',
+  'ind.IND10006.crudeAshVal': '5.3 % ',
+  'ind.IND10006.crudeFibreVal': '4.4 %',
+  'ind.IND10006.des1':
+    "Helps stimulate the senior cat's appetite thanks to a highly palatable, double texture kibble which is easy to chew.",
+  'ind.IND10006.des2':
+    'A patented* complex of antioxidants including lycopene and Omega 3 fatty acids supports the body through the consequences of ageing. {val} *France, patent No EP1146870',
+  'ind.IND10006.des3':
+    'Helps support healthy renal function thanks to a moderate phosphorus level.',
+  'ind.IND10006.des4':
+    "Formulated to help maintain health of an adult cat's urinary system.",
+  'ind.IND10006.fatContentVal': '19 % ',
+  'ind.IND10006.img1': 'image16.png',
+  'ind.IND10006.img2': 'image17.png',
+  'ind.IND10006.img3': 'image15.png',
+  'ind.IND10006.img4': 'image4.png',
+  'ind.IND10006.LycopeneVal': '8 mg',
+  'ind.IND10006.OmegaVal': '10.9 g',
+  'ind.IND10006.PerVal': ' ',
+  'ind.IND10006.PhosphorusVal': '0.6 %',
+  'ind.IND10006.proteinVal': '30 %',
+  'ind.IND10006.title1': 'APPETITE STIMULATION',
+  'ind.IND10006.title2': 'HEALTHY AGEING COMPLEX',
+  'ind.IND10006.title3': 'RENAL HEALTH',
+  'ind.IND10006.title4': 'URINARY HEALTH',
+  'ind.IND10007.Additives':
+    'Nutritional additives: Vitamin A: 19000 IU, Vitamin D3: 700 IU, E1 (Iron): 40 mg, E2 (Iodine): 4 mg, E4 (Copper): 12 mg, E5 (Manganese): 52 mg, E6 (Zinc): 154 mg, E8 (Selenium): 0,07 mg - Sensory additives: Tea extract (source of polyphenols): 0,6 g - Preservatives - Antioxidants. ',
+  'ind.IND10007.Composition':
+    'corn, vegetable protein isolate*, corn meal, dehydrated poultry protein, wheat, corn gluten, animal fat, vegetable fiber, animal protein hydrolysate, chicory pulp, mineral salts, fish oil, soybean oil, yeast and yeast components, tomato (source of lycopene), fructo-oligosaccharides, psyllium teguments and seeds, yeast hydrolysate (source of manno-oligosaccharides), shellfish hydrolysate (source of glucosamine), borage oil, marigold extract (source of lutein), cartilage hydrolysate (source of chondroitin). ',
+  'ind.IND10007.crudeAshVal': '5.4 % ',
+  'ind.IND10007.crudeFibreVal': '4.9 %',
+  'ind.IND10007.des1':
+    'Contains a moderate level of fat to help maintain an ideal body condition.',
+  'ind.IND10007.des2':
+    'A patented* complex of antioxidants including lycopene and Omega 3 fatty acids supports the body through the consequences of ageing. {val} *France, patent No EP1146870',
+  'ind.IND10007.des3':
+    'Helps support healthy renal function thanks to a moderate phosphorus level.',
+  'ind.IND10007.des4':
+    "Formulated to help maintain health of an adult cat's urinary system.",
+  'ind.IND10007.fatContentVal': '15 % ',
+  'ind.IND10007.img1': 'image12.png',
+  'ind.IND10007.img2': 'image17.png',
+  'ind.IND10007.img3': 'image15.png',
+  'ind.IND10007.img4': 'image9.png',
+  'ind.IND10007.LycopeneVal': '6.5 mg',
+  'ind.IND10007.OmegaVal': '10.9 g',
+  'ind.IND10007.PerVal': ' ',
+  'ind.IND10007.PhosphorusVal': '0.6 %',
+  'ind.IND10007.proteinVal': '30 %',
+  'ind.IND10007.title1': 'WEIGHT MAINTENANCE',
+  'ind.IND10007.title2': 'HEALTHY AGEING COMPLEX',
+  'ind.IND10007.title3': 'RENAL HEALTH',
+  'ind.IND10007.title4': 'URINARY HEALTH',
+  'ind.Lcarnitine': 'L-carnitine',
+  'ind.Lycopene': 'Lycopene',
+  'ind.Omega': 'Omega 3 fatty acids',
+  'ind.Per': 'Per kg',
+  'ind.Phosphorus': 'Phosphorus',
+  'ind.protein': 'Protein',
   information: 'Information',
   inputSearchText: 'input search text',
   inputYourEmailReceivePayment:
@@ -596,230 +879,27 @@ const en_US = {
   inTransit: 'In transit',
   invoice: 'invoice',
   isContinue: 'Whether to continue?',
-  isPurebredDog: 'Purebred dog?',
   isPurebredCat: 'Purebred cat?',
+  isPurebredDog: 'Purebred dog?',
   item: '{val} item',
   items: '{val} items',
-
-  'ind.IND10001.des1':
-    ' - Ideal fibre blend to support the feeling of fullness. - Adapted protein content to help maintain muscle mass for healthy weight maintenance. - Hunger-satisfying nutrition with a rich taste, formulated to help keep your cat fit.',
-  'ind.IND10001.img1': 'image7.png',
-  'ind.IND10001.title2': 'ENRICHED WITH L-CARNITINE',
-  'ind.IND10001.des2':
-    'Enriched with L-carnitine, involved in a healthy fat metabolism.',
-  'ind.IND10001.img2': 'image8.png',
-  'ind.IND10001.title3': 'URINARY HEALTH',
-  'ind.IND10001.des3':
-    'Formulé avec un équilibre de minéraux pour contribuer à la santé du système urinaire du chat adulte.',
-  'ind.IND10001.img3': 'image4.png',
-
-  'ind.IND10002.title1': 'HUNGER REGULATION',
-  'ind.IND10002.des1':
-    'Helps reduce the feeling of hunger with a specific blend of fibres to help satisfy the appetite of cats that have a tendency to beg for food between meals.',
-  'ind.IND10002.img1': 'image11.png',
-  'ind.IND10002.title2': 'WEIGHT MANAGEMENT',
-  'ind.IND10002.des2':
-    'Crafted with moderate fat and precise energy content to help your cat stay fit.',
-  'ind.IND10002.img2': 'image12.png',
-  'ind.IND10002.title3': 'ENRICHED WITH L-CARNITINE',
-  'ind.IND10002.des3':
-    'Enriched with L-carnitine, involved in a healthy fat metabolism.',
-  'ind.IND10002.img3': 'image8.png',
-  'ind.IND10002.title4': 'URINARY HEALTH',
-  'ind.IND10002.des4':
-    "Formulated with a balance of minerals to help maintain the health of an adult cat's urinary system.",
-  'ind.IND10002.img4': 'image4.png',
-
-  'ind.IND10003.title1': 'MODERATE CALORIE',
-  'ind.IND10003.des1':
-    'A moderate fat content adapted to the lower activity of indoor cats.',
-  'ind.IND10003.img1': 'image7.png',
-  'ind.IND10003.title2': 'HAIRBALL REDUCTION',
-  'ind.IND10003.des2':
-    'Helps stimulate the elimination of ingested hair thanks to specific fibres including psyllium.',
-  'ind.IND10003.img2': 'image6.png',
-  'ind.IND10003.title3': 'STOOL ODOUR REDUCTION',
-  'ind.IND10003.des3':
-    'Contains highly digestible protein (L.I.P.)* and helps reduce the quantity and odour of stools. {val} *L.I.P.: protein selected for its very high digestibility',
-  'ind.IND10003.img3': 'image25.png',
-  'ind.IND10003.title4': 'URINARY HEALTH',
-  'ind.IND10003.des4':
-    "Formulated to help maintain health of an adult cat's urinary system.",
-  'ind.IND10003.img4': 'image4.png',
-
-  'ind.IND10004.title1': 'HAIRBALL REDUCTION',
-  'ind.IND10004.des1':
-    'Helps stimulate intestinal transit and the elimination of ingested hair in a natural way thanks to specific fibres including psyllium.',
-  'ind.IND10004.img1': 'image6.png',
-  'ind.IND10004.title2': 'STOOL ODOUR REDUCTION',
-  'ind.IND10004.des2':
-    'Highly digestible protein helps reduce the quantity and odour of stools.',
-  'ind.IND10004.img2': 'image25.png',
-  'ind.IND10004.title3': 'SKIN & COAT HEALTH',
-  'ind.IND10004.des3':
-    'Contains specific nutrients including EPA and DHA to help maintain a healthy skin and a shiny coat.',
-  'ind.IND10004.img3': 'image13.png',
-  'ind.IND10004.title4': 'URINARY HEALTH',
-  'ind.IND10004.des4':
-    "Formulated to help maintain health of an adult cat's urinary system.",
-  'ind.IND10004.img4': 'image4.png',
-
-  'ind.IND10005.title1': 'VITALITY COMPLEX',
-  'ind.IND10005.des1':
-    'Enriched with specific nutrients including green tea polyphenols, vitamin C, EPA and DHA.',
-  'ind.IND10005.img1': 'image14.png',
-  'ind.IND10005.title2': 'STOOL ODOUR REDUCTION',
-  'ind.IND10005.des2':
-    'Highly digestible protein helps reduce the quantity and odour of stools.',
-  'ind.IND10005.img2': 'image25.png',
-  'ind.IND10005.title3': 'RENAL HEALTH',
-  'ind.IND10005.des3':
-    'Helps support renal health thanks to an adapted phosphorus level.',
-  'ind.IND10005.img3': 'image15.png',
-  'ind.IND10005.title4': 'URINARY HEALTH',
-  'ind.IND10005.des4':
-    "Formulated to help maintain health of an adult cat's urinary system.",
-  'ind.IND10005.img4': 'image4.png',
-
-  'ind.IND10006.title1': 'APPETITE STIMULATION',
-  'ind.IND10006.des1':
-    "Helps stimulate the senior cat's appetite thanks to a highly palatable, double texture kibble which is easy to chew.",
-  'ind.IND10006.img1': 'image16.png',
-  'ind.IND10006.title2': 'HEALTHY AGEING COMPLEX',
-  'ind.IND10006.des2':
-    'A patented* complex of antioxidants including lycopene and Omega 3 fatty acids supports the body through the consequences of ageing. {val} *France, patent No EP1146870',
-  'ind.IND10006.img2': 'image17.png',
-  'ind.IND10006.title3': 'RENAL HEALTH',
-  'ind.IND10006.des3':
-    'Helps support healthy renal function thanks to a moderate phosphorus level.',
-  'ind.IND10006.img3': 'image15.png',
-  'ind.IND10006.title4': 'URINARY HEALTH',
-  'ind.IND10006.des4':
-    "Formulated to help maintain health of an adult cat's urinary system.",
-  'ind.IND10006.img4': 'image4.png',
-
-  'ind.IND10007.title1': 'WEIGHT MAINTENANCE',
-  'ind.IND10007.des1':
-    'Contains a moderate level of fat to help maintain an ideal body condition.',
-  'ind.IND10007.img1': 'image12.png',
-  'ind.IND10007.title2': 'HEALTHY AGEING COMPLEX',
-  'ind.IND10007.des2':
-    'A patented* complex of antioxidants including lycopene and Omega 3 fatty acids supports the body through the consequences of ageing. {val} *France, patent No EP1146870',
-  'ind.IND10007.img2': 'image17.png',
-  'ind.IND10007.title3': 'RENAL HEALTH',
-  'ind.IND10007.des3':
-    'Helps support healthy renal function thanks to a moderate phosphorus level.',
-  'ind.IND10007.img3': 'image15.png',
-  'ind.IND10007.title4': 'URINARY HEALTH',
-  'ind.IND10007.des4':
-    "Formulated to help maintain health of an adult cat's urinary system.",
-  'ind.IND10007.img4': 'image9.png',
-
-  'ind.composition': 'COMPOSITION',
-  'ind.additives': 'ADDITIVES (per kg)',
-  'ind.protein': 'Protein',
-  'ind.fatContent': 'Fat content',
-  'ind.crudeAsh': 'Crude ash',
-  'ind.crudeCellulose': 'Crude cellulose',
-  'ind.crudeFibre': 'Crude fibre',
-  'ind.Lcarnitine': 'L-carnitine',
-  'ind.EPADHA': 'EPA/DHA',
-  'ind.Phosphorus': 'Phosphorus',
-  'ind.Per': 'Per kg',
-  'ind.Omega': 'Omega 3 fatty acids',
-  'ind.Lycopene': 'Lycopene',
-
-  'ind.IND10001.Composition':
-    'protéines de volaille déshydratées, fibres végétales, isolat de protéines végétales*, maïs, hydrolysat de protéines animales, gluten de maïs, farine de maïs, riz, blé, graisses animales, sels minéraux, pulpe de betterave, levures et composants de levures, huile de poisson, téguments et graines de psyllium, huile de soja. ',
-  'ind.IND10001.Additives':
-    ' Additifs nutritionnels : Vitamine A : 21000 UI, Vitamine D3 : 800 UI, Fer(3b103) : 30 mg, Iode(3b201, 3b202) : 3 mg, Cuivre(3b405, 3b406) : 9 mg, Manganèse(3b502, 3b504) : 39 mg, Zinc(3b603, 3b605, 3b606) : 128 mg, Sélénium(3b801, 3b811, 3b812) : 0,06 mg, L-carnitine : 200 mg - Conservateurs - Antioxygènes. ',
-  'ind.IND10001.proteinVal': '36.0 % ',
-  'ind.IND10001.fatContentVal': '10.0 % ',
-  'ind.IND10001.crudeAshVal': '7.5 % ',
-  'ind.IND10001.crudeFibreVal': '10.4 %',
-
-  'ind.IND10002.Composition':
-    'dehydrated poultry proteins, vegetable fibers, corn, wheat, wheat gluten*, corn gluten, animal protein hydrolysate, animal fats, rice, beet pulp, yeast by-products, mineral salts, soybean oil, fish oil, psyllium seed coatings and seeds, fructo-oligosaccharides',
-  'ind.IND10002.Additives':
-    'Nutritional additives: Vitamin A: 19500 IU, Vitamin D3: 700 IU, Iron(3b103): 41 mg, Iodine(3b201, 3b202): 4,1 mg, Copper(3b405, 3b406): 13 mg, Manganese(3b502, 3b504): 53 mg, Zinc(3b603, 3b605, 3b606): 126 mg, Selenium(3b801, 3b811, 3b812): 0.07 mg - Technological additives: Clinoptilolite of sedimentary origin: 10 g - Preservatives - Antioxidants.',
-  'ind.IND10002.proteinVal': '36.0 % ',
-  'ind.IND10002.fatContentVal': '10.0 % ',
-  'ind.IND10002.crudeAshVal': '8.0 % ',
-  'ind.IND10002.crudeFibreVal': '9.2 %',
-  'ind.IND10002.LcarnitineVal': '200 mg/kg',
-
-  'ind.IND10003.Composition':
-    'dehydrated poultry protein, rice, wheat, corn, vegetable protein isolate*, animal fat, animal protein hydrolysate, wheat flour, vegetable fiber, beet pulp, yeast and yeast components, soybean oil, mineral salts, fructo-oligosaccharides, fish oil, seed coatings and psyllium seeds (0.5%) ',
-  'ind.IND10003.Additives':
-    'Nutritional additives: Vitamin A: 13500 IU, Vitamin D3: 700 IU, E1 (Iron): 42 mg, E2 (Iodine): 4,2 mg, E4 (Copper): 13 mg, E5 (Manganese): 55 mg, E6 (Zinc): 164 mg, E8 (Selenium): 0,09 mg - Technological additives: Clinoptilolite of sedimentary origin: 10 g - Preservatives - Antioxidants. ',
-  'ind.IND10003.proteinVal': '27 % ',
-  'ind.IND10003.fatContentVal': '13 %',
-  'ind.IND10003.crudeAshVal': '7.3 %',
-  'ind.IND10003.crudeCellulosenVal': '4 %. ',
-
-  'ind.IND10004.Composition':
-    'dehydrated poultry proteins, corn, rice, vegetable protein isolate*, wheat, animal fats, animal protein hydrolysate, wheat flour, vegetable fibers, soybean oil, beet pulp, mineral salts, yeast and yeast components, fish oil, fructo-oligosaccharides, psyllium seed coatings and seeds (0.5%), borage oil ',
-  'ind.IND10004.Additives':
-    'Nutritional additives: Vitamin A: 22000 IU, Vitamin D3: 800 IU, E1 (Iron): 37 mg, E2 (Iodine): 3.7 mg, E4 (Copper): 11 mg, E5 (Manganese): 48 mg, E6 (Zinc): 145 mg, E8 (Selenium): 0.06 mg - Technological additives: Clinoptilolite of sedimentary origin: 10 g - Preservatives - Antioxidants. ',
-  'ind.IND10004.proteinVal': '30 % ',
-  'ind.IND10004.fatContentVal': '15 % ',
-  'ind.IND10004.crudeAshVal': '8.1 % ',
-  'ind.IND10004.crudeFibreVal': '4.1 %',
-  'ind.IND10004.EPADHAVal': '3.1 g/kg',
-
-  'ind.IND10005.Composition':
-    'corn, dehydrated poultry protein, barley, corn flour, wheat, vegetable protein isolate*, animal fat, corn gluten, animal protein hydrolysate, vegetable fiber, beet pulp, mineral salts, soybean oil, yeast and yeast components, fish oil, fructo-oligosaccharides, psyllium teguments and seeds, crustacean hydrolysate (source of glucosamine), marigold extract (source of lutein), cartilage hydrolysate (source of chondroitin). ',
-  'ind.IND10005.Additives':
-    'Nutritional additives: Vitamin A: 22500 IU, Vitamin D3: 900 IU, Vitamin C: 290 IU, E1 (Iron): 34 mg, E2 (Iodine): 3,4 mg, E4 (Copper): 10 mg, E5 (Manganese): 44 mg, E6 (Zinc): 131 mg, E8 (Selenium): 0.05 mg - Technological additives: Clinoptilolite of sedimentary origin: 5 g - Sensory additives: Tea extract (source of polyphenols): 0.6 g - Zootechnical additives: Ammonium chloride: 5 g - Preservatives - Antioxidants. ',
-  'ind.IND10005.proteinVal': '27 %',
-  'ind.IND10005.fatContentVal': '13 % ',
-  'ind.IND10005.crudeAshVal': '6.9 % ',
-  'ind.IND10005.crudeFibreVal': '3.6 %',
-  'ind.IND10005.PhosphorusVal': '0.75 %',
-  'ind.IND10005.EPADHAVal': '3.8 g/kg',
-
-  'ind.IND10006.Composition':
-    'vegetable protein isolate*, precooked wheat flour, animal fat, dehydrated poultry protein, rice, corn, vegetable fiber, animal protein hydrolysate, chicory pulp, mineral salts, fish oil, soybean oil, yeast and yeast components, tomato (source of lycopene), fructo-oligosaccharides, psyllium teguments and seeds, yeast hydrolysate (source of manno-oligosaccharides), shellfish hydrolysate (source of glucosamine), borage oil, marigold extract (source of lutein), cartilage hydrolysate (source of chondroitin). ',
-  'ind.IND10006.Additives':
-    'Nutritional additives: Vitamin A: 19000 IU, Vitamin D3: 700 IU, E1 (Iron): 37 mg, E2 (Iodine): 3,7 mg, E4 (Copper): 11 mg, E5 (Manganese): 48 mg, E6 (Zinc): 145 mg, E8 (Selenium): 0.06 mg - Sensory additives: Tea extract (source of polyphenols): 0.6 g - Preservatives - Antioxidants. ',
-  'ind.IND10006.proteinVal': '30 %',
-  'ind.IND10006.fatContentVal': '19 % ',
-  'ind.IND10006.crudeAshVal': '5.3 % ',
-  'ind.IND10006.crudeFibreVal': '4.4 %',
-  'ind.IND10006.PhosphorusVal': '0.6 %',
-  'ind.IND10006.PerVal': ' ',
-  'ind.IND10006.OmegaVal': '10.9 g',
-  'ind.IND10006.LycopeneVal': '8 mg',
-
-  'ind.IND10007.Composition':
-    'corn, vegetable protein isolate*, corn meal, dehydrated poultry protein, wheat, corn gluten, animal fat, vegetable fiber, animal protein hydrolysate, chicory pulp, mineral salts, fish oil, soybean oil, yeast and yeast components, tomato (source of lycopene), fructo-oligosaccharides, psyllium teguments and seeds, yeast hydrolysate (source of manno-oligosaccharides), shellfish hydrolysate (source of glucosamine), borage oil, marigold extract (source of lutein), cartilage hydrolysate (source of chondroitin). ',
-  'ind.IND10007.Additives':
-    'Nutritional additives: Vitamin A: 19000 IU, Vitamin D3: 700 IU, E1 (Iron): 40 mg, E2 (Iodine): 4 mg, E4 (Copper): 12 mg, E5 (Manganese): 52 mg, E6 (Zinc): 154 mg, E8 (Selenium): 0,07 mg - Sensory additives: Tea extract (source of polyphenols): 0,6 g - Preservatives - Antioxidants. ',
-  'ind.IND10007.proteinVal': '30 %',
-  'ind.IND10007.fatContentVal': '15 % ',
-  'ind.IND10007.crudeAshVal': '5.4 % ',
-  'ind.IND10007.crudeFibreVal': '4.9 %',
-  'ind.IND10007.PhosphorusVal': '0.6 %',
-  'ind.IND10007.PerVal': ' ',
-  'ind.IND10007.OmegaVal': '10.9 g',
-  'ind.IND10007.LycopeneVal': '6.5 mg',
-
-  IVAIncluido: '',
   joinTheClub: 'Join the Club',
   just: 'Just',
+  kg: 'kg',
   lastName: 'Last Name *',
   learnMore: 'learn more',
+  'list.applyFilters': 'Apply filters',
+  'list.clearFilters': 'Clear all filters',
+  'list.closeFilters': 'Close filters',
   'list.errMsg':
     'No products found, please change the search criteria and try again.',
   'list.errMsg2':
     'No products found, please change the keywords and try again.',
   'list.errMsg3': 'No filters found, please try again later.',
-  'search.noResultTip':
-    'No products found. Please change your search term and try again.',
+  'list.viewFilters': 'View filters',
   'list.youSearchedFor': 'You searched for',
   listPrice: 'List price',
   login: 'Login',
-  'login.firstCheck': '',
   'login.forgetPassword': 'Forget your password?',
   'login.guestContinue': 'Continue with a guest',
   'login.loginTip':
@@ -832,18 +912,21 @@ const en_US = {
   loginFailed: 'login failed',
   logisticsCompany: 'Logistics company',
   logisticsRating: 'Logistics rating',
-  expertAdvice: 'Expert advice',
   logisticsSingleNumber: 'Logistics single number',
   logOff: 'Logout',
   mailAddress: 'Mail address',
-  // mailAddress: 'Mail address',
-  // mailAddress: 'Email',
   manage: 'Manage',
   mandatoryFieldsError: 'You have mandatory fields not filled out!',
   menu: 'Menu',
+  'miniBasket.total': 'Cart subtotal {totalPrice}',
+  'minicart.checkout': 'Buy now',
+  'minicart.frequency': 'Deliver every',
+  'minicart.quantityText': '{specText} - {buyCount} item(s)',
+  'minicart.totalProduct': '{val} item(s)',
   'mixed Breed': 'mixed Breed',
   'Mixed Breed': 'Mixed Breed',
   MMYY: 'MM/YY',
+  'mobile.cart.orderSummary': 'Order summary',
   modalCancelAllContent:
     'Are you sure you want to cancel all future shipments?',
   modalCancelAllTitle: 'CANCEL YOUR SUBSCRIPTION?',
@@ -868,8 +951,9 @@ const en_US = {
   newAddress: 'New address',
   newPassword: 'New Password',
   next: 'Next',
-  back: 'Back',
   nextShipment: 'Next shipment',
+  nextShipmentOn: 'Shipment on',
+  NextToPlaceAnOrder: 'Confirm',
   noClinicTip:
     'Your recommendation code is not valid. {val} & check with our partner clinics for a valid code.',
   noDefaultClinic: 'No default clinic',
@@ -892,6 +976,7 @@ const en_US = {
   'order.exchange': 'Exchange',
   'order.expireTime': 'Expire time',
   'order.expressMethod': 'Express method',
+  'order.goodwillOrder': '[Goodwill order]',
   'order.historyOfOrders': 'History of orders',
   'order.inputReturnNumberTip': 'Please input return number',
   'order.inTranistTip':
@@ -907,6 +992,7 @@ const en_US = {
   'order.paymentStatus': 'Payment Status',
   'order.paymentTime': 'Payment time',
   'order.payNow': 'Pay now',
+  'order.quantityText': '{specText} - Qty {buyCount}',
   'order.rateModalTitle': 'Your opinion is important',
   'order.refundErrorInfo':
     'This order is associated with a refund in processing and cannot be reapplied.',
@@ -920,14 +1006,16 @@ const en_US = {
   'order.shippingStatus': 'Shipping Status',
   'order.toBeDeliveredTip':
     'Your order has been successfully paid and we are preparing to ship.',
-  'orderStatus.INITTip':
-    'Your order has not been paid, please pay as soon as possible. {val}',
   'order.total': 'Total',
   'order.viewLogisticDetail': 'View logistic detail',
   'order.viewOrder': 'View order',
   orderDetail: 'Order Detail',
   orders: 'Orders',
+  'orderStatus.COMPLETED': 'Completed',
+  'orderStatus.INITTip':
+    'Your order has not been paid, please pay as soon as possible. {val}',
   orderSummary: 'Order Summary',
+  'Other products to consider': 'Other products to consider',
   outOfStockContent_cart:
     'Among the currently recommended products, there are out-of-stock products: {val}. If you continue to add the shopping cart, the out-of-stock products will be deleted directly.',
   outOfStockContent_pay:
@@ -937,13 +1025,18 @@ const en_US = {
   packageX: 'Package {val}',
   password: 'Password *',
   passwordHide: 'Password:********',
+  paused: 'Paused',
   payAtOxxO: 'Pay at any OXXO with cash in Mexico',
   'payment.acceptCards': 'We accept credit cards.',
   'payment.address1': 'Address, line 1',
   'payment.address2': 'Address, line 2',
   'payment.addressTitle': 'Address and Shipping Method',
+  'payment.apartment': 'Apartment',
   'payment.apply': 'Apply',
+  'payment.April': 'April',
+  'payment.August': 'August',
   'payment.billTitle': 'Billing address',
+  'payment.cardInfoErr': 'The card information is incorrect, please check.',
   'payment.cardNumber': 'Card number',
   'payment.cardNumber2': 'CARD NUMBER',
   'payment.cardOwner': 'Cardowner',
@@ -954,7 +1047,10 @@ const en_US = {
   'payment.clinicTitle': 'Selected clinic',
   'payment.clinicTitle2': 'Default clinic',
   'payment.clinicTitle3': 'Selected Clinic',
+  'payment.codConfirmTip': 'Payment upon receipt',
   'payment.codeSecure': 'Code Secure',
+  'payment.codTip': 'I want to pay by cash or card upon receipt',
+  'payment.comment': 'Comment',
   'payment.commentOnDelivery': 'Comment on delivery',
   'payment.confirmCard': 'Confirm Card',
   'payment.confirmInfo1': 'I confirm that I am over 18 years old',
@@ -965,16 +1061,20 @@ const en_US = {
   'payment.confirmInfo4':
     'You need to familiarize yourself with the User Agreement and the Privacy Policy and give your consent to the processing of personal data, including cross-border transfer.',
   'payment.country': 'Country',
+  'payment.county': 'County',
   'payment.DEBIT': 'DEBIT',
+  'payment.December': 'December',
   'payment.deliveryFrequency': 'Delivery Frequency',
   'payment.deliveryTitle': 'Delivery Details',
   'payment.email': 'Email',
+  'payment.entrance': 'Entrance',
   'payment.errorInfo': '*{val} must be filled',
   'payment.errorInfo2': 'This field is required.',
   'payment.errorInfo3': 'This field is required for subscriptions.',
   'payment.errTip': 'please enter cvv or select a card',
   'payment.EXPMonth': 'EXP. Month',
   'payment.EXPYear': 'EXP. Year',
+  'payment.February': 'February',
   'payment.firstName': 'First Name',
   'payment.forFree': 'For Free',
   'payment.forFreeTip':
@@ -982,82 +1082,67 @@ const en_US = {
   'payment.frequencyTip1': 'Yes, Make my life easy!',
   'payment.frequencyTip2': 'No, Thank you.',
   'payment.frequencyTip3': 'Your items will only ship once.',
+  'payment.Friday': 'Friday',
   'payment.further': 'Pay',
+  'payment.homeDelivery': 'Home delivery',
+  'payment.house': 'house',
   'payment.howToDelivery': 'How to deliver',
   'payment.itemTotalProduct': 'item total product',
+  'payment.January': 'January',
+  'payment.July': 'July',
+  'payment.June': 'June',
   'payment.lastName': 'Last Name',
+  'payment.March': 'March',
+  'payment.May': 'May',
+  'payment.Monday': 'Monday',
   'payment.normalDelivery': 'Normal Delivery(1-4 days)',
   'payment.normalDelivery2': 'Normal Delivery',
   'payment.normalDelivery3': '(1-4 days)',
+  'payment.November': 'November',
+  'payment.October': 'October',
   'payment.payment': 'Payment Method',
   'payment.paymentInformation': 'Payment Method',
   'payment.phoneNumber': 'Phone Number',
   'payment.phoneNumber2': 'Phone',
+  'payment.pickupDelivery': 'Pick up delivery',
+  'payment.pleaseInput': 'Please input: ',
   'payment.postCode': 'ZIP Code',
   'payment.postCode2': 'Postal code',
-  'payment.pleaseInput': 'Please input: ',
-  'payment.streets': 'streets',
-  'payment.house': 'house',
   'payment.province': 'province',
-  'payment.settlement': 'settlement',
-  'payment.wrongAddress':
-    'Please enter your address in the delivery area of the online store. You can see the "partial help" of the delivery terms on the page',
-  'payment.rfc': 'Reference',
-  'payment.saveFor': 'Save for next payment',
-  'payment.socialId': 'Social id',
-  'payment.state': 'State',
-  'payment.county': 'County',
   'payment.region': 'Region',
-  'payment.entrance': 'Entrance',
-  'payment.apartment': 'Apartment',
-  'payment.comment': 'Comment',
+  'payment.reselectTimeSlot': 'Please re select delivery date and timeslot.',
+  'payment.returnToCardList': 'Return to card list',
+  'payment.rfc': 'Reference',
+  'payment.Saturday': 'Saturday',
+  'payment.saveFor': 'Save for next payment',
+  'payment.September': 'September',
+  'payment.settlement': 'settlement',
+  'payment.shippingDiscount': 'Shipping Discount',
+  'payment.socialId': 'Social id',
+  'payment.staleDate': 'Please repeat the date and time of delivery',
+  'payment.state': 'State',
+  'payment.streets': 'streets',
   'payment.subTip1': 'You will save an additional {val} on this order!',
   'payment.subTip2':
     'Save your first {icon} Subscription order and save {val} ({val2}) today!',
+  'payment.Sunday': 'Sunday',
   'payment.theBox': 'This box is required for subscription',
-  // 'payment.totalProduct': '{val} total product(s)',
+  'payment.Thursday': 'Thursday',
+  'payment.tomorrow': 'tomorrow',
   'payment.totalProduct': '{val} item(s)',
   'payment.totalProduct2': '{val} products',
-  'payment.yourOrder': 'Your order',
-  'payment.cardInfoErr': 'The card information is incorrect, please check.',
-
-  'payment.tomorrow': 'tomorrow',
-
-  'payment.homeDelivery': 'Home delivery',
-  'payment.pickupDelivery': 'Pick up delivery',
-
-  'payment.staleDate': 'Please repeat the date and time of delivery',
-
-  'payment.reselectTimeSlot': 'Please re select delivery date and timeslot.',
-
-  // 星期
-  'payment.Monday': 'Monday',
   'payment.Tuesday': 'Tuesday',
   'payment.Wednesday': 'Wednesday',
-  'payment.Thursday': 'Thursday',
-  'payment.Friday': 'Friday',
-  'payment.Saturday': 'Saturday',
-  'payment.Sunday': 'Sunday',
-
-  // 月份
-  'payment.January': 'January',
-  'payment.February': 'February',
-  'payment.March': 'March',
-  'payment.April': 'April',
-  'payment.May': 'May',
-  'payment.June': 'June',
-  'payment.July': 'July',
-  'payment.August': 'August',
-  'payment.September': 'September',
-  'payment.October': 'October',
-  'payment.November': 'November',
-  'payment.December': 'December',
-
+  'payment.wrongAddress':
+    'Please enter your address in the delivery area of the online store. You can see the "partial help" of the delivery terms on the page',
+  'payment.yourOrder': 'Your order',
   paymentMethod: 'Payment method',
   'paymethods.btn': 'Add Payment',
-  //account.paymethods
   'paymethods.info':
     "You have no saved payment methods. Add your payment information here to speed up checkout. It's easy, private, and secure!",
+  paypal: 'Paypal',
+  'paypal.bref':
+    'How does it work? After submitting your order, you will be taken to PayPal where you can set up a new account or use your existing PayPal account to pay for your order.',
   personal: 'Personal',
   'pet.addNewPet': 'Add a new PET',
   'pet.deletePet': 'Delete Pet Profile',
@@ -1070,30 +1155,154 @@ const en_US = {
   pets: 'Pets',
   petType: 'Pet Type',
   phone: 'Phone',
+  pirceRange: 'From {fromPrice} to {toPrice}',
   pleasecompleteTheRequiredItem: 'Please complete the required item',
   pleaseEnterTheCorrectEmail: 'Please enter the correct email',
   PleaseFillInstructions: 'Please fill in the return instructions',
   'plp.retail.cat.button': 'Discover range',
   'plp.retail.cat.detail':
     'Dietary foods that help maintain the health of cats diagnosed with problems',
+  'plp.retail.cat.filter.specneed.learnmore': 'Learn more',
+  'plp.retail.cat.filter.specneed.tip':
+    'Discover the adapted recipe and the exact ration for your cat',
+  'plp.retail.cat.filter.specneed.tip.mobile':
+    'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
+  'plp.retail.cat.filter.specneed.title':
+    "Looking for a recipe to help your cat's optimal weight?",
   'plp.retail.cat.product.finder.button': 'Find a product',
   'plp.retail.cat.product.finder.detail': 'Try our product finder',
   'plp.retail.cat.product.finder.title': 'Need help finding the right product?',
-  //PLP-Retail-Cat
   'plp.retail.cat.title': 'Are you looking for veterinary products?',
   'plp.vet.cat.button': 'Discover range',
   'plp.vet.cat.detail':
     'Our complete range of dry foods and bites in sauce or jelly provides the most accurate nutrition for cats of all ages,sizes and breeds',
-  //PLP-Vet-Cat
   'plp.vet.cat.title':
     'Are you looking for food available in specialised outlets?',
+  plpFromNew: '{started}{plpValue}',
+  plpFromText: 'From',
   plsFillEmailTip: 'Your email is not filled in in the address bar',
   policyFalse: 'Please check this box if you wish to continue.',
+  'preciseNutrition.Address.firstLine':
+    'Service Consommateur Royal Canin France',
+  'preciseNutrition.Address.secondLine': '650 avenue de la petite Camargue',
+  'preciseNutrition.Address.thirdLine': '30470 AIMARGUES',
+  'preciseNutrition.Address.title': 'Address',
+  'preciseNutrition.banner.button': 'buy now',
+  'preciseNutrition.banner.day': 'day',
+  'preciseNutrition.banner.des1':
+    '30 days of complete & balanced diet for adult cat',
+  'preciseNutrition.banner.des2': 'Automatic shipment every 30 days',
+  'preciseNutrition.banner.des3': 'Free shipment cost',
+  'preciseNutrition.banner.month': 'month',
+  'preciseNutrition.banner.names': "{val}'s adapted diet & portion",
+  'preciseNutrition.banner.portion': 'Daily portion',
+  'preciseNutrition.banner.weight': 'Total pack weight',
+  'preciseNutrition.bannertext1': 'Secure payment',
+  'preciseNutrition.bannertext2': 'Satisfied or reimbursed',
+  'preciseNutrition.bannertext3': 'Premium Quality',
+  'preciseNutrition.bannertext4': '3 Days shipment',
+  'preciseNutrition.Below.content':
+    'On your first delivery you will receive an exclusive welcome pack that includes everything you need to properly feed & take care of [cat’s name].',
+  'preciseNutrition.Below.list': 'This premium pack will include :',
+  'preciseNutrition.Below.list1': 'Your cat’s adapted monthly diet',
+  'preciseNutrition.Below.list2':
+    'A weighting scale to provide the exact daily portion',
+  'preciseNutrition.Below.list3': 'A measuring cup to make it easy & precise',
+  'preciseNutrition.Below.list4':
+    'And of course all instructions in your welcome letter',
+  'preciseNutrition.Below.title': 'A WELCOME PACK TO BEST TAKE CARE OF {val}',
+  'preciseNutrition.benefits.content':
+    'We partner with pet experts – veterinarians, breeders, professional groups and organisations – to ensure that our nutritional formulas are precisely tailored to your pet’s needs.',
+  'preciseNutrition.benefits.title': 'Your cat’s diet proven benefits',
+  'preciseNutrition.bsc3.1': 'Ribs visible on shorthaired cats',
+  'preciseNutrition.bsc3.2': 'Obvious waist',
+  'preciseNutrition.bsc3.3': 'A very small amount of abdominal fat',
+  'preciseNutrition.bsc3.4':
+    'When viewed from the side, their abdomen appears tucked up behind their rib cage',
+  'preciseNutrition.bsc4.1': 'Ribs are not visible but can be easily felt',
+  'preciseNutrition.bsc4.2': 'Obvious waist',
+  'preciseNutrition.bsc4.3': 'A minimal amount of abdominal fat',
+  'preciseNutrition.bsc4.4': 'Slight abdominal tuck when viewed from the side',
+  'preciseNutrition.bsc5.1':
+    'Well proportioned body when viewed from above and from the side',
+  'preciseNutrition.bsc5.2': 'Ribs not visible but can be easily felt',
+  'preciseNutrition.bsc5.3': 'Obvious waist',
+  'preciseNutrition.bsc5.4': 'A small amount of abdominal fat',
+  'preciseNutrition.bsc5.5': 'Slight abdominal tuck when viewed from the side',
+  'preciseNutrition.bsc6.1': 'Ribs are not visible but can be felt',
+  'preciseNutrition.bsc6.2': 'Waist not clearly defined when seen from above',
+  'preciseNutrition.bsc6.3':
+    'Very slight abdominal tuck when viewed from the side',
+  'preciseNutrition.bsc7.1': 'Ribs are difficult to feel under the fat',
+  'preciseNutrition.bsc7.2': 'Waist barely visible',
+  'preciseNutrition.bsc7.3':
+    'When viewed from the side, their abdomen does not appear tucked up behind their rib cage',
+  'preciseNutrition.bsc7.4': 'Rounding of the abdomen',
+  'preciseNutrition.bscTip':
+    'To correctly assess your cat’s body follow this simple steps:',
+  'preciseNutrition.bscTip1':
+    '1. Look at your cat from above and from the side',
+  'preciseNutrition.bscTip2':
+    '2. Feel your cat’s body, gently applying pressure to find the ribs',
+  'preciseNutrition.call.content':
+    'Monday to Friday from 8:30am to 7pm and on Saturdays from 9am to 1pm',
+  'preciseNutrition.call.number': '0800 415 161',
+  'preciseNutrition.commitment.content1':
+    'At Royal canin, we work to reduce our environmental impact to keep our planet healthy.',
+  'preciseNutrition.commitment.content2':
+    'For this reason, your product will be handmade in France and the packaging you will receive with your order has been optimized to reduce its carbon print and it was produced with FSC certified materials, with the guarantee that the paper and cardboard come from recyclable sources and the wood from well managed forests.',
+  'preciseNutrition.commitment.content3':
+    'Even if the packaging is compostable, it should not be throw in the nature. Please follow the recommendation and throw it in the right bin. ',
+  'preciseNutrition.commitment.title': 'Our sustainability commitement',
+  'preciseNutrition.Details.content3.1':
+    'On each food label, after the "composition" that includes the ingredients or raw materials used to make the food (like a cake recipe), appear the analytical constituents, which reflect the analysis of the nutritients that make up the end product.',
+  'preciseNutrition.Details.content3.2':
+    'Thus, European regulatons requires manufacturers to quantify the quantities of protein, fat, raw cellulose and raw ashes.',
+  'preciseNutrition.Details.des':
+    '*L.I.P. : protein selected for its very high assimilation',
+  'preciseNutrition.Details.lastText1':
+    'How to use : Batch number, factory registration number and best before date : see information on packaging.',
+  'preciseNutrition.Details.lastText2':
+    'To be stored in a cool, dry place.  Water should be available at all times',
+  'preciseNutrition.Details.lastText3':
+    'How to use : [1] Water should be available at all times. [2] To be stored in a cool, dry place.',
+  'preciseNutrition.Details.link': 'Learn more',
+  'preciseNutrition.Details.list1':
+    'The quantity of protein does not in any way allow us to judge the quality of the food; in fact, some proteins are much more digestible than others (i.e. assimilable and usable by the body) and their composition in amino acids (22 in number) can be very different; however, some amino acids are said to be "essential" and must be provided by the food.',
+  'preciseNutrition.Details.list2':
+    'The amount of Fat is a good indicator of the energy provided by the food, as fat is the preferred "fuel" for dogs and cats, which are quite different from humans. Fat should be limited for sedentary, neutered or less active animals. ',
+  'preciseNutrition.Details.list3':
+    'The amount of cellulose or fiber is an indicator of the "satiating" power of the food. In addition to promoting good digestion and transit, fiber plays an important role in managing the animal\'s body weight.',
+  'preciseNutrition.Details.list4':
+    "Crude Ash reflects the amount of mineral matter (or minerals: Calcium, Phosphorus, Iron, Iodine, Potassium, Zinc, Copper...) contained in the food. All minerals are essential and vital for the proper functioning of the dog's or cat's body; as the animal ages, the intake of certain minerals must be reduced to limit the risk of urinary stones or, like phosphorus, to limit the risk of CKD (chronic kidney disease).",
+  'preciseNutrition.Details.lititle1': 'INGREDIENTS',
+  'preciseNutrition.Details.lititle2': 'ANALYTICAL CONSTITUENTS',
+  'preciseNutrition.Details.title':
+    'QUALITY INGREDIENTS & WELL BALANCED COMPOSITION',
+  'preciseNutrition.faq.content':
+    'You can check our {val} to see if your question has already been answered ',
+  'preciseNutrition.Product.list.content1':
+    "As well as nutritionally adapted to the needs of pets, our kibble's size, shape and ergonomics are specifically tailored to the unique jaw or physiognomy of a species or breed.",
+  'preciseNutrition.Product.list.content2':
+    'As well as a variety of sizes and shapes, kibbles have an adapted texture that allows them to break at specific times, and density to match the rate of ingestion of each pet. Our selection of wet diets also provide different textures to appeal to picky eaters.',
+  'preciseNutrition.Product.list.content3':
+    'Each Royal Canin diet has a precisely adapted nutritional profile, made up of at least 50 individual nutrients that are chosen specifically to support the health and sensitivities of cats and dogs.',
+  'preciseNutrition.Product.list.title1': '1.Kibble size and shape',
+  'preciseNutrition.Product.list.title2': '2.Texture and density',
+  'preciseNutrition.Product.list.title3': '3. Nutritional profile',
+  'preciseNutrition.Product.title': 'WHAT MAKES THIS KIBBLE UNIQUE',
+  'preciseNutrition.Top.title':
+    '* Offer not accumulated with the 10% discount on product subscriptions',
   prescription: 'Prescription',
   prescriptionDeclined: 'Prescription declined',
+  prevShipmentOn: 'Shipment on',
   price: 'Price',
   printEbanx: 'Print Ebanx',
   privacyPolicy: 'Privacy Policy',
+  'product.plp.foodtype.drycat': 'Dry cat food',
+  'product.plp.foodtype.drydog': 'Dry dog food',
+  'product.plp.foodtype.wetcat': 'Wet cat food',
+  'product.plp.foodtype.wetdog': 'Wet dog food',
   'productFinder.ageErrorShow':
     'Age selection needs to be greater than 0 months',
   'productFinder.createMyPetProfile': 'Create my Pet Profile',
@@ -1109,6 +1318,7 @@ const en_US = {
     'Out Pet Experts are always here to help you find the most precise diet for your pet',
   'productFinder.helpTip3': 'Get help from our pet advisor 123-456-789',
   'productFinder.index': 'Product finder',
+  'productFinder.mixBreed': 'Mix breed',
   'productFinder.otherProductsToConsider': 'Other products to consider',
   'productFinder.recoDesc':
     'The more we know about your pet, the better we can provide the most precise nutrition tailored to its unique needs.',
@@ -1136,6 +1346,7 @@ const en_US = {
   'productFinder.tip2':
     'This questionnaire will help you to choose the recommended food for your pet.',
   'productFinder.tip3': 'Your Pet is a ...',
+  'productFinder.weight': 'weight',
   'productFinder.whyAreWeAskingThis': 'Why are we asking this?',
   productRating: 'Product rating',
   produtctNumber: 'Product number',
@@ -1174,20 +1385,13 @@ const en_US = {
   quantity: 'Quantity',
   quantityCannotExceed10: 'Quantity cannot exceed 10',
   quantityText: '{specText} - {buyCount} item(s)',
-  'minicart.quantityText': '{specText} - {buyCount} item(s)',
-  'order.quantityText': '{specText} - Qty {buyCount}',
   queryDataFailed: 'Query Data Failed',
   ratingGrade1: 'Most Recent',
   ratingGrade2: 'Lowest to Highest Rating',
   ratingGrade3: 'Hightest to Lowest Rating',
   receiver: 'Receiver',
   recommandedForyou: 'Recommended for you',
-  seeMoreText: 'see more',
-  'recommendation.noMoreRecommendation':
-    'The product is no longer available or not available for sale',
   'recommendation.benefit': 'The benefits',
-  'recommendation.guidelinesTips':
-    "Royal Canin's feeding guidelines can also be found on the product packaging.",
   'recommendation.buyNow': 'Buy now',
   'recommendation.firstBtnText': 'Sign up',
   'recommendation.firstContent':
@@ -1200,31 +1404,34 @@ const en_US = {
     'Our Autoship service is designed to simplify your life and ensure you always get the best diet for your pet delivered directly to your doorstep.',
   'recommendation.firstTitle':
     'Discover your personally-selected nutrition recommendation below.',
-  // 'recommendation.firstTitle': 'Never run out of your pet’s food!',
-  'recommendation.helpContentText.title': "We're Here to Help",
-  'recommendation.helpContentText.des':
-    "As true pet lovers and experts in tailored nutrition, we're here to help you give your pet the healthiest life possible.",
-  'recommendation.helpContentText.emailTitle': 'Email us',
-  'recommendation.helpContentText.emailDes':
-    'We will respond as soon as possible.',
-  'recommendation.helpContentText.emailLink': '/help/contact',
-  'recommendation.helpContentText.phoneTitle': 'Call us',
-  'recommendation.helpContentText.phone': '1-844-673-3772',
-  'recommendation.helpContentText.email': 'Send us an email',
-  'recommendation.helpContentText.phoneDes1': 'Monday through Friday:',
-  'recommendation.helpContentText.phoneDes2': '8:00 AM - 4:30  PM CT',
-  'recommendation.petsImg': 'dog-and-cat.png',
-  'recommendation.plusTitle':
-    'Everything You And Your Pet Need PLUS a Royal Canin Advisor',
-  'recommendation.plusContent':
-    ' No matter the need, we’ve got you covered with exclusive benefits like access to pet experts and more through the Royal Canin Club. Joining is easy – sign up for automatic shipping on your pet’s tailored formulas to become a member today.',
-  'recommendation.plusBtn': 'Start Now',
-  'recommendation.plusImg': 'MRRC-20046_D2C-Advisor_App-Puppy2.jpg',
   'recommendation.fiveContent':
     'While neither of ornare risus. Now that sometimes the United States, from high school kids. Earth is no fear that the makeup temperature at zero drink employee. Unfortunately, the price of convenience pot. Arc soccer scores, eu or mourning to invest in the refrigerator. Clinical developers dui dui ultricies arrows, it is sterilized. Financing warm thermal relay. Even before the great, as is the biggest eleifend gravida vel, aliquam sed justo. Unfortunately, developers of football. Freight wagons dis fears manufacturing, the biggest one ugly chocolate. Sed tempor lectus justo. However, it is just that the main clinical time. Tomorrow the diameter at which time we make a weekend. Mauris live skirt layer protein.',
   'recommendation.fourContent':
     'Your pet means the world to you, and their health and happiness means the world to us !',
   'recommendation.fourTitle': 'Why Royal Canin?',
+  'recommendation.guidelinesTips':
+    "Royal Canin's feeding guidelines can also be found on the product packaging.",
+  'recommendation.helpContentText.des':
+    "As true pet lovers and experts in tailored nutrition, we're here to help you give your pet the healthiest life possible.",
+  'recommendation.helpContentText.email': 'Send us an email',
+  'recommendation.helpContentText.emailDes':
+    'We will respond as soon as possible.',
+  'recommendation.helpContentText.emailLink': '/help/contact',
+  'recommendation.helpContentText.emailTitle': 'Email us',
+  'recommendation.helpContentText.phone': '1-844-673-3772',
+  'recommendation.helpContentText.phoneDes1': 'Monday through Friday:',
+  'recommendation.helpContentText.phoneDes2': '8:00 AM - 4:30  PM CT',
+  'recommendation.helpContentText.phoneTitle': 'Call us',
+  'recommendation.helpContentText.title': "We're Here to Help",
+  'recommendation.noMoreRecommendation':
+    'The product is no longer available or not available for sale',
+  'recommendation.petsImg': 'dog-and-cat.png',
+  'recommendation.plusBtn': 'Start Now',
+  'recommendation.plusContent':
+    ' No matter the need, we’ve got you covered with exclusive benefits like access to pet experts and more through the Royal Canin Club. Joining is easy – sign up for automatic shipping on your pet’s tailored formulas to become a member today.',
+  'recommendation.plusImg': 'MRRC-20046_D2C-Advisor_App-Puppy2.jpg',
+  'recommendation.plusTitle':
+    'Everything You And Your Pet Need PLUS a Royal Canin Advisor',
   'recommendation.productDescription':
     'Royal Canin’s feeding guidelines can also be found on the product packaging.',
   'recommendation.recommendationPackage': 'Recommendation Package',
@@ -1243,6 +1450,9 @@ const en_US = {
     'These recommendations were made based on your pet’s unique needs and have been automatically added to your cart. ',
   'recommendation.welcomeText1': 'Welcome',
   'recommendation.welcomeText2': 'To Your Customized Product Recommendations',
+  recommendProductTip:
+    'The recommendations provided here are for infomational purpose only.Ie should not be cosidered as guarantee for what may be best for your individual pet. Quantity,Size and Frequency will be set up in the CLUB management page',
+  'register.royalCanin': 'Royal Canin',
   registerAname: 'A number',
   registerCloud: 'Commerce Cloud Storefront reference architecture',
   registerCompleteForm:
@@ -1261,6 +1471,7 @@ const en_US = {
     'You must be 13 years of age or older to submit a form. You can contact us at 1-844-673-3772 or click',
   registerGoogle: 'Connect with Google',
   registerHaveAccount: 'Already have an account?',
+  registerIllegalSymbol: 'Please enter the correct name format.',
   registerLength: '8 characters',
   registerLoginIn: 'Log in',
   registerLowercase: 'One lowercase letter',
@@ -1274,7 +1485,6 @@ const en_US = {
   registerTogglePassword: 'Toggle password visibility',
   registerUppercase: 'One uppercase letter',
   registerWelcome: 'Welcome to',
-  'register.royalCanin': 'Royal Canin',
   remember48Hours:
     'Remember that the order before {val}, the payment will expire before {val} pm two days later, or after {val} pm, the payment will expire before {val} pm three days later.',
   rememberMe: 'Remember Me',
@@ -1298,6 +1508,11 @@ const en_US = {
   reviews: 'Reviews',
   royalCanin: 'Royal Canin',
   royalCaninClub: 'Royal Canin Club',
+  'salesCategory.cat': 'For cat',
+  'salesCategory.content':
+    'Each formula has been formulated to provide nutrition that meets health needs based on size, breed, age or lifestyle.',
+  'salesCategory.dog': 'For dog',
+  'salesCategory.title': 'Discover our food ranges',
   save: 'Save',
   saveChange: 'Save Changes',
   saveExtra: 'Save {val} on this subscription',
@@ -1307,28 +1522,38 @@ const en_US = {
   saveSuccessfullly: 'Saved Successfully',
   saveSuccessfullly2: 'Your information has been correctly saved',
   saveSuccessfullly3: 'Saved Successfully',
-  deleteSuccessFullly: 'Delete successfullly',
   search: 'Search',
+  'search.noResultTip':
+    'No products found. Please change your search term and try again.',
   searchBreed: 'Search breed',
   searchForAProductOrArtical: 'Search for a product or article',
   searchNoBreed: 'not a pedigree',
+  'searchNoBreed.breedName': 'Search Results',
+  'searchNoResult.content1': 'We could not find any products matching',
+  'searchNoResult.content2':
+    'Please try a different search, or contact our expert pet advisors for help finding tailored nutrition for your pet.',
+  'searchNoResult.email': 'Email Us',
+  'searchNoResult.email.content': 'Send us an Email',
+  'searchNoResult.telephone': 'Call Us',
+  'searchNoResult.title': "We're Sorry",
   searchPrescriber: 'Search a clinic',
   searchShow: 'Search Results',
+  securePaymentProcessing: 'Secure payment processing',
   securityQuestion: 'Security Question',
   seeAllOurProducts: 'See all our products',
+  seeMoreText: 'see more',
   seeTheProduct: 'See the product',
   selectDeliveryAddress: 'Please select a delivery address',
   selectPet: 'Select a pet',
   selectProduct: 'Please select product',
+  selectThisAddress: 'Select this address',
   sendUsAnEmail: 'Send us an Email',
   setAsDefault: 'Set as default',
   setDefaltAddressFailed: 'Set Defalt Address Failed',
   setDefaltAddressSuccess: 'Set Defalt Address Success',
   setDefaultAddress: 'Set as default address',
-  setMyaccountDefaultAddress: 'Set as default address',
   setDefaultPaymentMethod: 'Set as Default Payment method',
-  prevShipmentOn: 'Shipment on',
-  nextShipmentOn: 'Shipment on',
+  setMyaccountDefaultAddress: 'Set as default address',
   shipmentTrackingFalse: 'Please check this box if you wish to continue.',
   shipping: 'Shipping',
   shippingAddress: 'Address Management',
@@ -1338,45 +1563,116 @@ const en_US = {
   singlePurchase: 'Single purchase',
   skip: 'Skip',
   skiped: 'Skipped',
+  'smartFeederSubscription.backToProduct': 'retourner au produit',
+  'smartFeederSubscription.backToProductTitle':
+    'Faites livrer vos recharges de croquettes automatiquement, sélectionnez simplement la fréquence de livraison souhaitée et ajoutez-les au panier',
+  'smartFeederSubscription.chooseProduct': 'choisir le produit',
+  'smartFeederSubscription.chooseYourProduct': 'Choisissez votre produit',
+  'smartFeederSubscription.conﬁrmThisProduct': 'Con ﬁ rmez ce produit',
+  'smartFeederSubscription.dispenser1Des':
+    "Un anneau d'étanchéité en silicone souple de qualité alimentaire et une boîte déshydratante garantissent que la nourriture de votre animal reste fraîche.",
+  'smartFeederSubscription.dispenser1Title': 'Un double système «Fresh Lock»',
+  'smartFeederSubscription.dispenser2Des':
+    'Votre mangeoire ne restera jamais coincé en distribuant des aliments grâce à un système auto-adaptatif.',
+  'smartFeederSubscription.dispenser2Title': 'Mécanisme de distribution',
+  'smartFeederSubscription.dispenser3Des':
+    'Détachez et fixez facilement la machine pour la nettoyer avec un chiffon humide.',
+  'smartFeederSubscription.dispenser3Title': 'Entretien facile',
+  'smartFeederSubscription.dispenserWithPhoneDes':
+    "Avec la technologie de contrôle des applications, vous pouvez définir des heures d'alimentation pour nourrir automatiquement votre animal ou choisir de le nourrir manuellement. Téléchargez simplement l'application, ajoutez votre appareil et le tour est joué!",
+  'smartFeederSubscription.dispenserWithPhoneTitle':
+    'Contrôlez le distributeur Petkit à distance depuis votre téléphone',
+  'smartFeederSubscription.feederDes':
+    "{val}est un distributeur automatique conçu pour que votre animal reçoive la bonne quantité de nourriture au bon moment, même lorsque vous n'êtes pas à la maison.",
+  'smartFeederSubscription.finaliseYourOrder': 'Finalisez votre commande',
+  'smartFeederSubscription.helpSubTitle':
+    "Nous sommes prêts à vous aider pour toute autre question que vous pourriez avoir à propos de l'abonnement Smart Feeder.",
+  'smartFeederSubscription.learnMore': 'Apprendre encore plus',
+  'smartFeederSubscription.petDispenser': 'Le distributeur PetKit',
+  'smartFeederSubscription.selectAnotherProduct':
+    'sélectionnez un autre produit',
+  'smartFeederSubscription.selectYourProduct': 'Sélectionnez votre produit',
+  'smartFeederSubscription.shopmentTimes': 'Livré lors du premier envoi',
+  'smartFeederSubscription.smartFeederSubscription': 'Abonnement Smart Feeder',
+  'smartFeederSubscription.stepDes1':
+    'Grâce au distributeur PetKit, votre animal recevra toujours la bonne quantité de nourriture au bon moment',
+  'smartFeederSubscription.stepDes2':
+    'Simplifiez-vous la vie avec la livraison automatique gratuite à votre porte',
+  'smartFeederSubscription.stepDes3':
+    'Recevez le distributeur PetKit pour seulement 1,50 € de plus / recharge par rapport à notre prix standard de livraison automatique',
+  'smartFeederSubscription.stepTitl1': 'Nourrissez votre chien avec précision',
+  'smartFeederSubscription.stepTitl2': 'Livraison automatique gratuite',
+  'smartFeederSubscription.stepTitl3':
+    'Distributeur PetKit pour 1,50 € de plus / recharge',
+  'smartFeederSubscription.tabDes1':
+    'Avec expédition automatique à votre porte',
+  'smartFeederSubscription.tabDes2': 'pour 26,50 € la recharge *',
+  'smartFeederSubscription.tabDes3': '* Engagement de 12 envois',
+  'smartFeederSubscription.times': 'fois',
+  'smartFeederSubscription.titleHow':
+    "comment fonctionne l'abonnement Smart Feeder?",
+  'smartFeederSubscription.titleWhy':
+    "Pourquoi choisir l'abonnement Smart Feeder?",
+  'smartFeederSubscription.viewProductDetails': 'voir les détails du produit',
   sofort: 'Sofort',
   sortBy: 'Sort by',
   sortedBy: 'Sorted by',
+  'Special Need': 'Special Needs',
   startEnd: 'to',
   startFrom: 'From',
   startTypingToSearch: 'Start typing to search',
   sterilized: 'Spayed/neutered?',
   submit: 'Submit',
   subscribe: 'Subscribe',
-  clubSubscribe: 'Subscribe',
   subscribeDiscount: 'Subscription Save Discount',
   subscription: 'Subscription',
+  'subscription.ad.list1.val2': "meeting your pet's needs",
+  'subscription.ad.list2.val1': 'Automatic shipping',
+  'subscription.ad.list3.val1': 'Receive your product automatically',
+  'subscription.ad.list4.val1': 'At any time',
+  'subscription.all': 'all',
+  'subscription.autoship': 'autoship',
   'subscription.BillingAddress': 'Billing address',
   'subscription.cancelAll': 'Cancel',
   'subscription.change': 'Change',
+  'subscription.changeNow': 'Change now',
+  'subscription.chooseOption': 'Please choose your options',
   'subscription.chooseSubscription': 'Choose subscription',
+  'subscription.chooseThisProduct': 'choose this product',
+  'subscription.club': 'club',
+  'subscription.dailyRation': 'your daily ration',
   'subscription.date': 'Subscription date',
   'subscription.deliveryDate': 'Next delivery date',
   'subscription.detail': 'Subscription detail',
   'subscription.frequency': 'Deliver every',
-  'minicart.frequency': 'Deliver every',
   'subscription.nextOrder': 'Next Order',
   'subscription.noDataTip': 'No subscription',
+  'subscription.noPetOngoingOrder': 'Order status',
   'subscription.notYet': 'Not Yet Shipped',
   'subscription.number': 'Subscription number',
   'subscription.numberFirstWordUpperCase': 'Subscription Number',
+  'subscription.ongoingOrderForPet': 'Order status for {val}',
   'subscription.OnYourFirst': 'on your first',
   'subscription.order': 'Order',
   'subscription.orderNow': 'Order Now',
+  'subscription.pause': 'Pause',
   'subscription.paymentMethod': 'Payment method',
   'subscription.previousOrders': 'Previous Orders',
   'subscription.product': 'Product',
+  'subscription.productDetails': ' Product details',
+  'subscription.productRecommendation': 'Your product recommendation',
+  'subscription.productRecommendationTip':
+    "Based on your pet's profile,we recommend the below products to meet your pets needs. Please comfirm the product change to update your subscription",
   'subscription.promotionTip': '{val} on your first order of the subscription',
   'subscription.promotionTip2':
     'With automatic shipping,you’ll become a member of the Royal Canin Club and get 30% off your first order, 5% off every autoship order and other extra perks.',
   'subscription.promotionTip3':
     "Simply select autoship at checkout for easy regular deliveries. With automatic shipping, you'll become a member and get 10% off your first order and 5% off every autoship order.",
   'subscription.receiveDate': 'Next received date',
+  'subscription.restart': 'Restart',
   'subscription.saveDiscount': 'Subscription Save Discount',
+  'subscription.see_more': 'See other Subscription',
+  'subscription.seeOtherRecommendation': 'See other recommendation',
   'subscription.shipping': 'Shipping',
   'subscription.shippingAddress': 'Shipping address',
   'subscription.skip': 'Skip Next Delivery',
@@ -1386,7 +1682,24 @@ const en_US = {
   'subscription.toBeDelivered': 'To be Delivered',
   'subscription.total': 'Total',
   'subscription.totalInclu': 'Subtotal',
-  'day-unit': 'day',
+  'subscription.viewDetails': 'View Detail',
+  'subscriptionDetail.addNewCat': 'a new cat',
+  'subscriptionDetail.addNewDog': 'a new dog',
+  'subscriptionDetail.better':
+    'For a better experience we recommend linking a pet profile to your Club subscription',
+  'subscriptionDetail.cantBindPetsErr1':
+    'There are club and autoship products, please go to the pet details to bind the products',
+  'subscriptionDetail.cantBindPetsErr2':
+    'There are cat and dog products, please go to the pet details to bind the products',
+  'subscriptionDetail.changeProduct': 'change product',
+  'subscriptionDetail.clubFor': 'CLUB for',
+  'subscriptionDetail.deliveryDate': 'Delivery date',
+  'subscriptionDetail.editPetProfile': 'Edit pet profile',
+  'subscriptionDetail.link': 'Link a profile',
+  'subscriptionDetail.linkProfile':
+    'Link a pet profile to your CLUB subscription',
+  'subscriptionDetail.newProduct': 'New product recommendation',
+  'subscriptionDetail.product': 'Product',
   'subscriptionLanding.catButton': 'Shop Cat Formulas',
   'subscriptionLanding.content1':
     'Pets bring a lot of joy—and a lot of questions. When you sign up for automatic shipping, you’ll be a member of the Royal Canin Club at no extra cost. Throughout the year, you’ll get your pet’s precisely tailored formulas, along with new pet gifts, exclusive offers and more.',
@@ -1403,6 +1716,13 @@ const en_US = {
     'Your Pet Needs You. You Need Total Pet Support.',
   supportCardTypeMismatch:
     'Sorry, the currently supported credit card types are: VISA, American Express, MasterCard',
+  'swish.bref':
+    'How does it work? After registering your phone number and submitting your\norder, you will receive a confirmation of payment on your Swish app to validate\nyour order.',
+  'switchProductTip.her': 'her',
+  'switchProductTip.his': 'his',
+  switchProductTip1: 'This is currently the best product for',
+  switchProductTip2: 'based on',
+  switchProductTip3: 'pet profile',
   systemError: 'system error',
   tailorednutrition: 'Health and Nutrition',
   'tailorednutrition.description':
@@ -1426,16 +1746,12 @@ const en_US = {
     'Many pets have uniquely shaped jaws and behaviour that create challenges to how they eat. That’s why we tailor not only our recipes at a nutritional level, but also design the shape and structure of each kibble to better meet the physical feeding needs of every pet.',
   'tailorednutrition.uniqueTitle': 'Unique Formulas For Unique Needs',
   tailorednutrition2: 'Tailored Nutrition',
-  taxLogo: '',
   title: 'Title',
   to: 'To',
   total: 'Subtotal',
-  'miniBasket.total': 'Cart subtotal {totalPrice}',
   total2: 'Subtotal',
   totalCost: 'Total cost',
-  // totalIncluIVA: 'Total',
   totalIncluIVA: 'Total price',
-  totalIncluMessage: '',
   trackDelivery: 'Track delivery',
   transactionInfo: 'Transaction information',
   transactionInfomation: 'Transaction information',
@@ -1455,6 +1771,19 @@ const en_US = {
   visitStoreMap: 'Visit store map',
   weight: 'Weight',
   welcome: 'Welcome',
+  'welcome.accessibility': 'Accessibility',
+  'welcome.adChoices': 'AdChoices',
+  'welcome.cASupplyChainTransparencyAct': 'CA Supply Chain Transparency Act',
+  'welcome.confirmEmail':
+    'To complete the creation of your account, please click on "Confirm" in the email sent to the following email address:',
+  'welcome.contactSupport': 'Contact support',
+  'welcome.contactUS': 'Contact Us',
+  'welcome.cookiesNotice': 'Cookies Notice',
+  'welcome.createdSuccessfully': 'Your account has successfully been created!',
+  'welcome.legal': 'Legal',
+  'welcome.modernSlaveryAct': 'Modern Slavery Act',
+  'welcome.notReceiveEmail': 'You didn’t receive any email?',
+  'welcome.privacyStatement': 'Privacy Statement',
   welcomeTo: 'Welcome to',
   whatYouLike: 'What did you like or dislike?',
   writeReview: 'Write a review',
@@ -1465,359 +1794,7 @@ const en_US = {
   year: 'Year',
   yes: 'Yes',
   yes2: 'Confirm',
-  NextToPlaceAnOrder: 'Confirm',
   yourEmailNotVerified: 'Your email has not been verified!',
-  yourPasswordNotVerified: 'Your password has not been verified',
-  securePaymentProcessing: 'Secure payment processing',
-  'cart.autoshipSavedtip': 'You saved {discount} with Autoship',
-  'payment.returnToCardList': 'Return to card list',
-  'payment.codTip': 'I want to pay by cash or card upon receipt',
-  'payment.codConfirmTip': 'Payment upon receipt',
-  'Special Need': 'Special Needs',
-  'orderStatus.COMPLETED': 'Completed',
-  'subscription.see_more': 'See other Subscription',
-  'bindPrescriber.modal.title':
-    'Есть ли у вас рекомендация от ветеринарного врача?',
-  'bindPrescriber.modal.content':
-    'Мы настоятельно рекомендуем применять ветеринарные диеты только после консультации с ветеринарным врачом. Обращаем Ваше внимание, что большинство ветеринарных диет имеют ряд противопоказаний или ограничений в применении, которые необходимо учитывать при кормлении питомца',
-  'bindPrescriber.modal.no': 'Нет, перейти к покупке',
-  'bindPrescriber.modal.yes': 'Да, выбрать клинику',
-  'bindPrescriber.modal.or': 'или',
-  'subscription.viewDetails': 'View Detail',
-  Expire: 'Expire',
-  'details.recommendedDaily': 'The recommended daily ration for your pet is',
-  'subscription.dailyRation': 'your daily ration',
-  'details.recommendedDaily.info': '{val}',
-  'details.backRecommendedDaily': 'Go back to recommendation',
-  'details.findProductTip':
-    'Find the right product and calculate your pet ration using our {btn}',
-  'details.findProductTips': ' Product finder',
-  'details.learnMore': 'Learn more',
-  'subscriptionDetail.cantBindPetsErr1':
-    'There are club and autoship products, please go to the pet details to bind the products',
-  'subscriptionDetail.cantBindPetsErr2':
-    'There are cat and dog products, please go to the pet details to bind the products',
-  'subscriptionDetail.editPetProfile': 'Edit pet profile',
-  'subscriptionDetail.clubFor': 'CLUB for',
-  'subscriptionDetail.better':
-    'For a better experience we recommend linking a pet profile to your Club subscription',
-  'subscriptionDetail.link': 'Link a profile',
-  'subscriptionDetail.changeProduct': 'change product',
-  'subscriptionDetail.newProduct': 'New product recommendation',
-  'subscriptionDetail.linkProfile':
-    'Link a pet profile to your CLUB subscription',
-  'subscriptionDetail.addNewCat': 'a new cat',
-  'subscriptionDetail.addNewDog': 'a new dog',
-  'subscription.seeOtherRecommendation': 'See other recommendation',
-  'subscription.chooseThisProduct': 'choose this product',
-  'subscription.productDetails': ' Product details',
-  'subscription.changeNow': 'Change now',
-  'subscription.productRecommendation': 'Your product recommendation',
-  'subscription.productRecommendationTip':
-    "Based on your pet's profile,we recommend the below products to meet your pets needs. Please comfirm the product change to update your subscription",
-  switchProductTip1: 'This is currently the best product for',
-  switchProductTip2: 'based on',
-  'switchProductTip.his': 'his',
-  'switchProductTip.her': 'her',
-  switchProductTip3: 'pet profile',
-  'subscription.chooseOption': 'Please choose your options',
-  'clubListData.tip1': 'tailored and evolving premium nutrition',
-  'clubListData.tip2': 'A welcome box, rewards and services',
-  'clubListData.tip3': 'A pet advisor and personalized newsletters',
-  'clubListData.tip4': 'Automatic food reﬁlls with free shipping',
-  'clubListData.tip5': 'Full control and free from engagement',
-  'subscriptionDetail.deliveryDate': 'Delivery date',
-  'subscriptionDetail.product': 'Product',
-  pirceRange: 'From {fromPrice} to {toPrice}',
-  'mobile.cart.orderSummary': 'Order summary',
-  'welcome.createdSuccessfully': 'Your account has successfully been created!',
-  'welcome.confirmEmail':
-    'To complete the creation of your account, please click on "Confirm" in the email sent to the following email address:',
-  'welcome.notReceiveEmail': 'You didn’t receive any email?',
-  'welcome.contactSupport': 'Contact support',
-  'welcome.privacyStatement': 'Privacy Statement',
-  'welcome.cookiesNotice': 'Cookies Notice',
-  'welcome.legal': 'Legal',
-  'welcome.accessibility': 'Accessibility',
-  'welcome.adChoices': 'AdChoices',
-  'welcome.cASupplyChainTransparencyAct': 'CA Supply Chain Transparency Act',
-  'welcome.modernSlaveryAct': 'Modern Slavery Act',
-  'welcome.contactUS': 'Contact Us',
-  'Other products to consider': 'Other products to consider',
-  recommendProductTip:
-    'The recommendations provided here are for infomational purpose only.Ie should not be cosidered as guarantee for what may be best for your individual pet. Quantity,Size and Frequency will be set up in the CLUB management page',
-  paused: 'Paused',
-  'searchNoResult.title': "We're Sorry",
-  'searchNoResult.content1': 'We could not find any products matching',
-  'searchNoResult.content2':
-    'Please try a different search, or contact our expert pet advisors for help finding tailored nutrition for your pet.',
-  'searchNoResult.telephone': 'Call Us',
-  'searchNoResult.email': 'Email Us',
-  'searchNoResult.email.content': 'Send us an Email',
-  'searchNoBreed.breedName': 'Search Results',
-  kg: 'kg',
-  imageLargeError: 'Image uploaded is too large',
-  'subscription.all': 'all',
-  'subscription.autoship': 'autoship',
-  'subscription.club': 'club',
-  'detail.subscriptionBuyTip': 'Subscription without participation',
-  'detail.contextp1': "Sorry We Couldn't Find Any Products!",
-  'detail.contextp2': 'Please note this product may have been discontinued',
-  //NewLandingpageClub
-  'ClubLP.discount.content': '10% OFF & FREE DELIVERY',
-  'ClubLP.LongBanner.title':
-    'GIVE YOUR PET A {val1} COMPLETE HEALTH SOLUTION, {val2} BY SUBSCRIPTION',
-  'ClubLP.LongBanner.content': 'starting from 19.90€ /refill',
-  'ClubLP.LongBanner.button': 'Try it now',
-  'ClubLP.LongBanner.content2': 'Free from engagement',
-  'ClubLP.LongBanner.SubscriptionTitle':
-    'SUBSCRIPTION BENEFITS FOR CATS & DOGS',
-  'ClubLP.LongBanner.SubscriptionTitle1':
-    'Tailored nutrition for optimal health',
-  'ClubLP.LongBanner.SubscriptionContent1':
-    "High quality ingredients chosen for your pet's specific needs with scientifically proven health benefits",
-  'ClubLP.LongBanner.SubscriptionTitle2': 'A diet that adapts with your pet',
-  'ClubLP.LongBanner.SubscriptionContent2':
-    'A feeding plan designed to adapt to long term health',
-  'ClubLP.LongBanner.SubscriptionTitle3': 'The right portion every time',
-  'ClubLP.LongBanner.SubscriptionTitle3.new': 'The right portion every time',
-  'ClubLP.LongBanner.SubscriptionContent3':
-    'Daily rationing instructions so your pet always gets the right amount of food',
-  'ClubLP.Advantage.title': 'Health is not one size fits all',
-  'ClubLP.Advantage.content1':
-    'Nutrition tailored to the unique health needs of cats and dogs',
-  'ClubLP.Advantage.content2':
-    'Complete and balanced nutrients in each pet’s diet',
-  'ClubLP.Advantage.content3':
-    'Highly digestible ingredients sourced and combined to meet each tailored nutritional profile',
-  'ClubLP.Advantage.content4':
-    'High quality nutrients selected from more sustainable sources with a lower carbon footprint',
-  'ClubLP.Advantage.button': 'Find your tailored food now',
-  'ClubLP.SubscriptionBenefitsNew.title':
-    'A subscription that makes your life easier',
-  'ClubLP.SubscriptionBenefitsNew.icon1':
-    'Automatic delivery with free shipping',
-  'ClubLP.SubscriptionBenefitsNew.icon2': '10% off on every order',
-  'ClubLP.SubscriptionBenefitsNew.icon3': 'Access to a personal pet advisor',
-  'ClubLP.SubscriptionBenefitsNew.icon4': 'A welcome box & exclusive rewards',
-  'ClubLP.SubscriptionBenefitsNew.icon5':
-    'Tailored support & educational content',
-  'ClubLP.SubscriptionBenefitsNew.button': 'Get Started',
-  'ClubLP.NewHowItWorks.title': 'HOW IT WORKS',
-  'ClubLP.NewJoinUs.title': 'Tell us about your pet',
-  'ClubLP.NewJoinUs.content': 'to get a precise nutritional recommendation.',
-  'ClubLP.NewJoinUs.button': 'Get Started',
-  'ClubLP.OurCustomers.title': 'Our Loyal Customers',
-  'ClubLP.GetMoreAd.title': 'Get more with CLUB Subscription',
-  'ClubLP.GetMoreAd.subtitle1': 'SINGLE {val} Purchase',
-  'ClubLP.GetMoreAd.subtitle2': 'Club {val} Subscription',
-  'ClubLP.GetMoreAd.Single.tip1': 'Tailored nutrition',
-  'ClubLP.GetMoreAd.Single.tip2': 'Free shipping from $50',
-  'ClubLP.GetMoreAd.Club.tip1': 'Tailored nutrition',
-  'ClubLP.GetMoreAd.Club.tip2': 'Free shipping',
-  'ClubLP.GetMoreAd.Club.tip3': '10% discount on every order',
-  'ClubLP.GetMoreAd.Club.tip4': 'Automatic refills to your door',
-  'ClubLP.GetMoreAd.Club.tip5': 'Free personalized newsletters',
-  'ClubLP.GetMoreAd.Club.tip6': 'Welcome pack',
-  'ClubLP.GetMoreAd.Club.tip7': 'Exclusive perks & services',
-  'ClubLP.GetMoreAd.button': 'Get started',
-  'ClubLP.Help.title': "We're here to help",
-  'ClubLP.Help.subtitle1':
-    'Our team is available to answer your questions and ensure you have the best possible experience.',
-  'ClubLP.Help.subtitle2': 'You can reach us through the following options:',
-  'ClubLP.Help.call.title': 'Call us',
-  'ClubLP.Help.call.content':
-    'Our Pet Experts are happy to help you everyday from 9 am to 6 pm',
-  'ClubLP.Help.call.number': 'O874 657 890',
-  'ClubLP.Help.call.mobile.number': 'O874 657 890',
-  'ClubLP.Help.email.title': 'Email us',
-  'ClubLP.Help.email.content':
-    "We'll do our best to get back to you as fast as possible and within 12 hours",
-  'ClubLP.Help.email.address': 'Send us an Email',
-  'ClubLP.Help.faq.content':
-    'Send us an EmailYou can check our FAQ section to see if your question has already been answered',
-  'clinic.vetClinicsTip1':
-    'You do not find the clinic at the origin of the prescription in the list? Do not hesitate to {val}.',
-  'clinic.vetClinicsTip2': 'Contact us',
-  dePrescriberCodeErrMsg:
-    'The Code entered invalid.<br>Please try another code',
-  'plp.retail.cat.filter.specneed.title':
-    "Looking for a recipe to help your cat's optimal weight?",
-  'plp.retail.cat.filter.specneed.tip':
-    'Discover the adapted recipe and the exact ration for your cat',
-  'plp.retail.cat.filter.specneed.tip.mobile':
-    'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
-  'plp.retail.cat.filter.specneed.learnmore': 'Learn more',
-  'preciseNutrition.bannertext1': 'Secure payment',
-  'preciseNutrition.bannertext2': 'Satisfied or reimbursed',
-  'preciseNutrition.bannertext3': 'Premium Quality',
-  'preciseNutrition.bannertext4': '3 Days shipment',
-  'preciseNutrition.banner.names': "{val}'s adapted diet & portion",
-  'preciseNutrition.banner.des1':
-    '30 days of complete & balanced diet for adult cat',
-  'preciseNutrition.banner.portion': 'Daily portion',
-  'preciseNutrition.banner.weight': 'Total pack weight',
-  'preciseNutrition.banner.day': 'day',
-  'preciseNutrition.banner.month': 'month',
-  'preciseNutrition.banner.des2': 'Automatic shipment every 30 days',
-  'preciseNutrition.banner.des3': 'Free shipment cost',
-  'preciseNutrition.banner.button': 'buy now',
-  'preciseNutrition.benefits.title': 'Your cat’s diet proven benefits',
-  'preciseNutrition.benefits.content':
-    'We partner with pet experts – veterinarians, breeders, professional groups and organisations – to ensure that our nutritional formulas are precisely tailored to your pet’s needs.',
-  'preciseNutrition.call.content':
-    'Monday to Friday from 8:30am to 7pm and on Saturdays from 9am to 1pm',
-  'preciseNutrition.call.number': '0800 415 161',
-  'preciseNutrition.faq.content':
-    'You can check our {val} to see if your question has already been answered ',
-  'preciseNutrition.Top.title':
-    '* Offer not accumulated with the 10% discount on product subscriptions',
-  'preciseNutrition.Address.title': 'Address',
-  'preciseNutrition.Address.firstLine':
-    'Service Consommateur Royal Canin France',
-  'preciseNutrition.Address.secondLine': '650 avenue de la petite Camargue',
-  'preciseNutrition.Address.thirdLine': '30470 AIMARGUES',
-  'preciseNutrition.commitment.title': 'Our sustainability commitement',
-  'preciseNutrition.commitment.content1':
-    'At Royal canin, we work to reduce our environmental impact to keep our planet healthy.',
-  'preciseNutrition.commitment.content2':
-    'For this reason, your product will be handmade in France and the packaging you will receive with your order has been optimized to reduce its carbon print and it was produced with FSC certified materials, with the guarantee that the paper and cardboard come from recyclable sources and the wood from well managed forests.',
-  'preciseNutrition.commitment.content3':
-    'Even if the packaging is compostable, it should not be throw in the nature. Please follow the recommendation and throw it in the right bin. ',
-  'preciseNutrition.Below.title': 'A WELCOME PACK TO BEST TAKE CARE OF {val}',
-  'preciseNutrition.Below.content':
-    'On your first delivery you will receive an exclusive welcome pack that includes everything you need to properly feed & take care of [cat’s name].',
-  'preciseNutrition.Below.list': 'This premium pack will include :',
-  'preciseNutrition.Below.list1': 'Your cat’s adapted monthly diet',
-  'preciseNutrition.Below.list2':
-    'A weighting scale to provide the exact daily portion',
-  'preciseNutrition.Below.list3': 'A measuring cup to make it easy & precise',
-  'preciseNutrition.Below.list4':
-    'And of course all instructions in your welcome letter',
-  'preciseNutrition.Details.title':
-    'QUALITY INGREDIENTS & WELL BALANCED COMPOSITION',
-  'preciseNutrition.Details.lititle1': 'INGREDIENTS',
-  'preciseNutrition.Details.lititle2': 'ANALYTICAL CONSTITUENTS',
-  'preciseNutrition.Details.des':
-    '*L.I.P. : protein selected for its very high assimilation',
-  'preciseNutrition.Details.content3.1':
-    'On each food label, after the "composition" that includes the ingredients or raw materials used to make the food (like a cake recipe), appear the analytical constituents, which reflect the analysis of the nutritients that make up the end product.',
-  'preciseNutrition.Details.content3.2':
-    'Thus, European regulatons requires manufacturers to quantify the quantities of protein, fat, raw cellulose and raw ashes.',
-  'preciseNutrition.Details.link': 'Learn more',
-  'preciseNutrition.Details.lastText1':
-    'How to use : Batch number, factory registration number and best before date : see information on packaging.',
-  'preciseNutrition.Details.lastText2':
-    'To be stored in a cool, dry place.  Water should be available at all times',
-  'preciseNutrition.Details.lastText3':
-    'How to use : [1] Water should be available at all times. [2] To be stored in a cool, dry place.',
-  'preciseNutrition.Details.list1':
-    'The quantity of protein does not in any way allow us to judge the quality of the food; in fact, some proteins are much more digestible than others (i.e. assimilable and usable by the body) and their composition in amino acids (22 in number) can be very different; however, some amino acids are said to be "essential" and must be provided by the food.',
-  'preciseNutrition.Details.list2':
-    'The amount of Fat is a good indicator of the energy provided by the food, as fat is the preferred "fuel" for dogs and cats, which are quite different from humans. Fat should be limited for sedentary, neutered or less active animals. ',
-  'preciseNutrition.Details.list3':
-    'The amount of cellulose or fiber is an indicator of the "satiating" power of the food. In addition to promoting good digestion and transit, fiber plays an important role in managing the animal\'s body weight.',
-  'preciseNutrition.Details.list4':
-    "Crude Ash reflects the amount of mineral matter (or minerals: Calcium, Phosphorus, Iron, Iodine, Potassium, Zinc, Copper...) contained in the food. All minerals are essential and vital for the proper functioning of the dog's or cat's body; as the animal ages, the intake of certain minerals must be reduced to limit the risk of urinary stones or, like phosphorus, to limit the risk of CKD (chronic kidney disease).",
-  'preciseNutrition.Product.title': 'WHAT MAKES THIS KIBBLE UNIQUE',
-  'preciseNutrition.Product.list.title1': '1.Kibble size and shape',
-  'preciseNutrition.Product.list.title2': '2.Texture and density',
-  'preciseNutrition.Product.list.title3': '3. Nutritional profile',
-  'preciseNutrition.Product.list.content1':
-    "As well as nutritionally adapted to the needs of pets, our kibble's size, shape and ergonomics are specifically tailored to the unique jaw or physiognomy of a species or breed.",
-  'preciseNutrition.Product.list.content2':
-    'As well as a variety of sizes and shapes, kibbles have an adapted texture that allows them to break at specific times, and density to match the rate of ingestion of each pet. Our selection of wet diets also provide different textures to appeal to picky eaters.',
-  'preciseNutrition.Product.list.content3':
-    'Each Royal Canin diet has a precisely adapted nutritional profile, made up of at least 50 individual nutrients that are chosen specifically to support the health and sensitivities of cats and dogs.',
-  'checkout.zeroOrder.butSubscription':
-    '0 Price orders do not support subscription, please change to a one-off purchase to pay this order',
-  'preciseNutrition.bsc3.1': 'Ribs visible on shorthaired cats',
-  'preciseNutrition.bsc3.2': 'Obvious waist',
-  'preciseNutrition.bsc3.3': 'A very small amount of abdominal fat',
-  'preciseNutrition.bsc3.4':
-    'When viewed from the side, their abdomen appears tucked up behind their rib cage',
-
-  'preciseNutrition.bsc4.1': 'Ribs are not visible but can be easily felt',
-  'preciseNutrition.bsc4.2': 'Obvious waist',
-  'preciseNutrition.bsc4.3': 'A minimal amount of abdominal fat',
-  'preciseNutrition.bsc4.4': 'Slight abdominal tuck when viewed from the side',
-
-  'preciseNutrition.bsc5.1':
-    'Well proportioned body when viewed from above and from the side',
-  'preciseNutrition.bsc5.2': 'Ribs not visible but can be easily felt',
-  'preciseNutrition.bsc5.3': 'Obvious waist',
-  'preciseNutrition.bsc5.4': 'A small amount of abdominal fat',
-  'preciseNutrition.bsc5.5': 'Slight abdominal tuck when viewed from the side',
-
-  'preciseNutrition.bsc6.1': 'Ribs are not visible but can be felt',
-  'preciseNutrition.bsc6.2': 'Waist not clearly defined when seen from above',
-  'preciseNutrition.bsc6.3':
-    'Very slight abdominal tuck when viewed from the side',
-
-  'preciseNutrition.bsc7.1': 'Ribs are difficult to feel under the fat',
-  'preciseNutrition.bsc7.2': 'Waist barely visible',
-  'preciseNutrition.bsc7.3':
-    'When viewed from the side, their abdomen does not appear tucked up behind their rib cage',
-  'preciseNutrition.bsc7.4': 'Rounding of the abdomen',
-
-  'preciseNutrition.bscTip':
-    'To correctly assess your cat’s body follow this simple steps:',
-  'preciseNutrition.bscTip1':
-    '1. Look at your cat from above and from the side',
-  'preciseNutrition.bscTip2':
-    '2. Feel your cat’s body, gently applying pressure to find the ribs',
-  'productFinder.mixBreed': 'Mix breed',
-  'productFinder.weight': 'weight',
-  'subscription.ongoingOrderForPet': 'Order status for {val}',
-  'subscription.noPetOngoingOrder': 'Order status',
-  'product.plp.foodtype.drydog': 'Dry dog food',
-  'product.plp.foodtype.wetdog': 'Wet dog food',
-  'product.plp.foodtype.drycat': 'Dry cat food',
-  'product.plp.foodtype.wetcat': 'Wet cat food',
-  'list.applyFilters': 'Apply filters',
-  'list.clearFilters': 'Clear all filters',
-  'list.viewFilters': 'View filters',
-  'list.closeFilters': 'Close filters',
-  'order.goodwillOrder': '[Goodwill order]',
-
-  'adyen.storeDetails': 'Save for my next payment',
-  'adyen.holderName': 'Cardholder name',
-  'adyen.creditCard.holderName.placeholder': 'J. Smith',
-  'adyen.creditCard.holderName.invalid': 'Invalid cardholder name',
-  'adyen.creditCard.numberField.title': 'Card Number',
-  'adyen.creditCard.numberField.placeholder': '1234 5678 9012 3456',
-  'adyen.creditCard.numberField.invalid': 'Invalid card number',
-  'adyen.creditCard.expiryDateField.title': 'Expiry Date',
-  'adyen.creditCard.expiryDateField.placeholder': 'MM/YY',
-  'adyen.creditCard.expiryDateField.invalid': 'Invalid expiration date',
-  'adyen.creditCard.cvcField.title': 'CVC / CVV',
-  'adyen.creditCard.cvcField.placeholder': '123',
-
-  /************ Daily Portion *************/
-  'dailyPortion.title':
-    'Discover now the perfect tool to calculate the ideal ration for your pet. Fill in your pet’s information in the interactive feeding guide and you will get the daily feeding recommendation. ',
-  'dailyPortion.calculatePortion': 'Calculate portion',
-  'dailyPortion.editInformations': 'Edit pet’s informations',
-  'dailyPortion.resultText': 'Recommended daily portion for your pet',
-  'dailyPortion.newCalculationBtnText': 'Start a new calculation',
-  'dailyPortion.petActivityCode.low': 'Low <1h /day',
-  'dailyPortion.petActivityCode.Medium': 'Medium <2h /day',
-  'dailyPortion.petActivityCode.High': 'High <3h /day',
-  'dailyPortion.bcs.underweight': 'Underweight',
-  'dailyPortion.bcs.underweight.description': 'Loss of mass muscle',
-  'dailyPortion.bcs.Ideal': 'Ideal',
-  'dailyPortion.bcs.Ideal.description': 'Well proportioned',
-  'dailyPortion.bcs.Overweight': 'Overweight',
-  'dailyPortion.bcs.Overweight.description': 'Waist barely visible',
-
-  'dailyPortion.age.label': 'How old is your pet ? ',
-  'dailyPortion.neutered.label': 'Is you pet neutered ? ',
-  'dailyPortion.breedCode.label': 'Breed',
-  'dailyPortion.genderCode.label': 'Gender',
-  'dailyPortion.weight.label': 'Current pet weight',
-  'dailyPortion.petActivityCode.label':
-    'Select the activity’s level of your pet',
-  'dailyPortion.bcs.label': 'Select your pets’s body condition',
-  'dailyPortion.breed.UnknownMixedBreed': 'Unknown or mixed breed '
+  yourPasswordNotVerified: 'Your password has not been verified'
 };
 export default en_US;

@@ -35,7 +35,7 @@ function assignObj(obj, source) {
 
 async function getDynamicLanguage() {
   // key - 对应对应语言文件名
-  const key = window.__.env.REACT_APP_LANG_LOCALE || 'en-US';
+  const key = '111' || window.__.env.REACT_APP_LANG_LOCALE || 'en-US';
   const sessionItemRoyal = window.__.sessionItemRoyal;
   const phraseSession = sessionItemRoyal.get('PHRASE_LANGUAGE');
   let phraseRet = {};
@@ -43,7 +43,7 @@ async function getDynamicLanguage() {
     phraseRet = JSON.parse(phraseSession);
   } else {
     const url = `https://api.phrase.com/v2/projects/8f0d7f6b0396b8af7f08bf9f36d81259/locales/${key}/download?access_token=31950e3e49b165b8b2c604b65574e6cf279d9ea395e3718ce52b1ec335bef6e5&include_empty_translations=true&file_format=node_json`;
-    const res = await fetch(url, {
+    const resJson = await fetch(url, {
       method: 'get',
       mode: 'cors',
       cache: 'no-store',
@@ -51,22 +51,14 @@ async function getDynamicLanguage() {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       }
-    })
-      .then((res) => {
-        return res.ok ? res.json() : false;
-      })
-      .then((resJson) => {
-        let resRet = {};
-        if (resJson) {
-          resRet = resJson;
-          sessionItemRoyal.set('PHRASE_LANGUAGE', JSON.stringify(resRet));
-        }
-        return resRet;
-      })
-      .catch((err) => {
-        console.log('phrase langugage fetch error', err);
-      });
-    phraseRet = res;
+    });
+    try {
+      const res = await resJson.json();
+      sessionItemRoyal.set('PHRASE_LANGUAGE', JSON.stringify(res));
+      phraseRet = res;
+    } catch (err) {
+      console.log('phrase langugage fetch error', err);
+    }
   }
 
   // const language = phraseRet;
