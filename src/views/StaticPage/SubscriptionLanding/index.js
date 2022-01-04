@@ -156,7 +156,7 @@ class SubscriptionLanding extends React.Component {
                   <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
                     <div className="rc-margin-top--md rc-margin-top--none--mobile rc-padding-x--lg--mobile">
                       <h2 className="rc-beta rc-margin--none text-center rc-padding-x--lg--mobile">
-                        Comment cela fonctionne-t-il ?
+                        <FormattedMessage id="subscription.ad.title.page" />
                       </h2>
                     </div>
                     <div className="row rc-content-v-middle text-center rc-padding-top--md rc-margin-x--none">
