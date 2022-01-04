@@ -8054,8 +8054,6 @@
       "./royal-canin.styles.filters.min.css": [385, 1, 2],
       "./royal-canin.styles.firefox.min.css": [386, 1, 2],
       "./royal-canin.styles.flags.min.css": [387, 1, 2],
-      "./royal-canin.styles.forms.min.css": [388, 1, 2],
-      "./royal-canin.styles.icons.min.css": [389, 1, 2],
       "./royal-canin.styles.ie.min.css": [390, 1, 2],
       "./royal-canin.styles.image.min.css": [391, 1, 2],
       "./royal-canin.styles.interactions.min.css": [392, 1, 2],
@@ -8066,17 +8064,12 @@
       "./royal-canin.styles.pagination.min.css": [397, 1, 2],
       "./royal-canin.styles.parallax.min.css": [398, 1, 2],
       "./royal-canin.styles.prefix.min.css": [399, 1, 2],
-      "./royal-canin.styles.progress.min.css": [400, 1, 2],
-      "./royal-canin.styles.rc_type-medium.min.css": [401, 1, 2],
-      "./royal-canin.styles.rc_type-regular.min.css": [402, 1, 2],
-      "./royal-canin.styles.selects.min.css": [403, 1, 2],
       "./royal-canin.styles.shades.min.css": [404, 1, 2],
       "./royal-canin.styles.sliders.min.css": [405, 1, 2],
       "./royal-canin.styles.styled-link.min.css": [406, 1, 2],
       "./royal-canin.styles.tables.min.css": [407, 1, 2],
       "./royal-canin.styles.tags.min.css": [408, 1, 2],
       "./royal-canin.styles.toggle-group.min.css": [409, 1, 2],
-      "./royal-canin.styles.tooltip.min.css": [410, 1, 2],
       "./royal-canin.styles.wysiwyg.min.css": [411, 1, 2]
   };
   function webpackAsyncContext(e) {
