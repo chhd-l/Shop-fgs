@@ -1970,10 +1970,17 @@ class Payment extends React.Component {
 
     //登录状态下在cart勾选了survey需判断是否已下过单
     let surveyId = sessionItemRoyal.get('rc-clicked-surveyId') || '';
+    const breedOrShelterId = sessionItemRoyal.get('BreedOrShelterId') || '';
     if (surveyId !== '' && this.isLogin) {
       const result = await querySurveyContent({
         storeId: window.__.env.REACT_APP_STOREID,
-        customerId: this.userInfo.customerId
+        customerId: this.userInfo.customerId,
+        breedOrShelter:
+          breedOrShelterId.indexOf('BRD') === 0
+            ? 'Breeder'
+            : breedOrShelterId.indexOf('BRM') === 0
+            ? 'Shelter'
+            : 'Everyone'
       });
       if (!result?.context?.isShow || surveyId !== result?.context?.id) {
         surveyId = '';
