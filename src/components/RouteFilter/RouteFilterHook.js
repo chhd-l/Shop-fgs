@@ -3,6 +3,9 @@ import { inject, observer } from 'mobx-react';
 import { renderScriptOrLinkHtmlStr } from '@/utils/utils';
 import { useHistory } from 'react-router-dom';
 
+/**
+ * 富文本为script/link标签时，直接append整段html无效，需动态创建对应标签
+ */
 const RouteFilterHook = ({ configStore }) => {
   const history = useHistory();
   const {

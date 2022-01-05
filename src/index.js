@@ -7,6 +7,13 @@ import '@/assets/css/global.less';
 import '@/utils/global';
 import './index.css';
 import '@/env/init';
+// import '@/assets/css/royal-canin/royal-canin.styles.forms.min.css';
+import '@/assets/css/royal-canin/royal-canin.styles.icons.min.css';
+// import '@/assets/css/royal-canin/royal-canin.styles.progress.min.css';
+import '@/assets/css/royal-canin/royal-canin.styles.rc_type-medium.min.css';
+import '@/assets/css/royal-canin/royal-canin.styles.rc_type-regular.min.css';
+// import '@/assets/css/royal-canin/royal-canin.styles.selects.min.css';
+// import '@/assets/css/royal-canin/royal-canin.styles.tooltip.min.css';
 
 // import App from './App.jsx';
 

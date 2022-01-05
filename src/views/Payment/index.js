@@ -1972,7 +1972,7 @@ class Payment extends React.Component {
     let surveyId = sessionItemRoyal.get('rc-clicked-surveyId') || '';
     const breedOrShelterId = sessionItemRoyal.get('BreedOrShelterId') || '';
     if (surveyId !== '' && this.isLogin) {
-      const result = await querySurveyContent({
+      const params = {
         storeId: window.__.env.REACT_APP_STOREID,
         customerId: this.userInfo.customerId,
         breedOrShelter:
@@ -1981,7 +1981,8 @@ class Payment extends React.Component {
             : breedOrShelterId.indexOf('BRM') === 0
             ? 'Shelter'
             : 'Everyone'
-      });
+      };
+      const result = await querySurveyContent(params);
       if (!result?.context?.isShow || surveyId !== result?.context?.id) {
         surveyId = '';
       }
