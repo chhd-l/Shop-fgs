@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import LazyLoad from 'react-lazyload';
 import { FormattedMessage } from 'react-intl';
 import classNames from 'classnames';
+import Modal from '@/components/Modal'
 import {
   productFinderDailyPortion,
   productFinderDailyPortionRation
@@ -402,6 +403,8 @@ export default function DailyPortion(
   const [ration, setRation] = useState({})
   const [loading, setLoading] = useState(false);
   const [isPreselected, setPreselected] = useState(false);
+  const [visible,setVisible] = useState(false);
+  const [resultMsg, setResultMsg] = useState('');
 
   /**
    * 问题的结果
@@ -501,6 +504,11 @@ export default function DailyPortion(
   }
 
   const getResult = async () => {
+    dataLayer.push({
+      'event' : 'rationingToolInteraction',
+      'rationingToolInteraction' : 'Calculate portion'
+    })
+
     const isMixedBreedPossibleValues = isMixedBreed && speciesValue === 'Dog';
 
     let param = {
@@ -535,25 +543,34 @@ export default function DailyPortion(
       param.goodsInfoUnit = 'g'
     }
 
-    dataLayer.push({
-      'event' : 'rationingToolInteraction',
-      'rationingToolInteraction' : 'Calculate portion'
-    })
-
     setLoading(true);
     try {
       let res = await productFinderDailyPortionRation(param);
-      setRation({
-        quantityPerDay: res?.context?.quantityPerDay ?? 0,
-        unit: res?.context?.unit ?? '',
-      })
       setLoading(false);
-      setStep(3)
+      switch (res.code){
+        case 'K-000000':
+          setRation({
+            quantityPerDay: res?.context?.quantityPerDay ?? 0,
+            unit: res?.context?.unit ?? '',
+          })
+          setStep(3)
+          break
+        case 'K-000089':
+          setVisible(true);
+          setResultMsg(res.message);
+          setRation({})
+          break;
+        default:
+          setRation({})
+          setResultMsg('');
+          break;
+      }
       // When the result is displayed
       dataLayer.push({
         'event' : 'rationingToolInteraction',
         'rationingToolInteraction' : 'Display result'
       })
+
     }catch (e) {
       setLoading(false);
       setRation({})
@@ -561,7 +578,7 @@ export default function DailyPortion(
 
   }
 
-  const againCalculation =() => {
+  const againCalculation =(isGA=true) => {
     // 全部结果重置
     if(!isPreselected){
       setBreedData({});
@@ -577,7 +594,8 @@ export default function DailyPortion(
     setBcs('');
     // 返回第一步
     setStep(1)
-    dataLayer.push({
+
+    isGA && dataLayer.push({
       'event' : 'rationingToolInteraction',
       'rationingToolInteraction' : 'Start a new calculation'
     })
@@ -726,7 +744,7 @@ export default function DailyPortion(
           </div>
           <div className='mt-6'>
             <button
-              onClick={againCalculation}
+              onClick={() => againCalculation(true)}
               className={
                 classNames(
                   'rc-btn dailyPortion-startBtn',
@@ -776,6 +794,12 @@ export default function DailyPortion(
     }
   }
 
+  const handleOk = () => {
+    setVisible(false);
+    setResultMsg('');
+    againCalculation(false);
+  }
+
   return (
     <div className='DailyPortion-wrap container '>
       <div className='lg:flex'>
@@ -814,6 +838,17 @@ export default function DailyPortion(
       )}>
         {renderStep(step)}
       </main>
+      <Modal
+        modalTitle={''}
+        visible={visible}
+        headerVisible={false}
+        cancel={() => setVisible(false)}
+        hanldeClickConfirm={handleOk}
+      >
+        <p className='text-center red p-6'>
+          {resultMsg}
+        </p>
+      </Modal>
     </div>
   )
 }
