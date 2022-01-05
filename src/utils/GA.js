@@ -135,10 +135,11 @@ export const getComputedWeeks = (frequencyList) => {
 export const myAccountPushEvent = (myAccountScreenName) => {
   if (!isHubGA) return;
   // setTimeout(() => {
-  dataLayer.push({
-    event: 'myAccountScreen',
-    myAccountScreenName //Values : 'Overview', 'Personal information', 'Pets', 'Orders & Subscriptions', 'Payment & Addresses', 'Security', 'Data & Settings'
-  });
+  window.dataLayer &&
+    dataLayer.push({
+      event: 'myAccountScreen',
+      myAccountScreenName //Values : 'Overview', 'Personal information', 'Pets', 'Orders & Subscriptions', 'Payment & Addresses', 'Security', 'Data & Settings'
+    });
   // }, 5000gtm优化);
 
   // console.log(myAccountScreenName)
