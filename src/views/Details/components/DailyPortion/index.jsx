@@ -602,6 +602,7 @@ export default function DailyPortion(
             <div className='flex flex-wrap'>
               <div className='w-full lg:w-1/3 pb-4 lg:pb-0'>
                 <BreedSelect
+                  defaultValue={initBreedValue}
                   isMixedBreedPossibleValues={isMixedBreedPossibleValues}
                   isPreselected={isPreselected}
                   label={breedCodeData?.metadata?.label ?? ''}
@@ -752,7 +753,7 @@ export default function DailyPortion(
 
     if(res.code === 'K-000000'){
       setBreedOptions(res.context.breeds ?? [])
-      handleInitBreedDisabled(res.context.breeds ?? [])
+      // handleInitBreedDisabled(res.context.breeds ?? [])
     }else {
       setBreedOptions([])
     }
@@ -763,14 +764,14 @@ export default function DailyPortion(
       // const value = breeds.find((item) => item.breedCode === initBreedValue)
       const value = breeds.find((item) => item.name === initBreedValue)
       if (value) {
-        // setPreselected(true);
+        setPreselected(true);
         setBreedData({
           key: value.breedCode,
           name: value.localName,
         })
       } else {
         setBreedData({});
-        // setPreselected(false);
+        setPreselected(false);
       }
     }
   }
