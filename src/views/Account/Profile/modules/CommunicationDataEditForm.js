@@ -438,7 +438,7 @@ class CommunicationDataEditForm extends React.Component {
             ) : null}
             <div className={`${!isLoading && editFormVisible ? '' : 'hidden'}`}>
               <span className={`rc-meta`}></span>
-              {window.__.env.REACT_APP_COUNTRY != 'fr' ? (
+              {['fr', 'de'].indexOf(window.__.env.REACT_APP_COUNTRY) < 0 ? (
                 <div className="mb-3">
                   {communicationPreferencesList.length > 0 ? (
                     <label className="form-control-label rc-input--full-width w-100">
