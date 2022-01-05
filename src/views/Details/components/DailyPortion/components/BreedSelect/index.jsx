@@ -6,6 +6,7 @@ import classNames from 'classnames';
 
 export default function BreedSelect(
   {
+    defaultValue='', // breed的默认值
     isMixedBreedPossibleValues=false,
     label='Breed', // 表单标题
     options= [],
@@ -27,6 +28,8 @@ export default function BreedSelect(
 
   const [checked, setChecked] = useState(mixedBreedValue);
 
+  const [isHiddenWaring, setHiddenWaring] = useState(true);
+
   useEffect(() => {
     const defaultValue = options.find((item) => item.breedCode === value?.key)
     setInputValue(defaultValue ? defaultValue?.localName : undefined)
@@ -45,6 +48,11 @@ export default function BreedSelect(
 
   const handleSelectChange = (val) => {
     onChange && onChange(val, false)
+    // 当用户选的那个Breed，跟这个产品本身所针对的Breed不匹配的时候，显示提示语
+    if (!!defaultValue){
+      const value = options.find((item) => item.breedCode === val.key)
+      setHiddenWaring(value?.name === defaultValue)
+    }
   }
 
   const handleSelectMixedBreedPossible = (val) => {
@@ -88,34 +96,39 @@ export default function BreedSelect(
                   )}
                 </FormattedMessage>)
               : (
-                <FormattedMessage id={'searchBreed'}>
-                  {(placeholder) => (
-                    <SearchSelection
-                      disabled={checked || isPreselected}
-                      queryList={async ({ inputVal }) => {
-                        let reg = new RegExp(`${inputVal}`, 'i')
-                        return options
-                          .filter((item) => reg.test(item.localName))
-                          .map((item) => ({
-                            key: item.breedCode,
-                            name: item.localName,
-                          }))
-                      }}
-                      selectedItemChange={handleSelectChange}
-                      defaultValue={inputValue}
-                      placeholder={placeholder}
-                      customStyle={true}
-                      isBottomPaging={false}
-                    />
-                  )}
-                </FormattedMessage>
+                <div>
+                  <FormattedMessage id={'searchBreed'}>
+                    {(placeholder) => (
+                      <SearchSelection
+                        disabled={checked}
+                        queryList={async ({ inputVal }) => {
+                          let reg = new RegExp(`${inputVal}`, 'i')
+                          return options
+                            .filter((item) => reg.test(item.localName))
+                            .map((item) => ({
+                              key: item.breedCode,
+                              name: item.localName,
+                            }))
+                        }}
+                        selectedItemChange={handleSelectChange}
+                        defaultValue={inputValue}
+                        placeholder={placeholder}
+                        customStyle={true}
+                        isBottomPaging={false}
+                      />
+                    )}
+                  </FormattedMessage>
+                  <p className={classNames('red', {
+                    'hidden': isHiddenWaring
+                  })}>
+                    <FormattedMessage id='dailyPortion.breed.waring'/>
+                  </p>
+                </div>
 
               )
           }
         </span>
-        <div className={classNames("content-section", {
-          'hidden': isPreselected
-        })}>
+        <div className={classNames("content-section")}>
           {/*form-group*/}
           <div className="mt-3">
             <div className="rc-input rc-input--inline">
