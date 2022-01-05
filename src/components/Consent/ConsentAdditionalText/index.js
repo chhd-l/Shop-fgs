@@ -37,6 +37,24 @@ const ConsentAdditionalText = ({ textPosition }) => {
           informations de la part de :{' '}
         </p>
       </div>
+    ),
+    de: (
+      <div className="consent-txt">
+        <p>
+          Wir möchten Sie und Ihr Haustier auch weiterhin über spannende neue
+          Produktentwicklungen, Werbeaktionen oder Umfragen innerhalb von Mars
+          Petcare und seinen Tochtergesellschaften &nbsp;
+          <a href="https://deu.mars.com/hergestellt-von-mars" target="_blank">
+            'Made by Mars'
+          </a>
+          auf dem Laufenden halten, von denen wir glauben, dass sie für Sie
+          interessant sind, Ihr Einverständnis vorausgesetzt.
+        </p>
+        <p>
+          Ja, ich bin über 16 Jahre alt und möchte folgende Informationen
+          erhalten:
+        </p>
+      </div>
     )
   };
   const bottomText = {
@@ -82,6 +100,24 @@ const ConsentAdditionalText = ({ textPosition }) => {
           </a>
           . Vous avez également le droit d’introduire une réclamation auprès de
           la CNIL.
+        </p>
+      </div>
+    ),
+    de: (
+      <div className="explain-txt">
+        <p className="mb-2">
+          Mir ist bewusst, dass ich diese Präferenzen jederzeit ändern kann,
+          über den Kundenservice oder online über den entsprechenden Link.
+        </p>
+        <p>
+          Wenn Sie mehr erfahren möchten, wie Mars Petcare und seine
+          Tochtergesellschaften Ihre Daten erheben und verarbeiten oder Sie
+          Fragen zum Datenschutz haben, kontaktieren Sie uns oder schauen Sie in
+          unsere &nbsp;
+          <a href="https://www.mars.com/privacy-policy-germany" target="_blank">
+            Datenschutzerklärung
+          </a>
+          .
         </p>
       </div>
     )
