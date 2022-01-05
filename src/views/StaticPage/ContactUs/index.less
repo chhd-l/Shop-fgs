@@ -1,8 +1,4 @@
 .contactUs {
-  .contact-us-form.talk-to-us {
-    margin: 30px 80px 0;
-  }
-
   p {
     word-break: break-word;
   }
@@ -11,12 +7,8 @@
     vertical-align: middle;
   }
 
-  .contact-us-form.talk-to-us .rc-styled-link--cta {
-    margin: 0;
-  }
-
   .rc-icon:after {
-    content: "";
+    content: '';
     display: inline-block;
     background-repeat: no-repeat;
     width: 32px;
@@ -35,9 +27,9 @@
 
   a.gamma,
   a.rc-gamma {
-    border-bottom: 1px solid rgba(226, 0, 26, .15);
-    -webkit-transition: border-bottom .2s ease;
-    transition: border-bottom .2s ease;
+    border-bottom: 1px solid rgba(226, 0, 26, 0.15);
+    -webkit-transition: border-bottom 0.2s ease;
+    transition: border-bottom 0.2s ease;
     cursor: pointer;
   }
 
@@ -74,11 +66,11 @@
 
   .text-danger-2 {
     margin-top: 4px;
-    font-size: .8125rem;
+    font-size: 0.8125rem;
   }
 
   .rc-input__textarea {
-    padding: .95rem;
+    padding: 0.95rem;
     resize: vertical;
     height: 200px;
     border-style: solid;
@@ -103,11 +95,11 @@
     border-color: #ec001a !important;
     opacity: 1;
   }
-  .rc-input--invalid--email{
-    .rc-input__control{
-      color:  #c03344!important;
+  .rc-input--invalid--email {
+    .rc-input__control {
+      color: #c03344 !important;
     }
-    .rc-input__control:not([value=""])+.rc-input__label::after {
+    .rc-input__control:not([value='']) + .rc-input__label::after {
       background-color: #c03344 !important;
     }
   }
