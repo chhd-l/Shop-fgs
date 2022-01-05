@@ -522,6 +522,19 @@ export default function DailyPortion(
     if (isMixedBreedPossibleValues){
       param.breedCode = mixedBreedPossibleValue?.value
     }
+    /**
+     * 俄罗斯和法国单独处理 goodsInfoUnit 单位参数
+     * - 俄罗斯 кг => kg
+     * - 法国 GR => g
+     *
+     **/
+    if (window.__.env.REACT_APP_COUNTRY == 'ru' && goodsInfo?.goodsInfoUnit === 'кг'){
+      param.goodsInfoUnit = 'kg'
+    }
+    if (window.__.env.REACT_APP_COUNTRY == 'fr' && goodsInfo?.goodsInfoUnit === 'GR'){
+      param.goodsInfoUnit = 'g'
+    }
+
     dataLayer.push({
       'event' : 'rationingToolInteraction',
       'rationingToolInteraction' : 'Calculate portion'
@@ -750,14 +763,14 @@ export default function DailyPortion(
       // const value = breeds.find((item) => item.breedCode === initBreedValue)
       const value = breeds.find((item) => item.name === initBreedValue)
       if (value) {
-        setPreselected(true);
+        // setPreselected(true);
         setBreedData({
           key: value.breedCode,
           name: value.localName,
         })
       } else {
         setBreedData({});
-        setPreselected(false);
+        // setPreselected(false);
       }
     }
   }
