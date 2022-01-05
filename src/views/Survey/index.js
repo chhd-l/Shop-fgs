@@ -42,17 +42,33 @@ export default class Survey extends React.Component {
       ? surveyUrlMap[surveyId][window.__.env.REACT_APP_COUNTRY] ?? ''
       : '';
 
+    // return (
+    //   <div>
+    //     <Header {...this.props} showMiniIcons={false} showUserIcon={false} />
+    //     <div style={{ height: 650, marginTop: 150 }}>
+    //       {/* <iframe
+    //         src={surveyUrl}
+    //         frameBorder="0"
+    //         style={{ width: '100%', height: 650 }}
+    //       ></iframe> */}
+    //     </div>
+    //     <Footer />
+    //   </div>
+    // );
+
     return (
       <div>
-        <Header {...this.props} showMiniIcons={false} showUserIcon={false} />
-        <div style={{ height: 650, marginTop: 150 }}>
-          {/* <iframe
-            src={surveyUrl}
-            frameBorder="0"
-            style={{ width: '100%', height: 650 }}
-          ></iframe> */}
-        </div>
-        <Footer />
+        <iframe
+          src={`${window.origin}/${window.__.env.REACT_APP_COUNTRY}/product-finder`}
+          style={{
+            width: '100%',
+            height: '100%',
+            position: 'absolute',
+            left: '0px',
+            top: '0px'
+          }}
+          frameBorder="0"
+        />
       </div>
     );
   }
