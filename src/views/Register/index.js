@@ -79,6 +79,7 @@ class Register extends Component {
   }
 
   componentDidMount() {
+    console.log(2222, '我们的注册页面');
     const registerBack =
       window.location.search.indexOf('?origin=register') >= 0 &&
       window.location.search.indexOf('&token') >= 0;

@@ -5,7 +5,7 @@ import radioImage from '../../../../assets/images/preciseCatNutrition/radio.png'
 import radioImage1 from '../../../../assets/images/preciseCatNutrition/radio1.png';
 import radioImage2 from '../../../../assets/images/preciseCatNutrition/radio2.png';
 import Tooltips from '../tooltips';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 
 let imgMap = {
   3: radioImage1,

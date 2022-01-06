@@ -24,7 +24,7 @@ const RouteFilterHook = ({ configStore }) => {
   useEffect(() => {
     const marsFooterHtml = configStore.info?.marsFooter;
     if (
-      !/^\/implicit\/callback|^\/required|^\/refuge|^\/okta-login-page|^\/okta-logout-page|^\/pickupmap/.test(
+      !/^\/implicit\/callback|^\/required|^\/refuge|^\/okta-login-page|^\/okta-logout-page|^\/pickupmap|^\/survey/.test(
         pathname
       )
     ) {

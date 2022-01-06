@@ -1,4 +1,4 @@
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import React, { useContext } from 'react';
 import FrequencySelection from '@/components/FrequencySelection/index.tsx';
 import LazyLoad from 'react-lazyload';
