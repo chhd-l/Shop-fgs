@@ -59,7 +59,8 @@ class SearchSelection extends React.Component {
         form: {
           ...this.state.form,
           value: this.props.defaultValue
-        }
+        },
+        placeholder: this.props.placeholder
       });
     }
   }
@@ -118,6 +119,10 @@ class SearchSelection extends React.Component {
           form: Object.assign(this.state.form, { value: '' })
         });
       }
+    } else {
+      this.setState({
+        placeholder: this.props.placeholder
+      });
     }
   };
   handleInputBlur = (e) => {
