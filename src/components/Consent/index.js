@@ -1,10 +1,49 @@
 import React, { Component } from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import ConsentAdditionalText from '@/components/Consent/ConsentAdditionalText';
+import { Link } from 'react-router-dom';
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
 import './index.css';
+
+const DeTextInfo = () => {
+  return (
+    <>
+      <a style={{ color: '#7F6666', cursor: 'default' }}>
+        Mit Klicken des Buttons Kaufen wird Ihre Bestellung verbindlich. Weitere
+        Informationen zum Vertragsschluss erhalten Sie in unseren{' '}
+        <Link
+          target="_blank"
+          rel="nofollow"
+          to="/Terms-And-Conditions "
+          className="rc-styled-link"
+        >
+          allgemeinen Geschäftsbedingungen.
+          {Boolean(window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW) && (
+            <span className="warning_blank">Opens a new window</span>
+          )}
+        </Link>
+      </a>
+      <div style={{ paddingLeft: '0px', marginTop: '1.25rem' }}>
+        <a style={{ color: '#7F6666', cursor: 'default' }}>
+          Informationen zu Ihrem Widerrufsrecht finden Sie{' '}
+          <Link
+            target="_blank"
+            rel="nofollow"
+            to="/Widerrufsbelehrung"
+            className="rc-styled-link"
+          >
+            hier
+            {Boolean(
+              window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+            ) && <span className="warning_blank">Opens a new window</span>}
+          </Link>
+        </a>
+      </div>
+    </>
+  );
+};
 
 class Consent extends Component {
   constructor(props) {
@@ -42,6 +81,7 @@ class Consent extends Component {
     const { pageType = '' } = this.props;
     const Fr = window.__.env.REACT_APP_COUNTRY === 'fr';
     const Us = window.__.env.REACT_APP_COUNTRY === 'us';
+    const De = window.__.env.REACT_APP_COUNTRY === 'de';
     //组件传参end
     const createMarkup = (text, isRequired, isNoChecked) => {
       if (isRequired && text && !isNoChecked) {
@@ -56,29 +96,27 @@ class Consent extends Component {
     };
     const noIsRequired = list?.findIndex((_item) => _item?.isRequired == false);
     console.log(list, 'listtt--==', noIsRequired);
+    const showText = ['account', 'register', 'checkout'].indexOf(pageType) > -1;
     return (
       <>
         {list?.map((item, index) => {
           return (
             <div>
-              {index === 1 && Us && pageType === 'register' ? (
-                <div style={{ marginLeft: '-30px' }}>
+              {noIsRequired > -1 && noIsRequired == index && showText ? (
+                <div style={{ marginLeft: '-28px' }}>
                   <ConsentAdditionalText textPosition="top" />
                 </div>
               ) : null}
-              {index === 2 && Fr && pageType === 'register' ? (
-                <div style={{ marginLeft: '-30px' }}>
-                  <ConsentAdditionalText textPosition="top" />
-                </div>
-              ) : null}
+
               {noIsRequired > -1 &&
               noIsRequired == index &&
-              (Fr || Us) &&
-              pageType === 'checkout' ? (
-                <div style={{ marginLeft: '-24px' }}>
-                  <ConsentAdditionalText textPosition="top" />
+              pageType === 'checkout' &&
+              window.__.env.REACT_APP_COUNTRY === 'de' ? (
+                <div style={{ marginLeft: '-28px', marginBottom: '24px' }}>
+                  <DeTextInfo />
                 </div>
               ) : null}
+
               <div
                 key={index}
                 id={index}
@@ -150,9 +188,21 @@ class Consent extends Component {
             </div>
           );
         })}
-        {noIsRequired === -1 && (Fr || Us) && pageType === 'checkout' ? (
-          <div style={{ marginLeft: '-24px', marginBottom: '24px' }}>
+        {noIsRequired === -1 &&
+        pageType === 'checkout' &&
+        window.__.env.REACT_APP_COUNTRY === 'de' ? (
+          <div style={{ marginLeft: '-28px', marginBottom: '24px' }}>
+            <DeTextInfo />
+          </div>
+        ) : null}
+        {noIsRequired === -1 && pageType === 'checkout' ? (
+          <div style={{ marginLeft: '-28px', marginBottom: '24px' }}>
             <ConsentAdditionalText textPosition="top" />
+          </div>
+        ) : null}
+        {showText ? (
+          <div style={{ marginLeft: '-28px' }}>
+            <ConsentAdditionalText textPosition="bottom" />
           </div>
         ) : null}
       </>

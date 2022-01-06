@@ -123,7 +123,7 @@ class Confirmation extends React.Component {
                 this.setState({ isValid: val });
               }}
             />
-            <ConsentAdditionalText textPosition="bottom" />
+            {/* <ConsentAdditionalText textPosition="bottom" /> */}
 
             {/*feline change appointment 下单提示*/}
             {sessionItemRoyal.get('isChangeAppoint') && (

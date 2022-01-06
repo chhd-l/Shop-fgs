@@ -188,15 +188,6 @@ class AccountOrders extends React.Component {
             </FormattedMessage>
           </span>
         ) : null}
-        {/*felin订单cancel appoint*/}
-        {/*{appointment.canCancelAppoint ? (*/}
-        {/*  <button*/}
-        {/*    className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-appointment ml-0`}*/}
-        {/*    onClick={this.cancelAppoint.bind(this, appointment)}*/}
-        {/*  >*/}
-        {/*    <FormattedMessage id="Cancel Appointment" />*/}
-        {/*  </button>*/}
-        {/*) : null}*/}
       </>
     );
   };
