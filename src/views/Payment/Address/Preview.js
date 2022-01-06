@@ -1,14 +1,12 @@
 import React from 'react';
-import { inject, observer } from 'mobx-react';
 import { matchNamefromDict, getDictionary, formatDate } from '@/utils/utils';
 import { AddressPreview } from '@/components/Address';
 import cn from 'classnames';
+import cloneDeep from 'lodash/cloneDeep';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const isFromFelin = sessionItemRoyal.get('from-felin');
 
-@inject('configStore', 'paymentStore')
-@observer
 class AddrPreview extends React.Component {
   static defaultProps = { form: null, countryListDict: [], boldName: true };
   constructor(props) {
@@ -16,12 +14,11 @@ class AddrPreview extends React.Component {
     this.state = { countryName: '' };
   }
 
-  // todo 法国的form.country不应该有值，否则会显示此值
   componentDidMount() {
     const { form } = this.props;
     getDictionary({ type: 'country' }).then((res) => {
       this.setState({
-        countryName: matchNamefromDict(res, form.country || form.countryId)
+        countryName: matchNamefromDict(res, form.country || form.countryId, 11)
       });
     });
   }
@@ -40,12 +37,18 @@ class AddrPreview extends React.Component {
           pickupNameCls={cn('font-weight-bold flex justify-between', {
             medium: boldName
           })}
-          data={Object.assign(form, {
-            name: isFromFelin ? '' : [form.firstName, form.lastName].join(' '),
-            countryName,
-            phone: isFromFelin ? '' : form.phoneNumber || form.consigneeNumber,
-            newDeliveryDate
-          })}
+          data={cloneDeep(
+            Object.assign(form, {
+              name: isFromFelin
+                ? ''
+                : [form.firstName, form.lastName].join(' '),
+              countryName,
+              phone: isFromFelin
+                ? ''
+                : form.phoneNumber || form.consigneeNumber,
+              newDeliveryDate
+            })
+          )}
         />
       </div>
     ) : null;

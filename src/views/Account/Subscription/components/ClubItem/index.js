@@ -89,7 +89,8 @@ const ClubItem = ({ subItem, history }) => {
                   <FormattedMessage id="units" />
                 </p>
                 <p>
-                  <FormattedMessage id="subscription.frequency" />{' '}
+                  <FormattedMessage id="subscription.frequencyDelivery" />
+                  <FormattedMessage id="subscription.deliveryEvery" />{' '}
                   <FrequencyMatch currentId={item.periodTypeId} />
                 </p>
               </span>

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { FormattedMessage } from 'react-intl';
 import IMask from 'imask';
 
 const Swish = ({ billingJSX, updateSwishPhone }) => {
