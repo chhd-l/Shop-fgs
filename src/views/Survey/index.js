@@ -37,10 +37,10 @@ export default class Survey extends React.Component {
   }
 
   render() {
-    const surveyId = this.props.match.params?.id ?? '0';
-    const surveyUrl = surveyUrlMap[surveyId]
-      ? surveyUrlMap[surveyId][window.__.env.REACT_APP_COUNTRY] ?? ''
-      : '';
+    // const surveyId = this.props.match.params?.id ?? '0';
+    // const surveyUrl = surveyUrlMap[surveyId]
+    //   ? surveyUrlMap[surveyId][window.__.env.REACT_APP_COUNTRY] ?? ''
+    //   : '';
 
     // return (
     //   <div>
@@ -56,10 +56,16 @@ export default class Survey extends React.Component {
     //   </div>
     // );
 
+    const countryCode = window.__.env.REACT_APP_COUNTRY;
+    let productFinderUrl = `${window.origin}/${countryCode}/product-finder`;
+    if (['de', 'us', 'mx'].indexOf(countryCode) > -1) {
+      productFinderUrl = `${window.origin}/product-finder`;
+    }
+
     return (
       <div>
         <iframe
-          src={`${window.origin}/${window.__.env.REACT_APP_COUNTRY}/product-finder`}
+          src={productFinderUrl}
           style={{
             width: '100%',
             height: '100%',
@@ -77,7 +83,7 @@ export default class Survey extends React.Component {
     loadJS({
       code: `(function(h,o,t,j,a,r){
         h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-        h._hjSettings={hjid:2764827,hjsv:6};
+        h._hjSettings={hjid:2617415,hjsv:6};
         a=o.getElementsByTagName('head')[0];
         r=o.createElement('script');r.async=1;
         r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
