@@ -1,17 +1,13 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
+import { inject, observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import LoginButton from '@/components/LoginButton';
 import LogoutButton from '@/components/LogoutButton';
 import { UnLoginUserBox, LoginUserBox } from './UserBox';
 import { getDeviceType } from '@/utils/utils.js';
-import stores from '@/store';
-import { isLimitLogin } from '@/components/LoginButton/utils';
-
 import '../css/user.less';
-
-const loginStore = stores.loginStore;
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -20,12 +16,17 @@ const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const clientWidth = document.body.clientWidth;
 
 const UserJSX = (props) => {
-  const isLogin = !!localItemRoyal.get('rc-token');
-  const userInfo = localItemRoyal.get('rc-userinfo') || null;
+  const {
+    self,
+    showUserIcon,
+    history,
+    showCart,
+    showCenter,
+    intl,
+    loginStore: { isLogin, userInfo }
+  } = props;
+  const firstNameLetter = userInfo?.firstName && userInfo.firstName.slice(0, 1);
 
-  const firstNameLetter =
-    userInfo && userInfo.firstName && userInfo.firstName.slice(0, 1);
-  const { self, showUserIcon, history, showCart, showCenter, intl } = props;
   const defaultJSX = (
     <>
       {showUserIcon ? (
@@ -100,22 +101,6 @@ const UserJSX = (props) => {
                       className="rc-styled-link cursor-pointer"
                       // className="rc-styled-link"
                       onClick={() => {
-                        // if (
-                        //   window.__.env.REACT_APP_COUNTRY == 'us' &&
-                        //   isLimitLogin()
-                        // ) {
-                        //   // 美国4/17的美国中部时间早8点到晚4点不能登录账户
-                        //   return loginStore.changeLimitLoginModal(true);
-                        // }
-                        // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=https%3A%2F%2Fshopuat.466920.com%3Forigin%3Dregister'
-                        // window.location.href =
-                        //   window.__.env.REACT_APP_RegisterPrefix +
-                        //   window.encodeURIComponent(
-                        //     window.__.env.REACT_APP_RegisterCallback
-                        //   );
-                        // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=http%3A%2F%2Flocalhost%3A3000%3Forigin%3Dregister'
-                        // this.signUp()
-
                         if (+window.__.env.REACT_APP_CUSTOM_REGISTER) {
                           localItemRoyal.set(
                             'okta-redirectUrl',
@@ -239,4 +224,4 @@ const UserJSX = (props) => {
   );
 };
 
-export default UserJSX;
+export default inject('loginStore')(observer(UserJSX));
