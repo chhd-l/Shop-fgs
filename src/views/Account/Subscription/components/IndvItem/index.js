@@ -103,7 +103,8 @@ const IndvItem = ({ subItem, history, intl }) => {
                 </p> */}
                 <p>
                   {/* 30 daily rations Delivered every month */}
-                  <FormattedMessage id="subscription.frequency" />
+                  <FormattedMessage id="subscription.frequencyDelivery" />
+                  <FormattedMessage id="subscription.deliveryEvery" />
                   <FrequencyMatch currentId={item.periodTypeId} />
                   {/* 30 days */}
                   {/* <FrequencyMatch currentId={item.periodTypeId} /> */}

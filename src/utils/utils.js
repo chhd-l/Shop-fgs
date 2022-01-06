@@ -764,7 +764,7 @@ export function matchNamefromDict(dictList = [], toBeMatchedVal, aa) {
     (ele) =>
       ele &&
       toBeMatchedVal &&
-      ele.value.toString() === toBeMatchedVal.toString()
+      ele.value?.toString() === toBeMatchedVal.toString()
   )[0];
   const matchedItem = matchedById || matchedByValue;
 

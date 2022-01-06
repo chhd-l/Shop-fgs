@@ -39,7 +39,8 @@ const ChangeSelection = ({ el }) => {
                 float: 'left'
               }}
             >
-              <FormattedMessage id="subscription.frequency" />
+              <FormattedMessage id="subscription.frequencyDelivery" />
+              <FormattedMessage id="subscription.deliveryEvery" />
             </strong>
             <div
               className="rc-card__meta order-Id text-left"
