@@ -34,28 +34,48 @@ const clinicStore = stores.clinicStore;
  * @param {*} val
  */
 export function formatMoney(val) {
+  const COUNTRY = window.__.env.REACT_APP_COUNTRY;
+  const NAVIGATOR_LANG = window.__.env.REACT_APP_NAVIGATOR_LANG;
+  const CURRENCY = window.__.env.REACT_APP_CURRENCY;
+
   if (isNaN(val)) {
     val = 0;
   }
   val = Number(val).toFixed(2);
   val += '';
   let length = val.length;
-  if (window.__.env.REACT_APP_COUNTRY === 'tr') {
+  switch (COUNTRY) {
+    case 'tr':
+      return val + ' TL';
+    case 'ru':
+      val = parseInt(Math.round(val));
+      return new Intl.NumberFormat(NAVIGATOR_LANG, {
+        style: 'currency',
+        currency: CURRENCY,
+        maximumSignificantDigits: length
+      }).format(val);
+    case 'se':
+      const tmpRet = new Intl.NumberFormat(NAVIGATOR_LANG, {
+        style: 'currency',
+        currency: CURRENCY
+      }).format(val);
+      return tmpRet.replace(/kr/g, CURRENCY);
+  }
+  if (COUNTRY === 'tr') {
     return val + ' TL';
   }
-  if (window.__.env.REACT_APP_COUNTRY === 'ru') {
-    // console.log(val, 'val----');
+  if (COUNTRY === 'ru') {
     val = parseInt(Math.round(val));
-    return new Intl.NumberFormat(window.__.env.REACT_APP_NAVIGATOR_LANG, {
+    return new Intl.NumberFormat(NAVIGATOR_LANG, {
       style: 'currency',
-      currency: window.__.env.REACT_APP_CURRENCY,
+      currency: CURRENCY,
       maximumSignificantDigits: length
     }).format(val);
   }
 
-  return new Intl.NumberFormat(window.__.env.REACT_APP_NAVIGATOR_LANG, {
+  return new Intl.NumberFormat(NAVIGATOR_LANG, {
     style: 'currency',
-    currency: window.__.env.REACT_APP_CURRENCY
+    currency: CURRENCY
   }).format(val);
 }
 
