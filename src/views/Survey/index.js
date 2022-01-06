@@ -57,11 +57,15 @@ export default class Survey extends React.Component {
     // );
 
     const countryCode = window.__.env.REACT_APP_COUNTRY;
+    let productFinderUrl = `${window.origin}/${countryCode}/product-finder`;
+    if (['de', 'us', 'mx'].indexOf(countryCode) > -1) {
+      productFinderUrl = `${window.origin}/product-finder`;
+    }
 
     return (
       <div>
         <iframe
-          src={`${window.origin}/${countryCode}/product-finder`}
+          src={productFinderUrl}
           style={{
             width: '100%',
             height: '100%',
