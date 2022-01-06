@@ -101,6 +101,7 @@ export default function BreedSelect(
                   <FormattedMessage id={'searchBreed'}>
                     {(placeholder) => (
                       <SearchSelection
+                        freeText
                         disabled={checked}
                         queryList={async ({ inputVal }) => {
                           let reg = new RegExp(`${inputVal}`, 'i')

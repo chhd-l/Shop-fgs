@@ -298,7 +298,7 @@ class AccountOrders extends React.Component {
                               />
                             </LazyLoad>
                           </div>
-                          <div className="col-8 col-md-3">
+                          <div className="col-8 col-md-4">
                             <span
                               className="medium ui-text-overflow-line2 text-break color-444"
                               title={details.goodsInfoName}
@@ -314,7 +314,7 @@ class AccountOrders extends React.Component {
                             </span>
                           </div>
                           <div
-                            className={`col-12 col-md-7 md:pr-8 font-weight-normal d-flex justify-end flex-row`}
+                            className={`col-12 col-md-6 md:pr-8 font-weight-normal d-flex justify-end flex-row`}
                           >
                             {this.renderOperationBtns()}
                           </div>
