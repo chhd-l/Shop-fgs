@@ -181,6 +181,7 @@ class Payment extends React.Component {
       swishQrcodeModal: false,
       countDown: '', //倒计时
       swishQrcodeError: false,
+      swishAppRedirectUrl: '', //swish app跳转的地址
       visibleUpdate: false,
       authorizationCode: '',
       subscriptionID: '',
@@ -1620,6 +1621,7 @@ class Payment extends React.Component {
           subNumber = (res.context && res.context.subscribeId) || '';
 
           if (res.context.qrCodeData) {
+            this.setState({ swishAppRedirectUrl: res.context.redirectUrl });
             async function getData() {
               return adyenPaymentsDetails({
                 redirectResult: res.context.paymentData,
@@ -4456,6 +4458,14 @@ class Payment extends React.Component {
                 Attempting to pay again within this time may result in multiple
                 charges.
               </div>
+              <button
+                className="md:hidden mt-2 rc-btn rc-btn--one"
+                onClick={() => {
+                  window.location = this.state.swishAppRedirectUrl;
+                }}
+              >
+                Pay By Swish App
+              </button>
             </div>
           )}
         </Modal>
