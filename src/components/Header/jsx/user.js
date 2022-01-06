@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
+import { inject, observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import LoginButton from '@/components/LoginButton';
