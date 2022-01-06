@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import Selection from '@/components/Selection';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 
 
 import './index.less';

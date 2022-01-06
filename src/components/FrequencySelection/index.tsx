@@ -1,38 +1,42 @@
 import React, { useEffect, useState } from 'react';
-import {
-  getFrequencyDict,
-  matchNamefromDict,
-  getDeviceType
-} from '@/utils/utils';
+import { getFrequencyDict } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { SubscriptionType, SubScriptionStatusNumber } from '@/utils/types.ts';
 import Selection from '@/components/Selection/index.js';
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
-
+import cn from 'classnames';
 interface Props {
-  frequencyType: SubscriptionType
-  currentFrequencyId: string
-  handleConfirm: Function,
-  disabled: Boolean,
-  className: string,
-  textStyle?:any,
-  wrapStyle?:any,
-  selectionStyle?:any
+  frequencyType: SubscriptionType;
+  currentFrequencyId: string;
+  handleConfirm: Function;
+  disabled: Boolean;
+  className: string;
+  textStyle?: any;
+  wrapStyle?: any;
+  selectionStyle?: any;
 }
 
-const FrequencyMatch = ({ frequencyType, currentFrequencyId,disabled=false,className='',textStyle={},wrapStyle={},selectionStyle={}, handleConfirm = () => {} }: Props) => {
+const FrequencyMatch = ({
+  frequencyType,
+  currentFrequencyId,
+  disabled = false,
+  className = '',
+  textStyle = {},
+  wrapStyle = {},
+  selectionStyle = {},
+  handleConfirm = () => {}
+}: Props) => {
   const [frequencyList, setFrequencyList] = useState([]);
-  const [handledCurrent, setHandledCurrent] = useState(false)
+  const [handledCurrent, setHandledCurrent] = useState(false);
   // useEffect(() => {
   //   getFrequencyList()
   // }, []);
 
-  useEffect(()=>{
-    if(!handledCurrent){
-      getFrequencyList()
+  useEffect(() => {
+    if (!handledCurrent) {
+      getFrequencyList();
     }
-  },[currentFrequencyId])
-  const getFrequencyList =  ()=>{
+  }, [currentFrequencyId]);
+  const getFrequencyList = () => {
     getFrequencyDict(currentFrequencyId).then((res: any) => {
       let frequencyList = res
         .filter(
@@ -48,32 +52,40 @@ const FrequencyMatch = ({ frequencyType, currentFrequencyId,disabled=false,class
         });
       setFrequencyList(frequencyList);
     });
-  }
+  };
   return (
-    <div style={wrapStyle} className={`freqency order-3 md:order-2 col-12 col-md-4 text-center ${className} nowrap px-0`}>
+    <div
+      style={wrapStyle}
+      className={cn(
+        'freqency order-3 md:order-2 col-12 col-md-4 text-center nowrap px-0 justify-between flex-wrap flex items-center',
+        className
+      )}
+    >
       <span style={textStyle}>
-        <FormattedMessage id="subscription.frequency" />
+        <FormattedMessage id="subscription.frequencyDelivery" />
       </span>
-      <Selection
-        disabled={disabled}
-        customContainerStyle={{
-          display: 'inline-block',
-          marginLeft: isMobile ? '0.5rem' : '1.5rem',
-          // height: isMobile ? '70px' : 'auto',
-          ...selectionStyle
-        }}
-        customCls="text-left"
-        selectedItemChange={(data: any) => {
-          setHandledCurrent(true)
-          handleConfirm(data)
-        }}
-        optionList={frequencyList}
-        wider={true}
-        selectedItemData={{
-          value: currentFrequencyId
-        }}
-        key={currentFrequencyId}
-      />
+      <div className="text-right">
+        <FormattedMessage id="subscription.deliveryEvery" />
+        <Selection
+          disabled={disabled}
+          customContainerStyle={{
+            display: 'inline-block',
+            marginLeft: '0.5rem',
+            ...selectionStyle
+          }}
+          customCls="text-left"
+          selectedItemChange={(data: any) => {
+            setHandledCurrent(true);
+            handleConfirm(data);
+          }}
+          optionList={frequencyList}
+          wider={true}
+          selectedItemData={{
+            value: currentFrequencyId
+          }}
+          key={currentFrequencyId}
+        />
+      </div>
     </div>
   );
 };

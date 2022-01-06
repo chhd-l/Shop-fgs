@@ -751,18 +751,24 @@ let datePickerConfig = getDatePickerConfig();
 export { datePickerConfig };
 
 /**
- * 根据id匹配name
+ * 根据id或value匹配name，匹配不了则返回自己
  * @param {Array} dictList 字典数据
- * @param {Number/String} id 需要匹配的id
+ * @param {Number/String} toBeMatchedVal 需要匹配的id或value
  */
-export function matchNamefromDict(dictList = [], id) {
-  return dictList.filter(
-    (ele) => ele && id && ele.id.toString() === id.toString()
-  )[0]
-    ? dictList.filter(
-        (ele) => ele && id && ele.id.toString() === id.toString()
-      )[0].name
-    : id;
+export function matchNamefromDict(dictList = [], toBeMatchedVal, aa) {
+  const matchedById = dictList.filter(
+    (ele) =>
+      ele && toBeMatchedVal && ele.id.toString() === toBeMatchedVal.toString()
+  )[0];
+  const matchedByValue = dictList.filter(
+    (ele) =>
+      ele &&
+      toBeMatchedVal &&
+      ele.value?.toString() === toBeMatchedVal.toString()
+  )[0];
+  const matchedItem = matchedById || matchedByValue;
+
+  return matchedItem ? matchedItem.name : toBeMatchedVal;
 }
 
 // 数组去重

@@ -120,44 +120,6 @@ class TermsCommon extends Component {
           id={this.props.id}
           pageType="checkout"
         />
-
-        {window.__.env.REACT_APP_COUNTRY === 'de' ? (
-          <>
-            <a style={{ color: '#7F6666', cursor: 'default' }}>
-              Mit Klicken des Buttons Kaufen wird Ihre Bestellung verbindlich.
-              Weitere Informationen zum Vertragsschluss erhalten Sie in unseren{' '}
-              <Link
-                target="_blank"
-                rel="nofollow"
-                to="/Terms-And-Conditions "
-                className="rc-styled-link"
-              >
-                allgemeinen Geschäftsbedingungen.
-                {Boolean(
-                  window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
-                ) && <span className="warning_blank">Opens a new window</span>}
-              </Link>
-            </a>
-            <div style={{ paddingLeft: '0px', marginTop: '1.25rem' }}>
-              <a style={{ color: '#7F6666', cursor: 'default' }}>
-                Informationen zu Ihrem Widerrufsrecht finden Sie{' '}
-                <Link
-                  target="_blank"
-                  rel="nofollow"
-                  to="/Widerrufsbelehrung"
-                  className="rc-styled-link"
-                >
-                  hier
-                  {Boolean(
-                    window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
-                  ) && (
-                    <span className="warning_blank">Opens a new window</span>
-                  )}
-                </Link>
-              </a>
-            </div>
-          </>
-        ) : null}
       </div>
     );
   }

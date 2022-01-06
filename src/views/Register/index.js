@@ -79,6 +79,7 @@ class Register extends Component {
   }
 
   componentDidMount() {
+    console.log(2222, '我们的注册页面');
     const registerBack =
       window.location.search.indexOf('?origin=register') >= 0 &&
       window.location.search.indexOf('&token') >= 0;
@@ -239,8 +240,13 @@ class Register extends Component {
     const deIllegalSymbol = symbolReg1.test(value) || symbolReg2.test(value);
     switch (name) {
       case 'password':
-        const { ruleLength, ruleLower, ruleUpper, ruleAname, ruleSpecial } =
-          this.state;
+        const {
+          ruleLength,
+          ruleLower,
+          ruleUpper,
+          ruleAname,
+          ruleSpecial
+        } = this.state;
         const passwordValid =
           ruleLength && ruleLower && ruleUpper && ruleAname && ruleSpecial;
         this.setState({
@@ -289,8 +295,7 @@ class Register extends Component {
       var lowerReg = /[a-z]+/;
       var upperReg = /[A-Z]+/;
       var nameReg = /[\d]+/;
-      var specialReg =
-        /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
+      var specialReg = /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
       this.setState(
         {
           ruleLength: value.length >= 8,
@@ -1094,7 +1099,6 @@ class Register extends Component {
                                 key={'required'}
                                 pageType="register"
                               />
-                              <ConsentAdditionalText textPosition="bottom" />
                               {window.__.env.REACT_APP_COUNTRY === 'uk' ? (
                                 <div
                                   className="footer-checkbox-title rc-text--left"
