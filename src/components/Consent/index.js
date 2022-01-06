@@ -102,18 +102,17 @@ class Consent extends Component {
         {list?.map((item, index) => {
           return (
             <div>
-              {noIsRequired > -1 && noIsRequired == index && showText ? (
-                <div style={{ marginLeft: '-28px' }}>
-                  <ConsentAdditionalText textPosition="top" />
-                </div>
-              ) : null}
-
               {noIsRequired > -1 &&
               noIsRequired == index &&
               pageType === 'checkout' &&
               window.__.env.REACT_APP_COUNTRY === 'de' ? (
                 <div style={{ marginLeft: '-28px', marginBottom: '24px' }}>
                   <DeTextInfo />
+                </div>
+              ) : null}
+              {noIsRequired > -1 && noIsRequired == index && showText ? (
+                <div style={{ marginLeft: '-28px' }}>
+                  <ConsentAdditionalText textPosition="top" />
                 </div>
               ) : null}
 
