@@ -59,9 +59,13 @@ class SearchSelection extends React.Component {
         form: {
           ...this.state.form,
           value: this.props.defaultValue
-        },
-        placeholder: this.props.placeholder
+        }
       });
+      if (!this.props.defaultValue) {
+        this.setState({
+          placeholder: this.props.placeholder
+        });
+      }
     }
   }
   componentWillUnmount = () => {
