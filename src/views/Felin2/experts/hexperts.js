@@ -162,18 +162,11 @@ class Hcexperts extends React.Component {
     );
   };
   getDeatalData = async (id) => {
-    let appointName = {
-      Online: 'Appel video',
-      Offline: 'Sur place'
-    };
-
     const { code, context } = await getAppointByApptNo({ apptNo: id });
     if (code === 'K-000000') {
-      let type =
-        appointName[
-          this.state.apptTypeList.find((item) => item.id === context.apptTypeId)
-            .name
-        ];
+      let type = this.state.apptTypeList.find(
+        (item) => item.id === context.apptTypeId
+      ).name;
       let expertise = this.state.list.find(
         (item) => item.id === context.expertTypeId
       ).name;
@@ -238,16 +231,6 @@ class Hcexperts extends React.Component {
         }
       );
     }
-  };
-  hanldeOpen = () => {
-    this.setState({
-      visible: true
-    });
-  };
-  handleCancel = () => {
-    this.setState({
-      visible: false
-    });
   };
   // 点击咨询
   handleOneShow = async () => {
@@ -540,10 +523,6 @@ class Hcexperts extends React.Component {
   };
 
   render() {
-    let appointName = {
-      Online: 'Appel video',
-      Offline: 'Sur place'
-    };
     const { intl } = this.props;
     const { twoShow, threeShow, fourShow, fiveShow } = this.state;
 
@@ -559,7 +538,7 @@ class Hcexperts extends React.Component {
                 width: '16.875rem'
               }}
             >
-              Reserver un rendez-vous
+              Commencer
             </button>
           </div>
         ) : (
@@ -652,7 +631,7 @@ class Hcexperts extends React.Component {
                     onClick={() => {
                       this.handleActiveBut(
                         item.id,
-                        appointName[item.name],
+                        item.name,
                         'apptTypeId',
                         'type'
                       );
@@ -670,7 +649,7 @@ class Hcexperts extends React.Component {
                       width: '9.375rem'
                     }}
                   >
-                    {appointName[item.name]}
+                    {item.name}
                   </button>
                 );
               })}
@@ -919,32 +898,7 @@ class Hcexperts extends React.Component {
         </UpdatModal>
         {/*预约时间 Contact us*/}
         <div className="txt-centr" style={{ marginBottom: '3.75rem' }}>
-          <div
-            onClick={this.hanldeOpen}
-            style={{
-              cursor: 'pointer',
-              textDecoration: 'underline',
-              marginTop: '1.25rem',
-              display: this.state.visible ? 'none' : 'block'
-            }}
-          >
-            Contactez-nous
-          </div>
-          <MyModal visible={this.state.visible}>
-            <div
-              style={{
-                textAlign: 'right',
-                padding: '1.2rem',
-                paddingBottom: '0'
-              }}
-            >
-              <span
-                onClick={this.handleCancel}
-                className="rc-icon rc-close rc-iconography"
-                style={{ cursor: 'pointer' }}
-              />
-            </div>
-          </MyModal>
+          <MyModal />
         </div>
       </div>
     );
