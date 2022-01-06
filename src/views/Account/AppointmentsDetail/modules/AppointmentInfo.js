@@ -1,7 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import { handleFelinAppointTime } from '@/utils/utils';
+import { handleFelinAppointTime, formatDate } from '@/utils/utils';
 
 @inject('configStore')
 @observer
@@ -13,7 +13,9 @@ class AppointmentInfo extends React.Component {
   handleFelinOrderDate = (appointmentDate) => {
     const orderTime = handleFelinAppointTime(appointmentDate);
     return (
-      orderTime.appointStartTime +
+      formatDate({ date: orderTime.appointStartTime.split(' ')[0] }) +
+      ' ' +
+      orderTime.appointStartTime.split(' ')[1] +
       ' - ' +
       orderTime.appointEndTime.split(' ')[1]
     );

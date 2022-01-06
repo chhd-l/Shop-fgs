@@ -618,7 +618,10 @@ class PayProductInfo extends React.Component {
         this.props.operateBtnVisible &&
         productList[0]?.goodsInfoFlag != 3 &&
         !sessionItemRoyal.get('from-felin') ? (
-          <Link to="/cart" className="product-summary__cartlink rc-styled-link">
+          <Link
+            to="/cart"
+            className="font-medium hover:underline hover:text-rc-red"
+          >
             <FormattedMessage id="edit2" />
           </Link>
         ) : null}
