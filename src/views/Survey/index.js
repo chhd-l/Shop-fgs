@@ -60,6 +60,8 @@ export default class Survey extends React.Component {
     let productFinderUrl = `${window.origin}/${countryCode}/product-finder`;
     if (['de', 'us', 'mx'].indexOf(countryCode) > -1) {
       productFinderUrl = `${window.origin}/product-finder`;
+    } else if (window.__.env.REACT_APP_HUB_URLPREFIX) {
+      productFinderUrl = `${window.__.env.REACT_APP_HUB_URLPREFIX}/product-finder`;
     }
 
     return (
