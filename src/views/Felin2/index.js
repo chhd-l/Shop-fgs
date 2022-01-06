@@ -296,7 +296,7 @@ class Felin extends React.Component {
               </div>
             </div>
           </div>
-          <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile felin-mpd0">
+          <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile felin-mpd0 mb16">
             <div className="rc-max-width--xxl">
               <div className="rc-layout-container rc-two-column rc-content-h-middle ">
                 <div className="rc-column felin-p30">

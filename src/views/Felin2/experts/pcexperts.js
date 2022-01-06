@@ -217,11 +217,6 @@ class Pcexperts extends React.Component {
       );
     }
   };
-  handleCancel = () => {
-    this.setState({
-      visible: false
-    });
-  };
   // 点击咨询
   handleOneShow = async () => {
     // 线上
