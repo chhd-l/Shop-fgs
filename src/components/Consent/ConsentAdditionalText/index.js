@@ -46,9 +46,9 @@ const ConsentAdditionalText = ({ textPosition }) => {
           Petcare und seinen Tochtergesellschaften &nbsp;
           <a href="https://deu.mars.com/hergestellt-von-mars" target="_blank">
             'Made by Mars'
-          </a>
-          auf dem Laufenden halten, von denen wir glauben, dass sie für Sie
-          interessant sind, Ihr Einverständnis vorausgesetzt.
+          </a>{' '}
+          &nbsp; auf dem Laufenden halten, von denen wir glauben, dass sie für
+          Sie interessant sind, Ihr Einverständnis vorausgesetzt.
         </p>
         <p>
           Ja, ich bin über 16 Jahre alt und möchte folgende Informationen

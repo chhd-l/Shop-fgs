@@ -181,16 +181,16 @@ class CommunicationDataEditForm extends React.Component {
       // 1 勾选了某条特殊consent情况下，phone/email/messengers不能同时取消
       // 2 勾选了phone/email/messengers，必须勾选某条特殊consent
 
-      // 美国、英国隐藏了 email 勾选框，所以选择邮件沟通时需要赋值 communicationEmail = 1
+      // us/uk/de隐藏了 email 勾选框，所以选择邮件沟通时需要赋值 communicationEmail = 1
       if (
         hasCheckedTheConsent &&
-        ['us', 'uk'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1
+        ['us', 'uk', 'de'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1
       ) {
         form.communicationEmail = 1;
       }
       if (
         !hasCheckedTheConsent &&
-        ['us', 'uk'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1
+        ['us', 'uk', 'de'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1
       ) {
         form.communicationEmail = 0;
       }
@@ -473,7 +473,7 @@ class CommunicationDataEditForm extends React.Component {
                   <FormattedMessage id="account.myCommunicationPreferencesContent2" />
                 </strong>
               </span>
-              <ConsentAdditionalText textPosition="top" />
+              {/* <ConsentAdditionalText textPosition="top" /> */}
               <div id="wrap" style={{ marginLeft: '30px' }}>
                 {/* checkbox组 */}
                 <Consent
@@ -483,9 +483,10 @@ class CommunicationDataEditForm extends React.Component {
                   checkboxPadding={'.625rem'}
                   zoom={'150%'}
                   key={'profile'}
+                  pageType={'account'}
                 />
               </div>
-              <ConsentAdditionalText textPosition="bottom" />
+              {/* <ConsentAdditionalText textPosition="bottom" /> */}
               {this.state.showWarningTip ? (
                 <aside
                   className="rc-alert rc-alert--warning mb-4 mt-2"
