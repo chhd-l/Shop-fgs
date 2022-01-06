@@ -1,4 +1,4 @@
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import React, { useContext } from 'react';
 import FrequencySelection from '@/components/FrequencySelection/index.tsx';
 import LazyLoad from 'react-lazyload';
@@ -39,7 +39,8 @@ const ChangeSelection = ({ el }) => {
                 float: 'left'
               }}
             >
-              <FormattedMessage id="subscription.frequency" />
+              <FormattedMessage id="subscription.frequencyDelivery" />
+              <FormattedMessage id="subscription.deliveryEvery" />
             </strong>
             <div
               className="rc-card__meta order-Id text-left"

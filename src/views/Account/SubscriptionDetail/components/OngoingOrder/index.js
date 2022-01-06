@@ -1,6 +1,6 @@
 import React from 'react';
 import { getDeviceType, formatDate } from '@/utils/utils';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import { IMG_DEFAULT } from '@/utils/constant';
 import './index.less';

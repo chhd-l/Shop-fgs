@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import LazyLoad from 'react-lazyload';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import classNames from 'classnames';
 import Modal from '@/components/Modal'
 import {
