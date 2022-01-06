@@ -271,7 +271,7 @@ const Adoptions = (props) => {
                   <span className="font-bold">• Free shipping</span>, with no
                   minimum purchase
                   <br />
-                  <span className="font-bold">• 5% on discount </span>every
+                  <span className="font-bold">• 5% discount </span>on every
                   future autoship order
                   <br />
                   <span className="font-bold">• </span>Expert food and product

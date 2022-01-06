@@ -68,7 +68,6 @@ class WeekCalender extends Component {
   };
 
   lastWeek = () => {
-    if (index === 0) return;
     index++;
     this.setState(
       {
@@ -83,7 +82,6 @@ class WeekCalender extends Component {
   };
 
   nextWeek = () => {
-    if (index === -1) return;
     index--;
     this.setState(
       {

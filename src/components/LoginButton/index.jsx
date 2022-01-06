@@ -17,7 +17,6 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import { getToken } from '@/api/login';
 import { getCustomerInfo } from '@/api/user';
 import { mergeUnloginCartData, bindSubmitParam } from '@/utils/utils';
-import { isLimitLogin } from './utils';
 import { userBindConsent } from '@/api/consent';
 import Modal from '@/components/Modal';
 import LimitLoginModal from '@/views/Home/modules/LimitLoginModal';
@@ -83,7 +82,8 @@ const LoginButton = (props) => {
           let oktaToken = 'Bearer ' + oktaTokenString;
           localItemRoyal.set('oktaToken', oktaToken);
           const consentString = localItemRoyal.get('rc-consent-list');
-          if (consentString && loginStore.isLogin) { // 自动登录后，注册consent
+          if (consentString && loginStore.isLogin) {
+            // 自动登录后，注册consent
             var consents = JSON.parse(consentString);
             let submitParam = bindSubmitParam(consents);
             // 不知道能不能拿到customerId
@@ -162,9 +162,6 @@ const LoginButton = (props) => {
 
   const login = async () => {
     const { beforeLoginCallback, callbackUrl, history } = props;
-    // if (window.__.env.REACT_APP_COUNTRY == 'us' && isLimitLogin()) {// 美国4/17的美国中部时间早8点到晚4点不能登录账户
-    //   return loginStore.changeLimitLoginModal(true)
-    // }
     try {
       sessionItemRoyal.remove('rc-token-lose');
       localItemRoyal.set(

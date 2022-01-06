@@ -7,8 +7,14 @@ const DynamicFooter = ({ configStore, intl }) => {
   const [footHtml, setFooterHtml] = useState('');
 
   useEffect(() => {
-    setFooterHtml(configStore.info?.footer);
-  }, [configStore.info?.footer]);
+    const marsFooterHtml = configStore.info?.marsFooter;
+    let ret = configStore.info?.footer;
+    //将自定义的纯marsfooter富文本插入到footer下方，注：包含script/link的情况，此方式无效，在src\components\RouteFilter\RouteFilterHook.js中处理此种情况
+    if (marsFooterHtml) {
+      ret += marsFooterHtml;
+    }
+    setFooterHtml(ret);
+  }, [configStore.info?.footer, configStore.info?.marsFooter]);
 
   useEffect(() => {
     const paymentLogosBox = document.querySelector('#J_footer_payment_box');

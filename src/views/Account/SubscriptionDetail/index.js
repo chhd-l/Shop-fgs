@@ -36,7 +36,7 @@ import { Helmet } from 'react-helmet';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import OngoingOrder from './components/OngoingOrder';
 import TempolineAPIError from './components/TempolineAPIError';
-import { formatDate } from '@/utils/utils';
+import { format } from 'date-fns';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
@@ -358,7 +358,7 @@ class SubscriptionDetail extends React.Component {
   };
   onDateChange(date, goodsInfo) {
     let { subDetail } = this.state;
-    subDetail.nextDeliveryTime = formatDate({ date: date });
+    subDetail.nextDeliveryTime = format(date, 'yyyy-MM-dd');
     let param = {
       subscribeId: subDetail.subscribeId,
       nextDeliveryTime: subDetail.nextDeliveryTime,

@@ -132,7 +132,7 @@ class ConfigStore {
   @action.bound
   async getSystemFormConfig() {
     let localAddressForm = this.localAddressForm;
-    if (localAddressForm?.settings) {
+    if (localAddressForm?.settings.length) {
       return;
     }
 
