@@ -23,7 +23,7 @@ export default function BreedSelect(
     onChangeMixedBreedPossible,
     onChange
   } = rest;
-  const [inputValue, setInputValue] = useState(value?.name ?? undefined)
+  const [inputValue, setInputValue] = useState(value?.name ?? '')
   const [inputMixedBreedPossibleValue, setInputMixedBreedPossibleValue] = useState(mixedBreedPossibleValue?.value ?? undefined)
 
   const [checked, setChecked] = useState(mixedBreedValue);
@@ -32,7 +32,7 @@ export default function BreedSelect(
 
   useEffect(() => {
     const defaultValue = options.find((item) => item.breedCode === value?.key)
-    setInputValue(defaultValue ? defaultValue?.localName : undefined)
+    setInputValue(defaultValue ? defaultValue?.localName : '')
   }, [value])
 
   useEffect(() =>{
@@ -101,7 +101,6 @@ export default function BreedSelect(
                   <FormattedMessage id={'searchBreed'}>
                     {(placeholder) => (
                       <SearchSelection
-                        freeText
                         disabled={checked}
                         queryList={async ({ inputVal }) => {
                           let reg = new RegExp(`${inputVal}`, 'i')
