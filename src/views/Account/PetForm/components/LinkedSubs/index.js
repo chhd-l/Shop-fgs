@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import autoshipIcon from '@/assets/images/autoship.png';
-import { getFrequencyDict, getDeviceType, getClubLogo } from '@/utils/utils';
+import {
+  getFrequencyDict,
+  getDeviceType,
+  getClubLogo,
+  formatDate
+} from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { getSubListForPet } from '@/api/subscription';
 import { changeSubscriptionGoodsByPets } from '@/api/pet';
 import Skeleton from 'react-skeleton-loader';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import { IMG_DEFAULT } from '@/utils/constant';
-import './index.css';
 import FrequencyMatch from '@/components/FrequencyMatch';
-import { formatDate } from '../../../../../utils/utils';
+import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
 
