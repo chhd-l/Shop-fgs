@@ -1092,6 +1092,7 @@ class Payment extends React.Component {
         goodsInfoImg: goodInfo?.goods?.goodsImg,
         goodsName: goodInfo?.goods?.goodsName || '',
         buyCount: 1,
+        recommendationId: funcUrl({ name: 'appointmentNo' }) ? '' : 'Felin', //felin fgs下单的需要Felin字段，下线（邮件直接过来的）不需要
         salePrice: goodInfo?.goodsInfos
           ? goodInfo?.goodsInfos.filter(
               (item) => item.goodsInfoId === result?.goodsInfoId

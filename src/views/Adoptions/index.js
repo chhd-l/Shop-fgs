@@ -277,8 +277,8 @@ const Adoptions = (props) => {
                   <span className="font-bold">• </span>Expert food and product
                   recommendations
                   <br />
-                  <span className="font-bold">• </span>Access to a royal canin
-                  advisor
+                  <span className="font-bold">• </span>Access to a Royal Canin
+                  Advisor
                   <br />
                 </div>
               </div>
