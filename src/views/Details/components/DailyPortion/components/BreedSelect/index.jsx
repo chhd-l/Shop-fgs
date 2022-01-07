@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import SearchSelection from '@/components/SearchSelection';
 import Selection from '@/components/Selection';
 import { FormattedMessage } from 'react-intl-phraseapp';
+import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 
 export default function BreedSelect(
@@ -19,6 +20,7 @@ export default function BreedSelect(
     ...rest
   }
   ){
+  const intl = useIntl();
   let {
     onChangeMixedBreedPossible,
     onChange
@@ -122,7 +124,8 @@ export default function BreedSelect(
                   <p className={classNames('red', {
                     'hidden': isHiddenWaring
                   })}>
-                    <FormattedMessage id='dailyPortion.breed.waring'/>
+                    <i className="iconfont iconinfo"/>
+                    <span className='text-sm lg:text-base'>{intl.formatMessage({id: 'dailyPortion.breed.waring'})}</span>
                   </p>
                 </div>
 
