@@ -17,6 +17,7 @@ import './VisitorAddress.css';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
+const isFromFelin = sessionItemRoyal.get('appointment-no');
 
 const sleep = (time) => {
   return new Promise((resolve) => {
@@ -274,7 +275,7 @@ class VisitorAddress extends React.Component {
           }`}
         />{' '}
         <span>
-          {sessionItemRoyal.get('from-felin') ? (
+          {isFromFelin ? (
             <FormattedMessage id="Felin Address" />
           ) : (
             <FormattedMessage id="payment.deliveryTitle" />
@@ -317,7 +318,7 @@ class VisitorAddress extends React.Component {
           {this.titleJSX()}
           <span className="iconfont font-weight-bold green ml-2">&#xe68c;</span>
         </h5>
-        {!sessionItemRoyal.get('from-felin') && (
+        {!isFromFelin && (
           <p
             onClick={this.handleClickEdit}
             className="rc-styled-link mb-1"

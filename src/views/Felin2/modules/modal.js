@@ -22,9 +22,8 @@ class MyModal extends React.Component {
             Informations pratiques
           </div>
           <div className="modeal-cont">
-            Contactez-nous pour en savoir plus sur l’Atelier Félin et
-            <br />
-            notre mission.
+            Contactez-nous pour en savoir plus sur l’Atelier Félin et notre
+            mission.
             <br />
             <br />
             latelierfelin@royalcanin.com
