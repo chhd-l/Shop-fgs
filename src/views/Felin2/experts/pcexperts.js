@@ -72,11 +72,11 @@ class Pcexperts extends React.Component {
       timeList: [
         {
           duration: 15,
-          text: 'Échangez avec un expert pour recevoir quelques conseils clefs pour prendre soin de votre chat.'
+          text: 'Séance découverte avec l’expert sélectionné.'
         },
         {
           duration: 30,
-          text: 'Recevez un bilan express avec l’expert sélectionné.'
+          text: 'Échangez avec un expert pour recevoir quelques conseils clefs selon les besoins de votre chat.'
         },
         {
           duration: 45,
@@ -294,11 +294,17 @@ class Pcexperts extends React.Component {
         );
         return { ...item, ..._temp };
       });
-      this.setState({
-        timeList,
-        oneShow: false,
-        threeShow: true
-      });
+      this.setState(
+        {
+          timeList,
+          oneShow: false,
+          threeShow: true
+        },
+        () => {
+          let anchorElement = document.getElementById('Choisissez');
+          window.scrollTo(0, anchorElement.offsetTop - window.innerHeight / 3);
+        }
+      );
     }
   };
 
@@ -323,7 +329,8 @@ class Pcexperts extends React.Component {
         fourShow: true
       },
       () => {
-        scrollIntoView(document.querySelector(`#Voir-fqas`));
+        let anchorElement = document.getElementById('four-box');
+        window.scrollTo(0, anchorElement.offsetTop - window.innerHeight / 3);
       }
     );
     let type = !!this.state.bookSlotVO.dateNo;
@@ -334,10 +341,16 @@ class Pcexperts extends React.Component {
   };
   // 返回第三步
   handleReturnThree = () => {
-    this.setState({
-      threeShow: true,
-      fourShow: false
-    });
+    this.setState(
+      {
+        threeShow: true,
+        fourShow: false
+      },
+      () => {
+        let anchorElement = document.getElementById('Choisissez');
+        window.scrollTo(0, anchorElement.offsetTop - window.innerHeight / 3);
+      }
+    );
   };
   // 最终跳转
   handleGoto = () => {
@@ -696,7 +709,7 @@ class Pcexperts extends React.Component {
         {/* 第三步 */}
         {this.state.threeShow ? (
           <div>
-            <div className="Choisissez">
+            <div className="Choisissez" id="Choisissez">
               <div className="size16 mb16 js-center">
                 <img
                   src={three}
@@ -707,8 +720,8 @@ class Pcexperts extends React.Component {
                 <div>Choisissez la durée du rendez-vous</div>
               </div>
               <div>
-                Vous pourrez passer plus de temps avec nos experts si besoin en
-                fonction de leurs disponibilités.
+                Pour avoir toutes les réponses à vos questions, réservez la
+                séance adaptée à vos besoins
               </div>
             </div>
             <ul className="cat-ul mb16">
@@ -773,7 +786,7 @@ class Pcexperts extends React.Component {
         ) : null}
         {/*第四步*/}
         {this.state.fourShow ? (
-          <div>
+          <div id="four-box">
             <div className="size16 js-center mb16">
               <img
                 src={four}

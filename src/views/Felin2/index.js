@@ -300,22 +300,41 @@ class Felin extends React.Component {
                 <div className="rc-column felin-p30">
                   <div className="visit-text">
                     <div className="visit-text-tip font-500">
-                      L’Atelier Félin, la boutique parisienne pour les chats
+                      L’ Atelier Félin, la boutique parisienne experte du bien
+                      être des chats
                     </div>
                     <div className="visit-text-cont">
                       Notre magasin est dédié au bien-être et à l’équilibre de
                       votre chat, créé par Royal Canin, expert en nutrition
                       féline. Échangez avec nos experts afin de mieux connaître
-                      votre chat pour lui apporter les meilleurs soins tout au
-                      long de sa vie. Vous pourrez vous y procurer la meilleure
+                      votre chat pour lui apporter le meilleur tout au long de
+                      sa vie. Vous pourrez vous y procurer la meilleure
                       nutrition ainsi que des accessoires ou produits en lien
-                      avec la santé des chats.
-                      <br />
-                      <br />
-                      L’Atelier Félin est ouvert à tous, du mardi au vendredi de
-                      12h à 20h, le samedi de 10h à 20h et le dimanche de 10h à
-                      18h.
+                      avec la santé de votre chat.
+                      <div className="mb10" />
+                      L’ Atelier Félin est ouvert à tous, du mardi au vendredi
+                      de 12h à 20h, le samedi de 10h à 20h et le dimanche de 10h
+                      à 18h.
                     </div>
+                    <button
+                      onClick={this.gotoAddPc}
+                      className="rc-btn rc-btn--two  rc-margin-bottom--xs pc-block"
+                      style={{
+                        width: '13.875rem',
+                        fontSize: '0.75rem'
+                      }}
+                    >
+                      Prendre un rendez-vous
+                    </button>
+                    <button
+                      onClick={this.gotoAddH}
+                      className="rc-btn rc-btn--two  rc-margin-bottom--xs h-block"
+                      style={{
+                        width: '16.875rem'
+                      }}
+                    >
+                      Prendre un rendez-vous
+                    </button>
                   </div>
                 </div>
               </div>
@@ -336,13 +355,31 @@ class Felin extends React.Component {
                         résoudre les problèmes (malpropreté, agressivité,
                         dégradations, etc.), à mieux le comprendre, et vivre une
                         relation épanouie !
-                        <br />
-                        <br />
+                        <div className="mb10" />
                         Chaque chat est unique et a des besoins spécifiques
                         selon sa race, son âge, ses sensibilités et son mode de
                         vie. Nos <b>experts en nutrition</b> vous conseillerons
                         sur l'alimentation qui lui conviendra le mieux.
                       </div>
+                      <button
+                        onClick={this.gotoAddPc}
+                        className="rc-btn rc-btn--two  rc-margin-bottom--xs pc-block"
+                        style={{
+                          width: '13.875rem',
+                          fontSize: '0.75rem'
+                        }}
+                      >
+                        Prendre un rendez-vous
+                      </button>
+                      <button
+                        onClick={this.gotoAddH}
+                        className="rc-btn rc-btn--two  rc-margin-bottom--xs h-block"
+                        style={{
+                          width: '16.875rem'
+                        }}
+                      >
+                        Prendre un rendez-vous
+                      </button>
                     </div>
                   </LazyLoad>
                 </div>
@@ -450,6 +487,16 @@ class Felin extends React.Component {
                           sur les besoins de votre chat et guettez la mise en
                           ligne du planning.
                         </p>
+                        <a
+                          style={{
+                            textDecoration: 'underline',
+                            cursor: 'pointer'
+                          }}
+                          href="https://fr-fr.facebook.com/RoyalCaninFrance"
+                        >
+                          Consulter les évènements sur la page Facebook Royal
+                          Canin
+                        </a>
                       </div>
                     </LazyLoad>
                   </div>
