@@ -134,16 +134,19 @@ class Felin extends React.Component {
         },
         {
           name: 'Peut-on se faire livrer les croquettes à domicile ?',
-          tetx: 'Oui en commandant sur notre site internet vous pourrez être livrés à domicile.'
+          text: 'Oui en commandant sur notre site internet vous pourrez être livrés à domicile.'
         },
         {
-          name: 'Quelle est votre politique de confidentialité ?'
+          name: 'Quelle est votre politique de confidentialité ?',
+          type1: '1'
         },
         {
-          name: 'Mes informations personnelles sont-elles protégée ?'
+          name: 'Mes informations personnelles sont-elles protégée ?',
+          type2: '1'
         },
         {
-          name: 'Que fait Royal Canin de mes informations personnelles?'
+          name: 'Que fait Royal Canin de mes informations personnelles?',
+          type3: '1'
         },
         {
           name: 'Votre site installe-t-il des cookies ?',
@@ -545,7 +548,7 @@ class Felin extends React.Component {
           <div className="faq-coll">
             <div>
               <h3
-                style={{ marginBottom: '0.75rem' }}
+                style={{ marginBottom: '0.75rem', color: '#e2001a' }}
                 className="font-500 tx-center"
               >
                 À propos
@@ -593,37 +596,7 @@ class Felin extends React.Component {
                     >
                       <p>{item.text}</p>
                       <p>{item.text1}</p>
-                      <p>
-                        {item.text2 ? (
-                          item.text2 === 'http' ? (
-                            <span>
-                              Tous les derniers dimanche du mois, nous
-                              organisons une journée adoption avec des refuges
-                              et associations partenaires. Afin de soutenir
-                              notre stratégie de développement durable, nous
-                              proposerons un point de collecte des emballages RC
-                              vides (croquettes et pâtés), qui seront ensuite
-                              envoyés dans un usine spécialisée en recyclage.
-                              Nhésitez pas à vous inscrire sur notre site{' '}
-                              <a
-                                style={{
-                                  textDecoration: 'underline',
-                                  color: 'blue'
-                                }}
-                                href="https://www.royalcanin.com/fr/shop/latelier/felin"
-                              >
-                                {' '}
-                                (https://www.royalcanin.com/fr/shop/latelier/felin){' '}
-                              </a>
-                              pour être tenu au courant du projet !
-                            </span>
-                          ) : (
-                            item.text2
-                          )
-                        ) : (
-                          ''
-                        )}
-                      </p>
+                      <p>{item.text2 ? item.text2 : ''}</p>
                       <p>{item.text3 ? item.text3 : ''}</p>
                     </div>
                   </div>
@@ -632,7 +605,11 @@ class Felin extends React.Component {
             </div>
             <div>
               <h3
-                style={{ marginBottom: '0.75rem', marginTop: '2rem' }}
+                style={{
+                  marginBottom: '0.75rem',
+                  marginTop: '2rem',
+                  color: '#e2001a'
+                }}
                 className="font-500 tx-center"
               >
                 Nous contacter
@@ -685,6 +662,7 @@ class Felin extends React.Component {
                             textDecoration: 'underline',
                             color: 'blue'
                           }}
+                          href="mailto:latelierfelin@royalcanin.com"
                         >
                           latelierfelin@royalcanin.com
                         </a>
@@ -698,7 +676,11 @@ class Felin extends React.Component {
             </div>
             <div>
               <h3
-                style={{ marginBottom: '0.75rem', marginTop: '2rem' }}
+                style={{
+                  marginBottom: '0.75rem',
+                  marginTop: '2rem',
+                  color: '#e2001a'
+                }}
                 className="font-500 tx-center"
               >
                 Mon compte
@@ -755,7 +737,11 @@ class Felin extends React.Component {
             </div>
             <div>
               <h3
-                style={{ marginBottom: '0.75rem', marginTop: '2rem' }}
+                style={{
+                  marginBottom: '0.75rem',
+                  marginTop: '2rem',
+                  color: '#e2001a'
+                }}
                 className="font-500 tx-center"
               >
                 Organiser ma visite
@@ -812,7 +798,11 @@ class Felin extends React.Component {
             </div>
             <div>
               <h3
-                style={{ marginBottom: '0.75rem', marginTop: '2rem' }}
+                style={{
+                  marginBottom: '0.75rem',
+                  marginTop: '2rem',
+                  color: '#e2001a'
+                }}
                 className="font-500 tx-center"
               >
                 Rencontrer un expert
@@ -870,6 +860,7 @@ class Felin extends React.Component {
                                   color: 'blue'
                                 }}
                                 href="https://www.royalcanin.com/fr/shop/latelier/felin"
+                                target="_blank"
                               >
                                 https://www.royalcanin.com/fr/shop/latelier/felin
                               </a>
@@ -904,6 +895,73 @@ class Felin extends React.Component {
                       ) : (
                         ''
                       )}
+                      <p>
+                        {item.type1 ? (
+                          <span>
+                            Vous pouvez consulter notre politique de
+                            confidentialité en suivant ce lien.{' '}
+                            <a
+                              style={{
+                                textDecoration: 'underline',
+                                color: 'blue'
+                              }}
+                              target="_blank"
+                              href="https://www.mars.com/privacy-policy-france"
+                            >
+                              https://www.mars.com/privacy-policy-france
+                            </a>
+                          </span>
+                        ) : (
+                          ''
+                        )}
+                        {item.type2 ? (
+                          <span>
+                            Notre site utilise un protocole SSL pour encrypter
+                            toutes les données personnelles envoyées lors du
+                            paiement. Pour plus d'informations sur la
+                            sécurisation et l'utilisation de vos données,
+                            veuillez consulter notre Politique de
+                            confidentialité.
+                            <a
+                              style={{
+                                textDecoration: 'underline',
+                                color: 'blue'
+                              }}
+                              target="_blank"
+                              href="https://www.mars.com/privacy-policy-france"
+                            >
+                              https://www.mars.com/privacy-policy-france
+                            </a>
+                          </span>
+                        ) : (
+                          ''
+                        )}
+                        {item.type3 ? (
+                          <span>
+                            La confidentialité de vos données personnelles est
+                            essentielle à nos yeux. Nous ne partageons vos
+                            données qu'avec les entreprises fournissant des
+                            services en notre nom. Ces entreprises n'ont pas le
+                            droit d'utiliser les données que nous partageons
+                            avec elles à d'autres fins et doivent les garder
+                            confidentielles, sauf si vous consentez à leur
+                            utilisation. Pour plus d'informations, veuillez
+                            consulter nos "Conditions générales".
+                            <a
+                              style={{
+                                textDecoration: 'underline',
+                                color: 'blue'
+                              }}
+                              target="_blank"
+                              href="https://www.royalcanin.com/fr/general-sales-conditions"
+                            >
+                              https://www.royalcanin.com/fr/general-sales-conditions
+                            </a>
+                          </span>
+                        ) : (
+                          ''
+                        )}
+                      </p>
                     </div>
                   </div>
                 );
