@@ -22,7 +22,6 @@ import { sitePurchase } from '@/api/cart';
 import Club_Logo from '@/assets/images/Logo_club.png';
 import Club_Logo_ru from '@/assets/images/Logo_club_ru.png';
 import indvLogo from '@/assets/images/indv_log.svg';
-import moment from 'moment';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -1013,9 +1012,8 @@ export function judgeIsIndividual(item) {
 // uk和fr,才有postCode校验
 const countryPostCode = ['uk', 'fr'];
 const currentCountry = window.__.env.REACT_APP_COUNTRY;
-export const isCanVerifyBlacklistPostCode = countryPostCode.includes(
-  currentCountry
-);
+export const isCanVerifyBlacklistPostCode =
+  countryPostCode.includes(currentCountry);
 
 // 获取 Postal code alert message
 export async function getAddressPostalCodeAlertMessage() {
@@ -1068,13 +1066,13 @@ export function handleFelinAppointTime(appointTime) {
   const apptTime = appointTime?.split('#');
   const appointStartTime =
     apptTime?.length > 0
-      ? moment(apptTime[0].split(' ')[0]).format('YYYY-MM-DD') +
+      ? apptTime[0].split(' ')[0].replace(/^(d{4})(d{2}(d{2}))$/, '$1-&2-&3') +
         ' ' +
         apptTime[0].split(' ')[1]
       : '';
   const appointEndTime =
     apptTime?.length > 1
-      ? moment(apptTime[1].split(' ')[0]).format('YYYY-MM-DD') +
+      ? apptTime[1].split(' ')[0].replace(/^(d{4})(d{2}(d{2}))$/, '$1-&2-&3') +
         ' ' +
         apptTime[1].split(' ')[1]
       : '';
