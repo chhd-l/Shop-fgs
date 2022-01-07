@@ -496,6 +496,7 @@ class Felin extends React.Component {
                             cursor: 'pointer'
                           }}
                           href="https://fr-fr.facebook.com/RoyalCaninFrance"
+                          target="_blank"
                         >
                           Consulter les évènements sur la page Facebook Royal
                           Canin
