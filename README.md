@@ -1,6 +1,13 @@
 ## 启动方法
-1. `npm run start`
-2. .env.development.local中，指定启动国家/环境
+1. .env.development.local中，指定启动国家/环境
+2. `npm run start`
+
+## 打包方法(development环境)
+1. .env.development在里边配置静态资源前缀
+2. `npm run pub:dev_{{countryCode}}`
+
+## 打包方法(其他环境)
+1. `npm run build`
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
