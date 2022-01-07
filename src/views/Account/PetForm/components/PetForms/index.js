@@ -20,9 +20,10 @@ import {
   getZoneTime,
   datePickerConfig,
   getDeviceType,
-  getDictionary,
-  formatDate
+  getDictionary
 } from '@/utils/utils';
+import { format } from 'date-fns';
+
 const purebredOpitons = [
   {
     value: 1,
@@ -278,7 +279,7 @@ const PetForms = ({
     setNewPetForm('sterilized', sterilized);
   };
   const onDateChange = (date) => {
-    setNewPetForm('birthdate', formatDate({ date: date }));
+    setNewPetForm('birthdate', date ? format(date, 'yyyy-MM-dd') : '');
   };
   const selectedBreed = (item) => {
     let newPetFrom = Object.assign({}, petForm, {

@@ -37,36 +37,60 @@ export default class Survey extends React.Component {
   }
 
   render() {
-    const surveyId = this.props.match.params?.id ?? '0';
-    const surveyUrl = surveyUrlMap[surveyId]
-      ? surveyUrlMap[surveyId][window.__.env.REACT_APP_COUNTRY] ?? ''
-      : '';
+    // const surveyId = this.props.match.params?.id ?? '0';
+    // const surveyUrl = surveyUrlMap[surveyId]
+    //   ? surveyUrlMap[surveyId][window.__.env.REACT_APP_COUNTRY] ?? ''
+    //   : '';
+
+    // return (
+    //   <div>
+    //     <Header {...this.props} showMiniIcons={false} showUserIcon={false} />
+    //     <div style={{ height: 650, marginTop: 150 }}>
+    //       {/* <iframe
+    //         src={surveyUrl}
+    //         frameBorder="0"
+    //         style={{ width: '100%', height: 650 }}
+    //       ></iframe> */}
+    //     </div>
+    //     <Footer />
+    //   </div>
+    // );
+
+    const countryCode = window.__.env.REACT_APP_COUNTRY;
+    let productFinderUrl = `${window.origin}/${countryCode}/product-finder`;
+    if (['de', 'us', 'mx'].indexOf(countryCode) > -1) {
+      productFinderUrl = `${window.origin}/product-finder`;
+    } else if (window.__.env.REACT_APP_HUB_URLPREFIX) {
+      productFinderUrl = `${window.__.env.REACT_APP_HUB_URLPREFIX}/product-finder`;
+    }
 
     return (
       <div>
-        <Header {...this.props} showMiniIcons={false} showUserIcon={false} />
-        <div style={{ height: 650, marginTop: 150 }}>
-          <iframe
-            src={surveyUrl}
-            frameBorder="0"
-            style={{ width: '100%', height: 650 }}
-          ></iframe>
-        </div>
-        <Footer />
+        <iframe
+          src={productFinderUrl}
+          style={{
+            width: '100%',
+            height: '100%',
+            position: 'absolute',
+            left: '0px',
+            top: '0px'
+          }}
+          frameBorder="0"
+        />
       </div>
     );
   }
 
-  // componentDidMount() {
-  //   loadJS({
-  //     code: `(function(h,o,t,j,a,r){
-  //       h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-  //       h._hjSettings={hjid:2718868,hjsv:6};
-  //       a=o.getElementsByTagName('head')[0];
-  //       r=o.createElement('script');r.async=1;
-  //       r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-  //       a.appendChild(r);
-  //     })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');`
-  //   });
-  // }
+  componentDidMount() {
+    loadJS({
+      code: `(function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:2617415,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+      })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');`
+    });
+  }
 }

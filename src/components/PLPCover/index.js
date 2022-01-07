@@ -762,7 +762,10 @@ function ListItemBody({ item, headingTag, configStore }) {
           <div dangerouslySetInnerHTML={{ __html: goodHeading }} />
           {/* 目前只有ru展示newSubtitle */}
           {window.__.env.REACT_APP_PRODUCT_CARD_NOT_DISPLAY_TECHNOLOGY ? (
-            <p className="text-center  ui-text-overflow-line2 rc-card__meta">
+            <p
+              className="text-center  ui-text-overflow-line2 rc-card__meta"
+              title={item.goodsNewSubtitle}
+            >
               {item.goodsNewSubtitle}
             </p>
           ) : item?.foodType ? (

@@ -132,7 +132,10 @@ class PayProductInfo extends React.Component {
                   >
                     <p className="mb-0">
                       {details.appointmentNo ? (
-                        item.specDetails
+                        <span>
+                          {details.specialistType} {details.appointmentTime}
+                          <FormattedMessage id="min" />
+                        </span>
                       ) : (
                         <FormattedMessage
                           id="quantityText"
@@ -150,7 +153,8 @@ class PayProductInfo extends React.Component {
                     </p>
                     {details.subscriptionResponseVO && item.goodsInfoFlag ? (
                       <p className="mb-0">
-                        <FormattedMessage id="subscription.frequency" />{' '}
+                        <FormattedMessage id="subscription.frequencyDelivery" />
+                        <FormattedMessage id="subscription.deliveryEvery" />{' '}
                         <FrequencyMatch currentId={item.periodTypeId} />
                         {/* {item.goodsInfoFlag === 3 ? (
                           '30 days'

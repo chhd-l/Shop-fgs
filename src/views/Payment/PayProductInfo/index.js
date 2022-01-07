@@ -20,6 +20,8 @@ let isGACheckoutLock = false;
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
+const isFromFelin = sessionItemRoyal.get('appointment-no');
+
 @inject(
   'checkoutStore',
   'loginStore',
@@ -77,7 +79,7 @@ class PayProductInfo extends React.Component {
       (JSON.stringify(nextProps.data) !==
         JSON.stringify(this.state.productList) &&
         this.props.data.length) ||
-      sessionItemRoyal.get('from-felin')
+      isFromFelin
     ) {
       productList = nextProps.data;
       this.setState(
@@ -341,7 +343,6 @@ class PayProductInfo extends React.Component {
       let recommendateInfo = JSON.parse(paramsString);
       IndvPetInfo = recommendateInfo.customerPetsVo;
     }
-    const isFromFelin = sessionItemRoyal.get('from-felin');
     // 线下店数量展示和正常流程有区别（没区别）
     let orderSource = sessionItemRoyal.get('orderSource') && false;
     const List = plist.map((el, i) => {
@@ -442,7 +443,8 @@ class PayProductInfo extends React.Component {
                       </p>
                       {el.goodsInfoFlag ? (
                         <p className="mb-0">
-                          <FormattedMessage id="subscription.frequency" />{' '}
+                          <FormattedMessage id="subscription.frequencyDelivery" />
+                          <FormattedMessage id="subscription.deliveryEvery" />{' '}
                           <FrequencyMatch currentId={el.periodTypeId} />
                         </p>
                       ) : null}
@@ -601,8 +603,7 @@ class PayProductInfo extends React.Component {
               id="payment.totalProduct"
               values={{
                 val:
-                  productList[0]?.goodsInfoFlag === 3 ||
-                  sessionItemRoyal.get('from-felin')
+                  productList[0]?.goodsInfoFlag === 3 || isFromFelin
                     ? 1
                     : productList.reduce(
                         (total, item) => total + item[quantityKeyName],
@@ -616,14 +617,17 @@ class PayProductInfo extends React.Component {
         {!localItemRoyal.get('rc-iframe-from-storepotal') &&
         this.props.operateBtnVisible &&
         productList[0]?.goodsInfoFlag != 3 &&
-        !sessionItemRoyal.get('from-felin') ? (
-          <Link to="/cart" className="product-summary__cartlink rc-styled-link">
+        !isFromFelin ? (
+          <Link
+            to="/cart"
+            className="font-medium hover:underline hover:text-rc-red"
+          >
             <FormattedMessage id="edit2" />
           </Link>
         ) : null}
 
         {/* from-frlin的时候需要将edit换成re-book按钮 */}
-        {sessionItemRoyal.get('from-felin') ? (
+        {isFromFelin ? (
           <Link
             to="/felin"
             className="product-summary__cartlink rc-styled-link"
@@ -708,6 +712,7 @@ class PayProductInfo extends React.Component {
                         ? 'ui-btn-loading ui-btn-loading-border-red'
                         : ''
                     }`}
+                    disabled={sessionItemRoyal.get('recommend_product')}
                     style={{ marginTop: '5px', float: 'right' }}
                     onClick={() => this.handleClickPromotionApply(false)}
                   >

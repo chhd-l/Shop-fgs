@@ -44,6 +44,7 @@ import getCardImg from '@/lib/get-card-img';
 import { getWays } from '@/api/payment';
 import { handleOrderItem } from '../Orders/modules/handleOrderItem';
 import paypalLogo from '@/assets/images/paypal-logo.svg';
+import { AddressPreview } from '@/components/Address';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -1081,13 +1082,8 @@ class AccountOrders extends React.Component {
     );
   };
   render() {
-    // 获取本地存储的需要显示的地址字段
     const { configStore } = this.props;
-    const {
-      localAddressForm: { fieldKeyEnableStatus },
-      customTaxSettingOpenFlag,
-      enterPriceType
-    } = configStore;
+    const { customTaxSettingOpenFlag, enterPriceType } = configStore;
     const event = {
       page: {
         type: 'Account',
@@ -1689,8 +1685,8 @@ class AccountOrders extends React.Component {
                             </div>
                           </div>
 
-                          {/*felin订单? appointmentInfo :地址/支付信息 */}
-                          {!this.isFelinOrder && details.consignee ? (
+                          {/*felin订单? appointmentInfo :地址/支付信息   !this.isFelinOrder(不是felin订单) */}
+                          {details.consignee ? (
                             <div className="ml-2 mr-2 md:mr-0 md:ml-0">
                               <p className="mt-4 mb-3 red text-left">
                                 <FormattedMessage id="transactionInfomation" />
@@ -1709,69 +1705,30 @@ class AccountOrders extends React.Component {
                                         <p className="medium mb-3">
                                           <FormattedMessage id="delivery2" />
                                         </p>
-                                        {/* 姓名 */}
-                                        <p className="medium mb-2 od_mb_name">
-                                          {details.consignee.name}
-                                        </p>
-                                        {/* 电话 */}
-                                        <p className="mb-0 od_mb_tel">
-                                          {details.consignee.phone}
-                                        </p>
-
-                                        {/* 国家 */}
-                                        {window.__.env.REACT_APP_COUNTRY ===
-                                          'us' ||
-                                        window.__.env.REACT_APP_COUNTRY ===
-                                          'ru' ? null : (
-                                          <p className="mb-0 od_mb_country">
-                                            {matchNamefromDict(
+                                        <AddressPreview
+                                          nameCls="medium mb-2"
+                                          data={{
+                                            name: details.consignee.name,
+                                            phone: details.consignee.phone,
+                                            countryName: matchNamefromDict(
                                               this.state.countryList,
                                               details.consignee.countryId
-                                            )}
-                                          </p>
-                                        )}
-                                        {/* 地址 */}
-                                        <p className="mb-0 od_mb_address1">
-                                          {details.consignee.detailAddress1}
-                                        </p>
-                                        {fieldKeyEnableStatus['address2'] &&
-                                          details.consignee.detailAddress2 && (
-                                            <p className="mb-0 od_mb_address2">
-                                              {details.consignee.detailAddress2}
-                                            </p>
-                                          )}
-
-                                        <p className="mb-0 od_mb_cpp">
-                                          {/* 市 */}
-                                          {fieldKeyEnableStatus['city'] &&
-                                            details.consignee.city + ', '}
-
-                                          {/* 区域 */}
-                                          {fieldKeyEnableStatus['region'] &&
-                                            details.consignee.area + ', '}
-
-                                          {/* 省份 */}
-                                          {fieldKeyEnableStatus['state'] &&
-                                            details.consignee.province + ' '}
-
-                                          {/* county */}
-                                          {fieldKeyEnableStatus['county'] &&
-                                            details.consignee.county + ' '}
-
-                                          {/* 邮编 */}
-                                          {fieldKeyEnableStatus['postCode'] &&
-                                            details.consignee.postCode}
-                                        </p>
-                                        {details.consignee.rfc ? (
-                                          <p className="mb-0">
-                                            {details.consignee.rfc}
-                                          </p>
-                                        ) : null}
-                                        {details.buyerRemark ? (
-                                          <p className="mb-0">
-                                            {details.buyerRemark}
-                                          </p>
-                                        ) : null}
+                                            ),
+                                            address1:
+                                              details.consignee.detailAddress1,
+                                            address2:
+                                              details.consignee.detailAddress2,
+                                            city: details.consignee.city,
+                                            area: details.consignee.area,
+                                            province:
+                                              details.consignee.province,
+                                            county: details.consignee.county,
+                                            postCode:
+                                              details.consignee.postCode,
+                                            rfc: details.consignee.rfc,
+                                            buyerRemark: details.buyerRemark
+                                          }}
+                                        />
 
                                         {/* 运费折扣 */}
                                         {!details.consignee.timeSlot &&
@@ -1839,64 +1796,29 @@ class AccountOrders extends React.Component {
                                           <p className="medium mb-3">
                                             <FormattedMessage id="billing2" />
                                           </p>
-                                          {/* 姓名 */}
-                                          <p className="medium mb-2 od_mb_name">
-                                            {details.invoice.contacts}
-                                          </p>
-                                          {/* 电话 */}
-                                          <p className="mb-0 od_mb_tel">
-                                            {details.invoice.phone}
-                                          </p>
-
-                                          {/* 国家 */}
-                                          {window.__.env.REACT_APP_COUNTRY ===
-                                            'us' ||
-                                          window.__.env.REACT_APP_COUNTRY ===
-                                            'ru' ? null : (
-                                            <p className="mb-0 od_mb_country">
-                                              {matchNamefromDict(
+                                          <AddressPreview
+                                            nameCls="medium mb-2"
+                                            data={{
+                                              name: details.invoice.contacts,
+                                              phone: details.invoice.phone,
+                                              countryName: matchNamefromDict(
                                                 this.state.countryList,
                                                 details.invoice.countryId
-                                              )}
-                                            </p>
-                                          )}
-                                          {/* 地址 */}
-                                          <p className="mb-0 od_mb_address1">
-                                            {details.invoice.address1}
-                                          </p>
-                                          {fieldKeyEnableStatus['address2'] &&
-                                            details.invoice.address2 && (
-                                              <p className="mb-0 od_mb_address2">
-                                                {details.invoice.address2}
-                                              </p>
-                                            )}
-
-                                          <p className="mb-0 od_mb_cpp">
-                                            {/* 城市 */}
-                                            {fieldKeyEnableStatus['city'] &&
-                                              details.invoice.city + ', '}
-
-                                            {/* 区域 */}
-                                            {fieldKeyEnableStatus['region'] &&
-                                              details.invoice.area + ', '}
-
-                                            {/* 省份 */}
-                                            {fieldKeyEnableStatus['state'] &&
-                                              details.invoice.province + ' '}
-
-                                            {/* county */}
-                                            {fieldKeyEnableStatus['county'] &&
-                                              details.invoice.county + ' '}
-
-                                            {/* 邮编 */}
-                                            {fieldKeyEnableStatus['postCode'] &&
-                                              details.invoice.postCode + ' '}
-                                          </p>
-                                          {details.invoice.rfc ? (
-                                            <p className="mb-0">
-                                              {details.invoice.rfc}
-                                            </p>
-                                          ) : null}
+                                              ),
+                                              address1:
+                                                details.invoice.address1,
+                                              address2:
+                                                details.invoice.address2,
+                                              city: details.invoice.city,
+                                              area: details.invoice.area,
+                                              province:
+                                                details.invoice.province,
+                                              county: details.invoice.county,
+                                              postCode:
+                                                details.invoice.postCode,
+                                              rfc: details.invoice.rfc
+                                            }}
+                                          />
                                         </div>
                                       </div>
                                     </div>

@@ -24,22 +24,24 @@ import {
   matchNamefromDict,
   formatMoney,
   getDeviceType,
-  isCanVerifyBlacklistPostCode
+  isCanVerifyBlacklistPostCode,
+  formatDate
 } from '@/utils/utils';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
-import EditForm from '@/components/Form';
+import { AddressForm } from '@/components/Address';
 import HomeDeliveryOrPickUp from '@/components/HomeDeliveryOrPickUp';
 import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
 import AddressPreview from './Preview';
 import './list.less';
 import felinAddr from './FelinOfflineAddress';
-import { formatDate } from '@/utils/utils';
+import cn from 'classnames';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
+const isFromFelin = sessionItemRoyal.get('appointment-no');
 
 const sleep = (time) => {
   return new Promise((resolve) => {
@@ -172,7 +174,7 @@ class AddressList extends React.Component {
       });
     });
 
-    if (sessionItemRoyal.get('from-felin')) {
+    if (isFromFelin) {
       //from felin下单情况下，地址信息不可编辑
       this.setState({
         addressList: felinAddr,
@@ -1237,7 +1239,7 @@ class AddressList extends React.Component {
           {titleVisible ? (
             <>
               <em className="rc-icon rc-indoors--xs rc-iconography" />{' '}
-              {sessionItemRoyal.get('from-felin') ? (
+              {isFromFelin ? (
                 <FormattedMessage id="Felin Address" />
               ) : (
                 <FormattedMessage id="payment.deliveryTitle" />
@@ -1248,7 +1250,7 @@ class AddressList extends React.Component {
             </>
           ) : null}
         </h5>{' '}
-        {!sessionItemRoyal.get('from-felin') && (
+        {!isFromFelin && (
           <p
             onClick={this.handleClickEdit}
             className="rc-styled-link mb-1 checkout_edit_address"
@@ -1305,25 +1307,19 @@ class AddressList extends React.Component {
   };
   // 处理要显示的字段
   setAddressFields = (data) => {
-    // 获取本地存储的需要显示的地址字段
     const {
       configStore: {
         localAddressForm: { fieldKeyEnableStatus }
       }
     } = this.props;
     let farr = [data.address1, data.city];
-    if (window.__.env.REACT_APP_COUNTRY == 'us') {
+    if (fieldKeyEnableStatus?.state) {
       farr.push(data.province);
-    } else {
-      let country = matchNamefromDict(this.state.countryList, data.countryId);
-      if (window.__.env.REACT_APP_COUNTRY !== 'uk') {
-        farr.unshift(country);
-      }
-      if (fieldKeyEnableStatus['region']) {
-        farr.push(data.area);
-      }
     }
-    return farr.join(',');
+    if (fieldKeyEnableStatus?.region) {
+      farr.push(data.area);
+    }
+    return farr.join(', ');
   };
 
   // ************************ pick up 相关
@@ -1334,7 +1330,7 @@ class AddressList extends React.Component {
     if (!city) {
       return;
     }
-    console.log('666 >>> deliveryType : ', deliveryType);
+    // console.log('666 >>> deliveryType : ', deliveryType);
     try {
       this.setState({ validationLoading: true });
       let res = await pickupQueryCity({ keyword: city });
@@ -1776,7 +1772,6 @@ class AddressList extends React.Component {
   };
   // 设置home delivery状态
   setRuDeliveryOrPickUp() {
-    const { addressList, pickupAddress } = this.state;
     if (window.__.env.REACT_APP_COUNTRY === 'ru') {
       // let btndisabled = true; // 按钮状态
       let ichoise = 0;
@@ -1903,7 +1898,7 @@ class AddressList extends React.Component {
       let maxDeliveryTime =
         pickupFormData.maxDeliveryTime || pkobj[0]?.maxDeliveryTime;
 
-      console.log('666 >>> maxDeliveryTime: ', maxDeliveryTime);
+      // console.log('666 >>> maxDeliveryTime: ', maxDeliveryTime);
 
       let pkaddr = pickupFormData?.pickup?.address || null;
       let deliveryAdd = Object.assign({}, tempAddress, {
@@ -2054,16 +2049,15 @@ class AddressList extends React.Component {
     const _list = addressList.map((item, i) => {
       return (
         <div
-          className={`rounded address-item ${
-            item.selected ? 'selected' : 'border'
-          } ${!item?.validFlag && isCanVerifyBlacklistPostCode ? 'forbid' : ''}
-          ${
-            foledMore && !item.selected && i !== 0 ? 'address-item-none' : ''
-          } ${
-            !item.selected && i !== addressList.length - 1
-              ? 'border-bottom-0'
-              : ''
-          } mb-3`}
+          className={cn(
+            'rounded address-item mb-3',
+            `${item.selected ? 'selected' : 'border'}`,
+            {
+              forbid: !item?.validFlag && isCanVerifyBlacklistPostCode,
+              'address-item-none': foledMore && !item.selected && i !== 0,
+              'border-bottom-0': !item.selected && i !== addressList.length - 1
+            }
+          )}
           key={item.deliveryAddressId}
           onClick={
             isCanVerifyBlacklistPostCode
@@ -2079,9 +2073,8 @@ class AddressList extends React.Component {
               style={{ flexDirection: 'column' }}
             >
               <span className="font-weight-bold">{item.consigneeName}</span>
-              <p className="pd-0 md-0" style={{ marginBottom: '0' }}>
-                {item.consigneeNumber}
-                <br />
+              <p>{item.consigneeNumber}</p>
+              <p>
                 {this.setAddressFields(item)}
                 {item.deliveryDate && item.timeSlot ? (
                   <>
@@ -2106,11 +2099,12 @@ class AddressList extends React.Component {
                   </span>
                 ) : null}
 
-                {item?.county && ',' + item.county}
+                {item?.county && ', ' + item.county}
 
-                {',' +
+                {', ' +
                   matchNamefromDict(this.state.countryList, item.countryId)}
               </p>
+
               {!item?.validFlag && isCanVerifyBlacklistPostCode ? (
                 <div className="address-item-forbid">{item.alert}</div>
               ) : null}
@@ -2194,7 +2188,7 @@ class AddressList extends React.Component {
         }`}
       >
         {addOrEdit && (
-          <EditForm
+          <AddressForm
             key={deliveryAddress}
             ref={this.editFormRef}
             type={this.props.type}

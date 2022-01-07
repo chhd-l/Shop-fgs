@@ -2,7 +2,7 @@ import React from 'react';
 import Pagination from '@/components/Pagination';
 import Selection from '@/components/Selection';
 import Rate from '@/components/Rate';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 import './index.css';
 import Skeleton from 'react-skeleton-loader';

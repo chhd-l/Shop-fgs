@@ -87,7 +87,7 @@ export function forgetPassword(parameter) {
   });
 }
 export function authToken(parameter) {
-  console.log(parameter, 'parameter');
+  // console.log('authToken parameter', parameter);
   return axios({
     url: api.authToken,
     method: 'post',

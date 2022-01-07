@@ -10,21 +10,20 @@ class MyModal extends React.Component {
     }
   }
   render() {
-    const { visible, children } = this.props;
+    const { children } = this.props;
     return (
-      <div className="my-model" style={{ display: visible ? 'block' : 'none' }}>
+      <div className="my-model">
         {children}
         <div className="modal-box">
           <div
             className="size24 col0 modal-size"
-            style={{ marginBottom: '1rem' }}
+            style={{ marginBottom: '1rem', paddingTop: '1.25rem' }}
           >
-            Contacter l’Atelier Félin
+            Informations pratiques
           </div>
           <div className="modeal-cont">
-            Contactez-nous pour en savoir plus sur l’Atelier Félin et
-            <br />
-            notre mission.
+            Contactez-nous pour en savoir plus sur l’Atelier Félin et notre
+            mission.
             <br />
             <br />
             latelierfelin@royalcanin.com
@@ -36,7 +35,11 @@ class MyModal extends React.Component {
             <br />
             <br />
             Horaires d’ouverture :<br />
-            Mardi - Dimanche, 10h - 18h
+            mar. - ven.: 12:00 - 20:00
+            <br />
+            sam.: 10:00 - 20:00
+            <br />
+            dim.: 10:00 - 18:00
           </div>
           <div className="img-link">
             <div className="img1" onClick={() => this.handleTo(1)} />

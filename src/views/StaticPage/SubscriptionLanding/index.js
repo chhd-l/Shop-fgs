@@ -156,108 +156,63 @@ class SubscriptionLanding extends React.Component {
                   <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
                     <div className="rc-margin-top--md rc-margin-top--none--mobile rc-padding-x--lg--mobile">
                       <h2 className="rc-beta rc-margin--none text-center rc-padding-x--lg--mobile">
-                        Comment cela fonctionne-t-il ?
+                        <FormattedMessage id="subscription.ad.title.page" />
                       </h2>
                     </div>
                     <div className="row rc-content-v-middle text-center rc-padding-top--md rc-margin-x--none">
-                      <div className="col-6 col-md-3 rc-column">
-                        <div className="rc-margin-bottom--sm">
-                          <LazyLoad>
-                            <img
-                              className="m-auto w-auto lazyloaded"
-                              alt="image one"
-                              title="image one"
-                              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscription_icon1@1x.png`}
-                            ></img>
-                          </LazyLoad>
-                        </div>
+                      {[
+                        {
+                          img: {
+                            src: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscription_icon1@1x.png`,
+                            alt: 'image one'
+                          },
+                          desc: (
+                            <FormattedMessage id="subscription.howItworks1" />
+                          )
+                        },
+                        {
+                          img: {
+                            src: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscription_icon2.png`,
+                            alt: 'image two'
+                          },
+                          desc: (
+                            <FormattedMessage id="subscription.howItworks2" />
+                          )
+                        },
+                        {
+                          img: {
+                            src: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscription_icon3.png`,
+                            alt: 'image three'
+                          },
+                          desc: (
+                            <FormattedMessage id="subscription.howItworks3" />
+                          )
+                        },
+                        {
+                          img: {
+                            src: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscription_icon4.png`,
+                            alt: 'image four'
+                          },
+                          desc: (
+                            <FormattedMessage id="subscription.howItworks4" />
+                          )
+                        }
+                      ].map((item, i) => (
+                        <div className="col-6 col-md-3 rc-column" key={i}>
+                          <div className="rc-margin-bottom--sm">
+                            <LazyLoad>
+                              <img
+                                className="m-auto w-auto lazyloaded"
+                                alt={item.img.alt}
+                                title={item.img.title}
+                                src={item.img.src}
+                              />
+                            </LazyLoad>
+                          </div>
 
-                        <h7>
-                          <FormattedMessage
-                            id="subscription.ad.list1"
-                            values={{
-                              val1: <br />,
-                              val2: (
-                                <strong>
-                                  <FormattedMessage id="subscription.ad.list1.val2" />
-                                </strong>
-                              ),
-                              val3: <br />
-                            }}
-                          />
-                        </h7>
-                      </div>
-                      <div className="col-6 col-md-3 rc-column">
-                        <div className="rc-margin-bottom--sm">
-                          <LazyLoad>
-                            <img
-                              className="m-auto w-auto lazyloaded"
-                              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscription_icon2.png`}
-                              alt="image two"
-                              title="image two"
-                            ></img>
-                          </LazyLoad>
+                          <p className="font-medium">{item.desc}</p>
                         </div>
-                        <h7>
-                          <FormattedMessage
-                            id="subscription.ad.list2"
-                            values={{
-                              val1: (
-                                <strong>
-                                  <FormattedMessage id="subscription.ad.list2.val1" />
-                                </strong>
-                              )
-                            }}
-                          />
-                        </h7>
-                      </div>
-                      <div className="col-6 col-md-3 rc-column">
-                        <div className="rc-margin-bottom--sm">
-                          <LazyLoad>
-                            <img
-                              className="m-auto w-auto lazyloaded"
-                              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscription_icon3.png`}
-                              alt="image three"
-                              title="image three"
-                            ></img>
-                          </LazyLoad>
-                        </div>
-
-                        <h7>
-                          <FormattedMessage
-                            id="subscription.ad.list3"
-                            values={{
-                              val1: (
-                                <strong>
-                                  <FormattedMessage id="subscription.ad.list3.val1" />
-                                </strong>
-                              )
-                            }}
-                          />
-                        </h7>
-                      </div>
-                      <div className="col-6 col-md-3 rc-column">
-                        <div className="rc-margin-bottom--sm">
-                          <img
-                            className="m-auto w-auto lazyloaded"
-                            alt="image four"
-                            src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscription_icon4.png`}
-                            title="image four"
-                          ></img>
-                        </div>
-                        <h7>
-                          <FormattedMessage
-                            id="subscription.ad.list4"
-                            values={{
-                              val1: (
-                                <strong>
-                                  <FormattedMessage id="subscription.ad.list4.val1" />
-                                </strong>
-                              )
-                            }}
-                          />
-                        </h7>
-                      </div>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -279,7 +234,7 @@ class SubscriptionLanding extends React.Component {
                                 className="mx-auto lazyloaded"
                                 alt="cat image"
                                 src={imagecat}
-                              ></img>
+                              />
                             </LazyLoad>
                           </div>
                           <div className="d-flex d-md-none justify-content-center rc-bg-colour--brand4 rc-padding-y--lg">
@@ -321,7 +276,7 @@ class SubscriptionLanding extends React.Component {
                                 className="mx-auto lazyloaded"
                                 alt="dog image"
                                 src={imagedog}
-                              ></img>
+                              />
                             </LazyLoad>
                           </div>
                           <div className="d-flex d-md-none justify-content-center rc-bg-colour--brand4 rc-padding-y--lg">
@@ -419,35 +374,13 @@ class SubscriptionLanding extends React.Component {
                                     <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                       <div className="w-100">
                                         <b style={{ color: '#0087BD' }}>
-                                          <font
-                                            style={{ verticalAlign: 'inherit' }}
-                                          >
-                                            <font
-                                              style={{
-                                                verticalAlign: 'inherit'
-                                              }}
-                                            >
-                                              <FormattedMessage id="help.byEmail" />
-                                            </font>
-                                          </font>
+                                          <FormattedMessage id="help.byEmail" />
                                         </b>
                                         <p>
                                           <span
                                             style={{ color: 'rgb(0, 0, 0)' }}
                                           >
-                                            <font
-                                              style={{
-                                                verticalAlign: 'inherit'
-                                              }}
-                                            >
-                                              <font
-                                                style={{
-                                                  verticalAlign: 'inherit'
-                                                }}
-                                              >
-                                                <FormattedMessage id="help.tip3" />
-                                              </font>
-                                            </font>
+                                            <FormattedMessage id="help.tip3" />
                                           </span>
                                         </p>
                                         <div className="rc-margin-top--xs">

@@ -1057,7 +1057,9 @@ class List extends React.Component {
           (targetRouter && targetRouter.storeCateId) ||
           '';
         breadList = getParentNodesByChild({
-          data: generateOptions(res[1] || []).concat(res[0] || []),
+          data: generateOptions(res[1]?.navigationResponseList || []).concat(
+            res[0] || []
+          ),
           id: targetId,
           matchIdName:
             targetRouter && targetRouter.id
@@ -1163,15 +1165,10 @@ class List extends React.Component {
                 })
             },
             titleData: {
-              title:
-                (targetRouter && targetRouter.pageTitle) ||
-                (targetRouter && targetRouter.cateTitle),
+              title: targetRouter?.pageTitle || targetRouter?.cateTitle,
               description:
-                (targetRouter && targetRouter.pageDesc) ||
-                (targetRouter && targetRouter.cateDescription),
-              img:
-                (targetRouter && targetRouter.pageImg) ||
-                (targetRouter && targetRouter.cateImgForList)
+                targetRouter?.pageDesc || targetRouter?.cateDescription,
+              img: targetRouter?.pageImg || targetRouter?.cateImgForList
             },
             hiddenFilter,
             invalidPage,

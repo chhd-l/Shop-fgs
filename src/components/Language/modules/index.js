@@ -83,7 +83,7 @@ export default class LanguagePage extends Component {
       this.updateLoadingStatus(true);
       const langResult = await getCountries();
       // const langResult = await queryCountries();
-      this.setState({ allData: langResult.data }, () => {
+      this.setState({ allData: langResult }, () => {
         this.placeCurrentCountryToFirst();
       });
     } catch (err) {

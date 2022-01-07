@@ -452,15 +452,31 @@ class ContactUs extends Component {
           {this.myQuestionJSX()}
           {this.requestJSX()}
           <div className="form-group">
-            <div className="content-asset">
+            <div className="content-asset italic">
               <p>
-                <em>
-                  The personal data submitted via this form will be retained
-                  only for the purpose of responding to your question or
-                  concern, and will not be used for marketing purposes.
-                  <br />
-                </em>
-                <em>You must be 18 years old or older to submit a form.</em>
+                The personal data submitted via this form will be retained only
+                for the purpose of responding to your question or concern, and
+                will not be used for marketing purposes.
+              </p>
+              <p>You must be 18 years old or older to submit a form.</p>
+              <p>
+                To find out how Mars Petcare and its{' '}
+                <a
+                  className="rc-styled-link underline"
+                  href="https://www.mars.com/made-by-mars/petcare"
+                  target="_blank"
+                >
+                  affiliates
+                </a>{' '}
+                collects and processes your data, including how to opt-out of
+                some forms of sharing, please see the{' '}
+                <a
+                  className="rc-styled-link underline"
+                  href="https://www.mars.com/privacy"
+                  target="_blank"
+                >
+                  Mars Privacy Statement
+                </a>
               </p>
             </div>
           </div>
@@ -506,7 +522,7 @@ class ContactUs extends Component {
             className="rc-content--fixed-header rc-bg-colour--brand3"
             style={{ background: '#f6f6f6' }}
           >
-            <div className="contact-us-form talk-to-us">
+            <div className="contact-us-form talk-to-us mx-4 md:mx-20 mt-8">
               <p>
                 <em>
                   A message to our valued customers regarding COVID-19: Royal
@@ -529,15 +545,12 @@ class ContactUs extends Component {
                   &nbsp;8:00 AM - 4:30 PM CT
                 </p>
               </div>
-              <div className="d-flex">
-                <icon className="rc-icon rc-info rc-iconography"></icon>
-                <a
-                  href="tel:+(844) 673-3772"
-                  className="rc-styled-link--cta rc-gamma"
-                >
+              <a href="tel:+(844) 673-3772" className="flex items-center">
+                <span className="rc-icon rc-info rc-iconography" />
+                <span className="rc-styled-link--cta rc-gamma m-0">
                   (844) 673-3772
-                </a>
-              </div>
+                </span>
+              </a>
             </div>
             {this.state.isFinished ? this.successContent() : this.allFormJSX()}
           </div>

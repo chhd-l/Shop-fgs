@@ -4,7 +4,7 @@ import Footer from '@/components/Footer';
 import LazyLoad from 'react-lazyload';
 import { validData, getDeviceType } from '@/utils/utils';
 import GoogleTagManager from '@/components/GoogleTagManager';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import Selection from '@/components/Selection';
 import { PRESONAL_INFO_RULE } from '@/utils/constant';
 import 'react-datepicker/dist/react-datepicker.css';

@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { getDynamicLanguage } from '@/lang';
+import en_US from '@/lang/en_US';
 
 const useDynamicLanguage = () => {
-  const [dynamicLanguage, setDynamicLanguage] = useState({});
+  const [dynamicLanguage, setDynamicLanguage] = useState(en_US);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

@@ -1,5 +1,4 @@
 import React from 'react';
-import { inject, observer } from 'mobx-react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import {
   getDictionary,
@@ -7,11 +6,10 @@ import {
   handleFelinAppointTime,
   formatDate
 } from '@/utils/utils';
+import { AddressPreview } from '@/components/Address';
 import cn from 'classnames';
 
-@inject('configStore')
 @injectIntl
-@observer
 class InfosPreview extends React.Component {
   static defaultProps = {
     payRecord: null,
@@ -33,19 +31,15 @@ class InfosPreview extends React.Component {
   handleFelinOrderDate = (appointmentDate) => {
     const orderTime = handleFelinAppointTime(appointmentDate);
     return (
-      orderTime.appointStartTime +
+      formatDate({ date: orderTime.appointStartTime.split(' ')[0] }) +
+      ' ' +
+      orderTime.appointStartTime.split(' ')[1] +
       ' - ' +
       orderTime.appointEndTime.split(' ')[1]
     );
   };
   render() {
-    const {
-      payRecord,
-      details,
-      configStore: {
-        localAddressForm: { fieldKeyEnableStatus }
-      }
-    } = this.props;
+    const { payRecord, details } = this.props;
 
     return (
       <div className="row1 rc-bg-colour--brand3 p-3 text-break grid grid-cols-12">
@@ -78,64 +72,25 @@ class InfosPreview extends React.Component {
             <div className="bold mt-1 mb-1" style={{ color: '#666' }}>
               <FormattedMessage id="deliveryAddress" />
             </div>
-            <p>{details.consignee.name}</p>
-            {/* address1 */}
-            {fieldKeyEnableStatus['address1'] && (
-              <p>{details.consignee.detailAddress1}</p>
-            )}
-            {/* address2 */}
-            {fieldKeyEnableStatus['address2'] &&
-              details.consignee.detailAddress2 && (
-                <p>{details.consignee.detailAddress2}</p>
-              )}
-            <p className="confirmation_delivery_address">
-              {window.__.env.REACT_APP_COUNTRY == 'us' ||
-              window.__.env.REACT_APP_COUNTRY == 'uk' ? null : (
-                <>
-                  {matchNamefromDict(
-                    this.state.countryList,
-                    details.consignee.countryId
-                  )}{' '}
-                </>
-              )}
-              {/* 城市 */}
-              {fieldKeyEnableStatus['city'] && (
-                <>
-                  {details.consignee.city}
-                  {', '}
-                </>
-              )}
-              {/* 区域 */}
-              {fieldKeyEnableStatus['region'] && (
-                <>
-                  {details.consignee.area}
-                  {', '}
-                </>
-              )}
-              {/* 区域 */}
-              {fieldKeyEnableStatus['state'] && (
-                <>{details.consignee.province} </>
-              )}
-              {/* county */}
-              {fieldKeyEnableStatus['county'] && (
-                <>{details.consignee?.county} </>
-              )}
-              {/* 国家，uk显示在这个位置 */}
-              {window.__.env.REACT_APP_COUNTRY == 'uk' ? (
-                <>
-                  {matchNamefromDict(
-                    this.state.countryList,
-                    details.consignee.countryId
-                  )}{' '}
-                </>
-              ) : null}
-              {/* 邮编 */}
-              {fieldKeyEnableStatus['postCode'] && (
-                <>{details.consignee.postCode}</>
-              )}
-            </p>
-            {details.consignee.rfc ? <p>{details.consignee.rfc}</p> : null}
-            {details.buyerRemark ? <p>{details.buyerRemark}</p> : null}
+
+            <AddressPreview
+              data={{
+                name: details.consignee.name,
+                address1: details.consignee.detailAddress1,
+                address2: details.consignee.detailAddress2,
+                city: details.consignee.city,
+                area: details.consignee.area,
+                province: details.consignee.province,
+                county: details.consignee.county,
+                postCode: details.consignee.postCode,
+                rfc: details.consignee.rfc,
+                buyerRemark: details.buyerRemark,
+                countryName: matchNamefromDict(
+                  this.state.countryList,
+                  details.consignee.countryId
+                )
+              }}
+            />
           </div>
         ) : null}
         {payRecord && payRecord.lastFourDigits ? (
@@ -189,64 +144,24 @@ class InfosPreview extends React.Component {
             <div className="bold mt-1 mb-1" style={{ color: '#666' }}>
               <FormattedMessage id="billingAddress" />
             </div>
-            <div>{details.invoice.contacts}</div>
-            <div>
-              {/* address1 */}
-              {fieldKeyEnableStatus['address1'] && (
-                <p>{details.invoice.address1}</p>
-              )}
-              {/* address2 */}
-              {fieldKeyEnableStatus['address2'] && details.invoice.address2 && (
-                <p>{details.invoice.address2}</p>
-              )}
-            </div>
-            <div className="confirmation_billing_address">
-              {window.__.env.REACT_APP_COUNTRY == 'us' ||
-              window.__.env.REACT_APP_COUNTRY == 'uk' ? null : (
-                <>
-                  {matchNamefromDict(
-                    this.state.countryList,
-                    details.invoice.countryId
-                  )}{' '}
-                </>
-              )}
-              {/* 城市 */}
-              {fieldKeyEnableStatus['city'] && (
-                <>
-                  {details.invoice.city}
-                  {', '}
-                </>
-              )}
-              {/* 区域 */}
-              {fieldKeyEnableStatus['region'] && (
-                <>
-                  {details.invoice.area}
-                  {', '}
-                </>
-              )}
-              {/* 区域 */}
-              {fieldKeyEnableStatus['state'] && (
-                <>{details.invoice.province} </>
-              )}
-              {/* county */}
-              {fieldKeyEnableStatus['county'] && <>{details.invoice.county} </>}
-
-              {/* 国家，uk显示在这个位置 */}
-              {window.__.env.REACT_APP_COUNTRY == 'uk' ? (
-                <>
-                  {matchNamefromDict(
-                    this.state.countryList,
-                    details.invoice.countryId
-                  )}{' '}
-                </>
-              ) : null}
-
-              {/* 邮编 */}
-              {fieldKeyEnableStatus['postCode'] && (
-                <>{details.invoice.postCode}</>
-              )}
-            </div>
-            {details.invoice.rfc ? <p>{details.invoice.rfc}</p> : null}
+            <AddressPreview
+              data={{
+                name: details.invoice.contacts,
+                address1: details.invoice.address1,
+                address2: details.invoice.address2,
+                countryName: matchNamefromDict(
+                  this.state.countryList,
+                  details.invoice.countryId
+                ),
+                city: details.invoice.city,
+                area: details.invoice.area,
+                province: details.invoice.province,
+                county: details.invoice.county,
+                postCode: details.invoice.postCode,
+                rfc: details.invoice.rfc,
+                buyerRemark: details.buyerRemark
+              }}
+            />
           </div>
         ) : null}
       </div>

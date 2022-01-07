@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
-import EditForm from '@/components/Form';
+import { AddressForm } from '@/components/Address';
 import HomeDeliveryOrPickUp from '@/components/HomeDeliveryOrPickUp';
 import { validData } from '@/utils/utils';
 import { getAddressBykeyWord, getDeliveryDateAndTimeSlot } from '@/api/address';
@@ -17,6 +17,7 @@ import './VisitorAddress.css';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
+const isFromFelin = sessionItemRoyal.get('appointment-no');
 
 const sleep = (time) => {
   return new Promise((resolve) => {
@@ -81,9 +82,8 @@ class VisitorAddress extends React.Component {
       selectVisitorValidationOption: 'suggestedAddress',
       visitorBtnLoading: false
     };
-    this.confirmVisitorValidationAddress = this.confirmVisitorValidationAddress.bind(
-      this
-    );
+    this.confirmVisitorValidationAddress =
+      this.confirmVisitorValidationAddress.bind(this);
   }
   componentDidMount() {
     this.validData({
@@ -275,7 +275,7 @@ class VisitorAddress extends React.Component {
           }`}
         />{' '}
         <span>
-          {sessionItemRoyal.get('from-felin') ? (
+          {isFromFelin ? (
             <FormattedMessage id="Felin Address" />
           ) : (
             <FormattedMessage id="payment.deliveryTitle" />
@@ -318,7 +318,7 @@ class VisitorAddress extends React.Component {
           {this.titleJSX()}
           <span className="iconfont font-weight-bold green ml-2">&#xe68c;</span>
         </h5>
-        {!sessionItemRoyal.get('from-felin') && (
+        {!isFromFelin && (
           <p
             onClick={this.handleClickEdit}
             className="rc-styled-link mb-1"
@@ -353,11 +353,8 @@ class VisitorAddress extends React.Component {
   };
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmVisitorValidationAddress() {
-    const {
-      form,
-      selectVisitorValidationOption,
-      validationAddress
-    } = this.state;
+    const { form, selectVisitorValidationOption, validationAddress } =
+      this.state;
     let oldForm = JSON.parse(JSON.stringify(form));
     this.setState({
       visitorBtnLoading: true
@@ -614,7 +611,7 @@ class VisitorAddress extends React.Component {
     // console.log(234, form);
 
     const _editForm = (
-      <EditForm
+      <AddressForm
         type="delivery"
         initData={form}
         isLogin={false}

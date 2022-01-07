@@ -1,6 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl-phraseapp';
-import EditForm from '@/components/Form';
+import { AddressForm } from '@/components/Address';
 class CyberBillingAddress extends React.Component {
   static defaultProps = {
     form: {
@@ -21,7 +20,7 @@ class CyberBillingAddress extends React.Component {
   render() {
     return (
       <div className="billingAddress">
-        <EditForm
+        <AddressForm
           isLogin={true}
           isCyberBillingAddress={true}
           initData={this.props.form}

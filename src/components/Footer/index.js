@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import FooterHub from './footer_hub';
 import { withRouter } from 'react-router-dom';
@@ -17,7 +17,7 @@ const isHub = window.__.env.REACT_APP_HUB;
  * 1.hub环境，且hub footer有数据，显示hub footer(三方hub接口);
  * 2.否则显示fgs footer(storepotal配置footer html)
  * 3. Onetrust cookie settings button显示控制为环境变量REACT_APP_COOKIE_SETTINGS_BTN_VISIBLE
- * 注: footer html配置, 包括基本footer链接、营业时间、联系邮箱/电话、本店铺支持的支付方式容器、自定义marsfooter(比如美国)
+ * 注: footer html配置, 包括基本footer链接、营业时间、联系邮箱/电话、本店铺支持的支付方式容器
  */
 @inject('configStore', 'loginStore')
 @injectIntl
@@ -44,7 +44,7 @@ class Footer extends React.Component {
       })
         .then((res) => {
           this.setState({
-            hubFooterInfo: res.data,
+            hubFooterInfo: res,
             isInitdQueryHubFooter: true
           });
         })

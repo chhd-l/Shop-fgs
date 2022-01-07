@@ -14,7 +14,7 @@ import ProductCarousel from '@/components/ProductCarousel';
 import Help from '../../SmartFeederSubscription/modules/Help';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
-
+const sessionItemRoyal = window.__.sessionItemRoyal;
 const pageLink = window.location.href;
 
 @inject('clinicStore')
@@ -39,19 +39,24 @@ class ShelterPrescription extends React.Component {
     this.helpContentText = {
       title: this.props.intl.messages['recommendation.helpContentText.title'],
       des: this.props.intl.messages['recommendation.helpContentText.des'],
-      emailTitle:
-        this.props.intl.messages['recommendation.helpContentText.emailTitle'],
-      emailDes:
-        this.props.intl.messages['recommendation.helpContentText.emailDes'],
-      emailLink:
-        this.props.intl.messages['recommendation.helpContentText.emailLink'],
-      phoneTitle:
-        this.props.intl.messages['recommendation.helpContentText.phoneTitle'],
+      emailTitle: this.props.intl.messages[
+        'recommendation.helpContentText.emailTitle'
+      ],
+      emailDes: this.props.intl.messages[
+        'recommendation.helpContentText.emailDes'
+      ],
+      emailLink: this.props.intl.messages[
+        'recommendation.helpContentText.emailLink'
+      ],
+      phoneTitle: this.props.intl.messages[
+        'recommendation.helpContentText.phoneTitle'
+      ],
       phone: this.props.intl.messages['recommendation.helpContentText.phone'],
       email: this.props.intl.messages['recommendation.helpContentText.email'],
       phoneDes1: `<strong>${this.props.intl.messages['recommendation.helpContentText.phoneDes1']}</strong>`,
-      phoneDes2:
-        this.props.intl.messages['recommendation.helpContentText.phoneDes2']
+      phoneDes2: this.props.intl.messages[
+        'recommendation.helpContentText.phoneDes2'
+      ]
       // title: "We're Here to Help",
       // emailLink: '/help/contact',
       // des:
@@ -81,6 +86,7 @@ class ShelterPrescription extends React.Component {
 
     const clinicId = funcUrl({ name: 'shelterID' });
     clinicStore.setLinkClinicId(clinicId);
+    sessionItemRoyal.set('BreedOrShelterId', clinicId);
     clinicStore.setLinkClinicName('');
     clinicStore.setAuditAuthority(false);
   }
@@ -193,7 +199,7 @@ class ShelterPrescription extends React.Component {
           <div id="selectProduct" className="select-position"></div>
           <div className="rc-padding-top--md rc-padding-x--xl--desktop">
             <ProductCarousel
-              targetType="_blank"
+              // targetType="_blank"
               goodsList={this.state.list}
               title={
                 <h2 className="rc-gamma rc-text--center rc-margin-bottom--md">

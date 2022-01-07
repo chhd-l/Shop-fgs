@@ -83,7 +83,7 @@ export default class Search extends React.Component {
         let goodsContent = [];
 
         let productResultNum = res[0]?.context?.esGoodsPage?.totalElements || 0;
-        let contentResultTitle = res[1]?.data?.FeaturedItems?.[0]?.Title;
+        let contentResultTitle = res[1]?.FeaturedItems?.[0]?.Title;
         let contentResultNum =
           typeof contentResultTitle == 'string'
             ? Number(
@@ -117,7 +117,7 @@ export default class Search extends React.Component {
                 productList: goodsContent,
                 totalElements: esGoodsPage.totalElements
               },
-              { attach: res[1] && res[1].data }
+              { attach: res[1] }
             )
           });
         } else {

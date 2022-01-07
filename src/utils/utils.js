@@ -34,28 +34,48 @@ const clinicStore = stores.clinicStore;
  * @param {*} val
  */
 export function formatMoney(val) {
+  const COUNTRY = window.__.env.REACT_APP_COUNTRY;
+  const NAVIGATOR_LANG = window.__.env.REACT_APP_NAVIGATOR_LANG;
+  const CURRENCY = window.__.env.REACT_APP_CURRENCY;
+
   if (isNaN(val)) {
     val = 0;
   }
   val = Number(val).toFixed(2);
   val += '';
   let length = val.length;
-  if (window.__.env.REACT_APP_COUNTRY === 'tr') {
+  switch (COUNTRY) {
+    case 'tr':
+      return val + ' TL';
+    case 'ru':
+      val = parseInt(Math.round(val));
+      return new Intl.NumberFormat(NAVIGATOR_LANG, {
+        style: 'currency',
+        currency: CURRENCY,
+        maximumSignificantDigits: length
+      }).format(val);
+    case 'se':
+      const tmpRet = new Intl.NumberFormat(NAVIGATOR_LANG, {
+        style: 'currency',
+        currency: CURRENCY
+      }).format(val);
+      return tmpRet.replace(/kr/g, CURRENCY);
+  }
+  if (COUNTRY === 'tr') {
     return val + ' TL';
   }
-  if (window.__.env.REACT_APP_COUNTRY === 'ru') {
-    // console.log(val, 'val----');
+  if (COUNTRY === 'ru') {
     val = parseInt(Math.round(val));
-    return new Intl.NumberFormat(window.__.env.REACT_APP_NAVIGATOR_LANG, {
+    return new Intl.NumberFormat(NAVIGATOR_LANG, {
       style: 'currency',
-      currency: window.__.env.REACT_APP_CURRENCY,
+      currency: CURRENCY,
       maximumSignificantDigits: length
     }).format(val);
   }
 
-  return new Intl.NumberFormat(window.__.env.REACT_APP_NAVIGATOR_LANG, {
+  return new Intl.NumberFormat(NAVIGATOR_LANG, {
     style: 'currency',
-    currency: window.__.env.REACT_APP_CURRENCY
+    currency: CURRENCY
   }).format(val);
 }
 
@@ -751,18 +771,24 @@ let datePickerConfig = getDatePickerConfig();
 export { datePickerConfig };
 
 /**
- * 根据id匹配name
+ * 根据id或value匹配name，匹配不了则返回自己
  * @param {Array} dictList 字典数据
- * @param {Number/String} id 需要匹配的id
+ * @param {Number/String} toBeMatchedVal 需要匹配的id或value
  */
-export function matchNamefromDict(dictList = [], id) {
-  return dictList.filter(
-    (ele) => ele && id && ele.id.toString() === id.toString()
-  )[0]
-    ? dictList.filter(
-        (ele) => ele && id && ele.id.toString() === id.toString()
-      )[0].name
-    : id;
+export function matchNamefromDict(dictList = [], toBeMatchedVal, aa) {
+  const matchedById = dictList.filter(
+    (ele) =>
+      ele && toBeMatchedVal && ele.id.toString() === toBeMatchedVal.toString()
+  )[0];
+  const matchedByValue = dictList.filter(
+    (ele) =>
+      ele &&
+      toBeMatchedVal &&
+      ele.value?.toString() === toBeMatchedVal.toString()
+  )[0];
+  const matchedItem = matchedById || matchedByValue;
+
+  return matchedItem ? matchedItem.name : toBeMatchedVal;
 }
 
 // 数组去重
@@ -936,16 +962,30 @@ export function getClubLogo({ goodsInfoFlag, subscriptionType }) {
 
 export function bindSubmitParam(list) {
   let obj = { optionalList: [], requiredList: [] };
-  if (window.__.env.REACT_APP_COUNTRY === 'fr') {
+  if (['fr', 'de'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1) {
     const noIsRequiredList = list?.filter((item) => !item.isRequired);
     const firstOptionalList = noIsRequiredList?.filter(
-      (l) => ['RC_DF_FR_FGS_OPT_EMAIL']?.includes(l.consentDesc) && !l.isChecked
+      (l) =>
+        ['RC_DF_FR_FGS_OPT_EMAIL', 'RC_DF_DE_FGS_OPT_EMAIL']?.includes(
+          l.consentDesc
+        ) && !l.isChecked
+    ).length;
+    const firstOptionalListChecked = noIsRequiredList?.filter(
+      (l) =>
+        ['RC_DF_FR_FGS_OPT_EMAIL', 'RC_DF_DE_FGS_OPT_EMAIL']?.includes(
+          l.consentDesc
+        ) && l.isChecked
     ).length;
     if (firstOptionalList) {
       obj.communicationEmail = 0;
       obj.communicationPhone = 0;
     }
+    if (firstOptionalListChecked) {
+      obj.communicationEmail = 1;
+      obj.communicationPhone = 1;
+    }
   }
+
   list
     .filter((item) => !item.isRequired)
     .forEach((item) => {
@@ -973,8 +1013,9 @@ export function judgeIsIndividual(item) {
 // uk和fr,才有postCode校验
 const countryPostCode = ['uk', 'fr'];
 const currentCountry = window.__.env.REACT_APP_COUNTRY;
-export const isCanVerifyBlacklistPostCode =
-  countryPostCode.includes(currentCountry);
+export const isCanVerifyBlacklistPostCode = countryPostCode.includes(
+  currentCountry
+);
 
 // 获取 Postal code alert message
 export async function getAddressPostalCodeAlertMessage() {

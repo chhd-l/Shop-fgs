@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import ValidationAddressModal from '@/components/validationAddressModal';
 import Loading from '@/components/Loading';
-import EditForm from '@/components/Form';
+import { AddressForm } from '@/components/Address';
 import { PRESONAL_INFO_RULE } from '@/utils/constant';
 import { validData } from '@/utils/utils';
 import { updateCustomerBaseInfo, getCustomerInfo } from '@/api/user';
@@ -509,7 +509,7 @@ class PersonalDataEditForm extends React.Component {
               })}
             >
               {this.state.editFormVisible && (
-                <EditForm
+                <AddressForm
                   initData={form}
                   isLogin={true}
                   personalData={true}

@@ -11,6 +11,7 @@ import SearchSelection from '@/components/SearchSelection';
 import { inject, observer } from 'mobx-react';
 import './NewPetModal.css';
 import { datePickerConfig, formatDate } from '@/utils/utils';
+import { format } from 'date-fns';
 
 @inject('loginStore')
 @observer
@@ -178,10 +179,10 @@ class NewPetModal extends Component {
     console.log(date);
     let { petForm, isShowBirthErorr } = this.state;
     if (date) {
-      petForm['birthday'] = formatDate({ date });
+      petForm['birthday'] = format(date, 'yyyy-MM-dd');
       isShowBirthErorr = false;
     } else {
-      petForm['birthday'] = formatDate({ date });
+      petForm['birthday'] = format(date, 'yyyy-MM-dd');
       isShowBirthErorr = true;
     }
     this.setState({ petForm, isShowBirthErorr });

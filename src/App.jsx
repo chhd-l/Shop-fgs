@@ -305,14 +305,6 @@ const App = () => {
 
   const [loading, dynamicLanguage] = useDynamicLanguage();
 
-  if (loading) {
-    return (
-      <div>
-        <Loading />
-      </div>
-    );
-  }
-
   return (
     <Provider {...stores}>
       <IntlProvider
@@ -385,8 +377,8 @@ const App = () => {
                   exact
                   path="/confirmation"
                   render={(props) => {
+                    console.log('isRefreshConfirmPage:',Boolean(sessionItemRoyal.get('refresh-confirm-page')))
                     if (Boolean(sessionItemRoyal.get('refresh-confirm-page'))) {
-                      sessionItemRoyal.remove('refresh-confirm-page');
                       if (window.__.env.REACT_APP_HUB) {
                         window.location.href =
                           window.__.env.REACT_APP_HUB_URLPREFIX;
@@ -394,7 +386,6 @@ const App = () => {
                         return <Redirect to={{ pathname: '/' }} {...props} />;
                       }
                     } else {
-                      sessionItemRoyal.set('refresh-confirm-page', true);
                       return <Confirmation {...props} />;
                     }
                   }}

@@ -175,7 +175,7 @@ class SubscriptionLanding extends React.Component {
                             className="m-auto w-auto lazyloaded"
                             alt="image one"
                             title="image one"
-                          ></img>
+                          />
                         </div>
                         <h7>
                           <FormattedMessage id="subscription.ad.list1" />
