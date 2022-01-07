@@ -41,6 +41,7 @@ import cn from 'classnames';
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
+const isFromFelin = sessionItemRoyal.get('appointment-no');
 
 const sleep = (time) => {
   return new Promise((resolve) => {
@@ -173,7 +174,7 @@ class AddressList extends React.Component {
       });
     });
 
-    if (sessionItemRoyal.get('from-felin')) {
+    if (isFromFelin) {
       //from felin下单情况下，地址信息不可编辑
       this.setState({
         addressList: felinAddr,
@@ -1238,7 +1239,7 @@ class AddressList extends React.Component {
           {titleVisible ? (
             <>
               <em className="rc-icon rc-indoors--xs rc-iconography" />{' '}
-              {sessionItemRoyal.get('from-felin') ? (
+              {isFromFelin ? (
                 <FormattedMessage id="Felin Address" />
               ) : (
                 <FormattedMessage id="payment.deliveryTitle" />
@@ -1249,7 +1250,7 @@ class AddressList extends React.Component {
             </>
           ) : null}
         </h5>{' '}
-        {!sessionItemRoyal.get('from-felin') && (
+        {!isFromFelin && (
           <p
             onClick={this.handleClickEdit}
             className="rc-styled-link mb-1 checkout_edit_address"

@@ -22,7 +22,6 @@ import { sitePurchase } from '@/api/cart';
 import Club_Logo from '@/assets/images/Logo_club.png';
 import Club_Logo_ru from '@/assets/images/Logo_club_ru.png';
 import indvLogo from '@/assets/images/indv_log.svg';
-import moment from 'moment';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -34,28 +33,48 @@ const clinicStore = stores.clinicStore;
  * @param {*} val
  */
 export function formatMoney(val) {
+  const COUNTRY = window.__.env.REACT_APP_COUNTRY;
+  const NAVIGATOR_LANG = window.__.env.REACT_APP_NAVIGATOR_LANG;
+  const CURRENCY = window.__.env.REACT_APP_CURRENCY;
+
   if (isNaN(val)) {
     val = 0;
   }
   val = Number(val).toFixed(2);
   val += '';
   let length = val.length;
-  if (window.__.env.REACT_APP_COUNTRY === 'tr') {
+  switch (COUNTRY) {
+    case 'tr':
+      return val + ' TL';
+    case 'ru':
+      val = parseInt(Math.round(val));
+      return new Intl.NumberFormat(NAVIGATOR_LANG, {
+        style: 'currency',
+        currency: CURRENCY,
+        maximumSignificantDigits: length
+      }).format(val);
+    case 'se':
+      const tmpRet = new Intl.NumberFormat(NAVIGATOR_LANG, {
+        style: 'currency',
+        currency: CURRENCY
+      }).format(val);
+      return tmpRet.replace(/kr/g, CURRENCY);
+  }
+  if (COUNTRY === 'tr') {
     return val + ' TL';
   }
-  if (window.__.env.REACT_APP_COUNTRY === 'ru') {
-    // console.log(val, 'val----');
+  if (COUNTRY === 'ru') {
     val = parseInt(Math.round(val));
-    return new Intl.NumberFormat(window.__.env.REACT_APP_NAVIGATOR_LANG, {
+    return new Intl.NumberFormat(NAVIGATOR_LANG, {
       style: 'currency',
-      currency: window.__.env.REACT_APP_CURRENCY,
+      currency: CURRENCY,
       maximumSignificantDigits: length
     }).format(val);
   }
 
-  return new Intl.NumberFormat(window.__.env.REACT_APP_NAVIGATOR_LANG, {
+  return new Intl.NumberFormat(NAVIGATOR_LANG, {
     style: 'currency',
-    currency: window.__.env.REACT_APP_CURRENCY
+    currency: CURRENCY
   }).format(val);
 }
 
@@ -942,16 +961,30 @@ export function getClubLogo({ goodsInfoFlag, subscriptionType }) {
 
 export function bindSubmitParam(list) {
   let obj = { optionalList: [], requiredList: [] };
-  if (window.__.env.REACT_APP_COUNTRY === 'fr') {
+  if (['fr', 'de'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1) {
     const noIsRequiredList = list?.filter((item) => !item.isRequired);
     const firstOptionalList = noIsRequiredList?.filter(
-      (l) => ['RC_DF_FR_FGS_OPT_EMAIL']?.includes(l.consentDesc) && !l.isChecked
+      (l) =>
+        ['RC_DF_FR_FGS_OPT_EMAIL', 'RC_DF_DE_FGS_OPT_EMAIL']?.includes(
+          l.consentDesc
+        ) && !l.isChecked
+    ).length;
+    const firstOptionalListChecked = noIsRequiredList?.filter(
+      (l) =>
+        ['RC_DF_FR_FGS_OPT_EMAIL', 'RC_DF_DE_FGS_OPT_EMAIL']?.includes(
+          l.consentDesc
+        ) && l.isChecked
     ).length;
     if (firstOptionalList) {
       obj.communicationEmail = 0;
       obj.communicationPhone = 0;
     }
+    if (firstOptionalListChecked) {
+      obj.communicationEmail = 1;
+      obj.communicationPhone = 1;
+    }
   }
+
   list
     .filter((item) => !item.isRequired)
     .forEach((item) => {
@@ -1033,13 +1066,13 @@ export function handleFelinAppointTime(appointTime) {
   const apptTime = appointTime?.split('#');
   const appointStartTime =
     apptTime?.length > 0
-      ? moment(apptTime[0].split(' ')[0]).format('YYYY-MM-DD') +
+      ? apptTime[0].split(' ')[0].replace(/^(d{4})(d{2}(d{2}))$/, '$1-&2-&3') +
         ' ' +
         apptTime[0].split(' ')[1]
       : '';
   const appointEndTime =
     apptTime?.length > 1
-      ? moment(apptTime[1].split(' ')[0]).format('YYYY-MM-DD') +
+      ? apptTime[1].split(' ')[0].replace(/^(d{4})(d{2}(d{2}))$/, '$1-&2-&3') +
         ' ' +
         apptTime[1].split(' ')[1]
       : '';

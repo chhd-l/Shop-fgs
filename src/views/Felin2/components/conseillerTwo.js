@@ -39,31 +39,6 @@ class ConseillerTwo extends React.Component {
             <div className="mtb10">Alexandre Blavier</div>
             <div className="col0">Expertise</div>
           </div>
-          <div>
-            <img src={cat1} alt="" />
-            <div className="mtb10">Alexandre Blavier</div>
-            <div className="col0">Expertise</div>
-          </div>
-          <div>
-            <img src={cat1} alt="" />
-            <div className="mtb10">Alexandre Blavier</div>
-            <div className="col0">Expertise</div>
-          </div>
-          <div>
-            <img src={cat1} alt="" />
-            <div className="mtb10">Alexandre Blavier</div>
-            <div className="col0">Expertise</div>
-          </div>
-          <div>
-            <img src={cat1} alt="" />
-            <div className="mtb10">Alexandre Blavier</div>
-            <div className="col0">Expertise</div>
-          </div>
-          <div>
-            <img src={cat1} alt="" />
-            <div className="mtb10">Alexandre Blavier</div>
-            <div className="col0">Expertise</div>
-          </div>
         </div>
       </div>
     );

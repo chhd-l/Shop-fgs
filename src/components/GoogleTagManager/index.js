@@ -29,8 +29,28 @@ class GoogleTagManager extends React.Component {
   render() {
     return <React.Fragment />;
   }
-
+  getCookie(name) {
+    var arr,
+      reg = new RegExp('(^| )' + name + '=([^;]*)(;|$)');
+    if ((arr = document.cookie.match(reg))) return unescape(arr[2]);
+    else return null;
+  }
   componentDidMount() {
+    // 监听点击cookie banner同意按钮后，动态加载GA.js
+    window.addEventListener('click', (e) => {
+      let currentTargetDom = e.target;
+      if (currentTargetDom.id === 'onetrust-accept-btn-handler') {
+        this.insertGAScript();
+      }
+    });
+
+    this.insertGAScript();
+  }
+  insertGAScript() {
+    // 如果没有同意cookie banner，不允许加载GA.js
+    if (!this.getCookie('OptanonAlertBoxClosed')) {
+      return null;
+    }
     // REACT_APP_HUB_GA是hub(土耳其，法国，俄罗斯)和美国专用的
     const { page = {}, pet = {}, search = {} } = this.props.additionalEvents;
     const commonSite = {
@@ -200,7 +220,7 @@ class GoogleTagManager extends React.Component {
     //       ),
     //       document.body.append(e);
     //   })({ key: 'd8ba1b22-18c0-4b5b-82f0-3768899fea64' });
-    // }
+    // }}
   }
 }
 

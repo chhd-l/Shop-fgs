@@ -159,7 +159,6 @@ class RouteFilter extends Component {
         sessionItemRoyal.remove('rc-tidList');
         sessionItemRoyal.remove('recommend_product');
         sessionItemRoyal.remove('orderSource');
-        sessionItemRoyal.remove('from-felin');
         sessionItemRoyal.remove('appointment-no');
         sessionItemRoyal.remove('isChangeAppoint');
         sessionItemRoyal.remove('oldAppointNo');

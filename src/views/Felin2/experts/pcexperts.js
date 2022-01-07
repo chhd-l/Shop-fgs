@@ -61,32 +61,30 @@ class Pcexperts extends React.Component {
         {
           valueEn: 'Behaviorist',
           src: cat1,
-          name: 'Comportementalistes',
-          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          name: 'Comportementalistes'
         },
         {
           valueEn: 'Nutritionist',
           src: cat2,
-          name: 'Expert en nutrition',
-          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          name: 'Expert en nutrition'
         }
       ],
       timeList: [
         {
           duration: 15,
-          text: 'Rapide et facile, échangez avec un expert pour reçevoir ses conseils et commencer le suivi de votre chat.'
+          text: 'Séance découverte avec l’expert sélectionné.'
         },
         {
           duration: 30,
-          text: 'Allez plus en détails avec lexpert sélectionné.'
+          text: 'Échangez avec un expert pour recevoir quelques conseils clefs selon les besoins de votre chat.'
         },
         {
           duration: 45,
-          text: 'Prenez le temps de vous offrir une session complète.'
+          text: 'Creusez les problématiques identifiées avec l’expert et définissez des solutions pour les traiter sur le long terme.'
         },
         {
           duration: 60,
-          text: 'Prenez le temps de vous offrir une session complète.'
+          text: 'Nous approfondirons chaque aspect de la vie de votre chat pour vous proposer des solutions adaptées à vos possibilités.'
         }
       ],
       isShow: true,
@@ -143,6 +141,7 @@ class Pcexperts extends React.Component {
       });
     }
   }
+
   getDeatalData = async (id) => {
     let appointName = {
       Online: 'Appel video',
@@ -151,11 +150,9 @@ class Pcexperts extends React.Component {
 
     const { code, context } = await getAppointByApptNo({ apptNo: id });
     if (code === 'K-000000') {
-      let type =
-        appointName[
-          this.state.apptTypeList.find((item) => item.id === context.apptTypeId)
-            .name
-        ];
+      let type = this.state.apptTypeList.find(
+        (item) => item.id === context.apptTypeId
+      ).name;
       let expertise = this.state.list.find(
         (item) => item.id === context.expertTypeId
       ).name;
@@ -220,16 +217,6 @@ class Pcexperts extends React.Component {
       );
     }
   };
-  hanldeOpen = () => {
-    this.setState({
-      visible: true
-    });
-  };
-  handleCancel = () => {
-    this.setState({
-      visible: false
-    });
-  };
   // 点击咨询
   handleOneShow = async () => {
     // 线上
@@ -246,6 +233,7 @@ class Pcexperts extends React.Component {
       );
       return { ...item, ..._temp };
     });
+    console.log(apptTypeList);
     this.setState(
       {
         apptTypeList: apptTypeList.goodsDictionaryVOS,
@@ -306,11 +294,17 @@ class Pcexperts extends React.Component {
         );
         return { ...item, ..._temp };
       });
-      this.setState({
-        timeList,
-        oneShow: false,
-        threeShow: true
-      });
+      this.setState(
+        {
+          timeList,
+          oneShow: false,
+          threeShow: true
+        },
+        () => {
+          let anchorElement = document.getElementById('Choisissez');
+          window.scrollTo(0, anchorElement.offsetTop - window.innerHeight / 3);
+        }
+      );
     }
   };
 
@@ -335,7 +329,8 @@ class Pcexperts extends React.Component {
         fourShow: true
       },
       () => {
-        scrollIntoView(document.querySelector(`#Voir-fqas`));
+        let anchorElement = document.getElementById('four-box');
+        window.scrollTo(0, anchorElement.offsetTop - window.innerHeight / 3);
       }
     );
     let type = !!this.state.bookSlotVO.dateNo;
@@ -346,10 +341,16 @@ class Pcexperts extends React.Component {
   };
   // 返回第三步
   handleReturnThree = () => {
-    this.setState({
-      threeShow: true,
-      fourShow: false
-    });
+    this.setState(
+      {
+        threeShow: true,
+        fourShow: false
+      },
+      () => {
+        let anchorElement = document.getElementById('Choisissez');
+        window.scrollTo(0, anchorElement.offsetTop - window.innerHeight / 3);
+      }
+    );
   };
   // 最终跳转
   handleGoto = () => {
@@ -542,31 +543,11 @@ class Pcexperts extends React.Component {
 
   render() {
     const { intl } = this.props;
-    let appointName = {
-      Online: 'Appel video',
-      Offline: 'Sur place'
-    };
     return (
       <div className="pc-block">
         {/* 默认页面 */}
         {this.state.isShow ? (
           <div>
-            <div className="size16 txt-centr font-500">
-              Réservez un rendez-vous avec un de nos experts
-            </div>
-            <div className="cat-ul">
-              {this.state.list.map((item, index) => {
-                return (
-                  <div className="ul-li" key={index}>
-                    <img src={item.src} alt="" />
-                    <div style={{ padding: '0.625rem' }}>
-                      <div className="font-500 size14">{item.name}</div>
-                      <div className="mt8 size12">{item.text}</div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
             <div className="txt-centr">
               <button
                 onClick={this.handleOneShow}
@@ -576,7 +557,7 @@ class Pcexperts extends React.Component {
                   fontSize: '0.75rem'
                 }}
               >
-                Reserver un rendez-vous
+                Commencer
               </button>
             </div>
           </div>
@@ -603,7 +584,7 @@ class Pcexperts extends React.Component {
                         onClick={() =>
                           this.handleActiveBut(
                             item.id,
-                            appointName[item.name],
+                            item.name,
                             'apptTypeId',
                             'type'
                           )
@@ -617,11 +598,15 @@ class Pcexperts extends React.Component {
                           width: '8.375rem'
                         }}
                       >
-                        {appointName[item.name]}
+                        {item.name}
                       </button>
                     );
                   })}
                 </div>
+              </div>
+            </div>
+            {this.state.params.apptTypeId ? (
+              <div>
                 <div className="size16 js-center">
                   <img
                     src={two}
@@ -631,39 +616,38 @@ class Pcexperts extends React.Component {
                   />
                   <div>Choisissez un expert</div>
                 </div>
+                <ul className="cat-ul mb16">
+                  {this.state.list.map((item, index) => {
+                    return (
+                      <li
+                        key={index}
+                        onClick={() =>
+                          this.handleActiveBut(
+                            item.id,
+                            item.name,
+                            'expertTypeId',
+                            'expertise'
+                          )
+                        }
+                        className="ul-li"
+                        style={{
+                          boxShadow:
+                            this.state.params.expertTypeId === item.id
+                              ? ' 0px 0px 0px 2px #E2001A'
+                              : '',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        <img src={item.src} alt="" />
+                        <div style={{ padding: '0.625rem' }}>
+                          <div className="font-500 size14">{item.name}</div>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
               </div>
-            </div>
-            <ul className="cat-ul mb16">
-              {this.state.list.map((item, index) => {
-                return (
-                  <li
-                    key={index}
-                    onClick={() =>
-                      this.handleActiveBut(
-                        item.id,
-                        item.name,
-                        'expertTypeId',
-                        'expertise'
-                      )
-                    }
-                    className="ul-li"
-                    style={{
-                      boxShadow:
-                        this.state.params.expertTypeId === item.id
-                          ? ' 0px 0px 0px 2px #E2001A'
-                          : '',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    <img src={item.src} alt="" />
-                    <div style={{ padding: '0.625rem' }}>
-                      <div className="font-500 size14">{item.name}</div>
-                      <div className="mt8 size12">{item.text}</div>
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
+            ) : null}
             <div className="txt-centr">
               <button
                 onClick={this.handleReturnOne}
@@ -725,7 +709,7 @@ class Pcexperts extends React.Component {
         {/* 第三步 */}
         {this.state.threeShow ? (
           <div>
-            <div className="Choisissez">
+            <div className="Choisissez" id="Choisissez">
               <div className="size16 mb16 js-center">
                 <img
                   src={three}
@@ -736,8 +720,8 @@ class Pcexperts extends React.Component {
                 <div>Choisissez la durée du rendez-vous</div>
               </div>
               <div>
-                Vous pourrez passer plus de temps avec nos experts si besoin en
-                fonction de leurs disponibilités.
+                Pour avoir toutes les réponses à vos questions, réservez la
+                séance adaptée à vos besoins
               </div>
             </div>
             <ul className="cat-ul mb16">
@@ -802,7 +786,7 @@ class Pcexperts extends React.Component {
         ) : null}
         {/*第四步*/}
         {this.state.fourShow ? (
-          <div>
+          <div id="four-box">
             <div className="size16 js-center mb16">
               <img
                 src={four}
@@ -941,32 +925,7 @@ class Pcexperts extends React.Component {
         </UpdatModal>
         {/* 预约时间 Contact us */}
         <div className="txt-centr" style={{ marginBottom: '3rem' }}>
-          <div
-            onClick={this.hanldeOpen}
-            style={{
-              cursor: 'pointer',
-              textDecoration: 'underline',
-              marginTop: '1.25rem',
-              display: this.state.visible ? 'none' : 'block'
-            }}
-          >
-            Contactez-nous
-          </div>
-          <MyModal visible={this.state.visible}>
-            <div
-              style={{
-                textAlign: 'right',
-                padding: '1.25rem',
-                paddingBottom: '0'
-              }}
-            >
-              <span
-                onClick={this.handleCancel}
-                className="rc-icon rc-close rc-iconography"
-                style={{ cursor: 'pointer' }}
-              />
-            </div>
-          </MyModal>
+          <MyModal />
         </div>
       </div>
     );

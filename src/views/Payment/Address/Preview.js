@@ -5,7 +5,7 @@ import cn from 'classnames';
 import cloneDeep from 'lodash/cloneDeep';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
-const isFromFelin = sessionItemRoyal.get('from-felin');
+const isFromFelin = sessionItemRoyal.get('appointment-no');
 
 class AddrPreview extends React.Component {
   static defaultProps = { form: null, countryListDict: [], boldName: true };

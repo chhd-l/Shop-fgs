@@ -31,7 +31,9 @@ class InfosPreview extends React.Component {
   handleFelinOrderDate = (appointmentDate) => {
     const orderTime = handleFelinAppointTime(appointmentDate);
     return (
-      orderTime.appointStartTime +
+      formatDate({ date: orderTime.appointStartTime.split(' ')[0] }) +
+      ' ' +
+      orderTime.appointStartTime.split(' ')[1] +
       ' - ' +
       orderTime.appointEndTime.split(' ')[1]
     );
