@@ -527,8 +527,8 @@ class Felin extends React.Component {
               Réservez une séance avec un expert de l'Atelier Félin
             </h2>
             <div className="problem" id="Voir-fqas">
-              Venez rencontrer nos comportementalistes et experts de nutrition
-              qui vous guideront pour prendre soin de votre chat. Vous pouvez
+              Venez rencontrer nos experts en nutrition et en comportement qui
+              vous guideront pour prendre soin de votre chat. Vous pouvez
               réserver un rendez-vous dans l’atelier ou un appel vidéo.
               Avez-vous des questions?{' '}
               <span onClick={this.goto} style={{ cursor: 'pointer' }}>
