@@ -130,7 +130,7 @@ class EmailForm extends React.Component {
           <FormattedMessage id="account.Email" />
           <span className="iconfont font-weight-bold green ml-2">&#xe68c;</span>
         </h5>
-        {!sessionItemRoyal.get('from-felin') && (
+        {!sessionItemRoyal.get('appointment-no') && (
           <p
             onClick={this.handleClickEdit}
             className="rc-styled-link mb-1"
