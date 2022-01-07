@@ -247,8 +247,8 @@ class Felin extends React.Component {
             </LazyLoad>
             <div className="hd-text-cont">
               <div className="introduce fontw-500">
-                L’Atelier Félin vous accueille à Paris pour vous conseiller et
-                répondre à vos questions sur votre chat.
+                L’ Atelier Félin vous accueille à Paris et en ligne pour vous
+                conseiller et répondre à vos questions sur votre chat.
               </div>
               <button
                 onClick={this.gotoAddPc}
@@ -277,7 +277,7 @@ class Felin extends React.Component {
           <div className="time-content">
             <div className="time font-500">
               Retrouvez-nous au 142 Bd Saint-Germain à Paris pour visiter la
-              boutique et prendre un rendez-vous avec un expert!
+              boutique et en savoir plus sur votre chat!
             </div>
           </div>
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile felin-mpd0">
@@ -350,11 +350,11 @@ class Felin extends React.Component {
                         Nos experts à votre écoute
                       </div>
                       <div className="visit-text-cont">
-                        Nos <b>comportementalistes</b> sont là pour vous aider à
-                        améliorer le bien être de votre chat et vous aider à
-                        résoudre les problèmes (malpropreté, agressivité,
-                        dégradations, etc.), à mieux le comprendre, et vivre une
-                        relation épanouie !
+                        Nos <b>experts en comportement</b> sont là pour vous
+                        aider à améliorer le bien être de votre chat et vous
+                        aider à résoudre les problèmes (malpropreté,
+                        agressivité, dégradations, etc.), à mieux le comprendre,
+                        et vivre une relation épanouie !
                         <div className="mb10" />
                         Chaque chat est unique et a des besoins spécifiques
                         selon sa race, son âge, ses sensibilités et son mode de
@@ -483,9 +483,9 @@ class Felin extends React.Component {
                           communauté !
                         </p>
                         <p className="col0 visit-text-p">
-                          Profitez de notre programmation pour en savoir plus
-                          sur les besoins de votre chat et guettez la mise en
-                          ligne du planning.
+                          Profitez de notre programmation avec les journées
+                          adoptions, découverte de races et ateliers découverte
+                          pour votre chat.
                         </p>
                         <a
                           style={{
