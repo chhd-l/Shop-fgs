@@ -59,6 +59,10 @@ export function handleRecoProductParamByItem(ele) {
     recommenderName = ''
   } = recommendationInfos;
   const referenceId = recommenderId || recommendationId;
+  let newRecommendationId =
+    ele.recommendationId == 'Felin'
+      ? 'Felin'
+      : recommendationId || ele.recommendationId || ''; // 优先去取recommendationInfos里面的recommendationId,如果是felin，特殊处理
   return {
     //shelter和breeder产品参数 start
     utmSource: ele.utmSource || '',
@@ -72,7 +76,7 @@ export function handleRecoProductParamByItem(ele) {
     referenceData,
     recommenderName,
     referenceId,
-    recommendationId: recommendationId || ele.recommendationId || '', // 优先去取recommendationInfos里面的recommendationId
+    recommendationId: newRecommendationId,
     recommendationName: recommendationName || ele.recommendationName || ''
   };
 }
