@@ -441,7 +441,6 @@ class Payment extends React.Component {
       sessionItemRoyal.set('isChangeAppoint', true);
     }
     if (appointNo) {
-      sessionItemRoyal.set('from-felin', true);
       let felinAddress = this.isLogin
         ? Object.assign(felinAddr[0], {
             firstName: this.userInfo.firstName,
@@ -562,7 +561,6 @@ class Payment extends React.Component {
     sessionItemRoyal.remove('rc-tidList');
     sessionItemRoyal.remove('recommend_product');
     sessionItemRoyal.remove('orderSource');
-    sessionItemRoyal.remove('from-felin');
     sessionItemRoyal.remove('appointment-no');
   }
 
@@ -1919,7 +1917,7 @@ class Payment extends React.Component {
             return {
               verifyStock: false,
               buyCount: ele.buyCount,
-              goodsInfoId: sessionItemRoyal.get('from-felin')
+              goodsInfoId: sessionItemRoyal.get('appointment-no')
                 ? ele.goodsInfoId
                 : find(ele.goods.sizeList, (s) => s.selected).goodsInfoId
             };
@@ -2113,7 +2111,7 @@ class Payment extends React.Component {
 
     if (
       this.isCurrentBuyWaySubscription &&
-      !sessionItemRoyal.get('from-felin')
+      !sessionItemRoyal.get('appointment-no')
     ) {
       param.tradeItems = loginCartData
         // .filter((ele) => !ele.subscriptionStatus || !ele.subscriptionPrice)

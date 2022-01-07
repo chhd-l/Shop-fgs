@@ -44,35 +44,20 @@ class Felin extends React.Component {
       list: [
         {
           name: 'Quest ce que lAtelier Félin?',
-          text: 'LAtelier Félin est un magasin dédié au bien-être et à l’équilibre de votre chat, par Royal Canin, expert en nutrition féline. LAtelier Félin est un lieu pour échanger avec des experts, poser vos questions, recevoir des conseils afin de mieux connaître votre chat pour lui apporter les meilleurs soins ainsi que la nourriture la plus appropriée. C’est aussi un lieu pour acheter la meilleure nutrition ainsi que des accessoires ou produits en lien avec la santé et le bien être des chats.',
-          text1:
-            'Vous pouvez rencontrer à lAF nos experts des chats qui, à travers un bilan complet de votre relation avec votre chat, pourront vous aider à identifier certains problèmes, et mettre en place des solutions. Nos experts vous recommanderons également la référence dalimentation parfaitement adaptée à votre chat parmi la gamme Royal Canin, selon son âge, son poids, ses habitudes etc.',
-          text2: 'http'
+          text: 'LAtelier Félin est un magasin dédié au bien-être et à l’équilibre de votre chat, par Royal Canin, expert en nutrition féline. LAtelier Félin est un lieu pour échanger avec des experts, poser vos questions, recevoir des conseils afin de mieux connaître votre chat pour lui apporter les meilleurs soins ainsi que la nourriture la plus appropriée. C’est aussi un lieu pour acheter la meilleure nutrition ainsi que des accessoires ou produits en lien avec la santé et le bien être des chats.'
         },
         {
-          name: 'Qui est Royal Canin et pourquoi lancer lAtelier Félin ?',
-          text: 'Royal Canin semploie depuis 1968 à créer la nutrition santé pour animaux la plus précise au monde. Nous contribuons ainsi à créer un monde meilleur pour les animaux de compagnie. Nous concentrons notre attention sur les besoins uniques des chats et des chiens. Cette obsession de la santé animale, nous permet de fournir une nutrition précise et bénéfique pour les aider devenir des animaux magnifiques.',
-          text1:
-            'Un monde meilleur est aussi une planète en bonne santé, où nous valorisons lenvironnement dans lequel vivent nos animaux de compagnie et leurs propriétaires, et où nous prenons la responsabilité de créer des entreprises durables et de veiller à ce que tous les membres de nos chaînes de valeur puissent sépanouir.'
+          name: 'Qui est Royal Canin ?',
+          text: 'Royal Canin semploie depuis 1968 à créer la nutrition santé pour animaux la plus précise au monde. Nous contribuons ainsi à créer un monde meilleur pour les animaux de compagnie. Nous concentrons notre attention sur les besoins uniques des chats et des chiens. Cette obsession de la santé animale, nous permet de fournir une nutrition précise et bénéfique pour les aider devenir des animaux magnifiques.'
         },
         {
-          name: 'Quels sont les autres engagements pour le développement durable de RC ?',
-          text: 'Guidés par la science et linnovation, notre objectif est de limiter le plus possible le gaspillage aujourdhui pour un monde meilleur demain.',
-          text1:
-            'Approvisionnement en huile de poisson 100% durable dici En 2020, nous achèterons la totalité de nos poissons et fruits de mer auprès d’exploitations durables. En effet, nous avons pris l’engagement de rechercher et de mettre en oeuvre des pratiques durables dans nos chaînes d’approvisionnement. Cela inclut, par exemple, de faire appel à des prestataires certifiés par des tiers (IFFO, RS, etc.) de collaborer au programme damélioration de la pêche pour créer une chaîne durable d’approvisionnement en poisson. En 2018, plus de 90 % de nos poissons et fruits de mer provenaient déjà de ressources durables.',
-          text2:
-            'Améliorer lefficacité énergétique Notre objectif est de réduire la consommation de combustibles fossiles dans lensemble de nos activités directes dici 2040 et nous avons identifié quatre leviers pour y parvenir. Efficacité opérationnelle : Réduire la consommation d’énergie, la consommation d’eau et les déchets en modifiant les pratiques et les comportements. Efficacité du capital : Investir dans des équipements et des processus plus efficaces.',
-          text3:
-            'Engagement relatif aux emballages en papier et en carton Nous nous sommes engagés à veiller à ce que, dici 2020, 100 % de nos emballages à base de pâte et papier soient issus de sources certifiées, vérifiées ou issues du recyclage. Cela touche les emballages primaires (sacs et pochons), et les emballages secondaires (essentiellement les cartons).'
-        },
-        {
-          name: 'Existe-t-il une initiative similaire pour les chiens?',
-          text: 'Non pas pour le moment, mais vous pourrez découvrir notre concept store au 126 rue de Turenne jusqu’au 14 avril. Vous y trouverez des activités et des experts “chien”, mais ils nous n’y vendons pas de produits de nutrition. Vous néanmoins aurez l’opportunité de commander nos références pour chien depuis l’Atelier Félin.'
+          name: 'Existe-t-il une initiative similaire pour les chiens ?',
+          text: 'oNon pas pour le moment, mais vous pourrez découvrir notre concept store au 126 rue de Turenne jusqu’au 14 avril. Vous y trouverez des activités et des experts “chien”, mais ils nous n’y vendons pas de produits de nutrition. Vous néanmoins aurez l’opportunité de commander nos références pour chien depuis l’Atelier Félin.'
         }
       ],
       list1: [
         {
-          name: 'Jai une question sur le concept, à qui puis-je madresser ?',
+          name: "J'ai une question sur le concept, à qui puis-je m'adresser ?",
           text: 'Nous serons ravis de vous aider ! Ecrivez-nous un petit mot au 142 Bd Saint Germain, ou appelez-nous au XnuméroX.'
         }
       ],
@@ -121,8 +106,48 @@ class Felin extends React.Component {
             'LAtelier Félin nest pas une clinique vétérinaire : pour les chats ayant des problèmes de santé, nous vous redirigerons vers un vétérinaire.'
         },
         {
-          name: 'Combien coûte une discussion avec lexpert ?',
+          name: "Combien coûte une discussion avec l'expert ?",
           table: 'yes'
+        },
+        {
+          name: "Comment se déroule le bilan avec l'expert ?",
+          text: 'Notre expert vous posera des questions sur votre chat afin de mener un bilan systémique : alimentation, comportement, environnement etc. Ainsi, à travers cette discussion, vous pourrez mettre en lumière les points sur lesquels vous pouvez jouer pour améliorer le bien-être de votre chat. Vous apprendrez à mieux comprendre et communiquer avec votre chat grâce à la connaissance des félins de nos experts et leur pédagogie.',
+          text1:
+            'Si vous avez des problèmes particuliers, vous pourrez également en discuter ensemble et notre expert vous donnera des solutions à mettre en place afin de les résoudre.',
+          tetx2:
+            "A l'issu de ce bilan, repartez avec vos conseils personnalisés ainsi qu'une recommandation de la nutrition parfaitement adaptée à votre chat.\n" +
+            "L'Atelier Félin n'est pas une clinique vétérinaire : pour les chats ayant des problèmes de santé, nous vous redirigerons vers un vétérinaire.\n"
+        },
+        {
+          name: 'Peut-on réserver par téléphone ?',
+          text: 'La réservation peut se faire aussi par téléphone ou en magasin.'
+        },
+        {
+          name: "Quelle est la politique de remboursement ? A qui et où s'adresser en cas de réclamation ? ",
+          text: 'En cas d’achat au sein de l’Atelier Félin, il faudra rapporter votre article non ouvert ni endommagé en magasin afin d’être remboursé.',
+          text1:
+            'En cas d’achat de rendez-vous avec un expert, celui-ci peut être déplacé ou remboursé si la demande est faite au moins 24h en avance. Pour réaliser le remboursement de ce service, il faut nous appeler au magasin. Au-delà de 24h, la prestation ne vous sera pas remboursée.'
+        },
+        {
+          name: 'Mon paiement est-il sécurisé ?',
+          text: "Oui, plus que jamais ! Notre système de commande en ligne est l'un des plus sûrs au monde et nous améliorons constamment nos logiciels pour une sécurité optimale. Royal Canin utilise une technologie de cryptage SSL de pointe, le logiciel de sécurité le plus avancé à ce jour pour les transactions en ligne."
+        },
+        {
+          name: 'Peut-on se faire livrer les croquettes à domicile ?',
+          tetx: 'Oui en commandant sur notre site internet vous pourrez être livrés à domicile.'
+        },
+        {
+          name: 'Quelle est votre politique de confidentialité ?'
+        },
+        {
+          name: 'Mes informations personnelles sont-elles protégée ?'
+        },
+        {
+          name: 'Que fait Royal Canin de mes informations personnelles?'
+        },
+        {
+          name: 'Votre site installe-t-il des cookies ?',
+          text: "Oui, nous installons temporairement des fichiers sur votre ordinateur lorsque vous êtes sur notre site. Les cookies nous aident à améliorer votre expérience de navigation et de commande. Nous vous recommandons d'autoriser les cookies pour utiliser au mieux notre boutique en ligne et améliorer nos services."
         }
       ],
       maxHeight: null
@@ -222,8 +247,8 @@ class Felin extends React.Component {
             </LazyLoad>
             <div className="hd-text-cont">
               <div className="introduce fontw-500">
-                L’Atelier Félin vous accueille à Paris pour vous conseiller et
-                répondre à vos questions sur votre chat.
+                L’ Atelier Félin vous accueille à Paris et en ligne pour vous
+                conseiller et répondre à vos questions sur votre chat.
               </div>
               <button
                 onClick={this.gotoAddPc}
@@ -233,7 +258,7 @@ class Felin extends React.Component {
                   fontSize: '0.75rem'
                 }}
               >
-                Réserver un rendez-vous
+                Prendre un rendez-vous
               </button>
               <button
                 onClick={this.gotoAddH}
@@ -242,7 +267,7 @@ class Felin extends React.Component {
                   width: '16.875rem'
                 }}
               >
-                Réserver un rendez-vous
+                Prendre un rendez-vous
               </button>
               <div className="text">
                 Profitez de 15min gratuites avec un expert
@@ -252,7 +277,7 @@ class Felin extends React.Component {
           <div className="time-content">
             <div className="time font-500">
               Retrouvez-nous au 142 Bd Saint-Germain à Paris pour visiter la
-              boutique et prendre un rendez-vous avec un expert!
+              boutique et en savoir plus sur votre chat!
             </div>
           </div>
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile felin-mpd0">
@@ -275,22 +300,41 @@ class Felin extends React.Component {
                 <div className="rc-column felin-p30">
                   <div className="visit-text">
                     <div className="visit-text-tip font-500">
-                      L’Atelier Félin, la boutique parisienne pour les chats
+                      L’ Atelier Félin, la boutique parisienne experte du bien
+                      être des chats
                     </div>
                     <div className="visit-text-cont">
                       Notre magasin est dédié au bien-être et à l’équilibre de
                       votre chat, créé par Royal Canin, expert en nutrition
                       féline. Échangez avec nos experts afin de mieux connaître
-                      votre chat pour lui apporter les meilleurs soins tout au
-                      long de sa vie. Vous pourrez vous y procurer la meilleure
+                      votre chat pour lui apporter le meilleur tout au long de
+                      sa vie. Vous pourrez vous y procurer la meilleure
                       nutrition ainsi que des accessoires ou produits en lien
-                      avec la santé des chats.
-                      <br />
-                      <br />
-                      L’Atelier Félin est ouvert à tous, du mardi au vendredi de
-                      12h à 20h, le samedi de 10h à 20h et le dimanche de 10h à
-                      18h.
+                      avec la santé de votre chat.
+                      <div className="mb10" />
+                      L’ Atelier Félin est ouvert à tous, du mardi au vendredi
+                      de 12h à 20h, le samedi de 10h à 20h et le dimanche de 10h
+                      à 18h.
                     </div>
+                    <button
+                      onClick={this.gotoAddPc}
+                      className="rc-btn rc-btn--two  rc-margin-bottom--xs pc-block"
+                      style={{
+                        width: '13.875rem',
+                        fontSize: '0.75rem'
+                      }}
+                    >
+                      Prendre un rendez-vous
+                    </button>
+                    <button
+                      onClick={this.gotoAddH}
+                      className="rc-btn rc-btn--two  rc-margin-bottom--xs h-block"
+                      style={{
+                        width: '16.875rem'
+                      }}
+                    >
+                      Prendre un rendez-vous
+                    </button>
                   </div>
                 </div>
               </div>
@@ -306,24 +350,42 @@ class Felin extends React.Component {
                         Nos experts à votre écoute
                       </div>
                       <div className="visit-text-cont">
-                        Nos <b>comportementalistes</b> sont là pour vous aider à
-                        améliorer le bien être de votre chat et vous aider à
-                        résoudre les problèmes (malpropreté, agressivité,
-                        dégradations, etc.), à mieux le comprendre, et vivre une
-                        relation épanouie !
-                        <br />
-                        <br />
+                        Nos <b>experts en comportement</b> sont là pour vous
+                        aider à améliorer le bien être de votre chat et vous
+                        aider à résoudre les problèmes (malpropreté,
+                        agressivité, dégradations, etc.), à mieux le comprendre,
+                        et vivre une relation épanouie !
+                        <div className="mb10" />
                         Chaque chat est unique et a des besoins spécifiques
                         selon sa race, son âge, ses sensibilités et son mode de
                         vie. Nos <b>experts en nutrition</b> vous conseillerons
                         sur l'alimentation qui lui conviendra le mieux.
                       </div>
+                      <button
+                        onClick={this.gotoAddPc}
+                        className="rc-btn rc-btn--two  rc-margin-bottom--xs pc-block"
+                        style={{
+                          width: '13.875rem',
+                          fontSize: '0.75rem'
+                        }}
+                      >
+                        Prendre un rendez-vous
+                      </button>
+                      <button
+                        onClick={this.gotoAddH}
+                        className="rc-btn rc-btn--two  rc-margin-bottom--xs h-block"
+                        style={{
+                          width: '16.875rem'
+                        }}
+                      >
+                        Prendre un rendez-vous
+                      </button>
                     </div>
                   </LazyLoad>
                 </div>
                 <div className="rc-column felin-mpd0">
                   <LazyLoad className="w-100">
-                    <img src={cat1} alt="" />
+                    <img src={cat1} alt="" style={{ width: '70%' }} />
                   </LazyLoad>
                 </div>
               </div>
@@ -370,21 +432,21 @@ class Felin extends React.Component {
                   })}
                 </Slider>
                 <div style={{ textAlign: 'center' }}>
-                  <span
-                    style={{
-                      width: '13.875rem',
-                      marginTop: '20px',
-                      fontSize: '1rem',
-                      textDecoration: 'underline'
-                    }}
+                  <button
                     onClick={() => {
                       this.setState({
                         reviews: { ...this.state.reviews, visible: true }
                       });
                     }}
+                    className="rc-btn rc-btn--two"
+                    style={{
+                      marginTop: '20px',
+                      width: '13.875rem',
+                      fontSize: '0.75rem'
+                    }}
                   >
-                    Laisser un avis
-                  </span>
+                    Voir plus d’avis
+                  </button>
                 </div>
               </div>
             </div>
@@ -421,10 +483,20 @@ class Felin extends React.Component {
                           communauté !
                         </p>
                         <p className="col0 visit-text-p">
-                          Profitez de notre programmation pour en savoir plus
-                          sur les besoins de votre chat et guettez la mise en
-                          ligne du planning.
+                          Profitez de notre programmation avec les journées
+                          adoptions, découverte de races et ateliers découverte
+                          pour votre chat.
                         </p>
+                        <a
+                          style={{
+                            textDecoration: 'underline',
+                            cursor: 'pointer'
+                          }}
+                          href="https://fr-fr.facebook.com/RoyalCaninFrance"
+                        >
+                          Consulter les évènements sur la page Facebook Royal
+                          Canin
+                        </a>
                       </div>
                     </LazyLoad>
                   </div>
@@ -606,10 +678,19 @@ class Felin extends React.Component {
                             : null
                       }}
                     >
-                      <p>{item.text}</p>
-                      <p>{item.text1}</p>
-                      <p>{item.text2 ? item.text2 : ''}</p>
-                      <p>{item.text3 ? item.text3 : ''}</p>
+                      <p>
+                        Nous serons ravis de vous aider ! Ecrivez-nous un mail à
+                        <a
+                          style={{
+                            textDecoration: 'underline',
+                            color: 'blue'
+                          }}
+                        >
+                          latelierfelin@royalcanin.com
+                        </a>
+                        , passer nous voir au 142 Bd Saint Germain à Paris , ou
+                        appelez-nous au XnuméroX.
+                      </p>
                     </div>
                   </div>
                 );
@@ -805,18 +886,20 @@ class Felin extends React.Component {
                       <p>{item.text3 ? item.text3 : ''}</p>
                       {item.table ? (
                         <table className="tableStyle tCenter">
-                          <tr className="tableTitle">
-                            <td>Expert RDV 30mn</td>
-                            <td>40,00 €</td>
-                          </tr>
-                          <tr className="tableTitle">
-                            <td>Expert RDV 45mn</td>
-                            <td>55,00 €</td>
-                          </tr>
-                          <tr className="tableTitle">
-                            <td>Expert RDV 60mn</td>
-                            <td>70,00 €</td>
-                          </tr>
+                          <tbody>
+                            <tr className="tableTitle">
+                              <td>Expert RDV 30mn</td>
+                              <td>40,00 €</td>
+                            </tr>
+                            <tr className="tableTitle">
+                              <td>Expert RDV 45mn</td>
+                              <td>55,00 €</td>
+                            </tr>
+                            <tr className="tableTitle">
+                              <td>Expert RDV 60mn</td>
+                              <td>70,00 €</td>
+                            </tr>
+                          </tbody>
                         </table>
                       ) : (
                         ''

@@ -1165,15 +1165,10 @@ class List extends React.Component {
                 })
             },
             titleData: {
-              title:
-                (targetRouter && targetRouter.pageTitle) ||
-                (targetRouter && targetRouter.cateTitle),
+              title: targetRouter?.pageTitle || targetRouter?.cateTitle,
               description:
-                (targetRouter && targetRouter.pageDesc) ||
-                (targetRouter && targetRouter.cateDescription),
-              img:
-                (targetRouter && targetRouter.pageImg) ||
-                (targetRouter && targetRouter.cateImgForList)
+                targetRouter?.pageDesc || targetRouter?.cateDescription,
+              img: targetRouter?.pageImg || targetRouter?.cateImgForList
             },
             hiddenFilter,
             invalidPage,
