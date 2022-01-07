@@ -233,7 +233,7 @@ class Felin extends React.Component {
                   fontSize: '0.75rem'
                 }}
               >
-                Reserver un rendez-vous
+                Réserver un rendez-vous
               </button>
               <button
                 onClick={this.gotoAddH}
@@ -306,7 +306,7 @@ class Felin extends React.Component {
                         Nos experts à votre écoute
                       </div>
                       <div className="visit-text-cont">
-                        Nos comportementalistes sont là pour vous aider à
+                        Nos <b>comportementalistes</b> sont là pour vous aider à
                         améliorer le bien être de votre chat et vous aider à
                         résoudre les problèmes (malpropreté, agressivité,
                         dégradations, etc.), à mieux le comprendre, et vivre une
@@ -315,8 +315,8 @@ class Felin extends React.Component {
                         <br />
                         Chaque chat est unique et a des besoins spécifiques
                         selon sa race, son âge, ses sensibilités et son mode de
-                        vie. Nos experts en nutrition vous conseillerons sur
-                        l'alimentation qui lui conviendra le mieux.
+                        vie. Nos <b>experts en nutrition</b> vous conseillerons
+                        sur l'alimentation qui lui conviendra le mieux.
                       </div>
                     </div>
                   </LazyLoad>
@@ -369,21 +369,23 @@ class Felin extends React.Component {
                     );
                   })}
                 </Slider>
-                <button
-                  className="rc-btn rc-btn--one rc-margin-bottom--xs"
-                  style={{
-                    width: '13.875rem',
-                    marginTop: '20px',
-                    fontSize: '0.75rem'
-                  }}
-                  onClick={() => {
-                    this.setState({
-                      reviews: { ...this.state.reviews, visible: true }
-                    });
-                  }}
-                >
-                  Laisser un avis
-                </button>
+                <div style={{ textAlign: 'center' }}>
+                  <span
+                    style={{
+                      width: '13.875rem',
+                      marginTop: '20px',
+                      fontSize: '1rem',
+                      textDecoration: 'underline'
+                    }}
+                    onClick={() => {
+                      this.setState({
+                        reviews: { ...this.state.reviews, visible: true }
+                      });
+                    }}
+                  >
+                    Laisser un avis
+                  </span>
+                </div>
               </div>
             </div>
             <Reviews
@@ -412,15 +414,13 @@ class Felin extends React.Component {
                   <div className="rc-column felin-p30">
                     <LazyLoad className="w-100">
                       <div className="nos-cont-text fr">
-                        <h3 className="mb16 font-500 visit-text-h3">
-                          Nos évènements
-                        </h3>
+                        <p className="col0 visit-text-p">Nos évènements</p>
                         <p className="col0 visit-text-p">
                           Rencontrez régulièrement nos profils d’experts et
                           partagez l'expérience avec les autres membres de notre
                           communauté !
                         </p>
-                        <p className="visit-text-p1">
+                        <p className="col0 visit-text-p">
                           Profitez de notre programmation pour en savoir plus
                           sur les besoins de votre chat et guettez la mise en
                           ligne du planning.

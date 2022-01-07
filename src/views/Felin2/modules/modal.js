@@ -29,7 +29,7 @@ class MyModal extends React.Component {
             <br />
             latelierfelin@royalcanin.com
             <br />
-            STILL WAITING
+            NUM XXXX
             <br />
             <br />
             142 Bld Saint Germain 75006 PARIS
