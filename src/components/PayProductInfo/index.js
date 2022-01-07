@@ -132,7 +132,10 @@ class PayProductInfo extends React.Component {
                   >
                     <p className="mb-0">
                       {details.appointmentNo ? (
-                        item.specDetails
+                        <span>
+                          {details.specialistType} {details.appointmentTime}
+                          <FormattedMessage id="min" />
+                        </span>
                       ) : (
                         <FormattedMessage
                           id="quantityText"
