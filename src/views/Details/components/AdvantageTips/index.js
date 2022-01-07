@@ -56,7 +56,7 @@ const AdvantageTips = ({ secondIconvisible = true }) => {
                     title="Premium service"
                   />
                 </LazyLoad>
-                <p className="rc-meta text-center markup-text">
+                <p className="rc-meta text-center markup-text text-nowrap">
                   <FormattedMessage id="home.point3" />
                 </p>
               </div>
@@ -118,7 +118,7 @@ const AdvantageTips = ({ secondIconvisible = true }) => {
                     title="Premium service"
                   />
                 </LazyLoad>
-                <p className="rc-meta text-center markup-text">
+                <p className="rc-meta text-center markup-text text-nowrap">
                   <FormattedMessage id="home.point3" />
                 </p>
               </div>
