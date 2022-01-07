@@ -445,7 +445,7 @@ class Felin extends React.Component {
                       fontSize: '0.75rem'
                     }}
                   >
-                    Laisser un avis
+                    Voir plus d’avis
                   </button>
                 </div>
               </div>
