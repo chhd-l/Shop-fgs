@@ -1066,13 +1066,13 @@ export function handleFelinAppointTime(appointTime) {
   const apptTime = appointTime?.split('#');
   const appointStartTime =
     apptTime?.length > 0
-      ? apptTime[0].split(' ')[0].replace(/^(d{4})(d{2}(d{2}))$/, '$1-&2-&3') +
+      ? apptTime[0].split(' ')[0].replace(/^(d{4})(d{2}(d{2}))$/, '$1-$2-$3') +
         ' ' +
         apptTime[0].split(' ')[1]
       : '';
   const appointEndTime =
     apptTime?.length > 1
-      ? apptTime[1].split(' ')[0].replace(/^(d{4})(d{2}(d{2}))$/, '$1-&2-&3') +
+      ? apptTime[1].split(' ')[0].replace(/^(d{4})(d{2}(d{2}))$/, '$1-$2-$3') +
         ' ' +
         apptTime[1].split(' ')[1]
       : '';

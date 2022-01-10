@@ -403,15 +403,18 @@ class PayProductInfo extends React.Component {
                       <FormattedMessage id="Appointment time" />
                     </span>
                     <span>
-                      {formatDate({
-                        date: el.appointStartTime,
-                        formatOption: {
-                          day: '2-digit',
-                          month: 'short',
-                          hour: '2-digit',
-                          minute: '2-digit'
-                        }
-                      })}
+                      {/*  formatDate({*/}
+                      {/*  date: el.appointStartTime.split(' ')[0].replace(/^(d{4})(d{2}(d{2}))$/, '$1-$2-$3') +*/}
+                      {/*  ' ' +*/}
+                      {/*  el.appointStartTime.split(' ')[1],*/}
+                      {/*  formatOption: {*/}
+                      {/*  day: '2-digit',*/}
+                      {/*  month: 'short',*/}
+                      {/*  hour: '2-digit',*/}
+                      {/*  minute: '2-digit'*/}
+                      {/*}*/}
+                      {/*})*/}
+                      {el.appointStartTime ? el.appointStartTime : ''}
                     </span>
                   </div>
                 ) : null}

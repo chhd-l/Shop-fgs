@@ -561,7 +561,6 @@ class Payment extends React.Component {
     sessionItemRoyal.remove('rc-tidList');
     sessionItemRoyal.remove('recommend_product');
     sessionItemRoyal.remove('orderSource');
-    sessionItemRoyal.remove('appointment-no');
   }
 
   get billingAdd() {
