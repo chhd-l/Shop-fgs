@@ -95,6 +95,8 @@ import paypalLogo from '@/assets/images/paypal-logo.svg';
 import { postUpdateUser, getAppointByApptNo } from '../../api/felin';
 import UpdatModal from './updatModules/modal';
 import QRCode from 'qrcode.react';
+import { format } from 'date-fns';
+import differenceInSeconds from 'date-fns/differenceInSeconds';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
@@ -181,6 +183,8 @@ class Payment extends React.Component {
     this.state = {
       swishQrcode: '',
       swishQrcodeModal: false,
+      createSwishQrcodeTime: '', //生成二维码的当前时间
+      countDownStartTime: 15 * 60, //默认最初15分钟钟
       countDown: '', //倒计时
       swishQrcodeError: false,
       swishAppRedirectUrl: '', //swish app跳转的地址
@@ -354,7 +358,27 @@ class Payment extends React.Component {
       this.confirmListValidationAddress.bind(this);
   }
   handelQrcodeModalClose = () => {
+    const { history } = this.props;
+    if (!this.isLogin) {
+      sessionItemRoyal.remove('rc-token');
+      history.push('/');
+    }
+    sessionItemRoyal.remove('rc-swishQrcode');
     this.setState({ swishQrcodeModal: false });
+    this.setState(
+      {
+        tid: sessionItemRoyal.get('rc-tid'),
+        tidList: sessionItemRoyal.get('rc-tidList')
+          ? JSON.parse(sessionItemRoyal.get('rc-tidList'))
+          : [],
+        rePaySubscribeId: sessionItemRoyal.get('rc-rePaySubscribeId')
+      },
+      () => {
+        this.state.tidList &&
+          this.state.tidList.length &&
+          this.queryOrderDetails();
+      }
+    );
   };
   //cyber查询卡类型-会员
   queryCyberCardType = async (params) => {
@@ -488,6 +512,29 @@ class Payment extends React.Component {
     await getSystemFormConfig();
     if (this.isLogin) {
       this.queryList();
+    }
+
+    if (sessionItemRoyal.get('rc-swishQrcode')) {
+      this.setState({
+        swishQrcode: sessionItemRoyal.get('rc-swishQrcode'),
+        swishQrcodeModal: true
+      });
+      const result = differenceInSeconds(
+        new Date(),
+        new Date(sessionItemRoyal.get('rc-createSwishQrcodeTime'))
+      );
+      payCountDown(
+        this.state.countDownStartTime - result,
+        1,
+        (res, swishQrcodeError) => {
+          if (swishQrcodeError) {
+            setTimeout(() => {
+              this.handelQrcodeModalClose();
+            }, 3000);
+          }
+          this.setState({ countDown: res, swishQrcodeError });
+        }
+      );
     }
 
     try {
@@ -1620,6 +1667,15 @@ class Payment extends React.Component {
             : res.context && res.context.tidList;
           subNumber = (res.context && res.context.subscribeId) || '';
 
+          if (subOrderNumberList && this.isLogin) {
+            sessionItemRoyal.set('rc-tid', subOrderNumberList[0]);
+            sessionItemRoyal.set('rc-rePaySubscribeId', subNumber);
+            sessionItemRoyal.set(
+              'rc-tidList',
+              JSON.stringify(subOrderNumberList)
+            );
+          }
+
           if (res.context.qrCodeData) {
             this.setState({ swishAppRedirectUrl: res.context.redirectUrl });
             async function getData() {
@@ -1628,13 +1684,21 @@ class Payment extends React.Component {
                 businessId: res.context.tid
               })
                 .then(async function (response) {
-                  if (response.context.status == 'PROCESSING') {
-                    return await getData();
-                  } else if (response.context.status == 'SUCCEED') {
-                    gotoConfirmationPage = true;
-                    //return await getData();
-                  } else if (response.context.status == 'FAILURE') {
-                    this.setState({ swishQrcodeError: true });
+                  switch (response.context.status) {
+                    case 'PROCESSING':
+                      return await getData();
+                      break;
+                    case 'SUCCEED':
+                      gotoConfirmationPage = true;
+                      //return await getData();
+                      break;
+                    case 'FAILURE':
+                      this.setState({
+                        swishQrcodeError: true,
+                        swishQrcode: ''
+                      });
+                      sessionItemRoyal.remove('rc-swishQrcode');
+                      break;
                   }
                 })
                 .catch(function () {
@@ -1649,12 +1713,27 @@ class Payment extends React.Component {
                 swishQrcodeModal: true
               },
               () => {
+                sessionItemRoyal.set('rc-swishQrcode', this.state.swishQrcode);
+                // sessionItemRoyal.set('rc-createSwishQrcodeTime', format(new Date(), 'yyyy-MM-dd HH:mm:ss'));
+                sessionItemRoyal.set(
+                  'rc-createSwishQrcodeTime',
+                  new Date().toString()
+                );
                 this.endLoading();
               }
             );
-            payCountDown(10 * 60, 1, (res, swishQrcodeError) => {
-              this.setState({ countDown: res, swishQrcodeError });
-            });
+            payCountDown(
+              this.state.countDownStartTime,
+              1,
+              (res, swishQrcodeError) => {
+                if (swishQrcodeError) {
+                  setTimeout(() => {
+                    this.handelQrcodeModalClose();
+                  }, 3000);
+                }
+                this.setState({ countDown: res, swishQrcodeError });
+              }
+            );
 
             await getData();
           }
@@ -4455,7 +4534,7 @@ class Payment extends React.Component {
                 You have {this.state.countDown} to pay
               </div>
               <div className="w-64 md:w-96 text-center py-6 text-gray-600">
-                After you scan, the status can be pending for up to 10 minutes.
+                After you scan, the status can be pending for up to 15 minutes.
                 Attempting to pay again within this time may result in multiple
                 charges.
               </div>

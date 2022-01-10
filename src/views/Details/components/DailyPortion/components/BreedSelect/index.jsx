@@ -121,7 +121,7 @@ export default function BreedSelect(
                       />
                     )}
                   </FormattedMessage>
-                  <p className={classNames('red', {
+                  <p className={classNames('', {
                     'hidden': isHiddenWaring
                   })}>
                     <i className="iconfont iconinfo"/>

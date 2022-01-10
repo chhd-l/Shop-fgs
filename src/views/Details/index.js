@@ -1121,6 +1121,9 @@ class Details extends React.Component {
     let breedAttr = goodsAttributesValueRelList
       ?.filter((item) => item.goodsAttributeName === 'Breeds')
       ?.map((item) => item?.goodsAttributeValue);
+    breedAttr = breedAttr.filter((item, index) => {
+      return breedAttr.indexOf(item) === index;
+    });
 
     const defaultBreed =
       breedAttr.length === 2 &&
