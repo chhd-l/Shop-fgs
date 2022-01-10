@@ -695,7 +695,8 @@ export async function fetchHeaderNavigations() {
   } else {
     const res = await queryHeaderNavigations();
     if (res.context) {
-      ret = res.context.filter((el) => el.enable);
+      // ret = res.context.filter((el) => el.enable);
+      ret = [];
       sessionItemRoyal.set('header-navigations', JSON.stringify(ret));
     }
   }
@@ -1019,9 +1020,8 @@ export function judgeIsIndividual(item) {
 // uk和fr,才有postCode校验
 const countryPostCode = ['uk', 'fr'];
 const currentCountry = window.__.env.REACT_APP_COUNTRY;
-export const isCanVerifyBlacklistPostCode = countryPostCode.includes(
-  currentCountry
-);
+export const isCanVerifyBlacklistPostCode =
+  countryPostCode.includes(currentCountry);
 
 // 获取 Postal code alert message
 export async function getAddressPostalCodeAlertMessage() {
