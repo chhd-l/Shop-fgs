@@ -4282,7 +4282,7 @@ class Payment extends React.Component {
                   }
                 />
               </div>
-              <div className="rc-column md:pl-0 rc-md-up ">
+              <div className="rc-column md:pl-0 hidden md:block">
                 {tid ? (
                   <RePayProductInfo
                     fixToHeader={false}
