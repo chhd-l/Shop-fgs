@@ -695,8 +695,7 @@ export async function fetchHeaderNavigations() {
   } else {
     const res = await queryHeaderNavigations();
     if (res.context) {
-      // ret = res.context.filter((el) => el.enable);
-      ret = [];
+      ret = res?.context?.length ? res.context.filter((el) => el.enable) : [];
       sessionItemRoyal.set('header-navigations', JSON.stringify(ret));
     }
   }
