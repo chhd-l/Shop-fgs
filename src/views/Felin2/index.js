@@ -43,16 +43,18 @@ class Felin extends React.Component {
       visible: false,
       list: [
         {
-          name: 'Quest ce que lAtelier Félin?',
-          text: 'LAtelier Félin est un magasin dédié au bien-être et à l’équilibre de votre chat, par Royal Canin, expert en nutrition féline. LAtelier Félin est un lieu pour échanger avec des experts, poser vos questions, recevoir des conseils afin de mieux connaître votre chat pour lui apporter les meilleurs soins ainsi que la nourriture la plus appropriée. C’est aussi un lieu pour acheter la meilleure nutrition ainsi que des accessoires ou produits en lien avec la santé et le bien être des chats.'
+          name: "Qu'est ce que l'Atelier Félin?",
+          text: "L'Atelier Félin est un magasin dédié au bien-être et à l’équilibre de votre chat, par Royal Canin, expert en nutrition féline. L'Atelier Félin est un lieu pour échanger avec des experts, poser vos questions, recevoir des conseils afin de mieux connaître votre chat pour lui apporter les meilleurs soins ainsi que la nourriture la plus appropriée. C’est aussi un lieu pour acheter la meilleure nutrition ainsi que des accessoires ou produits en lien avec la santé et le bien être des chats."
         },
         {
           name: 'Qui est Royal Canin ?',
-          text: 'Royal Canin semploie depuis 1968 à créer la nutrition santé pour animaux la plus précise au monde. Nous contribuons ainsi à créer un monde meilleur pour les animaux de compagnie. Nous concentrons notre attention sur les besoins uniques des chats et des chiens. Cette obsession de la santé animale, nous permet de fournir une nutrition précise et bénéfique pour les aider devenir des animaux magnifiques.'
+          text: 'Royal Canin semploie depuis 1968 à créer la nutrition santé pour animaux la plus précise au monde. Nous contribuons ainsi à créer un monde meilleur pour les animaux de compagnie.',
+          text1:
+            ' Nous concentrons notre attention sur les besoins uniques des chats et des chiens. Cette obsession de la santé animale, nous permet de fournir une nutrition précise et bénéfique pour les aider devenir des animaux magnifiques.'
         },
         {
           name: 'Existe-t-il une initiative similaire pour les chiens ?',
-          text: 'oNon pas pour le moment, mais vous pourrez découvrir notre concept store au 126 rue de Turenne jusqu’au 14 avril. Vous y trouverez des activités et des experts “chien”, mais ils nous n’y vendons pas de produits de nutrition. Vous néanmoins aurez l’opportunité de commander nos références pour chien depuis l’Atelier Félin.'
+          text: 'Non pas pour le moment, mais vous pourrez découvrir notre concept store au 126 rue de Turenne jusqu’au 14 avril. Vous y trouverez des activités et des experts “chien”, mais ils nous n’y vendons pas de produits de nutrition. Vous néanmoins aurez l’opportunité de commander nos références pour chien depuis l’Atelier Félin.'
         }
       ],
       list1: [
@@ -67,20 +69,20 @@ class Felin extends React.Component {
           text: 'Cliquez en haut à droite de notre site sur “Mon compte” puis cliquez sur “Créer un compte”. La création de votre compte vous permet d’accéder à l’historique de vos commandes, à votre wishlist et informations personnelles.'
         },
         {
-          name: 'Comment accéder à mon compte si jai perdu mon mot de passe ?',
+          name: "Comment accéder à mon compte si j'ai perdu mon mot de passe ?",
           text: 'Lors de votre identification, vous pouvez cocher “mot de passe oublié” et vous recevrez dans les minutes qui suivent un e-mail vous permettant de définir votre nouveau de mot de passe.'
         }
       ],
       list3: [
         {
-          name: 'Où trouver lAtelier Félin ?',
+          name: "Où trouver l'Atelier Félin ?",
           text: 'Nous vous accueillons du 142 Bd Saint Germain, de 12h-20h, du mardi au vendredi, de 10h à 20H le samedi et de 10h à 18H le Dimanche.',
           text1:
             'Accès par le métro : Odéon, Mabillon et Bus : 63, 86, 87, 70, 96.',
           text2: 'Le magasin est adapté aux personnes à mobilité réduite.'
         },
         {
-          name: 'Peut-on prendre des photos au sein de lAtelier Félin ?',
+          name: "Peut-on prendre des photos au sein de l'Atelier Félin ?",
           text: 'Oui, aucun problème ! Vous aurez l’opportunité de partager votre expérience grâce à un espace dédié.'
         },
         {
@@ -93,17 +95,17 @@ class Felin extends React.Component {
           name: 'Je souhaite prendre rendez-vous avec un expert, comment faire ?',
           text: 'http',
           text1:
-            'Cliquez sur « Rencontrez nos experts » puis sélectionner le créneau avec lexpert de votre choix. Vous recevrez un mail récapitulatif avec toutes les informations concernant votre rendez-vous.'
+            "Cliquez sur « Rencontrez nos experts » puis sélectionner le créneau avec l'expert de votre choix. Vous recevrez un mail récapitulatif avec toutes les informations concernant votre rendez-vous."
         },
         {
           name: 'Qui sont les experts ?',
           text: 'Les rendez-vous sont assurés par nos experts en nutrition et en comportement.',
           text1:
-            'Ils sont présents pour répondre à vos questions en magasin, et nous vous offrons 15min de leurs précieux conseils.',
+            'Ils sont présents pour répondre à vos questions en magasin, et <b>nous vous offrons 15min de leurs précieux conseils.</b>',
           text2:
             'Il est possible de réserver un entretien plus long en payant le service. La liste et la disponibilité des experts est à jour sur notre site.',
           text3:
-            'LAtelier Félin nest pas une clinique vétérinaire : pour les chats ayant des problèmes de santé, nous vous redirigerons vers un vétérinaire.'
+            "L'Atelier Félin nest pas une clinique vétérinaire : pour les chats ayant des problèmes de santé, nous vous redirigerons vers un vétérinaire."
         },
         {
           name: "Combien coûte une discussion avec l'expert ?",
@@ -116,7 +118,11 @@ class Felin extends React.Component {
             'Si vous avez des problèmes particuliers, vous pourrez également en discuter ensemble et notre expert vous donnera des solutions à mettre en place afin de les résoudre.',
           tetx2:
             "A l'issu de ce bilan, repartez avec vos conseils personnalisés ainsi qu'une recommandation de la nutrition parfaitement adaptée à votre chat.\n" +
-            "L'Atelier Félin n'est pas une clinique vétérinaire : pour les chats ayant des problèmes de santé, nous vous redirigerons vers un vétérinaire.\n"
+            "L'Atelier Félin n'est pas une clinique vétérinaire : pour les chats ayant des problèmes de santé, nous vous redirigerons vers un vétérinaire.\n",
+          text3:
+            "A l'issu de ce bilan, repartez avec vos conseils personnalisés ainsi qu'une recommandation de la nutrition parfaitement adaptée à votre chat.",
+          text4:
+            "L'Atelier Félin n'est pas une clinique vétérinaire : pour les chats ayant des problèmes de santé, nous vous redirigerons vers un vétérinaire."
         },
         {
           name: 'Peut-on réserver par téléphone ?',
@@ -126,7 +132,7 @@ class Felin extends React.Component {
           name: "Quelle est la politique de remboursement ? A qui et où s'adresser en cas de réclamation ? ",
           text: 'En cas d’achat au sein de l’Atelier Félin, il faudra rapporter votre article non ouvert ni endommagé en magasin afin d’être remboursé.',
           text1:
-            'En cas d’achat de rendez-vous avec un expert, celui-ci peut être déplacé ou remboursé si la demande est faite au moins 24h en avance. Pour réaliser le remboursement de ce service, il faut nous appeler au magasin. Au-delà de 24h, la prestation ne vous sera pas remboursée.'
+            'En cas d’achat de rendez-vous avec un expert, celui-ci peut être déplacé ou remboursé si la demande est faite au moins 24h en avance. <b>Pour réaliser le remboursement de ce service, il faut nous appeler au magasin.</b> Au-delà de 24h, la prestation ne vous sera pas remboursée.'
         },
         {
           name: 'Mon paiement est-il sécurisé ?',
@@ -134,26 +140,29 @@ class Felin extends React.Component {
         },
         {
           name: 'Peut-on se faire livrer les croquettes à domicile ?',
-          text: 'Oui en commandant sur notre site internet vous pourrez être livrés à domicile.'
-        },
-        {
-          name: 'Quelle est votre politique de confidentialité ?',
-          type1: '1'
-        },
-        {
-          name: 'Mes informations personnelles sont-elles protégée ?',
-          type2: '1'
-        },
-        {
-          name: 'Que fait Royal Canin de mes informations personnelles?',
-          type3: '1'
-        },
-        {
-          name: 'Votre site installe-t-il des cookies ?',
-          text: "Oui, nous installons temporairement des fichiers sur votre ordinateur lorsque vous êtes sur notre site. Les cookies nous aident à améliorer votre expérience de navigation et de commande. Nous vous recommandons d'autoriser les cookies pour utiliser au mieux notre boutique en ligne et améliorer nos services."
+          text: 'Oui en commandant sur notre site internet vous pourrez être livrés à domicile.',
+          list: [
+            {
+              name: 'Quelle est votre politique de confidentialité ?',
+              type1: '1'
+            },
+            {
+              name: 'Mes informations personnelles sont-elles protégée ?',
+              type2: '1'
+            },
+            {
+              name: 'Que fait Royal Canin de mes informations personnelles?',
+              type3: '1'
+            },
+            {
+              name: 'Votre site installe-t-il des cookies ?',
+              text: "Oui, nous installons temporairement des fichiers sur votre ordinateur lorsque vous êtes sur notre site. Les cookies nous aident à améliorer votre expérience de navigation et de commande. Nous vous recommandons d'autoriser les cookies pour utiliser au mieux notre boutique en ligne et améliorer nos services."
+            }
+          ]
         }
       ],
-      maxHeight: null
+      maxHeight: null,
+      maxHeightTwo: null
     };
     this.hasRePositioned = false;
   }
@@ -200,6 +209,26 @@ class Felin extends React.Component {
       this.setState({
         maxHeight: panel.scrollHeight + 'px',
         activeMaxKey: index
+      });
+    }
+  };
+  handleClickTwo = (e, index) => {
+    let height = this.state.maxHeight.split('px')[0];
+    e.target.classList.toggle('active');
+    var panel = e.target.nextElementSibling
+      ? e.target.nextElementSibling
+      : e.target.parentNode.parentNode.nextElementSibling;
+    if (panel.style.maxHeight) {
+      this.setState({
+        activeMaxKeyTwo: null,
+        maxHeightTwo: null,
+        maxHeight: parseInt(height) - parseInt(panel.scrollHeight) + 'px'
+      });
+    } else {
+      this.setState({
+        maxHeightTwo: panel.scrollHeight + 'px',
+        maxHeight: parseInt(height) + parseInt(panel.scrollHeight) + 'px',
+        activeMaxKeyTwo: index
       });
     }
   };
@@ -661,14 +690,16 @@ class Felin extends React.Component {
                         <a
                           style={{
                             textDecoration: 'underline',
-                            color: 'blue'
+                            color: 'blue',
+                            marginLeft: '0.3125rem'
                           }}
                           href="mailto:latelierfelin@royalcanin.com"
                         >
                           latelierfelin@royalcanin.com
                         </a>
                         , passer nous voir au 142 Bd Saint Germain à Paris , ou
-                        appelez-nous au XnuméroX.
+                        appelez-nous au{' '}
+                        <b style={{ color: '#e2001a' }}>XnuméroX.</b>
                       </p>
                     </div>
                   </div>
@@ -873,9 +904,10 @@ class Felin extends React.Component {
                           ''
                         )}
                       </p>
-                      <p>{item.text1}</p>
+                      <p dangerouslySetInnerHTML={{ __html: item.text1 }} />
                       <p>{item.text2 ? item.text2 : ''}</p>
                       <p>{item.text3 ? item.text3 : ''}</p>
+                      <p>{item.text4 ? item.text4 : ''}</p>
                       {item.table ? (
                         <table className="tableStyle tCenter">
                           <tbody>
@@ -896,73 +928,131 @@ class Felin extends React.Component {
                       ) : (
                         ''
                       )}
-                      <p>
-                        {item.type1 ? (
-                          <span>
-                            Vous pouvez consulter notre politique de
-                            confidentialité en suivant ce lien.{' '}
-                            <a
-                              style={{
-                                textDecoration: 'underline',
-                                color: 'blue'
-                              }}
-                              target="_blank"
-                              href="https://www.mars.com/privacy-policy-france"
+                      {item.list &&
+                        item.list.map((item, index) => {
+                          return (
+                            <div
+                              key={index}
+                              className="fqabox"
+                              style={{ border: item.text ? '0' : '' }}
                             >
-                              https://www.mars.com/privacy-policy-france
-                            </a>
-                          </span>
-                        ) : (
-                          ''
-                        )}
-                        {item.type2 ? (
-                          <span>
-                            Notre site utilise un protocole SSL pour encrypter
-                            toutes les données personnelles envoyées lors du
-                            paiement. Pour plus d'informations sur la
-                            sécurisation et l'utilisation de vos données,
-                            veuillez consulter notre Politique de
-                            confidentialité.
-                            <a
-                              style={{
-                                textDecoration: 'underline',
-                                color: 'blue'
-                              }}
-                              target="_blank"
-                              href="https://www.mars.com/privacy-policy-france"
-                            >
-                              https://www.mars.com/privacy-policy-france
-                            </a>
-                          </span>
-                        ) : (
-                          ''
-                        )}
-                        {item.type3 ? (
-                          <span>
-                            La confidentialité de vos données personnelles est
-                            essentielle à nos yeux. Nous ne partageons vos
-                            données qu'avec les entreprises fournissant des
-                            services en notre nom. Ces entreprises n'ont pas le
-                            droit d'utiliser les données que nous partageons
-                            avec elles à d'autres fins et doivent les garder
-                            confidentielles, sauf si vous consentez à leur
-                            utilisation. Pour plus d'informations, veuillez
-                            consulter nos "Conditions générales".
-                            <a
-                              style={{
-                                textDecoration: 'underline',
-                                color: 'blue'
-                              }}
-                              target="_blank"
-                              href="https://www.royalcanin.com/fr/general-sales-conditions"
-                            >
-                              https://www.royalcanin.com/fr/general-sales-conditions
-                            </a>
-                          </span>
-                        ) : (
-                          ''
-                        )}
-                      </p>
+                              <button
+                                className="accordion"
+                                onClick={(e) =>
+                                  this.handleClickTwo(e, index + 'e')
+                                }
+                                style={{
+                                  marginBottom:
+                                    this.state.activeMaxKeyTwo === index + 'e'
+                                      ? '10px'
+                                      : '0'
+                                }}
+                              >
+                                <div
+                                  style={{
+                                    float: 'right',
+                                    height: '1.5rem'
+                                  }}
+                                >
+                                  {this.state.activeMaxKeyTwo === index + 'e' &&
+                                  this.state.maxHeightTwo ? (
+                                    <span
+                                      className="iconfont iconUp"
+                                      style={{ fontSize: '1.25rem' }}
+                                    />
+                                  ) : (
+                                    <span
+                                      className="iconfont iconDown"
+                                      style={{ fontSize: '1.25rem' }}
+                                    />
+                                  )}
+                                </div>
+                                {item.name}
+                              </button>
+                              <div
+                                className="panel"
+                                style={{
+                                  maxHeight:
+                                    this.state.activeMaxKeyTwo === index + 'e'
+                                      ? this.state.maxHeightTwo
+                                      : null
+                                }}
+                              >
+                                <p>{item.text ? item.text : ''}</p>
+                                <p>
+                                  {item.type1 ? (
+                                    <span>
+                                      Vous pouvez consulter notre politique de
+                                      confidentialité en suivant ce lien.{' '}
+                                      <a
+                                        style={{
+                                          textDecoration: 'underline',
+                                          color: 'blue'
+                                        }}
+                                        target="_blank"
+                                        href="https://www.mars.com/privacy-policy-france"
+                                      >
+                                        https://www.mars.com/privacy-policy-france
+                                      </a>
+                                    </span>
+                                  ) : (
+                                    ''
+                                  )}
+                                  {item.type2 ? (
+                                    <span>
+                                      Notre site utilise un protocole SSL pour
+                                      encrypter toutes les données personnelles
+                                      envoyées lors du paiement. Pour plus
+                                      d'informations sur la sécurisation et
+                                      l'utilisation de vos données, veuillez
+                                      consulter notre Politique de
+                                      confidentialité.
+                                      <a
+                                        style={{
+                                          textDecoration: 'underline',
+                                          color: 'blue'
+                                        }}
+                                        target="_blank"
+                                        href="https://www.mars.com/privacy-policy-france"
+                                      >
+                                        https://www.mars.com/privacy-policy-france
+                                      </a>
+                                    </span>
+                                  ) : (
+                                    ''
+                                  )}
+                                  {item.type3 ? (
+                                    <span>
+                                      La confidentialité de vos données
+                                      personnelles est essentielle à nos yeux.
+                                      Nous ne partageons vos données qu'avec les
+                                      entreprises fournissant des services en
+                                      notre nom. Ces entreprises n'ont pas le
+                                      droit d'utiliser les données que nous
+                                      partageons avec elles à d'autres fins et
+                                      doivent les garder confidentielles, sauf
+                                      si vous consentez à leur utilisation. Pour
+                                      plus d'informations, veuillez consulter
+                                      nos "Conditions générales".
+                                      <a
+                                        style={{
+                                          textDecoration: 'underline',
+                                          color: 'blue'
+                                        }}
+                                        target="_blank"
+                                        href="https://www.royalcanin.com/fr/general-sales-conditions"
+                                      >
+                                        https://www.royalcanin.com/fr/general-sales-conditions
+                                      </a>
+                                    </span>
+                                  ) : (
+                                    ''
+                                  )}
+                                </p>
+                              </div>
+                            </div>
+                          );
+                        })}
                     </div>
                   </div>
                 );

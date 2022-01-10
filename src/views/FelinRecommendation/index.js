@@ -341,7 +341,7 @@ class FelinRecommendation extends React.Component {
             goodsNum: inStockProducts[i].recommendationNumber,
             goodsCategory: '',
             goodsInfoFlag: 0,
-            recommendationId: 'Felin'
+            recommendationId: 'L’ Atelier Félin'
           });
           await this.props.checkoutStore.updateLoginCart({
             intl: this.props.intl
@@ -482,7 +482,7 @@ class FelinRecommendation extends React.Component {
         quantity: product.recommendationNumber,
         currentUnitPrice: product.goodsInfo?.marketPrice,
         goodsInfoFlag: 0,
-        recommendationId: 'Felin',
+        recommendationId: 'L’ Atelier Félin',
         periodTypeId: null,
         orderSource: 'L_ATELIER_FELIN'
         // goodsInfoFlag: product.goodsInfoFlag,
