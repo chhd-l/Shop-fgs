@@ -753,18 +753,26 @@ function getDatePickerConfig() {
   }
 
   const datePickerCfg = {
-    mx: { format: 'yyyy-MM-dd', locale: 'es', locale_module: mx },
-    de: { format: 'dd.MM.yyyy', locale: 'de', locale_module: de },
-    fr: { format: 'dd/MM/yyyy', locale: 'fr', locale_module: fr },
-    us: { format: 'MM/dd/yyyy', locale: 'en', locale_module: us },
-    ru: { format: 'dd.MM.yyyy', locale: 'ru', locale_module: ru },
-    tr: { format: 'dd-MM-yyyy', locale: 'tr', locale_module: tr },
-    default: { format: 'yyyy-MM-dd', locale: '' }
+    mx: { locale: 'es', locale_module: mx },
+    de: { locale: 'de', locale_module: de },
+    fr: { locale: 'fr', locale_module: fr },
+    us: { locale: 'en', locale_module: us },
+    ru: { locale: 'ru', locale_module: ru },
+    tr: { locale: 'tr', locale_module: tr },
+    default: { locale: '' }
   };
 
   const curDatePickerCfg =
     datePickerCfg[window.__.env.REACT_APP_COUNTRY] || datePickerCfg.default;
-  return curDatePickerCfg;
+
+  // 根据Intl.DateTimeFormat生成当前国家的日期格式
+  const specificDate = formatDate({ date: '2021-12-30' });
+  return Object.assign({}, curDatePickerCfg, {
+    format: specificDate
+      .replace(/2021/gi, 'yyyy')
+      .replace(/12/gi, 'MM')
+      .replace(/30/gi, 'dd')
+  });
 }
 let datePickerConfig = getDatePickerConfig();
 export { datePickerConfig };
@@ -1282,7 +1290,7 @@ export function formatDate({
           : {}
       );
     }
-    console.log('dateFormatCountry:', window.__.env.REACT_APP_NAVIGATOR_LANG);
+
     return new Intl.DateTimeFormat(
       window.__.env.REACT_APP_NAVIGATOR_LANG,
       options

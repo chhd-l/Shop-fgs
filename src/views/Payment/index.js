@@ -112,20 +112,22 @@ function CreditCardInfoPreview({
 }) {
   return (
     <div className="col-12 col-md-6">
-      <span className="medium">
+      <p className="medium">
         <FormattedMessage id="bankCard" />
-      </span>
-      <br />
-      <span>{holderNameDeco}</span>
-      <br />
-      <span>{brandDeco}</span>
-      <br />
-      <span>{lastFourDeco ? `************${lastFourDeco}` : null}</span>
+      </p>
+      <p>{holderNameDeco}</p>
+      <p>{brandDeco}</p>
+      {lastFourDeco ? <p>{`************${lastFourDeco}`}</p> : null}
       {expirationDate ? (
-        <>
-          <br />
-          <span>{formatDate({ date: expirationDate })}</span>
-        </>
+        <p>
+          {formatDate({
+            date: expirationDate,
+            formatOption: {
+              year: 'numeric',
+              month: '2-digit'
+            }
+          })}
+        </p>
       ) : null}
     </div>
   );
