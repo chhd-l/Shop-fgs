@@ -56,12 +56,14 @@ const Adoptions = (props) => {
   };
   const getShelters = async () => {
     const res = await getShelterList({ prescriberType: ['Shelter'] });
-    let list = res.context.map((el) => {
-      return {
-        name: el.prescriberName,
-        value: el.prescriberId
-      };
-    });
+    let list = res.context
+      .filter((el) => el.enabled)
+      .map((el) => {
+        return {
+          name: el.prescriberName,
+          value: el.prescriberId
+        };
+      });
     setShelterList(list);
   };
   const addCart = async (product) => {
