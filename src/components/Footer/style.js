@@ -35,6 +35,10 @@ export const FooterWrapper = styled.footer`
         display: inline-block;
       }
       .rc-list__header {
+        padding-right: 0.5rem;
+        &::after {
+          display: none;
+        }
         & + .rc-list {
           max-height: 0 !important;
         }
