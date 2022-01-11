@@ -335,7 +335,7 @@ class Felin extends React.Component {
                       L’ Atelier Félin, la boutique parisienne experte du bien
                       être des chats
                     </div>
-                    <div className="visit-text-cont">
+                    <div className="visit-text-cont mb10">
                       Notre magasin est dédié au bien-être et à l’équilibre de
                       votre chat, créé par Royal Canin, expert en nutrition
                       féline. Échangez avec nos experts afin de mieux connaître
@@ -381,7 +381,7 @@ class Felin extends React.Component {
                       <div className="visit-text-tip font-500">
                         Nos experts à votre écoute
                       </div>
-                      <div className="visit-text-cont">
+                      <div className="visit-text-cont mb10">
                         Nos <b>experts en comportement</b> sont là pour vous
                         aider à améliorer le bien être de votre chat et vous
                         aider à résoudre les problèmes (malpropreté,
@@ -417,7 +417,7 @@ class Felin extends React.Component {
                 </div>
                 <div className="rc-column felin-mpd0">
                   <LazyLoad className="w-100">
-                    <img src={cat1} alt="" style={{ width: '70%' }} />
+                    <img src={cat1} alt="" className="cat-img" />
                   </LazyLoad>
                 </div>
               </div>

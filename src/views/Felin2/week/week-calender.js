@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import { compareAsc, format, getISOWeek, subDays, getWeek } from 'date-fns';
+import { fr } from 'date-fns/locale';
 import './index.less';
 import 'moment/locale/fr';
 moment.locale('fr', {
@@ -29,22 +31,23 @@ class WeekCalender extends Component {
     this.getCurrentWeek();
   }
 
-  getCurrentWeek = async (date = undefined) => {
-    let weekOfDay = moment(date).format('E'); // 指定日期的周的第几天
+  getCurrentWeek = async (date = new Date()) => {
     let weekDate = [];
     let dateList = await this.getEnmbeData();
     for (let i = 0; i < 7; i++) {
-      let _date = moment(date).subtract(weekOfDay - i, 'days');
-      let nowDate = moment(_date).format('YYYYMMDD');
+      let _date = new Date(
+        format(subDays(new Date(date), 1 - i), 'yyyy-MM-dd HH:mm:ss')
+      );
+      let nowDate = format(_date, 'yyyyMMdd');
       let currentDate = dateList[nowDate] || {};
       let list = await this.intervals(
-        moment(_date).format('YYYYMMDD 09:00'),
-        moment(_date).format('YYYYMMDD 17:00'),
+        format(_date, 'yyyyMMdd 09:00'),
+        format(_date, 'yyyyMMdd 17:00'),
         currentDate
       );
       weekDate.push({
-        weekDay: _date.format('ddd'),
-        date: _date.format('LL'),
+        weekDay: format(_date, 'E', { locale: fr }),
+        date: format(_date, 'd MMM', { locale: fr }),
         times: list
       });
     }
@@ -75,7 +78,6 @@ class WeekCalender extends Component {
       },
       () => {
         const cc = this.getWeek();
-        console.log(cc);
         this.getCurrentWeek(cc[0]);
       }
     );
@@ -89,7 +91,6 @@ class WeekCalender extends Component {
       },
       () => {
         const cc = this.getWeek();
-        console.log(cc);
         this.getCurrentWeek(cc[0]);
       }
     );

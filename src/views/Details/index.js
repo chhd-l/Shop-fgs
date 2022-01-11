@@ -1113,27 +1113,28 @@ class Details extends React.Component {
       (item) => item.goodsAttributeName === 'Species'
     )?.goodsAttributeValue;
 
-    // 产品的breed
-    // let initBreedValue = goodsAttributesValueRelList.find(
-    //   (item) => item.goodsAttributeName === 'Breeds'
-    // )?.goodsAttributeValue;
-
     let breedAttr = goodsAttributesValueRelList
       ?.filter((item) => item.goodsAttributeName === 'Breeds')
       ?.map((item) => item?.goodsAttributeValue);
+
     breedAttr = breedAttr.filter((item, index) => {
       return breedAttr.indexOf(item) === index;
     });
 
-    const defaultBreed =
-      breedAttr.length === 2 &&
-      (breedAttr.includes('Cat_Cat') || breedAttr.includes('Dog_Dog'));
     let initBreedValue = '';
-    initBreedValue =
-      defaultBreed &&
-      breedAttr
-        ?.filter((item) => item !== ('Cat_Cat' || 'Dog_Dog'))?.[0]
+
+    if (
+      breedAttr.length === 1 &&
+      (breedAttr.includes('Cat_Cat') || breedAttr.includes('Dog_Dog'))
+    ) {
+      initBreedValue = '';
+    } else {
+      initBreedValue = breedAttr
+        ?.filter((item) => {
+          return item !== 'Cat_Cat' && item !== 'Dog_Dog';
+        })?.[0]
         ?.split('_')?.[0];
+    }
 
     return (
       <div className="rc-max-width--xl rc-padding-x--sm">

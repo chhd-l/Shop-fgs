@@ -505,10 +505,18 @@ function ListItemBodyH5ForGlobalStyle({ item, configStore }) {
       <div className="product-name" title={item.goodsName}>
         {item.goodsName}
       </div>
-      {item.foodType ? (
-        <div className="rc-card__meta">
+      {/* 目前只有ru展示newSubtitle */}
+      {window.__.env.REACT_APP_PRODUCT_CARD_NOT_DISPLAY_TECHNOLOGY ? (
+        <p
+          className="ui-text-overflow-line2 rc-card__meta"
+          title={item.goodsNewSubtitle}
+        >
+          {item.goodsNewSubtitle}
+        </p>
+      ) : item?.foodType ? (
+        <p className="rc-card__meta rc-padding-top--xs rc-padding-bottom--xs ui-text-overflow-line2">
           <FormattedMessage id={`product.plp.foodtype.${item.foodType}`} />
-        </div>
+        </p>
       ) : null}
       {!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS && (
         <InlineRatings productId={item.goodsNo} />
