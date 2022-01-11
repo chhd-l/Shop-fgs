@@ -197,9 +197,9 @@ class FelinRecommendation extends React.Component {
           el.goodsInfo.goods.sizeList = el.goodsInfos.map((g) => {
             g = Object.assign({}, g, { selected: false });
             console.log(g.goodsInfoId, el, 'hhhh');
+            g.salePrice = g.marketPrice;
             if (g.goodsInfoId === el.goodsInfo.goodsInfoId) {
               g.selected = true;
-              g.salePrice = g.marketPrice;
               g.specText = el.goodsInfo.specText;
             }
             return g;
@@ -278,6 +278,9 @@ class FelinRecommendation extends React.Component {
       .catch((err) => {
         console.log(err, 'err');
         this.setState({ pageLoading: false });
+        if (noLink) {
+          return;
+        }
         this.props.history.push('/cats');
       });
     // if (localItemRoyal.get('isRefresh')) {
