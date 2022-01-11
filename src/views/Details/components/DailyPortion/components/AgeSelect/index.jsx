@@ -42,8 +42,8 @@ export default function AgeSelect(
     setType(data.value)
 
     switch (data.value) {
-      case 'year': return setMonth(0);
-      case 'month': return setYear(0);
+      case 'year': return onChangeMonth(0);
+      case 'month': return onChangeYear(0);
       default: return;
     }
   }
