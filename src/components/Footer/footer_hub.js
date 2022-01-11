@@ -20,7 +20,7 @@ class FooterHub extends React.Component {
     return (
       <>
         {/* MenuItems  */}
-        <div className="rc-layout-container rc-two-column rc-padding-x--xs--desktop order-5 md:order-1 col-span-12">
+        <div className="rc-layout-container rc-two-column rc-padding-x--xs--desktop order-5 md:order-1 col-span-12 z-auto">
           <div className="rc-column  rc-padding-x--none rc-padding-top--xs--desktop rc-padding-y--md--mobile flex md:justify-between flex-wrap">
             <div className="w-full md:w-auto flex flex-col md:block">
               {(MenuItems || []).map((item, i) => (

@@ -14,17 +14,18 @@ export default class Selection extends React.Component {
   };
   // hub-footer-language新增  如有问题 删除 start
   componentWillReceiveProps(nextProps, nextContext) {
-    if (nextProps.selectedItemData && nextProps.selectedItemData !== this.state.selectedItemData) {
-      this.setState(
-        {
-          selectedItem: {
-            name: '',
-            value:nextProps.selectedItemData.value,
-            id: -1,
-            ...nextProps.selectedItemData
-          },
+    if (
+      nextProps.selectedItemData &&
+      nextProps.selectedItemData !== this.state.selectedItemData
+    ) {
+      this.setState({
+        selectedItem: {
+          name: '',
+          value: nextProps.selectedItemData.value,
+          id: -1,
+          ...nextProps.selectedItemData
         }
-      );
+      });
     }
   }
   // hub-footer-language新增  如有问题 删除 end
@@ -92,9 +93,7 @@ export default class Selection extends React.Component {
   };
   render() {
     const { optionList, customStyleType } = this.props;
-    
     const { selectedItem, hoveredIdx, optionsVisible } = this.state;
-    console.log({selectedItem});
 
     return (
       <div

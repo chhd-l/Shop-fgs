@@ -425,6 +425,12 @@ export const GARecommendationProduct = (
       event: 'breederRecoTabClick',
       breederRecoTabClickProduct: products
     });
+  // us shelter
+  type === 3 &&
+    dataLayer.unshift({
+      event: 'shelterLPAddToCart',
+      product: products[0]
+    });
 };
 //GA pet 全局获取
 export const doGetGAVal = (props) => {
