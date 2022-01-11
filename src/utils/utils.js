@@ -9,12 +9,6 @@ import flatten from 'lodash/flatten';
 import findIndex from 'lodash/findIndex';
 import stores from '@/store';
 import { toJS } from 'mobx';
-import mx from 'date-fns/locale/es';
-import de from 'date-fns/locale/de';
-import fr from 'date-fns/locale/fr';
-import tr from 'date-fns/locale/tr';
-import us from 'date-fns/locale/en-US';
-import ru from 'date-fns/locale/ru';
 import { registerLocale } from 'react-datepicker';
 import { getAppointDetail } from '@/api/appointment';
 import cloneDeep from 'lodash/cloneDeep';
@@ -727,52 +721,36 @@ export async function fetchHeaderNavigations() {
 }
 
 function getDatePickerConfig() {
-  const lang = window.__.env.REACT_APP_COUNTRY;
-
-  switch (lang) {
-    case 'de':
-      registerLocale('de', de);
-      break;
-    case 'mx':
-      registerLocale('es', mx);
-      break;
-    case 'fr':
-      registerLocale('fr', fr);
-      break;
-    case 'us':
-      registerLocale('en', us);
-      break;
-    case 'ru':
-      registerLocale('ru', ru);
-      break;
-    case 'tr':
-      registerLocale('tr', tr);
-      break;
-    default:
-      break;
-  }
-
+  //locale_module_lang为date-fns插件对应的多语言文件后缀名
   const datePickerCfg = {
-    mx: { locale: 'es', locale_module: mx },
-    de: { locale: 'de', locale_module: de },
-    fr: { locale: 'fr', locale_module: fr },
-    us: { locale: 'en', locale_module: us },
-    ru: { locale: 'ru', locale_module: ru },
-    tr: { locale: 'tr', locale_module: tr },
-    default: { locale: '' }
+    mx: { locale: 'es', locale_module_lang: 'es' },
+    de: { locale: 'de', locale_module_lang: 'de' },
+    fr: { locale: 'fr', locale_module_lang: 'fr' },
+    us: { locale: 'en', locale_module_lang: 'en-US' },
+    ru: { locale: 'ru', locale_module_lang: 'ru' },
+    tr: { locale: 'tr', locale_module_lang: 'tr' },
+    default: { locale: 'en', locale_module_lang: 'en-US' }
   };
-
   const curDatePickerCfg =
     datePickerCfg[window.__.env.REACT_APP_COUNTRY] || datePickerCfg.default;
-
+  const curLocaleModule =
+    require(`date-fns/locale/${curDatePickerCfg.locale_module_lang}`).default;
+  registerLocale(window.__.env.REACT_APP_COUNTRY, curLocaleModule);
   // 根据Intl.DateTimeFormat生成当前国家的日期格式
   const specificDate = formatDate({ date: '2021-12-30' });
-  return Object.assign({}, curDatePickerCfg, {
-    format: specificDate
-      .replace(/2021/gi, 'yyyy')
-      .replace(/12/gi, 'MM')
-      .replace(/30/gi, 'dd')
-  });
+  return Object.assign(
+    {},
+    curDatePickerCfg,
+    {
+      format: specificDate
+        .replace(/2021/gi, 'yyyy')
+        .replace(/12/gi, 'MM')
+        .replace(/30/gi, 'dd')
+    },
+    {
+      locale_module: curLocaleModule
+    }
+  );
 }
 let datePickerConfig = getDatePickerConfig();
 export { datePickerConfig };

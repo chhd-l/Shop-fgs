@@ -66,7 +66,7 @@ const SingleBuyMethod = ({
           <div className="freeshippingBox">
             <FormattedMessage
               id={
-                window.__.env.REACT_APP_COUNTRY == 'tr'
+                window.__.env.REACT_APP_COUNTRY == 'tr' || window.__.env.REACT_APP_COUNTRY == 'se'
                   ? 'oneoffFreeShipping'
                   : 'freeShipping'
               }
