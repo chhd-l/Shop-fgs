@@ -13,6 +13,7 @@ import UsAndRu from '../Recommendation_US/components/UsAndRu';
 const pageLink = window.location.href;
 import { IMG_DEFAULT } from '@/utils/constant';
 import { sitePurchase } from '@/api/cart';
+import { GARecommendationProduct } from '@/utils/GA';
 
 import stores from '@/store';
 import { getShelterList } from '@/api/recommendation';
@@ -79,6 +80,7 @@ const Adoptions = (props) => {
     // 获取detail
     let details = await getDetail(product.goodsInfo.goodsInfoId);
     // details = Object.assign({},details,details.goodsInfo)
+    return;
     setBtnLoading(true);
 
     if (loginStore.isLogin) {
@@ -95,6 +97,7 @@ const Adoptions = (props) => {
       getFrequencyDict()
     ]);
     let res = goodsRes.context;
+    // GARecommendationProduct([res], 3, frequencyDictRes);
     res.goodsInfo = res.goodsInfos.find((el) => el.goodsInfoId == goodsInfoId);
     // handleFrequencyIdDefault(res, frequencyDictRes);
     res.sizeList = res.goodsInfos.map((g) => {
@@ -220,6 +223,11 @@ const Adoptions = (props) => {
   const handleSelectChange = (data) => {
     setShelter(data);
   };
+  const GAShelterLPdropdownClick = () => {
+    // dataLayer.push({
+    //   event: 'shelterLPdropdownClick'
+    // });
+  };
   return (
     <div>
       <Helmet>
@@ -302,6 +310,7 @@ const Adoptions = (props) => {
                   </p>
                   <Selection
                     hasBorder={true}
+                    onClick={GAShelterLPdropdownClick}
                     optionList={shelterList}
                     selectedItemChange={(data) => handleSelectChange(data)}
                     selectedItemData={{
