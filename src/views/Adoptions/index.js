@@ -228,6 +228,11 @@ const Adoptions = (props) => {
     //   event: 'shelterLPdropdownClick'
     // });
   };
+  const GAforEmail = () => {
+    // dataLayer.push({
+    //   'event' : 'shelterLPSendUsAnEmail'
+    // });
+  };
   return (
     <div>
       <Helmet>
@@ -294,7 +299,10 @@ const Adoptions = (props) => {
               </div>
             </div>
             <div className="rc-margin-y--md shelter-box">
-              <div className="rc-layout-container rc-five-column   padding-x--lg-forpc">
+              <div
+                className="rc-layout-container rc-five-column   padding-x--lg-forpc"
+                data-tms="Shelter Selection"
+              >
                 <div className="rc-column rc-double-width sub-title font-26px">
                   Get started by selecting your shelter
                 </div>
@@ -391,6 +399,7 @@ const Adoptions = (props) => {
           className="rc-border-bottom rc-border-colour--brand4 rc-margin-top--md"
           style={{ borderBottomWidth: '4px' }}
         ></div>
+        {/* <UsAndRu GAforEmail={GAforEmail} dataTms1="Reinsurance" dataTms2 = "Royal Canin Club" dataTms3 = "Why Royal Canin"/> */}
         <UsAndRu />
         <Footer />
       </main>
