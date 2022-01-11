@@ -13,15 +13,13 @@ export default function WeightSelect(
 
   const changeNumValue = (e) => {
     let value = e.target.value;
-    // value = (value.match(/^\d*(\.?\d{0,2})/g)[0]) || null //小数点后2位
+    value = (value.match(/^\d*(\.?\d{0,2})/g)[0]) || undefined //小数点后2位
     onChange(value);
   }
 
-  // const handleBlur = (e) => {
-  //   let num = parseFloat(e.target.value);
-  //   let cleanNum = num.toFixed(2);
-  //   onChange(cleanNum);
-  // }
+  const blockInvalidChar = e => {
+    return ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault();
+  }
 
   useEffect(() => {
     setWeight(value)
@@ -37,8 +35,8 @@ export default function WeightSelect(
           className='rc-input__control'
           type='number'
           value={weight}
+          onKeyDown={blockInvalidChar}
           onChange={changeNumValue}
-          // onBlur={handleBlur}
         />
         <span>{unit}</span>
       </div>
