@@ -312,7 +312,6 @@ class AccountOrders extends React.Component {
         const tradeState = resContext.tradeState;
         const orderStatusMap = resContext.orderStatusMap;
         let currentProgressIndex = -1;
-        let currentCanceledProgressIndex = -1;
         normalProgressList = resContext.appointmentNo
           ? handleFelinOrderStatusMap(orderStatusMap)
           : handleOrderStatusMap(orderStatusMap);
@@ -378,7 +377,6 @@ class AccountOrders extends React.Component {
           details: handleOrderItem(resContext, res.context),
           loading: false,
           currentProgressIndex,
-          currentCanceledProgressIndex,
           normalProgressList,
           defaultLocalDateTime: res.defaultLocalDateTime,
           subNumber: resContext?.subscriptionResponseVO?.subscribeId,
@@ -1039,41 +1037,11 @@ class AccountOrders extends React.Component {
             </FormattedMessage>
           </button>
         ) : null}
-        {/*felin订单change appoint*/}
-        {/*{details.canChangeAppoint ? (*/}
-        {/*  <button*/}
-        {/*    className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order`}*/}
-        {/*  >*/}
-        {/*    <FormattedMessage id="Change Appointment">*/}
-        {/*      {(txt) => (*/}
-        {/*        <Link*/}
-        {/*          className="color-fff"*/}
-        {/*          to={`/felin?id=${details.appointmentNo}`}*/}
-        {/*          title={txt}*/}
-        {/*          alt={txt}*/}
-        {/*        >*/}
-        {/*          {txt}*/}
-        {/*        </Link>*/}
-        {/*      )}*/}
-        {/*    </FormattedMessage>*/}
-        {/*  </button>*/}
-        {/*) : null}*/}
-        {/*felin订单cancel appoint*/}
-        {/*{details.canCancelAppoint ? (*/}
-        {/*  <button*/}
-        {/*    className={`rc-btn ml-0 rc-btn--sm rc-btn--one ord-list-operation-btn felin-order ${*/}
-        {/*      details.cancelAppointLoading ? 'ui-btn-loading' : ''*/}
-        {/*    }`}*/}
-        {/*    onClick={this.cancelAppoint.bind(this, details)}*/}
-        {/*  >*/}
-        {/*    <FormattedMessage id="Cancel Appointment" />*/}
-        {/*  </button>*/}
-        {/*) : null}*/}
       </>
     );
   };
   render() {
-    const { configStore } = this.props;
+    const { configStore, paymentStore } = this.props;
     const { customTaxSettingOpenFlag, enterPriceType } = configStore;
     const event = {
       page: {
@@ -1090,8 +1058,6 @@ class AccountOrders extends React.Component {
       details,
       payRecord,
       currentProgressIndex,
-      currentCanceledProgressIndex,
-      orderNumber,
       normalProgressList,
       showLogisticsDetail,
       curLogisticInfo,
@@ -1103,11 +1069,6 @@ class AccountOrders extends React.Component {
       date: details?.consignee?.deliveryDate,
       formatOption: { weekday: 'long', day: '2-digit', month: 'long' }
     });
-
-    // details?.tradeItems?.map(el=>{el.subscriptionSourceList=[{subscribeId:'12323232323232'},{subscribeId:'12323232323232'}]})
-    const isTr = window.__.env.REACT_APP_COUNTRY === 'tr'; //因为土耳其Total VAT Included的翻译，需要对Total VAT Included特殊化处理
-
-    const { paymentStore } = this.props;
 
     return (
       <div>
@@ -1644,7 +1605,9 @@ class AccountOrders extends React.Component {
                                   </div>
                                   <div
                                     className={`col-6 col-md-2 mb-2 ${
-                                      isTr ? 'tr-total-iVAIncluido' : ''
+                                      window.__.env.REACT_APP_COUNTRY === 'tr'
+                                        ? 'tr-total-iVAIncluido'
+                                        : ''
                                     }`}
                                   >
                                     <span className="medium color-444">
