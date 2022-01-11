@@ -602,7 +602,7 @@ class Help extends React.Component {
               {this.state.errorMsg}
             </aside>
           </div>
-          <section className="text-center">
+          <section className="text-center px-2 md:px-0">
             <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
               <FormattedMessage id="recommendation.firstTitle" />
             </h2>
@@ -632,7 +632,7 @@ class Help extends React.Component {
           </section>
 
           {/* 商品信息 begin */}
-          <section className="rc-layout-container rc-three-column recommendProduct re-custom">
+          <section className="rc-layout-container rc-three-column recommendProduct re-custom p-0 md:py-12	md:px-28">
             {this.state.loading ? (
               <Skeleton color="#f5f5f5" width="100%" height="100%" count="3" />
             ) : getDeviceType() === 'PC' ? (
@@ -1225,7 +1225,7 @@ class Help extends React.Component {
             </div>
           </div>
           <div className="help-page" style={{ marginBottom: '1rem' }}>
-            <section style={{ textAlign: 'center' }}>
+            <section className="text-center px-2 md:px-0">
               <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
                 <FormattedMessage id="recommendation.thirdTitle" />
               </h2>

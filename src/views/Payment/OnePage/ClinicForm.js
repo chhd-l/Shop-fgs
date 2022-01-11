@@ -156,12 +156,12 @@ class ClinicForm extends React.Component {
   }
   render() {
     const {
-      configStore: { info }
+      configStore: { prescriberSelectTyped }
     } = this.props;
     const { isEdit } = this.state;
     const defaultJSX = (
       <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
-        <div className="bg-transparent d-flex justify-content-between align-items-center">
+        <div className="bg-transparent d-flex justify-content-between align-items-center 6">
           <h5 className="mb-0 text-xl">
             <em className="rc-icon rc-vet--xs rc-iconography" />{' '}
             {this.isLogin ? (
@@ -322,7 +322,7 @@ class ClinicForm extends React.Component {
     return (
       <>
         {this.checkoutWithClinic
-          ? info?.prescriberSelectTyped === 'PRESCRIBER_MAP'
+          ? prescriberSelectTyped === 'PRESCRIBER_MAP'
             ? defaultJSX
             : searchJSX
           : null}

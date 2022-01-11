@@ -523,7 +523,7 @@ class Hcexperts extends React.Component {
   };
 
   render() {
-    const { intl } = this.props;
+    const { intl, history } = this.props;
     const { twoShow, threeShow, fourShow, fiveShow } = this.state;
 
     return (
@@ -834,24 +834,12 @@ class Hcexperts extends React.Component {
               <br />
               <button
                 onClick={() => {
-                  if (!window.__.env.REACT_APP_STOREID) {
-                    return;
-                  }
-                  if (
-                    window.__.env.REACT_APP_COUNTRY === 'tr' ||
-                    window.__.env.REACT_APP_COUNTRY === 'ru' ||
-                    window.__.env.REACT_APP_COUNTRY === 'fr' ||
-                    window.__.env.REACT_APP_COUNTRY === 'us' ||
-                    window.__.env.REACT_APP_COUNTRY === 'de' ||
-                    window.__.env.REACT_APP_COUNTRY === 'uk'
-                  ) {
+                  if (+window.__.env.REACT_APP_CUSTOM_REGISTER) {
                     localItemRoyal.set(
                       'okta-redirectUrl',
-                      this.props.history &&
-                        this.props.history.location.pathname +
-                          this.props.history.location.search
+                      history.location.pathname + history.location.search
                     );
-                    this.props.history.push('/register');
+                    history.push('/register');
                   } else {
                     window.location.href =
                       window.__.env.REACT_APP_RegisterPrefix +
