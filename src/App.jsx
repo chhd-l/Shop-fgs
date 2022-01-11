@@ -26,11 +26,10 @@ import loadable from '@/lib/loadable-component';
 import oktaConfig from './oktaConfig';
 import stores from './store';
 import { PDP_Regex } from '@/utils/constant';
-import { redirectFun } from '@/redirect/utils';
+// import { redirectFun } from '@/redirect/utils';
 import '@/utils/init';
 import { stgShowAuth } from '@/utils/utils';
 import ScrollToTop from '@/components/ScrollToTop';
-// import { getDynamicLanguage } from './lang';
 import { useDynamicLanguage } from '@/framework/common';
 import RouteFilter from '@/components/RouteFilter';
 import RouteFilterHook from '@/components/RouteFilter/RouteFilterHook';
@@ -377,7 +376,10 @@ const App = () => {
                   exact
                   path="/confirmation"
                   render={(props) => {
-                    console.log('isRefreshConfirmPage:',Boolean(sessionItemRoyal.get('refresh-confirm-page')))
+                    console.log(
+                      'isRefreshConfirmPage:',
+                      Boolean(sessionItemRoyal.get('refresh-confirm-page'))
+                    );
                     if (Boolean(sessionItemRoyal.get('refresh-confirm-page'))) {
                       if (window.__.env.REACT_APP_HUB) {
                         window.location.href =
@@ -631,9 +633,8 @@ const App = () => {
                         sublanding = DE_SubscriptionLanding;
                         break;
                       case 'us':
-                        sublanding = US_SubscriptionLanding;
-                        break;
                       case 'uk':
+                      case 'se':
                         sublanding = US_SubscriptionLanding;
                         break;
                       case 'ru':
