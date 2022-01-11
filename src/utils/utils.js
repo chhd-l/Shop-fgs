@@ -879,12 +879,9 @@ export function getOktaCallBackUrl(sessionToken) {
   const nonce =
     '49HBgn9gMZs4BBUAWkMLOlGwerv7Cw89sT6gooduzyPfg98fOOaCBQ2oDOyCgb3T';
   // hard code可以不用变
-  let homePage = window.__.env.REACT_APP_HOMEPAGE;
-  const regiserUrl =
-    homePage.substring(homePage.length - 1, homePage.length) === '/'
-      ? 'implicit/callback'
-      : '/implicit/callback';
-  const redirectUri = window.location.origin + homePage + regiserUrl;
+  const redirectUri = `${
+    window.location.origin
+  }${window.__.env.REACT_APP_HOMEPAGE.replace(/\/$/gi, '')}/implicit/callback`;
   //OKTA的注册方法，最主要的是sessionToken
   var callOktaCallBack = `${window.__.env.REACT_APP_ISSUER}/v1/authorize?client_id=${window.__.env.REACT_APP_CLIENT_ID}&response_type=id_token token&scope=openid&prompt=none&response_mode=fragment&redirect_uri=${redirectUri}&state=${state}&nonce=${nonce}&sessionToken=${sessionToken}`;
   return callOktaCallBack;
