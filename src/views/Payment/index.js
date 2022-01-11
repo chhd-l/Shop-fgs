@@ -37,7 +37,8 @@ import {
   validData,
   bindSubmitParam,
   getAppointmentInfo,
-  formatDate
+  formatDate,
+  isBlockedUserOrEmail
 } from '@/utils/utils';
 import { EMAIL_REGEXP, seTelephoneCheck } from '@/utils/constant';
 import { userBindConsent } from '@/api/consent';
@@ -3982,13 +3983,25 @@ class Payment extends React.Component {
   };
   // 1、点击支付
   clickPay = () => {
+    const { intl } = this.props;
+    //0元订单中含有订阅商品时不能下单
     if (this.tradePrice === 0 && this.isCurrentBuyWaySubscription) {
-      //0元订单中含有订阅商品时不能下单
-      const errMsg =
-        this.props.intl.messages['checkout.zeroOrder.butSubscription'];
+      const errMsg = intl.messages['checkout.zeroOrder.butSubscription'];
       this.showErrorMsg(errMsg);
       return;
     }
+    //Blocked users and emails are not able to checkout
+    const isBlockedAccountOrEmail = isBlockedUserOrEmail(
+      this.isLogin ? this.userInfo?.email : this.state.guestEmail
+    );
+    if (isBlockedAccountOrEmail) {
+      const isBlockedUserOrEmailTip = this.isLogin
+        ? intl.messages['checkout.blockedUserTip']
+        : intl.messages['checkout.blockedEmailTip'];
+      this.showErrorMsg(isBlockedUserOrEmailTip);
+      return;
+    }
+
     if (this.isLogin) {
       this.userBindConsentFun();
     }

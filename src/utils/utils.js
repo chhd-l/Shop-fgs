@@ -1306,3 +1306,13 @@ export const renderScriptOrLinkHtmlStr = ({ htmlStr, callback }) => {
     dynamicLoadCss(curLink.href);
   }
 };
+
+/**
+ * 判断账户或者邮箱是否在指定Block邮箱中
+ * @param accountOrEmail
+ * @returns {boolean}
+ */
+export const isBlockedUserOrEmail = (accountOrEmail) => {
+  const blockedAccountOrEmails = ['13101227768@163.com'];
+  return blockedAccountOrEmails.includes(accountOrEmail);
+};
