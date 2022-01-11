@@ -19,8 +19,7 @@ import Modal from '@/components/Modal';
 import { inject, observer } from 'mobx-react';
 import { addEventListenerArr } from './addEventListener';
 import { EMAIL_REGEXP } from '@/utils/constant';
-import { isString } from 'lodash';
-import ConsentAdditionalText from '@/components/Consent/ConsentAdditionalText';
+// import ConsentAdditionalText from '@/components/Consent/ConsentAdditionalText';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -691,7 +690,7 @@ class Register extends Component {
                       <div className="rc-column">
                         <form
                           id="registrationForm"
-                          className="registration-form rc-margin-bottom--xl--mobile p-0 md:px-40"
+                          className="registration-form rc-margin-bottom--xl--mobile p-0 md:px-28"
                           encoding="off"
                         >
                           <div className="rc-margin-bottom--xs">

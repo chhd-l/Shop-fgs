@@ -201,7 +201,7 @@ class AccountOrders extends React.Component {
         });
       });
   }
-  hanldePageNumChange = (params) => {
+  handlePageNumChange = (params) => {
     this.setState(
       {
         currentPage: params.currentPage
@@ -285,18 +285,6 @@ class AccountOrders extends React.Component {
       order.addToCartLoading = false;
     }
   }
-  async cancelAppoint(order) {
-    try {
-      const { orderList } = this.state;
-      order.cancelAppointLoading = true;
-      this.setState({ orderList: orderList });
-      await cancelAppointByNo({ apptNo: order.appointmentNo });
-      this.queryOrderList();
-    } catch (err) {
-    } finally {
-      order.cancelAppointLoading = false;
-    }
-  }
   changeTab(i) {
     this.setState(
       {
@@ -314,15 +302,6 @@ class AccountOrders extends React.Component {
     if (this.deviceType === 'PC') return false;
     this.props.history.push(`/account/orders/detail/${item.id}`);
     return false;
-    // 测试要求改到跳转页面  1214
-    // this.setState({ curOneOrderDetails: item });
-    // setTimeout(() => {
-    //   this.setState({ showOneOrderDetail: true });
-    //   window.scrollTo({
-    //     top: 0,
-    //     behavior: 'smooth'
-    //   });
-    // });
   }
   handleClickBackToIndex = () => {
     this.setState({ showOneOrderDetail: false });
@@ -397,46 +376,18 @@ class AccountOrders extends React.Component {
             </FormattedMessage>
           </button>
         ) : null}
-        {/*felin订单change appoint*/}
-        {/*{order.canChangeAppoint ? (*/}
-        {/*  <button*/}
-        {/*    className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order color-fff`}*/}
-        {/*  >*/}
-        {/*    <FormattedMessage id="Change Appointment">*/}
-        {/*      {(txt) => (*/}
-        {/*        <Link*/}
-        {/*          className="color-fff"*/}
-        {/*          to={`/felin?id=${order.appointmentNo}`}*/}
-        {/*          title={txt}*/}
-        {/*          alt={txt}*/}
-        {/*        >*/}
-        {/*          {txt}*/}
-        {/*        </Link>*/}
-        {/*      )}*/}
-        {/*    </FormattedMessage>*/}
-        {/*  </button>*/}
-        {/*) : null}*/}
-        {/*felin订单cancel appoint*/}
-        {/*{order.canCancelAppoint ? (*/}
-        {/*  <button*/}
-        {/*    className={`rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn felin-order ml-0`}*/}
-        {/*    onClick={this.cancelAppoint.bind(this, order)}*/}
-        {/*  >*/}
-        {/*    <FormattedMessage id="Cancel Appointment" />*/}
-        {/*  </button>*/}
-        {/*) : null}*/}
-        {/*{order.canRePurchase ? (*/}
-        {/*  <button*/}
-        {/*    className={`rc-btn rc-btn--sm rc-btn--two rePurchase-btn ord-list-operation-btn ${*/}
-        {/*      order.addToCartLoading*/}
-        {/*        ? 'ui-btn-loading ui-btn-loading-border-red'*/}
-        {/*        : ''*/}
-        {/*    }`}*/}
-        {/*    onClick={this.rePurchase.bind(this, order)}*/}
-        {/*  >*/}
-        {/*    <FormattedMessage id="rePurchase" />*/}
-        {/*  </button>*/}
-        {/*) : null}*/}
+        {order.canRePurchase ? (
+          <button
+            className={`rc-btn rc-btn--sm rc-btn--two rePurchase-btn ord-list-operation-btn ${
+              order.addToCartLoading
+                ? 'ui-btn-loading ui-btn-loading-border-red'
+                : ''
+            }`}
+            onClick={this.rePurchase.bind(this, order)}
+          >
+            <FormattedMessage id="rePurchase" />
+          </button>
+        ) : null}
         {order.canViewTrackInfo ? (
           <button className="rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn">
             <FormattedMessage id="trackDelivery">
@@ -527,7 +478,7 @@ class AccountOrders extends React.Component {
             <div className="rc-layout-container rc-five-column">
               <SideMenu type="Orders" customCls="rc-md-up" />
               <div
-                className={`my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop pl-0 pr-0 md:pr-3 md:pl-3 ${
+                className={`my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop px-0 md:px-3 ${
                   showOneOrderDetail ? 'hidden' : ''
                 }`}
               >
@@ -941,7 +892,7 @@ class AccountOrders extends React.Component {
                               totalPage={this.state.totalPage}
                               defaultCurrentPage={this.state.currentPage}
                               key={this.state.currentPage}
-                              onPageNumChange={this.hanldePageNumChange}
+                              onPageNumChange={this.handlePageNumChange}
                             />
                           </div>
                         )}
