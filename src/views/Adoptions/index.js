@@ -80,7 +80,6 @@ const Adoptions = (props) => {
     // 获取detail
     let details = await getDetail(product.goodsInfo.goodsInfoId);
     // details = Object.assign({},details,details.goodsInfo)
-    return;
     setBtnLoading(true);
 
     if (loginStore.isLogin) {

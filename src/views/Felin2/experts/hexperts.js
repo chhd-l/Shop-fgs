@@ -10,6 +10,7 @@ import cat1 from '../image/cat1.png';
 import cat2 from '../image/cat2.png';
 import cat3 from '../image/cat3.png';
 import WeekCalender from '../week1/week-calender';
+import { GARecommendationProduct } from '@/utils/GA';
 import {
   gitDict,
   postQueryPrice,
@@ -20,7 +21,8 @@ import {
 } from '@/api/felin';
 import moment from 'moment';
 import LoginButton from '@/components/LoginButton';
-import { getDeviceType } from '../../../utils/utils';
+import { getDeviceType, getAppointmentInfo } from '@/utils/utils';
+import { getLoginDetails, getDetails } from '@/api/details';
 import { injectIntl } from 'react-intl-phraseapp';
 import { postcustomerUpdate } from '../../../api/felin';
 import { scrollIntoView } from '@/lib/scroll-to-utils';
@@ -248,6 +250,11 @@ class Hcexperts extends React.Component {
       );
       return { ...item, ..._temp };
     });
+    dataLayer.push({
+      event: 'AtelierFelinStepLoad',
+      atelierFelinStepName: 'Apointment type',
+      atelierFelinStepNumber: '1'
+    });
     this.setState({
       apptTypeList: apptTypeList.goodsDictionaryVOS,
       list: expertTypeList.reverse(),
@@ -284,6 +291,11 @@ class Hcexperts extends React.Component {
         );
         return { ...item, ..._temp };
       });
+      dataLayer.push({
+        event: 'AtelierFelinStepLoad',
+        atelierFelinStepName: 'Apointment duration',
+        atelierFelinStepNumber: '2'
+      });
       this.setState({
         timeList,
         twoShow: false,
@@ -301,6 +313,11 @@ class Hcexperts extends React.Component {
   };
   // 跳转第四步
   handleGotoFour = () => {
+    dataLayer.push({
+      event: 'AtelierFelinStepLoad',
+      atelierFelinStepName: 'Timeslot selection',
+      atelierFelinStepNumber: '3'
+    });
     this.setState(
       {
         threeShow: false,
@@ -379,10 +396,16 @@ class Hcexperts extends React.Component {
     let apptNo = context.appointmentVO.apptNo;
     let appointmentVO = context.appointmentVO;
     if (apptNo) {
+      await this.queryAppointInfo(apptNo);
       sessionItemRoyal.set('appointment-no', apptNo);
       if (this.state.userInfo) {
         this.props.history.push('/checkout');
       } else {
+        dataLayer.push({
+          event: 'AtelierFelinStepLoad',
+          atelierFelinStepName: 'Login invite',
+          atelierFelinStepNumber: '4'
+        });
         this.setState({
           apptNo,
           appointmentVO,
@@ -507,14 +530,40 @@ class Hcexperts extends React.Component {
       consumerPhone: params.phone
     });
     if (code === 'K-000000') {
+      await this.queryAppointInfo(this.state.appointmentVO.apptNo);
       this.props.history.push('/checkout');
     }
+  };
+  queryAppointInfo = async (appointNo) => {
+    const result = await getAppointmentInfo(appointNo);
+    console.log('appointmentInfo', result);
+    const requestName = this.isLogin ? getLoginDetails : getDetails;
+    const goodInfoRes = await requestName(result?.goodsInfoId);
+    const goodInfo = goodInfoRes?.context || {};
+    if (!goodInfoRes?.context) {
+      this.showErrorMsg('Cannot get product info from api');
+      return;
+    }
+    const goodDetail = Object.assign(goodInfo, {
+      goodsInfoId: result?.goodsInfoId,
+      goodsInfoImg: goodInfo?.goods?.goodsImg,
+      goodsName: goodInfo?.goods?.goodsName || '',
+      buyCount: 1,
+      salePrice: goodInfo?.goodsInfos
+        ? goodInfo?.goodsInfos.filter(
+            (item) => item.goodsInfoId === result?.goodsInfoId
+          )[0].salePrice
+        : 0,
+      selected: true
+    });
+    GARecommendationProduct([goodDetail], 4, []);
   };
 
   postUpdate = async (params) => {
     let id = funcUrl({ name: 'id' });
     const { code, context } = await postUpdate(params);
     if (code === 'K-000000') {
+      await this.queryAppointInfo(context.appointmentVO.apptNo);
       sessionItemRoyal.set('appointment-no', context.appointmentVO.apptNo);
       sessionItemRoyal.set('oldAppointNo', id);
       sessionItemRoyal.set('isChangeAppoint', true);
