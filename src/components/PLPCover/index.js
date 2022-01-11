@@ -514,7 +514,7 @@ function ListItemBodyH5ForGlobalStyle({ item, configStore }) {
           {item.goodsNewSubtitle}
         </p>
       ) : item?.foodType ? (
-        <p className="rc-card__meta text-center rc-padding-top--xs rc-padding-bottom--xs ui-text-overflow-line2">
+        <p className="rc-card__meta rc-padding-top--xs rc-padding-bottom--xs ui-text-overflow-line2">
           <FormattedMessage id={`product.plp.foodtype.${item.foodType}`} />
         </p>
       ) : null}
