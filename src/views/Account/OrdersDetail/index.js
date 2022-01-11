@@ -49,7 +49,7 @@ import { AddressPreview } from '@/components/Address';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-function Progress({ progressList, currentProgerssIndex }) {
+function Progress({ progressList, currentProgressIndex }) {
   console.log(progressList);
   return (
     <div className="od-prg-container ml-2 mr-2 md:ml-4 md:mr-4">
@@ -58,10 +58,10 @@ function Progress({ progressList, currentProgerssIndex }) {
           <>
             <span
               className={`od-prg-text position-relative ${!i ? 'ml-3' : ''} ${
-                i <= currentProgerssIndex ? 'compelete red' : ''
+                i <= currentProgressIndex ? 'compelete red' : ''
               }`}
             >
-              {i <= currentProgerssIndex ? (
+              {i <= currentProgressIndex ? (
                 <svg
                   className="svg-icon align-middle w-6 h-6"
                   aria-hidden="true"
@@ -93,9 +93,9 @@ function Progress({ progressList, currentProgerssIndex }) {
             {i !== progressList.length - 1 ? (
               <span
                 className={`od-prg-line position-relative flex-fill ml-2 mr-2 ${
-                  i < currentProgerssIndex
+                  i < currentProgressIndex
                     ? 'complete'
-                    : i == currentProgerssIndex
+                    : i == currentProgressIndex
                     ? 'ing'
                     : ''
                 }`}
@@ -219,8 +219,7 @@ class AccountOrders extends React.Component {
       errModalText: '',
       countryList: [],
       normalProgressList: [],
-      cancelProgressList: [],
-      currentProgerssIndex: -1,
+      currentProgressIndex: -1,
       defaultLocalDateTime: '',
       isAuditOpen: false,
       processMore: false,
@@ -278,10 +277,9 @@ class AccountOrders extends React.Component {
     return details?.appointmentNo;
   }
   init() {
-    const { orderNumber, progressList } = this.state;
+    const { orderNumber } = this.state;
     this.setState({ loading: true });
     let normalProgressList = [];
-    let cancelProgressList = [];
     getOrderDetails(orderNumber)
       .then(async (res) => {
         let resContext = res.context;
@@ -313,8 +311,8 @@ class AccountOrders extends React.Component {
         });
         const tradeState = resContext.tradeState;
         const orderStatusMap = resContext.orderStatusMap;
-        let currentProgerssIndex = -1;
-        let currentCanceledProgerssIndex = -1;
+        let currentProgressIndex = -1;
+        let currentCanceledProgressIndex = -1;
         normalProgressList = resContext.appointmentNo
           ? handleFelinOrderStatusMap(orderStatusMap)
           : handleOrderStatusMap(orderStatusMap);
@@ -348,15 +346,9 @@ class AccountOrders extends React.Component {
         const tradeEventLogs = res.context.tradeEventLogs || [];
         if (tradeEventLogs.length) {
           const lastedEventLog = tradeEventLogs[0];
-          currentProgerssIndex = findIndex(normalProgressList, (ele) =>
+          currentProgressIndex = findIndex(normalProgressList, (ele) =>
             ele.flowStateIds.includes(tradeState.flowState)
           );
-          if (currentProgerssIndex === -1) {
-            currentCanceledProgerssIndex = findIndex(
-              cancelProgressList,
-              (ele) => ele.flowStateIds.includes(tradeState.flowState)
-            );
-          }
 
           // 从eventLogs中获取时间信息
           // Array.from(normalProgressList, (item) => {
@@ -385,10 +377,9 @@ class AccountOrders extends React.Component {
         this.setState({
           details: handleOrderItem(resContext, res.context),
           loading: false,
-          currentProgerssIndex,
-          currentCanceledProgerssIndex,
+          currentProgressIndex,
+          currentCanceledProgressIndex,
           normalProgressList,
-          cancelProgressList,
           defaultLocalDateTime: res.defaultLocalDateTime,
           subNumber: resContext?.subscriptionResponseVO?.subscribeId,
           orderNumberForOMS: resContext?.tradeOms?.orderNo
@@ -777,11 +768,11 @@ class AccountOrders extends React.Component {
       defaultLocalDateTime,
       orderNumber,
       logisticsList,
-      currentProgerssIndex,
+      currentProgressIndex,
       normalProgressList
     } = this.state;
     let ret = null;
-    switch (currentProgerssIndex) {
+    switch (currentProgressIndex) {
       case 0:
         // 订单创建
         ret = (
@@ -792,7 +783,7 @@ class AccountOrders extends React.Component {
                   <use xlinkHref="#iconTobepaid" />
                 </svg>
               }
-              title={normalProgressList[currentProgerssIndex]?.flowStateDesc}
+              title={normalProgressList[currentProgressIndex]?.flowStateDesc}
               titleColor="text-info"
               tip={
                 <FormattedMessage
@@ -843,7 +834,7 @@ class AccountOrders extends React.Component {
                   <use xlinkHref="#iconTobedelivered" />
                 </svg>
               }
-              title={normalProgressList[currentProgerssIndex]?.flowStateDesc}
+              title={normalProgressList[currentProgressIndex]?.flowStateDesc}
               titleColor="text-warning"
               tip={<FormattedMessage id="order.toBeDeliveredTip" />}
             />
@@ -860,7 +851,7 @@ class AccountOrders extends React.Component {
                 <use xlinkHref="#iconIntransit" />
               </svg>
             }
-            title={normalProgressList[currentProgerssIndex]?.flowStateDesc}
+            title={normalProgressList[currentProgressIndex]?.flowStateDesc}
             titleColor="text-success"
             moreTip={this.renderLogitiscsJSX()}
             tip={
@@ -897,7 +888,7 @@ class AccountOrders extends React.Component {
                   <use xlinkHref="#iconCompleted" />
                 </svg>
               }
-              title={normalProgressList[currentProgerssIndex]?.flowStateDesc}
+              title={normalProgressList[currentProgressIndex]?.flowStateDesc}
               tip={<FormattedMessage id="order.completeTip" />}
               operation={
                 !!+window.__.env.REACT_APP_PDP_RATING_VISIBLE && (
@@ -948,10 +939,10 @@ class AccountOrders extends React.Component {
   };
   //特殊处理felin订单HeadTip
   renderFelinHeadTip = () => {
-    const { currentProgerssIndex, normalProgressList } = this.state;
+    const { currentProgressIndex, normalProgressList } = this.state;
     let ret = null;
-    console.log('currentProgerssIndex', currentProgerssIndex);
-    switch (currentProgerssIndex) {
+    console.log('currentProgressIndex', currentProgressIndex);
+    switch (currentProgressIndex) {
       case 0:
         // Appointment confirmed
         ret = (
@@ -962,7 +953,7 @@ class AccountOrders extends React.Component {
                   <use xlinkHref="#iconTobepaid" />
                 </svg>
               }
-              title={normalProgressList[currentProgerssIndex]?.flowStateDesc}
+              title={normalProgressList[currentProgressIndex]?.flowStateDesc}
               titleColor="text-info"
               tip={<FormattedMessage id="orderStatus.INITTip" />}
             />
@@ -1098,11 +1089,10 @@ class AccountOrders extends React.Component {
     const {
       details,
       payRecord,
-      currentProgerssIndex,
-      currentCanceledProgerssIndex,
+      currentProgressIndex,
+      currentCanceledProgressIndex,
       orderNumber,
       normalProgressList,
-      cancelProgressList,
       showLogisticsDetail,
       curLogisticInfo,
       welcomeGiftLists,
@@ -1167,22 +1157,13 @@ class AccountOrders extends React.Component {
                           {this.isFelinOrder
                             ? this.renderFelinHeadTip()
                             : this.renderHeadTip()}
-                          {currentProgerssIndex > -1 ? (
+                          {currentProgressIndex > -1 ? (
                             <Progress
                               {...this.props}
                               progressList={normalProgressList}
-                              currentProgerssIndex={currentProgerssIndex}
+                              currentProgressIndex={currentProgressIndex}
                             />
                           ) : null}
-                          {/* 取消状态不展示进度条 */}
-                          {/* {currentCanceledProgerssIndex > -1 ? (
-                            <Progress
-                              progressList={cancelProgressList}
-                              currentProgerssIndex={
-                                currentCanceledProgerssIndex
-                              }
-                            />
-                          ) : null} */}
 
                           <div className="rc-bg-colour--brand4 rc-md-down mt-3 h-3.5" />
                           <div className="row m-0 ml-2 mr-2 md:ml-0 md:mr-0">
