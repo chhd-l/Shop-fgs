@@ -9,12 +9,6 @@ import flatten from 'lodash/flatten';
 import findIndex from 'lodash/findIndex';
 import stores from '@/store';
 import { toJS } from 'mobx';
-import mx from 'date-fns/locale/es';
-import de from 'date-fns/locale/de';
-import fr from 'date-fns/locale/fr';
-import tr from 'date-fns/locale/tr';
-import us from 'date-fns/locale/en-US';
-import ru from 'date-fns/locale/ru';
 import { registerLocale } from 'react-datepicker';
 import { getAppointDetail } from '@/api/appointment';
 import cloneDeep from 'lodash/cloneDeep';
@@ -727,44 +721,36 @@ export async function fetchHeaderNavigations() {
 }
 
 function getDatePickerConfig() {
-  const lang = window.__.env.REACT_APP_COUNTRY;
-
-  switch (lang) {
-    case 'de':
-      registerLocale('de', de);
-      break;
-    case 'mx':
-      registerLocale('es', mx);
-      break;
-    case 'fr':
-      registerLocale('fr', fr);
-      break;
-    case 'us':
-      registerLocale('en', us);
-      break;
-    case 'ru':
-      registerLocale('ru', ru);
-      break;
-    case 'tr':
-      registerLocale('tr', tr);
-      break;
-    default:
-      break;
-  }
-
+  //locale_module_lang为date-fns插件对应的多语言文件后缀名
   const datePickerCfg = {
-    mx: { format: 'yyyy-MM-dd', locale: 'es', locale_module: mx },
-    de: { format: 'dd.MM.yyyy', locale: 'de', locale_module: de },
-    fr: { format: 'dd/MM/yyyy', locale: 'fr', locale_module: fr },
-    us: { format: 'MM/dd/yyyy', locale: 'en', locale_module: us },
-    ru: { format: 'dd.MM.yyyy', locale: 'ru', locale_module: ru },
-    tr: { format: 'dd-MM-yyyy', locale: 'tr', locale_module: tr },
-    default: { format: 'yyyy-MM-dd', locale: '' }
+    mx: { locale: 'es', locale_module_lang: 'es' },
+    de: { locale: 'de', locale_module_lang: 'de' },
+    fr: { locale: 'fr', locale_module_lang: 'fr' },
+    us: { locale: 'en', locale_module_lang: 'en-US' },
+    ru: { locale: 'ru', locale_module_lang: 'ru' },
+    tr: { locale: 'tr', locale_module_lang: 'tr' },
+    default: { locale: 'en', locale_module_lang: 'en-US' }
   };
-
   const curDatePickerCfg =
     datePickerCfg[window.__.env.REACT_APP_COUNTRY] || datePickerCfg.default;
-  return curDatePickerCfg;
+  const curLocaleModule =
+    require(`date-fns/locale/${curDatePickerCfg.locale_module_lang}`).default;
+  registerLocale(window.__.env.REACT_APP_COUNTRY, curLocaleModule);
+  // 根据Intl.DateTimeFormat生成当前国家的日期格式
+  const specificDate = formatDate({ date: '2021-12-30' });
+  return Object.assign(
+    {},
+    curDatePickerCfg,
+    {
+      format: specificDate
+        .replace(/2021/gi, 'yyyy')
+        .replace(/12/gi, 'MM')
+        .replace(/30/gi, 'dd')
+    },
+    {
+      locale_module: curLocaleModule
+    }
+  );
 }
 let datePickerConfig = getDatePickerConfig();
 export { datePickerConfig };
@@ -871,12 +857,9 @@ export function getOktaCallBackUrl(sessionToken) {
   const nonce =
     '49HBgn9gMZs4BBUAWkMLOlGwerv7Cw89sT6gooduzyPfg98fOOaCBQ2oDOyCgb3T';
   // hard code可以不用变
-  let homePage = window.__.env.REACT_APP_HOMEPAGE;
-  const regiserUrl =
-    homePage.substring(homePage.length - 1, homePage.length) === '/'
-      ? 'implicit/callback'
-      : '/implicit/callback';
-  const redirectUri = window.location.origin + homePage + regiserUrl;
+  const redirectUri = `${
+    window.location.origin
+  }${window.__.env.REACT_APP_HOMEPAGE.replace(/\/$/gi, '')}/implicit/callback`;
   //OKTA的注册方法，最主要的是sessionToken
   var callOktaCallBack = `${window.__.env.REACT_APP_ISSUER}/v1/authorize?client_id=${window.__.env.REACT_APP_CLIENT_ID}&response_type=id_token token&scope=openid&prompt=none&response_mode=fragment&redirect_uri=${redirectUri}&state=${state}&nonce=${nonce}&sessionToken=${sessionToken}`;
   return callOktaCallBack;
@@ -1066,13 +1049,17 @@ export function handleFelinAppointTime(appointTime) {
   const apptTime = appointTime?.split('#');
   const appointStartTime =
     apptTime?.length > 0
-      ? apptTime[0].split(' ')[0].replace(/^(d{4})(d{2}(d{2}))$/, '$1-&2-&3') +
+      ? apptTime[0]
+          .split(' ')[0]
+          .replace(/^(\d{4})(\d{2})(\d{2})$/, '$1-$2-$3') +
         ' ' +
         apptTime[0].split(' ')[1]
       : '';
   const appointEndTime =
     apptTime?.length > 1
-      ? apptTime[1].split(' ')[0].replace(/^(d{4})(d{2}(d{2}))$/, '$1-&2-&3') +
+      ? apptTime[1]
+          .split(' ')[0]
+          .replace(/^(\d{4})(\d{2})(\d{2})$/, '$1-$2-$3') +
         ' ' +
         apptTime[1].split(' ')[1]
       : '';
@@ -1282,7 +1269,7 @@ export function formatDate({
           : {}
       );
     }
-    console.log('dateFormatCountry:', window.__.env.REACT_APP_NAVIGATOR_LANG);
+
     return new Intl.DateTimeFormat(
       window.__.env.REACT_APP_NAVIGATOR_LANG,
       options

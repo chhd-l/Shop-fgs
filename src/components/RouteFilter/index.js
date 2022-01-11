@@ -157,6 +157,8 @@ class RouteFilter extends Component {
       if (prevPath.includes('/checkout')) {
         sessionItemRoyal.remove('rc-tid');
         sessionItemRoyal.remove('rc-tidList');
+        sessionItemRoyal.remove('rc-swishQrcode');
+        sessionItemRoyal.remove('rc-createSwishQrcodeTime');
         sessionItemRoyal.remove('recommend_product');
         sessionItemRoyal.remove('orderSource');
         sessionItemRoyal.remove('appointment-no');

@@ -86,18 +86,22 @@ export default function BreedSelect(
           {
             isMixedBreedPossibleValues
               ? (
-                <FormattedMessage id={'dailyPortion.breed.searchBreedSize'}>
-                  {(placeholder) => (
-                    <Selection
-                      optionList={mixedBreedPossibleOptions}
-                      selectedItemChange={handleSelectMixedBreedPossible}
-                      selectedItemData={{
-                        value: inputMixedBreedPossibleValue
-                      }}
-                      placeholder={placeholder}
-                    />
-                  )}
-                </FormattedMessage>)
+                <div className='flex items-center'>
+                  <span className={'red pr-2'}>*</span>
+                  <FormattedMessage id={'dailyPortion.breed.searchBreedSize'}>
+                    {(placeholder) => (
+                      <Selection
+                        optionList={mixedBreedPossibleOptions}
+                        selectedItemChange={handleSelectMixedBreedPossible}
+                        selectedItemData={{
+                          value: inputMixedBreedPossibleValue
+                        }}
+                        placeholder={placeholder}
+                      />
+                    )}
+                  </FormattedMessage>
+                </div>
+            )
               : (
                 <div>
                   <FormattedMessage id={'searchBreed'}>
@@ -121,7 +125,7 @@ export default function BreedSelect(
                       />
                     )}
                   </FormattedMessage>
-                  <p className={classNames('red', {
+                  <p className={classNames('', {
                     'hidden': isHiddenWaring
                   })}>
                     <i className="iconfont iconinfo"/>

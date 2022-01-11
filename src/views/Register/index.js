@@ -19,8 +19,7 @@ import Modal from '@/components/Modal';
 import { inject, observer } from 'mobx-react';
 import { addEventListenerArr } from './addEventListener';
 import { EMAIL_REGEXP } from '@/utils/constant';
-import { isString } from 'lodash';
-import ConsentAdditionalText from '@/components/Consent/ConsentAdditionalText';
+// import ConsentAdditionalText from '@/components/Consent/ConsentAdditionalText';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -240,13 +239,8 @@ class Register extends Component {
     const deIllegalSymbol = symbolReg1.test(value) || symbolReg2.test(value);
     switch (name) {
       case 'password':
-        const {
-          ruleLength,
-          ruleLower,
-          ruleUpper,
-          ruleAname,
-          ruleSpecial
-        } = this.state;
+        const { ruleLength, ruleLower, ruleUpper, ruleAname, ruleSpecial } =
+          this.state;
         const passwordValid =
           ruleLength && ruleLower && ruleUpper && ruleAname && ruleSpecial;
         this.setState({
@@ -295,7 +289,8 @@ class Register extends Component {
       var lowerReg = /[a-z]+/;
       var upperReg = /[A-Z]+/;
       var nameReg = /[\d]+/;
-      var specialReg = /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
+      var specialReg =
+        /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
       this.setState(
         {
           ruleLength: value.length >= 8,
@@ -432,19 +427,11 @@ class Register extends Component {
               customerId: customerDetail.customerId
             })
               .then((res) => {
-                if (res.code === 'K-000000') {
-                  loginStore.setUserInfo(customerDetail); // For compare email
-                  this.props.history.push('/welcome/' + registerForm.email);
-                } else {
-                  window.scrollTo(0, 0);
-                  this.setState({
-                    circleLoading: false,
-                    hasError: true,
-                    errorMessage: null
-                  });
-                }
+                loginStore.setUserInfo(customerDetail); // For compare email
+                this.props.history.push('/welcome/' + registerForm.email);
               })
               .catch((err) => {
+                window.scrollTo(0, 0);
                 this.setState({
                   circleLoading: false,
                   hasError: true,
@@ -674,9 +661,9 @@ class Register extends Component {
                           <FormattedMessage id="registerLoginIn" />
                         </a>
                       </p>
-                      {window.__.env.REACT_APP_COUNTRY !== 'ru' &&
-                      window.__.env.REACT_APP_COUNTRY !== 'tr' &&
-                      window.__.env.REACT_APP_COUNTRY !== 'uk' ? (
+                      {/* SocialRegister */}
+                      {window.__.env.REACT_APP_FaceBook_IDP ||
+                      window.__.env.REACT_APP_Google_IDP ? (
                         <>
                           <SocialRegister />
                           <div className="rc-column">
@@ -703,7 +690,7 @@ class Register extends Component {
                       <div className="rc-column">
                         <form
                           id="registrationForm"
-                          className="registration-form rc-margin-bottom--xl--mobile"
+                          className="registration-form rc-margin-bottom--xl--mobile p-0 md:px-28"
                           encoding="off"
                         >
                           <div className="rc-margin-bottom--xs">

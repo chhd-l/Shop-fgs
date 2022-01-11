@@ -199,6 +199,7 @@ class FelinRecommendation extends React.Component {
             console.log(g.goodsInfoId, el, 'hhhh');
             if (g.goodsInfoId === el.goodsInfo.goodsInfoId) {
               g.selected = true;
+              g.salePrice = g.marketPrice;
               g.specText = el.goodsInfo.specText;
             }
             return g;
@@ -229,6 +230,9 @@ class FelinRecommendation extends React.Component {
           el.goodsSpecs = specList;
         });
         let productList = productLists.map((el) => {
+          el.goodsInfos.forEach((item) => {
+            item.salePrice = item.marketPrice;
+          });
           return Object.assign(
             {},
             el,
@@ -341,7 +345,7 @@ class FelinRecommendation extends React.Component {
             goodsNum: inStockProducts[i].recommendationNumber,
             goodsCategory: '',
             goodsInfoFlag: 0,
-            recommendationId: 'Felin'
+            recommendationId: 'L’ Atelier Félin'
           });
           await this.props.checkoutStore.updateLoginCart({
             intl: this.props.intl
@@ -482,7 +486,7 @@ class FelinRecommendation extends React.Component {
         quantity: product.recommendationNumber,
         currentUnitPrice: product.goodsInfo?.marketPrice,
         goodsInfoFlag: 0,
-        recommendationId: 'Felin',
+        recommendationId: 'L’ Atelier Félin',
         periodTypeId: null,
         orderSource: 'L_ATELIER_FELIN'
         // goodsInfoFlag: product.goodsInfoFlag,
