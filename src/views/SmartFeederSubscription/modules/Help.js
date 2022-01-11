@@ -290,7 +290,11 @@ class Help extends React.Component {
                                     <DistributeHubLinkOrATag
                                       href={emailLink}
                                       to={emailLink}
-                                      onClick={this.saveCurrentScrollTop}
+                                      onClick={() => {
+                                        this.saveCurrentScrollTop;
+                                        this.props.GAforEmail &&
+                                          this.props.GAforEmail();
+                                      }}
                                       className="rc-styled-link"
                                     >
                                       {email ? (

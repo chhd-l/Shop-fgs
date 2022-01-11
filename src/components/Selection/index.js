@@ -62,6 +62,7 @@ export default class Selection extends React.Component {
     if (this.props.disabled) {
       return;
     }
+    this.props.onClick && this.props.onClick();
     this.setState((currentState) => ({
       optionsVisible: !currentState.optionsVisible,
       hoveredIdx: !currentState.optionsVisible

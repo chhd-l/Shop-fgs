@@ -13,6 +13,7 @@ import UsAndRu from '../Recommendation_US/components/UsAndRu';
 const pageLink = window.location.href;
 import { IMG_DEFAULT } from '@/utils/constant';
 import { sitePurchase } from '@/api/cart';
+import { GARecommendationProduct } from '@/utils/GA';
 
 import stores from '@/store';
 import { getShelterList } from '@/api/recommendation';
@@ -79,6 +80,7 @@ const Adoptions = (props) => {
     // 获取detail
     let details = await getDetail(product.goodsInfo.goodsInfoId);
     // details = Object.assign({},details,details.goodsInfo)
+    return;
     setBtnLoading(true);
 
     if (loginStore.isLogin) {
@@ -95,6 +97,7 @@ const Adoptions = (props) => {
       getFrequencyDict()
     ]);
     let res = goodsRes.context;
+    // GARecommendationProduct([res], 3, frequencyDictRes);
     res.goodsInfo = res.goodsInfos.find((el) => el.goodsInfoId == goodsInfoId);
     // handleFrequencyIdDefault(res, frequencyDictRes);
     res.sizeList = res.goodsInfos.map((g) => {
@@ -220,6 +223,16 @@ const Adoptions = (props) => {
   const handleSelectChange = (data) => {
     setShelter(data);
   };
+  const GAShelterLPdropdownClick = () => {
+    // dataLayer.push({
+    //   event: 'shelterLPdropdownClick'
+    // });
+  };
+  const GAforEmail = () => {
+    // dataLayer.push({
+    //   'event' : 'shelterLPSendUsAnEmail'
+    // });
+  };
   return (
     <div>
       <Helmet>
@@ -286,7 +299,10 @@ const Adoptions = (props) => {
               </div>
             </div>
             <div className="rc-margin-y--md shelter-box">
-              <div className="rc-layout-container rc-five-column   padding-x--lg-forpc">
+              <div
+                className="rc-layout-container rc-five-column   padding-x--lg-forpc"
+                data-tms="Shelter Selection"
+              >
                 <div className="rc-column rc-double-width sub-title font-26px">
                   Get started by selecting your shelter
                 </div>
@@ -302,6 +318,7 @@ const Adoptions = (props) => {
                   </p>
                   <Selection
                     hasBorder={true}
+                    onClick={GAShelterLPdropdownClick}
                     optionList={shelterList}
                     selectedItemChange={(data) => handleSelectChange(data)}
                     selectedItemData={{
@@ -382,6 +399,7 @@ const Adoptions = (props) => {
           className="rc-border-bottom rc-border-colour--brand4 rc-margin-top--md"
           style={{ borderBottomWidth: '4px' }}
         ></div>
+        {/* <UsAndRu GAforEmail={GAforEmail} dataTms1="Reinsurance" dataTms2 = "Royal Canin Club" dataTms3 = "Why Royal Canin"/> */}
         <UsAndRu />
         <Footer />
       </main>
