@@ -26,19 +26,21 @@ const fetchDynamicConfig = async () => {
 
       const oktaSettingConfig = res?.context?.oktaSettingConfig;
       if (oktaSettingConfig) {
+        const domainName =
+          process.env.REACT_APP_ACCESS_PATH || oktaSettingConfig.domainName;
         envVal = Object.assign(envVal, {
-          REACT_APP_ACCESS_PATH: oktaSettingConfig.domainName,
+          REACT_APP_ACCESS_PATH: domainName,
           REACT_APP_CLIENT_ID: decryptString(oktaSettingConfig.clientId),
           REACT_APP_ISSUER: `${oktaSettingConfig.oktaDomain.replace(
             /\/$/gi,
             ''
           )}/oauth2/default`,
-          REACT_APP_RedirectURL: `${oktaSettingConfig.domainName.replace(
+          REACT_APP_RedirectURL: `${domainName.replace(
             /\/$/gi,
             ''
           )}/implicit/callback`,
           REACT_APP_RegisterPrefix: `${oktaSettingConfig.ciamDomain}?redirect_uri=`,
-          REACT_APP_RegisterCallback: `${oktaSettingConfig.domainName}?origin=register`
+          REACT_APP_RegisterCallback: `${domainName}?origin=register`
         });
       }
 
