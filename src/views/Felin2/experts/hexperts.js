@@ -396,9 +396,9 @@ class Hcexperts extends React.Component {
     let apptNo = context.appointmentVO.apptNo;
     let appointmentVO = context.appointmentVO;
     if (apptNo) {
-      await this.queryAppointInfo(apptNo);
       sessionItemRoyal.set('appointment-no', apptNo);
       if (this.state.userInfo) {
+        await this.queryAppointInfo(apptNo);
         this.props.history.push('/checkout');
       } else {
         dataLayer.push({

@@ -383,10 +383,12 @@ export const GARecommendationProduct = (
     const { goods, goodsInfos, goodsAttributesValueRelVOAllList } = item;
     const { minMarketPrice, goodsNo, goodsName, goodsCateName } = goods;
     let price = minMarketPrice;
-    const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
+    let SKU = goodsInfos?.[0]?.goodsInfoNo || '';
     if (type === 3 || type === 4) {
-      debugger;
-      price = item.goodsInfos.find((el) => el.goodsInfoId === SKU)?.marketPrice;
+      SKU = item.goodsInfos.find(
+        (citem) => citem.goodsInfoId == item.goodsInfoId
+      )?.goodsInfoNo;
+      price = item.salePrice;
     }
     const cateName = goodsCateName?.split('/');
     const breed = (goodsAttributesValueRelVOAllList || [])
@@ -422,6 +424,8 @@ export const GARecommendationProduct = (
     let res = deleteObjEmptyAttr(productItem);
     return res;
   });
+  console.info('gaproducts', products);
+  debugger;
   (type === 1 || type === 4) &&
     dataLayer.unshift({
       products

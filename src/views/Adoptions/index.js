@@ -95,7 +95,13 @@ const Adoptions = (props) => {
       requestName(goodsInfoId),
       getFrequencyDict()
     ]);
-    let res = goodsRes.context;
+    let salePrice = goodsRes.context.goodsInfos.find(
+      (el) => el.goodsInfoId == goodsInfoId
+    )?.marketPrice;
+    let res = Object.assign({}, goodsRes.context, {
+      goodsInfoId,
+      salePrice
+    });
     // GARecommendationProduct([res], 3, frequencyDictRes);
     res.goodsInfo = res.goodsInfos.find((el) => el.goodsInfoId == goodsInfoId);
     // handleFrequencyIdDefault(res, frequencyDictRes);
