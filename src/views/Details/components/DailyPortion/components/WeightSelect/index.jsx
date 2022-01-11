@@ -17,11 +17,11 @@ export default function WeightSelect(
     onChange(value);
   }
 
-  const handleBlur = (e) => {
-    let num = parseFloat(e.target.value);
-    let cleanNum = num.toFixed(2);
-    onChange(cleanNum);
-  }
+  // const handleBlur = (e) => {
+  //   let num = parseFloat(e.target.value);
+  //   let cleanNum = num.toFixed(2);
+  //   onChange(cleanNum);
+  // }
 
   useEffect(() => {
     setWeight(value)
@@ -38,7 +38,7 @@ export default function WeightSelect(
           type='number'
           value={weight}
           onChange={changeNumValue}
-          onBlur={handleBlur}
+          // onBlur={handleBlur}
         />
         <span>{unit}</span>
       </div>

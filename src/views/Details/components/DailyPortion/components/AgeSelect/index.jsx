@@ -49,11 +49,12 @@ export default function AgeSelect(
   }
 
   const handleSubtract = () => {
-    if (year === 0 || month === 0) return;
 
     if (type === 'year'){
+      if (year === 0) return;
       onChangeYear(--year)
     }else {
+      if (month === 0) return;
       onChangeMonth(--month);
     }
   }
