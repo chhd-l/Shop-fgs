@@ -682,7 +682,7 @@ export default function DailyPortion(
                 disabled={stepOneDisabled}
                 className={
                 classNames(
-                  'rc-btn dailyPortion-startBtn',
+                  'rc-btn rc-btn--one rc-margin-right--xs--mobile',
                   {'rc-btn-solid-disabled': stepOneDisabled},
                 )
               } onClick={() => setStep(2)}>
@@ -718,7 +718,7 @@ export default function DailyPortion(
                 onClick={() => setStep(1)}
                 className={
                   classNames(
-                    'rc-btn dailyPortion-startBtn',
+                    'rc-btn rc-btn--one rc-margin-right--xs--mobile',
                   )
                 }>
                 <FormattedMessage id='dailyPortion.editInformations'/>
@@ -747,7 +747,7 @@ export default function DailyPortion(
               onClick={() => againCalculation(true)}
               className={
                 classNames(
-                  'rc-btn dailyPortion-startBtn',
+                  'rc-btn rc-btn--one rc-margin-right--xs--mobile',
                 )
               }>
               <FormattedMessage id='dailyPortion.newCalculationBtnText'/>

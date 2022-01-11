@@ -26,11 +26,10 @@ import loadable from '@/lib/loadable-component';
 import oktaConfig from './oktaConfig';
 import stores from './store';
 import { PDP_Regex } from '@/utils/constant';
-import { redirectFun } from '@/redirect/utils';
+// import { redirectFun } from '@/redirect/utils';
 import '@/utils/init';
 import { stgShowAuth } from '@/utils/utils';
 import ScrollToTop from '@/components/ScrollToTop';
-// import { getDynamicLanguage } from './lang';
 import { useDynamicLanguage } from '@/framework/common';
 import RouteFilter from '@/components/RouteFilter';
 import RouteFilterHook from '@/components/RouteFilter/RouteFilterHook';
@@ -234,21 +233,24 @@ const LoginCallback = (props) => {
   const { oktaAuth, authState } = useOktaAuth();
   const authStateReady = !authState.isPending;
 
-  useEffect(async () => {
-    const sessionToken = localItemRoyal.get('okta-session-token');
-    const authCallBack =
-      window.location.search.indexOf('?code') >= 0 &&
-      window.location.search.indexOf('&state') >= 0; // 是否是正常登录的callback即，!authCallBack为自动登录的callback
-    if (sessionToken && !authStateReady && !authCallBack) {
-      await oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE); //自动登录需要跳转到OKTA，然后callback，才能取到前端的token
-    } else {
-      if (authStateReady) {
+  useEffect(() => {
+    const init = async () => {
+      const sessionToken = localItemRoyal.get('okta-session-token');
+      const authCallBack =
+        window.location.search.indexOf('?code') >= 0 &&
+        window.location.search.indexOf('&state') >= 0; // 是否是正常登录的callback即，!authCallBack为自动登录的callback
+      if (sessionToken && !authStateReady && !authCallBack) {
+        await oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE); //自动登录需要跳转到OKTA，然后callback，才能取到前端的token
       } else {
-        await oktaAuth.handleLoginRedirect(); // 执行okta的callback，从而获取okta的数据，如：token等
+        if (authStateReady) {
+        } else {
+          await oktaAuth.handleLoginRedirect(); // 执行okta的callback，从而获取okta的数据，如：token等
+        }
+        console.log(authState);
+        props && props.history.push('/required');
       }
-      console.log(authState);
-      props && props.history.push('/required');
-    }
+    };
+    init()
   }, [oktaAuth, authStateReady]);
 
   return <div />;
@@ -315,7 +317,7 @@ const App = () => {
         <Router
           basename={window.__.env.REACT_APP_HOMEPAGE}
           path={'/'}
-          forceRefresh={true}
+          // forceRefresh={true}
         >
           <ScrollToTop>
             <Security
@@ -377,7 +379,10 @@ const App = () => {
                   exact
                   path="/confirmation"
                   render={(props) => {
-                    console.log('isRefreshConfirmPage:',Boolean(sessionItemRoyal.get('refresh-confirm-page')))
+                    console.log(
+                      'isRefreshConfirmPage:',
+                      Boolean(sessionItemRoyal.get('refresh-confirm-page'))
+                    );
                     if (Boolean(sessionItemRoyal.get('refresh-confirm-page'))) {
                       if (window.__.env.REACT_APP_HUB) {
                         window.location.href =
@@ -631,9 +636,8 @@ const App = () => {
                         sublanding = DE_SubscriptionLanding;
                         break;
                       case 'us':
-                        sublanding = US_SubscriptionLanding;
-                        break;
                       case 'uk':
+                      case 'se':
                         sublanding = US_SubscriptionLanding;
                         break;
                       case 'ru':

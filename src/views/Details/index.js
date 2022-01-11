@@ -1136,12 +1136,14 @@ class Details extends React.Component {
         ?.split('_')?.[0];
 
     return (
-      <DailyPortion
-        initBreedValue={initBreedValue}
-        speciesValue={speciesValue}
-        goodsInfo={currentGoodsInfo}
-        details={details}
-      />
+      <div className="rc-max-width--xl rc-padding-x--sm">
+        <DailyPortion
+          initBreedValue={initBreedValue}
+          speciesValue={speciesValue}
+          goodsInfo={currentGoodsInfo}
+          details={details}
+        />
+      </div>
     );
   };
 

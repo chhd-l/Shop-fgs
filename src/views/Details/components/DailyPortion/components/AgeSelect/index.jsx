@@ -40,14 +40,21 @@ export default function AgeSelect(
 
   const selectedChange = (data) => {
     setType(data.value)
+
+    switch (data.value) {
+      case 'year': return onChangeMonth(0);
+      case 'month': return onChangeYear(0);
+      default: return;
+    }
   }
 
   const handleSubtract = () => {
-    if (year === 0 || month === 0) return;
 
     if (type === 'year'){
+      if (year === 0) return;
       onChangeYear(--year)
     }else {
+      if (month === 0) return;
       onChangeMonth(--month);
     }
   }
