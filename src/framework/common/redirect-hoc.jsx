@@ -80,7 +80,8 @@ const redirectHoc = (WrappedComponent) => {
       }
 
       if (localItemRoyal.get('login-again')) {
-        return null;
+        console.log('login-again localstorage value', localItemRoyal.get('login-again'))
+        // return null;
       }
       return <WrappedComponent {...this.props} />;
     }
