@@ -175,7 +175,7 @@ class ClinicEditForm extends React.Component {
   };
   render() {
     const {
-      configStore: { info },
+      configStore: { info, prescriberSelectTyped },
       intl
     } = this.props;
     const { editFormVisible, form, errorMsg } = this.state;
@@ -277,15 +277,14 @@ class ClinicEditForm extends React.Component {
                     keyWord: inputVal
                   };
 
-                  const res = await (info?.prescriberSelectTyped ===
-                    'PRESCRIBER_MAP'
+                  const res = await (prescriberSelectTyped === 'PRESCRIBER_MAP'
                     ? getPrescriberByKeyWord
                     : getPrescriberByCode)(param);
                   const prescriber =
                     (res.context && res.context.prescriberVo) || [];
                   if (
                     prescriber.length === 0 &&
-                    info?.prescriberSelectTyped === 'RECOMMENDATION_CODE'
+                    prescriberSelectTyped === 'RECOMMENDATION_CODE'
                   ) {
                     this.setState({
                       errorMsg:
@@ -301,7 +300,7 @@ class ClinicEditForm extends React.Component {
                     Object.assign(ele, {
                       name: ele.prescriberName,
                       recommendationCode:
-                        info?.prescriberSelectTyped === 'PRESCRIBER_MAP'
+                        prescriberSelectTyped === 'PRESCRIBER_MAP'
                           ? ''
                           : inputVal
                     })
