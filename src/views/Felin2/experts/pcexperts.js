@@ -17,6 +17,7 @@ import three from '../image/three.png';
 import four from '../image/four.png';
 import five from '../image/five.png';
 import WeekCalender from '../week/week-calender';
+import { GARecommendationProduct } from '@/utils/GA';
 import {
   gitDict,
   postQueryPrice,
@@ -27,7 +28,8 @@ import {
 } from '@/api/felin';
 import moment from 'moment';
 import LoginButton from '@/components/LoginButton';
-import { getDeviceType } from '../../../utils/utils';
+import { getDeviceType, getAppointmentInfo } from '../../../utils/utils';
+import { getLoginDetails, getDetails } from '@/api/details';
 import { postcustomerUpdate } from '../../../api/felin';
 import { injectIntl } from 'react-intl-phraseapp';
 import { scrollIntoView } from '@/lib/scroll-to-utils';
@@ -234,6 +236,11 @@ class Pcexperts extends React.Component {
       return { ...item, ..._temp };
     });
     console.log(apptTypeList);
+    dataLayer.push({
+      event: 'AtelierFelinStepLoad',
+      atelierFelinStepName: 'Apointment type',
+      atelierFelinStepNumber: '1'
+    });
     this.setState(
       {
         apptTypeList: apptTypeList.goodsDictionaryVOS,
@@ -294,6 +301,11 @@ class Pcexperts extends React.Component {
         );
         return { ...item, ..._temp };
       });
+      dataLayer.push({
+        event: 'AtelierFelinStepLoad',
+        atelierFelinStepName: 'Apointment duration',
+        atelierFelinStepNumber: '2'
+      });
       this.setState(
         {
           timeList,
@@ -323,6 +335,11 @@ class Pcexperts extends React.Component {
   };
   // 跳转第四步
   handleGotoFour = () => {
+    dataLayer.push({
+      event: 'AtelierFelinStepLoad',
+      atelierFelinStepName: 'Timeslot selection',
+      atelierFelinStepNumber: '3'
+    });
     this.setState(
       {
         threeShow: false,
@@ -411,8 +428,16 @@ class Pcexperts extends React.Component {
     if (apptNo) {
       sessionItemRoyal.set('appointment-no', apptNo);
       if (this.state.userInfo) {
+        await this.queryAppointInfo(apptNo);
         this.props.history.push('/checkout');
       } else {
+        if (!this.state.userInfo) {
+          dataLayer.push({
+            event: 'AtelierFelinStepLoad',
+            atelierFelinStepName: 'Login invite',
+            atelierFelinStepNumber: '4'
+          });
+        }
         this.setState({
           apptNo,
           appointmentVO,
@@ -527,13 +552,40 @@ class Pcexperts extends React.Component {
       consumerPhone: params.phone
     });
     if (code === 'K-000000') {
+      await this.queryAppointInfo(this.state.appointmentVO.apptNo);
       this.props.history.push('/checkout');
     }
   };
+  queryAppointInfo = async (appointNo) => {
+    const result = await getAppointmentInfo(appointNo);
+    console.log('appointmentInfo', result);
+    const requestName = this.isLogin ? getLoginDetails : getDetails;
+    const goodInfoRes = await requestName(result?.goodsInfoId);
+    const goodInfo = goodInfoRes?.context || {};
+    if (!goodInfoRes?.context) {
+      this.showErrorMsg('Cannot get product info from api');
+      return;
+    }
+    const goodDetail = Object.assign(goodInfo, {
+      goodsInfoId: result?.goodsInfoId,
+      goodsInfoImg: goodInfo?.goods?.goodsImg,
+      goodsName: goodInfo?.goods?.goodsName || '',
+      buyCount: 1,
+      salePrice: goodInfo?.goodsInfos
+        ? goodInfo?.goodsInfos.filter(
+            (item) => item.goodsInfoId === result?.goodsInfoId
+          )[0].salePrice
+        : 0,
+      selected: true
+    });
+    GARecommendationProduct([goodDetail], 4, []);
+  };
+
   postUpdate = async (params) => {
     let id = funcUrl({ name: 'id' });
     const { code, context } = await postUpdate(params);
     if (code === 'K-000000') {
+      await this.queryAppointInfo(context.appointmentVO.apptNo);
       sessionItemRoyal.set('appointment-no', context.appointmentVO.apptNo);
       sessionItemRoyal.set('oldAppointNo', id);
       sessionItemRoyal.set('isChangeAppoint', true);
