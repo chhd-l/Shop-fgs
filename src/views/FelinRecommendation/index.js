@@ -199,6 +199,7 @@ class FelinRecommendation extends React.Component {
             console.log(g.goodsInfoId, el, 'hhhh');
             if (g.goodsInfoId === el.goodsInfo.goodsInfoId) {
               g.selected = true;
+              g.salePrice = g.marketPrice;
               g.specText = el.goodsInfo.specText;
             }
             return g;
@@ -229,6 +230,9 @@ class FelinRecommendation extends React.Component {
           el.goodsSpecs = specList;
         });
         let productList = productLists.map((el) => {
+          el.goodsInfos.forEach((item) => {
+            item.salePrice = item.marketPrice;
+          });
           return Object.assign(
             {},
             el,
