@@ -465,7 +465,7 @@ export default function DailyPortion(
 
   const handleGenderCode = (data) => {
     setGender(data)
-    dataLayer.push({
+    window.dataLayer && dataLayer.push({
       'event' : 'rationingToolInteraction',
       'rationingToolInteraction' : 'Gender'
     })
@@ -473,7 +473,7 @@ export default function DailyPortion(
 
   const handleSetYear = (data) => {
     setYear(data)
-    dataLayer.push({
+    window.dataLayer && dataLayer.push({
       'event' : 'rationingToolInteraction',
       'rationingToolInteraction' : 'Pet Age'
     })
@@ -481,7 +481,7 @@ export default function DailyPortion(
 
   const handleSetMouth = (data) => {
     setMonth(data)
-    dataLayer.push({
+    window.dataLayer && dataLayer.push({
       'event' : 'rationingToolInteraction',
       'rationingToolInteraction' : 'Pet Age'
     })
@@ -489,7 +489,7 @@ export default function DailyPortion(
 
   const handleSetNeutered = (data) => {
     setNeutered(data)
-    dataLayer.push({
+    window.dataLayer && dataLayer.push({
       'event' : 'rationingToolInteraction',
       'rationingToolInteraction' : 'Pet neutered'
     })
@@ -497,14 +497,14 @@ export default function DailyPortion(
 
   const handlePetActivityCode = (data) => {
     setpetActivityCode(data)
-    dataLayer.push({
+    window.dataLayer && dataLayer.push({
       'event' : 'rationingToolInteraction',
       'rationingToolInteraction' : 'Pet Activity'
     })
   }
 
   const getResult = async () => {
-    dataLayer.push({
+    window.dataLayer && dataLayer.push({
       'event' : 'rationingToolInteraction',
       'rationingToolInteraction' : 'Calculate portion'
     })
@@ -566,7 +566,7 @@ export default function DailyPortion(
           break;
       }
       // When the result is displayed
-      dataLayer.push({
+      window.dataLayer && dataLayer.push({
         'event' : 'rationingToolInteraction',
         'rationingToolInteraction' : 'Display result'
       })
@@ -595,7 +595,7 @@ export default function DailyPortion(
     // 返回第一步
     setStep(1)
 
-    isGA && dataLayer.push({
+    isGA &&  window.dataLayer && dataLayer.push({
       'event' : 'rationingToolInteraction',
       'rationingToolInteraction' : 'Start a new calculation'
     })

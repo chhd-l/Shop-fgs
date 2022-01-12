@@ -9,8 +9,11 @@ const filterAttrValue = (list, keyWords) => {
 
 // 判断购买方式
 const getPdpScreenLoadCTAs = (data) => {
-  const { currentSubscriptionStatus, currentSubscriptionPrice, skuPromotions } =
-    data;
+  const {
+    currentSubscriptionStatus,
+    currentSubscriptionPrice,
+    skuPromotions
+  } = data;
   let content = ['Single Purchase'];
   if (
     currentSubscriptionStatus &&
@@ -140,7 +143,7 @@ const hubGAProductDetailPageView = (item, pdpScreenLoadData) => {
 
 //hub加入购物车，埋点
 const hubGAAToCar = (quantity, form) => {
-  dataLayer.push({
+  winddataLayer.push({
     event: 'pdpAddToCart',
     pdpAddToCartQuantity: quantity,
     pdpAddToCartCtA: { 0: 'One Shot', 1: 'Subscription', 2: 'Club' }[
@@ -151,17 +154,19 @@ const hubGAAToCar = (quantity, form) => {
 
 //零售商购物 埋点
 const HubGaPdpBuyFromRetailer = () => {
-  dataLayer.push({
-    event: 'pdpBuyFromRetailer'
-  });
+  window.dataLayer &&
+    dataLayer.push({
+      event: 'pdpBuyFromRetailer'
+    });
 };
 
 //选择商品规格
 const GAPdpSizeChange = (size) => {
-  dataLayer.push({
-    event: 'pdpSizeChange',
-    pdpSizeChangeNewSize: size //Same wording as displayed on the site, with units depending on the country (oz, grams, lb…)
-  });
+  window.dataLayer &&
+    dataLayer.push({
+      event: 'pdpSizeChange',
+      pdpSizeChangeNewSize: size //Same wording as displayed on the site, with units depending on the country (oz, grams, lb…)
+    });
 };
 
 export {

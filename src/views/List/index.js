@@ -55,11 +55,10 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =
   'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
-const urlPrefix =
-  `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-    /\/$/,
-    ''
-  );
+const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+  /\/$/,
+  ''
+);
 
 const filterAttrValue = (list, keyWords) => {
   return (list || [])
@@ -409,9 +408,9 @@ class List extends React.Component {
     if (
       keywordsSearch &&
       window.dataLayer &&
-      window.dataLayer[0] &&
-      window.dataLayer[0].page &&
-      window.dataLayer[0].page.type
+      dataLayer[0] &&
+      dataLayer[0].page &&
+      dataLayer[0].page.type
     ) {
     }
     this.setState(
@@ -755,26 +754,27 @@ class List extends React.Component {
   }
   //点击商品 埋点
   GAProductClick(item, index) {
-    dataLayer.push({
-      event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComProductClick`,
-      ecommerce: {
-        click: {
-          actionField: { list: this.state.GAListParam },
-          products: [
-            {
-              name: item.goodsName,
-              id: item.goodsNo,
-              club: 'no',
-              brand: item.goodsBrand.brandName,
-              category: item.goodsCateName,
-              list: this.state.GAListParam,
-              position: index,
-              sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo
-            }
-          ]
+    window.dataLayer &&
+      dataLayer.push({
+        event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComProductClick`,
+        ecommerce: {
+          click: {
+            actionField: { list: this.state.GAListParam },
+            products: [
+              {
+                name: item.goodsName,
+                id: item.goodsNo,
+                club: 'no',
+                brand: item.goodsBrand.brandName,
+                category: item.goodsCateName,
+                list: this.state.GAListParam,
+                position: index,
+                sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo
+              }
+            ]
+          }
         }
-      }
-    });
+      });
   }
 
   //点击商品 hubGa埋点
@@ -790,13 +790,14 @@ class List extends React.Component {
         })
       : [];
     let activeFilters = flatMap(Filters);
-    dataLayer.push({
-      event: 'plpProductClick',
-      plpProductClickItem: {
-        SKU,
-        activeFilters
-      }
-    });
+    window.dataLayer &&
+      dataLayer.push({
+        event: 'plpProductClick',
+        plpProductClickItem: {
+          SKU,
+          activeFilters
+        }
+      });
   }
 
   // 商品列表 埋点
@@ -818,18 +819,19 @@ class List extends React.Component {
       };
     });
 
-    if (dataLayer[0] && dataLayer[0].search) {
+    if (window.dataLayer && dataLayer[0] && dataLayer[0].search) {
       dataLayer[0].search.query = keywords;
       dataLayer[0].search.results = totalElements;
       dataLayer[0].search.type = 'with results';
     }
 
-    dataLayer.push({
-      event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComProductImpression`,
-      ecommerce: {
-        impressions: impressions
-      }
-    });
+    window.dataLayer &&
+      dataLayer.push({
+        event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComProductImpression`,
+        ecommerce: {
+          impressions: impressions
+        }
+      });
   }
 
   // hub商品列表 埋点
@@ -896,12 +898,14 @@ class List extends React.Component {
       return res;
     });
 
-    dataLayer.push({
-      products
-    });
+    window.dataLayer &&
+      dataLayer.push({
+        products
+      });
 
     type !== 'pageChange' &&
       // setTimeout(() => {
+      window.dataLayer &&
       dataLayer.push({
         event: 'plpScreenLoad',
         plpScreenLoad: {
@@ -911,7 +915,7 @@ class List extends React.Component {
       });
     // }, 3000gtm优化);
 
-    if (dataLayer[0] && dataLayer[0].search) {
+    if (window.dataLayer && dataLayer[0] && dataLayer[0].search) {
       dataLayer[0].search.query = keywords;
       dataLayer[0].search.results = totalElements;
       dataLayer[0].search.type = 'with results';
@@ -968,11 +972,12 @@ class List extends React.Component {
       let res = filterObjectValue(productItem);
       return res;
     });
-    dataLayer.push({
-      event: 'plpListLazyLoad',
-      plpListLazyLoadSection: this.state.listLazyLoadSection,
-      plpListLazyLoadProducts: products
-    });
+    window.dataLayer &&
+      dataLayer.push({
+        event: 'plpListLazyLoad',
+        plpListLazyLoadSection: this.state.listLazyLoadSection,
+        plpListLazyLoadProducts: products
+      });
   }
 
   toggleFilterModal(status) {
@@ -1649,9 +1654,8 @@ class List extends React.Component {
 
   stickyMobileRefineBar() {
     if (isMobilePhone) {
-      var t = document
-        ?.getElementById('refineBar')
-        ?.getBoundingClientRect().top;
+      var t = document?.getElementById('refineBar')?.getBoundingClientRect()
+        .top;
       window.addEventListener('scroll', () => {
         var choosedVal = document.querySelector('.filter-value'); // 有选择的时候才操作
         if (window.pageYOffset + 33 >= t && choosedVal) {
