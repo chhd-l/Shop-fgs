@@ -702,6 +702,7 @@ export default function DailyPortion(
           <div className='py-6 lg:py-10 text-center'>
             <div className='pb-6'>
               <button
+                style={{minWidth: '200px'}}
                 disabled={!bcs}
                 onClick={() => getResult()}
                 className={classNames(
@@ -715,10 +716,11 @@ export default function DailyPortion(
             </div>
             <div>
               <button
+                style={{minWidth: '200px'}}
                 onClick={() => setStep(1)}
                 className={
                   classNames(
-                    'rc-btn rc-btn--one rc-margin-right--xs--mobile',
+                    'rc-btn dailyPortion-startBtn rc-margin-right--xs--mobile',
                   )
                 }>
                 <FormattedMessage id='dailyPortion.editInformations'/>
@@ -747,7 +749,7 @@ export default function DailyPortion(
               onClick={() => againCalculation(true)}
               className={
                 classNames(
-                  'rc-btn rc-btn--one rc-margin-right--xs--mobile',
+                  'rc-btn dailyPortion-startBtn  rc-margin-right--xs--mobile',
                 )
               }>
               <FormattedMessage id='dailyPortion.newCalculationBtnText'/>

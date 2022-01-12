@@ -107,7 +107,7 @@ class ConfigStore {
         return item.configType === 'selection_type';
       }
     )?.status;
-    return PRESCRIBERSELECTTYPED_ENUM[prescriberSelectType || ''];
+    return PRESCRIBERSELECTTYPED_ENUM[prescriberSelectType];
   }
 
   @computed get defaultPurchaseType() {

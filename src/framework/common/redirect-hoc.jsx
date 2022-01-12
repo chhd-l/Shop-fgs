@@ -3,6 +3,7 @@ import { funcUrl } from '@/lib/url-utils';
 import Loading from '@/components/Loading';
 
 const localItemRoyal = window.__.localItemRoyal;
+const sessionItemRoyal = window.__.sessionItemRoyal;
 
 /**
  * 处理邮件链接redirect参数
@@ -18,6 +19,16 @@ const redirectHoc = (WrappedComponent) => {
         if (oktaRedirectUrl) {
           this.props.history.push(oktaRedirectUrl);
         }
+      }
+
+      // Cross-store login
+      if (localItemRoyal.get('login-again')) {
+        loginStore.changeLoginModal(true);
+        const callOktaCallBack = getOktaCallBackUrl(
+          localItemRoyal.get('okta-session-token')
+        );
+        localItemRoyal.remove('login-again');
+        window.location.href = callOktaCallBack;
       }
     }
     /**
@@ -49,6 +60,16 @@ const redirectHoc = (WrappedComponent) => {
       }
       if (redirectSearchVal) {
         ret += this.props.history.location.search;
+        if (
+          redirectSearchVal === 'checkout' &&
+          funcUrl({ name: 'appointmentNo' })
+        ) {
+          //feline通过邮件进入checkout页面之前需将appointmentNo存入session
+          sessionItemRoyal.set(
+            'appointment-no',
+            funcUrl({ name: 'appointmentNo' })
+          );
+        }
       }
 
       return ret;
@@ -77,6 +98,7 @@ const redirectHoc = (WrappedComponent) => {
       if (localItemRoyal.get('login-again')) {
         return null;
       }
+
       return <WrappedComponent {...this.props} />;
     }
   };

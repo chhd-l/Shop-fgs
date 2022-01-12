@@ -95,7 +95,7 @@ const AddressPreview = ({ configStore, data, nameCls, pickupNameCls }) => {
           {pickupName ? (
             <p className={cn(pickupNameCls, 'preview-pickup-name')}>
               <span>{pickupName}</span>
-              <span>{pickupPrice}</span>
+              <span>{formatMoney(pickupPrice)}</span>
             </p>
           ) : null}
           {address1 ? (

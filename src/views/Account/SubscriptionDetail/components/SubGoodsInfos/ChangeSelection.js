@@ -73,7 +73,7 @@ const ChangeSelection = ({ el }) => {
               <FrequencySelection
                 frequencyType={el.promotions}
                 selectionStyle={{ marginLeft: '0.625rem' }}
-                textStyle={{ display: 'inline-block', width: '50%' }}
+                // textStyle={{ display: 'inline-block', width: '50%' }}
                 wrapStyle={{}}
                 currentFrequencyId={el.periodTypeId}
                 handleConfirm={(data) => {
