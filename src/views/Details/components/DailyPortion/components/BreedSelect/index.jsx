@@ -53,7 +53,7 @@ export default function BreedSelect(
     // 当用户选的那个Breed，跟这个产品本身所针对的Breed不匹配的时候，显示提示语
     if (!!defaultValue){
       const value = options.find((item) => item.breedCode === val?.key)
-      setHiddenWaring(value?.name?.toLocaleUpperCase() === defaultValue?.toLocaleUpperCase())
+      setHiddenWaring(value?.nameInEnglish?.toLocaleUpperCase() === defaultValue?.toLocaleUpperCase())
     }
   }
 
