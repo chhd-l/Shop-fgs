@@ -140,7 +140,7 @@ const hubGAProductDetailPageView = (item, pdpScreenLoadData) => {
 
 //hub加入购物车，埋点
 const hubGAAToCar = (quantity, form) => {
-  winddataLayer.push({
+  window.dataLayer.push({
     event: 'pdpAddToCart',
     pdpAddToCartQuantity: quantity,
     pdpAddToCartCtA: { 0: 'One Shot', 1: 'Subscription', 2: 'Club' }[
