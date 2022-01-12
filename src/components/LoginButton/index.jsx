@@ -58,7 +58,7 @@ const LoginButton = (props) => {
       oktaAuth
         .getUser()
         .then((info) => {
-          // 跨店铺登录后需要logout再登录
+          // Cross-store login: 跨店铺登录后需要logout再登录
           if (
             loginStore?.userInfo?.email &&
             info?.email !== loginStore?.userInfo.email &&
