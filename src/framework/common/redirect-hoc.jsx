@@ -20,16 +20,6 @@ const redirectHoc = (WrappedComponent) => {
           this.props.history.push(oktaRedirectUrl);
         }
       }
-
-      // Cross-store login
-      if (localItemRoyal.get('login-again')) {
-        loginStore.changeLoginModal(true);
-        const callOktaCallBack = getOktaCallBackUrl(
-          localItemRoyal.get('okta-session-token')
-        );
-        localItemRoyal.remove('login-again');
-        window.location.href = callOktaCallBack;
-      }
     }
     /**
      * 处理邮件链接redirect参数, 针对redirect=order/subscription/baseinfo/pets特殊处理，其他直接跳转shop内置路由
@@ -93,10 +83,6 @@ const redirectHoc = (WrappedComponent) => {
           window.__.env.REACT_APP_HOMEPAGE
         );
         return <Loading bgColor={'#fff'} />;
-      }
-
-      if (localItemRoyal.get('login-again')) {
-        return null;
       }
 
       return <WrappedComponent {...this.props} />;
