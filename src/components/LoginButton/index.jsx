@@ -18,7 +18,7 @@ import { getToken } from '@/api/login';
 import { getCustomerInfo } from '@/api/user';
 import { mergeUnloginCartData, bindSubmitParam } from '@/utils/utils';
 import { userBindConsent } from '@/api/consent';
-import Modal from '@/components/Modal';
+// import Modal from '@/components/Modal';
 import LimitLoginModal from '@/views/Home/modules/LimitLoginModal';
 import loginRedirection from '@/lib/login-redirection';
 import { useHistory } from 'react-router-dom';
