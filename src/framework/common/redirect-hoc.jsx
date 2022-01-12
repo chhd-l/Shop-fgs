@@ -50,9 +50,15 @@ const redirectHoc = (WrappedComponent) => {
       }
       if (redirectSearchVal) {
         ret += this.props.history.location.search;
-        if(redirectSearchVal==='checkout'&&funcUrl({ name: 'appointmentNo' })){
+        if (
+          redirectSearchVal === 'checkout' &&
+          funcUrl({ name: 'appointmentNo' })
+        ) {
           //feline通过邮件进入checkout页面之前需将appointmentNo存入session
-          sessionItemRoyal.set('appointment-no',funcUrl({ name: 'appointmentNo' }))
+          sessionItemRoyal.set(
+            'appointment-no',
+            funcUrl({ name: 'appointmentNo' })
+          );
         }
       }
 
@@ -80,8 +86,11 @@ const redirectHoc = (WrappedComponent) => {
       }
 
       if (localItemRoyal.get('login-again')) {
-        console.log('login-again localstorage value', localItemRoyal.get('login-again'))
-        // return null;
+        console.log(
+          'login-again localstorage value',
+          localItemRoyal.get('login-again')
+        );
+        return null;
       }
       return <WrappedComponent {...this.props} />;
     }

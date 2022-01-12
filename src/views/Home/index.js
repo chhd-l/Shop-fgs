@@ -537,6 +537,7 @@ class Home extends React.Component {
         localItemRoyal.get('okta-session-token')
       );
       localItemRoyal.remove('login-again');
+      console.log('callOktaCallBack', callOktaCallBack);
       window.location.href = callOktaCallBack;
     } // Cross-store login
     setSeoConfig({ pageName: 'Home Page' }).then((res) => {
