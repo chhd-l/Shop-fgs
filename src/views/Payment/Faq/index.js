@@ -1,69 +1,6 @@
 import React from 'react';
 import Cover from './Cover';
 
-const benifitList =
-  {
-    us: [
-      {
-        iconCls: 'rc-lock--xs rc-iconography--xs',
-        text: '100% secure payment'
-      },
-      {
-        iconCls: 'rc-loading--xs rc-iconography--xs',
-        text: 'Satisfaction guaranteed'
-      },
-      {
-        iconCls: 'rc-low-maintenance--xs rc-iconography',
-        text: 'Premium nutrition'
-      },
-      { iconCls: 'rc-shop--xs rc-iconography--xs', text: 'Free shipping' }
-    ],
-    ru: [
-      {
-        iconCls: 'rc-lock--xs rc-iconography--xs',
-        text: '100% безопасный платеж'
-      },
-      {
-        iconCls: 'rc-loading--xs rc-iconography--xs',
-        text: 'Гарантия возврата'
-      },
-      {
-        iconCls: 'rc-low-maintenance--xs rc-iconography',
-        text: 'Премиум качество'
-      },
-      { iconCls: 'rc-shop--xs rc-iconography--xs', text: 'Быстрая доставка' }
-    ],
-    tr: [
-      { iconCls: 'rc-lock--xs rc-iconography--xs', text: '100% güvenli ödeme' },
-      {
-        iconCls: 'rc-loading--xs rc-iconography--xs',
-        text: 'Memnun kalmazsanız iade edin'
-      },
-      {
-        iconCls: 'rc-low-maintenance--xs rc-iconography',
-        text: 'Üstün kalite'
-      },
-      { iconCls: 'rc-shop--xs rc-iconography--xs', text: 'Hızlı teslimat' }
-    ],
-    fr: [
-      {
-        iconCls: 'rc-lock--xs rc-iconography--xs',
-        text: 'Paiement 100% sécurisé'
-      },
-      {
-        iconCls: 'rc-loading--xs rc-iconography--xs',
-        text: 'Satisfait ou remboursé'
-      },
-      {
-        iconCls: 'rc-low-maintenance--xs rc-iconography',
-        text: 'Une qualité premium'
-      },
-      {
-        iconCls: 'rc-shop--xs rc-iconography--xs',
-        text: 'Expédition rapide'
-      }
-    ]
-  }[window.__.env.REACT_APP_COUNTRY] || [];
 const faqList =
   {
     us: [
@@ -188,13 +125,7 @@ const faqList =
     ]
   }[window.__.env.REACT_APP_COUNTRY] || [];
 
-export default class Faq extends React.Component {
-  render() {
-    return (
-      benifitList.length > 0 &&
-      faqList.length > 0 && (
-        <Cover benifitList={benifitList} faqList={faqList} />
-      )
-    );
-  }
-}
+const Faq = () => {
+  return <Cover faqList={faqList} />;
+};
+export default Faq;

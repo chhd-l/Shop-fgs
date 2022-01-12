@@ -5,9 +5,27 @@ import './index.css';
 
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
 
+const benifitList = [
+  {
+    iconCls: 'rc-lock--xs rc-iconography--xs',
+    text: <FormattedMessage id="payment.benifit.fullSecurePayment" />
+  },
+  {
+    iconCls: 'rc-loading--xs rc-iconography--xs',
+    text: <FormattedMessage id="payment.benifit.satisfactionGuaranteed" />
+  },
+  {
+    iconCls: 'rc-low-maintenance--xs rc-iconography',
+    text: <FormattedMessage id="payment.benifit.premiumNutrition" />
+  },
+  {
+    iconCls: 'rc-shop--xs rc-iconography--xs',
+    text: <FormattedMessage id="payment.benifit.shopTip" />
+  }
+];
+
 class Faq extends Component {
   static defaultProps = {
-    benifitList: [],
     faqList: []
   };
   constructor(props) {
@@ -32,7 +50,7 @@ class Faq extends Component {
     });
   }
   render() {
-    const { benifitList, faqList } = this.props;
+    const { faqList } = this.props;
     const { activeIdx } = this.state;
     return (
       <>
@@ -48,41 +66,52 @@ class Faq extends Component {
             ))}
           </ul>
         </div>
-        <div className="faq-title rc-delta mb-0">
-          <FormattedMessage id="footer.FAQ2" />
-        </div>
-        <dl
-          data-toggle-group=""
-          data-toggle-effect="rc-expand--vertical"
-          className="rc_faq_list"
-        >
-          {faqList.map((item, idx) => (
-            <div
-              className={`rc-list__accordion-item ${
-                activeIdx === idx ? 'active' : ''
-              } ${idx ? '' : 'border-top'}`}
-              key={idx}
-              onClick={this.toggleShow.bind(this, { idx, item })}
-            >
-              <dt>
-                <button
-                  className={`rc-list__header md:pr-5 ${
-                    activeIdx === idx ? 'rc-icon--rotate' : ''
-                  }`}
-                  data-toggle={`content-${idx}`}
-                  style={{ background: '#f6f6f6' }}
-                >
-                  {item.title}
-                </button>
-              </dt>
-              <dd
-                className="rc-list__content rc-list__content_faq"
-                aria-labelledby={`heading-${idx}`}
-                dangerouslySetInnerHTML={{ __html: item.context }}
-              />
+        {faqList.length > 0 ? (
+          <>
+            <div className="faq-title rc-delta mb-0">
+              <FormattedMessage id="footer.FAQ2" />
             </div>
-          ))}
-        </dl>
+            <dl
+              data-toggle-group=""
+              data-toggle-effect="rc-expand--vertical"
+              className="rc_faq_list"
+            >
+              {faqList.map((item, idx) => (
+                <div
+                  className={`rc-list__accordion-item ${
+                    activeIdx === idx ? 'active' : ''
+                  } ${idx ? '' : 'border-top'}`}
+                  key={idx}
+                  onClick={this.toggleShow.bind(this, { idx, item })}
+                >
+                  <dt className="flex items-center justify-between hover:text-rc-red cursor-pointer">
+                    <button
+                      className={`rc-list__header md:pr-5`}
+                      data-toggle={`content-${idx}`}
+                      style={{ background: 'inherit' }}
+                    >
+                      {item.title}
+                    </button>
+                    <span
+                      className={`iconfont ${
+                        activeIdx === idx ? 'iconUp' : 'iconDown'
+                      }`}
+                    />
+                  </dt>
+                  <dd
+                    className="rc-list__content rc-list__content_faq"
+                    aria-labelledby={`heading-${idx}`}
+                  >
+                    <div
+                      className="pb-4"
+                      dangerouslySetInnerHTML={{ __html: item.context }}
+                    />
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </>
+        ) : null}
       </>
     );
   }

@@ -18,7 +18,7 @@ class GoogleMap extends React.Component {
   static defaultProps = {
     center: '',
     zoom: '',
-    clinicArr: '',
+    clinicArr: [],
     currentSelectClinic: {}
   };
 
