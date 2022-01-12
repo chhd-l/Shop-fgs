@@ -409,9 +409,9 @@ class List extends React.Component {
     if (
       keywordsSearch &&
       window.dataLayer &&
-      window.dataLayer[0] &&
-      window.dataLayer[0].page &&
-      window.dataLayer[0].page.type
+      dataLayer[0] &&
+      dataLayer[0].page &&
+      dataLayer[0].page.type
     ) {
     }
     this.setState(
@@ -755,7 +755,7 @@ class List extends React.Component {
   }
   //点击商品 埋点
   GAProductClick(item, index) {
-    dataLayer &&
+    window.dataLayer &&
       dataLayer.push({
         event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComProductClick`,
         ecommerce: {
@@ -791,7 +791,7 @@ class List extends React.Component {
         })
       : [];
     let activeFilters = flatMap(Filters);
-    dataLayer &&
+    window.dataLayer &&
       dataLayer.push({
         event: 'plpProductClick',
         plpProductClickItem: {
@@ -820,13 +820,13 @@ class List extends React.Component {
       };
     });
 
-    if (dataLayer[0] && dataLayer[0].search) {
+    if (window.dataLayer && dataLayer[0] && dataLayer[0].search) {
       dataLayer[0].search.query = keywords;
       dataLayer[0].search.results = totalElements;
       dataLayer[0].search.type = 'with results';
     }
 
-    dataLayer &&
+    window.dataLayer &&
       dataLayer.push({
         event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComProductImpression`,
         ecommerce: {
@@ -899,14 +899,14 @@ class List extends React.Component {
       return res;
     });
 
-    dataLayer &&
+    window.dataLayer &&
       dataLayer.push({
         products
       });
 
     type !== 'pageChange' &&
       // setTimeout(() => {
-      dataLayer &&
+      window.dataLayer &&
       dataLayer.push({
         event: 'plpScreenLoad',
         plpScreenLoad: {
@@ -916,7 +916,7 @@ class List extends React.Component {
       });
     // }, 3000gtm优化);
 
-    if (dataLayer[0] && dataLayer[0].search) {
+    if (window.dataLayer && dataLayer[0] && dataLayer[0].search) {
       dataLayer[0].search.query = keywords;
       dataLayer[0].search.results = totalElements;
       dataLayer[0].search.type = 'with results';
@@ -973,7 +973,7 @@ class List extends React.Component {
       let res = filterObjectValue(productItem);
       return res;
     });
-    dataLayer &&
+    window.dataLayer &&
       dataLayer.push({
         event: 'plpListLazyLoad',
         plpListLazyLoadSection: this.state.listLazyLoadSection,
