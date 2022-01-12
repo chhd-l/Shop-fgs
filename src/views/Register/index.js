@@ -353,11 +353,7 @@ class Register extends Component {
     this.setState({
       circleLoading: true
     });
-    let accessPath = window.__.env.REACT_APP_ACCESS_PATH;
-    let registerUrl =
-      accessPath.substring(accessPath.length - 1, accessPath.length) === '/'
-        ? 'register'
-        : '/register';
+    const accessPath = window.__.env.REACT_APP_ACCESS_PATH;
     await oktaRegister({
       storeId: window.__.env.REACT_APP_STOREID,
       customerPassword: registerForm.password,
@@ -366,7 +362,7 @@ class Register extends Component {
         window.__.env.REACT_APP_COUNTRY !== 'de'
           ? registerForm.name
           : registerForm.firstName + ' ' + registerForm.lastName,
-      callback: window.__.env.REACT_APP_ACCESS_PATH + registerUrl
+      callback: `${accessPath.replace(/\/$/gi, '')}/register`
     })
       .then(async (res) => {
         if (res.code === 'K-000000') {

@@ -58,10 +58,10 @@ const LoginButton = (props) => {
       oktaAuth
         .getUser()
         .then((info) => {
+          // 跨店铺登录后需要logout再登录
           if (
-            loginStore.userInfo &&
-            loginStore.userInfo.email &&
-            info.email !== loginStore.userInfo.email &&
+            loginStore?.userInfo?.email &&
+            info?.email !== loginStore?.userInfo.email &&
             localItemRoyal.get('okta-session-token')
           ) {
             localItemRoyal.set('login-again', true);
@@ -73,7 +73,7 @@ const LoginButton = (props) => {
             }/v1/logout?id_token_hint=${
               idToken ? idToken.value : ''
             }&post_logout_redirect_uri=${redirectUri}`;
-          } // 跨店铺登录后需要logout再登录
+          }
           setUserInfo(info);
           localItemRoyal.set('customer-okta-id', info.sub);
           const oktaTokenString = authState.accessToken
@@ -96,9 +96,11 @@ const LoginButton = (props) => {
             })
               .then((res) => {
                 setIsGetUserInfoDown(true);
+                loginStore.changeLoginModal(false);
               })
               .catch((e) => {
                 console.log(e);
+                loginStore.changeLoginModal(false);
               });
           } else {
             if (!loginStore.isLogin) {
