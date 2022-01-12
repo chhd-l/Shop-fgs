@@ -86,7 +86,7 @@ class Faq extends Component {
                 >
                   <dt className="flex items-center justify-between hover:text-rc-red cursor-pointer">
                     <button
-                      className={`rc-list__header md:pr-5`}
+                      className={`rc-list__header md:pr-5 ui-after-hidden`}
                       data-toggle={`content-${idx}`}
                       style={{ background: 'inherit' }}
                     >
