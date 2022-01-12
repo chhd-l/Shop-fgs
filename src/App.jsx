@@ -317,7 +317,7 @@ const App = () => {
         <Router
           basename={window.__.env.REACT_APP_HOMEPAGE}
           path={'/'}
-          // forceRefresh={true}
+          forceRefresh={true}
         >
           <ScrollToTop>
             <Security
