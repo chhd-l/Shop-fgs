@@ -377,11 +377,19 @@ export const GARecommendationProduct = (
   promotionCode,
   activeIndex
 ) => {
+  // type: 3=>us shelter; 4=>felin
   const calculatedWeeks = getComputedWeeks(frequencyList);
   const products = productList.map((item) => {
     const { goods, goodsInfos, goodsAttributesValueRelVOAllList } = item;
     const { minMarketPrice, goodsNo, goodsName, goodsCateName } = goods;
-    const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
+    let price = minMarketPrice;
+    let SKU = goodsInfos?.[0]?.goodsInfoNo || '';
+    if (type === 3 || type === 4) {
+      SKU = item.goodsInfos.find(
+        (citem) => citem.goodsInfoId == item.goodsInfoId
+      )?.goodsInfoNo;
+      price = item.salePrice;
+    }
     const cateName = goodsCateName?.split('/');
     const breed = (goodsAttributesValueRelVOAllList || [])
       .filter(
@@ -395,11 +403,11 @@ export const GARecommendationProduct = (
       ? calculatedWeeks[item.periodTypeId]
       : '';
     let productItem = {
-      price: minMarketPrice,
+      price: price,
       specie,
-      range: cateName?.[1] || '',
-      name: goodsName,
-      mainItemCode: goodsNo,
+      range: type === 4 ? 'Booking' : cateName?.[1] || '',
+      name: type === 4 ? "L'Atelier Félin booking" : goodsName,
+      mainItemCode: type === 4 ? "L'Atelier Félin booking" : goodsNo,
       SKU,
       subscription: getSubscriptionAttr(item.goodsInfoFlag),
       subscriptionFrequency:
@@ -416,7 +424,9 @@ export const GARecommendationProduct = (
     let res = deleteObjEmptyAttr(productItem);
     return res;
   });
-  type === 1 &&
+  console.info('gaproducts', products);
+  debugger;
+  (type === 1 || type === 4) &&
     dataLayer.unshift({
       products
     });
@@ -425,7 +435,7 @@ export const GARecommendationProduct = (
       event: 'breederRecoTabClick',
       breederRecoTabClickProduct: products
     });
-  // us shelter
+
   type === 3 &&
     dataLayer.unshift({
       event: 'shelterLPAddToCart',

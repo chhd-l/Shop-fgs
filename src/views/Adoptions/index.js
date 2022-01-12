@@ -80,7 +80,6 @@ const Adoptions = (props) => {
     // 获取detail
     let details = await getDetail(product.goodsInfo.goodsInfoId);
     // details = Object.assign({},details,details.goodsInfo)
-    return;
     setBtnLoading(true);
 
     if (loginStore.isLogin) {
@@ -96,7 +95,13 @@ const Adoptions = (props) => {
       requestName(goodsInfoId),
       getFrequencyDict()
     ]);
-    let res = goodsRes.context;
+    let salePrice = goodsRes.context.goodsInfos.find(
+      (el) => el.goodsInfoId == goodsInfoId
+    )?.marketPrice;
+    let res = Object.assign({}, goodsRes.context, {
+      goodsInfoId,
+      salePrice
+    });
     // GARecommendationProduct([res], 3, frequencyDictRes);
     res.goodsInfo = res.goodsInfos.find((el) => el.goodsInfoId == goodsInfoId);
     // handleFrequencyIdDefault(res, frequencyDictRes);

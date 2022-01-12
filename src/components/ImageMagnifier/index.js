@@ -200,7 +200,7 @@ class ImageMagnifier extends Component {
     if (selectedSizeInfo.length) {
       let hoverIndex = 0;
       images.map((el, i) => {
-        if (selectedSizeInfo[0].goodsInfoId === el.goodsInfoId) {
+        if (selectedSizeInfo?.[0]?.goodsInfoId === el?.goodsInfoId) {
           hoverIndex = i;
         }
         return el;
@@ -363,8 +363,13 @@ class ImageMagnifier extends Component {
       videoModalShow,
       hoverIndex
     } = this.state;
-    let { images, video, taggingForText, taggingForImage, spuImages } =
-      this.props;
+    let {
+      images,
+      video,
+      taggingForText,
+      taggingForImage,
+      spuImages
+    } = this.props;
     // images = this.filterImage(images)
     let imgCount = images.length;
     if (video) {

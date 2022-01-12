@@ -459,10 +459,7 @@ class Payment extends React.Component {
 
   UNSAFE_componentWillMount() {
     isHubGA && this.getPetVal();
-    const appointNo =
-      sessionItemRoyal.get('appointment-no') ||
-      funcUrl({ name: 'appointmentNo' }) ||
-      null;
+    const appointNo = sessionItemRoyal.get('appointment-no') || null;
     if (funcUrl({ name: 'oldAppointNo' })) {
       sessionItemRoyal.set('oldAppointNo', funcUrl({ name: 'oldAppointNo' }));
       sessionItemRoyal.set('isChangeAppoint', true);
