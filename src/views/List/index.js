@@ -755,26 +755,27 @@ class List extends React.Component {
   }
   //点击商品 埋点
   GAProductClick(item, index) {
-    dataLayer.push({
-      event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComProductClick`,
-      ecommerce: {
-        click: {
-          actionField: { list: this.state.GAListParam },
-          products: [
-            {
-              name: item.goodsName,
-              id: item.goodsNo,
-              club: 'no',
-              brand: item.goodsBrand.brandName,
-              category: item.goodsCateName,
-              list: this.state.GAListParam,
-              position: index,
-              sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo
-            }
-          ]
+    dataLayer &&
+      dataLayer.push({
+        event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComProductClick`,
+        ecommerce: {
+          click: {
+            actionField: { list: this.state.GAListParam },
+            products: [
+              {
+                name: item.goodsName,
+                id: item.goodsNo,
+                club: 'no',
+                brand: item.goodsBrand.brandName,
+                category: item.goodsCateName,
+                list: this.state.GAListParam,
+                position: index,
+                sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo
+              }
+            ]
+          }
         }
-      }
-    });
+      });
   }
 
   //点击商品 hubGa埋点
@@ -790,13 +791,14 @@ class List extends React.Component {
         })
       : [];
     let activeFilters = flatMap(Filters);
-    dataLayer.push({
-      event: 'plpProductClick',
-      plpProductClickItem: {
-        SKU,
-        activeFilters
-      }
-    });
+    dataLayer &&
+      dataLayer.push({
+        event: 'plpProductClick',
+        plpProductClickItem: {
+          SKU,
+          activeFilters
+        }
+      });
   }
 
   // 商品列表 埋点
@@ -824,12 +826,13 @@ class List extends React.Component {
       dataLayer[0].search.type = 'with results';
     }
 
-    dataLayer.push({
-      event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComProductImpression`,
-      ecommerce: {
-        impressions: impressions
-      }
-    });
+    dataLayer &&
+      dataLayer.push({
+        event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComProductImpression`,
+        ecommerce: {
+          impressions: impressions
+        }
+      });
   }
 
   // hub商品列表 埋点
@@ -896,12 +899,14 @@ class List extends React.Component {
       return res;
     });
 
-    dataLayer.push({
-      products
-    });
+    dataLayer &&
+      dataLayer.push({
+        products
+      });
 
     type !== 'pageChange' &&
       // setTimeout(() => {
+      dataLayer &&
       dataLayer.push({
         event: 'plpScreenLoad',
         plpScreenLoad: {
@@ -968,11 +973,12 @@ class List extends React.Component {
       let res = filterObjectValue(productItem);
       return res;
     });
-    dataLayer.push({
-      event: 'plpListLazyLoad',
-      plpListLazyLoadSection: this.state.listLazyLoadSection,
-      plpListLazyLoadProducts: products
-    });
+    dataLayer &&
+      dataLayer.push({
+        event: 'plpListLazyLoad',
+        plpListLazyLoadSection: this.state.listLazyLoadSection,
+        plpListLazyLoadProducts: products
+      });
   }
 
   toggleFilterModal(status) {
