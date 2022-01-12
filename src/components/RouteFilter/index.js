@@ -220,11 +220,7 @@ class RouteFilter extends Component {
     ) {
       localItemRoyal.set(
         'okta-redirectUrl-hub',
-        window.__.env.REACT_APP_ACCESS_PATH[
-          window.__.env.REACT_APP_ACCESS_PATH.length - 1
-        ] === '/'
-          ? window.__.env.REACT_APP_ACCESS_PATH + 'account'
-          : window.__.env.REACT_APP_ACCESS_PATH + '/account'
+        `${window.__.env.REACT_APP_ACCESS_PATH.replace(/\/$/gi, '')}/account`
       );
       history.push('/okta-login-page');
     }

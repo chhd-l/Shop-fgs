@@ -30,8 +30,6 @@ class WeekCalender extends Component {
   }
 
   getCurrentWeek = async (date = undefined) => {
-    let weekOfDay = moment(date).format('E'); // 指定日期的周的第几天
-    console.log(weekOfDay);
     let weekDate = [];
     let dateList = await this.getEnmbeData();
     for (let i = 0; i < 3; i++) {

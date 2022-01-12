@@ -233,21 +233,24 @@ const LoginCallback = (props) => {
   const { oktaAuth, authState } = useOktaAuth();
   const authStateReady = !authState.isPending;
 
-  useEffect(async () => {
-    const sessionToken = localItemRoyal.get('okta-session-token');
-    const authCallBack =
-      window.location.search.indexOf('?code') >= 0 &&
-      window.location.search.indexOf('&state') >= 0; // 是否是正常登录的callback即，!authCallBack为自动登录的callback
-    if (sessionToken && !authStateReady && !authCallBack) {
-      await oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE); //自动登录需要跳转到OKTA，然后callback，才能取到前端的token
-    } else {
-      if (authStateReady) {
+  useEffect(() => {
+    const init = async () => {
+      const sessionToken = localItemRoyal.get('okta-session-token');
+      const authCallBack =
+        window.location.search.indexOf('?code') >= 0 &&
+        window.location.search.indexOf('&state') >= 0; // 是否是正常登录的callback即，!authCallBack为自动登录的callback
+      if (sessionToken && !authStateReady && !authCallBack) {
+        await oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE); //自动登录需要跳转到OKTA，然后callback，才能取到前端的token
       } else {
-        await oktaAuth.handleLoginRedirect(); // 执行okta的callback，从而获取okta的数据，如：token等
+        if (authStateReady) {
+        } else {
+          await oktaAuth.handleLoginRedirect(); // 执行okta的callback，从而获取okta的数据，如：token等
+        }
+        console.log(authState);
+        props && props.history.push('/required');
       }
-      console.log(authState);
-      props && props.history.push('/required');
-    }
+    };
+    init()
   }, [oktaAuth, authStateReady]);
 
   return <div />;

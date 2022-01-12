@@ -73,7 +73,10 @@ const UsAndRu = (props) => {
     <>
       {isUs && (
         <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
-          <div className="rc-layout-container rc-four-column rc-content-v-middle text-center">
+          <div
+            className="rc-layout-container rc-four-column rc-content-v-middle text-center"
+            data-tms={props.dataTms1 || ''}
+          >
             {imagesArr.map((item) => (
               <div className="rc-column">
                 <div className="img-hover-switch rc-margin-bottom--sm">
@@ -134,7 +137,10 @@ const UsAndRu = (props) => {
       </div>
       <LineModule />
       {isUs && (
-        <div className="arrow-img-columns rc-max-width--xl rc-padding-y--sm rc-padding-y--xl--mobile rc-padding-x--sm rc-padding-x--md--mobile">
+        <div
+          data-tms={props.dataTms2 || ''}
+          className="arrow-img-columns rc-max-width--xl rc-padding-y--sm rc-padding-y--xl--mobile rc-padding-x--sm rc-padding-x--md--mobile"
+        >
           <div className="rc-margin-bottom--md">
             <h2 className="rc-beta" style={{ color: '#e2001a' }}>
               How to Join Royal Canin Club
@@ -170,6 +176,7 @@ const UsAndRu = (props) => {
           isRecommendationPage={true}
           contentText={helpContentText}
           needReverse={false}
+          GAforEmail={props.GAforEmail}
         />
       </div>
       {isUs && (
@@ -179,16 +186,18 @@ const UsAndRu = (props) => {
             style={{ textAlign: 'center' }}
             className="rc-max-width--md text-center rc-margin-top--md rc-padding-x--md"
           >
-            <h2 style={{ color: '#E2001A' }}>
-              <FormattedMessage id="recommendation.fourTitle" />
-            </h2>
-            <p style={{ fontSize: '1.125rem' }}>
-              We focus our attention on the unique needs of cats and dogs. That
-              obsession with detail is what makes it possible for us to deliver
-              precise, effective nutrition and help pets become their
-              magnificent best.
-              {/* <FormattedMessage id="recommendation.fourContent" /> */}
-            </p>
+            <div data-tms={props.dataTms3}>
+              <h2 style={{ color: '#E2001A' }}>
+                <FormattedMessage id="recommendation.fourTitle" />
+              </h2>
+              <p style={{ fontSize: '1.125rem' }}>
+                We focus our attention on the unique needs of cats and dogs.
+                That obsession with detail is what makes it possible for us to
+                deliver precise, effective nutrition and help pets become their
+                magnificent best.
+                {/* <FormattedMessage id="recommendation.fourContent" /> */}
+              </p>
+            </div>
             <p>
               <button
                 className={`rc-btn rc-btn--one rc-margin-y--xs mr-auto ml-auto ${
