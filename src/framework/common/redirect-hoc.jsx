@@ -20,6 +20,16 @@ const redirectHoc = (WrappedComponent) => {
           this.props.history.push(oktaRedirectUrl);
         }
       }
+
+      // Cross-store login
+      if (localItemRoyal.get('login-again')) {
+        loginStore.changeLoginModal(true);
+        const callOktaCallBack = getOktaCallBackUrl(
+          localItemRoyal.get('okta-session-token')
+        );
+        localItemRoyal.remove('login-again');
+        window.location.href = callOktaCallBack;
+      }
     }
     /**
      * 处理邮件链接redirect参数, 针对redirect=order/subscription/baseinfo/pets特殊处理，其他直接跳转shop内置路由
@@ -50,9 +60,15 @@ const redirectHoc = (WrappedComponent) => {
       }
       if (redirectSearchVal) {
         ret += this.props.history.location.search;
-        if(redirectSearchVal==='checkout'&&funcUrl({ name: 'appointmentNo' })){
+        if (
+          redirectSearchVal === 'checkout' &&
+          funcUrl({ name: 'appointmentNo' })
+        ) {
           //feline通过邮件进入checkout页面之前需将appointmentNo存入session
-          sessionItemRoyal.set('appointment-no',funcUrl({ name: 'appointmentNo' }))
+          sessionItemRoyal.set(
+            'appointment-no',
+            funcUrl({ name: 'appointmentNo' })
+          );
         }
       }
 
@@ -80,9 +96,9 @@ const redirectHoc = (WrappedComponent) => {
       }
 
       if (localItemRoyal.get('login-again')) {
-        console.log('login-again localstorage value', localItemRoyal.get('login-again'))
-        // return null;
+        return null;
       }
+
       return <WrappedComponent {...this.props} />;
     }
   };

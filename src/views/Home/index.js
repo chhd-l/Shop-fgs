@@ -531,14 +531,6 @@ class Home extends React.Component {
       localItemRoyal.set('rc-couponCode', funcUrl({ name: 'couponCode' }));
     }
 
-    if (localItemRoyal.get('login-again')) {
-      loginStore.changeLoginModal(true);
-      var callOktaCallBack = getOktaCallBackUrl(
-        localItemRoyal.get('okta-session-token')
-      );
-      localItemRoyal.remove('login-again');
-      window.location.href = callOktaCallBack;
-    } // Cross-store login
     setSeoConfig({ pageName: 'Home Page' }).then((res) => {
       this.setState({ seoConfig: res });
     });
@@ -585,6 +577,7 @@ class Home extends React.Component {
         }
       });
     };
+
     return (
       <div>
         <Helmet>
