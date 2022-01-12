@@ -45,31 +45,10 @@ if (process.env.NODE_ENV === 'production') {
   window.__ = Object.assign(window.__ || {}, {
     env: Object.assign(
       window.__?.env || {},
-      baseUrlConfig,
-      {
-        se: require('@/env/se').default
-      }[param?.countryLink][startEnv]
+      baseUrlConfig
+      // {
+      //   se: require('@/env/se').default
+      // }[param?.countryLink][startEnv]
     )
   });
-  console.log(
-    121212,
-    baseUrlConfig,
-    {
-      se: require('@/env/se').default
-    },
-    param?.countryLink,
-    startEnv,
-    {
-      se: require('@/env/se').default
-    }[param?.countryLink][startEnv],
-    Object.assign(window.__ || {}, {
-      env: Object.assign(
-        window.__?.env || {},
-        baseUrlConfig,
-        {
-          se: require('@/env/se').default
-        }[param?.countryLink][startEnv]
-      )
-    })
-  );
 }
