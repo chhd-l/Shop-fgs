@@ -53,6 +53,15 @@ if (process.env.NODE_ENV === 'production') {
   });
   console.log(
     121212,
+    baseUrlConfig,
+    {
+      se: require('@/env/se').default
+    },
+    param?.countryLink,
+    startEnv,
+    {
+      se: require('@/env/se').default
+    }[param?.countryLink][startEnv],
     Object.assign(window.__ || {}, {
       env: Object.assign(
         window.__?.env || {},
