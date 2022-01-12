@@ -39,10 +39,28 @@ if (process.env.NODE_ENV === 'production') {
       startEnv = 'productionHub';
       break;
   }
-  const targetConfig = interfacePrefix[startEnv]({
+  const baseUrlConfig = interfacePrefix[startEnv]({
     countryFromLink: param?.countryLink
   });
   window.__ = Object.assign(window.__ || {}, {
-    env: Object.assign(window.__?.env || {}, targetConfig)
+    env: Object.assign(
+      window.__?.env || {},
+      baseUrlConfig,
+      {
+        se: require('@/env/se').default
+      }[param?.countryLink][startEnv]
+    )
   });
+  console.log(
+    121212,
+    Object.assign(window.__ || {}, {
+      env: Object.assign(
+        window.__?.env || {},
+        baseUrlConfig,
+        {
+          se: require('@/env/se').default
+        }[param?.countryLink][startEnv]
+      )
+    })
+  );
 }
