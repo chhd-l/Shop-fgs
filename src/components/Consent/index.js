@@ -63,7 +63,7 @@ class Consent extends Component {
     auto ? (autoClass = 'm-auto') : (autoClass = '');
     return (
       <div
-        className={`required-component ${autoClass}`}
+        className={`required-component break-words ${autoClass}`}
         style={{ width: `${width}` }}
       >
         {this.renderCheckBox(list)}

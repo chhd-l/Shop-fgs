@@ -18,7 +18,7 @@ import { getToken } from '@/api/login';
 import { getCustomerInfo } from '@/api/user';
 import { mergeUnloginCartData, bindSubmitParam } from '@/utils/utils';
 import { userBindConsent } from '@/api/consent';
-import Modal from '@/components/Modal';
+// import Modal from '@/components/Modal';
 import LimitLoginModal from '@/views/Home/modules/LimitLoginModal';
 import loginRedirection from '@/lib/login-redirection';
 import { useHistory } from 'react-router-dom';
@@ -58,7 +58,7 @@ const LoginButton = (props) => {
       oktaAuth
         .getUser()
         .then((info) => {
-          // 跨店铺登录后需要logout再登录
+          // Cross-store login: 跨店铺登录后需要logout再登录
           if (
             loginStore?.userInfo?.email &&
             info?.email !== loginStore?.userInfo.email &&

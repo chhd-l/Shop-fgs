@@ -42,7 +42,7 @@ export default function BcsSelect(
       <div className='flex py-6 flex-col lg:flex-row lg:justify-between'>
         {
           options.map(item => (
-            <div className='w-full lg:w-3/12 mb-4 lg:mb-0' key={item.key}>
+            <div className='w-full lg:w-3/10 mb-4 lg:mb-0' key={item.key}>
               <div className={classNames(
                 'flex BcsSelect-box p-4',
                 {

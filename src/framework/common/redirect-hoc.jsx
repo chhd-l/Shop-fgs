@@ -85,13 +85,6 @@ const redirectHoc = (WrappedComponent) => {
         return <Loading bgColor={'#fff'} />;
       }
 
-      if (localItemRoyal.get('login-again')) {
-        console.log(
-          'login-again localstorage value',
-          localItemRoyal.get('login-again')
-        );
-        return null;
-      }
       return <WrappedComponent {...this.props} />;
     }
   };

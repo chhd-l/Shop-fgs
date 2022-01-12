@@ -36,6 +36,9 @@ module.exports = {
       },
       minHeight: {
         'auto':'auto'
+      },
+      width: {
+        '3/10': '30%'
       }
     }
   },

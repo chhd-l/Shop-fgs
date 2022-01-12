@@ -17,9 +17,9 @@ import { setSeoConfig, getDeviceType, getOktaCallBackUrl } from '@/utils/utils';
 import './index.css';
 import { withOktaAuth } from '@okta/okta-react';
 import { Helmet } from 'react-helmet';
-import stores from '@/store';
 import { funcUrl } from '@/lib/url-utils';
 import { redirectHoc } from '@/framework/common';
+import { inject, observer } from 'mobx-react';
 
 import PaymentSecureHome from '@/assets/images/home/Payment-secure@2x.png';
 import premiumHome from '@/assets/images/home/premium@2x.png';
@@ -32,7 +32,6 @@ import 'slick-carousel/slick/slick-theme.css';
 import renderLinkLang from './hreflang';
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
-const loginStore = stores.loginStore;
 const pageLink = window.location.href;
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 let RCDrawPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
@@ -526,28 +525,32 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
+    const { loginStore } = this.props;
     sessionItemRoyal.remove('refresh-confirm-page');
     if (funcUrl({ name: 'couponCode' })) {
       localItemRoyal.set('rc-couponCode', funcUrl({ name: 'couponCode' }));
     }
 
+    // Cross-store login
     if (localItemRoyal.get('login-again')) {
       loginStore.changeLoginModal(true);
-      var callOktaCallBack = getOktaCallBackUrl(
+      const callOktaCallBack = getOktaCallBackUrl(
         localItemRoyal.get('okta-session-token')
       );
       localItemRoyal.remove('login-again');
-      console.log('callOktaCallBack', callOktaCallBack);
+      debugger;
       window.location.href = callOktaCallBack;
-    } // Cross-store login
-    setSeoConfig({ pageName: 'Home Page' }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
+    }
+
     if (localItemRoyal.get('logout-redirect-url')) {
       let url = localItemRoyal.get('logout-redirect-url');
       localItemRoyal.remove('logout-redirect-url');
       location.href = url;
     }
+
+    setSeoConfig({ pageName: 'Home Page' }).then((res) => {
+      this.setState({ seoConfig: res });
+    });
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -586,6 +589,11 @@ class Home extends React.Component {
         }
       });
     };
+
+    if (localItemRoyal.get('login-again')) {
+      return null;
+    }
+
     return (
       <div>
         <Helmet>
@@ -667,4 +675,5 @@ class Home extends React.Component {
   }
 }
 
-export default withOktaAuth(redirectHoc(Home));
+// export default withOktaAuth(redirectHoc(Home));
+export default inject('loginStore')(observer(withOktaAuth(redirectHoc(Home))));

@@ -362,7 +362,7 @@ class Payment extends React.Component {
     const { history } = this.props;
     if (!this.isLogin) {
       sessionItemRoyal.remove('rc-token');
-      history.push('/');
+      history.push('/cart');
     }
     sessionItemRoyal.remove('rc-swishQrcode');
     this.setState({ swishQrcodeModal: false });
