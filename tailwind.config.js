@@ -38,7 +38,7 @@ module.exports = {
         'auto':'auto'
       },
       width: {
-        '1/3': '30%'
+        '3/10': '30%'
       }
     }
   },
