@@ -63,7 +63,7 @@ class Pcexperts extends React.Component {
         {
           valueEn: 'Behaviorist',
           src: cat1,
-          name: 'Comportementalistes'
+          name: 'Expert en comportement'
         },
         {
           valueEn: 'Nutritionist',
@@ -701,30 +701,33 @@ class Pcexperts extends React.Component {
               </div>
             ) : null}
             <div className="txt-centr">
-              <button
+              <span
                 onClick={this.handleReturnOne}
-                className="rc-btn rc-btn--two"
+                className="but-dec"
                 style={{
                   width: '13.875rem',
-                  fontSize: '0.75rem'
+                  fontSize: '0.75rem',
+                  marginRight: '1.25rem'
                 }}
               >
                 Retour à l'étape précédente
-              </button>
-              <button
-                disabled={
-                  this.state.params.apptTypeId == null ||
-                  this.state.params.expertTypeId === null
-                }
-                onClick={this.handleGotoThree}
-                className="rc-btn rc-btn--one  rc-margin-bottom--xs"
-                style={{
-                  width: '13.875rem',
-                  fontSize: '0.75rem'
-                }}
-              >
-                Continuer
-              </button>
+              </span>
+              {this.state.params.apptTypeId ? (
+                <button
+                  disabled={
+                    this.state.params.apptTypeId == null ||
+                    this.state.params.expertTypeId === null
+                  }
+                  onClick={this.handleGotoThree}
+                  className="rc-btn rc-btn--one  rc-margin-bottom--xs"
+                  style={{
+                    width: '13.875rem',
+                    fontSize: '0.75rem'
+                  }}
+                >
+                  Continuer
+                </button>
+              ) : null}
             </div>
           </div>
         ) : null}
@@ -812,16 +815,17 @@ class Pcexperts extends React.Component {
               })}
             </ul>
             <div className="txt-centr">
-              <button
+              <span
                 onClick={this.handleReturnTwo}
-                className="rc-btn rc-btn--two"
+                className="but-dec"
                 style={{
                   width: '13.875rem',
-                  fontSize: '0.75rem'
+                  fontSize: '0.75rem',
+                  marginRight: '1.25rem'
                 }}
               >
                 Retour à l'étape précédente
-              </button>
+              </span>
               <button
                 disabled={this.state.params.minutes == null}
                 onClick={this.handleGotoFour}
@@ -858,16 +862,17 @@ class Pcexperts extends React.Component {
               />
             </div>
             <div className="txt-centr">
-              <button
+              <span
                 onClick={this.handleReturnThree}
-                className="rc-btn rc-btn--two"
+                className="but-dec"
                 style={{
                   width: '13.875rem',
-                  fontSize: '0.75rem'
+                  fontSize: '0.75rem',
+                  marginRight: '1.25rem'
                 }}
               >
                 Retour à l'étape précédente
-              </button>
+              </span>
               <button
                 disabled={this.state.votre.heure === ''}
                 onClick={this.handleGoto}
@@ -934,16 +939,16 @@ class Pcexperts extends React.Component {
                 Créer un compte
               </button>
               <br />
-              <button
+              <span
                 onClick={this.handleLogin}
-                className="rc-btn rc-btn--one  rc-margin-bottom--xs"
+                className="but-dec"
                 style={{
                   width: '13.875rem',
                   fontSize: '0.75rem'
                 }}
               >
                 Continuer en tant qu'invité
-              </button>
+              </span>
             </div>
           </div>
         ) : null}
