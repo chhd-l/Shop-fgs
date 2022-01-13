@@ -732,16 +732,19 @@ export default function DailyPortion(
       case 3: return (
         <div className='mt-4 text-center'>
           <div className='resultText-box p-6'>
-            <p className='pb-10'>
+            <p className='pb-12 lg:pb-10'>
               <FormattedMessage id={'dailyPortion.resultText'}/>
             </p>
-            <div className='flex justify-center items-center'>
-              <span><img className='resultText-box-icon px-2' src={DailyPortion_icon_text} alt={''}/></span>
-              <span className='resultText-num'>
+            <div className='flex flex-col lg:flex-row lg:justify-center items-center'>
+              <span><img className='w-14 lg:w-10 px-2' src={DailyPortion_icon_text} alt={''}/></span>
+              <div>
+                <span className='resultText-num'>
                 <span>{ration?.quantityPerDay}</span>
                 <span>{ration?.unit}</span>
               </span>
-              <span className='pl-2'>/<FormattedMessage id={'day-unit'}/></span>
+                <span className='pl-2'>/<FormattedMessage id={'day-unit'}/></span>
+              </div>
+
             </div>
           </div>
           <div className='mt-6'>

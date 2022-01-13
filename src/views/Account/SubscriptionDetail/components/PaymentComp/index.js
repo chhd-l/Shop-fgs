@@ -750,7 +750,7 @@ class PaymentComp extends React.Component {
                       dataLength={creditCardList.length}
                       handleClick={() => {
                         if (creditCardList[idx].selected) return;
-                        // creditCardList.map((el) => (el.selected = false));
+                        creditCardList.map((el) => (el.selected = false));
                         el.selected = true;
                         // this.props.getSelectedValue &&
                         //   this.props.getSelectedValue(el);
@@ -830,7 +830,7 @@ class PaymentComp extends React.Component {
                     />
                   </div>
                 ))}
-                <div className="col-12 col-md-6 p-2 rounded text-center p-2 ui-cursor-pointer">
+                <div className="col-12 col-md-6 rounded text-center p-2 ui-cursor-pointer">
                   {this.addBtnJSX()}
                 </div>
               </div>

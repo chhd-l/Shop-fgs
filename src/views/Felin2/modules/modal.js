@@ -15,10 +15,7 @@ class MyModal extends React.Component {
       <div className="my-model">
         {children}
         <div className="modal-box">
-          <div
-            className="size24 col0 modal-size"
-            style={{ marginBottom: '1rem', paddingTop: '1.25rem' }}
-          >
+          <div className="size24 col0 modal-size model-title">
             Informations pratiques
           </div>
           <div className="modeal-cont">
@@ -28,7 +25,9 @@ class MyModal extends React.Component {
             <br />
             latelierfelin@royalcanin.com
             <br />
-            NUM XXXX
+            Numéro vert : 0 800 41 51 61
+            <br />
+            Les appels sont gratuits depuis un poste fixe.
             <br />
             <br />
             142 Bld Saint Germain 75006 PARIS
