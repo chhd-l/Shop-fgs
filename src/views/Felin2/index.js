@@ -14,7 +14,7 @@ import { Helmet } from 'react-helmet';
 import Slider from 'react-slick';
 import img from './image/img.png';
 import thak from './image/thak.png';
-import cat1 from './image/cat1.png';
+import cat1 from './image/new.png';
 import LazyLoad from 'react-lazyload';
 import Rate from '../../components/Rate';
 import Reviews from './Reviews/Reviews';
@@ -307,10 +307,9 @@ class Felin extends React.Component {
             </div>
           </div>
           <div className="time-content">
-            <div className="time font-500">
-              Retrouvez-nous au 142 Bd Saint-Germain à Paris pour visiter la
-              boutique et en savoir plus sur votre chat!
-            </div>
+            <h2 className="rc-beta font-weight-bold h2style">
+              Retrouvez-nous au 142 Bd Saint-Germain à Paris !
+            </h2>
           </div>
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile felin-mpd0">
             <div className="rc-max-width--xxl">
@@ -329,31 +328,27 @@ class Felin extends React.Component {
                     />
                   </LazyLoad>
                 </div>
-                <div className="rc-column felin-p30">
+                <div className="rc-column felin-p20">
                   <div className="visit-text">
-                    <div className="visit-text-tip font-500">
-                      L’ Atelier Félin, la boutique parisienne experte du bien
-                      être des chats
-                    </div>
                     <div className="visit-text-cont mb10">
-                      Notre magasin est dédié au bien-être et à l’équilibre de
-                      votre chat, créé par Royal Canin, expert en nutrition
-                      féline. Échangez avec nos experts afin de mieux connaître
-                      votre chat pour lui apporter le meilleur tout au long de
-                      sa vie. Vous pourrez vous y procurer la meilleure
+                      L’Atelier Félin est dédié au bien-être et à l’équilibre de
+                      votre chat. Échangez avec nos experts afin de mieux
+                      connaître votre chat pour lui apporter le meilleur tout au
+                      long de sa vie. Vous pourrez vous y procurer la meilleure
                       nutrition ainsi que des accessoires ou produits en lien
                       avec la santé de votre chat.
                       <div className="mb10" />
-                      L’ Atelier Félin est ouvert à tous, du mardi au vendredi
-                      de 12h à 20h, le samedi de 10h à 20h et le dimanche de 10h
-                      à 18h.
+                      Nous sommes ouverts à tous, du mardi au vendredi de 12h à
+                      20h, le samedi de 10h à 20h et le dimanche de 10h à 18h.
                     </div>
                     <button
                       onClick={this.gotoAddPc}
                       className="rc-btn rc-btn--two  rc-margin-bottom--xs pc-block"
                       style={{
-                        width: '13.875rem',
-                        fontSize: '0.75rem'
+                        width: '10.875rem',
+                        fontSize: '0.75rem',
+                        float: 'right',
+                        padding: '0.6rem 0'
                       }}
                     >
                       Prendre un rendez-vous
@@ -362,7 +357,9 @@ class Felin extends React.Component {
                       onClick={this.gotoAddH}
                       className="rc-btn rc-btn--two  rc-margin-bottom--xs h-block"
                       style={{
-                        width: '16.875rem'
+                        width: '10.875rem',
+                        fontSize: '0.75rem',
+                        padding: '0.6rem 0'
                       }}
                     >
                       Prendre un rendez-vous
@@ -372,42 +369,31 @@ class Felin extends React.Component {
               </div>
             </div>
           </div>
-          <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile felin-mpd0 mb16">
+          <div className="pc-block rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile felin-mpd0 mb16">
             <div className="rc-max-width--xxl">
               <div className="rc-layout-container rc-two-column rc-content-h-middle ">
-                <div className="rc-column felin-p30">
+                <div className="rc-column felin-p20">
                   <LazyLoad className="w-100">
                     <div className="visit-text fr">
-                      <div className="visit-text-tip font-500">
-                        Nos experts à votre écoute
-                      </div>
                       <div className="visit-text-cont mb10">
                         Nos <b>experts en comportement</b> sont là pour vous
-                        aider à améliorer le bien être de votre chat et vous
-                        aider à résoudre les problèmes (malpropreté,
-                        agressivité, dégradations, etc.), à mieux le comprendre,
-                        et vivre une relation épanouie !
+                        aider à améliorer le bien-être de votre chat et à
+                        résoudre les problèmes, à mieux le comprendre, et vivre
+                        une relation épanouie !
                         <div className="mb10" />
                         Chaque chat est unique et a des besoins spécifiques
                         selon sa race, son âge, ses sensibilités et son mode de
-                        vie. Nos <b>experts en nutrition</b> vous conseillerons
+                        vie. <b>Nos experts en nutrition</b> vous conseilleront
                         sur l'alimentation qui lui conviendra le mieux.
                       </div>
                       <button
                         onClick={this.gotoAddPc}
                         className="rc-btn rc-btn--two  rc-margin-bottom--xs pc-block"
                         style={{
-                          width: '13.875rem',
-                          fontSize: '0.75rem'
-                        }}
-                      >
-                        Prendre un rendez-vous
-                      </button>
-                      <button
-                        onClick={this.gotoAddH}
-                        className="rc-btn rc-btn--two  rc-margin-bottom--xs h-block"
-                        style={{
-                          width: '16.875rem'
+                          width: '10.875rem',
+                          fontSize: '0.75rem',
+                          float: 'right',
+                          padding: '0.6rem 0'
                         }}
                       >
                         Prendre un rendez-vous
@@ -423,9 +409,46 @@ class Felin extends React.Component {
               </div>
             </div>
           </div>
-          <div className="une-title font-500">
-            Une équipe engagée pour vous conseiller
+          <div className="h-block rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile felin-mpd0">
+            <div className="rc-max-width--xxl">
+              <div className="rc-layout-container rc-two-column rc-content-h-middle ">
+                <div className="rc-column felin-mpd0">
+                  <LazyLoad className="w-100">
+                    <img src={cat1} alt="" className="cat-img" />
+                  </LazyLoad>
+                </div>
+                <div className="rc-column felin-p20">
+                  <div className="visit-text">
+                    <div className="visit-text-cont mb10">
+                      Nos <b>experts en comportement</b> sont là pour vous aider
+                      à améliorer le bien-être de votre chat et à résoudre les
+                      problèmes, à mieux le comprendre, et vivre une relation
+                      épanouie !
+                      <div className="mb10" />
+                      Chaque chat est unique et a des besoins spécifiques selon
+                      sa race, son âge, ses sensibilités et son mode de vie.{' '}
+                      <b>Nos experts en nutrition</b> vous conseilleront sur
+                      l'alimentation qui lui conviendra le mieux.
+                    </div>
+                    <button
+                      onClick={this.gotoAddH}
+                      className="rc-btn rc-btn--two  rc-margin-bottom--xs h-block"
+                      style={{
+                        width: '10.875rem',
+                        fontSize: '0.75rem',
+                        padding: '0.6rem 0'
+                      }}
+                    >
+                      Prendre un rendez-vous
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
+          <h2 className="rc-beta font-weight-bold h2style txt-centr">
+            Des experts à votre écoute!
+          </h2>
           <Conseiller />
           <ConseillerTwo />
           {/*评论展示*/}
@@ -463,22 +486,20 @@ class Felin extends React.Component {
                     );
                   })}
                 </Slider>
-                <div style={{ textAlign: 'center' }}>
-                  <button
+                <div style={{ textAlign: 'center', marginTop: '0.625rem' }}>
+                  <span
                     onClick={() => {
                       this.setState({
                         reviews: { ...this.state.reviews, visible: true }
                       });
                     }}
-                    className="rc-btn rc-btn--two"
+                    className="but-dec"
                     style={{
-                      marginTop: '20px',
-                      width: '13.875rem',
-                      fontSize: '0.75rem'
+                      fontSize: '1.125rem'
                     }}
                   >
                     Voir plus d’avis
-                  </button>
+                  </span>
                 </div>
               </div>
             </div>
@@ -502,13 +523,12 @@ class Felin extends React.Component {
             />
           </div>
           <div id="event" className="nos-cont">
-            <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile felin-mpd0">
+            <div className="pc-block rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile felin-mpd0">
               <div className="rc-max-width--xxl">
                 <div className="rc-layout-container rc-two-column rc-content-h-middle ">
-                  <div className="rc-column felin-p30">
+                  <div className="rc-column felin-p20">
                     <LazyLoad className="w-100">
                       <div className="nos-cont-text fr">
-                        <p className="col0 visit-text-p">Nos évènements</p>
                         <p className="col0 visit-text-p">
                           Rencontrez régulièrement nos profils d’experts et
                           partagez l'expérience avec les autres membres de notre
@@ -524,11 +544,10 @@ class Felin extends React.Component {
                             textDecoration: 'underline',
                             cursor: 'pointer'
                           }}
-                          href="https://fr-fr.facebook.com/RoyalCaninFrance"
+                          href="https://www.facebook.com/RoyalCaninFrance/events/?ref=page_internal"
                           target="_blank"
                         >
-                          Consulter les évènements sur la page Facebook Royal
-                          Canin
+                          Suivre nos évènements sur Facebook
                         </a>
                       </div>
                     </LazyLoad>
@@ -540,6 +559,16 @@ class Felin extends React.Component {
                         src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/nos.jpg`}
                         alt=""
                       />
+                    </LazyLoad>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="h-block rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile felin-mpd0">
+              <div className="rc-max-width--xxl">
+                <div className="rc-layout-container rc-two-column rc-content-h-middle ">
+                  <div className="rc-column felin-mpd0">
+                    <LazyLoad className="w-100">
                       <img
                         className="h-block nos-img-box"
                         src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/nos1_v2.jpg`}
@@ -547,19 +576,49 @@ class Felin extends React.Component {
                       />
                     </LazyLoad>
                   </div>
+                  <div className="rc-column felin-p20">
+                    <LazyLoad className="w-100">
+                      <div className="nos-cont-text fr">
+                        <p className="col0 visit-text-p">
+                          Rencontrez régulièrement nos profils d’experts et
+                          partagez l'expérience avec les autres membres de notre
+                          communauté !
+                        </p>
+                        <p className="col0 visit-text-p">
+                          Profitez de notre programmation avec les journées
+                          adoptions, découverte de races et ateliers découverte
+                          pour votre chat.
+                        </p>
+                        <a
+                          style={{
+                            textDecoration: 'underline',
+                            cursor: 'pointer'
+                          }}
+                          href="https://www.facebook.com/RoyalCaninFrance/events/?ref=page_internal"
+                          target="_blank"
+                        >
+                          Suivre nos évènements sur Facebook
+                        </a>
+                      </div>
+                    </LazyLoad>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div className="txt-centr mb16" id="pcexperts">
-            <h2 className="size18 font-500 mb16" style={{ color: '#e2001a' }}>
+            <h2
+              className="rc-beta font-weight-bold h2style"
+              style={{ color: '#e2001a' }}
+            >
               Réservez une séance avec un expert de l'Atelier Félin
             </h2>
             <div className="problem" id="Voir-fqas">
               Venez rencontrer nos experts en nutrition et en comportement qui
               vous guideront pour prendre soin de votre chat. Vous pouvez
               réserver un rendez-vous dans l’atelier ou un appel vidéo.
-              Avez-vous des questions?{' '}
+              <br />
+              Go to next line here Avez-vous des questions?{' '}
               <span onClick={this.goto} style={{ cursor: 'pointer' }}>
                 Voir FAQs
               </span>
@@ -570,10 +629,6 @@ class Felin extends React.Component {
           <Hexperts history={this.props.history} />
           <div className="Faq-cont" id="faq">
             <div className="title col0 font-500">FAQs</div>
-            <div className="tip">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              <br /> Curabitur finibus ut urna vitae placerat.
-            </div>
           </div>
           <div className="faq-coll">
             <div>

@@ -56,7 +56,7 @@ class Hcexperts extends React.Component {
         {
           valueEn: 'Behaviorist',
           src: cat1,
-          name: 'Comportementalistes',
+          name: 'Expert en comportement',
           text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         },
         {
@@ -704,15 +704,16 @@ class Hcexperts extends React.Component {
               })}
             </div>
             <div className="js-center mt20">
-              <button
+              <span
                 onClick={this.handleReturn}
-                className="rc-btn rc-btn--two  rc-margin-bottom--xs"
+                className="but-dec"
                 style={{
-                  width: '16.875rem'
+                  width: '9.875rem',
+                  fontSize: '0.75rem'
                 }}
               >
                 Retour à l'étape précédente
-              </button>
+              </span>
             </div>
           </div>
         ) : null}
@@ -749,15 +750,16 @@ class Hcexperts extends React.Component {
               );
             })}
             <div className="js-center mt20">
-              <button
+              <span
                 onClick={this.handleReturnOne}
-                className="rc-btn rc-btn--two  rc-margin-bottom--xs"
+                className="but-dec"
                 style={{
-                  width: '16.875rem'
+                  width: '9.875rem',
+                  fontSize: '0.75rem'
                 }}
               >
                 Retour à l'étape précédente
-              </button>
+              </span>
             </div>
           </div>
         ) : null}
@@ -808,15 +810,16 @@ class Hcexperts extends React.Component {
               })}
             </ul>
             <div className="txt-centr">
-              <button
+              <span
                 onClick={this.handleReturnTwo}
-                className="rc-btn rc-btn--two  rc-margin-bottom--xs"
+                className="but-dec"
                 style={{
-                  width: '16.875rem'
+                  width: '9.875rem',
+                  fontSize: '0.75rem'
                 }}
               >
                 Retour à l'étape précédente
-              </button>
+              </span>
             </div>
           </div>
         ) : null}
@@ -841,20 +844,22 @@ class Hcexperts extends React.Component {
                 onClick={this.handleGoto}
                 className="rc-btn rc-btn--one  rc-margin-bottom--xs"
                 style={{
-                  width: '16.875rem'
+                  width: '8.875rem'
                 }}
               >
-                Continuer
+                Confirmer
               </button>
-              <button
+              <br />
+              <span
                 onClick={this.handleReturnThree}
-                className="rc-btn rc-btn--two  rc-margin-bottom--xs"
+                className="but-dec"
                 style={{
-                  width: '16.875rem'
+                  width: '9.875rem',
+                  fontSize: '0.75rem'
                 }}
               >
                 Retour à l'étape précédente
-              </button>
+              </span>
             </div>
           </div>
         ) : null}
@@ -905,15 +910,16 @@ class Hcexperts extends React.Component {
                 Créer un compte
               </button>
               <br />
-              <button
+              <span
                 onClick={this.handleLogin}
-                className="rc-btn rc-btn--one  rc-margin-bottom--xs mb28"
+                className="but-dec"
                 style={{
-                  width: '16.875rem'
+                  width: '13.875rem',
+                  fontSize: '0.75rem'
                 }}
               >
                 Continuer en tant qu'invité
-              </button>
+              </span>
             </div>
           </div>
         ) : null}
