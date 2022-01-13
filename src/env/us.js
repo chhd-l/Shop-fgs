@@ -2,7 +2,8 @@ const env = {
   base: {
     // #国家
     REACT_APP_COUNTRY: 'us',
-    REACT_APP_LANG_LOCALE: 'en-US'
+    REACT_APP_LANG_LOCALE: 'en-US',
+    REACT_APP_CURRENCY: 'USD'
   },
   development: {
     // #设置二级子目录访问页面

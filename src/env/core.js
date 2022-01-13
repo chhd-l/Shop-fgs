@@ -2,7 +2,8 @@ const env_fr = {
   base: {
     // #storid
     REACT_APP_STOREID: '123457913',
-    REACT_APP_LANG_LOCALE: 'en-US'
+    REACT_APP_LANG_LOCALE: 'en-US',
+    REACT_APP_CURRENCY: 'USD'
   },
   development: {
     // #设置二级子目录访问页面

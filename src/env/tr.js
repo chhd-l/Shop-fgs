@@ -2,7 +2,8 @@ const env = {
   base: {
     // #storid
     REACT_APP_STOREID: '123457911',
-    REACT_APP_LANG_LOCALE: 'tr-TR'
+    REACT_APP_LANG_LOCALE: 'tr-TR',
+    REACT_APP_CURRENCY: 'TRY'
   },
   development: {
     REACT_APP_HOMEPAGE: '/tr'
