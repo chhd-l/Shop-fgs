@@ -17,23 +17,31 @@ class ConseillerTwo extends React.Component {
     return (
       <div className="conseiller-two">
         <div className="grid grid-cols-2 gap-6">
-          <div>
-            <img src={exper1} alt="" />
+          <div className="txt-centr">
+            <div className="jus-flex-center">
+              <img src={exper1} alt="" />
+            </div>
             <div className="mtb10">Camille De Decker</div>
             <div className="col0">Vétérinaire Expert</div>
           </div>
-          <div>
-            <img src={exper2} alt="" />
+          <div className="txt-centr">
+            <div className="jus-flex-center">
+              <img src={exper2} alt="" />
+            </div>
             <div className="mtb10">Claire Nelaton</div>
             <div className="col0">Vétérinaire Expert</div>
           </div>
-          <div>
-            <img src={exper3} alt="" />
+          <div className="txt-centr">
+            <div className="jus-flex-center">
+              <img src={exper3} alt="" />
+            </div>
             <div className="mtb10">Pauline Bouissou</div>
             <div className="col0">Vétérinaire Expert</div>
           </div>
-          <div>
-            <img src={exper4} alt="" />
+          <div className="txt-centr">
+            <div className="jus-flex-center">
+              <img src={exper4} alt="" />
+            </div>
             <div className="mtb10">Thierry Pauline</div>
             <div className="col0">Vétérinaire Expert</div>
           </div>

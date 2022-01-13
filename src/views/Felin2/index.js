@@ -754,7 +754,7 @@ class Felin extends React.Component {
                         </a>
                         , passer nous voir au 142 Bd Saint Germain à Paris , ou
                         appelez-nous au{' '}
-                        <b style={{ color: '#e2001a' }}>XnuméroX.</b>
+                        <b style={{ color: '#e2001a' }}>0 800 41 51 61.</b>
                       </p>
                     </div>
                   </div>

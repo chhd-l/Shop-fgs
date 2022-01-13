@@ -4,8 +4,6 @@ import stores from '@/store';
 import LazyLoad from 'react-lazyload';
 import { useLocalStore } from 'mobx-react';
 import DatePicker from 'react-datepicker';
-import skipIcon from '../../images/skip.png';
-import dateIcon from '../../images/date.png';
 import {
   getDeviceType,
   datePickerConfig,
@@ -14,6 +12,7 @@ import {
   formatDate
 } from '@/utils/utils';
 import { IMG_DEFAULT } from '@/utils/constant';
+import cn from 'classnames';
 
 const NextDelivery = ({
   el,
@@ -67,108 +66,84 @@ const NextDelivery = ({
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   return (
     <div className="card-container">
-      <div className="card rc-margin-y--none ml-0">
+      <div className="card rc-margin-y--none ml-0 border-t-0">
         <div
-          className="card-header row rc-margin-x--none align-items-center pl-0 pr-0"
-          style={{ background: '#f9f9f9', padding: 0 }}
+          className="flex items-center justify-between px-4 flex-wrap"
+          style={{ background: '#f9f9f9' }}
         >
-          {isActive ? (
-            <div
-              className={`${isMobile ? 'col-5' : 'col-md-3'}`}
-              style={{
-                padding: isMobile ? '0 0 0 .625rem' : '0 .9375rem 0 1.25rem'
-              }}
-            >
-              <FormattedMessage id="nextShipmentOn" />
-              :
-              <br />
-              <span
-                style={{
-                  color: '#e2001a',
-                  fontWeight: '400'
-                }}
-              >
-                {isNotInactive
-                  ? formatDate({ date: el.tradeItems[0].nextDeliveryTime })
-                  : ''}
-              </span>
-            </div>
-          ) : null}
-          <div className={`${isMobile ? 'col-0' : 'col-md-5'}`} />
-          <div
-            className={`changeDate ${isMobile ? 'col-4' : 'col-md-3 pl-4'}`}
-            style={{
-              textAlign: 'right',
-              padding: isMobile ? '0' : '0 1.25rem 0 .9375rem'
-            }}
-          >
+          <div className="mb-2 md:mb-0">
             {isActive ? (
-              <>
-                <LazyLoad>
-                  <img
-                    alt="date Icon"
-                    src={dateIcon}
-                    className="m-auto"
-                    style={{
-                      width: '1.25rem',
-                      display: 'inline'
-                    }}
-                  />
-                </LazyLoad>
+              <div>
+                <FormattedMessage id="nextShipmentOn" />
+                :
+                <br />
                 <span
                   style={{
-                    color: '#666',
-                    fontWeight: '400',
-                    marginLeft: '5px',
-                    borderBottom: '1px solid #666',
-                    cursor: 'pointer'
+                    color: '#e2001a',
+                    fontWeight: '400'
                   }}
                 >
-                  <DatePicker
-                    className="receiveDate subs-receiveDate for-mobile-pad-0"
-                    placeholder="Select Date"
-                    dateFormat={datePickerConfig.format}
-                    locale={datePickerConfig.locale}
-                    minDate={getMinDate(el.tradeItems[0].nextDeliveryTime)}
-                    selected={
-                      el.tradeItems
-                        ? getZoneTime(el.tradeItems[0].nextDeliveryTime)
-                        : new Date()
-                    }
-                    onChange={(date) => dateChange(date)}
-                  />
+                  {isNotInactive
+                    ? formatDate({ date: el.tradeItems[0].nextDeliveryTime })
+                    : ''}
                 </span>
-              </>
+              </div>
             ) : null}
           </div>
-          <div
-            className={`${isMobile ? 'col-3' : 'col-md-1'}`}
-            style={{
-              padding: isMobile ? '0 0 0 .625rem' : '0'
-            }}
-          >
-            {isActive ? (
-              <>
-                <LazyLoad>
-                  <img
+          <div className="flex items-center mb-2  md:mb-0">
+            <div className={cn('changeDate whitespace-nowrap mr-2 text-right')}>
+              {isActive ? (
+                <>
+                  <span
+                    className="iconfont icondata"
                     style={{
-                      display: 'inline-block',
-                      width: '1.25rem',
-                      marginRight: '5px'
+                      color: '#666'
                     }}
-                    alt="skip icon"
-                    src={skipIcon}
                   />
-                </LazyLoad>
-                <a
-                  className="rc-styled-link ui-text-overflow-line1"
-                  style={{ width: '50px' }}
-                  onClick={(e) => skipNext(el)}
-                >
-                  <FormattedMessage id="skip" />
-                </a>
-              </>
-            ) : null}
+                  <span
+                    style={{
+                      color: '#666',
+                      fontWeight: '400',
+                      marginLeft: '5px',
+                      borderBottom: '1px solid #666',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <DatePicker
+                      className="receiveDate subs-receiveDate for-mobile-pad-0"
+                      placeholder="Select Date"
+                      dateFormat={datePickerConfig.format}
+                      locale={datePickerConfig.locale}
+                      minDate={getMinDate(el.tradeItems[0].nextDeliveryTime)}
+                      selected={
+                        el.tradeItems
+                          ? getZoneTime(el.tradeItems[0].nextDeliveryTime)
+                          : new Date()
+                      }
+                      onChange={(date) => dateChange(date)}
+                    />
+                  </span>
+                </>
+              ) : null}
+            </div>
+            <div>
+              {isActive ? (
+                <>
+                  <span
+                    className="iconfont iconskip font-bold mr-1"
+                    style={{
+                      color: '#666'
+                    }}
+                  />
+                  <a
+                    className="rc-styled-link ui-text-overflow-line1"
+                    onClick={(e) => skipNext(el)}
+                  >
+                    <FormattedMessage id="skip" />
+                  </a>
+                </>
+              ) : null}
+            </div>
           </div>
         </div>
       </div>
