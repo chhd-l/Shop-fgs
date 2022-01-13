@@ -1,7 +1,7 @@
 const interfacePrefix = require('./interface-prefix');
 import getCountryCodeFromHref from '@/lib/get-country-code-from-href';
 import ENV_GLOBAL from '@/env/global';
-import { ca, core, de, fr, mx, ru, se, tr, uk, us } from '@/env';
+import { baseStoreConfigByCountry } from '@/env';
 
 const param = getCountryCodeFromHref();
 
@@ -46,18 +46,7 @@ if (process.env.NODE_ENV === 'production') {
     countryFromLink: param?.countryLink
   });
   // 当/storeConfig/getShopConfig/接口失败时，容错用，使该店铺正常使用
-  const baseStoreConfig = {
-    ca,
-    core,
-    de,
-    fr,
-    mx,
-    ru,
-    se,
-    tr,
-    uk,
-    us
-  }[param?.countryLink];
+  const baseStoreConfig = baseStoreConfigByCountry[param?.countryLink];
   window.__ = Object.assign(window.__ || {}, {
     env: Object.assign(
       window.__?.env || {},
