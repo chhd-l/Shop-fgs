@@ -83,19 +83,17 @@ class PayProductInfo extends React.Component {
       isFromFelin
     ) {
       productList = nextProps.data;
+      let list = cloneDeep(productList);
+      // 有产品的时候才去展示产品列表，兼容chekcout page获取产品（比如felin appointNo）ga执行
+      if (list?.length) {
+        !isHubGA && this.GACheck(list);
+        isHubGA && this.GAInitialProductArray(list);
+      }
       this.setState(
         Object.assign({
           productList: productList || []
         })
       );
-    }
-
-    let list = cloneDeep(productList);
-    // 有产品的时候才去展示产品列表，兼容chekcout page获取产品（比如felin appointNo）ga执行
-    if (list?.length) {
-      debugger;
-      !isHubGA && this.GACheck(list);
-      isHubGA && this.GAInitialProductArray(list);
     }
   }
   //会员 GA需要的product信息
@@ -129,11 +127,12 @@ class PayProductInfo extends React.Component {
   GAGetProductUnlogin(productList) {
     let product = [];
     for (let item of productList) {
-      let cur_selected_size = item.sizeList.filter((item2) => {
-        return item2.selected == true;
-      });
-      let variant = cur_selected_size[0].specText;
-      let goodsInfoNo = cur_selected_size[0].goodsInfoNo;
+      let cur_selected_size =
+        item.sizeList?.filter((item2) => {
+          return item2.selected == true;
+        }) || [];
+      let variant = cur_selected_size[0]?.specText;
+      let goodsInfoNo = cur_selected_size[0]?.goodsInfoNo;
       let productItem = {
         brand: item.brandName || 'ROYAL CANIN',
         category: item.goodsCateName,
