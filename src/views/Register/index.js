@@ -367,15 +367,16 @@ class Register extends Component {
       .then(async (res) => {
         if (res.code === 'K-000000') {
           //GA 注册成功 start
-          dataLayer.push({
-            event: `${window.__.env.REACT_APP_GTM_SITE_ID}accountCreation`,
-            interaction: {
-              category: 'account creation',
-              action: 'accounct creation',
-              label: '',
-              value: 1
-            }
-          });
+          window.dataLayer &&
+            dataLayer.push({
+              event: `${window.__.env.REACT_APP_GTM_SITE_ID}accountCreation`,
+              interaction: {
+                category: 'account creation',
+                action: 'accounct creation',
+                label: '',
+                value: 1
+              }
+            });
           //GA 注册成功 end
 
           if (res.context.oktaSessionToken) {
