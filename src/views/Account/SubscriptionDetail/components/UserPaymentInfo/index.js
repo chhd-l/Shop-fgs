@@ -171,10 +171,22 @@ const UserPaymentInfo = ({
               )}
             </div>
             <div className="ml-1">
+              {/* 姓名 */}
+              <p className="mb-0 sd_mb_name">
+                <span
+                  className="medium"
+                  style={{
+                    fontSize: '1.125rem',
+                    color: '#333',
+                    margin: '25px 0 .625rem'
+                  }}
+                >
+                  {currentBillingAddress.consigneeName}
+                </span>
+              </p>
               <AddressPreview
                 nameCls="medium"
                 data={{
-                  name: currentBillingAddress.consigneeName,
                   phone: currentBillingAddress?.consigneeNumber,
                   countryName:
                     (countryList || []).filter(

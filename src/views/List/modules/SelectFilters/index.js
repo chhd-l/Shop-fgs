@@ -63,7 +63,7 @@ class SelectFilters extends React.Component {
                       <li className="filter-value" key={cItem.id}>
                         <Link to={cItem.router}>
                           {cItem.attributeDetailNameEn}
-                          <em className="filter-remove" />
+                          <em className="rc-icon rc-close--sm rc-iconography inline-block" />
                         </Link>
                       </li>
                     );
