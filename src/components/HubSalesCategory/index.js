@@ -87,7 +87,7 @@ export default class HubSalesCategory extends Component {
             </p>
           </div>
           <div className="rc-layout-container rc-two-column">
-            <div className="rc-column rc-padding-x--md">
+            <div className="rc-column rc-padding-x--sm">
               <div className="header-title">
                 <div style={{ fontSize: '1.25rem' }} className="rc-espilon">
                   <FormattedMessage id="salesCategory.cat" />
@@ -132,7 +132,7 @@ export default class HubSalesCategory extends Component {
                 )}
               </div>
             </div>
-            <div className="rc-column rc-padding-x--md">
+            <div className="rc-column rc-padding-x--sm">
               <div className="header-title">
                 <div style={{ fontSize: '1.25rem' }} className="rc-espilon">
                   <FormattedMessage id="salesCategory.dog" />
