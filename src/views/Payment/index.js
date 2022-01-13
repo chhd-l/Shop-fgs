@@ -3988,7 +3988,7 @@ class Payment extends React.Component {
   // 1、点击支付
   clickPay = () => {
     const { intl } = this.props;
-    //0元订单中含有订阅商品时不能下单
+    //0元订单中含有订阅商品时不能下单（us美国订阅可以）
     if (
       this.isSkipPaymentPanel &&
       !(
