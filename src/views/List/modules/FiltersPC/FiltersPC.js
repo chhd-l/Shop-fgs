@@ -400,12 +400,12 @@ class Filter extends React.Component {
                             {cItem.router ? (
                               <Link to={cItem.router}>
                                 {cItem.attributeDetailNameEn}
-                                <em className="filter-remove" />
+                                <em className="rc-icon rc-close--sm rc-iconography inline-block" />
                               </Link>
                             ) : (
                               <span>
                                 {cItem.attributeDetailNameEn}
-                                <em className="filter-remove" />
+                                <em className="rc-icon rc-close--sm rc-iconography inline-block" />
                               </span>
                             )}
                           </li>
