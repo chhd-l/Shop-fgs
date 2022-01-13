@@ -180,7 +180,7 @@ export const GACartScreenLoad = () => {
 };
 
 //init 游客(cart+checkout都使用)
-export const GAInitUnLogin = ({ productList, frequencyList, props }) => {
+export const GAInitUnLogin = ({ productList, frequencyList, props, type }) => {
   let promotionInfo = getPromotionInfo();
   if (!isHubGA) return;
   let breed = [];
@@ -246,6 +246,12 @@ export const GAInitUnLogin = ({ productList, frequencyList, props }) => {
           promotionInfo[index].promoCodeAmount) ||
         '' //Promo code amount, only if promo activated
     });
+    if (type == 'felin') {
+      // felin特殊处理
+      obj.range = 'Booking';
+      obj.name = "L'Atelier Félin booking";
+      obj.mainItemCode = "L'Atelier Félin booking";
+    }
 
     arr.push(obj);
   }
@@ -256,7 +262,7 @@ export const GAInitUnLogin = ({ productList, frequencyList, props }) => {
 };
 
 //init 会员(cart+checkout都使用)
-export const GAInitLogin = ({ productList, frequencyList, props }) => {
+export const GAInitLogin = ({ productList, frequencyList, props, type }) => {
   console.log(111, productList);
   let promotionInfo = getPromotionInfo();
   if (!isHubGA) return;
@@ -294,8 +300,7 @@ export const GAInitLogin = ({ productList, frequencyList, props }) => {
       .forEach((item2) => {
         breed.push(item2.goodsAttributeValue);
       });
-
-    let obj = deleteObjEmptyAttr({
+    let productItem = {
       price: item.goodsInfoFlag > 0 ? item.subscriptionPrice : item.salePrice, //Product Price, including discount if promo code activated for this product
       specie: getSpecies(item), //'Cat' or 'Dog',
       range: range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
@@ -323,13 +328,22 @@ export const GAInitLogin = ({ productList, frequencyList, props }) => {
           promotionInfo[index] &&
           promotionInfo[index].promoCodeAmount) ||
         '' //Promo code amount, only if promo activated
-    });
+    };
+    if (type == 'felin') {
+      // felin特殊处理
+      productItem.range = 'Booking';
+      productItem.name = "L'Atelier Félin booking";
+      productItem.mainItemCode = "L'Atelier Félin booking";
+    }
+    let obj = deleteObjEmptyAttr(productItem);
 
     arr.push(obj);
   }
   dataLayer.push({
     products: arr
   });
+  console.info('productsproducts', arr);
+  debugger;
 
   props.checkoutStore.saveGAProduct({ products: arr });
 };

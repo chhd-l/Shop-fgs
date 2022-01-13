@@ -510,42 +510,50 @@ class LoginCart extends React.Component {
       });
     }, 3000);
   }
-  handleAmountChange(item, e) {
+  handleAmountChange(item, type, e) {
     this.setState({
       errorMsg: ''
     });
-    const val = e.target.value;
-    if (val === '') {
+    let val = e.target.value;
+    if (val === '' && type === 'change') {
       item.buyCount = val;
       this.setState({
         productList: this.state.productList
       });
-    } else {
-      const { quantityMinLimit } = this.state;
-      let tmp = parseFloat(val);
-      if (isNaN(tmp)) {
-        tmp = 1;
-        this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
-      }
-      if (tmp < quantityMinLimit) {
-        tmp = quantityMinLimit;
-        this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
-      }
-      if (tmp > window.__.env.REACT_APP_LIMITED_NUM) {
-        tmp = window.__.env.REACT_APP_LIMITED_NUM;
-      }
-      item.buyCount = tmp;
-      clearTimeout(this.amountTimer);
-      this.amountTimer = setTimeout(() => {
-        this.updateBackendCart({
-          goodsInfoId: item.goodsInfoId,
-          goodsNum: item.buyCount,
-          verifyStock: false,
-          periodTypeId: item.periodTypeId,
-          goodsInfoFlag: item.goodsInfoFlag
-        });
-      }, 500);
+      return;
     }
+    if (val === '' && type === 'blur') {
+      this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
+      item.buyCount = 1;
+      this.setState({
+        productList: this.state.productList
+      });
+      val = 1;
+    }
+    const { quantityMinLimit } = this.state;
+    let tmp = parseFloat(val);
+    if (isNaN(tmp)) {
+      tmp = 1;
+      this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
+    }
+    if (tmp < quantityMinLimit) {
+      tmp = quantityMinLimit;
+      this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
+    }
+    if (tmp > window.__.env.REACT_APP_LIMITED_NUM) {
+      tmp = window.__.env.REACT_APP_LIMITED_NUM;
+    }
+    item.buyCount = tmp;
+    clearTimeout(this.amountTimer);
+    this.amountTimer = setTimeout(() => {
+      this.updateBackendCart({
+        goodsInfoId: item.goodsInfoId,
+        goodsNum: item.buyCount,
+        verifyStock: false,
+        periodTypeId: item.periodTypeId,
+        goodsInfoFlag: item.goodsInfoFlag
+      });
+    }, 500);
   }
   addQuantity(item) {
     if (this.state.checkoutLoading) {
@@ -658,7 +666,8 @@ class LoginCart extends React.Component {
                 value={pitem.buyCount}
                 min="1"
                 max="10"
-                onChange={this.handleAmountChange.bind(this, pitem)}
+                onChange={this.handleAmountChange.bind(this, pitem, 'change')}
+                onBlur={this.handleAmountChange.bind(this, pitem, 'blur')}
               />
               <span
                 className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
