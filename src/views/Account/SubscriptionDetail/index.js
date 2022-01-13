@@ -205,24 +205,24 @@ class SubscriptionDetail extends React.Component {
     // this.scrollToWhere('sub-user-paymentinfo-title');
     console.log('this.state.addressType:', this.state.addressType);
     if (this.state.addressType === 'delivery') {
-      checkSubscriptionAddressPickPoint({
-        subscribeId: subDetail.subscribeId,
-        goodsItems: subDetail.goodsInfo?.map((el) => {
-          return {
-            skuId: el.skuId,
-            subscribeNum: el.subscribeNum,
-            subscribeGoodsId: el.subscribeGoodsId,
-            subscribeId: el.subscribeId
-          };
-        }),
-        paymentId: subDetail.paymentId,
-        deliveryAddressId: el.deliveryAddressId
-      })
-        .then()
-        .catch((err) => {
-          this.setState({ showTempolineError: err.message });
-          return;
-        });
+      // checkSubscriptionAddressPickPoint({
+      //   subscribeId: subDetail.subscribeId,
+      //   goodsItems: subDetail.goodsInfo?.map((el) => {
+      //     return {
+      //       skuId: el.skuId,
+      //       subscribeNum: el.subscribeNum,
+      //       subscribeGoodsId: el.subscribeGoodsId,
+      //       subscribeId: el.subscribeId
+      //     };
+      //   }),
+      //   paymentId: subDetail.paymentId,
+      //   deliveryAddressId: el.deliveryAddressId
+      // })
+      //   .then()
+      //   .catch((err) => {
+      //     this.setState({ showTempolineError: err.message });
+      //     return;
+      //   });
       let param = {
         subscribeId: subDetail.subscribeId,
         deliveryAddressId: el.deliveryAddressId,
@@ -673,19 +673,19 @@ class SubscriptionDetail extends React.Component {
       Object.assign(param, {
         subscribeStatus: subDetail.subscribeStatus
       });
-      await checkSubscriptionAddressPickPoint({
-        subscribeId: subDetail.subscribeId,
-        goodsItems: subDetail.goodsInfo?.map((el) => {
-          return {
-            skuId: el.skuId,
-            subscribeNum: el.subscribeNum,
-            subscribeGoodsId: el.subscribeGoodsId,
-            subscribeId: el.subscribeId
-          };
-        }),
-        paymentId: subDetail.paymentId,
-        deliveryAddressId: subDetail.deliveryAddressId
-      });
+      // await checkSubscriptionAddressPickPoint({
+      //   subscribeId: subDetail.subscribeId,
+      //   goodsItems: subDetail.goodsInfo?.map((el) => {
+      //     return {
+      //       skuId: el.skuId,
+      //       subscribeNum: el.subscribeNum,
+      //       subscribeGoodsId: el.subscribeGoodsId,
+      //       subscribeId: el.subscribeId
+      //     };
+      //   }),
+      //   paymentId: subDetail.paymentId,
+      //   deliveryAddressId: subDetail.deliveryAddressId
+      // });
       await this.doUpdateDetail(param);
       if (this.state.isGift) {
         this.props.history.push('/account/subscription');
@@ -698,7 +698,7 @@ class SubscriptionDetail extends React.Component {
       });
     } catch (err) {
       this.showErrMsg(err.message);
-      this.setState({ showTempolineError: err.message });
+      // this.setState({ showTempolineError: err.message });
     } finally {
       this.setState({ loading: false });
     }
