@@ -1085,14 +1085,26 @@ class Details extends React.Component {
     let currentGoodsInfo = goodsInfos.find(
       (item) => item.goodsInfoBarcode === barcode
     );
-    let isTechnology = ['dry', 'wet'].includes(details?.wsTechnologyCode);
-    let reg = new RegExp('baby', 'i');
-    let LifestagesAttr = goodsAttributesValueRelList.filter(
-      (item) => item.goodsAttributeName === 'Lifestages'
+    let isTechnology = ['dry', 'wet'].includes(
+      details?.wsTechnologyCode?.toLocaleLowerCase()
     );
-    let isBaby =
-      LifestagesAttr.length === 1 &&
-      reg.test(LifestagesAttr?.[0]?.goodsAttributeValue);
+    let reg = new RegExp('baby', 'i');
+    let LifestagesAttr = goodsAttributesValueRelList
+      .filter((item) => item.goodsAttributeName === 'Lifestages')
+      ?.map((item) => item?.goodsAttributeValue);
+
+    LifestagesAttr = LifestagesAttr.filter((item, index) => {
+      return LifestagesAttr.indexOf(item) === index;
+    });
+
+    // let isBaby =
+    //   LifestagesAttr.length === 1 &&
+    //   reg.test(LifestagesAttr?.[0]?.goodsAttributeValue);
+
+    let isBaby = LifestagesAttr.find((item) => reg.test(item));
+    console.log('isBaby', isBaby);
+    console.log('currentGoodsInfo', currentGoodsInfo);
+    console.log('isTechnology', isTechnology);
 
     /**
      *  是否显示计算工具
