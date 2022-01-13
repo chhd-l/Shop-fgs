@@ -157,6 +157,7 @@ class SubscriptionDetail extends React.Component {
       showTempolineError: false
     };
   }
+
   paymentSave = (el) => {
     const { subDetail } = this.state;
     let param = {
@@ -168,11 +169,10 @@ class SubscriptionDetail extends React.Component {
           subscribeNum: el.subscribeNum,
           subscribeGoodsId: el.subscribeGoodsId
         };
-      })
+      }),
+      changeField: 'paymentMethod'
     };
-
     this.setState({ loading: true });
-
     updateDetail(param)
       .then((res) => {
         this.getDetail(
@@ -188,6 +188,7 @@ class SubscriptionDetail extends React.Component {
       });
     this.setState({ type: 'main', currentCardInfo: el });
   };
+
   cancelEdit = () => {
     this.setState({ type: 'main' });
   };
@@ -198,6 +199,7 @@ class SubscriptionDetail extends React.Component {
       pstit.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
   addressSave = (el, isBillSame, fn) => {
     const { subDetail } = this.state;
     // console.log(el, isBillSame);
@@ -325,6 +327,7 @@ class SubscriptionDetail extends React.Component {
     });
     this.initPage();
   }
+
   initPage = () => {
     let { search } = this.props.history.location;
     search = search && decodeURIComponent(search);
@@ -353,16 +356,19 @@ class SubscriptionDetail extends React.Component {
         });
     });
   };
+
   changeTab = (e, i) => {
     this.setState({ activeTabIdx: i });
   };
+
   onDateChange(date, goodsInfo) {
     let { subDetail } = this.state;
     subDetail.nextDeliveryTime = format(date, 'yyyy-MM-dd');
     let param = {
       subscribeId: subDetail.subscribeId,
       nextDeliveryTime: subDetail.nextDeliveryTime,
-      goodsItems: goodsInfo
+      goodsItems: goodsInfo,
+      changeField: 'Next Delivery Time'
     };
     this.setState({ loading: true });
     updateNextDeliveryTime(param)
@@ -390,19 +396,23 @@ class SubscriptionDetail extends React.Component {
       this.setState({ loading: false });
     }
   }
+
   getMinDate = (nextDeliveryTime) => {
     return new Date(this.state.minDate.getTime() + 1 * 24 * 60 * 60 * 1000);
   };
+
   getMaxDate(nextDeliveryTime) {
     return new Date(
       new Date(nextDeliveryTime).getTime() + 14 * 24 * 60 * 60 * 1000
     );
   }
+
   getGoodsRations = async (subDetail, isIndv) => {
     let petsId = subDetail.petsInfo?.petsId;
 
     return subDetail.petsInfo;
   };
+
   getDetail = async (fn) => {
     try {
       this.setState({ loading: true });
@@ -560,11 +570,13 @@ class SubscriptionDetail extends React.Component {
       this.setState({ loading: false });
     }
   };
+
   matchCityName(dict, cityId) {
     return dict.filter((c) => c.id === cityId).length
       ? dict.filter((c) => c.id === cityId)[0].cityName
       : cityId;
   }
+
   hanldeClickSubmit = () => {
     let { modalType, subDetail } = this.state;
     this.setState({ loading: true, modalShow: false });
@@ -612,9 +624,11 @@ class SubscriptionDetail extends React.Component {
       );
     }
   };
+
   closeRemainings = () => {
     this.setState({ remainingsVisible: false });
   };
+
   showErrMsg(msg, type, fn) {
     if (type === 'success') {
       this.setState({
@@ -641,37 +655,31 @@ class SubscriptionDetail extends React.Component {
       }, 3000);
     }
   }
+
   async handleSaveChange(subDetail) {
     if (!this.state.isDataChange) {
       return false;
     }
+    if (this.state.isGift) {
+      //food dispensor 不能修改，不能暂停
+      this.props.history.push('/account/subscription');
+      return;
+    }
     try {
       let param = {
-        subscribeId: subDetail.subscribeId
+        subscribeId: subDetail.subscribeId,
+        subscribeStatus: subDetail.subscribeStatus,
+        changeField: 'productNumberOrFrequency'
       };
-      if (this.state.isGift) {
-        //food dispensor 不能修改，不能暂停
-        return;
-      }
-      Object.assign(
-        param,
-        {
-          goodsItems: subDetail.goodsInfo?.map((el) => {
-            return {
-              skuId: el.skuId,
-              subscribeNum: el.subscribeNum,
-              subscribeGoodsId: el.subscribeGoodsId,
-              periodTypeId: el.periodTypeId
-            };
-          })
-        },
-        {
-          changeField: this.props.intl.messages['produtctNumber']
-        }
-      );
-
       Object.assign(param, {
-        subscribeStatus: subDetail.subscribeStatus
+        goodsItems: subDetail.goodsInfo?.map((el) => {
+          return {
+            skuId: el.skuId,
+            subscribeNum: el.subscribeNum,
+            subscribeGoodsId: el.subscribeGoodsId,
+            periodTypeId: el.periodTypeId
+          };
+        })
       });
       // await checkSubscriptionAddressPickPoint({
       //   subscribeId: subDetail.subscribeId,
@@ -687,10 +695,6 @@ class SubscriptionDetail extends React.Component {
       //   deliveryAddressId: subDetail.deliveryAddressId
       // });
       await this.doUpdateDetail(param);
-      if (this.state.isGift) {
-        this.props.history.push('/account/subscription');
-        return;
-      }
       await this.getDetail();
       this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success');
       this.setState({
