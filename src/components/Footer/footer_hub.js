@@ -95,7 +95,7 @@ class FooterHub extends React.Component {
                           <a href={item.Link.Url} className="color-f6f6f6">
                             {item.Link.Text}
                           </a>
-                          <span class="iconfont iconDown icon-down" />
+                          <span className="iconfont iconDown icon-down" />
                         </h3>
                         <ul
                           className="rc-list rc-list--blank rc-list--align overflow-hidden"
