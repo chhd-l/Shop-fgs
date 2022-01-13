@@ -1,14 +1,10 @@
-import React, { useEffect, useState, useContext } from 'react';
-import {
-  FormattedMessage,
-  injectIntl,
-  FormattedDate
-} from 'react-intl-phraseapp';
-import cancelIcon from '../../images/cancel.png';
+import React, { useContext } from 'react';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { SubGoodsInfosContext } from './index';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import { getDeviceType } from '@/utils/utils';
 import { startSubscription, pauseSubscription } from '@/api/subscription';
+
 const ButtonBox = () => {
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   const SubGoodsInfosValue = useContext(SubGoodsInfosContext);
@@ -107,15 +103,7 @@ const ButtonBox = () => {
         </div>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <div style={{ display: 'inline-block', marginBottom: '10px' }}>
-          <img
-            style={{
-              display: 'inline-block',
-              width: '1.25rem',
-              marginRight: '5px'
-            }}
-            alt="cancle icon"
-            src={cancelIcon}
-          />
+          <span className="iconfont iconchahao text-rc-red font-bold text-lg mr-1" />
           <a
             className="rc-styled-link"
             href="#/"

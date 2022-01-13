@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import LazyLoad from 'react-lazyload';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import deliveryIcon from '../../images/deliveryAddress.png';
-import billingIcon from '../../images/billingAddress.png';
 import getCardImg from '@/lib/get-card-img';
-import paymentIcon from '../../images/payment.png';
 import { getDictionary, isCanVerifyBlacklistPostCode } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import { AddressPreview } from '@/components/Address';
@@ -31,10 +28,8 @@ const UserPaymentInfo = ({
     maxDeliveryTime = snsl.maxDeliveryTime;
   }
   const eidtModule = (type) => {
-    if (type !== 'delivery') {
-      window.scrollTo(0, 0);
-    }
     if (type == 'PaymentComp') {
+      window.scrollTo(0, 0);
       setState({
         type
       });
@@ -60,17 +55,12 @@ const UserPaymentInfo = ({
         >
           <div className="align-items-center">
             {/* <em className="rc-icon rc-delivery--sm rc-brand1 ml-1 mr-1 mt-1" /> */}
-            <LazyLoad>
-              <img
-                alt="delivery Icon"
-                src={deliveryIcon}
-                style={{
-                  width: '30px',
-                  marginRight: '1.125rem',
-                  display: 'inline-block'
-                }}
-              />
-            </LazyLoad>
+            <svg
+              className="svg-icon account-info-icon align-middle mr-3"
+              aria-hidden="true"
+            >
+              <use xlinkHref="#iconaddresses"></use>
+            </svg>
             <span>
               <FormattedMessage id="delivery2" />
             </span>
@@ -146,17 +136,12 @@ const UserPaymentInfo = ({
             }}
           >
             <div className="align-items-center">
-              <LazyLoad>
-                <img
-                  alt="billing Icon"
-                  src={billingIcon}
-                  style={{
-                    width: '30px',
-                    marginRight: '1.125rem',
-                    display: 'inline-block'
-                  }}
-                />
-              </LazyLoad>
+              <svg
+                className="svg-icon align-middle mr-3 w-8 h-8"
+                aria-hidden="true"
+              >
+                <use xlinkHref="#iconBillingAddress1" />
+              </svg>
               <span>
                 <FormattedMessage id="billing2" />
               </span>
@@ -218,17 +203,12 @@ const UserPaymentInfo = ({
             }}
           >
             <div className="align-items-center">
-              <LazyLoad style={{ display: 'inline' }}>
-                <img
-                  src="paymentIcon"
-                  src={paymentIcon}
-                  style={{
-                    width: '30px',
-                    marginRight: '1.125rem',
-                    display: 'inline-block'
-                  }}
-                />
-              </LazyLoad>
+              <svg
+                className="svg-icon align-middle mr-3 w-8 h-8"
+                aria-hidden="true"
+              >
+                <use xlinkHref="#iconpayments" />
+              </svg>
               <span>
                 <FormattedMessage id="payment.payment" />
               </span>
