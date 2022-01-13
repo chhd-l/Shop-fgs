@@ -736,7 +736,7 @@ export default function DailyPortion(
               <FormattedMessage id={'dailyPortion.resultText'}/>
             </p>
             <div className='flex flex-col lg:flex-row lg:justify-center items-center'>
-              <span><img className='resultText-box-icon px-2' src={DailyPortion_icon_text} alt={''}/></span>
+              <span><img className='w-14 lg:w-10 px-2' src={DailyPortion_icon_text} alt={''}/></span>
               <div>
                 <span className='resultText-num'>
                 <span>{ration?.quantityPerDay}</span>
