@@ -717,12 +717,9 @@ class Register extends Component {
                                     </span>
                                   </label>
                                   {nameValid ? null : (
-                                    <span
-                                      className="input-cross icon-unsuscribe iconfont"
+                                    <ChaChaIcon
                                       onClick={() => this.deleteInput('name')}
-                                    >
-                                      &#xe6b2;
-                                    </span>
+                                    />
                                   )}
                                 </div>
                                 <div className="invalid-feedback">
@@ -756,14 +753,11 @@ class Register extends Component {
                                       </span>
                                     </label>
                                     {firstNameValid ? null : (
-                                      <span
-                                        className="input-cross icon-unsuscribe iconfont"
+                                      <ChaChaIcon
                                         onClick={() =>
                                           this.deleteInput('firstName')
                                         }
-                                      >
-                                        &#xe6b2;
-                                      </span>
+                                      />
                                     )}
                                   </div>
                                   <div className="invalid-feedback">
@@ -799,14 +793,11 @@ class Register extends Component {
                                       </span>
                                     </label>
                                     {lastNameValid ? null : (
-                                      <span
-                                        className="input-cross icon-unsuscribe iconfont"
+                                      <ChaChaIcon
                                         onClick={() =>
                                           this.deleteInput('lastName')
                                         }
-                                      >
-                                        &#xe6b2;
-                                      </span>
+                                      />
                                     )}
                                   </div>
                                   <div className="invalid-feedback">
@@ -846,12 +837,9 @@ class Register extends Component {
                                   </span>
                                 </label>
                                 {emailValid ? null : (
-                                  <span
-                                    className="input-cross icon-unsuscribe iconfont"
+                                  <ChaChaIcon
                                     onClick={() => this.deleteInput('email')}
-                                  >
-                                    &#xe6b2;
-                                  </span>
+                                  />
                                 )}
                               </div>
                               <div className="invalid-feedback">
@@ -908,12 +896,9 @@ class Register extends Component {
                                   </span>
                                 </button>
                                 {passwordValid ? null : (
-                                  <span
-                                    className="input-cross icon-unsuscribe iconfont"
+                                  <ChaChaIcon
                                     onClick={() => this.deleteInput('password')}
-                                  >
-                                    &#xe6b2;
-                                  </span>
+                                  />
                                 )}
                               </div>
                               <div className="invalid-feedback">
@@ -1186,3 +1171,13 @@ class Register extends Component {
   }
 }
 export default withOktaAuth(Register);
+
+const ChaChaIcon = ({ onClick = () => {} } = {}) => {
+  return (
+    <span
+      className="iconfont iconchahao font-bold input-cross icon-unsuscribe"
+      style={{ color: '#c03344' }}
+      onClick={onClick}
+    />
+  );
+};
