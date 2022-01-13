@@ -557,6 +557,8 @@ class Pcexperts extends React.Component {
     }
   };
   queryAppointInfo = async (appointNo) => {
+    //不做ga
+    return;
     const result = await getAppointmentInfo(appointNo);
     console.log('appointmentInfo', result);
     const requestName = this.isLogin ? getLoginDetails : getDetails;
