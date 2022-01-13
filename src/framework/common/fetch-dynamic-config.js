@@ -2,6 +2,7 @@ import { fetchShopConfig } from '@/api';
 import getCountryCodeFromHref from '@/lib/get-country-code-from-href';
 import { decryptString } from '@/lib/aes-utils';
 import ENV_LOCAL from '@/env/local';
+import cloneDeep from 'lodash/cloneDeep';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -9,12 +10,12 @@ const fetchDynamicConfig = async () => {
   const baseConfig = sessionItemRoyal.get('base-config')
     ? JSON.parse(sessionItemRoyal.get('base-config'))
     : null;
-  let envVal = {};
+  let envVal = cloneDeep(window?.__?.env || {});
+  const param = getCountryCodeFromHref();
   try {
     if (baseConfig) {
       envVal = Object.assign(baseConfig);
     } else {
-      const param = getCountryCodeFromHref();
       const res = await fetchShopConfig(param?.countryCode);
       const tmpCfg = res?.context?.context
         ? JSON.parse(decryptString(res?.context?.context))
@@ -23,9 +24,9 @@ const fetchDynamicConfig = async () => {
         REACT_APP_HUB: Boolean(res?.context?.enableHub),
         REACT_APP_LANG_LOCALE: res?.context?.language
       });
-
       const oktaSettingConfig = res?.context?.oktaSettingConfig;
       if (oktaSettingConfig) {
+        // 本地开发环境，需要额外加载okta本地配置
         const domainName =
           process.env.REACT_APP_ACCESS_PATH || oktaSettingConfig.domainName;
         envVal = Object.assign(envVal, {

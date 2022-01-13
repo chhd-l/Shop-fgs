@@ -1,15 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import autoshipIcon from '@/assets/images/autoship.png';
 import {
   getDeviceType,
-  getClubLogo,
   isCanVerifyBlacklistPostCode,
   formatDate
 } from '@/utils/utils';
 import FrequencyMatch from '@/components/FrequencyMatch';
-import LazyLoad from 'react-lazyload';
-import { getSubList } from '@/api/subscription';
-import Skeleton from 'react-skeleton-loader';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { IMG_DEFAULT } from '@/utils/constant';
 import { filterOrderId } from '@/utils/utils';
@@ -21,26 +17,16 @@ const AutoshipItem = ({ subItem, history }) => {
 
   return (
     <div
-      className="card-container autoshipBox AutoshipItem-wrap"
-      style={{ marginTop: '0', marginBottom: '1.25rem' }}
+      className="card-container autoshipBox AutoshipItem-wrap mt-0 mb-5"
       key={subItem.subscribeId}
     >
       <div className="card rc-margin-y--none ml-0">
-        <div className="card-header row rc-margin-x--none align-items-center pl-0 pr-0 pt-3 pb-3">
+        <div className="card-header row rc-margin-x--none align-items-center px-0 py-3">
           <div className="col-12 col-md-4">
-            <p
-              style={{
-                fontSize: '1rem',
-                fontWeight: '400',
-                color: '#333',
-                paddingLeft: '1.25rem'
-              }}
-            >
+            <p className="text-base font-normal pl-5 font-333">
               {filterOrderId({ orderNo: subItem.subscribeId })}
             </p>
           </div>
-          {/*<div className="col-4 col-md-2" />*/}
-          {/*<div className="col-4 col-md-2" />*/}
           {subItem?.postCodeValidResponse
             ?.validFlag ? null : isCanVerifyBlacklistPostCode ? (
             <div className="col-8 pl-4 order-hint">
@@ -54,7 +40,6 @@ const AutoshipItem = ({ subItem, history }) => {
           {subItem.goodsInfo &&
             subItem.goodsInfo.map((item) => (
               <div style={{ margin: '.625rem 1.25rem' }}>
-                {/* <LazyLoad> */}
                 <img
                   style={{
                     width: '70px',
@@ -65,26 +50,17 @@ const AutoshipItem = ({ subItem, history }) => {
                   alt={item.goodsName}
                   title={item.goodsName}
                 />
-                {/* </LazyLoad> */}
                 <span
+                  className="text-xs inline-block align-middle ml-2.5"
                   style={{
-                    display: 'inline-block',
-                    verticalAlign: 'middle',
-                    fontSize: '.75rem',
-                    marginLeft: '.625rem',
                     width: isMobile ? 'auto' : '200px'
                   }}
                 >
                   <p
+                    className="text-base font-normal font-333 truncate"
                     style={{
-                      fontSize: '1rem',
-                      fontWeight: '400',
-                      color: '#333',
                       marginBottom: '5px',
-                      maxWidth: isMobile ? '200px' : 'auto',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap'
+                      maxWidth: isMobile ? '200px' : 'auto'
                     }}
                   >
                     {item.goodsName}
@@ -103,7 +79,6 @@ const AutoshipItem = ({ subItem, history }) => {
             ))}
         </div>
         <div className="col-12 col-md-4 text-nowrap ml-3 mt-3 mb-3">
-          {/* <LazyLoad> */}
           <img
             src={autoshipIcon}
             style={{
@@ -112,32 +87,20 @@ const AutoshipItem = ({ subItem, history }) => {
             }}
             alt="auttoship icon"
           />
-          {/* </LazyLoad> */}
-          <span
-            style={{
-              display: 'inline-block',
-              verticalAlign: 'middle',
-              fontSize: '.75rem',
-              marginLeft: '.625rem'
-            }}
-          >
+          <span className="ml-2.5 align-middle text-base inline-block">
             <p
+              className="truncate"
               style={{
-                width: isMobile ? '120px' : 'auto',
-                textOverflow: 'ellipsis',
-                overflow: 'hidden'
+                width: isMobile ? '120px' : 'auto'
               }}
             >
               <FormattedMessage id="autoShipStarted2" />
             </p>
             <p style={{ color: '#666', fontSize: '1rem' }}>
               {formatDate({ date: subItem.createTime })}
-              {/* <FormattedDate value={subItem.createTime.split(' ')[0]}/> */}
-              {/* {subItem.createTime.split(' ')[0]} */}
             </p>
           </span>
         </div>
-        {/* <div className="col-4 col-md-2">{subItem.frequency}</div> */}
         <div className="col-4 col-md-1 ml-3 status">
           {subItem.subscribeStatus === '0' ? (
             <div className="ui-text-overflow-line1 subscription_status_active">
@@ -158,12 +121,8 @@ const AutoshipItem = ({ subItem, history }) => {
         </div>
         <div className="col-4 col-md-2 text-center ml-3">
           <button
-            className="rc-btn rc-btn--two rc-btn--sm"
-            style={{
-              width: '130px',
-              textOverflow: 'ellipsis',
-              overflow: 'hidden'
-            }}
+            className="rc-btn rc-btn--two rc-btn--sm truncate"
+            style={{ width: '130px' }}
             onClick={() => {
               localItemRoyal.set('subDetail', subItem);
               history.push(

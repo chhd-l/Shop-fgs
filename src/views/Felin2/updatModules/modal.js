@@ -51,14 +51,14 @@ class MyModal extends React.Component {
           <input
             type="text"
             className="my-input"
-            placeholder="FirstName"
+            placeholder="Prénom"
             value={this.state.params.firstName}
             onChange={(e) => this.onChange(e, 'firstName')}
           />
           <input
             type="text"
             className="my-input"
-            placeholder="LastName"
+            placeholder="Nom"
             value={this.state.params.lastName}
             onChange={(e) => this.onChange(e, 'lastName')}
           />
@@ -75,7 +75,7 @@ class MyModal extends React.Component {
             type="text"
             maxLength="11"
             className="my-input"
-            placeholder="Phone"
+            placeholder="Téléphone"
             value={this.state.params.phone}
             onChange={(e) => this.onChange(e, 'phone')}
           />
@@ -129,7 +129,7 @@ class MyModal extends React.Component {
               marginTop: '1.25rem'
             }}
           >
-            Confirm
+            Confirmer
           </button>
         </div>
       </div>
