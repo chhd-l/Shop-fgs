@@ -56,35 +56,30 @@ const ButtonBox = () => {
       className="footerGroupButton"
       style={{ display: isNotInactive ? 'inline-block' : 'none' }}
     >
-      <p style={{ textAlign: isMobile ? 'left' : 'right' }}>
+      <p
+        className="flex justify-center md:justify-end items-center flex-wrap"
+        style={{ textAlign: isMobile ? 'left' : 'right' }}
+      >
         <div
-          className="pause-btn"
-          style={{ display: 'inline-block', marginBottom: '10px' }}
+          className="pause-btn flex items-center"
+          style={{ marginBottom: '10px' }}
         >
           {subDetail.subscribeStatus === '0' ? (
             <em
-              className="iconfont"
+              className="iconfont iconzanting font-bold"
               style={{
                 fontSize: '1.25rem',
-                color: 'rgb(242,148,35)',
-                position: 'relative',
-                top: '2px'
+                color: 'rgb(242,148,35)'
               }}
-            >
-              &#xe62f;
-            </em>
+            />
           ) : (
             <em
-              className="iconfont"
+              className="iconfont iconplay1 font-bold"
               style={{
                 fontSize: '1.5rem',
-                color: 'rgb(58,180,29)',
-                position: 'relative',
-                top: '4px'
+                color: 'rgb(58,180,29)'
               }}
-            >
-              &#xe6c2;
-            </em>
+            />
           )}
           <a
             style={{
@@ -102,7 +97,7 @@ const ButtonBox = () => {
           </a>
         </div>
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <div style={{ display: 'inline-block', marginBottom: '10px' }}>
+        <div className="flex items-center" style={{ marginBottom: '10px' }}>
           <span className="iconfont iconchahao text-rc-red font-bold text-lg mr-1" />
           <a
             className="rc-styled-link"

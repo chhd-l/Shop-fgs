@@ -13,41 +13,42 @@ export const SubDetailHeaderContext = createContext();
 
 const StatusText = ({ subDetail }) => {
   return subDetail.subscribeId ? (
-    subDetail.subscribeStatus === '0' ? (
-      <span
-        style={{
-          background: '#E0F3D4',
-          color: '#47B700',
-          fontSize: '.875rem',
-          padding: '0 5px',
-          marginLeft: '.625rem'
-        }}
-      >
-        <FormattedMessage id="active" />
-      </span>
-    ) : subDetail.subscribeStatus === '1' ? (
-      <span
-        style={{
-          background: '#FCEBD4',
-          color: '#ED8A00',
-          fontSize: '.875rem',
-          padding: '0 5px'
-        }}
-      >
-        <FormattedMessage id="paused" />
-      </span>
-    ) : (
-      <span
-        style={{
-          background: '#FCEBD4',
-          color: '#ED8A00',
-          fontSize: '.875rem',
-          padding: '0 5px'
-        }}
-      >
-        <FormattedMessage id="inactive" />
-      </span>
-    )
+    <span
+      className="ml-2"
+      style={{
+        fontSize: '.875rem',
+        padding: '0 5px'
+      }}
+    >
+      {subDetail.subscribeStatus === '0' ? (
+        <span
+          style={{
+            background: '#E0F3D4',
+            color: '#47B700'
+          }}
+        >
+          <FormattedMessage id="active" />
+        </span>
+      ) : subDetail.subscribeStatus === '1' ? (
+        <span
+          style={{
+            background: '#FCEBD4',
+            color: '#ED8A00'
+          }}
+        >
+          <FormattedMessage id="paused" />
+        </span>
+      ) : (
+        <span
+          style={{
+            background: '#FCEBD4',
+            color: '#ED8A00'
+          }}
+        >
+          <FormattedMessage id="inactive" />
+        </span>
+      )}
+    </span>
   ) : null;
 };
 const SubDetailHeader = ({
@@ -148,7 +149,7 @@ const SubDetailHeader = ({
                 />
                 {/* )} */}
 
-                <div className="rc-md-down" style={{ marginRight: '0.625rem' }}>
+                <div className="rc-md-down">
                   <StatusText subDetail={subDetail} />
                 </div>
                 <div

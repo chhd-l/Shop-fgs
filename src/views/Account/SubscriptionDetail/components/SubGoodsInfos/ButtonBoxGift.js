@@ -66,28 +66,24 @@ const ButtonBoxGift = () => {
         <div className="subdeatial-button-mobile-pad pause-btn">
           {subDetail.subscribeStatus === 0 ? (
             <em
-              className="iconfont"
+              className="iconfont iconplay1 font-bold"
               style={{
                 fontSize: '1.5rem',
                 color: 'rgb(242,148,35)',
                 position: 'relative',
                 top: '4px'
               }}
-            >
-              &#xe6c2;
-            </em>
+            />
           ) : (
             <em
-              className="iconfont"
+              className="iconfont iconzanting font-bold"
               style={{
                 fontSize: '1.25rem',
                 color: 'rgb(242,148,35)',
                 position: 'relative',
                 top: '2px'
               }}
-            >
-              &#xe62f;
-            </em>
+            />
           )}
           <span
             style={{
@@ -108,17 +104,7 @@ const ButtonBoxGift = () => {
           </span>
         </div>
         <div>
-          <em
-            className="iconfont"
-            style={{
-              fontSize: '2rem',
-              color: '#E1001A',
-              paddingRight: '0.5rem',
-              paddingLeft: '0.5rem'
-            }}
-          >
-            &#xe619;
-          </em>
+          <span className="iconfont iconchahao text-rc-red font-bold text-lg px-1" />
           <a
             style={{ position: 'relative', top: '-0.3rem' }}
             className="rc-styled-link"

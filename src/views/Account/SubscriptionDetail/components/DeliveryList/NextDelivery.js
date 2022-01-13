@@ -67,85 +67,77 @@ const NextDelivery = ({
   return (
     <div className="card-container">
       <div className="card rc-margin-y--none ml-0 border-t-0">
-        <div
-          className="flex items-center justify-between px-4 flex-wrap"
-          style={{ background: '#f9f9f9' }}
-        >
-          <div className="mb-2 md:mb-0">
-            {isActive ? (
-              <div>
-                <FormattedMessage id="nextShipmentOn" />
-                :
-                <br />
+        {isActive ? (
+          <div
+            className="flex items-center justify-between px-4 flex-wrap"
+            style={{ background: '#f9f9f9' }}
+          >
+            <div className="mb-2 md:mb-0">
+              <FormattedMessage id="nextShipmentOn" />
+              :
+              <br />
+              <span
+                style={{
+                  color: '#e2001a',
+                  fontWeight: '400'
+                }}
+              >
+                {isNotInactive
+                  ? formatDate({ date: el.tradeItems[0].nextDeliveryTime })
+                  : ''}
+              </span>
+            </div>
+            <div className="flex items-center mb-2  md:mb-0">
+              <div
+                className={cn('changeDate whitespace-nowrap mr-2 text-right')}
+              >
+                <span
+                  className="iconfont icondata"
+                  style={{
+                    color: '#666'
+                  }}
+                />
                 <span
                   style={{
-                    color: '#e2001a',
-                    fontWeight: '400'
+                    color: '#666',
+                    fontWeight: '400',
+                    marginLeft: '5px',
+                    borderBottom: '1px solid #666',
+                    cursor: 'pointer'
                   }}
                 >
-                  {isNotInactive
-                    ? formatDate({ date: el.tradeItems[0].nextDeliveryTime })
-                    : ''}
+                  <DatePicker
+                    className="receiveDate subs-receiveDate for-mobile-pad-0"
+                    placeholder="Select Date"
+                    dateFormat={datePickerConfig.format}
+                    locale={datePickerConfig.locale}
+                    minDate={getMinDate(el.tradeItems[0].nextDeliveryTime)}
+                    selected={
+                      el.tradeItems
+                        ? getZoneTime(el.tradeItems[0].nextDeliveryTime)
+                        : new Date()
+                    }
+                    onChange={(date) => dateChange(date)}
+                  />
                 </span>
               </div>
-            ) : null}
-          </div>
-          <div className="flex items-center mb-2  md:mb-0">
-            <div className={cn('changeDate whitespace-nowrap mr-2 text-right')}>
-              {isActive ? (
-                <>
-                  <span
-                    className="iconfont icondata"
-                    style={{
-                      color: '#666'
-                    }}
-                  />
-                  <span
-                    style={{
-                      color: '#666',
-                      fontWeight: '400',
-                      marginLeft: '5px',
-                      borderBottom: '1px solid #666',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    <DatePicker
-                      className="receiveDate subs-receiveDate for-mobile-pad-0"
-                      placeholder="Select Date"
-                      dateFormat={datePickerConfig.format}
-                      locale={datePickerConfig.locale}
-                      minDate={getMinDate(el.tradeItems[0].nextDeliveryTime)}
-                      selected={
-                        el.tradeItems
-                          ? getZoneTime(el.tradeItems[0].nextDeliveryTime)
-                          : new Date()
-                      }
-                      onChange={(date) => dateChange(date)}
-                    />
-                  </span>
-                </>
-              ) : null}
-            </div>
-            <div>
-              {isActive ? (
-                <>
-                  <span
-                    className="iconfont iconskip font-bold mr-1"
-                    style={{
-                      color: '#666'
-                    }}
-                  />
-                  <a
-                    className="rc-styled-link ui-text-overflow-line1"
-                    onClick={(e) => skipNext(el)}
-                  >
-                    <FormattedMessage id="skip" />
-                  </a>
-                </>
-              ) : null}
+              <div className="whitespace-nowrap">
+                <span
+                  className="iconfont iconskip font-bold mr-1"
+                  style={{
+                    color: '#666'
+                  }}
+                />
+                <a
+                  className="rc-styled-link ui-text-overflow-line1 whitespace-normal break-words"
+                  onClick={(e) => skipNext(el)}
+                >
+                  <FormattedMessage id="skip" />
+                </a>
+              </div>
             </div>
           </div>
-        </div>
+        ) : null}
       </div>
       {el.tradeItems &&
         el.tradeItems.map((tradeItem, index) => (
