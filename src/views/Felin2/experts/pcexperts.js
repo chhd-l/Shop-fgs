@@ -608,7 +608,7 @@ class Pcexperts extends React.Component {
                 className="rc-btn rc-btn--one  rc-margin-bottom--xs"
                 style={{
                   width: '13.875rem',
-                  fontSize: '0.75rem'
+                  fontSize: '1rem'
                 }}
               >
                 Commencer
