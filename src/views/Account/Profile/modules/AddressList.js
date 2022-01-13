@@ -67,7 +67,8 @@ function CardItem(props) {
             area: data.area,
             province: data.province,
             county: data.county,
-            postCode: data.postCode
+            postCode: data.postCode,
+            pickupPriceVisible: false
           }}
         />
       </div>

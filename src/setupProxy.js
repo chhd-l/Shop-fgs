@@ -2,7 +2,7 @@ const proxy = require('http-proxy-middleware');
 const interfacePrefix = require('./env/interface-prefix');
 
 // fgs/hub代理map
-const targetConfig = interfacePrefix[process.env.REACT_APP_START_ENV]({
+const baseUrlConfig = interfacePrefix[process.env.REACT_APP_START_ENV]({
   countryFromLink: process.env.REACT_APP_START_COUNTRY_LINK
 });
 
@@ -15,7 +15,7 @@ const targetConfig = interfacePrefix[process.env.REACT_APP_START_ENV]({
 module.exports = function (app) {
   app.use(
     proxy('/api', {
-      target: targetConfig.REACT_APP_BASEURL,
+      target: baseUrlConfig.REACT_APP_BASEURL,
       secure: false,
       changeOrigin: true,
       pathRewrite: {
@@ -23,11 +23,11 @@ module.exports = function (app) {
       }
     })
   );
-  if (targetConfig.REACT_APP_HUB_APIURL) {
+  if (baseUrlConfig.REACT_APP_HUB_APIURL) {
     app
       .use(
         proxy('/navigation', {
-          target: `${targetConfig.REACT_APP_HUB_APIURL}/navigation`,
+          target: `${baseUrlConfig.REACT_APP_HUB_APIURL}/navigation`,
           secure: false,
           changeOrigin: true,
           pathRewrite: {
@@ -37,7 +37,7 @@ module.exports = function (app) {
       )
       .use(
         proxy('/footer', {
-          target: `${targetConfig.REACT_APP_HUB_APIURL}/footer`,
+          target: `${baseUrlConfig.REACT_APP_HUB_APIURL}/footer`,
           secure: false,
           changeOrigin: true,
           pathRewrite: {
@@ -47,7 +47,7 @@ module.exports = function (app) {
       )
       .use(
         proxy('/royalcanin', {
-          target: `${targetConfig.REACT_APP_HUB_APIURL}/royalcanin`,
+          target: `${baseUrlConfig.REACT_APP_HUB_APIURL}/royalcanin`,
           secure: false,
           changeOrigin: true,
           pathRewrite: {
@@ -57,7 +57,7 @@ module.exports = function (app) {
       )
       .use(
         proxy('/languagepicker', {
-          target: `${targetConfig.REACT_APP_HUB_APIURL}/languagepicker`,
+          target: `${baseUrlConfig.REACT_APP_HUB_APIURL}/languagepicker`,
           secure: false,
           changeOrigin: true,
           pathRewrite: {

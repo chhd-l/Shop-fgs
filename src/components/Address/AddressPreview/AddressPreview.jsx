@@ -19,6 +19,7 @@ const AddressPreview = ({ configStore, data, nameCls, pickupNameCls }) => {
   const {
     receiveType,
     pickupName,
+    pickupPriceVisible = true,
     pickupPrice,
     workTime,
     minDeliveryTime,
@@ -95,7 +96,9 @@ const AddressPreview = ({ configStore, data, nameCls, pickupNameCls }) => {
           {pickupName ? (
             <p className={cn(pickupNameCls, 'preview-pickup-name')}>
               <span>{pickupName}</span>
-              <span>{formatMoney(pickupPrice)}</span>
+              {pickupPriceVisible ? (
+                <span>{formatMoney(pickupPrice)}</span>
+              ) : null}
             </p>
           ) : null}
           {address1 ? (
