@@ -265,18 +265,16 @@ class Felin extends React.Component {
         <main className="rc-content--fixed-header">
           <div className="header-content">
             <div className="bg-module" />
-            <LazyLoad className="w-100">
-              <img
-                className="pc-block"
-                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/header.jpg`}
-                alt=""
-              />
-              <img
-                className="h-block"
-                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/header1.jpg`}
-                alt=""
-              />
-            </LazyLoad>
+            <img
+              className="pc-block"
+              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/header.jpg`}
+              alt=""
+            />
+            <img
+              className="h-block"
+              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/header1.jpg`}
+              alt=""
+            />
             <div className="hd-text-cont">
               <div className="introduce fontw-500">
                 L’ Atelier Félin vous accueille à Paris et en ligne pour vous
@@ -542,7 +540,8 @@ class Felin extends React.Component {
                         <a
                           style={{
                             textDecoration: 'underline',
-                            cursor: 'pointer'
+                            cursor: 'pointer',
+                            fontSize: '1.125rem'
                           }}
                           href="https://www.facebook.com/RoyalCaninFrance/events/?ref=page_internal"
                           target="_blank"
