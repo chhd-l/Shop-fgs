@@ -1102,9 +1102,6 @@ class Details extends React.Component {
     //   reg.test(LifestagesAttr?.[0]?.goodsAttributeValue);
 
     let isBaby = LifestagesAttr.find((item) => reg.test(item));
-    console.log('isBaby', isBaby);
-    console.log('currentGoodsInfo', currentGoodsInfo);
-    console.log('isTechnology', isTechnology);
 
     /**
      *  是否显示计算工具
