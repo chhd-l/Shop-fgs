@@ -753,6 +753,8 @@ const App = () => {
                 />
 
                 <Route path="/404" component={Exception} />
+                <Route path="/fr/:id" component={Exception} />
+                <Route path="/ru/:id" component={Exception} />
                 <Route path="/403" component={Page403} />
                 <Route path="/500" component={Page500} />
 

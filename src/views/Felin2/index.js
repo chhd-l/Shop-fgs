@@ -618,7 +618,7 @@ class Felin extends React.Component {
               vous guideront pour prendre soin de votre chat. Vous pouvez
               réserver un rendez-vous dans l’atelier ou un appel vidéo.
               <br />
-              Go to next line here Avez-vous des questions?{' '}
+              Avez-vous des questions?{' '}
               <span onClick={this.goto} style={{ cursor: 'pointer' }}>
                 Voir FAQs
               </span>
