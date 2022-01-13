@@ -712,7 +712,7 @@ class Pcexperts extends React.Component {
               >
                 Retour à l'étape précédente
               </span>
-              {this.state.params.apptTypeId ? (
+              {this.state.params.expertTypeId ? (
                 <button
                   disabled={
                     this.state.params.apptTypeId == null ||
@@ -725,7 +725,7 @@ class Pcexperts extends React.Component {
                     fontSize: '0.75rem'
                   }}
                 >
-                  Continuer
+                  Confirmer
                 </button>
               ) : null}
             </div>
@@ -835,7 +835,7 @@ class Pcexperts extends React.Component {
                   fontSize: '0.75rem'
                 }}
               >
-                Continuer
+                Confirmer
               </button>
             </div>
           </div>
@@ -882,7 +882,7 @@ class Pcexperts extends React.Component {
                   fontSize: '0.75rem'
                 }}
               >
-                Continuer
+                Confirmer
               </button>
             </div>
           </div>
