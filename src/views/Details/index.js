@@ -1093,7 +1093,7 @@ class Details extends React.Component {
       .filter((item) => item.goodsAttributeName === 'Lifestages')
       ?.map((item) => item?.goodsAttributeValue);
 
-    LifestagesAttr = LifestagesAttr.filter((item, index) => {
+    LifestagesAttr = LifestagesAttr?.filter((item, index) => {
       return LifestagesAttr.indexOf(item) === index;
     });
 
@@ -1101,7 +1101,7 @@ class Details extends React.Component {
     //   LifestagesAttr.length === 1 &&
     //   reg.test(LifestagesAttr?.[0]?.goodsAttributeValue);
 
-    let isBaby = LifestagesAttr.find((item) => reg.test(item));
+    let isBaby = LifestagesAttr?.find((item) => reg.test(item));
 
     /**
      *  是否显示计算工具
@@ -1110,7 +1110,7 @@ class Details extends React.Component {
      *    1.1、liquid products are excluded => wsTechnologyCode
      *    1.2、Bundle products are excluded => goodsInfos - goodsInfoType === 2
      *    1.3  details => wsTechnologyCode wsEnergyCategory wsReferenceEnergyValue
-     * **/
+     **/
     if (!configStore?.info?.dailyPortion) return null;
     if (isBaby) return null;
     if (!isTechnology) return null;
