@@ -100,11 +100,9 @@ import { format } from 'date-fns';
 import differenceInSeconds from 'date-fns/differenceInSeconds';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
-
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
-
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
 const hideBillingAddr = Boolean(
   +window.__.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
@@ -638,6 +636,17 @@ class Payment extends React.Component {
     return this.props.checkoutStore.tradePrice;
   }
 
+  //是否跳过支付
+  get isSkipPaymentPanel() {
+    return (
+      this.tradePrice === 0 &&
+      !(
+        window.__.env.REACT_APP_COUNTRY === 'us' &&
+        this.isCurrentBuyWaySubscription
+      )
+    );
+  }
+
   get paymentMethodPanelStatus() {
     return this.props.paymentStore.paymentMethodPanelStatus;
   }
@@ -662,10 +671,8 @@ class Payment extends React.Component {
   // 当前是否为订阅购买
   get isCurrentBuyWaySubscription() {
     let isSubscription =
-      this.state.subForm?.buyWay == 'frequency' ||
-      this.state.orderDetails?.subscriptionResponseVO
-        ? true
-        : false;
+      this.state.subForm?.buyWay === 'frequency' ||
+      this.state.orderDetails?.subscriptionResponseVO;
     //this.state.orderDetails?.subscriptionResponseVO 这个是repay通过订单号查询的是否订阅的字段
     return isSubscription;
   }
@@ -728,7 +735,7 @@ class Payment extends React.Component {
     const { paymentPanelHasComplete, tid } = this.state;
 
     if (!tid) {
-      if (this.tradePrice === 0) {
+      if (this.isSkipPaymentPanel) {
         //变成0元订单
         if (this.paymentMethodPanelStatus.isEdit) {
           //如果当前正在编辑的是paymentInfo,隐藏paymentMethod面板去编辑confirmation面板
@@ -763,7 +770,7 @@ class Payment extends React.Component {
     const { tid, isFromFelin } = this.state;
 
     //初始化的时候如果是0元订单将paymentMethod面板置为已完成
-    if (this.tradePrice === 0 && !tid) {
+    if (this.isSkipPaymentPanel && !tid) {
       paymentStore.setStsToCompleted({
         key: 'paymentMethod'
       });
@@ -1004,7 +1011,7 @@ class Payment extends React.Component {
     serCurPayWayVal(tmpVal);
     if (
       chooseRadioType(window.__.env.REACT_APP_COUNTRY) === 'box' &&
-      this.tradePrice != 0
+      !this.isSkipPaymentPanel
     )
       return; //box的方式不默认第一种支付方式,0元订单还是默认第一种credit card支付方式
     this.setState(
@@ -1349,7 +1356,7 @@ class Payment extends React.Component {
             encryptedSecurityCode: adyenPayParam?.encryptedSecurityCode || '',
             payPspItemEnum:
               sessionItemRoyal.get('goodWillFlag') === 'GOOD_WILL' ||
-              this.tradePrice === 0
+              this.isSkipPaymentPanel
                 ? 'ZEROPRICE'
                 : 'ADYEN_CREDIT_CARD'
           });
@@ -3982,7 +3989,13 @@ class Payment extends React.Component {
   clickPay = () => {
     const { intl } = this.props;
     //0元订单中含有订阅商品时不能下单
-    if (this.tradePrice === 0 && this.isCurrentBuyWaySubscription) {
+    if (
+      this.isSkipPaymentPanel &&
+      !(
+        window.__.env.REACT_APP_COUNTRY === 'us' &&
+        this.isCurrentBuyWaySubscription
+      )
+    ) {
       const errMsg = intl.messages['checkout.zeroOrder.butSubscription'];
       this.showErrorMsg(errMsg);
       return;
@@ -4344,7 +4357,7 @@ class Payment extends React.Component {
                 )}
                 <div
                   className={`card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 pb-0 border ${
-                    this.tradePrice === 0 ? 'hidden' : ''
+                    this.isSkipPaymentPanel ? 'hidden' : ''
                   } ${
                     paymentMethodPanelStatus.isEdit
                       ? 'border-333'
