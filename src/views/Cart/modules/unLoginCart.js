@@ -465,71 +465,76 @@ class UnLoginCart extends React.Component {
       this.setState({ checkoutLoading: false });
     }
   }
-  amountChanger(item, e) {
-    this.handleAmountChange({ val: +e.target.value, item });
+  amountChanger(item, type, e) {
+    console.log(12221, item, type, e);
+    this.handleAmountChange({ value: e.target.value, item, type });
   }
-  handleAmountChange({ val, item }) {
+  handleAmountChange({ value, item, type = 'change' }) {
     let err;
     let { productList } = this.state;
+    let val = value;
     this.setState({ errorMsg: '' });
-    if (val === '') {
+    if (val === '' && type === 'change') {
       item.quantity = val;
       this.setState({
         productList
       });
-    } else {
-      const { quantityMinLimit } = this.state;
-      let tmp = parseFloat(val);
-      if (isNaN(tmp)) {
-        tmp = 1;
-        err = <FormattedMessage id="cart.errorInfo" />;
-      }
-      if (tmp < quantityMinLimit) {
-        tmp = quantityMinLimit;
-        err = <FormattedMessage id="cart.errorInfo" />;
-      }
-
-      // 单个产品总数量不能超过限制
-      if (tmp > +window.__.env.REACT_APP_LIMITED_NUM) {
-        tmp = +window.__.env.REACT_APP_LIMITED_NUM;
-        err = (
-          <FormattedMessage
-            id="cart.errorMaxInfo"
-            values={{ val: window.__.env.REACT_APP_LIMITED_NUM }}
-          />
-        );
-      }
-
-      // 所有产品总数量不能超过限制
-      const otherProsNum = productList
-        .filter((p) => p.goodsId !== item.goodsId)
-        .reduce((pre, cur) => {
-          return Number(pre) + Number(cur.quantity);
-        }, 0);
-      if (
-        otherProsNum + tmp >
-        +window.__.env.REACT_APP_LIMITED_NUM_ALL_PRODUCT
-      ) {
-        tmp = +window.__.env.REACT_APP_LIMITED_NUM_ALL_PRODUCT - otherProsNum;
-        err = (
-          <FormattedMessage
-            id="cart.errorAllProductNumLimit"
-            values={{ val: window.__.env.REACT_APP_LIMITED_NUM_ALL_PRODUCT }}
-          />
-        );
-      }
-      item.quantity = tmp;
-      this.setState(
-        {
-          productList
-        },
-        () => {
-          this.updateStock();
-        }
+      return;
+    }
+    if (val === '' && type === 'blur') {
+      err = <FormattedMessage id="cart.errorInfo" />;
+      val = 1;
+      item.quantity = val;
+      this.setState({
+        productList
+      });
+    }
+    const { quantityMinLimit } = this.state;
+    let tmp = parseFloat(val);
+    if (isNaN(tmp)) {
+      tmp = 1;
+      err = <FormattedMessage id="cart.errorInfo" />;
+    }
+    if (tmp < quantityMinLimit) {
+      tmp = quantityMinLimit;
+      err = <FormattedMessage id="cart.errorInfo" />;
+    }
+    // 单个产品总数量不能超过限制
+    if (tmp > +window.__.env.REACT_APP_LIMITED_NUM) {
+      tmp = +window.__.env.REACT_APP_LIMITED_NUM;
+      err = (
+        <FormattedMessage
+          id="cart.errorMaxInfo"
+          values={{ val: window.__.env.REACT_APP_LIMITED_NUM }}
+        />
       );
-      if (err) {
-        this.showErrMsg(err);
+    }
+    // 所有产品总数量不能超过限制
+    const otherProsNum = productList
+      .filter((p) => p.goodsId !== item.goodsId)
+      .reduce((pre, cur) => {
+        return Number(pre) + Number(cur.quantity);
+      }, 0);
+    if (otherProsNum + tmp > +window.__.env.REACT_APP_LIMITED_NUM_ALL_PRODUCT) {
+      tmp = +window.__.env.REACT_APP_LIMITED_NUM_ALL_PRODUCT - otherProsNum;
+      err = (
+        <FormattedMessage
+          id="cart.errorAllProductNumLimit"
+          values={{ val: window.__.env.REACT_APP_LIMITED_NUM_ALL_PRODUCT }}
+        />
+      );
+    }
+    item.quantity = tmp;
+    this.setState(
+      {
+        productList
+      },
+      () => {
+        this.updateStock();
       }
+    );
+    if (err) {
+      this.showErrMsg(err);
     }
   }
   //GA 移除购物车商品 埋点
@@ -642,7 +647,7 @@ class UnLoginCart extends React.Component {
               <span
                 className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
                 onClick={this.handleAmountChange.bind(this, {
-                  val: pitem.quantity - 1,
+                  value: pitem.quantity - 1,
                   item: pitem
                 })}
               />
@@ -651,13 +656,14 @@ class UnLoginCart extends React.Component {
                 value={pitem.quantity}
                 min="1"
                 max="10"
-                onChange={this.amountChanger.bind(this, pitem)}
+                onChange={this.amountChanger.bind(this, pitem, 'change')}
+                onBlur={this.amountChanger.bind(this, pitem, 'blur')}
               />
               <span
                 className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
                 data-quantity-error-msg="Вы не можете заказать больше 10"
                 onClick={this.handleAmountChange.bind(this, {
-                  val: pitem.quantity + 1,
+                  value: pitem.quantity + 1,
                   item: pitem
                 })}
               />
