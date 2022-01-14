@@ -87,7 +87,7 @@
           63: "modernizer",
           64: "nth-check",
           65: "picturefill",
-          66: "pikaday",
+        //   66: "pikaday",
           67: "popper_js",
           68: "process-nextick-args",
           69: "readable-stream",
@@ -3017,12 +3017,12 @@
       selector: [".rc-carousel"],
       lazy: true
   }, {
-      js: "datepicker",
-      priority: "low",
-      location: "features",
-      selector: [".rc-input__date"],
-      lazy: true
-  }, {
+//       js: "datepicker",
+//       priority: "low",
+//       location: "features",
+//       selector: [".rc-input__date"],
+//       lazy: true
+//   }, {
       js: "numberPicker",
       priority: "low",
       location: "features",
@@ -3959,8 +3959,8 @@
       "./features/carousels.js": [169, 9, 0, 8],
       "./features/data-visualisation": [170, 9, 0, 9],
       "./features/data-visualisation.js": [170, 9, 0, 9],
-      "./features/datepicker": [171, 9, 0, 10],
-      "./features/datepicker.js": [171, 9, 0, 10],
+    //   "./features/datepicker": [171, 9, 0, 10],
+    //   "./features/datepicker.js": [171, 9, 0, 10],
       "./features/filters": [172, 9, 0, 11],
       "./features/filters.js": [172, 9, 0, 11],
       "./features/forms": [173, 9, 0, 12],
@@ -4123,12 +4123,12 @@
           include: [".rc-flag"],
           exclude: null,
           noJs: true
-      }, {
-          assetName: "datepicker",
-          priority: "low",
-          selector: ".rc-input__date",
-          include: [".pika", ".is-today"],
-          exclude: false
+    //   }, {
+    //       assetName: "datepicker",
+    //       priority: "low",
+    //       selector: ".rc-input__date",
+    //       include: [".pika", ".is-today"],
+    //       exclude: false
       }, {
           assetName: "wysiwyg",
           priority: "low",
@@ -8050,7 +8050,7 @@
       "./royal-canin.styles.cookie-bar.min.css": [381, 1, 2],
       "./royal-canin.styles.countries.min.css": [382, 1, 2],
       "./royal-canin.styles.data-visualisation.min.css": [383, 1, 2],
-      "./royal-canin.styles.datepicker.min.css": [384, 1, 2],
+    //   "./royal-canin.styles.datepicker.min.css": [384, 1, 2],
       "./royal-canin.styles.filters.min.css": [385, 1, 2],
       "./royal-canin.styles.firefox.min.css": [386, 1, 2],
       "./royal-canin.styles.flags.min.css": [387, 1, 2],
@@ -9052,12 +9052,12 @@
               include: [".rc-flag"],
               exclude: null,
               noJs: true
-          }, {
-              assetName: "datepicker",
-              priority: "low",
-              selector: ".rc-input__date",
-              include: [".pika", ".is-today"],
-              exclude: false
+        //   }, {
+        //       assetName: "datepicker",
+        //       priority: "low",
+        //       selector: ".rc-input__date",
+        //       include: [".pika", ".is-today"],
+        //       exclude: false
           }, {
               assetName: "wysiwyg",
               priority: "low",
