@@ -4078,14 +4078,7 @@ class Payment extends React.Component {
     const paymentMethodTitleForPrepare = (
       <div className="ml-custom mr-custom d-flex justify-content-between align-items-center">
         <h5 className="mb-0 text-xl">
-          <em
-            className="rc-icon rc-payment--sm rc-iconography inlineblock"
-            style={{
-              transform: 'scale(.8)',
-              transformOrigin: 'left',
-              marginRight: '-.1rem'
-            }}
-          />{' '}
+          <em className="rc-icon rc-payment--sm rc-iconography inlineblock origin-left paymentIconTransform" />{' '}
           <FormattedMessage id="payment.paymentInformation" />
         </h5>
       </div>
@@ -4094,14 +4087,7 @@ class Payment extends React.Component {
     const paymentMethodTitleForEdit = (
       <div className="ml-custom mr-custom d-flex justify-content-between align-items-center red">
         <h5 className="mb-0 text-xl">
-          <em
-            className="rc-icon rc-payment--sm rc-brand1 inlineblock"
-            style={{
-              transform: 'scale(.8)',
-              transformOrigin: 'left',
-              marginRight: '-.1rem'
-            }}
-          />{' '}
+          <em className="rc-icon rc-payment--sm rc-brand1 inlineblock origin-left paymentIconTransform" />{' '}
           <FormattedMessage id="payment.paymentInformation" />
         </h5>
       </div>
@@ -4110,21 +4096,13 @@ class Payment extends React.Component {
     const paymentMethodTitleForCompeleted = (
       <div className="ml-custom mr-custom d-flex justify-content-between align-items-center">
         <h5 className="mb-0 text-xl">
-          <em
-            className="rc-icon rc-payment--sm rc-iconography inlineblock"
-            style={{
-              transform: 'scale(.8)',
-              transformOrigin: 'left',
-              marginRight: '-.1rem'
-            }}
-          />{' '}
+          <em className="rc-icon rc-payment--sm rc-iconography inlineblock origin-left paymentIconTransform" />{' '}
           <FormattedMessage id="payment.paymentInformation" />
           <span className="iconfont font-weight-bold green ml-2">&#xe68c;</span>
         </h5>
         <p
           onClick={this.handleClickPaymentPanelEdit}
-          className="rc-styled-link mb-1 edit_payment_method"
-          style={{ cursor: 'pointer' }}
+          className="rc-styled-link mb-1 edit_payment_method cursor-pointer"
         >
           <FormattedMessage id="edit" />
         </p>
@@ -4228,15 +4206,11 @@ class Payment extends React.Component {
                 )}
                 {checkoutStore.petFlag && checkoutStore.AuditData.length > 0 && (
                   <div className="card-panel checkout--padding pl-0 pr-0 rc-bg-colour--brand3 rounded pb-0">
-                    <h5
-                      className="ml-custom mr-custom text-xl"
-                      style={{ overflow: 'hidden' }}
-                    >
+                    <h5 className="ml-custom mr-custom text-xl overflow-hidden">
                       <em
-                        className="rc-icon rc-payment--sm rc-iconography inlineblock"
+                        className="rc-icon rc-payment--sm rc-iconography inlineblock origin-left"
                         style={{
                           transform: 'scale(.8)',
-                          transformOrigin: 'left',
                           marginRight: '-.4rem'
                         }}
                       />{' '}
@@ -4256,13 +4230,7 @@ class Payment extends React.Component {
                                   />
                                 </LazyLoad>
 
-                                <div
-                                  className="pull-left"
-                                  style={{
-                                    marginTop: '1.25rem',
-                                    marginLeft: '1.25rem'
-                                  }}
-                                >
+                                <div className="pull-left mt-5 ml-5">
                                   <p>
                                     <span>Pet:</span>
                                     <span>
@@ -4275,10 +4243,9 @@ class Payment extends React.Component {
                                   </p>
                                 </div>
                                 <div
-                                  className="pull-right"
+                                  className="pull-right ml-5"
                                   style={{
-                                    marginTop: '30px',
-                                    marginLeft: '1.25rem'
+                                    marginTop: '30px'
                                   }}
                                 >
                                   <button
@@ -4309,13 +4276,7 @@ class Payment extends React.Component {
                                     className="pull-left"
                                   />
                                 </LazyLoad>
-                                <div
-                                  className="pull-left"
-                                  style={{
-                                    marginTop: '1.25rem',
-                                    marginLeft: '1.25rem'
-                                  }}
-                                >
+                                <div className="pull-left mt-5 ml-5">
                                   <p>
                                     <span>Pet:</span>
                                     <span>
@@ -4330,10 +4291,9 @@ class Payment extends React.Component {
                                   </p>
                                 </div>
                                 <div
-                                  className="pull-right"
+                                  className="pull-right ml-5"
                                   style={{
-                                    marginTop: '30px',
-                                    marginLeft: '1.25rem'
+                                    marginTop: '30px'
                                   }}
                                 >
                                   <button
