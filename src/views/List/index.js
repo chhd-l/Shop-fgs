@@ -1848,9 +1848,9 @@ class List extends React.Component {
             {titleData && titleData.title && titleData.description ? (
               <div className="rc-max-width--lg rc-padding-x--sm ">
                 <div className="rc-layout-container rc-three-column rc-content-h-middle d-flex flex-md-wrap flex-wrap-reverse">
-                  <div className="rc-column rc-double-width text-center md:text-left">
-                    <div className="rc-full-width rc-margin-bottom--lg--mobile">
-                      <h1 className="rc-gamma rc-margin--none">
+                  <div className="rc-column rc-double-width text-center md:text-left p-0">
+                    <div className="rc-full-width">
+                      <h1 className="rc-gamma rc-margin--none text-2xl font-medium">
                         {titleData.title}
                       </h1>
                       <div className="children-nomargin rc-body">
@@ -1863,7 +1863,7 @@ class List extends React.Component {
                     </div>
                   </div>
                   <div className="rc-column">
-                    {titleData.img ? (
+                    {titleData.img && !isMobilePhone ? (
                       <LazyLoad style={{ width: '100%' }}>
                         <img
                           src={titleData.img}
