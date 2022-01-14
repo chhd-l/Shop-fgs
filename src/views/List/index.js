@@ -42,6 +42,7 @@ import getTechnologyOrBreedsAttr, {
 } from '@/lib/get-technology-or-breedsAttr';
 import loadable from '@/lib/loadable-component';
 import SelectFilters from './modules/SelectFilters';
+import TopDesc from './modules/TopDesc';
 import cn from 'classnames';
 
 import './index.less';
@@ -55,11 +56,10 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =
   'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
-const urlPrefix =
-  `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-    /\/$/,
-    ''
-  );
+const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+  /\/$/,
+  ''
+);
 
 const filterAttrValue = (list, keyWords) => {
   return (list || [])
@@ -1655,9 +1655,8 @@ class List extends React.Component {
 
   stickyMobileRefineBar() {
     if (isMobilePhone) {
-      var t = document
-        ?.getElementById('refineBar')
-        ?.getBoundingClientRect().top;
+      var t = document?.getElementById('refineBar')?.getBoundingClientRect()
+        .top;
       window.addEventListener('scroll', () => {
         var choosedVal = document.querySelector('.filter-value'); // 有选择的时候才操作
         if (window.pageYOffset + 33 >= t && choosedVal) {
@@ -1850,12 +1849,16 @@ class List extends React.Component {
               <div className="rc-max-width--lg rc-padding-x--sm ">
                 <div className="rc-layout-container rc-three-column rc-content-h-middle d-flex flex-md-wrap flex-wrap-reverse">
                   <div className="rc-column rc-double-width text-center md:text-left">
-                    <div className="rc-full-width rc-padding-x--md--mobile rc-margin-bottom--lg--mobile">
+                    <div className="rc-full-width rc-margin-bottom--lg--mobile">
                       <h1 className="rc-gamma rc-margin--none">
                         {titleData.title}
                       </h1>
                       <div className="children-nomargin rc-body">
-                        <p>{titleData.description}</p>
+                        {isMobilePhone ? (
+                          <TopDesc text={titleData.description} />
+                        ) : (
+                          <p>{titleData.description}</p>
+                        )}
                       </div>
                     </div>
                   </div>
