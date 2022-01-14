@@ -59,30 +59,21 @@ import { getOrderDetails } from '@/api/order';
 import { getLoginDetails, getDetails } from '@/api/details';
 import { batchAddPets } from '@/api/pet';
 import { editAddress } from '@/api/address';
-
 import PayUCreditCard from './PaymentMethod/PayUCreditCard';
 import AdyenCreditCard from './PaymentMethod/Adyen';
 import Paypal from './PaymentMethod/Paypal';
 import Swish from './PaymentMethod/Swish';
-// import CyberCardList from './PaymentMethod/Cyber/list';
 import Cod from './PaymentMethod/Cod';
 import OxxoConfirm from './PaymentMethod/Oxxo';
 import AdyenCommonPay from './PaymentMethod/AdyenCommonPay';
-
-// import CyberPaymentForm from '@/components/CyberPaymentForm';
-
 import OnePageEmailForm from './OnePage/EmailForm';
 import OnePageClinicForm from './OnePage/ClinicForm';
-
 import './modules/adyenCopy.css';
 import './index.css';
 import { Helmet } from 'react-helmet';
 import Adyen3DForm from '@/components/Adyen/3d';
 import { ADDRESS_RULE } from './PaymentMethod/Cyber/constant/utils';
 import { doGetGAVal } from '@/utils/GA';
-// import { cyberFormTitle } from '@/utils/constant/cyber';
-// import { getProductPetConfig } from '@/api/payment';
-// import { registerCustomerList, guestList, commonList } from './tr_consent';
 import ConsentData from '@/utils/consent';
 import CyberPayment from './PaymentMethod/Cyber';
 import { querySurveyContent } from '@/api/cart';
@@ -92,11 +83,9 @@ import swishLogo from '@/assets/images/swish-logo.svg';
 import swishIcon from '@/assets/images/swish-icon.svg';
 import swishError from '@/assets/images/swish-error.svg';
 import paypalLogo from '@/assets/images/paypal-logo.svg';
-
 import { postUpdateUser, getAppointByApptNo } from '../../api/felin';
 import UpdatModal from './updatModules/modal';
 import QRCode from 'qrcode.react';
-import { format } from 'date-fns';
 import differenceInSeconds from 'date-fns/differenceInSeconds';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
@@ -132,10 +121,6 @@ function CreditCardInfoPreview({
       ) : null}
     </div>
   );
-}
-
-function emptyFun(num) {
-  return num.split('').join('');
 }
 
 const AdyenCreditCardPic = ({ supportPaymentMethods }) => (
@@ -256,9 +241,6 @@ class Payment extends React.Component {
         : [],
       billingAddressErrorMsg: '',
       creditCardInfo: {
-        // cardNumber: "",
-        // cardDate: "",
-        // cardCVV: "",
         cardOwner: '',
         email: '',
         phoneNumber: '',
@@ -670,11 +652,10 @@ class Payment extends React.Component {
 
   // 当前是否为订阅购买
   get isCurrentBuyWaySubscription() {
-    let isSubscription =
+    return (
       this.state.subForm?.buyWay === 'frequency' ||
-      this.state.orderDetails?.subscriptionResponseVO;
-    //this.state.orderDetails?.subscriptionResponseVO 这个是repay通过订单号查询的是否订阅的字段
-    return isSubscription;
+      this.state.orderDetails?.subscriptionResponseVO
+    );
   }
 
   /**
@@ -1719,7 +1700,6 @@ class Payment extends React.Component {
               },
               () => {
                 sessionItemRoyal.set('rc-swishQrcode', this.state.swishQrcode);
-                // sessionItemRoyal.set('rc-createSwishQrcodeTime', format(new Date(), 'yyyy-MM-dd HH:mm:ss'));
                 sessionItemRoyal.set(
                   'rc-createSwishQrcodeTime',
                   new Date().toString()
@@ -4075,47 +4055,36 @@ class Payment extends React.Component {
       },
       pet: this.state.pet
     };
-    const paymentMethodTitleForPrepare = (
-      <div className="ml-custom mr-custom d-flex justify-content-between align-items-center">
+
+    const paymentMethodTitle = (
+      <div
+        className={`ml-custom mr-custom d-flex justify-content-between align-items-center ${
+          paymentMethodPanelStatus.isEdit ? 'red' : ''
+        }`}
+      >
         <h5 className="mb-0 text-xl">
-          <em className="rc-icon rc-payment--sm rc-iconography inlineblock origin-left paymentIconTransform" />{' '}
+          <em
+            className={`rc-icon rc-payment--sm ${
+              paymentMethodPanelStatus.isEdit ? 'rc-brand1' : 'rc-iconography'
+            } inlineblock origin-left paymentIconTransform`}
+          />{' '}
           <FormattedMessage id="payment.paymentInformation" />
+          {paymentMethodPanelStatus.isCompleted ? (
+            <span className="iconfont font-weight-bold green ml-2">
+              &#xe68c;
+            </span>
+          ) : null}
         </h5>
+        {paymentMethodPanelStatus.isCompleted ? (
+          <p
+            onClick={this.handleClickPaymentPanelEdit}
+            className="rc-styled-link mb-1 edit_payment_method cursor-pointer"
+          >
+            <FormattedMessage id="edit" />
+          </p>
+        ) : null}
       </div>
     );
-
-    const paymentMethodTitleForEdit = (
-      <div className="ml-custom mr-custom d-flex justify-content-between align-items-center red">
-        <h5 className="mb-0 text-xl">
-          <em className="rc-icon rc-payment--sm rc-brand1 inlineblock origin-left paymentIconTransform" />{' '}
-          <FormattedMessage id="payment.paymentInformation" />
-        </h5>
-      </div>
-    );
-
-    const paymentMethodTitleForCompeleted = (
-      <div className="ml-custom mr-custom d-flex justify-content-between align-items-center">
-        <h5 className="mb-0 text-xl">
-          <em className="rc-icon rc-payment--sm rc-iconography inlineblock origin-left paymentIconTransform" />{' '}
-          <FormattedMessage id="payment.paymentInformation" />
-          <span className="iconfont font-weight-bold green ml-2">&#xe68c;</span>
-        </h5>
-        <p
-          onClick={this.handleClickPaymentPanelEdit}
-          className="rc-styled-link mb-1 edit_payment_method cursor-pointer"
-        >
-          <FormattedMessage id="edit" />
-        </p>
-      </div>
-    );
-
-    const paymentMethodTitle = paymentMethodPanelStatus.isPrepare
-      ? paymentMethodTitleForPrepare
-      : paymentMethodPanelStatus.isEdit
-      ? paymentMethodTitleForEdit
-      : paymentMethodPanelStatus.isCompleted
-      ? paymentMethodTitleForCompeleted
-      : null;
 
     return (
       <div>
