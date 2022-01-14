@@ -9,7 +9,6 @@ import Modal from '@/components/Modal';
 import BannerTip from '@/components/BannerTip';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { IMG_DEFAULT } from '@/utils/constant';
-import './index.less';
 import LazyLoad from 'react-lazyload';
 import PageBaseInfo from '@/components/PageBaseInfo';
 import AppointmentInfo from './modules/AppointmentInfo';
@@ -25,7 +24,7 @@ function HeadTip(props) {
     <>
       <div className="row align-items-center text-left ml-1 mr-1 md:ml-0 md:mr-0">
         <div className="col-3 col-md-1">{props.icon}</div>
-        <div className={`col-9 ${props.operation ? 'col-md-7' : 'col-md-11'}`}>
+        <div className={`col-9 col-md-11`}>
           <span
             className={`font-weight-normal color-444 ${props.titleColor || ''}`}
           >
@@ -34,14 +33,6 @@ function HeadTip(props) {
           <br />
           {props.tip}
         </div>
-        {props.operation ? (
-          <div className="col-12 col-md-4 md:text-right text-center">
-            <span className="sticky-operation-btn rc-md-down">
-              {props.operation}
-            </span>
-            <span className="rc-md-up">{props.operation}</span>
-          </div>
-        ) : null}
         {props.moreTip ? <>{props.moreTip}</> : null}
       </div>
     </>
@@ -58,7 +49,6 @@ class AccountOrders extends React.Component {
       appointmentNo: '',
       details: null,
       loading: true,
-      cancelOrderLoading: false,
       errMsg: '',
       cancelAppointModalVisible: false
     };
@@ -197,7 +187,7 @@ class AccountOrders extends React.Component {
               this.setState({ cancelAppointModalVisible: true });
             }}
           >
-            <span className="iconfont iconcancel text-rc-red mr-2" />
+            <span className="iconfont iconchahao text-rc-red mr-2" />
             <FormattedMessage id="cancel" />
           </span>
         ) : null}
@@ -261,7 +251,7 @@ class AccountOrders extends React.Component {
                     <div className="card-body p-0">
                       {this.renderFelineHeadTip()}
                       <div className="row mx-2 md:mx-0 mt-4">
-                        <div className="col-12 flex md:flex-row flex-col border table-header rounded mt-3 md:mt-0 pt-3 pb-2 px-1 md:px-4 md:py-3">
+                        <div className="col-12 flex md:flex-row flex-col border md:bg-rc-f6 rounded mt-3 md:mt-0 pt-3 pb-2 px-1 md:px-4 md:py-3">
                           <div className="col-md-3">
                             <FormattedMessage id="appointment.appointmentPlacedOn" />
                             <br />
@@ -287,11 +277,12 @@ class AccountOrders extends React.Component {
                             </span>
                           </div>
                         </div>
-                        <div className="col-12 order-list-container rder__listing table-body rounded mx-0 md:mt-3 mb-2 row align-items-center p-2">
+                        <div className="col-12 order-list-container rder__listing md:border md:border-rc-ddd rounded mx-0 md:mt-3 mb-2 row align-items-center p-2">
                           <div className="col-4 col-md-2 d-flex justify-content-center align-items-center">
-                            <LazyLoad style={{ width: '100%' }}>
+                            <LazyLoad className="w-full">
                               <img
-                                className="order-details-img-fluid w-100"
+                                className="w-100"
+                                style={{ maxWidth: '70%' }}
                                 src={details.goodsInfoImg || IMG_DEFAULT}
                                 alt={details.goodsInfoName}
                                 title={details.goodsInfoName}
