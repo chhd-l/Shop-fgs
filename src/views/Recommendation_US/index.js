@@ -21,7 +21,7 @@ import {
 import { getPrescriberByPrescriberIdAndStoreId } from '@/api/clinic';
 import { getProductPetConfig } from '@/api/payment';
 import { sitePurchase } from '@/api/cart';
-import Modal from '../Recommendation_FR/components/Modal';
+import Modal from './components/Modal';
 import {
   setSeoConfig,
   distributeLinktoPrecriberOrPaymentPage,
@@ -901,7 +901,7 @@ class Recommendation extends React.Component {
           La recommandation a été faite en fonction des besoins uniques de votre
           animal.
         </p>
-        <p>
+        <p className="mb-8">
           <button
             className={`rc-btn rc-btn--one ${
               this.state.buttonLoading ? 'ui-btn-loading' : ''
@@ -1488,7 +1488,7 @@ class Recommendation extends React.Component {
                                 <p
                                   className="product_info"
                                   dangerouslySetInnerHTML={createMarkup(tabDes)}
-                                ></p>
+                                />
                               ) : (
                                 <p
                                   className="product_info"

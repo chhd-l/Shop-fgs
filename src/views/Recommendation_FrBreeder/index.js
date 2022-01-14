@@ -24,7 +24,7 @@ import {
 import { getPrescriberByPrescriberIdAndStoreId } from '@/api/clinic';
 import { getProductPetConfig } from '@/api/payment';
 import { sitePurchase } from '@/api/cart';
-import Modal from '../Recommendation_FR/components/Modal';
+import Modal from './components/Modal';
 import {
   setSeoConfig,
   distributeLinktoPrecriberOrPaymentPage,
