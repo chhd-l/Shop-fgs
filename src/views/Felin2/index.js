@@ -265,18 +265,16 @@ class Felin extends React.Component {
         <main className="rc-content--fixed-header">
           <div className="header-content">
             <div className="bg-module" />
-            <LazyLoad className="w-100">
-              <img
-                className="pc-block"
-                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/header.jpg`}
-                alt=""
-              />
-              <img
-                className="h-block"
-                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/header1.jpg`}
-                alt=""
-              />
-            </LazyLoad>
+            <img
+              className="pc-block"
+              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/header.jpg`}
+              alt=""
+            />
+            <img
+              className="h-block"
+              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/header1.jpg`}
+              alt=""
+            />
             <div className="hd-text-cont">
               <div className="introduce fontw-500">
                 L’ Atelier Félin vous accueille à Paris et en ligne pour vous
@@ -542,7 +540,8 @@ class Felin extends React.Component {
                         <a
                           style={{
                             textDecoration: 'underline',
-                            cursor: 'pointer'
+                            cursor: 'pointer',
+                            fontSize: '1.125rem'
                           }}
                           href="https://www.facebook.com/RoyalCaninFrance/events/?ref=page_internal"
                           target="_blank"
@@ -618,7 +617,7 @@ class Felin extends React.Component {
               vous guideront pour prendre soin de votre chat. Vous pouvez
               réserver un rendez-vous dans l’atelier ou un appel vidéo.
               <br />
-              Go to next line here Avez-vous des questions?{' '}
+              Avez-vous des questions?{' '}
               <span onClick={this.goto} style={{ cursor: 'pointer' }}>
                 Voir FAQs
               </span>
@@ -754,7 +753,7 @@ class Felin extends React.Component {
                         </a>
                         , passer nous voir au 142 Bd Saint Germain à Paris , ou
                         appelez-nous au{' '}
-                        <b style={{ color: '#e2001a' }}>XnuméroX.</b>
+                        <b style={{ color: '#e2001a' }}>0 800 41 51 61.</b>
                       </p>
                     </div>
                   </div>

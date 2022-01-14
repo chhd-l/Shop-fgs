@@ -389,11 +389,11 @@
         '/royal/royal-assets2/' +
         'royal-canin.styles.data-visualisation.min.css?v=8-7-9';
     },
-    766: function (t, n, s) {
-      t.exports =
-        '/royal/royal-assets2/' +
-        'royal-canin.styles.datepicker.min.css?v=8-7-9';
-    },
+    // 766: function (t, n, s) {
+    //   t.exports =
+    //     '/royal/royal-assets2/' +
+    //     'royal-canin.styles.datepicker.min.css?v=8-7-9';
+    // },
     767: function (t, n, s) {
       t.exports =
         '/royal/royal-assets2/' + 'royal-canin.styles.filters.min.css?v=8-7-9';

@@ -6,24 +6,6 @@
  *
  */
 
-// const locales = {
-//   us: require('@/lang/en_US'),
-//   uk: require('@/lang/en_GB'),
-//   mx: require('@/lang/es_ES'),
-//   de: require('@/lang/de_DE'),
-//   fr: require('@/lang/fr_FR'),
-//   ru: require('@/lang/ru_RU'),
-//   tr: require('@/lang/tr_TR'),
-//   ca: require('@/lang/en_US'),
-//   se: require('@/lang/sv_SE'),
-//   core: require('@/lang/en_US')
-// };
-// export default locales[window.__.env.REACT_APP_COUNTRY].default;
-
-import en_US from './en_US';
-
-const localLanguage = en_US;
-
 //拼接本地语言&phrase平台的语言用到的函数
 function assignObj(obj, source) {
   const retObj = { ...obj };
@@ -62,11 +44,7 @@ async function getDynamicLanguage() {
     }
   }
 
-  // const language = phraseRet;
-  const language = assignObj(localLanguage, phraseRet || {});
-  // debugger;
-  // const language = localLanguage;
-  // console.log(language, '拼接完成');
+  const language = assignObj(phraseRet || {});
   return language;
 }
 

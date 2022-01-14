@@ -9,7 +9,7 @@ import FrequencyMatch from '@/components/FrequencyMatch';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { IMG_DEFAULT } from '@/utils/constant';
 import { filterOrderId } from '@/utils/utils';
-import './index.less';
+
 const localItemRoyal = window.__.localItemRoyal;
 
 const AutoshipItem = ({ subItem, history }) => {
@@ -29,7 +29,7 @@ const AutoshipItem = ({ subItem, history }) => {
           </div>
           {subItem?.postCodeValidResponse
             ?.validFlag ? null : isCanVerifyBlacklistPostCode ? (
-            <div className="col-8 pl-4 order-hint">
+            <div className="col-12 col-md-8 pl-4 order-hint text-left md:text-right text-rc-red font-333">
               <span>{subItem.postCodeValidResponse.alert}</span>
             </div>
           ) : null}

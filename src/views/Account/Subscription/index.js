@@ -38,6 +38,7 @@ import shippingicon from '../../../components/GoodsDetailTabs/image/pictoshippin
 import landingBanner from '../../../components/GoodsDetailTabs/image/landing-banner.jpg';
 import iconsix from '../../../components/GoodsDetailTabs/image/iconsix.png';
 import auto from '../../../components/GoodsDetailTabs/image/auto@2x.png';
+import { DivWrapper } from './style';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
@@ -465,7 +466,7 @@ class Subscription extends React.Component {
     };
     const { isMobile } = this.state;
     return (
-      <div className="subscription">
+      <DivWrapper className="subscription">
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
@@ -500,7 +501,7 @@ class Subscription extends React.Component {
           </div>
           <Footer />
         </main>
-      </div>
+      </DivWrapper>
     );
   }
 }

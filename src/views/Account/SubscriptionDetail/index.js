@@ -160,7 +160,7 @@ class SubscriptionDetail extends React.Component {
 
   paymentSave = (el) => {
     const { subDetail } = this.state;
-    let param = {
+    const param = {
       subscribeId: subDetail.subscribeId,
       paymentId: el.id,
       goodsItems: subDetail.goodsInfo?.map((el) => {

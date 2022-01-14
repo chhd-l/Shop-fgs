@@ -557,6 +557,8 @@ class Pcexperts extends React.Component {
     }
   };
   queryAppointInfo = async (appointNo) => {
+    //不做ga
+    return;
     const result = await getAppointmentInfo(appointNo);
     console.log('appointmentInfo', result);
     const requestName = this.isLogin ? getLoginDetails : getDetails;
@@ -606,7 +608,7 @@ class Pcexperts extends React.Component {
                 className="rc-btn rc-btn--one  rc-margin-bottom--xs"
                 style={{
                   width: '13.875rem',
-                  fontSize: '0.75rem'
+                  fontSize: '1rem'
                 }}
               >
                 Commencer
@@ -712,7 +714,7 @@ class Pcexperts extends React.Component {
               >
                 Retour à l'étape précédente
               </span>
-              {this.state.params.apptTypeId ? (
+              {this.state.params.expertTypeId ? (
                 <button
                   disabled={
                     this.state.params.apptTypeId == null ||
@@ -725,7 +727,7 @@ class Pcexperts extends React.Component {
                     fontSize: '0.75rem'
                   }}
                 >
-                  Continuer
+                  Confirmer
                 </button>
               ) : null}
             </div>
@@ -835,7 +837,7 @@ class Pcexperts extends React.Component {
                   fontSize: '0.75rem'
                 }}
               >
-                Continuer
+                Confirmer
               </button>
             </div>
           </div>
@@ -882,7 +884,7 @@ class Pcexperts extends React.Component {
                   fontSize: '0.75rem'
                 }}
               >
-                Continuer
+                Confirmer
               </button>
             </div>
           </div>

@@ -4,18 +4,18 @@ import {
   filterOrderId,
   getDeviceType,
   getClubLogo,
-  isCanVerifyBlacklistPostCode
+  isCanVerifyBlacklistPostCode,
+  formatDate
 } from '@/utils/utils';
 import FrequencyMatch from '@/components/FrequencyMatch';
-import LazyLoad from 'react-lazyload';
-import { getSubList } from '@/api/subscription';
+// import { getSubList } from '@/api/subscription';
 import { IMG_DEFAULT } from '@/utils/constant';
-import { Link } from 'react-router-dom';
-import Skeleton from 'react-skeleton-loader';
-import { injectIntl, FormattedMessage } from 'react-intl';
-import './index.less';
-import { formatDate } from '../../../../../utils/utils';
+// import { Link } from 'react-router-dom';
+// import Skeleton from 'react-skeleton-loader';
+import { FormattedMessage } from 'react-intl';
+
 const localItemRoyal = window.__.localItemRoyal;
+
 const ClubItem = ({ subItem, history }) => {
   const isMobile = getDeviceType() !== 'PC';
   console.log(subItem, 'subItem------');
@@ -43,7 +43,7 @@ const ClubItem = ({ subItem, history }) => {
           {/*<div className="col-4 col-md-2" />*/}
           {subItem?.postCodeValidResponse
             ?.validFlag ? null : isCanVerifyBlacklistPostCode ? (
-            <div className="col-8 pl-4 order-hint">
+            <div className="col-12 col-md-8 order-hint text-left md:text-right text-rc-red">
               <span>{subItem.postCodeValidResponse.alert}</span>
             </div>
           ) : null}

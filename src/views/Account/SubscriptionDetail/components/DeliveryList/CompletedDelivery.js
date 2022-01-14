@@ -2,7 +2,6 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
-import dateIcon from '../../images/date.png';
 import { getDeviceType, formatMoney, formatDate } from '@/utils/utils';
 
 const CompletedDelivery = ({ i, isActive, el, subDetail }) => {
@@ -116,17 +115,12 @@ const CompletedDelivery = ({ i, isActive, el, subDetail }) => {
               </>
             ) : el.id ? (
               <>
-                <LazyLoad>
-                  <img
-                    style={{
-                      display: 'inline-block',
-                      width: '1.25rem',
-                      marginRight: '5px'
-                    }}
-                    src={dateIcon}
-                    alt="date Icon"
-                  />
-                </LazyLoad>
+                <span
+                  className="iconfont icondata text-xl mr-1"
+                  style={{
+                    color: '#666'
+                  }}
+                />
                 <Link
                   className="rc-styled-link"
                   to={`/account/orders/detail/${el.id}`}

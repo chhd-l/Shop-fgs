@@ -12,7 +12,7 @@ import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { getDeviceType, setSeoConfig, formatDate } from '@/utils/utils';
-import orderImg from './img/order.jpg';
+import appointmentImg from './img/no-appointments.png';
 import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
 import { myAccountPushEvent } from '@/utils/GA';
@@ -249,13 +249,13 @@ class AccountOrders extends React.Component {
                   </div>
                 ) : everHaveNoOrders ? (
                   <>
-                    {/* 无任何订单 */}
+                    {/* 无任何预约 */}
                     <div className={`content-asset`}>
                       <div className="rc-layout-container rc-two-column">
                         <div className="rc-column">
                           <LazyLoad>
                             <img
-                              src={orderImg}
+                              src={appointmentImg}
                               className="w-100"
                               alt="appointment image"
                             />
