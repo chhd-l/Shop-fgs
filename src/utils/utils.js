@@ -16,6 +16,7 @@ import { sitePurchase } from '@/api/cart';
 import Club_Logo from '@/assets/images/Logo_club.png';
 import Club_Logo_ru from '@/assets/images/Logo_club_ru.png';
 import indvLogo from '@/assets/images/indv_log.svg';
+import { format } from 'date-fns';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -1063,9 +1064,15 @@ export function handleFelinAppointTime(appointTime) {
         ' ' +
         apptTime[1].split(' ')[1]
       : '';
+  const endTime = appointEndTime
+    ? format(
+        new Date(new Date(appointEndTime).valueOf() - 15 * 60 * 1000),
+        'yyyy-MM-dd HH:mm'
+      )
+    : appointEndTime;
   return {
     appointStartTime,
-    appointEndTime
+    appointEndTime: endTime
   };
 }
 
