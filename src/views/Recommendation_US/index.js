@@ -11,10 +11,10 @@ import Fr from './components/Fr';
 import { formatMoney, getDeviceType } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import Loading from '@/components/Loading';
+import { DivWrapper } from './style';
 import './index.css';
 import { inject, observer } from 'mobx-react';
 import {
-  getRecommendationList,
   getRecommendationList_prescriberId,
   getRecommendationList_token
 } from '@/api/recommendation';
@@ -884,14 +884,19 @@ class Recommendation extends React.Component {
         className="text-center"
         style={{ width: this.state.isMobile ? '95%' : '60%', margin: '0 auto' }}
       >
-        <h1 style={{ color: '#E2001A', margin: '1.25rem' }}>Bienvenue !</h1>
+        <h1
+          style={{ color: '#E2001A', margin: '1.25rem' }}
+          className="text-3xl"
+        >
+          Bienvenue !
+        </h1>
         <h2 style={{ color: '#E2001A', margin: '1.25rem' }}>
           Merci pour votre visite en magasin, voici notre recommandation.
         </h2>
         {/* <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
       <FormattedMessage id="recommendation.firstTitle" />
     </h2> */}
-        <p style={{ fontSize: '1.125rem' }}>
+        <p style={{ fontSize: '1.125rem' }} className="mb-6">
           {/* <FormattedMessage id="recommendation.firstContent" /> */}
           La recommandation a été faite en fonction des besoins uniques de votre
           animal.
@@ -1212,7 +1217,7 @@ class Recommendation extends React.Component {
       ru: this.state.locationPath
     };
     return (
-      <div className="Recommendation_FR Recommendation_US">
+      <DivWrapper className="Recommendation_FR Recommendation_US">
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
@@ -1297,15 +1302,10 @@ class Recommendation extends React.Component {
                   ) : (
                     productList.length > 0 && (
                       <div>
-                        <div
-                          className="recommendProductInner"
-                          style={{
-                            borderTop: 0
-                          }}
-                        >
+                        <div className="recommendProductInner border-t-0 block">
                           {productList.length > 1 && (
                             <div className="rc-fade--x">
-                              <div className="imageTabBox">
+                              <div className="imageTabBox text-center">
                                 {productList.map((el, i) => (
                                   <span
                                     key={i}
@@ -1441,13 +1441,7 @@ class Recommendation extends React.Component {
                                 </div>
                               )}
 
-                              <p
-                                style={{
-                                  marginTop: '30px',
-                                  textAlign: 'center',
-                                  marginBottom: isMobile ? '0' : '30px'
-                                }}
-                              >
+                              <p className="flex justify-center mb-0 md:mb-6 mt-6">
                                 <button
                                   className={`rc-btn rc-btn--one rc-btn--sm ${
                                     this.state.buttonLoading
@@ -1567,17 +1561,18 @@ class Recommendation extends React.Component {
                                     <FormattedMessage id="recommendation.benefit" />
                                   </h5>
                                   <p
+                                    className="pb-10"
                                     style={{ fontSize: 'auto' }}
                                     dangerouslySetInnerHTML={createMarkup(
                                       productList[activeIndex].benefit
                                     )}
-                                  ></p>
+                                  />
                                   <p
                                     style={{ fontSize: '1rem' }}
                                     dangerouslySetInnerHTML={createMarkup(
                                       productList[activeIndex].benefitMobile
                                     )}
-                                  ></p>
+                                  />
                                   {/* <p>{productList[activeIndex]}</p> */}
                                 </p>
                               </React.Fragment>
@@ -1596,7 +1591,7 @@ class Recommendation extends React.Component {
           {otherShow[window.__.env.REACT_APP_COUNTRY]}
           <Footer />
         </main>
-      </div>
+      </DivWrapper>
     );
   }
 }

@@ -51,7 +51,9 @@ const AccountAppointmentsDetail = loadable(() =>
 );
 import Prescription from '@/views/Prescription';
 import MakerHandle from '@/components/GoogleMap/makerHandle';
-import PrescriptionNavigate from '@/views/PrescriptionNavigate';
+const PrescriptionNavigate = loadable(() =>
+  import('@/views/PrescriptionNavigate')
+);
 const FAQ = loadable(() => import('@/views/FAQ'));
 const Widerrufsbelehrung = loadable(() => import('@/views/Widerrufsbelehrung'));
 import AccountHome from '@/views/Account/Home';
@@ -69,10 +71,12 @@ import ProductReview from '@/views/Account/ProductReview';
 import ProductReviewService from '@/views/Account/ProductReviewService';
 // import AccountRefunds from "@/views/Account/Refunds";
 
-import Recommendation from '@/views/Recommendation';
-import Recommendation_FR from '@/views/Recommendation_FR';
-import Recommendation_US from '@/views/Recommendation_US';
-import Recommendation_FrBreeder from '@/views/Recommendation_FrBreeder';
+const Recommendation = loadable(() => import('@/views/Recommendation'));
+const Recommendation_US = loadable(() => import('@/views/Recommendation_US'));
+const Recommendation_FrBreeder = loadable(() =>
+  import('@/views/Recommendation_FrBreeder')
+);
+
 import ProductFinder from '@/views/ProductFinder';
 import ProductFinderResult from '@/views/ProductFinder/modules/Result';
 import ProductFinderNoResult from '@/views/ProductFinder/modules/NoResult';
@@ -185,7 +189,7 @@ import CancelEmail from '@/views/StaticPage/CancelEmail';
 import FelinTermsConditions from '@/views/StaticPage/FelinTermsConditions';
 
 import PreciseCatNutrition from './views/PreciseCatNutrition';
-import Loading from './components/Loading';
+// import Loading from './components/Loading';
 const VetLandingPage = loadable(() =>
   import('@/views/ClubLandingPage/vetlandingpage')
 );
@@ -495,13 +499,6 @@ const App = () => {
                     return (
                       <Recommendation key={props.match.params.id} {...props} />
                     );
-                  }}
-                />
-                <Route
-                  exact
-                  path="/recommendationfr"
-                  render={(props) => {
-                    return <Recommendation_FR {...props} />;
                   }}
                 />
 

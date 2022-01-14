@@ -197,13 +197,7 @@ const FrSPT = (props) => {
           </div>
         </div>
 
-        <p
-          style={{
-            marginTop: '70px',
-            textAlign: 'center',
-            marginBottom: isMobile ? '0' : '70px'
-          }}
-        >
+        <p className="flex justify-center mt-8 mb-0 md:mb-8">
           <button
             className={`rc-btn rc-btn--one ${
               props.buttonLoading ? 'ui-btn-loading' : ''
@@ -215,10 +209,7 @@ const FrSPT = (props) => {
           </button>
         </p>
       </div>
-      <div
-        className="help-page"
-        style={{ marginBottom: isMobile ? 0 : '1rem' }}
-      >
+      <div className="help-page mb-0 md:mb-4">
         <section style={{ textAlign: 'center' }}>
           <h2 style={{ color: '#E2001A', marginTop: isMobile ? '0' : '40px' }}>
             <FormattedMessage id="recommendation.thirdTitle" />

@@ -473,7 +473,7 @@ class ImageMagnifier extends Component {
             </div>
           )}
         </div>
-        <div className="scrollOutBox m-auto">
+        <div className="scrollOutBox m-auto text-center relative">
           <em
             className={`rc-icon rc-left leftArrow rc-iconography ${
               this.state.positionLeft === 0
