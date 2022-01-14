@@ -24,7 +24,6 @@ import {
 import { funcUrl } from '@/lib/url-utils';
 import { batchAdd } from '@/api/payment';
 import { getOrderList } from '@/api/order';
-import { cancelAppointByNo } from '@/api/appointment';
 import orderImg from './img/order.jpg';
 import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';

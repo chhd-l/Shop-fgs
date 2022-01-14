@@ -1,7 +1,5 @@
 import React from 'react';
-//import { FormattedMessage } from 'react-intl-phraseapp';
 import Skeleton from 'react-skeleton-loader';
-//import { Link } from 'react-router-dom';
 import { getReturnDetails } from '@/api/order';
 import { formatMoney, setSeoConfig } from '@/utils/utils';
 import GoogleTagManager from '@/components/GoogleTagManager';
@@ -10,7 +8,6 @@ import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import { IMG_DEFAULT } from '@/utils/constant';
-import './index.css';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 
@@ -158,11 +155,16 @@ export default class OrdersAfterSaleDetail extends React.Component {
                                 {details.images.length
                                   ? details.images.map((item, i) => (
                                       <div
-                                        className="mr-1 mb-1 img-item"
+                                        className="mr-1 mb-1"
                                         key={i}
+                                        style={{
+                                          width: '60px',
+                                          height: '60px'
+                                        }}
                                       >
                                         <LazyLoad>
                                           <img
+                                            className="w-full h-full"
                                             src={JSON.parse(item).url}
                                             alt="detail image"
                                           />
