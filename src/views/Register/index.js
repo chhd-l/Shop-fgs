@@ -1136,20 +1136,14 @@ class Register extends Component {
                               <FormattedMessage id="registerCreateYourAccout" />
                             </button>
                           </div>
-                          {window.__.env.REACT_APP_COUNTRY !== 'ru' &&
-                          window.__.env.REACT_APP_COUNTRY !== 'us' ? (
-                            <div className="rc-meta rc-margin-top--sm rc-text--left">
-                              <p>
-                                <FormattedMessage
-                                  id="registerFooter1"
-                                  defaultMessage={' '}
-                                />
-                                {/* {window.__.env.REACT_APP_COUNTRY === 'us' ? (
-                                  <a href={homePage + contactUrl}>&nbsp;here</a>
-                                ) : null} */}
-                              </p>
-                            </div>
-                          ) : null}
+                          <div className="rc-meta rc-margin-top--sm rc-text--left">
+                            <p>
+                              <FormattedMessage
+                                id="registerFooter1"
+                                defaultMessage={' '}
+                              />
+                            </p>
+                          </div>
                         </form>
                       </div>
                     </div>
