@@ -197,7 +197,7 @@ class AccountOrders extends React.Component {
               this.setState({ cancelAppointModalVisible: true });
             }}
           >
-            <span className="iconfont iconcancel text-rc-red mr-2" />
+            <span className="iconfont iconchahao text-rc-red mr-2" />
             <FormattedMessage id="cancel" />
           </span>
         ) : null}
