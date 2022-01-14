@@ -6,15 +6,6 @@
  *
  */
 
-//拼接本地语言&phrase平台的语言用到的函数
-function assignObj(obj, source) {
-  const retObj = { ...obj };
-  for (const [key, value] of Object.entries(source)) {
-    retObj[key] = value ? value : obj[key];
-  }
-  return retObj;
-}
-
 async function getDynamicLanguage() {
   // key - 对应对应语言文件名
   const key = window.__.env.REACT_APP_LANG_LOCALE || 'en-US';
@@ -44,7 +35,7 @@ async function getDynamicLanguage() {
     }
   }
 
-  const language = assignObj(phraseRet || {});
+  const language = Object.assign(phraseRet || {});
   return language;
 }
 
