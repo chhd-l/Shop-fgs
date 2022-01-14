@@ -110,29 +110,29 @@ class SubscriptionDetail extends React.Component {
       modalShow: false,
       modalList: [
         {
-          title: this.props.intl.messages.modalSkipTitle,
-          content: this.props.intl.messages.modalSkipContent,
+          title: 'modalSkipTitle',
+          content: 'modalSkipContent',
           type: 'skipNext'
         },
         {
-          title: this.props.intl.messages.modalCancelAllTitle,
-          content: this.props.intl.messages.modalCancelAllContent,
+          title: 'modalCancelAllTitle',
+          content: 'modalCancelAllContent',
           type: 'cancelAll'
         },
         {
-          title: this.props.intl.messages.modalOrderNowTitle,
-          content: this.props.intl.messages.modalOrderNowContent,
+          title: 'modalOrderNowTitle',
+          content: 'modalOrderNowContent',
           type: 'orderNow'
         },
         {
-          title: this.props.intl.messages.modalChangeDateTitle,
-          content: this.props.intl.messages.modalChangeDateContent,
+          title: 'modalChangeDateTitle',
+          content: 'modalChangeDateContent',
           type: 'changeDate'
         }
       ],
       currentModalObj: {
-        title: this.props.intl.messages.modalSkipTitle,
-        content: this.props.intl.messages.modalSkipContent,
+        title: 'modalSkipTitle',
+        content: 'modalSkipContent',
         type: 'skipNext'
       },
       modalType: '',
@@ -767,7 +767,7 @@ class SubscriptionDetail extends React.Component {
               key="1"
               visible={modalShow}
               confirmLoading={submitLoading}
-              modalTitle={currentModalObj.title}
+              modalTitle={this.props.intl.messages[currentModalObj.title]}
               confirmBtnText={<FormattedMessage id="yes" />}
               cancelBtnVisible={<FormattedMessage id="cancel" />}
               close={() => {
@@ -775,7 +775,7 @@ class SubscriptionDetail extends React.Component {
               }}
               hanldeClickConfirm={() => this.hanldeClickSubmit()}
             >
-              <span>{currentModalObj.content}</span>
+              <span>{this.props.intl.messages[currentModalObj.content]}</span>
             </Modal>
             <div className="rc-padding--sm rc-max-width--xl pb-1">
               <div className="rc-layout-container rc-five-column">
