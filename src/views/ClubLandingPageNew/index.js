@@ -262,7 +262,7 @@ class ClubLandingPageNew extends React.Component {
                               <button
                                 onClick={() => {
                                   window.__.env.REACT_APP_COUNTRY == 'ru' &&
-                                    dataLayer.push({
+                                    window?.dataLayer?.push({
                                       event: 'ruClubSubscriptionCtA',
                                       ruClubSubscriptionCtAName:
                                         'Choose a diet - Top'
@@ -376,7 +376,7 @@ class ClubLandingPageNew extends React.Component {
                                 className="rc-btn rc-btn--two"
                                 onClick={() => {
                                   window.__.env.REACT_APP_COUNTRY == 'ru' &&
-                                    dataLayer.push({
+                                    window?.dataLayer?.push({
                                       event: 'ruClubSubscriptionCtA',
                                       ruClubSubscriptionCtAName: 'Learn More'
                                     });
