@@ -125,7 +125,7 @@ class Confirmation extends React.Component {
   async componentDidMount() {
     sessionItemRoyal.set('refresh-confirm-page', true);
     const GA_product = localItemRoyal.get('rc-ga-product');
-    dataLayer.push(GA_product);
+    window?.dataLayer?.push(GA_product);
 
     setSeoConfig().then((res) => {
       this.setState({ seoConfig: res });
@@ -314,7 +314,7 @@ class Confirmation extends React.Component {
           }
         }
       };
-      dataLayer.push(eEvents);
+      window?.dataLayer?.push(eEvents);
     } else {
       //既有oneshoot，又有subscription
       let oneShootProduct = [];
@@ -390,8 +390,8 @@ class Confirmation extends React.Component {
           };
         }
       }
-      dataLayer.push(subscription_eEvents);
-      dataLayer.push(oneShooteEvents);
+      window?.dataLayer?.push(subscription_eEvents);
+      window?.dataLayer?.push(oneShooteEvents);
     }
   }
   //GA 埋点 end
