@@ -34,11 +34,37 @@
     > .operation {
       flex: 1;
       position: relative;
+      text-align: center;
       .edit {
         position: absolute;
         top: 1.25rem;
         right: 1.25rem;
       }
+    }
+    .weightTracker-wrap {
+      padding: 4px;
+      text-align: center;
+      .weightTracker-btn {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        border: 2px solid #e2001a;
+        color: #e2001a;
+        background-color: #fff;
+        line-height: 32px;
+        width: 185px;
+        height: 48px;
+        > i {
+          font-size: 14px;
+        }
+        > a {
+          font-size: 16px;
+          &:hover{
+            color: #e2001a;
+          }
+        }
+      }
+
     }
   }
   img {

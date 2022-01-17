@@ -43,6 +43,7 @@ class Pet extends React.Component {
       catBreedList: [],
       dogBreedList: []
     };
+    this.isUk = window.__.env.REACT_APP_COUNTRY === 'uk';
   }
   componentDidMount() {
     myAccountPushEvent('Pets');
@@ -269,6 +270,20 @@ class Pet extends React.Component {
                                   <FormattedMessage id="edit" />
                                 </Link>
                               </div>
+                              <div className="weightTracker-wrap">
+                                {this.isUk ? (
+                                  <button className="rc-btn weightTracker-btn">
+                                    <i className="iconfont iconLogoff" />
+                                    <a
+                                      className="pl-2"
+                                      href="https://my.royalcanin.co.uk/account/pet_weights"
+                                      target="_blank"
+                                    >
+                                      <FormattedMessage id="Pet.weightTracker" />
+                                    </a>
+                                  </button>
+                                ) : null}
+                              </div>
                             </div>
                           ))
                         : this.state.petList.map((el, i) => (
@@ -317,13 +332,25 @@ class Pet extends React.Component {
                                   <span>{this.petBreed(el)}</span>
                                 </div>
                               </div>
-                              <div className="operation">
+                              <div className="operation weightTracker-wrap">
                                 <Link
                                   className="edit rc-styled-link"
                                   to={'/account/pets/petForm/' + el.petsId}
                                 >
                                   <FormattedMessage id="edit" />
                                 </Link>
+                                {this.isUk ? (
+                                  <button className="rc-btn weightTracker-btn">
+                                    <i className="iconfont iconLogoff" />
+                                    <a
+                                      className="pl-2"
+                                      href="https://my.royalcanin.co.uk/account/pet_weights"
+                                      target="_blank"
+                                    >
+                                      <FormattedMessage id="Pet.weightTracker" />
+                                    </a>
+                                  </button>
+                                ) : null}
                               </div>
                             </div>
                           ))}
