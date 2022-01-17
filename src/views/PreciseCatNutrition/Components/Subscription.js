@@ -162,7 +162,7 @@ const subscription = () => {
             <a
               onClick={() => {
                 toScroll('aboutPet');
-                dataLayer.push({
+                window?.dataLayer?.push({
                   event: 'individualizationLandingClick',
                   position: 'Reinsurance' //value should be one the trees positions : 'Top promotion','Did you know' or 'Reinsurance'
                 });

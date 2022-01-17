@@ -123,7 +123,7 @@ class LoginCart extends React.Component {
 
   EditToCart = () => {
     this.hubGA &&
-      dataLayer.push({
+      window?.dataLayer?.push({
         event: 'cartHeaderClicks',
         cartHeaderClicks: {
           button: 'Edit'

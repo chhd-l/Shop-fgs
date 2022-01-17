@@ -57,19 +57,22 @@ class Hcexperts extends React.Component {
           valueEn: 'Behaviorist',
           src: cat1,
           name: 'Expert en comportement',
-          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         },
         {
           valueEn: 'Nutritionist',
           src: cat2,
           name: 'Expert en nutrition',
-          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         }
       ],
       timeList: [
         {
           duration: 15,
-          text: 'Rapide et facile, échangez avec un expert pour reçevoir ses conseils et commencer le suivi de votre chat.'
+          text:
+            'Rapide et facile, échangez avec un expert pour reçevoir ses conseils et commencer le suivi de votre chat.'
         },
         {
           duration: 30,
@@ -250,7 +253,7 @@ class Hcexperts extends React.Component {
       );
       return { ...item, ..._temp };
     });
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: 'AtelierFelinStepLoad',
       atelierFelinStepName: 'Apointment type',
       atelierFelinStepNumber: '1'
@@ -291,7 +294,7 @@ class Hcexperts extends React.Component {
         );
         return { ...item, ..._temp };
       });
-      dataLayer.push({
+      window?.dataLayer?.push({
         event: 'AtelierFelinStepLoad',
         atelierFelinStepName: 'Apointment duration',
         atelierFelinStepNumber: '2'
@@ -313,7 +316,7 @@ class Hcexperts extends React.Component {
   };
   // 跳转第四步
   handleGotoFour = () => {
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: 'AtelierFelinStepLoad',
       atelierFelinStepName: 'Timeslot selection',
       atelierFelinStepNumber: '3'
@@ -401,7 +404,7 @@ class Hcexperts extends React.Component {
         await this.queryAppointInfo(apptNo);
         this.props.history.push('/checkout');
       } else {
-        dataLayer.push({
+        window?.dataLayer?.push({
           event: 'AtelierFelinStepLoad',
           atelierFelinStepName: 'Login invite',
           atelierFelinStepNumber: '4'

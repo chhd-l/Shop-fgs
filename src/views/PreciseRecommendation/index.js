@@ -76,7 +76,7 @@ class PreciseRecommendation extends React.Component {
         ]
       };
       console.info('GAData', GAData);
-      dataLayer.push(GAData);
+      window?.dataLayer?.push(GAData);
     } catch (err) {
       console.info('err', err);
     }
