@@ -22,10 +22,11 @@ export function getPrescription(parameter) {
   });
 }
 export function getAllPrescription(parameter) {
+  let params = { enabled: true, ...parameter }; // 默认查询有效数据
   return axios({
     url: `${api.allClinics}`,
     method: 'get',
-    params: parameter
+    params
     // method: 'post',
     // data: parameter
   });
