@@ -9,11 +9,8 @@ const filterAttrValue = (list, keyWords) => {
 
 // 判断购买方式
 const getPdpScreenLoadCTAs = (data) => {
-  const {
-    currentSubscriptionStatus,
-    currentSubscriptionPrice,
-    skuPromotions
-  } = data;
+  const { currentSubscriptionStatus, currentSubscriptionPrice, skuPromotions } =
+    data;
   let content = ['Single Purchase'];
   if (
     currentSubscriptionStatus &&
@@ -143,7 +140,7 @@ const hubGAProductDetailPageView = (item, pdpScreenLoadData) => {
 
 //hub加入购物车，埋点
 const hubGAAToCar = (quantity, form) => {
-  window.dataLayer.push({
+  window?.dataLayer?.push({
     event: 'pdpAddToCart',
     pdpAddToCartQuantity: quantity,
     pdpAddToCartCtA: { 0: 'One Shot', 1: 'Subscription', 2: 'Club' }[

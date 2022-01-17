@@ -176,7 +176,7 @@ class Footer extends React.Component {
         </div>
 
         {/* <!-- OneTrust Cookies Settings button start --> */}
-        {+window.__.env.REACT_APP_COOKIE_SETTINGS_BTN_VISIBLE && (
+        {Boolean(window.__.env.REACT_APP_COOKIE_SETTINGS_BTN_VISIBLE) && (
           <div
             className="cookieSettingBox bg-white"
             style={{ visibility: 'hidden' }}
