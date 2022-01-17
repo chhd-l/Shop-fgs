@@ -1199,7 +1199,7 @@ class UnLoginCart extends React.Component {
               <span
                 className="rc-input rc-input--inline rc-input--label mr-0"
                 style={{
-                  width: '150px',
+                  width: '100%',
                   marginBottom: '.625rem',
                   overflow: 'hidden',
                   marginTop: '0px'

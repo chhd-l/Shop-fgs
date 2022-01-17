@@ -15,6 +15,7 @@ import Slider from 'react-slick';
 import img from './image/img.png';
 import thak from './image/thak.png';
 import cat1 from './image/new.png';
+import header1 from './image/header1.png';
 import LazyLoad from 'react-lazyload';
 import Rate from '../../components/Rate';
 import Reviews from './Reviews/Reviews';
@@ -270,11 +271,7 @@ class Felin extends React.Component {
               src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/header.jpg`}
               alt=""
             />
-            <img
-              className="h-block"
-              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/header1.jpg`}
-              alt=""
-            />
+            <img className="h-block" src={header1} alt="" />
             <div className="hd-text-cont">
               <div className="introduce fontw-500">
                 L’ Atelier Félin vous accueille à Paris et en ligne pour vous
@@ -294,7 +291,9 @@ class Felin extends React.Component {
                 onClick={this.gotoAddH}
                 className="rc-btn rc-btn--one  rc-margin-bottom--xs h-block"
                 style={{
-                  width: '16.875rem'
+                  width: '9.875rem',
+                  fontSize: '0.75rem',
+                  padding: '0.5rem 0'
                 }}
               >
                 Prendre un rendez-vous
@@ -310,10 +309,10 @@ class Felin extends React.Component {
             </h2>
           </div>
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile felin-mpd0">
-            <div className="rc-max-width--xxl">
+            <div className="rc-max-width--lg">
               <div className="rc-layout-container rc-two-column rc-content-h-middle ">
                 <div className="rc-column felin-mpd0">
-                  <LazyLoad className="w-100">
+                  <LazyLoad className="w-100 h-100">
                     <img
                       className="pc-block time-img"
                       src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/img.jpg`}
@@ -368,7 +367,7 @@ class Felin extends React.Component {
             </div>
           </div>
           <div className="pc-block rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile felin-mpd0 mb16">
-            <div className="rc-max-width--xxl">
+            <div className="rc-max-width--lg">
               <div className="rc-layout-container rc-two-column rc-content-h-middle ">
                 <div className="rc-column felin-p20">
                   <LazyLoad className="w-100">
@@ -400,7 +399,7 @@ class Felin extends React.Component {
                   </LazyLoad>
                 </div>
                 <div className="rc-column felin-mpd0">
-                  <LazyLoad className="w-100">
+                  <LazyLoad className="w-100 h-100">
                     <img src={cat1} alt="" className="cat-img" />
                   </LazyLoad>
                 </div>
@@ -408,10 +407,10 @@ class Felin extends React.Component {
             </div>
           </div>
           <div className="h-block rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile felin-mpd0">
-            <div className="rc-max-width--xxl">
+            <div className="rc-max-width--lg">
               <div className="rc-layout-container rc-two-column rc-content-h-middle ">
                 <div className="rc-column felin-mpd0">
-                  <LazyLoad className="w-100">
+                  <LazyLoad className="w-100 h-100">
                     <img src={cat1} alt="" className="cat-img" />
                   </LazyLoad>
                 </div>
@@ -522,7 +521,7 @@ class Felin extends React.Component {
           </div>
           <div id="event" className="nos-cont">
             <div className="pc-block rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile felin-mpd0">
-              <div className="rc-max-width--xxl">
+              <div className="rc-max-width--lg">
                 <div className="rc-layout-container rc-two-column rc-content-h-middle ">
                   <div className="rc-column felin-p20">
                     <LazyLoad className="w-100">
@@ -552,7 +551,7 @@ class Felin extends React.Component {
                     </LazyLoad>
                   </div>
                   <div className="rc-column felin-mpd0">
-                    <LazyLoad className="w-100">
+                    <LazyLoad className="w-100 h-100">
                       <img
                         className="pc-block nos-img-box"
                         src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/nos.jpg`}
@@ -564,10 +563,10 @@ class Felin extends React.Component {
               </div>
             </div>
             <div className="h-block rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile felin-mpd0">
-              <div className="rc-max-width--xxl">
+              <div className="rc-max-width--lg">
                 <div className="rc-layout-container rc-two-column rc-content-h-middle ">
                   <div className="rc-column felin-mpd0">
-                    <LazyLoad className="w-100">
+                    <LazyLoad className="w-100 h-100">
                       <img
                         className="h-block nos-img-box"
                         src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/nos1_v2.jpg`}

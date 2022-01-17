@@ -34,7 +34,8 @@ const api = {
   confirmAndCommitFelin: `/${window.__.env.REACT_APP_STOREID}/feline/checkout`, //felin checkout
   repayFelin: '/feline/repay', //felin repay
   getPaymentMethodV2: `/payment-method/query-by-StoreId/${window.__.env.REACT_APP_STOREID}`, //查询所有支持的支付方式图片
-  adyenOriginClientKeyV2: `/${window.__.env.REACT_APP_STOREID}/payment-method/origin-client-keys`
+  adyenOriginClientKeyV2: `/${window.__.env.REACT_APP_STOREID}/payment-method/origin-client-keys`,
+  checkUserOrEmailIsBlocked: '' //check user account or guest email is blocked or not
 };
 
 export default api;
@@ -278,5 +279,13 @@ export function fetchAdyenOriginClientKeyV2() {
   return axios({
     url: api.adyenOriginClientKeyV2,
     method: 'get'
+  });
+}
+
+export function checkUserOrEmailIsBlocked(parameter) {
+  return axios({
+    url: api.checkUserOrEmailIsBlocked,
+    method: 'get',
+    params: parameter
   });
 }

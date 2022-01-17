@@ -17,7 +17,7 @@ import exper6 from '../image/exper6.png';
 class Conseiller extends React.Component {
   render() {
     return (
-      <div className="conseiller">
+      <div className="rc-max-width--md conseiller">
         <div className="grid grid-cols-6 gap-3">
           <div className="txt-centr">
             <div className="jus-flex-center">
