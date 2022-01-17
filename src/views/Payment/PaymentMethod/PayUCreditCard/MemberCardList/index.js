@@ -675,6 +675,7 @@ class MemberCardList extends React.Component {
         visible: true,
         disabled: this.props.mustSaveForFutherPayments
       }
+      // 注释 俄罗斯绑卡和选择默认卡两个checkbox改为一个checkbox
       // {
       //   key: 'savedDefaultCardChecked',
       //   id: 'id-payu-saved-as-preferred',
