@@ -53,7 +53,8 @@ import {
   getPaymentMethod,
   confirmAndCommitFelin,
   rePayFelin,
-  adyenPaymentsDetails
+  adyenPaymentsDetails,
+  checkUserOrEmailIsBlocked
 } from '@/api/payment';
 import { getOrderDetails } from '@/api/order';
 import { getLoginDetails, getDetails } from '@/api/details';
@@ -1046,7 +1047,6 @@ class Payment extends React.Component {
   };
 
   // 更新felin预约的用户信息
-
   async setFelinAppointInfo(params) {
     if (!this.userInfo) return;
     await postUpdateUser({
