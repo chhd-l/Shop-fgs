@@ -364,7 +364,8 @@ class MemberCardList extends React.Component {
           customerId: this.userInfo ? this.userInfo.customerId : '',
           email: creditCardInfoForm.email,
           phone: creditCardInfoForm.phoneNumber,
-          isDefault: creditCardInfoForm.savedDefaultCardChecked ? '1' : '0',
+          //isDefault: creditCardInfoForm.savedDefaultCardChecked ? '1' : '0',
+          isDefault: 1,
           paymentToken: resData?.token || '',
           paymentVendor: resData?.vendor || '',
           binNumber: resData?.bin_number || '',
@@ -673,14 +674,14 @@ class MemberCardList extends React.Component {
         value: creditCardInfoForm.savedCardChecked,
         visible: true,
         disabled: this.props.mustSaveForFutherPayments
-      },
-      {
-        key: 'savedDefaultCardChecked',
-        id: 'id-payu-saved-as-preferred',
-        langKey: 'payment.saveThisPaymentMethodAsPreferred',
-        value: creditCardInfoForm.savedDefaultCardChecked,
-        visible: true
       }
+      // {
+      //   key: 'savedDefaultCardChecked',
+      //   id: 'id-payu-saved-as-preferred',
+      //   langKey: 'payment.saveThisPaymentMethodAsPreferred',
+      //   value: creditCardInfoForm.savedDefaultCardChecked,
+      //   visible: true
+      // }
     ].filter((c) => c.visible);
 
     return (
