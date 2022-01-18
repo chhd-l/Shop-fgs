@@ -433,7 +433,22 @@ class Hcexperts extends React.Component {
         if (key1 === 'expertise') {
           this.handleGotoThree();
         } else if (key1 === 'duree') {
-          this.handleGotoFour();
+          this.setState(
+            {
+              bookSlotVO: {
+                ...this.state.bookSlotVO,
+                dateNo: ''
+              },
+              votre: {
+                ...this.state.votre,
+                date: '',
+                heure: ''
+              }
+            },
+            () => {
+              this.handleGotoFour();
+            }
+          );
         }
       }
     );
@@ -498,7 +513,6 @@ class Hcexperts extends React.Component {
     });
   };
   onChange = (data) => {
-    console.log(data);
     this.setState({
       votre: {
         ...this.state.votre,
