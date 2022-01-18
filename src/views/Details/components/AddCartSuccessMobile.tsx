@@ -53,7 +53,8 @@ const AddCartSuccessMobile = ({
                 style={{
                   width: '35px',
                   height: '35px',
-                  marginBottom: '1.25rem'
+                  marginBottom: '1.25rem',
+                  display:"inline-block"
                 }}
                 viewBox="0 0 1024 1024"
                 version="1.1"

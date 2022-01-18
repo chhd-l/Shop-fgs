@@ -17,7 +17,8 @@ import {
   filterOrderId,
   getClubLogo,
   judgeIsIndividual,
-  formatDate
+  formatDate,
+  optimizeImage
 } from '@/utils/utils';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
@@ -1213,7 +1214,10 @@ class AccountOrders extends React.Component {
                                             <LazyLoad style={{ width: '100%' }}>
                                               <img
                                                 className="order-details-img-fluid w-100"
-                                                src={item.pic || IMG_DEFAULT}
+                                                src={
+                                                  optimizeImage(item.pic) ||
+                                                  IMG_DEFAULT
+                                                }
                                                 alt={item.spuName}
                                                 title={item.spuName}
                                               />
@@ -1424,8 +1428,9 @@ class AccountOrders extends React.Component {
                                             <img
                                               className="order-details-img-fluid w-100"
                                               src={
-                                                item.goodsInfoImg ||
-                                                item.pic ||
+                                                optimizeImage(
+                                                  item.goodsInfoImg || item.pic
+                                                ) ||
                                                 getClubLogo({
                                                   goodsInfoFlag:
                                                     item.goodsInfoFlag
