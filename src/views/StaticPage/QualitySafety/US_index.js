@@ -32,18 +32,11 @@ class QualitySafety extends React.Component {
       }
     };
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   componentDidMount() {
     setSeoConfig().then((res) => {
       this.setState({ seoConfig: res });
     });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
   }
 
   render(h) {

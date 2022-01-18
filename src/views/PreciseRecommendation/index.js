@@ -110,9 +110,7 @@ class PreciseRecommendation extends React.Component {
     this.getProductInfo();
   }
 
-  componentWillUnmount() {
-    // localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
 
   render() {
     const ru = window.__.env.REACT_APP_COUNTRY == 'ru';

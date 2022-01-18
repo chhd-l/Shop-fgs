@@ -173,9 +173,7 @@ class Details extends React.Component {
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
     this.ChangeFormat = this.ChangeFormat.bind(this);
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   async componentDidMount() {
     const { pathname } = this.props.location;
     this.getUrlParam();

@@ -105,7 +105,6 @@ class Prescription extends React.Component {
   }
   componentWillUnmount() {
     sessionItemRoyal.remove('clinic-reselect');
-    localItemRoyal.set('isRefresh', true);
   }
 
   hubGaModalPopup() {

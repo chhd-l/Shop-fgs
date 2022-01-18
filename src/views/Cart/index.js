@@ -28,9 +28,7 @@ class Cart extends React.Component {
       pet: {}
     };
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   UNSAFE_componentWillMount() {
     isHubGA && this.getPetVal();
   }

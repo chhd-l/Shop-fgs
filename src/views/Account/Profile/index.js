@@ -83,9 +83,7 @@ class AccountProfile extends React.Component {
       successMsg: ''
     };
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   componentDidMount() {
     myAccountPushEvent('Personal information');
 
@@ -94,11 +92,7 @@ class AccountProfile extends React.Component {
     }).then((res) => {
       this.setState({ seoConfig: res });
     });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
+
     this.queryCustomerBaseInfo();
   }
   get userInfo() {

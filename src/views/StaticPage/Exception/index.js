@@ -24,11 +24,6 @@ class Exception extends React.Component {
     setSeoConfig().then((res) => {
       this.setState({ seoConfig: res });
     });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
   }
   render() {
     let { location, match, history } = this.props;
