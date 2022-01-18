@@ -119,9 +119,7 @@ class FelinRecommendation extends React.Component {
     };
   }
 
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   async componentDidMount() {
     let id = this.props.match.params.id;
     setSeoConfig({
@@ -283,11 +281,6 @@ class FelinRecommendation extends React.Component {
         }
         this.props.history.push('/cats');
       });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
   }
   checkoutStock() {
     let { productList, outOfStockProducts, inStockProducts, modalList } =

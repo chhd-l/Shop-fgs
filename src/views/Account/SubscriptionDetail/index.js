@@ -310,9 +310,7 @@ class SubscriptionDetail extends React.Component {
     }
   };
 
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
 
   async componentDidMount() {
     setSeoConfig({

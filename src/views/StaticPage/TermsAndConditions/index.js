@@ -29,15 +29,8 @@ class TermsConditions extends React.Component {
     };
   }
 
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   async componentDidMount() {
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
     const tel = 'tel:' + this.props.configStore.storeContactPhoneNumber;
     const mailAddress = 'mailto:' + this.props.configStore.storeContactEmail;
 

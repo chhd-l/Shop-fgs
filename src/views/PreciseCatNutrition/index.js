@@ -71,9 +71,7 @@ class PreciseCatNutrition extends React.Component {
     });
   }
 
-  componentWillUnmount() {
-    // localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
 
   sendGAHeaderSearch = (event) => {
     this.setState({

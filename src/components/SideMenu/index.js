@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
+import cn from 'classnames';
 import './index.css';
 
 let menuList = [
@@ -58,42 +59,20 @@ let menuList = [
         ? '/about-us/faq'
         : '/about-us/faqs',
     isHubOuterLink: true
+  },
+  {
+    catogery: 'loyaltyProgramme',
+    isShow: Boolean(window.__.env.LOYALTY_PROGRAMME_LINK),
+    icon: <span className="iconfont iconLogoff icon-loyaltyProgramme" />,
+    langKey: 'account.loyaltyProgramme',
+    href: window.__.env.LOYALTY_PROGRAMME_LINK,
+    isOuterLink: true
   }
-  // {
-  //   catogery: 'Faq',
-  //   icon: <span className="iconfont iconzhuanfa"></span>,
-  //   langKey: 'account.monRoyalCanin',
-  //   url: '/faq'
-  // },
-  // {
-  //   catogery: 'ShippingAddress',
-  //   icon: <span className="rc-icon rc-cart--xs rc-iconography" />,
-  //   langKey: 'shippingAddress',
-  //   url: '/account/shippingAddress'
-  // },
-  // {
-  //   catogery: 'PaymentMethod',
-  //   icon: <span className="rc-icon rc-cart--xs rc-iconography" />,
-  //   langKey: 'paymentMethod',
-  //   url: '/account/paymentMethod'
-  // }
 ];
 class SideMenu extends React.Component {
   static defaultProps = {
     customCls: ''
   };
-  componentDidMount() {
-    if (window.__.env.LOYALTY_PROGRAMME_LINK) {
-      menuList.push({
-        catogery: 'loyaltyProgramme',
-        isShow: Boolean(window.__.env.LOYALTY_PROGRAMME_LINK),
-        icon: <span className="iconfont iconLogoff icon-loyaltyProgramme" />,
-        langKey: 'account.loyaltyProgramme',
-        href: window.__.env.LOYALTY_PROGRAMME_LINK,
-        isOuterLink: true
-      });
-    }
-  }
   render() {
     const { type } = this.props;
     return (
@@ -101,38 +80,39 @@ class SideMenu extends React.Component {
         className={`my__account-navigation rc-column rc-padding-top--xs--desktop rc-padding-bottom--none ${this.props.customCls}`}
       >
         {/* 俄罗斯隐藏掉 Faq */}
-        {menuList.map((item, i) => (
-          <h2
-            key={i}
-            className={`nav_item medium ui-cursor-pointer mb-4 ${
-              type === item.catogery ? 'active red' : ''
-            } ${item.isShow ? '' : 'hidden'}
-            `}
-          >
-            <FormattedMessage id={item.langKey}>
-              {(txt) => (
-                <>
-                  {item.icon}
-                  <span className="ml-2">
-                    {item.isOuterLink ? (
-                      <a href={item.href} target="_blank">
-                        {txt}
-                      </a>
-                    ) : item.isHubOuterLink ? (
-                      <DistributeHubLinkOrATag to={item.url} href={item.href}>
-                        {txt}
-                      </DistributeHubLinkOrATag>
-                    ) : (
-                      <Link to={item.url} title={txt} alt={txt}>
-                        {txt}
-                      </Link>
-                    )}
-                  </span>
-                </>
-              )}
-            </FormattedMessage>
-          </h2>
-        ))}
+        {menuList
+          .filter((m) => m.isShow)
+          .map((item, i) => (
+            <h2
+              key={i}
+              className={cn('nav_item medium ui-cursor-pointer mb-4', {
+                'active red': type === item.catogery
+              })}
+            >
+              <FormattedMessage id={item.langKey}>
+                {(txt) => (
+                  <>
+                    {item.icon}
+                    <span className="ml-2">
+                      {item.isOuterLink ? (
+                        <a href={item.href} target="_blank">
+                          {txt}
+                        </a>
+                      ) : item.isHubOuterLink ? (
+                        <DistributeHubLinkOrATag to={item.url} href={item.href}>
+                          {txt}
+                        </DistributeHubLinkOrATag>
+                      ) : (
+                        <Link to={item.url} title={txt} alt={txt}>
+                          {txt}
+                        </Link>
+                      )}
+                    </span>
+                  </>
+                )}
+              </FormattedMessage>
+            </h2>
+          ))}
         {window.__.env.REACT_APP_HUB_MONROYALCANIN ? (
           <h2
             style={{ borderTop: '1px solid #E9E9E9' }}

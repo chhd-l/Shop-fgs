@@ -89,9 +89,7 @@ class ShippingAddressFrom extends React.Component {
     };
     this.handleTypeChange = this.handleTypeChange.bind(this);
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   componentDidMount() {
     setSeoConfig().then((res) => {
       this.setState(

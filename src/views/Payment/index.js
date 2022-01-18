@@ -583,8 +583,8 @@ class Payment extends React.Component {
   }
 
   componentWillUnmount() {
+    debugger;
     //因设置了router refresh=true，此生命周期无效，需在RouterFilter文件中删除
-    localItemRoyal.set('isRefresh', true);
     sessionItemRoyal.remove('rc-tid');
     sessionItemRoyal.remove('rc-tidList');
     sessionItemRoyal.remove('recommend_product');

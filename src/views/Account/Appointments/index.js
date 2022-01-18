@@ -52,9 +52,7 @@ class AccountOrders extends React.Component {
     this.deviceType = getDeviceType();
     this.handleClickCardItem = this.handleClickCardItem.bind(this);
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   async componentDidMount() {
     myAccountPushEvent('Appointments');
     setSeoConfig({

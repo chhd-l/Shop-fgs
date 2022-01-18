@@ -18,9 +18,7 @@ class CatNutrition extends React.Component {
     this.state = {};
   }
 
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
 
   render(h) {
     const event = {
