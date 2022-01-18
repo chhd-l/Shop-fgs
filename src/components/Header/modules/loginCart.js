@@ -6,7 +6,8 @@ import FrequencyMatch from '@/components/FrequencyMatch';
 import {
   formatMoney,
   distributeLinktoPrecriberOrPaymentPage,
-  getDeviceType
+  getDeviceType,
+  optimizeImage
 } from '@/utils/utils';
 import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
@@ -290,7 +291,7 @@ class LoginCart extends React.Component {
                                 {/* <LazyLoad> */}
                                 <img
                                   className="product-image"
-                                  src={item.goodsInfoImg}
+                                  src={optimizeImage(item.goodsInfoImg)}
                                   alt={item.goodsName}
                                   title={item.goodsName}
                                 />
@@ -412,7 +413,8 @@ class LoginCart extends React.Component {
                                       <img
                                         className="product-image"
                                         src={
-                                          gift.goodsInfoImg || foodDispenserPic
+                                          optimizeImage(gift.goodsInfoImg) ||
+                                          foodDispenserPic
                                         }
                                         alt={gift.goodsInfoName}
                                         title={gift.goodsInfoName}

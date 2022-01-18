@@ -3,7 +3,8 @@ import autoshipIcon from '@/assets/images/autoship.png';
 import {
   getDeviceType,
   isCanVerifyBlacklistPostCode,
-  formatDate
+  formatDate,
+  optimizeImage
 } from '@/utils/utils';
 import FrequencyMatch from '@/components/FrequencyMatch';
 import { FormattedMessage } from 'react-intl-phraseapp';
@@ -46,7 +47,7 @@ const AutoshipItem = ({ subItem, history }) => {
                     display: 'inline-block'
                   }}
                   key={item.spuId}
-                  src={item.goodsPic || IMG_DEFAULT}
+                  src={optimizeImage(item.goodsPic) || IMG_DEFAULT}
                   alt={item.goodsName}
                   title={item.goodsName}
                 />

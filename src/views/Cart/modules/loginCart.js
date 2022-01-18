@@ -17,7 +17,8 @@ import {
   unique,
   cancelPrevRequest,
   handleRecommendation,
-  isShowMixFeeding
+  isShowMixFeeding,
+  optimizeImage
 } from '@/utils/utils';
 import {
   GAInitLogin,
@@ -788,7 +789,7 @@ class LoginCart extends React.Component {
                 <LazyLoad>
                   <img
                     className="w-100"
-                    src={pitem.goodsInfoImg}
+                    src={optimizeImage(pitem.goodsInfoImg)}
                     alt={pitem.goodsName}
                     title={pitem.goodsName}
                   />
@@ -994,7 +995,7 @@ class LoginCart extends React.Component {
                 <div className="name-info flex-column-gift rc-main-content__wrapper d-flex">
                   <img
                     className="img"
-                    src={gift.goodsInfoImg || foodDispenserPic}
+                    src={optimizeImage(gift.goodsInfoImg) || foodDispenserPic}
                     alt="goods Information Image"
                   />
                   <div className="mobile-text-center">
