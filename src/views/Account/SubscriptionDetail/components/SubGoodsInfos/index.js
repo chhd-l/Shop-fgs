@@ -7,7 +7,7 @@ import ChangeSelection from './ChangeSelection';
 import DailyRation from '../DailyRation';
 import ShowErrorDom from '../ShowErrorDom';
 export const SubGoodsInfosContext = createContext();
-import { getDeviceType, formatMoney } from '@/utils/utils';
+import { getDeviceType, formatMoney, optimizeImage } from '@/utils/utils';
 
 const SubGoodsInfos = ({
   triggerShowChangeProduct,
@@ -149,7 +149,7 @@ const SubGoodsInfos = ({
                   <div className="for-mobile-colum">
                     {/* <LazyLoad> */}
                     <img
-                      src={el.goodsPic || IMG_DEFAULT}
+                      src={optimizeImage(el.goodsPic) || IMG_DEFAULT}
                       style={{ width: '100px' }}
                       alt={el.goodsName}
                     />
@@ -170,7 +170,8 @@ const SubGoodsInfos = ({
                                 triggerShowChangeProduct,
                                 {
                                   show: true,
-                                  firstShow: !triggerShowChangeProduct.firstShow,
+                                  firstShow:
+                                    !triggerShowChangeProduct.firstShow,
                                   goodsInfo: [el],
                                   isShowModal: true
                                 }
@@ -339,7 +340,7 @@ const SubGoodsInfos = ({
                           {/* <LazyLoad> */}
                           <img
                             style={{ maxHeight: '100%' }}
-                            src={el.goodsPic || IMG_DEFAULT}
+                            src={optimizeImage(el.goodsPic) || IMG_DEFAULT}
                             alt={el.goodsName}
                           />
                           {/* </LazyLoad> */}
@@ -488,7 +489,8 @@ const SubGoodsInfos = ({
                                       triggerShowChangeProduct,
                                       {
                                         show: true,
-                                        firstShow: !triggerShowChangeProduct.firstShow,
+                                        firstShow:
+                                          !triggerShowChangeProduct.firstShow,
                                         goodsInfo: [el],
                                         isShowModal: true
                                       }

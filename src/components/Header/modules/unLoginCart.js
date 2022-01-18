@@ -5,7 +5,8 @@ import LoginButton from '@/components/LoginButton';
 import {
   formatMoney,
   distributeLinktoPrecriberOrPaymentPage,
-  getDeviceType
+  getDeviceType,
+  optimizeImage
 } from '@/utils/utils';
 import FrequencyMatch from '@/components/FrequencyMatch';
 import find from 'lodash/find';
@@ -332,10 +333,10 @@ class UnloginCart extends React.Component {
                               {/* <LazyLoad> */}
                               <img
                                 className="product-image"
-                                src={
+                                src={optimizeImage(
                                   find(item.sizeList, (s) => s.selected)
                                     .goodsInfoImg
-                                }
+                                )}
                                 alt={item.goodsName}
                                 title={item.goodsName}
                               />
@@ -463,7 +464,10 @@ class UnloginCart extends React.Component {
                                   {/* <LazyLoad> */}
                                   <img
                                     className="product-image"
-                                    src={gift.goodsInfoImg || foodDispenserPic}
+                                    src={
+                                      optimizeImage(gift.goodsInfoImg) ||
+                                      foodDispenserPic
+                                    }
                                     alt={gift.goodsInfoName}
                                     title={gift.goodsInfoName}
                                   />

@@ -5,7 +5,7 @@ import { inject } from 'mobx-react';
 import Rate from '@/components/Rate';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import { getDeviceType, formatMoney } from '@/utils/utils';
+import { getDeviceType, formatMoney, optimizeImage } from '@/utils/utils';
 import { IMG_DEFAULT } from '@/utils/constant';
 import InlineRatings from '@/components/BazaarVoice/inlineRatings';
 import InstockStatusComp from '@/components/InstockStatusComp/index.tsx';
@@ -219,13 +219,13 @@ function ListItemH5ForGlobalStyle(props) {
                 >
                   <img
                     src={
-                      item.goodsImg || item.goodsInfos
-                        ? item.goodsImg ||
-                          item.goodsInfos.sort(
+                      optimizeImage(
+                        item.goodsImg ||
+                          item.goodsInfos?.sort(
                             (a, b) => a.marketPrice - b.marketPrice
-                          )[0]?.goodsInfoImg ||
-                          IMG_DEFAULT
-                        : ''
+                          )[0]?.goodsInfoImg,
+                        300
+                      ) || IMG_DEFAULT
                     }
                     srcSet={item?.goodsImgSrcSet || ''}
                     alt={item.goodsName}
@@ -460,11 +460,13 @@ function ListItemForDefault(props) {
                   >
                     <img
                       src={
-                        item.goodsImg ||
-                        item?.goodsInfos?.sort(
-                          (a, b) => a.marketPrice - b.marketPrice
-                        )[0]?.goodsInfoImg ||
-                        IMG_DEFAULT
+                        optimizeImage(
+                          item.goodsImg ||
+                            item.goodsInfos?.sort(
+                              (a, b) => a.marketPrice - b.marketPrice
+                            )[0]?.goodsInfoImg,
+                          300
+                        ) || IMG_DEFAULT
                       }
                       srcSet={item?.goodsImgSrcSet || ''}
                       alt={`${item.goodsName} product image`}
