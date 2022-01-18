@@ -395,6 +395,8 @@ class SubscriptionDetail extends React.Component {
               />
             );
           }
+          item.oldSubscribeNum = item.subscribeNum;
+          item.oldPeriodTypeId = item.periodTypeId;
           return item;
         }) || []; //防止商品被删报错
       let isCat =
@@ -618,32 +620,38 @@ class SubscriptionDetail extends React.Component {
     try {
       let param = {
         subscribeId: subDetail.subscribeId,
-        subscribeStatus: subDetail.subscribeStatus,
-        changeField: 'productNumberOrFrequency'
+        subscribeStatus: subDetail.subscribeStatus
       };
-      Object.assign(param, {
-        goodsItems: subDetail.goodsInfo?.map((el) => {
-          return {
-            skuId: el.skuId,
-            subscribeNum: el.subscribeNum,
-            subscribeGoodsId: el.subscribeGoodsId,
-            periodTypeId: el.periodTypeId
-          };
-        })
+      let changeField = [];
+      let goodsItems = subDetail.goodsInfo?.map((el) => {
+        if (
+          el.subscribeNum !== el.oldSubscribeNum &&
+          !changeField.includes('productNumber')
+        ) {
+          changeField.push('productNumber');
+        }
+        if (
+          el.periodTypeId !== el.oldPeriodTypeId &&
+          !changeField.includes('frequency')
+        ) {
+          changeField.push('frequency');
+        }
+        return {
+          skuId: el.skuId,
+          subscribeNum: el.subscribeNum,
+          subscribeGoodsId: el.subscribeGoodsId,
+          periodTypeId: el.periodTypeId
+        };
       });
-      // await checkSubscriptionAddressPickPoint({
-      //   subscribeId: subDetail.subscribeId,
-      //   goodsItems: subDetail.goodsInfo?.map((el) => {
-      //     return {
-      //       skuId: el.skuId,
-      //       subscribeNum: el.subscribeNum,
-      //       subscribeGoodsId: el.subscribeGoodsId,
-      //       subscribeId: el.subscribeId
-      //     };
-      //   }),
-      //   paymentId: subDetail.paymentId,
-      //   deliveryAddressId: subDetail.deliveryAddressId
+      Object.assign(param, {
+        goodsItems: goodsItems,
+        changeField: changeField.length > 0 ? changeField.join(',') : ''
+      });
+      // let checkSubAddressPickPointParams = Object.assign({}, param, {
+      //   paymentId: subDetail?.paymentId,
+      //   deliveryAddressId: subDetail?.deliveryAddressId
       // });
+      // await checkSubscriptionAddressPickPoint(checkSubAddressPickPointParams);
       await this.doUpdateDetail(param);
       await this.getDetail();
       this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success');
