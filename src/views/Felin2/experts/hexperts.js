@@ -57,34 +57,31 @@ class Hcexperts extends React.Component {
           valueEn: 'Behaviorist',
           src: cat1,
           name: 'Expert en comportement',
-          text:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         },
         {
           valueEn: 'Nutritionist',
           src: cat2,
           name: 'Expert en nutrition',
-          text:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ornare erat sit amet turpis vulputate, a consectetur mi dapibus.'
         }
       ],
       timeList: [
         {
           duration: 15,
-          text:
-            'Rapide et facile, échangez avec un expert pour reçevoir ses conseils et commencer le suivi de votre chat.'
+          text: 'Séance découverte avec l’expert sélectionné.'
         },
         {
           duration: 30,
-          text: 'Allez plus en détails avec lexpert sélectionné.'
+          text: 'Échangez avec un expert pour recevoir quelques conseils clefs selon les besoins de votre chat.'
         },
         {
           duration: 45,
-          text: 'Prenez le temps de vous offrir une session complète.'
+          text: 'Creusez les problématiques identifiées avec l’expert et définissez des solutions pour les traiter sur le long terme.'
         },
         {
           duration: 60,
-          text: 'Prenez le temps de vous offrir une session complète.'
+          text: 'Nous approfondirons chaque aspect de la vie de votre chat pour vous proposer des solutions adaptées à vos possibilités.'
         }
       ],
       isShow: true,
@@ -436,7 +433,22 @@ class Hcexperts extends React.Component {
         if (key1 === 'expertise') {
           this.handleGotoThree();
         } else if (key1 === 'duree') {
-          this.handleGotoFour();
+          this.setState(
+            {
+              bookSlotVO: {
+                ...this.state.bookSlotVO,
+                dateNo: ''
+              },
+              votre: {
+                ...this.state.votre,
+                date: '',
+                heure: ''
+              }
+            },
+            () => {
+              this.handleGotoFour();
+            }
+          );
         }
       }
     );
@@ -501,7 +513,6 @@ class Hcexperts extends React.Component {
     });
   };
   onChange = (data) => {
-    console.log(data);
     this.setState({
       votre: {
         ...this.state.votre,

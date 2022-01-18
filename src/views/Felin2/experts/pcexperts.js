@@ -78,18 +78,15 @@ class Pcexperts extends React.Component {
         },
         {
           duration: 30,
-          text:
-            'Échangez avec un expert pour recevoir quelques conseils clefs selon les besoins de votre chat.'
+          text: 'Échangez avec un expert pour recevoir quelques conseils clefs selon les besoins de votre chat.'
         },
         {
           duration: 45,
-          text:
-            'Creusez les problématiques identifiées avec l’expert et définissez des solutions pour les traiter sur le long terme.'
+          text: 'Creusez les problématiques identifiées avec l’expert et définissez des solutions pour les traiter sur le long terme.'
         },
         {
           duration: 60,
-          text:
-            'Nous approfondirons chaque aspect de la vie de votre chat pour vous proposer des solutions adaptées à vos possibilités.'
+          text: 'Nous approfondirons chaque aspect de la vie de votre chat pour vous proposer des solutions adaptées à vos possibilités.'
         }
       ],
       isShow: true,
@@ -463,6 +460,19 @@ class Pcexperts extends React.Component {
         [key2]: value
       }
     });
+    if (key2 === 'prix') {
+      this.setState({
+        bookSlotVO: {
+          ...this.state.bookSlotVO,
+          dateNo: ''
+        },
+        votre: {
+          ...this.state.votre,
+          date: '',
+          heure: ''
+        }
+      });
+    }
   };
   queryDate = (type = false, chooseData = {}) => {
     setTimeout(async () => {
