@@ -77,7 +77,7 @@ const JoinTodayNew = () => {
                           <button
                             onClick={() => {
                               window.__.env.REACT_APP_COUNTRY == 'ru' &&
-                                dataLayer.push({
+                                window?.dataLayer?.push({
                                   event: 'ruClubSubscriptionCtA',
                                   ruClubSubscriptionCtAName:
                                     'Choose a diet - Middle'

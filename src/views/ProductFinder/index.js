@@ -77,7 +77,7 @@ class ProductFinder extends React.Component {
 
   GAHandle = (stepName, stepOrder, answerdQuestionList) => {
     if (!dataLayer) return;
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: 'virtualPageView',
       page: {
         type: 'Product Finder',

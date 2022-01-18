@@ -284,7 +284,7 @@ function AboutPet() {
       mixed_breed: 'Mixed',
       unknown: 'Unknown'
     };
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: 'individualizationLandingFormClick',
       result: resultObj[data.next], //value should be one the trees user journeys: 'Recommendation','Product Finder' or 'Vet'
       breed: breed[filter.breedCode]
