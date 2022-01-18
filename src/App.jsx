@@ -34,6 +34,7 @@ import { useDynamicLanguage } from '@/framework/common';
 import RouteFilter from '@/components/RouteFilter';
 import RouteFilterHook from '@/components/RouteFilter/RouteFilterHook';
 import { initializePhraseAppEditor } from 'react-intl-phraseapp';
+import './vconsole';
 
 const Home = loadable(() => import('@/views/Home'), 'rc-carousel');
 
