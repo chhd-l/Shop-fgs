@@ -617,7 +617,7 @@ class LoginCart extends React.Component {
         sku: product.goodsInfoNo
       }
     ];
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComRemoveFromCart`,
       ecommerce: {
         remove: {
@@ -640,7 +640,7 @@ class LoginCart extends React.Component {
 
     !isHubGA && this.GARemoveFromCart(productList[currentProductIdx]);
     isHubGA &&
-      dataLayer.push({
+      window?.dataLayer?.push({
         event: 'removeFromCart'
       });
   }

@@ -213,7 +213,7 @@ const SubsriptionBenefitsNew = () => {
               <button
                 onClick={() => {
                   window.__.env.REACT_APP_COUNTRY == 'ru' &&
-                    dataLayer.push({
+                    window?.dataLayer?.push({
                       event: 'ruClubSubscriptionCtA',
                       ruClubSubscriptionCtAName: 'Join the club - Middle'
                     });

@@ -41,8 +41,8 @@ class WeekCalender extends Component {
       let nowDate = moment(_date).format('YYYYMMDD');
       let currentDate = dateList[nowDate] || {};
       let list = await this.intervals(
-        moment(_date).format('YYYYMMDD 09:00'),
-        moment(_date).format('YYYYMMDD 17:00'),
+        moment(_date).format('YYYYMMDD 10:00'),
+        moment(_date).format('YYYYMMDD 20:00'),
         currentDate
       );
       weekDate.push({

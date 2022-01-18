@@ -126,11 +126,11 @@ const hubGAProductDetailPageView = (item, pdpScreenLoadData) => {
   };
   const product = filterObjectValue(GAProductsInfo);
   if (window.dataLayer) {
-    dataLayer.push({
+    dataLayer?.push({
       products: [product]
     });
     setTimeout(() => {
-      dataLayer.push({
+      dataLayer?.push({
         event: 'pdpScreenLoad',
         pdpScreenLoadCTAs: getPdpScreenLoadCTAs(pdpScreenLoadData)
       });
@@ -140,7 +140,7 @@ const hubGAProductDetailPageView = (item, pdpScreenLoadData) => {
 
 //hub加入购物车，埋点
 const hubGAAToCar = (quantity, form) => {
-  window.dataLayer.push({
+  window?.dataLayer?.push({
     event: 'pdpAddToCart',
     pdpAddToCartQuantity: quantity,
     pdpAddToCartCtA: { 0: 'One Shot', 1: 'Subscription', 2: 'Club' }[

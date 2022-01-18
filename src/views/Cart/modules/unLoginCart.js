@@ -384,7 +384,7 @@ class UnLoginCart extends React.Component {
   }
   GAAccessToGuestCheck() {
     if (isHubGA) return;
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: `${window.__.env.REACT_APP_GTM_SITE_ID}guestCheckout`,
       interaction: {
         category: 'checkout',
@@ -564,7 +564,7 @@ class UnLoginCart extends React.Component {
         sku: goodsInfoNo
       }
     ];
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComRemoveFromCart`,
       ecommerce: {
         remove: {
@@ -586,7 +586,7 @@ class UnLoginCart extends React.Component {
         this.updateStock();
         !isHubGA && this.GARemoveFromCart(product);
         isHubGA &&
-          dataLayer.push({
+          window?.dataLayer?.push({
             event: 'removeFromCart'
           });
         this.queryEmptyCartSeo();

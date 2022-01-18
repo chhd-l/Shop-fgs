@@ -583,12 +583,16 @@ class Payment extends React.Component {
   }
 
   componentWillUnmount() {
-    debugger;
     //因设置了router refresh=true，此生命周期无效，需在RouterFilter文件中删除
     sessionItemRoyal.remove('rc-tid');
     sessionItemRoyal.remove('rc-tidList');
+    sessionItemRoyal.remove('rc-swishQrcode');
+    sessionItemRoyal.remove('rc-createSwishQrcodeTime');
     sessionItemRoyal.remove('recommend_product');
     sessionItemRoyal.remove('orderSource');
+    sessionItemRoyal.remove('appointment-no');
+    sessionItemRoyal.remove('isChangeAppoint');
+    sessionItemRoyal.remove('oldAppointNo');
   }
 
   get billingAdd() {

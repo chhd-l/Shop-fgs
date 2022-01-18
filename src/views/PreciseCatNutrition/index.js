@@ -303,7 +303,7 @@ class PreciseCatNutrition extends React.Component {
                                 <a
                                   onClick={() => {
                                     this.toScroll('aboutPet');
-                                    dataLayer.push({
+                                    window?.dataLayer?.push({
                                       event: 'individualizationLandingClick',
                                       position: 'Did you know' //value should be one the trees positions : 'Top promotion','Did you know' or 'Reinsurance'
                                     });

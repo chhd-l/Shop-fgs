@@ -192,6 +192,7 @@ class SubscriptionDetail extends React.Component {
   cancelEdit = () => {
     this.setState({ type: 'main' });
   };
+
   // 返回某个地方
   scrollToWhere = (str) => {
     let pstit = document.getElementById(str);
@@ -202,115 +203,70 @@ class SubscriptionDetail extends React.Component {
 
   addressSave = (el, isBillSame, fn) => {
     const { subDetail } = this.state;
-    // console.log(el, isBillSame);
+    const { intl } = this.props;
+    let changeField = '';
     this.scrollToWhere('page-top');
-    // this.scrollToWhere('sub-user-paymentinfo-title');
     console.log('this.state.addressType:', this.state.addressType);
+    let param = {
+      subscribeId: subDetail.subscribeId,
+      goodsItems: subDetail.goodsInfo.map((el) => {
+        return {
+          skuId: el.skuId,
+          subscribeNum: el.subscribeNum,
+          subscribeGoodsId: el.subscribeGoodsId
+        };
+      })
+    };
     if (this.state.addressType === 'delivery') {
-      // checkSubscriptionAddressPickPoint({
-      //   subscribeId: subDetail.subscribeId,
-      //   goodsItems: subDetail.goodsInfo?.map((el) => {
-      //     return {
-      //       skuId: el.skuId,
-      //       subscribeNum: el.subscribeNum,
-      //       subscribeGoodsId: el.subscribeGoodsId,
-      //       subscribeId: el.subscribeId
-      //     };
-      //   }),
-      //   paymentId: subDetail.paymentId,
-      //   deliveryAddressId: el.deliveryAddressId
-      // })
+      param.deliveryAddressId = el.deliveryAddressId;
+      // let checkSubAddressPickPointParams=Object.assign({},param,{paymentId: subDetail?.paymentId})
+      // checkSubscriptionAddressPickPoint(checkSubAddressPickPointParams)
       //   .then()
       //   .catch((err) => {
       //     this.setState({ showTempolineError: err.message });
       //     return;
       //   });
-      let param = {
-        subscribeId: subDetail.subscribeId,
-        deliveryAddressId: el.deliveryAddressId,
-        goodsItems: subDetail.goodsInfo.map((el) => {
-          return {
-            skuId: el.skuId,
-            subscribeNum: el.subscribeNum,
-            subscribeGoodsId: el.subscribeGoodsId
-          };
-        })
-      };
       if (isBillSame) {
         param.billingAddressId = el.deliveryAddressId;
       }
       //订阅寄送地址和发票地址更改,在更新接口里面加上changeField参数为deliveryAddressId和billingAddressId的title
-      let title = '';
-      //寄送地址
-      title = this.props.intl.messages['subscription.shippingAddress'];
-      //如果勾选了同步发票地址,两个地址以逗号隔开传给后台
+      changeField = intl.messages['subscription.shippingAddress'];
       if (param.billingAddressId) {
-        title =
-          title + ',' + this.props.intl.messages['subscription.BillingAddress'];
+        changeField =
+          changeField + ',' + intl.messages['subscription.BillingAddress'];
       }
-      //增加返回changeField字段
-      Object.assign(param, {
-        changeField: title
+    } else {
+      param.billingAddressId = el.deliveryAddressId;
+      changeField = intl.messages['subscription.BillingAddress'];
+    }
+    param.changeField = changeField;
+    this.setState({ loading: true });
+    updateDetail(param)
+      .then((res) => {
+        fn && fn();
+        this.getDetail(
+          this.showErrMsg.bind(
+            this,
+            this.props.intl.messages.saveSuccessfullly,
+            'success'
+          )
+        );
+      })
+      .catch((err) => {
+        this.setState({ loading: false });
       });
-      // console.log(param);
-      this.setState({ loading: true });
-      updateDetail(param)
-        .then((res) => {
-          fn && fn();
-          this.getDetail(
-            this.showErrMsg.bind(
-              this,
-              this.props.intl.messages.saveSuccessfullly,
-              'success'
-            )
-          );
-        })
-        .catch((err) => {
-          this.setState({ loading: false });
-        });
+    if (this.state.addressType === 'delivery') {
       this.setState({
         type: 'main',
         currentDeliveryAddress: el
       });
     } else {
-      let param = {
-        subscribeId: this.state.subDetail.subscribeId,
-        billingAddressId: el.deliveryAddressId,
-        goodsItems: this.state.subDetail.goodsInfo.map((el) => {
-          return {
-            skuId: el.skuId,
-            subscribeNum: el.subscribeNum,
-            subscribeGoodsId: el.subscribeGoodsId
-          };
-        })
-      };
-      //增加返回changeField字段
-      Object.assign(param, {
-        changeField: this.props.intl.messages['subscription.BillingAddress']
-      });
-      // console.log(param);
-      this.setState({ loading: true });
-      updateDetail(param)
-        .then((res) => {
-          this.getDetail(
-            this.showErrMsg.bind(
-              this,
-              this.props.intl.messages.saveSuccessfullly,
-              'success'
-            )
-          );
-        })
-        .catch((err) => {
-          this.setState({ loading: false });
-        });
       this.setState({
         type: 'main',
         currentBillingAddress: el
       });
     }
   };
-
-  componentWillUnmount() {}
 
   async componentDidMount() {
     setSeoConfig({
@@ -336,12 +292,13 @@ class SubscriptionDetail extends React.Component {
       // 邮件展示需要绑定宠物
       needBindPet && this.setState({ triggerShowAddNewPet: true });
       let goodsInfo = [...this.state.subDetail.goodsInfo];
-      let isIndv = this.state.subDetail.subscriptionType == 'Individualization';
+      let isIndv =
+        this.state.subDetail.subscriptionType === 'Individualization';
       // 非激活状态就不展示
       // 如果一进来就需要被动更换商品,删除以前所有商品  2个以上不用推荐  不是创建的时候就展示，需要第一次换粮邮件时才展示
       !isIndv &&
-        goodsInfo?.length == 1 &&
-        this.state.subDetail.petsLifeStageFlag == 1 &&
+        goodsInfo?.length === 1 &&
+        this.state.subDetail.petsLifeStageFlag === 1 &&
         this.state.isNotInactive &&
         this.setState({
           triggerShowChangeProduct: {
@@ -407,7 +364,6 @@ class SubscriptionDetail extends React.Component {
 
   getGoodsRations = async (subDetail, isIndv) => {
     let petsId = subDetail.petsInfo?.petsId;
-
     return subDetail.petsInfo;
   };
 
@@ -425,17 +381,13 @@ class SubscriptionDetail extends React.Component {
       subDetail.goodsInfo =
         subDetail.goodsInfo?.map((item) => {
           if (isIndv) {
-            // item.spuName = `${item.petsName}'s personalized subscription`;
             item.spuName = (
               <FormattedMessage
                 id="subscription.personalized"
                 values={{ val1: item.petsName }}
               />
             );
-
-            // item.specDetails = item.num / 1000 + 'kg';
             item.num = 1;
-            // item.goodsName = `${subDetail?.petsInfo?.petsName}'s personalized subscription`;
             item.goodsName = (
               <FormattedMessage
                 id="subscription.personalized"

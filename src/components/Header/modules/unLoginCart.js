@@ -62,13 +62,13 @@ class UnloginCart extends React.Component {
   }
   GAAccessToGuestCheck(type) {
     this.hubGA
-      ? dataLayer.push({
+      ? window?.dataLayer?.push({
           event: 'cartHeaderClicks',
           cartHeaderClicks: {
             button: type == 'buyNow' ? 'Buy now' : 'Continue as a Guest'
           }
         })
-      : dataLayer.push({
+      : window?.dataLayer?.push({
           event: `${window.__.env.REACT_APP_GTM_SITE_ID}guestCheckout`,
           interaction: {
             category: 'checkout',
@@ -134,7 +134,7 @@ class UnloginCart extends React.Component {
 
   EditToCart = () => {
     this.hubGA &&
-      dataLayer.push({
+      window?.dataLayer?.push({
         event: 'cartHeaderClicks',
         cartHeaderClicks: {
           button: 'Edit'

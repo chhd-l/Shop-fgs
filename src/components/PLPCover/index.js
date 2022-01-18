@@ -500,6 +500,12 @@ function ListItemBodyH5ForGlobalStyle({ item, configStore }) {
     window.__.env.REACT_APP_COUNTRY === 'tr' ||
     window.__.env.REACT_APP_COUNTRY === 'uk';
   const hiddenPrice = vetProduct && trFrUk;
+  // vet商品，不可销售，但是展示在前台，隐藏库存（fr）
+  const hiddenStock =
+    vetProduct &&
+    !item.saleableFlag &&
+    item.displayFlag &&
+    window.__.env.REACT_APP_HIDDEN_STOCK;
   const inStock =
     (item?.goodsInfos ?? [])
       .concat(item?.goodsInfoVOS ?? [])
@@ -528,9 +534,11 @@ function ListItemBodyH5ForGlobalStyle({ item, configStore }) {
       {hiddenPrice ? null : (
         <PriceItemShow item={item} configStore={configStore} />
       )}
-      <div className="plp-stock-status py-2">
-        <InstockStatusComp status={inStock} />
-      </div>
+      {hiddenStock ? null : (
+        <div className="plp-stock-status py-2">
+          <InstockStatusComp status={inStock} />
+        </div>
+      )}
     </div>
   );
 }
@@ -752,12 +760,17 @@ const PriceItemShow = ({ item, configStore }) => {
 };
 function ListItemBody({ item, headingTag, configStore }) {
   const vetProduct = item?.goodsCate?.cateName?.toLowerCase()?.includes('vet');
-  console.log(vetProduct, 'VVVV');
   const trFrUk =
     window.__.env.REACT_APP_COUNTRY === 'fr' ||
     window.__.env.REACT_APP_COUNTRY === 'tr' ||
     window.__.env.REACT_APP_COUNTRY === 'uk';
   const hiddenPrice = vetProduct && trFrUk;
+  // vet商品，不可销售，但是展示在前台，隐藏库存（fr）
+  const hiddenStock =
+    vetProduct &&
+    !item.saleableFlag &&
+    item.displayFlag &&
+    window.__.env.REACT_APP_HIDDEN_STOCK;
   const goodHeading = `<${headingTag ? headingTag : 'h2'}
       class="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center"
       title="${item?.goodsName}">
@@ -800,9 +813,11 @@ function ListItemBody({ item, headingTag, configStore }) {
               {item.goodsNewSubtitle}
             </div>
           ) : null} */}
-        <div className="rc-card__meta text-center plp-stock-status">
-          <InstockStatusComp status={inStock} />
-        </div>
+        {hiddenStock ? null : (
+          <div className="rc-card__meta text-center plp-stock-status">
+            <InstockStatusComp status={inStock} />
+          </div>
+        )}
       </>
     </div>
   );

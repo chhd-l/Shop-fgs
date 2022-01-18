@@ -306,7 +306,7 @@ class ProductFinderResult extends React.Component {
     //   dataLayer[0].search.type = 'with results';
     // }
 
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComProductImpression`,
       ecommerce: {
         impressions: impressions
@@ -316,7 +316,7 @@ class ProductFinderResult extends React.Component {
   //点击商品 埋点
   GAProductClick = (item, index) => {
     console.info('test', item);
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComProductClick`,
       ecommerce: {
         click: {
