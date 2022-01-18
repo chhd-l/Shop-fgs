@@ -53,9 +53,7 @@ class ClubLandingPageDeVet extends React.Component {
       this.setState({ seoConfig: res });
     });
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   sendGAHeaderSearch = (event) => {
     this.setState({
       searchEvent: event

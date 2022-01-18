@@ -69,9 +69,7 @@ class PetForm extends React.Component {
       recommendData: []
     };
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   async componentDidMount() {
     setSeoConfig().then((res) => {
       this.setState({ seoConfig: res });

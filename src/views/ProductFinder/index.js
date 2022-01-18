@@ -45,6 +45,8 @@ class ProductFinder extends React.Component {
     this.seletTheType = this.seletTheType.bind(this);
   }
   componentDidMount() {
+    sessionItemRoyal.remove('product-finder-edit-order');
+    sessionItemRoyal.remove('pf-result');
     this.GAHandle('speciesCode');
     //(!isHubGA)&&this.GAHandle('speciesCode');
     setSeoConfig({
@@ -75,7 +77,7 @@ class ProductFinder extends React.Component {
 
   GAHandle = (stepName, stepOrder, answerdQuestionList) => {
     if (!dataLayer) return;
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: 'virtualPageView',
       page: {
         type: 'Product Finder',

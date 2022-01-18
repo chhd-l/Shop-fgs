@@ -412,7 +412,7 @@ class Header extends React.Component {
 
   loginIcon = () => {
     this.hubGA &&
-      dataLayer.push({
+      window?.dataLayer?.push({
         event: 'topPictosClick',
         topPictosClick: {
           itemName: 'Login'
@@ -470,7 +470,7 @@ class Header extends React.Component {
   // 点击menu埋点
   GAClickMenu(interaction) {
     const { category, action, label, value } = interaction;
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: `${window.__.env.REACT_APP_GTM_SITE_ID}clickMenu`,
       interaction: {
         category,
@@ -539,8 +539,13 @@ class Header extends React.Component {
     );
   };
   render() {
-    const { showMiniIcons, showUserIcon, loginStore, configStore, history } =
-      this.props;
+    const {
+      showMiniIcons,
+      showUserIcon,
+      loginStore,
+      configStore,
+      history
+    } = this.props;
     const {
       headerNavigationList,
       headerNavigationListForHub,

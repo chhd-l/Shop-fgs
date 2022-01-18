@@ -33,20 +33,14 @@ class FAQ extends React.Component {
     };
     this.handleSelect = this.handleSelect.bind(this);
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   componentDidMount() {
     setSeoConfig({
       pageName: 'FAQ page'
     }).then((res) => {
       this.setState({ seoConfig: res });
     });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
+
     window.scrollTo({ top: 0 });
     getFaq()
       .then((res) => {

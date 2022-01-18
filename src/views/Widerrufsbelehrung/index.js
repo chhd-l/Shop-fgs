@@ -25,9 +25,7 @@ class Widerrufsbelehrung extends React.Component {
       loading: true
     };
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   componentDidMount() {
     setSeoConfig().then((res) => {
       this.setState({ seoConfig: res });

@@ -1496,7 +1496,7 @@ class SmartFeederSubscription extends Component {
     let variant = cur_selected_size[0].specText;
     let goodsInfoNo = cur_selected_size[0].goodsInfoNo;
     let { form } = this.state;
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComAddToBasket`,
       ecommerce: {
         add: {
@@ -1769,8 +1769,13 @@ class SmartFeederSubscription extends Component {
   };
   render() {
     const { location, history, match } = this.props;
-    const { headerHide, stepName, checkOutErrMsg, goodsDetailTab, enableFlag } =
-      this.state;
+    const {
+      headerHide,
+      stepName,
+      checkOutErrMsg,
+      goodsDetailTab,
+      enableFlag
+    } = this.state;
     let stepCom = null;
     return (
       <div>

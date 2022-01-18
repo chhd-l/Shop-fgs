@@ -21,9 +21,7 @@ class CadeauCoussinChat extends React.Component {
     this.state = {};
   }
 
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   componentDidMount() {}
 
   render(h) {

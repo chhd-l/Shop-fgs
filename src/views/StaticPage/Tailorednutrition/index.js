@@ -29,20 +29,13 @@ class Tailorednutrition extends React.Component {
       }
     };
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   componentDidMount() {
     setSeoConfig({
       pageName: 'Health and nutrition page'
     }).then((res) => {
       this.setState({ seoConfig: res });
     });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
   }
 
   render(h) {

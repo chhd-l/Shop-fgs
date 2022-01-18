@@ -181,9 +181,7 @@ class Subscription extends React.Component {
     this.pageSize = 6;
   }
 
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
 
   async componentDidMount() {
     for (let i = 0; i < 5; i++) {

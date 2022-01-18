@@ -91,7 +91,7 @@ class Filter extends React.Component {
     const attributeName = parentItem?.attributeName || '';
     const attributeDetailName = item?.attributeDetailName || '';
     this.hubGA &&
-      dataLayer.push({
+      window?.dataLayer?.push({
         event: 'plpFilterClick',
         plpFilterClickName: `${attributeName}|${attributeDetailName}`
       });

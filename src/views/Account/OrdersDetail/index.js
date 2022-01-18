@@ -257,9 +257,7 @@ class AccountOrders extends React.Component {
       );
     });
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   get isShowInstallMent() {
     const { details } = this.state;
     return !!details.tradePrice.installmentPrice;

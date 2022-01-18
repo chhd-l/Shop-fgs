@@ -110,9 +110,7 @@ class Help extends React.Component {
     };
   }
 
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   async componentDidMount() {
     setSeoConfig({
       pageName: 'SPT reco landing page'
