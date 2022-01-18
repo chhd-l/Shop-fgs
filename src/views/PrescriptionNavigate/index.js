@@ -93,18 +93,11 @@ class Prescription extends React.Component {
     };
   }
   componentDidMount() {
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
     this.handleInit();
 
     this.getAllPrescription();
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   inputSearchValue = (e) => {
     this.setState({
       keywords: e.target.value

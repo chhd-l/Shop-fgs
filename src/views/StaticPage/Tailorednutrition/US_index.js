@@ -36,9 +36,7 @@ class Tailorednutrition extends React.Component {
       }
     };
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   componentDidMount() {
     setSeoConfig({
       pageName: 'Health and nutrition page'

@@ -208,7 +208,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
       }
     );
     try {
-      dataLayer.push({
+      window?.dataLayer?.push({
         event: 'individualizationRecoAddToCart'
       });
       setLoading(true);

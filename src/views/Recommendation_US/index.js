@@ -424,17 +424,9 @@ class Recommendation extends React.Component {
         this.setState({ noData: true, pageLoading: false, loading: false });
         // this.props.history.push('/home');
       });
-
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
   }
 
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   get addCartBtnStatus() {
     return this.state.inStockProducts.length > 0;
   }

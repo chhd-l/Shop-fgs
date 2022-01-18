@@ -1803,6 +1803,7 @@ const en_US = {
   yes: 'Yes',
   yes2: 'Confirm',
   yourEmailNotVerified: 'Your email has not been verified!',
-  yourPasswordNotVerified: 'Your password has not been verified'
+  yourPasswordNotVerified: 'Your password has not been verified',
+  'Pet.weightTracker': 'Weight Tracker'
 };
 export default en_US;

@@ -71,7 +71,7 @@ const LongBanner = () => {
                   <a
                     onClick={() => {
                       toScroll('aboutPet');
-                      dataLayer.push({
+                      window?.dataLayer?.push({
                         event: 'individualizationLandingClick',
                         position: 'Top promotion' //value should be one the trees positions : 'Top promotion','Did you know' or 'Reinsurance'
                       });

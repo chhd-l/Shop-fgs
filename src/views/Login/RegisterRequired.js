@@ -93,15 +93,8 @@ class RegisterRequired extends Component {
         this.setState({ list: tempArr });
       }
     });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   get isLogin() {
     return this.props.loginStore.isLogin;
   }

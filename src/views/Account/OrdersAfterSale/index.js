@@ -58,11 +58,7 @@ class OrdersAfterSale extends React.Component {
     setSeoConfig().then((res) => {
       this.setState({ seoConfig: res });
     });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
+
     const afterSaleType = sessionItemRoyal.get('rc-after-sale-type');
     if (afterSaleType) {
       this.setState(
@@ -91,9 +87,7 @@ class OrdersAfterSale extends React.Component {
     const { history } = this.props;
     history.goBack();
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   queryDetails() {
     getOrderReturnDetails(this.state.orderNumber)
       .then((res) => {

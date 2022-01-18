@@ -22,9 +22,7 @@ class FAQ extends React.Component {
     };
     this.handleSelect = this.handleSelect.bind(this);
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   componentWillReceiveProps({ planId }) {
     if (planId && this.props.planId != planId) {
       this.getRemainings(planId);

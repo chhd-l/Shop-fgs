@@ -320,7 +320,7 @@ class Felin extends React.Component {
                     />
                     <img
                       className="h-block time-img"
-                      src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/img1.jpg`}
+                      src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/img.jpg`}
                       alt=""
                     />
                   </LazyLoad>

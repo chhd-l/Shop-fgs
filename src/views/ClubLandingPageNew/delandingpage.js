@@ -90,9 +90,7 @@ class ClubLandingPageDe extends React.Component {
   cancelModal = () => {
     this.setState({ showModal: false });
   };
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   sendGAHeaderSearch = (event) => {
     this.setState({
       searchEvent: event

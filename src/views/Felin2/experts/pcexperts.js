@@ -236,7 +236,7 @@ class Pcexperts extends React.Component {
       return { ...item, ..._temp };
     });
     console.log(apptTypeList);
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: 'AtelierFelinStepLoad',
       atelierFelinStepName: 'Apointment type',
       atelierFelinStepNumber: '1'
@@ -301,7 +301,7 @@ class Pcexperts extends React.Component {
         );
         return { ...item, ..._temp };
       });
-      dataLayer.push({
+      window?.dataLayer?.push({
         event: 'AtelierFelinStepLoad',
         atelierFelinStepName: 'Apointment duration',
         atelierFelinStepNumber: '2'
@@ -335,7 +335,7 @@ class Pcexperts extends React.Component {
   };
   // 跳转第四步
   handleGotoFour = () => {
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: 'AtelierFelinStepLoad',
       atelierFelinStepName: 'Timeslot selection',
       atelierFelinStepNumber: '3'
@@ -432,7 +432,7 @@ class Pcexperts extends React.Component {
         this.props.history.push('/checkout');
       } else {
         if (!this.state.userInfo) {
-          dataLayer.push({
+          window?.dataLayer?.push({
             event: 'AtelierFelinStepLoad',
             atelierFelinStepName: 'Login invite',
             atelierFelinStepNumber: '4'
@@ -460,6 +460,19 @@ class Pcexperts extends React.Component {
         [key2]: value
       }
     });
+    if (key2 === 'prix') {
+      this.setState({
+        bookSlotVO: {
+          ...this.state.bookSlotVO,
+          dateNo: ''
+        },
+        votre: {
+          ...this.state.votre,
+          date: '',
+          heure: ''
+        }
+      });
+    }
   };
   queryDate = (type = false, chooseData = {}) => {
     setTimeout(async () => {

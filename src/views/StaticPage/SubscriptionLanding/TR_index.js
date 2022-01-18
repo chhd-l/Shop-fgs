@@ -43,9 +43,7 @@ class Help extends React.Component {
       this.setState({ seoConfig: res });
     });
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
 
   render(h) {
     const event = {

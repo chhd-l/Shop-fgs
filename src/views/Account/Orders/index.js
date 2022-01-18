@@ -85,9 +85,7 @@ class AccountOrders extends React.Component {
     this.handlePayNowTimeEnd = this.handlePayNowTimeEnd.bind(this);
     this.rePurchase = this.rePurchase.bind(this);
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   async componentDidMount() {
     myAccountPushEvent('Orders');
     setSeoConfig({
