@@ -2057,7 +2057,7 @@ class List extends React.Component {
                     <div
                       className={`rc-column1 col-12 ${
                         hiddenFilter ? 'col-xl-12' : 'col-xl-9'
-                      } rc-triple-width rc-padding--xs product-tiles-container pt-4 md:pt-0`}
+                      } rc-triple-width product-tiles-container pt-4 px-4 md:px-2 md:pt-0`}
                     >
                       {!loading && (
                         <>

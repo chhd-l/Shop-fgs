@@ -175,7 +175,7 @@ function ListItemH5ForGlobalStyle(props) {
     </article>
   ) : (
     <article
-      className={`rc-card rc-card--b rc-padding--sm--mobile rc-padding--xs--desktop rc-padding-x--xs h-100 priceRangeFormat product-tiles-container fr-mobile overflow-hidden ${className} ${
+      className={`rc-card rc-card--b rc-padding--xs--desktop h-100 priceRangeFormat product-tiles-container fr-mobile overflow-hidden py-1 ${className} ${
         showBorder ? '' : 'border-none'
       }`}
       style={{ minHeight: '120px' }}
@@ -205,16 +205,18 @@ function ListItemH5ForGlobalStyle(props) {
           >
             {item ? (
               <picture
-                className="col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktope"
+                className="col-5 col-sm-3 col-md-12 rc-margin-bottom--xs--desktope"
                 style={{
-                  marginLeft: '-.625rem',
-                  paddingLeft: '5px',
-                  paddingRight: '.9375rem',
+                  // marginLeft: '-.625rem',
+                  // paddingLeft: '5px',
+                  // paddingRight: '.9375rem',
                   fontSize: '0'
                 }}
               >
                 {/*循环遍历的图片*/}
-                <LazyLoad style={{ width: '100%', height: '100%' }}>
+                <LazyLoad
+                  style={{ width: '100%', height: '100%', display: 'flex' }}
+                >
                   <img
                     src={
                       item.goodsImg || item.goodsInfos
@@ -501,7 +503,7 @@ function ListItemBodyH5ForGlobalStyle({ item, configStore }) {
       .concat(item?.goodsInfoVOS ?? [])
       .findIndex((goods) => goods.stock > 0) > -1;
   return (
-    <div className="fr-mobile-product-list text-left md:text-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start pr-0">
+    <div className="fr-mobile-product-list text-left md:text-center col-7 col-sm-9 col-md-12 d-flex flex-column pr-0 py-2">
       <div className="product-name" title={item.goodsName}>
         {item.goodsName}
       </div>
@@ -514,7 +516,7 @@ function ListItemBodyH5ForGlobalStyle({ item, configStore }) {
           {item.goodsNewSubtitle}
         </p>
       ) : item?.foodType ? (
-        <p className="rc-card__meta rc-padding-top--xs rc-padding-bottom--xs ui-text-overflow-line2">
+        <p className="rc-card__meta py-2 ui-text-overflow-line2">
           <FormattedMessage id={`product.plp.foodtype.${item.foodType}`} />
         </p>
       ) : null}
@@ -524,7 +526,7 @@ function ListItemBodyH5ForGlobalStyle({ item, configStore }) {
       {hiddenPrice ? null : (
         <PriceItemShow item={item} configStore={configStore} />
       )}
-      <div className="plp-stock-status">
+      <div className="plp-stock-status py-2">
         <InstockStatusComp status={inStock} />
       </div>
     </div>
@@ -563,13 +565,13 @@ const PriceItemShow = ({ item, configStore }) => {
                 </span>
               ))}
             {priceDisplayMethod == 1 ? (
-              <>
+              <div className="d-flex align-items-center">
                 <FormattedMessage
                   id="plpFromNew"
                   values={{
                     started: (
                       <div
-                        className="text-left NameFitScreen"
+                        className="text-left NameFitScreen mr-2"
                         style={{ color: 'rgb(74, 74, 74)', opacity: 2 }}
                       >
                         <FormattedMessage id="plpFromText" />
@@ -597,7 +599,7 @@ const PriceItemShow = ({ item, configStore }) => {
                     )
                   }}
                 />
-              </>
+              </div>
             ) : null}
           </div>
         </div>
