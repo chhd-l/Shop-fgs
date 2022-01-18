@@ -826,9 +826,11 @@ class Form extends React.Component {
     // 处理法国、英国电话号码格式，(+33) 0X XX XX XX XX 保存为: (+33) X XX XX XX XX
     if (COUNTRY == 'fr' || COUNTRY == 'uk') {
       let tvalue = newForm.phoneNumber;
-      if (tvalue?.length > 19) {
-        newForm['phoneNumber'] = tvalue.replace(/0/, '');
+      if (tvalue?.length > 19 && tvalue[6] === '0') {
+        // newForm['phoneNumber'] = tvalue.replace(/0/, '');
+        newForm['phoneNumber'] = tvalue.slice(0, 6) + tvalue.slice(7);
       }
+      console.log('luky111', newForm['phoneNumber']);
     }
 
     if (isDeliveryDateAndTimeSlot) {

@@ -200,7 +200,7 @@ class PayProductInfo extends React.Component {
       dataLayer[0].checkout.step = 2;
       dataLayer[0].checkout.product = product;
 
-      dataLayer.push({
+      window?.dataLayer?.push({
         checkout: {
           step: '',
           option: ''

@@ -110,7 +110,7 @@ class Prescription extends React.Component {
 
   hubGaModalPopup() {
     // setTimeout(() => {
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: 'vetPrescPopin',
       vetPrescPopinAction: 'display'
     });
@@ -118,7 +118,7 @@ class Prescription extends React.Component {
   }
 
   hubGaModalPopupClick(btnLabel) {
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: 'vetPrescPopin',
       vetPrescPopinAction: 'buttonClick',
       vetPrescPopinButton: btnLabel
@@ -270,14 +270,14 @@ class Prescription extends React.Component {
   };
 
   mapShowGa() {
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: 'vetPrescMap',
       vetPrescMapAction: 'display'
     });
   }
 
   mapFlag(prescriberName) {
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: 'vetPrescMap',
       vetPrescMapAction: 'clinicClick',
       vetPrescMapClinicName: prescriberName

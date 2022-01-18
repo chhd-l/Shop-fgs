@@ -94,7 +94,7 @@ class HeroCarousel extends React.Component {
   // 切换slider触发
   GABannerImpression(idx) {
     const cur_banner = this.state.banner[idx];
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: 'homepageCarousselDisplay',
       slideName: cur_banner.bannerName,
       slidePosition: idx
@@ -118,7 +118,7 @@ class HeroCarousel extends React.Component {
   // 点击banner跳转时触发
   GABannerClick(idx) {
     const cur_banner = this.state.banner[idx];
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComPromotionClick`,
       ecommerce: {
         promoClick: {

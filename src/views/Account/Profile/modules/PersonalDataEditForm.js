@@ -236,12 +236,13 @@ class PersonalDataEditForm extends React.Component {
       this.setState({ loading: true });
       const oktaTokenString = this.props.authState?.accessToken?.value || '';
       let oktaToken = 'Bearer ' + oktaTokenString;
-      console.log('666 >>> this.props.authState: ', this.props.authState);
       let mydata = {
         firstName: form.firstName,
         lastName: form.lastName,
         email: form.email,
-        birthDay: form.birthdate ? format(form.birthdate, 'yyyy-MM-dd') : '',
+        birthDay: form.birthdate
+          ? format(new Date(form.birthdate), 'yyyy-MM-dd')
+          : '',
         countryId: form.countryId,
         country: form.country,
         county: form?.county,
