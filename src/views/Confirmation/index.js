@@ -214,6 +214,22 @@ class Confirmation extends React.Component {
       }); // Is need MKT Consent For DE?
     }
   }
+  componentWillUnmount() {
+    if (sessionItemRoyal.get('rc-paywith-login') === 'true') {
+      checkoutStore.removeLoginCartData();
+    } else {
+      checkoutStore.setCartData(
+        checkoutStore.cartData.filter((ele) => !ele.selected)
+      ); // 只移除selected
+      sessionItemRoyal.remove('rc-token');
+    }
+    sessionItemRoyal.remove('subOrderNumberList');
+    sessionItemRoyal.remove('subNumber');
+    sessionItemRoyal.remove('oxxoPayUrl');
+    sessionItemRoyal.remove('adyenOxxoAction');
+    sessionItemRoyal.remove('gaPet');
+    sessionItemRoyal.remove('refresh-confirm-page');
+  }
   matchCityName(dict, cityId) {
     return dict.filter((c) => c.id === cityId).length
       ? dict.filter((c) => c.id === cityId)[0].cityName

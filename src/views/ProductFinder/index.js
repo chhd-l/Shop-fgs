@@ -45,6 +45,8 @@ class ProductFinder extends React.Component {
     this.seletTheType = this.seletTheType.bind(this);
   }
   componentDidMount() {
+    sessionItemRoyal.remove('product-finder-edit-order');
+    sessionItemRoyal.remove('pf-result');
     this.GAHandle('speciesCode');
     //(!isHubGA)&&this.GAHandle('speciesCode');
     setSeoConfig({

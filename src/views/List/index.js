@@ -1850,7 +1850,7 @@ class List extends React.Component {
                 <div className="rc-layout-container rc-three-column rc-content-h-middle d-flex flex-md-wrap flex-wrap-reverse">
                   <div className="rc-column rc-double-width text-center md:text-left p-0">
                     <div className="rc-full-width">
-                      <h1 className="rc-gamma rc-margin--none text-2xl font-medium">
+                      <h1 className="rc-gamma rc-margin--none top-desc-title">
                         {titleData.title}
                       </h1>
                       <div className="children-nomargin rc-body">
