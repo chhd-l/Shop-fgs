@@ -71,7 +71,7 @@ export default class DropDownMenuForHub extends React.Component {
       (type ? cItem?.Title : cItem?.Link?.Text) ||
       cItem?.PrimaryLink?.Text ||
       cItem?.Subtitle; //兼容图片链接ga
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: 'navTopClick',
       navTopClick: {
         itemName: [Level1, Level2].filter((e) => e).join('|')

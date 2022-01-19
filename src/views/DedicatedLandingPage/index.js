@@ -150,15 +150,13 @@ class DedicatedLandingPage extends React.Component {
         };
       });
       console.info('GADataproductsproducts', products);
-      dataLayer.push({ products });
+      window?.dataLayer?.push({ products });
     } catch (err) {
       console.info('err', err);
     }
   };
 
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
 
   sendGAHeaderSearch = (event) => {
     this.setState({
@@ -184,7 +182,7 @@ class DedicatedLandingPage extends React.Component {
   addCart = async () => {
     const { selectLine } = this.state;
 
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: 'kitKittenRecoAddToCart',
       landingPageAddProduct: {
         SKU: skuArr[selectLine] //product SKU, must absolutely be coherent with the SKU displayed in the initial product array
@@ -434,7 +432,7 @@ class DedicatedLandingPage extends React.Component {
                                   paddingRight: '80px'
                                 }}
                                 onClick={() => {
-                                  dataLayer.push({
+                                  window?.dataLayer?.push({
                                     'event ': 'kitKittenRecoTabClick'
                                   });
                                   this.changeShowKitten();

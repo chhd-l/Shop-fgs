@@ -173,9 +173,7 @@ class Details extends React.Component {
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
     this.ChangeFormat = this.ChangeFormat.bind(this);
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   async componentDidMount() {
     const { pathname } = this.props.location;
     this.getUrlParam();
@@ -978,7 +976,7 @@ class Details extends React.Component {
     let variant = cur_selected_size[0]?.specText;
     let goodsInfoNo = cur_selected_size[0]?.goodsInfoNo;
     let { form } = this.state;
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComAddToBasket`,
       ecommerce: {
         add: {
@@ -1115,7 +1113,7 @@ class Details extends React.Component {
     if (isBaby) return null;
     if (!isTechnology) return null;
     if (currentGoodsInfo?.goodsInfoType === 2) return null;
-    if (!(wsEnergyCategory && wsReferenceEnergyValue && wsDensity)) return null;
+    if (!(wsEnergyCategory && wsReferenceEnergyValue)) return null;
 
     // 产品动物的种类
     let speciesValue = goodsAttributesValueRelList.find(

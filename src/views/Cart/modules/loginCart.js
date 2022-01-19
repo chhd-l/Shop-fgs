@@ -17,7 +17,8 @@ import {
   unique,
   cancelPrevRequest,
   handleRecommendation,
-  isShowMixFeeding
+  isShowMixFeeding,
+  optimizeImage
 } from '@/utils/utils';
 import {
   GAInitLogin,
@@ -616,7 +617,7 @@ class LoginCart extends React.Component {
         sku: product.goodsInfoNo
       }
     ];
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComRemoveFromCart`,
       ecommerce: {
         remove: {
@@ -639,7 +640,7 @@ class LoginCart extends React.Component {
 
     !isHubGA && this.GARemoveFromCart(productList[currentProductIdx]);
     isHubGA &&
-      dataLayer.push({
+      window?.dataLayer?.push({
         event: 'removeFromCart'
       });
   }
@@ -788,7 +789,7 @@ class LoginCart extends React.Component {
                 <LazyLoad>
                   <img
                     className="w-100"
-                    src={pitem.goodsInfoImg}
+                    src={optimizeImage(pitem.goodsInfoImg)}
                     alt={pitem.goodsName}
                     title={pitem.goodsName}
                   />
@@ -994,7 +995,7 @@ class LoginCart extends React.Component {
                 <div className="name-info flex-column-gift rc-main-content__wrapper d-flex">
                   <img
                     className="img"
-                    src={gift.goodsInfoImg || foodDispenserPic}
+                    src={optimizeImage(gift.goodsInfoImg) || foodDispenserPic}
                     alt="goods Information Image"
                   />
                   <div className="mobile-text-center">

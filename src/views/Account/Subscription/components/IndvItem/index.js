@@ -4,7 +4,8 @@ import {
   filterOrderId,
   getDeviceType,
   isCanVerifyBlacklistPostCode,
-  formatDate
+  formatDate,
+  optimizeImage
 } from '@/utils/utils';
 import FrequencyMatch from '@/components/FrequencyMatch';
 // import { getSubList } from '@/api/subscription';
@@ -60,7 +61,7 @@ const IndvItem = ({ subItem, history, intl }) => {
                   display: 'inline-block'
                 }}
                 key={item.spuId}
-                src={item.goodsPic || IMG_DEFAULT}
+                src={optimizeImage(item.goodsPic) || IMG_DEFAULT}
                 alt={`${item.petsName}'s personalized subscription`}
                 title={`${item.petsName}'s personalized subscription`}
               />

@@ -5,7 +5,8 @@ import LoginButton from '@/components/LoginButton';
 import {
   formatMoney,
   distributeLinktoPrecriberOrPaymentPage,
-  getDeviceType
+  getDeviceType,
+  optimizeImage
 } from '@/utils/utils';
 import FrequencyMatch from '@/components/FrequencyMatch';
 import find from 'lodash/find';
@@ -61,13 +62,13 @@ class UnloginCart extends React.Component {
   }
   GAAccessToGuestCheck(type) {
     this.hubGA
-      ? dataLayer.push({
+      ? window?.dataLayer?.push({
           event: 'cartHeaderClicks',
           cartHeaderClicks: {
             button: type == 'buyNow' ? 'Buy now' : 'Continue as a Guest'
           }
         })
-      : dataLayer.push({
+      : window?.dataLayer?.push({
           event: `${window.__.env.REACT_APP_GTM_SITE_ID}guestCheckout`,
           interaction: {
             category: 'checkout',
@@ -133,7 +134,7 @@ class UnloginCart extends React.Component {
 
   EditToCart = () => {
     this.hubGA &&
-      dataLayer.push({
+      window?.dataLayer?.push({
         event: 'cartHeaderClicks',
         cartHeaderClicks: {
           button: 'Edit'
@@ -332,10 +333,10 @@ class UnloginCart extends React.Component {
                               {/* <LazyLoad> */}
                               <img
                                 className="product-image"
-                                src={
+                                src={optimizeImage(
                                   find(item.sizeList, (s) => s.selected)
                                     .goodsInfoImg
-                                }
+                                )}
                                 alt={item.goodsName}
                                 title={item.goodsName}
                               />
@@ -463,7 +464,10 @@ class UnloginCart extends React.Component {
                                   {/* <LazyLoad> */}
                                   <img
                                     className="product-image"
-                                    src={gift.goodsInfoImg || foodDispenserPic}
+                                    src={
+                                      optimizeImage(gift.goodsInfoImg) ||
+                                      foodDispenserPic
+                                    }
                                     alt={gift.goodsInfoName}
                                     title={gift.goodsInfoName}
                                   />

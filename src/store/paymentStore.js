@@ -278,7 +278,7 @@ class PaymentStore {
                 };
               }
             } else {
-              dataLayer.push({
+              window?.dataLayer?.push({
                 checkout: {
                   step: 2,
                   option
@@ -316,7 +316,7 @@ class PaymentStore {
               virtualPageURL: '/checkout/billing'
             };
           } else {
-            dataLayer.push({
+            window?.dataLayer?.push({
               checkout: {
                 step: 3,
                 option: 'shippingMethod'
@@ -349,7 +349,7 @@ class PaymentStore {
               virtualPageURL: '/checkout/placeOrder'
             };
           } else {
-            dataLayer.push({
+            window?.dataLayer?.push({
               checkout: {
                 step: 4,
                 option: 'paymentMethod'

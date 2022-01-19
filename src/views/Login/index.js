@@ -59,16 +59,8 @@ class Login extends React.Component {
       loading: false
     };
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   componentDidMount() {
-    // console.log()
-    if (localItemRoyal.get('isRefresh')) {
-      localItemRoyal.remove('isRefresh');
-      window.location.reload();
-      return false;
-    }
     getDictionary({ type: 'country' }).then((res) => {
       this.setState({
         countryList: res

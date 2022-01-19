@@ -200,7 +200,7 @@ class PayProductInfo extends React.Component {
       dataLayer[0].checkout.step = 2;
       dataLayer[0].checkout.product = product;
 
-      dataLayer.push({
+      window?.dataLayer?.push({
         checkout: {
           step: '',
           option: ''
@@ -720,7 +720,7 @@ class PayProductInfo extends React.Component {
                 />
               ) : null}
               {/* 支付新增promotionCode(选填) */}
-              <div className="mb-3 d-flex justify-content-between">
+              <div className="mb-3 d-flex justify-content-between items-center">
                 <span
                   className="rc-input rc-input--inline rc-input--label mr-0"
                   style={{ width: '150px' }}

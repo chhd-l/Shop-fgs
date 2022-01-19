@@ -56,10 +56,11 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =
   'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
-const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-  /\/$/,
-  ''
-);
+const urlPrefix =
+  `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+    /\/$/,
+    ''
+  );
 
 const filterAttrValue = (list, keyWords) => {
   return (list || [])
@@ -680,9 +681,7 @@ class List extends React.Component {
     }
     return ret.replace(/^\?/gi, '');
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   get lastBreadListName() {
     const { breadList } = this.state;
     return (
@@ -1655,8 +1654,9 @@ class List extends React.Component {
 
   stickyMobileRefineBar() {
     if (isMobilePhone) {
-      var t = document?.getElementById('refineBar')?.getBoundingClientRect()
-        .top;
+      var t = document
+        ?.getElementById('refineBar')
+        ?.getBoundingClientRect().top;
       window.addEventListener('scroll', () => {
         var choosedVal = document.querySelector('.filter-value'); // 有选择的时候才操作
         if (window.pageYOffset + 33 >= t && choosedVal) {
@@ -1850,7 +1850,7 @@ class List extends React.Component {
                 <div className="rc-layout-container rc-three-column rc-content-h-middle d-flex flex-md-wrap flex-wrap-reverse">
                   <div className="rc-column rc-double-width text-center md:text-left p-0">
                     <div className="rc-full-width">
-                      <h1 className="rc-gamma rc-margin--none text-2xl font-medium">
+                      <h1 className="rc-gamma rc-margin--none top-desc-title">
                         {titleData.title}
                       </h1>
                       <div className="children-nomargin rc-body">
@@ -1954,7 +1954,7 @@ class List extends React.Component {
                                 )}
                                 className="flex w-100 align-items-center justify-content-between rc-md-down"
                               >
-                                <div>
+                                <div className="flex items-center">
                                   <em
                                     className={`rc-icon rc-filter--xs rc-iconography ${
                                       (filterModalVisible && !isTop) ||
@@ -1963,10 +1963,10 @@ class List extends React.Component {
                                         : ''
                                     }`}
                                     data-filter-trigger="filter-example"
-                                    style={{
-                                      position: 'relative',
-                                      top: '0.2rem'
-                                    }}
+                                    // style={{
+                                    //   position: 'relative',
+                                    //   top: '0.2rem'
+                                    // }}
                                   />
                                   <span className=" font-weight-normal font-18 rc-padding-left--sm">
                                     <FormattedMessage id="list.viewFilters" />
@@ -2057,7 +2057,7 @@ class List extends React.Component {
                     <div
                       className={`rc-column1 col-12 ${
                         hiddenFilter ? 'col-xl-12' : 'col-xl-9'
-                      } rc-triple-width rc-padding--xs product-tiles-container pt-4 md:pt-0`}
+                      } rc-triple-width product-tiles-container pt-4 px-4 md:px-2 md:pt-0`}
                     >
                       {!loading && (
                         <>

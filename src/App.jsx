@@ -34,6 +34,7 @@ import { useDynamicLanguage } from '@/framework/common';
 import RouteFilter from '@/components/RouteFilter';
 import RouteFilterHook from '@/components/RouteFilter/RouteFilterHook';
 import { initializePhraseAppEditor } from 'react-intl-phraseapp';
+import './vconsole';
 
 const Home = loadable(() => import('@/views/Home'), 'rc-carousel');
 
@@ -42,6 +43,7 @@ const List = loadable(() => import('@/views/List'));
 const Details = loadable(() => import('@/views/Details'), 'rc-carousel');
 const Cart = loadable(() => import('@/views/Cart'));
 const Payment = loadable(() => import('@/views/Payment'));
+const demo = loadable(() => import('@/views/demo'));
 const Confirmation = loadable(() => import('@/views/Confirmation'));
 const AccountAppointments = loadable(() =>
   import('@/views/Account/Appointments')
@@ -237,24 +239,22 @@ const LoginCallback = (props) => {
   const { oktaAuth, authState } = useOktaAuth();
   const authStateReady = !authState.isPending;
 
-  useEffect(async () => {
+  useEffect(() => {
     const init = async () => {
       const sessionToken = localItemRoyal.get('okta-session-token');
       const authCallBack =
         window.location.search.indexOf('?code') >= 0 &&
         window.location.search.indexOf('&state') >= 0; // 是否是正常登录的callback即，!authCallBack为自动登录的callback
       if (sessionToken && !authStateReady && !authCallBack) {
-        // debugger;
         await oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE); //自动登录需要跳转到OKTA，然后callback，才能取到前端的token
       } else {
-        // debugger;
         if (authStateReady) {
+          props && props.history.push('/required');
         } else {
-          // debugger;
           await oktaAuth.handleLoginRedirect(); // 执行okta的callback，从而获取okta的数据，如：token等
         }
         console.log(authState);
-        props && props.history.push('/required');
+        // props && props.history.push('/required');
       }
     };
     init();
@@ -324,7 +324,7 @@ const App = () => {
         <Router
           basename={window.__.env.REACT_APP_HOMEPAGE}
           path={'/'}
-          forceRefresh={true}
+          // forceRefresh={true}
         >
           <ScrollToTop>
             <Security
@@ -336,6 +336,7 @@ const App = () => {
               <RouteFilterHook />
               <Switch>
                 <Route exact path={'/'} component={Home} />
+                <Route exact path={'/demo'} component={demo} />
                 <Route exact path={'/cancelEmail'} component={CancelEmail} />
                 <Route
                   exact

@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatDate } from '@/utils/utils';
+import { formatDate, optimizeImage } from '@/utils/utils';
 
 const GiftList = ({
   modalList,
@@ -142,7 +142,7 @@ const GiftList = ({
                                       width: '70px',
                                       margin: '0 .625rem'
                                     }}
-                                    src={tradeItem.pic}
+                                    src={optimizeImage(tradeItem.pic)}
                                     alt={tradeItem.skuName}
                                   />
                                 </LazyLoad>

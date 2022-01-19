@@ -19,7 +19,8 @@ import {
   getDeviceType,
   setSeoConfig,
   judgeIsIndividual,
-  formatDate
+  formatDate,
+  optimizeImage
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import { batchAdd } from '@/api/payment';
@@ -85,9 +86,7 @@ class AccountOrders extends React.Component {
     this.handlePayNowTimeEnd = this.handlePayNowTimeEnd.bind(this);
     this.rePurchase = this.rePurchase.bind(this);
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   async componentDidMount() {
     myAccountPushEvent('Orders');
     setSeoConfig({
@@ -786,7 +785,10 @@ class AccountOrders extends React.Component {
                                             <LazyLoad>
                                               <img
                                                 className="ord-list-img-fluid"
-                                                src={item.pic || IMG_DEFAULT}
+                                                src={
+                                                  optimizeImage(item.pic) ||
+                                                  IMG_DEFAULT
+                                                }
                                                 alt={item.spuName}
                                                 title={item.spuName}
                                               />
@@ -919,7 +921,7 @@ class AccountOrders extends React.Component {
                           <LazyLoad>
                             <img
                               className="ord-list-img-fluid"
-                              src={item.pic || IMG_DEFAULT}
+                              src={optimizeImage(item.pic) || IMG_DEFAULT}
                               alt={item.spuName}
                               title={item.spuName}
                             />

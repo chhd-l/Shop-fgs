@@ -17,7 +17,8 @@ import {
   cancelPrevRequest,
   getDeviceType,
   handleRecommendation,
-  isShowMixFeeding
+  isShowMixFeeding,
+  optimizeImage
 } from '@/utils/utils';
 import {
   GAInitUnLogin,
@@ -383,7 +384,7 @@ class UnLoginCart extends React.Component {
   }
   GAAccessToGuestCheck() {
     if (isHubGA) return;
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: `${window.__.env.REACT_APP_GTM_SITE_ID}guestCheckout`,
       interaction: {
         category: 'checkout',
@@ -563,7 +564,7 @@ class UnLoginCart extends React.Component {
         sku: goodsInfoNo
       }
     ];
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComRemoveFromCart`,
       ecommerce: {
         remove: {
@@ -585,7 +586,7 @@ class UnLoginCart extends React.Component {
         this.updateStock();
         !isHubGA && this.GARemoveFromCart(product);
         isHubGA &&
-          dataLayer.push({
+          window?.dataLayer?.push({
             event: 'removeFromCart'
           });
         this.queryEmptyCartSeo();
@@ -781,8 +782,9 @@ class UnLoginCart extends React.Component {
                   <img
                     className="w-100"
                     src={
-                      find(pitem.sizeList, (s) => s.selected).goodsInfoImg ||
-                      pitem.goodsImg
+                      optimizeImage(
+                        find(pitem.sizeList, (s) => s.selected).goodsInfoImg
+                      ) || optimizeImage(pitem.goodsImg)
                     }
                     alt={pitem.goodsName}
                     title={pitem.goodsName}
@@ -1008,7 +1010,7 @@ class UnLoginCart extends React.Component {
                 <div className="name-info flex-column-gift rc-main-content__wrapper d-flex">
                   <img
                     className="img"
-                    src={gift.goodsInfoImg || foodDispenserPic}
+                    src={optimizeImage(gift.goodsInfoImg) || foodDispenserPic}
                     alt="goods Information Image"
                   />
                   <div className="mobile-text-center">

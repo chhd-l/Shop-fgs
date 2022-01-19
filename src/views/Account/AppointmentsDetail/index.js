@@ -69,9 +69,7 @@ class AccountOrders extends React.Component {
       );
     });
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   async init() {
     const { appointmentNo } = this.state;
     this.setState({ loading: true });

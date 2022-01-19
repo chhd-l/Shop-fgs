@@ -149,7 +149,7 @@ export const myAccountPushEvent = (myAccountScreenName) => {
 //myAccountAction
 export const myAccountActionPushEvent = (myAccountActionName) => {
   if (!isHubGA) return;
-  dataLayer.push({
+  window?.dataLayer?.push({
     event: 'myAccountAction',
     myAccountActionName
     //Values : 'Add picture', 'Edit profile info', 'Edit contact info', 'Add pet', 'Remove pet', 'Download Invoice', 'Cancel Subscription','Pause Subscription', 'Restart Subscription', 'Add payment Method', 'Delete payment method', 'Add Address', 'Delete Address', 'Change email', 'Change password', 'Delete Account'
@@ -161,7 +161,7 @@ export const myAccountActionPushEvent = (myAccountActionName) => {
 //faqClick
 export const faqClickDataLayerPushEvent = ({ item, clickType }) => {
   if (!isHubGA) return;
-  dataLayer.push({
+  window?.dataLayer?.push({
     event: 'faqClick',
     faqClick: {
       item, //Generic name in English for each item
@@ -173,7 +173,7 @@ export const faqClickDataLayerPushEvent = ({ item, clickType }) => {
 //cartScreenLoad
 export const GACartScreenLoad = () => {
   // setTimeout(() => {
-  dataLayer.push({
+  window?.dataLayer?.push({
     event: 'cartScreenLoad'
   });
   // }, 5000gtm优化);
@@ -258,7 +258,7 @@ export const GAInitUnLogin = ({ productList, frequencyList, props, type }) => {
       }
 
       arr.push(obj);
-      dataLayer.push({
+      window?.dataLayer?.push({
         products: arr
       });
       props.checkoutStore.saveGAProduct({ products: arr });
@@ -266,6 +266,7 @@ export const GAInitUnLogin = ({ productList, frequencyList, props, type }) => {
   } catch (err) {
     console.info('errrrrrrr', err);
   }
+  // debugger;
 };
 
 //init 会员(cart+checkout都使用)
@@ -346,10 +347,11 @@ export const GAInitLogin = ({ productList, frequencyList, props, type }) => {
 
     arr.push(obj);
   }
-  dataLayer.push({
+  window?.dataLayer?.push({
     products: arr
   });
   console.info('productsproducts', arr);
+  debugger;
 
   props.checkoutStore.saveGAProduct({ products: arr });
 };
@@ -382,7 +384,7 @@ export const GAInitLogin = ({ productList, frequencyList, props, type }) => {
 //cart cartChangeSubscription
 export const GACartChangeSubscription = (btnContent) => {
   if (!isHubGA) return;
-  dataLayer.push({
+  window?.dataLayer?.push({
     event: 'cartChangeSubscription',
     cartChangeSubscription: {
       button: btnContent //Values : 'Single purchase', 'Autoship'
@@ -445,18 +447,19 @@ export const GARecommendationProduct = (
     return res;
   });
   console.info('gaproducts', products);
+  debugger;
   (type === 1 || type === 4) &&
-    dataLayer.unshift({
+    window?.dataLayer?.unshift({
       products
     });
   type === 2 &&
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: 'breederRecoTabClick',
       breederRecoTabClickProduct: products
     });
 
   type === 3 &&
-    dataLayer.unshift({
+    window?.dataLayer?.unshift({
       event: 'shelterLPAddToCart',
       product: products[0]
     });
@@ -506,7 +509,7 @@ export const doGetGAVal = (props) => {
 export const checkoutDataLayerPushEvent = ({ name, options }) => {
   if (!isHubGA) return;
   // setTimeout(() => {
-  dataLayer.push({
+  window?.dataLayer?.push({
     event: 'checkoutStep',
     checkoutStep: {
       name, //Following values possible : 'Email', 'Delivery', 'Payment', 'Confirmation'
@@ -533,7 +536,7 @@ export const orderConfirmationPushEvent = (details) => {
     })
   };
   // setTimeout(() => {
-  dataLayer.push(obj);
+  window?.dataLayer?.push(obj);
   // }, 3000gtm优化);
 };
 
@@ -573,7 +576,7 @@ export const productFinderPushEvent = ({
   stepOrder,
   answerdQuestionList
 }) => {
-  dataLayer.push({
+  window?.dataLayer?.push({
     event: 'productFinderScreen',
     productFinderScreen: {
       name: getStepCurrentName({ type, stepName }), //Pattern : productfinder/pet/step, see full list below
@@ -584,19 +587,19 @@ export const productFinderPushEvent = ({
 };
 
 export const GABuyNow = () => {
-  dataLayer.push({
+  window?.dataLayer?.push({
     event: 'breederRecoBuyNow'
   });
 };
 
 export const GABreederRecoPromoCodeCTA = () => {
-  dataLayer.push({
+  window?.dataLayer?.push({
     event: 'breederRecoPromoCodeCTA'
   });
 };
 
 export const GABreederRecoSeeInCart = () => {
-  dataLayer.push({
+  window?.dataLayer?.push({
     event: 'breederRecoSeeInCart'
   });
 };
@@ -604,7 +607,7 @@ export const GABreederRecoSeeInCart = () => {
 export const GABigBreederAddToCar = (products) => {
   let quantity = products.length,
     buyWay = 0;
-  dataLayer.push({
+  window?.dataLayer?.push({
     event: 'pdpAddToCart',
     pdpAddToCartQuantity: quantity,
     pdpAddToCartCtA: { 0: 'One Shot', 1: 'Subscription', 2: 'Club' }[buyWay]
@@ -612,7 +615,7 @@ export const GABigBreederAddToCar = (products) => {
 };
 
 export const GAInstantSearchFieldClick = () => {
-  dataLayer.push({
+  window?.dataLayer?.push({
     event: 'instantSearchFieldClick'
   });
 };
@@ -622,7 +625,7 @@ export const GAInstantSearchResultDisplay = ({
   productResultNum,
   contentResultNum
 }) => {
-  dataLayer.push({
+  window?.dataLayer?.push({
     event: 'instantSearchResultDisplay',
     instantSearchResultDisplay: {
       query, //Query as written by the user
@@ -633,7 +636,7 @@ export const GAInstantSearchResultDisplay = ({
 };
 
 export const GAInstantSearchResultClick = ({ type, name, position }) => {
-  dataLayer.push({
+  window?.dataLayer?.push({
     event: 'instantSearchResultClick',
     instantSearchResultClick: {
       type, //'Product' or 'Content' depending on the type of result clicked

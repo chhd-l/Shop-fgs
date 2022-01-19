@@ -633,14 +633,14 @@ export default class Felin extends React.Component {
 
   handleClickBtn(type, btnName) {
     scrollPaymentPanelIntoView(type);
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: 'atelierFelinButtonClick',
       atelierFelinButtonClickName: btnName
     });
   }
 
   bookingStepsGA(stepName) {
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: 'atelierFelinBookingSteps',
       atelierFelinBookingStepsName: stepName
     });
