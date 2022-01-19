@@ -266,7 +266,7 @@ export const GAInitUnLogin = ({ productList, frequencyList, props, type }) => {
   } catch (err) {
     console.info('errrrrrrr', err);
   }
-  debugger;
+  // debugger;
 };
 
 //init 会员(cart+checkout都使用)
@@ -351,7 +351,7 @@ export const GAInitLogin = ({ productList, frequencyList, props, type }) => {
     products: arr
   });
   console.info('productsproducts', arr);
-  debugger;
+  // debugger;
 
   props.checkoutStore.saveGAProduct({ products: arr });
 };

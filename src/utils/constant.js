@@ -28,11 +28,9 @@ export const ADYEN_CREDIT_CARD_BRANDS = {
 export const EMAIL_REGEXP = /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/;
 
 // 美国电话正则
-export const usTelephoneCheck =
-  /^(((1(\s)|)|)[0-9]{3}(\s|-|)[0-9]{3}(\s|-|)[0-9]{4})$/;
+export const usTelephoneCheck = /^(((1(\s)|)|)[0-9]{3}(\s|-|)[0-9]{3}(\s|-|)[0-9]{4})$/;
 // 俄罗斯电话正则
-export const ruTelephoneCheck =
-  /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
+export const ruTelephoneCheck = /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
 // 瑞典正则
 export const seTelephoneCheck = /[+(46)|0]\d{10}$/;
 
@@ -197,7 +195,6 @@ export const PAYMENT_METHOD_PAU_ACCOUNT_RULE = [
     getErrMsg: ({ intl }) => {
       const { formatMessage } = intl;
       console.log(222, formatMessage({ id: 'payment.cardOwner' }));
-      debugger;
       return formatMessage(
         { id: 'payment.errorInfo' },
         {

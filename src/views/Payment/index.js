@@ -336,8 +336,9 @@ class Payment extends React.Component {
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
     this.cyberRef = React.createRef();
-    this.confirmListValidationAddress =
-      this.confirmListValidationAddress.bind(this);
+    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
+      this
+    );
   }
   handelQrcodeModalClose = () => {
     const { history } = this.props;
@@ -365,10 +366,9 @@ class Payment extends React.Component {
   //cyber查询卡类型-会员
   queryCyberCardType = async (params) => {
     try {
-      const res =
-        await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
-          params
-        );
+      const res = await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
+        params
+      );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -379,10 +379,9 @@ class Payment extends React.Component {
   //cyber查询卡类型-游客
   queryGuestCyberCardType = async (params) => {
     try {
-      const res =
-        await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
-          params
-        );
+      const res = await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
+        params
+      );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -1668,12 +1667,12 @@ class Payment extends React.Component {
 
           if (res.context.qrCodeData) {
             this.setState({ swishAppRedirectUrl: res.context.redirectUrl });
-            async function getData() {
+            const getData = async () => {
               return adyenPaymentsDetails({
                 redirectResult: res.context.paymentData,
                 businessId: res.context.tid
               })
-                .then(async function (response) {
+                .then(async (response) => {
                   switch (response.context.status) {
                     case 'PROCESSING':
                       return await getData();
@@ -1694,7 +1693,7 @@ class Payment extends React.Component {
                 .catch(function () {
                   //this.setState({ swishQrcodeError: true });
                 });
-            }
+            };
 
             //模态框
             this.setState(
@@ -1723,12 +1722,12 @@ class Payment extends React.Component {
                 this.setState({ countDown: res, swishQrcodeError });
               }
             );
-
+            if (isMobile) {
+              window.location = res.context.redirectUrl;
+            }
             await getData();
           }
-          if (isMobile) {
-            window.location = res.context.redirectUrl;
-          }
+
           break;
         case 'adyenOxxo':
           subOrderNumberList =
@@ -1961,6 +1960,9 @@ class Payment extends React.Component {
       let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(
         param
       );
+
+      console.log(717, postVisitorRegisterAndLoginRes);
+      console.log(717, postVisitorRegisterAndLoginRes.context.token);
 
       //游客绑定consent 一定要在游客注册之后 start
       let submitParam = bindSubmitParam(this.state.listData);
@@ -2913,10 +2915,9 @@ class Payment extends React.Component {
     const unLoginCyberSaveCard = async (params) => {
       // console.log('2080 params: ', params);
       try {
-        const res =
-          await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
-            params
-          );
+        const res = await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
+          params
+        );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -2928,10 +2929,9 @@ class Payment extends React.Component {
     //cyber会员绑卡
     const loginCyberSaveCard = async (params) => {
       try {
-        const res =
-          await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
-            params
-          );
+        const res = await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
+          params
+        );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -3873,8 +3873,9 @@ class Payment extends React.Component {
   };
   petComfirm = (data) => {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
-        data;
+      this.props.checkoutStore.AuditData[
+        this.state.currentProIndex
+      ].petForm = data;
     } else {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {
@@ -3975,10 +3976,8 @@ class Payment extends React.Component {
     //0元订单中含有订阅商品时不能下单（us美国订阅可以）
     if (
       this.isSkipPaymentPanel &&
-      !(
-        window.__.env.REACT_APP_COUNTRY === 'us' &&
-        this.isCurrentBuyWaySubscription
-      )
+      window.__.env.REACT_APP_COUNTRY !== 'us' &&
+      this.isCurrentBuyWaySubscription
     ) {
       const errMsg = intl.messages['checkout.zeroOrder.butSubscription'];
       this.showErrorMsg(errMsg);
