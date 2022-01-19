@@ -1,5 +1,5 @@
 import React from 'react';
-import { getDeviceType, formatDate } from '@/utils/utils';
+import { getDeviceType, formatDate, optimizeImage } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import { IMG_DEFAULT } from '@/utils/constant';
@@ -27,7 +27,7 @@ const OngoingOrder = ({ subDetail }) => {
                     <div className="col-4">
                       <img
                         className="ord-list-img-fluid"
-                        src={item.pic || IMG_DEFAULT}
+                        src={optimizeImage(item.pic) || IMG_DEFAULT}
                         alt={item.skuName}
                         title={item.skuName}
                       />

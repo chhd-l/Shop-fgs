@@ -1,6 +1,6 @@
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import FrequencyMatch from '@/components/FrequencyMatch';
-import { formatMoney } from '@/utils/utils';
+import { formatMoney, optimizeImage } from '@/utils/utils';
 import React from 'react';
 import { toJS } from 'mobx';
 const GiftList = ({data}) => {
@@ -17,7 +17,7 @@ const GiftList = ({data}) => {
                 {/* <LazyLoad> */}
                 <img
                   className="product-image"
-                  src={data.goodsInfoImg}
+                  src={optimizeImage(data.goodsInfoImg)}
                   alt={data.goodsInfoName}
                   title={data.goodsInfoName}
                 />

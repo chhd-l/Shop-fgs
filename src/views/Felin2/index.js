@@ -944,10 +944,10 @@ class Felin extends React.Component {
                                   textDecoration: 'underline',
                                   color: 'blue'
                                 }}
-                                href="https://www.royalcanin.com/fr/shop/latelier/felin"
+                                href="https://www.royalcanin.com/fr/shop/felin"
                                 target="_blank"
                               >
-                                https://www.royalcanin.com/fr/shop/latelier/felin
+                                https://www.royalcanin.com/fr/shop/felin
                               </a>
                             </span>
                           ) : (
