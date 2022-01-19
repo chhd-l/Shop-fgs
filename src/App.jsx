@@ -34,6 +34,7 @@ import { useDynamicLanguage } from '@/framework/common';
 import RouteFilter from '@/components/RouteFilter';
 import RouteFilterHook from '@/components/RouteFilter/RouteFilterHook';
 import { initializePhraseAppEditor } from 'react-intl-phraseapp';
+import './vconsole';
 
 const Home = loadable(() => import('@/views/Home'), 'rc-carousel');
 
@@ -42,6 +43,7 @@ const List = loadable(() => import('@/views/List'));
 const Details = loadable(() => import('@/views/Details'), 'rc-carousel');
 const Cart = loadable(() => import('@/views/Cart'));
 const Payment = loadable(() => import('@/views/Payment'));
+const demo = loadable(() => import('@/views/demo'));
 const Confirmation = loadable(() => import('@/views/Confirmation'));
 const AccountAppointments = loadable(() =>
   import('@/views/Account/Appointments')
@@ -334,6 +336,7 @@ const App = () => {
               <RouteFilterHook />
               <Switch>
                 <Route exact path={'/'} component={Home} />
+                <Route exact path={'/demo'} component={demo} />
                 <Route exact path={'/cancelEmail'} component={CancelEmail} />
                 <Route
                   exact

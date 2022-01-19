@@ -22,7 +22,8 @@ const fetchDynamicConfig = async () => {
         : {};
       envVal = Object.assign(tmpCfg, {
         REACT_APP_HUB: Boolean(res?.context?.enableHub),
-        REACT_APP_LANG_LOCALE: res?.context?.language
+        REACT_APP_LANG_LOCALE: res?.context?.language,
+        REACT_APP_PRODUCT_IMAGE_CDN: res?.context?.cdn
       });
       const oktaSettingConfig = res?.context?.oktaSettingConfig;
       if (oktaSettingConfig) {

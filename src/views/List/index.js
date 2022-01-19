@@ -1850,7 +1850,7 @@ class List extends React.Component {
                 <div className="rc-layout-container rc-three-column rc-content-h-middle d-flex flex-md-wrap flex-wrap-reverse">
                   <div className="rc-column rc-double-width text-center md:text-left p-0">
                     <div className="rc-full-width">
-                      <h1 className="rc-gamma rc-margin--none text-2xl font-medium">
+                      <h1 className="rc-gamma rc-margin--none top-desc-title">
                         {titleData.title}
                       </h1>
                       <div className="children-nomargin rc-body">
@@ -1954,7 +1954,7 @@ class List extends React.Component {
                                 )}
                                 className="flex w-100 align-items-center justify-content-between rc-md-down"
                               >
-                                <div>
+                                <div className="flex items-center">
                                   <em
                                     className={`rc-icon rc-filter--xs rc-iconography ${
                                       (filterModalVisible && !isTop) ||
@@ -1963,10 +1963,10 @@ class List extends React.Component {
                                         : ''
                                     }`}
                                     data-filter-trigger="filter-example"
-                                    style={{
-                                      position: 'relative',
-                                      top: '0.2rem'
-                                    }}
+                                    // style={{
+                                    //   position: 'relative',
+                                    //   top: '0.2rem'
+                                    // }}
                                   />
                                   <span className=" font-weight-normal font-18 rc-padding-left--sm">
                                     <FormattedMessage id="list.viewFilters" />

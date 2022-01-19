@@ -2,7 +2,12 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
-import { getDeviceType, formatMoney, formatDate } from '@/utils/utils';
+import {
+  getDeviceType,
+  formatMoney,
+  formatDate,
+  optimizeImage
+} from '@/utils/utils';
 
 const CompletedDelivery = ({ i, isActive, el, subDetail }) => {
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
@@ -154,7 +159,7 @@ const CompletedDelivery = ({ i, isActive, el, subDetail }) => {
                             width: '70px',
                             display: 'inline'
                           }}
-                          src={tradeItem.pic}
+                          src={optimizeImage(tradeItem.pic)}
                           alt={tradeItem.skuName}
                         />
                       </LazyLoad>
@@ -214,7 +219,7 @@ const CompletedDelivery = ({ i, isActive, el, subDetail }) => {
                                 width: '70px'
                                 // margin: '0 .625rem'
                               }}
-                              src={tradeItem.pic}
+                              src={optimizeImage(tradeItem.pic)}
                               alt={tradeItem.skuName}
                             />
                           </LazyLoad>

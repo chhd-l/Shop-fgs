@@ -266,7 +266,7 @@ export const GAInitUnLogin = ({ productList, frequencyList, props, type }) => {
   } catch (err) {
     console.info('errrrrrrr', err);
   }
-  debugger;
+  // debugger;
 };
 
 //init 会员(cart+checkout都使用)
