@@ -45,10 +45,7 @@ class SelectFilters extends React.Component {
       }
     }
     return (
-      <div
-        className="rc-rc-filters__header rc-padding-left--none--desktop pointer-events-auto"
-        style={{ backgroundColor: '#f6f6f6' }}
-      >
+      <div className="rc-rc-filters__header rc-padding-left--none--desktop pointer-events-auto px-3 border-top border-color-d7d7d7">
         <div className="filter-bar">
           {isSelectedFilter ? (
             <ul className="md:mt-0">
@@ -60,10 +57,10 @@ class SelectFilters extends React.Component {
                 ).map((cItem) => {
                   if (cItem.selected) {
                     return (
-                      <li className="filter-value" key={cItem.id}>
+                      <li className="filter-value px-1 py-0" key={cItem.id}>
                         <Link to={cItem.router}>
                           {cItem.attributeDetailNameEn}
-                          <em className="rc-icon rc-close--sm rc-iconography inline-block" />
+                          <em className="rc-icon rc-close--xs rc-iconography inline-block" />
                         </Link>
                       </li>
                     );
@@ -73,11 +70,11 @@ class SelectFilters extends React.Component {
                 });
               })}
               {this.hasSelecedItems && (
-                <li
-                  className="d-md-none rc-margin-top--sm--mobile rc-margin-left--md--mobile rc-margin-bottom--md--mobile d-inline-block"
-                  key="removeAllFilters"
-                >
-                  <Link to={{ pathname, search: `?${baseSearchStr}` }}>
+                <li className="mt-3 d-inline-block" key="removeAllFilters">
+                  <Link
+                    className="underline font-weight-normal"
+                    to={{ pathname, search: `?${baseSearchStr}` }}
+                  >
                     <FormattedMessage id="removeAllFilters" />
                   </Link>
                 </li>
