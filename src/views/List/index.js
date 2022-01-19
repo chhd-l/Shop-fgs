@@ -1954,7 +1954,7 @@ class List extends React.Component {
                                 )}
                                 className="flex w-100 align-items-center justify-content-between rc-md-down"
                               >
-                                <div>
+                                <div className="flex items-center">
                                   <em
                                     className={`rc-icon rc-filter--xs rc-iconography ${
                                       (filterModalVisible && !isTop) ||
@@ -1963,10 +1963,10 @@ class List extends React.Component {
                                         : ''
                                     }`}
                                     data-filter-trigger="filter-example"
-                                    style={{
-                                      position: 'relative',
-                                      top: '0.2rem'
-                                    }}
+                                    // style={{
+                                    //   position: 'relative',
+                                    //   top: '0.2rem'
+                                    // }}
                                   />
                                   <span className=" font-weight-normal font-18 rc-padding-left--sm">
                                     <FormattedMessage id="list.viewFilters" />

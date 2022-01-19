@@ -720,7 +720,7 @@ class PayProductInfo extends React.Component {
                 />
               ) : null}
               {/* 支付新增promotionCode(选填) */}
-              <div className="mb-3 d-flex justify-content-between">
+              <div className="mb-3 d-flex justify-content-between items-center">
                 <span
                   className="rc-input rc-input--inline rc-input--label mr-0"
                   style={{ width: '150px' }}

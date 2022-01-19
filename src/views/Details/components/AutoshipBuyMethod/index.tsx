@@ -28,16 +28,19 @@ const AutoshipBuyMethod = ({
   changeFreqency
 }: Props) => {
   const [toolTipVisible, setToolTipVisible] = useState(false);
-  const discountAmount = new Decimal(currentUnitPrice).sub(new Decimal(currentSubscriptionPrice)).toNumber()
-  const discountAmountUnit = formatMoney(discountAmount)
+  const discountAmount = new Decimal(currentUnitPrice)
+    .sub(new Decimal(currentSubscriptionPrice))
+    .toNumber();
+  const discountAmountUnit = formatMoney(discountAmount);
   return (
     <div>
       <div
-        className={`buyMethod rc-margin-bottom--xs d-flex row align-items-md-center justify-content-between 2 ml-0 mr-0 ui-cursor-pointer-pure ${form.buyWay === 1 ? 'border-red' : 'border-d7d7d7'
-          }`}
+        className={`buyMethod rc-margin-bottom--xs d-flex row align-items-md-center justify-content-between 2 ml-0 mr-0 ui-cursor-pointer-pure ${
+          form.buyWay === 1 ? 'border-red' : 'border-d7d7d7'
+        }`}
         onClick={changeMethod.bind(this)}
       >
-        <div className="radioBox order-1 md:order-1 col-8 col-md-5">
+        <div className="radioBox order-1 md:order-1 col-8 col-md-5 px-0">
           <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width m-0">
             <FormattedMessage id="email">
               {(txt) => (
@@ -56,7 +59,7 @@ const AutoshipBuyMethod = ({
             <label className="rc-input__label--inline" htmlFor="type_frequency">
               <span
                 style={{
-                  fontWeight: '400',
+                  fontWeight: 400,
                   color: '#333'
                 }}
               >
@@ -83,10 +86,11 @@ const AutoshipBuyMethod = ({
                     updateChildDisplay={(status) => {
                       setToolTipVisible(status);
                     }}
-                    content={<FormattedMessage id="subscription.promotionTip2" />}
+                    content={
+                      <FormattedMessage id="subscription.promotionTip2" />
+                    }
                   />
                 </span>
-
               </span>
             </label>
           </div>
@@ -98,18 +102,21 @@ const AutoshipBuyMethod = ({
                 window.__.env.REACT_APP_COUNTRY === 'ru' ? '#3ab41d' : '#ec001a'
             }}
           >
-            {configStore.discountDisplayTypeInfo == "Percentage" ?
+            {configStore.discountDisplayTypeInfo == 'Percentage' ? (
               <FormattedMessage
                 id="saveExtra"
                 values={{
                   val: selectedSpecItem?.subscriptionPercentage
                 }}
-              /> : <FormattedMessage
+              />
+            ) : (
+              <FormattedMessage
                 id="saveExtra"
                 values={{
                   val: discountAmountUnit
                 }}
-              />}
+              />
+            )}
           </div>
           <br />
           <div className="freeshippingBox">
@@ -121,10 +128,10 @@ const AutoshipBuyMethod = ({
             frequencyType={skuPromotions}
             currentFrequencyId={form.frequencyId}
             handleConfirm={(data) => changeFreqency(data)}
-          // handleConfirm={}
+            // handleConfirm={}
           />
         )}
-        <div className="price font-weight-normal text-right position-relative order-2 md:order-3 col-4 col-md-3 text-nowrap">
+        <div className="price font-weight-normal text-right position-relative order-2 md:order-3 col-4 col-md-3 text-nowrap px-0">
           <div>
             <span className="text-line-through-price">
               {formatMoney(currentUnitPrice)}
@@ -135,8 +142,8 @@ const AutoshipBuyMethod = ({
             </span>
           </div>
           {configStore?.info?.storeVO?.basePricePDPShowedFlag &&
-            selectedSpecItem?.goodsInfoWeight &&
-            selectedSpecItem?.goodsInfoUnit ? (
+          selectedSpecItem?.goodsInfoWeight &&
+          selectedSpecItem?.goodsInfoUnit ? (
             <div
               style={{
                 fontSize: '.875rem',
