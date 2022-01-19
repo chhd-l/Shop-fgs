@@ -236,8 +236,7 @@ const LoginCallback = (props) => {
   const { oktaAuth, authState } = useOktaAuth();
   const authStateReady = !authState.isPending;
 
-  useEffect( () => {
-   (async()=>{
+  useEffect(async() => {
     const init = async () => {
       const sessionToken = localItemRoyal.get('okta-session-token');
       const authCallBack =
@@ -258,7 +257,6 @@ const LoginCallback = (props) => {
       }
     };
     init();
-   })()
   }, [oktaAuth, authStateReady]);
 
   return <div />;
