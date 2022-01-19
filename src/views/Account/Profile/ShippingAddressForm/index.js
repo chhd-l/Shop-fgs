@@ -401,7 +401,7 @@ class ShippingAddressFrom extends React.Component {
       selectValidationOption
     } = this.state;
     return (
-      <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
+      <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop px-0 md:px-4">
         <Helmet>
           <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>

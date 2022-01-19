@@ -84,6 +84,10 @@ import ProductFinderResult from '@/views/ProductFinder/modules/Result';
 import ProductFinderNoResult from '@/views/ProductFinder/modules/NoResult';
 
 const TermUse = loadable(() => import('@/views/StaticPage/TermUse'));
+const Decouverteroyalcanin = loadable(() =>
+  import('@/views/StaticPage/Decouverteroyalcanin')
+);
+
 const TermsAndConditions = loadable(() =>
   import('@/views/StaticPage/TermUse/TermsAndConditions')
 );
@@ -533,6 +537,11 @@ const App = () => {
                   }}
                 />
 
+                <Route
+                  exact
+                  path="/decouverteroyalcanin"
+                  component={Decouverteroyalcanin}
+                />
                 <Route exact path="/termuse" component={TermUse} />
                 <Route
                   exact

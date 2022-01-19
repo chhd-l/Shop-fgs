@@ -35,6 +35,7 @@ export const FooterWrapper = styled.footer`
         display: inline-block;
       }
       .rc-list__header {
+        background: transparent;
         padding-right: 0.5rem;
         &::after {
           display: none;
