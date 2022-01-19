@@ -14,6 +14,7 @@ import WeightSelect from './components/WeightSelect';
 import RadioSelect from './components/RadioSelect';
 import BcsSelect from './components/BcsSelect';
 import DailyPortion_icon from '@/assets/images/dailyPortion/dailyPortion_logo.png';
+import DailyPortion_icon_ru from '@/assets/images/dailyPortion/dailyPortion_logo_ru.png';
 import DailyPortion_icon_text from '@/assets/images/dailyPortion/dailyPortion_icon.png';
 import './index.less';
 
@@ -385,6 +386,7 @@ const mixedBreedPossibleOptions = [
 
   }
 ]
+const isRu = window.__.env.REACT_APP_COUNTRY?.toLowerCase() === 'ru';
 export default function DailyPortion(
   {
     speciesValue='', // species
@@ -512,6 +514,7 @@ export default function DailyPortion(
     const isMixedBreedPossibleValues = isMixedBreed && speciesValue === 'Dog';
 
     let param = {
+      "countryCode": window.__.env.REACT_APP_COUNTRY?.toLowerCase(),
       "breedCode": isMixedBreed ? 'mixed_breed' : breedData.key,
       "petActivityCode": petActivityCode,
       "genderCode": gender,
@@ -523,7 +526,7 @@ export default function DailyPortion(
       "technologyCode": details?.wsTechnologyCode,
       "energyCategory": details?.wsEnergyCategory,
       "referenceEnergyValue": details?.wsReferenceEnergyValue,
-      "density": details?.wsDensity,
+      "density": !!details?.wsDensity ? details?.wsDensity : 0,
       "packWeight": goodsInfo?.goodsInfoWeight ?? 1,
       "goodsInfoUnit": goodsInfo?.goodsInfoUnit ? String(goodsInfo?.goodsInfoUnit).toLowerCase():'kg',
     }
@@ -835,7 +838,7 @@ export default function DailyPortion(
       <div className='lg:flex'>
         <div className='w-full lg:w-1/4 p-4 text-center'>
           <LazyLoad>
-            <img src={DailyPortion_icon} alt={'Daily Portion'}/>
+            <img src={isRu ? DailyPortion_icon_ru :DailyPortion_icon} alt={'Daily Portion'}/>
           </LazyLoad>
         </div>
         <div className='w-full lg:w-3/4 p-4'>

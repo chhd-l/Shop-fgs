@@ -197,7 +197,6 @@ export const PAYMENT_METHOD_PAU_ACCOUNT_RULE = [
     getErrMsg: ({ intl }) => {
       const { formatMessage } = intl;
       console.log(222, formatMessage({ id: 'payment.cardOwner' }));
-      debugger;
       return formatMessage(
         { id: 'payment.errorInfo' },
         {
