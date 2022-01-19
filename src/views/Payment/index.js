@@ -3978,10 +3978,8 @@ class Payment extends React.Component {
     //0元订单中含有订阅商品时不能下单（us美国订阅可以）
     if (
       this.isSkipPaymentPanel &&
-      !(
-        window.__.env.REACT_APP_COUNTRY === 'us' &&
-        this.isCurrentBuyWaySubscription
-      )
+      window.__.env.REACT_APP_COUNTRY !== 'us' &&
+      this.isCurrentBuyWaySubscription
     ) {
       const errMsg = intl.messages['checkout.zeroOrder.butSubscription'];
       this.showErrorMsg(errMsg);
