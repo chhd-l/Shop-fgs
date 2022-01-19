@@ -42,34 +42,11 @@ const AddCartSuccessMobile = ({
               <FormattedMessage id="close" />
             </button>
           </header>
-          <section
-            className="rc-modal__content rc-scroll--y"
-            style={{ textAlign: 'center' }}
-          >
-            <div className="rc-margin-top--md" style={{ textAlign: 'center' }}>
-              <svg
-                t="1607498763458"
-                className="icon"
-                style={{
-                  width: '35px',
-                  height: '35px',
-                  marginBottom: '1.25rem',
-                  display:"inline-block"
-                }}
-                viewBox="0 0 1024 1024"
-                version="1.1"
-                xmlns="http://www.w3.org/2000/svg"
-                p-id="2968"
-                width="200"
-                height="200"
-              >
-                <path
-                  d="M512 0C230.4 0 0 230.4 0 512c0 281.6 230.4 512 512 512 281.6 0 512-230.4 512-512C1024 230.4 793.6 0 512 0zM512 960c-249.6 0-448-204.8-448-448 0-249.6 204.8-448 448-448 249.6 0 448 198.4 448 448C960 761.6 761.6 960 512 960zM691.2 339.2 454.4 576 332.8 454.4c-19.2-19.2-51.2-19.2-76.8 0C243.2 480 243.2 512 262.4 531.2l153.6 153.6c19.2 19.2 51.2 19.2 70.4 0l51.2-51.2 224-224c19.2-19.2 25.6-51.2 0-70.4C742.4 320 710.4 320 691.2 339.2z"
-                  p-id="2969"
-                  fill="#47b800"
-                />
-              </svg>
-              <p style={{ color: '#5cae2a' }}>
+          <section className="rc-modal__content rc-scroll--y text-center">
+            <div className="rc-margin-top--md text-center">
+              <span className="iconfont iconchenggong font-medium text-4xl green" />
+
+              <p className="green">
                 <FormattedMessage id="addedtoCart" />
               </p>
               {mixFeedingData && selectedSku?.stock > 0 ? (

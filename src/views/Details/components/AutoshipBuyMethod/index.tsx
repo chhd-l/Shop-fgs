@@ -37,7 +37,7 @@ const AutoshipBuyMethod = ({
           }`}
         onClick={changeMethod.bind(this)}
       >
-        <div className="radioBox order-1 md:order-1 col-8 col-md-5">
+        <div className="radioBox order-1 md:order-1 col-8 col-md-5 px-0">
           <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width m-0">
             <FormattedMessage id="email">
               {(txt) => (
