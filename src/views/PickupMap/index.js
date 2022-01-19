@@ -71,18 +71,37 @@ class PickupMap extends React.Component {
   }
   // 打开地图
   openKaktusWidget = (city) => {
-    console.log('666 ★ 打开地图city: ', city);
-    window.kaktusMap &&
-      window.kaktusMap.openWidget({
-        city_from: 'Москва',
-        city_to: city,
-        dimensions: {
-          height: 10,
-          width: 10,
-          depth: 10
-        },
-        weight: 600
-      });
+    console.log('homeDeliveryAndPickup');
+    try {
+      let homeDeliveryAndPickup = JSON.parse(
+        window.__.sessionItemRoyal.get('rc-homeDeliveryAndPickup')
+      );
+      let { dimensions, weight } = homeDeliveryAndPickup.cityData;
+      window.kaktusMap &&
+        window.kaktusMap.openWidget({
+          city_from: 'Москва',
+          city_to: city,
+          dimensions: {
+            height: dimensions.height,
+            width: dimensions.width,
+            depth: dimensions.depth
+          },
+          weight: weight
+        });
+    } catch (error) {
+      console.log('666 ★ 打开地图city: ', city);
+      window.kaktusMap &&
+        window.kaktusMap.openWidget({
+          city_from: 'Москва',
+          city_to: city,
+          dimensions: {
+            height: 10,
+            width: 10,
+            depth: 10
+          },
+          weight: 600
+        });
+    }
   };
   // 页面加载完成后向父级发送数据
   sendMsgLoadComplete = () => {
