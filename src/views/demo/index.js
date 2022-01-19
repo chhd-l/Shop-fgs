@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import Slider from 'react-slick';
 import { SideBySideMagnifier } from 'react-image-magnifiers';
 import './index.less';
-import ImageMagnifier from './test';
+import ImageMagnifier from './ImageMagnifier';
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -146,7 +146,6 @@ const AsNavFor = (props) => {
   ];
   const [currentSliderSize, setCurrentSliderSize] = useState({});
   const [idx, setIdx] = useState(0);
-  const switchSides = false;
   const sliderImageMagnifierBox = useRef({});
   const sliderRef = useRef({});
   const navToSlide = (idx) => {
