@@ -530,7 +530,7 @@ class CheckoutStore {
       console.log('开始调用mini-cart');
       // 获取购物车列表
       let siteMiniPurchasesRes = await siteMiniPurchases({ delFlag });
-      console.log('mini-carts-res:', siteMiniPurchasesRes);
+      console.log('mini-carts api res', siteMiniPurchasesRes);
       // 兼容ind的参数传值
       let newGoodsList = getLoginData(siteMiniPurchasesRes.context?.goodsList);
       siteMiniPurchasesRes = Object.assign({}, siteMiniPurchasesRes, {
@@ -563,6 +563,7 @@ class CheckoutStore {
         deliverWay,
         shippingFeeAddress // DuData地址对象，俄罗斯计算运费用
       });
+      console.log('purchase api res', sitePurchasesRes);
       // debugger;
       console.log('★ 449 ----- checkoutStore 获取总价: ', sitePurchasesRes);
       let backCode = sitePurchasesRes.code;
