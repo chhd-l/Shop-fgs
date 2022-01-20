@@ -18,8 +18,8 @@ moment.locale('fr', {
     LL: 'D MMM'
   }
 });
-let index = 0;
 
+let index = 0;
 class WeekCalender extends Component {
   state = {
     weekDate: [],
@@ -28,6 +28,7 @@ class WeekCalender extends Component {
   };
 
   componentDidMount() {
+    index = 0;
     this.getCurrentWeek();
   }
 

@@ -24,6 +24,7 @@ service.interceptors.request.use((config) => {
     sessionItemRoyal.get('rc-token') || localItemRoyal.get('rc-token');
   if (token) {
     config.headers['Authorization'] = 'Bearer ' + token;
+    config.headers['Session-Key'] = 'Bearer ' + token;
   }
   if (config.method && config.method.toLocaleLowerCase() === 'get') {
     Object.assign(config, {
@@ -97,7 +98,7 @@ service.interceptors.response.use(
         (response.data.code === 'K-000002' || response.data.code === 'E-000049')
       ) {
         sessionItemRoyal.set('rc-token-lose', 1);
-        window.location.href = window.__.env.REACT_APP_HOMEPAGE;
+        // window.location.href = window.__.env.REACT_APP_HOMEPAGE;
       }
       let ret = response.data || 'Error';
 

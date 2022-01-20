@@ -34,6 +34,7 @@ import { useDynamicLanguage } from '@/framework/common';
 import RouteFilter from '@/components/RouteFilter';
 import RouteFilterHook from '@/components/RouteFilter/RouteFilterHook';
 import { initializePhraseAppEditor } from 'react-intl-phraseapp';
+import './vconsole';
 
 const Home = loadable(() => import('@/views/Home'), 'rc-carousel');
 
@@ -78,6 +79,8 @@ import ProductFinderResult from '@/views/ProductFinder/modules/Result';
 import ProductFinderNoResult from '@/views/ProductFinder/modules/NoResult';
 
 const TermUse = loadable(() => import('@/views/StaticPage/TermUse'));
+const Decouverteroyalcanin = loadable(() => import('@/views/StaticPage/Decouverteroyalcanin'));
+
 const TermsAndConditions = loadable(() =>
   import('@/views/StaticPage/TermUse/TermsAndConditions')
 );
@@ -233,7 +236,7 @@ const LoginCallback = (props) => {
   const { oktaAuth, authState } = useOktaAuth();
   const authStateReady = !authState.isPending;
 
-  useEffect(async () => {
+  useEffect(async() => {
     const init = async () => {
       const sessionToken = localItemRoyal.get('okta-session-token');
       const authCallBack =
@@ -535,6 +538,7 @@ const App = () => {
                   }}
                 />
 
+                <Route exact path="/decouverteroyalcanin" component={Decouverteroyalcanin} />
                 <Route exact path="/termuse" component={TermUse} />
                 <Route
                   exact

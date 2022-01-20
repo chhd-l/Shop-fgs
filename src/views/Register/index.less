@@ -99,21 +99,6 @@
   .rc-input--error.rc-input:after {
     display: none;
   }
-  .input-cross {
-    right: 0.625rem;
-    border: none;
-    background-color: transparent;
-    position: absolute !important;
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-    transform: translateY(-50%);
-    font-weight: 700;
-    z-index: 1;
-    cursor: pointer;
-  }
-  .rc-input__password ~ .input-cross {
-    right: 48px;
-  }
   .rc-styled-link--cta.rc-text-colour--hyperlink {
     display: inline-block;
     margin: 0;
@@ -128,17 +113,16 @@
   .tippy-popper {
     position: absolute;
     will-change: transform;
-    bottom: 55px;
+    top: 0;
     left: 0;
     z-index: 59;
-    -webkit-perspective: 700px;
     perspective: 700px;
     outline: 0;
-    -webkit-transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
     transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
     pointer-events: none;
     line-height: 1.4;
     max-width: calc(100% - 0.625rem);
+    transform: translateY(-100%);
   }
   .tippy-tooltip {
     position: relative;
