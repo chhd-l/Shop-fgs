@@ -529,6 +529,7 @@ class CheckoutStore {
 
       // 获取购物车列表
       let siteMiniPurchasesRes = await siteMiniPurchases({ delFlag });
+      console.log('mini-carts-res:', siteMiniPurchasesRes);
       // 兼容ind的参数传值
       let newGoodsList = getLoginData(siteMiniPurchasesRes.context?.goodsList);
       siteMiniPurchasesRes = Object.assign({}, siteMiniPurchasesRes, {
