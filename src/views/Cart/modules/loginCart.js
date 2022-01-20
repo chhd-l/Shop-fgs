@@ -409,6 +409,8 @@ class LoginCart extends React.Component {
       });
     }
 
+    console.log('test productList:', productList);
+
     this.setState(
       {
         productList,
