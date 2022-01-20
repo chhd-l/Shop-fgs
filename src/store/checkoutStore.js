@@ -398,6 +398,13 @@ class CheckoutStore {
       // console.log('★ 305 ----- checkoutStore 获取总价: ', purchasesRes);
       let backCode = purchasesRes.code;
       purchasesRes = purchasesRes.context;
+      // 没达到下单额度，不能下单
+      if (
+        purchasesRes.canShipped === false &&
+        purchasesRes.cantShippedMessage
+      ) {
+        throw new Error(purchasesRes.cantShippedMessage);
+      }
       this.setGiftList(purchasesRes.giftList);
       let newPromotionCode = purchasesRes.promotionDesc || '';
       this.setPromotionCode(newPromotionCode);
@@ -566,6 +573,14 @@ class CheckoutStore {
       console.log('★ 449 ----- checkoutStore 获取总价: ', sitePurchasesRes);
       let backCode = sitePurchasesRes.code;
       sitePurchasesRes = sitePurchasesRes.context;
+
+      // 没达到下单额度，不能下单
+      if (
+        sitePurchasesRes.canShipped === false &&
+        sitePurchasesRes.cantShippedMessage
+      ) {
+        throw new Error(sitePurchasesRes.cantShippedMessage);
+      }
       this.setGiftList(sitePurchasesRes.giftList);
       let newPromotionCode = sitePurchasesRes.promotionDesc || '';
       this.setPromotionCode(newPromotionCode);
