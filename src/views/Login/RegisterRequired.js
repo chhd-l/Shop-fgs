@@ -309,7 +309,7 @@ class RegisterRequired extends Component {
                       />
                     </div>
                   </DistributeHubLinkOrATag> */}
-                  <div className="content-asset flex justify-center">
+                  <div className="content-asset flex justify-center items-center">
                     <img
                       src={logoAnimatedPng}
                       width="205"
