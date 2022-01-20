@@ -2362,7 +2362,6 @@ class Payment extends React.Component {
     try {
       await this.saveAddressAndCommentPromise();
       await this.props.checkoutStore.validCheckoutLimitRule({
-        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT),
         intl
       });
     } catch (err) {
