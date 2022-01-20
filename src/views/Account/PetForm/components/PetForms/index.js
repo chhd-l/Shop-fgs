@@ -279,7 +279,10 @@ const PetForms = ({
     setNewPetForm('sterilized', sterilized);
   };
   const onDateChange = (date) => {
-    setNewPetForm('birthdate', date ? format(date, 'yyyy-MM-dd') : '');
+    setNewPetForm(
+      'birthdate',
+      date ? format(new Date(date), 'yyyy-MM-dd') : ''
+    );
   };
   const selectedBreed = (item) => {
     let newPetFrom = Object.assign({}, petForm, {

@@ -358,7 +358,7 @@ class SubscriptionDetail extends React.Component {
   };
   onDateChange(date, goodsInfo) {
     let { subDetail } = this.state;
-    subDetail.nextDeliveryTime = format(date, 'yyyy-MM-dd');
+    subDetail.nextDeliveryTime = format(new Date(date), 'yyyy-MM-dd');
     let param = {
       subscribeId: subDetail.subscribeId,
       nextDeliveryTime: subDetail.nextDeliveryTime,

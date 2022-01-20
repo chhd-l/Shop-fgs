@@ -739,7 +739,7 @@ function getDatePickerConfig() {
   registerLocale(window.__.env.REACT_APP_COUNTRY, curLocaleModule);
   // 根据Intl.DateTimeFormat生成当前国家的日期格式
   const specificDate = formatDate({ date: '2021-12-30' });
-  return Object.assign(
+  const datePickerConfig = Object.assign(
     {},
     curDatePickerCfg,
     {
@@ -752,6 +752,8 @@ function getDatePickerConfig() {
       locale_module: curLocaleModule
     }
   );
+  console.log('datePickerConfig:', datePickerConfig);
+  return datePickerConfig;
 }
 let datePickerConfig = getDatePickerConfig();
 export { datePickerConfig };
@@ -1277,6 +1279,14 @@ export function formatDate({
       );
     }
 
+    console.log('test date:', date);
+    console.log(
+      'test date:',
+      new Intl.DateTimeFormat(
+        window.__.env.REACT_APP_NAVIGATOR_LANG,
+        options
+      ).format(new Date(date))
+    );
     return new Intl.DateTimeFormat(
       window.__.env.REACT_APP_NAVIGATOR_LANG,
       options
