@@ -51,9 +51,8 @@ class CommunicationDataEditForm extends React.Component {
       errorMsg: '',
       showWarningTip: false
     };
-    this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
-      this
-    );
+    this.handleCommunicationCheckBoxChange =
+      this.handleCommunicationCheckBoxChange.bind(this);
   }
   componentDidUpdate() {
     if (window.__.env.REACT_APP_COUNTRY == 'tr') {
@@ -356,7 +355,7 @@ class CommunicationDataEditForm extends React.Component {
         <div className="userContactPreferenceInfo">
           <div className="profileSubFormTitle pl-3 pr-3 pt-3">
             <h5
-              className="mb-0 text-xl"
+              className="mb-0 text-lg md:text-xl"
               style={{ display: curPageAtCover ? 'block' : 'none' }}
             >
               <svg
