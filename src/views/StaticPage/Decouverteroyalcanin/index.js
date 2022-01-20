@@ -173,7 +173,7 @@ const Decouverteroyalcanin = (props) => {
               <h2 className="xs:text-xl lg:text-3xl rc-padding-bottom--sm">
                 A la découverte des expériences Royal Canin
               </h2>
-              <p>
+              <p style={{ maxWidth: '440px' }}>
                 Faites l’expérience du monde du point de vue de votre compagnon
                 chat ou chien. Vous êtes-vous déjà demandé comment votre chien
                 ou votre chat voit, sent et entend le monde qui l’entoure ?
@@ -192,7 +192,10 @@ const Decouverteroyalcanin = (props) => {
                 Venez écouter et échanger avec nos experts sur tous les sujets
                 autour des chiens et chats
               </h2>
-              <p className="rc-padding-bottom--sm">
+              <p
+                className="rc-padding-bottom--sm"
+                style={{ maxWidth: '440px' }}
+              >
                 Royal Canin a toujours quelque chose de différent et
                 d’instructif à proposer. Des ateliers indoor, des activités en
                 extérieur, des rencontres pilotées par des experts et bien plus
