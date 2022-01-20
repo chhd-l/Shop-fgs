@@ -493,29 +493,6 @@ class Payment extends React.Component {
       this.queryList();
     }
 
-    if (sessionItemRoyal.get('rc-swishQrcode')) {
-      this.setState({
-        swishQrcode: sessionItemRoyal.get('rc-swishQrcode'),
-        swishQrcodeModal: true
-      });
-      const result = differenceInSeconds(
-        new Date(),
-        new Date(sessionItemRoyal.get('rc-createSwishQrcodeTime'))
-      );
-      payCountDown(
-        this.state.countDownStartTime - result,
-        1,
-        (res, swishQrcodeError) => {
-          if (swishQrcodeError) {
-            setTimeout(() => {
-              this.handelQrcodeModalClose();
-            }, 3000);
-          }
-          this.setState({ countDown: res, swishQrcodeError });
-        }
-      );
-    }
-
     try {
       const { tid, appointNo } = this.state;
 
@@ -570,6 +547,71 @@ class Payment extends React.Component {
         });
         this.props.checkoutStore.updatePromotionFiled(recommend_data);
         this.setState({ recommend_data });
+      }
+
+      //swish支付刷新网站后持续倒计时监听支付状态
+      if (sessionItemRoyal.get('rc-swishQrcode')) {
+        this.setState({
+          swishQrcode: sessionItemRoyal.get('rc-swishQrcode'),
+          swishQrcodeModal: true
+        });
+        const result = differenceInSeconds(
+          new Date(),
+          new Date(sessionItemRoyal.get('rc-createSwishQrcodeTime'))
+        );
+        const getData = () => {
+          if (!this.state.swishQrcodeModal) return;
+          return adyenPaymentsDetails({
+            redirectResult: sessionItemRoyal.get('rc-redirectResult'),
+            businessId: sessionItemRoyal.get('rc-businessId')
+          })
+            .then((response) => {
+              switch (response.context.status) {
+                case 'PROCESSING':
+                  setTimeout(() => {
+                    return getData();
+                  }, 2000);
+                  break;
+                case 'SUCCEED':
+                  //gotoConfirmationPage = true;
+                  this.removeLocalCartData();
+                  // 清除掉计算运费相关参数
+                  localItemRoyal.remove('rc-calculation-param');
+                  sessionItemRoyal.remove('rc-clicked-surveyId');
+                  sessionItemRoyal.remove('goodWillFlag');
+                  //支付成功清除推荐者信息
+                  this.props.clinicStore.removeLinkClinicInfo();
+                  this.props.clinicStore.removeLinkClinicRecommendationInfos();
+
+                  // 跳转 confirmation
+                  this.props.history.push('/confirmation');
+                  break;
+                case 'FAILURE':
+                  this.setState({
+                    swishQrcodeError: true,
+                    swishQrcode: ''
+                  });
+                  sessionItemRoyal.remove('rc-swishQrcode');
+                  break;
+              }
+            })
+            .catch(function () {
+              //this.setState({ swishQrcodeError: true });
+            });
+        };
+        payCountDown(
+          this.state.countDownStartTime - result,
+          1,
+          (res, swishQrcodeError) => {
+            if (swishQrcodeError) {
+              setTimeout(() => {
+                this.handelQrcodeModalClose();
+              }, 3000);
+            }
+            this.setState({ countDown: res, swishQrcodeError });
+          }
+        );
+        getData();
       }
     } catch (err) {
       console.warn(err);
@@ -1665,22 +1707,26 @@ class Payment extends React.Component {
               JSON.stringify(subOrderNumberList)
             );
           }
+          sessionItemRoyal.set('rc-redirectResult', res.context.paymentData);
+          sessionItemRoyal.set('rc-businessId', res.context.tid);
 
           if (res.context.qrCodeData) {
             this.setState({ swishAppRedirectUrl: res.context.redirectUrl });
             const getData = async () => {
+              if (!this.state.swishQrcodeModal) return;
               return adyenPaymentsDetails({
                 redirectResult: res.context.paymentData,
                 businessId: res.context.tid
               })
-                .then(async (response) => {
+                .then((response) => {
                   switch (response.context.status) {
                     case 'PROCESSING':
-                      return await getData();
+                      setTimeout(async () => {
+                        return await getData();
+                      }, 2000);
                       break;
                     case 'SUCCEED':
                       gotoConfirmationPage = true;
-                      //return await getData();
                       break;
                     case 'FAILURE':
                       this.setState({
@@ -2081,9 +2127,16 @@ class Payment extends React.Component {
       {},
       deliveryAddress,
       {
+        contractNumber: deliveryAddress?.calculation?.contractNumber,
+        courier: deliveryAddress?.calculation?.courier,
+        courierCode: deliveryAddress?.calculation?.courierCode,
         zipcode: deliveryAddress?.postCode,
         phone: creditCardInfo?.phoneNumber,
-        email: creditCardInfo?.email || deliveryAddress?.email || guestEmail,
+        email:
+          creditCardInfo?.email ||
+          deliveryAddress?.email ||
+          this.userInfo?.email ||
+          guestEmail,
         line1: deliveryAddress?.address1,
         line2: deliveryAddress?.address2,
         //审核者信息放订单行

@@ -252,12 +252,8 @@ export default class DropDownMenuForHub extends React.Component {
     );
   };
   render() {
-    const {
-      headerNavigationList,
-      activeTopParentId,
-      showNav,
-      showLoginBtn
-    } = this.props;
+    const { headerNavigationList, activeTopParentId, showNav, showLoginBtn } =
+      this.props;
     return (
       <>
         {showNav ? (

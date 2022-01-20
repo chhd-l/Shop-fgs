@@ -173,6 +173,8 @@ class RouteFilter extends Component {
         sessionItemRoyal.remove('rc-tid');
         sessionItemRoyal.remove('rc-tidList');
         sessionItemRoyal.remove('rc-swishQrcode');
+        sessionItemRoyal.remove('rc-redirectResult');
+        sessionItemRoyal.remove('rc-businessId');
         sessionItemRoyal.remove('rc-createSwishQrcodeTime');
         sessionItemRoyal.remove('recommend_product');
         sessionItemRoyal.remove('orderSource');

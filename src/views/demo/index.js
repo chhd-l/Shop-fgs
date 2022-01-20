@@ -10,16 +10,14 @@ const product = {
   description:
     'Aliment complet pour chats - Spécial chatons de 4 semaines à 4 mois.',
   mainImage: {
-    url:
-      'https://d2cstgstorage.z13.web.core.windows.net/202012240714391113.png',
+    url: 'https://d2cstgstorage.z13.web.core.windows.net/202012240714391113.png',
     alt: 'PEDIATRIC WEANING'
   },
   goodsSpecs: [{ specName: 'Gewicht', specId: 20550 }],
   goodsSpecDetails: [{ label: '2 kg', specId: 20550, specDetailId: 29632 }],
   images: [
     {
-      url:
-        'https://d2cstgstorage.z13.web.core.windows.net/202012240714391113.png',
+      url: 'https://d2cstgstorage.z13.web.core.windows.net/202012240714391113.png',
       alt: 'PEDIATRIC WEANING'
     }
   ],

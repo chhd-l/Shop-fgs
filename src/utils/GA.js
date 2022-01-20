@@ -351,7 +351,7 @@ export const GAInitLogin = ({ productList, frequencyList, props, type }) => {
     products: arr
   });
   console.info('productsproducts', arr);
-  // debugger;
+  //debugger;
 
   props.checkoutStore.saveGAProduct({ products: arr });
 };
@@ -447,7 +447,7 @@ export const GARecommendationProduct = (
     return res;
   });
   console.info('gaproducts', products);
-  debugger;
+  //debugger;
   (type === 1 || type === 4) &&
     window?.dataLayer?.unshift({
       products
