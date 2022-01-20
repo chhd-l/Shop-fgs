@@ -1,5 +1,6 @@
 import React from 'react';
 import findIndex from 'lodash/findIndex';
+import cn from 'classnames';
 import './index.less';
 
 export default class Selection extends React.Component {
@@ -155,8 +156,23 @@ export default class Selection extends React.Component {
           onClick={this.toggleShowOptions}
         >
           <div
-            className="choices__inner"
-            style={{ ...this.props.customInnerStyle }}
+            className={cn('choices__inner')}
+            style={this.props.customInnerStyle}
+            ref={(node) => {
+              const { customInnerStyle } = this.props;
+              if (node) {
+                for (const key in customInnerStyle) {
+                  const value = customInnerStyle[key];
+                  if (value.includes('!important')) {
+                    node.style.setProperty(
+                      key,
+                      value.split('!important')[0],
+                      'important'
+                    );
+                  }
+                }
+              }
+            }}
           >
             <div className="choices__list choices__list--single d-flex justify-content-center align-items-center">
               <div
