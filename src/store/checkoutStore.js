@@ -536,8 +536,24 @@ class CheckoutStore {
 
       console.log('开始调用mini-cart');
       // 获取购物车列表
+      // 删除felin sku
       let siteMiniPurchasesRes = await siteMiniPurchases({ delFlag });
       console.log('mini-carts api res', siteMiniPurchasesRes);
+      siteMiniPurchasesRes.context.goodsList =
+        siteMiniPurchasesRes?.context?.goodsList?.map((item) => {
+          if (item.goodsInfos) {
+            item.goodsInfos = item.goodsInfos.filter((el) => {
+              if (el.displayOnShop === 0) {
+                item.goodsSpecDetails = item.goodsSpecDetails.filter(
+                  (ele) =>
+                    el.mockSpecDetailIds.join('') !== String(ele.specDetailId)
+                );
+              }
+              return el.displayOnShop !== 0;
+            });
+          }
+          return item;
+        });
       // 兼容ind的参数传值
       let newGoodsList = getLoginData(siteMiniPurchasesRes.context?.goodsList);
       siteMiniPurchasesRes = Object.assign({}, siteMiniPurchasesRes, {
