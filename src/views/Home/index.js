@@ -538,7 +538,7 @@ class Home extends React.Component {
         localItemRoyal.get('okta-session-token')
       );
       localItemRoyal.remove('login-again');
-      debugger;
+      //debugger;
       window.location.href = callOktaCallBack;
     }
 
