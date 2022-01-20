@@ -2127,9 +2127,16 @@ class Payment extends React.Component {
       {},
       deliveryAddress,
       {
+        contractNumber: deliveryAddress?.calculation?.contractNumber,
+        courier: deliveryAddress?.calculation?.courier,
+        courierCode: deliveryAddress?.calculation?.courierCode,
         zipcode: deliveryAddress?.postCode,
         phone: creditCardInfo?.phoneNumber,
-        email: creditCardInfo?.email || deliveryAddress?.email || guestEmail,
+        email:
+          creditCardInfo?.email ||
+          deliveryAddress?.email ||
+          this.userInfo?.email ||
+          guestEmail,
         line1: deliveryAddress?.address1,
         line2: deliveryAddress?.address2,
         //审核者信息放订单行
@@ -2405,7 +2412,6 @@ class Payment extends React.Component {
     try {
       await this.saveAddressAndCommentPromise();
       await this.props.checkoutStore.validCheckoutLimitRule({
-        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT),
         intl
       });
     } catch (err) {
@@ -4024,26 +4030,24 @@ class Payment extends React.Component {
     //0元订单中含有订阅商品时不能下单（us美国订阅可以）
     if (
       this.isSkipPaymentPanel &&
-      !(
-        window.__.env.REACT_APP_COUNTRY === 'us' &&
-        this.isCurrentBuyWaySubscription
-      )
+      window.__.env.REACT_APP_COUNTRY !== 'us' &&
+      this.isCurrentBuyWaySubscription
     ) {
       const errMsg = intl.messages['checkout.zeroOrder.butSubscription'];
       this.showErrorMsg(errMsg);
       return;
     }
     //Blocked users and emails are not able to checkout
-    const isBlockedAccountOrEmail = isBlockedUserOrEmail(
-      this.isLogin ? this.userInfo?.email : this.state.guestEmail
-    );
-    if (isBlockedAccountOrEmail) {
-      const isBlockedUserOrEmailTip = this.isLogin
-        ? intl.messages['checkout.blockedUserTip']
-        : intl.messages['checkout.blockedEmailTip'];
-      this.showErrorMsg(isBlockedUserOrEmailTip);
-      return;
-    }
+    // const isBlockedAccountOrEmail = isBlockedUserOrEmail(
+    //   this.isLogin ? this.userInfo?.email : this.state.guestEmail
+    // );
+    // if (isBlockedAccountOrEmail) {
+    //   const isBlockedUserOrEmailTip = this.isLogin
+    //     ? intl.messages['checkout.blockedUserTip']
+    //     : intl.messages['checkout.blockedEmailTip'];
+    //   this.showErrorMsg(isBlockedUserOrEmailTip);
+    //   return;
+    // }
 
     if (this.isLogin) {
       this.userBindConsentFun();

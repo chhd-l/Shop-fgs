@@ -944,20 +944,20 @@ export function getClubLogo({ goodsInfoFlag, subscriptionType }) {
 }
 
 export function bindSubmitParam(list) {
+  const SPECAIL_CONSENT_ENUM =
+    {
+      de: ['RC_DF_DE_FGS_OPT_EMAIL'],
+      us: ['RC_DF_US_PREF_CENTER_OFFERS_OPT_MAIL'],
+      fr: ['RC_DF_FR_FGS_OPT_EMAIL']
+    }[window.__.env.REACT_APP_COUNTRY] || [];
   let obj = { optionalList: [], requiredList: [] };
-  if (['fr', 'de'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1) {
+  if (['fr', 'de', 'us'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1) {
     const noIsRequiredList = list?.filter((item) => !item.isRequired);
     const firstOptionalList = noIsRequiredList?.filter(
-      (l) =>
-        ['RC_DF_FR_FGS_OPT_EMAIL', 'RC_DF_DE_FGS_OPT_EMAIL']?.includes(
-          l.consentDesc
-        ) && !l.isChecked
+      (l) => SPECAIL_CONSENT_ENUM?.includes(l.consentDesc) && !l.isChecked
     ).length;
     const firstOptionalListChecked = noIsRequiredList?.filter(
-      (l) =>
-        ['RC_DF_FR_FGS_OPT_EMAIL', 'RC_DF_DE_FGS_OPT_EMAIL']?.includes(
-          l.consentDesc
-        ) && l.isChecked
+      (l) => SPECAIL_CONSENT_ENUM?.includes(l.consentDesc) && l.isChecked
     ).length;
     if (firstOptionalList) {
       obj.communicationEmail = 0;

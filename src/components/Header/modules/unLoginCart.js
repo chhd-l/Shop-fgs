@@ -86,7 +86,6 @@ class UnloginCart extends React.Component {
       this.setState({ checkoutLoading: true });
       await checkoutStore.updateUnloginCart({
         isThrowErr: true,
-        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT),
         intl: this.props.intl
       });
 

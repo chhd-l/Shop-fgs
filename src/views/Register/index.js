@@ -19,6 +19,8 @@ import Modal from '@/components/Modal';
 import { inject, observer } from 'mobx-react';
 import { addEventListenerArr } from './addEventListener';
 import { EMAIL_REGEXP } from '@/utils/constant';
+import cn from 'classnames';
+import { Input } from '@/components/Common';
 // import ConsentAdditionalText from '@/components/Consent/ConsentAdditionalText';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -692,347 +694,255 @@ class Register extends Component {
                         >
                           <div className="rc-margin-bottom--xs">
                             {window.__.env.REACT_APP_COUNTRY !== 'de' ? (
-                              <div className="form-group rc-margin-bottom--md required rc-text--left">
-                                <div
-                                  className={
-                                    'rc-input rc-input--full-width ' +
-                                    (nameValid ? '' : 'rc-input--error')
+                              <>
+                                <Input
+                                  name="name"
+                                  id="registerName"
+                                  valid={nameValid}
+                                  onChange={this.registerChange}
+                                  onBlur={this.inputBlur}
+                                  value={registerForm.name}
+                                  label={<FormattedMessage id="registerName" />}
+                                  rightOperateBoxJSX={
+                                    nameValid ? null : (
+                                      <ChaChaIcon
+                                        onClick={() => this.deleteInput('name')}
+                                      />
+                                    )
                                   }
-                                  data-rc-feature-forms-setup="true"
-                                >
-                                  <input
-                                    className="rc-input__control"
-                                    id="registerName"
-                                    type="text"
-                                    maxLength="50"
-                                    name="name"
-                                    onChange={(e) => this.registerChange(e)}
-                                    onBlur={(e) => this.inputBlur(e)}
-                                    value={registerForm.name}
-                                  />
-                                  <label className="rc-input__label">
-                                    <span className="rc-input__label-text">
-                                      {' '}
-                                      <FormattedMessage id="registerName" />{' '}
-                                    </span>
-                                  </label>
-                                  {nameValid ? null : (
-                                    <ChaChaIcon
-                                      onClick={() => this.deleteInput('name')}
-                                    />
-                                  )}
-                                </div>
-                                <div className="invalid-feedback">
-                                  <FormattedMessage id="registerFillIn" />
-                                </div>
-                              </div>
+                                  inValidLabel={
+                                    <FormattedMessage id="registerFillIn" />
+                                  }
+                                />
+                              </>
                             ) : (
                               <>
-                                <div className="form-group rc-margin-bottom--md required rc-text--left">
-                                  <div
-                                    className={
-                                      'rc-input rc-input--full-width ' +
-                                      (firstNameValid ? '' : 'rc-input--error')
-                                    }
-                                    data-rc-feature-forms-setup="true"
-                                  >
-                                    <input
-                                      className="rc-input__control"
-                                      id="registerName"
-                                      type="text"
-                                      maxLength="50"
-                                      name="firstName"
-                                      onChange={(e) => this.registerChange(e)}
-                                      onBlur={(e) => this.inputBlur(e)}
-                                      value={registerForm.firstName}
-                                    />
-                                    <label className="rc-input__label">
-                                      <span className="rc-input__label-text">
-                                        {' '}
-                                        <FormattedMessage id="payment.firstName" />{' '}
-                                      </span>
-                                    </label>
-                                    {firstNameValid ? null : (
+                                <Input
+                                  id="registerName"
+                                  type="text"
+                                  maxLength="50"
+                                  name="firstName"
+                                  valid={firstNameValid}
+                                  onChange={this.registerChange}
+                                  onBlur={this.inputBlur}
+                                  value={registerForm.firstName}
+                                  label={
+                                    <FormattedMessage id="payment.firstName" />
+                                  }
+                                  rightOperateBoxJSX={
+                                    firstNameValid ? null : (
                                       <ChaChaIcon
                                         onClick={() =>
                                           this.deleteInput('firstName')
                                         }
                                       />
-                                    )}
-                                  </div>
-                                  <div className="invalid-feedback">
-                                    {this.state.illegalSymbol ? (
+                                    )
+                                  }
+                                  inValidLabel={
+                                    this.state.illegalSymbol ? (
                                       <FormattedMessage id="registerIllegalSymbol" />
                                     ) : (
                                       <FormattedMessage id="registerFillIn" />
-                                    )}
-                                  </div>
-                                </div>
-                                <div className="form-group rc-margin-bottom--md required rc-text--left">
-                                  <div
-                                    className={
-                                      'rc-input rc-input--full-width ' +
-                                      (lastNameValid ? '' : 'rc-input--error')
-                                    }
-                                    data-rc-feature-forms-setup="true"
-                                  >
-                                    <input
-                                      className="rc-input__control"
-                                      id="registerName"
-                                      type="text"
-                                      maxLength="50"
-                                      name="lastName"
-                                      onChange={(e) => this.registerChange(e)}
-                                      onBlur={(e) => this.inputBlur(e)}
-                                      value={registerForm.lastName}
-                                    />
-                                    <label className="rc-input__label">
-                                      <span className="rc-input__label-text">
-                                        {' '}
-                                        <FormattedMessage id="payment.lastName" />{' '}
-                                      </span>
-                                    </label>
-                                    {lastNameValid ? null : (
+                                    )
+                                  }
+                                />
+                                <Input
+                                  id="registerName"
+                                  type="text"
+                                  maxLength="50"
+                                  name="lastName"
+                                  valid={lastNameValid}
+                                  onChange={this.registerChange}
+                                  onBlur={this.inputBlur}
+                                  value={registerForm.lastName}
+                                  label={
+                                    <FormattedMessage id="payment.lastName" />
+                                  }
+                                  rightOperateBoxJSX={
+                                    firstNameValid ? null : (
                                       <ChaChaIcon
                                         onClick={() =>
                                           this.deleteInput('lastName')
                                         }
                                       />
-                                    )}
-                                  </div>
-                                  <div className="invalid-feedback">
-                                    {this.state.illegalSymbol ? (
+                                    )
+                                  }
+                                  inValidLabel={
+                                    this.state.illegalSymbol ? (
                                       <FormattedMessage id="registerIllegalSymbol" />
                                     ) : (
                                       <FormattedMessage id="registerFillIn" />
-                                    )}
-                                  </div>
-                                </div>
+                                    )
+                                  }
+                                />
                               </>
                             )}
 
-                            <div className="form-group rc-margin-bottom--md required rc-text--left">
-                              <div
-                                className={
-                                  'rc-input rc-input--full-width ' +
-                                  (emailValid ? '' : 'rc-input--error')
-                                }
-                              >
-                                <input
-                                  className="rc-input__control"
-                                  id="registerEmail"
-                                  type="email"
-                                  maxLength="90"
-                                  name="email"
-                                  onChange={(e) => this.registerChange(e)}
-                                  onBlur={(e) => this.inputBlur(e)}
-                                  value={registerForm.email}
-                                />
-                                <label
-                                  className="rc-input__label"
-                                  htmlFor="registerEmail"
-                                >
-                                  <span className="rc-input__label-text">
-                                    <FormattedMessage id="registerEmail" />
-                                  </span>
-                                </label>
-                                {emailValid ? null : (
+                            <Input
+                              id="registerEmail"
+                              type="email"
+                              maxLength="90"
+                              name="email"
+                              valid={emailValid}
+                              onChange={this.registerChange}
+                              onBlur={this.inputBlur}
+                              value={registerForm.email}
+                              label={<FormattedMessage id="registerEmail" />}
+                              rightOperateBoxJSX={
+                                emailValid ? null : (
                                   <ChaChaIcon
                                     onClick={() => this.deleteInput('email')}
                                   />
-                                )}
-                              </div>
-                              <div className="invalid-feedback">
-                                {emailMessage}
-                              </div>
-                            </div>
-                            <div className="form-group rc-margin-bottom--md relative required rc-text--left">
-                              <div
-                                className={
-                                  'rc-input rc-input--full-width ' +
-                                  (passwordValid ? '' : 'rc-input--error')
-                                }
-                                data-rc-feature-forms-setup="true"
-                              >
-                                <input
-                                  className="rc-input__control rc-input__password"
-                                  id="registerPassword"
-                                  type={passwordInputType}
-                                  maxLength="255"
-                                  minLength="8"
-                                  name="password"
-                                  onChange={(e) => this.registerChange(e)}
-                                  onFocus={(e) => this.inputFocus(e)}
-                                  onBlur={(e) => this.inputBlur(e)}
-                                  value={registerForm.password}
-                                />
-                                <label
-                                  className="rc-input__label"
-                                  htmlFor="registerPassword"
-                                >
-                                  <span className="rc-input__label-text">
-                                    <FormattedMessage id="registerPassword" />
-                                  </span>
-                                </label>
-                                <button
-                                  type="button"
-                                  className={`rc-btn rc-btn--icon rc-icon rc-iconography rc-input__password-toggle ${
-                                    passwordInputType === 'password'
-                                      ? 'rc-show--xs'
-                                      : 'rc-hide--xs'
-                                  }`}
-                                  onClick={() => {
-                                    this.setState({
-                                      passwordInputType:
-                                        this.state.passwordInputType ===
-                                        'password'
-                                          ? 'text'
-                                          : 'password'
-                                    });
-                                  }}
-                                >
-                                  <span className="rc-screen-reader-text">
-                                    <FormattedMessage id="registerTogglePassword" />
-                                  </span>
-                                </button>
-                                {passwordValid ? null : (
-                                  <ChaChaIcon
-                                    onClick={() => this.deleteInput('password')}
+                                )
+                              }
+                              inValidLabel={emailMessage}
+                            />
+
+                            <Input
+                              id="registerPassword"
+                              type={passwordInputType}
+                              maxLength="255"
+                              minLength="8"
+                              name="password"
+                              valid={passwordValid}
+                              onChange={this.registerChange}
+                              onFocus={this.inputFocus}
+                              onBlur={this.inputBlur}
+                              value={registerForm.password}
+                              label={<FormattedMessage id="registerPassword" />}
+                              inValidLabel={passwordMessage}
+                              rightOperateBoxJSX={
+                                <>
+                                  {passwordValid ? null : (
+                                    <ChaChaIcon
+                                      onClick={() =>
+                                        this.deleteInput('password')
+                                      }
+                                    />
+                                  )}
+                                  <span
+                                    style={{ color: '#666' }}
+                                    className={cn(
+                                      'iconfont cursor-pointer font-bold text-lg inline-block py-3 px-2',
+                                      passwordInputType === 'password'
+                                        ? 'iconeye'
+                                        : 'iconeye-close'
+                                    )}
+                                    onClick={() => {
+                                      this.setState({
+                                        passwordInputType:
+                                          this.state.passwordInputType ===
+                                          'password'
+                                            ? 'text'
+                                            : 'password'
+                                      });
+                                    }}
                                   />
-                                )}
-                              </div>
-                              <div className="invalid-feedback">
-                                {passwordMessage}
-                              </div>
-                              <div
-                                className={
-                                  'tippy-popper ' +
-                                  (passwordChanged ? '' : 'invisible')
-                                }
-                                role="tooltip"
-                                id="password-tooltip"
-                                x-placement="top"
-                              >
-                                <div
-                                  className="tippy-tooltip brand4-theme rc-brand4-theme"
-                                  data-size="regular"
-                                  data-animation="shift-away"
-                                  data-state="visible"
-                                  data-interactive=""
-                                >
-                                  <div className="tippy-arrow"></div>
-                                  <div
-                                    className="tippy-content"
-                                    data-state="visible"
+                                  <button
+                                    type="button"
+                                    className={`rc-btn rc-btn--icon rc-icon rc-iconography rc-input__password-toggle hidden ${
+                                      passwordInputType === 'password'
+                                        ? 'rc-show--xs'
+                                        : 'rc-hide--xs'
+                                    }`}
+                                    onClick={() => {
+                                      this.setState({
+                                        passwordInputType:
+                                          this.state.passwordInputType ===
+                                          'password'
+                                            ? 'text'
+                                            : 'password'
+                                      });
+                                    }}
                                   >
+                                    <span className="rc-screen-reader-text">
+                                      <FormattedMessage id="registerTogglePassword" />
+                                    </span>
+                                  </button>
+                                </>
+                              }
+                              toolTip={
+                                <div
+                                  className={cn('tippy-popper', {
+                                    hidden: !passwordChanged
+                                  })}
+                                  role="tooltip"
+                                  id="password-tooltip"
+                                  x-placement="top"
+                                >
+                                  <div
+                                    className="tippy-tooltip brand4-theme rc-brand4-theme"
+                                    data-size="regular"
+                                    data-animation="shift-away"
+                                    data-state="visible"
+                                    data-interactive=""
+                                  >
+                                    <div className="tippy-arrow" />
                                     <div
-                                      id="password-tooltip"
-                                      className="rc-tooltip rc-text--left"
+                                      className="tippy-content"
+                                      data-state="visible"
                                     >
-                                      <div className="rc-meta">
-                                        <FormattedMessage id="registerRules" />
-                                      </div>
                                       <div
-                                        className={
-                                          'rc-badge--label ' +
-                                          (ruleLength
-                                            ? 'rc-text-colour--success'
-                                            : '')
-                                        }
-                                        data-password-strength="length"
+                                        id="password-tooltip"
+                                        className="rc-tooltip rc-text--left"
                                       >
-                                        {ruleLength ? (
-                                          <span className="iconfont green mr-2">
-                                            &#xe68c;
-                                          </span>
-                                        ) : null}
-                                        <span className="icon-validation rc-epsilon rc-b rc-hidden"></span>
-                                        <span>
-                                          {' '}
-                                          <FormattedMessage id="registerLength" />{' '}
-                                        </span>
-                                      </div>
-                                      <div
-                                        className={
-                                          'rc-badge--label ' +
-                                          (ruleLower
-                                            ? 'rc-text-colour--success'
-                                            : '')
-                                        }
-                                        data-password-strength="lowercase"
-                                      >
-                                        {ruleLower ? (
-                                          <span className="iconfont green mr-2">
-                                            &#xe68c;
-                                          </span>
-                                        ) : null}
-                                        <span className="icon-validation rc-epsilon rc-b"></span>
-                                        <span>
-                                          <FormattedMessage id="registerLowercase" />
-                                        </span>
-                                      </div>
-                                      <div
-                                        className={
-                                          'rc-badge--label ' +
-                                          (ruleUpper
-                                            ? 'rc-text-colour--success'
-                                            : '')
-                                        }
-                                        data-password-strength="uppercase"
-                                      >
-                                        {ruleUpper ? (
-                                          <span className="iconfont green mr-2">
-                                            &#xe68c;
-                                          </span>
-                                        ) : null}
-                                        <span className="icon-validation rc-epsilon rc-b rc-hidden"></span>
-                                        <span>
-                                          <FormattedMessage id="registerUppercase" />
-                                        </span>
-                                      </div>
-                                      <div
-                                        className={
-                                          'rc-badge--label ' +
-                                          (ruleAname
-                                            ? 'rc-text-colour--success'
-                                            : '')
-                                        }
-                                        data-password-strength="number"
-                                      >
-                                        {ruleAname ? (
-                                          <span className="iconfont green mr-2">
-                                            &#xe68c;
-                                          </span>
-                                        ) : null}
-                                        <span className="icon-validation rc-epsilon rc-b rc-hidden"></span>
-                                        <span>
-                                          <FormattedMessage id="registerAname" />
-                                        </span>
-                                      </div>
-                                      <div
-                                        className={
-                                          'rc-badge--label ' +
-                                          (ruleSpecial
-                                            ? 'rc-text-colour--success'
-                                            : '')
-                                        }
-                                        data-password-strength="specialchar"
-                                      >
-                                        {ruleSpecial ? (
-                                          <span className="iconfont green mr-2">
-                                            &#xe68c;
-                                          </span>
-                                        ) : null}
-                                        <span className="icon-validation rc-epsilon rc-b rc-hidden"></span>
-                                        <span>
-                                          <FormattedMessage id="registerSpecial" />
-                                        </span>
+                                        <div className="rc-meta">
+                                          <FormattedMessage id="registerRules" />
+                                        </div>
+                                        {[
+                                          {
+                                            stauts: ruleLength,
+                                            label: (
+                                              <FormattedMessage id="registerLength" />
+                                            )
+                                          },
+                                          {
+                                            stauts: ruleLower,
+                                            label: (
+                                              <FormattedMessage id="registerLowercase" />
+                                            )
+                                          },
+                                          {
+                                            stauts: ruleUpper,
+                                            label: (
+                                              <FormattedMessage id="registerUppercase" />
+                                            )
+                                          },
+                                          {
+                                            stauts: ruleAname,
+                                            label: (
+                                              <FormattedMessage id="registerAname" />
+                                            )
+                                          },
+                                          {
+                                            stauts: ruleSpecial,
+                                            label: (
+                                              <FormattedMessage id="registerSpecial" />
+                                            )
+                                          }
+                                        ].map((item, i) => (
+                                          <div
+                                            key={i}
+                                            className={cn('rc-badge--label', {
+                                              'rc-text-colour--success':
+                                                item.stauts
+                                            })}
+                                            data-password-strength="length"
+                                          >
+                                            {item.stauts ? (
+                                              <span className="iconfont green mr-2 iconchenggong" />
+                                            ) : null}
+                                            <span className="icon-validation rc-epsilon rc-b rc-hidden" />
+                                            <span>{item.label}</span>
+                                          </div>
+                                        ))}
                                       </div>
                                     </div>
                                   </div>
                                 </div>
-                              </div>
-                            </div>
+                              }
+                            />
+
                             <div id="wrap">
                               {window.__.env.REACT_APP_COUNTRY === 'uk' ? (
                                 <div
@@ -1166,10 +1076,13 @@ class Register extends Component {
 }
 export default withOktaAuth(Register);
 
-const ChaChaIcon = ({ onClick = () => {} } = {}) => {
+const ChaChaIcon = ({ className, onClick = () => {} } = {}) => {
   return (
     <span
-      className="iconfont iconchahao font-bold input-cross icon-unsuscribe"
+      className={cn(
+        'iconfont iconchahao font-bold icon-unsuscribe cursor-pointer inline-block py-3 px-2',
+        className
+      )}
       style={{ color: '#c03344' }}
       onClick={onClick}
     />

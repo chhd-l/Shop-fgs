@@ -776,7 +776,7 @@
 
 .filter-bar li.filter-value a {
   color: #666;
-  padding-right: 0.6375em;
+  /* padding-right: 0.6375em; */
 }
 
 /* .filter-bar li.filter-value:after {

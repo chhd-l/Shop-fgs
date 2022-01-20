@@ -13,12 +13,12 @@ import HubSalesCategory from '@/components/HubSalesCategory';
 import { salesCategoryFilterRule } from '@/components/HubSalesCategory/utils';
 import { TopAds, Ads } from './ad';
 import { Advantage } from './advantage';
-import { setSeoConfig, getDeviceType, getOktaCallBackUrl } from '@/utils/utils';
+import { getDeviceType, getOktaCallBackUrl } from '@/utils/utils';
 import './index.css';
 import { withOktaAuth } from '@okta/okta-react';
 import { Helmet } from 'react-helmet';
 import { funcUrl } from '@/lib/url-utils';
-import { redirectHoc } from '@/framework/common';
+import { redirectHoc, seoHoc } from '@/framework/common';
 import { inject, observer } from 'mobx-react';
 
 import PaymentSecureHome from '@/assets/images/home/Payment-secure@2x.png';
@@ -34,7 +34,7 @@ const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const pageLink = window.location.href;
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
-let RCDrawPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
+const RCDrawPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
 
 function Divider() {
   return (
@@ -509,17 +509,13 @@ function AdvantageTips() {
   );
 }
 
+@seoHoc('Home Page')
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       categoryList: [],
       categoryLoading: true,
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       searchEvent: {}
     };
   }
@@ -547,10 +543,6 @@ class Home extends React.Component {
       localItemRoyal.remove('logout-redirect-url');
       location.href = url;
     }
-
-    setSeoConfig({ pageName: 'Home Page' }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
   }
   componentWillUnmount() {}
   sendGAHeaderSearch = (event) => {
@@ -596,13 +588,7 @@ class Home extends React.Component {
       <div>
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
           {renderLang('home')}
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <GoogleTagManager
           additionalEvents={event}

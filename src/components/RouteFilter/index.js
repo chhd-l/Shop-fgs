@@ -31,12 +31,12 @@ class RouteFilter extends Component {
     // 默认了clinic后，再次编辑clinic
     const { checkoutStore } = this.props;
 
-    const isStorepotal = funcUrl('stoken');
+    const isStorepotal = funcUrl({ name: 'stoken' });
     if (isStorepotal) {
       checkoutStore.removePromotionCode();
     }
 
-    const sPromotionCodeFromSearch = funcUrl('spromocode');
+    const sPromotionCodeFromSearch = funcUrl({ name: 'spromocode' });
     if (sPromotionCodeFromSearch) {
       checkoutStore.setPromotionCode(sPromotionCodeFromSearch);
       // goodwill单标识 goodWillFlag: 'GOOD_WILL'

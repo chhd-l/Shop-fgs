@@ -21,7 +21,6 @@ import { getAppointList, cancelAppointByNo } from '@/api/appointment';
 import { getAppointDict } from '@/api/dict';
 import { funcUrl } from '@/lib/url-utils';
 
-const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
 @inject('checkoutStore')
@@ -52,7 +51,7 @@ class AccountOrders extends React.Component {
     this.deviceType = getDeviceType();
     this.handleClickCardItem = this.handleClickCardItem.bind(this);
   }
-  componentWillUnmount() {}
+
   async componentDidMount() {
     myAccountPushEvent('Appointments');
     setSeoConfig({
@@ -67,6 +66,7 @@ class AccountOrders extends React.Component {
     }
     await this.queryOrderList();
   }
+
   async queryOrderList() {
     const { initing, currentPage } = this.state;
     if (!initing) {
@@ -136,6 +136,7 @@ class AccountOrders extends React.Component {
       });
     }
   }
+
   handlePageNumChange = (params) => {
     this.setState(
       {
@@ -144,6 +145,7 @@ class AccountOrders extends React.Component {
       () => this.queryOrderList()
     );
   };
+
   async cancelAppoint(appointment) {
     try {
       const { appointmentList } = this.state;
@@ -156,6 +158,7 @@ class AccountOrders extends React.Component {
       appointment.cancelAppointLoading = false;
     }
   }
+
   handleClickCardItem(item) {
     if (this.deviceType === 'PC') {
       return false;
@@ -163,9 +166,11 @@ class AccountOrders extends React.Component {
     this.props.history.push(`/account/appointments/detail/${item.apptNo}`);
     return false;
   }
+
   handleClickBackToIndex = () => {
     this.setState({ showOneOrderDetail: false });
   };
+
   renderOperationBtns = (appointment) => {
     return (
       <>
@@ -189,6 +194,7 @@ class AccountOrders extends React.Component {
       </>
     );
   };
+
   render() {
     const event = {
       page: {
@@ -404,10 +410,7 @@ class AccountOrders extends React.Component {
                                       <div className="rc-md-up">
                                         {this.renderOperationBtns(appointment)}
                                       </div>
-                                      <span
-                                        className="iconfont iconjiantouyou1 bold rc-md-down"
-                                        style={{ fontSize: '20px' }}
-                                      />
+                                      <span className="iconfont iconjiantouyou1 bold rc-md-down font-20" />
                                     </div>
                                   </div>
                                 </div>
@@ -415,12 +418,7 @@ class AccountOrders extends React.Component {
                             })}
                           </>
                         ) : (
-                          <div
-                            style={{
-                              margin: '50px auto'
-                            }}
-                            className="text-center"
-                          >
+                          <div className="text-center margin-50">
                             <FormattedMessage id="appointment.noDataTip" />
                           </div>
                         )}

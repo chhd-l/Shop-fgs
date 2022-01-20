@@ -331,7 +331,7 @@ class List extends React.Component {
       currentPage: 1,
       totalPage: 1, // 总页数
       results: 0, // 总数据条数
-
+      currentPageProductNum: 0,
       keywords: '',
       filterList: [],
 
@@ -1551,7 +1551,8 @@ class List extends React.Component {
               productList: goodsContent,
               results: esGoodsPage.totalElements,
               currentPage: esGoodsPage.number + 1,
-              totalPage: esGoodsPage.totalPages
+              totalPage: esGoodsPage.totalPages,
+              currentPageProductNum: esGoodsPage.numberOfElements
             },
             () => {
               this.handleCanonicalLink();
@@ -1724,15 +1725,7 @@ class List extends React.Component {
       });
     });
 
-    return (
-      <>
-        {filtersCounts ? (
-          <span className=" font-weight-normal font-18 rc-padding-left--sm">
-            {filtersCounts}
-          </span>
-        ) : null}
-      </>
-    );
+    return <>{filtersCounts ? <span>({filtersCounts})</span> : null}</>;
   };
 
   render() {
@@ -1744,6 +1737,7 @@ class List extends React.Component {
     } = this.props;
     const {
       results,
+      currentPageProductNum,
       productList,
       loading,
       titleData,
@@ -1920,63 +1914,20 @@ class List extends React.Component {
                         id="refineBar"
                         className="refine-bar refinements rc-column1 col-12 col-xl-3 ItemBoxFitSCreen pt-0 mb-0 md:mb-3 pl-0 md:pl-3 pr-0"
                       >
-                        <div
-                          className="rc-meta rc-md-down"
-                          style={{ padding: '0 1em', fontSize: '1em' }}
-                        >
-                          <span className="font-weight-normal">
-                            {lastBreadListName}&nbsp;
-                          </span>
-                          {results > 0 && (
-                            <>
-                              (
-                              <FormattedMessage
-                                id="results"
-                                values={{ val: results }}
-                              />
-                              )
-                            </>
-                          )}
-                        </div>
-                        <div
-                          className="d-flex justify-content-between align-items-center rc-md-down list_select_choose"
-                          style={{
-                            padding: '0 1rem',
-                            boxShadow: '0 2px 4px #f1f1f1'
-                          }}
-                        >
+                        <div className="d-flex justify-content-between align-items-center rc-md-down list_select_choose">
                           {hiddenFilter ? null : (
-                            <div className="w-100">
-                              <div
+                            <div className="w-100 text-center">
+                              <button
                                 onClick={this.toggleFilterModal.bind(
                                   this,
                                   !filterModalVisible
                                 )}
-                                className="flex w-100 align-items-center justify-content-between rc-md-down"
+                                className="rc-btn rc-btn--two py-0 text-lg px-8 mb-4"
                               >
-                                <div className="flex items-center">
-                                  <em
-                                    className={`rc-icon rc-filter--xs rc-iconography ${
-                                      (filterModalVisible && !isTop) ||
-                                      (!filterModalVisible && isTop)
-                                        ? 'rc-brand1'
-                                        : ''
-                                    }`}
-                                    data-filter-trigger="filter-example"
-                                    // style={{
-                                    //   position: 'relative',
-                                    //   top: '0.2rem'
-                                    // }}
-                                  />
-                                  <span className=" font-weight-normal font-18 rc-padding-left--sm">
-                                    <FormattedMessage id="list.viewFilters" />
-                                  </span>
-                                  {this.handleFilterCounts(filterList)}
-                                </div>
-                                <span
-                                  className={`rc-icon rc-iconography rc-right--xs`}
-                                />
-                              </div>
+                                <span className="filter-btn-icon rc-icon rc-filter--xs rc-iconography rc-brand1" />
+                                <FormattedMessage id="plp.filter" />
+                                {this.handleFilterCounts(filterList)}
+                              </button>
                               <SelectFilters
                                 filterList={filterList}
                                 history={history}
@@ -2052,6 +2003,27 @@ class List extends React.Component {
                         </div>
                       ) : null} */}
                         </aside>
+                        <div className="text-center pt-3 rc-md-down">
+                          {results > 0 && (
+                            <>
+                              <FormattedMessage
+                                id="plp.displayItems"
+                                values={{
+                                  num: (
+                                    <span className="font-weight-normal">
+                                      {currentPageProductNum}
+                                    </span>
+                                  ),
+                                  total: (
+                                    <span className="font-weight-normal">
+                                      {results}
+                                    </span>
+                                  )
+                                }}
+                              />
+                            </>
+                          )}
+                        </div>
                       </div>
                     )}
                     <div
