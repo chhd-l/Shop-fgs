@@ -114,22 +114,35 @@ const Decouverteroyalcanin = (props) => {
         <div className="rc-layout-container rc-one-column rc-max-width--xl items-center rc-padding-bottom--lg  rc-padding-x--xl">
           <div className="rc-column">
             <p className="rc-padding-bottom--sm">
-              <span className="font-semibold">Incroyable Aventure</span> : venez
-              découvrir l’histoire et le patrimoine de Royal Canin avec une
-              frise chronologique numérique innovante et interactive.
+              <span className="font-semibold">Incroyable Nutrition</span> :
+              partez à la découverte de l’histoire de nos produits et de toutes
+              nos innovations scientifiques. 
+              <br />
+              Incroyables Chiots & Chatons : vous voulez adopter mais vous ne
+              savez pas encore quel serait votre compagnon idéal ? Avec cette
+              expérience incroyable, en fonction de votre profil et votre mode
+              de vie, nous allons vous aider à trouver le chien ou le chat de
+              vos rêves.
             </p>
             <p className="rc-padding-bottom--sm">
-              <span className="font-semibold">Incroyables Amis </span>:
-              participez à un quizz ludique pour mieux comprendre le
-              comportement de vos chats et chiens.
+              <span className="font-semibold">Incroyables Innovations </span>:
+              découvrez toutes les innovations de Royal Canin qui vont bien
+              au-delà de la nutrition.
+            </p>
+
+            <p className="rc-padding-bottom--sm">
+              <span className="font-semibold">Incroyables Experts</span> :
+              partez à la rencontre des experts Royal Canin. Chaque semaine,
+              nous allons inviter des vétérinaires, des éleveurs, des
+              psychologues pour animaux et plein d’autres professionnels
+              animaliers pour animer des conférences et des workshops.
             </p>
             <p className="rc-padding-bottom--xs">
-              <span className="font-semibold">Incroyable Sens</span> : découvrez
-              comment vos animaux perçoivent le monde, comment ils le sentent,
-              le voient et l’entendent. Plongez-vous dans une pièce immersive
-              qui avec des écrans incurvés nouvelle génération, des bancs
-              chauffants et vibrants, vous permettra de ressentir ce que
-              ressentent vos animaux.
+              <span className="font-semibold">Incroyables Moments </span>: Qui
+              n’a pas rêvé d’avoir une photo de soi avec son animal prise par un
+              vrai photographe professionnel ? Royal Canin vous offre votre
+              portrait avec votre animal pour fêter l’ouverture de notre concept
+              store.
             </p>
             <p className="rc-padding-top--md rc-padding-bottom--xs">
               <button className="rc-btn rc-btn--two">Nous rendre visite</button>
