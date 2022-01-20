@@ -80,6 +80,7 @@ class PetForm extends React.Component {
     sessionItemRoyal.remove('rc-subdetailInfo');
     console.info(sessionItemRoyal.get('rc-subdetailInfo'));
     // datePickerDom.disabled = true;
+    console.log('datePickerConfig:', datePickerConfig);
     datePickerDom.placeholder = datePickerConfig.format.toUpperCase();
     console.log(this.props, 'props');
     let petsType = this.props.location.state?.petsType;
