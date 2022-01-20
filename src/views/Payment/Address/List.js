@@ -2426,7 +2426,7 @@ class AddressList extends React.Component {
                             {choiseHomeDeliveryOrPickUp == 1 ? (
                               <div className="add_address_pk_btn">
                                 <p
-                                  className={`font-weight-bold red m-0 align-items-center text-nowrap ${
+                                  className={`font-weight-bold red m-0 align-items-center text-nowrap flex ${
                                     addOrEdit ? 'hidden' : ''
                                   }`}
                                   onClick={this.addOrEditAddress.bind(this, -1)}
@@ -2513,7 +2513,7 @@ class AddressList extends React.Component {
                                           <div className="add_address_pk_btn pd_r1">
                                             {/* <p className={`red m-0 align-items-center text-nowrap ${addOrEdit ? 'hidden' : ''}`} */}
                                             <p
-                                              className="font-weight-bold red m-0 align-items-center text-nowrap"
+                                              className="font-weight-bold red m-0 align-items-center text-nowrap flex"
                                               onClick={this.addOrEditPickupAddress.bind(
                                                 'add'
                                               )}
