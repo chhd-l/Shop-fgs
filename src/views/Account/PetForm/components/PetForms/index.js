@@ -601,7 +601,7 @@ const PetForms = ({
           />
         </div>
         <div className="formBox row">
-          <div className="form-group col-lg-6 pull-left required">
+          <div className="form-group col-12 col-lg-6 pull-left required">
             <InputBox
               htmlFor="name"
               FormattedMsg="petName"
@@ -610,7 +610,7 @@ const PetForms = ({
               handleChange={inputNickname}
             />
           </div>
-          <div className="form-group col-lg-6 pull-left required">
+          <div className="form-group col-12 col-lg-6 pull-left required">
             <RadioBox
               htmlFor="gender"
               setState={setState}
@@ -619,7 +619,7 @@ const PetForms = ({
               radioChange={genderChange}
             />
           </div>
-          <div className="form-group col-lg-6 pull-left required">
+          <div className="form-group col-12 col-lg-6 pull-left required">
             <label
               className="form-control-label rc-full-width"
               htmlFor="birthday"
@@ -646,7 +646,7 @@ const PetForms = ({
               </div>
             </span>
           </div>
-          <div className="form-group col-lg-6 pull-left required">
+          <div className="form-group col-12 col-lg-6 pull-left required">
             <RadioBox
               htmlFor="Is Purebred"
               setState={setState}
@@ -655,7 +655,7 @@ const PetForms = ({
               radioChange={pruebredChange}
             />
           </div>
-          <div className="form-group col-lg-6 pull-left required">
+          <div className="form-group col-12 col-lg-6 pull-left required">
             <label
               className="form-control-label rc-full-width"
               htmlFor={sensitivityLable}
@@ -684,7 +684,7 @@ const PetForms = ({
               />
             )}
           </div>
-          {/* <div className="form-group col-lg-6 pull-left required">
+          {/* <div className="form-group col-12 col-lg-6 pull-left required">
             <label
               className="form-control-label rc-full-width"
               htmlFor={sensitivityLable}
@@ -703,7 +703,7 @@ const PetForms = ({
           )} */}
           {!(petForm.isPurebred == 1) ? (
             !isCat ? (
-              <div className="form-group col-lg-6 pull-left required">
+              <div className="form-group col-12 col-lg-6 pull-left required">
                 <label
                   className="form-control-label rc-full-width"
                   htmlFor="Size"
@@ -726,7 +726,7 @@ const PetForms = ({
               ></div>
             )
           ) : (
-            <div className="form-group col-lg-6 pull-left required">
+            <div className="form-group col-12 col-lg-6 pull-left required">
               <label
                 className="form-control-label rc-full-width"
                 htmlFor="breed"
@@ -783,7 +783,7 @@ const PetForms = ({
           {notUsUkDe ? (
             <>
               {RuTrFr && isCat ? (
-                <div className="form-group col-lg-6 pull-left required">
+                <div className="form-group col-12 col-lg-6 pull-left required">
                   <label
                     className="form-control-label rc-full-width"
                     htmlFor="Lifestyle"
@@ -800,7 +800,7 @@ const PetForms = ({
                   />
                 </div>
               ) : null}
-              <div className="form-group col-lg-6 pull-left required">
+              <div className="form-group col-12 col-lg-6 pull-left required">
                 <label
                   className="form-control-label rc-full-width"
                   htmlFor="Activity"
@@ -816,7 +816,7 @@ const PetForms = ({
                   key={petForm.activity}
                 />
               </div>
-              <div className="form-group col-lg-6 pull-left required">
+              <div className="form-group col-12 col-lg-6 pull-left required">
                 <label
                   className="form-control-label rc-full-width"
                   htmlFor="Weight"
@@ -848,9 +848,13 @@ const PetForms = ({
                 <Selection
                   customContainerStyle={{
                     display: 'inline-block',
-                    height: '48px',
-                    marginLeft: '4px'
+                    height: '48px'
+                    // marginLeft: '4px'
                   }}
+                  customInnerStyle={{
+                    height: '100% !important'
+                  }}
+                  customInnerCls="h-full"
                   optionList={[
                     {
                       value: 'kg',
@@ -872,7 +876,7 @@ const PetForms = ({
             </>
           ) : null}
 
-          <div className="form-group col-lg-6 pull-left required">
+          <div className="form-group col-12 col-lg-6 pull-left required">
             <RadioBox
               htmlFor="sterilized"
               setState={setState}
