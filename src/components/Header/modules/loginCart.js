@@ -78,7 +78,6 @@ class LoginCart extends React.Component {
       this.setState({ checkoutLoading: true });
       await checkoutStore.updateLoginCart({
         isThrowErr: true,
-        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT),
         intl: this.props.intl
       });
 
