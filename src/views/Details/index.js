@@ -900,7 +900,9 @@ class Details extends React.Component {
       sitePurchase(param).then(async (data) => {
         console.log('carts api res', data);
         console.log('await add cart后');
-        await checkoutStore.updateLoginCart({ intl });
+        setTimeout(async () => {
+          await checkoutStore.updateLoginCart({ intl });
+        }, 6000);
         this.setState({ modalMobileCartSuccessVisible: true });
         if (!isMobile) {
           headerCartStore.show();
