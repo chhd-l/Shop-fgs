@@ -34,7 +34,7 @@ const Decouverteroyalcanin = (props) => {
     }).then((res) => {
       setSeoinfo(res);
     });
-  });
+  }, []);
   const redirectLink = (link) => {
     location.href = link;
   };
