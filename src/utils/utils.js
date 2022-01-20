@@ -1277,6 +1277,15 @@ export function formatDate({
       );
     }
 
+    console.log('test date:', date);
+    console.log(
+      'test date:',
+      new Intl.DateTimeFormat(
+        window.__.env.REACT_APP_NAVIGATOR_LANG,
+        options
+      ).format(new Date(date))
+    );
+
     return new Intl.DateTimeFormat(
       window.__.env.REACT_APP_NAVIGATOR_LANG,
       options
