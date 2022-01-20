@@ -895,7 +895,9 @@ class Details extends React.Component {
       if (Object.keys(this.state.requestJson).length > 0) {
         param = { ...param, ...this.state.requestJson };
       }
+      console.log('开始调用add cart');
       await sitePurchase(param);
+      console.log('await add cart后');
       await checkoutStore.updateLoginCart({ intl });
       this.setState({ modalMobileCartSuccessVisible: true });
       if (!isMobile) {

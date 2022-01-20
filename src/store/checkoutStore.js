@@ -527,6 +527,7 @@ class CheckoutStore {
       let promotionCodeNew =
         promotionCode === undefined ? this.promotionCode : promotionCode;
 
+      console.log('开始调用mini-cart');
       // 获取购物车列表
       let siteMiniPurchasesRes = await siteMiniPurchases({ delFlag });
       console.log('mini-carts-res:', siteMiniPurchasesRes);
