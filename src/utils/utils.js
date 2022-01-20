@@ -1278,9 +1278,8 @@ export function formatDate({
           : {}
       );
     }
-
     console.log('test date:', date);
-    const newdate = date.replace(/-/gi, '/');
+    const newdate = typeof date === 'string' ? date.replace(/-/gi, '/') : date;
     console.log(
       'test date:',
       new Intl.DateTimeFormat(
