@@ -300,18 +300,9 @@ class CheckoutStore {
     outOfstockProNames = this.outOfstockProNames,
     deletedProNames = this.deletedProNames,
     notSeableProNames = this.notSeableProNames,
-    minimunAmountPrice = 0,
     intl = {}
   } = {}) {
     const { formatMessage } = intl;
-    if (
-      this.tradePrice < Number(window.__.env.REACT_APP_MINIMUM_AMOUNT) &&
-      sessionItemRoyal.get('goodWillFlag') !== 'GOOD_WILL'
-    ) {
-      throw new Error(
-        formatMessage({ id: 'cart.errorInfo3' }, { val: minimunAmountPrice })
-      );
-    }
     if (offShelvesProNames.length > 0) {
       throw new Error(
         formatMessage(
@@ -354,7 +345,6 @@ class CheckoutStore {
     purchaseFlag,
     taxFeeData,
     guestEmail,
-    minimunAmountPrice,
     isThrowErr,
     deliverWay,
     shippingFeeAddress,
@@ -504,7 +494,7 @@ class CheckoutStore {
       this.notSeableProNames = tmpNotSeableProNames;
       // 抛出错误
       if (isThrowErr) {
-        await this.validCheckoutLimitRule({ minimunAmountPrice, intl });
+        await this.validCheckoutLimitRule({ intl });
       }
       return new Promise(function (resolve) {
         resolve({ backCode, context: purchasesRes });
@@ -524,7 +514,6 @@ class CheckoutStore {
     subscriptionFlag = false,
     purchaseFlag,
     taxFeeData,
-    minimunAmountPrice,
     isThrowErr = false,
     deliverWay,
     shippingFeeAddress,
@@ -705,7 +694,7 @@ class CheckoutStore {
       this.changeLoadingCartData(false);
       // 抛出错误
       if (isThrowErr) {
-        await this.validCheckoutLimitRule({ minimunAmountPrice, intl });
+        await this.validCheckoutLimitRule({ intl });
       }
       return new Promise(function (resolve) {
         resolve({ backCode, context: sitePurchasesRes });

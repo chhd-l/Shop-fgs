@@ -652,16 +652,6 @@ class Recommendation extends React.Component {
         totalPrice + el.recommendationNumber * el.goodsInfo.salePrice;
       // return el;
     });
-    if (totalPrice < window.__.env.REACT_APP_MINIMUM_AMOUNT) {
-      console.log(totalPrice, 'instock');
-      this.showErrorMsg(
-        <FormattedMessage
-          id="cart.errorInfo3"
-          values={{ val: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT) }}
-        />
-      );
-      return false;
-    }
     if (outOfStockProducts.length > 0) {
       sessionItemRoyal.set(
         'recommend_product',
