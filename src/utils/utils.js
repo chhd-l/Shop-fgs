@@ -734,8 +734,8 @@ function getDatePickerConfig() {
   };
   const curDatePickerCfg =
     datePickerCfg[window.__.env.REACT_APP_COUNTRY] || datePickerCfg.default;
-  const curLocaleModule = require(`date-fns/locale/${curDatePickerCfg.locale_module_lang}`)
-    .default;
+  const curLocaleModule =
+    require(`date-fns/locale/${curDatePickerCfg.locale_module_lang}`).default;
   registerLocale(window.__.env.REACT_APP_COUNTRY, curLocaleModule);
   // 根据Intl.DateTimeFormat生成当前国家的日期格式
   const specificDate = formatDate({ date: '2021-12-30' });
@@ -998,9 +998,8 @@ export function judgeIsIndividual(item) {
 // uk和fr,才有postCode校验
 const countryPostCode = ['uk', 'fr'];
 const currentCountry = window.__.env.REACT_APP_COUNTRY;
-export const isCanVerifyBlacklistPostCode = countryPostCode.includes(
-  currentCountry
-);
+export const isCanVerifyBlacklistPostCode =
+  countryPostCode.includes(currentCountry);
 
 // 获取 Postal code alert message
 export async function getAddressPostalCodeAlertMessage() {
@@ -1281,17 +1280,18 @@ export function formatDate({
     }
 
     console.log('test date:', date);
+    const newdate = date.replace(/-/gi, '/');
     console.log(
       'test date:',
       new Intl.DateTimeFormat(
         window.__.env.REACT_APP_NAVIGATOR_LANG,
         options
-      ).format(new Date(date))
+      ).format(new Date(newdate))
     );
     return new Intl.DateTimeFormat(
       window.__.env.REACT_APP_NAVIGATOR_LANG,
       options
-    ).format(new Date(date));
+    ).format(new Date(newdate));
   }
 }
 
