@@ -2081,6 +2081,9 @@ class Payment extends React.Component {
       {},
       deliveryAddress,
       {
+        contractNumber: deliveryAddress?.calculation?.contractNumber,
+        courier: deliveryAddress?.calculation?.courier,
+        courierCode: deliveryAddress?.calculation?.courierCode,
         zipcode: deliveryAddress?.postCode,
         phone: creditCardInfo?.phoneNumber,
         email: creditCardInfo?.email || deliveryAddress?.email || guestEmail,

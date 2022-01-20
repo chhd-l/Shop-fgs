@@ -614,6 +614,21 @@ class HomeDeliveryOrPickUp extends React.Component {
       pkobj['areaIdStr'] = cityData?.areaFias;
       pkobj['cityIdStr'] = cityData?.cityFias;
       pkobj['settlementIdStr'] = cityData?.settlementFias;
+      let filteredTariffs;
+      if (pkobj.receiveType === 'PICK_UP') {
+        filteredTariffs =
+          (sitem.homeAndPickup || []).filter((el) => el.type === 'pickup')[0] ||
+          {};
+      } else {
+        filteredTariffs =
+          (sitem.homeAndPickup || []).filter(
+            (el) => el.type === 'homeDelivery'
+          )[0] || {};
+      }
+      console.log('selectedItem2', filteredTariffs);
+      pkobj.contractNumber = filteredTariffs?.contractNumber;
+      pkobj.courier = filteredTariffs?.courier;
+      pkobj.courierCode = filteredTariffs?.courierCode;
     }
 
     this.setState(
