@@ -4,7 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import Help from './Fr/help';
-import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import autoship from './images/us_autoship.png';
 import icon1 from './images/us_icon1.png';
@@ -17,35 +17,16 @@ import helpImg from './images/FAQ_icon.png';
 import usImage from './images/DogWithLogo.png';
 import wof from './images/wof.png';
 import { inject, observer } from 'mobx-react';
-import { setSeoConfig } from '@/utils/utils';
 import './index.css';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
+import { seoHoc } from '@/framework/common';
 
 const pageLink = window.location.href;
 @inject('configStore')
 @observer
-@injectIntl
+@seoHoc('Subscription Page')
 class SubscriptionLanding extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      }
-    };
-  }
-  componentDidMount() {
-    setSeoConfig({
-      goodsId: '',
-      categoryId: '',
-      pageName: 'Subscription Page'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
-  }
   render(h) {
     const event = {
       page: {
@@ -57,21 +38,15 @@ class SubscriptionLanding extends React.Component {
         filters: ''
       }
     };
-    const { seoConfig } = this.state;
     return (
       <div className="subscriptionLanding">
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{seoConfig.title}</title>
-          <meta name="description" content={seoConfig.metaDescription} />
-          <meta name="keywords" content={seoConfig.metaKeywords} />
         </Helmet>
         <GoogleTagManager additionalEvents={event} />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
-          <h1 style={{ display: 'none' }}>
-            {seoConfig.metaDescription || 'Royal canin'}
-          </h1>
+          <h1 className="hidden">Royal canin</h1>
           <BannerTip />
           <div className="experience-component experience-layouts-1column">
             <div className="row rc-margin-x--none">

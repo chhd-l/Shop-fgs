@@ -1690,7 +1690,6 @@ class SmartFeederSubscription extends Component {
       await sitePurchase(param);
       await checkoutStore.updateLoginCart({
         isThrowErr: true,
-        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT),
         intl: this.props.intl
       });
       if (isMobile) {
@@ -1769,13 +1768,8 @@ class SmartFeederSubscription extends Component {
   };
   render() {
     const { location, history, match } = this.props;
-    const {
-      headerHide,
-      stepName,
-      checkOutErrMsg,
-      goodsDetailTab,
-      enableFlag
-    } = this.state;
+    const { headerHide, stepName, checkOutErrMsg, goodsDetailTab, enableFlag } =
+      this.state;
     let stepCom = null;
     return (
       <div>

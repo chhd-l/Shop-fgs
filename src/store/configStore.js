@@ -121,7 +121,7 @@ class ConfigStore {
   @action.bound
   async queryConfig() {
     let res = this.info;
-    if (!res) {
+    if (!res?.auditOrderConfigList) {
       res = await getConfig();
       res = res.context;
       this.updateInfo(res);
