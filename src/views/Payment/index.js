@@ -2083,7 +2083,11 @@ class Payment extends React.Component {
       {
         zipcode: deliveryAddress?.postCode,
         phone: creditCardInfo?.phoneNumber,
-        email: creditCardInfo?.email || deliveryAddress?.email || guestEmail,
+        email:
+          creditCardInfo?.email ||
+          deliveryAddress?.email ||
+          this.userInfo?.email ||
+          guestEmail,
         line1: deliveryAddress?.address1,
         line2: deliveryAddress?.address2,
         //审核者信息放订单行
