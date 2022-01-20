@@ -27,16 +27,16 @@ service.interceptors.request.use((config) => {
     config.headers['Session-Key'] = 'Bearer ' + token;
   }
   if (config.method && config.method.toLocaleLowerCase() === 'get') {
+    config.params = {
+      requestId: Math.random(),
+      ...config.params
+    };
     Object.assign(config, {
       paramsSerializer: function (params) {
-        return qs.stringify(
-          params,
-          {
-            arrayFormat: 'indices',
-            allowDots: true
-          },
-          { requestId: Math.random() }
-        );
+        return qs.stringify(params, {
+          arrayFormat: 'indices',
+          allowDots: true
+        });
       }
     });
   }
