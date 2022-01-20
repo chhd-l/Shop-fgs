@@ -98,7 +98,7 @@ service.interceptors.response.use(
         (response.data.code === 'K-000002' || response.data.code === 'E-000049')
       ) {
         sessionItemRoyal.set('rc-token-lose', 1);
-        //window.location.href = window.__.env.REACT_APP_HOMEPAGE;
+        // window.location.href = window.__.env.REACT_APP_HOMEPAGE;
       }
       let ret = response.data || 'Error';
 
