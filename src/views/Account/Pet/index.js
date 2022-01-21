@@ -298,7 +298,7 @@ class Pet extends React.Component {
                                 })}
                                 breed={this.petBreed(el)}
                               />
-                              <div className="operation">
+                              <div className="operation weightTracker-wrap">
                                 <Link
                                   className="edit rc-styled-link"
                                   to={'/account/pets/petForm/' + el.petsId}
