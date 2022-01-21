@@ -54,6 +54,7 @@ class Test extends React.Component {
     // loadJS({
     //   url: 'https://static.kak2c.ru/kak2c.pvz-map.js',
     //   type: 'text/javascript',
+    //   crossOrigin:'anonymous',
     //   integrity:'sha256-NvjFXtXzlwWv1DpQ563HJipP40Td3baM1Ucd9JCwAOY='
     // });
     // loadJS({
