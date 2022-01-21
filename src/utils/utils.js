@@ -1279,9 +1279,11 @@ export function formatDate({
       );
     }
     console.log('test date:', date);
-    const newdate = typeof date === 'string' ? date.replace(/-/gi, '/') : date;
+    const newdate =
+      typeof date === 'string' ? date.replace(/-/gi, '/').split('.')[0] : date;
+    console.log('test new  date:', newdate);
     console.log(
-      'test date:',
+      'test finally date:',
       new Intl.DateTimeFormat(
         window.__.env.REACT_APP_NAVIGATOR_LANG,
         options
