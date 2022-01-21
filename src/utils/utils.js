@@ -292,7 +292,8 @@ export function loadJS({
   code,
   className,
   type,
-  id
+  id,
+  ...rest
 }) {
   var script = document.createElement('script');
 
@@ -304,7 +305,12 @@ export function loadJS({
   if (id) {
     script.id = id;
   }
-
+  if (rest) {
+    //添加js其他属性
+    for (let key in rest) {
+      script[key] = rest[key];
+    }
+  }
   if (dataSets) {
     for (let key in dataSets) {
       script.dataset[key] = dataSets[key];
