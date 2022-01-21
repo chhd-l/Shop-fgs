@@ -909,22 +909,6 @@ export const getRation = async (params) => {
   return res;
 };
 
-/**
- * isDuringDate(判断时间是否处于某个时间段内)
- * @param    date   [date:Date] [需要比较的时间]
- * @param    beginDateStr   [beginDateStr: String] [开始时间]
- * @param   endDateStr [endDateStr: String] [结束时间]
- * @return Boolean
- */
-export const isDuringDate = (date, beginDateStr, endDateStr) => {
-  let beginDate = new Date(beginDateStr),
-    endDate = new Date(endDateStr);
-  if (date >= beginDate && date <= endDate) {
-    return true;
-  }
-  return false;
-};
-
 //延时函数
 export const sleep = (time) => {
   return new Promise((resolve) => {

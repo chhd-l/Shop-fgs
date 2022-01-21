@@ -97,6 +97,7 @@ import UpdatModal from './updatModules/modal';
 import QRCode from 'qrcode.react';
 import { format } from 'date-fns';
 import differenceInSeconds from 'date-fns/differenceInSeconds';
+import base64 from 'base-64';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
@@ -467,7 +468,7 @@ class Payment extends React.Component {
     if (funcUrl({ name: 'gusetInfo' })) {
       sessionItemRoyal.set(
         'gusetInfo',
-        JSON.stringify(encodeURIComponent(funcUrl({ name: 'gusetInfo' })))
+        base64.decode(funcUrl({ name: 'gusetInfo' }))
       );
     }
     if (appointNo) {
@@ -3992,7 +3993,11 @@ class Payment extends React.Component {
   };
   // 1、点击支付
   clickPay = () => {
-    if (this.tradePrice === 0 && this.isCurrentBuyWaySubscription) {
+    if (
+      this.tradePrice === 0 &&
+      this.isCurrentBuyWaySubscription &&
+      !sessionItemRoyal.get('appointment-no')
+    ) {
       //0元订单中含有订阅商品时不能下单
       const errMsg =
         this.props.intl.messages['checkout.zeroOrder.butSubscription'];
