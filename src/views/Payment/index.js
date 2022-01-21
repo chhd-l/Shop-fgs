@@ -120,6 +120,7 @@ function CreditCardInfoPreview({
       <p>{holderNameDeco}</p>
       <p>{brandDeco}</p>
       {lastFourDeco ? <p>{`************${lastFourDeco}`}</p> : null}
+      {console.log('expirationDate', expirationDate)}
       {expirationDate ? (
         <p>
           {formatDate({

@@ -100,7 +100,25 @@ class MegaMenuMobileForHub extends Component {
     });
   }
   toggleMenu() {
-    this.setState((curState) => ({ showMegaMenu: !curState.showMegaMenu }));
+    this.setState(
+      (curState) => ({ showMegaMenu: !curState.showMegaMenu }),
+      () => {
+        this.toggleBackLayerScrollFunc(!this.state.showMegaMenu);
+      }
+    );
+  }
+  /**
+   * 是否开启搜索结果框，底层的滑动功能
+   * @param {boolean} status
+   */
+  toggleBackLayerScrollFunc(status) {
+    if (status) {
+      document.querySelector('html').classList.remove('noscroll');
+      document.querySelector('body').classList.remove('noscroll');
+    } else {
+      document.querySelector('html').classList.add('noscroll');
+      document.querySelector('body').classList.add('noscroll');
+    }
   }
   handleClickNavItem(item) {
     this.props.handleClickNavItem(item);
