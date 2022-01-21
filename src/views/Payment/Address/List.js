@@ -1226,7 +1226,7 @@ class AddressList extends React.Component {
           {titleVisible ? (
             <>
               <em className="rc-icon rc-indoors--xs rc-brand1" />{' '}
-              <span>
+              <span className="mb-2">
                 <FormattedMessage id="payment.deliveryTitle" />
               </span>
             </>
