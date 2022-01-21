@@ -97,6 +97,7 @@ import UpdatModal from './updatModules/modal';
 import QRCode from 'qrcode.react';
 import { format } from 'date-fns';
 import differenceInSeconds from 'date-fns/differenceInSeconds';
+import base64 from 'base-64';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
@@ -467,7 +468,7 @@ class Payment extends React.Component {
     if (funcUrl({ name: 'gusetInfo' })) {
       sessionItemRoyal.set(
         'gusetInfo',
-        JSON.stringify(encodeURIComponent(funcUrl({ name: 'gusetInfo' })))
+        base64.decode(funcUrl({ name: 'gusetInfo' }))
       );
     }
     if (appointNo) {
