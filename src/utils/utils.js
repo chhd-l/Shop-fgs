@@ -1265,6 +1265,7 @@ export function formatDate({
   showMinute = false,
   showYear = true
 }) {
+  let finallyDate = '';
   if (date !== null && date !== undefined && date !== '') {
     let options = {};
     if (formatOption) {
@@ -1285,20 +1286,22 @@ export function formatDate({
       );
     }
     console.log('test date:', date);
-    const newdate =
-      typeof date === 'string' ? date.replace(/-/gi, '/').split('.')[0] : date;
-    console.log('test new  date:', newdate);
-    console.log(
-      'test finally date:',
-      new Intl.DateTimeFormat(
+    try {
+      const newdate =
+        typeof date === 'string'
+          ? date.replace(/-/gi, '/').split('.')[0]
+          : date;
+      console.log('test new  date:', newdate);
+      finallyDate = new Intl.DateTimeFormat(
         window.__.env.REACT_APP_NAVIGATOR_LANG,
         options
-      ).format(new Date(newdate))
-    );
-    return new Intl.DateTimeFormat(
-      window.__.env.REACT_APP_NAVIGATOR_LANG,
-      options
-    ).format(new Date(newdate));
+      ).format(new Date(newdate));
+      console.log('test DateTimeFormat date:', finallyDate);
+    } catch (err) {
+      finallyDate = date;
+    }
+    console.log('test finally date:', finallyDate);
+    return finallyDate;
   }
 }
 
