@@ -138,7 +138,7 @@ const Decouverteroyalcanin = (props) => {
               animaliers pour animer des conférences et des workshops.
             </p>
             <p className="rc-padding-bottom--xs">
-              <span className="font-semibold">Incroyables Moments </span>: Qui
+              <span className="font-semibold">Incroyables Moments </span>: qui
               n’a pas rêvé d’avoir une photo de soi avec son animal prise par un
               vrai photographe professionnel ? Royal Canin vous offre votre
               portrait avec votre animal pour fêter l’ouverture de notre concept
@@ -262,15 +262,21 @@ const Decouverteroyalcanin = (props) => {
 
         <div className="rc-layout-container rc-one-column  rc-max-width--xl  rc-padding-top--md  rc-padding-bottom--md   rc-padding-x--xl ">
           <div className="text-center m-auto">
-            <h2 className="xs:text-xl lg:text-3xl rc-padding-y--xs">
+            <h2 className="xs:text-xl lg:text-3xl rc-padding-top--xs rc-padding-bottom--sm">
               Venez à la découverte de Royal Canin
             </h2>
-            <h4
+            <button
+              className="rc-btn rc-btn--two rc-margin-bottom--xs"
+              onClick={() => {}}
+            >
+              Où nous trouver
+            </button>
+            {/* <h4
               style={{ color: '#E2001A' }}
               className="xs:text-base lg:text-xl rc-padding-y--xs"
             >
               Où nous trouver
-            </h4>
+            </h4> */}
             <p className="rc-padding-top--xs">Ouverture le 24 janvier 2022</p>
 
             <p>126, rue de Turenne, 75003 Paris</p>
