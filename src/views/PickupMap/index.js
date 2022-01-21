@@ -18,7 +18,7 @@ class PickupMap extends React.Component {
     loadJS({
       url: 'https://static.kak2c.ru/kak2c.pvz-map.js',
       integrity: 'sha256-NvjFXtXzlwWv1DpQ563HJipP40Td3baM1Ucd9JCwAOY=',
-      // crossOrigin:'anonymous',
+      crossOrigin: 'anonymous',
       callback: () => {
         // 初始化地图控件。在完全绘制页面后调用。
         // document.addEventListener('DOMContentLoaded', (e) => {
