@@ -3992,7 +3992,11 @@ class Payment extends React.Component {
   };
   // 1、点击支付
   clickPay = () => {
-    if (this.tradePrice === 0 && this.isCurrentBuyWaySubscription) {
+    if (
+      this.tradePrice === 0 &&
+      this.isCurrentBuyWaySubscription &&
+      !sessionItemRoyal.get('appointment-no')
+    ) {
       //0元订单中含有订阅商品时不能下单
       const errMsg =
         this.props.intl.messages['checkout.zeroOrder.butSubscription'];
