@@ -565,6 +565,12 @@ class Pcexperts extends React.Component {
       consumerPhone: params.phone
     });
     if (code === 'K-000000') {
+      sessionItemRoyal.set('gusetInfo', {
+        firstName: params.firstName,
+        lastName: params.lastName,
+        phone: params.phone,
+        email: params.email
+      });
       await this.queryAppointInfo(this.state.appointmentVO.apptNo);
       this.props.history.push('/checkout');
     }
