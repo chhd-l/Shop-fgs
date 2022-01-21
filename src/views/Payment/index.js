@@ -466,7 +466,7 @@ class Payment extends React.Component {
     if (funcUrl({ name: 'gusetInfo' })) {
       sessionItemRoyal.set(
         'gusetInfo',
-        encodeURIComponent(funcUrl({ name: 'gusetInfo' }))
+        JSON.stringify(encodeURIComponent(funcUrl({ name: 'gusetInfo' })))
       );
     }
     if (appointNo) {
@@ -1156,7 +1156,7 @@ class Payment extends React.Component {
       await this.props.checkoutStore.updatePromotionFiled([goodDetail]);
       this.handleZeroOrder();
       if (!this.isLogin) {
-        const guestInfo = sessionItemRoyal.get('gusetInfo');
+        const guestInfo = JSON.parse(sessionItemRoyal.get('gusetInfo'));
         const felinAddress = Object.assign(felinAddr[0], {
           firstName: result?.consumerFirstName || guestInfo.firstName || '',
           lastName: result?.consumerLastName || guestInfo.lastName || '',
@@ -1859,6 +1859,7 @@ class Payment extends React.Component {
         localItemRoyal.remove('rc-calculation-param');
         sessionItemRoyal.remove('rc-clicked-surveyId');
         sessionItemRoyal.remove('goodWillFlag');
+        sessionItemRoyal.remove('gusetInfo');
         //支付成功清除推荐者信息
         this.props.clinicStore.removeLinkClinicInfo();
         this.props.clinicStore.removeLinkClinicRecommendationInfos();

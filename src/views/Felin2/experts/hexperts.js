@@ -545,12 +545,15 @@ class Hcexperts extends React.Component {
     });
     if (code === 'K-000000') {
       await this.queryAppointInfo(this.state.appointmentVO.apptNo);
-      sessionItemRoyal.set('gusetInfo', {
-        firstName: params.firstName,
-        lastName: params.lastName,
-        phone: params.phone,
-        email: params.email
-      });
+      sessionItemRoyal.set(
+        'gusetInfo',
+        JSON.stringify({
+          firstName: params.firstName,
+          lastName: params.lastName,
+          phone: params.phone,
+          email: params.email
+        })
+      );
       this.props.history.push('/checkout');
     }
   };
