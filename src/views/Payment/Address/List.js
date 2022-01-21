@@ -1206,11 +1206,13 @@ class AddressList extends React.Component {
   titleJSXForPrepare() {
     const { titleVisible } = this.props;
     return (
-      <h5 className={`mb-0 text-nowrap text-xl`}>
+      <h5 className={`mb-0 text-nowrap text-xl flex items-center`}>
         {titleVisible ? (
           <>
             <em className="rc-icon rc-indoors--xs rc-iconography" />{' '}
-            <FormattedMessage id="payment.deliveryTitle" />
+            <span>
+              <FormattedMessage id="payment.deliveryTitle" />
+            </span>
           </>
         ) : null}
       </h5>
@@ -1220,11 +1222,13 @@ class AddressList extends React.Component {
     const { titleVisible } = this.props;
     return (
       <>
-        <h5 className={`mb-0 text-nowrap red text-xl`}>
+        <h5 className={`mb-0 text-nowrap red text-xl flex items-center`}>
           {titleVisible ? (
             <>
               <em className="rc-icon rc-indoors--xs rc-brand1" />{' '}
-              <FormattedMessage id="payment.deliveryTitle" />
+              <span>
+                <FormattedMessage id="payment.deliveryTitle" />
+              </span>
             </>
           ) : null}
         </h5>
@@ -1235,18 +1239,18 @@ class AddressList extends React.Component {
     const { titleVisible } = this.props;
     return (
       <>
-        <h5 className={`mb-0 text-nowrap text-xl`}>
+        <h5 className={`mb-0 text-nowrap text-xl flex items-center`}>
           {titleVisible ? (
             <>
               <em className="rc-icon rc-indoors--xs rc-iconography" />{' '}
-              {isFromFelin ? (
-                <FormattedMessage id="Felin Address" />
-              ) : (
-                <FormattedMessage id="payment.deliveryTitle" />
-              )}
-              <span className="iconfont font-weight-bold green ml-2">
-                &#xe68c;
+              <span>
+                {isFromFelin ? (
+                  <FormattedMessage id="Felin Address" />
+                ) : (
+                  <FormattedMessage id="payment.deliveryTitle" />
+                )}
               </span>
+              <span className="iconfont iconchenggong font-weight-bold green ml-2" />
             </>
           ) : null}
         </h5>{' '}
@@ -2127,18 +2131,18 @@ class AddressList extends React.Component {
     // 显示更多地址
     const _foldBtn = (
       <div
-        className="font-weight-bold text-center pt-2 pb-2 ui-cursor-pointer more_addr_box"
+        className="font-weight-bold text-center ui-cursor-pointer more_addr_box"
         onClick={this.toggleFoldBtn}
       >
         <span>
           {foledMore ? (
             <>
-              <span class="d-inline-block rc-icon rc-down--xs rc-iconography mr-1"></span>
+              <span className="iconfont iconDown font-bold mr-1" />
               <FormattedMessage id="moreAddress" />
             </>
           ) : (
             <>
-              <span class="d-inline-block rc-icon rc-up--xs rc-iconography mr-1"></span>
+              <span className="iconfont iconUp font-bold mr-1" />
               <FormattedMessage id="unfoldAddress" />
             </>
           )}
