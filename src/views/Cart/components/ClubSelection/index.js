@@ -29,11 +29,9 @@ const ClubSelection = function (props) {
             }}
           >
             <span
-              className="iconfont red mr-2"
+              className="iconfont iconbiaoqian red mr-2"
               style={{ fontSize: '1.2em', fontWeight: '600', color: '#ec001a' }}
-            >
-              &#xe602;
-            </span>
+            />
             {isGift ? (
               'Food Dispenser Subscription'
             ) : (

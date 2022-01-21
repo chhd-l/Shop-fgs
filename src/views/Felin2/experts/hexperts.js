@@ -545,13 +545,22 @@ class Hcexperts extends React.Component {
     });
     if (code === 'K-000000') {
       await this.queryAppointInfo(this.state.appointmentVO.apptNo);
+      sessionItemRoyal.set(
+        'gusetInfo',
+        JSON.stringify({
+          firstName: params.firstName,
+          lastName: params.lastName,
+          phone: params.phone,
+          email: params.email
+        })
+      );
       this.props.history.push('/checkout');
     }
   };
   queryAppointInfo = async (appointNo) => {
     //不做ga
     return;
-    const result = await getAppointmentInfo(appointNo);
+    const result = await getAppointmentInfo(appointNo, this.isLogin);
     console.log('appointmentInfo', result);
     const requestName = this.isLogin ? getLoginDetails : getDetails;
     const goodInfoRes = await requestName(result?.goodsInfoId);

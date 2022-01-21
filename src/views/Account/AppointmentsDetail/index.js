@@ -13,7 +13,7 @@ import LazyLoad from 'react-lazyload';
 import PageBaseInfo from '@/components/PageBaseInfo';
 import AppointmentInfo from './modules/AppointmentInfo';
 import { getWays } from '@/api/payment';
-import { getAppointDetail, cancelAppointByNo } from '@/api/appointment';
+import { getMemberAppointDetail, cancelAppointByNo } from '@/api/appointment';
 import { getAppointDict } from '@/api/dict';
 import { formatDate } from '@/utils/utils';
 
@@ -74,7 +74,7 @@ class AccountOrders extends React.Component {
     const { appointmentNo } = this.state;
     this.setState({ loading: true });
     try {
-      const res = await getAppointDetail({ apptNo: appointmentNo });
+      const res = await getMemberAppointDetail({ apptNo: appointmentNo });
       let resContext = res.context.settingVO;
       const appointDictRes = await Promise.all([
         getAppointDict({
