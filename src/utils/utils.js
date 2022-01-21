@@ -10,7 +10,7 @@ import findIndex from 'lodash/findIndex';
 import stores from '@/store';
 import { toJS } from 'mobx';
 import { registerLocale } from 'react-datepicker';
-import { getAppointDetail } from '@/api/appointment';
+import { getAppointDetail, getMemberAppointDetail } from '@/api/appointment';
 import cloneDeep from 'lodash/cloneDeep';
 import { sitePurchase } from '@/api/cart';
 import Club_Logo from '@/assets/images/Logo_club.png';
@@ -1013,8 +1013,9 @@ export async function getAddressPostalCodeAlertMessage() {
 }
 
 //根据预约单号获取预约信息
-export async function getAppointmentInfo(appointNo) {
-  const res = await getAppointDetail({ apptNo: appointNo });
+export async function getAppointmentInfo(appointNo, isLogin) {
+  const action = isLogin ? getMemberAppointDetail : getAppointDetail;
+  const res = await action({ apptNo: appointNo });
   let resContext = res?.context?.settingVO;
   let appointDictRes = await Promise.all([
     getAppointDict({
@@ -1024,7 +1025,6 @@ export async function getAppointmentInfo(appointNo) {
       type: 'expert_type'
     })
   ]);
-  // appointDictRes=flatten(appointDictRes)
   console.log('appointDictRes', appointDictRes);
   const appointmentDictRes = (
     appointDictRes[0]?.context?.goodsDictionaryVOS || []
