@@ -51,7 +51,7 @@ const Decouverteroyalcanin = (props) => {
       <div className="rc-content--fixed-header rc-bg-colour--brand3 decouverteroyalcanin">
         <div
           className="rc-layout-container rc-two-column  rc-max-width--xl rc-padding-left--md
-        rc-padding-top--md rc-padding-bottom--xl items-center"
+        rc-padding-top--md rc-padding-bottom--md items-center"
         >
           <div className="rc-column">
             <div style={{ maxWidth: '504px' }} className="m-auto">
@@ -111,7 +111,7 @@ const Decouverteroyalcanin = (props) => {
             </LazyLoad>
           </div>
         </div>
-        <div className="rc-layout-container rc-one-column rc-max-width--xl items-center rc-padding-bottom--lg  rc-padding-x--xl">
+        <div className="rc-layout-container rc-one-column rc-max-width--xl items-center rc-padding-bottom--md  rc-padding-x--xl">
           <div className="rc-column">
             <p className="rc-padding-bottom--sm">
               <span className="font-semibold">Incroyable Nutrition</span> :
@@ -158,7 +158,7 @@ const Decouverteroyalcanin = (props) => {
         </div>
         <HrLine />
 
-        <div className="rc-layout-container rc-two-column  rc-max-width--xl  rc-padding-x--xl items-center rc-padding-y--xl">
+        <div className="rc-layout-container rc-two-column  rc-max-width--xl  rc-padding-x--xl items-center rc-padding-y--md">
           <div className="rc-column">
             <LazyLoad>
               <img
@@ -185,7 +185,7 @@ const Decouverteroyalcanin = (props) => {
         </div>
         <HrLine />
 
-        <div className="rc-layout-container rc-two-column  rc-max-width--xl  rc-padding-x--xl items-center rc-padding-y--xl">
+        <div className="rc-layout-container rc-two-column  rc-max-width--xl  rc-padding-x--xl items-center rc-padding-y--md">
           <div className="rc-column">
             <div style={{ maxWidth: '450px' }}>
               <h2 className="xs:text-xl lg:text-3xl rc-padding-bottom--sm">
@@ -225,7 +225,7 @@ const Decouverteroyalcanin = (props) => {
         </div>
         <HrLine />
 
-        <div className="rc-layout-container rc-two-column  rc-max-width--xl rc-padding-x--xl rc-padding-top--xl rc-padding-bottom--lg itmes-center">
+        <div className="rc-layout-container rc-two-column  rc-max-width--xl rc-padding-x--xl rc-padding-top--md rc-padding-bottom--md itmes-center">
           <div className="rc-column">
             <LazyLoad>
               <img
@@ -260,12 +260,15 @@ const Decouverteroyalcanin = (props) => {
         </div>
         <HrLine />
 
-        <div className="rc-layout-container rc-one-column  rc-max-width--xl  rc-padding-top--md  rc-padding-bottom--xl   rc-padding-x--xl ">
+        <div className="rc-layout-container rc-one-column  rc-max-width--xl  rc-padding-top--md  rc-padding-bottom--md   rc-padding-x--xl ">
           <div className="text-center m-auto">
             <h2 className="xs:text-xl lg:text-3xl rc-padding-y--xs">
               Venez à la découverte de Royal Canin
             </h2>
-            <h4 className="xs:text-base lg:text-xl rc-padding-y--xs">
+            <h4
+              style={{ color: '#E2001A' }}
+              className="xs:text-base lg:text-xl rc-padding-y--xs"
+            >
               Où nous trouver
             </h4>
             <p className="rc-padding-top--xs">Ouverture le 24 janvier 2022</p>

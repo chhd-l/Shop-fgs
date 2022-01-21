@@ -6,7 +6,8 @@ const api = {
   consentList: '/appt/listApptPageConsent',
   getAppointList: '/appt/list',
   cancelAppoint: '/appt/cancelByNo', //根据appointNo cancel appointment
-  getAppointDetail: '/appt/findByNo' //根据appointNo查询appoint信息
+  getAppointDetail: '/appt/findByNo', //根据appointNo查询appoint信息
+  getMemberAppointDetail: '/appt/findByNoForCust' //根据appointNo查询会员appoint信息
 };
 
 export default api;
@@ -54,6 +55,14 @@ export function cancelAppointByNo(parameter) {
 export function getAppointDetail(parameter) {
   return axios({
     url: api.getAppointDetail,
+    method: 'post',
+    data: parameter
+  });
+}
+
+export function getMemberAppointDetail(parameter) {
+  return axios({
+    url: api.getMemberAppointDetail,
     method: 'post',
     data: parameter
   });

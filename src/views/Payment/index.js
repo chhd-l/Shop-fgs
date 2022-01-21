@@ -88,6 +88,7 @@ import { postUpdateUser, getAppointByApptNo } from '../../api/felin';
 import UpdatModal from './updatModules/modal';
 import QRCode from 'qrcode.react';
 import differenceInSeconds from 'date-fns/differenceInSeconds';
+import base64 from 'base-64';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -109,6 +110,7 @@ function CreditCardInfoPreview({
       <p>{holderNameDeco}</p>
       <p>{brandDeco}</p>
       {lastFourDeco ? <p>{`************${lastFourDeco}`}</p> : null}
+      {console.log('expirationDate', expirationDate)}
       {expirationDate ? (
         <p>
           {formatDate({
@@ -444,6 +446,12 @@ class Payment extends React.Component {
     if (funcUrl({ name: 'oldAppointNo' })) {
       sessionItemRoyal.set('oldAppointNo', funcUrl({ name: 'oldAppointNo' }));
       sessionItemRoyal.set('isChangeAppoint', true);
+    }
+    if (funcUrl({ name: 'gusetInfo' })) {
+      sessionItemRoyal.set(
+        'gusetInfo',
+        base64.decode(funcUrl({ name: 'gusetInfo' }))
+      );
     }
     if (appointNo) {
       let felinAddress = this.isLogin
@@ -1156,7 +1164,10 @@ class Payment extends React.Component {
   //获取appointment信息
   async queryAppointInfo() {
     try {
-      const result = await getAppointmentInfo(this.state.appointNo);
+      const result = await getAppointmentInfo(
+        this.state.appointNo,
+        this.isLogin
+      );
       console.log('appointmentInfo', result);
       const requestName = this.isLogin ? getLoginDetails : getDetails;
       const goodInfoRes = await requestName(result?.goodsInfoId);
@@ -1182,19 +1193,21 @@ class Payment extends React.Component {
       await this.props.checkoutStore.updatePromotionFiled([goodDetail]);
       this.handleZeroOrder();
       if (!this.isLogin) {
+        const guestInfo = JSON.parse(sessionItemRoyal.get('gusetInfo'));
         const felinAddress = Object.assign(felinAddr[0], {
-          firstName: result?.consumerFirstName || '',
-          lastName: result?.consumerLastName || '',
+          firstName: result?.consumerFirstName || guestInfo.firstName || '',
+          lastName: result?.consumerLastName || guestInfo.lastName || '',
           consigneeName:
             result?.consumerName ||
             result?.consumerFirstName + ' ' + result?.consumerLastName ||
+            guestInfo.firstName + ' ' + guestInfo.lastName ||
             '',
-          consigneeNumber: result?.consumerPhone || ''
+          consigneeNumber: result?.consumerPhone || guestInfo.phone || ''
         });
         this.setState({
           deliveryAddress: felinAddress,
           billingAddress: felinAddress,
-          guestEmail: result?.consumerEmail
+          guestEmail: result?.consumerEmail || guestInfo.email
         });
       }
       this.setState({
@@ -1886,6 +1899,7 @@ class Payment extends React.Component {
         localItemRoyal.remove('rc-calculation-param');
         sessionItemRoyal.remove('rc-clicked-surveyId');
         sessionItemRoyal.remove('goodWillFlag');
+        sessionItemRoyal.remove('gusetInfo');
         //支付成功清除推荐者信息
         this.props.clinicStore.removeLinkClinicInfo();
         this.props.clinicStore.removeLinkClinicRecommendationInfos();
@@ -4031,7 +4045,8 @@ class Payment extends React.Component {
     if (
       this.isSkipPaymentPanel &&
       window.__.env.REACT_APP_COUNTRY !== 'us' &&
-      this.isCurrentBuyWaySubscription
+      this.isCurrentBuyWaySubscription &&
+      !sessionItemRoyal.get('appointment-no')
     ) {
       const errMsg = intl.messages['checkout.zeroOrder.butSubscription'];
       this.showErrorMsg(errMsg);
