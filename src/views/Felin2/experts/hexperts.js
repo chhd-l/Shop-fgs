@@ -545,13 +545,22 @@ class Hcexperts extends React.Component {
     });
     if (code === 'K-000000') {
       await this.queryAppointInfo(this.state.appointmentVO.apptNo);
+      sessionItemRoyal.set(
+        'gusetInfo',
+        JSON.stringify({
+          firstName: params.firstName,
+          lastName: params.lastName,
+          phone: params.phone,
+          email: params.email
+        })
+      );
       this.props.history.push('/checkout');
     }
   };
   queryAppointInfo = async (appointNo) => {
     //不做ga
     return;
-    const result = await getAppointmentInfo(appointNo);
+    const result = await getAppointmentInfo(appointNo, this.isLogin);
     console.log('appointmentInfo', result);
     const requestName = this.isLogin ? getLoginDetails : getDetails;
     const goodInfoRes = await requestName(result?.goodsInfoId);
@@ -639,49 +648,6 @@ class Hcexperts extends React.Component {
             <li className={`${fiveShow ? 'opacity1' : ''}`}>5</li>
           </ul>
         )}
-        {/* 选择综合 */}
-        {this.state.twoShow ||
-        this.state.threeShow ||
-        this.state.fourShow ||
-        this.state.fiveShow ? (
-          <div className="Choisissez votre-selection">
-            <div className="mb16 colred size18">Votre sélection</div>
-            {this.state.votre.type ? (
-              <div className="js-between mb16">
-                <div>Type</div>
-                <div>{this.state.votre.type}</div>
-              </div>
-            ) : null}
-            {this.state.votre.expertise ? (
-              <div className="js-between mb16">
-                <div>Expertise</div>
-                <div>{this.state.votre.expertise}</div>
-              </div>
-            ) : null}
-            {this.state.votre.duree ? (
-              <div className="js-between mb16">
-                <div>Durée</div>
-                <div>{this.state.votre.duree} min</div>
-              </div>
-            ) : null}
-            <div className="js-between mb16">
-              <div>Prix</div>
-              <div>{this.state.votre.prix + ' EUR' || 'FREE'}</div>
-            </div>
-            {this.state.votre.date ? (
-              <div className="js-between mb16">
-                <div>Date</div>
-                <div>{this.state.votre.date}</div>
-              </div>
-            ) : null}
-            {this.state.votre.heure ? (
-              <div className="js-between">
-                <div>Heure</div>
-                <div>{this.state.votre.heure}</div>
-              </div>
-            ) : null}
-          </div>
-        ) : null}
         {/* 第一步 */}
         {this.state.oneShow ? (
           <div>
@@ -937,6 +903,49 @@ class Hcexperts extends React.Component {
                 Continuer en tant qu'invité
               </span>
             </div>
+          </div>
+        ) : null}
+        {/* 选择综合 */}
+        {this.state.twoShow ||
+        this.state.threeShow ||
+        this.state.fourShow ||
+        this.state.fiveShow ? (
+          <div className="Choisissez votre-selection">
+            <div className="mb16 colred size18">Votre sélection</div>
+            {this.state.votre.type ? (
+              <div className="js-between mb16">
+                <div>Type</div>
+                <div>{this.state.votre.type}</div>
+              </div>
+            ) : null}
+            {this.state.votre.expertise ? (
+              <div className="js-between mb16">
+                <div>Expertise</div>
+                <div>{this.state.votre.expertise}</div>
+              </div>
+            ) : null}
+            {this.state.votre.duree ? (
+              <div className="js-between mb16">
+                <div>Durée</div>
+                <div>{this.state.votre.duree} min</div>
+              </div>
+            ) : null}
+            <div className="js-between mb16">
+              <div>Prix</div>
+              <div>{this.state.votre.prix + ' EUR' || 'FREE'}</div>
+            </div>
+            {this.state.votre.date ? (
+              <div className="js-between mb16">
+                <div>Date</div>
+                <div>{this.state.votre.date}</div>
+              </div>
+            ) : null}
+            {this.state.votre.heure ? (
+              <div className="js-between">
+                <div>Heure</div>
+                <div>{this.state.votre.heure}</div>
+              </div>
+            ) : null}
           </div>
         ) : null}
         <UpdatModal

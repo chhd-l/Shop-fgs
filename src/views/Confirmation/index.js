@@ -215,6 +215,7 @@ class Confirmation extends React.Component {
     }
   }
   componentWillUnmount() {
+    const { checkoutStore } = this.props;
     if (sessionItemRoyal.get('rc-paywith-login') === 'true') {
       checkoutStore.removeLoginCartData();
     } else {

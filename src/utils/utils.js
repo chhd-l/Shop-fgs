@@ -10,7 +10,7 @@ import findIndex from 'lodash/findIndex';
 import stores from '@/store';
 import { toJS } from 'mobx';
 import { registerLocale } from 'react-datepicker';
-import { getAppointDetail } from '@/api/appointment';
+import { getAppointDetail, getMemberAppointDetail } from '@/api/appointment';
 import cloneDeep from 'lodash/cloneDeep';
 import { sitePurchase } from '@/api/cart';
 import Club_Logo from '@/assets/images/Logo_club.png';
@@ -292,7 +292,8 @@ export function loadJS({
   code,
   className,
   type,
-  id
+  id,
+  ...rest
 }) {
   var script = document.createElement('script');
 
@@ -304,7 +305,12 @@ export function loadJS({
   if (id) {
     script.id = id;
   }
-
+  if (rest) {
+    //添加js其他属性
+    for (let key in rest) {
+      script[key] = rest[key];
+    }
+  }
   if (dataSets) {
     for (let key in dataSets) {
       script.dataset[key] = dataSets[key];
@@ -739,7 +745,7 @@ function getDatePickerConfig() {
   registerLocale(window.__.env.REACT_APP_COUNTRY, curLocaleModule);
   // 根据Intl.DateTimeFormat生成当前国家的日期格式
   const specificDate = formatDate({ date: '2021-12-30' });
-  return Object.assign(
+  const datePickerConfig = Object.assign(
     {},
     curDatePickerCfg,
     {
@@ -752,6 +758,8 @@ function getDatePickerConfig() {
       locale_module: curLocaleModule
     }
   );
+  console.log('datePickerConfig:', datePickerConfig);
+  return datePickerConfig;
 }
 let datePickerConfig = getDatePickerConfig();
 export { datePickerConfig };
@@ -901,22 +909,6 @@ export const getRation = async (params) => {
   return res;
 };
 
-/**
- * isDuringDate(判断时间是否处于某个时间段内)
- * @param    date   [date:Date] [需要比较的时间]
- * @param    beginDateStr   [beginDateStr: String] [开始时间]
- * @param   endDateStr [endDateStr: String] [结束时间]
- * @return Boolean
- */
-export const isDuringDate = (date, beginDateStr, endDateStr) => {
-  let beginDate = new Date(beginDateStr),
-    endDate = new Date(endDateStr);
-  if (date >= beginDate && date <= endDate) {
-    return true;
-  }
-  return false;
-};
-
 //延时函数
 export const sleep = (time) => {
   return new Promise((resolve) => {
@@ -1011,8 +1003,9 @@ export async function getAddressPostalCodeAlertMessage() {
 }
 
 //根据预约单号获取预约信息
-export async function getAppointmentInfo(appointNo) {
-  const res = await getAppointDetail({ apptNo: appointNo });
+export async function getAppointmentInfo(appointNo, isLogin) {
+  const action = isLogin ? getMemberAppointDetail : getAppointDetail;
+  const res = await action({ apptNo: appointNo });
   let resContext = res?.context?.settingVO;
   let appointDictRes = await Promise.all([
     getAppointDict({
@@ -1022,7 +1015,6 @@ export async function getAppointmentInfo(appointNo) {
       type: 'expert_type'
     })
   ]);
-  // appointDictRes=flatten(appointDictRes)
   console.log('appointDictRes', appointDictRes);
   const appointmentDictRes = (
     appointDictRes[0]?.context?.goodsDictionaryVOS || []
@@ -1257,6 +1249,7 @@ export function formatDate({
   showMinute = false,
   showYear = true
 }) {
+  let finallyDate = '';
   if (date !== null && date !== undefined && date !== '') {
     let options = {};
     if (formatOption) {
@@ -1276,11 +1269,23 @@ export function formatDate({
           : {}
       );
     }
-
-    return new Intl.DateTimeFormat(
-      window.__.env.REACT_APP_NAVIGATOR_LANG,
-      options
-    ).format(new Date(date));
+    console.log('test date:', date);
+    try {
+      const newdate =
+        typeof date === 'string'
+          ? date.replace(/-/gi, '/').split('.')[0]
+          : date;
+      console.log('test new  date:', newdate);
+      finallyDate = new Intl.DateTimeFormat(
+        window.__.env.REACT_APP_NAVIGATOR_LANG,
+        options
+      ).format(new Date(newdate));
+      console.log('test DateTimeFormat date:', finallyDate);
+    } catch (err) {
+      finallyDate = date;
+    }
+    console.log('test finally date:', finallyDate);
+    return finallyDate;
   }
 }
 

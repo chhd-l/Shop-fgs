@@ -27,7 +27,7 @@ const OneOffSelection = function (props) {
               lineHeight: '1'
             }}
           >
-            <span className="iconfont iconOrders text-rc-red font-bold md:font-medium text-xl md:text-lg mr-1" />
+            <span className="iconfont iconOrders text-rc-red font-medium text-lg mr-1" />
             <FormattedMessage id="singlePurchase" />
           </span>
         </div>

@@ -300,9 +300,14 @@ class CheckoutStore {
     outOfstockProNames = this.outOfstockProNames,
     deletedProNames = this.deletedProNames,
     notSeableProNames = this.notSeableProNames,
-    intl = {}
+    intl = {},
+    purchasesRes = {}
   } = {}) {
     const { formatMessage } = intl;
+    // 没达到下单额度，不能下单
+    if (purchasesRes.canShipped === false && purchasesRes.cantShippedMessage) {
+      throw new Error(purchasesRes.cantShippedMessage);
+    }
     if (offShelvesProNames.length > 0) {
       throw new Error(
         formatMessage(
@@ -494,7 +499,7 @@ class CheckoutStore {
       this.notSeableProNames = tmpNotSeableProNames;
       // 抛出错误
       if (isThrowErr) {
-        await this.validCheckoutLimitRule({ intl });
+        await this.validCheckoutLimitRule({ intl, purchasesRes });
       }
       return new Promise(function (resolve) {
         resolve({ backCode, context: purchasesRes });
@@ -527,8 +532,26 @@ class CheckoutStore {
       let promotionCodeNew =
         promotionCode === undefined ? this.promotionCode : promotionCode;
 
+      console.log('开始调用mini-cart');
       // 获取购物车列表
+      // 删除felin sku
       let siteMiniPurchasesRes = await siteMiniPurchases({ delFlag });
+      console.log('mini-carts api res', siteMiniPurchasesRes);
+      siteMiniPurchasesRes.context.goodsList =
+        siteMiniPurchasesRes?.context?.goodsList?.map((item) => {
+          if (item.goodsInfos) {
+            item.goodsInfos = item.goodsInfos.filter((el) => {
+              if (el.displayOnShop === 0) {
+                item.goodsSpecDetails = item.goodsSpecDetails.filter(
+                  (ele) =>
+                    el.mockSpecDetailIds.join('') !== String(ele.specDetailId)
+                );
+              }
+              return el.displayOnShop !== 0;
+            });
+          }
+          return item;
+        });
       // 兼容ind的参数传值
       let newGoodsList = getLoginData(siteMiniPurchasesRes.context?.goodsList);
       siteMiniPurchasesRes = Object.assign({}, siteMiniPurchasesRes, {
@@ -561,10 +584,12 @@ class CheckoutStore {
         deliverWay,
         shippingFeeAddress // DuData地址对象，俄罗斯计算运费用
       });
+      console.log('purchase api res', sitePurchasesRes);
       // debugger;
       console.log('★ 449 ----- checkoutStore 获取总价: ', sitePurchasesRes);
       let backCode = sitePurchasesRes.code;
       sitePurchasesRes = sitePurchasesRes.context;
+
       this.setGiftList(sitePurchasesRes.giftList);
       let newPromotionCode = sitePurchasesRes.promotionDesc || '';
       this.setPromotionCode(newPromotionCode);
@@ -694,7 +719,10 @@ class CheckoutStore {
       this.changeLoadingCartData(false);
       // 抛出错误
       if (isThrowErr) {
-        await this.validCheckoutLimitRule({ intl });
+        await this.validCheckoutLimitRule({
+          intl,
+          purchasesRes: sitePurchasesRes
+        });
       }
       return new Promise(function (resolve) {
         resolve({ backCode, context: sitePurchasesRes });

@@ -34,7 +34,7 @@ const Decouverteroyalcanin = (props) => {
     }).then((res) => {
       setSeoinfo(res);
     });
-  });
+  }, []);
   const redirectLink = (link) => {
     location.href = link;
   };
@@ -51,7 +51,7 @@ const Decouverteroyalcanin = (props) => {
       <div className="rc-content--fixed-header rc-bg-colour--brand3 decouverteroyalcanin">
         <div
           className="rc-layout-container rc-two-column  rc-max-width--xl rc-padding-left--md
-        rc-padding-top--md rc-padding-bottom--xl items-center"
+        rc-padding-top--md rc-padding-bottom--md items-center"
         >
           <div className="rc-column">
             <div style={{ maxWidth: '504px' }} className="m-auto">
@@ -111,25 +111,38 @@ const Decouverteroyalcanin = (props) => {
             </LazyLoad>
           </div>
         </div>
-        <div className="rc-layout-container rc-one-column rc-max-width--xl items-center rc-padding-bottom--lg  rc-padding-x--xl">
+        <div className="rc-layout-container rc-one-column rc-max-width--xl items-center rc-padding-bottom--md  rc-padding-x--xl">
           <div className="rc-column">
             <p className="rc-padding-bottom--sm">
-              <span className="font-semibold">Incroyable Aventure</span> : venez
-              découvrir l’histoire et le patrimoine de Royal Canin avec une
-              frise chronologique numérique innovante et interactive.
+              <span className="font-semibold">Incroyable Nutrition</span> :
+              partez à la découverte de l’histoire de nos produits et de toutes
+              nos innovations scientifiques. 
+              <br />
+              Incroyables Chiots & Chatons : vous voulez adopter mais vous ne
+              savez pas encore quel serait votre compagnon idéal ? Avec cette
+              expérience incroyable, en fonction de votre profil et votre mode
+              de vie, nous allons vous aider à trouver le chien ou le chat de
+              vos rêves.
             </p>
             <p className="rc-padding-bottom--sm">
-              <span className="font-semibold">Incroyables Amis </span>:
-              participez à un quizz ludique pour mieux comprendre le
-              comportement de vos chats et chiens.
+              <span className="font-semibold">Incroyables Innovations </span>:
+              découvrez toutes les innovations de Royal Canin qui vont bien
+              au-delà de la nutrition.
+            </p>
+
+            <p className="rc-padding-bottom--sm">
+              <span className="font-semibold">Incroyables Experts</span> :
+              partez à la rencontre des experts Royal Canin. Chaque semaine,
+              nous allons inviter des vétérinaires, des éleveurs, des
+              psychologues pour animaux et plein d’autres professionnels
+              animaliers pour animer des conférences et des workshops.
             </p>
             <p className="rc-padding-bottom--xs">
-              <span className="font-semibold">Incroyable Sens</span> : découvrez
-              comment vos animaux perçoivent le monde, comment ils le sentent,
-              le voient et l’entendent. Plongez-vous dans une pièce immersive
-              qui avec des écrans incurvés nouvelle génération, des bancs
-              chauffants et vibrants, vous permettra de ressentir ce que
-              ressentent vos animaux.
+              <span className="font-semibold">Incroyables Moments </span>: qui
+              n’a pas rêvé d’avoir une photo de soi avec son animal prise par un
+              vrai photographe professionnel ? Royal Canin vous offre votre
+              portrait avec votre animal pour fêter l’ouverture de notre concept
+              store.
             </p>
             <p className="rc-padding-top--md rc-padding-bottom--xs">
               <button className="rc-btn rc-btn--two">Nous rendre visite</button>
@@ -145,7 +158,7 @@ const Decouverteroyalcanin = (props) => {
         </div>
         <HrLine />
 
-        <div className="rc-layout-container rc-two-column  rc-max-width--xl  rc-padding-x--xl items-center rc-padding-y--xl">
+        <div className="rc-layout-container rc-two-column  rc-max-width--xl  rc-padding-x--xl items-center rc-padding-y--md">
           <div className="rc-column">
             <LazyLoad>
               <img
@@ -160,7 +173,7 @@ const Decouverteroyalcanin = (props) => {
               <h2 className="xs:text-xl lg:text-3xl rc-padding-bottom--sm">
                 A la découverte des expériences Royal Canin
               </h2>
-              <p>
+              <p style={{ maxWidth: '440px' }}>
                 Faites l’expérience du monde du point de vue de votre compagnon
                 chat ou chien. Vous êtes-vous déjà demandé comment votre chien
                 ou votre chat voit, sent et entend le monde qui l’entoure ?
@@ -172,14 +185,17 @@ const Decouverteroyalcanin = (props) => {
         </div>
         <HrLine />
 
-        <div className="rc-layout-container rc-two-column  rc-max-width--xl  rc-padding-x--xl items-center rc-padding-y--xl">
+        <div className="rc-layout-container rc-two-column  rc-max-width--xl  rc-padding-x--xl items-center rc-padding-y--md">
           <div className="rc-column">
             <div style={{ maxWidth: '450px' }}>
               <h2 className="xs:text-xl lg:text-3xl rc-padding-bottom--sm">
                 Venez écouter et échanger avec nos experts sur tous les sujets
                 autour des chiens et chats
               </h2>
-              <p className="rc-padding-bottom--sm">
+              <p
+                className="rc-padding-bottom--sm"
+                style={{ maxWidth: '440px' }}
+              >
                 Royal Canin a toujours quelque chose de différent et
                 d’instructif à proposer. Des ateliers indoor, des activités en
                 extérieur, des rencontres pilotées par des experts et bien plus
@@ -209,7 +225,7 @@ const Decouverteroyalcanin = (props) => {
         </div>
         <HrLine />
 
-        <div className="rc-layout-container rc-two-column  rc-max-width--xl rc-padding-x--xl rc-padding-top--xl rc-padding-bottom--lg itmes-center">
+        <div className="rc-layout-container rc-two-column  rc-max-width--xl rc-padding-x--xl rc-padding-top--md rc-padding-bottom--md itmes-center">
           <div className="rc-column">
             <LazyLoad>
               <img
@@ -244,14 +260,23 @@ const Decouverteroyalcanin = (props) => {
         </div>
         <HrLine />
 
-        <div className="rc-layout-container rc-one-column  rc-max-width--xl  rc-padding-top--md  rc-padding-bottom--xl   rc-padding-x--xl ">
+        <div className="rc-layout-container rc-one-column  rc-max-width--xl  rc-padding-top--md  rc-padding-bottom--md   rc-padding-x--xl ">
           <div className="text-center m-auto">
-            <h2 className="xs:text-xl lg:text-3xl rc-padding-y--xs">
+            <h2 className="xs:text-xl lg:text-3xl rc-padding-top--xs rc-padding-bottom--sm">
               Venez à la découverte de Royal Canin
             </h2>
-            <h4 className="xs:text-base lg:text-xl rc-padding-y--xs">
+            <button
+              className="rc-btn rc-btn--two rc-margin-bottom--xs"
+              onClick={() => {}}
+            >
               Où nous trouver
-            </h4>
+            </button>
+            {/* <h4
+              style={{ color: '#E2001A' }}
+              className="xs:text-base lg:text-xl rc-padding-y--xs"
+            >
+              Où nous trouver
+            </h4> */}
             <p className="rc-padding-top--xs">Ouverture le 24 janvier 2022</p>
 
             <p>126, rue de Turenne, 75003 Paris</p>

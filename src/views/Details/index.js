@@ -895,15 +895,23 @@ class Details extends React.Component {
       if (Object.keys(this.state.requestJson).length > 0) {
         param = { ...param, ...this.state.requestJson };
       }
-      await sitePurchase(param);
-      await checkoutStore.updateLoginCart({ intl });
-      this.setState({ modalMobileCartSuccessVisible: true });
-      if (!isMobile) {
-        headerCartStore.show();
-        setTimeout(() => {
-          headerCartStore.hide();
-        }, 4000);
-      }
+      console.log('开始调用add cart');
+      // const res = await sitePurchase(param);
+      sitePurchase(param).then(async (data) => {
+        console.log('carts api res', data);
+        console.log('await add cart后');
+        await checkoutStore.updateLoginCart({ intl });
+        // setTimeout(async () => {
+        //   await checkoutStore.updateLoginCart({ intl });
+        // }, 6000);
+        this.setState({ modalMobileCartSuccessVisible: true });
+        if (!isMobile) {
+          headerCartStore.show();
+          setTimeout(() => {
+            headerCartStore.hide();
+          }, 4000);
+        }
+      });
     } catch (err) {
       this.showCheckoutErrMsg(err.message);
     } finally {

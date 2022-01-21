@@ -100,7 +100,25 @@ class MegaMenuMobileForHub extends Component {
     });
   }
   toggleMenu() {
-    this.setState((curState) => ({ showMegaMenu: !curState.showMegaMenu }));
+    this.setState(
+      (curState) => ({ showMegaMenu: !curState.showMegaMenu }),
+      () => {
+        this.toggleBackLayerScrollFunc(!this.state.showMegaMenu);
+      }
+    );
+  }
+  /**
+   * 是否开启搜索结果框，底层的滑动功能
+   * @param {boolean} status
+   */
+  toggleBackLayerScrollFunc(status) {
+    if (status) {
+      document.querySelector('html').classList.remove('noscroll');
+      document.querySelector('body').classList.remove('noscroll');
+    } else {
+      document.querySelector('html').classList.add('noscroll');
+      document.querySelector('body').classList.add('noscroll');
+    }
   }
   handleClickNavItem(item) {
     this.props.handleClickNavItem(item);
@@ -321,9 +339,9 @@ class MegaMenuMobileForHub extends Component {
                         {this._renderLinkItem(item)}
                       </li>
                     ))}
-                    <li className="rc-list__item rc-list__item--group w-100 border-bottom border-d7d7d7">
-                      {portalData.length > 0 &&
-                        portalData.map((data, i) => (
+                    {portalData.length > 0 ? (
+                      <li className="rc-list__item rc-list__item--group w-100 border-bottom border-d7d7d7">
+                        {portalData.map((data, i) => (
                           <a
                             href={data.link}
                             className={`rc-list__header bg-transparent border-0 ${
@@ -336,7 +354,8 @@ class MegaMenuMobileForHub extends Component {
                             </span>
                           </a>
                         ))}
-                      {isLogin ? (
+                        {/* sprint8调整不要了 */}
+                        {/* {isLogin ? (
                         <>
                           <Link
                             className="rc-list__header bg-transparent border-0 pt-3 pb-0 d-flex"
@@ -377,8 +396,8 @@ class MegaMenuMobileForHub extends Component {
                             <FormattedMessage id="signInAndRegisterNow" />
                           </span>
                         </LoginButton>
-                      )}
-                      {shareData.map((data, i) => (
+                      )} */}
+                        {/* {shareData.map((data, i) => (
                         <a
                           href={data.link}
                           className={`rc-list__header bg-transparent border-0 ${
@@ -390,8 +409,9 @@ class MegaMenuMobileForHub extends Component {
                             {data.text}
                           </span>
                         </a>
-                      ))}
-                    </li>
+                      ))} */}
+                      </li>
+                    ) : null}
                     <li className="rc-list__item rc-list__item--group w-100 border-bottom border-d7d7d7">
                       <Language className="rc-list__header bg-transparent border-0">
                         <span className="iconfont rc-text-colour--text">

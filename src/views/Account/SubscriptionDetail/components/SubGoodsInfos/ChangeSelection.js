@@ -94,6 +94,7 @@ const ChangeSelection = ({ el }) => {
             display: 'inline-block',
             width: '50%'
           }}
+          className="whitespace-nowrap"
         >
           {/* Shipping Method: */}
           {
@@ -123,6 +124,7 @@ const ChangeSelection = ({ el }) => {
             display: 'inline-block',
             width: '50%'
           }}
+          className="whitespace-nowrap"
         >
           <span className="iconfont icondata text-xl mr-1" />
           <FormattedMessage id="nextShipment" />:
