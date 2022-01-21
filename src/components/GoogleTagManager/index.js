@@ -154,13 +154,15 @@ class GoogleTagManager extends React.Component {
     //   url: `https://rcdfcdn.mars.com/consent-management/global-script.js`,
     //   id: 'global-script'
     //   integrity:'sha256-KrbjfxO8LEY7xlav+mSqct9TIHSvnq9x/TP2AafGzVw=',
+    //   crossOrigin:'anonymous',
     // });
 
     loadJS({
       url: `https://www.googleoptimize.com/optimize.js?id=OPT-K6SFSDH`,
       type: 'text/plain',
-      className: 'optanon-category-2',
-      integrity: 'sha256-0XY0ExApFvH21IcndrXDVqbZNC2CJmsCZO06+h/qf4c='
+      className: 'optanon-category-2'
+      // crossOrigin:'anonymous',
+      // integrity: 'sha256-0XY0ExApFvH21IcndrXDVqbZNC2CJmsCZO06+h/qf4c='
     });
 
     // loadJS({
