@@ -905,6 +905,22 @@ class Hcexperts extends React.Component {
             </div>
           </div>
         ) : null}
+        <UpdatModal
+          visible={this.state.visibleUpdate}
+          handleUpdate={this.handleUpdate}
+        >
+          <div
+            style={{
+              textAlign: 'right'
+            }}
+          >
+            <span
+              onClick={this.handleCancelUpdate}
+              className="rc-icon rc-close rc-iconography"
+              style={{ cursor: 'pointer' }}
+            />
+          </div>
+        </UpdatModal>
         {/* 选择综合 */}
         {this.state.twoShow ||
         this.state.threeShow ||
@@ -948,22 +964,6 @@ class Hcexperts extends React.Component {
             ) : null}
           </div>
         ) : null}
-        <UpdatModal
-          visible={this.state.visibleUpdate}
-          handleUpdate={this.handleUpdate}
-        >
-          <div
-            style={{
-              textAlign: 'right'
-            }}
-          >
-            <span
-              onClick={this.handleCancelUpdate}
-              className="rc-icon rc-close rc-iconography"
-              style={{ cursor: 'pointer' }}
-            />
-          </div>
-        </UpdatModal>
         {/*预约时间 Contact us*/}
         <div className="txt-centr" style={{ marginBottom: '3.75rem' }}>
           <MyModal />
