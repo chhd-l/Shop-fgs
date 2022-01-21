@@ -242,7 +242,7 @@ class PaymentStore {
       switch (key) {
         //填完邮件
         case 'email':
-          if (dataLayer[0] && dataLayer[0].checkout) {
+          if (window?.dataLayer && dataLayer[0] && dataLayer[0].checkout) {
             dataLayer[0].checkout.step = 2;
             dataLayer[0].checkout.option = 'guest checkout';
 
@@ -294,7 +294,7 @@ class PaymentStore {
           break;
         //填完地址
         case 'deliveryAddr':
-          if (dataLayer[0] && dataLayer[0].checkout) {
+          if (window?.dataLayer && dataLayer[0] && dataLayer[0].checkout) {
             dataLayer[0].checkout.step = 3;
             dataLayer[0].checkout.option = '';
           }
@@ -331,7 +331,7 @@ class PaymentStore {
           break;
         //填完支付信息
         case 'paymentMethod':
-          if (dataLayer[0] && dataLayer[0].checkout) {
+          if (window?.dataLayer && dataLayer[0] && dataLayer[0].checkout) {
             dataLayer[0].checkout.step = 4;
             dataLayer[0].checkout.option = '';
           }

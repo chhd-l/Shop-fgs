@@ -514,11 +514,7 @@ class ShippingAddressFrom extends React.Component {
                     name="contactInformation"
                     onClick={this.handleCancel}
                   >
-                    {window.__.env.REACT_APP_COUNTRY === 'uk' ? (
-                      <FormattedMessage id="cancelAddress" />
-                    ) : (
-                      <FormattedMessage id="cancel" />
-                    )}
+                    <FormattedMessage id="cancel" />
                   </span>
                   &nbsp;
                   <FormattedMessage id="or" />
@@ -538,11 +534,7 @@ class ShippingAddressFrom extends React.Component {
                     disabled={isValid && formAddressValid ? false : true}
                     onClick={this.handleSave}
                   >
-                    {window.__.env.REACT_APP_COUNTRY === 'uk' ? (
-                      <FormattedMessage id="saveAddress" />
-                    ) : (
-                      <FormattedMessage id="save" />
-                    )}
+                    <FormattedMessage id="saveAddress" />
                   </button>
                 </div>
               </div>

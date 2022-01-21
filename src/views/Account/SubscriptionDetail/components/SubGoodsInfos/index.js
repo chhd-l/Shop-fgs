@@ -76,7 +76,7 @@ const SubGoodsInfos = ({
       );
     }
   };
-  const changeQuantity = (e, el, index) => {
+  const changeQuantity = (e, el, index, type) => {
     if (subDetail.subscribeStatus !== '0' || isIndv) {
       return;
     }
@@ -85,7 +85,12 @@ const SubGoodsInfos = ({
     });
     const val = e.target.value;
     if (val === '') {
-      el.subscribeNum = 1;
+      if (type == 'blur') {
+        el.subscribeNum = 1;
+      }
+      if (type == 'change') {
+        el.subscribeNum = val;
+      }
     } else {
       let tmp = parseInt(val);
       let errMsg = '';
@@ -231,7 +236,10 @@ const SubGoodsInfos = ({
                         max="899"
                         maxLength="5"
                         onChange={(e) => {
-                          changeQuantity(e, el, index);
+                          changeQuantity(e, el, index, 'change');
+                        }}
+                        onBlur={(e) => {
+                          changeQuantity(e, el, index, 'blur');
                         }}
                         value={el.subscribeNum}
                       />
@@ -396,7 +404,10 @@ const SubGoodsInfos = ({
                                   max="899"
                                   maxLength="5"
                                   onChange={(e) => {
-                                    changeQuantity(e, el, index);
+                                    changeQuantity(e, el, index, 'change');
+                                  }}
+                                  onBlur={(e) => {
+                                    changeQuantity(e, el, index, 'blur');
                                   }}
                                   value={el.subscribeNum}
                                 />

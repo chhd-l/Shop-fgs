@@ -156,11 +156,12 @@
               if (__webpack_require__.nc) {
                   a.setAttribute("nonce", __webpack_require__.nc)
               }
-              a.src = jsonpScriptSrc(e);
-              var integrity = getIntegrityValue(e)
-              if(integrity){
-                a.integrity = integrity
-              }
+              a.src = 'https://fgs-cdn.azureedge.net/cdn'+jsonpScriptSrc(e);
+            //   var integrity = getIntegrityValue(e);
+            //   if(integrity){
+            //     a.integrity = integrity;
+            //     a.crossOrigin = 'anonymous';
+            //   };
               var s = new Error;
               o = function(t) {
                   a.onerror = a.onload = null;
