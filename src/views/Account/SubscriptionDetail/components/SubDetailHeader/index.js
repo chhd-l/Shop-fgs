@@ -16,12 +16,12 @@ const StatusText = ({ subDetail }) => {
     <span
       className="ml-2"
       style={{
-        fontSize: '.875rem',
-        padding: '0 5px'
+        fontSize: '.875rem'
       }}
     >
       {subDetail.subscribeStatus === '0' ? (
         <span
+          className="px-1 rounded-sm"
           style={{
             background: '#E0F3D4',
             color: '#47B700'
@@ -31,6 +31,7 @@ const StatusText = ({ subDetail }) => {
         </span>
       ) : subDetail.subscribeStatus === '1' ? (
         <span
+          className="px-1 rounded-sm"
           style={{
             background: '#FCEBD4',
             color: '#ED8A00'
@@ -40,6 +41,7 @@ const StatusText = ({ subDetail }) => {
         </span>
       ) : (
         <span
+          className="px-1 rounded-sm"
           style={{
             background: '#FCEBD4',
             color: '#ED8A00'
