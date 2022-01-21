@@ -464,7 +464,10 @@ class Payment extends React.Component {
       sessionItemRoyal.set('isChangeAppoint', true);
     }
     if (funcUrl({ name: 'gusetInfo' })) {
-      sessionItemRoyal.set('guestInfo', funcUrl({ name: 'gusetInfo' }));
+      sessionItemRoyal.set(
+        'gusetInfo',
+        encodeURIComponent(funcUrl({ name: 'gusetInfo' }))
+      );
     }
     if (appointNo) {
       let felinAddress = this.isLogin
@@ -1153,7 +1156,7 @@ class Payment extends React.Component {
       await this.props.checkoutStore.updatePromotionFiled([goodDetail]);
       this.handleZeroOrder();
       if (!this.isLogin) {
-        const guestInfo = sessionItemRoyal.get('guestInfo');
+        const guestInfo = sessionItemRoyal.get('gusetInfo');
         const felinAddress = Object.assign(felinAddr[0], {
           firstName: result?.consumerFirstName || guestInfo.firstName || '',
           lastName: result?.consumerLastName || guestInfo.lastName || '',
