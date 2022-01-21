@@ -300,9 +300,14 @@ class CheckoutStore {
     outOfstockProNames = this.outOfstockProNames,
     deletedProNames = this.deletedProNames,
     notSeableProNames = this.notSeableProNames,
-    intl = {}
+    intl = {},
+    purchasesRes
   } = {}) {
     const { formatMessage } = intl;
+    // 没达到下单额度，不能下单
+    if (purchasesRes.canShipped === false && purchasesRes.cantShippedMessage) {
+      throw new Error(purchasesRes.cantShippedMessage);
+    }
     if (offShelvesProNames.length > 0) {
       throw new Error(
         formatMessage(
@@ -398,13 +403,6 @@ class CheckoutStore {
       // console.log('★ 305 ----- checkoutStore 获取总价: ', purchasesRes);
       let backCode = purchasesRes.code;
       purchasesRes = purchasesRes.context;
-      // 没达到下单额度，不能下单
-      if (
-        purchasesRes.canShipped === false &&
-        purchasesRes.cantShippedMessage
-      ) {
-        throw new Error(purchasesRes.cantShippedMessage);
-      }
       this.setGiftList(purchasesRes.giftList);
       let newPromotionCode = purchasesRes.promotionDesc || '';
       this.setPromotionCode(newPromotionCode);
@@ -501,7 +499,7 @@ class CheckoutStore {
       this.notSeableProNames = tmpNotSeableProNames;
       // 抛出错误
       if (isThrowErr) {
-        await this.validCheckoutLimitRule({ intl });
+        await this.validCheckoutLimitRule({ intl, purchasesRes });
       }
       return new Promise(function (resolve) {
         resolve({ backCode, context: purchasesRes });
@@ -592,13 +590,6 @@ class CheckoutStore {
       let backCode = sitePurchasesRes.code;
       sitePurchasesRes = sitePurchasesRes.context;
 
-      // 没达到下单额度，不能下单
-      if (
-        sitePurchasesRes.canShipped === false &&
-        sitePurchasesRes.cantShippedMessage
-      ) {
-        throw new Error(sitePurchasesRes.cantShippedMessage);
-      }
       this.setGiftList(sitePurchasesRes.giftList);
       let newPromotionCode = sitePurchasesRes.promotionDesc || '';
       this.setPromotionCode(newPromotionCode);
@@ -728,7 +719,10 @@ class CheckoutStore {
       this.changeLoadingCartData(false);
       // 抛出错误
       if (isThrowErr) {
-        await this.validCheckoutLimitRule({ intl });
+        await this.validCheckoutLimitRule({
+          intl,
+          purchasesRes: sitePurchasesRes
+        });
       }
       return new Promise(function (resolve) {
         resolve({ backCode, context: sitePurchasesRes });
