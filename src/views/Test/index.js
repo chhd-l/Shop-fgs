@@ -53,7 +53,8 @@ class Test extends React.Component {
     // dynamicLoadCss('https://static.kak2c.ru/kak2c.pvz-map.css');
     // loadJS({
     //   url: 'https://static.kak2c.ru/kak2c.pvz-map.js',
-    //   type: 'text/javascript'
+    //   type: 'text/javascript',
+    //   integrity:'sha256-NvjFXtXzlwWv1DpQ563HJipP40Td3baM1Ucd9JCwAOY='
     // });
     // loadJS({
     //   code: `function openKaktusWidget() {
