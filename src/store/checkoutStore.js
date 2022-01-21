@@ -301,7 +301,7 @@ class CheckoutStore {
     deletedProNames = this.deletedProNames,
     notSeableProNames = this.notSeableProNames,
     intl = {},
-    purchasesRes
+    purchasesRes = {}
   } = {}) {
     const { formatMessage } = intl;
     // 没达到下单额度，不能下单
