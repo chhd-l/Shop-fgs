@@ -145,11 +145,6 @@ class Pcexperts extends React.Component {
   }
 
   getDeatalData = async (id) => {
-    let appointName = {
-      Online: 'Appel video',
-      Offline: 'Sur place'
-    };
-
     const { code, context } = await getAppointByApptNo({ apptNo: id });
     if (code === 'K-000000') {
       let type = this.state.apptTypeList.find(
