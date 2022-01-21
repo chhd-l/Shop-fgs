@@ -10,7 +10,7 @@ import findIndex from 'lodash/findIndex';
 import stores from '@/store';
 import { toJS } from 'mobx';
 import { registerLocale } from 'react-datepicker';
-import { getAppointDetail } from '@/api/appointment';
+import { getAppointDetail, getMemberAppointDetail } from '@/api/appointment';
 import cloneDeep from 'lodash/cloneDeep';
 import { sitePurchase } from '@/api/cart';
 import Club_Logo from '@/assets/images/Logo_club.png';
@@ -292,7 +292,8 @@ export function loadJS({
   code,
   className,
   type,
-  id
+  id,
+  ...rest
 }) {
   var script = document.createElement('script');
 
@@ -304,7 +305,12 @@ export function loadJS({
   if (id) {
     script.id = id;
   }
-
+  if (rest) {
+    //添加js其他属性
+    for (let key in rest) {
+      script[key] = rest[key];
+    }
+  }
   if (dataSets) {
     for (let key in dataSets) {
       script.dataset[key] = dataSets[key];
@@ -1013,8 +1019,9 @@ export async function getAddressPostalCodeAlertMessage() {
 }
 
 //根据预约单号获取预约信息
-export async function getAppointmentInfo(appointNo) {
-  const res = await getAppointDetail({ apptNo: appointNo });
+export async function getAppointmentInfo(appointNo, isLogin) {
+  const action = isLogin ? getMemberAppointDetail : getAppointDetail;
+  const res = await action({ apptNo: appointNo });
   let resContext = res?.context?.settingVO;
   let appointDictRes = await Promise.all([
     getAppointDict({
@@ -1024,7 +1031,6 @@ export async function getAppointmentInfo(appointNo) {
       type: 'expert_type'
     })
   ]);
-  // appointDictRes=flatten(appointDictRes)
   console.log('appointDictRes', appointDictRes);
   const appointmentDictRes = (
     appointDictRes[0]?.context?.goodsDictionaryVOS || []
@@ -1259,6 +1265,7 @@ export function formatDate({
   showMinute = false,
   showYear = true
 }) {
+  let finallyDate = '';
   if (date !== null && date !== undefined && date !== '') {
     let options = {};
     if (formatOption) {
@@ -1279,20 +1286,22 @@ export function formatDate({
       );
     }
     console.log('test date:', date);
-    const newdate =
-      typeof date === 'string' ? date.replace(/-/gi, '/').split('.')[0] : date;
-    console.log('test new  date:', newdate);
-    console.log(
-      'test finally date:',
-      new Intl.DateTimeFormat(
+    try {
+      const newdate =
+        typeof date === 'string'
+          ? date.replace(/-/gi, '/').split('.')[0]
+          : date;
+      console.log('test new  date:', newdate);
+      finallyDate = new Intl.DateTimeFormat(
         window.__.env.REACT_APP_NAVIGATOR_LANG,
         options
-      ).format(new Date(newdate))
-    );
-    return new Intl.DateTimeFormat(
-      window.__.env.REACT_APP_NAVIGATOR_LANG,
-      options
-    ).format(new Date(newdate));
+      ).format(new Date(newdate));
+      console.log('test DateTimeFormat date:', finallyDate);
+    } catch (err) {
+      finallyDate = date;
+    }
+    console.log('test finally date:', finallyDate);
+    return finallyDate;
   }
 }
 
