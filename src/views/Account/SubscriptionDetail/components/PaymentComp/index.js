@@ -55,7 +55,7 @@ function CardItem(props) {
             <LazyLoad height={200}>
               <img
                 className="PayCardImgFitScreen"
-                style={{ height: '5rem' }}
+                // style={{ height: '5rem' }}
                 src={getCardImg({
                   supportPaymentMethods,
                   currentVendor: data.paymentVendor
@@ -678,9 +678,11 @@ class PaymentComp extends React.Component {
         }}
         style={{ lineHeight: 0.4 }}
       >
-        <div>
+        <div className="flex items-center">
           <span className="rc-icon rc-plus--xs rc-iconography plus-icon" />
-          <FormattedMessage id="addANewPaymentMethod" />
+          <span>
+            <FormattedMessage id="addANewPaymentMethod" />
+          </span>
         </div>
       </div>
     );
