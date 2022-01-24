@@ -5,12 +5,12 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
-import pic1 from './images/pic-1.png';
-import pic2 from './images/pic-2.png';
-import pic3 from './images/pic-3.png';
-import pic4 from './images/pic-4.png';
+import pic1 from './images/pic-1.jpg';
+import pic2 from './images/pic-2.jpg';
+import pic3 from './images/pic-3.jpg';
+import pic4 from './images/pic-4.jpg';
 import pic5 from './images/pic-5.png';
-import pic6 from './images/pic-6.png';
+import pic6 from './images/pic-6.jpg';
 import './index.less';
 const pageLink = window.location.href;
 const HrLine = () => (
