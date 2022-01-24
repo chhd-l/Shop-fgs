@@ -12,7 +12,6 @@ import AddressPreview from './modules/AddressPreview';
 import Modal from '@/components/Modal';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
-import successImg from '@/assets/images/credit-cards/success.png';
 import { getOrderDetails, getPayRecord } from '@/api/order';
 import './index.less';
 import { setSeoConfig, getDeviceType } from '@/utils/utils';
@@ -471,19 +470,11 @@ class Confirmation extends React.Component {
           {/* <BannerTip /> */}
           <div className="rc-max-width--xl pb-4">
             <div className="text-center mt-3">
-              <LazyLoad>
-                <img
-                  alt="success image"
-                  src={successImg}
-                  className="mb-3"
-                  style={{
-                    display: 'inline-block',
-                    marginLeft: 'auto',
-                    marginRight: 'auto',
-                    width: isMobile ? '60px' : 'auto'
-                  }}
-                />
-              </LazyLoad>
+              <div className="flex justify-center">
+                <span className="flex items-center justify-center bg-green rounded-full w-14 h-14 md:w-24 md:h-24">
+                  <span className="iconfont iconduigoux font-bold text-white text-4xl inline-block md:text-5xl" />
+                </span>
+              </div>
               <h4 className="rc-text-colour--iconography">
                 <strong>
                   <FormattedMessage id="confirmation.info1" />
