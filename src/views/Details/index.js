@@ -1238,7 +1238,7 @@ class Details extends React.Component {
 
     //
     return (
-      <div id="Details">
+      <div id="Details" key={this.props.location.key}>
         <GA_Comp details={details} />
         <SeoConfig
           errMsg={errMsg}
