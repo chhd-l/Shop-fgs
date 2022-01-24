@@ -145,11 +145,6 @@ class Pcexperts extends React.Component {
   }
 
   getDeatalData = async (id) => {
-    let appointName = {
-      Online: 'Appel video',
-      Offline: 'Sur place'
-    };
-
     const { code, context } = await getAppointByApptNo({ apptNo: id });
     if (code === 'K-000000') {
       let type = this.state.apptTypeList.find(
@@ -449,30 +444,34 @@ class Pcexperts extends React.Component {
   };
   // 选择专家
   handleActiveBut = (id, name, key, key1, value, key2) => {
-    this.setState({
-      params: {
-        ...this.state.params,
-        [key]: id
-      },
-      votre: {
-        ...this.state.votre,
-        [key1]: name,
-        [key2]: value
-      }
-    });
-    if (key2 === 'prix') {
-      this.setState({
-        bookSlotVO: {
-          ...this.state.bookSlotVO,
-          dateNo: ''
+    this.setState(
+      {
+        params: {
+          ...this.state.params,
+          [key]: id
         },
         votre: {
           ...this.state.votre,
-          date: '',
-          heure: ''
+          [key1]: name,
+          [key2]: value
         }
-      });
-    }
+      },
+      () => {
+        if (key2 === 'prix') {
+          this.setState({
+            bookSlotVO: {
+              ...this.state.bookSlotVO,
+              dateNo: ''
+            },
+            votre: {
+              ...this.state.votre,
+              date: '',
+              heure: ''
+            }
+          });
+        }
+      }
+    );
   };
   queryDate = (type = false, chooseData = {}) => {
     setTimeout(async () => {

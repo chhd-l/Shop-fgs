@@ -1004,7 +1004,8 @@ export async function getAddressPostalCodeAlertMessage() {
 
 //根据预约单号获取预约信息
 export async function getAppointmentInfo(appointNo, isLogin) {
-  const action = isLogin ? getMemberAppointDetail : getAppointDetail;
+  // isLogin ? getMemberAppointDetail :
+  const action = getAppointDetail;
   const res = await action({ apptNo: appointNo });
   let resContext = res?.context?.settingVO;
   let appointDictRes = await Promise.all([
@@ -1044,7 +1045,7 @@ export function handleFelinAppointTime(appointTime) {
     apptTime?.length > 0
       ? apptTime[0]
           .split(' ')[0]
-          .replace(/^(\d{4})(\d{2})(\d{2})$/, '$1-$2-$3') +
+          .replace(/^(\d{4})(\d{2})(\d{2})$/, '$1/$2/$3') +
         ' ' +
         apptTime[0].split(' ')[1]
       : '';
@@ -1052,14 +1053,14 @@ export function handleFelinAppointTime(appointTime) {
     apptTime?.length > 1
       ? apptTime[1]
           .split(' ')[0]
-          .replace(/^(\d{4})(\d{2})(\d{2})$/, '$1-$2-$3') +
+          .replace(/^(\d{4})(\d{2})(\d{2})$/, '$1/$2/$3') +
         ' ' +
         apptTime[1].split(' ')[1]
       : '';
   const endTime = appointEndTime
     ? format(
         new Date(new Date(appointEndTime).valueOf() - 15 * 60 * 1000),
-        'yyyy-MM-dd HH:mm'
+        'yyyy/MM/dd HH:mm'
       )
     : appointEndTime;
   return {
