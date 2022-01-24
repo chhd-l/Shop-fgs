@@ -104,9 +104,11 @@ class MegaMenuMobileForHub extends Component {
       (curState) => ({ showMegaMenu: !curState.showMegaMenu }),
       () => {
         this.toggleBackLayerScrollFunc(!this.state.showMegaMenu);
+        this.props.handleClickMenuIcon(this.state.showMegaMenu);
       }
     );
   }
+
   /**
    * 是否开启搜索结果框，底层的滑动功能
    * @param {boolean} status
