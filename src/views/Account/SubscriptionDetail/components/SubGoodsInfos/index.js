@@ -174,7 +174,6 @@ const SubGoodsInfos = ({
                                 {},
                                 triggerShowChangeProduct,
                                 {
-                                  show: true,
                                   firstShow:
                                     !triggerShowChangeProduct.firstShow,
                                   goodsInfo: [el],
@@ -499,7 +498,6 @@ const SubGoodsInfos = ({
                                       {},
                                       triggerShowChangeProduct,
                                       {
-                                        show: true,
                                         firstShow:
                                           !triggerShowChangeProduct.firstShow,
                                         goodsInfo: [el],
