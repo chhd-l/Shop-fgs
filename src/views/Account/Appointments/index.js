@@ -11,14 +11,18 @@ import Pagination from '@/components/Pagination';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { getDeviceType, formatDate } from '@/utils/utils';
+import {
+  getDeviceType,
+  formatDate,
+  handleAppointmentDict,
+  getDictionary
+} from '@/utils/utils';
 import appointmentImg from './img/no-appointments.png';
 import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
 import { myAccountPushEvent } from '@/utils/GA';
 import './index.less';
-import { getAppointList, cancelAppointByNo } from '@/api/appointment';
-import { getAppointDict } from '@/api/dict';
+import { getAppointList } from '@/api/appointment';
 import { funcUrl } from '@/lib/url-utils';
 import { seoHoc } from '@/framework/common';
 
@@ -74,28 +78,28 @@ class AccountOrders extends React.Component {
     };
     try {
       const res = await getAppointList(param);
-      const appointDictRes = await Promise.all([
-        getAppointDict({
+      let appointDictRes = await Promise.all([
+        getDictionary({
           type: 'appointment_type'
         }),
-        getAppointDict({
+        getDictionary({
           type: 'expert_type'
         })
       ]);
       let tmpList = Array.from(res.context.page.content, (ele) => {
-        const appointmentType = (
-          appointDictRes[0]?.context?.goodsDictionaryVOS || []
-        ).filter((item) => item.id === ele?.apptTypeId);
-        const expertType = (
-          appointDictRes[1]?.context?.goodsDictionaryVOS || []
-        ).filter((item) => item.id === ele?.expertTypeId);
+        const appointmentDictRes = appointDictRes[0].filter(
+          (item) => item.id === ele?.apptTypeId
+        );
+        const expertDictRes = appointDictRes[1].filter(
+          (item) => item.id === ele?.expertTypeId
+        );
         return Object.assign(ele, {
           canChangeAppoint: ele.status === 0 && ele.businessPaid,
           canCancelAppoint: ele.status === 0,
           cancelAppointLoading: false,
           appointmentType:
-            appointmentType.length > 0 ? appointmentType[0].name : '',
-          expertType: expertType.length > 0 ? expertType[0].name : '',
+            appointmentDictRes.length > 0 ? appointmentDictRes[0]?.name : '',
+          expertType: expertDictRes.length > 0 ? expertDictRes[0].name : '',
           appointmentStatus:
             ele.status === 0 ? (
               <FormattedMessage id="appointment.status.Booked" />
