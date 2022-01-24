@@ -5,8 +5,7 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
-import { inject, observer } from 'mobx-react';
-import { setSeoConfig } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
@@ -25,30 +24,9 @@ import './index.less';
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
-@inject('checkoutStore', 'loginStore', 'clinicStore')
-@inject('configStore')
-@observer
 @injectIntl
+@seoHoc('About Us Page')
 class SmartCollar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      }
-      //intl: this.props.intl.messages
-    };
-  }
-
-  componentWillUnmount() {}
-  componentDidMount() {
-    setSeoConfig({ pageName: 'About Us Page' }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
-  }
-
   render(h) {
     const event = {
       page: {
@@ -60,15 +38,11 @@ class SmartCollar extends React.Component {
         filters: ''
       }
     };
-    const { seoConfig } = this.state;
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{seoConfig.title}</title>
-          <meta name="description" content={seoConfig.metaDescription} />
-          <meta name="keywords" content={seoConfig.metaKeywords} />
         </Helmet>
         <Header showMiniIcons={true} showUserIcon={true} {...this.props} />
         <main className="smartCollar rc-content--fixed-header rc-bg-colour--brand3">

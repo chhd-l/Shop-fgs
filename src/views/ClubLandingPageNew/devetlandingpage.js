@@ -4,24 +4,22 @@ import BannerTip from '@/components/BannerTip';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { setSeoConfig, getDeviceType, getOktaCallBackUrl } from '@/utils/utils';
 import './index.css';
 import Loading from '@/components/Loading';
 import { withOktaAuth } from '@okta/okta-react';
 import { Helmet } from 'react-helmet';
-import stores from '@/store';
 import vetdeimage from './deimage/Product-composition.png';
 import decat from './deimage/delangdingpagecat.png';
 import dedog from './deimage/delangdingpagedog.png';
+import { seoHoc } from '@/framework/common';
 
 import deLPdog from './deimage/deLPdog.png';
 import deLPcat from './deimage/deLPcat.png';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
-const loginStore = stores.loginStore;
 const pageLink = window.location.href;
-let RCDrawPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
+
 function Divider() {
   return (
     <div className="experience-component experience-assets-divider">
@@ -33,25 +31,15 @@ function Divider() {
   );
 }
 
+@seoHoc('Home Page')
 class ClubLandingPageDeVet extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       categoryList: [],
       categoryLoading: true,
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       searchEvent: {}
     };
-  }
-
-  async componentDidMount() {
-    setSeoConfig({ pageName: 'Home Page' }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
   }
   componentWillUnmount() {}
   sendGAHeaderSearch = (event) => {
@@ -77,12 +65,6 @@ class ClubLandingPageDeVet extends React.Component {
       <div>
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <GoogleTagManager
           additionalEvents={event}

@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { setSeoConfig } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import BannerTip from '@/components/BannerTip';
 import { Helmet } from 'react-helmet';
 import './index.less';
@@ -9,35 +9,14 @@ import { dataList } from './data';
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 // alert(1)
+
+@seoHoc()
 class TermsOfUsePrescriber extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      }
-    };
-  }
-  componentWillUnmount() {}
-  componentDidMount() {
-    console.info('........');
-    setSeoConfig().then((res) => {
-      this.setState({ seoConfig: res });
-    });
-  }
   render(h) {
     return (
       <div className="TermsAndConditions">
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">

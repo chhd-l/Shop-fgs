@@ -1,5 +1,5 @@
 import React from 'react';
-import { setSeoConfig } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import { funcUrl } from '@/lib/url-utils';
 import { Helmet } from 'react-helmet';
 import Header from '@/components/Header';
@@ -10,15 +10,11 @@ import { cancelEmailBind } from '@/api';
 
 const pageLink = window.location.href;
 
+@seoHoc()
 class CancelEmail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       consumerAccount: '',
       errMessage: ''
     };
@@ -26,9 +22,6 @@ class CancelEmail extends React.Component {
 
   async componentDidMount() {
     try {
-      setSeoConfig().then((res) => {
-        this.setState({ seoConfig: res });
-      });
       const consumerAccount = funcUrl({ name: 'consumerAccount' });
       const storeId = funcUrl({ name: 'storeId' });
       const res = await cancelEmailBind({
@@ -51,9 +44,6 @@ class CancelEmail extends React.Component {
       <div>
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{seoConfig.title}</title>
-          <meta name="description" content={seoConfig.metaDescription} />
-          <meta name="keywords" content={seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">

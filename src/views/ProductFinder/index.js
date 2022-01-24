@@ -7,7 +7,7 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import Question from './modules/Question';
 import LazyLoad from 'react-lazyload';
-import { setSeoConfig } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import { Helmet } from 'react-helmet';
 import { productFinderPushEvent } from '@/utils/GA';
 
@@ -31,15 +31,11 @@ const GAStep = [
   'lifestyle'
 ];
 
+@seoHoc('Product finder')
 class ProductFinder extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       type: '' // cat dog
     };
     this.seletTheType = this.seletTheType.bind(this);
@@ -48,12 +44,6 @@ class ProductFinder extends React.Component {
     sessionItemRoyal.remove('product-finder-edit-order');
     sessionItemRoyal.remove('pf-result');
     this.GAHandle('speciesCode');
-    //(!isHubGA)&&this.GAHandle('speciesCode');
-    setSeoConfig({
-      pageName: 'Product finder'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
   }
   getStepCurrent = (stepCurrent) => {
     let type = this.state.type || 'cat';
@@ -166,12 +156,6 @@ class ProductFinder extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">

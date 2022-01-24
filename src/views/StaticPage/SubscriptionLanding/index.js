@@ -11,36 +11,20 @@ import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 import callImg from '@/assets/images/customer-service@2x.jpg';
 import helpImg from '@/assets/images/slider-img-help.jpg';
 import { inject, observer } from 'mobx-react';
-import { setSeoConfig } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import './index.css';
 import imagecat from '../PackmixfeedingwetDry/images/cat-autoship.png';
 import imagedog from '../PackmixfeedingwetDry/images/dog-autoship.png';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
+
 const pageLink = window.location.href;
+
 @inject('configStore')
 @observer
 @injectIntl
+@seoHoc('Subscription Page')
 class SubscriptionLanding extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      }
-    };
-  }
-  componentDidMount() {
-    setSeoConfig({
-      goodsId: '',
-      categoryId: '',
-      pageName: 'Subscription Page'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
-  }
   render(h) {
     const event = {
       page: {
@@ -57,12 +41,6 @@ class SubscriptionLanding extends React.Component {
       <div className="recommendation">
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <GoogleTagManager additionalEvents={event} />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />

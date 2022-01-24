@@ -5,13 +5,14 @@ import logoAnimatedPng from '@/assets/images/logo--animated2.png';
 import './index.less';
 import { customerInfoSave } from '@/api/staticPageApi';
 import Loading from '@/components/Loading';
-import { setSeoConfig } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 
 const pageLink = window.location.href;
 
+@seoHoc()
 class Landing extends Component {
   constructor(props) {
     super(props);
@@ -20,11 +21,7 @@ class Landing extends Component {
       showSuccess: false,
       showFail: false,
       errMessage: '',
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
+
       inputType: [
         { name: 'Nombre', value: '', isRequired: true }, //姓名
         { name: 'Nombre de clínica', value: '', isRequired: true }, //诊所名字
@@ -119,9 +116,6 @@ class Landing extends Component {
     );
   }
   componentDidMount() {
-    setSeoConfig().then((res) => {
-      this.setState({ seoConfig: res });
-    });
     this.cal_clientWidth(document.body.clientWidth);
   }
   render() {
@@ -139,12 +133,6 @@ class Landing extends Component {
         <GoogleTagManager additionalEvents={event} GTMID="GTM-NR3FWTQ" />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         {this.state.loading ? <Loading /> : null}
         <div className="rc-three-column">

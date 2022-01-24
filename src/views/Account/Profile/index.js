@@ -16,12 +16,12 @@ import AddressList from './modules/AddressList';
 import PaymentList from './modules/PaymentList';
 import { getCustomerInfo } from '@/api/user';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import { setSeoConfig } from '@/utils/utils';
 import { myAccountPushEvent } from '@/utils/GA';
 import BannerTip from '@/components/BannerTip';
 import './index.less';
 import { Helmet } from 'react-helmet';
 import Modal from '@/components/Modal';
+import { seoHoc } from '@/framework/common';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
@@ -49,6 +49,7 @@ function PanleContainer(props) {
 
 @inject('loginStore')
 @observer
+@seoHoc('Account personal information')
 class AccountProfile extends React.Component {
   constructor(props) {
     super(props);
@@ -59,11 +60,6 @@ class AccountProfile extends React.Component {
         address2: '',
         country: '',
         city: '',
-        seoConfig: {
-          title: 'Royal canin',
-          metaKeywords: 'Royal canin',
-          metaDescription: 'Royal canin'
-        },
         postCode: '',
         phoneNumber: '',
         rfc: ''
@@ -86,12 +82,6 @@ class AccountProfile extends React.Component {
   componentWillUnmount() {}
   componentDidMount() {
     myAccountPushEvent('Personal information');
-
-    setSeoConfig({
-      pageName: 'Account personal information'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
 
     this.queryCustomerBaseInfo();
   }
@@ -180,13 +170,8 @@ class AccountProfile extends React.Component {
   };
 
   render() {
-    const {
-      loading,
-      editOperationPaneName,
-      originData,
-      personalData,
-      seoConfig
-    } = this.state;
+    const { loading, editOperationPaneName, originData, personalData } =
+      this.state;
     const event = {
       page: {
         type: 'Account',
@@ -202,15 +187,6 @@ class AccountProfile extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{seoConfig ? seoConfig.title : ''}</title>
-          <meta
-            name="description"
-            content={seoConfig ? seoConfig.metaDescription : ''}
-          />
-          <meta
-            name="keywords"
-            content={seoConfig ? seoConfig.metaKeywords : ''}
-          />
         </Helmet>
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3 p-basicinfo">

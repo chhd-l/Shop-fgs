@@ -9,9 +9,10 @@ import BannerTip from '@/components/BannerTip';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import LoginButton from '@/components/LoginButton';
 import Help from './Help';
-import { setSeoConfig, formatMoney, getRation } from '@/utils/utils';
+import { formatMoney, getRation } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 import GoogleTagManager from '@/components/GoogleTagManager';
+import { seoHoc } from '@/framework/common';
 
 import catImg from '@/assets/images/product-finder-cat.jpg';
 import dogImg from '@/assets/images/product-finder-dog.jpg';
@@ -165,6 +166,7 @@ function QListAndPetJSX(props) {
 @inject('loginStore')
 @injectIntl
 @observer
+@seoHoc('finder-recommendation')
 class ProductFinderResult extends React.Component {
   constructor(props) {
     super(props);
@@ -174,11 +176,6 @@ class ProductFinderResult extends React.Component {
       productDetail: null,
       isLoading: true,
       questionlist: [],
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       petBaseInfo: null,
       petsId: ''
     };
@@ -209,11 +206,6 @@ class ProductFinderResult extends React.Component {
         this.props.history.push('/product-finder-noresult');
         return;
       }
-      setSeoConfig({
-        pageName: 'finder-recommendation'
-      }).then((res) => {
-        this.setState({ seoConfig: res });
-      });
       const parsedQuestionlist = questionlist ? JSON.parse(questionlist) : null;
       const ageItem = parsedQuestionlist.filter(
         (ele) => ele.questionName === 'age'
@@ -398,12 +390,6 @@ class ProductFinderResult extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">

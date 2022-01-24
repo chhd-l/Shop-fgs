@@ -14,7 +14,7 @@ const pageLink = window.location.href;
 import { IMG_DEFAULT } from '@/utils/constant';
 import { sitePurchase } from '@/api/cart';
 import { GARecommendationProduct } from '@/utils/GA';
-
+import { useSeo } from '@/framework/common';
 import stores from '@/store';
 import { getShelterList } from '@/api/recommendation';
 import { getDetails, getLoginDetails } from '@/api/details';
@@ -33,11 +33,7 @@ const Adoptions = (props) => {
   const { loginStore, paymentStore, checkoutStore, configStore } =
     useLocalStore(() => stores);
 
-  const [seoConfig, setSeoConfig] = useState({
-    title: 'Royal canin',
-    metaKeywords: 'Royal canin',
-    metaDescription: 'Royal canin'
-  });
+  const [seoConfig] = useSeo('adoptions page');
   const [btnLoading, setBtnLoading] = useState(false);
   const [shelter, setShelter] = useState({});
   const [shelterList, setShelterList] = useState([]);
@@ -46,15 +42,7 @@ const Adoptions = (props) => {
   useEffect(() => {
     getShelters();
     getGoodsInfos();
-    // getSeoConfig()
   }, []);
-  const getSeoConfig = () => {
-    setSeoConfig({
-      pageName: 'adoptions page'
-    }).then((res) => {
-      setSeoConfig(res);
-    });
-  };
   const getShelters = async () => {
     const res = await getShelterList({ prescriberType: ['Shelter'] });
     let list = res.context

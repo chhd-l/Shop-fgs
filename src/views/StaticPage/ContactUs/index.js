@@ -6,14 +6,15 @@ import Selection from '@/components/Selection';
 import Loading from '@/components/Loading';
 import { ADDRESS_RULE } from './utils/constant';
 import { backSpacerUP, backSpacerDOWN } from './utils/usPhone';
-import { validData, setSeoConfig } from '@/utils/utils';
-import successImg from '@/assets/images/credit-cards/success.png';
+import { validData } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import './index.less';
 import { submitContactUsInfo } from '@/api/staticPageApi';
 import { Helmet } from 'react-helmet';
 
 const pageLink = window.location.href;
 
+@seoHoc('Contact Us Page')
 class ContactUs extends Component {
   constructor(props) {
     super(props);
@@ -40,19 +41,8 @@ class ContactUs extends Component {
       errMsgObj: {},
       mail: 'qhx717@qq.com',
       isLoading: false,
-      isFinished: false,
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      }
+      isFinished: false
     };
-  }
-
-  async componentDidMount() {
-    setSeoConfig({ pageName: 'Contact Us Page' }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
   }
 
   deliveryInputChange = (e) => {
@@ -490,7 +480,11 @@ class ContactUs extends Component {
       <div className="FAQ__section rc-padding--md">
         <div className="FAQ-header">
           <div className="confirmation-message">
-            <img src={successImg} alt="success image" />
+            <div className="flex justify-center">
+              <span className="flex items-center justify-center bg-green rounded-full w-14 h-14 md:w-24 md:h-24">
+                <span className="iconfont iconduigoux font-bold text-white text-4xl inline-block md:text-5xl" />
+              </span>
+            </div>
             <h2>THANKS FOR YOUR INQUIRY!</h2>
             <p className="order-thank-you-email-msg">
               One of our pet experts will contact you at {this.state.mail}{' '}
@@ -508,12 +502,6 @@ class ContactUs extends Component {
       <div>
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <div className="contactUs">
           {this.state.isLoading ? <Loading bgColor={'#fff'} /> : null}

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { setSeoConfig } from '@/utils/utils';
+import { useSeo } from '@/framework/common';
 import LazyLoad from 'react-lazyload';
 import pic1 from './images/pic-1.jpg';
 import pic2 from './images/pic-2.jpg';
@@ -11,16 +11,18 @@ import pic3 from './images/pic-3.jpg';
 import pic4 from './images/pic-4.jpg';
 import pic5 from './images/pic-5.png';
 import pic6 from './images/pic-6.jpg';
-import './index.less';
+// import './index.less';
 const pageLink = window.location.href;
+
 const HrLine = () => (
   <hr
     className="rc-max-width--xl"
     style={{ borderWidth: '8px', borderColor: '#f4f4f4' }}
   />
 );
+
 const Decouverteroyalcanin = (props) => {
-  const [seoinfo, setSeoinfo] = useState({});
+  const [seoinfo] = useSeo();
   const event = {
     page: {
       type: '',
@@ -28,13 +30,6 @@ const Decouverteroyalcanin = (props) => {
       path: props.location.pathname
     }
   };
-  useEffect(() => {
-    setSeoConfig({
-      pageName: ''
-    }).then((res) => {
-      setSeoinfo(res);
-    });
-  }, []);
   const redirectLink = (link) => {
     location.href = link;
   };
@@ -55,7 +50,7 @@ const Decouverteroyalcanin = (props) => {
         >
           <div className="rc-column">
             <div style={{ maxWidth: '504px' }} className="m-auto">
-              <h1 className="xs: text-3xl lg:text-5xl  rc-padding-bottom--sm">
+              <h1 className="xs: text-3xl lg:text-5xl  rc-padding-bottom--sm text-rc-red">
                 Venez à la découverte de Royal Canin
               </h1>
               <p className="xs:text-base lg:text-xl">
@@ -79,7 +74,7 @@ const Decouverteroyalcanin = (props) => {
 
         <div className="rc-layout-container rc-two-column rc-padding-x--xl  rc-max-width--xl items-center">
           <div className="rc-column">
-            <h2 className="xs:text-xl lg:text-3xl rc-padding-bottom--sm">
+            <h2 className="xs:text-xl lg:text-3xl rc-padding-bottom--sm text-rc-red">
               Expériences incroyables
             </h2>
             <p className="rc-padding-bottom--sm">
@@ -170,7 +165,7 @@ const Decouverteroyalcanin = (props) => {
           </div>
           <div className="rc-column">
             <div style={{ maxWidth: '450px' }} className="m-auto">
-              <h2 className="xs:text-xl lg:text-3xl rc-padding-bottom--sm">
+              <h2 className="xs:text-xl lg:text-3xl rc-padding-bottom--sm text-rc-red">
                 A la découverte des expériences Royal Canin
               </h2>
               <p style={{ maxWidth: '440px' }}>
@@ -188,7 +183,7 @@ const Decouverteroyalcanin = (props) => {
         <div className="rc-layout-container rc-two-column  rc-max-width--xl  rc-padding-x--xl items-center rc-padding-y--md">
           <div className="rc-column">
             <div style={{ maxWidth: '450px' }}>
-              <h2 className="xs:text-xl lg:text-3xl rc-padding-bottom--sm">
+              <h2 className="xs:text-xl lg:text-3xl rc-padding-bottom--sm text-rc-red">
                 Venez écouter et échanger avec nos experts sur tous les sujets
                 autour des chiens et chats
               </h2>
@@ -237,7 +232,7 @@ const Decouverteroyalcanin = (props) => {
           </div>
           <div className="rc-column">
             <div style={{ maxWidth: '450px' }}>
-              <h2 className="xs:text-xl lg:text-3xl rc-padding-bottom--sm">
+              <h2 className="xs:text-xl lg:text-3xl rc-padding-bottom--sm text-rc-red">
                 Incroyables moments : une séance photo professionnelle avec
                 votre animal
               </h2>
@@ -262,7 +257,7 @@ const Decouverteroyalcanin = (props) => {
 
         <div className="rc-layout-container rc-one-column  rc-max-width--xl  rc-padding-top--md  rc-padding-bottom--md   rc-padding-x--xl ">
           <div className="text-center m-auto">
-            <h2 className="xs:text-xl lg:text-3xl rc-padding-top--xs rc-padding-bottom--sm">
+            <h2 className="xs:text-xl lg:text-3xl rc-padding-top--xs rc-padding-bottom--sm text-rc-red">
               Venez à la découverte de Royal Canin
             </h2>
             <button

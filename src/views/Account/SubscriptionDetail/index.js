@@ -19,7 +19,7 @@ import DeliveryList from './components/DeliveryList';
 import Loading from '@/components/Loading';
 import { getRation } from '@/utils/utils';
 import GiftList from './components/GiftList';
-import { getDeviceType, setSeoConfig } from '@/utils/utils';
+import { getDeviceType } from '@/utils/utils';
 import { Link } from 'react-router-dom';
 import {
   updateDetail,
@@ -37,6 +37,7 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import OngoingOrder from './components/OngoingOrder';
 import TempolineAPIError from './components/TempolineAPIError';
 import { format } from 'date-fns';
+import { seoHoc } from '@/framework/common';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
@@ -45,6 +46,7 @@ const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 @inject('configStore')
 @injectIntl
 @observer
+@seoHoc('Subscription Page')
 class SubscriptionDetail extends React.Component {
   constructor(props) {
     super(props);
@@ -59,11 +61,6 @@ class SubscriptionDetail extends React.Component {
         firstShow: false,
         isShowModal: false,
         showBox: false // 只有一个商品的情况下都需要添加被动更换商品
-      },
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
       },
       isGift: false,
       remainingsList: [],
@@ -268,14 +265,7 @@ class SubscriptionDetail extends React.Component {
     }
   };
 
-  async componentDidMount() {
-    setSeoConfig({
-      goodsId: '',
-      categoryId: '',
-      pageName: 'Subscription Page'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
+  componentDidMount() {
     this.setState({
       subId: this.props.match.params.subscriptionNumber
     });
@@ -703,7 +693,6 @@ class SubscriptionDetail extends React.Component {
       remainingsVisible,
       submitLoading,
       triggerShowChangeProduct,
-      seoConfig,
       petName
     } = this.state;
     let isShowClub =
@@ -716,9 +705,6 @@ class SubscriptionDetail extends React.Component {
           <GoogleTagManager additionalEvents={event} />
           <Helmet>
             <link rel="canonical" href={pageLink} />
-            <title>{seoConfig.title}</title>
-            <meta name="description" content={seoConfig.metaDescription} />
-            <meta name="keywords" content={seoConfig.metaKeywords} />
           </Helmet>
           <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
           <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">

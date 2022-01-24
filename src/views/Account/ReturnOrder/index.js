@@ -9,16 +9,18 @@ import SideMenu from '@/components/SideMenu';
 import Pagination from '@/components/Pagination';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
-import { formatMoney, setSeoConfig } from '@/utils/utils';
+import { formatMoney } from '@/utils/utils';
 import { getReturnList } from '@/api/order';
 import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
+import { seoHoc } from '@/framework/common';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
-export default class ReturnOrder extends React.Component {
+@seoHoc()
+class ReturnOrder extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,11 +29,6 @@ export default class ReturnOrder extends React.Component {
         duringTime: '7d',
         returnNumber: '',
         dateRangeKey: 'inWeek'
-      },
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
       },
       loading: false,
       currentPage: 1,
@@ -43,10 +40,6 @@ export default class ReturnOrder extends React.Component {
   }
   componentWillUnmount() {}
   componentDidMount() {
-    setSeoConfig().then((res) => {
-      this.setState({ seoConfig: res });
-    });
-
     this.queryReturnList();
   }
   hanldePageNumChange = (params) => {
@@ -130,12 +123,6 @@ export default class ReturnOrder extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
@@ -317,3 +304,4 @@ export default class ReturnOrder extends React.Component {
     );
   }
 }
+export default ReturnOrder;
