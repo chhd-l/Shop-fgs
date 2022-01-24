@@ -11,7 +11,7 @@ import pic3 from './images/pic-3.jpg';
 import pic4 from './images/pic-4.jpg';
 import pic5 from './images/pic-5.png';
 import pic6 from './images/pic-6.jpg';
-import './index.less';
+// import './index.less';
 const pageLink = window.location.href;
 
 const HrLine = () => (
