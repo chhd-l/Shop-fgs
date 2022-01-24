@@ -123,7 +123,7 @@ const AutoshipItem = ({ subItem, history }) => {
         <div className="col-4 col-md-2 text-center ml-3">
           <button
             className="rc-btn rc-btn--two rc-btn--sm truncate"
-            style={{ width: '130px' }}
+            // style={{ width: '130px' }}
             onClick={() => {
               localItemRoyal.set('subDetail', subItem);
               history.push(

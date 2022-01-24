@@ -102,7 +102,7 @@ const Adoptions = (props) => {
       goodsInfoId,
       salePrice
     });
-    // GARecommendationProduct([res], 3, frequencyDictRes);
+    GARecommendationProduct([res], 3, frequencyDictRes);
     res.goodsInfo = res.goodsInfos.find((el) => el.goodsInfoId == goodsInfoId);
     // handleFrequencyIdDefault(res, frequencyDictRes);
     res.sizeList = res.goodsInfos.map((g) => {
@@ -229,14 +229,14 @@ const Adoptions = (props) => {
     setShelter(data);
   };
   const GAShelterLPdropdownClick = () => {
-    // dataLayer.push({
-    //   event: 'shelterLPdropdownClick'
-    // });
+    dataLayer.push({
+      event: 'shelterLPdropdownClick'
+    });
   };
   const GAforEmail = () => {
-    // dataLayer.push({
-    //   'event' : 'shelterLPSendUsAnEmail'
-    // });
+    dataLayer.push({
+      event: 'shelterLPSendUsAnEmail'
+    });
   };
   return (
     <div>
@@ -404,8 +404,12 @@ const Adoptions = (props) => {
           className="rc-border-bottom rc-border-colour--brand4 rc-margin-top--md"
           style={{ borderBottomWidth: '4px' }}
         ></div>
-        {/* <UsAndRu GAforEmail={GAforEmail} dataTms1="Reinsurance" dataTms2 = "Royal Canin Club" dataTms3 = "Why Royal Canin"/> */}
-        <UsAndRu />
+        <UsAndRu
+          GAforEmail={GAforEmail}
+          dataTms1="Reinsurance"
+          dataTms2="Royal Canin Club"
+          dataTms3="Why Royal Canin"
+        />
         <Footer />
       </main>
     </div>
