@@ -45,6 +45,20 @@ const orders = {
   link: '/account/orders'
 };
 
+const appointments = {
+  icon: (
+    <span className="flex align-items-center rounded px-1 py-2">
+      <span
+        className="iconfont iconyuyuexinxi text-4xl"
+        style={{ fontColor: '#e6e6e6' }}
+      />
+    </span>
+  ),
+  titleLangKey: 'account.appointment',
+  textLangKey: 'account.appointmentsTip',
+  link: '/account/appointments'
+};
+
 const subscription = {
   icon: (
     <svg
@@ -100,6 +114,7 @@ const itemList = (function () {
   const defaultItemList = [
     information,
     pets,
+    window.__.env.REACT_APP_COUNTRY === 'fr' ? appointments : '',
     orders,
     subscription,
     faqs,
