@@ -2130,9 +2130,6 @@ class Payment extends React.Component {
       {},
       deliveryAddress,
       {
-        contractNumber: deliveryAddress?.calculation?.contractNumber,
-        courier: deliveryAddress?.calculation?.courier,
-        courierCode: deliveryAddress?.calculation?.courierCode,
         zipcode: deliveryAddress?.postCode,
         phone: creditCardInfo?.phoneNumber,
         email:
@@ -2186,9 +2183,15 @@ class Payment extends React.Component {
       deliveryAddress?.receiveType == ''
     ) {
       param.deliverWay = 1;
+      param.contractNumber = deliveryAddress?.calculation?.contractNumber;
+      param.courier = deliveryAddress?.calculation?.courier;
+      param.courierCode = deliveryAddress?.calculation?.courierCode;
     }
     if (deliveryAddress?.receiveType == 'PICK_UP') {
       param.deliverWay = 2;
+      param.contractNumber = deliveryAddress?.pickup?.contractNumber;
+      param.courier = deliveryAddress?.pickup?.courier;
+      param.courierCode = deliveryAddress?.pickup?.courierCode;
     }
 
     if (payosdata) {

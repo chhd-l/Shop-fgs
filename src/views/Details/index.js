@@ -1167,7 +1167,7 @@ class Details extends React.Component {
   };
 
   render() {
-    const { history, location, match, configStore, intl } = this.props;
+    const { intl } = this.props;
     const {
       goodsId,
       details,
@@ -1230,7 +1230,7 @@ class Details extends React.Component {
 
     //
     return (
-      <div id="Details" key={this.props.location.key}>
+      <div id="Details">
         <GA_Comp details={details} />
         <SeoConfig
           errMsg={errMsg}
