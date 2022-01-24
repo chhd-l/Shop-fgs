@@ -39,9 +39,7 @@ class AccountOrders extends React.Component {
       totalPage: 1,
       initing: true,
       errMsg: '',
-      everHaveNoOrders: true,
-      showOneOrderDetail: false,
-      curOneOrderDetails: null
+      everHaveNoOrders: true
     };
 
     this.pageSize = 6;
@@ -84,7 +82,6 @@ class AccountOrders extends React.Component {
           type: 'expert_type'
         })
       ]);
-      console.log('appointDictRes', appointDictRes);
       let tmpList = Array.from(res.context.page.content, (ele) => {
         const appointmentType = (
           appointDictRes[0]?.context?.goodsDictionaryVOS || []
@@ -138,30 +135,11 @@ class AccountOrders extends React.Component {
     );
   };
 
-  async cancelAppoint(appointment) {
-    try {
-      const { appointmentList } = this.state;
-      appointment.cancelAppointLoading = true;
-      this.setState({ appointmentList: appointmentList });
-      await cancelAppointByNo({ apptNo: appointment.appointmentNo });
-      await this.queryOrderList();
-    } catch (err) {
-    } finally {
-      appointment.cancelAppointLoading = false;
-    }
-  }
-
   handleClickCardItem(item) {
-    if (this.deviceType === 'PC') {
-      return false;
+    if (this.deviceType !== 'PC') {
+      this.props.history.push(`/account/appointments/detail/${item.apptNo}`);
     }
-    this.props.history.push(`/account/appointments/detail/${item.apptNo}`);
-    return false;
   }
-
-  handleClickBackToIndex = () => {
-    this.setState({ showOneOrderDetail: false });
-  };
 
   renderOperationBtns = (appointment) => {
     return (
@@ -198,13 +176,7 @@ class AccountOrders extends React.Component {
         filters: ''
       }
     };
-    const {
-      errMsg,
-      everHaveNoOrders,
-      appointmentList,
-      showOneOrderDetail,
-      curOneOrderDetails
-    } = this.state;
+    const { errMsg, everHaveNoOrders, appointmentList } = this.state;
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -219,9 +191,7 @@ class AccountOrders extends React.Component {
             <div className="rc-layout-container rc-five-column">
               <SideMenu type="Appointments" customCls="rc-md-up" />
               <div
-                className={`my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop px-0 md:px-3 ${
-                  showOneOrderDetail ? 'hidden' : ''
-                }`}
+                className={`my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop px-0 md:px-3`}
               >
                 {this.state.initLoading ? (
                   <div className="mt-4">
@@ -424,44 +394,6 @@ class AccountOrders extends React.Component {
                   </>
                 )}
               </div>
-
-              {/* one appointment details for mobile */}
-              {showOneOrderDetail && (
-                <div className={`pl-4 pr-4 rc-md-down`}>
-                  <div className="row">
-                    <div className="col-12 mb-3">
-                      <span onClick={this.handleClickBackToIndex}>
-                        <span className="red">&lt;</span>
-                        <span className="rc-styled-link rc-progress__breadcrumb ml-2 mt-1">
-                          <FormattedMessage id="appointment" />
-                        </span>
-                      </span>
-                    </div>
-                    <div className="row col-12 mb-2">
-                      <div className="col-6 d-flex">
-                        <LazyLoad>
-                          <img
-                            className="ord-list-img-fluid"
-                            src={curOneOrderDetails.goodsInfoImg || IMG_DEFAULT}
-                            alt={curOneOrderDetails.goodsInfoName}
-                            title={curOneOrderDetails.goodsInfoName}
-                          />
-                        </LazyLoad>
-                      </div>
-                      <div className="col-6 d-flex align-items-center">
-                        <div>
-                          <span className="medium color-444 ui-text-overflow-line2">
-                            {curOneOrderDetails.goodsInfoName}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-12 d-flex justify-content-center flex-column align-items-center mt-4 mb-4 ord-operation-btns">
-                      {this.renderOperationBtns(curOneOrderDetails)}
-                    </div>
-                  </div>
-                </div>
-              )}
             </div>
           </div>
           <Footer />
