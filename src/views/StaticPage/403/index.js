@@ -1,12 +1,8 @@
 import React from 'react';
-import {
-  IntlProvider,
-  FormattedMessage,
-  FormattedNumber
-} from 'react-intl-phraseapp';
+import { IntlProvider, FormattedMessage } from 'react-intl-phraseapp';
 import image from '@/assets/images/500.png';
 import logo from '@/assets/images/logo--animated.png';
-import { setSeoConfig } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import LazyLoad from 'react-lazyload';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import { Helmet } from 'react-helmet';
@@ -22,22 +18,8 @@ const event = {
     filters: ''
   }
 };
+@seoHoc()
 class Page403 extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      }
-    };
-  }
-  componentDidMount() {
-    setSeoConfig().then((res) => {
-      this.setState({ seoConfig: res });
-    });
-  }
   render() {
     return (
       <React.Fragment>
@@ -45,12 +27,6 @@ class Page403 extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <div className="text-center">
           <LazyLoad>

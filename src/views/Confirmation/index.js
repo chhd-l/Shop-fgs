@@ -15,7 +15,8 @@ import { Link } from 'react-router-dom';
 import successImg from '@/assets/images/credit-cards/success.png';
 import { getOrderDetails, getPayRecord } from '@/api/order';
 import './index.less';
-import { setSeoConfig, getDeviceType } from '@/utils/utils';
+import { getDeviceType } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import { orderConfirmationPushEvent, doGetGAVal } from '@/utils/GA';
@@ -33,17 +34,13 @@ const isHubGA = window.__.env.REACT_APP_HUB_GA;
 const isLogin = !!localItemRoyal.get('rc-token');
 @inject('checkoutStore', 'frequencyStore', 'loginStore')
 @observer
+@seoHoc()
 class Confirmation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       eEvents: '',
       productList: [],
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       loading: true,
       paywithLogin: sessionItemRoyal.get('rc-paywith-login') === 'true',
       oxxoPayUrl: sessionItemRoyal.get('oxxoPayUrl'),
@@ -127,9 +124,6 @@ class Confirmation extends React.Component {
     const GA_product = localItemRoyal.get('rc-ga-product');
     window?.dataLayer?.push(GA_product);
 
-    setSeoConfig().then((res) => {
-      this.setState({ seoConfig: res });
-    });
     const { subOrderNumberList } = this.state;
     setTimeout(() => {
       if (this.state.oxxoPayUrl || this.state.adyenOxxoAction) {
@@ -476,12 +470,6 @@ class Confirmation extends React.Component {
         {<GoogleTagManager additionalEvents={event} />}
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} showNav={false} showUserBox={false} />
         <main className="rc-content--fixed-header rc-bg-colour--brand4 pl-2 pr-2 md:pl-0 md:pr-0">

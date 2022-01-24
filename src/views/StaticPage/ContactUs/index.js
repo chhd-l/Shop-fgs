@@ -6,7 +6,8 @@ import Selection from '@/components/Selection';
 import Loading from '@/components/Loading';
 import { ADDRESS_RULE } from './utils/constant';
 import { backSpacerUP, backSpacerDOWN } from './utils/usPhone';
-import { validData, setSeoConfig } from '@/utils/utils';
+import { validData } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import successImg from '@/assets/images/credit-cards/success.png';
 import './index.less';
 import { submitContactUsInfo } from '@/api/staticPageApi';
@@ -14,6 +15,7 @@ import { Helmet } from 'react-helmet';
 
 const pageLink = window.location.href;
 
+@seoHoc('Contact Us Page')
 class ContactUs extends Component {
   constructor(props) {
     super(props);
@@ -40,19 +42,8 @@ class ContactUs extends Component {
       errMsgObj: {},
       mail: 'qhx717@qq.com',
       isLoading: false,
-      isFinished: false,
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      }
+      isFinished: false
     };
-  }
-
-  async componentDidMount() {
-    setSeoConfig({ pageName: 'Contact Us Page' }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
   }
 
   deliveryInputChange = (e) => {
@@ -508,12 +499,6 @@ class ContactUs extends Component {
       <div>
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <div className="contactUs">
           {this.state.isLoading ? <Loading bgColor={'#fff'} /> : null}

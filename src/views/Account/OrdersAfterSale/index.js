@@ -15,9 +15,10 @@ import {
   returnAdd
 } from '@/api/order';
 import { IMG_DEFAULT } from '@/utils/constant';
-import { setSeoConfig, formatMoney } from '@/utils/utils';
+import { formatMoney } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
+import { seoHoc } from '@/framework/common';
 
 import './index.css';
 
@@ -26,15 +27,11 @@ const localItemRoyal = window.__.localItemRoyal;
 
 const pageLink = window.location.href;
 
+@seoHoc()
 class OrdersAfterSale extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       afterSaleType: '', //操作类型 - exchange/return
       orderNumber: '',
       details: null,
@@ -55,10 +52,6 @@ class OrdersAfterSale extends React.Component {
     this.imgUploaderRef = React.createRef();
   }
   componentDidMount() {
-    setSeoConfig().then((res) => {
-      this.setState({ seoConfig: res });
-    });
-
     const afterSaleType = sessionItemRoyal.get('rc-after-sale-type');
     if (afterSaleType) {
       this.setState(
@@ -246,12 +239,6 @@ class OrdersAfterSale extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">

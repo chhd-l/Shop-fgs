@@ -33,13 +33,13 @@ import {
   payCountDown,
   formatMoney,
   generatePayUScript,
-  setSeoConfig,
   validData,
   bindSubmitParam,
   getAppointmentInfo,
   formatDate,
   isBlockedUserOrEmail
 } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import { EMAIL_REGEXP, seTelephoneCheck } from '@/utils/constant';
 import { userBindConsent } from '@/api/consent';
 import {
@@ -164,6 +164,7 @@ const chooseRadioType = (country) => {
 )
 @injectIntl
 @observer
+@seoHoc('Checkout page')
 class Payment extends React.Component {
   constructor(props) {
     super(props);
@@ -185,11 +186,6 @@ class Payment extends React.Component {
       adyenAction: {},
       promotionCode: this.props.checkoutStore.promotionCode || '',
       billingChecked: true,
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       deliveryAddress: {
         firstName: '',
         lastName: '',
@@ -503,13 +499,6 @@ class Payment extends React.Component {
 
     try {
       const { tid, appointNo } = this.state;
-
-      setSeoConfig({
-        pageName: 'Checkout page'
-      }).then((res) => {
-        this.setState({ seoConfig: res });
-      });
-
       if (tid) {
         this.queryOrderDetails();
       }
@@ -4163,12 +4152,6 @@ class Payment extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
           {...this.props}

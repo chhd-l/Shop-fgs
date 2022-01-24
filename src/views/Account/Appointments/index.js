@@ -11,7 +11,7 @@ import Pagination from '@/components/Pagination';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { getDeviceType, setSeoConfig, formatDate } from '@/utils/utils';
+import { getDeviceType, formatDate } from '@/utils/utils';
 import appointmentImg from './img/no-appointments.png';
 import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
@@ -20,12 +20,14 @@ import './index.less';
 import { getAppointList, cancelAppointByNo } from '@/api/appointment';
 import { getAppointDict } from '@/api/dict';
 import { funcUrl } from '@/lib/url-utils';
+import { seoHoc } from '@/framework/common';
 
 const pageLink = window.location.href;
 
 @inject('checkoutStore')
 @injectIntl
 @observer
+@seoHoc('Account orders')
 class AccountOrders extends React.Component {
   constructor(props) {
     super(props);
@@ -33,11 +35,6 @@ class AccountOrders extends React.Component {
       appointmentList: [],
       loading: true,
       initLoading: true,
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       currentPage: 1,
       totalPage: 1,
       initing: true,
@@ -52,19 +49,14 @@ class AccountOrders extends React.Component {
     this.handleClickCardItem = this.handleClickCardItem.bind(this);
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     myAccountPushEvent('Appointments');
-    setSeoConfig({
-      pageName: 'Account orders'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
     const appointmentNo = funcUrl({ name: 'appointmentNo' });
     if (appointmentNo) {
       this.props.history.push(`/account/appointments/detail/${appointmentNo}`);
       return;
     }
-    await this.queryOrderList();
+    this.queryOrderList();
   }
 
   async queryOrderList() {
@@ -218,12 +210,6 @@ class AccountOrders extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">

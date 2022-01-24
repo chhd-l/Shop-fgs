@@ -9,16 +9,17 @@ import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import { IMG_DEFAULT } from '@/utils/constant';
 import successImg from '@/assets/images/credit-cards/success.png';
-import { setSeoConfig } from '@/utils/utils';
 import './index.css';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
+import { seoHoc } from '@/framework/common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 const pageLink = window.location.href;
 
-export default class OrdersAfterSaleSuccess extends React.Component {
+@seoHoc()
+class OrdersAfterSaleSuccess extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,11 +27,6 @@ export default class OrdersAfterSaleSuccess extends React.Component {
       afterSaleType: '',
       details: null,
       loading: true,
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       errMsg: ''
     };
   }
@@ -42,9 +38,6 @@ export default class OrdersAfterSaleSuccess extends React.Component {
       },
       () => this.queryReturnDetails()
     );
-    setSeoConfig().then((res) => {
-      this.setState({ seoConfig: res });
-    });
   }
   queryReturnDetails() {
     getReturnDetails(this.state.returnNumber)
@@ -78,12 +71,6 @@ export default class OrdersAfterSaleSuccess extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
 
         <Header {...this.props} />
@@ -178,3 +165,4 @@ export default class OrdersAfterSaleSuccess extends React.Component {
     );
   }
 }
+export default OrdersAfterSaleSuccess;

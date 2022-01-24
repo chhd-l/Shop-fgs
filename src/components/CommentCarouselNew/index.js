@@ -1,9 +1,4 @@
 import React from 'react';
-import CommentTrOne from './img/FeedbackImage1.png';
-import CommentOne from './img/CommentThree.png';
-import CommentTwo from './img/CommentOne.png';
-import CommentThree from './img/CommentTwo.png';
-import CommentFour from './img/CommentFour.png';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import newtrcommentone from './img/FeedbackImage1.webp';
 import newtrcommenttwo from './img/CommentFour.webp';
@@ -11,7 +6,7 @@ import newtrcommentthree from './img/CommentOne.webp';
 import newtrcommentFour from './img/FeedbackImage4.jpeg';
 
 import LazyLoad from 'react-lazyload';
-import { setSeoConfig, getDeviceType, getOktaCallBackUrl } from '@/utils/utils';
+import { getDeviceType } from '@/utils/utils';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';

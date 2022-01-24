@@ -17,10 +17,10 @@ import {
   formatMoney,
   getDictionary,
   getDeviceType,
-  setSeoConfig,
   judgeIsIndividual,
   formatDate,
-  optimizeImage
+  optimizeImage,
+  filterOrderId
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import { batchAdd } from '@/api/payment';
@@ -31,9 +31,9 @@ import LazyLoad from 'react-lazyload';
 import base64 from 'base-64';
 import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
-import { filterOrderId } from '@/utils/utils';
 import './index.less';
 import { handleOrderItem } from './modules/handleOrderItem';
+import { seoHoc } from '@/framework/common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -42,6 +42,7 @@ const pageLink = window.location.href;
 @inject('checkoutStore')
 @injectIntl
 @observer
+@seoHoc('Account orders')
 class AccountOrders extends React.Component {
   constructor(props) {
     super(props);
@@ -54,11 +55,6 @@ class AccountOrders extends React.Component {
       },
       loading: true,
       initLoading: true,
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       currentPage: 1,
       totalPage: 1,
       initing: true,
@@ -89,11 +85,6 @@ class AccountOrders extends React.Component {
   componentWillUnmount() {}
   async componentDidMount() {
     myAccountPushEvent('Orders');
-    setSeoConfig({
-      pageName: 'Account orders'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
 
     const orderId = funcUrl({ name: 'orderId' });
     if (orderId) {
@@ -461,12 +452,6 @@ class AccountOrders extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">

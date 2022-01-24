@@ -12,34 +12,26 @@ import './index.less';
 import noPet from '@/assets/images/noPet.jpg';
 import { Link } from 'react-router-dom';
 import { getPetList } from '@/api/pet';
-import {
-  setSeoConfig,
-  getDeviceType,
-  getDictionary,
-  formatDate
-} from '@/utils/utils';
+import { getDeviceType, getDictionary, formatDate } from '@/utils/utils';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import { myAccountPushEvent } from '@/utils/GA';
 import cn from 'classnames';
+import { seoHoc } from '@/framework/common';
 
 const pageLink = window.location.href;
 
 @injectIntl
 @inject('loginStore')
 @observer
+@seoHoc('Account pet')
 class Pet extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       petList: [],
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       isMobile: false,
       loading: true,
       catBreedList: [],
@@ -50,11 +42,6 @@ class Pet extends React.Component {
   componentDidMount() {
     myAccountPushEvent('Pets');
     this.setState({ isMobile: getDeviceType() !== 'PC' });
-    setSeoConfig({
-      pageName: 'Account pet'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
     this.getBreedList();
   }
 
@@ -139,12 +126,6 @@ class Pet extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
