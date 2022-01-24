@@ -8,7 +8,6 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import { IMG_DEFAULT } from '@/utils/constant';
-import successImg from '@/assets/images/credit-cards/success.png';
 import './index.css';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
@@ -88,13 +87,9 @@ class OrdersAfterSaleSuccess extends React.Component {
                   />
                 ) : details ? (
                   <React.Fragment>
-                    <LazyLoad>
-                      <img
-                        src={successImg}
-                        alt="success image"
-                        style={{ display: 'inline-block' }}
-                      />
-                    </LazyLoad>
+                    <span className="flex items-center justify-center bg-green rounded-full w-14 h-14 md:w-24 md:h-24">
+                      <span className="iconfont iconduigoux font-bold text-white text-4xl inline-block md:text-5xl" />
+                    </span>
                     <h4>
                       <strong>
                         The{' '}

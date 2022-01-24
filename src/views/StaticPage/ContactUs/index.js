@@ -8,7 +8,6 @@ import { ADDRESS_RULE } from './utils/constant';
 import { backSpacerUP, backSpacerDOWN } from './utils/usPhone';
 import { validData } from '@/utils/utils';
 import { seoHoc } from '@/framework/common';
-import successImg from '@/assets/images/credit-cards/success.png';
 import './index.less';
 import { submitContactUsInfo } from '@/api/staticPageApi';
 import { Helmet } from 'react-helmet';
@@ -481,7 +480,11 @@ class ContactUs extends Component {
       <div className="FAQ__section rc-padding--md">
         <div className="FAQ-header">
           <div className="confirmation-message">
-            <img src={successImg} alt="success image" />
+            <div className="flex justify-center">
+              <span className="flex items-center justify-center bg-green rounded-full w-14 h-14 md:w-24 md:h-24">
+                <span className="iconfont iconduigoux font-bold text-white text-4xl inline-block md:text-5xl" />
+              </span>
+            </div>
             <h2>THANKS FOR YOUR INQUIRY!</h2>
             <p className="order-thank-you-email-msg">
               One of our pet experts will contact you at {this.state.mail}{' '}
