@@ -45,11 +45,11 @@ const Decouverteroyalcanin = (props) => {
       <Header {...props} showMiniIcons={true} showUserIcon={true} />
       <div className="rc-content--fixed-header rc-bg-colour--brand3 decouverteroyalcanin">
         <div
-          className="rc-layout-container rc-two-column  rc-max-width--xl rc-padding-left--md
+          className="rc-layout-container rc-two-column  rc-max-width--xl rc-padding-x--xl
         rc-padding-top--md rc-padding-bottom--md items-center"
         >
           <div className="rc-column">
-            <div style={{ maxWidth: '504px' }} className="m-auto">
+            <div style={{ maxWidth: '504px' }} className="">
               <h1 className="xs: text-3xl lg:text-5xl  rc-padding-bottom--sm text-rc-red">
                 Venez à la découverte de Royal Canin
               </h1>

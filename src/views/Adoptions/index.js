@@ -20,14 +20,14 @@ import { getShelterList } from '@/api/recommendation';
 import { getDetails, getLoginDetails } from '@/api/details';
 import { getFrequencyDict } from '@/utils/utils';
 let goodsInfoNosObj = {
-  8172118196590126: ['Kitten <br/>> (3-12 months)'],
-  8172256907894156: ['Adult Cat<br/> (1+ years)'],
-  493013: ['Small Puppy <br/> (3-12 months)'],
-  493817: ['Medium Puppy<br/> (3-12 months)'],
-  492818: ['Large Puppy<br/> (3-12 months)'],
-  512514: ['Small Adult Dog<br/> (1+ years)', '9 to 22lbs'],
-  517417: ['Medium Adult Dog<br/> (1+ years)', '22 to 55lbs'],
-  517906: ['Large Adult Dog<br/> (1+ years)', '56 to 100lbs']
+  'goodsNo-8172118196590126': ['Kitten <br/> (3-12 months)'],
+  'goodsNo-8172256907894156': ['Adult Cat<br/> (1+ years)'],
+  'goodsNo-493013': ['Small Puppy <br/> (3-12 months)'],
+  'goodsNo-493817': ['Medium Puppy<br/> (3-12 months)'],
+  'goodsNo-492818': ['Large Puppy<br/> (3-12 months)'],
+  'goodsNo-512514': ['Small Adult Dog<br/> (1+ years)', '9 to 22lbs'],
+  'goodsNo-517417': ['Medium Adult Dog<br/> (1+ years)', '22 to 55lbs'],
+  'goodsNo-517906': ['Large Adult Dog<br/> (1+ years)', '56 to 100lbs']
 };
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -197,7 +197,9 @@ const Adoptions = (props) => {
     }
   };
   const getGoodsInfos = async () => {
-    let goodsInfoNos = Object.keys(goodsInfoNosObj);
+    let goodsInfoNos = Object.keys(goodsInfoNosObj).map(
+      (el) => el.split('-')[1]
+    ); //直接把goodsNo存成数字或者字符串会改变其排序
     let res = await getList({
       goodsInfoNos
     });
@@ -208,13 +210,17 @@ const Adoptions = (props) => {
       goodsLists.forEach((el) => {
         let goodsInfo = el.goodsInfos.find((info) => info.goodsInfoNo == id);
         if (goodsInfo) {
-          el.goodsNameStr = goodsInfoNosObj[id][0];
-          el.weightInfo = goodsInfoNosObj[id][1] || '';
+          el.goodsNameStr = goodsInfoNosObj[`goodsNo-${id}`][0];
+          el.weightInfo = goodsInfoNosObj[`goodsNo-${id}`][1] || '';
           el.goodsInfo = goodsInfo;
           sortList.push(el);
         }
       });
     });
+    console.info(
+      'sortList',
+      sortList.map((el) => el.goodsNameStr)
+    );
     // 查出的其他数据不应该被展示
     let list = sortList.filter((el) => el.goodsInfo);
     setGoodsList(list);

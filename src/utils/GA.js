@@ -412,6 +412,7 @@ export const GARecommendationProduct = (
       )?.goodsInfoNo;
       price = item.salePrice;
     }
+    debugger;
     const cateName = goodsCateName?.split('/');
     const breed = (goodsAttributesValueRelVOAllList || [])
       .filter(
@@ -427,7 +428,7 @@ export const GARecommendationProduct = (
     let productItem = {
       price: price,
       specie,
-      range: type === 4 ? 'Booking' : cateName?.[1] || '',
+      range: type === 4 ? 'Booking' : cateName?.[1] || '', //sku不存在，只有spu上有
       name: type === 4 ? "L'Atelier Félin booking" : goodsName,
       mainItemCode: type === 4 ? "L'Atelier Félin booking" : goodsNo,
       SKU,
@@ -436,10 +437,10 @@ export const GARecommendationProduct = (
         item.goodsInfoFlag > 0 ? subscriptionFrequency : '',
       technology: cateName?.[2] || '',
       brand: 'Royal Canin',
-      size: item.specText,
-      breed,
+      size: item.specText, //???
+      breed, //???
       quantity: item.buyCount,
-      sizeCategory: '',
+      sizeCategory: '', //??
       promoCodeName: promotionCode || '',
       promoCodeAmount: ''
     };
