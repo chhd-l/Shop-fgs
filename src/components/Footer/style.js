@@ -81,6 +81,7 @@ export const FooterWrapper = styled.footer`
     }
   }
   #mars-footer-panel {
+    background-color: #333333;
     .mars-footer-container {
       margin: 0 auto !important;
       padding-bottom: 25px;
