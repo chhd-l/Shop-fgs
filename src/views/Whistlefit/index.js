@@ -65,7 +65,7 @@ class Whistlefit extends React.Component {
   render(h) {
     const event = {
       page: {
-        type: 'Content',
+        type: 'landingPage',
         theme: 'Brand',
         path: location.pathname,
         error: '',
@@ -87,10 +87,11 @@ class Whistlefit extends React.Component {
         </Helmet>
         <Header showMiniIcons={true} showUserIcon={true} {...this.props} />
         <main className="smartCollar rc-content--fixed-header rc-bg-colour--brand3">
-          <BannerTip />
           <div className="max-w-full px-0 md:px-36">
             <div className="flex flex-col md:flex-row">
-              <img src={hero} alt="hero" className="w-full md:w-1/2" />
+              <LazyLoad className="w-full md:w-1/2">
+                <img src={hero} alt="hero" />
+              </LazyLoad>
               <div className="w-full md:w-1/2 flex flex-col justify-center ml-0 md:ml-5 items-center md:items-start">
                 <div
                   className="tracking-normal md:tracking-tighter text-2xl md:text-4xl text-center md:text-left leading-tight md:leading-normal mt-5 md:mt-0 mb-5 md:mb-10 ml-5 md:ml-0 mr-5 font-normal"
@@ -126,13 +127,13 @@ class Whistlefit extends React.Component {
                   you a unique window into your pet’s wellness so you can
                   discover the best ways to care for them.
                 </div>
-                <div className="w-full md:w-1/2 flex justify-center">
+                <LazyLoad className="w-full md:w-1/2 flex justify-center">
                   <img
                     src={Bracelet}
                     alt="Bracelet"
                     className="w-32 md:w-48 ml-0 md:ml-32"
                   />
-                </div>
+                </LazyLoad>
               </div>
               <div className="w-full px-4 md:px-48 font-normal text-center text-2xl md:text-3xl my-4 md:my-12 leading-tight md:leading-normal">
                 Whistle Fit is a smart device that easily attaches to your dog’s
@@ -140,27 +141,25 @@ class Whistlefit extends React.Component {
               </div>
               <div className="w-full flex justify-between flex-wrap mt-6 md:mt-0">
                 <div className="w-full md:w-auto flex flex-col items-center">
-                  <img
-                    src={enjoyTraining}
-                    alt="enjoyTraining"
-                    className="w-12 md:w-16"
-                  />
+                  <LazyLoad className="w-12 md:w-16">
+                    <img src={enjoyTraining} alt="enjoyTraining" />
+                  </LazyLoad>
                   <div className="h4 w-72 text-center text-xl md:text-2xl font-normal mt-3 md:mt-6 mb-6">
                     They are getting enough exercise
                   </div>
                 </div>
                 <div className="w-full md:w-auto flex flex-col items-center">
-                  <img
-                    src={eatingFood}
-                    alt="eatingFood"
-                    className="w-12 md:w-16"
-                  />
+                  <LazyLoad className="w-12 md:w-16">
+                    <img src={eatingFood} alt="eatingFood" />
+                  </LazyLoad>
                   <div className="h4 w-96 text-center text-xl md:text-2xl font-normal mt-3 md:mt-6 mb-6">
                     They are eating the right amount of food
                   </div>
                 </div>
                 <div className="w-full md:w-auto flex flex-col items-center">
-                  <img src={dog} alt="dog" className="w-12 md:w-16" />
+                  <LazyLoad className="w-12 md:w-16">
+                    <img src={dog} alt="dog" />
+                  </LazyLoad>
                   <div className="w-80 text-center text-xl md:text-2xl font-normal mt-3 md:mt-6 mb-6">
                     They are in good health and displaying normal behaviour
                   </div>
@@ -186,19 +185,25 @@ class Whistlefit extends React.Component {
             </div>
             <div className="w-full flex justify-between flex-wrap mt-6 md:mt-0">
               <div className="w-full md:w-auto flex flex-col items-center">
-                <img src={group1} alt="group1" className="w-48 md:w-64" />
+                <LazyLoad className="w-48 md:w-64">
+                  <img src={group1} alt="group1" />
+                </LazyLoad>
                 <div className="h4 w-72 text-center text-xl md:text-2xl font-normal mt-3 md:mt-6 mb-6">
                   Monitor behavior
                 </div>
               </div>
               <div className="w-full md:w-auto flex flex-col items-center">
-                <img src={group2} alt="group2" className="w-48 md:w-64" />
+                <LazyLoad className="w-48 md:w-64">
+                  <img src={group2} alt="group2" />
+                </LazyLoad>
                 <div className="h4 w-96 text-center text-xl md:text-2xl font-normal mt-3 md:mt-6 mb-6">
                   Monitor activities
                 </div>
               </div>
               <div className="w-full md:w-auto flex flex-col items-center">
-                <img src={group3} alt="group3" className="w-48 md:w-64" />
+                <LazyLoad className="w-48 md:w-64">
+                  <img src={group3} alt="group3" />
+                </LazyLoad>
                 <div className="h4 w-80 text-center text-xl md:text-2xl font-normal mt-3 md:mt-6 mb-6">
                   Tele-vet
                 </div>
@@ -258,13 +263,13 @@ class Whistlefit extends React.Component {
               </div>
             </div>
             <div className="flex flex-col md:flex-row items-start md:items-start">
-              <div className="w-full md:w-1/2 flex justify-center">
+              <LazyLoad className="w-full md:w-1/2 flex justify-center">
                 <img
                   src={packshotWf}
                   alt="Bracelet"
                   className="w-48 md:w-96 mr-0 md:mr-64"
                 />
-              </div>
+              </LazyLoad>
               <div className="w-full md:w-1/2 text-sm md:text-lg px-4 md:px-0 leading-loose mt-0 md:mt-10">
                 At Royal Canin, we’ve spent more than 50 years supporting pet
                 health through our innovative nutritional solutions and expert
