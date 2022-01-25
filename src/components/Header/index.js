@@ -219,7 +219,7 @@ class Header extends React.Component {
   }
   componentWillUnmount() {
     window.removeEventListener('click', this.hideMenu);
-    // window.removeEventListener('scroll', this.handleScroll)
+    window.removeEventListener('scroll', this.handleScroll);
   }
   initNavigations = async () => {
     const navigationConf = await fetchHeaderNavigations();
@@ -340,6 +340,9 @@ class Header extends React.Component {
     }
   };
   handleScroll(e) {
+    if (!this.props.showNav) {
+      return false;
+    }
     // 滑动时，移除.searchbar--visile，search bar的显示隐藏交由.rc-header--scrolled控制
     this.toggleDomClassName({
       dom: document.querySelector('.rc-header'),
@@ -563,13 +566,8 @@ class Header extends React.Component {
     );
   };
   render() {
-    const {
-      showMiniIcons,
-      showUserIcon,
-      loginStore,
-      configStore,
-      history
-    } = this.props;
+    const { showMiniIcons, showUserIcon, loginStore, configStore, history } =
+      this.props;
     const {
       headerNavigationList,
       headerNavigationListForHub,
