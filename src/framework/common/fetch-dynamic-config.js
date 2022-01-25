@@ -20,6 +20,9 @@ const fetchDynamicConfig = async () => {
       const tmpCfg = res?.context?.context
         ? JSON.parse(decryptString(res?.context?.context))
         : {};
+      // 暂时删除来自storepotal的接口前缀配置，使用本地的，后续直接将storepotal对应字段删除即可，这两行代码也同时删除
+      delete tmpCfg?.REACT_APP_HUB_APIURL;
+      delete tmpCfg?.REACT_APP_BASEURL;
       envVal = Object.assign({}, envVal, tmpCfg, {
         REACT_APP_HUB: Boolean(res?.context?.enableHub),
         REACT_APP_LANG_LOCALE: res?.context?.language
