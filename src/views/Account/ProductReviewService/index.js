@@ -14,22 +14,18 @@ import { getGoodsList, addGoodsEvaluate } from '@/api/order';
 import './index.css';
 import Skeleton from 'react-skeleton-loader';
 //import { Link } from 'react-router-dom';
-import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 import { myAccountActionPushEvent } from '@/utils/GA';
+import { seoHoc } from '@/framework/common';
 
 const pageLink = window.location.href;
 
 @injectIntl
+@seoHoc()
 class ProductReview extends React.Component {
   constructor() {
     super();
     this.state = {
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       orderId: 0,
       productList: [],
       purchaseRate: 0,
@@ -58,9 +54,6 @@ class ProductReview extends React.Component {
         this.getGoodsList(this.state.orderId);
       }
     );
-    setSeoConfig().then((res) => {
-      this.setState({ seoConfig: res });
-    });
   }
   showErrMsg(msg) {
     this.setState({
@@ -302,12 +295,6 @@ class ProductReview extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">

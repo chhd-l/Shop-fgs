@@ -8,19 +8,10 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import Selection from '@/components/Selection';
 import Pagination from '@/components/Pagination';
-import {
-  FormattedMessage,
-  injectIntl,
-  FormattedDate
-} from 'react-intl-phraseapp';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import { getSubList } from '@/api/subscription';
-import {
-  getDictionary,
-  getDeviceType,
-  setSeoConfig,
-  getClubLogo
-} from '@/utils/utils';
+import { getDictionary, getDeviceType, getClubLogo } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import noSubscription from '@/assets/images/noSubscription.jpg';
 import LazyLoad from 'react-lazyload';
@@ -39,19 +30,10 @@ import landingBanner from '../../../components/GoodsDetailTabs/image/landing-ban
 import iconsix from '../../../components/GoodsDetailTabs/image/iconsix.png';
 import auto from '../../../components/GoodsDetailTabs/image/auto@2x.png';
 import { DivWrapper } from './style';
+import { seoHoc } from '@/framework/common';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
-
-const subscriptionLandingRouter = (lang) => {
-  return {
-    de: '/subscription-landing-de',
-    fr: '/subscription-landing',
-    us: '/subscription-landing-us',
-    ru: '/subscription-landing-ru',
-    tr: '/subscription-landing-tr'
-  }[lang];
-};
 
 //针对ru和tr noSubscription采用这个页面
 const clubNoSubscription = function () {
@@ -142,17 +124,13 @@ const clubNoSubscription = function () {
 };
 
 @injectIntl
+@seoHoc('Account subscriptions')
 class Subscription extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       orderList: [],
       subList: [],
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       form: {
         subscribeId: '',
         subscribeStatus: '0'
@@ -210,11 +188,6 @@ class Subscription extends React.Component {
       }
     }
     myAccountPushEvent('Subscriptions');
-    setSeoConfig({
-      pageName: 'Account subscriptions'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
     const res = await getDictionary({ type: 'SubscriptionType' });
     console.log('SubscriptionTypeList:');
     console.log(res);
@@ -468,12 +441,6 @@ class Subscription extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">

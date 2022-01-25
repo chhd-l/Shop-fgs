@@ -312,7 +312,6 @@ const ChooseSKU = ({ intl }) => {
                 {},
                 triggerShowChangeProduct,
                 {
-                  show: true,
                   firstShow: !triggerShowChangeProduct.firstShow,
                   goodsInfo: [...subDetail.goodsInfo],
                   isShowModal: true

@@ -11,21 +11,27 @@ import Pagination from '@/components/Pagination';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { getDeviceType, setSeoConfig, formatDate } from '@/utils/utils';
+import {
+  getDeviceType,
+  formatDate,
+  handleAppointmentDict,
+  getDictionary
+} from '@/utils/utils';
 import appointmentImg from './img/no-appointments.png';
 import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
 import { myAccountPushEvent } from '@/utils/GA';
 import './index.less';
-import { getAppointList, cancelAppointByNo } from '@/api/appointment';
-import { getAppointDict } from '@/api/dict';
+import { getAppointList } from '@/api/appointment';
 import { funcUrl } from '@/lib/url-utils';
+import { seoHoc } from '@/framework/common';
 
 const pageLink = window.location.href;
 
 @inject('checkoutStore')
 @injectIntl
 @observer
+@seoHoc('Account orders')
 class AccountOrders extends React.Component {
   constructor(props) {
     super(props);
@@ -33,18 +39,11 @@ class AccountOrders extends React.Component {
       appointmentList: [],
       loading: true,
       initLoading: true,
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       currentPage: 1,
       totalPage: 1,
       initing: true,
       errMsg: '',
-      everHaveNoOrders: true,
-      showOneOrderDetail: false,
-      curOneOrderDetails: null
+      everHaveNoOrders: true
     };
 
     this.pageSize = 6;
@@ -52,19 +51,14 @@ class AccountOrders extends React.Component {
     this.handleClickCardItem = this.handleClickCardItem.bind(this);
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     myAccountPushEvent('Appointments');
-    setSeoConfig({
-      pageName: 'Account orders'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
     const appointmentNo = funcUrl({ name: 'appointmentNo' });
     if (appointmentNo) {
       this.props.history.push(`/account/appointments/detail/${appointmentNo}`);
       return;
     }
-    await this.queryOrderList();
+    this.queryOrderList();
   }
 
   async queryOrderList() {
@@ -84,29 +78,28 @@ class AccountOrders extends React.Component {
     };
     try {
       const res = await getAppointList(param);
-      const appointDictRes = await Promise.all([
-        getAppointDict({
+      let appointDictRes = await Promise.all([
+        getDictionary({
           type: 'appointment_type'
         }),
-        getAppointDict({
+        getDictionary({
           type: 'expert_type'
         })
       ]);
-      console.log('appointDictRes', appointDictRes);
       let tmpList = Array.from(res.context.page.content, (ele) => {
-        const appointmentType = (
-          appointDictRes[0]?.context?.goodsDictionaryVOS || []
-        ).filter((item) => item.id === ele?.apptTypeId);
-        const expertType = (
-          appointDictRes[1]?.context?.goodsDictionaryVOS || []
-        ).filter((item) => item.id === ele?.expertTypeId);
+        const appointmentDictRes = appointDictRes[0].filter(
+          (item) => item.id === ele?.apptTypeId
+        );
+        const expertDictRes = appointDictRes[1].filter(
+          (item) => item.id === ele?.expertTypeId
+        );
         return Object.assign(ele, {
           canChangeAppoint: ele.status === 0 && ele.businessPaid,
           canCancelAppoint: ele.status === 0,
           cancelAppointLoading: false,
           appointmentType:
-            appointmentType.length > 0 ? appointmentType[0].name : '',
-          expertType: expertType.length > 0 ? expertType[0].name : '',
+            appointmentDictRes.length > 0 ? appointmentDictRes[0]?.name : '',
+          expertType: expertDictRes.length > 0 ? expertDictRes[0].name : '',
           appointmentStatus:
             ele.status === 0 ? (
               <FormattedMessage id="appointment.status.Booked" />
@@ -146,30 +139,11 @@ class AccountOrders extends React.Component {
     );
   };
 
-  async cancelAppoint(appointment) {
-    try {
-      const { appointmentList } = this.state;
-      appointment.cancelAppointLoading = true;
-      this.setState({ appointmentList: appointmentList });
-      await cancelAppointByNo({ apptNo: appointment.appointmentNo });
-      await this.queryOrderList();
-    } catch (err) {
-    } finally {
-      appointment.cancelAppointLoading = false;
-    }
-  }
-
   handleClickCardItem(item) {
-    if (this.deviceType === 'PC') {
-      return false;
+    if (this.deviceType !== 'PC') {
+      this.props.history.push(`/account/appointments/detail/${item.apptNo}`);
     }
-    this.props.history.push(`/account/appointments/detail/${item.apptNo}`);
-    return false;
   }
-
-  handleClickBackToIndex = () => {
-    this.setState({ showOneOrderDetail: false });
-  };
 
   renderOperationBtns = (appointment) => {
     return (
@@ -206,24 +180,12 @@ class AccountOrders extends React.Component {
         filters: ''
       }
     };
-    const {
-      errMsg,
-      everHaveNoOrders,
-      appointmentList,
-      showOneOrderDetail,
-      curOneOrderDetails
-    } = this.state;
+    const { errMsg, everHaveNoOrders, appointmentList } = this.state;
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
@@ -233,9 +195,7 @@ class AccountOrders extends React.Component {
             <div className="rc-layout-container rc-five-column">
               <SideMenu type="Appointments" customCls="rc-md-up" />
               <div
-                className={`my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop px-0 md:px-3 ${
-                  showOneOrderDetail ? 'hidden' : ''
-                }`}
+                className={`my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop px-0 md:px-3`}
               >
                 {this.state.initLoading ? (
                   <div className="mt-4">
@@ -438,44 +398,6 @@ class AccountOrders extends React.Component {
                   </>
                 )}
               </div>
-
-              {/* one appointment details for mobile */}
-              {showOneOrderDetail && (
-                <div className={`pl-4 pr-4 rc-md-down`}>
-                  <div className="row">
-                    <div className="col-12 mb-3">
-                      <span onClick={this.handleClickBackToIndex}>
-                        <span className="red">&lt;</span>
-                        <span className="rc-styled-link rc-progress__breadcrumb ml-2 mt-1">
-                          <FormattedMessage id="appointment" />
-                        </span>
-                      </span>
-                    </div>
-                    <div className="row col-12 mb-2">
-                      <div className="col-6 d-flex">
-                        <LazyLoad>
-                          <img
-                            className="ord-list-img-fluid"
-                            src={curOneOrderDetails.goodsInfoImg || IMG_DEFAULT}
-                            alt={curOneOrderDetails.goodsInfoName}
-                            title={curOneOrderDetails.goodsInfoName}
-                          />
-                        </LazyLoad>
-                      </div>
-                      <div className="col-6 d-flex align-items-center">
-                        <div>
-                          <span className="medium color-444 ui-text-overflow-line2">
-                            {curOneOrderDetails.goodsInfoName}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-12 d-flex justify-content-center flex-column align-items-center mt-4 mb-4 ord-operation-btns">
-                      {this.renderOperationBtns(curOneOrderDetails)}
-                    </div>
-                  </div>
-                </div>
-              )}
             </div>
           </div>
           <Footer />

@@ -11,7 +11,7 @@ import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 import callImg from '@/assets/images/customer-service@2x.jpg';
 import helpImg from '@/assets/images/slider-img-help.jpg';
 import { inject, observer } from 'mobx-react';
-import { setSeoConfig } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import LazyLoad from 'react-lazyload';
 import './index.less';
 import { Helmet } from 'react-helmet';
@@ -21,15 +21,11 @@ const pageLink = window.location.href;
 
 @inject('configStore')
 @observer
+@seoHoc('Contact Us Page')
 class Help extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       tel: '',
       mailAddress: '',
       showModal: false
@@ -37,12 +33,7 @@ class Help extends React.Component {
   }
 
   componentWillUnmount() {}
-  async componentDidMount() {
-    setSeoConfig({
-      pageName: 'Contact Us Page'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
+  componentDidMount() {
     const tel = 'tel:' + this.props.configStore.storeContactPhoneNumber;
     const mailAddress = 'mailto:' + this.props.configStore.storeContactEmail;
 
@@ -73,12 +64,6 @@ class Help extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">

@@ -4,7 +4,7 @@ import Header from '@/components/Header';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
-import { setSeoConfig } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import { funcUrl } from '@/lib/url-utils';
 import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl-phraseapp';
@@ -15,24 +15,17 @@ const pageLink = window.location.href;
 
 @inject('configStore')
 @observer
+@seoHoc()
 class SearchShow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       searchWords: ''
     };
   }
   componentWillUnmount() {}
   componentDidMount() {
     const searchWords = decodeURI(funcUrl({ name: 'q' }));
-    setSeoConfig().then((res) => {
-      this.setState({ seoConfig: res });
-    });
 
     this.setState({
       searchWords
@@ -55,12 +48,6 @@ class SearchShow extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">

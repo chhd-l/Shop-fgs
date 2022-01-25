@@ -5,38 +5,17 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import { setSeoConfig } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import { Helmet } from 'react-helmet';
 
 const pageLink = window.location.href;
+@seoHoc()
 class Exception extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      }
-    };
-  }
-  componentDidMount() {
-    setSeoConfig().then((res) => {
-      this.setState({ seoConfig: res });
-    });
-  }
   render() {
-    let { location, match, history } = this.props;
     return (
       <React.Fragment>
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header showMiniIcons={false} {...this.props} />
         <div

@@ -13,7 +13,7 @@ import icon3 from './images/icon3.png';
 import icon4 from './images/icon4.png';
 import cat from './images/cat.png';
 import dog from './images/dog.png';
-import { setSeoConfig } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import LazyLoad from 'react-lazyload';
 import './index.css';
 import { Helmet } from 'react-helmet';
@@ -23,26 +23,8 @@ const pageLink = window.location.href;
 
 @inject('configStore')
 @observer
+@seoHoc('Subscription Page')
 class Help extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      }
-    };
-  }
-  componentDidMount() {
-    setSeoConfig({
-      goodsId: '',
-      categoryId: '',
-      pageName: 'Subscription Page'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
-  }
   componentWillUnmount() {}
 
   render(h) {
@@ -58,12 +40,6 @@ class Help extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">

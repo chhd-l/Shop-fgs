@@ -897,9 +897,7 @@ const App = () => {
                           />
                         );
                       } else {
-                        return (
-                          <Details key={props.match.params.id} {...props} />
-                        );
+                        return <Details key={props.location.key} {...props} />;
                       }
                     } else {
                       console.log('没匹配pdp路由');

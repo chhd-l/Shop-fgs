@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
-import logoAnimatedPng from '@/assets/images/logo--animated2.png';
 import './index.css';
 import { findUserConsentList, userBindConsent } from '@/api/consent';
 import Consent from '@/components/Consent';
@@ -13,6 +12,7 @@ import { bindSubmitParam } from '@/utils/utils';
 import Modal from '@/components/Modal';
 import { addEventListenerArr } from './addEventListener';
 import loginRedirection from '@/lib/login-redirection';
+import { LOGO_PRIMARY } from '@/utils/constant';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -304,10 +304,9 @@ class RegisterRequired extends Component {
                   </DistributeHubLinkOrATag> */}
                   <div className="content-asset flex justify-center items-center">
                     <img
-                      src={logoAnimatedPng}
-                      width="205"
-                      height="90"
+                      src={LOGO_PRIMARY}
                       alt="Royal Canin Flagship Store"
+                      className="w-40 md:w-auto"
                     />
                   </div>
                 </div>
@@ -316,9 +315,10 @@ class RegisterRequired extends Component {
                 <h2
                   className="rc-text-colour--brand1 text-center"
                   style={{ marginTop: '.9375rem' }}
-                >
-                  <FormattedMessage id="required.logoTitle" />
-                </h2>
+                  dangerouslySetInnerHTML={{
+                    __html: intl.messages['required.logoTitle']
+                  }}
+                />
                 <p
                   style={{
                     textAlign: 'center',

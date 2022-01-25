@@ -9,24 +9,20 @@ import Skeleton from 'react-skeleton-loader';
 import LazyLoad from 'react-lazyload';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import { Link } from 'react-router-dom';
-import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
+import { seoHoc } from '@/framework/common';
 
 import './index.less';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
+@seoHoc('FAQ page')
 class FAQ extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       dataFAQ: [],
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       // 当前展开的FAQ
       showCur: -1,
       loading: true
@@ -35,12 +31,6 @@ class FAQ extends React.Component {
   }
   componentWillUnmount() {}
   componentDidMount() {
-    setSeoConfig({
-      pageName: 'FAQ page'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
-
     window.scrollTo({ top: 0 });
     getFaq()
       .then((res) => {
@@ -104,12 +94,6 @@ class FAQ extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">

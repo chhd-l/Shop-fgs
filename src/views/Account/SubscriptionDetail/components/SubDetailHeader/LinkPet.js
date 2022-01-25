@@ -11,6 +11,7 @@ import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
 import { getPetList } from '@/api/pet';
 import { changeSubscriptionDetailPets } from '@/api/subscription';
+import cn from 'classnames';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -77,7 +78,7 @@ const LinkPet = ({
       let res = await changeSubscriptionDetailPets(param);
       let newSubscribeId = res.context;
       if (newSubscribeId === subscribeId) {
-        initPage();
+        initPage(true);
       } else {
         history.push(`/account/subscription/order/detail/${newSubscribeId}`);
       }
