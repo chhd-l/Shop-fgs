@@ -2,8 +2,6 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import image from '@/assets/images/500.png';
 import { seoHoc } from '@/framework/common';
-import { FormattedMessage } from 'react-intl-phraseapp';
-import image from '@/assets/images/500.png';
 import { LOGO } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
 import GoogleTagManager from '@/components/GoogleTagManager';
