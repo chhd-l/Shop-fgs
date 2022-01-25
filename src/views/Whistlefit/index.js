@@ -38,23 +38,23 @@ class Whistlefit extends React.Component {
         title: 'Royal canin',
         metaKeywords: 'Royal canin',
         metaDescription: 'Royal canin'
-      }
+      },
+      email: '',
+      isChecked: false
       //intl: this.props.intl.messages
     };
   }
-
-  componentWillUnmount() {}
   componentDidMount() {
-    setSeoConfig({ pageName: 'About Us Page' }).then((res) => {
+    setSeoConfig({ pageName: 'Whistlefit' }).then((res) => {
       this.setState({ seoConfig: res });
     });
   }
-  scrollToTop() {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  }
+  changeEmail = (e) => {
+    this.setState({ email: e.target.value });
+  };
+  changeConsent = () => {
+    this.setState({ isChecked: !this.state.isChecked });
+  };
   //滚动到底部
   scrollToBottom() {
     window.scrollTo({
@@ -297,6 +297,8 @@ class Whistlefit extends React.Component {
                   id="id-text2"
                   type="text"
                   name="text"
+                  value={this.state.email}
+                  onChange={this.changeEmail}
                 />
                 <label className="rc-input__label" for="id-text2">
                   <span className="rc-input__label-text">
@@ -315,9 +317,10 @@ class Whistlefit extends React.Component {
                 <input
                   className="rc-input__checkbox"
                   id="id-checkbox-cat"
-                  value="Cat"
+                  checked={this.state.isChecked}
                   type="checkbox"
                   name="checkbox-1"
+                  onChange={this.changeConsent}
                 />
                 <label
                   className="text-sm rc-input__label--inline"
