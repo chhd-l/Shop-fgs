@@ -1137,7 +1137,11 @@ class List extends React.Component {
           ).length > 0 &&
           stgShowAuth();
 
-        if (isSpecialNeedFilter || this.state.isRetailProducts) {
+        if (
+          isSpecialNeedFilter ||
+          (this.state.isRetailProducts &&
+            window.__.env.REACT_APP_COUNTRY !== 'uk')
+        ) {
           this.pageSize = 8;
         } else {
           this.pageSize = 12;
@@ -1524,7 +1528,10 @@ class List extends React.Component {
               0,
               { specificNeedCheck: true }
             );
-          } else if (this.state.isRetailProducts) {
+          } else if (
+            this.state.isRetailProducts &&
+            window.__.env.REACT_APP_COUNTRY !== 'uk'
+          ) {
             goodsContent.splice(4, 0, { productFinder: true });
           }
 
