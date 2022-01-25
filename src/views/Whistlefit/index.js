@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
+import Carousel from './components/carousel';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import { setSeoConfig } from '@/utils/utils';
@@ -29,7 +30,7 @@ const pageLink = window.location.href;
 @inject('configStore')
 @observer
 @injectIntl
-class SmartCollar extends React.Component {
+class Whistlefit extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -48,7 +49,19 @@ class SmartCollar extends React.Component {
       this.setState({ seoConfig: res });
     });
   }
-
+  scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
+  //滚动到底部
+  scrollToBottom() {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: 'smooth'
+    });
+  }
   render(h) {
     const event = {
       page: {
@@ -60,7 +73,9 @@ class SmartCollar extends React.Component {
         filters: ''
       }
     };
+    //const { history, match, location } = this.props;
     const { seoConfig } = this.state;
+
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -72,6 +87,7 @@ class SmartCollar extends React.Component {
         </Helmet>
         <Header showMiniIcons={true} showUserIcon={true} {...this.props} />
         <main className="smartCollar rc-content--fixed-header rc-bg-colour--brand3">
+          <BannerTip />
           <div className="max-w-full px-0 md:px-36">
             <div className="flex flex-col md:flex-row">
               <img src={hero} alt="hero" className="w-full md:w-1/2" />
@@ -84,7 +100,10 @@ class SmartCollar extends React.Component {
                   dog’s wellbeing
                 </div>
                 <div className="mb-5 md:mb-0">
-                  <button className="rc-btn rc-btn--one text-xs md:text-sm">
+                  <button
+                    className="rc-btn rc-btn--one text-xs md:text-sm"
+                    onClick={this.scrollToBottom}
+                  >
                     Keep me udpadted on Whistle Fit availability
                   </button>
                 </div>
@@ -148,7 +167,10 @@ class SmartCollar extends React.Component {
                 </div>
               </div>
               <div className="w-full flex justify-center my-10">
-                <button className="rc-btn rc-btn--one text-xs md:text-sm">
+                <button
+                  className="rc-btn rc-btn--one text-xs md:text-sm"
+                  onClick={this.scrollToBottom}
+                >
                   Keep me udpadted on Whistle Fit availability
                 </button>
               </div>
@@ -182,8 +204,45 @@ class SmartCollar extends React.Component {
                 </div>
               </div>
             </div>
+            <div className="experience-component experience-assets-youtubeVideo">
+              <div className="rc-max-width--md rc-padding-x--lg">
+                <div className="rc-video-wrapper dog-video">
+                  <iframe
+                    allowfullscreen=""
+                    frameborder="0"
+                    id="video-dog"
+                    className="optanon-category-4 "
+                    src="https://www.youtube.com/embed/FYwO1fiYoa8"
+                    title="making a better world for pets"
+                  />
+                </div>
+              </div>
+            </div>
             <div className="w-full flex justify-center my-10">
-              <button className="rc-btn rc-btn--one text-xs md:text-sm">
+              <button
+                className="rc-btn rc-btn--one text-xs md:text-sm"
+                onClick={this.scrollToBottom}
+              >
+                Keep me udpadted on Whistle Fit availability
+              </button>
+            </div>
+          </div>
+          <div className="h-2 bg-gray-100"></div>
+          <div className="max-w-full px-0 md:px-36">
+            <div
+              className="px-4 md:px-0 text-center tracking-normal md:tracking-tighter text-2xl md:text-4xl mt-6 mb-3 leading-tight md:leading-normal font-normal"
+              style={{ color: '#E2001A' }}
+            >
+              They loved it!
+            </div>
+            <div className="experience-component experience-layouts-herocarousel">
+              <Carousel history={history} />
+            </div>
+            <div className="w-full flex justify-center mt-5 md:mt-10 mb-5 md:mb-10">
+              <button
+                className="rc-btn rc-btn--one text-xs md:text-sm"
+                onClick={this.scrollToBottom}
+              >
                 Keep me udpadted on Whistle Fit availability
               </button>
             </div>
@@ -221,7 +280,7 @@ class SmartCollar extends React.Component {
             </div>
           </div>
           <div className="h-2 bg-gray-100"></div>
-          <div className="max-w-full px-0 md:px-36">
+          <div className="max-w-full px-0 md:px-36" id="bottom">
             <div className="flex justify-center">
               <div
                 className="w-full md:w-2/3 px-4 md:px-0 text-center tracking-normal md:tracking-tighter text-2xl md:text-4xl mt-6 md:mt-12 mb-3 leading-tight md:leading-normal font-normal"
@@ -248,7 +307,7 @@ class SmartCollar extends React.Component {
             </div>
             <div className="w-full flex justify-center mt-5 md:mt-10 mb-5 md:mb-10">
               <button className="rc-btn rc-btn--one text-xs md:text-sm">
-                Keep me udpadted on Whistle Fit availability
+                I am interested, keep me updated!
               </button>
             </div>
             <div className="flex justify-center justify-items-start mb-10 px-4 md:px-4">
@@ -277,4 +336,4 @@ class SmartCollar extends React.Component {
   }
 }
 
-export default SmartCollar;
+export default Whistlefit;

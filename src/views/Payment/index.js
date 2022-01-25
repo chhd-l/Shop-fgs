@@ -54,7 +54,8 @@ import {
   confirmAndCommitFelin,
   rePayFelin,
   adyenPaymentsDetails,
-  checkUserOrEmailIsBlocked
+  checkUserOrEmailIsBlocked,
+  swishCancelOrRefund
 } from '@/api/payment';
 import { getOrderDetails } from '@/api/order';
 import { getLoginDetails, getDetails } from '@/api/details';
@@ -341,28 +342,36 @@ class Payment extends React.Component {
     this.confirmListValidationAddress =
       this.confirmListValidationAddress.bind(this);
   }
-  handelQrcodeModalClose = () => {
-    const { history } = this.props;
-    if (!this.isLogin) {
-      sessionItemRoyal.remove('rc-token');
-      history.push('/cart');
-    }
-    sessionItemRoyal.remove('rc-swishQrcode');
-    this.setState({ swishQrcodeModal: false });
-    this.setState(
-      {
-        tid: sessionItemRoyal.get('rc-tid'),
-        tidList: sessionItemRoyal.get('rc-tidList')
-          ? JSON.parse(sessionItemRoyal.get('rc-tidList'))
-          : [],
-        rePaySubscribeId: sessionItemRoyal.get('rc-rePaySubscribeId')
-      },
-      () => {
-        this.state.tidList &&
-          this.state.tidList.length &&
-          this.queryOrderDetails();
+  handelQrcodeModalClose = async () => {
+    try {
+      // await swishCancelOrRefund({
+      //   businessId: sessionItemRoyal.get('rc-businessId'),
+      //   payPspItemEnum: 'ADYEN_SWISH'
+      // })
+      const { history } = this.props;
+      if (!this.isLogin) {
+        sessionItemRoyal.remove('rc-token');
+        history.push('/cart');
       }
-    );
+      sessionItemRoyal.remove('rc-swishQrcode');
+      this.setState({ swishQrcodeModal: false });
+      this.setState(
+        {
+          tid: sessionItemRoyal.get('rc-tid'),
+          tidList: sessionItemRoyal.get('rc-tidList')
+            ? JSON.parse(sessionItemRoyal.get('rc-tidList'))
+            : [],
+          rePaySubscribeId: sessionItemRoyal.get('rc-rePaySubscribeId')
+        },
+        () => {
+          this.state.tidList &&
+            this.state.tidList.length &&
+            this.queryOrderDetails();
+        }
+      );
+    } catch (err) {
+      console.log(err.message);
+    }
   };
   //cyber查询卡类型-会员
   queryCyberCardType = async (params) => {
