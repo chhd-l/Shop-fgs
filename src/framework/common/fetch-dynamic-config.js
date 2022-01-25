@@ -20,7 +20,7 @@ const fetchDynamicConfig = async () => {
       const tmpCfg = res?.context?.context
         ? JSON.parse(decryptString(res?.context?.context))
         : {};
-      envVal = Object.assign(tmpCfg, {
+      envVal = Object.assign({}, envVal, tmpCfg, {
         REACT_APP_HUB: Boolean(res?.context?.enableHub),
         REACT_APP_LANG_LOCALE: res?.context?.language
       });
