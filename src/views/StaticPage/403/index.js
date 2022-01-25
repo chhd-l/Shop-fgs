@@ -1,11 +1,7 @@
 import React from 'react';
-import {
-  IntlProvider,
-  FormattedMessage,
-  FormattedNumber
-} from 'react-intl-phraseapp';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import image from '@/assets/images/500.png';
-import logo from '@/assets/images/logo--animated.png';
+import { LOGO } from '@/utils/constant';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import GoogleTagManager from '@/components/GoogleTagManager';
@@ -52,14 +48,8 @@ class Page403 extends React.Component {
           />
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
-        <div className="text-center">
-          <LazyLoad>
-            <img
-              src={logo}
-              style={{ width: '150px', margin: '80px auto 1.25rem' }}
-              alt="logo icon"
-            />
-          </LazyLoad>
+        <div className="text-center mt-5">
+          <img src={LOGO} alt="" className="inline-block w-40 md:w-auto" />
         </div>
         <div>
           <div className="container">

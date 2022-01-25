@@ -3,8 +3,6 @@ import './index.css';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import noPic from '@/assets/images/noPic.png';
 // import noPic from './images/noPic1.png';
-//import LeftImg from '@/assets/images/left.png'
-//import RightImg from '@/assets/images/right.png'
 import { getDeviceType } from '@/utils/utils.js';
 import LazyLoad from 'react-lazyload';
 let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
@@ -363,13 +361,8 @@ class ImageMagnifier extends Component {
       videoModalShow,
       hoverIndex
     } = this.state;
-    let {
-      images,
-      video,
-      taggingForText,
-      taggingForImage,
-      spuImages
-    } = this.props;
+    let { images, video, taggingForText, taggingForImage, spuImages } =
+      this.props;
     // images = this.filterImage(images)
     let imgCount = images.length;
     if (video) {

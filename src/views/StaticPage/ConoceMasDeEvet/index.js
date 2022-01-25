@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import GoogleTagManager from '@/components/GoogleTagManager';
-import logoAnimatedPng from '@/assets/images/logo--animated2.png';
 import './index.less';
 import { customerInfoSave } from '@/api/staticPageApi';
 import Loading from '@/components/Loading';
 import { setSeoConfig } from '@/utils/utils';
-import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 
@@ -216,22 +214,12 @@ class Landing extends Component {
                   className="header__nav__brand logo-home"
                   style={{ marginTop: '40px' }}
                 >
-                  <span className="rc-screen-reader-text"></span>
-                  <LazyLoad>
-                    <img
-                      alt="Royal Canin"
-                      src="https://d1a19ys8w1wkc1.cloudfront.net/1x1.gif?v=8-7-8"
-                      style={{
-                        background:
-                          'url(' +
-                          logoAnimatedPng +
-                          ') no-repeat center center',
-                        width: '105px',
-                        height: '50px',
-                        backgroundSize: 'cover'
-                      }}
-                    />
-                  </LazyLoad>
+                  <span className="rc-screen-reader-text" />
+                  <img
+                    src={LOGO_PRIMARY}
+                    alt="Royal Canin Flagship Store"
+                    className="w-40 md:w-auto"
+                  />
                 </Link>
                 <div className="form-margin-top">
                   {/* form */}
