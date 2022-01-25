@@ -563,13 +563,8 @@ class Header extends React.Component {
     );
   };
   render() {
-    const {
-      showMiniIcons,
-      showUserIcon,
-      loginStore,
-      configStore,
-      history
-    } = this.props;
+    const { showMiniIcons, showUserIcon, loginStore, configStore, history } =
+      this.props;
     const {
       headerNavigationList,
       headerNavigationListForHub,
