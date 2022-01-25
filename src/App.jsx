@@ -219,7 +219,7 @@ const FelinRecommendation = loadable(() =>
   import('@/views/FelinRecommendation')
 );
 const Adoptions = loadable(() => import('@/views/Adoptions'));
-const SmartCollar = loadable(() => import('@/views/SmartCollar'));
+const Whistlefit = loadable(() => import('@/views/Whistlefit'));
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -618,7 +618,11 @@ const App = () => {
                   exact
                   component={ProductReviewService}
                 />
-                <Route path="/SmartCollar" exact component={SmartCollar} />
+                <Route
+                  path="/whistlefit"
+                  exact
+                  component={Whistlefit}
+                />
                 <Route path="/required" exact component={RegisterRequired} />
 
                 <Route
