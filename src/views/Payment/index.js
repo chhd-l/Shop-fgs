@@ -33,13 +33,13 @@ import {
   payCountDown,
   formatMoney,
   generatePayUScript,
-  setSeoConfig,
   validData,
   bindSubmitParam,
   getAppointmentInfo,
   formatDate,
   isBlockedUserOrEmail
 } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import { EMAIL_REGEXP, seTelephoneCheck } from '@/utils/constant';
 import { userBindConsent } from '@/api/consent';
 import {
@@ -88,6 +88,7 @@ import { postUpdateUser, getAppointByApptNo } from '../../api/felin';
 import UpdatModal from './updatModules/modal';
 import QRCode from 'qrcode.react';
 import differenceInSeconds from 'date-fns/differenceInSeconds';
+import base64 from 'base-64';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -109,6 +110,7 @@ function CreditCardInfoPreview({
       <p>{holderNameDeco}</p>
       <p>{brandDeco}</p>
       {lastFourDeco ? <p>{`************${lastFourDeco}`}</p> : null}
+      {console.log('expirationDate', expirationDate)}
       {expirationDate ? (
         <p>
           {formatDate({
@@ -162,6 +164,7 @@ const chooseRadioType = (country) => {
 )
 @injectIntl
 @observer
+@seoHoc('Checkout page')
 class Payment extends React.Component {
   constructor(props) {
     super(props);
@@ -183,11 +186,6 @@ class Payment extends React.Component {
       adyenAction: {},
       promotionCode: this.props.checkoutStore.promotionCode || '',
       billingChecked: true,
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       deliveryAddress: {
         firstName: '',
         lastName: '',
@@ -445,6 +443,12 @@ class Payment extends React.Component {
       sessionItemRoyal.set('oldAppointNo', funcUrl({ name: 'oldAppointNo' }));
       sessionItemRoyal.set('isChangeAppoint', true);
     }
+    if (funcUrl({ name: 'gusetInfo' })) {
+      sessionItemRoyal.set(
+        'gusetInfo',
+        base64.decode(funcUrl({ name: 'gusetInfo' }))
+      );
+    }
     if (appointNo) {
       let felinAddress = this.isLogin
         ? Object.assign(felinAddr[0], {
@@ -495,13 +499,6 @@ class Payment extends React.Component {
 
     try {
       const { tid, appointNo } = this.state;
-
-      setSeoConfig({
-        pageName: 'Checkout page'
-      }).then((res) => {
-        this.setState({ seoConfig: res });
-      });
-
       if (tid) {
         this.queryOrderDetails();
       }
@@ -1156,7 +1153,10 @@ class Payment extends React.Component {
   //获取appointment信息
   async queryAppointInfo() {
     try {
-      const result = await getAppointmentInfo(this.state.appointNo);
+      const result = await getAppointmentInfo(
+        this.state.appointNo,
+        this.isLogin
+      );
       console.log('appointmentInfo', result);
       const requestName = this.isLogin ? getLoginDetails : getDetails;
       const goodInfoRes = await requestName(result?.goodsInfoId);
@@ -1182,19 +1182,21 @@ class Payment extends React.Component {
       await this.props.checkoutStore.updatePromotionFiled([goodDetail]);
       this.handleZeroOrder();
       if (!this.isLogin) {
+        const guestInfo = JSON.parse(sessionItemRoyal.get('gusetInfo'));
         const felinAddress = Object.assign(felinAddr[0], {
-          firstName: result?.consumerFirstName || '',
-          lastName: result?.consumerLastName || '',
+          firstName: result?.consumerFirstName || guestInfo.firstName || '',
+          lastName: result?.consumerLastName || guestInfo.lastName || '',
           consigneeName:
             result?.consumerName ||
             result?.consumerFirstName + ' ' + result?.consumerLastName ||
+            guestInfo.firstName + ' ' + guestInfo.lastName ||
             '',
-          consigneeNumber: result?.consumerPhone || ''
+          consigneeNumber: result?.consumerPhone || guestInfo.phone || ''
         });
         this.setState({
           deliveryAddress: felinAddress,
           billingAddress: felinAddress,
-          guestEmail: result?.consumerEmail
+          guestEmail: result?.consumerEmail || guestInfo.email
         });
       }
       this.setState({
@@ -1886,6 +1888,7 @@ class Payment extends React.Component {
         localItemRoyal.remove('rc-calculation-param');
         sessionItemRoyal.remove('rc-clicked-surveyId');
         sessionItemRoyal.remove('goodWillFlag');
+        sessionItemRoyal.remove('gusetInfo');
         //支付成功清除推荐者信息
         this.props.clinicStore.removeLinkClinicInfo();
         this.props.clinicStore.removeLinkClinicRecommendationInfos();
@@ -2127,9 +2130,6 @@ class Payment extends React.Component {
       {},
       deliveryAddress,
       {
-        contractNumber: deliveryAddress?.calculation?.contractNumber,
-        courier: deliveryAddress?.calculation?.courier,
-        courierCode: deliveryAddress?.calculation?.courierCode,
         zipcode: deliveryAddress?.postCode,
         phone: creditCardInfo?.phoneNumber,
         email:
@@ -2183,9 +2183,15 @@ class Payment extends React.Component {
       deliveryAddress?.receiveType == ''
     ) {
       param.deliverWay = 1;
+      param.contractNumber = deliveryAddress?.calculation?.contractNumber;
+      param.courier = deliveryAddress?.calculation?.courier;
+      param.courierCode = deliveryAddress?.calculation?.courierCode;
     }
     if (deliveryAddress?.receiveType == 'PICK_UP') {
       param.deliverWay = 2;
+      param.contractNumber = deliveryAddress?.pickup?.contractNumber;
+      param.courier = deliveryAddress?.pickup?.courier;
+      param.courierCode = deliveryAddress?.pickup?.courierCode;
     }
 
     if (payosdata) {
@@ -4031,7 +4037,8 @@ class Payment extends React.Component {
     if (
       this.isSkipPaymentPanel &&
       window.__.env.REACT_APP_COUNTRY !== 'us' &&
-      this.isCurrentBuyWaySubscription
+      this.isCurrentBuyWaySubscription &&
+      !sessionItemRoyal.get('appointment-no')
     ) {
       const errMsg = intl.messages['checkout.zeroOrder.butSubscription'];
       this.showErrorMsg(errMsg);
@@ -4148,12 +4155,6 @@ class Payment extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
           {...this.props}

@@ -219,6 +219,7 @@ const FelinRecommendation = loadable(() =>
   import('@/views/FelinRecommendation')
 );
 const Adoptions = loadable(() => import('@/views/Adoptions'));
+const SmartCollar = loadable(() => import('@/views/SmartCollar'));
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -617,6 +618,7 @@ const App = () => {
                   exact
                   component={ProductReviewService}
                 />
+                <Route path="/SmartCollar" exact component={SmartCollar} />
                 <Route path="/required" exact component={RegisterRequired} />
 
                 <Route
@@ -891,9 +893,7 @@ const App = () => {
                           />
                         );
                       } else {
-                        return (
-                          <Details key={props.match.params.id} {...props} />
-                        );
+                        return <Details key={props.location.key} {...props} />;
                       }
                     } else {
                       console.log('没匹配pdp路由');

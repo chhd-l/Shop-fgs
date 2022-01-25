@@ -1,7 +1,7 @@
 import React from 'react';
 import Skeleton from 'react-skeleton-loader';
 import { getReturnDetails } from '@/api/order';
-import { formatMoney, setSeoConfig } from '@/utils/utils';
+import { formatMoney } from '@/utils/utils';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -10,18 +10,15 @@ import SideMenu from '@/components/SideMenu';
 import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
+import { seoHoc } from '@/framework/common';
 
 const pageLink = window.location.href;
 
+@seoHoc()
 export default class OrdersAfterSaleDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       returnNumber: '',
       details: null,
       loading: true
@@ -34,9 +31,6 @@ export default class OrdersAfterSaleDetail extends React.Component {
       },
       () => this.queryReturnDetails()
     );
-    setSeoConfig().then((res) => {
-      this.setState({ seoConfig: res });
-    });
   }
   queryReturnDetails() {
     getReturnDetails(this.state.returnNumber).then((res) => {
@@ -63,12 +57,6 @@ export default class OrdersAfterSaleDetail extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">

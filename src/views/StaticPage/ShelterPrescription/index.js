@@ -12,7 +12,7 @@ import { funcUrl } from '@/lib/url-utils';
 import './index.less';
 import ProductCarousel from '@/components/ProductCarousel';
 import Help from '../../SmartFeederSubscription/modules/Help';
-import { setSeoConfig } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import { Helmet } from 'react-helmet';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const pageLink = window.location.href;
@@ -20,6 +20,7 @@ const pageLink = window.location.href;
 @inject('clinicStore')
 @injectIntl
 @observer
+@seoHoc('Shelter landing page')
 class ShelterPrescription extends React.Component {
   constructor(props) {
     super(props);
@@ -29,34 +30,24 @@ class ShelterPrescription extends React.Component {
           goodsImg: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/${ele.goodsImg}`
         })
       ),
-      defalutList: Array(8).fill({}),
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      }
+      defalutList: Array(8).fill({})
     };
     this.helpContentText = {
       title: this.props.intl.messages['recommendation.helpContentText.title'],
       des: this.props.intl.messages['recommendation.helpContentText.des'],
-      emailTitle: this.props.intl.messages[
-        'recommendation.helpContentText.emailTitle'
-      ],
-      emailDes: this.props.intl.messages[
-        'recommendation.helpContentText.emailDes'
-      ],
-      emailLink: this.props.intl.messages[
-        'recommendation.helpContentText.emailLink'
-      ],
-      phoneTitle: this.props.intl.messages[
-        'recommendation.helpContentText.phoneTitle'
-      ],
+      emailTitle:
+        this.props.intl.messages['recommendation.helpContentText.emailTitle'],
+      emailDes:
+        this.props.intl.messages['recommendation.helpContentText.emailDes'],
+      emailLink:
+        this.props.intl.messages['recommendation.helpContentText.emailLink'],
+      phoneTitle:
+        this.props.intl.messages['recommendation.helpContentText.phoneTitle'],
       phone: this.props.intl.messages['recommendation.helpContentText.phone'],
       email: this.props.intl.messages['recommendation.helpContentText.email'],
       phoneDes1: `<strong>${this.props.intl.messages['recommendation.helpContentText.phoneDes1']}</strong>`,
-      phoneDes2: this.props.intl.messages[
-        'recommendation.helpContentText.phoneDes2'
-      ]
+      phoneDes2:
+        this.props.intl.messages['recommendation.helpContentText.phoneDes2']
       // title: "We're Here to Help",
       // emailLink: '/help/contact',
       // des:
@@ -78,11 +69,6 @@ class ShelterPrescription extends React.Component {
   };
   componentDidMount() {
     const { clinicStore } = this.props;
-    setSeoConfig({
-      pageName: 'Shelter landing page'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
 
     const clinicId = funcUrl({ name: 'shelterID' });
     clinicStore.setLinkClinicId(clinicId);
@@ -91,17 +77,10 @@ class ShelterPrescription extends React.Component {
     clinicStore.setAuditAuthority(false);
   }
   render() {
-    const { match, history, location } = this.props;
     return (
       <div className="shelter-prescription">
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">

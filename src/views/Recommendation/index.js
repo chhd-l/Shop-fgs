@@ -23,9 +23,9 @@ import ImageMagnifier from '@/components/ImageMagnifier';
 import {
   formatMoney,
   getDeviceType,
-  setSeoConfig,
   distributeLinktoPrecriberOrPaymentPage
 } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 // import paymentImg from "./img/payment.jpg";
 import { inject, observer } from 'mobx-react';
 import { getRecommendationList } from '@/api/recommendation';
@@ -57,6 +57,7 @@ const pageLink = window.location.href;
 )
 @injectIntl
 @observer
+@seoHoc('SPT reco landing page')
 class Help extends React.Component {
   constructor(props) {
     super(props);
@@ -71,11 +72,6 @@ class Help extends React.Component {
         goodsCategory: '',
         goodsSpecDetails: [],
         goodsSpecs: []
-      },
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
       },
       productList: [],
       currentDetail: {},
@@ -111,12 +107,7 @@ class Help extends React.Component {
   }
 
   componentWillUnmount() {}
-  async componentDidMount() {
-    setSeoConfig({
-      pageName: 'SPT reco landing page'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
+  componentDidMount() {
     this.setState({
       loading: true
     });
@@ -549,12 +540,6 @@ class Help extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <Modal

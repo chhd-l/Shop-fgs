@@ -2,9 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import image from '@/assets/images/500.png';
-import logo from '@/assets/images/logo--animated.png';
-import { setSeoConfig } from '@/utils/utils';
-import LazyLoad from 'react-lazyload';
+import { seoHoc } from '@/framework/common';
 import { Helmet } from 'react-helmet';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -12,7 +10,7 @@ import BannerTip from '@/components/BannerTip';
 import paw from './images/paw.png';
 import cat_wellbeing from './images/cat_wellbeing.png';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
-import { getDeviceType } from '../../utils/utils';
+import { getDeviceType } from '@/utils/utils';
 import goldenfood from '../ClubLandingPageNew/image/goldenfood.png';
 import '../ClubLandingPageNew/index.css';
 import './index.less';
@@ -22,7 +20,6 @@ import HelpComponents from './Components/HelpComponents';
 import LongBanner from './Components/LongBanner';
 
 import AboutPet from './aboutPet';
-import Loading from '@/components/Loading';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
@@ -49,6 +46,7 @@ const event = {
   }
 };
 
+@seoHoc('preciseCatNutrition')
 class PreciseCatNutrition extends React.Component {
   constructor(props) {
     super(props);
@@ -56,19 +54,8 @@ class PreciseCatNutrition extends React.Component {
       categoryList: [],
       loading: true,
       categoryLoading: true,
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       searchEvent: {}
     };
-  }
-
-  componentDidMount() {
-    setSeoConfig({ pageName: 'preciseCatNutrition' }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
   }
 
   componentWillUnmount() {}
@@ -88,20 +75,12 @@ class PreciseCatNutrition extends React.Component {
   };
 
   render() {
-    const { history, match, location } = this.props;
-
     return (
       <>
         <div>
           <Helmet>
             <link rel="canonical" href={pageLink} />
-            <title>{this.state.seoConfig.title}</title>
-            <meta
-              name="description"
-              content={this.state.seoConfig.metaDescription}
-            />
             <meta name="robots" content="noindex" />
-            <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
           </Helmet>
           <GoogleTagManager
             additionalEvents={event}

@@ -27,9 +27,10 @@ const SubscriptionSelection = function (props) {
               marginTop: '5px'
             }}
           >
-            <span className="iconfont red mr-2" style={{ fontSize: '1.2em' }}>
-              &#xe675;
-            </span>
+            <span
+              className="iconfont iconrefresh red mr-2"
+              style={{ fontSize: '1.2em' }}
+            />
             {isGift ? (
               'Food Dispenser Subscription'
             ) : (

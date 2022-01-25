@@ -57,9 +57,7 @@ class SubscriptionLanding extends React.Component {
                       <div className="rc-max-width--md text-center rc-margin-y--md rc-padding-x--sm">
                         <h2 className="rc-beta text-center">
                           {/*IT’S MORE THAN FREE DELIVERY*/}
-                          <FormattedMessage
-                            id="SubscriptionLanding.MainTitle"
-                          />
+                          <FormattedMessage id="SubscriptionLanding.MainTitle" />
                         </h2>
                         <div className="rc-intro inherit-fontsize children-nomargin">
                           <p>
@@ -70,9 +68,7 @@ class SubscriptionLanding extends React.Component {
                             {/*Joining is easy — sign up for automatic shipping on*/}
                             {/*your pet’s tailored formulas to become a member*/}
                             {/*today.*/}
-                            <FormattedMessage
-                              id="SubscriptionLanding.MainText1"
-                            />
+                            <FormattedMessage id="SubscriptionLanding.MainText1" />
                             <br />
                             <br />
                           </p>
@@ -80,11 +76,11 @@ class SubscriptionLanding extends React.Component {
                             <FormattedMessage
                               id="SubscriptionLanding.MainText2"
                               values={{
-                                val1:<strong>
-                                  <FormattedMessage
-                                    id="free"
-                                  />
-                                </strong>
+                                val1: (
+                                  <strong>
+                                    <FormattedMessage id="free" />
+                                  </strong>
+                                )
                               }}
                             />
                             {/*Your <strong>free</strong> membership includes:*/}
@@ -96,17 +92,13 @@ class SubscriptionLanding extends React.Component {
                           <Link to="/cats">
                             <button className="rc-btn rc-btn--one rc-margin-right--xs mb-2 md:mb-0">
                               {/*Shop Cat Formulas*/}
-                              <FormattedMessage
-                                id="SubscriptionLanding.catFormulas"
-                              />
+                              <FormattedMessage id="SubscriptionLanding.catFormulas" />
                             </button>
                           </Link>
                           <Link to="/dogs">
                             <button className="rc-btn rc-btn--one mb-2 md:mb-0">
                               {/*Shop Dog Formulas*/}
-                              <FormattedMessage
-                                id="SubscriptionLanding.dogFormulas"
-                              />
+                              <FormattedMessage id="SubscriptionLanding.dogFormulas" />
                             </button>
                           </Link>
                         </div>
@@ -120,66 +112,50 @@ class SubscriptionLanding extends React.Component {
                                 <em className="wof rc-margin-right--xs"></em>
                                 <strong>
                                   {/*Expert Guidance*/}
-                                  <FormattedMessage
-                                    id="SubscriptionLanding.listTitle1"
-                                  />
+                                  <FormattedMessage id="SubscriptionLanding.listTitle1" />
                                 </strong>
                                 {/*- Receive*/}
                                 {/*nutritional recommendations on Royal Canin food*/}
                                 {/*and products as your pet grows*/}
-                                <FormattedMessage
-                                  id="SubscriptionLanding.listText1"
-                                />
+                                <FormattedMessage id="SubscriptionLanding.listText1" />
                               </li>
                               <li className="rc-list__item">
                                 <em className="wof rc-margin-right--xs"></em>
                                 <strong>
                                   {/*Special Savings*/}
-                                  <FormattedMessage
-                                    id="SubscriptionLanding.listTitle2"
-                                  />
+                                  <FormattedMessage id="SubscriptionLanding.listTitle2" />
                                 </strong>
                                 {/*- Save 30% off*/}
                                 {/*your first purchase through Royal Canin Club,*/}
                                 {/*and 5% off every autoship order. Plus, free*/}
                                 {/*shipping –– with no minimum purchase*/}
-                                <FormattedMessage
-                                  id="SubscriptionLanding.listText2"
-                                />
+                                <FormattedMessage id="SubscriptionLanding.listText2" />
                               </li>
                               <li className="rc-list__item">
                                 <em className="wof rc-margin-right--xs"></em>
                                 <strong>
                                   {/*Royal Canin Advisor*/}
-                                  <FormattedMessage
-                                    id="SubscriptionLanding.listTitle3"
-                                  />
+                                  <FormattedMessage id="SubscriptionLanding.listTitle3" />
                                 </strong>
                                 {/*- Like a*/}
                                 {/*coach for everything related to your pet’s*/}
                                 {/*nutrition, your Royal Canin Advisor can help*/}
                                 {/*with diet recommendations and expert feeding*/}
                                 {/*advice, updates on products, and more*/}
-                                <FormattedMessage
-                                  id="SubscriptionLanding.listText3"
-                                />
+                                <FormattedMessage id="SubscriptionLanding.listText3" />
                               </li>
                             </ul>
                             <div className="d-none d-md-block rc-btn-group m-0 rc-column rc-padding-x--none">
                               <Link to="/cats">
                                 <button className="rc-btn rc-btn--one rc-margin-right--xs">
                                   {/*Shop Cat Formulas*/}
-                                  <FormattedMessage
-                                    id="SubscriptionLanding.catFormulas"
-                                  />
+                                  <FormattedMessage id="SubscriptionLanding.catFormulas" />
                                 </button>
                               </Link>
                               <Link to="/dogs">
                                 <button className="rc-btn rc-btn--one">
                                   {/*Shop Dog Formulas*/}
-                                  <FormattedMessage
-                                    id="SubscriptionLanding.dogFormulas"
-                                  />
+                                  <FormattedMessage id="SubscriptionLanding.dogFormulas" />
                                 </button>
                               </Link>
                             </div>
@@ -218,9 +194,7 @@ class SubscriptionLanding extends React.Component {
                       <div className="rc-max-width--md text-center rc-margin-y--md rc-padding-x--sm">
                         <h2 className="rc-beta text-center">
                           {/*How to Join Royal Canin Club*/}
-                          <FormattedMessage
-                            id="SubscriptionLanding.howToJoinTitle"
-                          />
+                          <FormattedMessage id="SubscriptionLanding.howToJoinTitle" />
                         </h2>
                       </div>
                       <div className="row text-center">
@@ -234,9 +208,7 @@ class SubscriptionLanding extends React.Component {
                             <p>
                               {/*Add expert-recommended pet food and products to*/}
                               {/*your cart*/}
-                              <FormattedMessage
-                                id="SubscriptionLanding.howToJoinText1"
-                              />
+                              <FormattedMessage id="SubscriptionLanding.howToJoinText1" />
                             </p>
                           </div>
                         </div>
@@ -250,9 +222,7 @@ class SubscriptionLanding extends React.Component {
                             <p>
                               {/*Select automatic shipping and input your payment*/}
                               {/*method.*/}
-                              <FormattedMessage
-                                id="SubscriptionLanding.howToJoinText2"
-                              />
+                              <FormattedMessage id="SubscriptionLanding.howToJoinText2" />
                             </p>
                           </div>
                         </div>
@@ -266,9 +236,7 @@ class SubscriptionLanding extends React.Component {
                             <p>
                               {/*Receive your autoship purchase based on your*/}
                               {/*schedule––change or cancel at any time*/}
-                              <FormattedMessage
-                                id="SubscriptionLanding.howToJoinText3"
-                              />
+                              <FormattedMessage id="SubscriptionLanding.howToJoinText3" />
                             </p>
                           </div>
                         </div>
@@ -282,9 +250,7 @@ class SubscriptionLanding extends React.Component {
                             <p>
                               {/*Get your exclusive Royal Canin Club perks,*/}
                               {/*including access to a Royal Canin Advisor*/}
-                              <FormattedMessage
-                                id="SubscriptionLanding.howToJoinText4"
-                              />
+                              <FormattedMessage id="SubscriptionLanding.howToJoinText4" />
                             </p>
                           </div>
                         </div>
@@ -316,26 +282,20 @@ class SubscriptionLanding extends React.Component {
                               to="/cats/"
                             >
                               {/*Cat*/}
-                              <FormattedMessage
-                                id="SubscriptionLanding.cat"
-                              />
+                              <FormattedMessage id="SubscriptionLanding.cat" />
                             </Link>
                           </div>
                         </div>
                         <div className="col-12 col-md-4 m-auto rc-padding-x--sm rc-padding-x--lg--mobile rc-padding-top--lg--mobile order-0 md:order-1">
                           <div className="rc-gamma rc-text--center">
                             {/*Get Started*/}
-                            <FormattedMessage
-                              id="SubscriptionLanding.getStarted"
-                            />
+                            <FormattedMessage id="SubscriptionLanding.getStarted" />
                           </div>
                           <div className="rc-intro inherit-fontsize rc-text--center">
                             <p>
                               {/*Find your pet’s precise formula, and be sure to*/}
                               {/*choose automatic shipping at checkout.*/}
-                              <FormattedMessage
-                                id="SubscriptionLanding.getStartedText"
-                              />
+                              <FormattedMessage id="SubscriptionLanding.getStartedText" />
                             </p>
                           </div>
                           <div className="rc-btn-group rc-margin--none rc-padding-x--xs d-none d-md-flex">
@@ -344,18 +304,14 @@ class SubscriptionLanding extends React.Component {
                               to="/cats/"
                             >
                               {/*Cat*/}
-                              <FormattedMessage
-                                id="SubscriptionLanding.cat"
-                              />
+                              <FormattedMessage id="SubscriptionLanding.cat" />
                             </Link>
                             <Link
                               className="rc-btn rc-btn--sm rc-btn--two"
                               to="/dogs/"
                             >
                               {/*Dog*/}
-                              <FormattedMessage
-                                id="SubscriptionLanding.dog"
-                              />
+                              <FormattedMessage id="SubscriptionLanding.dog" />
                             </Link>
                           </div>
                         </div>
@@ -372,9 +328,7 @@ class SubscriptionLanding extends React.Component {
                               to="/dogs/"
                             >
                               {/*Dog*/}
-                              <FormattedMessage
-                                id="SubscriptionLanding.dog"
-                              />
+                              <FormattedMessage id="SubscriptionLanding.dog" />
                             </Link>
                           </div>
                         </div>
@@ -393,9 +347,7 @@ class SubscriptionLanding extends React.Component {
                   <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile contact_options">
                     <h2 className="rc-beta text-center">
                       {/*Need help?*/}
-                      <FormattedMessage
-                        id="SubscriptionLanding.helpTitle"
-                      />
+                      <FormattedMessage id="SubscriptionLanding.helpTitle" />
                     </h2>
                     <div className="rc-intro inherit-fontsize text-center contact_options__subheading">
                       <p>
@@ -403,9 +355,7 @@ class SubscriptionLanding extends React.Component {
                           {/*As true pet lovers and experts in tailored nutrition,*/}
                           {/*we're here to help you give your pet the healthiest*/}
                           {/*life possible.*/}
-                          <FormattedMessage
-                            id="SubscriptionLanding.helpText"
-                          />
+                          <FormattedMessage id="SubscriptionLanding.helpText" />
                         </span>
                       </p>
                     </div>
@@ -418,9 +368,7 @@ class SubscriptionLanding extends React.Component {
                                 <div className="w-100">
                                   <b style={{ color: '#00A4A6' }}>
                                     {/*Call us*/}
-                                    <FormattedMessage
-                                      id="SubscriptionLanding.helpListTitle1"
-                                    />
+                                    <FormattedMessage id="SubscriptionLanding.helpListTitle1" />
                                   </b>
                                   <p>
                                     <span
@@ -428,9 +376,7 @@ class SubscriptionLanding extends React.Component {
                                     >
                                       {/*Monday through Friday from 8:00 a.m. to*/}
                                       {/*4:30 p.m. CT.*/}
-                                      <FormattedMessage
-                                        id="SubscriptionLanding.helpListText1"
-                                      />
+                                      <FormattedMessage id="SubscriptionLanding.helpListText1" />
                                     </span>
                                   </p>
                                   <div className="rc-margin-top--xs">
@@ -440,9 +386,7 @@ class SubscriptionLanding extends React.Component {
                                       className="rc-numeric nowrap"
                                     >
                                       {/*1-844-673-3772*/}
-                                      <FormattedMessage
-                                        id="SubscriptionLanding.helpListText12"
-                                      />
+                                      <FormattedMessage id="SubscriptionLanding.helpListText12" />
                                     </a>
                                   </div>
                                 </div>
@@ -468,18 +412,14 @@ class SubscriptionLanding extends React.Component {
                                 <div className="w-100">
                                   <b style={{ color: '#0087BD' }}>
                                     {/*Email Us*/}
-                                    <FormattedMessage
-                                      id="SubscriptionLanding.helpListTitle2"
-                                    />
+                                    <FormattedMessage id="SubscriptionLanding.helpListTitle2" />
                                   </b>
                                   <p>
                                     <span
                                       style={{ color: 'rgb(102, 102, 102)' }}
                                     >
                                       {/*We will respond as soon as possible.*/}
-                                      <FormattedMessage
-                                        id="SubscriptionLanding.helpListText2"
-                                      />
+                                      <FormattedMessage id="SubscriptionLanding.helpListText2" />
                                     </span>
                                   </p>
                                   <div className="rc-margin-top--xs">
@@ -489,9 +429,7 @@ class SubscriptionLanding extends React.Component {
                                       className="rc-numeric nowrap"
                                     >
                                       {/*Send us an Email*/}
-                                      <FormattedMessage
-                                        id="SubscriptionLanding.helpListText22"
-                                      />
+                                      <FormattedMessage id="SubscriptionLanding.helpListText22" />
                                     </Link>
                                   </div>
                                 </div>
@@ -517,9 +455,7 @@ class SubscriptionLanding extends React.Component {
                                 <div className="w-100">
                                   <strong>
                                     {/*Have a question?*/}
-                                    <FormattedMessage
-                                      id="SubscriptionLanding.helpListTitle3"
-                                    />
+                                    <FormattedMessage id="SubscriptionLanding.helpListTitle3" />
                                   </strong>
                                   <p>
                                     <span
@@ -544,18 +480,14 @@ class SubscriptionLanding extends React.Component {
                                       }}
                                     >
                                       {/*FAQs*/}
-                                      <FormattedMessage
-                                        id="SubscriptionLanding.FAQs"
-                                      />
+                                      <FormattedMessage id="SubscriptionLanding.FAQs" />
                                       {Boolean(
                                         window.__.env
                                           .REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                                       ) && (
                                         <span className="warning_blank">
                                           {/*Opens a new window*/}
-                                          <FormattedMessage
-                                            id="SubscriptionLanding.helpListText32"
-                                          />
+                                          <FormattedMessage id="SubscriptionLanding.helpListText32" />
                                         </span>
                                       )}
                                     </Link>

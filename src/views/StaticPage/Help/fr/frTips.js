@@ -1,41 +1,17 @@
 import React, { Component } from 'react';
-import { setSeoConfig } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 
 const pageLink = window.location.href;
 
+@seoHoc('Contact Us Page')
 class FrTips extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      }
-    };
-  }
-  componentDidMount() {
-    setSeoConfig({
-      goodsId: '',
-      categoryId: '',
-      pageName: 'Contact Us Page'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
-  }
   render() {
     return (
       <div>
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
           <div className="rc-layout-container rc-three-column rc-match-heights text-center md:text-left">

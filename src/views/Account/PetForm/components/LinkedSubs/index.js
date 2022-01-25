@@ -88,7 +88,7 @@ const LinkedSubs = (props) => {
                   }}
                   key={i}
                 >
-                  <div className="col-4 col-md-4 d-flex flex-wrap">
+                  <div className="col-12 col-md-4 d-flex flex-wrap">
                     <div style={{ marginLeft: '1.25rem' }}>
                       <LazyLoad>
                         <img
@@ -133,7 +133,7 @@ const LinkedSubs = (props) => {
                       </span>
                     </div>
                   </div>
-                  <div className="col-4 col-md-2 text-nowrap">
+                  <div className="col-12 col-md-2 text-nowrap">
                     <LazyLoad>
                       <img
                         src={getClubLogo({
@@ -179,10 +179,10 @@ const LinkedSubs = (props) => {
                       </p>
                     </span>
                   </div>
-                  <div className="col-4 col-md-2"></div>
-                  <div className="col-4 col-md-2"></div>
+                  <div className="col-12 col-md-2"></div>
+                  <div className="col-12 col-md-2"></div>
                   <div
-                    className="col-4 col-md-2"
+                    className="col-12 col-md-2"
                     style={{ textAlign: 'center' }}
                   >
                     {!subItem.petsId ? (

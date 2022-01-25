@@ -10,7 +10,7 @@ import findIndex from 'lodash/findIndex';
 import stores from '@/store';
 import { toJS } from 'mobx';
 import { registerLocale } from 'react-datepicker';
-import { getAppointDetail } from '@/api/appointment';
+import { getAppointDetail, getMemberAppointDetail } from '@/api/appointment';
 import cloneDeep from 'lodash/cloneDeep';
 import { sitePurchase } from '@/api/cart';
 import Club_Logo from '@/assets/images/Logo_club.png';
@@ -54,17 +54,6 @@ export function formatMoney(val) {
         currency: CURRENCY
       }).format(val);
       return tmpRet.replace(/kr/g, CURRENCY);
-  }
-  if (COUNTRY === 'tr') {
-    return val + ' TL';
-  }
-  if (COUNTRY === 'ru') {
-    val = parseInt(Math.round(val));
-    return new Intl.NumberFormat(NAVIGATOR_LANG, {
-      style: 'currency',
-      currency: CURRENCY,
-      maximumSignificantDigits: length
-    }).format(val);
   }
 
   return new Intl.NumberFormat(NAVIGATOR_LANG, {
@@ -212,13 +201,19 @@ export async function getDictionary({ type, name = '' }) {
   if (sessionItemRoyal.get(tmpKey)) {
     ret = JSON.parse(sessionItemRoyal.get(tmpKey));
   } else {
-    let res = await getDict({
-      delFlag: 0,
-      storeId: window.__.env.REACT_APP_STOREID,
-      type,
-      name
-    });
-    const sysDictionaryVOS = res.context.sysDictionaryVOS;
+    let sysDictionaryVOS = [];
+    if (type === 'appointment_type' || type === 'expert_type') {
+      let res = await getAppointDict({ type });
+      sysDictionaryVOS = res?.context?.goodsDictionaryVOS || [];
+    } else {
+      let res = await getDict({
+        delFlag: 0,
+        storeId: window.__.env.REACT_APP_STOREID,
+        type,
+        name
+      });
+      sysDictionaryVOS = res?.context?.sysDictionaryVOS || [];
+    }
     sessionItemRoyal.set(tmpKey, JSON.stringify(sysDictionaryVOS));
     ret = sysDictionaryVOS;
   }
@@ -292,7 +287,8 @@ export function loadJS({
   code,
   className,
   type,
-  id
+  id,
+  ...rest
 }) {
   var script = document.createElement('script');
 
@@ -304,7 +300,12 @@ export function loadJS({
   if (id) {
     script.id = id;
   }
-
+  if (rest) {
+    //添加js其他属性
+    for (let key in rest) {
+      script[key] = rest[key];
+    }
+  }
   if (dataSets) {
     for (let key in dataSets) {
       script.dataset[key] = dataSets[key];
@@ -752,7 +753,6 @@ function getDatePickerConfig() {
       locale_module: curLocaleModule
     }
   );
-  console.log('datePickerConfig:', datePickerConfig);
   return datePickerConfig;
 }
 let datePickerConfig = getDatePickerConfig();
@@ -903,22 +903,6 @@ export const getRation = async (params) => {
   return res;
 };
 
-/**
- * isDuringDate(判断时间是否处于某个时间段内)
- * @param    date   [date:Date] [需要比较的时间]
- * @param    beginDateStr   [beginDateStr: String] [开始时间]
- * @param   endDateStr [endDateStr: String] [结束时间]
- * @return Boolean
- */
-export const isDuringDate = (date, beginDateStr, endDateStr) => {
-  let beginDate = new Date(beginDateStr),
-    endDate = new Date(endDateStr);
-  if (date >= beginDate && date <= endDate) {
-    return true;
-  }
-  return false;
-};
-
 //延时函数
 export const sleep = (time) => {
   return new Promise((resolve) => {
@@ -1012,36 +996,43 @@ export async function getAddressPostalCodeAlertMessage() {
   });
 }
 
-//根据预约单号获取预约信息
-export async function getAppointmentInfo(appointNo) {
-  const res = await getAppointDetail({ apptNo: appointNo });
-  let resContext = res?.context?.settingVO;
+//处理预约信息里面的预约类型和专家类型
+export async function handleAppointmentDict(appointmentInfo) {
   let appointDictRes = await Promise.all([
-    getAppointDict({
+    getDictionary({
       type: 'appointment_type'
     }),
-    getAppointDict({
+    getDictionary({
       type: 'expert_type'
     })
   ]);
-  // appointDictRes=flatten(appointDictRes)
-  console.log('appointDictRes', appointDictRes);
-  const appointmentDictRes = (
-    appointDictRes[0]?.context?.goodsDictionaryVOS || []
-  ).filter((item) => item.id === resContext?.apptTypeId);
-  const expertDictRes = (
-    appointDictRes[1]?.context?.goodsDictionaryVOS || []
-  ).filter((item) => item.id === resContext?.expertTypeId);
+  const appointmentDictRes = appointDictRes[0].filter(
+    (item) => item.id === appointmentInfo?.apptTypeId
+  );
+  const expertDictRes = appointDictRes[1].filter(
+    (item) => item.id === appointmentInfo?.expertTypeId
+  );
   const appointType =
-    appointmentDictRes.length > 0 ? appointmentDictRes[0].name : 'Offline';
-  const expertName =
-    expertDictRes.length > 0 ? expertDictRes[0].name : 'Behaviorist';
+    appointmentDictRes.length > 0 ? appointmentDictRes[0]?.name : '';
+  const expertName = expertDictRes.length > 0 ? expertDictRes[0].name : '';
+  return {
+    appointType,
+    expertName
+  };
+}
+
+//根据预约单号获取预约信息
+export async function getAppointmentInfo(appointNo, isLogin) {
+  const action = getAppointDetail;
+  const res = await action({ apptNo: appointNo });
+  let resContext = res?.context?.settingVO;
+  const dictRes = await handleAppointmentDict(resContext);
   const appointTime = handleFelinAppointTime(resContext?.apptTime);
   return Object.assign(
     resContext,
     {
-      appointType,
-      expertName
+      appointType: dictRes?.appointType,
+      expertName: dictRes?.expertName
     },
     appointTime
   );
@@ -1050,28 +1041,22 @@ export async function getAppointmentInfo(appointNo) {
 //处理预约信息里面的预约时间
 export function handleFelinAppointTime(appointTime) {
   const apptTime = appointTime?.split('#');
-  const appointStartTime =
-    apptTime?.length > 0
-      ? apptTime[0]
-          .split(' ')[0]
-          .replace(/^(\d{4})(\d{2})(\d{2})$/, '$1-$2-$3') +
-        ' ' +
-        apptTime[0].split(' ')[1]
-      : '';
-  const appointEndTime =
-    apptTime?.length > 1
-      ? apptTime[1]
-          .split(' ')[0]
-          .replace(/^(\d{4})(\d{2})(\d{2})$/, '$1-$2-$3') +
-        ' ' +
-        apptTime[1].split(' ')[1]
-      : '';
-  const endTime = appointEndTime
-    ? format(
-        new Date(new Date(appointEndTime).valueOf() - 15 * 60 * 1000),
-        'yyyy-MM-dd HH:mm'
-      )
-    : appointEndTime;
+  let appointStartTime = '';
+  let endTime = '';
+  if (apptTime?.length > 1) {
+    appointStartTime = apptTime[0].replace(
+      /^(\d{4})(\d{2})(\d{2})?/,
+      '$1/$2/$3'
+    );
+    const appointEndTime = apptTime[1].replace(
+      /^(\d{4})(\d{2})(\d{2})?/,
+      '$1/$2/$3'
+    );
+    endTime = format(
+      new Date(new Date(appointEndTime).valueOf() - 15 * 60 * 1000),
+      'yyyy/MM/dd HH:mm'
+    );
+  }
   return {
     appointStartTime,
     appointEndTime: endTime
@@ -1259,6 +1244,7 @@ export function formatDate({
   showMinute = false,
   showYear = true
 }) {
+  let finallyDate = '';
   if (date !== null && date !== undefined && date !== '') {
     let options = {};
     if (formatOption) {
@@ -1278,20 +1264,19 @@ export function formatDate({
           : {}
       );
     }
-
-    console.log('test date:', date);
-    console.log(
-      'test date:',
-      new Intl.DateTimeFormat(
+    try {
+      const newdate =
+        typeof date === 'string'
+          ? date.replace(/-/gi, '/').split('.')[0]
+          : date;
+      finallyDate = new Intl.DateTimeFormat(
         window.__.env.REACT_APP_NAVIGATOR_LANG,
         options
-      ).format(new Date(date))
-    );
-
-    return new Intl.DateTimeFormat(
-      window.__.env.REACT_APP_NAVIGATOR_LANG,
-      options
-    ).format(new Date(date));
+      ).format(new Date(newdate));
+    } catch (err) {
+      finallyDate = date;
+    }
+    return finallyDate;
   }
 }
 

@@ -23,7 +23,6 @@ import { getProductPetConfig } from '@/api/payment';
 import { sitePurchase } from '@/api/cart';
 import Modal from './components/Modal';
 import {
-  setSeoConfig,
   distributeLinktoPrecriberOrPaymentPage,
   getFrequencyDict
 } from '@/utils/utils';
@@ -34,6 +33,7 @@ import {
   GABreederRecoSeeInCart,
   GABigBreederAddToCar
 } from '@/utils/GA';
+import { seoHoc } from '@/framework/common';
 
 const imgUrlPreFix = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
 const isUs = window.__.env.REACT_APP_COUNTRY === 'us';
@@ -60,6 +60,7 @@ const Test = () => {
 @inject('checkoutStore', 'loginStore', 'configStore', 'clinicStore')
 @injectIntl
 @observer
+@seoHoc('SPT reco landing page')
 class Recommendation extends React.Component {
   constructor(props) {
     super(props);
@@ -86,11 +87,6 @@ class Recommendation extends React.Component {
         goodsCategory: '',
         goodsSpecDetails: [],
         goodsSpecs: []
-      },
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
       },
       productList: [],
       currentDetail: {},
@@ -175,11 +171,6 @@ class Recommendation extends React.Component {
     let promotionCode = funcUrl({ name: 'coupon' });
     let promotionCodeText = promotionCode?.toUpperCase() || '';
     let prescription = funcUrl({ name: 'prescription' });
-    setSeoConfig({
-      pageName: 'SPT reco landing page'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
     this.setState({
       isMobile: getDeviceType() === 'H5',
       promotionCodeText,
@@ -1203,12 +1194,6 @@ class Recommendation extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <Modal

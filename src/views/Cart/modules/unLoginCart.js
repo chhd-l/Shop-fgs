@@ -790,10 +790,7 @@ class UnLoginCart extends React.Component {
                   />
                 </LazyLoad>
               </div>
-              <div
-                className="product-info__desc ui-text-overflow-line2 ui-text-overflow-md-line1 relative"
-                style={{ flex: 1 }}
-              >
+              <div className="product-info__desc relative" style={{ flex: 1 }}>
                 <Link
                   className="ui-cursor-pointer rc-margin-top--xs rc-padding-right--sm align-items-md-center flex-column flex-md-row"
                   to={`/${pitem.goodsName

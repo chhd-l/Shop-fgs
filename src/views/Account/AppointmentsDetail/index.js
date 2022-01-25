@@ -13,11 +13,8 @@ import LazyLoad from 'react-lazyload';
 import PageBaseInfo from '@/components/PageBaseInfo';
 import AppointmentInfo from './modules/AppointmentInfo';
 import { getWays } from '@/api/payment';
-import { getAppointDetail, cancelAppointByNo } from '@/api/appointment';
-import { getAppointDict } from '@/api/dict';
-import { formatDate } from '@/utils/utils';
-
-const localItemRoyal = window.__.localItemRoyal;
+import { getMemberAppointDetail, cancelAppointByNo } from '@/api/appointment';
+import { formatDate, handleAppointmentDict } from '@/utils/utils';
 
 function HeadTip(props) {
   return (
@@ -39,7 +36,7 @@ function HeadTip(props) {
   );
 }
 
-@inject('checkoutStore', 'configStore', 'paymentStore')
+@inject('paymentStore')
 @injectIntl
 @observer
 class AccountOrders extends React.Component {
@@ -74,29 +71,15 @@ class AccountOrders extends React.Component {
     const { appointmentNo } = this.state;
     this.setState({ loading: true });
     try {
-      const res = await getAppointDetail({ apptNo: appointmentNo });
+      const res = await getMemberAppointDetail({ apptNo: appointmentNo });
       let resContext = res.context.settingVO;
-      const appointDictRes = await Promise.all([
-        getAppointDict({
-          type: 'appointment_type'
-        }),
-        getAppointDict({
-          type: 'expert_type'
-        })
-      ]);
-      const appointmentType = (
-        appointDictRes[0]?.context?.goodsDictionaryVOS || []
-      ).filter((item) => item.id === resContext?.apptTypeId);
-      const expertType = (
-        appointDictRes[1]?.context?.goodsDictionaryVOS || []
-      ).filter((item) => item.id === resContext?.expertTypeId);
+      const dictRes = await handleAppointmentDict(resContext);
       const details = Object.assign(resContext, {
         canChangeAppoint: resContext.status === 0 && resContext.businessPaid,
         canCancelAppoint: resContext.status === 0,
         cancelAppointLoading: false,
-        appointmentType:
-          appointmentType.length > 0 ? appointmentType[0].name : '',
-        expertType: expertType.length > 0 ? expertType[0].name : '',
+        appointmentType: dictRes?.appointType,
+        expertType: dictRes?.expertName,
         appointmentStatus:
           resContext.status === 0 ? (
             <FormattedMessage id="appointment.status.Booked" />

@@ -185,7 +185,12 @@ class PayProductInfo extends React.Component {
 
   // GA Checkout
   GACheck(productList) {
-    if (!isGACheckoutLock && dataLayer[0] && dataLayer[0].checkout) {
+    if (
+      !isGACheckoutLock &&
+      window?.dataLayer &&
+      dataLayer[0] &&
+      dataLayer[0].checkout
+    ) {
       //防止重复调用
       isGACheckoutLock = true;
       let product = this.isLogin

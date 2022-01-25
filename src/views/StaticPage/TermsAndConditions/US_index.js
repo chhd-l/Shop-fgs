@@ -4,7 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
-import { setSeoConfig } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import BannerTip from '@/components/BannerTip';
 import './index.css';
@@ -12,19 +12,16 @@ import { Helmet } from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
+
 @injectIntl
 @inject('configStore')
 @observer
+@seoHoc('general terms conditions page')
 class TermsConditionsUs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       tel: '',
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       mailAddress: ''
     };
   }
@@ -35,11 +32,6 @@ class TermsConditionsUs extends React.Component {
     const mailAddress = 'mailto:' + this.props.configStore.storeContactEmail;
 
     this.setState({ tel, mailAddress });
-    setSeoConfig({
-      pageName: 'general terms conditions page'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
   }
   render(h) {
     const event = {
@@ -57,12 +49,6 @@ class TermsConditionsUs extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
 

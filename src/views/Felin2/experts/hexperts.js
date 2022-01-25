@@ -545,13 +545,22 @@ class Hcexperts extends React.Component {
     });
     if (code === 'K-000000') {
       await this.queryAppointInfo(this.state.appointmentVO.apptNo);
+      sessionItemRoyal.set(
+        'gusetInfo',
+        JSON.stringify({
+          firstName: params.firstName,
+          lastName: params.lastName,
+          phone: params.phone,
+          email: params.email
+        })
+      );
       this.props.history.push('/checkout');
     }
   };
   queryAppointInfo = async (appointNo) => {
     //不做ga
     return;
-    const result = await getAppointmentInfo(appointNo);
+    const result = await getAppointmentInfo(appointNo, this.isLogin);
     console.log('appointmentInfo', result);
     const requestName = this.isLogin ? getLoginDetails : getDetails;
     const goodInfoRes = await requestName(result?.goodsInfoId);
@@ -896,6 +905,22 @@ class Hcexperts extends React.Component {
             </div>
           </div>
         ) : null}
+        <UpdatModal
+          visible={this.state.visibleUpdate}
+          handleUpdate={this.handleUpdate}
+        >
+          <div
+            style={{
+              textAlign: 'right'
+            }}
+          >
+            <span
+              onClick={this.handleCancelUpdate}
+              className="rc-icon rc-close rc-iconography"
+              style={{ cursor: 'pointer' }}
+            />
+          </div>
+        </UpdatModal>
         {/* 选择综合 */}
         {this.state.twoShow ||
         this.state.threeShow ||
@@ -939,22 +964,6 @@ class Hcexperts extends React.Component {
             ) : null}
           </div>
         ) : null}
-        <UpdatModal
-          visible={this.state.visibleUpdate}
-          handleUpdate={this.handleUpdate}
-        >
-          <div
-            style={{
-              textAlign: 'right'
-            }}
-          >
-            <span
-              onClick={this.handleCancelUpdate}
-              className="rc-icon rc-close rc-iconography"
-              style={{ cursor: 'pointer' }}
-            />
-          </div>
-        </UpdatModal>
         {/*预约时间 Contact us*/}
         <div className="txt-centr" style={{ marginBottom: '3.75rem' }}>
           <MyModal />

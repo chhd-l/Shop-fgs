@@ -7,7 +7,8 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
-import { setSeoConfig, getDeviceType, getOktaCallBackUrl } from '@/utils/utils';
+import { getDeviceType } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import './index.css';
 import Loading from '@/components/Loading';
 import { withOktaAuth } from '@okta/okta-react';
@@ -121,26 +122,17 @@ const FrhowitworksnewListmobile = [
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
+@seoHoc('club subscription landing')
 class ClubLandingPageNew extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       categoryList: [],
       categoryLoading: true,
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       searchEvent: {}
     };
   }
 
-  async componentDidMount() {
-    setSeoConfig({ pageName: 'club subscription landing' }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
-  }
   componentWillUnmount() {}
   sendGAHeaderSearch = (event) => {
     this.setState({
@@ -165,12 +157,6 @@ class ClubLandingPageNew extends React.Component {
       <div>
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <GoogleTagManager
           additionalEvents={event}
