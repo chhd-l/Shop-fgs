@@ -402,7 +402,12 @@ export const GARecommendationProduct = (
   // type: 3=>us shelter; 4=>felin
   const calculatedWeeks = getComputedWeeks(frequencyList);
   const products = productList.map((item) => {
-    const { goods, goodsInfos, goodsAttributesValueRelVOAllList } = item;
+    const {
+      goods,
+      goodsInfos,
+      goodsAttributesValueRelVOAllList,
+      goodsAttributesValueRelList
+    } = item;
     const { minMarketPrice, goodsNo, goodsName, goodsCateName } = goods;
     let price = minMarketPrice;
     let SKU = goodsInfos?.[0]?.goodsInfoNo || '';
@@ -414,7 +419,11 @@ export const GARecommendationProduct = (
     }
     debugger;
     const cateName = goodsCateName?.split('/');
-    const breed = (goodsAttributesValueRelVOAllList || [])
+    const breed = (
+      goodsAttributesValueRelVOAllList ||
+      goodsAttributesValueRelList ||
+      []
+    )
       .filter(
         (attr) =>
           attr.goodsAttributeName &&
