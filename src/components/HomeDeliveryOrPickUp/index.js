@@ -129,10 +129,10 @@ class HomeDeliveryOrPickUp extends React.Component {
         const { pickupForm, selectedItem } = this.state;
         // console.log('666 监听地图点的传值: ', e);
         let obj = e.data.content;
-        pickupForm['pickupPrice'] = obj?.price || [];
-        pickupForm['pickupDescription'] = obj?.description || [];
-        pickupForm['pickupCode'] = obj?.code || [];
-        pickupForm['pickupName'] = obj?.courier || [];
+        pickupForm['pickupPrice'] = obj?.price || '';
+        pickupForm['pickupDescription'] = obj?.description || '';
+        pickupForm['pickupCode'] = obj?.code || '';
+        pickupForm['pickupName'] = obj?.courier || '';
 
         // ★★ 自提点返回支付方式：
         // 1. cod: cash & card，shop展示cod和卡支付
@@ -614,6 +614,21 @@ class HomeDeliveryOrPickUp extends React.Component {
       pkobj['areaIdStr'] = cityData?.areaFias;
       pkobj['cityIdStr'] = cityData?.cityFias;
       pkobj['settlementIdStr'] = cityData?.settlementFias;
+      let filteredTariffs;
+      if (pkobj.receiveType === 'PICK_UP') {
+        filteredTariffs =
+          (sitem.homeAndPickup || []).filter((el) => el.type === 'pickup')[0] ||
+          {};
+      } else {
+        filteredTariffs =
+          (sitem.homeAndPickup || []).filter(
+            (el) => el.type === 'homeDelivery'
+          )[0] || {};
+      }
+      console.log('selectedItem2', filteredTariffs);
+      pkobj.contractNumber = filteredTariffs?.contractNumber;
+      pkobj.courier = filteredTariffs?.courier;
+      pkobj.courierCode = filteredTariffs?.courierCode;
     }
 
     this.setState(

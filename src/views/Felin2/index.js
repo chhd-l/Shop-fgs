@@ -15,6 +15,7 @@ import Slider from 'react-slick';
 import img from './image/img.png';
 import thak from './image/thak.png';
 import cat1 from './image/new.png';
+import header1 from './image/header1.png';
 import LazyLoad from 'react-lazyload';
 import Rate from '../../components/Rate';
 import Reviews from './Reviews/Reviews';
@@ -265,18 +266,12 @@ class Felin extends React.Component {
         <main className="rc-content--fixed-header">
           <div className="header-content">
             <div className="bg-module" />
-            <LazyLoad className="w-100">
-              <img
-                className="pc-block"
-                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/header.jpg`}
-                alt=""
-              />
-              <img
-                className="h-block"
-                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/header1.jpg`}
-                alt=""
-              />
-            </LazyLoad>
+            <img
+              className="pc-block"
+              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/header.jpg`}
+              alt=""
+            />
+            <img className="h-block" src={header1} alt="" />
             <div className="hd-text-cont">
               <div className="introduce fontw-500">
                 L’ Atelier Félin vous accueille à Paris et en ligne pour vous
@@ -296,7 +291,9 @@ class Felin extends React.Component {
                 onClick={this.gotoAddH}
                 className="rc-btn rc-btn--one  rc-margin-bottom--xs h-block"
                 style={{
-                  width: '16.875rem'
+                  width: '9.875rem',
+                  fontSize: '0.75rem',
+                  padding: '0.5rem 0'
                 }}
               >
                 Prendre un rendez-vous
@@ -312,10 +309,10 @@ class Felin extends React.Component {
             </h2>
           </div>
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile felin-mpd0">
-            <div className="rc-max-width--xxl">
+            <div className="rc-max-width--lg">
               <div className="rc-layout-container rc-two-column rc-content-h-middle ">
                 <div className="rc-column felin-mpd0">
-                  <LazyLoad className="w-100">
+                  <LazyLoad className="w-100 h-100">
                     <img
                       className="pc-block time-img"
                       src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/img.jpg`}
@@ -323,7 +320,7 @@ class Felin extends React.Component {
                     />
                     <img
                       className="h-block time-img"
-                      src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/img1.jpg`}
+                      src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/img.jpg`}
                       alt=""
                     />
                   </LazyLoad>
@@ -370,7 +367,7 @@ class Felin extends React.Component {
             </div>
           </div>
           <div className="pc-block rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile felin-mpd0 mb16">
-            <div className="rc-max-width--xxl">
+            <div className="rc-max-width--lg">
               <div className="rc-layout-container rc-two-column rc-content-h-middle ">
                 <div className="rc-column felin-p20">
                   <LazyLoad className="w-100">
@@ -402,7 +399,7 @@ class Felin extends React.Component {
                   </LazyLoad>
                 </div>
                 <div className="rc-column felin-mpd0">
-                  <LazyLoad className="w-100">
+                  <LazyLoad className="w-100 h-100">
                     <img src={cat1} alt="" className="cat-img" />
                   </LazyLoad>
                 </div>
@@ -410,10 +407,10 @@ class Felin extends React.Component {
             </div>
           </div>
           <div className="h-block rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile felin-mpd0">
-            <div className="rc-max-width--xxl">
+            <div className="rc-max-width--lg">
               <div className="rc-layout-container rc-two-column rc-content-h-middle ">
                 <div className="rc-column felin-mpd0">
-                  <LazyLoad className="w-100">
+                  <LazyLoad className="w-100 h-100">
                     <img src={cat1} alt="" className="cat-img" />
                   </LazyLoad>
                 </div>
@@ -524,7 +521,7 @@ class Felin extends React.Component {
           </div>
           <div id="event" className="nos-cont">
             <div className="pc-block rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile felin-mpd0">
-              <div className="rc-max-width--xxl">
+              <div className="rc-max-width--lg">
                 <div className="rc-layout-container rc-two-column rc-content-h-middle ">
                   <div className="rc-column felin-p20">
                     <LazyLoad className="w-100">
@@ -542,7 +539,8 @@ class Felin extends React.Component {
                         <a
                           style={{
                             textDecoration: 'underline',
-                            cursor: 'pointer'
+                            cursor: 'pointer',
+                            fontSize: '1.125rem'
                           }}
                           href="https://www.facebook.com/RoyalCaninFrance/events/?ref=page_internal"
                           target="_blank"
@@ -553,7 +551,7 @@ class Felin extends React.Component {
                     </LazyLoad>
                   </div>
                   <div className="rc-column felin-mpd0">
-                    <LazyLoad className="w-100">
+                    <LazyLoad className="w-100 h-100">
                       <img
                         className="pc-block nos-img-box"
                         src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/nos.jpg`}
@@ -565,10 +563,10 @@ class Felin extends React.Component {
               </div>
             </div>
             <div className="h-block rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile felin-mpd0">
-              <div className="rc-max-width--xxl">
+              <div className="rc-max-width--lg">
                 <div className="rc-layout-container rc-two-column rc-content-h-middle ">
                   <div className="rc-column felin-mpd0">
-                    <LazyLoad className="w-100">
+                    <LazyLoad className="w-100 h-100">
                       <img
                         className="h-block nos-img-box"
                         src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin2/nos1_v2.jpg`}
@@ -618,7 +616,7 @@ class Felin extends React.Component {
               vous guideront pour prendre soin de votre chat. Vous pouvez
               réserver un rendez-vous dans l’atelier ou un appel vidéo.
               <br />
-              Go to next line here Avez-vous des questions?{' '}
+              Avez-vous des questions?{' '}
               <span onClick={this.goto} style={{ cursor: 'pointer' }}>
                 Voir FAQs
               </span>
@@ -754,7 +752,7 @@ class Felin extends React.Component {
                         </a>
                         , passer nous voir au 142 Bd Saint Germain à Paris , ou
                         appelez-nous au{' '}
-                        <b style={{ color: '#e2001a' }}>XnuméroX.</b>
+                        <b style={{ color: '#e2001a' }}>0 800 41 51 61.</b>
                       </p>
                     </div>
                   </div>
@@ -946,10 +944,10 @@ class Felin extends React.Component {
                                   textDecoration: 'underline',
                                   color: 'blue'
                                 }}
-                                href="https://www.royalcanin.com/fr/shop/latelier/felin"
+                                href="https://www.royalcanin.com/fr/shop/felin"
                                 target="_blank"
                               >
-                                https://www.royalcanin.com/fr/shop/latelier/felin
+                                https://www.royalcanin.com/fr/shop/felin
                               </a>
                             </span>
                           ) : (

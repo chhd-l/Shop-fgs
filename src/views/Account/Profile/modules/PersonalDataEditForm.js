@@ -11,6 +11,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import classNames from 'classnames';
 import { withOktaAuth } from '@okta/okta-react';
 import { myAccountActionPushEvent } from '@/utils/GA';
+import { format } from 'date-fns';
 @injectIntl
 @inject('loginStore')
 @observer
@@ -235,14 +236,13 @@ class PersonalDataEditForm extends React.Component {
       this.setState({ loading: true });
       const oktaTokenString = this.props.authState?.accessToken?.value || '';
       let oktaToken = 'Bearer ' + oktaTokenString;
-      console.log('666 >>> this.props.authState: ', this.props.authState);
       let mydata = {
         firstName: form.firstName,
         lastName: form.lastName,
         email: form.email,
         birthDay: form.birthdate
-          ? form.birthdate.split('/').join('-')
-          : form.birthdate,
+          ? format(new Date(form.birthdate), 'yyyy-MM-dd')
+          : '',
         countryId: form.countryId,
         country: form.country,
         county: form?.county,

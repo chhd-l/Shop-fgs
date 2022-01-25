@@ -24,8 +24,13 @@ service.interceptors.request.use((config) => {
     sessionItemRoyal.get('rc-token') || localItemRoyal.get('rc-token');
   if (token) {
     config.headers['Authorization'] = 'Bearer ' + token;
+    config.headers['Session-Key'] = 'Bearer ' + token;
   }
   if (config.method && config.method.toLocaleLowerCase() === 'get') {
+    config.params = {
+      requestId: Math.random(),
+      ...config.params
+    };
     Object.assign(config, {
       paramsSerializer: function (params) {
         return qs.stringify(params, {

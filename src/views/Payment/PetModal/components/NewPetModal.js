@@ -179,10 +179,10 @@ class NewPetModal extends Component {
     console.log(date);
     let { petForm, isShowBirthErorr } = this.state;
     if (date) {
-      petForm['birthday'] = format(date, 'yyyy-MM-dd');
+      petForm['birthday'] = format(new Date(date), 'yyyy-MM-dd');
       isShowBirthErorr = false;
     } else {
-      petForm['birthday'] = format(date, 'yyyy-MM-dd');
+      petForm['birthday'] = format(new Date(date), 'yyyy-MM-dd');
       isShowBirthErorr = true;
     }
     this.setState({ petForm, isShowBirthErorr });

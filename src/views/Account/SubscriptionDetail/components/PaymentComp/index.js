@@ -55,7 +55,7 @@ function CardItem(props) {
             <LazyLoad height={200}>
               <img
                 className="PayCardImgFitScreen"
-                style={{ height: '5rem' }}
+                // style={{ height: '5rem' }}
                 src={getCardImg({
                   supportPaymentMethods,
                   currentVendor: data.paymentVendor
@@ -678,9 +678,11 @@ class PaymentComp extends React.Component {
         }}
         style={{ lineHeight: 0.4 }}
       >
-        <div>
+        <div className="flex items-center">
           <span className="rc-icon rc-plus--xs rc-iconography plus-icon" />
-          <FormattedMessage id="addANewPaymentMethod" />
+          <span>
+            <FormattedMessage id="addANewPaymentMethod" />
+          </span>
         </div>
       </div>
     );
@@ -750,7 +752,7 @@ class PaymentComp extends React.Component {
                       dataLength={creditCardList.length}
                       handleClick={() => {
                         if (creditCardList[idx].selected) return;
-                        // creditCardList.map((el) => (el.selected = false));
+                        creditCardList.map((el) => (el.selected = false));
                         el.selected = true;
                         // this.props.getSelectedValue &&
                         //   this.props.getSelectedValue(el);
@@ -830,7 +832,7 @@ class PaymentComp extends React.Component {
                     />
                   </div>
                 ))}
-                <div className="col-12 col-md-6 p-2 rounded text-center p-2 ui-cursor-pointer">
+                <div className="col-12 col-md-6 rounded text-center p-2 ui-cursor-pointer">
                   {this.addBtnJSX()}
                 </div>
               </div>

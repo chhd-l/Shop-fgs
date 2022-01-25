@@ -52,7 +52,7 @@ export default class DropDownMenu extends React.Component {
   // 埋点submenu和banner
   GAClickMenu(interaction) {
     const { category, action, label, value } = interaction;
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: `${window.__.env.REACT_APP_GTM_SITE_ID}clickMenu`,
       interaction: {
         category,

@@ -6,7 +6,8 @@ import FrequencyMatch from '@/components/FrequencyMatch';
 import {
   formatMoney,
   distributeLinktoPrecriberOrPaymentPage,
-  getDeviceType
+  getDeviceType,
+  optimizeImage
 } from '@/utils/utils';
 import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
@@ -77,7 +78,6 @@ class LoginCart extends React.Component {
       this.setState({ checkoutLoading: true });
       await checkoutStore.updateLoginCart({
         isThrowErr: true,
-        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT),
         intl: this.props.intl
       });
 
@@ -113,7 +113,7 @@ class LoginCart extends React.Component {
     }
 
     this.hubGA &&
-      dataLayer.push({
+      window?.dataLayer?.push({
         event: 'cartHeaderClicks',
         cartHeaderClicks: {
           button: 'Buy now'
@@ -123,7 +123,7 @@ class LoginCart extends React.Component {
 
   EditToCart = () => {
     this.hubGA &&
-      dataLayer.push({
+      window?.dataLayer?.push({
         event: 'cartHeaderClicks',
         cartHeaderClicks: {
           button: 'Edit'
@@ -290,7 +290,7 @@ class LoginCart extends React.Component {
                                 {/* <LazyLoad> */}
                                 <img
                                   className="product-image"
-                                  src={item.goodsInfoImg}
+                                  src={optimizeImage(item.goodsInfoImg)}
                                   alt={item.goodsName}
                                   title={item.goodsName}
                                 />
@@ -412,7 +412,8 @@ class LoginCart extends React.Component {
                                       <img
                                         className="product-image"
                                         src={
-                                          gift.goodsInfoImg || foodDispenserPic
+                                          optimizeImage(gift.goodsInfoImg) ||
+                                          foodDispenserPic
                                         }
                                         alt={gift.goodsInfoName}
                                         title={gift.goodsInfoName}

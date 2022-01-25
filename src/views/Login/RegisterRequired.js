@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
-import logoAnimatedPng from '@/assets/images/logo--animated2.png';
 import './index.css';
 import { findUserConsentList, userBindConsent } from '@/api/consent';
 import Consent from '@/components/Consent';
@@ -13,6 +12,7 @@ import { bindSubmitParam } from '@/utils/utils';
 import Modal from '@/components/Modal';
 import { addEventListenerArr } from './addEventListener';
 import loginRedirection from '@/lib/login-redirection';
+import { LOGO_PRIMARY } from '@/utils/constant';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -47,7 +47,6 @@ class RegisterRequired extends Component {
       isShowRequired: false,
       isLoading: true,
       innerHtml: '',
-      width: '',
       zoom: '',
       fontZoom: '',
       circleLoading: true,
@@ -60,14 +59,12 @@ class RegisterRequired extends Component {
     var windowWidth = document.body.clientWidth;
     if (windowWidth < 640) {
       this.setState({
-        width: '300px',
         zoom: '120%',
         fontZoom: '100%'
       });
     }
     if (windowWidth >= 640) {
       this.setState({
-        width: '500px',
         zoom: '150%',
         fontZoom: '120%'
       });
@@ -93,15 +90,8 @@ class RegisterRequired extends Component {
         this.setState({ list: tempArr });
       }
     });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
@@ -288,13 +278,8 @@ class RegisterRequired extends Component {
 
             <div style={this.state.styleObj}>
               <div
-                className="required-wrap"
+                className="required-wrap flex flex-col justify-center items-center"
                 id="wrap"
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center'
-                }}
               >
                 {/* Logo */}
                 <div className="rc-margin-bottom--sm">
@@ -317,26 +302,23 @@ class RegisterRequired extends Component {
                       />
                     </div>
                   </DistributeHubLinkOrATag> */}
-                  <div
-                    className="content-asset"
-                    style={{ display: 'flex', justifyContent: 'center' }}
-                  >
+                  <div className="content-asset flex justify-center items-center">
                     <img
-                      src={logoAnimatedPng}
-                      width="205"
-                      height="90"
+                      src={LOGO_PRIMARY}
                       alt="Royal Canin Flagship Store"
+                      className="w-40 md:w-auto"
                     />
                   </div>
                 </div>
                 <ErrMsg msg={errMsg} />
                 {/* Header title */}
                 <h2
-                  className="rc-text-colour--brand1"
-                  style={{ textAlign: 'center', marginTop: '.9375rem' }}
-                >
-                  <FormattedMessage id="required.logoTitle" />
-                </h2>
+                  className="rc-text-colour--brand1 text-center"
+                  style={{ marginTop: '.9375rem' }}
+                  dangerouslySetInnerHTML={{
+                    __html: intl.messages['required.logoTitle']
+                  }}
+                />
                 <p
                   style={{
                     textAlign: 'center',
@@ -359,7 +341,7 @@ class RegisterRequired extends Component {
                   </aside>
                 ) : null}
                 <div style={{ marginTop: '1.25rem' }}>
-                  <div className="rc-layout-container rc-one-column">
+                  <div className="rc-layout-container rc-one-column mx-4 md:mx-64">
                     <div className="rc-column" style={{ paddingBottom: '0' }}>
                       {this.state.isLoading ? (
                         <div className="pt-2 pb-2">
@@ -370,7 +352,6 @@ class RegisterRequired extends Component {
                           url={url}
                           list={this.state.list}
                           sendList={this.sendList}
-                          width={this.state.width}
                           zoom={this.state.zoom}
                           fontZoom={this.state.fontZoom}
                           auto={true}
@@ -378,17 +359,19 @@ class RegisterRequired extends Component {
                         />
                       )}
                     </div>
+                    {/* Required fields */}
+                    <p
+                      className="pizhu flex w-full p-0"
+                      style={{ fontSize: '1.1em' }}
+                    >
+                      <span className="pl-2 pr-2 rc-text-colour--brand1">
+                        *
+                      </span>
+                      <FormattedMessage id="required.fields" />
+                    </p>
                   </div>
                 </div>
 
-                {/* Required fields */}
-                <p
-                  className="pizhu flex"
-                  style={{ padding: '0px', fontSize: '1.1em', width: '580px' }}
-                >
-                  <span className="pl-2 pr-2 rc-text-colour--brand1">*</span>
-                  <FormattedMessage id="required.fields" />
-                </p>
                 {/* Continu按钮 */}
                 <div
                   style={{

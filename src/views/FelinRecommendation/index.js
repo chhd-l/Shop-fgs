@@ -31,14 +31,12 @@ import LoginButton from '@/components/LoginButton';
 import Modal from './components/Modal';
 import { funcUrl } from '@/lib/url-utils';
 
-import {
-  setSeoConfig,
-  distributeLinktoPrecriberOrPaymentPage
-} from '@/utils/utils';
+import { distributeLinktoPrecriberOrPaymentPage } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import transparentImg from './images/transparent.svg';
 import { Helmet } from 'react-helmet';
 import Loading from '@/components/Loading';
+import { seoHoc } from '@/framework/common';
 import './index.css';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -47,6 +45,7 @@ const pageLink = window.location.href;
 @inject('checkoutStore', 'loginStore', 'configStore', 'clinicStore')
 @injectIntl
 @observer
+@seoHoc('SPT reco landing page')
 class FelinRecommendation extends React.Component {
   constructor(props) {
     super(props);
@@ -65,11 +64,6 @@ class FelinRecommendation extends React.Component {
         goodsSpecs: []
       },
       couponCode: '',
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       productList: [],
       // productList: [{goodsInfo:{goods:{}},goodsInfos:[]},{goodsInfo:{goods:{}},goodsInfos:[]}],
       currentDetail: {},
@@ -119,16 +113,9 @@ class FelinRecommendation extends React.Component {
     };
   }
 
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   async componentDidMount() {
     let id = this.props.match.params.id;
-    setSeoConfig({
-      pageName: 'SPT reco landing page'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
     this.setState({ isMobile: getDeviceType() === 'H5' });
     this.setState({ loading: true });
     let couponCode = funcUrl({ name: 'couponCode' });
@@ -283,11 +270,6 @@ class FelinRecommendation extends React.Component {
         }
         this.props.history.push('/cats');
       });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
   }
   checkoutStock() {
     let { productList, outOfStockProducts, inStockProducts, modalList } =
@@ -526,16 +508,6 @@ class FelinRecommendation extends React.Component {
         totalPrice + el.recommendationNumber * el.goodsInfo.salePrice;
       return el;
     });
-    if (totalPrice < window.__.env.REACT_APP_MINIMUM_AMOUNT) {
-      console.log(totalPrice, 'instock');
-      this.showErrorMsg(
-        <FormattedMessage
-          id="cart.errorInfo3"
-          values={{ val: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT) }}
-        />
-      );
-      return false;
-    }
     if (outOfStockProducts.length > 0) {
       sessionItemRoyal.set(
         'recommend_product',
@@ -708,12 +680,6 @@ class FelinRecommendation extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <Modal

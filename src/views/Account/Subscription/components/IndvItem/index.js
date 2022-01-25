@@ -3,18 +3,17 @@ import autoshipIcon from '@/assets/images/autoship.png';
 import {
   filterOrderId,
   getDeviceType,
-  isCanVerifyBlacklistPostCode
+  isCanVerifyBlacklistPostCode,
+  formatDate,
+  optimizeImage
 } from '@/utils/utils';
 import FrequencyMatch from '@/components/FrequencyMatch';
-import LazyLoad from 'react-lazyload';
-import { getSubList } from '@/api/subscription';
+// import { getSubList } from '@/api/subscription';
 import { IMG_DEFAULT } from '@/utils/constant';
 import { getClubLogo } from '@/utils/utils';
 import { Link } from 'react-router-dom';
 import Skeleton from 'react-skeleton-loader';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import './index.less';
-import { formatDate } from '../../../../../utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -45,7 +44,7 @@ const IndvItem = ({ subItem, history, intl }) => {
           {/*<div className="col-4 col-md-2" />*/}
           {subItem?.postCodeValidResponse
             ?.validFlag ? null : isCanVerifyBlacklistPostCode ? (
-            <div className="col-8 pl-4 order-hint">
+            <div className="col-12 col-md-8 order-hint text-left md:text-right text-rc-red">
               <span>{subItem.postCodeValidResponse.alert}</span>
             </div>
           ) : null}
@@ -62,7 +61,7 @@ const IndvItem = ({ subItem, history, intl }) => {
                   display: 'inline-block'
                 }}
                 key={item.spuId}
-                src={item.goodsPic || IMG_DEFAULT}
+                src={optimizeImage(item.goodsPic) || IMG_DEFAULT}
                 alt={`${item.petsName}'s personalized subscription`}
                 title={`${item.petsName}'s personalized subscription`}
               />

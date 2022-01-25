@@ -11,19 +11,18 @@ import Fr from './components/Fr';
 import { formatMoney, getDeviceType } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import Loading from '@/components/Loading';
+import { DivWrapper } from './style';
 import './index.css';
 import { inject, observer } from 'mobx-react';
 import {
-  getRecommendationList,
   getRecommendationList_prescriberId,
   getRecommendationList_token
 } from '@/api/recommendation';
 import { getPrescriberByPrescriberIdAndStoreId } from '@/api/clinic';
 import { getProductPetConfig } from '@/api/payment';
 import { sitePurchase } from '@/api/cart';
-import Modal from '../Recommendation_FR/components/Modal';
+import Modal from './components/Modal';
 import {
-  setSeoConfig,
   distributeLinktoPrecriberOrPaymentPage,
   getFrequencyDict
 } from '@/utils/utils';
@@ -34,6 +33,7 @@ import {
   GABreederRecoSeeInCart,
   GABigBreederAddToCar
 } from '@/utils/GA';
+import { seoHoc } from '@/framework/common';
 
 const imgUrlPreFix = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
 const isUs = window.__.env.REACT_APP_COUNTRY === 'us';
@@ -60,6 +60,7 @@ const Test = () => {
 @inject('checkoutStore', 'loginStore', 'configStore', 'clinicStore')
 @injectIntl
 @observer
+@seoHoc('SPT reco landing page')
 class Recommendation extends React.Component {
   constructor(props) {
     super(props);
@@ -86,11 +87,6 @@ class Recommendation extends React.Component {
         goodsCategory: '',
         goodsSpecDetails: [],
         goodsSpecs: []
-      },
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
       },
       productList: [],
       currentDetail: {},
@@ -175,11 +171,6 @@ class Recommendation extends React.Component {
     let promotionCode = funcUrl({ name: 'coupon' });
     let promotionCodeText = promotionCode?.toUpperCase() || '';
     let prescription = funcUrl({ name: 'prescription' });
-    setSeoConfig({
-      pageName: 'SPT reco landing page'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
     this.setState({
       isMobile: getDeviceType() === 'H5',
       promotionCodeText,
@@ -424,17 +415,9 @@ class Recommendation extends React.Component {
         this.setState({ noData: true, pageLoading: false, loading: false });
         // this.props.history.push('/home');
       });
-
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
   }
 
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   get addCartBtnStatus() {
     return this.state.inStockProducts.length > 0;
   }
@@ -623,16 +606,6 @@ class Recommendation extends React.Component {
         totalPrice + el.recommendationNumber * el.goodsInfo.salePrice;
       return el;
     });
-    if (totalPrice < window.__.env.REACT_APP_MINIMUM_AMOUNT) {
-      console.log(totalPrice, 'instock');
-      this.showErrorMsg(
-        <FormattedMessage
-          id="cart.errorInfo3"
-          values={{ val: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT) }}
-        />
-      );
-      return false;
-    }
     if (outOfStockProducts.length > 0) {
       sessionItemRoyal.set(
         'recommend_product',
@@ -884,19 +857,24 @@ class Recommendation extends React.Component {
         className="text-center"
         style={{ width: this.state.isMobile ? '95%' : '60%', margin: '0 auto' }}
       >
-        <h1 style={{ color: '#E2001A', margin: '1.25rem' }}>Bienvenue !</h1>
+        <h1
+          style={{ color: '#E2001A', margin: '1.25rem' }}
+          className="text-3xl"
+        >
+          Bienvenue !
+        </h1>
         <h2 style={{ color: '#E2001A', margin: '1.25rem' }}>
           Merci pour votre visite en magasin, voici notre recommandation.
         </h2>
         {/* <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
       <FormattedMessage id="recommendation.firstTitle" />
     </h2> */}
-        <p style={{ fontSize: '1.125rem' }}>
+        <p style={{ fontSize: '1.125rem' }} className="mb-6">
           {/* <FormattedMessage id="recommendation.firstContent" /> */}
           La recommandation a été faite en fonction des besoins uniques de votre
           animal.
         </p>
-        <p>
+        <p className="mb-8">
           <button
             className={`rc-btn rc-btn--one ${
               this.state.buttonLoading ? 'ui-btn-loading' : ''
@@ -1212,16 +1190,10 @@ class Recommendation extends React.Component {
       ru: this.state.locationPath
     };
     return (
-      <div className="Recommendation_FR Recommendation_US">
+      <DivWrapper className="Recommendation_FR Recommendation_US">
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <Modal
@@ -1297,15 +1269,10 @@ class Recommendation extends React.Component {
                   ) : (
                     productList.length > 0 && (
                       <div>
-                        <div
-                          className="recommendProductInner"
-                          style={{
-                            borderTop: 0
-                          }}
-                        >
+                        <div className="recommendProductInner border-t-0 block">
                           {productList.length > 1 && (
                             <div className="rc-fade--x">
-                              <div className="imageTabBox">
+                              <div className="imageTabBox text-center">
                                 {productList.map((el, i) => (
                                   <span
                                     key={i}
@@ -1441,13 +1408,7 @@ class Recommendation extends React.Component {
                                 </div>
                               )}
 
-                              <p
-                                style={{
-                                  marginTop: '30px',
-                                  textAlign: 'center',
-                                  marginBottom: isMobile ? '0' : '30px'
-                                }}
-                              >
+                              <p className="flex justify-center mb-0 md:mb-6 mt-6">
                                 <button
                                   className={`rc-btn rc-btn--one rc-btn--sm ${
                                     this.state.buttonLoading
@@ -1494,7 +1455,7 @@ class Recommendation extends React.Component {
                                 <p
                                   className="product_info"
                                   dangerouslySetInnerHTML={createMarkup(tabDes)}
-                                ></p>
+                                />
                               ) : (
                                 <p
                                   className="product_info"
@@ -1567,17 +1528,18 @@ class Recommendation extends React.Component {
                                     <FormattedMessage id="recommendation.benefit" />
                                   </h5>
                                   <p
+                                    className="pb-10"
                                     style={{ fontSize: 'auto' }}
                                     dangerouslySetInnerHTML={createMarkup(
                                       productList[activeIndex].benefit
                                     )}
-                                  ></p>
+                                  />
                                   <p
                                     style={{ fontSize: '1rem' }}
                                     dangerouslySetInnerHTML={createMarkup(
                                       productList[activeIndex].benefitMobile
                                     )}
-                                  ></p>
+                                  />
                                   {/* <p>{productList[activeIndex]}</p> */}
                                 </p>
                               </React.Fragment>
@@ -1596,7 +1558,7 @@ class Recommendation extends React.Component {
           {otherShow[window.__.env.REACT_APP_COUNTRY]}
           <Footer />
         </main>
-      </div>
+      </DivWrapper>
     );
   }
 }

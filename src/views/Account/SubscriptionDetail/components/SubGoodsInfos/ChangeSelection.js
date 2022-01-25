@@ -1,10 +1,8 @@
 import { FormattedMessage } from 'react-intl-phraseapp';
 import React, { useContext } from 'react';
 import FrequencySelection from '@/components/FrequencySelection/index.tsx';
-import LazyLoad from 'react-lazyload';
 import { SubGoodsInfosContext } from './index';
 import DatePicker from 'react-datepicker';
-import dateIcon from '../../images/date.png';
 import FrequencyMatch from '@/components/FrequencyMatch';
 import { datePickerConfig, getZoneTime, formatDate } from '@/utils/utils';
 
@@ -96,6 +94,7 @@ const ChangeSelection = ({ el }) => {
             display: 'inline-block',
             width: '50%'
           }}
+          className="whitespace-nowrap"
         >
           {/* Shipping Method: */}
           {
@@ -125,19 +124,9 @@ const ChangeSelection = ({ el }) => {
             display: 'inline-block',
             width: '50%'
           }}
+          className="whitespace-nowrap"
         >
-          <LazyLoad>
-            <img
-              alt="delete icon"
-              src={dateIcon}
-              style={{
-                display: 'inline-block',
-                width: '1.25rem',
-                verticalAlign: 'middle',
-                marginRight: '8px'
-              }}
-            />
-          </LazyLoad>
+          <span className="iconfont icondata text-xl mr-1" />
           <FormattedMessage id="nextShipment" />:
         </strong>
         <div

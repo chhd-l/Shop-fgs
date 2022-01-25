@@ -55,6 +55,9 @@
 .icon-search-mini {
   display: none;
 }
+.icon-search-mini.show-search-icon {
+  display: block;
+}
 
 .rc-header.rc-header--scrolled {
   .search-full-input-container {
@@ -69,7 +72,7 @@
     display: block;
   }
   .icon-search-mini {
-    display: none;
+    // display: none;
   }
 }
 .search-contaner {
@@ -246,15 +249,17 @@
         top: 4.167rem;
       }
     }
+    .rc-nav {
+      top: 4rem;
+    }
+    
     .searchbar--visile {
       .rc-nav {
         top: 6.8rem;
       }
     }
 
-    .rc-nav {
-      top: 6.8rem;
-    }
+    
     .rc-content--fixed-header {
       padding-top: 6.8rem;
     }

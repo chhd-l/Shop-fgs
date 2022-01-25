@@ -18,8 +18,8 @@ moment.locale('fr', {
     LL: 'D MMM'
   }
 });
-let index = 0;
 
+let index = 0;
 class WeekCalender extends Component {
   state = {
     weekDate: [],
@@ -28,26 +28,27 @@ class WeekCalender extends Component {
   };
 
   componentDidMount() {
+    index = 0;
     this.getCurrentWeek();
   }
 
-  getCurrentWeek = async (date = new Date()) => {
+  getCurrentWeek = async (date = undefined) => {
+    let weekOfDay = moment(date).format('E'); // 指定日期的周的第几天
+    console.log(weekOfDay);
     let weekDate = [];
     let dateList = await this.getEnmbeData();
-    for (let i = 0; i < 7; i++) {
-      let _date = new Date(
-        format(subDays(new Date(date), 1 - i), 'yyyy-MM-dd HH:mm:ss')
-      );
-      let nowDate = format(_date, 'yyyyMMdd');
+    for (let i = 1; i <= 7; i++) {
+      let _date = moment(date).subtract(weekOfDay - i, 'days');
+      let nowDate = moment(_date).format('YYYYMMDD');
       let currentDate = dateList[nowDate] || {};
       let list = await this.intervals(
-        format(_date, 'yyyyMMdd 09:00'),
-        format(_date, 'yyyyMMdd 17:00'),
+        moment(_date).format('YYYYMMDD 10:00'),
+        moment(_date).format('YYYYMMDD 20:00'),
         currentDate
       );
       weekDate.push({
-        weekDay: format(_date, 'E', { locale: fr }),
-        date: format(_date, 'd MMM', { locale: fr }),
+        weekDay: _date.format('ddd'),
+        date: _date.format('LL'),
         times: list
       });
     }
@@ -71,6 +72,7 @@ class WeekCalender extends Component {
   };
 
   lastWeek = () => {
+    if (index === 0) return;
     index++;
     this.setState(
       {
@@ -84,7 +86,9 @@ class WeekCalender extends Component {
   };
 
   nextWeek = () => {
+    if (index === -1) return;
     index--;
+    console.log(index);
     this.setState(
       {
         index

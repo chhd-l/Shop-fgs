@@ -25,29 +25,47 @@
   var r = {
       62: 0
   };
-  
+  function getIntegrityValue(e){
+    let data = ''
+      let dataList = {
+          0:'sha256-8Q/9tsPYBrbGUXEALY6PRrNd8pvzbVG9ztcCC74CnAk=',
+          1:'sha256-qeM/6N+IHwOWGk3WOZrHH5pXcgkN1C5HIATaBAav910=',
+          2:'sha256-N1e9G+66eew+96nV7ZvT5FBImkjvBe6lrLc2SxIks+E=',
+          3:'sha256-X1sSGyLbsYdRqwr2eEUJfSFR2TaLOz9Uo5X/1ETgFx8=',
+          4:'sha256-g4si5JljIt9Bu/w6ES/mclrV3Y8n9NAZmmS4UYzcRJY=',
+          11:'sha256-YBqelGPMDCJ2KDU7wxHE7ruEVhBH+Ur2MQ4LhKwYhHw=',
+          12:'sha256-R7IivMkIAR+TBVsZQ9b8rh7XohKesS1BF8gmrlMMJnI=',
+          18:'sha256-XVxCOLqKM6RJPT7xRSNy9ZzlDzfhTqSNNNoZBf7VGc4=',
+          26:'sha256-HVrc9DsX8BnBqUjF51/atQ/Q8V+nzRSAJd7RDJ2vne8=',
+          31:'sha256-sq0ImhNXuKE/VXB/QPlVaIRFmITUhBoMIHG2E4eiG2o=',
+          72:'sha256-GhZD9lWCTl5C4a/4EYfY5HIyeC/fC7OS2Syo4GOHiJg=',
+          78:'sha256-EnZL3YMRb+hCptTdVgeQiojZwW7sow5TS316Q0wVRj4='
+      }
+      data = dataList[e]
+      return data
+  };
   function jsonpScriptSrc(e) {
     //   return __webpack_require__.p + "" + ({
     return '/royal/royal-assets2/' + "" + ({
-          0: "jsSupport",
-          1: "cssImport",
-          2: "style-loader",
-          3: "polyfills",
-          4: "webpack",
+          0: "jsSupport",//sha256-8Q/9tsPYBrbGUXEALY6PRrNd8pvzbVG9ztcCC74CnAk=
+          1: "cssImport",//sha256-qeM/6N+IHwOWGk3WOZrHH5pXcgkN1C5HIATaBAav910=
+          2: "style-loader",//sha256-N1e9G+66eew+96nV7ZvT5FBImkjvBe6lrLc2SxIks+E=
+          3: "polyfills",//sha256-X1sSGyLbsYdRqwr2eEUJfSFR2TaLOz9Uo5X/1ETgFx8=	
+          4: "webpack",//sha256-g4si5JljIt9Bu/w6ES/mclrV3Y8n9NAZmmS4UYzcRJY=
           5: "hammerjs",
           6: "charts",
           7: "feature.alerts_js",
           8: "feature.carousels_js",
           9: "feature.data-visualisation_js",
           10: "feature.datepicker_js",
-          11: "feature.filters_js",
-          12: "feature.forms_js",
+          11: "feature.filters_js",//sha256-YBqelGPMDCJ2KDU7wxHE7ruEVhBH+Ur2MQ4LhKwYhHw=
+          12: "feature.forms_js",//sha256-R7IivMkIAR+TBVsZQ9b8rh7XohKesS1BF8gmrlMMJnI=
           13: "feature.icon-buttons_js",
           14: "feature.loader_js",
           15: "feature.maps_js",
           16: "feature.modal_js",
           17: "feature.numberPicker_js",
-          18: "feature.pagination_js",
+          18: "feature.pagination_js",//sha256-XVxCOLqKM6RJPT7xRSNy9ZzlDzfhTqSNNNoZBf7VGc4=
           19: "feature.parallax_js",
           20: "feature.progress-dep_js",
           21: "feature.progress_js",
@@ -55,12 +73,12 @@
           23: "feature.selects_js",
           24: "feature.sliders_js",
           25: "feature.sticky_js",
-          26: "feature.svgAnimation_js",
+          26: "feature.svgAnimation_js",//sha256-HVrc9DsX8BnBqUjF51/atQ/Q8V+nzRSAJd7RDJ2vne8=	
           27: "feature.switch-buttons_js",
           28: "feature.tables_js",
           29: "feature.toggle-group_js",
           30: "feature.tooltip_js",
-          31: "fontFallback",
+          31: "fontFallback",//sha256-sq0ImhNXuKE/VXB/QPlVaIRFmITUhBoMIHG2E4eiG2o=
           32: "locale",
           33: "nouislider",
           34: "setimmediate",
@@ -87,19 +105,19 @@
           63: "modernizer",
           64: "nth-check",
           65: "picturefill",
-          66: "pikaday",
+        //   66: "pikaday",
           67: "popper_js",
           68: "process-nextick-args",
           69: "readable-stream",
           70: "rellax",
           71: "safe-buffer",
-          72: "sentry",
+          72: "sentry",//sha256-GhZD9lWCTl5C4a/4EYfY5HIyeC/fC7OS2Syo4GOHiJg=
           73: "stream-browserify",
           74: "string_decoder",
           75: "tablesort",
           76: "tiny-slider",
           77: "tippy_js",
-          78: "tslib",
+          78: "tslib",//sha256-EnZL3YMRb+hCptTdVgeQiojZwW7sow5TS316Q0wVRj4=
           79: "util",
           80: "util-deprecate"
     //   }[e] || e) + ".rcdl.bundle.js?v=8-7-8"
@@ -138,8 +156,12 @@
               if (__webpack_require__.nc) {
                   a.setAttribute("nonce", __webpack_require__.nc)
               }
-              a.src = jsonpScriptSrc(e);
-            //   console.log(jsonpScriptSrc(e))
+              a.src = 'https://fgs-cdn.azureedge.net/cdn'+jsonpScriptSrc(e);
+              var integrity = getIntegrityValue(e);
+              if(integrity){
+                a.integrity = integrity;
+                a.crossOrigin = 'anonymous';
+              };
               var s = new Error;
               o = function(t) {
                   a.onerror = a.onload = null;
@@ -3017,12 +3039,12 @@
       selector: [".rc-carousel"],
       lazy: true
   }, {
-      js: "datepicker",
-      priority: "low",
-      location: "features",
-      selector: [".rc-input__date"],
-      lazy: true
-  }, {
+//       js: "datepicker",
+//       priority: "low",
+//       location: "features",
+//       selector: [".rc-input__date"],
+//       lazy: true
+//   }, {
       js: "numberPicker",
       priority: "low",
       location: "features",
@@ -3959,8 +3981,8 @@
       "./features/carousels.js": [169, 9, 0, 8],
       "./features/data-visualisation": [170, 9, 0, 9],
       "./features/data-visualisation.js": [170, 9, 0, 9],
-      "./features/datepicker": [171, 9, 0, 10],
-      "./features/datepicker.js": [171, 9, 0, 10],
+    //   "./features/datepicker": [171, 9, 0, 10],
+    //   "./features/datepicker.js": [171, 9, 0, 10],
       "./features/filters": [172, 9, 0, 11],
       "./features/filters.js": [172, 9, 0, 11],
       "./features/forms": [173, 9, 0, 12],
@@ -4123,12 +4145,12 @@
           include: [".rc-flag"],
           exclude: null,
           noJs: true
-      }, {
-          assetName: "datepicker",
-          priority: "low",
-          selector: ".rc-input__date",
-          include: [".pika", ".is-today"],
-          exclude: false
+    //   }, {
+    //       assetName: "datepicker",
+    //       priority: "low",
+    //       selector: ".rc-input__date",
+    //       include: [".pika", ".is-today"],
+    //       exclude: false
       }, {
           assetName: "wysiwyg",
           priority: "low",
@@ -8050,7 +8072,7 @@
       "./royal-canin.styles.cookie-bar.min.css": [381, 1, 2],
       "./royal-canin.styles.countries.min.css": [382, 1, 2],
       "./royal-canin.styles.data-visualisation.min.css": [383, 1, 2],
-      "./royal-canin.styles.datepicker.min.css": [384, 1, 2],
+    //   "./royal-canin.styles.datepicker.min.css": [384, 1, 2],
       "./royal-canin.styles.filters.min.css": [385, 1, 2],
       "./royal-canin.styles.firefox.min.css": [386, 1, 2],
       "./royal-canin.styles.flags.min.css": [387, 1, 2],
@@ -9052,12 +9074,12 @@
               include: [".rc-flag"],
               exclude: null,
               noJs: true
-          }, {
-              assetName: "datepicker",
-              priority: "low",
-              selector: ".rc-input__date",
-              include: [".pika", ".is-today"],
-              exclude: false
+        //   }, {
+        //       assetName: "datepicker",
+        //       priority: "low",
+        //       selector: ".rc-input__date",
+        //       include: [".pika", ".is-today"],
+        //       exclude: false
           }, {
               assetName: "wysiwyg",
               priority: "low",

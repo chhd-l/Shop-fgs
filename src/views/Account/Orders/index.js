@@ -17,23 +17,23 @@ import {
   formatMoney,
   getDictionary,
   getDeviceType,
-  setSeoConfig,
   judgeIsIndividual,
-  formatDate
+  formatDate,
+  optimizeImage,
+  filterOrderId
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import { batchAdd } from '@/api/payment';
 import { getOrderList } from '@/api/order';
-import { cancelAppointByNo } from '@/api/appointment';
 import orderImg from './img/order.jpg';
 import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
 import base64 from 'base-64';
 import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
-import { filterOrderId } from '@/utils/utils';
 import './index.less';
 import { handleOrderItem } from './modules/handleOrderItem';
+import { seoHoc } from '@/framework/common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -42,6 +42,7 @@ const pageLink = window.location.href;
 @inject('checkoutStore')
 @injectIntl
 @observer
+@seoHoc('Account orders')
 class AccountOrders extends React.Component {
   constructor(props) {
     super(props);
@@ -54,11 +55,6 @@ class AccountOrders extends React.Component {
       },
       loading: true,
       initLoading: true,
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       currentPage: 1,
       totalPage: 1,
       initing: true,
@@ -86,16 +82,9 @@ class AccountOrders extends React.Component {
     this.handlePayNowTimeEnd = this.handlePayNowTimeEnd.bind(this);
     this.rePurchase = this.rePurchase.bind(this);
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   async componentDidMount() {
     myAccountPushEvent('Orders');
-    setSeoConfig({
-      pageName: 'Account orders'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
 
     const orderId = funcUrl({ name: 'orderId' });
     if (orderId) {
@@ -463,12 +452,6 @@ class AccountOrders extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
@@ -698,12 +681,12 @@ class AccountOrders extends React.Component {
                                         <FormattedMessage id="order.orderDetails">
                                           {(txt) => (
                                             <Link
-                                              className="d-flex rc-padding-left--none rc-btn rc-btn--icon-label rc-padding-right--none orderDetailBtn btn--inverse text-wrap align-items-center"
+                                              className="d-flex rc-padding-left--none rc-btn rc-btn--icon-label rc-padding-right--none orderDetailBtn text-wrap align-items-center"
                                               to={`/account/orders/detail/${order.id}`}
                                             >
                                               <em className="rc-iconography rc-icon rc-news--xs" />
                                               <span
-                                                className="medium pull-right--desktop rc-styled-link"
+                                                className="medium pull-right--desktop rc-styled-link text-current"
                                                 title={txt}
                                               >
                                                 {txt}
@@ -787,7 +770,10 @@ class AccountOrders extends React.Component {
                                             <LazyLoad>
                                               <img
                                                 className="ord-list-img-fluid"
-                                                src={item.pic || IMG_DEFAULT}
+                                                src={
+                                                  optimizeImage(item.pic) ||
+                                                  IMG_DEFAULT
+                                                }
                                                 alt={item.spuName}
                                                 title={item.spuName}
                                               />
@@ -920,7 +906,7 @@ class AccountOrders extends React.Component {
                           <LazyLoad>
                             <img
                               className="ord-list-img-fluid"
-                              src={item.pic || IMG_DEFAULT}
+                              src={optimizeImage(item.pic) || IMG_DEFAULT}
                               alt={item.spuName}
                               title={item.spuName}
                             />

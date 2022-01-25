@@ -24,12 +24,12 @@ import {
 import { getPrescriberByPrescriberIdAndStoreId } from '@/api/clinic';
 import { getProductPetConfig } from '@/api/payment';
 import { sitePurchase } from '@/api/cart';
-import Modal from '../Recommendation_FR/components/Modal';
+import Modal from './components/Modal';
 import {
-  setSeoConfig,
   distributeLinktoPrecriberOrPaymentPage,
   getFrequencyDict
 } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import { Helmet } from 'react-helmet';
 import Description from './components/description';
 import {
@@ -71,6 +71,7 @@ advantageArr.forEach((el, i) => {
 @inject('checkoutStore', 'loginStore', 'configStore', 'clinicStore')
 @injectIntl
 @observer
+@seoHoc('SPT reco landing page')
 class Recommendation extends React.Component {
   constructor(props) {
     super(props);
@@ -98,11 +99,6 @@ class Recommendation extends React.Component {
         goodsCategory: '',
         goodsSpecDetails: [],
         goodsSpecs: []
-      },
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
       },
       productList: [],
       currentDetail: {},
@@ -188,11 +184,7 @@ class Recommendation extends React.Component {
     let promotionCode = funcUrl({ name: 'coupon' });
     let promotionCodeText = promotionCode?.toUpperCase() || '';
     let prescription = funcUrl({ name: 'prescription' });
-    setSeoConfig({
-      pageName: 'SPT reco landing page'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
+
     this.setState({
       isMobile: getDeviceType() === 'H5',
       promotionCodeText,
@@ -460,17 +452,9 @@ class Recommendation extends React.Component {
         this.setState({ noData: true, pageLoading: false, loading: false });
         // this.props.history.push('/home');
       });
-
-    if (localItemRoyal.get('isRefresh')) {
-      localItemRoyal.remove('isRefresh');
-      window.location.reload();
-      return false;
-    }
   }
 
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   get addCartBtnStatus() {
     return this.state.inStockProducts.length > 0;
   }
@@ -660,16 +644,6 @@ class Recommendation extends React.Component {
         totalPrice + el.recommendationNumber * el.goodsInfo.salePrice;
       // return el;
     });
-    if (totalPrice < window.__.env.REACT_APP_MINIMUM_AMOUNT) {
-      console.log(totalPrice, 'instock');
-      this.showErrorMsg(
-        <FormattedMessage
-          id="cart.errorInfo3"
-          values={{ val: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT) }}
-        />
-      );
-      return false;
-    }
     if (outOfStockProducts.length > 0) {
       sessionItemRoyal.set(
         'recommend_product',
@@ -1004,12 +978,6 @@ class Recommendation extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <Modal

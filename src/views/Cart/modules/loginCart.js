@@ -17,7 +17,8 @@ import {
   unique,
   cancelPrevRequest,
   handleRecommendation,
-  isShowMixFeeding
+  isShowMixFeeding,
+  optimizeImage
 } from '@/utils/utils';
 import {
   GAInitLogin,
@@ -297,7 +298,6 @@ class LoginCart extends React.Component {
       this.setState({ checkoutLoading: true });
       await this.checkoutStore.updateLoginCart({
         isThrowErr,
-        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT),
         intl: this.props.intl
       });
       callback && callback();
@@ -409,6 +409,9 @@ class LoginCart extends React.Component {
       });
     }
 
+    console.log('test loginCartData:', this.loginCartData);
+    console.log('test productList:', productList);
+
     this.setState(
       {
         productList,
@@ -510,42 +513,50 @@ class LoginCart extends React.Component {
       });
     }, 3000);
   }
-  handleAmountChange(item, e) {
+  handleAmountChange(item, type, e) {
     this.setState({
       errorMsg: ''
     });
-    const val = e.target.value;
-    if (val === '') {
+    let val = e.target.value;
+    if (val === '' && type === 'change') {
       item.buyCount = val;
       this.setState({
         productList: this.state.productList
       });
-    } else {
-      const { quantityMinLimit } = this.state;
-      let tmp = parseFloat(val);
-      if (isNaN(tmp)) {
-        tmp = 1;
-        this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
-      }
-      if (tmp < quantityMinLimit) {
-        tmp = quantityMinLimit;
-        this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
-      }
-      if (tmp > window.__.env.REACT_APP_LIMITED_NUM) {
-        tmp = window.__.env.REACT_APP_LIMITED_NUM;
-      }
-      item.buyCount = tmp;
-      clearTimeout(this.amountTimer);
-      this.amountTimer = setTimeout(() => {
-        this.updateBackendCart({
-          goodsInfoId: item.goodsInfoId,
-          goodsNum: item.buyCount,
-          verifyStock: false,
-          periodTypeId: item.periodTypeId,
-          goodsInfoFlag: item.goodsInfoFlag
-        });
-      }, 500);
+      return;
     }
+    if (val === '' && type === 'blur') {
+      this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
+      item.buyCount = 1;
+      this.setState({
+        productList: this.state.productList
+      });
+      val = 1;
+    }
+    const { quantityMinLimit } = this.state;
+    let tmp = parseFloat(val);
+    if (isNaN(tmp)) {
+      tmp = 1;
+      this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
+    }
+    if (tmp < quantityMinLimit) {
+      tmp = quantityMinLimit;
+      this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
+    }
+    if (tmp > window.__.env.REACT_APP_LIMITED_NUM) {
+      tmp = window.__.env.REACT_APP_LIMITED_NUM;
+    }
+    item.buyCount = tmp;
+    clearTimeout(this.amountTimer);
+    this.amountTimer = setTimeout(() => {
+      this.updateBackendCart({
+        goodsInfoId: item.goodsInfoId,
+        goodsNum: item.buyCount,
+        verifyStock: false,
+        periodTypeId: item.periodTypeId,
+        goodsInfoFlag: item.goodsInfoFlag
+      });
+    }, 500);
   }
   addQuantity(item) {
     if (this.state.checkoutLoading) {
@@ -608,7 +619,7 @@ class LoginCart extends React.Component {
         sku: product.goodsInfoNo
       }
     ];
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComRemoveFromCart`,
       ecommerce: {
         remove: {
@@ -631,7 +642,7 @@ class LoginCart extends React.Component {
 
     !isHubGA && this.GARemoveFromCart(productList[currentProductIdx]);
     isHubGA &&
-      dataLayer.push({
+      window?.dataLayer?.push({
         event: 'removeFromCart'
       });
   }
@@ -658,7 +669,8 @@ class LoginCart extends React.Component {
                 value={pitem.buyCount}
                 min="1"
                 max="10"
-                onChange={this.handleAmountChange.bind(this, pitem)}
+                onChange={this.handleAmountChange.bind(this, pitem, 'change')}
+                onBlur={this.handleAmountChange.bind(this, pitem, 'blur')}
               />
               <span
                 className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
@@ -779,16 +791,13 @@ class LoginCart extends React.Component {
                 <LazyLoad>
                   <img
                     className="w-100"
-                    src={pitem.goodsInfoImg}
+                    src={optimizeImage(pitem.goodsInfoImg)}
                     alt={pitem.goodsName}
                     title={pitem.goodsName}
                   />
                 </LazyLoad>
               </div>
-              <div
-                className="product-info__desc ui-text-overflow-line2 ui-text-overflow-md-line1 relative"
-                style={{ flex: 1 }}
-              >
+              <div className="product-info__desc relative" style={{ flex: 1 }}>
                 <Link
                   className="ui-cursor-pointer rc-margin-top--xs rc-padding-right--sm  align-items-md-center flex-column flex-md-row"
                   to={`/${pitem.goodsName
@@ -985,7 +994,7 @@ class LoginCart extends React.Component {
                 <div className="name-info flex-column-gift rc-main-content__wrapper d-flex">
                   <img
                     className="img"
-                    src={gift.goodsInfoImg || foodDispenserPic}
+                    src={optimizeImage(gift.goodsInfoImg) || foodDispenserPic}
                     alt="goods Information Image"
                   />
                   <div className="mobile-text-center">
@@ -1057,7 +1066,7 @@ class LoginCart extends React.Component {
             <span
               className="rc-input rc-input--inline rc-input--label mr-0"
               style={{
-                width: '150px',
+                width: '100%',
                 marginBottom: '.625rem',
                 overflow: 'hidden',
                 marginTop: '0px'

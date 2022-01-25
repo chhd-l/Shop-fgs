@@ -14,6 +14,7 @@ import PromotionCodeText from './components/promotionCodeText';
 import GiftList from '../GiftList/index.tsx';
 import { isFirstOrder } from '@/api/user';
 import { formatDate } from '../../../utils/utils';
+import cloneDeep from 'lodash/cloneDeep';
 
 const guid = uuidv4();
 let isGACheckoutLock = false;
@@ -82,6 +83,12 @@ class PayProductInfo extends React.Component {
       isFromFelin
     ) {
       productList = nextProps.data;
+      let list = cloneDeep(productList);
+      // 有产品的时候才去展示产品列表，兼容chekcout page获取产品（比如felin appointNo）ga执行
+      if (list?.length) {
+        !isHubGA && this.GACheck(list);
+        isHubGA && this.GAInitialProductArray(list);
+      }
       this.setState(
         Object.assign({
           productList: productList || []
@@ -93,7 +100,7 @@ class PayProductInfo extends React.Component {
   GAGetProductLogin(productList) {
     let product = [];
     for (let item of productList) {
-      product.push({
+      let productItem = {
         brand: (item.goods && item.goods.brandName) || 'ROYAL CANIN',
         club: 'no',
         id: (item.goods && item.goods.goodsNo) || '',
@@ -105,7 +112,14 @@ class PayProductInfo extends React.Component {
         type: item.goodsInfoFlag == 1 ? 'subscription' : 'one-time',
         variant: item.specText ? parseInt(item.specText) : '',
         sku: (item.goodsInfos && item.goodsInfos[0].goodsInfoNo) || ''
-      });
+      };
+      if (isFromFelin) {
+        // felin特殊处理
+        productItem.range = 'Booking';
+        productItem.name = "L'Atelier Félin booking";
+        productItem.mainItemCode = "L'Atelier Félin booking";
+      }
+      product.push(productItem);
     }
     return product;
   }
@@ -113,12 +127,13 @@ class PayProductInfo extends React.Component {
   GAGetProductUnlogin(productList) {
     let product = [];
     for (let item of productList) {
-      let cur_selected_size = item.sizeList.filter((item2) => {
-        return item2.selected == true;
-      });
-      let variant = cur_selected_size[0].specText;
-      let goodsInfoNo = cur_selected_size[0].goodsInfoNo;
-      product.push({
+      let cur_selected_size =
+        item.sizeList?.filter((item2) => {
+          return item2.selected == true;
+        }) || [];
+      let variant = cur_selected_size[0]?.specText;
+      let goodsInfoNo = cur_selected_size[0]?.goodsInfoNo;
+      let productItem = {
         brand: item.brandName || 'ROYAL CANIN',
         category: item.goodsCateName,
         club: 'no',
@@ -130,7 +145,14 @@ class PayProductInfo extends React.Component {
         type: 'one-time',
         variant: parseInt(variant),
         sku: goodsInfoNo
-      });
+      };
+      if (isFromFelin) {
+        // felin特殊处理
+        productItem.range = 'Booking';
+        productItem.name = "L'Atelier Félin booking";
+        productItem.mainItemCode = "L'Atelier Félin booking";
+      }
+      product.push(productItem);
     }
     return product;
   }
@@ -138,6 +160,10 @@ class PayProductInfo extends React.Component {
   //Hub-GA checkout页面初始化
   GAInitialProductArray(productList) {
     if (this.props.currentPage != 'checkout') return; //只允许checkout页面才调用
+    let type = '';
+    if (isFromFelin) {
+      type = 'felin';
+    }
     if (!isGACheckoutLock) {
       //防止重复调用
       isGACheckoutLock = true;
@@ -145,19 +171,26 @@ class PayProductInfo extends React.Component {
         ? GAInitLogin({
             productList,
             frequencyList: this.state.frequencyList,
-            props: this.props
+            props: this.props,
+            type
           })
         : GAInitUnLogin({
             productList,
             frequencyList: this.state.frequencyList,
-            props: this.props
+            props: this.props,
+            type
           });
     }
   }
 
   // GA Checkout
   GACheck(productList) {
-    if (!isGACheckoutLock && dataLayer[0] && dataLayer[0].checkout) {
+    if (
+      !isGACheckoutLock &&
+      window?.dataLayer &&
+      dataLayer[0] &&
+      dataLayer[0].checkout
+    ) {
       //防止重复调用
       isGACheckoutLock = true;
       let product = this.isLogin
@@ -172,7 +205,7 @@ class PayProductInfo extends React.Component {
       dataLayer[0].checkout.step = 2;
       dataLayer[0].checkout.product = product;
 
-      dataLayer.push({
+      window?.dataLayer?.push({
         checkout: {
           step: '',
           option: ''
@@ -196,8 +229,14 @@ class PayProductInfo extends React.Component {
     }
     this.refs.applyButtton.click();
     let productList;
+
     if (this.props.data.length) {
       productList = this.props.data;
+      if (isFromFelin) {
+        // felin是异步请求的数据，这里单独处理
+        !isHubGA && this.GACheck(productList);
+        isHubGA && this.GAInitialProductArray(productList);
+      }
     } else if (this.isLogin) {
       productList = this.props.checkoutStore.loginCartData;
     } else {
@@ -205,6 +244,7 @@ class PayProductInfo extends React.Component {
         (ele) => ele.selected
       );
     }
+
     this.setState(
       Object.assign({
         productList: productList || []
@@ -215,9 +255,10 @@ class PayProductInfo extends React.Component {
         frequencyList: res
       });
     });
-
-    !isHubGA && this.GACheck(productList);
-    isHubGA && this.GAInitialProductArray(productList);
+    if (productList.length && !isFromFelin) {
+      !isHubGA && this.GACheck(productList);
+      isHubGA && this.GAInitialProductArray(productList);
+    }
   }
   get totalPrice() {
     return this.props.checkoutStore.totalPrice;
@@ -684,7 +725,7 @@ class PayProductInfo extends React.Component {
                 />
               ) : null}
               {/* 支付新增promotionCode(选填) */}
-              <div className="mb-3 d-flex justify-content-between">
+              <div className="mb-3 d-flex justify-content-between items-center">
                 <span
                   className="rc-input rc-input--inline rc-input--label mr-0"
                   style={{ width: '150px' }}

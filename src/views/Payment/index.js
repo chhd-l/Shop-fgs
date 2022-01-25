@@ -33,13 +33,13 @@ import {
   payCountDown,
   formatMoney,
   generatePayUScript,
-  setSeoConfig,
   validData,
   bindSubmitParam,
   getAppointmentInfo,
   formatDate,
   isBlockedUserOrEmail
 } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import { EMAIL_REGEXP, seTelephoneCheck } from '@/utils/constant';
 import { userBindConsent } from '@/api/consent';
 import {
@@ -53,36 +53,29 @@ import {
   getPaymentMethod,
   confirmAndCommitFelin,
   rePayFelin,
-  adyenPaymentsDetails
+  adyenPaymentsDetails,
+  checkUserOrEmailIsBlocked,
+  swishCancelOrRefund
 } from '@/api/payment';
 import { getOrderDetails } from '@/api/order';
 import { getLoginDetails, getDetails } from '@/api/details';
 import { batchAddPets } from '@/api/pet';
 import { editAddress } from '@/api/address';
-
 import PayUCreditCard from './PaymentMethod/PayUCreditCard';
 import AdyenCreditCard from './PaymentMethod/Adyen';
 import Paypal from './PaymentMethod/Paypal';
 import Swish from './PaymentMethod/Swish';
-// import CyberCardList from './PaymentMethod/Cyber/list';
 import Cod from './PaymentMethod/Cod';
 import OxxoConfirm from './PaymentMethod/Oxxo';
 import AdyenCommonPay from './PaymentMethod/AdyenCommonPay';
-
-// import CyberPaymentForm from '@/components/CyberPaymentForm';
-
 import OnePageEmailForm from './OnePage/EmailForm';
 import OnePageClinicForm from './OnePage/ClinicForm';
-
 import './modules/adyenCopy.css';
 import './index.css';
 import { Helmet } from 'react-helmet';
 import Adyen3DForm from '@/components/Adyen/3d';
 import { ADDRESS_RULE } from './PaymentMethod/Cyber/constant/utils';
 import { doGetGAVal } from '@/utils/GA';
-// import { cyberFormTitle } from '@/utils/constant/cyber';
-// import { getProductPetConfig } from '@/api/payment';
-// import { registerCustomerList, guestList, commonList } from './tr_consent';
 import ConsentData from '@/utils/consent';
 import CyberPayment from './PaymentMethod/Cyber';
 import { querySurveyContent } from '@/api/cart';
@@ -92,12 +85,11 @@ import swishLogo from '@/assets/images/swish-logo.svg';
 import swishIcon from '@/assets/images/swish-icon.svg';
 import swishError from '@/assets/images/swish-error.svg';
 import paypalLogo from '@/assets/images/paypal-logo.svg';
-
 import { postUpdateUser, getAppointByApptNo } from '../../api/felin';
 import UpdatModal from './updatModules/modal';
 import QRCode from 'qrcode.react';
-import { format } from 'date-fns';
 import differenceInSeconds from 'date-fns/differenceInSeconds';
+import base64 from 'base-64';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -119,6 +111,7 @@ function CreditCardInfoPreview({
       <p>{holderNameDeco}</p>
       <p>{brandDeco}</p>
       {lastFourDeco ? <p>{`************${lastFourDeco}`}</p> : null}
+      {console.log('expirationDate', expirationDate)}
       {expirationDate ? (
         <p>
           {formatDate({
@@ -132,10 +125,6 @@ function CreditCardInfoPreview({
       ) : null}
     </div>
   );
-}
-
-function emptyFun(num) {
-  return num.split('').join('');
 }
 
 const AdyenCreditCardPic = ({ supportPaymentMethods }) => (
@@ -176,6 +165,7 @@ const chooseRadioType = (country) => {
 )
 @injectIntl
 @observer
+@seoHoc('Checkout page')
 class Payment extends React.Component {
   constructor(props) {
     super(props);
@@ -197,11 +187,6 @@ class Payment extends React.Component {
       adyenAction: {},
       promotionCode: this.props.checkoutStore.promotionCode || '',
       billingChecked: true,
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       deliveryAddress: {
         firstName: '',
         lastName: '',
@@ -256,9 +241,6 @@ class Payment extends React.Component {
         : [],
       billingAddressErrorMsg: '',
       creditCardInfo: {
-        // cardNumber: "",
-        // cardDate: "",
-        // cardCVV: "",
         cardOwner: '',
         email: '',
         phoneNumber: '',
@@ -356,28 +338,36 @@ class Payment extends React.Component {
     this.confirmListValidationAddress =
       this.confirmListValidationAddress.bind(this);
   }
-  handelQrcodeModalClose = () => {
-    const { history } = this.props;
-    if (!this.isLogin) {
-      sessionItemRoyal.remove('rc-token');
-      history.push('/cart');
-    }
-    sessionItemRoyal.remove('rc-swishQrcode');
-    this.setState({ swishQrcodeModal: false });
-    this.setState(
-      {
-        tid: sessionItemRoyal.get('rc-tid'),
-        tidList: sessionItemRoyal.get('rc-tidList')
-          ? JSON.parse(sessionItemRoyal.get('rc-tidList'))
-          : [],
-        rePaySubscribeId: sessionItemRoyal.get('rc-rePaySubscribeId')
-      },
-      () => {
-        this.state.tidList &&
-          this.state.tidList.length &&
-          this.queryOrderDetails();
+  handelQrcodeModalClose = async () => {
+    try {
+      // await swishCancelOrRefund({
+      //   businessId: sessionItemRoyal.get('rc-businessId'),
+      //   payPspItemEnum: 'ADYEN_SWISH'
+      // })
+      const { history } = this.props;
+      if (!this.isLogin) {
+        sessionItemRoyal.remove('rc-token');
+        history.push('/cart');
       }
-    );
+      sessionItemRoyal.remove('rc-swishQrcode');
+      this.setState({ swishQrcodeModal: false });
+      this.setState(
+        {
+          tid: sessionItemRoyal.get('rc-tid'),
+          tidList: sessionItemRoyal.get('rc-tidList')
+            ? JSON.parse(sessionItemRoyal.get('rc-tidList'))
+            : [],
+          rePaySubscribeId: sessionItemRoyal.get('rc-rePaySubscribeId')
+        },
+        () => {
+          this.state.tidList &&
+            this.state.tidList.length &&
+            this.queryOrderDetails();
+        }
+      );
+    } catch (err) {
+      console.log(err.message);
+    }
   };
   //cyber查询卡类型-会员
   queryCyberCardType = async (params) => {
@@ -462,6 +452,12 @@ class Payment extends React.Component {
       sessionItemRoyal.set('oldAppointNo', funcUrl({ name: 'oldAppointNo' }));
       sessionItemRoyal.set('isChangeAppoint', true);
     }
+    if (funcUrl({ name: 'gusetInfo' })) {
+      sessionItemRoyal.set(
+        'gusetInfo',
+        base64.decode(funcUrl({ name: 'gusetInfo' }))
+      );
+    }
     if (appointNo) {
       let felinAddress = this.isLogin
         ? Object.assign(felinAddr[0], {
@@ -510,38 +506,8 @@ class Payment extends React.Component {
       this.queryList();
     }
 
-    if (sessionItemRoyal.get('rc-swishQrcode')) {
-      this.setState({
-        swishQrcode: sessionItemRoyal.get('rc-swishQrcode'),
-        swishQrcodeModal: true
-      });
-      const result = differenceInSeconds(
-        new Date(),
-        new Date(sessionItemRoyal.get('rc-createSwishQrcodeTime'))
-      );
-      payCountDown(
-        this.state.countDownStartTime - result,
-        1,
-        (res, swishQrcodeError) => {
-          if (swishQrcodeError) {
-            setTimeout(() => {
-              this.handelQrcodeModalClose();
-            }, 3000);
-          }
-          this.setState({ countDown: res, swishQrcodeError });
-        }
-      );
-    }
-
     try {
       const { tid, appointNo } = this.state;
-
-      setSeoConfig({
-        pageName: 'Checkout page'
-      }).then((res) => {
-        this.setState({ seoConfig: res });
-      });
-
       if (tid) {
         this.queryOrderDetails();
       }
@@ -588,6 +554,71 @@ class Payment extends React.Component {
         this.props.checkoutStore.updatePromotionFiled(recommend_data);
         this.setState({ recommend_data });
       }
+
+      //swish支付刷新网站后持续倒计时监听支付状态
+      if (sessionItemRoyal.get('rc-swishQrcode')) {
+        this.setState({
+          swishQrcode: sessionItemRoyal.get('rc-swishQrcode'),
+          swishQrcodeModal: true
+        });
+        const result = differenceInSeconds(
+          new Date(),
+          new Date(sessionItemRoyal.get('rc-createSwishQrcodeTime'))
+        );
+        const getData = () => {
+          if (!this.state.swishQrcodeModal) return;
+          return adyenPaymentsDetails({
+            redirectResult: sessionItemRoyal.get('rc-redirectResult'),
+            businessId: sessionItemRoyal.get('rc-businessId')
+          })
+            .then((response) => {
+              switch (response.context.status) {
+                case 'PROCESSING':
+                  setTimeout(() => {
+                    return getData();
+                  }, 2000);
+                  break;
+                case 'SUCCEED':
+                  //gotoConfirmationPage = true;
+                  this.removeLocalCartData();
+                  // 清除掉计算运费相关参数
+                  localItemRoyal.remove('rc-calculation-param');
+                  sessionItemRoyal.remove('rc-clicked-surveyId');
+                  sessionItemRoyal.remove('goodWillFlag');
+                  //支付成功清除推荐者信息
+                  this.props.clinicStore.removeLinkClinicInfo();
+                  this.props.clinicStore.removeLinkClinicRecommendationInfos();
+
+                  // 跳转 confirmation
+                  this.props.history.push('/confirmation');
+                  break;
+                case 'FAILURE':
+                  this.setState({
+                    swishQrcodeError: true,
+                    swishQrcode: ''
+                  });
+                  sessionItemRoyal.remove('rc-swishQrcode');
+                  break;
+              }
+            })
+            .catch(function () {
+              //this.setState({ swishQrcodeError: true });
+            });
+        };
+        payCountDown(
+          this.state.countDownStartTime - result,
+          1,
+          (res, swishQrcodeError) => {
+            if (swishQrcodeError) {
+              setTimeout(() => {
+                this.handelQrcodeModalClose();
+              }, 3000);
+            }
+            this.setState({ countDown: res, swishQrcodeError });
+          }
+        );
+        getData();
+      }
     } catch (err) {
       console.warn(err);
     }
@@ -601,11 +632,15 @@ class Payment extends React.Component {
 
   componentWillUnmount() {
     //因设置了router refresh=true，此生命周期无效，需在RouterFilter文件中删除
-    localItemRoyal.set('isRefresh', true);
     sessionItemRoyal.remove('rc-tid');
     sessionItemRoyal.remove('rc-tidList');
+    sessionItemRoyal.remove('rc-swishQrcode');
+    sessionItemRoyal.remove('rc-createSwishQrcodeTime');
     sessionItemRoyal.remove('recommend_product');
     sessionItemRoyal.remove('orderSource');
+    sessionItemRoyal.remove('appointment-no');
+    sessionItemRoyal.remove('isChangeAppoint');
+    sessionItemRoyal.remove('oldAppointNo');
   }
 
   get billingAdd() {
@@ -670,11 +705,10 @@ class Payment extends React.Component {
 
   // 当前是否为订阅购买
   get isCurrentBuyWaySubscription() {
-    let isSubscription =
+    return (
       this.state.subForm?.buyWay === 'frequency' ||
-      this.state.orderDetails?.subscriptionResponseVO;
-    //this.state.orderDetails?.subscriptionResponseVO 这个是repay通过订单号查询的是否订阅的字段
-    return isSubscription;
+      this.state.orderDetails?.subscriptionResponseVO
+    );
   }
 
   /**
@@ -1065,7 +1099,6 @@ class Payment extends React.Component {
   };
 
   // 更新felin预约的用户信息
-
   async setFelinAppointInfo(params) {
     if (!this.userInfo) return;
     await postUpdateUser({
@@ -1129,7 +1162,10 @@ class Payment extends React.Component {
   //获取appointment信息
   async queryAppointInfo() {
     try {
-      const result = await getAppointmentInfo(this.state.appointNo);
+      const result = await getAppointmentInfo(
+        this.state.appointNo,
+        this.isLogin
+      );
       console.log('appointmentInfo', result);
       const requestName = this.isLogin ? getLoginDetails : getDetails;
       const goodInfoRes = await requestName(result?.goodsInfoId);
@@ -1155,19 +1191,21 @@ class Payment extends React.Component {
       await this.props.checkoutStore.updatePromotionFiled([goodDetail]);
       this.handleZeroOrder();
       if (!this.isLogin) {
+        const guestInfo = JSON.parse(sessionItemRoyal.get('gusetInfo'));
         const felinAddress = Object.assign(felinAddr[0], {
-          firstName: result?.consumerFirstName || '',
-          lastName: result?.consumerLastName || '',
+          firstName: result?.consumerFirstName || guestInfo.firstName || '',
+          lastName: result?.consumerLastName || guestInfo.lastName || '',
           consigneeName:
             result?.consumerName ||
             result?.consumerFirstName + ' ' + result?.consumerLastName ||
+            guestInfo.firstName + ' ' + guestInfo.lastName ||
             '',
-          consigneeNumber: result?.consumerPhone || ''
+          consigneeNumber: result?.consumerPhone || guestInfo.phone || ''
         });
         this.setState({
           deliveryAddress: felinAddress,
           billingAddress: felinAddress,
-          guestEmail: result?.consumerEmail
+          guestEmail: result?.consumerEmail || guestInfo.email
         });
       }
       this.setState({
@@ -1680,22 +1718,26 @@ class Payment extends React.Component {
               JSON.stringify(subOrderNumberList)
             );
           }
+          sessionItemRoyal.set('rc-redirectResult', res.context.paymentData);
+          sessionItemRoyal.set('rc-businessId', res.context.tid);
 
           if (res.context.qrCodeData) {
             this.setState({ swishAppRedirectUrl: res.context.redirectUrl });
-            async function getData() {
+            const getData = async () => {
+              if (!this.state.swishQrcodeModal) return;
               return adyenPaymentsDetails({
                 redirectResult: res.context.paymentData,
                 businessId: res.context.tid
               })
-                .then(async function (response) {
+                .then((response) => {
                   switch (response.context.status) {
                     case 'PROCESSING':
-                      return await getData();
+                      setTimeout(async () => {
+                        return await getData();
+                      }, 2000);
                       break;
                     case 'SUCCEED':
                       gotoConfirmationPage = true;
-                      //return await getData();
                       break;
                     case 'FAILURE':
                       this.setState({
@@ -1709,7 +1751,7 @@ class Payment extends React.Component {
                 .catch(function () {
                   //this.setState({ swishQrcodeError: true });
                 });
-            }
+            };
 
             //模态框
             this.setState(
@@ -1719,7 +1761,6 @@ class Payment extends React.Component {
               },
               () => {
                 sessionItemRoyal.set('rc-swishQrcode', this.state.swishQrcode);
-                // sessionItemRoyal.set('rc-createSwishQrcodeTime', format(new Date(), 'yyyy-MM-dd HH:mm:ss'));
                 sessionItemRoyal.set(
                   'rc-createSwishQrcodeTime',
                   new Date().toString()
@@ -1739,12 +1780,12 @@ class Payment extends React.Component {
                 this.setState({ countDown: res, swishQrcodeError });
               }
             );
-
+            if (isMobile) {
+              window.location = res.context.redirectUrl;
+            }
             await getData();
           }
-          if (isMobile) {
-            window.location = res.context.redirectUrl;
-          }
+
           break;
         case 'adyenOxxo':
           subOrderNumberList =
@@ -1856,6 +1897,7 @@ class Payment extends React.Component {
         localItemRoyal.remove('rc-calculation-param');
         sessionItemRoyal.remove('rc-clicked-surveyId');
         sessionItemRoyal.remove('goodWillFlag');
+        sessionItemRoyal.remove('gusetInfo');
         //支付成功清除推荐者信息
         this.props.clinicStore.removeLinkClinicInfo();
         this.props.clinicStore.removeLinkClinicRecommendationInfos();
@@ -1978,6 +2020,9 @@ class Payment extends React.Component {
         param
       );
 
+      console.log(717, postVisitorRegisterAndLoginRes);
+      console.log(717, postVisitorRegisterAndLoginRes.context.token);
+
       //游客绑定consent 一定要在游客注册之后 start
       let submitParam = bindSubmitParam(this.state.listData);
       userBindConsent({
@@ -2096,7 +2141,11 @@ class Payment extends React.Component {
       {
         zipcode: deliveryAddress?.postCode,
         phone: creditCardInfo?.phoneNumber,
-        email: creditCardInfo?.email || deliveryAddress?.email || guestEmail,
+        email:
+          creditCardInfo?.email ||
+          deliveryAddress?.email ||
+          this.userInfo?.email ||
+          guestEmail,
         line1: deliveryAddress?.address1,
         line2: deliveryAddress?.address2,
         //审核者信息放订单行
@@ -2143,9 +2192,15 @@ class Payment extends React.Component {
       deliveryAddress?.receiveType == ''
     ) {
       param.deliverWay = 1;
+      param.contractNumber = deliveryAddress?.calculation?.contractNumber;
+      param.courier = deliveryAddress?.calculation?.courier;
+      param.courierCode = deliveryAddress?.calculation?.courierCode;
     }
     if (deliveryAddress?.receiveType == 'PICK_UP') {
       param.deliverWay = 2;
+      param.contractNumber = deliveryAddress?.pickup?.contractNumber;
+      param.courier = deliveryAddress?.pickup?.courier;
+      param.courierCode = deliveryAddress?.pickup?.courierCode;
     }
 
     if (payosdata) {
@@ -2372,7 +2427,6 @@ class Payment extends React.Component {
     try {
       await this.saveAddressAndCommentPromise();
       await this.props.checkoutStore.validCheckoutLimitRule({
-        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT),
         intl
       });
     } catch (err) {
@@ -3991,26 +4045,25 @@ class Payment extends React.Component {
     //0元订单中含有订阅商品时不能下单（us美国订阅可以）
     if (
       this.isSkipPaymentPanel &&
-      !(
-        window.__.env.REACT_APP_COUNTRY === 'us' &&
-        this.isCurrentBuyWaySubscription
-      )
+      window.__.env.REACT_APP_COUNTRY !== 'us' &&
+      this.isCurrentBuyWaySubscription &&
+      !sessionItemRoyal.get('appointment-no')
     ) {
       const errMsg = intl.messages['checkout.zeroOrder.butSubscription'];
       this.showErrorMsg(errMsg);
       return;
     }
     //Blocked users and emails are not able to checkout
-    const isBlockedAccountOrEmail = isBlockedUserOrEmail(
-      this.isLogin ? this.userInfo?.email : this.state.guestEmail
-    );
-    if (isBlockedAccountOrEmail) {
-      const isBlockedUserOrEmailTip = this.isLogin
-        ? intl.messages['checkout.blockedUserTip']
-        : intl.messages['checkout.blockedEmailTip'];
-      this.showErrorMsg(isBlockedUserOrEmailTip);
-      return;
-    }
+    // const isBlockedAccountOrEmail = isBlockedUserOrEmail(
+    //   this.isLogin ? this.userInfo?.email : this.state.guestEmail
+    // );
+    // if (isBlockedAccountOrEmail) {
+    //   const isBlockedUserOrEmailTip = this.isLogin
+    //     ? intl.messages['checkout.blockedUserTip']
+    //     : intl.messages['checkout.blockedEmailTip'];
+    //   this.showErrorMsg(isBlockedUserOrEmailTip);
+    //   return;
+    // }
 
     if (this.isLogin) {
       this.userBindConsentFun();
@@ -4075,81 +4128,42 @@ class Payment extends React.Component {
       },
       pet: this.state.pet
     };
-    const paymentMethodTitleForPrepare = (
-      <div className="ml-custom mr-custom d-flex justify-content-between align-items-center">
+
+    const paymentMethodTitle = (
+      <div
+        className={`ml-custom mr-custom d-flex justify-content-between align-items-center ${
+          paymentMethodPanelStatus.isEdit ? 'red' : ''
+        }`}
+      >
         <h5 className="mb-0 text-xl">
           <em
-            className="rc-icon rc-payment--sm rc-iconography inlineblock"
-            style={{
-              transform: 'scale(.8)',
-              transformOrigin: 'left',
-              marginRight: '-.1rem'
-            }}
+            className={`rc-icon rc-payment--sm ${
+              paymentMethodPanelStatus.isEdit ? 'rc-brand1' : 'rc-iconography'
+            } inlineblock origin-left paymentIconTransform`}
           />{' '}
           <FormattedMessage id="payment.paymentInformation" />
+          {paymentMethodPanelStatus.isCompleted ? (
+            <span className="iconfont font-weight-bold green ml-2">
+              &#xe68c;
+            </span>
+          ) : null}
         </h5>
+        {paymentMethodPanelStatus.isCompleted ? (
+          <p
+            onClick={this.handleClickPaymentPanelEdit}
+            className="rc-styled-link mb-1 edit_payment_method cursor-pointer"
+          >
+            <FormattedMessage id="edit" />
+          </p>
+        ) : null}
       </div>
     );
-
-    const paymentMethodTitleForEdit = (
-      <div className="ml-custom mr-custom d-flex justify-content-between align-items-center red">
-        <h5 className="mb-0 text-xl">
-          <em
-            className="rc-icon rc-payment--sm rc-brand1 inlineblock"
-            style={{
-              transform: 'scale(.8)',
-              transformOrigin: 'left',
-              marginRight: '-.1rem'
-            }}
-          />{' '}
-          <FormattedMessage id="payment.paymentInformation" />
-        </h5>
-      </div>
-    );
-
-    const paymentMethodTitleForCompeleted = (
-      <div className="ml-custom mr-custom d-flex justify-content-between align-items-center">
-        <h5 className="mb-0 text-xl">
-          <em
-            className="rc-icon rc-payment--sm rc-iconography inlineblock"
-            style={{
-              transform: 'scale(.8)',
-              transformOrigin: 'left',
-              marginRight: '-.1rem'
-            }}
-          />{' '}
-          <FormattedMessage id="payment.paymentInformation" />
-          <span className="iconfont font-weight-bold green ml-2">&#xe68c;</span>
-        </h5>
-        <p
-          onClick={this.handleClickPaymentPanelEdit}
-          className="rc-styled-link mb-1 edit_payment_method"
-          style={{ cursor: 'pointer' }}
-        >
-          <FormattedMessage id="edit" />
-        </p>
-      </div>
-    );
-
-    const paymentMethodTitle = paymentMethodPanelStatus.isPrepare
-      ? paymentMethodTitleForPrepare
-      : paymentMethodPanelStatus.isEdit
-      ? paymentMethodTitleForEdit
-      : paymentMethodPanelStatus.isCompleted
-      ? paymentMethodTitleForCompeleted
-      : null;
 
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
           {...this.props}
@@ -4228,15 +4242,11 @@ class Payment extends React.Component {
                 )}
                 {checkoutStore.petFlag && checkoutStore.AuditData.length > 0 && (
                   <div className="card-panel checkout--padding pl-0 pr-0 rc-bg-colour--brand3 rounded pb-0">
-                    <h5
-                      className="ml-custom mr-custom text-xl"
-                      style={{ overflow: 'hidden' }}
-                    >
+                    <h5 className="ml-custom mr-custom text-xl overflow-hidden">
                       <em
-                        className="rc-icon rc-payment--sm rc-iconography inlineblock"
+                        className="rc-icon rc-payment--sm rc-iconography inlineblock origin-left"
                         style={{
                           transform: 'scale(.8)',
-                          transformOrigin: 'left',
                           marginRight: '-.4rem'
                         }}
                       />{' '}
@@ -4256,13 +4266,7 @@ class Payment extends React.Component {
                                   />
                                 </LazyLoad>
 
-                                <div
-                                  className="pull-left"
-                                  style={{
-                                    marginTop: '1.25rem',
-                                    marginLeft: '1.25rem'
-                                  }}
-                                >
+                                <div className="pull-left mt-5 ml-5">
                                   <p>
                                     <span>Pet:</span>
                                     <span>
@@ -4275,10 +4279,9 @@ class Payment extends React.Component {
                                   </p>
                                 </div>
                                 <div
-                                  className="pull-right"
+                                  className="pull-right ml-5"
                                   style={{
-                                    marginTop: '30px',
-                                    marginLeft: '1.25rem'
+                                    marginTop: '30px'
                                   }}
                                 >
                                   <button
@@ -4309,13 +4312,7 @@ class Payment extends React.Component {
                                     className="pull-left"
                                   />
                                 </LazyLoad>
-                                <div
-                                  className="pull-left"
-                                  style={{
-                                    marginTop: '1.25rem',
-                                    marginLeft: '1.25rem'
-                                  }}
-                                >
+                                <div className="pull-left mt-5 ml-5">
                                   <p>
                                     <span>Pet:</span>
                                     <span>
@@ -4330,10 +4327,9 @@ class Payment extends React.Component {
                                   </p>
                                 </div>
                                 <div
-                                  className="pull-right"
+                                  className="pull-right ml-5"
                                   style={{
-                                    marginTop: '30px',
-                                    marginLeft: '1.25rem'
+                                    marginTop: '30px'
                                   }}
                                 >
                                   <button

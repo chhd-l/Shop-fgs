@@ -9,7 +9,7 @@ import image2 from './images/image2.jpg';
 import image3 from './images/image3.jpg';
 import image4 from './images/image4.jpg';
 import LazyLoad from 'react-lazyload';
-import { setSeoConfig } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 
@@ -18,26 +18,8 @@ import './index.css';
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
+@seoHoc()
 class Values extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      }
-    };
-  }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
-  componentDidMount() {
-    setSeoConfig().then((res) => {
-      this.setState({ seoConfig: res });
-    });
-  }
-
   render(h) {
     const event = {
       page: {
@@ -54,12 +36,6 @@ class Values extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">

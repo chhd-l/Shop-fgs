@@ -13,17 +13,13 @@ import {
   queryCityNameById,
   getProvincesList
 } from '@/api/address';
-import {
-  getDictionary,
-  validData,
-  setSeoConfig,
-  isCanVerifyBlacklistPostCode
-} from '@/utils/utils';
+import { validData, isCanVerifyBlacklistPostCode } from '@/utils/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
 // import Selection from '@/components/Selection';
 import classNames from 'classnames';
 import { Helmet } from 'react-helmet';
 import { myAccountActionPushEvent } from '@/utils/GA';
+import { seoHoc } from '@/framework/common';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
@@ -37,6 +33,7 @@ const addressType = ({ hideBillingAddr }) => {
 };
 
 @injectIntl
+@seoHoc()
 class ShippingAddressFrom extends React.Component {
   static defaultProps = {
     addressId: '',
@@ -46,11 +43,6 @@ class ShippingAddressFrom extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       formAddressValid: false,
       loading: true,
       saveLoading: false,
@@ -89,30 +81,19 @@ class ShippingAddressFrom extends React.Component {
     };
     this.handleTypeChange = this.handleTypeChange.bind(this);
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   componentDidMount() {
-    setSeoConfig().then((res) => {
-      this.setState(
-        {
-          seoConfig: res
-        },
-        () => {
-          // 根据addressId查询地址信息
-          if (this.props.addressId) {
-            this.setState({
-              loading: true
-            });
-            this.getAddressById(this.props.addressId);
-          } else {
-            this.setState({
-              loading: false
-            });
-          }
-        }
-      );
-    });
+    // 根据addressId查询地址信息
+    if (this.props.addressId) {
+      this.setState({
+        loading: true
+      });
+      this.getAddressById(this.props.addressId);
+    } else {
+      this.setState({
+        loading: false
+      });
+    }
   }
   // 根据 address Id 查询地址信息
   getAddressById = async (id) => {
@@ -403,15 +384,9 @@ class ShippingAddressFrom extends React.Component {
       selectValidationOption
     } = this.state;
     return (
-      <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
+      <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop px-0 md:px-4">
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <div className="content-asset">
           <div
@@ -516,11 +491,7 @@ class ShippingAddressFrom extends React.Component {
                     name="contactInformation"
                     onClick={this.handleCancel}
                   >
-                    {window.__.env.REACT_APP_COUNTRY === 'uk' ? (
-                      <FormattedMessage id="cancelAddress" />
-                    ) : (
-                      <FormattedMessage id="cancel" />
-                    )}
+                    <FormattedMessage id="cancel" />
                   </span>
                   &nbsp;
                   <FormattedMessage id="or" />
@@ -540,11 +511,7 @@ class ShippingAddressFrom extends React.Component {
                     disabled={isValid && formAddressValid ? false : true}
                     onClick={this.handleSave}
                   >
-                    {window.__.env.REACT_APP_COUNTRY === 'uk' ? (
-                      <FormattedMessage id="saveAddress" />
-                    ) : (
-                      <FormattedMessage id="save" />
-                    )}
+                    <FormattedMessage id="saveAddress" />
                   </button>
                 </div>
               </div>

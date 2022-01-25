@@ -64,9 +64,9 @@ export default class Rate extends Component {
 
     const inActiveStar =
       color === 'red' ? (
-        <span className="iconfont rate__icon grey">&#xe6f2;</span>
+        <span className="iconfont rate__icon grey icongrayStar" />
       ) : (
-        <span className="iconfont rate__icon grey">&#xe600;</span>
+        <span className="iconfont rate__icon grey icongrayStar1" />
       );
     return (
       <div>

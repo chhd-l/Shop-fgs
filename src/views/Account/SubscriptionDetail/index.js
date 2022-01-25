@@ -19,7 +19,7 @@ import DeliveryList from './components/DeliveryList';
 import Loading from '@/components/Loading';
 import { getRation } from '@/utils/utils';
 import GiftList from './components/GiftList';
-import { getDeviceType, setSeoConfig } from '@/utils/utils';
+import { getDeviceType } from '@/utils/utils';
 import { Link } from 'react-router-dom';
 import {
   updateDetail,
@@ -37,6 +37,7 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import OngoingOrder from './components/OngoingOrder';
 import TempolineAPIError from './components/TempolineAPIError';
 import { format } from 'date-fns';
+import { seoHoc } from '@/framework/common';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
@@ -45,6 +46,7 @@ const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 @inject('configStore')
 @injectIntl
 @observer
+@seoHoc('Subscription Page')
 class SubscriptionDetail extends React.Component {
   constructor(props) {
     super(props);
@@ -59,11 +61,6 @@ class SubscriptionDetail extends React.Component {
         firstShow: false,
         isShowModal: false,
         showBox: false // 只有一个商品的情况下都需要添加被动更换商品
-      },
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
       },
       isGift: false,
       remainingsList: [],
@@ -110,29 +107,29 @@ class SubscriptionDetail extends React.Component {
       modalShow: false,
       modalList: [
         {
-          title: this.props.intl.messages.modalSkipTitle,
-          content: this.props.intl.messages.modalSkipContent,
+          title: 'modalSkipTitle',
+          content: 'modalSkipContent',
           type: 'skipNext'
         },
         {
-          title: this.props.intl.messages.modalCancelAllTitle,
-          content: this.props.intl.messages.modalCancelAllContent,
+          title: 'modalCancelAllTitle',
+          content: 'modalCancelAllContent',
           type: 'cancelAll'
         },
         {
-          title: this.props.intl.messages.modalOrderNowTitle,
-          content: this.props.intl.messages.modalOrderNowContent,
+          title: 'modalOrderNowTitle',
+          content: 'modalOrderNowContent',
           type: 'orderNow'
         },
         {
-          title: this.props.intl.messages.modalChangeDateTitle,
-          content: this.props.intl.messages.modalChangeDateContent,
+          title: 'modalChangeDateTitle',
+          content: 'modalChangeDateContent',
           type: 'changeDate'
         }
       ],
       currentModalObj: {
-        title: this.props.intl.messages.modalSkipTitle,
-        content: this.props.intl.messages.modalSkipContent,
+        title: 'modalSkipTitle',
+        content: 'modalSkipContent',
         type: 'skipNext'
       },
       modalType: '',
@@ -160,7 +157,7 @@ class SubscriptionDetail extends React.Component {
 
   paymentSave = (el) => {
     const { subDetail } = this.state;
-    let param = {
+    const param = {
       subscribeId: subDetail.subscribeId,
       paymentId: el.id,
       goodsItems: subDetail.goodsInfo?.map((el) => {
@@ -192,6 +189,7 @@ class SubscriptionDetail extends React.Component {
   cancelEdit = () => {
     this.setState({ type: 'main' });
   };
+
   // 返回某个地方
   scrollToWhere = (str) => {
     let pstit = document.getElementById(str);
@@ -202,107 +200,64 @@ class SubscriptionDetail extends React.Component {
 
   addressSave = (el, isBillSame, fn) => {
     const { subDetail } = this.state;
-    // console.log(el, isBillSame);
+    const { intl } = this.props;
+    let changeField = '';
     this.scrollToWhere('page-top');
-    // this.scrollToWhere('sub-user-paymentinfo-title');
     console.log('this.state.addressType:', this.state.addressType);
+    let param = {
+      subscribeId: subDetail.subscribeId,
+      goodsItems: subDetail.goodsInfo.map((el) => {
+        return {
+          skuId: el.skuId,
+          subscribeNum: el.subscribeNum,
+          subscribeGoodsId: el.subscribeGoodsId
+        };
+      })
+    };
     if (this.state.addressType === 'delivery') {
-      // checkSubscriptionAddressPickPoint({
-      //   subscribeId: subDetail.subscribeId,
-      //   goodsItems: subDetail.goodsInfo?.map((el) => {
-      //     return {
-      //       skuId: el.skuId,
-      //       subscribeNum: el.subscribeNum,
-      //       subscribeGoodsId: el.subscribeGoodsId,
-      //       subscribeId: el.subscribeId
-      //     };
-      //   }),
-      //   paymentId: subDetail.paymentId,
-      //   deliveryAddressId: el.deliveryAddressId
-      // })
+      param.deliveryAddressId = el.deliveryAddressId;
+      // let checkSubAddressPickPointParams=Object.assign({},param,{paymentId: subDetail?.paymentId})
+      // checkSubscriptionAddressPickPoint(checkSubAddressPickPointParams)
       //   .then()
       //   .catch((err) => {
       //     this.setState({ showTempolineError: err.message });
       //     return;
       //   });
-      let param = {
-        subscribeId: subDetail.subscribeId,
-        deliveryAddressId: el.deliveryAddressId,
-        goodsItems: subDetail.goodsInfo.map((el) => {
-          return {
-            skuId: el.skuId,
-            subscribeNum: el.subscribeNum,
-            subscribeGoodsId: el.subscribeGoodsId
-          };
-        })
-      };
       if (isBillSame) {
         param.billingAddressId = el.deliveryAddressId;
       }
       //订阅寄送地址和发票地址更改,在更新接口里面加上changeField参数为deliveryAddressId和billingAddressId的title
-      let title = '';
-      //寄送地址
-      title = this.props.intl.messages['subscription.shippingAddress'];
-      //如果勾选了同步发票地址,两个地址以逗号隔开传给后台
+      changeField = intl.messages['subscription.shippingAddress'];
       if (param.billingAddressId) {
-        title =
-          title + ',' + this.props.intl.messages['subscription.BillingAddress'];
+        changeField =
+          changeField + ',' + intl.messages['subscription.BillingAddress'];
       }
-      //增加返回changeField字段
-      Object.assign(param, {
-        changeField: title
+    } else {
+      param.billingAddressId = el.deliveryAddressId;
+      changeField = intl.messages['subscription.BillingAddress'];
+    }
+    param.changeField = changeField;
+    this.setState({ loading: true });
+    updateDetail(param)
+      .then((res) => {
+        fn && fn();
+        this.getDetail(
+          this.showErrMsg.bind(
+            this,
+            this.props.intl.messages.saveSuccessfullly,
+            'success'
+          )
+        );
+      })
+      .catch((err) => {
+        this.setState({ loading: false });
       });
-      // console.log(param);
-      this.setState({ loading: true });
-      updateDetail(param)
-        .then((res) => {
-          fn && fn();
-          this.getDetail(
-            this.showErrMsg.bind(
-              this,
-              this.props.intl.messages.saveSuccessfullly,
-              'success'
-            )
-          );
-        })
-        .catch((err) => {
-          this.setState({ loading: false });
-        });
+    if (this.state.addressType === 'delivery') {
       this.setState({
         type: 'main',
         currentDeliveryAddress: el
       });
     } else {
-      let param = {
-        subscribeId: this.state.subDetail.subscribeId,
-        billingAddressId: el.deliveryAddressId,
-        goodsItems: this.state.subDetail.goodsInfo.map((el) => {
-          return {
-            skuId: el.skuId,
-            subscribeNum: el.subscribeNum,
-            subscribeGoodsId: el.subscribeGoodsId
-          };
-        })
-      };
-      //增加返回changeField字段
-      Object.assign(param, {
-        changeField: this.props.intl.messages['subscription.BillingAddress']
-      });
-      // console.log(param);
-      this.setState({ loading: true });
-      updateDetail(param)
-        .then((res) => {
-          this.getDetail(
-            this.showErrMsg.bind(
-              this,
-              this.props.intl.messages.saveSuccessfullly,
-              'success'
-            )
-          );
-        })
-        .catch((err) => {
-          this.setState({ loading: false });
-        });
       this.setState({
         type: 'main',
         currentBillingAddress: el
@@ -310,25 +265,13 @@ class SubscriptionDetail extends React.Component {
     }
   };
 
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
-
-  async componentDidMount() {
-    setSeoConfig({
-      goodsId: '',
-      categoryId: '',
-      pageName: 'Subscription Page'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
+  componentDidMount() {
     this.setState({
       subId: this.props.match.params.subscriptionNumber
     });
     this.initPage();
   }
-
-  initPage = () => {
+  initPage = (isAddedPet) => {
     let { search } = this.props.history.location;
     search = search && decodeURIComponent(search);
     let needBindPet =
@@ -338,20 +281,32 @@ class SubscriptionDetail extends React.Component {
       // 邮件展示需要绑定宠物
       needBindPet && this.setState({ triggerShowAddNewPet: true });
       let goodsInfo = [...this.state.subDetail.goodsInfo];
-      let isIndv = this.state.subDetail.subscriptionType == 'Individualization';
+      let isIndv =
+        this.state.subDetail.subscriptionType === 'Individualization';
       // 非激活状态就不展示
       // 如果一进来就需要被动更换商品,删除以前所有商品  2个以上不用推荐  不是创建的时候就展示，需要第一次换粮邮件时才展示
       !isIndv &&
-        goodsInfo?.length == 1 &&
-        this.state.subDetail.petsLifeStageFlag == 1 &&
+        goodsInfo?.length === 1 &&
+        this.state.subDetail.petsLifeStageFlag === 1 &&
         this.state.isNotInactive &&
         this.setState({
           triggerShowChangeProduct: {
             firstShow: true,
             showBox: true,
-            show: true,
             goodsInfo,
             isShowModal: false
+          }
+        });
+      !isIndv &&
+        goodsInfo?.length == 1 &&
+        this.state.isNotInactive &&
+        isAddedPet &&
+        this.setState({
+          triggerShowChangeProduct: {
+            firstShow: !this.state.triggerShowChangeProduct.firstShow,
+            showBox: false,
+            goodsInfo,
+            isShowModal: true
           }
         });
     });
@@ -363,7 +318,7 @@ class SubscriptionDetail extends React.Component {
 
   onDateChange(date, goodsInfo) {
     let { subDetail } = this.state;
-    subDetail.nextDeliveryTime = format(date, 'yyyy-MM-dd');
+    subDetail.nextDeliveryTime = format(new Date(date), 'yyyy-MM-dd');
     let param = {
       subscribeId: subDetail.subscribeId,
       nextDeliveryTime: subDetail.nextDeliveryTime,
@@ -409,7 +364,6 @@ class SubscriptionDetail extends React.Component {
 
   getGoodsRations = async (subDetail, isIndv) => {
     let petsId = subDetail.petsInfo?.petsId;
-
     return subDetail.petsInfo;
   };
 
@@ -427,17 +381,13 @@ class SubscriptionDetail extends React.Component {
       subDetail.goodsInfo =
         subDetail.goodsInfo?.map((item) => {
           if (isIndv) {
-            // item.spuName = `${item.petsName}'s personalized subscription`;
             item.spuName = (
               <FormattedMessage
                 id="subscription.personalized"
                 values={{ val1: item.petsName }}
               />
             );
-
-            // item.specDetails = item.num / 1000 + 'kg';
             item.num = 1;
-            // item.goodsName = `${subDetail?.petsInfo?.petsName}'s personalized subscription`;
             item.goodsName = (
               <FormattedMessage
                 id="subscription.personalized"
@@ -445,6 +395,8 @@ class SubscriptionDetail extends React.Component {
               />
             );
           }
+          item.oldSubscribeNum = item.subscribeNum;
+          item.oldPeriodTypeId = item.periodTypeId;
           return item;
         }) || []; //防止商品被删报错
       let isCat =
@@ -526,8 +478,6 @@ class SubscriptionDetail extends React.Component {
         subDetail.goodsInfo &&
         subDetail.goodsInfo[0]?.subscriptionPlanId &&
         subDetail.subscriptionPlanFullFlag === 0; //subscriptionPlanFullFlag判断food dispenser是否在有效期
-      let now = new Date(res.defaultLocalDateTime);
-      now.setDate(now.getDate() + 4);
       this.setState(
         {
           petType: petsType,
@@ -668,32 +618,38 @@ class SubscriptionDetail extends React.Component {
     try {
       let param = {
         subscribeId: subDetail.subscribeId,
-        subscribeStatus: subDetail.subscribeStatus,
-        changeField: 'productNumberOrFrequency'
+        subscribeStatus: subDetail.subscribeStatus
       };
-      Object.assign(param, {
-        goodsItems: subDetail.goodsInfo?.map((el) => {
-          return {
-            skuId: el.skuId,
-            subscribeNum: el.subscribeNum,
-            subscribeGoodsId: el.subscribeGoodsId,
-            periodTypeId: el.periodTypeId
-          };
-        })
+      let changeField = [];
+      let goodsItems = subDetail.goodsInfo?.map((el) => {
+        if (
+          el.subscribeNum !== el.oldSubscribeNum &&
+          !changeField.includes('productNumber')
+        ) {
+          changeField.push('productNumber');
+        }
+        if (
+          el.periodTypeId !== el.oldPeriodTypeId &&
+          !changeField.includes('frequency')
+        ) {
+          changeField.push('frequency');
+        }
+        return {
+          skuId: el.skuId,
+          subscribeNum: el.subscribeNum,
+          subscribeGoodsId: el.subscribeGoodsId,
+          periodTypeId: el.periodTypeId
+        };
       });
-      // await checkSubscriptionAddressPickPoint({
-      //   subscribeId: subDetail.subscribeId,
-      //   goodsItems: subDetail.goodsInfo?.map((el) => {
-      //     return {
-      //       skuId: el.skuId,
-      //       subscribeNum: el.subscribeNum,
-      //       subscribeGoodsId: el.subscribeGoodsId,
-      //       subscribeId: el.subscribeId
-      //     };
-      //   }),
-      //   paymentId: subDetail.paymentId,
-      //   deliveryAddressId: subDetail.deliveryAddressId
+      Object.assign(param, {
+        goodsItems: goodsItems,
+        changeField: changeField.length > 0 ? changeField.join(',') : ''
+      });
+      // let checkSubAddressPickPointParams = Object.assign({}, param, {
+      //   paymentId: subDetail?.paymentId,
+      //   deliveryAddressId: subDetail?.deliveryAddressId
       // });
+      // await checkSubscriptionAddressPickPoint(checkSubAddressPickPointParams);
       await this.doUpdateDetail(param);
       await this.getDetail();
       this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success');
@@ -747,7 +703,6 @@ class SubscriptionDetail extends React.Component {
       remainingsVisible,
       submitLoading,
       triggerShowChangeProduct,
-      seoConfig,
       petName
     } = this.state;
     let isShowClub =
@@ -760,9 +715,6 @@ class SubscriptionDetail extends React.Component {
           <GoogleTagManager additionalEvents={event} />
           <Helmet>
             <link rel="canonical" href={pageLink} />
-            <title>{seoConfig.title}</title>
-            <meta name="description" content={seoConfig.metaDescription} />
-            <meta name="keywords" content={seoConfig.metaKeywords} />
           </Helmet>
           <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
           <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
@@ -771,7 +723,7 @@ class SubscriptionDetail extends React.Component {
               key="1"
               visible={modalShow}
               confirmLoading={submitLoading}
-              modalTitle={currentModalObj.title}
+              modalTitle={this.props.intl.messages[currentModalObj.title]}
               confirmBtnText={<FormattedMessage id="yes" />}
               cancelBtnVisible={<FormattedMessage id="cancel" />}
               close={() => {
@@ -779,7 +731,7 @@ class SubscriptionDetail extends React.Component {
               }}
               hanldeClickConfirm={() => this.hanldeClickSubmit()}
             >
-              <span>{currentModalObj.content}</span>
+              <span>{this.props.intl.messages[currentModalObj.content]}</span>
             </Modal>
             <div className="rc-padding--sm rc-max-width--xl pb-1">
               <div className="rc-layout-container rc-five-column">

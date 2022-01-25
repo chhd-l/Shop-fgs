@@ -6,6 +6,48 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "6616926",
+      "name": "对勾",
+      "font_class": "duigoux",
+      "unicode": "ec9e",
+      "unicode_decimal": 60574
+    },
+    {
+      "icon_id": "1433728",
+      "name": "eye",
+      "font_class": "eye",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    },
+    {
+      "icon_id": "1472406",
+      "name": "eye-close",
+      "font_class": "eye-close",
+      "unicode": "e6c2",
+      "unicode_decimal": 59074
+    },
+    {
+      "icon_id": "15838511",
+      "name": "play",
+      "font_class": "play1",
+      "unicode": "e67a",
+      "unicode_decimal": 59002
+    },
+    {
+      "icon_id": "7532887",
+      "name": "暂停",
+      "font_class": "zanting",
+      "unicode": "e667",
+      "unicode_decimal": 58983
+    },
+    {
+      "icon_id": "6536737",
+      "name": "叉号",
+      "font_class": "chahao",
+      "unicode": "e668",
+      "unicode_decimal": 58984
+    },
+    {
       "icon_id": "5466032",
       "name": "edit-data",
       "font_class": "edit-data",
@@ -55,13 +97,6 @@
       "unicode_decimal": 58910
     },
     {
-      "icon_id": "18592546",
-      "name": "play",
-      "font_class": "play",
-      "unicode": "e6c2",
-      "unicode_decimal": 59074
-    },
-    {
       "icon_id": "20298004",
       "name": "标签",
       "font_class": "biaoqian",
@@ -109,20 +144,6 @@
       "font_class": "phone",
       "unicode": "e61f",
       "unicode_decimal": 58911
-    },
-    {
-      "icon_id": "7596174",
-      "name": "Pause",
-      "font_class": "Pause",
-      "unicode": "e62f",
-      "unicode_decimal": 58927
-    },
-    {
-      "icon_id": "7605089",
-      "name": "cancel",
-      "font_class": "cancel",
-      "unicode": "e619",
-      "unicode_decimal": 58905
     },
     {
       "icon_id": "11903005",
@@ -286,27 +307,6 @@
       "unicode_decimal": 59059
     },
     {
-      "icon_id": "18080486",
-      "name": "箭头左",
-      "font_class": "jiantouzuo",
-      "unicode": "e6ad",
-      "unicode_decimal": 59053
-    },
-    {
-      "icon_id": "18080487",
-      "name": "箭头右",
-      "font_class": "jiantouyou",
-      "unicode": "e6ae",
-      "unicode_decimal": 59054
-    },
-    {
-      "icon_id": "18080488",
-      "name": "完成",
-      "font_class": "wancheng",
-      "unicode": "e6af",
-      "unicode_decimal": 59055
-    },
-    {
       "icon_id": "18080489",
       "name": "展开",
       "font_class": "zhankai",
@@ -319,13 +319,6 @@
       "font_class": "shouqi",
       "unicode": "e6b1",
       "unicode_decimal": 59057
-    },
-    {
-      "icon_id": "18080491",
-      "name": "Cancel Autoship",
-      "font_class": "CancelAutoship",
-      "unicode": "e6b2",
-      "unicode_decimal": 59058
     },
     {
       "icon_id": "18080493",

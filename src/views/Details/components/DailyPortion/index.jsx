@@ -14,6 +14,7 @@ import WeightSelect from './components/WeightSelect';
 import RadioSelect from './components/RadioSelect';
 import BcsSelect from './components/BcsSelect';
 import DailyPortion_icon from '@/assets/images/dailyPortion/dailyPortion_logo.png';
+import DailyPortion_icon_ru from '@/assets/images/dailyPortion/dailyPortion_logo_ru.png';
 import DailyPortion_icon_text from '@/assets/images/dailyPortion/dailyPortion_icon.png';
 import './index.less';
 
@@ -385,6 +386,7 @@ const mixedBreedPossibleOptions = [
 
   }
 ]
+const isRu = window.__.env.REACT_APP_COUNTRY?.toLowerCase() === 'ru';
 export default function DailyPortion(
   {
     speciesValue='', // species
@@ -512,6 +514,7 @@ export default function DailyPortion(
     const isMixedBreedPossibleValues = isMixedBreed && speciesValue === 'Dog';
 
     let param = {
+      "countryCode": window.__.env.REACT_APP_COUNTRY?.toLowerCase(),
       "breedCode": isMixedBreed ? 'mixed_breed' : breedData.key,
       "petActivityCode": petActivityCode,
       "genderCode": gender,
@@ -523,7 +526,7 @@ export default function DailyPortion(
       "technologyCode": details?.wsTechnologyCode,
       "energyCategory": details?.wsEnergyCategory,
       "referenceEnergyValue": details?.wsReferenceEnergyValue,
-      "density": details?.wsDensity,
+      "density": !!details?.wsDensity ? details?.wsDensity : 1,
       "packWeight": goodsInfo?.goodsInfoWeight ?? 1,
       "goodsInfoUnit": goodsInfo?.goodsInfoUnit ? String(goodsInfo?.goodsInfoUnit).toLowerCase():'kg',
     }
@@ -612,6 +615,30 @@ export default function DailyPortion(
     const bcsData = questionList.find((item) => item.name === 'bcs');
 
     const isMixedBreedPossibleValues = isMixedBreed && speciesValue === 'Dog';
+    let weightUnit = 'Kg';
+    let rationUnit = ration?.unit;
+    const country = window.__.env.REACT_APP_COUNTRY?.toLowerCase()
+    /**
+     * fix Translations
+     * 只有Wet Food才会返回Can，Dry Food返回的都是g 和 kg
+     **/
+    switch (country){
+      case 'ru':
+        weightUnit = 'кг';
+        if(rationUnit === 'g') rationUnit = 'г';
+        if (rationUnit === 'can') rationUnit = 'шт';
+        break;
+      case 'fr':
+        if (rationUnit === 'can') rationUnit = 'sachet';
+        break;
+      case 'tr':
+        if (rationUnit === 'can') rationUnit = 'poşet';
+        break;
+      case 'se': break;
+      default:
+        rationUnit = '';
+        break;
+    }
 
     switch (step){
       case 1:
@@ -655,6 +682,7 @@ export default function DailyPortion(
             <div className='flex flex-wrap lg:pt-6'>
               <div className='w-full pt-4 lg:pt-0 lg:w-1/3'>
                 <WeightSelect
+                  unit={weightUnit}
                   label={weightData?.metadata?.label ?? 'Current pet weight'}
                   value={weight}
                   onChange={setWeight}
@@ -740,7 +768,7 @@ export default function DailyPortion(
               <div>
                 <span className='resultText-num'>
                 <span>{ration?.quantityPerDay}</span>
-                <span>{ration?.unit}</span>
+                <span>{rationUnit}</span>
               </span>
                 <span className='pl-2'>/<FormattedMessage id={'day-unit'}/></span>
               </div>
@@ -810,7 +838,7 @@ export default function DailyPortion(
       <div className='lg:flex'>
         <div className='w-full lg:w-1/4 p-4 text-center'>
           <LazyLoad>
-            <img src={DailyPortion_icon} alt={'Daily Portion'}/>
+            <img src={isRu ? DailyPortion_icon_ru :DailyPortion_icon} alt={'Daily Portion'}/>
           </LazyLoad>
         </div>
         <div className='w-full lg:w-3/4 p-4'>

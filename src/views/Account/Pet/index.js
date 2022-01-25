@@ -12,46 +12,36 @@ import './index.less';
 import noPet from '@/assets/images/noPet.jpg';
 import { Link } from 'react-router-dom';
 import { getPetList } from '@/api/pet';
-import { getDict } from '@/api/dict';
-import { setSeoConfig, getDeviceType, getDictionary } from '@/utils/utils';
-import Female from '@/assets/images/female.png';
-import Male from '@/assets/images/male.png';
+import { getDeviceType, getDictionary, formatDate } from '@/utils/utils';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import { myAccountPushEvent } from '@/utils/GA';
-import { formatDate } from '../../../utils/utils';
+import cn from 'classnames';
+import { seoHoc } from '@/framework/common';
 
 const pageLink = window.location.href;
 
 @injectIntl
 @inject('loginStore')
 @observer
+@seoHoc('Account pet')
 class Pet extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       petList: [],
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       isMobile: false,
       loading: true,
       catBreedList: [],
       dogBreedList: []
     };
+    this.isUk = window.__.env.REACT_APP_COUNTRY === 'uk';
   }
   componentDidMount() {
     myAccountPushEvent('Pets');
     this.setState({ isMobile: getDeviceType() !== 'PC' });
-    setSeoConfig({
-      pageName: 'Account pet'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
     this.getBreedList();
   }
 
@@ -136,12 +126,6 @@ class Pet extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
@@ -237,30 +221,13 @@ class Pet extends React.Component {
                                 />
                                 {/* </LazyLoad> */}
                               </div>
-                              <div className="content">
-                                <h1 className="name red">
-                                  {el.petsName}{' '}
-                                  <img
-                                    style={{ width: '1.25rem' }}
-                                    src={!el.petsSex ? Male : Female}
-                                    alt="pet sex icon"
-                                  />
-                                </h1>
-                                <div className="key">
-                                  <span className="ui-text-overflow-line1">
-                                    <FormattedMessage id="birthday" />
-                                  </span>
-                                  <span>
-                                    <FormattedMessage id="breed" />
-                                  </span>
-                                </div>
-                                <div className="value">
-                                  <span>
-                                    {formatDate({ date: el.birthOfPets })}
-                                  </span>
-                                  <span>{this.petBreed(el)}</span>
-                                </div>
-                              </div>
+                              <PetInfoCover
+                                el={el}
+                                birthOfPets={formatDate({
+                                  date: el.birthOfPets
+                                })}
+                                breed={this.petBreed(el)}
+                              />
                               <div className="operation">
                                 <Link
                                   className="edit rc-styled-link"
@@ -268,6 +235,20 @@ class Pet extends React.Component {
                                 >
                                   <FormattedMessage id="edit" />
                                 </Link>
+                              </div>
+                              <div className="weightTracker-wrap">
+                                {this.isUk ? (
+                                  <button className="rc-btn weightTracker-btn">
+                                    <i className="iconfont iconLogoff" />
+                                    <a
+                                      className="pl-2"
+                                      href="https://my.royalcanin.co.uk/account/pet_weights"
+                                      target="_blank"
+                                    >
+                                      <FormattedMessage id="Pet.weightTracker" />
+                                    </a>
+                                  </button>
+                                ) : null}
                               </div>
                             </div>
                           ))
@@ -291,39 +272,32 @@ class Pet extends React.Component {
                                   />
                                 </LazyLoad>
                               </div>
-                              <div className="content">
-                                <h1 className="name red">
-                                  {el.petsName}{' '}
-                                  <LazyLoad>
-                                    <img
-                                      style={{ width: '.9375rem' }}
-                                      src={!el.petsSex ? Male : Female}
-                                      alt="pet sex icon"
-                                    />
-                                  </LazyLoad>
-                                </h1>
-                                <div className="key">
-                                  <span className="ui-text-overflow-line1">
-                                    <FormattedMessage id="birthday" />
-                                  </span>
-                                  <span>
-                                    <FormattedMessage id="breed" />
-                                  </span>
-                                </div>
-                                <div className="value">
-                                  <span>
-                                    {formatDate({ date: el.birthOfPets })}
-                                  </span>
-                                  <span>{this.petBreed(el)}</span>
-                                </div>
-                              </div>
-                              <div className="operation">
+                              <PetInfoCover
+                                el={el}
+                                birthOfPets={formatDate({
+                                  date: el.birthOfPets
+                                })}
+                                breed={this.petBreed(el)}
+                              />
+                              <div className="operation weightTracker-wrap">
                                 <Link
                                   className="edit rc-styled-link"
                                   to={'/account/pets/petForm/' + el.petsId}
                                 >
                                   <FormattedMessage id="edit" />
                                 </Link>
+                                {this.isUk ? (
+                                  <button className="rc-btn weightTracker-btn">
+                                    <i className="iconfont iconLogoff" />
+                                    <a
+                                      className="pl-2"
+                                      href="https://my.royalcanin.co.uk/account/pet_weights"
+                                      target="_blank"
+                                    >
+                                      <FormattedMessage id="Pet.weightTracker" />
+                                    </a>
+                                  </button>
+                                ) : null}
                               </div>
                             </div>
                           ))}
@@ -353,3 +327,35 @@ class Pet extends React.Component {
   }
 }
 export default Pet;
+
+const PetInfoCover = ({ birthOfPets, breed, el }) => {
+  return (
+    <div className="content">
+      <h1 className="name red">
+        {el.petsName}{' '}
+        <span
+          className={cn('iconfont', el.petsSex ? 'iconfemale' : 'iconmale')}
+          style={{ color: '#666' }}
+        />
+      </h1>
+      <div className="grid grid-cols-12 leading-normal text-lg md:text-base">
+        <div className="col-span-6 md:col-span-3 grid grid-cols-12">
+          <div className="col-span-12">
+            <span className="ui-text-overflow-line1">
+              <FormattedMessage id="birthday" />
+            </span>
+          </div>
+          <div className="col-span-12 font-medium">{birthOfPets}</div>
+        </div>
+        <div className="col-span-6 md:col-span-9 grid grid-cols-12">
+          <div className="col-span-12">
+            <span className="ui-text-overflow-line1">
+              <FormattedMessage id="breed" />
+            </span>
+          </div>
+          <div className="col-span-12 font-medium">{breed}</div>
+        </div>
+      </div>
+    </div>
+  );
+};

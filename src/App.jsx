@@ -34,6 +34,7 @@ import { useDynamicLanguage } from '@/framework/common';
 import RouteFilter from '@/components/RouteFilter';
 import RouteFilterHook from '@/components/RouteFilter/RouteFilterHook';
 import { initializePhraseAppEditor } from 'react-intl-phraseapp';
+import './vconsole';
 
 const Home = loadable(() => import('@/views/Home'), 'rc-carousel');
 
@@ -42,6 +43,7 @@ const List = loadable(() => import('@/views/List'));
 const Details = loadable(() => import('@/views/Details'), 'rc-carousel');
 const Cart = loadable(() => import('@/views/Cart'));
 const Payment = loadable(() => import('@/views/Payment'));
+const demo = loadable(() => import('@/views/demo'));
 const Confirmation = loadable(() => import('@/views/Confirmation'));
 const AccountAppointments = loadable(() =>
   import('@/views/Account/Appointments')
@@ -51,7 +53,9 @@ const AccountAppointmentsDetail = loadable(() =>
 );
 import Prescription from '@/views/Prescription';
 import MakerHandle from '@/components/GoogleMap/makerHandle';
-import PrescriptionNavigate from '@/views/PrescriptionNavigate';
+const PrescriptionNavigate = loadable(() =>
+  import('@/views/PrescriptionNavigate')
+);
 const FAQ = loadable(() => import('@/views/FAQ'));
 const Widerrufsbelehrung = loadable(() => import('@/views/Widerrufsbelehrung'));
 import AccountHome from '@/views/Account/Home';
@@ -69,15 +73,21 @@ import ProductReview from '@/views/Account/ProductReview';
 import ProductReviewService from '@/views/Account/ProductReviewService';
 // import AccountRefunds from "@/views/Account/Refunds";
 
-import Recommendation from '@/views/Recommendation';
-import Recommendation_FR from '@/views/Recommendation_FR';
-import Recommendation_US from '@/views/Recommendation_US';
-import Recommendation_FrBreeder from '@/views/Recommendation_FrBreeder';
+const Recommendation = loadable(() => import('@/views/Recommendation'));
+const Recommendation_US = loadable(() => import('@/views/Recommendation_US'));
+const Recommendation_FrBreeder = loadable(() =>
+  import('@/views/Recommendation_FrBreeder')
+);
+
 import ProductFinder from '@/views/ProductFinder';
 import ProductFinderResult from '@/views/ProductFinder/modules/Result';
 import ProductFinderNoResult from '@/views/ProductFinder/modules/NoResult';
 
 const TermUse = loadable(() => import('@/views/StaticPage/TermUse'));
+const Decouverteroyalcanin = loadable(() =>
+  import('@/views/StaticPage/Decouverteroyalcanin')
+);
+
 const TermsAndConditions = loadable(() =>
   import('@/views/StaticPage/TermUse/TermsAndConditions')
 );
@@ -185,7 +195,7 @@ import CancelEmail from '@/views/StaticPage/CancelEmail';
 import FelinTermsConditions from '@/views/StaticPage/FelinTermsConditions';
 
 import PreciseCatNutrition from './views/PreciseCatNutrition';
-import Loading from './components/Loading';
+// import Loading from './components/Loading';
 const VetLandingPage = loadable(() =>
   import('@/views/ClubLandingPage/vetlandingpage')
 );
@@ -209,6 +219,7 @@ const FelinRecommendation = loadable(() =>
   import('@/views/FelinRecommendation')
 );
 const Adoptions = loadable(() => import('@/views/Adoptions'));
+const Whistlefit = loadable(() => import('@/views/Whistlefit'));
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -233,24 +244,22 @@ const LoginCallback = (props) => {
   const { oktaAuth, authState } = useOktaAuth();
   const authStateReady = !authState.isPending;
 
-  useEffect(async () => {
+  useEffect(() => {
     const init = async () => {
       const sessionToken = localItemRoyal.get('okta-session-token');
       const authCallBack =
         window.location.search.indexOf('?code') >= 0 &&
         window.location.search.indexOf('&state') >= 0; // 是否是正常登录的callback即，!authCallBack为自动登录的callback
       if (sessionToken && !authStateReady && !authCallBack) {
-        // debugger;
         await oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE); //自动登录需要跳转到OKTA，然后callback，才能取到前端的token
       } else {
-        // debugger;
         if (authStateReady) {
+          props && props.history.push('/required');
         } else {
-          // debugger;
           await oktaAuth.handleLoginRedirect(); // 执行okta的callback，从而获取okta的数据，如：token等
         }
         console.log(authState);
-        props && props.history.push('/required');
+        // props && props.history.push('/required');
       }
     };
     init();
@@ -320,7 +329,7 @@ const App = () => {
         <Router
           basename={window.__.env.REACT_APP_HOMEPAGE}
           path={'/'}
-          forceRefresh={true}
+          // forceRefresh={true}
         >
           <ScrollToTop>
             <Security
@@ -332,6 +341,7 @@ const App = () => {
               <RouteFilterHook />
               <Switch>
                 <Route exact path={'/'} component={Home} />
+                <Route exact path={'/demo'} component={demo} />
                 <Route exact path={'/cancelEmail'} component={CancelEmail} />
                 <Route
                   exact
@@ -497,13 +507,6 @@ const App = () => {
                     );
                   }}
                 />
-                <Route
-                  exact
-                  path="/recommendationfr"
-                  render={(props) => {
-                    return <Recommendation_FR {...props} />;
-                  }}
-                />
 
                 <Route
                   exact
@@ -535,6 +538,11 @@ const App = () => {
                   }}
                 />
 
+                <Route
+                  exact
+                  path="/decouverteroyalcanin"
+                  component={Decouverteroyalcanin}
+                />
                 <Route exact path="/termuse" component={TermUse} />
                 <Route
                   exact
@@ -609,6 +617,11 @@ const App = () => {
                   path="/account/productReviewService/:tid"
                   exact
                   component={ProductReviewService}
+                />
+                <Route
+                  path="/whistlefit"
+                  exact
+                  component={Whistlefit}
                 />
                 <Route path="/required" exact component={RegisterRequired} />
 
@@ -753,6 +766,8 @@ const App = () => {
                 />
 
                 <Route path="/404" component={Exception} />
+                <Route path="/tr/:id" component={Exception} />
+                <Route path="/ru/:id" component={Exception} />
                 <Route path="/403" component={Page403} />
                 <Route path="/500" component={Page500} />
 
@@ -882,9 +897,7 @@ const App = () => {
                           />
                         );
                       } else {
-                        return (
-                          <Details key={props.match.params.id} {...props} />
-                        );
+                        return <Details key={props.location.key} {...props} />;
                       }
                     } else {
                       console.log('没匹配pdp路由');

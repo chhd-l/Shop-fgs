@@ -1,3 +1,7 @@
+.jus-flex-center{
+  position: relative;
+  padding-top: 100%;
+}
 .but-dec{
   text-decoration: underline;
   cursor: pointer;
@@ -14,22 +18,21 @@
 .header-content {
   position: relative;
   width: 100%;
-  height: 30.3rem;
   color: #ffffff;
 
   img {
     width: 100%;
-    height: 30.3rem !important;
+    height: 100% !important;
   }
 
   .hd-text-cont {
     width: 23.375rem;
     position: absolute;
-    top: 6.6rem;
-    left: 8.5rem;
+    top: 20%;
+    left: 10%;
 
     .introduce {
-      font-size: 1.625rem;
+      font-size: 1.425rem;
       margin-bottom: 0.625rem;
     }
 
@@ -57,7 +60,6 @@
 }
 
 .visit-text {
-  width: 78%;
   color: #000000;
 
   .visit-text-tip {
@@ -75,17 +77,18 @@
 }
 
 .visit-text-p {
-  font-size: 1.125rem;
+  font-size: 1rem;
   margin-bottom: 0.625rem;
 }
 
 .visit-text-p1 {
-  font-size: 1.125rem;
+  font-size: 1rem;
 }
 
 
 .time-img {
-  width: 77%;
+  width: 100%;
+  height: 100%;
   float: right;
 }
 
@@ -183,7 +186,7 @@
 .comment {
   max-width: 1096px;
   margin: 0 auto;
-  padding: 0 2rem 3rem;
+  padding: 0 2rem 1rem;
 }
 
 .comment-slider-box {
@@ -204,7 +207,7 @@
   }
 
   .comment-text {
-    font-size: 1.25rem;
+    font-size: 1rem;
     color: #000000;
     overflow: hidden; //超出部分隐藏
     display: -webkit-box; //将对象作为弹性伸缩盒子模型显示
@@ -226,9 +229,8 @@
 }
 
 .nos-img-box {
-  height: 21rem;
   background-size: 100%;
-  width: 80%;
+  width: 100%;
 }
 
 .nos-img {
@@ -240,8 +242,7 @@
 }
 
 .nos-cont-text {
-  width: 31rem;
-  margin-left: 3.125rem;
+
 }
 
 .une-content {
@@ -389,14 +390,16 @@
 
 .conseiller {
   display: block;
-  padding: 0 26.25rem;
   margin-bottom: 4rem;
   font-size: 0.75rem;
 
   img {
     border-radius: 50%;
-    width: 12.0625rem!important;
-    height: 12.0625rem!important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
   }
 }
 
@@ -405,8 +408,11 @@
 
   img {
     border-radius: 50%;
-    width: 9.5625rem !important;
-    height: 9.5625rem !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
   }
 }
 
@@ -430,7 +436,8 @@
 }
 
 .cat-img {
-  width: 78%;
+  width: 100%;
+  height: 100%;
 }
 
 @media screen and (max-width: 768px) {
@@ -460,11 +467,5 @@
     grid-row-start: 1;
     grid-row-end: 2;
     width: 100%;
-  }
-}
-
-@media screen and (max-width: 1366px) {
-  .conseiller {
-    padding: 0 12.25rem;
   }
 }

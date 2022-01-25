@@ -3,11 +3,9 @@ import { inject, observer } from 'mobx-react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import { getPrescriberByCode } from '@/api/clinic';
-import line from '../../deimage/Line@4x.png';
-import successImg from '../../image/bingo-green.png';
-import deleteIcon from '../../image/delete-icon.svg';
 import './index.less';
 import { getDeviceType } from '@/utils/utils';
+import cn from 'classnames';
 
 const isMobile = getDeviceType() === 'H5';
 
@@ -82,44 +80,25 @@ class PrescriberCode extends React.Component {
                   </p>
                 </div>
                 {!this.state.showSuccessPanel ? (
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: isMobile ? '' : 'flex-start'
-                    }}
-                    className="deflexcolumn"
-                  >
-                    <div className="de-prescriber-code-input-search">
+                  <div className="grid grid-cols-11 relative">
+                    <div className="de-prescriber-code-input-search col-span-12 md:col-span-5">
                       <p
                         className="de-prescriber-code-weight"
                         style={{ textAlign: 'center' }}
                       >
                         <FormattedMessage id="deLandingPage.prescriberCode.tip4" />
                       </p>
-                      <div
-                        style={{ display: 'flex', alignItems: 'flex-start' }}
-                        className="deflexcolumn"
-                      >
-                        <div
-                          style={{
-                            display: 'inline-flex',
-                            flexDirection: 'column',
-                            width: isMobile ? '100%' : '250px',
-                            maxWidth: isMobile ? '200px' : '250px'
-                          }}
-                        >
+                      <div className="grid grid-cols-12">
+                        <div className="col-span-12 md:col-span-7 order-1 flex justify-center">
                           <span
                             style={{
                               position: 'relative',
                               marginRight: isMobile ? '0' : '1.5rem'
                             }}
-                            className={[
-                              'rc-input',
-                              'rc-input--inline',
-                              'rc-input--label',
-                              errMsg ? 'rc-input--error' : ''
-                            ].join(' ')}
+                            className={cn(
+                              'rc-input rc-input--inline rc-input--label',
+                              { 'rc-input--error': errMsg }
+                            )}
                             input-setup="true"
                           >
                             <input
@@ -139,48 +118,45 @@ class PrescriberCode extends React.Component {
                             {errMsg && (
                               <span
                                 style={{
-                                  position: 'absolute',
-                                  top: '0.5rem',
                                   right: '.2rem',
                                   zIndex: 2
                                 }}
+                                className="iconfont iconchahao font-bold text-2xl absolute top-1/2 transform -translate-y-1/2 cursor-pointer"
                                 onClick={() => {
                                   this.setState({ keywords: '', errMsg: '' });
                                 }}
-                              >
-                                <img
-                                  src={deleteIcon}
-                                  style={{ width: '2rem' }}
-                                />
-                              </span>
+                              />
                             )}
                           </span>
-                          {errMsg && (
+                        </div>
+                        <div className="col-span-12 md:col-span-5 order-3 text-center">
+                          <button
+                            style={{
+                              marginTop: '16px'
+                            }}
+                            className="rc-btn rc-btn--one mobilemargin3vh"
+                            onClick={this.searchPrescriberCode}
+                          >
+                            <FormattedMessage id="deLandingPage.prescriberCode.searchBtn" />
+                          </button>
+                        </div>
+                        {errMsg && (
+                          <div className="col-span-12 order-2 md:order-4">
                             <span
-                              style={{ textAlign: 'left' }}
-                              className="text-danger-2"
+                              className="text-danger-2 text-center md:text-left inline-block"
                               dangerouslySetInnerHTML={{
                                 __html: errMsg
                               }}
                             />
-                          )}
-                        </div>
-                        <button
-                          style={{
-                            width: isMobile ? '100%' : '',
-                            marginTop: '16px'
-                          }}
-                          className="rc-btn rc-btn--one mobilemargin3vh"
-                          onClick={this.searchPrescriberCode}
-                        >
-                          <FormattedMessage id="deLandingPage.prescriberCode.searchBtn" />
-                        </button>
+                          </div>
+                        )}
                       </div>
                     </div>
-                    <div className="line decenter deimagetranslate">
-                      <img src={line} style={{ height: '10vh' }} />
+                    <div className="col-span-12 md:col-span-1 flex justify-center">
+                      <div className="border-t-2 w-2/5 md:border-t-0 md:w-auto md:border-r-2 md:h-20 my-5 md:my-0 md:mx-10" />
                     </div>
-                    <div className="detextcenter de-prescriber-code-column">
+
+                    <div className="detextcenter de-prescriber-code-column col-span-12 md:col-span-5">
                       <p className="de-prescriber-code-weight">
                         <FormattedMessage id="deLandingPage.prescriberCode.tip5" />
                       </p>
@@ -201,10 +177,7 @@ class PrescriberCode extends React.Component {
                 ) : (
                   <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition text-center">
                     <div className="rc-self-h-middle rc-content-v-middle rc-padding-x--md">
-                      <img
-                        src={successImg}
-                        style={{ width: '2rem', height: '2rem' }}
-                      />
+                      <span className="iconfont iconduigoux font-bold bg-green rounded-full text-white leading-normal text-xl inline-block w-8 h-8" />
                     </div>
                     <div className="de-prescriber-code-weight">
                       <FormattedMessage id="deLandingPage.prescriberCode.successTip" />

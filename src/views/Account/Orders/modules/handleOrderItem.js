@@ -1,3 +1,16 @@
+const handleDateForIos = (date) => {
+  let finallyDate = '';
+  try {
+    finallyDate =
+      typeof date === 'string' && date
+        ? date.replace(/-/gi, '/').split('.')[0]
+        : date;
+  } catch (err) {
+    finallyDate = date;
+  }
+  return finallyDate;
+};
+
 //处理order list item
 export function handleOrderItem(ele, res) {
   const tradeState = ele.tradeState;
@@ -8,16 +21,16 @@ export function handleOrderItem(ele, res) {
       tradeState.flowState === 'INIT' &&
       tradeState.auditState === 'NON_CHECKED' &&
       tradeState.payState === 'NOT_PAID' &&
-      new Date(ele.orderTimeOut).getTime() >
-        new Date(res.defaultLocalDateTime).getTime() &&
+      new Date(handleDateForIos(ele?.orderTimeOut)).getTime() >
+        new Date(handleDateForIos(res.defaultLocalDateTime)).getTime() &&
       (!ele.payWay ||
         !['OXXO', 'ADYEN_OXXO', 'COD'].includes(ele.payWay.toUpperCase())),
     showOXXOExpireTime:
       tradeState.flowState === 'AUDIT' &&
       tradeState.deliverStatus === 'NOT_YET_SHIPPED' &&
       tradeState.payState === 'NOT_PAID' &&
-      new Date(ele.orderTimeOut).getTime() >
-        new Date(res.defaultLocalDateTime).getTime() &&
+      new Date(handleDateForIos(ele.orderTimeOut)).getTime() >
+        new Date(handleDateForIos(res.defaultLocalDateTime)).getTime() &&
       ele.payWay &&
       ele.payWay.toUpperCase() === 'OXXO',
     payNowLoading: false,

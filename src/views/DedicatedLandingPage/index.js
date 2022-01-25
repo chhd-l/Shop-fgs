@@ -1,6 +1,4 @@
 import React from 'react';
-import Skeleton from '@/components/NormalSkeleton';
-import { Link } from 'react-router-dom';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 import BannerTip from '@/components/BannerTip';
@@ -8,31 +6,23 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { inject, observer } from 'mobx-react';
-import { setSeoConfig, getDeviceType, getOktaCallBackUrl } from '@/utils/utils';
-import Loading from '@/components/Loading';
+import { getDeviceType } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import { withOktaAuth } from '@okta/okta-react';
 import { Helmet } from 'react-helmet';
-import stores from '@/store';
 import kittencute from './img/kittencute.png';
 import kittenimgone from './img/kittenimgone.png';
 import kittenimgtwo from './img/kittenimgtwo.png';
 import { getOtherSpecies, getSpecies } from '@/utils/GA';
 
 import BreadCrumbs from '../../components/BreadCrumbs';
-import Logo from '../../components/Logo';
 import Help from './modules/help';
-import {
-  getDetailsBySpuNoIgnoreDisplayFlag,
-  getDetailsBySpuNo
-} from '@/api/details';
+import { getDetailsBySpuNoIgnoreDisplayFlag } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
 import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
-const loginStore = stores.loginStore;
 const pageLink = window.location.href;
-const deviceType = getDeviceType();
-let RCDrawPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
 
 let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
@@ -61,17 +51,13 @@ let skuArr = ['FGS20049', 'FGS20050'];
 @inject('configStore', 'checkoutStore', 'loginStore', 'clinicStore')
 @observer
 @injectIntl
+@seoHoc('Home Page')
 class DedicatedLandingPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       categoryList: [],
       categoryLoading: true,
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       searchEvent: {},
       showKitten: false,
       selectLine: 3,
@@ -99,10 +85,6 @@ class DedicatedLandingPage extends React.Component {
   }
 
   async componentDidMount() {
-    setSeoConfig({ pageName: 'Home Page' }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
-
     let res = await Promise.all([
       getDetailsBySpuNoIgnoreDisplayFlag('FGS20049'),
       getDetailsBySpuNoIgnoreDisplayFlag('FGS20050')
@@ -150,15 +132,13 @@ class DedicatedLandingPage extends React.Component {
         };
       });
       console.info('GADataproductsproducts', products);
-      dataLayer.push({ products });
+      window?.dataLayer?.push({ products });
     } catch (err) {
       console.info('err', err);
     }
   };
 
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
 
   sendGAHeaderSearch = (event) => {
     this.setState({
@@ -184,7 +164,7 @@ class DedicatedLandingPage extends React.Component {
   addCart = async () => {
     const { selectLine } = this.state;
 
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: 'kitKittenRecoAddToCart',
       landingPageAddProduct: {
         SKU: skuArr[selectLine] //product SKU, must absolutely be coherent with the SKU displayed in the initial product array
@@ -375,12 +355,6 @@ class DedicatedLandingPage extends React.Component {
         {!Ru ? (
           <Helmet>
             <link rel="canonical" href={pageLink} />
-            <title>{this.state.seoConfig.title}</title>
-            <meta
-              name="description"
-              content={this.state.seoConfig.metaDescription}
-            />
-            <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
           </Helmet>
         ) : (
           <Helmet>
@@ -434,7 +408,7 @@ class DedicatedLandingPage extends React.Component {
                                   paddingRight: '80px'
                                 }}
                                 onClick={() => {
-                                  dataLayer.push({
+                                  window?.dataLayer?.push({
                                     'event ': 'kitKittenRecoTabClick'
                                   });
                                   this.changeShowKitten();

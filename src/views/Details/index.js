@@ -2,6 +2,7 @@ import React from 'react';
 import Skeleton from '@/components/NormalSkeleton';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
+import classNames from 'classnames';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import HandledSpec from '@/components/HandledSpec/index.tsx';
@@ -173,9 +174,7 @@ class Details extends React.Component {
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
     this.ChangeFormat = this.ChangeFormat.bind(this);
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   async componentDidMount() {
     const { pathname } = this.props.location;
     this.getUrlParam();
@@ -224,6 +223,16 @@ class Details extends React.Component {
       !isUnitPriceZero &&
       form.buyWay !== -1
     );
+  }
+
+  get isNullGoodsInfos() {
+    const { details } = this.state;
+
+    if (Array.isArray(details?.goodsInfos) && details?.goodsInfos.length > 0) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   get retailerBtnStatus() {
@@ -978,7 +987,7 @@ class Details extends React.Component {
     let variant = cur_selected_size[0]?.specText;
     let goodsInfoNo = cur_selected_size[0]?.goodsInfoNo;
     let { form } = this.state;
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComAddToBasket`,
       ecommerce: {
         add: {
@@ -1115,7 +1124,7 @@ class Details extends React.Component {
     if (isBaby) return null;
     if (!isTechnology) return null;
     if (currentGoodsInfo?.goodsInfoType === 2) return null;
-    if (!(wsEnergyCategory && wsReferenceEnergyValue && wsDensity)) return null;
+    if (!(wsEnergyCategory && wsReferenceEnergyValue)) return null;
 
     // 产品动物的种类
     let speciesValue = goodsAttributesValueRelList.find(
@@ -1158,7 +1167,7 @@ class Details extends React.Component {
   };
 
   render() {
-    const { history, location, match, configStore, intl } = this.props;
+    const { intl } = this.props;
     const {
       goodsId,
       details,
@@ -1404,7 +1413,11 @@ class Details extends React.Component {
                             ) : null}
                           </div>
                         ) : (
-                          <div>
+                          <div
+                            className={classNames({
+                              hidden: this.isNullGoodsInfos
+                            })}
+                          >
                             <div className="align-left flex rc-margin-bottom--xs">
                               <p className="rc-margin-right--xs">
                                 <InstockStatusComp status={instockStatus} />
@@ -1556,7 +1569,7 @@ class Details extends React.Component {
                   goodsDescriptionDetailList={
                     details.goodsDescriptionDetailList
                   }
-                  saleableFlag={details.saleableFlag}
+                  saleableFlag={details.saleableFlag || this.isNullGoodsInfos}
                   displayFlag={details.displayFlag}
                   setState={this.setState.bind(this)}
                   isClub={

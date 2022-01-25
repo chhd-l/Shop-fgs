@@ -8,7 +8,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import shopbannerNew from './deimage/ShopBannerNEW.jpg';
 import vetdeimage from './deimage/Product-composition.png';
-import { setSeoConfig, getDeviceType, getOktaCallBackUrl } from '@/utils/utils';
+import { getDeviceType } from '@/utils/utils';
 import './index.css';
 import Loading from '@/components/Loading';
 import { withOktaAuth } from '@okta/okta-react';
@@ -42,6 +42,7 @@ import Logo from '../../components/Logo';
 import DeMyList from './demylist';
 import PrescriberCode from './Components/DeStoreCode/precriberCode';
 import PhoneModal from '../../views/StaticPage/Help/components/phoneModal.js';
+import { seoHoc } from '@/framework/common';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -49,6 +50,7 @@ const loginStore = stores.loginStore;
 const pageLink = window.location.href;
 const deviceType = getDeviceType();
 let RCDrawPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
+
 function Divider() {
   return (
     <div className="experience-component experience-assets-divider">
@@ -60,28 +62,18 @@ function Divider() {
   );
 }
 
+@seoHoc('Home Page')
 class ClubLandingPageDe extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       categoryList: [],
       categoryLoading: true,
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       searchEvent: {},
       tel: 'tel:0221 937060 650',
       mailAddress: 'mailto:service.de@royalcanin.com',
       showModal: false
     };
-  }
-
-  async componentDidMount() {
-    setSeoConfig({ pageName: 'Home Page' }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
   }
 
   mobileDial = () => {
@@ -90,9 +82,7 @@ class ClubLandingPageDe extends React.Component {
   cancelModal = () => {
     this.setState({ showModal: false });
   };
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   sendGAHeaderSearch = (event) => {
     this.setState({
       searchEvent: event
@@ -116,12 +106,6 @@ class ClubLandingPageDe extends React.Component {
       <div>
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <GoogleTagManager
           additionalEvents={event}

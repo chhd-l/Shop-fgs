@@ -3,7 +3,7 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
-import { setSeoConfig } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import './index.less';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
@@ -11,27 +11,18 @@ import { Link } from 'react-router-dom';
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
+@seoHoc()
 class Widerrufsbelehrung extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       // 当前展开的FAQ
       showCur: -1,
       loading: true
     };
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   componentDidMount() {
-    setSeoConfig().then((res) => {
-      this.setState({ seoConfig: res });
-    });
     window.scrollTo({ top: 0 });
   }
 
@@ -51,12 +42,6 @@ class Widerrufsbelehrung extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">

@@ -3,13 +3,14 @@ import autoshipIcon from '@/assets/images/autoship.png';
 import {
   getDeviceType,
   isCanVerifyBlacklistPostCode,
-  formatDate
+  formatDate,
+  optimizeImage
 } from '@/utils/utils';
 import FrequencyMatch from '@/components/FrequencyMatch';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { IMG_DEFAULT } from '@/utils/constant';
 import { filterOrderId } from '@/utils/utils';
-import './index.less';
+
 const localItemRoyal = window.__.localItemRoyal;
 
 const AutoshipItem = ({ subItem, history }) => {
@@ -29,7 +30,7 @@ const AutoshipItem = ({ subItem, history }) => {
           </div>
           {subItem?.postCodeValidResponse
             ?.validFlag ? null : isCanVerifyBlacklistPostCode ? (
-            <div className="col-8 pl-4 order-hint">
+            <div className="col-12 col-md-8 pl-4 order-hint text-left md:text-right text-rc-red font-333">
               <span>{subItem.postCodeValidResponse.alert}</span>
             </div>
           ) : null}
@@ -46,7 +47,7 @@ const AutoshipItem = ({ subItem, history }) => {
                     display: 'inline-block'
                   }}
                   key={item.spuId}
-                  src={item.goodsPic || IMG_DEFAULT}
+                  src={optimizeImage(item.goodsPic) || IMG_DEFAULT}
                   alt={item.goodsName}
                   title={item.goodsName}
                 />
@@ -122,7 +123,7 @@ const AutoshipItem = ({ subItem, history }) => {
         <div className="col-4 col-md-2 text-center ml-3">
           <button
             className="rc-btn rc-btn--two rc-btn--sm truncate"
-            style={{ width: '130px' }}
+            // style={{ width: '130px' }}
             onClick={() => {
               localItemRoyal.set('subDetail', subItem);
               history.push(

@@ -10,12 +10,13 @@ import findIndex from 'lodash/findIndex';
 import stores from '@/store';
 import { toJS } from 'mobx';
 import { registerLocale } from 'react-datepicker';
-import { getAppointDetail } from '@/api/appointment';
+import { getAppointDetail, getMemberAppointDetail } from '@/api/appointment';
 import cloneDeep from 'lodash/cloneDeep';
 import { sitePurchase } from '@/api/cart';
 import Club_Logo from '@/assets/images/Logo_club.png';
 import Club_Logo_ru from '@/assets/images/Logo_club_ru.png';
 import indvLogo from '@/assets/images/indv_log.svg';
+import { format } from 'date-fns';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -53,17 +54,6 @@ export function formatMoney(val) {
         currency: CURRENCY
       }).format(val);
       return tmpRet.replace(/kr/g, CURRENCY);
-  }
-  if (COUNTRY === 'tr') {
-    return val + ' TL';
-  }
-  if (COUNTRY === 'ru') {
-    val = parseInt(Math.round(val));
-    return new Intl.NumberFormat(NAVIGATOR_LANG, {
-      style: 'currency',
-      currency: CURRENCY,
-      maximumSignificantDigits: length
-    }).format(val);
   }
 
   return new Intl.NumberFormat(NAVIGATOR_LANG, {
@@ -211,13 +201,19 @@ export async function getDictionary({ type, name = '' }) {
   if (sessionItemRoyal.get(tmpKey)) {
     ret = JSON.parse(sessionItemRoyal.get(tmpKey));
   } else {
-    let res = await getDict({
-      delFlag: 0,
-      storeId: window.__.env.REACT_APP_STOREID,
-      type,
-      name
-    });
-    const sysDictionaryVOS = res.context.sysDictionaryVOS;
+    let sysDictionaryVOS = [];
+    if (type === 'appointment_type' || type === 'expert_type') {
+      let res = await getAppointDict({ type });
+      sysDictionaryVOS = res?.context?.goodsDictionaryVOS || [];
+    } else {
+      let res = await getDict({
+        delFlag: 0,
+        storeId: window.__.env.REACT_APP_STOREID,
+        type,
+        name
+      });
+      sysDictionaryVOS = res?.context?.sysDictionaryVOS || [];
+    }
     sessionItemRoyal.set(tmpKey, JSON.stringify(sysDictionaryVOS));
     ret = sysDictionaryVOS;
   }
@@ -291,7 +287,8 @@ export function loadJS({
   code,
   className,
   type,
-  id
+  id,
+  ...rest
 }) {
   var script = document.createElement('script');
 
@@ -303,7 +300,12 @@ export function loadJS({
   if (id) {
     script.id = id;
   }
-
+  if (rest) {
+    //添加js其他属性
+    for (let key in rest) {
+      script[key] = rest[key];
+    }
+  }
   if (dataSets) {
     for (let key in dataSets) {
       script.dataset[key] = dataSets[key];
@@ -738,7 +740,7 @@ function getDatePickerConfig() {
   registerLocale(window.__.env.REACT_APP_COUNTRY, curLocaleModule);
   // 根据Intl.DateTimeFormat生成当前国家的日期格式
   const specificDate = formatDate({ date: '2021-12-30' });
-  return Object.assign(
+  const datePickerConfig = Object.assign(
     {},
     curDatePickerCfg,
     {
@@ -751,6 +753,7 @@ function getDatePickerConfig() {
       locale_module: curLocaleModule
     }
   );
+  return datePickerConfig;
 }
 let datePickerConfig = getDatePickerConfig();
 export { datePickerConfig };
@@ -900,22 +903,6 @@ export const getRation = async (params) => {
   return res;
 };
 
-/**
- * isDuringDate(判断时间是否处于某个时间段内)
- * @param    date   [date:Date] [需要比较的时间]
- * @param    beginDateStr   [beginDateStr: String] [开始时间]
- * @param   endDateStr [endDateStr: String] [结束时间]
- * @return Boolean
- */
-export const isDuringDate = (date, beginDateStr, endDateStr) => {
-  let beginDate = new Date(beginDateStr),
-    endDate = new Date(endDateStr);
-  if (date >= beginDate && date <= endDate) {
-    return true;
-  }
-  return false;
-};
-
 //延时函数
 export const sleep = (time) => {
   return new Promise((resolve) => {
@@ -943,20 +930,20 @@ export function getClubLogo({ goodsInfoFlag, subscriptionType }) {
 }
 
 export function bindSubmitParam(list) {
+  const SPECAIL_CONSENT_ENUM =
+    {
+      de: ['RC_DF_DE_FGS_OPT_EMAIL'],
+      us: ['RC_DF_US_PREF_CENTER_OFFERS_OPT_MAIL'],
+      fr: ['RC_DF_FR_FGS_OPT_EMAIL']
+    }[window.__.env.REACT_APP_COUNTRY] || [];
   let obj = { optionalList: [], requiredList: [] };
-  if (['fr', 'de'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1) {
+  if (['fr', 'de', 'us'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1) {
     const noIsRequiredList = list?.filter((item) => !item.isRequired);
     const firstOptionalList = noIsRequiredList?.filter(
-      (l) =>
-        ['RC_DF_FR_FGS_OPT_EMAIL', 'RC_DF_DE_FGS_OPT_EMAIL']?.includes(
-          l.consentDesc
-        ) && !l.isChecked
+      (l) => SPECAIL_CONSENT_ENUM?.includes(l.consentDesc) && !l.isChecked
     ).length;
     const firstOptionalListChecked = noIsRequiredList?.filter(
-      (l) =>
-        ['RC_DF_FR_FGS_OPT_EMAIL', 'RC_DF_DE_FGS_OPT_EMAIL']?.includes(
-          l.consentDesc
-        ) && l.isChecked
+      (l) => SPECAIL_CONSENT_ENUM?.includes(l.consentDesc) && l.isChecked
     ).length;
     if (firstOptionalList) {
       obj.communicationEmail = 0;
@@ -1009,36 +996,43 @@ export async function getAddressPostalCodeAlertMessage() {
   });
 }
 
-//根据预约单号获取预约信息
-export async function getAppointmentInfo(appointNo) {
-  const res = await getAppointDetail({ apptNo: appointNo });
-  let resContext = res?.context?.settingVO;
+//处理预约信息里面的预约类型和专家类型
+export async function handleAppointmentDict(appointmentInfo) {
   let appointDictRes = await Promise.all([
-    getAppointDict({
+    getDictionary({
       type: 'appointment_type'
     }),
-    getAppointDict({
+    getDictionary({
       type: 'expert_type'
     })
   ]);
-  // appointDictRes=flatten(appointDictRes)
-  console.log('appointDictRes', appointDictRes);
-  const appointmentDictRes = (
-    appointDictRes[0]?.context?.goodsDictionaryVOS || []
-  ).filter((item) => item.id === resContext?.apptTypeId);
-  const expertDictRes = (
-    appointDictRes[1]?.context?.goodsDictionaryVOS || []
-  ).filter((item) => item.id === resContext?.expertTypeId);
+  const appointmentDictRes = appointDictRes[0].filter(
+    (item) => item.id === appointmentInfo?.apptTypeId
+  );
+  const expertDictRes = appointDictRes[1].filter(
+    (item) => item.id === appointmentInfo?.expertTypeId
+  );
   const appointType =
-    appointmentDictRes.length > 0 ? appointmentDictRes[0].name : 'Offline';
-  const expertName =
-    expertDictRes.length > 0 ? expertDictRes[0].name : 'Behaviorist';
+    appointmentDictRes.length > 0 ? appointmentDictRes[0]?.name : '';
+  const expertName = expertDictRes.length > 0 ? expertDictRes[0].name : '';
+  return {
+    appointType,
+    expertName
+  };
+}
+
+//根据预约单号获取预约信息
+export async function getAppointmentInfo(appointNo, isLogin) {
+  const action = getAppointDetail;
+  const res = await action({ apptNo: appointNo });
+  let resContext = res?.context?.settingVO;
+  const dictRes = await handleAppointmentDict(resContext);
   const appointTime = handleFelinAppointTime(resContext?.apptTime);
   return Object.assign(
     resContext,
     {
-      appointType,
-      expertName
+      appointType: dictRes?.appointType,
+      expertName: dictRes?.expertName
     },
     appointTime
   );
@@ -1047,25 +1041,25 @@ export async function getAppointmentInfo(appointNo) {
 //处理预约信息里面的预约时间
 export function handleFelinAppointTime(appointTime) {
   const apptTime = appointTime?.split('#');
-  const appointStartTime =
-    apptTime?.length > 0
-      ? apptTime[0]
-          .split(' ')[0]
-          .replace(/^(\d{4})(\d{2})(\d{2})$/, '$1-$2-$3') +
-        ' ' +
-        apptTime[0].split(' ')[1]
-      : '';
-  const appointEndTime =
-    apptTime?.length > 1
-      ? apptTime[1]
-          .split(' ')[0]
-          .replace(/^(\d{4})(\d{2})(\d{2})$/, '$1-$2-$3') +
-        ' ' +
-        apptTime[1].split(' ')[1]
-      : '';
+  let appointStartTime = '';
+  let endTime = '';
+  if (apptTime?.length > 1) {
+    appointStartTime = apptTime[0].replace(
+      /^(\d{4})(\d{2})(\d{2})?/,
+      '$1/$2/$3'
+    );
+    const appointEndTime = apptTime[1].replace(
+      /^(\d{4})(\d{2})(\d{2})?/,
+      '$1/$2/$3'
+    );
+    endTime = format(
+      new Date(new Date(appointEndTime).valueOf() - 15 * 60 * 1000),
+      'yyyy/MM/dd HH:mm'
+    );
+  }
   return {
     appointStartTime,
-    appointEndTime
+    appointEndTime: endTime
   };
 }
 
@@ -1250,6 +1244,7 @@ export function formatDate({
   showMinute = false,
   showYear = true
 }) {
+  let finallyDate = '';
   if (date !== null && date !== undefined && date !== '') {
     let options = {};
     if (formatOption) {
@@ -1269,11 +1264,19 @@ export function formatDate({
           : {}
       );
     }
-
-    return new Intl.DateTimeFormat(
-      window.__.env.REACT_APP_NAVIGATOR_LANG,
-      options
-    ).format(new Date(date));
+    try {
+      const newdate =
+        typeof date === 'string'
+          ? date.replace(/-/gi, '/').split('.')[0]
+          : date;
+      finallyDate = new Intl.DateTimeFormat(
+        window.__.env.REACT_APP_NAVIGATOR_LANG,
+        options
+      ).format(new Date(newdate));
+    } catch (err) {
+      finallyDate = date;
+    }
+    return finallyDate;
   }
 }
 
@@ -1316,3 +1319,21 @@ export const isBlockedUserOrEmail = (accountOrEmail) => {
   const blockedAccountOrEmails = ['13101227768@163.com'];
   return blockedAccountOrEmails.includes(accountOrEmail);
 };
+
+/**
+ * 通过添加CDN前缀和width优化图片size
+ * @param originImageUrl 源图片url
+ * @param width width 默认150
+ * @param height height 默认等于width
+ * @returns
+ */
+export function optimizeImage(originImageUrl, width = 150, height) {
+  const CDN_PREFIX =
+    window.__.env.REACT_APP_PRODUCT_IMAGE_CDN ||
+    'https://d2c-cdn.royalcanin.com/cdn-cgi/image/';
+  return originImageUrl &&
+    originImageUrl.startsWith('http') &&
+    !originImageUrl.startsWith(CDN_PREFIX)
+    ? `${CDN_PREFIX}width=${width},h=${height ?? width}/${originImageUrl}`
+    : originImageUrl;
+}

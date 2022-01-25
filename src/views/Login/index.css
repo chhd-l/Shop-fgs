@@ -1,6 +1,5 @@
-@import 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css';
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
+/* @import 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css';
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500'); */
 
 @media (min-width: 769px) {
   /* .layout-container, .rc-layout-container {
@@ -5469,36 +5468,6 @@
   padding-bottom: 3rem !important;
 }
 
-.miaa .m-auto {
-  margin: auto !important;
-}
-
-.miaa .mt-auto {
-  margin-top: auto !important;
-}
-
-.miaa .mr-auto {
-  margin-right: auto !important;
-}
-
-.miaa .mb-auto {
-  margin-bottom: auto !important;
-}
-
-.miaa .ml-auto {
-  margin-left: auto !important;
-}
-
-.miaa .mx-auto {
-  margin-right: auto !important;
-  margin-left: auto !important;
-}
-
-.miaa .my-auto {
-  margin-top: auto !important;
-  margin-bottom: auto !important;
-}
-
 @media (min-width: 576px) {
   .miaa .m-sm-0 {
     margin: 0 0 !important;
@@ -8428,7 +8397,6 @@ html .miaa {
 .required-wrap .pizhu {
   color: #aeaeae;
   padding-top: 0.625rem;
-  width: 500px;
   margin: 0 auto;
   font-size: 0.75rem;
 }

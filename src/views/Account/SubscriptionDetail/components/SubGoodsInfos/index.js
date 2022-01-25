@@ -7,7 +7,7 @@ import ChangeSelection from './ChangeSelection';
 import DailyRation from '../DailyRation';
 import ShowErrorDom from '../ShowErrorDom';
 export const SubGoodsInfosContext = createContext();
-import { getDeviceType, formatMoney } from '@/utils/utils';
+import { getDeviceType, formatMoney, optimizeImage } from '@/utils/utils';
 
 const SubGoodsInfos = ({
   triggerShowChangeProduct,
@@ -76,7 +76,7 @@ const SubGoodsInfos = ({
       );
     }
   };
-  const changeQuantity = (e, el, index) => {
+  const changeQuantity = (e, el, index, type) => {
     if (subDetail.subscribeStatus !== '0' || isIndv) {
       return;
     }
@@ -85,7 +85,12 @@ const SubGoodsInfos = ({
     });
     const val = e.target.value;
     if (val === '') {
-      el.subscribeNum = 1;
+      if (type == 'blur') {
+        el.subscribeNum = 1;
+      }
+      if (type == 'change') {
+        el.subscribeNum = val;
+      }
     } else {
       let tmp = parseInt(val);
       let errMsg = '';
@@ -126,7 +131,8 @@ const SubGoodsInfos = ({
     productListLoading,
     getDetail,
     showErrMsg,
-    isIndv
+    isIndv,
+    triggerShowChangeProduct
   };
   return (
     // true?null:
@@ -149,7 +155,7 @@ const SubGoodsInfos = ({
                   <div className="for-mobile-colum">
                     {/* <LazyLoad> */}
                     <img
-                      src={el.goodsPic || IMG_DEFAULT}
+                      src={optimizeImage(el.goodsPic) || IMG_DEFAULT}
                       style={{ width: '100px' }}
                       alt={el.goodsName}
                     />
@@ -169,8 +175,8 @@ const SubGoodsInfos = ({
                                 {},
                                 triggerShowChangeProduct,
                                 {
-                                  show: true,
-                                  firstShow: !triggerShowChangeProduct.firstShow,
+                                  firstShow:
+                                    !triggerShowChangeProduct.firstShow,
                                   goodsInfo: [el],
                                   isShowModal: true
                                 }
@@ -230,7 +236,10 @@ const SubGoodsInfos = ({
                         max="899"
                         maxLength="5"
                         onChange={(e) => {
-                          changeQuantity(e, el, index);
+                          changeQuantity(e, el, index, 'change');
+                        }}
+                        onBlur={(e) => {
+                          changeQuantity(e, el, index, 'blur');
                         }}
                         value={el.subscribeNum}
                       />
@@ -339,7 +348,7 @@ const SubGoodsInfos = ({
                           {/* <LazyLoad> */}
                           <img
                             style={{ maxHeight: '100%' }}
-                            src={el.goodsPic || IMG_DEFAULT}
+                            src={optimizeImage(el.goodsPic) || IMG_DEFAULT}
                             alt={el.goodsName}
                           />
                           {/* </LazyLoad> */}
@@ -395,7 +404,10 @@ const SubGoodsInfos = ({
                                   max="899"
                                   maxLength="5"
                                   onChange={(e) => {
-                                    changeQuantity(e, el, index);
+                                    changeQuantity(e, el, index, 'change');
+                                  }}
+                                  onBlur={(e) => {
+                                    changeQuantity(e, el, index, 'blur');
                                   }}
                                   value={el.subscribeNum}
                                 />
@@ -467,39 +479,6 @@ const SubGoodsInfos = ({
                             width: '75%'
                           }}
                         >
-                          <span
-                            style={{
-                              width: 'auto',
-                              paddingTop: '6px'
-                            }}
-                            className={`text-plain rc-styled-link ui-text-overflow-md-line1 `}
-                            // onClick={() => showChangeProduct([el])}
-                          >
-                            {/* indv不会展示该按钮 */}
-                            {!isIndv && subDetail?.goodsInfo.length == 1 ? (
-                              <span
-                                className={`${
-                                  productListLoading ? 'ui-btn-loading' : ''
-                                }`}
-                                onClick={() => {
-                                  setState({
-                                    triggerShowChangeProduct: Object.assign(
-                                      {},
-                                      triggerShowChangeProduct,
-                                      {
-                                        show: true,
-                                        firstShow: !triggerShowChangeProduct.firstShow,
-                                        goodsInfo: [el],
-                                        isShowModal: true
-                                      }
-                                    )
-                                  });
-                                }}
-                              >
-                                <FormattedMessage id="subscriptionDetail.changeProduct" />
-                              </span>
-                            ) : null}
-                          </span>
                           <div
                             style={{
                               position: 'absolute',

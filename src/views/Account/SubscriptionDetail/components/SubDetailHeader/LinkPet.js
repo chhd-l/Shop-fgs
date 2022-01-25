@@ -7,13 +7,14 @@ import { Link } from 'react-router-dom';
 import ShowErrorDom from '../ShowErrorDom';
 import Banner_Cat from '../../../PetForm/images/banner_Cat.jpg';
 import Banner_Dog from '../../../PetForm/images/banner_Dog.jpg';
-import Female from '@/assets/images/female.png';
-import Male from '@/assets/images/male.png';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
 import { getPetList } from '@/api/pet';
-const sessionItemRoyal = window.__.sessionItemRoyal;
 import { changeSubscriptionDetailPets } from '@/api/subscription';
+import cn from 'classnames';
+
+const sessionItemRoyal = window.__.sessionItemRoyal;
+
 const LinkPet = ({
   triggerShowAddNewPet,
   setState,
@@ -77,7 +78,7 @@ const LinkPet = ({
       let res = await changeSubscriptionDetailPets(param);
       let newSubscribeId = res.context;
       if (newSubscribeId === subscribeId) {
-        initPage();
+        initPage(true);
       } else {
         history.push(`/account/subscription/order/detail/${newSubscribeId}`);
       }
@@ -125,15 +126,12 @@ const LinkPet = ({
                       alt="pet img"
                       className="pet-img"
                     />
-                    <img
-                      style={{
-                        width: '1.25rem',
-                        position: 'absolute',
-                        bottom: 0,
-                        right: 0
-                      }}
-                      src={!el.petsSex ? Male : Female}
-                      alt="pet sex icon"
+                    <span
+                      className={cn(
+                        'iconfont',
+                        el.petsSex ? 'iconfemale' : 'iconmale'
+                      )}
+                      style={{ color: '#666' }}
                     />
                   </div>
                   <div style={{ paddingLeft: '1rem' }}>

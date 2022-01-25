@@ -686,7 +686,7 @@ const GoodsDetailTabs = function (props) {
     props.setState && props.setState({ activeTabIdxList });
 
     hubGA &&
-      dataLayer.push({
+      window?.dataLayer?.push({
         event: 'pdpTabsClick',
         pdpTabsClickTabName: ele?.descriptionName
       });

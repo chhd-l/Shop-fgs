@@ -9,7 +9,7 @@ import { IMG_DEFAULT } from '@/utils/constant';
 import { getSearch } from '@/api/hub';
 import querySearch from '../mock/search';
 import axios from 'axios';
-import { cancelPrevRequest } from '@/utils/utils';
+import { cancelPrevRequest, optimizeImage } from '@/utils/utils';
 import {
   GAInstantSearchFieldClick,
   GAInstantSearchResultDisplay,
@@ -102,7 +102,7 @@ export default class Search extends React.Component {
           res[0] && res[0].context && res[0].context.esGoodsPage;
         if (esGoodsPage && esGoodsPage.content.length) {
           goodsContent = esGoodsPage.content || [];
-          if (dataLayer[0] && dataLayer[0].search) {
+          if (window?.dataLayer && dataLayer[0] && dataLayer[0].search) {
             dataLayer[0].search.query = keywords;
             dataLayer[0].search.results = esGoodsPage.totalElements;
             dataLayer[0].search.type = 'with results';
@@ -121,7 +121,7 @@ export default class Search extends React.Component {
             )
           });
         } else {
-          if (dataLayer[0] && dataLayer[0].search) {
+          if (window?.dataLayer && dataLayer[0] && dataLayer[0].search) {
             dataLayer[0].search.query = keywords;
             dataLayer[0].search.results = 0;
             dataLayer[0].search.type = 'without results';
@@ -137,7 +137,7 @@ export default class Search extends React.Component {
         });
       })
       .catch((err) => {
-        if (dataLayer[0] && dataLayer[0].search) {
+        if (window?.dataLayer && dataLayer[0] && dataLayer[0].search) {
           dataLayer[0].search.query = keywords;
           dataLayer[0].search.results = 0;
           dataLayer[0].search.type = 'without results';
@@ -268,11 +268,13 @@ export default class Search extends React.Component {
                                   title={item.goodsName}
                                   style={{ width: '100%' }}
                                   src={
-                                    item.goodsImg ||
-                                    item.goodsInfos.sort(
-                                      (a, b) => a.marketPrice - b.marketPrice
-                                    )[0].goodsInfoImg ||
-                                    IMG_DEFAULT
+                                    optimizeImage(
+                                      item.goodsImg ||
+                                        item.goodsInfos?.sort(
+                                          (a, b) =>
+                                            a.marketPrice - b.marketPrice
+                                        )[0]?.goodsInfoImg
+                                    ) || IMG_DEFAULT
                                   }
                                 />
                               </LazyLoad>

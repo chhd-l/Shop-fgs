@@ -4,16 +4,16 @@ import stores from '@/store';
 import LazyLoad from 'react-lazyload';
 import { useLocalStore } from 'mobx-react';
 import DatePicker from 'react-datepicker';
-import skipIcon from '../../images/skip.png';
-import dateIcon from '../../images/date.png';
 import {
   getDeviceType,
   datePickerConfig,
   formatMoney,
   getZoneTime,
-  formatDate
+  formatDate,
+  optimizeImage
 } from '@/utils/utils';
 import { IMG_DEFAULT } from '@/utils/constant';
+import cn from 'classnames';
 
 const NextDelivery = ({
   el,
@@ -67,18 +67,13 @@ const NextDelivery = ({
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   return (
     <div className="card-container">
-      <div className="card rc-margin-y--none ml-0">
-        <div
-          className="card-header row rc-margin-x--none align-items-center pl-0 pr-0"
-          style={{ background: '#f9f9f9', padding: 0 }}
-        >
-          {isActive ? (
-            <div
-              className={`${isMobile ? 'col-5' : 'col-md-3'}`}
-              style={{
-                padding: isMobile ? '0 0 0 .625rem' : '0 .9375rem 0 1.25rem'
-              }}
-            >
+      <div className="card rc-margin-y--none ml-0 border-t-0">
+        {isActive ? (
+          <div
+            className="flex items-center justify-between px-4 flex-wrap"
+            style={{ background: '#f9f9f9' }}
+          >
+            <div className="mb-2 md:mb-0">
               <FormattedMessage id="nextShipmentOn" />
               :
               <br />
@@ -93,28 +88,16 @@ const NextDelivery = ({
                   : ''}
               </span>
             </div>
-          ) : null}
-          <div className={`${isMobile ? 'col-0' : 'col-md-5'}`} />
-          <div
-            className={`changeDate ${isMobile ? 'col-4' : 'col-md-3 pl-4'}`}
-            style={{
-              textAlign: 'right',
-              padding: isMobile ? '0' : '0 1.25rem 0 .9375rem'
-            }}
-          >
-            {isActive ? (
-              <>
-                <LazyLoad>
-                  <img
-                    alt="date Icon"
-                    src={dateIcon}
-                    className="m-auto"
-                    style={{
-                      width: '1.25rem',
-                      display: 'inline'
-                    }}
-                  />
-                </LazyLoad>
+            <div className="flex items-center mb-2  md:mb-0">
+              <div
+                className={cn('changeDate whitespace-nowrap mr-2 text-right')}
+              >
+                <span
+                  className="iconfont icondata"
+                  style={{
+                    color: '#666'
+                  }}
+                />
                 <span
                   style={{
                     color: '#666',
@@ -138,39 +121,24 @@ const NextDelivery = ({
                     onChange={(date) => dateChange(date)}
                   />
                 </span>
-              </>
-            ) : null}
-          </div>
-          <div
-            className={`${isMobile ? 'col-3' : 'col-md-1'}`}
-            style={{
-              padding: isMobile ? '0 0 0 .625rem' : '0'
-            }}
-          >
-            {isActive ? (
-              <>
-                <LazyLoad>
-                  <img
-                    style={{
-                      display: 'inline-block',
-                      width: '1.25rem',
-                      marginRight: '5px'
-                    }}
-                    alt="skip icon"
-                    src={skipIcon}
-                  />
-                </LazyLoad>
+              </div>
+              <div className="whitespace-nowrap">
+                <span
+                  className="iconfont iconskip font-bold mr-1"
+                  style={{
+                    color: '#666'
+                  }}
+                />
                 <a
-                  className="rc-styled-link ui-text-overflow-line1"
-                  style={{ width: '50px' }}
+                  className="rc-styled-link ui-text-overflow-line1 whitespace-normal break-words"
                   onClick={(e) => skipNext(el)}
                 >
                   <FormattedMessage id="skip" />
                 </a>
-              </>
-            ) : null}
+              </div>
+            </div>
           </div>
-        </div>
+        ) : null}
       </div>
       {el.tradeItems &&
         el.tradeItems.map((tradeItem, index) => (
@@ -185,7 +153,7 @@ const NextDelivery = ({
             <div className={`col-9 col-md-6 d-flex row align-items-center`}>
               <LazyLoad className="col-6 col-md-3">
                 <img
-                  src={tradeItem.pic || IMG_DEFAULT}
+                  src={optimizeImage(tradeItem.pic) || IMG_DEFAULT}
                   alt={tradeItem.skuName}
                 />
               </LazyLoad>

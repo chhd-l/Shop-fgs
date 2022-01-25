@@ -6,6 +6,7 @@ import { findUserConsentList } from '@/api/consent';
 import { PDP_Regex } from '@/utils/constant';
 import { withOktaAuth } from '@okta/okta-react';
 import { authToken } from '@/api/login';
+import { funcUrl } from '@/lib/url-utils';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -25,41 +26,23 @@ class RouteFilter extends Component {
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
-  // todo 验证此生命周期
   // router refresh=true后，此生命周期无效
-  async shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps) {
     // 默认了clinic后，再次编辑clinic
     const { checkoutStore } = this.props;
 
-    const searchUrl = this.props.history.location.search;
-    function getQueryVariable(variable) {
-      let query = searchUrl.substring(1);
-      let vars = query.split('&');
-      for (let i = 0; i < vars.length; i++) {
-        let pair = vars[i].split('=');
-        if (pair[0] == variable) {
-          return pair[1];
-        }
-      }
-      return false;
-    }
-
-    /////
-    const isStorepotal = getQueryVariable('stoken');
+    const isStorepotal = funcUrl({ name: 'stoken' });
     if (isStorepotal) {
       checkoutStore.removePromotionCode();
     }
 
-    // console.log(getQueryVariable("search")+'222222222')
-    // console.log(getQueryVariable("spromocode"))
-    const sPromotionCodeFromSearch = getQueryVariable('spromocode');
+    const sPromotionCodeFromSearch = funcUrl({ name: 'spromocode' });
     if (sPromotionCodeFromSearch) {
       checkoutStore.setPromotionCode(sPromotionCodeFromSearch);
       // goodwill单标识 goodWillFlag: 'GOOD_WILL'
       sessionItemRoyal.set('goodWillFlag', 'GOOD_WILL');
     }
 
-    // debugger
     if (
       nextProps.location.pathname === '/prescription' &&
       sessionItemRoyal.get('clinic-reselect') === 'true'
@@ -74,10 +57,6 @@ class RouteFilter extends Component {
       this.props.history.replace('/home');
       return false;
     }
-    // console.log(history.location.search,'123')
-    // console.log(this.props.history.location.search,'123')
-
-    // debugger
     if (
       nextProps.location.pathname === '/confirmation' &&
       !sessionItemRoyal.get('subOrderNumberList')
@@ -91,7 +70,8 @@ class RouteFilter extends Component {
   //会员调用consense接口
   getConsentList() {
     if (this.isLogin) {
-      let customerId = this.userInfo && this.userInfo.customerId;
+      const pathname = this.props.location.pathname; //正进入的那个页面
+      const customerId = this.userInfo?.customerId;
       if (!customerId) {
         return;
       }
@@ -99,17 +79,18 @@ class RouteFilter extends Component {
         customerId: customerId,
         oktaToken: localItemRoyal.get('oktaToken')
       }).then((result) => {
-        this.isExistRequiredListFun(result);
+        if (result.context.requiredList.length !== 0) {
+          this.props.history.push({
+            pathname: '/required',
+            state: { path: pathname }
+          });
+        }
       });
     }
   }
   //判断是否执行consent跳转
   isGotoRequireConsentLandingPage() {
-    const oktaTokenString =
-      this.props.authState && this.props.authState.accessToken
-        ? this.props.authState.accessToken.value
-        : '';
-
+    const oktaTokenString = this.props?.authState?.accessToken?.value;
     if (oktaTokenString) {
       let oktaToken = 'Bearer ' + oktaTokenString;
       localItemRoyal.set('oktaToken', oktaToken);
@@ -128,7 +109,9 @@ class RouteFilter extends Component {
     }
   }
   componentDidUpdate() {
-    let parameters = this.props.location.search;
+    const { history, location } = this.props;
+    const { pathname, search } = location;
+    const parameters = search;
     parameters.replace('?', '');
     let searchList = parameters.split('&');
     let customerId = '';
@@ -144,9 +127,41 @@ class RouteFilter extends Component {
     } // Dont not go to Required page when from MKT Eamil
 
     this.isGotoRequireConsentLandingPage();
+
+    if (
+      !PDP_Regex.test(pathname) &&
+      pathname !== '/product-finder' &&
+      pathname !== '/product-finder-recommendation'
+    ) {
+      sessionItemRoyal.remove('pr-question-params');
+      sessionItemRoyal.remove('pf-result');
+      sessionItemRoyal.remove('pf-result-before');
+      localItemRoyal.remove('pr-petsInfo');
+      localStorage.removeItem('pfls');
+      localStorage.removeItem('pfls-before');
+    }
+
+    if (
+      !localItemRoyal.get('rc-token') &&
+      pathname.indexOf('/account') !== -1
+    ) {
+      localItemRoyal.set(
+        'okta-redirectUrl-hub',
+        `${window.__.env.REACT_APP_ACCESS_PATH.replace(/\/$/gi, '')}/account`
+      );
+      history.push('/okta-login-page');
+    }
+
+    if (
+      localItemRoyal.get('rc-token') &&
+      !sessionItemRoyal.get('rc-token-lose') &&
+      this.isLogin
+    ) {
+      authToken({ token: `Bearer ${localItemRoyal.get('rc-token')}` });
+    }
   }
   componentDidMount() {
-    const { history, location, checkoutStore } = this.props;
+    const { location, checkoutStore } = this.props;
     const { pathname, key } = location;
     const curPath = `${pathname}_${key}`;
     const prevPath = sessionItemRoyal.get('prevPath');
@@ -158,6 +173,8 @@ class RouteFilter extends Component {
         sessionItemRoyal.remove('rc-tid');
         sessionItemRoyal.remove('rc-tidList');
         sessionItemRoyal.remove('rc-swishQrcode');
+        sessionItemRoyal.remove('rc-redirectResult');
+        sessionItemRoyal.remove('rc-businessId');
         sessionItemRoyal.remove('rc-createSwishQrcodeTime');
         sessionItemRoyal.remove('recommend_product');
         sessionItemRoyal.remove('orderSource');
@@ -188,42 +205,9 @@ class RouteFilter extends Component {
       //   sessionItemRoyal.set('is-from-product-finder', '1');
       // }
     }
-    if (
-      localItemRoyal.get('rc-token') &&
-      !sessionItemRoyal.get('rc-token-lose') &&
-      this.isLogin
-    ) {
-      authToken({ token: `Bearer ${localItemRoyal.get('rc-token')}` });
-    }
-    if (pathname === '/product-finder') {
-      sessionItemRoyal.remove('product-finder-edit-order');
-      sessionItemRoyal.remove('pf-result');
-    }
-    if (
-      !PDP_Regex.test(pathname) &&
-      pathname !== '/product-finder' &&
-      pathname !== '/product-finder-recommendation'
-    ) {
-      sessionItemRoyal.remove('pr-question-params');
-      sessionItemRoyal.remove('pf-result');
-      sessionItemRoyal.remove('pf-result-before');
-      localItemRoyal.remove('pr-petsInfo');
-      localStorage.removeItem('pfls');
-      localStorage.removeItem('pfls-before');
-    }
 
     sessionItemRoyal.set('prevPath', curPath);
 
-    if (
-      !localItemRoyal.get('rc-token') &&
-      pathname.indexOf('/account') !== -1
-    ) {
-      localItemRoyal.set(
-        'okta-redirectUrl-hub',
-        `${window.__.env.REACT_APP_ACCESS_PATH.replace(/\/$/gi, '')}/account`
-      );
-      history.push('/okta-login-page');
-    }
     // if (sessionItemRoyal.get('okta-redirectUrl') && (pathname === '/' || pathname === '/home/' || pathname === '/home') ) {
     //   history.push(sessionItemRoyal.get('okta-redirectUrl'))
     //   sessionItemRoyal.remove('okta-redirectUrl')
@@ -236,17 +220,6 @@ class RouteFilter extends Component {
 
     const el = document.querySelector('html');
     el.lang = window.__.env.REACT_APP_HTML_LANG;
-  }
-  //判断consent接口是否存在必填项
-  isExistRequiredListFun(result) {
-    let pathname = this.props.location.pathname; //正进入的那个页面
-
-    if (result.context.requiredList.length !== 0) {
-      this.props.history.push({
-        pathname: '/required',
-        state: { path: pathname }
-      });
-    }
   }
 
   render() {

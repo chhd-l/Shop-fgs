@@ -11,7 +11,7 @@ import HelpComponentsNew from '../../components/HelpComponentsNew/HelpComponents
 import './index.css';
 import { funcUrl } from '@/lib/url-utils';
 import LazyLoad from 'react-lazyload';
-import { setSeoConfig } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import DetailsDisplay from './DetailsDisplay';
 import ProductSpecialities from './ProductSpecialities';
 import Banner from './components/Banner';
@@ -26,6 +26,7 @@ import GroupOne from './image/GroupOne.png';
 console.info('productList', productList);
 const pageLink = window.location.href;
 
+@seoHoc('preciseRecommendation')
 class PreciseRecommendation extends React.Component {
   constructor(props) {
     super(props);
@@ -35,12 +36,7 @@ class PreciseRecommendation extends React.Component {
         // goodsInfo:{},
         // pet:{}
       },
-      loading: true,
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      }
+      loading: true
     };
   }
   handleGA({ goodsInfo, totalPrice }) {
@@ -76,7 +72,7 @@ class PreciseRecommendation extends React.Component {
         ]
       };
       console.info('GAData', GAData);
-      dataLayer.push(GAData);
+      window?.dataLayer?.push(GAData);
     } catch (err) {
       console.info('err', err);
     }
@@ -101,18 +97,10 @@ class PreciseRecommendation extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
-    console.log(window);
-    setSeoConfig({ pageName: 'preciseRecommendation' }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
-    // debugger;
     this.getProductInfo();
   }
 
-  componentWillUnmount() {
-    // localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
 
   render() {
     const ru = window.__.env.REACT_APP_COUNTRY == 'ru';
@@ -228,13 +216,7 @@ class PreciseRecommendation extends React.Component {
         <div>
           <Helmet>
             <link rel="canonical" href={pageLink} />
-            <title>{this.state.seoConfig.title}</title>
-            <meta
-              name="description"
-              content={this.state.seoConfig.metaDescription}
-            />
             <meta name="robots" content="noindex" />
-            <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
           </Helmet>
           <GoogleTagManager
             additionalEvents={event}

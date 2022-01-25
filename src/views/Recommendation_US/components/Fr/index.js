@@ -197,13 +197,7 @@ const FrSPT = (props) => {
           </div>
         </div>
 
-        <p
-          style={{
-            marginTop: '70px',
-            textAlign: 'center',
-            marginBottom: isMobile ? '0' : '70px'
-          }}
-        >
+        <p className="flex justify-center mt-8 mb-0 md:mb-8">
           <button
             className={`rc-btn rc-btn--one ${
               props.buttonLoading ? 'ui-btn-loading' : ''
@@ -215,15 +209,12 @@ const FrSPT = (props) => {
           </button>
         </p>
       </div>
-      <div
-        className="help-page"
-        style={{ marginBottom: isMobile ? 0 : '1rem' }}
-      >
+      <div className="help-page mb-0 md:mb-4">
         <section style={{ textAlign: 'center' }}>
           <h2 style={{ color: '#E2001A', marginTop: isMobile ? '0' : '40px' }}>
             <FormattedMessage id="recommendation.thirdTitle" />
           </h2>
-          <p>
+          <p className="mt-2">
             <FormattedMessage id="recommendation.thirdContent" />
           </p>
         </section>
@@ -359,10 +350,10 @@ const FrSPT = (props) => {
         <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
           <FormattedMessage id="recommendation.fourTitle" />
         </h2>
-        <p className="">
+        <p className="mt-2">
           <FormattedMessage id="recommendation.fourContent" />
         </p>
-        <p>
+        <p className="mt-4 mb-8">
           <button
             className={`rc-btn rc-btn--one ${
               props.buttonLoading ? 'ui-btn-loading' : ''
@@ -382,29 +373,23 @@ const FrSPT = (props) => {
                 id="video-dog"
                 className="optanon-category-4 "
                 src="https://www.youtube.com/embed/Vhl0Wvpt-KQ"
-              ></iframe>
+              />
             </div>
           </div>
         </div>
       </section>
       <section
-        className="picList"
+        className="picList list-none picListImg flex justify-center"
         style={{ textAlign: 'center', display: 'flex' }}
       >
         <li>
-          <LazyLoad>
-            <img src={recommendation2} alt="recommendation image" />
-          </LazyLoad>
+          <img className="" src={recommendation2} alt="recommendation image" />
         </li>
         <li>
-          <LazyLoad>
-            <img src={recommendation3} alt="recommendation image" />
-          </LazyLoad>
+          <img className="" src={recommendation3} alt="recommendation image" />
         </li>
         <li>
-          <LazyLoad>
-            <img src={recommendation4} alt="recommendation image" />
-          </LazyLoad>
+          <img className="" src={recommendation4} alt="recommendation image" />
         </li>
       </section>
     </>

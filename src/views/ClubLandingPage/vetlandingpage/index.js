@@ -5,7 +5,7 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import './index.css';
-import { setSeoConfig } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
@@ -30,32 +30,9 @@ function Divider() {
   );
 }
 
+@seoHoc('About Us Page')
 class VetLandingPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      }
-    };
-  }
-
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
-  componentDidMount() {
-    setSeoConfig({ pageName: 'About Us Page' }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
-  }
-
+  componentWillUnmount() {}
   render(h) {
     const event = {
       page: {
@@ -72,12 +49,6 @@ class VetLandingPage extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">

@@ -7,9 +7,8 @@ import BannerTip from '@/components/BannerTip';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import cat from './images/cat.jpg';
 import dog from './images/dog.jpg';
-import { inject, observer } from 'mobx-react';
 import './index.css';
-import { setSeoConfig } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
@@ -17,35 +16,14 @@ import { Helmet } from 'react-helmet';
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
-@inject('checkoutStore', 'loginStore', 'clinicStore')
-@inject('configStore')
-@observer
 @injectIntl
+@seoHoc('About Us Page')
 class AboutUs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       intl: this.props.intl.messages
     };
-  }
-
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
-  componentDidMount() {
-    setSeoConfig({ pageName: 'About Us Page' }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
   }
 
   render(h) {
@@ -59,21 +37,15 @@ class AboutUs extends React.Component {
         filters: ''
       }
     };
-    const { seoConfig } = this.state;
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{seoConfig.title}</title>
-          <meta name="description" content={seoConfig.metaDescription} />
-          <meta name="keywords" content={seoConfig.metaKeywords} />
         </Helmet>
         <Header showMiniIcons={true} showUserIcon={true} {...this.props} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
-          <h1 style={{ display: 'none' }}>
-            {seoConfig.metaDescription || 'Royal canin'}
-          </h1>
+          <h1 style={{ display: 'none' }}>{'Royal canin'}</h1>
           <BannerTip />
           {/* {window.__.env.REACT_APP_COUNTRY == 'fr' ? null: <BannerTip />} */}
           <br />

@@ -12,10 +12,10 @@ import AddressPreview from './modules/AddressPreview';
 import Modal from '@/components/Modal';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
-import successImg from '@/assets/images/credit-cards/success.png';
 import { getOrderDetails, getPayRecord } from '@/api/order';
 import './index.less';
-import { setSeoConfig, getDeviceType } from '@/utils/utils';
+import { getDeviceType } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import { orderConfirmationPushEvent, doGetGAVal } from '@/utils/GA';
@@ -33,17 +33,13 @@ const isHubGA = window.__.env.REACT_APP_HUB_GA;
 const isLogin = !!localItemRoyal.get('rc-token');
 @inject('checkoutStore', 'frequencyStore', 'loginStore')
 @observer
+@seoHoc()
 class Confirmation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       eEvents: '',
       productList: [],
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       loading: true,
       paywithLogin: sessionItemRoyal.get('rc-paywith-login') === 'true',
       oxxoPayUrl: sessionItemRoyal.get('oxxoPayUrl'),
@@ -125,11 +121,8 @@ class Confirmation extends React.Component {
   async componentDidMount() {
     sessionItemRoyal.set('refresh-confirm-page', true);
     const GA_product = localItemRoyal.get('rc-ga-product');
-    dataLayer.push(GA_product);
+    window?.dataLayer?.push(GA_product);
 
-    setSeoConfig().then((res) => {
-      this.setState({ seoConfig: res });
-    });
     const { subOrderNumberList } = this.state;
     setTimeout(() => {
       if (this.state.oxxoPayUrl || this.state.adyenOxxoAction) {
@@ -213,6 +206,23 @@ class Confirmation extends React.Component {
         }
       }); // Is need MKT Consent For DE?
     }
+  }
+  componentWillUnmount() {
+    const { checkoutStore } = this.props;
+    if (sessionItemRoyal.get('rc-paywith-login') === 'true') {
+      checkoutStore.removeLoginCartData();
+    } else {
+      checkoutStore.setCartData(
+        checkoutStore.cartData.filter((ele) => !ele.selected)
+      ); // 只移除selected
+      sessionItemRoyal.remove('rc-token');
+    }
+    sessionItemRoyal.remove('subOrderNumberList');
+    sessionItemRoyal.remove('subNumber');
+    sessionItemRoyal.remove('oxxoPayUrl');
+    sessionItemRoyal.remove('adyenOxxoAction');
+    sessionItemRoyal.remove('gaPet');
+    sessionItemRoyal.remove('refresh-confirm-page');
   }
   matchCityName(dict, cityId) {
     return dict.filter((c) => c.id === cityId).length
@@ -314,7 +324,7 @@ class Confirmation extends React.Component {
           }
         }
       };
-      dataLayer.push(eEvents);
+      window?.dataLayer?.push(eEvents);
     } else {
       //既有oneshoot，又有subscription
       let oneShootProduct = [];
@@ -390,8 +400,8 @@ class Confirmation extends React.Component {
           };
         }
       }
-      dataLayer.push(subscription_eEvents);
-      dataLayer.push(oneShooteEvents);
+      window?.dataLayer?.push(subscription_eEvents);
+      window?.dataLayer?.push(oneShooteEvents);
     }
   }
   //GA 埋点 end
@@ -459,31 +469,17 @@ class Confirmation extends React.Component {
         {<GoogleTagManager additionalEvents={event} />}
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} showNav={false} showUserBox={false} />
         <main className="rc-content--fixed-header rc-bg-colour--brand4 pl-2 pr-2 md:pl-0 md:pr-0">
           {/* <BannerTip /> */}
           <div className="rc-max-width--xl pb-4">
             <div className="text-center mt-3">
-              <LazyLoad>
-                <img
-                  alt="success image"
-                  src={successImg}
-                  className="mb-3"
-                  style={{
-                    display: 'inline-block',
-                    marginLeft: 'auto',
-                    marginRight: 'auto',
-                    width: isMobile ? '60px' : 'auto'
-                  }}
-                />
-              </LazyLoad>
+              <div className="flex justify-center">
+                <span className="flex items-center justify-center bg-green rounded-full w-14 h-14 md:w-24 md:h-24">
+                  <span className="iconfont iconduigoux font-bold text-white text-4xl inline-block md:text-5xl" />
+                </span>
+              </div>
               <h4 className="rc-text-colour--iconography">
                 <strong>
                   <FormattedMessage id="confirmation.info1" />

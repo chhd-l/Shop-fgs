@@ -145,11 +145,6 @@ class Pcexperts extends React.Component {
   }
 
   getDeatalData = async (id) => {
-    let appointName = {
-      Online: 'Appel video',
-      Offline: 'Sur place'
-    };
-
     const { code, context } = await getAppointByApptNo({ apptNo: id });
     if (code === 'K-000000') {
       let type = this.state.apptTypeList.find(
@@ -236,7 +231,7 @@ class Pcexperts extends React.Component {
       return { ...item, ..._temp };
     });
     console.log(apptTypeList);
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: 'AtelierFelinStepLoad',
       atelierFelinStepName: 'Apointment type',
       atelierFelinStepNumber: '1'
@@ -301,7 +296,7 @@ class Pcexperts extends React.Component {
         );
         return { ...item, ..._temp };
       });
-      dataLayer.push({
+      window?.dataLayer?.push({
         event: 'AtelierFelinStepLoad',
         atelierFelinStepName: 'Apointment duration',
         atelierFelinStepNumber: '2'
@@ -335,7 +330,7 @@ class Pcexperts extends React.Component {
   };
   // 跳转第四步
   handleGotoFour = () => {
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: 'AtelierFelinStepLoad',
       atelierFelinStepName: 'Timeslot selection',
       atelierFelinStepNumber: '3'
@@ -432,7 +427,7 @@ class Pcexperts extends React.Component {
         this.props.history.push('/checkout');
       } else {
         if (!this.state.userInfo) {
-          dataLayer.push({
+          window?.dataLayer?.push({
             event: 'AtelierFelinStepLoad',
             atelierFelinStepName: 'Login invite',
             atelierFelinStepNumber: '4'
@@ -449,17 +444,34 @@ class Pcexperts extends React.Component {
   };
   // 选择专家
   handleActiveBut = (id, name, key, key1, value, key2) => {
-    this.setState({
-      params: {
-        ...this.state.params,
-        [key]: id
+    this.setState(
+      {
+        params: {
+          ...this.state.params,
+          [key]: id
+        },
+        votre: {
+          ...this.state.votre,
+          [key1]: name,
+          [key2]: value
+        }
       },
-      votre: {
-        ...this.state.votre,
-        [key1]: name,
-        [key2]: value
+      () => {
+        if (key2 === 'prix') {
+          this.setState({
+            bookSlotVO: {
+              ...this.state.bookSlotVO,
+              dateNo: ''
+            },
+            votre: {
+              ...this.state.votre,
+              date: '',
+              heure: ''
+            }
+          });
+        }
       }
-    });
+    );
   };
   queryDate = (type = false, chooseData = {}) => {
     setTimeout(async () => {
@@ -552,12 +564,23 @@ class Pcexperts extends React.Component {
       consumerPhone: params.phone
     });
     if (code === 'K-000000') {
+      sessionItemRoyal.set(
+        'gusetInfo',
+        JSON.stringify({
+          firstName: params.firstName,
+          lastName: params.lastName,
+          phone: params.phone,
+          email: params.email
+        })
+      );
       await this.queryAppointInfo(this.state.appointmentVO.apptNo);
       this.props.history.push('/checkout');
     }
   };
   queryAppointInfo = async (appointNo) => {
-    const result = await getAppointmentInfo(appointNo);
+    //不做ga
+    return;
+    const result = await getAppointmentInfo(appointNo, this.isLogin);
     console.log('appointmentInfo', result);
     const requestName = this.isLogin ? getLoginDetails : getDetails;
     const goodInfoRes = await requestName(result?.goodsInfoId);
@@ -606,7 +629,7 @@ class Pcexperts extends React.Component {
                 className="rc-btn rc-btn--one  rc-margin-bottom--xs"
                 style={{
                   width: '13.875rem',
-                  fontSize: '0.75rem'
+                  fontSize: '1rem'
                 }}
               >
                 Commencer
@@ -712,7 +735,7 @@ class Pcexperts extends React.Component {
               >
                 Retour à l'étape précédente
               </span>
-              {this.state.params.apptTypeId ? (
+              {this.state.params.expertTypeId ? (
                 <button
                   disabled={
                     this.state.params.apptTypeId == null ||
@@ -725,7 +748,7 @@ class Pcexperts extends React.Component {
                     fontSize: '0.75rem'
                   }}
                 >
-                  Continuer
+                  Confirmer
                 </button>
               ) : null}
             </div>
@@ -835,7 +858,7 @@ class Pcexperts extends React.Component {
                   fontSize: '0.75rem'
                 }}
               >
-                Continuer
+                Confirmer
               </button>
             </div>
           </div>
@@ -882,7 +905,7 @@ class Pcexperts extends React.Component {
                   fontSize: '0.75rem'
                 }}
               >
-                Continuer
+                Confirmer
               </button>
             </div>
           </div>

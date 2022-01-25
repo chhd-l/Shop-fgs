@@ -1,7 +1,7 @@
 /*********
  *
  * File Name: Address Form
- * Create Time: ‎2021-‎4-‎20
+ * Create Time: 2021-4-20
  * Author: kzeng@deloitte.com.cn
  * Version: V1.0
  *
@@ -47,6 +47,7 @@ import debounce from 'lodash/debounce';
 import { EMAIL_REGEXP } from '@/utils/constant';
 import './index.less';
 import { format } from 'date-fns';
+import { Input } from '@/components/Common';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
@@ -826,9 +827,11 @@ class Form extends React.Component {
     // 处理法国、英国电话号码格式，(+33) 0X XX XX XX XX 保存为: (+33) X XX XX XX XX
     if (COUNTRY == 'fr' || COUNTRY == 'uk') {
       let tvalue = newForm.phoneNumber;
-      if (tvalue?.length > 19) {
-        newForm['phoneNumber'] = tvalue.replace(/0/, '');
+      if (tvalue?.length > 19 && tvalue[6] === '0') {
+        // newForm['phoneNumber'] = tvalue.replace(/0/, '');
+        newForm['phoneNumber'] = tvalue.slice(0, 6) + tvalue.slice(7);
       }
+      console.log('luky111', newForm['phoneNumber']);
     }
 
     if (isDeliveryDateAndTimeSlot) {
@@ -1426,21 +1429,17 @@ class Form extends React.Component {
 
     return (
       <>
-        <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
-          <input
-            className={`rc-input__control ${item.fieldKey}Shipping`}
-            id={`${item.fieldKey}Shipping`}
-            type={item.filedType}
-            value={caninForm[item.fieldKey] || ''}
-            onInput={(e) => this.inputChange(e)}
-            onBlur={this.inputBlur}
-            name={item.fieldKey}
-            disabled={item?.disabled ? true : false}
-            maxLength={item.maxLength}
-            autoComplete="new-password"
-          />
-          <label className="rc-input__label" htmlFor="id-text1" />
-        </span>
+        <Input
+          id={`${item.fieldKey}Shipping`}
+          type={item.filedType}
+          value={caninForm[item.fieldKey] || ''}
+          onInput={this.inputChange}
+          onBlur={this.inputBlur}
+          name={item.fieldKey}
+          disabled={item?.disabled ? true : false}
+          maxLength={item.maxLength}
+          autoComplete="new-password"
+        />
       </>
     );
   };
@@ -1537,7 +1536,7 @@ class Form extends React.Component {
   // birthData onchange
   onDateChange(date) {
     const { caninForm } = this.state;
-    let newdate = format(date, 'yyyy-MM-dd');
+    let newdate = format(new Date(date), 'yyyy-MM-dd');
     caninForm['birthdate'] = date ? newdate : '';
     this.setState({ caninForm }, () => {
       this.updateDataToProps();
@@ -1556,21 +1555,18 @@ class Form extends React.Component {
             <label className="form-control-label" htmlFor="emailShipping">
               <FormattedMessage id="account.Email" />
             </label>
-            <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
-              <input
-                type="email"
-                className="rc-input__control emailShipping"
-                id="email"
-                data-name="profile_personalInfo"
-                alt="birthday E-mail"
-                name="email"
-                value={caninForm.email || ''}
-                maxLength="50"
-                autoComplete="new-password"
-                disabled
-              />
-              <label className="rc-input__label" htmlFor="id-text1" />
-            </span>
+
+            <Input
+              id="email"
+              type="email"
+              data-name="profile_personalInfo"
+              alt="birthday E-mail"
+              name="email"
+              value={caninForm.email || ''}
+              maxLength="50"
+              autoComplete="new-password"
+              disabled
+            />
           </div>
         </div>
         {/* birthData */}

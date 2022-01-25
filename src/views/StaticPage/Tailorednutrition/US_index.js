@@ -15,7 +15,7 @@ import LazyLoad from 'react-lazyload';
 
 import { inject, observer } from 'mobx-react';
 import BreadCrumbs from '@/components/BreadCrumbs';
-import { setSeoConfig } from '@/utils/utils';
+import { seoHoc } from '@/framework/common';
 import './index.css';
 import { Helmet } from 'react-helmet';
 
@@ -25,27 +25,9 @@ const pageLink = window.location.href;
 @inject('checkoutStore', 'loginStore', 'clinicStore', 'configStore')
 @injectIntl
 @observer
+@seoHoc('Health and nutrition page')
 class Tailorednutrition extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      }
-    };
-  }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
-  componentDidMount() {
-    setSeoConfig({
-      pageName: 'Health and nutrition page'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
-  }
+  componentWillUnmount() {}
 
   render(h) {
     const event = {
@@ -63,12 +45,6 @@ class Tailorednutrition extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">

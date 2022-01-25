@@ -17,7 +17,8 @@ import {
   filterOrderId,
   getClubLogo,
   judgeIsIndividual,
-  formatDate
+  formatDate,
+  optimizeImage
 } from '@/utils/utils';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
@@ -257,9 +258,7 @@ class AccountOrders extends React.Component {
       );
     });
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
+  componentWillUnmount() {}
   get isShowInstallMent() {
     const { details } = this.state;
     return !!details.tradePrice.installmentPrice;
@@ -652,14 +651,11 @@ class AccountOrders extends React.Component {
                           {(item.shippingItems || []).map((ele) => (
                             <div className="text-center col-2" key={ele.skuId}>
                               <img
+                                className="mx-auto my-0 w-auto"
                                 src={ele.pic || IMG_DEFAULT}
                                 alt={ele.itemName}
                                 title={ele.itemName}
-                                style={{
-                                  width: 'auto',
-                                  margin: '0 auto',
-                                  height: '60px'
-                                }}
+                                style={{ height: '60px' }}
                               />
                               <p className="font-weight-normal ui-text-overflow-line1">
                                 {ele.itemName} X {ele.itemNum}
@@ -1212,10 +1208,13 @@ class AccountOrders extends React.Component {
                                           className={`row align-items-center pl-2 pr-2 md:pl-0 md:pr-0`}
                                         >
                                           <div className="col-4 col-md-2 d-flex justify-content-center align-items-center">
-                                            <LazyLoad style={{ width: '100%' }}>
+                                            <LazyLoad className="w-full">
                                               <img
                                                 className="order-details-img-fluid w-100"
-                                                src={item.pic || IMG_DEFAULT}
+                                                src={
+                                                  optimizeImage(item.pic) ||
+                                                  IMG_DEFAULT
+                                                }
                                                 alt={item.spuName}
                                                 title={item.spuName}
                                               />
@@ -1422,12 +1421,13 @@ class AccountOrders extends React.Component {
                                         className={`row align-items-center pl-2 pr-2 md:pl-0 md:pr-0`}
                                       >
                                         <div className="col-4 col-md-2 d-flex justify-content-center align-items-center">
-                                          <LazyLoad style={{ width: '100%' }}>
+                                          <LazyLoad className="w-full">
                                             <img
                                               className="order-details-img-fluid w-100"
                                               src={
-                                                item.goodsInfoImg ||
-                                                item.pic ||
+                                                optimizeImage(
+                                                  item.goodsInfoImg || item.pic
+                                                ) ||
                                                 getClubLogo({
                                                   goodsInfoFlag:
                                                     item.goodsInfoFlag
@@ -1783,9 +1783,7 @@ class AccountOrders extends React.Component {
                                             <FormattedMessage id="payment.payment" />
                                           </p>
                                           <div className="medium mb-2">
-                                            <LazyLoad
-                                              style={{ display: 'inline' }}
-                                            >
+                                            <LazyLoad className="inline">
                                               <img
                                                 alt="card background"
                                                 className="d-inline-block mr-1 w-1/5"
@@ -1854,11 +1852,7 @@ class AccountOrders extends React.Component {
                                             <FormattedMessage id="payment.payment" />
                                           </p>
                                           <div className="medium mb-2">
-                                            <LazyLoad
-                                              style={{
-                                                display: 'd-inline-block'
-                                              }}
-                                            >
+                                            <LazyLoad className="inline-block">
                                               <img
                                                 alt="paypal"
                                                 className="w-20 h-10"

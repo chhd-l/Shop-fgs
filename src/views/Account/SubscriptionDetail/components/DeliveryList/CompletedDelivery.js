@@ -2,8 +2,12 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
-import dateIcon from '../../images/date.png';
-import { getDeviceType, formatMoney, formatDate } from '@/utils/utils';
+import {
+  getDeviceType,
+  formatMoney,
+  formatDate,
+  optimizeImage
+} from '@/utils/utils';
 
 const CompletedDelivery = ({ i, isActive, el, subDetail }) => {
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
@@ -116,17 +120,12 @@ const CompletedDelivery = ({ i, isActive, el, subDetail }) => {
               </>
             ) : el.id ? (
               <>
-                <LazyLoad>
-                  <img
-                    style={{
-                      display: 'inline-block',
-                      width: '1.25rem',
-                      marginRight: '5px'
-                    }}
-                    src={dateIcon}
-                    alt="date Icon"
-                  />
-                </LazyLoad>
+                <span
+                  className="iconfont icondata text-xl mr-1"
+                  style={{
+                    color: '#666'
+                  }}
+                />
                 <Link
                   className="rc-styled-link"
                   to={`/account/orders/detail/${el.id}`}
@@ -160,7 +159,7 @@ const CompletedDelivery = ({ i, isActive, el, subDetail }) => {
                             width: '70px',
                             display: 'inline'
                           }}
-                          src={tradeItem.pic}
+                          src={optimizeImage(tradeItem.pic)}
                           alt={tradeItem.skuName}
                         />
                       </LazyLoad>
@@ -220,7 +219,7 @@ const CompletedDelivery = ({ i, isActive, el, subDetail }) => {
                                 width: '70px'
                                 // margin: '0 .625rem'
                               }}
-                              src={tradeItem.pic}
+                              src={optimizeImage(tradeItem.pic)}
                               alt={tradeItem.skuName}
                             />
                           </LazyLoad>

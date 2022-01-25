@@ -36,7 +36,7 @@ class PayProductInfo extends React.Component {
     };
     this.handleClickProName = this.handleClickProName.bind(this);
   }
-  async componentDidMount() {
+  componentDidMount() {
     const { pathname } = this.props.location;
     this.setState({
       pathname

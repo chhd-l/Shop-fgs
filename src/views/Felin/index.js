@@ -17,9 +17,10 @@ import Insgram_Icon from '@/assets/images/insgramIcon.png';
 import qrcode_border from '@/assets/images/qrcode_border.jpg';
 import { getTimeOptions, apptSave, getConsentList } from '@/api/appointment';
 import { inject, observer } from 'mobx-react';
-import { setSeoConfig, formatDate } from '@/utils/utils';
+import { formatDate } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 import { format } from 'date-fns';
+import { seoHoc } from '@/framework/common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -102,15 +103,11 @@ function scrollPaymentPanelIntoView(id, additionalHeight = 0) {
 @inject('loginStore')
 @injectIntl
 @observer
+@seoHoc('FelinLandingPage')
 export default class Felin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       loading: false,
       saveLoading: false,
       showModal: false,
@@ -154,12 +151,6 @@ export default class Felin extends React.Component {
     };
   }
   componentDidMount() {
-    setSeoConfig({
-      pageName: 'FelinLandingPage'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
-
     if (this.props.location.search === '?type=contact') {
       this.setState({ isContactUs: true, currentTabIndex: 2 });
       window.scroll({ top: 0 });
@@ -633,14 +624,14 @@ export default class Felin extends React.Component {
 
   handleClickBtn(type, btnName) {
     scrollPaymentPanelIntoView(type);
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: 'atelierFelinButtonClick',
       atelierFelinButtonClickName: btnName
     });
   }
 
   bookingStepsGA(stepName) {
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: 'atelierFelinBookingSteps',
       atelierFelinBookingStepsName: stepName
     });
@@ -669,12 +660,6 @@ export default class Felin extends React.Component {
       <div className="Felin">
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <GoogleTagManager additionalEvents={event} />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />

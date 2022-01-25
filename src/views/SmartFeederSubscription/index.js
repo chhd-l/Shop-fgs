@@ -1496,7 +1496,7 @@ class SmartFeederSubscription extends Component {
     let variant = cur_selected_size[0].specText;
     let goodsInfoNo = cur_selected_size[0].goodsInfoNo;
     let { form } = this.state;
-    dataLayer.push({
+    window?.dataLayer?.push({
       event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComAddToBasket`,
       ecommerce: {
         add: {
@@ -1690,7 +1690,6 @@ class SmartFeederSubscription extends Component {
       await sitePurchase(param);
       await checkoutStore.updateLoginCart({
         isThrowErr: true,
-        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT),
         intl: this.props.intl
       });
       if (isMobile) {

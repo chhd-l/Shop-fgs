@@ -360,11 +360,11 @@ class Filter extends React.Component {
               onClick={this.handleClickCloseBtn}
               className="flex w-100 align-items-center justify-content-between rc-padding--sm--mobile"
             >
-              <div>
+              <div className="flex items-center">
                 <em
                   className={`rc-icon rc-filter--xs rc-iconography`}
                   data-filter-trigger="filter-example"
-                  style={{ position: 'relative', top: '0.2rem' }}
+                  // style={{ position: 'relative', top: '0.2rem' }}
                 />
                 <span className=" font-weight-normal font-18 rc-padding-left--sm">
                   <FormattedMessage id={'list.closeFilters'} />

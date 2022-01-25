@@ -153,6 +153,19 @@ export const LoginUserBox = ({ self, className }) => {
           </span>
         </>
       )
+    },
+    {
+      href: window.__.env.LOYALTY_PROGRAMME_LINK,
+      isShow: Boolean(window.__.env.LOYALTY_PROGRAMME_LINK),
+      text: (
+        <>
+          <span className="iconfont iconLogoff icon-loyaltyProgramme" />{' '}
+          <span>
+            <FormattedMessage id="account.loyaltyProgramme" />
+          </span>
+        </>
+      ),
+      isOuterLink: true
     }
   ];
   const userInfo = localItemRoyal.get('rc-userinfo') || null;
@@ -177,7 +190,15 @@ export const LoginUserBox = ({ self, className }) => {
         <React.Fragment key={i}>
           {item.isShow && (
             <>
-              {item.isHubOuterLink ? (
+              {item.isOuterLink ? (
+                <a
+                  className={`basicItem w-100`}
+                  href={item.href}
+                  target="_blank"
+                >
+                  {item.text}
+                </a>
+              ) : item.isHubOuterLink ? (
                 <DistributeHubLinkOrATag
                   href={item.href}
                   to={item.link}

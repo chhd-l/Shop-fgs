@@ -348,3 +348,8 @@
   padding-left: 1.25rem;
   padding-top: 2px;
 }
+
+.paymentIconTransform {
+  transform: scale(0.8);
+  margin-right: -0.1rem;
+}
