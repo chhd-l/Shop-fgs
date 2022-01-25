@@ -211,7 +211,7 @@ class MegaMenuMobileForHub extends Component {
                         <span className="rc-text-colour--text">
                           {item.Link.Text}
                         </span>
-                        <span
+                        {/* <span
                           className={`iconfont inlineblock font-weight-bolder ${
                             item.expand ? 'red' : 'rc-text-colour--text'
                           }`}
@@ -222,7 +222,12 @@ class MegaMenuMobileForHub extends Component {
                           }}
                         >
                           &#xe60f;
-                        </span>
+                        </span> */}
+                        <span
+                          className={`rc-icon ${
+                            item.expand ? 'rc-minus--xs' : 'rc-plus--xs'
+                          } rc-iconography`}
+                        />
                       </div>
                     </dt>
                     {filterItemChildList.length > 0 && (
@@ -341,9 +346,9 @@ class MegaMenuMobileForHub extends Component {
                         {this._renderLinkItem(item)}
                       </li>
                     ))}
-                    {portalData.length > 0 ? (
-                      <li className="rc-list__item rc-list__item--group w-100 border-bottom border-d7d7d7">
-                        {portalData.map((data, i) => (
+                    <li className="rc-list__item rc-list__item--group w-100 border-bottom border-d7d7d7">
+                      {portalData.length > 0 &&
+                        portalData.map((data, i) => (
                           <a
                             href={data.link}
                             className={`rc-list__header bg-transparent border-0 ${
@@ -356,8 +361,8 @@ class MegaMenuMobileForHub extends Component {
                             </span>
                           </a>
                         ))}
-                        {/* sprint8调整不要了 */}
-                        {/* {isLogin ? (
+                      {/* sprint8调整不要了 */}
+                      {/* {isLogin ? (
                         <>
                           <Link
                             className="rc-list__header bg-transparent border-0 pt-3 pb-0 d-flex"
@@ -399,7 +404,7 @@ class MegaMenuMobileForHub extends Component {
                           </span>
                         </LoginButton>
                       )} */}
-                        {/* {shareData.map((data, i) => (
+                      {shareData.map((data, i) => (
                         <a
                           href={data.link}
                           className={`rc-list__header bg-transparent border-0 ${
@@ -411,9 +416,8 @@ class MegaMenuMobileForHub extends Component {
                             {data.text}
                           </span>
                         </a>
-                      ))} */}
-                      </li>
-                    ) : null}
+                      ))}
+                    </li>
                     <li className="rc-list__item rc-list__item--group w-100 border-bottom border-d7d7d7">
                       <Language className="rc-list__header bg-transparent border-0">
                         <span className="iconfont rc-text-colour--text">
