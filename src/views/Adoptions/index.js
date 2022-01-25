@@ -27,7 +27,7 @@ let goodsInfoNosObj = {
   'goodsNo-492818': ['Large Puppy<br/> (3-12 months)'],
   'goodsNo-512514': ['Small Adult Dog<br/> (1+ years)', '9 to 22lbs'],
   'goodsNo-517417': ['Medium Adult Dog<br/> (1+ years)', '22 to 55lbs'],
-  'goodsNo-517906': ['Large Adult Dog<br/> (1+ years)', '56 to 100lbs']
+  'goodsNo-517935': ['Large Adult Dog<br/> (1+ years)', '56 to 100lbs']
 };
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -90,9 +90,14 @@ const Adoptions = (props) => {
     let salePrice = goodsRes.context.goodsInfos.find(
       (el) => el.goodsInfoId == goodsInfoId
     )?.marketPrice;
+
+    let specText = goodsRes.context.goodsInfos.find(
+      (el) => el.goodsInfoId == goodsInfoId
+    )?.packSize;
     let res = Object.assign({}, goodsRes.context, {
       goodsInfoId,
-      salePrice
+      salePrice,
+      specText
     });
     GARecommendationProduct([res], 3, frequencyDictRes);
     res.goodsInfo = res.goodsInfos.find((el) => el.goodsInfoId == goodsInfoId);
