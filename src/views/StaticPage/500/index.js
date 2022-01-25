@@ -2,8 +2,8 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import image from '@/assets/images/500.png';
-import logo from '@/assets/images/logo--animated.png';
 import { seoHoc } from '@/framework/common';
+import { LOGO } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 
@@ -28,14 +28,8 @@ class Page500 extends React.Component {
         <Helmet>
           <link rel="canonical" href={pageLink} />
         </Helmet>
-        <div className="text-center">
-          <LazyLoad>
-            <img
-              src={logo}
-              style={{ width: '150px', margin: '80px auto 1.25rem' }}
-              alt="logo icon"
-            />
-          </LazyLoad>
+        <div className="text-center mt-5">
+          <img src={LOGO} alt="" className="inline-block w-40 md:w-auto" />
         </div>
 
         <div>

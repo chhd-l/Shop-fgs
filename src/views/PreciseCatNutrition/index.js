@@ -2,9 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import image from '@/assets/images/500.png';
-import logo from '@/assets/images/logo--animated.png';
 import { seoHoc } from '@/framework/common';
-import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -22,7 +20,6 @@ import HelpComponents from './Components/HelpComponents';
 import LongBanner from './Components/LongBanner';
 
 import AboutPet from './aboutPet';
-import Loading from '@/components/Loading';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 

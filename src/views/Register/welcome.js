@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
+import { LOGO } from '@/utils/constant';
 import './index.less';
 
 export default class welcome extends Component {
@@ -22,11 +23,7 @@ export default class welcome extends Component {
           style={{ marginBottom: 45 }}
         >
           <div _ngcontent-dqg-c56="" class="register-success-container__logo">
-            <img
-              _ngcontent-dqg-c56=""
-              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/rc_logo.svg`}
-              alt=""
-            />
+            <img _ngcontent-dqg-c56="" src={LOGO} alt="" />
           </div>
           <div
             _ngcontent-dqg-c56=""
