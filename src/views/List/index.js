@@ -56,11 +56,10 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =
   'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
-const urlPrefix =
-  `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-    /\/$/,
-    ''
-  );
+const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+  /\/$/,
+  ''
+);
 
 const filterAttrValue = (list, keyWords) => {
   return (list || [])
@@ -1655,9 +1654,8 @@ class List extends React.Component {
 
   stickyMobileRefineBar() {
     if (isMobilePhone) {
-      var t = document
-        ?.getElementById('refineBar')
-        ?.getBoundingClientRect().top;
+      var t = document?.getElementById('refineBar')?.getBoundingClientRect()
+        .top;
       window.addEventListener('scroll', () => {
         var choosedVal = document.querySelector('.filter-value'); // 有选择的时候才操作
         if (window.pageYOffset + 33 >= t && choosedVal) {
@@ -1914,28 +1912,28 @@ class List extends React.Component {
                         id="refineBar"
                         className="refine-bar refinements rc-column1 col-12 col-xl-3 ItemBoxFitSCreen pt-0 mb-0 md:mb-3 pl-0 md:pl-3 pr-0"
                       >
-                        <div className="d-flex justify-content-between align-items-center rc-md-down list_select_choose">
-                          {hiddenFilter ? null : (
-                            <div className="w-100 text-center">
-                              <button
-                                onClick={this.toggleFilterModal.bind(
-                                  this,
-                                  !filterModalVisible
-                                )}
-                                className="rc-btn rc-btn--two py-0 text-lg px-8 mb-4"
-                              >
-                                <span className="filter-btn-icon rc-icon rc-filter--xs rc-iconography rc-brand1" />
-                                <FormattedMessage id="plp.filter" />
-                                {this.handleFilterCounts(filterList)}
-                              </button>
-                              <SelectFilters
-                                filterList={filterList}
-                                history={history}
-                                baseSearchStr={baseSearchStr}
-                              />
-                            </div>
-                          )}
-                        </div>
+                        {hiddenFilter ? null : (
+                          <div className="d-flex justify-content-between align-items-center rc-md-down list_select_choose flex-col">
+                            {/* // <div className="w-100 text-center"> */}
+                            <button
+                              onClick={this.toggleFilterModal.bind(
+                                this,
+                                !filterModalVisible
+                              )}
+                              className="rc-btn rc-btn--two py-0 text-lg px-8 mb-4 d-flex justify-content-center align-items-center"
+                            >
+                              <span className="filter-btn-icon rc-icon rc-filter--xs rc-iconography rc-brand1" />
+                              <FormattedMessage id="plp.filter" />
+                              {this.handleFilterCounts(filterList)}
+                            </button>
+                            <SelectFilters
+                              filterList={filterList}
+                              history={history}
+                              baseSearchStr={baseSearchStr}
+                            />
+                            {/* </div> */}
+                          </div>
+                        )}
                         <aside
                           className={`rc-filters ${
                             filterModalVisible ? 'active' : ''
@@ -2003,7 +2001,7 @@ class List extends React.Component {
                         </div>
                       ) : null} */}
                         </aside>
-                        <div className="text-center pt-3 rc-md-down">
+                        <div className="text-center pt-3 rc-md-down border-top border-color-d7d7d7">
                           {results > 0 && (
                             <>
                               <FormattedMessage
