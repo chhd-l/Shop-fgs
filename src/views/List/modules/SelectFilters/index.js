@@ -45,7 +45,7 @@ class SelectFilters extends React.Component {
       }
     }
     return (
-      <div className="rc-rc-filters__header rc-padding-left--none--desktop pointer-events-auto px-3 border-top border-color-d7d7d7">
+      <div className="rc-rc-filters__header rc-padding-left--none--desktop pointer-events-auto px-3">
         <div className="filter-bar">
           {isSelectedFilter ? (
             <ul className="md:mt-0">

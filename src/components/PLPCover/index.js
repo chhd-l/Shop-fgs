@@ -501,11 +501,7 @@ function ListItemBodyH5ForGlobalStyle({ item, configStore }) {
     window.__.env.REACT_APP_COUNTRY === 'uk';
   const hiddenPrice = vetProduct && trFrUk;
   // vet商品，不可销售，但是展示在前台，隐藏库存（fr）
-  const hiddenStock =
-    vetProduct &&
-    !item.saleableFlag &&
-    item.displayFlag &&
-    window.__.env.REACT_APP_HIDDEN_STOCK;
+  const hiddenStock = vetProduct && !item.saleableFlag && item.displayFlag;
   const inStock =
     (item?.goodsInfos ?? [])
       .concat(item?.goodsInfoVOS ?? [])
@@ -766,11 +762,7 @@ function ListItemBody({ item, headingTag, configStore }) {
     window.__.env.REACT_APP_COUNTRY === 'uk';
   const hiddenPrice = vetProduct && trFrUk;
   // vet商品，不可销售，但是展示在前台，隐藏库存（fr）
-  const hiddenStock =
-    vetProduct &&
-    !item.saleableFlag &&
-    item.displayFlag &&
-    window.__.env.REACT_APP_HIDDEN_STOCK;
+  const hiddenStock = vetProduct && !item.saleableFlag && item.displayFlag;
   const goodHeading = `<${headingTag ? headingTag : 'h2'}
       class="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center"
       title="${item?.goodsName}">
