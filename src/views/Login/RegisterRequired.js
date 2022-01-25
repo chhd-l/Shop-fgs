@@ -323,9 +323,10 @@ class RegisterRequired extends Component {
                 <h2
                   className="rc-text-colour--brand1 text-center"
                   style={{ marginTop: '.9375rem' }}
-                >
-                  <FormattedMessage id="required.logoTitle" />
-                </h2>
+                  dangerouslySetInnerHTML={{
+                    __html: intl.messages['required.logoTitle']
+                  }}
+                />
                 <p
                   style={{
                     textAlign: 'center',
