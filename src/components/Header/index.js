@@ -618,10 +618,15 @@ class Header extends React.Component {
                     </span>
                   ) : null}
                   <Language
-                    className={`qhx rc-btn rc-btn--icon-label rc-icon rc-language--xs rc-iconography ui-cursor-pointer ${
+                    className={`qhx rc-btn rc-btn--icon-label rc-icon rc-pin--xs rc-iconography ui-cursor-pointer ${
                       0 ? 'ui-btn-loading ui-btn-loading-border-red' : ''
                     }`}
-                    style={{ fontSize: '.875rem' }}
+                    style={{
+                      height: '50px',
+                      fontSize: '1rem',
+                      marginRight: '1rem',
+                      lineHeight: '34px'
+                    }}
                   />
                 </div>
               </div>
