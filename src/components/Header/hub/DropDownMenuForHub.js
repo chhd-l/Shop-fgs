@@ -274,10 +274,10 @@ export default class DropDownMenuForHub extends React.Component {
                     item.expanded ? `dropdown` : ''
                   } ${activeTopParentId === item.id ? 'active' : ''} `}
                   key={i}
-                  // onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
-                  // onMouseOut={this.hanldeListItemMouseOut.bind(this, item)}
-                  onBlur={this.onListItemBlur}
-                  onFocus={this.onListItemFocus}
+                  onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
+                  onMouseOut={this.hanldeListItemMouseOut.bind(this, item)}
+                  // onBlur={this.onListItemBlur}
+                  // onFocus={this.onListItemFocus}
                 >
                   <ul
                     className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center"
