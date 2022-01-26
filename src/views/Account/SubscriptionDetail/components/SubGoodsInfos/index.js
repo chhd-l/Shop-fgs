@@ -479,10 +479,44 @@ const SubGoodsInfos = ({
                             width: '75%'
                           }}
                         >
+                          <span
+                            style={{
+                              width: 'auto',
+                              paddingTop: '6px'
+                            }}
+                            className={`text-plain rc-styled-link ui-text-overflow-md-line1 `}
+                            // onClick={() => showChangeProduct([el])}
+                          >
+                            {/* indv不会展示该按钮 */}
+                            {/* {!isIndv && subDetail?.goodsInfo.length == 1 ? (
+                              <span
+                                className={`${
+                                  productListLoading ? 'ui-btn-loading' : ''
+                                }`}
+                                onClick={() => {
+                                  setState({
+                                    triggerShowChangeProduct: Object.assign(
+                                      {},
+                                      triggerShowChangeProduct,
+                                      {
+                                        firstShow:
+                                          !triggerShowChangeProduct.firstShow,
+                                        goodsInfo: [el],
+                                        isShowModal: true
+                                      }
+                                    )
+                                  });
+                                }}
+                              >
+                                <FormattedMessage id="subscriptionDetail.changeProduct" />
+                              </span>
+                            ) : null} */}
+                          </span>
                           <div
                             style={{
                               position: 'absolute',
-                              left: '45%',
+                              // left: '45%',
+                              left: '0',
                               top: -4,
                               whiteSpace: 'nowrap'
                             }}

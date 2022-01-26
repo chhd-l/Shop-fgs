@@ -60,33 +60,36 @@ const ButtonBox = () => {
       style={{ display: isNotInactive ? 'inline-block' : 'none' }}
     >
       <p
-        className="flex justify-center md:justify-end items-center flex-wrap"
+        className="flex justify-center md:justify-end items-center flex-wrap flex-col md:flex-row"
         style={{ textAlign: isMobile ? 'left' : 'right' }}
       >
         {/* indv不会展示该按钮 */}
-        {!isIndv && !!subDetail.petsId && subDetail?.goodsInfo?.length == 1 ? (
+        {!isIndv && subDetail?.goodsInfo?.length == 1 ? (
           <div className=" flex items-center">
             <span
               style={{
                 width: 'auto',
-                paddingTop: '6px',
-                marginBottom: '10px'
+                paddingTop: '6px'
               }}
               className={`text-plain rc-styled-link ui-text-overflow-md-line1  ${
                 productListLoading ? 'ui-btn-loading' : ''
               }`}
               onClick={() => {
-                setState({
-                  triggerShowChangeProduct: Object.assign(
-                    {},
-                    triggerShowChangeProduct,
-                    {
-                      firstShow: !triggerShowChangeProduct.firstShow,
-                      goodsInfo: subDetail?.goodsInfo,
-                      isShowModal: true
-                    }
-                  )
-                });
+                if (!!subDetail.petsId) {
+                  setState({
+                    triggerShowChangeProduct: Object.assign(
+                      {},
+                      triggerShowChangeProduct,
+                      {
+                        firstShow: !triggerShowChangeProduct.firstShow,
+                        goodsInfo: subDetail?.goodsInfo,
+                        isShowModal: true
+                      }
+                    )
+                  });
+                } else {
+                  setState({ triggerShowAddNewPet: true });
+                }
               }}
             >
               <em
@@ -105,11 +108,8 @@ const ButtonBox = () => {
             </span>
           </div>
         ) : null}
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <div
-          className="pause-btn flex items-center"
-          style={{ marginBottom: '10px' }}
-        >
+        <br className="rc-md-up" />
+        <div className="pause-btn flex items-center mx-4  mt-2">
           {subDetail.subscribeStatus === '0' ? (
             <em
               className="iconfont iconzanting font-bold"
@@ -142,8 +142,7 @@ const ButtonBox = () => {
             )}
           </a>
         </div>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <div className="flex items-center" style={{ marginBottom: '10px' }}>
+        <div className="flex items-center  mt-2">
           <span className="iconfont iconchahao text-rc-red font-bold text-lg mr-1" />
           <a
             className="rc-styled-link"
@@ -155,9 +154,8 @@ const ButtonBox = () => {
             <FormattedMessage id="subscription.cancelAll" />
           </a>
         </div>
-        &nbsp;&nbsp;&nbsp;&nbsp;
         <button
-          className={`rc-btn rc-btn--one ${
+          className={`rc-btn rc-btn--one  mx-4  mt-2 ${
             isDataChange ? '' : 'rc-btn-solid-disabled'
           }`}
           onClick={() => handleSaveChange(subDetail)}
