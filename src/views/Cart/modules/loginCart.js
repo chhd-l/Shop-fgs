@@ -1112,7 +1112,11 @@ class LoginCart extends React.Component {
         </div>
         {isShowValidCode ? (
           <div className="red pl-3 pb-3 pt-2" style={{ fontSize: '.875rem' }}>
-            {isShowValidCode}
+            {isShowValidCode === true ? (
+              <FormattedMessage id="validPromotionCode" />
+            ) : (
+              isShowValidCode
+            )}
           </div>
         ) : null}
         {!isShowValidCode &&
@@ -1546,7 +1550,7 @@ class LoginCart extends React.Component {
       // );
     } else {
       this.setState({
-        isShowValidCode: result.context.couponCodeErrorMsg
+        isShowValidCode: result.context?.couponCodeErrorMsg || true
       });
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
