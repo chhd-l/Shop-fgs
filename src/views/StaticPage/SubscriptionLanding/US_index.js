@@ -117,7 +117,7 @@ class SubscriptionLanding extends React.Component {
                                 {/*- Receive*/}
                                 {/*nutritional recommendations on Royal Canin food*/}
                                 {/*and products as your pet grows*/}
-                                <FormattedMessage id="SubscriptionLanding.listTitleNew1" />
+                                {/*<FormattedMessage id="SubscriptionLanding.listTitleNew1" />*/}
                               </li>
                               <li className="rc-list__item">
                                 <em className="wof rc-margin-right--xs"></em>
@@ -129,7 +129,7 @@ class SubscriptionLanding extends React.Component {
                                 {/*your first purchase through Royal Canin Club,*/}
                                 {/*and 5% off every autoship order. Plus, free*/}
                                 {/*shipping –– with no minimum purchase*/}
-                                <FormattedMessage id="SubscriptionLanding.listTitleNew2" />
+                                {/*<FormattedMessage id="SubscriptionLanding.listTitleNew2" />*/}
                               </li>
                               <li className="rc-list__item">
                                 <em className="wof rc-margin-right--xs"></em>
@@ -142,7 +142,7 @@ class SubscriptionLanding extends React.Component {
                                 {/*nutrition, your Royal Canin Advisor can help*/}
                                 {/*with diet recommendations and expert feeding*/}
                                 {/*advice, updates on products, and more*/}
-                                <FormattedMessage id="SubscriptionLanding.listTitleNew3" />
+                                {/*<FormattedMessage id="SubscriptionLanding.listTitleNew3" />*/}
                               </li>
                               <li className="rc-list__item">
                                 <em className="wof rc-margin-right--xs"></em>
@@ -155,7 +155,7 @@ class SubscriptionLanding extends React.Component {
                                 {/*nutrition, your Royal Canin Advisor can help*/}
                                 {/*with diet recommendations and expert feeding*/}
                                 {/*advice, updates on products, and more*/}
-                                <FormattedMessage id="SubscriptionLanding.listTitleNew4" />
+                                {/*<FormattedMessage id="SubscriptionLanding.listTitleNew4" />*/}
                               </li>
                             </ul>
                             <div className="d-none d-md-block rc-btn-group m-0 rc-column rc-padding-x--none">
