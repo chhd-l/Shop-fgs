@@ -39,10 +39,13 @@ class Whistlefit extends React.Component {
         metaKeywords: 'Royal canin',
         metaDescription: 'Royal canin'
       },
-      email: '',
+      email: this.userInfo?.email || '',
       isChecked: false
       //intl: this.props.intl.messages
     };
+  }
+  get userInfo() {
+    return this.props.loginStore.userInfo;
   }
   componentDidMount() {
     setSeoConfig({ pageName: 'Whistlefit' }).then((res) => {
