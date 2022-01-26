@@ -58,7 +58,7 @@ class Whistlefit extends React.Component {
   //滚动到底部
   scrollToBottom() {
     window.scrollTo({
-      top: document.body.scrollHeight,
+      top: document.body.scrollHeight - 30,
       behavior: 'smooth'
     });
   }

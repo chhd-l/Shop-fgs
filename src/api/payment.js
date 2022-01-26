@@ -295,6 +295,6 @@ export function swishCancelOrRefund(parameter) {
   return axios({
     url: api.swishCancelOrRefund,
     method: 'post',
-    params: parameter
+    data: parameter
   });
 }

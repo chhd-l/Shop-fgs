@@ -1215,8 +1215,8 @@ export function isShowMixFeeding() {
   // return window.__.env.REACT_APP_COUNTRY === 'ru';
 }
 
-//倒计时分秒 10:00
-export const payCountDown = (maxTime, step, callback) => {
+//倒计 分秒 15:00
+export const payCountDown = (maxTime, step, callback, callback2) => {
   let timer = null;
   timer = setInterval(() => {
     if (maxTime > 0) {
@@ -1231,6 +1231,7 @@ export const payCountDown = (maxTime, step, callback) => {
       let msg = minutes + ':' + seconds;
       maxTime -= step;
       callback(msg, false);
+      callback2(timer);
     } else {
       clearInterval(timer);
       callback('00:00', true);

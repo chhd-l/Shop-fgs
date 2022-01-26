@@ -340,16 +340,18 @@ class Payment extends React.Component {
   }
   handelQrcodeModalClose = async () => {
     try {
-      // await swishCancelOrRefund({
-      //   businessId: sessionItemRoyal.get('rc-businessId'),
-      //   payPspItemEnum: 'ADYEN_SWISH'
-      // })
+      this.startLoading();
+      await swishCancelOrRefund({
+        businessId: sessionItemRoyal.get('rc-businessId'),
+        payPspItemEnum: 'ADYEN_SWISH'
+      });
       const { history } = this.props;
       if (!this.isLogin) {
         sessionItemRoyal.remove('rc-token');
         history.push('/cart');
       }
       sessionItemRoyal.remove('rc-swishQrcode');
+      sessionItemRoyal.remove('rc-createSwishQrcodeTime');
       this.setState({ swishQrcodeModal: false });
       this.setState(
         {
@@ -367,6 +369,8 @@ class Payment extends React.Component {
       );
     } catch (err) {
       console.log(err.message);
+    } finally {
+      this.endLoading();
     }
   };
   //cyber查询卡类型-会员
@@ -615,6 +619,11 @@ class Payment extends React.Component {
               }, 3000);
             }
             this.setState({ countDown: res, swishQrcodeError });
+          },
+          (timer) => {
+            if (!this.state.swishQrcodeModal) {
+              clearInterval(timer);
+            }
           }
         );
         getData();
@@ -1778,6 +1787,11 @@ class Payment extends React.Component {
                   }, 3000);
                 }
                 this.setState({ countDown: res, swishQrcodeError });
+              },
+              (timer) => {
+                if (!this.state.swishQrcodeModal) {
+                  clearInterval(timer);
+                }
               }
             );
             if (isMobile) {
