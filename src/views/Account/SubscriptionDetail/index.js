@@ -271,8 +271,7 @@ class SubscriptionDetail extends React.Component {
     });
     this.initPage();
   }
-
-  initPage = () => {
+  initPage = (isAddedPet) => {
     let { search } = this.props.history.location;
     search = search && decodeURIComponent(search);
     let needBindPet =
@@ -294,9 +293,20 @@ class SubscriptionDetail extends React.Component {
           triggerShowChangeProduct: {
             firstShow: true,
             showBox: true,
-            show: true,
             goodsInfo,
             isShowModal: false
+          }
+        });
+      !isIndv &&
+        goodsInfo?.length == 1 &&
+        this.state.isNotInactive &&
+        isAddedPet &&
+        this.setState({
+          triggerShowChangeProduct: {
+            firstShow: !this.state.triggerShowChangeProduct.firstShow,
+            showBox: false,
+            goodsInfo,
+            isShowModal: true
           }
         });
     });

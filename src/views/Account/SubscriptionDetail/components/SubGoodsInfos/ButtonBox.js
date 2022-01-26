@@ -14,8 +14,11 @@ const ButtonBox = () => {
     isDataChange,
     getDetail,
     modalList,
-    setState
+    setState,
+    productListLoading,
+    triggerShowChangeProduct
   } = SubGoodsInfosValue;
+  const isIndv = subDetail.subscriptionType == 'Individualization';
   const isNotInactive =
     subDetail.subscribeStatus === '0' || subDetail.subscribeStatus === '1';
   const pauseOrStart = async (subDetail) => {
@@ -60,6 +63,49 @@ const ButtonBox = () => {
         className="flex justify-center md:justify-end items-center flex-wrap"
         style={{ textAlign: isMobile ? 'left' : 'right' }}
       >
+        {/* indv不会展示该按钮 */}
+        {!isIndv && !!subDetail.petsId && subDetail?.goodsInfo?.length == 1 ? (
+          <div className=" flex items-center">
+            <span
+              style={{
+                width: 'auto',
+                paddingTop: '6px',
+                marginBottom: '10px'
+              }}
+              className={`text-plain rc-styled-link ui-text-overflow-md-line1  ${
+                productListLoading ? 'ui-btn-loading' : ''
+              }`}
+              onClick={() => {
+                setState({
+                  triggerShowChangeProduct: Object.assign(
+                    {},
+                    triggerShowChangeProduct,
+                    {
+                      firstShow: !triggerShowChangeProduct.firstShow,
+                      goodsInfo: subDetail?.goodsInfo,
+                      isShowModal: true
+                    }
+                  )
+                });
+              }}
+            >
+              <em
+                className="iconfont iconrefresh font-bold"
+                style={{
+                  fontSize: '1.1rem',
+                  color: 'rgb(58,180,29)',
+                  marginRight: '4px'
+                }}
+              />
+              <span
+              // className={`${productListLoading ? 'ui-btn-loading' : ''}`}
+              >
+                <FormattedMessage id="subscriptionDetail.changeProduct" />
+              </span>
+            </span>
+          </div>
+        ) : null}
+        &nbsp;&nbsp;&nbsp;&nbsp;
         <div
           className="pause-btn flex items-center"
           style={{ marginBottom: '10px' }}

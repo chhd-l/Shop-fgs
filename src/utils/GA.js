@@ -402,7 +402,12 @@ export const GARecommendationProduct = (
   // type: 3=>us shelter; 4=>felin
   const calculatedWeeks = getComputedWeeks(frequencyList);
   const products = productList.map((item) => {
-    const { goods, goodsInfos, goodsAttributesValueRelVOAllList } = item;
+    const {
+      goods,
+      goodsInfos,
+      goodsAttributesValueRelVOAllList,
+      goodsAttributesValueRelList
+    } = item;
     const { minMarketPrice, goodsNo, goodsName, goodsCateName } = goods;
     let price = minMarketPrice;
     let SKU = goodsInfos?.[0]?.goodsInfoNo || '';
@@ -412,8 +417,13 @@ export const GARecommendationProduct = (
       )?.goodsInfoNo;
       price = item.salePrice;
     }
+    debugger;
     const cateName = goodsCateName?.split('/');
-    const breed = (goodsAttributesValueRelVOAllList || [])
+    const breed = (
+      goodsAttributesValueRelVOAllList ||
+      goodsAttributesValueRelList ||
+      []
+    )
       .filter(
         (attr) =>
           attr.goodsAttributeName &&
@@ -427,7 +437,7 @@ export const GARecommendationProduct = (
     let productItem = {
       price: price,
       specie,
-      range: type === 4 ? 'Booking' : cateName?.[1] || '',
+      range: type === 4 ? 'Booking' : cateName?.[1] || '', //sku不存在，只有spu上有
       name: type === 4 ? "L'Atelier Félin booking" : goodsName,
       mainItemCode: type === 4 ? "L'Atelier Félin booking" : goodsNo,
       SKU,
@@ -436,10 +446,10 @@ export const GARecommendationProduct = (
         item.goodsInfoFlag > 0 ? subscriptionFrequency : '',
       technology: cateName?.[2] || '',
       brand: 'Royal Canin',
-      size: item.specText,
-      breed,
+      size: item.specText, //???
+      breed, //???
       quantity: item.buyCount,
-      sizeCategory: '',
+      sizeCategory: '', //??
       promoCodeName: promotionCode || '',
       promoCodeAmount: ''
     };

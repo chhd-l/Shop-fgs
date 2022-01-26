@@ -9,7 +9,7 @@ import pic1 from './images/pic-1.jpg';
 import pic2 from './images/pic-2.jpg';
 import pic3 from './images/pic-3.jpg';
 import pic4 from './images/pic-4.jpg';
-import pic5 from './images/pic-5.png';
+import pic5 from './images/pic-5.jpg';
 import pic6 from './images/pic-6.jpg';
 // import './index.less';
 const pageLink = window.location.href;
@@ -45,11 +45,11 @@ const Decouverteroyalcanin = (props) => {
       <Header {...props} showMiniIcons={true} showUserIcon={true} />
       <div className="rc-content--fixed-header rc-bg-colour--brand3 decouverteroyalcanin">
         <div
-          className="rc-layout-container rc-two-column  rc-max-width--xl rc-padding-left--md
+          className="rc-layout-container rc-two-column  rc-max-width--xl rc-padding-x--xl
         rc-padding-top--md rc-padding-bottom--md items-center"
         >
           <div className="rc-column">
-            <div style={{ maxWidth: '504px' }} className="m-auto">
+            <div style={{ maxWidth: '504px' }} className="">
               <h1 className="xs: text-3xl lg:text-5xl  rc-padding-bottom--sm text-rc-red">
                 Venez à la découverte de Royal Canin
               </h1>
@@ -140,7 +140,16 @@ const Decouverteroyalcanin = (props) => {
               store.
             </p>
             <p className="rc-padding-top--md rc-padding-bottom--xs">
-              <button className="rc-btn rc-btn--two">Nous rendre visite</button>
+              <button
+                className="rc-btn rc-btn--two"
+                onClick={() =>
+                  redirectLink(
+                    'https://www.google.com/maps/place/%C3%80+la+d%C3%A9couverte+de+Royal+Canin/@48.8640126,2.362786,17z/data=!3m1!4b1!4m5!3m4!1s0x47e66f0182a25dc7:0xe8b708c92eb2e656!8m2!3d48.8640501!4d2.3648312'
+                  )
+                }
+              >
+                Nous rendre visite
+              </button>
             </p>
             <p>
               Ouverture le 24 Janvier 2022
@@ -220,9 +229,9 @@ const Decouverteroyalcanin = (props) => {
         </div>
         <HrLine />
 
-        <div className="rc-layout-container rc-two-column  rc-max-width--xl rc-padding-x--xl rc-padding-top--md rc-padding-bottom--md itmes-center">
-          <div className="rc-column">
-            <LazyLoad>
+        <div className="rc-layout-container rc-two-column  rc-max-width--xl rc-padding-x--xl rc-padding-top--md rc-padding-bottom--md items-center">
+          <div className="rc-column flex justify-center">
+            <LazyLoad style={{ width: '50%' }}>
               <img
                 src={pic5}
 
@@ -262,7 +271,11 @@ const Decouverteroyalcanin = (props) => {
             </h2>
             <button
               className="rc-btn rc-btn--two rc-margin-bottom--xs"
-              onClick={() => {}}
+              onClick={() =>
+                redirectLink(
+                  'https://www.google.com/maps/place/%C3%80+la+d%C3%A9couverte+de+Royal+Canin/@48.8640126,2.362786,17z/data=!3m1!4b1!4m5!3m4!1s0x47e66f0182a25dc7:0xe8b708c92eb2e656!8m2!3d48.8640501!4d2.3648312'
+                )
+              }
             >
               Où nous trouver
             </button>

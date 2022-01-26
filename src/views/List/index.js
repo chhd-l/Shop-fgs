@@ -1138,7 +1138,11 @@ class List extends React.Component {
           ).length > 0 &&
           stgShowAuth();
 
-        if (isSpecialNeedFilter || this.state.isRetailProducts) {
+        if (
+          isSpecialNeedFilter ||
+          (this.state.isRetailProducts &&
+            window.__.env.REACT_APP_COUNTRY !== 'uk')
+        ) {
           this.pageSize = 8;
         } else {
           this.pageSize = 12;
@@ -1525,7 +1529,10 @@ class List extends React.Component {
               0,
               { specificNeedCheck: true }
             );
-          } else if (this.state.isRetailProducts) {
+          } else if (
+            this.state.isRetailProducts &&
+            window.__.env.REACT_APP_COUNTRY !== 'uk'
+          ) {
             goodsContent.splice(4, 0, { productFinder: true });
           }
 
@@ -1914,28 +1921,28 @@ class List extends React.Component {
                         id="refineBar"
                         className="refine-bar refinements rc-column1 col-12 col-xl-3 ItemBoxFitSCreen pt-0 mb-0 md:mb-3 pl-0 md:pl-3 pr-0"
                       >
-                        <div className="d-flex justify-content-between align-items-center rc-md-down list_select_choose">
-                          {hiddenFilter ? null : (
-                            <div className="w-100 text-center">
-                              <button
-                                onClick={this.toggleFilterModal.bind(
-                                  this,
-                                  !filterModalVisible
-                                )}
-                                className="rc-btn rc-btn--two py-0 text-lg px-8 mb-4"
-                              >
-                                <span className="filter-btn-icon rc-icon rc-filter--xs rc-iconography rc-brand1" />
-                                <FormattedMessage id="plp.filter" />
-                                {this.handleFilterCounts(filterList)}
-                              </button>
-                              <SelectFilters
-                                filterList={filterList}
-                                history={history}
-                                baseSearchStr={baseSearchStr}
-                              />
-                            </div>
-                          )}
-                        </div>
+                        {hiddenFilter ? null : (
+                          <div className="d-flex justify-content-between align-items-center rc-md-down list_select_choose flex-col">
+                            {/* // <div className="w-100 text-center"> */}
+                            <button
+                              onClick={this.toggleFilterModal.bind(
+                                this,
+                                !filterModalVisible
+                              )}
+                              className="rc-btn rc-btn--two py-0 text-lg px-8 mb-4 d-flex justify-content-center align-items-center"
+                            >
+                              <span className="filter-btn-icon rc-icon rc-filter--xs rc-iconography rc-brand1" />
+                              <FormattedMessage id="plp.filter" />
+                              {this.handleFilterCounts(filterList)}
+                            </button>
+                            <SelectFilters
+                              filterList={filterList}
+                              history={history}
+                              baseSearchStr={baseSearchStr}
+                            />
+                            {/* </div> */}
+                          </div>
+                        )}
                         <aside
                           className={`rc-filters ${
                             filterModalVisible ? 'active' : ''
@@ -2003,7 +2010,7 @@ class List extends React.Component {
                         </div>
                       ) : null} */}
                         </aside>
-                        <div className="text-center pt-3 rc-md-down">
+                        <div className="text-center pt-3 rc-md-down border-top border-color-d7d7d7">
                           {results > 0 && (
                             <>
                               <FormattedMessage

@@ -1429,17 +1429,21 @@ class Form extends React.Component {
 
     return (
       <>
-        <Input
-          id={`${item.fieldKey}Shipping`}
-          type={item.filedType}
-          value={caninForm[item.fieldKey] || ''}
-          onInput={this.inputChange}
-          onBlur={this.inputBlur}
-          name={item.fieldKey}
-          disabled={item?.disabled ? true : false}
-          maxLength={item.maxLength}
-          autoComplete="new-password"
-        />
+        <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
+          <input
+            className={`rc-input__control ${item.fieldKey}Shipping`}
+            id={`${item.fieldKey}Shipping`}
+            type={item.filedType}
+            value={caninForm[item.fieldKey] || ''}
+            onInput={(e) => this.inputChange(e)}
+            onBlur={this.inputBlur}
+            name={item.fieldKey}
+            disabled={item?.disabled ? true : false}
+            maxLength={item.maxLength}
+            autoComplete="new-password"
+          />
+          <label className="rc-input__label" htmlFor="id-text1" />
+        </span>
       </>
     );
   };
@@ -1556,17 +1560,21 @@ class Form extends React.Component {
               <FormattedMessage id="account.Email" />
             </label>
 
-            <Input
-              id="email"
-              type="email"
-              data-name="profile_personalInfo"
-              alt="birthday E-mail"
-              name="email"
-              value={caninForm.email || ''}
-              maxLength="50"
-              autoComplete="new-password"
-              disabled
-            />
+            <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
+              <input
+                type="email"
+                className="rc-input__control emailShipping"
+                id="email"
+                data-name="profile_personalInfo"
+                alt="birthday E-mail"
+                name="email"
+                value={caninForm.email || ''}
+                maxLength="50"
+                autoComplete="new-password"
+                disabled
+              />
+              <label className="rc-input__label" htmlFor="id-text1" />
+            </span>
           </div>
         </div>
         {/* birthData */}
@@ -1625,7 +1633,7 @@ class Form extends React.Component {
                 >
                   {/* requiredFlag '是否必填: 0.关闭,1.开启' */}
                   <div
-                    className={`form-group ${
+                    className={`11111 form-group ${
                       item.requiredFlag == 1 ? 'required' : ''
                     }`}
                   >

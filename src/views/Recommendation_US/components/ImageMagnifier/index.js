@@ -3,8 +3,6 @@ import './index.less';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import noPic from '@/assets/images/noPic.png';
 // import noPic from './images/noPic1.png';
-//import LeftImg from '@/assets/images/left.png'
-//import RightImg from '@/assets/images/right.png'
 import { getDeviceType } from '@/utils/utils.js';
 import LazyLoad from 'react-lazyload';
 let H5Maxcount = 3;

@@ -526,7 +526,7 @@ export default function DailyPortion(
       "technologyCode": details?.wsTechnologyCode,
       "energyCategory": details?.wsEnergyCategory,
       "referenceEnergyValue": details?.wsReferenceEnergyValue,
-      "density": !!details?.wsDensity ? details?.wsDensity : 0,
+      "density": !!details?.wsDensity ? details?.wsDensity : 1,
       "packWeight": goodsInfo?.goodsInfoWeight ?? 1,
       "goodsInfoUnit": goodsInfo?.goodsInfoUnit ? String(goodsInfo?.goodsInfoUnit).toLowerCase():'kg',
     }

@@ -43,6 +43,9 @@ const RecommendationListModal = ({ intl }) => {
       let res = await findPetProductForClub({ petsId, apiTree: 'club_V2' });
       let mainProduct = res.context.mainProduct;
       let otherProducts = res.context.otherProducts;
+      // let mainProduct =  undefined
+      // let otherProducts = [] //test
+
       let currentItems =
         (currentGoodsItems?.length ? currentGoodsItems : els) || []; // 存在setCurrentGoodsItems异步还没赋值成功造成currentGoodsItems没值
       if (mainProduct) {
@@ -178,6 +181,7 @@ const RecommendationListModal = ({ intl }) => {
         {productDetail?.mainProduct ? (
           <RecommendationList productDetail={productDetail} />
         ) : (
+          // <div></div>
           <div className="text-center  rc-padding-left--lg--desktop rc-padding-right--lg--desktop">
             <img
               className="m-auto"

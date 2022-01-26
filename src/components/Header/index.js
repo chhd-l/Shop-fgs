@@ -80,7 +80,9 @@ class Header extends React.Component {
       headerNavigationListForHub: [],
       activeTopParentId: -1,
       isSearchSuccess: false, //是否搜索成功
-      searchBarVisible: false
+      searchBarVisible: false,
+      showMenuStatus: true,
+      showSearchIcon: false
     };
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
@@ -217,7 +219,7 @@ class Header extends React.Component {
   }
   componentWillUnmount() {
     window.removeEventListener('click', this.hideMenu);
-    // window.removeEventListener('scroll', this.handleScroll)
+    window.removeEventListener('scroll', this.handleScroll);
   }
   initNavigations = async () => {
     const navigationConf = await fetchHeaderNavigations();
@@ -338,6 +340,16 @@ class Header extends React.Component {
     }
   };
   handleScroll(e) {
+    // debugger;
+    const headerNavigationDom = document.querySelector(
+      '.rc-header__nav.rc-header__nav--secondary'
+    );
+    if (!this.props.showNav) {
+      if (headerNavigationDom) {
+        headerNavigationDom.style.display = 'none';
+      }
+      return false;
+    }
     // 滑动时，移除.searchbar--visile，search bar的显示隐藏交由.rc-header--scrolled控制
     this.toggleDomClassName({
       dom: document.querySelector('.rc-header'),
@@ -346,9 +358,6 @@ class Header extends React.Component {
     });
 
     const scrolledDom = document.querySelector('.rc-header--scrolled');
-    const headerNavigationDom = document.querySelector(
-      '.rc-header__nav.rc-header__nav--secondary'
-    );
     if (headerNavigationDom) {
       headerNavigationDom.style.display = scrolledDom ? 'none' : 'flex';
     }
@@ -489,6 +498,24 @@ class Header extends React.Component {
       value: 1
     });
   }
+
+  handleClickMenuIcon = (showMegaMenu) => {
+    this.setState(
+      {
+        showMenuStatus: !showMegaMenu,
+        showSearchIcon: showMegaMenu
+      },
+      () => {
+        if (this.state.showSearchIcon) {
+          this.toggleDomClassName({
+            dom: document.querySelector('.rc-header'),
+            operatedClassName: 'searchbar--visile',
+            active: false
+          });
+        }
+      }
+    );
+  };
   /**
    *
    * @param {HTML dom} dom 需要操作的dom对象
@@ -525,6 +552,10 @@ class Header extends React.Component {
     });
   };
   toggleSearchIcon = () => {
+    this.setState({
+      showSearchIcon: false,
+      showMenuStatus: true
+    });
     this.setState(
       (curState) => ({
         searchBarVisible: !curState.searchBarVisible
@@ -533,7 +564,7 @@ class Header extends React.Component {
         this.toggleDomClassName({
           dom: document.querySelector('.rc-header'),
           operatedClassName: 'searchbar--visile',
-          active: this.state.searchBarVisible
+          active: this.state.searchBarVisible || !this.state.showSearchIcon
         });
       }
     );
@@ -546,7 +577,9 @@ class Header extends React.Component {
       headerNavigationListForHub,
       showSearchInput,
       showCenter,
-      showCart
+      showCart,
+      showMenuStatus,
+      showSearchIcon
     } = this.state;
     return (
       <>
@@ -610,6 +643,7 @@ class Header extends React.Component {
                       {...this.props}
                       isLogin={this.isLogin}
                       userInfo={this.userInfo}
+                      handleClickMenuIcon={this.handleClickMenuIcon}
                     />
                   ) : (
                     <MegaMenuMobile
@@ -644,7 +678,9 @@ class Header extends React.Component {
                   <>
                     {window.__.env.REACT_APP_HUB && isMobile ? (
                       <span
-                        className="iconfont icon-search mr-2 icon-search-mini"
+                        className={`iconfont icon-search mr-2 icon-search-mini ${
+                          showSearchIcon ? 'show-search-icon' : ''
+                        }`}
                         onClick={this.toggleSearchIcon}
                       >
                         &#xe6a5;
@@ -679,11 +715,14 @@ class Header extends React.Component {
             </ul>
           </nav>
           {/* 向下滑动页面时，才会出现搜索条 */}
-          {showMiniIcons && window.__.env.REACT_APP_HUB && isMobile && (
-            <nav className="bg-white nav-search pl-3 pr-3 pb-2 search-full-input-container">
-              <Search history={history} />
-            </nav>
-          )}
+          {showMiniIcons &&
+            window.__.env.REACT_APP_HUB &&
+            isMobile &&
+            showMenuStatus && (
+              <nav className="bg-white nav-search pl-3 pr-3 pb-2 search-full-input-container">
+                <Search history={history} />
+              </nav>
+            )}
 
           {window.__.env.REACT_APP_HUB ? (
             <DropDownMenuForHub
