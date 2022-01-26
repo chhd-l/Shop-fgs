@@ -588,7 +588,7 @@ class PayProductInfo extends React.Component {
         }
       } else {
         this.setState({
-          isShowValidCode: result.context?.couponCodeErrorMsg || true
+          isShowValidCode: true
         });
         this.props.sendPromotionCode('');
         this.setState({ isStudentPurchase: false });
@@ -766,11 +766,7 @@ class PayProductInfo extends React.Component {
               </div>
               {isShowValidCode ? (
                 <div className="red" style={{ fontSize: '.875rem' }}>
-                  {isShowValidCode === true ? (
-                    <FormattedMessage id="validPromotionCode" />
-                  ) : (
-                    isShowValidCode
-                  )}
+                  <FormattedMessage id="validPromotionCode" />
                 </div>
               ) : null}
               {!isShowValidCode &&
