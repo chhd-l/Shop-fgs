@@ -1536,7 +1536,7 @@ class AccountOrders extends React.Component {
                                     &nbsp;
                                   </div>
                                   <div className="col-6 col-md-2 mb-2">
-                                    <FormattedMessage id="shipping" />
+                                    <FormattedMessage id="order.shipping" />
                                   </div>
                                   <div className="col-6 col-md-3 text-right text-nowrap">
                                     {formatMoney(
