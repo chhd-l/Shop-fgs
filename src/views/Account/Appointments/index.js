@@ -11,12 +11,7 @@ import Pagination from '@/components/Pagination';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import {
-  getDeviceType,
-  formatDate,
-  handleAppointmentDict,
-  getDictionary
-} from '@/utils/utils';
+import { getDeviceType, formatDate, getDictionary } from '@/utils/utils';
 import appointmentImg from './img/no-appointments.png';
 import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
