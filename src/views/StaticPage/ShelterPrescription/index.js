@@ -19,8 +19,8 @@ const pageLink = window.location.href;
 
 @inject('clinicStore')
 @injectIntl
-@observer
 @seoHoc('Shelter landing page')
+@observer
 class ShelterPrescription extends React.Component {
   constructor(props) {
     super(props);

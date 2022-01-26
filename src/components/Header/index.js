@@ -340,7 +340,14 @@ class Header extends React.Component {
     }
   };
   handleScroll(e) {
+    // debugger;
+    const headerNavigationDom = document.querySelector(
+      '.rc-header__nav.rc-header__nav--secondary'
+    );
     if (!this.props.showNav) {
+      if (headerNavigationDom) {
+        headerNavigationDom.style.display = 'none';
+      }
       return false;
     }
     // 滑动时，移除.searchbar--visile，search bar的显示隐藏交由.rc-header--scrolled控制
@@ -351,9 +358,6 @@ class Header extends React.Component {
     });
 
     const scrolledDom = document.querySelector('.rc-header--scrolled');
-    const headerNavigationDom = document.querySelector(
-      '.rc-header__nav.rc-header__nav--secondary'
-    );
     if (headerNavigationDom) {
       headerNavigationDom.style.display = scrolledDom ? 'none' : 'flex';
     }

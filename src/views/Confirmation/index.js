@@ -32,8 +32,8 @@ const pageLink = window.location.href;
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
 const isLogin = !!localItemRoyal.get('rc-token');
 @inject('checkoutStore', 'frequencyStore', 'loginStore')
-@observer
 @seoHoc()
+@observer
 class Confirmation extends React.Component {
   constructor(props) {
     super(props);

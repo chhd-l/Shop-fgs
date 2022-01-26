@@ -20,8 +20,8 @@ const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
 @inject('configStore')
-@observer
 @seoHoc('Contact Us Page')
+@observer
 class Help extends React.Component {
   constructor(props) {
     super(props);

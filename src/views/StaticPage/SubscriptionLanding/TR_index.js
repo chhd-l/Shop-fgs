@@ -22,8 +22,8 @@ const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
 @inject('configStore')
-@observer
 @seoHoc('Subscription Page')
+@observer
 class Help extends React.Component {
   componentWillUnmount() {}
 

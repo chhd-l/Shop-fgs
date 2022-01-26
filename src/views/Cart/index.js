@@ -15,8 +15,8 @@ const pageLink = window.location.href;
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
 
 @inject('loginStore', 'configStore', 'checkoutStore')
-@observer
 @seoHoc()
+@observer
 class Cart extends React.Component {
   constructor(props) {
     super(props);

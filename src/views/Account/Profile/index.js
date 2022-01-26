@@ -48,8 +48,8 @@ function PanleContainer(props) {
 }
 
 @inject('loginStore')
-@observer
 @seoHoc('Account personal information')
+@observer
 class AccountProfile extends React.Component {
   constructor(props) {
     super(props);

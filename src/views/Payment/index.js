@@ -164,8 +164,8 @@ const chooseRadioType = (country) => {
   'paymentStore'
 )
 @injectIntl
-@observer
 @seoHoc('Checkout page')
+@observer
 class Payment extends React.Component {
   constructor(props) {
     super(props);

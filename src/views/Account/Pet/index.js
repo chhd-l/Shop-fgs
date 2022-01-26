@@ -25,8 +25,8 @@ const pageLink = window.location.href;
 
 @injectIntl
 @inject('loginStore')
-@observer
 @seoHoc('Account pet')
+@observer
 class Pet extends React.Component {
   constructor(props) {
     super(props);

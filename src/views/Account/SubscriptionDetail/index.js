@@ -45,8 +45,8 @@ const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 
 @inject('configStore')
 @injectIntl
-@observer
 @seoHoc('Subscription Page')
+@observer
 class SubscriptionDetail extends React.Component {
   constructor(props) {
     super(props);

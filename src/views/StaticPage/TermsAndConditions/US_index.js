@@ -15,8 +15,8 @@ const pageLink = window.location.href;
 
 @injectIntl
 @inject('configStore')
-@observer
 @seoHoc('general terms conditions page')
+@observer
 class TermsConditionsUs extends React.Component {
   constructor(props) {
     super(props);

@@ -14,8 +14,8 @@ const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 @injectIntl
 @inject('configStore')
-@observer
 @seoHoc('general terms conditions page')
+@observer
 class TermsConditions extends React.Component {
   constructor(props) {
     super(props);

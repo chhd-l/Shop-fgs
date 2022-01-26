@@ -44,8 +44,8 @@ const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 @inject('checkoutStore', 'loginStore', 'configStore', 'clinicStore')
 @injectIntl
-@observer
 @seoHoc('SPT reco landing page')
+@observer
 class FelinRecommendation extends React.Component {
   constructor(props) {
     super(props);
