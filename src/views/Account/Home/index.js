@@ -41,8 +41,8 @@ function Container({ className, item, children }) {
 }
 
 @inject('loginStore', 'configStore')
-@observer
 @seoHoc('Account index')
+@observer
 class AccountHome extends React.Component {
   get userInfo() {
     return this.props.loginStore.userInfo;

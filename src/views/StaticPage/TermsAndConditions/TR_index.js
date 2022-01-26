@@ -12,8 +12,8 @@ import { Helmet } from 'react-helmet';
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 @injectIntl
-@observer
 @seoHoc('general terms conditions page')
+@observer
 class TermsConditionsTr extends React.Component {
   spacingFragment = () => {
     return (

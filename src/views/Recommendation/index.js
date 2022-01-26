@@ -56,8 +56,8 @@ const pageLink = window.location.href;
   'configStore'
 )
 @injectIntl
-@observer
 @seoHoc('SPT reco landing page')
+@observer
 class Help extends React.Component {
   constructor(props) {
     super(props);

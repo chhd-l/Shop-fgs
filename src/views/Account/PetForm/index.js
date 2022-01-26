@@ -34,8 +34,8 @@ const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
 @inject('loginStore')
-@observer
 @seoHoc()
+@observer
 class PetForm extends React.Component {
   constructor(props) {
     super(props);

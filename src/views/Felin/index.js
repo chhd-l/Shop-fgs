@@ -102,8 +102,8 @@ function scrollPaymentPanelIntoView(id, additionalHeight = 0) {
 
 @inject('loginStore')
 @injectIntl
-@observer
 @seoHoc('FelinLandingPage')
+@observer
 export default class Felin extends React.Component {
   constructor(props) {
     super(props);

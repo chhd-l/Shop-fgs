@@ -165,8 +165,8 @@ function QListAndPetJSX(props) {
 
 @inject('loginStore')
 @injectIntl
-@observer
 @seoHoc('finder-recommendation')
+@observer
 class ProductFinderResult extends React.Component {
   constructor(props) {
     super(props);

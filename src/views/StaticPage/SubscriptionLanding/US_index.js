@@ -24,8 +24,8 @@ import { seoHoc } from '@/framework/common';
 
 const pageLink = window.location.href;
 @inject('configStore')
-@observer
 @seoHoc('Subscription Page')
+@observer
 class SubscriptionLanding extends React.Component {
   render(h) {
     const event = {

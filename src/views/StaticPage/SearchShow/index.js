@@ -14,8 +14,8 @@ import { getEmailWay } from './config';
 const pageLink = window.location.href;
 
 @inject('configStore')
-@observer
 @seoHoc()
+@observer
 class SearchShow extends React.Component {
   constructor(props) {
     super(props);

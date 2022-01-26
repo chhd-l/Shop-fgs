@@ -41,8 +41,8 @@ const pageLink = window.location.href;
 
 @inject('checkoutStore')
 @injectIntl
-@observer
 @seoHoc('Account orders')
+@observer
 class AccountOrders extends React.Component {
   constructor(props) {
     super(props);

@@ -59,8 +59,8 @@ const Test = () => {
 
 @inject('checkoutStore', 'loginStore', 'configStore', 'clinicStore')
 @injectIntl
-@observer
 @seoHoc('SPT reco landing page')
+@observer
 class Recommendation extends React.Component {
   constructor(props) {
     super(props);

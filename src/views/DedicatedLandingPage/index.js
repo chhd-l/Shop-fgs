@@ -49,9 +49,9 @@ const kittyData = [
 let skuArr = ['FGS20049', 'FGS20050'];
 
 @inject('configStore', 'checkoutStore', 'loginStore', 'clinicStore')
-@observer
 @injectIntl
 @seoHoc('Home Page')
+@observer
 class DedicatedLandingPage extends React.Component {
   constructor(props) {
     super(props);

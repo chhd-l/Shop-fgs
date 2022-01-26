@@ -24,8 +24,8 @@ const pageLink = window.location.href;
 
 @inject('checkoutStore', 'loginStore', 'clinicStore', 'configStore')
 @injectIntl
-@observer
 @seoHoc('Health and nutrition page')
+@observer
 class Tailorednutrition extends React.Component {
   componentWillUnmount() {}
 

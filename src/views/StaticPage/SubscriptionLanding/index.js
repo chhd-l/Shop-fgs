@@ -21,9 +21,9 @@ import { Helmet } from 'react-helmet';
 const pageLink = window.location.href;
 
 @inject('configStore')
-@observer
 @injectIntl
 @seoHoc('Subscription Page')
+@observer
 class SubscriptionLanding extends React.Component {
   render(h) {
     const event = {
