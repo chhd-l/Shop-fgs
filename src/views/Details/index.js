@@ -200,9 +200,10 @@ class Details extends React.Component {
     return this.props.checkoutStore;
   }
   get buyFromRetailerConfig() {
-    return this.props.configStore?.info?.buyFromRetailerContext
+    const configStr = this.props.configStore?.info?.buyFromRetailerContext
       ? decryptString(this.props.configStore.info.buyFromRetailerContext)
-      : {};
+      : '{}';
+    return JSON.parse(configStr);
   }
   get btnStatus() {
     const { details, quantity, instockStatus, initing, loading, form } =
@@ -246,18 +247,10 @@ class Details extends React.Component {
     const sptGoods = goodsType === 0 || goodsType === 1;
     let bundle = goodsType && goodsType === 2;
     const buyFromRetailerConfig = this.buyFromRetailerConfig;
-    const widgetId =
-      buyFromRetailerConfig.retailerEnable &&
-      buyFromRetailerConfig.type === 'API'
-        ? buyFromRetailerConfig.idRetailProducts
-        : null; // window.__.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID;
-    return (
-      !loading &&
-      !bundle &&
-      isHub &&
-      !exclusiveFlag &&
-      (widgetId || (Tr && !sptGoods))
-    );
+    //const widgetId = window.__.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID;
+    const enableRetailer =
+      buyFromRetailerConfig.retailerEnable && (!Tr || !sptGoods);
+    return !loading && !bundle && isHub && !exclusiveFlag && enableRetailer;
   }
 
   redirectCanonicalLink({ pageLink }) {
@@ -759,6 +752,7 @@ class Details extends React.Component {
   loadWidgetIdBtn(barcode) {
     const { goodsType } = this.state;
     const buyFromRetailerConfig = this.buyFromRetailerConfig;
+    console.log('retailer config:', buyFromRetailerConfig);
     const widgetId =
       buyFromRetailerConfig.retailerEnable &&
       buyFromRetailerConfig.type === 'API'
@@ -775,7 +769,7 @@ class Details extends React.Component {
         url: 'https://fi-v2.global.commerce-connector.com/cc.js',
         id: 'cci-widget',
         dataSets: {
-          token: '2257decde4d2d64a818fd4cd62349b235d8a74bb', //uk，fr公用它
+          token: buyFromRetailerConfig.token, //'2257decde4d2d64a818fd4cd62349b235d8a74bb', //uk，fr公用它
           locale: buyFromRetailerConfig.locale, // window.__.env.REACT_APP_HUBPAGE_RETAILER_LOCALE,
           displaylanguage: buyFromRetailerConfig.displayLanguage,
           //window.__.env.REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE,

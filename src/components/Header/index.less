@@ -113,6 +113,22 @@
       font-size: 0.9em;
     }
   }
+  &.search-desktop {
+    .search-field {
+      border: 0;
+      background-color: transparent;
+    }
+    &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 18rem;
+      height: 2px;
+      background: #989898;
+      top: 30px;
+      left: 0;
+    }
+  }
 }
 .search-contaner__shadow {
   position: fixed;
@@ -219,7 +235,7 @@
     width: 650px;
   }
   .rc-content--fixed-header {
-    padding-top: 10rem;
+    padding-top: 11rem;
   }
   .nav-column {
     width: 350px;
@@ -252,14 +268,14 @@
     .rc-nav {
       top: 4rem;
     }
-    
+
     .searchbar--visile {
       .rc-nav {
         top: 6.8rem;
       }
     }
 
-    
+
     .rc-content--fixed-header {
       padding-top: 6.8rem;
     }
