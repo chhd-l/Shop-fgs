@@ -478,6 +478,7 @@ class Register extends Component {
     return this.props.intl.messages[str];
   };
   render() {
+    const { intl } = this.props;
     const registerBack =
       window.location.search.indexOf('?origin=register') >= 0 &&
       window.location.search.indexOf('&token') >= 0; // 注册邮件点回来后，自动登录
@@ -649,9 +650,12 @@ class Register extends Component {
                         }`}
                       >
                         <FormattedMessage id="registerWelcome" />{' '}
-                        <span className="rc-text-colour--brand1">
-                          <FormattedMessage id="register.royalCanin" />
-                        </span>
+                        <span
+                          className="rc-text-colour--brand1"
+                          dangerouslySetInnerHTML={{
+                            __html: intl.messages['register.royalCanin']
+                          }}
+                        />
                       </h2>
                       <p className="rc-margin-bottom--none text-center">
                         <FormattedMessage id="registerCompleteForm" />
