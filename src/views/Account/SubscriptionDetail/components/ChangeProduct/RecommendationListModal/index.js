@@ -25,7 +25,8 @@ const RecommendationListModal = ({ intl }) => {
     initMainProduct,
     queryProductDetails,
     currentGoodsItems,
-    setCurrentGoodsItems
+    setCurrentGoodsItems,
+    showProdutctDetail
   } = ChangeProductValue;
   let timer = null;
   const queryProductList = async (els, cb) => {
@@ -125,6 +126,9 @@ const RecommendationListModal = ({ intl }) => {
   useEffect(() => {
     showChangeProduct(triggerShowChangeProduct);
   }, [triggerShowChangeProduct.firstShow]);
+  const redirectTo = (url) => {
+    history.push(url);
+  };
   const showChangeProduct = async ({ goodsInfo, isShowModal }) => {
     if (!goodsInfo || productDetail.mainProduct?.spuCode) {
       showModal(0);
@@ -266,7 +270,12 @@ const RecommendationListModal = ({ intl }) => {
                       )}
                     </span>
                   </div>
-                  <button class="text-sm  my-6 rc-btn rc-btn--two rc-btn--sm">
+                  <button
+                    class="text-sm  my-6 rc-btn rc-btn--two rc-btn--sm"
+                    onClick={() => {
+                      showProdutctDetail(subDetail.goodsInfo[0]?.spuNo);
+                    }}
+                  >
                     {/* View product */}
                     <FormattedMessage id="viewproduct" />
                   </button>
@@ -299,17 +308,30 @@ const RecommendationListModal = ({ intl }) => {
                 {/* Create or update your pet’s profile to obtain the most precise
                 recommendations */}
               </div>
-              <button class="text-sm mt-6  rc-btn rc-btn--two rc-btn--sm">
+              <button
+                class="text-sm mt-6  rc-btn rc-btn--two rc-btn--sm"
+                onClick={() =>
+                  redirectTo(`/account/pets/petForm/${subDetail.petsId}`)
+                }
+              >
                 <FormattedMessage id="subscription.noMoreRecommendation.updateBtn" />
                 {/* Update your pet profile */}
               </button>
               <br />
-              <a class="mt-4 mb-8 red text-sm rc-styled-link rc-btn--sm">
+              <a
+                class="mt-4 mb-8 red text-sm rc-styled-link rc-btn--sm"
+                onClick={() => redirectTo('/account/pets/petForm')}
+              >
                 <FormattedMessage id="subscription.noMoreRecommendation.createBtn" />
                 {/* Create your pet profile */}
               </a>
             </div>
-            <button class="text-sm mt-6 rc-btn rc-btn--one rc-btn--sm">
+            <button
+              class="text-sm mt-6 rc-btn rc-btn--one rc-btn--sm"
+              onClick={() => {
+                showModal(0);
+              }}
+            >
               <FormattedMessage id="subscription.noMoreRecommendation.backBtn" />
               {/* Back to my subscription */}
             </button>
