@@ -572,12 +572,16 @@ const App = () => {
                 <Route
                   path="/account/orders/detail/:orderNumber"
                   exact
-                  component={AccountOrdersDetail}
+                  render={(props) => (
+                    <AccountOrdersDetail key={props.match.params.orderNumber} {...props} />
+                  )}
                 />
                 <Route
                   path="/account/appointments/detail/:appointmentNo"
                   exact
-                  component={AccountAppointmentsDetail}
+                  render={(props) => (
+                    <AccountAppointmentsDetail key={props.match.params.appointmentNo} {...props} />
+                  )}
                 />
                 <Route
                   path="/account/pets/petForm/:id"
@@ -605,18 +609,24 @@ const App = () => {
                 <Route
                   path="/account/subscription/order/detail/:subscriptionNumber"
                   exact
-                  component={AccountSubscriptionDetail}
+                  render={(props) => (
+                    <AccountSubscriptionDetail key={props.match.params.subscriptionNumber} {...props} />
+                  )}
                 />
 
                 <Route
                   path="/account/productReview/:tid"
                   exact
-                  component={ProductReview}
+                  render={(props) => (
+                    <ProductReview key={props.match.params.tid} {...props} />
+                  )}
                 />
                 <Route
                   path="/account/productReviewService/:tid"
                   exact
-                  component={ProductReviewService}
+                  render={(props) => (
+                    <ProductReviewService key={props.match.params.tid} {...props} />
+                  )}
                 />
                 <Route
                   path="/whistlefit"
@@ -694,7 +704,9 @@ const App = () => {
                 <Route
                   path="/adoptant/:id"
                   exact
-                  component={DedicatedLandingPage}
+                  render={(props) => (
+                    <DedicatedLandingPage key={props.match.params.id} {...props} />
+                  )}
                 />
                 <Route
                   path="/general-conditions"
@@ -776,8 +788,14 @@ const App = () => {
                 <Route path="/consent1-tr" component={Consent1TR} />
                 <Route path="/consent2-tr" component={Consent2TR} />
                 <Route path="/register" component={register} />
-                <Route path="/welcome/:id" component={welcome} />
-                <Route path="/survey/:id?" component={Survey} />
+                <Route path="/welcome/:id"  
+                render={(props) => (
+                    <welcome key={props.match.params.id} {...props} />
+                  )}/>
+                <Route path="/survey/:id?"
+                 render={(props) => (
+                  <Survey key={props.match.params.id} {...props} />
+                )}/>
 
                 {/* <Route
                   path="/smart-feeder-subscription"
@@ -830,8 +848,10 @@ const App = () => {
                 />
                 <Route exact sensitive path="/FAQ" component={Exception} />
                 <Route
+                render={(props) => (
+                  <FelinRecommendation key={props.match.params.id} {...props} />
+                )}
                   path="/FelinRecommendation/:id"
-                  component={FelinRecommendation}
                 />
                 <Route path="/adoptions" component={Adoptions} />
                 <Route path="/felin" component={Felin} />
