@@ -12,7 +12,7 @@ import { bindSubmitParam } from '@/utils/utils';
 import Modal from '@/components/Modal';
 import { addEventListenerArr } from './addEventListener';
 import loginRedirection from '@/lib/login-redirection';
-import { LOGO_PRIMARY } from '@/utils/constant';
+import { LOGO_PRIMARY, LOGO_PRIMARY_RU } from '@/utils/constant';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -310,11 +310,19 @@ class RegisterRequired extends Component {
                     </div>
                   </DistributeHubLinkOrATag> */}
                   <div className="content-asset flex justify-center items-center">
-                    <img
-                      src={LOGO_PRIMARY}
-                      alt="Royal Canin Flagship Store"
-                      className="w-40 md:w-auto"
-                    />
+                    {window.__.env.REACT_APP_COUNTRY === 'ru' ? (
+                      <img
+                        src={LOGO_PRIMARY_RU}
+                        alt="Royal Canin Flagship Store"
+                        className="w-36 md:w-52"
+                      />
+                    ) : (
+                      <img
+                        src={LOGO_PRIMARY}
+                        alt="Royal Canin Flagship Store"
+                        className="w-40 md:w-auto"
+                      />
+                    )}
                   </div>
                 </div>
                 <ErrMsg msg={errMsg} />
