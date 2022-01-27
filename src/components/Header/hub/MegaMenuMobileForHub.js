@@ -202,7 +202,7 @@ class MegaMenuMobileForHub extends Component {
                   <div className="custom-accordion__item">
                     <dt>
                       <div
-                        className="custom-accordion__button rc-list__header bg-transparent d-flex justify-content-between border-0"
+                        className="custom-accordion__button rc-list__header py-2 bg-white d-flex items-center justify-content-between border-0"
                         role="menuitem"
                         aria-selected="false"
                         data-tab-init="true"
@@ -300,9 +300,9 @@ class MegaMenuMobileForHub extends Component {
           <NavItem
             onClick={this.handleClickNavItem.bind(this, item)}
             item={item}
-            className="rc-list__header bg-transparent border-0"
+            className="rc-list__header p-4 bg-white border-0"
           >
-            <span className="rc-text-colour--text">{item.Link.Text}</span>
+            <span className="rc-text-colour--text py-2">{item.Link.Text}</span>
           </NavItem>
         )}
       </>
@@ -351,7 +351,7 @@ class MegaMenuMobileForHub extends Component {
                         portalData.map((data, i) => (
                           <a
                             href={data.link}
-                            className={`rc-list__header bg-transparent border-0 ${
+                            className={`rc-list__header p-4 bg-white border-0 ${
                               i !== shareData.length - 1 ? 'pb-0' : ''
                             }`}
                             key={i}
@@ -407,7 +407,7 @@ class MegaMenuMobileForHub extends Component {
                       {shareData.map((data, i) => (
                         <a
                           href={data.link}
-                          className={`rc-list__header bg-transparent border-0 ${
+                          className={`rc-list__header p-4 bg-white border-0 ${
                             i !== shareData.length - 1 ? 'pb-0' : ''
                           }`}
                           key={i}
@@ -419,10 +419,10 @@ class MegaMenuMobileForHub extends Component {
                       ))}
                     </li>
                     <li className="rc-list__item rc-list__item--group w-100 border-bottom border-d7d7d7">
-                      <Language className="rc-list__header bg-transparent border-0">
-                        <span className="iconfont rc-text-colour--text">
-                          &#xe60c;
-                        </span>{' '}
+                      <Language className="rc-list__header bg-white p-4 border-0">
+                        <span className="rc-icon rc-pin--xs rc-iconography" />
+                        {/*&#xe60c;*/}
+                        {/*</span>{' '}*/}
                         <span className="rc-text-colour--text">
                           <FormattedMessage id="language" />
                         </span>
