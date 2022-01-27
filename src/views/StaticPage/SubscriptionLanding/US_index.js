@@ -312,7 +312,7 @@ class SubscriptionLanding extends React.Component {
                             </p>
                           </div>
                           <div className="rc-btn-group rc-margin--none rc-padding-x--xs d-none d-md-flex">
-                            <Link to="/subscription-landing">
+                            <Link to="/product-finder">
                               <button className="rc-btn rc-btn--one mb-2 md:mb-0">
                                 {/*Shop Dog Formulas*/}
                                 <FormattedMessage id="SubscriptionLanding.BothFormulas" />

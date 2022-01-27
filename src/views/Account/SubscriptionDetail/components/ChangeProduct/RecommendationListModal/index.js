@@ -194,15 +194,30 @@ const RecommendationListModal = ({ intl }) => {
               className="text-center red mt-10"
               style={{ fontSize: '1.25rem' }}
             >
-              The nutrition adapted to {subDetail.petsInfo?.petsName}’s specific
-              needs is still maine coon adult, dry cat food
+              <FormattedMessage
+                values={{
+                  petname: subDetail.petsInfo?.petsName,
+                  productname:
+                    subDetail.goodsInfo && subDetail.goodsInfo[0]?.goodsName
+                }}
+                id="subscription.noMoreRecommendation.HeaderTitle"
+              />
+
+              {/* The nutrition adapted to {subDetail.petsInfo?.petsName}’s specific
+              needs is still maine coon adult, dry cat food */}
             </p>
             <p className="text-sm">
-              A Maine Coon like {subDetail.petsInfo?.petsName} has specific
+              <FormattedMessage
+                values={{
+                  petname: subDetail.petsInfo?.petsName
+                }}
+                id="subscription.noMoreRecommendation.HeaderContent"
+              />
+              {/* A Maine Coon like {subDetail.petsInfo?.petsName} has specific
               needs. for example, due to his large size and bone structure, it
               is essential to pay special attention to his general health and
               his joints. Depending on your pet preferences you can choose
-              between wet food, dry food or Mixed.
+              between wet food, dry food or Mixed. */}
             </p>
 
             {/* <p className="text-center red" style={{ fontSize: '1.5rem' }}>
@@ -266,22 +281,37 @@ const RecommendationListModal = ({ intl }) => {
               style={{ border: '1px solid #D7D7D7' }}
             >
               <div className="red mt-8" style={{ fontSize: '1.375rem' }}>
-                {subDetail.petsInfo?.petsName}’s needs have changed?
+                <FormattedMessage
+                  values={{
+                    petname: subDetail.petsInfo?.petsName
+                  }}
+                  id="subscription.noMoreRecommendation.FooterTitle"
+                />
+                {/* {subDetail.petsInfo?.petsName}’s needs have changed? */}
               </div>
               <div className="text-sm mt-2">
-                Create or update your pet’s profile to obtain the most precise
-                recommendations
+                <FormattedMessage
+                  values={{
+                    petname: subDetail.petsInfo?.petsName
+                  }}
+                  id="subscription.noMoreRecommendation.FooterContent"
+                />
+                {/* Create or update your pet’s profile to obtain the most precise
+                recommendations */}
               </div>
               <button class="text-sm mt-6  rc-btn rc-btn--two rc-btn--sm">
-                Update your pet profile
+                <FormattedMessage id="subscription.noMoreRecommendation.updateBtn" />
+                {/* Update your pet profile */}
               </button>
               <br />
               <a class="mt-4 mb-8 red text-sm rc-styled-link rc-btn--sm">
-                Create your pet profile
+                <FormattedMessage id="subscription.noMoreRecommendation.createBtn" />
+                {/* Create your pet profile */}
               </a>
             </div>
             <button class="text-sm mt-6 rc-btn rc-btn--one rc-btn--sm">
-              Back to my subscription
+              <FormattedMessage id="subscription.noMoreRecommendation.backBtn" />
+              {/* Back to my subscription */}
             </button>
           </div>
         )}

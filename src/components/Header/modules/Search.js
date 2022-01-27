@@ -9,7 +9,8 @@ import { IMG_DEFAULT } from '@/utils/constant';
 import { getSearch } from '@/api/hub';
 import querySearch from '../mock/search';
 import axios from 'axios';
-import { cancelPrevRequest, optimizeImage } from '@/utils/utils';
+import { cancelPrevRequest, optimizeImage, getDeviceType } from '@/utils/utils';
+
 import {
   GAInstantSearchFieldClick,
   GAInstantSearchResultDisplay,
@@ -373,12 +374,17 @@ export default class Search extends React.Component {
   }
   render() {
     const { showSearchInput, result, keywords, loading } = this.state;
+    const isMobile = getDeviceType() !== 'PC';
     return (
       <div className="inlineblock w-100">
         {loading ? <Loading /> : null}
         {isHub ? (
           <>
-            <div className="search-contaner">
+            <div
+              className={` ${
+                isMobile ? '' : 'search-desktop '
+              } search-contaner`}
+            >
               <form
                 role="search"
                 name="simpleSearch"
