@@ -70,7 +70,7 @@ export function handleOrderItem(ele, res) {
       ele.tradeDelivers.length,
     //兼容feline order 预约状态为 arrived 时可下载发票
     canDownInvoice:
-      ['fr', 'se'].includes(window.__.env.REACT_APP_COUNTRY) &&
+      window.__.env.REACT_APP_CAN_DOWNLOAD_INVOICE &&
       (tradeState.deliverStatus === 'SHIPPED' ||
         tradeState.deliverStatus === 'DELIVERED' ||
         ele.appointmentStatus === 1) &&
