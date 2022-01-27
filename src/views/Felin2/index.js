@@ -175,7 +175,7 @@ class Felin extends React.Component {
   scrollEventPanelIntoView() {
     const { history } = this.props;
     if (
-      history.location.pathname.includes('/felin/event') &&
+      history.location.pathname.includes('/latelier/felin/event') &&
       !this.hasRePositioned
     ) {
       this.hasRePositioned = true;
@@ -944,10 +944,10 @@ class Felin extends React.Component {
                                   textDecoration: 'underline',
                                   color: 'blue'
                                 }}
-                                href="https://www.royalcanin.com/fr/shop/felin"
+                                href="https://www.royalcanin.com/fr/shop/latelier/felin"
                                 target="_blank"
                               >
-                                https://www.royalcanin.com/fr/shop/felin
+                                https://www.royalcanin.com/fr/shop/latelier/felin
                               </a>
                             </span>
                           ) : (

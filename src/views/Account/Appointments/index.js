@@ -150,7 +150,7 @@ class AccountOrders extends React.Component {
             <FormattedMessage id="appointment.reSchedule">
               {(txt) => (
                 <Link
-                  to={`/felin?id=${appointment.apptNo}`}
+                  to={`/latelier/felin?id=${appointment.apptNo}`}
                   title={txt}
                   alt={txt}
                 >
@@ -227,7 +227,7 @@ class AccountOrders extends React.Component {
                             </p>
                             <Link
                               href=""
-                              to="/felin"
+                              to="/latelier/felin"
                               className="rc-btn rc-btn--one"
                             >
                               <FormattedMessage id="account.appointment.btns" />

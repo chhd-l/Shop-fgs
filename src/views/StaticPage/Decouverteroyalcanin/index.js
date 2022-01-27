@@ -293,7 +293,7 @@ const Decouverteroyalcanin = (props) => {
             <LazyLoad>
               <img
                 src={pic6}
-
+                style={{ maxWidth: '400px' }}
                 // src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/static-page/decouverteroyalcanin/pic6.png`}
               />
             </LazyLoad>

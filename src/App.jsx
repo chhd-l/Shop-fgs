@@ -834,8 +834,8 @@ const App = () => {
                   component={FelinRecommendation}
                 />
                 <Route path="/adoptions" component={Adoptions} />
-                <Route path="/felin" component={Felin} />
-                <Route path="/felin/event" component={Felin} />
+                <Route path="/latelier/felin" component={Felin} />
+                <Route path="/latelier/felin/event" component={Felin} />
                 <Route
                   path="/"
                   render={(props) => {
