@@ -11,6 +11,7 @@ import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
 import { getPetList } from '@/api/pet';
 import { changeSubscriptionDetailPets } from '@/api/subscription';
+import cn from 'classnames';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
