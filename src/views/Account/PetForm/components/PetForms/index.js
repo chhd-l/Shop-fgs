@@ -90,14 +90,11 @@ const PetForms = ({
   showErrorMsg
 }) => {
   const Us = window.__.env.REACT_APP_COUNTRY == 'us';
-  const RuTrFr =
-    window.__.env.REACT_APP_COUNTRY == 'ru' ||
-    window.__.env.REACT_APP_COUNTRY == 'tr' ||
-    window.__.env.REACT_APP_COUNTRY == 'fr';
-  const notUsUkDe =
+  const RuTrFrDe =
+    ['ru', 'tr', 'fr', 'de'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1;
+  const notUsUk =
     window.__.env.REACT_APP_COUNTRY !== 'us' &&
-    window.__.env.REACT_APP_COUNTRY !== 'uk' &&
-    window.__.env.REACT_APP_COUNTRY !== 'de';
+    window.__.env.REACT_APP_COUNTRY !== 'uk';
   const isMobile = getDeviceType() !== 'PC';
   const { enterCatBreed, enterDogBreed } = intl.messages;
   const isInputDisabled =
@@ -399,8 +396,8 @@ const PetForms = ({
       showErrorMsg(intl.messages.pleasecompleteTheRequiredItem);
       return;
     }
-    if (notUsUkDe) {
-      if (!petForm.activity || (!petForm.lifestyle && isCat && RuTrFr)) {
+    if (notUsUk) {
+      if (!petForm.activity || (!petForm.lifestyle && isCat && RuTrFrDe)) {
         showErrorMsg(intl.messages.pleasecompleteTheRequiredItem);
         return;
       }
@@ -552,7 +549,7 @@ const PetForms = ({
   let isChoosePetType = isCat !== null;
   let sensitivityLists = specialNeedsOptions;
   let sensitivityLable = 'Special Need';
-  if (RuTrFr) {
+  if (RuTrFrDe) {
     sensitivityLists = sensitivityList;
     sensitivityLable = 'Sensitivity';
   }
@@ -783,9 +780,9 @@ const PetForms = ({
               </span>
             </div>
           )}
-          {notUsUkDe ? (
+          {notUsUk ? (
             <>
-              {RuTrFr && isCat ? (
+              {RuTrFrDe && isCat ? (
                 <div className="form-group col-12 col-lg-6 pull-left required">
                   <label
                     className="form-control-label rc-full-width"
