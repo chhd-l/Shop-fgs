@@ -719,12 +719,7 @@ const PetForms = ({
                   key={selectedSizeObj.value}
                 />
               </div>
-            ) : isMobile ? null : (
-              <div
-                className="form-group col-lg-6 pull-left"
-                style={{ height: '85px' }}
-              ></div>
-            )
+            ) : null
           ) : (
             <div className="form-group col-12 col-lg-6 pull-left required">
               <label

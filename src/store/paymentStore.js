@@ -8,6 +8,64 @@ const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
 
+const initPanelStatus = [
+  {
+    key: 'clinic',
+    order: 1,
+    status: {
+      isPrepare: true,
+      isEdit: false,
+      isCompleted: false,
+      hasCompleted: false // 是否曾completed过
+    }
+  },
+  {
+    key: 'email',
+    order: 2,
+    status: {
+      isPrepare: true,
+      isEdit: false,
+      isCompleted: false,
+      hasCompleted: false
+    }
+  },
+  {
+    key: 'deliveryAddr',
+    order: 3,
+    status: {
+      isPrepare: true,
+      isEdit: false,
+      isCompleted: false,
+      hasCompleted: false
+    }
+  },
+  {
+    key: 'paymentMethod',
+    order: 4,
+    status: {
+      isPrepare: true,
+      isEdit: false,
+      isCompleted: false,
+      hasCompleted: false
+    }
+  },
+  {
+    key: 'billingAddr',
+    order: 5,
+    status: {
+      isPrepare: true,
+      isEdit: false,
+      isCompleted: false,
+      hasCompleted: false
+    }
+  },
+  {
+    key: 'confirmation',
+    order: 6,
+    status: { isPrepare: true, isEdit: false, hasCompleted: false }
+  }
+];
+
 class PaymentStore {
   @observable isLogin = !!localItemRoyal.get('rc-token');
   @observable deliveryAddress = null;
@@ -18,63 +76,7 @@ class PaymentStore {
 
   @observable selectedCardId = null;
 
-  @observable panelStatus = [
-    {
-      key: 'clinic',
-      order: 1,
-      status: {
-        isPrepare: true,
-        isEdit: false,
-        isCompleted: false,
-        hasCompleted: false // 是否曾completed过
-      }
-    },
-    {
-      key: 'email',
-      order: 2,
-      status: {
-        isPrepare: true,
-        isEdit: false,
-        isCompleted: false,
-        hasCompleted: false
-      }
-    },
-    {
-      key: 'deliveryAddr',
-      order: 3,
-      status: {
-        isPrepare: true,
-        isEdit: false,
-        isCompleted: false,
-        hasCompleted: false
-      }
-    },
-    {
-      key: 'paymentMethod',
-      order: 4,
-      status: {
-        isPrepare: true,
-        isEdit: false,
-        isCompleted: false,
-        hasCompleted: false
-      }
-    },
-    {
-      key: 'billingAddr',
-      order: 5,
-      status: {
-        isPrepare: true,
-        isEdit: false,
-        isCompleted: false,
-        hasCompleted: false
-      }
-    },
-    {
-      key: 'confirmation',
-      order: 6,
-      status: { isPrepare: true, isEdit: false, hasCompleted: false }
-    }
-  ];
+  @observable panelStatus = initPanelStatus;
 
   @observable firstSavedCardCvv = ''; //当前绑卡的cvv
 
@@ -499,6 +501,11 @@ class PaymentStore {
   @action.bound
   setAddCardDirectToPayFlag(status) {
     this.addCardDirectToPayFlag = status;
+  }
+
+  @action.bound
+  restPanelStatus() {
+    this.panelStatus = initPanelStatus;
   }
 }
 export default PaymentStore;

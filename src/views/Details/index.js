@@ -248,9 +248,8 @@ class Details extends React.Component {
     let bundle = goodsType && goodsType === 2;
     const buyFromRetailerConfig = this.buyFromRetailerConfig;
     //const widgetId = window.__.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID;
-    const enableRetailer = Tr
-      ? buyFromRetailerConfig.retailerEnable && !sptGoods
-      : buyFromRetailerConfig.retailerEnable === 1;
+    const enableRetailer =
+      buyFromRetailerConfig.retailerEnable && (!Tr || !sptGoods);
     return !loading && !bundle && isHub && !exclusiveFlag && enableRetailer;
   }
 

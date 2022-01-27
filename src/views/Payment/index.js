@@ -641,6 +641,10 @@ class Payment extends React.Component {
 
   componentWillUnmount() {
     //因设置了router refresh=true，此生命周期无效，需在RouterFilter文件中删除
+    const {
+      paymentStore: { restPanelStatus }
+    } = this.props;
+    restPanelStatus();
     sessionItemRoyal.remove('rc-tid');
     sessionItemRoyal.remove('rc-tidList');
     sessionItemRoyal.remove('rc-swishQrcode');
