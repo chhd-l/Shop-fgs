@@ -481,7 +481,7 @@ class ContactUs extends Component {
         <div className="FAQ-header">
           <div className="confirmation-message">
             <div className="flex justify-center">
-              <span className="flex items-center justify-center bg-green rounded-full w-14 h-14 md:w-24 md:h-24">
+              <span className="flex items-center justify-center bg-green rounded-full w-14 h-14 md:w-20 md:h-20 mb-2">
                 <span className="iconfont iconduigoux font-bold text-white text-4xl inline-block md:text-5xl" />
               </span>
             </div>
