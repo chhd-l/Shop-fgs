@@ -178,11 +178,7 @@ class AccountOrders extends React.Component {
             <span className="iconfont iconedit-data text-green mr-2" />
             <FormattedMessage id="appointment.reSchedule">
               {(txt) => (
-                <Link
-                  to={`/latelier/felin?id=${details.apptNo}`}
-                  title={txt}
-                  alt={txt}
-                >
+                <Link to={`/felin?id=${details.apptNo}`} title={txt} alt={txt}>
                   {txt}
                 </Link>
               )}

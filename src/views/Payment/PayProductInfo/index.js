@@ -673,7 +673,7 @@ class PayProductInfo extends React.Component {
         {/* from-frlin的时候需要将edit换成re-book按钮 */}
         {isFromFelin ? (
           <Link
-            to="/latelier/felin"
+            to="/felin"
             className="product-summary__cartlink rc-styled-link"
           >
             <FormattedMessage id="re-book" />
