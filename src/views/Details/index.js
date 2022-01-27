@@ -38,6 +38,7 @@ import {
   addToLoginCartData
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
+import { decryptString } from '@/lib/aes-utils';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import find from 'lodash/find';
 import {
@@ -198,6 +199,11 @@ class Details extends React.Component {
   get checkoutStore() {
     return this.props.checkoutStore;
   }
+  get buyFromRetailerConfig() {
+    return this.props.configStore?.info?.buyFromRetailerContext
+      ? decryptString(this.props.configStore.info.buyFromRetailerContext)
+      : {};
+  }
   get btnStatus() {
     const { details, quantity, instockStatus, initing, loading, form } =
       this.state;
@@ -239,7 +245,12 @@ class Details extends React.Component {
     const { loading, goodsType, exclusiveFlag = false } = this.state;
     const sptGoods = goodsType === 0 || goodsType === 1;
     let bundle = goodsType && goodsType === 2;
-    const widgetId = window.__.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID;
+    const buyFromRetailerConfig = this.buyFromRetailerConfig;
+    const widgetId =
+      buyFromRetailerConfig.retailerEnable &&
+      buyFromRetailerConfig.type === 'API'
+        ? buyFromRetailerConfig.idRetailProducts
+        : null; // window.__.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID;
     return (
       !loading &&
       !bundle &&
@@ -747,8 +758,17 @@ class Details extends React.Component {
   }
   loadWidgetIdBtn(barcode) {
     const { goodsType } = this.state;
-    const widgetId = window.__.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID;
-    const vetWidgetId = window.__.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID_VET;
+    const buyFromRetailerConfig = this.buyFromRetailerConfig;
+    const widgetId =
+      buyFromRetailerConfig.retailerEnable &&
+      buyFromRetailerConfig.type === 'API'
+        ? buyFromRetailerConfig.idRetailProducts
+        : null; // window.__.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID;
+    const vetWidgetId =
+      buyFromRetailerConfig.retailerEnable &&
+      buyFromRetailerConfig.type === 'API'
+        ? buyFromRetailerConfig.idVetProducts
+        : null; // window.__.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID_VET;
     const id = goodsType === 3 ? vetWidgetId : widgetId;
     if (widgetId || vetWidgetId) {
       loadJS({
@@ -756,13 +776,13 @@ class Details extends React.Component {
         id: 'cci-widget',
         dataSets: {
           token: '2257decde4d2d64a818fd4cd62349b235d8a74bb', //uk，fr公用它
-          locale: window.__.env.REACT_APP_HUBPAGE_RETAILER_LOCALE,
-          displaylanguage:
-            window.__.env.REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE,
+          locale: buyFromRetailerConfig.locale, // window.__.env.REACT_APP_HUBPAGE_RETAILER_LOCALE,
+          displaylanguage: buyFromRetailerConfig.displayLanguage,
+          //window.__.env.REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE,
           widgetid: id,
           ean: barcode,
           subid: '',
-          trackingid: ''
+          trackingid: buyFromRetailerConfig.trackingIdPrefix // ''
         }
       });
     }
@@ -1228,7 +1248,16 @@ class Details extends React.Component {
         ${details.goodsName}
       </${headingTag || 'h1'}>`;
 
-    //
+    const buyFromRetailerConfig = this.buyFromRetailerConfig;
+    const isApi =
+      buyFromRetailerConfig.retailerEnable &&
+      buyFromRetailerConfig.type === 'API';
+    const isUrl =
+      buyFromRetailerConfig.retailerEnable &&
+      buyFromRetailerConfig.type === 'URL';
+    const retailerUrl = buyFromRetailerConfig.retailerEnable
+      ? buyFromRetailerConfig.url
+      : '';
     return (
       <div id="Details">
         <GA_Comp details={details} />
@@ -1543,6 +1572,9 @@ class Details extends React.Component {
                               vet={vet}
                               addToCart={this.hanldeAddToCart}
                               buyFromRetailer={this.handleBuyFromRetailer}
+                              isApi={isApi}
+                              isUrl={isUrl}
+                              retailerUrl={retailerUrl}
                             />
                             {form.buyWay === 2 &&
                             window.__.env.REACT_APP_COUNTRY !== 'ru' ? (
