@@ -6,7 +6,7 @@ function Logo() {
       xmlns="http://www.w3.org/2000/svg"
       data-name="Layer 1"
       viewBox="0 0 223 83.75"
-      className="rc-header__logo md:w-40"
+      className="rc-header__logo"
       data-js-import-interactive-svg="true"
       svg-animate-processed="true"
     >

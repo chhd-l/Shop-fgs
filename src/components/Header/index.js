@@ -570,8 +570,13 @@ class Header extends React.Component {
     );
   };
   render() {
-    const { showMiniIcons, showUserIcon, loginStore, configStore, history } =
-      this.props;
+    const {
+      showMiniIcons,
+      showUserIcon,
+      loginStore,
+      configStore,
+      history
+    } = this.props;
     const {
       headerNavigationList,
       headerNavigationListForHub,
@@ -691,9 +696,7 @@ class Header extends React.Component {
                         &#xe6a5;
                       </span>
                     ) : (
-                      <div className="pr-10">
-                        <Search history={history} configStore={configStore} />
-                      </div>
+                      <Search history={history} configStore={configStore} />
                     )}
                     {this.isLogin ? (
                       <LoginCart
