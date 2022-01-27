@@ -247,18 +247,11 @@ class Details extends React.Component {
     const sptGoods = goodsType === 0 || goodsType === 1;
     let bundle = goodsType && goodsType === 2;
     const buyFromRetailerConfig = this.buyFromRetailerConfig;
-    const widgetId =
-      buyFromRetailerConfig.retailerEnable &&
-      buyFromRetailerConfig.type === 'API'
-        ? buyFromRetailerConfig.idRetailProducts
-        : null; // window.__.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID;
-    return (
-      !loading &&
-      !bundle &&
-      isHub &&
-      !exclusiveFlag &&
-      (widgetId || (Tr && !sptGoods))
-    );
+    //const widgetId = window.__.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID;
+    const enableRetailer = Tr
+      ? buyFromRetailerConfig.retailerEnable && !sptGoods
+      : buyFromRetailerConfig.retailerEnable === 1;
+    return !loading && !bundle && isHub && !exclusiveFlag && enableRetailer;
   }
 
   redirectCanonicalLink({ pageLink }) {
