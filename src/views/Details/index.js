@@ -200,9 +200,10 @@ class Details extends React.Component {
     return this.props.checkoutStore;
   }
   get buyFromRetailerConfig() {
-    return this.props.configStore?.info?.buyFromRetailerContext
+    const configStr = this.props.configStore?.info?.buyFromRetailerContext
       ? decryptString(this.props.configStore.info.buyFromRetailerContext)
-      : {};
+      : '{}';
+    return JSON.parse(configStr);
   }
   get btnStatus() {
     const { details, quantity, instockStatus, initing, loading, form } =
@@ -759,7 +760,7 @@ class Details extends React.Component {
   loadWidgetIdBtn(barcode) {
     const { goodsType } = this.state;
     const buyFromRetailerConfig = this.buyFromRetailerConfig;
-    console.log('read retailer config:', buyFromRetailerConfig);
+    console.log('retailer config:', buyFromRetailerConfig);
     const widgetId =
       buyFromRetailerConfig.retailerEnable &&
       buyFromRetailerConfig.type === 'API'
