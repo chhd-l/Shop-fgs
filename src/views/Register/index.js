@@ -18,7 +18,7 @@ import { userBindConsent } from '@/api/consent';
 import Modal from '@/components/Modal';
 import { inject, observer } from 'mobx-react';
 import { addEventListenerArr } from './addEventListener';
-import { EMAIL_REGEXP, LOGO_PRIMARY_RU } from '@/utils/constant';
+import { EMAIL_REGEXP, LOGO_PRIMARY_RU, LOGO } from '@/utils/constant';
 import cn from 'classnames';
 import { Input } from '@/components/Common';
 // import ConsentAdditionalText from '@/components/Consent/ConsentAdditionalText';
@@ -584,10 +584,9 @@ class Register extends Component {
                       ) : (
                         <>
                           <img
-                            src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/logo--secondary.png`}
-                            width="164"
-                            height="60"
-                            alt="Royal Canin Flagship Store"
+                            src={LOGO}
+                            alt=""
+                            className="inline-block w-40 md:w-auto"
                           />
                         </>
                       )}
