@@ -196,27 +196,20 @@
 
 .ui-custom-hub {
   .dropdown-nav {
-    position: fixed;
-    top: 172px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80%;
+    position: absolute;
+    left: 0;
+    /* transform: translateX(-50%); */
+    width: auto;
     height: auto;
     opacity: 0;
-    //display: none !important;
-    -webkit-transition-property: all;
-    transition-property: all;
-    -webkit-transition-duration: 0.5s;
-    transition-duration: 0.5s;
-    -webkit-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-    transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+    display: none !important;
     &.show {
       max-height: 430px;
       opacity: 1;
-      //display: flex !important;
+      display: flex !important;
     }
     &.dropdown-nav__4,
-    &.dropdown-nav__6 {
+    &.dropdown-nav__5 {
       position: fixed;
       transform: translateX(-50%);
       left: 50%;
@@ -225,11 +218,10 @@
       // width: 90%;
       // flex-wrap: wrap;
     }
-    &.dropdown-nav__5,
+    &.dropdown-nav__6,
     &.dropdown-nav__7 {
-      //left: auto;
-      //right: 0;
-      width: 100%;
+      left: auto;
+      right: 0;
     }
   }
   .rc-header__nav--secondary {

@@ -116,14 +116,14 @@ export default class DropDownMenuForHub extends React.Component {
         className={cn(
           'dropdown-nav d-flex justify-content-center1 align-items-start bg-white pt-4 pb-4 border-top',
           {
-            show: activeTopParentId === item.id
-            // 'flex-wrap': menuItemListGroupedByStep.length > 0
+            show: activeTopParentId === item.id,
+            'flex-wrap': menuItemListGroupedByStep.length > 0
           },
           `dropdown-nav__${item.id} nav-type__${item.Type}`
         )}
         aria-hidden={activeTopParentId === item.id}
-        onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
-        onMouseOut={this.hanldeListItemMouseOut}
+        // onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
+        // onMouseOut={this.hanldeListItemMouseOut}
         key={i}
       >
         {menuItemListGroupedByStep.length > 0 &&
@@ -241,8 +241,8 @@ export default class DropDownMenuForHub extends React.Component {
           activeTopParentId === item.id ? 'show' : ''
         } dropdown-nav__${item.id}`}
         aria-hidden={activeTopParentId === item.id}
-        onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
-        onMouseOut={this.hanldeListItemMouseOut}
+        // onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
+        // onMouseOut={this.hanldeListItemMouseOut}
         key={i}
       >
         <div className="content-asset bg-white border-top">
@@ -274,10 +274,10 @@ export default class DropDownMenuForHub extends React.Component {
                     item.expanded ? `dropdown` : ''
                   } ${activeTopParentId === item.id ? 'active' : ''} `}
                   key={i}
-                  onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
-                  onMouseOut={this.hanldeListItemMouseOut.bind(this, item)}
-                  // onBlur={this.onListItemBlur}
-                  // onFocus={this.onListItemFocus}
+                  // onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
+                  // onMouseOut={this.hanldeListItemMouseOut.bind(this, item)}
+                  onBlur={this.onListItemBlur}
+                  onFocus={this.onListItemFocus}
                 >
                   <ul
                     className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center"
@@ -315,21 +315,12 @@ export default class DropDownMenuForHub extends React.Component {
                       </span>
                     </li>
                   </ul>
-                  {/*{item.Type === 'ContactUsMenuGroup'*/}
-                  {/*  ? this.renderHelpMenu(item, i)*/}
-                  {/*  : this.renderNormalMenu(item, i)}*/}
+                  {item.Type === 'ContactUsMenuGroup'
+                    ? this.renderHelpMenu(item, i)
+                    : this.renderNormalMenu(item, i)}
                 </li>
               ))}
             </ul>
-            <div className="rc-md-up">
-              {headerNavigationList.map((item, i) => {
-                if (item.Type === 'ContactUsMenuGroup') {
-                  return this.renderHelpMenu(item, i);
-                } else {
-                  return this.renderNormalMenu(item, i);
-                }
-              })}
-            </div>
           </nav>
         ) : null}
       </>
