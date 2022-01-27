@@ -759,6 +759,7 @@ class Details extends React.Component {
   loadWidgetIdBtn(barcode) {
     const { goodsType } = this.state;
     const buyFromRetailerConfig = this.buyFromRetailerConfig;
+    console.log('read retailer config:', buyFromRetailerConfig);
     const widgetId =
       buyFromRetailerConfig.retailerEnable &&
       buyFromRetailerConfig.type === 'API'
@@ -775,7 +776,7 @@ class Details extends React.Component {
         url: 'https://fi-v2.global.commerce-connector.com/cc.js',
         id: 'cci-widget',
         dataSets: {
-          token: '2257decde4d2d64a818fd4cd62349b235d8a74bb', //uk，fr公用它
+          token: buyFromRetailerConfig.token, //'2257decde4d2d64a818fd4cd62349b235d8a74bb', //uk，fr公用它
           locale: buyFromRetailerConfig.locale, // window.__.env.REACT_APP_HUBPAGE_RETAILER_LOCALE,
           displaylanguage: buyFromRetailerConfig.displayLanguage,
           //window.__.env.REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE,
