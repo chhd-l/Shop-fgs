@@ -389,9 +389,9 @@ const NextDelivery = ({
             </div>
             {window.__.env.REACT_APP_COUNTRY === 'us' ? (
               <div className="row">
-                <div className="col-1 col-md-3" />
-                <label className="col-9 text-left">
-                  Tax will be calculated when your order is processed
+                <div className="col-1 col-md-3 hidden md:block" />
+                <label className="col-12 col-md-9 text-sm ">
+                  *Tax will be calculated when your order is processed
                 </label>
               </div>
             ) : null}
