@@ -774,193 +774,85 @@ class MemberCardList extends React.Component {
           className={`credit-card-content ${isEdit && inited ? '' : 'hidden'}`}
           id="credit-card-content"
         >
-          <div className={`credit-card-form`}>
-            <div className="rc-margin-bottom--xs">
-              <div className="content-asset">
-                {_errJSX}
-                {_successTipJSX}
+          {window.__.env.REACT_APP_COUNTRY == 'ru' ? (
+            <div className="credit-card-form">
+              <div className="rc-margin-bottom--xs">
+                <div className="content-asset">
+                  {_errJSX}
+                  {_successTipJSX}
 
-                <p className="m-0">{CreditCardImg}</p>
-              </div>
-              <div className="row">
-                <div className="col-sm-12">
-                  <div className="form-group">
-                    <label className="form-control-label" htmlFor="cardNumber">
-                      <FormattedMessage id="payment.cardNumber" />
-                      <span className="red">*</span>
-                      <div className="cardFormBox">
-                        <span className="cardImage">
-                          <LazyLoad>
-                            <img
-                              alt="Card image"
-                              src={getCardImg({
-                                supportPaymentMethods,
-                                currentVendor: this.state.currentVendor
-                              })}
-                              className="img"
-                            />
-                          </LazyLoad>
-                        </span>
-                        <span className="cardForm">
-                          <div className="row">
-                            <div className="col-sm-5">
-                              <div className="form-group required">
-                                <span
-                                  className="rc-input rc-input--full-width"
-                                  input-setup="true"
-                                >
-                                  <input
-                                    type="tel"
-                                    className="rc-input__control form-control email"
-                                    id="number"
-                                    value={creditCardInfoForm.cardNumber}
-                                    onChange={this.cardInfoInputChange}
-                                    onKeyUp={this.cardNumberChange}
-                                    // onFocus={(e) => {
-                                    //   this.cardNumberFocus();
-                                    // }}
-                                    // onBlur={(e) => {
-                                    //   this.cardNumberBlur();
-                                    // }}
-                                    name="cardNumber"
-                                    maxLength="254"
-                                    placeholder={
-                                      this.props.intl?.messages.cardNumber
-                                    }
-                                  />
-                                </span>
-                                <div className="invalid-feedback ui-position-absolute">
-                                  <FormattedMessage id="payment.errorInfo2" />
-                                </div>
-                              </div>
-                            </div>
-                            <div className="col-sm-4">
-                              <div className="form-group required">
-                                <span
-                                  className="rc-input rc-input--full-width"
-                                  input-setup="true"
-                                  data-js-validate=""
-                                  data-js-warning-message="*Phone Number isn’t valid"
-                                >
-                                  <input
-                                    type="tel"
-                                    className="rc-input__control form-control phone"
-                                    min-lenght="18"
-                                    max-length="18"
-                                    data-phonelength="18"
-                                    data-js-validate="(^(\+?7|8)?9\d{9}$)"
-                                    data-range-error="The phone number should contain 10 digits"
-                                    value={creditCardInfoForm.cardMmyy}
-                                    onChange={this.cardInfoInputChange}
-                                    name="cardMmyy"
-                                    maxLength="5"
-                                    placeholder={'MM/YY'}
-                                  />
-                                </span>
-                                <div className="invalid-feedback ui-position-absolute">
-                                  The field is required.
-                                </div>
-                              </div>
-                            </div>
-                            <div className="col-sm-3">
-                              <div className="form-group required">
-                                <span
-                                  className="rc-input rc-input--full-width"
-                                  input-setup="true"
-                                  data-js-validate=""
-                                  data-js-warning-message="*Phone Number isn’t valid"
-                                >
-                                  <input
-                                    type="password"
-                                    autoComplete="new-password"
-                                    className="rc-input__control form-control phone"
-                                    data-phonelength="18"
-                                    data-js-validate="(^(\+?7|8)?9\d{9}$)"
-                                    data-range-error="The phone number should contain 10 digits"
-                                    value={creditCardInfoForm.cardCvv}
-                                    onChange={this.cardInfoInputChange}
-                                    name="cardCvv"
-                                    maxLength="4"
-                                    placeholder="CVV"
-                                  />
-                                </span>
-                                <div className="invalid-feedback ui-position-absolute">
-                                  The field is required.
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </span>
-                      </div>
-                    </label>
-                  </div>
+                  <p className="m-0">{CreditCardImg}</p>
                 </div>
-              </div>
-              <div className="row overflow_visible">
-                <div className="col-sm-12">
-                  <div className="form-group required">
-                    <label className="form-control-label">
-                      <FormattedMessage id="payment.cardOwner" />
-                    </label>
-                    <span
-                      className="rc-input rc-input--full-width"
-                      input-setup="true"
-                    >
-                      <input
-                        type="text"
-                        className="rc-input__control form-control cardOwner"
-                        name="cardOwner"
-                        value={creditCardInfoForm.cardOwner}
-                        onChange={this.cardInfoInputChange}
-                        onBlur={this.inputBlur}
-                        maxLength="40"
-                      />
-                      <label className="rc-input__label" htmlFor="cardOwner" />
-                    </span>
-                    <div className="invalid-feedback">
-                      <FormattedMessage id="payment.errorInfo2" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                {needEmail ? (
-                  <div className="col-sm-6">
-                    <div className="form-group required">
-                      <label className="form-control-label">
-                        <FormattedMessage id="payment.email" />
-                      </label>
-                      <span
-                        className="rc-input rc-input--full-width"
-                        input-setup="true"
-                      >
-                        <input
-                          type="email"
-                          className="rc-input__control email"
-                          id="email"
-                          value={creditCardInfoForm.email}
-                          onChange={this.cardInfoInputChange}
-                          onBlur={this.inputBlur}
-                          name="email"
-                          maxLength="254"
-                        />
-                        <label className="rc-input__label" htmlFor="email" />
-                      </span>
-                      <div className="invalid-feedback">
-                        <FormattedMessage id="payment.errorInfo2" />
-                      </div>
-                    </div>
-                  </div>
-                ) : null}
-                {needPhone ? (
-                  <div className="col-sm-6">
-                    <div className="form-group required">
+                <div className="row h-24">
+                  <div className="col-sm-12">
+                    <div className="form-group">
                       <label
                         className="form-control-label"
-                        htmlFor="phoneNumber"
+                        htmlFor="cardNumber"
                       >
-                        <FormattedMessage id="payment.phoneNumber" />
+                        <FormattedMessage id="payment.cardNumber" />
+                        <span className="red">*</span>
+                        <div className="cardFormBox border border-current rounded">
+                          <span className="cardForm">
+                            <div className="row">
+                              <div className="col-sm-12">
+                                <div className="form-group required">
+                                  <span
+                                    className="rc-input rc-input--full-width"
+                                    input-setup="true"
+                                  >
+                                    <input
+                                      type="tel"
+                                      className="rc-input__control form-control email pl-3 focus:ring-2 focus:ring-transparent focus:border-green"
+                                      id="number"
+                                      value={creditCardInfoForm.cardNumber}
+                                      onChange={this.cardInfoInputChange}
+                                      onKeyUp={this.cardNumberChange}
+                                      // onFocus={(e) => {
+                                      //   this.cardNumberFocus();
+                                      // }}
+                                      // onBlur={(e) => {
+                                      //   this.cardNumberBlur();
+                                      // }}
+                                      name="cardNumber"
+                                      maxLength="254"
+                                      placeholder={
+                                        this.props.intl?.messages.cardNumber
+                                      }
+                                    />
+                                  </span>
+                                  <div className="invalid-feedback ui-position-absolute">
+                                    <FormattedMessage id="payment.errorInfo2" />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </span>
+                          <span className="cardImage">
+                            <LazyLoad>
+                              <img
+                                alt="Card image"
+                                src={getCardImg({
+                                  supportPaymentMethods,
+                                  currentVendor: this.state.currentVendor
+                                })}
+                                className="img"
+                              />
+                            </LazyLoad>
+                          </span>
+                        </div>
                       </label>
+                    </div>
+                  </div>
+                </div>
+                <div className="form-group row mb-0 w-100 mx-0 flex-nowrap h-20">
+                  <label
+                    className="form-control-label my-0 w-1/2"
+                    htmlFor="cardNumber"
+                  >
+                    Expiration Date
+                    <span className="red">*</span>
+                    <div className="form-group required">
                       <span
                         className="rc-input rc-input--full-width"
                         input-setup="true"
@@ -968,23 +860,82 @@ class MemberCardList extends React.Component {
                         data-js-warning-message="*Phone Number isn’t valid"
                       >
                         <input
-                          type="text"
-                          className="rc-input__control input__phoneField shippingPhoneNumber"
+                          type="tel"
+                          className="rc-input__control form-control phone border border-current rounded pl-3 focus:ring-2 focus:ring-transparent focus:border-green"
                           min-lenght="18"
                           max-length="18"
                           data-phonelength="18"
-                          // data-js-validate="(^(\+?7|8)?9\d{9}$)"
-                          data-js-pattern="(^\d{10}$)"
+                          data-js-validate="(^(\+?7|8)?9\d{9}$)"
                           data-range-error="The phone number should contain 10 digits"
-                          value={creditCardInfoForm.phoneNumber}
+                          value={creditCardInfoForm.cardMmyy}
+                          onChange={this.cardInfoInputChange}
+                          name="cardMmyy"
+                          maxLength="5"
+                          placeholder={'MM/YY'}
+                        />
+                      </span>
+                      <div className="invalid-feedback ui-position-absolute">
+                        The field is required.
+                      </div>
+                    </div>
+                  </label>
+                  <div className="w-10"></div>
+                  <label
+                    className="form-control-label my-0 w-1/2"
+                    htmlFor="cardNumber"
+                  >
+                    CVV
+                    <span className="red">*</span>
+                    <div className="form-group required">
+                      <span
+                        className="rc-input rc-input--full-width"
+                        input-setup="true"
+                        data-js-validate=""
+                        data-js-warning-message="*Phone Number isn’t valid"
+                      >
+                        <input
+                          type="password"
+                          autoComplete="new-password"
+                          className="rc-input__control form-control phone border border-current rounded pl-3 focus:ring-2 focus:ring-transparent focus:border-green"
+                          data-phonelength="18"
+                          data-js-validate="(^(\+?7|8)?9\d{9}$)"
+                          data-range-error="The phone number should contain 10 digits"
+                          value={creditCardInfoForm.cardCvv}
+                          onChange={this.cardInfoInputChange}
+                          name="cardCvv"
+                          maxLength="4"
+                          placeholder="CVV"
+                        />
+                      </span>
+                      <div className="invalid-feedback ui-position-absolute">
+                        The field is required.
+                      </div>
+                    </div>
+                  </label>
+                </div>
+                <div className="row overflow_visible">
+                  <div className="col-sm-12">
+                    <div className="form-group required">
+                      <label className="form-control-label">
+                        <FormattedMessage id="payment.cardOwner" />
+                      </label>
+                      <span
+                        className="rc-input rc-input--full-width"
+                        input-setup="true"
+                      >
+                        <input
+                          type="text"
+                          className="rc-input__control form-control cardOwner border border-current rounded pl-3 focus:ring-2 focus:ring-transparent focus:border-green"
+                          name="cardOwner"
+                          value={creditCardInfoForm.cardOwner}
                           onChange={this.cardInfoInputChange}
                           onBlur={this.inputBlur}
-                          name="phoneNumber"
-                          maxLength="2147483647"
+                          maxLength="40"
+                          placeholder="J.Smith"
                         />
                         <label
-                          className="rc-input__label"
-                          htmlFor="phoneNumber"
+                          className="rc-input__label cardOwner"
+                          htmlFor="cardOwner"
                         />
                       </span>
                       <div className="invalid-feedback">
@@ -992,48 +943,386 @@ class MemberCardList extends React.Component {
                       </div>
                     </div>
                   </div>
-                ) : null}
-              </div>
-
-              {creditCardListMerged.length > 0 && (
-                <div className="row">
-                  <div className="col-12 text-right">
-                    <span
-                      className="rc-styled-link"
-                      onClick={this.hanldeClickReturnToCardList}
-                    >
-                      <FormattedMessage id="payment.returnToCardList" />
-                    </span>
-                  </div>
                 </div>
-              )}
+                <div className="row">
+                  {needEmail ? (
+                    <div className="col-sm-6">
+                      <div className="form-group required">
+                        <label className="form-control-label">
+                          <FormattedMessage id="payment.email" />
+                        </label>
+                        <span
+                          className="rc-input rc-input--full-width"
+                          input-setup="true"
+                        >
+                          <input
+                            type="email"
+                            className="rc-input__control email"
+                            id="email"
+                            value={creditCardInfoForm.email}
+                            onChange={this.cardInfoInputChange}
+                            onBlur={this.inputBlur}
+                            name="email"
+                            maxLength="254"
+                          />
+                          <label className="rc-input__label" htmlFor="email" />
+                        </span>
+                        <div className="invalid-feedback">
+                          <FormattedMessage id="payment.errorInfo2" />
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
+                  {needPhone ? (
+                    <div className="col-sm-6">
+                      <div className="form-group required">
+                        <label
+                          className="form-control-label"
+                          htmlFor="phoneNumber"
+                        >
+                          <FormattedMessage id="payment.phoneNumber" />
+                        </label>
+                        <span
+                          className="rc-input rc-input--full-width"
+                          input-setup="true"
+                          data-js-validate=""
+                          data-js-warning-message="*Phone Number isn’t valid"
+                        >
+                          <input
+                            type="text"
+                            className="rc-input__control input__phoneField shippingPhoneNumber"
+                            min-lenght="18"
+                            max-length="18"
+                            data-phonelength="18"
+                            // data-js-validate="(^(\+?7|8)?9\d{9}$)"
+                            data-js-pattern="(^\d{10}$)"
+                            data-range-error="The phone number should contain 10 digits"
+                            value={creditCardInfoForm.phoneNumber}
+                            onChange={this.cardInfoInputChange}
+                            onBlur={this.inputBlur}
+                            name="phoneNumber"
+                            maxLength="2147483647"
+                          />
+                          <label
+                            className="rc-input__label"
+                            htmlFor="phoneNumber"
+                          />
+                        </span>
+                        <div className="invalid-feedback">
+                          <FormattedMessage id="payment.errorInfo2" />
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
 
-              {checkboxListForForm.map((item, i) => (
-                <div className="row" key={i}>
-                  <div className="col-12">
-                    <div className="rc-input rc-input--inline w-100 mw-100">
-                      <input
-                        className="rc-input__checkbox"
-                        id={`id-payu-${item.key}`}
-                        onChange={this.onCheckboxChange.bind(this, item)}
-                        // name={item.key}
-                        // value={item.value}
-                        type="checkbox"
-                        checked={item.value}
-                        disabled={item.disabled}
-                      />
-                      <label
-                        className="rc-input__label--inline text-break"
-                        htmlFor={`id-payu-${item.key}`}
+                {creditCardListMerged.length > 0 && (
+                  <div className="row">
+                    <div className="col-12 text-right">
+                      <span
+                        className="rc-styled-link"
+                        onClick={this.hanldeClickReturnToCardList}
                       >
-                        <FormattedMessage id={item.langKey} />
+                        <FormattedMessage id="payment.returnToCardList" />
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                {checkboxListForForm.map((item, i) => (
+                  <div className="row" key={i}>
+                    <div className="col-12">
+                      <div className="rc-input rc-input--inline w-100 mw-100">
+                        <input
+                          className="rc-input__checkbox"
+                          id={`id-payu-${item.key}`}
+                          onChange={this.onCheckboxChange.bind(this, item)}
+                          // name={item.key}
+                          // value={item.value}
+                          type="checkbox"
+                          checked={item.value}
+                          disabled={item.disabled}
+                        />
+                        <label
+                          className="rc-input__label--inline text-break"
+                          htmlFor={`id-payu-${item.key}`}
+                        >
+                          <FormattedMessage id={item.langKey} />
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className={`credit-card-form`}>
+              <div className="rc-margin-bottom--xs">
+                <div className="content-asset">
+                  {_errJSX}
+                  {_successTipJSX}
+
+                  <p className="m-0">{CreditCardImg}</p>
+                </div>
+                <div className="row">
+                  <div className="col-sm-12">
+                    <div className="form-group">
+                      <label
+                        className="form-control-label"
+                        htmlFor="cardNumber"
+                      >
+                        <FormattedMessage id="payment.cardNumber" />
+                        <span className="red">*</span>
+                        <div className="cardFormBox">
+                          <span className="cardImage">
+                            <LazyLoad>
+                              <img
+                                alt="Card image"
+                                src={getCardImg({
+                                  supportPaymentMethods,
+                                  currentVendor: this.state.currentVendor
+                                })}
+                                className="img"
+                              />
+                            </LazyLoad>
+                          </span>
+                          <span className="cardForm">
+                            <div className="row">
+                              <div className="col-sm-5">
+                                <div className="form-group required">
+                                  <span
+                                    className="rc-input rc-input--full-width"
+                                    input-setup="true"
+                                  >
+                                    <input
+                                      type="tel"
+                                      className="rc-input__control form-control email"
+                                      id="number"
+                                      value={creditCardInfoForm.cardNumber}
+                                      onChange={this.cardInfoInputChange}
+                                      onKeyUp={this.cardNumberChange}
+                                      // onFocus={(e) => {
+                                      //   this.cardNumberFocus();
+                                      // }}
+                                      // onBlur={(e) => {
+                                      //   this.cardNumberBlur();
+                                      // }}
+                                      name="cardNumber"
+                                      maxLength="254"
+                                      placeholder={
+                                        this.props.intl?.messages.cardNumber
+                                      }
+                                    />
+                                  </span>
+                                  <div className="invalid-feedback ui-position-absolute">
+                                    <FormattedMessage id="payment.errorInfo2" />
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="col-sm-4">
+                                <div className="form-group required">
+                                  <span
+                                    className="rc-input rc-input--full-width"
+                                    input-setup="true"
+                                    data-js-validate=""
+                                    data-js-warning-message="*Phone Number isn’t valid"
+                                  >
+                                    <input
+                                      type="tel"
+                                      className="rc-input__control form-control phone"
+                                      min-lenght="18"
+                                      max-length="18"
+                                      data-phonelength="18"
+                                      data-js-validate="(^(\+?7|8)?9\d{9}$)"
+                                      data-range-error="The phone number should contain 10 digits"
+                                      value={creditCardInfoForm.cardMmyy}
+                                      onChange={this.cardInfoInputChange}
+                                      name="cardMmyy"
+                                      maxLength="5"
+                                      placeholder={'MM/YY'}
+                                    />
+                                  </span>
+                                  <div className="invalid-feedback ui-position-absolute">
+                                    The field is required.
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="col-sm-3">
+                                <div className="form-group required">
+                                  <span
+                                    className="rc-input rc-input--full-width"
+                                    input-setup="true"
+                                    data-js-validate=""
+                                    data-js-warning-message="*Phone Number isn’t valid"
+                                  >
+                                    <input
+                                      type="password"
+                                      autoComplete="new-password"
+                                      className="rc-input__control form-control phone"
+                                      data-phonelength="18"
+                                      data-js-validate="(^(\+?7|8)?9\d{9}$)"
+                                      data-range-error="The phone number should contain 10 digits"
+                                      value={creditCardInfoForm.cardCvv}
+                                      onChange={this.cardInfoInputChange}
+                                      name="cardCvv"
+                                      maxLength="4"
+                                      placeholder="CVV"
+                                    />
+                                  </span>
+                                  <div className="invalid-feedback ui-position-absolute">
+                                    The field is required.
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </span>
+                        </div>
                       </label>
                     </div>
                   </div>
                 </div>
-              ))}
+                <div className="row overflow_visible">
+                  <div className="col-sm-12">
+                    <div className="form-group required">
+                      <label className="form-control-label">
+                        <FormattedMessage id="payment.cardOwner" />
+                      </label>
+                      <span
+                        className="rc-input rc-input--full-width"
+                        input-setup="true"
+                      >
+                        <input
+                          type="text"
+                          className="rc-input__control form-control cardOwner"
+                          name="cardOwner"
+                          value={creditCardInfoForm.cardOwner}
+                          onChange={this.cardInfoInputChange}
+                          onBlur={this.inputBlur}
+                          maxLength="40"
+                        />
+                        <label
+                          className="rc-input__label"
+                          htmlFor="cardOwner"
+                        />
+                      </span>
+                      <div className="invalid-feedback">
+                        <FormattedMessage id="payment.errorInfo2" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  {needEmail ? (
+                    <div className="col-sm-6">
+                      <div className="form-group required">
+                        <label className="form-control-label">
+                          <FormattedMessage id="payment.email" />
+                        </label>
+                        <span
+                          className="rc-input rc-input--full-width"
+                          input-setup="true"
+                        >
+                          <input
+                            type="email"
+                            className="rc-input__control email"
+                            id="email"
+                            value={creditCardInfoForm.email}
+                            onChange={this.cardInfoInputChange}
+                            onBlur={this.inputBlur}
+                            name="email"
+                            maxLength="254"
+                          />
+                          <label className="rc-input__label" htmlFor="email" />
+                        </span>
+                        <div className="invalid-feedback">
+                          <FormattedMessage id="payment.errorInfo2" />
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
+                  {needPhone ? (
+                    <div className="col-sm-6">
+                      <div className="form-group required">
+                        <label
+                          className="form-control-label"
+                          htmlFor="phoneNumber"
+                        >
+                          <FormattedMessage id="payment.phoneNumber" />
+                        </label>
+                        <span
+                          className="rc-input rc-input--full-width"
+                          input-setup="true"
+                          data-js-validate=""
+                          data-js-warning-message="*Phone Number isn’t valid"
+                        >
+                          <input
+                            type="text"
+                            className="rc-input__control input__phoneField shippingPhoneNumber"
+                            min-lenght="18"
+                            max-length="18"
+                            data-phonelength="18"
+                            // data-js-validate="(^(\+?7|8)?9\d{9}$)"
+                            data-js-pattern="(^\d{10}$)"
+                            data-range-error="The phone number should contain 10 digits"
+                            value={creditCardInfoForm.phoneNumber}
+                            onChange={this.cardInfoInputChange}
+                            onBlur={this.inputBlur}
+                            name="phoneNumber"
+                            maxLength="2147483647"
+                          />
+                          <label
+                            className="rc-input__label"
+                            htmlFor="phoneNumber"
+                          />
+                        </span>
+                        <div className="invalid-feedback">
+                          <FormattedMessage id="payment.errorInfo2" />
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+
+                {creditCardListMerged.length > 0 && (
+                  <div className="row">
+                    <div className="col-12 text-right">
+                      <span
+                        className="rc-styled-link"
+                        onClick={this.hanldeClickReturnToCardList}
+                      >
+                        <FormattedMessage id="payment.returnToCardList" />
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                {checkboxListForForm.map((item, i) => (
+                  <div className="row" key={i}>
+                    <div className="col-12">
+                      <div className="rc-input rc-input--inline w-100 mw-100">
+                        <input
+                          className="rc-input__checkbox"
+                          id={`id-payu-${item.key}`}
+                          onChange={this.onCheckboxChange.bind(this, item)}
+                          // name={item.key}
+                          // value={item.value}
+                          type="checkbox"
+                          checked={item.value}
+                          disabled={item.disabled}
+                        />
+                        <label
+                          className="rc-input__label--inline text-break"
+                          htmlFor={`id-payu-${item.key}`}
+                        >
+                          <FormattedMessage id={item.langKey} />
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     );

@@ -80,8 +80,8 @@ class Whistlefit extends React.Component {
     this.setState({ isChecked: !this.state.isChecked });
   };
   //滚动到输入email的位置
-  scrollToInputEmail = (position) => {
-    GAWhistleFitButtonClick(position);
+  scrollToInputEmail = (position, label) => {
+    GAWhistleFitButtonClick(position, label);
     let bridge = document.querySelector('#email');
     let body = document.body;
     let height = 0;
@@ -97,8 +97,10 @@ class Whistlefit extends React.Component {
   register = async () => {
     if (!this.state.email) return;
     try {
+      this.scrollToInputEmail(5, 'I am interested, keep me updated!');
       await landingPageViews({
-        number: PAGE_NUM
+        number: PAGE_NUM,
+        storeId: window.__.env.REACT_APP_STOREID
       });
       await registerLandingPage({
         type: this.isLogin ? 'Member' : 'Guest', //guest member
@@ -154,7 +156,12 @@ class Whistlefit extends React.Component {
                 <div className="mb-5 md:mb-0">
                   <button
                     className="rc-btn rc-btn--one text-xs md:text-sm"
-                    onClick={() => this.scrollToInputEmail(1)}
+                    onClick={() =>
+                      this.scrollToInputEmail(
+                        1,
+                        'Keep me udpadted on Whistle Fit availability'
+                      )
+                    }
                   >
                     Keep me udpadted on Whistle Fit availability
                   </button>
@@ -219,7 +226,12 @@ class Whistlefit extends React.Component {
               <div className="w-full flex justify-center my-10">
                 <button
                   className="rc-btn rc-btn--one text-xs md:text-sm"
-                  onClick={() => this.scrollToInputEmail(2)}
+                  onClick={() =>
+                    this.scrollToInputEmail(
+                      2,
+                      'Keep me udpadted on Whistle Fit availability'
+                    )
+                  }
                 >
                   Keep me udpadted on Whistle Fit availability
                 </button>
@@ -277,7 +289,12 @@ class Whistlefit extends React.Component {
             <div className="w-full flex justify-center my-10">
               <button
                 className="rc-btn rc-btn--one text-xs md:text-sm"
-                onClick={() => this.scrollToInputEmail(3)}
+                onClick={() =>
+                  this.scrollToInputEmail(
+                    3,
+                    'Keep me udpadted on Whistle Fit availability'
+                  )
+                }
               >
                 Keep me udpadted on Whistle Fit availability
               </button>
@@ -297,7 +314,12 @@ class Whistlefit extends React.Component {
             <div className="w-full flex justify-center mt-5 md:mt-10 mb-5 md:mb-10">
               <button
                 className="rc-btn rc-btn--one text-xs md:text-sm"
-                onClick={() => this.scrollToInputEmail(4)}
+                onClick={() =>
+                  this.scrollToInputEmail(
+                    4,
+                    'Keep me udpadted on Whistle Fit availability'
+                  )
+                }
               >
                 Keep me udpadted on Whistle Fit availability
               </button>
