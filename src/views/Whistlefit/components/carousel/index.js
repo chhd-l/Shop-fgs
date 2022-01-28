@@ -5,13 +5,13 @@ import Shape01 from '../../images/Shape01.png';
 import Shape02 from '../../images/Shape02.png';
 import './index.less';
 
-export default class LazyLoad extends Component {
+export default class Carousel extends Component {
   render() {
     const settings = {
       dots: true,
       lazyLoad: true,
       infinite: true,
-      autoplay: true,
+      autoplay: false,
       speed: 500,
       slidesToShow: 1,
       slidesToScroll: 1,

@@ -656,4 +656,11 @@ export const GAInstantSearchResultClick = ({ type, name, position }) => {
   });
 };
 
+export const GAWhistleFitButtonClick = (positon) => {
+  window?.dataLayer?.push({
+    event: 'whistleFitButtonClick',
+    whistleFitButtonClickPosition: positon
+  });
+};
+
 export { getSpecies };
