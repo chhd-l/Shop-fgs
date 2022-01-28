@@ -55,11 +55,10 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =
   'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
-const urlPrefix =
-  `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-    /\/$/,
-    ''
-  );
+const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+  /\/$/,
+  ''
+);
 
 const filterAttrValue = (list, keyWords) => {
   return (list || [])
@@ -1139,7 +1138,11 @@ class List extends React.Component {
           ).length > 0 &&
           stgShowAuth();
 
-        if (isSpecialNeedFilter || this.state.isRetailProducts) {
+        if (
+          isSpecialNeedFilter ||
+          (this.state.isRetailProducts &&
+            window.__.env.REACT_APP_COUNTRY !== 'uk')
+        ) {
           this.pageSize = 8;
         } else {
           this.pageSize = 12;
@@ -1526,7 +1529,10 @@ class List extends React.Component {
               0,
               { specificNeedCheck: true }
             );
-          } else if (this.state.isRetailProducts) {
+          } else if (
+            this.state.isRetailProducts &&
+            window.__.env.REACT_APP_COUNTRY !== 'uk'
+          ) {
             goodsContent.splice(4, 0, { productFinder: true });
           }
 
@@ -1655,9 +1661,8 @@ class List extends React.Component {
 
   stickyMobileRefineBar() {
     if (isMobilePhone) {
-      var t = document
-        ?.getElementById('refineBar')
-        ?.getBoundingClientRect().top;
+      var t = document?.getElementById('refineBar')?.getBoundingClientRect()
+        .top;
       window.addEventListener('scroll', () => {
         var choosedVal = document.querySelector('.filter-value'); // 有选择的时候才操作
         if (window.pageYOffset + 33 >= t && choosedVal) {
