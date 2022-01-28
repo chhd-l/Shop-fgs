@@ -331,7 +331,7 @@ export default Pet;
 const PetInfoCover = ({ birthOfPets, breed, el }) => {
   return (
     <div className="content">
-      <h1 className="name red">
+      <h1 className="name red break-words">
         {el.petsName}{' '}
         <span
           className={cn('iconfont', el.petsSex ? 'iconfemale' : 'iconmale')}

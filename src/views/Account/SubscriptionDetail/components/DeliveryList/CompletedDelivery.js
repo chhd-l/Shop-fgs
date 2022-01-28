@@ -15,8 +15,8 @@ const CompletedDelivery = ({ i, isActive, el, subDetail }) => {
     ?.toLowerCase()
     .includes('individualization');
   return (
-    <div className="card-container" key={i}>
-      <div className="card rc-margin-y--none ml-0">
+    <div className="card-container border rounded border-d7d7d7" key={i}>
+      <div className="card rc-margin-y--none ml-0 border-0">
         <div
           className="2222 card-header row rc-margin-x--none align-items-center pl-0 pr-0"
           style={{
@@ -207,7 +207,7 @@ const CompletedDelivery = ({ i, isActive, el, subDetail }) => {
                 paddingRight: '60px'
               }}
             >
-              <div className="rc-column flex-layout p-0 w-100">
+              <div className="rc-column p-0 w-100 flex flex-row">
                 {el.tradeItems &&
                   el.tradeItems.map((tradeItem, index) => {
                     if (index < 2) {

@@ -368,7 +368,7 @@ class Subscription extends React.Component {
               clubNoSubscription()
             ) : (
               <div className="rc-layout-container rc-two-column rc-content-h-middle rc-margin-bottom--sm">
-                <div className="rc-column">
+                <div className="rc-column p-4">
                   <LazyLoad style={{ width: '100%' }}>
                     <img
                       src={noSubscription}

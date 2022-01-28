@@ -92,7 +92,7 @@ const ButtonBoxGift = () => {
               paddingRight: '0.5rem',
               paddingLeft: '0.5rem'
             }}
-            className={`rc-styled-link
+            className={`rc-styled-link pb-0
                 ${isGift ? 'disabled' : ''}
                 `}
           >

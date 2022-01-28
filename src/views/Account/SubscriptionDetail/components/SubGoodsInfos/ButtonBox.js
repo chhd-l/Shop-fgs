@@ -113,7 +113,7 @@ const ButtonBox = () => {
         <div className="pause-btn flex items-center mx-4  mt-2">
           {subDetail.subscribeStatus === '0' ? (
             <em
-              className="iconfont iconzanting font-bold"
+              className="iconfont iconzanting font-bold pb-2 md:pb-1"
               style={{
                 fontSize: '1.25rem',
                 color: 'rgb(242,148,35)'
@@ -121,7 +121,7 @@ const ButtonBox = () => {
             />
           ) : (
             <em
-              className="iconfont iconplay1 font-bold"
+              className="iconfont iconplay1 font-bold pb-2 md:pb-1"
               style={{
                 fontSize: '1.5rem',
                 color: 'rgb(58,180,29)'
@@ -144,7 +144,7 @@ const ButtonBox = () => {
           </a>
         </div>
         <div className="flex items-center  mt-2">
-          <span className="iconfont iconchahao text-rc-red font-bold text-lg mr-1" />
+          <span className="iconfont iconchahao text-rc-red font-bold text-lg mr-1 pb-2 md:pb-1" />
           <a
             className="rc-styled-link"
             href="#/"

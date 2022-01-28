@@ -54,7 +54,7 @@ function Progress({ progressList, currentProgressIndex }) {
   console.log(progressList);
   return (
     <div className="od-prg-container ml-2 mr-2 md:ml-4 md:mr-4">
-      <div className="od-prg d-flex align-items-center">
+      <div className="od-prg d-flex align-items-center px-3">
         {progressList.map((item, i) => (
           <>
             <span

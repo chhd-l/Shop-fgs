@@ -66,11 +66,11 @@ const NextDelivery = ({
   };
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   return (
-    <div className="card-container">
-      <div className="card rc-margin-y--none ml-0 border-t-0">
+    <div className="card-container border rounded border-d7d7d7">
+      <div className="card rc-margin-y--none ml-0 border-0">
         {isActive ? (
           <div
-            className="flex items-center justify-between px-4 flex-wrap"
+            className="flex items-center justify-between px-4 flex-wrap pt-1"
             style={{ background: '#f9f9f9' }}
           >
             <div className="mb-2 md:mb-0">

@@ -589,15 +589,15 @@ class AccountOrders extends React.Component {
                               );
                               return (
                                 <div
-                                  className="card-container"
+                                  className="card-container border-b border-d7d7d7"
                                   key={order.id}
                                   onClick={this.handleClickCardItem.bind(
                                     this,
                                     order
                                   )}
                                 >
-                                  <div className="card rc-margin-y--none ml-0">
-                                    <div className="card-header border-color-d7d7d7 row rc-margin-x--none align-items-center pl-0 pr-0 rc-md-up">
+                                  <div className="card rc-margin-y--none ml-0 border-0">
+                                    <div className="card-header border-color-d7d7d7 row rc-margin-x--none align-items-center pl-0 pr-0 rc-md-up bg-rc-f6">
                                       <div className="col-12 col-md-2">
                                         <p>
                                           <FormattedMessage id="order.orderPlacedOn" />
@@ -650,7 +650,7 @@ class AccountOrders extends React.Component {
                                         </p>
                                       </div>
 
-                                      <div className="col-12 col-md-2">
+                                      <div className="col-12 col-md-2 111">
                                         {order.canDownInvoice ? (
                                           <div
                                             onClick={this.handleDownInvoice.bind(
@@ -698,24 +698,6 @@ class AccountOrders extends React.Component {
                                     </div>
                                   </div>
                                   <div className="row mb-3 mt-3 align-items-center m-0 relative">
-                                    <div
-                                      className="rc-md-down absolute -bottom-5"
-                                      style={{
-                                        right: '.9375rem'
-                                      }}
-                                    >
-                                      {order.canDownInvoice ? (
-                                        <span
-                                          className="rc-styled-link"
-                                          onClick={this.handleDownInvoice.bind(
-                                            this,
-                                            order
-                                          )}
-                                        >
-                                          <FormattedMessage id="invoice" />
-                                        </span>
-                                      ) : null}
-                                    </div>
                                     {/* 订单发货tip */}
                                     {((order.tradeState.payState === 'PAID' &&
                                       order.tradeState.auditState ===
@@ -824,7 +806,10 @@ class AccountOrders extends React.Component {
                                     </div>
                                     {isGift && !(getDeviceType() === 'H5') ? (
                                       order.tradeItems.map((item, idx) => (
-                                        <div className="col-2 col-md-3 text-right md:pl-0">
+                                        <div
+                                          className="col-2 col-md-3 text-right md:pl-0"
+                                          key={idx}
+                                        >
                                           {formatMoney(item.price)}
                                         </div>
                                       ))
@@ -839,6 +824,19 @@ class AccountOrders extends React.Component {
                                         />
                                       </div>
                                     )}
+                                    <div className="col-12 text-right md:hidden">
+                                      {order.canDownInvoice ? (
+                                        <span
+                                          className="rc-styled-link"
+                                          onClick={this.handleDownInvoice.bind(
+                                            this,
+                                            order
+                                          )}
+                                        >
+                                          <FormattedMessage id="invoice" />
+                                        </span>
+                                      ) : null}
+                                    </div>
                                     {/* {order.subscribeId && !isGift ? (
                                       <div className="col-12 text-right rc-md-up">
                                         <Link

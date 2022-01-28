@@ -211,7 +211,7 @@ class AccountOrders extends React.Component {
                     {/* 无任何预约 */}
                     <div className={`content-asset`}>
                       <div className="rc-layout-container rc-two-column">
-                        <div className="rc-column">
+                        <div className="rc-column p-4	">
                           <LazyLoad>
                             <img
                               src={appointmentImg}
@@ -266,15 +266,15 @@ class AccountOrders extends React.Component {
                             {appointmentList.map((appointment) => {
                               return (
                                 <div
-                                  className="card-container"
+                                  className="card-container border border-d7d7d7"
                                   key={appointment.id}
                                   onClick={this.handleClickCardItem.bind(
                                     this,
                                     appointment
                                   )}
                                 >
-                                  <div className="card rc-margin-y--none ml-0">
-                                    <div className="card-header border-color-d7d7d7 row rc-margin-x--none align-items-center pl-0 pr-0 rc-md-up">
+                                  <div className="card rc-margin-y--none ml-0 border-0">
+                                    <div className="card-header border-color-d7d7d7 row rc-margin-x--none align-items-center pl-0 pr-0 rc-md-up bg-rc-f6">
                                       <div className="col-12 col-md-2">
                                         <p>
                                           <FormattedMessage id="appointment.appointmentPlacedOn" />
