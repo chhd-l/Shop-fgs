@@ -21,10 +21,17 @@ import group1 from './images/group1.png';
 import group2 from './images/group2.png';
 import group3 from './images/group3.png';
 import packshotWf from './images/packshot-wf.png';
+import {
+  getLandingPage,
+  landingPageViews,
+  registerLandingPage
+} from '@/api/whistlefit';
+import { GAWhistleFitButtonClick } from '@/utils/GA.js';
 import './index.less';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
+const PAGE_NUM = '121313';
 
 @inject('checkoutStore', 'loginStore', 'clinicStore')
 @inject('configStore')
@@ -40,16 +47,30 @@ class Whistlefit extends React.Component {
         metaDescription: 'Royal canin'
       },
       email: this.userInfo?.email || '',
-      isChecked: false
+      isChecked: false,
+      landingPageId: ''
       //intl: this.props.intl.messages
     };
+  }
+  get isLogin() {
+    return this.props.loginStore.isLogin;
   }
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
   componentDidMount() {
+    const { history } = this.props;
+    console.log(this.userInfo);
     setSeoConfig({ pageName: 'Whistlefit' }).then((res) => {
       this.setState({ seoConfig: res });
+    });
+    getLandingPage(PAGE_NUM).then((res) => {
+      if (!res.context.status) {
+        history.push('/404');
+      } else {
+        const landingPageId = res.context.id;
+        this.setState({ landingPageId });
+      }
     });
   }
   changeEmail = (e) => {
@@ -58,17 +79,44 @@ class Whistlefit extends React.Component {
   changeConsent = () => {
     this.setState({ isChecked: !this.state.isChecked });
   };
-  //滚动到底部
-  scrollToBottom() {
+  //滚动到输入email的位置
+  scrollToInputEmail = (position) => {
+    GAWhistleFitButtonClick(position);
+    let bridge = document.querySelector('#email');
+    let body = document.body;
+    let height = 0;
+    do {
+      height += bridge.offsetTop;
+      bridge = bridge.offsetParent;
+    } while (bridge !== body);
     window.scrollTo({
-      top: document.body.scrollHeight - 30,
+      top: height,
       behavior: 'smooth'
     });
-  }
+  };
+  register = async () => {
+    if (!this.state.email) return;
+    try {
+      await landingPageViews({
+        number: PAGE_NUM
+      });
+      await registerLandingPage({
+        type: this.isLogin ? 'Member' : 'Guest', //guest member
+        email: this.state.email,
+        customerId: this.isLogin ? this.userInfo.customerId : '',
+        storeId: window.__.env.REACT_APP_STOREID,
+        landingPageId: this.state.landingPageId,
+        account: this.isLogin ? this.userInfo.customerAccount : '',
+        name: this.isLogin ? this.userInfo.customerName : ''
+      });
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
   render(h) {
     const event = {
       page: {
-        type: 'landingPage',
+        type: 'Whistle Fit landingPage',
         theme: 'Brand',
         path: location.pathname,
         error: '',
@@ -106,7 +154,7 @@ class Whistlefit extends React.Component {
                 <div className="mb-5 md:mb-0">
                   <button
                     className="rc-btn rc-btn--one text-xs md:text-sm"
-                    onClick={this.scrollToBottom}
+                    onClick={() => this.scrollToInputEmail(1)}
                   >
                     Keep me udpadted on Whistle Fit availability
                   </button>
@@ -171,7 +219,7 @@ class Whistlefit extends React.Component {
               <div className="w-full flex justify-center my-10">
                 <button
                   className="rc-btn rc-btn--one text-xs md:text-sm"
-                  onClick={this.scrollToBottom}
+                  onClick={() => this.scrollToInputEmail(2)}
                 >
                   Keep me udpadted on Whistle Fit availability
                 </button>
@@ -229,7 +277,7 @@ class Whistlefit extends React.Component {
             <div className="w-full flex justify-center my-10">
               <button
                 className="rc-btn rc-btn--one text-xs md:text-sm"
-                onClick={this.scrollToBottom}
+                onClick={() => this.scrollToInputEmail(3)}
               >
                 Keep me udpadted on Whistle Fit availability
               </button>
@@ -249,7 +297,7 @@ class Whistlefit extends React.Component {
             <div className="w-full flex justify-center mt-5 md:mt-10 mb-5 md:mb-10">
               <button
                 className="rc-btn rc-btn--one text-xs md:text-sm"
-                onClick={this.scrollToBottom}
+                onClick={() => this.scrollToInputEmail(4)}
               >
                 Keep me udpadted on Whistle Fit availability
               </button>
@@ -273,7 +321,10 @@ class Whistlefit extends React.Component {
                   className="w-48 md:w-96 mr-0 md:mr-64"
                 />
               </LazyLoad>
-              <div className="w-full md:w-1/2 text-sm md:text-lg px-4 md:px-0 leading-loose mt-0 md:mt-10">
+              <div
+                className="w-full md:w-1/2 text-sm md:text-lg px-4 md:px-0 leading-loose mt-0 md:mt-10"
+                id="email"
+              >
                 At Royal Canin, we’ve spent more than 50 years supporting pet
                 health through our innovative nutritional solutions and expert
                 healthcare advice. When paired with our extensive expert
@@ -288,7 +339,7 @@ class Whistlefit extends React.Component {
             </div>
           </div>
           <div className="h-2 bg-gray-100"></div>
-          <div className="max-w-full px-0 md:px-36" id="bottom">
+          <div className="max-w-full px-0 md:px-36">
             <div className="flex justify-center">
               <div
                 className="w-full md:w-2/3 px-4 md:px-0 text-center tracking-normal md:tracking-tighter text-2xl md:text-4xl mt-6 md:mt-12 mb-3 leading-tight md:leading-normal font-normal"
@@ -316,7 +367,10 @@ class Whistlefit extends React.Component {
               </span>
             </div>
             <div className="w-full flex justify-center mt-5 md:mt-10 mb-5 md:mb-10">
-              <button className="rc-btn rc-btn--one text-xs md:text-sm">
+              <button
+                className="rc-btn rc-btn--one text-xs md:text-sm"
+                onClick={this.register}
+              >
                 I am interested, keep me updated!
               </button>
             </div>
