@@ -10,7 +10,7 @@ export default api;
 
 export function getLandingPage(number) {
   return axios({
-    url: `${api.getLandingPage}/${number}`,
+    url: `${api.getLandingPage}/${window.__.env.REACT_APP_STOREID}/${number}`,
     method: 'get'
   });
 }

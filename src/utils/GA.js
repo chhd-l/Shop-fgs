@@ -656,10 +656,13 @@ export const GAInstantSearchResultClick = ({ type, name, position }) => {
   });
 };
 
-export const GAWhistleFitButtonClick = (positon) => {
+export const GAWhistleFitButtonClick = (positon, label) => {
   window?.dataLayer?.push({
-    event: 'whistleFitButtonClick',
-    whistleFitButtonClickPosition: positon
+    event: 'whistleFitLandingButtonClick',
+    whistleFitLandingButtonClick: {
+      position: positon,
+      label: label
+    }
   });
 };
 

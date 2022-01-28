@@ -4,3 +4,6 @@
 .select:not(.rc-input--full-width) {
   max-width: 400px;
 }
+.rc-input__label.cardOwner::before {
+  height: 0 !important;
+}
