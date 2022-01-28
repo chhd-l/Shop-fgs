@@ -533,6 +533,9 @@ class LoginCart extends React.Component {
       });
       val = 1;
     }
+    Array.from(document.querySelectorAll('.rc-quantity__input'), (item) => {
+      item.blur();
+    });
     const { quantityMinLimit } = this.state;
     let tmp = parseFloat(val);
     if (isNaN(tmp)) {

@@ -490,6 +490,9 @@ class UnLoginCart extends React.Component {
         productList
       });
     }
+    Array.from(document.querySelectorAll('.rc-quantity__input'), (item) => {
+      item.blur();
+    });
     const { quantityMinLimit } = this.state;
     let tmp = parseFloat(val);
     if (isNaN(tmp)) {
