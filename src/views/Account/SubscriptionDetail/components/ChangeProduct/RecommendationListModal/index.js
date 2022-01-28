@@ -4,6 +4,7 @@ import {
   injectIntl,
   FormattedDate
 } from 'react-intl-phraseapp';
+import { useHistory } from 'react-router-dom';
 import RecommendationList from './RecommendationList';
 import { findPetProductForClub } from '@/api/subscription';
 import { getRation, getClubLogo, formatMoney } from '@/utils/utils';
@@ -29,6 +30,8 @@ const RecommendationListModal = ({ intl }) => {
     showProdutctDetail
   } = ChangeProductValue;
   let timer = null;
+  let history = useHistory();
+
   const queryProductList = async (els, cb) => {
     try {
       setState({ productListLoading: true });
@@ -329,7 +332,7 @@ const RecommendationListModal = ({ intl }) => {
             <button
               class="text-sm mt-6 rc-btn rc-btn--one rc-btn--sm"
               onClick={() => {
-                showModal(0);
+                showModal();
               }}
             >
               <FormattedMessage id="subscription.noMoreRecommendation.backBtn" />
