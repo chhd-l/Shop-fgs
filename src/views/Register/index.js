@@ -18,7 +18,7 @@ import { userBindConsent } from '@/api/consent';
 import Modal from '@/components/Modal';
 import { inject, observer } from 'mobx-react';
 import { addEventListenerArr } from './addEventListener';
-import { EMAIL_REGEXP } from '@/utils/constant';
+import { EMAIL_REGEXP, LOGO_PRIMARY_RU, LOGO } from '@/utils/constant';
 import cn from 'classnames';
 import { Input } from '@/components/Common';
 // import ConsentAdditionalText from '@/components/Consent/ConsentAdditionalText';
@@ -478,6 +478,7 @@ class Register extends Component {
     return this.props.intl.messages[str];
   };
   render() {
+    const { intl } = this.props;
     const registerBack =
       window.location.search.indexOf('?origin=register') >= 0 &&
       window.location.search.indexOf('&token') >= 0; // 注册邮件点回来后，自动登录
@@ -575,12 +576,21 @@ class Register extends Component {
                       <FormattedMessage id="registerCloud" />
                     </span>
                     <h1 className="content-asset mb-0">
-                      <img
-                        src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/logo--secondary.png`}
-                        width="164"
-                        height="60"
-                        alt="Royal Canin Flagship Store"
-                      />
+                      {window.__.env.REACT_APP_COUNTRY === 'ru' ? (
+                        <img
+                          src={LOGO_PRIMARY_RU}
+                          alt="Royal Canin Flagship Store"
+                          className="w-36 md:w-52"
+                        />
+                      ) : (
+                        <>
+                          <img
+                            src={LOGO}
+                            alt=""
+                            className="inline-block w-40 md:w-auto"
+                          />
+                        </>
+                      )}
                     </h1>
                   </a>
                 </div>
@@ -640,9 +650,12 @@ class Register extends Component {
                         }`}
                       >
                         <FormattedMessage id="registerWelcome" />{' '}
-                        <span className="rc-text-colour--brand1">
-                          <FormattedMessage id="register.royalCanin" />
-                        </span>
+                        <span
+                          className="rc-text-colour--brand1"
+                          dangerouslySetInnerHTML={{
+                            __html: intl.messages['register.royalCanin']
+                          }}
+                        />
                       </h2>
                       <p className="rc-margin-bottom--none text-center">
                         <FormattedMessage id="registerCompleteForm" />

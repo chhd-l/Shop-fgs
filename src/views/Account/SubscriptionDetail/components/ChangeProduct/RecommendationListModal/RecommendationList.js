@@ -6,26 +6,9 @@ import {
 } from 'react-intl-phraseapp';
 import ShowErrorDom from '../../ShowErrorDom';
 import { getClubLogo, formatMoney } from '@/utils/utils';
+import ProductDailyRation from './ProductDailyRation';
 import { ChangeProductContext } from '../index';
 import { SubDetailHeaderContext } from '../../SubDetailHeader';
-const ProductDailyRation = ({ rations }) =>
-  rations ? (
-    <div
-      style={{
-        textAlign: 'center',
-        background: '#f9f9f9',
-        color: '#000',
-        maxWidth: '400px',
-        margin: '0 auto'
-      }}
-      className="text-center rc-padding--xs"
-    >
-      <div style={{ fontSize: '12px' }} className="rc-padding-bottom--xs">
-        <FormattedMessage id="subscription.dailyRation" />
-      </div>
-      <div style={{ fontSize: '1rem' }}>{rations}</div>
-    </div>
-  ) : null;
 const RecommendationList = ({ productDetail }) => {
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
   const ChangeProductValue = useContext(ChangeProductContext);

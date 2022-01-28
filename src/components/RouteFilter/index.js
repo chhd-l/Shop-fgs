@@ -110,7 +110,8 @@ class RouteFilter extends Component {
   }
   componentDidUpdate() {
     const { history, location } = this.props;
-    const { pathname, search } = location;
+    const { pathname, search, key } = location;
+    sessionItemRoyal.set('prevPath', `${pathname}_${key}`);
     const parameters = search;
     parameters.replace('?', '');
     let searchList = parameters.split('&');

@@ -24,42 +24,36 @@ class ConseillerTwo extends React.Component {
               <img src={exper1} alt="" />
             </div>
             <div className="mtb10">Alexandre Blavier</div>
-            <div className="col0">Vétérinaire</div>
           </div>
           <div className="txt-centr">
             <div className="jus-flex-center">
               <img src={exper2} alt="" />
             </div>
             <div className="mtb10">Camille DeDecker</div>
-            <div className="col0">Vétérinaire</div>
           </div>
           <div className="txt-centr">
             <div className="jus-flex-center">
               <img src={exper3} alt="" />
             </div>
             <div className="mtb10">Claire Nelaton</div>
-            <div className="col0">Vétérinaire</div>
           </div>
           <div className="txt-centr">
             <div className="jus-flex-center">
               <img src={exper4} alt="" />
             </div>
             <div className="mtb10">Franck Perron</div>
-            <div className="col0">Vétérinaire & éthologue</div>
           </div>
           <div className="txt-centr">
             <div className="jus-flex-center">
               <img src={exper5} alt="" />
             </div>
             <div className="mtb10">Hervé Page</div>
-            <div className="col0">Expert en Nutrition</div>
           </div>
           <div className="txt-centr">
             <div className="jus-flex-center">
               <img src={exper6} alt="" />
             </div>
             <div className="mtb10">Pauline Bouissou</div>
-            <div className="col0">Vétérinaire</div>
           </div>
         </div>
       </div>

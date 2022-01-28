@@ -13,6 +13,9 @@ interface Props {
   vet: boolean;
   addToCart: Function;
   buyFromRetailer: Function;
+  isApi: boolean;
+  isUrl: boolean;
+  retailerUrl: string;
 }
 const ButtonGroup = ({
   addToCartLoading,
@@ -24,7 +27,10 @@ const ButtonGroup = ({
   goodsType,
   vet,
   addToCart,
-  buyFromRetailer
+  buyFromRetailer,
+  isApi,
+  isUrl,
+  retailerUrl
 }: Props) => {
   const handleAddToCart = () => {
     addToCart();
@@ -73,6 +79,9 @@ const ButtonGroup = ({
                 barcode={barcode}
                 goodsType={goodsType}
                 onClick={handleBuyFromRetailer}
+                isApi={isApi}
+                isUrl={isUrl}
+                retailerUrl={retailerUrl}
                 // ref={(el) => this.ccidBtnRef(el)}
               />
             </>
@@ -108,6 +117,9 @@ const ButtonGroup = ({
               barcode={barcode}
               goodsType={goodsType}
               onClick={handleBuyFromRetailer}
+              isApi={isApi}
+              isUrl={isUrl}
+              retailerUrl={retailerUrl}
               // ref={(el) => this.ccidBtnRef(el)}
             />
           ) : null}
