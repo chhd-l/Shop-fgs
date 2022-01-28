@@ -18,11 +18,11 @@ const AutoshipItem = ({ subItem, history }) => {
 
   return (
     <div
-      className="card-container autoshipBox AutoshipItem-wrap mt-0 mb-5"
+      className="card-container autoshipBox AutoshipItem-wrap mt-0 mb-5 border border-d7d7d7 rounded"
       key={subItem.subscribeId}
     >
-      <div className="card rc-margin-y--none ml-0">
-        <div className="card-header row rc-margin-x--none align-items-center px-0 py-3">
+      <div className="card rc-margin-y--none ml-0 border-0">
+        <div className="card-header row rc-margin-x--none align-items-center px-0 py-3 bg-rc-f6">
           <div className="col-12 col-md-4">
             <p className="text-base font-normal pl-5 font-333">
               {filterOrderId({ orderNo: subItem.subscribeId })}

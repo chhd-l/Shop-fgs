@@ -289,7 +289,7 @@ class SearchSelection extends React.Component {
             />
             {this.props.customStyle && <label className="rc-input__label" />}
             {this.state.optionPanelVisible && (
-              <div className="clnc-overlay border mt-1 position-absolute w-100">
+              <div className="border mt-1 position-absolute w-100 bg-white rounded z-50">
                 <ul
                   className="m-0 clinic-item-container test-scroll"
                   onScroll={this.hanldeScroll}

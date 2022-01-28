@@ -21,6 +21,7 @@ import { addEventListenerArr } from './addEventListener';
 import { EMAIL_REGEXP, LOGO_PRIMARY_RU, LOGO } from '@/utils/constant';
 import cn from 'classnames';
 import { Input } from '@/components/Common';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 // import ConsentAdditionalText from '@/components/Consent/ConsentAdditionalText';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -542,7 +543,6 @@ class Register extends Component {
       list.filter((x) => x.isChecked && x.isRequired).length ===
       requiredConsentCount;
     const registerDisabled = !(allValid && requireCheckd);
-    const isHub = window.__.env.REACT_APP_HUB;
     const isTr = window.__.env.REACT_APP_COUNTRY === 'tr'; //因为土耳其welcome to royal canin的翻译，需要对welcome to royal canin特殊化处理
     let homePage = window.__.env.REACT_APP_HOMEPAGE;
     const contactUrl =
@@ -563,12 +563,9 @@ class Register extends Component {
             <div className="rc-layout-container rc-padding--sm rc-reverse-layout-mobile rc-bg-colour--brand3 rc-margin-bottom--xs">
               <div className="rc-column rc-padding-top--lg--mobile">
                 <div className="rc-margin-bottom--sm text-center">
-                  <a
-                    href={
-                      isHub
-                        ? window.__.env.REACT_APP_HUB_URLPREFIX
-                        : window.__.env.REACT_APP_ACCESS_PATH
-                    }
+                  <DistributeHubLinkOrATag
+                    href={''}
+                    to="/home"
                     className="logo-home d-inline-block border-bottom border-transparent"
                     title="Commerce Cloud Storefront Reference Architecture Accueil"
                   >
@@ -592,7 +589,7 @@ class Register extends Component {
                         </>
                       )}
                     </h1>
-                  </a>
+                  </DistributeHubLinkOrATag>
                 </div>
                 <div className="rc-layout-container rc-one-column rc-self-h-middle rc-flex-direction--reverse--md-down rc-max-width--lg">
                   <div className="rc-column rc-max-width--md rc-text--center">

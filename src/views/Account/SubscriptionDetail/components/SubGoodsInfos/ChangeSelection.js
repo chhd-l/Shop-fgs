@@ -41,7 +41,7 @@ const ChangeSelection = ({ el }) => {
               <FormattedMessage id="subscription.deliveryEvery" />
             </strong>
             <div
-              className="rc-card__meta order-Id text-left"
+              className="rc-card__meta order-Id text-left text-base"
               style={{
                 marginTop: '.625rem',
                 display: 'inline-block',
@@ -58,7 +58,7 @@ const ChangeSelection = ({ el }) => {
           </>
         ) : (
           <div
-            className="rc-card__meta order-Id text-left"
+            className="rc-card__meta order-Id text-left text-base	"
             style={{
               marginTop: '.625rem',
               display: 'inline-block',
@@ -94,7 +94,7 @@ const ChangeSelection = ({ el }) => {
             display: 'inline-block',
             width: '50%'
           }}
-          className="whitespace-nowrap"
+          className="whitespace-nowrap1"
         >
           {/* Shipping Method: */}
           {
@@ -107,7 +107,7 @@ const ChangeSelection = ({ el }) => {
           }
         </strong>
         <div
-          className="rc-card__meta order-Id text-left"
+          className="rc-card__meta order-Id text-left text-base	"
           style={{
             marginTop: '.625rem',
             display: 'inline-block',

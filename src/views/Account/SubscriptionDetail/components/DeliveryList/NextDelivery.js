@@ -66,11 +66,11 @@ const NextDelivery = ({
   };
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   return (
-    <div className="card-container">
-      <div className="card rc-margin-y--none ml-0 border-t-0">
+    <div className="card-container border rounded border-d7d7d7">
+      <div className="card rc-margin-y--none ml-0 border-0">
         {isActive ? (
           <div
-            className="flex items-center justify-between px-4 flex-wrap"
+            className="flex items-center justify-between px-4 flex-wrap pt-1"
             style={{ background: '#f9f9f9' }}
           >
             <div className="mb-2 md:mb-0">
@@ -389,9 +389,9 @@ const NextDelivery = ({
             </div>
             {window.__.env.REACT_APP_COUNTRY === 'us' ? (
               <div className="row">
-                <div className="col-1 col-md-3" />
-                <label className="col-9 text-left">
-                  Tax will be calculated when your order is processed
+                <div className="col-1 col-md-3 hidden md:block" />
+                <label className="col-12 col-md-9 text-sm ">
+                  *Tax will be calculated when your order is processed
                 </label>
               </div>
             ) : null}

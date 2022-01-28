@@ -58,19 +58,41 @@ const PrescriptionNavigate = loadable(() =>
 );
 const FAQ = loadable(() => import('@/views/FAQ'));
 const Widerrufsbelehrung = loadable(() => import('@/views/Widerrufsbelehrung'));
-import AccountHome from '@/views/Account/Home';
-import AccountProfile from '@/views/Account/Profile';
-import AccountPets from '@/views/Account/Pet';
-import AccountOrders from '@/views/Account/Orders';
-import AccountOrdersDetail from '@/views/Account/OrdersDetail';
-import AccountSubscription from '@/views/Account/Subscription';
-import AccountSubscriptionDetail from '@/views/Account/SubscriptionDetail';
-import AccountPetForm from '@/views/Account/PetForm';
-import OktaLoginPage from '@/views/OktaLoginPage';
-import OktaLogoutPage from '@/views/OktaLogoutPage';
-import AccountPetList from '@/views/Account/PetList';
-import ProductReview from '@/views/Account/ProductReview';
-import ProductReviewService from '@/views/Account/ProductReviewService';
+const AccountHome = loadable(() => import('@/views/Account/Home'));
+const AccountProfile = loadable(() => import('@/views/Account/Profile'));
+const AccountPets = loadable(() => import('@/views/Account/Pet'));
+const AccountOrders = loadable(() => import('@/views/Account/Orders'));
+const AccountOrdersDetail = loadable(() =>
+  import('@/views/Account/OrdersDetail')
+);
+const AccountSubscription = loadable(() =>
+  import('@/views/Account/Subscription')
+);
+const AccountSubscriptionDetail = loadable(() =>
+  import('@/views/Account/SubscriptionDetail')
+);
+const AccountPetForm = loadable(() => import('@/views/Account/PetForm'));
+const AccountPetList = loadable(() => import('@/views/Account/PetList'));
+const ProductReview = loadable(() => import('@/views/Account/ProductReview'));
+const ProductReviewService = loadable(() =>
+  import('@/views/Account/ProductReviewService')
+);
+// import AccountHome from '@/views/Account/Home';
+// import AccountProfile from '@/views/Account/Profile';
+// import AccountPets from '@/views/Account/Pet';
+// import AccountOrders from '@/views/Account/Orders';
+// import AccountOrdersDetail from '@/views/Account/OrdersDetail';
+// import AccountSubscription from '@/views/Account/Subscription';
+// import AccountSubscriptionDetail from '@/views/Account/SubscriptionDetail';
+// import AccountPetForm from '@/views/Account/PetForm';
+
+const OktaLoginPage = loadable(() => import('@/views/OktaLoginPage'));
+const OktaLogoutPage = loadable(() => import('@/views/OktaLogoutPage'));
+// import OktaLoginPage from '@/views/OktaLoginPage';
+// import OktaLogoutPage from '@/views/OktaLogoutPage';
+// import AccountPetList from '@/views/Account/PetList';
+// import ProductReview from '@/views/Account/ProductReview';
+// import ProductReviewService from '@/views/Account/ProductReviewService';
 // import AccountRefunds from "@/views/Account/Refunds";
 
 const Recommendation = loadable(() => import('@/views/Recommendation'));
@@ -181,7 +203,10 @@ const Consent1TR = loadable(() =>
 const Consent2TR = loadable(() =>
   import('@/views/StaticPage/tr/Consent/Consent2')
 );
-import register from '@/views/Register';
+const register = loadable(() =>
+  import('@/views/Register')
+);
+// import register from '@/views/Register';
 import welcome from '@/views/Register/welcome.js';
 const KittenNutrition = loadable(() =>
   import('@/views/StaticPage/kitten-nutrition')
@@ -573,14 +598,20 @@ const App = () => {
                   path="/account/orders/detail/:orderNumber"
                   exact
                   render={(props) => (
-                    <AccountOrdersDetail key={props.match.params.orderNumber} {...props} />
+                    <AccountOrdersDetail
+                      key={props.match.params.orderNumber}
+                      {...props}
+                    />
                   )}
                 />
                 <Route
                   path="/account/appointments/detail/:appointmentNo"
                   exact
                   render={(props) => (
-                    <AccountAppointmentsDetail key={props.match.params.appointmentNo} {...props} />
+                    <AccountAppointmentsDetail
+                      key={props.match.params.appointmentNo}
+                      {...props}
+                    />
                   )}
                 />
                 <Route
@@ -610,7 +641,10 @@ const App = () => {
                   path="/account/subscription/order/detail/:subscriptionNumber"
                   exact
                   render={(props) => (
-                    <AccountSubscriptionDetail key={props.match.params.subscriptionNumber} {...props} />
+                    <AccountSubscriptionDetail
+                      key={props.match.params.subscriptionNumber}
+                      {...props}
+                    />
                   )}
                 />
 
@@ -625,14 +659,13 @@ const App = () => {
                   path="/account/productReviewService/:tid"
                   exact
                   render={(props) => (
-                    <ProductReviewService key={props.match.params.tid} {...props} />
+                    <ProductReviewService
+                      key={props.match.params.tid}
+                      {...props}
+                    />
                   )}
                 />
-                <Route
-                  path="/whistlefit"
-                  exact
-                  component={Whistlefit}
-                />
+                <Route path="/whistlefit" exact component={Whistlefit} />
                 <Route path="/required" exact component={RegisterRequired} />
 
                 <Route
@@ -705,7 +738,10 @@ const App = () => {
                   path="/adoptant/:id"
                   exact
                   render={(props) => (
-                    <DedicatedLandingPage key={props.match.params.id} {...props} />
+                    <DedicatedLandingPage
+                      key={props.match.params.id}
+                      {...props}
+                    />
                   )}
                 />
                 <Route
@@ -788,14 +824,18 @@ const App = () => {
                 <Route path="/consent1-tr" component={Consent1TR} />
                 <Route path="/consent2-tr" component={Consent2TR} />
                 <Route path="/register" component={register} />
-                <Route path="/welcome/:id"  
-                render={(props) => (
+                <Route
+                  path="/welcome/:id"
+                  render={(props) => (
                     <welcome key={props.match.params.id} {...props} />
-                  )}/>
-                <Route path="/survey/:id?"
-                 render={(props) => (
-                  <Survey key={props.match.params.id} {...props} />
-                )}/>
+                  )}
+                />
+                <Route
+                  path="/survey/:id?"
+                  render={(props) => (
+                    <Survey key={props.match.params.id} {...props} />
+                  )}
+                />
 
                 {/* <Route
                   path="/smart-feeder-subscription"
@@ -848,9 +888,12 @@ const App = () => {
                 />
                 <Route exact sensitive path="/FAQ" component={Exception} />
                 <Route
-                render={(props) => (
-                  <FelinRecommendation key={props.match.params.id} {...props} />
-                )}
+                  render={(props) => (
+                    <FelinRecommendation
+                      key={props.match.params.id}
+                      {...props}
+                    />
+                  )}
                   path="/FelinRecommendation/:id"
                 />
                 <Route path="/adoptions" component={Adoptions} />

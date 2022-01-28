@@ -742,7 +742,7 @@ const PetForms = ({
                   value={petForm.breedName}
                   onChange={inputBreed}
                   style={{
-                    height: '48px',
+                    height: '40px',
                     fontWeight: '300'
                   }}
                   disabled={isInputDisabled ? 'disabled' : null}

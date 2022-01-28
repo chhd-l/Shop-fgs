@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import cn from 'classnames';
 import './index.css';
+import { DivWrapper } from './style';
 
 let menuList = [
   {
@@ -76,7 +77,7 @@ class SideMenu extends React.Component {
   render() {
     const { type } = this.props;
     return (
-      <div
+      <DivWrapper
         className={`my__account-navigation rc-column rc-padding-top--xs--desktop rc-padding-bottom--none ${this.props.customCls}`}
       >
         {/* 俄罗斯隐藏掉 Faq */}
@@ -85,9 +86,12 @@ class SideMenu extends React.Component {
           .map((item, i) => (
             <h2
               key={i}
-              className={cn('nav_item medium ui-cursor-pointer mb-4', {
-                'active red': type === item.catogery
-              })}
+              className={cn(
+                'nav_item text-lg leading-none medium ui-cursor-pointer mb-4',
+                {
+                  'active red': type === item.catogery
+                }
+              )}
             >
               <FormattedMessage id={item.langKey}>
                 {(txt) => (
@@ -116,7 +120,7 @@ class SideMenu extends React.Component {
         {window.__.env.REACT_APP_HUB_MONROYALCANIN ? (
           <h2
             style={{ borderTop: '1px solid #E9E9E9' }}
-            className={`nav_item medium ui-cursor-pointer mb-4 pt-4`}
+            className={`nav_item text-lg leading-none medium ui-cursor-pointer mb-4 pt-4`}
           >
             <FormattedMessage id="account.monRoyalCanin">
               {(txt) => (
@@ -134,10 +138,8 @@ class SideMenu extends React.Component {
               )}
             </FormattedMessage>
           </h2>
-        ) : (
-          <></>
-        )}
-      </div>
+        ) : null}
+      </DivWrapper>
     );
   }
 }

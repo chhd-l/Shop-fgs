@@ -68,7 +68,7 @@ const GiftList = ({
               ?.map((el) => (
                 <>
                   <div className="card-container" style={{ borderBottom: 0 }}>
-                    <div className="card rc-margin-y--none ml-0">
+                    <div className="card rc-margin-y--none ml-0 border-0">
                       <div
                         className="3333 card-header row rc-margin-x--none align-items-center pl-0 pr-0"
                         style={{
@@ -130,7 +130,7 @@ const GiftList = ({
                               }}
                             >
                               <div
-                                className="rc-column flex-layout mr-3"
+                                className="rc-column mr-3 flex flex-row"
                                 style={{
                                   width: '80%',
                                   padding: 0

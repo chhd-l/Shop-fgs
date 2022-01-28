@@ -38,6 +38,7 @@ import OngoingOrder from './components/OngoingOrder';
 import TempolineAPIError from './components/TempolineAPIError';
 import { format } from 'date-fns';
 import { seoHoc } from '@/framework/common';
+import { DivWrapper } from './style';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
@@ -710,7 +711,7 @@ class SubscriptionDetail extends React.Component {
       subDetail.subscriptionType?.toLowerCase().includes('individualization'); //indv的展示和club类似
     // && window.__.env.REACT_APP_COUNTRY != 'ru'; //ru的club展示不绑定宠物，和普通订阅一样
     return (
-      <div className="subscriptionDetail">
+      <DivWrapper className="subscriptionDetail">
         <div>
           <GoogleTagManager additionalEvents={event} />
           <Helmet>
@@ -974,7 +975,7 @@ class SubscriptionDetail extends React.Component {
             <Footer />
           </main>
         </div>
-      </div>
+      </DivWrapper>
     );
   }
 }
