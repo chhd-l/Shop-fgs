@@ -132,7 +132,8 @@ const SubGoodsInfos = ({
     getDetail,
     showErrMsg,
     isIndv,
-    triggerShowChangeProduct
+    triggerShowChangeProduct,
+    isShowClub
   };
   return (
     // true?null:
@@ -160,7 +161,7 @@ const SubGoodsInfos = ({
                       alt={el.goodsName}
                     />
                     {/* </LazyLoad> */}
-                    {isShowClub &&
+                    {/* {isShowClub &&
                       !!subDetail.petsId &&
                       !isIndv &&
                       subDetail?.goodsInfo.length == 1 && (
@@ -186,7 +187,7 @@ const SubGoodsInfos = ({
                         >
                           <FormattedMessage id="subscriptionDetail.changeProduct" />
                         </span>
-                      )}
+                      )} */}
                   </div>
                   <div
                     className="v-center"

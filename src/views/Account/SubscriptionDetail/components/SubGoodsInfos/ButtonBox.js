@@ -16,6 +16,7 @@ const ButtonBox = () => {
     modalList,
     setState,
     productListLoading,
+    isShowClub,
     triggerShowChangeProduct
   } = SubGoodsInfosValue;
   const isIndv = subDetail.subscriptionType == 'Individualization';
@@ -64,7 +65,7 @@ const ButtonBox = () => {
         style={{ textAlign: isMobile ? 'left' : 'right' }}
       >
         {/* indv不会展示该按钮 */}
-        {!isIndv && subDetail?.goodsInfo?.length == 1 ? (
+        {isShowClub && !isIndv && subDetail?.goodsInfo?.length == 1 ? (
           <div className=" flex items-center">
             <span
               style={{
