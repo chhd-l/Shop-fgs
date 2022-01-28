@@ -3,6 +3,7 @@ import { queryStoreCateList } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
+import cn from 'classnames';
 
 class SalesCategory extends Component {
   constructor(props) {
@@ -57,25 +58,33 @@ class SalesCategory extends Component {
         </Link>
       </div>
     ));
+
+    const pcTwoRows = curListNum >= 6;
+
     return (
       <section>
         <div className="rc-bg-colour--brand3 rc-margin-bottom--xs">
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile category-cards rc-padding--sm">
             <div
-              className={`${
-                curListNum >= 6 ? '' : 'row'
-              } rc-match-heights text-center md:text-left`}
+              className={cn('rc-match-heights text-center md:text-left', {
+                row: !pcTwoRows
+              })}
             >
               <div
-                className={`${
-                  curListNum >= 6 ? 'DeCenter' : ''
-                } col-lg-3 align-self-center`}
+                className={cn('col-12 col-lg-3 align-self-center', {
+                  DeCenter: pcTwoRows
+                })}
               >
-                <h2 className="rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-center rc-padding-top--none">
+                <h2
+                  className={cn(
+                    'rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-center rc-padding-top--none',
+                    { 'md:pb-6': pcTwoRows }
+                  )}
+                >
                   <FormattedMessage id="home.productsCategory" />
                 </h2>
               </div>
-              <div className={`${curListNum >= 6 ? 'DeCenter' : ''} col-lg-9`}>
+              <div className={cn('col-12 col-lg-9', { DeCenter: pcTwoRows })}>
                 <div className="row custom-gutter">
                   <span className="hidden rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link" />
                   {_catogeryJXS2}

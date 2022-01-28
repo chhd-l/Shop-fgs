@@ -190,7 +190,7 @@ const SubGoodsInfos = ({
                       )} */}
                   </div>
                   <div
-                    className="v-center"
+                    className="v-center self-center	"
                     style={{ flex: '1', paddingLeft: '.625rem' }}
                   >
                     <h3
@@ -309,22 +309,15 @@ const SubGoodsInfos = ({
             ))}
         </div>
         <ShowErrorDom errorMsg={errMsgPage} />
-        <div
-          className="card-container"
-          style={{
-            marginTop: '0',
-            display: isMobile ? 'none' : 'block',
-            borderBottom: 'none'
-          }}
-        >
+        <div className="card-container border rounded border-d7d7d7 mt-0 hidden md:block">
           {subDetail.goodsInfo &&
             subDetail.goodsInfo.map((el, index) => (
               <div
                 className="rc-margin-x--none"
                 style={{
-                  padding: '1rem 0 1.5rem 0',
-                  borderBottom: '1px solid #d7d7d7'
+                  padding: '1rem 0 1.5rem 0'
                 }}
+                key={index}
               >
                 <div className=" row align-items-center">
                   <div className="col-4 col-md-6">
@@ -338,7 +331,7 @@ const SubGoodsInfos = ({
                       }}
                     >
                       <div
-                        className="rc-column flex-layout"
+                        className="rc-column flex flex-row"
                         style={{
                           width: '80%',
                           padding: 0,

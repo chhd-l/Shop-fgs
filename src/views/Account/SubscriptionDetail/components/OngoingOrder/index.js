@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import { IMG_DEFAULT } from '@/utils/constant';
 import './index.less';
+import cn from 'classnames';
 
 const OngoingOrder = ({ subDetail }) => {
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
@@ -16,9 +17,10 @@ const OngoingOrder = ({ subDetail }) => {
       {onGoingTradeLists.length > 0
         ? onGoingTradeLists.map((ele, i) => (
             <div
-              className={`card-container m-0 py-4 px-0 min-h-auto border-orange rc-margin-x--none align-items-center justify-content-start ${
+              className={cn(
+                'card-container m-0 py-4 px-0 min-h-auto border-orange rc-margin-x--none align-items-center justify-content-start border rounded',
                 isMobile ? 'flex-column' : 'row'
-              }`}
+              )}
               key={i}
             >
               <div className="col-12 col-md-4 d-flex flex-column justify-content-start align-items-center">
