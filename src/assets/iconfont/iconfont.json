@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "24934208",
+      "name": "icon_脚掌",
+      "font_class": "icon_jiaozhang",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "9546365",
+      "name": "exchange-icon",
+      "font_class": "exchange-icon",
+      "unicode": "e669",
+      "unicode_decimal": 58985
+    },
+    {
       "icon_id": "6616926",
       "name": "对勾",
       "font_class": "duigoux",
