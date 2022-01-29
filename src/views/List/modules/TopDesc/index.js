@@ -19,9 +19,9 @@ const TopDesc = ({ text }) => {
       <div class="desc-text">
         <label class="fold-btn" for="exp1">
           {fold ? (
-            <FormattedMessage id="reduce" />
+            <FormattedMessage id="plp.reduce" />
           ) : (
-            <FormattedMessage id="read more" />
+            <FormattedMessage id="plp.readMore" />
           )}
         </label>
         {text}
