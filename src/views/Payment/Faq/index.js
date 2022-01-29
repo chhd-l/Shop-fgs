@@ -32,10 +32,10 @@ const faqList =
         <p></p><p>Please see our return policy in our <a href="${window.__.env.REACT_APP_HOMEPAGE.replace(
           /\/$/gi,
           ''
-        )}/termsandconditions" target="_blank" rel="nofollow noopener"><span style="color: #6888c9;">Terms and Conditions</span><span class="warning_blank">Opens a new window</span></a>&nbsp;or <a href="${window.__.env.REACT_APP_HOMEPAGE.replace(
+        )}/termsandconditions" target="_blank" rel="nofollow noopener"><span style="color: #6888c9;">Terms and Conditions</span><span class="warning_blank"><FormattedMessage id="opensANewWindow" /></span></a>&nbsp;or <a href="${window.__.env.REACT_APP_HOMEPAGE.replace(
           /\/$/gi,
           ''
-        )}/help/contact" target="_blank" rel="noopener noreferrer"><span style="color: #6888c9;">contact us</span><span class="warning_blank">Opens a new window</span></a> for further assistance.</p><p></p>`,
+        )}/help/contact" target="_blank" rel="noopener noreferrer"><span style="color: #6888c9;">contact us</span><span class="warning_blank"><FormattedMessage id="opensANewWindow" /></span></a> for further assistance.</p><p></p>`,
         gaContext: 'Free return'
       }
     ],

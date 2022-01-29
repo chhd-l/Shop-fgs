@@ -508,7 +508,7 @@ class SubscriptionLanding extends React.Component {
                                   {/*        .REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW*/}
                                   {/*    ) && (*/}
                                   {/*      <span className="warning_blank">*/}
-                                  {/*        /!*Opens a new window*!/*/}
+                                  {/*        /!*<FormattedMessage id="opensANewWindow" />*!/*/}
                                   {/*        <FormattedMessage id="SubscriptionLanding.helpListText32" />*/}
                                   {/*      </span>*/}
                                   {/*    )}*/}
@@ -555,7 +555,7 @@ class SubscriptionLanding extends React.Component {
                                       {/*    .REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW*/}
                                       {/*) && (*/}
                                       {/*  <span className="warning_blank">*/}
-                                      {/*    /!*Opens a new window*!/*/}
+                                      {/*    /!*<FormattedMessage id="opensANewWindow" />*!/*/}
                                       {/*    <FormattedMessage id="SubscriptionLanding.helpListText32" />*/}
                                       {/*  </span>*/}
                                       {/*)}*/}

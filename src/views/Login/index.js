@@ -886,7 +886,7 @@ class Login extends React.Component {
                           window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                         ) && (
                           <span className="warning_blank">
-                            Opens a new window
+                            <FormattedMessage id="opensANewWindow" />
                           </span>
                         )}
                       </a>
@@ -901,7 +901,7 @@ class Login extends React.Component {
                           window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                         ) && (
                           <span className="warning_blank">
-                            Opens a new window
+                            <FormattedMessage id="opensANewWindow" />
                           </span>
                         )}
                       </a>
