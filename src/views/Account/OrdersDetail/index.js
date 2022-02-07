@@ -961,10 +961,7 @@ class AccountOrders extends React.Component {
           <>
             <HeadTip
               icon={
-                <i
-                  className="iconfont iconfuwudiqiu ml-3"
-                  style={{ fontSize: '48px', color: '#d81e06' }}
-                />
+                <i className="iconfont iconfuwudiqiu ml-3 text-rc-detail-red text-5xl" />
               }
               title={<FormattedMessage id="felinOrder.servicePaid" />}
               titleColor="text-warning"
@@ -980,10 +977,7 @@ class AccountOrders extends React.Component {
           <>
             <HeadTip
               icon={
-                <i
-                  className="iconfont iconfuwudiqiu ml-3"
-                  style={{ fontSize: '48px', color: '#d81e06' }}
-                />
+                <i className="iconfont iconfuwudiqiu ml-3 text-rc-detail-red text-5xl" />
               }
               title={<FormattedMessage id="appointment.serviceArrived" />}
               titleColor="text-warning"

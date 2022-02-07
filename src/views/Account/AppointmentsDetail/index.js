@@ -19,7 +19,7 @@ import { formatDate, handleAppointmentDict } from '@/utils/utils';
 function HeadTip(props) {
   return (
     <>
-      <div className="row align-items-center text-left ml-1 mr-1 md:ml-0 md:mr-0">
+      <div className="row align-items-center text-left mx-1 mb-2 md:mx-0">
         <div className="col-3 col-md-1">{props.icon}</div>
         <div className={`col-9 col-md-11`}>
           <span
@@ -110,10 +110,7 @@ class AccountOrders extends React.Component {
           <>
             <HeadTip
               icon={
-                <i
-                  className="iconfont iconfuwudiqiu ml-3"
-                  style={{ fontSize: '48px', color: '#d81e06' }}
-                />
+                <i className="iconfont iconfuwudiqiu ml-3 text-rc-detail-red text-5xl" />
               }
               title={<FormattedMessage id="appointment.serviceBooked" />}
               titleColor="text-warning"
@@ -128,10 +125,7 @@ class AccountOrders extends React.Component {
           <>
             <HeadTip
               icon={
-                <i
-                  className="iconfont iconfuwudiqiu ml-3"
-                  style={{ fontSize: '48px', color: '#d81e06' }}
-                />
+                <i className="iconfont iconfuwudiqiu ml-3 text-rc-detail-red text-5xl" />
               }
               title={<FormattedMessage id="appointment.serviceArrived" />}
               titleColor="text-warning"
