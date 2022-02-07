@@ -117,12 +117,15 @@ const Decouverteroyalcanin = (props) => {
               <span className="font-semibold">Incroyable Nutrition</span> :
               partez à la découverte de l’histoire de nos produits et de toutes
               nos innovations scientifiques. 
-              <br />
-              Incroyables Chiots & Chatons : vous voulez adopter mais vous ne
-              savez pas encore quel serait votre compagnon idéal ? Avec cette
-              expérience incroyable, en fonction de votre profil et votre mode
-              de vie, nous allons vous aider à trouver le chien ou le chat de
-              vos rêves.
+            </p>
+            <p className="rc-padding-bottom--sm">
+              <span className="font-semibold">
+                Incroyables Chiots & Chatons
+              </span>{' '}
+              : vous voulez adopter mais vous ne savez pas encore quel serait
+              votre compagnon idéal ? Avec cette expérience incroyable, en
+              fonction de votre profil et votre mode de vie, nous allons vous
+              aider à trouver le chien ou le chat de vos rêves.
             </p>
             <p className="rc-padding-bottom--sm">
               <span className="font-semibold">Incroyables Innovations </span>:
