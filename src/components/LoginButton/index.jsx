@@ -163,7 +163,7 @@ const LoginButton = (props) => {
   }, [authState, oktaAuth]); // Update if authState changes
 
   const login = async () => {
-    const { beforeLoginCallback, callbackUrl, history } = props;
+    const { beforeLoginCallback, callbackUrl } = props;
     try {
       sessionItemRoyal.remove('rc-token-lose');
       localItemRoyal.set(
