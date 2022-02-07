@@ -398,7 +398,11 @@ class Subscription extends React.Component {
                     <div className="rc-margin-top--sm">
                       <Link
                         className="rc-btn rc-btn--one"
-                        to="/subscription-landing"
+                        to={
+                          window.__.env.REACT_APP_COUNTRY === 'fr'
+                            ? '/club-subscription'
+                            : '/subscription-landing'
+                        }
                       >
                         <FormattedMessage id="account.startAutoShipping" />
                       </Link>
