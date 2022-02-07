@@ -117,7 +117,8 @@ const Decouverteroyalcanin = (props) => {
               <span className="font-semibold">Incroyable Nutrition</span> :
               partez à la découverte de l’histoire de nos produits et de toutes
               nos innovations scientifiques. 
-              <br />
+            </p>
+            <p className="rc-padding-bottom--sm">
               <span className="font-semibold">
                 Incroyables Chiots & Chatons
               </span>{' '}
