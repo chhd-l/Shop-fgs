@@ -213,19 +213,19 @@ const RecommendationListModal = ({ intl }) => {
               {/* The nutrition adapted to {subDetail.petsInfo?.petsName}’s specific
               needs is still maine coon adult, dry cat food */}
             </p>
-            <p className="text-sm">
+            {/* <p className="text-sm">
               <FormattedMessage
                 values={{
                   petname: subDetail.petsInfo?.petsName
                 }}
                 id="subscription.noMoreRecommendation.HeaderContent"
               />
-              {/* A Maine Coon like {subDetail.petsInfo?.petsName} has specific
+               A Maine Coon like {subDetail.petsInfo?.petsName} has specific
               needs. for example, due to his large size and bone structure, it
               is essential to pay special attention to his general health and
               his joints. Depending on your pet preferences you can choose
-              between wet food, dry food or Mixed. */}
-            </p>
+              between wet food, dry food or Mixed. 
+            </p> */}
 
             {/* <p className="text-center red" style={{ fontSize: '1.5rem' }}>
               <FormattedMessage id="switchProductTip1" />{' '}
