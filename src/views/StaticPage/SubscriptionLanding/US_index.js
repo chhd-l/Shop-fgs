@@ -4,7 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import Help from './Fr/help';
-import { FormattedMessage } from 'react-intl-phraseapp';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import autoship from './images/us_autoship.png';
 import icon1 from './images/us_icon1.png';
@@ -25,9 +25,11 @@ import { seoHoc } from '@/framework/common';
 const pageLink = window.location.href;
 @inject('configStore')
 @seoHoc('Subscription Page')
+@injectIntl
 @observer
 class SubscriptionLanding extends React.Component {
   render(h) {
+    const { intl } = this.props;
     const event = {
       page: {
         type: 'Content',
@@ -108,55 +110,29 @@ class SubscriptionLanding extends React.Component {
                         <div className="rc-column">
                           <div className="rc-padding-y--lg--mobile rc-full-width">
                             <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
-                              <li className="rc-list__item">
-                                <em className="wof rc-margin-right--xs"></em>
-                                <strong>
-                                  {/*Expert Guidance*/}
-                                  <FormattedMessage id="SubscriptionLanding.listTitleNew1" />
-                                </strong>
-                                {/*- Receive*/}
-                                {/*nutritional recommendations on Royal Canin food*/}
-                                {/*and products as your pet grows*/}
-                                {/*<FormattedMessage id="SubscriptionLanding.listTitleNew1" />*/}
-                              </li>
-                              <li className="rc-list__item">
-                                <em className="wof rc-margin-right--xs"></em>
-                                <strong>
-                                  {/*Special Savings*/}
-                                  <FormattedMessage id="SubscriptionLanding.listTitleNew2" />
-                                </strong>
-                                {/*- Save 30% off*/}
-                                {/*your first purchase through Royal Canin Club,*/}
-                                {/*and 5% off every autoship order. Plus, free*/}
-                                {/*shipping –– with no minimum purchase*/}
-                                {/*<FormattedMessage id="SubscriptionLanding.listTitleNew2" />*/}
-                              </li>
-                              <li className="rc-list__item">
-                                <em className="wof rc-margin-right--xs"></em>
-                                <strong>
-                                  {/*Royal Canin Advisor*/}
-                                  <FormattedMessage id="SubscriptionLanding.listTitleNew3" />
-                                </strong>
-                                {/*- Like a*/}
-                                {/*coach for everything related to your pet’s*/}
-                                {/*nutrition, your Royal Canin Advisor can help*/}
-                                {/*with diet recommendations and expert feeding*/}
-                                {/*advice, updates on products, and more*/}
-                                {/*<FormattedMessage id="SubscriptionLanding.listTitleNew3" />*/}
-                              </li>
-                              <li className="rc-list__item">
-                                <em className="wof rc-margin-right--xs"></em>
-                                <strong>
-                                  {/*Royal Canin Advisor*/}
-                                  <FormattedMessage id="SubscriptionLanding.listTitleNew4" />
-                                </strong>
-                                {/*- Like a*/}
-                                {/*coach for everything related to your pet’s*/}
-                                {/*nutrition, your Royal Canin Advisor can help*/}
-                                {/*with diet recommendations and expert feeding*/}
-                                {/*advice, updates on products, and more*/}
-                                {/*<FormattedMessage id="SubscriptionLanding.listTitleNew4" />*/}
-                              </li>
+                              {[
+                                intl.messages[
+                                  'SubscriptionLanding.listTitleNew1'
+                                ],
+                                intl.messages[
+                                  'SubscriptionLanding.listTitleNew2'
+                                ],
+                                intl.messages[
+                                  'SubscriptionLanding.listTitleNew3'
+                                ],
+                                intl.messages[
+                                  'SubscriptionLanding.listTitleNew4'
+                                ]
+                              ]
+                                .filter((e) => e)
+                                .map((item, i) => (
+                                  <li className="rc-list__item" key={i}>
+                                    <span className="iconfont iconicon_jiaozhang text-rc-red mr-2" />
+                                    <span
+                                      dangerouslySetInnerHTML={{ __html: item }}
+                                    />
+                                  </li>
+                                ))}
                             </ul>
                             <div className="d-none d-md-block rc-btn-group m-0 rc-column rc-padding-x--none">
                               <Link to="/cats">
@@ -508,7 +484,7 @@ class SubscriptionLanding extends React.Component {
                                   {/*        .REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW*/}
                                   {/*    ) && (*/}
                                   {/*      <span className="warning_blank">*/}
-                                  {/*        /!*Opens a new window*!/*/}
+                                  {/*        /!*<FormattedMessage id="opensANewWindow" />*!/*/}
                                   {/*        <FormattedMessage id="SubscriptionLanding.helpListText32" />*/}
                                   {/*      </span>*/}
                                   {/*    )}*/}
@@ -555,7 +531,7 @@ class SubscriptionLanding extends React.Component {
                                       {/*    .REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW*/}
                                       {/*) && (*/}
                                       {/*  <span className="warning_blank">*/}
-                                      {/*    /!*Opens a new window*!/*/}
+                                      {/*    /!*<FormattedMessage id="opensANewWindow" />*!/*/}
                                       {/*    <FormattedMessage id="SubscriptionLanding.helpListText32" />*/}
                                       {/*  </span>*/}
                                       {/*)}*/}

@@ -491,7 +491,9 @@ class PrivacyPolicy extends React.Component {
                     {Boolean(
                       window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                     ) && (
-                      <span className="warning_blank">Opens a new window</span>
+                      <span className="warning_blank">
+                        <FormattedMessage id="opensANewWindow" />
+                      </span>
                     )}
                   </a>
                   .

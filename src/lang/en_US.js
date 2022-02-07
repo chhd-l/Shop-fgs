@@ -1804,6 +1804,8 @@ const en_US = {
   yes2: 'Confirm',
   yourEmailNotVerified: 'Your email has not been verified!',
   yourPasswordNotVerified: 'Your password has not been verified',
-  'Pet.weightTracker': 'Weight Tracker'
+  'Pet.weightTracker': 'Weight Tracker',
+  'plp.reduce': 'Reduce',
+  'plp.readMore': 'Read More'
 };
 export default en_US;
