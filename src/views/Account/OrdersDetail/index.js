@@ -40,7 +40,7 @@ import {
   handleOrderStatusMap,
   handleFelinOrderStatusMap
 } from './modules/handleOrderStatus';
-import OrderAppointmentInfo from './modules/OrderAppointmentInfo';
+import OrderAppointmentInfo from '../AppointmentsDetail/modules/AppointmentInfo';
 import getCardImg from '@/lib/get-card-img';
 import { getWays } from '@/api/payment';
 import { handleOrderItem } from '../Orders/modules/handleOrderItem';
@@ -1862,7 +1862,13 @@ class AccountOrders extends React.Component {
                               </div>
                             </div>
                           ) : (
-                            <OrderAppointmentInfo details={details} />
+                            <OrderAppointmentInfo
+                              details={{
+                                expertType: details.specialistType,
+                                appointmentType: details.appointmentType,
+                                apptTime: details.appointmentDate
+                              }}
+                            />
                           )}
                         </div>
                       ) : this.state.errMsg ? (
