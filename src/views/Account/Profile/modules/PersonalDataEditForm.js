@@ -5,7 +5,7 @@ import ValidationAddressModal from '@/components/validationAddressModal';
 import Loading from '@/components/Loading';
 import { AddressForm } from '@/components/Address';
 import { PRESONAL_INFO_RULE } from '@/utils/constant';
-import { validData } from '@/utils/utils';
+import { validData, handleDateForIos } from '@/utils/utils';
 import { updateCustomerBaseInfo, getCustomerInfo } from '@/api/user';
 import 'react-datepicker/dist/react-datepicker.css';
 import classNames from 'classnames';
@@ -241,7 +241,7 @@ class PersonalDataEditForm extends React.Component {
         lastName: form.lastName,
         email: form.email,
         birthDay: form.birthdate
-          ? format(new Date(form.birthdate), 'yyyy-MM-dd')
+          ? format(new Date(handleDateForIos(form.birthdate)), 'yyyy-MM-dd')
           : '',
         countryId: form.countryId,
         country: form.country,

@@ -20,7 +20,8 @@ import {
   getZoneTime,
   datePickerConfig,
   getDeviceType,
-  getDictionary
+  getDictionary,
+  handleDateForIos
 } from '@/utils/utils';
 import { format } from 'date-fns';
 
@@ -278,7 +279,7 @@ const PetForms = ({
   const onDateChange = (date) => {
     setNewPetForm(
       'birthdate',
-      date ? format(new Date(date), 'yyyy-MM-dd') : ''
+      date ? format(new Date(handleDateForIos(date)), 'yyyy-MM-dd') : ''
     );
   };
   const selectedBreed = (item) => {

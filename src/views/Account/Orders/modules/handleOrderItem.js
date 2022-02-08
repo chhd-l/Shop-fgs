@@ -1,15 +1,4 @@
-const handleDateForIos = (date) => {
-  let finallyDate = '';
-  try {
-    finallyDate =
-      typeof date === 'string' && date
-        ? date.replace(/-/gi, '/').split('.')[0]
-        : date;
-  } catch (err) {
-    finallyDate = date;
-  }
-  return finallyDate;
-};
+import { handleDateForIos } from '@/utils/utils';
 
 //处理order list item
 export function handleOrderItem(ele, res) {

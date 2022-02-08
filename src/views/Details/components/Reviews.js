@@ -6,7 +6,7 @@ import { getLoginGoodsEvaluate, getUnLoginGoodsEvaluate } from '@/api/details';
 import LazyLoad from 'react-lazyload';
 import '../index.css';
 import Skeleton from 'react-skeleton-loader';
-import { getDeviceType } from '@/utils/utils';
+import { getDeviceType, handleDateForIos } from '@/utils/utils';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 @injectIntl
@@ -116,7 +116,7 @@ class Reviews extends React.Component {
       if (list.length > 0) {
         list.forEach((item) => {
           item.commentator = item.customerName;
-          item.commentTime = new Date(item.evaluateTime)
+          item.commentTime = new Date(handleDateForIos(item.evaluateTime))
             .toGMTString()
             .split(' ')
             .splice(1, 3)
