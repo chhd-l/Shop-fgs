@@ -1640,7 +1640,10 @@ class LoginCart extends React.Component {
                               className="ui-cursor-pointer-pure"
                             >
                               <span className="rc-header-with-icon rc-header-with-icon--gamma">
-                                <span className="rc-icon rc-left rc-iconography rc-icon-btnback" />
+                                <span
+                                  className="rc-icon rc-left rc-iconography rc-icon-btnback"
+                                  style={{ transform: 'scale(.8)' }}
+                                />
                                 {txt}
                               </span>
                             </DistributeHubLinkOrATag>
