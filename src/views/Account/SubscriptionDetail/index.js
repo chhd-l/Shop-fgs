@@ -17,7 +17,7 @@ import UserPaymentInfo from './components/UserPaymentInfo';
 import RemainingsList from './components/RemainingsList';
 import DeliveryList from './components/DeliveryList';
 import Loading from '@/components/Loading';
-import { getRation } from '@/utils/utils';
+import { getRation, handleDateForIos } from '@/utils/utils';
 import GiftList from './components/GiftList';
 import { getDeviceType } from '@/utils/utils';
 import { Link } from 'react-router-dom';
@@ -319,7 +319,10 @@ class SubscriptionDetail extends React.Component {
 
   onDateChange(date, goodsInfo) {
     let { subDetail } = this.state;
-    subDetail.nextDeliveryTime = format(new Date(date), 'yyyy-MM-dd');
+    subDetail.nextDeliveryTime = format(
+      new Date(handleDateForIos(date)),
+      'yyyy-MM-dd'
+    );
     let param = {
       subscribeId: subDetail.subscribeId,
       nextDeliveryTime: subDetail.nextDeliveryTime,
@@ -359,7 +362,8 @@ class SubscriptionDetail extends React.Component {
 
   getMaxDate(nextDeliveryTime) {
     return new Date(
-      new Date(nextDeliveryTime).getTime() + 14 * 24 * 60 * 60 * 1000
+      new Date(handleDateForIos(nextDeliveryTime)).getTime() +
+        14 * 24 * 60 * 60 * 1000
     );
   }
 

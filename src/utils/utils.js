@@ -912,6 +912,7 @@ export const sleep = (time) => {
   });
 };
 export function getZoneTime(date) {
+  date = handleDateForIos(date);
   if (window.__.env.REACT_APP_COUNTRY === 'us') {
     return new Date(date).addHours(12);
   }
@@ -1337,4 +1338,22 @@ export function optimizeImage(originImageUrl, width = 150, height) {
     !originImageUrl.startsWith(CDN_PREFIX)
     ? `${CDN_PREFIX}width=${width},h=${height ?? width}/${originImageUrl}`
     : originImageUrl;
+}
+
+/**
+ * 兼容ios只支持/的时间格式
+ * @param date
+ * @returns {string}
+ */
+export function handleDateForIos(date) {
+  let finallyDate = '';
+  try {
+    finallyDate =
+      typeof date === 'string' && date
+        ? date.replace(/-/gi, '/').split('.')[0]
+        : date;
+  } catch (err) {
+    finallyDate = date;
+  }
+  return finallyDate;
 }

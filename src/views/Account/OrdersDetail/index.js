@@ -40,7 +40,7 @@ import {
   handleOrderStatusMap,
   handleFelinOrderStatusMap
 } from './modules/handleOrderStatus';
-import OrderAppointmentInfo from './modules/OrderAppointmentInfo';
+import OrderAppointmentInfo from '../AppointmentsDetail/modules/AppointmentInfo';
 import getCardImg from '@/lib/get-card-img';
 import { getWays } from '@/api/payment';
 import { handleOrderItem } from '../Orders/modules/handleOrderItem';
@@ -961,10 +961,7 @@ class AccountOrders extends React.Component {
           <>
             <HeadTip
               icon={
-                <i
-                  className="iconfont iconfuwudiqiu ml-3"
-                  style={{ fontSize: '48px', color: '#d81e06' }}
-                />
+                <i className="iconfont iconfuwudiqiu ml-3 text-rc-detail-red text-5xl" />
               }
               title={<FormattedMessage id="felinOrder.servicePaid" />}
               titleColor="text-warning"
@@ -980,10 +977,7 @@ class AccountOrders extends React.Component {
           <>
             <HeadTip
               icon={
-                <i
-                  className="iconfont iconfuwudiqiu ml-3"
-                  style={{ fontSize: '48px', color: '#d81e06' }}
-                />
+                <i className="iconfont iconfuwudiqiu ml-3 text-rc-detail-red text-5xl" />
               }
               title={<FormattedMessage id="appointment.serviceArrived" />}
               titleColor="text-warning"
@@ -1868,7 +1862,13 @@ class AccountOrders extends React.Component {
                               </div>
                             </div>
                           ) : (
-                            <OrderAppointmentInfo details={details} />
+                            <OrderAppointmentInfo
+                              details={{
+                                expertType: details.specialistType,
+                                appointmentType: details.appointmentType,
+                                apptTime: details.appointmentDate
+                              }}
+                            />
                           )}
                         </div>
                       ) : this.state.errMsg ? (

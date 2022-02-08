@@ -105,9 +105,7 @@ const clubNoSubscription = function () {
                   className="m-auto rc-margin--none--desktop"
                 />
                 <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-flex align-items-center h-100">
-                  <p className="mb-0" style={{ textAlign: 'left' }}>
-                    {item.text}
-                  </p>
+                  <p className="mb-0 text-left">{item.text}</p>
                 </div>
               </div>
             ))}
@@ -379,10 +377,7 @@ class Subscription extends React.Component {
                 </div>
                 <div className="rc-column">
                   <div className="rc-padding-right-lg rc-padding-y--sm ">
-                    <h4
-                      className="red"
-                      style={{ fontSize: '1.25rem', marginBottom: '1.25rem' }}
-                    >
+                    <h4 className="red text-xl mb-5">
                       <FormattedMessage id="account.noSubscriptionTitle" />
                     </h4>
                     <div className="children-nomargin">

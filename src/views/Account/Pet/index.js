@@ -224,7 +224,7 @@ class Pet extends React.Component {
                               <PetInfoCover
                                 el={el}
                                 birthOfPets={formatDate({
-                                  date: el.birthOfPets
+                                  date: el.birthOfPets?.split('T')[0]
                                 })}
                                 breed={this.petBreed(el)}
                               />
@@ -275,7 +275,7 @@ class Pet extends React.Component {
                               <PetInfoCover
                                 el={el}
                                 birthOfPets={formatDate({
-                                  date: el.birthOfPets
+                                  date: el.birthOfPets?.split('T')[0]
                                 })}
                                 breed={this.petBreed(el)}
                               />

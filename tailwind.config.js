@@ -28,7 +28,8 @@ module.exports = {
         'green':'var(--green)',
         'rc-green':'var(--rc-green)',
         'rc-f6':'var(--rc-f6)',
-        'rc-ddd':'var(--rc-ddd)'
+        'rc-ddd':'var(--rc-ddd)',
+        'rc-detail-red':'var(--rc-detail-red)'
       },
       textColor:{
         'rc-red': 'var(--rc-red)',
@@ -36,7 +37,8 @@ module.exports = {
         'green':'var(--green)',
         'rc-green':'var(--rc-green)',
         'rc-f6':'var(--rc-f6)',
-        'rc-ddd':'var(--rc-ddd)'
+        'rc-ddd':'var(--rc-ddd)',
+        'rc-detail-red':'var(--rc-detail-red)'
       },
       minHeight: {
         'auto':'auto'
