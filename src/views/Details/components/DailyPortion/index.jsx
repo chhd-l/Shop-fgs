@@ -767,10 +767,11 @@ export default function DailyPortion(
               <span><img className='w-14 lg:w-10 px-2' src={DailyPortion_icon_text} alt={''}/></span>
               <div>
                 <span className='resultText-num'>
-                <span>{ration?.quantityPerDay}</span>
-                <span>{rationUnit}</span>
-              </span>
-                <span className='pl-2'>/<FormattedMessage id={'day-unit'}/></span>
+                  {`${ration?.quantityPerDay} ${rationUnit}`}
+                </span>
+                <span className='pl-2'>
+                  /<FormattedMessage id={'day-unit'}/>
+                </span>
               </div>
 
             </div>
