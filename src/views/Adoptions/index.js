@@ -321,7 +321,7 @@ const Adoptions = (props) => {
                   <p
                     style={{
                       color: '#444444',
-                      fontSize: '14px',
+                      fontSize: '18px',
                       fontWeight: 'bold'
                     }}
                   >
