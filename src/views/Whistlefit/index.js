@@ -149,7 +149,7 @@ class Whistlefit extends React.Component {
         </Helmet>
         <Header showMiniIcons={true} showUserIcon={true} {...this.props} />
         <main className="smartCollar rc-content--fixed-header rc-bg-colour--brand3">
-          <div className="max-w-full px-0 md:px-36">
+          <div className="w-full px-0 md:px-36">
             <div className="flex flex-col md:flex-row">
               <LazyLoad className="w-full md:w-1/2">
                 <img src={hero} alt="hero" />
@@ -182,7 +182,7 @@ class Whistlefit extends React.Component {
               </div>
             </div>
           </div>
-          <div className="max-w-full px-0 md:px-36">
+          <div className="w-full px-0 md:px-36">
             <div>
               <div
                 className="px-4 md:px-48 text-center tracking-normal md:tracking-tighter text-2xl md:text-4xl my-6 md:my-12 leading-tight md:leading-normal font-normal"
@@ -202,7 +202,7 @@ class Whistlefit extends React.Component {
                   <img
                     src={Bracelet}
                     alt="Bracelet"
-                    className="w-32 md:w-48 ml-0 md:ml-32"
+                    className="w-48 ml-0 md:ml-32"
                   />
                 </LazyLoad>
               </div>
@@ -211,43 +211,64 @@ class Whistlefit extends React.Component {
                 Whistle Fit peut vous aider à le découvrir !
               </div>
               <div className="w-full flex justify-between flex-wrap mt-6 md:mt-0">
-                <div className="w-full md:w-auto flex flex-col items-center">
-                  <LazyLoad className="w-12 md:w-16">
+                <div className="px-10 md:px-0 w-full md:w-auto flex flex-row  md:flex-col items-start md:items-center">
+                  <LazyLoad className="w-16 mr-10 md:mr-0">
                     <img src={enjoyTraining} alt="enjoyTraining" />
                   </LazyLoad>
-                  <div className="h4 w-72 text-center text-xl md:text-2xl font-bold mt-3 md:mt-6 mb-6">
-                    Equilibrez son activité pour améliorer son bien-être général
-                  </div>
-                  <div className="h4 w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6">
-                    Concentrez-vous sur la quantité exacte d'exercice et de
-                    sommeil dont votre animal a besoin. Fixez des objectifs de
-                    remise en forme.
+                  <div className="w-2/3 md:w-auto">
+                    <div className="h4 w-100 md:w-72 text-center text-xl md:text-2xl font-bold mt-3 md:mt-6 mb-0 md:mb-6">
+                      Equilibrez son activité pour améliorer son bien-être
+                      général
+                    </div>
+                    <div className="h4 w-100 md:w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6">
+                      Concentrez-vous sur la quantité exacte d'exercice et de
+                      sommeil dont votre animal a besoin. Fixez des objectifs de
+                      remise en forme.
+                    </div>
                   </div>
                 </div>
-                <div className="w-full md:w-auto flex flex-col items-center">
-                  <LazyLoad className="w-12 md:w-16">
+                <div className="px-10 md:px-0 w-full md:w-auto flex flex-row  md:flex-col items-start md:items-center">
+                  <LazyLoad className="w-16 mr-10 md:mr-0">
                     <img src={eatingFood} alt="eatingFood" />
                   </LazyLoad>
-                  <div className="h4 w-72 text-center text-xl md:text-2xl font-bold mt-3 md:mt-6 mb-6">
-                    Adaptez sa nutrition en fonction de l’évolution de ses
-                    besoins
-                  </div>
-                  <div className="h4 w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6">
-                    Obtenez des recommandations sur les quantités précises de
-                    nourriture. Maintenez facilement son poids de forme.
+                  <div className="w-2/3 md:w-auto">
+                    <div className="h4 w-100 md:w-72 text-center text-xl md:text-2xl font-bold mt-3 md:mt-6 mb-0 md:mb-6">
+                      Adaptez sa nutrition en fonction de l’évolution de ses
+                      besoins
+                    </div>
+                    <div className="h4 w-100 md:w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6">
+                      Obtenez des recommandations sur les quantités précises de
+                      nourriture. Maintenez facilement son poids de forme.
+                    </div>
                   </div>
                 </div>
-                <div className="w-full md:w-auto flex flex-col items-center">
-                  <LazyLoad className="w-12 md:w-16">
+                <div className="px-10 md:px-0 w-full md:w-auto flex flex-row  md:flex-col items-start md:items-center">
+                  <LazyLoad className="w-16 mr-10 md:mr-0">
                     <img src={dog} alt="dog" />
                   </LazyLoad>
-                  <div className="h4 w-72 text-center text-xl md:text-2xl font-bold mt-3 md:mt-6 mb-6">
-                    Surveillez son bien-être, interprétez son comportement
+                  <div className="w-2/3 md:w-auto">
+                    <div className="h4 w-100 md:w-72 text-center text-xl md:text-2xl font-bold mt-3 md:mt-6 mb-0 md:mb-6">
+                      Surveillez son bien-être, interprétez son comportement
+                    </div>
+                    <div className="h4 w-100 md:w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6">
+                      Recevez des alertes concernant des comportements excessifs
+                      (grattements, lèchements, sommeil etc.). Suivez
+                      quotidiennement le niveau de bien-être de votre chien.
+                    </div>
                   </div>
-                  <div className="h4 w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6">
-                    Recevez des alertes concernant des comportements excessifs
-                    (grattements, lèchements, sommeil etc.). Suivez
-                    quotidiennement le niveau de bien-être de votre chien.
+                </div>
+              </div>
+              <div className="experience-component experience-assets-youtubeVideo">
+                <div className="rc-max-width--md rc-padding-x--lg">
+                  <div className="rc-video-wrapper dog-video">
+                    <iframe
+                      allowfullscreen=""
+                      frameborder="0"
+                      id="video-dog"
+                      className="optanon-category-4 "
+                      src="https://fgs-cdn.azureedge.net/cdn/img/whistlefit.mp4" //https://www.youtube.com/embed/FYwO1fiYoa8
+                      title="making a better world for pets"
+                    />
                   </div>
                 </div>
               </div>
@@ -264,7 +285,7 @@ class Whistlefit extends React.Component {
             </div>
           </div>
           <div className="h-2 bg-gray-100"></div>
-          <div className="max-w-full px-0 md:px-36">
+          <div className="w-full px-0 md:px-36">
             <div
               className="w-full px-4 md:px-48 font-normal text-center text-2xl md:text-3xl my-4 md:my-12 leading-tight md:leading-normal"
               style={{ color: '#E2001A' }}
@@ -272,54 +293,46 @@ class Whistlefit extends React.Component {
               Whistle Fit, comment ça marche ?
             </div>
             <div className="w-full flex justify-between flex-wrap mt-6 md:mt-0">
-              <div className="w-full md:w-auto flex flex-col items-center">
-                <LazyLoad className="w-48 md:w-64">
+              <div className="px-10 md:px-0 w-full md:w-auto flex md:flex-col items-center">
+                <LazyLoad className="w-1/2 md:w-64 mr-5 md:mr-0">
                   <img src={group1} alt="group1" />
                 </LazyLoad>
-                <div className="h4 w-72 text-center text-xl md:text-2xl font-bold mt-3 md:mt-6 mb-6">
-                  Un dispositif intelligent qui collecte la donnée
-                </div>
-                <div className="h4 w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6">
-                  Whistle Fit recueille les données autour de l’activité et du
-                  comportement de votre chien.
+                <div className="w-1/2 md:w-auto">
+                  <div className="h4 w-100 md:w-72 text-center text-xl md:text-2xl font-bold mt-3 md:mt-6 mb-6">
+                    Un dispositif intelligent qui collecte la donnée
+                  </div>
+                  <div className="h4 w-100 md:w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6">
+                    Whistle Fit recueille les données autour de l’activité et du
+                    comportement de votre chien.
+                  </div>
                 </div>
               </div>
-              <div className="w-full md:w-auto flex flex-col items-center">
-                <LazyLoad className="w-48 md:w-64">
+              <div className="px-10 md:px-0 w-full md:w-auto flex md:flex-col items-center">
+                <LazyLoad className="w-1/2 md:w-64 mr-5 md:mr-0 order-2 md:order-1">
                   <img src={group2} alt="group2" />
                 </LazyLoad>
-                <div className="h4 w-72 text-center text-xl md:text-2xl font-bold mt-3 md:mt-6 mb-6">
-                  L’application Whistle pour interpréter les données
-                </div>
-                <div className="h4 w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6">
-                  Obtenez des rapports de mesures personnalisés grâce à
-                  l’application Whistle.
+                <div className="w-1/2 md:w-auto order-1 md:order-2">
+                  <div className="h4 w-100 md:w-72 text-center text-xl md:text-2xl font-bold mt-3 md:mt-6 mb-6">
+                    L’application Whistle pour interpréter les données
+                  </div>
+                  <div className="h4 w-100 md:w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6">
+                    Obtenez des rapports de mesures personnalisés grâce à
+                    l’application Whistle.
+                  </div>
                 </div>
               </div>
-              <div className="w-full md:w-auto flex flex-col items-center">
-                <LazyLoad className="w-48 md:w-64">
+              <div className="px-10 md:px-0 w-full md:w-auto flex md:flex-col items-center">
+                <LazyLoad className="w-1/2 md:w-64 mr-5 md:mr-0">
                   <img src={group3} alt="group3" />
                 </LazyLoad>
-                <div className="h4 w-72 text-center text-xl md:text-2xl font-bold mt-3 md:mt-6 mb-6">
-                  Des alertes santé pour réagir plus vite
-                </div>
-                <div className="h4 w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6">
-                  Recevez des alertes santé dès que votre chien montre des
-                  changements de comportement
-                </div>
-              </div>
-            </div>
-            <div className="experience-component experience-assets-youtubeVideo">
-              <div className="rc-max-width--md rc-padding-x--lg">
-                <div className="rc-video-wrapper dog-video">
-                  <iframe
-                    allowfullscreen=""
-                    frameborder="0"
-                    id="video-dog"
-                    className="optanon-category-4 "
-                    src="https://fgs-cdn.azureedge.net/cdn/img/whistlefit.mp4" //https://www.youtube.com/embed/FYwO1fiYoa8
-                    title="making a better world for pets"
-                  />
+                <div className="w-1/2 md:w-auto">
+                  <div className="h4 w-100 md:w-72 text-center text-xl md:text-2xl font-bold mt-3 md:mt-6 mb-6">
+                    Des alertes santé pour réagir plus vite
+                  </div>
+                  <div className="h4 w-100 md:w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6">
+                    Recevez des alertes santé dès que votre chien montre des
+                    changements de comportement
+                  </div>
                 </div>
               </div>
             </div>
