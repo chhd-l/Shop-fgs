@@ -2196,9 +2196,6 @@ class Payment extends React.Component {
       },
       appointParam
     );
-    if (sessionItemRoyal.get('goodWillFlag') === 'GOOD_WILL') {
-      param.orderSource = 'SUPPLIER';
-    }
     let tokenObj = JSON.parse(localStorage.getItem('okta-token-storage'));
     if (tokenObj && tokenObj.accessToken) {
       param.oktaToken = 'Bearer ' + tokenObj.accessToken.accessToken;
