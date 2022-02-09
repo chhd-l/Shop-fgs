@@ -361,7 +361,7 @@ class LoginCart extends React.Component {
           frequencyId:
             filterData.id ||
             el.goods.defaultFrequencyId ||
-            configStore.defaultSubscriptionFrequencyId
+            configStore?.defaultSubscriptionFrequencyId
         };
       } else {
         if (el.promotions?.includes('club')) {
@@ -380,7 +380,7 @@ class LoginCart extends React.Component {
             frequencyName: filterData.name,
             frequencyId:
               el.goods?.defaultFrequencyId ||
-              configStore.info?.storeVO.defaultSubscriptionFrequencyId ||
+              configStore.info?.storeVO?.defaultSubscriptionFrequencyId ||
               filterData.id,
             frequencyType: filterData.type
           };
@@ -1253,12 +1253,12 @@ class LoginCart extends React.Component {
         {/* 运费折扣 */}
         {this.freeShippingFlag ? (
           <div className="row green">
-            <div className="col-8">
+            <div className="col-7">
               <p>
                 <FormattedMessage id="payment.shippingDiscount" />
               </p>
             </div>
-            <div className="col-4">
+            <div className="col-5">
               <p className="text-right shipping-cost mb-4">
                 {this.freeShippingDiscountPrice > 0 && '-'}
                 {formatMoney(this.freeShippingDiscountPrice)}
