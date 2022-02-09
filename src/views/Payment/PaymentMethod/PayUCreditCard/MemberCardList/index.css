@@ -7,3 +7,7 @@
 .rc-input__label.cardOwner::before {
   height: 0 !important;
 }
+
+.ru-cardFrom.cardFormBox {
+  border-bottom: 0;
+}

@@ -28,6 +28,7 @@ import {
 } from '@/api/whistlefit';
 import { GAWhistleFitButtonClick } from '@/utils/GA.js';
 import './index.less';
+import { EMAIL_REGEXP } from '@/utils/constant';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
@@ -47,8 +48,11 @@ class Whistlefit extends React.Component {
         metaDescription: 'Royal canin'
       },
       email: this.userInfo?.email || '',
-      isChecked: false,
-      landingPageId: ''
+      isChecked1: false,
+      isChecked2: false,
+      landingPageId: '',
+      isSaveSuccess: false,
+      isRegisterLoading: false
       //intl: this.props.intl.messages
     };
   }
@@ -60,7 +64,6 @@ class Whistlefit extends React.Component {
   }
   componentDidMount() {
     const { history } = this.props;
-    console.log(this.userInfo);
     setSeoConfig({ pageName: 'Whistlefit' }).then((res) => {
       this.setState({ seoConfig: res });
     });
@@ -74,10 +77,13 @@ class Whistlefit extends React.Component {
     });
   }
   changeEmail = (e) => {
-    this.setState({ email: e.target.value });
+    this.setState({ email: e.target.value, isSaveSuccess: false });
   };
   changeConsent = () => {
-    this.setState({ isChecked: !this.state.isChecked });
+    this.setState({ isChecked1: !this.state.isChecked1 });
+  };
+  changeConsent2 = () => {
+    this.setState({ isChecked2: !this.state.isChecked2 });
   };
   //滚动到输入email的位置
   scrollToInputEmail = (position, label) => {
@@ -95,9 +101,9 @@ class Whistlefit extends React.Component {
     });
   };
   register = async () => {
-    if (!this.state.email) return;
+    this.setState({ isRegisterLoading: true });
     try {
-      this.scrollToInputEmail(5, 'I am interested, keep me updated!');
+      this.scrollToInputEmail(5, 'Je suis intéressé, veux être informé !');
       await landingPageViews({
         number: PAGE_NUM,
         storeId: window.__.env.REACT_APP_STOREID
@@ -111,8 +117,11 @@ class Whistlefit extends React.Component {
         account: this.isLogin ? this.userInfo.customerAccount : '',
         name: this.isLogin ? this.userInfo.customerName : ''
       });
+      this.setState({ isSaveSuccess: true });
     } catch (err) {
       console.log(err.message);
+    } finally {
+      this.setState({ isRegisterLoading: false });
     }
   };
   render(h) {
@@ -147,23 +156,27 @@ class Whistlefit extends React.Component {
               </LazyLoad>
               <div className="w-full md:w-1/2 flex flex-col justify-center ml-0 md:ml-5 items-center md:items-start">
                 <div
-                  className="tracking-normal md:tracking-tighter text-2xl md:text-4xl text-center md:text-left leading-tight md:leading-normal mt-5 md:mt-0 mb-5 md:mb-10 ml-5 md:ml-0 mr-5 font-normal"
+                  className="tracking-normal md:tracking-tighter text-2xl md:text-4xl text-center md:text-left leading-tight md:leading-normal mt-5 md:mt-0 mb-5 md:mb-5 ml-5 md:ml-0 mr-5 font-normal"
                   style={{ color: '#E2001A' }}
                 >
-                  The Smart collar that gives you the ultimate insight into your
-                  dog’s wellbeing
+                  Whistle Fit, le collier intelligent pour prendre soin de la
+                  santé de votre chien
+                </div>
+                <div
+                  className="tracking-normal md:tracking-tighter text-xl md:text-3xl text-center md:text-left leading-tight md:leading-normal mt-5 md:mt-0 mb-5 md:mb-10 ml-5 md:ml-0 mr-5 font-normal"
+                  style={{ color: '#E2001A' }}
+                >
+                  Faites partie des premiers à être informés de la disponibilité
+                  du produit
                 </div>
                 <div className="mb-5 md:mb-0">
                   <button
                     className="rc-btn rc-btn--one text-xs md:text-sm"
                     onClick={() =>
-                      this.scrollToInputEmail(
-                        1,
-                        'Keep me udpadted on Whistle Fit availability'
-                      )
+                      this.scrollToInputEmail(1, 'Je veux être informé ')
                     }
                   >
-                    Keep me udpadted on Whistle Fit availability
+                    Je veux être informé
                   </button>
                 </div>
               </div>
@@ -172,18 +185,18 @@ class Whistlefit extends React.Component {
           <div className="max-w-full px-0 md:px-36">
             <div>
               <div
-                className="text-center tracking-normal md:tracking-tighter text-2xl md:text-4xl my-6 md:my-12 leading-tight md:leading-normal font-normal"
+                className="px-4 md:px-48 text-center tracking-normal md:tracking-tighter text-2xl md:text-4xl my-6 md:my-12 leading-tight md:leading-normal font-normal"
                 style={{ color: '#E2001A' }}
               >
-                Look after your dog’s health with Whistle Fit
+                Surveillez le bien-être de votre chien et identifiez plus tôt
+                les éventuels problèmes
               </div>
               <div className="flex flex-col md:flex-row items-start md:items-center">
                 <div className="w-full md:w-1/2 text-lg px-4 md:px-0">
-                  Your dog can’t tell you whether they are in good health, but
-                  the Whistle Fit smart collar can help you find out. Alongside
-                  Royal Canin’s 50+ years of knowledge, this clever device gives
-                  you a unique window into your pet’s wellness so you can
-                  discover the best ways to care for them.
+                  Whistle Fit est un dispositif intelligent et non-invasif qui
+                  s’attache au collier de votre chien et qui traque son activité
+                  et son comportement afin de vous offrir une fenêtre unique sur
+                  le bien-être et la santé de votre animal.
                 </div>
                 <LazyLoad className="w-full md:w-1/2 flex justify-center">
                   <img
@@ -194,32 +207,47 @@ class Whistlefit extends React.Component {
                 </LazyLoad>
               </div>
               <div className="w-full px-4 md:px-48 font-normal text-center text-2xl md:text-3xl my-4 md:my-12 leading-tight md:leading-normal">
-                Whistle Fit is a smart device that easily attaches to your dog’s
-                collar, so it helps you making sure that:
+                Votre chien ne peut pas vous dire s'il est en bonne santé, mais
+                Whistle Fit peut vous aider à le découvrir !
               </div>
               <div className="w-full flex justify-between flex-wrap mt-6 md:mt-0">
                 <div className="w-full md:w-auto flex flex-col items-center">
                   <LazyLoad className="w-12 md:w-16">
                     <img src={enjoyTraining} alt="enjoyTraining" />
                   </LazyLoad>
-                  <div className="h4 w-72 text-center text-xl md:text-2xl font-normal mt-3 md:mt-6 mb-6">
-                    They are getting enough exercise
+                  <div className="h4 w-72 text-center text-xl md:text-2xl font-bold mt-3 md:mt-6 mb-6">
+                    Equilibrez son activité pour améliorer son bien-être général
+                  </div>
+                  <div className="h4 w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6">
+                    Concentrez-vous sur la quantité exacte d'exercice et de
+                    sommeil dont votre animal a besoin. Fixez des objectifs de
+                    remise en forme.
                   </div>
                 </div>
                 <div className="w-full md:w-auto flex flex-col items-center">
                   <LazyLoad className="w-12 md:w-16">
                     <img src={eatingFood} alt="eatingFood" />
                   </LazyLoad>
-                  <div className="h4 w-96 text-center text-xl md:text-2xl font-normal mt-3 md:mt-6 mb-6">
-                    They are eating the right amount of food
+                  <div className="h4 w-72 text-center text-xl md:text-2xl font-bold mt-3 md:mt-6 mb-6">
+                    Adaptez sa nutrition en fonction de l’évolution de ses
+                    besoins
+                  </div>
+                  <div className="h4 w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6">
+                    Obtenez des recommandations sur les quantités précises de
+                    nourriture. Maintenez facilement son poids de forme.
                   </div>
                 </div>
                 <div className="w-full md:w-auto flex flex-col items-center">
                   <LazyLoad className="w-12 md:w-16">
                     <img src={dog} alt="dog" />
                   </LazyLoad>
-                  <div className="w-80 text-center text-xl md:text-2xl font-normal mt-3 md:mt-6 mb-6">
-                    They are in good health and displaying normal behaviour
+                  <div className="h4 w-72 text-center text-xl md:text-2xl font-bold mt-3 md:mt-6 mb-6">
+                    Surveillez son bien-être, interprétez son comportement
+                  </div>
+                  <div className="h4 w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6">
+                    Recevez des alertes concernant des comportements excessifs
+                    (grattements, lèchements, sommeil etc.). Suivez
+                    quotidiennement le niveau de bien-être de votre chien.
                   </div>
                 </div>
               </div>
@@ -227,13 +255,10 @@ class Whistlefit extends React.Component {
                 <button
                   className="rc-btn rc-btn--one text-xs md:text-sm"
                   onClick={() =>
-                    this.scrollToInputEmail(
-                      2,
-                      'Keep me udpadted on Whistle Fit availability'
-                    )
+                    this.scrollToInputEmail(2, 'Je veux être informé ')
                   }
                 >
-                  Keep me udpadted on Whistle Fit availability
+                  Je veux être informé
                 </button>
               </div>
             </div>
@@ -244,31 +269,43 @@ class Whistlefit extends React.Component {
               className="w-full px-4 md:px-48 font-normal text-center text-2xl md:text-3xl my-4 md:my-12 leading-tight md:leading-normal"
               style={{ color: '#E2001A' }}
             >
-              Monitor your pet's health daily
+              Whistle Fit, comment ça marche ?
             </div>
             <div className="w-full flex justify-between flex-wrap mt-6 md:mt-0">
               <div className="w-full md:w-auto flex flex-col items-center">
                 <LazyLoad className="w-48 md:w-64">
                   <img src={group1} alt="group1" />
                 </LazyLoad>
-                <div className="h4 w-72 text-center text-xl md:text-2xl font-normal mt-3 md:mt-6 mb-6">
-                  Monitor behavior
+                <div className="h4 w-72 text-center text-xl md:text-2xl font-bold mt-3 md:mt-6 mb-6">
+                  Un dispositif intelligent qui collecte la donnée
+                </div>
+                <div className="h4 w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6">
+                  Whistle Fit recueille les données autour de l’activité et du
+                  comportement de votre chien.
                 </div>
               </div>
               <div className="w-full md:w-auto flex flex-col items-center">
                 <LazyLoad className="w-48 md:w-64">
                   <img src={group2} alt="group2" />
                 </LazyLoad>
-                <div className="h4 w-96 text-center text-xl md:text-2xl font-normal mt-3 md:mt-6 mb-6">
-                  Monitor activities
+                <div className="h4 w-72 text-center text-xl md:text-2xl font-bold mt-3 md:mt-6 mb-6">
+                  L’application Whistle pour interpréter les données
+                </div>
+                <div className="h4 w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6">
+                  Obtenez des rapports de mesures personnalisés grâce à
+                  l’application Whistle.
                 </div>
               </div>
               <div className="w-full md:w-auto flex flex-col items-center">
                 <LazyLoad className="w-48 md:w-64">
                   <img src={group3} alt="group3" />
                 </LazyLoad>
-                <div className="h4 w-80 text-center text-xl md:text-2xl font-normal mt-3 md:mt-6 mb-6">
-                  Tele-vet
+                <div className="h4 w-72 text-center text-xl md:text-2xl font-bold mt-3 md:mt-6 mb-6">
+                  Des alertes santé pour réagir plus vite
+                </div>
+                <div className="h4 w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6">
+                  Recevez des alertes santé dès que votre chien montre des
+                  changements de comportement
                 </div>
               </div>
             </div>
@@ -280,7 +317,7 @@ class Whistlefit extends React.Component {
                     frameborder="0"
                     id="video-dog"
                     className="optanon-category-4 "
-                    src="https://www.youtube.com/embed/FYwO1fiYoa8"
+                    src="https://fgs-cdn.azureedge.net/cdn/img/whistlefit.mp4" //https://www.youtube.com/embed/FYwO1fiYoa8
                     title="making a better world for pets"
                   />
                 </div>
@@ -290,13 +327,10 @@ class Whistlefit extends React.Component {
               <button
                 className="rc-btn rc-btn--one text-xs md:text-sm"
                 onClick={() =>
-                  this.scrollToInputEmail(
-                    3,
-                    'Keep me udpadted on Whistle Fit availability'
-                  )
+                  this.scrollToInputEmail(3, 'Je veux être informé ')
                 }
               >
-                Keep me udpadted on Whistle Fit availability
+                Je veux être informé
               </button>
             </div>
           </div>
@@ -306,7 +340,7 @@ class Whistlefit extends React.Component {
               className="px-4 md:px-0 text-center tracking-normal md:tracking-tighter text-2xl md:text-4xl mt-6 mb-3 leading-tight md:leading-normal font-normal"
               style={{ color: '#E2001A' }}
             >
-              They loved it!
+              Ils ont adoré !
             </div>
             <div className="experience-component experience-layouts-herocarousel">
               <Carousel history={history} />
@@ -315,13 +349,10 @@ class Whistlefit extends React.Component {
               <button
                 className="rc-btn rc-btn--one text-xs md:text-sm"
                 onClick={() =>
-                  this.scrollToInputEmail(
-                    4,
-                    'Keep me udpadted on Whistle Fit availability'
-                  )
+                  this.scrollToInputEmail(4, 'Je veux être informé ')
                 }
               >
-                Keep me udpadted on Whistle Fit availability
+                Je veux être informé
               </button>
             </div>
           </div>
@@ -332,7 +363,8 @@ class Whistlefit extends React.Component {
                 className="w-full md:w-1/2 px-4 md:px-0 text-center tracking-normal md:tracking-tighter text-2xl md:text-4xl my-6 md:my-12 leading-tight md:leading-normal font-normal"
                 style={{ color: '#E2001A' }}
               >
-                Combine Royal Canin and Whistle Fit for a healthy routine
+                Whistle Fit et Royal Canin vous aident à mieux comprendre et
+                répondre aux besoins uniques de votre animal
               </div>
             </div>
             <div className="flex flex-col md:flex-row items-start md:items-start">
@@ -347,16 +379,14 @@ class Whistlefit extends React.Component {
                 className="w-full md:w-1/2 text-sm md:text-lg px-4 md:px-0 leading-loose mt-0 md:mt-10"
                 id="email"
               >
-                At Royal Canin, we’ve spent more than 50 years supporting pet
-                health through our innovative nutritional solutions and expert
-                healthcare advice. When paired with our extensive expert
-                knowledge of cats and dogs, the Whistle Fit device not only
-                gives you pet health reports and fitness tracking, but also
-                personalised advice based on your dog’s unique health needs.
-                <br />
-                <br />
-                Combine Whistle Fit with Royal Canin nutrition for a healthy
-                routine.
+                Chez Royal Canin, nous avons passé plus de 50 ans à soutenir la
+                santé des animaux de compagnie grâce à nos solutions
+                nutritionnelles innovantes et à nos conseils d'experts en
+                matière de santé. Associé à notre connaissance approfondie des
+                chats et des chiens, la technologie intelligente Whistle Fit
+                vous permet de mieux comprendre les besoins en constante
+                évolution de votre animal pour y répondre de la manière la plus
+                adaptée.
               </div>
             </div>
           </div>
@@ -367,51 +397,101 @@ class Whistlefit extends React.Component {
                 className="w-full md:w-2/3 px-4 md:px-0 text-center tracking-normal md:tracking-tighter text-2xl md:text-4xl mt-6 md:mt-12 mb-3 leading-tight md:leading-normal font-normal"
                 style={{ color: '#E2001A' }}
               >
-                Enter yout e-mail address and we’ll let your know as soon as
-                this offer becomes available
+                Whistle Fit vous intéresse ? Faites-le nous savoir. Complétez le
+                formulaire pour être informé en premier de la disponibilité du
+                produit.
               </div>
             </div>
             <div className="flex justify-center">
-              <span className="rc-input rc-input--inline rc-input--label">
+              <span className="w-80 rc-input rc-input--inline rc-input--label">
+                <label for="id-email" className="text-black font-normal mb-2">
+                  Adresse e-mail
+                </label>
                 <input
-                  className="rc-input__control"
-                  id="id-text2"
+                  id="id-email"
+                  className={`w-80 border-bottom  ${
+                    this.state.isSaveSuccess
+                      ? 'text-green border-green border-b-2'
+                      : 'border-gray-300'
+                  } pb-2`}
                   type="text"
-                  name="text"
+                  name="email"
                   value={this.state.email}
                   onChange={this.changeEmail}
                 />
-                <label className="rc-input__label" for="id-text2">
-                  <span className="rc-input__label-text">
-                    Your email address
-                  </span>
-                </label>
+                <div
+                  className={`text-green font-normal mt-2 ${
+                    this.state.isSaveSuccess ? '' : 'hidden'
+                  }`}
+                >
+                  Merci de votre intérêt pour Whistle Fit ! Votre e-mail a été
+                  enregistré avec succès pour les mises à jour.
+                </div>
               </span>
             </div>
             <div className="w-full flex justify-center mt-5 md:mt-10 mb-5 md:mb-10">
               <button
-                className="rc-btn rc-btn--one text-xs md:text-sm"
+                className={`rc-btn rc-btn--one text-xs md:text-sm ${
+                  this.state.isRegisterLoading ? 'ui-btn-loading' : ''
+                } ${this.state.isSaveSuccess ? 'hidden' : ''}`}
                 onClick={this.register}
+                disabled={
+                  !(
+                    this.state.isChecked1 &&
+                    this.state.isChecked2 &&
+                    EMAIL_REGEXP.test(this.state.email)
+                  )
+                }
               >
-                I am interested, keep me updated!
+                Je suis intéressé, veux être informé !
               </button>
             </div>
-            <div className="flex justify-center justify-items-start mb-10 px-4 md:px-4">
-              <div className="max-w-xl rc-input rc-input--inline">
+            <div className="flex flex-col items-center mb-10 px-4 md:px-4">
+              <div className="max-w-xl rc-input">
                 <input
                   className="rc-input__checkbox"
                   id="id-checkbox-cat"
-                  checked={this.state.isChecked}
+                  checked={this.state.isChecked1}
                   type="checkbox"
                   name="checkbox-1"
                   onChange={this.changeConsent}
                 />
                 <label
-                  className="text-sm rc-input__label--inline"
+                  className="text-sm italic rc-input__label--inline"
                   for="id-checkbox-cat"
                 >
-                  check box data privacy policy. Your email will be used only
-                  for this purpose, nothing else
+                  Je confirme que j'ai plus de 16 ans et que je souhaite
+                  recevoir des communications commerciales de Royal Canin,{' '}
+                  <span className="underline">
+                    Mars Petcare et de leurs filiales.
+                  </span>{' '}
+                  Je comprends que je peux me désabonner des futurs e-mails
+                  promotionnels en bas de l'e-mail.
+                </label>
+              </div>
+              <div className="max-w-xl rc-input">
+                <input
+                  className="rc-input__checkbox"
+                  id="id-checkbox-cat2"
+                  checked={this.state.isChecked2}
+                  type="checkbox"
+                  name="checkbox-2"
+                  onChange={this.changeConsent2}
+                />
+                <label
+                  className="text-sm italic rc-input__label--inline"
+                  for="id-checkbox-cat2"
+                >
+                  Nous pouvons utiliser vos données à des fins de recherche pour
+                  améliorer nos offres de produits et de services. Pour
+                  découvrir comment Royal Canin, Mars Petcare et ses sociétés
+                  affiliées collectent et traitent vos données ou nous contacter
+                  pour toute question relative à la confidentialité et exercer
+                  vos droits en matière de données personnelles, nous vous
+                  invitons à vous rendre sur la page de{' '}
+                  <span className="underline">
+                    déclaration de confidentialité de Mars.
+                  </span>
                 </label>
               </div>
             </div>

@@ -783,17 +783,17 @@ class MemberCardList extends React.Component {
 
                   <p className="m-0">{CreditCardImg}</p>
                 </div>
-                <div className="row h-24">
+                <div className="row h-20">
                   <div className="col-sm-12">
                     <div className="form-group">
                       <label
-                        className="form-control-label"
+                        className="form-control-label text-black text-xs font-normal"
                         htmlFor="cardNumber"
                       >
                         <FormattedMessage id="payment.cardNumber" />
                         <span className="red">*</span>
-                        <div className="cardFormBox border border-current rounded">
-                          <span className="cardForm">
+                        <div className="ru-cardFrom cardFormBox mt-1">
+                          <span className="w-full cardForm relative">
                             <div className="row">
                               <div className="col-sm-12">
                                 <div className="form-group required">
@@ -803,7 +803,7 @@ class MemberCardList extends React.Component {
                                   >
                                     <input
                                       type="tel"
-                                      className="rc-input__control form-control email pl-3 focus:ring-2 focus:ring-transparent focus:border-green"
+                                      className="rc-input__control form-control email h-10 pl-3 py-0 border border-gray-300 rounded-md focus:ring-2 focus:ring-transparent focus:border-blue-500"
                                       id="number"
                                       value={creditCardInfoForm.cardNumber}
                                       onChange={this.cardInfoInputChange}
@@ -827,18 +827,18 @@ class MemberCardList extends React.Component {
                                 </div>
                               </div>
                             </div>
-                          </span>
-                          <span className="cardImage">
-                            <LazyLoad>
-                              <img
-                                alt="Card image"
-                                src={getCardImg({
-                                  supportPaymentMethods,
-                                  currentVendor: this.state.currentVendor
-                                })}
-                                className="img"
-                              />
-                            </LazyLoad>
+                            <span className="cardImage absolute top-0 right-0">
+                              <LazyLoad>
+                                <img
+                                  alt="Card image"
+                                  src={getCardImg({
+                                    supportPaymentMethods,
+                                    currentVendor: this.state.currentVendor
+                                  })}
+                                  className="img"
+                                />
+                              </LazyLoad>
+                            </span>
                           </span>
                         </div>
                       </label>
@@ -847,12 +847,12 @@ class MemberCardList extends React.Component {
                 </div>
                 <div className="form-group row mb-0 w-100 mx-0 flex-nowrap h-20">
                   <label
-                    className="form-control-label my-0 w-1/2"
+                    className="form-control-label my-0 w-1/2 text-black text-xs font-normal"
                     htmlFor="cardNumber"
                   >
                     Expiration Date
                     <span className="red">*</span>
-                    <div className="form-group required">
+                    <div className="form-group required mt-1">
                       <span
                         className="rc-input rc-input--full-width"
                         input-setup="true"
@@ -861,7 +861,7 @@ class MemberCardList extends React.Component {
                       >
                         <input
                           type="tel"
-                          className="rc-input__control form-control phone border border-current rounded pl-3 focus:ring-2 focus:ring-transparent focus:border-green"
+                          className="rc-input__control form-control phone border border-gray-300 rounded-md h-10 pl-3 py-0 focus:ring-2 focus:ring-transparent focus:border-blue-500"
                           min-lenght="18"
                           max-length="18"
                           data-phonelength="18"
@@ -879,14 +879,14 @@ class MemberCardList extends React.Component {
                       </div>
                     </div>
                   </label>
-                  <div className="w-10"></div>
+                  <div className="w-5"></div>
                   <label
-                    className="form-control-label my-0 w-1/2"
+                    className="form-control-label my-0 w-1/2 text-black text-xs font-normal"
                     htmlFor="cardNumber"
                   >
                     CVV
                     <span className="red">*</span>
-                    <div className="form-group required">
+                    <div className="form-group required mt-1">
                       <span
                         className="rc-input rc-input--full-width"
                         input-setup="true"
@@ -896,7 +896,7 @@ class MemberCardList extends React.Component {
                         <input
                           type="password"
                           autoComplete="new-password"
-                          className="rc-input__control form-control phone border border-current rounded pl-3 focus:ring-2 focus:ring-transparent focus:border-green"
+                          className="rc-input__control form-control phone border border-gray-300 rounded-md h-10 pl-3 py-0 focus:ring-2 focus:ring-transparent focus:border-blue-500"
                           data-phonelength="18"
                           data-js-validate="(^(\+?7|8)?9\d{9}$)"
                           data-range-error="The phone number should contain 10 digits"
@@ -915,33 +915,33 @@ class MemberCardList extends React.Component {
                 </div>
                 <div className="row overflow_visible">
                   <div className="col-sm-12">
-                    <div className="form-group required">
-                      <label className="form-control-label">
-                        <FormattedMessage id="payment.cardOwner" />
-                      </label>
-                      <span
-                        className="rc-input rc-input--full-width"
-                        input-setup="true"
-                      >
-                        <input
-                          type="text"
-                          className="rc-input__control form-control cardOwner border border-current rounded pl-3 focus:ring-2 focus:ring-transparent focus:border-green"
-                          name="cardOwner"
-                          value={creditCardInfoForm.cardOwner}
-                          onChange={this.cardInfoInputChange}
-                          onBlur={this.inputBlur}
-                          maxLength="40"
-                          placeholder="J.Smith"
-                        />
-                        <label
-                          className="rc-input__label cardOwner"
-                          htmlFor="cardOwner"
-                        />
-                      </span>
-                      <div className="invalid-feedback">
-                        <FormattedMessage id="payment.errorInfo2" />
+                    <label
+                      className="form-control-label my-0 w-full text-black text-xs font-normal"
+                      htmlFor="cardNumber"
+                    >
+                      <FormattedMessage id="payment.cardOwner" />
+                      <span className="red">*</span>
+                      <div className="form-group required mt-1">
+                        <span
+                          className="rc-input rc-input--full-width"
+                          input-setup="true"
+                        >
+                          <input
+                            type="text"
+                            className="rc-input__control form-control cardOwner border border-gray-300 rounded-md h-10 pl-3 py-0 focus:ring-2 focus:ring-transparent focus:border-blue-500"
+                            name="cardOwner"
+                            value={creditCardInfoForm.cardOwner}
+                            onChange={this.cardInfoInputChange}
+                            onBlur={this.inputBlur}
+                            maxLength="40"
+                            placeholder="J.Smith"
+                          />
+                        </span>
+                        <div className="invalid-feedback ui-position-absolute">
+                          <FormattedMessage id="payment.errorInfo2" />
+                        </div>
                       </div>
-                    </div>
+                    </label>
                   </div>
                 </div>
                 <div className="row">
