@@ -135,6 +135,7 @@ class MegaMenuMobileForHub extends Component {
     this.setState({ menuData });
   }
   renderSecondChildItem = (item, parentItem) => {
+    // promotional不知道是什么,问了同事也不知道，sprint8这次改造没用了，后期若有用，需要补上
     const promotionalMenuItem = parentItem.MenuItems.filter(
       (ele) => ele.Type === 'PromotionalMenuItem'
     )[0];
@@ -177,6 +178,37 @@ class MegaMenuMobileForHub extends Component {
           </ul>
         }
       />
+    );
+  };
+  renderCustomProductItem = (item) => {
+    return (
+      <ul>
+        <li className="pl-4 pr-4 red mt-2 mb-2">
+          {/* <img
+          alt={item.Image.AltText}
+          src={item.Image.Url}
+          className="img-catogery"
+        /> */}
+          {item.ImageDescription}
+        </li>
+        {item.Type === 'DetailedMenuItem' && (
+          <li className="pl-4 pr-4">
+            {item.SubItems.map((sItem, sIdx) => (
+              <React.Fragment key={sIdx}>
+                <a
+                  href={sItem.Link.Url}
+                  className="medium mb-0 ui-cursor-pointer"
+                >
+                  {sItem.Title}
+                </a>
+                {sItem.Subtitle ? (
+                  <p className="mb-3">{sItem.Subtitle}</p>
+                ) : null}
+              </React.Fragment>
+            ))}
+          </li>
+        )}
+      </ul>
     );
   };
   _renderLinkItem = (item) => {
@@ -249,7 +281,8 @@ class MegaMenuMobileForHub extends Component {
                               >
                                 {cItem.Type === 'DetailedMenuItem' && (
                                   <>
-                                    <span
+                                    {/* sprint8需求改动product菜单展示US:334650 */}
+                                    {/* <span
                                       className="rc-list__header bg-transparent border-0"
                                       aria-haspopup={true}
                                       onClick={this.handleClickToggleChilds.bind(
@@ -266,7 +299,8 @@ class MegaMenuMobileForHub extends Component {
                                         {cItem.ImageDescription}
                                       </span>
                                     </span>
-                                    {this.renderSecondChildItem(cItem, item)}
+                                    {this.renderSecondChildItem(cItem, item)} */}
+                                    {this.renderCustomProductItem(cItem)}
                                   </>
                                 )}
                                 {cItem.Type === 'MenuItem' && (
