@@ -72,8 +72,8 @@ const ChangeProduct = () => {
       });
       let defaultSubscriptionFrequencyId =
         goodsRes.promotions && goodsRes.promotions.includes('club')
-          ? configStore.info.storeVO.defaultSubscriptionClubFrequencyId
-          : configStore.info.storeVO.defaultSubscriptionFrequencyId;
+          ? configStore.info.storeVO?.defaultSubscriptionClubFrequencyId
+          : configStore.info.storeVO?.defaultSubscriptionFrequencyId;
       let newForm = Object.assign(form, {
         frequencyId:
           goodsRes.defaultFrequencyId ||
