@@ -629,7 +629,7 @@ export default function DailyPortion(
         if (rationUnit === 'can') rationUnit = 'шт';
         break;
       case 'fr':
-        if (rationUnit === 'can') rationUnit = 'sachet';
+        if (rationUnit === 'can') rationUnit = 'sachet fraîcheur';
         break;
       case 'tr':
         if (rationUnit === 'can') rationUnit = 'poşet';
