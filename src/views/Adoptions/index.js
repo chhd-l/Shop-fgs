@@ -25,9 +25,9 @@ let goodsInfoNosObj = {
   'goodsNo-493013': ['Small Puppy <br/> (3-12 months)'],
   'goodsNo-493817': ['Medium Puppy<br/> (3-12 months)'],
   'goodsNo-492818': ['Large Puppy<br/> (3-12 months)'],
-  'goodsNo-512514': ['Small Adult Dog<br/> (1+ years)', '9 to 22lbs'],
-  'goodsNo-517417': ['Medium Adult Dog<br/> (1+ years)', '22 to 55lbs'],
-  'goodsNo-517935': ['Large Adult Dog<br/> (1+ years)', '56 to 100lbs']
+  'goodsNo-512514': ['Small Adult Dog<br/> (1+ years)', '9 to 22 lbs'],
+  'goodsNo-517417': ['Medium Adult Dog<br/> (1+ years)', '22 to 55 lbs'],
+  'goodsNo-517935': ['Large Adult Dog<br/> (1+ years)', '56 to 100 lbs']
 };
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
