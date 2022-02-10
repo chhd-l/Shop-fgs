@@ -266,7 +266,7 @@ class Whistlefit extends React.Component {
                       frameborder="0"
                       id="video-dog"
                       className="optanon-category-4 "
-                      src="https://fgs-cdn.azureedge.net/cdn/img/whistlefit.mp4" //https://www.youtube.com/embed/FYwO1fiYoa8
+                      src="https://share.weiyun.com/O37r0q8E" //https://www.youtube.com/embed/FYwO1fiYoa8
                       title="making a better world for pets"
                     />
                   </div>

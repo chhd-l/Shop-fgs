@@ -11,3 +11,9 @@
 .ru-cardFrom.cardFormBox {
   border-bottom: 0;
 }
+
+@media (max-width: 768.98px) {
+  .ru-cardFrom .cardForm .form-group {
+    border-bottom: 0;
+  }
+}
