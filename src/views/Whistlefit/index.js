@@ -385,7 +385,7 @@ class Whistlefit extends React.Component {
                 <img
                   src={packshotWf}
                   alt="Bracelet"
-                  className="w-48 md:w-96 mr-0 md:mr-16"
+                  className="w-100 md:w-96 mr-0 md:mr-16"
                 />
               </LazyLoad>
               <div
