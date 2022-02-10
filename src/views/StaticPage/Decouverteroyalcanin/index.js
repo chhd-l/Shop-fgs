@@ -5,12 +5,12 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { useSeo } from '@/framework/common';
 import LazyLoad from 'react-lazyload';
-import pic1 from './images/pic-1.jpg';
-import pic2 from './images/pic-2.jpg';
-import pic3 from './images/pic-3.jpg';
-import pic4 from './images/pic-4.jpg';
-import pic5 from './images/pic-5.jpg';
-import pic6 from './images/pic-6.jpg';
+import pic1 from './images/pic-01.jpg';
+import pic2 from './images/pic-02.jpg';
+import pic3 from './images/pic-03.jpg';
+import pic4 from './images/pic-04.jpg';
+import pic5 from './images/pic-05.jpg';
+import pic6 from './images/pic-06.jpg';
 // import './index.less';
 const pageLink = window.location.href;
 
@@ -112,12 +112,15 @@ const Decouverteroyalcanin = (props) => {
               <span className="font-semibold">Incroyable Nutrition</span> :
               partez à la découverte de l’histoire de nos produits et de toutes
               nos innovations scientifiques. 
-              <br />
-              Incroyables Chiots & Chatons : vous voulez adopter mais vous ne
-              savez pas encore quel serait votre compagnon idéal ? Avec cette
-              expérience incroyable, en fonction de votre profil et votre mode
-              de vie, nous allons vous aider à trouver le chien ou le chat de
-              vos rêves.
+            </p>
+            <p className="rc-padding-bottom--sm">
+              <span className="font-semibold">
+                Incroyables Chiots & Chatons
+              </span>{' '}
+              : vous voulez adopter mais vous ne savez pas encore quel serait
+              votre compagnon idéal ? Avec cette expérience incroyable, en
+              fonction de votre profil et votre mode de vie, nous allons vous
+              aider à trouver le chien ou le chat de vos rêves.
             </p>
             <p className="rc-padding-bottom--sm">
               <span className="font-semibold">Incroyables Innovations </span>:
@@ -293,7 +296,7 @@ const Decouverteroyalcanin = (props) => {
             <LazyLoad>
               <img
                 src={pic6}
-                style={{ maxWidth: '400px' }}
+                style={{ maxWidth: '400px', width: '100%' }}
                 // src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/static-page/decouverteroyalcanin/pic6.png`}
               />
             </LazyLoad>

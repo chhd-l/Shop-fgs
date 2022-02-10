@@ -587,7 +587,14 @@ class PaymentEditForm extends React.Component {
         subscriptionID: subscriptionID,
         paymentVendor: cyberCardTypeToValue[cyberCardType]
       });
-      await usPaymentInfo(params);
+      const newCardNumber = params?.cardNumber?.replace(/\s*/g, '') || '';
+      const newParams = Object.assign({}, params, {
+        cardNumber: newCardNumber?.replace(
+          newCardNumber?.substring(0, newCardNumber.length - 4),
+          'X'.repeat(newCardNumber.length - 4)
+        )
+      });
+      await usPaymentInfo(newParams);
       this.handleCancel();
       // this.props.refreshList(res.message);
       this.props.refreshList({
@@ -1070,7 +1077,8 @@ class PaymentEditForm extends React.Component {
                   <div
                     className="rc-input w-100"
                     onClick={() => {
-                      creditCardInfoForm.isDefault = !creditCardInfoForm.isDefault;
+                      creditCardInfoForm.isDefault =
+                        !creditCardInfoForm.isDefault;
                       this.setState({ creditCardInfoForm });
                     }}
                   >

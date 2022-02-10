@@ -56,11 +56,10 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =
   'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
-const urlPrefix =
-  `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-    /\/$/,
-    ''
-  );
+const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+  /\/$/,
+  ''
+);
 
 const filterAttrValue = (list, keyWords) => {
   return (list || [])
@@ -72,7 +71,7 @@ function bSort(arr) {
   var len = arr.length;
   for (var i = 0; i < len - 1; i++) {
     for (var j = 0; j < len - 1 - i; j++) {
-      if (arr[j].sort > arr[j + 1].sort) {
+      if (arr[j]?.sort > arr[j + 1]?.sort) {
         var temp = arr[j];
         arr[j] = arr[j + 1];
         arr[j + 1] = temp;
@@ -1242,6 +1241,7 @@ class List extends React.Component {
     //   (item) => item.attributeName !== 'Size'
     // );
     const allFilterList = this.state.isVetProducts ? vetFilterList : filterList;
+    allFilterList?.forEach((item) => bSort(item.attributesValueList || []));
     // 根据默认参数设置filter状态
     const { defaultFilterSearchForm } = this.state;
     this.initFilterSelectedSts({
@@ -1662,9 +1662,8 @@ class List extends React.Component {
 
   stickyMobileRefineBar() {
     if (isMobilePhone) {
-      var t = document
-        ?.getElementById('refineBar')
-        ?.getBoundingClientRect().top;
+      var t = document?.getElementById('refineBar')?.getBoundingClientRect()
+        .top;
       window.addEventListener('scroll', () => {
         var choosedVal = document.querySelector('.filter-value'); // 有选择的时候才操作
         if (window.pageYOffset + 33 >= t && choosedVal) {

@@ -90,7 +90,14 @@ class CyberPaymentForm extends React.Component {
   //会员绑卡
   usPaymentInfoEvent = async (params) => {
     try {
-      const res = await usPaymentInfo(params);
+      const newCardNumber = params?.cardNumber?.replace(/\s*/g, '') || '';
+      const newParams = Object.assign({}, params, {
+        cardNumber: newCardNumber?.replace(
+          newCardNumber?.substring(0, newCardNumber.length - 4),
+          'X'.repeat(newCardNumber.length - 4)
+        )
+      });
+      const res = await usPaymentInfo(newParams);
       return new Promise((resolve) => {
         resolve(res);
       });
