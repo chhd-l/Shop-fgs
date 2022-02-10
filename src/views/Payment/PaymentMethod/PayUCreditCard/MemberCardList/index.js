@@ -20,6 +20,7 @@ import { scrollPaymentPanelIntoView } from '@/views/Payment/modules/utils';
 import InstallmentTable from '../InstallmentTable';
 import CardItemCover from '../CardItemCover';
 import getCardImg from '@/lib/get-card-img';
+import cn from 'classnames';
 
 import './index.css';
 
@@ -61,6 +62,12 @@ class MemberCardList extends React.Component {
         // 订阅支付时，保存卡选项，默认勾选且不能取消；设置为默认卡选项，默认勾选
         savedCardChecked: this.props.mustSaveForFutherPayments || false,
         savedDefaultCardChecked: this.props.mustSaveForFutherPayments || false
+      },
+      isCreditCardCheck: {
+        cardNumber: 'NOT_TEST', //NOT_TEST：未开始检测 FAIL：测试不成功 SUCCESS：测试成功
+        cardMmyy: 'NOT_TEST',
+        cardCvv: 'NOT_TEST',
+        cardOwner: 'NOT_TEST'
       },
       listLoading: true,
       saveLoading: false,
@@ -298,6 +305,55 @@ class MemberCardList extends React.Component {
     })[0];
     if (validDom) {
       validDom.style.display = e.target.value ? 'none' : 'block';
+    }
+  };
+  //给俄罗斯credit card表单重新写的方法
+  inputBoxBlur = (e) => {
+    console.log(e.target.name);
+    console.log(e.target.value);
+    let key = e.target.name;
+    let value = e.target.value;
+    let result = '';
+    let coverObj = {};
+    let data = {};
+    switch (key) {
+      case 'cardNumber':
+        break;
+      case 'cardMmyy':
+        let splitArr = value.split('/');
+        let arr = [];
+        for (let i = 0; i < splitArr.length; i++) {
+          arr.push(splitArr[i]);
+        }
+        if (arr.length == 1 && arr[0] === '') {
+          result = 'NOT_TEST';
+        } else if (
+          arr.length == 2 &&
+          arr[0].length == 2 &&
+          arr[1].length == 2
+        ) {
+          result = 'SUCCESS';
+        } else {
+          result = 'FAIL';
+        }
+        coverObj[key] = result;
+        data = Object.assign({}, this.state.isCreditCardCheck, coverObj);
+        this.setState({ isCreditCardCheck: data });
+        break;
+      case 'cardCvv':
+        if (value.length === 0) {
+          result = 'NOT_TEST';
+        } else if (value.length >= 3 && value.length <= 4) {
+          result = 'SUCCESS';
+        } else {
+          result = 'FAIL';
+        }
+        coverObj[key] = result;
+        data = Object.assign({}, this.state.isCreditCardCheck, coverObj);
+        this.setState({ isCreditCardCheck: data });
+        break;
+      case 'cardOwner':
+        break;
     }
   };
   async generateCardInfo() {
@@ -814,6 +870,7 @@ class MemberCardList extends React.Component {
                                       // onBlur={(e) => {
                                       //   this.cardNumberBlur();
                                       // }}
+                                      onBlur={this.inputBoxBlur}
                                       name="cardNumber"
                                       maxLength="254"
                                       placeholder={
@@ -847,7 +904,22 @@ class MemberCardList extends React.Component {
                 </div>
                 <div className="form-group row mb-0 w-100 mx-0 flex-nowrap h-20">
                   <label
-                    className="form-control-label my-0 w-1/2 text-black text-xs font-normal"
+                    className={cn(
+                      'form-control-label my-0 w-1/2 text-black text-xs font-normal',
+                      {
+                        'text-black':
+                          this.state.isCreditCardCheck['cardMmyy'] ===
+                          'NOT_TEST'
+                      },
+                      {
+                        'text-red-500':
+                          this.state.isCreditCardCheck['cardMmyy'] === 'FAIL'
+                      },
+                      {
+                        'text-green':
+                          this.state.isCreditCardCheck['cardMmyy'] === 'SUCCESS'
+                      }
+                    )}
                     htmlFor="cardNumber"
                   >
                     Expiration Date
@@ -856,60 +928,156 @@ class MemberCardList extends React.Component {
                       <span
                         className="rc-input rc-input--full-width"
                         input-setup="true"
-                        data-js-validate=""
-                        data-js-warning-message="*Phone Number isn’t valid"
                       >
                         <input
                           type="tel"
-                          className="rc-input__control form-control phone border border-gray-300 rounded-md h-10 pl-3 py-0 focus:ring-2 focus:ring-transparent focus:border-blue-500"
+                          className={cn(
+                            'rc-input__control form-control phone border border-gray-300 rounded-md h-10 pl-3 py-0 focus:ring-2 focus:ring-transparent focus:border-blue-500',
+                            {
+                              'border border-gray-300':
+                                this.state.isCreditCardCheck['cardMmyy'] ===
+                                'NOT_TEST'
+                            },
+                            {
+                              'border-b-2 border-red-500':
+                                this.state.isCreditCardCheck['cardMmyy'] ===
+                                'FAIL'
+                            },
+                            {
+                              'border-b-2 border-green':
+                                this.state.isCreditCardCheck['cardMmyy'] ===
+                                'SUCCESS'
+                            }
+                          )}
                           min-lenght="18"
                           max-length="18"
-                          data-phonelength="18"
-                          data-js-validate="(^(\+?7|8)?9\d{9}$)"
-                          data-range-error="The phone number should contain 10 digits"
                           value={creditCardInfoForm.cardMmyy}
                           onChange={this.cardInfoInputChange}
+                          onBlur={this.inputBoxBlur}
                           name="cardMmyy"
                           maxLength="5"
                           placeholder={'MM/YY'}
                         />
+                        {this.state.isCreditCardCheck['cardMmyy'] ===
+                        'SUCCESS' ? (
+                          <div
+                            className={cn(
+                              'font-bold text-green text-md absolute top-3 right-3'
+                            )}
+                          >
+                            ✔
+                          </div>
+                        ) : null}
+                        {this.state.isCreditCardCheck['cardMmyy'] === 'FAIL' ? (
+                          <div
+                            className={cn(
+                              'font-bold text-md absolute top-3 right-3'
+                            )}
+                          >
+                            <svg
+                              width="16px"
+                              height="16px"
+                              viewBox="0 0 16 16"
+                              fill="#D10244"
+                            >
+                              <path d="M16,8 C16,9.44086038 15.6397848,10.7741935 14.9193548,12 C14.1989249,13.2258065 13.2258065,14.1989249 12,14.9193548 C10.7741935,15.6397848 9.44086038,16 8,16 C6.55913962,16 5.22580645,15.6397848 4,14.9193548 C2.77419355,14.1989249 1.8010751,13.2258065 1.08064516,12 C0.360215218,10.7741935 0,9.44086038 0,8 C0,6.55913962 0.360215218,5.22580645 1.08064516,4 C1.8010751,2.77419355 2.77419355,1.8010751 4,1.08064516 C5.22580645,0.360215218 6.55913962,0 8,0 C9.44086038,0 10.7741935,0.360215218 12,1.08064516 C13.2258065,1.8010751 14.1989249,2.77419355 14.9193548,4 C15.6397848,5.22580645 16,6.55913962 16,8 Z M8.01612903,10 C7.60308539,10 7.24982468,10.1467391 6.95634642,10.4402174 C6.66286816,10.7336957 6.51612903,11.0869564 6.51612903,11.5 C6.51612903,11.9130436 6.66286816,12.2663043 6.95634642,12.5597826 C7.24982468,12.8532609 7.60308539,13 8.01612903,13 C8.42917268,13 8.78243338,12.8532609 9.07591164,12.5597826 C9.3693899,12.2663043 9.51612903,11.9130436 9.51612903,11.5 C9.51612903,11.0869564 9.3693899,10.7336957 9.07591164,10.4402174 C8.78243338,10.1467391 8.42917268,10 8.01612903,10 Z M6.58064516,3.41935484 L6.83870968,7.80645161 C6.83870968,7.89247328 6.87634425,7.97311844 6.9516129,8.0483871 C7.02688156,8.12365575 7.11827973,8.16129032 7.22580645,8.16129032 L8.77419355,8.16129032 C8.88172027,8.16129032 8.97311844,8.12365575 9.0483871,8.0483871 C9.12365575,7.97311844 9.16129032,7.89247328 9.16129032,7.80645161 L9.41935484,3.41935484 C9.41935484,3.29032258 9.38172027,3.18817188 9.30645161,3.11290323 C9.23118296,3.03763457 9.13978478,3 9.03225806,3 L6.96774194,3 C6.86021522,3 6.76881704,3.03763457 6.69354839,3.11290323 C6.61827973,3.18817188 6.58064516,3.29032258 6.58064516,3.41935484 Z"></path>
+                            </svg>
+                          </div>
+                        ) : null}
                       </span>
-                      <div className="invalid-feedback ui-position-absolute">
-                        The field is required.
-                      </div>
+                      {this.state.isCreditCardCheck['cardMmyy'] === 'FAIL' ? (
+                        <div className="text-red-500 mt-1">
+                          The field is required.
+                        </div>
+                      ) : null}
                     </div>
                   </label>
                   <div className="w-5"></div>
                   <label
-                    className="form-control-label my-0 w-1/2 text-black text-xs font-normal"
+                    className={cn(
+                      'form-control-label my-0 w-1/2 text-black text-xs font-normal',
+                      {
+                        'text-black':
+                          this.state.isCreditCardCheck['cardCvv'] === 'NOT_TEST'
+                      },
+                      {
+                        'text-red-500':
+                          this.state.isCreditCardCheck['cardCvv'] === 'FAIL'
+                      },
+                      {
+                        'text-green':
+                          this.state.isCreditCardCheck['cardCvv'] === 'SUCCESS'
+                      }
+                    )}
                     htmlFor="cardNumber"
                   >
                     CVV
                     <span className="red">*</span>
                     <div className="form-group required mt-1">
                       <span
-                        className="rc-input rc-input--full-width"
+                        className="rc-input rc-input--full-width relative"
                         input-setup="true"
-                        data-js-validate=""
-                        data-js-warning-message="*Phone Number isn’t valid"
                       >
                         <input
                           type="password"
                           autoComplete="new-password"
-                          className="rc-input__control form-control phone border border-gray-300 rounded-md h-10 pl-3 py-0 focus:ring-2 focus:ring-transparent focus:border-blue-500"
-                          data-phonelength="18"
-                          data-js-validate="(^(\+?7|8)?9\d{9}$)"
-                          data-range-error="The phone number should contain 10 digits"
+                          className={cn(
+                            'form-control phone  rounded-md h-10 pl-3 py-0 focus:ring-2 focus:ring-transparent focus:border-blue-500',
+                            {
+                              'border border-gray-300':
+                                this.state.isCreditCardCheck['cardCvv'] ===
+                                'NOT_TEST'
+                            },
+                            {
+                              'border-b-2 border-red-500':
+                                this.state.isCreditCardCheck['cardCvv'] ===
+                                'FAIL'
+                            },
+                            {
+                              'border-b-2 border-green':
+                                this.state.isCreditCardCheck['cardCvv'] ===
+                                'SUCCESS'
+                            }
+                          )}
                           value={creditCardInfoForm.cardCvv}
                           onChange={this.cardInfoInputChange}
+                          onBlur={this.inputBoxBlur}
                           name="cardCvv"
                           maxLength="4"
                           placeholder="CVV"
                         />
+                        {this.state.isCreditCardCheck['cardCvv'] ===
+                        'SUCCESS' ? (
+                          <div
+                            className={cn(
+                              'font-bold text-green text-md absolute top-3 right-3'
+                            )}
+                          >
+                            ✔
+                          </div>
+                        ) : null}
+                        {this.state.isCreditCardCheck['cardCvv'] === 'FAIL' ? (
+                          <div
+                            className={cn(
+                              'font-bold text-md absolute top-3 right-3'
+                            )}
+                          >
+                            <svg
+                              width="16px"
+                              height="16px"
+                              viewBox="0 0 16 16"
+                              fill="#D10244"
+                            >
+                              <path d="M16,8 C16,9.44086038 15.6397848,10.7741935 14.9193548,12 C14.1989249,13.2258065 13.2258065,14.1989249 12,14.9193548 C10.7741935,15.6397848 9.44086038,16 8,16 C6.55913962,16 5.22580645,15.6397848 4,14.9193548 C2.77419355,14.1989249 1.8010751,13.2258065 1.08064516,12 C0.360215218,10.7741935 0,9.44086038 0,8 C0,6.55913962 0.360215218,5.22580645 1.08064516,4 C1.8010751,2.77419355 2.77419355,1.8010751 4,1.08064516 C5.22580645,0.360215218 6.55913962,0 8,0 C9.44086038,0 10.7741935,0.360215218 12,1.08064516 C13.2258065,1.8010751 14.1989249,2.77419355 14.9193548,4 C15.6397848,5.22580645 16,6.55913962 16,8 Z M8.01612903,10 C7.60308539,10 7.24982468,10.1467391 6.95634642,10.4402174 C6.66286816,10.7336957 6.51612903,11.0869564 6.51612903,11.5 C6.51612903,11.9130436 6.66286816,12.2663043 6.95634642,12.5597826 C7.24982468,12.8532609 7.60308539,13 8.01612903,13 C8.42917268,13 8.78243338,12.8532609 9.07591164,12.5597826 C9.3693899,12.2663043 9.51612903,11.9130436 9.51612903,11.5 C9.51612903,11.0869564 9.3693899,10.7336957 9.07591164,10.4402174 C8.78243338,10.1467391 8.42917268,10 8.01612903,10 Z M6.58064516,3.41935484 L6.83870968,7.80645161 C6.83870968,7.89247328 6.87634425,7.97311844 6.9516129,8.0483871 C7.02688156,8.12365575 7.11827973,8.16129032 7.22580645,8.16129032 L8.77419355,8.16129032 C8.88172027,8.16129032 8.97311844,8.12365575 9.0483871,8.0483871 C9.12365575,7.97311844 9.16129032,7.89247328 9.16129032,7.80645161 L9.41935484,3.41935484 C9.41935484,3.29032258 9.38172027,3.18817188 9.30645161,3.11290323 C9.23118296,3.03763457 9.13978478,3 9.03225806,3 L6.96774194,3 C6.86021522,3 6.76881704,3.03763457 6.69354839,3.11290323 C6.61827973,3.18817188 6.58064516,3.29032258 6.58064516,3.41935484 Z"></path>
+                            </svg>
+                          </div>
+                        ) : null}
                       </span>
-                      <div className="invalid-feedback ui-position-absolute">
-                        The field is required.
-                      </div>
+                      {this.state.isCreditCardCheck['cardCvv'] === 'FAIL' ? (
+                        <div className="text-red-500 mt-1">
+                          The field is required.
+                        </div>
+                      ) : null}
                     </div>
                   </label>
                 </div>
@@ -932,7 +1100,8 @@ class MemberCardList extends React.Component {
                             name="cardOwner"
                             value={creditCardInfoForm.cardOwner}
                             onChange={this.cardInfoInputChange}
-                            onBlur={this.inputBlur}
+                            //onBlur={this.inputBlur}
+                            onBlur={this.inputBoxBlur}
                             maxLength="40"
                             placeholder="J.Smith"
                           />
