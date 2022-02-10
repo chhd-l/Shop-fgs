@@ -37,7 +37,7 @@ class WeekCalender extends Component {
     console.log(weekOfDay);
     let weekDate = [];
     let dateList = await this.getEnmbeData();
-    for (let i = 1; i <= 7; i++) {
+    for (let i = 0; i < 7; i++) {
       let _date = moment(date).subtract(weekOfDay - i, 'days');
       let nowDate = moment(_date).format('YYYYMMDD');
       let currentDate = dateList[nowDate] || {};

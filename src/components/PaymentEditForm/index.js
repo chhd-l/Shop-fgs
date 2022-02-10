@@ -587,16 +587,12 @@ class PaymentEditForm extends React.Component {
         subscriptionID: subscriptionID,
         paymentVendor: cyberCardTypeToValue[cyberCardType]
       });
-      const newCardNumber = params.cardNumber.replace(/\s*/g, '');
+      const newCardNumber = params?.cardNumber?.replace(/\s*/g, '') || '';
       const newParams = Object.assign({}, params, {
-        cardNumber:
-          newCardNumber
-            .substring(0, newCardNumber.length - 4)
-            .replace(/\d/g, 'X') +
-          newCardNumber.substring(
-            newCardNumber.length - 4,
-            newCardNumber.length
-          )
+        cardNumber: newCardNumber?.replace(
+          newCardNumber?.substring(0, newCardNumber.length - 4),
+          'X'.repeat(newCardNumber.length - 4)
+        )
       });
       await usPaymentInfo(newParams);
       this.handleCancel();
