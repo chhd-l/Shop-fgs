@@ -220,7 +220,7 @@ class MemberCardList extends React.Component {
   };
   cardInfoInputChange = async (e) => {
     const target = e.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+    let value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
     const { creditCardInfoForm } = this.state;
     console.log(name + '   ' + value);
@@ -230,7 +230,9 @@ class MemberCardList extends React.Component {
       if (isNaN(inputValue)) {
         creditCardInfoForm[name] = beforeValue;
       } else {
-        creditCardInfoForm[name] = value.replace(/\s*/g, '');
+        //creditCardInfoForm[name] = value.replace(/\s*/g, '');
+        value = value.replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, '$1 '); //银行卡4位后自动加空格
+        creditCardInfoForm[name] = value;
       }
     } else if (name === 'cardMmyy') {
       // 获取 / 前后数字
@@ -309,8 +311,6 @@ class MemberCardList extends React.Component {
   };
   //给俄罗斯credit card表单重新写的方法
   inputBoxBlur = (e) => {
-    console.log(e.target.name);
-    console.log(e.target.value);
     let key = e.target.name;
     let value = e.target.value;
     let result = '';
@@ -318,6 +318,13 @@ class MemberCardList extends React.Component {
     let data = {};
     switch (key) {
       case 'cardNumber':
+        if (value.length == 0) {
+          result = 'NOT_TEST';
+        } else if (value.length == 18 || value.length == 19) {
+          result = 'SUCCESS';
+        } else {
+          result = 'FAIL';
+        }
         break;
       case 'cardMmyy':
         let splitArr = value.split('/');
@@ -336,9 +343,6 @@ class MemberCardList extends React.Component {
         } else {
           result = 'FAIL';
         }
-        coverObj[key] = result;
-        data = Object.assign({}, this.state.isCreditCardCheck, coverObj);
-        this.setState({ isCreditCardCheck: data });
         break;
       case 'cardCvv':
         if (value.length === 0) {
@@ -348,13 +352,18 @@ class MemberCardList extends React.Component {
         } else {
           result = 'FAIL';
         }
-        coverObj[key] = result;
-        data = Object.assign({}, this.state.isCreditCardCheck, coverObj);
-        this.setState({ isCreditCardCheck: data });
         break;
       case 'cardOwner':
+        if (value.length === 0) {
+          result = 'NOT_TEST';
+        } else {
+          result = 'SUCCESS';
+        }
         break;
     }
+    coverObj[key] = result;
+    data = Object.assign({}, this.state.isCreditCardCheck, coverObj);
+    this.setState({ isCreditCardCheck: data });
   };
   async generateCardInfo() {
     try {
@@ -839,11 +848,28 @@ class MemberCardList extends React.Component {
 
                   <p className="m-0">{CreditCardImg}</p>
                 </div>
-                <div className="flex h-20">
+                <div className="flex h-20 mb-2">
                   <div className="w-100">
                     <div className="form-group">
                       <label
-                        className="form-control-label text-black text-xs font-normal"
+                        className={cn(
+                          'form-control-label text-black text-xs font-normal',
+                          {
+                            'text-black':
+                              this.state.isCreditCardCheck['cardNumber'] ===
+                              'NOT_TEST'
+                          },
+                          {
+                            'text-red-500':
+                              this.state.isCreditCardCheck['cardNumber'] ===
+                              'FAIL'
+                          },
+                          {
+                            'text-green':
+                              this.state.isCreditCardCheck['cardNumber'] ===
+                              'SUCCESS'
+                          }
+                        )}
                         htmlFor="cardNumber"
                       >
                         <FormattedMessage id="payment.cardNumber" />
@@ -859,7 +885,27 @@ class MemberCardList extends React.Component {
                                   >
                                     <input
                                       type="tel"
-                                      className="rc-input__control form-control email h-10 pl-3 py-0 border border-gray-300 rounded-md focus:ring-2 focus:ring-transparent focus:border-blue-500"
+                                      className={cn(
+                                        'rc-input__control form-control email h-10 pl-3 py-0 border border-gray-300 rounded-md focus:ring-2 focus:ring-transparent focus:border-blue-500',
+                                        {
+                                          'border border-gray-300':
+                                            this.state.isCreditCardCheck[
+                                              'cardNumber'
+                                            ] === 'NOT_TEST'
+                                        },
+                                        {
+                                          'border-b-2 border-red-500':
+                                            this.state.isCreditCardCheck[
+                                              'cardNumber'
+                                            ] === 'FAIL'
+                                        },
+                                        {
+                                          'border-b-2 border-green':
+                                            this.state.isCreditCardCheck[
+                                              'cardNumber'
+                                            ] === 'SUCCESS'
+                                        }
+                                      )}
                                       id="number"
                                       value={creditCardInfoForm.cardNumber}
                                       onChange={this.cardInfoInputChange}
@@ -872,15 +918,19 @@ class MemberCardList extends React.Component {
                                       // }}
                                       onBlur={this.inputBoxBlur}
                                       name="cardNumber"
-                                      maxLength="254"
+                                      maxLength={19}
                                       placeholder={
                                         this.props.intl?.messages.cardNumber
                                       }
                                     />
                                   </span>
-                                  <div className="invalid-feedback ui-position-absolute">
-                                    <FormattedMessage id="payment.errorInfo2" />
-                                  </div>
+                                  {this.state.isCreditCardCheck[
+                                    'cardNumber'
+                                  ] === 'FAIL' ? (
+                                    <div className="text-red-500 my-1">
+                                      The field is required.
+                                    </div>
+                                  ) : null}
                                 </div>
                               </div>
                             </div>
@@ -1084,7 +1134,23 @@ class MemberCardList extends React.Component {
                 <div className="flex overflow_visible">
                   <div className="w-100">
                     <label
-                      className="form-control-label my-0 w-full text-black text-xs font-normal"
+                      className={cn(
+                        'form-control-label my-0 w-full text-black text-xs font-normal',
+                        {
+                          'text-black':
+                            this.state.isCreditCardCheck['cardOwner'] ===
+                            'NOT_TEST'
+                        },
+                        {
+                          'text-red-500':
+                            this.state.isCreditCardCheck['cardOwner'] === 'FAIL'
+                        },
+                        {
+                          'text-green':
+                            this.state.isCreditCardCheck['cardOwner'] ===
+                            'SUCCESS'
+                        }
+                      )}
                       htmlFor="cardNumber"
                     >
                       <FormattedMessage id="payment.cardOwner" />
@@ -1096,7 +1162,24 @@ class MemberCardList extends React.Component {
                         >
                           <input
                             type="text"
-                            className="rc-input__control form-control cardOwner border border-gray-300 rounded-md h-10 pl-3 py-0 focus:ring-2 focus:ring-transparent focus:border-blue-500"
+                            className={cn(
+                              'rc-input__control form-control cardOwner border border-gray-300 rounded-md h-10 pl-3 py-0 focus:ring-2 focus:ring-transparent focus:border-blue-500',
+                              {
+                                'border border-gray-300':
+                                  this.state.isCreditCardCheck['cardOwner'] ===
+                                  'NOT_TEST'
+                              },
+                              {
+                                'border-b-2 border-red-500':
+                                  this.state.isCreditCardCheck['cardOwner'] ===
+                                  'FAIL'
+                              },
+                              {
+                                'border-b-2 border-green':
+                                  this.state.isCreditCardCheck['cardOwner'] ===
+                                  'SUCCESS'
+                              }
+                            )}
                             name="cardOwner"
                             value={creditCardInfoForm.cardOwner}
                             onChange={this.cardInfoInputChange}
@@ -1105,10 +1188,40 @@ class MemberCardList extends React.Component {
                             maxLength="40"
                             placeholder="J.Smith"
                           />
+                          {this.state.isCreditCardCheck['cardOwner'] ===
+                          'SUCCESS' ? (
+                            <div
+                              className={cn(
+                                'font-bold text-green text-md absolute top-3 right-3'
+                              )}
+                            >
+                              ✔
+                            </div>
+                          ) : null}
+                          {this.state.isCreditCardCheck['cardOwner'] ===
+                          'FAIL' ? (
+                            <div
+                              className={cn(
+                                'font-bold text-md absolute top-3 right-3'
+                              )}
+                            >
+                              <svg
+                                width="16px"
+                                height="16px"
+                                viewBox="0 0 16 16"
+                                fill="#D10244"
+                              >
+                                <path d="M16,8 C16,9.44086038 15.6397848,10.7741935 14.9193548,12 C14.1989249,13.2258065 13.2258065,14.1989249 12,14.9193548 C10.7741935,15.6397848 9.44086038,16 8,16 C6.55913962,16 5.22580645,15.6397848 4,14.9193548 C2.77419355,14.1989249 1.8010751,13.2258065 1.08064516,12 C0.360215218,10.7741935 0,9.44086038 0,8 C0,6.55913962 0.360215218,5.22580645 1.08064516,4 C1.8010751,2.77419355 2.77419355,1.8010751 4,1.08064516 C5.22580645,0.360215218 6.55913962,0 8,0 C9.44086038,0 10.7741935,0.360215218 12,1.08064516 C13.2258065,1.8010751 14.1989249,2.77419355 14.9193548,4 C15.6397848,5.22580645 16,6.55913962 16,8 Z M8.01612903,10 C7.60308539,10 7.24982468,10.1467391 6.95634642,10.4402174 C6.66286816,10.7336957 6.51612903,11.0869564 6.51612903,11.5 C6.51612903,11.9130436 6.66286816,12.2663043 6.95634642,12.5597826 C7.24982468,12.8532609 7.60308539,13 8.01612903,13 C8.42917268,13 8.78243338,12.8532609 9.07591164,12.5597826 C9.3693899,12.2663043 9.51612903,11.9130436 9.51612903,11.5 C9.51612903,11.0869564 9.3693899,10.7336957 9.07591164,10.4402174 C8.78243338,10.1467391 8.42917268,10 8.01612903,10 Z M6.58064516,3.41935484 L6.83870968,7.80645161 C6.83870968,7.89247328 6.87634425,7.97311844 6.9516129,8.0483871 C7.02688156,8.12365575 7.11827973,8.16129032 7.22580645,8.16129032 L8.77419355,8.16129032 C8.88172027,8.16129032 8.97311844,8.12365575 9.0483871,8.0483871 C9.12365575,7.97311844 9.16129032,7.89247328 9.16129032,7.80645161 L9.41935484,3.41935484 C9.41935484,3.29032258 9.38172027,3.18817188 9.30645161,3.11290323 C9.23118296,3.03763457 9.13978478,3 9.03225806,3 L6.96774194,3 C6.86021522,3 6.76881704,3.03763457 6.69354839,3.11290323 C6.61827973,3.18817188 6.58064516,3.29032258 6.58064516,3.41935484 Z"></path>
+                              </svg>
+                            </div>
+                          ) : null}
                         </span>
-                        <div className="invalid-feedback ui-position-absolute">
-                          <FormattedMessage id="payment.errorInfo2" />
-                        </div>
+                        {this.state.isCreditCardCheck['cardOwner'] ===
+                        'FAIL' ? (
+                          <div className="text-red-500 mt-1">
+                            The field is required.
+                          </div>
+                        ) : null}
                       </div>
                     </label>
                   </div>
