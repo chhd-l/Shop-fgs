@@ -496,6 +496,11 @@ function ListItemBodyH5ForGlobalStyle({ item, configStore }) {
     window.__.env.REACT_APP_COUNTRY === 'tr' ||
     window.__.env.REACT_APP_COUNTRY === 'uk';
   const hiddenPrice = vetProduct && trFrUk;
+  const hiddenStock =
+    window.__.env.REACT_APP_COUNTRY === 'uk' &&
+    vetProduct &&
+    !item.saleableFlag &&
+    item.displayFlag;
   const inStock =
     (item?.goodsInfos ?? [])
       .concat(item?.goodsInfoVOS ?? [])
@@ -524,9 +529,11 @@ function ListItemBodyH5ForGlobalStyle({ item, configStore }) {
       {hiddenPrice ? null : (
         <PriceItemShow item={item} configStore={configStore} />
       )}
-      <div className="plp-stock-status">
-        <InstockStatusComp status={inStock} />
-      </div>
+      {hiddenStock ? null : (
+        <div className="plp-stock-status">
+          <InstockStatusComp status={inStock} />
+        </div>
+      )}
     </div>
   );
 }
@@ -754,6 +761,11 @@ function ListItemBody({ item, headingTag, configStore }) {
     window.__.env.REACT_APP_COUNTRY === 'tr' ||
     window.__.env.REACT_APP_COUNTRY === 'uk';
   const hiddenPrice = vetProduct && trFrUk;
+  const hiddenStock =
+    window.__.env.REACT_APP_COUNTRY === 'uk' &&
+    vetProduct &&
+    !item.saleableFlag &&
+    item.displayFlag;
   const goodHeading = `<${headingTag ? headingTag : 'h2'}
       class="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center"
       title="${item?.goodsName}">
@@ -796,9 +808,11 @@ function ListItemBody({ item, headingTag, configStore }) {
               {item.goodsNewSubtitle}
             </div>
           ) : null} */}
-        <div className="rc-card__meta text-center plp-stock-status">
-          <InstockStatusComp status={inStock} />
-        </div>
+        {hiddenStock ? null : (
+          <div className="rc-card__meta text-center plp-stock-status">
+            <InstockStatusComp status={inStock} />
+          </div>
+        )}
       </>
     </div>
   );
