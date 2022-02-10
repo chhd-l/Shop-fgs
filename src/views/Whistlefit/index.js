@@ -75,6 +75,10 @@ class Whistlefit extends React.Component {
         this.setState({ landingPageId });
       }
     });
+    landingPageViews({
+      number: PAGE_NUM,
+      storeId: window.__.env.REACT_APP_STOREID
+    });
   }
   changeEmail = (e) => {
     this.setState({ email: e.target.value, isSaveSuccess: false });
@@ -104,10 +108,6 @@ class Whistlefit extends React.Component {
     this.setState({ isRegisterLoading: true });
     try {
       this.scrollToInputEmail(5, 'Je suis intéressé, veux être informé !');
-      await landingPageViews({
-        number: PAGE_NUM,
-        storeId: window.__.env.REACT_APP_STOREID
-      });
       await registerLandingPage({
         type: this.isLogin ? 'Member' : 'Guest', //guest member
         email: this.state.email,
@@ -192,13 +192,13 @@ class Whistlefit extends React.Component {
                 les éventuels problèmes
               </div>
               <div className="flex flex-col md:flex-row items-start md:items-center">
-                <div className="w-full md:w-1/2 text-lg px-4 md:px-0">
+                <div className="w-full md:w-2/3 text-lg px-4 md:px-0">
                   Whistle Fit est un dispositif intelligent et non-invasif qui
                   s’attache au collier de votre chien et qui traque son activité
                   et son comportement afin de vous offrir une fenêtre unique sur
                   le bien-être et la santé de votre animal.
                 </div>
-                <LazyLoad className="w-full md:w-1/2 flex justify-center">
+                <LazyLoad className="w-full md:w-1/3 flex justify-center">
                   <img
                     src={Bracelet}
                     alt="Bracelet"
@@ -266,7 +266,7 @@ class Whistlefit extends React.Component {
                       frameborder="0"
                       id="video-dog"
                       className="optanon-category-4 "
-                      src="https://share.weiyun.com/O37r0q8E" //https://www.youtube.com/embed/FYwO1fiYoa8
+                      src="https://fgs-cdn.azureedge.net/cdn/img/whistlefit.mp4"
                       title="making a better world for pets"
                     />
                   </div>
@@ -385,7 +385,7 @@ class Whistlefit extends React.Component {
                 <img
                   src={packshotWf}
                   alt="Bracelet"
-                  className="w-48 md:w-96 mr-0 md:mr-64"
+                  className="w-100 md:w-96 mr-0 md:mr-16"
                 />
               </LazyLoad>
               <div
