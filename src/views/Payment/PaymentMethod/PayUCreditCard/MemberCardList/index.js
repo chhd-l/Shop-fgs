@@ -783,8 +783,8 @@ class MemberCardList extends React.Component {
 
                   <p className="m-0">{CreditCardImg}</p>
                 </div>
-                <div className="row h-20">
-                  <div className="col-sm-12">
+                <div className="flex h-20">
+                  <div className="w-100">
                     <div className="form-group">
                       <label
                         className="form-control-label text-black text-xs font-normal"
@@ -794,8 +794,8 @@ class MemberCardList extends React.Component {
                         <span className="red">*</span>
                         <div className="ru-cardFrom cardFormBox mt-1">
                           <span className="w-full cardForm relative">
-                            <div className="row">
-                              <div className="col-sm-12">
+                            <div className="flex">
+                              <div className="w-100">
                                 <div className="form-group required">
                                   <span
                                     className="rc-input rc-input--full-width"
@@ -913,8 +913,8 @@ class MemberCardList extends React.Component {
                     </div>
                   </label>
                 </div>
-                <div className="row overflow_visible">
-                  <div className="col-sm-12">
+                <div className="flex overflow_visible">
+                  <div className="w-100">
                     <label
                       className="form-control-label my-0 w-full text-black text-xs font-normal"
                       htmlFor="cardNumber"
