@@ -13,6 +13,7 @@ interface Props {
 const Fr = window.__.env.REACT_APP_COUNTRY === 'fr';
 const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
 const Tr = window.__.env.REACT_APP_COUNTRY === 'tr';
+const Se = window.__.env.REACT_APP_COUNTRY === 'se';
 const PhoneAndEmail = ({ loading, details, configStore }: Props) => {
   const [contactUs, setContactUs] = useState('');
   const [contactPhoneNumber, setContactPhoneNumber] = useState('');
@@ -26,6 +27,8 @@ const PhoneAndEmail = ({ loading, details, configStore }: Props) => {
       contactPhoneNumber = 'https://www.royalcanin.com/tr/contact-us';
     } else if (Ru) {
       contactUs = 'mailto:contact.ru@royalcanin.com';
+    } else if (Se) {
+      contactUs = 'https://www.royalcanin.com/se/contact-us';
     }
     setContactUs(contactUs);
     setContactPhoneNumber(contactPhoneNumber);
