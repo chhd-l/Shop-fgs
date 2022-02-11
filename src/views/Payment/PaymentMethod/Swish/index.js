@@ -26,6 +26,7 @@ const Swish = ({ billingJSX, updateSwishPhone }) => {
         </div>
         <input
           type="text"
+          autocomplete="off"
           id="phoneNumber"
           className="w-2/3 border-b-2 pt-2 pb-4 mb-4 border-gray-500"
           placeholder="+46"

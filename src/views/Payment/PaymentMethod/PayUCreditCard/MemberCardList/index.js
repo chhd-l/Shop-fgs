@@ -928,6 +928,7 @@ class MemberCardList extends React.Component {
                         >
                           <input
                             type="text"
+                            autocomplete="off"
                             className="rc-input__control form-control cardOwner border border-gray-300 rounded-md h-10 pl-3 py-0 focus:ring-2 focus:ring-transparent focus:border-blue-500"
                             name="cardOwner"
                             value={creditCardInfoForm.cardOwner}
@@ -990,6 +991,7 @@ class MemberCardList extends React.Component {
                         >
                           <input
                             type="text"
+                            autocomplete="off"
                             className="rc-input__control input__phoneField shippingPhoneNumber"
                             min-lenght="18"
                             max-length="18"
@@ -1193,6 +1195,7 @@ class MemberCardList extends React.Component {
                       >
                         <input
                           type="text"
+                          autocomplete="off"
                           className="rc-input__control form-control cardOwner"
                           name="cardOwner"
                           value={creditCardInfoForm.cardOwner}
@@ -1257,6 +1260,7 @@ class MemberCardList extends React.Component {
                         >
                           <input
                             type="text"
+                            autocomplete="off"
                             className="rc-input__control input__phoneField shippingPhoneNumber"
                             min-lenght="18"
                             max-length="18"

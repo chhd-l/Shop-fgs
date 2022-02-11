@@ -709,6 +709,7 @@ class Register extends Component {
                                   name="name"
                                   id="registerName"
                                   valid={nameValid}
+                                  autocomplete="off"
                                   onChange={this.registerChange}
                                   onBlur={this.inputBlur}
                                   value={registerForm.name}
@@ -729,6 +730,7 @@ class Register extends Component {
                               <>
                                 <Input
                                   id="registerName"
+                                  autocomplete="off"
                                   type="text"
                                   maxLength="50"
                                   name="firstName"
@@ -758,6 +760,7 @@ class Register extends Component {
                                 />
                                 <Input
                                   id="registerName"
+                                  autocomplete="off"
                                   type="text"
                                   maxLength="50"
                                   name="lastName"
@@ -790,6 +793,7 @@ class Register extends Component {
 
                             <Input
                               id="registerEmail"
+                              autocomplete="off"
                               type="email"
                               maxLength="90"
                               name="email"

@@ -214,6 +214,7 @@ class NewPetModal extends Component {
                 >
                   <input
                     type="text"
+                    // autocomplete="off"
                     className="rc-input__control"
                     id="petName"
                     name="petName"
