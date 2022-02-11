@@ -1487,6 +1487,7 @@ class Form extends React.Component {
             freeText={item.inputFreeTextFlag == 1 ? true : false}
             onChange={this.handleCityInputChange}
             searchSelectionBlur={this.handleCitySearchSelectionBlur}
+            {...this.props}
           />
         </span>
       </>

@@ -2367,6 +2367,7 @@ class AddressList extends React.Component {
                 cartData={this.props.cartData}
                 calculateFreight={this.recalculateFreight}
                 pickupEditNumber={pickupEditNumber}
+                {...this.props}
               />
             </>
           ) : null}
