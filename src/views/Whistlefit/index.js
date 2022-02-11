@@ -24,7 +24,8 @@ import packshotWf from './images/packshot-wf.png';
 import {
   getLandingPage,
   landingPageViews,
-  registerLandingPage
+  registerLandingPage,
+  getOpenConsentByCategory
 } from '@/api/whistlefit';
 import { GAWhistleFitButtonClick } from '@/utils/GA.js';
 import './index.less';
@@ -48,11 +49,11 @@ class Whistlefit extends React.Component {
         metaDescription: 'Royal canin'
       },
       email: this.userInfo?.email || '',
-      isChecked1: false,
-      isChecked2: false,
+      isCheckedArr: [false, false],
       landingPageId: '',
       isSaveSuccess: false,
-      isRegisterLoading: false
+      isRegisterLoading: false,
+      consentList: []
       //intl: this.props.intl.messages
     };
   }
@@ -79,15 +80,30 @@ class Whistlefit extends React.Component {
       number: PAGE_NUM,
       storeId: window.__.env.REACT_APP_STOREID
     });
+    getOpenConsentByCategory({
+      storeId: window.__.env.REACT_APP_STOREID,
+      category: 'LandingPage',
+      userId: ''
+    }).then((res) => {
+      let consentList = [
+        ...res.context.requiredList,
+        ...res.context.optionalList
+      ];
+      this.setState({ consentList });
+    });
   }
+  createMarkup = (consentTitle) => {
+    return { __html: consentTitle };
+  };
   changeEmail = (e) => {
     this.setState({ email: e.target.value, isSaveSuccess: false });
   };
-  changeConsent = () => {
-    this.setState({ isChecked1: !this.state.isChecked1 });
-  };
-  changeConsent2 = () => {
-    this.setState({ isChecked2: !this.state.isChecked2 });
+  changeConsentArr = (index) => {
+    console.log(123, this.state.isCheckedArr);
+    let arr = [...this.state.isCheckedArr];
+    arr[index] = !arr[index];
+    console.log(arr);
+    this.setState({ isCheckedArr: arr });
   };
   //滚动到输入email的位置
   scrollToInputEmail = (position, label) => {
@@ -444,8 +460,7 @@ class Whistlefit extends React.Component {
                 onClick={this.register}
                 disabled={
                   !(
-                    this.state.isChecked1 &&
-                    this.state.isChecked2 &&
+                    !this.state.isCheckedArr.includes(false) &&
                     EMAIL_REGEXP.test(this.state.email)
                   )
                 }
@@ -454,59 +469,30 @@ class Whistlefit extends React.Component {
               </button>
             </div>
             <div className="flex flex-col items-center mb-10 px-4 md:px-4">
-              <div className="flex">
-                <span className="red mr-1">*</span>
-                <div className="max-w-xl rc-input">
-                  <input
-                    className="rc-input__checkbox"
-                    id="id-checkbox-cat"
-                    checked={this.state.isChecked1}
-                    type="checkbox"
-                    name="checkbox-1"
-                    onChange={this.changeConsent}
-                  />
-                  <label
-                    className="text-sm italic rc-input__label--inline"
-                    for="id-checkbox-cat"
-                  >
-                    Je confirme que j'ai plus de 16 ans et que je souhaite
-                    recevoir des communications commerciales de Royal Canin,{' '}
-                    <span className="underline">
-                      Mars Petcare et de leurs filiales.
-                    </span>{' '}
-                    Je comprends que je peux me désabonner des futurs e-mails
-                    promotionnels en bas de l'e-mail.
-                  </label>
-                </div>
-              </div>
-              <div className="flex">
-                <span className="red mr-1">*</span>
-                <div className="max-w-xl rc-input">
-                  <input
-                    className="rc-input__checkbox"
-                    id="id-checkbox-cat2"
-                    checked={this.state.isChecked2}
-                    type="checkbox"
-                    name="checkbox-2"
-                    onChange={this.changeConsent2}
-                  />
-                  <label
-                    className="text-sm italic rc-input__label--inline"
-                    for="id-checkbox-cat2"
-                  >
-                    Nous pouvons utiliser vos données à des fins de recherche
-                    pour améliorer nos offres de produits et de services. Pour
-                    découvrir comment Royal Canin, Mars Petcare et ses sociétés
-                    affiliées collectent et traitent vos données ou nous
-                    contacter pour toute question relative à la confidentialité
-                    et exercer vos droits en matière de données personnelles,
-                    nous vous invitons à vous rendre sur la page de{' '}
-                    <span className="underline">
-                      déclaration de confidentialité de Mars.
-                    </span>
-                  </label>
-                </div>
-              </div>
+              {this.state.consentList.map((item, index) => {
+                return (
+                  <div className="flex" key={index}>
+                    <span className="red mr-1">*</span>
+                    <div className="max-w-xl rc-input">
+                      <input
+                        className="rc-input__checkbox"
+                        id={`id-checkbox-cat-${index}`}
+                        checked={this.state.isCheckedArr[index]}
+                        type="checkbox"
+                        name={`checkbox-${index}`}
+                        onChange={() => this.changeConsentArr(index)}
+                      />
+                      <label
+                        className="text-sm italic rc-input__label--inline"
+                        for={`id-checkbox-cat-${index}`}
+                        dangerouslySetInnerHTML={this.createMarkup(
+                          item.consentTitle
+                        )}
+                      ></label>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </main>
