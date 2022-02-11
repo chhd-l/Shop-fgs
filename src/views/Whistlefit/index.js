@@ -199,11 +199,7 @@ class Whistlefit extends React.Component {
                   le bien-être et la santé de votre animal.
                 </div>
                 <LazyLoad className="w-full md:w-1/3 flex justify-center">
-                  <img
-                    src={Bracelet}
-                    alt="Bracelet"
-                    className="w-48 ml-0 md:ml-32"
-                  />
+                  <img src={Bracelet} alt="Bracelet" className="w-48 ml-0" />
                 </LazyLoad>
               </div>
               <div className="w-full px-4 md:px-48 font-normal text-center text-2xl md:text-3xl my-4 md:my-12 leading-tight md:leading-normal">
@@ -389,7 +385,7 @@ class Whistlefit extends React.Component {
                 />
               </LazyLoad>
               <div
-                className="w-full md:w-1/2 text-sm md:text-lg px-4 md:px-0 leading-loose mt-0 md:mt-10"
+                className="w-full md:w-1/2 text-sm md:text-lg px-4 md:px-0 leading-loose mt-0 md:mt-20"
                 id="email"
               >
                 Chez Royal Canin, nous avons passé plus de 50 ans à soutenir la
@@ -460,52 +456,58 @@ class Whistlefit extends React.Component {
               </button>
             </div>
             <div className="flex flex-col items-center mb-10 px-4 md:px-4">
-              <div className="max-w-xl rc-input">
-                <input
-                  className="rc-input__checkbox"
-                  id="id-checkbox-cat"
-                  checked={this.state.isChecked1}
-                  type="checkbox"
-                  name="checkbox-1"
-                  onChange={this.changeConsent}
-                />
-                <label
-                  className="text-sm italic rc-input__label--inline"
-                  for="id-checkbox-cat"
-                >
-                  Je confirme que j'ai plus de 16 ans et que je souhaite
-                  recevoir des communications commerciales de Royal Canin,{' '}
-                  <span className="underline">
-                    Mars Petcare et de leurs filiales.
-                  </span>{' '}
-                  Je comprends que je peux me désabonner des futurs e-mails
-                  promotionnels en bas de l'e-mail.
-                </label>
+              <div className="flex">
+                <span className="red mr-1">*</span>
+                <div className="max-w-xl rc-input">
+                  <input
+                    className="rc-input__checkbox"
+                    id="id-checkbox-cat"
+                    checked={this.state.isChecked1}
+                    type="checkbox"
+                    name="checkbox-1"
+                    onChange={this.changeConsent}
+                  />
+                  <label
+                    className="text-sm italic rc-input__label--inline"
+                    for="id-checkbox-cat"
+                  >
+                    Je confirme que j'ai plus de 16 ans et que je souhaite
+                    recevoir des communications commerciales de Royal Canin,{' '}
+                    <span className="underline">
+                      Mars Petcare et de leurs filiales.
+                    </span>{' '}
+                    Je comprends que je peux me désabonner des futurs e-mails
+                    promotionnels en bas de l'e-mail.
+                  </label>
+                </div>
               </div>
-              <div className="max-w-xl rc-input">
-                <input
-                  className="rc-input__checkbox"
-                  id="id-checkbox-cat2"
-                  checked={this.state.isChecked2}
-                  type="checkbox"
-                  name="checkbox-2"
-                  onChange={this.changeConsent2}
-                />
-                <label
-                  className="text-sm italic rc-input__label--inline"
-                  for="id-checkbox-cat2"
-                >
-                  Nous pouvons utiliser vos données à des fins de recherche pour
-                  améliorer nos offres de produits et de services. Pour
-                  découvrir comment Royal Canin, Mars Petcare et ses sociétés
-                  affiliées collectent et traitent vos données ou nous contacter
-                  pour toute question relative à la confidentialité et exercer
-                  vos droits en matière de données personnelles, nous vous
-                  invitons à vous rendre sur la page de{' '}
-                  <span className="underline">
-                    déclaration de confidentialité de Mars.
-                  </span>
-                </label>
+              <div className="flex">
+                <span className="red mr-1">*</span>
+                <div className="max-w-xl rc-input">
+                  <input
+                    className="rc-input__checkbox"
+                    id="id-checkbox-cat2"
+                    checked={this.state.isChecked2}
+                    type="checkbox"
+                    name="checkbox-2"
+                    onChange={this.changeConsent2}
+                  />
+                  <label
+                    className="text-sm italic rc-input__label--inline"
+                    for="id-checkbox-cat2"
+                  >
+                    Nous pouvons utiliser vos données à des fins de recherche
+                    pour améliorer nos offres de produits et de services. Pour
+                    découvrir comment Royal Canin, Mars Petcare et ses sociétés
+                    affiliées collectent et traitent vos données ou nous
+                    contacter pour toute question relative à la confidentialité
+                    et exercer vos droits en matière de données personnelles,
+                    nous vous invitons à vous rendre sur la page de{' '}
+                    <span className="underline">
+                      déclaration de confidentialité de Mars.
+                    </span>
+                  </label>
+                </div>
               </div>
             </div>
           </div>

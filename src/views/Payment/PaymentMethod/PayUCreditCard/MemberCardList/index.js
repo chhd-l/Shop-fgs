@@ -928,7 +928,7 @@ class MemberCardList extends React.Component {
                                     'cardNumber'
                                   ] === 'FAIL' ? (
                                     <div className="text-red-500 my-1">
-                                      The field is required.
+                                      поле необходимо заполнить.
                                     </div>
                                   ) : null}
                                 </div>
@@ -972,7 +972,7 @@ class MemberCardList extends React.Component {
                     )}
                     htmlFor="cardNumber"
                   >
-                    Expiration Date
+                    Дата окончания
                     <span className="red">*</span>
                     <div className="form-group required mt-1">
                       <span
@@ -1037,7 +1037,7 @@ class MemberCardList extends React.Component {
                       </span>
                       {this.state.isCreditCardCheck['cardMmyy'] === 'FAIL' ? (
                         <div className="text-red-500 mt-1">
-                          The field is required.
+                          поле необходимо заполнить.
                         </div>
                       ) : null}
                     </div>
@@ -1125,7 +1125,7 @@ class MemberCardList extends React.Component {
                       </span>
                       {this.state.isCreditCardCheck['cardCvv'] === 'FAIL' ? (
                         <div className="text-red-500 mt-1">
-                          The field is required.
+                          поле необходимо заполнить.
                         </div>
                       ) : null}
                     </div>
@@ -1219,7 +1219,7 @@ class MemberCardList extends React.Component {
                         {this.state.isCreditCardCheck['cardOwner'] ===
                         'FAIL' ? (
                           <div className="text-red-500 mt-1">
-                            The field is required.
+                            поле необходимо заполнить.
                           </div>
                         ) : null}
                       </div>
