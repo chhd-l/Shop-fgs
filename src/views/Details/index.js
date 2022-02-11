@@ -1120,10 +1120,6 @@ class Details extends React.Component {
       return LifestagesAttr.indexOf(item) === index;
     });
 
-    // let isBaby =
-    //   LifestagesAttr.length === 1 &&
-    //   reg.test(LifestagesAttr?.[0]?.goodsAttributeValue);
-
     let isBaby = LifestagesAttr?.find((item) => reg.test(item));
 
     /**
@@ -1133,12 +1129,14 @@ class Details extends React.Component {
      *    1.1、liquid products are excluded => wsTechnologyCode
      *    1.2、Bundle products are excluded => goodsInfos - goodsInfoType === 2
      *    1.3  details => wsTechnologyCode wsEnergyCategory wsReferenceEnergyValue
+     *    1.4 weShareId === null hide
      **/
     if (!configStore?.info?.dailyPortion) return null;
     if (isBaby) return null;
     if (!isTechnology) return null;
     if (currentGoodsInfo?.goodsInfoType === 2) return null;
     if (!(wsEnergyCategory && wsReferenceEnergyValue)) return null;
+    if (!details?.weShareId) return null;
 
     // 产品动物的种类
     let speciesValue = goodsAttributesValueRelList.find(

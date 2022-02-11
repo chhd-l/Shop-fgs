@@ -589,10 +589,7 @@ class PaymentEditForm extends React.Component {
       });
       const newCardNumber = params?.cardNumber?.replace(/\s*/g, '') || '';
       const newParams = Object.assign({}, params, {
-        cardNumber: newCardNumber?.replace(
-          newCardNumber?.substring(0, newCardNumber.length - 4),
-          'X'.repeat(newCardNumber.length - 4)
-        )
+        cardNumber: newCardNumber?.replace(/\d(?=\d{4})/g, 'X')
       });
       await usPaymentInfo(newParams);
       this.handleCancel();

@@ -512,6 +512,7 @@ export default function DailyPortion(
     })
 
     const isMixedBreedPossibleValues = isMixedBreed && speciesValue === 'Dog';
+    const isDry = details?.wsTechnologyCode?.toLocaleLowerCase() === 'dry';
 
     let param = {
       "countryCode": window.__.env.REACT_APP_COUNTRY?.toLowerCase(),
@@ -527,7 +528,7 @@ export default function DailyPortion(
       "energyCategory": details?.wsEnergyCategory,
       "referenceEnergyValue": details?.wsReferenceEnergyValue,
       "density": !!details?.wsDensity ? details?.wsDensity : 1,
-      "packWeight": goodsInfo?.goodsInfoWeight ?? 1,
+      "packWeight": goodsInfo?.goodsInfoWeight ? goodsInfo?.goodsInfoWeight : 1,
       "goodsInfoUnit": goodsInfo?.goodsInfoUnit ? String(goodsInfo?.goodsInfoUnit).toLowerCase():'kg',
     }
     if (isMixedBreedPossibleValues){

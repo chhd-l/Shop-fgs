@@ -72,7 +72,7 @@ function bSort(arr) {
   var len = arr.length;
   for (var i = 0; i < len - 1; i++) {
     for (var j = 0; j < len - 1 - i; j++) {
-      if (arr[j].sort > arr[j + 1].sort) {
+      if (arr[j]?.sort > arr[j + 1]?.sort) {
         var temp = arr[j];
         arr[j] = arr[j + 1];
         arr[j + 1] = temp;
@@ -1242,6 +1242,7 @@ class List extends React.Component {
     //   (item) => item.attributeName !== 'Size'
     // );
     const allFilterList = this.state.isVetProducts ? vetFilterList : filterList;
+    allFilterList?.forEach((item) => bSort(item.attributesValueList || []));
     // 根据默认参数设置filter状态
     const { defaultFilterSearchForm } = this.state;
     this.initFilterSelectedSts({
