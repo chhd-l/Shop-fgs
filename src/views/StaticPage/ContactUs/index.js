@@ -198,6 +198,7 @@ class ContactUs extends Component {
           input-setup="true"
         >
           <input
+            autocomplete="off"
             className="rc-input__control"
             id="shippingFirstName"
             type="text"
@@ -233,6 +234,7 @@ class ContactUs extends Component {
           input-setup="true"
         >
           <input
+            autocomplete="off"
             className="rc-input__control"
             id="shippingLastName"
             type="text"
@@ -269,6 +271,7 @@ class ContactUs extends Component {
           input-setup="true"
         >
           <input
+            autocomplete="off"
             type="email"
             className="rc-input__control"
             id="shippingEmail"
@@ -303,6 +306,7 @@ class ContactUs extends Component {
           input-setup="true"
         >
           <input
+            autocomplete="off"
             ref={this.textInput}
             type="tel"
             className="rc-input__control"
@@ -334,6 +338,7 @@ class ContactUs extends Component {
           input-setup="true"
         >
           <input
+            autocomplete="off"
             type="text"
             className="rc-input__control"
             id="contactUsOrderNumber"

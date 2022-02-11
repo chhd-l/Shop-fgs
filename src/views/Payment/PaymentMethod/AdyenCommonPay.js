@@ -67,6 +67,7 @@ class AdyenCommonPay extends Component {
                 </label>
                 <input
                   type="text"
+                  autocomplete="off"
                   className="form-control"
                   placeholder={`${this.props.intl.messages.mailAddress}*`}
                   name="street"
