@@ -4,6 +4,7 @@ import { compareAsc, format, getISOWeek, subDays, getWeek } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import './index.less';
 import 'moment/locale/fr';
+
 moment.locale('fr', {
   months:
     'janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre'.split(
@@ -20,6 +21,7 @@ moment.locale('fr', {
 });
 
 let index = 0;
+
 class WeekCalender extends Component {
   state = {
     weekDate: [],
@@ -34,7 +36,6 @@ class WeekCalender extends Component {
 
   getCurrentWeek = async (date = undefined) => {
     let weekOfDay = moment(date).format('E'); // 指定日期的周的第几天
-    console.log(weekOfDay);
     let weekDate = [];
     let dateList = await this.getEnmbeData();
     for (let i = 0; i < 7; i++) {
@@ -52,8 +53,26 @@ class WeekCalender extends Component {
         times: list
       });
     }
-    console.log(weekDate);
-    this.setState({ weekDate });
+    this.setState({ weekDate }, () => {
+      // this.goTotime(weekDate);
+    });
+  };
+  goTotime = (weekDate) => {
+    let flag = false;
+    let weekContent = document.getElementById('week-content');
+    weekContent.scrollTo(0, 0);
+    for (var i in weekDate) {
+      for (var j in weekDate[i].times) {
+        if (!weekDate[i].times[j].disabled) {
+          flag = true;
+          weekContent.scrollTo(0, j * 35 + 1);
+          break;
+        }
+      }
+      if (flag) {
+        break;
+      }
+    }
   };
   getEnmbeData = () => {
     return new Promise((reslove) => {
@@ -66,7 +85,6 @@ class WeekCalender extends Component {
           _dataObj[item.date]['minuteList'][list.startTime] = list;
         });
       });
-      console.log(_dataObj, '_dataObj');
       reslove(_dataObj);
     });
   };
@@ -88,7 +106,6 @@ class WeekCalender extends Component {
   nextWeek = () => {
     if (index === -1) return;
     index--;
-    console.log(index);
     this.setState(
       {
         index
@@ -101,7 +118,6 @@ class WeekCalender extends Component {
   };
   getWeek = () => {
     let i = this.state.index;
-    console.log(i);
     let begin = moment()
       .week(moment().week() - i)
       .startOf('week')
@@ -173,7 +189,7 @@ class WeekCalender extends Component {
             <div className="rc-icon rc-right rc-iconography"></div>
           </div>
         </div>
-        <div className="week-content">
+        <div className="week-content" id="week-content">
           <ul>
             {weekDate.map((item, index) => (
               <li key={index + 1}>
