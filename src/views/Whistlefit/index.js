@@ -413,9 +413,6 @@ class Whistlefit extends React.Component {
             </div>
             <div className="flex justify-center">
               <span className="w-80 rc-input rc-input--inline rc-input--label">
-                <label for="id-email" className="text-black font-normal mb-2">
-                  Adresse e-mail
-                </label>
                 <input
                   id="id-email"
                   className={`w-80 border-bottom  ${
@@ -425,6 +422,7 @@ class Whistlefit extends React.Component {
                   } pb-2`}
                   type="text"
                   name="email"
+                  placeholder="Adresse e-mail"
                   value={this.state.email}
                   onChange={this.changeEmail}
                 />

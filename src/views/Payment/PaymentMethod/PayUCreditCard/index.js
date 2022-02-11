@@ -299,6 +299,8 @@ class PayOs extends React.Component {
           );
         });
         const payosdataRes = JSON.parse(tokenResult);
+        console.log(payosdataRes);
+        debugger;
         if (payosdataRes) {
           this.setState({
             payosdata: payosdataRes
