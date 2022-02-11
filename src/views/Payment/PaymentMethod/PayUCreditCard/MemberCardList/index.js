@@ -230,9 +230,9 @@ class MemberCardList extends React.Component {
       if (isNaN(inputValue)) {
         creditCardInfoForm[name] = beforeValue;
       } else {
-        //creditCardInfoForm[name] = value.replace(/\s*/g, '');
-        value = value.replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, '$1 '); //银行卡4位后自动加空格
-        creditCardInfoForm[name] = value;
+        creditCardInfoForm[name] = value.replace(/\s*/g, '');
+        //value = value.replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, '$1 '); //银行卡4位后自动加空格
+        //creditCardInfoForm[name] = value;
       }
     } else if (name === 'cardMmyy') {
       // 获取 / 前后数字
@@ -907,7 +907,9 @@ class MemberCardList extends React.Component {
                                         }
                                       )}
                                       id="number"
-                                      value={creditCardInfoForm.cardNumber}
+                                      value={creditCardInfoForm.cardNumber
+                                        .replace(/\s/g, '')
+                                        .replace(/(\d{4})(?=\d)/g, '$1 ')}
                                       onChange={this.cardInfoInputChange}
                                       onKeyUp={this.cardNumberChange}
                                       // onFocus={(e) => {
@@ -928,7 +930,7 @@ class MemberCardList extends React.Component {
                                     'cardNumber'
                                   ] === 'FAIL' ? (
                                     <div className="text-red-500 my-1">
-                                      поле необходимо заполнить.
+                                      неверный номер карты
                                     </div>
                                   ) : null}
                                 </div>
@@ -1037,7 +1039,7 @@ class MemberCardList extends React.Component {
                       </span>
                       {this.state.isCreditCardCheck['cardMmyy'] === 'FAIL' ? (
                         <div className="text-red-500 mt-1">
-                          поле необходимо заполнить.
+                           Неверная дата окончания.
                         </div>
                       ) : null}
                     </div>
@@ -1125,7 +1127,7 @@ class MemberCardList extends React.Component {
                       </span>
                       {this.state.isCreditCardCheck['cardCvv'] === 'FAIL' ? (
                         <div className="text-red-500 mt-1">
-                          поле необходимо заполнить.
+                          Неверный код безопасности
                         </div>
                       ) : null}
                     </div>
