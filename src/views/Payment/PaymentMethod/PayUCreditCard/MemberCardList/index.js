@@ -1182,6 +1182,7 @@ class MemberCardList extends React.Component {
                                   'SUCCESS'
                               }
                             )}
+                            autocomplete="off"
                             name="cardOwner"
                             value={creditCardInfoForm.cardOwner}
                             onChange={this.cardInfoInputChange}
@@ -1274,6 +1275,7 @@ class MemberCardList extends React.Component {
                         >
                           <input
                             type="text"
+                            autocomplete="off"
                             className="rc-input__control input__phoneField shippingPhoneNumber"
                             min-lenght="18"
                             max-length="18"
@@ -1477,6 +1479,7 @@ class MemberCardList extends React.Component {
                       >
                         <input
                           type="text"
+                          autocomplete="off"
                           className="rc-input__control form-control cardOwner"
                           name="cardOwner"
                           value={creditCardInfoForm.cardOwner}
@@ -1541,6 +1544,7 @@ class MemberCardList extends React.Component {
                         >
                           <input
                             type="text"
+                            autocomplete="off"
                             className="rc-input__control input__phoneField shippingPhoneNumber"
                             min-lenght="18"
                             max-length="18"

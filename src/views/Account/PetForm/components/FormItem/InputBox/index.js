@@ -24,6 +24,7 @@ export default (props) => {
         <input
           style={{ padding: '.5rem 0' }}
           type="text"
+          autocomplete="off"
           className="rc-input__control"
           id={name}
           name={name}

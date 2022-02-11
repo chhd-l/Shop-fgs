@@ -168,6 +168,7 @@ class EmailForm extends React.Component {
               >
                 <input
                   type="text"
+                  autocomplete="off"
                   placeholder={`${intl.messages.mailAddress}*`}
                   className="form-control"
                   value={form.email}

@@ -176,6 +176,7 @@ class EditForm extends React.Component {
             className="rc-input__control shippingFirstName"
             id="shippingFirstName"
             type="text"
+            autocomplete="off"
             value={address.firstName}
             onChange={this.deliveryInputChange}
             onBlur={this.inputBlur}
@@ -205,6 +206,7 @@ class EditForm extends React.Component {
             className="rc-input__control shippingLastName"
             id="shippingLastName"
             type="text"
+            autocomplete="off"
             value={address.lastName}
             onChange={this.deliveryInputChange}
             onBlur={this.inputBlur}
@@ -234,6 +236,7 @@ class EditForm extends React.Component {
             className="rc-input__control shippingAddress1"
             id="shippingAddress1"
             type="text"
+            autocomplete="off"
             value={address.address1}
             onChange={this.deliveryInputChange}
             onBlur={this.inputBlur}
@@ -263,6 +266,7 @@ class EditForm extends React.Component {
             className="rc-input__control shippingAddress2"
             id="shippingAddress2"
             type="text"
+            autocomplete="off"
             value={address.address2}
             onChange={this.deliveryInputChange}
             onBlur={this.inputBlur}
@@ -450,6 +454,7 @@ class EditForm extends React.Component {
         >
           <input
             type="text"
+            autocomplete="off"
             className="rc-input__control input__phoneField shippingPhoneNumber"
             id="shippingPhoneNumber"
             value={address.phoneNumber}

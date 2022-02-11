@@ -31,6 +31,7 @@ function VisitorEditForm({
             <span className="rc-input rc-input--full-width" input-setup="true">
               <input
                 type="text"
+                autocomplete="off"
                 className="rc-input__control form-control cardOwner"
                 name="cardOwner"
                 value={creditCardInfoForm.cardOwner}
@@ -89,6 +90,7 @@ function VisitorEditForm({
               >
                 <input
                   type="text"
+                  autocomplete="off"
                   className="rc-input__control input__phoneField shippingPhoneNumber"
                   min-lenght="18"
                   max-length="18"
