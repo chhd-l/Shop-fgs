@@ -2725,6 +2725,24 @@ class Payment extends React.Component {
               calculateFreight={this.calculateFreight}
               cartData={this.computedCartData}
               isLogin={true}
+              onSearchSelectionChange={() =>
+                window.__.env.REACT_APP_COUNTRY === 'ru' &&
+                window?.dataLayer?.push({
+                  event: 'suggestedAdressInteraction',
+                  suggestedAdress: {
+                    action: 'suggestionClick'
+                  }
+                })
+              }
+              onSearchSelectionFocus={() =>
+                window.__.env.REACT_APP_COUNTRY === 'ru' &&
+                window?.dataLayer?.push({
+                  event: 'suggestedAdressInteraction',
+                  suggestedAdress: {
+                    action: 'fieldClick'
+                  }
+                })
+              }
             />
           ) : (
             <VisitorAddress
