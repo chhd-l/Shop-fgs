@@ -4579,7 +4579,9 @@ class Payment extends React.Component {
             </div>
           ) : (
             <div className="flex flex-col items-center">
-              <div className="pt-1 pb-6 text-black text-base">Scan QR code</div>
+              <div className="pt-1 pb-6 text-black text-base">
+                Skanna QR-kod
+              </div>
               <QRCode
                 value={this.state.swishQrcode}
                 size={256}
@@ -4601,12 +4603,11 @@ class Payment extends React.Component {
                 {formatMoney(this.tradePrice)}
               </div>
               <div className="text-sm pt-6">
-                You have {this.state.countDown} to pay
+                You have {this.state.countDown} minuter to pay
               </div>
               <div className="w-64 md:w-96 text-center py-6 text-gray-600">
-                After you scan, the status can be pending for up to 15 minutes.
-                Attempting to pay again within this time may result in multiple
-                charges.
+                Du har 15 minuter på dig att genomföra köpet. Försök att
+                genomföra köp igen kan resultera i flera betalningar.
               </div>
               <button
                 className="md:hidden mt-2 rc-btn rc-btn--one"
