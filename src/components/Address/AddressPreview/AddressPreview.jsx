@@ -193,24 +193,10 @@ const AddressPreview = ({ configStore, data, nameCls, pickupNameCls }) => {
                 window.__.env.REACT_APP_COUNTRY === 'se' ? (
                   <>
                     {/* se特殊处理显示字段顺序 */}
-                    <p
-                      className={cn(
-                        `preview_${arrangedList
-                          .map((t) => t.fieldKey)
-                          .join('|')}`
-                      )}
-                    >
-                      {[postCode, city].join(', ')}
+                    <p className={cn(`preview_postCode|city`)}>
+                      {[postCode, city].join(' ')}
                     </p>
-                    <p
-                      className={cn(
-                        `preview_${arrangedList
-                          .map((t) => t.fieldKey)
-                          .join('|')}`
-                      )}
-                    >
-                      {countryName}
-                    </p>
+                    <p className={cn(`preview_country`)}>{countryName}</p>
                   </>
                 ) : (
                   <p
