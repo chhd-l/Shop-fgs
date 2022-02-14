@@ -312,10 +312,10 @@ class Whistlefit extends React.Component {
                   <img src={group1} alt="group1" />
                 </LazyLoad>
                 <div className="w-1/2 md:w-auto">
-                  <div className="h4 w-100 md:w-72 text-center text-xl md:text-2xl font-bold mt-3 md:mt-6 mb-6">
+                  <div className="h4 w-100 md:w-72 text-center text-xl md:text-2xl font-bold mt-3 md:mt-6 mb-6 md:leading-normal">
                     Un dispositif intelligent qui collecte la donnée
                   </div>
-                  <div className="h4 w-100 md:w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6">
+                  <div className="h4 w-100 md:w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6 md:leading-normal">
                     Whistle Fit recueille les données autour de l’activité et du
                     comportement de votre chien.
                   </div>
@@ -326,10 +326,10 @@ class Whistlefit extends React.Component {
                   <img src={group2} alt="group2" />
                 </LazyLoad>
                 <div className="w-1/2 md:w-auto order-1 md:order-2">
-                  <div className="h4 w-100 md:w-72 text-center text-xl md:text-2xl font-bold mt-3 md:mt-6 mb-6">
+                  <div className="h4 w-100 md:w-72 text-center text-xl md:text-2xl font-bold mt-3 md:mt-6 mb-6 md:leading-normal">
                     L’application Whistle pour interpréter les données
                   </div>
-                  <div className="h4 w-100 md:w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6">
+                  <div className="h4 w-100 md:w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6 md:leading-normal">
                     Obtenez des rapports de mesures personnalisés grâce à
                     l’application Whistle.
                   </div>
@@ -340,10 +340,10 @@ class Whistlefit extends React.Component {
                   <img src={group3} alt="group3" />
                 </LazyLoad>
                 <div className="w-1/2 md:w-auto">
-                  <div className="h4 w-100 md:w-72 text-center text-xl md:text-2xl font-bold mt-3 md:mt-6 mb-6">
+                  <div className="h4 w-100 md:w-72 text-center text-xl md:text-2xl font-bold mt-3 md:mt-6 mb-6 md:leading-normal">
                     Des alertes santé pour réagir plus vite
                   </div>
-                  <div className="h4 w-100 md:w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6">
+                  <div className="h4 w-100 md:w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6 md:leading-normal">
                     Recevez des alertes santé dès que votre chien montre des
                     changements de comportement
                   </div>
@@ -387,7 +387,7 @@ class Whistlefit extends React.Component {
           <div className="max-w-full px-0 md:px-36">
             <div className="flex justify-center">
               <div
-                className="w-full md:w-1/2 px-4 md:px-0 text-center tracking-normal md:tracking-tighter text-2xl md:text-4xl my-6 md:my-12 leading-tight md:leading-normal font-normal"
+                className="w-full md:w-1/2 px-4 md:px-0 text-center  text-2xl md:text-4xl my-6 md:my-12 leading-tight md:leading-normal font-normal"
                 style={{ color: '#E2001A' }}
               >
                 Whistle Fit et Royal Canin vous aident à mieux comprendre et
@@ -403,7 +403,7 @@ class Whistlefit extends React.Component {
                 />
               </LazyLoad>
               <div
-                className="w-full md:w-1/2 text-sm md:text-lg px-4 md:px-0 leading-loose mt-0 md:mt-20"
+                className="w-full md:w-5/12 text-sm md:text-lg px-4 md:px-0 leading-loose mt-0 md:mt-4"
                 id="email"
               >
                 Chez Royal Canin, nous avons passé plus de 50 ans à soutenir la
@@ -421,7 +421,7 @@ class Whistlefit extends React.Component {
           <div className="max-w-full px-0 md:px-36">
             <div className="flex justify-center">
               <div
-                className="w-full md:w-2/3 px-4 md:px-0 text-center tracking-normal md:tracking-tighter text-2xl md:text-4xl mt-6 md:mt-12 mb-3 leading-tight md:leading-normal font-normal"
+                className="w-full md:w-2/3 px-4 md:px-0 text-center  text-2xl md:text-4xl mt-6 md:mt-12 mb-3 leading-tight md:leading-normal font-normal"
                 style={{ color: '#E2001A' }}
               >
                 Whistle Fit vous intéresse ? Faites-le nous savoir. Complétez le
