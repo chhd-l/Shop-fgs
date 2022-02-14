@@ -3,6 +3,7 @@ import { inject, observer } from 'mobx-react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { getDictionary, matchNamefromDict } from '@/utils/utils';
 import Skeleton from 'react-skeleton-loader';
+import { formatMoney } from '@/utils/utils';
 
 const hideBillingAddr = Boolean(
   +window.__.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
@@ -93,7 +94,11 @@ class InfosPreview extends React.Component {
       },
       {
         title: <FormattedMessage id="payment.normalDelivery2" />,
-        value: <FormattedMessage id="payment.forFree" />
+        value: details?.tradePrice.deliveryPrice ? (
+          formatMoney(details?.tradePrice.deliveryPrice)
+        ) : (
+          <FormattedMessage id="payment.forFree" />
+        )
       }
     ];
 
