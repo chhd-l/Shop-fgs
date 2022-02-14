@@ -37,11 +37,11 @@ export default class Carousel extends Component {
               <div className="flex justify-between mt-3">
                 <div className="flex flex-col items-center">
                   <div style={{ color: '#E2001A' }} className="font-normal">
-                    — Fabiola S.
+                    — Fabiola S.Propriétaire de chien
                   </div>
-                  <div style={{ color: '#E2001A' }} className="font-normal">
+                  {/* <div style={{ color: '#E2001A' }} className="font-normal">
                     Propriétaire de chien
-                  </div>
+                  </div> */}
                 </div>
                 <img src={Shape02} alt="Shape02" className="w-16" />
               </div>
@@ -61,11 +61,11 @@ export default class Carousel extends Component {
               <div className="flex justify-between mt-3">
                 <div className="flex flex-col items-center">
                   <div style={{ color: '#E2001A' }} className="font-normal">
-                    — Charles V.
+                    — Charles V.Propriétaire de chien
                   </div>
-                  <div style={{ color: '#E2001A' }} className="font-normal">
+                  {/* <div style={{ color: '#E2001A' }} className="font-normal">
                     Propriétaire de chien
-                  </div>
+                  </div> */}
                 </div>
                 <img src={Shape02} alt="Shape02" className="w-16" />
               </div>
@@ -87,11 +87,11 @@ export default class Carousel extends Component {
               <div className="flex justify-between mt-3">
                 <div className="flex flex-col items-center">
                   <div style={{ color: '#E2001A' }} className="font-normal">
-                    — Laura P.
+                    — Laura P.Propriétaire de chien
                   </div>
-                  <div style={{ color: '#E2001A' }} className="font-normal">
+                  {/* <div style={{ color: '#E2001A' }} className="font-normal">
                     Propriétaire de chien
-                  </div>
+                  </div> */}
                 </div>
                 <img src={Shape02} alt="Shape02" className="w-16" />
               </div>

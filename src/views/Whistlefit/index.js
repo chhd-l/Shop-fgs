@@ -98,13 +98,12 @@ class Whistlefit extends React.Component {
   changeEmail = (e) => {
     this.setState({ email: e.target.value, isSaveSuccess: false });
   };
-  changeConsentArr = (index) => {
-    console.log(123, this.state.isCheckedArr);
-    let arr = [...this.state.isCheckedArr];
-    arr[index] = !arr[index];
-    console.log(arr);
-    this.setState({ isCheckedArr: arr });
-  };
+  // changeConsentArr = (index) => {
+  //   let arr = [...this.state.isCheckedArr];
+  //   arr[index] = !arr[index];
+  //   console.log(arr);
+  //   this.setState({ isCheckedArr: arr });
+  // };
   //滚动到输入email的位置
   scrollToInputEmail = (position, label) => {
     GAWhistleFitButtonClick(position, label);
@@ -123,7 +122,7 @@ class Whistlefit extends React.Component {
   register = async () => {
     this.setState({ isRegisterLoading: true });
     try {
-      this.scrollToInputEmail(5, 'Je suis intéressé, veux être informé !');
+      this.scrollToInputEmail(5, 'Je suis intéressé et veux être informé !');
       await registerLandingPage({
         type: this.isLogin ? 'Member' : 'Guest', //guest member
         email: this.state.email,
@@ -164,7 +163,10 @@ class Whistlefit extends React.Component {
           <meta name="keywords" content={seoConfig.metaKeywords} />
         </Helmet>
         <Header showMiniIcons={true} showUserIcon={true} {...this.props} />
-        <main className="smartCollar rc-content--fixed-header rc-bg-colour--brand3">
+        <main
+          className="smartCollar rc-content--fixed-header rc-bg-colour--brand3"
+          style={{ fontFamily: 'din-pro' }}
+        >
           <div className="w-full px-0 md:px-36">
             <div className="flex flex-col md:flex-row">
               <LazyLoad className="w-full md:w-1/2">
@@ -172,14 +174,14 @@ class Whistlefit extends React.Component {
               </LazyLoad>
               <div className="w-full md:w-1/2 flex flex-col justify-center ml-0 md:ml-5 items-center md:items-start">
                 <div
-                  className="tracking-normal md:tracking-tighter text-2xl md:text-4xl text-center md:text-left leading-tight md:leading-normal mt-5 md:mt-0 mb-5 md:mb-5 ml-5 md:ml-0 mr-5 font-normal"
+                  className="text-center md:text-left text-2xl md:text-4xl  mt-5 md:mt-0 mb-5 md:mb-5 ml-5 md:ml-0 mr-5 font-normal md:leading-normal"
                   style={{ color: '#E2001A' }}
                 >
                   Whistle Fit, le collier intelligent pour prendre soin de la
                   santé de votre chien
                 </div>
                 <div
-                  className="tracking-normal md:tracking-tighter text-xl md:text-3xl text-center md:text-left leading-tight md:leading-normal mt-5 md:mt-0 mb-5 md:mb-10 ml-5 md:ml-0 mr-5 font-normal"
+                  className="text-center md:text-left text-2xl md:text-4xl mt-5 md:mt-0 mb-5 md:mb-10 ml-5 md:ml-0 mr-5 font-normal md:leading-normal"
                   style={{ color: '#E2001A' }}
                 >
                   Faites partie des premiers à être informés de la disponibilité
@@ -201,7 +203,7 @@ class Whistlefit extends React.Component {
           <div className="w-full px-0 md:px-36">
             <div>
               <div
-                className="px-4 md:px-48 text-center tracking-normal md:tracking-tighter text-2xl md:text-4xl my-6 md:my-12 leading-tight md:leading-normal font-normal"
+                className="px-4 md:px-48 text-2xl md:text-4xl text-center my-6 md:my-12 font-normal md:leading-normal"
                 style={{ color: '#E2001A' }}
               >
                 Surveillez le bien-être de votre chien et identifiez plus tôt
@@ -460,12 +462,12 @@ class Whistlefit extends React.Component {
                 onClick={this.register}
                 disabled={
                   !(
-                    !this.state.isCheckedArr.includes(false) &&
+                    // !this.state.isCheckedArr.includes(false) &&
                     EMAIL_REGEXP.test(this.state.email)
                   )
                 }
               >
-                Je suis intéressé, veux être informé !
+                Je suis intéressé et veux être informé !
               </button>
             </div>
             <div className="flex flex-col items-center mb-10 px-4 md:px-4">
@@ -474,14 +476,14 @@ class Whistlefit extends React.Component {
                   <div className="flex" key={index}>
                     <span className="red mr-1">*</span>
                     <div className="max-w-xl rc-input">
-                      <input
+                      {/* <input
                         className="rc-input__checkbox"
                         id={`id-checkbox-cat-${index}`}
                         checked={this.state.isCheckedArr[index]}
                         type="checkbox"
                         name={`checkbox-${index}`}
                         onChange={() => this.changeConsentArr(index)}
-                      />
+                      /> */}
                       <label
                         className="text-sm italic rc-input__label--inline"
                         for={`id-checkbox-cat-${index}`}
