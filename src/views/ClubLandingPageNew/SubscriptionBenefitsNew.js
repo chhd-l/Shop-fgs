@@ -188,7 +188,6 @@ const SubsriptionBenefitsNew = () => {
                                     // window.PetStoryWC.start();
                                   }}
                                   style={{
-                                    textDecoration: 'underline',
                                     cursor: 'pointer'
                                   }}
                                 >
