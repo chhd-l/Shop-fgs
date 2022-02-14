@@ -82,7 +82,7 @@ class Pcexperts extends React.Component {
         },
         {
           duration: 45,
-          text: 'Creusez les problématiques identifiées avec l’expert et définissez des solutions pour les traiter sur le long terme.'
+          text: "Creusez les problématiques identifiées avec l'expert et recevez des conseils pour améliorer le bien être de votre chat."
         },
         {
           duration: 60,
