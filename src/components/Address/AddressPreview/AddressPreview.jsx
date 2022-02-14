@@ -190,13 +190,37 @@ const AddressPreview = ({ configStore, data, nameCls, pickupNameCls }) => {
                 <p>{address2}</p>
               ) : null}
               {arrangedList.length ? (
-                <p
-                  className={cn(
-                    `preview_${arrangedList.map((t) => t.fieldKey).join('|')}`
-                  )}
-                >
-                  {arrangedList.map((t) => t.value).join(', ')}
-                </p>
+                window.__.env.REACT_APP_COUNTRY === 'se' ? (
+                  <>
+                    {/* se特殊处理显示字段顺序 */}
+                    <p
+                      className={cn(
+                        `preview_${arrangedList
+                          .map((t) => t.fieldKey)
+                          .join('|')}`
+                      )}
+                    >
+                      {[postCode, city].join(', ')}
+                    </p>
+                    <p
+                      className={cn(
+                        `preview_${arrangedList
+                          .map((t) => t.fieldKey)
+                          .join('|')}`
+                      )}
+                    >
+                      {countryName}
+                    </p>
+                  </>
+                ) : (
+                  <p
+                    className={cn(
+                      `preview_${arrangedList.map((t) => t.fieldKey).join('|')}`
+                    )}
+                  >
+                    {arrangedList.map((t) => t.value).join(', ')}
+                  </p>
+                )
               ) : null}
               {phone ? <p>{phone}</p> : null}
               {rfc ? <p>{rfc}</p> : null}
