@@ -21,6 +21,7 @@ import './index.css';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import { seoHoc } from '@/framework/common';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 
 const pageLink = window.location.href;
 @inject('configStore')
@@ -376,7 +377,7 @@ class SubscriptionLanding extends React.Component {
                                   </p>
                                   <div className="rc-margin-top--xs">
                                     <a
-                                      href="tel: 1-844-673-3772"
+                                      href={`tel: ${intl.messages['SubscriptionLanding.helpListText12']}`}
                                       style={{ color: '#00A4A6' }}
                                       className="rc-numeric nowrap"
                                     >
@@ -418,7 +419,9 @@ class SubscriptionLanding extends React.Component {
                                     </span>
                                   </p>
                                   <div className="rc-margin-top--xs">
-                                    <Link
+                                    {/* todo */}
+                                    <DistributeHubLinkOrATag
+                                      href="/contact-us"
                                       to="/help/contact"
                                       style={{
                                         color: '#0087BD',
@@ -428,7 +431,7 @@ class SubscriptionLanding extends React.Component {
                                     >
                                       {/*Send us an Email*/}
                                       <FormattedMessage id="SubscriptionLanding.helpListText22" />
-                                    </Link>
+                                    </DistributeHubLinkOrATag>
                                   </div>
                                 </div>
                               </div>
