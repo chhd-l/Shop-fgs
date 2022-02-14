@@ -14,7 +14,6 @@ import icon4 from './images/us_icon4.png';
 import emailImg from './images/Emailus_icon.png';
 import callImg from './images/customer-service.png';
 import helpImg from './images/FAQ_icon.png';
-import usImage from './images/DogWithLogo.png';
 import wof from './images/wof.png';
 import { inject, observer } from 'mobx-react';
 import './index.css';
@@ -22,6 +21,7 @@ import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import { seoHoc } from '@/framework/common';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
+import { LOGO_CLUB, LOGO } from '@/utils/constant';
 
 const pageLink = window.location.href;
 @inject('configStore')
@@ -127,8 +127,8 @@ class SubscriptionLanding extends React.Component {
                               ]
                                 .filter((e) => e)
                                 .map((item, i) => (
-                                  <li className="rc-list__item" key={i}>
-                                    <span className="iconfont iconicon_jiaozhang text-rc-red mr-2" />
+                                  <li className="rc-list__item flex" key={i}>
+                                    <span className="iconfont iconicon_jiaozhang text-rc-red mr-2 block" />
                                     <span
                                       dangerouslySetInnerHTML={{ __html: item }}
                                     />
@@ -151,12 +151,22 @@ class SubscriptionLanding extends React.Component {
                             </div>
                           </div>
                         </div>
-                        <div className="rc-column">
+                        <div className="rc-column relative">
+                          <img
+                            className="absolute left-8 md:left-14 w-36 md:w-56 top-8 md:top-24"
+                            src={
+                              window.__.env.REACT_APP_COUNTRY === 'us'
+                                ? LOGO_CLUB
+                                : LOGO
+                            }
+                            alt=""
+                          />
                           <LazyLoad>
                             <img
                               alt="Avec l'Abonnement, ils auront toujours ce dont ils ont besoin"
                               className="w-100 lazyloaded"
-                              src={usImage}
+                              // src={usImage}
+                              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/DogWithLogo.jpg`}
                             />
                           </LazyLoad>
                         </div>

@@ -9,7 +9,7 @@ import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import clublogo from './image/clublogo.png';
 import clubru from './image/Clubru.png';
 import clubfr from './image/clublogofr.png';
-import { getDeviceType } from '../../../../utils/utils';
+import { getDeviceType } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
