@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import './index.less';
 import 'moment/locale/fr';
+
 moment.locale('fr', {
   months:
     'janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre'.split(
@@ -48,9 +49,9 @@ class WeekCalender extends Component {
         times: list
       });
     }
-    console.log(weekDate);
-
-    this.setState({ weekDate });
+    this.setState({ weekDate }, () => {
+      // this.goTotime(weekDate);
+    });
   };
   getCurrentWeek1 = async (date = undefined) => {
     console.log(date);
@@ -72,10 +73,11 @@ class WeekCalender extends Component {
         times: list
       });
     }
-    this.setState({ weekDate });
+    this.setState({ weekDate }, () => {
+      // this.goTotime(weekDate);
+    });
   };
   getCurrentWeek2 = async (date = undefined) => {
-    console.log(date);
     let weekDate = [];
     let dateList = await this.getEnmbeData();
     for (let i = 0; i < 3; i++) {
@@ -94,9 +96,27 @@ class WeekCalender extends Component {
         times: list
       });
     }
-    console.log(weekDate);
-
-    this.setState({ weekDate });
+    this.setState({ weekDate }, () => {
+      // this.goTotime(weekDate);
+    });
+  };
+  goTotime = (weekDate) => {
+    let flag = false;
+    let weekContent = document.getElementById('week-content');
+    console.log(weekContent);
+    weekContent.scrollTo(0, 0);
+    for (var i in weekDate) {
+      for (var j in weekDate[i].times) {
+        if (!weekDate[i].times[j].disabled) {
+          flag = true;
+          weekContent.scrollTo(0, j * 48.1 + 2);
+          break;
+        }
+      }
+      if (flag) {
+        break;
+      }
+    }
   };
   getEnmbeData = () => {
     return new Promise((reslove) => {
@@ -109,7 +129,6 @@ class WeekCalender extends Component {
           _dataObj[item.date]['minuteList'][list.startTime] = list;
         });
       });
-      console.log(_dataObj, '_dataObj');
       reslove(_dataObj);
     });
   };
@@ -188,7 +207,7 @@ class WeekCalender extends Component {
             <div className="rc-icon rc-right rc-iconography"></div>
           </div>
         </div>
-        <div className="week-content">
+        <div className="week-content" id="week-content">
           <ul>
             {weekDate.map((item, index) => (
               <li key={index + 1}>

@@ -23,7 +23,13 @@ class ConseillerTwo extends React.Component {
             <div className="jus-flex-center">
               <img src={exper1} alt="" />
             </div>
-            <div className="mtb10">Alexandre Blavier</div>
+            <div className="mtb10">Christelle Baclet</div>
+          </div>
+          <div className="txt-centr">
+            <div className="jus-flex-center">
+              <img src={exper5} alt="" />
+            </div>
+            <div className="mtb10">Daniel Chauvin</div>
           </div>
           <div className="txt-centr">
             <div className="jus-flex-center">
@@ -42,12 +48,6 @@ class ConseillerTwo extends React.Component {
               <img src={exper4} alt="" />
             </div>
             <div className="mtb10">Franck Perron</div>
-          </div>
-          <div className="txt-centr">
-            <div className="jus-flex-center">
-              <img src={exper5} alt="" />
-            </div>
-            <div className="mtb10">Hervé Page</div>
           </div>
           <div className="txt-centr">
             <div className="jus-flex-center">
