@@ -901,7 +901,7 @@ class HomeDeliveryOrPickUp extends React.Component {
                   customStyle={true}
                   isLoadingList={false}
                   isBottomPaging={true}
-                  {...this.props}
+                  // {...this.props}
                 />
                 {searchNoResult && (
                   <span
