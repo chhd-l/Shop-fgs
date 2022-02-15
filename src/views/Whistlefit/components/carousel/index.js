@@ -27,7 +27,7 @@ export default class Carousel extends Component {
             </div>
             <div className="w-full md:w-1/2 flex flex-col ml-10 mr-20 p-10 pr-36">
               <img src={Shape01} alt="Shape01" className="w-16 mb-3" />
-              <div>
+              <div className="md:leading-relaxed">
                 "Cela vous met au défi, vous et votre chien, de faire plus
                 d'exercice et de rester actifs. Il fournit également des
                 informations sur le comportement de votre chien, le nombre de
@@ -53,7 +53,7 @@ export default class Carousel extends Component {
             </div>
             <div className="w-full md:w-1/2 flex flex-col ml-10 mr-20 p-10 pr-36">
               <img src={Shape01} alt="Shape01" className="w-16 mb-3" />
-              <div>
+              <div className="md:leading-relaxed">
                 "Cela m'a aidé à suivre son niveau d’activité quotidienne. Elle
                 a perdu le poids recommandé par le vétérinaire. Je recommande
                 définitivement Whistle Fit à mes amis et à ma famille »
@@ -77,7 +77,7 @@ export default class Carousel extends Component {
             </div>
             <div className="w-full md:w-1/2 flex flex-col ml-10 mr-20 p-10 pr-36">
               <img src={Shape01} alt="Shape01" className="w-16 mb-3" />
-              <div>
+              <div className="md:leading-relaxed">
                 "Suivez non seulement son activité, mais aussi ses habitudes de
                 sommeil et sa consommation d’eau. Nous adorons l'application -
                 elle est très simple à prendre en main. En plus d’être un
