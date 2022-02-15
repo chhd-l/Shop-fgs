@@ -502,7 +502,9 @@ class PayOs extends React.Component {
             <img
               className="logo-payment-card"
               src={el.imgUrl}
-              style={{ width: '50px' }}
+              style={{
+                width: window.__.env.REACT_APP_COUNTRY == 'ru' ? '50px' : '30px'
+              }}
               alt="logo payment card"
             />
           </LazyLoad>
