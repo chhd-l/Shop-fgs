@@ -2,8 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 import footerpet from '@/assets/images/home/footerpet@2x.jpg';
-import togetherwithu from '@/assets/images/home/togetherwithu.jpg';
-
+import { optimizeImage } from '@/utils/utils';
 class FooterImage extends React.Component {
   render() {
     const defaultVal = (
@@ -47,8 +46,11 @@ class FooterImage extends React.Component {
           <div className="image-container rc-padding-bottom--xs rc-margin-right--xs--desktop">
             <LazyLoad height={200}>
               <img
-                src={togetherwithu}
-                srcSet={togetherwithu}
+                src={optimizeImage(
+                  `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/togetherwithu.jpg`,
+                  60
+                )}
+                // srcSet={togetherwithu}
                 width="58"
                 alt="together with you"
                 title="together with you"
@@ -106,8 +108,11 @@ class FooterImage extends React.Component {
             <div className="image-container rc-padding-bottom--xs rc-margin-right--xs--desktop">
               <LazyLoad height={200}>
                 <img
-                  src={togetherwithu}
-                  srcSet={togetherwithu}
+                  src={optimizeImage(
+                    `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/togetherwithu.jpg`,
+                    60
+                  )}
+                  // srcSet={togetherwithu}
                   width="58"
                   alt="together with you"
                   title="together with you"
@@ -197,20 +202,35 @@ class FooterImage extends React.Component {
               <picture>
                 <source
                   media="(max-width: 640px)"
-                  srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@1x640px.jpg 1x, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x640px.jpg 2x`}
+                  // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@1x640px.jpg 1x, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x640px.jpg 2x`}
+                  srcSet={optimizeImage(
+                    `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x770px.jpg`,
+                    160
+                  )}
                 />
                 <source
                   media="(min-width: 640px) and (max-width: 769px)"
-                  srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@1x769px.jpg 1x, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x769px.jpg 2x`}
+                  // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@1x769px.jpg 1x, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x769px.jpg 2x`}
+                  srcSet={optimizeImage(
+                    `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x770px.jpg`,
+                    300
+                  )}
                 />
                 <source
                   media="(min-width: 769px)"
-                  srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@1x770px.jpg 1x, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x770px.jpg 2x`}
+                  // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@1x770px.jpg 1x, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x770px.jpg 2x`}
+                  srcSet={optimizeImage(
+                    `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x770px.jpg`,
+                    400
+                  )}
                 />
 
                 <img
                   className="w-100"
-                  src={footerpet}
+                  src={optimizeImage(
+                    `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x770px.jpg`,
+                    400
+                  )}
                   alt="Royal Canin® - for dogs and cats"
                   title="Royal Canin® - for dogs and cats"
                 />
@@ -228,8 +248,12 @@ class FooterImage extends React.Component {
             <div className="image-container rc-padding-bottom--xs rc-margin-right--xs--desktop">
               <LazyLoad height={200}>
                 <img
-                  src={togetherwithu}
-                  srcSet={togetherwithu}
+                  // src={togetherwithu}
+                  src={optimizeImage(
+                    `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/togetherwithu.jpg`,
+                    60
+                  )}
+                  // srcSet={togetherwithu}
                   width="58"
                   alt="together with you"
                   title="together with you"

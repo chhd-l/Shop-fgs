@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { queryStoreCateList } from '@/utils/utils';
+import { queryStoreCateList, optimizeImage } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
@@ -45,7 +45,7 @@ class SalesCategory extends Component {
             <source srcSet={ele.cateImgForHome} />
             <LazyLoad height={300}>
               <img
-                src={ele.cateImgForHome}
+                src={optimizeImage(ele.cateImgForHome, 200)}
                 alt={`${ele.cateName} product image`}
                 title={ele.altName}
                 style={{ width: '144px' }}
