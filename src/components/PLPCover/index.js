@@ -95,7 +95,8 @@ function ListItemH5ForGlobalStyle(props) {
                         style={{
                           maxHeight: '100%',
                           height: 'auto',
-                          margin: 'auto'
+                          margin: 'auto',
+                          transform: 'scale(1.05)'
                         }}
                         alt="Retail Products"
                       />
@@ -161,7 +162,8 @@ function ListItemH5ForGlobalStyle(props) {
                         maxHeight: '100%',
                         width: '100%',
                         height: 'auto',
-                        margin: 'auto'
+                        margin: 'auto',
+                        transform: 'scale(1.05)'
                       }}
                       alt="Retail Products"
                     />
@@ -236,7 +238,8 @@ function ListItemH5ForGlobalStyle(props) {
                       maxHeight: '100%',
                       width: 'auto',
                       height: 'auto',
-                      margin: 'auto'
+                      margin: 'auto',
+                      transform: 'scale(1.05)'
                     }}
                   />
                 </LazyLoad>
