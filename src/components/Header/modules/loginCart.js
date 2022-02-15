@@ -13,7 +13,7 @@ import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import { getProductPetConfig } from '@/api/payment';
 import './index.css';
-import foodDispenserPic from '../../../views/SmartFeederSubscription/img/food_dispenser_pic.png';
+import { FOOD_DISPENSER_PIC } from '@/utils/constant';
 import GiftList from './GiftList.tsx';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -413,7 +413,7 @@ class LoginCart extends React.Component {
                                         className="product-image"
                                         src={
                                           optimizeImage(gift.goodsInfoImg) ||
-                                          foodDispenserPic
+                                          FOOD_DISPENSER_PIC
                                         }
                                         alt={gift.goodsInfoName}
                                         title={gift.goodsInfoName}

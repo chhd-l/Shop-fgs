@@ -51,7 +51,7 @@ import ProductCarousel from '@/components/ProductCarousel';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 import GiftList from '../components/GiftList/index.tsx';
-import foodDispenserPic from '../../SmartFeederSubscription/img/food_dispenser_pic.png';
+import { FOOD_DISPENSER_PIC } from '@/utils/constant';
 import PromotionCodeText from '../components/PromotionCodeText';
 import CartSurvey from '../components/CartSurvey';
 import { getMixFeedings } from '@/api/details';
@@ -997,7 +997,7 @@ class LoginCart extends React.Component {
                 <div className="name-info flex-column-gift rc-main-content__wrapper d-flex">
                   <img
                     className="img"
-                    src={optimizeImage(gift.goodsInfoImg) || foodDispenserPic}
+                    src={optimizeImage(gift.goodsInfoImg) || FOOD_DISPENSER_PIC}
                     alt="goods Information Image"
                   />
                   <div className="mobile-text-center">
