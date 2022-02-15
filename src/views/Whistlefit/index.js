@@ -53,7 +53,9 @@ class Whistlefit extends React.Component {
       landingPageId: '',
       isSaveSuccess: false,
       isRegisterLoading: false,
-      consentList: []
+      consentList: [],
+      requiredList: [],
+      optionalList: []
       //intl: this.props.intl.messages
     };
   }
@@ -89,7 +91,14 @@ class Whistlefit extends React.Component {
         ...res.context.requiredList,
         ...res.context.optionalList
       ];
-      this.setState({ consentList });
+      let requiredList = res.context.requiredList.map((item, index) => {
+        return { id: item.id, selectedFlag: true };
+      });
+      let optionalList = res.context.optionalList.map((item, index) => {
+        return { id: item.id, selectedFlag: true };
+      });
+
+      this.setState({ consentList, requiredList, optionalList });
     });
   }
   createMarkup = (consentTitle) => {
@@ -130,7 +139,12 @@ class Whistlefit extends React.Component {
         storeId: window.__.env.REACT_APP_STOREID,
         landingPageId: this.state.landingPageId,
         account: this.isLogin ? this.userInfo.customerAccount : '',
-        name: this.isLogin ? this.userInfo.customerName : ''
+        name: this.isLogin ? this.userInfo.customerName : '',
+        optionalList: [],
+        requiredList: [
+          { id: 923, selectedFlag: true },
+          { id: 924, selectedFlag: true }
+        ]
       });
       this.setState({ isSaveSuccess: true });
     } catch (err) {
