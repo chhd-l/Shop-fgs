@@ -403,7 +403,7 @@ class Whistlefit extends React.Component {
                 />
               </LazyLoad>
               <div
-                className="w-full md:w-5/12 text-sm md:text-lg px-4 md:px-0 leading-loose mt-0 md:mt-4"
+                className="w-full md:w-1/3 text-sm md:text-lg px-4 md:px-0 leading-loose mt-0"
                 id="email"
               >
                 Chez Royal Canin, nous avons passé plus de 50 ans à soutenir la
