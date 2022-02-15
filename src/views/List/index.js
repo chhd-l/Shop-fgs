@@ -20,7 +20,6 @@ import { IMG_DEFAULT } from '@/utils/constant';
 import { Helmet } from 'react-helmet';
 import { getList } from '@/api/list';
 import ruFilterMap from './ruFilterMap.json';
-import { stgShowAuth } from '@/utils/utils';
 import {
   fetchHeaderNavigations,
   fetchFilterList,
@@ -32,7 +31,9 @@ import {
   setSeoConfig,
   getDeviceType,
   loadJS,
-  filterObjectValue
+  filterObjectValue,
+  stgShowAuth,
+  optimizeImage
 } from '@/utils/utils';
 import { removeArgFromUrl, funcUrl, transferToObject } from '@/lib/url-utils';
 import { getSpecies } from '@/utils/GA';
@@ -46,8 +47,6 @@ import TopDesc from './modules/TopDesc';
 import cn from 'classnames';
 
 import './index.less';
-
-import pfRecoImg from '@/assets/images/product-finder-recomend.jpg';
 
 const Exception = loadable(() => import('@/views/StaticPage/Exception'));
 const isHub = window.__.env.REACT_APP_HUB;
@@ -141,11 +140,12 @@ function ListItemForDefault(props) {
                     }}
                   >
                     <img
-                      src={
+                      src={optimizeImage(
                         isDogPage
                           ? retailDog
-                          : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`
-                      }
+                          : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`,
+                        300
+                      )}
                       alt="product finder recomend retail cat find"
                       title=""
                       className="ImgFitScreen pt-3"
@@ -253,7 +253,13 @@ function ProductFinderAd({ isRetailProducts, isVetProducts, isDogPage }) {
                   style={{ width: '100%', height: '100%' }}
                   height={200}
                 >
-                  <img src={pfRecoImg} alt="product finder recomend" />
+                  <img
+                    src={optimizeImage(
+                      `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/product-finder-recomend.jpg`,
+                      650
+                    )}
+                    alt="product finder recomend 22222"
+                  />
                 </LazyLoad>
               </div>
               <div className="col-12 col-md-6">
@@ -279,7 +285,10 @@ function ProductFinderAd({ isRetailProducts, isVetProducts, isDogPage }) {
                 <LazyLoad style={{ width: '100%', height: '100%' }}>
                   <img
                     style={{ width: '100%' }}
-                    src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img${descObj.img}`}
+                    src={optimizeImage(
+                      `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img${descObj.img}`,
+                      650
+                    )}
                     alt={descObj.alt}
                   />
                 </LazyLoad>
@@ -1868,7 +1877,7 @@ class List extends React.Component {
                     {titleData.img && !isMobilePhone ? (
                       <LazyLoad style={{ width: '100%' }}>
                         <img
-                          src={titleData.img}
+                          src={optimizeImage(titleData.img, 300)}
                           className="mx-auto"
                           alt="titleData image"
                         />

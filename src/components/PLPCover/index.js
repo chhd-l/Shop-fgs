@@ -90,7 +90,10 @@ function ListItemH5ForGlobalStyle(props) {
                       />
                     ) : (
                       <img
-                        src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`}
+                        src={optimizeImage(
+                          `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`,
+                          300
+                        )}
                         className=" pt-3 ImgForMobile"
                         style={{
                           maxHeight: '100%',
