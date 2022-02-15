@@ -13,7 +13,11 @@ import HubSalesCategory from '@/components/HubSalesCategory';
 import { salesCategoryFilterRule } from '@/components/HubSalesCategory/utils';
 import { TopAds, Ads } from './ad';
 import { Advantage } from './advantage';
-import { getDeviceType, getOktaCallBackUrl } from '@/utils/utils';
+import {
+  getDeviceType,
+  getOktaCallBackUrl,
+  optimizeImage
+} from '@/utils/utils';
 import './index.css';
 import { withOktaAuth } from '@okta/okta-react';
 import { Helmet } from 'react-helmet';
@@ -21,10 +25,6 @@ import { funcUrl } from '@/lib/url-utils';
 import { redirectHoc, seoHoc } from '@/framework/common';
 import { inject, observer } from 'mobx-react';
 
-import PaymentSecureHome from '@/assets/images/home/Payment-secure@2x.png';
-import premiumHome from '@/assets/images/home/premium@2x.png';
-import reimbursedHome from '@/assets/images/home/reimbursed@2x.png';
-import shippmentHome from '@/assets/images/home/shippment@2x.png';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -421,20 +421,38 @@ function Share() {
 
 function AdvantageTips() {
   const defaultIconList = [
-    { img: PaymentSecureHome, langKey: 'home.point1' },
-    { img: reimbursedHome, langKey: 'home.point2' },
-    { img: premiumHome, langKey: 'home.point3' },
-    { img: shippmentHome, langKey: 'home.point4' }
+    {
+      img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Payment-secure@2x.png`,
+      langKey: 'home.point1'
+    },
+    {
+      img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/reimbursed@2x.png`,
+      langKey: 'home.point2'
+    },
+    {
+      img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/premium@2x.png`,
+      langKey: 'home.point3'
+    },
+    {
+      img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/shippment@2x.png`,
+      langKey: 'home.point4'
+    }
   ];
   const iconList =
     {
       us: [
-        { img: PaymentSecureHome, langKey: 'home.point1' },
+        {
+          img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Payment-secure@2x.png`,
+          langKey: 'home.point1'
+        },
         {
           img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CLUB-BENEFITS_FREE-SHIPPING.webp`,
           langKey: 'home.point2'
         },
-        { img: premiumHome, langKey: 'home.point3' },
+        {
+          img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/premium@2x.png`,
+          langKey: 'home.point3'
+        },
         {
           img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/question@2x_home_us.webp`,
           langKey: 'home.point4'
@@ -460,7 +478,7 @@ function AdvantageTips() {
                       <>
                         <LazyLoad height={200}>
                           <img
-                            src={ele.img}
+                            src={optimizeImage(ele.img, 40)}
                             srcSet={ele.img}
                             className="mx-auto"
                             alt={txt}
@@ -488,7 +506,7 @@ function AdvantageTips() {
                       <>
                         <LazyLoad height={200}>
                           <img
-                            src={ele.img}
+                            src={optimizeImage(ele.img, 40)}
                             srcSet={ele.ele}
                             className="mx-auto"
                             alt={txt}

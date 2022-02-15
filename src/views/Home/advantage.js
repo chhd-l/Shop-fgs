@@ -1,31 +1,27 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
-
-import pack from '@/assets/images/home/pack@2x.png';
-import autoship from '@/assets/images/home/autoship@2x.png';
-import delivery from '@/assets/images/home/delivery@2x.png';
-import question from '@/assets/images/home/question@2x.png';
+import { optimizeImage } from '@/utils/utils';
 
 export function Advantage() {
   const defaultList = [
     {
-      imgUrl: pack,
+      imgUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/pack@2x.png`,
       imgAlt: 'pack icon',
       text: <FormattedMessage id="home.whyShopRoyalCanin.findDiet" />
     },
     {
-      imgUrl: autoship,
+      imgUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/autoship@2x.png`,
       imgAlt: 'autoship icon',
       text: <FormattedMessage id="home.whyShopRoyalCanin.autoShip" />
     },
     {
-      imgUrl: delivery,
+      imgUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/delivery@2x.png`,
       imgAlt: 'delivery icon',
       text: <FormattedMessage id="home.whyShopRoyalCanin.goodDelivery" />
     },
     {
-      imgUrl: question,
+      imgUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/question@2x.png`,
       imgAlt: 'question icon',
       text: <FormattedMessage id="home.whyShopRoyalCanin.goodAfterService" />
     }
@@ -69,7 +65,7 @@ export function Advantage() {
           <img
             className="value-proposition__img"
             style={{ width: '80px' }}
-            src={item.imgUrl}
+            src={optimizeImage(item.imgUrl, 80)}
             alt={item.imgAlt}
             title=""
           />

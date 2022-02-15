@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import LazyLoad from 'react-lazyload';
 import { inject, observer } from 'mobx-react';
+import { optimizeImage } from '@/utils/utils';
 
 const DynamicFooter = ({ configStore, intl }) => {
   const [footHtml, setFooterHtml] = useState('');
@@ -52,7 +53,11 @@ const DynamicFooter = ({ configStore, intl }) => {
                     key={i}
                     className={`mb-2 ${(i + 1) % 4 == 0 ? '' : 'mr-2'}`}
                   >
-                    <img src={img.imgUrl} alt={i} style={{ width: '2.7rem' }} />
+                    <img
+                      src={optimizeImage(img.imgUrl, 80)}
+                      alt={i}
+                      style={{ width: '2.7rem' }}
+                    />
                   </LazyLoad>
                 ))}
               </div>

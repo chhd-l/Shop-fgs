@@ -189,7 +189,10 @@ class UnloginCart extends React.Component {
                 <div className="minicart__empty">
                   <img
                     className="cart-img"
-                    src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/cart.png`}
+                    src={optimizeImage(
+                      `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/cart.png`,
+                      300
+                    )}
                     alt="ROYAL CANIN® online store"
                   />
                   <p className="rc-delta">

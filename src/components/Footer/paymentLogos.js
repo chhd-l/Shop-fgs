@@ -3,6 +3,7 @@ import { injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
 import cn from 'classnames';
+import { optimizeImage } from '@/utils/utils';
 
 @inject('configStore')
 @injectIntl
@@ -45,7 +46,11 @@ class PaymentLogos extends React.Component {
                     key={i}
                     className={`mb-2 ${(i + 1) % 4 == 0 ? '' : 'mr-2'}`}
                   >
-                    <img src={img.imgUrl} alt={i} style={{ width: '2.7rem' }} />
+                    <img
+                      src={optimizeImage(img.imgUrl, 80)}
+                      alt={i}
+                      style={{ width: '2.7rem' }}
+                    />
                   </LazyLoad>
                 ))}
               </div>

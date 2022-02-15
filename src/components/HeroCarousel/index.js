@@ -7,7 +7,7 @@ import './index.less';
 import { getBanner } from '@/api/home.js';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
-import { stgShowAuth } from '@/utils/utils';
+import { stgShowAuth, optimizeImage } from '@/utils/utils';
 
 function ATagContainer({
   children,
@@ -80,7 +80,9 @@ class HeroCarousel extends React.Component {
     getBanner().then((res) => {
       let bannerList = stgShowAuth()
         ? res.context
-        : res.context.filter((el) => el.webSkipUrl != '/precise-cat-nutrition');
+        : res.context.filter(
+            (el) => el.webSkipUrl !== '/precise-cat-nutrition'
+          );
       this.setState({
         banner: bannerList.map((ele) => {
           return Object.assign(ele, {
@@ -172,14 +174,14 @@ class HeroCarousel extends React.Component {
               >
                 <img
                   className="w-100 mh-100"
-                  src={el.mobiUrl}
+                  src={optimizeImage(el.mobiUrl, 440)}
                   alt="heroCarousel banner"
                 />
               </ATagContainer>
             ) : (
               <img
                 className="w-100 mh-100"
-                src={el.mobiUrl}
+                src={optimizeImage(el.mobiUrl, 440)}
                 alt="heroCarousel banner"
               />
             )}
@@ -229,15 +231,15 @@ class HeroCarousel extends React.Component {
                           // onClick={this.GABannerClick.bind(this, i)}
                         >
                           <img
-                            className="rc-md-up mh-100"
-                            src={el.webUrl}
+                            className="hidden md:block mh-100"
+                            src={optimizeImage(el.webUrl, 1440)}
                             alt="heroCarousel banner"
                           />
                         </ATagContainer>
                       ) : (
                         <img
-                          className="rc-md-up mh-100"
-                          src={el.webUrl}
+                          className="hidden md:block mh-100"
+                          src={optimizeImage(el.webUrl, 1440)}
                           alt="heroCarousel banner"
                         />
                       )}
@@ -251,15 +253,15 @@ class HeroCarousel extends React.Component {
                           // onClick={this.GABannerClick.bind(this, i)}
                         >
                           <img
-                            className="rc-md-down w-100 mh-100"
-                            src={el.mobiUrl}
+                            className="block md:hidden w-100 mh-100"
+                            src={optimizeImage(el.mobiUrl, 440)}
                             alt="heroCarousel banner"
                           />
                         </ATagContainer>
                       ) : (
                         <img
-                          className="rc-md-down w-100 mh-100"
-                          src={el.mobiUrl}
+                          className="block md:hidden w-100 mh-100"
+                          src={optimizeImage(el.mobiUrl, 440)}
                           alt="heroCarousel banner"
                         />
                       )}
