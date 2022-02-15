@@ -1439,6 +1439,9 @@ class Details extends React.Component {
                                 barcode={barcode}
                                 goodsType={goodsType}
                                 onClick={this.handleBuyFromRetailer}
+                                isApi={isApi}
+                                isUrl={isUrl}
+                                retailerUrl={retailerUrl}
                               />
                             ) : null}
                           </div>
