@@ -4,7 +4,8 @@ const api = {
   getLandingPage: '/landingPage/getLandingPage',
   landingPageViews: '/landingPage/views',
   registerLandingPage: '/landingPage/registerLandingPage',
-  getOpenConsentByCategory: '/consent/getOpenConsentByCategory'
+  getOpenConsentByCategory: '/consent/getOpenConsentByCategory',
+  userBindConsent: '/consent/binds/customer-id='
 };
 
 export default api;
@@ -36,6 +37,14 @@ export function getOpenConsentByCategory(parameter) {
   return axios({
     url: `${api.getOpenConsentByCategory}`,
     method: 'POST',
+    data: parameter
+  });
+}
+
+export function userBindConsent(parameter, customerId) {
+  return axios({
+    url: `${api.userBindConsent}${customerId}`,
+    method: 'post',
     data: parameter
   });
 }
