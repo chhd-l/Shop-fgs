@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './index.css';
-import { FormattedMessage } from 'react-intl-phraseapp';
-import noPic from '@/assets/images/noPic.png';
+import { IMG_DEFAULT_V2 as noPic } from '@/utils/constant';
 // import noPic from './images/noPic1.png';
 import { getDeviceType } from '@/utils/utils.js';
 import LazyLoad from 'react-lazyload';
@@ -385,7 +384,7 @@ class ImageMagnifier extends Component {
               </div>
             ) : null}
             <div
-              className="bigImageInnerBox rc-loaded--final"
+              className="bigImageInnerBox rc-loaded--final 1"
               style={{
                 transform: `translateX(-${this.state.offsetX}px) translateY(0) scale(1) rotate(0deg)`
               }}
