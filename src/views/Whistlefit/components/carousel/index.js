@@ -56,7 +56,11 @@ export default class Carousel extends Component {
           </div>
           <div className="flex flex-col md:flex-row">
             <div className="w-full md:w-1/2">
-              <img src={carousel1} alt="carousel1" className="h-18 p-10 pt-0" />
+              <img
+                src={carousel1}
+                alt="carousel1"
+                className="h-18 p-10 pt-0 mt-0 md:mt-20"
+              />
             </div>
             <div className="w-full md:w-1/2 flex flex-col ml-10 mr-20 p-10">
               <img src={Shape01} alt="Shape01" className="w-16 mb-3" />
@@ -83,7 +87,11 @@ export default class Carousel extends Component {
           </div>
           <div className="flex flex-col md:flex-row">
             <div className="w-full md:w-1/2">
-              <img src={carousel1} alt="carousel1" className="h-18 p-10 pt-0" />
+              <img
+                src={carousel1}
+                alt="carousel1"
+                className="h-18 p-10 pt-0 mt-0 md:mt-20"
+              />
             </div>
             <div className="w-full md:w-1/2 flex flex-col ml-10 mr-20 p-10">
               <img src={Shape01} alt="Shape01" className="w-16 mb-3" />
