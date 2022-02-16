@@ -198,7 +198,7 @@ class MemberCardList extends React.Component {
         {
           token_type: 'credit_card',
           card_number: cardNumber,
-          expiration_date: '12-20',
+          expiration_date: '08-23',
           credit_card_cvv: '888',
           holder_name: 'echo'
         },
@@ -213,7 +213,7 @@ class MemberCardList extends React.Component {
         }
       );
       console.log(res);
-      this.setState({ currentVendor: resData.vendor });
+      this.setState({ currentVendor: res.data.vendor });
     } catch (e) {
       console.log(e);
     }
@@ -969,7 +969,7 @@ class MemberCardList extends React.Component {
                                 </div>
                               </div>
                             </div>
-                            <span className="cardImage absolute top-0 right-0">
+                            <span className="cardImage absolute top-1 right-0">
                               <LazyLoad>
                                 <img
                                   alt="Card image"
