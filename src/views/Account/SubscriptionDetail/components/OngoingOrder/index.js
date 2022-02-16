@@ -1,5 +1,10 @@
 import React from 'react';
-import { getDeviceType, formatDate, optimizeImage } from '@/utils/utils';
+import {
+  getDeviceType,
+  formatDate,
+  optimizeImage,
+  judgeIsIndividual
+} from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import { IMG_DEFAULT } from '@/utils/constant';
@@ -9,7 +14,30 @@ import cn from 'classnames';
 const OngoingOrder = ({ subDetail }) => {
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   const onGoingTradeLists = subDetail.onGoingTradeList
-    ? subDetail.onGoingTradeList
+    ? Array.from(subDetail.onGoingTradeList, (ele) => {
+        ele.tradeItems.forEach((el) => {
+          el.spuName = judgeIsIndividual(el) ? (
+            <FormattedMessage
+              id="subscription.personalized"
+              values={{ val1: el.petsName }}
+            />
+          ) : (
+            el.spuName
+          );
+          el.quantityText = judgeIsIndividual(el) ? (
+            el.specDetails
+          ) : (
+            <FormattedMessage
+              id="order.quantityText"
+              values={{
+                specText: el.specDetails,
+                buyCount: el.num
+              }}
+            />
+          );
+        });
+        return ele;
+      })
     : [];
   console.log('ongoingorder', onGoingTradeLists);
   return (
@@ -30,22 +58,16 @@ const OngoingOrder = ({ subDetail }) => {
                       <img
                         className="ord-list-img-fluid"
                         src={optimizeImage(item.pic) || IMG_DEFAULT}
-                        alt={item.skuName}
-                        title={item.skuName}
+                        alt={item.spuName}
+                        title={item.spuName}
                       />
                     </div>
-                    <div className="flex flex-column">
+                    <div className="flex flex-column col-8">
                       <span className="medium text-bold color-444">
-                        {item.skuName}
+                        {item.spuName}
                       </span>
                       <span className="medium mt-2 ui-text-overflow-line1">
-                        <FormattedMessage
-                          id="order.quantityText"
-                          values={{
-                            specText: item.specDetails,
-                            buyCount: item.num
-                          }}
-                        />
+                        {item.quantityText}
                       </span>
                     </div>
                   </div>
@@ -72,7 +94,10 @@ const OngoingOrder = ({ subDetail }) => {
                 <span className="medium text-bold color-444 ui-text-overflow-line1">
                   <FormattedMessage id="order.orderStatus" />
                 </span>
-                <span className="medium text-green mt-2 ui-text-overflow-line1">
+                <span
+                  className="medium text-green mt-2 ui-text-overflow-line1"
+                  title={ele.tradeState.orderStatus}
+                >
                   {ele.tradeState.orderStatus}
                 </span>
               </div>
