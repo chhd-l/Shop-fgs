@@ -1,12 +1,8 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
-import benefitsone from './image/benefitsone2.png';
-import benefitstwo from './image/benefitstwo.png';
-import benefitsthree from './image/benefitsthree2.png';
 import './index.css';
-import { isMobileDevice } from 'react-select/dist/index-fe3694ff.cjs.dev';
-import { getDeviceType } from '../../../../utils/utils';
+import { getDeviceType, optimizeImage } from '@/utils/utils';
+
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 const SubscriptionBenefitsBanner = ({
@@ -46,13 +42,13 @@ const SubscriptionBenefitsBanner = ({
                 style={{ display: 'flex', justifyContent: 'space-around' }}
                 className="flexwrap"
               >
-                {SubscriptionItem.map((items) => (
-                  <div className="text-center ">
+                {SubscriptionItem.map((items, i) => (
+                  <div className="text-center " key={i}>
                     <article>
                       <LazyLoad className="mobileCenter">
                         <img
-                          className="w-90 lazyloaded"
-                          src={items.SubscriptionImg}
+                          className="w-90 lazyloaded 3"
+                          src={optimizeImage(items.SubscriptionImg, 150)}
                           style={{ height: '150px', borderRadius: '50%' }}
                         />
                       </LazyLoad>

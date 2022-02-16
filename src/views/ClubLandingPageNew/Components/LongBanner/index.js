@@ -4,7 +4,6 @@ import './index.css';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import benefitsone from './image/benefitsone2.png';
 import benefitstwo from './image/benefitstwo.webp';
-import benefitsthree from './image/benefitsthree2.png';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import clublogo from './image/clublogo.png';
 import clubru from './image/Clubru.png';
@@ -73,7 +72,7 @@ const SubscriptionItems = [
     )
   },
   {
-    SubscriptionImg: benefitsthree,
+    SubscriptionImg: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/benefitsthree2.png`,
     SubscriptionTitle: (
       <a style={{ fontWeight: 'bold', fontSize: '18px' }}>
         <FormattedMessage
