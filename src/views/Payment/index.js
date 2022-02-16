@@ -2034,23 +2034,22 @@ class Payment extends React.Component {
           consigneeEmail: deliveryAddress.email
         }
       );
-      let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(
-        param
-      );
-
-      console.log(717, postVisitorRegisterAndLoginRes);
-      console.log(717, postVisitorRegisterAndLoginRes.context.token);
+      let submitParam = bindSubmitParam(this.state.listData);
+      let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin({
+        ...param,
+        ...submitParam
+      });
 
       //游客绑定consent 一定要在游客注册之后 start
-      let submitParam = bindSubmitParam(this.state.listData);
-      userBindConsent({
-        ...submitParam,
-        ...{ oktaToken: '' },
-        customerId:
-          (postVisitorRegisterAndLoginRes.context &&
-            postVisitorRegisterAndLoginRes.context.customerId) ||
-          ''
-      });
+      //let submitParam = bindSubmitParam(this.state.listData);
+      // userBindConsent({
+      //   ...submitParam,
+      //   ...{ oktaToken: '' },
+      //   customerId:
+      //     (postVisitorRegisterAndLoginRes.context &&
+      //       postVisitorRegisterAndLoginRes.context.customerId) ||
+      //     ''
+      // });
       //游客绑定consent 一定要在游客注册之后 end
 
       sessionItemRoyal.set(
