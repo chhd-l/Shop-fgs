@@ -140,11 +140,8 @@ class Whistlefit extends React.Component {
         landingPageId: this.state.landingPageId,
         account: this.isLogin ? this.userInfo.customerAccount : '',
         name: this.isLogin ? this.userInfo.customerName : '',
-        optionalList: [],
-        requiredList: [
-          { id: 923, selectedFlag: true },
-          { id: 924, selectedFlag: true }
-        ]
+        optionalList: this.state.optionalList,
+        requiredList: this.state.requiredList
       });
       this.setState({ isSaveSuccess: true });
     } catch (err) {
