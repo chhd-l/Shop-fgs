@@ -634,7 +634,13 @@ class AccountOrders extends React.Component {
                                           </span>
                                         </p>
                                       </div>
-                                      <div className="col-12 col-md-2">
+                                      <div
+                                        className={`col-12 ${
+                                          !order.canDownInvoice
+                                            ? 'col-md-2'
+                                            : 'col-md-1'
+                                        }`}
+                                      >
                                         <p>
                                           <FormattedMessage id="order.total" />
                                           <br className="d-none d-md-block" />
@@ -649,30 +655,28 @@ class AccountOrders extends React.Component {
                                           </span>
                                         </p>
                                       </div>
-                                      <div className="col-12 col-md-1">
-                                        {order.canDownInvoice ? (
-                                          <div
-                                            onClick={this.handleDownInvoice.bind(
-                                              this,
-                                              order
+                                      {order.canDownInvoice ? (
+                                        <div
+                                          onClick={this.handleDownInvoice.bind(
+                                            this,
+                                            order
+                                          )}
+                                          className="text-nowrap col-12 col-md-1"
+                                        >
+                                          <span className="rc-icon rc-pdf--xs rc-iconography" />
+                                          <FormattedMessage id="invoice">
+                                            {(txt) => (
+                                              <span
+                                                className="medium pull-right--desktop rc-styled-link text-wrap"
+                                                title={txt}
+                                              >
+                                                {txt}
+                                              </span>
                                             )}
-                                            className="text-nowrap"
-                                          >
-                                            <span className="rc-icon rc-pdf--xs rc-iconography" />
-                                            <FormattedMessage id="invoice">
-                                              {(txt) => (
-                                                <span
-                                                  className="medium pull-right--desktop rc-styled-link text-wrap"
-                                                  title={txt}
-                                                >
-                                                  {txt}
-                                                </span>
-                                              )}
-                                            </FormattedMessage>
-                                          </div>
-                                        ) : null}
-                                      </div>
-                                      <div className="col-12 col-md-1">
+                                          </FormattedMessage>
+                                        </div>
+                                      ) : null}
+                                      <div className="col-12 col-md-2">
                                         {order.goodWillFlag === 1 ? (
                                           <div>
                                             <FormattedMessage id="order.goodwillOrder" />
