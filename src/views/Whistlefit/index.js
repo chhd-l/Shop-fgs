@@ -117,15 +117,20 @@ class Whistlefit extends React.Component {
   //滚动到输入email的位置
   scrollToInputEmail = (position, label) => {
     GAWhistleFitButtonClick(position, label);
-    let bridge = document.querySelector('#emailPlace');
-    let body = document.body;
-    let height = 0;
-    do {
-      height += bridge.offsetTop;
-      bridge = bridge.offsetParent;
-    } while (bridge !== body);
+    // let bridge = document.querySelector('#emailPlace');
+    // let body = document.body;
+    // let height = 0;
+    // do {
+    //   height += bridge.offsetTop;
+    //   bridge = bridge.offsetParent;
+    // } while (bridge !== body);
+    // window.scrollTo({
+    //   top: height,
+    //   behavior: 'smooth'
+    // });
+    let anchorElement = document.getElementById('scrollPlace');
     window.scrollTo({
-      top: height - 25,
+      top: anchorElement.offsetTop,
       behavior: 'smooth'
     });
   };
@@ -432,11 +437,11 @@ class Whistlefit extends React.Component {
                 chats et des chiens, la technologie intelligente Whistle Fit
                 vous permet de mieux comprendre les besoins en constante
                 évolution de votre animal pour y répondre de la manière la plus
-                adaptée.
+                <span id="scrollPlace">adaptée</span>.
               </div>
             </div>
           </div>
-          <div className="h-2 bg-gray-100" id="emailPlace"></div>
+          <div className="h-2 bg-gray-100"></div>
           <div className="max-w-full px-0 md:px-36">
             <div className="flex justify-center">
               <div
