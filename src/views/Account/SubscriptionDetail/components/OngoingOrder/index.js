@@ -66,7 +66,14 @@ const OngoingOrder = ({ subDetail }) => {
                       <span className="medium text-bold color-444">
                         {item.spuName}
                       </span>
-                      <span className="medium mt-2 ui-text-overflow-line1">
+                      <span
+                        className="medium mt-2 ui-text-overflow-line1"
+                        title={
+                          judgeIsIndividual(item)
+                            ? item.quantityText
+                            : item.specDetails + 'x' + item.num
+                        }
+                      >
                         {item.quantityText}
                       </span>
                     </div>
