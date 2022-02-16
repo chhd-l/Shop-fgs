@@ -40,6 +40,9 @@ module.exports = {
         'rc-ddd':'var(--rc-ddd)',
         'rc-detail-red':'var(--rc-detail-red)'
       },
+      fontSize:{
+        '40':'40px'
+      },
       minHeight: {
         'auto':'auto'
       },
