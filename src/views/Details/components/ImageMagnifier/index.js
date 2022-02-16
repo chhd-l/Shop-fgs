@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import './index.css';
-import { FormattedMessage } from 'react-intl-phraseapp';
-import noPic from '@/assets/images/noPic.png';
-// import noPic from './images/noPic1.png';
 import { getDeviceType, optimizeImage } from '@/utils/utils';
+import { IMG_DEFAULT_V2 as noPic } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
+
 let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 function getMuntiImg(img) {
@@ -412,7 +411,7 @@ class ImageMagnifier extends Component {
                       className="J_detail_img"
                       style={cssStyle.imgStyle}
                       src={
-                        optimizeImage(el.artworkUrl, 500) ||
+                        optimizeImage(el.artworkUrl, 'auto') ||
                         this.state.minImg ||
                         noPic
                       }
@@ -477,7 +476,13 @@ class ImageMagnifier extends Component {
               <LazyLoad>
                 <img
                   style={cssStyle.imgStyle2}
-                  src={currentImg || this.state.maxImg || noPic}
+                  src={
+                    currentImg
+                      ? optimizeImage(currentImg, 'auto')
+                      : this.state.maxImg
+                      ? optimizeImage(this.state.maxImg, 'auto')
+                      : noPic
+                  }
                   // srcSet={getMuntiImg(currentImg || this.state.maxImg)}
                   onLoad={this.handleImageLoaded.bind(this)}
                   onError={this.handleImageErrored.bind(this)}
