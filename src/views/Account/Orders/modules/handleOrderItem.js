@@ -63,6 +63,17 @@ export function handleOrderItem(ele, res) {
       (tradeState.deliverStatus === 'SHIPPED' ||
         tradeState.deliverStatus === 'DELIVERED' ||
         ele.appointmentStatus === 1) &&
-      tradeState.invoiceState === 1
+      tradeState.invoiceState === 1,
+    showOrderDeliverTip:
+      (tradeState.payState === 'PAID' &&
+        tradeState.auditState === 'CHECKED' &&
+        tradeState.deliverStatus === 'SHIPPED' &&
+        tradeState.flowState === 'DELIVERED') ||
+      (tradeState.deliverStatus === 'PART_SHIPPED' &&
+        tradeState.flowState === 'DELIVERED_PART'),
+    showOrderCompleteTip:
+      tradeState.flowState === 'COMPLETED' &&
+      !ele.storeEvaluateVO &&
+      ele.tradeEventLogs[0]?.eventType === 'COMPLETED'
   });
 }
