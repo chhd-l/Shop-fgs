@@ -969,7 +969,7 @@ class MemberCardList extends React.Component {
                                 </div>
                               </div>
                             </div>
-                            <span className="cardImage absolute top-1 right-0">
+                            <span className="cardImage absolute top-2 right-0">
                               <LazyLoad>
                                 <img
                                   alt="Card image"
