@@ -268,6 +268,38 @@ class PayOs extends React.Component {
     }
     return finalValue;
   };
+  cardNumberChange = async (e) => {
+    const target = e.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    let cardNumber =
+      value.replace(/\s*/g, '') || this.state.creditCardInfoForm.cardNumber;
+
+    try {
+      let res = await axios.post(
+        'https://api.paymentsos.com/tokens',
+        {
+          token_type: 'credit_card',
+          card_number: cardNumber,
+          expiration_date: '08-23',
+          credit_card_cvv: '888',
+          holder_name: 'echo'
+        },
+        {
+          headers: {
+            public_key: window.__.env.REACT_APP_PaymentKEY_MEMBER,
+            'x-payments-os-env': window.__.env.REACT_APP_PaymentENV,
+            'Content-type': 'application/json',
+            app_id: window.__.env.REACT_APP_PaymentAPPID_MEMBER,
+            'api-version': '1.3.0'
+          }
+        }
+      );
+      console.log(res);
+      this.setState({ currentVendor: res.data.vendor });
+    } catch (e) {
+      console.log(e);
+    }
+  };
   cardInfoInputChange = (e) => {
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -632,7 +664,7 @@ class PayOs extends React.Component {
                         inited={this.state.inited}
                       />
                     </div>
-                  ) : window.__.env.REACT_APP_COUNTRY == 'ru' ? (
+                  ) : window.__.env.REACT_APP_COUNTRY == 'uk' ? (
                     <div className="credit-card-form">
                       <div className="rc-margin-bottom--xs">
                         <div className="content-asset">
@@ -692,7 +724,7 @@ class PayOs extends React.Component {
                                         </div>
                                       </div>
                                     </div>
-                                    <span className="cardImage absolute top-0 right-0">
+                                    <span className="cardImage absolute top-2 right-0">
                                       <LazyLoad>
                                         <img
                                           alt="Card image"

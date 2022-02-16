@@ -125,7 +125,7 @@ class Whistlefit extends React.Component {
       bridge = bridge.offsetParent;
     } while (bridge !== body);
     window.scrollTo({
-      top: height,
+      top: height - 25,
       behavior: 'smooth'
     });
   };
@@ -436,11 +436,10 @@ class Whistlefit extends React.Component {
               </div>
             </div>
           </div>
-          <div className="h-2 bg-gray-100"></div>
+          <div className="h-2 bg-gray-100" id="emailPlace"></div>
           <div className="max-w-full px-0 md:px-36">
             <div className="flex justify-center">
               <div
-                id="emailPlace"
                 className="w-full md:w-2/3 px-4 md:px-0 text-center  text-2xl md:text-4xl mt-6 md:mt-12 mb-3 leading-tight md:leading-normal font-normal"
                 style={{ color: '#E2001A' }}
               >
