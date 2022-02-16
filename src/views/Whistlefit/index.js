@@ -196,14 +196,14 @@ class Whistlefit extends React.Component {
               </LazyLoad>
               <div className="w-full md:w-1/2 flex flex-col justify-center ml-0 md:ml-5 items-center md:items-start">
                 <div
-                  className="text-center md:text-left text-2xl md:text-40  mt-5 md:mt-0 mb-5 md:mb-5 ml-5 md:ml-0 mr-5 font-normal md:leading-14"
+                  className="text-center md:text-left text-2xl md:text-32  mt-5 md:mt-0 mb-5 md:mb-5 ml-5 md:ml-0 mr-5 md:mr-0 font-normal md:leading-14"
                   style={{ color: '#E2001A' }}
                 >
                   Whistle Fit, le collier intelligent pour prendre soin de la
                   santé de votre chien
                 </div>
                 <div
-                  className="text-center md:text-left text-2xl md:text-40 mt-5 md:mt-0 mb-5 md:mb-10 ml-5 md:ml-0 mr-5 font-normal md:leading-14"
+                  className="text-center md:text-left text-2xl md:text-32 mt-5 md:mt-0 mb-5 md:mb-10 ml-5 md:ml-0 mr-5 md:mr-0 font-normal md:leading-14"
                   style={{ color: '#E2001A' }}
                 >
                   Faites partie des premiers à être informés de la disponibilité
@@ -225,7 +225,7 @@ class Whistlefit extends React.Component {
           <div className="w-full px-0 md:px-36">
             <div>
               <div
-                className="px-4 md:px-48 text-2xl md:text-40 text-center my-6 md:my-12 font-normal md:leading-12"
+                className="px-4 md:px-48 text-2xl md:text-38 text-center my-6 md:my-12 font-normal md:leading-12"
                 style={{ color: '#E2001A' }}
               >
                 Surveillez le bien-être de votre chien et identifiez plus tôt
@@ -247,7 +247,7 @@ class Whistlefit extends React.Component {
                 Whistle Fit peut vous aider à le découvrir !
               </div>
               <div className="w-full flex justify-between flex-wrap mt-6 md:mt-0">
-                <div className="px-10 md:px-0 w-full md:w-auto flex flex-row  md:flex-col items-start md:items-center">
+                <div className="px-10 md:px-0 w-full md:w-1/3 flex flex-row  md:flex-col items-start md:items-center">
                   <LazyLoad className="w-16 mr-10 md:mr-0">
                     <img src={enjoyTraining} alt="enjoyTraining" />
                   </LazyLoad>
@@ -263,7 +263,7 @@ class Whistlefit extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div className="px-10 md:px-0 w-full md:w-auto flex flex-row  md:flex-col items-start md:items-center">
+                <div className="px-10 md:px-0 w-full md:w-1/3 flex flex-row  md:flex-col items-start md:items-center">
                   <LazyLoad className="w-16 mr-10 md:mr-0">
                     <img src={eatingFood} alt="eatingFood" />
                   </LazyLoad>
@@ -278,7 +278,7 @@ class Whistlefit extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div className="px-10 md:px-0 w-full md:w-auto flex flex-row  md:flex-col items-start md:items-center">
+                <div className="px-10 md:px-0 w-full md:w-1/3 flex flex-row  md:flex-col items-start md:items-center">
                   <LazyLoad className="w-16 mr-10 md:mr-0">
                     <img src={dog} alt="dog" />
                   </LazyLoad>
@@ -323,13 +323,13 @@ class Whistlefit extends React.Component {
           <div className="h-2 bg-gray-100"></div>
           <div className="w-full px-0 md:px-36">
             <div
-              className="w-full px-4 md:px-48 font-normal text-center text-2xl md:text-40 my-4 md:my-12 leading-tight md:leading-normal"
+              className="w-full px-4 md:px-48 font-normal text-center text-2xl md:text-38 my-4 md:my-12 leading-tight md:leading-normal"
               style={{ color: '#E2001A' }}
             >
               Whistle Fit, comment ça marche ?
             </div>
             <div className="w-full flex justify-between flex-wrap mt-6 md:mt-0">
-              <div className="px-10 md:px-0 w-full md:w-auto flex md:flex-col items-center">
+              <div className="px-10 md:px-0 w-full md:w-1/3 flex md:flex-col items-center">
                 <LazyLoad className="w-1/2 md:w-64 mr-5 md:mr-0">
                   <img src={group1} alt="group1" />
                 </LazyLoad>
@@ -343,7 +343,7 @@ class Whistlefit extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="px-10 md:px-0 w-full md:w-auto flex md:flex-col items-center">
+              <div className="px-10 md:px-0 w-full md:w-1/3 flex md:flex-col items-center">
                 <LazyLoad className="w-1/2 md:w-64 mr-5 md:mr-0 order-2 md:order-1">
                   <img src={group2} alt="group2" />
                 </LazyLoad>
@@ -357,7 +357,7 @@ class Whistlefit extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="px-10 md:px-0 w-full md:w-auto flex md:flex-col items-center">
+              <div className="px-10 md:px-0 w-full md:w-1/3 flex md:flex-col items-center">
                 <LazyLoad className="w-1/2 md:w-64 mr-5 md:mr-0">
                   <img src={group3} alt="group3" />
                 </LazyLoad>
@@ -386,7 +386,7 @@ class Whistlefit extends React.Component {
           <div className="h-2 bg-gray-100"></div>
           <div className="max-w-full px-0 md:px-36">
             <div
-              className="px-4 md:px-0 text-center tracking-normal md:tracking-tighter text-2xl md:text-40 mt-6 mb-3 md:mb-10 leading-tight md:leading-normal font-normal"
+              className="px-4 md:px-0 text-center tracking-normal md:tracking-tighter text-2xl md:text-38 mt-6 mb-3 md:mb-10 leading-tight md:leading-normal font-normal"
               style={{ color: '#E2001A' }}
             >
               Ils ont adoré !
@@ -409,7 +409,7 @@ class Whistlefit extends React.Component {
           <div className="max-w-full px-0 md:px-36">
             <div className="flex justify-center">
               <div
-                className="w-full px-4 md:px-44 text-center  text-2xl md:text-40 my-6 md:my-12 leading-tight md:leading-12 font-normal"
+                className="w-full px-4 md:px-44 text-center  text-2xl md:text-38 my-6 md:my-12 leading-tight md:leading-12 font-normal"
                 style={{ color: '#E2001A' }}
               >
                 Whistle Fit et Royal Canin vous aident à mieux comprendre et

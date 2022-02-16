@@ -4602,7 +4602,7 @@ class Payment extends React.Component {
                 {formatMoney(this.tradePrice)}
               </div>
               <div className="text-sm pt-6">
-                You have {this.state.countDown} minuter to pay
+                Du har {this.state.countDown} minuter på dig att betala.
               </div>
               <div className="w-64 md:w-96 text-center py-6 text-gray-600">
                 Du har 15 minuter på dig att genomföra köpet. Försök att
