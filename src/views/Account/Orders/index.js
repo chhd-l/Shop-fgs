@@ -599,7 +599,7 @@ class AccountOrders extends React.Component {
                                   <div className="card rc-margin-y--none ml-0 border-0">
                                     <div className="card-header border-color-d7d7d7 row rc-margin-x--none align-items-center pl-0 pr-0 rc-md-up bg-rc-f6">
                                       <div className="col-12 col-md-2">
-                                        <p>
+                                        <p className="text-nowrap ui-text-overflow-line1">
                                           <FormattedMessage id="order.orderPlacedOn" />
                                           <br className="d-none d-md-block" />
                                           <span className="medium orderHeaderTextColor">
@@ -649,8 +649,7 @@ class AccountOrders extends React.Component {
                                           </span>
                                         </p>
                                       </div>
-
-                                      <div className="col-12 col-md-2 111">
+                                      <div className="col-12 col-md-1">
                                         {order.canDownInvoice ? (
                                           <div
                                             onClick={this.handleDownInvoice.bind(
@@ -671,7 +670,10 @@ class AccountOrders extends React.Component {
                                               )}
                                             </FormattedMessage>
                                           </div>
-                                        ) : order.goodWillFlag === 1 ? (
+                                        ) : null}
+                                      </div>
+                                      <div className="col-12 col-md-1">
+                                        {order.goodWillFlag === 1 ? (
                                           <div>
                                             <FormattedMessage id="order.goodwillOrder" />
                                           </div>
