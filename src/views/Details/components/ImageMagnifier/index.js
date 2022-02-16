@@ -3,7 +3,7 @@ import './index.css';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import noPic from '@/assets/images/noPic.png';
 // import noPic from './images/noPic1.png';
-import { getDeviceType } from '@/utils/utils.js';
+import { getDeviceType, optimizeImage } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
@@ -399,7 +399,7 @@ class ImageMagnifier extends Component {
             ) : null}
             {taggingChildren ? taggingChildren : null}
             <div
-              className="bigImageInnerBox rc-loaded--final"
+              className="bigImageInnerBox rc-loaded--final 3"
               style={{
                 transform: `translateX(-${this.state.offsetX}px) translateY(0) scale(1) rotate(0deg)`
               }}
@@ -411,7 +411,11 @@ class ImageMagnifier extends Component {
                     <img
                       className="J_detail_img"
                       style={cssStyle.imgStyle}
-                      src={el.artworkUrl || this.state.minImg || noPic}
+                      src={
+                        optimizeImage(el.artworkUrl, 500) ||
+                        this.state.minImg ||
+                        noPic
+                      }
                       // srcSet={getMuntiImg(el.artworkUrl || this.state.maxImg)}
                       alt={imgAlt}
                     />
@@ -533,7 +537,11 @@ class ImageMagnifier extends Component {
                     style={{
                       backgroundImage:
                         'url(' +
-                        (el.artworkUrl || el.goodsInfoImg || noPic) +
+                        (el.artworkUrl
+                          ? optimizeImage(el.artworkUrl, 200)
+                          : el.goodsInfoImg
+                          ? optimizeImage(el.goodsInfoImg, 200)
+                          : noPic) +
                         ')',
                       backgroundSize: '100% 100%'
                     }}
