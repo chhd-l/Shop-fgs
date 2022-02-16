@@ -22,6 +22,7 @@ import { EMAIL_REGEXP, LOGO_PRIMARY_RU, LOGO } from '@/utils/constant';
 import cn from 'classnames';
 import { Input } from '@/components/Common';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
+import { seoHoc } from '@/framework/common';
 // import ConsentAdditionalText from '@/components/Consent/ConsentAdditionalText';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -31,6 +32,7 @@ const loginStore = stores.loginStore;
 
 @injectIntl
 @inject('paymentStore')
+@seoHoc()
 @observer
 class Register extends Component {
   constructor(props) {
