@@ -25,7 +25,8 @@ import {
   getLandingPage,
   landingPageViews,
   registerLandingPage,
-  getOpenConsentByCategory
+  getOpenConsentByCategory,
+  userBindConsent
 } from '@/api/whistlefit';
 import { GAWhistleFitButtonClick } from '@/utils/GA.js';
 import './index.less';
@@ -132,6 +133,16 @@ class Whistlefit extends React.Component {
     this.setState({ isRegisterLoading: true });
     try {
       GAWhistleFitButtonClick(5, 'Je suis intéressé et veux être informé !');
+      if (this.isLogin) {
+        await userBindConsent(
+          {
+            storeId: window.__.env.REACT_APP_STOREID,
+            optionalList: this.state.optionalList,
+            requiredList: this.state.requiredList
+          },
+          this.userInfo.customerId
+        );
+      }
       await registerLandingPage({
         type: this.isLogin ? 'Member' : 'Guest', //guest member
         email: this.state.email,
