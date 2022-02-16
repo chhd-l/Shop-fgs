@@ -705,17 +705,7 @@ class AccountOrders extends React.Component {
                                   </div>
                                   <div className="row mb-3 mt-3 align-items-center m-0 relative">
                                     {/* 订单发货tip */}
-                                    {((order.tradeState.payState === 'PAID' &&
-                                      order.tradeState.auditState ===
-                                        'CHECKED' &&
-                                      order.tradeState.deliverStatus ===
-                                        'SHIPPED' &&
-                                      order.tradeState.flowState ===
-                                        'DELIVERED') ||
-                                      (order.tradeState.deliverStatus ===
-                                        'PART_SHIPPED' &&
-                                        order.tradeState.flowState ===
-                                          'DELIVERED_PART')) && (
+                                    {order.showOrderDeliverTip && (
                                       <div className="col-12 mt-1 md:mt-0 md:mb-1 order-1 md:order-0">
                                         <p className="medium mb-0 color-444">
                                           <FormattedMessage id="deliveredTip" />
@@ -726,12 +716,7 @@ class AccountOrders extends React.Component {
                                       </div>
                                     )}
                                     {/* 订单完成tip */}
-                                    {order.tradeState.flowState ===
-                                      'COMPLETED' &&
-                                    !order.storeEvaluateVO &&
-                                    order.tradeEventLogs[0] &&
-                                    order.tradeEventLogs[0].eventType ===
-                                      'COMPLETED' ? (
+                                    {order.showOrderCompleteTip ? (
                                       <div className="col-12 mt-1 md:mt-0 md:mb-1 order-1 md:order-0">
                                         <p className="medium mb-0 color-444">
                                           <FormattedMessage id="orderStatus.COMPLETED" />
