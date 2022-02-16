@@ -117,7 +117,7 @@ class Whistlefit extends React.Component {
   //滚动到输入email的位置
   scrollToInputEmail = (position, label) => {
     GAWhistleFitButtonClick(position, label);
-    let bridge = document.querySelector('#email');
+    let bridge = document.querySelector('#emailPlace');
     let body = document.body;
     let height = 0;
     do {
@@ -424,10 +424,7 @@ class Whistlefit extends React.Component {
                   className="w-100 md:w-96 mr-0 md:mr-16 mt-0 md:nt-10"
                 />
               </LazyLoad>
-              <div
-                className="w-full md:w-1/2 text-sm md:text-24 px-4 md:px-0 leading-17.5 mt-0"
-                id="email"
-              >
+              <div className="w-full md:w-1/2 text-sm md:text-24 px-4 md:px-0 leading-17.5 mt-0">
                 Chez Royal Canin, nous avons passé plus de 50 ans à soutenir la
                 santé des animaux de compagnie grâce à nos solutions
                 nutritionnelles innovantes et à nos conseils d'experts en
@@ -443,6 +440,7 @@ class Whistlefit extends React.Component {
           <div className="max-w-full px-0 md:px-36">
             <div className="flex justify-center">
               <div
+                id="emailPlace"
                 className="w-full md:w-2/3 px-4 md:px-0 text-center  text-2xl md:text-4xl mt-6 md:mt-12 mb-3 leading-tight md:leading-normal font-normal"
                 style={{ color: '#E2001A' }}
               >
