@@ -131,7 +131,7 @@ class Whistlefit extends React.Component {
   register = async () => {
     this.setState({ isRegisterLoading: true });
     try {
-      this.scrollToInputEmail(5, 'Je suis intéressé et veux être informé !');
+      GAWhistleFitButtonClick(5, 'Je suis intéressé et veux être informé !');
       await registerLandingPage({
         type: this.isLogin ? 'Member' : 'Guest', //guest member
         email: this.state.email,
@@ -185,14 +185,14 @@ class Whistlefit extends React.Component {
               </LazyLoad>
               <div className="w-full md:w-1/2 flex flex-col justify-center ml-0 md:ml-5 items-center md:items-start">
                 <div
-                  className="text-center md:text-left text-2xl md:text-4xl  mt-5 md:mt-0 mb-5 md:mb-5 ml-5 md:ml-0 mr-5 font-normal md:leading-normal"
+                  className="text-center md:text-left text-2xl md:text-40  mt-5 md:mt-0 mb-5 md:mb-5 ml-5 md:ml-0 mr-5 font-normal md:leading-14"
                   style={{ color: '#E2001A' }}
                 >
                   Whistle Fit, le collier intelligent pour prendre soin de la
                   santé de votre chien
                 </div>
                 <div
-                  className="text-center md:text-left text-2xl md:text-4xl mt-5 md:mt-0 mb-5 md:mb-10 ml-5 md:ml-0 mr-5 font-normal md:leading-normal"
+                  className="text-center md:text-left text-2xl md:text-40 mt-5 md:mt-0 mb-5 md:mb-10 ml-5 md:ml-0 mr-5 font-normal md:leading-14"
                   style={{ color: '#E2001A' }}
                 >
                   Faites partie des premiers à être informés de la disponibilité
@@ -200,7 +200,7 @@ class Whistlefit extends React.Component {
                 </div>
                 <div className="mb-5 md:mb-0">
                   <button
-                    className="rc-btn rc-btn--one text-xs md:text-sm"
+                    className="rc-btn rc-btn--one text-xs md:text-16"
                     onClick={() =>
                       this.scrollToInputEmail(1, 'Je veux être informé ')
                     }
@@ -214,14 +214,14 @@ class Whistlefit extends React.Component {
           <div className="w-full px-0 md:px-36">
             <div>
               <div
-                className="px-4 md:px-48 text-2xl md:text-4xl text-center my-6 md:my-12 font-normal md:leading-normal"
+                className="px-4 md:px-48 text-2xl md:text-40 text-center my-6 md:my-12 font-normal md:leading-12"
                 style={{ color: '#E2001A' }}
               >
                 Surveillez le bien-être de votre chien et identifiez plus tôt
                 les éventuels problèmes
               </div>
               <div className="flex flex-col md:flex-row items-start md:items-center">
-                <div className="w-full md:w-2/3 text-lg px-4 md:px-0">
+                <div className="w-full md:w-2/3 text-24 px-4 md:px-0 md:leading-17.5">
                   Whistle Fit est un dispositif intelligent et non-invasif qui
                   s’attache au collier de votre chien et qui traque son activité
                   et son comportement afin de vous offrir une fenêtre unique sur
@@ -231,7 +231,7 @@ class Whistlefit extends React.Component {
                   <img src={Bracelet} alt="Bracelet" className="w-48 ml-0" />
                 </LazyLoad>
               </div>
-              <div className="w-full px-4 md:px-48 font-normal text-center text-2xl md:text-3xl my-4 md:my-12 leading-tight md:leading-normal">
+              <div className="w-full px-4 md:px-48 font-normal text-center text-2xl md:text-32 my-4 md:my-12 leading-tight md:leading-normal">
                 Votre chien ne peut pas vous dire s'il est en bonne santé, mais
                 Whistle Fit peut vous aider à le découvrir !
               </div>
@@ -241,11 +241,11 @@ class Whistlefit extends React.Component {
                     <img src={enjoyTraining} alt="enjoyTraining" />
                   </LazyLoad>
                   <div className="w-2/3 md:w-auto">
-                    <div className="h4 w-100 md:w-72 text-center text-xl md:text-2xl font-bold mt-3 md:mt-6 mb-0 md:mb-6">
+                    <div className="h4 w-100 md:w-72 text-center text-xl md:text-28 md:leading-normal font-normal mt-3 md:mt-6 mb-0 md:mb-6">
                       Equilibrez son activité pour améliorer son bien-être
                       général
                     </div>
-                    <div className="h4 w-100 md:w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6">
+                    <div className="h4 w-100 md:w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6 md:leading-normal">
                       Concentrez-vous sur la quantité exacte d'exercice et de
                       sommeil dont votre animal a besoin. Fixez des objectifs de
                       remise en forme.
@@ -257,11 +257,11 @@ class Whistlefit extends React.Component {
                     <img src={eatingFood} alt="eatingFood" />
                   </LazyLoad>
                   <div className="w-2/3 md:w-auto">
-                    <div className="h4 w-100 md:w-72 text-center text-xl md:text-2xl font-bold mt-3 md:mt-6 mb-0 md:mb-6">
+                    <div className="h4 w-100 md:w-72 text-center text-xl md:text-28 md:leading-normal font-normal mt-3 md:mt-6 mb-0 md:mb-6">
                       Adaptez sa nutrition en fonction de l’évolution de ses
                       besoins
                     </div>
-                    <div className="h4 w-100 md:w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6">
+                    <div className="h4 w-100 md:w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6 md:leading-normal">
                       Obtenez des recommandations sur les quantités précises de
                       nourriture. Maintenez facilement son poids de forme.
                     </div>
@@ -272,10 +272,10 @@ class Whistlefit extends React.Component {
                     <img src={dog} alt="dog" />
                   </LazyLoad>
                   <div className="w-2/3 md:w-auto">
-                    <div className="h4 w-100 md:w-72 text-center text-xl md:text-2xl font-bold mt-3 md:mt-6 mb-0 md:mb-6">
+                    <div className="h4 w-100 md:w-72 text-center text-xl md:text-28 md:leading-normal font-normal mt-3 md:mt-6 mb-0 md:mb-6">
                       Surveillez son bien-être, interprétez son comportement
                     </div>
-                    <div className="h4 w-100 md:w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6">
+                    <div className="h4 w-100 md:w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6 md:leading-normal">
                       Recevez des alertes concernant des comportements excessifs
                       (grattements, lèchements, sommeil etc.). Suivez
                       quotidiennement le niveau de bien-être de votre chien.
@@ -299,7 +299,7 @@ class Whistlefit extends React.Component {
               </div>
               <div className="w-full flex justify-center my-10">
                 <button
-                  className="rc-btn rc-btn--one text-xs md:text-sm"
+                  className="rc-btn rc-btn--one text-xs md:text-16"
                   onClick={() =>
                     this.scrollToInputEmail(2, 'Je veux être informé ')
                   }
@@ -312,7 +312,7 @@ class Whistlefit extends React.Component {
           <div className="h-2 bg-gray-100"></div>
           <div className="w-full px-0 md:px-36">
             <div
-              className="w-full px-4 md:px-48 font-normal text-center text-2xl md:text-3xl my-4 md:my-12 leading-tight md:leading-normal"
+              className="w-full px-4 md:px-48 font-normal text-center text-2xl md:text-40 my-4 md:my-12 leading-tight md:leading-normal"
               style={{ color: '#E2001A' }}
             >
               Whistle Fit, comment ça marche ?
@@ -323,7 +323,7 @@ class Whistlefit extends React.Component {
                   <img src={group1} alt="group1" />
                 </LazyLoad>
                 <div className="w-1/2 md:w-auto">
-                  <div className="h4 w-100 md:w-72 text-center text-xl md:text-2xl font-bold mt-3 md:mt-6 mb-6 md:leading-normal">
+                  <div className="h4 w-100 md:w-72 text-center text-xl md:text-30 font-normal mt-3 md:mt-6 mb-6 md:leading-normal">
                     Un dispositif intelligent qui collecte la donnée
                   </div>
                   <div className="h4 w-100 md:w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6 md:leading-normal">
@@ -337,7 +337,7 @@ class Whistlefit extends React.Component {
                   <img src={group2} alt="group2" />
                 </LazyLoad>
                 <div className="w-1/2 md:w-auto order-1 md:order-2">
-                  <div className="h4 w-100 md:w-72 text-center text-xl md:text-2xl font-bold mt-3 md:mt-6 mb-6 md:leading-normal">
+                  <div className="h4 w-100 md:w-72 text-center text-xl md:text-30 font-normal mt-3 md:mt-6 mb-6 md:leading-normal">
                     L’application Whistle pour interpréter les données
                   </div>
                   <div className="h4 w-100 md:w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6 md:leading-normal">
@@ -351,7 +351,7 @@ class Whistlefit extends React.Component {
                   <img src={group3} alt="group3" />
                 </LazyLoad>
                 <div className="w-1/2 md:w-auto">
-                  <div className="h4 w-100 md:w-72 text-center text-xl md:text-2xl font-bold mt-3 md:mt-6 mb-6 md:leading-normal">
+                  <div className="h4 w-100 md:w-72 text-center text-xl md:text-30 font-normal mt-3 md:mt-6 mb-6 md:leading-normal">
                     Des alertes santé pour réagir plus vite
                   </div>
                   <div className="h4 w-100 md:w-72 text-center text-lg md:text-xl font-normal mt-3 md:mt-6 mb-6 md:leading-normal">
@@ -363,7 +363,7 @@ class Whistlefit extends React.Component {
             </div>
             <div className="w-full flex justify-center my-10">
               <button
-                className="rc-btn rc-btn--one text-xs md:text-sm"
+                className="rc-btn rc-btn--one text-xs md:text-16"
                 onClick={() =>
                   this.scrollToInputEmail(3, 'Je veux être informé ')
                 }
@@ -375,7 +375,7 @@ class Whistlefit extends React.Component {
           <div className="h-2 bg-gray-100"></div>
           <div className="max-w-full px-0 md:px-36">
             <div
-              className="px-4 md:px-0 text-center tracking-normal md:tracking-tighter text-2xl md:text-4xl mt-6 mb-3 leading-tight md:leading-normal font-normal"
+              className="px-4 md:px-0 text-center tracking-normal md:tracking-tighter text-2xl md:text-40 mt-6 mb-3 md:mb-10 leading-tight md:leading-normal font-normal"
               style={{ color: '#E2001A' }}
             >
               Ils ont adoré !
@@ -385,7 +385,7 @@ class Whistlefit extends React.Component {
             </div>
             <div className="w-full flex justify-center mt-5 md:mt-10 mb-5 md:mb-10">
               <button
-                className="rc-btn rc-btn--one text-xs md:text-sm"
+                className="rc-btn rc-btn--one text-xs md:text-16"
                 onClick={() =>
                   this.scrollToInputEmail(4, 'Je veux être informé ')
                 }
@@ -398,23 +398,23 @@ class Whistlefit extends React.Component {
           <div className="max-w-full px-0 md:px-36">
             <div className="flex justify-center">
               <div
-                className="w-full md:w-1/2 px-4 md:px-0 text-center  text-2xl md:text-4xl my-6 md:my-12 leading-tight md:leading-normal font-normal"
+                className="w-full px-4 md:px-44 text-center  text-2xl md:text-40 my-6 md:my-12 leading-tight md:leading-12 font-normal"
                 style={{ color: '#E2001A' }}
               >
                 Whistle Fit et Royal Canin vous aident à mieux comprendre et
                 répondre aux besoins uniques de votre animal
               </div>
             </div>
-            <div className="flex flex-col md:flex-row items-start md:items-start">
+            <div className="flex flex-col md:flex-row items-start md:items-start mb-24">
               <LazyLoad className="w-full md:w-1/2 flex justify-center">
                 <img
                   src={packshotWf}
                   alt="Bracelet"
-                  className="w-100 md:w-96 mr-0 md:mr-16"
+                  className="w-100 md:w-96 mr-0 md:mr-16 mt-0 md:nt-10"
                 />
               </LazyLoad>
               <div
-                className="w-full md:w-1/3 text-sm md:text-lg px-4 md:px-0 leading-loose mt-0"
+                className="w-full md:w-1/2 text-sm md:text-24 px-4 md:px-0 leading-17.5 mt-0"
                 id="email"
               >
                 Chez Royal Canin, nous avons passé plus de 50 ans à soutenir la
@@ -465,11 +465,15 @@ class Whistlefit extends React.Component {
                 </div>
               </span>
             </div>
-            <div className="w-full flex justify-center mt-5 md:mt-10 mb-5 md:mb-10">
+            <div
+              className={`w-full flex justify-center mt-5 md:mt-10 mb-5 md:mb-10 ${
+                this.state.isSaveSuccess ? 'hidden' : ''
+              }`}
+            >
               <button
                 className={`rc-btn rc-btn--one text-xs md:text-sm ${
                   this.state.isRegisterLoading ? 'ui-btn-loading' : ''
-                } ${this.state.isSaveSuccess ? 'hidden' : ''}`}
+                }`}
                 onClick={this.register}
                 disabled={
                   !(
@@ -481,7 +485,10 @@ class Whistlefit extends React.Component {
                 Je suis intéressé et veux être informé !
               </button>
             </div>
-            <div className="flex flex-col items-center mb-10 px-4 md:px-4">
+            <div
+              className={`${this.state.isSaveSuccess ? 'h-10' : 'hidden'}`}
+            ></div>
+            <div className="whistlefit flex flex-col items-center mb-10 px-4 md:px-4">
               {this.state.consentList.map((item, index) => {
                 return (
                   <div className="flex" key={index}>
