@@ -180,37 +180,37 @@ class MegaMenuMobileForHub extends Component {
       />
     );
   };
-  renderCustomProductItem = (item) => {
-    return (
-      <ul>
-        <li className="pl-4 pr-4 red mt-2 mb-2">
-          {/* <img
-          alt={item.Image.AltText}
-          src={item.Image.Url}
-          className="img-catogery"
-        /> */}
-          {item.ImageDescription}
-        </li>
-        {item.Type === 'DetailedMenuItem' && (
-          <li className="pl-4 pr-4">
-            {item.SubItems.map((sItem, sIdx) => (
-              <React.Fragment key={sIdx}>
-                <a
-                  href={sItem.Link.Url}
-                  className="medium mb-0 ui-cursor-pointer"
-                >
-                  {sItem.Title}
-                </a>
-                {sItem.Subtitle ? (
-                  <p className="mb-3">{sItem.Subtitle}</p>
-                ) : null}
-              </React.Fragment>
-            ))}
-          </li>
-        )}
-      </ul>
-    );
-  };
+  // renderCustomProductItem = (item) => {
+  //   return (
+  //     <ul>
+  //       <li className="pl-4 pr-4 red mt-2 mb-2">
+  //         {/* <img
+  //         alt={item.Image.AltText}
+  //         src={item.Image.Url}
+  //         className="img-catogery"
+  //       /> */}
+  //         {item.ImageDescription}
+  //       </li>
+  //       {item.Type === 'DetailedMenuItem' && (
+  //         <li className="pl-4 pr-4">
+  //           {item.SubItems.map((sItem, sIdx) => (
+  //             <React.Fragment key={sIdx}>
+  //               <a
+  //                 href={sItem.Link.Url}
+  //                 className="medium mb-0 ui-cursor-pointer"
+  //               >
+  //                 {sItem.Title}
+  //               </a>
+  //               {sItem.Subtitle ? (
+  //                 <p className="mb-3">{sItem.Subtitle}</p>
+  //               ) : null}
+  //             </React.Fragment>
+  //           ))}
+  //         </li>
+  //       )}
+  //     </ul>
+  //   );
+  // };
   _renderLinkItem = (item) => {
     // 顶级父类，有子项的添加haspopup=true(向左滑动打开子集合),其他直接跳转的使用a标签
     // 此种情况下，不渲染promotionItem，promotionItem需要拿到里层进行渲染
@@ -234,7 +234,8 @@ class MegaMenuMobileForHub extends Component {
                   <div className="custom-accordion__item">
                     <dt>
                       <div
-                        className="custom-accordion__button rc-list__header py-2 bg-white d-flex items-center justify-content-between border-0"
+                        // className="custom-accordion__button rc-list__header py-2 bg-white d-flex items-center justify-content-between border-0"
+                        className="custom-accordion__button rc-list__header bg-transparent d-flex justify-content-between border-0"
                         role="menuitem"
                         aria-selected="false"
                         data-tab-init="true"
@@ -243,7 +244,8 @@ class MegaMenuMobileForHub extends Component {
                         <span className="rc-text-colour--text">
                           {item.Link.Text}
                         </span>
-                        {/* <span
+                        {/* sprint8的需求延期到sprint9了 us334650的更改 */}
+                        <span
                           className={`iconfont inlineblock font-weight-bolder ${
                             item.expand ? 'red' : 'rc-text-colour--text'
                           }`}
@@ -254,12 +256,12 @@ class MegaMenuMobileForHub extends Component {
                           }}
                         >
                           &#xe60f;
-                        </span> */}
-                        <span
+                        </span>
+                        {/* <span
                           className={`rc-icon ${
                             item.expand ? 'rc-minus--xs' : 'rc-plus--xs'
                           } rc-iconography`}
-                        />
+                        /> */}
                       </div>
                     </dt>
                     {filterItemChildList.length > 0 && (
@@ -282,7 +284,7 @@ class MegaMenuMobileForHub extends Component {
                                 {cItem.Type === 'DetailedMenuItem' && (
                                   <>
                                     {/* sprint8需求改动product菜单展示US:334650 */}
-                                    {/* <span
+                                    <span
                                       className="rc-list__header bg-transparent border-0"
                                       aria-haspopup={true}
                                       onClick={this.handleClickToggleChilds.bind(
@@ -299,8 +301,9 @@ class MegaMenuMobileForHub extends Component {
                                         {cItem.ImageDescription}
                                       </span>
                                     </span>
-                                    {this.renderSecondChildItem(cItem, item)} */}
-                                    {this.renderCustomProductItem(cItem)}
+                                    {this.renderSecondChildItem(cItem, item)}
+                                    {/* sprint8的需求延期到sprint9了 */}
+                                    {/* {this.renderCustomProductItem(cItem)} */}
                                   </>
                                 )}
                                 {cItem.Type === 'MenuItem' && (
@@ -334,9 +337,9 @@ class MegaMenuMobileForHub extends Component {
           <NavItem
             onClick={this.handleClickNavItem.bind(this, item)}
             item={item}
-            className="rc-list__header p-4 bg-white border-0"
+            className="rc-list__header bg-transparent border-0"
           >
-            <span className="rc-text-colour--text py-2">{item.Link.Text}</span>
+            <span className="rc-text-colour--text">{item.Link.Text}</span>
           </NavItem>
         )}
       </>
@@ -385,7 +388,7 @@ class MegaMenuMobileForHub extends Component {
                         portalData.map((data, i) => (
                           <a
                             href={data.link}
-                            className={`rc-list__header p-4 bg-white border-0 ${
+                            className={`rc-list__header bg-transparent border-0 ${
                               i !== shareData.length - 1 ? 'pb-0' : ''
                             }`}
                             key={i}
@@ -441,7 +444,7 @@ class MegaMenuMobileForHub extends Component {
                       {shareData.map((data, i) => (
                         <a
                           href={data.link}
-                          className={`rc-list__header p-4 bg-white border-0 ${
+                          className={`rc-list__header bg-transparent border-0 ${
                             i !== shareData.length - 1 ? 'pb-0' : ''
                           }`}
                           key={i}
@@ -453,10 +456,10 @@ class MegaMenuMobileForHub extends Component {
                       ))}
                     </li>
                     <li className="rc-list__item rc-list__item--group w-100 border-bottom border-d7d7d7">
-                      <Language className="rc-list__header bg-white p-4 border-0">
-                        <span className="rc-icon rc-pin--xs rc-iconography" />
-                        {/*&#xe60c;*/}
-                        {/*</span>{' '}*/}
+                      <Language className="rc-list__header  bg-transparent border-0">
+                        <span className="iconfont rc-text-colour--text">
+                          &#xe60c;
+                        </span>{' '}
                         <span className="rc-text-colour--text">
                           <FormattedMessage id="language" />
                         </span>
