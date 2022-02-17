@@ -51,3 +51,7 @@
 .required-component .form-check-input {
   margin-left: -20px;
 }
+
+#J_checkout_panel_confirmation .footer-checkbox-title a:hover {
+  border-bottom: 1px solid #e2001a;
+}

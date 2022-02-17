@@ -29,9 +29,9 @@ export default class Carousel extends Component {
                 className="h-18 p-10 pt-0 mt-0 md:mt-20"
               />
             </div>
-            <div className="w-full md:w-1/2 flex flex-col ml-10 mr-20 p-10">
-              <img src={Shape01} alt="Shape01" className="w-16 mb-3" />
-              <div className="md:leading-17.5 md:text-24">
+            <div className="w-full md:w-1/2 flex flex-col ml-0 md:ml-10  md:mr-20 p-10 pt-0 md:pl-10">
+              <img src={Shape01} alt="Shape01" className="w-10 md:w-16 mb-3" />
+              <div className="md:leading-17.5 text-16 md:text-24">
                 "Cela vous met au défi, vous et votre chien, de faire plus
                 d'exercice et de rester actifs. Il fournit également des
                 informations sur le comportement de votre chien, le nombre de
@@ -42,7 +42,7 @@ export default class Carousel extends Component {
                 <div className="flex flex-col items-center">
                   <div
                     style={{ color: '#E2001A' }}
-                    className="font-normal text-20"
+                    className="font-normal text-16 md:text-20"
                   >
                     — Fabiola S.Propriétaire de chien
                   </div>
@@ -50,7 +50,7 @@ export default class Carousel extends Component {
                     Propriétaire de chien
                   </div> */}
                 </div>
-                <img src={Shape02} alt="Shape02" className="w-16" />
+                <img src={Shape02} alt="Shape02" className="w-10 md:w-16" />
               </div>
             </div>
           </div>
@@ -62,9 +62,9 @@ export default class Carousel extends Component {
                 className="h-18 p-10 pt-0 mt-0 md:mt-20"
               />
             </div>
-            <div className="w-full md:w-1/2 flex flex-col ml-10 mr-20 p-10">
-              <img src={Shape01} alt="Shape01" className="w-16 mb-3" />
-              <div className="md:leading-17.5 md:text-24">
+            <div className="w-full md:w-1/2 flex flex-col ml-0 md:ml-10  md:mr-20 p-10 pt-0 md:pl-10">
+              <img src={Shape01} alt="Shape01" className="w-10 md:w-16 mb-3" />
+              <div className="md:leading-17.5 text-16 md:text-24">
                 "Cela m'a aidé à suivre son niveau d’activité quotidienne. Elle
                 a perdu le poids recommandé par le vétérinaire. Je recommande
                 définitivement Whistle Fit à mes amis et à ma famille »
@@ -73,7 +73,7 @@ export default class Carousel extends Component {
                 <div className="flex flex-col items-center">
                   <div
                     style={{ color: '#E2001A' }}
-                    className="font-normal text-20"
+                    className="font-normal text-16 md:text-20"
                   >
                     — Charles V.Propriétaire de chien
                   </div>
@@ -81,7 +81,7 @@ export default class Carousel extends Component {
                     Propriétaire de chien
                   </div> */}
                 </div>
-                <img src={Shape02} alt="Shape02" className="w-16" />
+                <img src={Shape02} alt="Shape02" className="w-10 md:w-16" />
               </div>
             </div>
           </div>
@@ -93,9 +93,9 @@ export default class Carousel extends Component {
                 className="h-18 p-10 pt-0 mt-0 md:mt-20"
               />
             </div>
-            <div className="w-full md:w-1/2 flex flex-col ml-10 mr-20 p-10">
-              <img src={Shape01} alt="Shape01" className="w-16 mb-3" />
-              <div className="md:leading-17.5 md:text-24">
+            <div className="w-full md:w-1/2 flex flex-col ml-0 md:ml-10  md:mr-20 p-10 pt-0 md:pl-10">
+              <img src={Shape01} alt="Shape01" className="w-10 md:w-16 mb-3" />
+              <div className="md:leading-17.5 text-16 md:text-24">
                 "Suivez non seulement son activité, mais aussi ses habitudes de
                 sommeil et sa consommation d’eau. Nous adorons l'application -
                 elle est très simple à prendre en main. En plus d’être un
@@ -106,7 +106,7 @@ export default class Carousel extends Component {
                 <div className="flex flex-col items-center">
                   <div
                     style={{ color: '#E2001A' }}
-                    className="font-normal text-20"
+                    className="font-normal text-16 md:text-20"
                   >
                     — Laura P.Propriétaire de chien
                   </div>
@@ -114,7 +114,7 @@ export default class Carousel extends Component {
                     Propriétaire de chien
                   </div> */}
                 </div>
-                <img src={Shape02} alt="Shape02" className="w-16" />
+                <img src={Shape02} alt="Shape02" className="w-10 md:w-16" />
               </div>
             </div>
           </div>

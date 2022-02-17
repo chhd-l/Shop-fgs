@@ -1751,6 +1751,8 @@ class Payment extends React.Component {
                       break;
                     case 'SUCCEED':
                       gotoConfirmationPage = true;
+                      console.log(666, gotoConfirmationPage);
+                      // debugger
                       break;
                     case 'FAILURE':
                       this.setState({
@@ -1781,6 +1783,7 @@ class Payment extends React.Component {
                 this.endLoading();
               }
             );
+            // debugger
             payCountDown(
               this.state.countDownStartTime,
               1,
@@ -1798,6 +1801,7 @@ class Payment extends React.Component {
                 }
               }
             );
+            // debugger
             if (isMobile) {
               window.location = res.context.redirectUrl;
             }
@@ -1910,7 +1914,9 @@ class Payment extends React.Component {
       }
 
       sessionItemRoyal.remove('payosdata');
+      console.log(777, gotoConfirmationPage);
       if (gotoConfirmationPage) {
+        debugger;
         // 清除掉计算运费相关参数
         localItemRoyal.remove('rc-calculation-param');
         sessionItemRoyal.remove('rc-clicked-surveyId');
