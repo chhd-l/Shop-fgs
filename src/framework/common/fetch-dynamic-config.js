@@ -7,8 +7,8 @@ import cloneDeep from 'lodash/cloneDeep';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 const fetchDynamicConfig = async () => {
-  const baseConfig = sessionItemRoyal.get('base-config')
-    ? JSON.parse(sessionItemRoyal.get('base-config'))
+  const baseConfig = sessionItemRoyal.get('base-config-shop')
+    ? JSON.parse(sessionItemRoyal.get('base-config-shop'))
     : null;
   let envVal = cloneDeep(window?.__?.env || {});
   const param = getCountryCodeFromHref();
@@ -49,7 +49,7 @@ const fetchDynamicConfig = async () => {
         });
       }
 
-      sessionItemRoyal.set('base-config', JSON.stringify(envVal));
+      sessionItemRoyal.set('base-config-shop', JSON.stringify(envVal));
     }
     console.log('★★★★★★★★★ current shop configuration:', envVal);
     if (envVal?.REACT_APP_HUB) {

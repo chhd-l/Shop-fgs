@@ -4,6 +4,7 @@ import { useLocalStore } from 'mobx-react';
 import Skeleton from 'react-skeleton-loader';
 import Header from '@/components/Header';
 import { Helmet } from 'react-helmet';
+import GoogleTagManager from '@/components/GoogleTagManager';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import { getList } from '@/api/list';
@@ -40,7 +41,12 @@ const Adoptions = (props) => {
   const [shelter, setShelter] = useState({});
   const [shelterList, setShelterList] = useState([]);
   const [goodsList, setGoodsList] = useState([]);
-
+  const event = {
+    page: {
+      type: 'Adoptions',
+      theme: ''
+    }
+  };
   useEffect(() => {
     getShelters();
     getGoodsInfos();
@@ -252,6 +258,7 @@ const Adoptions = (props) => {
         <meta name="description" content={seoConfig.metaDescription} />
         <meta name="keywords" content={seoConfig.metaKeywords} />
       </Helmet>
+      <GoogleTagManager additionalEvents={event} />
       <Header {...props} showMiniIcons={true} showUserIcon={true} />
       <main className=" adoptions-page m-auto rc-content--fixed-header rc-bg-colour--brand3">
         <BannerTip />
