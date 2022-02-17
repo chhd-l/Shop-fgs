@@ -23,11 +23,7 @@ export default class Carousel extends Component {
         <Slider {...settings}>
           <div className="flex flex-col md:flex-row">
             <div className="w-full md:w-1/2">
-              <img
-                src={carousel1}
-                alt="carousel1"
-                className="h-18 p-10 pt-0 mt-0 md:mt-20"
-              />
+              <img src={carousel1} alt="carousel1" className="h-18 p-10 pt-0" />
             </div>
             <div className="w-full md:w-1/2 flex flex-col ml-0 md:ml-10  md:mr-20 p-10 pt-0 md:pl-10">
               <img src={Shape01} alt="Shape01" className="w-10 md:w-16 mb-3" />
@@ -56,11 +52,7 @@ export default class Carousel extends Component {
           </div>
           <div className="flex flex-col md:flex-row">
             <div className="w-full md:w-1/2">
-              <img
-                src={carousel1}
-                alt="carousel1"
-                className="h-18 p-10 pt-0 mt-0 md:mt-20"
-              />
+              <img src={carousel1} alt="carousel1" className="h-18 p-10 pt-0" />
             </div>
             <div className="w-full md:w-1/2 flex flex-col ml-0 md:ml-10  md:mr-20 p-10 pt-0 md:pl-10">
               <img src={Shape01} alt="Shape01" className="w-10 md:w-16 mb-3" />
@@ -87,11 +79,7 @@ export default class Carousel extends Component {
           </div>
           <div className="flex flex-col md:flex-row">
             <div className="w-full md:w-1/2">
-              <img
-                src={carousel1}
-                alt="carousel1"
-                className="h-18 p-10 pt-0 mt-0 md:mt-20"
-              />
+              <img src={carousel1} alt="carousel1" className="h-18 p-10 pt-0" />
             </div>
             <div className="w-full md:w-1/2 flex flex-col ml-0 md:ml-10  md:mr-20 p-10 pt-0 md:pl-10">
               <img src={Shape01} alt="Shape01" className="w-10 md:w-16 mb-3" />
