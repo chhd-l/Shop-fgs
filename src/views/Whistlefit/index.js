@@ -293,11 +293,11 @@ class Whistlefit extends React.Component {
                             <img src={eatingFood} alt="eatingFood" />
                           </LazyLoad>
                           <div className="w-2/3 md:w-auto">
-                            <div className="h4 w-100 md:w-72 text-left text-16 md:text-28 md:leading-normal font-normal mt-0 md:mt-6 mb-0 md:mb-6">
+                            <div className="w-100 md:w-72 text-left text-16 md:text-28 md:leading-normal font-normal mt-0 md:mt-6 mb-0 md:mb-6">
                               Adaptez sa nutrition en fonction de l’évolution de
                               ses besoins
                             </div>
-                            <div className="h4 w-100 md:w-72 text-left text-14 md:text-xl font-normal mt-3 md:mt-6 mb-6 md:leading-normal">
+                            <div className="w-100 md:w-72 text-left text-14 md:text-xl font-normal mt-3 md:mt-6 mb-6 md:leading-normal">
                               Obtenez des recommandations sur les quantités
                               précises de nourriture. Maintenez facilement son
                               poids de forme.
@@ -309,11 +309,11 @@ class Whistlefit extends React.Component {
                             <img src={dog} alt="dog" />
                           </LazyLoad>
                           <div className="w-2/3 md:w-auto">
-                            <div className="h4 w-100 md:w-72 text-left text-16 md:text-28 md:leading-normal font-normal mt-0 md:mt-6 mb-0 md:mb-6">
+                            <div className="w-100 md:w-72 text-left text-16 md:text-28 md:leading-normal font-normal mt-0 md:mt-6 mb-0 md:mb-6">
                               Surveillez son bien-être, interprétez son
                               comportement
                             </div>
-                            <div className="h4 w-100 md:w-72 text-left text-14 md:text-xl font-normal mt-3 md:mt-6 mb-6 md:leading-normal">
+                            <div className="w-100 md:w-72 text-left text-14 md:text-xl font-normal mt-3 md:mt-6 mb-6 md:leading-normal">
                               Recevez des alertes concernant des comportements
                               excessifs (grattements, lèchements, sommeil etc.).
                               Suivez quotidiennement le niveau de bien-être de
@@ -329,6 +329,7 @@ class Whistlefit extends React.Component {
                               controls
                               src="https://fgs-cdn.azureedge.net/cdn/img/whistlefit.mp4"
                               title="making a better world for pets"
+                              poster={poster}
                             ></video>
                           </div>
                         </div>
@@ -379,7 +380,7 @@ class Whistlefit extends React.Component {
                           <div className="h4 w-100 md:w-72 text-left text-16 md:text-30 font-normal mt-0 md:mt-6 mb-6 md:leading-normal">
                             Un dispositif intelligent qui collecte la donnée
                           </div>
-                          <div className="w-100 md:w-72 text-left text-l4 md:text-xl font-normal mt-3 md:mt-6 mb-6 md:leading-normal">
+                          <div className="w-100 md:w-72 text-left text-14 md:text-xl font-normal mt-3 md:mt-6 mb-6 md:leading-normal">
                             Whistle Fit recueille les données autour de
                             l’activité et du comportement de votre chien.
                           </div>
@@ -390,11 +391,11 @@ class Whistlefit extends React.Component {
                           <img src={group2} alt="group2" />
                         </LazyLoad>
                         <div className="w-10 md:w-0 order-2"></div>
-                        <div className="w-1/2 md:w-auto order-1 md:order-3">
-                          <div className="h4 w-100 md:w-72 text-left text-16 md:text-30 font-normal mt-0 md:mt-6 mb-6 md:leading-normal">
+                        <div className="w-1/2 md:w-auto order-1 md:order-3 ml-5 md:ml-0">
+                          <div className="w-100 md:w-72 text-left text-16 md:text-30 font-normal mt-0 md:mt-6 mb-6 md:leading-normal">
                             L’application Whistle pour interpréter les données
                           </div>
-                          <div className="h4 w-100 md:w-72 text-left text-14 md:text-xl font-normal mt-3 md:mt-6 mb-6 md:leading-normal">
+                          <div className="w-100 md:w-72 text-left text-14 md:text-xl font-normal mt-3 md:mt-6 mb-6 md:leading-normal">
                             Obtenez des rapports de mesures personnalisés grâce
                             à l’application Whistle.
                           </div>
@@ -406,10 +407,10 @@ class Whistlefit extends React.Component {
                         </LazyLoad>
                         <div className="w-10 md:w-0"></div>
                         <div className="w-1/2 md:w-auto">
-                          <div className="h4 w-100 md:w-72 text-left text-16 md:text-30 font-normal mt-0 md:mt-6 mb-6 md:leading-normal">
+                          <div className="w-100 md:w-72 text-left text-16 md:text-30 font-normal mt-0 md:mt-6 mb-6 md:leading-normal">
                             Des alertes santé pour réagir plus vite
                           </div>
-                          <div className="h4 w-100 md:w-72 text-left text-14 md:text-xl font-normal mt-3 md:mt-6 mb-6 md:leading-normal">
+                          <div className="w-100 md:w-72 text-left text-14 md:text-xl font-normal mt-3 md:mt-6 mb-6 md:leading-normal">
                             Recevez des alertes santé dès que votre chien montre
                             des changements de comportement
                           </div>
@@ -493,7 +494,7 @@ class Whistlefit extends React.Component {
                           className="w-2/3 md:w-100 md:w-96 mr-0 md:mr-16 mt-0 md:nt-10"
                         />
                       </LazyLoad>
-                      <div className="w-full md:w-1/2 text-sm text-16 md:text-24 px-4 md:px-0 leading-17.5 mt-0">
+                      <div className="w-full md:w-1/2 text-16 md:text-24 px-4 md:px-0 leading-17.5 mt-0">
                         Chez Royal Canin, nous avons passé plus de 50 ans à
                         soutenir la santé des animaux de compagnie grâce à nos
                         solutions nutritionnelles innovantes et à nos conseils
