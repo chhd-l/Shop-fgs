@@ -429,7 +429,7 @@ class PayOs extends React.Component {
               }
             }
           );
-          payosdataRes = tokenResult;
+          payosdataRes = tokenResult.data;
         } else {
           tokenResult = await new Promise((resolve) => {
             window.POS.createToken(
@@ -664,7 +664,7 @@ class PayOs extends React.Component {
                         inited={this.state.inited}
                       />
                     </div>
-                  ) : window.__.env.REACT_APP_COUNTRY == 'uk' ? (
+                  ) : window.__.env.REACT_APP_COUNTRY == 'ru' ? (
                     <div className="credit-card-form">
                       <div className="rc-margin-bottom--xs">
                         <div className="content-asset">
