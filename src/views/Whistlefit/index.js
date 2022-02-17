@@ -117,22 +117,18 @@ class Whistlefit extends React.Component {
   //滚动到输入email的位置
   scrollToInputEmail = (position, label) => {
     GAWhistleFitButtonClick(position, label);
-    // let bridge = document.querySelector('#emailPlace');
-    // let body = document.body;
-    // let height = 0;
-    // do {
-    //   height += bridge.offsetTop;
-    //   bridge = bridge.offsetParent;
-    // } while (bridge !== body);
-    // window.scrollTo({
-    //   top: height,
-    //   behavior: 'smooth'
-    // });
     let anchorElement = document.getElementById('scrollPlace');
-    window.scrollTo({
-      top: anchorElement.offsetTop,
-      behavior: 'smooth'
-    });
+    if (position == 1) {
+      window.scrollTo({
+        top: 4134,
+        behavior: 'smooth'
+      });
+    } else {
+      window.scrollTo({
+        top: anchorElement.offsetTop,
+        behavior: 'smooth'
+      });
+    }
   };
   register = async () => {
     this.setState({ isRegisterLoading: true });
