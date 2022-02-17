@@ -30,7 +30,8 @@
   color: #e2001a;
 }
 .required-component .footer-checkbox-title p a {
-  color: #e2001a;
+  color: #e2001a !important;
+  font-weight: 500;
 }
 .required-component .Checkbox-detail p {
   font-size: 0.75rem;

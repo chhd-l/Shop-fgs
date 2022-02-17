@@ -55,6 +55,15 @@ const ConsentAdditionalText = ({ textPosition }) => {
           erhalten:
         </p>
       </div>
+    ),
+    se: (
+      <div className="consent-txt">
+        <p>
+          WJa tack, jag vill gärna få nyheter, tävlingar, skräddarsydda kostråd
+          och erbjudanden på produkter på e-post, SMS och telefon. (Jag är över
+          16 år och jag kan när som helst återkalla mitt samtycke):
+        </p>
+      </div>
     )
   };
   const bottomText = {
@@ -116,6 +125,21 @@ const ConsentAdditionalText = ({ textPosition }) => {
           unsere &nbsp;
           <a href="https://www.mars.com/privacy-policy-germany" target="_blank">
             Datenschutzerklärung
+          </a>
+          .
+        </p>
+      </div>
+    ),
+    se: (
+      <div className="explain-txt">
+        <p>
+          Från tid till annan kan vi använda dina uppgifter för forskning för
+          att förbättra vår produkt- och tjänsteerbjudanden. Du kan ta reda på
+          hur Mars Petcare och dess dotterbolag samlar in och behandlar dina
+          uppgifter, kontakta oss med sekretessfrågor och utöva dina
+          personuppgifter via &nbsp;
+          <a href="https://www.mars.com/privacy-policy-sweden" target="_blank">
+            Mars’ Sekretesspolicy
           </a>
           .
         </p>
