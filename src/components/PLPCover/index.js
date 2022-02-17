@@ -329,11 +329,15 @@ function ListItemForDefault(props) {
                     height: '100%'
                   }}
                 >
+                  {/* todo */}
                   <img
                     src={
                       isDogPage
                         ? retailDog
-                        : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`
+                        : optimizeImage(
+                            `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`,
+                            300
+                          )
                     }
                     alt="product finder recomend retail cat find"
                     title=""
