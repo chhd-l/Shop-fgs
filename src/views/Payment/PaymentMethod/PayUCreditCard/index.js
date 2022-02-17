@@ -10,6 +10,9 @@ import { scrollPaymentPanelIntoView } from '../../modules/utils';
 import MemberCardList from './MemberCardList';
 import CardItemCover from './CardItemCover';
 import InstallmentTable from './InstallmentTable';
+import axios from 'axios';
+import getCardImg from '@/lib/get-card-img';
+import cn from 'classnames';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -133,7 +136,9 @@ class PayOs extends React.Component {
     super(props);
     this.state = {
       creditCardInfoForm: {
-        // cardNumber: "",
+        cardNumber: '',
+        cardMmyy: '',
+        cardCvv: '',
         // cardDate: "",
         // cardCVV: "",
         cardOwner: '',
@@ -150,7 +155,14 @@ class PayOs extends React.Component {
       saveLoading: false,
       isEdit: true,
       installMentTableData: [], // 分期详情table data
-      installMentParam: null // 所选择的分期详情
+      installMentParam: null, // 所选择的分期详情
+      isCreditCardCheck: {
+        cardNumber: 'NOT_TEST', //NOT_TEST：未开始检测 FAIL：测试不成功 SUCCESS：测试成功
+        cardMmyy: 'NOT_TEST',
+        cardCvv: 'NOT_TEST',
+        cardOwner: 'NOT_TEST'
+      },
+      currentVendor: '1'
     };
     this.paymentCompRef = React.createRef();
   }
@@ -236,12 +248,64 @@ class PayOs extends React.Component {
       }
     );
   }
+  formatValue = (name, value) => {
+    let finalValue = '';
+    if (name === 'cardMmyy') {
+      // 获取 / 前后数字
+      let splitArr = value.split('/');
+      let noFormatStr = '';
+
+      // 获得不带/的数字
+      if (splitArr[1] || splitArr[0].length > 2) {
+        noFormatStr = splitArr[0].concat(splitArr[1] ? splitArr[1] : '');
+        finalValue = noFormatStr.slice(0, 2) + '/' + noFormatStr.slice(2);
+      } else {
+        noFormatStr = splitArr[0];
+        finalValue = noFormatStr.slice(0, 2);
+      }
+    } else {
+      finalValue = value;
+    }
+    return finalValue;
+  };
+  cardNumberChange = async (e) => {
+    const target = e.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    let cardNumber =
+      value.replace(/\s*/g, '') || this.state.creditCardInfoForm.cardNumber;
+
+    try {
+      let res = await axios.post(
+        'https://api.paymentsos.com/tokens',
+        {
+          token_type: 'credit_card',
+          card_number: cardNumber,
+          expiration_date: '08-23',
+          credit_card_cvv: '888',
+          holder_name: 'echo'
+        },
+        {
+          headers: {
+            public_key: window.__.env.REACT_APP_PaymentKEY_MEMBER,
+            'x-payments-os-env': window.__.env.REACT_APP_PaymentENV,
+            'Content-type': 'application/json',
+            app_id: window.__.env.REACT_APP_PaymentAPPID_MEMBER,
+            'api-version': '1.3.0'
+          }
+        }
+      );
+      console.log(res);
+      this.setState({ currentVendor: res.data.vendor });
+    } catch (e) {
+      console.log(e);
+    }
+  };
   cardInfoInputChange = (e) => {
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
     const { creditCardInfoForm } = this.state;
-    creditCardInfoForm[name] = value;
+    creditCardInfoForm[name] = this.formatValue(name, value);
     this.inputBlur(e);
     this.setState({ creditCardInfoForm }, () => {
       this.props.onVisitorCardInfoChange(this.state.creditCardInfoForm);
@@ -260,6 +324,62 @@ class PayOs extends React.Component {
     if (validDom) {
       validDom.style.display = e.target.value ? 'none' : 'block';
     }
+  };
+  //给俄罗斯credit card表单重新写的方法
+  inputBoxBlur = (e) => {
+    let key = e.target.name;
+    let value = e.target.value;
+    let result = '';
+    let coverObj = {};
+    let data = {};
+    switch (key) {
+      case 'cardNumber':
+        if (value.length == 0) {
+          result = 'NOT_TEST';
+        } else if (value.length == 18 || value.length == 19) {
+          result = 'SUCCESS';
+        } else {
+          result = 'FAIL';
+        }
+        break;
+      case 'cardMmyy':
+        let splitArr = value.split('/');
+        let arr = [];
+        for (let i = 0; i < splitArr.length; i++) {
+          arr.push(splitArr[i]);
+        }
+        if (arr.length == 1 && arr[0] === '') {
+          result = 'NOT_TEST';
+        } else if (
+          arr.length == 2 &&
+          arr[0].length == 2 &&
+          arr[1].length == 2
+        ) {
+          result = 'SUCCESS';
+        } else {
+          result = 'FAIL';
+        }
+        break;
+      case 'cardCvv':
+        if (value.length === 0) {
+          result = 'NOT_TEST';
+        } else if (value.length >= 3 && value.length <= 4) {
+          result = 'SUCCESS';
+        } else {
+          result = 'FAIL';
+        }
+        break;
+      case 'cardOwner':
+        if (value.length === 0) {
+          result = 'NOT_TEST';
+        } else {
+          result = 'SUCCESS';
+        }
+        break;
+    }
+    coverObj[key] = result;
+    data = Object.assign({}, this.state.isCreditCardCheck, coverObj);
+    this.setState({ isCreditCardCheck: data });
   };
   async validFormData() {
     try {
@@ -285,22 +405,47 @@ class PayOs extends React.Component {
         return false;
       }
       this.setState({ saveLoading: true });
+      const isCountryRu = window.__.env.REACT_APP_COUNTRY === 'ru';
+      let payosdataRes = {};
+      let tokenResult = '';
       if (!payosdata) {
-        const tokenResult = await new Promise((resolve) => {
-          window.POS.createToken(
+        if (isCountryRu) {
+          tokenResult = await axios.post(
+            'https://api.paymentsos.com/tokens',
             {
-              holder_name: creditCardInfoForm.cardOwner // This field is mandatory
+              token_type: 'credit_card',
+              card_number: creditCardInfoForm.cardNumber, //''4652035440667037''
+              expiration_date: creditCardInfoForm.cardMmyy.replace(/\//, '-'), //'08-23'
+              holder_name: creditCardInfoForm.cardOwner, //'J.Smith'
+              credit_card_cvv: creditCardInfoForm.cardCvv //'971'
             },
-            function (result) {
-              console.log(result, 'result');
-              // Grab the token here
-              resolve(result);
+            {
+              headers: {
+                public_key: window.__.env.REACT_APP_PaymentKEY_MEMBER,
+                'x-payments-os-env': window.__.env.REACT_APP_PaymentENV,
+                'Content-type': 'application/json',
+                app_id: window.__.env.REACT_APP_PaymentAPPID_MEMBER,
+                'api-version': '1.3.0'
+              }
             }
           );
-        });
-        const payosdataRes = JSON.parse(tokenResult);
-        console.log(payosdataRes);
-        debugger;
+          payosdataRes = tokenResult;
+        } else {
+          tokenResult = await new Promise((resolve) => {
+            window.POS.createToken(
+              {
+                holder_name: creditCardInfoForm.cardOwner // This field is mandatory
+              },
+              function (result) {
+                console.log(result, 'result');
+                // Grab the token here
+                resolve(result);
+              }
+            );
+          });
+          payosdataRes = JSON.parse(tokenResult);
+        }
+
         if (payosdataRes) {
           this.setState({
             payosdata: payosdataRes
@@ -389,12 +534,84 @@ class PayOs extends React.Component {
             <img
               className="logo-payment-card"
               src={el.imgUrl}
+              style={{
+                width: window.__.env.REACT_APP_COUNTRY == 'ru' ? '50px' : '30px'
+              }}
               alt="logo payment card"
             />
           </LazyLoad>
         ))}
       </span>
     );
+
+    //俄罗斯表单专用
+    const formListLabelColor = (commonStyle, type) => {
+      return cn(
+        commonStyle,
+        {
+          'text-black': this.state.isCreditCardCheck[type] === 'NOT_TEST'
+        },
+        {
+          'text-red-500': this.state.isCreditCardCheck[type] === 'FAIL'
+        },
+        {
+          'text-green': this.state.isCreditCardCheck[type] === 'SUCCESS'
+        }
+      );
+    };
+
+    const formListInputColor = (commonStyle, type) => {
+      return cn(
+        commonStyle,
+        {
+          'border border-gray-300':
+            this.state.isCreditCardCheck[type] === 'NOT_TEST'
+        },
+        {
+          'border-b-2 border-red-500':
+            this.state.isCreditCardCheck[type] === 'FAIL'
+        },
+        {
+          'border-b-2 border-green':
+            this.state.isCreditCardCheck[type] === 'SUCCESS'
+        }
+      );
+    };
+
+    const formListInputIcon = (type) => {
+      return (
+        <>
+          {this.state.isCreditCardCheck[type] === 'SUCCESS' ? (
+            <div
+              className={cn(
+                'font-bold text-green text-md absolute top-3 right-3'
+              )}
+            >
+              ✔
+            </div>
+          ) : null}
+          {this.state.isCreditCardCheck[type] === 'FAIL' ? (
+            <div className={cn('font-bold text-md absolute top-3 right-3')}>
+              <svg
+                width="16px"
+                height="16px"
+                viewBox="0 0 16 16"
+                fill="#D10244"
+              >
+                <path d="M16,8 C16,9.44086038 15.6397848,10.7741935 14.9193548,12 C14.1989249,13.2258065 13.2258065,14.1989249 12,14.9193548 C10.7741935,15.6397848 9.44086038,16 8,16 C6.55913962,16 5.22580645,15.6397848 4,14.9193548 C2.77419355,14.1989249 1.8010751,13.2258065 1.08064516,12 C0.360215218,10.7741935 0,9.44086038 0,8 C0,6.55913962 0.360215218,5.22580645 1.08064516,4 C1.8010751,2.77419355 2.77419355,1.8010751 4,1.08064516 C5.22580645,0.360215218 6.55913962,0 8,0 C9.44086038,0 10.7741935,0.360215218 12,1.08064516 C13.2258065,1.8010751 14.1989249,2.77419355 14.9193548,4 C15.6397848,5.22580645 16,6.55913962 16,8 Z M8.01612903,10 C7.60308539,10 7.24982468,10.1467391 6.95634642,10.4402174 C6.66286816,10.7336957 6.51612903,11.0869564 6.51612903,11.5 C6.51612903,11.9130436 6.66286816,12.2663043 6.95634642,12.5597826 C7.24982468,12.8532609 7.60308539,13 8.01612903,13 C8.42917268,13 8.78243338,12.8532609 9.07591164,12.5597826 C9.3693899,12.2663043 9.51612903,11.9130436 9.51612903,11.5 C9.51612903,11.0869564 9.3693899,10.7336957 9.07591164,10.4402174 C8.78243338,10.1467391 8.42917268,10 8.01612903,10 Z M6.58064516,3.41935484 L6.83870968,7.80645161 C6.83870968,7.89247328 6.87634425,7.97311844 6.9516129,8.0483871 C7.02688156,8.12365575 7.11827973,8.16129032 7.22580645,8.16129032 L8.77419355,8.16129032 C8.88172027,8.16129032 8.97311844,8.12365575 9.0483871,8.0483871 C9.12365575,7.97311844 9.16129032,7.89247328 9.16129032,7.80645161 L9.41935484,3.41935484 C9.41935484,3.29032258 9.38172027,3.18817188 9.30645161,3.11290323 C9.23118296,3.03763457 9.13978478,3 9.03225806,3 L6.96774194,3 C6.86021522,3 6.76881704,3.03763457 6.69354839,3.11290323 C6.61827973,3.18817188 6.58064516,3.29032258 6.58064516,3.41935484 Z"></path>
+              </svg>
+            </div>
+          ) : null}
+        </>
+      );
+    };
+
+    const formListInputError = (errMsg, type) => {
+      return this.state.isCreditCardCheck[type] === 'FAIL' ? (
+        <div className="text-red-500 my-1">{errMsg}</div>
+      ) : null;
+    };
+    //俄罗斯表单专用
 
     // 分期按钮显示控制
     const checkboxList = [
@@ -446,6 +663,203 @@ class PayOs extends React.Component {
                         updateFormValidStatus={this.props.updateFormValidStatus}
                         inited={this.state.inited}
                       />
+                    </div>
+                  ) : window.__.env.REACT_APP_COUNTRY == 'uk' ? (
+                    <div className="credit-card-form">
+                      <div className="rc-margin-bottom--xs">
+                        <div className="content-asset">
+                          <p className="m-0">{CreditCardImg}</p>
+                        </div>
+                        <div className="flex h-20 mb-2">
+                          <div className="w-100">
+                            <div className="form-group">
+                              <label
+                                className={formListLabelColor(
+                                  'form-control-label text-black text-xs font-normal',
+                                  'cardNumber'
+                                )}
+                                htmlFor="cardNumber"
+                              >
+                                <FormattedMessage id="payment.cardNumber" />
+                                <span className="red">*</span>
+                                <div className="ru-cardFrom cardFormBox mt-1">
+                                  <span className="w-full cardForm relative">
+                                    <div className="flex">
+                                      <div className="w-100">
+                                        <div className="form-group required">
+                                          <span
+                                            className="rc-input rc-input--full-width"
+                                            input-setup="true"
+                                          >
+                                            <input
+                                              type="tel"
+                                              className={formListInputColor(
+                                                'rc-input__control form-control email h-10 pl-3 py-0 border border-gray-300 rounded-md focus:ring-2 focus:ring-transparent focus:border-blue-500',
+                                                'cardNumber'
+                                              )}
+                                              id="number"
+                                              value={creditCardInfoForm.cardNumber
+                                                .replace(/\s/g, '')
+                                                .replace(
+                                                  /(\d{4})(?=\d)/g,
+                                                  '$1 '
+                                                )}
+                                              onChange={
+                                                this.cardInfoInputChange
+                                              }
+                                              onKeyUp={this.cardNumberChange}
+                                              onBlur={this.inputBoxBlur}
+                                              name="cardNumber"
+                                              maxLength={19}
+                                              placeholder={
+                                                this.props.intl?.messages
+                                                  .cardNumber
+                                              }
+                                            />
+                                          </span>
+                                          {formListInputError(
+                                            'неверный номер карты.',
+                                            'cardNumber'
+                                          )}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <span className="cardImage absolute top-2 right-0">
+                                      <LazyLoad>
+                                        <img
+                                          alt="Card image"
+                                          src={getCardImg({
+                                            supportPaymentMethods,
+                                            currentVendor:
+                                              this.state.currentVendor
+                                          })}
+                                          className="img"
+                                        />
+                                      </LazyLoad>
+                                    </span>
+                                  </span>
+                                </div>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="form-group row mb-0 w-100 mx-0 flex-nowrap h-20">
+                          <label
+                            className={formListLabelColor(
+                              'form-control-label my-0 w-1/2 text-black text-xs font-normal',
+                              'cardMmyy'
+                            )}
+                            htmlFor="cardNumber"
+                          >
+                            Дата окончания
+                            <span className="red">*</span>
+                            <div className="form-group required mt-1">
+                              <span
+                                className="rc-input rc-input--full-width"
+                                input-setup="true"
+                              >
+                                <input
+                                  type="tel"
+                                  className={formListInputColor(
+                                    'rc-input__control form-control phone border border-gray-300 rounded-md h-10 pl-3 py-0 focus:ring-2 focus:ring-transparent focus:border-blue-500',
+                                    'cardMmyy'
+                                  )}
+                                  min-lenght="18"
+                                  max-length="18"
+                                  value={creditCardInfoForm.cardMmyy}
+                                  onChange={this.cardInfoInputChange}
+                                  onBlur={this.inputBoxBlur}
+                                  name="cardMmyy"
+                                  maxLength="5"
+                                  placeholder={'MM/YY'}
+                                />
+                                {formListInputIcon('cardMmyy')}
+                              </span>
+                              {formListInputError(
+                                'Неверная дата окончания.',
+                                'cardMmyy'
+                              )}
+                            </div>
+                          </label>
+                          <div className="w-5"></div>
+                          <label
+                            className={formListLabelColor(
+                              'form-control-label my-0 w-1/2 text-black text-xs font-normal',
+                              'cardCvv'
+                            )}
+                            htmlFor="cardNumber"
+                          >
+                            CVV
+                            <span className="red">*</span>
+                            <div className="form-group required mt-1">
+                              <span
+                                className="rc-input rc-input--full-width relative"
+                                input-setup="true"
+                              >
+                                <input
+                                  type="password"
+                                  autoComplete="new-password"
+                                  className={formListInputColor(
+                                    'form-control phone  rounded-md h-10 pl-3 py-0 focus:ring-2 focus:ring-transparent focus:border-blue-500',
+                                    'cardCvv'
+                                  )}
+                                  value={creditCardInfoForm.cardCvv}
+                                  onChange={this.cardInfoInputChange}
+                                  onBlur={this.inputBoxBlur}
+                                  name="cardCvv"
+                                  maxLength="4"
+                                  placeholder="CVV"
+                                />
+                                {formListInputIcon('cardCvv')}
+                              </span>
+                              {formListInputError(
+                                'Неверный код безопасности.',
+                                'cardCvv'
+                              )}
+                            </div>
+                          </label>
+                        </div>
+                        <div className="flex overflow_visible">
+                          <div className="w-100">
+                            <label
+                              className={formListLabelColor(
+                                'form-control-label my-0 w-full text-black text-xs font-normal',
+                                'cardOwner'
+                              )}
+                              htmlFor="cardNumber"
+                            >
+                              <FormattedMessage id="payment.cardOwner" />
+                              <span className="red">*</span>
+                              <div className="form-group required mt-1">
+                                <span
+                                  className="rc-input rc-input--full-width"
+                                  input-setup="true"
+                                >
+                                  <input
+                                    type="text"
+                                    className={formListInputColor(
+                                      'rc-input__control form-control cardOwner border border-gray-300 rounded-md h-10 pl-3 py-0 focus:ring-2 focus:ring-transparent focus:border-blue-500',
+                                      'cardOwner'
+                                    )}
+                                    autocomplete="off"
+                                    name="cardOwner"
+                                    value={creditCardInfoForm.cardOwner}
+                                    onChange={this.cardInfoInputChange}
+                                    onBlur={this.inputBoxBlur}
+                                    maxLength="40"
+                                    placeholder="J.Smith"
+                                  />
+                                  {formListInputIcon('cardOwner')}
+                                </span>
+                                {formListInputError(
+                                  'поле необходимо заполнить.',
+                                  'cardOwner'
+                                )}
+                              </div>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   ) : (
                     <>

@@ -75,7 +75,7 @@ class SearchSelection extends React.Component {
   };
   handleInputChange = (e) => {
     // eslint-disable-next-line no-unused-expressions
-    this.props.onSearchSelectionChange?.();
+    // this.props.onSearchSelectionChange?.();
     e.nativeEvent.stopImmediatePropagation();
     const target = e.target;
     const { form } = this.state;
@@ -114,7 +114,7 @@ class SearchSelection extends React.Component {
   };
   handleInputFocus = (e) => {
     // eslint-disable-next-line no-unused-expressions
-    this.props.onSearchSelectionFocus?.();
+    // this.props.onSearchSelectionFocus?.();
     const tmpVal = this.state.form.value;
     if (tmpVal) {
       this.setState({

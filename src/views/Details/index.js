@@ -948,7 +948,8 @@ class Details extends React.Component {
         valid: this.btnStatus,
         cartItemList: [cartItem],
         currentUnitPrice,
-        isMobile
+        isMobile,
+        intl: this.props.intl
       });
       this.setState({ modalMobileCartSuccessVisible: true });
     } catch (err) {
@@ -1430,6 +1431,9 @@ class Details extends React.Component {
                                 barcode={barcode}
                                 goodsType={goodsType}
                                 onClick={this.handleBuyFromRetailer}
+                                isApi={isApi}
+                                isUrl={isUrl}
+                                retailerUrl={retailerUrl}
                               />
                             ) : null}
                           </div>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import ConsentAdditionalText from '@/components/Consent/ConsentAdditionalText';
+import ConsentToolTip from '@/components/Consent/ConsentToolTip';
 import { Link } from 'react-router-dom';
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
@@ -165,18 +166,32 @@ class Consent extends Component {
                   >
                     <div className="footer-checkbox" key={index}>
                       <div className="d-flex">
-                        <span
-                          className={
-                            zoom === '150%'
-                              ? 'footer-checkbox-title mt'
-                              : 'footer-checkbox-title'
-                          }
-                          dangerouslySetInnerHTML={createMarkup(
-                            item.consentTitle,
-                            item.isRequired,
-                            item.noChecked
-                          )}
-                        />
+                        {/* se consent */}
+                        {item.consentDesc == 'MARS_PETCARE_SE_B2C_OPT' ? (
+                          <>
+                            <ConsentToolTip
+                              consentInnerHtml={createMarkup(
+                                item.consentTitle,
+                                item.isRequired,
+                                item.noChecked
+                              )}
+                              pageType={pageType}
+                            />
+                          </>
+                        ) : (
+                          <span
+                            className={
+                              zoom === '150%'
+                                ? 'footer-checkbox-title mt'
+                                : 'footer-checkbox-title'
+                            }
+                            dangerouslySetInnerHTML={createMarkup(
+                              item.consentTitle,
+                              item.isRequired,
+                              item.noChecked
+                            )}
+                          />
+                        )}
                       </div>
                     </div>
                     <div

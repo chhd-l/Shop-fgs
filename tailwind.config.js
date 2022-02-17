@@ -40,6 +40,23 @@ module.exports = {
         'rc-ddd':'var(--rc-ddd)',
         'rc-detail-red':'var(--rc-detail-red)'
       },
+      fontSize:{
+        '16': '16px',
+        '20': '20px',
+        '24': '24px',
+        '28': '28px',
+        '30': '30px',
+        '32': '32px',
+        '36': '36px',
+        '38': '38px',
+        '40':'40px',
+      },
+      lineHeight: {
+        '12': 1.2,
+        '13.3': 1.33,
+        '14': 1.4,
+        '17.5': 1.75
+      },
       minHeight: {
         'auto':'auto'
       },

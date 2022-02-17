@@ -2034,23 +2034,22 @@ class Payment extends React.Component {
           consigneeEmail: deliveryAddress.email
         }
       );
-      let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(
-        param
-      );
-
-      console.log(717, postVisitorRegisterAndLoginRes);
-      console.log(717, postVisitorRegisterAndLoginRes.context.token);
+      let submitParam = bindSubmitParam(this.state.listData);
+      let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin({
+        ...param,
+        ...submitParam
+      });
 
       //游客绑定consent 一定要在游客注册之后 start
-      let submitParam = bindSubmitParam(this.state.listData);
-      userBindConsent({
-        ...submitParam,
-        ...{ oktaToken: '' },
-        customerId:
-          (postVisitorRegisterAndLoginRes.context &&
-            postVisitorRegisterAndLoginRes.context.customerId) ||
-          ''
-      });
+      //let submitParam = bindSubmitParam(this.state.listData);
+      // userBindConsent({
+      //   ...submitParam,
+      //   ...{ oktaToken: '' },
+      //   customerId:
+      //     (postVisitorRegisterAndLoginRes.context &&
+      //       postVisitorRegisterAndLoginRes.context.customerId) ||
+      //     ''
+      // });
       //游客绑定consent 一定要在游客注册之后 end
 
       sessionItemRoyal.set(
@@ -2725,24 +2724,24 @@ class Payment extends React.Component {
               calculateFreight={this.calculateFreight}
               cartData={this.computedCartData}
               isLogin={true}
-              onSearchSelectionChange={() =>
-                window.__.env.REACT_APP_COUNTRY === 'ru' &&
-                window?.dataLayer?.push({
-                  event: 'suggestedAdressInteraction',
-                  suggestedAdress: {
-                    action: 'suggestionClick'
-                  }
-                })
-              }
-              onSearchSelectionFocus={() =>
-                window.__.env.REACT_APP_COUNTRY === 'ru' &&
-                window?.dataLayer?.push({
-                  event: 'suggestedAdressInteraction',
-                  suggestedAdress: {
-                    action: 'fieldClick'
-                  }
-                })
-              }
+              // onSearchSelectionChange={() =>
+              //   window.__.env.REACT_APP_COUNTRY === 'ru' &&
+              //   window?.dataLayer?.push({
+              //     event: 'suggestedAdressInteraction',
+              //     suggestedAdress: {
+              //       action: 'suggestionClick'
+              //     }
+              //   })
+              // }
+              // onSearchSelectionFocus={() =>
+              //   window.__.env.REACT_APP_COUNTRY === 'ru' &&
+              //   window?.dataLayer?.push({
+              //     event: 'suggestedAdressInteraction',
+              //     suggestedAdress: {
+              //       action: 'fieldClick'
+              //     }
+              //   })
+              // }
             />
           ) : (
             <VisitorAddress
@@ -2765,24 +2764,24 @@ class Payment extends React.Component {
               calculateFreight={this.calculateFreight}
               cartData={this.computedCartData}
               isLogin={false}
-              onSearchSelectionChange={() =>
-                window.__.env.REACT_APP_COUNTRY === 'ru' &&
-                window?.dataLayer?.push({
-                  event: 'suggestedAdressInteraction',
-                  suggestedAdress: {
-                    action: 'suggestionClick'
-                  }
-                })
-              }
-              onSearchSelectionFocus={() =>
-                window.__.env.REACT_APP_COUNTRY === 'ru' &&
-                window?.dataLayer?.push({
-                  event: 'suggestedAdressInteraction',
-                  suggestedAdress: {
-                    action: 'fieldClick'
-                  }
-                })
-              }
+              // onSearchSelectionChange={() =>
+              //   window.__.env.REACT_APP_COUNTRY === 'ru' &&
+              //   window?.dataLayer?.push({
+              //     event: 'suggestedAdressInteraction',
+              //     suggestedAdress: {
+              //       action: 'suggestionClick'
+              //     }
+              //   })
+              // }
+              // onSearchSelectionFocus={() =>
+              //   window.__.env.REACT_APP_COUNTRY === 'ru' &&
+              //   window?.dataLayer?.push({
+              //     event: 'suggestedAdressInteraction',
+              //     suggestedAdress: {
+              //       action: 'fieldClick'
+              //     }
+              //   })
+              // }
             />
           )}
         </div>
@@ -4603,7 +4602,7 @@ class Payment extends React.Component {
                 {formatMoney(this.tradePrice)}
               </div>
               <div className="text-sm pt-6">
-                You have {this.state.countDown} minuter to pay
+                Du har {this.state.countDown} minuter på dig att betala.
               </div>
               <div className="w-64 md:w-96 text-center py-6 text-gray-600">
                 Du har 15 minuter på dig att genomföra köpet. Försök att

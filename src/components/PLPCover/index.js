@@ -90,12 +90,16 @@ function ListItemH5ForGlobalStyle(props) {
                       />
                     ) : (
                       <img
-                        src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`}
+                        src={optimizeImage(
+                          `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`,
+                          300
+                        )}
                         className=" pt-3 ImgForMobile"
                         style={{
                           maxHeight: '100%',
                           height: 'auto',
-                          margin: 'auto'
+                          margin: 'auto',
+                          transform: 'scale(1.05)'
                         }}
                         alt="Retail Products"
                       />
@@ -161,7 +165,8 @@ function ListItemH5ForGlobalStyle(props) {
                         maxHeight: '100%',
                         width: '100%',
                         height: 'auto',
-                        margin: 'auto'
+                        margin: 'auto',
+                        transform: 'scale(1.05)'
                       }}
                       alt="Retail Products"
                     />
@@ -236,7 +241,8 @@ function ListItemH5ForGlobalStyle(props) {
                       maxHeight: '100%',
                       width: 'auto',
                       height: 'auto',
-                      margin: 'auto'
+                      margin: 'auto',
+                      transform: 'scale(1.05)'
                     }}
                   />
                 </LazyLoad>

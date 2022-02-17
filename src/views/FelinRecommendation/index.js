@@ -13,7 +13,6 @@ import Help from '../SmartFeederSubscription/modules/Help';
 import recommendation2 from '@/assets/images/fr_recommendation2.png';
 import recommendation3 from '@/assets/images/fr_recommendation3.png';
 import recommendation4 from '@/assets/images/fr_recommendation4.png';
-import noPic from '@/assets/images/noPic.png';
 import storeLogo from '@/assets/images/storeLogo.png';
 import ImageMagnifier from '@/components/ImageMagnifierForUS';
 import { formatMoney, getDeviceType } from '@/utils/utils';

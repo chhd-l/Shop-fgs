@@ -599,7 +599,7 @@ class AccountOrders extends React.Component {
                                   <div className="card rc-margin-y--none ml-0 border-0">
                                     <div className="card-header border-color-d7d7d7 row rc-margin-x--none align-items-center pl-0 pr-0 rc-md-up bg-rc-f6">
                                       <div className="col-12 col-md-2">
-                                        <p>
+                                        <p className="text-nowrap ui-text-overflow-line1">
                                           <FormattedMessage id="order.orderPlacedOn" />
                                           <br className="d-none d-md-block" />
                                           <span className="medium orderHeaderTextColor">
@@ -634,7 +634,13 @@ class AccountOrders extends React.Component {
                                           </span>
                                         </p>
                                       </div>
-                                      <div className="col-12 col-md-2">
+                                      <div
+                                        className={`col-12 ${
+                                          !order.canDownInvoice
+                                            ? 'col-md-2'
+                                            : 'col-md-1'
+                                        }`}
+                                      >
                                         <p>
                                           <FormattedMessage id="order.total" />
                                           <br className="d-none d-md-block" />
@@ -649,29 +655,29 @@ class AccountOrders extends React.Component {
                                           </span>
                                         </p>
                                       </div>
-
-                                      <div className="col-12 col-md-2 111">
-                                        {order.canDownInvoice ? (
-                                          <div
-                                            onClick={this.handleDownInvoice.bind(
-                                              this,
-                                              order
+                                      {order.canDownInvoice ? (
+                                        <div
+                                          onClick={this.handleDownInvoice.bind(
+                                            this,
+                                            order
+                                          )}
+                                          className="text-nowrap col-12 col-md-1"
+                                        >
+                                          <span className="rc-icon rc-pdf--xs rc-iconography" />
+                                          <FormattedMessage id="invoice">
+                                            {(txt) => (
+                                              <span
+                                                className="medium pull-right--desktop rc-styled-link text-wrap"
+                                                title={txt}
+                                              >
+                                                {txt}
+                                              </span>
                                             )}
-                                            className="text-nowrap"
-                                          >
-                                            <span className="rc-icon rc-pdf--xs rc-iconography" />
-                                            <FormattedMessage id="invoice">
-                                              {(txt) => (
-                                                <span
-                                                  className="medium pull-right--desktop rc-styled-link text-wrap"
-                                                  title={txt}
-                                                >
-                                                  {txt}
-                                                </span>
-                                              )}
-                                            </FormattedMessage>
-                                          </div>
-                                        ) : order.goodWillFlag === 1 ? (
+                                          </FormattedMessage>
+                                        </div>
+                                      ) : null}
+                                      <div className="col-12 col-md-2">
+                                        {order.goodWillFlag === 1 ? (
                                           <div>
                                             <FormattedMessage id="order.goodwillOrder" />
                                           </div>
@@ -699,17 +705,7 @@ class AccountOrders extends React.Component {
                                   </div>
                                   <div className="row mb-3 mt-3 align-items-center m-0 relative">
                                     {/* 订单发货tip */}
-                                    {((order.tradeState.payState === 'PAID' &&
-                                      order.tradeState.auditState ===
-                                        'CHECKED' &&
-                                      order.tradeState.deliverStatus ===
-                                        'SHIPPED' &&
-                                      order.tradeState.flowState ===
-                                        'DELIVERED') ||
-                                      (order.tradeState.deliverStatus ===
-                                        'PART_SHIPPED' &&
-                                        order.tradeState.flowState ===
-                                          'DELIVERED_PART')) && (
+                                    {order.showOrderDeliverTip && (
                                       <div className="col-12 mt-1 md:mt-0 md:mb-1 order-1 md:order-0">
                                         <p className="medium mb-0 color-444">
                                           <FormattedMessage id="deliveredTip" />
@@ -720,12 +716,7 @@ class AccountOrders extends React.Component {
                                       </div>
                                     )}
                                     {/* 订单完成tip */}
-                                    {order.tradeState.flowState ===
-                                      'COMPLETED' &&
-                                    !order.storeEvaluateVO &&
-                                    order.tradeEventLogs[0] &&
-                                    order.tradeEventLogs[0].eventType ===
-                                      'COMPLETED' ? (
+                                    {order.showOrderCompleteTip ? (
                                       <div className="col-12 mt-1 md:mt-0 md:mb-1 order-1 md:order-0">
                                         <p className="medium mb-0 color-444">
                                           <FormattedMessage id="orderStatus.COMPLETED" />

@@ -4,8 +4,7 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import Skeleton from 'react-skeleton-loader';
 import { Link } from 'react-router-dom';
 import './css/HubSalesCategory.less';
-import catsImg from '@/assets/images/salesCategory_cat.png';
-import dogsImg from '@/assets/images/salesCategory_dog.png';
+import { optimizeImage } from '@/utils/utils';
 
 export default class HubSalesCategory extends Component {
   static defaultProps = {
@@ -92,7 +91,13 @@ export default class HubSalesCategory extends Component {
                 <div style={{ fontSize: '1.25rem' }} className="rc-espilon">
                   <FormattedMessage id="salesCategory.cat" />
                 </div>
-                <img src={catsImg} alt="cats image" />
+                <img
+                  src={optimizeImage(
+                    `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/salesCategory_cat.png`,
+                    100
+                  )}
+                  alt="cats image"
+                />
               </div>
               <div className="rc-layout-container rc-two-column ml-0 mr-0">
                 {this.state.listLoading ? (
@@ -113,10 +118,10 @@ export default class HubSalesCategory extends Component {
                           to={`${item.cateRouter}`}
                         >
                           <picture>
-                            <source srcSet={item.imgSrc} />
+                            <source srcSet={optimizeImage(item.imgSrc, 250)} />
                             <div className="text-center">
                               <img
-                                src={item.imgSrc}
+                                src={optimizeImage(item.imgSrc, 250)}
                                 alt={item.altName}
                                 title={item.altName}
                               />
@@ -137,7 +142,13 @@ export default class HubSalesCategory extends Component {
                 <div style={{ fontSize: '1.25rem' }} className="rc-espilon">
                   <FormattedMessage id="salesCategory.dog" />
                 </div>
-                <img src={dogsImg} alt="dogs image" />
+                <img
+                  src={optimizeImage(
+                    `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/salesCategory_dog.png`,
+                    100
+                  )}
+                  alt="dogs image"
+                />
               </div>
               <div className="rc-layout-container rc-two-column ml-0 mr-0">
                 {this.state.listLoading ? (
@@ -158,10 +169,10 @@ export default class HubSalesCategory extends Component {
                           to={`${item.cateRouter}`}
                         >
                           <picture>
-                            <source srcSet={item.imgSrc} />
+                            <source srcSet={optimizeImage(item.imgSrc, 250)} />
                             <div className="text-center">
                               <img
-                                src={item.imgSrc}
+                                src={optimizeImage(item.imgSrc, 250)}
                                 alt={item.altName}
                                 title={item.altName}
                               />

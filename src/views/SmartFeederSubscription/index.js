@@ -31,7 +31,7 @@ import {
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import { sitePurchase } from '@/api/cart';
-import foodDispenserPic from './img/food_dispenser_pic.png';
+import { FOOD_DISPENSER_PIC } from '@/utils/constant';
 import foodPic2 from './img/step2_food.png';
 import LazyLoad from 'react-lazyload';
 
@@ -368,7 +368,9 @@ const Step3 = (props) => {
             <div style={{ flex: 1 }}>
               <img
                 className="height-for-mobile"
-                src={detailInfo.planGifts?.[0].goodsInfoImg || foodDispenserPic}
+                src={
+                  detailInfo.planGifts?.[0].goodsInfoImg || FOOD_DISPENSER_PIC
+                }
                 title={detailInfo.planGifts?.[0].goodsInfoName}
                 alt={detailInfo.planGifts?.[0].goodsInfoName}
               />

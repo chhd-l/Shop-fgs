@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getDeviceType } from '@/utils/utils';
+import { getDeviceType, optimizeImage } from '@/utils/utils';
 import Skeleton from '@/components/NormalSkeleton';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
@@ -46,7 +46,7 @@ const PhoneAndEmail = ({ loading, details, configStore }: Props) => {
             <div className="good-contact-img mr-5">
               <img
                 className="w-100"
-                src={details.goodsImg}
+                src={optimizeImage(details.goodsImg, 500)}
                 alt="goods details image"
               />
             </div>

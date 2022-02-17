@@ -619,7 +619,7 @@ class VisitorAddress extends React.Component {
         getFormAddressValidFlag={this.getFormAddressValidFlag}
         updateData={this.updateDeliveryAddress}
         calculateFreight={this.calculateFreight}
-        {...this.props}
+        // {...this.props}
       />
     );
     const _title = panelStatus.isPrepare

@@ -3,7 +3,12 @@ import { Link } from 'react-router-dom';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';
-import { formatMoney, getFrequencyDict, getClubLogo } from '@/utils/utils';
+import {
+  formatMoney,
+  getFrequencyDict,
+  getClubLogo,
+  formatDate
+} from '@/utils/utils';
 import { GAInitUnLogin, GAInitLogin } from '@/utils/GA';
 import LazyLoad from 'react-lazyload';
 import { v4 as uuidv4 } from 'uuid';
@@ -13,7 +18,6 @@ import WelcomeBox from '../WelcomeBox';
 import PromotionCodeText from './components/promotionCodeText';
 import GiftList from '../GiftList/index.tsx';
 import { isFirstOrder } from '@/api/user';
-import { formatDate } from '../../../utils/utils';
 import cloneDeep from 'lodash/cloneDeep';
 
 const guid = uuidv4();

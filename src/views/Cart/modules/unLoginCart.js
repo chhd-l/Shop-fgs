@@ -8,7 +8,7 @@ import Footer from '@/components/Footer';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import LoginButton from '@/components/LoginButton';
 import { Link } from 'react-router-dom';
-import foodDispenserPic from '../../SmartFeederSubscription/img/food_dispenser_pic.png';
+import { FOOD_DISPENSER_PIC } from '@/utils/constant';
 import {
   formatMoney,
   getFrequencyDict,
@@ -1009,7 +1009,7 @@ class UnLoginCart extends React.Component {
                 <div className="name-info flex-column-gift rc-main-content__wrapper d-flex">
                   <img
                     className="img"
-                    src={optimizeImage(gift.goodsInfoImg) || foodDispenserPic}
+                    src={optimizeImage(gift.goodsInfoImg) || FOOD_DISPENSER_PIC}
                     alt="goods Information Image"
                   />
                   <div className="mobile-text-center">

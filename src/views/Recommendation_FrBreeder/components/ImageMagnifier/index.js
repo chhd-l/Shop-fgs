@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import './index.less';
-import { FormattedMessage } from 'react-intl-phraseapp';
-import noPic from '@/assets/images/noPic.png';
-// import noPic from './images/noPic1.png';
+import { IMG_DEFAULT_V2 as noPic } from '@/utils/constant';
 import { getDeviceType } from '@/utils/utils.js';
 import LazyLoad from 'react-lazyload';
 let H5Maxcount = 3;

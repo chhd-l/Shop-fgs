@@ -1,120 +1,74 @@
 import React, { useEffect, useState } from 'react';
-import { formatMoney, getDeviceType } from '@/utils/utils';
+import { getDeviceType, optimizeImage } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
-
-import mixFeedingIcon from './image/mixFeeding_icon.png';
-import iconsixnew from './image/iconsixnew.png';
-import phoneicon from './image/phoneicon@4x.png';
-import gifticon from './image/pictogifts@4x.png';
-import spetadviser from './image/pictospetadviser@4x.png';
-import shippingicon from './image/pictoshipping@4x.png';
-import nutrition from './image/pictonutrition@4x.png';
 import landingBanner from './image/landing-banner.jpg';
-import iconsix from './image/iconsix.png';
 import './index.less';
 import HowItWorks from '@/views/ClubLandingPage/HowItWorks';
 import SubscriptionBenefitsBanner from '../../views/ClubLandingPageNew/Components/LongBanner/SubscriprionBenefitsBanner';
 import HowItWorksNew from '../../views/ClubLandingPageNew/Components/HowItWorksNew';
-import pdpbackgroundcatru from './image/goodsdeatailtabbackgroundcatru.png';
-import pdpbackgroundmobiledog from './image/goodsdeatailsbackgroundmobile.png';
-import pdpbackgroundmobiledogfr from './image/goodsdeatailsbackgroundmobilefr.png';
-import pdpbackgroundmobiledogtr from './image/goodsdeatailsbackgroundmobiletr.png';
-import pdpbackgroundmobilecat from './image/goodsdeatailsbackgroundmobilecat.png';
-import pdpbackgroundmobilecattr from './image/goodsdeatailsbackgroundmobilecattr.png';
-import pdpbackgroundmobilecatfr from './image/goodsdeatailsbackgroundmobilecatfr.png';
-import pdpbackgrounddog from './image/goodsdetailtabbackgrounddogru.png';
-import pdpbackgorunddogother from './image/goodsdeatailtabbackgrounddog.png';
-import pdpbackgroundcat from './image/goodsdeatailtabbackgroundcat.png';
-import auto from './image/auto@2x.png';
-import clubiconnew1 from './image/clubiconnew1.png';
-import clubiconnew2 from './image/clubiconnew2.png';
-import discountnewtr from './image/discountnewtr.png';
-import clubiconnew3 from './image/clubiconnew3.png';
-import clubiconnew4 from './image/clubiconnew4.png';
-import benefitsthree from '../../views/ClubLandingPageNew/Components/LongBanner/image/benefitsthree2.png';
-
-import benefitsonedog from './image/benefitsonedog.png';
-import benefitstwodog from './image/benefitstwodog.png';
-import benefitsonecat from './image/benefitsonecat.png';
-import benefitstwocat from './image/benefitstwocat.png';
-
-import ruhowitworksnewdog1 from './HowitWorksimage/ruhowitworksnewdog1.png';
-import ruhowitworksnewdog2 from './HowitWorksimage/ruhowitworksnewdog2.png';
-import ruhowitworksnewdog3 from './HowitWorksimage/ruhowitworksnewdog3.png';
-import ruhowitworksnewdog4 from './HowitWorksimage/ruhowitworksnewdog4.png';
-import ruhowitworksnewcat1 from './HowitWorksimage/ruhowitworksnewcat1.png';
-import ruhowitworksnewcat2 from './HowitWorksimage/ruhowitworksnewcat2.png';
-import ruhowitworksnewcat3 from './HowitWorksimage/ruhowitworksnewcat3.png';
-import ruhowitworksnewcat4 from './HowitWorksimage/ruhowitworksnewcat4.png';
-import ruhowitworknewmobilecat1 from './HowitWorksimage/ruhowitworknewmobilecat1.png';
-import ruhowitworknewmobilecat2 from './HowitWorksimage/ruhowitworknewmobilecat2.png';
-import ruhowitworknewmobilecat3 from './HowitWorksimage/ruhowitworknewmobilecat3.png';
-import ruhowitworknewmobilecat4 from './HowitWorksimage/ruhowitworknewmobilecat4.png';
-import ruhowitworknewmobiledog1 from './HowitWorksimage/ruhowitworknewmobiledog1.png';
-import ruhowitworknewmobiledog2 from './HowitWorksimage/ruhowitworknewmobiledog2.png';
-import ruhowitworknewmobiledog3 from './HowitWorksimage/ruhowitworknewmobiledog3.png';
-import ruhowitworknewmobiledog4 from './HowitWorksimage/ruhowitworknewmobiledog4.png';
-
-import frhowitworksnewdog1 from './HowitWorksimage/frhowitworksnewdog1.png';
-import frhowitworksnewdog2 from './HowitWorksimage/frhowitworksnewdog2.png';
-import frhowitworksnewdog3 from './HowitWorksimage/frhowitworksnewdog3.png';
-import frhowitworksnewdog4 from './HowitWorksimage/frhowitworksnewdog4.png';
-import frhowitworksnewcat1 from './HowitWorksimage/frhowitworksnewcat1.png';
-import frhowitworksnewcat2 from './HowitWorksimage/frhowitworksnewcat2.png';
-import frhowitworksnewcat3 from './HowitWorksimage/frhowitworksnewcat3.png';
-import frhowitworksnewcat4 from './HowitWorksimage/frhowitworksnewcat4.png';
-import frhowitworknewmobilecat1 from './HowitWorksimage/frhowitworknewmobilecat1.png';
-import frhowitworknewmobilecat2 from './HowitWorksimage/frhowitworknewmobilecat2.png';
-import frhowitworknewmobilecat3 from './HowitWorksimage/frhowitworknewmobilecat3.png';
-import frhowitworknewmobilecat4 from './HowitWorksimage/frhowitworknewmobilecat4.png';
-import frhowitworknewmobiledog1 from './HowitWorksimage/frhowitworknewmobiledog1.png';
-import frhowitworknewmobiledog2 from './HowitWorksimage/frhowitworknewmobiledog2.png';
-import frhowitworknewmobiledog3 from './HowitWorksimage/frhowitworknewmobiledog3.png';
-import frhowitworknewmobiledog4 from './HowitWorksimage/frhowitworknewmobiledog4.png';
 
 const pdpmobilebackgrounddog = {
-  backgroundImage: `url(${pdpbackgroundmobiledog})`,
+  backgroundImage: `url(${optimizeImage(
+    `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/goodsdeatailsbackgroundmobile.png`,
+    1200
+  )})`,
   overflow: 'hidden',
   backgroundSize: 'cover'
 };
 
 const pdpmobilebackgrounddogtr = {
-  backgroundImage: `url(${pdpbackgroundmobiledogtr})`,
+  backgroundImage: `url(${optimizeImage(
+    `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/goodsdeatailsbackgroundmobiletr.png`,
+    1200
+  )})`,
   overflow: 'hidden',
   backgroundSize: 'cover'
 };
 const pdpmobilebackgrounddogfr = {
-  backgroundImage: `url(${pdpbackgroundmobiledogfr})`,
+  backgroundImage: `url(${optimizeImage(
+    `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/goodsdeatailsbackgroundmobilefr.png`,
+    750
+  )})`,
   overflow: 'hidden',
   backgroundSize: 'cover'
 };
 
 const pdpbackgroundmobilecats = {
-  backgroundImage: `url(${pdpbackgroundmobilecat})`,
+  backgroundImage: `url(${optimizeImage(
+    `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/goodsdeatailsbackgroundmobilecat.png`,
+    1200
+  )})`,
   overflow: 'hidden',
   backgroundSize: 'cover'
 };
 
 const pdpbackgroundmobilecatstr = {
-  backgroundImage: `url(${pdpbackgroundmobilecattr})`,
+  backgroundImage: `url(${optimizeImage(
+    `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/goodsdeatailsbackgroundmobilecattr.png`,
+    1200
+  )})`,
   overflow: 'hidden',
   backgroundSize: 'cover'
 };
 
 const pdpbackgroundmobilecatsfr = {
-  backgroundImage: `url(${pdpbackgroundmobilecatfr})`,
+  backgroundImage: `url(${optimizeImage(
+    `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/goodsdeatailsbackgroundmobilecatfr.png`,
+    1200
+  )})`,
   overflow: 'hidden',
   // backgroundSize: 'cover'
   backgroundSize: '100% 140%'
 };
 
 const pdpbackgrounddogs = {
-  backgroundImage: `url(${
+  backgroundImage: `url(${optimizeImage(
     window.__.env.REACT_APP_COUNTRY === 'ru'
-      ? pdpbackgrounddog
-      : pdpbackgorunddogother
-  })`,
+      ? `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/goodsdetailtabbackgrounddogru.png`
+      : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/goodsdeatailtabbackgrounddog.png`,
+    1200
+  )})`,
   height: '800px',
   backgroundSize: 'cover',
   overflow: 'hidden',
@@ -123,11 +77,12 @@ const pdpbackgrounddogs = {
 };
 
 const pdpbackgroundcats = {
-  backgroundImage: `url(${
+  backgroundImage: `url(${optimizeImage(
     window.__.env.REACT_APP_COUNTRY === 'ru'
-      ? pdpbackgroundcatru
-      : pdpbackgroundcat
-  })`,
+      ? `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/goodsdeatailtabbackgroundcatru.png`
+      : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/goodsdeatailtabbackgroundcat.png`,
+    1400
+  )})`,
   height: '700px',
   backgroundSize: 'cover',
   overflow: 'hidden',
@@ -138,22 +93,25 @@ const pdpbackgroundcats = {
 let clubListDataNew = [
   {
     text: <FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon1'} />,
-    img: clubiconnew1,
+    img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/clubiconnew1.png`,
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
   {
     text: <FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon2'} />,
-    img: window.__.env.REACT_APP_COUNTRY == 'tr' ? discountnewtr : clubiconnew2,
+    img:
+      window.__.env.REACT_APP_COUNTRY == 'tr'
+        ? `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/discountnewtr.png`
+        : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/clubiconnew2.png`,
     alt: 'CLUB BENEFITS DISCOUNT'
   },
   {
     text: <FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon3'} />,
-    img: clubiconnew3,
+    img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/clubiconnew3.png`,
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
   {
     text: <FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon4'} />,
-    img: clubiconnew4,
+    img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/clubiconnew4.png`,
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
   {
@@ -163,7 +121,7 @@ let clubListDataNew = [
         values={{ val1: null, val2: null }}
       />
     ),
-    img: phoneicon,
+    img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/phoneicon@4x.png`,
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
   window.__.env.REACT_APP_COUNTRY === 'ru'
@@ -190,7 +148,7 @@ let clubListDataNew = [
             }}
           />
         ),
-        img: iconsixnew,
+        img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/iconsixnew.png`,
         alt: 'CLUB BENEFITS PET ADVISOR'
       }
     : {}
@@ -199,34 +157,34 @@ let clubListDataNew = [
 let clubListData = [
   {
     text: <FormattedMessage id="clubListData.tip1" />,
-    img: nutrition,
+    img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/pictonutrition@4x.png`,
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
   {
     text: <FormattedMessage id="clubListData.tip2" />,
-    img: gifticon,
+    img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/pictogifts@4x.png`,
     alt: 'CLUB BENEFITS DISCOUNT'
   },
   {
     text: <FormattedMessage id="clubListData.tip3" />,
-    img: spetadviser,
+    img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/pictospetadviser@4x.png`,
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
   {
     text: <FormattedMessage id="clubListData.tip4" />,
-    img: auto,
+    img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/auto@2x.png`,
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
   {
     text: <FormattedMessage id="clubListData.tip5" />,
-    img: shippingicon,
+    img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/pictoshipping@4x.png`,
     alt: 'CLUB BENEFITS PET ADVISOR'
   }
 ];
 if (window.__.env.REACT_APP_COUNTRY === 'ru') {
   clubListData.push({
     text: <FormattedMessage id="clubListData.tip6" />,
-    img: iconsix,
+    img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/iconsix.png`,
     alt: 'CLUB BENEFITS PET ADVISOR'
   });
 }
@@ -272,26 +230,26 @@ const GoodsDetailTabs = function (props) {
     {
       HowitworksStep:
         getSpeciesId(goodsDetailSpace) == '1'
-          ? ruhowitworksnewcat1
-          : ruhowitworksnewdog1
+          ? `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/ruhowitworksnewcat1.png`
+          : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/ruhowitworksnewdog1.png`
     },
     {
       HowitworksStep:
         getSpeciesId(goodsDetailSpace) == '1'
-          ? ruhowitworksnewcat2
-          : ruhowitworksnewdog2
+          ? `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/ruhowitworksnewcat2.png`
+          : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/ruhowitworksnewdog2.png`
     },
     {
       HowitworksStep:
         getSpeciesId(goodsDetailSpace) == '1'
-          ? ruhowitworksnewcat3
-          : ruhowitworksnewdog3
+          ? `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/ruhowitworksnewcat3.png`
+          : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/ruhowitworksnewdog3.png`
     },
     {
       HowitworksStep:
         getSpeciesId(goodsDetailSpace) == '1'
-          ? ruhowitworksnewcat4
-          : ruhowitworksnewdog4
+          ? `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/ruhowitworksnewcat4.png`
+          : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/ruhowitworksnewdog4.png`
     }
   ];
 
@@ -299,26 +257,26 @@ const GoodsDetailTabs = function (props) {
     {
       HowitworksStep:
         getSpeciesId(goodsDetailSpace) == '1'
-          ? ruhowitworknewmobilecat1
-          : ruhowitworknewmobiledog1
+          ? `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/ruhowitworknewmobilecat1.png`
+          : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/ruhowitworknewmobiledog1.png`
     },
     {
       HowitworksStep:
         getSpeciesId(goodsDetailSpace) == '1'
-          ? ruhowitworknewmobilecat2
-          : ruhowitworknewmobiledog2
+          ? `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/ruhowitworknewmobilecat2.png`
+          : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/ruhowitworknewmobiledog2.png`
     },
     {
       HowitworksStep:
         getSpeciesId(goodsDetailSpace) == '1'
-          ? ruhowitworknewmobilecat3
-          : ruhowitworknewmobiledog3
+          ? `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/ruhowitworknewmobilecat3.png`
+          : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/ruhowitworknewmobiledog3.png`
     },
     {
       HowitworksStep:
         getSpeciesId(goodsDetailSpace) == '1'
-          ? ruhowitworknewmobilecat4
-          : ruhowitworknewmobiledog4
+          ? `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/ruhowitworknewmobilecat4.png`
+          : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/ruhowitworknewmobiledog4.png`
     }
   ];
 
@@ -327,26 +285,26 @@ const GoodsDetailTabs = function (props) {
     {
       HowitworksStep:
         getSpeciesId(goodsDetailSpace) == '1'
-          ? frhowitworksnewcat1
-          : frhowitworksnewdog1
+          ? `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/frhowitworksnewcat1.png`
+          : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/frhowitworksnewdog1.png`
     },
     {
       HowitworksStep:
         getSpeciesId(goodsDetailSpace) == '1'
-          ? frhowitworksnewcat2
-          : frhowitworksnewdog2
+          ? `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/frhowitworksnewcat2.png`
+          : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/frhowitworksnewdog2.png`
     },
     {
       HowitworksStep:
         getSpeciesId(goodsDetailSpace) == '1'
-          ? frhowitworksnewcat3
-          : frhowitworksnewdog3
+          ? `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/frhowitworksnewcat3.png`
+          : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/frhowitworksnewdog3.png`
     },
     {
       HowitworksStep:
         getSpeciesId(goodsDetailSpace) == '1'
-          ? frhowitworksnewcat4
-          : frhowitworksnewdog4
+          ? `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/frhowitworksnewcat4.png`
+          : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/frhowitworksnewdog4.png`
     }
   ];
 
@@ -354,26 +312,26 @@ const GoodsDetailTabs = function (props) {
     {
       HowitworksStep:
         getSpeciesId(goodsDetailSpace) == '1'
-          ? frhowitworknewmobilecat1
-          : frhowitworknewmobiledog1
+          ? `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/frhowitworknewmobilecat1.png`
+          : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/frhowitworknewmobiledog1.png`
     },
     {
       HowitworksStep:
         getSpeciesId(goodsDetailSpace) == '1'
-          ? frhowitworknewmobilecat2
-          : frhowitworknewmobiledog2
+          ? `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/frhowitworknewmobilecat2.png`
+          : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/frhowitworknewmobiledog2.png`
     },
     {
       HowitworksStep:
         getSpeciesId(goodsDetailSpace) == '1'
-          ? frhowitworknewmobilecat3
-          : frhowitworknewmobiledog3
+          ? `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/frhowitworknewmobilecat3.png`
+          : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/frhowitworknewmobiledog3.png`
     },
     {
       HowitworksStep:
         getSpeciesId(goodsDetailSpace) == '1'
-          ? frhowitworknewmobilecat4
-          : frhowitworknewmobiledog4
+          ? `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/frhowitworknewmobilecat4.png`
+          : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/frhowitworknewmobiledog4.png`
     }
   ];
 
@@ -395,7 +353,9 @@ const GoodsDetailTabs = function (props) {
   const SubscriptionItems = [
     {
       SubscriptionImg:
-        getSpeciesId(goodsDetailSpace) == '1' ? benefitsonecat : benefitsonedog,
+        getSpeciesId(goodsDetailSpace) == '1'
+          ? `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/benefitsonecat.png`
+          : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/benefitsonedog.png`,
       SubscriptionTitle: (
         <a style={{ fontWeight: 'bold', fontSize: '17px' }}>
           <FormattedMessage
@@ -407,7 +367,9 @@ const GoodsDetailTabs = function (props) {
     },
     {
       SubscriptionImg:
-        getSpeciesId(goodsDetailSpace) == '1' ? benefitstwocat : benefitstwodog,
+        getSpeciesId(goodsDetailSpace) == '1'
+          ? `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/benefitstwocat.png`
+          : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/benefitstwodog.png`,
       SubscriptionTitle: (
         <a style={{ fontWeight: 'bold', fontSize: '17px' }}>
           <FormattedMessage
@@ -418,7 +380,7 @@ const GoodsDetailTabs = function (props) {
       )
     },
     {
-      SubscriptionImg: benefitsthree,
+      SubscriptionImg: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/benefitsthree2.png`,
       SubscriptionTitle: (
         <a style={{ fontWeight: 'bold', fontSize: '17px' }}>
           <FormattedMessage
@@ -800,7 +762,7 @@ const GoodsDetailTabs = function (props) {
                                   <img
                                     src={item.img}
                                     alt={item.alt}
-                                    className="m-auto rc-margin--none--desktop"
+                                    className="m-auto rc-margin--none--desktop 4"
                                   />
                                 </LazyLoad>
                               </div>
@@ -838,7 +800,7 @@ const GoodsDetailTabs = function (props) {
                             : pdpmobilebackgrounddog
                         }
                       >
-                        <div className="row rc-margin-x--none">
+                        <div className="row rc-margin-x--none 1">
                           <div className="rc-full-width">
                             <div className="experience-component experience-assets-contentBlock">
                               <div
@@ -899,9 +861,9 @@ const GoodsDetailTabs = function (props) {
                                       <div style={{ width: '80px' }}>
                                         <LazyLoad>
                                           <img
-                                            src={item.img}
+                                            src={optimizeImage(item.img, 80)}
                                             alt={item.alt}
-                                            className="m-auto rc-margin--none--desktop"
+                                            className="m-auto rc-margin--none--desktop 5"
                                           />
                                         </LazyLoad>
                                       </div>
@@ -955,7 +917,7 @@ const GoodsDetailTabs = function (props) {
       <div
         id="j-details-for-club"
         style={{ position: 'absolute', top: -headerHeight }}
-      ></div>
+      />
       <div className="rc-match-heights rc-content-h-middle rc-reverse-layout">
         <div>
           <div className="rc-border-bottom rc-border-colour--interface">
@@ -1042,9 +1004,9 @@ const GoodsDetailTabs = function (props) {
                         {clubListData.map((item) => (
                           <div className="d-md-flex align-items-center col-12 col-md-12 rc-padding-left--none">
                             <img
-                              src={item.img}
+                              src={optimizeImage(item.img, 80)}
                               alt={item.alt}
-                              className="m-auto rc-margin--none--desktop"
+                              className="m-auto rc-margin--none--desktop 1"
                             />
                             <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-flex align-items-center h-100">
                               <p className="mb-0" style={{ textAlign: 'left' }}>
@@ -1078,7 +1040,7 @@ const GoodsDetailTabs = function (props) {
                           : pdpbackgrounddogs
                       }
                     >
-                      <div className="row rc-margin-x--none">
+                      <div className="row rc-margin-x--none 2">
                         <div className="rc-full-width">
                           <div className="experience-component experience-assets-contentBlock">
                             <div
@@ -1095,7 +1057,7 @@ const GoodsDetailTabs = function (props) {
                                   <FormattedMessage
                                     id="ClubLP.LongBanner.title"
                                     values={{ val1: <br />, val2: <br /> }}
-                                  ></FormattedMessage>
+                                  />
                                 </p>
                                 <p style={{ fontSize: '0.7em', color: '#666' }}>
                                   {window.__.env.REACT_APP_COUNTRY === 'ru' ? (
@@ -1120,9 +1082,9 @@ const GoodsDetailTabs = function (props) {
                             {clubListDataNew.map((item) => (
                               <div className="d-md-flex align-items-center col-12 col-md-12 rc-padding-left--none">
                                 <img
-                                  src={item.img}
+                                  src={optimizeImage(item.img, 64)}
                                   alt={item.alt}
-                                  className="m-auto rc-margin--none--desktop"
+                                  className="m-auto rc-margin--none--desktop 2"
                                 />
                                 <div
                                   className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-flex align-items-center h-100"

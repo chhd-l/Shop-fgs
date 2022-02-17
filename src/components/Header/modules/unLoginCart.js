@@ -14,7 +14,7 @@ import { inject, observer } from 'mobx-react';
 //import PetModal from '@/components/PetModal';
 import { getProductPetConfig } from '@/api/payment';
 import './index.css';
-import foodDispenserPic from '../../../views/SmartFeederSubscription/img/food_dispenser_pic.png';
+import { FOOD_DISPENSER_PIC } from '@/utils/constant';
 
 const localItemRoyal = window.__.localItemRoyal;
 import { toJS } from 'mobx';
@@ -189,7 +189,10 @@ class UnloginCart extends React.Component {
                 <div className="minicart__empty">
                   <img
                     className="cart-img"
-                    src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/cart.png`}
+                    src={optimizeImage(
+                      `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/cart.png`,
+                      300
+                    )}
                     alt="ROYAL CANIN® online store"
                   />
                   <p className="rc-delta">
@@ -465,7 +468,7 @@ class UnloginCart extends React.Component {
                                     className="product-image"
                                     src={
                                       optimizeImage(gift.goodsInfoImg) ||
-                                      foodDispenserPic
+                                      FOOD_DISPENSER_PIC
                                     }
                                     alt={gift.goodsInfoName}
                                     title={gift.goodsInfoName}

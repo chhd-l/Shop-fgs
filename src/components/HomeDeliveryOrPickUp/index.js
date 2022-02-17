@@ -785,7 +785,7 @@ class HomeDeliveryOrPickUp extends React.Component {
               <input
                 className={`rc-input__control ${item.fieldKey}Shipping`}
                 id={`${item.fieldKey}ShippingPickup`}
-                // autocomplete="off"
+                autocomplete="off"
                 type={item.filedType}
                 value={pickupForm[item.fieldKey] || ''}
                 onChange={(e) => this.inputChange(e)}
@@ -901,7 +901,7 @@ class HomeDeliveryOrPickUp extends React.Component {
                   customStyle={true}
                   isLoadingList={false}
                   isBottomPaging={true}
-                  {...this.props}
+                  // {...this.props}
                 />
                 {searchNoResult && (
                   <span
