@@ -298,14 +298,19 @@ class Whistlefit extends React.Component {
               <div className="experience-component experience-assets-youtubeVideo">
                 <div className="rc-max-width--md rc-padding-x--lg">
                   <div className="rc-video-wrapper dog-video">
-                    <iframe
+                    {/* <iframe
                       allowfullscreen=""
                       frameborder="0"
                       id="video-dog"
                       className="optanon-category-4 "
                       src="https://fgs-cdn.azureedge.net/cdn/img/whistlefit.mp4"
                       title="making a better world for pets"
-                    />
+                    /> */}
+                    <video
+                      controls
+                      src="https://fgs-cdn.azureedge.net/cdn/img/whistlefit.mp4"
+                      title="making a better world for pets"
+                    ></video>
                   </div>
                 </div>
               </div>
