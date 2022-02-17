@@ -117,22 +117,18 @@ class Whistlefit extends React.Component {
   //滚动到输入email的位置
   scrollToInputEmail = (position, label) => {
     GAWhistleFitButtonClick(position, label);
-    // let bridge = document.querySelector('#emailPlace');
-    // let body = document.body;
-    // let height = 0;
-    // do {
-    //   height += bridge.offsetTop;
-    //   bridge = bridge.offsetParent;
-    // } while (bridge !== body);
-    // window.scrollTo({
-    //   top: height,
-    //   behavior: 'smooth'
-    // });
     let anchorElement = document.getElementById('scrollPlace');
-    window.scrollTo({
-      top: anchorElement.offsetTop,
-      behavior: 'smooth'
-    });
+    if (position == 1) {
+      window.scrollTo({
+        top: 4134,
+        behavior: 'smooth'
+      });
+    } else {
+      window.scrollTo({
+        top: anchorElement.offsetTop,
+        behavior: 'smooth'
+      });
+    }
   };
   register = async () => {
     this.setState({ isRegisterLoading: true });
@@ -302,14 +298,19 @@ class Whistlefit extends React.Component {
               <div className="experience-component experience-assets-youtubeVideo">
                 <div className="rc-max-width--md rc-padding-x--lg">
                   <div className="rc-video-wrapper dog-video">
-                    <iframe
+                    {/* <iframe
                       allowfullscreen=""
                       frameborder="0"
                       id="video-dog"
                       className="optanon-category-4 "
                       src="https://fgs-cdn.azureedge.net/cdn/img/whistlefit.mp4"
                       title="making a better world for pets"
-                    />
+                    /> */}
+                    <video
+                      controls
+                      src="https://fgs-cdn.azureedge.net/cdn/img/whistlefit.mp4"
+                      title="making a better world for pets"
+                    ></video>
                   </div>
                 </div>
               </div>
