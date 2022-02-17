@@ -381,9 +381,10 @@ export default class Search extends React.Component {
         {isHub ? (
           <>
             <div
-              className={` ${
-                isMobile ? '' : 'search-desktop '
-              } search-contaner`}
+              // className={` ${
+              //   isMobile ? '' : 'search-desktop '
+              // } search-contaner`}
+              className="search-contaner"
             >
               <form
                 role="search"
