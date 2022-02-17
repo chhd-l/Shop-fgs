@@ -191,7 +191,7 @@ class DedicatedLandingPage extends React.Component {
     const { selectLine, productList } = this.state;
     // let productList = {};
     // let unProductList = [];
-    productList[selectLine].goodsInfos[0].selected = true;
+    productList[selectLine].goodsInfos[selectLine].selected = true;
     let unProductList = productList[selectLine];
     let choosedProduct = productList[selectLine].goodsInfos[selectLine];
     // if (selectLine === 1) {
