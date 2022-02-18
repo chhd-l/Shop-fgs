@@ -234,22 +234,22 @@ class Whistlefit extends React.Component {
                         <LazyLoad className="w-full md:w-1/2">
                           <img src={hero} alt="hero" />
                         </LazyLoad>
-                        <div className="w-full md:w-1/2 flex flex-col justify-center ml-0 md:ml-5 items-center md:items-start  pb-5 md:pb-0">
+                        <div className="w-full md:w-1/2 flex flex-col justify-center ml-0 md:ml-5 items-center md:items-start">
                           <div
-                            className="text-center md:text-left text-22 md:text-32  mt-5 md:mt-0 mb-5 md:mb-5 ml-5 md:ml-0 mr-5 md:mr-0 font-normal md:leading-14"
+                            className="text-center md:text-left text-21 md:text-32  mt-5 md:mt-0 mb-5 md:mb-5 md:ml-0 md:mr-0 font-normal md:leading-14"
                             style={{ color: '#E2001A' }}
                           >
                             Whistle Fit, le collier intelligent pour prendre
                             soin de la santé de votre chien
                           </div>
                           <div
-                            className="text-center md:text-left text-18 md:text-30 mt-0 mb-10 ml-5 md:ml-0 mr-5 md:mr-0 font-normal md:leading-14"
+                            className="text-center md:text-left text-18 md:text-30 mt-0 mb-6 ml-5 md:ml-0 mr-5 md:mr-0 font-normal md:leading-14"
                             style={{ color: '#E2001A' }}
                           >
                             Faites partie des premiers à être informés de la
                             disponibilité du produit
                           </div>
-                          <div className="mb-5 md:mb-0">
+                          <div className="md:mb-0">
                             <button
                               className="rc-btn rc-btn--one text-14 md:text-16"
                               onClick={() =>
@@ -391,9 +391,9 @@ class Whistlefit extends React.Component {
                             >
                               <img src={item.img} alt={item.alt} />
                             </LazyLoad>
-                            <div className="w-5 md:w-0 order-2"></div>
+                            <div className="w-5 md:w-0 order-2" />
                             <div
-                              className={`w-1/2 md:w-auto ${
+                              className={`w-1/2 md:h-80 md:w-auto ${
                                 index == 1 && isMobile
                                   ? 'order-1 md:order-3'
                                   : 'order-3 md:order-1'
@@ -504,7 +504,7 @@ class Whistlefit extends React.Component {
                         technologie intelligente Whistle Fit vous permet de
                         mieux comprendre les besoins en constante évolution de
                         votre animal pour y répondre de la manière la plus
-                        <span id="scrollPlace">adaptée</span>.
+                        <span id="scrollPlace"> adaptée</span>.
                       </div>
                     </div>
                   </div>
