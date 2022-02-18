@@ -32,6 +32,8 @@ import { GAWhistleFitButtonClick } from '@/utils/GA.js';
 import './index.less';
 import { EMAIL_REGEXP } from '@/utils/constant';
 import { getDeviceType } from '@/utils/utils';
+import HeroCarousel from './components/carousel/index2';
+//import HeroCarousel from '@/components/HeroCarousel';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
@@ -259,7 +261,7 @@ class Whistlefit extends React.Component {
                             soin de la santé de votre chien
                           </div>
                           <div
-                            className="text-center md:text-left text-20 md:text-30 mt-0 mb-10 ml-5 md:ml-0 mr-5 md:mr-0 font-normal md:leading-14"
+                            className="text-center md:text-left text-18 md:text-30 mt-0 mb-10 ml-5 md:ml-0 mr-5 md:mr-0 font-normal md:leading-14"
                             style={{ color: '#E2001A' }}
                           >
                             Faites partie des premiers à être informés de la
@@ -454,7 +456,7 @@ class Whistlefit extends React.Component {
             <div className="row rc-margin-x--none">
               <div className="rc-full-width">
                 <div className="experience-component experience-assets-contentBlock">
-                  <div className="w-full px-0 md:px-36">
+                  <div className="w-100 px-0 md:px-36">
                     <div
                       className="px-4 md:px-0 text-center tracking-normal md:tracking-tighter text-18 md:text-38 mt-6 mb-3 md:mb-10 leading-tight md:leading-normal font-normal"
                       style={{ color: '#E2001A' }}
@@ -462,7 +464,7 @@ class Whistlefit extends React.Component {
                       Ils ont adoré !
                     </div>
                     <div className="experience-component experience-layouts-herocarousel">
-                      <Carousel history={history} />
+                      <HeroCarousel history={history} />
                     </div>
                     <div className="w-full flex justify-center mt-5 md:mt-10 mb-5 md:mb-10">
                       <button
