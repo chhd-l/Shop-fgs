@@ -333,7 +333,7 @@ class Whistlefit extends React.Component {
                               src="https://fgs-cdn.azureedge.net/cdn/img/whistlefit.mp4"
                               title="making a better world for pets"
                               poster={poster}
-                            ></video>
+                            />
                           </div>
                         </div>
                       </div>
@@ -357,7 +357,7 @@ class Whistlefit extends React.Component {
             <div className="row rc-margin-x--none">
               <div className="rc-full-width">
                 <div className="experience-component experience-assets-contentBlock">
-                  <div className="h-2 bg-gray-100"></div>
+                  <div className="h-2 bg-gray-100" />
                 </div>
               </div>
             </div>
@@ -429,7 +429,7 @@ class Whistlefit extends React.Component {
             <div className="row rc-margin-x--none">
               <div className="rc-full-width">
                 <div className="experience-component experience-assets-contentBlock">
-                  <div className="h-2 bg-gray-100"></div>
+                  <div className="h-2 bg-gray-100" />
                 </div>
               </div>
             </div>
@@ -467,7 +467,7 @@ class Whistlefit extends React.Component {
             <div className="row rc-margin-x--none">
               <div className="rc-full-width">
                 <div className="experience-component experience-assets-contentBlock">
-                  <div className="h-2 bg-gray-100"></div>
+                  <div className="h-2 bg-gray-100" />
                 </div>
               </div>
             </div>
@@ -516,7 +516,7 @@ class Whistlefit extends React.Component {
             <div className="row rc-margin-x--none">
               <div className="rc-full-width">
                 <div className="experience-component experience-assets-contentBlock">
-                  <div className="h-2 bg-gray-100"></div>
+                  <div className="h-2 bg-gray-100" />
                 </div>
               </div>
             </div>
@@ -585,7 +585,7 @@ class Whistlefit extends React.Component {
                       className={`${
                         this.state.isSaveSuccess ? 'h-10' : 'hidden'
                       }`}
-                    ></div>
+                    />
                     <div className="whistlefit flex flex-col items-center mb-10 px-4 md:px-4">
                       {this.state.consentList.map((item, index) => {
                         return (
