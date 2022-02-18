@@ -794,7 +794,7 @@ class LoginCart extends React.Component {
                 <LazyLoad>
                   <img
                     className="w-100"
-                    src={optimizeImage(pitem.goodsInfoImg)}
+                    src={optimizeImage({ originImageUrl: pitem.goodsInfoImg })}
                     alt={pitem.goodsName}
                     title={pitem.goodsName}
                   />
@@ -997,7 +997,10 @@ class LoginCart extends React.Component {
                 <div className="name-info flex-column-gift rc-main-content__wrapper d-flex">
                   <img
                     className="img"
-                    src={optimizeImage(gift.goodsInfoImg) || FOOD_DISPENSER_PIC}
+                    src={
+                      optimizeImage({ originImageUrl: gift.goodsInfoImg }) ||
+                      FOOD_DISPENSER_PIC
+                    }
                     alt="goods Information Image"
                   />
                   <div className="mobile-text-center">

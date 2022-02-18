@@ -46,7 +46,10 @@ const PhoneAndEmail = ({ loading, details, configStore }: Props) => {
             <div className="good-contact-img mr-5">
               <img
                 className="w-100"
-                src={optimizeImage(details.goodsImg, 500)}
+                src={optimizeImage({
+                  originImageUrl: details.goodsImg,
+                  width: 500
+                })}
                 alt="goods details image"
               />
             </div>

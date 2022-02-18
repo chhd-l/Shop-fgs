@@ -227,7 +227,10 @@ export default class DropDownMenu extends React.Component {
                     {(txt) => (
                       <img
                         className="pull-right rc-lg-up ls-is-cached lazyloaded"
-                        src={optimizeImage(descObj.imageLink, 245)}
+                        src={optimizeImage({
+                          originImageUrl: descObj.imageLink,
+                          width: 245
+                        })}
                         alt={txt}
                       />
                     )}

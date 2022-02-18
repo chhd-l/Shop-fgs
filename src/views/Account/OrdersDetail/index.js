@@ -1130,8 +1130,9 @@ class AccountOrders extends React.Component {
                                               <img
                                                 className="order-details-img-fluid w-100"
                                                 src={
-                                                  optimizeImage(item.pic) ||
-                                                  IMG_DEFAULT
+                                                  optimizeImage({
+                                                    originImageUrl: item.pic
+                                                  }) || IMG_DEFAULT
                                                 }
                                                 alt={item.spuName}
                                                 title={item.spuName}
@@ -1343,9 +1344,11 @@ class AccountOrders extends React.Component {
                                             <img
                                               className="order-details-img-fluid w-100"
                                               src={
-                                                optimizeImage(
-                                                  item.goodsInfoImg || item.pic
-                                                ) ||
+                                                optimizeImage({
+                                                  originImageUrl:
+                                                    item.goodsInfoImg ||
+                                                    item.pic
+                                                }) ||
                                                 getClubLogo({
                                                   goodsInfoFlag:
                                                     item.goodsInfoFlag

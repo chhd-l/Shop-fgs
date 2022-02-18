@@ -16,10 +16,10 @@ const AdvantageTips = ({ secondIconvisible = true }) => {
               <div className="col-6 centered-icon-list__icon">
                 <LazyLoad height={200}>
                   <img
-                    src={optimizeImage(
-                      `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Payment-secure@2x.png`,
-                      60
-                    )}
+                    src={optimizeImage({
+                      originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Payment-secure@2x.png`,
+                      width: 60
+                    })}
                     // srcSet={PaymentSecureHome}
                     className="mx-auto"
                     alt="Secure payments"
@@ -34,10 +34,10 @@ const AdvantageTips = ({ secondIconvisible = true }) => {
                 <div className="col-6 centered-icon-list__icon">
                   <LazyLoad height={200}>
                     <img
-                      src={optimizeImage(
-                        `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/reimbursed@2x.png`,
-                        60
-                      )}
+                      src={optimizeImage({
+                        originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/reimbursed@2x.png`,
+                        width: 60
+                      })}
                       // src={reimbursedHome}
                       // srcSet={reimbursedHome}
                       className="mx-auto"
@@ -53,10 +53,10 @@ const AdvantageTips = ({ secondIconvisible = true }) => {
               <div className="col-6 centered-icon-list__icon">
                 <LazyLoad height={200}>
                   <img
-                    src={optimizeImage(
-                      `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/premium@2x.png`,
-                      60
-                    )}
+                    src={optimizeImage({
+                      originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/premium@2x.png`,
+                      width: 60
+                    })}
                     // src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/premium@2x.png`}
                     // srcSet={premiumHome}
                     className="mx-auto"
@@ -72,10 +72,10 @@ const AdvantageTips = ({ secondIconvisible = true }) => {
                 <LazyLoad height={200}>
                   <img
                     // src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/shippment@2x.png`}
-                    src={optimizeImage(
-                      `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/shippment@2x.png`,
-                      60
-                    )}
+                    src={optimizeImage({
+                      originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/shippment@2x.png`,
+                      width: 60
+                    })}
                     // srcSet={shippmentHome}
                     className="mx-auto"
                     alt="Fast shipping"
@@ -93,10 +93,10 @@ const AdvantageTips = ({ secondIconvisible = true }) => {
               <div className="centered-icon-list__icon">
                 <LazyLoad height={200}>
                   <img
-                    src={optimizeImage(
-                      `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Payment-secure@2x.png`,
-                      80
-                    )}
+                    src={optimizeImage({
+                      originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Payment-secure@2x.png`,
+                      width: 80
+                    })}
                     // srcSet={PaymentSecureHome}
                     className="mx-auto"
                     alt="Secure payments"
@@ -112,10 +112,10 @@ const AdvantageTips = ({ secondIconvisible = true }) => {
                   <LazyLoad height={200}>
                     <img
                       // src={reimbursedHome}
-                      src={optimizeImage(
-                        `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/reimbursed@2x.png`,
-                        80
-                      )}
+                      src={optimizeImage({
+                        originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/reimbursed@2x.png`,
+                        width: 80
+                      })}
                       // srcSet={reimbursedHome}
                       className="mx-auto"
                       alt="Quality assurance"
@@ -130,10 +130,10 @@ const AdvantageTips = ({ secondIconvisible = true }) => {
               <div className="centered-icon-list__icon">
                 <LazyLoad height={200}>
                   <img
-                    src={optimizeImage(
-                      `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/premium@2x.png`,
-                      80
-                    )}
+                    src={optimizeImage({
+                      originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/premium@2x.png`,
+                      width: 80
+                    })}
                     className="mx-auto"
                     alt="Premium service"
                     title="Premium service"
@@ -148,10 +148,10 @@ const AdvantageTips = ({ secondIconvisible = true }) => {
                   <img
                     // src={shippmentHome}
                     // srcSet={shippmentHome}
-                    src={optimizeImage(
-                      `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/shippment@2x.png`,
-                      80
-                    )}
+                    src={optimizeImage({
+                      originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/shippment@2x.png`,
+                      width: 80
+                    })}
                     className="mx-auto"
                     alt="Fast shipping"
                     title="Fast shipping"

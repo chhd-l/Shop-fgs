@@ -174,14 +174,17 @@ class HeroCarousel extends React.Component {
               >
                 <img
                   className="w-100 mh-100"
-                  src={optimizeImage(el.mobiUrl, 440)}
+                  src={optimizeImage({
+                    originImageUrl: el.mobiUrl,
+                    width: 440
+                  })}
                   alt="heroCarousel banner"
                 />
               </ATagContainer>
             ) : (
               <img
                 className="w-100 mh-100"
-                src={optimizeImage(el.mobiUrl, 440)}
+                src={optimizeImage({ originImageUrl: el.mobiUrl, width: 440 })}
                 alt="heroCarousel banner"
               />
             )}
@@ -232,14 +235,45 @@ class HeroCarousel extends React.Component {
                         >
                           <img
                             className="hidden md:block mh-100"
-                            src={optimizeImage(el.webUrl, 1440)}
+                            src={optimizeImage({
+                              originImageUrl: el.webUrl,
+                              width: 1440
+                            })}
+                            // srcset={optimizeImage({
+                            //   originImageUrl: el.webUrl,
+                            //   conf: [
+                            //     {
+                            //       option: 'fit=contain,width=320',
+                            //       screen: '320w'
+                            //     },
+                            //     {
+                            //       option: 'fit=contain,width=640',
+                            //       screen: '640w'
+                            //     },
+                            //     {
+                            //       option: 'fit=contain,width=960',
+                            //       screen: '960w'
+                            //     },
+                            //     {
+                            //       option: 'fit=contain,width=1280',
+                            //       screen: '1280w'
+                            //     },
+                            //     {
+                            //       option: 'fit=contain,width=2560',
+                            //       screen: '2560w'
+                            //     }
+                            //   ]
+                            // })}
                             alt="heroCarousel banner"
                           />
                         </ATagContainer>
                       ) : (
                         <img
                           className="hidden md:block mh-100"
-                          src={optimizeImage(el.webUrl, 1440)}
+                          src={optimizeImage({
+                            originImageUrl: el.webUrl,
+                            width: 1440
+                          })}
                           alt="heroCarousel banner"
                         />
                       )}
@@ -254,14 +288,20 @@ class HeroCarousel extends React.Component {
                         >
                           <img
                             className="block md:hidden w-100 mh-100"
-                            src={optimizeImage(el.mobiUrl, 440)}
+                            src={optimizeImage({
+                              originImageUrl: el.mobiUrl,
+                              width: 440
+                            })}
                             alt="heroCarousel banner"
                           />
                         </ATagContainer>
                       ) : (
                         <img
                           className="block md:hidden w-100 mh-100"
-                          src={optimizeImage(el.mobiUrl, 440)}
+                          src={optimizeImage({
+                            originImageUrl: el.mobiUrl,
+                            width: 440
+                          })}
                           alt="heroCarousel banner"
                         />
                       )}

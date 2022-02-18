@@ -47,7 +47,10 @@ const AutoshipItem = ({ subItem, history }) => {
                     display: 'inline-block'
                   }}
                   key={item.spuId}
-                  src={optimizeImage(item.goodsPic) || IMG_DEFAULT}
+                  src={
+                    optimizeImage({ originImageUrl: item.goodsPic }) ||
+                    IMG_DEFAULT
+                  }
                   alt={item.goodsName}
                   title={item.goodsName}
                 />

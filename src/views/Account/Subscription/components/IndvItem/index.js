@@ -61,7 +61,10 @@ const IndvItem = ({ subItem, history, intl }) => {
                   display: 'inline-block'
                 }}
                 key={item.spuId}
-                src={optimizeImage(item.goodsPic) || IMG_DEFAULT}
+                src={
+                  optimizeImage({ originImageUrl: item.goodsPic }) ||
+                  IMG_DEFAULT
+                }
                 alt={`${item.petsName}'s personalized subscription`}
                 title={`${item.petsName}'s personalized subscription`}
               />

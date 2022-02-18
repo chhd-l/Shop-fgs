@@ -102,7 +102,10 @@ const HowItWorksNew = ({
                           <LazyLoad height={180}>
                             <img
                               className="w-90 lazyloaded desktopnone 1"
-                              src={optimizeImage(step.HowitworksStep, 331)}
+                              src={optimizeImage({
+                                originImageUrl: step.HowitworksStep,
+                                width: 331
+                              })}
                             />
                           </LazyLoad>
                         </div>
@@ -113,7 +116,10 @@ const HowItWorksNew = ({
                           <LazyLoad height={180}>
                             <img
                               className="w-90 lazyloaded desktopnone 2"
-                              src={optimizeImage(step.HowitworksStep, 331)}
+                              src={optimizeImage({
+                                originImageUrl: step.HowitworksStep,
+                                width: 331
+                              })}
                             />
                           </LazyLoad>
                         </div>
@@ -124,7 +130,10 @@ const HowItWorksNew = ({
                           <LazyLoad height={180}>
                             <img
                               className="w-90 lazyloaded desktopnone 3"
-                              src={optimizeImage(step.HowitworksStep, 331)}
+                              src={optimizeImage({
+                                originImageUrl: step.HowitworksStep,
+                                width: 331
+                              })}
                             />
                           </LazyLoad>
                         </div>
@@ -134,7 +143,10 @@ const HowItWorksNew = ({
                           <LazyLoad height={180}>
                             <img
                               className="w-90 lazyloaded desktopnone 4"
-                              src={optimizeImage(step.HowitworksStep, 331)}
+                              src={optimizeImage({
+                                originImageUrl: step.HowitworksStep,
+                                width: 331
+                              })}
                             />
                           </LazyLoad>
                         </div>
@@ -148,7 +160,10 @@ const HowItWorksNew = ({
                         <LazyLoad height={180}>
                           <img
                             className="w-90 lazyloaded"
-                            src={optimizeImage(step.HowitworksStep, 331)}
+                            src={optimizeImage({
+                              originImageUrl: step.HowitworksStep,
+                              width: 331
+                            })}
                           />
                         </LazyLoad>
                       </div>
@@ -159,7 +174,10 @@ const HowItWorksNew = ({
                         <LazyLoad height={180}>
                           <img
                             className="w-90 lazyloaded"
-                            src={optimizeImage(step.HowitworksStep, 331)}
+                            src={optimizeImage({
+                              originImageUrl: step.HowitworksStep,
+                              width: 331
+                            })}
                           />
                         </LazyLoad>
                       </div>
@@ -170,7 +188,10 @@ const HowItWorksNew = ({
                         <LazyLoad height={180}>
                           <img
                             className="w-90 lazyloaded"
-                            src={optimizeImage(step.HowitworksStep, 331)}
+                            src={optimizeImage({
+                              originImageUrl: step.HowitworksStep,
+                              width: 331
+                            })}
                           />
                         </LazyLoad>
                       </div>
@@ -180,7 +201,10 @@ const HowItWorksNew = ({
                         <LazyLoad height={180}>
                           <img
                             className="w-90 lazyloaded"
-                            src={optimizeImage(step.HowitworksStep, 331)}
+                            src={optimizeImage({
+                              originImageUrl: step.HowitworksStep,
+                              width: 331
+                            })}
                           />
                         </LazyLoad>
                       </div>

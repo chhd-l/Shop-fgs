@@ -1,14 +1,9 @@
 import React from 'react';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
-import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
-import BannerTip from '@/components/BannerTip';
-import Carousel from './components/carousel';
-import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
+import { injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
-import { setSeoConfig } from '@/utils/utils';
-import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import hero from './images/hero.png';
@@ -33,9 +28,9 @@ import './index.less';
 import { EMAIL_REGEXP } from '@/utils/constant';
 import { getDeviceType } from '@/utils/utils';
 import HeroCarousel from './components/carousel/index2';
+import { seoHoc } from '@/framework/common';
 //import HeroCarousel from '@/components/HeroCarousel';
 
-const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 const PAGE_NUM = '121313';
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
@@ -43,16 +38,12 @@ const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 @inject('checkoutStore', 'loginStore', 'clinicStore')
 @inject('configStore')
 @observer
+@seoHoc('Whistlefit')
 @injectIntl
 class Whistlefit extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       email: this.userInfo?.email || '',
       isCheckedArr: [false, false],
       landingPageId: '',
@@ -109,7 +100,6 @@ class Whistlefit extends React.Component {
             'Recevez des alertes santé dès que votre chien montre des changements de comportement'
         }
       ]
-      //intl: this.props.intl.messages
     };
   }
   get isLogin() {
@@ -120,9 +110,6 @@ class Whistlefit extends React.Component {
   }
   componentDidMount() {
     const { history } = this.props;
-    setSeoConfig({ pageName: 'Whistlefit' }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
     getLandingPage(PAGE_NUM).then((res) => {
       if (!res.context.status) {
         history.push('/404');
@@ -225,17 +212,12 @@ class Whistlefit extends React.Component {
         filters: ''
       }
     };
-    //const { history, match, location } = this.props;
-    const { seoConfig } = this.state;
 
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{seoConfig.title}</title>
-          <meta name="description" content={seoConfig.metaDescription} />
-          <meta name="keywords" content={seoConfig.metaKeywords} />
         </Helmet>
         <Header showMiniIcons={true} showUserIcon={true} {...this.props} />
         <main

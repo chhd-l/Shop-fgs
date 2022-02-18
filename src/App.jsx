@@ -901,7 +901,6 @@ const App = () => {
                 <Route
                   path="/"
                   render={(props) => {
-                    console.log('进入了/路由');
                     const { location } = props;
                     const { pathname, search } = location;
 
@@ -962,7 +961,6 @@ const App = () => {
                         return <Details key={props.location.key} {...props} />;
                       }
                     } else {
-                      console.log('没匹配pdp路由');
                       // 除去PDP页面文件重定向start
                       // const specailPlpUrlMapping = {
                       //   ...redirectFun()
@@ -985,7 +983,6 @@ const App = () => {
                           />
                         );
                       } else {
-                        console.log(`匹配plp路由`);
                         return (
                           <List
                             key={
