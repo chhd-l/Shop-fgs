@@ -22,7 +22,6 @@ import {
 } from '@/utils/utils';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
-import { queryCityNameById } from '@/api/address';
 import {
   getOrderDetails,
   cancelOrder,
@@ -30,7 +29,6 @@ import {
   returnFindByTid,
   queryLogistics
 } from '@/api/order';
-import { cancelAppointByNo } from '@/api/appointment';
 import { IMG_DEFAULT } from '@/utils/constant';
 import './index.less';
 import LazyLoad from 'react-lazyload';
@@ -48,7 +46,6 @@ import paypalLogo from '@/assets/images/paypal-logo.svg';
 import { AddressPreview } from '@/components/Address';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
-const localItemRoyal = window.__.localItemRoyal;
 
 function Progress({ progressList, currentProgressIndex }) {
   console.log(progressList);
@@ -204,7 +201,6 @@ class AccountOrders extends React.Component {
     super(props);
     this.state = {
       orderNumber: '',
-      totalTid: '',
       subNumber: '',
       orderNumberForOMS: '',
       details: null,
@@ -258,7 +254,6 @@ class AccountOrders extends React.Component {
       );
     });
   }
-  componentWillUnmount() {}
   get isShowInstallMent() {
     const { details } = this.state;
     return !!details.tradePrice.installmentPrice;
@@ -291,7 +286,6 @@ class AccountOrders extends React.Component {
                 values={{ val1: el.petsName }}
               />
             );
-
             isIndv = true;
           }
         });
@@ -315,18 +309,13 @@ class AccountOrders extends React.Component {
           ? handleFelinOrderStatusMap(orderStatusMap)
           : handleOrderStatusMap(orderStatusMap);
         // 查询支付卡信息
-        this.setState(
-          {
-            totalTid: resContext.totalTid
-          },
-          () => {
-            getPayRecord(this.state.totalTid).then((res) => {
-              this.setState({
-                payRecord: res.context
-              });
+        if (resContext?.totalTid) {
+          getPayRecord(resContext.totalTid).then((res) => {
+            this.setState({
+              payRecord: res.context
             });
-          }
-        );
+          });
+        }
         // 发货运输中，查询物流信息
         if (
           tradeState.payState === 'PAID' &&
@@ -343,35 +332,10 @@ class AccountOrders extends React.Component {
         }
         const tradeEventLogs = res.context.tradeEventLogs || [];
         if (tradeEventLogs.length) {
-          const lastedEventLog = tradeEventLogs[0];
           currentProgressIndex = findIndex(normalProgressList, (ele) =>
             ele.flowStateIds.includes(tradeState.flowState)
           );
-
-          // 从eventLogs中获取时间信息
-          // Array.from(normalProgressList, (item) => {
-          //   const tpm = find(tradeEventLogs, (ele) =>
-          //     ele?.eventType?.includes(item.flowStateId)
-          //   );
-          //   if (tpm) {
-          //     item.time1 = tpm.eventTime.substr(0, 10);
-          //     item.time2 = tpm.eventTime.substr(11, 8);
-          //   }
-          //   return item;
-          // });
         }
-        // let cityRes = await queryCityNameById({
-        //   id: [resContext.consignee.cityId, resContext.invoice.cityId]
-        // });
-        // cityRes = cityRes.context.systemCityVO || [];
-        // resContext.consignee.cityName = this.matchCityName(
-        //   cityRes,
-        //   resContext.consignee.cityId
-        // );
-        // resContext.invoice.cityName = this.matchCityName(
-        //   cityRes,
-        //   resContext.invoice.cityId
-        // );
         this.setState({
           details: handleOrderItem(resContext, res.context),
           loading: false,
@@ -389,11 +353,6 @@ class AccountOrders extends React.Component {
         });
       });
   }
-  // matchCityName(dict, cityId) {
-  //   return dict.filter((c) => c.id === cityId).length
-  //     ? dict.filter((c) => c.id === cityId)[0].cityName
-  //     : cityId;
-  // }
   async hanldeItemClick(afterSaleType) {
     // 退单都完成了，才可继续退单
     this.setState({ returnOrExchangeLoading: true });
@@ -441,10 +400,7 @@ class AccountOrders extends React.Component {
   returnOrExchangeBtnJSX() {
     const { details } = this.state;
     let ret = <span />;
-    if (
-      details.tradeState.deliverStatus === 'SHIPPED' &&
-      details.tradeState.flowState === 'COMPLETED'
-    ) {
+    if (details?.canReturnOrExchange) {
       return (
         <>
           <a
@@ -485,12 +441,7 @@ class AccountOrders extends React.Component {
   cancelOrderBtnJSX() {
     const { details } = this.state;
     let ret = <span />;
-    if (
-      new Date(this.state.defaultLocalDateTime).getTime() <
-        new Date(details.orderTimeOut).getTime() &&
-      details.tradeState.flowState === 'AUDIT' &&
-      details.tradeState.deliverStatus === 'NOT_YET_SHIPPED'
-    ) {
+    if (details?.canCancelOrder) {
       ret = (
         <>
           <a
@@ -501,7 +452,7 @@ class AccountOrders extends React.Component {
           >
             •••
           </a>
-          <div id="bottom-tooltip" className="rc-tooltip text-left pl-1 pr-1">
+          <div id="bottom-tooltip" className="rc-tooltip text-left px-1">
             <div
               className={`p-1 ui-cursor-pointer ${
                 this.props.returnOrExchangeLoading
@@ -540,10 +491,8 @@ class AccountOrders extends React.Component {
         subscriptionStatus: ele.subscriptionStatus
       };
     });
-
     this.props.checkoutStore.setLoginCartData(tradeItems);
     sessionItemRoyal.set('rc-tid', details.id);
-
     sessionItemRoyal.set('rc-tidList', JSON.stringify(details.tidList));
     this.props.checkoutStore.setCartPrice({
       totalPrice: order.tradePrice.goodsPrice,
@@ -554,7 +503,6 @@ class AccountOrders extends React.Component {
       promotionDiscount: order.tradePrice.deliveryPrice,
       subscriptionPrice: order.tradePrice.subscriptionPrice
     });
-
     this.props.history.push('/checkout');
     this.setState({
       details: Object.assign(details, { payNowLoading: false })
@@ -582,15 +530,12 @@ class AccountOrders extends React.Component {
     this.state.logisticsList.forEach((item, index) => {
       if (
         !(
-          item.trackingUrl === null &&
-          item.tradeLogisticsDetails &&
-          item.tradeLogisticsDetails.length === 0
+          item.trackingUrl === null && item?.tradeLogisticsDetails?.length === 0
         )
       ) {
         logisticsList.push(item);
       }
     });
-    console.log('logisticsList:', logisticsList);
     const filteredLogisticsList = logisticsList
       .map((ele) => (ele && ele.tradeLogisticsDetails ? ele : []))
       .filter((ele) => ele);
@@ -604,8 +549,7 @@ class AccountOrders extends React.Component {
                   <nav className="rc-bg-colour--brand4 p-3">
                     {logisticsList.map(
                       (item, i) =>
-                        item.tradeLogisticsDetails &&
-                        item.tradeLogisticsDetails.length > 0 && (
+                        item?.tradeLogisticsDetails?.length > 0 && (
                           <span
                             className={`ui-cursor-pointer mr-2 pl-3 pr-3 pb-2 pt-2 rounded ${
                               activeTabIdx === i
@@ -627,13 +571,10 @@ class AccountOrders extends React.Component {
 
                 {logisticsList.map(
                   (item, i) =>
-                    item.tradeLogisticsDetails &&
-                    item.tradeLogisticsDetails.length > 0 && (
+                    item?.tradeLogisticsDetails?.length > 0 && (
                       <div
                         key={i}
-                        className={`ml-3 mr-3 ${
-                          i === activeTabIdx ? '' : 'hidden'
-                        }`}
+                        className={`mx-3 ${i === activeTabIdx ? '' : 'hidden'}`}
                       >
                         <LogisticsProgress
                           list={item.tradeLogisticsDetails.sort((a, b) => {
@@ -712,8 +653,7 @@ class AccountOrders extends React.Component {
             <div className="ml-4 mr-4 rc-md-down mt-2 md:mt-0">
               {filteredLogisticsList.map(
                 (item, i) =>
-                  item.tradeLogisticsDetails &&
-                  item.tradeLogisticsDetails.length > 0 && (
+                  item?.tradeLogisticsDetails?.length > 0 && (
                     <div
                       className="row rc-bg-colour--brand4 rounded mb-2 pb-2"
                       onClick={this.handleClickLogisticsCard.bind(this, item)}
@@ -759,7 +699,6 @@ class AccountOrders extends React.Component {
     const {
       details,
       auditRejectReason,
-      defaultLocalDateTime,
       orderNumber,
       logisticsList,
       currentProgressIndex,
@@ -990,21 +929,6 @@ class AccountOrders extends React.Component {
     }
     return ret;
   };
-  async cancelAppoint(order) {
-    const { details } = this.state;
-    try {
-      this.setState({
-        details: Object.assign(details, { cancelAppointLoading: true })
-      });
-      await cancelAppointByNo({ apptNo: order.appointmentNo });
-      this.init();
-    } catch (err) {
-    } finally {
-      this.setState({
-        details: Object.assign(details, { cancelAppointLoading: false })
-      });
-    }
-  }
   //felin订单操作按钮显示
   renderOperationBtns = () => {
     const { orderNumber, details } = this.state;
