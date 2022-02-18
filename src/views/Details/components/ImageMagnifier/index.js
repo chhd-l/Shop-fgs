@@ -411,7 +411,10 @@ class ImageMagnifier extends Component {
                       className="J_detail_img"
                       style={cssStyle.imgStyle}
                       src={
-                        optimizeImage(el.artworkUrl, 'auto') ||
+                        optimizeImage({
+                          originImageUrl: el.artworkUrl,
+                          width: 'auto'
+                        }) ||
                         this.state.minImg ||
                         noPic
                       }
@@ -477,11 +480,15 @@ class ImageMagnifier extends Component {
                 <img
                   style={cssStyle.imgStyle2}
                   src={
-                    currentImg
-                      ? optimizeImage(currentImg, 'auto')
-                      : this.state.maxImg
-                      ? optimizeImage(this.state.maxImg, 'auto')
-                      : noPic
+                    optimizeImage({
+                      originImageUrl: currentImg,
+                      width: 'auto'
+                    }) ||
+                    optimizeImage({
+                      originImageUrl: this.state.maxImg,
+                      width: 'auto'
+                    }) ||
+                    noPic
                   }
                   // srcSet={getMuntiImg(currentImg || this.state.maxImg)}
                   onLoad={this.handleImageLoaded.bind(this)}
@@ -542,15 +549,18 @@ class ImageMagnifier extends Component {
                     style={{
                       backgroundImage:
                         'url(' +
-                        (el.artworkUrl
-                          ? optimizeImage(el.artworkUrl, 200)
-                          : el.goodsInfoImg
-                          ? optimizeImage(el.goodsInfoImg, 200)
-                          : noPic) +
-                        ')',
+                          optimizeImage({
+                            originImageUrl: el.artworkUrl,
+                            width: 200
+                          }) ||
+                        optimizeImage({
+                          originImageUrl: el.goodsInfoImg,
+                          width: 200
+                        }) ||
+                        noPic + ')',
                       backgroundSize: '100% 100%'
                     }}
-                  ></div>
+                  />
                 ))
               ) : this.state.minImg ? (
                 <div

@@ -735,8 +735,8 @@ function getDatePickerConfig() {
   };
   const curDatePickerCfg =
     datePickerCfg[window.__.env.REACT_APP_COUNTRY] || datePickerCfg.default;
-  const curLocaleModule = require(`date-fns/locale/${curDatePickerCfg.locale_module_lang}`)
-    .default;
+  const curLocaleModule =
+    require(`date-fns/locale/${curDatePickerCfg.locale_module_lang}`).default;
   registerLocale(window.__.env.REACT_APP_COUNTRY, curLocaleModule);
   // 根据Intl.DateTimeFormat生成当前国家的日期格式
   const specificDate = formatDate({ date: '2021-12-30' });
@@ -984,9 +984,8 @@ export function judgeIsIndividual(item) {
 // uk和fr,才有postCode校验
 const countryPostCode = ['uk', 'fr'];
 const currentCountry = window.__.env.REACT_APP_COUNTRY;
-export const isCanVerifyBlacklistPostCode = countryPostCode.includes(
-  currentCountry
-);
+export const isCanVerifyBlacklistPostCode =
+  countryPostCode.includes(currentCountry);
 
 // 获取 Postal code alert message
 export async function getAddressPostalCodeAlertMessage() {
@@ -1331,15 +1330,35 @@ export const isBlockedUserOrEmail = (accountOrEmail) => {
  * @param height height 默认等于width
  * @returns
  */
-export function optimizeImage(originImageUrl, width = 150, height) {
+export function optimizeImage({ originImageUrl, width = 150, height, option }) {
   const CDN_PREFIX =
     window.__.env.REACT_APP_PRODUCT_IMAGE_CDN ||
     'https://d2c-cdn.royalcanin.com/cdn-cgi/image/';
   return originImageUrl &&
     originImageUrl.startsWith('http') &&
     !originImageUrl.startsWith(CDN_PREFIX)
-    ? `${CDN_PREFIX}width=${width},h=${height ?? width}/${originImageUrl}`
+    ? `${CDN_PREFIX}${
+        option ? option : `width=${width},h=${height ?? width}`
+      }/${originImageUrl}`
     : originImageUrl;
+}
+
+/**
+ * 生成cloudflare cdn img srcset
+ * @param {string} originImageUrl 源图片url
+ * @param {Array} conf srcset配置, conf.option-cloudflare cdn img options, conf.screen-srcset屏幕断点
+ * @returns {string}
+ */
+export function optimizeImageSrcSet({ originImageUrl, conf }) {
+  let ret = '';
+  Array.from(conf, (confItem) => {
+    ret.push(
+      `${optimizeImage({ originImageUrl, option: confItem.option })} ${
+        confItem.screen
+      }`
+    );
+  });
+  return ret.join(', ');
 }
 
 /**

@@ -65,7 +65,7 @@ export function Advantage() {
           <img
             className="value-proposition__img"
             style={{ width: '80px' }}
-            src={optimizeImage(item.imgUrl, 80)}
+            src={optimizeImage({ originImageUrl: item.imgUrl, width: 80 })}
             alt={item.imgAlt}
             title=""
           />

@@ -744,8 +744,9 @@ class AccountOrders extends React.Component {
                                               <img
                                                 className="ord-list-img-fluid"
                                                 src={
-                                                  optimizeImage(item.pic) ||
-                                                  IMG_DEFAULT
+                                                  optimizeImage({
+                                                    originImageUrl: item.pic
+                                                  }) || IMG_DEFAULT
                                                 }
                                                 alt={item.spuName}
                                                 title={item.spuName}
@@ -895,7 +896,10 @@ class AccountOrders extends React.Component {
                           <LazyLoad>
                             <img
                               className="ord-list-img-fluid"
-                              src={optimizeImage(item.pic) || IMG_DEFAULT}
+                              src={
+                                optimizeImage({ originImageUrl: item.pic }) ||
+                                IMG_DEFAULT
+                              }
                               alt={item.spuName}
                               title={item.spuName}
                             />

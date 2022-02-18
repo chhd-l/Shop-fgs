@@ -1,14 +1,10 @@
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
-import FrequencyMatch from '@/components/FrequencyMatch';
 import { formatMoney, optimizeImage } from '@/utils/utils';
 import React from 'react';
-import { toJS } from 'mobx';
-const GiftList = ({data}) => {
+
+const GiftList = ({ data }) => {
   return (
-    <div
-      className="minicart__product"
-      key={data.goodsInfoId}
-    >
+    <div className="minicart__product" key={data.goodsInfoId}>
       <div>
         <div className="product-summary__products__item pb-0">
           <div className="product-line-item">
@@ -17,7 +13,7 @@ const GiftList = ({data}) => {
                 {/* <LazyLoad> */}
                 <img
                   className="product-image"
-                  src={optimizeImage(data.goodsInfoImg)}
+                  src={optimizeImage({ originImageUrl: data.goodsInfoImg })}
                   alt={data.goodsInfoName}
                   title={data.goodsInfoName}
                 />
@@ -58,7 +54,7 @@ const GiftList = ({data}) => {
                       </div>
                       <b
                         className="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light"
-                        style={{ color: '#666'}}
+                        style={{ color: '#666' }}
                       >
                         {formatMoney(data.salePrice * data.buyCount)}
                       </b>
@@ -67,7 +63,7 @@ const GiftList = ({data}) => {
                 </div>
                 {/* <p className="text-right red mb-0">Gift Promotion</p> */}
                 <p className="text-right red mb-0">
-                  <FormattedMessage id='giftList'/>
+                  <FormattedMessage id="giftList" />
                 </p>
               </div>
             </div>
@@ -80,4 +76,4 @@ const GiftList = ({data}) => {
   );
 };
 
-export default GiftList
+export default GiftList;

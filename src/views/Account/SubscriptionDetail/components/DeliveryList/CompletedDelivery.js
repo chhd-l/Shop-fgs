@@ -159,7 +159,7 @@ const CompletedDelivery = ({ i, isActive, el, subDetail }) => {
                             width: '70px',
                             display: 'inline'
                           }}
-                          src={optimizeImage(tradeItem.pic)}
+                          src={optimizeImage({ originImageUrl: tradeItem.pic })}
                           alt={tradeItem.skuName}
                         />
                       </LazyLoad>
@@ -219,7 +219,9 @@ const CompletedDelivery = ({ i, isActive, el, subDetail }) => {
                                 width: '70px'
                                 // margin: '0 .625rem'
                               }}
-                              src={optimizeImage(tradeItem.pic)}
+                              src={optimizeImage({
+                                originImageUrl: tradeItem.pic
+                              })}
                               alt={tradeItem.skuName}
                             />
                           </LazyLoad>

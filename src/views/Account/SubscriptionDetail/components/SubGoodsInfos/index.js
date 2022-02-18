@@ -156,7 +156,10 @@ const SubGoodsInfos = ({
                   <div className="for-mobile-colum">
                     {/* <LazyLoad> */}
                     <img
-                      src={optimizeImage(el.goodsPic) || IMG_DEFAULT}
+                      src={
+                        optimizeImage({ originImageUrl: el.goodsPic }) ||
+                        IMG_DEFAULT
+                      }
                       style={{ width: '100px' }}
                       alt={el.goodsName}
                     />
@@ -342,7 +345,10 @@ const SubGoodsInfos = ({
                           {/* <LazyLoad> */}
                           <img
                             style={{ maxHeight: '100%' }}
-                            src={optimizeImage(el.goodsPic) || IMG_DEFAULT}
+                            src={
+                              optimizeImage({ originImageUrl: el.goodsPic }) ||
+                              IMG_DEFAULT
+                            }
                             alt={el.goodsName}
                           />
                           {/* </LazyLoad> */}

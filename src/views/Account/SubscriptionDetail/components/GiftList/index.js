@@ -142,7 +142,9 @@ const GiftList = ({
                                       width: '70px',
                                       margin: '0 .625rem'
                                     }}
-                                    src={optimizeImage(tradeItem.pic)}
+                                    src={optimizeImage({
+                                      originImageUrl: tradeItem.pic
+                                    })}
                                     alt={tradeItem.skuName}
                                   />
                                 </LazyLoad>

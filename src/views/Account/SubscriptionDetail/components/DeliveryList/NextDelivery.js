@@ -153,7 +153,10 @@ const NextDelivery = ({
             <div className={`col-9 col-md-6 d-flex row align-items-center`}>
               <LazyLoad className="col-6 col-md-3">
                 <img
-                  src={optimizeImage(tradeItem.pic) || IMG_DEFAULT}
+                  src={
+                    optimizeImage({ originImageUrl: tradeItem.pic }) ||
+                    IMG_DEFAULT
+                  }
                   alt={tradeItem.skuName}
                 />
               </LazyLoad>

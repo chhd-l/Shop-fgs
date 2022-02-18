@@ -784,9 +784,10 @@ class UnLoginCart extends React.Component {
                   <img
                     className="w-100"
                     src={
-                      optimizeImage(
-                        find(pitem.sizeList, (s) => s.selected).goodsInfoImg
-                      ) || optimizeImage(pitem.goodsImg)
+                      optimizeImage({
+                        originImageUrl: find(pitem.sizeList, (s) => s.selected)
+                          .goodsInfoImg
+                      }) || optimizeImage({ originImageUrl: pitem.goodsImg })
                     }
                     alt={pitem.goodsName}
                     title={pitem.goodsName}
@@ -1009,7 +1010,10 @@ class UnLoginCart extends React.Component {
                 <div className="name-info flex-column-gift rc-main-content__wrapper d-flex">
                   <img
                     className="img"
-                    src={optimizeImage(gift.goodsInfoImg) || FOOD_DISPENSER_PIC}
+                    src={
+                      optimizeImage({ originImageUrl: gift.goodsInfoImg }) ||
+                      FOOD_DISPENSER_PIC
+                    }
                     alt="goods Information Image"
                   />
                   <div className="mobile-text-center">

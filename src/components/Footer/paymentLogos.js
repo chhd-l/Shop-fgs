@@ -47,7 +47,10 @@ class PaymentLogos extends React.Component {
                     className={`mb-2 ${(i + 1) % 4 == 0 ? '' : 'mr-2'}`}
                   >
                     <img
-                      src={optimizeImage(img.imgUrl, 80)}
+                      src={optimizeImage({
+                        originImageUrl: img.imgUrl,
+                        width: 80
+                      })}
                       alt={i}
                       style={{ width: '2.7rem' }}
                     />

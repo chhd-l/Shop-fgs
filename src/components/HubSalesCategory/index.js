@@ -92,10 +92,10 @@ export default class HubSalesCategory extends Component {
                   <FormattedMessage id="salesCategory.cat" />
                 </div>
                 <img
-                  src={optimizeImage(
-                    `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/salesCategory_cat.png`,
-                    100
-                  )}
+                  src={optimizeImage({
+                    originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/salesCategory_cat.png`,
+                    width: 100
+                  })}
                   alt="cats image"
                 />
               </div>
@@ -118,10 +118,18 @@ export default class HubSalesCategory extends Component {
                           to={`${item.cateRouter}`}
                         >
                           <picture>
-                            <source srcSet={optimizeImage(item.imgSrc, 250)} />
+                            <source
+                              srcSet={optimizeImage({
+                                originImageUrl: item.imgSrc,
+                                width: 250
+                              })}
+                            />
                             <div className="text-center">
                               <img
-                                src={optimizeImage(item.imgSrc, 250)}
+                                src={optimizeImage({
+                                  originImageUrl: item.imgSrc,
+                                  width: 250
+                                })}
                                 alt={item.altName}
                                 title={item.altName}
                               />
@@ -143,10 +151,10 @@ export default class HubSalesCategory extends Component {
                   <FormattedMessage id="salesCategory.dog" />
                 </div>
                 <img
-                  src={optimizeImage(
-                    `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/salesCategory_dog.png`,
-                    100
-                  )}
+                  src={optimizeImage({
+                    originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/salesCategory_dog.png`,
+                    width: 100
+                  })}
                   alt="dogs image"
                 />
               </div>
@@ -169,10 +177,18 @@ export default class HubSalesCategory extends Component {
                           to={`${item.cateRouter}`}
                         >
                           <picture>
-                            <source srcSet={optimizeImage(item.imgSrc, 250)} />
+                            <source
+                              srcSet={optimizeImage({
+                                originImageUrl: item.imgSrc,
+                                width: 250
+                              })}
+                            />
                             <div className="text-center">
                               <img
-                                src={optimizeImage(item.imgSrc, 250)}
+                                src={optimizeImage({
+                                  originImageUrl: item.imgSrc,
+                                  width: 250
+                                })}
                                 alt={item.altName}
                                 title={item.altName}
                               />

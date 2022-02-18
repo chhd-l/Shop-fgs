@@ -57,7 +57,10 @@ const OngoingOrder = ({ subDetail }) => {
                     <div className="col-4">
                       <img
                         className="ord-list-img-fluid"
-                        src={optimizeImage(item.pic) || IMG_DEFAULT}
+                        src={
+                          optimizeImage({ originImageUrl: item.pic }) ||
+                          IMG_DEFAULT
+                        }
                         alt={item.spuName}
                         title={item.spuName}
                       />

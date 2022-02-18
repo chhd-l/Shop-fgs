@@ -178,10 +178,10 @@ class LoginCart extends React.Component {
                 <div className="minicart__empty">
                   <img
                     className="cart-img"
-                    src={optimizeImage(
-                      `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/cart.png`,
-                      300
-                    )}
+                    src={optimizeImage({
+                      originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/cart.png`,
+                      width: 300
+                    })}
                     alt="ROYAL CANIN® online store"
                   />
                   <p className="rc-delta">
@@ -293,7 +293,9 @@ class LoginCart extends React.Component {
                                 {/* <LazyLoad> */}
                                 <img
                                   className="product-image"
-                                  src={optimizeImage(item.goodsInfoImg)}
+                                  src={optimizeImage({
+                                    originImageUrl: item.goodsInfoImg
+                                  })}
                                   alt={item.goodsName}
                                   title={item.goodsName}
                                 />
@@ -415,8 +417,9 @@ class LoginCart extends React.Component {
                                       <img
                                         className="product-image"
                                         src={
-                                          optimizeImage(gift.goodsInfoImg) ||
-                                          FOOD_DISPENSER_PIC
+                                          optimizeImage({
+                                            originImageUrl: gift.goodsInfoImg
+                                          }) || FOOD_DISPENSER_PIC
                                         }
                                         alt={gift.goodsInfoName}
                                         title={gift.goodsInfoName}

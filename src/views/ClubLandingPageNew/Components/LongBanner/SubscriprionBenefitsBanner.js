@@ -48,7 +48,10 @@ const SubscriptionBenefitsBanner = ({
                       <LazyLoad className="mobileCenter">
                         <img
                           className="w-90 lazyloaded 3"
-                          src={optimizeImage(items.SubscriptionImg, 150)}
+                          src={optimizeImage({
+                            originImageUrl: items.SubscriptionImg,
+                            width: 150
+                          })}
                           style={{ height: '150px', borderRadius: '50%' }}
                         />
                       </LazyLoad>
