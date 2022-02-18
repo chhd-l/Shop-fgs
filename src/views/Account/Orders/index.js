@@ -82,7 +82,6 @@ class AccountOrders extends React.Component {
     this.handlePayNowTimeEnd = this.handlePayNowTimeEnd.bind(this);
     this.rePurchase = this.rePurchase.bind(this);
   }
-  componentWillUnmount() {}
   async componentDidMount() {
     myAccountPushEvent('Orders');
 
