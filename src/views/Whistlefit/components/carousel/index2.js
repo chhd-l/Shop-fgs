@@ -11,23 +11,6 @@ import carousel1 from '../../images/carousel1.png';
 import Shape01 from '../../images/Shape01.png';
 import Shape02 from '../../images/Shape02.png';
 
-function SamplePrevOrNextArrow(props) {
-  const { className, style, onClick, type } = props;
-  return (
-    <div
-      className={`${className} invisible absolute top-1/2 d-none d-md-block rc-carousel__direction iconfont font-weight-bold icon-direction ui-cursor-pointer`}
-      style={{
-        ...style,
-        zIndex: 1,
-        transform: 'translateY(-50%)'
-      }}
-      onClick={onClick}
-    >
-      {type === 'prev' ? <span>&#xe6fa;</span> : <span>&#xe6f9;</span>}
-    </div>
-  );
-}
-
 class HeroCarousel extends React.Component {
   constructor(props) {
     super(props);
@@ -63,32 +46,8 @@ class HeroCarousel extends React.Component {
       ]
     };
   }
-  componentDidMount() {
-    getBanner().then((res) => {
-      let bannerList = stgShowAuth()
-        ? res.context
-        : res.context.filter(
-            (el) => el.webSkipUrl !== '/precise-cat-nutrition'
-          );
-      this.setState({
-        banner: bannerList.map((ele) => {
-          return Object.assign(ele, {
-            isOuterLinkForMobile: /^[http|https]/.test(ele.mobiSkipUrl),
-            isOuterLinkForPC: /^[http|https]/.test(ele.webSkipUrl)
-          });
-        })
-      });
-    });
-  }
-  // 切换slider触发
-  GABannerImpression(idx) {
-    const cur_banner = this.state.banner[idx];
-    window?.dataLayer?.push({
-      event: 'homepageCarousselDisplay',
-      slideName: cur_banner.bannerName,
-      slidePosition: idx
-    });
-  }
+  componentDidMount() {}
+
   render() {
     const settings = {
       dots: true,
@@ -97,28 +56,12 @@ class HeroCarousel extends React.Component {
       slidesToShow: 1,
       slidesToScroll: 1,
       initialSlide: 0,
-      autoplay: ['de', 'ru', 'fr'].includes(window.__.env.REACT_APP_COUNTRY),
+      autoplay: true,
       pauseOnHover: true,
       lazyLoad: true,
       adaptiveHeight: true,
-      nextArrow: (
-        <SamplePrevOrNextArrow
-          className="rc-carousel__direction--next"
-          style={{ right: '3%' }}
-          type="next"
-        />
-      ),
-      prevArrow: (
-        <SamplePrevOrNextArrow
-          className="rc-carousel__direction--prev"
-          style={{ left: '3%' }}
-          type="prev"
-        />
-      ),
       dotsClass: 'dots-custom',
-      afterChange: (idx) => {
-        this.GABannerImpression(idx);
-      }
+      afterChange: (idx) => {}
     };
 
     return (

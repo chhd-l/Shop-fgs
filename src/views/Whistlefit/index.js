@@ -270,6 +270,18 @@ class Whistlefit extends React.Component {
               </div>
             </div>
           </div>
+          {isMobile ? (
+            <div className="experience-component experience-layouts-1column">
+              <div className="row rc-margin-x--none">
+                <div className="rc-full-width">
+                  <div className="experience-component experience-assets-contentBlock">
+                    <div className="h-2 bg-gray-100 my-8" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : null}
+
           <div className="experience-component experience-layouts-1column">
             <div className="row rc-margin-x--none">
               <div className="rc-full-width">
@@ -277,7 +289,7 @@ class Whistlefit extends React.Component {
                   <div className="w-full px-0 md:px-36">
                     <div>
                       <div
-                        className="px-4 md:px-48 text-18 md:text-38 text-center my-6 md:my-12 font-normal md:leading-12"
+                        className="px-4 md:px-48 text-18 md:text-38 text-center mt-0 md:p-6 my-6 md:my-12 font-normal md:leading-12"
                         style={{ color: '#E2001A' }}
                       >
                         Surveillez le bien-être de votre chien et identifiez
@@ -337,7 +349,7 @@ class Whistlefit extends React.Component {
                           </div>
                         </div>
                       </div>
-                      <div className="w-full flex justify-center my-10">
+                      <div className="w-full flex justify-center my-8 md:my-10">
                         <button
                           className="rc-btn rc-btn--one text-14 md:text-16"
                           onClick={() =>
@@ -368,7 +380,7 @@ class Whistlefit extends React.Component {
                 <div className="experience-component experience-assets-contentBlock">
                   <div className="w-full px-0 md:px-36">
                     <div
-                      className="w-full px-4 md:px-48 font-normal text-center text-18 md:text-38 my-4 md:my-12 leading-tight md:leading-normal"
+                      className="w-full pt-4 md:pt-0 px-4 md:px-48 font-normal text-center text-18 md:text-38 my-4 md:my-12 leading-tight md:leading-normal"
                       style={{ color: '#E2001A' }}
                     >
                       Whistle Fit, comment ça marche ?
@@ -410,7 +422,7 @@ class Whistlefit extends React.Component {
                         );
                       })}
                     </div>
-                    <div className="w-full flex justify-center my-10">
+                    <div className="w-full flex justify-center my-8 md:my-10">
                       <button
                         className="rc-btn rc-btn--one text-14 md:text-16"
                         onClick={() =>
@@ -440,7 +452,7 @@ class Whistlefit extends React.Component {
                 <div className="experience-component experience-assets-contentBlock">
                   <div className="w-100 px-0 md:px-36">
                     <div
-                      className="px-4 md:px-0 text-center tracking-normal md:tracking-tighter text-18 md:text-38 mt-6 mb-3 md:mb-10 leading-tight md:leading-normal font-normal"
+                      className="pt-1 md:pt-0 px-4 md:px-0 text-center tracking-normal md:tracking-tighter text-18 md:text-38 mt-6 mb-3 md:mb-10 leading-tight md:leading-normal font-normal"
                       style={{ color: '#E2001A' }}
                     >
                       Ils ont adoré !
@@ -448,7 +460,7 @@ class Whistlefit extends React.Component {
                     <div className="experience-component experience-layouts-herocarousel">
                       <HeroCarousel history={history} />
                     </div>
-                    <div className="w-full flex justify-center mt-5 md:mt-10 mb-5 md:mb-10">
+                    <div className="pb-4 md:pb-0 w-full flex justify-center mt-5 md:mt-10 mb-5 md:mb-10">
                       <button
                         className="rc-btn rc-btn--one text-14 md:text-16"
                         onClick={() =>
@@ -479,7 +491,7 @@ class Whistlefit extends React.Component {
                   <div className="w-full px-0 md:px-36">
                     <div className="flex justify-center">
                       <div
-                        className="w-full px-4 md:px-44 text-center  text-18 md:text-38 my-6 md:my-12 leading-tight md:leading-12 font-normal"
+                        className="pt-1 md:pt-0  w-full px-4 md:px-44 text-center  text-18 md:text-38 my-6 md:my-12 leading-tight md:leading-12 font-normal"
                         style={{ color: '#E2001A' }}
                       >
                         Whistle Fit et Royal Canin vous aident à mieux
@@ -528,7 +540,7 @@ class Whistlefit extends React.Component {
                   <div className="w-full px-0 md:px-36">
                     <div className="flex justify-center">
                       <div
-                        className="w-full md:w-2/3 px-4 md:px-0 text-center  text-18 md:text-4xl mt-6 md:mt-12 mb-3 leading-tight md:leading-normal font-normal"
+                        className="pt-3 md:pt-0 w-full md:w-2/3 px-4 md:px-0 text-center  text-18 md:text-4xl mt-6 md:mt-12 mb-3 leading-tight md:leading-normal font-normal"
                         style={{ color: '#E2001A' }}
                       >
                         Whistle Fit vous intéresse ? Faites-le nous savoir.
