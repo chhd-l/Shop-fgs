@@ -22,7 +22,6 @@ import {
 } from '@/utils/utils';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
-import { queryCityNameById } from '@/api/address';
 import {
   getOrderDetails,
   cancelOrder,
@@ -30,7 +29,6 @@ import {
   returnFindByTid,
   queryLogistics
 } from '@/api/order';
-import { cancelAppointByNo } from '@/api/appointment';
 import { IMG_DEFAULT } from '@/utils/constant';
 import './index.less';
 import LazyLoad from 'react-lazyload';
@@ -532,9 +530,7 @@ class AccountOrders extends React.Component {
     this.state.logisticsList.forEach((item, index) => {
       if (
         !(
-          item.trackingUrl === null &&
-          item.tradeLogisticsDetails &&
-          item.tradeLogisticsDetails.length === 0
+          item.trackingUrl === null && item?.tradeLogisticsDetails?.length === 0
         )
       ) {
         logisticsList.push(item);
@@ -553,8 +549,7 @@ class AccountOrders extends React.Component {
                   <nav className="rc-bg-colour--brand4 p-3">
                     {logisticsList.map(
                       (item, i) =>
-                        item.tradeLogisticsDetails &&
-                        item.tradeLogisticsDetails.length > 0 && (
+                        item?.tradeLogisticsDetails?.length > 0 && (
                           <span
                             className={`ui-cursor-pointer mr-2 pl-3 pr-3 pb-2 pt-2 rounded ${
                               activeTabIdx === i
@@ -576,8 +571,7 @@ class AccountOrders extends React.Component {
 
                 {logisticsList.map(
                   (item, i) =>
-                    item.tradeLogisticsDetails &&
-                    item.tradeLogisticsDetails.length > 0 && (
+                    item?.tradeLogisticsDetails?.length > 0 && (
                       <div
                         key={i}
                         className={`mx-3 ${i === activeTabIdx ? '' : 'hidden'}`}
@@ -659,8 +653,7 @@ class AccountOrders extends React.Component {
             <div className="ml-4 mr-4 rc-md-down mt-2 md:mt-0">
               {filteredLogisticsList.map(
                 (item, i) =>
-                  item.tradeLogisticsDetails &&
-                  item.tradeLogisticsDetails.length > 0 && (
+                  item?.tradeLogisticsDetails?.length > 0 && (
                     <div
                       className="row rc-bg-colour--brand4 rounded mb-2 pb-2"
                       onClick={this.handleClickLogisticsCard.bind(this, item)}
