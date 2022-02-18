@@ -602,11 +602,11 @@ class Whistlefit extends React.Component {
                       /> */}
                               <label
                                 className="text-sm italic rc-input__label--inline"
-                                for={`id-checkbox-cat-${index}`}
+                                htmlFor={`id-checkbox-cat-${index}`}
                                 dangerouslySetInnerHTML={this.createMarkup(
                                   item.consentTitle
                                 )}
-                              ></label>
+                              />
                             </div>
                           </div>
                         );
