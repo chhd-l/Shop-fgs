@@ -235,7 +235,10 @@ class HeroCarousel extends React.Component {
                         >
                           <img
                             className="hidden md:block mh-100"
-                            src={optimizeImage(el.webUrl, 1440)}
+                            src={optimizeImage({
+                              originImageUrl: el.webUrl,
+                              width: 1440
+                            })}
                             // srcset={optimizeImage({
                             //   originImageUrl: el.webUrl,
                             //   conf: [
