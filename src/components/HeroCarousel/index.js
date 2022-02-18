@@ -145,7 +145,7 @@ class HeroCarousel extends React.Component {
       slidesToShow: 1,
       slidesToScroll: 1,
       initialSlide: 0,
-      // autoplay: ['de', 'ru', 'fr'].includes(window.__.env.REACT_APP_COUNTRY),
+      autoplay: ['de', 'ru', 'fr'].includes(window.__.env.REACT_APP_COUNTRY),
       pauseOnHover: true,
       lazyLoad: true,
       adaptiveHeight: true,
