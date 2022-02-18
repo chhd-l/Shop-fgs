@@ -336,8 +336,6 @@ class PayOs extends React.Component {
       case 'cardNumber':
         if (value.length == 0) {
           result = 'NOT_TEST';
-        } else if (value.length == 18 || value.length == 19) {
-          result = 'SUCCESS';
         } else {
           result = 'FAIL';
         }
@@ -710,7 +708,6 @@ class PayOs extends React.Component {
                                               onKeyUp={this.cardNumberChange}
                                               onBlur={this.inputBoxBlur}
                                               name="cardNumber"
-                                              maxLength={19}
                                               placeholder={
                                                 this.props.intl?.messages
                                                   .cardNumber
