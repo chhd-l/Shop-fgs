@@ -6,67 +6,24 @@ import '@/assets/css/heroCarousel.css';
 import './index2.less';
 import { getBanner } from '@/api/home.js';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import { Link } from 'react-router-dom';
-import { stgShowAuth, optimizeImage } from '@/utils/utils';
+import { stgShowAuth } from '@/utils/utils';
 import carousel1 from '../../images/carousel1.png';
 import Shape01 from '../../images/Shape01.png';
 import Shape02 from '../../images/Shape02.png';
 
-function ATagContainer({
-  children,
-  href,
-  to,
-  isOuterLink,
-  className,
-  onClick
-}) {
-  return isOuterLink ? (
-    <a href={href} className={className} onClick={onClick}>
-      {children}
-    </a>
-  ) : (
-    <Link to={to} className={className} onClick={onClick}>
-      {children}
-    </Link>
-  );
-}
-
-function SampleNextArrow(props) {
-  const { className, style, onClick } = props;
+function SamplePrevOrNextArrow(props) {
+  const { className, style, onClick, type } = props;
   return (
     <div
-      className={`${className} invisible d-none d-md-block rc-carousel__direction rc-carousel__direction--next iconfont font-weight-bold icon-direction ui-cursor-pointer`}
+      className={`${className} invisible absolute top-1/2 d-none d-md-block rc-carousel__direction iconfont font-weight-bold icon-direction ui-cursor-pointer`}
       style={{
         ...style,
-        right: '3%',
         zIndex: 1,
-        top: '50%',
-        position: 'absolute',
         transform: 'translateY(-50%)'
       }}
       onClick={onClick}
     >
-      &#xe6f9;
-    </div>
-  );
-}
-
-function SamplePrevArrow(props) {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      className={`${className} invisible d-none d-md-block rc-carousel__direction rc-carousel__direction--prev iconfont font-weight-bold icon-direction ui-cursor-pointer`}
-      style={{
-        ...style,
-        left: '3%',
-        zIndex: 1,
-        top: '50%',
-        position: 'absolute',
-        transform: 'translateY(-50%)'
-      }}
-      onClick={onClick}
-    >
-      &#xe6fa;
+      {type === 'prev' ? <span>&#xe6fa;</span> : <span>&#xe6f9;</span>}
     </div>
   );
 }
@@ -105,7 +62,6 @@ class HeroCarousel extends React.Component {
         }
       ]
     };
-    // this.GABannerClick = this.GABannerClick.bind(this);
   }
   componentDidMount() {
     getBanner().then((res) => {
@@ -132,43 +88,8 @@ class HeroCarousel extends React.Component {
       slideName: cur_banner.bannerName,
       slidePosition: idx
     });
-    // dataLayer.push({
-    //   event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComPromotionImpression`,
-    //   ecommerce: {
-    //     promoClick: {
-    //       promotions: [
-    //         {
-    //           id: cur_banner.bannerId, // Name or ID is required
-    //           name: cur_banner.bannerName,
-    //           creative: cur_banner.bannerName,
-    //           position: idx
-    //         }
-    //       ]
-    //     }
-    //   }
-    // });
-  }
-  // 点击banner跳转时触发
-  GABannerClick(idx) {
-    const cur_banner = this.state.banner[idx];
-    window?.dataLayer?.push({
-      event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComPromotionClick`,
-      ecommerce: {
-        promoClick: {
-          promotions: [
-            {
-              id: cur_banner.bannerId, // Name or ID is required
-              name: cur_banner.bannerName,
-              creative: cur_banner.bannerName,
-              position: idx
-            }
-          ]
-        }
-      }
-    });
   }
   render() {
-    const { banner } = this.state;
     const settings = {
       dots: true,
       infinite: true,
@@ -180,66 +101,24 @@ class HeroCarousel extends React.Component {
       pauseOnHover: true,
       lazyLoad: true,
       adaptiveHeight: true,
-      nextArrow: <SampleNextArrow />,
-      prevArrow: <SamplePrevArrow />,
+      nextArrow: (
+        <SamplePrevOrNextArrow
+          className="rc-carousel__direction--next"
+          style={{ right: '3%' }}
+          type="next"
+        />
+      ),
+      prevArrow: (
+        <SamplePrevOrNextArrow
+          className="rc-carousel__direction--prev"
+          style={{ left: '3%' }}
+          type="prev"
+        />
+      ),
       dotsClass: 'dots-custom',
       afterChange: (idx) => {
         this.GABannerImpression(idx);
       }
-    };
-
-    const videoJSX = (el, i) => {
-      return (
-        <>
-          <div className="hero-carousel__slide__video">
-            <video autoPlay={true} muted={true} loop={true}>
-              <source src={el.webUrl} type="video/mp4" />
-            </video>
-            {el.mobiSkipUrl ? (
-              <ATagContainer
-                className="h-100 mobileBanner"
-                // onClick={this.GABannerClick.bind(this, i)}
-                to={el.mobiSkipUrl}
-                href={el.mobiSkipUrl}
-                isOuterLink={el.isOuterLinkForMobile}
-              >
-                <img
-                  className="w-100 mh-100"
-                  src={optimizeImage(el.mobiUrl, 440)}
-                  alt="heroCarousel banner"
-                />
-              </ATagContainer>
-            ) : (
-              <img
-                className="w-100 mh-100"
-                src={optimizeImage(el.mobiUrl, 440)}
-                alt="heroCarousel banner"
-              />
-            )}
-          </div>
-          <div className="hero-carousel__slide__content">
-            <div className="rc-gamma inherit-fontsize">
-              <div style={{ lineHeight: 1.2 }}>
-                <FormattedMessage id="header.carouselInfo1" />
-              </div>
-            </div>
-            <div className="rc-body inherit-fontsize">
-              <FormattedMessage id="header.carouselInfo2" />
-            </div>
-            <div className="hero-carousel__slide__content__btn text-center">
-              <ATagContainer
-                className="rc-btn rc-btn--one gtm-hero-carousel-btn font-16 rc-text-colour--brand3"
-                href={el.mobiSkipUrl}
-                to={el.mobiSkipUrl}
-                // onClick={this.GABannerClick.bind(this, i)}
-                isOuterLink={el.isOuterLinkForMobile}
-              >
-                <FormattedMessage id="header.toBegin" />
-              </ATagContainer>
-            </div>
-          </div>
-        </>
-      );
     };
 
     return (
