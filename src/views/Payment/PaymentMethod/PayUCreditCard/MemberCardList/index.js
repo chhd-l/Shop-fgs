@@ -760,7 +760,7 @@ class MemberCardList extends React.Component {
           'text-red-500': this.state.isCreditCardCheck[type] === 'FAIL'
         },
         {
-          'text-green': this.state.isCreditCardCheck[type] === 'SUCCESS'
+          'text-black': this.state.isCreditCardCheck[type] === 'SUCCESS'
         }
       );
     };
@@ -777,7 +777,7 @@ class MemberCardList extends React.Component {
             this.state.isCreditCardCheck[type] === 'FAIL'
         },
         {
-          'border-b-2 border-green':
+          borderBottomLightGreen:
             this.state.isCreditCardCheck[type] === 'SUCCESS'
         }
       );
@@ -1005,7 +1005,7 @@ class MemberCardList extends React.Component {
                         <input
                           type="tel"
                           className={formListInputColor(
-                            'rc-input__control form-control phone border border-gray-300 rounded-md h-10 pl-3 py-0 focus:ring-2 focus:ring-transparent focus:border-blue-500',
+                            'rc-text-colour--iconography font-thin w-100 phone border border-gray-300 rounded-md h-10 pl-3 py-0 focus:ring-2 focus:ring-transparent focus:border-blue-500',
                             'cardMmyy'
                           )}
                           min-lenght="18"
@@ -1044,7 +1044,7 @@ class MemberCardList extends React.Component {
                           type="password"
                           autoComplete="new-password"
                           className={formListInputColor(
-                            'form-control phone  rounded-md h-10 pl-3 py-0 focus:ring-2 focus:ring-transparent focus:border-blue-500',
+                            'rc-text-colour--iconography font-thin form-control phone  rounded-md h-10 pl-3 py-0 focus:ring-2 focus:ring-transparent focus:border-blue-500',
                             'cardCvv'
                           )}
                           value={creditCardInfoForm.cardCvv}

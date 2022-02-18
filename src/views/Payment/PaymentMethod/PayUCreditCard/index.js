@@ -555,7 +555,7 @@ class PayOs extends React.Component {
           'text-red-500': this.state.isCreditCardCheck[type] === 'FAIL'
         },
         {
-          'text-green': this.state.isCreditCardCheck[type] === 'SUCCESS'
+          'text-black': this.state.isCreditCardCheck[type] === 'SUCCESS'
         }
       );
     };
@@ -572,7 +572,7 @@ class PayOs extends React.Component {
             this.state.isCreditCardCheck[type] === 'FAIL'
         },
         {
-          'border-b-2 border-green':
+          borderBottomLightGreen:
             this.state.isCreditCardCheck[type] === 'SUCCESS'
         }
       );
@@ -761,7 +761,7 @@ class PayOs extends React.Component {
                                 <input
                                   type="tel"
                                   className={formListInputColor(
-                                    'rc-input__control form-control phone border border-gray-300 rounded-md h-10 pl-3 py-0 focus:ring-2 focus:ring-transparent focus:border-blue-500',
+                                    'rc-text-colour--iconography font-thin w-100  phone border border-gray-300 rounded-md h-10 pl-3 py-0 focus:ring-2 focus:ring-transparent focus:border-blue-500',
                                     'cardMmyy'
                                   )}
                                   min-lenght="18"
@@ -838,7 +838,7 @@ class PayOs extends React.Component {
                                   <input
                                     type="text"
                                     className={formListInputColor(
-                                      'rc-input__control form-control cardOwner border border-gray-300 rounded-md h-10 pl-3 py-0 focus:ring-2 focus:ring-transparent focus:border-blue-500',
+                                      'rc-text-colour--iconography font-thin w-100 cardOwner border border-gray-300 rounded-md h-10 pl-3 py-0 focus:ring-2 focus:ring-transparent focus:border-blue-500',
                                       'cardOwner'
                                     )}
                                     autocomplete="off"
