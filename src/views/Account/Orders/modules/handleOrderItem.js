@@ -74,6 +74,14 @@ export function handleOrderItem(ele, res) {
     showOrderCompleteTip:
       tradeState.flowState === 'COMPLETED' &&
       !ele.storeEvaluateVO &&
-      ele.tradeEventLogs[0]?.eventType === 'COMPLETED'
+      ele.tradeEventLogs[0]?.eventType === 'COMPLETED',
+    canCancelOrder:
+      new Date(handleDateForIos(res.defaultLocalDateTime)).getTime() <
+        new Date(handleDateForIos(ele.orderTimeOut)).getTime() &&
+      tradeState.flowState === 'AUDIT' &&
+      tradeState.deliverStatus === 'NOT_YET_SHIPPED',
+    canReturnOrExchange:
+      tradeState.deliverStatus === 'SHIPPED' &&
+      tradeState.flowState === 'COMPLETED'
   });
 }

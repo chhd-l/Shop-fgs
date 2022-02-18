@@ -308,13 +308,13 @@ class DedicatedLandingPage extends React.Component {
       }
     );
     console.log(cartItem);
-    // await this.props.checkoutStore.hanldeUnloginAddToCart({
-    //   valid: this.addCartBtnStatus,
-    //   cartItemList: [cartItem]
-    // });
-    //
-    // this.setState({ buttonLoading: false, showKitten: false });
-    // this.props.history.push('/cart');
+    await this.props.checkoutStore.hanldeUnloginAddToCart({
+      valid: this.addCartBtnStatus,
+      cartItemList: [cartItem]
+    });
+
+    this.setState({ buttonLoading: false, showKitten: false });
+    this.props.history.push('/cart');
   }
 
   render() {
