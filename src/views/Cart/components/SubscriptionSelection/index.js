@@ -130,7 +130,7 @@ const SubscriptionSelection = function (props) {
       </div>
       <FrequencySelection
         frequencyType={
-          pitem.sizeList.filter((el) => el.selected)[0]?.promotions
+          pitem?.sizeList?.filter((el) => el.selected)[0]?.promotions
         }
         currentFrequencyId={pitem.form.frequencyId}
         handleConfirm={(data) => {
