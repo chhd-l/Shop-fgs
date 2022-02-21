@@ -1350,7 +1350,7 @@ export function optimizeImage({ originImageUrl, width = 150, height, option }) {
  * @returns {string}
  */
 export function optimizeImageSrcSet({ originImageUrl, conf }) {
-  let ret = '';
+  let ret = [];
   Array.from(conf, (confItem) => {
     ret.push(
       `${optimizeImage({ originImageUrl, option: confItem.option })} ${
