@@ -15,14 +15,16 @@ import Faq from './Faq';
 import Loading from '@/components/Loading';
 import LazyLoad from 'react-lazyload';
 import ValidationAddressModal from '@/components/validationAddressModal';
-import VisitorAddress from './Address/VisitorAddress';
-import AddressList from './Address/List';
-import AddressPreview from './Address/Preview';
+import {
+  VisitorAddress,
+  AddressList,
+  AddressPreview,
+  SameAsCheckbox,
+  felinAddr,
+  RepayAddressPreview
+} from './Address';
 import PetModal from './PetModal';
-import RepayAddressPreview from './AddressPreview';
 import Confirmation from './modules/Confirmation';
-import SameAsCheckbox from './Address/SameAsCheckbox';
-// import CyberSaveCardCheckbox from './Address/CyberSaveCardCheckbox';
 import { withOktaAuth } from '@okta/okta-react';
 import {
   searchNextConfirmPanel,
@@ -36,11 +38,10 @@ import {
   validData,
   bindSubmitParam,
   getAppointmentInfo,
-  formatDate,
-  isBlockedUserOrEmail
+  formatDate
 } from '@/utils/utils';
 import { seoHoc } from '@/framework/common';
-import { EMAIL_REGEXP, seTelephoneCheck } from '@/utils/constant';
+import { EMAIL_REGEXP } from '@/utils/constant';
 import { userBindConsent } from '@/api/consent';
 import {
   postVisitorRegisterAndLogin,
@@ -61,13 +62,16 @@ import { getOrderDetails } from '@/api/order';
 import { getLoginDetails, getDetails } from '@/api/details';
 import { batchAddPets } from '@/api/pet';
 import { editAddress } from '@/api/address';
-import PayUCreditCard from './PaymentMethod/PayUCreditCard';
-import AdyenCreditCard from './PaymentMethod/Adyen';
-import Paypal from './PaymentMethod/Paypal';
-import Swish from './PaymentMethod/Swish';
-import Cod from './PaymentMethod/Cod';
-import OxxoConfirm from './PaymentMethod/Oxxo';
-import AdyenCommonPay from './PaymentMethod/AdyenCommonPay';
+import {
+  PayUCreditCard,
+  AdyenCreditCard,
+  Paypal,
+  Swish,
+  Cod,
+  OxxoConfirm,
+  AdyenCommonPay,
+  CyberPayment
+} from './PaymentMethod';
 import OnePageEmailForm from './OnePage/EmailForm';
 import OnePageClinicForm from './OnePage/ClinicForm';
 import './modules/adyenCopy.css';
@@ -77,15 +81,13 @@ import Adyen3DForm from '@/components/Adyen/3d';
 import { ADDRESS_RULE } from './PaymentMethod/Cyber/constant/utils';
 import { doGetGAVal } from '@/utils/GA';
 import ConsentData from '@/utils/consent';
-import CyberPayment from './PaymentMethod/Cyber';
 import { querySurveyContent } from '@/api/cart';
-import felinAddr from './Address/FelinOfflineAddress';
-import { funcUrl } from '../../lib/url-utils';
+import { funcUrl } from '@/lib/url-utils';
 import swishLogo from '@/assets/images/swish-logo.svg';
 import swishIcon from '@/assets/images/swish-icon.svg';
 import swishError from '@/assets/images/swish-error.svg';
 import paypalLogo from '@/assets/images/paypal-logo.svg';
-import { postUpdateUser, getAppointByApptNo } from '../../api/felin';
+import { postUpdateUser, getAppointByApptNo } from '@/api/felin';
 import UpdatModal from './updatModules/modal';
 import QRCode from 'qrcode.react';
 import differenceInSeconds from 'date-fns/differenceInSeconds';
