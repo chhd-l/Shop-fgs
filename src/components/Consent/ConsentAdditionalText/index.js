@@ -59,7 +59,7 @@ const ConsentAdditionalText = ({ textPosition }) => {
     se: (
       <div className="consent-txt">
         <p>
-          WJa tack, jag vill gärna få nyheter, tävlingar, skräddarsydda kostråd
+          Ja tack, jag vill gärna få nyheter, tävlingar, skräddarsydda kostråd
           och erbjudanden på produkter på e-post, SMS och telefon. (Jag är över
           16 år och jag kan när som helst återkalla mitt samtycke):
         </p>
