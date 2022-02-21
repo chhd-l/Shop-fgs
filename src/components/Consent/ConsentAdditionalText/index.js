@@ -60,8 +60,8 @@ const ConsentAdditionalText = ({ textPosition }) => {
       <div className="consent-txt">
         <p>
           Ja tack, jag vill gärna få nyheter, tävlingar, skräddarsydda kostråd
-          och erbjudanden på produkter på e-post, SMS och telefon. (Jag är över
-          16 år och jag kan när som helst återkalla mitt samtycke):
+          och erbjudanden på produkter via e-post, SMS och telefon. Jag är över
+          16 år och jag kan när som helst återkalla mitt samtycke.
         </p>
       </div>
     )
@@ -133,7 +133,7 @@ const ConsentAdditionalText = ({ textPosition }) => {
     se: (
       <div className="explain-txt">
         <p>
-          Från tid till annan kan vi använda dina uppgifter för forskning för
+          Från tid till annan kan vi använda dina uppgifter till forskning för
           att förbättra vår produkt- och tjänsteerbjudanden. Du kan ta reda på
           hur Mars Petcare och dess dotterbolag samlar in och behandlar dina
           uppgifter, kontakta oss med sekretessfrågor och utöva dina
