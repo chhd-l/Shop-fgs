@@ -427,8 +427,13 @@ class MemberCardList extends React.Component {
           customerId: this.userInfo ? this.userInfo.customerId : '',
           email: creditCardInfoForm.email,
           phone: creditCardInfoForm.phoneNumber,
-          //isDefault: creditCardInfoForm.savedDefaultCardChecked ? '1' : '0',
-          isDefault: 1,
+          isDefault:
+            window.__.env.REACT_APP_COUNTRY == 'ru'
+              ? '1'
+              : creditCardInfoForm.savedDefaultCardChecked
+              ? '1'
+              : '0',
+          //isDefault: 1,
           paymentToken: resData?.token || '',
           paymentVendor: resData?.vendor || '',
           binNumber: resData?.bin_number || '',
@@ -729,24 +734,45 @@ class MemberCardList extends React.Component {
       }
     ].filter((c) => c.visible);
 
-    const checkboxListForForm = [
-      {
-        key: 'savedCardChecked',
-        id: 'id-payu-saved-card-account',
-        langKey: 'payment.saveCardToAccount',
-        value: creditCardInfoForm.savedCardChecked,
-        visible: true,
-        disabled: this.props.mustSaveForFutherPayments
-      }
-      // 注释 俄罗斯绑卡和选择默认卡两个checkbox改为一个checkbox
-      // {
-      //   key: 'savedDefaultCardChecked',
-      //   id: 'id-payu-saved-as-preferred',
-      //   langKey: 'payment.saveThisPaymentMethodAsPreferred',
-      //   value: creditCardInfoForm.savedDefaultCardChecked,
-      //   visible: true
-      // }
-    ].filter((c) => c.visible);
+    let checkboxListForForm = [];
+    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+      checkboxListForForm = [
+        {
+          key: 'savedCardChecked',
+          id: 'id-payu-saved-card-account',
+          langKey: 'payment.saveCardToAccount',
+          value: creditCardInfoForm.savedCardChecked,
+          visible: true,
+          disabled: this.props.mustSaveForFutherPayments
+        }
+        // 注释 俄罗斯绑卡和选择默认卡两个checkbox改为一个checkbox
+        // {
+        //   key: 'savedDefaultCardChecked',
+        //   id: 'id-payu-saved-as-preferred',
+        //   langKey: 'payment.saveThisPaymentMethodAsPreferred',
+        //   value: creditCardInfoForm.savedDefaultCardChecked,
+        //   visible: true
+        // }
+      ].filter((c) => c.visible);
+    } else {
+      checkboxListForForm = [
+        {
+          key: 'savedCardChecked',
+          id: 'id-payu-saved-card-account',
+          langKey: 'payment.saveCardToAccount',
+          value: creditCardInfoForm.savedCardChecked,
+          visible: true,
+          disabled: this.props.mustSaveForFutherPayments
+        },
+        {
+          key: 'savedDefaultCardChecked',
+          id: 'id-payu-saved-as-preferred',
+          langKey: 'payment.saveThisPaymentMethodAsPreferred',
+          value: creditCardInfoForm.savedDefaultCardChecked,
+          visible: true
+        }
+      ].filter((c) => c.visible);
+    }
 
     const formListLabelColor = (commonStyle, type) => {
       return cn(
@@ -937,7 +963,7 @@ class MemberCardList extends React.Component {
                                     <input
                                       type="tel"
                                       className={formListInputColor(
-                                        'form-control h-10 pl-3 py-0 border border-gray-300 rounded-md',
+                                        'form-control h-10 pl-3 py-0 border border-gray-300 rounded-md placeholder-gray-300',
                                         'cardNumber'
                                       )}
                                       id="number"
@@ -996,7 +1022,7 @@ class MemberCardList extends React.Component {
                         <input
                           type="tel"
                           className={formListInputColor(
-                            'rc-text-colour--iconography font-thin form-control phone border border-gray-300 rounded-md h-10 pl-3 py-0',
+                            'rc-text-colour--iconography font-thin form-control phone border border-gray-300 rounded-md h-10 pl-3 py-0 placeholder-gray-300',
                             'cardMmyy'
                           )}
                           min-lenght="18"
@@ -1035,7 +1061,7 @@ class MemberCardList extends React.Component {
                           type="password"
                           autoComplete="new-password"
                           className={formListInputColor(
-                            'rc-text-colour--iconography font-thin form-control phone  rounded-md h-10 pl-3 py-0',
+                            'rc-text-colour--iconography font-thin form-control phone  rounded-md h-10 pl-3 py-0 placeholder-gray-300',
                             'cardCvv'
                           )}
                           value={creditCardInfoForm.cardCvv}
@@ -1073,7 +1099,7 @@ class MemberCardList extends React.Component {
                           <input
                             type="text"
                             className={formListInputColor(
-                              'rc-input__control form-control cardOwner border border-gray-300 rounded-md h-10 pl-3 py-0',
+                              'rc-input__control form-control cardOwner border border-gray-300 rounded-md h-10 pl-3 py-0 placeholder-gray-300',
                               'cardOwner'
                             )}
                             autocomplete="off"

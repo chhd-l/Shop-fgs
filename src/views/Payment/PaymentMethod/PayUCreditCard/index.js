@@ -692,7 +692,7 @@ class PayOs extends React.Component {
                                             <input
                                               type="tel"
                                               className={formListInputColor(
-                                                'form-control email h-10 pl-3 py-0 border border-gray-300 rounded-md',
+                                                'form-control email h-10 pl-3 py-0 border border-gray-300 rounded-md placeholder-gray-300',
                                                 'cardNumber'
                                               )}
                                               id="number"
@@ -758,7 +758,7 @@ class PayOs extends React.Component {
                                 <input
                                   type="tel"
                                   className={formListInputColor(
-                                    'rc-text-colour--iconography font-thin form-control  phone border border-gray-300 rounded-md h-10 pl-3 py-0',
+                                    'rc-text-colour--iconography font-thin form-control  phone border border-gray-300 rounded-md h-10 pl-3 py-0 placeholder-gray-300',
                                     'cardMmyy'
                                   )}
                                   min-lenght="18"
@@ -797,7 +797,7 @@ class PayOs extends React.Component {
                                   type="password"
                                   autoComplete="new-password"
                                   className={formListInputColor(
-                                    'form-control phone  rounded-md h-10 pl-3 py-0',
+                                    'form-control phone  rounded-md h-10 pl-3 py-0 placeholder-gray-300',
                                     'cardCvv'
                                   )}
                                   value={creditCardInfoForm.cardCvv}
@@ -835,7 +835,7 @@ class PayOs extends React.Component {
                                   <input
                                     type="text"
                                     className={formListInputColor(
-                                      'rc-text-colour--iconography font-thin form-control cardOwner border border-gray-300 rounded-md h-10 pl-3 py-0',
+                                      'rc-text-colour--iconography font-thin form-control cardOwner border border-gray-300 rounded-md h-10 pl-3 py-0 placeholder-gray-300',
                                       'cardOwner'
                                     )}
                                     autocomplete="off"
