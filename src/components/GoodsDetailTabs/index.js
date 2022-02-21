@@ -9,66 +9,67 @@ import SubscriptionBenefitsBanner from '../../views/ClubLandingPageNew/Component
 import HowItWorksNew from '../../views/ClubLandingPageNew/Components/HowItWorksNew';
 
 const pdpmobilebackgrounddog = {
-  backgroundImage: `url(${optimizeImage(
-    `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/goodsdeatailsbackgroundmobile.png`,
-    1200
-  )})`,
+  backgroundImage: `url(${optimizeImage({
+    originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/goodsdeatailsbackgroundmobile.png`,
+    width: 1200
+  })})`,
   overflow: 'hidden',
   backgroundSize: 'cover'
 };
 
 const pdpmobilebackgrounddogtr = {
-  backgroundImage: `url(${optimizeImage(
-    `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/goodsdeatailsbackgroundmobiletr.png`,
-    1200
-  )})`,
+  backgroundImage: `url(${optimizeImage({
+    originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/goodsdeatailsbackgroundmobiletr.png`,
+    width: 1200
+  })})`,
   overflow: 'hidden',
   backgroundSize: 'cover'
 };
 const pdpmobilebackgrounddogfr = {
-  backgroundImage: `url(${optimizeImage(
-    `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/goodsdeatailsbackgroundmobilefr.png`,
-    750
-  )})`,
+  backgroundImage: `url(${optimizeImage({
+    originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/goodsdeatailsbackgroundmobilefr.png`,
+    width: 750
+  })})`,
   overflow: 'hidden',
   backgroundSize: 'cover'
 };
 
 const pdpbackgroundmobilecats = {
-  backgroundImage: `url(${optimizeImage(
-    `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/goodsdeatailsbackgroundmobilecat.png`,
-    1200
-  )})`,
+  backgroundImage: `url(${optimizeImage({
+    originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/goodsdeatailsbackgroundmobilecat.png`,
+    width: 1200
+  })})`,
   overflow: 'hidden',
   backgroundSize: 'cover'
 };
 
 const pdpbackgroundmobilecatstr = {
-  backgroundImage: `url(${optimizeImage(
-    `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/goodsdeatailsbackgroundmobilecattr.png`,
-    1200
-  )})`,
+  backgroundImage: `url(${optimizeImage({
+    originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/goodsdeatailsbackgroundmobilecattr.png`,
+    width: 1200
+  })})`,
   overflow: 'hidden',
   backgroundSize: 'cover'
 };
 
 const pdpbackgroundmobilecatsfr = {
-  backgroundImage: `url(${optimizeImage(
-    `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/goodsdeatailsbackgroundmobilecatfr.png`,
-    1200
-  )})`,
+  backgroundImage: `url(${optimizeImage({
+    originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/goodsdeatailsbackgroundmobilecatfr.png`,
+    width: 1200
+  })})`,
   overflow: 'hidden',
   // backgroundSize: 'cover'
   backgroundSize: '100% 140%'
 };
 
 const pdpbackgrounddogs = {
-  backgroundImage: `url(${optimizeImage(
-    window.__.env.REACT_APP_COUNTRY === 'ru'
-      ? `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/goodsdetailtabbackgrounddogru.png`
-      : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/goodsdeatailtabbackgrounddog.png`,
-    1200
-  )})`,
+  backgroundImage: `url(${optimizeImage({
+    originImageUrl:
+      window.__.env.REACT_APP_COUNTRY === 'ru'
+        ? `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/goodsdetailtabbackgrounddogru.png`
+        : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/goodsdeatailtabbackgrounddog.png`,
+    width: 1200
+  })})`,
   height: '800px',
   backgroundSize: 'cover',
   overflow: 'hidden',
@@ -77,12 +78,13 @@ const pdpbackgrounddogs = {
 };
 
 const pdpbackgroundcats = {
-  backgroundImage: `url(${optimizeImage(
-    window.__.env.REACT_APP_COUNTRY === 'ru'
-      ? `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/goodsdeatailtabbackgroundcatru.png`
-      : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/goodsdeatailtabbackgroundcat.png`,
-    1400
-  )})`,
+  backgroundImage: `url(${optimizeImage({
+    originImageUrl:
+      window.__.env.REACT_APP_COUNTRY === 'ru'
+        ? `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/goodsdeatailtabbackgroundcatru.png`
+        : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/goodsdeatailtabbackgroundcat.png`,
+    width: 1400
+  })})`,
   height: '700px',
   backgroundSize: 'cover',
   overflow: 'hidden',
@@ -861,7 +863,10 @@ const GoodsDetailTabs = function (props) {
                                       <div style={{ width: '80px' }}>
                                         <LazyLoad>
                                           <img
-                                            src={optimizeImage(item.img, 80)}
+                                            src={optimizeImage({
+                                              originImageUrl: item.img,
+                                              width: 80
+                                            })}
                                             alt={item.alt}
                                             className="m-auto rc-margin--none--desktop 5"
                                           />
@@ -1004,7 +1009,10 @@ const GoodsDetailTabs = function (props) {
                         {clubListData.map((item) => (
                           <div className="d-md-flex align-items-center col-12 col-md-12 rc-padding-left--none">
                             <img
-                              src={optimizeImage(item.img, 80)}
+                              src={optimizeImage({
+                                originImageUrl: item.img,
+                                width: 80
+                              })}
                               alt={item.alt}
                               className="m-auto rc-margin--none--desktop 1"
                             />
@@ -1082,7 +1090,10 @@ const GoodsDetailTabs = function (props) {
                             {clubListDataNew.map((item) => (
                               <div className="d-md-flex align-items-center col-12 col-md-12 rc-padding-left--none">
                                 <img
-                                  src={optimizeImage(item.img, 64)}
+                                  src={optimizeImage({
+                                    originImageUrl: item.img,
+                                    width: 64
+                                  })}
                                   alt={item.alt}
                                   className="m-auto rc-margin--none--desktop 2"
                                 />

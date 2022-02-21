@@ -935,10 +935,11 @@ export function bindSubmitParam(list) {
     {
       de: ['RC_DF_DE_FGS_OPT_EMAIL'],
       us: ['RC_DF_US_PREF_CENTER_OFFERS_OPT_MAIL'],
-      fr: ['RC_DF_FR_FGS_OPT_EMAIL']
+      fr: ['RC_DF_FR_FGS_OPT_EMAIL'],
+      se: ['RC_SE_B2C_OPT']
     }[window.__.env.REACT_APP_COUNTRY] || [];
   let obj = { optionalList: [], requiredList: [] };
-  if (['fr', 'de', 'us'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1) {
+  if (['fr', 'de', 'us', 'se'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1) {
     const noIsRequiredList = list?.filter((item) => !item.isRequired);
     const firstOptionalList = noIsRequiredList?.filter(
       (l) => SPECAIL_CONSENT_ENUM?.includes(l.consentDesc) && !l.isChecked
@@ -1329,15 +1330,35 @@ export const isBlockedUserOrEmail = (accountOrEmail) => {
  * @param height height 默认等于width
  * @returns
  */
-export function optimizeImage(originImageUrl, width = 150, height) {
+export function optimizeImage({ originImageUrl, width = 150, height, option }) {
   const CDN_PREFIX =
     window.__.env.REACT_APP_PRODUCT_IMAGE_CDN ||
     'https://d2c-cdn.royalcanin.com/cdn-cgi/image/';
   return originImageUrl &&
     originImageUrl.startsWith('http') &&
     !originImageUrl.startsWith(CDN_PREFIX)
-    ? `${CDN_PREFIX}width=${width},h=${height ?? width}/${originImageUrl}`
+    ? `${CDN_PREFIX}${
+        option ? option : `width=${width},h=${height ?? width}`
+      }/${originImageUrl}`
     : originImageUrl;
+}
+
+/**
+ * 生成cloudflare cdn img srcset
+ * @param {string} originImageUrl 源图片url
+ * @param {Array} conf srcset配置, conf.option-cloudflare cdn img options, conf.screen-srcset屏幕断点
+ * @returns {string}
+ */
+export function optimizeImageSrcSet({ originImageUrl, conf }) {
+  let ret = [];
+  Array.from(conf, (confItem) => {
+    ret.push(
+      `${optimizeImage({ originImageUrl, option: confItem.option })} ${
+        confItem.screen
+      }`
+    );
+  });
+  return ret.join(', ');
 }
 
 /**

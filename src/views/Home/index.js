@@ -142,38 +142,38 @@ function HealthNutrition() {
                                   media="(max-width: 640px)"
                                   // data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner12.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner11.jpg 2x`}
                                   // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner12.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner11.jpg 2x`}
-                                  srcSet={optimizeImage(
-                                    `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner15.jpg`,
-                                    400
-                                  )}
+                                  srcSet={optimizeImage({
+                                    originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner15.jpg`,
+                                    width: 400
+                                  })}
                                 />
                                 <source
                                   media="(min-width: 640px) and (max-width: 1439px)"
                                   // data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner13.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner14.jpg 2x`}
                                   // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner13.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner14.jpg 2x`}
-                                  srcSet={optimizeImage(
-                                    `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner15.jpg`,
-                                    400
-                                  )}
+                                  srcSet={optimizeImage({
+                                    originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner15.jpg`,
+                                    width: 400
+                                  })}
                                 />
                                 <source
                                   media="(min-width: 1439px)"
                                   // data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner1.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner15.jpg 2x`}
                                   // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner1.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner15.jpg 2x`}
-                                  srcSet={optimizeImage(
-                                    `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner15.jpg`,
-                                    400
-                                  )}
+                                  srcSet={optimizeImage({
+                                    originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner15.jpg`,
+                                    width: 400
+                                  })}
                                 />
                                 <img
                                   className="w-100 ls-is-cached lazyloaded"
                                   // data-src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner1.jpg`}
                                   alt="Royal Canin specific dog food for every breed"
                                   title="Royal Canin specific dog food for every breed"
-                                  src={optimizeImage(
-                                    `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner15.jpg`,
-                                    400
-                                  )}
+                                  src={optimizeImage({
+                                    originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner15.jpg`,
+                                    width: 400
+                                  })}
                                 />
                               </picture>
                             </LazyLoad>
@@ -209,38 +209,38 @@ function HealthNutrition() {
                                   media="(max-width: 640px)"
                                   // data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner21jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner22.jpg 2x`}
                                   // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner21jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner22.jpg 2x`}
-                                  srcSet={optimizeImage(
-                                    `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner25.jpg`,
-                                    400
-                                  )}
+                                  srcSet={optimizeImage({
+                                    originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner25.jpg`,
+                                    width: 400
+                                  })}
                                 />
                                 <source
                                   media="(min-width: 640px) and (max-width: 1439px)"
                                   // data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner23.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner24.jpg 2x`}
                                   // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner23.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner24.jpg 2x`}
-                                  srcSet={optimizeImage(
-                                    `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner25.jpg`,
-                                    400
-                                  )}
+                                  srcSet={optimizeImage({
+                                    originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner25.jpg`,
+                                    width: 400
+                                  })}
                                 />
                                 <source
                                   media="(min-width: 1439px)"
                                   // data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner2.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner25.jpg 2x`}
                                   // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner2.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner25.jpg 2x`}
-                                  srcSet={optimizeImage(
-                                    `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner25.jpg`,
-                                    400
-                                  )}
+                                  srcSet={optimizeImage({
+                                    originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner25.jpg`,
+                                    width: 400
+                                  })}
                                 />
                                 <img
                                   className="w-100 ls-is-cached lazyloaded"
                                   // data-src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner2.jpg`}
                                   alt="Royal Canin specific cat food for every breed"
                                   title="Royal Canin specific cat food for every breed"
-                                  src={optimizeImage(
-                                    `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner25.jpg`,
-                                    400
-                                  )}
+                                  src={optimizeImage({
+                                    originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner25.jpg`,
+                                    width: 400
+                                  })}
                                 />
                               </picture>
                             </LazyLoad>
@@ -269,35 +269,35 @@ function HealthNutrition() {
                             <source
                               media="(max-width: 640px)"
                               // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw4.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw5.jpg 2x`}
-                              srcSet={optimizeImage(
-                                `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw1.jpg`,
-                                440
-                              )}
+                              srcSet={optimizeImage({
+                                originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw1.jpg`,
+                                width: 440
+                              })}
                             />
                             <source
                               media="(min-width: 640px) and (max-width: 769px)"
                               // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw2.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw3.jpg 2x`}
-                              srcSet={optimizeImage(
-                                `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw1.jpg`,
-                                440
-                              )}
+                              srcSet={optimizeImage({
+                                originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw1.jpg`,
+                                width: 440
+                              })}
                             />
                             <source
                               media="(min-width: 769px)"
                               // srcSet={`${RCDrawPng}, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw1.jpg 2x`}
-                              srcSet={optimizeImage(
-                                `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw1.jpg`,
-                                440
-                              )}
+                              srcSet={optimizeImage({
+                                originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw1.jpg`,
+                                width: 440
+                              })}
                             />
                             <img
                               className="w-100 ls-is-cached lazyloaded"
                               alt="Royal Canin Health Through Nutrition"
                               title="Royal Canin Health Through Nutrition"
-                              src={optimizeImage(
-                                `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw1.jpg`,
-                                440
-                              )}
+                              src={optimizeImage({
+                                originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw1.jpg`,
+                                width: 440
+                              })}
                             />
                           </picture>
                         </LazyLoad>
@@ -375,10 +375,10 @@ function Share() {
                               title="Royal Canin Dog Products on Social Media"
                               // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL1.jpg,  ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL11.jpg 2x`}
                               // src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL1.jpg`}
-                              src={optimizeImage(
-                                `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL11.jpg`,
-                                300
-                              )}
+                              src={optimizeImage({
+                                originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL11.jpg`,
+                                width: 300
+                              })}
                             />
                           </LazyLoad>
                         </picture>
@@ -402,10 +402,10 @@ function Share() {
                               title="Royal Canin Cat Products on Social Media"
                               // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL2.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL21.jpg 2x`}
                               // src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL2.jpg`}
-                              src={optimizeImage(
-                                `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL21.jpg`,
-                                300
-                              )}
+                              src={optimizeImage({
+                                originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL21.jpg`,
+                                width: 300
+                              })}
                             />
                           </LazyLoad>
                         </picture>
@@ -429,10 +429,10 @@ function Share() {
                               title="Royal Canin Dog Products on Social Media"
                               // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL3.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL31.jpg 2x`}
                               // src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL3.jpg`}
-                              src={optimizeImage(
-                                `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL31.jpg`,
-                                300
-                              )}
+                              src={optimizeImage({
+                                originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL31.jpg`,
+                                width: 300
+                              })}
                             />
                           </LazyLoad>
                         </picture>
@@ -456,10 +456,10 @@ function Share() {
                               title="Royal Canin Cat Products on Social Media"
                               // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL4.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL41.jpg 2x`}
                               // src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL4.jpg`}
-                              src={optimizeImage(
-                                `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL41.jpg`,
-                                300
-                              )}
+                              src={optimizeImage({
+                                originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL41.jpg`,
+                                width: 300
+                              })}
                             />
                           </LazyLoad>
                         </picture>
@@ -535,7 +535,10 @@ function AdvantageTips() {
                       <>
                         <LazyLoad height={200}>
                           <img
-                            src={optimizeImage(ele.img, 40)}
+                            src={optimizeImage({
+                              originImageUrl: ele.img,
+                              width: 40
+                            })}
                             srcSet={ele.img}
                             className="mx-auto"
                             alt={txt}
@@ -563,7 +566,10 @@ function AdvantageTips() {
                       <>
                         <LazyLoad height={200}>
                           <img
-                            src={optimizeImage(ele.img, 40)}
+                            src={optimizeImage({
+                              originImageUrl: ele.img,
+                              width: 40
+                            })}
                             srcSet={ele.ele}
                             className="mx-auto"
                             alt={txt}

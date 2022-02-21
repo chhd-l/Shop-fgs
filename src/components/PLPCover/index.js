@@ -90,10 +90,10 @@ function ListItemH5ForGlobalStyle(props) {
                       />
                     ) : (
                       <img
-                        src={optimizeImage(
-                          `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`,
-                          300
-                        )}
+                        src={optimizeImage({
+                          originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`,
+                          width: 300
+                        })}
                         className=" pt-3 ImgForMobile"
                         style={{
                           maxHeight: '100%',
@@ -224,13 +224,14 @@ function ListItemH5ForGlobalStyle(props) {
                 >
                   <img
                     src={
-                      optimizeImage(
-                        item.goodsImg ||
+                      optimizeImage({
+                        originImageUrl:
+                          item.goodsImg ||
                           item.goodsInfos?.sort(
                             (a, b) => a.marketPrice - b.marketPrice
                           )[0]?.goodsInfoImg,
-                        300
-                      ) || IMG_DEFAULT
+                        width: 300
+                      }) || IMG_DEFAULT
                     }
                     srcSet={item?.goodsImgSrcSet || ''}
                     alt={item.goodsName}
@@ -329,11 +330,15 @@ function ListItemForDefault(props) {
                     height: '100%'
                   }}
                 >
+                  {/* todo */}
                   <img
                     src={
                       isDogPage
                         ? retailDog
-                        : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`
+                        : optimizeImage({
+                            originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`,
+                            width: 300
+                          })
                     }
                     alt="product finder recomend retail cat find"
                     title=""
@@ -466,13 +471,14 @@ function ListItemForDefault(props) {
                   >
                     <img
                       src={
-                        optimizeImage(
-                          item.goodsImg ||
+                        optimizeImage({
+                          originImageUrl:
+                            item.goodsImg ||
                             item.goodsInfos?.sort(
                               (a, b) => a.marketPrice - b.marketPrice
                             )[0]?.goodsInfoImg,
-                          300
-                        ) || IMG_DEFAULT
+                          width: 300
+                        }) || IMG_DEFAULT
                       }
                       srcSet={item?.goodsImgSrcSet || ''}
                       alt={`${item.goodsName} product image`}

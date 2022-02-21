@@ -34,17 +34,17 @@ export function Ads() {
                           media="(max-width: 640px)"
                           // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop_FR_md.jpg`}
                           // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/FLAGSHIP_RC_PACK_COM_BANNIERE_JEU_MOBILE.jpg`}
-                          srcSet={optimizeImage(
-                            `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop__md_FR_211101_v2.jpg`,
-                            440
-                          )}
+                          srcSet={optimizeImage({
+                            originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop__md_FR_211101_v2.jpg`,
+                            width: 440
+                          })}
                         />
                         <source
                           media="(min-width: 640px) and (max-width: 769px)"
-                          srcSet={optimizeImage(
-                            `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop__md_FR_211101_v2.jpg`,
-                            440
-                          )}
+                          srcSet={optimizeImage({
+                            originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop__md_FR_211101_v2.jpg`,
+                            width: 440
+                          })}
                           // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop_FR_md.jpg`}
                           // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/FLAGSHIP_RC_PACK_COM_BANNIERE_JEU_MOBILE.jpg`}
                         />
@@ -52,10 +52,10 @@ export function Ads() {
                           media="(min-width: 769px)"
                           // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop_FR@2x.jpg`}
                           // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/FLAGSHIP_RC_PACK_COM_BANNIERE_JEU_DESKTOP.jpg`}
-                          srcSet={optimizeImage(
-                            `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop_FR_211101_v2.jpg`,
-                            1440
-                          )}
+                          srcSet={optimizeImage({
+                            originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop_FR_211101_v2.jpg`,
+                            width: 1440
+                          })}
                         />
                         <img
                           className="w-100 lazyloaded"
@@ -63,10 +63,10 @@ export function Ads() {
                           title="Large Gamme De Produits Royal Canin"
                           // src={BannerFRLg}
                           // src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/FLAGSHIP_RC_PACK_COM_BANNIERE_JEU_DESKTOP.jpg`}
-                          src={optimizeImage(
-                            `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop_FR_211101_v2.jpg`,
-                            1440
-                          )}
+                          src={optimizeImage({
+                            originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop_FR_211101_v2.jpg`,
+                            width: 1440
+                          })}
                         />
                       </picture>
                     </Link>
@@ -100,37 +100,37 @@ export function TopAds() {
                             media="(max-width: 640px)"
                             // data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x.png  1x, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x1.png 1.5x, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x2.png 2x`}
                             // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x.png  1x, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x1.png 1.5x, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x2.png 2x`}
-                            srcSet={optimizeImage(
-                              `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x.webp`,
-                              440
-                            )}
+                            srcSet={optimizeImage({
+                              originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x.webp`,
+                              width: 440
+                            })}
                           />
                           <source
                             media="(min-width: 640px) and (max-width: 769px)"
                             // data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x3.png  1x,${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x4.png  1.5x, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x5.png 2x`}
                             // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x3.png  1x,${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x4.png  1.5x, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_mob_USA@2x5.png 2x`}
-                            srcSet={optimizeImage(
-                              `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x.webp`,
-                              440
-                            )}
+                            srcSet={optimizeImage({
+                              originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x.webp`,
+                              width: 440
+                            })}
                           />
                           <source
                             media="(min-width: 769px)"
                             // data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x1.png 1x,${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x.webp  1.5x,${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x2.png  2x`}
                             // srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x1.png 1x,${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x.webp  1.5x,${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x2.png  2x`}
-                            srcSet={optimizeImage(
-                              `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x.webp`,
-                              1440
-                            )}
+                            srcSet={optimizeImage({
+                              originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x.webp`,
+                              width: 1440
+                            })}
                           />
                           <img
                             className="w-100 lazyloaded"
                             alt="Royal Canin Extensive Product Range"
                             title="Royal Canin Extensive Product Range"
-                            src={optimizeImage(
-                              `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x.webp`,
-                              1440
-                            )}
+                            src={optimizeImage({
+                              originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/Banner_USA@2x.webp`,
+                              width: 1440
+                            })}
                           />
                         </picture>
                       </LazyLoad>

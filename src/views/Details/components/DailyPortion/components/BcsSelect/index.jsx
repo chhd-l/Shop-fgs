@@ -46,7 +46,10 @@ export default function BcsSelect({
               onClick={() => handleChange(item.key)}
             >
               <img
-                src={optimizeImage(getImg(item.key), 100)}
+                src={optimizeImage({
+                  originImageUrl: getImg(item.key),
+                  width: 100
+                })}
                 alt={item.label}
               />
               <div className="pl-4">

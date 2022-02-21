@@ -191,9 +191,9 @@ class DedicatedLandingPage extends React.Component {
     const { selectLine, productList } = this.state;
     // let productList = {};
     // let unProductList = [];
-    productList[selectLine].goodsInfos[0].selected = true;
+    productList[selectLine].goodsInfos[selectLine].selected = true;
     let unProductList = productList[selectLine];
-    let choosedProduct = productList[selectLine].goodsInfos[0];
+    let choosedProduct = productList[selectLine].goodsInfos[selectLine];
     // if (selectLine === 1) {
     //   listOne.goodsInfos[0].selected = true;
     //   unProductList = listOne;
@@ -209,7 +209,7 @@ class DedicatedLandingPage extends React.Component {
     });
     // 判断是否登陆
     if (this.props.loginStore.isLogin) {
-      this.hanldeLoginAddToCart(choosedProduct);
+      this.hanldeLoginAddToCart([choosedProduct]);
     } else {
       this.hanldeUnloginAddToCart(choosedProduct, unProductList);
     }
@@ -265,8 +265,7 @@ class DedicatedLandingPage extends React.Component {
         });
         sItem.chidren.map((child) => {
           if (
-            choosedProduct[0]?.mockSpecDetailIds.indexOf(child.specDetailId) >
-            -1
+            choosedProduct?.mockSpecDetailIds.indexOf(child.specDetailId) > -1
           ) {
             child.selected = true;
           }
@@ -284,7 +283,7 @@ class DedicatedLandingPage extends React.Component {
         sizeList: unProductList.goodsInfos,
         goodsInfo: { ...choosedProduct },
         quantity: 1,
-        currentUnitPrice: choosedProduct[0]?.marketPrice,
+        currentUnitPrice: choosedProduct?.marketPrice,
         goodsInfoFlag: 0,
         periodTypeId: null,
         recommendationInfos:
@@ -308,6 +307,7 @@ class DedicatedLandingPage extends React.Component {
         goodsSpecs: specList
       }
     );
+    console.log(cartItem);
     await this.props.checkoutStore.hanldeUnloginAddToCart({
       valid: this.addCartBtnStatus,
       cartItemList: [cartItem]

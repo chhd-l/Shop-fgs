@@ -269,13 +269,14 @@ export default class Search extends React.Component {
                                   title={item.goodsName}
                                   style={{ width: '100%' }}
                                   src={
-                                    optimizeImage(
-                                      item.goodsImg ||
+                                    optimizeImage({
+                                      originImageUrl:
+                                        item.goodsImg ||
                                         item.goodsInfos?.sort(
                                           (a, b) =>
                                             a.marketPrice - b.marketPrice
                                         )[0]?.goodsInfoImg
-                                    ) || IMG_DEFAULT
+                                    }) || IMG_DEFAULT
                                   }
                                 />
                               </LazyLoad>
@@ -381,9 +382,10 @@ export default class Search extends React.Component {
         {isHub ? (
           <>
             <div
-              className={` ${
-                isMobile ? '' : 'search-desktop '
-              } search-contaner`}
+              // className={` ${
+              //   isMobile ? '' : 'search-desktop '
+              // } search-contaner`}
+              className="search-contaner"
             >
               <form
                 role="search"

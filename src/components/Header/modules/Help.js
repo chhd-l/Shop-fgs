@@ -2,6 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
+import { optimizeImage } from '@/utils/utils';
 
 export default function Help(props) {
   const { configStore } = props;
@@ -43,7 +44,10 @@ export default function Help(props) {
             <img
               className="ls-is-cached lazyloaded"
               alt="Par téléphone icon"
-              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icon callus@2x.png`}
+              src={optimizeImage({
+                originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icon callus@2x.png`,
+                width: 65
+              })}
             />
           </LazyLoad>
         </div>
@@ -51,7 +55,10 @@ export default function Help(props) {
           <LazyLoad>
             <img
               className="lazyload"
-              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icon callus@2x.png`}
+              src={optimizeImage({
+                originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icon callus@2x.png`,
+                width: 65
+              })}
               alt="Par téléphone icon"
             />
           </LazyLoad>
@@ -71,7 +78,10 @@ export default function Help(props) {
           <LazyLoad>
             <img
               className=" ls-is-cached lazyloaded"
-              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Emailus_icon@2x.png`}
+              src={optimizeImage({
+                originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Emailus_icon@2x.png`,
+                width: 65
+              })}
               alt="Par e-mail icon"
             />
           </LazyLoad>
@@ -80,7 +90,10 @@ export default function Help(props) {
           <LazyLoad>
             <img
               className="lazyload"
-              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Emailus_icon@2x.png`}
+              src={optimizeImage({
+                originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Emailus_icon@2x.png`,
+                width: 65
+              })}
               alt="Par e-mail icon"
             />
           </LazyLoad>
@@ -101,7 +114,10 @@ export default function Help(props) {
             <img
               className="ls-is-cached lazyloaded"
               alt="FAQ icon"
-              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/FAQ_icon@2x.png`}
+              src={optimizeImage({
+                originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/FAQ_icon@2x.png`,
+                width: 65
+              })}
             />
           </LazyLoad>
         </div>
@@ -109,7 +125,10 @@ export default function Help(props) {
           <LazyLoad>
             <img
               className="lazyload"
-              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/FAQ_icon@2x.png`}
+              src={optimizeImage({
+                originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/FAQ_icon@2x.png`,
+                width: 65
+              })}
               alt="FAQ icon"
             />
           </LazyLoad>

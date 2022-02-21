@@ -48,12 +48,13 @@
   resolved "https://registry.npmmirror.com/@babel/core/download/@babel/core-7.16.12.tgz"
   integrity sha512-dK5PtG1uiN2ikk++5OzSYsitZKny4wOCD0nrO4TqnW4BVBTQ2NGS3NgilvT/TEyxTST7LNyWV/T4tXDoD3fOgg==
   dependencies:
+    "@ampproject/remapping" "^2.0.0"
     "@babel/code-frame" "^7.16.7"
-    "@babel/generator" "^7.16.8"
+    "@babel/generator" "^7.17.0"
     "@babel/helper-compilation-targets" "^7.16.7"
     "@babel/helper-module-transforms" "^7.16.7"
-    "@babel/helpers" "^7.16.7"
-    "@babel/parser" "^7.16.12"
+    "@babel/helpers" "^7.17.2"
+    "@babel/parser" "^7.17.0"
     "@babel/template" "^7.16.7"
     "@babel/traverse" "^7.16.10"
     "@babel/types" "^7.16.8"
@@ -285,8 +286,8 @@
   integrity sha512-9ZDoqtfY7AuEOt3cxchfii6C7GDyyMBffktR5B2jvWv8u2+efwvpnVKXMWzNehqy68tKgAfSwfdw/lWpthS2bw==
   dependencies:
     "@babel/template" "^7.16.7"
-    "@babel/traverse" "^7.16.7"
-    "@babel/types" "^7.16.7"
+    "@babel/traverse" "^7.17.0"
+    "@babel/types" "^7.17.0"
 
 "@babel/highlight@^7.16.7", "@babel/highlight@^7.8.3":
   version "7.16.7"
@@ -1200,7 +1201,7 @@
   integrity sha512-yzuaYXoRJBGMlBhsMJoUW7G1UmSb/eXr/JHYM/MsOJgavJibLwASijW7oXBdw3NQ6T0bW7Ty5P/VarOs9cHmqw==
   dependencies:
     "@babel/code-frame" "^7.16.7"
-    "@babel/generator" "^7.16.8"
+    "@babel/generator" "^7.17.0"
     "@babel/helper-environment-visitor" "^7.16.7"
     "@babel/helper-function-name" "^7.16.7"
     "@babel/helper-hoist-variables" "^7.16.7"
@@ -1661,6 +1662,24 @@
     "@types/node" "*"
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
+
+"@jridgewell/resolve-uri@^3.0.3":
+  "integrity" "sha512-cz8HFjOFfUBtvN+NXYSFMHYRdxZMaEl0XypVrhzxBgadKIXhIkRd8aMeHhmF56Sl7SuS8OnUpQ73/k9LE4VnLg=="
+  "resolved" "https://registry.npmmirror.com/@jridgewell/resolve-uri/-/resolve-uri-3.0.4.tgz"
+  "version" "3.0.4"
+
+"@jridgewell/sourcemap-codec@^1.4.10":
+  "integrity" "sha512-Ht8wIW5v165atIX1p+JvKR5ONzUyF4Ac8DZIQ5kZs9zrb6M8SJNXpx1zn04rn65VjBMygRoMXcyYwNK0fT7bEg=="
+  "resolved" "https://registry.npmmirror.com/@jridgewell/sourcemap-codec/-/sourcemap-codec-1.4.10.tgz"
+  "version" "1.4.10"
+
+"@jridgewell/trace-mapping@^0.3.0":
+  "integrity" "sha512-vFv9ttIedivx0ux3QSjhgtCVjPZd5l46ZOMDSCwnH1yUO2e964gO8LZGyv2QkqcgR6TnBU1v+1IFqmeoG+0UJQ=="
+  "resolved" "https://registry.npmmirror.com/@jridgewell/trace-mapping/-/trace-mapping-0.3.4.tgz"
+  "version" "0.3.4"
+  dependencies:
+    "@jridgewell/resolve-uri" "^3.0.3"
+    "@jridgewell/sourcemap-codec" "^1.4.10"
 
 "@mapbox/point-geometry@^0.1.0":
   version "0.1.0"

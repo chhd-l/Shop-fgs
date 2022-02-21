@@ -203,9 +203,7 @@ const Consent1TR = loadable(() =>
 const Consent2TR = loadable(() =>
   import('@/views/StaticPage/tr/Consent/Consent2')
 );
-const register = loadable(() =>
-  import('@/views/Register')
-);
+const register = loadable(() => import('@/views/Register'));
 // import register from '@/views/Register';
 import welcome from '@/views/Register/welcome.js';
 const KittenNutrition = loadable(() =>
@@ -322,8 +320,9 @@ const ImplicitLogin = () => {
 
 var config = {
   projectId: '8f0d7f6b0396b8af7f08bf9f36d81259',
-  phraseEnabled: Boolean(window.__.env.REACT_APP_PHRASE_CONTEXT_EDITORE),
+  phraseEnabled: Boolean(window.__.env.REACT_APP_PHRASE_CONTEXT_EDITOR),
   autoLowercase: false,
+  branch: window.__.env.REACT_APP_PHRASE_CONTEXT_EDITOR_BRANCH,
   prefix: '[[__',
   suffix: '__]]'
 };
@@ -902,7 +901,6 @@ const App = () => {
                 <Route
                   path="/"
                   render={(props) => {
-                    console.log('进入了/路由');
                     const { location } = props;
                     const { pathname, search } = location;
 
@@ -963,7 +961,6 @@ const App = () => {
                         return <Details key={props.location.key} {...props} />;
                       }
                     } else {
-                      console.log('没匹配pdp路由');
                       // 除去PDP页面文件重定向start
                       // const specailPlpUrlMapping = {
                       //   ...redirectFun()
@@ -986,7 +983,6 @@ const App = () => {
                           />
                         );
                       } else {
-                        console.log(`匹配plp路由`);
                         return (
                           <List
                             key={

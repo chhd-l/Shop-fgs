@@ -45,7 +45,10 @@ class SalesCategory extends Component {
             <source srcSet={ele.cateImgForHome} />
             <LazyLoad height={300}>
               <img
-                src={optimizeImage(ele.cateImgForHome, 200)}
+                src={optimizeImage({
+                  originImageUrl: ele.cateImgForHome,
+                  width: 200
+                })}
                 alt={`${ele.cateName} product image`}
                 title={ele.altName}
                 style={{ width: '144px' }}

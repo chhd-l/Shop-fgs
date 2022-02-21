@@ -100,6 +100,14 @@ const hideBillingAddr = Boolean(
   +window.__.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
 );
 
+const sleep = (time) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, time);
+  });
+};
+
 function CreditCardInfoPreview({
   data: { holderNameDeco, brandDeco, lastFourDeco, expirationDate }
 }) {
@@ -1742,15 +1750,19 @@ class Payment extends React.Component {
                 redirectResult: res.context.paymentData,
                 businessId: res.context.tid
               })
-                .then((response) => {
+                .then(async (response) => {
                   switch (response.context.status) {
                     case 'PROCESSING':
-                      setTimeout(async () => {
-                        return await getData();
-                      }, 2000);
+                      // setTimeout(async () => {
+                      //   return await getData();
+                      // }, 2000);
+                      await sleep(2000);
+                      return await getData();
                       break;
                     case 'SUCCEED':
                       gotoConfirmationPage = true;
+                      console.log(666, gotoConfirmationPage);
+                      // debugger
                       break;
                     case 'FAILURE':
                       this.setState({
@@ -1781,6 +1793,7 @@ class Payment extends React.Component {
                 this.endLoading();
               }
             );
+
             payCountDown(
               this.state.countDownStartTime,
               1,
@@ -1798,6 +1811,7 @@ class Payment extends React.Component {
                 }
               }
             );
+
             if (isMobile) {
               window.location = res.context.redirectUrl;
             }
@@ -1910,6 +1924,7 @@ class Payment extends React.Component {
       }
 
       sessionItemRoyal.remove('payosdata');
+      console.log(777, gotoConfirmationPage);
       if (gotoConfirmationPage) {
         // 清除掉计算运费相关参数
         localItemRoyal.remove('rc-calculation-param');

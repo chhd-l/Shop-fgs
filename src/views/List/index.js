@@ -55,11 +55,10 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =
   'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
-const urlPrefix =
-  `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-    /\/$/,
-    ''
-  );
+const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+  /\/$/,
+  ''
+);
 
 const filterAttrValue = (list, keyWords) => {
   return (list || [])
@@ -140,12 +139,12 @@ function ListItemForDefault(props) {
                     }}
                   >
                     <img
-                      src={optimizeImage(
-                        isDogPage
+                      src={optimizeImage({
+                        originImageUrl: isDogPage
                           ? retailDog
                           : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`,
-                        300
-                      )}
+                        width: 300
+                      })}
                       alt="product finder recomend retail cat find"
                       title=""
                       className="ImgFitScreen pt-3"
@@ -254,10 +253,10 @@ function ProductFinderAd({ isRetailProducts, isVetProducts, isDogPage }) {
                   height={200}
                 >
                   <img
-                    src={optimizeImage(
-                      `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/product-finder-recomend.jpg`,
-                      650
-                    )}
+                    src={optimizeImage({
+                      originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/product-finder-recomend.jpg`,
+                      width: 650
+                    })}
                     alt="product finder recomend 22222"
                   />
                 </LazyLoad>
@@ -285,10 +284,10 @@ function ProductFinderAd({ isRetailProducts, isVetProducts, isDogPage }) {
                 <LazyLoad style={{ width: '100%', height: '100%' }}>
                   <img
                     style={{ width: '100%' }}
-                    src={optimizeImage(
-                      `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img${descObj.img}`,
-                      650
-                    )}
+                    src={optimizeImage({
+                      originImageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img${descObj.img}`,
+                      width: 650
+                    })}
                     alt={descObj.alt}
                   />
                 </LazyLoad>
@@ -1518,7 +1517,7 @@ class List extends React.Component {
               // 最低marketPrice对应的划线价
               miLinePrice: ele.goodsInfos.sort(
                 (a, b) => a.marketPrice - b.marketPrice
-              )[0].linePrice,
+              )?.[0]?.linePrice,
               taggingForText: taggingVOList.filter(
                 (e) => e.taggingType === 'Text' && e.showPage?.includes('PLP')
               )[0],
@@ -1672,9 +1671,8 @@ class List extends React.Component {
 
   stickyMobileRefineBar() {
     if (isMobilePhone) {
-      var t = document
-        ?.getElementById('refineBar')
-        ?.getBoundingClientRect().top;
+      var t = document?.getElementById('refineBar')?.getBoundingClientRect()
+        .top;
       window.addEventListener('scroll', () => {
         var choosedVal = document.querySelector('.filter-value'); // 有选择的时候才操作
         if (window.pageYOffset + 33 >= t && choosedVal) {
@@ -1877,7 +1875,10 @@ class List extends React.Component {
                     {titleData.img && !isMobilePhone ? (
                       <LazyLoad style={{ width: '100%' }}>
                         <img
-                          src={optimizeImage(titleData.img, 300)}
+                          src={optimizeImage({
+                            originImageUrl: titleData.img,
+                            width: 300
+                          })}
                           className="mx-auto"
                           alt="titleData image"
                         />

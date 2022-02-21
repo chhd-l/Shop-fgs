@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import Help from './Help';
 import NavItem from './NavItem';
 import LazyLoad from 'react-lazyload';
+import { optimizeImage } from '@/utils/utils';
 
 /**
  * 渲染二级菜单
@@ -226,7 +227,10 @@ export default class DropDownMenu extends React.Component {
                     {(txt) => (
                       <img
                         className="pull-right rc-lg-up ls-is-cached lazyloaded"
-                        src={descObj.imageLink}
+                        src={optimizeImage({
+                          originImageUrl: descObj.imageLink,
+                          width: 245
+                        })}
                         alt={txt}
                       />
                     )}

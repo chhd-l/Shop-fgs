@@ -336,8 +336,6 @@ class PayOs extends React.Component {
       case 'cardNumber':
         if (value.length == 0) {
           result = 'NOT_TEST';
-        } else if (value.length == 18 || value.length == 19) {
-          result = 'SUCCESS';
         } else {
           result = 'FAIL';
         }
@@ -429,7 +427,7 @@ class PayOs extends React.Component {
               }
             }
           );
-          payosdataRes = tokenResult;
+          payosdataRes = tokenResult.data;
         } else {
           tokenResult = await new Promise((resolve) => {
             window.POS.createToken(
@@ -555,7 +553,7 @@ class PayOs extends React.Component {
           'text-red-500': this.state.isCreditCardCheck[type] === 'FAIL'
         },
         {
-          'text-green': this.state.isCreditCardCheck[type] === 'SUCCESS'
+          'text-black': this.state.isCreditCardCheck[type] === 'SUCCESS'
         }
       );
     };
@@ -572,7 +570,7 @@ class PayOs extends React.Component {
             this.state.isCreditCardCheck[type] === 'FAIL'
         },
         {
-          'border-b-2 border-green':
+          borderBottomLightGreen:
             this.state.isCreditCardCheck[type] === 'SUCCESS'
         }
       );
@@ -664,7 +662,7 @@ class PayOs extends React.Component {
                         inited={this.state.inited}
                       />
                     </div>
-                  ) : window.__.env.REACT_APP_COUNTRY == 'uk' ? (
+                  ) : window.__.env.REACT_APP_COUNTRY == 'ru' ? (
                     <div className="credit-card-form">
                       <div className="rc-margin-bottom--xs">
                         <div className="content-asset">
@@ -710,7 +708,6 @@ class PayOs extends React.Component {
                                               onKeyUp={this.cardNumberChange}
                                               onBlur={this.inputBoxBlur}
                                               name="cardNumber"
-                                              maxLength={19}
                                               placeholder={
                                                 this.props.intl?.messages
                                                   .cardNumber
@@ -761,7 +758,7 @@ class PayOs extends React.Component {
                                 <input
                                   type="tel"
                                   className={formListInputColor(
-                                    'rc-input__control form-control phone border border-gray-300 rounded-md h-10 pl-3 py-0 focus:ring-2 focus:ring-transparent focus:border-blue-500',
+                                    'rc-text-colour--iconography font-thin w-100  phone border border-gray-300 rounded-md h-10 pl-3 py-0 focus:ring-2 focus:ring-transparent focus:border-blue-500',
                                     'cardMmyy'
                                   )}
                                   min-lenght="18"
@@ -838,7 +835,7 @@ class PayOs extends React.Component {
                                   <input
                                     type="text"
                                     className={formListInputColor(
-                                      'rc-input__control form-control cardOwner border border-gray-300 rounded-md h-10 pl-3 py-0 focus:ring-2 focus:ring-transparent focus:border-blue-500',
+                                      'rc-text-colour--iconography font-thin w-100 cardOwner border border-gray-300 rounded-md h-10 pl-3 py-0 focus:ring-2 focus:ring-transparent focus:border-blue-500',
                                       'cardOwner'
                                     )}
                                     autocomplete="off"
