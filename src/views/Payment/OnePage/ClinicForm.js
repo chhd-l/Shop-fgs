@@ -7,6 +7,7 @@ import SearchSelection from '@/components/SearchSelection';
 import { getPrescriberByCode } from '@/api/clinic';
 import { searchNextConfirmPanel } from '../modules/utils';
 import PropTypes from 'prop-types';
+import ClinicPanelContainer from './ClinicPanelContainer';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -156,167 +157,132 @@ class ClinicForm extends React.Component {
   }
   render() {
     const {
-      configStore: { prescriberSelectTyped }
+      configStore: { prescriberSelectTyped },
+      paymentStore: { clinicPanelStatus }
     } = this.props;
     const { isEdit } = this.state;
     const defaultJSX = (
-      <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
-        <div className="bg-transparent d-flex justify-content-between align-items-center 6">
-          <h5 className="mb-0 text-xl">
-            <em className="rc-icon rc-vet--xs rc-iconography" />{' '}
-            {this.isLogin ? (
-              <FormattedMessage id="payment.clinicTitle2" />
-            ) : (
-              <FormattedMessage id="payment.clinicTitle" />
-            )}
-            <span className="iconfont font-weight-bold green ml-2">
-              &#xe68c;
-            </span>
-          </h5>
-          <p
-            onClick={this.gotoPrescriptionPage}
-            className="rc-styled-link"
-            style={{ cursor: 'pointer' }}
-          >
-            <FormattedMessage id="edit" />
-          </p>
-        </div>
-        <div>{this.state.form.clinicName}</div>
-      </div>
+      <>
+        <ClinicPanelContainer
+          {...this}
+          panelStatus={clinicPanelStatus}
+          onEdit={this.gotoPrescriptionPage}
+        >
+          <div>{this.state.form.clinicName}</div>
+        </ClinicPanelContainer>
+      </>
     );
 
     const searchJSX = (
-      <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
-        <div className="bg-transparent d-flex justify-content-between align-items-center">
-          <h5 className={`mb-0 text-xl ${isEdit ? 'red' : ''}`}>
-            <em
-              className={`rc-icon rc-vet--xs ${
-                isEdit ? 'rc-brand1' : 'rc-iconography'
-              }`}
-            />{' '}
-            {this.isLogin ? (
-              <FormattedMessage id="payment.clinicTitle2" />
-            ) : (
-              <FormattedMessage id="payment.clinicTitle" />
-            )}
-            {!isEdit && (
-              <span className="iconfont font-weight-bold green ml-2">
-                &#xe68c;
-              </span>
-            )}
-          </h5>
-          {!isEdit && (
-            <p
-              onClick={this.handleClickEdit}
-              className="rc-styled-link mb-1"
-              style={{ whiteSpace: 'nowrap', cursor: 'pointer' }}
-            >
-              <FormattedMessage id="edit" />
-            </p>
-          )}
-        </div>
-        {isEdit ? (
-          <div className="rc-margin-left--none rc-padding-left--none rc-margin-left--xs rc-padding-left--xs">
-            <div className="d-flex align-items-center justify-content-between">
-              <SearchSelection
-                queryList={async ({ inputVal }) => {
-                  let res = await getPrescriberByCode({
-                    code: inputVal,
-                    storeId: window.__.env.REACT_APP_STOREID
-                  });
-                  let resobj = (
-                    (res.context && res.context.prescriberVo) ||
-                    []
-                  ).map((ele) =>
-                    Object.assign(ele, {
-                      name: ele.prescriberName,
-                      recommendationCode: inputVal
-                    })
-                  );
-                  let temp = null;
-                  if (resobj) {
-                    temp = resobj[0];
-                  }
-                  this.setState({
-                    tempPrescriberData: temp
-                  });
-                  return resobj;
-                }}
-                selectedItemChange={this.handleSelectedItemChange}
-                defaultValue={this.state.form.clinicName}
-                key={this.state.form.clinicName}
-                placeholder={this.props.intl.messages.enterClinicName}
-                customCls="flex-fill"
-                inputCustomStyle={true}
-              />
-              <span className="ml-3">
-                <span
-                  className="info delivery-method-tooltip"
-                  style={{ verticalAlign: 'unset' }}
-                  onMouseOver={this.handleMouseOver}
-                  onMouseOut={this.handleMouseOut}
-                >
-                  ?
-                </span>
-                {this.state.toolTipVisible ? (
-                  <div
-                    className="confirm-tool-container position-relative"
+      <>
+        <ClinicPanelContainer
+          {...this}
+          panelStatus={clinicPanelStatus}
+          onEdit={this.handleClickEdit}
+        >
+          {isEdit ? (
+            <div className="rc-margin-left--none rc-padding-left--none rc-margin-left--xs rc-padding-left--xs">
+              <div className="d-flex align-items-center justify-content-between">
+                <SearchSelection
+                  queryList={async ({ inputVal }) => {
+                    let res = await getPrescriberByCode({
+                      code: inputVal,
+                      storeId: window.__.env.REACT_APP_STOREID
+                    });
+                    let resobj = (
+                      (res.context && res.context.prescriberVo) ||
+                      []
+                    ).map((ele) =>
+                      Object.assign(ele, {
+                        name: ele.prescriberName,
+                        recommendationCode: inputVal
+                      })
+                    );
+                    let temp = null;
+                    if (resobj) {
+                      temp = resobj[0];
+                    }
+                    this.setState({
+                      tempPrescriberData: temp
+                    });
+                    return resobj;
+                  }}
+                  selectedItemChange={this.handleSelectedItemChange}
+                  defaultValue={this.state.form.clinicName}
+                  key={this.state.form.clinicName}
+                  placeholder={this.props.intl.messages.enterClinicName}
+                  customCls="flex-fill"
+                  inputCustomStyle={true}
+                />
+                <span className="ml-3">
+                  <span
+                    className="info delivery-method-tooltip"
+                    style={{ verticalAlign: 'unset' }}
                     onMouseOver={this.handleMouseOver}
                     onMouseOut={this.handleMouseOut}
                   >
+                    ?
+                  </span>
+                  {this.state.toolTipVisible ? (
                     <div
-                      className="confirm-tool-content rc-bg-colour--brand4 p-3"
-                      style={this.props.containerStyle}
-                      tabIndex="1"
+                      className="confirm-tool-container position-relative"
+                      onMouseOver={this.handleMouseOver}
+                      onMouseOut={this.handleMouseOut}
                     >
                       <div
-                        className="confirm-tool-arrow"
-                        style={this.props.arrowStyle}
-                      />
-                      <div className="pt-1">
-                        <FormattedMessage
-                          id="noClinicTip"
-                          values={{
-                            val: (
-                              <Link
-                                to="/prescriptionNavigate"
-                                target="_blank"
-                                rel="nofollow"
-                                className="rc-styled-link font-italic"
-                              >
-                                <FormattedMessage id="clickHere3" />
-                                {Boolean(
-                                  window.__.env
-                                    .REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
-                                ) && (
-                                  <span className="warning_blank">
-                                    <FormattedMessage id="opensANewWindow" />
-                                  </span>
-                                )}
-                              </Link>
-                            )
-                          }}
+                        className="confirm-tool-content rc-bg-colour--brand4 p-3"
+                        style={this.props.containerStyle}
+                        tabIndex="1"
+                      >
+                        <div
+                          className="confirm-tool-arrow"
+                          style={this.props.arrowStyle}
                         />
+                        <div className="pt-1">
+                          <FormattedMessage
+                            id="noClinicTip"
+                            values={{
+                              val: (
+                                <Link
+                                  to="/prescriptionNavigate"
+                                  target="_blank"
+                                  rel="nofollow"
+                                  className="rc-styled-link font-italic"
+                                >
+                                  <FormattedMessage id="clickHere3" />
+                                  {Boolean(
+                                    window.__.env
+                                      .REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                                  ) && (
+                                    <span className="warning_blank">
+                                      <FormattedMessage id="opensANewWindow" />
+                                    </span>
+                                  )}
+                                </Link>
+                              )
+                            }}
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ) : null}
-              </span>
+                  ) : null}
+                </span>
+              </div>
+              <div className="d-flex justify-content-end mt-3 rc_btn_clinic_form">
+                <button
+                  className="rc-btn rc-btn--one rc-btn--sm"
+                  onClick={this.handleClickConfirm}
+                  disabled={!this.state.form.clinicName}
+                >
+                  <FormattedMessage id="clinic.confirm" />
+                </button>
+              </div>
             </div>
-            <div className="d-flex justify-content-end mt-3 rc_btn_clinic_form">
-              <button
-                className="rc-btn rc-btn--one rc-btn--sm"
-                onClick={this.handleClickConfirm}
-                disabled={!this.state.form.clinicName}
-              >
-                <FormattedMessage id="clinic.confirm" />
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div>{this.state.form.clinicName}</div>
-        )}
-      </div>
+          ) : (
+            <div>{this.state.form.clinicName}</div>
+          )}
+        </ClinicPanelContainer>
+      </>
     );
 
     return (

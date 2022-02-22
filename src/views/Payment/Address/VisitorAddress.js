@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import Loading from '@/components/Loading';
@@ -13,19 +13,12 @@ import {
   scrollPaymentPanelIntoView
 } from '../modules/utils';
 import AddressPreview from './Preview';
+import AddressPanelContainer from './AddressPanelContainer';
 import './VisitorAddress.css';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const isFromFelin = sessionItemRoyal.get('appointment-no');
-
-const sleep = (time) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve();
-    }, time);
-  });
-};
 
 /**
  * delivery/billing adress module - visitor
@@ -266,70 +259,7 @@ class VisitorAddress extends React.Component {
     // 设置home delivery状态
     this.setRuDeliveryOrPickUp();
   };
-  titleJSX = ({ redColor = false } = {}) => {
-    return this.props.type === 'delivery' ? (
-      <>
-        <em
-          className={`rc-icon rc-indoors--xs rc-margin-right--xs ${
-            redColor ? 'rc-brand1' : 'rc-iconography'
-          }`}
-        />{' '}
-        <span>
-          {isFromFelin ? (
-            <FormattedMessage id="Felin Address" />
-          ) : (
-            <FormattedMessage id="payment.deliveryTitle" />
-          )}
-        </span>
-      </>
-    ) : (
-      <>
-        <em
-          className={`rc-icon rc-news--xs ${
-            redColor ? 'rc-brand1' : 'rc-iconography'
-          }`}
-        />{' '}
-        <span>
-          <FormattedMessage id="payment.billTitle" />
-        </span>
-      </>
-    );
-  };
-  titleJSXForPrepare = () => {
-    return (
-      <>
-        <h5 className={`mb-0 text-xl`}>{this.titleJSX()}</h5>
-      </>
-    );
-  };
-  titleJSXForEdit = () => {
-    return (
-      <>
-        <h5 className={`mb-0 red text-xl`}>
-          {this.titleJSX({ redColor: true })}
-        </h5>
-      </>
-    );
-  };
-  titleJSXForCompeleted = () => {
-    return (
-      <>
-        <h5 className={`mb-0 text-xl`}>
-          {this.titleJSX()}
-          <span className="iconfont font-weight-bold green ml-2">&#xe68c;</span>
-        </h5>
-        {!isFromFelin && (
-          <p
-            onClick={this.handleClickEdit}
-            className="rc-styled-link mb-1"
-            style={{ cursor: 'pointer' }}
-          >
-            <FormattedMessage id="edit" />
-          </p>
-        )}
-      </>
-    );
-  };
+
   // 选择地址
   chooseVisitorValidationAddress = (e) => {
     this.setState({
@@ -622,22 +552,16 @@ class VisitorAddress extends React.Component {
         // {...this.props}
       />
     );
-    const _title = panelStatus.isPrepare
-      ? this.titleJSXForPrepare()
-      : panelStatus.isEdit
-      ? this.titleJSXForEdit()
-      : panelStatus.isCompleted
-      ? this.titleJSXForCompeleted()
-      : null;
 
     return (
-      <>
-        {this.props.titleVisible && (
-          <div className="bg-transparent d-flex justify-content-between align-items-center">
-            {_title}
-          </div>
-        )}
-
+      <AddressPanelContainer
+        panelStatus={panelStatus}
+        titleVisible={this.props.titleVisible}
+        titleId={`J-address-title-${this.props.id}`}
+        isFromFelin={isFromFelin}
+        isDeliverAddress={this.props.type === 'delivery'}
+        handleClickEdit={this.handleClickEdit}
+      >
         {!panelStatus.isPrepare ? (
           panelStatus.isEdit ? (
             <fieldset className="shipping-address-block rc-fieldset">
@@ -727,7 +651,7 @@ class VisitorAddress extends React.Component {
             }}
           />
         )}
-      </>
+      </AddressPanelContainer>
     );
   }
 }

@@ -27,7 +27,8 @@ import {
   cancelOrder,
   getPayRecord,
   returnFindByTid,
-  queryLogistics
+  queryLogistics,
+  cancelOrderForJapan
 } from '@/api/order';
 import { IMG_DEFAULT } from '@/utils/constant';
 import './index.less';
@@ -44,6 +45,8 @@ import { getWays } from '@/api/payment';
 import { handleOrderItem } from '../Orders/modules/handleOrderItem';
 import paypalLogo from '@/assets/images/paypal-logo.svg';
 import { AddressPreview } from '@/components/Address';
+import CancelOrderModal from './modules/cancelOrderModal/index';
+import CancelOrderSuccessModal from './modules/cancelOrderModal/successModal';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -228,7 +231,10 @@ class AccountOrders extends React.Component {
       showLogisticsDetail: false,
       curLogisticInfo: null,
       welcomeGiftLists: [], //first-order welcome box gifts
-      paymentItem: '' //支付方式 paypal，swish
+      paymentItem: '', //支付方式 paypal，swish
+      cancelJpOrderLoading: false,
+      cancelJpOrderModalVisible: false,
+      cancelJpOrderSuccessModalVisible: false
     };
     this.changeTab = this.changeTab.bind(this);
     this.handleClickLogisticsCard = this.handleClickLogisticsCard.bind(this);
@@ -953,6 +959,56 @@ class AccountOrders extends React.Component {
         ) : null}
       </>
     );
+  };
+  renderJpCancelOrderBtns = () => {
+    const { details } = this.state;
+    return (
+      <>
+        {details.canCancelOrderForJP ? (
+          <div className="w-full flex justify-center md:justify-end mt-4">
+            <div className="flex items-center flex-col md:flex-row">
+              <span
+                className="rc-styled-link border-b border-gray-300 hover:border-rc-red mt-2"
+                onClick={() => {
+                  this.setState({ cancelJpOrderModalVisible: true });
+                }}
+              >
+                <FormattedMessage id="Cancel order" />
+              </span>
+              <span className="mx-2 mt-2">
+                <FormattedMessage id="or" />
+              </span>
+              <button className="rc-btn rc-btn--one mt-2">
+                <Link className="text-white" to={`/account/orders`}>
+                  <FormattedMessage id="Back to orders" />
+                </Link>
+              </button>
+            </div>
+          </div>
+        ) : null}
+      </>
+    );
+  };
+  handleCancelJpOrder = async () => {
+    try {
+      this.setState({ cancelJpOrderLoading: true });
+      //todo cancel jp order 接口联调
+      const res = await cancelOrderForJapan(this.state.orderNumber);
+
+      setTimeout(() => {
+        this.setState(
+          {
+            cancelJpOrderModalVisible: false,
+            cancelJpOrderLoading: false
+          },
+          () => {
+            this.setState({ cancelJpOrderSuccessModalVisible: true });
+          }
+        );
+      }, 3000);
+    } catch (e) {
+      this.setState({ cancelJpOrderLoading: false });
+    }
   };
   render() {
     const { configStore, paymentStore } = this.props;
@@ -1797,6 +1853,7 @@ class AccountOrders extends React.Component {
                               }}
                             />
                           )}
+                          {this.renderJpCancelOrderBtns()}
                         </div>
                       ) : this.state.errMsg ? (
                         <div className="text-center mt-5">
@@ -1956,6 +2013,31 @@ class AccountOrders extends React.Component {
             hanldeClickConfirm={() => {
               this.setState({ returnOrExchangeModalVisible: false });
             }}
+          />
+          {/*cancel jp order success modal*/}
+          <CancelOrderSuccessModal
+            visible={this.state.cancelJpOrderSuccessModalVisible}
+            close={() => {
+              this.setState({ cancelJpOrderSuccessModalVisible: false });
+            }}
+            handleClickConfirm={() => {
+              this.setState({ cancelJpOrderSuccessModalVisible: false });
+            }}
+          />
+          {/*jp order cancellation confirmation*/}
+          <CancelOrderModal
+            visible={this.state.cancelJpOrderModalVisible}
+            cancelJpOrderLoading={this.state.cancelJpOrderLoading}
+            details={details}
+            welcomeGiftLists={welcomeGiftLists}
+            close={() => {
+              this.setState({ cancelJpOrderModalVisible: false });
+            }}
+            handleClickCancel={() => {
+              this.setState({ cancelJpOrderModalVisible: false });
+              this.props.history.push('/account/orders');
+            }}
+            handleClickConfirm={() => this.handleCancelJpOrder()}
           />
           <Footer />
         </main>

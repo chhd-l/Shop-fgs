@@ -1,5 +1,5 @@
 import React from 'react';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import Modal from '@/components/Modal';
 import find from 'lodash/find';
 import { inject, observer } from 'mobx-react';
@@ -72,8 +72,7 @@ import {
   AdyenCommonPay,
   CyberPayment
 } from './PaymentMethod';
-import OnePageEmailForm from './OnePage/EmailForm';
-import OnePageClinicForm from './OnePage/ClinicForm';
+import { OnePageEmailForm, OnePageClinicForm } from './OnePage';
 import './modules/adyenCopy.css';
 import './index.css';
 import { Helmet } from 'react-helmet';
@@ -92,6 +91,9 @@ import UpdatModal from './updatModules/modal';
 import QRCode from 'qrcode.react';
 import differenceInSeconds from 'date-fns/differenceInSeconds';
 import base64 from 'base-64';
+import cn from 'classnames';
+import { SelectPet } from './SelectPet';
+import { PanelContainer } from './Common';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -275,11 +277,9 @@ class Payment extends React.Component {
         : [],
       rePaySubscribeId: sessionItemRoyal.get('rc-rePaySubscribeId'),
       recommend_data: [],
-      petModalVisible: false,
       isAdd: 0,
       listData: [],
       requiredList: [],
-      AuditData: [],
       needPrescriber:
         localItemRoyal.get('checkOutNeedShowPrescriber') === 'true', //调整checkout页面第一行显示prescriber信息条件：商品Need prescriber或者已经有了prescriber信息
       unLoginBackPets: [],
@@ -1259,6 +1259,7 @@ class Payment extends React.Component {
   };
   // 4、支付公共初始化方法
   initCommonPay = ({ email = '', type }) => {
+    // todo 删除此pet校验
     if (this.props.checkoutStore.AuditData.length) {
       let petFlag = true;
       let data = this.props.checkoutStore.AuditData;
@@ -1635,6 +1636,7 @@ class Payment extends React.Component {
       this.startLoading();
       if (!this.isLogin) {
         await this.visitorLoginAndAddToCart();
+        // todo 是否需要改造
         if (
           this.props.checkoutStore.AuditData.length > 0 &&
           this.props.checkoutStore.petFlag &&
@@ -2709,100 +2711,86 @@ class Payment extends React.Component {
    * 渲染address panel
    */
   renderAddressPanel = () => {
-    const { paymentStore } = this.props;
     const { deliveryAddress, guestEmail } = this.state;
-    return (
-      <>
-        <div
-          className={`card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3 border ${
-            paymentStore.deliveryAddrPanelStatus.isEdit
-              ? 'border-333'
-              : 'border-transparent'
-          }`}
-          id="J_checkout_panel_deliveryAddr"
-        >
-          {this.isLogin ? (
-            <AddressList
-              {...this.props}
-              id="1"
-              type="delivery"
-              intlMessages={this.props.intl.messages}
-              isCurrentBuyWaySubscription={this.isCurrentBuyWaySubscription}
-              showDeliveryDateTimeSlot={true}
-              isDeliveryOrBilling="delivery"
-              isValidationModal={this.state.isShowValidationModal}
-              saveAddressNumber={this.state.saveAddressNumber}
-              paymentUpdateDeliveryOrPickup={this.paymentUpdateDeliveryOrPickup}
-              deliveryOrPickUp={this.state.deliveryOrPickUp}
-              updateSaveAddressNumber={(e) => this.updateSaveAddressNumber(e)}
-              updateValidationStaus={this.updateValidationStaus}
-              catchErrorMessage={this.catchAddOrEditAddressErrorMessage}
-              updateData={this.updateDeliveryAddrData}
-              calculateFreight={this.calculateFreight}
-              cartData={this.computedCartData}
-              isLogin={true}
-              // onSearchSelectionChange={() =>
-              //   window.__.env.REACT_APP_COUNTRY === 'ru' &&
-              //   window?.dataLayer?.push({
-              //     event: 'suggestedAdressInteraction',
-              //     suggestedAdress: {
-              //       action: 'suggestionClick'
-              //     }
-              //   })
-              // }
-              // onSearchSelectionFocus={() =>
-              //   window.__.env.REACT_APP_COUNTRY === 'ru' &&
-              //   window?.dataLayer?.push({
-              //     event: 'suggestedAdressInteraction',
-              //     suggestedAdress: {
-              //       action: 'fieldClick'
-              //     }
-              //   })
-              // }
-            />
-          ) : (
-            <VisitorAddress
-              {...this.props}
-              key={1}
-              type="delivery"
-              intlMessages={this.props.intl.messages}
-              reSelectTimeSlot={this.getIntlMsg('payment.reselectTimeSlot')}
-              showDeliveryDateTimeSlot={true}
-              isDeliveryOrBilling="delivery"
-              initData={deliveryAddress}
-              isValidationModal={this.state.isShowValidationModal}
-              saveAddressNumber={this.state.saveAddressNumber}
-              paymentUpdateDeliveryOrPickup={this.paymentUpdateDeliveryOrPickup}
-              deliveryOrPickUp={this.state.deliveryOrPickUp}
-              guestEmail={guestEmail}
-              updateValidationStaus={this.updateValidationStaus}
-              catchErrorMessage={this.catchAddOrEditAddressErrorMessage}
-              updateData={this.updateDeliveryAddrData}
-              calculateFreight={this.calculateFreight}
-              cartData={this.computedCartData}
-              isLogin={false}
-              // onSearchSelectionChange={() =>
-              //   window.__.env.REACT_APP_COUNTRY === 'ru' &&
-              //   window?.dataLayer?.push({
-              //     event: 'suggestedAdressInteraction',
-              //     suggestedAdress: {
-              //       action: 'suggestionClick'
-              //     }
-              //   })
-              // }
-              // onSearchSelectionFocus={() =>
-              //   window.__.env.REACT_APP_COUNTRY === 'ru' &&
-              //   window?.dataLayer?.push({
-              //     event: 'suggestedAdressInteraction',
-              //     suggestedAdress: {
-              //       action: 'fieldClick'
-              //     }
-              //   })
-              // }
-            />
-          )}
-        </div>
-      </>
+    return this.isLogin ? (
+      <AddressList
+        {...this.props}
+        id="1"
+        type="delivery"
+        intlMessages={this.props.intl.messages}
+        isCurrentBuyWaySubscription={this.isCurrentBuyWaySubscription}
+        showDeliveryDateTimeSlot={true}
+        isDeliveryOrBilling="delivery"
+        isValidationModal={this.state.isShowValidationModal}
+        saveAddressNumber={this.state.saveAddressNumber}
+        paymentUpdateDeliveryOrPickup={this.paymentUpdateDeliveryOrPickup}
+        deliveryOrPickUp={this.state.deliveryOrPickUp}
+        updateSaveAddressNumber={(e) => this.updateSaveAddressNumber(e)}
+        updateValidationStaus={this.updateValidationStaus}
+        catchErrorMessage={this.catchAddOrEditAddressErrorMessage}
+        updateData={this.updateDeliveryAddrData}
+        calculateFreight={this.calculateFreight}
+        cartData={this.computedCartData}
+        isLogin={true}
+        // onSearchSelectionChange={() =>
+        //   window.__.env.REACT_APP_COUNTRY === 'ru' &&
+        //   window?.dataLayer?.push({
+        //     event: 'suggestedAdressInteraction',
+        //     suggestedAdress: {
+        //       action: 'suggestionClick'
+        //     }
+        //   })
+        // }
+        // onSearchSelectionFocus={() =>
+        //   window.__.env.REACT_APP_COUNTRY === 'ru' &&
+        //   window?.dataLayer?.push({
+        //     event: 'suggestedAdressInteraction',
+        //     suggestedAdress: {
+        //       action: 'fieldClick'
+        //     }
+        //   })
+        // }
+      />
+    ) : (
+      <VisitorAddress
+        {...this.props}
+        key={1}
+        type="delivery"
+        intlMessages={this.props.intl.messages}
+        reSelectTimeSlot={this.getIntlMsg('payment.reselectTimeSlot')}
+        showDeliveryDateTimeSlot={true}
+        isDeliveryOrBilling="delivery"
+        initData={deliveryAddress}
+        isValidationModal={this.state.isShowValidationModal}
+        saveAddressNumber={this.state.saveAddressNumber}
+        paymentUpdateDeliveryOrPickup={this.paymentUpdateDeliveryOrPickup}
+        deliveryOrPickUp={this.state.deliveryOrPickUp}
+        guestEmail={guestEmail}
+        updateValidationStaus={this.updateValidationStaus}
+        catchErrorMessage={this.catchAddOrEditAddressErrorMessage}
+        updateData={this.updateDeliveryAddrData}
+        calculateFreight={this.calculateFreight}
+        cartData={this.computedCartData}
+        isLogin={false}
+        // onSearchSelectionChange={() =>
+        //   window.__.env.REACT_APP_COUNTRY === 'ru' &&
+        //   window?.dataLayer?.push({
+        //     event: 'suggestedAdressInteraction',
+        //     suggestedAdress: {
+        //       action: 'suggestionClick'
+        //     }
+        //   })
+        // }
+        // onSearchSelectionFocus={() =>
+        //   window.__.env.REACT_APP_COUNTRY === 'ru' &&
+        //   window?.dataLayer?.push({
+        //     event: 'suggestedAdressInteraction',
+        //     suggestedAdress: {
+        //       action: 'fieldClick'
+        //     }
+        //   })
+        // }
+      />
     );
   };
 
@@ -3389,8 +3377,7 @@ class Payment extends React.Component {
   /**
    * 渲染支付方式
    */
-  renderPayTab = ({ visible = false }) => {
-    const { paymentStore } = this.props;
+  renderPayTab = () => {
     const {
       paymentStore: { supportPaymentMethods }
     } = this.props;
@@ -3400,47 +3387,15 @@ class Payment extends React.Component {
       payWayErr,
       billingChecked,
       email,
-      swishPhone,
       validSts,
       saveBillingLoading,
       payWayNameArr,
       cyberPaymentForm,
-      cardTypeVal,
-      deliveryAddress,
       tid
     } = this.state;
 
     // 未勾选same as billing时，校验billing addr
     const validForBilling = !billingChecked && !validSts.billingAddr;
-    const validForCyberPayment = () => {
-      let isValidForCyberPayment = false;
-      let errMsgObj = {};
-      let isCheckSaveCard = this.state.cyberPaymentForm.isSaveCard;
-      ADDRESS_RULE.forEach((item) => {
-        if (
-          Object.keys(cyberPaymentForm).indexOf(item.key) &&
-          !cyberPaymentForm[item.key] &&
-          item.require
-        ) {
-          errMsgObj[item.key] = true;
-        }
-      });
-      if (Object.keys(errMsgObj).length > 0) {
-        isValidForCyberPayment = false;
-      } else {
-        if (this.isCurrentBuyWaySubscription) {
-          if (isCheckSaveCard) {
-            isValidForCyberPayment = true; //有订阅商品，必须勾上保存卡checkbox框
-          } else {
-            isValidForCyberPayment = false;
-          }
-        } else {
-          isValidForCyberPayment = true;
-        }
-      }
-      // console.log('2256 isValidForCyberPayment: ', isValidForCyberPayment);
-      return !isValidForCyberPayment;
-    };
 
     const payConfirmBtn = ({ disabled, loading = false }) => {
       return (
@@ -3508,7 +3463,7 @@ class Payment extends React.Component {
     };
 
     return (
-      <div className={`pb-3 ${visible ? '' : 'hidden'}`}>
+      <div className={`pb-3`}>
         {chooseRadioType(window.__.env.REACT_APP_COUNTRY) === 'circle' &&
           payWayNameArr.length > 1 && (
             <InputCirclePaymethords
@@ -3998,73 +3953,6 @@ class Payment extends React.Component {
     );
   };
 
-  closePetModal = () => {
-    if (this.state.isAdd === 2) {
-      this.setState({
-        isAdd: 0
-      });
-    }
-    this.setState({
-      petModalVisible: false
-    });
-  };
-  petComfirm = (data) => {
-    if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
-        data;
-    } else {
-      let handledData;
-      this.props.checkoutStore.AuditData.map((el, i) => {
-        if (i === this.state.currentProIndex) {
-          if (sessionItemRoyal.get('recommend_product')) {
-            handledData = this.state.recommend_data.map((recomEl) => {
-              if (recomEl.goodsInfoId === el.goodsInfoId) {
-                recomEl.petsId = data.value;
-                recomEl.petsName = data.name;
-                el.petsId = data.value;
-                el.petName = data.name;
-              }
-              return recomEl;
-            });
-          } else {
-            handledData = this.loginCartData.map((loginEl) => {
-              if (loginEl.goodsInfoId === el.goodsInfoId) {
-                loginEl.petsId = data.value;
-                loginEl.petsName = data.name;
-                el.petsId = data.value;
-                el.petName = data.name;
-              }
-              return loginEl;
-            });
-          }
-        }
-        return el;
-      });
-      if (sessionItemRoyal.get('recommend_product')) {
-        this.setState({ recommend_data: handledData });
-      } else {
-        this.props.checkoutStore.setLoginCartData(handledData);
-      }
-    }
-    this.closePetModal();
-  };
-  openNew = () => {
-    this.setState({
-      isAdd: 1
-    });
-    this.openPetModal();
-  };
-  closeNew = () => {
-    this.setState({
-      isAdd: 2
-    });
-    this.openPetModal();
-  };
-  openPetModal = () => {
-    this.setState({
-      petModalVisible: true
-    });
-  };
   updateGuestEmail = ({ email: guestEmail }) => {
     const {
       intl,
@@ -4174,15 +4062,14 @@ class Payment extends React.Component {
       recommend_data,
       subForm,
       promotionCode,
-      petModalVisible,
-      isAdd,
       mobileCartVisibleKey,
       guestEmail,
       deliveryAddress,
       paymentValidationLoading,
       validationModalVisible,
       billingAddress,
-      selectValidationOption
+      selectValidationOption,
+      pet
     } = this.state;
     const event = {
       page: {
@@ -4193,38 +4080,8 @@ class Payment extends React.Component {
         hitTimestamp: new Date(),
         filters: ''
       },
-      pet: this.state.pet
+      pet
     };
-
-    const paymentMethodTitle = (
-      <div
-        className={`ml-custom mr-custom d-flex justify-content-between align-items-center ${
-          paymentMethodPanelStatus.isEdit ? 'red' : ''
-        }`}
-      >
-        <h5 className="mb-0 text-xl">
-          <em
-            className={`rc-icon rc-payment--sm ${
-              paymentMethodPanelStatus.isEdit ? 'rc-brand1' : 'rc-iconography'
-            } inlineblock origin-left paymentIconTransform`}
-          />{' '}
-          <FormattedMessage id="payment.paymentInformation" />
-          {paymentMethodPanelStatus.isCompleted ? (
-            <span className="iconfont font-weight-bold green ml-2">
-              &#xe68c;
-            </span>
-          ) : null}
-        </h5>
-        {paymentMethodPanelStatus.isCompleted ? (
-          <p
-            onClick={this.handleClickPaymentPanelEdit}
-            className="rc-styled-link mb-1 edit_payment_method cursor-pointer"
-          >
-            <FormattedMessage id="edit" />
-          </p>
-        ) : null}
-      </div>
-    );
 
     return (
       <div>
@@ -4270,15 +4127,14 @@ class Payment extends React.Component {
             </div>
             <div className="rc-layout-container rc-three-column rc-max-width--xl mt-3 md:mt-0">
               <div className="rc-column rc-double-width shipping__address">
-                {/* 错误提示，errorMsg==This Error No Display时不显示  */}
+                {/* 错误提示，没有errorMsg时，或errorMsg===This Error No Display时不显示  */}
                 <div
-                  className={`rc-padding-bottom--xs cart-error-messaging cart-error ${
-                    errorMsg
-                      ? errorMsg == 'This Error No Display'
-                        ? 'hidden'
-                        : ''
-                      : 'hidden'
-                  }`}
+                  className={cn(
+                    'rc-padding-bottom--xs cart-error-messaging cart-error',
+                    {
+                      hidden: !errorMsg || errorMsg === 'This Error No Display'
+                    }
+                  )}
                 >
                   <aside
                     className="rc-alert rc-alert--error rc-alert--with-close"
@@ -4307,134 +4163,50 @@ class Payment extends React.Component {
                     </div>
                   </>
                 )}
-                {checkoutStore.petFlag && checkoutStore.AuditData.length > 0 && (
-                  <div className="card-panel checkout--padding pl-0 pr-0 rc-bg-colour--brand3 rounded pb-0">
-                    <h5 className="ml-custom mr-custom text-xl overflow-hidden">
-                      <em
-                        className="rc-icon rc-payment--sm rc-iconography inlineblock origin-left"
-                        style={{
-                          transform: 'scale(.8)',
-                          marginRight: '-.4rem'
-                        }}
-                      />{' '}
-                      <FormattedMessage id="Pet information" />
-                      <p>
-                        We need your pet information to authorize these items.
-                      </p>
-                      {this.isLogin
-                        ? checkoutStore.AuditData.map((el, i) => {
-                            return (
-                              <div className="petProduct">
-                                <LazyLoad>
-                                  <img
-                                    className="pull-left"
-                                    alt="goods information image"
-                                    src={el.goodsInfoImg}
-                                  />
-                                </LazyLoad>
+                <SelectPet
+                  recommendData={this.state.recommend_data}
+                  updateRecommendData={(data) => {
+                    this.setState({ recommend_data: data });
+                  }}
+                  isRepay={tid}
+                />
 
-                                <div className="pull-left mt-5 ml-5">
-                                  <p>
-                                    <span>Pet:</span>
-                                    <span>
-                                      {el.petName ? el.petName : 'required'}
-                                    </span>
-                                  </p>
-                                  <p>
-                                    <span>Qty:</span>
-                                    <span>{el.buyCount}</span>
-                                  </p>
-                                </div>
-                                <div
-                                  className="pull-right ml-5"
-                                  style={{
-                                    marginTop: '30px'
-                                  }}
-                                >
-                                  <button
-                                    className="rc-btn rc-btn--sm rc-btn--one"
-                                    onClick={() => {
-                                      this.setState({
-                                        petModalVisible: true,
-                                        currentProIndex: i
-                                      });
-                                    }}
-                                  >
-                                    Select a pet
-                                  </button>
-                                </div>
-                              </div>
-                            );
-                          })
-                        : checkoutStore.AuditData.map((el, i) => {
-                            return (
-                              <div className="petProduct" key={i}>
-                                <LazyLoad>
-                                  <img
-                                    alt="pet product image"
-                                    src={
-                                      el.sizeList.filter((el) => el.selected)[0]
-                                        .goodsInfoImg
-                                    }
-                                    className="pull-left"
-                                  />
-                                </LazyLoad>
-                                <div className="pull-left mt-5 ml-5">
-                                  <p>
-                                    <span>Pet:</span>
-                                    <span>
-                                      {el.petForm
-                                        ? el.petForm.petName
-                                        : 'required'}
-                                    </span>
-                                  </p>
-                                  <p>
-                                    <span>Qty:</span>
-                                    <span>{el.quantity}</span>
-                                  </p>
-                                </div>
-                                <div
-                                  className="pull-right ml-5"
-                                  style={{
-                                    marginTop: '30px'
-                                  }}
-                                >
-                                  <button
-                                    id="selectPet"
-                                    className="rc-btn rc-btn--sm rc-btn--one"
-                                    onClick={() => {
-                                      this.setState({
-                                        petModalVisible: true,
-                                        currentProIndex: i
-                                      });
-                                    }}
-                                  >
-                                    Select a pet
-                                  </button>
-                                </div>
-                              </div>
-                            );
-                          })}
-                    </h5>
-                  </div>
-                )}
-                <div
-                  className={`card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 pb-0 border ${
-                    this.isSkipPaymentPanel ? 'hidden' : ''
-                  } ${
-                    paymentMethodPanelStatus.isEdit
-                      ? 'border-333'
-                      : 'border-transparent'
-                  }`}
-                  id="J_checkout_panel_paymentMethod"
+                <PanelContainer
+                  panelStatus={paymentMethodPanelStatus}
+                  containerConf={{
+                    className: cn('px-0', {
+                      hidden: this.isSkipPaymentPanel,
+                      'pb-0': !paymentMethodPanelStatus.isPrepare
+                    }),
+                    id: 'J_checkout_panel_paymentMethod'
+                  }}
+                  titleConf={{
+                    className: 'mx-5',
+                    icon: {
+                      defaultIcon: (
+                        <em
+                          className={`rc-icon rc-payment--sm rc-iconography inlineblock origin-left paymentIconTransform`}
+                        />
+                      ),
+                      highlighIcon: (
+                        <em
+                          className={`rc-icon rc-payment--sm rc-brand1 inlineblock origin-left paymentIconTransform`}
+                        />
+                      )
+                    },
+                    text: {
+                      title: (
+                        <FormattedMessage id="payment.paymentInformation" />
+                      )
+                    },
+                    onEdit: this.handleClickPaymentPanelEdit
+                  }}
                 >
-                  <span>{paymentMethodTitle}</span>
-                  {this.renderPayTab({
-                    visible: paymentMethodPanelStatus.isEdit
-                  })}
+                  {this.renderPayTab()}
                   {paymentMethodPanelStatus.isCompleted &&
                     this.renderPayPreview()}
-                </div>
+                </PanelContainer>
+
                 <Confirmation
                   paymentTypeVal={this.state.paymentTypeVal}
                   clickPay={this.clickPay}
@@ -4492,9 +4264,10 @@ class Payment extends React.Component {
           </div>
           <div className="checkout-product-summary rc-bg-colour--brand3 rc-border-all rc-border-colour--brand4 rc-md-down">
             <div
-              className={`order-summary-title align-items-center justify-content-between text-center ${
+              className={cn(
+                `order-summary-title align-items-center justify-content-between text-center`,
                 mobileCartVisibleKey === 'less' ? 'd-flex' : 'hidden'
-              }`}
+              )}
               onClick={this.toggleMobileCart.bind(this, 'more')}
             >
               <span
@@ -4515,7 +4288,7 @@ class Payment extends React.Component {
                 background: '#fff',
                 maxHeight: '80vh'
               }}
-              className={`${mobileCartVisibleKey === 'more' ? '' : 'hidden'}`}
+              className={cn(mobileCartVisibleKey === 'more' ? '' : 'hidden')}
               ref="payProductInfo"
               location={location}
               history={history}
@@ -4564,14 +4337,6 @@ class Payment extends React.Component {
 
           <Footer />
         </main>
-        <PetModal
-          visible={petModalVisible}
-          isAdd={isAdd}
-          openNew={this.openNew}
-          closeNew={this.closeNew}
-          confirm={this.petComfirm}
-          close={this.closePetModal}
-        />
         <Modal
           type="fullscreen"
           visible={true}

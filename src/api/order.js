@@ -18,7 +18,8 @@ const api = {
   logistics: '/trade/logistics/refresh', // 查询物流信息
   exportInvoicePDF: '/account/orderInvoice/exportPDF/',
   getGoodsList: '/trade/goods',
-  addGoodsEvaluate: '/goods/evaluates'
+  addGoodsEvaluate: '/goods/evaluates',
+  cancelOrderForJapan: `/trade-custom/cancel-refund/`
 };
 
 export default api;
@@ -134,6 +135,13 @@ export function getGoodsList(tid) {
 export function addGoodsEvaluate(data) {
   return axios({
     url: `${api.addGoodsEvaluate}`,
+    method: 'post',
+    data
+  });
+}
+export function cancelOrderForJapan(data) {
+  return axios({
+    url: `${api.cancelOrderForJapan}`,
     method: 'post',
     data
   });
