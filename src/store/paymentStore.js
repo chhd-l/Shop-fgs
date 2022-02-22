@@ -40,7 +40,7 @@ const initPanelStatus = [
     }
   },
   {
-    key: 'paymentMethod',
+    key: 'bindPet',
     order: 4,
     status: {
       isPrepare: true,
@@ -50,7 +50,7 @@ const initPanelStatus = [
     }
   },
   {
-    key: 'billingAddr',
+    key: 'paymentMethod',
     order: 5,
     status: {
       isPrepare: true,
@@ -60,8 +60,18 @@ const initPanelStatus = [
     }
   },
   {
-    key: 'confirmation',
+    key: 'billingAddr',
     order: 6,
+    status: {
+      isPrepare: true,
+      isEdit: false,
+      isCompleted: false,
+      hasCompleted: false
+    }
+  },
+  {
+    key: 'confirmation',
+    order: 7,
     status: { isPrepare: true, isEdit: false, hasCompleted: false }
   }
 ];
@@ -109,6 +119,8 @@ class PaymentStore {
     phoneNumber: '',
     consigneeNumber: ''
   };
+  @observable petList = [];
+  @observable petSelectedIds = [];
 
   @observable isRreshList = false;
   @observable payWayNameArr = sessionItemRoyal.get('rc-payWayNameArr')
@@ -116,6 +128,10 @@ class PaymentStore {
     : []; //当前店铺支持的支付方式集合
   @observable curPayWayVal = '';
   @observable addCardDirectToPayFlag = false; //是否新增卡直接下单
+
+  @computed get clinicPanelStatus() {
+    return find(this.panelStatus, (ele) => ele.key === 'clinic').status;
+  }
 
   @computed get emailPanelStatus() {
     return find(this.panelStatus, (ele) => ele.key === 'email').status;
@@ -127,6 +143,10 @@ class PaymentStore {
 
   @computed get billingAddrPanelStatus() {
     return find(this.panelStatus, (ele) => ele.key === 'billingAddr').status;
+  }
+
+  @computed get bindPetPanelStatus() {
+    return find(this.panelStatus, (ele) => ele.key === 'bindPet').status;
   }
 
   @computed get paymentMethodPanelStatus() {
@@ -506,6 +526,16 @@ class PaymentStore {
   @action.bound
   restPanelStatus() {
     this.panelStatus = initPanelStatus;
+  }
+
+  @action.bound
+  setPetList(data) {
+    this.petList = data;
+  }
+
+  @action.bound
+  setPetSelectedIds(data) {
+    this.petSelectedIds = data;
   }
 }
 export default PaymentStore;

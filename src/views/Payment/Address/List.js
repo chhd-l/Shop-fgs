@@ -37,19 +37,11 @@ import AddressPreview from './Preview';
 import './list.less';
 import felinAddr from './FelinOfflineAddress';
 import cn from 'classnames';
+import AddressPanelContainer from './AddressPanelContainer';
 
-const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const isFromFelin = sessionItemRoyal.get('appointment-no');
-
-const sleep = (time) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve();
-    }, time);
-  });
-};
 
 /**
  * address list(delivery/billing) - member
@@ -1203,69 +1195,6 @@ class AddressList extends React.Component {
       foledMore: !curState.foledMore
     }));
   };
-  titleJSXForPrepare() {
-    const { titleVisible } = this.props;
-    return (
-      <h5 className={`mb-0 text-nowrap text-xl flex items-center`}>
-        {titleVisible ? (
-          <>
-            <em className="rc-icon rc-indoors--xs rc-iconography" />{' '}
-            <span>
-              <FormattedMessage id="payment.deliveryTitle" />
-            </span>
-          </>
-        ) : null}
-      </h5>
-    );
-  }
-  titleJSXForEdit() {
-    const { titleVisible } = this.props;
-    return (
-      <>
-        <h5 className={`mb-0 text-nowrap red text-xl flex items-center`}>
-          {titleVisible ? (
-            <>
-              <em className="rc-icon rc-indoors--xs rc-brand1" />{' '}
-              <span className="mb-2">
-                <FormattedMessage id="payment.deliveryTitle" />
-              </span>
-            </>
-          ) : null}
-        </h5>
-      </>
-    );
-  }
-  titleJSXForCompeleted() {
-    const { titleVisible } = this.props;
-    return (
-      <>
-        <h5 className={`mb-0 text-nowrap text-xl flex items-center`}>
-          {titleVisible ? (
-            <>
-              <em className="rc-icon rc-indoors--xs rc-iconography" />{' '}
-              <span>
-                {isFromFelin ? (
-                  <FormattedMessage id="Felin Address" />
-                ) : (
-                  <FormattedMessage id="payment.deliveryTitle" />
-                )}
-              </span>
-              <span className="iconfont iconchenggong font-weight-bold green ml-2" />
-            </>
-          ) : null}
-        </h5>{' '}
-        {!isFromFelin && (
-          <p
-            onClick={this.handleClickEdit}
-            className="rc-styled-link mb-1 checkout_edit_address"
-            style={{ cursor: 'pointer' }}
-          >
-            <FormattedMessage id="edit" />
-          </p>
-        )}
-      </>
-    );
-  }
   // 编辑地址
   handleClickEdit = () => {
     this.props.paymentStore.setStsToEdit({
@@ -2199,21 +2128,7 @@ class AddressList extends React.Component {
         </label>
       </div>
     );
-    // title
-    const _title = (
-      <div
-        id={`J-address-title-${this.props.id}`}
-        className="bg-transparent d-flex justify-content-between align-items-center flex-wrap"
-      >
-        {panelStatus.isPrepare
-          ? this.titleJSXForPrepare()
-          : panelStatus.isEdit
-          ? this.titleJSXForEdit()
-          : panelStatus.isCompleted
-          ? this.titleJSXForCompeleted()
-          : null}
-      </div>
-    );
+
     // 表单
     const _form = (
       <fieldset
@@ -2303,14 +2218,20 @@ class AddressList extends React.Component {
     );
 
     return (
-      <>
+      <AddressPanelContainer
+        panelStatus={panelStatus}
+        titleVisible={this.props.titleVisible}
+        titleId={`J-address-title-${this.props.id}`}
+        isFromFelin={isFromFelin}
+        isDeliverAddress={this.isDeliverAddress}
+        handleClickEdit={this.handleClickEdit}
+      >
         {this.props.children}
         <div
           className={`mt-1 ${
             this.props.visible ? '' : 'hidden'
           } payment-addressList`}
         >
-          {_title}
           <div
             className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
               saveErrorMsg ? '' : 'hidden'
@@ -2375,9 +2296,10 @@ class AddressList extends React.Component {
 
           {/* 编辑地址 */}
           <div
-            className={`rc_address_list ${!addOrEdit ? 'addr-container' : ''} ${
-              loading ? 'pt-3 pb-3' : ''
-            }`}
+            className={cn(`rc_address_list`, {
+              'addr-container': !addOrEdit,
+              'pt-3 pb-3': loading
+            })}
           >
             {loading ? (
               <Skeleton color="#f5f5f5" count={2} width="100%" />
@@ -2630,7 +2552,7 @@ class AddressList extends React.Component {
           {validationLoading && <Loading positionFixed="true" />}
           {listValidationModalVisible ? this.ValidationAddressModalJSX() : null}
         </div>
-      </>
+      </AddressPanelContainer>
     );
   }
 }

@@ -3,7 +3,7 @@ import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { formatMoney } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import TermsCommon from '../Terms/common';
-import ConsentAdditionalText from '@/components/Consent/ConsentAdditionalText';
+import { PanelContainer } from '../Common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -76,44 +76,38 @@ class Confirmation extends React.Component {
     const { panelStatus } = this;
     const { tradePrice } = this.props;
     const { isValid } = this.state;
-    const titleJSXForPrepare = (
-      <h5 className={`mb-0 text-xl`}>
-        <em
-          className="iconfont font-weight-bold ml-1"
-          style={{ marginRight: '.7rem' }}
-        >
-          &#xe68c;
-        </em>{' '}
-        <FormattedMessage id="confirmation" />
-      </h5>
-    );
-    const titleJSXForEdit = (
-      <h5 className={`mb-0 red text-xl`}>
-        <em
-          className="iconfont font-weight-bold ml-1"
-          style={{ marginRight: '.7rem' }}
-        >
-          &#xe68c;
-        </em>{' '}
-        <FormattedMessage id="confirmation" />
-      </h5>
-    );
-    const _title = panelStatus.isPrepare
-      ? titleJSXForPrepare
-      : panelStatus.isEdit
-      ? titleJSXForEdit
-      : null;
+
     return (
       <>
-        <div
-          id="J_checkout_panel_confirmation"
-          className={`card-panel checkout--padding rc-bg-colour--brand3 rounded border ${
-            panelStatus.isEdit ? 'border-333' : 'border-transparent'
-          }`}
+        <PanelContainer
+          panelStatus={panelStatus}
+          containerConf={{
+            id: 'J_checkout_panel_confirmation'
+          }}
+          titleConf={{
+            icon: {
+              defaultIcon: (
+                <em
+                  className="iconfont font-weight-bold ml-1"
+                  style={{ marginRight: '.7rem' }}
+                >
+                  &#xe68c;
+                </em>
+              ),
+              highlighIcon: (
+                <em
+                  className="iconfont font-weight-bold ml-1"
+                  style={{ marginRight: '.7rem' }}
+                >
+                  &#xe68c;
+                </em>
+              )
+            },
+            text: {
+              title: <FormattedMessage id="confirmation" />
+            }
+          }}
         >
-          <div className="bg-transparent d-flex justify-content-between align-items-center">
-            {_title}
-          </div>
           <div className={`pt-3 ${!panelStatus.isPrepare ? '' : 'hidden'}`}>
             {/* 条款 */}
             <TermsCommon
@@ -164,7 +158,7 @@ class Confirmation extends React.Component {
               </div>
             )}
           </div>
-        </div>
+        </PanelContainer>
       </>
     );
   }

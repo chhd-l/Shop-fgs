@@ -318,10 +318,10 @@
 }
 
 .petProduct {
-  padding: 0.625rem 1.25rem;
-  border: 1px solid #ccc;
-  overflow: hidden;
-  margin-bottom: 1.25rem;
+  padding: 0.625rem 0;
+  /* border: 1px solid #ccc; */
+  /* overflow: hidden; */
+  /* margin-bottom: 1.25rem; */
 }
 .petProduct img {
   width: 60px;
