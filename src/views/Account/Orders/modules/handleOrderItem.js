@@ -82,6 +82,7 @@ export function handleOrderItem(ele, res) {
       tradeState.deliverStatus === 'NOT_YET_SHIPPED',
     canReturnOrExchange:
       tradeState.deliverStatus === 'SHIPPED' &&
-      tradeState.flowState === 'COMPLETED'
+      tradeState.flowState === 'COMPLETED',
+    canCancelOrderForJP: false
   });
 }
