@@ -427,8 +427,13 @@ class MemberCardList extends React.Component {
           customerId: this.userInfo ? this.userInfo.customerId : '',
           email: creditCardInfoForm.email,
           phone: creditCardInfoForm.phoneNumber,
-          //isDefault: creditCardInfoForm.savedDefaultCardChecked ? '1' : '0',
-          isDefault: 1,
+          isDefault:
+            window.__.env.REACT_APP_COUNTRY == 'ru'
+              ? '1'
+              : creditCardInfoForm.savedDefaultCardChecked
+              ? '1'
+              : '0',
+          //isDefault: 1,
           paymentToken: resData?.token || '',
           paymentVendor: resData?.vendor || '',
           binNumber: resData?.bin_number || '',
@@ -729,24 +734,45 @@ class MemberCardList extends React.Component {
       }
     ].filter((c) => c.visible);
 
-    const checkboxListForForm = [
-      {
-        key: 'savedCardChecked',
-        id: 'id-payu-saved-card-account',
-        langKey: 'payment.saveCardToAccount',
-        value: creditCardInfoForm.savedCardChecked,
-        visible: true,
-        disabled: this.props.mustSaveForFutherPayments
-      }
-      // 注释 俄罗斯绑卡和选择默认卡两个checkbox改为一个checkbox
-      // {
-      //   key: 'savedDefaultCardChecked',
-      //   id: 'id-payu-saved-as-preferred',
-      //   langKey: 'payment.saveThisPaymentMethodAsPreferred',
-      //   value: creditCardInfoForm.savedDefaultCardChecked,
-      //   visible: true
-      // }
-    ].filter((c) => c.visible);
+    let checkboxListForForm = [];
+    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+      checkboxListForForm = [
+        {
+          key: 'savedCardChecked',
+          id: 'id-payu-saved-card-account',
+          langKey: 'payment.saveCardToAccount',
+          value: creditCardInfoForm.savedCardChecked,
+          visible: true,
+          disabled: this.props.mustSaveForFutherPayments
+        }
+        // 注释 俄罗斯绑卡和选择默认卡两个checkbox改为一个checkbox
+        // {
+        //   key: 'savedDefaultCardChecked',
+        //   id: 'id-payu-saved-as-preferred',
+        //   langKey: 'payment.saveThisPaymentMethodAsPreferred',
+        //   value: creditCardInfoForm.savedDefaultCardChecked,
+        //   visible: true
+        // }
+      ].filter((c) => c.visible);
+    } else {
+      checkboxListForForm = [
+        {
+          key: 'savedCardChecked',
+          id: 'id-payu-saved-card-account',
+          langKey: 'payment.saveCardToAccount',
+          value: creditCardInfoForm.savedCardChecked,
+          visible: true,
+          disabled: this.props.mustSaveForFutherPayments
+        },
+        {
+          key: 'savedDefaultCardChecked',
+          id: 'id-payu-saved-as-preferred',
+          langKey: 'payment.saveThisPaymentMethodAsPreferred',
+          value: creditCardInfoForm.savedDefaultCardChecked,
+          visible: true
+        }
+      ].filter((c) => c.visible);
+    }
 
     const formListLabelColor = (commonStyle, type) => {
       return cn(
@@ -929,7 +955,7 @@ class MemberCardList extends React.Component {
                           <span className="w-full cardForm relative">
                             <div className="flex">
                               <div className="w-100">
-                                <div className="form-group required">
+                                <div className="core form-group required">
                                   <span
                                     className="rc-input rc-input--full-width"
                                     input-setup="true"
@@ -937,7 +963,7 @@ class MemberCardList extends React.Component {
                                     <input
                                       type="tel"
                                       className={formListInputColor(
-                                        'rc-input__control form-control email h-10 pl-3 py-0 border border-gray-300 rounded-md focus:ring-2 focus:ring-transparent focus:border-blue-500',
+                                        'form-control h-10 pl-3 py-0 border border-gray-300 rounded-md placeholder-gray-300',
                                         'cardNumber'
                                       )}
                                       id="number"
@@ -946,12 +972,6 @@ class MemberCardList extends React.Component {
                                         .replace(/(\d{4})(?=\d)/g, '$1 ')}
                                       onChange={this.cardInfoInputChange}
                                       onKeyUp={this.cardNumberChange}
-                                      // onFocus={(e) => {
-                                      //   this.cardNumberFocus();
-                                      // }}
-                                      // onBlur={(e) => {
-                                      //   this.cardNumberBlur();
-                                      // }}
                                       onBlur={this.inputBoxBlur}
                                       name="cardNumber"
                                       placeholder={
@@ -994,7 +1014,7 @@ class MemberCardList extends React.Component {
                   >
                     Дата окончания
                     <span className="red">*</span>
-                    <div className="form-group required mt-1">
+                    <div className="core form-group required mt-1">
                       <span
                         className="rc-input rc-input--full-width"
                         input-setup="true"
@@ -1002,7 +1022,7 @@ class MemberCardList extends React.Component {
                         <input
                           type="tel"
                           className={formListInputColor(
-                            'rc-text-colour--iconography font-thin w-100 phone border border-gray-300 rounded-md h-10 pl-3 py-0 focus:ring-2 focus:ring-transparent focus:border-blue-500',
+                            'rc-text-colour--iconography font-thin form-control phone border border-gray-300 rounded-md h-10 pl-3 py-0 placeholder-gray-300',
                             'cardMmyy'
                           )}
                           min-lenght="18"
@@ -1032,7 +1052,7 @@ class MemberCardList extends React.Component {
                   >
                     CVV
                     <span className="red">*</span>
-                    <div className="form-group required mt-1">
+                    <div className="core form-group required mt-1">
                       <span
                         className="rc-input rc-input--full-width relative"
                         input-setup="true"
@@ -1041,7 +1061,7 @@ class MemberCardList extends React.Component {
                           type="password"
                           autoComplete="new-password"
                           className={formListInputColor(
-                            'rc-text-colour--iconography font-thin form-control phone  rounded-md h-10 pl-3 py-0 focus:ring-2 focus:ring-transparent focus:border-blue-500',
+                            'rc-text-colour--iconography font-thin form-control phone  rounded-md h-10 pl-3 py-0 placeholder-gray-300',
                             'cardCvv'
                           )}
                           value={creditCardInfoForm.cardCvv}
@@ -1071,7 +1091,7 @@ class MemberCardList extends React.Component {
                     >
                       <FormattedMessage id="payment.cardOwner" />
                       <span className="red">*</span>
-                      <div className="form-group required mt-1">
+                      <div className="core form-group required mt-1">
                         <span
                           className="rc-input rc-input--full-width"
                           input-setup="true"
@@ -1079,17 +1099,16 @@ class MemberCardList extends React.Component {
                           <input
                             type="text"
                             className={formListInputColor(
-                              'rc-input__control form-control cardOwner border border-gray-300 rounded-md h-10 pl-3 py-0 focus:ring-2 focus:ring-transparent focus:border-blue-500',
+                              'rc-input__control form-control cardOwner border border-gray-300 rounded-md h-10 pl-3 py-0 placeholder-gray-300',
                               'cardOwner'
                             )}
                             autocomplete="off"
                             name="cardOwner"
                             value={creditCardInfoForm.cardOwner}
                             onChange={this.cardInfoInputChange}
-                            //onBlur={this.inputBlur}
                             onBlur={this.inputBoxBlur}
                             maxLength="40"
-                            placeholder="J.Smith"
+                            placeholder="SERGEY IVANOV"
                           />
                           {formListInputIcon('cardOwner')}
                         </span>

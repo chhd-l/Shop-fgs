@@ -366,8 +366,8 @@ class Register extends Component {
       customerName:
         window.__.env.REACT_APP_COUNTRY !== 'de'
           ? registerForm.name
-          : registerForm.firstName + ' ' + registerForm.lastName,
-      callback: `${accessPath.replace(/\/$/gi, '')}/register`
+          : registerForm.firstName + ' ' + registerForm.lastName
+      // callback: `${accessPath.replace(/\/$/gi, '')}/register`
     })
       .then(async (res) => {
         if (res.code === 'K-000000') {

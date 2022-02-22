@@ -205,7 +205,7 @@ const Consent2TR = loadable(() =>
 );
 const register = loadable(() => import('@/views/Register'));
 // import register from '@/views/Register';
-import welcome from '@/views/Register/welcome.js';
+import Welcome from '@/views/Register/welcome.js';
 const KittenNutrition = loadable(() =>
   import('@/views/StaticPage/kitten-nutrition')
 );
@@ -826,7 +826,7 @@ const App = () => {
                 <Route
                   path="/welcome/:id"
                   render={(props) => (
-                    <welcome key={props.match.params.id} {...props} />
+                    <Welcome key={props.match.params.id} {...props} />
                   )}
                 />
                 <Route

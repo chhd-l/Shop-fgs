@@ -139,6 +139,10 @@
 .cardForm .focus-visible {
   box-shadow: none;
 }
+/* .ru-cardFrom .cardForm .focus-visible {
+  box-shadow: 0 0 5px 0px #0066ff;
+  border: 1px solid #0066ff!important;
+} */
 
 .cardForm > .rc-input:nth-child(1) {
   width: 54%;

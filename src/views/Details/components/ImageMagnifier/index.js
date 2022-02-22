@@ -343,6 +343,21 @@ class ImageMagnifier extends Component {
       });
     return images;
   }
+
+  getImgSize = (url, cb) => {
+    let img = new Image();
+    img.src = url;
+    if (img.complete) {
+      cb(img.width, img.height);
+    } else {
+      img.onload = function () {
+        cb(img.width, img.height);
+        img.onload = null;
+      };
+    }
+    return [img.width, img.height];
+  };
+
   render() {
     const {
       cssStyle,
@@ -377,6 +392,13 @@ class ImageMagnifier extends Component {
       imgCount = imgCount + 1;
     }
     let offsetX = isMobile ? 60 : 69;
+    // 为了下面的小图片不变形
+    spuImages.forEach((el, i) => {
+      this.getImgSize(el.artworkUrl, function (w, h) {
+        w > h ? (el.bgSize = '100% auto') : (el.bgSize = 'auto 100%');
+      });
+    });
+
     return (
       <div>
         <div className="position-relative">
@@ -558,7 +580,7 @@ class ImageMagnifier extends Component {
                           width: 200
                         }) ||
                         noPic + ')',
-                      backgroundSize: '100% 100%'
+                      backgroundSize: el.bgSize
                     }}
                   />
                 ))

@@ -337,7 +337,7 @@ class PayOs extends React.Component {
         if (value.length == 0) {
           result = 'NOT_TEST';
         } else {
-          result = 'FAIL';
+          result = 'SUCCESS';
         }
         break;
       case 'cardMmyy':
@@ -684,7 +684,7 @@ class PayOs extends React.Component {
                                   <span className="w-full cardForm relative">
                                     <div className="flex">
                                       <div className="w-100">
-                                        <div className="form-group required">
+                                        <div className="core form-group required">
                                           <span
                                             className="rc-input rc-input--full-width"
                                             input-setup="true"
@@ -692,7 +692,7 @@ class PayOs extends React.Component {
                                             <input
                                               type="tel"
                                               className={formListInputColor(
-                                                'rc-input__control form-control email h-10 pl-3 py-0 border border-gray-300 rounded-md focus:ring-2 focus:ring-transparent focus:border-blue-500',
+                                                'form-control email h-10 pl-3 py-0 border border-gray-300 rounded-md placeholder-gray-300',
                                                 'cardNumber'
                                               )}
                                               id="number"
@@ -750,7 +750,7 @@ class PayOs extends React.Component {
                           >
                             Дата окончания
                             <span className="red">*</span>
-                            <div className="form-group required mt-1">
+                            <div className="core form-group required mt-1">
                               <span
                                 className="rc-input rc-input--full-width"
                                 input-setup="true"
@@ -758,7 +758,7 @@ class PayOs extends React.Component {
                                 <input
                                   type="tel"
                                   className={formListInputColor(
-                                    'rc-text-colour--iconography font-thin w-100  phone border border-gray-300 rounded-md h-10 pl-3 py-0 focus:ring-2 focus:ring-transparent focus:border-blue-500',
+                                    'rc-text-colour--iconography font-thin form-control  phone border border-gray-300 rounded-md h-10 pl-3 py-0 placeholder-gray-300',
                                     'cardMmyy'
                                   )}
                                   min-lenght="18"
@@ -788,7 +788,7 @@ class PayOs extends React.Component {
                           >
                             CVV
                             <span className="red">*</span>
-                            <div className="form-group required mt-1">
+                            <div className="core form-group required mt-1">
                               <span
                                 className="rc-input rc-input--full-width relative"
                                 input-setup="true"
@@ -797,7 +797,7 @@ class PayOs extends React.Component {
                                   type="password"
                                   autoComplete="new-password"
                                   className={formListInputColor(
-                                    'form-control phone  rounded-md h-10 pl-3 py-0 focus:ring-2 focus:ring-transparent focus:border-blue-500',
+                                    'form-control phone  rounded-md h-10 pl-3 py-0 placeholder-gray-300',
                                     'cardCvv'
                                   )}
                                   value={creditCardInfoForm.cardCvv}
@@ -827,7 +827,7 @@ class PayOs extends React.Component {
                             >
                               <FormattedMessage id="payment.cardOwner" />
                               <span className="red">*</span>
-                              <div className="form-group required mt-1">
+                              <div className="core form-group required mt-1">
                                 <span
                                   className="rc-input rc-input--full-width"
                                   input-setup="true"
@@ -835,7 +835,7 @@ class PayOs extends React.Component {
                                   <input
                                     type="text"
                                     className={formListInputColor(
-                                      'rc-text-colour--iconography font-thin w-100 cardOwner border border-gray-300 rounded-md h-10 pl-3 py-0 focus:ring-2 focus:ring-transparent focus:border-blue-500',
+                                      'rc-text-colour--iconography font-thin form-control cardOwner border border-gray-300 rounded-md h-10 pl-3 py-0 placeholder-gray-300',
                                       'cardOwner'
                                     )}
                                     autocomplete="off"
@@ -844,7 +844,7 @@ class PayOs extends React.Component {
                                     onChange={this.cardInfoInputChange}
                                     onBlur={this.inputBoxBlur}
                                     maxLength="40"
-                                    placeholder="J.Smith"
+                                    placeholder="SERGEY IVANOV"
                                   />
                                   {formListInputIcon('cardOwner')}
                                 </span>
