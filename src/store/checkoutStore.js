@@ -127,6 +127,10 @@ class CheckoutStore {
     return list;
   }
 
+  @computed get isShowBindPet() {
+    return this.autoAuditFlag && this.petFlag && this.AuditData.length > 0;
+  }
+
   @action.bound
   setPetInfo(data) {
     this.pr_petsInfo = data;

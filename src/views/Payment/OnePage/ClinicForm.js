@@ -167,9 +167,8 @@ class ClinicForm extends React.Component {
           {...this}
           panelStatus={clinicPanelStatus}
           onEdit={this.gotoPrescriptionPage}
-        >
-          <div>{this.state.form.clinicName}</div>
-        </ClinicPanelContainer>
+          previewJSX={<div>{this.state.form.clinicName}</div>}
+        />
       </>
     );
 
@@ -179,6 +178,7 @@ class ClinicForm extends React.Component {
           {...this}
           panelStatus={clinicPanelStatus}
           onEdit={this.handleClickEdit}
+          previewJSX={<div>{this.state.form.clinicName}</div>}
         >
           {isEdit ? (
             <div className="rc-margin-left--none rc-padding-left--none rc-margin-left--xs rc-padding-left--xs">
@@ -278,9 +278,7 @@ class ClinicForm extends React.Component {
                 </button>
               </div>
             </div>
-          ) : (
-            <div>{this.state.form.clinicName}</div>
-          )}
+          ) : null}
         </ClinicPanelContainer>
       </>
     );

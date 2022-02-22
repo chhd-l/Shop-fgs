@@ -23,7 +23,6 @@ import {
   felinAddr,
   RepayAddressPreview
 } from './Address';
-import PetModal from './PetModal';
 import Confirmation from './modules/Confirmation';
 import { withOktaAuth } from '@okta/okta-react';
 import {
@@ -1259,29 +1258,6 @@ class Payment extends React.Component {
   };
   // 4、支付公共初始化方法
   initCommonPay = ({ email = '', type }) => {
-    // todo 删除此pet校验
-    if (this.props.checkoutStore.AuditData.length) {
-      let petFlag = true;
-      let data = this.props.checkoutStore.AuditData;
-      for (let i = 0; i < data.length; i++) {
-        if (this.isLogin) {
-          if (!data[i].petsId) {
-            petFlag = false;
-            break;
-          }
-        } else {
-          if (!data[i].petForm || !data[i].petForm.petName) {
-            petFlag = false;
-            break;
-          }
-        }
-      }
-      if (!petFlag && this.props.checkoutStore.petFlag) {
-        this.showErrorMsg('Please fill in pet information');
-        this.endLoading();
-        return;
-      }
-    }
     this.doGetAdyenPayParam(type);
     if (email) {
       this.setState({
@@ -1631,23 +1607,27 @@ class Payment extends React.Component {
         );
         action.forEach(([key, value]) => value.call(this));
       };
+      const {
+        paymentStore: { petList, petSelectedIds },
+        checkoutStore: { isShowBindPet }
+      } = this.props;
 
       sessionItemRoyal.set('rc-paywith-login', this.isLogin);
       this.startLoading();
       if (!this.isLogin) {
         await this.visitorLoginAndAddToCart();
-        // todo 是否需要改造
-        if (
-          this.props.checkoutStore.AuditData.length > 0 &&
-          this.props.checkoutStore.petFlag &&
-          !this.props.checkoutStore.autoAuditFlag
-        ) {
-          let param = this.props.checkoutStore.AuditData.map((el) => {
-            let petForm = {
-              birthday: el.petForm.birthday,
-              breed: el.petForm.breed,
-              petsName: el.petForm.petName,
-              petsType: el.petForm.petType
+        // 游客批量新增宠物 待测试，jp未开通新增宠物功能
+        if (isShowBindPet) {
+          const param = this.props.checkoutStore.AuditData.map((el, idx) => {
+            const targetPetsId = petSelectedIds[idx];
+            const targetPetInfo = petList.find(
+              (p) => (p.petsId = targetPetsId)
+            );
+            const petForm = {
+              birthday: targetPetInfo.birthday,
+              breed: targetPetInfo.breed,
+              petsName: targetPetInfo.petName,
+              petsType: targetPetInfo.petType
             };
             return {
               customerPets: Object.assign(petForm, {
@@ -1656,7 +1636,7 @@ class Payment extends React.Component {
               storeId: window.__.env.REACT_APP_STOREID
             };
           });
-          let res = await batchAddPets({
+          const res = await batchAddPets({
             batchAddItemList: param
           });
           parameters.tradeItems.map((el) => {
@@ -2117,10 +2097,8 @@ class Payment extends React.Component {
   async packagePayParam() {
     const loginCartData = this.loginCartData;
     const cartData = this.cartData.filter((ele) => ele.selected);
-    const {
-      clinicStore,
-      paymentStore: { addCardDirectToPayFlag }
-    } = this.props;
+    const { clinicStore, paymentStore, checkoutStore } = this.props;
+    const { addCardDirectToPayFlag } = paymentStore;
     let {
       deliveryAddress,
       billingAddress,
@@ -2251,29 +2229,37 @@ class Payment extends React.Component {
 
     if (sessionItemRoyal.get('recommend_product')) {
       param.tradeItems = this.state.recommend_data.map((ele) => {
-        const recoProductParam = handleRecoProductParamByItem(ele);
+        const recoProductParam = handleRecoProductParamByItem({
+          ele,
+          paymentStore,
+          checkoutStore
+        });
         return Object.assign(recoProductParam, {
           num: ele.buyCount,
           skuId: ele.goodsInfoId,
-          petsId: ele.petsId,
-          petsName: ele.petsName,
           goodsInfoFlag: 0
         });
       });
     } else if (this.isLogin) {
       param.tradeItems = loginCartData.map((ele) => {
-        const recoProductParam = handleRecoProductParamByItem(ele);
+        const recoProductParam = handleRecoProductParamByItem({
+          ele,
+          paymentStore,
+          checkoutStore
+        });
         return Object.assign(recoProductParam, {
           num: ele.buyCount,
           skuId: ele.goodsInfoId,
-          petsId: ele.petsId,
-          petsName: ele.petsName,
           goodsInfoFlag: ele.goodsInfoFlag
         });
       });
     } else {
       param.tradeItems = cartData.map((ele) => {
-        const recoProductParam = handleRecoProductParamByItem(ele);
+        const recoProductParam = handleRecoProductParamByItem({
+          ele,
+          paymentStore,
+          checkoutStore
+        });
         return Object.assign(recoProductParam, {
           num: ele.quantity,
           skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
@@ -2290,12 +2276,14 @@ class Payment extends React.Component {
         // .filter((ele) => !ele.subscriptionStatus || !ele.subscriptionPrice)
         .filter((ele) => !ele.goodsInfoFlag)
         .map((g) => {
-          const recoProductParam = handleRecoProductParamByItem(g);
+          const recoProductParam = handleRecoProductParamByItem({
+            ele: g,
+            paymentStore,
+            checkoutStore
+          });
           return Object.assign(recoProductParam, {
             num: g.buyCount,
             skuId: g.goodsInfoId,
-            petsId: g.petsId,
-            petsName: g.petsName,
             goodsInfoFlag: g.goodsInfoFlag,
             periodTypeId: g.periodTypeId
           });
@@ -2320,7 +2308,11 @@ class Payment extends React.Component {
             ele.goodsInfoFlag
         )
         .map((g) => {
-          const recoProductParam = handleRecoProductParamByItem(g);
+          const recoProductParam = handleRecoProductParamByItem({
+            ele: g,
+            paymentStore,
+            checkoutStore
+          });
           return Object.assign(recoProductParam, {
             settingPrice: g.settingPrice,
             packageId: g.packageId,
@@ -2333,9 +2325,6 @@ class Payment extends React.Component {
             questionParams: g.questionParams ? g.questionParams : undefined,
             subscribeNum: g.buyCount,
             skuId: g.goodsInfoId,
-            petsId: g.petsId,
-            petsType: g.petsType,
-            petsName: g.petsName,
             periodTypeId: g.periodTypeId
           });
         });
@@ -2391,7 +2380,6 @@ class Payment extends React.Component {
    */
   async saveAddressAndCommentPromise() {
     try {
-      const { configStore, clinicStore } = this.props;
       const { deliveryAddress, billingAddress, billingChecked } = this.state;
       let tmpDeliveryAddress = { ...deliveryAddress };
       let tmpBillingAddress = { ...billingAddress };
@@ -4201,10 +4189,9 @@ class Payment extends React.Component {
                     },
                     onEdit: this.handleClickPaymentPanelEdit
                   }}
+                  previewJSX={this.renderPayPreview()}
                 >
                   {this.renderPayTab()}
-                  {paymentMethodPanelStatus.isCompleted &&
-                    this.renderPayPreview()}
                 </PanelContainer>
 
                 <Confirmation

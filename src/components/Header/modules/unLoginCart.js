@@ -11,7 +11,6 @@ import {
 import FrequencyMatch from '@/components/FrequencyMatch';
 import find from 'lodash/find';
 import { inject, observer } from 'mobx-react';
-//import PetModal from '@/components/PetModal';
 import { getProductPetConfig } from '@/api/payment';
 import './index.css';
 import { FOOD_DISPENSER_PIC } from '@/utils/constant';

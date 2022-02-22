@@ -4,32 +4,19 @@ import cn from 'classnames';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 import PetListSelection from './PetListSelection';
-import { getPetList } from '@/api/pet';
 
-const PetItem = ({ loginStore, item, className, idx }) => {
-  const { isLogin, userInfo } = loginStore;
-  const [list, setList] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await getPetList({
-        customerId: userInfo.customerId,
-        consumerAccount: userInfo.customerAccount
-      });
-      setList(res.context.context);
-    };
-    if (isLogin) {
-      fetchData();
-    }
-  }, [isLogin]);
+const PetItem = ({ item, className, idx }) => {
   return (
     <div
-      className={cn('petProduct flex justify-between items-center', className)}
+      className={cn(
+        'petProduct flex flex-col md:flex-row justify-between md:items-center',
+        className
+      )}
     >
       <div className="flex">
         <LazyLoad>
           <img
-            className="pull-left"
+            className="w-16"
             alt="goods information image"
             src={item.goodsInfoImg}
           />
@@ -43,9 +30,9 @@ const PetItem = ({ loginStore, item, className, idx }) => {
           </p>
         </div>
       </div>
-      <div className="ml-5">
+      <div className="ml-20 md:ml-5">
         <FormattedMessage id="payment.selectPetProfile" />
-        <PetListSelection list={list} key={list.length} idx={idx} />
+        <PetListSelection idx={idx} />
         {/* <button
           className="rc-btn rc-btn--sm rc-btn--one"
           onClick={() => {

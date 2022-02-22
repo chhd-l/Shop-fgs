@@ -42,7 +42,11 @@ export function scrollPaymentPanelIntoView() {
  * @param {Object} ele 产品item info
  * @returns
  */
-export function handleRecoProductParamByItem(ele) {
+export function handleRecoProductParamByItem({
+  ele,
+  paymentStore,
+  checkoutStore
+}) {
   let recommendationInfos = {};
   if (ele.recommendationInfos && ele.recommendationInfos != 'null') {
     recommendationInfos =
@@ -63,6 +67,17 @@ export function handleRecoProductParamByItem(ele) {
     ele.recommendationId == 'Felin'
       ? 'Felin'
       : recommendationId || ele.recommendationId || ''; // 优先去取recommendationInfos里面的recommendationId,如果是felin，特殊处理
+
+  // 把select pets info, 绑定到产品上, 封装下单参数
+  const { AuditData } = checkoutStore;
+  const { petList, petSelectedIds } = paymentStore;
+  const auditProductIdx = AuditData.findIndex(
+    (l) => l.goodsInfoId === ele.goodsInfoId
+  );
+  const curPetInfo = petList.find(
+    (p) => p.petsId === petSelectedIds[auditProductIdx]
+  );
+
   return {
     //shelter和breeder产品参数 start
     utmSource: ele.utmSource || '',
@@ -77,6 +92,11 @@ export function handleRecoProductParamByItem(ele) {
     recommenderName,
     referenceId,
     recommendationId: newRecommendationId,
-    recommendationName: recommendationName || ele.recommendationName || ''
+    recommendationName: recommendationName || ele.recommendationName || '',
+    //pet info bind start
+    petsId: curPetInfo?.petsId || '',
+    petsName: curPetInfo?.petsName || '',
+    petsType: curPetInfo?.petsType || ''
+    //pet info bind end
   };
 }
