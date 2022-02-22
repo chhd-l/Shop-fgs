@@ -3,6 +3,7 @@ import { formatMoney } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import FrequencySelection from '@/components/FrequencySelection/index.tsx';
+import { toJS } from 'mobx';
 
 const SubscriptionSelection = function (props) {
   const { isGift, pitem, activeToolTipIndex, index, toolTipVisible, isLogin } =
@@ -128,7 +129,9 @@ const SubscriptionSelection = function (props) {
         </div>
       </div>
       <FrequencySelection
-        frequencyType={pitem.promotions}
+        frequencyType={
+          pitem?.sizeList?.filter((el) => el.selected)[0]?.promotions
+        }
         currentFrequencyId={pitem.form.frequencyId}
         handleConfirm={(data) => {
           props.changeFrequency(pitem, data);
