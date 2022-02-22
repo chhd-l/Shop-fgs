@@ -52,6 +52,7 @@ class OxxoConfirm extends Component {
                   value={this.state.email}
                   onChange={this.emailChange}
                   style={{ width: '100%' }}
+                  className="border"
                 />
               </div>
             </div>
