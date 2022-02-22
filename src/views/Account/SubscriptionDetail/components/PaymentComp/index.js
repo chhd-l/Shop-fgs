@@ -777,7 +777,7 @@ class PaymentComp extends React.Component {
                             </div>
                           ) : (
                             <div
-                              className="ui-cursor-pointer"
+                              className="ui-cursor-pointer hidden"
                               onClick={this.toggleSetDefault.bind(this, el)}
                             >
                               <span className="iconfont mr-1">&#xe68c;</span>
