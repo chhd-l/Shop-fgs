@@ -507,11 +507,9 @@ function ListItemForDefault(props) {
 function ListItemBodyH5ForGlobalStyle({ item, configStore }) {
   const vetProduct = item?.goodsCate?.cateName?.toLowerCase()?.includes('vet');
   console.log(vetProduct, 'VVVV');
-  const trFrUk =
-    window.__.env.REACT_APP_COUNTRY === 'fr' ||
-    window.__.env.REACT_APP_COUNTRY === 'tr' ||
-    window.__.env.REACT_APP_COUNTRY === 'uk';
-  const hiddenPrice = vetProduct && trFrUk;
+  const country =
+    ['tr', 'fr', 'uk', 'se'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1;
+  const hiddenPrice = vetProduct && country;
   // vet商品，不可销售，但是展示在前台，隐藏库存（fr）
   const hiddenStock = vetProduct && !item.saleableFlag && item.displayFlag;
   const inStock =
@@ -768,11 +766,9 @@ const PriceItemShow = ({ item, configStore }) => {
 };
 function ListItemBody({ item, headingTag, configStore }) {
   const vetProduct = item?.goodsCate?.cateName?.toLowerCase()?.includes('vet');
-  const trFrUk =
-    window.__.env.REACT_APP_COUNTRY === 'fr' ||
-    window.__.env.REACT_APP_COUNTRY === 'tr' ||
-    window.__.env.REACT_APP_COUNTRY === 'uk';
-  const hiddenPrice = vetProduct && trFrUk;
+  const country =
+    ['tr', 'fr', 'uk', 'se'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1;
+  const hiddenPrice = vetProduct && country;
   // vet商品，不可销售，但是展示在前台，隐藏库存（fr）
   const hiddenStock = vetProduct && !item.saleableFlag && item.displayFlag;
   const goodHeading = `<${headingTag ? headingTag : 'h2'}
