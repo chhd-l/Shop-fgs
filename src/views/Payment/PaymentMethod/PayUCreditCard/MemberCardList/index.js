@@ -840,7 +840,7 @@ class MemberCardList extends React.Component {
 
     const formListInputError = (errMsg, type) => {
       return this.state.isCreditCardCheck[type] === 'FAIL' ? (
-        <div className="text-red-500 my-1">{errMsg}</div>
+        <div className="text-red-500 my-1 whitespace-nowrap">{errMsg}</div>
       ) : null;
     };
 

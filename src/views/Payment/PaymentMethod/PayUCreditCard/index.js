@@ -609,7 +609,7 @@ class PayOs extends React.Component {
 
     const formListInputError = (errMsg, type) => {
       return this.state.isCreditCardCheck[type] === 'FAIL' ? (
-        <div className="text-red-500 my-1">{errMsg}</div>
+        <div className="text-red-500 my-1 whitespace-nowrap">{errMsg}</div>
       ) : null;
     };
     //俄罗斯表单专用
