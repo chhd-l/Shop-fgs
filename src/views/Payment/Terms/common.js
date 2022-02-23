@@ -10,7 +10,7 @@ import './index.css';
 import Consent from '@/components/Consent';
 import { addEventListenerArr } from './addEventListener';
 
-@inject('paymentStore')
+@inject('paymentStore', 'loginStore')
 class TermsCommon extends Component {
   static defaultProps = {
     updateValidStatus: () => {}
@@ -119,6 +119,7 @@ class TermsCommon extends Component {
           key="payment"
           id={this.props.id}
           pageType="checkout"
+          isLogin={this.props.loginStore.isLogin}
         />
       </div>
     );
