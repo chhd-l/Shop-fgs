@@ -277,7 +277,6 @@ class Payment extends React.Component {
       isAdd: 0,
       listData: [],
       requiredList: [],
-      AuditData: [],
       needPrescriber:
         localItemRoyal.get('checkOutNeedShowPrescriber') === 'true', //调整checkout页面第一行显示prescriber信息条件：商品Need prescriber或者已经有了prescriber信息
       unLoginBackPets: [],
