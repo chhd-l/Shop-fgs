@@ -70,7 +70,8 @@ import {
   OxxoConfirm,
   AdyenCommonPay,
   CyberPayment,
-  ConvenienceStore
+  ConvenienceStore,
+  ConvenienceStorePayReview
 } from './PaymentMethod';
 import { OnePageEmailForm, OnePageClinicForm } from './OnePage';
 import './modules/adyenCopy.css';
@@ -95,6 +96,7 @@ import base64 from 'base-64';
 import cn from 'classnames';
 import { SelectPet } from './SelectPet';
 import { PanelContainer } from './Common';
+import testConvenienceStore from './PaymentMethod/ConvenienceStore/testdata';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -335,7 +337,8 @@ class Payment extends React.Component {
       welcomeBoxValue: 'no', //first order welcome box:1、会员 2、首单 3、未填写学生购student promotion 50% discount
       paymentPanelHasComplete: false, //增加payment面板按钮的状态，方便0元订单判断是否已经填写完payment面板
       isFromFelin: false, //是否是felin下单
-      appointNo: null //felin的预约单号
+      appointNo: null, //felin的预约单号
+      convenienceStore: ''
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
@@ -3568,7 +3571,11 @@ class Payment extends React.Component {
                   {item.paymentTypeVal === 'convenience_store' &&
                     paymentTypeVal === 'convenience_store' && (
                       <>
-                        <ConvenienceStore />
+                        <ConvenienceStore
+                          convenienceStoreChange={(value) => {
+                            this.setState({ convenienceStore: value });
+                          }}
+                        />
                       </>
                     )}
                   {item.paymentTypeVal === 'adyen_swish' &&
@@ -3610,7 +3617,7 @@ class Payment extends React.Component {
             })}
           {paymentTypeVal === 'convenience_store' &&
             payConfirmBtn({
-              disabled: validForBilling
+              disabled: !this.state.convenienceStore
             })}
           {/* ***********************支付选项卡的内容start******************************* */}
           {payWayErr ? (
@@ -3941,9 +3948,12 @@ class Payment extends React.Component {
       case 'convenience_store':
         ret = (
           <div className="col-12 col-md-6">
-            <img src={convenienceStoreLogo} className="w-24 ml-8" />
+            <ConvenienceStorePayReview
+              convenienceStore={this.state.convenienceStore}
+            />
           </div>
         );
+        break;
       case 'adyen_swish':
         ret = (
           <div className="col-12 col-md-6">

@@ -8,7 +8,6 @@ import {
   formatDate,
   formatMoney,
   getClubLogo,
-  judgeIsIndividual,
   optimizeImage
 } from '@/utils/utils';
 import { IMG_DEFAULT } from '@/utils/constant';
@@ -18,9 +17,9 @@ export default class Modal extends React.Component {
   static defaultProps = {
     modalTitle: <FormattedMessage id="Order cancellation confirmation" />,
     modalText: '',
-    cancelBtnText: <FormattedMessage id="No,i will not cancel the order" />,
+    cancelBtnText: <FormattedMessage id="order.cancelCancelOrder" />,
     middleSpanText: <FormattedMessage id="or" />,
-    confirmBtnText: <FormattedMessage id="Yes,cancel the order" />,
+    confirmBtnText: <FormattedMessage id="order.sureCancelOrder" />,
     visible: false, //是否显示弹框
     details: null,
     welcomeGiftLists: [],
@@ -150,16 +149,7 @@ export default class Modal extends React.Component {
                                         className="medium ui-text-overflow-line2 text-break color-444"
                                         title={item.spuName}
                                       >
-                                        {judgeIsIndividual(item) ? (
-                                          <FormattedMessage
-                                            id="subscription.personalized"
-                                            values={{
-                                              val1: item.petsName
-                                            }}
-                                          />
-                                        ) : (
-                                          item.spuName
-                                        )}
+                                        {item.spuName}
                                       </span>
                                       <span className="ui-text-overflow-line2">
                                         {item.specDetails}
@@ -187,23 +177,17 @@ export default class Modal extends React.Component {
                                       <span className="rc-md-down">
                                         {details.subscriptionResponseVO &&
                                         item.subscriptionStatus ? (
-                                          judgeIsIndividual(item) ? (
-                                            ''
-                                          ) : (
-                                            <>
-                                              <span className="red font-weight-normal">
-                                                {formatMoney(
-                                                  item.subscriptionPrice
-                                                )}
-                                              </span>
+                                          <>
+                                            <span className="red font-weight-normal">
+                                              {formatMoney(
+                                                item.subscriptionPrice
+                                              )}
+                                            </span>
 
-                                              <span className="text-line-through ml-2">
-                                                {formatMoney(
-                                                  item.originalPrice
-                                                )}
-                                              </span>
-                                            </>
-                                          )
+                                            <span className="text-line-through ml-2">
+                                              {formatMoney(item.originalPrice)}
+                                            </span>
+                                          </>
                                         ) : (
                                           formatMoney(item.originalPrice)
                                         )}
@@ -214,9 +198,7 @@ export default class Modal extends React.Component {
                                     <FormattedMessage
                                       id="xProduct"
                                       values={{
-                                        val: judgeIsIndividual(item)
-                                          ? 1
-                                          : item.num
+                                        val: item.num
                                       }}
                                     />
                                   </div>
@@ -225,20 +207,14 @@ export default class Modal extends React.Component {
                                   >
                                     {details.subscriptionResponseVO &&
                                     item.subscriptionStatus ? (
-                                      judgeIsIndividual(item) ? (
-                                        ''
-                                      ) : (
-                                        <>
-                                          <span className="red font-weight-normal">
-                                            {formatMoney(
-                                              item.subscriptionPrice
-                                            )}
-                                          </span>
-                                          <span className="text-line-through ml-2">
-                                            {formatMoney(item.originalPrice)}
-                                          </span>
-                                        </>
-                                      )
+                                      <>
+                                        <span className="red font-weight-normal">
+                                          {formatMoney(item.subscriptionPrice)}
+                                        </span>
+                                        <span className="text-line-through ml-2">
+                                          {formatMoney(item.originalPrice)}
+                                        </span>
+                                      </>
                                     ) : (
                                       formatMoney(item.originalPrice)
                                     )}
@@ -249,9 +225,7 @@ export default class Modal extends React.Component {
                                     {details.subscriptionResponseVO &&
                                     item.subscriptionStatus
                                       ? formatMoney(
-                                          judgeIsIndividual(item)
-                                            ? details.tradePrice.goodsPrice
-                                            : item.subscriptionPrice * item.num
+                                          item.subscriptionPrice * item.num
                                         )
                                       : formatMoney(
                                           item.originalPrice * item.num
@@ -301,25 +275,19 @@ export default class Modal extends React.Component {
                                     </span>
                                   </span>
                                   <span className="rc-md-down 1111">
-                                    {judgeIsIndividual(item)
-                                      ? ''
-                                      : formatMoney(item.marketPrice)}
+                                    {formatMoney(item.marketPrice)}
                                   </span>
                                 </div>
                                 <div className="col-6 col-md-2 text-right md:text-left rc-md-up">
                                   <FormattedMessage
                                     id="xProduct"
                                     values={{
-                                      val: judgeIsIndividual(item)
-                                        ? 1
-                                        : item.quantity
+                                      val: item.quantity
                                     }}
                                   />
                                 </div>
                                 <div className="col-6 col-md-3 text-right md:text-left rc-md-up">
-                                  {judgeIsIndividual(item)
-                                    ? ''
-                                    : formatMoney(item.marketPrice)}
+                                  {formatMoney(item.marketPrice)}
                                 </div>
                                 <div className="col-12 col-md-2 text-right md:text-left text-nowrap rc-md-up font-weight-normal">
                                   {formatMoney(item.marketPrice)}

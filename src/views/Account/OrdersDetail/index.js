@@ -973,7 +973,7 @@ class AccountOrders extends React.Component {
                   this.setState({ cancelJpOrderModalVisible: true });
                 }}
               >
-                <FormattedMessage id="Cancel order" />
+                <FormattedMessage id="order.cancelOrder" />
               </span>
               <span className="mx-2 mt-2">
                 <FormattedMessage id="or" />
