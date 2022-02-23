@@ -71,7 +71,7 @@ class Consent extends Component {
     return (
       <div
         className={`required-component break-words ${autoClass}`}
-        style={{ width: `${width}` }}
+        style={{ width: `${width}`, wordBreak: 'break-word' }}
       >
         {this.renderCheckBox(list)}
       </div>

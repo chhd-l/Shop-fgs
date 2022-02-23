@@ -226,10 +226,6 @@
   border-color: #d7d7d7 !important;
 }
 
-.required label:after {
-  color: red;
-}
-
 /*
 .shippingPhoneNumber {
   -moz-user-select:none;
