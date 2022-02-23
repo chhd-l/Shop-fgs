@@ -242,7 +242,7 @@ class MemberCardList extends React.Component {
       //     mask: cardNumberReg
       //   };
       //   IMask(element, maskOptions);
-      creditCardInfoForm[name] = value;
+      //creditCardInfoForm[name] = value;
     } else if (name === 'cardMmyy') {
       let element = document.getElementById('cardMmyy');
       let maskOptions = [];
@@ -1323,6 +1323,7 @@ class MemberCardList extends React.Component {
                                       value={creditCardInfoForm.cardMmyy}
                                       onChange={this.cardInfoInputChange}
                                       name="cardMmyy"
+                                      id="cardMmyy"
                                       maxLength="5"
                                       placeholder={'MM/YY'}
                                     />
