@@ -4348,7 +4348,7 @@ class Payment extends React.Component {
           ) : (
             <div className="flex flex-col items-center">
               <div className="pt-1 pb-6 text-black text-base">
-                Skanna QR-kod
+                <FormattedMessage id="payment.scanQrcode" />
               </div>
               <QRCode
                 value={this.state.swishQrcode}
@@ -4371,11 +4371,13 @@ class Payment extends React.Component {
                 {formatMoney(this.tradePrice)}
               </div>
               <div className="text-sm pt-6">
-                Du har {this.state.countDown} minuter på dig att betala.
+                <FormattedMessage
+                  id="payment.countdowning"
+                  values={{ val: this.state.countDown }}
+                />
               </div>
               <div className="w-64 md:w-96 text-center py-6 text-gray-600">
-                Du har 15 minuter på dig att genomföra köpet. Försök att
-                genomföra köp igen kan resultera i flera betalningar.
+                <FormattedMessage id="payment.countdown" />
               </div>
               <button
                 className="md:hidden mt-2 rc-btn rc-btn--one"
