@@ -215,7 +215,10 @@ class Whistlefit extends React.Component {
 
     return (
       <div>
-        <GoogleTagManager additionalEvents={event} />
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
+        />
         <Helmet>
           <link rel="canonical" href={pageLink} />
         </Helmet>
@@ -243,7 +246,7 @@ class Whistlefit extends React.Component {
                             soin de la santé de votre chien
                           </div>
                           <div
-                            className="text-center md:text-left text-18 md:text-30 mt-0 mb-6 ml-5 md:ml-0 mr-5 md:mr-0 font-normal md:leading-14"
+                            className="text-center md:text-left text-18 md:text-28 mt-0 mb-6 ml-5 md:ml-0 mr-5 md:mr-0 font-normal md:leading-14"
                             style={{ color: '#E2001A' }}
                           >
                             Faites partie des premiers à être informés de la

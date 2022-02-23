@@ -345,7 +345,10 @@ class PetForm extends React.Component {
     let isChoosePetType = isCat !== null;
     return (
       <div className="petForm">
-        <GoogleTagManager additionalEvents={event} />
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
+        />
         <Helmet>
           <link rel="canonical" href={pageLink} />
         </Helmet>

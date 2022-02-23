@@ -21,6 +21,7 @@ import InstallmentTable from '../InstallmentTable';
 import CardItemCover from '../CardItemCover';
 import getCardImg from '@/lib/get-card-img';
 import cn from 'classnames';
+import IMask from 'imask';
 
 import './index.css';
 
@@ -234,20 +235,23 @@ class MemberCardList extends React.Component {
         //value = value.replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, '$1 '); //银行卡4位后自动加空格
         //creditCardInfoForm[name] = value;
       }
+      // let element = document.getElementById('cardNumber');
+      //   let maskOptions = [];
+      //   let cardNumberReg = [{ mask: '0000 0000 0000 0000' }];
+      //   maskOptions = {
+      //     mask: cardNumberReg
+      //   };
+      //   IMask(element, maskOptions);
+      //creditCardInfoForm[name] = value;
     } else if (name === 'cardMmyy') {
-      // 获取 / 前后数字
-      let splitArr = value.split('/');
-      let noFormatStr = '';
-      let finalValue = '';
-      // 获得不带/的数字
-      if (splitArr[1] || splitArr[0].length > 2) {
-        noFormatStr = splitArr[0].concat(splitArr[1] ? splitArr[1] : '');
-        finalValue = noFormatStr.slice(0, 2) + '/' + noFormatStr.slice(2);
-      } else {
-        noFormatStr = splitArr[0];
-        finalValue = noFormatStr.slice(0, 2);
-      }
-      creditCardInfoForm[name] = finalValue;
+      let element = document.getElementById('cardMmyy');
+      let maskOptions = [];
+      let cardMmyyReg = [{ mask: '00/00' }];
+      maskOptions = {
+        mask: cardMmyyReg
+      };
+      IMask(element, maskOptions);
+      creditCardInfoForm[name] = value;
     } else {
       creditCardInfoForm[name] = value;
     }
@@ -811,12 +815,15 @@ class MemberCardList extends React.Component {
       return (
         <>
           {this.state.isCreditCardCheck[type] === 'SUCCESS' ? (
-            <div
-              className={cn(
-                'font-bold text-green text-md absolute top-3 right-3'
-              )}
-            >
-              ✔
+            <div className={cn('font-bold text-md absolute top-3 right-3')}>
+              <svg
+                fill="#0ABF53"
+                width="16px"
+                height="16px"
+                viewBox="0 0 16 16"
+              >
+                <path d="M6.50025408,13.5007781 C6.23625408,13.5007781 5.98125408,13.3967781 5.79325408,13.2077781 L2.79325408,10.2077781 C2.40225408,9.81677809 2.40225408,9.18477809 2.79325408,8.79377809 C3.18425408,8.40277809 3.81625408,8.40277809 4.20725408,8.79377809 L6.34525408,10.9307781 L11.6682541,2.94577809 C11.9742541,2.48677809 12.5942541,2.36077809 13.0552541,2.66877809 C13.5142541,2.97477809 13.6382541,3.59577809 13.3322541,4.05577809 L7.33225408,13.0557781 C7.16625408,13.3047781 6.89625408,13.4667781 6.59925408,13.4957781 C6.56525408,13.4997781 6.53325408,13.5007781 6.50025408,13.5007781"></path>
+              </svg>
             </div>
           ) : null}
           {this.state.isCreditCardCheck[type] === 'FAIL' ? (
@@ -837,7 +844,7 @@ class MemberCardList extends React.Component {
 
     const formListInputError = (errMsg, type) => {
       return this.state.isCreditCardCheck[type] === 'FAIL' ? (
-        <div className="text-red-500 my-1">{errMsg}</div>
+        <div className="text-red-500 my-1 whitespace-nowrap">{errMsg}</div>
       ) : null;
     };
 
@@ -966,7 +973,7 @@ class MemberCardList extends React.Component {
                                         'form-control h-10 pl-3 py-0 border border-gray-300 rounded-md placeholder-gray-300',
                                         'cardNumber'
                                       )}
-                                      id="number"
+                                      id="cardNumber"
                                       value={creditCardInfoForm.cardNumber
                                         .replace(/\s/g, '')
                                         .replace(/(\d{4})(?=\d)/g, '$1 ')}
@@ -1031,6 +1038,7 @@ class MemberCardList extends React.Component {
                           onChange={this.cardInfoInputChange}
                           onBlur={this.inputBoxBlur}
                           name="cardMmyy"
+                          id="cardMmyy"
                           maxLength="5"
                           placeholder={'MM/YY'}
                         />
@@ -1315,6 +1323,7 @@ class MemberCardList extends React.Component {
                                       value={creditCardInfoForm.cardMmyy}
                                       onChange={this.cardInfoInputChange}
                                       name="cardMmyy"
+                                      id="cardMmyy"
                                       maxLength="5"
                                       placeholder={'MM/YY'}
                                     />

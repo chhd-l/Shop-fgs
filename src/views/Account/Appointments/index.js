@@ -178,7 +178,10 @@ class AccountOrders extends React.Component {
     const { errMsg, everHaveNoOrders, appointmentList } = this.state;
     return (
       <div>
-        <GoogleTagManager additionalEvents={event} />
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
+        />
         <Helmet>
           <link rel="canonical" href={pageLink} />
         </Helmet>

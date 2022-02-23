@@ -1253,7 +1253,7 @@ class Details extends React.Component {
       : '';
     return (
       <div id="Details">
-        <GA_Comp details={details} />
+        <GA_Comp props={this.props} details={details} />
         <SeoConfig
           errMsg={errMsg}
           goodsId={goodsId}
@@ -1353,7 +1353,8 @@ class Details extends React.Component {
                                     'tr',
                                     'us',
                                     'mx',
-                                    'uk'
+                                    'uk',
+                                    'se'
                                   ]) ? (
                                     <ImageMagnifier_fr
                                       sizeList={details.sizeList}

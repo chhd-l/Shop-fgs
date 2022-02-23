@@ -24,7 +24,10 @@ class Page403 extends React.Component {
     return (
       <React.Fragment>
         {/* <Header showMiniIcons={true} location={this.props.location} /> */}
-        <GoogleTagManager additionalEvents={event} />
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
+        />
         <Helmet>
           <link rel="canonical" href={pageLink} />
         </Helmet>

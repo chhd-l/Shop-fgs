@@ -4,9 +4,10 @@ import { useLocation } from 'react-router-dom'
 
 interface Props {
   details: any
+  props: any
 }
 
-const GA_Comp = ({details}: Props) => {
+const GA_Comp = ({details, props}: Props) => {
   let location = useLocation()
   const [event, setEvent] = useState({})
   const [ecoEvents, setEcoEvents] = useState({})
@@ -88,6 +89,7 @@ useEffect(() => {
     <div>
       {Object.keys(event).length ? (
         <GoogleTagManager
+          key={props.location.key}
           additionalEvents={event}
           ecommerceEvents={ecoEvents}
         />

@@ -14,7 +14,7 @@ import catSpecImg from '@/assets/images/cats-spec.png';
 
 const isMobilePhone = getDeviceType() === 'H5';
 const retailDog =
-  'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
+  'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=175&auto=compress&fm=jpg';
 
 function ListItemH5ForGlobalStyle(props) {
   const {
@@ -70,7 +70,7 @@ function ListItemH5ForGlobalStyle(props) {
               <picture className="rc-card__image" style={{ flex: 1 }}>
                 <div className="rc-padding-bottom--xs justify-content-center ">
                   <div
-                    className="lazyload-wrapper"
+                    className="lazyload-wrapper 333"
                     style={{
                       width: '100%',
                       height: '100%'
@@ -324,7 +324,7 @@ function ListItemForDefault(props) {
             <picture className="rc-card__image">
               <div className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen">
                 <div
-                  className="lazyload-wrapper"
+                  className="lazyload-wrapper 44444"
                   style={{
                     width: '100%',
                     height: '100%'
@@ -507,11 +507,9 @@ function ListItemForDefault(props) {
 function ListItemBodyH5ForGlobalStyle({ item, configStore }) {
   const vetProduct = item?.goodsCate?.cateName?.toLowerCase()?.includes('vet');
   console.log(vetProduct, 'VVVV');
-  const trFrUk =
-    window.__.env.REACT_APP_COUNTRY === 'fr' ||
-    window.__.env.REACT_APP_COUNTRY === 'tr' ||
-    window.__.env.REACT_APP_COUNTRY === 'uk';
-  const hiddenPrice = vetProduct && trFrUk;
+  const country =
+    ['tr', 'fr', 'uk', 'se'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1;
+  const hiddenPrice = vetProduct && country;
   // vet商品，不可销售，但是展示在前台，隐藏库存（fr）
   const hiddenStock = vetProduct && !item.saleableFlag && item.displayFlag;
   const inStock =
@@ -768,11 +766,9 @@ const PriceItemShow = ({ item, configStore }) => {
 };
 function ListItemBody({ item, headingTag, configStore }) {
   const vetProduct = item?.goodsCate?.cateName?.toLowerCase()?.includes('vet');
-  const trFrUk =
-    window.__.env.REACT_APP_COUNTRY === 'fr' ||
-    window.__.env.REACT_APP_COUNTRY === 'tr' ||
-    window.__.env.REACT_APP_COUNTRY === 'uk';
-  const hiddenPrice = vetProduct && trFrUk;
+  const country =
+    ['tr', 'fr', 'uk', 'se'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1;
+  const hiddenPrice = vetProduct && country;
   // vet商品，不可销售，但是展示在前台，隐藏库存（fr）
   const hiddenStock = vetProduct && !item.saleableFlag && item.displayFlag;
   const goodHeading = `<${headingTag ? headingTag : 'h2'}

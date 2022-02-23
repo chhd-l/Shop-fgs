@@ -7,11 +7,11 @@ import { getFaq } from '@/api/staticPageApi';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import Skeleton from 'react-skeleton-loader';
 import LazyLoad from 'react-lazyload';
-import BreadCrumbs from '../../components/BreadCrumbs';
+import BreadCrumbs from '@/components/BreadCrumbs';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { seoHoc } from '@/framework/common';
-
+import { funcUrl } from '@/lib/url-utils';
 import './index.less';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -40,11 +40,11 @@ class FAQ extends React.Component {
             loading: false
           },
           () => {
+            const catogeryType = funcUrl({ name: 'type' });
             const { state } = this.props.history.location;
             const widget =
-              state &&
-              state.catogery &&
-              document.querySelector(`#${state.catogery}`);
+              document.querySelector(`#${state?.catogery}`) ||
+              document.querySelector(`#${catogeryType}`);
             if (widget) {
               setTimeout(() => {
                 window.scrollTo({ top: widget.offsetTop - 90 });
@@ -91,7 +91,10 @@ class FAQ extends React.Component {
     };
     return (
       <div>
-        <GoogleTagManager additionalEvents={event} />
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
+        />
         <Helmet>
           <link rel="canonical" href={pageLink} />
         </Helmet>

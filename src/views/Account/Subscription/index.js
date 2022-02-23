@@ -437,7 +437,10 @@ class Subscription extends React.Component {
     const { isMobile } = this.state;
     return (
       <DivWrapper className="subscription">
-        <GoogleTagManager additionalEvents={event} />
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
+        />
         <Helmet>
           <link rel="canonical" href={pageLink} />
         </Helmet>

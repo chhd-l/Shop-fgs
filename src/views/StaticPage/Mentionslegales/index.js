@@ -25,7 +25,10 @@ class Mentionslegales extends React.Component {
     };
     return (
       <div style={{ width: '100%', height: '100%' }}>
-        <GoogleTagManager additionalEvents={event} />
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
+        />
         <Helmet>
           <link rel="canonical" href={pageLink} />
         </Helmet>
