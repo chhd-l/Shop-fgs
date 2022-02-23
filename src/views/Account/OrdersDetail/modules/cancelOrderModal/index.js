@@ -66,7 +66,7 @@ export default class Modal extends React.Component {
                 />
               </div>
               <div
-                className="modal-body px-0"
+                className="modal-body px-0 overflow-y-scroll overflow-x-hidden"
                 style={{
                   maxHeight: '50vh'
                 }}
@@ -80,7 +80,7 @@ export default class Modal extends React.Component {
                     >
                       <div className="row pt-3 pb-2 px-1 md:px-4 md:pt-4 md:pb-3">
                         {/* 订单号 */}
-                        <div className="col-6 col-md-3 text-left mb-2">
+                        <div className="col-6 text-left mb-2">
                           <FormattedMessage id="order.orderDate" />
                           <br />
                           <span className="medium">
@@ -90,32 +90,11 @@ export default class Modal extends React.Component {
                           </span>
                         </div>
                         {/* 订单状态 */}
-                        <div className="col-6 col-md-3 text-right md:text-left mb-2">
+                        <div className="col-6 text-right md:text-left mb-2">
                           <FormattedMessage id="order.orderNumber" />
                           <br />
                           <span className="medium">{details.id}</span>
                         </div>
-                        {/* goodwill order flag */}
-                        {details.goodWillFlag === 1 && (
-                          <div className="col-12 col-md-3 text-left mb-2">
-                            <FormattedMessage id="order.goodwillOrder" />
-                          </div>
-                        )}
-
-                        {/* clinic信息 */}
-                        {window.__.env.REACT_APP_CHECKOUT_WITH_CLINIC ===
-                          'true' && (
-                          <div className="col-12 col-md-3 text-left mb-2">
-                            <FormattedMessage id="payment.clinicTitle3" />
-                            <br />
-                            <span
-                              className="medium ui-text-overflow-line2"
-                              title={details.clinicsName}
-                            >
-                              {details.clinicsName}
-                            </span>
-                          </div>
-                        )}
                       </div>
                     </div>
                     <div className="col-12 table-body rounded md:mt-3 mb-2 pl-0 pr-0">

@@ -47,6 +47,7 @@ import paypalLogo from '@/assets/images/paypal-logo.svg';
 import { AddressPreview } from '@/components/Address';
 import CancelOrderModal from './modules/cancelOrderModal/index';
 import CancelOrderSuccessModal from './modules/cancelOrderModal/successModal';
+import { ConvenienceStorePayReview } from '@/views/Payment/PaymentMethod';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -1836,6 +1837,28 @@ class AccountOrders extends React.Component {
                                                 src={paypalLogo}
                                               />
                                             </LazyLoad>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                ) : null}
+                                {paymentItem === 'convenience_store' ? (
+                                  <div className="col-12 col-md-4 mb-2">
+                                    <div className="border rounded p-3 h-100">
+                                      <div className="d-flex">
+                                        <svg
+                                          className="svg-icon align-middle mr-3 ml-1 w-8 h-8"
+                                          aria-hidden="true"
+                                        >
+                                          <use xlinkHref="#iconpayments" />
+                                        </svg>
+                                        <div>
+                                          <p className="medium mb-3">
+                                            <FormattedMessage id="payment.payment" />
+                                          </p>
+                                          <div className="medium mb-2">
+                                            <ConvenienceStorePayReview />
                                           </div>
                                         </div>
                                       </div>
