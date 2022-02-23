@@ -1338,7 +1338,7 @@ export function optimizeImage({ originImageUrl, width = 150, height, option }) {
     originImageUrl.startsWith('http') &&
     !originImageUrl.startsWith(CDN_PREFIX)
     ? `${CDN_PREFIX}${
-        option ? option : `width=${width},h=${height ?? width}`
+        option ? option : `width=${width},h=${height ?? width},format=webp`
       }/${originImageUrl}`
     : originImageUrl;
 }
