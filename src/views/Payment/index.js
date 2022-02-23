@@ -69,7 +69,8 @@ import {
   Cod,
   OxxoConfirm,
   AdyenCommonPay,
-  CyberPayment
+  CyberPayment,
+  ConvenienceStore
 } from './PaymentMethod';
 import { OnePageEmailForm, OnePageClinicForm } from './OnePage';
 import './modules/adyenCopy.css';
@@ -85,6 +86,7 @@ import swishLogo from '@/assets/images/swish-logo.svg';
 import swishIcon from '@/assets/images/swish-icon.svg';
 import swishError from '@/assets/images/swish-error.svg';
 import paypalLogo from '@/assets/images/paypal-logo.svg';
+import convenienceStoreLogo from '@/assets/images/convenience_store_logo.png';
 import { postUpdateUser, getAppointByApptNo } from '@/api/felin';
 import UpdatModal from './updatModules/modal';
 import QRCode from 'qrcode.react';
@@ -158,6 +160,7 @@ const radioTypes = {
   fr: 'box',
   uk: 'box',
   se: 'box',
+  jp: 'box',
   default: 'circle'
 };
 
@@ -1001,6 +1004,11 @@ class Payment extends React.Component {
           name: 'adyen_swish',
           langKey: 'Swish',
           paymentTypeVal: 'adyen_swish'
+        },
+        convenience_store: {
+          name: 'convenience_store',
+          langKey: 'Convenience Store',
+          paymentTypeVal: 'convenience_store'
         }
       };
       if (
@@ -3497,6 +3505,15 @@ class Payment extends React.Component {
                         <img src={paypalLogo} className="w-24 mr-5" />
                       </div>
                     )}
+                    {/* adyenPaypal的logo */}
+                    {item.paymentTypeVal === 'convenience_store' && (
+                      <div className="flex">
+                        <img
+                          src={convenienceStoreLogo}
+                          className="w-8 h-8 mr-5"
+                        />
+                      </div>
+                    )}
                     {/* adyen swish的logo */}
                     {item.paymentTypeVal === 'adyen_swish' && (
                       <div>
@@ -3548,6 +3565,12 @@ class Payment extends React.Component {
                       })} */}
                       </>
                     )}
+                  {item.paymentTypeVal === 'convenience_store' &&
+                    paymentTypeVal === 'convenience_store' && (
+                      <>
+                        <ConvenienceStore />
+                      </>
+                    )}
                   {item.paymentTypeVal === 'adyen_swish' &&
                     paymentTypeVal === 'adyen_swish' && (
                       <>
@@ -3582,6 +3605,10 @@ class Payment extends React.Component {
               disabled: validForBilling
             })}
           {paymentTypeVal === 'adyen_swish' &&
+            payConfirmBtn({
+              disabled: validForBilling
+            })}
+          {paymentTypeVal === 'convenience_store' &&
             payConfirmBtn({
               disabled: validForBilling
             })}
@@ -3911,6 +3938,12 @@ class Payment extends React.Component {
           </div>
         );
         break;
+      case 'convenience_store':
+        ret = (
+          <div className="col-12 col-md-6">
+            <img src={convenienceStoreLogo} className="w-24 ml-8" />
+          </div>
+        );
       case 'adyen_swish':
         ret = (
           <div className="col-12 col-md-6">

@@ -6,3 +6,4 @@ export { default as Cod } from './Cod';
 export { default as OxxoConfirm } from './Oxxo';
 export { default as CyberPayment } from './Cyber';
 export { default as AdyenCommonPay } from './AdyenCommonPay';
+export { default as ConvenienceStore } from './ConvenienceStore';
