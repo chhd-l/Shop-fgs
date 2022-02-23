@@ -158,6 +158,7 @@ const radioTypes = {
   fr: 'box',
   uk: 'box',
   se: 'box',
+  jp: 'box',
   default: 'circle'
 };
 
@@ -961,6 +962,11 @@ class Payment extends React.Component {
           langKey: 'cod',
           paymentTypeVal: 'cod'
         },
+        adyen_cod: {
+          name: 'adyen_cod',
+          langKey: 'cashOnDelivery',
+          paymentTypeVal: 'adyen_cod'
+        },
         PAYUOXXO: { name: 'payuoxxo', langKey: 'oxxo', paymentTypeVal: 'oxxo' },
         adyen_credit_card: {
           name: 'adyen_credit_card',
@@ -1017,21 +1023,50 @@ class Payment extends React.Component {
       }
       let payWayNameArr = [];
       if (payWay.context) {
-        // 筛选条件: 1.开关开启 2.订阅购买时, 排除不支持订阅的支付方式 3.cod时, 是否超过限制价格
-        payWayNameArr = (payWay.context.payPspItemVOList || [])
-          .map((p) => {
-            const tmp =
-              payMethodsObj[p.code] || payMethodsObj[p.code.toUpperCase()];
-            return tmp ? Object.assign({}, tmp, p) : tmp;
-          })
-          .filter((e) => e)
-          .filter(
-            (e) =>
-              e.isOpen &&
-              (!this.isCurrentBuyWaySubscription || e.supportSubscription) &&
-              (e.code !== 'cod' || this.tradePrice <= e.maxAmount)
-          );
+        if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+          payWayNameArr = (payWay.context.payPspItemVOList || [])
+            .map((p) => {
+              // if(p.channel == 'ADYEN' && P.code == 'COD'){
+              //   return {...p,{code: 'adyen_code'}}
+              // }
+              //return Object.assign({}, p, {code: 'adyen_cod'})
+
+              let tmp = {};
+              if (p.channel == 'ADYEN' && p.code == 'cod') {
+                tmp = Object.assign({}, p, {
+                  code: 'adyen_cod',
+                  name: 'adyen_cod'
+                });
+              } else {
+                tmp = p;
+              }
+              return tmp;
+            })
+            .map((p) => {
+              const tmp =
+                payMethodsObj[p.code] || payMethodsObj[p.code.toUpperCase()];
+              return tmp ? Object.assign({}, tmp, p) : tmp;
+            });
+        } else {
+          // 筛选条件: 1.开关开启 2.订阅购买时, 排除不支持订阅的支付方式 3.cod时, 是否超过限制价格
+          payWayNameArr = (payWay.context.payPspItemVOList || [])
+            .map((p) => {
+              const tmp =
+                payMethodsObj[p.code] || payMethodsObj[p.code.toUpperCase()];
+              return tmp ? Object.assign({}, tmp, p) : tmp;
+            })
+            .filter((e) => e)
+            .filter(
+              (e) =>
+                e.isOpen &&
+                (!this.isCurrentBuyWaySubscription || e.supportSubscription) &&
+                (e.code !== 'cod' || this.tradePrice <= e.maxAmount)
+            );
+        }
       }
+
+      console.log(payWayNameArr);
+      debugger;
 
       //默认第一个,如没有支付方式,就不初始化方法
       this.setState(
