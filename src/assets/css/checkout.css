@@ -366,10 +366,6 @@
   color: #ec001a;
 }
 
-.required label:after {
-  content: '*';
-}
-
 .rc-input.rc-input--error ~ .invalid-feedback,
 .rc-select.rc-input--error ~ .invalid-feedback {
   display: block;
