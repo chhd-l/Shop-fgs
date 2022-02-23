@@ -58,7 +58,6 @@ class Cart extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        {this.props.location.key}999999
         {this.isLogin ? (
           <LoginCart
             history={history}
