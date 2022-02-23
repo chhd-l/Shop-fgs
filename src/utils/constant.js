@@ -7,7 +7,7 @@ import oxxo from '@/assets/images/oxxo.png';
 
 export const LOGO_CLUB = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Logo_club.png`;
 export const LOGO_CLUB_RU = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Logo_club_ru.png`;
-export const LOGO_PRIMARY = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/logo-primary.svg`;
+export const LOGO_PRIMARY = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/logo-trademark.svg`;
 export const LOGO_PRIMARY_RU = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/logo-primary-ru.svg`;
 export const LOGO = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/rc_logo.svg`;
 export const IMG_DEFAULT =
@@ -35,11 +35,9 @@ export const ADYEN_CREDIT_CARD_BRANDS = {
 export const EMAIL_REGEXP = /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/;
 
 // 美国电话正则
-export const usTelephoneCheck =
-  /^(((1(\s)|)|)[0-9]{3}(\s|-|)[0-9]{3}(\s|-|)[0-9]{4})$/;
+export const usTelephoneCheck = /^(((1(\s)|)|)[0-9]{3}(\s|-|)[0-9]{3}(\s|-|)[0-9]{4})$/;
 // 俄罗斯电话正则
-export const ruTelephoneCheck =
-  /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
+export const ruTelephoneCheck = /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
 // 瑞典正则
 export const seTelephoneCheck = /[+(46)|0]\d{10}$/;
 
