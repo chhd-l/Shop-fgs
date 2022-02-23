@@ -1323,6 +1323,7 @@ class MemberCardList extends React.Component {
                                       value={creditCardInfoForm.cardMmyy}
                                       onChange={this.cardInfoInputChange}
                                       name="cardMmyy"
+                                      id="cardMmyy"
                                       maxLength="5"
                                       placeholder={'MM/YY'}
                                     />
