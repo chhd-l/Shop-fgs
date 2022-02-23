@@ -61,7 +61,10 @@ class Help extends React.Component {
         {this.state.showModal ? (
           <PhoneModal cancelModal={this.cancelModal} />
         ) : null}
-        <GoogleTagManager additionalEvents={event} />
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
+        />
         <Helmet>
           <link rel="canonical" href={pageLink} />
         </Helmet>

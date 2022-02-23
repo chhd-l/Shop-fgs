@@ -35,7 +35,7 @@ const Decouverteroyalcanin = (props) => {
   };
   return (
     <div>
-      <GoogleTagManager additionalEvents={event} />
+      <GoogleTagManager key={props.location.key} additionalEvents={event} />
       <Helmet>
         <link rel="canonical" href={pageLink} />
         <title>{seoinfo.title}</title>

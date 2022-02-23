@@ -128,7 +128,11 @@ class Landing extends Component {
     };
     return (
       <div className="landing-wrap">
-        <GoogleTagManager additionalEvents={event} GTMID="GTM-NR3FWTQ" />
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
+          GTMID="GTM-NR3FWTQ"
+        />
         <Helmet>
           <link rel="canonical" href={pageLink} />
         </Helmet>

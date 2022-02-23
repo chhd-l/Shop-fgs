@@ -258,7 +258,10 @@ const Adoptions = (props) => {
         <meta name="description" content={seoConfig.metaDescription} />
         <meta name="keywords" content={seoConfig.metaKeywords} />
       </Helmet>
-      <GoogleTagManager additionalEvents={event} />
+      <GoogleTagManager
+        key={this.props.location.key}
+        additionalEvents={event}
+      />
       <Header {...props} showMiniIcons={true} showUserIcon={true} />
       <main className=" adoptions-page m-auto rc-content--fixed-header rc-bg-colour--brand3">
         <BannerTip />
