@@ -987,7 +987,8 @@ const App = () => {
                           <List
                             key={
                               props.match.params.category +
-                              props.location.search
+                              props.location.search +
+                              props.location.key
                             }
                             {...props}
                           />
