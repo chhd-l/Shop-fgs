@@ -1075,9 +1075,6 @@ class Payment extends React.Component {
         }
       }
 
-      console.log(payWayNameArr);
-      debugger;
-
       //默认第一个,如没有支付方式,就不初始化方法
       this.setState(
         {
