@@ -252,17 +252,25 @@ class PayOs extends React.Component {
     let finalValue = '';
     if (name === 'cardMmyy') {
       // 获取 / 前后数字
-      let splitArr = value.split('/');
-      let noFormatStr = '';
+      // let splitArr = value.split('/');
+      // let noFormatStr = '';
 
-      // 获得不带/的数字
-      if (splitArr[1] || splitArr[0].length > 2) {
-        noFormatStr = splitArr[0].concat(splitArr[1] ? splitArr[1] : '');
-        finalValue = noFormatStr.slice(0, 2) + '/' + noFormatStr.slice(2);
-      } else {
-        noFormatStr = splitArr[0];
-        finalValue = noFormatStr.slice(0, 2);
-      }
+      // // 获得不带/的数字
+      // if (splitArr[1] || splitArr[0].length > 2) {
+      //   noFormatStr = splitArr[0].concat(splitArr[1] ? splitArr[1] : '');
+      //   finalValue = noFormatStr.slice(0, 2) + '/' + noFormatStr.slice(2);
+      // } else {
+      //   noFormatStr = splitArr[0];
+      //   finalValue = noFormatStr.slice(0, 2);
+      // }
+      let element = document.getElementById('cardMmyy');
+      let maskOptions = [];
+      let cardMmyyReg = [{ mask: '00/00' }];
+      maskOptions = {
+        mask: cardMmyyReg
+      };
+      IMask(element, maskOptions);
+      finalValue = value;
     } else {
       finalValue = value;
     }
@@ -772,6 +780,7 @@ class PayOs extends React.Component {
                                   name="cardMmyy"
                                   maxLength="5"
                                   placeholder={'MM/YY'}
+                                  id="cardMmyy"
                                 />
                                 {formListInputIcon('cardMmyy')}
                               </span>

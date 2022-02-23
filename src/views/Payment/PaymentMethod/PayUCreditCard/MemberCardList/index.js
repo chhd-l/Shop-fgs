@@ -21,6 +21,7 @@ import InstallmentTable from '../InstallmentTable';
 import CardItemCover from '../CardItemCover';
 import getCardImg from '@/lib/get-card-img';
 import cn from 'classnames';
+import IMask from 'imask';
 
 import './index.css';
 
@@ -234,20 +235,23 @@ class MemberCardList extends React.Component {
         //value = value.replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, '$1 '); //银行卡4位后自动加空格
         //creditCardInfoForm[name] = value;
       }
+      // let element = document.getElementById('cardNumber');
+      //   let maskOptions = [];
+      //   let cardNumberReg = [{ mask: '0000 0000 0000 0000' }];
+      //   maskOptions = {
+      //     mask: cardNumberReg
+      //   };
+      //   IMask(element, maskOptions);
+      creditCardInfoForm[name] = value;
     } else if (name === 'cardMmyy') {
-      // 获取 / 前后数字
-      let splitArr = value.split('/');
-      let noFormatStr = '';
-      let finalValue = '';
-      // 获得不带/的数字
-      if (splitArr[1] || splitArr[0].length > 2) {
-        noFormatStr = splitArr[0].concat(splitArr[1] ? splitArr[1] : '');
-        finalValue = noFormatStr.slice(0, 2) + '/' + noFormatStr.slice(2);
-      } else {
-        noFormatStr = splitArr[0];
-        finalValue = noFormatStr.slice(0, 2);
-      }
-      creditCardInfoForm[name] = finalValue;
+      let element = document.getElementById('cardMmyy');
+      let maskOptions = [];
+      let cardMmyyReg = [{ mask: '00/00' }];
+      maskOptions = {
+        mask: cardMmyyReg
+      };
+      IMask(element, maskOptions);
+      creditCardInfoForm[name] = value;
     } else {
       creditCardInfoForm[name] = value;
     }
@@ -969,7 +973,7 @@ class MemberCardList extends React.Component {
                                         'form-control h-10 pl-3 py-0 border border-gray-300 rounded-md placeholder-gray-300',
                                         'cardNumber'
                                       )}
-                                      id="number"
+                                      id="cardNumber"
                                       value={creditCardInfoForm.cardNumber
                                         .replace(/\s/g, '')
                                         .replace(/(\d{4})(?=\d)/g, '$1 ')}
@@ -1034,6 +1038,7 @@ class MemberCardList extends React.Component {
                           onChange={this.cardInfoInputChange}
                           onBlur={this.inputBoxBlur}
                           name="cardMmyy"
+                          id="cardMmyy"
                           maxLength="5"
                           placeholder={'MM/YY'}
                         />
