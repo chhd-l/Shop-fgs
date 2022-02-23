@@ -69,7 +69,9 @@ import {
   Cod,
   OxxoConfirm,
   AdyenCommonPay,
-  CyberPayment
+  CyberPayment,
+  ConvenienceStore,
+  ConvenienceStorePayReview
 } from './PaymentMethod';
 import { OnePageEmailForm, OnePageClinicForm } from './OnePage';
 import './modules/adyenCopy.css';
@@ -85,6 +87,7 @@ import swishLogo from '@/assets/images/swish-logo.svg';
 import swishIcon from '@/assets/images/swish-icon.svg';
 import swishError from '@/assets/images/swish-error.svg';
 import paypalLogo from '@/assets/images/paypal-logo.svg';
+import convenienceStoreLogo from '@/assets/images/convenience_store_logo.png';
 import { postUpdateUser, getAppointByApptNo } from '@/api/felin';
 import UpdatModal from './updatModules/modal';
 import QRCode from 'qrcode.react';
@@ -93,6 +96,7 @@ import base64 from 'base-64';
 import cn from 'classnames';
 import { SelectPet } from './SelectPet';
 import { PanelContainer } from './Common';
+import testConvenienceStore from './PaymentMethod/ConvenienceStore/testdata';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -333,7 +337,8 @@ class Payment extends React.Component {
       welcomeBoxValue: 'no', //first order welcome box:1、会员 2、首单 3、未填写学生购student promotion 50% discount
       paymentPanelHasComplete: false, //增加payment面板按钮的状态，方便0元订单判断是否已经填写完payment面板
       isFromFelin: false, //是否是felin下单
-      appointNo: null //felin的预约单号
+      appointNo: null, //felin的预约单号
+      convenienceStore: ''
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
@@ -1007,6 +1012,11 @@ class Payment extends React.Component {
           name: 'adyen_swish',
           langKey: 'Swish',
           paymentTypeVal: 'adyen_swish'
+        },
+        convenience_store: {
+          name: 'convenience_store',
+          langKey: 'Convenience Store',
+          paymentTypeVal: 'convenience_store'
         }
       };
       if (
@@ -3532,6 +3542,15 @@ class Payment extends React.Component {
                         <img src={paypalLogo} className="w-24 mr-5" />
                       </div>
                     )}
+                    {/* adyenPaypal的logo */}
+                    {item.paymentTypeVal === 'convenience_store' && (
+                      <div className="flex">
+                        <img
+                          src={convenienceStoreLogo}
+                          className="w-8 h-8 mr-5"
+                        />
+                      </div>
+                    )}
                     {/* adyen swish的logo */}
                     {item.paymentTypeVal === 'adyen_swish' && (
                       <div>
@@ -3583,6 +3602,16 @@ class Payment extends React.Component {
                       })} */}
                       </>
                     )}
+                  {item.paymentTypeVal === 'convenience_store' &&
+                    paymentTypeVal === 'convenience_store' && (
+                      <>
+                        <ConvenienceStore
+                          convenienceStoreChange={(value) => {
+                            this.setState({ convenienceStore: value });
+                          }}
+                        />
+                      </>
+                    )}
                   {item.paymentTypeVal === 'adyen_swish' &&
                     paymentTypeVal === 'adyen_swish' && (
                       <>
@@ -3619,6 +3648,10 @@ class Payment extends React.Component {
           {paymentTypeVal === 'adyen_swish' &&
             payConfirmBtn({
               disabled: validForBilling
+            })}
+          {paymentTypeVal === 'convenience_store' &&
+            payConfirmBtn({
+              disabled: !this.state.convenienceStore
             })}
           {/* ***********************支付选项卡的内容start******************************* */}
           {payWayErr ? (
@@ -3943,6 +3976,15 @@ class Payment extends React.Component {
         ret = (
           <div className="col-12 col-md-6">
             <img src={paypalLogo} className="w-24 ml-8" />
+          </div>
+        );
+        break;
+      case 'convenience_store':
+        ret = (
+          <div className="col-12 col-md-6">
+            <ConvenienceStorePayReview
+              convenienceStore={this.state.convenienceStore}
+            />
           </div>
         );
         break;

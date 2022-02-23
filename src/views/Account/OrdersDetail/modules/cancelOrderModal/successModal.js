@@ -8,9 +8,7 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 export default class Modal extends React.Component {
   static defaultProps = {
     modalTitle: '',
-    modalText: (
-      <FormattedMessage id="Your order has been cancelled successfully" />
-    ),
+    modalText: <FormattedMessage id="order.cancelOrderSuccessTip" />,
     confirmBtnText: <FormattedMessage id="Done" />,
     visible: false //是否显示弹框
   };

@@ -394,9 +394,12 @@ class ImageMagnifier extends Component {
     let offsetX = isMobile ? 60 : 69;
     // 为了下面的小图片不变形
     spuImages.forEach((el, i) => {
-      this.getImgSize(el.artworkUrl, function (w, h) {
-        w > h ? (el.bgSize = '100% auto') : (el.bgSize = 'auto 100%');
-      });
+      this.getImgSize(
+        optimizeImage({ originImageUrl: el.artworkUrl, width: 'auto' }),
+        function (w, h) {
+          w > h ? (el.bgSize = '100% auto') : (el.bgSize = 'auto 100%');
+        }
+      );
     });
 
     return (
