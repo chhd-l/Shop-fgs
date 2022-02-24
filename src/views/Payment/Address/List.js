@@ -70,6 +70,7 @@ class AddressList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      typeForGA: 'Add',
       isHomeDeliveryOpen: this.props.configStore?.isHomeDeliveryOpen,
       isPickupOpen: this.props.configStore?.isPickupOpen,
       defaultCity: '', // 默认地址中的城市
@@ -835,7 +836,9 @@ class AddressList extends React.Component {
       timeSlotId: 0,
       isDefalt: false
     };
-
+    this.setState({
+      typeForGA: idx > -1 ? 'Edit' : 'Add'
+    });
     if (idx > -1) {
       const tmp = addressList[idx];
       tmpDeliveryAddress = {
@@ -1976,6 +1979,7 @@ class AddressList extends React.Component {
       });
     }
   };
+
   render() {
     const { panelStatus } = this;
     const { showOperateBtn } = this.props;
@@ -2147,6 +2151,15 @@ class AddressList extends React.Component {
             getFormAddressValidFlag={this.getFormAddressValidFlag}
             updateData={this.updateDeliveryAddress}
             calculateFreight={this.calculateFreight}
+            onSearchSelectionFocus={() => {
+              this.onSearchSelectionFocus(this.state.typeForGA);
+            }}
+            onSearchSelectionChange={() => {
+              this.onSearchSelectionChange(this.state.typeForGA);
+            }}
+            onSearchSelectionError={() => {
+              this.onSearchSelectionError(this.state.typeForGA);
+            }}
           />
         )}
 
@@ -2284,6 +2297,7 @@ class AddressList extends React.Component {
           !panelStatus.isCompleted ? (
             <>
               <HomeDeliveryOrPickUp
+                {...this.props}
                 key={this.state.defaultCity}
                 initData={pickupFormData}
                 isLogin={true}
@@ -2300,7 +2314,15 @@ class AddressList extends React.Component {
                 cartData={this.props.cartData}
                 calculateFreight={this.recalculateFreight}
                 pickupEditNumber={pickupEditNumber}
-                // {...this.props}
+                // onSearchSelectionFocus={()=>{
+                //   this.onSearchSelectionFocus('Add')
+                // }}
+                // onSearchSelectionChange={()=>{
+                //   this.onSearchSelectionChange('Add')
+                // }}
+                // onSearchSelectionError={()=>{
+                //   this.onSearchSelectionError('Add')
+                // }}
               />
             </>
           ) : null}

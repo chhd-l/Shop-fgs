@@ -111,6 +111,8 @@ class SearchSelection extends React.Component {
     }
   };
   handleInputFocus = (e) => {
+    // eslint-disable-next-line no-unused-expressions
+    this.props.onSearchSelectionFocus?.();
     const tmpVal = this.state.form.value;
     if (tmpVal) {
       this.setState({
@@ -215,6 +217,8 @@ class SearchSelection extends React.Component {
     }
   }
   handleClickClinicItem = (e, item) => {
+    // eslint-disable-next-line no-unused-expressions
+    this.props.onSearchSelectionChange?.();
     e.nativeEvent.stopImmediatePropagation();
     let streetNumbers = item.listeNumero?.split(';') || [];
     console.log('item', item);

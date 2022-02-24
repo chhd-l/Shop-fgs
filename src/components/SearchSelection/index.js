@@ -74,8 +74,6 @@ class SearchSelection extends React.Component {
     };
   };
   handleInputChange = (e) => {
-    // eslint-disable-next-line no-unused-expressions
-    // this.props.onSearchSelectionChange?.();
     e.nativeEvent.stopImmediatePropagation();
     const target = e.target;
     const { form } = this.state;
@@ -114,7 +112,7 @@ class SearchSelection extends React.Component {
   };
   handleInputFocus = (e) => {
     // eslint-disable-next-line no-unused-expressions
-    // this.props.onSearchSelectionFocus?.();
+    this.props.onSearchSelectionFocus?.();
     const tmpVal = this.state.form.value;
     if (tmpVal) {
       this.setState({
@@ -223,6 +221,8 @@ class SearchSelection extends React.Component {
     }
   }
   handleClickClinicItem = (e, item) => {
+    // eslint-disable-next-line no-unused-expressions
+    this.props.onSearchSelectionChange?.();
     e.nativeEvent.stopImmediatePropagation();
     const { form } = this.state;
     form.value = item?.newName || item.name;

@@ -12,14 +12,11 @@ import getCardImg from '@/lib/get-card-img';
 import paypalLogo from '@/assets/images/paypal-logo.svg';
 import { ConvenienceStorePayReview } from '@/views/Payment/PaymentMethod';
 import OrderAppointmentInfo from '@/views/Account/AppointmentsDetail/modules/AppointmentInfo';
+import { getWays } from '@/api/payment';
 
-const OrderAddressAndPayReview = ({
-  details,
-  payRecord,
-  paymentItem,
-  supportPaymentMethods
-}) => {
+const OrderAddressAndPayReview = ({ details, payRecord, paymentItem }) => {
   const [countryList, setCountryList] = React.useState([]);
+  const [supportPaymentMethods, setSupportPaymentMethods] = React.useState([]);
   let newDeliveryDate = formatDate({
     date: details?.consignee?.deliveryDate,
     formatOption: { weekday: 'long', day: '2-digit', month: 'long' }
@@ -28,6 +25,11 @@ const OrderAddressAndPayReview = ({
   useEffect(() => {
     getDictionary({ type: 'country' }).then((res) => {
       setCountryList(res || []);
+    });
+    getWays().then((res) => {
+      setSupportPaymentMethods(
+        res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || []
+      );
     });
   }, []);
 
