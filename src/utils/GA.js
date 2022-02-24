@@ -666,4 +666,40 @@ export const GAWhistleFitButtonClick = (positon, label) => {
   });
 };
 
+export const GAonSearchSelectionFocus = (type) => {
+  window.__.env.REACT_APP_COUNTRY === 'ru' &&
+    window?.dataLayer?.push({
+      event: 'suggestedAdressInteraction',
+      suggestedAdress: {
+        action: 'fieldClick',
+        type: type || 'Add'
+      }
+    });
+  console.info('onSearchSelectionFocus', type || 'Add');
+};
+export const GAonSearchSelectionError = (errorMessage, type) => {
+  window.__.env.REACT_APP_COUNTRY === 'ru' &&
+    window?.dataLayer?.push({
+      event: 'suggestedAdressInteraction',
+      suggestedAdress: {
+        action: 'errorMessage',
+        message: errorMessage, //The message must be translated into English
+        type: type || 'Add' //'Add' or 'Modify' depending if the user has an address in their account
+      }
+    });
+  console.info('onSearchSelectionError', type || 'Add');
+};
+
+export const GAonSearchSelectionChange = (type) => {
+  window.__.env.REACT_APP_COUNTRY === 'ru' &&
+    window?.dataLayer?.push({
+      event: 'suggestedAdressInteraction',
+      suggestedAdress: {
+        action: 'suggestionClick',
+        type: type || 'Add'
+      }
+    });
+  console.info('onSearchSelectionChange', type || 'Add');
+};
+
 export { getSpecies };

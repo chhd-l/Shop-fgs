@@ -105,7 +105,16 @@ class HomeDeliveryOrPickUp extends React.Component {
     };
   }
   onSearchSelectionError = () => {
-    this.props.onSearchSelectionError?.('');
+    if (!this.props.onSearchSelectionError) {
+      return;
+    }
+    let { pageType } = this.props;
+    let errMsg =
+      (pageType == 'checkout' && this.props.allAddressList.length) ||
+      pageType == 'onlyPickup'
+        ? this.props.intl.messages['payment.noPickup']
+        : this.props.intl.messages['payment.pickupNoRusult'];
+    this.props.onSearchSelectionError?.(errMsg);
   };
   async componentDidMount() {
     let initData = this.props.initData;

@@ -1329,12 +1329,26 @@ class Form extends React.Component {
     // districtCode             province    √
     // settlement               settlement  √
     let errArr = [];
+    // let errArrEn = [];
     let streets = this.getIntlMsg('payment.streets'),
       postCode = this.getIntlMsg('payment.postCode'),
       house = this.getIntlMsg('payment.house'),
       city = this.getIntlMsg('payment.city'),
       province = this.getIntlMsg('payment.state'),
       settlement = this.getIntlMsg('payment.settlement');
+    // let streetsEn = this.getIntlMsg('payment.streetsEn'),
+    // postCodeEn = this.getIntlMsg('payment.postCodeEn'),
+    // houseEn = this.getIntlMsg('payment.houseEn'),
+    // cityEn = this.getIntlMsg('payment.cityEn'),
+    // provinceEn = this.getIntlMsg('payment.stateEn'),
+    // settlementEn = this.getIntlMsg('payment.settlementEn');
+
+    !data.street && errArr.push(streets);
+    !data.postCode && errArr.push(postCode);
+    !data.house && errArr.push(house);
+    !data.city && errArr.push(city);
+    !data.province && errArr.push(province);
+    !data.settlement && errArr.push(settlement);
 
     !data.street && errArr.push(streets);
     !data.postCode && errArr.push(postCode);

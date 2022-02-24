@@ -2152,13 +2152,16 @@ class AddressList extends React.Component {
             updateData={this.updateDeliveryAddress}
             calculateFreight={this.calculateFreight}
             onSearchSelectionFocus={() => {
-              this.onSearchSelectionFocus(this.state.typeForGA);
+              this.props.onSearchSelectionFocus(this.state.typeForGA);
             }}
             onSearchSelectionChange={() => {
-              this.onSearchSelectionChange(this.state.typeForGA);
+              this.props.onSearchSelectionChange(this.state.typeForGA);
             }}
-            onSearchSelectionError={() => {
-              this.onSearchSelectionError(this.state.typeForGA);
+            onSearchSelectionError={(errorMessage) => {
+              this.props.onSearchSelectionError(
+                errorMessage,
+                this.state.typeForGA
+              );
             }}
           />
         )}
@@ -2314,15 +2317,9 @@ class AddressList extends React.Component {
                 cartData={this.props.cartData}
                 calculateFreight={this.recalculateFreight}
                 pickupEditNumber={pickupEditNumber}
-                // onSearchSelectionFocus={()=>{
-                //   this.onSearchSelectionFocus('Add')
-                // }}
-                // onSearchSelectionChange={()=>{
-                //   this.onSearchSelectionChange('Add')
-                // }}
-                // onSearchSelectionError={()=>{
-                //   this.onSearchSelectionError('Add')
-                // }}
+                onSearchSelectionError={(errorMessage) => {
+                  this.props.onSearchSelectionError(errorMessage, 'Add');
+                }}
               />
             </>
           ) : null}
