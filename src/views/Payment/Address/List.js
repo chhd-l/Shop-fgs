@@ -2225,6 +2225,18 @@ class AddressList extends React.Component {
         isFromFelin={isFromFelin}
         isDeliverAddress={this.isDeliverAddress}
         handleClickEdit={this.handleClickEdit}
+        previewJSX={
+          <AddressPreview
+            key={pickupData}
+            form={
+              shippingMethodType === 'pickup'
+                ? pickupData
+                : addressList.filter(
+                    (a) => a.deliveryAddressId === selectedId
+                  )[0]
+            }
+          />
+        }
       >
         {this.props.children}
         <div
@@ -2531,19 +2543,6 @@ class AddressList extends React.Component {
                     ) : (
                       _form
                     )}
-                  </>
-                ) : panelStatus.isCompleted ? (
-                  <>
-                    <AddressPreview
-                      key={pickupData}
-                      form={
-                        shippingMethodType === 'pickup'
-                          ? pickupData
-                          : addressList.filter(
-                              (a) => a.deliveryAddressId === selectedId
-                            )[0]
-                      }
-                    />
                   </>
                 ) : null}
               </>

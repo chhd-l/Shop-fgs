@@ -21,6 +21,7 @@ const PanelContainer = ({
     ...tRest
   },
   containerConf,
+  previewJSX,
   children
 }) => {
   const { className: cClassName, ...cRest } = containerConf || {};
@@ -61,6 +62,7 @@ const PanelContainer = ({
         ) : null}
       </div>
       <div className={cn({ hidden: !panelStatus.isEdit })}>{children}</div>
+      {panelStatus.isCompleted ? previewJSX : null}
     </div>
   );
 };

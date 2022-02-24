@@ -2,7 +2,13 @@ import React from 'react';
 import { PanelContainer } from '../Common';
 import { FormattedMessage } from 'react-intl-phraseapp';
 
-const ClinicPanelContainer = ({ panelStatus, children, onEdit, isLogin }) => {
+const ClinicPanelContainer = ({
+  panelStatus,
+  children,
+  onEdit,
+  isLogin,
+  previewJSX
+}) => {
   return (
     <PanelContainer
       panelStatus={panelStatus}
@@ -18,8 +24,9 @@ const ClinicPanelContainer = ({ panelStatus, children, onEdit, isLogin }) => {
             <FormattedMessage id="payment.clinicTitle" />
           )
         },
-        onEdit: onEdit
+        onEdit
       }}
+      previewJSX={previewJSX}
     >
       {children}
     </PanelContainer>

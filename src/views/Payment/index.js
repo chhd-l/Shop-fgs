@@ -23,7 +23,6 @@ import {
   felinAddr,
   RepayAddressPreview
 } from './Address';
-import PetModal from './PetModal';
 import Confirmation from './modules/Confirmation';
 import { withOktaAuth } from '@okta/okta-react';
 import {
@@ -70,7 +69,9 @@ import {
   Cod,
   OxxoConfirm,
   AdyenCommonPay,
-  CyberPayment
+  CyberPayment,
+  ConvenienceStore,
+  ConvenienceStorePayReview
 } from './PaymentMethod';
 import { OnePageEmailForm, OnePageClinicForm } from './OnePage';
 import './modules/adyenCopy.css';
@@ -86,6 +87,7 @@ import swishLogo from '@/assets/images/swish-logo.svg';
 import swishIcon from '@/assets/images/swish-icon.svg';
 import swishError from '@/assets/images/swish-error.svg';
 import paypalLogo from '@/assets/images/paypal-logo.svg';
+import convenienceStoreLogo from '@/assets/images/convenience_store_logo.png';
 import { postUpdateUser, getAppointByApptNo } from '@/api/felin';
 import UpdatModal from './updatModules/modal';
 import QRCode from 'qrcode.react';
@@ -94,6 +96,7 @@ import base64 from 'base-64';
 import cn from 'classnames';
 import { SelectPet } from './SelectPet';
 import { PanelContainer } from './Common';
+import testConvenienceStore from './PaymentMethod/ConvenienceStore/testdata';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -159,6 +162,7 @@ const radioTypes = {
   fr: 'box',
   uk: 'box',
   se: 'box',
+  jp: 'box',
   default: 'circle'
 };
 
@@ -333,7 +337,8 @@ class Payment extends React.Component {
       welcomeBoxValue: 'no', //first order welcome box:1、会员 2、首单 3、未填写学生购student promotion 50% discount
       paymentPanelHasComplete: false, //增加payment面板按钮的状态，方便0元订单判断是否已经填写完payment面板
       isFromFelin: false, //是否是felin下单
-      appointNo: null //felin的预约单号
+      appointNo: null, //felin的预约单号
+      convenienceStore: ''
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
@@ -962,6 +967,11 @@ class Payment extends React.Component {
           langKey: 'cod',
           paymentTypeVal: 'cod'
         },
+        adyen_cod: {
+          name: 'adyen_cod',
+          langKey: 'cashOnDelivery',
+          paymentTypeVal: 'adyen_cod'
+        },
         PAYUOXXO: { name: 'payuoxxo', langKey: 'oxxo', paymentTypeVal: 'oxxo' },
         adyen_credit_card: {
           name: 'adyen_credit_card',
@@ -1002,6 +1012,11 @@ class Payment extends React.Component {
           name: 'adyen_swish',
           langKey: 'Swish',
           paymentTypeVal: 'adyen_swish'
+        },
+        convenience_store: {
+          name: 'convenience_store',
+          langKey: 'Convenience Store',
+          paymentTypeVal: 'convenience_store'
         }
       };
       if (
@@ -1018,20 +1033,46 @@ class Payment extends React.Component {
       }
       let payWayNameArr = [];
       if (payWay.context) {
-        // 筛选条件: 1.开关开启 2.订阅购买时, 排除不支持订阅的支付方式 3.cod时, 是否超过限制价格
-        payWayNameArr = (payWay.context.payPspItemVOList || [])
-          .map((p) => {
-            const tmp =
-              payMethodsObj[p.code] || payMethodsObj[p.code.toUpperCase()];
-            return tmp ? Object.assign({}, tmp, p) : tmp;
-          })
-          .filter((e) => e)
-          .filter(
-            (e) =>
-              e.isOpen &&
-              (!this.isCurrentBuyWaySubscription || e.supportSubscription) &&
-              (e.code !== 'cod' || this.tradePrice <= e.maxAmount)
-          );
+        if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+          payWayNameArr = (payWay.context.payPspItemVOList || [])
+            .map((p) => {
+              // if(p.channel == 'ADYEN' && P.code == 'COD'){
+              //   return {...p,{code: 'adyen_code'}}
+              // }
+              //return Object.assign({}, p, {code: 'adyen_cod'})
+
+              let tmp = {};
+              if (p.channel == 'ADYEN' && p.code == 'cod') {
+                tmp = Object.assign({}, p, {
+                  code: 'adyen_cod',
+                  name: 'adyen_cod'
+                });
+              } else {
+                tmp = p;
+              }
+              return tmp;
+            })
+            .map((p) => {
+              const tmp =
+                payMethodsObj[p.code] || payMethodsObj[p.code.toUpperCase()];
+              return tmp ? Object.assign({}, tmp, p) : tmp;
+            });
+        } else {
+          // 筛选条件: 1.开关开启 2.订阅购买时, 排除不支持订阅的支付方式 3.cod时, 是否超过限制价格
+          payWayNameArr = (payWay.context.payPspItemVOList || [])
+            .map((p) => {
+              const tmp =
+                payMethodsObj[p.code] || payMethodsObj[p.code.toUpperCase()];
+              return tmp ? Object.assign({}, tmp, p) : tmp;
+            })
+            .filter((e) => e)
+            .filter(
+              (e) =>
+                e.isOpen &&
+                (!this.isCurrentBuyWaySubscription || e.supportSubscription) &&
+                (e.code !== 'cod' || this.tradePrice <= e.maxAmount)
+            );
+        }
       }
 
       //默认第一个,如没有支付方式,就不初始化方法
@@ -1259,29 +1300,6 @@ class Payment extends React.Component {
   };
   // 4、支付公共初始化方法
   initCommonPay = ({ email = '', type }) => {
-    // todo 删除此pet校验
-    if (this.props.checkoutStore.AuditData.length) {
-      let petFlag = true;
-      let data = this.props.checkoutStore.AuditData;
-      for (let i = 0; i < data.length; i++) {
-        if (this.isLogin) {
-          if (!data[i].petsId) {
-            petFlag = false;
-            break;
-          }
-        } else {
-          if (!data[i].petForm || !data[i].petForm.petName) {
-            petFlag = false;
-            break;
-          }
-        }
-      }
-      if (!petFlag && this.props.checkoutStore.petFlag) {
-        this.showErrorMsg('Please fill in pet information');
-        this.endLoading();
-        return;
-      }
-    }
     this.doGetAdyenPayParam(type);
     if (email) {
       this.setState({
@@ -1631,23 +1649,27 @@ class Payment extends React.Component {
         );
         action.forEach(([key, value]) => value.call(this));
       };
+      const {
+        paymentStore: { petList, petSelectedIds },
+        checkoutStore: { isShowBindPet }
+      } = this.props;
 
       sessionItemRoyal.set('rc-paywith-login', this.isLogin);
       this.startLoading();
       if (!this.isLogin) {
         await this.visitorLoginAndAddToCart();
-        // todo 是否需要改造
-        if (
-          this.props.checkoutStore.AuditData.length > 0 &&
-          this.props.checkoutStore.petFlag &&
-          !this.props.checkoutStore.autoAuditFlag
-        ) {
-          let param = this.props.checkoutStore.AuditData.map((el) => {
-            let petForm = {
-              birthday: el.petForm.birthday,
-              breed: el.petForm.breed,
-              petsName: el.petForm.petName,
-              petsType: el.petForm.petType
+        // 游客批量新增宠物 待测试，jp未开通新增宠物功能
+        if (isShowBindPet) {
+          const param = this.props.checkoutStore.AuditData.map((el, idx) => {
+            const targetPetsId = petSelectedIds[idx];
+            const targetPetInfo = petList.find(
+              (p) => (p.petsId = targetPetsId)
+            );
+            const petForm = {
+              birthday: targetPetInfo.birthday,
+              breed: targetPetInfo.breed,
+              petsName: targetPetInfo.petName,
+              petsType: targetPetInfo.petType
             };
             return {
               customerPets: Object.assign(petForm, {
@@ -1656,7 +1678,7 @@ class Payment extends React.Component {
               storeId: window.__.env.REACT_APP_STOREID
             };
           });
-          let res = await batchAddPets({
+          const res = await batchAddPets({
             batchAddItemList: param
           });
           parameters.tradeItems.map((el) => {
@@ -2117,10 +2139,8 @@ class Payment extends React.Component {
   async packagePayParam() {
     const loginCartData = this.loginCartData;
     const cartData = this.cartData.filter((ele) => ele.selected);
-    const {
-      clinicStore,
-      paymentStore: { addCardDirectToPayFlag }
-    } = this.props;
+    const { clinicStore, paymentStore, checkoutStore } = this.props;
+    const { addCardDirectToPayFlag } = paymentStore;
     let {
       deliveryAddress,
       billingAddress,
@@ -2251,29 +2271,37 @@ class Payment extends React.Component {
 
     if (sessionItemRoyal.get('recommend_product')) {
       param.tradeItems = this.state.recommend_data.map((ele) => {
-        const recoProductParam = handleRecoProductParamByItem(ele);
+        const recoProductParam = handleRecoProductParamByItem({
+          ele,
+          paymentStore,
+          checkoutStore
+        });
         return Object.assign(recoProductParam, {
           num: ele.buyCount,
           skuId: ele.goodsInfoId,
-          petsId: ele.petsId,
-          petsName: ele.petsName,
           goodsInfoFlag: 0
         });
       });
     } else if (this.isLogin) {
       param.tradeItems = loginCartData.map((ele) => {
-        const recoProductParam = handleRecoProductParamByItem(ele);
+        const recoProductParam = handleRecoProductParamByItem({
+          ele,
+          paymentStore,
+          checkoutStore
+        });
         return Object.assign(recoProductParam, {
           num: ele.buyCount,
           skuId: ele.goodsInfoId,
-          petsId: ele.petsId,
-          petsName: ele.petsName,
           goodsInfoFlag: ele.goodsInfoFlag
         });
       });
     } else {
       param.tradeItems = cartData.map((ele) => {
-        const recoProductParam = handleRecoProductParamByItem(ele);
+        const recoProductParam = handleRecoProductParamByItem({
+          ele,
+          paymentStore,
+          checkoutStore
+        });
         return Object.assign(recoProductParam, {
           num: ele.quantity,
           skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
@@ -2290,12 +2318,14 @@ class Payment extends React.Component {
         // .filter((ele) => !ele.subscriptionStatus || !ele.subscriptionPrice)
         .filter((ele) => !ele.goodsInfoFlag)
         .map((g) => {
-          const recoProductParam = handleRecoProductParamByItem(g);
+          const recoProductParam = handleRecoProductParamByItem({
+            ele: g,
+            paymentStore,
+            checkoutStore
+          });
           return Object.assign(recoProductParam, {
             num: g.buyCount,
             skuId: g.goodsInfoId,
-            petsId: g.petsId,
-            petsName: g.petsName,
             goodsInfoFlag: g.goodsInfoFlag,
             periodTypeId: g.periodTypeId
           });
@@ -2320,7 +2350,11 @@ class Payment extends React.Component {
             ele.goodsInfoFlag
         )
         .map((g) => {
-          const recoProductParam = handleRecoProductParamByItem(g);
+          const recoProductParam = handleRecoProductParamByItem({
+            ele: g,
+            paymentStore,
+            checkoutStore
+          });
           return Object.assign(recoProductParam, {
             settingPrice: g.settingPrice,
             packageId: g.packageId,
@@ -2333,9 +2367,6 @@ class Payment extends React.Component {
             questionParams: g.questionParams ? g.questionParams : undefined,
             subscribeNum: g.buyCount,
             skuId: g.goodsInfoId,
-            petsId: g.petsId,
-            petsType: g.petsType,
-            petsName: g.petsName,
             periodTypeId: g.periodTypeId
           });
         });
@@ -2391,7 +2422,6 @@ class Payment extends React.Component {
    */
   async saveAddressAndCommentPromise() {
     try {
-      const { configStore, clinicStore } = this.props;
       const { deliveryAddress, billingAddress, billingChecked } = this.state;
       let tmpDeliveryAddress = { ...deliveryAddress };
       let tmpBillingAddress = { ...billingAddress };
@@ -3509,6 +3539,15 @@ class Payment extends React.Component {
                         <img src={paypalLogo} className="w-24 mr-5" />
                       </div>
                     )}
+                    {/* adyenPaypal的logo */}
+                    {item.paymentTypeVal === 'convenience_store' && (
+                      <div className="flex">
+                        <img
+                          src={convenienceStoreLogo}
+                          className="w-8 h-8 mr-5"
+                        />
+                      </div>
+                    )}
                     {/* adyen swish的logo */}
                     {item.paymentTypeVal === 'adyen_swish' && (
                       <div>
@@ -3560,6 +3599,16 @@ class Payment extends React.Component {
                       })} */}
                       </>
                     )}
+                  {item.paymentTypeVal === 'convenience_store' &&
+                    paymentTypeVal === 'convenience_store' && (
+                      <>
+                        <ConvenienceStore
+                          convenienceStoreChange={(value) => {
+                            this.setState({ convenienceStore: value });
+                          }}
+                        />
+                      </>
+                    )}
                   {item.paymentTypeVal === 'adyen_swish' &&
                     paymentTypeVal === 'adyen_swish' && (
                       <>
@@ -3596,6 +3645,10 @@ class Payment extends React.Component {
           {paymentTypeVal === 'adyen_swish' &&
             payConfirmBtn({
               disabled: validForBilling
+            })}
+          {paymentTypeVal === 'convenience_store' &&
+            payConfirmBtn({
+              disabled: !this.state.convenienceStore
             })}
           {/* ***********************支付选项卡的内容start******************************* */}
           {payWayErr ? (
@@ -3923,6 +3976,15 @@ class Payment extends React.Component {
           </div>
         );
         break;
+      case 'convenience_store':
+        ret = (
+          <div className="col-12 col-md-6">
+            <ConvenienceStorePayReview
+              convenienceStore={this.state.convenienceStore}
+            />
+          </div>
+        );
+        break;
       case 'adyen_swish':
         ret = (
           <div className="col-12 col-md-6">
@@ -4085,7 +4147,10 @@ class Payment extends React.Component {
 
     return (
       <div>
-        <GoogleTagManager additionalEvents={event} />
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
+        />
         <Helmet>
           <link rel="canonical" href={pageLink} />
         </Helmet>
@@ -4201,10 +4266,9 @@ class Payment extends React.Component {
                     },
                     onEdit: this.handleClickPaymentPanelEdit
                   }}
+                  previewJSX={this.renderPayPreview()}
                 >
                   {this.renderPayTab()}
-                  {paymentMethodPanelStatus.isCompleted &&
-                    this.renderPayPreview()}
                 </PanelContainer>
 
                 <Confirmation
@@ -4361,7 +4425,7 @@ class Payment extends React.Component {
           ) : (
             <div className="flex flex-col items-center">
               <div className="pt-1 pb-6 text-black text-base">
-                Skanna QR-kod
+                <FormattedMessage id="payment.scanQrcode" />
               </div>
               <QRCode
                 value={this.state.swishQrcode}
@@ -4384,11 +4448,13 @@ class Payment extends React.Component {
                 {formatMoney(this.tradePrice)}
               </div>
               <div className="text-sm pt-6">
-                Du har {this.state.countDown} minuter på dig att betala.
+                <FormattedMessage
+                  id="payment.countdowning"
+                  values={{ val: this.state.countDown }}
+                />
               </div>
               <div className="w-64 md:w-96 text-center py-6 text-gray-600">
-                Du har 15 minuter på dig att genomföra köpet. Försök att
-                genomföra köp igen kan resultera i flera betalningar.
+                <FormattedMessage id="payment.countdown" />
               </div>
               <button
                 className="md:hidden mt-2 rc-btn rc-btn--one"

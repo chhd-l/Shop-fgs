@@ -54,7 +54,10 @@ class Cart extends React.Component {
         <Helmet>
           <link rel="canonical" href={pageLink} />
         </Helmet>
-        <GoogleTagManager additionalEvents={event} />
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
+        />
         {this.isLogin ? (
           <LoginCart
             history={history}

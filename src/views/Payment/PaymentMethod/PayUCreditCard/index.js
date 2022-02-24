@@ -252,17 +252,25 @@ class PayOs extends React.Component {
     let finalValue = '';
     if (name === 'cardMmyy') {
       // 获取 / 前后数字
-      let splitArr = value.split('/');
-      let noFormatStr = '';
+      // let splitArr = value.split('/');
+      // let noFormatStr = '';
 
-      // 获得不带/的数字
-      if (splitArr[1] || splitArr[0].length > 2) {
-        noFormatStr = splitArr[0].concat(splitArr[1] ? splitArr[1] : '');
-        finalValue = noFormatStr.slice(0, 2) + '/' + noFormatStr.slice(2);
-      } else {
-        noFormatStr = splitArr[0];
-        finalValue = noFormatStr.slice(0, 2);
-      }
+      // // 获得不带/的数字
+      // if (splitArr[1] || splitArr[0].length > 2) {
+      //   noFormatStr = splitArr[0].concat(splitArr[1] ? splitArr[1] : '');
+      //   finalValue = noFormatStr.slice(0, 2) + '/' + noFormatStr.slice(2);
+      // } else {
+      //   noFormatStr = splitArr[0];
+      //   finalValue = noFormatStr.slice(0, 2);
+      // }
+      let element = document.getElementById('cardMmyy');
+      let maskOptions = [];
+      let cardMmyyReg = [{ mask: '00/00' }];
+      maskOptions = {
+        mask: cardMmyyReg
+      };
+      IMask(element, maskOptions);
+      finalValue = value;
     } else {
       finalValue = value;
     }
@@ -412,7 +420,7 @@ class PayOs extends React.Component {
             'https://api.paymentsos.com/tokens',
             {
               token_type: 'credit_card',
-              card_number: creditCardInfoForm.cardNumber, //''4652035440667037''
+              card_number: creditCardInfoForm.cardNumber.split(' ').join(''), //''4652035440667037''
               expiration_date: creditCardInfoForm.cardMmyy.replace(/\//, '-'), //'08-23'
               holder_name: creditCardInfoForm.cardOwner, //'J.Smith'
               credit_card_cvv: creditCardInfoForm.cardCvv //'971'
@@ -580,12 +588,15 @@ class PayOs extends React.Component {
       return (
         <>
           {this.state.isCreditCardCheck[type] === 'SUCCESS' ? (
-            <div
-              className={cn(
-                'font-bold text-green text-md absolute top-3 right-3'
-              )}
-            >
-              ✔
+            <div className={cn('font-bold text-md absolute top-3 right-3')}>
+              <svg
+                fill="#0ABF53"
+                width="16px"
+                height="16px"
+                viewBox="0 0 16 16"
+              >
+                <path d="M6.50025408,13.5007781 C6.23625408,13.5007781 5.98125408,13.3967781 5.79325408,13.2077781 L2.79325408,10.2077781 C2.40225408,9.81677809 2.40225408,9.18477809 2.79325408,8.79377809 C3.18425408,8.40277809 3.81625408,8.40277809 4.20725408,8.79377809 L6.34525408,10.9307781 L11.6682541,2.94577809 C11.9742541,2.48677809 12.5942541,2.36077809 13.0552541,2.66877809 C13.5142541,2.97477809 13.6382541,3.59577809 13.3322541,4.05577809 L7.33225408,13.0557781 C7.16625408,13.3047781 6.89625408,13.4667781 6.59925408,13.4957781 C6.56525408,13.4997781 6.53325408,13.5007781 6.50025408,13.5007781"></path>
+              </svg>
             </div>
           ) : null}
           {this.state.isCreditCardCheck[type] === 'FAIL' ? (
@@ -606,7 +617,7 @@ class PayOs extends React.Component {
 
     const formListInputError = (errMsg, type) => {
       return this.state.isCreditCardCheck[type] === 'FAIL' ? (
-        <div className="text-red-500 my-1">{errMsg}</div>
+        <div className="text-red-500 my-1 whitespace-nowrap">{errMsg}</div>
       ) : null;
     };
     //俄罗斯表单专用
@@ -769,6 +780,7 @@ class PayOs extends React.Component {
                                   name="cardMmyy"
                                   maxLength="5"
                                   placeholder={'MM/YY'}
+                                  id="cardMmyy"
                                 />
                                 {formListInputIcon('cardMmyy')}
                               </span>

@@ -124,8 +124,9 @@ class EmailForm extends React.Component {
               ? null
               : this.handleClickEdit
           }}
+          previewJSX={<div>{this.props.currentEmailVal}</div>}
         >
-          {emailPanelStatus.isPrepare ? null : emailPanelStatus.isEdit ? (
+          {emailPanelStatus.isEdit ? (
             <div className="rc-margin-left--none rc-padding-left--none rc-margin-left--xs rc-padding-left--xs">
               <div className="d-flex align-items-center justify-content-between">
                 <div
@@ -154,8 +155,6 @@ class EmailForm extends React.Component {
                 </button>
               </div>
             </div>
-          ) : emailPanelStatus.isCompleted ? (
-            <div>{this.props.currentEmailVal}</div>
           ) : null}
         </PanelContainer>
       </>

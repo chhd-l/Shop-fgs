@@ -561,6 +561,17 @@ class VisitorAddress extends React.Component {
         isFromFelin={isFromFelin}
         isDeliverAddress={this.props.type === 'delivery'}
         handleClickEdit={this.handleClickEdit}
+        previewJSX={
+          <AddressPreview
+            key={this.state.pickupAddress}
+            form={
+              pickupFormData?.receiveType == 'PICK_UP'
+                ? pickupAddress || null
+                : form
+            }
+            isLogin={false}
+          />
+        }
       >
         {!panelStatus.isPrepare ? (
           panelStatus.isEdit ? (
@@ -616,16 +627,6 @@ class VisitorAddress extends React.Component {
                 </div>
               )}
             </fieldset>
-          ) : panelStatus.isCompleted ? (
-            <AddressPreview
-              key={this.state.pickupAddress}
-              form={
-                pickupFormData?.receiveType == 'PICK_UP'
-                  ? pickupAddress || null
-                  : form
-              }
-              isLogin={false}
-            />
           ) : null
         ) : null}
 

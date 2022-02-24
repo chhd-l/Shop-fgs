@@ -32,7 +32,6 @@ import {
   deleteItemFromBackendCart,
   switchSize
 } from '@/api/cart';
-import { getProductPetConfig } from '@/api/payment';
 import catsImg from '@/assets/images/banner-list/cats.jpg';
 import dogsImg from '@/assets/images/banner-list/dogs.jpg';
 import catsImgFr from '@/assets/images/banner-list/cats-fr.png';
@@ -458,29 +457,8 @@ class LoginCart extends React.Component {
     }
     try {
       const { configStore, checkoutStore, history, clinicStore } = this.props;
-      const { productList } = this.state;
       this.setState({ checkoutLoading: true });
       await this.updateCartCache({ isThrowErr: true });
-
-      this.checkoutStore.setLoginCartData(productList);
-      let autoAuditFlag = false;
-      let res = await getProductPetConfig({
-        goodsInfos: this.loginCartData
-      });
-      let handledData = this.loginCartData.map((el, i) => {
-        const tmpGoodsInfo = res.context.goodsInfos[i];
-        if (tmpGoodsInfo) {
-          el.auditCatFlag = tmpGoodsInfo['auditCatFlag'];
-          el.prescriberFlag = tmpGoodsInfo['prescriberFlag'];
-        }
-        return el;
-      });
-      checkoutStore.setLoginCartData(handledData);
-      let AuditData = handledData.filter((el) => el.auditCatFlag);
-      checkoutStore.setAuditData(AuditData);
-      autoAuditFlag = res.context.autoAuditFlag;
-      checkoutStore.setAutoAuditFlag(autoAuditFlag);
-      checkoutStore.setPetFlag(res.context.petFlag);
       const url = await distributeLinktoPrecriberOrPaymentPage({
         configStore,
         checkoutStore,

@@ -71,7 +71,7 @@ class Consent extends Component {
     return (
       <div
         className={`required-component break-words ${autoClass}`}
-        style={{ width: `${width}` }}
+        style={{ width: `${width}`, wordBreak: 'break-word' }}
       >
         {this.renderCheckBox(list)}
       </div>
@@ -85,7 +85,7 @@ class Consent extends Component {
     const fontZoom = this.props.fontZoom || '100%';
     const checkboxPadding = this.props.checkboxPadding || '1.25rem';
     const url = this.props.url;
-    const { pageType = '' } = this.props;
+    const { pageType = '', isLogin } = this.props;
     const Fr = window.__.env.REACT_APP_COUNTRY === 'fr';
     const Us = window.__.env.REACT_APP_COUNTRY === 'us';
     const De = window.__.env.REACT_APP_COUNTRY === 'de';
@@ -104,6 +104,11 @@ class Consent extends Component {
     const noIsRequired = list?.findIndex((_item) => _item?.isRequired == false);
     console.log(list, 'listtt--==', noIsRequired);
     const showText = ['account', 'register', 'checkout'].indexOf(pageType) > -1;
+    // se支付页面已登录不展示consent包括 text
+    const hiddenText =
+      pageType === 'checkout' &&
+      window.__.env.REACT_APP_COUNTRY === 'se' &&
+      isLogin;
     return (
       <>
         {list?.map((item, index) => {
@@ -117,7 +122,10 @@ class Consent extends Component {
                   <DeTextInfo />
                 </div>
               ) : null}
-              {noIsRequired > -1 && noIsRequired == index && showText ? (
+              {noIsRequired > -1 &&
+              noIsRequired == index &&
+              showText &&
+              !hiddenText ? (
                 <div style={{ marginLeft: '-28px' }}>
                   <ConsentAdditionalText textPosition="top" />
                 </div>
@@ -215,12 +223,12 @@ class Consent extends Component {
             <DeTextInfo />
           </div>
         ) : null}
-        {noIsRequired === -1 && pageType === 'checkout' ? (
+        {noIsRequired === -1 && pageType === 'checkout' && !hiddenText ? (
           <div style={{ marginLeft: '-28px', marginBottom: '24px' }}>
             <ConsentAdditionalText textPosition="top" />
           </div>
         ) : null}
-        {showText ? (
+        {showText && !hiddenText ? (
           <div style={{ marginLeft: '-28px' }}>
             <ConsentAdditionalText textPosition="bottom" />
           </div>

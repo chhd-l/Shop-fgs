@@ -10,7 +10,8 @@ const PetListSelection = ({ paymentStore, idx }) => {
   return (
     <Selection
       selectedItemChange={(data) => {
-        setPetSelectedIds(data.value);
+        petSelectedIds.splice(idx, 0, data.value);
+        setPetSelectedIds(petSelectedIds);
       }}
       optionList={[
         {

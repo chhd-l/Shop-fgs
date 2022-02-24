@@ -35,7 +35,6 @@ import catsImg from '@/assets/images/banner-list/cats.jpg';
 import dogsImg from '@/assets/images/banner-list/dogs.jpg';
 import catsImgFr from '@/assets/images/banner-list/cats-fr.png';
 import dogsImgFr from '@/assets/images/banner-list/dogs-fr.png';
-import { getProductPetConfig } from '@/api/payment';
 import BannerTip from '@/components/BannerTip';
 import LazyLoad from 'react-lazyload';
 import { v4 as uuidv4 } from 'uuid';
@@ -415,40 +414,6 @@ class UnLoginCart extends React.Component {
       if (needLogin) {
         // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
       } else {
-        let autoAuditFlag = false;
-        if (this.props.loginStore.isLogin) {
-          let res = await getProductPetConfig({
-            goodsInfos: checkoutStore.loginCartData
-          });
-          let handledData = checkoutStore.loginCartData.map((el, i) => {
-            el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
-            el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-            return el;
-          });
-          checkoutStore.setLoginCartData(handledData);
-          let AuditData = handledData.filter((el) => el.auditCatFlag);
-          checkoutStore.setAuditData(AuditData);
-          autoAuditFlag = res.context.autoAuditFlag;
-        } else {
-          let paramData = checkoutStore.cartData.map((el) => {
-            el.goodsInfoId = el.sizeList.filter(
-              (item) => item.selected
-            )[0].goodsInfoId;
-            return el;
-          });
-          let res = await getProductPetConfig({ goodsInfos: paramData });
-          let handledData = paramData.map((el, i) => {
-            el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
-            el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-            return el;
-          });
-          checkoutStore.setCartData(handledData);
-          let AuditData = handledData.filter((el) => el.auditCatFlag);
-          checkoutStore.setAuditData(AuditData);
-          autoAuditFlag = res.context.autoAuditFlag;
-          checkoutStore.setPetFlag(res.context.petFlag);
-        }
-        checkoutStore.setAutoAuditFlag(autoAuditFlag);
         const url = await distributeLinktoPrecriberOrPaymentPage({
           configStore,
           checkoutStore,

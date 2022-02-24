@@ -9,7 +9,8 @@ const AddressPanelContainer = ({
   titleId,
   isFromFelin,
   isDeliverAddress,
-  handleClickEdit
+  handleClickEdit,
+  previewJSX
 }) => {
   return (
     <PanelContainer
@@ -35,6 +36,7 @@ const AddressPanelContainer = ({
         onEdit: isFromFelin ? null : handleClickEdit
       }}
       containerConf={{ id: 'J_checkout_panel_deliveryAddr' }}
+      previewJSX={previewJSX}
     >
       {children}
     </PanelContainer>
