@@ -37,7 +37,6 @@ import {
   handleOrderStatusMap,
   handleFelinOrderStatusMap
 } from './modules/handleOrderStatus';
-import { getWays } from '@/api/payment';
 import { handleOrderItem } from '../Orders/modules/handleOrderItem';
 import CancelOrderModal from './modules/cancelOrderModal/index';
 import CancelOrderSuccessModal from './modules/cancelOrderModal/successModal';
@@ -46,7 +45,6 @@ import OrderAddressAndPayReview from './modules/addressAndPayReview/index';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 function Progress({ progressList, currentProgressIndex }) {
-  console.log(progressList);
   return (
     <div className="od-prg-container mx-2 md:mx-4">
       <div className="od-prg d-flex align-items-center px-3">
@@ -88,10 +86,10 @@ function Progress({ progressList, currentProgressIndex }) {
             </span>
             {i !== progressList.length - 1 ? (
               <span
-                className={`od-prg-line position-relative flex-fill ml-2 mr-2 ${
+                className={`od-prg-line position-relative flex-fill mx-2 ${
                   i < currentProgressIndex
                     ? 'complete'
-                    : i == currentProgressIndex
+                    : i === currentProgressIndex
                     ? 'ing'
                     : ''
                 }`}
@@ -234,7 +232,6 @@ class AccountOrders extends React.Component {
     this.handleClickLogisticsCard = this.handleClickLogisticsCard.bind(this);
   }
   componentDidMount() {
-    const { paymentStore } = this.props;
     this.setState(
       {
         orderNumber: this.props.match.params.orderNumber
@@ -243,11 +240,6 @@ class AccountOrders extends React.Component {
         this.init();
       }
     );
-    getWays().then((res) => {
-      paymentStore.setSupportPaymentMethods(
-        res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || []
-      );
-    });
   }
   get isShowInstallMent() {
     const { details } = this.state;
@@ -262,8 +254,7 @@ class AccountOrders extends React.Component {
   }
   //判断是否是felin 订单
   get isFelinOrder() {
-    const { details } = this.state;
-    return details?.appointmentNo;
+    return this.state?.details?.appointmentNo;
   }
   init() {
     const { orderNumber } = this.state;
@@ -289,13 +280,18 @@ class AccountOrders extends React.Component {
             if (isIndv) {
               el.promotions = 'individual';
             }
-            return el;
+            return Object.assign({}, el, {
+              pic: el.goodsInfoImg || el.pic,
+              isWelcomeBox: true,
+              spuName: el.goodsInfoName,
+              num: el.quantity,
+              originalPrice: el.marketPrice
+            });
           }
         );
-        let paymentItem = resContext.paymentItem;
         this.setState({
           welcomeGiftLists,
-          paymentItem
+          paymentItem: resContext.paymentItem
         });
         const tradeState = resContext.tradeState;
         const orderStatusMap = resContext.orderStatusMap;
@@ -406,7 +402,7 @@ class AccountOrders extends React.Component {
           >
             •••
           </a>
-          <div id="bottom-tooltip" className="rc-tooltip text-left pl-1 pr-1">
+          <div id="bottom-tooltip" className="rc-tooltip text-left px-1">
             <div
               className={`border-bottom p-1 ui-cursor-pointer ${
                 this.props.returnOrExchangeLoading
@@ -539,14 +535,14 @@ class AccountOrders extends React.Component {
         {logisticsList[0] && logisticsList[0].trackingUrl ? null : (
           <>
             {logisticsList.length > 0 ? (
-              <div className="col-12 mt-4 border1 rounded mb-4 pl-0 pr-0 rc-md-up">
+              <div className="col-12 mt-4 border1 rounded mb-4 px-0 rc-md-up">
                 {logisticsList.length > 1 ? (
                   <nav className="rc-bg-colour--brand4 p-3">
                     {logisticsList.map(
                       (item, i) =>
                         item?.tradeLogisticsDetails?.length > 0 && (
                           <span
-                            className={`ui-cursor-pointer mr-2 pl-3 pr-3 pb-2 pt-2 rounded ${
+                            className={`ui-cursor-pointer mr-2 px-3 py-2 rounded ${
                               activeTabIdx === i
                                 ? 'active red rc-bg-colour--brand3'
                                 : ''
@@ -599,7 +595,7 @@ class AccountOrders extends React.Component {
                             </div>
                           ))}
                         </div>
-                        <div className="row border-top m-0 pt-2 pb-2">
+                        <div className="row border-top m-0 py-2">
                           <div className="col-12 col-md-3">
                             <svg className="svg-icon mr-1" aria-hidden="true">
                               <use xlinkHref="#iconDeliverydate" />
@@ -645,7 +641,7 @@ class AccountOrders extends React.Component {
               </div>
             ) : null}
 
-            <div className="ml-4 mr-4 rc-md-down mt-2 md:mt-0">
+            <div className="mx-4 rc-md-down mt-2 md:mt-0">
               {filteredLogisticsList.map(
                 (item, i) =>
                   item?.tradeLogisticsDetails?.length > 0 && (
@@ -869,7 +865,6 @@ class AccountOrders extends React.Component {
   renderFelinHeadTip = () => {
     const { currentProgressIndex, normalProgressList } = this.state;
     let ret = null;
-    console.log('currentProgressIndex', currentProgressIndex);
     switch (currentProgressIndex) {
       case 0:
         // Appointment confirmed
@@ -1000,7 +995,7 @@ class AccountOrders extends React.Component {
     }
   };
   render() {
-    const { configStore, paymentStore } = this.props;
+    const { configStore } = this.props;
     const { customTaxSettingOpenFlag, enterPriceType } = configStore;
     const event = {
       page: {
@@ -1157,6 +1152,7 @@ class AccountOrders extends React.Component {
                                 <div className="order-list-container">
                                   {details.tradeItems
                                     .concat(details.gifts)
+                                    .concat(welcomeGiftLists)
                                     .map((item, i) => (
                                       <div
                                         className="border-bottom px-2 py-3"
@@ -1172,7 +1168,13 @@ class AccountOrders extends React.Component {
                                                 src={
                                                   optimizeImage({
                                                     originImageUrl: item.pic
-                                                  }) || IMG_DEFAULT
+                                                  }) ||
+                                                  (item.isWelcomeBox
+                                                    ? getClubLogo({
+                                                        goodsInfoFlag:
+                                                          item.goodsInfoFlag
+                                                      })
+                                                    : IMG_DEFAULT)
                                                 }
                                                 alt={item.spuName}
                                                 title={item.spuName}
@@ -1370,80 +1372,6 @@ class AccountOrders extends React.Component {
                                         </div>
                                       </div>
                                     ))}
-                                  {/*welcome box gifts*/}
-                                  {welcomeGiftLists.map((item, i) => (
-                                    <div
-                                      className="border-bottom px-2 py-3"
-                                      key={i}
-                                    >
-                                      <div
-                                        className={`row align-items-center px-2 md:py-0`}
-                                      >
-                                        <div className="col-4 col-md-2 d-flex justify-content-center align-items-center">
-                                          <LazyLoad className="w-full">
-                                            <img
-                                              className="order-details-img-fluid w-100"
-                                              src={
-                                                optimizeImage({
-                                                  originImageUrl:
-                                                    item.goodsInfoImg ||
-                                                    item.pic
-                                                }) ||
-                                                getClubLogo({
-                                                  goodsInfoFlag:
-                                                    item.goodsInfoFlag
-                                                })
-                                              }
-                                              alt=""
-                                              title=""
-                                            />
-                                          </LazyLoad>
-                                        </div>
-                                        <div className="col-8 col-md-3">
-                                          <span
-                                            className="medium ui-text-overflow-line2 text-break color-444"
-                                            title={item.goodsInfoName}
-                                          >
-                                            {item.goodsInfoName}
-                                          </span>
-                                          <span className="ui-text-overflow-line2">
-                                            <span className="rc-md-down">
-                                              <FormattedMessage
-                                                id="quantityText"
-                                                values={{
-                                                  specText: '',
-                                                  buyCount: item.quantity
-                                                }}
-                                              />
-                                            </span>
-                                          </span>
-                                          <span className="rc-md-down 1111">
-                                            {judgeIsIndividual(item)
-                                              ? ''
-                                              : formatMoney(item.marketPrice)}
-                                          </span>
-                                        </div>
-                                        <div className="col-6 col-md-2 text-right md:text-left rc-md-up">
-                                          <FormattedMessage
-                                            id="xProduct"
-                                            values={{
-                                              val: judgeIsIndividual(item)
-                                                ? 1
-                                                : item.quantity
-                                            }}
-                                          />
-                                        </div>
-                                        <div className="col-6 col-md-3 text-right md:text-left rc-md-up">
-                                          {judgeIsIndividual(item)
-                                            ? ''
-                                            : formatMoney(item.marketPrice)}
-                                        </div>
-                                        <div className="col-12 col-md-2 text-right md:text-left text-nowrap rc-md-up font-weight-normal 222">
-                                          {formatMoney(item.marketPrice)}
-                                        </div>
-                                      </div>
-                                    </div>
-                                  ))}
                                 </div>
                               </div>
                               <div className="py-2 md:px-4">
@@ -1593,9 +1521,6 @@ class AccountOrders extends React.Component {
                             details={details}
                             paymentItem={paymentItem}
                             payRecord={payRecord}
-                            supportPaymentMethods={
-                              paymentStore.supportPaymentMethods
-                            }
                           />
                           {this.renderJpCancelOrderBtns()}
                         </div>
