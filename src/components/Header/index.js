@@ -526,7 +526,7 @@ class Header extends React.Component {
    * @param {Boolean} active true-添加 false-删除
    * @returns
    */
-  toggleDomClassName({ dom, operatedClassName, active }) {
+  toggleDomClassName = ({ dom, operatedClassName, active }) => {
     if (!dom) {
       return false;
     }
@@ -540,14 +540,14 @@ class Header extends React.Component {
       }
     }
     dom.className = cls.join(' ');
-  }
-  toggleShowBodyMask({ visible = false }) {
+  };
+  toggleShowBodyMask = ({ visible = false }) => {
     this.toggleDomClassName({
       dom: document.querySelector('body'),
       operatedClassName: 'open-dropdown',
       active: visible
     });
-  }
+  };
   updateActiveTopParentId = (id) => {
     this.setState({ activeTopParentId: id }, () => {
       const { activeTopParentId } = this.state;
@@ -574,8 +574,13 @@ class Header extends React.Component {
     );
   };
   render() {
-    const { showMiniIcons, showUserIcon, loginStore, configStore, history } =
-      this.props;
+    const {
+      showMiniIcons,
+      showUserIcon,
+      loginStore,
+      configStore,
+      history
+    } = this.props;
     const {
       headerNavigationList,
       headerNavigationListForHub,
