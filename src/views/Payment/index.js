@@ -1013,7 +1013,7 @@ class Payment extends React.Component {
           langKey: 'Swish',
           paymentTypeVal: 'adyen_swish'
         },
-        convenience_store: {
+        adyen_convenience_store: {
           name: 'convenience_store',
           langKey: 'Convenience Store',
           paymentTypeVal: 'convenience_store'

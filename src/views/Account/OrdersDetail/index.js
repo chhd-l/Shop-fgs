@@ -10,14 +10,7 @@ import SideMenu from '@/components/SideMenu';
 import Modal from '@/components/Modal';
 import BannerTip from '@/components/BannerTip';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import {
-  formatMoney,
-  filterOrderId,
-  getClubLogo,
-  judgeIsIndividual,
-  formatDate,
-  optimizeImage
-} from '@/utils/utils';
+import { judgeIsIndividual, formatDate } from '@/utils/utils';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
 import {
@@ -38,9 +31,14 @@ import {
   handleFelinOrderStatusMap
 } from './modules/handleOrderStatus';
 import { handleOrderItem } from '../Orders/modules/handleOrderItem';
-import CancelOrderModal from './modules/cancelOrderModal/index';
-import CancelOrderSuccessModal from './modules/cancelOrderModal/successModal';
-import OrderAddressAndPayReview from './modules/addressAndPayReview/index';
+import {
+  OrderAddressAndPayReview,
+  OrderAllPrice,
+  OrderAllProduct,
+  CancelOrderModal,
+  CancelOrderSuccessModal,
+  OrderHeaderInfo
+} from './modules';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -240,17 +238,6 @@ class AccountOrders extends React.Component {
         this.init();
       }
     );
-  }
-  get isShowInstallMent() {
-    const { details } = this.state;
-    return !!details.tradePrice.installmentPrice;
-  }
-  // 存在分期时，总价显示另一个字段
-  get totalPrice() {
-    const { details } = this.state;
-    return this.isShowInstallMent
-      ? details.tradePrice.totalAddInstallmentPrice
-      : details.tradePrice.totalPrice;
   }
   //判断是否是felin 订单
   get isFelinOrder() {
@@ -1073,443 +1060,29 @@ class AccountOrders extends React.Component {
                           <div className="rc-bg-colour--brand4 rc-md-down mt-3 h-3.5" />
                           <div className="row m-0 mx-2 md:mx-0">
                             <div className="col-12 border table-header rounded mt-3 md:mt-0">
-                              <div className="row pt-3 pb-2 px-1 md:px-4 md:pt-4 md:pb-3">
-                                {/* 订单号 */}
-                                <div className="col-12 col-md-3 text-left mb-2">
-                                  <FormattedMessage id="order.orderNumber" />
-                                  <br />
-                                  <span className="medium">
-                                    {filterOrderId({
-                                      orderNo: this.state.orderNumber,
-                                      orderNoForOMS:
-                                        this.state.orderNumberForOMS
-                                    })}
-                                  </span>
-                                </div>
-                                {/* 订单状态 */}
-                                <div className="col-12 col-md-3 text-left mb-2">
-                                  <FormattedMessage id="order.orderStatus" />
-                                  <br />
-                                  <span className="medium">
-                                    {details.tradeState.orderStatus}
-                                  </span>
-                                </div>
-                                {/* goodwill order flag */}
-                                {details.goodWillFlag === 1 && (
-                                  <div className="col-12 col-md-3 text-left mb-2">
-                                    <FormattedMessage id="order.goodwillOrder" />
-                                  </div>
-                                )}
-                                {/* 订阅订单号 */}
-                                {/* {details.subscriptionResponseVO ? (
-                                  <div className="col-12 col-md-3 text-left mb-2">
-                                    <FormattedMessage id="subscription.numberFirstWordUpperCase" />
-                                    <br />
-                                    <Link
-                                      to={`/account/subscription/order/detail/${this.state.subNumber}`}
-                                      className="rc-styled-link medium mb-0"
-                                    >
-                                      {filterOrderId({
-                                        orderNo: this.state.subNumber,
-                                        orderNoForOMS: this.state
-                                          .orderNumberForOMS
-                                      })}
-                                    </Link>
-                                  </div>
-                                ) : null} */}
-
-                                {/* clinic信息 */}
-                                {window.__.env
-                                  .REACT_APP_CHECKOUT_WITH_CLINIC ===
-                                  'true' && (
-                                  <div className="col-12 col-md-3 text-left mb-2">
-                                    <FormattedMessage id="payment.clinicTitle3" />
-                                    <br />
-                                    <span
-                                      className="medium ui-text-overflow-line2"
-                                      title={details.clinicsName}
-                                    >
-                                      {details.clinicsName}
-                                    </span>
-                                  </div>
-                                )}
-                                {/* {this.returnOrExchangeBtnJSX()} */}
-                                {/* {this.cancelOrderBtnJSX()} */}
-                                {this.isFelinOrder ? (
-                                  <div className="col-12 col-md-0 text-left mb-2 rc-md-down">
-                                    {this.renderOperationBtns()}
-                                  </div>
-                                ) : null}
-                              </div>
+                              <OrderHeaderInfo
+                                details={details}
+                                renderOperationBtns={this.renderOperationBtns()}
+                                orderNumberForOMS={this.state.orderNumberForOMS}
+                              />
                             </div>
                             <div className="col-12 table-body rounded md:mt-3 mb-2 px-0">
                               <div className="order__listing text-left">
-                                <div className="order-list-container">
-                                  {details.tradeItems
-                                    .concat(details.gifts)
-                                    .concat(welcomeGiftLists)
-                                    .map((item, i) => (
-                                      <div
-                                        className="border-bottom px-2 py-3"
-                                        key={i}
-                                      >
-                                        <div
-                                          className={`row align-items-center px-2 md:px-0`}
-                                        >
-                                          <div className="col-4 col-md-2 d-flex justify-content-center align-items-center">
-                                            <LazyLoad className="w-full">
-                                              <img
-                                                className="order-details-img-fluid w-100"
-                                                src={
-                                                  optimizeImage({
-                                                    originImageUrl: item.pic
-                                                  }) ||
-                                                  (item.isWelcomeBox
-                                                    ? getClubLogo({
-                                                        goodsInfoFlag:
-                                                          item.goodsInfoFlag
-                                                      })
-                                                    : IMG_DEFAULT)
-                                                }
-                                                alt={item.spuName}
-                                                title={item.spuName}
-                                              />
-                                            </LazyLoad>
-                                          </div>
-                                          <div className="col-8 col-md-3">
-                                            <span className="">
-                                              <span
-                                                className="medium ui-text-overflow-line2 text-break color-444"
-                                                title={item.spuName}
-                                              >
-                                                {judgeIsIndividual(item) ? (
-                                                  <FormattedMessage
-                                                    id="subscription.personalized"
-                                                    values={{
-                                                      val1: item.petsName
-                                                    }}
-                                                  />
-                                                ) : (
-                                                  item.spuName
-                                                )}
-                                              </span>
-                                              <span className="ui-text-overflow-line2">
-                                                {this.isFelinOrder ? (
-                                                  <span className="rc-md-up">
-                                                    {details.specialistType} –{' '}
-                                                    {details.appointmentTime}
-                                                    <FormattedMessage id="min" />{' '}
-                                                    –{details.appointmentType}
-                                                  </span>
-                                                ) : (
-                                                  <span className="rc-md-up">
-                                                    {item.specDetails}
-                                                  </span>
-                                                )}
-
-                                                <span className="rc-md-down">
-                                                  {judgeIsIndividual(item) ? (
-                                                    <span>
-                                                      {item.specDetails} x1
-                                                    </span>
-                                                  ) : this.isFelinOrder ? (
-                                                    <span className="rc-md-down">
-                                                      {details.specialistType} –{' '}
-                                                      {details.appointmentTime}
-                                                      <FormattedMessage id="min" />{' '}
-                                                      –{details.appointmentType}
-                                                    </span>
-                                                  ) : (
-                                                    <FormattedMessage
-                                                      id="quantityText"
-                                                      values={{
-                                                        specText:
-                                                          item.specDetails ||
-                                                          '',
-                                                        buyCount: item.num
-                                                      }}
-                                                    />
-                                                  )}
-                                                </span>
-                                              </span>
-                                              {item.subscriptionSourceList
-                                                ?.length ? (
-                                                <span>
-                                                  <span className="iconfont mr-2 text-rc-red">
-                                                    &#xe675;
-                                                  </span>
-                                                  <FormattedMessage id="subscription.numberFirstWordUpperCase" />
-                                                  {item.subscriptionSourceList.map(
-                                                    (el) => (
-                                                      <p className="ui-text-overflow-line1">
-                                                        <Link
-                                                          to={`/account/subscription/order/detail/${el.subscribeId}`}
-                                                          className="rc-styled-link medium mb-0"
-                                                        >
-                                                          {filterOrderId({
-                                                            orderNo:
-                                                              el.subscribeId,
-                                                            orderNoForOMS:
-                                                              this.state
-                                                                .orderNumberForOMS
-                                                          })}
-                                                        </Link>
-                                                      </p>
-                                                    )
-                                                  )}
-                                                </span>
-                                              ) : null}
-                                              <span className="rc-md-down">
-                                                {details.subscriptionResponseVO &&
-                                                item.subscriptionStatus ? (
-                                                  judgeIsIndividual(item) ? (
-                                                    ''
-                                                  ) : (
-                                                    <>
-                                                      <span className="red font-weight-normal">
-                                                        {formatMoney(
-                                                          item.subscriptionPrice
-                                                        )}
-                                                      </span>
-
-                                                      <span className="text-line-through ml-2">
-                                                        {formatMoney(
-                                                          item.originalPrice
-                                                        )}
-                                                      </span>
-                                                    </>
-                                                  )
-                                                ) : (
-                                                  formatMoney(
-                                                    item.originalPrice
-                                                  )
-                                                )}
-                                              </span>
-                                              {/* {details.subscriptionResponseVO &&
-                                              item.subscriptionStatus && (
-                                                <>
-                                                  <br />
-                                                  <span
-                                                    className="iconfont font-weight-bold red mr-1"
-                                                    style={{ fontSize: '.8em' }}
-                                                  >
-                                                    &#xe675;
-                                                  </span>
-                                                  <FormattedMessage id="details.Subscription" />
-                                                </>
-                                              )} */}
-                                            </span>
-                                          </div>
-                                          <div className="col-6 col-md-2 text-right md:text-left rc-md-up">
-                                            {!this.isFelinOrder ? (
-                                              <FormattedMessage
-                                                id="xProduct"
-                                                values={{
-                                                  val: judgeIsIndividual(item)
-                                                    ? 1
-                                                    : item.num
-                                                }}
-                                              />
-                                            ) : null}
-                                          </div>
-                                          <div
-                                            className={`col-6 ${
-                                              this.isFelinOrder
-                                                ? 'col-md-2'
-                                                : 'col-md-3'
-                                            } text-right md:text-left rc-md-up`}
-                                          >
-                                            {details.subscriptionResponseVO &&
-                                            item.subscriptionStatus ? (
-                                              judgeIsIndividual(item) ? (
-                                                ''
-                                              ) : (
-                                                <>
-                                                  <span className="red font-weight-normal">
-                                                    {formatMoney(
-                                                      item.subscriptionPrice
-                                                    )}
-                                                  </span>
-
-                                                  <span className="text-line-through ml-2">
-                                                    {formatMoney(
-                                                      item.originalPrice
-                                                    )}
-                                                  </span>
-                                                </>
-                                              )
-                                            ) : (
-                                              formatMoney(item.originalPrice)
-                                            )}
-                                          </div>
-                                          <div
-                                            className={`col-12 ${
-                                              this.isFelinOrder
-                                                ? 'col-md-3'
-                                                : 'col-md-2'
-                                            } text-right md:text-left text-nowrap rc-md-up font-weight-normal d-flex justify-content-center flex-column`}
-                                          >
-                                            {details.subscriptionResponseVO &&
-                                            item.subscriptionStatus
-                                              ? formatMoney(
-                                                  judgeIsIndividual(item)
-                                                    ? details.tradePrice
-                                                        .goodsPrice
-                                                    : item.subscriptionPrice *
-                                                        item.num
-                                                )
-                                              : this.isFelinOrder
-                                              ? this.renderOperationBtns()
-                                              : formatMoney(
-                                                  item.originalPrice * item.num
-                                                )}
-                                          </div>
-                                        </div>
-                                      </div>
-                                    ))}
-                                </div>
+                                <OrderAllProduct
+                                  details={details}
+                                  orderNumberForOMS={this.state.orderNoForOMS}
+                                  renderOperationBtns={this.renderOperationBtns()}
+                                  welcomeGiftLists={welcomeGiftLists}
+                                />
                               </div>
-                              <div className="py-2 md:px-4">
-                                <div className="row mt-2 text-left">
-                                  <div className="col-2 col-md-7 mb-2 rc-md-up">
-                                    &nbsp;
-                                  </div>
-                                  <div className="col-6 col-md-2 mb-2">
-                                    <FormattedMessage id="total" />
-                                  </div>
-                                  <div className="col-6 col-md-3 text-right text-nowrap">
-                                    {formatMoney(details.tradePrice.goodsPrice)}
-                                  </div>
 
-                                  {details.tradePrice
-                                    .subscriptionDiscountPrice ? (
-                                    <>
-                                      <div className="col-2 col-md-7 mb-2 rc-md-up">
-                                        &nbsp;
-                                      </div>
-                                      <div className="col-6 col-md-2 mb-2 green">
-                                        <FormattedMessage id="promotion" />
-                                      </div>
-                                      <div className="col-6 col-md-3 text-right green text-nowrap">
-                                        -
-                                        {formatMoney(
-                                          details.tradePrice
-                                            .subscriptionDiscountPrice
-                                        )}
-                                      </div>
-                                    </>
-                                  ) : null}
-
-                                  {details.tradePrice.promotionVOList?.map(
-                                    (el) => (
-                                      <>
-                                        <div className="col-2 col-md-7 mb-2 rc-md-up">
-                                          &nbsp;
-                                        </div>
-                                        <div className="col-6 col-md-2 mb-2 green">
-                                          {el.marketingName}
-                                        </div>
-                                        <div className="col-6 col-md-3 text-right green text-nowrap">
-                                          -{formatMoney(el.discountPrice)}
-                                        </div>
-                                      </>
-                                    )
-                                  )}
-
-                                  <div className="col-2 col-md-7 mb-2 rc-md-up">
-                                    &nbsp;
-                                  </div>
-                                  <div className="col-6 col-md-2 mb-2">
-                                    <FormattedMessage id="order.shipping" />
-                                  </div>
-                                  <div className="col-6 col-md-3 text-right text-nowrap">
-                                    {formatMoney(
-                                      details.tradePrice.deliveryPrice
-                                    )}
-                                  </div>
-
-                                  {details.tradePrice.freeShippingFlag ? (
-                                    <>
-                                      <div className="col-2 col-md-7 mb-2 rc-md-up">
-                                        &nbsp;
-                                      </div>
-                                      <div className="col-6 col-md-2 mb-2 green">
-                                        <FormattedMessage id="payment.shippingDiscount" />
-                                      </div>
-                                      <div className="col-6 col-md-3 text-right green text-nowrap">
-                                        {details.tradePrice
-                                          .freeShippingDiscountPrice > 0 && '-'}
-                                        {formatMoney(
-                                          details.tradePrice
-                                            .freeShippingDiscountPrice
-                                        )}
-                                      </div>
-                                    </>
-                                  ) : null}
-
-                                  {customTaxSettingOpenFlag &&
-                                  enterPriceType === 'NO_TAX' ? (
-                                    <>
-                                      <div className="col-2 col-md-7 mb-2 rc-md-up">
-                                        &nbsp;
-                                      </div>
-                                      <div className="col-6 col-md-2 mb-2">
-                                        <FormattedMessage id="estimatedTax" />
-                                      </div>
-                                      <div className="col-6 col-md-3 text-right text-nowrap">
-                                        {formatMoney(
-                                          details.tradePrice.taxFeePrice
-                                        )}
-                                      </div>
-                                    </>
-                                  ) : (
-                                    <></>
-                                  )}
-
-                                  {/* 分期手续费 */}
-                                  {this.isShowInstallMent ? (
-                                    <>
-                                      <div className="col-2 col-md-7 mb-2 rc-md-up">
-                                        &nbsp;
-                                      </div>
-                                      <div className="col-6 col-md-2 mb-2 red">
-                                        <FormattedMessage id="installMent.additionalFee" />
-                                      </div>
-                                      <div className="col-6 col-md-3 text-right red text-nowrap">
-                                        {formatMoney(
-                                          details.tradePrice.installmentPrice
-                                            .additionalFee
-                                        )}
-                                      </div>
-                                    </>
-                                  ) : null}
-
-                                  <div className="col-2 col-md-7 mb-2 rc-md-up">
-                                    &nbsp;
-                                  </div>
-                                  <div
-                                    className={`col-6 col-md-2 mb-2 ${
-                                      window.__.env.REACT_APP_COUNTRY === 'tr'
-                                        ? 'tr-total-iVAIncluido'
-                                        : ''
-                                    }`}
-                                  >
-                                    <span className="medium color-444">
-                                      <FormattedMessage id="order.total" />
-                                    </span>
-                                    <span>&nbsp;</span>
-                                    <span style={{ fontSize: '.8em' }}>
-                                      <FormattedMessage
-                                        id="order.iVAIncluido"
-                                        defaultMessage=" "
-                                      />
-                                    </span>{' '}
-                                  </div>
-                                  <div className="col-6 col-md-3 text-right medium text-nowrap color-444">
-                                    {formatMoney(this.totalPrice)}
-                                  </div>
-                                </div>
-                              </div>
+                              <OrderAllPrice
+                                details={details}
+                                customTaxSettingOpenFlag={
+                                  customTaxSettingOpenFlag
+                                }
+                                enterPriceType={enterPriceType}
+                              />
                             </div>
                           </div>
                           <OrderAddressAndPayReview
