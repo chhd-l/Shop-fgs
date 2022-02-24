@@ -20,7 +20,6 @@ import { formatMoney, getDeviceType } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import { getFelinReco } from '@/api/recommendation';
 import { getPrescriptionById } from '@/api/clinic';
-import { getProductPetConfig } from '@/api/payment';
 import { sitePurchase, siteMiniPurchases } from '@/api/cart';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
@@ -91,7 +90,6 @@ class FelinRecommendation extends React.Component {
       },
       outOfStockProducts: [],
       inStockProducts: [],
-      needLogin: false,
       isMobile: false,
       currentBenefit: ''
     };
@@ -301,7 +299,8 @@ class FelinRecommendation extends React.Component {
       { val: outOfStockVal }
     );
   }
-  async hanldeLoginAddToCart() {
+  async hanldeLoginAddToCart({ url }) {
+    let retPath = url;
     let { productList, outOfStockProducts, inStockProducts, modalList } =
       this.state;
     const { checkoutStore, loginStore, history, clinicStore } = this.props;
@@ -331,20 +330,22 @@ class FelinRecommendation extends React.Component {
             goodsInfoFlag: 0,
             recommendationId: 'L’ Atelier Félin'
           });
-          await this.props.checkoutStore.updateLoginCart({
-            intl: this.props.intl
-          });
         } catch (e) {
           this.setState({ buttonLoading: false });
         }
       }
-      const url = await distributeLinktoPrecriberOrPaymentPage({
-        configStore: this.props.configStore,
-        checkoutStore,
-        clinicStore,
-        isLogin: loginStore.isLogin
+      await this.props.checkoutStore.updateLoginCart({
+        intl: this.props.intl
       });
-      this.props.history.push(url);
+      if (retPath === '/checkout') {
+        retPath = await distributeLinktoPrecriberOrPaymentPage({
+          configStore: this.props.configStore,
+          checkoutStore,
+          clinicStore,
+          isLogin: loginStore.isLogin
+        });
+      }
+      this.props.history.push(retPath);
       // this.props.history.push('/cart');
     }
   }
@@ -459,9 +460,10 @@ class FelinRecommendation extends React.Component {
   //     setBtnLoading(false);
   //   }
   // };
-  hanldeUnloginAddToCart = async (products, url = '/cart') => {
-    const { intl, checkoutStore, history } = this.props;
-
+  hanldeUnloginAddToCart = async ({ productList: products, url = '/cart' }) => {
+    const { intl, checkoutStore, clinicStore, history, loginStore } =
+      this.props;
+    let retPath = url;
     let cartItems = products.map((product) => {
       return Object.assign({}, product, product.goodsInfo, {
         selected: true,
@@ -483,7 +485,15 @@ class FelinRecommendation extends React.Component {
         intl,
         valid: true
       });
-      this.props.history.push(url);
+      if (retPath === '/checkout') {
+        retPath = await distributeLinktoPrecriberOrPaymentPage({
+          configStore: this.props.configStore,
+          checkoutStore,
+          clinicStore,
+          isLogin: loginStore.isLogin
+        });
+      }
+      this.props.history.push(retPath);
       // history.push('/cart');
     } catch (err) {
       console.info('err', err);
@@ -491,13 +501,9 @@ class FelinRecommendation extends React.Component {
       // setBtnLoading(false);
     }
   };
+  // 添加购物车，并跳转/checkout页面
   buyNow = async () => {
-    let needLogin = false; // one off商品
     const { checkoutStore, loginStore, history, clinicStore } = this.props;
-    if (needLogin) {
-      localItemRoyal.set('okta-redirectUrl', '/prescription');
-    }
-    this.setState({ needLogin });
     let { productList, outOfStockProducts, inStockProducts, modalList } =
       this.state;
     let totalPrice;
@@ -532,45 +538,22 @@ class FelinRecommendation extends React.Component {
       this.setState({ buttonLoading: true });
       try {
         if (loginStore.isLogin) {
-          // sessionItemRoyal.set(
-          //   'recommend_product',
-          //   JSON.stringify(inStockProducts)
-          // );
-          // sessionItemRoyal.set('orderSource', 'L_ATELIER_FELIN');
-          await this.hanldeLoginAddToCart();
         } else {
-          let res = await getProductPetConfig({
-            goodsInfos: inStockProducts.map((el) => {
-              el.goodsInfo.buyCount = el.recommendationNumber;
-              return el.goodsInfo;
-            })
+          inStockProducts.map((el) => {
+            el.goodsInfo.buyCount = el.recommendationNumber;
+            return el.goodsInfo;
           });
-          let handledData = inStockProducts.map((el, i) => {
-            el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
-            el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-            el.sizeList = el.goodsInfo.goods.sizeList;
-            return el;
+        }
+
+        if (loginStore.isLogin) {
+          await this.hanldeLoginAddToCart({
+            url: '/checkout'
           });
-          // let handledData = res.context.goodsInfos;
-          let AuditData = handledData.filter((el) => el.auditCatFlag);
-          checkoutStore.setAuditData(AuditData);
-          let autoAuditFlag = res.context.autoAuditFlag;
-          checkoutStore.setPetFlag(res.context.petFlag);
-          checkoutStore.setAutoAuditFlag(autoAuditFlag);
-          // sessionItemRoyal.set(
-          //   'recommend_product',
-          //   JSON.stringify(inStockProducts)
-          // );
-          // sessionItemRoyal.set('orderSource', 'L_ATELIER_FELIN');
-          if (!needLogin) {
-            const url = await distributeLinktoPrecriberOrPaymentPage({
-              configStore: this.props.configStore,
-              checkoutStore,
-              clinicStore,
-              isLogin: loginStore.isLogin
-            });
-            await this.hanldeUnloginAddToCart(this.state.productList, url);
-          }
+        } else {
+          await this.hanldeUnloginAddToCart({
+            productList: this.state.productList,
+            url: '/checkout'
+          });
         }
       } catch (err) {
         console.info('err', err);
@@ -683,7 +666,7 @@ class FelinRecommendation extends React.Component {
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <Modal
           key="1"
-          needLogin={this.state.needLogin}
+          needLogin={false}
           visible={this.state.modalShow}
           confirmLoading={this.state.submitLoading}
           modalTitle={currentModalObj.title}
@@ -738,7 +721,7 @@ class FelinRecommendation extends React.Component {
               </p>
               <p>
                 <button
-                  className={`rc-btn rc-btn--one ${
+                  className={`3444 rc-btn rc-btn--one ${
                     this.state.buttonLoading ? 'ui-btn-loading' : ''
                   } ${
                     this.state.inStockProducts.length
@@ -1163,7 +1146,7 @@ class FelinRecommendation extends React.Component {
                   </ul>
                   <p style={{ marginTop: '30px', marginBottom: '30px' }}>
                     <button
-                      className={`rc-btn rc-btn--one ${
+                      className={`1111 rc-btn rc-btn--one ${
                         this.state.buttonLoading ? 'ui-btn-loading' : ''
                       } ${
                         this.state.inStockProducts.length
@@ -1284,7 +1267,7 @@ class FelinRecommendation extends React.Component {
               }}
             >
               <button
-                className={`rc-btn rc-btn--one ${
+                className={`222 rc-btn rc-btn--one ${
                   this.state.buttonLoading ? 'ui-btn-loading' : ''
                 } ${
                   this.state.inStockProducts.length
@@ -1456,7 +1439,7 @@ class FelinRecommendation extends React.Component {
             </div>
             <p>
               <button
-                className={`rc-btn rc-btn--one ${
+                className={`333 rc-btn rc-btn--one ${
                   this.state.buttonLoading ? 'ui-btn-loading' : ''
                 } ${
                   this.state.inStockProducts.length

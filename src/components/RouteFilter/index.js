@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import { findUserConsentList } from '@/api/consent';
-//import { getProductPetConfig } from '@/api/payment';
 import { PDP_Regex } from '@/utils/constant';
 import { withOktaAuth } from '@okta/okta-react';
 import { authToken } from '@/api/login';

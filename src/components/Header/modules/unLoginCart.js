@@ -11,7 +11,6 @@ import {
 import FrequencyMatch from '@/components/FrequencyMatch';
 import find from 'lodash/find';
 import { inject, observer } from 'mobx-react';
-import { getProductPetConfig } from '@/api/payment';
 import './index.css';
 import { FOOD_DISPENSER_PIC } from '@/utils/constant';
 
@@ -89,30 +88,7 @@ class UnloginCart extends React.Component {
       });
 
       if (needLogin) {
-        // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
       } else {
-        let autoAuditFlag = false;
-        if (this.isLogin) {
-        } else {
-          let paramData = checkoutStore.cartData.map((el) => {
-            el.goodsInfoId = el.sizeList.filter(
-              (item) => item.selected
-            )[0].goodsInfoId;
-            return el;
-          });
-          let res = await getProductPetConfig({ goodsInfos: paramData });
-          let handledData = paramData.map((el, i) => {
-            el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
-            el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-            return el;
-          });
-          checkoutStore.setCartData(handledData);
-          let AuditData = handledData.filter((el) => el.auditCatFlag);
-          checkoutStore.setAuditData(AuditData);
-          autoAuditFlag = res.context.autoAuditFlag;
-          checkoutStore.setPetFlag(res.context.petFlag);
-        }
-        checkoutStore.setAutoAuditFlag(autoAuditFlag);
         const url = await distributeLinktoPrecriberOrPaymentPage({
           configStore,
           checkoutStore,
@@ -120,7 +96,6 @@ class UnloginCart extends React.Component {
           isLogin: false
         });
         url && history.push(url);
-        // history.push('/prescription');
       }
     } catch (err) {
       this.props.headerCartStore.setErrMsg(err.message);

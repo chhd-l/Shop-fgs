@@ -205,13 +205,7 @@ export function getProductPetConfig(parameter) {
   return axios({
     url: api.getProductPetConfig,
     method: 'post',
-    data: {
-      goodsInfos: parameter.goodsInfos.map((el) => {
-        return {
-          cateId: el.cateId
-        };
-      })
-    }
+    data: parameter
   });
 }
 export function setDefaltCard(parameter) {

@@ -5,6 +5,7 @@ import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
 import { toJS } from 'mobx';
 import stores from './index';
+import { getProductPetConfig } from '@/api/payment';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -39,7 +40,7 @@ class CheckoutStore {
   @observable cartPrice = localItemRoyal.get('rc-totalInfo') || null; // 价格数据
   @observable goodsMarketingMap =
     localItemRoyal.get('goodsMarketingMap') || null; // promotion
-  @observable loadingCartData = false;
+  @observable isLoadingCartData = false;
   @observable outOfstockProNames = []; // 超出库存的商品
   @observable offShelvesProNames = []; // 下架的商品
   @observable deletedProNames = []; // 被删除的商品
@@ -298,6 +299,9 @@ class CheckoutStore {
     });
   }
 
+  /**
+   * 产品下单限制逻辑控制: 下架、无库存、被删除、不可销售
+   */
   @action.bound
   async validCheckoutLimitRule({
     offShelvesProNames = this.offShelvesProNames,
@@ -346,7 +350,10 @@ class CheckoutStore {
     }
   }
 
-  // 游客
+  /**
+   * 1. 游客查询后台购物车，并计算价格
+   * 2. 抛出下单限制错误
+   */
   @action.bound
   async updateUnloginCart({
     cartData: data,
@@ -515,7 +522,10 @@ class CheckoutStore {
     }
   }
 
-  // 会员
+  /**
+   * 1. 会员查询后台购物车，并计算价格
+   * 2. 抛出下单限制错误
+   */
   @action
   async updateLoginCart({
     promotionCode,
@@ -529,18 +539,16 @@ class CheckoutStore {
     intl
   } = {}) {
     try {
-      this.changeLoadingCartData(true);
+      this.changeIsLoadingCartData(true);
       if (!taxFeeData) {
         taxFeeData = nullTaxFeeData;
       }
       let promotionCodeNew =
         promotionCode === undefined ? this.promotionCode : promotionCode;
 
-      console.log('开始调用mini-cart');
       // 获取购物车列表
       // 删除felin sku
       let siteMiniPurchasesRes = await siteMiniPurchases({ delFlag });
-      console.log('mini-carts api res', siteMiniPurchasesRes);
       siteMiniPurchasesRes.context.goodsList =
         siteMiniPurchasesRes?.context?.goodsList?.map((item) => {
           if (item.goodsInfos) {
@@ -588,9 +596,9 @@ class CheckoutStore {
         deliverWay,
         shippingFeeAddress // DuData地址对象，俄罗斯计算运费用
       });
-      console.log('purchase api res', sitePurchasesRes);
+      // console.log('purchase api res', sitePurchasesRes);
       // debugger;
-      console.log('★ 449 ----- checkoutStore 获取总价: ', sitePurchasesRes);
+      // console.log('★ 449 ----- checkoutStore 获取总价: ', sitePurchasesRes);
       let backCode = sitePurchasesRes.code;
       sitePurchasesRes = sitePurchasesRes.context;
 
@@ -720,7 +728,7 @@ class CheckoutStore {
         );
 
       this.setGoodsMarketingMap(sitePurchasesRes.goodsMarketingMap);
-      this.changeLoadingCartData(false);
+      this.changeIsLoadingCartData(false);
       // 抛出错误
       if (isThrowErr) {
         await this.validCheckoutLimitRule({
@@ -732,16 +740,52 @@ class CheckoutStore {
         resolve({ backCode, context: sitePurchasesRes });
       });
     } catch (err) {
-      this.changeLoadingCartData(false);
+      this.changeIsLoadingCartData(false);
       if (isThrowErr) {
         throw new Error(err.message);
       }
     }
   }
 
+  /**
+   * 根据产品类别，查询审核配置
+   * @param {array} cartData 三个来源:
+   * 1.checkout.cartData - 非登录普通流程
+   * 2.checkout.loginCartData - 登录普通流程
+   * 3. "recommend_product"- 推荐流程
+   */
   @action
-  changeLoadingCartData(data) {
-    this.loadingCartData = data;
+  async queryAuditConfByProduct({ isLogin }) {
+    const curCartData = isLogin ? this.loginCartData : this.cartData;
+
+    // 传入cartData时，不需要更新cart缓存
+    const setCurCartData = isLogin
+      ? () => this.setLoginCartData
+      : () => this.setCartData;
+    const res = await getProductPetConfig({
+      goodsInfos: curCartData.map((el) => {
+        return {
+          cateId: el.cateId || el?.goodsInfo?.cateId
+        };
+      })
+    });
+    const contextRes = res.context;
+    const goodsInfosRes = contextRes.goodsInfos;
+    const handledData = curCartData.map((el, i) => {
+      el.auditCatFlag = goodsInfosRes[i]['auditCatFlag'];
+      el.prescriberFlag = goodsInfosRes[i]['prescriberFlag'];
+      return el;
+    });
+    setCurCartData && setCurCartData(handledData);
+    const AuditData = handledData.filter((el) => el.auditCatFlag);
+    this.setAuditData(AuditData);
+    this.setAutoAuditFlag(contextRes.autoAuditFlag);
+    this.setPetFlag(contextRes.petFlag);
+  }
+
+  @action
+  changeIsLoadingCartData(data) {
+    this.isLoadingCartData = data;
   }
 
   //存储GA需要的product变量 给confirmation用
@@ -780,6 +824,7 @@ class CheckoutStore {
         cartItemList.forEach((cartItem) => {
           const selectedGoodsInfo =
             find(cartItem.sizeList, (s) => s.selected) || cartItem.goodsInfo;
+          cartItem.goodsInfoId = selectedGoodsInfo.goodsInfoId;
           const historyItemIdx = findIndex(
             cartDataCopy,
             (c) =>

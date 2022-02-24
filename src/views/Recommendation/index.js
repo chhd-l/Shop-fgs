@@ -30,7 +30,6 @@ import { seoHoc } from '@/framework/common';
 import { inject, observer } from 'mobx-react';
 import { getRecommendationList } from '@/api/recommendation';
 import { getPrescriptionById } from '@/api/clinic';
-import { getProductPetConfig } from '@/api/payment';
 import { sitePurchase } from '@/api/cart';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
@@ -240,7 +239,9 @@ class Help extends React.Component {
       this.props.history.push('/cart');
     }
   }
-  async hanldeUnloginAddToCart(products, path) {
+  async hanldeUnloginAddToCart({ productList: products, url: path }) {
+    const { checkoutStore, clinicStore, loginStore } = this.props;
+    let retPath = path;
     for (let i = 0; i < products.length; i++) {
       let product = products[i];
 
@@ -313,7 +314,16 @@ class Help extends React.Component {
         intl: this.props.intl
       });
     }
-    this.props.history.push(path);
+
+    if (retPath === '/checkout') {
+      retPath = await distributeLinktoPrecriberOrPaymentPage({
+        configStore: this.props.configStore,
+        checkoutStore,
+        clinicStore,
+        isLogin: loginStore.isLogin
+      });
+    }
+    this.props.history.push(retPath);
   }
   showErrorMsg = (msg) => {
     this.setState({
@@ -368,39 +378,26 @@ class Help extends React.Component {
       //   }
       // }
       if (loginStore.isLogin) {
+      } else {
+        inStockProducts.map((el) => {
+          el.goodsInfo.buyCount = el.recommendationNumber;
+          return el.goodsInfo;
+        });
+      }
+
+      // 会员跳转/cart；游客跳转/checkout, 并缓存cartData数据
+      if (loginStore.isLogin) {
         await this.hanldeLoginAddToCart();
       } else {
-        let res = await getProductPetConfig({
-          goodsInfos: inStockProducts.map((el) => {
-            el.goodsInfo.buyCount = el.recommendationNumber;
-            return el.goodsInfo;
-          })
-        });
-        let handledData = inStockProducts.map((el, i) => {
-          el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
-          el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-          el.sizeList = el.goodsInfo.goods.sizeList;
-          return el;
-        });
-        // let handledData = res.context.goodsInfos;
-        let AuditData = handledData.filter((el) => el.auditCatFlag);
-        checkoutStore.setCartData(handledData);
-        checkoutStore.setAuditData(AuditData);
-        let autoAuditFlag = res.context.autoAuditFlag;
-        checkoutStore.setPetFlag(res.context.petFlag);
-        checkoutStore.setAutoAuditFlag(autoAuditFlag);
         sessionItemRoyal.set(
           'recommend_product',
           JSON.stringify(inStockProducts)
         );
         if (!needLogin) {
-          const url = await distributeLinktoPrecriberOrPaymentPage({
-            configStore: this.props.configStore,
-            checkoutStore,
-            clinicStore,
-            isLogin: loginStore.isLogin
+          await this.hanldeUnloginAddToCart({
+            productList: this.state.productList,
+            url: '/checkout'
           });
-          await this.hanldeUnloginAddToCart(this.state.productList, url);
           // url && history.push(url);
           // history.push('/prescription');
         }
@@ -440,26 +437,15 @@ class Help extends React.Component {
       //     this.setState({ buttonLoading: false });
       //   }
       // }
-      let res = await getProductPetConfig({
-        goodsInfos: inStockProducts.map((el) => {
-          el.goodsInfo.buyCount = el.recommendationNumber;
-          return el.goodsInfo;
-        })
+
+      inStockProducts.map((el) => {
+        el.goodsInfo.buyCount = el.recommendationNumber;
+        return el.goodsInfo;
       });
-      let handledData = inStockProducts.map((el, i) => {
-        el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
-        el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-        el.sizeList = el.goodsInfo.goods.sizeList;
-        return el;
-      });
-      let AuditData = handledData.filter((el) => el.auditCatFlag);
       loginStore.isLogin
-        ? checkoutStore.setLoginCartData(handledData)
-        : checkoutStore.setCartData(handledData);
-      checkoutStore.setAuditData(AuditData);
-      let autoAuditFlag = res.context.autoAuditFlag;
-      checkoutStore.setPetFlag(res.context.petFlag);
-      checkoutStore.setAutoAuditFlag(autoAuditFlag);
+        ? checkoutStore.setLoginCartData(inStockProducts)
+        : checkoutStore.setCartData(inStockProducts);
+
       const url = await distributeLinktoPrecriberOrPaymentPage({
         configStore: this.props.configStore,
         checkoutStore,
@@ -595,7 +581,10 @@ class Help extends React.Component {
                   if (loginStore.isLogin) {
                     this.hanldeLoginAddToCart();
                   } else {
-                    this.hanldeUnloginAddToCart(productList, '/cart');
+                    this.hanldeUnloginAddToCart({
+                      productList: productList,
+                      url: '/cart'
+                    });
                   }
                 }}
               >

@@ -522,14 +522,20 @@ async function getGoodsSeo(goodsId, pageName) {
   }
 }
 
-// 分发跳转prescriber/payment页面
-// 一旦正向流程跳转prescriber/payment页面，则需使用此方法，以替代routeFilter.js中的相关拦截，以此解决闪现/presciber页面的bug
+/**
+ * 1.根据产品类别，查询审核配置
+ * 2.分发跳转prescriber/payment页面: 一旦正向流程跳转prescriber/payment页面，则需使用此方法，以替代routeFilter.js中的相关拦截，以此解决闪现/presciber页面的bug
+ * @returns {string} url
+ */
 export async function distributeLinktoPrecriberOrPaymentPage({
   configStore,
   checkoutStore,
   clinicStore,
   isLogin = false
 }) {
+  // 根据产品类别，查询审核配置
+  await checkoutStore.queryAuditConfByProduct({ isLogin });
+
   const { loginCartData, cartData } = checkoutStore;
   //1、先判断商品是否含VET商品（store Portal商品类型的Need Prescriber是否打开）
   const productData = isLogin ? loginCartData : cartData;
