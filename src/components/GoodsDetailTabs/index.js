@@ -233,7 +233,7 @@ const GoodsDetailTabs = function (props) {
       HowitworksStep:
         getSpeciesId(goodsDetailSpace) == '1'
           ? `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/ruhowitworksnewcat1.png`
-          : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/ruhowitworksnewdog1.png`
+          : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/ruhowitworksnewdogcdn1.png`
     },
     {
       HowitworksStep:
