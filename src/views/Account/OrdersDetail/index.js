@@ -263,7 +263,6 @@ class AccountOrders extends React.Component {
     getOrderDetails(orderNumber)
       .then(async (res) => {
         let resContext = res.context;
-        let isIndv = false;
         resContext.tradeItems?.forEach((el) => {
           if (judgeIsIndividual(el)) {
             el.spuName = (
@@ -272,14 +271,10 @@ class AccountOrders extends React.Component {
                 values={{ val1: el.petsName }}
               />
             );
-            isIndv = true;
           }
         });
         let welcomeGiftLists = (resContext?.subscriptionPlanGiftList || []).map(
           (el) => {
-            if (isIndv) {
-              el.promotions = 'individual';
-            }
             return Object.assign({}, el, {
               pic: el.goodsInfoImg || el.pic,
               isWelcomeBox: true,
@@ -925,7 +920,7 @@ class AccountOrders extends React.Component {
     return (
       <>
         {/*服务类产品评论*/}
-        {details.canReviewService ? (
+        {details?.canReviewService ? (
           <button className="rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn">
             <FormattedMessage id="writeReview">
               {(txt) => (
