@@ -12,8 +12,6 @@ import BannerTip from '@/components/BannerTip';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import {
   formatMoney,
-  getDictionary,
-  matchNamefromDict,
   filterOrderId,
   getClubLogo,
   judgeIsIndividual,
@@ -39,22 +37,18 @@ import {
   handleOrderStatusMap,
   handleFelinOrderStatusMap
 } from './modules/handleOrderStatus';
-import OrderAppointmentInfo from '../AppointmentsDetail/modules/AppointmentInfo';
-import getCardImg from '@/lib/get-card-img';
 import { getWays } from '@/api/payment';
 import { handleOrderItem } from '../Orders/modules/handleOrderItem';
-import paypalLogo from '@/assets/images/paypal-logo.svg';
-import { AddressPreview } from '@/components/Address';
 import CancelOrderModal from './modules/cancelOrderModal/index';
 import CancelOrderSuccessModal from './modules/cancelOrderModal/successModal';
-import { ConvenienceStorePayReview } from '@/views/Payment/PaymentMethod';
+import OrderAddressAndPayReview from './modules/addressAndPayReview/index';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 function Progress({ progressList, currentProgressIndex }) {
   console.log(progressList);
   return (
-    <div className="od-prg-container ml-2 mr-2 md:ml-4 md:mr-4">
+    <div className="od-prg-container mx-2 md:mx-4">
       <div className="od-prg d-flex align-items-center px-3">
         {progressList.map((item, i) => (
           <>
@@ -113,7 +107,7 @@ function Progress({ progressList, currentProgressIndex }) {
 function HeadTip(props) {
   return (
     <>
-      <div className="row align-items-center text-left ml-1 mr-1 md:ml-0 md:mr-0">
+      <div className="row align-items-center text-left mx-1 md:mx-0">
         <div className="col-3 col-md-1">{props.icon}</div>
         <div className={`col-9 ${props.operation ? 'col-md-7' : 'col-md-11'}`}>
           <span
@@ -169,7 +163,7 @@ function LogisticsProgress(props) {
                   showMinute: true
                 })}
               </span>
-              <div className="logi-text pl-4 pr-4 pt-3 pb-3">
+              <div className="logi-text px-4 py-3">
                 <svg className="svg-icon logi-icon" aria-hidden="true">
                   <use
                     xlinkHref={`#${!i ? 'iconjinhangzhong' : 'iconyiwancheng'}`}
@@ -218,7 +212,6 @@ class AccountOrders extends React.Component {
       errModalVisible: false,
       returnOrExchangeModalVisible: false,
       errModalText: '',
-      countryList: [],
       normalProgressList: [],
       currentProgressIndex: -1,
       defaultLocalDateTime: '',
@@ -250,11 +243,6 @@ class AccountOrders extends React.Component {
         this.init();
       }
     );
-    getDictionary({ type: 'country' }).then((res) => {
-      this.setState({
-        countryList: res
-      });
-    });
     getWays().then((res) => {
       paymentStore.setSupportPaymentMethods(
         res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || []
@@ -1036,11 +1024,6 @@ class AccountOrders extends React.Component {
       paymentItem
     } = this.state;
 
-    let newDeliveryDate = formatDate({
-      date: details?.consignee?.deliveryDate,
-      formatOption: { weekday: 'long', day: '2-digit', month: 'long' }
-    });
-
     return (
       <div>
         <PageBaseInfo additionalEvents={event} />
@@ -1076,7 +1059,7 @@ class AccountOrders extends React.Component {
                   }`}
                 >
                   <div className="order_listing_details col-12 no-padding">
-                    <div className="card confirm-details orderDetailsPage ml-0 mr-0 border-0">
+                    <div className="card confirm-details orderDetailsPage mx-0 border-0">
                       {this.state.loading ? (
                         <Skeleton
                           color="#f5f5f5"
@@ -1098,9 +1081,9 @@ class AccountOrders extends React.Component {
                           ) : null}
 
                           <div className="rc-bg-colour--brand4 rc-md-down mt-3 h-3.5" />
-                          <div className="row m-0 ml-2 mr-2 md:ml-0 md:mr-0">
+                          <div className="row m-0 mx-2 md:mx-0">
                             <div className="col-12 border table-header rounded mt-3 md:mt-0">
-                              <div className="row pt-3 pb-2 pl-1 pr-1 md:pl-4 md:pr-4 md:pt-4 md:pb-3">
+                              <div className="row pt-3 pb-2 px-1 md:px-4 md:pt-4 md:pb-3">
                                 {/* 订单号 */}
                                 <div className="col-12 col-md-3 text-left mb-2">
                                   <FormattedMessage id="order.orderNumber" />
@@ -1169,18 +1152,18 @@ class AccountOrders extends React.Component {
                                 ) : null}
                               </div>
                             </div>
-                            <div className="col-12 table-body rounded md:mt-3 mb-2 pl-0 pr-0">
+                            <div className="col-12 table-body rounded md:mt-3 mb-2 px-0">
                               <div className="order__listing text-left">
                                 <div className="order-list-container">
                                   {details.tradeItems
                                     .concat(details.gifts)
                                     .map((item, i) => (
                                       <div
-                                        className="border-bottom pl-2 pr-2 pt-3 pb-3"
+                                        className="border-bottom px-2 py-3"
                                         key={i}
                                       >
                                         <div
-                                          className={`row align-items-center pl-2 pr-2 md:pl-0 md:pr-0`}
+                                          className={`row align-items-center px-2 md:px-0`}
                                         >
                                           <div className="col-4 col-md-2 d-flex justify-content-center align-items-center">
                                             <LazyLoad className="w-full">
@@ -1390,11 +1373,11 @@ class AccountOrders extends React.Component {
                                   {/*welcome box gifts*/}
                                   {welcomeGiftLists.map((item, i) => (
                                     <div
-                                      className="border-bottom pl-2 pr-2 pt-3 pb-3"
+                                      className="border-bottom px-2 py-3"
                                       key={i}
                                     >
                                       <div
-                                        className={`row align-items-center pl-2 pr-2 md:pl-0 md:pr-0`}
+                                        className={`row align-items-center px-2 md:py-0`}
                                       >
                                         <div className="col-4 col-md-2 d-flex justify-content-center align-items-center">
                                           <LazyLoad className="w-full">
@@ -1463,7 +1446,7 @@ class AccountOrders extends React.Component {
                                   ))}
                                 </div>
                               </div>
-                              <div className="pt-2 pb-2 md:pl-4 md:pr-4">
+                              <div className="py-2 md:px-4">
                                 <div className="row mt-2 text-left">
                                   <div className="col-2 col-md-7 mb-2 rc-md-up">
                                     &nbsp;
@@ -1606,276 +1589,14 @@ class AccountOrders extends React.Component {
                               </div>
                             </div>
                           </div>
-
-                          {/*felin订单? appointmentInfo :地址/支付信息   !this.isFelinOrder(不是felin订单) */}
-                          {details.consignee ? (
-                            <div className="ml-2 mr-2 md:mr-0 md:ml-0">
-                              <p className="mt-4 mb-3 red text-left">
-                                <FormattedMessage id="transactionInfomation" />
-                              </p>
-                              <div className="row text-left text-break">
-                                <div className="col-12 col-md-4 mb-3">
-                                  <div className="border rounded h-100">
-                                    <div className="d-flex p-3 h-100">
-                                      <svg
-                                        className="svg-icon align-middle mr-3 ml-1 w-8 h-8"
-                                        aria-hidden="true"
-                                      >
-                                        <use xlinkHref="#iconaddresses" />
-                                      </svg>
-                                      <div>
-                                        <p className="medium mb-3">
-                                          <FormattedMessage id="delivery2" />
-                                        </p>
-                                        <AddressPreview
-                                          nameCls="medium mb-2"
-                                          data={{
-                                            name: details.consignee.name,
-                                            phone: details.consignee.phone,
-                                            countryName: matchNamefromDict(
-                                              this.state.countryList,
-                                              details.consignee.countryId
-                                            ),
-                                            address1:
-                                              details.consignee.detailAddress1,
-                                            address2:
-                                              details.consignee.detailAddress2,
-                                            city: details.consignee.city,
-                                            area: details.consignee.area,
-                                            province:
-                                              details.consignee.province,
-                                            county: details.consignee.county,
-                                            postCode:
-                                              details.consignee.postCode,
-                                            rfc: details.consignee.rfc,
-                                            buyerRemark: details.buyerRemark
-                                          }}
-                                        />
-
-                                        {/* 运费折扣 */}
-                                        {!details.consignee.timeSlot &&
-                                        details?.maxDeliveryTime != null &&
-                                        details?.minDeliveryTime != null ? (
-                                          <p className="mb-0 od_mb_yf">
-                                            {details.minDeliveryTime ===
-                                            details.maxDeliveryTime ? (
-                                              <FormattedMessage
-                                                id="payment.deliveryDate2"
-                                                values={{
-                                                  val: details.minDeliveryTime
-                                                }}
-                                              />
-                                            ) : (
-                                              <FormattedMessage
-                                                id="payment.deliveryDate"
-                                                values={{
-                                                  min: details.minDeliveryTime,
-                                                  max: details.maxDeliveryTime
-                                                }}
-                                              />
-                                            )}
-                                          </p>
-                                        ) : null}
-
-                                        {/* delivery date */}
-                                        {newDeliveryDate && (
-                                          <p className="mb-0 od_mb_deliveryDate">
-                                            {newDeliveryDate}
-                                          </p>
-                                        )}
-
-                                        {/* time slot */}
-                                        {details.consignee.timeSlot && (
-                                          <p className="mb-0 od_mb_timeSlot">
-                                            {details.consignee.timeSlot}
-                                          </p>
-                                        )}
-
-                                        {/* workTime */}
-                                        {details.consignee.workTime && (
-                                          <p className="mb-0 od_mb_workTime">
-                                            {details.consignee.workTime}
-                                          </p>
-                                        )}
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                {!Boolean(
-                                  +window.__.env
-                                    .REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
-                                ) ? (
-                                  <div className="col-12 col-md-4 mb-3">
-                                    <div className="border rounded p-3 h-100">
-                                      <div className="d-flex">
-                                        <svg
-                                          className="svg-icon align-middle mr-3 ml-1 w-8 h-8"
-                                          aria-hidden="true"
-                                        >
-                                          <use xlinkHref="#iconBillingAddress1" />
-                                        </svg>
-                                        <div>
-                                          <p className="medium mb-3">
-                                            <FormattedMessage id="billing2" />
-                                          </p>
-                                          <AddressPreview
-                                            nameCls="medium mb-2"
-                                            data={{
-                                              name: details.invoice.contacts,
-                                              phone: details.invoice.phone,
-                                              countryName: matchNamefromDict(
-                                                this.state.countryList,
-                                                details.invoice.countryId
-                                              ),
-                                              address1:
-                                                details.invoice.address1,
-                                              address2:
-                                                details.invoice.address2,
-                                              city: details.invoice.city,
-                                              area: details.invoice.area,
-                                              province:
-                                                details.invoice.province,
-                                              county: details.invoice.county,
-                                              postCode:
-                                                details.invoice.postCode,
-                                              rfc: details.invoice.rfc
-                                            }}
-                                          />
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                ) : null}
-                                {payRecord && payRecord.lastFourDigits ? (
-                                  <div className="col-12 col-md-4 mb-2">
-                                    <div className="border rounded p-3 h-100">
-                                      <div className="d-flex">
-                                        <svg
-                                          className="svg-icon align-middle mr-3 ml-1 w-8 h-8"
-                                          aria-hidden="true"
-                                        >
-                                          <use xlinkHref="#iconpayments" />
-                                        </svg>
-                                        <div>
-                                          <p className="medium mb-3">
-                                            <FormattedMessage id="payment.payment" />
-                                          </p>
-                                          <div className="medium mb-2">
-                                            <LazyLoad className="inline">
-                                              <img
-                                                alt="card background"
-                                                className="d-inline-block mr-1 w-1/5"
-                                                src={getCardImg({
-                                                  supportPaymentMethods:
-                                                    paymentStore.supportPaymentMethods,
-                                                  currentVendor:
-                                                    payRecord.paymentVendor
-                                                })}
-                                              />
-                                            </LazyLoad>
-                                            {payRecord.lastFourDigits ? (
-                                              <span className="medium">
-                                                ********
-                                                {payRecord.lastFourDigits}
-                                              </span>
-                                            ) : null}
-                                          </div>
-
-                                          {payRecord.holderName ? (
-                                            <p className="mb-0">
-                                              {payRecord.holderName}
-                                            </p>
-                                          ) : null}
-
-                                          {/* 分期费用明细 */}
-                                          {0 &&
-                                          details.tradePrice
-                                            .installmentPrice ? (
-                                            <p>
-                                              {formatMoney(
-                                                details.tradePrice.totalPrice
-                                              )}{' '}
-                                              (
-                                              {
-                                                details.tradePrice
-                                                  .installmentPrice
-                                                  .installmentNumber
-                                              }{' '}
-                                              *{' '}
-                                              {formatMoney(
-                                                details.tradePrice
-                                                  .installmentPrice
-                                                  .installmentPrice
-                                              )}
-                                              )
-                                            </p>
-                                          ) : null}
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                ) : null}
-                                {paymentItem == 'adyen_paypal' ? (
-                                  <div className="col-12 col-md-4 mb-2">
-                                    <div className="border rounded p-3 h-100">
-                                      <div className="d-flex">
-                                        <svg
-                                          className="svg-icon align-middle mr-3 ml-1 w-8 h-8"
-                                          aria-hidden="true"
-                                        >
-                                          <use xlinkHref="#iconpayments" />
-                                        </svg>
-                                        <div>
-                                          <p className="medium mb-3">
-                                            <FormattedMessage id="payment.payment" />
-                                          </p>
-                                          <div className="medium mb-2">
-                                            <LazyLoad className="inline-block">
-                                              <img
-                                                alt="paypal"
-                                                className="w-20 h-10"
-                                                src={paypalLogo}
-                                              />
-                                            </LazyLoad>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                ) : null}
-                                {paymentItem === 'convenience_store' ? (
-                                  <div className="col-12 col-md-4 mb-2">
-                                    <div className="border rounded p-3 h-100">
-                                      <div className="d-flex">
-                                        <svg
-                                          className="svg-icon align-middle mr-3 ml-1 w-8 h-8"
-                                          aria-hidden="true"
-                                        >
-                                          <use xlinkHref="#iconpayments" />
-                                        </svg>
-                                        <div>
-                                          <p className="medium mb-3">
-                                            <FormattedMessage id="payment.payment" />
-                                          </p>
-                                          <div className="medium mb-2">
-                                            <ConvenienceStorePayReview />
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                ) : null}
-                              </div>
-                            </div>
-                          ) : (
-                            <OrderAppointmentInfo
-                              details={{
-                                expertType: details.specialistType,
-                                appointmentType: details.appointmentType,
-                                apptTime: details.appointmentDate
-                              }}
-                            />
-                          )}
+                          <OrderAddressAndPayReview
+                            details={details}
+                            paymentItem={paymentItem}
+                            payRecord={payRecord}
+                            supportPaymentMethods={
+                              paymentStore.supportPaymentMethods
+                            }
+                          />
                           {this.renderJpCancelOrderBtns()}
                         </div>
                       ) : this.state.errMsg ? (
@@ -1936,7 +1657,7 @@ class AccountOrders extends React.Component {
                       </div>
                     ))}
                     <div className="col-12 rc-bg-colour--brand4 rc-md-down mb-3 h-3.5" />
-                    <div className="row m-0 pt-2 pb-2">
+                    <div className="row m-0 py-2">
                       <div className="col-12 col-md-3 d-flex">
                         <svg className="svg-icon mr-1" aria-hidden="true">
                           <use xlinkHref="#iconDeliverydate" />

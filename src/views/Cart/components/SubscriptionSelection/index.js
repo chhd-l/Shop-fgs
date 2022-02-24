@@ -8,6 +8,12 @@ import { toJS } from 'mobx';
 const SubscriptionSelection = function (props) {
   const { isGift, pitem, activeToolTipIndex, index, toolTipVisible, isLogin } =
     props;
+  console.log(
+    'toJSasasa',
+    pitem?.sizeList?.filter((el) => el.selected)[0]?.promotions,
+    pitem.form.frequencyId,
+    toJS(pitem)
+  );
   return (
     <div
       className="buyMethod rc-margin-bottom--xs"
@@ -130,7 +136,9 @@ const SubscriptionSelection = function (props) {
       </div>
       <FrequencySelection
         frequencyType={
-          pitem?.sizeList?.filter((el) => el.selected)[0]?.promotions
+          isLogin
+            ? pitem.promotions
+            : pitem?.sizeList?.filter((el) => el.selected)[0]?.promotions
         }
         currentFrequencyId={pitem.form.frequencyId}
         handleConfirm={(data) => {

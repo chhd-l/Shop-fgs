@@ -18,7 +18,7 @@ class AddrPreview extends React.Component {
     const { form } = this.props;
     getDictionary({ type: 'country' }).then((res) => {
       this.setState({
-        countryName: matchNamefromDict(res, form.country || form.countryId, 11)
+        countryName: matchNamefromDict(res, form.country || form.countryId)
       });
     });
   }

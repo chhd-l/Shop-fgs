@@ -717,7 +717,10 @@ class SubscriptionDetail extends React.Component {
     return (
       <DivWrapper className="subscriptionDetail">
         <div>
-          <GoogleTagManager additionalEvents={event} />
+          <GoogleTagManager
+            key={this.props.location.key}
+            additionalEvents={event}
+          />
           <Helmet>
             <link rel="canonical" href={pageLink} />
           </Helmet>

@@ -1171,7 +1171,10 @@ class Recommendation extends React.Component {
     };
     return (
       <DivWrapper className="Recommendation_FR Recommendation_US">
-        <GoogleTagManager additionalEvents={event} />
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
+        />
         <Helmet>
           <link rel="canonical" href={pageLink} />
         </Helmet>
