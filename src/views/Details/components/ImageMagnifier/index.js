@@ -344,20 +344,6 @@ class ImageMagnifier extends Component {
     return images;
   }
 
-  getImgSize = (url, cb) => {
-    let img = new Image();
-    img.src = url;
-    if (img.complete) {
-      cb(img.width, img.height);
-    } else {
-      img.onload = function () {
-        cb(img.width, img.height);
-        img.onload = null;
-      };
-    }
-    return [img.width, img.height];
-  };
-
   render() {
     const {
       cssStyle,
@@ -392,12 +378,6 @@ class ImageMagnifier extends Component {
       imgCount = imgCount + 1;
     }
     let offsetX = isMobile ? 60 : 69;
-    // 为了下面的小图片不变形
-    spuImages.forEach((el, i) => {
-      this.getImgSize(el.artworkUrl, function (w, h) {
-        w > h ? (el.bgSize = '100% auto') : (el.bgSize = 'auto 100%');
-      });
-    });
 
     return (
       <div>
@@ -428,35 +408,35 @@ class ImageMagnifier extends Component {
               {spuImages.length > 0 ? (
                 spuImages.map((el, i) => (
                   <div key={i}>
-                    {/* <LazyLoad> */}
-                    <img
-                      className="J_detail_img"
-                      style={cssStyle.imgStyle}
-                      src={
-                        optimizeImage({
-                          originImageUrl: el.artworkUrl,
-                          width: 'auto'
-                        }) ||
-                        this.state.minImg ||
-                        noPic
-                      }
-                      // srcSet={getMuntiImg(el.artworkUrl || this.state.maxImg)}
-                      alt={imgAlt}
-                    />
-                    {/* </LazyLoad> */}
+                    <LazyLoad>
+                      <img
+                        className="J_detail_img"
+                        style={cssStyle.imgStyle}
+                        src={
+                          optimizeImage({
+                            originImageUrl: el.artworkUrl,
+                            width: 500
+                          }) ||
+                          this.state.minImg ||
+                          noPic
+                        }
+                        // srcSet={getMuntiImg(el.artworkUrl || this.state.maxImg)}
+                        alt={imgAlt}
+                      />
+                    </LazyLoad>
                   </div>
                 ))
               ) : (
                 <div>
-                  {/* <LazyLoad> */}
-                  <img
-                    className="J_detail_img"
-                    style={cssStyle.imgStyle}
-                    src={this.state.minImg || noPic}
-                    // srcSet={getMuntiImg(el.artworkUrl || this.state.maxImg)}
-                    alt={imgAlt}
-                  />
-                  {/* </LazyLoad> */}
+                  <LazyLoad>
+                    <img
+                      className="J_detail_img"
+                      style={cssStyle.imgStyle}
+                      src={this.state.minImg || noPic}
+                      // srcSet={getMuntiImg(el.artworkUrl || this.state.maxImg)}
+                      alt={imgAlt}
+                    />
+                  </LazyLoad>
                 </div>
               )}
               {videoShow && video && (
@@ -500,6 +480,7 @@ class ImageMagnifier extends Component {
             <div style={cssStyle.magnifierContainer}>
               <LazyLoad>
                 <img
+                  classNam="zoom-img"
                   style={cssStyle.imgStyle2}
                   src={
                     optimizeImage({
@@ -518,7 +499,7 @@ class ImageMagnifier extends Component {
                   alt={imgAlt}
                 />
               </LazyLoad>
-              {!imgLoad && 'failed to load'}
+              {/* {!imgLoad && 'failed to load'} */}
             </div>
           )}
         </div>
@@ -580,7 +561,7 @@ class ImageMagnifier extends Component {
                           width: 200
                         }) ||
                         noPic + ')',
-                      backgroundSize: el.bgSize
+                      backgroundSize: 'contain'
                     }}
                   />
                 ))

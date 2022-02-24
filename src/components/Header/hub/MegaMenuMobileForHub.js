@@ -49,7 +49,7 @@ class MegaMenuMobileForHub extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showMegaMenu: false,
+      showMegaMenu: true,
       menuData: this.props.menuData,
       shareData: [],
       portalData: []
@@ -61,6 +61,7 @@ class MegaMenuMobileForHub extends Component {
   componentDidMount() {
     let shareData = [];
     let portalData = [];
+    this.toggleMenu();
     if (window.__.env.REACT_APP_HUB_MONROYALCANIN) {
       shareData.push({
         link: window.__.env.REACT_APP_HUB_MONROYALCANIN,

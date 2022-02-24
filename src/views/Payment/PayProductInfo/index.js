@@ -376,9 +376,11 @@ class PayProductInfo extends React.Component {
   handleClickProName(item) {
     sessionItemRoyal.set('recomment-preview', this.props.location.pathname);
     this.props.history.push(
-      `/${item.goodsName.toLowerCase().split(' ').join('-').replace('/', '')}-${
-        item.goodsNo
-      }`
+      `/${item?.goodsName
+        ?.toLowerCase()
+        .split(' ')
+        .join('-')
+        .replace('/', '')}-${item?.goodsNo}`
     );
   }
   getProductsForLogin(plist) {

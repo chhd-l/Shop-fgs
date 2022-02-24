@@ -11,7 +11,6 @@ import {
 } from '@/utils/utils';
 import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
-import { getProductPetConfig } from '@/api/payment';
 import './index.css';
 import { FOOD_DISPENSER_PIC } from '@/utils/constant';
 import GiftList from './GiftList.tsx';
@@ -67,7 +66,7 @@ class LoginCart extends React.Component {
     );
   }
   get loading() {
-    return this.checkoutStore.loadingCartData;
+    return this.checkoutStore.isLoadingCartData;
   }
   get totalMinusSubPrice() {
     return this.props.checkoutStore.totalMinusSubPrice;
@@ -81,30 +80,13 @@ class LoginCart extends React.Component {
         intl: this.props.intl
       });
 
-      let autoAuditFlag = false;
-      let res = await getProductPetConfig({
-        goodsInfos: checkoutStore.loginCartData
-      });
-      let handledData = checkoutStore.loginCartData.map((el, i) => {
-        el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
-        el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-        return el;
-      });
-      checkoutStore.setLoginCartData(handledData);
-      let AuditData = handledData.filter((el) => el.auditCatFlag);
-      checkoutStore.setAuditData(AuditData);
-      autoAuditFlag = res.context.autoAuditFlag;
-      checkoutStore.setAutoAuditFlag(autoAuditFlag);
-      checkoutStore.setPetFlag(res.context.petFlag);
       const url = await distributeLinktoPrecriberOrPaymentPage({
         configStore,
         checkoutStore,
         clinicStore,
         isLogin: true
       });
-      console.log(url, 'urlll');
       url && history.push(url);
-      // history.push('/prescription');
     } catch (err) {
       console.log(err);
       this.props.headerCartStore.setErrMsg(err.message);

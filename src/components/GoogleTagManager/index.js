@@ -37,20 +37,20 @@ class GoogleTagManager extends React.Component {
   }
   componentDidMount() {
     // 监听点击cookie banner同意按钮后，动态加载GA.js
-    window.addEventListener('click', (e) => {
-      let currentTargetDom = e.target;
-      if (currentTargetDom.id === 'onetrust-accept-btn-handler') {
-        this.insertGAScript();
-      }
-    });
-
+    // window.addEventListener('click', (e) => {
+    //   let currentTargetDom = e.target;
+    //   if (currentTargetDom.id === 'onetrust-accept-btn-handler') {
+    //     this.insertGAScript();
+    //   }
+    // });
+    // 0211update:数据统计受较大影响 故加载ga不需要同意cookiebanner
     this.insertGAScript();
   }
   insertGAScript() {
     // 如果没有同意cookie banner，不允许加载GA.js
-    if (!this.getCookie('OptanonAlertBoxClosed')) {
-      return null;
-    }
+    // if (!this.getCookie('OptanonAlertBoxClosed')) {
+    //   return null;
+    // }
     // REACT_APP_HUB_GA是hub(土耳其，法国，俄罗斯)和美国专用的
     const { page = {}, pet = {}, search = {} } = this.props.additionalEvents;
     const commonSite = {

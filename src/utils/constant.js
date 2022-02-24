@@ -7,7 +7,7 @@ import oxxo from '@/assets/images/oxxo.png';
 
 export const LOGO_CLUB = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Logo_club.png`;
 export const LOGO_CLUB_RU = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Logo_club_ru.png`;
-export const LOGO_PRIMARY = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/logo-primary.svg`;
+export const LOGO_PRIMARY = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/logo-trademark.svg`;
 export const LOGO_PRIMARY_RU = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/logo-primary-ru.svg`;
 export const LOGO = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/rc_logo.svg`;
 export const IMG_DEFAULT =

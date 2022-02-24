@@ -53,7 +53,8 @@ function HeaderContainer({ isScroll, children }) {
   'clinicStore',
   'configStore',
   'checkoutStore',
-  'headerSearchStore'
+  'headerSearchStore',
+  'headerCartStore'
 )
 @injectIntl
 @observer // 将Casual类转化为观察者，只要被观察者跟新，组件将会刷新
@@ -107,6 +108,7 @@ class Header extends React.Component {
   async componentDidMount() {
     //进入这个页面 清除搜索埋点
     this.props.headerSearchStore.clear();
+    this.props.headerCartStore.hide();
     let { checkoutStore } = this.props;
     if (sessionItemRoyal.get('rc-token-lose')) {
       this.handleLogout();
@@ -524,7 +526,7 @@ class Header extends React.Component {
    * @param {Boolean} active true-添加 false-删除
    * @returns
    */
-  toggleDomClassName({ dom, operatedClassName, active }) {
+  toggleDomClassName = ({ dom, operatedClassName, active }) => {
     if (!dom) {
       return false;
     }
@@ -538,14 +540,14 @@ class Header extends React.Component {
       }
     }
     dom.className = cls.join(' ');
-  }
-  toggleShowBodyMask({ visible = false }) {
+  };
+  toggleShowBodyMask = ({ visible = false }) => {
     this.toggleDomClassName({
       dom: document.querySelector('body'),
       operatedClassName: 'open-dropdown',
       active: visible
     });
-  }
+  };
   updateActiveTopParentId = (id) => {
     this.setState({ activeTopParentId: id }, () => {
       const { activeTopParentId } = this.state;
@@ -572,13 +574,8 @@ class Header extends React.Component {
     );
   };
   render() {
-    const {
-      showMiniIcons,
-      showUserIcon,
-      loginStore,
-      configStore,
-      history
-    } = this.props;
+    const { showMiniIcons, showUserIcon, loginStore, configStore, history } =
+      this.props;
     const {
       headerNavigationList,
       headerNavigationListForHub,

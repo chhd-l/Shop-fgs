@@ -72,17 +72,17 @@ class SameAsCheckbox extends React.Component {
             <span className="text-muted arrival-time">
               <FormattedMessage id="payment.normalDelivery3" />
             </span>
-
-            <span className="shipping-method-pricing ml3">
-              <span
-                className="info delivery-method-tooltip fit-mobile-icon-left"
-                style={{ verticalAlign: 'unset' }}
-                onMouseEnter={this.updateoolTipVisible.bind(this, true)}
-                onMouseLeave={this.updateoolTipVisible.bind(this, false)}
-              >
-                i
-              </span>
-              {window.__.env.REACT_APP_COUNTRY == 'fr' ? null : (
+            {['fr', 'se'].indexOf(window.__.env.REACT_APP_COUNTRY) >
+            -1 ? null : (
+              <span className="shipping-method-pricing ml3">
+                <span
+                  className="info delivery-method-tooltip fit-mobile-icon-left"
+                  style={{ verticalAlign: 'unset' }}
+                  onMouseEnter={this.updateoolTipVisible.bind(this, true)}
+                  onMouseLeave={this.updateoolTipVisible.bind(this, false)}
+                >
+                  i
+                </span>
                 <ConfirmTooltip
                   containerStyle={{
                     transform: 'translate(-62%, 117%)'
@@ -94,8 +94,8 @@ class SameAsCheckbox extends React.Component {
                   updateChildDisplay={this.updateoolTipVisible.bind(this)}
                   content={<FormattedMessage id="payment.forFreeTip" />}
                 />
-              )}
-            </span>
+              </span>
+            )}
           </div>
         )}
       </div>

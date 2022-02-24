@@ -38,7 +38,10 @@ class PageBaseInfo extends React.Component {
   render() {
     return (
       <div>
-        <GoogleTagManager additionalEvents={this.props.additionalEvents} />
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={this.props.additionalEvents}
+        />
         <Helmet>
           <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>

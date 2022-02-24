@@ -1,0 +1,286 @@
+import React, { useEffect } from 'react';
+import { FormattedMessage } from 'react-intl-phraseapp';
+import { AddressPreview } from '@/components/Address';
+import {
+  formatDate,
+  formatMoney,
+  getDictionary,
+  matchNamefromDict
+} from '@/utils/utils';
+import LazyLoad from 'react-lazyload';
+import getCardImg from '@/lib/get-card-img';
+import paypalLogo from '@/assets/images/paypal-logo.svg';
+import { ConvenienceStorePayReview } from '@/views/Payment/PaymentMethod';
+import OrderAppointmentInfo from '@/views/Account/AppointmentsDetail/modules/AppointmentInfo';
+import { getWays } from '@/api/payment';
+
+const OrderAddressAndPayReview = ({ details, payRecord, paymentItem }) => {
+  const [countryList, setCountryList] = React.useState([]);
+  const [supportPaymentMethods, setSupportPaymentMethods] = React.useState([]);
+  let newDeliveryDate = formatDate({
+    date: details?.consignee?.deliveryDate,
+    formatOption: { weekday: 'long', day: '2-digit', month: 'long' }
+  });
+
+  useEffect(() => {
+    getDictionary({ type: 'country' }).then((res) => {
+      setCountryList(res || []);
+    });
+    getWays().then((res) => {
+      setSupportPaymentMethods(
+        res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || []
+      );
+    });
+  }, []);
+
+  return (
+    <div>
+      {details?.consignee ? (
+        <div className="mx-2 md:mx-0">
+          <p className="mt-4 mb-3 red text-left">
+            <FormattedMessage id="transactionInfomation" />
+          </p>
+          <div className="row text-left text-break">
+            <div className="col-12 col-md-4 mb-3">
+              <div className="border rounded h-100">
+                <div className="d-flex p-3 h-100">
+                  <svg
+                    className="svg-icon align-middle mr-3 ml-1 w-8 h-8"
+                    aria-hidden="true"
+                  >
+                    <use xlinkHref="#iconaddresses" />
+                  </svg>
+                  <div>
+                    <p className="medium mb-3">
+                      <FormattedMessage id="delivery2" />
+                    </p>
+                    <AddressPreview
+                      nameCls="medium mb-2"
+                      data={{
+                        name: details.consignee.name,
+                        phone: details.consignee.phone,
+                        countryName: matchNamefromDict(
+                          countryList,
+                          details.consignee.countryId
+                        ),
+                        address1: details.consignee.detailAddress1,
+                        address2: details.consignee.detailAddress2,
+                        city: details.consignee.city,
+                        area: details.consignee.area,
+                        province: details.consignee.province,
+                        county: details.consignee.county,
+                        postCode: details.consignee.postCode,
+                        rfc: details.consignee.rfc,
+                        buyerRemark: details.buyerRemark
+                      }}
+                    />
+
+                    {/* 运费折扣 */}
+                    {!details.consignee.timeSlot &&
+                    details?.maxDeliveryTime != null &&
+                    details?.minDeliveryTime != null ? (
+                      <p className="mb-0 od_mb_yf">
+                        {details.minDeliveryTime === details.maxDeliveryTime ? (
+                          <FormattedMessage
+                            id="payment.deliveryDate2"
+                            values={{
+                              val: details.minDeliveryTime
+                            }}
+                          />
+                        ) : (
+                          <FormattedMessage
+                            id="payment.deliveryDate"
+                            values={{
+                              min: details.minDeliveryTime,
+                              max: details.maxDeliveryTime
+                            }}
+                          />
+                        )}
+                      </p>
+                    ) : null}
+
+                    {/* delivery date */}
+                    {newDeliveryDate && (
+                      <p className="mb-0 od_mb_deliveryDate">
+                        {newDeliveryDate}
+                      </p>
+                    )}
+
+                    {/* time slot */}
+                    {details.consignee.timeSlot && (
+                      <p className="mb-0 od_mb_timeSlot">
+                        {details.consignee.timeSlot}
+                      </p>
+                    )}
+
+                    {/* workTime */}
+                    {details.consignee.workTime && (
+                      <p className="mb-0 od_mb_workTime">
+                        {details.consignee.workTime}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+            {!Boolean(+window.__.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR) ? (
+              <div className="col-12 col-md-4 mb-3">
+                <div className="border rounded p-3 h-100">
+                  <div className="d-flex">
+                    <svg
+                      className="svg-icon align-middle mr-3 ml-1 w-8 h-8"
+                      aria-hidden="true"
+                    >
+                      <use xlinkHref="#iconBillingAddress1" />
+                    </svg>
+                    <div>
+                      <p className="medium mb-3">
+                        <FormattedMessage id="billing2" />
+                      </p>
+                      <AddressPreview
+                        nameCls="medium mb-2"
+                        data={{
+                          name: details.invoice.contacts,
+                          phone: details.invoice.phone,
+                          countryName: matchNamefromDict(
+                            countryList,
+                            details.invoice.countryId
+                          ),
+                          address1: details.invoice.address1,
+                          address2: details.invoice.address2,
+                          city: details.invoice.city,
+                          area: details.invoice.area,
+                          province: details.invoice.province,
+                          county: details.invoice.county,
+                          postCode: details.invoice.postCode,
+                          rfc: details.invoice.rfc
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : null}
+            {payRecord && payRecord.lastFourDigits ? (
+              <div className="col-12 col-md-4 mb-2">
+                <div className="border rounded p-3 h-100">
+                  <div className="d-flex">
+                    <svg
+                      className="svg-icon align-middle mr-3 ml-1 w-8 h-8"
+                      aria-hidden="true"
+                    >
+                      <use xlinkHref="#iconpayments" />
+                    </svg>
+                    <div>
+                      <p className="medium mb-3">
+                        <FormattedMessage id="payment.payment" />
+                      </p>
+                      <div className="medium mb-2">
+                        <LazyLoad className="inline">
+                          <img
+                            alt="card background"
+                            className="d-inline-block mr-1 w-1/5"
+                            src={getCardImg({
+                              supportPaymentMethods: supportPaymentMethods,
+                              currentVendor: payRecord.paymentVendor
+                            })}
+                          />
+                        </LazyLoad>
+                        {payRecord.lastFourDigits ? (
+                          <span className="medium">
+                            ********
+                            {payRecord.lastFourDigits}
+                          </span>
+                        ) : null}
+                      </div>
+
+                      {payRecord.holderName ? (
+                        <p className="mb-0">{payRecord.holderName}</p>
+                      ) : null}
+
+                      {/* 分期费用明细 */}
+                      {0 && details.tradePrice.installmentPrice ? (
+                        <p>
+                          {formatMoney(details.tradePrice.totalPrice)} (
+                          {
+                            details.tradePrice.installmentPrice
+                              .installmentNumber
+                          }{' '}
+                          *{' '}
+                          {formatMoney(
+                            details.tradePrice.installmentPrice.installmentPrice
+                          )}
+                          )
+                        </p>
+                      ) : null}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : null}
+            {paymentItem === 'adyen_paypal' ? (
+              <div className="col-12 col-md-4 mb-2">
+                <div className="border rounded p-3 h-100">
+                  <div className="d-flex">
+                    <svg
+                      className="svg-icon align-middle mr-3 ml-1 w-8 h-8"
+                      aria-hidden="true"
+                    >
+                      <use xlinkHref="#iconpayments" />
+                    </svg>
+                    <div>
+                      <p className="medium mb-3">
+                        <FormattedMessage id="payment.payment" />
+                      </p>
+                      <div className="medium mb-2">
+                        <LazyLoad className="inline-block">
+                          <img
+                            alt="paypal"
+                            className="w-20 h-10"
+                            src={paypalLogo}
+                          />
+                        </LazyLoad>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : null}
+            {paymentItem === 'convenience_store' ? (
+              <div className="col-12 col-md-4 mb-2">
+                <div className="border rounded p-3 h-100">
+                  <div className="d-flex">
+                    <svg
+                      className="svg-icon align-middle mr-3 ml-1 w-8 h-8"
+                      aria-hidden="true"
+                    >
+                      <use xlinkHref="#iconpayments" />
+                    </svg>
+                    <div>
+                      <p className="medium mb-3">
+                        <FormattedMessage id="payment.payment" />
+                      </p>
+                      <div className="medium mb-2">
+                        <ConvenienceStorePayReview />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : null}
+          </div>
+        </div>
+      ) : details?.appointNo ? (
+        <OrderAppointmentInfo
+          details={{
+            expertType: details.specialistType,
+            appointmentType: details.appointmentType,
+            apptTime: details.appointmentDate
+          }}
+        />
+      ) : null}
+    </div>
+  );
+};
+
+export default OrderAddressAndPayReview;
