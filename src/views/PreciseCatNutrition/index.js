@@ -83,6 +83,7 @@ class PreciseCatNutrition extends React.Component {
             <meta name="robots" content="noindex" />
           </Helmet>
           <GoogleTagManager
+            key={this.props.location.key}
             additionalEvents={event}
             searchEvent={this.state.searchEvent}
           />

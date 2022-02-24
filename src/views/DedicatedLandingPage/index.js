@@ -362,6 +362,7 @@ class DedicatedLandingPage extends React.Component {
           </Helmet>
         )}
         <GoogleTagManager
+          key={this.props.location.key}
           additionalEvents={event}
           searchEvent={this.state.searchEvent}
         />

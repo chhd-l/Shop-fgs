@@ -672,6 +672,7 @@ class Home extends React.Component {
           {renderLang('home')}
         </Helmet>
         <GoogleTagManager
+          key={this.props.location.key}
           additionalEvents={event}
           searchEvent={this.state.searchEvent}
         />

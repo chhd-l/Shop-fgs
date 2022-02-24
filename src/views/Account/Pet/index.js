@@ -123,7 +123,10 @@ class Pet extends React.Component {
     console.log('petList', petList);
     return (
       <div id="Pets">
-        <GoogleTagManager additionalEvents={event} />
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
+        />
         <Helmet>
           <link rel="canonical" href={pageLink} />
         </Helmet>

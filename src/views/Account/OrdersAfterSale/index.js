@@ -236,7 +236,10 @@ class OrdersAfterSale extends React.Component {
     const { afterSaleType, details, form } = this.state;
     return (
       <div>
-        <GoogleTagManager additionalEvents={event} />
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
+        />
         <Helmet>
           <link rel="canonical" href={pageLink} />
         </Helmet>

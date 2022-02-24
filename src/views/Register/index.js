@@ -557,7 +557,10 @@ class Register extends Component {
         : '/help';
     return (
       <div>
-        <GoogleTagManager additionalEvents={event} />
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
+        />
         {/*全局loading */}
         {this.state.circleLoading ? <Loading bgColor={'#fff'} /> : null}
         {registerBack ? null : (
