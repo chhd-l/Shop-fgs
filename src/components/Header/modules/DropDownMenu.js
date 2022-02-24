@@ -21,8 +21,9 @@ export default class DropDownMenu extends React.Component {
     super(props);
     this.state = { currentDesc: null };
     this.hanldeListItemMouseOver = this.hanldeListItemMouseOver.bind(this);
-    this.handleNavChildrenMouseOver =
-      this.handleNavChildrenMouseOver.bind(this);
+    this.handleNavChildrenMouseOver = this.handleNavChildrenMouseOver.bind(
+      this
+    );
     this.handleClickNavItem = this.handleClickNavItem.bind(this);
     this.hubGA = window.__.env.REACT_APP_HUB_GA == '1';
   }
@@ -65,6 +66,8 @@ export default class DropDownMenu extends React.Component {
   }
 
   handleClickNavItem = (item, navItem) => {
+    // 解决de点击菜单,蒙层未自动消失问题
+    this.props.toggleShowBodyMask({ visible: false });
     // 点击subMenu埋点-start
     let interaction = {
       category: 'submenu',
@@ -109,7 +112,6 @@ export default class DropDownMenu extends React.Component {
         imageLink: currentDesc.imageLink || ''
       });
     }
-
     return (
       <div
         className={`${
