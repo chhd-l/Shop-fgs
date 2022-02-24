@@ -763,7 +763,7 @@ export { datePickerConfig };
  * @param {Array} dictList 字典数据
  * @param {Number/String} toBeMatchedVal 需要匹配的id或value
  */
-export function matchNamefromDict(dictList = [], toBeMatchedVal, aa) {
+export function matchNamefromDict(dictList = [], toBeMatchedVal) {
   const matchedById = dictList.filter(
     (ele) =>
       ele && toBeMatchedVal && ele.id.toString() === toBeMatchedVal.toString()
