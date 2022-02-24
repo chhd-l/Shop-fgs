@@ -104,6 +104,9 @@ class HomeDeliveryOrPickUp extends React.Component {
       }
     };
   }
+  onSearchSelectionError = () => {
+    this.props.onSearchSelectionError?.('');
+  };
   async componentDidMount() {
     let initData = this.props.initData;
     const {
@@ -212,6 +215,7 @@ class HomeDeliveryOrPickUp extends React.Component {
         this.setState({
           searchNoResult: true
         });
+        this.onSearchSelectionError();
       }
     } else if (sitem?.homeAndPickup?.length && pickupEditNumber > 0) {
       // 初始化数据，本地存储有数据（当前会话未结束）
@@ -266,9 +270,16 @@ class HomeDeliveryOrPickUp extends React.Component {
         })
       });
     }
-    this.setState({
-      searchNoResult: flag
-    });
+    this.setState(
+      {
+        searchNoResult: flag
+      },
+      () => {
+        if (flag) {
+          this.onSearchSelectionError();
+        }
+      }
+    );
   };
   // 搜索下拉选择。1、游客和新用户展示homeDelivery和pickup；2、有地址的用户直接展示地图。
   handlePickupCitySelectChange = async (data) => {
@@ -351,6 +362,7 @@ class HomeDeliveryOrPickUp extends React.Component {
             this.setState({
               searchNoResult: true
             });
+            this.onSearchSelectionError();
             return;
           }
         } else {
@@ -520,6 +532,7 @@ class HomeDeliveryOrPickUp extends React.Component {
           this.setState({
             searchNoResult: true
           });
+          this.onSearchSelectionError();
           if (pickupEditNumber == 0 && defaultCity) {
             this.setState({
               pickupCity: defaultCity
@@ -878,6 +891,7 @@ class HomeDeliveryOrPickUp extends React.Component {
                 }`}
               >
                 <SearchSelection
+                  {...this.props}
                   queryList={async ({ inputVal }) => {
                     let res = await pickupQueryCity({ keyword: inputVal });
                     let robj = (
@@ -901,7 +915,6 @@ class HomeDeliveryOrPickUp extends React.Component {
                   customStyle={true}
                   isLoadingList={false}
                   isBottomPaging={true}
-                  // {...this.props}
                 />
                 {searchNoResult && (
                   <span

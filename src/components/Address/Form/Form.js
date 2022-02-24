@@ -629,11 +629,20 @@ class Form extends React.Component {
           '* Sorry we are not able to deliver your order in this area.';
         ruleItem.isBlacklist = !cfdata?.validFlag;
         // ruleItem.errBlacklistMsg = postCodeAlertMessage;
-        this.setState({
-          errMsgObj: Object.assign({}, errMsgObj, {
-            [item.fieldKey]: cfdata.alert || ''
-          })
-        });
+        this.setState(
+          {
+            errMsgObj: Object.assign({}, errMsgObj, {
+              [item.fieldKey]: cfdata.alert || ''
+            })
+          },
+          () => {
+            if (this.state.errMsgObj?.address1) {
+              this.props.onSearchSelectionError?.(
+                this.state.errMsgObj?.address1
+              );
+            }
+          }
+        );
       }
 
       if (item.fieldKey == 'postCode' || item.fieldKey == 'phoneNumber') {
@@ -1218,8 +1227,8 @@ class Form extends React.Component {
 
           // 赋值查询到的地址信息
           caninForm.calculation = calculation;
-          caninForm.minDeliveryTime = calculation.minDeliveryTime;
-          caninForm.maxDeliveryTime = calculation.maxDeliveryTime;
+          caninForm.minDeliveryTime = calculation?.minDeliveryTime;
+          caninForm.maxDeliveryTime = calculation?.maxDeliveryTime;
 
           // 重置地址相关信息并清空错误提示
           this.setState(
@@ -1245,12 +1254,17 @@ class Form extends React.Component {
         });
       } else {
         // 显示错误信息
-        this.setState({
-          errMsgObj: {
-            ['address1']: this.getIntlMsg('payment.pleaseInput') + errMsg
+        this.setState(
+          {
+            errMsgObj: {
+              ['address1']: this.getIntlMsg('payment.pleaseInput') + errMsg
+            },
+            isDeliveryDateAndTimeSlot: false
           },
-          isDeliveryDateAndTimeSlot: false
-        });
+          () => {
+            this.props.onSearchSelectionError?.(this.state.errMsgObj.address1);
+          }
+        );
       }
     } else if (apiType === 'DQE') {
       returnDQE({
@@ -1339,6 +1353,7 @@ class Form extends React.Component {
     return (
       <>
         <SearchSelection
+          {...this.props}
           queryList={async ({ inputVal }) => {
             let res = null;
             let robj = null;
@@ -1440,7 +1455,7 @@ class Form extends React.Component {
             name={item.fieldKey}
             disabled={item?.disabled ? true : false}
             maxLength={item.maxLength}
-            autoComplete="new-password"
+            autoComplete="off"
           />
           <label className="rc-input__label" htmlFor="id-text1" />
         </span>

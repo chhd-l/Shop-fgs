@@ -2669,6 +2669,49 @@ class Payment extends React.Component {
       });
     }
   };
+  onSearchSelectionChange = (type) => {
+    window.__.env.REACT_APP_COUNTRY === 'ru' &&
+      window?.dataLayer?.push({
+        event: 'suggestedAdressInteraction',
+        suggestedAdress: {
+          action: 'suggestionClick',
+          type: type || 'Add'
+        }
+      });
+    console.info(
+      'new onSearchSelectionChangeonSearchSelectionChangeonSearchSelectionChange',
+      type || 'Add'
+    );
+  };
+  onSearchSelectionFocus = (type) => {
+    window.__.env.REACT_APP_COUNTRY === 'ru' &&
+      window?.dataLayer?.push({
+        event: 'suggestedAdressInteraction',
+        suggestedAdress: {
+          action: 'fieldClick',
+          type: type || 'Add'
+        }
+      });
+    console.info(
+      'new onSearchSelectionFocusonSearchSelectionFocusonSearchSelectionFocus',
+      type || 'Add'
+    );
+  };
+  onSearchSelectionError = (errorMessage, type) => {
+    window.__.env.REACT_APP_COUNTRY === 'ru' &&
+      window?.dataLayer?.push({
+        event: 'suggestedAdressInteraction',
+        suggestedAdress: {
+          action: errorMessage,
+          message: 'Please enter a valid address', //The message must be translated into English
+          type: type || 'Add' //'Add' or 'Modify' depending if the user has an address in their account
+        }
+      });
+    console.info(
+      'new onSearchSelectionErroronSearchSelectionErroronSearchSelectionErroronSearchSelectionError',
+      type || 'Add'
+    );
+  };
 
   // 修改BillingAddress数据
   updateBillingAddrData = (data) => {
@@ -2720,6 +2763,9 @@ class Payment extends React.Component {
         calculateFreight={this.calculateFreight}
         cartData={this.computedCartData}
         isLogin={true}
+        onSearchSelectionFocus={this.onSearchSelectionFocus}
+        onSearchSelectionChange={this.onSearchSelectionChange}
+        onSearchSelectionError={this.onSearchSelectionError}
         // onSearchSelectionChange={() =>
         //   window.__.env.REACT_APP_COUNTRY === 'ru' &&
         //   window?.dataLayer?.push({
@@ -2760,6 +2806,9 @@ class Payment extends React.Component {
         calculateFreight={this.calculateFreight}
         cartData={this.computedCartData}
         isLogin={false}
+        onSearchSelectionFocus={this.onSearchSelectionFocus}
+        onSearchSelectionChange={this.onSearchSelectionChange}
+        onSearchSelectionError={this.onSearchSelectionError}
         // onSearchSelectionChange={() =>
         //   window.__.env.REACT_APP_COUNTRY === 'ru' &&
         //   window?.dataLayer?.push({
@@ -2864,6 +2913,9 @@ class Payment extends React.Component {
                 })}
                 catchErrorMessage={this.catchAddOrEditAddressErrorMessage}
                 isLogin={true}
+                onSearchSelectionFocus={this.onSearchSelectionFocus}
+                onSearchSelectionChange={this.onSearchSelectionChange}
+                onSearchSelectionError={this.onSearchSelectionError}
               />
             ) : (
               <VisitorAddress
@@ -2886,6 +2938,9 @@ class Payment extends React.Component {
                 })}
                 catchErrorMessage={this.catchAddOrEditAddressErrorMessage}
                 isLogin={false}
+                onSearchSelectionFocus={this.onSearchSelectionFocus}
+                onSearchSelectionChange={this.onSearchSelectionChange}
+                onSearchSelectionError={this.onSearchSelectionError}
               />
             )}
           </>
