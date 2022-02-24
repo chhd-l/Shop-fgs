@@ -445,6 +445,7 @@ class Help extends React.Component {
       loginStore.isLogin
         ? checkoutStore.setLoginCartData(inStockProducts)
         : checkoutStore.setCartData(inStockProducts);
+      // todo 去掉未缺货产品，正常产品添加购物车有问题，需参考未缺货情况添加购物车
 
       const url = await distributeLinktoPrecriberOrPaymentPage({
         configStore: this.props.configStore,
