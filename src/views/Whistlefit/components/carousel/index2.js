@@ -117,7 +117,7 @@ class HeroCarousel extends React.Component {
       ),
       dotsClass: 'dots-custom',
       afterChange: (idx) => {
-        this.GABannerImpression(idx);
+        //this.GABannerImpression(idx);
       }
     };
 

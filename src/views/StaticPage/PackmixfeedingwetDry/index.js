@@ -35,7 +35,10 @@ class Packfeed extends React.Component {
     };
     return (
       <div className="recommendation_PackmixfeedingwetDry">
-        <GoogleTagManager additionalEvents={event} />
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
+        />
 
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">

@@ -67,6 +67,7 @@ class ClubLandingPageDeVet extends React.Component {
           <link rel="canonical" href={pageLink} />
         </Helmet>
         <GoogleTagManager
+          key={this.props.location.key}
           additionalEvents={event}
           searchEvent={this.state.searchEvent}
         />

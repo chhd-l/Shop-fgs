@@ -661,7 +661,10 @@ export default class Felin extends React.Component {
         <Helmet>
           <link rel="canonical" href={pageLink} />
         </Helmet>
-        <GoogleTagManager additionalEvents={event} />
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
+        />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <div

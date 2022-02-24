@@ -215,7 +215,10 @@ class Whistlefit extends React.Component {
 
     return (
       <div>
-        <GoogleTagManager additionalEvents={event} />
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
+        />
         <Helmet>
           <link rel="canonical" href={pageLink} />
         </Helmet>

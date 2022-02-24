@@ -37,7 +37,10 @@ class Help extends React.Component {
 
     return (
       <div className="recommendation">
-        <GoogleTagManager additionalEvents={event} />
+        <GoogleTagManager
+          key={this.props.location.key}
+          additionalEvents={event}
+        />
         <Helmet>
           <link rel="canonical" href={pageLink} />
         </Helmet>
