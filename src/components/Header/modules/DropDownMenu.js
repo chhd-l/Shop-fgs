@@ -21,9 +21,8 @@ export default class DropDownMenu extends React.Component {
     super(props);
     this.state = { currentDesc: null };
     this.hanldeListItemMouseOver = this.hanldeListItemMouseOver.bind(this);
-    this.handleNavChildrenMouseOver = this.handleNavChildrenMouseOver.bind(
-      this
-    );
+    this.handleNavChildrenMouseOver =
+      this.handleNavChildrenMouseOver.bind(this);
     this.handleClickNavItem = this.handleClickNavItem.bind(this);
     this.hubGA = window.__.env.REACT_APP_HUB_GA == '1';
   }

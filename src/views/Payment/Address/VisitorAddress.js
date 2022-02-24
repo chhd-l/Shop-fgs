@@ -542,6 +542,7 @@ class VisitorAddress extends React.Component {
 
     const _editForm = (
       <AddressForm
+        {...this.props}
         type="delivery"
         initData={form}
         isLogin={false}
@@ -549,10 +550,12 @@ class VisitorAddress extends React.Component {
         getFormAddressValidFlag={this.getFormAddressValidFlag}
         updateData={this.updateDeliveryAddress}
         calculateFreight={this.calculateFreight}
+        // onSearchSelectionFocus={this.onSearchSelectionFocus}
+        // onSearchSelectionChange={this.onSearchSelectionChange}
+        // onSearchSelectionError={this.onSearchSelectionError}
         // {...this.props}
       />
     );
-
     return (
       <AddressPanelContainer
         panelStatus={panelStatus}
@@ -592,6 +595,9 @@ class VisitorAddress extends React.Component {
                   cartData={this.props.cartData}
                   calculateFreight={this.calculateFreight}
                   pickupEditNumber={pickupEditNumber}
+                  onSearchSelectionFocus={this.onSearchSelectionFocus}
+                  onSearchSelectionChange={this.onSearchSelectionChange}
+                  onSearchSelectionError={this.onSearchSelectionError}
                 />
               ) : null}
 
