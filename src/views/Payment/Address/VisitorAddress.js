@@ -582,6 +582,7 @@ class VisitorAddress extends React.Component {
               {/* 俄罗斯 pickup */}
               {deliveryOrPickUpFlag && !panelStatus.isCompleted ? (
                 <HomeDeliveryOrPickUp
+                  {...this.props}
                   key={this.state.defaultCity}
                   isLogin={false}
                   defaultCity={this.state.defaultCity}
@@ -595,9 +596,9 @@ class VisitorAddress extends React.Component {
                   cartData={this.props.cartData}
                   calculateFreight={this.calculateFreight}
                   pickupEditNumber={pickupEditNumber}
-                  onSearchSelectionFocus={this.onSearchSelectionFocus}
-                  onSearchSelectionChange={this.onSearchSelectionChange}
-                  onSearchSelectionError={this.onSearchSelectionError}
+                  // onSearchSelectionFocus={this.onSearchSelectionFocus}
+                  // onSearchSelectionChange={this.onSearchSelectionChange}
+                  // onSearchSelectionError={this.onSearchSelectionError}
                 />
               ) : null}
 
