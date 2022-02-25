@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
+import './index.less';
 
 const ConvenienceStore = ({ convenienceStoreChange }) => {
   const convenienceStoreList = [
@@ -33,14 +34,14 @@ const ConvenienceStore = ({ convenienceStoreChange }) => {
 
   return (
     <>
-      <div id="paypal-container">
+      <div id="convenience-store-container">
         <p>
           <FormattedMessage id="convenienceStore.tip1" />
         </p>
         <p>
           <FormattedMessage id="convenienceStore.tip2" />
         </p>
-        <div className="flex flex-row flex-wrap my-2">
+        <div className="flex flex-row flex-wrap my-4">
           {convenienceStoreList.map((item, index) => (
             <div
               className="w-1/2 rc-input rc-input--inline mr-0 mt-2"
@@ -54,7 +55,7 @@ const ConvenienceStore = ({ convenienceStoreChange }) => {
                 checked={item.value === checkedBox}
               />
               <label
-                className="rc-input__label--inline text-break"
+                className="rc-input__label--inline text-lg convenience-store-checkbox text-break"
                 htmlFor={`id-convenience-store-${index}`}
               >
                 {item.label}
