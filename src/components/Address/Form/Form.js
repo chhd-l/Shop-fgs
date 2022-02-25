@@ -639,7 +639,7 @@ class Form extends React.Component {
             if (this.state.errMsgObj?.address1) {
               this.props.onSearchSelectionError?.(
                 this.state.errMsgObj?.address1
-              );
+              ); // 还没做英语翻译，没找到地方……
             }
           }
         );
@@ -1181,6 +1181,7 @@ class Form extends React.Component {
     if (apiType === 'DADATA') {
       // 判断选中的地址是否有错误信息
       let errMsg = data.errMsg;
+      let errMsgEn = data.errMsgEn;
       if (!errMsg) {
         // DuData相关参数
         caninForm.province = data.province;
@@ -1262,7 +1263,8 @@ class Form extends React.Component {
             isDeliveryDateAndTimeSlot: false
           },
           () => {
-            this.props.onSearchSelectionError?.(this.state.errMsgObj.address1);
+            let errMsgEnStr = `Please input: ${errMsgEn}`;
+            this.props.onSearchSelectionError?.(errMsgEnStr);
           }
         );
       }
@@ -1329,19 +1331,19 @@ class Form extends React.Component {
     // districtCode             province    √
     // settlement               settlement  √
     let errArr = [];
-    // let errArrEn = [];
+    let errArrEn = [];
     let streets = this.getIntlMsg('payment.streets'),
       postCode = this.getIntlMsg('payment.postCode'),
       house = this.getIntlMsg('payment.house'),
       city = this.getIntlMsg('payment.city'),
       province = this.getIntlMsg('payment.state'),
       settlement = this.getIntlMsg('payment.settlement');
-    // let streetsEn = this.getIntlMsg('payment.streetsEn'),
-    // postCodeEn = this.getIntlMsg('payment.postCodeEn'),
-    // houseEn = this.getIntlMsg('payment.houseEn'),
-    // cityEn = this.getIntlMsg('payment.cityEn'),
-    // provinceEn = this.getIntlMsg('payment.stateEn'),
-    // settlementEn = this.getIntlMsg('payment.settlementEn');
+    let streetsEn = 'streets',
+      postCodeEn = 'postCode',
+      houseEn = 'house',
+      cityEn = 'city',
+      provinceEn = 'state',
+      settlementEn = 'settlement';
 
     !data.street && errArr.push(streets);
     !data.postCode && errArr.push(postCode);
@@ -1350,14 +1352,15 @@ class Form extends React.Component {
     !data.province && errArr.push(province);
     !data.settlement && errArr.push(settlement);
 
-    !data.street && errArr.push(streets);
-    !data.postCode && errArr.push(postCode);
-    !data.house && errArr.push(house);
-    !data.city && errArr.push(city);
-    !data.province && errArr.push(province);
-    !data.settlement && errArr.push(settlement);
+    !data.street && errArrEn.push(streetsEn);
+    !data.postCode && errArrEn.push(postCodeEn);
+    !data.house && errArrEn.push(houseEn);
+    !data.city && errArrEn.push(cityEn);
+    !data.province && errArrEn.push(provinceEn);
+    !data.settlement && errArrEn.push(settlementEn);
 
     data.errMsg = errArr.join(',');
+    data.errMsgEn = errArrEn.join(',');
     return data;
   };
   // 地址搜索框
