@@ -37,8 +37,7 @@ import {
   validData,
   bindSubmitParam,
   getAppointmentInfo,
-  formatDate,
-  optimizeImage
+  formatDate
 } from '@/utils/utils';
 import { seoHoc } from '@/framework/common';
 import { EMAIL_REGEXP, LOGO_ADYEN_COD } from '@/utils/constant';
@@ -55,7 +54,6 @@ import {
   confirmAndCommitFelin,
   rePayFelin,
   adyenPaymentsDetails,
-  checkUserOrEmailIsBlocked,
   swishCancelOrRefund
 } from '@/api/payment';
 import { getOrderDetails } from '@/api/order';
@@ -93,7 +91,6 @@ import swishLogo from '@/assets/images/swish-logo.svg';
 import swishIcon from '@/assets/images/swish-icon.svg';
 import swishError from '@/assets/images/swish-error.svg';
 import paypalLogo from '@/assets/images/paypal-logo.svg';
-import convenienceStoreLogo from '@/assets/images/convenience_store_logo.png';
 import { postUpdateUser, getAppointByApptNo } from '@/api/felin';
 import UpdatModal from './updatModules/modal';
 import QRCode from 'qrcode.react';
@@ -102,7 +99,6 @@ import base64 from 'base-64';
 import cn from 'classnames';
 import { SelectPet } from './SelectPet';
 import { PanelContainer } from './Common';
-import testConvenienceStore from './PaymentMethod/ConvenienceStore/testdata';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -1512,6 +1508,11 @@ class Payment extends React.Component {
             securityCode: cardCvv,
             accessToken: accessToken
           });
+        },
+        adyen_convenience_store: () => {
+          parameters = Object.assign(commonParameter, {
+            payPspItemEnum: 'ADYEN_CONVENIENCE_STORE'
+          });
         }
       };
       await actions[type]();
@@ -1941,6 +1942,18 @@ class Payment extends React.Component {
             JSON.stringify(subOrderNumberList)
           );
           gotoConfirmationPage = true;
+          break;
+        case 'adyen_convenience_store':
+          subOrderNumberList = tidList.length
+            ? tidList
+            : res.context && res.context.tidList;
+          subNumber = (res.context && res.context.subscribeId) || '';
+
+          if (res.context.redirectUrl) {
+            window.location.href = res.context.redirectUrl;
+          } else {
+            gotoConfirmationPage = true;
+          }
           break;
         default:
           break;
