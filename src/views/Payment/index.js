@@ -1038,7 +1038,7 @@ class Payment extends React.Component {
         // 筛选条件: 1.开关开启 2.订阅购买时, 排除不支持订阅的支付方式 3.cod时, 是否超过限制价格
         payWayNameArr = (payWay.context.payPspItemVOList || [])
           .map((p) => {
-            // todo 待删除 待后台修改adyen cod的code
+            // todo jp 待删除 待后台修改adyen cod的code
             // 特殊处理adyen cod
             let tmp = p;
             if (p.channel == 'ADYEN' && p.code == 'cod') {
@@ -4186,7 +4186,7 @@ class Payment extends React.Component {
                 </p>
               </div>
             </div>
-            <div className="rc-layout-container rc-three-column rc-max-width--xl mt-3 md:mt-0">
+            <div className="rc-layout-container rc-three-column rc-max-width--xl mt-3 md:-mt-6">
               <div className="rc-column rc-double-width shipping__address">
                 {/* 错误提示，没有errorMsg时，或errorMsg===This Error No Display时不显示  */}
                 <div
