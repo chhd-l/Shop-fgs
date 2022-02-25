@@ -109,12 +109,12 @@ class HomeDeliveryOrPickUp extends React.Component {
       return;
     }
     let { pageType } = this.props;
-    let errMsg =
+    let errMsgEn =
       (pageType == 'checkout' && this.props.allAddressList.length) ||
       pageType == 'onlyPickup'
-        ? this.props.intl.messages['payment.noPickup']
-        : this.props.intl.messages['payment.pickupNoRusult'];
-    this.props.onSearchSelectionError?.(errMsg);
+        ? 'PVZ is not currently available for the selected town' //this.props.intl.messages['payment.noPickup']
+        : 'Please enter the address in the delivery area of the online store. You can find the delivery area on the delivery terms page'; //this.props.intl.messages['payment.pickupNoRusult'];
+    this.props.onSearchSelectionError?.(errMsgEn);
   };
   async componentDidMount() {
     let initData = this.props.initData;
