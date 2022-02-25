@@ -4,3 +4,4 @@ export { default as OrderAllProduct } from './orderAllProduct';
 export { default as CancelOrderModal } from './cancelOrderModal/index';
 export { default as CancelOrderSuccessModal } from './cancelOrderModal/successModal';
 export { default as OrderHeaderInfo } from './orderHeaderInfo';
+export { default as OrderHeadTip } from './orderHeadTip';

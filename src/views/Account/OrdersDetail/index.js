@@ -2,7 +2,6 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import Skeleton from 'react-skeleton-loader';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import TimeCount from '@/components/TimeCount';
 import { Link } from 'react-router-dom';
 import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
@@ -13,14 +12,8 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import { judgeIsIndividual, formatDate } from '@/utils/utils';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
-import {
-  getOrderDetails,
-  cancelOrder,
-  getPayRecord,
-  returnFindByTid,
-  queryLogistics,
-  cancelOrderForJapan
-} from '@/api/order';
+import { getOrderDetails, getPayRecord, returnFindByTid } from '@/api/order';
+import { cancelOrder, queryLogistics, cancelOrderForJapan } from '@/api/order';
 import { IMG_DEFAULT } from '@/utils/constant';
 import './index.less';
 import LazyLoad from 'react-lazyload';
@@ -35,9 +28,10 @@ import {
   OrderAddressAndPayReview,
   OrderAllPrice,
   OrderAllProduct,
+  OrderHeaderInfo,
   CancelOrderModal,
   CancelOrderSuccessModal,
-  OrderHeaderInfo
+  OrderHeadTip
 } from './modules';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -97,34 +91,6 @@ function Progress({ progressList, currentProgressIndex }) {
         ))}
       </div>
     </div>
-  );
-}
-
-function HeadTip(props) {
-  return (
-    <>
-      <div className="row align-items-center text-left mx-1 md:mx-0">
-        <div className="col-3 col-md-1">{props.icon}</div>
-        <div className={`col-9 ${props.operation ? 'col-md-7' : 'col-md-11'}`}>
-          <span
-            className={`font-weight-normal color-444 ${props.titleColor || ''}`}
-          >
-            {props.title}
-          </span>
-          <br />
-          {window.__.env.REACT_APP_COUNTRY !== 'us' ? props.tip : null}
-        </div>
-        {props.operation ? (
-          <div className="col-12 col-md-4 md:text-right text-center">
-            <span className="sticky-operation-btn rc-md-down">
-              {props.operation}
-            </span>
-            <span className="rc-md-up">{props.operation}</span>
-          </div>
-        ) : null}
-        {props.moreTip ? <>{props.moreTip}</> : null}
-      </div>
-    </>
   );
 }
 
@@ -238,10 +204,6 @@ class AccountOrders extends React.Component {
         this.init();
       }
     );
-  }
-  //判断是否是felin 订单
-  get isFelinOrder() {
-    return this.state?.details?.appointmentNo;
   }
   init() {
     const { orderNumber } = this.state;
@@ -449,42 +411,6 @@ class AccountOrders extends React.Component {
       activeTabIdx: i
     });
   }
-  handleClickPayNow = async () => {
-    const { details: order, details } = this.state;
-    this.setState({ details: Object.assign(details, { payNowLoading: true }) });
-    const tradeItems = details.tradeItems.map((ele) => {
-      return {
-        goodsInfoImg: ele.pic,
-        goodsName: ele.spuName,
-        specText: ele.specDetails,
-        buyCount: ele.num,
-        salePrice: ele.price,
-        goodsInfoId: ele.skuId,
-        subscriptionPrice: ele.subscriptionPrice,
-        subscriptionStatus: ele.subscriptionStatus
-      };
-    });
-    this.props.checkoutStore.setLoginCartData(tradeItems);
-    sessionItemRoyal.set('rc-tid', details.id);
-    sessionItemRoyal.set('rc-tidList', JSON.stringify(details.tidList));
-    this.props.checkoutStore.setCartPrice({
-      totalPrice: order.tradePrice.goodsPrice,
-      tradePrice: order.tradePrice.totalPrice,
-      discountPrice: order.tradePrice.discountsPrice,
-      deliveryPrice: order.tradePrice.deliveryPrice,
-      promotionDesc: order.tradePrice.promotionDesc,
-      promotionDiscount: order.tradePrice.deliveryPrice,
-      subscriptionPrice: order.tradePrice.subscriptionPrice
-    });
-    this.props.history.push('/checkout');
-    this.setState({
-      details: Object.assign(details, { payNowLoading: false })
-    });
-  };
-  handlePayNowTimeEnd = () => {
-    const { details } = this.state;
-    this.setState({ details: Object.assign(details, { canPayNow: false }) });
-  };
   handleToggleMoreLess = () => {
     this.setState((currentState) => ({
       moreLogistics: !currentState.moreLogistics
@@ -668,264 +594,6 @@ class AccountOrders extends React.Component {
       </>
     );
   };
-  renderHeadTip = () => {
-    const {
-      details,
-      auditRejectReason,
-      orderNumber,
-      logisticsList,
-      currentProgressIndex,
-      normalProgressList
-    } = this.state;
-    let ret = null;
-    switch (currentProgressIndex) {
-      case 0:
-        // 订单创建
-        ret = (
-          <>
-            <HeadTip
-              icon={
-                <svg className="svg-icon w-14 h-14" aria-hidden="true">
-                  <use xlinkHref="#iconTobepaid" />
-                </svg>
-              }
-              title={normalProgressList[currentProgressIndex]?.flowStateDesc}
-              titleColor="text-info"
-              tip={
-                <FormattedMessage
-                  id="orderStatus.INITTip"
-                  values={{
-                    val: (
-                      <>
-                        {details.canPayNow ? (
-                          <>
-                            <span
-                              className={`red ui-cursor-pointer ${
-                                details.payNowLoading
-                                  ? 'ui-btn-loading ui-btn-loading-border-red'
-                                  : ''
-                              }`}
-                              onClick={this.handleClickPayNow}
-                            >
-                              <span className={`red rc-styled-link mr-2`}>
-                                <FormattedMessage id="order.payNow" />
-                              </span>
-                              &gt;
-                            </span>{' '}
-                            <TimeCount
-                              className="rc-hidden"
-                              startTime={this.state.defaultLocalDateTime}
-                              endTime={details.orderTimeOut}
-                              onTimeEnd={this.handlePayNowTimeEnd}
-                            />
-                          </>
-                        ) : null}
-                      </>
-                    )
-                  }}
-                />
-              }
-            />
-            <hr className="my-4" />
-          </>
-        );
-        break;
-      case 1:
-        // 等待发货
-        ret = (
-          <>
-            <HeadTip
-              icon={
-                <svg className="svg-icon w-14 h-14" aria-hidden="true">
-                  <use xlinkHref="#iconTobedelivered" />
-                </svg>
-              }
-              title={normalProgressList[currentProgressIndex]?.flowStateDesc}
-              titleColor="text-warning"
-              tip={<FormattedMessage id="order.toBeDeliveredTip" />}
-            />
-            <hr className="my-4" />
-          </>
-        );
-        break;
-      case 2:
-        // 发货运输中
-        ret = (
-          <HeadTip
-            icon={
-              <svg className="svg-icon w-14 h-14" aria-hidden="true">
-                <use xlinkHref="#iconIntransit" />
-              </svg>
-            }
-            title={normalProgressList[currentProgressIndex]?.flowStateDesc}
-            titleColor="text-success"
-            moreTip={this.renderLogitiscsJSX()}
-            tip={
-              <FormattedMessage
-                id="order.inTranistTip"
-                values={{
-                  val:
-                    logisticsList[0] && logisticsList[0].trackingUrl ? (
-                      <span className={`red ui-cursor-pointer`}>
-                        <a
-                          href={logisticsList[0].trackingUrl}
-                          target="_blank"
-                          rel="nofollow"
-                          className={`red rc-styled-link mr-2`}
-                        >
-                          <FormattedMessage id="order.viewLogisticDetail" />
-                        </a>
-                        &gt;
-                      </span>
-                    ) : null
-                }}
-              />
-            }
-          />
-        );
-        break;
-      case 3:
-        // 完成订单
-        ret = (
-          <>
-            <HeadTip
-              icon={
-                <svg className="svg-icon w-14 h-14" aria-hidden="true">
-                  <use xlinkHref="#iconCompleted" />
-                </svg>
-              }
-              title={normalProgressList[currentProgressIndex]?.flowStateDesc}
-              tip={<FormattedMessage id="order.completeTip" />}
-              operation={
-                !!+window.__.env.REACT_APP_PDP_RATING_VISIBLE && (
-                  <FormattedMessage id="comment">
-                    {(txt) => (
-                      <Link
-                        className="rc-btn rc-btn--sm rc-btn--one"
-                        to={`/account/productReview/${orderNumber}`}
-                        title={txt}
-                        alt={txt}
-                      >
-                        {txt}
-                      </Link>
-                    )}
-                  </FormattedMessage>
-                )
-              }
-              moreTip={this.renderLogitiscsJSX()}
-            />
-            <hr className="my-4" />
-          </>
-        );
-        break;
-    }
-    // if (auditRejectReason) {
-    //   // 审核拒绝
-    //   ret = (
-    //     <>
-    //       <HeadTip
-    //         icon={
-    //           <svg
-    //             className="svg-icon"
-    //             aria-hidden="true"
-    //             style={{ width: '3.5em', height: '3.5em' }}
-    //           >
-    //             <use xlinkHref="#iconPrescriptionDeclined" />
-    //           </svg>
-    //         }
-    //         title={<FormattedMessage id="prescriptionDeclined" />}
-    //         titleColor="red"
-    //         tip={auditRejectReason}
-    //       />
-    //       <hr />
-    //     </>
-    //   );
-    // }
-    return ret;
-  };
-  //特殊处理felin订单HeadTip
-  renderFelinHeadTip = () => {
-    const { currentProgressIndex, normalProgressList } = this.state;
-    let ret = null;
-    switch (currentProgressIndex) {
-      case 0:
-        // Appointment confirmed
-        ret = (
-          <>
-            <HeadTip
-              icon={
-                <svg className="svg-icon w-14 h-14" aria-hidden="true">
-                  <use xlinkHref="#iconTobepaid" />
-                </svg>
-              }
-              title={normalProgressList[currentProgressIndex]?.flowStateDesc}
-              titleColor="text-info"
-              tip={<FormattedMessage id="orderStatus.INITTip" />}
-            />
-            <hr className="my-4" />
-          </>
-        );
-        break;
-      case 1:
-        // Order paid
-        ret = (
-          <>
-            <HeadTip
-              icon={
-                <i className="iconfont iconfuwudiqiu ml-3 text-rc-detail-red text-5xl" />
-              }
-              title={<FormattedMessage id="felinOrder.servicePaid" />}
-              titleColor="text-warning"
-              tip={<FormattedMessage id="felinOrder.servicePaidTip" />}
-            />
-            <hr className="my-4" />
-          </>
-        );
-        break;
-      case 2:
-        // Check in
-        ret = (
-          <>
-            <HeadTip
-              icon={
-                <i className="iconfont iconfuwudiqiu ml-3 text-rc-detail-red text-5xl" />
-              }
-              title={<FormattedMessage id="appointment.serviceArrived" />}
-              titleColor="text-warning"
-              tip={<FormattedMessage id="appointment.serviceArrivedTip" />}
-            />
-            <hr className="my-4" />
-          </>
-        );
-        break;
-    }
-    return ret;
-  };
-  //felin订单操作按钮显示
-  renderOperationBtns = () => {
-    const { orderNumber, details } = this.state;
-    return (
-      <>
-        {/*服务类产品评论*/}
-        {details?.canReviewService ? (
-          <button className="rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn">
-            <FormattedMessage id="writeReview">
-              {(txt) => (
-                <Link
-                  className="color-fff"
-                  to={`/account/productReviewService/${orderNumber}`}
-                  title={txt}
-                  alt={txt}
-                >
-                  {txt}
-                </Link>
-              )}
-            </FormattedMessage>
-          </button>
-        ) : null}
-      </>
-    );
-  };
   renderJpCancelOrderBtns = () => {
     const { details } = this.state;
     return (
@@ -1046,9 +714,18 @@ class AccountOrders extends React.Component {
                         />
                       ) : details ? (
                         <div className="card-body p-0">
-                          {this.isFelinOrder
-                            ? this.renderFelinHeadTip()
-                            : this.renderHeadTip()}
+                          <OrderHeadTip
+                            props={this.props}
+                            details={details}
+                            logisticsList={this.state.logisticsList}
+                            currentProgressIndex={currentProgressIndex}
+                            defaultLocalDateTime={
+                              this.state.defaultLocalDateTime
+                            }
+                            normalProgressList={normalProgressList}
+                            renderLogitiscsJSX={this.renderLogitiscsJSX()}
+                          />
+
                           {currentProgressIndex > -1 ? (
                             <Progress
                               {...this.props}
@@ -1058,24 +735,17 @@ class AccountOrders extends React.Component {
                           ) : null}
 
                           <div className="rc-bg-colour--brand4 rc-md-down mt-3 h-3.5" />
-                          <div className="row m-0 mx-2 md:mx-0">
-                            <div className="col-12 border table-header rounded mt-3 md:mt-0">
-                              <OrderHeaderInfo
-                                details={details}
-                                renderOperationBtns={this.renderOperationBtns()}
-                                orderNumberForOMS={this.state.orderNumberForOMS}
-                              />
-                            </div>
+                          <div className="row m-0 mx-2 md:mx-0 ">
+                            <OrderHeaderInfo
+                              details={details}
+                              orderNumberForOMS={this.state.orderNumberForOMS}
+                            />
                             <div className="col-12 table-body rounded md:mt-3 mb-2 px-0">
-                              <div className="order__listing text-left">
-                                <OrderAllProduct
-                                  details={details}
-                                  orderNumberForOMS={this.state.orderNoForOMS}
-                                  renderOperationBtns={this.renderOperationBtns()}
-                                  welcomeGiftLists={welcomeGiftLists}
-                                />
-                              </div>
-
+                              <OrderAllProduct
+                                details={details}
+                                orderNumberForOMS={this.state.orderNoForOMS}
+                                welcomeGiftLists={welcomeGiftLists}
+                              />
                               <OrderAllPrice
                                 details={details}
                                 customTaxSettingOpenFlag={
@@ -1128,7 +798,6 @@ class AccountOrders extends React.Component {
                             />
                           </LazyLoad>
                         </div>
-
                         <div className="col-6 d-flex align-items-center">
                           <div>
                             <div className="font-weight-normal ui-text-overflow-line2">
@@ -1171,9 +840,8 @@ class AccountOrders extends React.Component {
                           <FormattedMessage id="logisticsCompany" />
                           <br />
                           <span className="medium color-444">
-                            {curLogisticInfo.logistics
-                              ? curLogisticInfo.logistics.logisticCompanyName
-                              : ''}
+                            {curLogisticInfo?.logistics?.logisticCompanyName ||
+                              ''}
                           </span>
                         </p>
                       </div>
@@ -1185,16 +853,10 @@ class AccountOrders extends React.Component {
                           <FormattedMessage id="logisticsSingleNumber" />
                           <br />
                           <span className="medium color-444">
-                            {curLogisticInfo.logistics
-                              ? curLogisticInfo.logistics.logisticNo
-                              : ''}
+                            {curLogisticInfo?.logistics?.logisticNo || ''}
                           </span>
                           <CopyToClipboard
-                            text={
-                              curLogisticInfo.logistics
-                                ? curLogisticInfo.logistics.logisticNo
-                                : ''
-                            }
+                            text={curLogisticInfo?.logistics?.logisticNo || ''}
                           >
                             <span className="iconfont ui-cursor-pointer ml-2">
                               &#xe6c0;
