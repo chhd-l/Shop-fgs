@@ -23,7 +23,7 @@ import {
   getOpenConsentByCategory,
   userBindConsent
 } from '@/api/whistlefit';
-import { GAWhistleFitButtonClick } from '@/utils/GA.js';
+import { GAWhistleFitButtonClick } from '@/utils/GA';
 import './index.less';
 import { EMAIL_REGEXP } from '@/utils/constant';
 import { getDeviceType } from '@/utils/utils';

@@ -1,10 +1,9 @@
 import React, { useContext } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { SubGoodsInfosContext } from './index';
-import { myAccountActionPushEvent } from '@/utils/GA';
+import { myAccountActionPushEvent, GAForChangeProductBtn } from '@/utils/GA';
 import { getDeviceType } from '@/utils/utils';
 import { startSubscription, pauseSubscription } from '@/api/subscription';
-
 const ButtonBox = () => {
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   const SubGoodsInfosValue = useContext(SubGoodsInfosContext);
@@ -76,6 +75,7 @@ const ButtonBox = () => {
                 productListLoading ? 'ui-btn-loading' : ''
               }`}
               onClick={() => {
+                GAForChangeProductBtn();
                 if (!!subDetail.petsId) {
                   setState({
                     triggerShowChangeProduct: Object.assign(
