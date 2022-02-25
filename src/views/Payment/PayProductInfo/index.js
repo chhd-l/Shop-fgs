@@ -19,6 +19,7 @@ import PromotionCodeText from './components/promotionCodeText';
 import GiftList from '../GiftList/index.tsx';
 import { isFirstOrder } from '@/api/user';
 import cloneDeep from 'lodash/cloneDeep';
+import { IMG_DEFAULT } from '@/utils/constant';
 
 const guid = uuidv4();
 let isGACheckoutLock = false;
@@ -314,7 +315,10 @@ class PayProductInfo extends React.Component {
                 <LazyLoad>
                   <img
                     className="product-image"
-                    src={find(el.sizeList, (s) => s.selected).goodsInfoImg}
+                    src={
+                      find(el.sizeList, (s) => s.selected).goodsInfoImg ||
+                      IMG_DEFAULT
+                    }
                     alt="product image"
                   />
                 </LazyLoad>
@@ -401,7 +405,7 @@ class PayProductInfo extends React.Component {
               <div className="item-image">
                 <img
                   className="product-image"
-                  src={el.goodsInfoImg}
+                  src={el.goodsInfoImg || IMG_DEFAULT}
                   alt="product image"
                 />
               </div>

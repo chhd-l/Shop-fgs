@@ -1,10 +1,9 @@
 import React from 'react';
-import OneOffSelection from '../OneOffSelection';
+import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
-import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
-import { getDeviceType, formatMoney } from '@/utils/utils';
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
+import { FormattedMessage } from 'react-intl-phraseapp';
+import { formatMoney } from '@/utils/utils';
 
 const GiftList = ({ pitem }) => {
   return (
@@ -15,7 +14,7 @@ const GiftList = ({ pitem }) => {
             <LazyLoad>
               <img
                 className="product-image"
-                src={pitem.goodsInfoImg}
+                src={pitem.goodsInfoImg || IMG_DEFAULT}
                 alt={pitem.goodsInfoName}
               />
             </LazyLoad>
@@ -55,8 +54,8 @@ const GiftList = ({ pitem }) => {
               </div>
             </div>
             {/* <p className="text-right red mb-0">Gift Promotion</p> */}
-            <p className="text-right red mb-0" >
-              <FormattedMessage id='giftList'/>
+            <p className="text-right red mb-0">
+              <FormattedMessage id="giftList" />
             </p>
           </div>
         </div>
