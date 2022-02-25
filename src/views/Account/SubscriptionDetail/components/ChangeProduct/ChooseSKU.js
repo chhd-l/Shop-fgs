@@ -51,8 +51,7 @@ const ChooseSKU = ({ intl }) => {
   useEffect(() => {
     setSkuPromotions(0);
   }, [details?.goodsInfos]);
-  const isNotInactive =
-    subDetail.subscribeStatus === '0' || subDetail.subscribeStatus === '1';
+  const isNotInactive = subDetail.subscribeStatus !== 'INACTIVE';
   const matchGoods = (data, sizeList) => {
     let newDetails = Object.assign(details, {
       sizeList

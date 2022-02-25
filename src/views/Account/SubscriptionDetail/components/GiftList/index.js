@@ -11,9 +11,8 @@ const GiftList = ({
   isGift,
   changeTab
 }) => {
-  const isNotInactive =
-    subDetail.subscribeStatus === '0' || subDetail.subscribeStatus === '1';
-  const isActive = subDetail.subscribeStatus === '0';
+  const isNotInactive = subDetail.subscribeStatus !== 'INACTIVE';
+  const isActive = subDetail.subscribeStatus === 'ACTIVE';
   const handleSkipNext = (e, el) => {
     e.preventDefault();
     setState({

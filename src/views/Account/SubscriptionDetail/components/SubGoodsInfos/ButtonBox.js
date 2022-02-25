@@ -19,8 +19,7 @@ const ButtonBox = () => {
     triggerShowChangeProduct
   } = SubGoodsInfosValue;
   const isIndv = subDetail.subscriptionType == 'Individualization';
-  const isNotInactive =
-    subDetail.subscribeStatus === '0' || subDetail.subscribeStatus === '1';
+  const isNotInactive = subDetail.subscribeStatus !== 'INACTIVE';
   const pauseOrStart = async (subDetail) => {
     let subscribeStatus = '0';
     let subscribeStatusText = 'Restart Subscription';
@@ -29,7 +28,7 @@ const ButtonBox = () => {
       subscribeId: subDetail.subscribeId
     };
     //subscribeStatus 暂停传1 重启0
-    if (subDetail.subscribeStatus === '0') {
+    if (subDetail.subscribeStatus === 'ACTIVE') {
       subscribeStatus = '1';
       subscribeStatusText = 'Pause Subscription';
       action = pauseSubscription;
@@ -37,7 +36,7 @@ const ButtonBox = () => {
     param.subscribeStatus = subscribeStatus;
     setState({ loadingPage: true });
     try {
-      let res = await action(param);
+      await action(param);
       subscribeStatusText && myAccountActionPushEvent(subscribeStatusText);
       await getDetail();
     } catch (err) {
@@ -111,7 +110,7 @@ const ButtonBox = () => {
         ) : null}
         <br className="rc-md-up" />
         <div className="pause-btn flex items-center mx-4  mt-2">
-          {subDetail.subscribeStatus === '0' ? (
+          {subDetail.subscribeStatus === 'ACTIVE' ? (
             <em
               className="iconfont iconzanting font-bold pb-2 md:pb-1"
               style={{
@@ -136,7 +135,7 @@ const ButtonBox = () => {
             className={`rc-styled-link`}
             onClick={() => pauseOrStart(subDetail)}
           >
-            {subDetail.subscribeStatus === '0' ? (
+            {subDetail.subscribeStatus === 'ACTIVE' ? (
               <FormattedMessage id="subscription.pause" />
             ) : (
               <FormattedMessage id="subscription.restart" />

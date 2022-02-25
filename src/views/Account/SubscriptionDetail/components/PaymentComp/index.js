@@ -17,7 +17,8 @@ import Loading from '@/components/Loading';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import {
   PAYMENT_METHOD_PAU_ACCOUNT_RULE,
-  PAYMENT_METHOD_PAU_CHECKOUT_RULE
+  PAYMENT_METHOD_PAU_CHECKOUT_RULE,
+  LOGO_ADYEN_COD
 } from '@/utils/constant';
 import './index.css';
 import LazyLoad from 'react-lazyload';
@@ -51,27 +52,46 @@ function CardItem(props) {
       </div>
       <div className={`pt-4 md:pt-4 pb-2 w-100`}>
         <div className="row">
-          <div className={`col-4 d-flex flex-column justify-content-center`}>
-            <LazyLoad height={200}>
-              <img
-                className="PayCardImgFitScreen"
-                // style={{ height: '5rem' }}
-                src={getCardImg({
-                  supportPaymentMethods,
-                  currentVendor: data.paymentVendor
-                })}
-                alt="pay card img fit screen"
-              />
-            </LazyLoad>
-          </div>
-          <div className="col-6 pl-0 pr-0">
-            <p className="mb-0">{data.holderName}</p>
-            <p className="mb-0">
-              ************
-              {data.lastFourDigits}
-            </p>
-            <p className="mb-0">{data.paymentVendor}</p>
-          </div>
+          {data.cardType === 'cod' ? (
+            <div className={`col-12`}>
+              <div className="flex items-center">
+                <LazyLoad>
+                  <img src={LOGO_ADYEN_COD} className="w-10 mr-2" />
+                </LazyLoad>
+                <span>
+                  <FormattedMessage id="cashOnDelivery" />
+                </span>
+              </div>
+            </div>
+          ) : (
+            <>
+              <div
+                className={`col-4 d-flex flex-column justify-content-center`}
+              >
+                <LazyLoad height={200}>
+                  <img
+                    className="PayCardImgFitScreen w-100"
+                    // style={{ height: '5rem' }}
+                    src={getCardImg({
+                      supportPaymentMethods,
+                      currentVendor: data.paymentVendor
+                    })}
+                    alt="pay card img fit screen"
+                  />
+                </LazyLoad>
+              </div>
+              <div className="col-6 pl-0 pr-0">
+                <p className="mb-0">{data.holderName}</p>
+                {data.lastFourDigits ? (
+                  <p className="mb-0">
+                    ************
+                    {data.lastFourDigits}
+                  </p>
+                ) : null}
+                <p className="mb-0">{data.paymentVendor}</p>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
@@ -146,7 +166,7 @@ class PaymentComp extends React.Component {
       const supportPaymentMethods =
         payPspItemVOList[0]?.payPspItemCardTypeVOList || [];
       setSupportPaymentMethods(supportPaymentMethods);
-      serCurPayWayVal(supportPaymentMethods[0]?.code);
+      serCurPayWayVal(payPspItemVOList[0]?.code);
       this.setState(
         { defaultCardTypeVal: supportPaymentMethods[0]?.cardType },
         () => {
@@ -158,15 +178,13 @@ class PaymentComp extends React.Component {
     });
 
     await this.getPaymentMethodList();
-    if (this.state.creditCardList.length) {
-      this.state.creditCardList.forEach((el) => {
-        if (el.id === this.props.paymentId) {
-          el.selected = true;
-        }
-        // return el;
-      });
-    }
-    this.setState({ creditCardList: this.state.creditCardList });
+    // todo jp cod 存cod时，有paymentId吗
+    this.state.creditCardList.forEach((el) => {
+      if (el.id === this.props.paymentId) {
+        el.selected = true;
+      }
+      // return el;
+    });
   }
   get userInfo() {
     return this.props.loginStore.userInfo;
@@ -194,8 +212,26 @@ class PaymentComp extends React.Component {
     try {
       showLoading && this.setState({ listLoading: true });
       const res = await getPaymentMethod();
+      // todo jp cod 存在cod支付方式才显示，adyen cod待后端修改
+      const {
+        paymentStore: { payWayNameArr }
+      } = this.props;
+      let ret = res.context || [];
+      ret.forEach((el) => {
+        el.canDelete = true;
+      });
+      if (
+        payWayNameArr.find((p) => p.channel === 'ADYEN' && p.code === 'cod')
+      ) {
+        ret = ret.concat({
+          cardType: 'cod',
+          paymentVendor: 'cod',
+          canDelete: false
+        });
+      }
+
       this.setState({
-        creditCardList: res.context || []
+        creditCardList: ret
       });
       if (msg) {
         this.setState(
@@ -230,20 +266,6 @@ class PaymentComp extends React.Component {
   updateInitStatus = (val) => {
     this.setState({ inited: val });
   };
-  async getPaymentMethodList() {
-    this.setState({ listLoading: true });
-    try {
-      const res = await getPaymentMethod();
-      this.setState({ creditCardList: res.context || [] });
-    } catch (err) {
-      this.setState({ listErr: err.message.toString() });
-    } finally {
-      this.setState({
-        loading: false,
-        listLoading: false
-      });
-    }
-  }
   initCardInfo() {
     this.setState({
       creditCardInfoForm: {
@@ -701,7 +723,7 @@ class PaymentComp extends React.Component {
     const {
       needEmail,
       needPhone,
-      paymentStore: { supportPaymentMethods }
+      paymentStore: { supportPaymentMethods, curPayWayInfo }
     } = this.props;
     const { creditCardInfoForm, creditCardList, currentCardInfo } = this.state;
 
@@ -795,36 +817,40 @@ class PaymentComp extends React.Component {
                           <span
                             className={`position-relative p-2 ui-cursor-pointer-pure`}
                           >
-                            <span
-                              className="rc-styled-link"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                this.updateConfirmTooltipVisible(el, true);
-                              }}
-                            >
-                              <FormattedMessage id="delete" />
-                            </span>
-                            <ConfirmTooltip
-                              containerStyle={{
-                                transform: 'translate(-89%, 105%)'
-                              }}
-                              arrowStyle={{ left: '89%' }}
-                              display={el.confirmTooltipVisible}
-                              content={
-                                <FormattedMessage
-                                  id="confirmDelete2"
-                                  values={{
-                                    val1: <br />,
-                                    val2: '************' + el.lastFourDigits
+                            {el.canDelete ? (
+                              <>
+                                <span
+                                  className="rc-styled-link"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    this.updateConfirmTooltipVisible(el, true);
                                   }}
+                                >
+                                  <FormattedMessage id="delete" />
+                                </span>
+                                <ConfirmTooltip
+                                  containerStyle={{
+                                    transform: 'translate(-89%, 105%)'
+                                  }}
+                                  arrowStyle={{ left: '89%' }}
+                                  display={el.confirmTooltipVisible}
+                                  content={
+                                    <FormattedMessage
+                                      id="confirmDelete2"
+                                      values={{
+                                        val1: <br />,
+                                        val2: '************' + el.lastFourDigits
+                                      }}
+                                    />
+                                  }
+                                  confirm={(e) => this.deleteCard(el)}
+                                  updateChildDisplay={(status) =>
+                                    this.updateConfirmTooltipVisible(el, status)
+                                  }
                                 />
-                              }
-                              confirm={(e) => this.deleteCard(el)}
-                              updateChildDisplay={(status) =>
-                                this.updateConfirmTooltipVisible(el, status)
-                              }
-                            />
+                              </>
+                            ) : null}
                           </span>
                         </>
                       }
@@ -891,6 +917,7 @@ class PaymentComp extends React.Component {
             needPhone={this.props.needPhone}
             paymentStore={this.props.paymentStore}
             onCardTypeValChange={this.onCardTypeValChange}
+            key={curPayWayInfo?.code}
           />
         ) : null}
       </div>
