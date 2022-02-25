@@ -83,6 +83,13 @@ export function handleOrderItem(ele, res) {
     canReturnOrExchange:
       tradeState.deliverStatus === 'SHIPPED' &&
       tradeState.flowState === 'COMPLETED',
-    canCancelOrderForJP: false
+    //japan cancel order
+    canCancelOrderForJP:
+      ['jp'].includes(window.__.env.REACT_APP_COUNTRY) &&
+      new Date(handleDateForIos(res.defaultLocalDateTime)).getTime() <
+        new Date(handleDateForIos(ele.orderTimeOut)).getTime() &&
+      ((ele?.payWay.toUpperCase() === 'COD' &&
+        tradeState.flowState === 'INIT') ||
+        (ele?.payWay.toUpperCase() === 'COD' && tradeState.payState === 'PAID'))
   });
 }

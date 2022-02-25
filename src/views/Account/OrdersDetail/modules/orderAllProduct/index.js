@@ -11,14 +11,34 @@ import { IMG_DEFAULT } from '@/utils/constant';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 
-const OrderAllProduct = ({
-  details,
-  welcomeGiftLists,
-  orderNumberForOMS,
-  renderOperationBtns
-}) => {
+//felin订单操作按钮显示
+const renderOperationBtns = (details) => {
   return (
-    <div className="order-list-container">
+    <>
+      {/*服务类产品评论*/}
+      {details?.canReviewService ? (
+        <button className="rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn">
+          <FormattedMessage id="writeReview">
+            {(txt) => (
+              <Link
+                className="color-fff"
+                to={`/account/productReviewService/${details.id}`}
+                title={txt}
+                alt={txt}
+              >
+                {txt}
+              </Link>
+            )}
+          </FormattedMessage>
+        </button>
+      ) : null}
+    </>
+  );
+};
+
+const OrderAllProduct = ({ details, welcomeGiftLists, orderNumberForOMS }) => {
+  return (
+    <div className="order-list-container order__listing text-left">
       {details.tradeItems
         .concat(details.gifts)
         .concat(welcomeGiftLists)
@@ -170,7 +190,7 @@ const OrderAllProduct = ({
                         : item.subscriptionPrice * item.num
                     )
                   : details?.appointmentNo
-                  ? renderOperationBtns
+                  ? renderOperationBtns(details)
                   : formatMoney(item.originalPrice * item.num)}
               </div>
             </div>
