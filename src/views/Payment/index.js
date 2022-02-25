@@ -37,7 +37,8 @@ import {
   validData,
   bindSubmitParam,
   getAppointmentInfo,
-  formatDate
+  formatDate,
+  optimizeImage
 } from '@/utils/utils';
 import { seoHoc } from '@/framework/common';
 import { EMAIL_REGEXP } from '@/utils/constant';
@@ -3560,7 +3561,9 @@ class Payment extends React.Component {
                     {item.paymentTypeVal === 'convenience_store' && (
                       <div className="flex">
                         <img
-                          src={convenienceStoreLogo}
+                          src={
+                            'https://fgs-cdn.azureedge.net/cdn/img/payment/logo-convenience-store.svg'
+                          }
                           className="w-8 h-8 mr-5"
                         />
                       </div>
