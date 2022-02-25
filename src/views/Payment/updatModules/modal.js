@@ -1,7 +1,5 @@
 import React from 'react';
 import './index.less';
-import yes from '../../Felin2/image/yes.png';
-import no from '../../Felin2/image/no.png';
 import { EMAIL_REGEXP } from '@/utils/constant';
 
 class MyModal extends React.Component {

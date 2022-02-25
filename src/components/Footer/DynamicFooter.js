@@ -49,17 +49,14 @@ const DynamicFooter = ({ configStore, intl }) => {
                 style={{ fontSize: '0' }}
               >
                 {logos.map((img, i) => (
-                  <LazyLoad
-                    key={i}
-                    className={`mb-2 ${(i + 1) % 4 == 0 ? '' : 'mr-2'}`}
-                  >
+                  <LazyLoad key={i} className={`mb-2 mr-2`}>
                     <img
                       src={optimizeImage({
                         originImageUrl: img.imgUrl,
                         width: 80
                       })}
                       alt={i}
-                      style={{ width: '2.7rem' }}
+                      style={{ maxWidth: '2.7rem', maxHeight: '2rem' }}
                     />
                   </LazyLoad>
                 ))}
