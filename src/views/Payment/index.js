@@ -41,7 +41,7 @@ import {
   optimizeImage
 } from '@/utils/utils';
 import { seoHoc } from '@/framework/common';
-import { EMAIL_REGEXP } from '@/utils/constant';
+import { EMAIL_REGEXP, LOGO_ADYEN_COD } from '@/utils/constant';
 import { userBindConsent } from '@/api/consent';
 import {
   postVisitorRegisterAndLogin,
@@ -148,13 +148,13 @@ function CreditCardInfoPreview({
   );
 }
 
-const AdyenCreditCardPic = ({ supportPaymentMethods }) => (
+const SupportPaymentMethodsPic = ({ supportPaymentMethods }) => (
   <p>
-    <span className="logo-payment-card-list logo-credit-card ml-0 mr-0 md:mr-5">
+    <span className="logo-payment-card-list logo-credit-card">
       {supportPaymentMethods.map((el, idx) => (
         <LazyLoad key={idx}>
           <img
-            className="logo-payment-card mr-1 w-7 md:w-10"
+            className="logo-payment-card mr-1 w-7 max-h-8 md:w-10"
             src={el.imgUrl}
             alt={el.cardType}
           />
@@ -1039,46 +1039,32 @@ class Payment extends React.Component {
       }
       let payWayNameArr = [];
       if (payWay.context) {
-        if (window.__.env.REACT_APP_COUNTRY === 'jp') {
-          payWayNameArr = (payWay.context.payPspItemVOList || [])
-            .map((p) => {
-              // if(p.channel == 'ADYEN' && P.code == 'COD'){
-              //   return {...p,{code: 'adyen_code'}}
-              // }
-              //return Object.assign({}, p, {code: 'adyen_cod'})
-
-              let tmp = {};
-              if (p.channel == 'ADYEN' && p.code == 'cod') {
-                tmp = Object.assign({}, p, {
-                  code: 'adyen_cod',
-                  name: 'adyen_cod'
-                });
-              } else {
-                tmp = p;
-              }
-              return tmp;
-            })
-            .map((p) => {
-              const tmp =
-                payMethodsObj[p.code] || payMethodsObj[p.code.toUpperCase()];
-              return tmp ? Object.assign({}, tmp, p) : tmp;
-            });
-        } else {
-          // 筛选条件: 1.开关开启 2.订阅购买时, 排除不支持订阅的支付方式 3.cod时, 是否超过限制价格
-          payWayNameArr = (payWay.context.payPspItemVOList || [])
-            .map((p) => {
-              const tmp =
-                payMethodsObj[p.code] || payMethodsObj[p.code.toUpperCase()];
-              return tmp ? Object.assign({}, tmp, p) : tmp;
-            })
-            .filter((e) => e)
-            .filter(
-              (e) =>
-                e.isOpen &&
-                (!this.isCurrentBuyWaySubscription || e.supportSubscription) &&
-                (e.code !== 'cod' || this.tradePrice <= e.maxAmount)
-            );
-        }
+        // 筛选条件: 1.开关开启 2.订阅购买时, 排除不支持订阅的支付方式 3.cod时, 是否超过限制价格
+        payWayNameArr = (payWay.context.payPspItemVOList || [])
+          .map((p) => {
+            // todo 待删除 待后台修改adyen cod的code
+            // 特殊处理adyen cod
+            let tmp = p;
+            if (p.channel == 'ADYEN' && p.code == 'cod') {
+              tmp = Object.assign({}, p, {
+                code: 'adyen_cod',
+                name: 'adyen_cod'
+              });
+            }
+            return tmp;
+          })
+          .map((p) => {
+            const tmp =
+              payMethodsObj[p.code] || payMethodsObj[p.code.toUpperCase()];
+            return tmp ? Object.assign({}, tmp, p) : tmp;
+          })
+          .filter((e) => e)
+          .filter(
+            (e) =>
+              e.isOpen &&
+              (!this.isCurrentBuyWaySubscription || e.supportSubscription) &&
+              (e.code !== 'cod' || this.tradePrice <= e.maxAmount)
+          );
       }
 
       //默认第一个,如没有支付方式,就不初始化方法
@@ -1435,6 +1421,11 @@ class Payment extends React.Component {
             payPspItemEnum: 'PAYU_RUSSIA_COD'
           });
         },
+        adyen_cod: () => {
+          parameters = Object.assign(commonParameter, {
+            payPspItemEnum: 'PAYU_RUSSIA_COD'
+          });
+        },
         adyenCard: () => {
           const { adyenPayParam } = this.state;
           parameters = Object.assign(commonParameter, {
@@ -1746,6 +1737,7 @@ class Payment extends React.Component {
         case 'payUCreditCardTU':
         case 'payUCreditCard':
         case 'cod':
+        case 'adyen_cod':
           subOrderNumberList = tidList.length
             ? tidList
             : res.context && res.context.tidList;
@@ -3445,7 +3437,7 @@ class Payment extends React.Component {
     // 未勾选same as billing时，校验billing addr
     const validForBilling = !billingChecked && !validSts.billingAddr;
 
-    const payConfirmBtn = ({ disabled, loading = false }) => {
+    const payConfirmBtn = ({ disabled, loading = false } = {}) => {
       return (
         <div className="d-flex justify-content-end mt-3 rc_btn_payment_confirm">
           <button
@@ -3526,12 +3518,14 @@ class Payment extends React.Component {
             <>
               {payWayNameArr.map((item, index) => (
                 <>
+                  {/* 选择支付方式横条 */}
                   <div
-                    className={`flex justify-between items-center text-grey-400 w-full border rounded-md pl-5 py-2 my-4 cursor-pointer ${
+                    className={cn(
+                      'flex justify-between items-center text-grey-400 w-full border rounded-md pl-5 pr-2 py-2 my-4 cursor-pointer',
                       paymentTypeVal === item.paymentTypeVal
                         ? 'border-green'
-                        : 'border-gray-300 '
-                    }`}
+                        : 'border-gray-300'
+                    )}
                     key={index}
                     onClick={() =>
                       this.handlePaymentTypeClick(item.paymentTypeVal)
@@ -3542,40 +3536,14 @@ class Payment extends React.Component {
                         <FormattedMessage id={item.langKey} />
                       ) : null}
                     </div>
-
                     {/* adyenCard 支持卡的类型logo */}
-                    {item.paymentTypeVal === 'adyenCard' &&
-                      supportPaymentMethods.length > 0 && (
-                        <AdyenCreditCardPic
-                          supportPaymentMethods={supportPaymentMethods}
-                        />
-                      )}
-
-                    {/* adyenPaypal的logo */}
-                    {item.paymentTypeVal === 'adyenPaypal' && (
-                      <div className="flex">
-                        <img src={paypalLogo} className="w-24 mr-5" />
-                      </div>
-                    )}
-                    {/* adyenPaypal的logo */}
-                    {item.paymentTypeVal === 'convenience_store' && (
-                      <div className="flex">
-                        <img
-                          src={
-                            'https://fgs-cdn.azureedge.net/cdn/img/payment/logo-convenience-store.svg'
-                          }
-                          className="w-8 h-8 mr-5"
-                        />
-                      </div>
-                    )}
-                    {/* adyen swish的logo */}
-                    {item.paymentTypeVal === 'adyen_swish' && (
-                      <div>
-                        <img src={swishLogo} className="w-12 md:w-20 mr-5" />
-                      </div>
+                    {item?.payPspItemCardTypeVOList.length > 0 && (
+                      <SupportPaymentMethodsPic
+                        supportPaymentMethods={item.payPspItemCardTypeVOList}
+                      />
                     )}
                   </div>
-                  {/* adyenCreditCard */}
+                  {/* 选择了某种支付方式后，当前支付方式的详情页 */}
                   {item.paymentTypeVal === 'adyenCard' &&
                     paymentTypeVal === 'adyenCard' && (
                       <>
@@ -3595,15 +3563,6 @@ class Payment extends React.Component {
                             type: 'adyenCard'
                           })}
                         />
-                        {/* 校验状态
-              1 卡校验，从adyen form传入校验状态
-              2 billing校验 */}
-                        {/* {payConfirmBtn({
-                        disabled: !validSts.adyenCard || validForBilling,
-                        loading: saveBillingLoading,
-                        aaa: validSts,
-                        bbb: validForBilling
-                      })} */}
                       </>
                     )}
                   {item.paymentTypeVal === 'adyenPaypal' &&
@@ -3614,9 +3573,6 @@ class Payment extends React.Component {
                             type: 'adyen_paypal'
                           })}
                         />
-                        {/* {payConfirmBtn({
-                        disabled: validForBilling
-                      })} */}
                       </>
                     )}
                   {item.paymentTypeVal === 'convenience_store' &&
@@ -3638,12 +3594,6 @@ class Payment extends React.Component {
                             type: 'adyen_swish'
                           })}
                         />
-                        {/* {payConfirmBtn({
-                        // disabled:
-                        //   !seTelephoneCheck.test(swishPhone.split(' ').join('')) ||
-                        //   validForBilling
-                        disabled: validForBilling
-                      })} */}
                       </>
                     )}
                 </>
@@ -3670,6 +3620,7 @@ class Payment extends React.Component {
             payConfirmBtn({
               disabled: !this.state.convenienceStore
             })}
+          {paymentTypeVal === 'adyen_cod' && payConfirmBtn()}
           {/* ***********************支付选项卡的内容start******************************* */}
           {payWayErr ? (
             payWayErr
@@ -4009,6 +3960,18 @@ class Payment extends React.Component {
         ret = (
           <div className="col-12 col-md-6">
             <img src={swishLogo} className="w-24 ml-8" />
+          </div>
+        );
+        break;
+      case 'adyen_cod':
+        ret = (
+          <div className="col-12 col-md-6 flex items-center pt-1 pb-3">
+            <LazyLoad>
+              <img src={LOGO_ADYEN_COD} className="w-10 ml-8 mr-2" />
+            </LazyLoad>
+            <span className="font-medium">
+              <FormattedMessage id="cashOnDelivery" />
+            </span>
           </div>
         );
         break;
