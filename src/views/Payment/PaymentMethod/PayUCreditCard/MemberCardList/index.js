@@ -974,6 +974,7 @@ class MemberCardList extends React.Component {
                                         'cardNumber'
                                       )}
                                       id="cardNumber"
+                                      autocomplete="off"
                                       value={creditCardInfoForm.cardNumber
                                         .replace(/\s/g, '')
                                         .replace(/(\d{4})(?=\d)/g, '$1 ')}
@@ -1028,6 +1029,7 @@ class MemberCardList extends React.Component {
                       >
                         <input
                           type="tel"
+                          autocomplete="off"
                           className={formListInputColor(
                             'rc-text-colour--iconography font-thin form-control phone border border-gray-300 rounded-md h-10 pl-3 py-0 placeholder-gray-300',
                             'cardMmyy'
@@ -1067,7 +1069,7 @@ class MemberCardList extends React.Component {
                       >
                         <input
                           type="password"
-                          autoComplete="new-password"
+                          autocomplete="off"
                           className={formListInputColor(
                             'rc-text-colour--iconography font-thin form-control phone  rounded-md h-10 pl-3 py-0 placeholder-gray-300',
                             'cardCvv'
