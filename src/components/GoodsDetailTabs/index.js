@@ -509,13 +509,22 @@ const GoodsDetailTabs = function (props) {
                     })
                     .join('');
                 } else {
-                  ret = parsedContent
-                    .map((ele) => {
-                      return `<p>
-            <div class="content">${Object.values(ele)[0]}</div>
-          </p>`;
-                    })
-                    .join('');
+                  const ParnutsStatement =
+                    parsedContent
+                      .map((ele) => {
+                        return ele['Parnuts Statement'];
+                      })
+                      .filter((e) => e)[0] || '';
+                  const composition =
+                    parsedContent
+                      .map((ele) => {
+                        return ele['composition'];
+                      })
+                      .filter((e) => e)[0] || '';
+                  ret = `<p>
+                  <div class="content" style="font-weight: 400">${ParnutsStatement}</div>
+                  <div class="content">${composition}</div>
+                </p>`;
                 }
                 break;
               case 'Guide':
