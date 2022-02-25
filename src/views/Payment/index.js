@@ -1035,47 +1035,32 @@ class Payment extends React.Component {
       }
       let payWayNameArr = [];
       if (payWay.context) {
-        // todo 待删除 待后台修改adyen cod的code
-        if (window.__.env.REACT_APP_COUNTRY === 'jp') {
-          payWayNameArr = (payWay.context.payPspItemVOList || [])
-            .map((p) => {
-              // if(p.channel == 'ADYEN' && P.code == 'COD'){
-              //   return {...p,{code: 'adyen_code'}}
-              // }
-              //return Object.assign({}, p, {code: 'adyen_cod'})
-
-              let tmp = {};
-              if (p.channel == 'ADYEN' && p.code == 'cod') {
-                tmp = Object.assign({}, p, {
-                  code: 'adyen_cod',
-                  name: 'adyen_cod'
-                });
-              } else {
-                tmp = p;
-              }
-              return tmp;
-            })
-            .map((p) => {
-              const tmp =
-                payMethodsObj[p.code] || payMethodsObj[p.code.toUpperCase()];
-              return tmp ? Object.assign({}, tmp, p) : tmp;
-            });
-        } else {
-          // 筛选条件: 1.开关开启 2.订阅购买时, 排除不支持订阅的支付方式 3.cod时, 是否超过限制价格
-          payWayNameArr = (payWay.context.payPspItemVOList || [])
-            .map((p) => {
-              const tmp =
-                payMethodsObj[p.code] || payMethodsObj[p.code.toUpperCase()];
-              return tmp ? Object.assign({}, tmp, p) : tmp;
-            })
-            .filter((e) => e)
-            .filter(
-              (e) =>
-                e.isOpen &&
-                (!this.isCurrentBuyWaySubscription || e.supportSubscription) &&
-                (e.code !== 'cod' || this.tradePrice <= e.maxAmount)
-            );
-        }
+        // 筛选条件: 1.开关开启 2.订阅购买时, 排除不支持订阅的支付方式 3.cod时, 是否超过限制价格
+        payWayNameArr = (payWay.context.payPspItemVOList || [])
+          .map((p) => {
+            // todo 待删除 待后台修改adyen cod的code
+            // 特殊处理adyen cod
+            let tmp = p;
+            if (p.channel == 'ADYEN' && p.code == 'cod') {
+              tmp = Object.assign({}, p, {
+                code: 'adyen_cod',
+                name: 'adyen_cod'
+              });
+            }
+            return tmp;
+          })
+          .map((p) => {
+            const tmp =
+              payMethodsObj[p.code] || payMethodsObj[p.code.toUpperCase()];
+            return tmp ? Object.assign({}, tmp, p) : tmp;
+          })
+          .filter((e) => e)
+          .filter(
+            (e) =>
+              e.isOpen &&
+              (!this.isCurrentBuyWaySubscription || e.supportSubscription) &&
+              (e.code !== 'cod' || this.tradePrice <= e.maxAmount)
+          );
       }
 
       //默认第一个,如没有支付方式,就不初始化方法
@@ -3993,7 +3978,7 @@ class Payment extends React.Component {
         break;
       case 'adyen_cod':
         ret = (
-          <div className="col-12 col-md-6 flex items-center py-1">
+          <div className="col-12 col-md-6 flex items-center pt-1 pb-3">
             <LazyLoad>
               <img src={LOGO_ADYEN_COD} className="w-10 ml-8 mr-2" />
             </LazyLoad>
