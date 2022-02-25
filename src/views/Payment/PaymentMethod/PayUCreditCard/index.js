@@ -702,6 +702,7 @@ class PayOs extends React.Component {
                                           >
                                             <input
                                               type="tel"
+                                              autocomplete="off"
                                               className={formListInputColor(
                                                 'form-control email h-10 pl-3 py-0 border border-gray-300 rounded-md placeholder-gray-300',
                                                 'cardNumber'
@@ -768,6 +769,7 @@ class PayOs extends React.Component {
                               >
                                 <input
                                   type="tel"
+                                  autocomplete="off"
                                   className={formListInputColor(
                                     'rc-text-colour--iconography font-thin form-control  phone border border-gray-300 rounded-md h-10 pl-3 py-0 placeholder-gray-300',
                                     'cardMmyy'
@@ -807,7 +809,7 @@ class PayOs extends React.Component {
                               >
                                 <input
                                   type="password"
-                                  autoComplete="new-password"
+                                  autocomplete="off"
                                   className={formListInputColor(
                                     'form-control phone  rounded-md h-10 pl-3 py-0 placeholder-gray-300',
                                     'cardCvv'
