@@ -37,7 +37,8 @@ import {
   validData,
   bindSubmitParam,
   getAppointmentInfo,
-  formatDate
+  formatDate,
+  optimizeImage
 } from '@/utils/utils';
 import { seoHoc } from '@/framework/common';
 import { EMAIL_REGEXP, LOGO_ADYEN_COD } from '@/utils/constant';
