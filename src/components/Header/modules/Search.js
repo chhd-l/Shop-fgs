@@ -15,7 +15,7 @@ import {
   GAInstantSearchFieldClick,
   GAInstantSearchResultDisplay,
   GAInstantSearchResultClick
-} from '@/utils/GA.js';
+} from '@/utils/GA';
 
 const isHub = window.__.env.REACT_APP_HUB;
 let sessionItemRoyal = window.__.sessionItemRoyal;
