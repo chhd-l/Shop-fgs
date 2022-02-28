@@ -35,7 +35,9 @@ const fetchDynamicConfig = async () => {
           process.env.REACT_APP_ACCESS_PATH || oktaSettingConfig.domainName;
         envVal = Object.assign(envVal, {
           REACT_APP_ACCESS_PATH: domainName,
-          REACT_APP_CLIENT_ID: decryptString(oktaSettingConfig.clientId),
+          REACT_APP_CLIENT_ID: oktaSettingConfig.clientId
+            ? decryptString(oktaSettingConfig.clientId)
+            : '',
           REACT_APP_ISSUER: `${oktaSettingConfig.oktaDomain.replace(
             /\/$/gi,
             ''
