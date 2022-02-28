@@ -5,3 +5,6 @@ export { default as CancelOrderModal } from './cancelOrderModal/index';
 export { default as CancelOrderSuccessModal } from './cancelOrderModal/successModal';
 export { default as OrderHeaderInfo } from './orderHeaderInfo';
 export { default as OrderHeadTip } from './orderHeadTip';
+export { default as OrderProgress } from './orderProgress';
+export { default as OrderLogisticsProgress } from './orderProgress/logisticsProgress';
+export { default as CancelOrderForJp } from './cancelOrderForJp';
