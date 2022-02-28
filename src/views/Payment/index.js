@@ -340,7 +340,9 @@ class Payment extends React.Component {
       paymentPanelHasComplete: false, //增加payment面板按钮的状态，方便0元订单判断是否已经填写完payment面板
       isFromFelin: false, //是否是felin下单
       appointNo: null, //felin的预约单号
-      convenienceStore: ''
+      convenienceStore: '',
+      paypalDetailsChecked: true,
+      paypalMethodDefaultChecked: true
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
@@ -2541,6 +2543,18 @@ class Payment extends React.Component {
     });
   };
 
+  //paypalDetailsToAccount
+  updatePaypalDetailsToAccount = (val) => {
+    this.setState({
+      paypalDetailsChecked: val
+    });
+  };
+  //paypalMethodDefault
+  updatePaypalMethodDefault = (val) => {
+    this.setState({
+      paypalMethodDefaultChecked: val
+    });
+  };
   // 是否勾选自定义billingAddress
   updateSameAsCheckBoxVal = (val) => {
     const curPanelKey = 'billingAddr';
@@ -2872,6 +2886,8 @@ class Payment extends React.Component {
         <SameAsCheckbox
           initVal={billingChecked}
           updateSameAsCheckBoxVal={this.updateSameAsCheckBoxVal}
+          updatePaypalDetailsToAccount={this.updatePaypalDetailsToAccount}
+          updatePaypalMethodDefault={this.updatePaypalMethodDefault}
           type={type}
         />
 
