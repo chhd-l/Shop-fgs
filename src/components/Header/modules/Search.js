@@ -526,6 +526,8 @@ export default class Search extends React.Component {
                         autoComplete="off"
                         placeholder={txt}
                         value={keywords}
+                        onBlur={this.hanldeSearchBlur}
+                        onFocus={this.hanldeSearchFocus}
                         onChange={this.handleSearchInputChange}
                       />
                     )}
@@ -539,9 +541,11 @@ export default class Search extends React.Component {
                   aria-label="Close"
                   onClick={this.hanldeSearchCloseClick}
                 />
-                <div className="suggestions-wrapper">
-                  {this.renderResultJsx()}
-                </div>
+                {!hiddenResult ? (
+                  <div className="suggestions-wrapper">
+                    {this.renderResultJsx()}
+                  </div>
+                ) : null}
               </form>
             </div>
             <div className="rc-sm-down">
