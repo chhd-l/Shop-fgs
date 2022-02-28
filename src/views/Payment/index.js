@@ -340,7 +340,9 @@ class Payment extends React.Component {
       paymentPanelHasComplete: false, //增加payment面板按钮的状态，方便0元订单判断是否已经填写完payment面板
       isFromFelin: false, //是否是felin下单
       appointNo: null, //felin的预约单号
-      convenienceStore: ''
+      convenienceStore: '',
+      paypalDetailsChecked: true,
+      paypalMethodDefaultChecked: true
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
@@ -1016,9 +1018,9 @@ class Payment extends React.Component {
           paymentTypeVal: 'adyen_swish'
         },
         adyen_convenience_store: {
-          name: 'convenience_store',
+          name: 'adyen_convenience_store',
           langKey: 'Convenience Store',
-          paymentTypeVal: 'convenience_store'
+          paymentTypeVal: 'adyen_convenience_store'
         }
       };
       if (
@@ -1484,7 +1486,8 @@ class Payment extends React.Component {
         },
         adyen_convenience_store: () => {
           parameters = Object.assign(commonParameter, {
-            payPspItemEnum: 'ADYEN_CONVENIENCE_STORE'
+            payPspItemEnum: 'ADYEN_CONVENIENCE_STORE',
+            adyenType: 'convenience store'
           });
         }
       };
@@ -2229,7 +2232,12 @@ class Payment extends React.Component {
           sessionItemRoyal.get('goodWillFlag') === 'GOOD_WILL' ? 1 : 0,
         isApptChange: Boolean(sessionItemRoyal.get('isChangeAppoint')),
         oldAppointNo: sessionItemRoyal.get('oldAppointNo'),
-        paymentMethodIdFlag: addCardDirectToPayFlag
+        paymentMethodIdFlag: addCardDirectToPayFlag,
+        adyenConvenienceStorePayType:
+          this.state.convenienceStore === 'Seven-Eleven'
+            ? 'econtext_seven_eleven'
+            : 'econtext_stores',
+        adyenConvenienceStoreName: this.state.convenienceStore
       },
       appointParam
     );
@@ -2524,6 +2532,18 @@ class Payment extends React.Component {
     });
   };
 
+  //paypalDetailsToAccount
+  updatePaypalDetailsToAccount = (val) => {
+    this.setState({
+      paypalDetailsChecked: val
+    });
+  };
+  //paypalMethodDefault
+  updatePaypalMethodDefault = (val) => {
+    this.setState({
+      paypalMethodDefaultChecked: val
+    });
+  };
   // 是否勾选自定义billingAddress
   updateSameAsCheckBoxVal = (val) => {
     const curPanelKey = 'billingAddr';
@@ -3568,11 +3588,18 @@ class Payment extends React.Component {
                           billingJSX={this.renderBillingJSX({
                             type: 'adyen_paypal'
                           })}
+                          updatePaypalDetailsToAccount={
+                            this.updatePaypalDetailsToAccount
+                          }
+                          updatePaypalMethodDefault={
+                            this.updatePaypalMethodDefault
+                          }
+                          isLogin={this.isLogin}
                         />
                       </>
                     )}
-                  {item.paymentTypeVal === 'convenience_store' &&
-                    paymentTypeVal === 'convenience_store' && (
+                  {item.paymentTypeVal === 'adyen_convenience_store' &&
+                    paymentTypeVal === 'adyen_convenience_store' && (
                       <>
                         <ConvenienceStore
                           convenienceStoreChange={(value) => {
@@ -3612,7 +3639,7 @@ class Payment extends React.Component {
             payConfirmBtn({
               disabled: validForBilling
             })}
-          {paymentTypeVal === 'convenience_store' &&
+          {paymentTypeVal === 'adyen_convenience_store' &&
             payConfirmBtn({
               disabled: !this.state.convenienceStore
             })}
@@ -3943,7 +3970,7 @@ class Payment extends React.Component {
           </div>
         );
         break;
-      case 'convenience_store':
+      case 'adyen_convenience_store':
         ret = (
           <div className="col-12 col-md-6">
             <ConvenienceStorePayReview
