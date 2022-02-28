@@ -2886,8 +2886,6 @@ class Payment extends React.Component {
         <SameAsCheckbox
           initVal={billingChecked}
           updateSameAsCheckBoxVal={this.updateSameAsCheckBoxVal}
-          updatePaypalDetailsToAccount={this.updatePaypalDetailsToAccount}
-          updatePaypalMethodDefault={this.updatePaypalMethodDefault}
           type={type}
         />
 
@@ -3601,6 +3599,13 @@ class Payment extends React.Component {
                           billingJSX={this.renderBillingJSX({
                             type: 'adyen_paypal'
                           })}
+                          updatePaypalDetailsToAccount={
+                            this.updatePaypalDetailsToAccount
+                          }
+                          updatePaypalMethodDefault={
+                            this.updatePaypalMethodDefault
+                          }
+                          isLogin={this.isLogin}
                         />
                       </>
                     )}

@@ -3,21 +3,14 @@ import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 
-const localItemRoyal = window.__.localItemRoyal;
-
 @inject('loginStore')
 @observer
 class SameAsCheckbox extends React.Component {
   static defaultProps = { type: '', initVal: false };
-  get isLogin() {
-    return this.props.loginStore.isLogin;
-  }
   constructor(props) {
     super(props);
     this.state = {
       billingChecked: this.props.initVal,
-      paypalDetailsChecked: true,
-      paypalMethodDefaultChecked: true,
       toolTipVisible: false
     };
     this.updateoolTipVisible = this.updateoolTipVisible.bind(this);
@@ -30,28 +23,6 @@ class SameAsCheckbox extends React.Component {
       }
     );
   };
-  paypalDetailsChange = () => {
-    this.setState(
-      {
-        paypalDetailsChecked: !this.state.paypalDetailsChecked
-      },
-      () => {
-        this.props.updatePaypalDetailsToAccount(
-          this.state.paypalDetailsChecked
-        );
-      }
-    );
-  };
-  paypalMethodDefaultChange = () => {
-    this.setState(
-      {
-        paypalMethodDefaultChecked: !this.state.paypalMethodDefaultChecked
-      },
-      () => {
-        this.props.updatePaypalMethodDefault(this.paypalMethodDefaultChecked);
-      }
-    );
-  };
   updateoolTipVisible(status) {
     this.setState({
       toolTipVisible: status
@@ -59,45 +30,8 @@ class SameAsCheckbox extends React.Component {
   }
   render() {
     const { type } = this.props;
-    const { isLogin } = this;
-    const country = window.__.env.REACT_APP_COUNTRY;
     return (
       <div className="rc-margin-top--xs fit-mobile-billingCheckbox d-flex flex-wrap justify-content-between">
-        {country === 'fr' && type == 'adyen_paypal' && isLogin ? (
-          <>
-            <div className="rc-input rc-input--inline mw-100">
-              <input
-                className="rc-input__checkbox"
-                id={`id-checkbox-paypal_details-${type}`}
-                type="checkbox"
-                onChange={this.paypalDetailsChange}
-                checked={this.state.paypalDetailsChecked}
-              />
-              <label
-                className="rc-input__label--inline"
-                htmlFor={`id-checkbox-paypal_details-${type}`}
-              >
-                <FormattedMessage id="paypalDetailsLabel" />
-              </label>
-            </div>
-            <div className="rc-input rc-input--inline mw-100">
-              <input
-                className="rc-input__checkbox"
-                id={`id-checkbox-paypal_method_default-${type}`}
-                type="checkbox"
-                onChange={this.paypalMethodDefaultChange}
-                checked={this.state.paypalMethodDefaultChecked}
-              />
-              <label
-                className="rc-input__label--inline"
-                htmlFor={`id-checkbox-paypal_method_default-${type}`}
-              >
-                <FormattedMessage id="paypalMethodDefaultLabel" />
-              </label>
-            </div>
-          </>
-        ) : null}
-
         <div className="rc-input rc-input--inline mw-100">
           <input
             className="rc-input__checkbox"
