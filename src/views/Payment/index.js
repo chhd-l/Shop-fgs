@@ -1018,9 +1018,9 @@ class Payment extends React.Component {
           paymentTypeVal: 'adyen_swish'
         },
         adyen_convenience_store: {
-          name: 'convenience_store',
+          name: 'adyen_convenience_store',
           langKey: 'Convenience Store',
-          paymentTypeVal: 'convenience_store'
+          paymentTypeVal: 'adyen_convenience_store'
         }
       };
       if (
@@ -1498,7 +1498,8 @@ class Payment extends React.Component {
         },
         adyen_convenience_store: () => {
           parameters = Object.assign(commonParameter, {
-            payPspItemEnum: 'ADYEN_CONVENIENCE_STORE'
+            payPspItemEnum: 'ADYEN_CONVENIENCE_STORE',
+            adyenType: 'convenience store'
           });
         }
       };
@@ -2243,7 +2244,12 @@ class Payment extends React.Component {
           sessionItemRoyal.get('goodWillFlag') === 'GOOD_WILL' ? 1 : 0,
         isApptChange: Boolean(sessionItemRoyal.get('isChangeAppoint')),
         oldAppointNo: sessionItemRoyal.get('oldAppointNo'),
-        paymentMethodIdFlag: addCardDirectToPayFlag
+        paymentMethodIdFlag: addCardDirectToPayFlag,
+        adyenConvenienceStorePayType:
+          this.state.convenienceStore === 'Seven-Eleven'
+            ? 'econtext_seven_eleven'
+            : 'econtext_stores',
+        adyenConvenienceStoreName: this.state.convenienceStore
       },
       appointParam
     );
@@ -3609,8 +3615,8 @@ class Payment extends React.Component {
                         />
                       </>
                     )}
-                  {item.paymentTypeVal === 'convenience_store' &&
-                    paymentTypeVal === 'convenience_store' && (
+                  {item.paymentTypeVal === 'adyen_convenience_store' &&
+                    paymentTypeVal === 'adyen_convenience_store' && (
                       <>
                         <ConvenienceStore
                           convenienceStoreChange={(value) => {
@@ -3650,7 +3656,7 @@ class Payment extends React.Component {
             payConfirmBtn({
               disabled: validForBilling
             })}
-          {paymentTypeVal === 'convenience_store' &&
+          {paymentTypeVal === 'adyen_convenience_store' &&
             payConfirmBtn({
               disabled: !this.state.convenienceStore
             })}
@@ -3981,7 +3987,7 @@ class Payment extends React.Component {
           </div>
         );
         break;
-      case 'convenience_store':
+      case 'adyen_convenience_store':
         ret = (
           <div className="col-12 col-md-6">
             <ConvenienceStorePayReview
