@@ -6,14 +6,12 @@ import { Link } from 'react-router-dom';
 import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
-import Modal from '@/components/Modal';
 import BannerTip from '@/components/BannerTip';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { judgeIsIndividual, formatDate } from '@/utils/utils';
 import findIndex from 'lodash/findIndex';
-import find from 'lodash/find';
-import { getOrderDetails, getPayRecord, returnFindByTid } from '@/api/order';
-import { cancelOrder, queryLogistics, cancelOrderForJapan } from '@/api/order';
+import { getOrderDetails, getPayRecord } from '@/api/order';
+import { queryLogistics } from '@/api/order';
 import { IMG_DEFAULT } from '@/utils/constant';
 import './index.less';
 import LazyLoad from 'react-lazyload';
@@ -29,129 +27,11 @@ import {
   OrderAllPrice,
   OrderAllProduct,
   OrderHeaderInfo,
-  CancelOrderModal,
-  CancelOrderSuccessModal,
-  OrderHeadTip
+  OrderHeadTip,
+  OrderProgress,
+  OrderLogisticsProgress,
+  CancelOrderForJp
 } from './modules';
-
-const sessionItemRoyal = window.__.sessionItemRoyal;
-
-function Progress({ progressList, currentProgressIndex }) {
-  return (
-    <div className="od-prg-container mx-2 md:mx-4">
-      <div className="od-prg d-flex align-items-center px-3">
-        {progressList.map((item, i) => (
-          <>
-            <span
-              className={`od-prg-text position-relative ${!i ? 'ml-3' : ''} ${
-                i <= currentProgressIndex ? 'compelete red' : ''
-              }`}
-            >
-              {i <= currentProgressIndex ? (
-                <svg
-                  className="svg-icon align-middle w-6 h-6"
-                  aria-hidden="true"
-                >
-                  <use xlinkHref="#iconwancheng" />
-                </svg>
-              ) : (
-                <span className="od-prg-icon inlineblock text-white">
-                  {i + 1}
-                </span>
-              )}
-              <span className="ml-1 rc-md-up">{item.flowStateDesc}</span>
-              <span className="od-prg-name position-absolute rc-md-down">
-                {item.flowStateDesc}
-              </span>
-              <span className="od-prg-time position-absolute">
-                <span className="rc-md-up">
-                  {formatDate({ date: item.time1 })} {item.time2}
-                </span>
-                <span className="rc-md-down">
-                  {formatDate({ date: item.time1 })}
-                  <br />
-                  {item.time2 || (
-                    <span style={{ color: 'transparent' }}>&nbsp;</span>
-                  )}
-                </span>
-              </span>
-            </span>
-            {i !== progressList.length - 1 ? (
-              <span
-                className={`od-prg-line position-relative flex-fill mx-2 ${
-                  i < currentProgressIndex
-                    ? 'complete'
-                    : i === currentProgressIndex
-                    ? 'ing'
-                    : ''
-                }`}
-              />
-            ) : null}
-          </>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function LogisticsProgress(props) {
-  const {
-    hasMoreLessOperation = false,
-    moreLogistics,
-    handleToggleMoreLess,
-    customDateCls = ''
-  } = props;
-  return (
-    <ul className="text-break">
-      {(props.list || []).map(
-        (item, i) =>
-          item.shown && (
-            <li
-              className={`logi-item align-items-center ${
-                item.active ? 'active' : ''
-              } ${
-                !hasMoreLessOperation || !i || moreLogistics
-                  ? 'd-flex'
-                  : 'hidden'
-              }`}
-              key={i}
-            >
-              <span className={`logi-time text-right ${customDateCls}`}>
-                {formatDate({ date: item.timestamp })}
-                <br />
-                {formatDate({
-                  date: item.timestamp,
-                  showYear: false,
-                  showMinute: true
-                })}
-              </span>
-              <div className="logi-text px-4 py-3">
-                <svg className="svg-icon logi-icon" aria-hidden="true">
-                  <use
-                    xlinkHref={`#${!i ? 'iconjinhangzhong' : 'iconyiwancheng'}`}
-                  />
-                </svg>
-
-                <span
-                  className={`ml-4 ui-text-overflow-line2 ${!i ? 'red' : ''}`}
-                >
-                  {item.longDescription}
-                </span>
-              </div>
-              {hasMoreLessOperation && !i ? (
-                <span
-                  className={`iconfont ui-cursor-pointer ${!i ? 'red' : ''}`}
-                  onClick={handleToggleMoreLess}
-                >
-                  {moreLogistics ? <>&#xe6b1;</> : <>&#xe6b0;</>}
-                </span>
-              ) : null}
-            </li>
-          )
-      )}
-    </ul>
-  );
-}
 
 @inject('checkoutStore', 'configStore', 'paymentStore')
 @injectIntl
@@ -166,14 +46,7 @@ class AccountOrders extends React.Component {
       details: null,
       payRecord: null,
       loading: true,
-      cancelOrderLoading: false,
-      returnOrExchangeLoading: false,
       errMsg: '',
-      cancelOrderModalVisible: false,
-      operateSuccessModalVisible: false,
-      errModalVisible: false,
-      returnOrExchangeModalVisible: false,
-      errModalText: '',
       normalProgressList: [],
       currentProgressIndex: -1,
       defaultLocalDateTime: '',
@@ -187,10 +60,7 @@ class AccountOrders extends React.Component {
       showLogisticsDetail: false,
       curLogisticInfo: null,
       welcomeGiftLists: [], //first-order welcome box gifts
-      paymentItem: '', //支付方式 paypal，swish
-      cancelJpOrderLoading: false,
-      cancelJpOrderModalVisible: false,
-      cancelJpOrderSuccessModalVisible: false
+      paymentItem: '' //支付方式 paypal，swish
     };
     this.changeTab = this.changeTab.bind(this);
     this.handleClickLogisticsCard = this.handleClickLogisticsCard.bind(this);
@@ -288,124 +158,6 @@ class AccountOrders extends React.Component {
         });
       });
   }
-  async hanldeItemClick(afterSaleType) {
-    // 退单都完成了，才可继续退单
-    this.setState({ returnOrExchangeLoading: true });
-    let res = await returnFindByTid(this.state.orderNumber);
-    let unloadItem = find(
-      res.context,
-      (ele) =>
-        ele.returnFlowState === 'INIT' ||
-        ele.returnFlowState === 'AUDIT' ||
-        ele.returnFlowState === 'DELIVERED' ||
-        ele.returnFlowState === 'RECEIVED'
-    );
-    if (unloadItem) {
-      this.setState({
-        returnOrExchangeModalVisible: true,
-        returnOrExchangeLoading: false
-      });
-    } else {
-      sessionItemRoyal.set('rc-after-sale-type', afterSaleType);
-      this.props.history.push(
-        `/account/orders-aftersale/${this.state.orderNumber}`
-      );
-    }
-  }
-  handleCancelOrder() {
-    this.setState({ cancelOrderLoading: true });
-    cancelOrder(this.state.orderNumber)
-      .then((res) => {
-        this.setState({
-          cancelOrderLoading: false,
-          cancelOrderModalVisible: false,
-          operateSuccessModalVisible: true
-        });
-        this.init();
-      })
-      .catch((err) => {
-        this.setState({
-          cancelOrderLoading: false,
-          errModalText: err.message.toString(),
-          cancelOrderModalVisible: false,
-          errModalVisible: true
-        });
-      });
-  }
-  returnOrExchangeBtnJSX() {
-    const { details } = this.state;
-    let ret = <span />;
-    if (details?.canReturnOrExchange) {
-      return (
-        <>
-          <a
-            className="color-999 ui-cursor-pointer"
-            title="More"
-            data-tooltip-placement="bottom"
-            data-tooltip="bottom-tooltip"
-          >
-            •••
-          </a>
-          <div id="bottom-tooltip" className="rc-tooltip text-left px-1">
-            <div
-              className={`border-bottom p-1 ui-cursor-pointer ${
-                this.props.returnOrExchangeLoading
-                  ? 'ui-btn-loading ui-btn-loading-border-red'
-                  : ''
-              }`}
-              onClick={() => this.hanldeItemClick('exchange')}
-            >
-              <FormattedMessage id="order.return" />
-            </div>
-            <div
-              className={`p-1 ui-cursor-pointer ${
-                this.props.returnOrExchangeLoading
-                  ? 'ui-btn-loading ui-btn-loading-border-red'
-                  : ''
-              }`}
-              onClick={() => this.hanldeItemClick('return')}
-            >
-              <FormattedMessage id="order.exchange" />
-            </div>
-          </div>
-        </>
-      );
-    }
-    return ret;
-  }
-  cancelOrderBtnJSX() {
-    const { details } = this.state;
-    let ret = <span />;
-    if (details?.canCancelOrder) {
-      ret = (
-        <>
-          <a
-            className="color-999 ui-cursor-pointer"
-            title="More"
-            data-tooltip-placement="bottom"
-            data-tooltip="bottom-tooltip"
-          >
-            •••
-          </a>
-          <div id="bottom-tooltip" className="rc-tooltip text-left px-1">
-            <div
-              className={`p-1 ui-cursor-pointer ${
-                this.props.returnOrExchangeLoading
-                  ? 'ui-btn-loading ui-btn-loading-border-red'
-                  : ''
-              }`}
-              onClick={() => {
-                this.setState({ cancelOrderModalVisible: true });
-              }}
-            >
-              <FormattedMessage id="order.cancelOrder" />
-            </div>
-          </div>
-        </>
-      );
-    }
-    return ret;
-  }
   changeTab(i) {
     this.setState({
       activeTabIdx: i
@@ -421,6 +173,15 @@ class AccountOrders extends React.Component {
   }
   handleClickBackToIndex = () => {
     this.setState({ showLogisticsDetail: false });
+  };
+  handleLogisticsDetails = (tradeLogisticsDetails) => {
+    return (
+      tradeLogisticsDetails.sort((a, b) => {
+        return (
+          new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+        );
+      }) || []
+    );
   };
   renderLogitiscsJSX = () => {
     const { moreLogistics, activeTabIdx } = this.state;
@@ -475,13 +236,10 @@ class AccountOrders extends React.Component {
                         key={i}
                         className={`mx-3 ${i === activeTabIdx ? '' : 'hidden'}`}
                       >
-                        <LogisticsProgress
-                          list={item.tradeLogisticsDetails.sort((a, b) => {
-                            return (
-                              new Date(b.timestamp).getTime() -
-                              new Date(a.timestamp).getTime()
-                            );
-                          })}
+                        <OrderLogisticsProgress
+                          list={this.handleLogisticsDetails(
+                            item.tradeLogisticsDetails
+                          )}
                           hasMoreLessOperation={true}
                           moreLogistics={moreLogistics}
                           handleToggleMoreLess={this.handleToggleMoreLess}
@@ -594,56 +352,6 @@ class AccountOrders extends React.Component {
       </>
     );
   };
-  renderJpCancelOrderBtns = () => {
-    const { details } = this.state;
-    return (
-      <>
-        {details.canCancelOrderForJP ? (
-          <div className="w-full flex justify-center md:justify-end mt-4">
-            <div className="flex items-center flex-col md:flex-row">
-              <span
-                className="rc-styled-link border-b border-gray-300 hover:border-rc-red mt-2"
-                onClick={() => {
-                  this.setState({ cancelJpOrderModalVisible: true });
-                }}
-              >
-                <FormattedMessage id="order.cancelOrder" />
-              </span>
-              <span className="mx-2 mt-2">
-                <FormattedMessage id="or" />
-              </span>
-              <button className="rc-btn rc-btn--one mt-2">
-                <Link className="text-white" to={`/account/orders`}>
-                  <FormattedMessage id="Back to orders" />
-                </Link>
-              </button>
-            </div>
-          </div>
-        ) : null}
-      </>
-    );
-  };
-  handleCancelJpOrder = async () => {
-    try {
-      this.setState({ cancelJpOrderLoading: true });
-      //todo cancel jp order 接口联调
-      const res = await cancelOrderForJapan(this.state.orderNumber);
-
-      setTimeout(() => {
-        this.setState(
-          {
-            cancelJpOrderModalVisible: false,
-            cancelJpOrderLoading: false
-          },
-          () => {
-            this.setState({ cancelJpOrderSuccessModalVisible: true });
-          }
-        );
-      }, 3000);
-    } catch (e) {
-      this.setState({ cancelJpOrderLoading: false });
-    }
-  };
   render() {
     const { configStore } = this.props;
     const { customTaxSettingOpenFlag, enterPriceType } = configStore;
@@ -727,7 +435,7 @@ class AccountOrders extends React.Component {
                           />
 
                           {currentProgressIndex > -1 ? (
-                            <Progress
+                            <OrderProgress
                               {...this.props}
                               progressList={normalProgressList}
                               currentProgressIndex={currentProgressIndex}
@@ -739,6 +447,7 @@ class AccountOrders extends React.Component {
                             <OrderHeaderInfo
                               details={details}
                               orderNumberForOMS={this.state.orderNumberForOMS}
+                              props={this.props}
                             />
                             <div className="col-12 table-body rounded md:mt-3 mb-2 px-0">
                               <OrderAllProduct
@@ -760,7 +469,11 @@ class AccountOrders extends React.Component {
                             paymentItem={paymentItem}
                             payRecord={payRecord}
                           />
-                          {this.renderJpCancelOrderBtns()}
+                          <CancelOrderForJp
+                            details={details}
+                            props={this.props}
+                            welcomeGiftLists={welcomeGiftLists}
+                          />
                         </div>
                       ) : this.state.errMsg ? (
                         <div className="text-center mt-5">
@@ -775,15 +488,10 @@ class AccountOrders extends React.Component {
                 {/* one order details for mobile */}
                 {showLogisticsDetail ? (
                   <div className="row">
-                    <LogisticsProgress
-                      list={
-                        curLogisticInfo.tradeLogisticsDetails.sort((a, b) => {
-                          return (
-                            new Date(b.timestamp).getTime() -
-                            new Date(a.timestamp).getTime()
-                          );
-                        }) || []
-                      }
+                    <OrderLogisticsProgress
+                      list={this.handleLogisticsDetails(
+                        curLogisticInfo.tradeLogisticsDetails
+                      )}
                     />
                     <div className="col-12 rc-bg-colour--brand4 rc-md-down mb-3 h-3.5" />
                     {(curLogisticInfo.shippingItems || []).map((ele) => (
@@ -870,74 +578,6 @@ class AccountOrders extends React.Component {
               </div>
             </div>
           </div>
-          <Modal
-            key="1"
-            visible={this.state.cancelOrderModalVisible}
-            confirmLoading={this.state.cancelOrderLoading}
-            modalText={<FormattedMessage id="order.confirmCancelOrderInfo" />}
-            close={() => {
-              this.setState({ cancelOrderModalVisible: false });
-            }}
-            hanldeClickConfirm={() => this.handleCancelOrder()}
-          />
-          <Modal
-            key="2"
-            visible={this.state.operateSuccessModalVisible}
-            modalText={<FormattedMessage id="operateSuccessfully" />}
-            close={() => {
-              this.setState({ operateSuccessModalVisible: false });
-            }}
-            hanldeClickConfirm={() => {
-              this.props.history.push('/account/orders');
-            }}
-          />
-          <Modal
-            key="3"
-            visible={this.state.errModalVisible}
-            modalText={this.state.errModalText}
-            close={() => {
-              this.setState({ errModalVisible: false });
-            }}
-            hanldeClickConfirm={() => {
-              this.setState({ errModalVisible: false });
-            }}
-          />
-          <Modal
-            key="4"
-            visible={this.state.returnOrExchangeModalVisible}
-            modalText={<FormattedMessage id="order.refundErrorInfo" />}
-            close={() => {
-              this.setState({ returnOrExchangeModalVisible: false });
-            }}
-            hanldeClickConfirm={() => {
-              this.setState({ returnOrExchangeModalVisible: false });
-            }}
-          />
-          {/*cancel jp order success modal*/}
-          <CancelOrderSuccessModal
-            visible={this.state.cancelJpOrderSuccessModalVisible}
-            close={() => {
-              this.setState({ cancelJpOrderSuccessModalVisible: false });
-            }}
-            handleClickConfirm={() => {
-              this.setState({ cancelJpOrderSuccessModalVisible: false });
-            }}
-          />
-          {/*jp order cancellation confirmation*/}
-          <CancelOrderModal
-            visible={this.state.cancelJpOrderModalVisible}
-            cancelJpOrderLoading={this.state.cancelJpOrderLoading}
-            details={details}
-            welcomeGiftLists={welcomeGiftLists}
-            close={() => {
-              this.setState({ cancelJpOrderModalVisible: false });
-            }}
-            handleClickCancel={() => {
-              this.setState({ cancelJpOrderModalVisible: false });
-              this.props.history.push('/account/orders');
-            }}
-            handleClickConfirm={() => this.handleCancelJpOrder()}
-          />
           <Footer />
         </main>
       </div>

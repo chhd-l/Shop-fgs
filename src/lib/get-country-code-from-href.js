@@ -45,19 +45,10 @@ const getCountryCodeFromHref = () => {
 
   // 此mapping关系暂时为之，后续讨论标准国家码
   return {
-    countryCode: {
-      mx: 'MX',
-      de: 'DE',
-      us: 'US',
-      fr: 'FR',
-      ru: 'RU',
-      tr: 'TR',
-      uk: 'GB',
-      se: 'SE',
-      core: 'CORE',
-      ca: 'CA',
-      jp: 'JP'
-    }[countryLink],
+    countryCode:
+      {
+        uk: 'GB'
+      }[countryLink] || countryLink.toUpperCase(),
     countryLink
   };
 };

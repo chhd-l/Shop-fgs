@@ -64,7 +64,7 @@ export default class Search extends React.Component {
   }
   async getSearchData() {
     const { keywords } = this.state;
-    this.setState({ loading: true });
+    // this.setState({ loading: true });
     Promise.all([
       getList({
         keywords,
@@ -215,12 +215,32 @@ export default class Search extends React.Component {
     location.href = item.Url;
   };
 
+  enterResultBox = () => {
+    console.log();
+    const bodyDom = document.getElementsByTagName('body')[0];
+    if (bodyDom) {
+      bodyDom.classList.add('body-hidden-scroll');
+    }
+  };
+
+  leaveResultBox = () => {
+    const bodyDom = document.getElementsByTagName('body')[0];
+    if (bodyDom) {
+      bodyDom.classList.remove('body-hidden-scroll');
+    }
+  };
+
   renderResultJsx() {
     const { result, keywords } = this.state;
     let ret = null;
     if (result) {
       ret = (
-        <div className="suggestions" id="mainSuggestions">
+        <div
+          className="suggestions"
+          id="mainSuggestions"
+          onMouseOver={() => this.enterResultBox()}
+          onMouseOut={() => this.leaveResultBox()}
+        >
           <div className="container">
             <div className="row d-flex flex-sm-row">
               <div className={`${isHub ? 'col-md-7' : ''} col-12 rc-column`}>
