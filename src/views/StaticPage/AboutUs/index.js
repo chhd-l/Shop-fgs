@@ -19,13 +19,6 @@ const pageLink = window.location.href;
 @injectIntl
 @seoHoc('About Us Page')
 class AboutUs extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      intl: this.props.intl.messages
-    };
-  }
-
   render(h) {
     const event = {
       page: {
@@ -37,6 +30,9 @@ class AboutUs extends React.Component {
         filters: ''
       }
     };
+    const {
+      intl: { messages }
+    } = this.props;
     return (
       <div>
         <GoogleTagManager
@@ -83,8 +79,8 @@ class AboutUs extends React.Component {
                     <div className="experience-component experience-assets-contentBlock">
                       <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
                         <a
-                          id={this.state.intl['aboutUs.history']}
-                          name={this.state.intl['aboutUs.history']}
+                          id={messages['aboutUs.history']}
+                          name={messages['aboutUs.history']}
                           className="page-section-anchor"
                           aria-hidden="true"
                         ></a>
@@ -103,8 +99,8 @@ class AboutUs extends React.Component {
                             <picture data-rc-feature-objectfillpolyfill-setup="true">
                               <img
                                 className="w-100 ls-is-cached lazyloaded"
-                                alt={this.state.intl['aboutUs.history']}
-                                title={this.state.intl['aboutUs.history']}
+                                alt={messages['aboutUs.history']}
+                                title={messages['aboutUs.history']}
                                 src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/RAGDOLL_ADULT_-_VET_URINARY_Med._Res.___Basic.jpg`}
                               />
                             </picture>
@@ -122,8 +118,8 @@ class AboutUs extends React.Component {
                     <div className="experience-component experience-assets-contentBlock">
                       <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
                         <a
-                          id={this.state.intl['aboutUs.ourValues']}
-                          name={this.state.intl['aboutUs.ourValues']}
+                          id={messages['aboutUs.ourValues']}
+                          name={messages['aboutUs.ourValues']}
                           className="page-section-anchor"
                           aria-hidden="true"
                         ></a>
@@ -132,8 +128,8 @@ class AboutUs extends React.Component {
                             <picture data-rc-feature-objectfillpolyfill-setup="true">
                               <img
                                 className="w-100 ls-is-cached lazyloaded"
-                                alt={this.state.intl['aboutUs.ourValues']}
-                                title={this.state.intl['aboutUs.ourValues']}
+                                alt={messages['aboutUs.ourValues']}
+                                title={messages['aboutUs.ourValues']}
                                 src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/YORKSHIRE_TERRIER_PUPPY___MOTHER_-_BREED_EMBLEMATIC_Med._Res.___Basic.jpg`}
                               />
                             </picture>
@@ -168,8 +164,8 @@ class AboutUs extends React.Component {
                     <div className="experience-component experience-assets-contentBlock">
                       <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
                         <a
-                          id={this.state.intl['aboutUs.FoodQualityandSafety']}
-                          name={this.state.intl['aboutUs.FoodQualityandSafety']}
+                          id={messages['aboutUs.FoodQualityandSafety']}
+                          name={messages['aboutUs.FoodQualityandSafety']}
                           className="page-section-anchor"
                           aria-hidden="true"
                         ></a>
@@ -195,16 +191,8 @@ class AboutUs extends React.Component {
                             <picture data-rc-feature-objectfillpolyfill-setup="true">
                               <img
                                 className="w-100 ls-is-cached lazyloaded"
-                                alt={
-                                  this.state.intl[
-                                    'aboutUs.FoodQualityandSafety'
-                                  ]
-                                }
-                                title={
-                                  this.state.intl[
-                                    'aboutUs.FoodQualityandSafety'
-                                  ]
-                                }
+                                alt={messages['aboutUs.FoodQualityandSafety']}
+                                title={messages['aboutUs.FoodQualityandSafety']}
                                 src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/BENGAL_ADULT___FHN_OUTDOOR_EMBLEMATIC_Med._Res.___Basic.jpg`}
                               />
                             </picture>
