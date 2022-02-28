@@ -372,7 +372,6 @@ const en_US = {
   continueAsGuest: 'Continue as a guest',
   continueMyPurchases: 'Continue Shopping',
   continueShopping: 'Continue shopping',
-  country: 'Country *',
   createAnAccount: 'Create an account',
   creditCard: 'Credit Card',
   creditCardTipMany: 'You have created {number} credit card(s), up to 10',
@@ -430,7 +429,6 @@ const en_US = {
   'dailyPortion.title':
     'Discover now the perfect tool to calculate the ideal ration for your pet. Fill in your pet’s information in the interactive feeding guide and you will get the daily feeding recommendation. ',
   'dailyPortion.weight.label': 'Current pet weight',
-  dataProtection: 'privacy policy',
   dateOfBirth: 'Date of Birth',
   'datePicker.months': [
     'January',
@@ -476,8 +474,6 @@ const en_US = {
   deleteAddressSuccess: 'Delete Address Success',
   deleteAddressTip:
     'Sorry, this address  has already been subject to a subscription, so it cannot be deleted.',
-  deleteCardTip:
-    'Sorry, this credit card has already been subject to a subscription, so it cannot be deleted.',
   deleteSuccessFullly: 'Delete successfullly',
   deliveredTip: 'Expected to arrive in about 3 days',
   delivery: 'delivery',
@@ -519,9 +515,7 @@ const en_US = {
   'details.recommendedDaily': 'The recommended daily ration for your pet is',
   'details.recommendedDaily.info': '{val}',
   'details.shippedTime': 'shipped within 2 working days',
-  'details.Subscription': 'Subscription',
   'details.theSize': 'The size',
-  'details.unitPrice': 'Unit price',
   'details.youCanSave': 'You can save',
   dogs: 'DOGS',
   dogs2: 'Dogs',
@@ -540,7 +534,6 @@ const en_US = {
   enterCorrectPostCode: 'Please enter the correct post code',
   enterCorrectValue: 'Please enter the correct {val}',
   enterDogBreed: 'Enter the breed of your dog',
-  enterNickname: 'Enter nickname of your pet',
   enterPasswordAgain: 'Enter new password again',
   estimatedTax: 'Estimated Tax',
   every: 'Every',
@@ -553,15 +546,10 @@ const en_US = {
   'faq.frequentQuestions': 'Frequently Asked Questions',
   'faq.title':
     "Got a question? Take a look below to see if it's already been answered. If you can't find what you are looking for, click {val1}.",
-  'faq.title2': 'Entrega del alimento',
-  FAQdesc:
-    "If you have any question. Look below to see if there is an answer. If you can't find what you are looking for. {val} to contact us.",
   filters: 'Filter products',
   findLocation: 'Find Location',
   findTheRightDiet: 'Find the right food',
   firstName: 'First Name *',
-  'firstNameLastName50characters!':
-    'First Name or Last Name cannot exceed 50 characters!',
   'footer.aboutRoyalCanin': 'ROYAL CANIN',
   'footer.acceptance': 'Acceptance guarantee',
   'footer.action': 'Actions',
@@ -990,7 +978,6 @@ const en_US = {
   'order.paymentTime': 'Payment time',
   'order.payNow': 'Pay now',
   'order.quantityText': '{specText} - Qty {buyCount}',
-  'order.rateModalTitle': 'Your opinion is important',
   'order.refundErrorInfo':
     'This order is associated with a refund in processing and cannot be reapplied.',
   'order.return': 'Return',
@@ -1005,7 +992,6 @@ const en_US = {
     'Your order has been successfully paid and we are preparing to ship.',
   'order.total': 'Total',
   'order.viewLogisticDetail': 'View logistic detail',
-  'order.viewOrder': 'View order',
   orderDetail: 'Order Detail',
   orders: 'Orders',
   'orderStatus.COMPLETED': 'Completed',
@@ -1055,8 +1041,6 @@ const en_US = {
     'You must be 18 years or more to register on the site.',
   'payment.confirmInfo3':
     'He leído el Acuerdo de usuario y la {val1} y acepto el procesamiento de datos personales, incluida {val2}',
-  'payment.confirmInfo4':
-    'You need to familiarize yourself with the User Agreement and the Privacy Policy and give your consent to the processing of personal data, including cross-border transfer.',
   'payment.country': 'Country',
   'payment.county': 'County',
   'payment.DEBIT': 'DEBIT',

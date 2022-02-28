@@ -220,9 +220,7 @@ class PaymentComp extends React.Component {
       ret.forEach((el) => {
         el.canDelete = true;
       });
-      if (
-        payWayNameArr.find((p) => p.channel === 'ADYEN' && p.code === 'cod')
-      ) {
+      if (payWayNameArr.find((p) => p.code === 'cod_japan')) {
         ret = ret.concat({
           cardType: 'cod',
           paymentVendor: 'cod',

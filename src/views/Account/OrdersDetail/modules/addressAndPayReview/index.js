@@ -216,9 +216,7 @@ const OrderAddressAndPayReview = ({ details, payRecord, paymentItem }) => {
                 </div>
               </PaymentMethodContainer>
             ) : null}
-            {/* todo jp 待后端修改字段，去除country判断 */}
-            {paymentItem === 'cod' &&
-            window.__.env.REACT_APP_COUNTRY === 'jp' ? (
+            {paymentItem === 'cod_japan' ? (
               <PaymentMethodContainer>
                 <div className="flex items-center">
                   <LazyLoad>

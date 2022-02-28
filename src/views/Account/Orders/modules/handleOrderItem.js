@@ -13,15 +13,14 @@ export function handleOrderItem(ele, res) {
       new Date(handleDateForIos(ele?.orderTimeOut)).getTime() >
         new Date(handleDateForIos(res.defaultLocalDateTime)).getTime() &&
       (!ele.payWay ||
-        !['OXXO', 'ADYEN_OXXO', 'COD'].includes(ele.payWay.toUpperCase())),
+        !['OXXO', 'ADYEN_OXXO', 'COD'].includes(ele?.payWay?.toUpperCase())),
     showOXXOExpireTime:
       tradeState.flowState === 'AUDIT' &&
       tradeState.deliverStatus === 'NOT_YET_SHIPPED' &&
       tradeState.payState === 'NOT_PAID' &&
       new Date(handleDateForIos(ele.orderTimeOut)).getTime() >
         new Date(handleDateForIos(res.defaultLocalDateTime)).getTime() &&
-      ele.payWay &&
-      ele.payWay.toUpperCase() === 'OXXO',
+      ele?.payWay?.toUpperCase() === 'OXXO',
     payNowLoading: false,
     // goodsInfoFlag=3是indv的商品，需要隐藏加入购物车这个按钮
     canRePurchase:
@@ -88,8 +87,9 @@ export function handleOrderItem(ele, res) {
       ['jp'].includes(window.__.env.REACT_APP_COUNTRY) &&
       new Date(handleDateForIos(res.defaultLocalDateTime)).getTime() <
         new Date(handleDateForIos(ele.orderTimeOut)).getTime() &&
-      ((ele?.payWay.toUpperCase() === 'COD' &&
+      ((ele?.payWay?.toUpperCase() === 'COD' &&
         tradeState.flowState === 'INIT') ||
-        (ele?.payWay.toUpperCase() === 'COD' && tradeState.payState === 'PAID'))
+        (ele?.payWay?.toUpperCase() === 'COD' &&
+          tradeState.payState === 'PAID'))
   });
 }

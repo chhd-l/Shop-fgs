@@ -261,9 +261,7 @@ const UserPaymentInfo = ({
               {currentCardInfo.holderName ? (
                 <p className="mb-0">{currentCardInfo.holderName}</p>
               ) : null}
-              {/* todo jp
-               */}
-              {currentCardInfo.type === 'PAYU_RUSSIA_COD' ? (
+              {currentCardInfo.pspName === 'JAPAN_COD' ? (
                 <div className="flex items-center mt-4">
                   <LazyLoad>
                     <img src={LOGO_ADYEN_COD} className="w-10 mr-2" />
