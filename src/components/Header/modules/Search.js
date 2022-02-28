@@ -64,7 +64,7 @@ export default class Search extends React.Component {
   }
   async getSearchData() {
     const { keywords } = this.state;
-    this.setState({ loading: true });
+    // this.setState({ loading: true });
     Promise.all([
       getList({
         keywords,
