@@ -32,7 +32,9 @@ export default class Search extends React.Component {
       keywords: '',
       loading: false,
       isSearchSuccess: false, //是否搜索成功
-      hasSearchedDone: false //是否请求接口完毕
+      hasSearchedDone: false, //是否请求接口完毕
+      hiddenResult: false,
+      innerResultBox: false
     };
     this.inputRef = React.createRef();
     this.inputRefMobile = React.createRef();
@@ -186,6 +188,9 @@ export default class Search extends React.Component {
   };
 
   hanldeSearchFocus = () => {
+    this.setState({
+      hiddenResult: false
+    });
     // this.hubGA &&
     //   dataLayer.push({
     //     event: 'topPictosClick',
@@ -195,6 +200,15 @@ export default class Search extends React.Component {
     //   });
     GAInstantSearchFieldClick();
   };
+
+  hanldeSearchBlur = () => {
+    if (!this.state.innerResultBox) {
+      this.setState({
+        hiddenResult: true
+      });
+    }
+  };
+
   doGAInstantSearchResultClick = (type, item, idx, e) => {
     GAInstantSearchResultClick({
       type,
@@ -216,7 +230,9 @@ export default class Search extends React.Component {
   };
 
   enterResultBox = () => {
-    console.log();
+    this.setState({
+      innerResultBox: true
+    });
     const bodyDom = document.getElementsByTagName('body')[0];
     if (bodyDom) {
       bodyDom.classList.add('body-hidden-scroll');
@@ -224,6 +240,9 @@ export default class Search extends React.Component {
   };
 
   leaveResultBox = () => {
+    this.setState({
+      innerResultBox: false
+    });
     const bodyDom = document.getElementsByTagName('body')[0];
     if (bodyDom) {
       bodyDom.classList.remove('body-hidden-scroll');
@@ -394,7 +413,13 @@ export default class Search extends React.Component {
     return ret;
   }
   render() {
-    const { showSearchInput, result, keywords, loading } = this.state;
+    const {
+      showSearchInput,
+      result,
+      keywords,
+      loading,
+      hiddenResult
+    } = this.state;
     const isMobile = getDeviceType() !== 'PC';
     return (
       <div className="inlineblock w-100">
@@ -437,6 +462,7 @@ export default class Search extends React.Component {
                       type="search"
                       autoComplete="off"
                       placeholder={txt}
+                      onBlur={this.hanldeSearchBlur}
                       onFocus={this.hanldeSearchFocus}
                       onChange={this.handleSearchInputChange}
                       value={keywords}
@@ -445,7 +471,7 @@ export default class Search extends React.Component {
                 </FormattedMessage>
               </form>
             </div>
-            {result ? (
+            {result && !hiddenResult ? (
               <div style={{ position: 'relative', top: '.2rem' }}>
                 <div className="suggestions-wrapper">
                   {this.renderResultJsx()}
