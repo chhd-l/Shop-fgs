@@ -44,7 +44,7 @@ const ConvenienceStore = ({ convenienceStoreChange }) => {
         <div className="flex flex-row flex-wrap my-4">
           {convenienceStoreList.map((item, index) => (
             <div
-              className="w-1/2 rc-input rc-input--inline mr-0 mt-2"
+              className="w-full md:w-1/2 rc-input rc-input--inline mr-0 mt-2"
               key={index}
             >
               <input

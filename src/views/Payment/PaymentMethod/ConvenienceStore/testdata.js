@@ -9,7 +9,7 @@ const testConvenienceStore = [
     maxAmount: null,
     langKey: 'Convenience Store',
     name: 'Convenience Store',
-    paymentTypeVal: 'convenience_store',
+    paymentTypeVal: 'adyen_convenience_store',
     payPspItemCardTypeVOList: [],
     pspConfigSupplierVO: null,
     pspConfigVO: null,
