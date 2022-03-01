@@ -19,7 +19,7 @@ const api = {
   exportInvoicePDF: '/account/orderInvoice/exportPDF/',
   getGoodsList: '/trade/goods',
   addGoodsEvaluate: '/goods/evaluates',
-  cancelOrderForJapan: `/trade-custom/cancel-refund/`
+  cancelOrderForJapan: `/trade/order/cancel`
 };
 
 export default api;
