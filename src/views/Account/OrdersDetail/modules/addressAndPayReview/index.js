@@ -209,10 +209,14 @@ const OrderAddressAndPayReview = ({ details, payRecord, paymentItem }) => {
                 </div>
               </PaymentMethodContainer>
             ) : null}
-            {paymentItem === 'convenience_store' ? (
+            {details.paymentItem === 'adyen_convenience_store' ? (
               <PaymentMethodContainer>
                 <div className="medium mb-2">
-                  <ConvenienceStorePayReview />
+                  <ConvenienceStorePayReview
+                    convenienceStore={
+                      details?.payInfo?.convenienceStorePayInfo?.name
+                    }
+                  />
                 </div>
               </PaymentMethodContainer>
             ) : null}
