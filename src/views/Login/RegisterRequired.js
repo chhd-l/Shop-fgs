@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
+import Footer from '@/components/Footer';
 import './index.css';
 import { findUserConsentList, userBindConsent } from '@/api/consent';
 import Consent from '@/components/Consent';
@@ -401,6 +402,7 @@ class RegisterRequired extends Component {
               </div>
             </div>
           </div>
+          <Footer />
         </div>
         <Modal
           type="fullscreen"
