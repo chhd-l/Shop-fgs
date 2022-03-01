@@ -529,7 +529,6 @@ const en_US = {
   emailUs: 'Email us',
   enterCatBreed: 'Enter the breed of your cat',
   enterClinicName: 'Enter clinic name',
-  enterCorrectEmail: 'Please enter the correct email',
   enterCorrectPhoneNumber: 'Enter a valid phone number',
   enterCorrectPostCode: 'Please enter the correct post code',
   enterCorrectValue: 'Please enter the correct {val}',
@@ -553,13 +552,11 @@ const en_US = {
   'footer.aboutRoyalCanin': 'ROYAL CANIN',
   'footer.acceptance': 'Acceptance guarantee',
   'footer.action': 'Actions',
-  'footer.Additionally': 'ADITIONELLEMENT',
   'footer.Additionally2': 'ADDITIONAL',
   'footer.confidentiality': 'Privacy',
   'footer.consistence': 'durability',
   'footer.contactRoyalCanin': 'Contact Royal Canin',
   'footer.contacts': 'Contacts',
-  'footer.contactUs': 'Contact Us',
   'footer.cookieCollectionPolicy': 'Cookie Collection Policy',
   'footer.cookies': 'Cookies',
   'footer.cookieSettings': 'Cookie Settings',
@@ -594,7 +591,6 @@ const en_US = {
   'header.carouselInfo11': 'ROYAL CANIN® CLUB for kittens',
   'header.carouselInfo2':
     'Find precise nutrition based on the unique needs of your pet.',
-  'header.carouselInfo3': 'Pet Nutrition',
   'header.carouselInfo4': 'Personal consultant',
   'header.carouselInfo5': 'FREE veterinary examinations',
   'header.carouselInfo6': 'Branded accessories and VIP service',
@@ -878,8 +874,6 @@ const en_US = {
   'list.closeFilters': 'Close filters',
   'list.errMsg':
     'No products found, please change the search criteria and try again.',
-  'list.errMsg2':
-    'No products found, please change the keywords and try again.',
   'list.errMsg3': 'No filters found, please try again later.',
   'list.viewFilters': 'View filters',
   'list.youSearchedFor': 'You searched for',
