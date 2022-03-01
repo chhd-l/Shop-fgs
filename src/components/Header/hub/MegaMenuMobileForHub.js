@@ -105,7 +105,7 @@ class MegaMenuMobileForHub extends Component {
       (curState) => ({ showMegaMenu: !curState.showMegaMenu }),
       () => {
         this.toggleBackLayerScrollFunc(!this.state.showMegaMenu);
-        // this.props.handleClickMenuIcon(this.state.showMegaMenu);
+        this.props.handleClickMenuIcon(this.state.showMegaMenu);
       }
     );
   }
