@@ -173,7 +173,8 @@ class SubscriptionDetail extends React.Component {
           subscribeGoodsId: el.subscribeGoodsId
         };
       }),
-      changeField: 'paymentMethod'
+      changeField: 'paymentMethod',
+      payPspItemEnum: el.payPspItemEnum || ''
     };
     this.setState({ loading: true });
     updateDetail(param)
@@ -779,7 +780,8 @@ class SubscriptionDetail extends React.Component {
                       needEmail={+window.__.env.REACT_APP_PAYU_EMAIL}
                       needPhone={+window.__.env.REACT_APP_PAYU_PHONE}
                       history={this.props.history}
-                      paymentId={currentCardInfo.id}
+                      paymentId={currentCardInfo.id || currentCardInfo.pspName}
+                      key={currentCardInfo.id || currentCardInfo.pspName}
                       type={type}
                       save={(el) => this.paymentSave(el)}
                       cancel={this.cancelEdit}

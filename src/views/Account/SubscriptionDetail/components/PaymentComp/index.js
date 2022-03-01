@@ -24,22 +24,22 @@ import './index.css';
 import LazyLoad from 'react-lazyload';
 import classNames from 'classnames';
 import getCardImg from '@/lib/get-card-img';
+import cn from 'classnames';
 
-import { myAccountActionPushEvent } from '@/utils/GA';
+// import { myAccountActionPushEvent } from '@/utils/GA';
 import PaymentEditForm from '@/components/PaymentEditForm';
 
 function CardItem(props) {
   const { data, supportPaymentMethods } = props;
   return (
     <div
-      className={`${
+      className={cn(
         data?.paddingFlag
           ? 'creditCompleteInfoBox disabled'
-          : 'rc-bg-colour--brand4'
-      } rounded p-2 pl-3 pr-3 h-100 d-flex align-items-center justify-content-between creditCompleteInfoBox ${
-        data.selected ? 'active border-blue border' : ''
-      }`}
-      style={{ position: 'relative' }}
+          : 'rc-bg-colour--brand4',
+        'rounded p-2 pl-3 pr-3 h-100 d-flex align-items-center justify-content-between creditCompleteInfoBox border relative',
+        data.selected ? 'active border-blue' : 'border-transparent'
+      )}
       onClick={() => {
         props.handleClick();
       }}
@@ -52,7 +52,7 @@ function CardItem(props) {
       </div>
       <div className={`pt-4 md:pt-4 pb-2 w-100`}>
         <div className="row">
-          {data.cardType === 'cod' ? (
+          {data.cardType === 'cod_japan' ? (
             <div className={`col-12`}>
               <div className="flex items-center">
                 <LazyLoad>
@@ -178,9 +178,11 @@ class PaymentComp extends React.Component {
     });
 
     await this.getPaymentMethodList();
-    // todo jp cod 存cod时，有paymentId吗
     this.state.creditCardList.forEach((el) => {
-      if (el.id === this.props.paymentId) {
+      if (
+        (el.id && el.id === this.props.paymentId) ||
+        el.pspName === this.props.paymentId
+      ) {
         el.selected = true;
       }
       // return el;
@@ -212,7 +214,6 @@ class PaymentComp extends React.Component {
     try {
       showLoading && this.setState({ listLoading: true });
       const res = await getPaymentMethod();
-      // todo jp cod 存在cod支付方式才显示，adyen cod待后端修改
       const {
         paymentStore: { payWayNameArr }
       } = this.props;
@@ -222,8 +223,10 @@ class PaymentComp extends React.Component {
       });
       if (payWayNameArr.find((p) => p.code === 'cod_japan')) {
         ret = ret.concat({
-          cardType: 'cod',
-          paymentVendor: 'cod',
+          cardType: 'cod_japan',
+          paymentVendor: 'cod_japan',
+          payPspItemEnum: 'JAPAN_COD',
+          pspName: 'JAPAN_COD',
           canDelete: false
         });
       }
