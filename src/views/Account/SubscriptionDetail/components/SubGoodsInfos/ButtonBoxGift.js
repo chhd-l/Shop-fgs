@@ -64,7 +64,7 @@ const ButtonBoxGift = () => {
 
       <div className="rc-column d-flex">
         <div className="subdeatial-button-mobile-pad pause-btn">
-          {subDetail.subscribeStatus === 0 ? (
+          {subDetail.subscribeStatus === 'ACTIVE' ? (
             <em
               className="iconfont iconplay1 font-bold"
               style={{
@@ -96,7 +96,7 @@ const ButtonBoxGift = () => {
                 ${isGift ? 'disabled' : ''}
                 `}
           >
-            {subDetail.subscribeStatus === '0' ? (
+            {subDetail.subscribeStatus === 'ACTIVE' ? (
               <FormattedMessage id="subscription.pause" />
             ) : (
               <FormattedMessage id="subscription.restart" />

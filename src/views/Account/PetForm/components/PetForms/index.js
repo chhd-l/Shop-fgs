@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useLocalStore } from 'mobx-react';
-import { myAccountActionPushEvent } from '@/utils/GA';
+import {
+  myAccountActionPushEvent,
+  GAForChangePetinfoBtn,
+  GAForSeeRecommendationBtn
+} from '@/utils/GA';
 import stores from '@/store';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import Skeleton from 'react-skeleton-loader';
@@ -366,6 +370,7 @@ const PetForms = ({
     return newObj;
   };
   const savePet = async () => {
+    GAForChangePetinfoBtn();
     if (petForm.isPurebred == 1) {
       setNewPetForm('weight', '');
     } else if (petForm.isPurebred == 0) {
@@ -982,7 +987,10 @@ const PetForms = ({
           </p>
           <p>
             <button
-              onClick={() => gotoNext('updateLifeStage', true)}
+              onClick={() => {
+                GAForSeeRecommendationBtn();
+                gotoNext('updateLifeStage', true);
+              }}
               className="rc-btn rc-btn--one rc-btn--sm"
             >
               <FormattedMessage id="See recommendation" />

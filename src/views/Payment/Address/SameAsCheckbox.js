@@ -3,8 +3,6 @@ import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 
-const localItemRoyal = window.__.localItemRoyal;
-
 @inject('loginStore')
 @observer
 class SameAsCheckbox extends React.Component {
@@ -34,21 +32,6 @@ class SameAsCheckbox extends React.Component {
     const { type } = this.props;
     return (
       <div className="rc-margin-top--xs fit-mobile-billingCheckbox d-flex flex-wrap justify-content-between">
-        {/* <div>
-          <input
-            className="rc-input rc-input--inline w-100 mw-100"
-            id={`id-checkbox-billing-${type}`}
-            type="checkbox"
-            onChange={this.billingCheckedChange}
-            checked={this.state.billingChecked}
-          />
-          <label
-            className="rc-input__label--inline"
-            htmlFor={`id-checkbox-billing-${type}`}
-          >
-            <FormattedMessage id="biliingAddressSameAs" />
-          </label>
-        </div> */}
         <div className="rc-input rc-input--inline mw-100">
           <input
             className="rc-input__checkbox"

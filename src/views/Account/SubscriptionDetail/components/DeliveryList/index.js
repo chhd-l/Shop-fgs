@@ -20,7 +20,7 @@ const DeliveryList = ({
   intl
 }) => {
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
-  const isActive = subDetail.subscribeStatus === '0';
+  const isActive = subDetail.subscribeStatus === 'ACTIVE';
   const changeYearOption = (el) => {
     if (activeTabIdx === 0) {
       setState({ noStartYear: el });

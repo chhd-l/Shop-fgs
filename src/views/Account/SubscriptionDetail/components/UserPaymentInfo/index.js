@@ -5,6 +5,7 @@ import getCardImg from '@/lib/get-card-img';
 import { getDictionary, isCanVerifyBlacklistPostCode } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import { AddressPreview } from '@/components/Address';
+import { LOGO_ADYEN_COD } from '@/utils/constant';
 
 const UserPaymentInfo = ({
   currentCardInfo,
@@ -43,10 +44,7 @@ const UserPaymentInfo = ({
 
   return (
     <div className="row text-left text-break editCard ml-0 mr-0 subscription_detail_userinfo_box">
-      <div
-        className="col-12 col-md-4 mb-2"
-        style={{ padding: '5px', paddingLeft: '0' }}
-      >
+      <div className="col-12 col-md-4 mb-2 pl-0" style={{ padding: '5px' }}>
         <div
           className="h-100 border border-d7d7d7"
           style={{
@@ -64,7 +62,7 @@ const UserPaymentInfo = ({
             <span>
               <FormattedMessage id="delivery2" />
             </span>
-            {subDetail.subscribeStatus === '0' && (
+            {subDetail.subscribeStatus === 'ACTIVE' && (
               <a
                 className="rc-styled-link red-text"
                 style={{ float: 'right', marginTop: '5px' }}
@@ -145,7 +143,7 @@ const UserPaymentInfo = ({
               <span>
                 <FormattedMessage id="billing2" />
               </span>
-              {subDetail.subscribeStatus === '0' && (
+              {subDetail.subscribeStatus === 'ACTIVE' && (
                 <a
                   className="rc-styled-link red-text"
                   style={{ float: 'right', marginTop: '5px' }}
@@ -212,7 +210,7 @@ const UserPaymentInfo = ({
               <span>
                 <FormattedMessage id="payment.payment" />
               </span>
-              {subDetail.subscribeStatus === '0' && (
+              {subDetail.subscribeStatus === 'ACTIVE' && (
                 <a
                   className="rc-styled-link red-text"
                   style={{ float: 'right', marginTop: '5px' }}
@@ -260,7 +258,19 @@ const UserPaymentInfo = ({
                 </>
               ) : null}
 
-              <p className="mb-0">{currentCardInfo.holderName}</p>
+              {currentCardInfo.holderName ? (
+                <p className="mb-0">{currentCardInfo.holderName}</p>
+              ) : null}
+              {currentCardInfo.pspName === 'JAPAN_COD' ? (
+                <div className="flex items-center mt-4">
+                  <LazyLoad>
+                    <img src={LOGO_ADYEN_COD} className="w-10 mr-2" />
+                  </LazyLoad>
+                  <span>
+                    <FormattedMessage id="cashOnDelivery" />
+                  </span>
+                </div>
+              ) : null}
               {/* <p className="mb-0">{currentCardInfo.phone}</p> */}
             </div>
           </div>

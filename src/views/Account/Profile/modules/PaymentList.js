@@ -116,7 +116,7 @@ class PaymentList extends React.Component {
         payPspItemVOList[0]?.payPspItemCardTypeVOList || [];
       setPayWayNameArr(payPspItemVOList);
       setSupportPaymentMethods(supportPaymentMethods); //存储当前支付方式所支持的卡类型
-      serCurPayWayVal(supportPaymentMethods[0]?.code);
+      serCurPayWayVal(payPspItemVOList[0]?.code);
       this.setState(
         { defaultCardTypeVal: supportPaymentMethods[0]?.cardType }, //设置默认卡类型，例如visa
         () => {

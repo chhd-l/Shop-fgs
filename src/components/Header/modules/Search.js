@@ -15,7 +15,7 @@ import {
   GAInstantSearchFieldClick,
   GAInstantSearchResultDisplay,
   GAInstantSearchResultClick
-} from '@/utils/GA.js';
+} from '@/utils/GA';
 
 const isHub = window.__.env.REACT_APP_HUB;
 let sessionItemRoyal = window.__.sessionItemRoyal;
@@ -32,7 +32,9 @@ export default class Search extends React.Component {
       keywords: '',
       loading: false,
       isSearchSuccess: false, //是否搜索成功
-      hasSearchedDone: false //是否请求接口完毕
+      hasSearchedDone: false, //是否请求接口完毕
+      hiddenResult: false,
+      innerResultBox: false
     };
     this.inputRef = React.createRef();
     this.inputRefMobile = React.createRef();
@@ -64,7 +66,7 @@ export default class Search extends React.Component {
   }
   async getSearchData() {
     const { keywords } = this.state;
-    this.setState({ loading: true });
+    // this.setState({ loading: true });
     Promise.all([
       getList({
         keywords,
@@ -186,6 +188,9 @@ export default class Search extends React.Component {
   };
 
   hanldeSearchFocus = () => {
+    this.setState({
+      hiddenResult: false
+    });
     // this.hubGA &&
     //   dataLayer.push({
     //     event: 'topPictosClick',
@@ -195,6 +200,15 @@ export default class Search extends React.Component {
     //   });
     GAInstantSearchFieldClick();
   };
+
+  hanldeSearchBlur = () => {
+    if (!this.state.innerResultBox) {
+      this.setState({
+        hiddenResult: true
+      });
+    }
+  };
+
   doGAInstantSearchResultClick = (type, item, idx, e) => {
     GAInstantSearchResultClick({
       type,
@@ -215,12 +229,37 @@ export default class Search extends React.Component {
     location.href = item.Url;
   };
 
+  enterResultBox = () => {
+    this.setState({
+      innerResultBox: true
+    });
+    const bodyDom = document.getElementsByTagName('body')[0];
+    if (bodyDom) {
+      bodyDom.classList.add('body-hidden-scroll');
+    }
+  };
+
+  leaveResultBox = () => {
+    this.setState({
+      innerResultBox: false
+    });
+    const bodyDom = document.getElementsByTagName('body')[0];
+    if (bodyDom) {
+      bodyDom.classList.remove('body-hidden-scroll');
+    }
+  };
+
   renderResultJsx() {
     const { result, keywords } = this.state;
     let ret = null;
     if (result) {
       ret = (
-        <div className="suggestions" id="mainSuggestions">
+        <div
+          className="suggestions"
+          id="mainSuggestions"
+          onMouseOver={() => this.enterResultBox()}
+          onMouseOut={() => this.leaveResultBox()}
+        >
           <div className="container">
             <div className="row d-flex flex-sm-row">
               <div className={`${isHub ? 'col-md-7' : ''} col-12 rc-column`}>
@@ -374,7 +413,13 @@ export default class Search extends React.Component {
     return ret;
   }
   render() {
-    const { showSearchInput, result, keywords, loading } = this.state;
+    const {
+      showSearchInput,
+      result,
+      keywords,
+      loading,
+      hiddenResult
+    } = this.state;
     const isMobile = getDeviceType() !== 'PC';
     return (
       <div className="inlineblock w-100">
@@ -417,6 +462,7 @@ export default class Search extends React.Component {
                       type="search"
                       autoComplete="off"
                       placeholder={txt}
+                      onBlur={this.hanldeSearchBlur}
                       onFocus={this.hanldeSearchFocus}
                       onChange={this.handleSearchInputChange}
                       value={keywords}
@@ -425,7 +471,7 @@ export default class Search extends React.Component {
                 </FormattedMessage>
               </form>
             </div>
-            {result ? (
+            {result && !hiddenResult ? (
               <div style={{ position: 'relative', top: '.2rem' }}>
                 <div className="suggestions-wrapper">
                   {this.renderResultJsx()}
@@ -480,6 +526,8 @@ export default class Search extends React.Component {
                         autoComplete="off"
                         placeholder={txt}
                         value={keywords}
+                        onBlur={this.hanldeSearchBlur}
+                        onFocus={this.hanldeSearchFocus}
                         onChange={this.handleSearchInputChange}
                       />
                     )}
@@ -493,9 +541,11 @@ export default class Search extends React.Component {
                   aria-label="Close"
                   onClick={this.hanldeSearchCloseClick}
                 />
-                <div className="suggestions-wrapper">
-                  {this.renderResultJsx()}
-                </div>
+                {!hiddenResult ? (
+                  <div className="suggestions-wrapper">
+                    {this.renderResultJsx()}
+                  </div>
+                ) : null}
               </form>
             </div>
             <div className="rc-sm-down">

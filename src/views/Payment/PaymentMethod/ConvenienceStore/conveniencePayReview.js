@@ -18,7 +18,7 @@ const ConvenienceStorePayReview = ({ convenienceStore }) => {
           <p className="text text-black">
             <FormattedMessage id="Convenience Store" />
           </p>
-          {convenienceStore}
+          <FormattedMessage id={convenienceStore} />
         </div>
       </div>
     </>

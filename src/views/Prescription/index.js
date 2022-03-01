@@ -6,7 +6,7 @@ import Pagination from '@/components/Pagination';
 import './index.css';
 import MapFlag from '@/components/MapFlag';
 import GoogleMap from '@/components/GoogleMap';
-import { FormattedMessage } from 'react-intl-phraseapp';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { getPrescription, getAllPrescription } from '@/api/clinic';
 import meImg from '@/assets/images/map-default-marker.png';
 import LazyLoad from 'react-lazyload';
@@ -46,6 +46,7 @@ const AnyReactComponent = ({ obj, show, sonMess, props }) => {
 };
 
 @inject('clinicStore', 'checkoutStore', 'configStore')
+@injectIntl
 @observer
 class Prescription extends React.Component {
   constructor(props) {
@@ -301,6 +302,9 @@ class Prescription extends React.Component {
   }
 
   render(h) {
+    const {
+      intl: { messages }
+    } = this.props;
     const { me, meLocation, clinicArr, currentSelectClinic } = this.state;
     let flags = [];
     flags.push(
@@ -361,24 +365,12 @@ class Prescription extends React.Component {
             <div className="map-saerch">
               <div className="clinic-search-list">
                 {window.__.env.REACT_APP_COUNTRY === 'ru' && (
-                  <div className="vet-clinic-tip">
-                    <FormattedMessage
-                      id="clinic.vetClinicsTip1"
-                      values={{
-                        val: (
-                          <DistributeHubLinkOrATag
-                            href={'/contact-us'}
-                            ariaLabel="Links to contact us"
-                            target={'_blank'}
-                          >
-                            <span className="vet-clinic-tip-link">
-                              <FormattedMessage id="clinic.vetClinicsTip2" />
-                            </span>
-                          </DistributeHubLinkOrATag>
-                        )
-                      }}
-                    />
-                  </div>
+                  <div
+                    className="vet-clinic-tip"
+                    dangerouslySetInnerHTML={{
+                      __html: messages['clinic.vetClinicsTip']
+                    }}
+                  />
                 )}
                 <div>
                   <FormattedMessage id="clinic.selectVetClinics" />

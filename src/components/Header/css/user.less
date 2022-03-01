@@ -16,8 +16,8 @@
     box-shadow: 1px 1px 1px #dfdfdf;
     .already {
       font-size: 0.8125rem;
-      height: 2rem;
-      line-height: 2rem;
+      height: 1.5rem;
+      line-height: 1.5rem;
     }
     .signIn {
       border: none;
@@ -88,10 +88,9 @@
         cursor: pointer;
       }
     }
-    .Offers {
+    .Offers, .b2b-login {
       cursor: pointer;
       font-size: 0.8125rem;
-      border-top: 1px solid #dcdcdc;
       // border-bottom: 1px solid #dcdcdc;
       // margin-bottom: 1.25rem;
       .rc-icon {
@@ -99,6 +98,36 @@
         margin-left: -2rem;
         margin-right: 0;
       }
+    }
+    .Offers {
+      border-top: 1px solid #dcdcdc;
+      .iconfont {
+        // min-width: 2rem;
+        margin-right: 10px;
+      }
+    }
+    .b2b-login {
+      display: block;
+      padding-top: 0.5rem;
+      position: relative;
+      text-align: center;
+      font-weight: 400;
+      min-width: 16.5rem;
+      span {
+        position: absolute;
+        right: 0;
+        font-size: 0.875rem;
+      }
+      &:hover {
+        color: #e2001a;
+        .iconfont {
+          color: #e2001a;
+        }
+      }
+    }
+
+    .user-entrepreneurs,.user-private {
+      font-weight: 400;
     }
     .brandName {
       line-height: 1.5;

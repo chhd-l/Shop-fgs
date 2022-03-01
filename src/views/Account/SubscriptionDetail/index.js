@@ -17,9 +17,13 @@ import UserPaymentInfo from './components/UserPaymentInfo';
 import RemainingsList from './components/RemainingsList';
 import DeliveryList from './components/DeliveryList';
 import Loading from '@/components/Loading';
-import { getRation, handleDateForIos } from '@/utils/utils';
+import {
+  getRation,
+  handleDateForIos,
+  findKeyFromObject,
+  getDeviceType
+} from '@/utils/utils';
 import GiftList from './components/GiftList';
-import { getDeviceType } from '@/utils/utils';
 import { Link } from 'react-router-dom';
 import {
   updateDetail,
@@ -39,6 +43,7 @@ import TempolineAPIError from './components/TempolineAPIError';
 import { format } from 'date-fns';
 import { seoHoc } from '@/framework/common';
 import { DivWrapper } from './style';
+import { SUBSCRIBE_STATUS_ENUM } from '@/utils/enum';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
@@ -487,20 +492,23 @@ class SubscriptionDetail extends React.Component {
         {
           petType: petsType,
           isGift: isGift,
-          subDetail: subDetail,
+          subDetail: Object.assign({}, subDetail, {
+            subscribeStatus: SUBSCRIBE_STATUS_ENUM[subDetail.subscribeStatus]
+          }),
           petName: subDetail?.petsInfo?.petsName,
-          currentCardInfo: subDetail.payPaymentInfo,
+          currentCardInfo:
+            subDetail.paymentMethod === 'JAPAN_COD'
+              ? { pspName: 'JAPAN_COD' }
+              : subDetail.payPaymentInfo,
           currentDeliveryAddress: subDetail.consignee,
           currentBillingAddress: subDetail.invoice,
           noStartYearOption,
           completedYearOption,
           noStartYear,
           completedYear,
-          isActive: subDetail.subscribeStatus === '0',
+          isActive: subDetail.subscribeStatus === 'ACTIVE',
           tabName,
-          isNotInactive:
-            subDetail.subscribeStatus === '0' ||
-            subDetail.subscribeStatus === '1' //subscribeStatus为2的时候不能操作按钮
+          isNotInactive: subDetail.subscribeStatus !== 'INACTIVE' //subscribeStatus为2的时候不能操作按钮
         },
         () => {
           if (!this.state.subDetail.petsLifeStageFlag) {
@@ -623,7 +631,10 @@ class SubscriptionDetail extends React.Component {
     try {
       let param = {
         subscribeId: subDetail.subscribeId,
-        subscribeStatus: subDetail.subscribeStatus
+        subscribeStatus: findKeyFromObject({
+          obj: SUBSCRIBE_STATUS_ENUM,
+          value: subDetail.subscribeStatus
+        })
       };
       let changeField = [];
       let goodsItems = subDetail.goodsInfo?.map((el) => {
@@ -759,7 +770,9 @@ class SubscriptionDetail extends React.Component {
                 )}
                 <div
                   className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop"
-                  style={{ display: type === 'PaymentComp' ? 'block' : 'none' }}
+                  style={{
+                    display: type === 'PaymentComp' ? 'block' : 'none'
+                  }}
                 >
                   {currentCardInfo && (
                     <PaymentComp

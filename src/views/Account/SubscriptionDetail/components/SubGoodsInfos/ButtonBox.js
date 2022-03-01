@@ -1,10 +1,9 @@
 import React, { useContext } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { SubGoodsInfosContext } from './index';
-import { myAccountActionPushEvent } from '@/utils/GA';
+import { myAccountActionPushEvent, GAForChangeProductBtn } from '@/utils/GA';
 import { getDeviceType } from '@/utils/utils';
 import { startSubscription, pauseSubscription } from '@/api/subscription';
-
 const ButtonBox = () => {
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   const SubGoodsInfosValue = useContext(SubGoodsInfosContext);
@@ -20,8 +19,7 @@ const ButtonBox = () => {
     triggerShowChangeProduct
   } = SubGoodsInfosValue;
   const isIndv = subDetail.subscriptionType == 'Individualization';
-  const isNotInactive =
-    subDetail.subscribeStatus === '0' || subDetail.subscribeStatus === '1';
+  const isNotInactive = subDetail.subscribeStatus !== 'INACTIVE';
   const pauseOrStart = async (subDetail) => {
     let subscribeStatus = '0';
     let subscribeStatusText = 'Restart Subscription';
@@ -30,7 +28,7 @@ const ButtonBox = () => {
       subscribeId: subDetail.subscribeId
     };
     //subscribeStatus 暂停传1 重启0
-    if (subDetail.subscribeStatus === '0') {
+    if (subDetail.subscribeStatus === 'ACTIVE') {
       subscribeStatus = '1';
       subscribeStatusText = 'Pause Subscription';
       action = pauseSubscription;
@@ -38,7 +36,7 @@ const ButtonBox = () => {
     param.subscribeStatus = subscribeStatus;
     setState({ loadingPage: true });
     try {
-      let res = await action(param);
+      await action(param);
       subscribeStatusText && myAccountActionPushEvent(subscribeStatusText);
       await getDetail();
     } catch (err) {
@@ -76,6 +74,7 @@ const ButtonBox = () => {
                 productListLoading ? 'ui-btn-loading' : ''
               }`}
               onClick={() => {
+                GAForChangeProductBtn();
                 if (!!subDetail.petsId) {
                   setState({
                     triggerShowChangeProduct: Object.assign(
@@ -111,7 +110,7 @@ const ButtonBox = () => {
         ) : null}
         <br className="rc-md-up" />
         <div className="pause-btn flex items-center mx-4  mt-2">
-          {subDetail.subscribeStatus === '0' ? (
+          {subDetail.subscribeStatus === 'ACTIVE' ? (
             <em
               className="iconfont iconzanting font-bold pb-2 md:pb-1"
               style={{
@@ -136,7 +135,7 @@ const ButtonBox = () => {
             className={`rc-styled-link`}
             onClick={() => pauseOrStart(subDetail)}
           >
-            {subDetail.subscribeStatus === '0' ? (
+            {subDetail.subscribeStatus === 'ACTIVE' ? (
               <FormattedMessage id="subscription.pause" />
             ) : (
               <FormattedMessage id="subscription.restart" />

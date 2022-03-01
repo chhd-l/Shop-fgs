@@ -26,9 +26,8 @@ const SubGoodsInfos = ({
   isShowClub,
   intl
 }) => {
-  const isNotInactive =
-    subDetail.subscribeStatus === '0' || subDetail.subscribeStatus === '1';
-  const isActive = subDetail.subscribeStatus === '0';
+  const isNotInactive = subDetail.subscribeStatus !== 'INACTIVE';
+  const isActive = subDetail.subscribeStatus === 'ACTIVE';
   const isIndv = subDetail.subscriptionType == 'Individualization';
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   //订阅数量更改
@@ -41,7 +40,7 @@ const SubGoodsInfos = ({
   };
   const minusQuantity = (el) => {
     // 非激活状态需要暂停操作
-    if (subDetail.subscribeStatus !== '0') {
+    if (subDetail.subscribeStatus !== 'ACTIVE') {
       return;
     }
     if (el.subscribeNum > 1) {
@@ -56,7 +55,7 @@ const SubGoodsInfos = ({
   };
   const plusQuantity = (el) => {
     // 非激活状态需要暂停操作
-    if (subDetail.subscribeStatus !== '0') {
+    if (subDetail.subscribeStatus !== 'ACTIVE') {
       return;
     }
     if (el.subscribeNum < window.__.env.REACT_APP_LIMITED_NUM) {
@@ -77,7 +76,7 @@ const SubGoodsInfos = ({
     }
   };
   const changeQuantity = (e, el, index, type) => {
-    if (subDetail.subscribeStatus !== '0' || isIndv) {
+    if (subDetail.subscribeStatus !== 'ACTIVE' || isIndv) {
       return;
     }
     setState({
@@ -305,7 +304,7 @@ const SubGoodsInfos = ({
                 >
                   <ChangeSelection el={el} intl={intl} />
                 </div>
-                {isGift && subDetail.subscribeStatus != 2 ? (
+                {isGift && subDetail.subscribeStatus !== 'INACTIVE' ? (
                   <ButtonBoxGift />
                 ) : null}
               </div>
@@ -532,7 +531,7 @@ const SubGoodsInfos = ({
                     <ChangeSelection el={el} intl={intl} />
                   </div>
                 </div>
-                {isGift && subDetail.subscribeStatus != 2 ? (
+                {isGift && subDetail.subscribeStatus !== 'INACTIVE' ? (
                   <ButtonBoxGift />
                 ) : null}
               </div>

@@ -11,6 +11,11 @@ const localItemRoyal = window.__.localItemRoyal;
 export const UnLoginUserBox = ({ history, className, intl }) => {
   return (
     <div className={`user-unLogin-popover ${className}`}>
+      {window.__.env.REACT_APP_HUB_B2B_LOGIN ? (
+        <p className="user-private">
+          <FormattedMessage id="header.User.private" />{' '}
+        </p>
+      ) : null}
       <div className="already">
         <FormattedMessage id="header.User.alreadyRegistered" />
       </div>
@@ -69,13 +74,53 @@ export const UnLoginUserBox = ({ history, className, intl }) => {
           </div>
         </div>
       ) : null}
+      {/* "REACT_APP_HUB_B2B_LOGIN":"1",
+"REACT_APP_HUB_B2B_BREEDER_PRO":"https://www.royalcanin.com/se/about-us/pro",
+"REACT_APP_HUB_B2B_STORES_SPT":"https://webshop.royalcanin.com/se/sv/customer/account/login/",
+"REACT_APP_HUB_B2B_VETERINARIANS_VET":"https://webshop.royalcanin.com/se/sv/customer/account/login/" */}
+      {window.__.env.REACT_APP_HUB_B2B_LOGIN ? (
+        <p className="user-entrepreneurs">
+          <FormattedMessage id="header.User.entrepreneurs" />{' '}
+        </p>
+      ) : null}
+      {window.__.env.REACT_APP_HUB_B2B_LOGIN &&
+      window.__.env.REACT_APP_HUB_B2B_BREEDER_PRO &&
+      window.__.env.REACT_APP_HUB_B2B_STORES_SPT &&
+      window.__.env.REACT_APP_HUB_B2B_VETERINARIANS_VET ? (
+        <div>
+          <a
+            className="b2b-login"
+            href={window.__.env.REACT_APP_HUB_B2B_BREEDER_PRO}
+          >
+            <FormattedMessage id="header.User.breederPRO" />
+            <span className="iconfont iconLogoff rc-text-colour--iconography" />
+          </a>
+          <a
+            className="b2b-login"
+            href={window.__.env.REACT_APP_HUB_B2B_STORES_SPT}
+          >
+            <FormattedMessage id="header.User.storesSPT" />
+            <span className="iconfont iconLogoff rc-text-colour--iconography" />
+          </a>
+          <a
+            className="b2b-login"
+            href={window.__.env.REACT_APP_HUB_B2B_VETERINARIANS_VET}
+          >
+            <FormattedMessage id="header.User.veterinariansVET" />
+            <span className="iconfont iconLogoff rc-text-colour--iconography" />
+          </a>
+        </div>
+      ) : null}
     </div>
   );
 };
 
 export const LoginUserBox = ({ self, className }) => {
-  const { personInformationRouter, petsRouter, subscriptionsRouter } =
-    self.props;
+  const {
+    personInformationRouter,
+    petsRouter,
+    subscriptionsRouter
+  } = self.props;
   const menuList = [
     {
       link: '/account',

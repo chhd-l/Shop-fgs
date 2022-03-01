@@ -1385,3 +1385,14 @@ export function handleDateForIos(date) {
   }
   return finallyDate;
 }
+
+/**
+ * 在object对象中，通过value值找key
+ * @param {object} obj 目标obj对象
+ * @param {any} value 目标value值
+ * @returns 匹配的key值
+ */
+export function findKeyFromObject({ obj, value }) {
+  const compareFn = (a, b) => a === b;
+  return Object.keys(obj).find((k) => compareFn(obj[k], value));
+}

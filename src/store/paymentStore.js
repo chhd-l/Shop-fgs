@@ -160,7 +160,8 @@ class PaymentStore {
   @computed get curPayWayInfo() {
     return this.payWayNameArr.filter(
       (p) =>
-        p.paymentTypeVal === this.curPayWayVal || p.code === this.curPayWayVal
+        this.curPayWayVal &&
+        (p.paymentTypeVal === this.curPayWayVal || p.code === this.curPayWayVal)
     )[0];
   }
 
