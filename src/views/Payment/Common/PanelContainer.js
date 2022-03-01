@@ -44,12 +44,15 @@ const PanelContainer = ({
       >
         <h5 className="mb-0 text-xl">
           {titleVisible ? (
-            <>
-              {panelStatus.isEdit ? highlighIcon : defaultIcon} {title}
-              {panelStatus.isCompleted ? (
-                <span className="iconfont font-weight-bold green ml-2 iconchenggong" />
-              ) : null}
-            </>
+            <span className="flex justify-start">
+              {panelStatus.isEdit ? highlighIcon : defaultIcon}{' '}
+              <span>
+                <span>{title}</span>
+                {panelStatus.isCompleted ? (
+                  <span className="iconfont font-weight-bold green ml-2 iconchenggong" />
+                ) : null}
+              </span>
+            </span>
           ) : null}
         </h5>
         {panelStatus.isCompleted && onEdit ? (
