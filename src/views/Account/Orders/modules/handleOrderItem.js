@@ -86,10 +86,10 @@ export function handleOrderItem(ele, res) {
     canCancelOrderForJP:
       ['jp'].includes(window.__.env.REACT_APP_COUNTRY) &&
       new Date(handleDateForIos(res.defaultLocalDateTime)).getTime() <
-        new Date(handleDateForIos(ele.orderTimeOut)).getTime() &&
-      ((ele?.payWay?.toUpperCase() === 'COD' &&
-        tradeState.flowState === 'INIT') ||
-        (ele?.payWay?.toUpperCase() === 'COD' &&
+        new Date(handleDateForIos(ele.orderCancelTimeOut)).getTime() &&
+      ((ele?.paymentItem === 'cod_japan' && tradeState.flowState === 'INIT') ||
+        (ele?.paymentItem !== 'cod_japan' &&
+          ele?.paymentItem !== 'adyen_convenience_store' &&
           tradeState.payState === 'PAID'))
   });
 }

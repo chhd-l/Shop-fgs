@@ -399,8 +399,8 @@ class MegaMenuMobileForHub extends Component {
                             </span>
                           </a>
                         ))}
-                      {/* sprint8的需求延期到sprint9了 */}
-                      {isLogin ? (
+                      {/* 移除菜单中的myaccount */}
+                      {/* {isLogin ? (
                         <>
                           <Link
                             className="rc-list__header bg-transparent border-0 pt-3 pb-0 d-flex"
@@ -441,7 +441,7 @@ class MegaMenuMobileForHub extends Component {
                             <FormattedMessage id="signInAndRegisterNow" />
                           </span>
                         </LoginButton>
-                      )}
+                      )} */}
                       {shareData.map((data, i) => (
                         <a
                           href={data.link}

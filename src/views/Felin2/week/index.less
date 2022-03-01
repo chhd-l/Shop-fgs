@@ -1,5 +1,6 @@
 
 .week-calender{
+  position: relative;
 .week-head{
     display: flex;
     justify-content: space-between;
@@ -32,7 +33,22 @@
         cursor: pointer;
         width: 30px;
     }
+
 }
+  .not-time {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 0%;
+    height: 60%;
+    left: 40px;
+    top: 88px;
+    bottom: 0;
+    right: 0;
+    background: #f3f4f6;
+    cursor: not-allowed;
+  }
 ul{
     display: flex;
     justify-content: space-around;
@@ -56,6 +72,8 @@ ul{
      li{
          padding: 0 10px;
      }
+
+
   [disabled]{
     border: 2px solid;
     border-color: #d7d7d7 !important;

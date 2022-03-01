@@ -23,6 +23,7 @@ const isHub = window.__.env.REACT_APP_HUB;
 @injectIntl
 @observer
 class Footer extends React.Component {
+  static defaultProps = { showFooter: true };
   constructor(props) {
     super(props);
     this.state = {
@@ -138,7 +139,8 @@ class Footer extends React.Component {
   render() {
     const { showHubFooter } = this;
     const { hubFooterInfo, isInitdQueryHubFooter } = this.state;
-    return (
+    const { showFooter } = this.props;
+    return showFooter ? (
       <FooterWrapper
         className={cn('rc-bg-colour--interface-dark')}
         id="footer"
@@ -188,7 +190,7 @@ class Footer extends React.Component {
         )}
         {/* <!-- OneTrust Cookies Settings button end --> */}
       </FooterWrapper>
-    );
+    ) : null;
   }
 }
 

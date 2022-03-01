@@ -19,14 +19,10 @@ const CancelOrderForJp = ({ details, welcomeGiftLists, props }) => {
   const handleCancelJpOrder = async () => {
     try {
       setCancelJpOrderLoading(true);
-      //todo cancel jp order 接口联调
-      // const res = await cancelOrderForJapan(details.id);
-
-      setTimeout(() => {
-        setCancelJpOrderModalVisible(false);
-        setCancelJpOrderLoading(false);
-        setCancelJpOrderSuccessModalVisible(true);
-      }, 3000);
+      await cancelOrderForJapan({ tid: details.id });
+      setCancelJpOrderModalVisible(false);
+      setCancelJpOrderLoading(false);
+      setCancelJpOrderSuccessModalVisible(true);
     } catch (e) {
       setCancelJpOrderLoading(false);
     }
@@ -56,6 +52,7 @@ const CancelOrderForJp = ({ details, welcomeGiftLists, props }) => {
           </div>
         </div>
       ) : null}
+      {/*jp order cancel success tip modal*/}
       <CancelOrderSuccessModal
         visible={cancelJpOrderSuccessModalVisible}
         close={() => {

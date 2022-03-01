@@ -1,5 +1,6 @@
 import React, { Component, useState } from 'react';
 import Consent from '@/components/Consent';
+import Footer from '@/components/Footer';
 import { getStoreOpenConsentList } from '@/api/consent';
 import Loading from '@/components/Loading';
 import './index.less';
@@ -1080,6 +1081,7 @@ class Register extends Component {
                 </div>
               </div>
             </div>
+            <Footer showFooter={false} />
           </div>
         )}
         <Modal

@@ -18,6 +18,8 @@ export const FOOD_DISPENSER_PIC = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PRE
 
 export const LOGO_ADYEN_COD = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/payment/logo-adyen-cod.svg`;
 
+export const LOGO_ADYEN_CONVENIENCE_STORE = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/payment/logo-convenience-store.svg`;
+
 export const CREDIT_CARD_IMG_ENUM = {
   VISA: visaImg,
   MASTERCARD: mastercardImg,
