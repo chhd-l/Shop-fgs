@@ -787,7 +787,7 @@ class PaymentComp extends React.Component {
                         <>
                           {el.isDefault === 1 ? (
                             <div
-                              className="red"
+                              className="red hidden"
                               onClick={this.toggleSetDefault.bind(this, el)}
                             >
                               <span className="iconfont mr-1">&#xe68c;</span>
