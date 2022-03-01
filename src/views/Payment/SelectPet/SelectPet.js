@@ -85,9 +85,11 @@ const SelectPet = ({ checkoutStore, loginStore, paymentStore, isRepay }) => {
             titleConf={{
               className: 'px-5',
               icon: {
-                defaultIcon: <span className="iconfont iconPets text-lg" />,
+                defaultIcon: (
+                  <span className="iconfont iconPets text-xl mr-2" />
+                ),
                 highlighIcon: (
-                  <span className="iconfont iconPets text-lg text-red" />
+                  <span className="iconfont iconPets text-xl mr-2 text-red" />
                 )
               },
               text: {
