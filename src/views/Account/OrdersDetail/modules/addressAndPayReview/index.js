@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { AddressPreview } from '@/components/Address';
 import {
@@ -12,12 +12,14 @@ import getCardImg from '@/lib/get-card-img';
 import paypalLogo from '@/assets/images/paypal-logo.svg';
 import { ConvenienceStorePayReview } from '@/views/Payment/PaymentMethod';
 import OrderAppointmentInfo from '@/views/Account/AppointmentsDetail/modules/AppointmentInfo';
-import { getWays } from '@/api/payment';
+import { getPaymentMethod, getWays } from '@/api/payment';
 import { LOGO_ADYEN_COD } from '@/utils/constant';
 
 const OrderAddressAndPayReview = ({ details, payRecord, paymentItem }) => {
-  const [countryList, setCountryList] = React.useState([]);
-  const [supportPaymentMethods, setSupportPaymentMethods] = React.useState([]);
+  const [countryList, setCountryList] = useState([]);
+  const [supportPaymentMethods, setSupportPaymentMethods] = useState([]);
+  const [paypalAccount, setPaypalAccount] = useState('');
+
   let newDeliveryDate = formatDate({
     date: details?.consignee?.deliveryDate,
     formatOption: { weekday: 'long', day: '2-digit', month: 'long' }
@@ -32,6 +34,16 @@ const OrderAddressAndPayReview = ({ details, payRecord, paymentItem }) => {
         res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || []
       );
     });
+    if (paymentItem === 'adyen_paypal') {
+      getPaymentMethod({}, true).then((res) => {
+        const paypalCardIndex = res.context.findIndex(
+          (item) => item.paymentItem === 'adyen_paypal'
+        );
+        if (paypalCardIndex > -1) {
+          setPaypalAccount(res.context[paypalCardIndex].email);
+        }
+      });
+    }
   }, []);
 
   return (
@@ -206,6 +218,7 @@ const OrderAddressAndPayReview = ({ details, payRecord, paymentItem }) => {
                   <LazyLoad className="inline-block">
                     <img alt="paypal" className="w-20 h-10" src={paypalLogo} />
                   </LazyLoad>
+                  <p>{paypalAccount}</p>
                 </div>
               </PaymentMethodContainer>
             ) : null}
