@@ -1597,7 +1597,6 @@ const en_US = {
   sterilized: 'Spayed/neutered?',
   submit: 'Submit',
   subscribe: 'Subscribe',
-  subscribeDiscount: 'Subscription Save Discount',
   subscription: 'Subscription',
   'subscription.ad.list1.val2': "meeting your pet's needs",
   'subscription.ad.list2.val1': 'Automatic shipping',
@@ -1607,7 +1606,6 @@ const en_US = {
   'subscription.autoship': 'autoship',
   'subscription.BillingAddress': 'Billing address',
   'subscription.cancelAll': 'Cancel',
-  'subscription.change': 'Change',
   'subscription.changeNow': 'Change now',
   'subscription.chooseOption': 'Please choose your options',
   'subscription.chooseSubscription': 'Choose subscription',
@@ -1630,7 +1628,6 @@ const en_US = {
   'subscription.orderNow': 'Order Now',
   'subscription.pause': 'Pause',
   'subscription.paymentMethod': 'Payment method',
-  'subscription.previousOrders': 'Previous Orders',
   'subscription.product': 'Product',
   'subscription.productDetails': ' Product details',
   'subscription.productRecommendation': 'Your product recommendation',
@@ -1705,7 +1702,6 @@ const en_US = {
   'tailorednutrition.formulasTitle': 'Crafted Formulas',
   'tailorednutrition.natureDetail':
     'A Jack Russell in perfect health can jump up to six times their own height. Indoor cats and outdoor cats have very different energy needs. Nourishing their incredible natural potential with specially selected proteins and antioxidants addresses their unique needs.',
-  'tailorednutrition.natureTitle': 'Nourishing Their Nature',
   'tailorednutrition.nutritionDetail':
     'Dogs and cats have unique needs, and we focus on delivering the best possible health nutrition for each of those needs. Each recipe is formulated to deliver the exact level of nutrients that are essential to your pet’s individual health needs.',
   'tailorednutrition.nutritionTitle': 'What is Tailored Nutrition?',
@@ -1717,7 +1713,6 @@ const en_US = {
   'tailorednutrition.shopTile': 'Shop Tailored Nutrition For Your Pet',
   'tailorednutrition.uniqueDetail':
     'Many pets have uniquely shaped jaws and behaviour that create challenges to how they eat. That’s why we tailor not only our recipes at a nutritional level, but also design the shape and structure of each kibble to better meet the physical feeding needs of every pet.',
-  'tailorednutrition.uniqueTitle': 'Unique Formulas For Unique Needs',
   tailorednutrition2: 'Tailored Nutrition',
   title: 'Title',
   to: 'To',
@@ -1740,7 +1735,6 @@ const en_US = {
   VAT_included: 'VAT included',
   viewAll: 'View all products',
   viewAllResults: 'View all results',
-  viewResults: 'Search Results',
   visitStoreMap: 'Visit store map',
   weight: 'Weight',
   welcome: 'Welcome',
