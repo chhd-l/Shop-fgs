@@ -410,9 +410,9 @@ class Form extends React.Component {
       case 'tr':
         phoneReg = [{ mask: '{0} (000) 000-00-00' }];
         break;
-      // case 'jp':
-      //   phoneReg = [{ mask: '000-0000-0000' }];
-      //   break;
+      case 'jp':
+        phoneReg = [{ mask: '000-0000-0000' }];
+        break;
       default:
         phoneReg = [{ mask: '00000000000' }];
         break;
@@ -485,7 +485,7 @@ class Form extends React.Component {
                   // 设置手机号输入限制
                   setTimeout(() => {
                     this.setPhoneNumberReg();
-                    //this.setPostCodeReg()
+                    this.setPostCodeReg();
                   }, 1000);
                 }
               });
@@ -597,6 +597,8 @@ class Form extends React.Component {
           if (ft === 0 || ft === 1) {
             COUNTRY == 'us'
               ? (regExp = /(^\d{5}$)|(^\d{5}-\d{4}$)/)
+              : COUNTRY == 'jp'
+              ? (regExp = /^[0-9]{3}-[0-9]{4}$/)
               : (regExp = /^\d{5}$/);
           } else {
             regExp = /\S/;
@@ -1497,17 +1499,6 @@ class Form extends React.Component {
       </>
     );
   };
-  //日本 用caninForm['area']代替caninForm['region']
-  // inputJSXValue = (fieldKey) => {
-  //   const { caninForm } = this.state;
-  //   let res = ''
-  //   if(COUNTRY=='jp' && fieldKey == 'region' ){
-  //     res = caninForm['area']
-  //   }else{
-  //     res = caninForm[fieldKey] || ''
-  //   }
-  //   return res
-  // }
   // 文本框
   inputJSX = (item) => {
     const { caninForm } = this.state;
@@ -1523,7 +1514,6 @@ class Form extends React.Component {
             id={`${item.fieldKey}Shipping`}
             type={item.filedType}
             value={caninForm[item.fieldKey] || ''}
-            // value={this.inputJSXValue(item.fieldKey)}
             onInput={(e) => this.inputChange(e)}
             onBlur={this.inputBlur}
             name={item.fieldKey}
