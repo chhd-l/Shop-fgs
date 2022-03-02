@@ -10,13 +10,12 @@ import findIndex from 'lodash/findIndex';
 import stores from '@/store';
 import { toJS } from 'mobx';
 import { registerLocale } from 'react-datepicker';
-import { getAppointDetail, getMemberAppointDetail } from '@/api/appointment';
+import { getAppointDetail } from '@/api/appointment';
 import cloneDeep from 'lodash/cloneDeep';
 import { sitePurchase } from '@/api/cart';
-import Club_Logo from '@/assets/images/Logo_club.png';
-import Club_Logo_ru from '@/assets/images/Logo_club_ru.png';
 import indvLogo from '@/assets/images/indv_log.svg';
 import { format } from 'date-fns';
+import { LOGO_CLUB, LOGO_CLUB_RU } from '@/utils/constant';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -926,9 +925,9 @@ export function getZoneTime(date) {
 }
 
 export function getClubLogo({ goodsInfoFlag, subscriptionType }) {
-  let logo = Club_Logo;
+  let logo = LOGO_CLUB;
   if (window.__.env.REACT_APP_COUNTRY === 'ru') {
-    logo = Club_Logo_ru;
+    logo = LOGO_CLUB_RU;
   }
   if (goodsInfoFlag == 3 || subscriptionType == 'Individualization') {
     logo = indvLogo;

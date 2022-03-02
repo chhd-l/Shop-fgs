@@ -6,7 +6,8 @@ const Paypal = ({
   billingJSX,
   isLogin,
   updatePaypalDetailsToAccount,
-  updatePaypalMethodDefault
+  updatePaypalMethodDefault,
+  isCurrentBuyWaySubscription
 }) => {
   const [paypalSaved, setPaypalSaved] = useState(false);
   const [paypalEmail, setPaypalEmail] = useState('john ***@gamail.com');
@@ -41,7 +42,7 @@ const Paypal = ({
 
   return (
     <>
-      {paypalSaved ? (
+      {isLogin && paypalSaved && isCurrentBuyWaySubscription ? (
         <>
           <div className="mb-4">
             <FormattedMessage id="Authorized with" /> {paypalEmail}
@@ -52,7 +53,7 @@ const Paypal = ({
           <div id="paypal-container">
             <FormattedMessage id="paypal.bref" />
           </div>
-          {isLogin ? (
+          {false && isLogin ? (
             <>
               <div className="rc-input rc-input--inline mw-100">
                 <input
