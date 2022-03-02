@@ -1931,12 +1931,7 @@ class Payment extends React.Component {
             ? tidList
             : res.context && res.context.tidList;
           subNumber = (res.context && res.context.subscribeId) || '';
-
-          if (res.context.redirectUrl) {
-            window.location.href = res.context.redirectUrl;
-          } else {
-            gotoConfirmationPage = true;
-          }
+          gotoConfirmationPage = true;
           break;
         default:
           break;

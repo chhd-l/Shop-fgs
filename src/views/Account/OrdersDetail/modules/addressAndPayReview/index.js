@@ -9,11 +9,10 @@ import {
 } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import getCardImg from '@/lib/get-card-img';
-import paypalLogo from '@/assets/images/paypal-logo.svg';
 import { ConvenienceStorePayReview } from '@/views/Payment/PaymentMethod';
 import OrderAppointmentInfo from '@/views/Account/AppointmentsDetail/modules/AppointmentInfo';
 import { getPaymentMethod, getWays } from '@/api/payment';
-import { LOGO_ADYEN_COD } from '@/utils/constant';
+import { LOGO_ADYEN_COD, LOGO_ADYEN_PAYPAL } from '@/utils/constant';
 
 const OrderAddressAndPayReview = ({ details, payRecord, paymentItem }) => {
   const [countryList, setCountryList] = useState([]);
@@ -216,7 +215,11 @@ const OrderAddressAndPayReview = ({ details, payRecord, paymentItem }) => {
               <PaymentMethodContainer>
                 <div className="medium mb-2">
                   <LazyLoad className="inline-block">
-                    <img alt="paypal" className="w-20 h-10" src={paypalLogo} />
+                    <img
+                      alt="paypal"
+                      className="w-20 h-10"
+                      src={LOGO_ADYEN_PAYPAL}
+                    />
                   </LazyLoad>
                   <p>{paypalAccount}</p>
                 </div>
@@ -227,7 +230,7 @@ const OrderAddressAndPayReview = ({ details, payRecord, paymentItem }) => {
                 <div className="medium mb-2">
                   <ConvenienceStorePayReview
                     convenienceStore={
-                      details?.payInfo?.convenienceStorePayInfo?.name
+                      details?.payInfo?.convenienceStorePayInfo?.storeName
                     }
                   />
                 </div>
