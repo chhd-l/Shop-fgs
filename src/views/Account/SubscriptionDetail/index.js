@@ -780,8 +780,16 @@ class SubscriptionDetail extends React.Component {
                       needEmail={+window.__.env.REACT_APP_PAYU_EMAIL}
                       needPhone={+window.__.env.REACT_APP_PAYU_PHONE}
                       history={this.props.history}
-                      paymentId={currentCardInfo.id || currentCardInfo.pspName}
-                      key={currentCardInfo.id || currentCardInfo.pspName}
+                      paymentId={
+                        currentCardInfo.id ||
+                        subDetail?.paymentId ||
+                        currentCardInfo.pspName
+                      }
+                      key={
+                        currentCardInfo.id ||
+                        subDetail?.paymentId ||
+                        currentCardInfo.pspName
+                      }
                       type={type}
                       save={(el) => this.paymentSave(el)}
                       cancel={this.cancelEdit}
