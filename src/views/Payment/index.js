@@ -341,8 +341,8 @@ class Payment extends React.Component {
       isFromFelin: false, //是否是felin下单
       appointNo: null, //felin的预约单号
       convenienceStore: '',
-      paypalDetailsChecked: true,
-      paypalMethodDefaultChecked: true
+      paypalDetailsChecked: false,
+      paypalMethodDefaultChecked: false
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
@@ -913,8 +913,15 @@ class Payment extends React.Component {
 
   queryList = async () => {
     try {
-      let res = await getPaymentMethod();
+      let res = await getPaymentMethod({}, true);
       let cardList = res.context;
+      const paypalCardIndex = cardList.findIndex(
+        (item) => item.paymentItem === 'adyen_paypal' && item.isDefault === 1
+      );
+      if (paypalCardIndex >= -1) {
+        this.handlePaymentTypeClick('adyenPaypal');
+        cardList.splice(paypalCardIndex, 1);
+      }
       this.setState({ cardListLength: cardList.length });
       if (cardList.length > 0) {
         this.setState({ isShowCardList: true });
@@ -2237,7 +2244,9 @@ class Payment extends React.Component {
           this.state.convenienceStore === 'Seven-Eleven'
             ? 'econtext_seven_eleven'
             : 'econtext_stores',
-        adyenConvenienceStoreName: this.state.convenienceStore
+        adyenConvenienceStoreName: this.state.convenienceStore,
+        savePaymentInfoFlag: this.state.paypalDetailsChecked,
+        savePaymentDefaultFlag: this.state.paypalMethodDefaultChecked
       },
       appointParam
     );
