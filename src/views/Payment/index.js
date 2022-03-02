@@ -922,7 +922,7 @@ class Payment extends React.Component {
         (item) => item.paymentItem === 'adyen_paypal' && item.isDefault === 1
       );
       if (paypalCardIndex >= -1) {
-        this.handlePaymentTypeClick('adyenPaypal');
+        // this.handlePaymentTypeClick('adyenPaypal');
         cardList.splice(paypalCardIndex, 1);
       }
       this.setState({ cardListLength: cardList.length });
@@ -2242,9 +2242,9 @@ class Payment extends React.Component {
           this.state.convenienceStore === 'Seven-Eleven'
             ? 'econtext_seven_eleven'
             : 'econtext_stores',
-        adyenConvenienceStoreName: this.state.convenienceStore,
-        savePaymentInfoFlag: this.state.paypalDetailsChecked,
-        savePaymentDefaultFlag: this.state.paypalMethodDefaultChecked
+        adyenConvenienceStoreName: this.state.convenienceStore
+        // savePaymentInfoFlag: this.state.paypalDetailsChecked,
+        // savePaymentDefaultFlag: this.state.paypalMethodDefaultChecked
       },
       appointParam
     );
@@ -3602,6 +3602,9 @@ class Payment extends React.Component {
                             this.updatePaypalMethodDefault
                           }
                           isLogin={this.isLogin}
+                          isCurrentBuyWaySubscription={
+                            this.isCurrentBuyWaySubscription
+                          }
                         />
                       </>
                     )}
