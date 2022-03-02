@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import find from 'lodash/find';
-import { getList } from '@/api/list';
+import { getList, getSearchSuggestion } from '@/api/list';
 import Loading from '@/components/Loading';
 import LazyLoad from 'react-lazyload';
 import { IMG_DEFAULT } from '@/utils/constant';
@@ -29,12 +29,12 @@ export default class Search extends React.Component {
     this.state = {
       showSearchInput: false,
       result: null,
+      suggestions: [],
       keywords: '',
       loading: false,
       isSearchSuccess: false, //是否搜索成功
       hasSearchedDone: false, //是否请求接口完毕
-      hiddenResult: false,
-      innerResultBox: false
+      hiddenResult: false
     };
     this.inputRef = React.createRef();
     this.inputRefMobile = React.createRef();
@@ -54,7 +54,7 @@ export default class Search extends React.Component {
         clearTimeout(this.timer);
         this.timer = setTimeout(() => {
           cancelPrevRequest();
-          this.getSearchData();
+          this.getSuggestionList();
         }, 500);
       }
     );
@@ -63,7 +63,25 @@ export default class Search extends React.Component {
     this.props.focusedOnDidMount &&
       this.inputRef.current &&
       this.inputRef.current.focus();
+    window.document.addEventListener('click', this.hanldeSearchBlur);
   }
+
+  componentWillUnmount() {
+    window.document.removeEventListener('click', this.hanldeSearchBlur);
+  }
+
+  async getSuggestionList() {
+    const { keywords } = this.state;
+    const sugRes = await getSearchSuggestion(keywords);
+    if (sugRes.context && sugRes.context.length) {
+      this.setState({
+        suggestions: sugRes.context
+      });
+    } else {
+      this.getSearchData();
+    }
+  }
+
   async getSearchData() {
     const { keywords } = this.state;
     // this.setState({ loading: true });
@@ -202,11 +220,9 @@ export default class Search extends React.Component {
   };
 
   hanldeSearchBlur = () => {
-    if (!this.state.innerResultBox) {
-      this.setState({
-        hiddenResult: true
-      });
-    }
+    this.setState({
+      hiddenResult: true
+    });
   };
 
   doGAInstantSearchResultClick = (type, item, idx, e) => {
@@ -230,9 +246,6 @@ export default class Search extends React.Component {
   };
 
   enterResultBox = () => {
-    this.setState({
-      innerResultBox: true
-    });
     const bodyDom = document.getElementsByTagName('body')[0];
     if (bodyDom) {
       bodyDom.classList.add('body-hidden-scroll');
@@ -240,19 +253,62 @@ export default class Search extends React.Component {
   };
 
   leaveResultBox = () => {
-    this.setState({
-      innerResultBox: false
-    });
     const bodyDom = document.getElementsByTagName('body')[0];
     if (bodyDom) {
       bodyDom.classList.remove('body-hidden-scroll');
     }
   };
 
+  handleSuggestionItemClick = (suggestionKeyword) => {
+    this.setState(
+      {
+        keywords: suggestionKeyword,
+        suggestions: []
+      },
+      () => {
+        this.getSearchData();
+      }
+    );
+  };
+
+  handleSearchContainerClick = (e) => {
+    e.nativeEvent.stopImmediatePropagation();
+  };
+
   renderResultJsx() {
-    const { result, keywords } = this.state;
+    const { result, keywords, suggestions } = this.state;
     let ret = null;
-    if (result) {
+    if (suggestions && suggestions.length) {
+      const keyReg = new RegExp(keywords, 'gi');
+      ret = (
+        <div
+          className="suggestions"
+          id="mainSuggestions"
+          onMouseOver={() => this.enterResultBox()}
+          onMouseOut={() => this.leaveResultBox()}
+        >
+          <div className="container">
+            <div className="row d-flex flex-sm-row">
+              <div className="col-12 rc-column">
+                {suggestions
+                  .map((item) => ({
+                    item: item,
+                    html: item.replace(keyReg, (txt) => `<b>${txt}</b>`)
+                  }))
+                  .map((item, idx) => (
+                    <div
+                      className="col-12 item ui-cursor-pointer"
+                      key={idx}
+                      dangerouslySetInnerHTML={{ __html: item.html }}
+                      onClick={() => this.handleSuggestionItemClick(item.item)}
+                    ></div>
+                  ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    } else if (result) {
       ret = (
         <div
           className="suggestions"
@@ -413,16 +469,14 @@ export default class Search extends React.Component {
     return ret;
   }
   render() {
-    const {
-      showSearchInput,
-      result,
-      keywords,
-      loading,
-      hiddenResult
-    } = this.state;
+    const { showSearchInput, result, keywords, loading, hiddenResult } =
+      this.state;
     const isMobile = getDeviceType() !== 'PC';
     return (
-      <div className="inlineblock w-100">
+      <div
+        className="inlineblock w-100"
+        onClick={this.handleSearchContainerClick}
+      >
         {loading ? <Loading /> : null}
         {isHub ? (
           <>
@@ -462,7 +516,6 @@ export default class Search extends React.Component {
                       type="search"
                       autoComplete="off"
                       placeholder={txt}
-                      onBlur={this.hanldeSearchBlur}
                       onFocus={this.hanldeSearchFocus}
                       onChange={this.handleSearchInputChange}
                       value={keywords}
@@ -526,7 +579,6 @@ export default class Search extends React.Component {
                         autoComplete="off"
                         placeholder={txt}
                         value={keywords}
-                        onBlur={this.hanldeSearchBlur}
                         onFocus={this.hanldeSearchFocus}
                         onChange={this.handleSearchInputChange}
                       />
