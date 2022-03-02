@@ -66,7 +66,7 @@ export default class Modal extends React.Component {
                 />
               </div>
               <div
-                className="modal-body px-0 overflow-y-scroll overflow-x-hidden"
+                className="modal-body px-0 overflow-y-auto overflow-x-hidden"
                 style={{
                   maxHeight: '50vh'
                 }}

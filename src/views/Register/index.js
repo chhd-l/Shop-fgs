@@ -1,5 +1,6 @@
 import React, { Component, useState } from 'react';
 import Consent from '@/components/Consent';
+import Footer from '@/components/Footer';
 import { getStoreOpenConsentList } from '@/api/consent';
 import Loading from '@/components/Loading';
 import './index.less';
@@ -647,18 +648,11 @@ class Register extends Component {
                         </button>
                       </aside>
                       <h2
-                        className={`text-center rc-margin-bottom--sm ${
-                          isTr ? 'trWelcome' : ''
-                        }`}
-                      >
-                        <FormattedMessage id="registerWelcome" />{' '}
-                        <span
-                          className="rc-text-colour--brand1"
-                          dangerouslySetInnerHTML={{
-                            __html: intl.messages['register.royalCanin']
-                          }}
-                        />
-                      </h2>
+                        className={`text-center rc-margin-bottom--sm`}
+                        dangerouslySetInnerHTML={{
+                          __html: intl.messages['register.welcomeToRoyalCanin']
+                        }}
+                      ></h2>
                       <p className="rc-margin-bottom--none text-center">
                         <FormattedMessage id="registerCompleteForm" />
                       </p>
@@ -1080,6 +1074,7 @@ class Register extends Component {
                 </div>
               </div>
             </div>
+            <Footer showFooter={false} />
           </div>
         )}
         <Modal

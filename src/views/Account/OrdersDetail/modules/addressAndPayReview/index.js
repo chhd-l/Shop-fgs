@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { AddressPreview } from '@/components/Address';
 import {
@@ -9,15 +9,16 @@ import {
 } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import getCardImg from '@/lib/get-card-img';
-import paypalLogo from '@/assets/images/paypal-logo.svg';
 import { ConvenienceStorePayReview } from '@/views/Payment/PaymentMethod';
 import OrderAppointmentInfo from '@/views/Account/AppointmentsDetail/modules/AppointmentInfo';
-import { getWays } from '@/api/payment';
-import { LOGO_ADYEN_COD } from '@/utils/constant';
+import { getPaymentMethod, getWays } from '@/api/payment';
+import { LOGO_ADYEN_COD, LOGO_ADYEN_PAYPAL } from '@/utils/constant';
 
 const OrderAddressAndPayReview = ({ details, payRecord, paymentItem }) => {
-  const [countryList, setCountryList] = React.useState([]);
-  const [supportPaymentMethods, setSupportPaymentMethods] = React.useState([]);
+  const [countryList, setCountryList] = useState([]);
+  const [supportPaymentMethods, setSupportPaymentMethods] = useState([]);
+  const [paypalAccount, setPaypalAccount] = useState('');
+
   let newDeliveryDate = formatDate({
     date: details?.consignee?.deliveryDate,
     formatOption: { weekday: 'long', day: '2-digit', month: 'long' }
@@ -32,6 +33,16 @@ const OrderAddressAndPayReview = ({ details, payRecord, paymentItem }) => {
         res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || []
       );
     });
+    // if (paymentItem === 'adyen_paypal') {
+    //   getPaymentMethod({}, true).then((res) => {
+    //     const paypalCardIndex = res.context.findIndex(
+    //       (item) => item.paymentItem === 'adyen_paypal'
+    //     );
+    //     if (paypalCardIndex > -1) {
+    //       setPaypalAccount(res.context[paypalCardIndex].email);
+    //     }
+    //   });
+    // }
   }, []);
 
   return (
@@ -204,21 +215,28 @@ const OrderAddressAndPayReview = ({ details, payRecord, paymentItem }) => {
               <PaymentMethodContainer>
                 <div className="medium mb-2">
                   <LazyLoad className="inline-block">
-                    <img alt="paypal" className="w-20 h-10" src={paypalLogo} />
+                    <img
+                      alt="paypal"
+                      className="w-20 h-10"
+                      src={LOGO_ADYEN_PAYPAL}
+                    />
                   </LazyLoad>
+                  <p>{details?.payPalEmail || paypalAccount}</p>
                 </div>
               </PaymentMethodContainer>
             ) : null}
-            {paymentItem === 'convenience_store' ? (
+            {details.paymentItem === 'adyen_convenience_store' ? (
               <PaymentMethodContainer>
                 <div className="medium mb-2">
-                  <ConvenienceStorePayReview />
+                  <ConvenienceStorePayReview
+                    convenienceStore={
+                      details?.payInfo?.convenienceStorePayInfo?.storeName
+                    }
+                  />
                 </div>
               </PaymentMethodContainer>
             ) : null}
-            {/* todo jp 待后端修改字段，去除country判断 */}
-            {paymentItem === 'cod' &&
-            window.__.env.REACT_APP_COUNTRY === 'jp' ? (
+            {paymentItem === 'cod_japan' ? (
               <PaymentMethodContainer>
                 <div className="flex items-center">
                   <LazyLoad>

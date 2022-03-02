@@ -121,7 +121,21 @@ export function addOrUpdatePaymentMethodRu(parameter) {
   });
 }
 
-export function getPaymentMethod(parameter) {
+//除checkout 首次获取卡列表和 paypal支付方式获取卡列表外，其他地方获取排除paypal卡
+export async function getPaymentMethod(parameter = {}, needPaypalCard = false) {
+  const res = await getPaymentMethodCard(parameter);
+  if (!needPaypalCard) {
+    const paypalCardIndex = res.context.findIndex(
+      (item) => item.paymentItem === 'adyen_paypal' && item.isDefault === 1
+    );
+    if (paypalCardIndex >= -1) {
+      res.context.splice(paypalCardIndex, 1);
+    }
+  }
+  return res;
+}
+
+export function getPaymentMethodCard(parameter) {
   return axios({
     url: api.getPaymentMethod,
     method: 'get',

@@ -372,7 +372,6 @@ const en_US = {
   continueAsGuest: 'Continue as a guest',
   continueMyPurchases: 'Continue Shopping',
   continueShopping: 'Continue shopping',
-  country: 'Country *',
   createAnAccount: 'Create an account',
   creditCard: 'Credit Card',
   creditCardTipMany: 'You have created {number} credit card(s), up to 10',
@@ -430,7 +429,6 @@ const en_US = {
   'dailyPortion.title':
     'Discover now the perfect tool to calculate the ideal ration for your pet. Fill in your pet’s information in the interactive feeding guide and you will get the daily feeding recommendation. ',
   'dailyPortion.weight.label': 'Current pet weight',
-  dataProtection: 'privacy policy',
   dateOfBirth: 'Date of Birth',
   'datePicker.months': [
     'January',
@@ -476,8 +474,6 @@ const en_US = {
   deleteAddressSuccess: 'Delete Address Success',
   deleteAddressTip:
     'Sorry, this address  has already been subject to a subscription, so it cannot be deleted.',
-  deleteCardTip:
-    'Sorry, this credit card has already been subject to a subscription, so it cannot be deleted.',
   deleteSuccessFullly: 'Delete successfullly',
   deliveredTip: 'Expected to arrive in about 3 days',
   delivery: 'delivery',
@@ -519,9 +515,7 @@ const en_US = {
   'details.recommendedDaily': 'The recommended daily ration for your pet is',
   'details.recommendedDaily.info': '{val}',
   'details.shippedTime': 'shipped within 2 working days',
-  'details.Subscription': 'Subscription',
   'details.theSize': 'The size',
-  'details.unitPrice': 'Unit price',
   'details.youCanSave': 'You can save',
   dogs: 'DOGS',
   dogs2: 'Dogs',
@@ -535,12 +529,10 @@ const en_US = {
   emailUs: 'Email us',
   enterCatBreed: 'Enter the breed of your cat',
   enterClinicName: 'Enter clinic name',
-  enterCorrectEmail: 'Please enter the correct email',
   enterCorrectPhoneNumber: 'Enter a valid phone number',
   enterCorrectPostCode: 'Please enter the correct post code',
   enterCorrectValue: 'Please enter the correct {val}',
   enterDogBreed: 'Enter the breed of your dog',
-  enterNickname: 'Enter nickname of your pet',
   enterPasswordAgain: 'Enter new password again',
   estimatedTax: 'Estimated Tax',
   every: 'Every',
@@ -553,25 +545,18 @@ const en_US = {
   'faq.frequentQuestions': 'Frequently Asked Questions',
   'faq.title':
     "Got a question? Take a look below to see if it's already been answered. If you can't find what you are looking for, click {val1}.",
-  'faq.title2': 'Entrega del alimento',
-  FAQdesc:
-    "If you have any question. Look below to see if there is an answer. If you can't find what you are looking for. {val} to contact us.",
   filters: 'Filter products',
   findLocation: 'Find Location',
   findTheRightDiet: 'Find the right food',
   firstName: 'First Name *',
-  'firstNameLastName50characters!':
-    'First Name or Last Name cannot exceed 50 characters!',
   'footer.aboutRoyalCanin': 'ROYAL CANIN',
   'footer.acceptance': 'Acceptance guarantee',
   'footer.action': 'Actions',
-  'footer.Additionally': 'ADITIONELLEMENT',
   'footer.Additionally2': 'ADDITIONAL',
   'footer.confidentiality': 'Privacy',
   'footer.consistence': 'durability',
   'footer.contactRoyalCanin': 'Contact Royal Canin',
   'footer.contacts': 'Contacts',
-  'footer.contactUs': 'Contact Us',
   'footer.cookieCollectionPolicy': 'Cookie Collection Policy',
   'footer.cookies': 'Cookies',
   'footer.cookieSettings': 'Cookie Settings',
@@ -606,7 +591,6 @@ const en_US = {
   'header.carouselInfo11': 'ROYAL CANIN® CLUB for kittens',
   'header.carouselInfo2':
     'Find precise nutrition based on the unique needs of your pet.',
-  'header.carouselInfo3': 'Pet Nutrition',
   'header.carouselInfo4': 'Personal consultant',
   'header.carouselInfo5': 'FREE veterinary examinations',
   'header.carouselInfo6': 'Branded accessories and VIP service',
@@ -890,8 +874,6 @@ const en_US = {
   'list.closeFilters': 'Close filters',
   'list.errMsg':
     'No products found, please change the search criteria and try again.',
-  'list.errMsg2':
-    'No products found, please change the keywords and try again.',
   'list.errMsg3': 'No filters found, please try again later.',
   'list.viewFilters': 'View filters',
   'list.youSearchedFor': 'You searched for',
@@ -990,7 +972,6 @@ const en_US = {
   'order.paymentTime': 'Payment time',
   'order.payNow': 'Pay now',
   'order.quantityText': '{specText} - Qty {buyCount}',
-  'order.rateModalTitle': 'Your opinion is important',
   'order.refundErrorInfo':
     'This order is associated with a refund in processing and cannot be reapplied.',
   'order.return': 'Return',
@@ -1005,7 +986,6 @@ const en_US = {
     'Your order has been successfully paid and we are preparing to ship.',
   'order.total': 'Total',
   'order.viewLogisticDetail': 'View logistic detail',
-  'order.viewOrder': 'View order',
   orderDetail: 'Order Detail',
   orders: 'Orders',
   'orderStatus.COMPLETED': 'Completed',
@@ -1055,8 +1035,6 @@ const en_US = {
     'You must be 18 years or more to register on the site.',
   'payment.confirmInfo3':
     'He leído el Acuerdo de usuario y la {val1} y acepto el procesamiento de datos personales, incluida {val2}',
-  'payment.confirmInfo4':
-    'You need to familiarize yourself with the User Agreement and the Privacy Policy and give your consent to the processing of personal data, including cross-border transfer.',
   'payment.country': 'Country',
   'payment.county': 'County',
   'payment.DEBIT': 'DEBIT',
@@ -1619,7 +1597,6 @@ const en_US = {
   sterilized: 'Spayed/neutered?',
   submit: 'Submit',
   subscribe: 'Subscribe',
-  subscribeDiscount: 'Subscription Save Discount',
   subscription: 'Subscription',
   'subscription.ad.list1.val2': "meeting your pet's needs",
   'subscription.ad.list2.val1': 'Automatic shipping',
@@ -1629,7 +1606,6 @@ const en_US = {
   'subscription.autoship': 'autoship',
   'subscription.BillingAddress': 'Billing address',
   'subscription.cancelAll': 'Cancel',
-  'subscription.change': 'Change',
   'subscription.changeNow': 'Change now',
   'subscription.chooseOption': 'Please choose your options',
   'subscription.chooseSubscription': 'Choose subscription',
@@ -1652,7 +1628,6 @@ const en_US = {
   'subscription.orderNow': 'Order Now',
   'subscription.pause': 'Pause',
   'subscription.paymentMethod': 'Payment method',
-  'subscription.previousOrders': 'Previous Orders',
   'subscription.product': 'Product',
   'subscription.productDetails': ' Product details',
   'subscription.productRecommendation': 'Your product recommendation',
@@ -1727,7 +1702,6 @@ const en_US = {
   'tailorednutrition.formulasTitle': 'Crafted Formulas',
   'tailorednutrition.natureDetail':
     'A Jack Russell in perfect health can jump up to six times their own height. Indoor cats and outdoor cats have very different energy needs. Nourishing their incredible natural potential with specially selected proteins and antioxidants addresses their unique needs.',
-  'tailorednutrition.natureTitle': 'Nourishing Their Nature',
   'tailorednutrition.nutritionDetail':
     'Dogs and cats have unique needs, and we focus on delivering the best possible health nutrition for each of those needs. Each recipe is formulated to deliver the exact level of nutrients that are essential to your pet’s individual health needs.',
   'tailorednutrition.nutritionTitle': 'What is Tailored Nutrition?',
@@ -1739,7 +1713,6 @@ const en_US = {
   'tailorednutrition.shopTile': 'Shop Tailored Nutrition For Your Pet',
   'tailorednutrition.uniqueDetail':
     'Many pets have uniquely shaped jaws and behaviour that create challenges to how they eat. That’s why we tailor not only our recipes at a nutritional level, but also design the shape and structure of each kibble to better meet the physical feeding needs of every pet.',
-  'tailorednutrition.uniqueTitle': 'Unique Formulas For Unique Needs',
   tailorednutrition2: 'Tailored Nutrition',
   title: 'Title',
   to: 'To',
@@ -1762,7 +1735,6 @@ const en_US = {
   VAT_included: 'VAT included',
   viewAll: 'View all products',
   viewAllResults: 'View all results',
-  viewResults: 'Search Results',
   visitStoreMap: 'Visit store map',
   weight: 'Weight',
   welcome: 'Welcome',

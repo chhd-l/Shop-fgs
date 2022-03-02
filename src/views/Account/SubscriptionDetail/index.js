@@ -173,7 +173,8 @@ class SubscriptionDetail extends React.Component {
           subscribeGoodsId: el.subscribeGoodsId
         };
       }),
-      changeField: 'paymentMethod'
+      changeField: 'paymentMethod',
+      payPspItemEnum: el.payPspItemEnum || ''
     };
     this.setState({ loading: true });
     updateDetail(param)
@@ -497,10 +498,8 @@ class SubscriptionDetail extends React.Component {
           }),
           petName: subDetail?.petsInfo?.petsName,
           currentCardInfo:
-            // todo jp cod 等待后端返回payment Record
-            window.__.env.REACT_APP_COUNTRY === 'jp' &&
-            subDetail.paymentMethod === 'PAYU_RUSSIA_COD'
-              ? { type: 'PAYU_RUSSIA_COD' }
+            subDetail.paymentMethod === 'JAPAN_COD'
+              ? { pspName: 'JAPAN_COD' }
               : subDetail.payPaymentInfo,
           currentDeliveryAddress: subDetail.consignee,
           currentBillingAddress: subDetail.invoice,
@@ -781,7 +780,16 @@ class SubscriptionDetail extends React.Component {
                       needEmail={+window.__.env.REACT_APP_PAYU_EMAIL}
                       needPhone={+window.__.env.REACT_APP_PAYU_PHONE}
                       history={this.props.history}
-                      paymentId={currentCardInfo.id}
+                      paymentId={
+                        currentCardInfo.id ||
+                        subDetail?.paymentId ||
+                        currentCardInfo.pspName
+                      }
+                      key={
+                        currentCardInfo.id ||
+                        subDetail?.paymentId ||
+                        currentCardInfo.pspName
+                      }
                       type={type}
                       save={(el) => this.paymentSave(el)}
                       cancel={this.cancelEdit}

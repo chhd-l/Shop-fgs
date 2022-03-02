@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
+import { getPaymentMethod } from '@/api/payment';
 
 const Paypal = ({
   billingJSX,
   isLogin,
   updatePaypalDetailsToAccount,
-  updatePaypalMethodDefault
+  updatePaypalMethodDefault,
+  isCurrentBuyWaySubscription
 }) => {
   const [paypalSaved, setPaypalSaved] = useState(false);
   const [paypalEmail, setPaypalEmail] = useState('john ***@gamail.com');
@@ -23,14 +25,27 @@ const Paypal = ({
     updatePaypalMethodDefault &&
       updatePaypalMethodDefault(paypalMethodDefaultChecked);
   };
+  useEffect(() => {
+    getPaymentMethod({}, true).then((res) => {
+      const paypalCardIndex = res.context.findIndex(
+        (item) => item.paymentItem === 'adyen_paypal'
+      );
+      if (paypalCardIndex > -1) {
+        setPaypalSaved(true);
+        setPaypalEmail(res.context[paypalCardIndex].email);
+      } else {
+        updatePaypalDetailsToAccount && updatePaypalDetailsToAccount(true);
+        updatePaypalMethodDefault && updatePaypalMethodDefault(true);
+      }
+    });
+  }, []);
 
   return (
     <>
-      {paypalSaved ? (
+      {isLogin && paypalSaved && isCurrentBuyWaySubscription ? (
         <>
-          <div>
-            <FormattedMessage id="Authorized with" />
-            {paypalEmail}
+          <div className="mb-4">
+            <FormattedMessage id="Authorized with" /> {paypalEmail}
           </div>
         </>
       ) : (
@@ -38,7 +53,7 @@ const Paypal = ({
           <div id="paypal-container">
             <FormattedMessage id="paypal.bref" />
           </div>
-          {isLogin ? (
+          {false && isLogin ? (
             <>
               <div className="rc-input rc-input--inline mw-100">
                 <input
