@@ -667,6 +667,7 @@ export const GAWhistleFitButtonClick = (positon, label) => {
 };
 
 export const GAonSearchSelectionFocus = (type) => {
+  return;
   window.__.env.REACT_APP_COUNTRY === 'ru' &&
     window?.dataLayer?.push({
       event: 'suggestedAdressInteraction',
@@ -678,6 +679,7 @@ export const GAonSearchSelectionFocus = (type) => {
   console.info('onSearchSelectionFocus', type || 'Add');
 };
 export const GAonSearchSelectionError = (errorMessage, type) => {
+  return;
   window.__.env.REACT_APP_COUNTRY === 'ru' &&
     window?.dataLayer?.push({
       event: 'suggestedAdressInteraction',
@@ -691,6 +693,7 @@ export const GAonSearchSelectionError = (errorMessage, type) => {
 };
 
 export const GAonSearchSelectionChange = (type) => {
+  return;
   window.__.env.REACT_APP_COUNTRY === 'ru' &&
     window?.dataLayer?.push({
       event: 'suggestedAdressInteraction',
