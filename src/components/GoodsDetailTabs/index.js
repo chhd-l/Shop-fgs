@@ -516,9 +516,10 @@ const GoodsDetailTabs = function (props) {
                         return ele['Parnuts Statement'];
                       })
                       .filter((e) => e)[0] || '';
-                  const ParnutsStatementRet = ParnutsStatement
-                    ? `<div class="content" style="font-weight: 400">${ParnutsStatement}</div>`
-                    : '';
+                  const ParnutsStatementRet =
+                    ParnutsStatement && isVet
+                      ? `<div class="content" style="font-weight: 400">${ParnutsStatement}</div>`
+                      : '';
                   const retContent = parsedContent.filter(
                     (el) => !el.hasOwnProperty('Parnuts Statement')
                   );
