@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { getPaymentMethod } from '@/api/payment';
+import { handleEmailShow } from '@/utils/utils';
 
 const Paypal = ({
   billingJSX,
@@ -45,7 +46,8 @@ const Paypal = ({
       {isLogin && paypalSaved && isCurrentBuyWaySubscription ? (
         <>
           <div className="mb-4">
-            <FormattedMessage id="Authorized with" /> {paypalEmail}
+            <FormattedMessage id="Authorized with" />{' '}
+            {handleEmailShow(paypalEmail)}
           </div>
         </>
       ) : (

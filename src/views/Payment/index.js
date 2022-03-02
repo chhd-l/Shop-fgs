@@ -922,7 +922,9 @@ class Payment extends React.Component {
         (item) => item.paymentItem === 'adyen_paypal' && item.isDefault === 1
       );
       if (paypalCardIndex >= -1) {
-        // this.handlePaymentTypeClick('adyenPaypal');
+        // if(cardList[paypalCardIndex].isDefault === 1){
+        //    this.handlePaymentTypeClick('adyenPaypal');
+        // }
         cardList.splice(paypalCardIndex, 1);
       }
       this.setState({ cardListLength: cardList.length });
@@ -4086,17 +4088,6 @@ class Payment extends React.Component {
       this.showErrorMsg(errMsg);
       return;
     }
-    //Blocked users and emails are not able to checkout
-    // const isBlockedAccountOrEmail = isBlockedUserOrEmail(
-    //   this.isLogin ? this.userInfo?.email : this.state.guestEmail
-    // );
-    // if (isBlockedAccountOrEmail) {
-    //   const isBlockedUserOrEmailTip = this.isLogin
-    //     ? intl.messages['checkout.blockedUserTip']
-    //     : intl.messages['checkout.blockedEmailTip'];
-    //   this.showErrorMsg(isBlockedUserOrEmailTip);
-    //   return;
-    // }
 
     if (this.isLogin) {
       this.userBindConsentFun();

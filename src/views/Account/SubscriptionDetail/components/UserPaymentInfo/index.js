@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react';
 import LazyLoad from 'react-lazyload';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import getCardImg from '@/lib/get-card-img';
-import { getDictionary, isCanVerifyBlacklistPostCode } from '@/utils/utils';
+import {
+  getDictionary,
+  isCanVerifyBlacklistPostCode,
+  handleEmailShow
+} from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import { AddressPreview } from '@/components/Address';
 import { LOGO_ADYEN_COD, LOGO_ADYEN_PAYPAL } from '@/utils/constant';
@@ -254,7 +258,7 @@ const UserPaymentInfo = ({
                   <LazyLoad>
                     <img src={LOGO_ADYEN_PAYPAL} className="mb-4" />
                   </LazyLoad>
-                  <div>{currentCardInfo.email}</div>
+                  <div>{handleEmailShow(currentCardInfo.email)}</div>
                 </div>
               ) : null}
               {/* <p className="mb-0">{currentCardInfo.phone}</p> */}

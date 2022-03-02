@@ -1319,16 +1319,6 @@ export const renderScriptOrLinkHtmlStr = ({ htmlStr, callback }) => {
 };
 
 /**
- * 判断账户或者邮箱是否在指定Block邮箱中
- * @param accountOrEmail
- * @returns {boolean}
- */
-export const isBlockedUserOrEmail = (accountOrEmail) => {
-  const blockedAccountOrEmails = ['13101227768@163.com'];
-  return blockedAccountOrEmails.includes(accountOrEmail);
-};
-
-/**
  * 通过添加CDN前缀和width优化图片size
  * @param originImageUrl 源图片url
  * @param width width 默认150
@@ -1394,4 +1384,18 @@ export function handleDateForIos(date) {
 export function findKeyFromObject({ obj, value }) {
   const compareFn = (a, b) => a === b;
   return Object.keys(obj).find((k) => compareFn(obj[k], value));
+}
+
+/**
+ * 处理email显示格式
+ * @param email
+ * @returns {string}
+ */
+export function handleEmailShow(email) {
+  let finalEmail = '';
+  if (email) {
+    finalEmail =
+      email.split('@')[0].substring(0, 4) + '***@' + email.split('@')[1];
+  }
+  return finalEmail;
 }

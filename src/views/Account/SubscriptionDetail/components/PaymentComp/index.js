@@ -26,6 +26,7 @@ import classNames from 'classnames';
 import getCardImg from '@/lib/get-card-img';
 import cn from 'classnames';
 import PaymentEditForm from '@/components/PaymentEditForm';
+import { handleEmailShow } from '@/utils/utils';
 
 function CardItem(props) {
   const { data, supportPaymentMethods } = props;
@@ -82,7 +83,9 @@ function CardItem(props) {
                 </LazyLoad>
               </div>
               {data.paymentItem === 'adyen_paypal' ? (
-                <div className="col-8 px-0 my-6 truncate">{data?.email}</div>
+                <div className="col-8 px-0 my-6 truncate">
+                  {handleEmailShow(data?.email)}
+                </div>
               ) : (
                 <div className="col-6 pl-0 pr-0">
                   <p className="mb-0">{data.holderName}</p>

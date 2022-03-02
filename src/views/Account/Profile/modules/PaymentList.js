@@ -21,19 +21,18 @@ import {
 import PaymentEditForm from '@/components/PaymentEditForm';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
-import { showCardType } from '@/utils/constant/cyber';
 import getCardImg from '@/lib/get-card-img';
+import { handleEmailShow } from '@/utils/utils';
 
 function CardItem(props) {
   const { data, listVisible, supportPaymentMethods } = props;
-  // console.log(2222, listVisible);
   return (
     <div
       className={`${
         data?.paddingFlag
           ? 'creditCompleteInfoBox disabled'
           : 'rc-bg-colour--brand4'
-      } rounded p-2 pl-3 pr-3 h-100 d-flex align-items-center justify-content-between`}
+      } rounded p-2 px-3 h-100 d-flex align-items-center justify-content-between`}
     >
       <div
         className="position-absolute d-flex align-items-center"
@@ -67,7 +66,9 @@ function CardItem(props) {
             </LazyLoad>
           </div>
           {data.paymentItem === 'adyen_paypal' ? (
-            <div className="col-8 px-0 my-6 truncate">{data.email}</div>
+            <div className="col-8 px-0 my-6 truncate">
+              {handleEmailShow(data.email)}
+            </div>
           ) : (
             <div className="col-6 px-0">
               <p className="mb-0">{data.holderName}</p>

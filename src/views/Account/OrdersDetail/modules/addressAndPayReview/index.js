@@ -5,7 +5,8 @@ import {
   formatDate,
   formatMoney,
   getDictionary,
-  matchNamefromDict
+  matchNamefromDict,
+  handleEmailShow
 } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import getCardImg from '@/lib/get-card-img';
@@ -221,7 +222,9 @@ const OrderAddressAndPayReview = ({ details, payRecord, paymentItem }) => {
                       src={LOGO_ADYEN_PAYPAL}
                     />
                   </LazyLoad>
-                  <p>{details?.payPalEmail || paypalAccount}</p>
+                  <p>
+                    {handleEmailShow(details?.payPalEmail || paypalAccount)}
+                  </p>
                 </div>
               </PaymentMethodContainer>
             ) : null}
