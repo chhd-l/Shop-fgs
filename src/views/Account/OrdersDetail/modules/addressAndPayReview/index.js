@@ -33,16 +33,16 @@ const OrderAddressAndPayReview = ({ details, payRecord, paymentItem }) => {
         res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || []
       );
     });
-    if (paymentItem === 'adyen_paypal') {
-      getPaymentMethod({}, true).then((res) => {
-        const paypalCardIndex = res.context.findIndex(
-          (item) => item.paymentItem === 'adyen_paypal'
-        );
-        if (paypalCardIndex > -1) {
-          setPaypalAccount(res.context[paypalCardIndex].email);
-        }
-      });
-    }
+    // if (paymentItem === 'adyen_paypal') {
+    //   getPaymentMethod({}, true).then((res) => {
+    //     const paypalCardIndex = res.context.findIndex(
+    //       (item) => item.paymentItem === 'adyen_paypal'
+    //     );
+    //     if (paypalCardIndex > -1) {
+    //       setPaypalAccount(res.context[paypalCardIndex].email);
+    //     }
+    //   });
+    // }
   }, []);
 
   return (
@@ -221,7 +221,7 @@ const OrderAddressAndPayReview = ({ details, payRecord, paymentItem }) => {
                       src={LOGO_ADYEN_PAYPAL}
                     />
                   </LazyLoad>
-                  <p>{paypalAccount}</p>
+                  <p>{details?.payPalEmail || paypalAccount}</p>
                 </div>
               </PaymentMethodContainer>
             ) : null}
