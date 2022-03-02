@@ -40,7 +40,12 @@ import {
   formatDate
 } from '@/utils/utils';
 import { seoHoc } from '@/framework/common';
-import { EMAIL_REGEXP, LOGO_ADYEN_COD } from '@/utils/constant';
+import {
+  EMAIL_REGEXP,
+  LOGO_ADYEN_COD,
+  LOGO_ADYEN_PAYPAL,
+  LOGO_SWISH
+} from '@/utils/constant';
 import { userBindConsent } from '@/api/consent';
 import {
   postVisitorRegisterAndLogin,
@@ -87,10 +92,8 @@ import {
 import ConsentData from '@/utils/consent';
 import { querySurveyContent } from '@/api/cart';
 import { funcUrl } from '@/lib/url-utils';
-import swishLogo from '@/assets/images/swish-logo.svg';
 import swishIcon from '@/assets/images/swish-icon.svg';
 import swishError from '@/assets/images/swish-error.svg';
-import paypalLogo from '@/assets/images/paypal-logo.svg';
 import { postUpdateUser, getAppointByApptNo } from '@/api/felin';
 import UpdatModal from './updatModules/modal';
 import QRCode from 'qrcode.react';
@@ -3970,7 +3973,7 @@ class Payment extends React.Component {
       case 'adyenPaypal':
         ret = (
           <div className="col-12 col-md-6">
-            <img src={paypalLogo} className="w-24 ml-8" />
+            <img src={LOGO_ADYEN_PAYPAL} className="w-24 ml-8" />
           </div>
         );
         break;
@@ -3986,7 +3989,7 @@ class Payment extends React.Component {
       case 'adyen_swish':
         ret = (
           <div className="col-12 col-md-6">
-            <img src={swishLogo} className="w-24 ml-8" />
+            <img src={LOGO_SWISH} className="w-24 ml-8" />
           </div>
         );
         break;

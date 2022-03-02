@@ -22,6 +22,8 @@ export const LOGO_ADYEN_CONVENIENCE_STORE = `${window.__.env.REACT_APP_EXTERNAL_
 
 export const LOGO_ADYEN_PAYPAL = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/payment/paypal-logo.svg`;
 
+export const LOGO_SWISH = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/payment/swish-logo.svg`;
+
 export const CREDIT_CARD_IMG_ENUM = {
   VISA: visaImg,
   MASTERCARD: mastercardImg,
