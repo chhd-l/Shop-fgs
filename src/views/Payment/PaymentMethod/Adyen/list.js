@@ -575,7 +575,8 @@ class AdyenCreditCardList extends React.Component {
     });
   };
   renderEditForm = () => {
-    const { showErrorMsg, subBuyWay } = this.props;
+    const { showErrorMsg, subBuyWay, supportPaymentMethodsVisibleAtForm } =
+      this.props;
     const { cardList } = this.state;
     return (
       <EditForm
@@ -600,6 +601,7 @@ class AdyenCreditCardList extends React.Component {
         showErrorMsg={showErrorMsg}
         supportPaymentMethods={this.props.supportPaymentMethods}
         getFormAddressValidFlag={this.getFormAddressValidFlag}
+        supportPaymentMethodsVisible={supportPaymentMethodsVisibleAtForm}
       />
     );
   };

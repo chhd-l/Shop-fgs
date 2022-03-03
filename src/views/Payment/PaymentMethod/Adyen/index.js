@@ -10,7 +10,8 @@ class AdyenCreditCard extends React.Component {
   static defaultProps = {
     subBuyWay: '', // once/frequence
     billingJSX: null,
-    updateFormValidStatus: () => {}
+    updateFormValidStatus: () => {},
+    supportPaymentMethodsVisibleAtForm: true
   };
   constructor(props) {
     super(props);
