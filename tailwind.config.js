@@ -65,6 +65,9 @@ module.exports = {
       minHeight: {
         'auto':'auto'
       },
+      maxHeight: {
+        '1/2-screen':'50vh'
+      },
       width: {
         '3/10': '30%'
       }

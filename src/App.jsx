@@ -467,8 +467,29 @@ const App = () => {
                   path="/prescriptionNavigate"
                   component={PrescriptionNavigate}
                 />
-                <Route exact path="/help/contact" component={ContactUs} />
-                <Route exact path="/help" component={Help} />
+                {/* us: /help/contact, others: /help */}
+                <Route
+                  exact
+                  path="/help/contact"
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'us') {
+                      return <ContactUs {...props} />;
+                    } else {
+                      return <Redirect to="/help" {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  exact
+                  path="/help"
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'us') {
+                      return <Redirect to="/help/contact" {...props} />;
+                    } else {
+                      return <Help {...props} />;
+                    }
+                  }}
+                />
                 <Route
                   path="/shelter-landing-page"
                   component={ShelterPrescription}

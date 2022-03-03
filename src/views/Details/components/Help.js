@@ -27,7 +27,7 @@ class Help extends React.Component {
                     </a>
                     <Link
                       className="rc-btn rc-btn--two contact-section__btn"
-                      to="/help/contact"
+                      to="/help"
                     >
                       <span className="rc-icon rc-email--sm rc-brand1" />
                       <FormattedMessage id="contactUs" />
