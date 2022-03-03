@@ -150,6 +150,11 @@ class Form extends React.Component {
     }, 3000);
     const { initData = {} } = this.props;
 
+    //日本
+    if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+      initData.region = initData.area;
+    }
+
     const { caninForm } = this.state;
     this.setState({
       formLoading: true
@@ -1703,6 +1708,7 @@ class Form extends React.Component {
               <Fragment key={index}>
                 <div
                   className={`col-md-12 ${
+                    isDeliveryDateAndTimeSlot &&
                     item.fieldKey == 'deliveryDate' &&
                     window.__.env.REACT_APP_COUNTRY === 'jp'
                       ? ''
@@ -1796,12 +1802,13 @@ class Form extends React.Component {
                               id="examplePostCodeTips"
                               values={{
                                 val: (
-                                  <Link
+                                  <a
                                     className="rc-styled-link ui-cursor-pointer faq_rc_styled_link"
-                                    to="/"
+                                    href="https://www.post.japanpost.jp/zipcode/"
+                                    target="_blank"
                                   >
                                     this
-                                  </Link>
+                                  </a>
                                 )
                               }}
                             />

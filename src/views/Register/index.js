@@ -1303,6 +1303,7 @@ class Register extends Component {
                               valid={passwordValid}
                               onChange={this.registerChange}
                               onFocus={this.inputFocus}
+                              autocomplete="new-password"
                               onBlur={this.inputBlur}
                               value={registerForm.password}
                               label={<FormattedMessage id="registerPassword" />}
