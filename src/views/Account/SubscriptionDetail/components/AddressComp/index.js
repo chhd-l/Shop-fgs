@@ -72,7 +72,11 @@ function CardItem(props) {
                   area: data.area,
                   province: data.province,
                   county: data.county,
-                  postCode: data.postCode
+                  postCode: data.postCode,
+                  consigneeName: data?.consigneeName,
+                  firstNameKatakana: data?.firstNameKatakana,
+                  lastNameKatakana: data?.lastNameKatakana,
+                  consigneeNumber: data?.consigneeNumber
                 }}
               />
             </>
@@ -122,7 +126,11 @@ function CardItem(props) {
                   area: data.area,
                   province: data.province,
                   county: data.county,
-                  postCode: data.postCode
+                  postCode: data.postCode,
+                  consigneeName: data?.consigneeName,
+                  firstNameKatakana: data?.firstNameKatakana,
+                  lastNameKatakana: data?.lastNameKatakana,
+                  consigneeNumber: data?.consigneeNumber
                 }}
               />
 
@@ -454,7 +462,9 @@ class AddressList extends React.Component {
         deliveryDateId: tmp.deliveryDate || null,
         timeSlot: tmp.timeSlot || null,
         timeSlotId: tmp.timeSlot || null,
-        isDefalt: tmp.isDefaltAddress === 1 ? true : false
+        isDefalt: tmp.isDefaltAddress === 1 ? true : false,
+        firstNameKatakana: tmp.firstNameKatakana, //日本
+        lastNameKatakana: tmp.lastNameKatakana
       };
 
       if (isCanVerifyBlacklistPostCode) {
@@ -759,6 +769,10 @@ class AddressList extends React.Component {
         isValidated: deliveryAddress.validationResult,
         type: this.props.type.toUpperCase()
       });
+
+      if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+        params.area = deliveryAddress.region; //日本需求store portal用的是region字段，shop新增地址用area字段
+      }
 
       this.setState({ saveLoading: true });
       const tmpPromise =
