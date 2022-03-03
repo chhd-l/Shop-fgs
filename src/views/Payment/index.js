@@ -3589,6 +3589,7 @@ class Payment extends React.Component {
                           billingJSX={this.renderBillingJSX({
                             type: 'adyenCard'
                           })}
+                          supportPaymentMethodsVisibleAtForm={false}
                         />
                       </>
                     )}
