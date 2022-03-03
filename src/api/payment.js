@@ -126,7 +126,7 @@ export async function getPaymentMethod(parameter = {}, needPaypalCard = false) {
   const res = await getPaymentMethodCard(parameter);
   if (!needPaypalCard) {
     const paypalCardIndex = res.context.findIndex(
-      (item) => item.paymentItem === 'adyen_paypal' && item.isDefault === 1
+      (item) => item.paymentItem === 'adyen_paypal'
     );
     if (paypalCardIndex >= -1) {
       res.context.splice(paypalCardIndex, 1);
