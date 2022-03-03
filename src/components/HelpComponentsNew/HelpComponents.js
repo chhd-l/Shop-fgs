@@ -185,7 +185,7 @@ const HelpComponentsNew = (props) => {
                                       </b>
                                     </DistributeHubLinkOrATag>
                                   ) : (
-                                    // <Link to="/help/contact">
+                                    // <Link to="/help">
                                     //   <b
                                     //     style={{ textDecoration: 'underline' }}
                                     //   >

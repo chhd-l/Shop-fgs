@@ -100,7 +100,7 @@ class FelinRecommendation extends React.Component {
         this.props.intl.messages['recommendation.helpContentText.emailTitle'],
       emailDes:
         this.props.intl.messages['recommendation.helpContentText.emailDes'],
-      emailLink: '/help/contact',
+      emailLink: '/help',
       phoneTitle:
         this.props.intl.messages['recommendation.helpContentText.phoneTitle'],
       phone: '0986568097',
