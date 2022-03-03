@@ -36,12 +36,12 @@ const renderOperationBtns = (details) => {
   );
 };
 
-const OrderAllProduct = ({ details, welcomeGiftLists, orderNumberForOMS }) => {
+const OrderAllProduct = ({ details }) => {
   return (
     <div className="order-list-container order__listing text-left">
       {details.tradeItems
-        .concat(details.gifts)
-        .concat(welcomeGiftLists)
+        .concat(details?.gifts || [])
+        .concat(details?.subscriptionPlanGiftList || [])
         .map((item, i) => (
           <div className="border-bottom px-2 py-3" key={i}>
             <div className="row align-items-center px-2 md:px-0">
@@ -116,7 +116,7 @@ const OrderAllProduct = ({ details, welcomeGiftLists, orderNumberForOMS }) => {
                           >
                             {filterOrderId({
                               orderNo: el.subscribeId,
-                              orderNoForOMS: orderNumberForOMS
+                              orderNoForOMS: details?.tradeOms?.orderNo
                             })}
                           </Link>
                         </p>
