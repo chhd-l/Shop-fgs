@@ -1063,7 +1063,7 @@ class Payment extends React.Component {
             (e) =>
               e.isOpen &&
               (!this.isCurrentBuyWaySubscription || e.supportSubscription) &&
-              (e.code !== 'cod' || this.tradePrice <= e.maxAmount)
+              (!e.maxAmount || this.tradePrice <= e.maxAmount)
           );
       }
 

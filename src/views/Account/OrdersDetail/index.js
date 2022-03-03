@@ -103,10 +103,6 @@ class AccountOrders extends React.Component {
             });
           }
         );
-        this.setState({
-          welcomeGiftLists,
-          paymentItem: resContext.paymentItem
-        });
         const tradeState = resContext.tradeState;
         const orderStatusMap = resContext.orderStatusMap;
         let currentProgressIndex = -1;
@@ -135,20 +131,22 @@ class AccountOrders extends React.Component {
             });
           });
         }
-        const tradeEventLogs = res.context.tradeEventLogs || [];
+        const tradeEventLogs = resContext.tradeEventLogs || [];
         if (tradeEventLogs.length) {
           currentProgressIndex = findIndex(normalProgressList, (ele) =>
             ele.flowStateIds.includes(tradeState.flowState)
           );
         }
         this.setState({
-          details: handleOrderItem(resContext, res.context),
+          details: handleOrderItem(resContext, res),
           loading: false,
           currentProgressIndex,
           normalProgressList,
           defaultLocalDateTime: res.defaultLocalDateTime,
           subNumber: resContext?.subscriptionResponseVO?.subscribeId,
-          orderNumberForOMS: resContext?.tradeOms?.orderNo
+          orderNumberForOMS: resContext?.tradeOms?.orderNo,
+          welcomeGiftLists,
+          paymentItem: resContext.paymentItem
         });
       })
       .catch((err) => {
