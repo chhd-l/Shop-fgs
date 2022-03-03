@@ -126,7 +126,7 @@ const HelpComponents = (props) => {
                                     </p>
                                   </DistributeHubLinkOrATag>
                                 ) : (
-                                  <Link to="/help/contact">
+                                  <Link to="/help">
                                     <p style={{ textDecoration: 'underline' }}>
                                       <FormattedMessage id="club.wheretohelp.card.email.send" />
                                     </p>
