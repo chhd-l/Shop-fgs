@@ -12,6 +12,7 @@
  *
  *********/
 import React, { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import Skeleton from 'react-skeleton-loader';
 import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';
@@ -148,6 +149,7 @@ class Form extends React.Component {
       }
     }, 3000);
     const { initData = {} } = this.props;
+
     const { caninForm } = this.state;
     this.setState({
       formLoading: true
@@ -200,6 +202,14 @@ class Form extends React.Component {
         this.updateDataToProps();
         // 获取 session 存储的 address form 数据并处理
         this.setAddressFormData();
+
+        //模拟 日本查询DeliveryDate
+        if (
+          this.props.showDeliveryDateTimeSlot &&
+          window.__.env.REACT_APP_COUNTRY === 'jp'
+        ) {
+          this.getDeliveryDateAndTimeSlotData('');
+        }
       }
     );
 
@@ -270,6 +280,7 @@ class Form extends React.Component {
     let res = null;
     try {
       res = await getDeliveryDateAndTimeSlot({ cityNo: str });
+
       let flag = false;
       let alldata = {}; // 全部数据
       let ddlist = []; // delivery date
@@ -330,6 +341,7 @@ class Form extends React.Component {
         obj.timeSlot = '';
         obj.timeSlotId = 0;
       }
+
       this.setState(
         {
           caninForm: Object.assign({}, obj),
@@ -348,6 +360,24 @@ class Form extends React.Component {
         isDeliveryDateAndTimeSlot: false
       });
     }
+  };
+  //设置postcode输入限制
+  setPostCodeReg = () => {
+    let element = document.getElementById('postCodeShipping');
+    let maskOptions = [];
+    let phoneReg = '';
+    switch (COUNTRY) {
+      case 'jp':
+        phoneReg = [{ mask: '000-0000' }];
+        break;
+      default:
+        phoneReg = [{ mask: '00000000000' }];
+        break;
+    }
+    maskOptions = {
+      mask: phoneReg
+    };
+    IMask(element, maskOptions);
   };
   // 设置手机号输入限制
   setPhoneNumberReg = () => {
@@ -379,6 +409,9 @@ class Form extends React.Component {
       case 'tr':
         phoneReg = [{ mask: '{0} (000) 000-00-00' }];
         break;
+      case 'jp':
+        phoneReg = [{ mask: '000-0000-0000' }];
+        break;
       default:
         phoneReg = [{ mask: '00000000000' }];
         break;
@@ -393,7 +426,9 @@ class Form extends React.Component {
     const {
       configStore: { getSystemFormConfig, localAddressForm }
     } = this.props;
+
     await getSystemFormConfig();
+
     if (localAddressForm?.settings) {
       this.setState(
         {
@@ -421,6 +456,10 @@ class Form extends React.Component {
 
           // 格式化表单json
           let ress = this.formListFormat(narr);
+
+          // console.log(ress)
+          // debugger
+
           this.setState(
             {
               formList: ress
@@ -445,6 +484,7 @@ class Form extends React.Component {
                   // 设置手机号输入限制
                   setTimeout(() => {
                     this.setPhoneNumberReg();
+                    this.setPostCodeReg();
                   }, 1000);
                 }
               });
@@ -472,7 +512,7 @@ class Form extends React.Component {
       inputType: 0,
       maxLength: 50,
       filedType: 'text',
-      requiredFlag: 1,
+      // requiredFlag: 1,
       enableFlag: 1,
       dataSource: 0,
       apiName: null,
@@ -496,7 +536,8 @@ class Form extends React.Component {
         fieldName: 'email',
         inputFreeTextFlag: 1,
         inputSearchBoxFlag: 0,
-        inputDropDownBoxFlag: 0
+        inputDropDownBoxFlag: 0,
+        requiredFlag: 1
       },
       defaultObj
     );
@@ -509,7 +550,8 @@ class Form extends React.Component {
         fieldName: 'deliveryDate',
         inputFreeTextFlag: 0,
         inputSearchBoxFlag: 0,
-        inputDropDownBoxFlag: 1
+        inputDropDownBoxFlag: 1,
+        requiredFlag: window.__.env.REACT_APP_COUNTRY === 'jp' ? 0 : 1
       },
       defaultObj
     );
@@ -522,7 +564,8 @@ class Form extends React.Component {
         fieldName: 'timeSlot',
         inputFreeTextFlag: 0,
         inputSearchBoxFlag: 0,
-        inputDropDownBoxFlag: 1
+        inputDropDownBoxFlag: 1,
+        requiredFlag: window.__.env.REACT_APP_COUNTRY === 'jp' ? 0 : 1
       },
       defaultObj
     );
@@ -532,7 +575,7 @@ class Form extends React.Component {
     }
 
     if (
-      COUNTRY == 'ru' &&
+      (COUNTRY == 'ru' || COUNTRY == 'jp') &&
       !this.props.isCyberBillingAddress &&
       !this.props.personalData
     ) {
@@ -553,6 +596,8 @@ class Form extends React.Component {
           if (ft === 0 || ft === 1) {
             COUNTRY == 'us'
               ? (regExp = /(^\d{5}$)|(^\d{5}-\d{4}$)/)
+              : COUNTRY == 'jp'
+              ? (regExp = /^[0-9]{3}-[0-9]{4}$/)
               : (regExp = /^\d{5}$/);
           } else {
             regExp = /\S/;
@@ -667,6 +712,7 @@ class Form extends React.Component {
     cfdata.formRuleOther = rule;
     cfdata.formRuleRu = ruleTimeSlot;
     cfdata.receiveType = 'HOME_DELIVERY';
+
     this.setState({
       caninForm: Object.assign(caninForm, cfdata)
     });
@@ -1656,6 +1702,24 @@ class Form extends React.Component {
             {(formList || []).map((item, index) => (
               <Fragment key={index}>
                 <div
+                  className={`col-md-12 ${
+                    item.fieldKey == 'deliveryDate' &&
+                    window.__.env.REACT_APP_COUNTRY === 'jp'
+                      ? ''
+                      : 'hidden'
+                  }`}
+                >
+                  <div
+                    className="text-22 pt-4 pb-2"
+                    style={{ color: '#888888' }}
+                  >
+                    <FormattedMessage id="payment.delivery.title" />
+                  </div>
+                  <div className="text-16 pb-8">
+                    <FormattedMessage id="payment.delivery.content" />
+                  </div>
+                </div>
+                <div
                   className={`col-md-${item.occupancyNum == 1 ? 6 : 12} ${
                     !isDeliveryDateAndTimeSlot &&
                     (item.fieldKey == 'deliveryDate' ||
@@ -1725,6 +1789,24 @@ class Form extends React.Component {
                       <span className="ui-lighter">
                         <FormattedMessage id="example" />:{' '}
                         <FormattedMessage id="examplePostCode" />
+                        {window.__.env.REACT_APP_COUNTRY === 'jp' ? (
+                          <>
+                            <br />
+                            <FormattedMessage
+                              id="examplePostCodeTips"
+                              values={{
+                                val: (
+                                  <Link
+                                    className="rc-styled-link ui-cursor-pointer faq_rc_styled_link"
+                                    to="/"
+                                  >
+                                    this
+                                  </Link>
+                                )
+                              }}
+                            />
+                          </>
+                        ) : null}
                       </span>
                     )}
                     {/* 输入电话号码提示 */}

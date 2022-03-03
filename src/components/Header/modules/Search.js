@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import find from 'lodash/find';
-import { getList } from '@/api/list';
+import { getList, getSearchSuggestion } from '@/api/list';
 import Loading from '@/components/Loading';
 import LazyLoad from 'react-lazyload';
 import { IMG_DEFAULT } from '@/utils/constant';
@@ -15,7 +15,7 @@ import {
   GAInstantSearchFieldClick,
   GAInstantSearchResultDisplay,
   GAInstantSearchResultClick
-} from '@/utils/GA.js';
+} from '@/utils/GA';
 
 const isHub = window.__.env.REACT_APP_HUB;
 let sessionItemRoyal = window.__.sessionItemRoyal;
@@ -29,10 +29,12 @@ export default class Search extends React.Component {
     this.state = {
       showSearchInput: false,
       result: null,
+      suggestions: [],
       keywords: '',
       loading: false,
       isSearchSuccess: false, //是否搜索成功
-      hasSearchedDone: false //是否请求接口完毕
+      hasSearchedDone: false, //是否请求接口完毕
+      hiddenResult: false
     };
     this.inputRef = React.createRef();
     this.inputRefMobile = React.createRef();
@@ -52,7 +54,7 @@ export default class Search extends React.Component {
         clearTimeout(this.timer);
         this.timer = setTimeout(() => {
           cancelPrevRequest();
-          this.getSearchData();
+          this.getSuggestionList();
         }, 500);
       }
     );
@@ -61,10 +63,28 @@ export default class Search extends React.Component {
     this.props.focusedOnDidMount &&
       this.inputRef.current &&
       this.inputRef.current.focus();
+    window.document.addEventListener('click', this.hanldeSearchBlur);
   }
+
+  componentWillUnmount() {
+    window.document.removeEventListener('click', this.hanldeSearchBlur);
+  }
+
+  async getSuggestionList() {
+    const { keywords } = this.state;
+    const sugRes = await getSearchSuggestion(keywords);
+    if (sugRes.context && sugRes.context.length) {
+      this.setState({
+        suggestions: sugRes.context
+      });
+    } else {
+      this.getSearchData();
+    }
+  }
+
   async getSearchData() {
     const { keywords } = this.state;
-    this.setState({ loading: true });
+    // this.setState({ loading: true });
     Promise.all([
       getList({
         keywords,
@@ -186,6 +206,9 @@ export default class Search extends React.Component {
   };
 
   hanldeSearchFocus = () => {
+    this.setState({
+      hiddenResult: false
+    });
     // this.hubGA &&
     //   dataLayer.push({
     //     event: 'topPictosClick',
@@ -195,6 +218,13 @@ export default class Search extends React.Component {
     //   });
     GAInstantSearchFieldClick();
   };
+
+  hanldeSearchBlur = () => {
+    this.setState({
+      hiddenResult: true
+    });
+  };
+
   doGAInstantSearchResultClick = (type, item, idx, e) => {
     GAInstantSearchResultClick({
       type,
@@ -215,12 +245,77 @@ export default class Search extends React.Component {
     location.href = item.Url;
   };
 
+  enterResultBox = () => {
+    const bodyDom = document.getElementsByTagName('body')[0];
+    if (bodyDom) {
+      bodyDom.classList.add('body-hidden-scroll');
+    }
+  };
+
+  leaveResultBox = () => {
+    const bodyDom = document.getElementsByTagName('body')[0];
+    if (bodyDom) {
+      bodyDom.classList.remove('body-hidden-scroll');
+    }
+  };
+
+  handleSuggestionItemClick = (suggestionKeyword) => {
+    this.setState(
+      {
+        keywords: suggestionKeyword,
+        suggestions: []
+      },
+      () => {
+        this.getSearchData();
+      }
+    );
+  };
+
+  handleSearchContainerClick = (e) => {
+    e.nativeEvent.stopImmediatePropagation();
+  };
+
   renderResultJsx() {
-    const { result, keywords } = this.state;
+    const { result, keywords, suggestions } = this.state;
     let ret = null;
-    if (result) {
+    if (suggestions && suggestions.length) {
+      const keyReg = new RegExp(keywords, 'gi');
       ret = (
-        <div className="suggestions" id="mainSuggestions">
+        <div
+          className="suggestions"
+          id="mainSuggestions"
+          onMouseOver={() => this.enterResultBox()}
+          onMouseOut={() => this.leaveResultBox()}
+        >
+          <div className="container">
+            <div className="row d-flex flex-sm-row">
+              <div className="col-12 rc-column">
+                {suggestions
+                  .map((item) => ({
+                    item: item,
+                    html: item.replace(keyReg, (txt) => `<b>${txt}</b>`)
+                  }))
+                  .map((item, idx) => (
+                    <div
+                      className="col-12 item ui-cursor-pointer"
+                      key={idx}
+                      dangerouslySetInnerHTML={{ __html: item.html }}
+                      onClick={() => this.handleSuggestionItemClick(item.item)}
+                    ></div>
+                  ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    } else if (result) {
+      ret = (
+        <div
+          className="suggestions"
+          id="mainSuggestions"
+          onMouseOver={() => this.enterResultBox()}
+          onMouseOut={() => this.leaveResultBox()}
+        >
           <div className="container">
             <div className="row d-flex flex-sm-row">
               <div className={`${isHub ? 'col-md-7' : ''} col-12 rc-column`}>
@@ -374,10 +469,14 @@ export default class Search extends React.Component {
     return ret;
   }
   render() {
-    const { showSearchInput, result, keywords, loading } = this.state;
+    const { showSearchInput, result, keywords, loading, hiddenResult } =
+      this.state;
     const isMobile = getDeviceType() !== 'PC';
     return (
-      <div className="inlineblock w-100">
+      <div
+        className="inlineblock w-100"
+        onClick={this.handleSearchContainerClick}
+      >
         {loading ? <Loading /> : null}
         {isHub ? (
           <>
@@ -425,7 +524,7 @@ export default class Search extends React.Component {
                 </FormattedMessage>
               </form>
             </div>
-            {result ? (
+            {result && !hiddenResult ? (
               <div style={{ position: 'relative', top: '.2rem' }}>
                 <div className="suggestions-wrapper">
                   {this.renderResultJsx()}
@@ -480,6 +579,7 @@ export default class Search extends React.Component {
                         autoComplete="off"
                         placeholder={txt}
                         value={keywords}
+                        onFocus={this.hanldeSearchFocus}
                         onChange={this.handleSearchInputChange}
                       />
                     )}
@@ -493,9 +593,11 @@ export default class Search extends React.Component {
                   aria-label="Close"
                   onClick={this.hanldeSearchCloseClick}
                 />
-                <div className="suggestions-wrapper">
-                  {this.renderResultJsx()}
-                </div>
+                {!hiddenResult ? (
+                  <div className="suggestions-wrapper">
+                    {this.renderResultJsx()}
+                  </div>
+                ) : null}
               </form>
             </div>
             <div className="rc-sm-down">

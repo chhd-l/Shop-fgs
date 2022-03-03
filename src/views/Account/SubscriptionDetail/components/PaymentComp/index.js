@@ -3,7 +3,6 @@ import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import Skeleton from 'react-skeleton-loader';
 import findIndex from 'lodash/findIndex';
-import find from 'lodash/find';
 import { inject, observer } from 'mobx-react';
 import axios from 'axios';
 import {
@@ -17,28 +16,29 @@ import Loading from '@/components/Loading';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import {
   PAYMENT_METHOD_PAU_ACCOUNT_RULE,
-  PAYMENT_METHOD_PAU_CHECKOUT_RULE
+  PAYMENT_METHOD_PAU_CHECKOUT_RULE,
+  LOGO_ADYEN_COD,
+  LOGO_ADYEN_PAYPAL
 } from '@/utils/constant';
 import './index.css';
 import LazyLoad from 'react-lazyload';
 import classNames from 'classnames';
 import getCardImg from '@/lib/get-card-img';
-
-import { myAccountActionPushEvent } from '@/utils/GA';
+import cn from 'classnames';
 import PaymentEditForm from '@/components/PaymentEditForm';
+import { handleEmailShow } from '@/utils/utils';
 
 function CardItem(props) {
   const { data, supportPaymentMethods } = props;
   return (
     <div
-      className={`${
+      className={cn(
         data?.paddingFlag
           ? 'creditCompleteInfoBox disabled'
-          : 'rc-bg-colour--brand4'
-      } rounded p-2 pl-3 pr-3 h-100 d-flex align-items-center justify-content-between creditCompleteInfoBox ${
-        data.selected ? 'active border-blue border' : ''
-      }`}
-      style={{ position: 'relative' }}
+          : 'rc-bg-colour--brand4',
+        'rounded p-2 pl-3 pr-3 h-100 d-flex align-items-center justify-content-between creditCompleteInfoBox border relative',
+        data.selected ? 'active border-blue' : 'border-transparent'
+      )}
       onClick={() => {
         props.handleClick();
       }}
@@ -51,27 +51,55 @@ function CardItem(props) {
       </div>
       <div className={`pt-4 md:pt-4 pb-2 w-100`}>
         <div className="row">
-          <div className={`col-4 d-flex flex-column justify-content-center`}>
-            <LazyLoad height={200}>
-              <img
-                className="PayCardImgFitScreen"
-                // style={{ height: '5rem' }}
-                src={getCardImg({
-                  supportPaymentMethods,
-                  currentVendor: data.paymentVendor
-                })}
-                alt="pay card img fit screen"
-              />
-            </LazyLoad>
-          </div>
-          <div className="col-6 pl-0 pr-0">
-            <p className="mb-0">{data.holderName}</p>
-            <p className="mb-0">
-              ************
-              {data.lastFourDigits}
-            </p>
-            <p className="mb-0">{data.paymentVendor}</p>
-          </div>
+          {data.cardType === 'cod_japan' ? (
+            <div className={`col-12`}>
+              <div className="flex items-center">
+                <LazyLoad>
+                  <img src={LOGO_ADYEN_COD} className="w-10 mr-2" />
+                </LazyLoad>
+                <span>
+                  <FormattedMessage id="cashOnDelivery" />
+                </span>
+              </div>
+            </div>
+          ) : (
+            <>
+              <div
+                className={`col-4 d-flex flex-column justify-content-center`}
+              >
+                <LazyLoad height={200}>
+                  <img
+                    className="PayCardImgFitScreen w-100"
+                    src={
+                      data.paymentItem === 'adyen_paypal'
+                        ? LOGO_ADYEN_PAYPAL
+                        : getCardImg({
+                            supportPaymentMethods,
+                            currentVendor: data.paymentVendor
+                          })
+                    }
+                    alt="pay card img fit screen"
+                  />
+                </LazyLoad>
+              </div>
+              {data.paymentItem === 'adyen_paypal' ? (
+                <div className="col-8 px-0 my-6 truncate">
+                  {handleEmailShow(data?.email)}
+                </div>
+              ) : (
+                <div className="col-6 pl-0 pr-0">
+                  <p className="mb-0">{data.holderName}</p>
+                  {data.lastFourDigits ? (
+                    <p className="mb-0">
+                      ************
+                      {data.lastFourDigits}
+                    </p>
+                  ) : null}
+                  <p className="mb-0">{data.paymentVendor}</p>
+                </div>
+              )}
+            </>
+          )}
         </div>
       </div>
     </div>
@@ -146,7 +174,7 @@ class PaymentComp extends React.Component {
       const supportPaymentMethods =
         payPspItemVOList[0]?.payPspItemCardTypeVOList || [];
       setSupportPaymentMethods(supportPaymentMethods);
-      serCurPayWayVal(supportPaymentMethods[0]?.code);
+      serCurPayWayVal(payPspItemVOList[0]?.code);
       this.setState(
         { defaultCardTypeVal: supportPaymentMethods[0]?.cardType },
         () => {
@@ -158,15 +186,15 @@ class PaymentComp extends React.Component {
     });
 
     await this.getPaymentMethodList();
-    if (this.state.creditCardList.length) {
-      this.state.creditCardList.forEach((el) => {
-        if (el.id === this.props.paymentId) {
-          el.selected = true;
-        }
-        // return el;
-      });
-    }
-    this.setState({ creditCardList: this.state.creditCardList });
+    this.state.creditCardList.forEach((el) => {
+      if (
+        (el.id && el.id === this.props.paymentId) ||
+        el.pspName === this.props.paymentId
+      ) {
+        el.selected = true;
+      }
+      // return el;
+    });
   }
   get userInfo() {
     return this.props.loginStore.userInfo;
@@ -193,9 +221,26 @@ class PaymentComp extends React.Component {
   getPaymentMethodList = async (msg, { showLoading = true } = {}) => {
     try {
       showLoading && this.setState({ listLoading: true });
-      const res = await getPaymentMethod();
+      const res = await getPaymentMethod({}, true);
+      const {
+        paymentStore: { payWayNameArr }
+      } = this.props;
+      let ret = res.context || [];
+      ret.forEach((el) => {
+        el.canDelete = true;
+      });
+      if (payWayNameArr.find((p) => p.code === 'cod_japan')) {
+        ret = ret.concat({
+          cardType: 'cod_japan',
+          paymentVendor: 'cod_japan',
+          payPspItemEnum: 'JAPAN_COD',
+          pspName: 'JAPAN_COD',
+          canDelete: false
+        });
+      }
+
       this.setState({
-        creditCardList: res.context || []
+        creditCardList: ret
       });
       if (msg) {
         this.setState(
@@ -230,20 +275,6 @@ class PaymentComp extends React.Component {
   updateInitStatus = (val) => {
     this.setState({ inited: val });
   };
-  async getPaymentMethodList() {
-    this.setState({ listLoading: true });
-    try {
-      const res = await getPaymentMethod();
-      this.setState({ creditCardList: res.context || [] });
-    } catch (err) {
-      this.setState({ listErr: err.message.toString() });
-    } finally {
-      this.setState({
-        loading: false,
-        listLoading: false
-      });
-    }
-  }
   initCardInfo() {
     this.setState({
       creditCardInfoForm: {
@@ -701,7 +732,7 @@ class PaymentComp extends React.Component {
     const {
       needEmail,
       needPhone,
-      paymentStore: { supportPaymentMethods }
+      paymentStore: { supportPaymentMethods, curPayWayInfo }
     } = this.props;
     const { creditCardInfoForm, creditCardList, currentCardInfo } = this.state;
 
@@ -724,7 +755,7 @@ class PaymentComp extends React.Component {
               ? ''
               : 'hidden-xxl-down'
           }`}
-        ></div>
+        />
         {!this.state.isEdit && this.state.creditCardList.length ? (
           this.state.listLoading ? (
             <div className="mt-4">
@@ -777,7 +808,7 @@ class PaymentComp extends React.Component {
                             </div>
                           ) : (
                             <div
-                              className="ui-cursor-pointer hidden"
+                              className="ui-cursor-pointer"
                               onClick={this.toggleSetDefault.bind(this, el)}
                             >
                               <span className="iconfont mr-1">&#xe68c;</span>
@@ -795,36 +826,40 @@ class PaymentComp extends React.Component {
                           <span
                             className={`position-relative p-2 ui-cursor-pointer-pure`}
                           >
-                            <span
-                              className="rc-styled-link"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                this.updateConfirmTooltipVisible(el, true);
-                              }}
-                            >
-                              <FormattedMessage id="delete" />
-                            </span>
-                            <ConfirmTooltip
-                              containerStyle={{
-                                transform: 'translate(-89%, 105%)'
-                              }}
-                              arrowStyle={{ left: '89%' }}
-                              display={el.confirmTooltipVisible}
-                              content={
-                                <FormattedMessage
-                                  id="confirmDelete2"
-                                  values={{
-                                    val1: <br />,
-                                    val2: '************' + el.lastFourDigits
+                            {el.canDelete ? (
+                              <>
+                                <span
+                                  className="rc-styled-link"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    this.updateConfirmTooltipVisible(el, true);
                                   }}
+                                >
+                                  <FormattedMessage id="delete" />
+                                </span>
+                                <ConfirmTooltip
+                                  containerStyle={{
+                                    transform: 'translate(-89%, 105%)'
+                                  }}
+                                  arrowStyle={{ left: '89%' }}
+                                  display={el.confirmTooltipVisible}
+                                  content={
+                                    <FormattedMessage
+                                      id="confirmDelete2"
+                                      values={{
+                                        val1: <br />,
+                                        val2: '************' + el.lastFourDigits
+                                      }}
+                                    />
+                                  }
+                                  confirm={(e) => this.deleteCard(el)}
+                                  updateChildDisplay={(status) =>
+                                    this.updateConfirmTooltipVisible(el, status)
+                                  }
                                 />
-                              }
-                              confirm={(e) => this.deleteCard(el)}
-                              updateChildDisplay={(status) =>
-                                this.updateConfirmTooltipVisible(el, status)
-                              }
-                            />
+                              </>
+                            ) : null}
                           </span>
                         </>
                       }
@@ -891,6 +926,7 @@ class PaymentComp extends React.Component {
             needPhone={this.props.needPhone}
             paymentStore={this.props.paymentStore}
             onCardTypeValChange={this.onCardTypeValChange}
+            key={curPayWayInfo?.code}
           />
         ) : null}
       </div>

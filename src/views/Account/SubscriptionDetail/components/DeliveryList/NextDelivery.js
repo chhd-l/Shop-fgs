@@ -26,7 +26,7 @@ const NextDelivery = ({
   const isIndv = subDetail.subscriptionType
     ?.toLowerCase()
     .includes('individualization');
-  const isActive = subDetail.subscribeStatus === '0';
+  const isActive = subDetail.subscribeStatus === 'ACTIVE';
   const { configStore } = useLocalStore(() => stores);
   const [promotionInputValue, setPromotionInputValue] = ''; //输入的促销码
   const [promotionDiscount, setPromotionDiscount] = useState(0);
@@ -34,8 +34,7 @@ const NextDelivery = ({
   const [isShowValidCode, setIsShowValidCode] = useState(false); //是否显示无效promotionCode
   const [isClickApply, setIsClickApply] = useState(false); //是否点击apply按钮
   const [discount, setDiscount] = useState([]); //促销码的折扣信息汇总
-  const isNotInactive =
-    subDetail.subscribeStatus === '0' || subDetail.subscribeStatus === '1';
+  const isNotInactive = subDetail.subscribeStatus !== 'INACTIVE';
   const handlerChange = (e) => {
     setPromotionInputValue(e.target.value);
   };

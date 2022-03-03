@@ -10,13 +10,12 @@ import findIndex from 'lodash/findIndex';
 import stores from '@/store';
 import { toJS } from 'mobx';
 import { registerLocale } from 'react-datepicker';
-import { getAppointDetail, getMemberAppointDetail } from '@/api/appointment';
+import { getAppointDetail } from '@/api/appointment';
 import cloneDeep from 'lodash/cloneDeep';
 import { sitePurchase } from '@/api/cart';
-import Club_Logo from '@/assets/images/Logo_club.png';
-import Club_Logo_ru from '@/assets/images/Logo_club_ru.png';
 import indvLogo from '@/assets/images/indv_log.svg';
 import { format } from 'date-fns';
+import { LOGO_CLUB, LOGO_CLUB_RU } from '@/utils/constant';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -926,9 +925,9 @@ export function getZoneTime(date) {
 }
 
 export function getClubLogo({ goodsInfoFlag, subscriptionType }) {
-  let logo = Club_Logo;
+  let logo = LOGO_CLUB;
   if (window.__.env.REACT_APP_COUNTRY === 'ru') {
-    logo = Club_Logo_ru;
+    logo = LOGO_CLUB_RU;
   }
   if (goodsInfoFlag == 3 || subscriptionType == 'Individualization') {
     logo = indvLogo;
@@ -1320,16 +1319,6 @@ export const renderScriptOrLinkHtmlStr = ({ htmlStr, callback }) => {
 };
 
 /**
- * 判断账户或者邮箱是否在指定Block邮箱中
- * @param accountOrEmail
- * @returns {boolean}
- */
-export const isBlockedUserOrEmail = (accountOrEmail) => {
-  const blockedAccountOrEmails = ['13101227768@163.com'];
-  return blockedAccountOrEmails.includes(accountOrEmail);
-};
-
-/**
  * 通过添加CDN前缀和width优化图片size
  * @param originImageUrl 源图片url
  * @param width width 默认150
@@ -1384,4 +1373,29 @@ export function handleDateForIos(date) {
     finallyDate = date;
   }
   return finallyDate;
+}
+
+/**
+ * 在object对象中，通过value值找key
+ * @param {object} obj 目标obj对象
+ * @param {any} value 目标value值
+ * @returns 匹配的key值
+ */
+export function findKeyFromObject({ obj, value }) {
+  const compareFn = (a, b) => a === b;
+  return Object.keys(obj).find((k) => compareFn(obj[k], value));
+}
+
+/**
+ * 处理email显示格式
+ * @param email
+ * @returns {string}
+ */
+export function handleEmailShow(email) {
+  let finalEmail = '';
+  if (email) {
+    finalEmail =
+      email.split('@')[0].substring(0, 4) + '***@' + email.split('@')[1];
+  }
+  return finalEmail;
 }

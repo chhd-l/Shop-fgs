@@ -2,9 +2,14 @@ import React, { useEffect, useState } from 'react';
 import LazyLoad from 'react-lazyload';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import getCardImg from '@/lib/get-card-img';
-import { getDictionary, isCanVerifyBlacklistPostCode } from '@/utils/utils';
+import {
+  getDictionary,
+  isCanVerifyBlacklistPostCode,
+  handleEmailShow
+} from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import { AddressPreview } from '@/components/Address';
+import { LOGO_ADYEN_COD, LOGO_ADYEN_PAYPAL } from '@/utils/constant';
 
 const UserPaymentInfo = ({
   currentCardInfo,
@@ -43,35 +48,25 @@ const UserPaymentInfo = ({
 
   return (
     <div className="row text-left text-break editCard ml-0 mr-0 subscription_detail_userinfo_box">
-      <div
-        className="col-12 col-md-4 mb-2"
-        style={{ padding: '5px', paddingLeft: '0' }}
-      >
-        <div
-          className="h-100 border border-d7d7d7"
-          style={{
-            padding: '1.25rem'
-          }}
-        >
+      <div className="col-12 col-md-4 mb-2 pl-0" style={{ padding: '5px' }}>
+        <div className="h-100 border border-d7d7d7 p-5">
           <div className="align-items-center">
-            {/* <em className="rc-icon rc-delivery--sm rc-brand1 ml-1 mr-1 mt-1" /> */}
             <svg
               className="svg-icon account-info-icon align-middle mr-3"
               aria-hidden="true"
             >
-              <use xlinkHref="#iconaddresses"></use>
+              <use xlinkHref="#iconaddresses" />
             </svg>
             <span>
               <FormattedMessage id="delivery2" />
             </span>
-            {subDetail.subscribeStatus === '0' && (
+            {subDetail.subscribeStatus === 'ACTIVE' && (
               <a
-                className="rc-styled-link red-text"
-                style={{ float: 'right', marginTop: '5px' }}
+                className="rc-styled-link red-text float-right"
+                style={{ marginTop: '5px' }}
                 onClick={() => eidtModule('delivery')}
               >
                 <FormattedMessage id="edit" />{' '}
-                {/* <FormattedMessage id="address" /> */}
               </a>
             )}
           </div>
@@ -85,9 +80,8 @@ const UserPaymentInfo = ({
             {/* 姓名 */}
             <p className="mb-0 sd_mb_name">
               <span
-                className="medium"
+                className="medium text-lg"
                 style={{
-                  fontSize: '1.125rem',
                   color: '#333',
                   margin: '25px 0 .625rem'
                 }}
@@ -129,12 +123,7 @@ const UserPaymentInfo = ({
       {window.__.env.REACT_APP_COUNTRY !== 'us' &&
       !Boolean(+window.__.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR) ? (
         <div className={`col-12 col-md-4 mb-2`} style={{ padding: '5px' }}>
-          <div
-            className="h-100 border border-d7d7d7"
-            style={{
-              padding: '1.25rem'
-            }}
-          >
+          <div className="h-100 border border-d7d7d7 p-5">
             <div className="align-items-center">
               <svg
                 className="svg-icon align-middle mr-3 w-8 h-8"
@@ -145,10 +134,10 @@ const UserPaymentInfo = ({
               <span>
                 <FormattedMessage id="billing2" />
               </span>
-              {subDetail.subscribeStatus === '0' && (
+              {subDetail.subscribeStatus === 'ACTIVE' && (
                 <a
-                  className="rc-styled-link red-text"
-                  style={{ float: 'right', marginTop: '5px' }}
+                  className="rc-styled-link red-text float-right"
+                  style={{ marginTop: '5px' }}
                   onClick={() => eidtModule('billing')}
                 >
                   <FormattedMessage id="edit" />{' '}
@@ -159,9 +148,8 @@ const UserPaymentInfo = ({
               {/* 姓名 */}
               <p className="mb-0 sd_mb_name">
                 <span
-                  className="medium"
+                  className="medium text-lg"
                   style={{
-                    fontSize: '1.125rem',
                     color: '#333',
                     margin: '25px 0 .625rem'
                   }}
@@ -196,12 +184,7 @@ const UserPaymentInfo = ({
           className="col-12 col-md-4 mb-2"
           style={{ padding: '5px', paddingRight: '0' }}
         >
-          <div
-            className="h-100 border border-d7d7d7"
-            style={{
-              padding: '1.25rem'
-            }}
-          >
+          <div className="h-100 border border-d7d7d7 p-5">
             <div className="align-items-center">
               <svg
                 className="svg-icon align-middle mr-3 w-8 h-8"
@@ -212,10 +195,10 @@ const UserPaymentInfo = ({
               <span>
                 <FormattedMessage id="payment.payment" />
               </span>
-              {subDetail.subscribeStatus === '0' && (
+              {subDetail.subscribeStatus === 'ACTIVE' && (
                 <a
-                  className="rc-styled-link red-text"
-                  style={{ float: 'right', marginTop: '5px' }}
+                  className="rc-styled-link red-text float-right"
+                  style={{ marginTop: '5px' }}
                   onClick={() => eidtModule('PaymentComp')}
                 >
                   <FormattedMessage id="edit" />{' '}
@@ -228,13 +211,10 @@ const UserPaymentInfo = ({
                 <>
                   <p className="mb-0">
                     <span
-                      className="medium"
+                      className="medium text-lg font-normal align-middle"
                       style={{
-                        fontSize: '1.125rem',
-                        fontWeight: '400',
                         color: '#333',
-                        margin: '25px 0 .625rem',
-                        verticalAlign: 'middle'
+                        margin: '25px 0 .625rem'
                       }}
                     >
                       **** **** ****
@@ -260,7 +240,27 @@ const UserPaymentInfo = ({
                 </>
               ) : null}
 
-              <p className="mb-0">{currentCardInfo.holderName}</p>
+              {currentCardInfo.holderName ? (
+                <p className="mb-0">{currentCardInfo.holderName}</p>
+              ) : null}
+              {currentCardInfo.pspName === 'JAPAN_COD' ? (
+                <div className="flex items-center mt-4">
+                  <LazyLoad>
+                    <img src={LOGO_ADYEN_COD} className="w-10 mr-2" />
+                  </LazyLoad>
+                  <span>
+                    <FormattedMessage id="cashOnDelivery" />
+                  </span>
+                </div>
+              ) : null}
+              {currentCardInfo.paymentItem === 'adyen_paypal' ? (
+                <div className="flex flex-col mt-4">
+                  <LazyLoad>
+                    <img src={LOGO_ADYEN_PAYPAL} className="mb-4" />
+                  </LazyLoad>
+                  <div>{handleEmailShow(currentCardInfo.email)}</div>
+                </div>
+              ) : null}
               {/* <p className="mb-0">{currentCardInfo.phone}</p> */}
             </div>
           </div>

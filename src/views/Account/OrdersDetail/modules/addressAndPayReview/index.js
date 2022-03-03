@@ -1,22 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { AddressPreview } from '@/components/Address';
 import {
   formatDate,
   formatMoney,
   getDictionary,
-  matchNamefromDict
+  matchNamefromDict,
+  handleEmailShow
 } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import getCardImg from '@/lib/get-card-img';
-import paypalLogo from '@/assets/images/paypal-logo.svg';
 import { ConvenienceStorePayReview } from '@/views/Payment/PaymentMethod';
 import OrderAppointmentInfo from '@/views/Account/AppointmentsDetail/modules/AppointmentInfo';
-import { getWays } from '@/api/payment';
+import { getPaymentMethod, getWays } from '@/api/payment';
+import { LOGO_ADYEN_COD, LOGO_ADYEN_PAYPAL } from '@/utils/constant';
 
 const OrderAddressAndPayReview = ({ details, payRecord, paymentItem }) => {
-  const [countryList, setCountryList] = React.useState([]);
-  const [supportPaymentMethods, setSupportPaymentMethods] = React.useState([]);
+  const [countryList, setCountryList] = useState([]);
+  const [supportPaymentMethods, setSupportPaymentMethods] = useState([]);
+  const [paypalAccount, setPaypalAccount] = useState('');
+
   let newDeliveryDate = formatDate({
     date: details?.consignee?.deliveryDate,
     formatOption: { weekday: 'long', day: '2-digit', month: 'long' }
@@ -31,6 +34,16 @@ const OrderAddressAndPayReview = ({ details, payRecord, paymentItem }) => {
         res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || []
       );
     });
+    // if (paymentItem === 'adyen_paypal') {
+    //   getPaymentMethod({}, true).then((res) => {
+    //     const paypalCardIndex = res.context.findIndex(
+    //       (item) => item.paymentItem === 'adyen_paypal'
+    //     );
+    //     if (paypalCardIndex > -1) {
+    //       setPaypalAccount(res.context[paypalCardIndex].email);
+    //     }
+    //   });
+    // }
   }, []);
 
   return (
@@ -162,111 +175,81 @@ const OrderAddressAndPayReview = ({ details, payRecord, paymentItem }) => {
               </div>
             ) : null}
             {payRecord && payRecord.lastFourDigits ? (
-              <div className="col-12 col-md-4 mb-2">
-                <div className="border rounded p-3 h-100">
-                  <div className="d-flex">
-                    <svg
-                      className="svg-icon align-middle mr-3 ml-1 w-8 h-8"
-                      aria-hidden="true"
-                    >
-                      <use xlinkHref="#iconpayments" />
-                    </svg>
-                    <div>
-                      <p className="medium mb-3">
-                        <FormattedMessage id="payment.payment" />
-                      </p>
-                      <div className="medium mb-2">
-                        <LazyLoad className="inline">
-                          <img
-                            alt="card background"
-                            className="d-inline-block mr-1 w-1/5"
-                            src={getCardImg({
-                              supportPaymentMethods: supportPaymentMethods,
-                              currentVendor: payRecord.paymentVendor
-                            })}
-                          />
-                        </LazyLoad>
-                        {payRecord.lastFourDigits ? (
-                          <span className="medium">
-                            ********
-                            {payRecord.lastFourDigits}
-                          </span>
-                        ) : null}
-                      </div>
-
-                      {payRecord.holderName ? (
-                        <p className="mb-0">{payRecord.holderName}</p>
-                      ) : null}
-
-                      {/* 分期费用明细 */}
-                      {0 && details.tradePrice.installmentPrice ? (
-                        <p>
-                          {formatMoney(details.tradePrice.totalPrice)} (
-                          {
-                            details.tradePrice.installmentPrice
-                              .installmentNumber
-                          }{' '}
-                          *{' '}
-                          {formatMoney(
-                            details.tradePrice.installmentPrice.installmentPrice
-                          )}
-                          )
-                        </p>
-                      ) : null}
-                    </div>
-                  </div>
+              <PaymentMethodContainer>
+                <div className="medium mb-2">
+                  <LazyLoad className="inline">
+                    <img
+                      alt="card background"
+                      className="d-inline-block mr-1 w-1/5"
+                      src={getCardImg({
+                        supportPaymentMethods: supportPaymentMethods,
+                        currentVendor: payRecord.paymentVendor
+                      })}
+                    />
+                  </LazyLoad>
+                  {payRecord.lastFourDigits ? (
+                    <span className="medium">
+                      ********
+                      {payRecord.lastFourDigits}
+                    </span>
+                  ) : null}
                 </div>
-              </div>
+
+                {payRecord.holderName ? (
+                  <p className="mb-0">{payRecord.holderName}</p>
+                ) : null}
+
+                {/* 分期费用明细 */}
+                {0 && details.tradePrice.installmentPrice ? (
+                  <p>
+                    {formatMoney(details.tradePrice.totalPrice)} (
+                    {details.tradePrice.installmentPrice.installmentNumber} *{' '}
+                    {formatMoney(
+                      details.tradePrice.installmentPrice.installmentPrice
+                    )}
+                    )
+                  </p>
+                ) : null}
+              </PaymentMethodContainer>
             ) : null}
             {paymentItem === 'adyen_paypal' ? (
-              <div className="col-12 col-md-4 mb-2">
-                <div className="border rounded p-3 h-100">
-                  <div className="d-flex">
-                    <svg
-                      className="svg-icon align-middle mr-3 ml-1 w-8 h-8"
-                      aria-hidden="true"
-                    >
-                      <use xlinkHref="#iconpayments" />
-                    </svg>
-                    <div>
-                      <p className="medium mb-3">
-                        <FormattedMessage id="payment.payment" />
-                      </p>
-                      <div className="medium mb-2">
-                        <LazyLoad className="inline-block">
-                          <img
-                            alt="paypal"
-                            className="w-20 h-10"
-                            src={paypalLogo}
-                          />
-                        </LazyLoad>
-                      </div>
-                    </div>
-                  </div>
+              <PaymentMethodContainer>
+                <div className="medium mb-2">
+                  <LazyLoad className="inline-block">
+                    <img
+                      alt="paypal"
+                      className="w-20 h-10"
+                      src={LOGO_ADYEN_PAYPAL}
+                    />
+                  </LazyLoad>
+                  <p>
+                    {handleEmailShow(details?.payPalEmail || paypalAccount)}
+                  </p>
                 </div>
-              </div>
+              </PaymentMethodContainer>
             ) : null}
-            {paymentItem === 'convenience_store' ? (
-              <div className="col-12 col-md-4 mb-2">
-                <div className="border rounded p-3 h-100">
-                  <div className="d-flex">
-                    <svg
-                      className="svg-icon align-middle mr-3 ml-1 w-8 h-8"
-                      aria-hidden="true"
-                    >
-                      <use xlinkHref="#iconpayments" />
-                    </svg>
-                    <div>
-                      <p className="medium mb-3">
-                        <FormattedMessage id="payment.payment" />
-                      </p>
-                      <div className="medium mb-2">
-                        <ConvenienceStorePayReview />
-                      </div>
-                    </div>
-                  </div>
+            {details.paymentItem === 'adyen_convenience_store' ? (
+              <PaymentMethodContainer>
+                <div className="medium mb-2">
+                  <ConvenienceStorePayReview
+                    convenienceStore={
+                      details?.payInfo?.convenienceStorePayInfo?.storeName
+                    }
+                  />
                 </div>
-              </div>
+              </PaymentMethodContainer>
+            ) : null}
+            {paymentItem === 'cod_japan' ? (
+              <PaymentMethodContainer>
+                <div className="flex items-center">
+                  <LazyLoad>
+                    <img src={LOGO_ADYEN_COD} className="w-10 mr-2" />
+                  </LazyLoad>
+                  <span>
+                    <FormattedMessage id="cashOnDelivery" />
+                  </span>
+                </div>
+              </PaymentMethodContainer>
             ) : null}
           </div>
         </div>
@@ -284,3 +267,26 @@ const OrderAddressAndPayReview = ({ details, payRecord, paymentItem }) => {
 };
 
 export default OrderAddressAndPayReview;
+
+const PaymentMethodContainer = ({ children }) => {
+  return (
+    <div className="col-12 col-md-4 mb-2">
+      <div className="border rounded p-3 h-100">
+        <div className="d-flex">
+          <svg
+            className="svg-icon align-middle mr-3 ml-1 w-8 h-8"
+            aria-hidden="true"
+          >
+            <use xlinkHref="#iconpayments" />
+          </svg>
+          <div>
+            <p className="medium mb-3">
+              <FormattedMessage id="payment.payment" />
+            </p>
+            {children}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

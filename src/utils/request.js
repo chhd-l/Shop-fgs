@@ -57,7 +57,11 @@ service.interceptors.request.use((config) => {
   //   }[window.__.env.REACT_APP_COUNTRY];
   // }
   if (window.__.env?.REACT_APP_STOREID) {
-    config.headers['storeId'] = window.__.env.REACT_APP_STOREID;
+    //config.headers['storeId'] = window.__.env.REACT_APP_STOREID
+    config.headers['storeId'] =
+      config.url == '/delivery/timeSlot'
+        ? 123457907
+        : window.__.env.REACT_APP_STOREID; //日本暂时用的俄罗斯店铺数据
   }
   config.headers['X-Content-Type-Options'] = 'nosniff';
   config.headers['Permissions-Policy'] = 'microphone=()';

@@ -19,7 +19,7 @@ const StatusText = ({ subDetail }) => {
         fontSize: '.875rem'
       }}
     >
-      {subDetail.subscribeStatus === '0' ? (
+      {subDetail.subscribeStatus === 'ACTIVE' ? (
         <span
           className="px-1 rounded-sm"
           style={{
@@ -29,7 +29,7 @@ const StatusText = ({ subDetail }) => {
         >
           <FormattedMessage id="active" />
         </span>
-      ) : subDetail.subscribeStatus === '1' ? (
+      ) : subDetail.subscribeStatus === 'PAUSE' ? (
         <span
           className="px-1 rounded-sm"
           style={{
@@ -66,8 +66,7 @@ const SubDetailHeader = ({
   petType,
   setState
 }) => {
-  const isNotInactive =
-    subDetail.subscribeStatus === '0' || subDetail.subscribeStatus === '1';
+  const isNotInactive = subDetail.subscribeStatus !== 'INACTIVE';
   let petsInfo = subDetail.petsInfo;
   //plan同时存在goodsCategory为dog和cat的商品，不展示新增情况
   let isCatAndDog = petsInfo?.petsType === 'CatAndDog';

@@ -15,24 +15,24 @@ import {
 } from '@/api/payment';
 import {
   PAYMENT_METHOD_PAU_ACCOUNT_RULE,
-  PAYMENT_METHOD_PAU_CHECKOUT_RULE
+  PAYMENT_METHOD_PAU_CHECKOUT_RULE,
+  LOGO_ADYEN_PAYPAL
 } from '@/utils/constant';
 import PaymentEditForm from '@/components/PaymentEditForm';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
-import { showCardType } from '@/utils/constant/cyber';
 import getCardImg from '@/lib/get-card-img';
+import { handleEmailShow } from '@/utils/utils';
 
 function CardItem(props) {
   const { data, listVisible, supportPaymentMethods } = props;
-  // console.log(2222, listVisible);
   return (
     <div
       className={`${
         data?.paddingFlag
           ? 'creditCompleteInfoBox disabled'
           : 'rc-bg-colour--brand4'
-      } rounded p-2 pl-3 pr-3 h-100 d-flex align-items-center justify-content-between`}
+      } rounded p-2 px-3 h-100 d-flex align-items-center justify-content-between`}
     >
       <div
         className="position-absolute d-flex align-items-center"
@@ -53,23 +53,32 @@ function CardItem(props) {
             <LazyLoad height={100}>
               <img
                 className="PayCardImgFitScreen mw-100"
-                // style={{ height: '5rem' }}
-                src={getCardImg({
-                  supportPaymentMethods,
-                  currentVendor: data.paymentVendor
-                })}
+                src={
+                  data.paymentItem === 'adyen_paypal'
+                    ? LOGO_ADYEN_PAYPAL
+                    : getCardImg({
+                        supportPaymentMethods,
+                        currentVendor: data.paymentVendor
+                      })
+                }
                 alt="pay card img fit screen"
               />
             </LazyLoad>
           </div>
-          <div className="col-6 pl-0 pr-0">
-            <p className="mb-0">{data.holderName}</p>
-            <p className="mb-0">
-              ************
-              {data.lastFourDigits}
-            </p>
-            <p className="mb-0">{data.paymentVendor}</p>
-          </div>
+          {data.paymentItem === 'adyen_paypal' ? (
+            <div className="col-8 px-0 my-6 truncate">
+              {handleEmailShow(data.email)}
+            </div>
+          ) : (
+            <div className="col-6 px-0">
+              <p className="mb-0">{data.holderName}</p>
+              <p className="mb-0">
+                ************
+                {data.lastFourDigits}
+              </p>
+              <p className="mb-0">{data.paymentVendor}</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -116,7 +125,7 @@ class PaymentList extends React.Component {
         payPspItemVOList[0]?.payPspItemCardTypeVOList || [];
       setPayWayNameArr(payPspItemVOList);
       setSupportPaymentMethods(supportPaymentMethods); //存储当前支付方式所支持的卡类型
-      serCurPayWayVal(supportPaymentMethods[0]?.code);
+      serCurPayWayVal(payPspItemVOList[0]?.code);
       this.setState(
         { defaultCardTypeVal: supportPaymentMethods[0]?.cardType }, //设置默认卡类型，例如visa
         () => {
@@ -141,7 +150,7 @@ class PaymentList extends React.Component {
   getPaymentMethodList = async ({ msg, showLoading = true } = {}) => {
     try {
       showLoading && this.setState({ listLoading: true });
-      const res = await getPaymentMethod();
+      const res = await getPaymentMethod({}, true);
       this.setState({
         creditCardList: res.context || []
       });

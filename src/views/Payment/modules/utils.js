@@ -45,7 +45,9 @@ export function scrollPaymentPanelIntoView() {
 export function handleRecoProductParamByItem({
   ele,
   paymentStore,
-  checkoutStore
+  checkoutStore,
+  loginStore,
+  ...rest
 }) {
   let recommendationInfos = {};
   if (ele.recommendationInfos && ele.recommendationInfos != 'null') {
@@ -69,9 +71,10 @@ export function handleRecoProductParamByItem({
       : recommendationId || ele.recommendationId || ''; // 优先去取recommendationInfos里面的recommendationId,如果是felin，特殊处理
 
   // 把select pets info, 绑定到产品上, 封装下单参数
-  const { AuditData } = checkoutStore;
+  const { isLogin } = loginStore;
+  const { cartData, loginCartData } = checkoutStore;
   const { petList, petSelectedIds } = paymentStore;
-  const auditProductIdx = AuditData.findIndex(
+  const auditProductIdx = (isLogin ? loginCartData : cartData).findIndex(
     (l) => l.goodsInfoId === ele.goodsInfoId
   );
   const curPetInfo = petList.find(

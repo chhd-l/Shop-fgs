@@ -129,7 +129,7 @@ class CheckoutStore {
   }
 
   @computed get isShowBindPet() {
-    return this.autoAuditFlag && this.petFlag && this.AuditData.length > 0;
+    return this.petFlag;
   }
 
   @action.bound

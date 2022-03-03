@@ -13,18 +13,18 @@ const curKey = 'bindPet';
 
 const SelectPet = ({ checkoutStore, loginStore, paymentStore, isRepay }) => {
   const { isLogin } = loginStore;
-  const { isShowBindPet, AuditData } = checkoutStore;
+  const { isShowBindPet, cartData, loginCartData } = checkoutStore;
   const { bindPetPanelStatus, setPetSelectedIds } = paymentStore;
   const {} = usePetLists({ loginStore, paymentStore });
   const computedAuditData = isLogin
-    ? AuditData.map((el) => ({
+    ? loginCartData.map((el) => ({
         ...el,
         goodsInfoImg: el.goodsInfoImg,
         petName: el.petName,
         buyCount: el.buyCount,
         specText: el.specText
       }))
-    : AuditData.map((el) => {
+    : cartData.map((el) => {
         const selectedSizeItem = el.sizeList.filter((item) => item.selected)[0];
         return {
           ...el,
@@ -85,9 +85,11 @@ const SelectPet = ({ checkoutStore, loginStore, paymentStore, isRepay }) => {
             titleConf={{
               className: 'px-5',
               icon: {
-                defaultIcon: <span className="iconfont iconPets text-lg" />,
+                defaultIcon: (
+                  <span className="iconfont iconPets text-xl mr-2" />
+                ),
                 highlighIcon: (
-                  <span className="iconfont iconPets text-lg text-red" />
+                  <span className="iconfont iconPets text-xl mr-2 text-red" />
                 )
               },
               text: {

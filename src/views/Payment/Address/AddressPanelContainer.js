@@ -19,8 +19,12 @@ const AddressPanelContainer = ({
         titleVisible: titleVisible,
         id: `J-address-title-${titleId}`,
         icon: {
-          defaultIcon: <em className="rc-icon rc-indoors--xs rc-iconography" />,
-          highlighIcon: <em className="rc-icon rc-indoors--xs rc-brand1" />
+          defaultIcon: (
+            <em className="rc-icon rc-indoors--xs rc-iconography rc-margin-right--xs" />
+          ),
+          highlighIcon: (
+            <em className="rc-icon rc-indoors--xs rc-brand1 rc-margin-right--xs" />
+          )
         },
         text: {
           title: isFromFelin ? (

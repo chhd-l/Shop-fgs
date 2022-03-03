@@ -26,7 +26,9 @@ class WeekCalender extends Component {
   state = {
     weekDate: [],
     selectedIndex: '',
-    index: 0
+    index: 0,
+    show: false,
+    timeWidth: 0
   };
 
   componentDidMount() {
@@ -54,7 +56,7 @@ class WeekCalender extends Component {
       });
     }
     this.setState({ weekDate }, () => {
-      // this.goTotime(weekDate);
+      this.goTotime(weekDate);
     });
   };
   goTotime = (weekDate) => {
@@ -70,7 +72,27 @@ class WeekCalender extends Component {
         }
       }
       if (flag) {
+        if (i > 1) {
+          let width = parseFloat(i) * 12.4 + '%';
+          this.setState({
+            show: true,
+            timeWidth: width
+          });
+        } else {
+          this.setState({
+            show: false,
+            timeWidth: 0
+          });
+        }
         break;
+      } else {
+        if (i === '6') {
+          let width = (parseFloat(i) + 1) * 12.4 + '%';
+          this.setState({
+            show: true,
+            timeWidth: width
+          });
+        }
       }
     }
   };
@@ -189,6 +211,12 @@ class WeekCalender extends Component {
             <div className="rc-icon rc-right rc-iconography"></div>
           </div>
         </div>
+        {this.state.show ? (
+          <div className="not-time" style={{ width: this.state.timeWidth }}>
+            No Availability
+          </div>
+        ) : null}
+
         <div className="week-content" id="week-content">
           <ul>
             {weekDate.map((item, index) => (

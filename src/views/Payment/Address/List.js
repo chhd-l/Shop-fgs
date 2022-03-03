@@ -841,6 +841,7 @@ class AddressList extends React.Component {
     });
     if (idx > -1) {
       const tmp = addressList[idx];
+
       tmpDeliveryAddress = {
         firstName: tmp.firstName,
         lastName: tmp.lastName,
@@ -870,8 +871,13 @@ class AddressList extends React.Component {
         timeSlot: tmp.timeSlot || '',
         timeSlotId: tmp.timeSlot || '',
         isDefalt: tmp.isDefaltAddress === 1 ? true : false,
-        email: tmp.email
+        email: tmp.email,
+        firstNameKatakana: tmp.firstNameKatakana,
+        lastNameKatakana: tmp.lastNameKatakana
       };
+      if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+        tmpDeliveryAddress.region = tmp.area;
+      }
       if (isCanVerifyBlacklistPostCode) {
         tmpDeliveryAddress.alert = tmp?.alert || '';
         tmpDeliveryAddress.validFlag = tmp?.validFlag;
@@ -1013,12 +1019,14 @@ class AddressList extends React.Component {
         isDefaltAddress: deliveryAddress.isDefalt ? 1 : 0,
         region: deliveryAddress.province, // DuData相关参数
         type: this.props.type.toUpperCase(),
-        isValidated: deliveryAddress.validationResult
+        isValidated: deliveryAddress.validationResult,
+        area: deliveryAddress.region //日本需求store portal用的是region字段，shop新增地址用area字段
       });
 
       const tmpPromise =
         this.currentOperateIdx > -1 ? editAddress : saveAddress;
       let res = await tmpPromise(params);
+
       let tmpObj = res?.context;
       if (tmpObj.deliveryAddressId) {
         this.setState({
@@ -1256,6 +1264,11 @@ class AddressList extends React.Component {
       farr.push(data.area);
     }
     return farr.join(', ');
+  };
+
+  //日本 处理要显示的字段
+  jpSetAddressFields = (data) => {
+    return [data.province, data.city, data.area, data.address1].join(', ');
   };
 
   // ************************ pick up 相关
@@ -2091,6 +2104,69 @@ class AddressList extends React.Component {
         </div>
       );
     });
+
+    //日本 地址列表
+    const jp_list = addressList.map((item, i) => {
+      return (
+        <div
+          className={cn(
+            'rounded address-item mb-3',
+            `${item.selected ? 'selected' : 'border'}`,
+            {
+              forbid: !item?.validFlag && isCanVerifyBlacklistPostCode,
+              'address-item-none': foledMore && !item.selected && i !== 0,
+              'border-bottom-0': !item.selected && i !== addressList.length - 1
+            }
+          )}
+          key={item.deliveryAddressId}
+          onClick={
+            isCanVerifyBlacklistPostCode
+              ? !!item.validFlag
+                ? (e) => this.selectAddress(e, i)
+                : null
+              : (e) => this.selectAddress(e, i)
+          }
+        >
+          <div className="row align-items-center pt-3 pb-3 ml-3 mr-3 align_items_wrap">
+            <div
+              className="d-flex col-10 col-md-8 pl-1 pr-1"
+              style={{ flexDirection: 'column' }}
+            >
+              <span>{item.consigneeName}</span>
+              <span>
+                {item.firstNameKatakana} {item.lastNameKatakana}
+              </span>
+              <span>{item.postCode}</span>
+              <p>{this.jpSetAddressFields(item)}</p>
+              <p>{item.consigneeNumber}</p>
+            </div>
+            <div className="col-12 col-md-4 md:mt-0 mt-1 pl-0 pr-0 text-right font-weight-bold address_opt_btn ">
+              <span
+                className="border-bottom-2"
+                onClick={this.addOrEditAddress.bind(this, i)}
+              >
+                <FormattedMessage id="edit" />
+              </span>
+              <span className="select_this_address border-bottom-2">
+                <FormattedMessage id="selectThisAddress" />
+              </span>
+            </div>
+          </div>
+        </div>
+      );
+    });
+
+    const addressListTypes = {
+      jp: jp_list,
+      default: _list
+    };
+
+    const addressListTypeFun = (country) => {
+      let addressListType =
+        addressListTypes[country] || addressListTypes['default'];
+      return addressListType;
+    };
+
     // 显示更多地址
     const _foldBtn = (
       <div
@@ -2396,7 +2472,9 @@ class AddressList extends React.Component {
                                   {/* 地址列表 */}
                                   <div className="addr-container-scroll">
                                     {addressList.length ? (
-                                      _list
+                                      addressListTypeFun(
+                                        window.__.env.REACT_APP_COUNTRY
+                                      )
                                     ) : (
                                       <div className="text-center">
                                         <FormattedMessage id="order.noDataTip" />

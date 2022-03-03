@@ -40,7 +40,11 @@ const AddressPreview = ({ configStore, data, nameCls, pickupNameCls }) => {
     county,
     postCode,
     rfc,
-    buyerRemark
+    buyerRemark,
+    consigneeName,
+    firstNameKatakana,
+    lastNameKatakana,
+    consigneeNumber
   } = data;
 
   /**
@@ -182,6 +186,19 @@ const AddressPreview = ({ configStore, data, nameCls, pickupNameCls }) => {
               {/* time slot */}
               {timeSlot && <p className="preview_time_slot">{timeSlot}</p>}
             </>
+          ) : window.__.env.REACT_APP_COUNTRY == 'jp' ? (
+            <div
+              className="d-flex col-10 col-md-8 pl-1 pr-1"
+              style={{ flexDirection: 'column' }}
+            >
+              <span>{consigneeName}</span>
+              <span>
+                {firstNameKatakana} {lastNameKatakana}
+              </span>
+              <span>{postCode}</span>
+              <p>{[province, city, area, address1].join(', ')}</p>
+              <p>{consigneeNumber}</p>
+            </div>
           ) : (
             <>
               {name ? <p className={cn(nameCls)}>{name}</p> : null}
