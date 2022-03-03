@@ -345,7 +345,8 @@ class Payment extends React.Component {
       appointNo: null, //felin的预约单号
       convenienceStore: '',
       paypalDetailsChecked: false,
-      paypalMethodDefaultChecked: false
+      paypalMethodDefaultChecked: false,
+      paypalAccount: ''
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
@@ -925,6 +926,7 @@ class Payment extends React.Component {
         // if(cardList[paypalCardIndex].isDefault === 1){
         //    this.handlePaymentTypeClick('adyenPaypal');
         // }
+        this.setState({ paypalAccount: cardList[paypalCardIndex].email });
         cardList.splice(paypalCardIndex, 1);
       }
       this.setState({ cardListLength: cardList.length });
@@ -3607,6 +3609,7 @@ class Payment extends React.Component {
                           isCurrentBuyWaySubscription={
                             this.isCurrentBuyWaySubscription
                           }
+                          paypalAccount={this.state.paypalAccount}
                         />
                       </>
                     )}
