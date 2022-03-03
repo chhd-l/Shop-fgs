@@ -1108,7 +1108,7 @@ class Register extends Component {
                                 className="rc-text-colour--brand1"
                               >
                                 {' '}
-                                <FormattedMessage id="footer.email" />
+                                <FormattedMessage id="contactUs" />
                               </Link>
                             </strong>
                           </div>

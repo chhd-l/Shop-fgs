@@ -560,7 +560,6 @@ const en_US = {
   'footer.cookieCollectionPolicy': 'Cookie Collection Policy',
   'footer.cookies': 'Cookies',
   'footer.cookieSettings': 'Cookie Settings',
-  'footer.email': 'Contact Us',
   'footer.FAQ': 'FAQ',
   'footer.FAQ2': 'FAQ',
   'footer.qualityAndSafety': 'Quality and safety',
@@ -587,12 +586,9 @@ const en_US = {
   'header.bannerTip': '30% off first purchase + 5% off autoship',
   'header.basketEmpty': 'Your cart is empty',
   'header.carouselInfo1': 'Tailored Nutrition For Your Pet',
-  'header.carouselInfo10': 'Personal Consultant ROYAL CANIN® CLUB',
-  'header.carouselInfo11': 'ROYAL CANIN® CLUB for kittens',
   'header.carouselInfo2':
     'Find precise nutrition based on the unique needs of your pet.',
   'header.carouselInfo4': 'Personal consultant',
-  'header.carouselInfo5': 'FREE veterinary examinations',
   'header.carouselInfo6': 'Branded accessories and VIP service',
   'header.carouselInfo7': 'Your pet’s health and well-being program',
   'header.carouselInfo8': 'Our experts will do everything to help you!',
@@ -629,9 +625,6 @@ const en_US = {
   home: 'Home',
   'home.convenientTip1':
     'Expert recommendations on food tailored to your pet’s needs',
-  'home.convenientTip2':
-    'Save 30% off your first purchase through Royal Canin Club, and 5% off every autoship order',
-  'home.convenientTip3': 'Free automatic shipping – no minimum purchase',
   'home.convenientTip4':
     'Expert feeding advice, product updates and support from a Royal Canin Advisor',
   'home.convenientTitle': 'Why Shop Royal Canin?',
@@ -856,7 +849,6 @@ const en_US = {
   inputSearchText: 'input search text',
   inputYourEmailReceivePayment:
     'Input your email to receive payment voucher & order status notices.',
-  inTheBasket: 'in the basket',
   inTransit: 'In transit',
   invoice: 'invoice',
   isContinue: 'Whether to continue?',
@@ -918,7 +910,6 @@ const en_US = {
   modalSkipTitle: 'SKIP NEXT DELIVERY?',
   month: 'Month',
   moreAddress: 'More Addresses',
-  moreChoicesAvailable: 'More Choices Available',
   mustChooseACommunicationMethodTip:
     'Sorry, you checked communication consent, so you must choose a communication method',
   mustChooseTheConsentTip:
@@ -969,7 +960,6 @@ const en_US = {
   'order.orderStatus': 'Order Status',
   'order.paymentNumber': 'Payment number',
   'order.paymentStatus': 'Payment Status',
-  'order.paymentTime': 'Payment time',
   'order.payNow': 'Pay now',
   'order.quantityText': '{specText} - Qty {buyCount}',
   'order.refundErrorInfo':
@@ -981,7 +971,6 @@ const en_US = {
   'order.returnOrder': 'Return order',
   'order.returnOrderDetails': 'Return Order Details',
   'order.returnStatus': 'Return Status',
-  'order.shippingStatus': 'Shipping Status',
   'order.toBeDeliveredTip':
     'Your order has been successfully paid and we are preparing to ship.',
   'order.total': 'Total',
