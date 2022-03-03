@@ -71,8 +71,12 @@ const SelectPet = ({ checkoutStore, loginStore, paymentStore, isRepay }) => {
         list: toJS(paymentStore.panelStatus),
         curKey
       });
+      const nextConfirmPanel = searchNextConfirmPanel({
+        list: toJS(paymentStore.panelStatus),
+        curKey
+      });
       paymentStore.setStsToCompleted({ key: curKey });
-      isReadyPrev && paymentStore.setStsToEdit({ key: curKey });
+      isReadyPrev && paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
     }
   }, [isRepay, isShowBindPet]);
 

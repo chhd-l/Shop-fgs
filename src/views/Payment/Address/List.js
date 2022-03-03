@@ -875,9 +875,10 @@ class AddressList extends React.Component {
         firstNameKatakana: tmp.firstNameKatakana,
         lastNameKatakana: tmp.lastNameKatakana
       };
-      if (window.__.env.REACT_APP_COUNTRY === 'jp') {
-        tmpDeliveryAddress.region = tmp.area;
-      }
+      //日本
+      // if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+      //   tmpDeliveryAddress.region = tmp.area;
+      // }
       if (isCanVerifyBlacklistPostCode) {
         tmpDeliveryAddress.alert = tmp?.alert || '';
         tmpDeliveryAddress.validFlag = tmp?.validFlag;

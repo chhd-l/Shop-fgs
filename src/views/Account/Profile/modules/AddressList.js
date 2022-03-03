@@ -68,7 +68,11 @@ function CardItem(props) {
             province: data.province,
             county: data.county,
             postCode: data.postCode,
-            pickupPriceVisible: false
+            pickupPriceVisible: false,
+            consigneeName: data.consigneeName,
+            firstNameKatakana: data.firstNameKatakana,
+            lastNameKatakana: data.lastNameKatakana,
+            consigneeNumber: data.consigneeNumber
           }}
         />
       </div>
@@ -698,6 +702,7 @@ class AddressList extends React.Component {
       }
 
       let res = await tmpPromise(deliveryAdd);
+      debugger;
       if (res.context?.deliveryAddressId) {
         this.scrollToTitle();
         this.getAddressList();

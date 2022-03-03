@@ -257,8 +257,13 @@ class ShippingAddressFrom extends React.Component {
       params.provinceId = data.provinceId;
       params.isValidated = data.validationResult;
       // console.log('----------------------> handleSave params: ', params);
+      if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+        //日本需求store portal用的是region字段，shop新增地址用area字段
+        params.area = data.region;
+      }
 
       let res = await (this.state.isAdd ? saveAddress : editAddress)(params);
+
       myAccountActionPushEvent('Add Address'); // GA
       this.handleCancel();
       // this.props.upateSuccessMsg(res?.message);
