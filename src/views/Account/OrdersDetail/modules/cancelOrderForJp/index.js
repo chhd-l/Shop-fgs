@@ -7,7 +7,7 @@ import {
 } from '@/views/Account/OrdersDetail/modules';
 import { cancelOrderForJapan } from '@/api/order';
 
-const CancelOrderForJp = ({ details, welcomeGiftLists, props }) => {
+const CancelOrderForJp = ({ details, props }) => {
   const [cancelJpOrderModalVisible, setCancelJpOrderModalVisible] =
     useState(false);
   const [
@@ -67,7 +67,6 @@ const CancelOrderForJp = ({ details, welcomeGiftLists, props }) => {
         visible={cancelJpOrderModalVisible}
         cancelJpOrderLoading={cancelJpOrderLoading}
         details={details}
-        welcomeGiftLists={welcomeGiftLists}
         close={() => {
           setCancelJpOrderModalVisible(false);
         }}

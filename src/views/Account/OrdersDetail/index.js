@@ -41,8 +41,6 @@ class AccountOrders extends React.Component {
     super(props);
     this.state = {
       orderNumber: '',
-      subNumber: '',
-      orderNumberForOMS: '',
       details: null,
       payRecord: null,
       loading: true,
@@ -58,9 +56,7 @@ class AccountOrders extends React.Component {
       logisticsList: [],
       activeTabIdx: 0,
       showLogisticsDetail: false,
-      curLogisticInfo: null,
-      welcomeGiftLists: [], //first-order welcome box gifts
-      paymentItem: '' //支付方式 paypal，swish
+      curLogisticInfo: null
     };
     this.changeTab = this.changeTab.bind(this);
     this.handleClickLogisticsCard = this.handleClickLogisticsCard.bind(this);
@@ -83,32 +79,27 @@ class AccountOrders extends React.Component {
       .then(async (res) => {
         let resContext = res.context;
         resContext.tradeItems?.forEach((el) => {
-          if (judgeIsIndividual(el)) {
-            el.spuName = (
-              <FormattedMessage
-                id="subscription.personalized"
-                values={{ val1: el.petsName }}
-              />
-            );
-          }
+          el.spuName = judgeIsIndividual(el) ? (
+            <FormattedMessage
+              id="subscription.personalized"
+              values={{ val1: el.petsName }}
+            />
+          ) : (
+            el.spuName
+          );
         });
-        let welcomeGiftLists = (resContext?.subscriptionPlanGiftList || []).map(
-          (el) => {
-            return Object.assign({}, el, {
-              pic: el.goodsInfoImg || el.pic,
-              isWelcomeBox: true,
-              spuName: el.goodsInfoName,
-              num: el.quantity,
-              originalPrice: el.marketPrice
-            });
-          }
-        );
+        resContext?.subscriptionPlanGiftList?.forEach((el) => {
+          el.pic = el.goodsInfoImg || el.pic;
+          el.isWelcomeBox = true;
+          el.spuName = el.goodsInfoName;
+          el.num = el.quantity;
+          el.originalPrice = el.marketPrice;
+        });
         const tradeState = resContext.tradeState;
-        const orderStatusMap = resContext.orderStatusMap;
         let currentProgressIndex = -1;
         normalProgressList = resContext.appointmentNo
-          ? handleFelinOrderStatusMap(orderStatusMap)
-          : handleOrderStatusMap(orderStatusMap);
+          ? handleFelinOrderStatusMap(resContext.orderStatusMap)
+          : handleOrderStatusMap(resContext.orderStatusMap);
         // 查询支付卡信息
         if (resContext?.totalTid) {
           getPayRecord(resContext.totalTid).then((res) => {
@@ -127,7 +118,7 @@ class AccountOrders extends React.Component {
         ) {
           queryLogistics(orderNumber).then((res) => {
             this.setState({
-              logisticsList: (res.context && res.context.tradeDelivers) || []
+              logisticsList: res?.context?.tradeDelivers || []
             });
           });
         }
@@ -142,11 +133,7 @@ class AccountOrders extends React.Component {
           loading: false,
           currentProgressIndex,
           normalProgressList,
-          defaultLocalDateTime: res.defaultLocalDateTime,
-          subNumber: resContext?.subscriptionResponseVO?.subscribeId,
-          orderNumberForOMS: resContext?.tradeOms?.orderNo,
-          welcomeGiftLists,
-          paymentItem: resContext.paymentItem
+          defaultLocalDateTime: res.defaultLocalDateTime
         });
       })
       .catch((err) => {
@@ -370,9 +357,7 @@ class AccountOrders extends React.Component {
       currentProgressIndex,
       normalProgressList,
       showLogisticsDetail,
-      curLogisticInfo,
-      welcomeGiftLists,
-      paymentItem
+      curLogisticInfo
     } = this.state;
 
     return (
@@ -444,15 +429,10 @@ class AccountOrders extends React.Component {
                           <div className="row m-0 mx-2 md:mx-0 ">
                             <OrderHeaderInfo
                               details={details}
-                              orderNumberForOMS={this.state.orderNumberForOMS}
                               props={this.props}
                             />
                             <div className="col-12 table-body rounded md:mt-3 mb-2 px-0">
-                              <OrderAllProduct
-                                details={details}
-                                orderNumberForOMS={this.state.orderNoForOMS}
-                                welcomeGiftLists={welcomeGiftLists}
-                              />
+                              <OrderAllProduct details={details} />
                               <OrderAllPrice
                                 details={details}
                                 customTaxSettingOpenFlag={
@@ -464,13 +444,11 @@ class AccountOrders extends React.Component {
                           </div>
                           <OrderAddressAndPayReview
                             details={details}
-                            paymentItem={paymentItem}
                             payRecord={payRecord}
                           />
                           <CancelOrderForJp
                             details={details}
                             props={this.props}
-                            welcomeGiftLists={welcomeGiftLists}
                           />
                         </div>
                       ) : this.state.errMsg ? (
