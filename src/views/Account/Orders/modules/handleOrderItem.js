@@ -13,7 +13,8 @@ export function handleOrderItem(ele, res) {
       new Date(handleDateForIos(ele?.orderTimeOut)).getTime() >
         new Date(handleDateForIos(res.defaultLocalDateTime)).getTime() &&
       (!ele.payWay ||
-        !['OXXO', 'ADYEN_OXXO', 'COD'].includes(ele?.payWay?.toUpperCase())),
+        !['OXXO', 'ADYEN_OXXO', 'COD'].includes(ele?.payWay?.toUpperCase())) &&
+      !['cod_japan', 'adyen_convenience_store'].includes(ele?.paymentItem),
     showOXXOExpireTime:
       tradeState.flowState === 'AUDIT' &&
       tradeState.deliverStatus === 'NOT_YET_SHIPPED' &&

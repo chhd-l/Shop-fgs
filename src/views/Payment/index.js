@@ -920,9 +920,9 @@ class Payment extends React.Component {
       let res = await getPaymentMethod({}, true);
       let cardList = res.context;
       const paypalCardIndex = cardList.findIndex(
-        (item) => item.paymentItem === 'adyen_paypal' && item.isDefault === 1
+        (item) => item.paymentItem === 'adyen_paypal'
       );
-      if (paypalCardIndex >= -1) {
+      if (paypalCardIndex > -1) {
         // if(cardList[paypalCardIndex].isDefault === 1){
         //    this.handlePaymentTypeClick('adyenPaypal');
         // }
@@ -1063,7 +1063,7 @@ class Payment extends React.Component {
             (e) =>
               e.isOpen &&
               (!this.isCurrentBuyWaySubscription || e.supportSubscription) &&
-              (e.code !== 'cod' || this.tradePrice <= e.maxAmount)
+              (!e.maxAmount || this.tradePrice <= e.maxAmount)
           );
       }
 
@@ -3589,6 +3589,7 @@ class Payment extends React.Component {
                           billingJSX={this.renderBillingJSX({
                             type: 'adyenCard'
                           })}
+                          supportPaymentMethodsVisibleAtForm={false}
                         />
                       </>
                     )}

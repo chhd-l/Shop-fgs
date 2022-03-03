@@ -30,7 +30,8 @@ export const CREDIT_CARD_IMG_ENUM = {
   'AMERICAN EXPRESS': amexImg,
   DISCOVER: discoverImg,
   OXXO: oxxo,
-  AMEX: amexImg
+  AMEX: amexImg,
+  ADYEN_PAYPAL: LOGO_ADYEN_PAYPAL
 };
 
 export const ADYEN_CREDIT_CARD_BRANDS = {

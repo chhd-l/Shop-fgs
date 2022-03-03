@@ -15,7 +15,6 @@ export default class Modal extends React.Component {
     confirmBtnText: <FormattedMessage id="order.sureCancelOrder" />,
     visible: false, //是否显示弹框
     details: null,
-    welcomeGiftLists: [],
     cancelJpOrderLoading: false
   };
   close = () => {
@@ -28,7 +27,7 @@ export default class Modal extends React.Component {
     this.props.handleClickConfirm();
   };
   render() {
-    const { visible, details, welcomeGiftLists } = this.props;
+    const { visible, details } = this.props;
     return (
       <React.Fragment>
         {visible ? (
@@ -86,7 +85,6 @@ export default class Modal extends React.Component {
                     </div>
                     <div className="col-12 table-body rounded md:mt-3 mb-2 pl-0 pr-0">
                       <OrderAllProduct
-                        welcomeGiftLists={welcomeGiftLists}
                         details={details}
                         orderNumberForOMS={''}
                       />
