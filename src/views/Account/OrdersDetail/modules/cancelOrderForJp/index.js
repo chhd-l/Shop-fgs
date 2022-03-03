@@ -62,8 +62,8 @@ const CancelOrderForJp = ({ details, props, cancelSuccessCallback }) => {
       {/*jp order cancel success tip modal*/}
       <CancelOrderSuccessModal
         visible={cancelJpOrderSuccessModalVisible}
-        close={() => closeSuccessModal}
-        handleClickConfirm={() => closeSuccessModal}
+        close={() => closeSuccessModal()}
+        handleClickConfirm={() => closeSuccessModal()}
       />
       {/*jp order cancellation confirmation*/}
       <CancelOrderModal
