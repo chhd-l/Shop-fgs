@@ -7,7 +7,7 @@ import {
 } from '@/views/Account/OrdersDetail/modules';
 import { cancelOrderForJapan } from '@/api/order';
 
-const CancelOrderForJp = ({ details, welcomeGiftLists, props }) => {
+const CancelOrderForJp = ({ details, props, cancelSuccessCallback }) => {
   const [cancelJpOrderModalVisible, setCancelJpOrderModalVisible] =
     useState(false);
   const [
@@ -16,6 +16,7 @@ const CancelOrderForJp = ({ details, welcomeGiftLists, props }) => {
   ] = useState(false);
   const [cancelJpOrderLoading, setCancelJpOrderLoading] = useState(false);
 
+  //取消订单
   const handleCancelJpOrder = async () => {
     try {
       setCancelJpOrderLoading(true);
@@ -26,6 +27,12 @@ const CancelOrderForJp = ({ details, welcomeGiftLists, props }) => {
     } catch (e) {
       setCancelJpOrderLoading(false);
     }
+  };
+
+  //关闭cancel order success modal 重新请求数据刷新页面
+  const closeSuccessModal = () => {
+    setCancelJpOrderSuccessModalVisible(false);
+    cancelSuccessCallback && cancelSuccessCallback();
   };
 
   return (
@@ -55,19 +62,14 @@ const CancelOrderForJp = ({ details, welcomeGiftLists, props }) => {
       {/*jp order cancel success tip modal*/}
       <CancelOrderSuccessModal
         visible={cancelJpOrderSuccessModalVisible}
-        close={() => {
-          setCancelJpOrderSuccessModalVisible(false);
-        }}
-        handleClickConfirm={() => {
-          setCancelJpOrderSuccessModalVisible(false);
-        }}
+        close={() => closeSuccessModal}
+        handleClickConfirm={() => closeSuccessModal}
       />
       {/*jp order cancellation confirmation*/}
       <CancelOrderModal
         visible={cancelJpOrderModalVisible}
         cancelJpOrderLoading={cancelJpOrderLoading}
         details={details}
-        welcomeGiftLists={welcomeGiftLists}
         close={() => {
           setCancelJpOrderModalVisible(false);
         }}

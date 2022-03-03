@@ -15,8 +15,7 @@ import {
 } from '@/api/payment';
 import {
   PAYMENT_METHOD_PAU_ACCOUNT_RULE,
-  PAYMENT_METHOD_PAU_CHECKOUT_RULE,
-  LOGO_ADYEN_PAYPAL
+  PAYMENT_METHOD_PAU_CHECKOUT_RULE
 } from '@/utils/constant';
 import PaymentEditForm from '@/components/PaymentEditForm';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
@@ -52,15 +51,11 @@ function CardItem(props) {
           <div className={`col-4 d-flex flex-column justify-content-center`}>
             <LazyLoad height={100}>
               <img
-                className="PayCardImgFitScreen mw-100"
-                src={
-                  data.paymentItem === 'adyen_paypal'
-                    ? LOGO_ADYEN_PAYPAL
-                    : getCardImg({
-                        supportPaymentMethods,
-                        currentVendor: data.paymentVendor
-                      })
-                }
+                className="PayCardImgFitScreen w-100"
+                src={getCardImg({
+                  supportPaymentMethods,
+                  currentVendor: data.paymentVendor || data.paymentItem
+                })}
                 alt="pay card img fit screen"
               />
             </LazyLoad>

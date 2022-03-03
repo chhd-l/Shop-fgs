@@ -12,20 +12,6 @@ import packageTranslations from './translations';
 
 let adyenFormData = {};
 
-const isShowSupportCreditCardType = {
-  fr: 'hide',
-  uk: 'hide',
-  se: 'hide',
-  default: 'show'
-};
-
-const showSupportCreditCardType = (country) => {
-  let isShow =
-    isShowSupportCreditCardType[country] ||
-    isShowSupportCreditCardType['default'];
-  return isShow;
-};
-
 @inject('loginStore', 'paymentStore')
 @observer
 class AdyenCreditCardForm extends React.Component {
@@ -46,7 +32,8 @@ class AdyenCreditCardForm extends React.Component {
     queryList: () => {},
     updateInitStatus: () => {},
     updateSelectedId: () => {},
-    cardList: []
+    cardList: [],
+    supportPaymentMethodsVisible: true // 是否显示支持的支付方式图片
   };
   constructor(props) {
     super(props);
@@ -267,31 +254,30 @@ class AdyenCreditCardForm extends React.Component {
       mustSaveForFutherPayments,
       cardList,
       isShowEnableStoreDetails,
-      showSetAsDefaultCheckobx
+      showSetAsDefaultCheckobx,
+      supportPaymentMethodsVisible
     } = this.props;
     const { saveLoading, isValid } = this.state;
     const { supportPaymentMethods } = paymentStore;
     return (
       <div>
         {/* 支持卡的类型 Visa和master */}
-        {showSupportCreditCardType(window.__.env.REACT_APP_COUNTRY) ===
-          'show' &&
-          supportPaymentMethods.length > 0 && (
-            <p className="mb-2">
-              <span className="logo-payment-card-list logo-credit-card ml-0">
-                {supportPaymentMethods.map((el, idx) => (
-                  <LazyLoad key={idx}>
-                    <img
-                      style={{ width: '50px' }}
-                      className="logo-payment-card mr-1"
-                      src={el.imgUrl}
-                      alt={el.cardType}
-                    />
-                  </LazyLoad>
-                ))}
-              </span>
-            </p>
-          )}
+        {supportPaymentMethodsVisible && supportPaymentMethods.length > 0 && (
+          <p className="mb-2">
+            <span className="logo-payment-card-list logo-credit-card ml-0">
+              {supportPaymentMethods.map((el, idx) => (
+                <LazyLoad key={idx}>
+                  <img
+                    style={{ width: '50px' }}
+                    className="logo-payment-card mr-1"
+                    src={el.imgUrl}
+                    alt={el.cardType}
+                  />
+                </LazyLoad>
+              ))}
+            </span>
+          </p>
+        )}
         <div
           id="adyen-card-container"
           className={`payment-method__container ${

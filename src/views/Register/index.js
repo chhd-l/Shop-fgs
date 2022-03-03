@@ -24,6 +24,7 @@ import cn from 'classnames';
 import { Input } from '@/components/Common';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { seoHoc } from '@/framework/common';
+import { Link } from 'react-router-dom';
 // import ConsentAdditionalText from '@/components/Consent/ConsentAdditionalText';
 
 // 日本logo
@@ -593,16 +594,6 @@ class Register extends Component {
       requiredConsentCount;
     const registerDisabled = !(allValid && requireCheckd);
     const jpRegisterDisabled = !(jpAllValid && requireCheckd);
-    const isTr = window.__.env.REACT_APP_COUNTRY === 'tr'; //因为土耳其welcome to royal canin的翻译，需要对welcome to royal canin特殊化处理
-    let homePage = window.__.env.REACT_APP_HOMEPAGE;
-    const contactUrl =
-      homePage.substring(homePage.length - 1, homePage.length) === '/'
-        ? 'help/contact'
-        : '/help/contact';
-    const helpUrl =
-      homePage.substring(homePage.length - 1, homePage.length) === '/'
-        ? 'help'
-        : '/help';
     // 判断是否日本
     const isJp = window.__.env.REACT_APP_COUNTRY === 'jp';
     return (
@@ -1112,17 +1103,13 @@ class Register extends Component {
                               <FormattedMessage id="registerErrorMessage" />
                             )}
                             <strong>
-                              <a
-                                href={
-                                  window.__.env.REACT_APP_COUNTRY === 'us'
-                                    ? homePage + contactUrl
-                                    : homePage + helpUrl
-                                }
+                              <Link
+                                to="/help"
                                 className="rc-text-colour--brand1"
                               >
                                 {' '}
-                                <FormattedMessage id="footer.email" />
-                              </a>
+                                <FormattedMessage id="contactUs" />
+                              </Link>
                             </strong>
                           </div>
                         </p>
@@ -1131,7 +1118,7 @@ class Register extends Component {
                           data-close=""
                           aria-label=""
                         >
-                          <span className="rc-screen-reader-text"></span>
+                          <span className="rc-screen-reader-text" />
                         </button>
                         <button
                           className="ciam-alert-close-error-popin rc-alert__close rc-icon rc-alert__close rc-close--xs rc-iconography"
@@ -1316,6 +1303,7 @@ class Register extends Component {
                               valid={passwordValid}
                               onChange={this.registerChange}
                               onFocus={this.inputFocus}
+                              autocomplete="new-password"
                               onBlur={this.inputBlur}
                               value={registerForm.password}
                               label={<FormattedMessage id="registerPassword" />}

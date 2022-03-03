@@ -121,23 +121,6 @@ class Recommendation extends React.Component {
       checkPromotionCodeAndCopy: false, // 控制点击查看promotion code并复制按钮
       viewShoppingCartWidth: 0
     };
-    this.helpContentText = {
-      title: this.props.intl.messages['recommendation.helpContentText.title'],
-      des: this.props.intl.messages['recommendation.helpContentText.des'],
-      emailTitle:
-        this.props.intl.messages['recommendation.helpContentText.emailTitle'],
-      emailDes:
-        this.props.intl.messages['recommendation.helpContentText.emailDes'],
-      emailLink:
-        this.props.intl.messages['recommendation.helpContentText.emailLink'], //俄罗斯是其他的链接
-      phoneTitle:
-        this.props.intl.messages['recommendation.helpContentText.phoneTitle'],
-      phone: this.props.intl.messages['recommendation.helpContentText.phone'],
-      email: this.props.intl.messages['recommendation.helpContentText.email'],
-      phoneDes1: `<strong>${this.props.intl.messages['recommendation.helpContentText.phoneDes1']}</strong>`,
-      phoneDes2:
-        this.props.intl.messages['recommendation.helpContentText.phoneDes2']
-    };
   }
 
   handleSelect(id) {
@@ -1070,7 +1053,6 @@ class Recommendation extends React.Component {
   };
 
   render() {
-    console.info('helpContentText', this.helpContentText);
     let otherShow = {
       ru: (
         <UsAndRu

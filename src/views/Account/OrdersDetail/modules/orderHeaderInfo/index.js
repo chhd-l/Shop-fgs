@@ -193,7 +193,7 @@ const renderOperationBtns = (details) => {
   );
 };
 
-const OrderHeaderInfo = ({ details, orderNumberForOMS, props }) => {
+const OrderHeaderInfo = ({ details, props }) => {
   return (
     <div className="col-12 border table-header rounded mt-3 md:mt-0">
       <div className="row pt-3 pb-2 px-1 md:px-4 md:pt-4 md:pb-3">
@@ -204,7 +204,7 @@ const OrderHeaderInfo = ({ details, orderNumberForOMS, props }) => {
           <span className="medium">
             {filterOrderId({
               orderNo: details.id,
-              orderNoForOMS: orderNumberForOMS
+              orderNoForOMS: details.tradeOms?.orderNo
             })}
           </span>
         </div>
