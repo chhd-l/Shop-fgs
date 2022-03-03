@@ -22,6 +22,42 @@
       padding: 0 1rem !important;
     }
   }
+  // 日本注册
+  .jp-reg{
+    .head-logo{
+      // img{
+      //   width: 240px;
+      //   height: 70px;
+      // }
+    }
+    .logo-bottom-title{
+      &>p:nth-child(3){
+       width: 300px !important;
+      //  display: flex;
+      //  justify-content: space-between;
+      //  flex-wrap: nowrap;
+      }
+      h3{
+        width: 300px !important;
+      }
+    }
+    .regNameOne{
+      padding: 20px 10px;
+     
+      .regName{
+        width: 80vw !important;
+        
+        input{
+          width: 38vw !important;
+        }
+      }
+      .regNameTwo{
+        width: 80vw !important;
+      }
+    }
+    
+  
+  }
 }
 
 #register {
@@ -279,4 +315,80 @@
     .register-page-success_link[_ngcontent-dqg-c56] {
     font-weight: lighter;
   }
+}
+
+.jp-reg{
+  padding: 20px;
+  .logo-bottom-title{
+    color: #1a1513;
+    &>p:nth-child(3){
+      margin: 15px auto;
+      overflow: hidden;
+    }
+    h3{
+      width: 700px;
+      background-color: #f6f6f6;
+      margin: 0 auto;
+      padding: 6px;
+    }
+    a{
+      color: #ff0707;
+      font-size: 25px;
+      font-weight: 600;
+      margin-top: 6px;
+    }
+    .gologin{
+      overflow: hidden;
+      margin-top: 10px;
+    }
+  }
+  .regNameOne{
+    padding: 20px 10px;
+   
+    .regName{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      width: 40vw;
+      margin: 0 auto;
+      .rc-input__label-text-overwrite{
+        position: relative;
+        &::after{
+          content: '*';
+          position: absolute;
+          top: 18px;
+          right: -12px;
+          width: 10px;
+          height: 10px;
+          // background-color: red;
+          color: #ff0707;
+        }
+      }
+      
+      input{
+        width: 18vw;
+        &::placeholder{
+          color: red;
+        }
+      }
+    }
+    .regNameTwo{
+      width: 20vw;
+      margin: 0 auto;
+      .rc-input__label-text-overwrite{
+        position: relative;
+        &::after{
+          content: '*';
+          position: absolute;
+          top: 18px;
+          right: -12px;
+          width: 10px;
+          height: 10px;
+          // background-color: red;
+          color: #ff0707;
+        }
+      }
+    }
+  }
+  
 }

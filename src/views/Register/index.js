@@ -25,6 +25,9 @@ import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { seoHoc } from '@/framework/common';
 // import ConsentAdditionalText from '@/components/Consent/ConsentAdditionalText';
 
+// 日本logo
+import jpLogo from '@/assets/images/register/jp_logo.svg';
+
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const checkoutStore = stores.checkoutStore;
@@ -69,6 +72,8 @@ class Register extends Component {
       errorMessage: '',
       firstNameValid: true,
       lastNameValid: true,
+      phoneticFirstNameValid: true,
+      phoneticLastNameValid: true,
       passwordInputType: 'password',
       illegalSymbol: false,
       showValidErrorMsg: false
@@ -272,6 +277,20 @@ class Register extends Component {
           illegalSymbol: deIllegalSymbol
         });
         break;
+      case 'phoneticFirstName':
+        console.log('phoneticFirstNameValid');
+        this.setState({
+          phoneticFirstNameValid: !!value && !deIllegalSymbol,
+          illegalSymbol: deIllegalSymbol
+        });
+        break;
+      case 'phoneticLastName':
+        console.log('phoneticLastNameValid');
+        this.setState({
+          phoneticLastNameValid: !!value && !deIllegalSymbol,
+          illegalSymbol: deIllegalSymbol
+        });
+        break;
       case 'email':
         this.setState({
           emailValid: EMAIL_REGEXP.test(value),
@@ -335,6 +354,10 @@ class Register extends Component {
       symbolReg2.test(_firstName) || symbolReg2.test(_lastName);
     let deValidRule =
       De && (!_firstName || !_lastName || deIllegalSymbol1 || deIllegalSymbol2);
+    // 如果是日本则不校验
+    if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+      return true;
+    }
     if (deValidRule || (!De && !_name)) {
       this.setState(
         {
@@ -359,17 +382,25 @@ class Register extends Component {
       circleLoading: true
     });
     const accessPath = window.__.env.REACT_APP_ACCESS_PATH;
-    await oktaRegister({
+    const params = {
       storeId: window.__.env.REACT_APP_STOREID,
       customerPassword: registerForm.password,
       customerAccount: registerForm.email,
       customerName:
         window.__.env.REACT_APP_COUNTRY !== 'de'
           ? registerForm.name
-          : registerForm.firstName + ' ' + registerForm.lastName
-      // callback: `${accessPath.replace(/\/$/gi, '')}/register`
-    })
+          : registerForm.firstName + ' ' + registerForm.lastName,
+      firstName: registerForm.firstName,
+      lastName: registerForm.lastName,
+      phoneticFirstName: registerForm.phoneticFirstName,
+      phoneticLastName: registerForm.phoneticLastName
+    };
+    await oktaRegister(
+      // {// callback: `${accessPath.replace(/\/$/gi, '')}/register`}
+      params
+    )
       .then(async (res) => {
+        console.log('oktaRegister', res);
         if (res.code === 'K-000000') {
           //GA 注册成功 start
           window.dataLayer &&
@@ -519,6 +550,8 @@ class Register extends Component {
       nameValid,
       firstNameValid,
       lastNameValid,
+      phoneticFirstNameValid,
+      phoneticLastNameValid,
       emailValid,
       passwordValid,
       registerForm,
@@ -541,10 +574,24 @@ class Register extends Component {
         : registerForm.firstName && registerForm.lastName) &&
       registerForm.email &&
       registerForm.password;
+    const jpAllValid =
+      firstNameValid &&
+      lastNameValid &&
+      emailValid &&
+      passwordValid &&
+      phoneticFirstNameValid &&
+      phoneticLastNameValid &&
+      registerForm.firstName &&
+      registerForm.lastName &&
+      registerForm.phoneticFirstName &&
+      registerForm.phoneticLastName &&
+      registerForm.email &&
+      registerForm.password;
     const requireCheckd =
       list.filter((x) => x.isChecked && x.isRequired).length ===
       requiredConsentCount;
     const registerDisabled = !(allValid && requireCheckd);
+    const jpRegisterDisabled = !(jpAllValid && requireCheckd);
     const isTr = window.__.env.REACT_APP_COUNTRY === 'tr'; //因为土耳其welcome to royal canin的翻译，需要对welcome to royal canin特殊化处理
     let homePage = window.__.env.REACT_APP_HOMEPAGE;
     const contactUrl =
@@ -555,15 +602,464 @@ class Register extends Component {
       homePage.substring(homePage.length - 1, homePage.length) === '/'
         ? 'help'
         : '/help';
+    // 判断是否日本
+    const isJp = window.__.env.REACT_APP_COUNTRY === 'jp';
     return (
       <div>
         <GoogleTagManager
           key={this.props.location.key}
           additionalEvents={event}
         />
+        {/* 日本注册 */}
+        {registerBack && !isJp ? null : (
+          <div className="jp-reg">
+            <div className="text-center head-logo">
+              {/* 头部logo */}
+              <DistributeHubLinkOrATag
+                href={''}
+                to="/home"
+                className="logo-home d-inline-block border-bottom border-transparent"
+                title="Commerce Cloud Storefront Reference Architecture Accueil"
+              >
+                <span className="rc-screen-reader-text">
+                  <FormattedMessage id="registerCloud" />
+                </span>
+                <h1 className="content-asset mb-0">
+                  {window.__.env.REACT_APP_COUNTRY === 'jp' ? (
+                    <img
+                      src={jpLogo}
+                      alt="Royal Canin Flagship Store"
+                      className="w-36 md:w-52"
+                    />
+                  ) : (
+                    <>
+                      <img
+                        src={LOGO}
+                        alt=""
+                        className="inline-block w-40 md:w-auto"
+                      />
+                    </>
+                  )}
+                </h1>
+              </DistributeHubLinkOrATag>
+            </div>
+
+            {/* logo下标题 */}
+            <div className="text-center logo-bottom-title">
+              <p>{<FormattedMessage id="jp.regtitle" />}</p>
+              <p>{<FormattedMessage id="jp.regTitleTwo" />}</p>
+              <p>
+                <span>
+                  {<FormattedMessage id="jp.regTitleThree" />}&nbsp;&nbsp;&nbsp;
+                </span>
+                <span>
+                  {<FormattedMessage id="jp.regTitleFour" />}&nbsp;&nbsp;&nbsp;
+                </span>
+                <span>
+                  {<FormattedMessage id="jp.regTitleFive" />}&nbsp;&nbsp;&nbsp;
+                </span>
+                <span>
+                  {<FormattedMessage id="jp.regTitleSix" />}&nbsp;&nbsp;&nbsp;
+                </span>
+                <span>{<FormattedMessage id="jp.regTitleSeven" />}</span>
+              </p>
+              <h3>{<FormattedMessage id="jp.regTitleEight" />}</h3>
+              <p className="text-center align-bottom gologin">
+                <a
+                  onClick={() =>
+                    this.props.oktaAuth.signInWithRedirect(
+                      window.__.env.REACT_APP_HOMEPAGE
+                    )
+                  }
+                  className="rc-styled-link"
+                >
+                  {<FormattedMessage id="jp.regToLogin" />}
+                </a>
+              </p>
+            </div>
+            <form
+              id="registrationForm"
+              className="registration-form rc-margin-bottom--xl--mobile p-0 md:px-28"
+              encoding="off"
+            >
+              <div className="rc-margin-bottom--xs regNameOne">
+                <div className="regName">
+                  <Input
+                    id="registerName"
+                    autocomplete="off"
+                    type="text"
+                    maxLength="50"
+                    name="lastName"
+                    valid={lastNameValid}
+                    onChange={this.registerChange}
+                    onBlur={this.inputBlur}
+                    value={registerForm.lastName}
+                    label={<FormattedMessage id="jp.lastName" />}
+                    rightOperateBoxJSX={
+                      lastNameValid ? null : (
+                        <ChaChaIcon
+                          onClick={() => this.deleteInput('lastName')}
+                        />
+                      )
+                    }
+                    inValidLabel={
+                      this.state.illegalSymbol ? (
+                        <FormattedMessage id="registerIllegalSymbol" />
+                      ) : (
+                        <FormattedMessage id="registerFillIn" />
+                      )
+                    }
+                  />
+                  <Input
+                    id="registerName"
+                    autocomplete="off"
+                    type="text"
+                    maxLength="50"
+                    name="firstName"
+                    valid={firstNameValid}
+                    onChange={this.registerChange}
+                    onBlur={this.inputBlur}
+                    value={registerForm.firstName}
+                    label={<FormattedMessage id="jp.firstName" />}
+                    rightOperateBoxJSX={
+                      firstNameValid ? null : (
+                        <ChaChaIcon
+                          onClick={() => this.deleteInput('firstName')}
+                        />
+                      )
+                    }
+                    inValidLabel={
+                      this.state.illegalSymbol ? (
+                        <FormattedMessage id="registerIllegalSymbol" />
+                      ) : (
+                        <FormattedMessage id="registerFillIn" />
+                      )
+                    }
+                  />
+                  <Input
+                    id="registerName"
+                    autocomplete="off"
+                    type="text"
+                    maxLength="50"
+                    name="phoneticLastName"
+                    valid={phoneticLastNameValid}
+                    onChange={this.registerChange}
+                    onBlur={this.inputBlur}
+                    value={registerForm.phoneticLastName}
+                    label={<FormattedMessage id="phoneticLastName" />}
+                    rightOperateBoxJSX={
+                      phoneticLastNameValid ? null : (
+                        <ChaChaIcon
+                          onClick={() => this.deleteInput('phoneticLastName')}
+                        />
+                      )
+                    }
+                    inValidLabel={
+                      this.state.illegalSymbol ? (
+                        <FormattedMessage id="registerIllegalSymbol" />
+                      ) : (
+                        <FormattedMessage id="registerFillIn" />
+                      )
+                    }
+                  />
+                  <Input
+                    id="registerName"
+                    autocomplete="off"
+                    type="text"
+                    maxLength="50"
+                    name="phoneticFirstName"
+                    valid={phoneticFirstNameValid}
+                    onChange={this.registerChange}
+                    onBlur={this.inputBlur}
+                    value={registerForm.phoneticFirstName}
+                    label={<FormattedMessage id="phoneticFirstName" />}
+                    rightOperateBoxJSX={
+                      phoneticFirstNameValid ? null : (
+                        <ChaChaIcon
+                          onClick={() => this.deleteInput('phoneticFirstName')}
+                        />
+                      )
+                    }
+                    inValidLabel={
+                      this.state.illegalSymbol ? (
+                        <FormattedMessage id="registerIllegalSymbol" />
+                      ) : (
+                        <FormattedMessage id="registerFillIn" />
+                      )
+                    }
+                  />
+                </div>
+                <div className="regNameTwo">
+                  <Input
+                    id="registerEmail"
+                    autocomplete="off"
+                    type="email"
+                    maxLength="90"
+                    name="email"
+                    valid={emailValid}
+                    onChange={this.registerChange}
+                    onBlur={this.inputBlur}
+                    value={registerForm.email}
+                    label={<FormattedMessage id="jp.email" />}
+                    rightOperateBoxJSX={
+                      emailValid ? null : (
+                        <ChaChaIcon onClick={() => this.deleteInput('email')} />
+                      )
+                    }
+                    inValidLabel={emailMessage}
+                  />
+
+                  <Input
+                    id="registerPassword"
+                    type={passwordInputType}
+                    maxLength="255"
+                    minLength="8"
+                    name="password"
+                    valid={passwordValid}
+                    onChange={this.registerChange}
+                    onFocus={this.inputFocus}
+                    onBlur={this.inputBlur}
+                    value={registerForm.password}
+                    label={<FormattedMessage id="jp.password" />}
+                    inValidLabel={passwordMessage}
+                    rightOperateBoxJSX={
+                      <>
+                        {passwordValid ? null : (
+                          <ChaChaIcon
+                            onClick={() => this.deleteInput('password')}
+                          />
+                        )}
+                        <span
+                          style={{ color: '#666' }}
+                          className={cn(
+                            'iconfont cursor-pointer font-bold text-lg inline-block py-3 px-2',
+                            passwordInputType === 'password'
+                              ? 'iconeye'
+                              : 'iconeye-close'
+                          )}
+                          onClick={() => {
+                            this.setState({
+                              passwordInputType:
+                                this.state.passwordInputType === 'password'
+                                  ? 'text'
+                                  : 'password'
+                            });
+                          }}
+                        />
+                        <button
+                          type="button"
+                          className={`rc-btn rc-btn--icon rc-icon rc-iconography rc-input__password-toggle hidden ${
+                            passwordInputType === 'password'
+                              ? 'rc-show--xs'
+                              : 'rc-hide--xs'
+                          }`}
+                          onClick={() => {
+                            this.setState({
+                              passwordInputType:
+                                this.state.passwordInputType === 'password'
+                                  ? 'text'
+                                  : 'password'
+                            });
+                          }}
+                        >
+                          <span className="rc-screen-reader-text">
+                            <FormattedMessage id="registerTogglePassword" />
+                          </span>
+                        </button>
+                      </>
+                    }
+                    toolTip={
+                      <div
+                        className={cn('tippy-popper', {
+                          hidden: !passwordChanged
+                        })}
+                        role="tooltip"
+                        id="password-tooltip"
+                        x-placement="top"
+                      >
+                        <div
+                          className="tippy-tooltip brand4-theme rc-brand4-theme"
+                          data-size="regular"
+                          data-animation="shift-away"
+                          data-state="visible"
+                          data-interactive=""
+                        >
+                          <div className="tippy-arrow" />
+                          <div className="tippy-content" data-state="visible">
+                            <div
+                              id="password-tooltip"
+                              className="rc-tooltip rc-text--left"
+                            >
+                              <div className="rc-meta">
+                                <FormattedMessage id="registerRules" />
+                              </div>
+                              {[
+                                {
+                                  stauts: ruleLength,
+                                  label: (
+                                    <FormattedMessage id="registerLength" />
+                                  )
+                                },
+                                {
+                                  stauts: ruleLower,
+                                  label: (
+                                    <FormattedMessage id="registerLowercase" />
+                                  )
+                                },
+                                {
+                                  stauts: ruleUpper,
+                                  label: (
+                                    <FormattedMessage id="registerUppercase" />
+                                  )
+                                },
+                                {
+                                  stauts: ruleAname,
+                                  label: <FormattedMessage id="registerAname" />
+                                },
+                                {
+                                  stauts: ruleSpecial,
+                                  label: (
+                                    <FormattedMessage id="registerSpecial" />
+                                  )
+                                }
+                              ].map((item, i) => (
+                                <div
+                                  key={i}
+                                  className={cn('rc-badge--label', {
+                                    'rc-text-colour--success': item.stauts
+                                  })}
+                                  data-password-strength="length"
+                                >
+                                  {item.stauts ? (
+                                    <span className="iconfont green mr-2 iconchenggong" />
+                                  ) : null}
+                                  <span className="icon-validation rc-epsilon rc-b rc-hidden" />
+                                  <span>{item.label}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    }
+                  />
+                  {/* 下方条框勾选 */}
+                  <div id="wrap">
+                    {window.__.env.REACT_APP_COUNTRY === 'uk' ? (
+                      <div
+                        className="footer-checkbox-title rc-text--left"
+                        style={{ zoom: this.state.fontZoom }}
+                      >
+                        <p>
+                          We’d like to keep you and your pet up to date with
+                          exciting promotions and new product developments from{' '}
+                          <a
+                            href="https://www.mars.com/made-by-mars/petcare"
+                            target="_blank"
+                          >
+                            Mars Petcare and its affiliates
+                          </a>
+                          .
+                        </p>
+                        <p>
+                          I am over 16 years old, and would like to receive
+                          these from:
+                        </p>
+                      </div>
+                    ) : null}
+                    <Consent
+                      url={url}
+                      list={this.state.list}
+                      sendList={this.sendList}
+                      width={this.state.width}
+                      zoom={this.state.zoom}
+                      fontZoom={this.state.fontZoom}
+                      auto={true}
+                      key={'required'}
+                      pageType="register"
+                    />
+                    {window.__.env.REACT_APP_COUNTRY === 'uk' ? (
+                      <div
+                        className="footer-checkbox-title rc-text--left"
+                        style={{ zoom: this.state.fontZoom }}
+                      >
+                        <p>
+                          I understand that I may change these preferences at
+                          any time by updating my preferences in my account or
+                          by clicking the unsubscribe link in any communication
+                          I receive.
+                        </p>
+                        <p>
+                          From time to time, we may use your data for research
+                          to enhance our product and service offerings. You can
+                          find out how{' '}
+                          <a
+                            href="https://www.mars.com/made-by-mars/petcare"
+                            target="_blank"
+                          >
+                            Mars Petcare and its affiliates
+                          </a>{' '}
+                          collects and processes your data, contact us with
+                          privacy questions, and exercise your personal data
+                          rights via the{' '}
+                          <a
+                            href="https://www.mars.com/privacy-policy"
+                            target="_blank"
+                          >
+                            Mars Privacy Statement
+                          </a>
+                          .
+                        </p>
+                      </div>
+                    ) : null}
+                  </div>
+                  {/* 注册按钮上的警示文字 */}
+                  <p className="rc-body rc-margin-bottom--lg rc-margin-bottom--sm--desktop rc-text--left">
+                    <span
+                      style={{ marginRight: '.625rem' }}
+                      className="rc-text-colour--brand1"
+                    >
+                      *
+                    </span>
+                    <FormattedMessage id="jp.registerMandatory" />
+                  </p>
+                  {this.state.showValidErrorMsg ? (
+                    <aside
+                      className="rc-alert rc-alert--error mb-2"
+                      role="alert"
+                    >
+                      <span className="pl-0">
+                        <FormattedMessage id="registerIllegalSymbol" />
+                      </span>
+                    </aside>
+                  ) : null}
+                  {/* 注册按钮 */}
+                  <div className="rc-content-v-middle--mobile rc-margin-bottom--lg rc-margin-bottom--sm--desktop">
+                    <button
+                      id="registerSubmitBtn"
+                      type="button"
+                      value="Créer votre compte Royal Canin"
+                      className="rc-btn rc-btn--one rc-self-v-middle--mobile"
+                      disabled={jpRegisterDisabled}
+                      onClick={() => this.register()}
+                    >
+                      <FormattedMessage id="jp.registerCreateYourAccout" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="rc-meta rc-margin-top--sm rc-text--left">
+                <p>
+                  <FormattedMessage id="registerFooter1" defaultMessage={' '} />
+                </p>
+              </div>
+            </form>
+          </div>
+        )}
         {/*全局loading */}
         {this.state.circleLoading ? <Loading bgColor={'#fff'} /> : null}
-        {registerBack ? null : (
+        {registerBack || isJp ? null : (
           <div id="register" className="page" style={this.state.styleObj}>
             <div className="rc-layout-container rc-padding--sm rc-reverse-layout-mobile rc-bg-colour--brand3 rc-margin-bottom--xs">
               <div className="rc-column rc-padding-top--lg--mobile">
