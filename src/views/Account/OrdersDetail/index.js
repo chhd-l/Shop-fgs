@@ -449,6 +449,13 @@ class AccountOrders extends React.Component {
                           <CancelOrderForJp
                             details={details}
                             props={this.props}
+                            cancelSuccessCallback={() => {
+                              window.scrollTo({
+                                top: 0,
+                                behavior: 'smooth'
+                              });
+                              this.init();
+                            }}
                           />
                         </div>
                       ) : this.state.errMsg ? (
