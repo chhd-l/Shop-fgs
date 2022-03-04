@@ -50,7 +50,7 @@ class WeekCalender extends Component {
       });
     }
     this.setState({ weekDate }, () => {
-      // this.goTotime(weekDate);
+      this.goTotime(weekDate);
     });
   };
   getCurrentWeek1 = async (date = undefined) => {
@@ -74,7 +74,7 @@ class WeekCalender extends Component {
       });
     }
     this.setState({ weekDate }, () => {
-      // this.goTotime(weekDate);
+      this.goTotime(weekDate);
     });
   };
   getCurrentWeek2 = async (date = undefined) => {
@@ -97,13 +97,12 @@ class WeekCalender extends Component {
       });
     }
     this.setState({ weekDate }, () => {
-      // this.goTotime(weekDate);
+      this.goTotime(weekDate);
     });
   };
   goTotime = (weekDate) => {
     let flag = false;
     let weekContent = document.getElementById('week-content');
-    console.log(weekContent);
     weekContent.scrollTo(0, 0);
     for (var i in weekDate) {
       for (var j in weekDate[i].times) {
