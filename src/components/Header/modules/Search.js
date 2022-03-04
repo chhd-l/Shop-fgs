@@ -72,14 +72,17 @@ export default class Search extends React.Component {
 
   async getSuggestionList() {
     const { keywords } = this.state;
-    const sugRes = await getSearchSuggestion(keywords);
-    if (sugRes.context && sugRes.context.length) {
-      this.setState({
-        suggestions: sugRes.context
-      });
-    } else {
-      this.getSearchData();
-    }
+    getSearchSuggestion(keywords)
+      .then((sugRes) => {
+        if (sugRes.context && sugRes.context.length) {
+          this.setState({
+            suggestions: sugRes.context
+          });
+        } else {
+          this.getSearchData();
+        }
+      })
+      .catch(() => this.getSearchData());
   }
 
   async getSearchData() {
