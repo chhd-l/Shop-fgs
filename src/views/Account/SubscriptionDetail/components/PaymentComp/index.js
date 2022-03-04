@@ -17,8 +17,7 @@ import ConfirmTooltip from '@/components/ConfirmTooltip';
 import {
   PAYMENT_METHOD_PAU_ACCOUNT_RULE,
   PAYMENT_METHOD_PAU_CHECKOUT_RULE,
-  LOGO_ADYEN_COD,
-  LOGO_ADYEN_PAYPAL
+  LOGO_ADYEN_COD
 } from '@/utils/constant';
 import './index.css';
 import LazyLoad from 'react-lazyload';
@@ -52,16 +51,23 @@ function CardItem(props) {
       <div className={`pt-4 md:pt-4 pb-2 w-100`}>
         <div className="row">
           {data.cardType === 'cod_japan' ? (
-            <div className={`col-12`}>
-              <div className="flex items-center">
+            <>
+              <div
+                className={`col-4 d-flex flex-column justify-content-center`}
+              >
                 <LazyLoad>
-                  <img src={LOGO_ADYEN_COD} className="w-10 mr-2" />
+                  <img
+                    src={LOGO_ADYEN_COD}
+                    className="PayCardImgFitScreen w-100"
+                  />
                 </LazyLoad>
-                <span>
-                  <FormattedMessage id="cashOnDelivery" />
-                </span>
               </div>
-            </div>
+              <div className="col-8 flex flex-col justify-center">
+                <p>
+                  <FormattedMessage id="cashOnDelivery" />
+                </p>
+              </div>
+            </>
           ) : (
             <>
               <div
@@ -70,14 +76,10 @@ function CardItem(props) {
                 <LazyLoad height={200}>
                   <img
                     className="PayCardImgFitScreen w-100"
-                    src={
-                      data.paymentItem === 'adyen_paypal'
-                        ? LOGO_ADYEN_PAYPAL
-                        : getCardImg({
-                            supportPaymentMethods,
-                            currentVendor: data.paymentVendor
-                          })
-                    }
+                    src={getCardImg({
+                      supportPaymentMethods,
+                      currentVendor: data.paymentVendor || data.paymentItem
+                    })}
                     alt="pay card img fit screen"
                   />
                 </LazyLoad>
@@ -227,7 +229,7 @@ class PaymentComp extends React.Component {
       } = this.props;
       let ret = res.context || [];
       ret.forEach((el) => {
-        el.canDelete = true;
+        el.canOperated = true;
       });
       if (payWayNameArr.find((p) => p.code === 'cod_japan')) {
         ret = ret.concat({
@@ -235,7 +237,7 @@ class PaymentComp extends React.Component {
           paymentVendor: 'cod_japan',
           payPspItemEnum: 'JAPAN_COD',
           pspName: 'JAPAN_COD',
-          canDelete: false
+          canOperated: false
         });
       }
 
@@ -796,38 +798,42 @@ class PaymentComp extends React.Component {
                       }}
                       operateBtnJSX={
                         <>
-                          {el.isDefault === 1 ? (
-                            <div
-                              className="red"
-                              onClick={this.toggleSetDefault.bind(this, el)}
-                            >
-                              <span className="iconfont mr-1">&#xe68c;</span>
-                              <span className="rc-styled-link red border-danger">
-                                <FormattedMessage id="default" />
-                              </span>
-                            </div>
-                          ) : (
-                            <div
-                              className="ui-cursor-pointer"
-                              onClick={this.toggleSetDefault.bind(this, el)}
-                            >
-                              <span className="iconfont mr-1">&#xe68c;</span>
+                          {el.canOperated ? (
+                            <>
+                              {el.isDefault === 1 ? (
+                                <div
+                                  className="red hidden"
+                                  onClick={this.toggleSetDefault.bind(this, el)}
+                                >
+                                  <span className="iconfont mr-1">
+                                    &#xe68c;
+                                  </span>
+                                  <span className="rc-styled-link red border-danger">
+                                    <FormattedMessage id="default" />
+                                  </span>
+                                </div>
+                              ) : (
+                                <div
+                                  className="ui-cursor-pointer hidden"
+                                  onClick={this.toggleSetDefault.bind(this, el)}
+                                >
+                                  <span className="iconfont mr-1">
+                                    &#xe68c;
+                                  </span>
+                                  <span
+                                    className={`${
+                                      el?.paddingFlag
+                                        ? 'ui-cursor-not-allowed'
+                                        : 'rc-styled-link'
+                                    }`}
+                                  >
+                                    <FormattedMessage id="setAsDefault" />
+                                  </span>
+                                </div>
+                              )}
                               <span
-                                className={`${
-                                  el?.paddingFlag
-                                    ? 'ui-cursor-not-allowed'
-                                    : 'rc-styled-link'
-                                }`}
+                                className={`position-relative p-2 ui-cursor-pointer-pure`}
                               >
-                                <FormattedMessage id="setAsDefault" />
-                              </span>
-                            </div>
-                          )}
-                          <span
-                            className={`position-relative p-2 ui-cursor-pointer-pure`}
-                          >
-                            {el.canDelete ? (
-                              <>
                                 <span
                                   className="rc-styled-link"
                                   onClick={(e) => {
@@ -858,9 +864,9 @@ class PaymentComp extends React.Component {
                                     this.updateConfirmTooltipVisible(el, status)
                                   }
                                 />
-                              </>
-                            ) : null}
-                          </span>
+                              </span>
+                            </>
+                          ) : null}
                         </>
                       }
                       supportPaymentMethods={supportPaymentMethods}

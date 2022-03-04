@@ -603,7 +603,7 @@ class Register extends Component {
           additionalEvents={event}
         />
         {/* 日本注册 */}
-        {registerBack && !isJp ? null : (
+        {!isJp ? null : (
           <div className="jp-reg">
             <div className="text-center head-logo">
               {/* 头部logo */}
@@ -1108,7 +1108,7 @@ class Register extends Component {
                                 className="rc-text-colour--brand1"
                               >
                                 {' '}
-                                <FormattedMessage id="footer.email" />
+                                <FormattedMessage id="contactUs" />
                               </Link>
                             </strong>
                           </div>

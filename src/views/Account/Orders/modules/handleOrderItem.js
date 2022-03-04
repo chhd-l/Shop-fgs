@@ -13,7 +13,8 @@ export function handleOrderItem(ele, res) {
       new Date(handleDateForIos(ele?.orderTimeOut)).getTime() >
         new Date(handleDateForIos(res.defaultLocalDateTime)).getTime() &&
       (!ele.payWay ||
-        !['OXXO', 'ADYEN_OXXO', 'COD'].includes(ele?.payWay?.toUpperCase())),
+        !['OXXO', 'ADYEN_OXXO', 'COD'].includes(ele?.payWay?.toUpperCase())) &&
+      !['cod_japan', 'adyen_convenience_store'].includes(ele?.paymentItem),
     showOXXOExpireTime:
       tradeState.flowState === 'AUDIT' &&
       tradeState.deliverStatus === 'NOT_YET_SHIPPED' &&
@@ -87,7 +88,8 @@ export function handleOrderItem(ele, res) {
       ['jp'].includes(window.__.env.REACT_APP_COUNTRY) &&
       new Date(handleDateForIos(res.defaultLocalDateTime)).getTime() <
         new Date(handleDateForIos(ele.orderCancelTimeOut)).getTime() &&
-      ((ele?.paymentItem === 'cod_japan' && tradeState.flowState === 'INIT') ||
+      ((ele?.paymentItem === 'cod_japan' &&
+        tradeState.flowState === 'PENDING_REVIEW') ||
         (ele?.paymentItem !== 'cod_japan' &&
           ele?.paymentItem !== 'adyen_convenience_store' &&
           tradeState.payState === 'PAID'))

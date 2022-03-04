@@ -15,7 +15,7 @@ import OrderAppointmentInfo from '@/views/Account/AppointmentsDetail/modules/App
 import { getWays } from '@/api/payment';
 import { LOGO_ADYEN_COD, LOGO_ADYEN_PAYPAL } from '@/utils/constant';
 
-const OrderAddressAndPayReview = ({ details, payRecord, paymentItem }) => {
+const OrderAddressAndPayReview = ({ details, payRecord }) => {
   const [countryList, setCountryList] = useState([]);
   const [supportPaymentMethods, setSupportPaymentMethods] = useState([]);
 
@@ -201,7 +201,7 @@ const OrderAddressAndPayReview = ({ details, payRecord, paymentItem }) => {
                 ) : null}
               </PaymentMethodContainer>
             ) : null}
-            {paymentItem === 'adyen_paypal' ? (
+            {details.paymentItem === 'adyen_paypal' ? (
               <PaymentMethodContainer>
                 <div className="medium mb-2">
                   <LazyLoad className="inline-block">
@@ -226,7 +226,7 @@ const OrderAddressAndPayReview = ({ details, payRecord, paymentItem }) => {
                 </div>
               </PaymentMethodContainer>
             ) : null}
-            {paymentItem === 'cod_japan' ? (
+            {details.paymentItem === 'cod_japan' ? (
               <PaymentMethodContainer>
                 <div className="flex items-center">
                   <LazyLoad>

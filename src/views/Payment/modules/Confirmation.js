@@ -137,7 +137,7 @@ class Confirmation extends React.Component {
               >
                 <FormattedMessage
                   id={
-                    this.props.paymentTypeVal == 'cod'
+                    this.props.paymentTypeVal === 'cod'
                       ? 'payment.further2'
                       : 'payment.further'
                   }
