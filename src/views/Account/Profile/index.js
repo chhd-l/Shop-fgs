@@ -93,6 +93,7 @@ class AccountProfile extends React.Component {
       const customerId = this.userInfo && this.userInfo.customerId;
       this.setState({ loading: true });
       let res = await getCustomerInfo({ customerId });
+
       this.setState({ loading: false });
       let prescriberName;
       let prescriberId;
@@ -130,7 +131,8 @@ class AccountProfile extends React.Component {
         communicationPrint: context.communicationPrint,
         provinceNo: context?.provinceNo,
         province: context?.province,
-        provinceId: context?.provinceId
+        provinceId: context?.provinceId,
+        region: context?.region
       };
 
       this.setState({

@@ -64,6 +64,7 @@ class PersonalDataEditForm extends React.Component {
   }
   componentDidMount() {
     const { data, editFormVisible } = this.props;
+
     this.setState(
       {
         form: Object.assign({}, data),
@@ -265,20 +266,21 @@ class PersonalDataEditForm extends React.Component {
         mydata.province = form.province;
         mydata.provinceId = form.provinceId;
       }
+      //日本
       if (window.__.env.REACT_APP_COUNTRY === 'jp') {
         mydata.province = form.province;
+        mydata.provinceId = form.provinceId;
         mydata.region = form.region;
         mydata.firstNameKatakana = form.firstNameKatakana;
         mydata.lastNameKatakana = form.lastNameKatakana;
       }
       let param = Object.assign({}, this.props.originData, mydata);
 
-      // console.log(param)
-      // debugger
       await updateCustomerBaseInfo(param);
 
       const customerId = this.userInfo && this.userInfo.customerId;
       let res = await getCustomerInfo({ customerId });
+
       const context = res.context;
       this.props.loginStore.setUserInfo(context);
 
