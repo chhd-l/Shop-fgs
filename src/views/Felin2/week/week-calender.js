@@ -126,7 +126,7 @@ class WeekCalender extends Component {
   };
 
   nextWeek = () => {
-    if (index === -1) return;
+    if (index === -3) return;
     index--;
     this.setState(
       {

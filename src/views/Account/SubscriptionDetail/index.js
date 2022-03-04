@@ -659,8 +659,8 @@ class SubscriptionDetail extends React.Component {
         };
       });
       Object.assign(param, {
-        timeSlot: subDetail.consignee.timeSlot,
-        deliveryDate: subDetail.consignee.deliveryDate,
+        timeSlot: subDetail.timeSlot,
+        deliveryDate: subDetail.deliveryDate,
         goodsItems: goodsItems,
         changeField: changeField.length > 0 ? changeField.join(',') : ''
       });

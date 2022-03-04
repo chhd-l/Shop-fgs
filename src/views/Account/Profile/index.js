@@ -132,7 +132,9 @@ class AccountProfile extends React.Component {
         provinceNo: context?.provinceNo,
         province: context?.province,
         provinceId: context?.provinceId,
-        region: context?.region
+        region: context?.region,
+        firstNameKatakana: context?.firstNameKatakana,
+        lastNameKatakana: context?.lastNameKatakana
       };
 
       this.setState({
