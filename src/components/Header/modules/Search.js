@@ -174,7 +174,8 @@ export default class Search extends React.Component {
     this.setState({
       showSearchInput: false,
       keywords: '',
-      result: null
+      result: null,
+      suggestions: []
     });
     this.props.onClose();
   }
@@ -278,8 +279,8 @@ export default class Search extends React.Component {
   renderResultJsx() {
     const { result, keywords, suggestions } = this.state;
     let ret = null;
+    const keyReg = new RegExp(keywords, 'gi');
     if (suggestions && suggestions.length) {
-      const keyReg = new RegExp(keywords, 'gi');
       ret = (
         <div
           className="suggestions"
@@ -399,7 +400,10 @@ export default class Search extends React.Component {
                               alt={item.goodsName}
                               title={item.goodsName}
                             >
-                              {item.goodsName}
+                              {item.goodsName.replace(
+                                keyReg,
+                                (txt) => `<b>${txt}</b>`
+                              )}
                             </div>
                             <div className="rc-meta searchProductKeyword" />
                           </div>
@@ -444,7 +448,7 @@ export default class Search extends React.Component {
                         this.doGAInstantSearchResultClick2('Content', item, i)
                       }
                     >
-                      {item.Title}
+                      {item.Title.replace(keyReg, (txt) => `<b>${txt}</b>`)}
                     </a>
                   ))}
                   {(result.attach.FeaturedItems || []).map((item, i) => (
@@ -455,7 +459,7 @@ export default class Search extends React.Component {
                       href={item.Url}
                       key={i}
                     >
-                      {item.Title}
+                      {item.Title.replace(keyReg, (txt) => `<b>${txt}</b>`)}
                     </a>
                   ))}
                 </div>
