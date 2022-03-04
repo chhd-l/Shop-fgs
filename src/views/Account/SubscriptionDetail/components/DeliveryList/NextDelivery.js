@@ -50,9 +50,9 @@ const NextDelivery = ({
     getDeliveryDateAndTimeSlotData();
   }, []);
   useEffect(() => {
-    setDeliveryDate(subDetail.consignee.deliveryDate);
-    setTimeSlot(subDetail.consignee.timeSlot);
-  }, [subDetail.consignee.deliveryDate]);
+    setDeliveryDate(subDetail.deliveryDate);
+    setTimeSlot(subDetail.timeSlot);
+  }, [subDetail.deliveryDate]);
   useEffect(() => {
     let timeSlotList = deliveryDateList
       .find((el) => el.value == deliveryDate)
@@ -108,8 +108,8 @@ const NextDelivery = ({
   };
   const ChangeTimeslot = (data) => {
     setTimeSlot(data.name);
-    subDetail.consignee.deliveryDate = deliveryDate;
-    subDetail.consignee.timeSlot = data.name;
+    subDetail.deliveryDate = deliveryDate;
+    subDetail.timeSlot = data.name;
     // setState({isDataChange:true})
     handleSaveChange(subDetail, true);
   };
