@@ -49,7 +49,6 @@ import { EMAIL_REGEXP } from '@/utils/constant';
 import './index.less';
 import { format } from 'date-fns';
 import { Input } from '@/components/Common';
-import { toJS } from 'mobx';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
@@ -150,6 +149,11 @@ class Form extends React.Component {
       }
     }, 3000);
     const { initData = {} } = this.props;
+
+    //日本
+    if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+      initData.region = initData.area;
+    }
 
     const { caninForm } = this.state;
     this.setState({
@@ -1704,6 +1708,7 @@ class Form extends React.Component {
               <Fragment key={index}>
                 <div
                   className={`col-md-12 ${
+                    isDeliveryDateAndTimeSlot &&
                     item.fieldKey == 'deliveryDate' &&
                     window.__.env.REACT_APP_COUNTRY === 'jp'
                       ? ''
@@ -1714,14 +1719,10 @@ class Form extends React.Component {
                     className="text-22 pt-4 pb-2"
                     style={{ color: '#888888' }}
                   >
-                    Specify the desired delivery date and time for your order.
+                    <FormattedMessage id="payment.delivery.title" />
                   </div>
                   <div className="text-16 pb-8">
-                    We ship on weekdays and Saturdays (excluding holidays,
-                    year-end and New Year holidays, ...). If you wish to have
-                    the product delivered in the shortest time, let «
-                    Unspecified », we will ship it as 800n as it is ready to
-                    ship.
+                    <FormattedMessage id="payment.delivery.content" />
                   </div>
                 </div>
                 <div
@@ -1801,12 +1802,13 @@ class Form extends React.Component {
                               id="examplePostCodeTips"
                               values={{
                                 val: (
-                                  <Link
+                                  <a
                                     className="rc-styled-link ui-cursor-pointer faq_rc_styled_link"
-                                    to="/"
+                                    href="https://www.post.japanpost.jp/zipcode/"
+                                    target="_blank"
                                   >
                                     this
-                                  </Link>
+                                  </a>
                                 )
                               }}
                             />

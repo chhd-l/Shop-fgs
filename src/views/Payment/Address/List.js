@@ -875,9 +875,10 @@ class AddressList extends React.Component {
         firstNameKatakana: tmp.firstNameKatakana,
         lastNameKatakana: tmp.lastNameKatakana
       };
-      if (window.__.env.REACT_APP_COUNTRY === 'jp') {
-        tmpDeliveryAddress.region = tmp.area;
-      }
+      //日本
+      // if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+      //   tmpDeliveryAddress.region = tmp.area;
+      // }
       if (isCanVerifyBlacklistPostCode) {
         tmpDeliveryAddress.alert = tmp?.alert || '';
         tmpDeliveryAddress.validFlag = tmp?.validFlag;
@@ -1019,9 +1020,12 @@ class AddressList extends React.Component {
         isDefaltAddress: deliveryAddress.isDefalt ? 1 : 0,
         region: deliveryAddress.province, // DuData相关参数
         type: this.props.type.toUpperCase(),
-        isValidated: deliveryAddress.validationResult,
-        area: deliveryAddress.region //日本需求store portal用的是region字段，shop新增地址用area字段
+        isValidated: deliveryAddress.validationResult
       });
+
+      if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+        params.area = deliveryAddress.region; //日本需求store portal用的是region字段，shop新增地址用area字段
+      }
 
       const tmpPromise =
         this.currentOperateIdx > -1 ? editAddress : saveAddress;

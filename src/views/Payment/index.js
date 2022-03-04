@@ -345,7 +345,8 @@ class Payment extends React.Component {
       appointNo: null, //felin的预约单号
       convenienceStore: '',
       paypalDetailsChecked: false,
-      paypalMethodDefaultChecked: false
+      paypalMethodDefaultChecked: false,
+      paypalAccount: ''
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
@@ -919,10 +920,13 @@ class Payment extends React.Component {
       let res = await getPaymentMethod({}, true);
       let cardList = res.context;
       const paypalCardIndex = cardList.findIndex(
-        (item) => item.paymentItem === 'adyen_paypal' && item.isDefault === 1
+        (item) => item.paymentItem === 'adyen_paypal'
       );
-      if (paypalCardIndex >= -1) {
-        // this.handlePaymentTypeClick('adyenPaypal');
+      if (paypalCardIndex > -1) {
+        // if(cardList[paypalCardIndex].isDefault === 1){
+        //    this.handlePaymentTypeClick('adyenPaypal');
+        // }
+        this.setState({ paypalAccount: cardList[paypalCardIndex].email });
         cardList.splice(paypalCardIndex, 1);
       }
       this.setState({ cardListLength: cardList.length });
@@ -1059,7 +1063,7 @@ class Payment extends React.Component {
             (e) =>
               e.isOpen &&
               (!this.isCurrentBuyWaySubscription || e.supportSubscription) &&
-              (e.code !== 'cod' || this.tradePrice <= e.maxAmount)
+              (!e.maxAmount || this.tradePrice <= e.maxAmount)
           );
       }
 
@@ -3585,6 +3589,7 @@ class Payment extends React.Component {
                           billingJSX={this.renderBillingJSX({
                             type: 'adyenCard'
                           })}
+                          supportPaymentMethodsVisibleAtForm={false}
                         />
                       </>
                     )}
@@ -3605,6 +3610,7 @@ class Payment extends React.Component {
                           isCurrentBuyWaySubscription={
                             this.isCurrentBuyWaySubscription
                           }
+                          paypalAccount={this.state.paypalAccount}
                         />
                       </>
                     )}
@@ -4086,17 +4092,6 @@ class Payment extends React.Component {
       this.showErrorMsg(errMsg);
       return;
     }
-    //Blocked users and emails are not able to checkout
-    // const isBlockedAccountOrEmail = isBlockedUserOrEmail(
-    //   this.isLogin ? this.userInfo?.email : this.state.guestEmail
-    // );
-    // if (isBlockedAccountOrEmail) {
-    //   const isBlockedUserOrEmailTip = this.isLogin
-    //     ? intl.messages['checkout.blockedUserTip']
-    //     : intl.messages['checkout.blockedEmailTip'];
-    //   this.showErrorMsg(isBlockedUserOrEmailTip);
-    //   return;
-    // }
 
     if (this.isLogin) {
       this.userBindConsentFun();

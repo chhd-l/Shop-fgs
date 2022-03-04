@@ -5,19 +5,19 @@ import {
   formatDate,
   formatMoney,
   getDictionary,
-  matchNamefromDict
+  matchNamefromDict,
+  handleEmailShow
 } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import getCardImg from '@/lib/get-card-img';
 import { ConvenienceStorePayReview } from '@/views/Payment/PaymentMethod';
 import OrderAppointmentInfo from '@/views/Account/AppointmentsDetail/modules/AppointmentInfo';
-import { getPaymentMethod, getWays } from '@/api/payment';
+import { getWays } from '@/api/payment';
 import { LOGO_ADYEN_COD, LOGO_ADYEN_PAYPAL } from '@/utils/constant';
 
-const OrderAddressAndPayReview = ({ details, payRecord, paymentItem }) => {
+const OrderAddressAndPayReview = ({ details, payRecord }) => {
   const [countryList, setCountryList] = useState([]);
   const [supportPaymentMethods, setSupportPaymentMethods] = useState([]);
-  const [paypalAccount, setPaypalAccount] = useState('');
 
   let newDeliveryDate = formatDate({
     date: details?.consignee?.deliveryDate,
@@ -33,16 +33,6 @@ const OrderAddressAndPayReview = ({ details, payRecord, paymentItem }) => {
         res?.context?.payPspItemVOList[0]?.payPspItemCardTypeVOList || []
       );
     });
-    // if (paymentItem === 'adyen_paypal') {
-    //   getPaymentMethod({}, true).then((res) => {
-    //     const paypalCardIndex = res.context.findIndex(
-    //       (item) => item.paymentItem === 'adyen_paypal'
-    //     );
-    //     if (paypalCardIndex > -1) {
-    //       setPaypalAccount(res.context[paypalCardIndex].email);
-    //     }
-    //   });
-    // }
   }, []);
 
   return (
@@ -211,7 +201,7 @@ const OrderAddressAndPayReview = ({ details, payRecord, paymentItem }) => {
                 ) : null}
               </PaymentMethodContainer>
             ) : null}
-            {paymentItem === 'adyen_paypal' ? (
+            {details.paymentItem === 'adyen_paypal' ? (
               <PaymentMethodContainer>
                 <div className="medium mb-2">
                   <LazyLoad className="inline-block">
@@ -221,7 +211,7 @@ const OrderAddressAndPayReview = ({ details, payRecord, paymentItem }) => {
                       src={LOGO_ADYEN_PAYPAL}
                     />
                   </LazyLoad>
-                  <p>{details?.payPalEmail || paypalAccount}</p>
+                  <p>{handleEmailShow(details?.payPalEmail)}</p>
                 </div>
               </PaymentMethodContainer>
             ) : null}
@@ -236,7 +226,7 @@ const OrderAddressAndPayReview = ({ details, payRecord, paymentItem }) => {
                 </div>
               </PaymentMethodContainer>
             ) : null}
-            {paymentItem === 'cod_japan' ? (
+            {details.paymentItem === 'cod_japan' ? (
               <PaymentMethodContainer>
                 <div className="flex items-center">
                   <LazyLoad>

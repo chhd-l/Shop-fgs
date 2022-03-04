@@ -116,11 +116,8 @@ export const UnLoginUserBox = ({ history, className, intl }) => {
 };
 
 export const LoginUserBox = ({ self, className }) => {
-  const {
-    personInformationRouter,
-    petsRouter,
-    subscriptionsRouter
-  } = self.props;
+  const { personInformationRouter, petsRouter, subscriptionsRouter } =
+    self.props;
   const menuList = [
     {
       link: '/account',
