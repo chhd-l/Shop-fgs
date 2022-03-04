@@ -343,6 +343,17 @@ class Form extends React.Component {
             tsFlag = true;
           }
         });
+        // if(COUNTRY == 'jp') {
+        //   tslist.unshift({
+        //     id: '',
+        //     name: 'unspecified',
+        //     startTime: '',
+        //     endTime: '',
+        //     sort: 0})
+        // }
+
+        // console.log(tslist)
+        // debugger
         // time slot为空或者过期设置第一条数据为默认值
         if (!obj.timeSlot || !alldata[obj.deliveryDate] || !tsFlag) {
           obj.timeSlotId = tslist[0].id;
@@ -423,7 +434,7 @@ class Form extends React.Component {
         phoneReg = [{ mask: '{0} (000) 000-00-00' }];
         break;
       case 'jp':
-        phoneReg = [{ mask: '000-0000-0000' }];
+        phoneReg = /^[0]\d{0,10}$/;
         break;
       default:
         phoneReg = [{ mask: '00000000000' }];
@@ -1011,6 +1022,7 @@ class Form extends React.Component {
     } else if (key != 'country' && key != 'deliveryDate' && key != 'timeSlot') {
       tmp.unshift({ value: '', name: '' });
     }
+
     return tmp;
   }
   // 判断是否是数字
