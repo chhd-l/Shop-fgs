@@ -620,8 +620,8 @@ class SubscriptionDetail extends React.Component {
     }
   }
 
-  async handleSaveChange(subDetail) {
-    if (!this.state.isDataChange) {
+  async handleSaveChange(subDetail, isChangeTimeslot) {
+    if (!this.state.isDataChange && !isChangeTimeslot) {
       return false;
     }
     if (this.state.isGift) {
@@ -659,6 +659,8 @@ class SubscriptionDetail extends React.Component {
         };
       });
       Object.assign(param, {
+        timeSlot: subDetail.consignee.timeSlot,
+        deliveryDate: subDetail.consignee.deliveryDate,
         goodsItems: goodsItems,
         changeField: changeField.length > 0 ? changeField.join(',') : ''
       });
@@ -908,6 +910,7 @@ class SubscriptionDetail extends React.Component {
                         <div className="rc-max-width--xl">
                           <DeliveryList
                             {...this.props}
+                            handleSaveChange={this.handleSaveChange.bind(this)}
                             modalList={modalList}
                             getMinDate={this.getMinDate}
                             completedYearOption={completedYearOption}
