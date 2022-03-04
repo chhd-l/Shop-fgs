@@ -269,6 +269,7 @@ class PersonalDataEditForm extends React.Component {
       //日本
       if (window.__.env.REACT_APP_COUNTRY === 'jp') {
         mydata.province = form.province;
+        mydata.provinceId = form.provinceId;
         mydata.region = form.region;
         mydata.firstNameKatakana = form.firstNameKatakana;
         mydata.lastNameKatakana = form.lastNameKatakana;

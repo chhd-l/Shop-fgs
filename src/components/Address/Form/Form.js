@@ -152,6 +152,8 @@ class Form extends React.Component {
 
     //日本
     if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+      console.log(initData);
+      debugger;
       if (initData.area) {
         //保存delivery address是保存在area的，才会有值
         initData.region = initData.area;
@@ -1005,6 +1007,7 @@ class Form extends React.Component {
     });
     if (key == 'state') {
       tmp.unshift({ value: '', name: 'State' });
+      console.log(tmp);
     } else if (key != 'country' && key != 'deliveryDate' && key != 'timeSlot') {
       tmp.unshift({ value: '', name: '' });
     }
