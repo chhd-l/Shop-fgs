@@ -152,7 +152,11 @@ class Form extends React.Component {
 
     //日本
     if (window.__.env.REACT_APP_COUNTRY === 'jp') {
-      initData.region = initData.area;
+      if (initData.area) {
+        //保存delivery address是保存在area的，才会有值
+        initData.region = initData.area;
+      }
+      //initData.region = initData.area;
     }
 
     const { caninForm } = this.state;
@@ -180,6 +184,8 @@ class Form extends React.Component {
         caninForm: Object.assign(caninForm, initData)
       },
       async () => {
+        // console.log(this.state.caninForm)
+        // debugger
         // 获取 DuData、DQE 等开关
         // addressApiType: 0、validation ，1、suggestion
         // isOpen: 0、关 , 1、开
@@ -1579,6 +1585,7 @@ class Form extends React.Component {
   // 下拉框
   dropDownBoxJSX = (item) => {
     const { caninForm, countryList } = this.state;
+
     return (
       <>
         <span
