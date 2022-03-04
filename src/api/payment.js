@@ -129,7 +129,9 @@ export async function getPaymentMethod(parameter = {}, needPaypalCard = false) {
       (item) => item.paymentItem === 'adyen_paypal'
     );
     if (paypalCardIndex > -1) {
-      res.context.splice(paypalCardIndex, 1);
+      res.context = res.context.filter(
+        (item) => item.paymentItem !== 'adyen_paypal'
+      );
     }
   }
   return res;

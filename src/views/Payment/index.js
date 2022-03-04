@@ -931,7 +931,9 @@ class Payment extends React.Component {
           paypalAccount: cardList[paypalCardIndex].email,
           paypalCardId: cardList[paypalCardIndex].id
         });
-        cardList.splice(paypalCardIndex, 1);
+        cardList = cardList.filter(
+          (item) => item.paymentItem !== 'adyen_paypal'
+        );
       }
       this.setState({ cardListLength: cardList.length });
       if (cardList.length > 0) {
