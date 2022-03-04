@@ -64,6 +64,22 @@ const ConsentAdditionalText = ({ textPosition }) => {
           16 år och jag kan när som helst återkalla mitt samtycke.
         </p>
       </div>
+    ),
+    mx: (
+      <div className="consent-txt">
+        <p>
+          Nos gustaría mantenerte al tanto a ti y a tu mascota de promociones y
+          contenido de valor de &nbsp;
+          <a
+            href="https://mex.mars.com/es-MX/hecho-por-mars/petcare"
+            target="_blank"
+          >
+            Mars Petcare y sus afiliados
+          </a>{' '}
+          .
+        </p>
+        <p>Tengo 16 años o más.</p>
+      </div>
     )
   };
   const bottomText = {
@@ -140,6 +156,36 @@ const ConsentAdditionalText = ({ textPosition }) => {
           personuppgifter via &nbsp;
           <a href="https://www.mars.com/privacy-policy-sweden" target="_blank">
             Mars’ Sekretesspolicy
+          </a>
+          .
+        </p>
+      </div>
+    ),
+    mx: (
+      <div className="explain-txt">
+        <p>
+          Entiendo que puedo cambiar estas preferencias en cualquier momento
+          mediante el [mecanismo detallado para administrar las preferencias].
+        </p>
+        <p>
+          q ü Desmarque esta casilla si no desea que sus datos se utilicen en
+          investigaciones para mejorar nuestras ofertas de productos y
+          servicios.
+        </p>
+        <p>
+          Puede averiguar cómo &nbsp;
+          <a
+            href="https://mex.mars.com/es-MX/hecho-por-mars/petcare"
+            target="_blank"
+          >
+            Mars Petcare
+          </a>
+          &nbsp; y sus afiliados recopilan y procesan sus Datos, puede
+          comunicarse con nosotros si tiene preguntas sobre nuestros procesos de
+          procesamiento y/o para ejercer sus derechos ARCO a través del Aviso de
+          &nbsp;
+          <a href="https://www.mars.com/privacy-policy-Mexico" target="_blank">
+            Privacidad de Mars
           </a>
           .
         </p>

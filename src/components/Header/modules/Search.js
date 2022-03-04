@@ -286,7 +286,7 @@ export default class Search extends React.Component {
     if (suggestions && suggestions.length) {
       ret = (
         <div
-          className="suggestions"
+          className="suggestions suggestion-keywords"
           id="mainSuggestions"
           onMouseOver={() => this.enterResultBox()}
           onMouseOut={() => this.leaveResultBox()}
@@ -540,7 +540,7 @@ export default class Search extends React.Component {
                 </FormattedMessage>
               </form>
             </div>
-            {result && !hiddenResult ? (
+            {!hiddenResult ? (
               <div style={{ position: 'relative', top: '.2rem' }}>
                 <div className="suggestions-wrapper">
                   {this.renderResultJsx()}

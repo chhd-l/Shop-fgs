@@ -50,9 +50,9 @@ const NextDelivery = ({
     getDeliveryDateAndTimeSlotData();
   }, []);
   useEffect(() => {
-    setDeliveryDate(subDetail.consignee.deliveryDate);
-    setTimeSlot(subDetail.consignee.timeSlot);
-  }, [subDetail.consignee.deliveryDate]);
+    setDeliveryDate(subDetail.deliveryDate);
+    setTimeSlot(subDetail.timeSlot);
+  }, [subDetail.deliveryDate]);
   useEffect(() => {
     let timeSlotList = deliveryDateList
       .find((el) => el.value == deliveryDate)
@@ -108,8 +108,8 @@ const NextDelivery = ({
   };
   const ChangeTimeslot = (data) => {
     setTimeSlot(data.name);
-    subDetail.consignee.deliveryDate = deliveryDate;
-    subDetail.consignee.timeSlot = data.name;
+    subDetail.deliveryDate = deliveryDate;
+    subDetail.timeSlot = data.name;
     // setState({isDataChange:true})
     handleSaveChange(subDetail, true);
   };
@@ -137,8 +137,8 @@ const NextDelivery = ({
                   : ''}
               </span>
             </div>
-            <div className="flex items-center mb-2  md:mb-0 flex-wrap md:flex-nowrap">
-              {deliveryDate && (
+            <div className="flex items-center mb-2  md:mb-0">
+              {/* {deliveryDate && (
                 <Selection
                   customCls="selection-with-border"
                   optionList={deliveryDateList}
@@ -151,21 +151,7 @@ const NextDelivery = ({
                   key={deliveryDate}
                   placeholder="please select"
                 />
-              )}
-              {deliveryDate && (
-                <Selection
-                  customCls="selection-with-border"
-                  optionList={timeSlotList}
-                  selectedItemChange={(data) => ChangeTimeslot(data)}
-                  selectedItemData={{
-                    value: timeSlot
-                  }}
-                  customStyleType="none"
-                  key={`${deliveryDate}-${timeSlotList}`}
-                  placeholder="please select"
-                />
-              )}
-              <br />
+              )} */}
               <div
                 className={cn('changeDate whitespace-nowrap mr-6 text-right')}
               >
@@ -199,6 +185,20 @@ const NextDelivery = ({
                   />
                 </span>
               </div>
+
+              {deliveryDate && (
+                <Selection
+                  customCls="selection-with-border"
+                  optionList={timeSlotList}
+                  selectedItemChange={(data) => ChangeTimeslot(data)}
+                  selectedItemData={{
+                    value: timeSlot
+                  }}
+                  customStyleType="none"
+                  key={`${deliveryDate}-${timeSlotList}`}
+                  placeholder="please select"
+                />
+              )}
 
               <div className="whitespace-nowrap">
                 <span
