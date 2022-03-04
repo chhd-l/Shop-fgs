@@ -816,7 +816,18 @@ const App = () => {
                       : Tailorednutrition
                   }
                 />
-                <Route exact path="/retail-products" component={OnlineStore} />
+                {/* fr定制 */}
+                <Route
+                  exact
+                  path="/retail-products"
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'fr') {
+                      return <OnlineStore {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
                 <Route
                   path="/Quality-safety"
                   exact
@@ -916,9 +927,36 @@ const App = () => {
                   )}
                   path="/FelinRecommendation/:id"
                 />
-                <Route path="/adoptions" component={Adoptions} />
-                <Route path="/felin" component={Felin} />
-                <Route path="/felin/event" component={Felin} />
+                <Route
+                  path="/adoptions"
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'us') {
+                      return <Adoptions {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  path="/felin"
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'fr') {
+                      return <Felin {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  path="/felin/event"
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'fr') {
+                      return <Felin {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
                 <Route
                   path="/"
                   render={(props) => {
