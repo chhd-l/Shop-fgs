@@ -346,7 +346,8 @@ class Payment extends React.Component {
       convenienceStore: '',
       paypalDetailsChecked: false,
       paypalMethodDefaultChecked: false,
-      paypalAccount: ''
+      paypalAccount: '',
+      paypalCardId: ''
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
@@ -926,8 +927,13 @@ class Payment extends React.Component {
         // if(cardList[paypalCardIndex].isDefault === 1){
         //    this.handlePaymentTypeClick('adyenPaypal');
         // }
-        this.setState({ paypalAccount: cardList[paypalCardIndex].email });
-        cardList.splice(paypalCardIndex, 1);
+        this.setState({
+          paypalAccount: cardList[paypalCardIndex].email,
+          paypalCardId: cardList[paypalCardIndex].id
+        });
+        cardList = cardList.filter(
+          (item) => item.paymentItem !== 'adyen_paypal'
+        );
       }
       this.setState({ cardListLength: cardList.length });
       if (cardList.length > 0) {
@@ -1477,7 +1483,8 @@ class Payment extends React.Component {
         adyenPaypal: () => {
           parameters = Object.assign(commonParameter, {
             adyenType: 'paypal',
-            payPspItemEnum: 'ADYEN_PAYPAL'
+            payPspItemEnum: 'ADYEN_PAYPAL',
+            paymentMethodId: this.state.paypalCardId
           });
         },
         adyen_swish: () => {

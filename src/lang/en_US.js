@@ -367,7 +367,6 @@ const en_US = {
   'contactUs.requiredField': 'The field is required',
   'contactUs.validEmailField': 'Please enter a valid E-Mail address',
   'contactUs.validUsPhoneField': 'Please enter a valid phone number',
-  contactUsViaPhone: 'contáctenos por teléfono',
   continue: 'Continue',
   continueAsGuest: 'Continue as a guest',
   continueMyPurchases: 'Continue Shopping',
@@ -465,8 +464,6 @@ const en_US = {
     'Sat'
   ],
   'day-unit': 'day',
-  de_cats: 'For cats',
-  de_dogs: 'For dogs',
   default: 'Default',
   defaultAddress: 'default address',
   delete: 'Delete',
@@ -552,7 +549,6 @@ const en_US = {
   'footer.aboutRoyalCanin': 'ROYAL CANIN',
   'footer.acceptance': 'Acceptance guarantee',
   'footer.action': 'Actions',
-  'footer.Additionally2': 'ADDITIONAL',
   'footer.confidentiality': 'Privacy',
   'footer.consistence': 'durability',
   'footer.contactRoyalCanin': 'Contact Royal Canin',
@@ -597,7 +593,6 @@ const en_US = {
   'header.startTypingToSearch': 'Start typing to search',
   'header.toBegin': 'Start now',
   'header.toLearnMore': 'To learn more',
-  'header.toOrder': 'Buy now',
   'header.User.alreadyRegistered': 'Already registered?',
   'header.User.faq': "FAQ's",
   'header.User.home': 'Account',
@@ -865,7 +860,6 @@ const en_US = {
   'list.errMsg':
     'No products found, please change the search criteria and try again.',
   'list.errMsg3': 'No filters found, please try again later.',
-  'list.viewFilters': 'View filters',
   'list.youSearchedFor': 'You searched for',
   listPrice: 'List price',
   login: 'Login',
@@ -978,7 +972,6 @@ const en_US = {
   'orderStatus.INITTip':
     'Your order has not been paid, please pay as soon as possible. {val}',
   orderSummary: 'Order Summary',
-  'Other products to consider': 'Other products to consider',
   outOfStockContent_cart:
     'Among the currently recommended products, there are out-of-stock products: {val}. If you continue to add the shopping cart, the out-of-stock products will be deleted directly.',
   outOfStockContent_pay:
@@ -1062,7 +1055,6 @@ const en_US = {
   'payment.settlement': 'settlement',
   'payment.shippingDiscount': 'Shipping Discount',
   'payment.socialId': 'Social id',
-  'payment.staleDate': 'Please repeat the date and time of delivery',
   'payment.state': 'State',
   'payment.streets': 'streets',
   'payment.subTip2':
@@ -1092,7 +1084,6 @@ const en_US = {
   petMale: 'Male',
   petName: 'Name',
   pets: 'Pets',
-  petType: 'Pet Type',
   phone: 'Phone',
   pirceRange: 'From {fromPrice} to {toPrice}',
   pleasecompleteTheRequiredItem: 'Please complete the required item',
@@ -1238,9 +1229,7 @@ const en_US = {
   price: 'Price',
   printEbanx: 'Print Ebanx',
   privacyPolicy: 'Privacy Policy',
-  'product.plp.foodtype.drycat': 'Dry cat food',
   'product.plp.foodtype.drydog': 'Dry dog food',
-  'product.plp.foodtype.wetcat': 'Wet cat food',
   'product.plp.foodtype.wetdog': 'Wet dog food',
   'productFinder.ageErrorShow':
     'Age selection needs to be greater than 0 months',
@@ -1443,7 +1432,6 @@ const en_US = {
   reviewisRequired: 'Review is required.',
   reviews: 'Reviews',
   royalCanin: 'Royal Canin',
-  royalCaninClub: 'Royal Canin Club',
   'salesCategory.cat': 'For cat',
   'salesCategory.content':
     'Each formula has been formulated to provide nutrition that meets health needs based on size, breed, age or lifestyle.',
@@ -1483,14 +1471,12 @@ const en_US = {
   selectPet: 'Select a pet',
   selectProduct: 'Please select product',
   selectThisAddress: 'Select this address',
-  sendUsAnEmail: 'Send us an Email',
   setAsDefault: 'Set as default',
   setDefaltAddressFailed: 'Set Defalt Address Failed',
   setDefaltAddressSuccess: 'Set Defalt Address Success',
   setDefaultAddress: 'Set as default address',
   setDefaultPaymentMethod: 'Set as Default Payment method',
   setMyaccountDefaultAddress: 'Set as default address',
-  shipmentTrackingFalse: 'Please check this box if you wish to continue.',
   shipping: 'Shipping',
   shippingAddress: 'Address Management',
   signInAndRegisterNow: 'Sign in / Register now',
@@ -1571,7 +1557,6 @@ const en_US = {
   'subscription.cancelAll': 'Cancel',
   'subscription.changeNow': 'Change now',
   'subscription.chooseOption': 'Please choose your options',
-  'subscription.chooseSubscription': 'Choose subscription',
   'subscription.chooseThisProduct': 'choose this product',
   'subscription.club': 'club',
   'subscription.dailyRation': 'your daily ration',
@@ -1579,19 +1564,13 @@ const en_US = {
   'subscription.deliveryDate': 'Next delivery date',
   'subscription.detail': 'Subscription detail',
   'subscription.frequency': 'Deliver every',
-  'subscription.nextOrder': 'Next Order',
   'subscription.noDataTip': 'No subscription',
   'subscription.noPetOngoingOrder': 'Order status',
-  'subscription.notYet': 'Not Yet Shipped',
   'subscription.number': 'Subscription number',
   'subscription.numberFirstWordUpperCase': 'Subscription Number',
   'subscription.ongoingOrderForPet': 'Order status for {val}',
-  'subscription.OnYourFirst': 'on your first',
-  'subscription.order': 'Order',
   'subscription.orderNow': 'Order Now',
   'subscription.pause': 'Pause',
-  'subscription.paymentMethod': 'Payment method',
-  'subscription.product': 'Product',
   'subscription.productDetails': ' Product details',
   'subscription.productRecommendation': 'Your product recommendation',
   'subscription.productRecommendationTip':
@@ -1601,7 +1580,6 @@ const en_US = {
     'With automatic shipping,you’ll become a member of the Royal Canin Club and get 30% off your first order, 5% off every autoship order and other extra perks.',
   'subscription.promotionTip3':
     "Simply select autoship at checkout for easy regular deliveries. With automatic shipping, you'll become a member and get 10% off your first order and 5% off every autoship order.",
-  'subscription.receiveDate': 'Next received date',
   'subscription.restart': 'Restart',
   'subscription.saveDiscount': 'Subscription Save Discount',
   'subscription.see_more': 'See other Subscription',
@@ -1609,9 +1587,6 @@ const en_US = {
   'subscription.shipping': 'Shipping',
   'subscription.shippingAddress': 'Shipping address',
   'subscription.skip': 'Skip Next Delivery',
-  'subscription.status': 'Subscription status',
-  'subscription.sub': 'Sub-',
-  'subscription.subscriptionNumberTip': 'Please enter subscription number',
   'subscription.toBeDelivered': 'To be Delivered',
   'subscription.total': 'Total',
   'subscription.totalInclu': 'Subtotal',
@@ -1620,8 +1595,6 @@ const en_US = {
   'subscriptionDetail.addNewDog': 'a new dog',
   'subscriptionDetail.better':
     'For a better experience we recommend linking a pet profile to your Club subscription',
-  'subscriptionDetail.cantBindPetsErr1':
-    'There are club and autoship products, please go to the pet details to bind the products',
   'subscriptionDetail.cantBindPetsErr2':
     'There are cat and dog products, please go to the pet details to bind the products',
   'subscriptionDetail.changeProduct': 'change product',
@@ -1665,12 +1638,7 @@ const en_US = {
   'tailorednutrition.formulasTitle': 'Crafted Formulas',
   'tailorednutrition.natureDetail':
     'A Jack Russell in perfect health can jump up to six times their own height. Indoor cats and outdoor cats have very different energy needs. Nourishing their incredible natural potential with specially selected proteins and antioxidants addresses their unique needs.',
-  'tailorednutrition.nutritionDetail':
-    'Dogs and cats have unique needs, and we focus on delivering the best possible health nutrition for each of those needs. Each recipe is formulated to deliver the exact level of nutrients that are essential to your pet’s individual health needs.',
-  'tailorednutrition.nutritionTitle': 'What is Tailored Nutrition?',
   'tailorednutrition.result': 'The Result',
-  'tailorednutrition.resultDetail':
-    'The result is nutrition that is designed to address specific health needs with pin-point accuracy. Your pet receives the complete and balanced range of nutrients and amino acids he needs to build strong muscles, maintain a healthy body and support a strong immune system. Giving him all the energy he needs to thrive and live in the very best health possible.',
   'tailorednutrition.shopCat': 'Shop Cat Formulas',
   'tailorednutrition.shopDog': 'Shop Dog Formulas',
   'tailorednutrition.shopTile': 'Shop Tailored Nutrition For Your Pet',
@@ -1702,12 +1670,10 @@ const en_US = {
   weight: 'Weight',
   welcome: 'Welcome',
   'welcome.accessibility': 'Accessibility',
-  'welcome.adChoices': 'AdChoices',
   'welcome.cASupplyChainTransparencyAct': 'CA Supply Chain Transparency Act',
   'welcome.confirmEmail':
     'To complete the creation of your account, please click on "Confirm" in the email sent to the following email address:',
   'welcome.contactSupport': 'Contact support',
-  'welcome.contactUS': 'Contact Us',
   'welcome.cookiesNotice': 'Cookies Notice',
   'welcome.createdSuccessfully': 'Your account has successfully been created!',
   'welcome.legal': 'Legal',

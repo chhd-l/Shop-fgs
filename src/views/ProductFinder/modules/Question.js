@@ -500,7 +500,7 @@ class Question extends React.Component {
             };
           })
         ];
-        tmpPlaceHolderList = [<FormattedMessage id="weight" />];
+        tmpPlaceHolderList = [<FormattedMessage id="Weight" />];
         break;
       default:
         break;
