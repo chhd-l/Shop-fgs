@@ -469,8 +469,13 @@ export default class Search extends React.Component {
     return ret;
   }
   render() {
-    const { showSearchInput, result, keywords, loading, hiddenResult } =
-      this.state;
+    const {
+      showSearchInput,
+      result,
+      keywords,
+      loading,
+      hiddenResult
+    } = this.state;
     const isMobile = getDeviceType() !== 'PC';
     return (
       <div
@@ -481,10 +486,9 @@ export default class Search extends React.Component {
         {isHub ? (
           <>
             <div
-              // className={` ${
-              //   isMobile ? '' : 'search-desktop '
-              // } search-contaner`}
-              className="search-contaner"
+              className={` ${
+                isMobile ? '' : 'search-desktop '
+              } search-contaner`}
             >
               <form
                 role="search"
