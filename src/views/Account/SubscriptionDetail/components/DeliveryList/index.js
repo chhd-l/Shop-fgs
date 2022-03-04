@@ -13,6 +13,7 @@ const DeliveryList = ({
   changeTab,
   noStartYearOption,
   noStartYear,
+  handleSaveChange,
   modalList,
   activeTabIdx,
   getMinDate,
@@ -112,6 +113,7 @@ const DeliveryList = ({
                   modalList={modalList}
                   setState={setState}
                   getMinDate={getMinDate}
+                  handleSaveChange={handleSaveChange}
                   el={el}
                   key={i}
                 />
