@@ -194,7 +194,7 @@ export default class Search extends React.Component {
     this.hanldeSearchFocus();
   }
   handleSearch = () => {
-    if (this.state.loading || !this.state.hasSearchedDone) return;
+    //if (this.state.loading || !this.state.hasSearchedDone) return;
     this.props.history.push({
       pathname: window.__.env.REACT_APP_SEARCH_LINK,
       // pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?q=${e.current.value}`,
@@ -399,12 +399,13 @@ export default class Search extends React.Component {
                               className="productName ui-cursor-pointer ui-text-overflow-line2 text-break"
                               alt={item.goodsName}
                               title={item.goodsName}
-                            >
-                              {item.goodsName.replace(
-                                keyReg,
-                                (txt) => `<b>${txt}</b>`
-                              )}
-                            </div>
+                              dangerouslySetInnerHTML={{
+                                __html: item.goodsName.replace(
+                                  keyReg,
+                                  (txt) => `<b>${txt}</b>`
+                                )
+                              }}
+                            ></div>
                             <div className="rc-meta searchProductKeyword" />
                           </div>
                         </div>
@@ -447,9 +448,13 @@ export default class Search extends React.Component {
                       onClick={() =>
                         this.doGAInstantSearchResultClick2('Content', item, i)
                       }
-                    >
-                      {item.Title.replace(keyReg, (txt) => `<b>${txt}</b>`)}
-                    </a>
+                      dangerouslySetInnerHTML={{
+                        __html: item.Title.replace(
+                          keyReg,
+                          (txt) => `<b>${txt}</b>`
+                        )
+                      }}
+                    ></a>
                   ))}
                   {(result.attach.FeaturedItems || []).map((item, i) => (
                     <a
@@ -458,9 +463,13 @@ export default class Search extends React.Component {
                       title={item.Title}
                       href={item.Url}
                       key={i}
-                    >
-                      {item.Title.replace(keyReg, (txt) => `<b>${txt}</b>`)}
-                    </a>
+                      dangerouslySetInnerHTML={{
+                        __html: item.Title.replace(
+                          keyReg,
+                          (txt) => `<b>${txt}</b>`
+                        )
+                      }}
+                    ></a>
                   ))}
                 </div>
               ) : null}
