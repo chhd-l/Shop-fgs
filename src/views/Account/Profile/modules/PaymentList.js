@@ -146,8 +146,18 @@ class PaymentList extends React.Component {
     try {
       showLoading && this.setState({ listLoading: true });
       const res = await getPaymentMethod({}, true);
+      const cardList = res?.context || [];
+      const paypalCardIndex = cardList?.findIndex(
+        (item) => item.paymentItem === 'adyen_paypal'
+      );
+      if (paypalCardIndex > -1) {
+        //paypal卡需要显示在第一个
+        const paypalCard = cardList[paypalCardIndex];
+        cardList.splice(paypalCardIndex, 1);
+        cardList.unshift(paypalCard);
+      }
       this.setState({
-        creditCardList: res.context || []
+        creditCardList: cardList
       });
       if (msg) {
         this.setState(

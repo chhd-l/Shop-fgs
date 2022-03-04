@@ -41,11 +41,6 @@ const RouteFilterHook = ({ configStore }) => {
             }
           }
         });
-      } else {
-        const cookieDomBox = document.querySelector('.cookieSettingBox');
-        if (cookieDomBox) {
-          cookieDomBox.style.visibility = 'visible';
-        }
       }
     }
   }, [configStore.info?.marsFooter, pathname]);
