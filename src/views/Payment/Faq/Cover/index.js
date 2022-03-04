@@ -24,9 +24,9 @@ let benifitList = [
   }
 ];
 
-if (window.__.env.REACT_APP_COUNTRY === 'se') {
-  benifitList.pop();
-}
+// if (window.__.env.REACT_APP_COUNTRY === 'se') {
+//   benifitList.pop();
+// }
 
 class Faq extends Component {
   static defaultProps = {
