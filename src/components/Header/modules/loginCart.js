@@ -26,7 +26,7 @@ class LoginCart extends React.Component {
     this.state = {
       checkoutLoading: false
     };
-    this.handleCheckout = this.handleCheckout.bind(this);
+    //this.handleCheckout = this.handleCheckout.bind(this);
     this.hubGA = window.__.env.REACT_APP_HUB_GA == '1';
   }
   async componentDidMount() {
@@ -71,37 +71,37 @@ class LoginCart extends React.Component {
   get totalMinusSubPrice() {
     return this.props.checkoutStore.totalMinusSubPrice;
   }
-  async handleCheckout() {
-    try {
-      const { checkoutStore, history, clinicStore, configStore } = this.props;
-      this.setState({ checkoutLoading: true });
-      await checkoutStore.updateLoginCart({
-        isThrowErr: true,
-        intl: this.props.intl
-      });
+  // async handleCheckout() {
+  //   try {
+  //     const { checkoutStore, history, clinicStore, configStore } = this.props;
+  //     this.setState({ checkoutLoading: true });
+  //     await checkoutStore.updateLoginCart({
+  //       isThrowErr: true,
+  //       intl: this.props.intl
+  //     });
 
-      const url = await distributeLinktoPrecriberOrPaymentPage({
-        configStore,
-        checkoutStore,
-        clinicStore,
-        isLogin: true
-      });
-      url && history.push(url);
-    } catch (err) {
-      console.log(err);
-      this.props.headerCartStore.setErrMsg(err.message);
-    } finally {
-      this.setState({ checkoutLoading: false });
-    }
+  //     const url = await distributeLinktoPrecriberOrPaymentPage({
+  //       configStore,
+  //       checkoutStore,
+  //       clinicStore,
+  //       isLogin: true
+  //     });
+  //     url && history.push(url);
+  //   } catch (err) {
+  //     console.log(err);
+  //     this.props.headerCartStore.setErrMsg(err.message);
+  //   } finally {
+  //     this.setState({ checkoutLoading: false });
+  //   }
 
-    this.hubGA &&
-      window?.dataLayer?.push({
-        event: 'cartHeaderClicks',
-        cartHeaderClicks: {
-          button: 'Buy now'
-        }
-      });
-  }
+  //   this.hubGA &&
+  //     window?.dataLayer?.push({
+  //       event: 'cartHeaderClicks',
+  //       cartHeaderClicks: {
+  //         button: 'Buy now'
+  //       }
+  //     });
+  // }
 
   EditToCart = () => {
     this.hubGA &&
@@ -209,7 +209,7 @@ class LoginCart extends React.Component {
                       }}
                     />
                   </span>
-                  <Link
+                  {/* <Link
                     to="/cart"
                     className="rc-styled-link pull-right"
                     role="button"
@@ -217,7 +217,7 @@ class LoginCart extends React.Component {
                     onClick={this.EditToCart}
                   >
                     <FormattedMessage id="chang" />
-                  </Link>
+                  </Link> */}
                 </div>
                 <div
                   className={`${headerCartStore.errMsg ? '' : 'hidden'}`}
@@ -233,14 +233,20 @@ class LoginCart extends React.Component {
                 </div>
                 {/* 操作按钮组 */}
                 <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
-                  <a
+                  <Link
+                    to="/cart"
+                    className="rc-btn rc-btn--one rc-btn--sm btn-block cart__checkout-btn text-white checkout-btn"
+                  >
+                    <FormattedMessage id="minicart.seemycart" />
+                  </Link>
+                  {/* <a
                     onClick={this.handleCheckout}
                     className={`rc-btn rc-btn--one rc-btn--sm btn-block cart__checkout-btn text-white checkout-btn ${
                       this.state.checkoutLoading ? 'ui-btn-loading' : ''
                     }`}
                   >
                     <FormattedMessage id="minicart.checkout" />
-                  </a>
+                  </a> */}
                 </div>
                 {/* 总条数在购物车里边 */}
                 <div className="rc-bg-colour--brand4 minicart-padding rc-body rc-margin--none rc-padding-y--xs">
