@@ -1018,9 +1018,12 @@ class Form extends React.Component {
     });
     if (key == 'state') {
       tmp.unshift({ value: '', name: 'State' });
-      console.log(tmp);
     } else if (key != 'country' && key != 'deliveryDate' && key != 'timeSlot') {
       tmp.unshift({ value: '', name: '' });
+    }
+
+    if (key == 'timeSlot' && tmp.length > 0) {
+      tmp.unshift({ value: 'Unspecified', name: 'Unspecified' });
     }
 
     return tmp;
