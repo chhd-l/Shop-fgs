@@ -24,6 +24,7 @@ const NextDelivery = ({
   setState,
   modalList,
   handleSaveChange,
+  timeSlotArr,
   intl
 }) => {
   const isIndv = subDetail.subscriptionType
@@ -49,6 +50,12 @@ const NextDelivery = ({
   useEffect(() => {
     getDeliveryDateAndTimeSlotData();
   }, []);
+
+  useEffect(() => {
+    if (timeSlotArr.length) {
+      setDeliveryDateList(timeSlotArr);
+    }
+  }, [timeSlotArr]);
   useEffect(() => {
     setDeliveryDate(subDetail.deliveryDate);
     setTimeSlot(subDetail.timeSlot);
@@ -63,6 +70,15 @@ const NextDelivery = ({
           value: `${cel.startTime}-${cel.endTime}`
         };
       });
+    if (!timeSlotList?.length) {
+      timeSlotList = deliveryDateList[0]?.dateTimeInfos.map((cel) => {
+        return {
+          ...cel,
+          name: `${cel.startTime}-${cel.endTime}`,
+          value: `${cel.startTime}-${cel.endTime}`
+        };
+      });
+    }
     setTimeSlotList(timeSlotList);
   }, [deliveryDateList?.[0]?.weekDay]);
   const dateChange = (date) => {
@@ -99,9 +115,14 @@ const NextDelivery = ({
       let deliveryDateList = res.context.timeSlots.map((el) => {
         return { ...el, value: el.date, name: el.date };
       });
+      //test
+      // setDeliveryDate(deliveryDateList[0].date);
+      // setTimeSlot(`${deliveryDateList[0].dateTimeInfos[0].startTime}-${deliveryDateList[0].dateTimeInfos[0].endTime}`);
+
       setDeliveryDateList(deliveryDateList);
     }
   };
+
   const ChangeTimeDeliveryDate = (data) => {
     setTimeSlot('');
     setDeliveryDate(data.name);
