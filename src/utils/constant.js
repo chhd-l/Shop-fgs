@@ -41,7 +41,7 @@ export const ADYEN_CREDIT_CARD_BRANDS = {
   de: ['mc', 'visa']
 }[window.__.env.REACT_APP_COUNTRY] || ['mc', 'visa', 'amex'];
 
-export const EMAIL_REGEXP = /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/;
+export const EMAIL_REGEXP = /^[\w.+-]+@[\w.-]+\.[\w]{2,6}$/;
 
 // 美国电话正则
 export const usTelephoneCheck =
