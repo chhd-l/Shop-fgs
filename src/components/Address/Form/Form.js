@@ -152,7 +152,13 @@ class Form extends React.Component {
 
     //日本
     if (window.__.env.REACT_APP_COUNTRY === 'jp') {
-      initData.region = initData.area;
+      // console.log(initData);
+      // debugger;
+      if (initData.area) {
+        //保存delivery address是保存在area的，才会有值
+        initData.region = initData.area;
+      }
+      //initData.region = initData.area;
     }
 
     const { caninForm } = this.state;
@@ -180,6 +186,8 @@ class Form extends React.Component {
         caninForm: Object.assign(caninForm, initData)
       },
       async () => {
+        // console.log(this.state.caninForm)
+        // debugger
         // 获取 DuData、DQE 等开关
         // addressApiType: 0、validation ，1、suggestion
         // isOpen: 0、关 , 1、开
@@ -335,6 +343,17 @@ class Form extends React.Component {
             tsFlag = true;
           }
         });
+        // if(COUNTRY == 'jp') {
+        //   tslist.unshift({
+        //     id: '',
+        //     name: 'unspecified',
+        //     startTime: '',
+        //     endTime: '',
+        //     sort: 0})
+        // }
+
+        // console.log(tslist)
+        // debugger
         // time slot为空或者过期设置第一条数据为默认值
         if (!obj.timeSlot || !alldata[obj.deliveryDate] || !tsFlag) {
           obj.timeSlotId = tslist[0].id;
@@ -415,7 +434,7 @@ class Form extends React.Component {
         phoneReg = [{ mask: '{0} (000) 000-00-00' }];
         break;
       case 'jp':
-        phoneReg = [{ mask: '000-0000-0000' }];
+        phoneReg = /^[0]\d{0,10}$/;
         break;
       default:
         phoneReg = [{ mask: '00000000000' }];
@@ -1002,6 +1021,11 @@ class Form extends React.Component {
     } else if (key != 'country' && key != 'deliveryDate' && key != 'timeSlot') {
       tmp.unshift({ value: '', name: '' });
     }
+
+    if (key == 'timeSlot' && tmp.length > 0) {
+      tmp.unshift({ value: 'Unspecified', name: 'Unspecified' });
+    }
+
     return tmp;
   }
   // 判断是否是数字
@@ -1579,6 +1603,7 @@ class Form extends React.Component {
   // 下拉框
   dropDownBoxJSX = (item) => {
     const { caninForm, countryList } = this.state;
+
     return (
       <>
         <span

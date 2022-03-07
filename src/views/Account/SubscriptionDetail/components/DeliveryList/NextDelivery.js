@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import stores from '@/store';
 import LazyLoad from 'react-lazyload';
 import { useLocalStore } from 'mobx-react';
+import Selection from '@/components/Selection';
 import DatePicker from 'react-datepicker';
 import {
   getDeviceType,
@@ -12,6 +13,7 @@ import {
   formatDate,
   optimizeImage
 } from '@/utils/utils';
+import { getDeliveryDateAndTimeSlot } from '@/api/address';
 import { IMG_DEFAULT } from '@/utils/constant';
 import cn from 'classnames';
 
@@ -21,6 +23,8 @@ const NextDelivery = ({
   getMinDate,
   setState,
   modalList,
+  handleSaveChange,
+  timeSlotArr,
   intl
 }) => {
   const isIndv = subDetail.subscriptionType
@@ -38,6 +42,45 @@ const NextDelivery = ({
   const handlerChange = (e) => {
     setPromotionInputValue(e.target.value);
   };
+  const [deliveryDateList, setDeliveryDateList] = useState([]);
+  const [timeSlotList, setTimeSlotList] = useState([]);
+  const [deliveryDate, setDeliveryDate] = useState('');
+  const [timeSlot, setTimeSlot] = useState('');
+
+  useEffect(() => {
+    getDeliveryDateAndTimeSlotData();
+  }, []);
+
+  useEffect(() => {
+    if (timeSlotArr.length) {
+      setDeliveryDateList(timeSlotArr);
+    }
+  }, [timeSlotArr]);
+  useEffect(() => {
+    setDeliveryDate(subDetail.deliveryDate);
+    setTimeSlot(subDetail.timeSlot);
+  }, [subDetail.deliveryDate]);
+  useEffect(() => {
+    let timeSlotList = deliveryDateList
+      .find((el) => el.value == deliveryDate)
+      ?.dateTimeInfos?.map((cel) => {
+        return {
+          ...cel,
+          name: `${cel.startTime}-${cel.endTime}`,
+          value: `${cel.startTime}-${cel.endTime}`
+        };
+      });
+    if (!timeSlotList?.length) {
+      timeSlotList = deliveryDateList[0]?.dateTimeInfos.map((cel) => {
+        return {
+          ...cel,
+          name: `${cel.startTime}-${cel.endTime}`,
+          value: `${cel.startTime}-${cel.endTime}`
+        };
+      });
+    }
+    setTimeSlotList(timeSlotList);
+  }, [deliveryDateList?.[0]?.weekDay]);
   const dateChange = (date) => {
     setState({
       modalType: 'changeDate',
@@ -62,6 +105,34 @@ const NextDelivery = ({
         };
       })
     });
+  };
+  const getDeliveryDateAndTimeSlotData = async () => {
+    const res = await getDeliveryDateAndTimeSlot({
+      cityNo: '',
+      subscribeId: subDetail.subscribeId
+    });
+    if (res.context) {
+      let deliveryDateList = res.context.timeSlots.map((el) => {
+        return { ...el, value: el.date, name: el.date };
+      });
+      //test
+      // setDeliveryDate(deliveryDateList[0].date);
+      // setTimeSlot(`${deliveryDateList[0].dateTimeInfos[0].startTime}-${deliveryDateList[0].dateTimeInfos[0].endTime}`);
+
+      setDeliveryDateList(deliveryDateList);
+    }
+  };
+
+  const ChangeTimeDeliveryDate = (data) => {
+    setTimeSlot('');
+    setDeliveryDate(data.name);
+  };
+  const ChangeTimeslot = (data) => {
+    setTimeSlot(data.name);
+    subDetail.deliveryDate = deliveryDate;
+    subDetail.timeSlot = data.name;
+    // setState({isDataChange:true})
+    handleSaveChange(subDetail, true);
   };
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   return (
@@ -88,8 +159,22 @@ const NextDelivery = ({
               </span>
             </div>
             <div className="flex items-center mb-2  md:mb-0">
+              {/* {deliveryDate && (
+                <Selection
+                  customCls="selection-with-border"
+                  optionList={deliveryDateList}
+                  selectedItemChange={(data) => ChangeTimeDeliveryDate(data)}
+                  selectedItemData={{
+                    value: deliveryDate
+                  }}
+                  disabled={true}
+                  customStyleType="none"
+                  key={deliveryDate}
+                  placeholder="please select"
+                />
+              )} */}
               <div
-                className={cn('changeDate whitespace-nowrap mr-2 text-right')}
+                className={cn('changeDate whitespace-nowrap mr-6 text-right')}
               >
                 <span
                   className="iconfont icondata"
@@ -121,6 +206,21 @@ const NextDelivery = ({
                   />
                 </span>
               </div>
+
+              {deliveryDate && (
+                <Selection
+                  customCls="selection-with-border"
+                  optionList={timeSlotList}
+                  selectedItemChange={(data) => ChangeTimeslot(data)}
+                  selectedItemData={{
+                    value: timeSlot
+                  }}
+                  customStyleType="none"
+                  key={`${deliveryDate}-${timeSlotList}`}
+                  placeholder="please select"
+                />
+              )}
+
               <div className="whitespace-nowrap">
                 <span
                   className="iconfont iconskip font-bold mr-1"

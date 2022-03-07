@@ -702,7 +702,7 @@ class AddressList extends React.Component {
       }
 
       let res = await tmpPromise(deliveryAdd);
-      debugger;
+
       if (res.context?.deliveryAddressId) {
         this.scrollToTitle();
         this.getAddressList();
