@@ -50,9 +50,9 @@ class GoogleTagManager extends React.Component {
   insertGAScript() {
     //单页面只加载一次gtm
     if (window.initedGA) {
-      window.ga('set', 'page', window.location.href);
+      window?.ga('set', 'page', window.location.href);
       // window.ga('set', 'title', 'Your custom title');
-      window.ga('send', 'pageview');
+      window?.ga('send', 'pageview');
       // window?.dataLayer?.push?.({
       //   event: 'pageview',
       //   page: {
