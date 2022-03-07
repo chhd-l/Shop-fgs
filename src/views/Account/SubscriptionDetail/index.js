@@ -17,6 +17,8 @@ import UserPaymentInfo from './components/UserPaymentInfo';
 import RemainingsList from './components/RemainingsList';
 import DeliveryList from './components/DeliveryList';
 import Loading from '@/components/Loading';
+import { getDeliveryDateAndTimeSlot } from '@/api/address';
+
 import {
   getRation,
   handleDateForIos,
@@ -40,7 +42,7 @@ import { Helmet } from 'react-helmet';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import OngoingOrder from './components/OngoingOrder';
 import TempolineAPIError from './components/TempolineAPIError';
-import { format } from 'date-fns';
+import { format, sub } from 'date-fns';
 import { seoHoc } from '@/framework/common';
 import { DivWrapper } from './style';
 import { SUBSCRIBE_STATUS_ENUM } from '@/utils/enum';
@@ -62,6 +64,7 @@ class SubscriptionDetail extends React.Component {
       errMsgPage: '',
       productListLoading: false,
       loadingPage: false,
+      timeSlotArr: [],
       triggerShowChangeProduct: {
         goodsInfo: [],
         firstShow: false,
@@ -323,7 +326,7 @@ class SubscriptionDetail extends React.Component {
     this.setState({ activeTabIdx: i });
   };
 
-  onDateChange(date, goodsInfo) {
+  async onDateChange(date, goodsInfo, isUpdateTimeslot) {
     let { subDetail } = this.state;
     subDetail.nextDeliveryTime = format(
       new Date(handleDateForIos(date)),
@@ -336,8 +339,11 @@ class SubscriptionDetail extends React.Component {
       changeField: 'Next Delivery Time'
     };
     this.setState({ loading: true });
-    updateNextDeliveryTime(param)
-      .then((res) => {
+    try {
+      await updateNextDeliveryTime(param);
+      if (isUpdateTimeslot) {
+        this.getDeliveryDateAndTimeSlotData();
+      } else {
         this.getDetail(
           this.showErrMsg.bind(
             this,
@@ -345,10 +351,10 @@ class SubscriptionDetail extends React.Component {
             'success'
           )
         );
-      })
-      .catch((err) => {
-        this.setState({ loading: false });
-      });
+      }
+    } catch (err) {
+      this.setState({ loading: false });
+    }
   }
 
   async doUpdateDetail(param) {
@@ -584,7 +590,8 @@ class SubscriptionDetail extends React.Component {
     } else if (modalType === 'changeDate') {
       this.onDateChange(
         this.state.currentChangeDate,
-        this.state.currentChangeItem
+        this.state.currentChangeItem,
+        true
       );
     }
   };
@@ -619,7 +626,42 @@ class SubscriptionDetail extends React.Component {
       }, 3000);
     }
   }
-
+  getDeliveryDateAndTimeSlotData = async () => {
+    let { subDetail } = this.state;
+    const res = await getDeliveryDateAndTimeSlot({
+      cityNo: '',
+      subscribeId: this.state.subDetail.subscribeId
+    });
+    if (res.context) {
+      let deliveryDateList = res.context.timeSlots.map((el) => {
+        return { ...el, value: el.date, name: el.date };
+      });
+      this.setState({
+        timeSlotArr: deliveryDateList
+      });
+      let deliveryDate = '';
+      let timeSlot = '';
+      deliveryDateList.forEach((item) => {
+        if (!deliveryDate) {
+          let timeSlotList = item.dateTimeInfos.find(
+            (el) =>
+              `${el.startTime}-${el.endTime}` == this.state.subDetail.timeSlot
+          );
+          if (timeSlotList) {
+            timeSlot = this.state.subDetail.timeSlot;
+            deliveryDate = item.date;
+          }
+        }
+      });
+      if (!deliveryDate) {
+        deliveryDate = deliveryDateList[0].date;
+        timeSlot = `${deliveryDateList[0]?.dateTimeInfos[0]?.startTime}-${deliveryDateList[0]?.dateTimeInfos[0]?.endTime}`;
+      }
+      subDetail.deliveryDate = deliveryDate;
+      subDetail.timeSlot = timeSlot;
+      this.handleSaveChange(subDetail, true);
+    }
+  };
   async handleSaveChange(subDetail, isChangeTimeslot) {
     if (!this.state.isDataChange && !isChangeTimeslot) {
       return false;
@@ -912,6 +954,7 @@ class SubscriptionDetail extends React.Component {
                             {...this.props}
                             handleSaveChange={this.handleSaveChange.bind(this)}
                             modalList={modalList}
+                            timeSlotArr={this.state.timeSlotArr}
                             getMinDate={this.getMinDate}
                             completedYearOption={completedYearOption}
                             setState={this.setState.bind(this)}

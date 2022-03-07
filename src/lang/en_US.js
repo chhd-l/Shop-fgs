@@ -646,7 +646,6 @@ const en_US = {
   'home.whyShopRoyalCanin.goodDelivery':
     'Take advantage of fast and free delivery',
   homePage: 'Home',
-  ihaveADefaultClinic: 'I have a default clinic',
   iHaveReadThe: 'I have read the',
   imageLargeError: 'Image uploaded is too large',
   inactive: 'Inactive',
@@ -886,6 +885,7 @@ const en_US = {
   'minicart.frequency': 'Deliver every',
   'minicart.quantityText': '{specText} - {buyCount} item(s)',
   'minicart.totalProduct': '{val} item(s)',
+  'minicart.seemycart': 'See my cart',
   'mixed Breed': 'mixed Breed',
   'Mixed Breed': 'Mixed Breed',
   MMYY: 'MM/YY',
@@ -1663,7 +1663,6 @@ const en_US = {
   userAgreement: 'User Agreement',
   validPromotionCode: 'Unable to add the discount voucher to your cart',
   values: 'values',
-  VAT_included: 'VAT included',
   viewAll: 'View all products',
   viewAllResults: 'View all results',
   visitStoreMap: 'Visit store map',
