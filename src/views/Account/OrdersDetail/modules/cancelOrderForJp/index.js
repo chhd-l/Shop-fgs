@@ -6,6 +6,7 @@ import {
   CancelOrderSuccessModal
 } from '@/views/Account/OrdersDetail/modules';
 import { cancelOrderForJapan } from '@/api/order';
+import Modal from '@/components/Modal';
 
 const CancelOrderForJp = ({ details, props, cancelSuccessCallback }) => {
   const [cancelJpOrderModalVisible, setCancelJpOrderModalVisible] =
@@ -15,6 +16,8 @@ const CancelOrderForJp = ({ details, props, cancelSuccessCallback }) => {
     setCancelJpOrderSuccessModalVisible
   ] = useState(false);
   const [cancelJpOrderLoading, setCancelJpOrderLoading] = useState(false);
+  const [errModalVisible, setErrModalVisible] = useState(false);
+  const [errModalText, setErrModalText] = useState('');
 
   //取消订单
   const handleCancelJpOrder = async () => {
@@ -26,6 +29,9 @@ const CancelOrderForJp = ({ details, props, cancelSuccessCallback }) => {
       setCancelJpOrderSuccessModalVisible(true);
     } catch (e) {
       setCancelJpOrderLoading(false);
+      setCancelJpOrderModalVisible(false);
+      setErrModalVisible(true);
+      setErrModalText(e.message);
     }
   };
 
@@ -78,6 +84,17 @@ const CancelOrderForJp = ({ details, props, cancelSuccessCallback }) => {
           props.history.push('/account/orders');
         }}
         handleClickConfirm={() => handleCancelJpOrder()}
+      />
+      <Modal
+        key="5"
+        visible={errModalVisible}
+        modalText={errModalText}
+        close={() => {
+          setErrModalVisible(false);
+        }}
+        hanldeClickConfirm={() => {
+          setErrModalVisible(false);
+        }}
       />
     </>
   );
