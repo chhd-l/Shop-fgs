@@ -57,7 +57,7 @@ if (process.env.NODE_ENV === 'production') {
     ? interfacePrefix[startEnv]({
         countryFromLink: param?.countryLink
       })
-    : { REACT_APP_BASEURL: `${window.location.href}/api` };
+    : { REACT_APP_BASEURL: `${window.location.origin}/api` };
   // 当/storeConfig/getShopConfig/接口失败时，容错用，使该店铺正常使用
   const baseStoreConfig = {
     ca,
