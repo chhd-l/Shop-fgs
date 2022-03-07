@@ -1009,6 +1009,11 @@ class AddressList extends React.Component {
     try {
       const { deliveryAddress, addressList } = this.state;
       const originData = addressList[this.currentOperateIdx];
+      //日本需求加unspecified
+      // if(deliveryAddress.timeSlot == 'unspecified'){
+      //   deliveryAddress.timeSlot = ''
+      //   deliveryAddress.timeSlotId = ''
+      // }
       let params = Object.assign({}, deliveryAddress, {
         consigneeName:
           deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
