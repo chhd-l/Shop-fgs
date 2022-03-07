@@ -26,6 +26,8 @@ import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { seoHoc } from '@/framework/common';
 import { Link } from 'react-router-dom';
 // import ConsentAdditionalText from '@/components/Consent/ConsentAdditionalText';
+import Notification from 'rc-notification';
+import './components/notification.less';
 
 // 日本logo
 import jpLogo from '@/assets/images/register/jp_logo.svg';
@@ -248,7 +250,8 @@ class Register extends Component {
   validInput(name, value) {
     const symbolReg1 = /^\?+$/;
     const symbolReg2 = /^\-+$/;
-    const deIllegalSymbol = symbolReg1.test(value) || symbolReg2.test(value);
+    const deIllegalSymbol =
+      symbolReg1.test(value.trim()) || symbolReg2.test(value.trim());
     switch (name) {
       case 'password':
         const { ruleLength, ruleLower, ruleUpper, ruleAname, ruleSpecial } =
@@ -257,45 +260,45 @@ class Register extends Component {
           ruleLength && ruleLower && ruleUpper && ruleAname && ruleSpecial;
         this.setState({
           passwordValid,
-          passwordMessage: value
+          passwordMessage: value.trim()
             ? this.props.intl.messages.registerPasswordFormat
             : this.props.intl.messages.registerFillIn
         });
         break;
       case 'name':
         this.setState({
-          nameValid: !!value
+          nameValid: !!value.trim()
         });
         break;
       case 'firstName':
         this.setState({
-          firstNameValid: !!value && !deIllegalSymbol,
+          firstNameValid: !!value.trim() && !deIllegalSymbol,
           illegalSymbol: deIllegalSymbol
         });
         break;
       case 'lastName':
         this.setState({
-          lastNameValid: !!value && !deIllegalSymbol,
+          lastNameValid: !!value.trim() && !deIllegalSymbol,
           illegalSymbol: deIllegalSymbol
         });
         break;
       case 'phoneticFirstName':
         console.log('phoneticFirstNameValid');
         this.setState({
-          phoneticFirstNameValid: !!value && !deIllegalSymbol,
+          phoneticFirstNameValid: !!value.trim() && !deIllegalSymbol,
           illegalSymbol: deIllegalSymbol
         });
         break;
       case 'phoneticLastName':
         console.log('phoneticLastNameValid');
         this.setState({
-          phoneticLastNameValid: !!value && !deIllegalSymbol,
+          phoneticLastNameValid: !!value.trim() && !deIllegalSymbol,
           illegalSymbol: deIllegalSymbol
         });
         break;
       case 'email':
         this.setState({
-          emailValid: EMAIL_REGEXP.test(value),
+          emailValid: EMAIL_REGEXP.test(value.trim()),
           emailMessage: value
             ? this.props.intl.messages.registerEmailFormate
             : this.props.intl.messages.registerFillIn
@@ -485,11 +488,34 @@ class Register extends Component {
       })
       .catch((err) => {
         window.scrollTo(0, 0);
-        this.setState({
-          circleLoading: false,
-          hasError: true,
-          errorMessage: null
-        });
+        this.setState(
+          {
+            circleLoading: false,
+            hasError: true,
+            errorMessage: null
+          },
+          () => {
+            Notification.newInstance(
+              {
+                style: {
+                  top: 5,
+                  left: '40%',
+                  color: '#ff0707',
+                  height: '70px',
+                  lineHeight: '70px',
+                  fontSize: '20px',
+                  fontWeight: 600
+                }
+              },
+              (notification) => {
+                notification.notice({
+                  duration: 3,
+                  content: <div>!!! {err.detailMessage}</div>
+                });
+              }
+            );
+          }
+        );
       });
   };
   componentDidUpdate() {
@@ -1567,6 +1593,7 @@ class Register extends Component {
           footerVisible={false}
           modalTitle={<FormattedMessage id="addPet" />}
           confirmBtnText={<FormattedMessage id="continue" />}
+          children={22222}
         />
       </div>
     );
