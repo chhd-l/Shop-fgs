@@ -125,7 +125,7 @@ export function addOrUpdatePaymentMethodRu(parameter) {
 export async function getPaymentMethod(parameter = {}, needPaypalCard = false) {
   const res = await getPaymentMethodCard(parameter);
   if (!needPaypalCard) {
-    res.context = res.context.filter(
+    res.context = res?.context?.filter(
       (item) => item.paymentItem !== 'adyen_paypal'
     );
   }
