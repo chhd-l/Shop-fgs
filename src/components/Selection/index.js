@@ -37,6 +37,14 @@ export default class Selection extends React.Component {
   componentDidMount() {
     this.searchRef?.current && this.searchRef?.current?.focus();
   }
+  componentWillReceiveProps(nextProps, prevState) {
+    // 接收父级传入value改变
+    if (nextProps.selectedItem?.value !== prevState.selectedItem?.value) {
+      this.setState({
+        selectedItem: nextProps.selectedItem
+      });
+    }
+  }
   hideOptions = () => {
     this.setState({
       optionsVisible: false

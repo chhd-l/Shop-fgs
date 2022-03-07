@@ -125,14 +125,9 @@ export function addOrUpdatePaymentMethodRu(parameter) {
 export async function getPaymentMethod(parameter = {}, needPaypalCard = false) {
   const res = await getPaymentMethodCard(parameter);
   if (!needPaypalCard) {
-    const paypalCardIndex = res.context.findIndex(
-      (item) => item.paymentItem === 'adyen_paypal'
+    res.context = res?.context?.filter(
+      (item) => item.paymentItem !== 'adyen_paypal'
     );
-    if (paypalCardIndex > -1) {
-      res.context = res.context.filter(
-        (item) => item.paymentItem !== 'adyen_paypal'
-      );
-    }
   }
   return res;
 }

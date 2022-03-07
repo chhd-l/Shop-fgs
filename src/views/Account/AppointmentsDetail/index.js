@@ -66,7 +66,6 @@ class AccountOrders extends React.Component {
       );
     });
   }
-  componentWillUnmount() {}
   async init() {
     const { appointmentNo } = this.state;
     this.setState({ loading: true });
