@@ -40,10 +40,11 @@ export default class Selection extends React.Component {
   componentWillReceiveProps(nextProps, prevState) {
     // 接收父级传入value改变
     if (nextProps.selectedItem?.value !== prevState.selectedItem?.value) {
-      this.setState({
+      return {
         selectedItem: nextProps.selectedItem
-      });
+      };
     }
+    return null;
   }
   hideOptions = () => {
     this.setState({
