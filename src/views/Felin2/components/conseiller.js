@@ -23,13 +23,13 @@ class Conseiller extends React.Component {
             <div className="jus-flex-center">
               <img src={exper1} alt="" />
             </div>
-            <div className="mtb10">Christelle Baclet</div>
+            <div className="mtb10">Daniel Chauvin</div>
           </div>
           <div className="txt-centr">
             <div className="jus-flex-center">
               <img src={exper5} alt="" />
             </div>
-            <div className="mtb10">Daniel Chauvin</div>
+            <div className="mtb10">Christelle Baclet</div>
           </div>
           <div className="txt-centr">
             <div className="jus-flex-center">
