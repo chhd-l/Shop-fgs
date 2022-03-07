@@ -116,7 +116,7 @@ class Details extends React.Component {
         fromPrice: 0,
         toPrice: 0
       },
-      activeTabIdxList: isMobile ? [] : [0],
+      activeTabIdxList: [0], //isMobile ? [] : [0], //mobile 也默认展开第一个tab
       goodsDetailTab: [],
       quantity: 1,
       stock: 0,

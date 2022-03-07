@@ -885,6 +885,7 @@ const en_US = {
   'minicart.frequency': 'Deliver every',
   'minicart.quantityText': '{specText} - {buyCount} item(s)',
   'minicart.totalProduct': '{val} item(s)',
+  'minicart.seemycart': 'See my cart',
   'mixed Breed': 'mixed Breed',
   'Mixed Breed': 'Mixed Breed',
   MMYY: 'MM/YY',
