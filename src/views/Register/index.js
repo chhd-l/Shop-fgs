@@ -663,7 +663,6 @@ class Register extends Component {
                           <a
                             className="rc-styled-link ui-cursor-pointer faq_rc_styled_link"
                             href="https://shopsit.royalcanin.com/jp/help"
-                            target="_blank"
                           >
                             {<FormattedMessage id="jp.reghelp" />}
                           </a>
