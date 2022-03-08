@@ -36,16 +36,10 @@ import {
   generatePayUScript,
   validData,
   bindSubmitParam,
-  getAppointmentInfo,
-  formatDate
+  getAppointmentInfo
 } from '@/utils/utils';
 import { seoHoc } from '@/framework/common';
-import {
-  EMAIL_REGEXP,
-  LOGO_ADYEN_COD,
-  LOGO_ADYEN_PAYPAL,
-  LOGO_SWISH
-} from '@/utils/constant';
+import { EMAIL_REGEXP } from '@/utils/constant';
 import { userBindConsent } from '@/api/consent';
 import {
   postVisitorRegisterAndLogin,
@@ -74,8 +68,7 @@ import {
   OxxoConfirm,
   AdyenCommonPay,
   CyberPayment,
-  ConvenienceStore,
-  ConvenienceStorePayReview
+  ConvenienceStore
 } from './PaymentMethod';
 import { OnePageEmailForm, OnePageClinicForm } from './OnePage';
 import './modules/adyenCopy.css';
@@ -102,6 +95,8 @@ import base64 from 'base-64';
 import cn from 'classnames';
 import { SelectPet } from './SelectPet';
 import { PanelContainer } from './Common';
+import { paymentMethodsObj } from './PaymentMethod/paymentMethodsConstant';
+import { handlePayReview } from './PaymentMethod/paymentUtils';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -119,33 +114,6 @@ const sleep = (time) => {
     }, time);
   });
 };
-
-function CreditCardInfoPreview({
-  data: { holderNameDeco, brandDeco, lastFourDeco, expirationDate }
-}) {
-  return (
-    <div className="col-12 col-md-6">
-      <p className="medium">
-        <FormattedMessage id="bankCard" />
-      </p>
-      <p>{holderNameDeco}</p>
-      <p>{brandDeco}</p>
-      {lastFourDeco ? <p>{`************${lastFourDeco}`}</p> : null}
-      {console.log('expirationDate', expirationDate)}
-      {expirationDate ? (
-        <p>
-          {formatDate({
-            date: expirationDate,
-            formatOption: {
-              year: 'numeric',
-              month: '2-digit'
-            }
-          })}
-        </p>
-      ) : null}
-    </div>
-  );
-}
 
 const SupportPaymentMethodsPic = ({ supportPaymentMethods }) => (
   <p>
@@ -970,79 +938,7 @@ class Payment extends React.Component {
       } = this.props;
       const payWay = await getWays();
       // name:后台返回的支付方式，langKey：翻译id，paymentTypeVal：前端选择的支付方式，作为用来判断的变量
-      let payMethodsObj = {
-        PAYU: {
-          name: 'payu',
-          langKey: 'creditCard',
-          paymentTypeVal: 'payUCreditCard'
-        },
-        PAYU_RU: {
-          name: 'payu_ru',
-          langKey: 'creditCard',
-          paymentTypeVal: 'payUCreditCardRU'
-        },
-        PAYU_TU: {
-          name: 'payu_tu',
-          langKey: 'creditCard',
-          paymentTypeVal: 'payUCreditCardTU'
-        },
-        COD: {
-          name: 'payu_cod',
-          langKey: 'cod',
-          paymentTypeVal: 'cod'
-        },
-        cod_japan: {
-          name: 'cod_japan',
-          langKey: 'cashOnDelivery',
-          paymentTypeVal: 'cod_japan'
-        },
-        PAYUOXXO: { name: 'payuoxxo', langKey: 'oxxo', paymentTypeVal: 'oxxo' },
-        adyen_credit_card: {
-          name: 'adyen_credit_card',
-          langKey: 'adyenCard',
-          paymentTypeVal: 'adyenCard'
-        },
-        adyen_klarna_pay_now: {
-          name: 'adyen_klarna_pay_now',
-          langKey: 'adyenPayNow',
-          paymentTypeVal: 'adyenKlarnaPayNow'
-        },
-        adyen_klarna_pay_later: {
-          name: 'adyen_klarna_pay_lat',
-          langKey: 'adyenPayLater',
-          paymentTypeVal: 'adyenKlarnaPayLater'
-        },
-        directEbanking: {
-          name: 'directEbanking',
-          langKey: 'sofort',
-          paymentTypeVal: 'directEbanking'
-        },
-        adyen_oxxo: {
-          name: 'adyen_oxxo',
-          langKey: 'oxxo',
-          paymentTypeVal: 'adyenOxxo'
-        },
-        adyen_paypal: {
-          name: 'adyen_paypal',
-          langKey: 'paypal',
-          paymentTypeVal: 'adyenPaypal'
-        },
-        pc_web: {
-          name: 'cyber',
-          langKey: 'cyber',
-          paymentTypeVal: 'cyber'
-        },
-        adyen_swish: {
-          name: 'adyen_swish',
-          langKey: 'Swish',
-          paymentTypeVal: 'adyen_swish'
-        },
-        adyen_convenience_store: {
-          name: 'adyen_convenience_store',
-          langKey: 'Convenience Store',
-          paymentTypeVal: 'adyen_convenience_store'
-        }
-      };
+      let payMethodsObj = paymentMethodsObj;
       if (
         window.__.env.REACT_APP_COUNTRY === 'ru' &&
         sessionItemRoyal.get('rc-iframe-from-storepotal')
@@ -1181,19 +1077,12 @@ class Payment extends React.Component {
       apptNo: this.state.appointNo
     });
     if (code === 'K-000000') {
-      const {
-        consumerFirstName,
-        consumerEmail,
-        consumerLastName,
-        consumerName,
-        consumerPhone
-      } = context;
       if (
-        !consumerFirstName ||
-        !consumerEmail ||
-        !consumerLastName ||
-        !consumerName ||
-        !consumerPhone
+        !context.consumerFirstName ||
+        !context.consumerEmail ||
+        !context.consumerLastName ||
+        !context.consumerName ||
+        !context.consumerPhone
       ) {
         this.setState({
           visibleUpdate: true
@@ -1923,8 +1812,16 @@ class Payment extends React.Component {
           if (res.context.tid) {
             sessionItemRoyal.set('orderNumber', res.context.tid);
           }
-          if (res.context.redirectUrl) {
+          if (res.context.redirectUrl && !this.state.paypalAccount) {
+            //已经绑定过paypal账号的不跳转链接，直接进入confirmation page
             window.location.href = res.context.redirectUrl;
+          }
+          if (this.state.paypalAccount) {
+            subOrderNumberList = tidList.length
+              ? tidList
+              : res.context && res.context.tidList;
+            subNumber = (res.context && res.context.subscribeId) || '';
+            gotoConfirmationPage = true;
           }
           break;
         case 'cyber':
@@ -3960,71 +3857,12 @@ class Payment extends React.Component {
       holderNameDeco = payosdata.holder_name;
     }
 
-    let ret = null;
-    switch (paymentTypeVal) {
-      case 'payUCreditCard':
-      case 'payUCreditCardRU':
-      case 'payUCreditCardTU':
-      case 'adyenCard':
-      case 'cyber':
-        ret = (
-          <CreditCardInfoPreview
-            {...this.props}
-            data={{
-              holderNameDeco,
-              brandDeco,
-              lastFourDeco,
-              expirationDate
-            }}
-          />
-        );
-        break;
-      case 'cod':
-        ret = (
-          <div className="col-12 col-md-6">
-            <FormattedMessage id="payment.codConfirmTip" />
-          </div>
-        );
-        break;
-      case 'adyenPaypal':
-        ret = (
-          <div className="col-12 col-md-6">
-            <img src={LOGO_ADYEN_PAYPAL} className="w-24 ml-8" />
-          </div>
-        );
-        break;
-      case 'adyen_convenience_store':
-        ret = (
-          <div className="col-12 col-md-6">
-            <ConvenienceStorePayReview
-              convenienceStore={this.state.convenienceStore}
-            />
-          </div>
-        );
-        break;
-      case 'adyen_swish':
-        ret = (
-          <div className="col-12 col-md-6">
-            <img src={LOGO_SWISH} className="w-24 ml-8" />
-          </div>
-        );
-        break;
-      case 'cod_japan':
-        ret = (
-          <div className="col-12 col-md-6 flex items-center pt-1 pb-3">
-            <LazyLoad>
-              <img src={LOGO_ADYEN_COD} className="w-10 ml-8 mr-2" />
-            </LazyLoad>
-            <span className="font-medium">
-              <FormattedMessage id="cashOnDelivery" />
-            </span>
-          </div>
-        );
-        break;
-      default:
-        ret = <div className="col-12 col-md-6">{email}</div>;
-        break;
-    }
+    let ret = handlePayReview(
+      paymentTypeVal,
+      this.state.convenienceStore,
+      email,
+      { holderNameDeco, brandDeco, lastFourDeco, expirationDate }
+    );
 
     return (
       <div className="ml-custom mr-custom mb-3">

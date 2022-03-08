@@ -8,7 +8,6 @@ import {
 import { sha256 } from 'js-sha256';
 
 const localItemRoyal = window.__.localItemRoyal;
-window.initedGA = false;
 @inject('loginStore')
 @observer
 class GoogleTagManager extends React.Component {
@@ -48,21 +47,6 @@ class GoogleTagManager extends React.Component {
     this.insertGAScript();
   }
   insertGAScript() {
-    //单页面只加载一次gtm
-    if (window.initedGA) {
-      window?.ga?.('set', 'page', window.location.href);
-      // window.ga('set', 'title', 'Your custom title');
-      window?.ga?.('send', 'pageview');
-      // window?.dataLayer?.push?.({
-      //   event: 'pageview',
-      //   page: {
-      //     path: window.location.href,
-      //     // title: 'Your custom title'
-      //   }
-      // });
-      return;
-    }
-    window.initedGA = true;
     // 如果没有同意cookie banner，不允许加载GA.js
     // if (!this.getCookie('OptanonAlertBoxClosed')) {
     //   return null;
@@ -197,14 +181,6 @@ class GoogleTagManager extends React.Component {
     //     'width: 100px; height: 100px; border: 0; position: absolute; top: -5000px;',
     //   src: `https://maf.pagosonline.net/ws/fp/tags.js?id=1234480200`
     // });
-    loadJS({
-      code: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-N449MLX');`
-    });
-
     loadJS({
       code: `window.dataLayer = window.dataLayer || [];
         window.dataLayer.push(${JSON.stringify(
