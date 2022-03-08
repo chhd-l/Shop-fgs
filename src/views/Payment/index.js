@@ -102,6 +102,7 @@ import base64 from 'base-64';
 import cn from 'classnames';
 import { SelectPet } from './SelectPet';
 import { PanelContainer } from './Common';
+import { paymentMethodsObj } from './PaymentMethod/paymentMethodsConstant';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -970,79 +971,7 @@ class Payment extends React.Component {
       } = this.props;
       const payWay = await getWays();
       // name:后台返回的支付方式，langKey：翻译id，paymentTypeVal：前端选择的支付方式，作为用来判断的变量
-      let payMethodsObj = {
-        PAYU: {
-          name: 'payu',
-          langKey: 'creditCard',
-          paymentTypeVal: 'payUCreditCard'
-        },
-        PAYU_RU: {
-          name: 'payu_ru',
-          langKey: 'creditCard',
-          paymentTypeVal: 'payUCreditCardRU'
-        },
-        PAYU_TU: {
-          name: 'payu_tu',
-          langKey: 'creditCard',
-          paymentTypeVal: 'payUCreditCardTU'
-        },
-        COD: {
-          name: 'payu_cod',
-          langKey: 'cod',
-          paymentTypeVal: 'cod'
-        },
-        cod_japan: {
-          name: 'cod_japan',
-          langKey: 'cashOnDelivery',
-          paymentTypeVal: 'cod_japan'
-        },
-        PAYUOXXO: { name: 'payuoxxo', langKey: 'oxxo', paymentTypeVal: 'oxxo' },
-        adyen_credit_card: {
-          name: 'adyen_credit_card',
-          langKey: 'adyenCard',
-          paymentTypeVal: 'adyenCard'
-        },
-        adyen_klarna_pay_now: {
-          name: 'adyen_klarna_pay_now',
-          langKey: 'adyenPayNow',
-          paymentTypeVal: 'adyenKlarnaPayNow'
-        },
-        adyen_klarna_pay_later: {
-          name: 'adyen_klarna_pay_lat',
-          langKey: 'adyenPayLater',
-          paymentTypeVal: 'adyenKlarnaPayLater'
-        },
-        directEbanking: {
-          name: 'directEbanking',
-          langKey: 'sofort',
-          paymentTypeVal: 'directEbanking'
-        },
-        adyen_oxxo: {
-          name: 'adyen_oxxo',
-          langKey: 'oxxo',
-          paymentTypeVal: 'adyenOxxo'
-        },
-        adyen_paypal: {
-          name: 'adyen_paypal',
-          langKey: 'paypal',
-          paymentTypeVal: 'adyenPaypal'
-        },
-        pc_web: {
-          name: 'cyber',
-          langKey: 'cyber',
-          paymentTypeVal: 'cyber'
-        },
-        adyen_swish: {
-          name: 'adyen_swish',
-          langKey: 'Swish',
-          paymentTypeVal: 'adyen_swish'
-        },
-        adyen_convenience_store: {
-          name: 'adyen_convenience_store',
-          langKey: 'Convenience Store',
-          paymentTypeVal: 'adyen_convenience_store'
-        }
-      };
+      let payMethodsObj = paymentMethodsObj;
       if (
         window.__.env.REACT_APP_COUNTRY === 'ru' &&
         sessionItemRoyal.get('rc-iframe-from-storepotal')
@@ -1181,19 +1110,12 @@ class Payment extends React.Component {
       apptNo: this.state.appointNo
     });
     if (code === 'K-000000') {
-      const {
-        consumerFirstName,
-        consumerEmail,
-        consumerLastName,
-        consumerName,
-        consumerPhone
-      } = context;
       if (
-        !consumerFirstName ||
-        !consumerEmail ||
-        !consumerLastName ||
-        !consumerName ||
-        !consumerPhone
+        !context.consumerFirstName ||
+        !context.consumerEmail ||
+        !context.consumerLastName ||
+        !context.consumerName ||
+        !context.consumerPhone
       ) {
         this.setState({
           visibleUpdate: true
