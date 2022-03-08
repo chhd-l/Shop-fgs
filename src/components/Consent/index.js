@@ -113,7 +113,7 @@ class Consent extends Component {
       <>
         {list?.map((item, index) => {
           return (
-            <div>
+            <div key={item.id}>
               {noIsRequired > -1 &&
               noIsRequired == index &&
               pageType === 'checkout' &&
@@ -149,6 +149,7 @@ class Consent extends Component {
                   name="checkbox-2"
                   disabled={disabled}
                   onChange={() => {
+                    console.log('this.state.list', this.state.list);
                     if (item.noChecked) return; //此项不需要check事件
                     //勾选checkbox
                     this.props.list.map((x) => {
@@ -213,6 +214,16 @@ class Consent extends Component {
                   </div>
                 </label>
               </div>
+              {showText &&
+              !hiddenText &&
+              window.__.env.REACT_APP_COUNTRY === 'jp' &&
+              index == 2 ? (
+                <div style={{ marginLeft: '-28px', marginBottom: '24px' }}>
+                  <p>
+                    私は、[変更方法]ことで、いつでも上記の選択を変更できることを理解しています。
+                  </p>
+                </div>
+              ) : null}
             </div>
           );
         })}
