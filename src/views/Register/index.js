@@ -831,6 +831,7 @@ class Register extends Component {
                     id="registerPassword"
                     type={passwordInputType}
                     maxLength="255"
+                    autocomplete="new-password"
                     minLength="8"
                     name="password"
                     valid={passwordValid}
