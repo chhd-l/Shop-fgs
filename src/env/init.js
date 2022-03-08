@@ -43,6 +43,7 @@ if (process.env.NODE_ENV === 'production') {
     case 'stgwedding.royalcanin.com':
       startEnv = 'stgwedding';
       break;
+    case 'www.shop.royalcanin.de':
     case 'shop.royalcanin.mx':
     case 'shop.royalcanin.de':
     case 'shop.royalcanin.com':
