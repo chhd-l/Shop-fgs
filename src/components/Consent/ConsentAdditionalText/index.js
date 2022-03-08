@@ -80,6 +80,33 @@ const ConsentAdditionalText = ({ textPosition }) => {
         </p>
         <p>Tengo 16 años o más.</p>
       </div>
+    ),
+    jp: (
+      <div className="consent-txt">
+        <p>
+          <a href="https://www.mars.com/made-by-mars/petcare" target="_blank">
+            マースペットケア及びその関連会社
+          </a>
+          における、お客様の個人情報の取得・お取扱い方法、
+          個人情報に関するお問い合わせ、その他個人情報に関するお客様の権利の行使につきま
+          しては、{' '}
+          <a href="https://www.mars.com/privacy-policy-japan" target="_blank">
+            「マースのプライバシーに関する声明」
+          </a>{' '}
+          でご確認いただけます。&nbsp;
+        </p>
+        <p>&nbsp;</p>
+        <p>
+          <a href="https://www.mars.com/made-by-mars/petcare" target="_blank">
+            マースペットケア及びその関連会社
+          </a>
+          からお客様に対し、 お得なプロモーションや新製品に関する情報についてお
+          客様と（大切なペット）に最新情報をお届けいたします。
+        </p>
+        <p>
+          私は18歳以上で、下記の会社からメール、SMS等による情報配信を希望します。
+        </p>
+      </div>
     )
   };
   const bottomText = {
@@ -188,6 +215,24 @@ const ConsentAdditionalText = ({ textPosition }) => {
             Privacidad de Mars
           </a>
           .
+        </p>
+      </div>
+    ),
+    jp: (
+      <div className="explain-txt">
+        {/* <p>&nbsp;</p> */}
+        <p>
+          マースペットケア及びその関連会社は、製品やサービス提供の向上のための
+          調査にお客様のデータを適宜使用することがあります。
+          <a href="https://www.mars.com/made-by-mars/petcare" target="_blank">
+            マースペットケア及 びその関連会社
+          </a>
+          における、お客様の個人情報についての取得・お取扱い方法、
+          その他個人情報に関するお問い合わせ、お客様の権利の行使につきましては、
+          <a href="https://www.mars.com/privacy-policy-japan" target="_blank">
+            「マースのプライバシーに関する声明」
+          </a>
+          でご確認いただけます。
         </p>
       </div>
     )
