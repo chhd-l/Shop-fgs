@@ -220,7 +220,7 @@ class Consent extends Component {
               index == 2 ? (
                 <div style={{ marginLeft: '-28px', marginBottom: '24px' }}>
                   <p>
-                    私は、[変更方法]ことで、いつでも上記の選択を変更できることを理解しています。
+                    私は、マイアカウントページで、いつでも上記の選択を変更できることを理解しています。
                   </p>
                 </div>
               ) : null}

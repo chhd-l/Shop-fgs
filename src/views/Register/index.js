@@ -68,7 +68,8 @@ class Register extends Component {
         email: '',
         password: ''
       },
-
+      regError: false,
+      regErrorMessage: '',
       passwordMessage: '',
       emailMessage: '',
       requiredConsentCount: 0,
@@ -488,34 +489,13 @@ class Register extends Component {
       })
       .catch((err) => {
         window.scrollTo(0, 0);
-        this.setState(
-          {
-            circleLoading: false,
-            hasError: true,
-            errorMessage: null
-          },
-          () => {
-            Notification.newInstance(
-              {
-                style: {
-                  top: 5,
-                  left: '40%',
-                  color: '#ff0707',
-                  height: '70px',
-                  lineHeight: '70px',
-                  fontSize: '20px',
-                  fontWeight: 600
-                }
-              },
-              (notification) => {
-                notification.notice({
-                  duration: 3,
-                  content: <div>!!! {err.detailMessage}</div>
-                });
-              }
-            );
-          }
-        );
+        this.setState({
+          circleLoading: false,
+          hasError: true,
+          errorMessage: null,
+          regErrorMessage: err.detailMessage,
+          regError: true
+        });
       });
   };
   componentDidUpdate() {
@@ -589,7 +569,9 @@ class Register extends Component {
       list,
       hasError,
       errorMessage,
-      passwordInputType
+      passwordInputType,
+      regError,
+      regErrorMessage
     } = this.state;
     const allValid =
       (window.__.env.REACT_APP_COUNTRY !== 'de'
@@ -661,7 +643,44 @@ class Register extends Component {
                 </h1>
               </DistributeHubLinkOrATag>
             </div>
-
+            {regError ? (
+              <aside
+                className="rc-alert rc-alert--error mb-2 rc-alert__close"
+                role="alert"
+                style={{
+                  padding: '.5rem',
+                  width: '750px',
+                  margin: '0px auto',
+                  textAlign: 'center'
+                }}
+              >
+                <span>
+                  {
+                    <FormattedMessage
+                      id="jp.regErrorMessage"
+                      values={{
+                        val: (
+                          <a
+                            className="rc-styled-link ui-cursor-pointer faq_rc_styled_link"
+                            href="https://shopsit.royalcanin.com/jp/help"
+                            target="_blank"
+                          >
+                            {<FormattedMessage id="jp.reghelp" />}
+                          </a>
+                        )
+                      }}
+                    />
+                  }
+                </span>
+                <button
+                  class="rc-alert__close rc-icon rc-icon rc-alert__close rc-close--xs rc-iconography"
+                  data-close=""
+                  onClick={() => this.setState({ regError: false })}
+                >
+                  <span class="rc-screen-reader-text">Close</span>
+                </button>
+              </aside>
+            ) : null}
             {/* logo下标题 */}
             <div className="text-center logo-bottom-title">
               <p>{<FormattedMessage id="jp.regtitle" />}</p>
@@ -695,6 +714,31 @@ class Register extends Component {
                 </a>
               </p>
             </div>
+            {/* SocialRegister */}
+            {/* {true ? (
+              <>
+                <SocialRegister />
+                <div className="rc-column">
+                  <p className="rc-margin-bottom--none text-center rc-padding--xs">
+                    <span
+                      dangerouslySetInnerHTML={{
+                        __html: this.getIntlMsg('registerContinuing')
+                      }}
+                    />
+                  </p>
+                </div>
+                <div className="rc-column ouPadding">
+                  <div className="auth-divider">
+                    <span
+                      className="auth-divider-text"
+                      data-i18n="loginPage_or"
+                    >
+                      <FormattedMessage id="registerOr" />
+                    </span>
+                  </div>
+                </div>
+              </>
+            ) : null} */}
             <form
               id="registrationForm"
               className="registration-form rc-margin-bottom--xl--mobile p-0 md:px-28"
@@ -1067,11 +1111,11 @@ class Register extends Component {
                 </div>
               </div>
 
-              <div className="rc-meta rc-margin-top--sm rc-text--left">
+              {/* <div className="rc-meta rc-margin-top--sm rc-text--left">
                 <p>
                   <FormattedMessage id="registerFooter1" defaultMessage={' '} />
                 </p>
-              </div>
+              </div> */}
             </form>
           </div>
         )}
