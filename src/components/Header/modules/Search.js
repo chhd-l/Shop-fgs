@@ -68,6 +68,7 @@ export default class Search extends React.Component {
 
   componentWillUnmount() {
     window.document.removeEventListener('click', this.hanldeSearchBlur);
+    this.leaveResultBox();
   }
 
   async getSuggestionList() {
@@ -485,8 +486,13 @@ export default class Search extends React.Component {
     return ret;
   }
   render() {
-    const { showSearchInput, result, keywords, loading, hiddenResult } =
-      this.state;
+    const {
+      showSearchInput,
+      result,
+      keywords,
+      loading,
+      hiddenResult
+    } = this.state;
     const isMobile = getDeviceType() !== 'PC';
     return (
       <div
