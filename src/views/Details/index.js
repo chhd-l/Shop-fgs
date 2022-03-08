@@ -3,6 +3,7 @@ import Skeleton from '@/components/NormalSkeleton';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
 import classNames from 'classnames';
+import { toJS } from 'mobx';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import HandledSpec from '@/components/HandledSpec/index.tsx';
@@ -85,6 +86,7 @@ const Fr = window.__.env.REACT_APP_COUNTRY === 'fr';
 const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
 const Tr = window.__.env.REACT_APP_COUNTRY === 'tr';
 const Uk = window.__.env.REACT_APP_COUNTRY === 'uk';
+const Jp = window.__.env.REACT_APP_COUNTRY === 'jp';
 
 @inject(
   'checkoutStore',
@@ -878,6 +880,7 @@ class Details extends React.Component {
     try {
       const { checkoutStore, intl, headerCartStore } = this.props;
       const { quantity, form, details, questionParams } = this.state;
+      const { formatMessage } = intl;
 
       hubGAAToCar(quantity, form);
 
@@ -892,6 +895,27 @@ class Details extends React.Component {
       let buyWay = parseInt(form.buyWay);
       let goodsInfoFlag =
         buyWay && details.promotions?.includes('club') ? 2 : buyWay;
+      /**
+       * 日本限制购物车里最多 单个goodsInfoId quantity <=5,
+       * 登录后，因为游客存在购物车数据，故添加相同sku时购物车限制添加数量为5
+       **/
+      const loginCartDataObj = toJS(checkoutStore.loginCartData).find(
+        (element) => element.goodsInfoId === currentSelectedSize.goodsInfoId
+      );
+      if (Jp) {
+        if (!!loginCartDataObj) {
+          const num =
+            parseInt(quantity, 10) + parseInt(loginCartDataObj.buyCount, 10);
+          if (num > +window.__.env.REACT_APP_LIMITED_NUM) {
+            throw new Error(
+              formatMessage(
+                { id: 'cart.errorMaxCate' },
+                { val: +window.__.env.REACT_APP_LIMITED_NUM }
+              )
+            );
+          }
+        }
+      }
       let param = {
         goodsInfoId: currentSelectedSize.goodsInfoId,
         goodsNum: quantity,
