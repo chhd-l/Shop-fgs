@@ -1923,8 +1923,16 @@ class Payment extends React.Component {
           if (res.context.tid) {
             sessionItemRoyal.set('orderNumber', res.context.tid);
           }
-          if (res.context.redirectUrl) {
+          if (res.context.redirectUrl && !this.state.paypalAccount) {
+            //已经绑定过paypal账号的不跳转链接，直接进入confirmation page
             window.location.href = res.context.redirectUrl;
+          }
+          if (this.state.paypalAccount) {
+            subOrderNumberList = tidList.length
+              ? tidList
+              : res.context && res.context.tidList;
+            subNumber = (res.context && res.context.subscribeId) || '';
+            gotoConfirmationPage = true;
           }
           break;
         case 'cyber':
