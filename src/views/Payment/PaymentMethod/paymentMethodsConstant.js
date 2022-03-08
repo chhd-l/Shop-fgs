@@ -72,3 +72,11 @@ export const paymentMethodsObj = {
     paymentTypeVal: 'adyen_convenience_store'
   }
 };
+
+export const radioTypes = {
+  fr: 'box',
+  uk: 'box',
+  se: 'box',
+  jp: 'box',
+  default: 'circle'
+};
