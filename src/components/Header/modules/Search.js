@@ -251,16 +251,33 @@ export default class Search extends React.Component {
   };
 
   enterResultBox = () => {
+    const clientW =
+      document.body.clientWidth || document.documentElement.clientWidth;
+    const innerW = window.innerWidth;
+    const scrollBarW = innerW - clientW;
+    console.log(scrollBarW, 'scrollBarW==');
     const bodyDom = document.getElementsByTagName('body')[0];
+    const rcHeaderDom = document.getElementsByClassName('rc-header')[0];
     if (bodyDom) {
-      bodyDom.classList.add('body-hidden-scroll');
+      bodyDom.style.overflow = 'hidden';
+      bodyDom.style.width = `calc(100% - ${scrollBarW}px)`;
+      // bodyDom.classList.add('body-hidden-scroll');
+    }
+    if (rcHeaderDom) {
+      rcHeaderDom.style.width = `calc(100% - ${scrollBarW}px)`;
     }
   };
 
   leaveResultBox = () => {
     const bodyDom = document.getElementsByTagName('body')[0];
+    const rcHeaderDom = document.getElementsByClassName('rc-header')[0];
     if (bodyDom) {
-      bodyDom.classList.remove('body-hidden-scroll');
+      // bodyDom.classList.remove('body-hidden-scroll');
+      bodyDom.style.overflow = 'auto';
+      bodyDom.style.width = '100%';
+    }
+    if (rcHeaderDom) {
+      rcHeaderDom.style.width = '100%';
     }
   };
 
