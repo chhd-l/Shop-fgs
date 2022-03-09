@@ -316,6 +316,27 @@ const en_US = {
     'Tailored support & educational content',
   'ClubLP.SubscriptionBenefitsNew.title':
     'A subscription that makes your life easier',
+  'ClubLP.SubscriptionTab.title':
+    'Une solution qui vous simplifie la vie et {val} vous aide à maintenir la santé de votre animal par la nutrition.',
+  'ClubLP.SubscriptionTab.subtitle1':
+    'Un coffret de bienvenue offert dès le 1er achat avec le CLUB',
+  'ClubLP.SubscriptionTab.subtitle2':
+    'Vos produits préférés livrés chez vous et à votre rythme',
+  'ClubLP.SubscriptionTab.subtitle3':
+    'Une alimentation qui prend soin de votre animal',
+  'ClubLP.SubscriptionTab.subtext':
+    'Royal Canin récompense votre fidélité. {val} Gâtez votre animal avec des cadeaux exclusifs toute l’année.',
+  'ClubLP.SubscriptionTab.icontext1':
+    'Un abonnement gratuit et sans engagement',
+  'ClubLP.SubscriptionTab.icontext2': '10 % de réduction sur CHAQUE commande',
+  'ClubLP.SubscriptionTab.icontext3':
+    'Des livraisons offertes, automatiques et flexibles',
+  'ClubLP.SubscriptionTab.icontext4':
+    'Une alimentation adaptée au fur et à mesure que ses besoins évoluent',
+  'ClubLP.SubscriptionTab.icontext5': 'Des quantités de nourriture précises',
+  'ClubLP.SubscriptionTab.icontext6':
+    'Un aliment équilibré dont les bienfaits ont été scientifiquement prouvés',
+  'ClubLP.SubscriptionTab.backtotop': 'Back to top',
   clubSubscribe: 'Subscribe',
   comment: 'Comment',
   'comment.commentsTooLong': "Product comments can't more than 500 characters",

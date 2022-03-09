@@ -1,14 +1,15 @@
 import React from 'react';
 import { getDeviceType } from '@/utils/utils';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import clubLogo from '@/assets/images/club-icon-big.png';
 import clubDesc from '../image/club-desc@2x.png';
 
-import icon1 from '../image/clubiconnew1.png';
-import icon2 from '../image/clubiconnew2.png';
-import icon3 from '../image/clubiconnew3.png';
-import icon4 from '../image/clubiconnew4.png';
-import icon5 from '../image/clubiconnew5.png';
-import icon6 from '../image/iconsix.png';
+import icon1 from '../image/xicon1.png';
+import icon2 from '../image/xicon2.png';
+import icon3 from '../image/xicon3.png';
+import icon4 from '../image/xicon4.png';
+import icon5 from '../image/xicon5.png';
+import icon6 from '../image/xicon6.png';
 
 import './tab.less';
 
@@ -26,8 +27,10 @@ export default function SubscriptionTab() {
         </div>
         <div className="text-center rc-beta rc-margin-bottom--md">
           <p className="main-title">
-            Une solution qui vous simplifie la vie et <br /> vous aide à
-            maintenir la santé de votre animal par la nutrition.
+            <FormattedMessage
+              id="ClubLP.SubscriptionTab.title"
+              values={{ val: <br /> }}
+            />
           </p>
         </div>
         <div className="subscription-desc rc-margin-bottom--md">
@@ -38,15 +41,13 @@ export default function SubscriptionTab() {
                   <img src={clubDesc} alt="" style={{ width: '100%' }} />
                 </div>
                 <p className="sub-title">
-                  Un coffret de bienvenue offert
-                  <br /> dès le 1er achat avec le CLUB
+                  <FormattedMessage id="ClubLP.SubscriptionTab.subtitle1" />
                 </p>
               </>
             ) : (
               <>
                 <p className="sub-title">
-                  Un coffret de bienvenue offert
-                  <br /> dès le 1er achat avec le CLUB
+                  <FormattedMessage id="ClubLP.SubscriptionTab.subtitle1" />
                 </p>
                 <div style={{ margin: '10px 0' }}>
                   <img src={clubDesc} alt="" style={{ width: '100%' }} />
@@ -54,60 +55,67 @@ export default function SubscriptionTab() {
               </>
             )}
             <p className="sub-desc">
-              Royal Canin récompense votre fidélité. <br /> Gâtez votre animal
-              avec des cadeaux exclusifs toute l’année.
+              <FormattedMessage
+                id="ClubLP.SubscriptionTab.subtext"
+                values={{ val: <br /> }}
+              />
             </p>
           </article>
           <article className="rc-beta">
             <p className="text-center sub-title">
-              Vos produits préférés livrés chez vous et à votre rythme
+              <FormattedMessage id="ClubLP.SubscriptionTab.subtitle2" />
             </p>
             <dl>
               <dt>
-                <img src={icon1} width="64" alt="" />
-              </dt>
-              <dd>Un abonnement gratuit et sans engagement</dd>
-            </dl>
-            <dl>
-              <dt>
-                <img src={icon2} width="64" alt="" />
-              </dt>
-              <dd>10 % de réduction sur CHAQUE commande</dd>
-            </dl>
-            <dl>
-              <dt>
-                <img src={icon3} width="64" alt="" />
-              </dt>
-              <dd>Des livraisons offertes, automatiques et flexibles</dd>
-            </dl>
-          </article>
-          <article className="rc-beta">
-            <p className="text-center sub-title">
-              Une alimentation qui prend soin
-              <br /> de votre animal
-            </p>
-            <dl>
-              <dt>
-                <img src={icon4} width="64" alt="" />
+                <img src={icon1} alt="" />
               </dt>
               <dd>
-                Une alimentation adaptée au fur et à mesure que ses besoins
-                évoluent
+                <FormattedMessage id="ClubLP.SubscriptionTab.icontext1" />
               </dd>
             </dl>
             <dl>
               <dt>
-                <img src={icon5} width="64" alt="" />
+                <img src={icon2} alt="" />
               </dt>
-              <dd>Des quantités de nourriture précises</dd>
+              <dd>
+                <FormattedMessage id="ClubLP.SubscriptionTab.icontext2" />
+              </dd>
             </dl>
             <dl>
               <dt>
-                <img src={icon6} width="64" alt="" />
+                <img src={icon3} alt="" />
               </dt>
               <dd>
-                Un aliment équilibré dont les bienfaits ont été scientifiquement
-                prouvés
+                <FormattedMessage id="ClubLP.SubscriptionTab.icontext3" />
+              </dd>
+            </dl>
+          </article>
+          <article className="rc-beta">
+            <p className="text-center sub-title">
+              <FormattedMessage id="ClubLP.SubscriptionTab.subtitle3" />
+            </p>
+            <dl>
+              <dt>
+                <img src={icon4} alt="" />
+              </dt>
+              <dd>
+                <FormattedMessage id="ClubLP.SubscriptionTab.icontext4" />
+              </dd>
+            </dl>
+            <dl>
+              <dt>
+                <img src={icon5} alt="" />
+              </dt>
+              <dd>
+                <FormattedMessage id="ClubLP.SubscriptionTab.icontext5" />
+              </dd>
+            </dl>
+            <dl>
+              <dt>
+                <img src={icon6} alt="" />
+              </dt>
+              <dd>
+                <FormattedMessage id="ClubLP.SubscriptionTab.icontext6" />
               </dd>
             </dl>
           </article>
@@ -127,7 +135,7 @@ export default function SubscriptionTab() {
                 borderBottom: '1px solid rgba(68,68,68,.3)'
               }}
             >
-              Back to top
+              <FormattedMessage id="ClubLP.SubscriptionTab.backtotop" />
             </span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
