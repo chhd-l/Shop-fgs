@@ -660,6 +660,8 @@ class Form extends React.Component {
             // 土耳其
             regExp =
               /^0\s\(?([2-9][0-8][0-9])\)?\s([1-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
+          } else if (COUNTRY == 'jp') {
+            regExp = /^[0]\d{9,10}$/;
           } else {
             // 其他国家
             regExp = /\S/;

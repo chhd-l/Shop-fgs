@@ -7,6 +7,7 @@ import './index.less';
 import HowItWorks from '@/views/ClubLandingPage/HowItWorks';
 import SubscriptionBenefitsBanner from '../../views/ClubLandingPageNew/Components/LongBanner/SubscriprionBenefitsBanner';
 import HowItWorksNew from '../../views/ClubLandingPageNew/Components/HowItWorksNew';
+import SubscriptionTab from './SubscriptionTab/subscriptionTab';
 
 const pdpmobilebackgrounddog = {
   backgroundImage: `url(${optimizeImage({
@@ -739,9 +740,11 @@ const GoodsDetailTabs = function (props) {
             ? 'showItem'
             : 'hiddenItem'
         }`}
+              style={{ margin: 0 }}
             >
               <div
                 className="rc-list__header d-flex justify-content-between text-uppercase"
+                style={{ margin: '0 0.9375rem', width: 'auto' }}
                 onClick={changeTab.bind(null, {
                   idx: goodsDetailTabsData.length,
                   type: 'toggle',
@@ -749,7 +752,7 @@ const GoodsDetailTabs = function (props) {
                 })}
               >
                 <div>
-                  <FormattedMessage id="club" />
+                  <FormattedMessage id="subscription" />
                 </div>
                 <span
                   className={`rc-vertical-align icon-change ${
@@ -762,10 +765,11 @@ const GoodsDetailTabs = function (props) {
               </div>
               <div
                 className={`rc-list__content`}
-                style={{ overflow: 'hidden' }}
+                style={{ overflow: 'hidden', padding: 0 }}
               >
                 <p>
-                  {Show ? null : (
+                  <SubscriptionTab />
+                  {Show || 1 === 1 ? null : (
                     <>
                       <div className="row rc-margin-x--none flex-column-reverse flex-md-row">
                         <div className="col-12 col-md-6 row rc-padding-x--none rc-margin-x--none rc-padding-top--lg--mobile">
@@ -799,7 +803,7 @@ const GoodsDetailTabs = function (props) {
                     </>
                   )}
 
-                  {Show ? (
+                  {Show && 1 === 0 ? (
                     <>
                       <div
                         className="clubdetailsmobile"
@@ -930,7 +934,6 @@ const GoodsDetailTabs = function (props) {
   ) : (
     <div
       id="GoodsDetailTabs"
-      className="rc-max-width--xl rc-padding-x--sm"
       style={{ position: 'relative' }}
       data-tms="Product description"
     >
@@ -941,7 +944,7 @@ const GoodsDetailTabs = function (props) {
       <div className="rc-match-heights rc-content-h-middle rc-reverse-layout">
         <div>
           <div className="rc-border-bottom rc-border-colour--interface">
-            <nav className="rc-fade--x">
+            <nav className="rc-fade--x rc-max-width--xl rc-padding-x--sm">
               <ul
                 className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank"
                 role="tablist"
@@ -982,7 +985,7 @@ const GoodsDetailTabs = function (props) {
                         ele: { descriptionName: 'club' }
                       })}
                     >
-                      <FormattedMessage id="club" />
+                      <FormattedMessage id="subscription" />
                     </button>
                   </li>
                 ) : null}
@@ -997,7 +1000,9 @@ const GoodsDetailTabs = function (props) {
                 className="rc-tabs__content__single clearfix benefits ingredients rc-showhide"
                 aria-expanded={activeTabIdxLists.includes(i) ? 'true' : 'false'}
               >
-                <div className={`block ${ele.descriptionName}`}>
+                <div
+                  className={`block ${ele.descriptionName} rc-max-width--xl rc-padding-x--sm`}
+                >
                   <p
                     className="content rc-scroll--x detail-content-tabinfo"
                     style={{ marginBottom: '4rem' }}
@@ -1017,7 +1022,8 @@ const GoodsDetailTabs = function (props) {
                     : 'false'
                 }
               >
-                {Show ? null : (
+                <SubscriptionTab />
+                {Show || 1 === 1 ? null : (
                   <div className="block">
                     <div className="row rc-margin-x--none flex-column-reverse flex-md-row">
                       <div className="col-12 col-md-6 row rc-padding-x--none rc-margin-x--none rc-padding-top--lg--mobile">
@@ -1054,7 +1060,7 @@ const GoodsDetailTabs = function (props) {
                     <HowItWorks />
                   </div>
                 )}
-                {Show ? (
+                {Show && 1 === 0 ? (
                   <div>
                     <div
                       style={
