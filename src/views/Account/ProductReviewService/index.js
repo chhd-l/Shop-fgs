@@ -377,7 +377,7 @@ class ProductReview extends React.Component {
                                   className="rc-font-bold"
                                   style={{ fontWeight: '500' }}
                                 >
-                                  <FormattedMessage id="expertAdvice"></FormattedMessage>
+                                  <FormattedMessage id="expertAdvice" />
                                 </span>
                               </span>
                               <div className="rc-margin-top--xs">
