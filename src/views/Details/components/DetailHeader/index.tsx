@@ -35,7 +35,7 @@ const DetailHeader = ({
     }
   };
   return isMobile ? (
-    <div className="detailHeader mt-3">
+    <div className="detailHeader mb-3">
       <ErrMsgForCheckoutPanel checkOutErrMsg={checkOutErrMsg} />
       <div dangerouslySetInnerHTML={{ __html: goodHeading }} />
       <div className="desAndStars">
