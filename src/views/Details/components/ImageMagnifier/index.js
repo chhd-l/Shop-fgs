@@ -108,7 +108,7 @@ class ImageMagnifier extends Component {
         },
         // 图片样式
         imgStyle: {
-          width: isMobile ? '230px' : '250px',
+          width: isMobile ? '240px' : '250px',
           // height: '100%',
           margin: '0 auto',
           display: 'block'
@@ -116,7 +116,7 @@ class ImageMagnifier extends Component {
         // 图片放大样式
         // 此处图片宽高不能设置为百分比，在scale的作用下，放大的只是图片初始的宽高 ！！！
         imgStyle2: {
-          width: isMobile ? '230px' : '250px',
+          width: isMobile ? '240px' : '250px',
           height: isMobile ? '324px' : '400px',
           position: 'absolute',
           top: 0,
@@ -273,7 +273,7 @@ class ImageMagnifier extends Component {
     let cssStyle = JSON.parse(JSON.stringify(this.state.cssStyle));
     let params = JSON.parse(JSON.stringify(this.state.params));
     // cssStyle.imgContainer.width = params.width + "px";
-    cssStyle.imgContainer.width = isMobile ? 230 + 'px' : 250 + 'px';
+    cssStyle.imgContainer.width = isMobile ? 240 + 'px' : 250 + 'px';
     cssStyle.imgContainer.height = params.height + 'px';
     cssStyle.magnifierContainer.width = 600 + 'px';
     cssStyle.magnifierContainer.height = 704 + 'px';

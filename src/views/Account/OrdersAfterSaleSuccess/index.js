@@ -14,7 +14,6 @@ import { Helmet } from 'react-helmet';
 import { seoHoc } from '@/framework/common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
-
 const pageLink = window.location.href;
 
 @seoHoc()
@@ -108,16 +107,14 @@ class OrdersAfterSaleSuccess extends React.Component {
                     </p>
                     <Link
                       to={`/account/return-order-detail/${this.state.returnNumber}`}
-                      className="rc-meta rc-styled-link backtohome"
-                      style={{ fontWeight: 500 }}
+                      className="rc-meta rc-styled-link backtohome font-medium"
                     >
                       View after-sale details
                     </Link>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <Link
                       to="/home"
-                      className="rc-meta rc-styled-link backtohome"
-                      style={{ fontWeight: 500 }}
+                      className="rc-meta rc-styled-link backtohome font-medium"
                     >
                       <FormattedMessage id="confirmation.visitOnlineStore" />
                     </Link>
@@ -130,11 +127,10 @@ class OrdersAfterSaleSuccess extends React.Component {
                           <div className="d-flex mb-1" key={item.skuId}>
                             <LazyLoad>
                               <img
-                                className="img-fluid border"
+                                className="img-fluid border w-1/5"
                                 src={item.pic || IMG_DEFAULT}
                                 alt={item.skuName}
                                 title={item.skuName}
-                                style={{ width: '20%' }}
                               />
                             </LazyLoad>
                             <span className="ml-2">
@@ -144,13 +140,13 @@ class OrdersAfterSaleSuccess extends React.Component {
                             </span>
                           </div>
                         ))}
-                        <div className="circle-line"></div>
+                        <div className="circle-line" />
                       </div>
                     </div>
                   </React.Fragment>
                 ) : errMsg ? (
                   <div className="text-center mt-5 mb-5">
-                    <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
+                    <span className="rc-icon rc-incompatible--xs rc-iconography" />
                     {errMsg}
                   </div>
                 ) : null}
