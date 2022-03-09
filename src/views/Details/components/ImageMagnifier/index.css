@@ -72,9 +72,9 @@
 }
 @media (max-width: 769px) {
   .bigImageInnerBox div {
-    width: 230px;
-    height: 324px;
-    float: left;
+    width: 245px;
+    /* height: 324px;
+    float: left; */
   }
   .imageInnerBox > div {
     float: left;
