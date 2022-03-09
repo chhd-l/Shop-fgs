@@ -715,7 +715,7 @@ class Register extends Component {
               </p>
             </div>
             {/* SocialRegister */}
-            <div id="register" className="page" style={this.state.styleObj}>
+            {/* <div id="register" className="page" style={this.state.styleObj}>
               <div className="rc-layout-container  rc-reverse-layout-mobile rc-bg-colour--brand3">
                 <div className="rc-column rc-padding-top--lg--mobile">
                   <div className="rc-layout-container rc-one-column rc-self-h-middle rc-flex-direction--reverse--md-down rc-max-width--lg">
@@ -727,7 +727,7 @@ class Register extends Component {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
 
             <form
               id="registrationForm"
