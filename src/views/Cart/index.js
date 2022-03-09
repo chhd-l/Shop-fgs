@@ -1,5 +1,4 @@
 import React from 'react';
-import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import UnloginCart from './modules/unLoginCart';
 import LoginCart from './modules/loginCart';
@@ -9,7 +8,6 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import { Helmet } from 'react-helmet';
 import { seoHoc } from '@/framework/common';
 
-const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
@@ -24,7 +22,6 @@ class Cart extends React.Component {
       pet: {}
     };
   }
-  componentWillUnmount() {}
   UNSAFE_componentWillMount() {
     isHubGA && this.getPetVal();
   }

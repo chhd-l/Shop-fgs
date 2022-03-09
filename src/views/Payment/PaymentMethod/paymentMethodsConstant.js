@@ -73,6 +73,7 @@ export const paymentMethodsObj = {
   }
 };
 
+//支付方式渲染形式 box/circle
 export const radioTypes = {
   fr: 'box',
   uk: 'box',
