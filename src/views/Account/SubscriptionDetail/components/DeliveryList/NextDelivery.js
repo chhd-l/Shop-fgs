@@ -27,6 +27,7 @@ const NextDelivery = ({
   timeSlotArr,
   intl
 }) => {
+  const showTimeSlot = window.__.env.REACT_APP_COUNTRY === 'jp';
   const isIndv = subDetail.subscriptionType
     ?.toLowerCase()
     .includes('individualization');
@@ -48,6 +49,9 @@ const NextDelivery = ({
   const [timeSlot, setTimeSlot] = useState('');
 
   useEffect(() => {
+    if (!showTimeSlot) {
+      return;
+    }
     getDeliveryDateAndTimeSlotData();
   }, []);
 
@@ -57,10 +61,16 @@ const NextDelivery = ({
     }
   }, [timeSlotArr]);
   useEffect(() => {
+    if (!showTimeSlot) {
+      return;
+    }
     setDeliveryDate(subDetail.deliveryDate);
     setTimeSlot(subDetail.timeSlot);
   }, [subDetail.deliveryDate]);
   useEffect(() => {
+    if (!showTimeSlot) {
+      return;
+    }
     let timeSlotList = deliveryDateList
       .find((el) => el.value == deliveryDate)
       ?.dateTimeInfos?.map((cel) => {
@@ -207,7 +217,7 @@ const NextDelivery = ({
                 </span>
               </div>
 
-              {deliveryDate && (
+              {showTimeSlot && deliveryDate && (
                 <Selection
                   customCls="selection-with-border"
                   optionList={timeSlotList}

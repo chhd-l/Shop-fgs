@@ -113,7 +113,7 @@ class Consent extends Component {
       <>
         {list?.map((item, index) => {
           return (
-            <div>
+            <div key={item.id}>
               {noIsRequired > -1 &&
               noIsRequired == index &&
               pageType === 'checkout' &&
@@ -149,6 +149,7 @@ class Consent extends Component {
                   name="checkbox-2"
                   disabled={disabled}
                   onChange={() => {
+                    console.log('this.state.list', this.state.list);
                     if (item.noChecked) return; //此项不需要check事件
                     //勾选checkbox
                     this.props.list.map((x) => {
@@ -213,6 +214,16 @@ class Consent extends Component {
                   </div>
                 </label>
               </div>
+              {showText &&
+              !hiddenText &&
+              window.__.env.REACT_APP_COUNTRY === 'jp' &&
+              index == 2 ? (
+                <div style={{ marginLeft: '-28px', marginBottom: '24px' }}>
+                  <p>
+                    私は、マイアカウントページで、いつでも上記の選択を変更できることを理解しています。
+                  </p>
+                </div>
+              ) : null}
             </div>
           );
         })}
@@ -232,6 +243,22 @@ class Consent extends Component {
           <div style={{ marginLeft: '-28px' }}>
             <ConsentAdditionalText textPosition="bottom" />
           </div>
+        ) : null}
+        {pageType === 'checkout' &&
+        window.__.env.REACT_APP_COUNTRY === 'se' &&
+        !isLogin ? (
+          <p
+            style={{ marginLeft: '-28px' }}
+            className="rc-body rc-margin-bottom--lg rc-margin-bottom--sm--desktop rc-text--left"
+          >
+            <span
+              style={{ marginRight: '.625rem' }}
+              className="rc-text-colour--brand1"
+            >
+              *
+            </span>
+            <FormattedMessage id="registerMandatory" />
+          </p>
         ) : null}
       </>
     );

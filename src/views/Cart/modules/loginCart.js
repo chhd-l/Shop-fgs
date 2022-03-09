@@ -15,7 +15,6 @@ import {
   distributeLinktoPrecriberOrPaymentPage,
   getDeviceType,
   unique,
-  cancelPrevRequest,
   handleRecommendation,
   isShowMixFeeding,
   optimizeImage
@@ -58,8 +57,6 @@ import MixFeedingBox from '../components/MixFeedingBox/index.tsx';
 const guid = uuidv4();
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
-const localItemRoyal = window.__.localItemRoyal;
-
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
 const pageLink = window.location.href;
@@ -407,9 +404,6 @@ class LoginCart extends React.Component {
         }
       });
     }
-
-    console.log('test loginCartData:', this.loginCartData);
-    console.log('test productList:', productList);
 
     this.setState(
       {
@@ -765,10 +759,7 @@ class LoginCart extends React.Component {
               <label className="rc-input__label--inline">&nbsp;</label>
             </div>
             <div className="d-flex">
-              <div
-                className="product-info__img mr-2"
-                style={{ overflow: 'hidden' }}
-              >
+              <div className="product-info__img mr-2 overflow-hidden">
                 <LazyLoad>
                   <img
                     className="w-100"
@@ -780,13 +771,12 @@ class LoginCart extends React.Component {
               </div>
               <div className="product-info__desc relative" style={{ flex: 1 }}>
                 <Link
-                  className="ui-cursor-pointer rc-margin-top--xs rc-padding-right--sm  align-items-md-center flex-column flex-md-row"
+                  className="ui-cursor-pointer rc-margin-top--xs rc-padding-right--sm  align-items-md-center flex-column flex-md-row mt-0"
                   to={`/${pitem.goodsName
                     .toLowerCase()
                     .split(' ')
                     .join('-')
                     .replace('/', '')}-${pitem.goods.goodsNo}`}
-                  style={{ marginTop: '0' }}
                 >
                   <h4
                     className="rc-gamma rc-margin--none ui-text-overflow-line2 ui-text-overflow-md-line1 d-md-inline-block cart-item-md__tagging_title order-2"
@@ -831,10 +821,7 @@ class LoginCart extends React.Component {
                             {/* <FormattedMessage id="details.availability" /> : */}
                           </span>
                         </label>
-                        <span
-                          className="availability-msg"
-                          style={{ display: 'inline-block' }}
-                        >
+                        <span className="availability-msg inline-block">
                           <div
                             className={[
                               pitem.addedFlag && pitem.buyCount <= pitem.stock
@@ -861,12 +848,11 @@ class LoginCart extends React.Component {
               </div>
             </div>
             <div
-              className={`buyMethodBox ${
+              className={`buyMethodBox -mx-4 ${
                 pitem.subscriptionStatus && pitem.subscriptionPrice
                   ? 'rc-two-column'
                   : ''
               }`}
-              style={{ marginLeft: '-1rem', marginRight: '-1rem' }}
             >
               <div className="rc-column">
                 <OneOffSelection
@@ -1047,15 +1033,7 @@ class LoginCart extends React.Component {
         </div>
         <div className="row">
           <div className="col-6">
-            <span
-              className="rc-input rc-input--inline rc-input--label mr-0"
-              style={{
-                width: '100%',
-                marginBottom: '.625rem',
-                overflow: 'hidden',
-                marginTop: '0px'
-              }}
-            >
+            <span className="rc-input rc-input--inline rc-input--label mr-0 w-full mt-0 overflow-hidden mb-2.5">
               <FormattedMessage id="promotionCode">
                 {(txt) => (
                   <input
@@ -1077,16 +1055,11 @@ class LoginCart extends React.Component {
             <p className="text-right sub-total mb-4">
               <button
                 id="promotionApply"
-                className={`rc-btn rc-btn--sm rc-btn--two mr-0 ${
+                className={`rc-btn rc-btn--sm rc-btn--two mr-0 my-2.5 float-right ${
                   this.state.isClickApply
                     ? 'ui-btn-loading ui-btn-loading-border-red'
                     : ''
                 }`}
-                style={{
-                  marginTop: '.625rem',
-                  float: 'right',
-                  marginBottom: '.625rem'
-                }}
                 onClick={() => this.handleClickPromotionApply(false)}
               >
                 <FormattedMessage id="apply" />
@@ -1095,20 +1068,18 @@ class LoginCart extends React.Component {
           </div>
         </div>
         {isShowValidCode ? (
-          <div className="red pl-3 pb-3 pt-2" style={{ fontSize: '.875rem' }}>
+          <div className="red pl-3 pb-3 pt-2 float-right">
             <FormattedMessage id="validPromotionCode" />
           </div>
         ) : null}
         {!isShowValidCode &&
           this.state.discount.map((el, i) => (
             <div
-              className={`row leading-lines shipping-item d-flex`}
+              className={`row leading-lines shipping-item d-flex m-2.5 overflow-hidden`}
               style={{
-                margin: '.625rem',
                 border: '1px solid #ccc',
                 height: '60px',
-                lineHeight: '60px',
-                overflow: 'hidden'
+                lineHeight: '60px'
               }}
               key={i}
             >
@@ -1117,13 +1088,7 @@ class LoginCart extends React.Component {
                   !checkoutStore.couponCodeFitFlag ? 'col-6' : 'col-10'
                 }`}
               >
-                <p
-                  style={{
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden'
-                  }}
-                >
+                <p className="truncate">
                   {this.promotionDesc || (
                     <FormattedMessage id="NoPromotionDesc" />
                   )}
@@ -1132,8 +1097,7 @@ class LoginCart extends React.Component {
               <div
                 className={`${
                   !checkoutStore.couponCodeFitFlag ? 'col-4' : 'col-0'
-                } red`}
-                style={{ padding: 0 }}
+                } red p-0`}
               >
                 <p className="mb-4">
                   {!checkoutStore.couponCodeFitFlag && (
@@ -1144,13 +1108,7 @@ class LoginCart extends React.Component {
               <div className="col-2" style={{ padding: '0 .9375rem 0 0' }}>
                 <p className="text-right shipping-cost mb-4">
                   <span
-                    className="rc-icon rc-close--sm rc-iconography"
-                    style={{
-                      fontSize: '1.125rem',
-                      marginLeft: '.625rem',
-                      lineHeight: '1.25rem',
-                      cursor: 'pointer'
-                    }}
+                    className="rc-icon rc-close--sm rc-iconography ml-2.5 text-lg leading-5 cursor-pointer"
                     onClick={this.handleRemovePromotionCode}
                   />
                 </p>
@@ -1378,12 +1336,11 @@ class LoginCart extends React.Component {
     return fixToHeader ? (
       <div id="J_sidecart_container">
         {this.sideCart({
-          className: 'hidden rc-md-up',
+          className: 'hidden rc-md-up relative',
           style: {
             background: '#fff',
             zIndex: 9,
-            width: 320,
-            position: 'relative'
+            width: 320
           },
           id: 'J_sidecart_fix'
         })}
@@ -1676,10 +1633,7 @@ class LoginCart extends React.Component {
                 {productList.length === 0 && !initLoading && (
                   <>
                     <div className="rc-text-center">
-                      <h1
-                        className="rc-beta mb-1 mt-3"
-                        style={{ fontSize: '18px' }}
-                      >
+                      <h1 className="rc-beta mb-1 mt-3 text-18">
                         <FormattedMessage id="cart.yourShoppingCart" />
                       </h1>
                       <div className="rc-gamma title-empty mb-0 text-center">
@@ -1697,7 +1651,6 @@ class LoginCart extends React.Component {
                             </div>
                             <div
                               className="d-flex justify-content-between flex-wrap ui-pet-item text-center"
-                              // style={{ margin: '0 10%' }}
                               style={
                                 window.__.env.REACT_APP_COUNTRY === 'fr'
                                   ? {}

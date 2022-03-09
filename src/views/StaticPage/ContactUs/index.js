@@ -360,10 +360,7 @@ class ContactUs extends Component {
         <label className="form-control-label">
           <FormattedMessage id="contactUs.myQuestion" />
         </label>
-        <span
-          className="rc-select rc-full-width rc-input--full-width rc-select-processed"
-          style={{ marginTop: 0 }}
-        >
+        <span className="rc-select rc-full-width rc-input--full-width rc-select-processed mt-0">
           <Selection
             selectedItemChange={(data) =>
               this.handleSelectedItemChange('question', data)
@@ -400,7 +397,7 @@ class ContactUs extends Component {
             onBlur={this.inputBlur}
             name="request"
             maxLength="254"
-          ></textarea>
+          />
         </span>
         {errMsgObj.request && (
           <div className="text-danger-2">{errMsgObj.request}</div>

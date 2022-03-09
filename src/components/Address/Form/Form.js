@@ -303,12 +303,14 @@ class Form extends React.Component {
       if (res.context && res.context?.timeSlots?.length) {
         flag = true; // 标记
         let robj = res.context.timeSlots;
+
         robj.forEach((v, i) => {
           // 格式化 delivery date 格式: 星期, 15 月份
           let datestr = formatDate({
             date: v.date,
             formatOption: { weekday: 'long', day: '2-digit', month: 'long' }
           });
+
           // 所有数据
           alldata[v.date] = v.dateTimeInfos;
           ddlist.push({
@@ -355,7 +357,10 @@ class Form extends React.Component {
         // console.log(tslist)
         // debugger
         // time slot为空或者过期设置第一条数据为默认值
-        if (!obj.timeSlot || !alldata[obj.deliveryDate] || !tsFlag) {
+        if (obj.timeSlot == 'Unspecified') {
+          obj.timeSlotId = 'Unspecified';
+          obj.timeSlot = 'Unspecified';
+        } else if (!obj.timeSlot || !alldata[obj.deliveryDate] || !tsFlag) {
           obj.timeSlotId = tslist[0].id;
           obj.timeSlot = tslist[0].name;
         }
@@ -655,6 +660,8 @@ class Form extends React.Component {
             // 土耳其
             regExp =
               /^0\s\(?([2-9][0-8][0-9])\)?\s([1-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
+          } else if (COUNTRY == 'jp') {
+            regExp = /^[0]\d{9,10}$/;
           } else {
             // 其他国家
             regExp = /\S/;
@@ -1018,9 +1025,12 @@ class Form extends React.Component {
     });
     if (key == 'state') {
       tmp.unshift({ value: '', name: 'State' });
-      console.log(tmp);
     } else if (key != 'country' && key != 'deliveryDate' && key != 'timeSlot') {
       tmp.unshift({ value: '', name: '' });
+    }
+
+    if (key == 'timeSlot' && tmp.length > 0) {
+      tmp.unshift({ value: 'Unspecified', name: 'Unspecified' });
     }
 
     return tmp;
