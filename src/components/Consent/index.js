@@ -244,6 +244,22 @@ class Consent extends Component {
             <ConsentAdditionalText textPosition="bottom" />
           </div>
         ) : null}
+        {pageType === 'checkout' &&
+        window.__.env.REACT_APP_COUNTRY === 'se' &&
+        !isLogin ? (
+          <p
+            style={{ marginLeft: '-28px' }}
+            className="rc-body rc-margin-bottom--lg rc-margin-bottom--sm--desktop rc-text--left"
+          >
+            <span
+              style={{ marginRight: '.625rem' }}
+              className="rc-text-colour--brand1"
+            >
+              *
+            </span>
+            <FormattedMessage id="registerMandatory" />
+          </p>
+        ) : null}
       </>
     );
   }

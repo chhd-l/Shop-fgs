@@ -2,7 +2,6 @@ import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { inject, observer } from 'mobx-react';
-import { toJS } from 'mobx';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
@@ -14,7 +13,6 @@ import {
   getFrequencyDict,
   distributeLinktoPrecriberOrPaymentPage,
   unique,
-  cancelPrevRequest,
   getDeviceType,
   handleRecommendation,
   isShowMixFeeding,
@@ -52,7 +50,6 @@ import CartSurvey from '../components/CartSurvey';
 import MixFeedingBox from '../components/MixFeedingBox/index.tsx';
 
 const guid = uuidv4();
-const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const isGift = true;
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
@@ -411,9 +408,7 @@ class UnLoginCart extends React.Component {
       const { configStore, checkoutStore, history, clinicStore } = this.props;
       this.setState({ checkoutLoading: true });
       await this.updateStock({ isThrowErr: true });
-      if (needLogin) {
-        // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
-      } else {
+      if (!needLogin) {
         const url = await distributeLinktoPrecriberOrPaymentPage({
           configStore,
           checkoutStore,
@@ -421,7 +416,6 @@ class UnLoginCart extends React.Component {
           isLogin: false
         });
         url && history.push(url);
-        // history.push('/prescription');
       }
     } catch (e) {
       console.log(e);
@@ -594,20 +588,9 @@ class UnLoginCart extends React.Component {
   getQuantityBox = (pitem) => {
     let isGift = !!pitem.subscriptionPlanGiftList;
     return (
-      <div
-        className="cart-quantity-container"
-        // style={{
-        //   display: `${isGift ? 'initial' : 'none'}`,
-        //   position: 'relative',
-        //   top: '1.2rem',
-        //   margin: '0 2rem'
-        // }}
-      >
+      <div className="cart-quantity-container">
         <div className="product-card-footer product-card-price d-flex">
-          <div
-            className="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto"
-            // style={{ margin: `${isGift ? '0 auto' : 'auto'}` }}
-          >
+          <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto">
             <div>
               <FormattedMessage id="quantity" />:{' '}
             </div>
@@ -741,10 +724,7 @@ class UnLoginCart extends React.Component {
               <label className="rc-input__label--inline">&nbsp;</label>
             </div>
             <div className="d-flex">
-              <div
-                className="product-info__img mr-2"
-                style={{ overflow: 'hidden' }}
-              >
+              <div className="product-info__img mr-2 overflow-hidden">
                 <LazyLoad>
                   <img
                     className="w-100"
@@ -761,13 +741,12 @@ class UnLoginCart extends React.Component {
               </div>
               <div className="product-info__desc relative" style={{ flex: 1 }}>
                 <Link
-                  className="ui-cursor-pointer rc-margin-top--xs rc-padding-right--sm align-items-md-center flex-column flex-md-row"
+                  className="ui-cursor-pointer rc-margin-top--xs rc-padding-right--sm align-items-md-center flex-column flex-md-row mt-0"
                   to={`/${pitem.goodsName
                     .toLowerCase()
                     .split(' ')
                     .join('-')
                     .replace('/', '')}-${pitem.goodsNo}`}
-                  style={{ marginTop: '0' }}
                 >
                   <h4
                     className="rc-gamma rc-margin--none ui-text-overflow-line2 ui-text-overflow-md-line1 d-md-inline-block cart-item-md__tagging_title order-2"
@@ -813,10 +792,7 @@ class UnLoginCart extends React.Component {
                               {/* <FormattedMessage id="details.availability" /> : */}
                             </span>
                           </label>
-                          <span
-                            className="availability-msg"
-                            style={{ display: 'inline-block' }}
-                          >
+                          <span className="availability-msg inline-block">
                             <div
                               className={[
                                 pitem.addedFlag &&
@@ -860,14 +836,13 @@ class UnLoginCart extends React.Component {
               </div>
             </div>
             <div
-              className={`buyMethodBox ${
+              className={`buyMethodBox -mx-4 ${
                 pitem.sizeList.filter((el) => el.selected)[0]
                   .subscriptionStatus &&
                 pitem.sizeList.filter((el) => el.selected)[0].subscriptionPrice
                   ? 'rc-two-column'
                   : ''
               }`}
-              style={{ marginLeft: '-1rem', marginRight: '-1rem' }}
             >
               <div className="rc-column">
                 <OneOffSelection
@@ -1152,10 +1127,7 @@ class UnLoginCart extends React.Component {
     const subtractionSign = '-';
     return (
       <div className={`${className}`} style={{ ...style }} id={id}>
-        <div
-          className="group-order rc-border-colour--interface cart__total__content rc-border-all"
-          style={{ background: '#fff' }}
-        >
+        <div className="group-order rc-border-colour--interface cart__total__content rc-border-all bg-white">
           <div className="row">
             <div className="col-12 total-items medium">
               <FormattedMessage
@@ -1166,15 +1138,7 @@ class UnLoginCart extends React.Component {
           </div>
           <div className="row">
             <div className="col-6">
-              <span
-                className="rc-input rc-input--inline rc-input--label mr-0"
-                style={{
-                  width: '100%',
-                  marginBottom: '.625rem',
-                  overflow: 'hidden',
-                  marginTop: '0px'
-                }}
-              >
+              <span className="rc-input rc-input--inline rc-input--label mr-0 w-full mb-2.5 mt-0 overflow-hidden">
                 <FormattedMessage id="promotionCode">
                   {(txt) => (
                     <input
@@ -1197,14 +1161,9 @@ class UnLoginCart extends React.Component {
                   id="promotionApply"
                   className={`rc-btn rc-btn--sm rc-btn--two mr-0 ${
                     this.state.isClickApply
-                      ? 'ui-btn-loading ui-btn-loading-border-red'
+                      ? 'ui-btn-loading ui-btn-loading-border-red my-2.5 float-right'
                       : ''
                   }`}
-                  style={{
-                    marginTop: '.625rem',
-                    float: 'right',
-                    marginBottom: '.625rem'
-                  }}
                   onClick={() => this.handleClickPromotionApply(false)}
                 >
                   <FormattedMessage id="apply" />
@@ -1213,20 +1172,18 @@ class UnLoginCart extends React.Component {
             </div>
           </div>
           {this.state.isShowValidCode ? (
-            <div className="red pl-3 pb-3 pt-2" style={{ fontSize: '.875rem' }}>
+            <div className="red pl-3 pb-3 pt-2 text-sm">
               <FormattedMessage id="validPromotionCode" />
             </div>
           ) : null}
           {!this.state.isShowValidCode &&
             this.state.discount.map((el, i) => (
               <div
-                className={`row leading-lines shipping-item d-flex`}
+                className={`row leading-lines shipping-item d-flex m-2.5 overflow-hidden`}
                 style={{
-                  margin: '.625rem',
                   border: '1px solid #ccc',
                   height: '60px',
-                  lineHeight: '60px',
-                  overflow: 'hidden'
+                  lineHeight: '60px'
                 }}
                 key={i}
               >
@@ -1235,13 +1192,7 @@ class UnLoginCart extends React.Component {
                     !checkoutStore.couponCodeFitFlag ? 'col-6' : 'col-10'
                   }`}
                 >
-                  <p
-                    style={{
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                      overflow: 'hidden'
-                    }}
-                  >
+                  <p className="truncate">
                     {this.promotionDesc || (
                       <FormattedMessage id="NoPromotionDesc" />
                     )}
@@ -1250,8 +1201,7 @@ class UnLoginCart extends React.Component {
                 <div
                   className={`${
                     !checkoutStore.couponCodeFitFlag ? 'col-4' : 'col-0'
-                  } red`}
-                  style={{ padding: 0 }}
+                  } red p-0`}
                 >
                   <p className="mb-4">
                     {!checkoutStore.couponCodeFitFlag && (
@@ -1262,13 +1212,7 @@ class UnLoginCart extends React.Component {
                 <div className="col-2" style={{ padding: '0 .9375rem 0 0' }}>
                   <p className="text-right shipping-cost mb-4">
                     <span
-                      className="rc-icon rc-close--sm rc-iconography"
-                      style={{
-                        fontSize: '1.125rem',
-                        marginLeft: '.625rem',
-                        lineHeight: '1.25rem',
-                        cursor: 'pointer'
-                      }}
+                      className="rc-icon rc-close--sm rc-iconography ml-2.5 cursor-pointer leading-5 text-lg"
                       onClick={this.handleRemovePromotionCode}
                     />
                   </p>
@@ -1446,12 +1390,10 @@ class UnLoginCart extends React.Component {
     return fixToHeader ? (
       <div id="J_sidecart_container">
         {this.sideCart({
-          className: 'hidden rc-md-up',
+          className: 'hidden rc-md-up relative bg-white',
           style: {
-            background: '#fff',
             zIndex: 9,
-            width: 320,
-            position: 'relative'
+            width: 320
           },
           id: 'J_sidecart_fix'
         })}
@@ -1682,10 +1624,7 @@ class UnLoginCart extends React.Component {
             ) : (
               <>
                 <div className="rc-text-center">
-                  <h1
-                    className="rc-beta mb-1 mt-3"
-                    style={{ fontSize: '18px' }}
-                  >
+                  <h1 className="rc-beta mb-1 mt-3 text-18">
                     <FormattedMessage id="cart.yourShoppingCart" />
                   </h1>
                   <div className="rc-gamma title-empty mb-0 text-center">

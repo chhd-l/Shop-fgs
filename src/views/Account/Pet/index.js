@@ -188,7 +188,7 @@ class Pet extends React.Component {
                               className="rc-btn rc-btn--one"
                               to="/account/pets/petForm"
                             >
-                              <FormattedMessage id="account.addPet"></FormattedMessage>
+                              <FormattedMessage id="account.addPet" />
                             </Link>
                           </div>
                         </div>

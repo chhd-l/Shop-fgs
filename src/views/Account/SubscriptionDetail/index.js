@@ -42,7 +42,7 @@ import { Helmet } from 'react-helmet';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import OngoingOrder from './components/OngoingOrder';
 import TempolineAPIError from './components/TempolineAPIError';
-import { format, sub } from 'date-fns';
+import { format } from 'date-fns';
 import { seoHoc } from '@/framework/common';
 import { DivWrapper } from './style';
 import { SUBSCRIBE_STATUS_ENUM } from '@/utils/enum';
@@ -588,10 +588,12 @@ class SubscriptionDetail extends React.Component {
           this.showErrMsg(err.message);
         });
     } else if (modalType === 'changeDate') {
+      // 日本才需要去处理timeslot
+      const showTimeSlot = window.__.env.REACT_APP_COUNTRY === 'jp';
       this.onDateChange(
         this.state.currentChangeDate,
         this.state.currentChangeItem,
-        true
+        showTimeSlot
       );
     }
   };
