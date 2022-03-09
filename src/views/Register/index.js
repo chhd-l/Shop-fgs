@@ -333,7 +333,7 @@ class Register extends Component {
       );
     }
     this.validInput(name, value);
-    registerForm[name] = value.trim();
+    registerForm[name] = value;
     this.setState({ registerForm });
   };
 
@@ -643,6 +643,7 @@ class Register extends Component {
                 </h1>
               </DistributeHubLinkOrATag>
             </div>
+            {/* 注册重复错误提示 */}
             {regError ? (
               <aside
                 className="rc-alert rc-alert--error mb-2 rc-alert__close"
@@ -714,30 +715,20 @@ class Register extends Component {
               </p>
             </div>
             {/* SocialRegister */}
-            {/* {true ? (
-              <>
-                <SocialRegister />
-                <div className="rc-column">
-                  <p className="rc-margin-bottom--none text-center rc-padding--xs">
-                    <span
-                      dangerouslySetInnerHTML={{
-                        __html: this.getIntlMsg('registerContinuing')
-                      }}
-                    />
-                  </p>
-                </div>
-                <div className="rc-column ouPadding">
-                  <div className="auth-divider">
-                    <span
-                      className="auth-divider-text"
-                      data-i18n="loginPage_or"
-                    >
-                      <FormattedMessage id="registerOr" />
-                    </span>
+            <div id="register" className="page" style={this.state.styleObj}>
+              <div className="rc-layout-container  rc-reverse-layout-mobile rc-bg-colour--brand3">
+                <div className="rc-column rc-padding-top--lg--mobile">
+                  <div className="rc-layout-container rc-one-column rc-self-h-middle rc-flex-direction--reverse--md-down rc-max-width--lg">
+                    <div className="rc-column rc-max-width--md rc-text--center">
+                      <div>
+                        <SocialRegister />
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </>
-            ) : null} */}
+              </div>
+            </div>
+
             <form
               id="registrationForm"
               className="registration-form rc-margin-bottom--xl--mobile p-0 md:px-28"

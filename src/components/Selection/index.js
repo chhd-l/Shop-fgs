@@ -139,7 +139,7 @@ export default class Selection extends React.Component {
         (ele) => ele.value + '' === selectedItem.value + ''
       )[0].name;
       if (option) {
-        res = <FormattedMessage id={option} />;
+        res = option;
       } else {
         res = placeholder;
       }
