@@ -58,7 +58,7 @@ export default class DropDownMenuForHub extends React.Component {
     this.props.updateActiveTopParentId(item.expanded ? item.id : -1);
   }
   hanldeListItemMouseOut = () => {
-    this.props.updateActiveTopParentId(-1);
+    // this.props.updateActiveTopParentId(-1);
   };
   handleClickNavItem({ item, cItem, type }) {
     // 点击subMenu埋点
@@ -79,21 +79,25 @@ export default class DropDownMenuForHub extends React.Component {
     });
   }
 
+  groupByCount({ arr, count }) {
+    let result = [];
+    for (let i = 0; i < arr.length; i += count) {
+      result.push(arr.slice(i, i + count));
+    }
+    return result;
+  }
+
   renderNormalMenu = (item, i) => {
     const { activeTopParentId } = this.props;
-    let menuItemListGroupedByStep = [];
     let lists = [];
-    // 全部为MenuItem时，四个为一列
+    // 分类MenuItem和非MenuItem类目
     if (item.MenuItems.every((ele) => ele.Type === 'MenuItem')) {
-      menuItemListGroupedByStep.push(item.MenuItems);
-      // for (let i = 0; i < item.MenuItems.length; i += 4) {
-      //   menuItemListGroupedByStep.push(item.MenuItems.slice(i, i + 4));
-      // }
     } else {
       // 排列这两个的顺序
-      const menuItemList = item.MenuItems.filter(
-        (ele) => ele.Type === 'MenuItem'
-      );
+      const menuItemList = this.groupByCount({
+        arr: item.MenuItems.filter((ele) => ele.Type === 'MenuItem'),
+        count: 6
+      }); // 6个为一组
       const otherItemList = item.MenuItems.filter(
         (ele) => ele.Type !== 'MenuItem'
       );
@@ -114,86 +118,85 @@ export default class DropDownMenuForHub extends React.Component {
     return (
       <div
         className={cn(
-          'dropdown-nav d-flex justify-content-center1 align-items-start bg-white pt-4 pb-4 border-top',
+          'dropdown-nav d-flex  justify-between items-center1 bg-white pt-411 pb-411 border-top1',
           {
             show: activeTopParentId === item.id,
-            'flex-wrap': menuItemListGroupedByStep.length > 0
+            'px-0 pb-0': item.Type === 'DetailedMenuGroup'
           },
           `dropdown-nav__${item.id} nav-type__${item.Type}`
         )}
         aria-hidden={activeTopParentId === item.id}
-        // onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
-        // onMouseOut={this.hanldeListItemMouseOut}
+        onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
+        onMouseOut={this.hanldeListItemMouseOut}
         key={i}
       >
-        {menuItemListGroupedByStep.length > 0 &&
-          menuItemListGroupedByStep.map((gItem, gIdx) =>
-            gItem.map((cItem) => (
-              <a
-                href={cItem.Link.Url}
-                className="medium mb-2 ui-cursor-pointer btn-link pl-4 pr-4 nav-column"
-                key={cItem.id}
-                style={{ display: 'block' }}
-                onClick={this.handleClickNavItem.bind(this, { item, cItem })}
-              >
-                {cItem.Link.Text}
-              </a>
-            ))
-          )}
-
         {lists.map((list, i) => (
           <React.Fragment key={i}>
             {list.value.length > 0 ? (
               list.type === 'MenuItem' ? (
-                <div className="pl-4 pr-4 nav-column">
-                  {list.value.map((cItem) => (
-                    <a
-                      href={cItem.Link.Url}
-                      className="medium mb-2 ui-cursor-pointer btn-link"
-                      key={cItem.id}
-                      style={{ display: 'block' }}
-                      onClick={this.handleClickNavItem.bind(this, {
-                        item,
-                        cItem
-                      })}
-                      title={cItem.Link.Text}
-                    >
-                      {cItem.Link.Text}
-                    </a>
-                  ))}
-                </div>
+                list.value.map((l, idx) => (
+                  <div className="pl-411 pr-4 nav-column" key={idx}>
+                    {l.map((cItem) => (
+                      <a
+                        href={cItem.Link.Url}
+                        className="mb-2 ui-cursor-pointer text-lg ui-text-overflow-line1 hover:underline"
+                        key={cItem.id}
+                        style={{ display: 'block', color: '#333' }}
+                        onClick={this.handleClickNavItem.bind(this, {
+                          item,
+                          cItem
+                        })}
+                        title={cItem.Link.Text}
+                      >
+                        {cItem.Link.Text}
+                      </a>
+                    ))}
+                  </div>
+                ))
               ) : (
                 <>
                   {list.value.map((cItem, cIdx) => (
                     <React.Fragment key={cItem.id}>
                       {cItem.Type === 'DetailedMenuItem' && (
                         <div
-                          className={`d-flex align-items-center dropdown-nav__catogery__card pr-5 pl-4 ${
-                            cIdx ? '' : 'border-right'
-                          }`}
+                          className={`d-flex align-items-center11 dropdown-nav__catogery__card1 pr-51 pl-411`}
                         >
                           <div
-                            className="mr-4 text-center"
-                            style={{ width: '35%' }}
+                            className={cn(
+                              'mr-41 text-center1 h-full flex items-end',
+                              { 'order-1': cIdx }
+                            )}
+                            // style={{ width: '35%' }}
+                            // style={{ width: '160px' }}
                           >
                             {/* <LazyLoad> */}
                             <img
                               src={cItem.Image.Url}
                               alt={cItem.Image.AltText}
                               srcSet={cItem.Image.Srcset}
-                              style={{ width: '6rem', margin: '0 auto' }}
+                              style={{
+                                width: '160px'
+                                //  margin: '0 auto'
+                              }}
                             />
                             {/* </LazyLoad> */}
-                            <p className="red medium">
+                            {/* <p className="red medium">
+                              {cItem.ImageDescription}
+                            </p> */}
+                          </div>
+                          <div
+                            // style={{ flex: 1 }}
+                            className={cn('pb-10 nav-column')}
+                            style={{ color: '#66666' }}
+                          >
+                            <p className="text-xl ui-text-overflow-line1 text-rc-red">
                               {cItem.ImageDescription}
                             </p>
-                          </div>
-                          <div style={{ flex: 1 }}>
                             {cItem.SubItems.map((sItem, sIdx) => (
                               <React.Fragment key={sIdx}>
                                 <a
                                   href={sItem.Link.Url}
-                                  className="medium mb-0 ui-cursor-pointer btn-link"
+                                  className="mb-0 ui-cursor-pointer hover:underline text-lg ui-text-overflow-line1"
                                   onClick={this.handleClickNavItem.bind(this, {
                                     item,
                                     cItem: sItem,
@@ -203,7 +206,9 @@ export default class DropDownMenuForHub extends React.Component {
                                   {sItem.Title}
                                 </a>
                                 {sItem.Subtitle ? (
-                                  <p className="mb-3">{sItem.Subtitle}</p>
+                                  <p className="mb-3 text-sm ui-text-overflow-line2">
+                                    {sItem.Subtitle}
+                                  </p>
                                 ) : null}
                               </React.Fragment>
                             ))}
@@ -216,12 +221,25 @@ export default class DropDownMenuForHub extends React.Component {
                           item={item}
                           cItem={cItem}
                           handleClickNavItem={this.handleClickNavItem}
-                          className={`dropdown-nav__ad__card flex-grow-111 ${
-                            item.Type === 'DetailedMenuGroup'
-                              ? 'dropdown-nav__ad__productcard'
-                              : ''
-                          }`}
+                          className={cn(
+                            `dropdown-nav__ad__card flex-grow-111`,
+                            {
+                              'dropdown-nav__ad__productcard':
+                                item.Type === 'DetailedMenuGroup'
+                            }
+                          )}
                         />
+                      )}
+                      {cItem.Type === 'ImageMenuItem' && (
+                        <div className="dropdown-nav__ad__card">
+                          <div className="pl-10">
+                            <img
+                              // className="w-full"
+                              src={cItem?.Image?.Url}
+                              alt={cItem?.Image?.AltText}
+                            />
+                          </div>
+                        </div>
                       )}
                     </React.Fragment>
                   ))}
@@ -237,15 +255,15 @@ export default class DropDownMenuForHub extends React.Component {
     const { activeTopParentId } = this.props;
     return (
       <div
-        className={`dropdown-nav bg-transparent d-flex full-width-asset justify-content-center ${
+        className={`dropdown-nav bg-transparent1 d-flex full-width-asset justify-content-center ${
           activeTopParentId === item.id ? 'show' : ''
         } dropdown-nav__${item.id}`}
         aria-hidden={activeTopParentId === item.id}
-        // onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
-        // onMouseOut={this.hanldeListItemMouseOut}
+        onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
+        onMouseOut={this.hanldeListItemMouseOut}
         key={i}
       >
-        <div className="content-asset bg-white border-top">
+        <div className="content-asset">
           <Help data={item} handleClickNavItem={this.handleClickNavItem} />
         </div>
       </div>
@@ -258,47 +276,54 @@ export default class DropDownMenuForHub extends React.Component {
       <>
         {showNav ? (
           <nav
-            className={`rc-header__nav rc-header__nav--secondary rc-md-up ${
-              showNav ? '' : 'rc-hidden'
-            }`}
+            className={cn('rc-header__nav rc-header__nav--secondary rc-md-up', {
+              'rc-hidden': !showNav
+            })}
             style={{ paddingRight: '2px', paddingLeft: '2px' }}
           >
             <ul
-              className={`rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center flex-nowrap ${
-                showLoginBtn ? '' : 'rc-hidden'
-              }`}
+              className={cn(
+                'rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center justify-evenly',
+                {
+                  'rc-hidden': !showLoginBtn
+                }
+              )}
+              style={{ maxWidth: '1120px', margin: '0 auto' }}
             >
               {headerNavigationList.map((item, i) => (
                 <li
-                  className={`rc-list__item ${
-                    item.expanded ? `dropdown` : ''
-                  } ${activeTopParentId === item.id ? 'active' : ''} `}
+                  className={cn(
+                    `rc-list__item mr-0`,
+                    activeTopParentId === item.id ? 'active' : '',
+                    { dropdown: item.expanded }
+                  )}
                   key={i}
-                  // onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
-                  // onMouseOut={this.hanldeListItemMouseOut.bind(this, item)}
-                  onBlur={this.onListItemBlur}
+                  onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
+                  onMouseOut={this.hanldeListItemMouseOut.bind(this, item)}
+                  // onBlur={this.onListItemBlur}
                   onFocus={this.onListItemFocus}
                 >
                   <ul
                     className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center"
                     style={{ outline: 'none' }}
                     tabIndex={item.id}
-                    onClick={this.toggleListItem.bind(this, item)}
+                    // onClick={this.toggleListItem.bind(this, item)}
                   >
                     <li className="rc-list__item">
                       <span className="rc-list__header pt-0 pb-0">
                         <NavItem
                           item={item}
-                          className={`rc-list__header border-bottom border-width-2 ${
+                          className={cn(
+                            `rc-list__header border-bottom border-width-2`,
                             item.id === activeTopParentId
                               ? 'border-red'
                               : 'border-transparent'
-                          }`}
+                          )}
                         >
                           {item.expanded ? (
                             <span className={`rc-header-with-icon header-icon`}>
                               {item.Link && item.Link.Text}
-                              {item.id === activeTopParentId ? (
+                              {/* {item.id === activeTopParentId ? (
                                 <span className="iconfont icon-dropdown-arrow ml-1">
                                   &#xe6f9;
                                 </span>
@@ -306,7 +331,7 @@ export default class DropDownMenuForHub extends React.Component {
                                 <span className="iconfont icon-dropdown-arrow ml-1">
                                   &#xe6fa;
                                 </span>
-                              )}
+                              )} */}
                             </span>
                           ) : (
                             item.Link && item.Link.Text

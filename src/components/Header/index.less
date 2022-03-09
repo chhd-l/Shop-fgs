@@ -120,7 +120,7 @@
       background-color: transparent;
     }
     &::after {
-      content: "";
+      content: '';
       display: block;
       position: absolute;
       width: 18rem;
@@ -197,13 +197,14 @@
 
 .ui-custom-hub {
   .dropdown-nav {
-    position: absolute;
-    left: 0;
-    /* transform: translateX(-50%); */
-    width: auto;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1120px;
     height: auto;
     opacity: 0;
     display: none !important;
+    @apply p-10;
     &.show {
       max-height: 430px;
       opacity: 1;
@@ -211,9 +212,9 @@
     }
     &.dropdown-nav__4,
     &.dropdown-nav__5 {
-      position: fixed;
-      transform: translateX(-50%);
-      left: 50%;
+      // position: fixed;
+      // transform: translateX(-50%);
+      // left: 50%;
     }
     &.nav-type__DetailedMenuGroup {
       // width: 90%;
@@ -221,8 +222,8 @@
     }
     &.dropdown-nav__6,
     &.dropdown-nav__7 {
-      left: auto;
-      right: 0;
+      // left: auto;
+      // right: 0;
     }
   }
   .rc-header__nav--secondary {
@@ -336,20 +337,6 @@
 .dropdown-nav__ad__card {
   width: 100%;
 }
-.dropdown-nav__ad__card {
-  .container-text {
-    // max-width: 14rem;
-    max-width: 53%;
-    // flex: 1;
-    .title-text {
-      font-size: 1.2rem;
-    }
-  }
-  .ad-img {
-    max-height: 100%;
-    margin: 0 auto;
-  }
-}
 .dropdown-nav__catogery__card {
   .img-catogery {
     display: inline-block;
@@ -361,7 +348,8 @@
 @media (min-width: 640px) {
   .dropdown-nav__catogery__card,
   .dropdown-nav__ad__card {
-    width: 30rem;
+    // width: 30rem;
+    width: 530px;
     // flex: 1;
   }
   .dropdown-nav__5 {

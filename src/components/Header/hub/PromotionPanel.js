@@ -8,22 +8,24 @@ export default function PromotionPanel({
   className
 }) {
   return (
-    <div className={`p-3 pt-sm-0 pb-sm-0 dropdown-nav__ad__card ${className}`}>
-      <div className="border d-flex align-items-center p-4 ">
+    <div className={`p-31 pt-sm-0 pb-sm-0 dropdown-nav__ad__card ${className}`}>
+      <div className="border-l d-flex align-items-center p-411 pl-10">
         <div className="container-text">
-          <p className="title-text red">{cItem.Title}</p>
-          <p className="medium">{cItem.Subtitle}</p>
+          <p className="title-text text-rc-red text-lg ui-text-overflow-line1">
+            {cItem.Title}
+          </p>
+          <p className="ui-text-overflow-line3 my-3">{cItem.Subtitle}</p>
           <a
             href={cItem.PrimaryLink.Url}
-            className="rc-btn rc-btn--two red"
+            className="rc-btn rc-btn--two red truncate"
             onClick={handleClickNavItem.bind(this, { item, cItem })}
-            style={{ textOverflow: 'ellipsis', width: '100%' }}
+            style={{ maxWidth: '290px' }}
           >
             {cItem.PrimaryLink.Text}
           </a>
         </div>
         {/* <LazyLoad style={{ flex: 1, width: '100%', height: '100%' }}> */}
-        <div style={{ flex: 1 }}>
+        <div style={{ width: '222px' }}>
           <img
             className="ad-img111"
             style={{ margin: '0 auto' }}
