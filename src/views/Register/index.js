@@ -299,7 +299,7 @@ class Register extends Component {
         break;
       case 'email':
         this.setState({
-          emailValid: EMAIL_REGEXP.test(value.trim()),
+          emailValid: EMAIL_REGEXP.test(value),
           emailMessage: value
             ? this.props.intl.messages.registerEmailFormate
             : this.props.intl.messages.registerFillIn
@@ -333,7 +333,7 @@ class Register extends Component {
       );
     }
     this.validInput(name, value);
-    registerForm[name] = value;
+    registerForm[name] = value.trim();
     this.setState({ registerForm });
   };
 
