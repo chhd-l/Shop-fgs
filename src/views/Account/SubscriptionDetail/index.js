@@ -495,7 +495,7 @@ class SubscriptionDetail extends React.Component {
         subDetail.goodsInfo &&
         subDetail.goodsInfo[0]?.subscriptionPlanId &&
         subDetail.subscriptionPlanFullFlag === 0; //subscriptionPlanFullFlag判断food dispenser是否在有效期
-      //   subDetail.timeSlot = null;
+      //   subDetail.timeSlot = '10:00-15:00';
       // subDetail.deliveryDate = null;//test数据
       this.setState(
         {
