@@ -171,16 +171,39 @@ export const faqClickDataLayerPushEvent = ({ item, clickType }) => {
 };
 
 //cartScreenLoad
-export const GACartScreenLoad = () => {
+export const GACartScreenLoad = (cb) => {
   // setTimeout(() => {
   window?.dataLayer?.push({
-    event: 'cartScreenLoad'
+    event: 'cartScreenLoad',
+    cartScreenLoad: {
+      products: cb?.()
+    }
+  });
+  // }, 5000gtm优化);
+};
+
+//checkoutScreenLoad
+export const GACheckoutScreenLoad = (cb) => {
+  // setTimeout(() => {
+  window?.dataLayer?.push({
+    event: 'checkoutScreenLoad',
+    checkoutScreenLoad: {
+      products: cb?.()
+    }
   });
   // }, 5000gtm优化);
 };
 
 //init 游客(cart+checkout都使用)
-export const GAInitUnLogin = ({ productList, frequencyList, props, type }) => {
+export const GAInitUnLogin = ({
+  productList,
+  frequencyList,
+  props,
+  type,
+  isReturnList
+}) => {
+  debugger;
+  let arr = [];
   try {
     let promotionInfo = getPromotionInfo();
     if (!isHubGA) return;
@@ -191,7 +214,6 @@ export const GAInitUnLogin = ({ productList, frequencyList, props, type }) => {
         breed.push(item2.goodsAttributeValue);
       });
     const calculatedWeeks = getComputedWeeks(frequencyList);
-    let arr = [];
     const mapProductList = new Map(productList.map((item, i) => [i, item])); //换成map格式的目的 就是为了for of循环获取index
     for (let [index, item] of mapProductList) {
       let cur_selected_size =
@@ -258,19 +280,27 @@ export const GAInitUnLogin = ({ productList, frequencyList, props, type }) => {
       }
 
       arr.push(obj);
-      window?.dataLayer?.push({
-        products: arr
-      });
-      props.checkoutStore.saveGAProduct({ products: arr });
     }
+    props.checkoutStore.saveGAProduct({ products: arr });
+    if (isReturnList) {
+      return arr;
+    }
+    window?.dataLayer?.push({
+      products: arr
+    });
   } catch (err) {
     console.info('errrrrrrr', err);
   }
-  // debugger;
 };
 
 //init 会员(cart+checkout都使用)
-export const GAInitLogin = ({ productList, frequencyList, props, type }) => {
+export const GAInitLogin = ({
+  productList,
+  frequencyList,
+  props,
+  type,
+  isReturnList
+}) => {
   console.log(111, productList);
   let promotionInfo = getPromotionInfo();
   if (!isHubGA) return;
@@ -347,13 +377,17 @@ export const GAInitLogin = ({ productList, frequencyList, props, type }) => {
 
     arr.push(obj);
   }
-  window?.dataLayer?.push({
-    products: arr
-  });
+
   console.info('productsproducts', arr);
   //debugger;
 
   props.checkoutStore.saveGAProduct({ products: arr });
+  if (isReturnList) {
+    return arr;
+  }
+  window?.dataLayer?.push({
+    products: arr
+  });
 };
 
 // const calculateGAPrice = (productList, activeIndex) => {
@@ -533,6 +567,7 @@ export const checkoutDataLayerPushEvent = ({ name, options }) => {
 export const orderConfirmationPushEvent = (details) => {
   const clinic = details.tradeItems.some((item) => item.recommendationId);
   if (!isHubGA) return;
+  const GA_product = localItemRoyal.get('rc-ga-product');
   let obj = {
     event: 'orderConfirmation',
     orderConfirmation: deleteObjEmptyAttr({
@@ -542,7 +577,9 @@ export const orderConfirmationPushEvent = (details) => {
       taxes: details.tradePrice.taxFeePrice, //Taxes amount, US number format, local currency
       shipping: details.tradePrice.deliveryPrice, //Shipping amount, US number format, local currency
       paymentMethod: 'Credit Card',
-      shippingMode: details.clinicsId || clinic ? 'Clinic' : 'Standard Delivery'
+      shippingMode:
+        details.clinicsId || clinic ? 'Clinic' : 'Standard Delivery',
+      ...GA_product
     })
   };
   // setTimeout(() => {
