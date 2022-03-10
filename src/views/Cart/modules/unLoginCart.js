@@ -225,12 +225,14 @@ class UnLoginCart extends React.Component {
         });
       }
     );
-    GACartScreenLoad();
-    GAInitUnLogin({
-      productList: this.props.checkoutStore.cartData,
-      frequencyList: this.state.frequencyList,
-      props: this.props
-    });
+    GACartScreenLoad(() =>
+      GAInitUnLogin({
+        productList: this.props.checkoutStore.cartData,
+        frequencyList: this.state.frequencyList,
+        props: this.props,
+        isReturnList: true
+      })
+    );
     this.setCartData({ initPage: true });
   }
   GACheckUnLogin(productList) {

@@ -60,8 +60,23 @@ const NextDelivery = ({
       initTimeSlot(timeSlotArr);
     }
   }, [timeSlotArr]);
-
-  const initTimeSlot = (deliveryDateList) => {
+  const initTimeSlot = (list) => {
+    let deliveryDateList = list.map((el) => {
+      el.dateTimeInfos.unshift({
+        name: Unspecified,
+        value: Unspecified,
+        startTime: Unspecified
+      });
+      el.dateTimeInfos.forEach((item) => {
+        item.value = `${item.startTime}${
+          item.endTime ? '-' + item.endTime : ''
+        }`;
+        item.name = `${item.startTime}${
+          item.endTime ? '-' + item.endTime : ''
+        }`;
+      });
+      return { ...el, value: el.date, name: el.date };
+    });
     let timeSlotList = [];
     if (subDetail.deliveryDate === null) {
       let deliveryDate = '';
@@ -92,34 +107,26 @@ const NextDelivery = ({
       subDetail.timeSlot = timeSlot;
       subDetail.deliveryDate = deliveryDate;
     }
-    if (subDetail.timeSlot == Unspecified) {
-      deliveryDateList[0]?.dateTimeInfos.unshift({
-        name: Unspecified,
-        value: Unspecified,
-        startTime: Unspecified
-      });
-    }
+    // if (subDetail.timeSlot == Unspecified) {
+    //   deliveryDateList[0]?.dateTimeInfos.unshift({
+    //     name: Unspecified,
+    //     value: Unspecified,
+    //     startTime: Unspecified
+    //   });
+    // }
     if (!timeSlotList?.length) {
-      timeSlotList = deliveryDateList
-        .find((el) => el.value == deliveryDate)
-        ?.dateTimeInfos?.map((cel) => {
-          return {
-            ...cel,
-            name: `${cel.startTime}-${cel.endTime}`,
-            value: `${cel.startTime}-${cel.endTime}`
-          };
-        });
+      timeSlotList =
+        deliveryDateList.find((el) => el.value == deliveryDate)
+          ?.dateTimeInfos || deliveryDateList[0]?.dateTimeInfos;
+      // ?.map((cel) => {
+      //   return {
+      //     ...cel,
+      //     name: `${cel.startTime}-${cel.endTime}`,
+      //     value: `${cel.startTime}-${cel.endTime}`
+      //   };
+      // });
     }
 
-    if (!timeSlotList?.length) {
-      timeSlotList = deliveryDateList[0]?.dateTimeInfos.map((cel) => {
-        return {
-          ...cel,
-          name: `${cel.startTime}${cel.endTime ? '-' + cel.endTime : ''}`,
-          value: `${cel.startTime}${cel.endTime ? '-' + cel.endTime : ''}`
-        };
-      });
-    }
     setDeliveryDateList(deliveryDateList);
     setTimeSlotList(timeSlotList);
     setTimeSlot(subDetail.timeSlot);
@@ -156,11 +163,7 @@ const NextDelivery = ({
       subscribeId: subDetail.subscribeId
     });
     if (res.context) {
-      let deliveryDateList = res.context.timeSlots.map((el) => {
-        return { ...el, value: el.date, name: el.date };
-      });
-
-      initTimeSlot(deliveryDateList);
+      initTimeSlot(res.context.timeSlots);
       //test
       // setDeliveryDate(deliveryDateList[0].date);
       // setTimeSlot(`${deliveryDateList[0].dateTimeInfos[0].startTime}-${deliveryDateList[0].dateTimeInfos[0].endTime}`);
@@ -168,16 +171,10 @@ const NextDelivery = ({
   };
 
   const ChangeTimeDeliveryDate = (data) => {
-    setTimeSlot('');
-    let timeSlotList = deliveryDateList
-      .find((el) => el.value == data.value)
-      ?.dateTimeInfos?.map((cel) => {
-        return {
-          ...cel,
-          name: `${cel.startTime}-${cel.endTime}`,
-          value: `${cel.startTime}-${cel.endTime}`
-        };
-      });
+    setTimeSlot(Unspecified);
+    let timeSlotList = deliveryDateList.find(
+      (el) => el.value == data.value
+    )?.dateTimeInfos;
     setTimeSlotList(timeSlotList);
     setDeliveryDate(data.name);
   };
@@ -221,7 +218,7 @@ const NextDelivery = ({
                   selectedItemData={{
                     value: deliveryDate
                   }}
-                  disabled={true}
+                  // disabled={true}
                   customStyleType="none"
                   key={deliveryDate}
                   placeholder="please select"
@@ -261,7 +258,7 @@ const NextDelivery = ({
                 </span>
               </div>
 
-              {showTimeSlot && deliveryDate && (
+              {showTimeSlot && (
                 <Selection
                   customCls="selection-with-border"
                   optionList={timeSlotList}
@@ -270,7 +267,7 @@ const NextDelivery = ({
                     value: timeSlot
                   }}
                   customStyleType="none"
-                  key={`${deliveryDate}-${timeSlotList}`}
+                  key={`${timeSlot}`}
                   placeholder="please select"
                 />
               )}

@@ -907,10 +907,10 @@ class List extends React.Component {
       return res;
     });
 
-    window.dataLayer &&
-      dataLayer.push({
-        products
-      });
+    // window.dataLayer &&
+    //   dataLayer.push({
+    //     products
+    //   });
 
     type !== 'pageChange' &&
       // setTimeout(() => {
@@ -919,7 +919,8 @@ class List extends React.Component {
         event: 'plpScreenLoad',
         plpScreenLoad: {
           nbResults: totalElements,
-          userRequest: keywords || ''
+          userRequest: keywords || '',
+          products //把单独的products放到plpScreenLoad这个event为了区分plp，pdp，checkout的products
         }
       });
     // }, 3000gtm优化);
