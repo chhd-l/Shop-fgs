@@ -166,6 +166,12 @@ class SubscriptionDetail extends React.Component {
 
   paymentSave = (el) => {
     const { subDetail } = this.state;
+    const payPspItemEnum =
+      el.paymentItem === 'adyen_paypal'
+        ? 'ADYEN_PAYPAL'
+        : window.__.env.REACT_APP_COUNTRY === 'fr'
+        ? 'ADYEN_CREDIT_CARD'
+        : el.payPspItemEnum || '';
     const param = {
       subscribeId: subDetail.subscribeId,
       paymentId: el.id,
@@ -177,7 +183,7 @@ class SubscriptionDetail extends React.Component {
         };
       }),
       changeField: 'paymentMethod',
-      payPspItemEnum: el.payPspItemEnum || ''
+      payPspItemEnum: payPspItemEnum
     };
     this.setState({ loading: true });
     updateDetail(param)
@@ -495,6 +501,8 @@ class SubscriptionDetail extends React.Component {
         subDetail.goodsInfo &&
         subDetail.goodsInfo[0]?.subscriptionPlanId &&
         subDetail.subscriptionPlanFullFlag === 0; //subscriptionPlanFullFlag判断food dispenser是否在有效期
+      //   subDetail.timeSlot = '10:00-15:00';
+      // subDetail.deliveryDate = null;//test数据
       this.setState(
         {
           petType: petsType,

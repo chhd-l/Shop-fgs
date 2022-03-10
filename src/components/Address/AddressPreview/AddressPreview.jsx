@@ -1,9 +1,11 @@
 import React, { useMemo } from 'react';
 import { inject, observer } from 'mobx-react';
 import cn from 'classnames';
-import { formatMoney } from '@/utils/utils';
+import { formatMoney, formatDate } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { DivWrapper } from './style';
+
+const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 
 /**
  * 地址信息预览
@@ -26,6 +28,7 @@ const AddressPreview = ({ configStore, data, nameCls, pickupNameCls }) => {
     maxDeliveryTime,
 
     calculation,
+    deliveryDate,
     timeSlot,
     newDeliveryDate,
 
@@ -195,9 +198,29 @@ const AddressPreview = ({ configStore, data, nameCls, pickupNameCls }) => {
               <span>
                 {firstNameKatakana} {lastNameKatakana}
               </span>
-              <span>{postCode}</span>
+              <span>{COUNTRY == 'jp' ? '〒' + postCode : postCode}</span>
               <p>{[province, city, area, address1].join(', ')}</p>
               <p>{consigneeNumber}</p>
+              <span>
+                {deliveryDate && timeSlot ? (
+                  <>
+                    {/* 格式化 delivery date 格式: 星期, 15 月份 */}
+                    {formatDate({
+                      date: deliveryDate,
+                      formatOption: {
+                        weekday: 'long',
+                        day: '2-digit',
+                        month: 'long'
+                      }
+                    })}{' '}
+                    {timeSlot == 'Unspecified' ? (
+                      <FormattedMessage id="Unspecified" />
+                    ) : (
+                      timeSlot
+                    )}
+                  </>
+                ) : null}
+              </span>
             </div>
           ) : (
             <>

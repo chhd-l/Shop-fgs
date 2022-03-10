@@ -152,12 +152,14 @@ class LoginCart extends React.Component {
         await this.checkoutStore.updateLoginCart({ intl: this.props.intl });
       }
 
-      GACartScreenLoad();
-      GAInitLogin({
-        productList: this.loginCartData,
-        frequencyList: this.state.frequencyList,
-        props: this.props
-      });
+      GACartScreenLoad(() =>
+        GAInitLogin({
+          productList: this.loginCartData,
+          frequencyList: this.state.frequencyList,
+          props: this.props,
+          isReturnList: true
+        })
+      );
       setTimeout(() => {
         this.setData({ initPage: true });
       }, 2000);

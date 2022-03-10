@@ -89,7 +89,7 @@ class MegaMenuMobileForHub extends Component {
         link: window.__.env.REACT_APP_HUB_VET_PORTAL,
         text: (
           <>
-            <span className="iconfont iconzhuanfa" />{' '}
+            <span className="iconfont iconzhuanfa" />
             <FormattedMessage id="header.User.vetPortal" />
           </>
         )
