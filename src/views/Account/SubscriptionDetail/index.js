@@ -168,7 +168,7 @@ class SubscriptionDetail extends React.Component {
     const { subDetail } = this.state;
     const payPspItemEnum =
       el.paymentItem === 'adyen_paypal'
-        ? ' ADYEN_PAYPAL'
+        ? 'ADYEN_PAYPAL'
         : window.__.env.REACT_APP_COUNTRY === 'fr'
         ? 'ADYEN_CREDIT_CARD'
         : el.payPspItemEnum || '';
