@@ -1319,7 +1319,8 @@ class AddressList extends React.Component {
               {!addOrEdit ? (
                 addressList.length ? (
                   <>
-                    {window.__.env.REACT_APP_COUNTRY !== 'ru' ? (
+                    {window.__.env.REACT_APP_COUNTRY !== 'ru' &&
+                    window.__.env.REACT_APP_COUNTRY !== 'jp' ? (
                       <div
                         className="d-flex align-items-center justify-content-between flex-wrap"
                         style={{ lineHeight: '40px' }}
