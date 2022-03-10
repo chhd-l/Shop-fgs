@@ -213,7 +213,7 @@ class WeekCalender extends Component {
         </div>
         {this.state.show ? (
           <div className="not-time" style={{ width: this.state.timeWidth }}>
-            No Availability
+            pas de disponibilité
           </div>
         ) : null}
 
