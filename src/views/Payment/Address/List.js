@@ -2218,7 +2218,7 @@ class AddressList extends React.Component {
       </div>
     );
 
-    // 表单
+    // 表单1
     const _form = (
       <fieldset
         className={`shipping-address-block rc-fieldset position-relative ${
