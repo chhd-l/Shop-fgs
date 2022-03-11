@@ -61,6 +61,7 @@ const NextDelivery = ({
     }
   }, [timeSlotArr]);
   const initTimeSlot = (list) => {
+    let deliveryDateMatched = false;
     let deliveryDateList = list.map((el) => {
       el.dateTimeInfos.unshift({
         name: Unspecified,
@@ -75,10 +76,18 @@ const NextDelivery = ({
           item.endTime ? '-' + item.endTime : ''
         }`;
       });
+      if (el.date === subDetail.deliveryDate) {
+        // list里面能匹配到delivery date
+        deliveryDateMatched = true;
+      }
       return { ...el, value: el.date, name: el.date };
     });
+    if (!deliveryDateMatched) {
+      // list里面没能匹配到delivery date，清空现有的deliveryDate
+      subDetail.deliveryDate = '';
+    }
     let timeSlotList = [];
-    if (subDetail.deliveryDate === null) {
+    if (!subDetail.deliveryDate) {
       let deliveryDate = '';
       let timeSlot = '';
       // 没有deliveryDate并且没有timeSlot的时候，默认第一个deliveryDate
