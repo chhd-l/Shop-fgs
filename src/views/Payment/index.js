@@ -440,28 +440,37 @@ class Payment extends React.Component {
       sessionItemRoyal.set('oldAppointNo', funcUrl({ name: 'oldAppointNo' }));
       sessionItemRoyal.set('isChangeAppoint', true);
     }
-    if (funcUrl({ name: 'gusetInfo' })) {
-      sessionItemRoyal.set(
-        'gusetInfo',
-        base64.decode(funcUrl({ name: 'gusetInfo' }))
-      );
+    let guestInfo = funcUrl({ name: 'guestInfo' });
+    if (guestInfo) {
+      sessionItemRoyal.set('guestInfo', base64.decode(guestInfo));
     }
+    guestInfo = guestInfo || sessionItemRoyal.get('guestInfo');
     if (appointNo) {
-      let felinAddress = this.isLogin
-        ? Object.assign(felinAddr[0], {
-            firstName: this.userInfo.firstName,
-            lastName: this.userInfo.lastName,
-            email: this.userInfo.email,
-            consigneeName: this.userInfo.customerName,
-            consigneeNumber: this.userInfo.contactPhone
-          })
-        : felinAddr[0];
+      let felinAddress = Object.assign(
+        felinAddr[0],
+        this.isLogin
+          ? {
+              firstName: this.userInfo.firstName,
+              lastName: this.userInfo.lastName,
+              email: this.userInfo.email,
+              consigneeName: this.userInfo.customerName,
+              consigneeNumber: this.userInfo.contactPhone
+            }
+          : {
+              firstName: guestInfo.firstName || '',
+              lastName: guestInfo.lastName || '',
+              consigneeName:
+                guestInfo.firstName + ' ' + guestInfo.lastName || '',
+              consigneeNumber: guestInfo.phone || ''
+            }
+      );
       this.setState(
         {
           appointNo: appointNo,
           isFromFelin: true,
           deliveryAddress: felinAddress,
-          billingAddress: felinAddress
+          billingAddress: felinAddress,
+          guestEmail: guestInfo?.email || ''
         },
         () => {
           this.props.paymentStore.setStsToCompleted({
@@ -1118,24 +1127,6 @@ class Payment extends React.Component {
       sessionItemRoyal.set('recommend_product', JSON.stringify([goodDetail]));
       await this.props.checkoutStore.updatePromotionFiled([goodDetail]);
       this.handleZeroOrder();
-      if (!this.isLogin) {
-        const guestInfo = JSON.parse(sessionItemRoyal.get('gusetInfo'));
-        const felinAddress = Object.assign(felinAddr[0], {
-          firstName: result?.consumerFirstName || guestInfo.firstName || '',
-          lastName: result?.consumerLastName || guestInfo.lastName || '',
-          consigneeName:
-            result?.consumerName ||
-            result?.consumerFirstName + ' ' + result?.consumerLastName ||
-            guestInfo.firstName + ' ' + guestInfo.lastName ||
-            '',
-          consigneeNumber: result?.consumerPhone || guestInfo.phone || ''
-        });
-        this.setState({
-          deliveryAddress: felinAddress,
-          billingAddress: felinAddress,
-          guestEmail: result?.consumerEmail || guestInfo.email
-        });
-      }
       this.setState({
         recommend_data: [Object.assign(result, goodDetail)]
       });
@@ -1844,7 +1835,7 @@ class Payment extends React.Component {
         localItemRoyal.remove('rc-calculation-param');
         sessionItemRoyal.remove('rc-clicked-surveyId');
         sessionItemRoyal.remove('goodWillFlag');
-        sessionItemRoyal.remove('gusetInfo');
+        sessionItemRoyal.remove('guestInfo');
         //支付成功清除推荐者信息
         this.props.clinicStore.removeLinkClinicInfo();
         this.props.clinicStore.removeLinkClinicRecommendationInfos();

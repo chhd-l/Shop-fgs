@@ -565,7 +565,7 @@ class Pcexperts extends React.Component {
     });
     if (code === 'K-000000') {
       sessionItemRoyal.set(
-        'gusetInfo',
+        'guestInfo',
         JSON.stringify({
           firstName: params.firstName,
           lastName: params.lastName,
