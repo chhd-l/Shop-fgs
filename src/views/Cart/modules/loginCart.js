@@ -304,7 +304,7 @@ class LoginCart extends React.Component {
       if (isThrowErr) {
         console.log(err);
         console.log(555);
-        throw new Error(err.message);
+        throw new Error(err?.message || err);
       }
     } finally {
       this.setState({ checkoutLoading: false });
@@ -442,10 +442,18 @@ class LoginCart extends React.Component {
    *
    */
   async deleteItemFromBackendCart(param) {
-    this.setState({ checkoutLoading: true });
-    await deleteItemFromBackendCart(param);
-    await this.updateCartCache();
-    this.getGoodsIdArr();
+    try {
+      this.setState({ checkoutLoading: true });
+      //后端加了限制调purchase几口5次后不能操作，调删除接口之前先检测下是否能删除，并提示错误信息
+      await this.updateCartCache({ isThrowErr: true });
+      await deleteItemFromBackendCart(param);
+      await this.updateCartCache({ isThrowErr: true });
+      this.getGoodsIdArr();
+    } catch (err) {
+      console.log(err);
+      window.scrollTo({ behavior: 'smooth', top: 0 });
+      this.showErrMsg(err.message);
+    }
   }
   handleCheckout = async () => {
     if (!this.btnStatus) {
