@@ -33,11 +33,9 @@ const AutoshipBuyMethod = ({
     .toNumber();
   const discountAmountUnit = formatMoney(discountAmount);
   return (
-    <div>
+    <div  className={`buy-method-box pb-2 ${form.buyWay === 1 ? 'border-red' :""}`}>
       <div
-        className={`buyMethod rc-margin-bottom--xs d-flex row align-items-md-center justify-content-between 2 ml-0 mr-0 ui-cursor-pointer-pure ${
-          form.buyWay === 1 ? 'border-red' : 'border-d7d7d7'
-        }`}
+        className={`buyMethod autoship-buy-method rc-margin-bottom--xs d-flex row justify-content-between 2 ml-0 mr-0 ui-cursor-pointer-pure`}
         onClick={changeMethod.bind(this)}
       >
         <div className="radioBox order-1 md:order-1 col-8 col-md-5 px-0">
@@ -63,9 +61,9 @@ const AutoshipBuyMethod = ({
                   color: '#333'
                 }}
               >
-                <span className="iconfont mr-2">&#xe675;</span>
+                {/* <span className="iconfont mr-2">&#xe675;</span> */}
                 <FormattedMessage id="autoship" />
-                <span
+                {/* <span
                   className="info-tooltip delivery-method-tooltip"
                   onMouseEnter={() => {
                     setToolTipVisible(true);
@@ -90,11 +88,11 @@ const AutoshipBuyMethod = ({
                       <FormattedMessage id="subscription.promotionTip2" />
                     }
                   />
-                </span>
+                </span> */}
               </span>
             </label>
           </div>
-          <br />
+          {/* <br />
           <div
             className="discountBox"
             style={{
@@ -117,31 +115,42 @@ const AutoshipBuyMethod = ({
                 }}
               />
             )}
-          </div>
-          <br />
+          </div> */}
+          {/* <br /> */}
           <div className="freeshippingBox">
             <FormattedMessage id="freeShipping" />
           </div>
         </div>
-        {skuPromotions && (
-          <FrequencySelection
-            frequencyType={skuPromotions}
-            currentFrequencyId={form.frequencyId}
-            handleConfirm={(data) => changeFreqency(data)}
-            // handleConfirm={}
-          />
-        )}
-        <div className="price font-weight-normal text-right position-relative order-2 md:order-3 col-4 col-md-3 text-nowrap px-0">
+        <div className="price autoship-price font-weight-normal text-right position-relative order-2 md:order-3 col-4 col-md-3 text-nowrap px-0">
           <div>
-            <span className="text-line-through-price">
+            {/* <span className="text-line-through-price">
               {formatMoney(currentUnitPrice)}
-            </span>
+            </span> */}
             {formatMoney(currentSubscriptionPrice || 0)}
             <span className="red unit-star">
               <FormattedMessage id="starUnit" defaultMessage=" " />
             </span>
           </div>
-          {configStore?.info?.storeVO?.basePricePDPShowedFlag &&
+          <div
+          className="discountText"
+        >
+          {configStore.discountDisplayTypeInfo == 'Percentage' ? (
+            <FormattedMessage
+              id="saveExtra"
+              values={{
+                val: selectedSpecItem?.subscriptionPercentage
+              }}
+            />
+          ) : (
+              <FormattedMessage
+                id="saveExtra"
+                values={{
+                  val: discountAmountUnit
+                }}
+              />
+            )}
+        </div>
+          {/* {configStore?.info?.storeVO?.basePricePDPShowedFlag &&
           selectedSpecItem?.goodsInfoWeight &&
           selectedSpecItem?.goodsInfoUnit ? (
             <div
@@ -150,21 +159,30 @@ const AutoshipBuyMethod = ({
                 color: '#999'
               }}
             >
-              (
               {formatMoney(
                 (
                   currentSubscriptionPrice /
                   parseFloat(selectedSpecItem.goodsInfoWeight)
                 ).toFixed(2)
               )}
-              /{selectedSpecItem.goodsInfoUnit})
+              /{selectedSpecItem.goodsInfoUnit}
             </div>
-          ) : null}
+          ) : null} */}
         </div>
       </div>
-      {window.__.env.REACT_APP_COUNTRY == 'fr' ? (
+    <div className="px-2 buy-method-frequency ">
+      {skuPromotions && (
+          <FrequencySelection
+            frequencyType={skuPromotions}
+            currentFrequencyId={form.frequencyId}
+            handleConfirm={(data) => changeFreqency(data)}
+            // handleConfirm={}
+          />
+        )}
+    </div>
+      {/* {window.__.env.REACT_APP_COUNTRY == 'fr' ? (
         <div>Résiliation gratuite à tout moment </div>
-      ) : null}
+      ) : null} */}
     </div>
   );
 };

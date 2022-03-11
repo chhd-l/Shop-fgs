@@ -546,7 +546,7 @@ class Hcexperts extends React.Component {
     if (code === 'K-000000') {
       await this.queryAppointInfo(this.state.appointmentVO.apptNo);
       sessionItemRoyal.set(
-        'gusetInfo',
+        'guestInfo',
         JSON.stringify({
           firstName: params.firstName,
           lastName: params.lastName,

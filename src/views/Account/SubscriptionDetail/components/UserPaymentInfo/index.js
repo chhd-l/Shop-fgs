@@ -97,6 +97,7 @@ const UserPaymentInfo = ({
                   (countryList || []).filter(
                     (el) => el.id === currentDeliveryAddress.countryId
                   )[0]?.valueEn || currentDeliveryAddress.countryId,
+                showDeliveryDateAndTimeSlot: false,
                 maxDeliveryTime,
                 minDeliveryTime
               })}

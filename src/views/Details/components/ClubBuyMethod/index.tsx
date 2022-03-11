@@ -37,13 +37,12 @@ const ClubBuyMethod = ({
   const discountAmountUnit = formatMoney(discountAmount)
 
   return (
+    <div className={`buy-method-box pb-2 ${form.buyWay === 2 ? 'border-red' :""}`}>
     <div
-      className={`buyMethod rc-margin-bottom--xs d-flex row align-items-center 3 ml-0 mr-0 ui-cursor-pointer-pure ${
-        form.buyWay === 2 ? 'border-red' : 'border-d7d7d7'
-      }`}
+      className={`buyMethod club-buy-method rc-margin-bottom--xs d-flex row 3 ml-0 mr-0 justify-content-between ui-cursor-pointer-pure border-d7d7d7`}
       onClick={changeMethod.bind(this)}
     >
-      <div className="radioBox order-1 md:order-1 col-8 col-md-5 px-0">
+      <div className="radioBox order-1 md:order-1 col-8 px-0">
         <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width m-0">
           <FormattedMessage id="email">
             {(txt) => (
@@ -66,21 +65,56 @@ const ClubBuyMethod = ({
                 color: '#333'
               }}
             >
-              <span
-                className="iconfont mr-2"
+              {/* <span
+                className="iconfont mr-1"
                 style={{
                   fontWeight: '600',
                   color: '#ec001a'
                 }}
               >
                 &#xe602;
-              </span>
+              </span> */}
               <FormattedMessage id="Club subscription" />
             </span>
           </label>
         </div>
-        <br />
-        <div className="discountBox" style={{ background: '#3ab41d' }}>
+        {/* <br /> */}
+        {/* <div className="discountBox" style={{ background: '#3ab41d' }}>
+          {configStore.discountDisplayTypeInfo == "Percentage"?
+          <FormattedMessage
+          id="saveExtra"
+          values={{
+            val: selectedSpecItem?.subscriptionPercentage
+          }}
+        />
+          :<FormattedMessage
+            id="saveExtra"
+            values={{
+            val:discountAmountUnit
+            }}
+          />}
+        </div> */}
+        {/* <br /> */}
+        <div className="freeshippingBox">
+          <FormattedMessage id="freeShipping" />
+        </div>
+        {/* <div className="learnMore">
+          <span className="rc-styled-link" onClick={handleToClubTab}>
+            <FormattedMessage id="details.learnMore" />
+          </span>
+        </div> */}
+      </div>
+      <div className="price club-price font-weight-normal text-right position-relative order-2 md:order-3 col-4 col-md-3 text-nowrap px-0">
+        <div>
+          {/* <span className="text-line-through-price">
+            {formatMoney(currentUnitPrice)}
+          </span> */}
+          {formatMoney(currentSubscriptionPrice || 0)}
+          <span className="red unit-star">
+            <FormattedMessage id="starUnit" defaultMessage=" " />
+          </span>
+        </div>
+           <div className="discountText">
           {configStore.discountDisplayTypeInfo == "Percentage"?
           <FormattedMessage
           id="saveExtra"
@@ -95,34 +129,7 @@ const ClubBuyMethod = ({
             }}
           />}
         </div>
-        <br />
-        <div className="freeshippingBox">
-          <FormattedMessage id="freeShipping" />
-        </div>
-        <div className="learnMore">
-          <span className="rc-styled-link" onClick={handleToClubTab}>
-            <FormattedMessage id="details.learnMore" />
-          </span>
-        </div>
-      </div>
-      {skuPromotions && (
-        <FrequencySelection
-          frequencyType={skuPromotions}
-          currentFrequencyId={form.frequencyId}
-          handleConfirm={(data) => changeFreqency(data)}
-        />
-      )}
-      <div className="price font-weight-normal text-right position-relative order-2 md:order-3 col-4 col-md-3 text-nowrap px-0">
-        <div>
-          <span className="text-line-through-price">
-            {formatMoney(currentUnitPrice)}
-          </span>
-          {formatMoney(currentSubscriptionPrice || 0)}
-          <span className="red unit-star">
-            <FormattedMessage id="starUnit" defaultMessage=" " />
-          </span>
-        </div>
-        {configStore?.info?.storeVO?.basePricePDPShowedFlag &&
+        {/* {configStore?.info?.storeVO?.basePricePDPShowedFlag &&
         selectedSpecItem?.goodsInfoWeight &&
         selectedSpecItem?.goodsInfoUnit ? (
           <div
@@ -131,16 +138,25 @@ const ClubBuyMethod = ({
               color: '#999'
             }}
           >
-            (
             {formatMoney(
               (
                 currentSubscriptionPrice /
                 parseFloat(selectedSpecItem.goodsInfoWeight)
               ).toFixed(2)
             )}
-            /{selectedSpecItem.goodsInfoUnit})
+            /{selectedSpecItem.goodsInfoUnit}
           </div>
-        ) : null}
+        ) : null} */}
+      </div>
+    </div>
+    <div className="px-2 buy-method-frequency ">
+    {skuPromotions && (
+        <FrequencySelection
+          frequencyType={skuPromotions}
+          currentFrequencyId={form.frequencyId}
+          handleConfirm={(data) => changeFreqency(data)}
+        />
+      )}
       </div>
     </div>
   );
