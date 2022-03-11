@@ -116,7 +116,7 @@ const NextDelivery = ({
     // }
     if (!timeSlotList?.length) {
       timeSlotList =
-        deliveryDateList.find((el) => el.value == deliveryDate)
+        deliveryDateList.find((el) => el.value == subDetail.deliveryDate)
           ?.dateTimeInfos || deliveryDateList[0]?.dateTimeInfos;
       // ?.map((cel) => {
       //   return {
@@ -258,7 +258,7 @@ const NextDelivery = ({
                 </span>
               </div>
 
-              {showTimeSlot && (
+              {showTimeSlot && timeSlot && (
                 <Selection
                   customCls="selection-with-border"
                   optionList={timeSlotList}
