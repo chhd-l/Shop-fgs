@@ -20,7 +20,22 @@
   display: inline-block;
   position: relative;
 }
-
+.row-scrollOutBox {
+  display: flex;
+  flex-direction: column;
+  width: 4.85rem !important;
+}
+.row-scrollOutBox .imageOutBox {
+  width: 110px;
+  height: 346px;
+}
+.row-scrollOutBox .imageOutBox .imageInnerBox {
+  margin-top: 0 !important;
+}
+.row-scrollOutBox .rc-icon.rc-up--xs:after {
+  background-position: 54.55% 100% !important;
+  width: 24px;
+}
 .imageInnerBox {
   width: 1000px;
   position: absolute;
@@ -29,6 +44,7 @@
 }
 .imageInnerBox .rc-img--square {
   margin-left: 5px;
+  margin-top: 5px;
   display: inline-block;
   background-position: center;
   background-repeat: no-repeat;
@@ -72,9 +88,9 @@
 }
 @media (max-width: 769px) {
   .bigImageInnerBox div {
-    width: 245px;
-    /* height: 324px;
-    float: left; */
+    width: 230px;
+    height: 324px;
+    float: left;
   }
   .imageInnerBox > div {
     float: left;
