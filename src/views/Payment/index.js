@@ -2050,12 +2050,11 @@ class Payment extends React.Component {
       const params = {
         storeId: window.__.env.REACT_APP_STOREID,
         customerId: this.userInfo.customerId,
-        breedOrShelter:
-          breedOrShelterId.indexOf('BRD') === 0
-            ? 'Breeder'
-            : breedOrShelterId.indexOf('BRM') === 0
-            ? 'Shelter'
-            : 'Everyone'
+        breedOrShelter: breedOrShelterId.startsWith('BRD')
+          ? 'Breeder'
+          : breedOrShelterId.startsWith('BRM')
+          ? 'Shelter'
+          : 'Everyone'
       };
       const result = await querySurveyContent(params);
       if (!result?.context?.isShow || surveyId !== result?.context?.id) {
