@@ -1622,10 +1622,6 @@ const en_US = {
   subscribe: 'Subscribe',
   subscribeDiscount: 'Subscription Save Discount',
   subscription: 'Subscription',
-  'subscription.ad.list1.val2': "meeting your pet's needs",
-  'subscription.ad.list2.val1': 'Automatic shipping',
-  'subscription.ad.list3.val1': 'Receive your product automatically',
-  'subscription.ad.list4.val1': 'At any time',
   'subscription.all': 'all',
   'subscription.autoship': 'autoship',
   'subscription.BillingAddress': 'Billing address',
@@ -1721,16 +1717,12 @@ const en_US = {
   switchProductTip3: 'pet profile',
   systemError: 'system error',
   tailorednutrition: 'Health and Nutrition',
-  'tailorednutrition.description':
-    'Our attention to the unique needs of cats and dogs has taught us that the smallest nutritional difference can make a huge difference to a pet’s health. This obsession with pet health drives us to deliver precise, effective nutrition, and help them become their magnificent best.',
   'tailorednutrition.formulasDetail':
     'Take German Shepherds, for example: we all love them for their courage, loyalty, and intelligence. But for all their strength of body and mind, they have notoriously sensitive stomachs, so we craft their formula with highly digestible proteins and specific fibres to help their insides be as strong as their outsides.',
   'tailorednutrition.formulasTitle': 'Crafted Formulas',
   'tailorednutrition.natureDetail':
     'A Jack Russell in perfect health can jump up to six times their own height. Indoor cats and outdoor cats have very different energy needs. Nourishing their incredible natural potential with specially selected proteins and antioxidants addresses their unique needs.',
   'tailorednutrition.natureTitle': 'Nourishing Their Nature',
-  'tailorednutrition.nutritionDetail':
-    'Dogs and cats have unique needs, and we focus on delivering the best possible health nutrition for each of those needs. Each recipe is formulated to deliver the exact level of nutrients that are essential to your pet’s individual health needs.',
   'tailorednutrition.nutritionTitle': 'What is Tailored Nutrition?',
   'tailorednutrition.result': 'The Result',
   'tailorednutrition.resultDetail':
