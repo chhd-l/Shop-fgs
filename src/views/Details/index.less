@@ -70,6 +70,37 @@
     // }
   }
 }
+#Details .buy-method-box {
+  border: 1px solid #aaa;
+  border-radius: 5px;
+}
+#Details {
+  .club-buy-method, .autoship-buy-method {
+    border: 0;
+    margin-top: 0;
+    border-radius:0;
+    border-bottom: 1px solid #aaa;
+  }
+}
+
+#Details .buy-method-frequency .freqency{
+  display: block !important;
+  text-align: left !important;
+  max-width: 100% !important;
+  .frequency-delivery {
+    font-weight: 400;
+  }
+  .delivery-every {
+    text-align: left !important;
+    height: 3rem;
+    border-bottom:1px solid #808285;
+    display: flex;
+  align-items: center;
+  .frequency-selection {
+    flex: 1;
+  }
+  }
+}
 #Details .choices__item.choices__item--choice.choices__item--selectable {
   height: 60px;
   line-height: 40px;
@@ -171,7 +202,7 @@
     // border: 1px solid #e2001a;
     border: 1px solid #aaa;
     border-radius: 5px;
-    padding: 0.75rem 1.25rem 1.25rem 1.25rem;
+    padding: 0.75rem;
     margin-top: 1rem;
     .freqency {
       > span {
@@ -193,6 +224,19 @@
       span {
         line-height: 1rem;
       }
+    }
+
+    .price {
+      line-height: 1.8rem;
+    }
+  }
+
+  #Details {
+    .club-buy-method, .autoship-buy-method {
+      border: 0;
+      margin-top: 0;
+      border-radius:0;
+      border-bottom: 1px solid #aaa;
     }
   }
   #Details .desAndStars .stars {
@@ -311,8 +355,17 @@
       color: #fff;
     }
   }
+  .discountText {
+    color:#008900;
+    font-size: 0.625rem;
+    position: absolute;
+    right: 0;
+  }
+  .club-price, .autoship-price {
+    color:#008900;
+  }
   .freeshippingBox {
-    color: #ec001a;
+    // color: #ec001a;
     // width: 100px;
     padding: .1rem .625rem;
     text-align: center;

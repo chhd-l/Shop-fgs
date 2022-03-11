@@ -78,7 +78,6 @@ import cloneDeep from 'lodash/cloneDeep';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const PC = getDeviceType() === 'PC' || getDeviceType() === 'Pad';
 const isHub = window.__.env.REACT_APP_HUB;
@@ -1211,6 +1210,53 @@ class Details extends React.Component {
     );
   };
 
+  specAndQuantityDom = () => {
+    const { details, quantity, quantityMinLimit, stock } = this.state;
+    return (
+      <div className="specAndQuantity rc-margin-bottom--xs ">
+        <HandledSpec
+          details={details}
+          setState={this.setState.bind(this)}
+          updatedSku={this.matchGoods.bind(this)}
+          updatedPriceOrCode={this.updatedPriceOrCode}
+          defaultSkuId={this.state.defaultSkuId}
+        />
+        <div className="Quantity">
+          <span className="amount">
+            <FormattedMessage id="amount" />:
+          </span>
+          <div className="quantity d-flex justify-content-between align-items-center">
+            <input
+              type="hidden"
+              id="invalid-quantity"
+              value="Пожалуйста, введите правильный номер."
+            />
+            <div className="rc-quantity text-right d-flex justify-content-end">
+              <span
+                className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
+                onClick={() => this.hanldeAmountChange('minus')}
+              />
+              <input
+                className="rc-quantity__input"
+                id="quantity"
+                name="quantity"
+                value={quantity}
+                min={quantityMinLimit}
+                max={stock}
+                onChange={this.handleAmountInput}
+                maxLength="5"
+              />
+              <span
+                className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
+                onClick={() => this.hanldeAmountChange('plus')}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   render() {
     const { intl } = this.props;
     const {
@@ -1433,10 +1479,15 @@ class Details extends React.Component {
                           details={details}
                           productRate={productRate}
                           replyNum={replyNum}
+                          instockStatus={instockStatus}
                         />
                       )}
-                      <div className="rc-column product-column">
-                        <div className="wrap-short-des">
+                      <div className="rc-column product-column flex">
+                        <div
+                          className={`wrap-short-des ${
+                            !isMobile ? 'col-md-7' : ''
+                          }`}
+                        >
                           {!isMobile && (
                             <DetailHeader
                               checkOutErrMsg={checkOutErrMsg}
@@ -1445,8 +1496,18 @@ class Details extends React.Component {
                               details={details}
                               productRate={productRate}
                               replyNum={replyNum}
+                              instockStatus={instockStatus}
                             />
                           )}
+                          {!isMobile ? this.specAndQuantityDom() : null}
+                          {!isMobile &&
+                          details.promotions &&
+                          details.promotions.includes('club') ? (
+                            <Ration
+                              goodsNo={details.goodsNo}
+                              setState={this.setState.bind(this)}
+                            />
+                          ) : null}
                         </div>
                         {loading ? (
                           <Skeleton />
@@ -1473,69 +1534,11 @@ class Details extends React.Component {
                         ) : (
                           <div
                             className={classNames({
-                              hidden: this.isNullGoodsInfos
+                              hidden: this.isNullGoodsInfos,
+                              'col-md-5': !isMobile
                             })}
                           >
-                            <div className="align-left flex rc-margin-bottom--xs">
-                              <p className="rc-margin-right--xs">
-                                <InstockStatusComp status={instockStatus} />
-                              </p>
-                              {Ru && selectedSpecItem ? (
-                                <p>Артикул:{selectedSpecItem?.externalSku}</p>
-                              ) : null}
-                            </div>
-                            {details.promotions &&
-                            details.promotions.includes('club') ? (
-                              <Ration
-                                goodsNo={details.goodsNo}
-                                setState={this.setState.bind(this)}
-                              />
-                            ) : null}
-                            <div className="specAndQuantity rc-margin-bottom--xs ">
-                              <HandledSpec
-                                details={details}
-                                setState={this.setState.bind(this)}
-                                updatedSku={this.matchGoods.bind(this)}
-                                updatedPriceOrCode={this.updatedPriceOrCode}
-                                defaultSkuId={this.state.defaultSkuId}
-                              />
-                              <div className="Quantity">
-                                <span className="amount">
-                                  <FormattedMessage id="amount" />:
-                                </span>
-                                <div className="quantity d-flex justify-content-between align-items-center">
-                                  <input
-                                    type="hidden"
-                                    id="invalid-quantity"
-                                    value="Пожалуйста, введите правильный номер."
-                                  />
-                                  <div className="rc-quantity text-right d-flex justify-content-end">
-                                    <span
-                                      className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                                      onClick={() =>
-                                        this.hanldeAmountChange('minus')
-                                      }
-                                    />
-                                    <input
-                                      className="rc-quantity__input"
-                                      id="quantity"
-                                      name="quantity"
-                                      value={quantity}
-                                      min={quantityMinLimit}
-                                      max={stock}
-                                      onChange={this.handleAmountInput}
-                                      maxLength="5"
-                                    />
-                                    <span
-                                      className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                                      onClick={() =>
-                                        this.hanldeAmountChange('plus')
-                                      }
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+                            {isMobile ? this.specAndQuantityDom() : null}
                             <div
                               className={`${currentUnitPrice ? '' : 'hidden'}`}
                             >
@@ -1610,6 +1613,14 @@ class Details extends React.Component {
                               <p className="text-right medium mr-4">
                                 <FormattedMessage id="detail.subscriptionBuyTip" />
                               </p>
+                            ) : null}
+                            {isMobile &&
+                            details.promotions &&
+                            details.promotions.includes('club') ? (
+                              <Ration
+                                goodsNo={details.goodsNo}
+                                setState={this.setState.bind(this)}
+                              />
                             ) : null}
                           </div>
                         )}

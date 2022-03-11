@@ -53,6 +53,15 @@ export function formatMoney(val) {
         currency: CURRENCY
       }).format(val);
       return tmpRet.replace(/kr/g, CURRENCY);
+    case 'jp':
+      return (
+        new Intl.NumberFormat(NAVIGATOR_LANG, {
+          style: 'currency',
+          currency: CURRENCY
+        })
+          .format(val)
+          .replace(/¥/g, '') + '円'
+      );
   }
 
   return new Intl.NumberFormat(NAVIGATOR_LANG, {
@@ -740,8 +749,8 @@ function getDatePickerConfig() {
   };
   const curDatePickerCfg =
     datePickerCfg[window.__.env.REACT_APP_COUNTRY] || datePickerCfg.default;
-  const curLocaleModule = require(`date-fns/locale/${curDatePickerCfg.locale_module_lang}`)
-    .default;
+  const curLocaleModule =
+    require(`date-fns/locale/${curDatePickerCfg.locale_module_lang}`).default;
   registerLocale(window.__.env.REACT_APP_COUNTRY, curLocaleModule);
   // 根据Intl.DateTimeFormat生成当前国家的日期格式
   const specificDate = formatDate({ date: '2021-12-30' });
@@ -992,9 +1001,8 @@ export function judgeIsIndividual(item) {
 // uk和fr,才有postCode校验
 const countryPostCode = ['uk', 'fr'];
 const currentCountry = window.__.env.REACT_APP_COUNTRY;
-export const isCanVerifyBlacklistPostCode = countryPostCode.includes(
-  currentCountry
-);
+export const isCanVerifyBlacklistPostCode =
+  countryPostCode.includes(currentCountry);
 
 // 获取 Postal code alert message
 export async function getAddressPostalCodeAlertMessage() {

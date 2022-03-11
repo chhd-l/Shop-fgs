@@ -155,7 +155,7 @@ const TR_SubscriptionLanding = loadable(() =>
 const TR_GeneralConditions = loadable(() =>
   import('@/views/StaticPage/GeneralConditions/TR_index.js')
 );
-const generalConditions = loadable(() =>
+const GeneralConditions = loadable(() =>
   import('@/views/StaticPage/GeneralConditions')
 );
 const Tailorednutrition = loadable(() =>
@@ -767,7 +767,13 @@ const App = () => {
                 <Route
                   path="/general-conditions"
                   exact
-                  component={generalConditions}
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                      return <GeneralConditions {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
                 />
 
                 <Route
@@ -841,7 +847,13 @@ const App = () => {
                 <Route
                   path="/shipmentConditions"
                   exact
-                  component={ShipmentConditions}
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                      return <ShipmentConditions {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
                 />
 
                 <Route path="/404" component={Exception} />
