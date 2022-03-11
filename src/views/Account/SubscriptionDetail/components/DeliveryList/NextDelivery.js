@@ -210,7 +210,7 @@ const NextDelivery = ({
               </span>
             </div>
             <div className="flex items-center mb-2  md:mb-0">
-              {deliveryDate && (
+              {showTimeSlot && deliveryDate && (
                 <Selection
                   customCls="selection-with-border"
                   optionList={deliveryDateList}
