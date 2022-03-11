@@ -13,6 +13,13 @@ const DynamicFooter = ({ configStore, intl }) => {
     //将自定义的纯marsfooter富文本插入到footer下方，注：包含script/link的情况，此方式无效，在src\components\RouteFilter\RouteFilterHook.js中处理此种情况
     if (marsFooterHtml) {
       ret += marsFooterHtml;
+      //不是script marsfooter时，才visible cookieSettingBox
+      if (!marsFooterHtml.includes('script')) {
+        const cookieDomBox = document.querySelector('.cookieSettingBox');
+        if (cookieDomBox) {
+          cookieDomBox.style.visibility = 'visible';
+        }
+      }
     }
     setFooterHtml(ret);
   }, [configStore.info?.footer, configStore.info?.marsFooter]);
