@@ -1,0 +1,91 @@
+trigger:
+- test
+
+pool:
+  name: D2C-FGS-NPM-POOL
+
+parameters:
+- name: branch
+  displayName: branch
+  type: string
+  default: dev
+  values:
+  - dev
+- name: shopFront
+  displayName: shop-front
+  type: string
+  default: no
+  values:
+  - no
+  - yes
+
+variables:
+- name: configfile
+  value: /root/.kube/config
+- name: namespace
+  value: sit-front
+- name: app
+  value: sit-mx-shop
+- name: dockerReg
+  value: k8sregistrysit.azurecr.io
+- name: group
+  value: front
+##容器注册表 (service connections)
+- name: dockerAuth
+  value: k8sregistrysit
+- name: gitUser
+  value: ""
+- name: gitPassword
+  value: ipwbxzf6cuemijfl264oxsv5nydktcqlzlfy5uaahn2t2gerxtca
+- name: gitUrl
+  value: dev.azure.com/MarsDevTeam/RoyalCaninEcommerce/_git
+- name: tag
+  value: 1.9
+
+
+
+
+stages:
+- stage: shopFront
+  condition: eq('${{ parameters.shopFront }}', 'yes')
+  jobs:
+  - job: shopbuild
+    steps:
+    # - script: |
+    #     echo "$(Build.Repository.LocalPath)"
+    #     pwd
+    #     if [[ ! -d shop-front ]];then
+    #       git clone -b ${{ parameters.branch }} https://$(gitPassword)@$(gitUrl)/shop-front
+    #     fi
+    #     cd shop-front
+    #     git stash
+    #     git pull
+    - task: Docker@2
+      displayName: Login to dockerReg
+      inputs:
+        command: login
+        containerRegistry: '$(dockerAuth)'
+    - task: Npm@1
+      displayName: 'npm install'
+      inputs:
+        verbose: false
+    - task: Npm@1
+      displayName: 'npm build'
+      inputs:
+        command: custom
+        verbose: false
+        customCommand: 'run build'
+    - task: PublishPipelineArtifact@1
+      displayName: 'Publish Pipeline Artifact'
+      inputs:
+        targetPath: ./build/
+        artifact: 'shop-front'
+    - task: Docker@2
+      displayName: 'build and push image'
+      inputs:
+        containerRegistry: k8sregistrysit
+        repository: 'front/sit-shop-mx'
+        Dockerfile: Dockerfile
+        tags: '$(Build.BuildNumber)'
+    - script: |
+        echo "kubectl set image deployment sit-mx-shop *=$(dockerReg)/$(repository):$(Build.BuildNumber) -n $(namespace) --kubeconfig=$(configfile)"
