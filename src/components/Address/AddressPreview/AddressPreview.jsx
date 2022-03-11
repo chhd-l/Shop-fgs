@@ -201,26 +201,21 @@ const AddressPreview = ({ configStore, data, nameCls, pickupNameCls }) => {
               <span>{COUNTRY == 'jp' ? '〒' + postCode : postCode}</span>
               <p>{[province, city, area, address1].join(', ')}</p>
               <p>{consigneeNumber}</p>
-              <span>
-                {deliveryDate && timeSlot ? (
-                  <>
-                    {/* 格式化 delivery date 格式: 星期, 15 月份 */}
-                    {formatDate({
-                      date: deliveryDate,
-                      formatOption: {
-                        weekday: 'long',
-                        day: '2-digit',
-                        month: 'long'
-                      }
-                    })}{' '}
-                    {timeSlot == 'Unspecified' ? (
-                      <FormattedMessage id="Unspecified" />
-                    ) : (
-                      timeSlot
-                    )}
-                  </>
-                ) : null}
-              </span>
+              {/* delivery date */}
+              {newDeliveryDate && (
+                <p className="preview_delivery_date">{newDeliveryDate}</p>
+              )}
+
+              {/* time slot */}
+              {timeSlot && (
+                <p className="preview_time_slot">
+                  {timeSlot == 'Unspecified' ? (
+                    <FormattedMessage id="Unspecified" />
+                  ) : (
+                    timeSlot
+                  )}
+                </p>
+              )}
             </div>
           ) : (
             <>
