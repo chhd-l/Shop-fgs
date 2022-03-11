@@ -33,8 +33,8 @@ const SingleBuyMethod = ({
       }`}
       onClick={changeMethod.bind(this)}
     >
-      <div className="radioBox order-1 md:order-1 col-8 col-md-5 px-0">
-        <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
+      <div className="radioBox order-1 md:order-1 col-8 px-0">
+        <div className="rc-input rc-input--inline rc-input--full-width">
           <FormattedMessage id="email">
             {(txt) => (
               <input
@@ -74,9 +74,9 @@ const SingleBuyMethod = ({
           </div>
         </div>
       </div>
-      <div className="freqency order-3 md:order-2 col-12 col-md-4 text-center">
+      {/* <div className="freqency order-3 md:order-2 col-12 col-md-4 text-center">
         <FormattedMessage id="deliveryOneTimeOnly" />
-      </div>
+      </div> */}
       <div className="price font-weight-normal text-right position-relative order-2 md:order-3 col-4 col-md-3 text-nowrap px-0">
         <div>
           {formatMoney(currentUnitPrice)}
@@ -93,13 +93,13 @@ const SingleBuyMethod = ({
               color: '#999'
             }}
           >
-            (
+            
             {formatMoney(
               (
                 currentUnitPrice / parseFloat(selectedSpecItem.goodsInfoWeight)
               ).toFixed(2)
             )}
-            /{selectedSpecItem.goodsInfoUnit})
+            /{selectedSpecItem.goodsInfoUnit}
           </div>
         ) : null}
       </div>

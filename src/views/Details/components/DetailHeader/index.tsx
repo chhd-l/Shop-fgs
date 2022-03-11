@@ -2,6 +2,7 @@ import React from 'react';
 import { getDeviceType, getElementToPageTop } from '@/utils/utils';
 import ErrMsgForCheckoutPanel from '../ErrMsgForCheckoutPanel/index.tsx';
 import Rate from '@/components/Rate';
+import InstockStatusComp from '@/components/InstockStatusComp/index.tsx';
 import BazaarVoiceRatingSummary from '@/components/BazaarVoice/ratingSummary';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
@@ -15,6 +16,7 @@ interface Props {
   productRate: string | number;
   replyNum: string | number;
   selectedSpecItem: any;
+  instockStatus:any;
 }
 const DetailHeader = ({
   checkOutErrMsg,
@@ -22,7 +24,8 @@ const DetailHeader = ({
   details,
   productRate,
   replyNum,
-  selectedSpecItem
+  selectedSpecItem,
+  instockStatus
 }: Props) => {
   const handleAClick = () => {
     if (replyNum > 0) {
@@ -34,6 +37,19 @@ const DetailHeader = ({
       });
     }
   };
+
+  const stockDom = () =>{
+    return (
+      <div className="align-left flex rc-margin-bottom--xs">
+      <p className="rc-margin-right--xs">
+        <InstockStatusComp status={instockStatus} />
+      </p>
+      {window.__.env.REACT_APP_COUNTRY === 'ru' && selectedSpecItem ? (
+        <p>Артикул:{selectedSpecItem?.externalSku}</p>
+      ) : null}
+    </div>
+    )
+  }
   return isMobile ? (
     <div className="detailHeader mb-3">
       <ErrMsgForCheckoutPanel checkOutErrMsg={checkOutErrMsg} />
@@ -73,6 +89,7 @@ const DetailHeader = ({
         className="description"
         dangerouslySetInnerHTML={createMarkup(details.goodsDescription)}
       />
+      {stockDom()}
     </div>
   ) : (
     <div className="detailHeader">
@@ -86,6 +103,7 @@ const DetailHeader = ({
         !!details.goodsNo && (
           <BazaarVoiceRatingSummary productId={details.goodsNo} />
         )}
+        {stockDom()}
       <div className="desAndStars rc-margin-bottom--xs d-flex flex-wrap flex-md-nowrap justify-content-between">
         <div className="des">
           <h2 className="text-break mb-1 mt-2" style={{ fontSize: '1.17rem' }}>
