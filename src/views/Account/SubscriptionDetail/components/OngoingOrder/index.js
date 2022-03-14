@@ -8,7 +8,6 @@ import {
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import { IMG_DEFAULT } from '@/utils/constant';
-import './index.less';
 import cn from 'classnames';
 
 const OngoingOrder = ({ subDetail }) => {
@@ -66,7 +65,7 @@ const OngoingOrder = ({ subDetail }) => {
                       />
                     </div>
                     <div className="flex flex-column col-8">
-                      <span className="medium text-bold color-444">
+                      <span className="medium text-16 color-444">
                         {item.spuName}
                       </span>
                       <span
@@ -87,7 +86,7 @@ const OngoingOrder = ({ subDetail }) => {
                 className="col-12 col-md-2 flex flex-column"
                 style={{ paddingLeft: isMobile ? '34%' : '' }}
               >
-                <span className="medium text-bold color-444 ui-text-overflow-line1">
+                <span className="medium text-16 color-444 ui-text-overflow-line1">
                   <FormattedMessage id="order.orderDate" />
                 </span>
                 <span className="medium mt-2 ui-text-overflow-line1">
@@ -101,11 +100,12 @@ const OngoingOrder = ({ subDetail }) => {
                   marginTop: isMobile ? '14px' : ''
                 }}
               >
-                <span className="medium text-bold color-444 ui-text-overflow-line1">
+                <span className="medium text-16 color-444 ui-text-overflow-line1">
                   <FormattedMessage id="order.orderStatus" />
                 </span>
                 <span
-                  className="medium text-green mt-2 ui-text-overflow-line1"
+                  className="medium mt-2 ui-text-overflow-line1"
+                  style={{ color: 'rgb(71, 183, 0)' }}
                   title={ele.tradeState.orderStatus}
                 >
                   {ele.tradeState.orderStatus}
@@ -123,7 +123,8 @@ const OngoingOrder = ({ subDetail }) => {
                     >
                       <em className="rc-iconography rc-icon rc-news--xs" />
                       <span
-                        className="medium text-underline text-bold pull-right--desktop rc-styled-link"
+                        className="medium text-16 pull-right--desktop rc-styled-link"
+                        style={{ borderBottom: '1px solid #d7d7d7' }}
                         title={txt}
                       >
                         {txt}
