@@ -219,7 +219,7 @@ const NextDelivery = ({
               </span>
             </div>
             <div className="flex items-center mb-2  md:mb-0">
-              {showTimeSlot && deliveryDate && (
+              {/* {showTimeSlot && deliveryDate && (
                 <Selection
                   customCls="selection-with-border"
                   optionList={deliveryDateList}
@@ -232,7 +232,7 @@ const NextDelivery = ({
                   key={deliveryDate}
                   placeholder="please select"
                 />
-              )}
+              )} */}
               <div
                 className={cn('changeDate whitespace-nowrap mr-6 text-right')}
               >
