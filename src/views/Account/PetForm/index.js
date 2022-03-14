@@ -402,8 +402,7 @@ class PetForm extends React.Component {
                     </p>
                     <div>
                       <button
-                        className="rc-btn rc-btn--sm rc-btn--one"
-                        style={{ marginRight: '1.25rem' }}
+                        className="rc-btn rc-btn--sm rc-btn--one mr-5"
                         onClick={() => {
                           this.petTypeChange(false);
                         }}

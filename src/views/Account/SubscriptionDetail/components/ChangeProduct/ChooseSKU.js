@@ -1,14 +1,22 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import FrequencySelection from '@/components/FrequencySelection/index.tsx';
-import ShowErrorDom from '../ShowErrorDom';
+import { ErrorMessage } from '@/components/Message';
 import { changeSubscriptionGoods } from '@/api/subscription';
 import HandledSpec from '@/components/HandledSpec/index.tsx';
 import { formatMoney, getDeviceType } from '@/utils/utils';
 import find from 'lodash/find';
 import { ChangeProductContext } from './index';
 import { SubDetailHeaderContext } from '../SubDetailHeader';
-const ChooseSKU = ({ intl }) => {
+import { inject, observer } from 'mobx-react';
+
+const ChooseSKU = ({
+  intl,
+  configStore: {
+    info: { skuLimitThreshold }
+  },
+  ...restProps
+}) => {
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   const quantityMinLimit = 1;
   const [changeNowLoading, setChangeNowLoading] = useState(false);
@@ -97,8 +105,8 @@ const ChooseSKU = ({ intl }) => {
       }
     } else {
       res = (quantity || 0) + 1;
-      if (quantity >= window.__.env.REACT_APP_LIMITED_NUM) {
-        res = window.__.env.REACT_APP_LIMITED_NUM;
+      if (quantity >= skuLimitThreshold.skuMaxNum) {
+        res = skuLimitThreshold.skuMaxNum;
       }
     }
     setQuantity(res);
@@ -115,8 +123,8 @@ const ChooseSKU = ({ intl }) => {
       if (tmp < quantityMinLimit) {
         tmp = quantityMinLimit;
       }
-      if (tmp > window.__.env.REACT_APP_LIMITED_NUM) {
-        tmp = window.__.env.REACT_APP_LIMITED_NUM;
+      if (tmp > skuLimitThreshold.skuMaxNum) {
+        tmp = skuLimitThreshold.skuMaxNum;
       }
       setQuantity(tmp);
     }
@@ -213,7 +221,7 @@ const ChooseSKU = ({ intl }) => {
   let seleced = quantity < stock && skuPromotions == 'club';
   return (
     <React.Fragment>
-      <ShowErrorDom errorMsg={errorMsgSureChange} />
+      <ErrorMessage msg={errorMsgSureChange} />
       <div className="d-flex for-pc-bettwen">
         <div className="d-flex for-mobile-colum for-mobile-100">
           <div className="d-flex rc-margin-right--xs">
@@ -345,4 +353,4 @@ const ChooseSKU = ({ intl }) => {
   );
 };
 
-export default injectIntl(ChooseSKU);
+export default inject('configStore')(observer(injectIntl(ChooseSKU)));

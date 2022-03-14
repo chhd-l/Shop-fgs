@@ -207,14 +207,8 @@ class Details extends React.Component {
     return JSON.parse(configStr);
   }
   get btnStatus() {
-    const {
-      details,
-      quantity,
-      instockStatus,
-      initing,
-      loading,
-      form
-    } = this.state;
+    const { details, quantity, instockStatus, initing, loading, form } =
+      this.state;
     const { sizeList } = details;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     let addedFlag = 1;
@@ -543,8 +537,11 @@ class Details extends React.Component {
               if (mixFeeding) {
                 mixFeeding.quantity = 1;
               }
-              let { goodsImg = '', goodsName = '', goodsNo = '' } =
-                mixFeeding?.goods || {};
+              let {
+                goodsImg = '',
+                goodsName = '',
+                goodsNo = ''
+              } = mixFeeding?.goods || {};
               let _hiddenMixFeedingBanner = false;
               let mixFeedingSelected = mixFeeding?.sizeList?.filter(
                 (el) => el.selected
@@ -791,6 +788,11 @@ class Details extends React.Component {
     });
   }
   hanldeAmountChange(type) {
+    const {
+      configStore: {
+        info: { skuLimitThreshold }
+      }
+    } = this.props;
     this.setState({ checkOutErrMsg: '' });
     if (!type) return;
     const { quantity } = this.state;
@@ -803,8 +805,8 @@ class Details extends React.Component {
       }
     } else {
       res = (quantity || 0) + 1;
-      if (quantity >= window.__.env.REACT_APP_LIMITED_NUM) {
-        res = window.__.env.REACT_APP_LIMITED_NUM;
+      if (quantity >= skuLimitThreshold.skuMaxNum) {
+        res = skuLimitThreshold.skuMaxNum;
       }
     }
     this.setState(
@@ -817,6 +819,11 @@ class Details extends React.Component {
     );
   }
   handleAmountInput(e) {
+    const {
+      configStore: {
+        info: { skuLimitThreshold }
+      }
+    } = this.props;
     this.setState({ checkOutErrMsg: '' });
     const { quantityMinLimit } = this.state;
     const val = e.target.value;
@@ -830,8 +837,8 @@ class Details extends React.Component {
       if (tmp < quantityMinLimit) {
         tmp = quantityMinLimit;
       }
-      if (tmp > window.__.env.REACT_APP_LIMITED_NUM) {
-        tmp = window.__.env.REACT_APP_LIMITED_NUM;
+      if (tmp > skuLimitThreshold.skuMaxNum) {
+        tmp = skuLimitThreshold.skuMaxNum;
       }
       this.setState({ quantity: tmp }, () => this.updateInstockStatus());
     }
@@ -882,7 +889,7 @@ class Details extends React.Component {
     try {
       const { checkoutStore, intl, headerCartStore } = this.props;
       const { quantity, form, details, questionParams } = this.state;
-      const { formatMessage } = intl;
+      // const { formatMessage } = intl;
 
       hubGAAToCar(quantity, form);
 
@@ -901,23 +908,24 @@ class Details extends React.Component {
        * 日本限制购物车里最多 单个goodsInfoId quantity <=5,
        * 登录后，因为游客存在购物车数据，故添加相同sku时购物车限制添加数量为5
        **/
-      const loginCartDataObj = toJS(checkoutStore.loginCartData).find(
-        (element) => element.goodsInfoId === currentSelectedSize.goodsInfoId
-      );
-      if (Jp) {
-        if (!!loginCartDataObj) {
-          const num =
-            parseInt(quantity, 10) + parseInt(loginCartDataObj.buyCount, 10);
-          if (num > +window.__.env.REACT_APP_LIMITED_NUM) {
-            throw new Error(
-              formatMessage(
-                { id: 'cart.errorMaxCate' },
-                { val: +window.__.env.REACT_APP_LIMITED_NUM }
-              )
-            );
-          }
-        }
-      }
+      // const loginCartDataObj = toJS(checkoutStore.loginCartData).find(
+      //   (element) => element.goodsInfoId === currentSelectedSize.goodsInfoId
+      // );
+      // todo amount 需去除逻辑
+      // if (Jp) {
+      //   if (!!loginCartDataObj) {
+      //     const num =
+      //       parseInt(quantity, 10) + parseInt(loginCartDataObj.buyCount, 10);
+      //     if (num > +window.__.env.REACT_APP_LIMITED_NUM) {
+      //       throw new Error(
+      //         formatMessage(
+      //           { id: 'cart.errorMaxCate' },
+      //           { val: +window.__.env.REACT_APP_LIMITED_NUM }
+      //         )
+      //       );
+      //     }
+      //   }
+      // }
       let param = {
         goodsInfoId: currentSelectedSize.goodsInfoId,
         goodsNum: quantity,
@@ -954,13 +962,8 @@ class Details extends React.Component {
     try {
       !type && this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const {
-        currentUnitPrice,
-        quantity,
-        form,
-        details,
-        questionParams
-      } = this.state;
+      const { currentUnitPrice, quantity, form, details, questionParams } =
+        this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -980,7 +983,7 @@ class Details extends React.Component {
         cartItemList: [cartItem],
         currentUnitPrice,
         isMobile,
-        intl: this.props.intl
+        ...this.props
       });
       this.setState({ modalMobileCartSuccessVisible: true });
     } catch (err) {

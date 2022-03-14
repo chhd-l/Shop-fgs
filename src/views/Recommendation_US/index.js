@@ -549,7 +549,8 @@ class Recommendation extends React.Component {
             )[0]
           }
         );
-      })
+      }),
+      ...this.props
     });
     if ((isFr && !this.state.isSPT) || isRu) {
       // 是fr breeder的特殊code，需要主动默认填充

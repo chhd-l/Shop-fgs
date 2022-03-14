@@ -4,7 +4,7 @@ import {
   injectIntl,
   FormattedDate
 } from 'react-intl-phraseapp';
-import ShowErrorDom from '../../ShowErrorDom';
+import { ErrorMessage } from '@/components/Message';
 import { getClubLogo, formatMoney } from '@/utils/utils';
 import ProductDailyRation from './ProductDailyRation';
 import { ChangeProductContext } from '../index';
@@ -17,7 +17,7 @@ const RecommendationList = ({ productDetail }) => {
   console.info('productDetailproductDetailproductDetail', productDetail);
   return (
     <>
-      <ShowErrorDom errorMsg={errMsg} />
+      <ErrorMessage msg={errMsg} />
       {!!productDetail.mainProduct && (
         <>
           <div className="p-f-result-box">

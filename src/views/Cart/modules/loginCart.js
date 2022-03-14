@@ -54,6 +54,7 @@ import PromotionCodeText from '../components/PromotionCodeText';
 import CartSurvey from '../components/CartSurvey';
 import { getMixFeedings } from '@/api/details';
 import MixFeedingBox from '../components/MixFeedingBox/index.tsx';
+import { ErrorMessage } from '@/components/Message';
 const guid = uuidv4();
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -496,10 +497,16 @@ class LoginCart extends React.Component {
     }, 3000);
   }
   handleAmountChange(item, type, e) {
+    const {
+      configStore: {
+        info: { skuLimitThreshold }
+      }
+    } = this.props;
     this.setState({
       errorMsg: ''
     });
     let val = e.target.value;
+    // 数量改变时，直接赋值
     if (val === '' && type === 'change') {
       item.buyCount = val;
       this.setState({
@@ -507,6 +514,7 @@ class LoginCart extends React.Component {
       });
       return;
     }
+    // 若数量清空了，再离开输入框，数量默认置为1
     if (val === '' && type === 'blur') {
       this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
       item.buyCount = 1;
@@ -518,18 +526,22 @@ class LoginCart extends React.Component {
     Array.from(document.querySelectorAll('.rc-quantity__input'), (item) => {
       item.blur();
     });
+
     const { quantityMinLimit } = this.state;
     let tmp = parseFloat(val);
     if (isNaN(tmp)) {
       tmp = 1;
       this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
+      return false;
     }
     if (tmp < quantityMinLimit) {
       tmp = quantityMinLimit;
       this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
+      return false;
     }
-    if (tmp > window.__.env.REACT_APP_LIMITED_NUM) {
-      tmp = window.__.env.REACT_APP_LIMITED_NUM;
+
+    if (tmp > skuLimitThreshold.skuMaxNum) {
+      tmp = skuLimitThreshold.skuMaxNum;
     }
     item.buyCount = tmp;
     clearTimeout(this.amountTimer);
@@ -544,11 +556,17 @@ class LoginCart extends React.Component {
     }, 500);
   }
   addQuantity(item) {
+    const {
+      configStore: {
+        info: { skuLimitThreshold }
+      }
+    } = this.props;
     if (this.state.checkoutLoading) {
       return;
     }
     this.setState({ errorMsg: '' });
-    if (item.buyCount < window.__.env.REACT_APP_LIMITED_NUM) {
+
+    if (item.buyCount < skuLimitThreshold.skuMaxNum) {
       item.buyCount++;
       this.updateBackendCart({
         goodsInfoId: item.goodsInfoId,
@@ -561,7 +579,7 @@ class LoginCart extends React.Component {
       this.showErrMsg(
         <FormattedMessage
           id="cart.errorMaxInfo"
-          values={{ val: window.__.env.REACT_APP_LIMITED_NUM }}
+          values={{ val: skuLimitThreshold.skuMaxNum }}
         />
       );
     }
@@ -1601,16 +1619,8 @@ class LoginCart extends React.Component {
                     </div>
                     <div className="rc-layout-container rc-three-column cart cart-page pt-0">
                       <div className="rc-column rc-double-width pt-0">
-                        {errorMsg ? (
-                          <div className="rc-padding-bottom--xs cart-error-messaging cart-error">
-                            <aside
-                              className="rc-alert rc-alert--error rc-alert--with-close text-break"
-                              role="alert"
-                            >
-                              <span className="pl-0">{errorMsg}</span>
-                            </aside>
-                          </div>
-                        ) : null}
+                        <ErrorMessage msg={errorMsg} />
+
                         <div className="rc-padding-bottom--xs">
                           <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
                             <FormattedMessage id="cart.yourShoppingCart" />

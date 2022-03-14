@@ -46,6 +46,7 @@ import { format } from 'date-fns';
 import { seoHoc } from '@/framework/common';
 import { DivWrapper } from './style';
 import { SUBSCRIBE_STATUS_ENUM } from '@/utils/enum';
+import { SuccessMessage, ErrorMessage } from '@/components/Message';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
@@ -142,9 +143,8 @@ class SubscriptionDetail extends React.Component {
         type: 'skipNext'
       },
       modalType: '',
-      errorShow: false,
       errorMsg: '',
-      successTipVisible: false,
+      successMsg: '',
       minDate: new Date(),
       tabName: [],
       activeTabIdx: 0,
@@ -613,24 +613,23 @@ class SubscriptionDetail extends React.Component {
   showErrMsg(msg, type, fn) {
     if (type === 'success') {
       this.setState({
-        successTipVisible: true
+        successMsg: msg
       });
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
         this.setState({
-          successTipVisible: false
+          successMsg: ''
         });
         typeof fn == 'function' && fn();
       }, 1000);
     } else {
       this.setState({
-        errorShow: true,
         errorMsg: msg
       });
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
         this.setState({
-          errorShow: false
+          errorMsg: ''
         });
         fn && fn();
       }, 3000);
@@ -649,24 +648,38 @@ class SubscriptionDetail extends React.Component {
       this.setState({
         timeSlotArr: deliveryDateList
       });
-      let deliveryDate = '';
-      let timeSlot = '';
-      deliveryDateList.forEach((item) => {
-        if (!deliveryDate) {
-          let timeSlotList = item.dateTimeInfos.find(
-            (el) =>
-              `${el.startTime}-${el.endTime}` == this.state.subDetail.timeSlot
-          );
-          if (timeSlotList) {
-            timeSlot = this.state.subDetail.timeSlot;
-            deliveryDate = item.date;
-          }
-        }
+      let deliveryDate = deliveryDateList[0].date;
+      let timeSlotList = deliveryDateList[0].dateTimeInfos?.map((el) => {
+        return {
+          ...el,
+          value: `${el.startTime}-${el.endTime}`,
+          name: `${el.startTime}-${el.endTime}`
+        };
       });
-      if (!deliveryDate) {
-        deliveryDate = deliveryDateList[0].date;
-        timeSlot = `${deliveryDateList[0]?.dateTimeInfos[0]?.startTime}-${deliveryDateList[0]?.dateTimeInfos[0]?.endTime}`;
-      }
+      timeSlotList.unshift({
+        name: 'Unspecified',
+        value: 'Unspecified',
+        startTime: 'Unspecified'
+      });
+      let timeSlot =
+        timeSlotList.find((el) => el.value == this.state.subDetail.timeSlot)
+          ?.value || 'Unspecified';
+      // deliveryDateList.forEach((item) => {
+      //   if (!deliveryDate) {
+      //     let timeSlotList = item.dateTimeInfos.find(
+      //       (el) =>
+      //         `${el.startTime}-${el.endTime}` == this.state.subDetail.timeSlot
+      //     );
+      //     if (timeSlotList) {
+      //       timeSlot = this.state.subDetail.timeSlot;
+      //       deliveryDate = item.date;
+      //     }
+      //   }
+      // });
+      // if (!deliveryDate) {
+      //   deliveryDate = deliveryDateList[0].date;
+      //   timeSlot = `${deliveryDateList[0]?.dateTimeInfos[0]?.startTime}-${deliveryDateList[0]?.dateTimeInfos[0]?.endTime}`;
+      // }
       subDetail.deliveryDate = deliveryDate;
       subDetail.timeSlot = timeSlot;
       this.handleSaveChange(subDetail, true);
@@ -774,7 +787,9 @@ class SubscriptionDetail extends React.Component {
       remainingsVisible,
       submitLoading,
       triggerShowChangeProduct,
-      petName
+      petName,
+      errorMsg,
+      successMsg
     } = this.state;
     let isShowClub =
       subDetail.subscriptionType?.toLowerCase().includes('club') ||
@@ -877,6 +892,8 @@ class SubscriptionDetail extends React.Component {
                         : 'none'
                   }}
                 >
+                  <ErrorMessage msg={errorMsg} />
+                  <SuccessMessage msg={successMsg} />
                   <SubDetailHeader
                     triggerShowChangeProduct={triggerShowChangeProduct}
                     getDetail={this.getDetail}

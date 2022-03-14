@@ -178,7 +178,9 @@ const Adoptions = (props) => {
     try {
       await checkoutStore.hanldeUnloginAddToCart({
         valid: product.goodsInfo.stock > 0,
-        cartItemList: [cartItem]
+        cartItemList: [cartItem],
+        configStore,
+        ...props
       });
       props.history.push('/cart');
     } catch (err) {
