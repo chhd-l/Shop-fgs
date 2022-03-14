@@ -37,10 +37,10 @@ const AutoshipBuyMethod = ({
   return (
     <div  className={`buy-method-box pb-2 ${form.buyWay === 1 ? 'border-red' :""}`}>
       <div
-        className={`buyMethod autoship-buy-method rc-margin-bottom--xs d-flex row justify-content-between 2 ml-0 mr-0 ui-cursor-pointer-pure`}
+        className={`buyMethod autoship-buy-method rc-margin-bottom--xs d-flex row justify-content-between 2 ml-0 mr-0 ui-cursor-pointer-pure ${form.buyWay === 1?'border-solid border-b border-d7d7d7':''}`}
         onClick={changeMethod.bind(this)}
       >
-        <div className="radioBox order-1 md:order-1 col-8 col-md-5 px-0">
+        <div className="radioBox order-1 md:order-1 col-8 px-0">
           <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width m-0">
             <FormattedMessage id="email">
               {(txt) => (
@@ -123,7 +123,7 @@ const AutoshipBuyMethod = ({
             <FormattedMessage id="freeShipping" />
           </div>
         </div>
-        <div className="price autoship-price font-weight-normal text-right position-relative order-2 md:order-3 col-4 col-md-3 text-nowrap px-0">
+        <div className="price autoship-price font-weight-normal text-right position-relative order-2 md:order-3 col-4 text-nowrap px-0">
           <div>
             {/* <span className="text-line-through-price">
               {formatMoney(currentUnitPrice)}
@@ -172,19 +172,21 @@ const AutoshipBuyMethod = ({
           ) : null} */}
         </div>
       </div>
-    <div className="px-4 buy-method-frequency ">
-      {skuPromotions && (
-          <FrequencySelection
-            frequencyType={skuPromotions}
-            currentFrequencyId={form.frequencyId}
-            handleConfirm={(data) => changeFreqency(data)}
+      {form.buyWay === 1 ? <>
+        <div className="px-4 buy-method-frequency ">
+          {skuPromotions && (
+            <FrequencySelection
+              frequencyType={skuPromotions}
+              currentFrequencyId={form.frequencyId}
+              handleConfirm={(data) => changeFreqency(data)}
             // handleConfirm={}
-          />
-        )}
-    </div>
-    <div className="flex w-full justify-center">
-      {children}
-      </div>
+            />
+          )}
+        </div>
+        <div className="flex w-full justify-center">
+          {children}
+        </div>
+      </> : null}
       {/* {window.__.env.REACT_APP_COUNTRY == 'fr' ? (
         <div>Résiliation gratuite à tout moment </div>
       ) : null} */}
