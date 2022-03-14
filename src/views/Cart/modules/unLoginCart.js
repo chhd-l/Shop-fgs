@@ -48,6 +48,7 @@ import GiftList from '../components/GiftList/index.tsx';
 import PromotionCodeText from '../components/PromotionCodeText';
 import CartSurvey from '../components/CartSurvey';
 import MixFeedingBox from '../components/MixFeedingBox/index.tsx';
+import { ErrorMessage } from '@/components/Message';
 
 const guid = uuidv4();
 const localItemRoyal = window.__.localItemRoyal;
@@ -1593,16 +1594,7 @@ class UnLoginCart extends React.Component {
                 </div>
                 <div className="rc-layout-container rc-three-column cart cart-page pt-0">
                   <div className="rc-column rc-double-width pt-0">
-                    {errorMsg ? (
-                      <div className="rc-padding-bottom--xs cart-error-messaging cart-error">
-                        <aside
-                          className="rc-alert rc-alert--error rc-alert--with-close text-break"
-                          role="alert"
-                        >
-                          <span className="pl-0">{errorMsg}</span>
-                        </aside>
-                      </div>
-                    ) : null}
+                    <ErrorMessage msg={errorMsg} />
                     <div className="rc-padding-bottom--xs">
                       <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
                         <FormattedMessage id="cart.yourShoppingCart" />

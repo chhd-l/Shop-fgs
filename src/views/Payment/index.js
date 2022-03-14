@@ -100,6 +100,7 @@ import {
   radioTypes
 } from './PaymentMethod/paymentMethodsConstant';
 import { handlePayReview } from './PaymentMethod/paymentUtils';
+import { ErrorMessage } from '@/components/Message';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -2738,18 +2739,7 @@ class Payment extends React.Component {
         />
 
         {/* BillingAddress 地址不完整提示 */}
-        <div
-          className={`rc-padding-bottom--xs cart-error-messaging cart-error ${
-            billingAddressErrorMsg ? '' : 'hidden'
-          }`}
-        >
-          <aside
-            className="rc-alert rc-alert--error rc-alert--with-close"
-            role="alert"
-          >
-            {billingAddressErrorMsg}
-          </aside>
-        </div>
+        <ErrorMessage msg={billingAddressErrorMsg} />
 
         {/* 勾选， deliveryAddress = billingAddress */}
         {billingChecked ? (
@@ -3973,21 +3963,9 @@ class Payment extends React.Component {
             <div className="rc-layout-container rc-three-column rc-max-width--xl mt-3 md:-mt-6">
               <div className="rc-column rc-double-width shipping__address">
                 {/* 错误提示，没有errorMsg时，或errorMsg===This Error No Display时不显示  */}
-                <div
-                  className={cn(
-                    'rc-padding-bottom--xs cart-error-messaging cart-error',
-                    {
-                      hidden: !errorMsg || errorMsg === 'This Error No Display'
-                    }
-                  )}
-                >
-                  <aside
-                    className="rc-alert rc-alert--error rc-alert--with-close"
-                    role="alert"
-                  >
-                    {errorMsg}
-                  </aside>
-                </div>
+                <ErrorMessage
+                  msg={errorMsg && errorMsg !== 'This Error No Display'}
+                />
                 {tid ? (
                   <RepayAddressPreview details={orderDetails} />
                 ) : (
