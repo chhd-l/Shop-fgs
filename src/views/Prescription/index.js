@@ -424,8 +424,7 @@ class Prescription extends React.Component {
                     />
                   </span>
 
-                  {/* <span className="rc-select rc-input--inline rc-input--label rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop"
-                    style={{width:'100%',maxWidth:'100%', padding: "1rem 0 0 0"}}>
+                  {/* <span className="rc-select rc-input--inline rc-input--label rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop w-full max-w-full pt-4 px-0 pb-0">
                     <select data-js-select="" id="id-single-select" value={this.state.selectedSort}>
                     <FormattedMessage id='clinic.sortResultsByDistance'>
                         {(txt) => (
@@ -445,14 +444,10 @@ class Prescription extends React.Component {
                   >
                     {this.state.currentClinicArr.map((item) => (
                       <article
-                        className="rc-card rc-card--a clinic-card-boder"
-                        style={{ width: '100%', margin: '1rem 0' }}
+                        className="rc-card rc-card--a clinic-card-boder w-full my-4 mx-0"
                         key={item.id}
                       >
-                        <div
-                          className="rc-card__body"
-                          style={{ padding: '0 0 0 1rem' }}
-                        >
+                        <div className="rc-card__body py-0 pr-0 pl-4">
                           <div onClick={() => this.handleItem(item)}>
                             <p style={{ margin: '.5rem 0 0 0' }}>
                               <FormattedMessage id="clinic.vet" />
