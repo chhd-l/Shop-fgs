@@ -4,7 +4,7 @@ import { useLocalStore } from 'mobx-react';
 import Modal from '@/components/Modal';
 import stores from '@/store';
 import { Link } from 'react-router-dom';
-import ShowErrorDom from '../ShowErrorDom';
+import { ErrorMessage } from '@/components/Message';
 import Banner_Cat from '../../../PetForm/images/banner_Cat.jpg';
 import Banner_Dog from '../../../PetForm/images/banner_Dog.jpg';
 import Cat from '@/assets/images/cat.png';
@@ -101,7 +101,7 @@ const LinkPet = ({
         modalTitle={<FormattedMessage id="subscriptionDetail.linkProfile" />}
         close={closeAddNewPet}
       >
-        <ShowErrorDom errorMsg={errorMsg} />
+        <ErrorMessage msg={errorMsg} />
         <div className="rc-padding-x--md" style={{ maxHeight: '80vh' }}>
           <div className="pets-list-wrap">
             {petList

@@ -433,6 +433,11 @@ class UnLoginCart extends React.Component {
   }
   handleAmountChange({ value, item, type = 'change' }) {
     let err;
+    const {
+      configStore: {
+        info: { skuLimitThreshold }
+      }
+    } = this.props;
     let { productList } = this.state;
     let val = value;
     this.setState({ errorMsg: '' });
@@ -465,12 +470,12 @@ class UnLoginCart extends React.Component {
       err = <FormattedMessage id="cart.errorInfo" />;
     }
     // 单个产品总数量不能超过限制
-    if (tmp > +window.__.env.REACT_APP_LIMITED_NUM) {
-      tmp = +window.__.env.REACT_APP_LIMITED_NUM;
+    if (tmp > skuLimitThreshold.skuMaxNum) {
+      tmp = skuLimitThreshold.skuMaxNum;
       err = (
         <FormattedMessage
           id="cart.errorMaxInfo"
-          values={{ val: window.__.env.REACT_APP_LIMITED_NUM }}
+          values={{ val: skuLimitThreshold.skuMaxNum }}
         />
       );
     }
@@ -480,12 +485,12 @@ class UnLoginCart extends React.Component {
       .reduce((pre, cur) => {
         return Number(pre) + Number(cur.quantity);
       }, 0);
-    if (otherProsNum + tmp > +window.__.env.REACT_APP_LIMITED_NUM_ALL_PRODUCT) {
-      tmp = +window.__.env.REACT_APP_LIMITED_NUM_ALL_PRODUCT - otherProsNum;
+    if (otherProsNum + tmp > skuLimitThreshold.totalMaxNum) {
+      tmp = skuLimitThreshold.totalMaxNum - otherProsNum;
       err = (
         <FormattedMessage
           id="cart.errorAllProductNumLimit"
-          values={{ val: window.__.env.REACT_APP_LIMITED_NUM_ALL_PRODUCT }}
+          values={{ val: skuLimitThreshold.totalMaxNum }}
         />
       );
     }

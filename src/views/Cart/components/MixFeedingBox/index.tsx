@@ -10,6 +10,8 @@ import {
   addToUnloginCartData,
   addToLoginCartData
 } from '@/utils/utils';
+import { inject, observer } from 'mobx-react';
+
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 const MixFeedingBox = function ({
@@ -19,7 +21,10 @@ const MixFeedingBox = function ({
   isLogin,
   update,
   beforeUpdate,
-  intl
+  intl,
+  configStore: {
+    info: { skuLimitThreshold }
+  }
 }) {
   const History = useHistory();
   const [selectedSku, setSelectedSku] = useState(null);
@@ -37,8 +42,8 @@ const MixFeedingBox = function ({
       }
     } else {
       res = (quantity || 0) + 1;
-      if (quantity >= window.__.env.REACT_APP_LIMITED_NUM) {
-        res = window.__.env.REACT_APP_LIMITED_NUM;
+      if (quantity >= skuLimitThreshold.skuMaxNum) {
+        res = skuLimitThreshold.skuMaxNum;
       }
     }
     setQuantity(res);
@@ -58,8 +63,8 @@ const MixFeedingBox = function ({
       if (tmp < quantityMinLimit) {
         tmp = quantityMinLimit;
       }
-      if (tmp > window.__.env.REACT_APP_LIMITED_NUM) {
-        tmp = window.__.env.REACT_APP_LIMITED_NUM;
+      if (tmp > skuLimitThreshold.skuMaxNum) {
+        tmp = skuLimitThreshold.skuMaxNum;
       }
       setQuantity(tmp);
     }
@@ -291,4 +296,5 @@ const MixFeedingBox = function ({
   );
 };
 
-export default MixFeedingBox;
+// export default MixFeedingBox;
+export default inject('configStore')(observer(MixFeedingBox));
