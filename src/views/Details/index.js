@@ -1257,6 +1257,49 @@ class Details extends React.Component {
     );
   };
 
+  ButtonGroupDom = (showRetailerBtn) => {
+    const {
+      addToCartLoading,
+      form,
+      checkOutErrMsg,
+      barcode,
+      details
+    } = this.state;
+    const btnStatus = this.btnStatus;
+    const vet =
+      (window.__.env.REACT_APP_HUB || Uk) &&
+      !details.saleableFlag &&
+      details.displayFlag;
+    const buyFromRetailerConfig = this.buyFromRetailerConfig;
+    const isApi =
+      buyFromRetailerConfig.retailerEnable &&
+      buyFromRetailerConfig.type === 'API';
+    const isUrl =
+      buyFromRetailerConfig.retailerEnable &&
+      buyFromRetailerConfig.type === 'URL';
+    const retailerUrl = buyFromRetailerConfig.retailerEnable
+      ? buyFromRetailerConfig.url
+      : '';
+    return (
+      <ButtonGroup
+        addToCartLoading={addToCartLoading}
+        btnStatus={btnStatus}
+        form={form}
+        isShowRetailerBtn={
+          this.retailerBtnStatus && (showRetailerBtn || isMobile)
+        }
+        checkOutErrMsg={checkOutErrMsg}
+        barcode={barcode}
+        vet={vet}
+        addToCart={this.hanldeAddToCart}
+        buyFromRetailer={this.handleBuyFromRetailer}
+        isApi={isApi}
+        isUrl={isUrl}
+        retailerUrl={retailerUrl}
+      />
+    );
+  };
+
   render() {
     const { intl } = this.props;
     const {
@@ -1271,7 +1314,6 @@ class Details extends React.Component {
       currentSubscriptionPrice,
       currentSubscriptionStatus,
       errMsg,
-      addToCartLoading,
       form,
       productRate,
       instockStatus,
@@ -1300,25 +1342,16 @@ class Details extends React.Component {
         i.artworkUrl = i.goodsInfoImg;
         return i.goodsInfoImg;
       }) || [];
-    const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     const vet =
       (window.__.env.REACT_APP_HUB || Uk) &&
       !details.saleableFlag &&
       details.displayFlag; //vet产品并且是hub的情况下,(uk不管stg还是wedding都用这个逻辑)
-    console.log(
-      vet,
-      window.__.env.REACT_APP_HUB,
-      !details.saleableFlag,
-      details.displayFlag,
-      'ishubvet'
-    );
     const goodHeading = `<${headingTag || 'h1'}
         class="rc-gamma ui-text-overflow-line2 text-break"
         title="${details.goodsName}">
         ${details.goodsName}
       </${headingTag || 'h1'}>`;
-
     const buyFromRetailerConfig = this.buyFromRetailerConfig;
     const isApi =
       buyFromRetailerConfig.retailerEnable &&
@@ -1489,26 +1522,32 @@ class Details extends React.Component {
                             !isMobile ? 'col-md-7' : ''
                           }`}
                         >
-                          {!isMobile && (
-                            <DetailHeader
-                              checkOutErrMsg={checkOutErrMsg}
-                              goodHeading={goodHeading}
-                              selectedSpecItem={selectedSpecItem}
-                              details={details}
-                              productRate={productRate}
-                              replyNum={replyNum}
-                              instockStatus={instockStatus}
-                            />
+                          {loading ? (
+                            <Skeleton />
+                          ) : (
+                            <>
+                              {!isMobile && (
+                                <DetailHeader
+                                  checkOutErrMsg={checkOutErrMsg}
+                                  goodHeading={goodHeading}
+                                  selectedSpecItem={selectedSpecItem}
+                                  details={details}
+                                  productRate={productRate}
+                                  replyNum={replyNum}
+                                  instockStatus={instockStatus}
+                                />
+                              )}
+                              {!isMobile ? this.specAndQuantityDom() : null}
+                              {!isMobile &&
+                              details.promotions &&
+                              details.promotions.includes('club') ? (
+                                <Ration
+                                  goodsNo={details.goodsNo}
+                                  setState={this.setState.bind(this)}
+                                />
+                              ) : null}
+                            </>
                           )}
-                          {!isMobile ? this.specAndQuantityDom() : null}
-                          {!isMobile &&
-                          details.promotions &&
-                          details.promotions.includes('club') ? (
-                            <Ration
-                              goodsNo={details.goodsNo}
-                              setState={this.setState.bind(this)}
-                            />
-                          ) : null}
                         </div>
                         {loading ? (
                           <Skeleton />
@@ -1536,6 +1575,7 @@ class Details extends React.Component {
                           <div
                             className={classNames({
                               hidden: this.isNullGoodsInfos,
+                              'w-full': isMobile,
                               'col-md-5': !isMobile
                             })}
                           >
@@ -1556,7 +1596,9 @@ class Details extends React.Component {
                                 changeFreqency={(data) => {
                                   this.handleSelectedItemChange(data);
                                 }}
-                              />
+                              >
+                                {this.ButtonGroupDom(false)}
+                              </SingleBuyMethod>
                               {currentSubscriptionStatus &&
                               currentSubscriptionPrice &&
                               skuPromotions == 'autoship' ? (
@@ -1573,7 +1615,9 @@ class Details extends React.Component {
                                   changeFreqency={(data) => {
                                     this.handleSelectedItemChange(data);
                                   }}
-                                />
+                                >
+                                  {this.ButtonGroupDom(false)}
+                                </AutoshipBuyMethod>
                               ) : null}
                               {currentSubscriptionStatus &&
                               currentSubscriptionPrice &&
@@ -1592,28 +1636,24 @@ class Details extends React.Component {
                                     this.handleSelectedItemChange(data);
                                   }}
                                   toClubTab={this.toClubTab}
-                                />
+                                >
+                                  {this.ButtonGroupDom(false)}
+                                </ClubBuyMethod>
                               ) : null}
                             </div>
-                            <ButtonGroup
-                              addToCartLoading={addToCartLoading}
-                              btnStatus={btnStatus}
-                              form={form}
-                              isShowRetailerBtn={this.retailerBtnStatus}
-                              checkOutErrMsg={checkOutErrMsg}
-                              barcode={barcode}
-                              vet={vet}
-                              addToCart={this.hanldeAddToCart}
-                              buyFromRetailer={this.handleBuyFromRetailer}
-                              isApi={isApi}
-                              isUrl={isUrl}
-                              retailerUrl={retailerUrl}
-                            />
-                            {form.buyWay === 2 &&
-                            window.__.env.REACT_APP_COUNTRY !== 'ru' ? (
-                              <p className="text-right medium mr-4">
-                                <FormattedMessage id="detail.subscriptionBuyTip" />
-                              </p>
+
+                            {PC && this.retailerBtnStatus ? (
+                              <div className="flex justify-content-center mt-5">
+                                <BuyFromRetailerBtn
+                                  // ccidBtnDisplay={ccidBtnDisplay}
+                                  barcode={barcode}
+                                  goodsType={goodsType}
+                                  onClick={this.handleBuyFromRetailer}
+                                  isApi={isApi}
+                                  isUrl={isUrl}
+                                  retailerUrl={retailerUrl}
+                                />
+                              </div>
                             ) : null}
                             {isMobile &&
                             details.promotions &&

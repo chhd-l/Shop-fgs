@@ -15,6 +15,7 @@ interface Props {
   currentSubscriptionPrice: any;
   changeMethod: Function;
   changeFreqency: Function;
+  children:any;
 }
 
 const AutoshipBuyMethod = ({
@@ -25,7 +26,8 @@ const AutoshipBuyMethod = ({
   currentUnitPrice,
   currentSubscriptionPrice,
   changeMethod,
-  changeFreqency
+  changeFreqency,
+  children
 }: Props) => {
   const [toolTipVisible, setToolTipVisible] = useState(false);
   const discountAmount = new Decimal(currentUnitPrice)
@@ -170,7 +172,7 @@ const AutoshipBuyMethod = ({
           ) : null} */}
         </div>
       </div>
-    <div className="px-2 buy-method-frequency ">
+    <div className="px-4 buy-method-frequency ">
       {skuPromotions && (
           <FrequencySelection
             frequencyType={skuPromotions}
@@ -180,6 +182,9 @@ const AutoshipBuyMethod = ({
           />
         )}
     </div>
+    <div className="flex w-full justify-center">
+      {children}
+      </div>
       {/* {window.__.env.REACT_APP_COUNTRY == 'fr' ? (
         <div>Résiliation gratuite à tout moment </div>
       ) : null} */}

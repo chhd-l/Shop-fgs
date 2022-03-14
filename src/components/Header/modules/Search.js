@@ -445,8 +445,13 @@ export default class Search extends React.Component {
     return ret;
   }
   render() {
-    const { showSearchInput, result, keywords, loading, hiddenResult } =
-      this.state;
+    const {
+      showSearchInput,
+      result,
+      keywords,
+      loading,
+      hiddenResult
+    } = this.state;
     const isMobile = getDeviceType() !== 'PC';
     return (
       <div
@@ -500,7 +505,7 @@ export default class Search extends React.Component {
                 </FormattedMessage>
               </form>
             </div>
-            {!hiddenResult ? (
+            {!hiddenResult && result ? (
               <div style={{ position: 'relative', top: '.2rem' }}>
                 <div className="suggestions-wrapper">
                   {this.renderResultJsx()}
@@ -569,7 +574,7 @@ export default class Search extends React.Component {
                   aria-label="Close"
                   onClick={this.hanldeSearchCloseClick}
                 />
-                {!hiddenResult ? (
+                {!hiddenResult && result ? (
                   <div className="suggestions-wrapper">
                     {this.renderResultJsx()}
                   </div>

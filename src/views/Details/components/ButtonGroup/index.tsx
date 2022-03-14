@@ -75,14 +75,12 @@ const ButtonGroup = ({
               <FormattedMessage id="or" />
               &nbsp;&nbsp;
               <BuyFromRetailerBtn
-                // ccidBtnDisplay={ccidBtnDisplay}
                 barcode={barcode}
                 goodsType={goodsType}
                 onClick={handleBuyFromRetailer}
                 isApi={isApi}
                 isUrl={isUrl}
                 retailerUrl={retailerUrl}
-                // ref={(el) => this.ccidBtnRef(el)}
               />
             </>
           ) : null}
@@ -113,14 +111,12 @@ const ButtonGroup = ({
           ) : null}
           {isShowRetailerBtn ? (
             <BuyFromRetailerBtn
-              // ccidBtnDisplay={ccidBtnDisplay}
               barcode={barcode}
               goodsType={goodsType}
               onClick={handleBuyFromRetailer}
               isApi={isApi}
               isUrl={isUrl}
               retailerUrl={retailerUrl}
-              // ref={(el) => this.ccidBtnRef(el)}
             />
           ) : null}
         </div>
