@@ -649,24 +649,38 @@ class SubscriptionDetail extends React.Component {
       this.setState({
         timeSlotArr: deliveryDateList
       });
-      let deliveryDate = '';
-      let timeSlot = '';
-      deliveryDateList.forEach((item) => {
-        if (!deliveryDate) {
-          let timeSlotList = item.dateTimeInfos.find(
-            (el) =>
-              `${el.startTime}-${el.endTime}` == this.state.subDetail.timeSlot
-          );
-          if (timeSlotList) {
-            timeSlot = this.state.subDetail.timeSlot;
-            deliveryDate = item.date;
-          }
-        }
+      let deliveryDate = deliveryDateList[0].date;
+      let timeSlotList = deliveryDateList[0].dateTimeInfos?.map((el) => {
+        return {
+          ...el,
+          value: `${el.startTime}-${el.endTime}`,
+          name: `${el.startTime}-${el.endTime}`
+        };
       });
-      if (!deliveryDate) {
-        deliveryDate = deliveryDateList[0].date;
-        timeSlot = `${deliveryDateList[0]?.dateTimeInfos[0]?.startTime}-${deliveryDateList[0]?.dateTimeInfos[0]?.endTime}`;
-      }
+      timeSlotList.unshift({
+        name: 'Unspecified',
+        value: 'Unspecified',
+        startTime: 'Unspecified'
+      });
+      let timeSlot =
+        timeSlotList.find((el) => el.value == this.state.subDetail.timeSlot)
+          ?.value || 'Unspecified';
+      // deliveryDateList.forEach((item) => {
+      //   if (!deliveryDate) {
+      //     let timeSlotList = item.dateTimeInfos.find(
+      //       (el) =>
+      //         `${el.startTime}-${el.endTime}` == this.state.subDetail.timeSlot
+      //     );
+      //     if (timeSlotList) {
+      //       timeSlot = this.state.subDetail.timeSlot;
+      //       deliveryDate = item.date;
+      //     }
+      //   }
+      // });
+      // if (!deliveryDate) {
+      //   deliveryDate = deliveryDateList[0].date;
+      //   timeSlot = `${deliveryDateList[0]?.dateTimeInfos[0]?.startTime}-${deliveryDateList[0]?.dateTimeInfos[0]?.endTime}`;
+      // }
       subDetail.deliveryDate = deliveryDate;
       subDetail.timeSlot = timeSlot;
       this.handleSaveChange(subDetail, true);

@@ -1445,6 +1445,7 @@ class Details extends React.Component {
                                           ? filterImages
                                           : spuImages
                                       }
+                                      direction={isMobile ? 'col' : 'row'}
                                     />
                                   ) : (
                                     <ImageMagnifier

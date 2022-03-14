@@ -13,7 +13,6 @@ import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 
-const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
 @injectIntl
@@ -53,7 +52,7 @@ class AboutUs extends React.Component {
             <nav
               className="rc-progress rc-progress--breadcrumbs-stepped rc-max-width--xl rc-padding-x--sm rc-padding-y--xs rc-margin-top--xs "
               data-progress-setup="true"
-            ></nav>
+            />
             <div className="experience-region experience-main">
               {/* <div className="experience-component experience-layouts-1column">
                 <div className="row rc-margin-x--none">
@@ -83,7 +82,7 @@ class AboutUs extends React.Component {
                           name={messages['aboutUs.history']}
                           className="page-section-anchor"
                           aria-hidden="true"
-                        ></a>
+                        />
                         <div className="row align-items-md-center">
                           <div className=" col-12 col-lg-6">
                             <div className="text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
@@ -122,7 +121,7 @@ class AboutUs extends React.Component {
                           name={messages['aboutUs.ourValues']}
                           className="page-section-anchor"
                           aria-hidden="true"
-                        ></a>
+                        />
                         <div className="row align-items-md-center">
                           <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
                             <picture data-rc-feature-objectfillpolyfill-setup="true">
@@ -168,7 +167,7 @@ class AboutUs extends React.Component {
                           name={messages['aboutUs.FoodQualityandSafety']}
                           className="page-section-anchor"
                           aria-hidden="true"
-                        ></a>
+                        />
                         <div className="row align-items-md-center">
                           <div className=" col-12 col-lg-6">
                             <div className="text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
@@ -232,7 +231,7 @@ class AboutUs extends React.Component {
                             title="making a better world for pets"
                             allowFullScreen=""
                             frameBorder="0"
-                          ></iframe>
+                          />
                         </div>
                       </div>
                     </div>
@@ -251,7 +250,7 @@ class AboutUs extends React.Component {
                               <h2 className="rc-alpha inherit-fontsize">
                                 <FormattedMessage id="aboutUs.shopTile" />
                               </h2>
-                              <p className="rc-large-intro rc-margin-bottom--sm"></p>
+                              <p className="rc-large-intro rc-margin-bottom--sm" />
                             </div>
 
                             <div className="rc-card-grid rc-match-heights rc-four-column">
@@ -273,7 +272,7 @@ class AboutUs extends React.Component {
                                           <FormattedMessage id="aboutUs.shopDog" />
                                         </h4>
                                       </Link>
-                                      <p className="rc-margin--none"></p>
+                                      <p className="rc-margin--none" />
                                     </header>
                                   </div>
                                 </article>
@@ -297,7 +296,7 @@ class AboutUs extends React.Component {
                                           <FormattedMessage id="aboutUs.shopCat" />
                                         </h4>
                                       </Link>
-                                      <p className="rc-margin--none"></p>
+                                      <p className="rc-margin--none" />
                                     </header>
                                   </div>
                                 </article>
