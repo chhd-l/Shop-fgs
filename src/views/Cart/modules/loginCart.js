@@ -1171,10 +1171,10 @@ class LoginCart extends React.Component {
         {/* 显示 默认折扣 */}
         {parseFloat(this.subscriptionDiscountPrice) > 0 && (
           <div className={`row leading-lines shipping-item green`}>
-            <div className="col-8">
+            <div className="col-6">
               <p>{<FormattedMessage id="promotion" />}</p>
             </div>
-            <div className="col-4">
+            <div className="col-6">
               <p className="text-right shipping-cost text-nowrap mb-4">
                 <strong>-{formatMoney(this.subscriptionDiscountPrice)}</strong>
               </p>
