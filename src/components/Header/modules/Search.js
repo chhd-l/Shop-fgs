@@ -73,93 +73,17 @@ export default class Search extends React.Component {
 
   async getSuggestionList() {
     const { keywords } = this.state;
-    getSearchSuggestion(keywords)
-      .then((sugRes) => {
-        if (sugRes.context && sugRes.context.length) {
-          this.setState({
-            suggestions: sugRes.context
-          });
-        } else {
-          this.getSearchData();
-        }
-      })
-      .catch(() => this.getSearchData());
-  }
-
-  async getSearchData() {
-    const { keywords } = this.state;
-    // this.setState({ loading: true });
     Promise.all([
-      getList({
-        keywords,
-        propDetails: [],
-        pageNum: 0,
-        brandIds: [],
-        pageSize: 10, //isHub ? 10 : 20,不区分，都改成10条
-        esGoodsInfoDTOList: [],
-        companyType: '',
-        minMarketPrice: 0,
-        maxMarketPrice: this.props?.configStore?.maxGoodsPrice || null
-      }),
+      getSearchSuggestion(keywords),
       isHub && getSearch({ keywords })
-      // isHub && querySearch()
     ])
       .then((res) => {
-        let goodsContent = [];
-
-        let productResultNum = res[0]?.context?.esGoodsPage?.totalElements || 0;
-        let contentResultTitle = res[1]?.FeaturedItems?.[0]?.Title;
-        let contentResultNum =
-          typeof contentResultTitle == 'string'
-            ? Number(
-                contentResultTitle.split(' ')[
-                  contentResultTitle.split(' ').length - 1
-                ]
-              )
-            : 0;
-        GAInstantSearchResultDisplay({
-          query: keywords,
-          productResultNum,
-          contentResultNum
-        });
-
-        const esGoodsPage =
-          res[0] && res[0].context && res[0].context.esGoodsPage;
-        if (esGoodsPage && esGoodsPage.content.length) {
-          goodsContent = esGoodsPage.content || [];
-          if (window?.dataLayer && dataLayer[0] && dataLayer[0].search) {
-            dataLayer[0].search.query = keywords;
-            dataLayer[0].search.results = esGoodsPage.totalElements;
-            dataLayer[0].search.type = 'with results';
-          }
-          sessionItemRoyal.set('search-results', esGoodsPage.totalElements);
-
-          this.setState({
-            isSearchSuccess: true,
-            result: Object.assign(
-              {},
-              {
-                productList: goodsContent,
-                totalElements: esGoodsPage.totalElements
-              },
-              { attach: res[1] }
-            )
-          });
-        } else {
-          if (window?.dataLayer && dataLayer[0] && dataLayer[0].search) {
-            dataLayer[0].search.query = keywords;
-            dataLayer[0].search.results = 0;
-            dataLayer[0].search.type = 'without results';
-          }
-          this.setState({
-            isSearchSuccess: false,
-            result: Object.assign({}, { productList: [], totalElements: 0 })
-          });
+        if ((res[0]?.context ?? []).length) {
+          res[0].context = res[0].context.map((item) =>
+            JSON.parse(JSON.parse(item))
+          );
         }
-        this.setState({
-          hasSearchedDone: true,
-          loading: false
-        });
+        this.getSearchData(res);
       })
       .catch((err) => {
         if (window?.dataLayer && dataLayer[0] && dataLayer[0].search) {
@@ -173,6 +97,79 @@ export default class Search extends React.Component {
           result: Object.assign({}, { productList: [], totalElements: 0 })
         });
       });
+  }
+
+  async getSearchData(res) {
+    const { keywords } = this.state;
+    // this.setState({ loading: true });
+    // if (typeof res[0]?.context === 'string') {
+    //   const searchResultFromInnerList = await getList({
+    //     keywords: res[0].context,
+    //     propDetails: [],
+    //     pageNum: 0,
+    //     brandIds: [],
+    //     pageSize: 10, //isHub ? 10 : 20,不区分，都改成10条
+    //     esGoodsInfoDTOList: [],
+    //     companyType: '',
+    //     minMarketPrice: 0,
+    //     maxMarketPrice: this.props?.configStore?.maxGoodsPrice || null
+    //   });
+    // }
+
+    let goodsContent = [];
+
+    let productResultNum = (res[0]?.context ?? []).length;
+    let contentResultTitle = res[1]?.FeaturedItems?.[0]?.Title;
+    let contentResultNum =
+      typeof contentResultTitle == 'string'
+        ? Number(
+            contentResultTitle.split(' ')[
+              contentResultTitle.split(' ').length - 1
+            ]
+          )
+        : 0;
+    GAInstantSearchResultDisplay({
+      query: keywords,
+      productResultNum,
+      contentResultNum
+    });
+
+    const esGoodsPage = res[0] && res[0].context;
+    if (esGoodsPage && esGoodsPage.length) {
+      goodsContent = esGoodsPage || [];
+      if (window?.dataLayer && dataLayer[0] && dataLayer[0].search) {
+        dataLayer[0].search.query = keywords;
+        dataLayer[0].search.results = productResultNum;
+        dataLayer[0].search.type = 'with results';
+      }
+      sessionItemRoyal.set('search-results', productResultNum);
+
+      this.setState({
+        isSearchSuccess: true,
+        result: Object.assign(
+          {},
+          {
+            productList: goodsContent,
+            totalElements: productResultNum
+          },
+          { attach: res[1] }
+        )
+      });
+    } else {
+      if (window?.dataLayer && dataLayer[0] && dataLayer[0].search) {
+        dataLayer[0].search.query = keywords;
+        dataLayer[0].search.results = 0;
+        dataLayer[0].search.type = 'without results';
+      }
+      this.setState({
+        isSearchSuccess: false,
+        result: Object.assign({}, { productList: [], totalElements: 0 })
+      });
+    }
+    this.setState({
+      hasSearchedDone: true,
+      loading: false
+    });
   }
   hanldeSearchCloseClick() {
     this.setState({
@@ -233,13 +230,15 @@ export default class Search extends React.Component {
   doGAInstantSearchResultClick = (type, item, idx, e) => {
     GAInstantSearchResultClick({
       type,
-      name: item.goodsName,
+      name: item.goodsname,
       position: idx + 1
     });
     this.props.history.push({
-      pathname: `/${item.lowGoodsName.split(' ').join('-').replace('/', '')}-${
-        item.goodsNo
-      }`,
+      pathname: `/${item.goodsname
+        .toLowerCase()
+        .split(' ')
+        .join('-')
+        .replace('/', '')}-${item.goodsno}`,
       state: {
         GAListParam: 'Search Results'
       }
@@ -301,36 +300,7 @@ export default class Search extends React.Component {
     const { result, keywords, suggestions } = this.state;
     let ret = null;
     const keyReg = new RegExp(keywords, 'gi');
-    if (suggestions && suggestions.length) {
-      ret = (
-        <div
-          className="suggestions suggestion-keywords"
-          id="mainSuggestions"
-          onMouseOver={() => this.enterResultBox()}
-          onMouseOut={() => this.leaveResultBox()}
-        >
-          <div className="container">
-            <div className="row d-flex flex-sm-row">
-              <div className="col-12 rc-column">
-                {suggestions
-                  .map((item) => ({
-                    item: item,
-                    html: item.replace(keyReg, (txt) => `<b>${txt}</b>`)
-                  }))
-                  .map((item, idx) => (
-                    <div
-                      className="col-12 item ui-cursor-pointer"
-                      key={idx}
-                      dangerouslySetInnerHTML={{ __html: item.html }}
-                      onClick={() => this.handleSuggestionItemClick(item.item)}
-                    ></div>
-                  ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    } else if (result) {
+    if (result) {
       ret = (
         <div
           className="suggestions"
@@ -382,13 +352,13 @@ export default class Search extends React.Component {
                               <LazyLoad>
                                 <img
                                   className="swatch__img"
-                                  alt={item.goodsName}
-                                  title={item.goodsName}
+                                  alt={item.goodsname}
+                                  title={item.goodsname}
                                   style={{ width: '100%' }}
                                   src={
                                     optimizeImage({
                                       originImageUrl:
-                                        item.goodsImg ||
+                                        item.goodsimage ||
                                         item.goodsInfos?.sort(
                                           (a, b) =>
                                             a.marketPrice - b.marketPrice
@@ -418,10 +388,10 @@ export default class Search extends React.Component {
                               //   }
                               // }}
                               className="productName ui-cursor-pointer ui-text-overflow-line2 text-break"
-                              alt={item.goodsName}
-                              title={item.goodsName}
+                              alt={item.goodsname}
+                              title={item.goodsname}
                               dangerouslySetInnerHTML={{
-                                __html: item.goodsName.replace(
+                                __html: item.suggestiontext.replace(
                                   keyReg,
                                   (txt) => `<b>${txt}</b>`
                                 )
@@ -449,8 +419,7 @@ export default class Search extends React.Component {
                       }}
                     >
                       <strong>
-                        <FormattedMessage id="viewAllResults" /> (
-                        {result.totalElements})
+                        <FormattedMessage id="viewAllResults" />
                       </strong>
                     </Link>
                   </div>
@@ -503,13 +472,8 @@ export default class Search extends React.Component {
     return ret;
   }
   render() {
-    const {
-      showSearchInput,
-      result,
-      keywords,
-      loading,
-      hiddenResult
-    } = this.state;
+    const { showSearchInput, result, keywords, loading, hiddenResult } =
+      this.state;
     const isMobile = getDeviceType() !== 'PC';
     return (
       <div
