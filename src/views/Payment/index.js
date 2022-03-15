@@ -20,7 +20,6 @@ import {
   AddressList,
   AddressPreview,
   SameAsCheckbox,
-  felinAddr,
   RepayAddressPreview
 } from './Address';
 import Confirmation from './modules/Confirmation';
@@ -97,7 +96,8 @@ import { SelectPet } from './SelectPet';
 import { PanelContainer } from './Common';
 import {
   paymentMethodsObj,
-  radioTypes
+  radioTypes,
+  felinAddr
 } from './PaymentMethod/paymentMethodsConstant';
 import { handlePayReview } from './PaymentMethod/paymentUtils';
 import { ErrorMessage } from '@/components/Message';
@@ -445,7 +445,7 @@ class Payment extends React.Component {
     if (guestInfo) {
       sessionItemRoyal.set('guestInfo', base64.decode(guestInfo));
     }
-    guestInfo = guestInfo || sessionItemRoyal.get('guestInfo');
+    guestInfo = JSON.parse(sessionItemRoyal.get('guestInfo'));
     if (appointNo) {
       let felinAddress = Object.assign(
         felinAddr[0],
