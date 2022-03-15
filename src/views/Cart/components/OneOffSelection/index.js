@@ -3,14 +3,12 @@ import { formatMoney } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
 
 const OneOffSelection = function (props) {
-  const { isGift, pitem, activeToolTipIndex, index, toolTipVisible, isLogin } =
-    props;
+  const { isGift, pitem, isLogin } = props;
   return (
     <div
-      className="buyMethod for_ipad_pro_price rc-margin-bottom--xs--desktop"
+      className="buyMethod for_ipad_pro_price rc-margin-bottom--xs--desktop cursor-pointer"
       style={{
         borderColor: !parseInt(pitem.goodsInfoFlag) ? '#e2001a' : '#d7d7d7',
-        cursor: 'pointer',
         display: `${isGift ? 'none' : 'block'}`
       }}
       onClick={props.chooseOneOff}
@@ -18,13 +16,9 @@ const OneOffSelection = function (props) {
       <div className="buyMethodInnerBox d-flex justify-content-between align-items-center text-break flex-wrap">
         <div className="radioBox mr-2">
           <span
-            className="font15"
+            className="font15 font-thin h-full text-xl leading-4"
             style={{
-              height: '100%',
-              fontWeight: '100',
-              color: '#666',
-              fontSize: '1.25rem',
-              lineHeight: '1'
+              color: '#666'
             }}
           >
             <span className="iconfont iconOrders text-rc-red font-medium text-lg mr-1" />

@@ -10,10 +10,9 @@ const ClubSelection = function (props) {
     props;
   return (
     <div
-      className="buyMethod rc-margin-bottom--xs ClubSelection"
+      className="buyMethod rc-margin-bottom--xs ClubSelection cursor-pointer"
       style={{
         borderColor: parseInt(pitem.goodsInfoFlag) ? '#e2001a' : '#d7d7d7',
-        cursor: 'pointer',
         maxWidth: `${isGift ? '22rem' : 'initial'}`
       }}
       onClick={props.chooseSubscription}
@@ -22,15 +21,14 @@ const ClubSelection = function (props) {
         <div className="radioBox mr-2">
           <span
             style={{
-              fontWeight: '400',
               color: '#333',
-              display: 'inline-block',
               marginTop: '5px'
             }}
+            className="font-normal inline-block"
           >
             <span
-              className="iconfont iconbiaoqian red mr-2"
-              style={{ fontSize: '1.2em', fontWeight: '600', color: '#ec001a' }}
+              className="iconfont iconbiaoqian red mr-2 font-semibold"
+              style={{ fontSize: '1.2em', color: '#ec001a' }}
             />
             {isGift ? (
               'Food Dispenser Subscription'
