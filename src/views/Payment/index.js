@@ -1363,9 +1363,15 @@ class Payment extends React.Component {
           });
         },
         adyen_convenience_store: () => {
+          const { convenienceStore } = this.state;
           parameters = Object.assign(commonParameter, {
             payPspItemEnum: 'ADYEN_CONVENIENCE_STORE',
-            adyenType: 'convenience store'
+            adyenType: 'convenience store',
+            adyenConvenienceStorePayType:
+              convenienceStore === 'Seven-Eleven'
+                ? 'econtext_seven_eleven'
+                : 'econtext_stores',
+            adyenConvenienceStoreName: convenienceStore
           });
         }
       };
@@ -2061,7 +2067,9 @@ class Payment extends React.Component {
         specialistType: recommend_data[0]?.expertName, //专家类型
         appointmentTime: recommend_data[0]?.minutes, //预约时长
         appointmentType: recommend_data[0]?.appointType, //预约类型
-        appointmentDate: recommend_data[0]?.apptTime //预约时间
+        appointmentDate: recommend_data[0]?.apptTime, //预约时间
+        isApptChange: Boolean(sessionItemRoyal.get('isChangeAppoint')),
+        oldAppointNo: sessionItemRoyal.get('oldAppointNo')
       };
     }
 
@@ -2107,14 +2115,7 @@ class Payment extends React.Component {
         surveyId, //us cart survey
         goodWillFlag:
           sessionItemRoyal.get('goodWillFlag') === 'GOOD_WILL' ? 1 : 0,
-        isApptChange: Boolean(sessionItemRoyal.get('isChangeAppoint')),
-        oldAppointNo: sessionItemRoyal.get('oldAppointNo'),
-        paymentMethodIdFlag: addCardDirectToPayFlag,
-        adyenConvenienceStorePayType:
-          this.state.convenienceStore === 'Seven-Eleven'
-            ? 'econtext_seven_eleven'
-            : 'econtext_stores',
-        adyenConvenienceStoreName: this.state.convenienceStore
+        paymentMethodIdFlag: addCardDirectToPayFlag
       },
       appointParam
     );
