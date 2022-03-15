@@ -29,7 +29,6 @@ export default class Search extends React.Component {
     this.state = {
       showSearchInput: false,
       result: null,
-      suggestions: [],
       keywords: '',
       loading: false,
       isSearchSuccess: false, //是否搜索成功
@@ -54,7 +53,7 @@ export default class Search extends React.Component {
         clearTimeout(this.timer);
         this.timer = setTimeout(() => {
           cancelPrevRequest();
-          this.getSuggestionList();
+          this.getSearchData();
         }, 500);
       }
     );
@@ -69,21 +68,6 @@ export default class Search extends React.Component {
   componentWillUnmount() {
     window.document.removeEventListener('click', this.hanldeSearchBlur);
     this.leaveResultBox();
-  }
-
-  async getSuggestionList() {
-    const { keywords } = this.state;
-    getSearchSuggestion(keywords)
-      .then((sugRes) => {
-        if (sugRes.context && sugRes.context.length) {
-          this.setState({
-            suggestions: sugRes.context
-          });
-        } else {
-          this.getSearchData();
-        }
-      })
-      .catch(() => this.getSearchData());
   }
 
   async getSearchData() {
@@ -178,8 +162,7 @@ export default class Search extends React.Component {
     this.setState({
       showSearchInput: false,
       keywords: '',
-      result: null,
-      suggestions: []
+      result: null
     });
     this.props.onClose();
   }
@@ -281,56 +264,15 @@ export default class Search extends React.Component {
     }
   };
 
-  handleSuggestionItemClick = (suggestionKeyword) => {
-    this.setState(
-      {
-        keywords: suggestionKeyword,
-        suggestions: []
-      },
-      () => {
-        this.getSearchData();
-      }
-    );
-  };
-
   handleSearchContainerClick = (e) => {
     e.nativeEvent.stopImmediatePropagation();
   };
 
   renderResultJsx() {
-    const { result, keywords, suggestions } = this.state;
+    const { result, keywords } = this.state;
     let ret = null;
     const keyReg = new RegExp(keywords, 'gi');
-    if (suggestions && suggestions.length) {
-      ret = (
-        <div
-          className="suggestions suggestion-keywords"
-          id="mainSuggestions"
-          onMouseOver={() => this.enterResultBox()}
-          onMouseOut={() => this.leaveResultBox()}
-        >
-          <div className="container">
-            <div className="row d-flex flex-sm-row">
-              <div className="col-12 rc-column">
-                {suggestions
-                  .map((item) => ({
-                    item: item,
-                    html: item.replace(keyReg, (txt) => `<b>${txt}</b>`)
-                  }))
-                  .map((item, idx) => (
-                    <div
-                      className="col-12 item ui-cursor-pointer"
-                      key={idx}
-                      dangerouslySetInnerHTML={{ __html: item.html }}
-                      onClick={() => this.handleSuggestionItemClick(item.item)}
-                    ></div>
-                  ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    } else if (result) {
+    if (result) {
       ret = (
         <div
           className="suggestions"
@@ -503,13 +445,8 @@ export default class Search extends React.Component {
     return ret;
   }
   render() {
-    const {
-      showSearchInput,
-      result,
-      keywords,
-      loading,
-      hiddenResult
-    } = this.state;
+    const { showSearchInput, result, keywords, loading, hiddenResult } =
+      this.state;
     const isMobile = getDeviceType() !== 'PC';
     return (
       <div
@@ -563,7 +500,7 @@ export default class Search extends React.Component {
                 </FormattedMessage>
               </form>
             </div>
-            {!hiddenResult && result ? (
+            {!hiddenResult ? (
               <div style={{ position: 'relative', top: '.2rem' }}>
                 <div className="suggestions-wrapper">
                   {this.renderResultJsx()}
@@ -632,7 +569,7 @@ export default class Search extends React.Component {
                   aria-label="Close"
                   onClick={this.hanldeSearchCloseClick}
                 />
-                {!hiddenResult && result ? (
+                {!hiddenResult ? (
                   <div className="suggestions-wrapper">
                     {this.renderResultJsx()}
                   </div>
