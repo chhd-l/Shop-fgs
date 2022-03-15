@@ -29,6 +29,7 @@ export default class Search extends React.Component {
     this.state = {
       showSearchInput: false,
       result: null,
+      suggestions: [],
       keywords: '',
       loading: false,
       isSearchSuccess: false, //是否搜索成功
@@ -53,7 +54,7 @@ export default class Search extends React.Component {
         clearTimeout(this.timer);
         this.timer = setTimeout(() => {
           cancelPrevRequest();
-          this.getSearchData();
+          this.getSuggestionList();
         }, 500);
       }
     );
@@ -70,80 +71,14 @@ export default class Search extends React.Component {
     this.leaveResultBox();
   }
 
-  async getSearchData() {
+  async getSuggestionList() {
     const { keywords } = this.state;
-    // this.setState({ loading: true });
     Promise.all([
-      getList({
-        keywords,
-        propDetails: [],
-        pageNum: 0,
-        brandIds: [],
-        pageSize: 10, //isHub ? 10 : 20,不区分，都改成10条
-        esGoodsInfoDTOList: [],
-        companyType: '',
-        minMarketPrice: 0,
-        maxMarketPrice: this.props?.configStore?.maxGoodsPrice || null
-      }),
+      getSearchSuggestion(keywords),
       isHub && getSearch({ keywords })
-      // isHub && querySearch()
     ])
       .then((res) => {
-        let goodsContent = [];
-
-        let productResultNum = res[0]?.context?.esGoodsPage?.totalElements || 0;
-        let contentResultTitle = res[1]?.FeaturedItems?.[0]?.Title;
-        let contentResultNum =
-          typeof contentResultTitle == 'string'
-            ? Number(
-                contentResultTitle.split(' ')[
-                  contentResultTitle.split(' ').length - 1
-                ]
-              )
-            : 0;
-        GAInstantSearchResultDisplay({
-          query: keywords,
-          productResultNum,
-          contentResultNum
-        });
-
-        const esGoodsPage =
-          res[0] && res[0].context && res[0].context.esGoodsPage;
-        if (esGoodsPage && esGoodsPage.content.length) {
-          goodsContent = esGoodsPage.content || [];
-          if (window?.dataLayer && dataLayer[0] && dataLayer[0].search) {
-            dataLayer[0].search.query = keywords;
-            dataLayer[0].search.results = esGoodsPage.totalElements;
-            dataLayer[0].search.type = 'with results';
-          }
-          sessionItemRoyal.set('search-results', esGoodsPage.totalElements);
-
-          this.setState({
-            isSearchSuccess: true,
-            result: Object.assign(
-              {},
-              {
-                productList: goodsContent,
-                totalElements: esGoodsPage.totalElements
-              },
-              { attach: res[1] }
-            )
-          });
-        } else {
-          if (window?.dataLayer && dataLayer[0] && dataLayer[0].search) {
-            dataLayer[0].search.query = keywords;
-            dataLayer[0].search.results = 0;
-            dataLayer[0].search.type = 'without results';
-          }
-          this.setState({
-            isSearchSuccess: false,
-            result: Object.assign({}, { productList: [], totalElements: 0 })
-          });
-        }
-        this.setState({
-          hasSearchedDone: true,
-          loading: false
-        });
+        this.getSearchData(res);
       })
       .catch((err) => {
         if (window?.dataLayer && dataLayer[0] && dataLayer[0].search) {
@@ -158,11 +93,85 @@ export default class Search extends React.Component {
         });
       });
   }
+
+  async getSearchData(res) {
+    const { keywords } = this.state;
+    // this.setState({ loading: true });
+    // if (typeof res[0]?.context === 'string') {
+    //   const searchResultFromInnerList = await getList({
+    //     keywords: res[0].context,
+    //     propDetails: [],
+    //     pageNum: 0,
+    //     brandIds: [],
+    //     pageSize: 10, //isHub ? 10 : 20,不区分，都改成10条
+    //     esGoodsInfoDTOList: [],
+    //     companyType: '',
+    //     minMarketPrice: 0,
+    //     maxMarketPrice: this.props?.configStore?.maxGoodsPrice || null
+    //   });
+    // }
+
+    let goodsContent = [];
+
+    let productResultNum = (res[0]?.context ?? []).length;
+    let contentResultTitle = res[1]?.FeaturedItems?.[0]?.Title;
+    let contentResultNum =
+      typeof contentResultTitle == 'string'
+        ? Number(
+            contentResultTitle.split(' ')[
+              contentResultTitle.split(' ').length - 1
+            ]
+          )
+        : 0;
+    GAInstantSearchResultDisplay({
+      query: keywords,
+      productResultNum,
+      contentResultNum
+    });
+
+    const esGoodsPage = res[0] && res[0].context;
+    if (esGoodsPage && esGoodsPage.length) {
+      goodsContent = esGoodsPage || [];
+      if (window?.dataLayer && dataLayer[0] && dataLayer[0].search) {
+        dataLayer[0].search.query = keywords;
+        dataLayer[0].search.results = productResultNum;
+        dataLayer[0].search.type = 'with results';
+      }
+      sessionItemRoyal.set('search-results', productResultNum);
+
+      this.setState({
+        isSearchSuccess: true,
+        result: Object.assign(
+          {},
+          {
+            productList: goodsContent,
+            totalElements: productResultNum
+          },
+          { attach: res[1] }
+        )
+      });
+    } else {
+      if (window?.dataLayer && dataLayer[0] && dataLayer[0].search) {
+        dataLayer[0].search.query = keywords;
+        dataLayer[0].search.results = 0;
+        dataLayer[0].search.type = 'without results';
+      }
+      this.setState({
+        isSearchSuccess: false,
+        result: Object.assign({}, { productList: [], totalElements: 0 })
+      });
+    }
+    this.setState({
+      hasSearchedDone: true,
+      loading: false
+    });
+  }
   hanldeSearchCloseClick() {
     this.setState({
       showSearchInput: false,
       keywords: '',
-      result: null
+      result: null,
+      suggestions: []
     });
     this.props.onClose();
   }
@@ -216,13 +225,15 @@ export default class Search extends React.Component {
   doGAInstantSearchResultClick = (type, item, idx, e) => {
     GAInstantSearchResultClick({
       type,
-      name: item.goodsName,
+      name: item.goodsname,
       position: idx + 1
     });
     this.props.history.push({
-      pathname: `/${item.lowGoodsName.split(' ').join('-').replace('/', '')}-${
-        item.goodsNo
-      }`,
+      pathname: `/${item.goodsname
+        .toLowerCase()
+        .split(' ')
+        .join('-')
+        .replace('/', '')}-${item.goodsno}`,
       state: {
         GAListParam: 'Search Results'
       }
@@ -264,12 +275,24 @@ export default class Search extends React.Component {
     }
   };
 
+  handleSuggestionItemClick = (suggestionKeyword) => {
+    this.setState(
+      {
+        keywords: suggestionKeyword,
+        suggestions: []
+      },
+      () => {
+        this.getSearchData();
+      }
+    );
+  };
+
   handleSearchContainerClick = (e) => {
     e.nativeEvent.stopImmediatePropagation();
   };
 
   renderResultJsx() {
-    const { result, keywords } = this.state;
+    const { result, keywords, suggestions } = this.state;
     let ret = null;
     const keyReg = new RegExp(keywords, 'gi');
     if (result) {
@@ -324,13 +347,13 @@ export default class Search extends React.Component {
                               <LazyLoad>
                                 <img
                                   className="swatch__img"
-                                  alt={item.goodsName}
-                                  title={item.goodsName}
+                                  alt={item.goodsname}
+                                  title={item.goodsname}
                                   style={{ width: '100%' }}
                                   src={
                                     optimizeImage({
                                       originImageUrl:
-                                        item.goodsImg ||
+                                        item.goodsimage ||
                                         item.goodsInfos?.sort(
                                           (a, b) =>
                                             a.marketPrice - b.marketPrice
@@ -360,10 +383,10 @@ export default class Search extends React.Component {
                               //   }
                               // }}
                               className="productName ui-cursor-pointer ui-text-overflow-line2 text-break"
-                              alt={item.goodsName}
-                              title={item.goodsName}
+                              alt={item.goodsname}
+                              title={item.goodsname}
                               dangerouslySetInnerHTML={{
-                                __html: item.goodsName.replace(
+                                __html: item.suggestiontext.replace(
                                   keyReg,
                                   (txt) => `<b>${txt}</b>`
                                 )
@@ -391,8 +414,7 @@ export default class Search extends React.Component {
                       }}
                     >
                       <strong>
-                        <FormattedMessage id="viewAllResults" /> (
-                        {result.totalElements})
+                        <FormattedMessage id="viewAllResults" />
                       </strong>
                     </Link>
                   </div>
@@ -500,7 +522,7 @@ export default class Search extends React.Component {
                 </FormattedMessage>
               </form>
             </div>
-            {!hiddenResult ? (
+            {!hiddenResult && result ? (
               <div style={{ position: 'relative', top: '.2rem' }}>
                 <div className="suggestions-wrapper">
                   {this.renderResultJsx()}
@@ -569,7 +591,7 @@ export default class Search extends React.Component {
                   aria-label="Close"
                   onClick={this.hanldeSearchCloseClick}
                 />
-                {!hiddenResult ? (
+                {!hiddenResult && result ? (
                   <div className="suggestions-wrapper">
                     {this.renderResultJsx()}
                   </div>
