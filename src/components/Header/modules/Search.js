@@ -78,6 +78,11 @@ export default class Search extends React.Component {
       isHub && getSearch({ keywords })
     ])
       .then((res) => {
+        if ((res[0]?.context ?? []).length) {
+          res[0].context = res[0].context.map((item) =>
+            JSON.parse(JSON.parse(item))
+          );
+        }
         this.getSearchData(res);
       })
       .catch((err) => {
