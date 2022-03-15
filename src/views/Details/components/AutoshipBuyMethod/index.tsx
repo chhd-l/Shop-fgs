@@ -134,7 +134,7 @@ const AutoshipBuyMethod = ({
             </span>
           </div>
           <div
-          className="discountText"
+          className="discountText mb-2"
         >
           {configStore.discountDisplayTypeInfo == 'Percentage' ? (
             <FormattedMessage
@@ -152,7 +152,7 @@ const AutoshipBuyMethod = ({
               />
             )}
         </div>
-          {/* {configStore?.info?.storeVO?.basePricePDPShowedFlag &&
+          {form.buyWay === 1 && configStore?.info?.storeVO?.basePricePDPShowedFlag &&
           selectedSpecItem?.goodsInfoWeight &&
           selectedSpecItem?.goodsInfoUnit ? (
             <div
@@ -169,7 +169,7 @@ const AutoshipBuyMethod = ({
               )}
               /{selectedSpecItem.goodsInfoUnit}
             </div>
-          ) : null} */}
+          ) : null}
         </div>
       </div>
       {form.buyWay === 1 ? <>
