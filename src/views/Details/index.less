@@ -69,6 +69,10 @@
     //   flex: 2;
     // }
   }
+
+  .rc-input__radio:focus + .rc-input__label--inline::before {
+    outline: 0 !important;
+  }
 }
 #Details .buy-method-box {
   border: 1px solid #aaa;
@@ -358,8 +362,8 @@
   .discountText {
     color:#008900;
     font-size: 0.625rem;
-    position: absolute;
-    right: 0;
+    // position: absolute;
+    // right: 0;
   }
   .club-price, .autoship-price {
     color:#008900;

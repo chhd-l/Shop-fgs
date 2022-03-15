@@ -101,13 +101,14 @@ const ClubBuyMethod = ({
           <div className="freeshippingBox">
             <FormattedMessage id="freeShipping" />
           </div>
+        <br />
           {window.__.env.REACT_APP_COUNTRY !== 'ru' ? (
             <div className="freeshippingBox">
               <FormattedMessage id="detail.subscriptionBuyTip" />
             </div>
           ) : null}
       </div>
-      <div className="price club-price font-weight-normal text-right position-relative order-2 md:order-3 col-4 col-md-3 text-nowrap px-0">
+      <div className="price club-price font-weight-normal text-right position-relative order-2 md:order-3 col-4 text-nowrap px-0">
         <div>
           {/* <span className="text-line-through-price">
             {formatMoney(currentUnitPrice)}
@@ -132,7 +133,7 @@ const ClubBuyMethod = ({
             }}
           />}
         </div>
-        {/* {configStore?.info?.storeVO?.basePricePDPShowedFlag &&
+        {form.buyWay === 2 && configStore?.info?.storeVO?.basePricePDPShowedFlag &&
         selectedSpecItem?.goodsInfoWeight &&
         selectedSpecItem?.goodsInfoUnit ? (
           <div
@@ -149,7 +150,7 @@ const ClubBuyMethod = ({
             )}
             /{selectedSpecItem.goodsInfoUnit}
           </div>
-        ) : null} */}
+        ) : null}
       </div>
     </div>
     {form.buyWay === 2?<>
