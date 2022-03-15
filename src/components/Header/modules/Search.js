@@ -78,6 +78,11 @@ export default class Search extends React.Component {
       isHub && getSearch({ keywords })
     ])
       .then((res) => {
+        if ((res[0]?.context ?? []).length) {
+          res[0].context = res[0].context.map((item) =>
+            JSON.parse(JSON.parse(item))
+          );
+        }
         this.getSearchData(res);
       })
       .catch((err) => {
@@ -225,15 +230,15 @@ export default class Search extends React.Component {
   doGAInstantSearchResultClick = (type, item, idx, e) => {
     GAInstantSearchResultClick({
       type,
-      name: item.goodsname,
+      name: item.goodsName,
       position: idx + 1
     });
     this.props.history.push({
-      pathname: `/${item.goodsname
+      pathname: `/${item.goodsName
         .toLowerCase()
         .split(' ')
         .join('-')
-        .replace('/', '')}-${item.goodsno}`,
+        .replace('/', '')}-${item.goodsNo}`,
       state: {
         GAListParam: 'Search Results'
       }
@@ -347,13 +352,13 @@ export default class Search extends React.Component {
                               <LazyLoad>
                                 <img
                                   className="swatch__img"
-                                  alt={item.goodsname}
-                                  title={item.goodsname}
+                                  alt={item.goodsName}
+                                  title={item.goodsName}
                                   style={{ width: '100%' }}
                                   src={
                                     optimizeImage({
                                       originImageUrl:
-                                        item.goodsimage ||
+                                        item.GoodsImage ||
                                         item.goodsInfos?.sort(
                                           (a, b) =>
                                             a.marketPrice - b.marketPrice
@@ -383,10 +388,10 @@ export default class Search extends React.Component {
                               //   }
                               // }}
                               className="productName ui-cursor-pointer ui-text-overflow-line2 text-break"
-                              alt={item.goodsname}
-                              title={item.goodsname}
+                              alt={item.goodsName}
+                              title={item.goodsName}
                               dangerouslySetInnerHTML={{
-                                __html: item.suggestiontext.replace(
+                                __html: item.suggestionText.replace(
                                   keyReg,
                                   (txt) => `<b>${txt}</b>`
                                 )

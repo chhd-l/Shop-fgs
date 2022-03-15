@@ -3965,7 +3965,11 @@ class Payment extends React.Component {
               <div className="rc-column rc-double-width shipping__address">
                 {/* 错误提示，没有errorMsg时，或errorMsg===This Error No Display时不显示  */}
                 <ErrorMessage
-                  msg={errorMsg && errorMsg !== 'This Error No Display'}
+                  msg={
+                    errorMsg && errorMsg !== 'This Error No Display'
+                      ? errorMsg
+                      : ''
+                  }
                 />
                 {tid ? (
                   <RepayAddressPreview details={orderDetails} />
