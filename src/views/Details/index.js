@@ -1656,6 +1656,18 @@ class Details extends React.Component {
                                   {this.ButtonGroupDom(false)}
                                 </ClubBuyMethod>
                               ) : null}
+                              <div
+                                className="mb-2 mr-2 text-right"
+                                style={{ fontSize: '.875rem' }}
+                              >
+                                <FormattedMessage
+                                  id="pricesIncludeVAT"
+                                  values={{
+                                    val: <span className="red">*</span>
+                                  }}
+                                  defaultMessage=" "
+                                />
+                              </div>
                             </div>
 
                             {PC && this.retailerBtnStatus ? (
@@ -1671,6 +1683,9 @@ class Details extends React.Component {
                                 />
                               </div>
                             ) : null}
+                            <ErrMsgForCheckoutPanel
+                              checkOutErrMsg={checkOutErrMsg}
+                            />
                             {isMobile &&
                             details.promotions &&
                             details.promotions.includes('club') ? (
