@@ -1,17 +1,17 @@
 import React from 'react';
 import { getDeviceType } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import clubLogo from '@/assets/images/club-icon-big.png';
-import clubDesc from '../image/club-desc@2x.png';
-
-import icon1 from '../image/xicon1.png';
-import icon2 from '../image/xicon2.png';
-import icon3 from '../image/xicon3.png';
-import icon4 from '../image/xicon4.png';
-import icon5 from '../image/xicon5.png';
-import icon6 from '../image/xicon6.png';
 
 import './tab.less';
+
+const icon1 = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/xicon1.png`;
+const icon2 = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/xicon2.png`;
+const icon3 = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/xicon3.png`;
+const icon4 = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/xicon4.png`;
+const icon5 = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/xicon5.png`;
+const icon6 = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/xicon6.png`;
+const clubDesc = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/club-desc@2x.png`;
+const clubLogo = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/club-icon-big.png`;
 
 export default function SubscriptionTab() {
   const scrollToTop = () => {
