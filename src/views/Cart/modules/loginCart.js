@@ -1096,7 +1096,7 @@ class LoginCart extends React.Component {
           </div>
         </div>
         {isShowValidCode ? (
-          <div className="red pl-3 pb-3 pt-2 float-right">
+          <div className="red pl-3 pb-3 pt-2 text-sm">
             <FormattedMessage id="validPromotionCode" />
           </div>
         ) : null}
