@@ -470,9 +470,12 @@ class Details extends React.Component {
   };
   toClubTab = () => {
     let ClubLength = this.state.tmpGoodsDescriptionDetailList?.length;
-    console.info('....', ClubLength);
+
     this.setState({ activeTabIdxList: [ClubLength] }, () => {
-      this.toScroll('j-details-for-club');
+      // 延迟是为了解决手机端滑动位置不对问题
+      setTimeout(() => {
+        this.toScroll('j-details-for-club');
+      }, 600);
     });
   };
 
