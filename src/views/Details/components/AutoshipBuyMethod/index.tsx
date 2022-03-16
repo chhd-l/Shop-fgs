@@ -118,7 +118,7 @@ const AutoshipBuyMethod = ({
               />
             )}
           </div> */}
-          {/* <br /> */}
+          <br />
           <div className="freeshippingBox">
             <FormattedMessage id="freeShipping" />
           </div>

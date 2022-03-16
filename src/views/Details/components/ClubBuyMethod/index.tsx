@@ -97,7 +97,7 @@ const ClubBuyMethod = ({
             }}
           />}
         </div> */}
-        {/* <br /> */}
+        <br />
           <div className="freeshippingBox">
             <FormattedMessage id="freeShipping" />
           </div>
