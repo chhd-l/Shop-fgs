@@ -124,11 +124,19 @@ const SupportPaymentMethodsPic = ({ supportPaymentMethods }) => (
     <span className="logo-payment-card-list logo-credit-card">
       {supportPaymentMethods.map((el, idx) => (
         <LazyLoad key={idx}>
-          <img
-            className="logo-payment-card mr-1 w-7 max-h-8 md:w-10"
-            src={el.imgUrl}
-            alt={el.cardType}
-          />
+          {el.imgHtml ? (
+            <span
+              dangerouslySetInnerHTML={{
+                __html: el.imgHtml
+              }}
+            />
+          ) : (
+            <img
+              className="logo-payment-card mr-1 w-7 max-h-8 md:w-10"
+              src={el.imgUrl}
+              alt={el.cardType}
+            />
+          )}
         </LazyLoad>
       ))}
     </span>
