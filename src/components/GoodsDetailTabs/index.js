@@ -425,8 +425,9 @@ const GoodsDetailTabs = function (props) {
     );
 
     let packProducts = ['BP04', 'BP07', 'BP06', 'BP05', 'BP02', 'BP01', 'BP03'];
-    let goodsNo =
-      location.pathname.split('-')[location.pathname.split('-').length - 1];
+    let goodsNo = location.pathname.split('-')[
+      location.pathname.split('-').length - 1
+    ];
     tmpGoodsDescriptionDetailList = tmpGoodsDescriptionDetailList
       .map((g) => {
         let ret = g.content;
@@ -542,10 +543,7 @@ const GoodsDetailTabs = function (props) {
             console.log(111, err);
           }
         }
-        g.displayName =
-          g.translateList &&
-          g.translateList[0] &&
-          g.translateList[0].translateName;
+        g.displayName = g.displayName || g.translateList?.[0]?.translateName;
         g.content = ret;
         return g;
       })
