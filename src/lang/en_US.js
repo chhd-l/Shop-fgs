@@ -966,10 +966,7 @@ const en_US = {
   'payment.shippingDiscount': 'Shipping Discount',
   'payment.state': 'State',
   'payment.streets': 'streets',
-  'payment.subTip2':
-    'Save your first {icon} Subscription order and save {val} ({val2}) today!',
   'payment.theBox': 'This box is required for subscription',
-  'payment.Thursday': 'Thursday',
   'payment.totalProduct': '{val} item(s)',
   'payment.totalProduct2': '{val} products',
   'payment.wrongAddress':
@@ -1439,7 +1436,6 @@ const en_US = {
   'Special Need': 'Special Needs',
   startEnd: 'to',
   startFrom: 'From',
-  startTypingToSearch: 'Start typing to search',
   sterilized: 'Spayed/neutered?',
   submit: 'Submit',
   subscribe: 'Subscribe',

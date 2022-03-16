@@ -103,17 +103,10 @@ const DetailHeader = ({
         !!details.goodsNo && (
           <BazaarVoiceRatingSummary productId={details.goodsNo} />
         )}
-        {stockDom()}
-      <div className="desAndStars rc-margin-bottom--xs d-flex flex-wrap flex-md-nowrap justify-content-between">
-        <div className="des">
-          <h2 className="text-break mb-1 mt-2" style={{ fontSize: '1.17rem' }}>
-            {details.goodsSubtitle}
-          </h2>
-        </div>
-        {(window.__.env.REACT_APP_COUNTRY === 'de' ||
+          {(window.__.env.REACT_APP_COUNTRY === 'de' ||
           window.__.env.REACT_APP_COUNTRY === 'mx') && (
           <div className="stars text-nowrap">
-            <div className="rc-card__price flex-inline">
+            <div className="rc-card__price flex">
               <div
                 className="display-inline"
                 style={{ verticalAlign: 'middle' }}
@@ -134,6 +127,13 @@ const DetailHeader = ({
             </div>
           </div>
         )}
+        {stockDom()}
+      <div className="desAndStars rc-margin-bottom--xs d-flex flex-wrap flex-md-nowrap justify-content-between">
+        <div className="des">
+          <h2 className="text-break mb-1 mt-2" style={{ fontSize: '1.17rem' }}>
+            {details.goodsSubtitle}
+          </h2>
+        </div>
       </div>
       <div
         className="description"
