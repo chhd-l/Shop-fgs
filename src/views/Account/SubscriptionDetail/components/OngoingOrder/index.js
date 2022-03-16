@@ -50,7 +50,7 @@ const OngoingOrder = ({ subDetail }) => {
               )}
               key={i}
             >
-              <div className="col-12 col-md-4 d-flex flex-column justify-content-start align-items-center">
+              <div className="col-12 col-md-4 d-flex flex-column justify-content-start">
                 {ele.tradeItems.map((item, idx) => (
                   <div className="d-flex flex-row align-items-center">
                     <div className="col-4">
