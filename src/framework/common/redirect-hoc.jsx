@@ -28,10 +28,7 @@ const redirectHoc = (WrappedComponent) => {
       const redirectSearchVal = funcUrl({ name: 'redirect' });
       let ret = '';
       switch (redirectSearchVal) {
-        // case 'order':
-        //   ret = '/account/orders';
-        //   break;
-        case 'orders':
+        case 'order' || 'orders':
           ret = '/account/orders';
           break;
         case 'appointDetail':
