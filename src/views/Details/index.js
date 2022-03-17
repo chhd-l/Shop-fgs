@@ -468,10 +468,13 @@ class Details extends React.Component {
       anchorElement.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
   toClubTab = () => {
     let ClubLength = this.state.tmpGoodsDescriptionDetailList?.length;
-    console.info('....', ClubLength);
-    this.setState({ activeTabIdxList: [ClubLength] }, () => {
+    let activeTabIdx = isMobile
+      ? [...this.state.activeTabIdxList, ClubLength]
+      : [ClubLength];
+    this.setState({ activeTabIdxList: activeTabIdx }, () => {
       this.toScroll('j-details-for-club');
     });
   };
@@ -1656,6 +1659,18 @@ class Details extends React.Component {
                                   {this.ButtonGroupDom(false)}
                                 </ClubBuyMethod>
                               ) : null}
+                              <div
+                                className="mb-2 mr-2 text-right"
+                                style={{ fontSize: '.875rem' }}
+                              >
+                                <FormattedMessage
+                                  id="pricesIncludeVAT"
+                                  values={{
+                                    val: <span className="red">*</span>
+                                  }}
+                                  defaultMessage=" "
+                                />
+                              </div>
                             </div>
 
                             {PC && this.retailerBtnStatus ? (
@@ -1671,6 +1686,9 @@ class Details extends React.Component {
                                 />
                               </div>
                             ) : null}
+                            <ErrMsgForCheckoutPanel
+                              checkOutErrMsg={checkOutErrMsg}
+                            />
                             {isMobile &&
                             details.promotions &&
                             details.promotions.includes('club') ? (

@@ -41,15 +41,6 @@ const ButtonGroup = ({
   return (
     <div>
       <div className="rc-md-up">
-        <div className="mb-2 mr-2 text-right" style={{ fontSize: '.875rem' }}>
-          <FormattedMessage
-            id="pricesIncludeVAT"
-            values={{
-              val: <span className="red">*</span>
-            }}
-            defaultMessage=" "
-          />
-        </div>
         <div className="buy-btn-box rc-max-width--xl fullHeight text-right mt-4">
           <button
             style={{ padding: '2px 30px' }}
@@ -85,7 +76,7 @@ const ButtonGroup = ({
             </>
           ) : null}
         </div>
-        <ErrMsgForCheckoutPanel checkOutErrMsg={checkOutErrMsg} />
+        {/* <ErrMsgForCheckoutPanel checkOutErrMsg={checkOutErrMsg} /> */}
       </div>
       <div
         className="sticky-addtocart"

@@ -19,7 +19,7 @@ async function getDynamicLanguage() {
   } else {
     try {
       const res = await Axios.get(
-        `https://fgs-cdn.azureedge.net/cdn/phrase/${
+        `https://d2cshop.blob.core.windows.net/cdn/phrase/${
           window.__.env.REACT_APP_PHRASE_BRANCH || 'master'
         }/${key}.json`
       );
