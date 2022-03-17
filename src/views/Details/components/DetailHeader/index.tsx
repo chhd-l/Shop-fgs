@@ -17,6 +17,7 @@ interface Props {
   replyNum: string | number;
   selectedSpecItem: any;
   instockStatus:any;
+  vet: any;
 }
 const DetailHeader = ({
   checkOutErrMsg,
@@ -25,7 +26,8 @@ const DetailHeader = ({
   productRate,
   replyNum,
   selectedSpecItem,
-  instockStatus
+  instockStatus,
+  vet
 }: Props) => {
   const handleAClick = () => {
     if (replyNum > 0) {
@@ -51,12 +53,13 @@ const DetailHeader = ({
     )
   }
   return isMobile ? (
-    <div className="detailHeader mb-3">
-      <ErrMsgForCheckoutPanel checkOutErrMsg={checkOutErrMsg} />
+    <div className="detailHeader">
+      {/* <ErrMsgForCheckoutPanel checkOutErrMsg={checkOutErrMsg} /> */}
       <div dangerouslySetInnerHTML={{ __html: goodHeading }} />
+      {!vet?<>
       <div className="desAndStars">
         <div className="des">
-          <h2 className="text-break mb-1 mt-2" style={{ fontSize: '1.17rem' }}>
+          <h2 className="text-break mb-1" style={{ fontSize: '1.17rem' }}>
             {details.goodsSubtitle}
           </h2>
         </div>
@@ -90,6 +93,8 @@ const DetailHeader = ({
         dangerouslySetInnerHTML={createMarkup(details.goodsDescription)}
       />
       {stockDom()}
+      </>
+      :null}
     </div>
   ) : (
     <div className="detailHeader">
@@ -98,6 +103,7 @@ const DetailHeader = ({
           __html: goodHeading
         }}
       />
+      {!vet?<>
       {!isMobile &&
         !!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS &&
         !!details.goodsNo && (
@@ -139,6 +145,7 @@ const DetailHeader = ({
         className="description"
         dangerouslySetInnerHTML={createMarkup(details.goodsDescription)}
       />
+      </>:null}
     </div>
   );
 };
