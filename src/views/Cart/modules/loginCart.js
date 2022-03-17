@@ -445,10 +445,9 @@ class LoginCart extends React.Component {
   async deleteItemFromBackendCart(param) {
     try {
       this.setState({ checkoutLoading: true });
-      //后端加了限制调purchase几口5次后不能操作，调删除接口之前先检测下是否能删除，并提示错误信息
-      await this.updateCartCache({ isThrowErr: true });
+      //后端加了限制调purchase几口5次后不能操作，提示错误信息
       await deleteItemFromBackendCart(param);
-      await this.updateCartCache({ isThrowErr: true });
+      await this.updateCartCache();
       this.getGoodsIdArr();
     } catch (err) {
       console.log(err);
