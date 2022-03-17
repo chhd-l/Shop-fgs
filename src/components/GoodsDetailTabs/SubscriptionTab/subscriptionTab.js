@@ -135,7 +135,7 @@ export default function SubscriptionTab() {
                 borderBottom: '1px solid rgba(68,68,68,.3)'
               }}
             >
-              <FormattedMessage id="ClubLP.SubscriptionTab.backtotop" />
+              <FormattedMessage id="footer.toTheTop" />
             </span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
