@@ -1,6 +1,7 @@
 import React from 'react';
 import { getDeviceType } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
+import { optimizeImage } from '@/utils/utils';
 
 import './tab.less';
 
@@ -23,7 +24,10 @@ export default function SubscriptionTab() {
     <div className="new-subscription-tab">
       <div className="rc-max-width--xl rc-padding-x--sm">
         <div className="text-center rc-beta">
-          <img src={clubLogo} className="main-lo" alt="" />
+          <img
+            src={optimizeImage({ originImageUrl: clubLogo, width: 200 })}
+            alt="clubDesc"
+          />
         </div>
         <div className="text-center rc-beta rc-margin-bottom--md">
           <p className="main-title">
@@ -38,7 +42,13 @@ export default function SubscriptionTab() {
             {isMobile ? (
               <>
                 <div style={{ margin: '10px 0' }}>
-                  <img src={clubDesc} alt="" style={{ width: '100%' }} />
+                  <img
+                    src={optimizeImage({
+                      originImageUrl: clubDesc,
+                      width: 350
+                    })}
+                    alt="clubDesc"
+                  />
                 </div>
                 <p className="sub-title">
                   <FormattedMessage id="ClubLP.SubscriptionTab.subtitle1" />
@@ -50,7 +60,13 @@ export default function SubscriptionTab() {
                   <FormattedMessage id="ClubLP.SubscriptionTab.subtitle1" />
                 </p>
                 <div style={{ margin: '10px 0' }}>
-                  <img src={clubDesc} alt="" style={{ width: '100%' }} />
+                  <img
+                    src={optimizeImage({
+                      originImageUrl: clubDesc,
+                      width: 350
+                    })}
+                    alt="clubDesc"
+                  />
                 </div>
               </>
             )}
@@ -67,7 +83,10 @@ export default function SubscriptionTab() {
             </p>
             <dl>
               <dt>
-                <img src={icon1} alt="" />
+                <img
+                  src={optimizeImage({ originImageUrl: icon1 })}
+                  alt="subscriptionIcon1"
+                />
               </dt>
               <dd>
                 <FormattedMessage id="ClubLP.SubscriptionTab.icontext1" />
@@ -75,7 +94,10 @@ export default function SubscriptionTab() {
             </dl>
             <dl>
               <dt>
-                <img src={icon2} alt="" />
+                <img
+                  src={optimizeImage({ originImageUrl: icon2 })}
+                  alt="subscriptionIcon2"
+                />
               </dt>
               <dd>
                 <FormattedMessage id="ClubLP.SubscriptionTab.icontext2" />
@@ -83,7 +105,10 @@ export default function SubscriptionTab() {
             </dl>
             <dl>
               <dt>
-                <img src={icon3} alt="" />
+                <img
+                  src={optimizeImage({ originImageUrl: icon3 })}
+                  alt="subscriptionIcon3"
+                />
               </dt>
               <dd>
                 <FormattedMessage id="ClubLP.SubscriptionTab.icontext3" />
@@ -96,7 +121,10 @@ export default function SubscriptionTab() {
             </p>
             <dl>
               <dt>
-                <img src={icon4} alt="" />
+                <img
+                  src={optimizeImage({ originImageUrl: icon4 })}
+                  alt="subscriptionIcon4"
+                />
               </dt>
               <dd>
                 <FormattedMessage id="ClubLP.SubscriptionTab.icontext4" />
@@ -104,7 +132,10 @@ export default function SubscriptionTab() {
             </dl>
             <dl>
               <dt>
-                <img src={icon5} alt="" />
+                <img
+                  src={optimizeImage({ originImageUrl: icon5 })}
+                  alt="subscriptionIcon5"
+                />
               </dt>
               <dd>
                 <FormattedMessage id="ClubLP.SubscriptionTab.icontext5" />
@@ -112,7 +143,10 @@ export default function SubscriptionTab() {
             </dl>
             <dl>
               <dt>
-                <img src={icon6} alt="" />
+                <img
+                  src={optimizeImage({ originImageUrl: icon6 })}
+                  alt="subscriptionIcon6"
+                />
               </dt>
               <dd>
                 <FormattedMessage id="ClubLP.SubscriptionTab.icontext6" />
