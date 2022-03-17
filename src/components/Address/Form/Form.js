@@ -151,7 +151,7 @@ class Form extends React.Component {
     const { initData = {} } = this.props;
 
     //日本
-    if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+    if (COUNTRY === 'jp') {
       // console.log(initData);
       // debugger;
       if (initData.area) {
@@ -217,10 +217,7 @@ class Form extends React.Component {
         this.setAddressFormData();
 
         //模拟 日本查询DeliveryDate
-        if (
-          this.props.showDeliveryDateTimeSlot &&
-          window.__.env.REACT_APP_COUNTRY === 'jp'
-        ) {
+        if (this.props.showDeliveryDateTimeSlot && COUNTRY === 'jp') {
           this.getDeliveryDateAndTimeSlotData('');
         }
       }
@@ -393,18 +390,19 @@ class Form extends React.Component {
   //设置postcode输入限制
   setPostCodeReg = () => {
     let element = document.getElementById('postCodeShipping');
+    if (!element) return; //没有postCode输入框就不执行
     let maskOptions = [];
-    let phoneReg = '';
+    let postReg = '';
     switch (COUNTRY) {
       case 'jp':
-        phoneReg = [{ mask: '000-0000' }];
+        postReg = [{ mask: '000-0000' }];
         break;
       default:
-        phoneReg = [{ mask: '00000000000' }];
+        postReg = [{ mask: '00000000000' }];
         break;
     }
     maskOptions = {
-      mask: phoneReg
+      mask: postReg
     };
     IMask(element, maskOptions);
   };
@@ -580,7 +578,7 @@ class Form extends React.Component {
         inputFreeTextFlag: 0,
         inputSearchBoxFlag: 0,
         inputDropDownBoxFlag: 1,
-        requiredFlag: window.__.env.REACT_APP_COUNTRY === 'jp' ? 0 : 1
+        requiredFlag: COUNTRY === 'jp' ? 0 : 1
       },
       defaultObj
     );
@@ -594,7 +592,7 @@ class Form extends React.Component {
         inputFreeTextFlag: 0,
         inputSearchBoxFlag: 0,
         inputDropDownBoxFlag: 1,
-        requiredFlag: window.__.env.REACT_APP_COUNTRY === 'jp' ? 0 : 1
+        requiredFlag: COUNTRY === 'jp' ? 0 : 1
       },
       defaultObj
     );
@@ -1029,7 +1027,8 @@ class Form extends React.Component {
       tmp.unshift({ value: '', name: '' });
     }
 
-    if (key == 'timeSlot' && tmp.length > 0) {
+    if (COUNTRY == 'jp' && key == 'timeSlot' && tmp.length > 0) {
+      //日本timeSlot才有Unspecified
       tmp.unshift({ value: 'Unspecified', name: 'Unspecified' });
     }
 
@@ -1742,7 +1741,7 @@ class Form extends React.Component {
                   className={`col-md-12 ${
                     isDeliveryDateAndTimeSlot &&
                     item.fieldKey == 'deliveryDate' &&
-                    window.__.env.REACT_APP_COUNTRY === 'jp'
+                    COUNTRY === 'jp'
                       ? ''
                       : 'hidden'
                   }`}
@@ -1827,7 +1826,7 @@ class Form extends React.Component {
                       <span className="ui-lighter">
                         <FormattedMessage id="example" />:{' '}
                         <FormattedMessage id="examplePostCode" />
-                        {window.__.env.REACT_APP_COUNTRY === 'jp' ? (
+                        {COUNTRY === 'jp' ? (
                           <>
                             <br />
                             <FormattedMessage
