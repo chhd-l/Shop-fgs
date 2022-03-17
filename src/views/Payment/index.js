@@ -449,7 +449,7 @@ class Payment extends React.Component {
       sessionItemRoyal.set('oldAppointNo', funcUrl({ name: 'oldAppointNo' }));
       sessionItemRoyal.set('isChangeAppoint', true);
     }
-    let guestInfo = funcUrl({ name: 'guestInfo' });
+    let guestInfo = funcUrl({ name: 'gusetInfo' });
     if (guestInfo) {
       sessionItemRoyal.set('guestInfo', base64.decode(guestInfo));
     }

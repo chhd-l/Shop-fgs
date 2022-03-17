@@ -468,14 +468,14 @@ class Details extends React.Component {
       anchorElement.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
   toClubTab = () => {
     let ClubLength = this.state.tmpGoodsDescriptionDetailList?.length;
-
-    this.setState({ activeTabIdxList: [ClubLength] }, () => {
-      // 延迟是为了解决手机端滑动位置不对问题
-      setTimeout(() => {
-        this.toScroll('j-details-for-club');
-      }, 600);
+    let activeTabIdx = isMobile
+      ? [...this.state.activeTabIdxList, ClubLength]
+      : [ClubLength];
+    this.setState({ activeTabIdxList: activeTabIdx }, () => {
+      this.toScroll('j-details-for-club');
     });
   };
 
