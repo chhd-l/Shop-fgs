@@ -7,7 +7,10 @@ const GoodsDetails = () => {
   const ChangeProductValue = useContext(ChangeProductContext);
   const { details, goodsDetails } = ChangeProductValue;
   return (
-    <div className="margin12 product_detail rc-padding-x--md">
+    <div
+      className="margin12 product_detail rc-padding-x--md"
+      style={{ overflow: 'auto', maxHeight: '70vh' }}
+    >
       <div>
         <img
           className="m-auto"
