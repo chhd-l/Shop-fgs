@@ -47,6 +47,7 @@ class GoogleTagManager extends React.Component {
       });
     } else {
       routerIsChange = true;
+      this.insertGAScript();
     }
     // 监听点击cookie banner同意按钮后，动态加载GA.js
     // window.addEventListener('click', (e) => {
@@ -56,7 +57,23 @@ class GoogleTagManager extends React.Component {
     //   }
     // });
     // 0211update:数据统计受较大影响 故加载ga不需要同意cookiebanner
-    this.insertGAScript();
+    this.handleECEvents();
+  }
+  handleECEvents() {
+    let hubGA = window.__.env.REACT_APP_HUB_GA == '1';
+    let { ecommerceEvents = {}, hubEcommerceEvents = {} } = this.props;
+    let ecEvents = hubGA ? hubEcommerceEvents : ecommerceEvents;
+    if (
+      Object.keys(ecommerceEvents).length > 0 ||
+      Object.keys(hubEcommerceEvents).length > 0
+    ) {
+      loadJS({
+        code: `window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push(${JSON.stringify(
+            filterObjectValueDeep(ecEvents)
+          )});`
+      });
+    }
   }
   insertGAScript() {
     // 如果没有同意cookie banner，不允许加载GA.js
@@ -140,7 +157,7 @@ class GoogleTagManager extends React.Component {
       hubEvent.user = {
         // segment: 'Not Authenticated',
         // country: window.__.env.REACT_APP_GA_COUNTRY,
-        id: 'Guest Checkout'
+        id: ''
       };
     }
     event.user.country = window.__.env.REACT_APP_GA_COUNTRY;
@@ -159,8 +176,6 @@ class GoogleTagManager extends React.Component {
 
     let hubGA = window.__.env.REACT_APP_HUB_GA == '1';
     let addEvents = hubGA ? hubAdditionalEvents : additionalEvents;
-    let { ecommerceEvents = {}, hubEcommerceEvents = {} } = this.props;
-    let ecEvents = hubGA ? hubEcommerceEvents : ecommerceEvents;
 
     //  需求修改 327383
     // loadJS({
@@ -200,18 +215,6 @@ class GoogleTagManager extends React.Component {
           filterObjectValueDeep(addEvents)
         )});`
     });
-
-    if (
-      Object.keys(ecommerceEvents).length > 0 ||
-      Object.keys(hubEcommerceEvents).length > 0
-    ) {
-      loadJS({
-        code: `window.dataLayer = window.dataLayer || [];
-          window.dataLayer.push(${JSON.stringify(
-            filterObjectValueDeep(ecEvents)
-          )});`
-      });
-    }
 
     // ru 的petstory 需要放在ga执行顺序之后，不然会影响到ga的执行顺序问题
     // if (window.__.env.REACT_APP_COUNTRY === 'ru') {
