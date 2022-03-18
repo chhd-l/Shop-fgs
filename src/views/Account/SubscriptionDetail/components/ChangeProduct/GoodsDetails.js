@@ -9,7 +9,7 @@ const GoodsDetails = () => {
   return (
     <div
       className="margin12 product_detail rc-padding-x--md"
-      style={{ maxHeight: '70vh' }}
+      style={{ maxHeight: '60vh' }}
     >
       <div>
         <img
