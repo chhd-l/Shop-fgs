@@ -485,6 +485,9 @@ class LoginCart extends React.Component {
     }
   };
   showErrMsg(msg) {
+    if (msg) {
+      window.scrollTo(0, 0);
+    }
     this.setState({
       errorMsg: msg
     });
@@ -501,6 +504,13 @@ class LoginCart extends React.Component {
         info: { skuLimitThreshold }
       }
     } = this.props;
+    const { productList } = this.state;
+    // 所有产品总数量不能超过限制
+    const otherProsNum = productList
+      .filter((p) => p.goodsId !== item.goodsId)
+      .reduce((pre, cur) => {
+        return Number(pre) + Number(cur.buyCount);
+      }, 0);
     this.setState({
       errorMsg: ''
     });
@@ -539,6 +549,10 @@ class LoginCart extends React.Component {
       return false;
     }
 
+    if (otherProsNum + tmp > skuLimitThreshold.totalMaxNum) {
+      tmp = skuLimitThreshold.totalMaxNum - otherProsNum;
+    }
+
     if (tmp > skuLimitThreshold.skuMaxNum) {
       tmp = skuLimitThreshold.skuMaxNum;
     }
@@ -565,7 +579,25 @@ class LoginCart extends React.Component {
     }
     this.setState({ errorMsg: '' });
 
-    if (item.buyCount < skuLimitThreshold.skuMaxNum) {
+    const { productList } = this.state;
+    // 所有产品总数量不能超过限制
+    const otherProsNum = productList
+      .filter((p) => p.goodsId !== item.goodsId)
+      .reduce((pre, cur) => {
+        return Number(pre) + Number(cur.buyCount);
+      }, 0);
+
+    let val = item.buyCount + 1;
+
+    if (otherProsNum + val > skuLimitThreshold.totalMaxNum) {
+      val = skuLimitThreshold.totalMaxNum - otherProsNum;
+      this.showErrMsg(
+        <FormattedMessage
+          id="cart.errorAllProductNumLimit"
+          values={{ val: skuLimitThreshold.totalMaxNum }}
+        />
+      );
+    } else if (item.buyCount < skuLimitThreshold.skuMaxNum) {
       item.buyCount++;
       this.updateBackendCart({
         goodsInfoId: item.goodsInfoId,
@@ -583,6 +615,39 @@ class LoginCart extends React.Component {
       );
     }
   }
+
+  validTotalMaxNum({ item, val }) {
+    const {
+      configStore: {
+        info: { skuLimitThreshold }
+      }
+    } = this.props;
+    const { productList } = this.state;
+    // 所有产品总数量不能超过限制
+    const otherProsNum = productList
+      .filter((p) => p.goodsId !== item.goodsId)
+      .reduce((pre, cur) => {
+        return Number(pre) + Number(cur.quantity);
+      }, 0);
+    if (otherProsNum + val > skuLimitThreshold.totalMaxNum) {
+      val = skuLimitThreshold.totalMaxNum - otherProsNum;
+      this.showErrMsg(
+        <FormattedMessage
+          id="cart.errorAllProductNumLimit"
+          values={{ val: skuLimitThreshold.totalMaxNum }}
+        />
+      );
+      item.buyCount = val;
+      this.updateBackendCart({
+        goodsInfoId: item.goodsInfoId,
+        goodsNum: item.buyCount,
+        verifyStock: false,
+        periodTypeId: item.periodTypeId,
+        goodsInfoFlag: item.goodsInfoFlag
+      });
+    }
+  }
+
   subQuantity(item) {
     if (this.state.checkoutLoading) {
       return;
