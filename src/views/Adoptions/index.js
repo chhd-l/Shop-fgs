@@ -92,7 +92,7 @@ const Adoptions = (props) => {
     let ids = product.goodsInfo.goodsInfoId.split('-');
     for (let id of ids) {
       let res = await getDetail(id);
-      if (res.goodsInfo.stock > 1) {
+      if (res.goodsInfo.stock > 0) {
         details.push(res);
       }
     }
