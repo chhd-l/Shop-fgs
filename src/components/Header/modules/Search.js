@@ -19,6 +19,11 @@ import {
 
 const isHub = window.__.env.REACT_APP_HUB;
 let sessionItemRoyal = window.__.sessionItemRoyal;
+
+const getSearchContainerMaxHeight = () => {
+  return `calc(${window.innerHeight}px - 5rem)`;
+};
+
 export default class Search extends React.Component {
   static defaultProps = {
     onClose: () => {},
@@ -63,12 +68,27 @@ export default class Search extends React.Component {
       this.inputRef.current &&
       this.inputRef.current.focus();
     window.document.addEventListener('click', this.hanldeSearchBlur);
+    window.addEventListener('resize', this.setIosSafariSearchContainerHeight);
   }
 
   componentWillUnmount() {
     window.document.removeEventListener('click', this.hanldeSearchBlur);
+    window.removeEventListener(
+      'resize',
+      this.setIosSafariSearchContainerHeight
+    );
     this.leaveResultBox();
   }
+
+  setIosSafariSearchContainerHeight = () => {
+    if (getDeviceType() === 'H5' && !isHub) {
+      let suggestionResults =
+        window.document.getElementsByClassName('suggestions');
+      for (let i = 0; i < suggestionResults.length; i++) {
+        suggestionResults[i].style.maxHeight = getSearchContainerMaxHeight();
+      }
+    }
+  };
 
   async getSearchData() {
     const { keywords } = this.state;
@@ -196,7 +216,7 @@ export default class Search extends React.Component {
       search: `?q=${this.state.keywords}`,
       state: {
         GAListParam: 'Search Results',
-        noresult: !this.state.isSearchSuccess
+        noresult: false // !this.state.isSearchSuccess
       }
     });
   };
@@ -281,12 +301,19 @@ export default class Search extends React.Component {
     let ret = null;
     const keyReg = new RegExp(keywords, 'gi');
     if (result) {
+      //ios safari 100vh问题
+      const resultHeight = getSearchContainerMaxHeight();
       ret = (
         <div
           className="suggestions"
           id="mainSuggestions"
           onMouseOver={() => this.enterResultBox()}
           onMouseOut={() => this.leaveResultBox()}
+          style={
+            getDeviceType() === 'H5' && !isHub
+              ? { maxHeight: resultHeight }
+              : {}
+          }
         >
           <div className="container">
             <div className="row d-flex flex-sm-row">
