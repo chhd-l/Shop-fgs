@@ -55,6 +55,7 @@ import CartSurvey from '../components/CartSurvey';
 import { getMixFeedings } from '@/api/details';
 import MixFeedingBox from '../components/MixFeedingBox/index.tsx';
 import { ErrorMessage } from '@/components/Message';
+import { QuantityPicker } from '@/components/Product';
 const guid = uuidv4();
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -104,12 +105,10 @@ class LoginCart extends React.Component {
       relatedGoodsList: [],
       mixFeedings: []
     };
-    this.handleAmountChange = this.handleAmountChange.bind(this);
     this.hanldeToggleOneOffOrSub = this.hanldeToggleOneOffOrSub.bind(this);
     this.handleChooseSize = this.handleChooseSize.bind(this);
-    this.addQuantity = this.addQuantity.bind(this);
-    this.subQuantity = this.subQuantity.bind(this);
     this.deleteProduct = this.deleteProduct.bind(this);
+    this.showErrMsg = this.showErrMsg.bind(this);
   }
   async componentDidMount() {
     try {
@@ -495,112 +494,6 @@ class LoginCart extends React.Component {
       });
     }, 3000);
   }
-  handleAmountChange(item, type, e) {
-    const {
-      configStore: {
-        info: { skuLimitThreshold }
-      }
-    } = this.props;
-    this.setState({
-      errorMsg: ''
-    });
-    let val = e.target.value;
-    // 数量改变时，直接赋值
-    if (val === '' && type === 'change') {
-      item.buyCount = val;
-      this.setState({
-        productList: this.state.productList
-      });
-      return;
-    }
-    // 若数量清空了，再离开输入框，数量默认置为1
-    if (val === '' && type === 'blur') {
-      this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
-      item.buyCount = 1;
-      this.setState({
-        productList: this.state.productList
-      });
-      val = 1;
-    }
-    Array.from(document.querySelectorAll('.rc-quantity__input'), (item) => {
-      item.blur();
-    });
-
-    const { quantityMinLimit } = this.state;
-    let tmp = parseFloat(val);
-    if (isNaN(tmp)) {
-      tmp = 1;
-      this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
-      return false;
-    }
-    if (tmp < quantityMinLimit) {
-      tmp = quantityMinLimit;
-      this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
-      return false;
-    }
-
-    if (tmp > skuLimitThreshold.skuMaxNum) {
-      tmp = skuLimitThreshold.skuMaxNum;
-    }
-    item.buyCount = tmp;
-    clearTimeout(this.amountTimer);
-    this.amountTimer = setTimeout(() => {
-      this.updateBackendCart({
-        goodsInfoId: item.goodsInfoId,
-        goodsNum: item.buyCount,
-        verifyStock: false,
-        periodTypeId: item.periodTypeId,
-        goodsInfoFlag: item.goodsInfoFlag
-      });
-    }, 500);
-  }
-  addQuantity(item) {
-    const {
-      configStore: {
-        info: { skuLimitThreshold }
-      }
-    } = this.props;
-    if (this.state.checkoutLoading) {
-      return;
-    }
-    this.setState({ errorMsg: '' });
-
-    if (item.buyCount < skuLimitThreshold.skuMaxNum) {
-      item.buyCount++;
-      this.updateBackendCart({
-        goodsInfoId: item.goodsInfoId,
-        goodsNum: item.buyCount,
-        verifyStock: false,
-        periodTypeId: item.periodTypeId,
-        goodsInfoFlag: item.goodsInfoFlag
-      });
-    } else {
-      this.showErrMsg(
-        <FormattedMessage
-          id="cart.errorMaxInfo"
-          values={{ val: skuLimitThreshold.skuMaxNum }}
-        />
-      );
-    }
-  }
-  subQuantity(item) {
-    if (this.state.checkoutLoading) {
-      return;
-    }
-    this.setState({ errorMsg: '' });
-    if (item.buyCount > 1) {
-      item.buyCount--;
-      this.updateBackendCart({
-        goodsInfoId: item.goodsInfoId,
-        goodsNum: item.buyCount,
-        verifyStock: false,
-        periodTypeId: item.periodTypeId,
-        goodsInfoFlag: item.goodsInfoFlag
-      });
-    } else {
-      this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
-    }
-  }
   //GA 移除购物车商品 埋点
   GARemoveFromCart(product) {
     const list = [
@@ -649,6 +542,12 @@ class LoginCart extends React.Component {
       });
   }
   getQuantityBox = (pitem) => {
+    const {
+      configStore: {
+        info: { skuLimitThreshold }
+      }
+    } = this.props;
+    const { productList } = this.state;
     let isGift = !!pitem.subscriptionPlanGiftList;
     return (
       <div className="cart-quantity-container">
@@ -661,25 +560,39 @@ class LoginCart extends React.Component {
             <div style={{ marginTop: '.75rem' }}>
               <FormattedMessage id="quantity" />:{' '}
             </div>
-            <div className="rc-quantity d-flex">
-              <span
-                className=" rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                onClick={this.subQuantity.bind(this, pitem)}
-              />
-              <input
-                className="rc-quantity__input"
-                value={pitem.buyCount}
-                min="1"
-                max="10"
-                onChange={this.handleAmountChange.bind(this, pitem, 'change')}
-                onBlur={this.handleAmountChange.bind(this, pitem, 'blur')}
-              />
-              <span
-                className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                data-quantity-error-msg="Вы не можете заказать больше 10"
-                onClick={this.addQuantity.bind(this, pitem)}
-              />
-            </div>
+            <QuantityPicker
+              initQuantity={pitem.buyCount}
+              min={1}
+              max={skuLimitThreshold.skuMaxNum}
+              initRestTotalLimitConf={{
+                num:
+                  skuLimitThreshold.totalMaxNum -
+                  productList
+                    .filter((p) => p.goodsId !== pitem.goodsId)
+                    .reduce((pre, cur) => {
+                      return Number(pre) + Number(cur.quantity);
+                    }, 0),
+                errorMsg: (
+                  <FormattedMessage
+                    id="cart.errorAllProductNumLimit"
+                    values={{ val: skuLimitThreshold.totalMaxNum }}
+                  />
+                )
+              }}
+              updateQuantity={(val) => {
+                pitem.buyCount = val;
+                if (val) {
+                  this.updateBackendCart({
+                    goodsInfoId: pitem.goodsInfoId,
+                    goodsNum: pitem.buyCount,
+                    verifyStock: false,
+                    periodTypeId: pitem.periodTypeId,
+                    goodsInfoFlag: pitem.goodsInfoFlag
+                  });
+                }
+              }}
+              showError={this.showErrMsg}
+            />
           </div>
         </div>
       </div>

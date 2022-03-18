@@ -53,7 +53,7 @@ import RelateProductCarousel from './components/RelateProductCarousel';
 import BuyFromRetailerBtn from './components/BuyFromRetailerBtn';
 import { tempHubFrRedirect } from '@/redirect/utils';
 import svg from './details.svg';
-
+import { QuantityPicker } from '@/components/Product';
 import Help from './components/Help';
 
 import './index.css';
@@ -171,8 +171,6 @@ class Details extends React.Component {
       mixFeedingBtnLoading: false,
       hiddenMixFeedingBanner: false
     };
-    this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
-    this.handleAmountInput = this.handleAmountInput.bind(this);
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
     this.ChangeFormat = this.ChangeFormat.bind(this);
   }
@@ -207,14 +205,8 @@ class Details extends React.Component {
     return JSON.parse(configStr);
   }
   get btnStatus() {
-    const {
-      details,
-      quantity,
-      instockStatus,
-      initing,
-      loading,
-      form
-    } = this.state;
+    const { details, quantity, instockStatus, initing, loading, form } =
+      this.state;
     const { sizeList } = details;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     let addedFlag = 1;
@@ -546,8 +538,11 @@ class Details extends React.Component {
               if (mixFeeding) {
                 mixFeeding.quantity = 1;
               }
-              let { goodsImg = '', goodsName = '', goodsNo = '' } =
-                mixFeeding?.goods || {};
+              let {
+                goodsImg = '',
+                goodsName = '',
+                goodsNo = ''
+              } = mixFeeding?.goods || {};
               let _hiddenMixFeedingBanner = false;
               let mixFeedingSelected = mixFeeding?.sizeList?.filter(
                 (el) => el.selected
@@ -793,62 +788,6 @@ class Details extends React.Component {
       instockStatus: this.state.quantity <= this.state.stock
     });
   }
-  hanldeAmountChange(type) {
-    const {
-      configStore: {
-        info: { skuLimitThreshold }
-      }
-    } = this.props;
-    this.setState({ checkOutErrMsg: '' });
-    if (!type) return;
-    const { quantity } = this.state;
-    let res;
-    if (type === 'minus') {
-      if (quantity <= 1) {
-        res = 1;
-      } else {
-        res = quantity - 1;
-      }
-    } else {
-      res = (quantity || 0) + 1;
-      if (quantity >= skuLimitThreshold.skuMaxNum) {
-        res = skuLimitThreshold.skuMaxNum;
-      }
-    }
-    this.setState(
-      {
-        quantity: res
-      },
-      () => {
-        this.updateInstockStatus();
-      }
-    );
-  }
-  handleAmountInput(e) {
-    const {
-      configStore: {
-        info: { skuLimitThreshold }
-      }
-    } = this.props;
-    this.setState({ checkOutErrMsg: '' });
-    const { quantityMinLimit } = this.state;
-    const val = e.target.value;
-    if (val === '') {
-      this.setState({ quantity: val });
-    } else {
-      let tmp = parseInt(val);
-      if (isNaN(tmp)) {
-        tmp = 1;
-      }
-      if (tmp < quantityMinLimit) {
-        tmp = quantityMinLimit;
-      }
-      if (tmp > skuLimitThreshold.skuMaxNum) {
-        tmp = skuLimitThreshold.skuMaxNum;
-      }
-      this.setState({ quantity: tmp }, () => this.updateInstockStatus());
-    }
-  }
   handleSelectedItemChange = (data) => {
     const { form } = this.state;
     form.frequencyVal = data.value;
@@ -968,13 +907,8 @@ class Details extends React.Component {
     try {
       !type && this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const {
-        currentUnitPrice,
-        quantity,
-        form,
-        details,
-        questionParams
-      } = this.state;
+      const { currentUnitPrice, quantity, form, details, questionParams } =
+        this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -1225,6 +1159,11 @@ class Details extends React.Component {
   };
 
   specAndQuantityDom = () => {
+    const {
+      configStore: {
+        info: { skuLimitThreshold }
+      }
+    } = this.props;
     const { details, quantity, quantityMinLimit, stock } = this.state;
     return (
       <div className="specAndQuantity rc-margin-bottom--xs ">
@@ -1245,26 +1184,18 @@ class Details extends React.Component {
               id="invalid-quantity"
               value="Пожалуйста, введите правильный номер."
             />
-            <div className="rc-quantity text-right d-flex justify-content-end">
-              <span
-                className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                onClick={() => this.hanldeAmountChange('minus')}
-              />
-              <input
-                className="rc-quantity__input"
-                id="quantity"
-                name="quantity"
-                value={quantity}
-                min={quantityMinLimit}
-                max={stock}
-                onChange={this.handleAmountInput}
-                maxLength="5"
-              />
-              <span
-                className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                onClick={() => this.hanldeAmountChange('plus')}
-              />
-            </div>
+
+            <QuantityPicker
+              className="rc-quantity"
+              initQuantity={parseInt(quantity)}
+              min={quantityMinLimit}
+              max={skuLimitThreshold.skuMaxNum}
+              updateQuantity={(val) => {
+                this.setState({ quantity: val }, () =>
+                  this.updateInstockStatus()
+                );
+              }}
+            />
           </div>
         </div>
       </div>
@@ -1272,13 +1203,8 @@ class Details extends React.Component {
   };
 
   ButtonGroupDom = (showRetailerBtn) => {
-    const {
-      addToCartLoading,
-      form,
-      checkOutErrMsg,
-      barcode,
-      details
-    } = this.state;
+    const { addToCartLoading, form, checkOutErrMsg, barcode, details } =
+      this.state;
     const btnStatus = this.btnStatus;
     const vet =
       (window.__.env.REACT_APP_HUB || Uk) &&

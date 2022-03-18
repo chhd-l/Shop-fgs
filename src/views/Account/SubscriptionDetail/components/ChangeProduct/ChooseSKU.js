@@ -9,6 +9,7 @@ import find from 'lodash/find';
 import { ChangeProductContext } from './index';
 import { SubDetailHeaderContext } from '../SubDetailHeader';
 import { inject, observer } from 'mobx-react';
+import { QuantityPicker } from '@/components/Product';
 
 const ChooseSKU = ({
   intl,
@@ -93,41 +94,6 @@ const ChooseSKU = ({
     newForm.frequencyName = data.name;
     newForm.frequencyId = data.id;
     setForm(newForm);
-  };
-  const hanldeAmountChange = (type) => {
-    if (!type) return;
-    let res;
-    if (type === 'minus') {
-      if (quantity <= 1) {
-        res = 1;
-      } else {
-        res = quantity - 1;
-      }
-    } else {
-      res = (quantity || 0) + 1;
-      if (quantity >= skuLimitThreshold.skuMaxNum) {
-        res = skuLimitThreshold.skuMaxNum;
-      }
-    }
-    setQuantity(res);
-  };
-  const handleAmountInput = (e) => {
-    const val = e.target.value;
-    if (val === '') {
-      setQuantity(val);
-    } else {
-      let tmp = parseInt(val);
-      if (isNaN(tmp)) {
-        tmp = 1;
-      }
-      if (tmp < quantityMinLimit) {
-        tmp = quantityMinLimit;
-      }
-      if (tmp > skuLimitThreshold.skuMaxNum) {
-        tmp = skuLimitThreshold.skuMaxNum;
-      }
-      setQuantity(tmp);
-    }
   };
   const doChangeSubscriptionGoods = () => {
     try {
@@ -247,26 +213,14 @@ const ChooseSKU = ({
                     id="invalid-quantity"
                     value="Пожалуйста, введите правильный номер."
                   />
-                  <div className="rc-quantity text-right d-flex justify-content-end">
-                    <span
-                      className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                      onClick={() => hanldeAmountChange('minus')}
-                    />
-                    <input
-                      className="rc-quantity__input"
-                      id="quantity"
-                      name="quantity"
-                      value={quantity}
-                      min={quantityMinLimit}
-                      max={stock}
-                      onChange={handleAmountInput}
-                      maxLength="5"
-                    />
-                    <span
-                      className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                      onClick={() => hanldeAmountChange('plus')}
-                    />
-                  </div>
+                  <QuantityPicker
+                    min={quantityMinLimit}
+                    max={skuLimitThreshold.skuMaxNum}
+                    initQuantity={quantity}
+                    updateQuantity={(val) => {
+                      setQuantity(val);
+                    }}
+                  />
                 </div>
               </div>
               <strong className="rc-md-down">

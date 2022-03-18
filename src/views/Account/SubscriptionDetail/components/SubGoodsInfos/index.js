@@ -6,6 +6,7 @@ import ButtonBox from './ButtonBox';
 import ChangeSelection from './ChangeSelection';
 import DailyRation from '../DailyRation';
 import { ErrorMessage } from '@/components/Message';
+import { QuantityPicker } from '@/components/Product';
 export const SubGoodsInfosContext = createContext();
 import { getDeviceType, formatMoney, optimizeImage } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
@@ -41,88 +42,6 @@ const SubGoodsInfos = ({
     } catch (err) {
       showErrMsg(err.message);
     }
-  };
-  const minusQuantity = (el) => {
-    showErrMsg('');
-    // 非激活状态需要暂停操作
-    if (subDetail.subscribeStatus !== 'ACTIVE') {
-      return;
-    }
-    if (el.subscribeNum > 1) {
-      el.subscribeNum = el.subscribeNum - 1;
-      setState({
-        subDetail,
-        isDataChange: true
-      });
-    } else {
-      showErrMsg(<FormattedMessage id="cart.errorInfo" />);
-    }
-  };
-  const plusQuantity = (el) => {
-    showErrMsg('');
-    // 非激活状态需要暂停操作
-    if (subDetail.subscribeStatus !== 'ACTIVE') {
-      return;
-    }
-    if (el.subscribeNum < skuLimitThreshold.skuMaxNum) {
-      el.subscribeNum = el.subscribeNum + 1;
-      setState({
-        subDetail,
-        isDataChange: true
-      });
-    } else {
-      showErrMsg(
-        <FormattedMessage
-          id="cart.errorMaxInfo"
-          values={{
-            val: skuLimitThreshold.skuMaxNum
-          }}
-        />
-      );
-    }
-  };
-  const changeQuantity = (e, el, index, type) => {
-    showErrMsg('');
-    if (subDetail.subscribeStatus !== 'ACTIVE' || isIndv) {
-      return;
-    }
-    setState({
-      errorShow: false
-    });
-    const val = e.target.value;
-    if (val === '') {
-      if (type == 'blur') {
-        el.subscribeNum = 1;
-      }
-      if (type == 'change') {
-        el.subscribeNum = val;
-      }
-    } else {
-      let tmp = parseInt(val);
-      let errMsg = '';
-      if (isNaN(tmp) || tmp < 1) {
-        tmp = 1;
-        errMsg = <FormattedMessage id="cart.errorInfo" />;
-      }
-      if (tmp > skuLimitThreshold.skuMaxNum) {
-        tmp = skuLimitThreshold.skuMaxNum;
-        errMsg = (
-          <FormattedMessage
-            id="cart.errorMaxInfo"
-            values={{
-              val: skuLimitThreshold.skuMaxNum
-            }}
-          />
-        );
-      }
-      if (errMsg) {
-        showErrMsg(errMsg);
-      }
-      el.subscribeNum = tmp;
-    }
-    //数量变更后
-    subDetail.goodsInfo[index].subscribeNum = el.subscribeNum;
-    onQtyChange();
   };
   const propsObj = {
     subDetail,
@@ -229,37 +148,15 @@ const SubGoodsInfos = ({
                 <div style={{ marginTop: '.9375rem' }}>
                   <div>
                     <span style={{ display: isIndv ? 'none' : 'inline-block' }}>
-                      <span
-                        className={`rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus ${
-                          isActive && !isGift && !isIndv ? '' : 'disabled'
-                        }`}
-                        style={{ marginLeft: '-8px' }}
-                        onClick={() => {
-                          minusQuantity(el);
+                      <QuantityPicker
+                        className={'inline-block align-middle	'}
+                        max={skuLimitThreshold.skuMaxNum}
+                        initQuantity={el.subscribeNum}
+                        updateQuantity={(val) => {
+                          subDetail.goodsInfo[index].subscribeNum = val;
+                          onQtyChange();
                         }}
-                      />
-                      <input
-                        className="rc-quantity__input 111"
-                        id="quantity"
-                        name="quantity"
-                        min="1"
-                        max="899"
-                        maxLength="5"
-                        onChange={(e) => {
-                          changeQuantity(e, el, index, 'change');
-                        }}
-                        onBlur={(e) => {
-                          changeQuantity(e, el, index, 'blur');
-                        }}
-                        value={el.subscribeNum}
-                      />
-                      <span
-                        className={`rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus  ${
-                          isActive && !isGift && !isIndv ? '' : 'disabled'
-                        }`}
-                        onClick={() => {
-                          plusQuantity(el);
-                        }}
+                        showError={showErrMsg}
                       />
                       <span
                         style={{
@@ -391,41 +288,16 @@ const SubGoodsInfos = ({
                                   display: isIndv ? 'none' : 'inline-block'
                                 }}
                               >
-                                <span
-                                  className={`rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus ${
-                                    isActive && !isGift && !isIndv
-                                      ? ''
-                                      : 'disabled'
-                                  }`}
-                                  style={{ marginLeft: '-8px' }}
-                                  onClick={() => {
-                                    minusQuantity(el);
+                                <QuantityPicker
+                                  className={'inline-block align-middle	'}
+                                  max={skuLimitThreshold.skuMaxNum}
+                                  initQuantity={el.subscribeNum}
+                                  updateQuantity={(val) => {
+                                    subDetail.goodsInfo[index].subscribeNum =
+                                      val;
+                                    onQtyChange();
                                   }}
-                                />
-                                <input
-                                  className="rc-quantity__input"
-                                  id="quantity"
-                                  name="quantity"
-                                  min="1"
-                                  max="899"
-                                  maxLength="5"
-                                  onChange={(e) => {
-                                    changeQuantity(e, el, index, 'change');
-                                  }}
-                                  onBlur={(e) => {
-                                    changeQuantity(e, el, index, 'blur');
-                                  }}
-                                  value={el.subscribeNum}
-                                />
-                                <span
-                                  className={`rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus ${
-                                    isActive && !isGift && !isIndv
-                                      ? ''
-                                      : 'disabled'
-                                  }`}
-                                  onClick={() => {
-                                    plusQuantity(el);
-                                  }}
+                                  showError={showErrMsg}
                                 />
                                 <span
                                   style={{
@@ -438,6 +310,7 @@ const SubGoodsInfos = ({
                                   =
                                 </span>
                               </span>
+
                               <span
                                 className="price"
                                 style={{
