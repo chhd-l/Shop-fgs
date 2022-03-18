@@ -14,7 +14,7 @@ class MyModal extends React.Component {
     return (
       <div className="my-model">
         {children}
-        <div className="modal-box">
+        <div className="my-modal-box">
           <div className="size24 col0 modal-size model-title">
             Informations pratiques
           </div>
