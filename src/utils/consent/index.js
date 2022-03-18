@@ -10,7 +10,7 @@ const { isLogin, userInfo } = loginStore;
 const customerId = userInfo?.customerId;
 // us /fr 在checkout的consent接口调用selected的接口，并且选中状态根据接口来
 const customConsentCountry =
-  ['fr', 'us', 'de', 'mx'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1;
+  ['fr', 'us', 'de'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1;
 function isExistListFun(result) {
   let listData = [];
   let optionalList = result.context.optionalList.map((item) => {
