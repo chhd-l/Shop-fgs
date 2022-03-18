@@ -156,6 +156,11 @@ export default class Search extends React.Component {
           loading: false,
           result: Object.assign({}, { productList: [], totalElements: 0 })
         });
+      })
+      .finally(() => {
+        if (getDeviceType() === 'H5' && !isHub) {
+          this.enterResultBox();
+        }
       });
   }
   hanldeSearchCloseClick() {
@@ -165,6 +170,9 @@ export default class Search extends React.Component {
       result: null
     });
     this.props.onClose();
+    if (getDeviceType() === 'H5' && !isHub) {
+      this.leaveResultBox();
+    }
   }
   hanldeSearchClick() {
     this.setState(
@@ -445,13 +453,8 @@ export default class Search extends React.Component {
     return ret;
   }
   render() {
-    const {
-      showSearchInput,
-      result,
-      keywords,
-      loading,
-      hiddenResult
-    } = this.state;
+    const { showSearchInput, result, keywords, loading, hiddenResult } =
+      this.state;
     const isMobile = getDeviceType() !== 'PC';
     return (
       <div
