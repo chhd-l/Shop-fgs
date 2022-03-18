@@ -28,6 +28,7 @@ import {
   handleDateForIos
 } from '@/utils/utils';
 import { format } from 'date-fns';
+import { ErrorMessage } from '@/components/Message';
 
 const purebredOpitons = [
   {
@@ -570,18 +571,7 @@ const PetForms = ({
       style={{ display: isChoosePetType ? 'block' : 'none' }}
     >
       {/* 错误提示 */}
-      <div
-        className={`rc-padding-bottom--xs cart-error-messaging cart-error ${
-          errorMsg ? '' : 'hidden'
-        }`}
-      >
-        <aside
-          className="rc-alert rc-alert--error rc-alert--with-close"
-          role="alert"
-        >
-          {errorMsg}
-        </aside>
-      </div>
+      <ErrorMessage msg={errorMsg} />
       <div style={{ display: isMobile ? 'block' : 'flex' }}>
         <div className="photoBox">
           {/* <LazyLoad> */}

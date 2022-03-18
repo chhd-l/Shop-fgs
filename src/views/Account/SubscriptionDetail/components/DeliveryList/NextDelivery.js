@@ -60,10 +60,34 @@ const NextDelivery = ({
       initTimeSlot(timeSlotArr);
     }
   }, [timeSlotArr]);
-
-  const initTimeSlot = (deliveryDateList) => {
+  const initTimeSlot = (list) => {
+    let deliveryDateMatched = false;
+    let deliveryDateList = list.map((el) => {
+      el.dateTimeInfos.unshift({
+        name: Unspecified,
+        value: Unspecified,
+        startTime: Unspecified
+      });
+      el.dateTimeInfos.forEach((item) => {
+        item.value = `${item.startTime}${
+          item.endTime ? '-' + item.endTime : ''
+        }`;
+        item.name = `${item.startTime}${
+          item.endTime ? '-' + item.endTime : ''
+        }`;
+      });
+      if (el.date === subDetail.deliveryDate) {
+        // list里面能匹配到delivery date
+        deliveryDateMatched = true;
+      }
+      return { ...el, value: el.date, name: el.date };
+    });
+    if (!deliveryDateMatched) {
+      // list里面没能匹配到delivery date，清空现有的deliveryDate
+      subDetail.deliveryDate = '';
+    }
     let timeSlotList = [];
-    if (subDetail.deliveryDate === null) {
+    if (!subDetail.deliveryDate) {
       let deliveryDate = '';
       let timeSlot = '';
       // 没有deliveryDate并且没有timeSlot的时候，默认第一个deliveryDate
@@ -92,34 +116,26 @@ const NextDelivery = ({
       subDetail.timeSlot = timeSlot;
       subDetail.deliveryDate = deliveryDate;
     }
-    if (subDetail.timeSlot == Unspecified) {
-      deliveryDateList[0]?.dateTimeInfos.unshift({
-        name: Unspecified,
-        value: Unspecified,
-        startTime: Unspecified
-      });
-    }
+    // if (subDetail.timeSlot == Unspecified) {
+    //   deliveryDateList[0]?.dateTimeInfos.unshift({
+    //     name: Unspecified,
+    //     value: Unspecified,
+    //     startTime: Unspecified
+    //   });
+    // }
     if (!timeSlotList?.length) {
-      timeSlotList = deliveryDateList
-        .find((el) => el.value == deliveryDate)
-        ?.dateTimeInfos?.map((cel) => {
-          return {
-            ...cel,
-            name: `${cel.startTime}-${cel.endTime}`,
-            value: `${cel.startTime}-${cel.endTime}`
-          };
-        });
+      timeSlotList =
+        deliveryDateList.find((el) => el.value == subDetail.deliveryDate)
+          ?.dateTimeInfos || deliveryDateList[0]?.dateTimeInfos;
+      // ?.map((cel) => {
+      //   return {
+      //     ...cel,
+      //     name: `${cel.startTime}-${cel.endTime}`,
+      //     value: `${cel.startTime}-${cel.endTime}`
+      //   };
+      // });
     }
 
-    if (!timeSlotList?.length) {
-      timeSlotList = deliveryDateList[0]?.dateTimeInfos.map((cel) => {
-        return {
-          ...cel,
-          name: `${cel.startTime}${cel.endTime ? '-' + cel.endTime : ''}`,
-          value: `${cel.startTime}${cel.endTime ? '-' + cel.endTime : ''}`
-        };
-      });
-    }
     setDeliveryDateList(deliveryDateList);
     setTimeSlotList(timeSlotList);
     setTimeSlot(subDetail.timeSlot);
@@ -156,11 +172,7 @@ const NextDelivery = ({
       subscribeId: subDetail.subscribeId
     });
     if (res.context) {
-      let deliveryDateList = res.context.timeSlots.map((el) => {
-        return { ...el, value: el.date, name: el.date };
-      });
-
-      initTimeSlot(deliveryDateList);
+      initTimeSlot(res.context.timeSlots);
       //test
       // setDeliveryDate(deliveryDateList[0].date);
       // setTimeSlot(`${deliveryDateList[0].dateTimeInfos[0].startTime}-${deliveryDateList[0].dateTimeInfos[0].endTime}`);
@@ -168,16 +180,10 @@ const NextDelivery = ({
   };
 
   const ChangeTimeDeliveryDate = (data) => {
-    setTimeSlot('');
-    let timeSlotList = deliveryDateList
-      .find((el) => el.value == data.value)
-      ?.dateTimeInfos?.map((cel) => {
-        return {
-          ...cel,
-          name: `${cel.startTime}-${cel.endTime}`,
-          value: `${cel.startTime}-${cel.endTime}`
-        };
-      });
+    setTimeSlot(Unspecified);
+    let timeSlotList = deliveryDateList.find(
+      (el) => el.value == data.value
+    )?.dateTimeInfos;
     setTimeSlotList(timeSlotList);
     setDeliveryDate(data.name);
   };
@@ -213,7 +219,7 @@ const NextDelivery = ({
               </span>
             </div>
             <div className="flex items-center mb-2  md:mb-0">
-              {deliveryDate && (
+              {/* {showTimeSlot && deliveryDate && (
                 <Selection
                   customCls="selection-with-border"
                   optionList={deliveryDateList}
@@ -221,12 +227,12 @@ const NextDelivery = ({
                   selectedItemData={{
                     value: deliveryDate
                   }}
-                  disabled={true}
+                  // disabled={true}
                   customStyleType="none"
                   key={deliveryDate}
                   placeholder="please select"
                 />
-              )}
+              )} */}
               <div
                 className={cn('changeDate whitespace-nowrap mr-6 text-right')}
               >
@@ -261,7 +267,7 @@ const NextDelivery = ({
                 </span>
               </div>
 
-              {showTimeSlot && deliveryDate && (
+              {showTimeSlot && timeSlot && (
                 <Selection
                   customCls="selection-with-border"
                   optionList={timeSlotList}
@@ -270,7 +276,7 @@ const NextDelivery = ({
                     value: timeSlot
                   }}
                   customStyleType="none"
-                  key={`${deliveryDate}-${timeSlotList}`}
+                  key={`${timeSlot}`}
                   placeholder="please select"
                 />
               )}

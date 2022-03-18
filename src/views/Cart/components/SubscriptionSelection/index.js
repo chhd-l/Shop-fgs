@@ -1,6 +1,6 @@
 import React from 'react';
 import { formatMoney } from '@/utils/utils';
-import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import FrequencySelection from '@/components/FrequencySelection/index.tsx';
 import { toJS } from 'mobx';
@@ -16,10 +16,9 @@ const SubscriptionSelection = function (props) {
   );
   return (
     <div
-      className="buyMethod rc-margin-bottom--xs"
+      className="buyMethod rc-margin-bottom--xs cursor-pointer"
       style={{
         borderColor: parseInt(pitem.goodsInfoFlag) ? '#e2001a' : '#d7d7d7',
-        cursor: 'pointer',
         maxWidth: `${isGift ? '22rem' : 'initial'}`
       }}
       onClick={props.chooseSubscription}
@@ -28,11 +27,10 @@ const SubscriptionSelection = function (props) {
         <div className="radioBox mr-2">
           <span
             style={{
-              fontWeight: '400',
               color: '#333',
-              display: 'inline-block',
               marginTop: '5px'
             }}
+            className="font-normal inline-block"
           >
             <span
               className="iconfont iconrefresh red mr-2"
@@ -108,9 +106,9 @@ const SubscriptionSelection = function (props) {
           <div
             style={{
               fontSize: '.9375rem',
-              textDecoration: 'line-through',
               display: `${isGift ? 'none' : 'initial'}`
             }}
+            className="line-through"
           >
             {!isLogin
               ? formatMoney(

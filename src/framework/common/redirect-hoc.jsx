@@ -31,6 +31,9 @@ const redirectHoc = (WrappedComponent) => {
         case 'order':
           ret = '/account/orders';
           break;
+        case 'orders':
+          ret = '/account/orders';
+          break;
         case 'appointDetail':
           ret = '/account/appointments';
           break;

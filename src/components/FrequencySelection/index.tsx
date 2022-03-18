@@ -61,10 +61,10 @@ const FrequencyMatch = ({
         className
       )}
     >
-      <span style={textStyle}>
+      <span style={textStyle} className="frequency-delivery">
         <FormattedMessage id="subscription.frequencyDelivery" />
       </span>
-      <div className="text-right">
+      <div className="text-right delivery-every">
         <FormattedMessage id="subscription.deliveryEvery" />
         <Selection
           disabled={disabled}
@@ -73,7 +73,7 @@ const FrequencyMatch = ({
             marginLeft: '0.5rem',
             ...selectionStyle
           }}
-          customCls="text-left"
+          customCls="text-left frequency-selection"
           selectedItemChange={(data: any) => {
             setHandledCurrent(true);
             handleConfirm(data);

@@ -180,10 +180,7 @@ class Pet extends React.Component {
                               <FormattedMessage id="account.noPet" />
                             </p>
                           </div>
-                          <div
-                            className="rc-margin-top--xs"
-                            style={{ textAlign: isMobile ? 'center' : 'left' }}
-                          >
+                          <div className="rc-margin-top--xs text-center md:text-left">
                             <Link
                               className="rc-btn rc-btn--one"
                               to="/account/pets/petForm"
@@ -305,11 +302,8 @@ class Pet extends React.Component {
                             </div>
                           ))}
                       <Link
-                        className="petItem addNew text-center ui-cursor-pointer"
+                        className="petItem addNew text-center ui-cursor-pointer block"
                         to="/account/pets/petForm"
-                        style={{
-                          display: 'block'
-                        }}
                       >
                         <span className="iconfont iconjia mr-1 font-bold" />
                         <span>

@@ -54,6 +54,7 @@ import PromotionCodeText from '../components/PromotionCodeText';
 import CartSurvey from '../components/CartSurvey';
 import { getMixFeedings } from '@/api/details';
 import MixFeedingBox from '../components/MixFeedingBox/index.tsx';
+import { ErrorMessage } from '@/components/Message';
 const guid = uuidv4();
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -152,12 +153,14 @@ class LoginCart extends React.Component {
         await this.checkoutStore.updateLoginCart({ intl: this.props.intl });
       }
 
-      GACartScreenLoad();
-      GAInitLogin({
-        productList: this.loginCartData,
-        frequencyList: this.state.frequencyList,
-        props: this.props
-      });
+      GACartScreenLoad(() =>
+        GAInitLogin({
+          productList: this.loginCartData,
+          frequencyList: this.state.frequencyList,
+          props: this.props,
+          isReturnList: true
+        })
+      );
       setTimeout(() => {
         this.setData({ initPage: true });
       }, 2000);
@@ -302,7 +305,7 @@ class LoginCart extends React.Component {
       if (isThrowErr) {
         console.log(err);
         console.log(555);
-        throw new Error(err.message);
+        throw new Error(err?.message || err);
       }
     } finally {
       this.setState({ checkoutLoading: false });
@@ -440,10 +443,17 @@ class LoginCart extends React.Component {
    *
    */
   async deleteItemFromBackendCart(param) {
-    this.setState({ checkoutLoading: true });
-    await deleteItemFromBackendCart(param);
-    await this.updateCartCache();
-    this.getGoodsIdArr();
+    try {
+      this.setState({ checkoutLoading: true });
+      //后端加了限制调purchase几口5次后不能操作，提示错误信息
+      await deleteItemFromBackendCart(param);
+      await this.updateCartCache();
+      this.getGoodsIdArr();
+    } catch (err) {
+      console.log(err);
+      window.scrollTo({ behavior: 'smooth', top: 0 });
+      this.showErrMsg(err.message);
+    }
   }
   handleCheckout = async () => {
     if (!this.btnStatus) {
@@ -486,10 +496,16 @@ class LoginCart extends React.Component {
     }, 3000);
   }
   handleAmountChange(item, type, e) {
+    const {
+      configStore: {
+        info: { skuLimitThreshold }
+      }
+    } = this.props;
     this.setState({
       errorMsg: ''
     });
     let val = e.target.value;
+    // 数量改变时，直接赋值
     if (val === '' && type === 'change') {
       item.buyCount = val;
       this.setState({
@@ -497,6 +513,7 @@ class LoginCart extends React.Component {
       });
       return;
     }
+    // 若数量清空了，再离开输入框，数量默认置为1
     if (val === '' && type === 'blur') {
       this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
       item.buyCount = 1;
@@ -508,18 +525,22 @@ class LoginCart extends React.Component {
     Array.from(document.querySelectorAll('.rc-quantity__input'), (item) => {
       item.blur();
     });
+
     const { quantityMinLimit } = this.state;
     let tmp = parseFloat(val);
     if (isNaN(tmp)) {
       tmp = 1;
       this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
+      return false;
     }
     if (tmp < quantityMinLimit) {
       tmp = quantityMinLimit;
       this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
+      return false;
     }
-    if (tmp > window.__.env.REACT_APP_LIMITED_NUM) {
-      tmp = window.__.env.REACT_APP_LIMITED_NUM;
+
+    if (tmp > skuLimitThreshold.skuMaxNum) {
+      tmp = skuLimitThreshold.skuMaxNum;
     }
     item.buyCount = tmp;
     clearTimeout(this.amountTimer);
@@ -534,11 +555,17 @@ class LoginCart extends React.Component {
     }, 500);
   }
   addQuantity(item) {
+    const {
+      configStore: {
+        info: { skuLimitThreshold }
+      }
+    } = this.props;
     if (this.state.checkoutLoading) {
       return;
     }
     this.setState({ errorMsg: '' });
-    if (item.buyCount < window.__.env.REACT_APP_LIMITED_NUM) {
+
+    if (item.buyCount < skuLimitThreshold.skuMaxNum) {
       item.buyCount++;
       this.updateBackendCart({
         goodsInfoId: item.goodsInfoId,
@@ -551,7 +578,7 @@ class LoginCart extends React.Component {
       this.showErrMsg(
         <FormattedMessage
           id="cart.errorMaxInfo"
-          values={{ val: window.__.env.REACT_APP_LIMITED_NUM }}
+          values={{ val: skuLimitThreshold.skuMaxNum }}
         />
       );
     }
@@ -1068,7 +1095,7 @@ class LoginCart extends React.Component {
           </div>
         </div>
         {isShowValidCode ? (
-          <div className="red pl-3 pb-3 pt-2 float-right">
+          <div className="red pl-3 pb-3 pt-2 text-sm">
             <FormattedMessage id="validPromotionCode" />
           </div>
         ) : null}
@@ -1143,10 +1170,10 @@ class LoginCart extends React.Component {
         {/* 显示 默认折扣 */}
         {parseFloat(this.subscriptionDiscountPrice) > 0 && (
           <div className={`row leading-lines shipping-item green`}>
-            <div className="col-8">
+            <div className="col-6">
               <p>{<FormattedMessage id="promotion" />}</p>
             </div>
-            <div className="col-4">
+            <div className="col-6">
               <p className="text-right shipping-cost text-nowrap mb-4">
                 <strong>-{formatMoney(this.subscriptionDiscountPrice)}</strong>
               </p>
@@ -1591,16 +1618,8 @@ class LoginCart extends React.Component {
                     </div>
                     <div className="rc-layout-container rc-three-column cart cart-page pt-0">
                       <div className="rc-column rc-double-width pt-0">
-                        {errorMsg ? (
-                          <div className="rc-padding-bottom--xs cart-error-messaging cart-error">
-                            <aside
-                              className="rc-alert rc-alert--error rc-alert--with-close text-break"
-                              role="alert"
-                            >
-                              <span className="pl-0">{errorMsg}</span>
-                            </aside>
-                          </div>
-                        ) : null}
+                        <ErrorMessage msg={errorMsg} />
+
                         <div className="rc-padding-bottom--xs">
                           <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
                             <FormattedMessage id="cart.yourShoppingCart" />

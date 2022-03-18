@@ -1275,7 +1275,10 @@ class SmartFeederSubscription extends Component {
       checkoutStore,
       history,
       headerCartStore,
-      clinicStore
+      clinicStore,
+      configStore: {
+        info: { skuLimitThreshold }
+      }
     } = this.props;
     const {
       currentUnitPrice,
@@ -1327,11 +1330,11 @@ class SmartFeederSubscription extends Component {
       if (historyItem) {
         flag = false;
         quantityNew += historyItem.quantity;
-        if (quantityNew > window.__.env.REACT_APP_LIMITED_NUM) {
+        if (quantityNew > skuLimitThreshold.skuMaxNum) {
           this.showCheckoutErrMsg(
             <FormattedMessage
               id="cart.errorMaxInfo"
-              values={{ val: window.__.env.REACT_APP_LIMITED_NUM }}
+              values={{ val: skuLimitThreshold.skuMaxNum }}
             />
           );
           this.setState({ addToCartLoading: false });
@@ -1370,11 +1373,11 @@ class SmartFeederSubscription extends Component {
     if (idx > -1) {
       cartDataCopy.splice(idx, 1, tmpData);
     } else {
-      if (cartDataCopy.length >= window.__.env.REACT_APP_LIMITED_CATE_NUM) {
+      if (cartDataCopy.length >= skuLimitThreshold.skuItemMaxNum) {
         this.showCheckoutErrMsg(
           <FormattedMessage
             id="cart.errorMaxCate"
-            values={{ val: window.__.env.REACT_APP_LIMITED_CATE_NUM }}
+            values={{ val: skuLimitThreshold.skuItemMaxNum }}
           />
         );
         return;

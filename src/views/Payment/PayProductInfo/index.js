@@ -9,7 +9,7 @@ import {
   getClubLogo,
   formatDate
 } from '@/utils/utils';
-import { GAInitUnLogin, GAInitLogin } from '@/utils/GA';
+import { GAInitUnLogin, GAInitLogin, GACheckoutScreenLoad } from '@/utils/GA';
 import LazyLoad from 'react-lazyload';
 import { v4 as uuidv4 } from 'uuid';
 import './index.css';
@@ -172,19 +172,17 @@ class PayProductInfo extends React.Component {
     if (!isGACheckoutLock) {
       //防止重复调用
       isGACheckoutLock = true;
+      let params = {
+        productList,
+        frequencyList: this.state.frequencyList,
+        props: this.props,
+        type,
+        isReturnList: true
+      };
+
       this.isLogin
-        ? GAInitLogin({
-            productList,
-            frequencyList: this.state.frequencyList,
-            props: this.props,
-            type
-          })
-        : GAInitUnLogin({
-            productList,
-            frequencyList: this.state.frequencyList,
-            props: this.props,
-            type
-          });
+        ? GACheckoutScreenLoad(() => GAInitLogin(params))
+        : GACheckoutScreenLoad(() => GAInitUnLogin(params));
     }
   }
 

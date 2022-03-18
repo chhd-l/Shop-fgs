@@ -184,6 +184,7 @@ const HandledSpec = ({
     // 组装购物车的前端数据结构与规格的层级关系
     if (goodsSpecDetails) {
       goodsSpecs.map((sItem: any, index: any) => {
+        // 该层判断是为了去判断sku是否存在
         sItem.chidren = goodsSpecDetails.filter((sdItem: any, i: number) => {
           if (index === 0) {
             let filterproducts = goodsInfos.filter((goodEl: any) =>

@@ -89,7 +89,7 @@ class MegaMenuMobileForHub extends Component {
         link: window.__.env.REACT_APP_HUB_VET_PORTAL,
         text: (
           <>
-            <span className="iconfont iconzhuanfa" />{' '}
+            <span className="iconfont iconzhuanfa" />
             <FormattedMessage id="header.User.vetPortal" />
           </>
         )
@@ -105,7 +105,7 @@ class MegaMenuMobileForHub extends Component {
       (curState) => ({ showMegaMenu: !curState.showMegaMenu }),
       () => {
         this.toggleBackLayerScrollFunc(!this.state.showMegaMenu);
-        this.props.handleClickMenuIcon(this.state.showMegaMenu);
+        // this.props.handleClickMenuIcon(this.state.showMegaMenu);
       }
     );
   }

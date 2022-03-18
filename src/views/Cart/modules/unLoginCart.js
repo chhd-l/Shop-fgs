@@ -48,6 +48,7 @@ import GiftList from '../components/GiftList/index.tsx';
 import PromotionCodeText from '../components/PromotionCodeText';
 import CartSurvey from '../components/CartSurvey';
 import MixFeedingBox from '../components/MixFeedingBox/index.tsx';
+import { ErrorMessage } from '@/components/Message';
 
 const guid = uuidv4();
 const localItemRoyal = window.__.localItemRoyal;
@@ -225,12 +226,14 @@ class UnLoginCart extends React.Component {
         });
       }
     );
-    GACartScreenLoad();
-    GAInitUnLogin({
-      productList: this.props.checkoutStore.cartData,
-      frequencyList: this.state.frequencyList,
-      props: this.props
-    });
+    GACartScreenLoad(() =>
+      GAInitUnLogin({
+        productList: this.props.checkoutStore.cartData,
+        frequencyList: this.state.frequencyList,
+        props: this.props,
+        isReturnList: true
+      })
+    );
     this.setCartData({ initPage: true });
   }
   GACheckUnLogin(productList) {
@@ -431,6 +434,11 @@ class UnLoginCart extends React.Component {
   }
   handleAmountChange({ value, item, type = 'change' }) {
     let err;
+    const {
+      configStore: {
+        info: { skuLimitThreshold }
+      }
+    } = this.props;
     let { productList } = this.state;
     let val = value;
     this.setState({ errorMsg: '' });
@@ -463,12 +471,12 @@ class UnLoginCart extends React.Component {
       err = <FormattedMessage id="cart.errorInfo" />;
     }
     // 单个产品总数量不能超过限制
-    if (tmp > +window.__.env.REACT_APP_LIMITED_NUM) {
-      tmp = +window.__.env.REACT_APP_LIMITED_NUM;
+    if (tmp > skuLimitThreshold.skuMaxNum) {
+      tmp = skuLimitThreshold.skuMaxNum;
       err = (
         <FormattedMessage
           id="cart.errorMaxInfo"
-          values={{ val: window.__.env.REACT_APP_LIMITED_NUM }}
+          values={{ val: skuLimitThreshold.skuMaxNum }}
         />
       );
     }
@@ -478,12 +486,12 @@ class UnLoginCart extends React.Component {
       .reduce((pre, cur) => {
         return Number(pre) + Number(cur.quantity);
       }, 0);
-    if (otherProsNum + tmp > +window.__.env.REACT_APP_LIMITED_NUM_ALL_PRODUCT) {
-      tmp = +window.__.env.REACT_APP_LIMITED_NUM_ALL_PRODUCT - otherProsNum;
+    if (otherProsNum + tmp > skuLimitThreshold.totalMaxNum) {
+      tmp = skuLimitThreshold.totalMaxNum - otherProsNum;
       err = (
         <FormattedMessage
           id="cart.errorAllProductNumLimit"
-          values={{ val: window.__.env.REACT_APP_LIMITED_NUM_ALL_PRODUCT }}
+          values={{ val: skuLimitThreshold.totalMaxNum }}
         />
       );
     }
@@ -1586,16 +1594,7 @@ class UnLoginCart extends React.Component {
                 </div>
                 <div className="rc-layout-container rc-three-column cart cart-page pt-0">
                   <div className="rc-column rc-double-width pt-0">
-                    {errorMsg ? (
-                      <div className="rc-padding-bottom--xs cart-error-messaging cart-error">
-                        <aside
-                          className="rc-alert rc-alert--error rc-alert--with-close text-break"
-                          role="alert"
-                        >
-                          <span className="pl-0">{errorMsg}</span>
-                        </aside>
-                      </div>
-                    ) : null}
+                    <ErrorMessage msg={errorMsg} />
                     <div className="rc-padding-bottom--xs">
                       <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
                         <FormattedMessage id="cart.yourShoppingCart" />

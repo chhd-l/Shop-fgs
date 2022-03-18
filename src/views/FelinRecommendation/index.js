@@ -482,8 +482,8 @@ class FelinRecommendation extends React.Component {
     try {
       await checkoutStore.hanldeUnloginAddToCart({
         cartItemList: cartItems,
-        intl,
-        valid: true
+        valid: true,
+        ...this.props
       });
       if (retPath === '/checkout') {
         retPath = await distributeLinktoPrecriberOrPaymentPage({

@@ -811,9 +811,13 @@ class CheckoutStore {
     cartItemList,
     currentUnitPrice = 0,
     isMobile,
-    intl = {}
+    intl = {},
+    configStore
   }) {
     const { formatMessage } = intl;
+    const {
+      info: { skuLimitThreshold }
+    } = configStore;
     if (valid) {
       try {
         let cartDataCopy = cloneDeep(toJS(this.cartData).filter((el) => el));
@@ -854,13 +858,13 @@ class CheckoutStore {
           // 校验
           // 1 单个产品数量限制  indv不需要限制数量
           if (
-            cartItem.quantity > +window.__.env.REACT_APP_LIMITED_NUM &&
+            cartItem.quantity > skuLimitThreshold.skuMaxNum &&
             cartItem.goodsInfoFlag != 3
           ) {
             throw new Error(
               formatMessage(
                 { id: 'cart.errorMaxInfo' },
-                { val: +window.__.env.REACT_APP_LIMITED_NUM }
+                { val: skuLimitThreshold.skuMaxNum }
               )
             );
           }
@@ -876,20 +880,20 @@ class CheckoutStore {
         if (
           cartDataCopy.reduce((pre, cur) => {
             return Number(pre) + Number(cur.quantity);
-          }, 0) > +window.__.env.REACT_APP_LIMITED_NUM_ALL_PRODUCT
+          }, 0) > skuLimitThreshold.totalMaxNum
         ) {
           throw new Error(
             formatMessage(
               { id: 'cart.errorAllProductNumLimit' },
-              { val: +window.__.env.REACT_APP_LIMITED_NUM_ALL_PRODUCT }
+              { val: skuLimitThreshold.totalMaxNum }
             )
           );
         }
-        if (cartDataCopy.length >= +window.__.env.REACT_APP_LIMITED_CATE_NUM) {
+        if (cartDataCopy.length > skuLimitThreshold.skuItemMaxNum) {
           throw new Error(
             formatMessage(
               { id: 'cart.errorMaxCate' },
-              { val: +window.__.env.REACT_APP_LIMITED_CATE_NUM }
+              { val: skuLimitThreshold.skuItemMaxNum }
             )
           );
         }

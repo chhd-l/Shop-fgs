@@ -26,7 +26,6 @@ import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { seoHoc } from '@/framework/common';
 import { Link } from 'react-router-dom';
 // import ConsentAdditionalText from '@/components/Consent/ConsentAdditionalText';
-import Notification from 'rc-notification';
 import './components/notification.less';
 
 // 日本logo
@@ -94,6 +93,7 @@ class Register extends Component {
 
   componentDidMount() {
     console.log(2222, '我们的注册页面');
+    console.log('window', window.__.env);
     const registerBack =
       window.location.search.indexOf('?origin=register') >= 0 &&
       window.location.search.indexOf('&token') >= 0;
@@ -715,19 +715,22 @@ class Register extends Component {
               </p>
             </div>
             {/* SocialRegister */}
-            {/* <div id="register" className="page" style={this.state.styleObj}>
-              <div className="rc-layout-container  rc-reverse-layout-mobile rc-bg-colour--brand3">
-                <div className="rc-column rc-padding-top--lg--mobile">
-                  <div className="rc-layout-container rc-one-column rc-self-h-middle rc-flex-direction--reverse--md-down rc-max-width--lg">
-                    <div className="rc-column rc-max-width--md rc-text--center">
-                      <div>
-                        <SocialRegister />
+            {window.__.env.REACT_APP_FaceBook_IDP ||
+            window.__.env.REACT_APP_Google_IDP ? (
+              <div id="register" className="page" style={this.state.styleObj}>
+                <div className="rc-layout-container  rc-reverse-layout-mobile rc-bg-colour--brand3">
+                  <div className="rc-column rc-padding-top--lg--mobile">
+                    <div className="rc-layout-container rc-one-column rc-self-h-middle rc-flex-direction--reverse--md-down rc-max-width--lg">
+                      <div className="rc-column rc-max-width--md rc-text--center">
+                        <div>
+                          <SocialRegister />
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div> */}
+            ) : null}
 
             <form
               id="registrationForm"

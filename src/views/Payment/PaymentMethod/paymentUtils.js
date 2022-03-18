@@ -314,3 +314,166 @@ export const handlePayReview = (
   }
   return ret;
 };
+
+//根据不同的支付方式处理不同的支付参数
+export const handlePayParams = async (
+  commonParameter,
+  email,
+  isLogin,
+  installMentParam,
+  adyenPayParam,
+  browserInfo,
+  isSkipPaymentPanel,
+  paypalCardId,
+  cyberPayParam,
+  convenienceStore,
+  handlePAYUCheckoutParams,
+  type,
+  phone
+) => {
+  let parameters;
+  const actions = {
+    oxxo: () => {
+      parameters = Object.assign({}, commonParameter, {
+        payPspItemEnum: 'PAYU_OXXO',
+        country: 'MEX',
+        email
+      });
+    },
+    payUCreditCard: async () => {
+      parameters = await handlePAYUCheckoutParams({
+        commonParameter,
+        parameters,
+        payPspItemEnum: 'PAYU_CREDIT_CARD',
+        country: 'MEX'
+      });
+    },
+    payUCreditCardRU: async () => {
+      parameters = await handlePAYUCheckoutParams({
+        commonParameter,
+        parameters: parameters,
+        payPspItemEnum: isLogin ? 'PAYU_RUSSIA_AUTOSHIP2' : 'PAYU_RUSSIA',
+        country: 'RUS'
+      });
+    },
+    payUCreditCardTU: async () => {
+      let installments;
+      if (installMentParam) {
+        installments = installMentParam.installmentNumber;
+      }
+      parameters = await handlePAYUCheckoutParams({
+        commonParameter,
+        parameters,
+        payPspItemEnum: isLogin ? 'PAYU_TURKEY_AUTOSHIP2' : 'PAYU_TURKEY',
+        country: 'TUR',
+        installments,
+        installmentPrice: installMentParam
+      });
+    },
+    cod: () => {
+      parameters = Object.assign(commonParameter, {
+        payPspItemEnum: 'PAYU_RUSSIA_COD'
+      });
+    },
+    cod_japan: () => {
+      parameters = Object.assign(commonParameter, {
+        payPspItemEnum: 'JAPAN_COD'
+      });
+    },
+    adyenCard: () => {
+      parameters = Object.assign(commonParameter, {
+        browserInfo: browserInfo,
+        encryptedSecurityCode: adyenPayParam?.encryptedSecurityCode || '',
+        payPspItemEnum:
+          sessionItemRoyal.get('goodWillFlag') === 'GOOD_WILL' ||
+          isSkipPaymentPanel
+            ? 'ZEROPRICE'
+            : 'ADYEN_CREDIT_CARD'
+      });
+      if (adyenPayParam?.paymentToken) {
+        parameters = Object.assign(parameters, {
+          paymentMethodId: adyenPayParam.id
+        });
+      } else {
+        parameters = Object.assign(parameters, {
+          ...adyenPayParam
+        });
+      }
+    },
+    adyenKlarnaPayLater: () => {
+      parameters = Object.assign(commonParameter, {
+        adyenType: 'klarna',
+        payPspItemEnum: 'ADYEN_KLARNA_PAY_LATER',
+        email
+      });
+    },
+    adyenKlarnaPayNow: () => {
+      parameters = Object.assign(commonParameter, {
+        adyenType: 'klarna_paynow',
+        payPspItemEnum: 'ADYEN_KLARNA_PAYNOW',
+        email
+      });
+    },
+    directEbanking: () => {
+      parameters = Object.assign(commonParameter, {
+        adyenType: 'directEbanking',
+        payPspItemEnum: 'ADYEN_SOFORT',
+        email
+      });
+    },
+    adyenOxxo: () => {
+      parameters = Object.assign(commonParameter, {
+        payPspItemEnum: 'ADYEN_OXXO',
+        email
+      });
+    },
+    adyenPaypal: () => {
+      parameters = Object.assign(commonParameter, {
+        adyenType: 'paypal',
+        payPspItemEnum: 'ADYEN_PAYPAL',
+        paymentMethodId: paypalCardId
+      });
+    },
+    adyen_swish: () => {
+      parameters = Object.assign(commonParameter, {
+        adyenType: 'swish',
+        payPspItemEnum: 'ADYEN_SWISH'
+      });
+    },
+    cyber: () => {
+      parameters = Object.assign({}, commonParameter, {
+        payPspItemEnum: 'CYBER',
+        paymentMethodId: cyberPayParam.id,
+        securityCode: cyberPayParam.cardCvv,
+        accessToken: cyberPayParam.accessToken
+      });
+    },
+    adyen_convenience_store: () => {
+      parameters = Object.assign(commonParameter, {
+        payPspItemEnum: 'ADYEN_CONVENIENCE_STORE',
+        adyenType: 'convenience store',
+        adyenConvenienceStorePayType:
+          convenienceStore === 'Seven-Eleven'
+            ? 'econtext_seven_eleven'
+            : 'econtext_stores',
+        adyenConvenienceStoreName: convenienceStore
+      });
+    }
+  };
+  await actions[type]();
+  //合并支付必要的参数
+  let finalParam = Object.assign(parameters, {
+    /**
+     * redirectUrl & successUrl
+     * 1. handle callback through successUrl(which is included /api, it used nginx to intercep api router, and then redirect to related shop page) -> adyenCard
+     * 2. /PayResult, handle callback at this router -> adyenKlarnaPayLater/adyenKlarnaPayNow/directEbanking
+     * 3. /Payu3dsPayResult, handle callback at this router -> payUCreditCardRU/payUCreditCardTU
+     */
+    successUrl: window.__.env.REACT_APP_BASEURL, // /api
+    redirectUrl: process.env.REACT_APP_3DS_REDIRECT_URL || '',
+    deliveryAddressId: this.state.deliveryAddress?.addressId,
+    billAddressId: this.state.billingAddress?.addressId,
+    phone
+  });
+  return finalParam;
+};

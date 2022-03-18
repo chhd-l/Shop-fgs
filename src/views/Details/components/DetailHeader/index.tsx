@@ -2,6 +2,7 @@ import React from 'react';
 import { getDeviceType, getElementToPageTop } from '@/utils/utils';
 import ErrMsgForCheckoutPanel from '../ErrMsgForCheckoutPanel/index.tsx';
 import Rate from '@/components/Rate';
+import InstockStatusComp from '@/components/InstockStatusComp/index.tsx';
 import BazaarVoiceRatingSummary from '@/components/BazaarVoice/ratingSummary';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
@@ -15,6 +16,8 @@ interface Props {
   productRate: string | number;
   replyNum: string | number;
   selectedSpecItem: any;
+  instockStatus:any;
+  vet: any;
 }
 const DetailHeader = ({
   checkOutErrMsg,
@@ -22,7 +25,9 @@ const DetailHeader = ({
   details,
   productRate,
   replyNum,
-  selectedSpecItem
+  selectedSpecItem,
+  instockStatus,
+  vet
 }: Props) => {
   const handleAClick = () => {
     if (replyNum > 0) {
@@ -34,13 +39,27 @@ const DetailHeader = ({
       });
     }
   };
+
+  const stockDom = () =>{
+    return (
+      <div className="align-left flex rc-margin-bottom--xs">
+      <p className="rc-margin-right--xs">
+        <InstockStatusComp status={instockStatus} />
+      </p>
+      {window.__.env.REACT_APP_COUNTRY === 'ru' && selectedSpecItem ? (
+        <p>Артикул:{selectedSpecItem?.externalSku}</p>
+      ) : null}
+    </div>
+    )
+  }
   return isMobile ? (
-    <div className="detailHeader mb-3">
-      <ErrMsgForCheckoutPanel checkOutErrMsg={checkOutErrMsg} />
+    <div className="detailHeader">
+      {/* <ErrMsgForCheckoutPanel checkOutErrMsg={checkOutErrMsg} /> */}
       <div dangerouslySetInnerHTML={{ __html: goodHeading }} />
+      {!vet?<>
       <div className="desAndStars">
         <div className="des">
-          <h2 className="text-break mb-1 mt-2" style={{ fontSize: '1.17rem' }}>
+          <h2 className="text-break mb-1" style={{ fontSize: '1.17rem' }}>
             {details.goodsSubtitle}
           </h2>
         </div>
@@ -73,6 +92,9 @@ const DetailHeader = ({
         className="description"
         dangerouslySetInnerHTML={createMarkup(details.goodsDescription)}
       />
+      {stockDom()}
+      </>
+      :null}
     </div>
   ) : (
     <div className="detailHeader">
@@ -81,21 +103,16 @@ const DetailHeader = ({
           __html: goodHeading
         }}
       />
+      {!vet?<>
       {!isMobile &&
         !!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS &&
         !!details.goodsNo && (
           <BazaarVoiceRatingSummary productId={details.goodsNo} />
         )}
-      <div className="desAndStars rc-margin-bottom--xs d-flex flex-wrap flex-md-nowrap justify-content-between">
-        <div className="des">
-          <h2 className="text-break mb-1 mt-2" style={{ fontSize: '1.17rem' }}>
-            {details.goodsSubtitle}
-          </h2>
-        </div>
-        {(window.__.env.REACT_APP_COUNTRY === 'de' ||
+          {(window.__.env.REACT_APP_COUNTRY === 'de' ||
           window.__.env.REACT_APP_COUNTRY === 'mx') && (
           <div className="stars text-nowrap">
-            <div className="rc-card__price flex-inline">
+            <div className="rc-card__price flex">
               <div
                 className="display-inline"
                 style={{ verticalAlign: 'middle' }}
@@ -116,11 +133,19 @@ const DetailHeader = ({
             </div>
           </div>
         )}
+        {stockDom()}
+      <div className="desAndStars rc-margin-bottom--xs d-flex flex-wrap flex-md-nowrap justify-content-between">
+        <div className="des">
+          <h2 className="text-break mb-1 mt-2" style={{ fontSize: '1.17rem' }}>
+            {details.goodsSubtitle}
+          </h2>
+        </div>
       </div>
       <div
         className="description"
         dangerouslySetInnerHTML={createMarkup(details.goodsDescription)}
       />
+      </>:null}
     </div>
   );
 };
