@@ -55,7 +55,7 @@ export default class Search extends React.Component {
         hasSearchedDone: false
       },
       () => {
-        clearTimeout(this.timer);
+        this.timer && clearTimeout(this.timer);
         this.timer = setTimeout(() => {
           cancelPrevRequest();
           this.getSearchData();
@@ -210,6 +210,7 @@ export default class Search extends React.Component {
   }
   handleSearch = () => {
     //if (this.state.loading || !this.state.hasSearchedDone) return;
+    this.timer && clearTimeout(this.timer);
     this.props.history.push({
       pathname: window.__.env.REACT_APP_SEARCH_LINK,
       // pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?q=${e.current.value}`,
