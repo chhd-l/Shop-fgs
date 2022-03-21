@@ -157,7 +157,7 @@ class GoogleTagManager extends React.Component {
       hubEvent.user = {
         // segment: 'Not Authenticated',
         // country: window.__.env.REACT_APP_GA_COUNTRY,
-        id: ''
+        id: 'not logged in'
       };
     }
     event.user.country = window.__.env.REACT_APP_GA_COUNTRY;
