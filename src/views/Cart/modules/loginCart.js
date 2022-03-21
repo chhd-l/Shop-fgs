@@ -347,7 +347,7 @@ class LoginCart extends React.Component {
   setData({ initPage = false } = {}) {
     const { configStore } = this.props;
     //每次数据变化调用
-    !isHubGA && this.GACheckout(this.loginCartData);
+    // !isHubGA && this.GACheckout(this.loginCartData);
     let productList = this.loginCartData.map((el) => {
       // 德国的购物车有问题，先前选择的1周的，直接显示默认值，因为统一返回了那三个frequency
       let filterData =
