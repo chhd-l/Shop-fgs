@@ -1038,7 +1038,7 @@ class Payment extends React.Component {
   onCardTypeValChange() {
     const { paymentStore } = this.props;
     paymentStore.setCurrentCardTypeInfo(
-      paymentStore.supportPaymentMethods.filter(
+      paymentStore?.supportPaymentMethods?.filter(
         (s) => s.cardType === this.state.cardTypeVal
       )[0] || null
     );
