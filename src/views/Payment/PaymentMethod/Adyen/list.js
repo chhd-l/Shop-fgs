@@ -12,6 +12,7 @@ import { scrollPaymentPanelIntoView } from '../../modules/utils';
 import LazyLoad from 'react-lazyload';
 import getPaymentConf from '@/lib/get-payment-conf';
 import './list.css';
+import { Point } from '@/views/Payment/Point';
 
 function CardItemCover({
   selectedSts,
@@ -50,7 +51,8 @@ class AdyenCreditCardList extends React.Component {
     updateFormValidStatus: () => {},
     updateSelectedCardInfo: () => {},
     subBuyWay: '', // once/fre
-    billingJSX: null
+    billingJSX: null,
+    supportPoint: false
   };
   constructor(props) {
     super(props);
@@ -606,7 +608,7 @@ class AdyenCreditCardList extends React.Component {
     );
   };
   render() {
-    const { billingJSX } = this.props;
+    const { billingJSX, supportPoint } = this.props;
     const {
       cardList,
       memberUnsavedCardList,
@@ -646,6 +648,7 @@ class AdyenCreditCardList extends React.Component {
           ) : (
             <>
               <span>{this.renderEditForm()}</span>
+              {supportPoint && <Point />}
             </>
           )
         ) : (
@@ -653,6 +656,7 @@ class AdyenCreditCardList extends React.Component {
             {!formVisible && this.renderList()}
             <div className={`${formVisible ? '' : 'hidden'}`}>
               <span>{this.renderEditForm()}</span>
+              {supportPoint && <Point />}
             </div>
           </>
         )}

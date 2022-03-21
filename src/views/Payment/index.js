@@ -94,9 +94,11 @@ import base64 from 'base-64';
 import cn from 'classnames';
 import { SelectPet } from './SelectPet';
 import { PanelContainer } from './Common';
+import { Point } from './Point';
 import {
   paymentMethodsObj,
   radioTypes,
+  supportPoint,
   felinAddr
 } from './PaymentMethod/paymentMethodsConstant';
 import { handlePayReview } from './PaymentMethod/paymentUtils';
@@ -145,6 +147,12 @@ const SupportPaymentMethodsPic = ({ supportPaymentMethods }) => (
 
 const chooseRadioType = () => {
   return radioTypes[window.__.env.REACT_APP_COUNTRY] || radioTypes['default'];
+};
+
+const isSupportPoint = () => {
+  return (
+    supportPoint[window.__.env.REACT_APP_COUNTRY] || supportPoint['default']
+  );
 };
 
 @inject(
@@ -688,7 +696,8 @@ class Payment extends React.Component {
       !(
         window.__.env.REACT_APP_COUNTRY === 'us' &&
         this.isCurrentBuyWaySubscription
-      )
+      ) &&
+      !(window.__.env.REACT_APP_COUNTRY === 'jp')
     );
   }
 
@@ -3425,6 +3434,7 @@ class Payment extends React.Component {
                             type: 'adyenCard'
                           })}
                           supportPaymentMethodsVisibleAtForm={false}
+                          supportPoint={isSupportPoint()}
                         />
                       </>
                     )}
@@ -3443,6 +3453,9 @@ class Payment extends React.Component {
                         />
                       </>
                     )}
+                  {item.paymentTypeVal === 'cod_japan' &&
+                    paymentTypeVal === 'cod_japan' &&
+                    isSupportPoint() && <Point />}
                   {item.paymentTypeVal === 'adyen_convenience_store' &&
                     paymentTypeVal === 'adyen_convenience_store' && (
                       <>
@@ -3450,6 +3463,7 @@ class Payment extends React.Component {
                           convenienceStoreChange={(value) => {
                             this.setState({ convenienceStore: value });
                           }}
+                          supportPoint={isSupportPoint()}
                         />
                       </>
                     )}
@@ -3503,6 +3517,7 @@ class Payment extends React.Component {
                     updateFormValidStatus={this.updateValidStatus.bind(this, {
                       key: 'cod'
                     })}
+                    supportPoint={true}
                   />
                   {payConfirmBtn({
                     disabled: !validSts.cod || validForBilling

@@ -188,3 +188,9 @@ export const felinAddr = [
     consigneeNumber: ''
   }
 ];
+
+//支持积分
+export const supportPoint = {
+  jp: true,
+  default: false
+};

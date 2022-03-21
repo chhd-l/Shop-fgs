@@ -11,7 +11,8 @@ class AdyenCreditCard extends React.Component {
     subBuyWay: '', // once/frequence
     billingJSX: null,
     updateFormValidStatus: () => {},
-    supportPaymentMethodsVisibleAtForm: true
+    supportPaymentMethodsVisibleAtForm: true,
+    supportPoint: false
   };
   constructor(props) {
     super(props);
@@ -78,6 +79,7 @@ class AdyenCreditCard extends React.Component {
           paymentStore={paymentStore}
           billingJSX={this.props.billingJSX}
           updateFormValidStatus={this.props.updateFormValidStatus}
+          supportPoint={this.props.supportPoint}
         />
       </>
     );

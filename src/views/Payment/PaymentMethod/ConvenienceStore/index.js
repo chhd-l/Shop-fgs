@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import './index.less';
+import { Point } from '@/views/Payment/Point';
 
 const convenienceStoreList = [
   {
@@ -25,7 +26,7 @@ const convenienceStoreList = [
   }
 ];
 
-const ConvenienceStore = ({ convenienceStoreChange }) => {
+const ConvenienceStore = ({ convenienceStoreChange, supportPoint = false }) => {
   const [checkedBox, setCheckBox] = React.useState('');
 
   const conStoreChange = (e, value) => {
@@ -76,6 +77,7 @@ const ConvenienceStore = ({ convenienceStoreChange }) => {
             }}
           />
         </p>
+        {supportPoint && <Point />}
       </div>
     </>
   );
