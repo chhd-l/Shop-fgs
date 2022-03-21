@@ -202,7 +202,6 @@ export const GAInitUnLogin = ({
   type,
   isReturnList
 }) => {
-  debugger;
   let arr = [];
   try {
     let promotionInfo = getPromotionInfo();

@@ -118,6 +118,7 @@ class HomeDeliveryOrPickUp extends React.Component {
   };
   async componentDidMount() {
     let initData = this.props.initData;
+    initData.formRule = this.state.pickupForm.formRule; //保留俄罗斯的正则验证
     const {
       intl: { messages }
     } = this.props;
@@ -127,7 +128,7 @@ class HomeDeliveryOrPickUp extends React.Component {
         pickupForm: Object.assign(this.state.pickupForm, initData)
       },
       () => {
-        // console.log('666 >>> pickupForm : ', this.state.pickupForm);
+        console.log('666 >>> pickupForm : ', this.state.pickupForm);
       }
     );
 
@@ -138,6 +139,8 @@ class HomeDeliveryOrPickUp extends React.Component {
 
       // 地图上选择快递公司后返回
       if (e?.data?.type == 'get_delivery_point') {
+        this.validFormAllPickupData();
+
         const { pickupForm, selectedItem } = this.state;
         // console.log('666 监听地图点的传值: ', e);
         let obj = e.data.content;

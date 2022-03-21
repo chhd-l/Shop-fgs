@@ -1,17 +1,18 @@
 import React from 'react';
 import { getDeviceType } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import clubLogo from '@/assets/images/club-icon-big.png';
-import clubDesc from '../image/club-desc@2x.png';
-
-import icon1 from '../image/xicon1.png';
-import icon2 from '../image/xicon2.png';
-import icon3 from '../image/xicon3.png';
-import icon4 from '../image/xicon4.png';
-import icon5 from '../image/xicon5.png';
-import icon6 from '../image/xicon6.png';
+import { optimizeImage } from '@/utils/utils';
 
 import './tab.less';
+
+const icon1 = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/xicon1.png`;
+const icon2 = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/xicon2.png`;
+const icon3 = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/xicon3.png`;
+const icon4 = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/xicon4.png`;
+const icon5 = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/xicon5.png`;
+const icon6 = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/xicon6.png`;
+const clubDesc = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/club-desc@2x.png`;
+const clubLogo = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/club-icon-big.png`;
 
 export default function SubscriptionTab() {
   const scrollToTop = () => {
@@ -23,7 +24,11 @@ export default function SubscriptionTab() {
     <div className="new-subscription-tab">
       <div className="rc-max-width--xl rc-padding-x--sm">
         <div className="text-center rc-beta">
-          <img src={clubLogo} className="main-lo" alt="" />
+          <img
+            src={optimizeImage({ originImageUrl: clubLogo, width: 200 })}
+            alt="clubDesc"
+            style={{ display: 'inline-block' }}
+          />
         </div>
         <div className="text-center rc-beta rc-margin-bottom--md">
           <p className="main-title">
@@ -38,7 +43,13 @@ export default function SubscriptionTab() {
             {isMobile ? (
               <>
                 <div style={{ margin: '10px 0' }}>
-                  <img src={clubDesc} alt="" style={{ width: '100%' }} />
+                  <img
+                    src={optimizeImage({
+                      originImageUrl: clubDesc,
+                      width: 350
+                    })}
+                    alt="clubDesc"
+                  />
                 </div>
                 <p className="sub-title">
                   <FormattedMessage id="ClubLP.SubscriptionTab.subtitle1" />
@@ -50,7 +61,13 @@ export default function SubscriptionTab() {
                   <FormattedMessage id="ClubLP.SubscriptionTab.subtitle1" />
                 </p>
                 <div style={{ margin: '10px 0' }}>
-                  <img src={clubDesc} alt="" style={{ width: '100%' }} />
+                  <img
+                    src={optimizeImage({
+                      originImageUrl: clubDesc,
+                      width: 350
+                    })}
+                    alt="clubDesc"
+                  />
                 </div>
               </>
             )}
@@ -67,7 +84,10 @@ export default function SubscriptionTab() {
             </p>
             <dl>
               <dt>
-                <img src={icon1} alt="" />
+                <img
+                  src={optimizeImage({ originImageUrl: icon1 })}
+                  alt="subscriptionIcon1"
+                />
               </dt>
               <dd>
                 <FormattedMessage id="ClubLP.SubscriptionTab.icontext1" />
@@ -75,7 +95,10 @@ export default function SubscriptionTab() {
             </dl>
             <dl>
               <dt>
-                <img src={icon2} alt="" />
+                <img
+                  src={optimizeImage({ originImageUrl: icon2 })}
+                  alt="subscriptionIcon2"
+                />
               </dt>
               <dd>
                 <FormattedMessage id="ClubLP.SubscriptionTab.icontext2" />
@@ -83,7 +106,10 @@ export default function SubscriptionTab() {
             </dl>
             <dl>
               <dt>
-                <img src={icon3} alt="" />
+                <img
+                  src={optimizeImage({ originImageUrl: icon3 })}
+                  alt="subscriptionIcon3"
+                />
               </dt>
               <dd>
                 <FormattedMessage id="ClubLP.SubscriptionTab.icontext3" />
@@ -96,7 +122,10 @@ export default function SubscriptionTab() {
             </p>
             <dl>
               <dt>
-                <img src={icon4} alt="" />
+                <img
+                  src={optimizeImage({ originImageUrl: icon4 })}
+                  alt="subscriptionIcon4"
+                />
               </dt>
               <dd>
                 <FormattedMessage id="ClubLP.SubscriptionTab.icontext4" />
@@ -104,7 +133,10 @@ export default function SubscriptionTab() {
             </dl>
             <dl>
               <dt>
-                <img src={icon5} alt="" />
+                <img
+                  src={optimizeImage({ originImageUrl: icon5 })}
+                  alt="subscriptionIcon5"
+                />
               </dt>
               <dd>
                 <FormattedMessage id="ClubLP.SubscriptionTab.icontext5" />
@@ -112,7 +144,10 @@ export default function SubscriptionTab() {
             </dl>
             <dl>
               <dt>
-                <img src={icon6} alt="" />
+                <img
+                  src={optimizeImage({ originImageUrl: icon6 })}
+                  alt="subscriptionIcon6"
+                />
               </dt>
               <dd>
                 <FormattedMessage id="ClubLP.SubscriptionTab.icontext6" />
@@ -135,7 +170,7 @@ export default function SubscriptionTab() {
                 borderBottom: '1px solid rgba(68,68,68,.3)'
               }}
             >
-              <FormattedMessage id="ClubLP.SubscriptionTab.backtotop" />
+              <FormattedMessage id="footer.toTheTop" />
             </span>
             <svg
               xmlns="http://www.w3.org/2000/svg"

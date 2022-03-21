@@ -19,6 +19,11 @@ import {
 
 const isHub = window.__.env.REACT_APP_HUB;
 let sessionItemRoyal = window.__.sessionItemRoyal;
+
+const getSearchContainerMaxHeight = () => {
+  return `calc(${window.innerHeight}px - 5rem)`;
+};
+
 export default class Search extends React.Component {
   static defaultProps = {
     onClose: () => {},
@@ -29,7 +34,6 @@ export default class Search extends React.Component {
     this.state = {
       showSearchInput: false,
       result: null,
-      suggestions: [],
       keywords: '',
       loading: false,
       isSearchSuccess: false, //是否搜索成功
@@ -51,10 +55,10 @@ export default class Search extends React.Component {
         hasSearchedDone: false
       },
       () => {
-        clearTimeout(this.timer);
+        this.timer && clearTimeout(this.timer);
         this.timer = setTimeout(() => {
           cancelPrevRequest();
-          this.getSuggestionList();
+          this.getSearchData();
         }, 500);
       }
     );
@@ -64,26 +68,102 @@ export default class Search extends React.Component {
       this.inputRef.current &&
       this.inputRef.current.focus();
     window.document.addEventListener('click', this.hanldeSearchBlur);
+    window.addEventListener('resize', this.setIosSafariSearchContainerHeight);
   }
 
   componentWillUnmount() {
     window.document.removeEventListener('click', this.hanldeSearchBlur);
+    window.removeEventListener(
+      'resize',
+      this.setIosSafariSearchContainerHeight
+    );
     this.leaveResultBox();
   }
 
-  async getSuggestionList() {
+  setIosSafariSearchContainerHeight = () => {
+    if (getDeviceType() === 'H5' && !isHub) {
+      let suggestionResults =
+        window.document.getElementsByClassName('suggestions');
+      for (let i = 0; i < suggestionResults.length; i++) {
+        suggestionResults[i].style.maxHeight = getSearchContainerMaxHeight();
+      }
+    }
+  };
+
+  async getSearchData() {
     const { keywords } = this.state;
+    // this.setState({ loading: true });
     Promise.all([
-      getSearchSuggestion(keywords),
+      getList({
+        keywords,
+        propDetails: [],
+        pageNum: 0,
+        brandIds: [],
+        pageSize: 10, //isHub ? 10 : 20,不区分，都改成10条
+        esGoodsInfoDTOList: [],
+        companyType: '',
+        minMarketPrice: 0,
+        maxMarketPrice: this.props?.configStore?.maxGoodsPrice || null
+      }),
       isHub && getSearch({ keywords })
+      // isHub && querySearch()
     ])
       .then((res) => {
-        if ((res[0]?.context ?? []).length) {
-          res[0].context = res[0].context.map((item) =>
-            JSON.parse(JSON.parse(item))
-          );
+        let goodsContent = [];
+
+        let productResultNum = res[0]?.context?.esGoodsPage?.totalElements || 0;
+        let contentResultTitle = res[1]?.FeaturedItems?.[0]?.Title;
+        let contentResultNum =
+          typeof contentResultTitle == 'string'
+            ? Number(
+                contentResultTitle.split(' ')[
+                  contentResultTitle.split(' ').length - 1
+                ]
+              )
+            : 0;
+        GAInstantSearchResultDisplay({
+          query: keywords,
+          productResultNum,
+          contentResultNum
+        });
+
+        const esGoodsPage =
+          res[0] && res[0].context && res[0].context.esGoodsPage;
+        if (esGoodsPage && esGoodsPage.content.length) {
+          goodsContent = esGoodsPage.content || [];
+          if (window?.dataLayer && dataLayer[0] && dataLayer[0].search) {
+            dataLayer[0].search.query = keywords;
+            dataLayer[0].search.results = esGoodsPage.totalElements;
+            dataLayer[0].search.type = 'with results';
+          }
+          sessionItemRoyal.set('search-results', esGoodsPage.totalElements);
+
+          this.setState({
+            isSearchSuccess: true,
+            result: Object.assign(
+              {},
+              {
+                productList: goodsContent,
+                totalElements: esGoodsPage.totalElements
+              },
+              { attach: res[1] }
+            )
+          });
+        } else {
+          if (window?.dataLayer && dataLayer[0] && dataLayer[0].search) {
+            dataLayer[0].search.query = keywords;
+            dataLayer[0].search.results = 0;
+            dataLayer[0].search.type = 'without results';
+          }
+          this.setState({
+            isSearchSuccess: false,
+            result: Object.assign({}, { productList: [], totalElements: 0 })
+          });
         }
-        this.getSearchData(res);
+        this.setState({
+          hasSearchedDone: true,
+          loading: false
+        });
       })
       .catch((err) => {
         if (window?.dataLayer && dataLayer[0] && dataLayer[0].search) {
@@ -96,89 +176,23 @@ export default class Search extends React.Component {
           loading: false,
           result: Object.assign({}, { productList: [], totalElements: 0 })
         });
+      })
+      .finally(() => {
+        if (getDeviceType() === 'H5' && !isHub) {
+          this.enterResultBox();
+        }
       });
-  }
-
-  async getSearchData(res) {
-    const { keywords } = this.state;
-    // this.setState({ loading: true });
-    // if (typeof res[0]?.context === 'string') {
-    //   const searchResultFromInnerList = await getList({
-    //     keywords: res[0].context,
-    //     propDetails: [],
-    //     pageNum: 0,
-    //     brandIds: [],
-    //     pageSize: 10, //isHub ? 10 : 20,不区分，都改成10条
-    //     esGoodsInfoDTOList: [],
-    //     companyType: '',
-    //     minMarketPrice: 0,
-    //     maxMarketPrice: this.props?.configStore?.maxGoodsPrice || null
-    //   });
-    // }
-
-    let goodsContent = [];
-
-    let productResultNum = (res[0]?.context ?? []).length;
-    let contentResultTitle = res[1]?.FeaturedItems?.[0]?.Title;
-    let contentResultNum =
-      typeof contentResultTitle == 'string'
-        ? Number(
-            contentResultTitle.split(' ')[
-              contentResultTitle.split(' ').length - 1
-            ]
-          )
-        : 0;
-    GAInstantSearchResultDisplay({
-      query: keywords,
-      productResultNum,
-      contentResultNum
-    });
-
-    const esGoodsPage = res[0] && res[0].context;
-    if (esGoodsPage && esGoodsPage.length) {
-      goodsContent = esGoodsPage || [];
-      if (window?.dataLayer && dataLayer[0] && dataLayer[0].search) {
-        dataLayer[0].search.query = keywords;
-        dataLayer[0].search.results = productResultNum;
-        dataLayer[0].search.type = 'with results';
-      }
-      sessionItemRoyal.set('search-results', productResultNum);
-
-      this.setState({
-        isSearchSuccess: true,
-        result: Object.assign(
-          {},
-          {
-            productList: goodsContent,
-            totalElements: productResultNum
-          },
-          { attach: res[1] }
-        )
-      });
-    } else {
-      if (window?.dataLayer && dataLayer[0] && dataLayer[0].search) {
-        dataLayer[0].search.query = keywords;
-        dataLayer[0].search.results = 0;
-        dataLayer[0].search.type = 'without results';
-      }
-      this.setState({
-        isSearchSuccess: false,
-        result: Object.assign({}, { productList: [], totalElements: 0 })
-      });
-    }
-    this.setState({
-      hasSearchedDone: true,
-      loading: false
-    });
   }
   hanldeSearchCloseClick() {
     this.setState({
       showSearchInput: false,
       keywords: '',
-      result: null,
-      suggestions: []
+      result: null
     });
     this.props.onClose();
+    if (getDeviceType() === 'H5' && !isHub) {
+      this.leaveResultBox();
+    }
   }
   hanldeSearchClick() {
     this.setState(
@@ -196,13 +210,14 @@ export default class Search extends React.Component {
   }
   handleSearch = () => {
     //if (this.state.loading || !this.state.hasSearchedDone) return;
+    this.timer && clearTimeout(this.timer);
     this.props.history.push({
       pathname: window.__.env.REACT_APP_SEARCH_LINK,
       // pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?q=${e.current.value}`,
       search: `?q=${this.state.keywords}`,
       state: {
         GAListParam: 'Search Results',
-        noresult: !this.state.isSearchSuccess
+        noresult: false // !this.state.isSearchSuccess
       }
     });
   };
@@ -230,15 +245,13 @@ export default class Search extends React.Component {
   doGAInstantSearchResultClick = (type, item, idx, e) => {
     GAInstantSearchResultClick({
       type,
-      name: item.goodsname,
+      name: item.goodsName,
       position: idx + 1
     });
     this.props.history.push({
-      pathname: `/${item.goodsname
-        .toLowerCase()
-        .split(' ')
-        .join('-')
-        .replace('/', '')}-${item.goodsno}`,
+      pathname: `/${item.lowGoodsName.split(' ').join('-').replace('/', '')}-${
+        item.goodsNo
+      }`,
       state: {
         GAListParam: 'Search Results'
       }
@@ -280,33 +293,28 @@ export default class Search extends React.Component {
     }
   };
 
-  handleSuggestionItemClick = (suggestionKeyword) => {
-    this.setState(
-      {
-        keywords: suggestionKeyword,
-        suggestions: []
-      },
-      () => {
-        this.getSearchData();
-      }
-    );
-  };
-
   handleSearchContainerClick = (e) => {
     e.nativeEvent.stopImmediatePropagation();
   };
 
   renderResultJsx() {
-    const { result, keywords, suggestions } = this.state;
+    const { result, keywords } = this.state;
     let ret = null;
     const keyReg = new RegExp(keywords, 'gi');
     if (result) {
+      //ios safari 100vh问题
+      const resultHeight = getSearchContainerMaxHeight();
       ret = (
         <div
           className="suggestions"
           id="mainSuggestions"
           onMouseOver={() => this.enterResultBox()}
           onMouseOut={() => this.leaveResultBox()}
+          style={
+            getDeviceType() === 'H5' && !isHub
+              ? { maxHeight: resultHeight }
+              : {}
+          }
         >
           <div className="container">
             <div className="row d-flex flex-sm-row">
@@ -352,13 +360,13 @@ export default class Search extends React.Component {
                               <LazyLoad>
                                 <img
                                   className="swatch__img"
-                                  alt={item.goodsname}
-                                  title={item.goodsname}
+                                  alt={item.goodsName}
+                                  title={item.goodsName}
                                   style={{ width: '100%' }}
                                   src={
                                     optimizeImage({
                                       originImageUrl:
-                                        item.goodsimage ||
+                                        item.goodsImg ||
                                         item.goodsInfos?.sort(
                                           (a, b) =>
                                             a.marketPrice - b.marketPrice
@@ -388,10 +396,10 @@ export default class Search extends React.Component {
                               //   }
                               // }}
                               className="productName ui-cursor-pointer ui-text-overflow-line2 text-break"
-                              alt={item.goodsname}
-                              title={item.goodsname}
+                              alt={item.goodsName}
+                              title={item.goodsName}
                               dangerouslySetInnerHTML={{
-                                __html: item.suggestiontext.replace(
+                                __html: item.goodsName.replace(
                                   keyReg,
                                   (txt) => `<b>${txt}</b>`
                                 )
@@ -419,7 +427,8 @@ export default class Search extends React.Component {
                       }}
                     >
                       <strong>
-                        <FormattedMessage id="viewAllResults" />
+                        <FormattedMessage id="viewAllResults" /> (
+                        {result.totalElements})
                       </strong>
                     </Link>
                   </div>

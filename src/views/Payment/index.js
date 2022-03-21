@@ -20,7 +20,6 @@ import {
   AddressList,
   AddressPreview,
   SameAsCheckbox,
-  felinAddr,
   RepayAddressPreview
 } from './Address';
 import Confirmation from './modules/Confirmation';
@@ -97,7 +96,8 @@ import { SelectPet } from './SelectPet';
 import { PanelContainer } from './Common';
 import {
   paymentMethodsObj,
-  radioTypes
+  radioTypes,
+  felinAddr
 } from './PaymentMethod/paymentMethodsConstant';
 import { handlePayReview } from './PaymentMethod/paymentUtils';
 import { ErrorMessage } from '@/components/Message';
@@ -124,11 +124,19 @@ const SupportPaymentMethodsPic = ({ supportPaymentMethods }) => (
     <span className="logo-payment-card-list logo-credit-card">
       {supportPaymentMethods.map((el, idx) => (
         <LazyLoad key={idx}>
-          <img
-            className="logo-payment-card mr-1 w-7 max-h-8 md:w-10"
-            src={el.imgUrl}
-            alt={el.cardType}
-          />
+          {el.imgHtml ? (
+            <span
+              dangerouslySetInnerHTML={{
+                __html: el.imgHtml
+              }}
+            />
+          ) : (
+            <img
+              className="logo-payment-card mr-1 w-7 max-h-8 md:w-10"
+              src={el.imgUrl}
+              alt={el.cardType}
+            />
+          )}
         </LazyLoad>
       ))}
     </span>
@@ -441,11 +449,11 @@ class Payment extends React.Component {
       sessionItemRoyal.set('oldAppointNo', funcUrl({ name: 'oldAppointNo' }));
       sessionItemRoyal.set('isChangeAppoint', true);
     }
-    let guestInfo = funcUrl({ name: 'guestInfo' });
+    let guestInfo = funcUrl({ name: 'gusetInfo' });
     if (guestInfo) {
       sessionItemRoyal.set('guestInfo', base64.decode(guestInfo));
     }
-    guestInfo = guestInfo || sessionItemRoyal.get('guestInfo');
+    guestInfo = JSON.parse(sessionItemRoyal.get('guestInfo'));
     if (appointNo) {
       let felinAddress = Object.assign(
         felinAddr[0],
@@ -1030,7 +1038,7 @@ class Payment extends React.Component {
   onCardTypeValChange() {
     const { paymentStore } = this.props;
     paymentStore.setCurrentCardTypeInfo(
-      paymentStore.supportPaymentMethods.filter(
+      paymentStore?.supportPaymentMethods?.filter(
         (s) => s.cardType === this.state.cardTypeVal
       )[0] || null
     );
@@ -1363,9 +1371,15 @@ class Payment extends React.Component {
           });
         },
         adyen_convenience_store: () => {
+          const { convenienceStore } = this.state;
           parameters = Object.assign(commonParameter, {
             payPspItemEnum: 'ADYEN_CONVENIENCE_STORE',
-            adyenType: 'convenience store'
+            adyenType: 'convenience store',
+            adyenConvenienceStorePayType:
+              convenienceStore === 'Seven-Eleven'
+                ? 'econtext_seven_eleven'
+                : 'econtext_stores',
+            adyenConvenienceStoreName: convenienceStore
           });
         }
       };
@@ -2061,7 +2075,9 @@ class Payment extends React.Component {
         specialistType: recommend_data[0]?.expertName, //专家类型
         appointmentTime: recommend_data[0]?.minutes, //预约时长
         appointmentType: recommend_data[0]?.appointType, //预约类型
-        appointmentDate: recommend_data[0]?.apptTime //预约时间
+        appointmentDate: recommend_data[0]?.apptTime, //预约时间
+        isApptChange: Boolean(sessionItemRoyal.get('isChangeAppoint')),
+        oldAppointNo: sessionItemRoyal.get('oldAppointNo')
       };
     }
 
@@ -2107,14 +2123,7 @@ class Payment extends React.Component {
         surveyId, //us cart survey
         goodWillFlag:
           sessionItemRoyal.get('goodWillFlag') === 'GOOD_WILL' ? 1 : 0,
-        isApptChange: Boolean(sessionItemRoyal.get('isChangeAppoint')),
-        oldAppointNo: sessionItemRoyal.get('oldAppointNo'),
-        paymentMethodIdFlag: addCardDirectToPayFlag,
-        adyenConvenienceStorePayType:
-          this.state.convenienceStore === 'Seven-Eleven'
-            ? 'econtext_seven_eleven'
-            : 'econtext_stores',
-        adyenConvenienceStoreName: this.state.convenienceStore
+        paymentMethodIdFlag: addCardDirectToPayFlag
       },
       appointParam
     );
@@ -3762,11 +3771,6 @@ class Payment extends React.Component {
       brandDeco = paymentMethod.paymentVendor;
       holderNameDeco = paymentMethod.holderName;
       expirationDate = paymentMethod.expirationDate;
-      if (expirationDate) {
-        let curExpirationDate = paymentMethod.expirationDate.split('-');
-        curExpirationDate.pop();
-        expirationDate = curExpirationDate.join('-');
-      }
     } else if (payosdata && payosdata.vendor) {
       lastFourDeco = payosdata.last_4_digits;
       brandDeco = payosdata.vendor;
@@ -3964,7 +3968,11 @@ class Payment extends React.Component {
               <div className="rc-column rc-double-width shipping__address">
                 {/* 错误提示，没有errorMsg时，或errorMsg===This Error No Display时不显示  */}
                 <ErrorMessage
-                  msg={errorMsg && errorMsg !== 'This Error No Display'}
+                  msg={
+                    errorMsg && errorMsg !== 'This Error No Display'
+                      ? errorMsg
+                      : ''
+                  }
                 />
                 {tid ? (
                   <RepayAddressPreview details={orderDetails} />

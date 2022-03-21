@@ -47,7 +47,9 @@ class AccountOrders extends React.Component {
       details: null,
       loading: true,
       errMsg: '',
-      cancelAppointModalVisible: false
+      cancelAppointModalVisible: false,
+      errModalText: '',
+      errModalVisible: false
     };
   }
   componentDidMount() {
@@ -143,7 +145,7 @@ class AccountOrders extends React.Component {
       await cancelAppointByNo({ apptNo: details.apptNo });
       await this.init();
     } catch (err) {
-      console.log(err);
+      this.setState({ errModalVisible: true, errModalText: err.message });
     } finally {
       this.setState({ cancelAppointModalVisible: false });
     }
@@ -314,6 +316,17 @@ class AccountOrders extends React.Component {
               this.setState({ cancelAppointModalVisible: false });
             }}
             hanldeClickConfirm={() => this.cancelAppoint()}
+          />
+          <Modal
+            key="3"
+            visible={this.state.errModalVisible}
+            modalText={this.state.errModalText}
+            close={() => {
+              this.setState({ errModalVisible: false });
+            }}
+            hanldeClickConfirm={() => {
+              this.setState({ errModalVisible: false });
+            }}
           />
           <Footer />
         </main>

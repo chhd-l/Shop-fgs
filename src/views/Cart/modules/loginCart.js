@@ -347,7 +347,7 @@ class LoginCart extends React.Component {
   setData({ initPage = false } = {}) {
     const { configStore } = this.props;
     //每次数据变化调用
-    !isHubGA && this.GACheckout(this.loginCartData);
+    // !isHubGA && this.GACheckout(this.loginCartData);
     let productList = this.loginCartData.map((el) => {
       // 德国的购物车有问题，先前选择的1周的，直接显示默认值，因为统一返回了那三个frequency
       let filterData =
@@ -445,10 +445,9 @@ class LoginCart extends React.Component {
   async deleteItemFromBackendCart(param) {
     try {
       this.setState({ checkoutLoading: true });
-      //后端加了限制调purchase几口5次后不能操作，调删除接口之前先检测下是否能删除，并提示错误信息
-      await this.updateCartCache({ isThrowErr: true });
+      //后端加了限制调purchase几口5次后不能操作，提示错误信息
       await deleteItemFromBackendCart(param);
-      await this.updateCartCache({ isThrowErr: true });
+      await this.updateCartCache();
       this.getGoodsIdArr();
     } catch (err) {
       console.log(err);
@@ -486,6 +485,9 @@ class LoginCart extends React.Component {
     }
   };
   showErrMsg(msg) {
+    if (msg) {
+      window.scrollTo(0, 0);
+    }
     this.setState({
       errorMsg: msg
     });
@@ -502,6 +504,13 @@ class LoginCart extends React.Component {
         info: { skuLimitThreshold }
       }
     } = this.props;
+    const { productList } = this.state;
+    // 所有产品总数量不能超过限制
+    const otherProsNum = productList
+      .filter((p) => p.goodsId !== item.goodsId)
+      .reduce((pre, cur) => {
+        return Number(pre) + Number(cur.buyCount);
+      }, 0);
     this.setState({
       errorMsg: ''
     });
@@ -540,6 +549,10 @@ class LoginCart extends React.Component {
       return false;
     }
 
+    if (otherProsNum + tmp > skuLimitThreshold.totalMaxNum) {
+      tmp = skuLimitThreshold.totalMaxNum - otherProsNum;
+    }
+
     if (tmp > skuLimitThreshold.skuMaxNum) {
       tmp = skuLimitThreshold.skuMaxNum;
     }
@@ -566,7 +579,25 @@ class LoginCart extends React.Component {
     }
     this.setState({ errorMsg: '' });
 
-    if (item.buyCount < skuLimitThreshold.skuMaxNum) {
+    const { productList } = this.state;
+    // 所有产品总数量不能超过限制
+    const otherProsNum = productList
+      .filter((p) => p.goodsId !== item.goodsId)
+      .reduce((pre, cur) => {
+        return Number(pre) + Number(cur.buyCount);
+      }, 0);
+
+    let val = item.buyCount + 1;
+
+    if (otherProsNum + val > skuLimitThreshold.totalMaxNum) {
+      val = skuLimitThreshold.totalMaxNum - otherProsNum;
+      this.showErrMsg(
+        <FormattedMessage
+          id="cart.errorAllProductNumLimit"
+          values={{ val: skuLimitThreshold.totalMaxNum }}
+        />
+      );
+    } else if (item.buyCount < skuLimitThreshold.skuMaxNum) {
       item.buyCount++;
       this.updateBackendCart({
         goodsInfoId: item.goodsInfoId,
@@ -584,6 +615,39 @@ class LoginCart extends React.Component {
       );
     }
   }
+
+  validTotalMaxNum({ item, val }) {
+    const {
+      configStore: {
+        info: { skuLimitThreshold }
+      }
+    } = this.props;
+    const { productList } = this.state;
+    // 所有产品总数量不能超过限制
+    const otherProsNum = productList
+      .filter((p) => p.goodsId !== item.goodsId)
+      .reduce((pre, cur) => {
+        return Number(pre) + Number(cur.quantity);
+      }, 0);
+    if (otherProsNum + val > skuLimitThreshold.totalMaxNum) {
+      val = skuLimitThreshold.totalMaxNum - otherProsNum;
+      this.showErrMsg(
+        <FormattedMessage
+          id="cart.errorAllProductNumLimit"
+          values={{ val: skuLimitThreshold.totalMaxNum }}
+        />
+      );
+      item.buyCount = val;
+      this.updateBackendCart({
+        goodsInfoId: item.goodsInfoId,
+        goodsNum: item.buyCount,
+        verifyStock: false,
+        periodTypeId: item.periodTypeId,
+        goodsInfoFlag: item.goodsInfoFlag
+      });
+    }
+  }
+
   subQuantity(item) {
     if (this.state.checkoutLoading) {
       return;
@@ -1096,7 +1160,7 @@ class LoginCart extends React.Component {
           </div>
         </div>
         {isShowValidCode ? (
-          <div className="red pl-3 pb-3 pt-2 float-right">
+          <div className="red pl-3 pb-3 pt-2 text-sm">
             <FormattedMessage id="validPromotionCode" />
           </div>
         ) : null}

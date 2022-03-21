@@ -52,7 +52,7 @@ const UserPaymentInfo = ({
         <div className="h-100 border border-d7d7d7 p-5">
           <div className="align-items-center">
             <svg
-              className="svg-icon account-info-icon align-middle mr-3"
+              className="svg-icon account-info-icon align-middle mr-3 w-8 h-8"
               aria-hidden="true"
             >
               <use xlinkHref="#iconaddresses" />

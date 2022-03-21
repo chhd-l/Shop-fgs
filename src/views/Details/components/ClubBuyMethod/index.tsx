@@ -97,17 +97,18 @@ const ClubBuyMethod = ({
             }}
           />}
         </div> */}
-        {/* <br /> */}
+        <br />
           <div className="freeshippingBox">
             <FormattedMessage id="freeShipping" />
           </div>
+        <br />
           {window.__.env.REACT_APP_COUNTRY !== 'ru' ? (
             <div className="freeshippingBox">
               <FormattedMessage id="detail.subscriptionBuyTip" />
             </div>
           ) : null}
       </div>
-      <div className="price club-price font-weight-normal text-right position-relative order-2 md:order-3 col-4 col-md-3 text-nowrap px-0">
+      <div className="price club-price font-weight-normal text-right position-relative order-2 md:order-3 col-4 text-nowrap px-0">
         <div>
           {/* <span className="text-line-through-price">
             {formatMoney(currentUnitPrice)}
@@ -132,7 +133,7 @@ const ClubBuyMethod = ({
             }}
           />}
         </div>
-        {/* {configStore?.info?.storeVO?.basePricePDPShowedFlag &&
+        {form.buyWay === 2 && configStore?.info?.storeVO?.basePricePDPShowedFlag &&
         selectedSpecItem?.goodsInfoWeight &&
         selectedSpecItem?.goodsInfoUnit ? (
           <div
@@ -149,7 +150,7 @@ const ClubBuyMethod = ({
             )}
             /{selectedSpecItem.goodsInfoUnit}
           </div>
-        ) : null} */}
+        ) : null}
       </div>
     </div>
     {form.buyWay === 2?<>
@@ -162,7 +163,7 @@ const ClubBuyMethod = ({
         />
       )}
         <div className="text-center mt-4 mb-2 subscription-learn-more" onClick={handleToClubTab}>
-          <span className="rc-styled-link mr-1">
+          <span className="rc-styled-link mr-1 text-sm">
             <FormattedMessage id="details.whatISubscrpition" />
           </span>
           <svg style={{ color: '#767676', display: 'inline' }} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

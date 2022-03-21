@@ -35,7 +35,7 @@ import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
 import AddressPreview from './Preview';
 import './list.less';
-import felinAddr from './FelinOfflineAddress';
+import { felinAddr } from '../PaymentMethod/paymentMethodsConstant';
 import cn from 'classnames';
 import AddressPanelContainer from './AddressPanelContainer';
 

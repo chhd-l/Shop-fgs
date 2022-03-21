@@ -468,10 +468,13 @@ class Details extends React.Component {
       anchorElement.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
   toClubTab = () => {
     let ClubLength = this.state.tmpGoodsDescriptionDetailList?.length;
-    console.info('....', ClubLength);
-    this.setState({ activeTabIdxList: [ClubLength] }, () => {
+    let activeTabIdx = isMobile
+      ? [...this.state.activeTabIdxList, ClubLength]
+      : [ClubLength];
+    this.setState({ activeTabIdxList: activeTabIdx }, () => {
       this.toScroll('j-details-for-club');
     });
   };
@@ -1466,7 +1469,8 @@ class Details extends React.Component {
                                     'us',
                                     'mx',
                                     'uk',
-                                    'se'
+                                    'se',
+                                    'de'
                                   ]) ? (
                                     <ImageMagnifier_fr
                                       sizeList={details.sizeList}
@@ -1516,50 +1520,42 @@ class Details extends React.Component {
                           </div>
                         )}
                       </div>
-                      {loading ? (
-                        <Skeleton />
-                      ) : (
-                        isMobile && (
-                          <DetailHeader
-                            checkOutErrMsg={checkOutErrMsg}
-                            goodHeading={goodHeading}
-                            selectedSpecItem={selectedSpecItem}
-                            details={details}
-                            productRate={productRate}
-                            replyNum={replyNum}
-                            instockStatus={instockStatus}
-                          />
-                        )
-                      )}
-                      <div className="rc-column product-column flex">
+                      <div
+                        className={`rc-column product-column ${
+                          !vet && !isMobile ? 'flex' : ''
+                        }`}
+                      >
                         <div
                           className={`wrap-short-des ${
-                            !isMobile ? 'col-md-7' : ''
+                            !isMobile && !vet ? 'col-md-7' : ''
                           }`}
                         >
                           {loading ? (
                             <Skeleton />
                           ) : (
                             <>
-                              {!isMobile && (
-                                <DetailHeader
-                                  checkOutErrMsg={checkOutErrMsg}
-                                  goodHeading={goodHeading}
-                                  selectedSpecItem={selectedSpecItem}
-                                  details={details}
-                                  productRate={productRate}
-                                  replyNum={replyNum}
-                                  instockStatus={instockStatus}
-                                />
-                              )}
-                              {!isMobile ? this.specAndQuantityDom() : null}
-                              {!isMobile &&
-                              details.promotions &&
-                              details.promotions.includes('club') ? (
-                                <Ration
-                                  goodsNo={details.goodsNo}
-                                  setState={this.setState.bind(this)}
-                                />
+                              <DetailHeader
+                                checkOutErrMsg={checkOutErrMsg}
+                                goodHeading={goodHeading}
+                                selectedSpecItem={selectedSpecItem}
+                                details={details}
+                                productRate={productRate}
+                                replyNum={replyNum}
+                                instockStatus={instockStatus}
+                                vet={vet}
+                              />
+                              {!vet ? (
+                                <>
+                                  {!isMobile ? this.specAndQuantityDom() : null}
+                                  {!isMobile &&
+                                  details.promotions &&
+                                  details.promotions.includes('club') ? (
+                                    <Ration
+                                      goodsNo={details.goodsNo}
+                                      setState={this.setState.bind(this)}
+                                    />
+                                  ) : null}
+                                </>
                               ) : null}
                             </>
                           )}
@@ -1569,6 +1565,7 @@ class Details extends React.Component {
                         ) : vet ? (
                           <div>
                             <div
+                              className="mb-4"
                               dangerouslySetInnerHTML={{
                                 __html: this.state.descContent
                               }}
@@ -1655,6 +1652,18 @@ class Details extends React.Component {
                                   {this.ButtonGroupDom(false)}
                                 </ClubBuyMethod>
                               ) : null}
+                              <div
+                                className="mb-2 mr-2 text-right"
+                                style={{ fontSize: '.875rem' }}
+                              >
+                                <FormattedMessage
+                                  id="pricesIncludeVAT"
+                                  values={{
+                                    val: <span className="red">*</span>
+                                  }}
+                                  defaultMessage=" "
+                                />
+                              </div>
                             </div>
 
                             {PC && this.retailerBtnStatus ? (
@@ -1670,6 +1679,9 @@ class Details extends React.Component {
                                 />
                               </div>
                             ) : null}
+                            <ErrMsgForCheckoutPanel
+                              checkOutErrMsg={checkOutErrMsg}
+                            />
                             {isMobile &&
                             details.promotions &&
                             details.promotions.includes('club') ? (
@@ -1697,7 +1709,7 @@ class Details extends React.Component {
                   goodsDescriptionDetailList={
                     details.goodsDescriptionDetailList
                   }
-                  saleableFlag={details.saleableFlag || this.isNullGoodsInfos}
+                  saleableFlag={details.saleableFlag ?? this.isNullGoodsInfos}
                   displayFlag={details.displayFlag}
                   setState={this.setState.bind(this)}
                   isClub={

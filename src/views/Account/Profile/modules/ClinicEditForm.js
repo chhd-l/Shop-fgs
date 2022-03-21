@@ -274,7 +274,8 @@ class ClinicEditForm extends React.Component {
                 queryList={async ({ inputVal }) => {
                   const param = {
                     storeId: window.__.env.REACT_APP_STOREID,
-                    keyWord: inputVal
+                    keyWord: inputVal,
+                    code: inputVal
                   };
 
                   const res = await (prescriberSelectTyped === 'PRESCRIBER_MAP'
