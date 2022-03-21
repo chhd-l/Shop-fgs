@@ -10,13 +10,7 @@ import { ChangeProductContext } from './index';
 import { SubDetailHeaderContext } from '../SubDetailHeader';
 import { inject, observer } from 'mobx-react';
 
-const ChooseSKU = ({
-  intl,
-  configStore: {
-    info: { skuLimitThreshold }
-  },
-  ...restProps
-}) => {
+const ChooseSKU = ({ intl, configStore, ...restProps }) => {
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   const quantityMinLimit = 1;
   const [changeNowLoading, setChangeNowLoading] = useState(false);
@@ -25,6 +19,12 @@ const ChooseSKU = ({
   let selected = false;
   const ChangeProductValue = useContext(ChangeProductContext);
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
+  const [skuLimitThreshold, setSkuLimitThreshold] = useState(1);
+
+  useEffect(() => {
+    setSkuLimitThreshold(configStore?.info?.skuLimitThreshold);
+  }, configStore?.info?.skuLimitThreshold);
+
   const {
     productListLoading,
     setState,
