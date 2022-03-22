@@ -3,8 +3,9 @@ import cn from 'classnames';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import InputCircle from '@/components/InputCircle';
 import PointForm from '@/components/PointForm';
+import { inject, observer } from 'mobx-react';
 
-const Point = () => {
+const Point = ({ checkoutStore }) => {
   const data = [
     {
       id: 'none',
@@ -16,23 +17,35 @@ const Point = () => {
   const initId = data[0].i;
   const [id, setId] = useState(initId);
 
-  const CouponForm = () => {
-    return (
-      <>
-        <div>CouponForm</div>
-      </>
-    );
-  };
-
   const FormType = {
     none: null,
     point: <PointForm />,
-    coupons: <CouponForm />
+    coupons: null
   };
 
   const getId = (id) => {
     setId(id);
+    if (id == 'coupons') {
+      document.getElementById('id-promotionCode').removeAttribute('disabled');
+      document.getElementById('id-promotionCode').focus();
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    } else {
+      document
+        .getElementById('id-promotionCode')
+        .setAttribute('disabled', true);
+    }
   };
+
+  useEffect(() => {
+    if (id != 'coupons') {
+      document
+        .getElementById('id-promotionCode')
+        .setAttribute('disabled', true);
+    }
+  }, []);
 
   return (
     <div style={{ fontFamily: 'din-pro' }}>
@@ -88,4 +101,4 @@ const Point = () => {
   );
 };
 
-export default Point;
+export default inject('checkoutStore')(observer(Point));

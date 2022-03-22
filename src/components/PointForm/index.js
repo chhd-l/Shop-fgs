@@ -1,19 +1,54 @@
 import React, { useState, useEffect } from 'react';
 import cn from 'classnames';
 import { FormattedMessage } from 'react-intl-phraseapp';
+import { inject, observer } from 'mobx-react';
 
-const PointForm = ({}) => {
+const PointForm = ({ checkoutStore }) => {
   const [CurrentHoldingPoint, setCurrentHoldingPoint] = useState(0);
-  const [inputPoint, setUsePoint] = useState('');
+  const [inputPoint, setInputPoint] = useState('');
   const [inputErr, setInputErr] = useState(false);
+  const [errMsg, setErrMsg] = useState('');
+  const tradePrice = checkoutStore.tradePrice;
+
+  const MinPointMsg = () => {
+    return <FormattedMessage id="Only 100 or more points can be used" />;
+  };
+
+  const MaxPointMsg = ({ CurrentHoldingPoint }) => {
+    return (
+      <>
+        <FormattedMessage id="Current holding points equals to" />
+        {CurrentHoldingPoint}
+      </>
+    );
+  };
+
+  const OverPointMsg = ({ tradePrice }) => {
+    return (
+      <>
+        <FormattedMessage id="Use points are valid only for total price or less, in this case " />
+        {tradePrice}
+      </>
+    );
+  };
 
   useEffect(() => {
+    if (inputPoint > tradePrice) {
+      setInputErr(true);
+      setErrMsg(<OverPointMsg tradePrice={tradePrice} />);
+      return;
+    }
+
     if (inputPoint === '') {
       setInputErr(false);
     } else if (inputPoint > 0 && inputPoint < 100) {
       setInputErr(true);
-    } else {
+      setErrMsg(<MinPointMsg />);
+    } else if (inputPoint > 100 && inputPoint <= CurrentHoldingPoint) {
       setInputErr(false);
+    } else {
+      setInputErr(true);
+      setErrMsg(<MaxPointMsg CurrentHoldingPoint={CurrentHoldingPoint} />);
     }
   }, [inputPoint]);
 
@@ -41,12 +76,12 @@ const PointForm = ({}) => {
             'p-2 text-16 border rounded',
             inputErr ? 'border-red-600' : 'border-gray-500'
           )}
-          onChange={(e) => setUsePoint(e.target.value)}
+          onChange={(e) => setInputPoint(e.target.value)}
         />
         <span className="pl-2 text-16">pt</span>
       </form>
       <span className={cn(inputErr ? 'text-12 text-red-600' : 'hidden')}>
-        <FormattedMessage id="Only 100 or more points can be used" />
+        {errMsg}
       </span>
       <div className="tips">
         <FormattedMessage id="Points can be used in 1pt increment of 100 pt or more." />
@@ -57,4 +92,4 @@ const PointForm = ({}) => {
   );
 };
 
-export default PointForm;
+export default inject('checkoutStore')(observer(PointForm));

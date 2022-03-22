@@ -68,6 +68,9 @@ class PayProductInfo extends React.Component {
     };
     this.handleClickProName = this.handleClickProName.bind(this);
   }
+  get isPromotionCodeInputFocus() {
+    return this.props.checkoutStore.promotionCodeInputFocus;
+  }
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
@@ -742,7 +745,7 @@ class PayProductInfo extends React.Component {
                     {(txt) => (
                       <input
                         className="rc-input__control"
-                        id="id-text2"
+                        id="id-promotionCode"
                         type="text"
                         autocomplete="off"
                         name="text"
@@ -754,7 +757,10 @@ class PayProductInfo extends React.Component {
                     )}
                   </FormattedMessage>
 
-                  <label className="rc-input__label" htmlFor="id-text2" />
+                  <label
+                    className="rc-input__label"
+                    htmlFor="id-promotionCode"
+                  />
                 </span>
                 <div className="promo-code-submit">
                   <button

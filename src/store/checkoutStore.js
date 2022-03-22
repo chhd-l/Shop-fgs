@@ -64,6 +64,7 @@ class CheckoutStore {
   // @computed get loginCartData(){
   //  return getLoginData()
   // }
+
   @computed get tradePrice() {
     let ret = this?.cartPrice?.tradePrice;
     if (this.installMentParam) {
