@@ -1970,12 +1970,12 @@ class Payment extends React.Component {
         }
       );
       let submitParam = bindSubmitParam(this.state.listData);
+
+      //针对俄罗斯地址最后再一次校验
       let visitorRegisterParam = {
         ...param,
         ...submitParam
       };
-
-      //针对俄罗斯地址最后再一次校验
       if (
         window.__.env.REACT_APP_COUNTRY === 'ru' &&
         !visitorRegisterParam.city &&
@@ -1985,10 +1985,9 @@ class Payment extends React.Component {
       }
       //
 
-      let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin({
-        ...param,
-        ...submitParam
-      });
+      let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(
+        visitorRegisterParam
+      );
 
       //游客绑定consent 一定要在游客注册之后 start
       //let submitParam = bindSubmitParam(this.state.listData);
