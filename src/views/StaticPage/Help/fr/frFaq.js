@@ -2,18 +2,14 @@ import React, { Component } from 'react';
 import { seoHoc } from '@/framework/common';
 import LazyLoad from 'react-lazyload';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
-import { Helmet } from 'react-helmet';
-
-const pageLink = window.location.href;
+import Canonical from '@/components/Canonical';
 
 @seoHoc('Contact Us Page')
 class FrFaq extends Component {
   render() {
     return (
       <div>
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
           <div className="rc-layout-container rc-five-column rc-match-heights text-center md:text-left">
             <div className="rc-column rc-triple-width">

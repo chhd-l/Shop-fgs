@@ -43,7 +43,7 @@ class PageBaseInfo extends React.Component {
           additionalEvents={this.props.additionalEvents}
         />
         <Helmet>
-          <link rel="canonical" href={pageLink} />
+          <link rel="canonical" href={pageLink.toLocaleLowerCase()} />
           <title>{this.state.seoConfig.title}</title>
           <meta
             name="description"

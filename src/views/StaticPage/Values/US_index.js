@@ -10,13 +10,12 @@ import image3 from './images/image3.jpg';
 import image4 from './images/image4.jpg';
 import LazyLoad from 'react-lazyload';
 import { seoHoc } from '@/framework/common';
-import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 
 import './index.css';
+import Canonical from '@/components/Canonical';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 
 @seoHoc()
 class Values extends React.Component {
@@ -37,9 +36,7 @@ class Values extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />

@@ -20,8 +20,7 @@ import './index.less';
 import { getAppointList } from '@/api/appointment';
 import { funcUrl } from '@/lib/url-utils';
 import { seoHoc } from '@/framework/common';
-
-const pageLink = window.location.href;
+import Canonical from '@/components/Canonical';
 
 @inject('checkoutStore')
 @injectIntl
@@ -182,9 +181,7 @@ class AccountOrders extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />

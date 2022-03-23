@@ -8,10 +8,9 @@ import { seoHoc } from '@/framework/common';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import BannerTip from '@/components/BannerTip';
 import './index.css';
-import { Helmet } from 'react-helmet';
+import Canonical from '@/components/Canonical';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 @injectIntl
 @inject('configStore')
 @seoHoc('general terms conditions page')
@@ -49,9 +48,7 @@ class TermsConditions extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
 
         <main className="rc-content--fixed-header rc-bg-colour--brand3">

@@ -12,7 +12,6 @@ import Selection from '@/components/Selection';
 import Pagination from '@/components/Pagination';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
 import {
   formatMoney,
   getDictionary,
@@ -34,10 +33,10 @@ import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import './index.less';
 import { handleOrderItem } from './modules/handleOrderItem';
 import { seoHoc } from '@/framework/common';
+import Canonical from '@/components/Canonical';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 
 @inject('checkoutStore')
 @injectIntl
@@ -452,9 +451,7 @@ class AccountOrders extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />

@@ -17,15 +17,13 @@ import {
 import { IMG_DEFAULT } from '@/utils/constant';
 import { formatMoney } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
 import { seoHoc } from '@/framework/common';
 
 import './index.css';
+import Canonical from '@/components/Canonical';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-
-const pageLink = window.location.href;
 
 @seoHoc()
 class OrdersAfterSale extends React.Component {
@@ -240,9 +238,7 @@ class OrdersAfterSale extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />

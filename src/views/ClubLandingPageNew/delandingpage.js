@@ -12,7 +12,6 @@ import { getDeviceType } from '@/utils/utils';
 import './index.css';
 import Loading from '@/components/Loading';
 import { withOktaAuth } from '@okta/okta-react';
-import { Helmet } from 'react-helmet';
 import stores from '@/store';
 import declublogo from './deimage/declublogo.png';
 
@@ -43,11 +42,11 @@ import DeMyList from './demylist';
 import PrescriberCode from './Components/DeStoreCode/precriberCode';
 import PhoneModal from '../../views/StaticPage/Help/components/phoneModal.js';
 import { seoHoc } from '@/framework/common';
+import Canonical from '@/components/Canonical';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const loginStore = stores.loginStore;
-const pageLink = window.location.href;
 const deviceType = getDeviceType();
 let RCDrawPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
 
@@ -104,9 +103,7 @@ class ClubLandingPageDe extends React.Component {
 
     return (
       <div>
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <GoogleTagManager
           key={this.props.location.key}
           additionalEvents={event}

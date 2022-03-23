@@ -14,11 +14,9 @@ import accountSLogo from '@/assets/images/account_s_logo.png';
 import ApplePayImg from '@/assets/images/ApplePay.png';
 import GooglePayImg from '@/assets/images/GooglePay.png';
 import './index.less';
-import { Helmet } from 'react-helmet';
 import { itemList } from './config';
 import { seoHoc } from '@/framework/common';
-
-const pageLink = window.location.href;
+import Canonical from '@/components/Canonical';
 
 function Container({ className, item, children }) {
   return item.isOuter ? (
@@ -68,9 +66,7 @@ class AccountHome extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />

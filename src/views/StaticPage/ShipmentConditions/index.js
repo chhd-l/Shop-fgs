@@ -6,7 +6,6 @@ import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import { seoHoc } from '@/framework/common';
 import './index.less';
-import { Helmet } from 'react-helmet';
 
 import image1 from './images/image1.jpeg';
 import image2 from './images/image2.jpeg';
@@ -16,9 +15,9 @@ import image5 from './images/image5.jpeg';
 import image6 from './images/image6.jpeg';
 import image7 from './images/image7.jpeg';
 import LazyLoad from 'react-lazyload';
+import Canonical from '@/components/Canonical';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 
 @seoHoc()
 class Help extends React.Component {
@@ -36,9 +35,7 @@ class Help extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />

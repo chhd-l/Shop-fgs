@@ -17,12 +17,11 @@ import { validData, isCanVerifyBlacklistPostCode } from '@/utils/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
 // import Selection from '@/components/Selection';
 import classNames from 'classnames';
-import { Helmet } from 'react-helmet';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import { seoHoc } from '@/framework/common';
+import Canonical from '@/components/Canonical';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 
 const addressType = ({ hideBillingAddr }) => {
   const defaultAddressType = [{ type: 'delivery', langKey: 'deliveryAddress' }];
@@ -392,9 +391,7 @@ class ShippingAddressFrom extends React.Component {
     } = this.state;
     return (
       <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop px-0 md:px-4">
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <div className="content-asset">
           <div
             className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${

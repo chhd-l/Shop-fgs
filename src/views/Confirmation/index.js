@@ -17,17 +17,16 @@ import './index.less';
 import { getDeviceType } from '@/utils/utils';
 import { seoHoc } from '@/framework/common';
 import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
 import { orderConfirmationPushEvent, doGetGAVal } from '@/utils/GA';
 import { transactionPixel } from '@/components/BazaarVoice/bvPixel';
 import { mktCallBack, accountCallBack } from '@/api/home.js';
 import { findUserSelectedList, userBindConsent } from '@/api/consent';
 import { bindSubmitParam } from '@/utils/utils';
+import Canonical from '@/components/Canonical';
 let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
 const isLogin = !!localItemRoyal.get('rc-token');
@@ -469,9 +468,7 @@ class Confirmation extends React.Component {
             additionalEvents={event}
           />
         }
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showNav={false} showUserBox={false} />
         <main className="rc-content--fixed-header rc-bg-colour--brand4 pl-2 pr-2 md:pl-0 md:pr-0">
           {/* <BannerTip /> */}

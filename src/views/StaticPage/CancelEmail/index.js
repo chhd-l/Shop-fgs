@@ -1,13 +1,11 @@
 import React from 'react';
 import { seoHoc } from '@/framework/common';
 import { funcUrl } from '@/lib/url-utils';
-import { Helmet } from 'react-helmet';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { cancelEmailBind } from '@/api';
-
-const pageLink = window.location.href;
+import Canonical from '@/components/Canonical';
 
 @seoHoc()
 class CancelEmail extends React.Component {
@@ -41,9 +39,7 @@ class CancelEmail extends React.Component {
     const { errMessage, consumerAccount } = this.state;
     return (
       <div>
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <div

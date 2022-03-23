@@ -253,7 +253,7 @@ class Felin extends React.Component {
     return (
       <div>
         <Helmet>
-          <link rel="canonical" href={pageLink} />
+          <link rel="canonical" href={pageLink.toLocaleLowerCase()} />
           <title>{this.state.seoConfig.title}</title>
           <meta
             name="description"

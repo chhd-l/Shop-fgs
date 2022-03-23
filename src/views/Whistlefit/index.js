@@ -5,7 +5,6 @@ import Footer from '@/components/Footer';
 import { injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
 import hero from './images/hero.png';
 import Bracelet from './images/Bracelet.png';
 import eatingFood from './images/eating-food.png';
@@ -29,9 +28,9 @@ import { EMAIL_REGEXP } from '@/utils/constant';
 import { getDeviceType } from '@/utils/utils';
 import HeroCarousel from './components/carousel/index2';
 import { seoHoc } from '@/framework/common';
+import Canonical from '@/components/Canonical';
 //import HeroCarousel from '@/components/HeroCarousel';
 
-const pageLink = window.location.href;
 const PAGE_NUM = '121313';
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 
@@ -219,9 +218,7 @@ class Whistlefit extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header showMiniIcons={true} showUserIcon={true} {...this.props} />
         <main
           className="smartCollar rc-content--fixed-header rc-bg-colour--brand3"

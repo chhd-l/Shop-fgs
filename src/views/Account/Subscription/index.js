@@ -15,7 +15,6 @@ import { getDictionary, getDeviceType, getClubLogo } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import noSubscription from '@/assets/images/noSubscription.jpg';
 import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
 import { myAccountPushEvent } from '@/utils/GA';
 import AutoshipItem from './components/AutoshipItem';
 import ClubItem from './components/ClubItem';
@@ -31,9 +30,9 @@ import iconsix from '../../../components/GoodsDetailTabs/image/iconsix.png';
 import auto from '../../../components/GoodsDetailTabs/image/auto@2x.png';
 import { DivWrapper } from './style';
 import { seoHoc } from '@/framework/common';
+import Canonical from '@/components/Canonical';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 
 //针对ru和tr noSubscription采用这个页面
 const clubNoSubscription = function () {
@@ -441,9 +440,7 @@ class Subscription extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />

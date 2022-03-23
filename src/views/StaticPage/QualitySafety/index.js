@@ -7,12 +7,11 @@ import BannerTip from '@/components/BannerTip';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { seoHoc } from '@/framework/common';
 import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
 
 import './index.css';
+import Canonical from '@/components/Canonical';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 @seoHoc()
 class QualitySafety extends React.Component {
   render(h) {
@@ -32,9 +31,7 @@ class QualitySafety extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />

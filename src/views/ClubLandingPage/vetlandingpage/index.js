@@ -8,16 +8,15 @@ import './index.css';
 import { seoHoc } from '@/framework/common';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
 import icon1 from '../../StaticPage/SubscriptionLanding/images/icon1.png';
 import icon2 from '../../StaticPage/SubscriptionLanding/images/icon2.png';
 import icon3 from '../../StaticPage/SubscriptionLanding/images/icon3.png';
 import icon4 from '../../StaticPage/SubscriptionLanding/images/icon4.png';
 import HelpComponents from '../../../components/HelpComponents/HelpComponents';
 import vetimg from './images/VET@2x.webp';
+import Canonical from '@/components/Canonical';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 
 function Divider() {
   return (
@@ -50,9 +49,7 @@ class VetLandingPage extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />

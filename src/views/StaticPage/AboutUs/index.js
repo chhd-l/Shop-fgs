@@ -11,9 +11,7 @@ import './index.css';
 import { seoHoc } from '@/framework/common';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
-
-const pageLink = window.location.href;
+import Canonical from '@/components/Canonical';
 
 @injectIntl
 @seoHoc('About Us Page')
@@ -38,9 +36,7 @@ class AboutUs extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header showMiniIcons={true} showUserIcon={true} {...this.props} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <h1 style={{ display: 'none' }}>{'Royal canin'}</h1>

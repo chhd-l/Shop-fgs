@@ -32,14 +32,13 @@ import { funcUrl } from '@/lib/url-utils';
 import { distributeLinktoPrecriberOrPaymentPage } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import transparentImg from './images/transparent.svg';
-import { Helmet } from 'react-helmet';
 import Loading from '@/components/Loading';
 import { seoHoc } from '@/framework/common';
 import './index.css';
+import Canonical from '@/components/Canonical';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 @inject('checkoutStore', 'loginStore', 'configStore', 'clinicStore')
 @injectIntl
 @seoHoc('SPT reco landing page')
@@ -663,9 +662,7 @@ class FelinRecommendation extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <Modal
           key="1"

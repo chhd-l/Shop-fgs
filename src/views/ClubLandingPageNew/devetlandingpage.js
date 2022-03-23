@@ -7,7 +7,6 @@ import Footer from '@/components/Footer';
 import './index.css';
 import Loading from '@/components/Loading';
 import { withOktaAuth } from '@okta/okta-react';
-import { Helmet } from 'react-helmet';
 import vetdeimage from './deimage/Product-composition.png';
 import decat from './deimage/delangdingpagecat.png';
 import dedog from './deimage/delangdingpagedog.png';
@@ -15,10 +14,10 @@ import { seoHoc } from '@/framework/common';
 
 import deLPdog from './deimage/deLPdog.png';
 import deLPcat from './deimage/deLPcat.png';
+import Canonical from '@/components/Canonical';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
-const pageLink = window.location.href;
 
 function Divider() {
   return (
@@ -63,9 +62,7 @@ class ClubLandingPageDeVet extends React.Component {
 
     return (
       <div>
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <GoogleTagManager
           key={this.props.location.key}
           additionalEvents={event}

@@ -25,7 +25,6 @@ import {
   distributeLinktoPrecriberOrPaymentPage,
   getFrequencyDict
 } from '@/utils/utils';
-import { Helmet } from 'react-helmet';
 import {
   GARecommendationProduct,
   GABreederRecoPromoCodeCTA,
@@ -33,6 +32,7 @@ import {
   GABigBreederAddToCar
 } from '@/utils/GA';
 import { seoHoc } from '@/framework/common';
+import Canonical from '@/components/Canonical';
 
 const imgUrlPreFix = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
 const isUs = window.__.env.REACT_APP_COUNTRY === 'us';
@@ -41,7 +41,6 @@ const isFr = window.__.env.REACT_APP_COUNTRY === 'fr';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 
 // 不引入样式有问题
 const Test = () => {
@@ -1158,9 +1157,7 @@ class Recommendation extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <Modal
           key="1"

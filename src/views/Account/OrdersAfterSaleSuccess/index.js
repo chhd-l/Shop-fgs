@@ -10,11 +10,10 @@ import BannerTip from '@/components/BannerTip';
 import { IMG_DEFAULT } from '@/utils/constant';
 import './index.css';
 import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
 import { seoHoc } from '@/framework/common';
+import Canonical from '@/components/Canonical';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
-const pageLink = window.location.href;
 
 @seoHoc()
 class OrdersAfterSaleSuccess extends React.Component {
@@ -70,9 +69,7 @@ class OrdersAfterSaleSuccess extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
 
         <Header {...this.props} />
         <main className="rc-content--fixed-header">

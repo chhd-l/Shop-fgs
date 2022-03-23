@@ -255,7 +255,7 @@ const Adoptions = (props) => {
   return (
     <div>
       <Helmet>
-        <link rel="canonical" href={pageLink} />
+        <link rel="canonical" href={pageLink.toLocaleLowerCase()} />
         <title>{seoConfig.title}</title>
         <meta name="description" content={seoConfig.metaDescription} />
         <meta name="keywords" content={seoConfig.metaKeywords} />

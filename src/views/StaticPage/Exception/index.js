@@ -6,17 +6,14 @@ import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { seoHoc } from '@/framework/common';
-import { Helmet } from 'react-helmet';
+import Canonical from '@/components/Canonical';
 
-const pageLink = window.location.href;
 @seoHoc()
 class Exception extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header showMiniIcons={false} {...this.props} />
         <div
           className="page rc-content--fixed-header"
