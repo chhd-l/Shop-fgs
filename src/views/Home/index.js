@@ -668,7 +668,7 @@ class Home extends React.Component {
     return (
       <div>
         <Helmet>
-          <link rel="canonical" href={pageLink.toLocaleLowerCase()} />
+          <link rel="canonical" href={pageLink} />
           {renderLang('home')}
         </Helmet>
         <GoogleTagManager

@@ -36,7 +36,7 @@ const Decouverteroyalcanin = (props) => {
     <div>
       <GoogleTagManager key={props.location.key} additionalEvents={event} />
       <Helmet>
-        <link rel="canonical" href={pageLink.toLocaleLowerCase()} />
+        <link rel="canonical" href={pageLink} />
         <title>{seoinfo.title}</title>
         <meta name="description" content={seoinfo.metaDescription} />
         <meta name="keywords" content={seoinfo.metaKeywords} />

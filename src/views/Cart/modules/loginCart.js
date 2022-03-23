@@ -1478,7 +1478,7 @@ class LoginCart extends React.Component {
     return (
       <div className="Carts">
         <Helmet>
-          <link rel="canonical" href={pageLink.toLocaleLowerCase()} />
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta
             name="description"

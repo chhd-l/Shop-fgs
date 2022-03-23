@@ -218,7 +218,7 @@ class PreciseRecommendation extends React.Component {
       <>
         <div>
           <Helmet>
-            <link rel="canonical" href={pageLink.toLocaleLowerCase()} />
+            <link rel="canonical" href={pageLink} />
             <meta name="robots" content="noindex" />
           </Helmet>
           <GoogleTagManager

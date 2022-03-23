@@ -6,7 +6,8 @@ const pageLink = window.location.href;
 const Canonical = () => {
   return (
     <Helmet>
-      <link rel="canonical" href={pageLink.toLocaleLowerCase()} />
+      {/* <link rel="canonical" href={pageLink} /> */}
+      <link rel="canonical" href={pageLink} />
     </Helmet>
   );
 };
