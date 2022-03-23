@@ -1970,6 +1970,21 @@ class Payment extends React.Component {
         }
       );
       let submitParam = bindSubmitParam(this.state.listData);
+      let visitorRegisterParam = {
+        ...param,
+        ...submitParam
+      };
+
+      //针对俄罗斯地址最后再一次校验
+      if (
+        window.__.env.REACT_APP_COUNTRY === 'ru' &&
+        !visitorRegisterParam.city &&
+        !visitorRegisterParam.province
+      ) {
+        throw new Error('Введите адрес');
+      }
+      //
+
       let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin({
         ...param,
         ...submitParam
