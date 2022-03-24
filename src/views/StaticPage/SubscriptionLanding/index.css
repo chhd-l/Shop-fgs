@@ -111,6 +111,22 @@
   text-align: center;
 }
 
+.jp-benefits {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.jp-benefits dl {
+  width: 200px;
+  text-align: center;
+}
+.jp-benefits dt img {
+  display: inline-block;
+}
+.jp-benefits dd {
+  font-weight: 500;
+}
+
 @media (max-width: 480px) {
   .recommendation h2 {
     margin-top: 0;
@@ -178,6 +194,14 @@
   }
   .recommendProduct .right .description {
     width: 90%;
+  }
+
+  .jp-benefits {
+    flex-direction: column;
+  }
+  .jp-benefits dl {
+    width: 100%;
+    padding: 10px 1.25rem;
   }
 }
 
