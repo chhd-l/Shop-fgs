@@ -500,6 +500,7 @@ class LoginCart extends React.Component {
     }, 3000);
   }
   handleAmountChange(item, type, e) {
+    console.log('illegalBlur', illegalBlur);
     if (illegalBlur) {
       return false;
     }
