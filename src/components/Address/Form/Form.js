@@ -398,7 +398,7 @@ class Form extends React.Component {
         postReg = [{ mask: '000-0000' }];
         break;
       default:
-        postReg = [{ mask: '00000000000' }];
+        postReg = /.*/;
         break;
     }
     maskOptions = {
