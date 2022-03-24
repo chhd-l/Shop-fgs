@@ -6,6 +6,7 @@ import PointForm from '@/components/PointForm';
 import { inject, observer } from 'mobx-react';
 
 const Point = ({ checkoutStore }) => {
+  const { setDeletePromotionFlag } = checkoutStore;
   const data = [
     {
       id: 'notUsePoint',
@@ -34,12 +35,16 @@ const Point = ({ checkoutStore }) => {
     switch (id) {
       case 'notUsePoint':
         //1.有积分删除积分
+        //(1). 设置deletePromotionFlag true
+        setDeletePromotionFlag(true);
         //todo
         //2.打开promotionCode输入框
         openPromotionBox();
         break;
       case 'usePoint':
         //1.有promotion先删除
+        //(1). 设置deletePromotionFlag 为false
+        setDeletePromotionFlag(false);
         //todo
         //2.禁用promotionCode输入框
         disabledPromotionBox();

@@ -20,6 +20,7 @@ import GiftList from '../GiftList/index.tsx';
 import { isFirstOrder } from '@/api/user';
 import cloneDeep from 'lodash/cloneDeep';
 import { IMG_DEFAULT } from '@/utils/constant';
+import { nextTick } from 'process';
 
 const guid = uuidv4();
 let isGACheckoutLock = false;
