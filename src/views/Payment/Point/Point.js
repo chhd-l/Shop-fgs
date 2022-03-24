@@ -8,44 +8,44 @@ import { inject, observer } from 'mobx-react';
 const Point = ({ checkoutStore }) => {
   const data = [
     {
-      id: 'none',
-      name: <FormattedMessage id="Do not use points / coupons / tickets" />
+      id: 'notUsePoint',
+      name: <FormattedMessage id="Do not use points" />
     },
-    { id: 'point', name: <FormattedMessage id="Use points" /> },
-    { id: 'coupons', name: <FormattedMessage id="Use coupons / tickets" /> }
+    { id: 'usePoint', name: <FormattedMessage id="Use points" /> }
   ];
   const initId = data[0].i;
   const [id, setId] = useState(initId);
 
   const FormType = {
-    none: null,
-    point: <PointForm />,
-    coupons: null
+    notUsePoint: null,
+    usePoint: <PointForm />
+  };
+
+  const openPromotionBox = () => {
+    document.getElementById('id-promotionCode').removeAttribute('disabled');
+  };
+
+  const disabledPromotionBox = () => {
+    document.getElementById('id-promotionCode').setAttribute('disabled', true);
   };
 
   const getId = (id) => {
     setId(id);
-    if (id == 'coupons') {
-      document.getElementById('id-promotionCode').removeAttribute('disabled');
-      document.getElementById('id-promotionCode').focus();
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    } else {
-      document
-        .getElementById('id-promotionCode')
-        .setAttribute('disabled', true);
+    switch (id) {
+      case 'notUsePoint':
+        //1.有积分删除积分
+        //todo
+        //2.打开promotionCode输入框
+        openPromotionBox();
+        break;
+      case 'usePoint':
+        //1.有promotion先删除
+        //todo
+        //2.禁用promotionCode输入框
+        disabledPromotionBox();
+        break;
     }
   };
-
-  useEffect(() => {
-    if (id != 'coupons') {
-      document
-        .getElementById('id-promotionCode')
-        .setAttribute('disabled', true);
-    }
-  }, []);
 
   return (
     <div style={{ fontFamily: 'din-pro' }}>

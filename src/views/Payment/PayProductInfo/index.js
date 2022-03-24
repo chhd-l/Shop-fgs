@@ -626,6 +626,36 @@ class PayProductInfo extends React.Component {
       });
     }
   };
+  handleClickDeletePromotion = async () => {
+    const { checkoutStore } = this.props;
+    const { discount } = this.state;
+    let result = {};
+    await checkoutStore.removePromotionCode();
+    await checkoutStore.removeCouponCode();
+    // 删除掉之后 promotionCode 后再使用之前的参数查询一遍 purchase接口
+    let purchasesPara = localItemRoyal.get('rc-payment-purchases-param') || {};
+    purchasesPara.promotionCode = '';
+    const param = Object.assign(purchasesPara, {
+      intl: this.props.intl
+    });
+    if (!this.props.loginStore.isLogin) {
+      // 游客
+      result = await checkoutStore.updateUnloginCart(param);
+    } else {
+      purchasesPara.subscriptionFlag = this.props.buyWay === 'frequency';
+      // 会员
+      result = await checkoutStore.updateLoginCart(param);
+    }
+    discount.pop();
+    this.props.sendPromotionCode('');
+    this.setState({
+      discount: [],
+      isShowValidCode: false,
+      lastPromotionInputValue: '',
+      promotionInputValue: '',
+      isStudentPurchase: false
+    });
+  };
   getTotalItems() {
     const { headerIcon } = this.props;
     const { productList } = this.state;
@@ -839,42 +869,7 @@ class PayProductInfo extends React.Component {
                               lineHeight: '1.25rem',
                               cursor: 'pointer'
                             }}
-                            onClick={async () => {
-                              let result = {};
-                              await checkoutStore.removePromotionCode();
-                              await checkoutStore.removeCouponCode();
-                              // 删除掉之后 promotionCode 后再使用之前的参数查询一遍 purchase接口
-                              let purchasesPara =
-                                localItemRoyal.get(
-                                  'rc-payment-purchases-param'
-                                ) || {};
-                              purchasesPara.promotionCode = '';
-                              const param = Object.assign(purchasesPara, {
-                                intl: this.props.intl
-                              });
-                              if (!this.props.loginStore.isLogin) {
-                                // 游客
-                                result = await checkoutStore.updateUnloginCart(
-                                  param
-                                );
-                              } else {
-                                purchasesPara.subscriptionFlag =
-                                  this.props.buyWay === 'frequency';
-                                // 会员
-                                result = await checkoutStore.updateLoginCart(
-                                  param
-                                );
-                              }
-                              discount.pop();
-                              this.props.sendPromotionCode('');
-                              this.setState({
-                                discount: [],
-                                isShowValidCode: false,
-                                lastPromotionInputValue: '',
-                                promotionInputValue: '',
-                                isStudentPurchase: false
-                              });
-                            }}
+                            onClick={this.handleClickDeletePromotion}
                           />
                         </p>
                       </div>
