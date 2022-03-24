@@ -7,8 +7,12 @@ export default function PromotionPanel({ item }) {
       <div className="">
         <div className="d-flex align-items-center">
           <div className="container-text">
-            <p className="title-text text-rc-red text-lg">{item.Title}</p>
-            <p className="py-4 text-base">{item.Subtitle}</p>
+            <p className="title-text text-rc-red text-lg ui-text-overflow-line1">
+              {item.Title}
+            </p>
+            <p className="my-4 text-base ui-text-overflow-line3">
+              {item.Subtitle}
+            </p>
           </div>
         </div>
         <a

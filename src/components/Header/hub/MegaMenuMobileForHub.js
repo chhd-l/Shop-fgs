@@ -132,6 +132,10 @@ class MegaMenuMobileForHub extends Component {
     //   behavior: 'smooth'
     // });
     let { menuData } = this.state;
+    menuData.map((m) => {
+      if (m.id !== item.id) m.expand = false;
+      return m;
+    });
     item.expand = !item.expand;
     this.setState({ menuData });
   }
@@ -160,7 +164,7 @@ class MegaMenuMobileForHub extends Component {
                   <React.Fragment key={sIdx}>
                     <a
                       href={sItem.Link.Url}
-                      className="medium mb-0 ui-cursor-pointer"
+                      className="mb-0 ui-cursor-pointer text-lg"
                     >
                       {sItem.Title}
                     </a>
@@ -198,7 +202,7 @@ class MegaMenuMobileForHub extends Component {
               <React.Fragment key={sIdx}>
                 <a
                   href={sItem.Link.Url}
-                  className="medium mb-0 ui-cursor-pointer"
+                  className="mb-0 ui-cursor-pointer text-lg"
                 >
                   {sItem.Title}
                 </a>
@@ -243,7 +247,10 @@ class MegaMenuMobileForHub extends Component {
                         data-tab-init="true"
                         onClick={this.handleClickToggleChilds.bind(this, item)}
                       >
-                        <span className="rc-text-colour--text">
+                        <span
+                          className="rc-text-colour--text"
+                          style={{ color: '#333' }}
+                        >
                           {item.Link.Text}
                         </span>
                         {/* <span
@@ -311,7 +318,7 @@ class MegaMenuMobileForHub extends Component {
                                     item={cItem}
                                     className="rc-list__link submenu-padding-mobile1 bg-white border-0 px-4 py-2"
                                     style={{
-                                      fontWeight: 500,
+                                      // fontWeight: 500,
                                       color: 'inherit'
                                     }}
                                     onClick={this.handleClickNavItem.bind(

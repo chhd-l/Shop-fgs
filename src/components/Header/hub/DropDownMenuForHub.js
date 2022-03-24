@@ -58,7 +58,7 @@ export default class DropDownMenuForHub extends React.Component {
     this.props.updateActiveTopParentId(item.expanded ? item.id : -1);
   }
   hanldeListItemMouseOut = () => {
-    // this.props.updateActiveTopParentId(-1);
+    this.props.updateActiveTopParentId(-1);
   };
   handleClickNavItem({ item, cItem, type }) {
     // 点击subMenu埋点
@@ -91,7 +91,7 @@ export default class DropDownMenuForHub extends React.Component {
     const { activeTopParentId } = this.props;
     let lists = [];
     // 分类MenuItem和非MenuItem类目
-    if (item.MenuItems.every((ele) => ele.Type === 'MenuItem')) {
+    if (false && item.MenuItems.every((ele) => ele.Type === 'MenuItem')) {
     } else {
       // 排列这两个的顺序
       const menuItemList = this.groupByCount({
@@ -300,7 +300,7 @@ export default class DropDownMenuForHub extends React.Component {
                   key={i}
                   onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
                   onMouseOut={this.hanldeListItemMouseOut.bind(this, item)}
-                  // onBlur={this.onListItemBlur}
+                  onBlur={this.onListItemBlur}
                   onFocus={this.onListItemFocus}
                 >
                   <ul
