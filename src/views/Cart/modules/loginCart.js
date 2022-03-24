@@ -61,6 +61,7 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
 const pageLink = window.location.href;
+let illegalBlur = false;
 
 @inject('checkoutStore', 'loginStore', 'clinicStore', 'configStore')
 @injectIntl
@@ -499,6 +500,9 @@ class LoginCart extends React.Component {
     }, 3000);
   }
   handleAmountChange(item, type, e) {
+    if (illegalBlur) {
+      return false;
+    }
     const {
       configStore: {
         info: { skuLimitThreshold }
@@ -1443,6 +1447,7 @@ class LoginCart extends React.Component {
     );
   }
   async handleChooseSize(sdItem, pitem) {
+    illegalBlur = true;
     if (sdItem.isEmpty || sdItem.isUnitPriceZero) {
       return false;
     }
@@ -1485,6 +1490,7 @@ class LoginCart extends React.Component {
       callback: this.clearPromotionCode.bind(this)
     });
     this.setState({ checkoutLoading: false });
+    illegalBlur = false;
   }
   // 切换规格/单次订阅购买时，清空promotion code
   clearPromotionCode() {
