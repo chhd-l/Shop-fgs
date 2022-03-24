@@ -64,7 +64,7 @@ class CheckoutStore {
   // @computed get loginCartData(){
   //  return getLoginData()
   // }
-  @observable deletePromotionFlag = false;
+  @observable selectDiscountWay = 'notUsePoint';
   @computed get tradePrice() {
     let ret = this?.cartPrice?.tradePrice;
     if (this.installMentParam) {
@@ -134,8 +134,8 @@ class CheckoutStore {
   }
 
   @action.bound
-  setDeletePromotionFlag(data) {
-    this.deletePromotionFlag = data;
+  setSelectDiscountWay(way) {
+    this.selectDiscountWay = way;
   }
 
   @action.bound

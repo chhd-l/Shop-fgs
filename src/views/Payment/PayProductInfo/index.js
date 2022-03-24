@@ -227,12 +227,16 @@ class PayProductInfo extends React.Component {
     }
   }
   async componentDidMount() {
+    //监听Point组件选择积分的时候触发删除coupon
     reaction(
-      () => this.props.checkoutStore.deletePromotionFlag,
+      () => this.props.checkoutStore.selectDiscountWay,
       () => {
-        this.handleClickDeletePromotion();
+        if (this.props.checkoutStore.promotionCode) {
+          this.handleClickDeletePromotion();
+        }
       }
     );
+    //
     if (this.isLogin) {
       //判断该会员是否是第一次下单
       isFirstOrder().then((res) => {
