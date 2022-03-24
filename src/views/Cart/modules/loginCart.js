@@ -61,7 +61,7 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
 const pageLink = window.location.href;
-let illegalBlur = false;
+let preventChangeSize = false;
 
 @inject('checkoutStore', 'loginStore', 'clinicStore', 'configStore')
 @injectIntl
@@ -500,15 +500,16 @@ class LoginCart extends React.Component {
     }, 3000);
   }
   handleAmountChange(item, type, e) {
-    console.log('illegalBlur', illegalBlur);
-    if (illegalBlur) {
-      return false;
-    }
+    console.log('触发handleAmountChange');
+    preventChangeSize = true;
     const {
       configStore: {
         info: { skuLimitThreshold }
       }
     } = this.props;
+    setTimeout(() => {
+      preventChangeSize = false;
+    });
     const { productList } = this.state;
     // 所有产品总数量不能超过限制
     const otherProsNum = productList
@@ -1449,8 +1450,7 @@ class LoginCart extends React.Component {
   }
   async handleChooseSize(sdItem, pitem) {
     console.log('click handleChooseSize');
-    illegalBlur = true;
-    if (sdItem.isEmpty || sdItem.isUnitPriceZero) {
+    if (preventChangeSize || sdItem.isEmpty || sdItem.isUnitPriceZero) {
       return false;
     }
     if (this.state.checkoutLoading) {
@@ -1492,7 +1492,6 @@ class LoginCart extends React.Component {
       callback: this.clearPromotionCode.bind(this)
     });
     this.setState({ checkoutLoading: false });
-    illegalBlur = false;
   }
   // 切换规格/单次订阅购买时，清空promotion code
   clearPromotionCode() {
