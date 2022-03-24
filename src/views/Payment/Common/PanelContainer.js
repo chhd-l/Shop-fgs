@@ -58,7 +58,7 @@ const PanelContainer = ({
         {panelStatus.isCompleted && onEdit ? (
           <p
             onClick={onEdit}
-            className="rc-styled-link mb-1 edit_payment_method cursor-pointer"
+            className="rc-styled-link mb-1 leading-tight edit_payment_method cursor-pointer"
           >
             {edit || <FormattedMessage id="edit" />}
           </p>
