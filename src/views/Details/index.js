@@ -1718,7 +1718,9 @@ class Details extends React.Component {
                   displayFlag={details.displayFlag}
                   setState={this.setState.bind(this)}
                   isClub={
-                    details.promotions && details.promotions.includes('club')
+                    details.promotions &&
+                    details.promotions.includes('club') &&
+                    window.__.env.REACT_APP_COUNTRY !== 'ru'
                   }
                   goodsDetailSpace={backgroundSpaces}
                 />
