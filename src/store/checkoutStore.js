@@ -65,6 +65,9 @@ class CheckoutStore {
   //  return getLoginData()
   // }
   @observable selectDiscountWay = 'notUsePoint';
+
+  @observable inputPointErr = false;
+
   @computed get tradePrice() {
     let ret = this?.cartPrice?.tradePrice;
     if (this.installMentParam) {
@@ -136,6 +139,11 @@ class CheckoutStore {
   @action.bound
   setSelectDiscountWay(way) {
     this.selectDiscountWay = way;
+  }
+
+  @action.bound
+  setInputPointErr(bool) {
+    this.inputPointErr = bool;
   }
 
   @action.bound

@@ -8,7 +8,7 @@ const PointForm = ({ checkoutStore }) => {
   const [inputPoint, setInputPoint] = useState('');
   const [inputErr, setInputErr] = useState(false);
   const [errMsg, setErrMsg] = useState('');
-  const tradePrice = checkoutStore.tradePrice;
+  const { tradePrice, setInputPointErr } = checkoutStore;
 
   const MinPointMsg = () => {
     return <FormattedMessage id="Only 100 or more points can be used" />;
@@ -32,22 +32,27 @@ const PointForm = ({ checkoutStore }) => {
     );
   };
 
+  const setInputPointErrFun = (bool) => {
+    setInputErr(bool);
+    setInputPointErr(bool);
+  };
+
   useEffect(() => {
     if (inputPoint > tradePrice) {
-      setInputErr(true);
+      setInputPointErrFun(true);
       setErrMsg(<OverPointMsg tradePrice={tradePrice} />);
       return;
     }
 
     if (inputPoint === '') {
-      setInputErr(false);
+      setInputPointErrFun(false);
     } else if (inputPoint > 0 && inputPoint < 100) {
-      setInputErr(true);
+      setInputPointErrFun(true);
       setErrMsg(<MinPointMsg />);
     } else if (inputPoint > 100 && inputPoint <= CurrentHoldingPoint) {
-      setInputErr(false);
+      setInputPointErrFun(false);
     } else {
-      setInputErr(true);
+      setInputPointErrFun(true);
       setErrMsg(<MaxPointMsg CurrentHoldingPoint={CurrentHoldingPoint} />);
     }
   }, [inputPoint]);
