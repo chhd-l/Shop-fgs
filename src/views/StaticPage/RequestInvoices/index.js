@@ -4,17 +4,14 @@ import Footer from '@/components/Footer';
 import './index.css';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { seoHoc } from '@/framework/common';
-import { Helmet } from 'react-helmet';
+import Canonical from '@/components/Canonical';
 
-const pageLink = window.location.href;
 @seoHoc()
 class RequestInvoices extends React.Component {
   render() {
     return (
       <div>
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <div className="RequestInvoices">
           <h1>

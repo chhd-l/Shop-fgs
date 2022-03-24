@@ -12,7 +12,6 @@ import { seoHoc } from '@/framework/common';
 import './index.css';
 import Loading from '@/components/Loading';
 import { withOktaAuth } from '@okta/okta-react';
-import { Helmet } from 'react-helmet';
 import stores from '@/store';
 
 import LongBanner from './Components/LongBanner/index';
@@ -40,11 +39,11 @@ import frhowitworknewmobile1 from './Components/HowItWorksNew/image/frhowitworkn
 import frhowitworknewmobile2 from './Components/HowItWorksNew/image/frhowitworknewmobile2.png';
 import frhowitworknewmobile3 from './Components/HowItWorksNew/image/frhowitworknewmobile3.png';
 import frhowitworknewmobile4 from './Components/HowItWorksNew/image/frhowitworknewmobile4.png';
+import Canonical from '@/components/Canonical';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const loginStore = stores.loginStore;
-const pageLink = window.location.href;
 const deviceType = getDeviceType();
 let RCDrawPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
 function Divider() {
@@ -155,9 +154,7 @@ class ClubLandingPageNew extends React.Component {
 
     return (
       <div>
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <GoogleTagManager
           key={this.props.location.key}
           additionalEvents={event}

@@ -10,7 +10,6 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import LoginButton from '@/components/LoginButton';
 import Help from './Help';
 import { formatMoney, getRation } from '@/utils/utils';
-import { Helmet } from 'react-helmet';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import { seoHoc } from '@/framework/common';
 
@@ -18,10 +17,10 @@ import catImg from '@/assets/images/product-finder-cat.jpg';
 import dogImg from '@/assets/images/product-finder-dog.jpg';
 import LazyLoad from 'react-lazyload';
 import { clubSubscriptionSavePets } from '@/api/pet';
+import Canonical from '@/components/Canonical';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
 
 function QListAndPetJSX(props) {
@@ -391,9 +390,7 @@ class ProductFinderResult extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />

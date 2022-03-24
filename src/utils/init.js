@@ -20,10 +20,19 @@ if (
 
 // add hreflang for ru
 if (window.__.env.REACT_APP_COUNTRY === 'ru') {
-  var linkTag = document.createElement('link');
+  const linkTag = document.createElement('link');
   linkTag.rel = 'alternate';
   // var country = window.__.env.REACT_APP_COUNTRY?.charAt(0).toUpperCase() + window.__.env.REACT_APP_COUNTRY?.slice(1)
   linkTag.hreflang = window.__.env.REACT_APP_COUNTRY;
+  linkTag.href = window.location.href;
+  document.getElementsByTagName('head')[0].appendChild(linkTag);
+}
+
+const selfReferencingCountry = ['tr', 'fr', 'uk'];
+if (selfReferencingCountry.includes(window.__.env.REACT_APP_COUNTRY)) {
+  const linkTag = document.createElement('link');
+  linkTag.rel = 'alternate';
+  linkTag.hreflang = window.__.env.REACT_APP_LANG_LOCALE;
   linkTag.href = window.location.href;
   document.getElementsByTagName('head')[0].appendChild(linkTag);
 }

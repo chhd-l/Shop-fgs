@@ -5,9 +5,8 @@ import { seoHoc } from '@/framework/common';
 import { LOGO } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
 import GoogleTagManager from '@/components/GoogleTagManager';
-import { Helmet } from 'react-helmet';
+import Canonical from '@/components/Canonical';
 
-const pageLink = window.location.href;
 const event = {
   page: {
     type: 'error',
@@ -28,9 +27,7 @@ class Page403 extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <div className="text-center mt-5">
           <img src={LOGO} alt="" className="inline-block w-40 md:w-auto" />
         </div>

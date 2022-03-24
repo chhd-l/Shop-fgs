@@ -38,7 +38,6 @@ import {
 } from '@/api/subscription';
 import Modal from '@/components/Modal';
 import 'react-datepicker/dist/react-datepicker.css';
-import { Helmet } from 'react-helmet';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import OngoingOrder from './components/OngoingOrder';
 import TempolineAPIError from './components/TempolineAPIError';
@@ -47,9 +46,9 @@ import { seoHoc } from '@/framework/common';
 import { DivWrapper } from './style';
 import { SUBSCRIBE_STATUS_ENUM } from '@/utils/enum';
 import { SuccessMessage, ErrorMessage } from '@/components/Message';
+import Canonical from '@/components/Canonical';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 
 @inject('configStore')
@@ -802,9 +801,7 @@ class SubscriptionDetail extends React.Component {
             key={this.props.location.key}
             additionalEvents={event}
           />
-          <Helmet>
-            <link rel="canonical" href={pageLink} />
-          </Helmet>
+          <Canonical />
           <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
           <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
             <BreadCrumbs />

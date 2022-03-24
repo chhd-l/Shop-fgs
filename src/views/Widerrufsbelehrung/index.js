@@ -5,8 +5,8 @@ import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import { seoHoc } from '@/framework/common';
 import './index.less';
-import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
+import Canonical from '@/components/Canonical';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
@@ -43,9 +43,7 @@ class Widerrufsbelehrung extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />

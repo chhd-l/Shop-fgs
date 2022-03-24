@@ -18,13 +18,12 @@ import qrcode_border from '@/assets/images/qrcode_border.jpg';
 import { getTimeOptions, apptSave, getConsentList } from '@/api/appointment';
 import { inject, observer } from 'mobx-react';
 import { formatDate } from '@/utils/utils';
-import { Helmet } from 'react-helmet';
 import { format } from 'date-fns';
 import { seoHoc } from '@/framework/common';
+import Canonical from '@/components/Canonical';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 
 PRESONAL_INFO_RULE.filter((el) => el.key === 'phoneNumber')[0].regExp = '';
 
@@ -658,9 +657,7 @@ export default class Felin extends React.Component {
     };
     return (
       <div className="Felin">
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <GoogleTagManager
           key={this.props.location.key}
           additionalEvents={event}

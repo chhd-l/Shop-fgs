@@ -1,17 +1,13 @@
 import React from 'react';
 import { seoHoc } from '@/framework/common';
-import { Helmet } from 'react-helmet';
-
-const pageLink = window.location.href;
+import Canonical from '@/components/Canonical';
 
 @seoHoc()
 class Consent1 extends React.Component {
   render() {
     return (
       <div className="rc-content--fixed-header rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile rc-max-width--lg mb-0">
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <div className="rc-padding--sm rc-margin-bottom--sm  rc-agreements-container">
           <h2 className="rc-beta text-center">
             MESAFELİ SATIŞ ÖN BİLGİLENDİRME FORMU{' '}

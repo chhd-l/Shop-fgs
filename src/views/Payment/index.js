@@ -72,7 +72,6 @@ import {
 import { OnePageEmailForm, OnePageClinicForm } from './OnePage';
 import './modules/adyenCopy.css';
 import './index.css';
-import { Helmet } from 'react-helmet';
 import Adyen3DForm from '@/components/Adyen/3d';
 import { ADDRESS_RULE } from './PaymentMethod/Cyber/constant/utils';
 import {
@@ -103,11 +102,11 @@ import {
 } from './PaymentMethod/paymentMethodsConstant';
 import { handlePayReview } from './PaymentMethod/paymentUtils';
 import { ErrorMessage } from '@/components/Message';
+import Canonical from '@/components/Canonical';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
 const hideBillingAddr = Boolean(
   +window.__.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
@@ -3945,9 +3944,7 @@ class Payment extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header
           {...this.props}
           showNav={false}

@@ -8,16 +8,15 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import Question from './modules/Question';
 import LazyLoad from 'react-lazyload';
 import { seoHoc } from '@/framework/common';
-import { Helmet } from 'react-helmet';
 import { productFinderPushEvent } from '@/utils/GA';
 
 import catImg from '@/assets/images/product-finder-cat.jpg';
 import dogImg from '@/assets/images/product-finder-dog.jpg';
 import './index.less';
+import Canonical from '@/components/Canonical';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
 
 const GAStep = [
@@ -157,9 +156,7 @@ class ProductFinder extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />

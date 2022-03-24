@@ -14,10 +14,9 @@ import { inject, observer } from 'mobx-react';
 import { seoHoc } from '@/framework/common';
 import LazyLoad from 'react-lazyload';
 import './index.less';
-import { Helmet } from 'react-helmet';
+import Canonical from '@/components/Canonical/index.jsx';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 
 @inject('configStore')
 @seoHoc('Contact Us Page')
@@ -65,9 +64,7 @@ class Help extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />

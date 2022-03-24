@@ -6,12 +6,10 @@ import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import { seoHoc } from '@/framework/common';
 import { funcUrl } from '@/lib/url-utils';
-import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import { getEmailWay } from './config';
-
-const pageLink = window.location.href;
+import Canonical from '@/components/Canonical';
 
 @inject('configStore')
 @seoHoc()
@@ -49,9 +47,7 @@ class SearchShow extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           {window.__.env.REACT_APP_COUNTRY == 'fr' ? null : <BannerTip />}

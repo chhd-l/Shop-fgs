@@ -8,7 +8,6 @@ import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { seoHoc } from '@/framework/common';
 import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
 
 import './index.css';
 
@@ -18,9 +17,9 @@ import image4 from './images/image4.jpg';
 import image5 from './images/image5.jpg';
 import cat from './images/cat.jpg';
 import dog from './images/dog.jpg';
+import Canonical from '@/components/Canonical';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 @seoHoc()
 class QualitySafety extends React.Component {
   render(h) {
@@ -40,9 +39,7 @@ class QualitySafety extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
