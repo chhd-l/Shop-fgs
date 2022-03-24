@@ -27,6 +27,7 @@ import { injectIntl } from 'react-intl-phraseapp';
 import { postcustomerUpdate } from '../../../api/felin';
 import { scrollIntoView } from '@/lib/scroll-to-utils';
 import { funcUrl } from '@/lib/url-utils';
+import Modal from '@/components/Modal';
 
 const localItemRoyal = window.__.localItemRoyal;
 PRESONAL_INFO_RULE.filter((el) => el.key === 'phoneNumber')[0].regExp = '';
@@ -116,7 +117,9 @@ class Hcexperts extends React.Component {
       },
       userInfo: undefined,
       apptNo: '',
-      appointmentVO: {}
+      appointmentVO: {},
+      errModalText: '',
+      errModalVisible: false
     };
   }
 
@@ -546,7 +549,7 @@ class Hcexperts extends React.Component {
     if (code === 'K-000000') {
       await this.queryAppointInfo(this.state.appointmentVO.apptNo);
       sessionItemRoyal.set(
-        'gusetInfo',
+        'guestInfo',
         JSON.stringify({
           firstName: params.firstName,
           lastName: params.lastName,
@@ -585,14 +588,18 @@ class Hcexperts extends React.Component {
   };
 
   postUpdate = async (params) => {
-    let id = funcUrl({ name: 'id' });
-    const { code, context } = await postUpdate(params);
-    if (code === 'K-000000') {
-      await this.queryAppointInfo(context.appointmentVO.apptNo);
-      sessionItemRoyal.set('appointment-no', context.appointmentVO.apptNo);
-      sessionItemRoyal.set('oldAppointNo', id);
-      sessionItemRoyal.set('isChangeAppoint', true);
-      this.props.history.push('/checkout');
+    try {
+      let id = funcUrl({ name: 'id' });
+      const { code, context } = await postUpdate(params);
+      if (code === 'K-000000') {
+        await this.queryAppointInfo(context.appointmentVO.apptNo);
+        sessionItemRoyal.set('appointment-no', context.appointmentVO.apptNo);
+        sessionItemRoyal.set('oldAppointNo', id);
+        sessionItemRoyal.set('isChangeAppoint', true);
+        this.props.history.push('/checkout');
+      }
+    } catch (err) {
+      this.setState({ errModalVisible: true, errModalText: err.message });
     }
   };
 
@@ -968,6 +975,17 @@ class Hcexperts extends React.Component {
         <div className="txt-centr" style={{ marginBottom: '3.75rem' }}>
           <MyModal />
         </div>
+        <Modal
+          key="3"
+          visible={this.state.errModalVisible}
+          modalText={this.state.errModalText}
+          close={() => {
+            this.setState({ errModalVisible: false });
+          }}
+          hanldeClickConfirm={() => {
+            this.setState({ errModalVisible: false });
+          }}
+        />
       </div>
     );
   }

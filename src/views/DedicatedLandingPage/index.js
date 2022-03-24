@@ -310,7 +310,8 @@ class DedicatedLandingPage extends React.Component {
     console.log(cartItem);
     await this.props.checkoutStore.hanldeUnloginAddToCart({
       valid: this.addCartBtnStatus,
-      cartItemList: [cartItem]
+      cartItemList: [cartItem],
+      ...this.props
     });
 
     this.setState({ buttonLoading: false, showKitten: false });

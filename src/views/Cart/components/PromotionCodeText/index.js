@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { formatMoney } from '@/utils/utils';
+
 export default function PromotionCodeText({ el, i }) {
   const [promotionsVisible, setPromotionsVisible] = useState(false);
+
   return (
     <div className={`row shipping-item green d-flex`}>
-      <div className="col-6" style={{ paddingBottom: '1rem' }}>
+      <div className="col-6 pb-4">
         <p
-          style={{ marginBottom: 0 }}
           id={`marketingName${i}`}
-          className="ui-text-overflow-line2"
+          className="ui-text-overflow-line2 mb-0"
           onMouseEnter={() => {
             if (
               document.getElementById(`marketingName${i}`).scrollHeight > 48

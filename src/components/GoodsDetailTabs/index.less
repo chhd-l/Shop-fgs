@@ -76,6 +76,28 @@
   .rc-list__accordion-item {
     border-bottom: 0;
   }
+  .showItem > div:last-child {
+    max-height: 5000px;
+    transition: max-height 0.5s ease-in-out;
+  }
+
+  .showItem > div:first-child {
+    color: red;
+    font-size: 1.125rem;
+    font-weight: 500;
+  }
+
+  .hiddenItem > div:first-child {
+    color: #666;
+    font-size: 1.125rem;
+    font-weight: 500;
+  }
+
+  .hiddenItem > div:last-child {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out;
+  }
   .mixed-Feeding-box {
     padding: 0;
     text-align: left;

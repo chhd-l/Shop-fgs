@@ -151,8 +151,14 @@ class Form extends React.Component {
     const { initData = {} } = this.props;
 
     //日本
-    if (window.__.env.REACT_APP_COUNTRY === 'jp') {
-      initData.region = initData.area;
+    if (COUNTRY === 'jp') {
+      // console.log(initData);
+      // debugger;
+      if (initData.area) {
+        //保存delivery address是保存在area的，才会有值
+        initData.region = initData.area;
+      }
+      //initData.region = initData.area;
     }
 
     const { caninForm } = this.state;
@@ -180,6 +186,8 @@ class Form extends React.Component {
         caninForm: Object.assign(caninForm, initData)
       },
       async () => {
+        // console.log(this.state.caninForm)
+        // debugger
         // 获取 DuData、DQE 等开关
         // addressApiType: 0、validation ，1、suggestion
         // isOpen: 0、关 , 1、开
@@ -209,10 +217,7 @@ class Form extends React.Component {
         this.setAddressFormData();
 
         //模拟 日本查询DeliveryDate
-        if (
-          this.props.showDeliveryDateTimeSlot &&
-          window.__.env.REACT_APP_COUNTRY === 'jp'
-        ) {
+        if (this.props.showDeliveryDateTimeSlot && COUNTRY === 'jp') {
           this.getDeliveryDateAndTimeSlotData('');
         }
       }
@@ -295,12 +300,14 @@ class Form extends React.Component {
       if (res.context && res.context?.timeSlots?.length) {
         flag = true; // 标记
         let robj = res.context.timeSlots;
+
         robj.forEach((v, i) => {
           // 格式化 delivery date 格式: 星期, 15 月份
           let datestr = formatDate({
             date: v.date,
             formatOption: { weekday: 'long', day: '2-digit', month: 'long' }
           });
+
           // 所有数据
           alldata[v.date] = v.dateTimeInfos;
           ddlist.push({
@@ -335,8 +342,22 @@ class Form extends React.Component {
             tsFlag = true;
           }
         });
+        // if(COUNTRY == 'jp') {
+        //   tslist.unshift({
+        //     id: '',
+        //     name: 'unspecified',
+        //     startTime: '',
+        //     endTime: '',
+        //     sort: 0})
+        // }
+
+        // console.log(tslist)
+        // debugger
         // time slot为空或者过期设置第一条数据为默认值
-        if (!obj.timeSlot || !alldata[obj.deliveryDate] || !tsFlag) {
+        if (obj.timeSlot == 'Unspecified') {
+          obj.timeSlotId = 'Unspecified';
+          obj.timeSlot = 'Unspecified';
+        } else if (!obj.timeSlot || !alldata[obj.deliveryDate] || !tsFlag) {
           obj.timeSlotId = tslist[0].id;
           obj.timeSlot = tslist[0].name;
         }
@@ -369,18 +390,19 @@ class Form extends React.Component {
   //设置postcode输入限制
   setPostCodeReg = () => {
     let element = document.getElementById('postCodeShipping');
+    if (!element) return; //没有postCode输入框就不执行
     let maskOptions = [];
-    let phoneReg = '';
+    let postReg = '';
     switch (COUNTRY) {
       case 'jp':
-        phoneReg = [{ mask: '000-0000' }];
+        postReg = [{ mask: '000-0000' }];
         break;
       default:
-        phoneReg = [{ mask: '00000000000' }];
+        postReg = [{ mask: '00000000000' }];
         break;
     }
     maskOptions = {
-      mask: phoneReg
+      mask: postReg
     };
     IMask(element, maskOptions);
   };
@@ -415,7 +437,7 @@ class Form extends React.Component {
         phoneReg = [{ mask: '{0} (000) 000-00-00' }];
         break;
       case 'jp':
-        phoneReg = [{ mask: '000-0000-0000' }];
+        phoneReg = /^[0]\d{0,10}$/;
         break;
       default:
         phoneReg = [{ mask: '00000000000' }];
@@ -556,7 +578,7 @@ class Form extends React.Component {
         inputFreeTextFlag: 0,
         inputSearchBoxFlag: 0,
         inputDropDownBoxFlag: 1,
-        requiredFlag: window.__.env.REACT_APP_COUNTRY === 'jp' ? 0 : 1
+        requiredFlag: COUNTRY === 'jp' ? 0 : 1
       },
       defaultObj
     );
@@ -570,7 +592,7 @@ class Form extends React.Component {
         inputFreeTextFlag: 0,
         inputSearchBoxFlag: 0,
         inputDropDownBoxFlag: 1,
-        requiredFlag: window.__.env.REACT_APP_COUNTRY === 'jp' ? 0 : 1
+        requiredFlag: COUNTRY === 'jp' ? 0 : 1
       },
       defaultObj
     );
@@ -636,6 +658,8 @@ class Form extends React.Component {
             // 土耳其
             regExp =
               /^0\s\(?([2-9][0-8][0-9])\)?\s([1-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
+          } else if (COUNTRY == 'jp') {
+            regExp = /^[0]\d{9,10}$/;
           } else {
             // 其他国家
             regExp = /\S/;
@@ -1002,6 +1026,12 @@ class Form extends React.Component {
     } else if (key != 'country' && key != 'deliveryDate' && key != 'timeSlot') {
       tmp.unshift({ value: '', name: '' });
     }
+
+    if (COUNTRY == 'jp' && key == 'timeSlot' && tmp.length > 0) {
+      //日本timeSlot才有Unspecified
+      tmp.unshift({ value: 'Unspecified', name: 'Unspecified' });
+    }
+
     return tmp;
   }
   // 判断是否是数字
@@ -1579,6 +1609,7 @@ class Form extends React.Component {
   // 下拉框
   dropDownBoxJSX = (item) => {
     const { caninForm, countryList } = this.state;
+
     return (
       <>
         <span
@@ -1710,7 +1741,7 @@ class Form extends React.Component {
                   className={`col-md-12 ${
                     isDeliveryDateAndTimeSlot &&
                     item.fieldKey == 'deliveryDate' &&
-                    window.__.env.REACT_APP_COUNTRY === 'jp'
+                    COUNTRY === 'jp'
                       ? ''
                       : 'hidden'
                   }`}
@@ -1795,7 +1826,7 @@ class Form extends React.Component {
                       <span className="ui-lighter">
                         <FormattedMessage id="example" />:{' '}
                         <FormattedMessage id="examplePostCode" />
-                        {window.__.env.REACT_APP_COUNTRY === 'jp' ? (
+                        {COUNTRY === 'jp' ? (
                           <>
                             <br />
                             <FormattedMessage

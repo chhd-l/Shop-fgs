@@ -60,7 +60,7 @@
   // border: 1px solid #e2001a;
   border: 1px solid #aaa;
   border-radius: 5px;
-  padding: 0.625rem 1.25rem;
+  padding: 0.625rem 1rem;
   .freqency {
     > span {
       flex: 1;
@@ -68,6 +68,41 @@
     // > div {
     //   flex: 2;
     // }
+  }
+
+  .rc-input__radio:focus + .rc-input__label--inline::before {
+    outline: 0 !important;
+  }
+}
+#Details .buy-method-box {
+  border: 1px solid #aaa;
+  border-radius: 5px;
+}
+#Details {
+  .club-buy-method, .autoship-buy-method {
+    border: 0;
+    margin-top: 0;
+    border-radius:0;
+    // border-bottom: 1px solid #aaa;
+  }
+}
+
+#Details .buy-method-frequency .freqency{
+  display: block !important;
+  text-align: left !important;
+  max-width: 100% !important;
+  .frequency-delivery {
+    font-weight: 400;
+  }
+  .delivery-every {
+    text-align: left !important;
+    height: 3rem;
+    border-bottom:1px solid #808285;
+    display: flex;
+  align-items: center;
+  .frequency-selection {
+    flex: 1;
+  }
   }
 }
 #Details .choices__item.choices__item--choice.choices__item--selectable {
@@ -134,11 +169,12 @@
   }
 
   #Details .detailHeader {
-    padding: 0 1.25rem;
+    // padding: 0 1.25rem;
+    padding: 0;
 
     h1 {
       font-size: 1.5rem;
-      margin-bottom: 0;
+      // margin-bottom: 0;
     }
   }
 
@@ -171,7 +207,7 @@
     // border: 1px solid #e2001a;
     border: 1px solid #aaa;
     border-radius: 5px;
-    padding: 0.75rem 1.25rem 1.25rem 1.25rem;
+    padding: 0.75rem;
     margin-top: 1rem;
     .freqency {
       > span {
@@ -193,6 +229,19 @@
       span {
         line-height: 1rem;
       }
+    }
+
+    .price {
+      line-height: 1.8rem;
+    }
+  }
+
+  #Details {
+    .club-buy-method, .autoship-buy-method {
+      border: 0;
+      margin-top: 0;
+      border-radius:0;
+      // border-bottom: 1px solid #aaa;
     }
   }
   #Details .desAndStars .stars {
@@ -262,36 +311,36 @@
     }
   }
 }
+// 移动到goodsdetailTabs共用
+// #Details {
+//   .showItem > div:last-child {
+//     max-height: 5000px;
+//     transition: max-height 0.5s ease-in-out;
+//   }
 
-#Details {
-  .showItem > div:last-child {
-    max-height: 5000px;
-    transition: max-height 0.5s ease-in-out;
-  }
+//   .showItem > div:first-child {
+//     color: red;
+//     font-size: 1.125rem;
+//     font-weight: 500;
+//   }
 
-  .showItem > div:first-child {
-    color: red;
-    font-size: 1.125rem;
-    font-weight: 500;
-  }
+//   .hiddenItem > div:first-child {
+//     color: #666;
+//     font-size: 1.125rem;
+//     font-weight: 500;
+//   }
 
-  .hiddenItem > div:first-child {
-    color: #666;
-    font-size: 1.125rem;
-    font-weight: 500;
-  }
+//   .hiddenItem > div:last-child {
+//     max-height: 0;
+//     overflow: hidden;
+//     transition: max-height 0.5s ease-in-out;
+//   }
 
-  .hiddenItem > div:last-child {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.5s ease-in-out;
-  }
-
-  // dl { // 此处影响到多处地方，暂时注释了
-  //   margin-bottom: 0;
-  //   padding: 0 1.25rem;
-  // }
-}
+//   // dl { // 此处影响到多处地方，暂时注释了
+//   //   margin-bottom: 0;
+//   //   padding: 0 1.25rem;
+//   // }
+// }
 
 #Details {
   .discountBox {
@@ -311,8 +360,17 @@
       color: #fff;
     }
   }
+  .discountText {
+    color:#008900;
+    font-size: 0.625rem;
+    // position: absolute;
+    // right: 0;
+  }
+  .club-price, .autoship-price {
+    color:#008900;
+  }
   .freeshippingBox {
-    color: #ec001a;
+    // color: #ec001a;
     // width: 100px;
     padding: .1rem .625rem;
     text-align: center;
@@ -356,6 +414,12 @@
     margin-left: 0.625rem;
     .rc-styled-link:hover {
       border-color: #aaa;
+    }
+  }
+  .subscription-learn-more {
+    .rc-styled-link {
+      border: 0;
+      text-decoration: underline;
     }
   }
   dl {

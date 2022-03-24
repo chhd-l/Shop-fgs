@@ -26,6 +26,7 @@ import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { seoHoc } from '@/framework/common';
 import { Link } from 'react-router-dom';
 // import ConsentAdditionalText from '@/components/Consent/ConsentAdditionalText';
+import './components/notification.less';
 
 // 日本logo
 import jpLogo from '@/assets/images/register/jp_logo.svg';
@@ -66,7 +67,8 @@ class Register extends Component {
         email: '',
         password: ''
       },
-
+      regError: false,
+      regErrorMessage: '',
       passwordMessage: '',
       emailMessage: '',
       requiredConsentCount: 0,
@@ -91,6 +93,7 @@ class Register extends Component {
 
   componentDidMount() {
     console.log(2222, '我们的注册页面');
+    console.log('window', window.__.env);
     const registerBack =
       window.location.search.indexOf('?origin=register') >= 0 &&
       window.location.search.indexOf('&token') >= 0;
@@ -248,7 +251,8 @@ class Register extends Component {
   validInput(name, value) {
     const symbolReg1 = /^\?+$/;
     const symbolReg2 = /^\-+$/;
-    const deIllegalSymbol = symbolReg1.test(value) || symbolReg2.test(value);
+    const deIllegalSymbol =
+      symbolReg1.test(value.trim()) || symbolReg2.test(value.trim());
     switch (name) {
       case 'password':
         const { ruleLength, ruleLower, ruleUpper, ruleAname, ruleSpecial } =
@@ -257,39 +261,39 @@ class Register extends Component {
           ruleLength && ruleLower && ruleUpper && ruleAname && ruleSpecial;
         this.setState({
           passwordValid,
-          passwordMessage: value
+          passwordMessage: value.trim()
             ? this.props.intl.messages.registerPasswordFormat
             : this.props.intl.messages.registerFillIn
         });
         break;
       case 'name':
         this.setState({
-          nameValid: !!value
+          nameValid: !!value.trim()
         });
         break;
       case 'firstName':
         this.setState({
-          firstNameValid: !!value && !deIllegalSymbol,
+          firstNameValid: !!value.trim() && !deIllegalSymbol,
           illegalSymbol: deIllegalSymbol
         });
         break;
       case 'lastName':
         this.setState({
-          lastNameValid: !!value && !deIllegalSymbol,
+          lastNameValid: !!value.trim() && !deIllegalSymbol,
           illegalSymbol: deIllegalSymbol
         });
         break;
       case 'phoneticFirstName':
         console.log('phoneticFirstNameValid');
         this.setState({
-          phoneticFirstNameValid: !!value && !deIllegalSymbol,
+          phoneticFirstNameValid: !!value.trim() && !deIllegalSymbol,
           illegalSymbol: deIllegalSymbol
         });
         break;
       case 'phoneticLastName':
         console.log('phoneticLastNameValid');
         this.setState({
-          phoneticLastNameValid: !!value && !deIllegalSymbol,
+          phoneticLastNameValid: !!value.trim() && !deIllegalSymbol,
           illegalSymbol: deIllegalSymbol
         });
         break;
@@ -488,7 +492,9 @@ class Register extends Component {
         this.setState({
           circleLoading: false,
           hasError: true,
-          errorMessage: null
+          errorMessage: null,
+          regErrorMessage: err.detailMessage,
+          regError: true
         });
       });
   };
@@ -563,7 +569,9 @@ class Register extends Component {
       list,
       hasError,
       errorMessage,
-      passwordInputType
+      passwordInputType,
+      regError,
+      regErrorMessage
     } = this.state;
     const allValid =
       (window.__.env.REACT_APP_COUNTRY !== 'de'
@@ -635,7 +643,44 @@ class Register extends Component {
                 </h1>
               </DistributeHubLinkOrATag>
             </div>
-
+            {/* 注册重复错误提示 */}
+            {regError ? (
+              <aside
+                className="rc-alert rc-alert--error mb-2 rc-alert__close"
+                role="alert"
+                style={{
+                  padding: '.5rem',
+                  width: '750px',
+                  margin: '0px auto',
+                  textAlign: 'center'
+                }}
+              >
+                <span>
+                  {
+                    <FormattedMessage
+                      id="jp.regErrorMessage"
+                      values={{
+                        val: (
+                          <a
+                            className="rc-styled-link ui-cursor-pointer faq_rc_styled_link"
+                            href="https://shopsit.royalcanin.com/jp/help"
+                          >
+                            {<FormattedMessage id="jp.reghelp" />}
+                          </a>
+                        )
+                      }}
+                    />
+                  }
+                </span>
+                <button
+                  class="rc-alert__close rc-icon rc-icon rc-alert__close rc-close--xs rc-iconography"
+                  data-close=""
+                  onClick={() => this.setState({ regError: false })}
+                >
+                  <span class="rc-screen-reader-text">Close</span>
+                </button>
+              </aside>
+            ) : null}
             {/* logo下标题 */}
             <div className="text-center logo-bottom-title">
               <p>{<FormattedMessage id="jp.regtitle" />}</p>
@@ -669,6 +714,24 @@ class Register extends Component {
                 </a>
               </p>
             </div>
+            {/* SocialRegister */}
+            {window.__.env.REACT_APP_FaceBook_IDP ||
+            window.__.env.REACT_APP_Google_IDP ? (
+              <div id="register" className="page" style={this.state.styleObj}>
+                <div className="rc-layout-container  rc-reverse-layout-mobile rc-bg-colour--brand3">
+                  <div className="rc-column rc-padding-top--lg--mobile">
+                    <div className="rc-layout-container rc-one-column rc-self-h-middle rc-flex-direction--reverse--md-down rc-max-width--lg">
+                      <div className="rc-column rc-max-width--md rc-text--center">
+                        <div>
+                          <SocialRegister />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : null}
+
             <form
               id="registrationForm"
               className="registration-form rc-margin-bottom--xl--mobile p-0 md:px-28"
@@ -805,6 +868,7 @@ class Register extends Component {
                     id="registerPassword"
                     type={passwordInputType}
                     maxLength="255"
+                    autocomplete="new-password"
                     minLength="8"
                     name="password"
                     valid={passwordValid}
@@ -1041,11 +1105,11 @@ class Register extends Component {
                 </div>
               </div>
 
-              <div className="rc-meta rc-margin-top--sm rc-text--left">
+              {/* <div className="rc-meta rc-margin-top--sm rc-text--left">
                 <p>
                   <FormattedMessage id="registerFooter1" defaultMessage={' '} />
                 </p>
-              </div>
+              </div> */}
             </form>
           </div>
         )}
@@ -1567,6 +1631,7 @@ class Register extends Component {
           footerVisible={false}
           modalTitle={<FormattedMessage id="addPet" />}
           confirmBtnText={<FormattedMessage id="continue" />}
+          children={22222}
         />
       </div>
     );

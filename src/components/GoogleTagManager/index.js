@@ -6,7 +6,7 @@ import {
   loadNoScriptIframeJS
 } from '@/utils/utils';
 import { sha256 } from 'js-sha256';
-
+let routerIsChange = false;
 const localItemRoyal = window.__.localItemRoyal;
 @inject('loginStore')
 @observer
@@ -36,6 +36,19 @@ class GoogleTagManager extends React.Component {
     else return null;
   }
   componentDidMount() {
+    if (routerIsChange) {
+      // 第一次进来不执行
+      dataLayer.push({
+        event: 'routeChange',
+        routeChange: {
+          path: window?.location?.pathname, //New route pushed into the URL
+          type: this.props.additionalEvents?.page?.type //'Product', 'Product Catalogue', 'Product Finder', 'Account', 'Checkout'...
+        }
+      });
+    } else {
+      routerIsChange = true;
+      this.insertGAScript();
+    }
     // 监听点击cookie banner同意按钮后，动态加载GA.js
     // window.addEventListener('click', (e) => {
     //   let currentTargetDom = e.target;
@@ -44,7 +57,23 @@ class GoogleTagManager extends React.Component {
     //   }
     // });
     // 0211update:数据统计受较大影响 故加载ga不需要同意cookiebanner
-    this.insertGAScript();
+    this.handleECEvents();
+  }
+  handleECEvents() {
+    let hubGA = window.__.env.REACT_APP_HUB_GA == '1';
+    let { ecommerceEvents = {}, hubEcommerceEvents = {} } = this.props;
+    let ecEvents = hubGA ? hubEcommerceEvents : ecommerceEvents;
+    if (
+      Object.keys(ecommerceEvents).length > 0 ||
+      Object.keys(hubEcommerceEvents).length > 0
+    ) {
+      loadJS({
+        code: `window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push(${JSON.stringify(
+            filterObjectValueDeep(ecEvents)
+          )});`
+      });
+    }
   }
   insertGAScript() {
     // 如果没有同意cookie banner，不允许加载GA.js
@@ -82,19 +111,20 @@ class GoogleTagManager extends React.Component {
     };
 
     let hubEvent = {
+      event: 'dataLayerLoaded', //String : constant
       site: {
         ...commonSite
       },
       page: {
         type: page?.type || '',
-        theme: page?.theme || '',
-        globalURI: page?.path || ''
-      },
-      search,
-      pet: {
-        specieID: pet?.specieId || '',
-        breedName: pet?.breedName || ''
+        theme: page?.theme || ''
+        // globalURI: page?.path || ''
       }
+      // search,
+      // pet: {
+      //   specieID: pet?.specieId || '',
+      //   breedName: pet?.breedName || ''
+      // }
     };
 
     let userInfo = this.props.loginStore.userInfo;
@@ -111,7 +141,7 @@ class GoogleTagManager extends React.Component {
       };
 
       hubEvent.user = {
-        segment: 'Authenticated',
+        // segment: 'Authenticated',
         country: window.__.env.REACT_APP_GA_COUNTRY,
         id: oktaId
       };
@@ -127,7 +157,7 @@ class GoogleTagManager extends React.Component {
       hubEvent.user = {
         // segment: 'Not Authenticated',
         // country: window.__.env.REACT_APP_GA_COUNTRY,
-        id: 'Guest Checkout'
+        id: ''
       };
     }
     event.user.country = window.__.env.REACT_APP_GA_COUNTRY;
@@ -146,8 +176,6 @@ class GoogleTagManager extends React.Component {
 
     let hubGA = window.__.env.REACT_APP_HUB_GA == '1';
     let addEvents = hubGA ? hubAdditionalEvents : additionalEvents;
-    let { ecommerceEvents = {}, hubEcommerceEvents = {} } = this.props;
-    let ecEvents = hubGA ? hubEcommerceEvents : ecommerceEvents;
 
     //  需求修改 327383
     // loadJS({
@@ -182,31 +210,11 @@ class GoogleTagManager extends React.Component {
     //   src: `https://maf.pagosonline.net/ws/fp/tags.js?id=1234480200`
     // });
     loadJS({
-      code: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-N449MLX');`
-    });
-
-    loadJS({
       code: `window.dataLayer = window.dataLayer || [];
         window.dataLayer.push(${JSON.stringify(
           filterObjectValueDeep(addEvents)
         )});`
     });
-
-    if (
-      Object.keys(ecommerceEvents).length > 0 ||
-      Object.keys(hubEcommerceEvents).length > 0
-    ) {
-      loadJS({
-        code: `window.dataLayer = window.dataLayer || [];
-          window.dataLayer.push(${JSON.stringify(
-            filterObjectValueDeep(ecEvents)
-          )});`
-      });
-    }
 
     // ru 的petstory 需要放在ga执行顺序之后，不然会影响到ga的执行顺序问题
     // if (window.__.env.REACT_APP_COUNTRY === 'ru') {

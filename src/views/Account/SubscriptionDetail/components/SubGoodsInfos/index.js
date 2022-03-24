@@ -5,9 +5,10 @@ import ButtonBoxGift from './ButtonBoxGift';
 import ButtonBox from './ButtonBox';
 import ChangeSelection from './ChangeSelection';
 import DailyRation from '../DailyRation';
-import ShowErrorDom from '../ShowErrorDom';
+import { ErrorMessage } from '@/components/Message';
 export const SubGoodsInfosContext = createContext();
 import { getDeviceType, formatMoney, optimizeImage } from '@/utils/utils';
+import { inject, observer } from 'mobx-react';
 
 const SubGoodsInfos = ({
   triggerShowChangeProduct,
@@ -24,12 +25,19 @@ const SubGoodsInfos = ({
   setState,
   getMinDate,
   isShowClub,
-  intl
+  intl,
+  configStore
 }) => {
   const isNotInactive = subDetail.subscribeStatus !== 'INACTIVE';
   const isActive = subDetail.subscribeStatus === 'ACTIVE';
   const isIndv = subDetail.subscriptionType == 'Individualization';
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
+  const [skuLimitThreshold, setSkuLimitThreshold] = useState(1);
+
+  useEffect(() => {
+    setSkuLimitThreshold(configStore?.info?.skuLimitThreshold);
+  }, configStore?.info?.skuLimitThreshold);
+
   //订阅数量更改
   const onQtyChange = async () => {
     try {
@@ -39,6 +47,7 @@ const SubGoodsInfos = ({
     }
   };
   const minusQuantity = (el) => {
+    showErrMsg('');
     // 非激活状态需要暂停操作
     if (subDetail.subscribeStatus !== 'ACTIVE') {
       return;
@@ -54,11 +63,12 @@ const SubGoodsInfos = ({
     }
   };
   const plusQuantity = (el) => {
+    showErrMsg('');
     // 非激活状态需要暂停操作
     if (subDetail.subscribeStatus !== 'ACTIVE') {
       return;
     }
-    if (el.subscribeNum < window.__.env.REACT_APP_LIMITED_NUM) {
+    if (el.subscribeNum < skuLimitThreshold.skuMaxNum) {
       el.subscribeNum = el.subscribeNum + 1;
       setState({
         subDetail,
@@ -69,13 +79,14 @@ const SubGoodsInfos = ({
         <FormattedMessage
           id="cart.errorMaxInfo"
           values={{
-            val: process.env.REACT_APP_LIMITED_NUM
+            val: skuLimitThreshold.skuMaxNum
           }}
         />
       );
     }
   };
   const changeQuantity = (e, el, index, type) => {
+    showErrMsg('');
     if (subDetail.subscribeStatus !== 'ACTIVE' || isIndv) {
       return;
     }
@@ -97,13 +108,13 @@ const SubGoodsInfos = ({
         tmp = 1;
         errMsg = <FormattedMessage id="cart.errorInfo" />;
       }
-      if (tmp > window.__.env.REACT_APP_LIMITED_NUM) {
-        tmp = window.__.env.REACT_APP_LIMITED_NUM;
+      if (tmp > skuLimitThreshold.skuMaxNum) {
+        tmp = skuLimitThreshold.skuMaxNum;
         errMsg = (
           <FormattedMessage
             id="cart.errorMaxInfo"
             values={{
-              val: window.__.env.REACT_APP_LIMITED_NUM
+              val: skuLimitThreshold.skuMaxNum
             }}
           />
         );
@@ -310,7 +321,7 @@ const SubGoodsInfos = ({
               </div>
             ))}
         </div>
-        <ShowErrorDom errorMsg={errMsgPage} />
+        <ErrorMessage msg={errMsgPage} />
         <div className="card-container border rounded border-d7d7d7 mt-0 hidden md:block">
           {subDetail.goodsInfo &&
             subDetail.goodsInfo.map((el, index) => (
@@ -542,4 +553,5 @@ const SubGoodsInfos = ({
     </SubGoodsInfosContext.Provider>
   );
 };
-export default SubGoodsInfos;
+
+export default inject('configStore')(observer(SubGoodsInfos));

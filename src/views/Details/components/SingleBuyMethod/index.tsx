@@ -13,6 +13,7 @@ interface Props {
   currentSubscriptionPrice: any;
   changeMethod: Function;
   changeFreqency: Function;
+  children:any;
 }
 
 const SingleBuyMethod = ({
@@ -23,18 +24,19 @@ const SingleBuyMethod = ({
   currentUnitPrice,
   currentSubscriptionPrice,
   changeMethod,
-  changeFreqency
+  changeFreqency,
+  children
 }: Props) => {
   const [toolTipVisible, setToolTipVisible] = useState(false);
   return (
     <div
-      className={`buyMethod rc-margin-bottom--xs d-flex row align-items-md-center justify-content-between 1 ml-0 mr-0 ui-cursor-pointer-pure ${
+      className={`buyMethod rc-margin-bottom--xs d-flex row align-items-md-center justify-content-between flex-wrap-reverse 1 ml-0 mr-0 ui-cursor-pointer-pure ${
         form.buyWay === 0 ? 'border-red' : 'border-d7d7d7'
       }`}
       onClick={changeMethod.bind(this)}
     >
-      <div className="radioBox order-1 md:order-1 col-8 col-md-5 px-0">
-        <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
+      <div className="radioBox order-1 md:order-1 col-8 px-0">
+        <div className="rc-input rc-input--inline rc-input--full-width mr-0">
           <FormattedMessage id="email">
             {(txt) => (
               <input
@@ -63,7 +65,7 @@ const SingleBuyMethod = ({
             </span>
           </label>
           <br />
-          <div className="freeshippingBox">
+         {form.buyWay === 0 ? <div className="freeshippingBox">
             <FormattedMessage
               id={
                 window.__.env.REACT_APP_COUNTRY == 'tr' || window.__.env.REACT_APP_COUNTRY == 'se'
@@ -71,20 +73,20 @@ const SingleBuyMethod = ({
                   : 'freeShipping'
               }
             />
-          </div>
+          </div>:null}
         </div>
       </div>
-      <div className="freqency order-3 md:order-2 col-12 col-md-4 text-center">
+      {/* <div className="freqency order-3 md:order-2 col-12 col-md-4 text-center">
         <FormattedMessage id="deliveryOneTimeOnly" />
-      </div>
-      <div className="price font-weight-normal text-right position-relative order-2 md:order-3 col-4 col-md-3 text-nowrap px-0">
+      </div> */}
+      <div className="price font-weight-normal text-right position-relative order-2 md:order-3 col-4 text-nowrap px-0">
         <div>
           {formatMoney(currentUnitPrice)}
           <span className="red unit-star">
             <FormattedMessage id="starUnit" defaultMessage=" " />
           </span>
         </div>
-        {configStore?.info?.storeVO?.basePricePDPShowedFlag &&
+        {form.buyWay === 0 && configStore?.info?.storeVO?.basePricePDPShowedFlag &&
         selectedSpecItem?.goodsInfoWeight &&
         selectedSpecItem?.goodsInfoUnit ? (
           <div
@@ -93,16 +95,20 @@ const SingleBuyMethod = ({
               color: '#999'
             }}
           >
-            (
+            
             {formatMoney(
               (
                 currentUnitPrice / parseFloat(selectedSpecItem.goodsInfoWeight)
               ).toFixed(2)
             )}
-            /{selectedSpecItem.goodsInfoUnit})
+            /{selectedSpecItem.goodsInfoUnit}
           </div>
         ) : null}
       </div>
+      {form.buyWay === 0 ?
+        <div className="flex w-full justify-center">
+          {children}
+        </div> : null}
     </div>
   );
 };

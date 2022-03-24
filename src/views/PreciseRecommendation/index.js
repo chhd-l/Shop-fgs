@@ -22,11 +22,14 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 import { getRecommendationInfo } from '@/api/productFinder';
 import Loading from '@/components/Loading';
 import GroupOne from './image/GroupOne.png';
+import { inject, observer } from 'mobx-react';
 
 console.info('productList', productList);
 const pageLink = window.location.href;
 
 @seoHoc('preciseRecommendation')
+@inject('configStore')
+@observer
 class PreciseRecommendation extends React.Component {
   constructor(props) {
     super(props);
@@ -232,7 +235,7 @@ class PreciseRecommendation extends React.Component {
           {this.state.loading ? <Loading bgColor={'#fff'} opacity={1} /> : null}
           <main className={'rc-content--fixed-header'}>
             <Banner
-              history={this.props.history}
+              {...this.props}
               productShowInfo={this.state.productShowInfo}
               recommData={this.state.recommData}
             />

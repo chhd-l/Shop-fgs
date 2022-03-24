@@ -83,6 +83,7 @@ export default function ClubGiftBanner(props) {
             </strong> */}
             {/* <strong>Free, automatic delivery</strong> on every refill */}
           </li>
+          {/* ru不用了 */}
           {window.__.env.REACT_APP_COUNTRY === 'ru' ? (
             <li
               className="rc-list__item"

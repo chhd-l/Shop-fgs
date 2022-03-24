@@ -75,6 +75,7 @@
     "postcss-safe-parser": "4.0.1",
     "qrcode.react": "^1.0.1",
     "queue-microtask": "^1.2.3",
+    "rc-notification": "^4.5.7",
     "react": "^16.13.1",
     "react-addons-css-transition-group": "^15.6.2",
     "react-app-polyfill": "^1.0.6",

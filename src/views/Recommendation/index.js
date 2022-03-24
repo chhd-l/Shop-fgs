@@ -240,7 +240,14 @@ class Help extends React.Component {
     }
   }
   async hanldeUnloginAddToCart({ productList: products, url: path }) {
-    const { checkoutStore, clinicStore, loginStore } = this.props;
+    const {
+      checkoutStore,
+      clinicStore,
+      loginStore,
+      configStore: {
+        info: { skuLimitThreshold }
+      }
+    } = this.props;
     let retPath = path;
     for (let i = 0; i < products.length; i++) {
       let product = products[i];
@@ -295,12 +302,12 @@ class Help extends React.Component {
       if (idx > -1) {
         cartDataCopy.splice(idx, 1, tmpData);
       } else {
-        if (cartDataCopy.length >= window.__.env.REACT_APP_LIMITED_CATE_NUM) {
+        if (cartDataCopy.length >= skuLimitThreshold.skuItemMaxNum) {
           this.setState({
             checkOutErrMsg: (
               <FormattedMessage
                 id="cart.errorMaxCate"
-                values={{ val: window.__.env.REACT_APP_LIMITED_CATE_NUM }}
+                values={{ val: skuLimitThreshold.skuItemMaxNum }}
               />
             )
           });

@@ -2,7 +2,9 @@ import React from 'react';
 import findIndex from 'lodash/findIndex';
 import cn from 'classnames';
 import './index.less';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 
+@injectIntl
 export default class Selection extends React.Component {
   static defaultProps = {
     optionList: [],
@@ -125,6 +127,25 @@ export default class Selection extends React.Component {
     e.nativeEvent.stopImmediatePropagation();
     e.stopPropagation();
   };
+  showValue = () => {
+    let res = '';
+    const { placeholder, optionList } = this.props;
+    const { selectedItem } = this.state;
+    const length = optionList.filter(
+      (ele) => ele.value + '' === selectedItem.value + ''
+    ).length;
+    if (length) {
+      let option = optionList.filter(
+        (ele) => ele.value + '' === selectedItem.value + ''
+      )[0].name;
+      if (option) {
+        res = option;
+      } else {
+        res = placeholder;
+      }
+      return res;
+    }
+  };
   render() {
     const { optionList, customStyleType, wider } = this.props;
     const {
@@ -179,25 +200,14 @@ export default class Selection extends React.Component {
                 className="choices__item choices__item--selectable"
                 aria-selected="true"
               >
-                {/* {
-                  console.info('optionList.filter', optionList.filter(
-                    (ele) => ele.value + '' === selectedItem.value + ''
-                  ))
-                }
-                {
-                  console.info('optionList', optionList)
-                }
-                {
-                  console.info('selectedItem', selectedItem)
-                } */}
-                {optionList.filter(
+                {/* {optionList.filter(
                   (ele) => ele.value + '' === selectedItem.value + ''
                 ).length
                   ? optionList.filter(
                       (ele) => ele.value + '' === selectedItem.value + ''
                     )[0].name
-                  : this.props.placeholder}
-                &nbsp;
+                  : this.props.placeholder} */}
+                {this.showValue()}
               </div>
             </div>
           </div>

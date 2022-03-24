@@ -31,7 +31,8 @@ function getMuntiImg(img) {
 class ImageMagnifier extends Component {
   static defaultProps = {
     taggingForText: null,
-    taggingForImage: null
+    taggingForImage: null,
+    direction: 'col'
   };
   constructor(props) {
     super(props);
@@ -362,7 +363,8 @@ class ImageMagnifier extends Component {
       taggingChildren,
       bigImageOutBoxClassName,
       spuImages,
-      imgAlt
+      imgAlt,
+      direction
     } = this.props;
     // console.log(spuImages, this.state.minImg, 'spuImages');
     if (window.__.env.REACT_APP_COUNTRY !== 'fr' && spuImages.length) {
@@ -378,9 +380,23 @@ class ImageMagnifier extends Component {
       imgCount = imgCount + 1;
     }
     let offsetX = isMobile ? 60 : 69;
+    const imageOutBoxStyle =
+      direction === 'row'
+        ? {
+            height: imgCount <= 5 ? '100%' : '1000px',
+            top: imgCount <= 5 ? '0' : this.state.positionLeft + 'px'
+          }
+        : {
+            width: imgCount <= 5 ? '100%' : '1000px',
+            left: imgCount <= 5 ? '0' : this.state.positionLeft + 'px'
+          };
 
     return (
-      <div>
+      <div
+        className={
+          direction === 'row' ? 'flex flex-row-reverse justify-around' : ''
+        }
+      >
         <div className="position-relative">
           {/* <div className="bigImageOutBox" style={cssStyle.imgContainer}> */}
           <div
@@ -503,7 +519,11 @@ class ImageMagnifier extends Component {
             </div>
           )}
         </div>
-        <div className="scrollOutBox">
+        <div
+          className={`scrollOutBox ${
+            direction === 'row' ? 'row-scrollOutBox' : ''
+          }`}
+        >
           {/* <em
             className={`rc-icon rc-left leftArrow rc-iconography ${
               this.state.positionLeft === 0 ? '' : 'rc-brand1'
@@ -517,7 +537,10 @@ class ImageMagnifier extends Component {
             }}
           /> */}
           <em
-            className="leftArrow iconfont font-weight-bold icon-direction ui-cursor-pointer"
+            // className={`${direction === 'row' ?'rc-icon rc-iconography rc-down':'leftArrow iconfont font-weight-bold icon-direction ui-cursor-pointer'}`}
+            className={`rc-icon rc-iconography ui-cursor-pointer text-center ${
+              direction === 'row' ? 'rc-up--xs h-7' : 'rc-left--xs leftArrow'
+            }`}
             style={{ visibility: imgCount > 5 ? 'visible' : 'hidden' }}
             onClick={() => {
               if (this.state.positionLeft === 0) return;
@@ -525,17 +548,16 @@ class ImageMagnifier extends Component {
                 positionLeft: this.state.positionLeft + offsetX
               });
             }}
-          >
-            &#xe6fa;
-          </em>
+          ></em>
           <div className="imageOutBox">
             <div
-              className="justify-content-center imageInnerBox text-center md:text-left"
+              className={`imageInnerBox text-center md:text-left ${
+                direction === 'row' ? 'flex flex-col' : ''
+              }`}
               style={{
                 marginTop: '2rem',
                 textAlign: imgCount <= 5 ? 'center' : 'left',
-                width: imgCount <= 5 ? '100%' : '1000px',
-                left: imgCount <= 5 ? '0' : this.state.positionLeft + 'px'
+                ...imageOutBoxStyle
               }}
             >
               {spuImages.filter((el) => el.artworkUrl).length ? (
@@ -606,7 +628,10 @@ class ImageMagnifier extends Component {
           </div>
           {/* <img className="moveImg" src={RightImg} /> */}
           <em
-            className="rightArrow iconfont font-weight-bold icon-direction ui-cursor-pointer"
+            // className="rightArrow iconfont font-weight-bold icon-direction ui-cursor-pointer"
+            className={`rc-icon rc-iconography ui-cursor-pointer text-center ${
+              direction === 'row' ? 'rc-down--xs' : 'rc-right--xs rightArrow'
+            }`}
             style={{ visibility: imgCount > 5 ? 'visible' : 'hidden' }}
             onClick={() => {
               if (this.state.positionLeft === (imgCount - 5) * -offsetX) return;
@@ -615,7 +640,7 @@ class ImageMagnifier extends Component {
               });
             }}
           >
-            &#xe6f9;
+            {/* &#xe6f9; */}
           </em>
           {/* <em
             className={`rc-icon rc-right rightArrow rc-iconography ${

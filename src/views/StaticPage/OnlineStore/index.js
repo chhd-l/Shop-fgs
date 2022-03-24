@@ -30,10 +30,7 @@ const mailAddress = 'mailto:suivi.dtc.france@royalcanin.com';
 function Divider() {
   return (
     <div className="experience-component experience-assets-divider">
-      <div
-        className="rc-border-bottom rc-border-colour--brand4"
-        style={{ borderBottomWidth: '4px' }}
-      />
+      <div className="rc-border-bottom rc-border-colour--brand4 border-b-4" />
     </div>
   );
 }
@@ -45,12 +42,9 @@ function OnlineStoreHeader() {
         <div className="row rc-margin-x--none">
           <div className="rc-full-width">
             <div className="experience-component experience-assets-headingBlock">
-              <div
-                className="rc-max-width--md text-center rc-margin-y--md"
-                style={{ marginBottom: 0 }}
-              >
+              <div className="rc-max-width--md text-center rc-margin-y--md mb-0">
                 <div className="rc-alpha inherit-fontsize">
-                  <div style={{ fontSize: '1.25rem' }}>
+                  <div className="text-xl">
                     <FormattedMessage id="onlineStore.header.title" />
                   </div>
                 </div>
@@ -170,7 +164,7 @@ class OnlineStore extends React.Component {
                 <div className="experience-component experience-assets-headingBlock">
                   <div className="rc-max-width--md text-center rc-margin-y--md">
                     <div className="rc-alpha inherit-fontsize">
-                      <div style={{ fontSize: '1.25rem' }}>
+                      <div className="text-xl">
                         <FormattedMessage id="onlineStore.footer.title" />
                       </div>
                     </div>
@@ -220,11 +214,7 @@ class OnlineStore extends React.Component {
                         >
                           <a
                             href={'tel:' + phone}
-                            style={{
-                              fontSize: '1.25rem',
-                              color: '#E2001A'
-                            }}
-                            className="rc-styled-link"
+                            className="rc-styled-link text-xl text-rc-red"
                           >
                             {phone}
                           </a>

@@ -35,13 +35,14 @@ import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
 import AddressPreview from './Preview';
 import './list.less';
-import felinAddr from './FelinOfflineAddress';
+import { felinAddr } from '../PaymentMethod/paymentMethodsConstant';
 import cn from 'classnames';
 import AddressPanelContainer from './AddressPanelContainer';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const isFromFelin = sessionItemRoyal.get('appointment-no');
+const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 
 /**
  * address list(delivery/billing) - member
@@ -1009,6 +1010,11 @@ class AddressList extends React.Component {
     try {
       const { deliveryAddress, addressList } = this.state;
       const originData = addressList[this.currentOperateIdx];
+      //日本需求加unspecified
+      // if(deliveryAddress.timeSlot == 'unspecified'){
+      //   deliveryAddress.timeSlot = ''
+      //   deliveryAddress.timeSlotId = ''
+      // }
       let params = Object.assign({}, deliveryAddress, {
         consigneeName:
           deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
@@ -2072,7 +2078,11 @@ class AddressList extends React.Component {
                         month: 'long'
                       }
                     })}{' '}
-                    {item.timeSlot}
+                    {item.timeSlot == 'Unspecified' ? (
+                      <FormattedMessage id="Unspecified" />
+                    ) : (
+                      item.timeSlot
+                    )}
                   </>
                 ) : null}
                 {item.selected &&
@@ -2140,9 +2150,31 @@ class AddressList extends React.Component {
               <span>
                 {item.firstNameKatakana} {item.lastNameKatakana}
               </span>
-              <span>{item.postCode}</span>
+              <span>
+                {COUNTRY == 'jp' ? '〒' + item.postCode : item.postCode}
+              </span>
               <p>{this.jpSetAddressFields(item)}</p>
               <p>{item.consigneeNumber}</p>
+              <span>
+                {item.deliveryDate && item.timeSlot ? (
+                  <>
+                    {/* 格式化 delivery date 格式: 星期, 15 月份 */}
+                    {formatDate({
+                      date: item.deliveryDate,
+                      formatOption: {
+                        weekday: 'long',
+                        day: '2-digit',
+                        month: 'long'
+                      }
+                    })}{' '}
+                    {item.timeSlot == 'Unspecified' ? (
+                      <FormattedMessage id="Unspecified" />
+                    ) : (
+                      item.timeSlot
+                    )}
+                  </>
+                ) : null}
+              </span>
             </div>
             <div className="col-12 col-md-4 md:mt-0 mt-1 pl-0 pr-0 text-right font-weight-bold address_opt_btn ">
               <span
@@ -2213,7 +2245,7 @@ class AddressList extends React.Component {
       </div>
     );
 
-    // 表单
+    // 表单1
     const _form = (
       <fieldset
         className={`shipping-address-block rc-fieldset position-relative ${

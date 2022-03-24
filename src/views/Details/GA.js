@@ -126,12 +126,15 @@ const hubGAProductDetailPageView = (item, pdpScreenLoadData) => {
   };
   const product = filterObjectValue(GAProductsInfo);
   if (window.dataLayer) {
-    dataLayer?.push({
-      products: [product]
-    });
+    // dataLayer?.push({
+    //   products: [product]
+    // });
     setTimeout(() => {
       dataLayer?.push({
         event: 'pdpScreenLoad',
+        pdpScreenLoad: {
+          products: [product] //为了区分plp，pdp，checkout的products
+        },
         pdpScreenLoadCTAs: getPdpScreenLoadCTAs(pdpScreenLoadData)
       });
     }, 5000);

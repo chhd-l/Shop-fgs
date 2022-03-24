@@ -139,13 +139,13 @@ class SubscriptionLanding extends React.Component {
                                 ))}
                             </ul>
                             <div className="d-none d-md-block rc-btn-group m-0 rc-column rc-padding-x--none">
-                              <Link to="/cats">
+                              <Link to="/cats/retail-products">
                                 <button className="rc-btn rc-btn--one rc-margin-right--xs">
                                   {/*Shop Cat Formulas*/}
                                   <FormattedMessage id="SubscriptionLanding.catFormulas" />
                                 </button>
                               </Link>
-                              <Link to="/dogs">
+                              <Link to="/dogs/retail-products">
                                 <button className="rc-btn rc-btn--one">
                                   {/*Shop Dog Formulas*/}
                                   <FormattedMessage id="SubscriptionLanding.dogFormulas" />
@@ -302,12 +302,15 @@ class SubscriptionLanding extends React.Component {
                             </p>
                           </div>
                           <div className="rc-btn-group rc-margin--none rc-padding-x--xs d-none d-md-flex">
-                            <Link to="/product-finder">
+                            <DistributeHubLinkOrATag
+                              href="/product-finder"
+                              to="/product-finder"
+                            >
                               <button className="rc-btn rc-btn--one mb-2 md:mb-0">
                                 {/*Shop Dog Formulas*/}
                                 <FormattedMessage id="SubscriptionLanding.BothFormulas" />
                               </button>
-                            </Link>
+                            </DistributeHubLinkOrATag>
                             {/*<Link*/}
                             {/*  className="rc-btn rc-btn--sm rc-btn--two"*/}
                             {/*  to="/cats/"*/}
@@ -530,8 +533,8 @@ class SubscriptionLanding extends React.Component {
                                         }}
                                       />
                                     </span>
-                                    <Link
-                                      to="/faq"
+                                    <DistributeHubLinkOrATag
+                                      href="/about-us/faqs#FAQs"
                                       target="_blank"
                                       rel="noopener noreferrer"
                                       data-link-type="external"
@@ -551,7 +554,7 @@ class SubscriptionLanding extends React.Component {
                                       {/*    <FormattedMessage id="SubscriptionLanding.helpListText32" />*/}
                                       {/*  </span>*/}
                                       {/*)}*/}
-                                    </Link>
+                                    </DistributeHubLinkOrATag>
                                   </p>
                                 </div>
                               </div>

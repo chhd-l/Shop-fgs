@@ -15,7 +15,6 @@ import {
   distributeLinktoPrecriberOrPaymentPage,
   getDeviceType,
   unique,
-  cancelPrevRequest,
   handleRecommendation,
   isShowMixFeeding,
   optimizeImage
@@ -55,11 +54,10 @@ import PromotionCodeText from '../components/PromotionCodeText';
 import CartSurvey from '../components/CartSurvey';
 import { getMixFeedings } from '@/api/details';
 import MixFeedingBox from '../components/MixFeedingBox/index.tsx';
+import { ErrorMessage } from '@/components/Message';
 const guid = uuidv4();
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
-const localItemRoyal = window.__.localItemRoyal;
-
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
 const pageLink = window.location.href;
@@ -155,12 +153,14 @@ class LoginCart extends React.Component {
         await this.checkoutStore.updateLoginCart({ intl: this.props.intl });
       }
 
-      GACartScreenLoad();
-      GAInitLogin({
-        productList: this.loginCartData,
-        frequencyList: this.state.frequencyList,
-        props: this.props
-      });
+      GACartScreenLoad(() =>
+        GAInitLogin({
+          productList: this.loginCartData,
+          frequencyList: this.state.frequencyList,
+          props: this.props,
+          isReturnList: true
+        })
+      );
       setTimeout(() => {
         this.setData({ initPage: true });
       }, 2000);
@@ -305,7 +305,7 @@ class LoginCart extends React.Component {
       if (isThrowErr) {
         console.log(err);
         console.log(555);
-        throw new Error(err.message);
+        throw new Error(err?.message || err);
       }
     } finally {
       this.setState({ checkoutLoading: false });
@@ -347,7 +347,7 @@ class LoginCart extends React.Component {
   setData({ initPage = false } = {}) {
     const { configStore } = this.props;
     //每次数据变化调用
-    !isHubGA && this.GACheckout(this.loginCartData);
+    // !isHubGA && this.GACheckout(this.loginCartData);
     let productList = this.loginCartData.map((el) => {
       // 德国的购物车有问题，先前选择的1周的，直接显示默认值，因为统一返回了那三个frequency
       let filterData =
@@ -408,9 +408,6 @@ class LoginCart extends React.Component {
       });
     }
 
-    console.log('test loginCartData:', this.loginCartData);
-    console.log('test productList:', productList);
-
     this.setState(
       {
         productList,
@@ -446,10 +443,17 @@ class LoginCart extends React.Component {
    *
    */
   async deleteItemFromBackendCart(param) {
-    this.setState({ checkoutLoading: true });
-    await deleteItemFromBackendCart(param);
-    await this.updateCartCache();
-    this.getGoodsIdArr();
+    try {
+      this.setState({ checkoutLoading: true });
+      //后端加了限制调purchase几口5次后不能操作，提示错误信息
+      await deleteItemFromBackendCart(param);
+      await this.updateCartCache();
+      this.getGoodsIdArr();
+    } catch (err) {
+      console.log(err);
+      window.scrollTo({ behavior: 'smooth', top: 0 });
+      this.showErrMsg(err.message);
+    }
   }
   handleCheckout = async () => {
     if (!this.btnStatus) {
@@ -481,6 +485,9 @@ class LoginCart extends React.Component {
     }
   };
   showErrMsg(msg) {
+    if (msg) {
+      window.scrollTo(0, 0);
+    }
     this.setState({
       errorMsg: msg
     });
@@ -492,10 +499,23 @@ class LoginCart extends React.Component {
     }, 3000);
   }
   handleAmountChange(item, type, e) {
+    const {
+      configStore: {
+        info: { skuLimitThreshold }
+      }
+    } = this.props;
+    const { productList } = this.state;
+    // 所有产品总数量不能超过限制
+    const otherProsNum = productList
+      .filter((p) => p.goodsId !== item.goodsId)
+      .reduce((pre, cur) => {
+        return Number(pre) + Number(cur.buyCount);
+      }, 0);
     this.setState({
       errorMsg: ''
     });
     let val = e.target.value;
+    // 数量改变时，直接赋值
     if (val === '' && type === 'change') {
       item.buyCount = val;
       this.setState({
@@ -503,6 +523,7 @@ class LoginCart extends React.Component {
       });
       return;
     }
+    // 若数量清空了，再离开输入框，数量默认置为1
     if (val === '' && type === 'blur') {
       this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
       item.buyCount = 1;
@@ -514,18 +535,26 @@ class LoginCart extends React.Component {
     Array.from(document.querySelectorAll('.rc-quantity__input'), (item) => {
       item.blur();
     });
+
     const { quantityMinLimit } = this.state;
     let tmp = parseFloat(val);
     if (isNaN(tmp)) {
       tmp = 1;
       this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
+      return false;
     }
     if (tmp < quantityMinLimit) {
       tmp = quantityMinLimit;
       this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
+      return false;
     }
-    if (tmp > window.__.env.REACT_APP_LIMITED_NUM) {
-      tmp = window.__.env.REACT_APP_LIMITED_NUM;
+
+    if (otherProsNum + tmp > skuLimitThreshold.totalMaxNum) {
+      tmp = skuLimitThreshold.totalMaxNum - otherProsNum;
+    }
+
+    if (tmp > skuLimitThreshold.skuMaxNum) {
+      tmp = skuLimitThreshold.skuMaxNum;
     }
     item.buyCount = tmp;
     clearTimeout(this.amountTimer);
@@ -540,11 +569,35 @@ class LoginCart extends React.Component {
     }, 500);
   }
   addQuantity(item) {
+    const {
+      configStore: {
+        info: { skuLimitThreshold }
+      }
+    } = this.props;
     if (this.state.checkoutLoading) {
       return;
     }
     this.setState({ errorMsg: '' });
-    if (item.buyCount < window.__.env.REACT_APP_LIMITED_NUM) {
+
+    const { productList } = this.state;
+    // 所有产品总数量不能超过限制
+    const otherProsNum = productList
+      .filter((p) => p.goodsId !== item.goodsId)
+      .reduce((pre, cur) => {
+        return Number(pre) + Number(cur.buyCount);
+      }, 0);
+
+    let val = item.buyCount + 1;
+
+    if (otherProsNum + val > skuLimitThreshold.totalMaxNum) {
+      val = skuLimitThreshold.totalMaxNum - otherProsNum;
+      this.showErrMsg(
+        <FormattedMessage
+          id="cart.errorAllProductNumLimit"
+          values={{ val: skuLimitThreshold.totalMaxNum }}
+        />
+      );
+    } else if (item.buyCount < skuLimitThreshold.skuMaxNum) {
       item.buyCount++;
       this.updateBackendCart({
         goodsInfoId: item.goodsInfoId,
@@ -557,11 +610,44 @@ class LoginCart extends React.Component {
       this.showErrMsg(
         <FormattedMessage
           id="cart.errorMaxInfo"
-          values={{ val: window.__.env.REACT_APP_LIMITED_NUM }}
+          values={{ val: skuLimitThreshold.skuMaxNum }}
         />
       );
     }
   }
+
+  validTotalMaxNum({ item, val }) {
+    const {
+      configStore: {
+        info: { skuLimitThreshold }
+      }
+    } = this.props;
+    const { productList } = this.state;
+    // 所有产品总数量不能超过限制
+    const otherProsNum = productList
+      .filter((p) => p.goodsId !== item.goodsId)
+      .reduce((pre, cur) => {
+        return Number(pre) + Number(cur.quantity);
+      }, 0);
+    if (otherProsNum + val > skuLimitThreshold.totalMaxNum) {
+      val = skuLimitThreshold.totalMaxNum - otherProsNum;
+      this.showErrMsg(
+        <FormattedMessage
+          id="cart.errorAllProductNumLimit"
+          values={{ val: skuLimitThreshold.totalMaxNum }}
+        />
+      );
+      item.buyCount = val;
+      this.updateBackendCart({
+        goodsInfoId: item.goodsInfoId,
+        goodsNum: item.buyCount,
+        verifyStock: false,
+        periodTypeId: item.periodTypeId,
+        goodsInfoFlag: item.goodsInfoFlag
+      });
+    }
+  }
+
   subQuantity(item) {
     if (this.state.checkoutLoading) {
       return;
@@ -765,10 +851,7 @@ class LoginCart extends React.Component {
               <label className="rc-input__label--inline">&nbsp;</label>
             </div>
             <div className="d-flex">
-              <div
-                className="product-info__img mr-2"
-                style={{ overflow: 'hidden' }}
-              >
+              <div className="product-info__img mr-2 overflow-hidden">
                 <LazyLoad>
                   <img
                     className="w-100"
@@ -780,13 +863,12 @@ class LoginCart extends React.Component {
               </div>
               <div className="product-info__desc relative" style={{ flex: 1 }}>
                 <Link
-                  className="ui-cursor-pointer rc-margin-top--xs rc-padding-right--sm  align-items-md-center flex-column flex-md-row"
+                  className="ui-cursor-pointer rc-margin-top--xs rc-padding-right--sm  align-items-md-center flex-column flex-md-row mt-0"
                   to={`/${pitem.goodsName
                     .toLowerCase()
                     .split(' ')
                     .join('-')
                     .replace('/', '')}-${pitem.goods.goodsNo}`}
-                  style={{ marginTop: '0' }}
                 >
                   <h4
                     className="rc-gamma rc-margin--none ui-text-overflow-line2 ui-text-overflow-md-line1 d-md-inline-block cart-item-md__tagging_title order-2"
@@ -831,10 +913,7 @@ class LoginCart extends React.Component {
                             {/* <FormattedMessage id="details.availability" /> : */}
                           </span>
                         </label>
-                        <span
-                          className="availability-msg"
-                          style={{ display: 'inline-block' }}
-                        >
+                        <span className="availability-msg inline-block">
                           <div
                             className={[
                               pitem.addedFlag && pitem.buyCount <= pitem.stock
@@ -861,12 +940,11 @@ class LoginCart extends React.Component {
               </div>
             </div>
             <div
-              className={`buyMethodBox ${
+              className={`buyMethodBox -mx-4 ${
                 pitem.subscriptionStatus && pitem.subscriptionPrice
                   ? 'rc-two-column'
                   : ''
               }`}
-              style={{ marginLeft: '-1rem', marginRight: '-1rem' }}
             >
               <div className="rc-column">
                 <OneOffSelection
@@ -1047,15 +1125,7 @@ class LoginCart extends React.Component {
         </div>
         <div className="row">
           <div className="col-6">
-            <span
-              className="rc-input rc-input--inline rc-input--label mr-0"
-              style={{
-                width: '100%',
-                marginBottom: '.625rem',
-                overflow: 'hidden',
-                marginTop: '0px'
-              }}
-            >
+            <span className="rc-input rc-input--inline rc-input--label mr-0 w-full mt-0 overflow-hidden mb-2.5">
               <FormattedMessage id="promotionCode">
                 {(txt) => (
                   <input
@@ -1077,16 +1147,11 @@ class LoginCart extends React.Component {
             <p className="text-right sub-total mb-4">
               <button
                 id="promotionApply"
-                className={`rc-btn rc-btn--sm rc-btn--two mr-0 ${
+                className={`rc-btn rc-btn--sm rc-btn--two mr-0 my-2.5 float-right ${
                   this.state.isClickApply
                     ? 'ui-btn-loading ui-btn-loading-border-red'
                     : ''
                 }`}
-                style={{
-                  marginTop: '.625rem',
-                  float: 'right',
-                  marginBottom: '.625rem'
-                }}
                 onClick={() => this.handleClickPromotionApply(false)}
               >
                 <FormattedMessage id="apply" />
@@ -1095,20 +1160,18 @@ class LoginCart extends React.Component {
           </div>
         </div>
         {isShowValidCode ? (
-          <div className="red pl-3 pb-3 pt-2" style={{ fontSize: '.875rem' }}>
+          <div className="red pl-3 pb-3 pt-2 text-sm">
             <FormattedMessage id="validPromotionCode" />
           </div>
         ) : null}
         {!isShowValidCode &&
           this.state.discount.map((el, i) => (
             <div
-              className={`row leading-lines shipping-item d-flex`}
+              className={`row leading-lines shipping-item d-flex m-2.5 overflow-hidden`}
               style={{
-                margin: '.625rem',
                 border: '1px solid #ccc',
                 height: '60px',
-                lineHeight: '60px',
-                overflow: 'hidden'
+                lineHeight: '60px'
               }}
               key={i}
             >
@@ -1117,13 +1180,7 @@ class LoginCart extends React.Component {
                   !checkoutStore.couponCodeFitFlag ? 'col-6' : 'col-10'
                 }`}
               >
-                <p
-                  style={{
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden'
-                  }}
-                >
+                <p className="truncate">
                   {this.promotionDesc || (
                     <FormattedMessage id="NoPromotionDesc" />
                   )}
@@ -1132,8 +1189,7 @@ class LoginCart extends React.Component {
               <div
                 className={`${
                   !checkoutStore.couponCodeFitFlag ? 'col-4' : 'col-0'
-                } red`}
-                style={{ padding: 0 }}
+                } red p-0`}
               >
                 <p className="mb-4">
                   {!checkoutStore.couponCodeFitFlag && (
@@ -1144,13 +1200,7 @@ class LoginCart extends React.Component {
               <div className="col-2" style={{ padding: '0 .9375rem 0 0' }}>
                 <p className="text-right shipping-cost mb-4">
                   <span
-                    className="rc-icon rc-close--sm rc-iconography"
-                    style={{
-                      fontSize: '1.125rem',
-                      marginLeft: '.625rem',
-                      lineHeight: '1.25rem',
-                      cursor: 'pointer'
-                    }}
+                    className="rc-icon rc-close--sm rc-iconography ml-2.5 text-lg leading-5 cursor-pointer"
                     onClick={this.handleRemovePromotionCode}
                   />
                 </p>
@@ -1185,10 +1235,10 @@ class LoginCart extends React.Component {
         {/* 显示 默认折扣 */}
         {parseFloat(this.subscriptionDiscountPrice) > 0 && (
           <div className={`row leading-lines shipping-item green`}>
-            <div className="col-8">
+            <div className="col-6">
               <p>{<FormattedMessage id="promotion" />}</p>
             </div>
-            <div className="col-4">
+            <div className="col-6">
               <p className="text-right shipping-cost text-nowrap mb-4">
                 <strong>-{formatMoney(this.subscriptionDiscountPrice)}</strong>
               </p>
@@ -1378,12 +1428,11 @@ class LoginCart extends React.Component {
     return fixToHeader ? (
       <div id="J_sidecart_container">
         {this.sideCart({
-          className: 'hidden rc-md-up',
+          className: 'hidden rc-md-up relative',
           style: {
             background: '#fff',
             zIndex: 9,
-            width: 320,
-            position: 'relative'
+            width: 320
           },
           id: 'J_sidecart_fix'
         })}
@@ -1634,16 +1683,8 @@ class LoginCart extends React.Component {
                     </div>
                     <div className="rc-layout-container rc-three-column cart cart-page pt-0">
                       <div className="rc-column rc-double-width pt-0">
-                        {errorMsg ? (
-                          <div className="rc-padding-bottom--xs cart-error-messaging cart-error">
-                            <aside
-                              className="rc-alert rc-alert--error rc-alert--with-close text-break"
-                              role="alert"
-                            >
-                              <span className="pl-0">{errorMsg}</span>
-                            </aside>
-                          </div>
-                        ) : null}
+                        <ErrorMessage msg={errorMsg} />
+
                         <div className="rc-padding-bottom--xs">
                           <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
                             <FormattedMessage id="cart.yourShoppingCart" />
@@ -1676,10 +1717,7 @@ class LoginCart extends React.Component {
                 {productList.length === 0 && !initLoading && (
                   <>
                     <div className="rc-text-center">
-                      <h1
-                        className="rc-beta mb-1 mt-3"
-                        style={{ fontSize: '18px' }}
-                      >
+                      <h1 className="rc-beta mb-1 mt-3 text-18">
                         <FormattedMessage id="cart.yourShoppingCart" />
                       </h1>
                       <div className="rc-gamma title-empty mb-0 text-center">
@@ -1697,7 +1735,6 @@ class LoginCart extends React.Component {
                             </div>
                             <div
                               className="d-flex justify-content-between flex-wrap ui-pet-item text-center"
-                              // style={{ margin: '0 10%' }}
                               style={
                                 window.__.env.REACT_APP_COUNTRY === 'fr'
                                   ? {}

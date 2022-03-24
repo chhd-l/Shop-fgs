@@ -5,7 +5,7 @@ import './index.css';
 
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
 
-const benifitList = [
+let benifitList = [
   {
     iconCls: 'rc-lock--xs rc-iconography--xs',
     text: <FormattedMessage id="payment.benifit.fullSecurePayment" />
@@ -23,6 +23,10 @@ const benifitList = [
     text: <FormattedMessage id="payment.benifit.shopTip" />
   }
 ];
+
+if (window.__.env.REACT_APP_COUNTRY === 'se') {
+  benifitList.pop();
+}
 
 class Faq extends Component {
   static defaultProps = {

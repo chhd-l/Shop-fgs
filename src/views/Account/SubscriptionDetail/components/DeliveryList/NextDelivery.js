@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import stores from '@/store';
 import LazyLoad from 'react-lazyload';
 import { useLocalStore } from 'mobx-react';
+import Selection from '@/components/Selection';
 import DatePicker from 'react-datepicker';
 import {
   getDeviceType,
@@ -12,17 +13,21 @@ import {
   formatDate,
   optimizeImage
 } from '@/utils/utils';
+import { getDeliveryDateAndTimeSlot } from '@/api/address';
 import { IMG_DEFAULT } from '@/utils/constant';
 import cn from 'classnames';
-
+const Unspecified = 'Unspecified';
 const NextDelivery = ({
   el,
   subDetail,
   getMinDate,
   setState,
   modalList,
+  handleSaveChange,
+  timeSlotArr,
   intl
 }) => {
+  const showTimeSlot = window.__.env.REACT_APP_COUNTRY === 'jp';
   const isIndv = subDetail.subscriptionType
     ?.toLowerCase()
     .includes('individualization');
@@ -37,6 +42,104 @@ const NextDelivery = ({
   const isNotInactive = subDetail.subscribeStatus !== 'INACTIVE';
   const handlerChange = (e) => {
     setPromotionInputValue(e.target.value);
+  };
+  const [deliveryDateList, setDeliveryDateList] = useState([]);
+  const [timeSlotList, setTimeSlotList] = useState([]);
+  const [deliveryDate, setDeliveryDate] = useState('');
+  const [timeSlot, setTimeSlot] = useState('');
+
+  useEffect(() => {
+    if (!showTimeSlot) {
+      return;
+    }
+    getDeliveryDateAndTimeSlotData();
+  }, []);
+
+  useEffect(() => {
+    if (timeSlotArr.length) {
+      initTimeSlot(timeSlotArr);
+    }
+  }, [timeSlotArr]);
+  const initTimeSlot = (list) => {
+    let deliveryDateMatched = false;
+    let deliveryDateList = list.map((el) => {
+      el.dateTimeInfos.unshift({
+        name: Unspecified,
+        value: Unspecified,
+        startTime: Unspecified
+      });
+      el.dateTimeInfos.forEach((item) => {
+        item.value = `${item.startTime}${
+          item.endTime ? '-' + item.endTime : ''
+        }`;
+        item.name = `${item.startTime}${
+          item.endTime ? '-' + item.endTime : ''
+        }`;
+      });
+      if (el.date === subDetail.deliveryDate) {
+        // list里面能匹配到delivery date
+        deliveryDateMatched = true;
+      }
+      return { ...el, value: el.date, name: el.date };
+    });
+    if (!deliveryDateMatched) {
+      // list里面没能匹配到delivery date，清空现有的deliveryDate
+      subDetail.deliveryDate = '';
+    }
+    let timeSlotList = [];
+    if (!subDetail.deliveryDate) {
+      let deliveryDate = '';
+      let timeSlot = '';
+      // 没有deliveryDate并且没有timeSlot的时候，默认第一个deliveryDate
+      // 没有deliveryDate并且有timeSlot的时候，需要去遍历所有timeslot做匹配并且回显当前的deliveryDate
+      if (subDetail.timeSlot) {
+        deliveryDateList.forEach((item) => {
+          if (!deliveryDate) {
+            let timeSlotArr = item.dateTimeInfos.find(
+              (el) => `${el.startTime}-${el.endTime}` == subDetail.timeSlot
+            );
+            if (timeSlotArr) {
+              timeSlot = subDetail.timeSlot;
+              timeSlotList = item.dateTimeInfos;
+              deliveryDate = item.date;
+            }
+          }
+        });
+      }
+      if (!deliveryDate) {
+        deliveryDate = deliveryDateList[0].date;
+        // timeSlot = `${deliveryDateList[0]?.dateTimeInfos[0]?.startTime}-${deliveryDateList[0]?.dateTimeInfos[0]?.endTime}`;
+      }
+      if (!timeSlot) {
+        timeSlot = Unspecified;
+      }
+      subDetail.timeSlot = timeSlot;
+      subDetail.deliveryDate = deliveryDate;
+    }
+    // if (subDetail.timeSlot == Unspecified) {
+    //   deliveryDateList[0]?.dateTimeInfos.unshift({
+    //     name: Unspecified,
+    //     value: Unspecified,
+    //     startTime: Unspecified
+    //   });
+    // }
+    if (!timeSlotList?.length) {
+      timeSlotList =
+        deliveryDateList.find((el) => el.value == subDetail.deliveryDate)
+          ?.dateTimeInfos || deliveryDateList[0]?.dateTimeInfos;
+      // ?.map((cel) => {
+      //   return {
+      //     ...cel,
+      //     name: `${cel.startTime}-${cel.endTime}`,
+      //     value: `${cel.startTime}-${cel.endTime}`
+      //   };
+      // });
+    }
+
+    setDeliveryDateList(deliveryDateList);
+    setTimeSlotList(timeSlotList);
+    setTimeSlot(subDetail.timeSlot);
+    setDeliveryDate(subDetail.deliveryDate);
   };
   const dateChange = (date) => {
     setState({
@@ -63,6 +166,34 @@ const NextDelivery = ({
       })
     });
   };
+  const getDeliveryDateAndTimeSlotData = async () => {
+    const res = await getDeliveryDateAndTimeSlot({
+      cityNo: '',
+      subscribeId: subDetail.subscribeId
+    });
+    if (res.context) {
+      initTimeSlot(res.context.timeSlots);
+      //test
+      // setDeliveryDate(deliveryDateList[0].date);
+      // setTimeSlot(`${deliveryDateList[0].dateTimeInfos[0].startTime}-${deliveryDateList[0].dateTimeInfos[0].endTime}`);
+    }
+  };
+
+  const ChangeTimeDeliveryDate = (data) => {
+    setTimeSlot(Unspecified);
+    let timeSlotList = deliveryDateList.find(
+      (el) => el.value == data.value
+    )?.dateTimeInfos;
+    setTimeSlotList(timeSlotList);
+    setDeliveryDate(data.name);
+  };
+  const ChangeTimeslot = (data) => {
+    setTimeSlot(data.name);
+    subDetail.deliveryDate = deliveryDate;
+    subDetail.timeSlot = data.name;
+    // setState({isDataChange:true})
+    handleSaveChange(subDetail, true);
+  };
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   return (
     <div className="card-container border rounded border-d7d7d7">
@@ -88,8 +219,22 @@ const NextDelivery = ({
               </span>
             </div>
             <div className="flex items-center mb-2  md:mb-0">
+              {/* {showTimeSlot && deliveryDate && (
+                <Selection
+                  customCls="selection-with-border"
+                  optionList={deliveryDateList}
+                  selectedItemChange={(data) => ChangeTimeDeliveryDate(data)}
+                  selectedItemData={{
+                    value: deliveryDate
+                  }}
+                  // disabled={true}
+                  customStyleType="none"
+                  key={deliveryDate}
+                  placeholder="please select"
+                />
+              )} */}
               <div
-                className={cn('changeDate whitespace-nowrap mr-2 text-right')}
+                className={cn('changeDate whitespace-nowrap mr-6 text-right')}
               >
                 <span
                   className="iconfont icondata"
@@ -121,6 +266,21 @@ const NextDelivery = ({
                   />
                 </span>
               </div>
+
+              {showTimeSlot && timeSlot && (
+                <Selection
+                  customCls="selection-with-border"
+                  optionList={timeSlotList}
+                  selectedItemChange={(data) => ChangeTimeslot(data)}
+                  selectedItemData={{
+                    value: timeSlot
+                  }}
+                  customStyleType="none"
+                  key={`${timeSlot}`}
+                  placeholder="please select"
+                />
+              )}
+
               <div className="whitespace-nowrap">
                 <span
                   className="iconfont iconskip font-bold mr-1"

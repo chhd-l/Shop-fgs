@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
-import LoginButton from '@/components/LoginButton';
+//import LoginButton from '@/components/LoginButton';
 import {
   formatMoney,
   distributeLinktoPrecriberOrPaymentPage,
@@ -76,34 +76,34 @@ class UnloginCart extends React.Component {
           }
         });
   }
-  async handleCheckout({ type, needLogin = false } = {}) {
-    this.GAAccessToGuestCheck(type);
-    try {
-      const { configStore, checkoutStore, history, clinicStore } = this.props;
-      localItemRoyal.set('okta-redirectUrl', '/cart-force-to-checkout');
-      this.setState({ checkoutLoading: true });
-      await checkoutStore.updateUnloginCart({
-        isThrowErr: true,
-        intl: this.props.intl
-      });
+  // async handleCheckout({ type, needLogin = false } = {}) {
+  //   this.GAAccessToGuestCheck(type);
+  //   try {
+  //     const { configStore, checkoutStore, history, clinicStore } = this.props;
+  //     localItemRoyal.set('okta-redirectUrl', '/cart-force-to-checkout');
+  //     this.setState({ checkoutLoading: true });
+  //     await checkoutStore.updateUnloginCart({
+  //       isThrowErr: true,
+  //       intl: this.props.intl
+  //     });
 
-      if (needLogin) {
-      } else {
-        const url = await distributeLinktoPrecriberOrPaymentPage({
-          configStore,
-          checkoutStore,
-          clinicStore,
-          isLogin: false
-        });
-        url && history.push(url);
-      }
-    } catch (err) {
-      this.props.headerCartStore.setErrMsg(err.message);
-      throw new Error(err);
-    } finally {
-      this.setState({ checkoutLoading: false });
-    }
-  }
+  //     if (needLogin) {
+  //     } else {
+  //       const url = await distributeLinktoPrecriberOrPaymentPage({
+  //         configStore,
+  //         checkoutStore,
+  //         clinicStore,
+  //         isLogin: false
+  //       });
+  //       url && history.push(url);
+  //     }
+  //   } catch (err) {
+  //     this.props.headerCartStore.setErrMsg(err.message);
+  //     throw new Error(err);
+  //   } finally {
+  //     this.setState({ checkoutLoading: false });
+  //   }
+  // }
 
   EditToCart = () => {
     this.hubGA &&
@@ -215,7 +215,7 @@ class UnloginCart extends React.Component {
                     />
                   </span>
 
-                  <Link
+                  {/* <Link
                     to="/cart"
                     className="rc-styled-link pull-right"
                     role="button"
@@ -223,7 +223,7 @@ class UnloginCart extends React.Component {
                     onClick={this.EditToCart}
                   >
                     <FormattedMessage id="chang" />
-                  </Link>
+                  </Link> */}
                 </div>
                 <div
                   className={`${headerCartStore.errMsg ? '' : 'hidden'}`}
@@ -239,7 +239,13 @@ class UnloginCart extends React.Component {
                 </div>
                 {/* 操作按钮组 start */}
                 <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
-                  <LoginButton
+                  <Link
+                    to="/cart"
+                    className="rc-btn rc-btn--one rc-btn--sm btn-block cart__checkout-btn checkout-btn"
+                  >
+                    <FormattedMessage id="minicart.seemycart" />
+                  </Link>
+                  {/* <LoginButton
                     beforeLoginCallback={async () => {
                       try {
                         await this.handleCheckout({
@@ -256,9 +262,9 @@ class UnloginCart extends React.Component {
                     intl={intl}
                   >
                     <FormattedMessage id="minicart.checkout" />
-                  </LoginButton>
+                  </LoginButton> */}
                 </div>
-                {!this.selectedCartData.filter((el) => el.goodsInfoFlag)
+                {/* {!this.selectedCartData.filter((el) => el.goodsInfoFlag)
                   .length ? (
                   paymentAuthority === 'MEMBER_AND_VISITOR' ? (
                     <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4 text-center">
@@ -279,7 +285,7 @@ class UnloginCart extends React.Component {
                   <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4 text-center">
                     <FormattedMessage id="unLoginSubscriptionTips" />
                   </div>
-                )}
+                )} */}
                 {/* 操作按钮组 end */}
 
                 <div className="rc-bg-colour--brand4 minicart-padding rc-body rc-margin--none rc-padding-y--xs">

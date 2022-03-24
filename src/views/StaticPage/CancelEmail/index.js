@@ -4,7 +4,6 @@ import { funcUrl } from '@/lib/url-utils';
 import { Helmet } from 'react-helmet';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import './index.less';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { cancelEmailBind } from '@/api';
 
@@ -39,7 +38,7 @@ class CancelEmail extends React.Component {
   }
 
   render() {
-    const { seoConfig, errMessage, consumerAccount } = this.state;
+    const { errMessage, consumerAccount } = this.state;
     return (
       <div>
         <Helmet>
@@ -47,16 +46,21 @@ class CancelEmail extends React.Component {
         </Helmet>
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
-          <div className="md:p-8 cancel-email-main">
+          <div
+            className="md:p-8 inline-flex items-center justify-center w-full"
+            style={{ minHeight: '500px' }}
+          >
             {!errMessage && consumerAccount ? (
-              <p>
+              <p className="w-1/2 text-16 text-center font-medium">
                 <FormattedMessage
                   id="cancelEmail.content"
                   values={{ val: consumerAccount }}
                 />
               </p>
             ) : (
-              <p>{errMessage}</p>
+              <p className="w-1/2 text-16 text-center font-medium">
+                {errMessage}
+              </p>
             )}
           </div>
           <Footer />

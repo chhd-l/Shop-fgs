@@ -120,9 +120,6 @@ class Confirmation extends React.Component {
   }
   async componentDidMount() {
     sessionItemRoyal.set('refresh-confirm-page', true);
-    const GA_product = localItemRoyal.get('rc-ga-product');
-    window?.dataLayer?.push(GA_product);
-
     const { subOrderNumberList } = this.state;
     setTimeout(() => {
       if (this.state.oxxoPayUrl || this.state.adyenOxxoAction) {

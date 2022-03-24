@@ -1,9 +1,11 @@
 import React, { useMemo } from 'react';
 import { inject, observer } from 'mobx-react';
 import cn from 'classnames';
-import { formatMoney } from '@/utils/utils';
+import { formatMoney, formatDate } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { DivWrapper } from './style';
+
+const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 
 /**
  * 地址信息预览
@@ -26,6 +28,7 @@ const AddressPreview = ({ configStore, data, nameCls, pickupNameCls }) => {
     maxDeliveryTime,
 
     calculation,
+    deliveryDate,
     timeSlot,
     newDeliveryDate,
 
@@ -44,7 +47,8 @@ const AddressPreview = ({ configStore, data, nameCls, pickupNameCls }) => {
     consigneeName,
     firstNameKatakana,
     lastNameKatakana,
-    consigneeNumber
+    consigneeNumber,
+    showDeliveryDateAndTimeSlot = true
   } = data;
 
   /**
@@ -114,7 +118,7 @@ const AddressPreview = ({ configStore, data, nameCls, pickupNameCls }) => {
           {/* 是否存在运费 */}
           {minDeliveryTime && (
             <>
-              <p className="preview_delivery_date">
+              <p className="preview_delivery_date pickup1">
                 {minDeliveryTime == maxDeliveryTime ? (
                   <FormattedMessage
                     id="payment.deliveryDate2"
@@ -155,7 +159,7 @@ const AddressPreview = ({ configStore, data, nameCls, pickupNameCls }) => {
                     {formatMoney(calculation.deliveryPrice)}
                   </p>
                   {!timeSlot && calculation.minDeliveryTime && (
-                    <p className="preview_delivery_date">
+                    <p className="preview_delivery_date ru1">
                       {calculation.minDeliveryTime ==
                       calculation?.maxDeliveryTime ? (
                         <FormattedMessage
@@ -180,7 +184,7 @@ const AddressPreview = ({ configStore, data, nameCls, pickupNameCls }) => {
 
               {/* delivery date */}
               {newDeliveryDate && (
-                <p className="preview_delivery_date">{newDeliveryDate}</p>
+                <p className="preview_delivery_date ru2">{newDeliveryDate}</p>
               )}
 
               {/* time slot */}
@@ -195,9 +199,29 @@ const AddressPreview = ({ configStore, data, nameCls, pickupNameCls }) => {
               <span>
                 {firstNameKatakana} {lastNameKatakana}
               </span>
-              <span>{postCode}</span>
+              <span>{COUNTRY == 'jp' ? '〒' + postCode : postCode}</span>
               <p>{[province, city, area, address1].join(', ')}</p>
               <p>{consigneeNumber}</p>
+              <p className={`${showDeliveryDateAndTimeSlot ? '' : 'hidden'}`}>
+                {deliveryDate && timeSlot ? (
+                  <>
+                    {/* 格式化 delivery date 格式: 星期, 15 月份 */}
+                    {formatDate({
+                      date: deliveryDate,
+                      formatOption: {
+                        weekday: 'long',
+                        day: '2-digit',
+                        month: 'long'
+                      }
+                    })}{' '}
+                    {timeSlot == 'Unspecified' ? (
+                      <FormattedMessage id="Unspecified" />
+                    ) : (
+                      timeSlot
+                    )}
+                  </>
+                ) : null}
+              </p>
             </div>
           ) : (
             <>

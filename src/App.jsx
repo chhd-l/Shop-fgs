@@ -155,7 +155,7 @@ const TR_SubscriptionLanding = loadable(() =>
 const TR_GeneralConditions = loadable(() =>
   import('@/views/StaticPage/GeneralConditions/TR_index.js')
 );
-const generalConditions = loadable(() =>
+const GeneralConditions = loadable(() =>
   import('@/views/StaticPage/GeneralConditions')
 );
 const Tailorednutrition = loadable(() =>
@@ -767,7 +767,13 @@ const App = () => {
                 <Route
                   path="/general-conditions"
                   exact
-                  component={generalConditions}
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                      return <GeneralConditions {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
                 />
 
                 <Route
@@ -816,7 +822,18 @@ const App = () => {
                       : Tailorednutrition
                   }
                 />
-                <Route exact path="/retail-products" component={OnlineStore} />
+                {/* fr定制 */}
+                <Route
+                  exact
+                  path="/retail-products"
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'fr') {
+                      return <OnlineStore {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
                 <Route
                   path="/Quality-safety"
                   exact
@@ -830,7 +847,13 @@ const App = () => {
                 <Route
                   path="/shipmentConditions"
                   exact
-                  component={ShipmentConditions}
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                      return <ShipmentConditions {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
                 />
 
                 <Route path="/404" component={Exception} />
@@ -916,9 +939,36 @@ const App = () => {
                   )}
                   path="/FelinRecommendation/:id"
                 />
-                <Route path="/adoptions" component={Adoptions} />
-                <Route path="/felin" component={Felin} />
-                <Route path="/felin/event" component={Felin} />
+                <Route
+                  path="/adoptions"
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'us') {
+                      return <Adoptions {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  path="/felin"
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'fr') {
+                      return <Felin {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  path="/felin/event"
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'fr') {
+                      return <Felin {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
                 <Route
                   path="/"
                   render={(props) => {

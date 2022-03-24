@@ -7,6 +7,7 @@ import './index.less';
 import HowItWorks from '@/views/ClubLandingPage/HowItWorks';
 import SubscriptionBenefitsBanner from '../../views/ClubLandingPageNew/Components/LongBanner/SubscriprionBenefitsBanner';
 import HowItWorksNew from '../../views/ClubLandingPageNew/Components/HowItWorksNew';
+import SubscriptionTab from './SubscriptionTab/subscriptionTab';
 
 const pdpmobilebackgrounddog = {
   backgroundImage: `url(${optimizeImage({
@@ -424,8 +425,9 @@ const GoodsDetailTabs = function (props) {
     );
 
     let packProducts = ['BP04', 'BP07', 'BP06', 'BP05', 'BP02', 'BP01', 'BP03'];
-    let goodsNo =
-      location.pathname.split('-')[location.pathname.split('-').length - 1];
+    let goodsNo = location.pathname.split('-')[
+      location.pathname.split('-').length - 1
+    ];
     tmpGoodsDescriptionDetailList = tmpGoodsDescriptionDetailList
       .map((g) => {
         let ret = g.content;
@@ -541,10 +543,7 @@ const GoodsDetailTabs = function (props) {
             console.log(111, err);
           }
         }
-        g.displayName =
-          g.translateList &&
-          g.translateList[0] &&
-          g.translateList[0].translateName;
+        g.displayName = g.displayName || g.translateList?.[0]?.translateName;
         g.content = ret;
         return g;
       })
@@ -739,9 +738,11 @@ const GoodsDetailTabs = function (props) {
             ? 'showItem'
             : 'hiddenItem'
         }`}
+              style={{ margin: 0 }}
             >
               <div
                 className="rc-list__header d-flex justify-content-between text-uppercase"
+                style={{ margin: '0 0.9375rem', width: 'auto' }}
                 onClick={changeTab.bind(null, {
                   idx: goodsDetailTabsData.length,
                   type: 'toggle',
@@ -749,7 +750,7 @@ const GoodsDetailTabs = function (props) {
                 })}
               >
                 <div>
-                  <FormattedMessage id="club" />
+                  <FormattedMessage id="subscription" />
                 </div>
                 <span
                   className={`rc-vertical-align icon-change ${
@@ -762,164 +763,10 @@ const GoodsDetailTabs = function (props) {
               </div>
               <div
                 className={`rc-list__content`}
-                style={{ overflow: 'hidden' }}
+                style={{ overflow: 'hidden', padding: 0 }}
               >
                 <p>
-                  {Show ? null : (
-                    <>
-                      <div className="row rc-margin-x--none flex-column-reverse flex-md-row">
-                        <div className="col-12 col-md-6 row rc-padding-x--none rc-margin-x--none rc-padding-top--lg--mobile">
-                          {clubListData.map((item, i) => (
-                            <div
-                              className="d-flex align-items-center col-12 col-md-12 rc-padding-left--none"
-                              key={i}
-                            >
-                              <div style={{ width: '80px' }}>
-                                <LazyLoad>
-                                  <img
-                                    src={item.img}
-                                    alt={item.alt}
-                                    className="m-auto rc-margin--none--desktop 4"
-                                  />
-                                </LazyLoad>
-                              </div>
-                              <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center value-proposition__text">
-                                <p style={{ textAlign: 'left' }}>{item.text}</p>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                        <div className="col-12 col-md-6">
-                          <div className="rc-video-wrapper">
-                            <img src={landingBanner} />
-                          </div>
-                        </div>
-                      </div>
-                      <HowItWorks />
-                    </>
-                  )}
-
-                  {Show ? (
-                    <>
-                      <div
-                        className="clubdetailsmobile"
-                        style={
-                          getSpeciesId(goodsDetailSpace) == '1'
-                            ? window.__.env.REACT_APP_COUNTRY === 'tr'
-                              ? pdpbackgroundmobilecatstr
-                              : window.__.env.REACT_APP_COUNTRY === 'fr'
-                              ? pdpbackgroundmobilecatsfr
-                              : pdpbackgroundmobilecats
-                            : window.__.env.REACT_APP_COUNTRY === 'tr'
-                            ? pdpmobilebackgrounddogtr
-                            : window.__.env.REACT_APP_COUNTRY === 'fr'
-                            ? pdpmobilebackgrounddogfr
-                            : pdpmobilebackgrounddog
-                        }
-                      >
-                        <div className="row rc-margin-x--none 1">
-                          <div className="rc-full-width">
-                            <div className="experience-component experience-assets-contentBlock">
-                              <div
-                                className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile"
-                                style={{ marginBottom: '0px' }}
-                              >
-                                <div className="rc-beta  rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                                  <p
-                                    style={{
-                                      fontSize: '1em',
-                                      textAlign: 'center',
-                                      fontWeight: '550'
-                                    }}
-                                  >
-                                    <FormattedMessage
-                                      id="ClubLP.LongBanner.title"
-                                      values={{ val1: <br />, val2: <br /> }}
-                                    />
-                                  </p>
-                                  <p
-                                    style={{
-                                      fontSize: '0.7em',
-                                      textAlign: 'center',
-                                      color: '#666'
-                                    }}
-                                  >
-                                    {window.__.env.REACT_APP_COUNTRY ===
-                                    'ru' ? (
-                                      <br />
-                                    ) : (
-                                      <FormattedMessage id="ClubLP.LongBanner.content2" />
-                                    )}
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            flexDirection: 'column'
-                          }}
-                        >
-                          <div
-                            className={`rc-list__content`}
-                            style={{ overflow: 'hidden' }}
-                          >
-                            <p>
-                              <div className="row rc-margin-x--none flex-column-reverse flex-md-row">
-                                <div className="col-12 col-md-6 row rc-padding-x--none rc-margin-x--none rc-padding-top--lg--mobile">
-                                  {clubListDataNew.map((item, i) => (
-                                    <div
-                                      className="d-flex align-items-center col-12 col-md-12 rc-padding-left--none"
-                                      key={i}
-                                    >
-                                      <div style={{ width: '80px' }}>
-                                        <LazyLoad>
-                                          <img
-                                            src={optimizeImage({
-                                              originImageUrl: item.img,
-                                              width: 80
-                                            })}
-                                            alt={item.alt}
-                                            className="m-auto rc-margin--none--desktop 5"
-                                          />
-                                        </LazyLoad>
-                                      </div>
-                                      <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center value-proposition__text">
-                                        <p style={{ textAlign: 'left' }}>
-                                          {item.text}
-                                        </p>
-                                      </div>
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            </p>
-                          </div>
-                          <div>
-                            <SubscriptionBenefitsBanner
-                              SubscriptionItem={SubscriptionItems}
-                              Subtitle={SubTitles}
-                              LogoShow={LogoShows}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      {window.__.env.REACT_APP_COUNTRY === 'ru' ? (
-                        <HowItWorksNew
-                          RuhowitworksnewList={RuhowitworksnewLists}
-                          RuhowitworksnewListmobile={RuhowitworksnewListmobiles}
-                        />
-                      ) : (
-                        <HowItWorksNew
-                          FrhowitworksnewListmobile={FrhowitworksnewListmobiles}
-                          FrhowitworksnewList={FrhowitworksnewLists}
-                        />
-                      )}
-                    </>
-                  ) : null}
+                  <SubscriptionTab />
                 </p>
               </div>
             </div>
@@ -930,7 +777,6 @@ const GoodsDetailTabs = function (props) {
   ) : (
     <div
       id="GoodsDetailTabs"
-      className="rc-max-width--xl rc-padding-x--sm"
       style={{ position: 'relative' }}
       data-tms="Product description"
     >
@@ -941,7 +787,7 @@ const GoodsDetailTabs = function (props) {
       <div className="rc-match-heights rc-content-h-middle rc-reverse-layout">
         <div>
           <div className="rc-border-bottom rc-border-colour--interface">
-            <nav className="rc-fade--x">
+            <nav className="rc-fade--x rc-max-width--xl rc-padding-x--sm">
               <ul
                 className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank"
                 role="tablist"
@@ -982,7 +828,7 @@ const GoodsDetailTabs = function (props) {
                         ele: { descriptionName: 'club' }
                       })}
                     >
-                      <FormattedMessage id="club" />
+                      <FormattedMessage id="subscription" />
                     </button>
                   </li>
                 ) : null}
@@ -997,7 +843,9 @@ const GoodsDetailTabs = function (props) {
                 className="rc-tabs__content__single clearfix benefits ingredients rc-showhide"
                 aria-expanded={activeTabIdxLists.includes(i) ? 'true' : 'false'}
               >
-                <div className={`block ${ele.descriptionName}`}>
+                <div
+                  className={`block ${ele.descriptionName} rc-max-width--xl rc-padding-x--sm`}
+                >
                   <p
                     className="content rc-scroll--x detail-content-tabinfo"
                     style={{ marginBottom: '4rem' }}
@@ -1017,133 +865,7 @@ const GoodsDetailTabs = function (props) {
                     : 'false'
                 }
               >
-                {Show ? null : (
-                  <div className="block">
-                    <div className="row rc-margin-x--none flex-column-reverse flex-md-row">
-                      <div className="col-12 col-md-6 row rc-padding-x--none rc-margin-x--none rc-padding-top--lg--mobile">
-                        {clubListData.map((item) => (
-                          <div className="d-md-flex align-items-center col-12 col-md-12 rc-padding-left--none">
-                            <img
-                              src={optimizeImage({
-                                originImageUrl: item.img,
-                                width: 80
-                              })}
-                              alt={item.alt}
-                              className="m-auto rc-margin--none--desktop 1"
-                            />
-                            <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-flex align-items-center h-100">
-                              <p className="mb-0" style={{ textAlign: 'left' }}>
-                                {item.text}
-                              </p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                      <div className="col-12 col-md-6">
-                        <div className="rc-video-wrapper">
-                          <img src={landingBanner} />
-                          {/* <iframe
-                          src="https://www.youtube.com/embed/FYwO1fiYoa8?enablejsapi=1&amp;origin=https%3A%2F%2Fshop.royalcanin.com"
-                          allowfullscreen=""
-                          frameborder="0"
-                          title="making a better world for pets"
-                        /> */}
-                        </div>
-                      </div>
-                    </div>
-                    <HowItWorks />
-                  </div>
-                )}
-                {Show ? (
-                  <div>
-                    <div
-                      style={
-                        getSpeciesId(goodsDetailSpace) == '1'
-                          ? pdpbackgroundcats
-                          : pdpbackgrounddogs
-                      }
-                    >
-                      <div className="row rc-margin-x--none 2">
-                        <div className="rc-full-width">
-                          <div className="experience-component experience-assets-contentBlock">
-                            <div
-                              className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile"
-                              style={{ marginBottom: '0px' }}
-                            >
-                              <div className="rc-beta  rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                                <p
-                                  style={{
-                                    fontSize: '1.1em',
-                                    fontWeight: '550'
-                                  }}
-                                >
-                                  <FormattedMessage
-                                    id="ClubLP.LongBanner.title"
-                                    values={{ val1: <br />, val2: <br /> }}
-                                  />
-                                </p>
-                                <p style={{ fontSize: '0.7em', color: '#666' }}>
-                                  {window.__.env.REACT_APP_COUNTRY === 'ru' ? (
-                                    <br />
-                                  ) : (
-                                    <FormattedMessage id="ClubLP.LongBanner.content2" />
-                                  )}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        style={{
-                          display: 'flex',
-                          justifyContent: 'space-between'
-                        }}
-                      >
-                        <div style={{ width: '50vw' }}>
-                          <div className="col-12 col-md-6 row rc-padding-x--none rc-margin-x--none rc-padding-top--lg--mobile">
-                            {clubListDataNew.map((item) => (
-                              <div className="d-md-flex align-items-center col-12 col-md-12 rc-padding-left--none">
-                                <img
-                                  src={optimizeImage({
-                                    originImageUrl: item.img,
-                                    width: 64
-                                  })}
-                                  alt={item.alt}
-                                  className="m-auto rc-margin--none--desktop 2"
-                                />
-                                <div
-                                  className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-flex align-items-center h-100"
-                                  style={{ marginTop: '5px' }}
-                                >
-                                  <p
-                                    className="mb-0"
-                                    style={{ textAlign: 'left', width: '22vw' }}
-                                  >
-                                    {item.text}
-                                  </p>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                        <div style={{ width: '100vw', marginTop: '-5vh' }}>
-                          <SubscriptionBenefitsBanner
-                            SubscriptionItem={SubscriptionItems}
-                            Subtitle={SubTitles}
-                            LogoShow={LogoShows}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <HowItWorksNew
-                      RuhowitworksnewList={RuhowitworksnewLists}
-                      RuhowitworksnewListmobile={RuhowitworksnewListmobiles}
-                      FrhowitworksnewListmobile={FrhowitworksnewListmobiles}
-                      FrhowitworksnewList={FrhowitworksnewLists}
-                    />
-                  </div>
-                ) : null}
+                <SubscriptionTab />
               </div>
             ) : null}
           </div>

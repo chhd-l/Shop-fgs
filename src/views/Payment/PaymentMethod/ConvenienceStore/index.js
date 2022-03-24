@@ -2,29 +2,30 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import './index.less';
 
+const convenienceStoreList = [
+  {
+    label: <FormattedMessage id="Lawson" />,
+    value: 'Lawson'
+  },
+  {
+    label: <FormattedMessage id="Seven-Eleven" />,
+    value: 'Seven-Eleven'
+  },
+  {
+    label: <FormattedMessage id="Family Mart" />,
+    value: 'Family Mart'
+  },
+  {
+    label: <FormattedMessage id="Seiko Mart" />,
+    value: 'Seiko Mart'
+  },
+  {
+    label: <FormattedMessage id="Ministop" />,
+    value: 'Ministop'
+  }
+];
+
 const ConvenienceStore = ({ convenienceStoreChange }) => {
-  const convenienceStoreList = [
-    {
-      label: <FormattedMessage id="Lawson" />,
-      value: 'Lawson'
-    },
-    {
-      label: <FormattedMessage id="Seven-Eleven" />,
-      value: 'Seven-Eleven'
-    },
-    {
-      label: <FormattedMessage id="Family Mart" />,
-      value: 'Family Mart'
-    },
-    {
-      label: <FormattedMessage id="Seiko Mart" />,
-      value: 'Seiko Mart'
-    },
-    {
-      label: <FormattedMessage id="Ministop" />,
-      value: 'Ministop'
-    }
-  ];
   const [checkedBox, setCheckBox] = React.useState('');
 
   const conStoreChange = (e, value) => {

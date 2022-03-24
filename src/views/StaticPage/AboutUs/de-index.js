@@ -7,11 +7,8 @@ import BannerTip from '@/components/BannerTip';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import './index.css';
 import { seoHoc } from '@/framework/common';
-import { Link } from 'react-router-dom';
-import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 
-const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
 @injectIntl
@@ -47,14 +44,14 @@ class about extends React.Component {
             <nav
               className="rc-progress rc-progress--breadcrumbs-stepped rc-max-width--xl rc-padding-x--sm rc-padding-y--xs rc-margin-top--xs "
               data-progress-setup="true"
-            ></nav>
+            />
           </div>
           <div
             className="rc-padding-x--sm rc-margin-bottom--xs rc-bg-colour--brand3 hero-panel"
             data-component="content-animation"
             id="hero-panel-3-about-us-page"
           >
-            <div className="rc-padding-y--md rc-md-down"></div>
+            <div className="rc-padding-y--md rc-md-down" />
             <div className="rc-layout-container rc-two-column rc-max-width--lg rc-content-h-middle ">
               <div className="rc-column rc-padding-bottom--none  rc-text--left">
                 <div className="rc-full-width">
@@ -82,17 +79,17 @@ class about extends React.Component {
                     alt="Inline Image 9"
                     sizes="519px"
                     srcSet="https://cdn.royalcanin-weshare-online.io/0vksa2QBIYfdNSoCF_yf/v11/english-cocker-spaniel-adult-dermatology-emblematic?w=320&amp;auto=compress&amp;fm=jpg 320w,https://cdn.royalcanin-weshare-online.io/0vksa2QBIYfdNSoCF_yf/v11/english-cocker-spaniel-adult-dermatology-emblematic?w=360&amp;auto=compress&amp;fm=jpg 360w,https://cdn.royalcanin-weshare-online.io/0vksa2QBIYfdNSoCF_yf/v11/english-cocker-spaniel-adult-dermatology-emblematic?w=640&amp;auto=compress&amp;fm=jpg 640w,https://cdn.royalcanin-weshare-online.io/0vksa2QBIYfdNSoCF_yf/v11/english-cocker-spaniel-adult-dermatology-emblematic?w=720&amp;auto=compress&amp;fm=jpg 720w,https://cdn.royalcanin-weshare-online.io/0vksa2QBIYfdNSoCF_yf/v11/english-cocker-spaniel-adult-dermatology-emblematic?w=960&amp;auto=compress&amp;fm=jpg 960w,https://cdn.royalcanin-weshare-online.io/0vksa2QBIYfdNSoCF_yf/v11/english-cocker-spaniel-adult-dermatology-emblematic?w=1280&amp;auto=compress&amp;fm=jpg 1280w,https://cdn.royalcanin-weshare-online.io/0vksa2QBIYfdNSoCF_yf/v11/english-cocker-spaniel-adult-dermatology-emblematic?w=1440&amp;auto=compress&amp;fm=jpg 1440w"
-                  ></img>
+                  />
                 </div>
               </div>
             </div>
-            <div className="rc-hidden"></div>
+            <div className="rc-hidden" />
           </div>
           <div
             className="rc-padding-x--sm rc-margin--none rc-bg-colour--brand3 rc-animation-001--base rc-animation-001--active"
             data-component="content-animation"
           >
-            <div className="rc-padding-y--md rc-md-down"></div>
+            <div className="rc-padding-y--md rc-md-down" />
             <div className="rc-layout-container rc-two-column rc-content-h-middle rc-max-width--xl ">
               <div className="rc-column rc-padding-y--none rc-single ">
                 <div
@@ -100,7 +97,7 @@ class about extends React.Component {
                   data-component="content-animation"
                   id="content-block-with-text-and-image-6-about-us-page"
                 >
-                  <div className="rc-padding-y--md rc-md-down"></div>
+                  <div className="rc-padding-y--md rc-md-down" />
                   <div className="rc-layout-container rc-one-column rc-max-width--xl rc-content-h-middle rc-reverse-layout">
                     <div className="rc-column">
                       <div className="rc-full-width rc-text--left ">
@@ -146,11 +143,11 @@ class about extends React.Component {
                           alt="Ausgewachsene Deutsche Dogge in Schwarzweiß vor weißem Hintergrund"
                           sizes="271px"
                           srcSet="https://cdn.royalcanin-weshare-online.io/8yEva2QBaxEApS7Ln_vw/v15/yorkshire-terrier-adult-brand-breed-health-management-emblematic?w=320&amp;h=568&amp;fit=crop&amp;crop=entropy&amp;auto=compress&amp;fm=jpg 320w,https://cdn.royalcanin-weshare-online.io/8yEva2QBaxEApS7Ln_vw/v15/yorkshire-terrier-adult-brand-breed-health-management-emblematic?w=360&amp;h=640&amp;fit=crop&amp;crop=entropy&amp;auto=compress&amp;fm=jpg 360w,https://cdn.royalcanin-weshare-online.io/8yEva2QBaxEApS7Ln_vw/v15/yorkshire-terrier-adult-brand-breed-health-management-emblematic?w=640&amp;h=1137&amp;fit=crop&amp;crop=entropy&amp;auto=compress&amp;fm=jpg 640w,https://cdn.royalcanin-weshare-online.io/8yEva2QBaxEApS7Ln_vw/v15/yorkshire-terrier-adult-brand-breed-health-management-emblematic?w=720&amp;h=1280&amp;fit=crop&amp;crop=entropy&amp;auto=compress&amp;fm=jpg 720w,https://cdn.royalcanin-weshare-online.io/8yEva2QBaxEApS7Ln_vw/v15/yorkshire-terrier-adult-brand-breed-health-management-emblematic?w=960&amp;h=1706&amp;fit=crop&amp;crop=entropy&amp;auto=compress&amp;fm=jpg 960w,https://cdn.royalcanin-weshare-online.io/8yEva2QBaxEApS7Ln_vw/v15/yorkshire-terrier-adult-brand-breed-health-management-emblematic?w=1280&amp;h=2275&amp;fit=crop&amp;crop=entropy&amp;auto=compress&amp;fm=jpg 1280w,https://cdn.royalcanin-weshare-online.io/8yEva2QBaxEApS7Ln_vw/v15/yorkshire-terrier-adult-brand-breed-health-management-emblematic?w=1440&amp;h=2560&amp;fit=crop&amp;crop=entropy&amp;auto=compress&amp;fm=jpg 1440w"
-                        ></img>
+                        />
                       </div>
                     </div>
                   </div>
-                  <div className="rc-hidden rc-md-down"></div>
+                  <div className="rc-hidden rc-md-down" />
                 </div>
               </div>
               <div className="rc-column rc-single ">
@@ -159,7 +156,7 @@ class about extends React.Component {
                   data-component="content-animation"
                   id="content-block-with-text-and-image-5-about-us-page"
                 >
-                  <div className="rc-padding-y--md rc-md-down"></div>
+                  <div className="rc-padding-y--md rc-md-down" />
                   <div className="rc-layout-container rc-one-column rc-max-width--xl rc-content-h-middle rc-reverse-layout">
                     <div className="rc-column">
                       <div className="rc-full-width rc-text--left ">
@@ -205,21 +202,21 @@ class about extends React.Component {
                           alt="Ausgewachsene Britisch Kurzhaar in Schwarzweiß vor weißem Hintergrund"
                           sizes="271px"
                           srcSet="https://cdn.royalcanin-weshare-online.io/zmliI2UBG95Xk-RBt9xG/v7/english-setter-puppy-vet-vhn?w=320&amp;h=568&amp;fit=crop&amp;crop=entropy&amp;auto=compress&amp;fm=jpg 320w,https://cdn.royalcanin-weshare-online.io/zmliI2UBG95Xk-RBt9xG/v7/english-setter-puppy-vet-vhn?w=360&amp;h=640&amp;fit=crop&amp;crop=entropy&amp;auto=compress&amp;fm=jpg 360w,https://cdn.royalcanin-weshare-online.io/zmliI2UBG95Xk-RBt9xG/v7/english-setter-puppy-vet-vhn?w=640&amp;h=1137&amp;fit=crop&amp;crop=entropy&amp;auto=compress&amp;fm=jpg 640w,https://cdn.royalcanin-weshare-online.io/zmliI2UBG95Xk-RBt9xG/v7/english-setter-puppy-vet-vhn?w=720&amp;h=1280&amp;fit=crop&amp;crop=entropy&amp;auto=compress&amp;fm=jpg 720w,https://cdn.royalcanin-weshare-online.io/zmliI2UBG95Xk-RBt9xG/v7/english-setter-puppy-vet-vhn?w=960&amp;h=1706&amp;fit=crop&amp;crop=entropy&amp;auto=compress&amp;fm=jpg 960w,https://cdn.royalcanin-weshare-online.io/zmliI2UBG95Xk-RBt9xG/v7/english-setter-puppy-vet-vhn?w=1280&amp;h=2275&amp;fit=crop&amp;crop=entropy&amp;auto=compress&amp;fm=jpg 1280w,https://cdn.royalcanin-weshare-online.io/zmliI2UBG95Xk-RBt9xG/v7/english-setter-puppy-vet-vhn?w=1440&amp;h=2560&amp;fit=crop&amp;crop=entropy&amp;auto=compress&amp;fm=jpg 1440w"
-                        ></img>
+                        />
                       </div>
                     </div>
                   </div>
-                  <div className="rc-padding-y--md rc-md-down"></div>
+                  <div className="rc-padding-y--md rc-md-down" />
                 </div>
               </div>
             </div>
-            <div className="rc-padding-y--md rc-md-down rc-hidden"></div>
+            <div className="rc-padding-y--md rc-md-down rc-hidden" />
           </div>
           <div
             className="rc-padding--sm rc-margin-bottom--xs rc-bg-colour--brand3"
             data-component="content-animation"
           >
-            <div className="rc-padding-y--md rc-md-down"></div>
+            <div className="rc-padding-y--md rc-md-down" />
             <div className="rc-layout-container rc-two-column rc-content-h-middle rc-max-width--xl ">
               <div className="rc-column rc-single ">
                 <div
@@ -227,7 +224,7 @@ class about extends React.Component {
                   data-component="content-animation"
                   id="content-block-with-text-and-image-8-about-us-page"
                 >
-                  <div className="rc-padding-y--md rc-md-down"></div>
+                  <div className="rc-padding-y--md rc-md-down" />
                   <div className="rc-layout-container rc-one-column rc-max-width--xl rc-content-h-middle rc-reverse-layout">
                     <div className="rc-column">
                       <div className="rc-full-width rc-text--left ">
@@ -275,11 +272,11 @@ class about extends React.Component {
                           alt="Ausgewachsene Britisch Kurzhaar in Schwarzweiß vor weißem Hintergrund"
                           sizes="271px"
                           srcSet="https://cdn.royalcanin-weshare-online.io/Nvkva2QBIYfdNSoCg_--/v44/german-shepherd-puppy-brand-breed-emblematic?w=320&amp;h=568&amp;fit=crop&amp;crop=entropy&amp;auto=compress&amp;fm=jpg 320w,https://cdn.royalcanin-weshare-online.io/Nvkva2QBIYfdNSoCg_--/v44/german-shepherd-puppy-brand-breed-emblematic?w=360&amp;h=640&amp;fit=crop&amp;crop=entropy&amp;auto=compress&amp;fm=jpg 360w,https://cdn.royalcanin-weshare-online.io/Nvkva2QBIYfdNSoCg_--/v44/german-shepherd-puppy-brand-breed-emblematic?w=640&amp;h=1137&amp;fit=crop&amp;crop=entropy&amp;auto=compress&amp;fm=jpg 640w,https://cdn.royalcanin-weshare-online.io/Nvkva2QBIYfdNSoCg_--/v44/german-shepherd-puppy-brand-breed-emblematic?w=720&amp;h=1280&amp;fit=crop&amp;crop=entropy&amp;auto=compress&amp;fm=jpg 720w,https://cdn.royalcanin-weshare-online.io/Nvkva2QBIYfdNSoCg_--/v44/german-shepherd-puppy-brand-breed-emblematic?w=960&amp;h=1706&amp;fit=crop&amp;crop=entropy&amp;auto=compress&amp;fm=jpg 960w,https://cdn.royalcanin-weshare-online.io/Nvkva2QBIYfdNSoCg_--/v44/german-shepherd-puppy-brand-breed-emblematic?w=1280&amp;h=2275&amp;fit=crop&amp;crop=entropy&amp;auto=compress&amp;fm=jpg 1280w,https://cdn.royalcanin-weshare-online.io/Nvkva2QBIYfdNSoCg_--/v44/german-shepherd-puppy-brand-breed-emblematic?w=1440&amp;h=2560&amp;fit=crop&amp;crop=entropy&amp;auto=compress&amp;fm=jpg 1440w"
-                        ></img>
+                        />
                       </div>
                     </div>
                   </div>
-                  <div className="rc-padding-y--md rc-md-down"></div>
+                  <div className="rc-padding-y--md rc-md-down" />
                 </div>
               </div>
               <div className="rc-column rc-single ">
@@ -288,7 +285,7 @@ class about extends React.Component {
                   data-component="content-animation"
                   id="content-block-with-text-and-image-9-about-us-page"
                 >
-                  <div className="rc-padding-y--md rc-md-down"></div>
+                  <div className="rc-padding-y--md rc-md-down" />
                   <div className="rc-layout-container rc-one-column rc-max-width--xl rc-content-h-middle rc-reverse-layout">
                     <div className="rc-column">
                       <div className="rc-full-width rc-text--left ">
@@ -336,22 +333,22 @@ class about extends React.Component {
                           alt="Ausgewachsene Ragdoll-Katze in Schwarzweiß vor weißem Hintergrund"
                           sizes="271px"
                           srcSet="https://cdn.royalcanin-weshare-online.io/qPkwa2QBIYfdNSoCWv9p/v37/maine-coon-kitten-brand-birth-growth-breed-emblematic?w=320&amp;h=568&amp;fit=crop&amp;crop=entropy&amp;auto=compress&amp;fm=jpg 320w,https://cdn.royalcanin-weshare-online.io/qPkwa2QBIYfdNSoCWv9p/v37/maine-coon-kitten-brand-birth-growth-breed-emblematic?w=360&amp;h=640&amp;fit=crop&amp;crop=entropy&amp;auto=compress&amp;fm=jpg 360w,https://cdn.royalcanin-weshare-online.io/qPkwa2QBIYfdNSoCWv9p/v37/maine-coon-kitten-brand-birth-growth-breed-emblematic?w=640&amp;h=1137&amp;fit=crop&amp;crop=entropy&amp;auto=compress&amp;fm=jpg 640w,https://cdn.royalcanin-weshare-online.io/qPkwa2QBIYfdNSoCWv9p/v37/maine-coon-kitten-brand-birth-growth-breed-emblematic?w=720&amp;h=1280&amp;fit=crop&amp;crop=entropy&amp;auto=compress&amp;fm=jpg 720w,https://cdn.royalcanin-weshare-online.io/qPkwa2QBIYfdNSoCWv9p/v37/maine-coon-kitten-brand-birth-growth-breed-emblematic?w=960&amp;h=1706&amp;fit=crop&amp;crop=entropy&amp;auto=compress&amp;fm=jpg 960w,https://cdn.royalcanin-weshare-online.io/qPkwa2QBIYfdNSoCWv9p/v37/maine-coon-kitten-brand-birth-growth-breed-emblematic?w=1280&amp;h=2275&amp;fit=crop&amp;crop=entropy&amp;auto=compress&amp;fm=jpg 1280w,https://cdn.royalcanin-weshare-online.io/qPkwa2QBIYfdNSoCWv9p/v37/maine-coon-kitten-brand-birth-growth-breed-emblematic?w=1440&amp;h=2560&amp;fit=crop&amp;crop=entropy&amp;auto=compress&amp;fm=jpg 1440w"
-                        ></img>
+                        />
                       </div>
                     </div>
                   </div>
-                  <div className="rc-padding-y--md rc-md-down"></div>
+                  <div className="rc-padding-y--md rc-md-down" />
                 </div>
               </div>
             </div>
-            <div className="rc-padding-y--md rc-md-down"></div>
+            <div className="rc-padding-y--md rc-md-down" />
           </div>
           <div
             className="rc-padding--sm rc-margin-bottom--xs rc-bg-colour--brand3 rc-full-width rc-animation-001--base rc-animation-001--active"
             data-component="content-animation"
             id="content-block-with-text-1-about-us-page"
           >
-            <div className="rc-padding-y--md rc-md-down"></div>
+            <div className="rc-padding-y--md rc-md-down" />
             <div className="rc-layout-container rc-one-column rc-max-width--md">
               <div className="rc-column">
                 <div className="rc-full-width rc-text--center rc-padding-x--sm">
@@ -367,7 +364,7 @@ class about extends React.Component {
                 </div>
               </div>
             </div>
-            <div className="rc-padding-y--md rc-md-down"></div>
+            <div className="rc-padding-y--md rc-md-down" />
           </div>
           <div className="rc-bg-colour--brand3">
             <div className="rc-max-width--md">
@@ -377,7 +374,7 @@ class about extends React.Component {
                   src="https://www.youtube.com/embed/cJ4LgiFpbcg?rel=0&amp;showinfo=0&amp;enablejsapi=1&amp;origin=https%3A%2F%2Fwww.royalcanin.com"
                   frameBorder="0"
                   allowFullScreen=""
-                ></iframe>
+                />
               </div>
             </div>
           </div>
@@ -386,7 +383,7 @@ class about extends React.Component {
             data-component="content-animation"
             id="content-block-with-text-3-about-us-page"
           >
-            <div className="rc-padding-y--md rc-md-down"></div>
+            <div className="rc-padding-y--md rc-md-down" />
             <div className="rc-layout-container rc-one-column rc-max-width--md">
               <div className="rc-column">
                 <div className="rc-full-width rc-text--center rc-padding-x--sm">
@@ -398,7 +395,7 @@ class about extends React.Component {
                 </div>
               </div>
             </div>
-            <div className="rc-padding-y--md rc-md-down"></div>
+            <div className="rc-padding-y--md rc-md-down" />
           </div>
           <div className="rc-padding--xs rc-bg-colour--brand3">
             <div className="rc-max-width--xl rc-spacer-sides-small">
@@ -428,18 +425,12 @@ class about extends React.Component {
                             "url('https://cdn.royalcanin-weshare-online.io/iLlZSG0B2t6cTeuUQwrd/v1/akzeptanzgarantie-logo-rc?w=320&auto=compress&fm=jpg')"
                         }}
                       >
-                        <figcaption className="rc-screen-reader-text"></figcaption>
+                        <figcaption className="rc-screen-reader-text" />
                       </figure>
-                      <span
-                        className="rc-tab__label"
-                        style={{ visibility: 'hidden' }}
-                      >
+                      <span className="rc-tab__label invisible">
                         Der kompetente Partner für Hunde- und Katzenzüchter
                       </span>
-                      <span
-                        className="rc-tab__label"
-                        style={{ visibility: 'hidden' }}
-                      >
+                      <span className="rc-tab__label invisible">
                         ROYAL CANIN PROFESSIONAL
                       </span>
                       {Boolean(
@@ -496,7 +487,7 @@ class about extends React.Component {
             data-component="content-animation"
             id="content-block-with-text-2-about-us-page"
           >
-            <div className="rc-padding-y--md rc-md-down"></div>
+            <div className="rc-padding-y--md rc-md-down" />
             <div className="rc-layout-container rc-one-column rc-max-width--md">
               <div className="rc-column">
                 <div className="rc-full-width rc-text--center rc-padding-x--sm">

@@ -250,6 +250,8 @@ class ShippingAddressFrom extends React.Component {
         housing: data.housing,
         entrance: data.entrance,
         apartment: data.apartment,
+        firstNameKatakana: data.firstNameKatakana, //日本
+        lastNameKatakana: data.lastNameKatakana,
 
         type: curType.toUpperCase()
       };

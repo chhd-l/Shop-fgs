@@ -1,8 +1,6 @@
-import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
+import { injectIntl } from 'react-intl-phraseapp';
 import React from 'react';
-import Rate from '@/components/Rate';
-import ImgUpload from '@/components/ImgUpload';
-import '../index.css';
+
 @injectIntl
 class ReviewList extends React.Component {
   constructor() {

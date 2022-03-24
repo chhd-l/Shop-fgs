@@ -64,6 +64,49 @@ const ConsentAdditionalText = ({ textPosition }) => {
           16 år och jag kan när som helst återkalla mitt samtycke.
         </p>
       </div>
+    ),
+    // mx: (
+    //   <div className="consent-txt">
+    //     <p>
+    //       Nos gustaría mantenerte al tanto a ti y a tu mascota de promociones y
+    //       contenido de valor de &nbsp;
+    //       <a
+    //         href="https://mex.mars.com/es-MX/hecho-por-mars/petcare"
+    //         target="_blank"
+    //       >
+    //         Mars Petcare y sus afiliados
+    //       </a>{' '}
+    //       .
+    //     </p>
+    //     <p>Tengo 16 años o más.</p>
+    //   </div>
+    // ),
+    jp: (
+      <div className="consent-txt">
+        <p>
+          <a href="https://www.mars.com/made-by-mars/petcare" target="_blank">
+            マースペットケア及びその関連会社
+          </a>
+          における、お客様の個人情報の取得・お取扱い方法、
+          個人情報に関するお問い合わせ、その他個人情報に関するお客様の権利の行使につきま
+          しては、{' '}
+          <a href="https://www.mars.com/privacy-policy-japan" target="_blank">
+            「マースのプライバシーに関する声明」
+          </a>{' '}
+          でご確認いただけます。&nbsp;
+        </p>
+        <p>&nbsp;</p>
+        <p>
+          <a href="https://www.mars.com/made-by-mars/petcare" target="_blank">
+            マースペットケア及びその関連会社
+          </a>
+          からお客様に対し、 お得なプロモーションや新製品に関する情報についてお
+          客様と（大切なペット）に最新情報をお届けいたします。
+        </p>
+        <p>
+          私は18歳以上で、下記の会社からメール、SMS等による情報配信を希望します。
+        </p>
+      </div>
     )
   };
   const bottomText = {
@@ -142,6 +185,54 @@ const ConsentAdditionalText = ({ textPosition }) => {
             Mars’ Sekretesspolicy
           </a>
           .
+        </p>
+      </div>
+    ),
+    // mx: (
+    //   <div className="explain-txt">
+    //     <p>
+    //       Entiendo que puedo cambiar estas preferencias en cualquier momento
+    //       mediante el [mecanismo detallado para administrar las preferencias].
+    //     </p>
+    //     <p>
+    //       q ü Desmarque esta casilla si no desea que sus datos se utilicen en
+    //       investigaciones para mejorar nuestras ofertas de productos y
+    //       servicios.
+    //     </p>
+    //     <p>
+    //       Puede averiguar cómo &nbsp;
+    //       <a
+    //         href="https://mex.mars.com/es-MX/hecho-por-mars/petcare"
+    //         target="_blank"
+    //       >
+    //         Mars Petcare
+    //       </a>
+    //       &nbsp; y sus afiliados recopilan y procesan sus Datos, puede
+    //       comunicarse con nosotros si tiene preguntas sobre nuestros procesos de
+    //       procesamiento y/o para ejercer sus derechos ARCO a través del Aviso de
+    //       &nbsp;
+    //       <a href="https://www.mars.com/privacy-policy-Mexico" target="_blank">
+    //         Privacidad de Mars
+    //       </a>
+    //       .
+    //     </p>
+    //   </div>
+    // ),
+    jp: (
+      <div className="explain-txt">
+        {/* <p>&nbsp;</p> */}
+        <p>
+          マースペットケア及びその関連会社は、製品やサービス提供の向上のための
+          調査にお客様のデータを適宜使用することがあります。
+          <a href="https://www.mars.com/made-by-mars/petcare" target="_blank">
+            マースペットケア及 びその関連会社
+          </a>
+          における、お客様の個人情報についての取得・お取扱い方法、
+          その他個人情報に関するお問い合わせ、お客様の権利の行使につきましては、
+          <a href="https://www.mars.com/privacy-policy-japan" target="_blank">
+            「マースのプライバシーに関する声明」
+          </a>
+          でご確認いただけます。
         </p>
       </div>
     )

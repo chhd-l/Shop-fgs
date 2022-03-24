@@ -114,7 +114,13 @@ const bannerProductDetailList = [
   }
 ];
 
-const Banner = ({ productShowInfo, intl, recommData, history }) => {
+const Banner = ({
+  productShowInfo,
+  intl,
+  recommData,
+  history,
+  ...restProps
+}) => {
   const { loginStore, configStore, checkoutStore, clinicStore } = useLocalStore(
     () => stores
   );
@@ -173,11 +179,12 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
       let sizeListItem = cloneDeep(cartItem);
       sizeListItem.selected = true;
       cartItem.sizeList = [sizeListItem];
-      let addCartData = {
+
+      await checkoutStore.hanldeUnloginAddToCart({
         valid: addCartBtnStatus,
-        cartItemList: [cartItem]
-      };
-      await checkoutStore.hanldeUnloginAddToCart(addCartData);
+        cartItemList: [cartItem],
+        ...restProps
+      });
       localItemRoyal.set('okta-redirectUrl', 'checkout');
     } catch (err) {
       console.info('errerr', err);

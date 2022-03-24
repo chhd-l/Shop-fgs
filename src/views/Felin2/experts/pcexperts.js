@@ -34,6 +34,7 @@ import { postcustomerUpdate } from '../../../api/felin';
 import { injectIntl } from 'react-intl-phraseapp';
 import { scrollIntoView } from '@/lib/scroll-to-utils';
 import { funcUrl } from '@/lib/url-utils';
+import Modal from '@/components/Modal';
 
 const localItemRoyal = window.__.localItemRoyal;
 PRESONAL_INFO_RULE.filter((el) => el.key === 'phoneNumber')[0].regExp = '';
@@ -121,7 +122,9 @@ class Pcexperts extends React.Component {
       },
       userInfo: undefined,
       apptNo: '',
-      appointmentVO: {}
+      appointmentVO: {},
+      errModalText: '',
+      errModalVisible: false
     };
   }
 
@@ -565,7 +568,7 @@ class Pcexperts extends React.Component {
     });
     if (code === 'K-000000') {
       sessionItemRoyal.set(
-        'gusetInfo',
+        'guestInfo',
         JSON.stringify({
           firstName: params.firstName,
           lastName: params.lastName,
@@ -605,14 +608,18 @@ class Pcexperts extends React.Component {
   };
 
   postUpdate = async (params) => {
-    let id = funcUrl({ name: 'id' });
-    const { code, context } = await postUpdate(params);
-    if (code === 'K-000000') {
-      await this.queryAppointInfo(context.appointmentVO.apptNo);
-      sessionItemRoyal.set('appointment-no', context.appointmentVO.apptNo);
-      sessionItemRoyal.set('oldAppointNo', id);
-      sessionItemRoyal.set('isChangeAppoint', true);
-      this.props.history.push('/checkout');
+    try {
+      let id = funcUrl({ name: 'id' });
+      const { code, context } = await postUpdate(params);
+      if (code === 'K-000000') {
+        await this.queryAppointInfo(context.appointmentVO.apptNo);
+        sessionItemRoyal.set('appointment-no', context.appointmentVO.apptNo);
+        sessionItemRoyal.set('oldAppointNo', id);
+        sessionItemRoyal.set('isChangeAppoint', true);
+        this.props.history.push('/checkout');
+      }
+    } catch (err) {
+      this.setState({ errModalVisible: true, errModalText: err.message });
     }
   };
 
@@ -995,6 +1002,17 @@ class Pcexperts extends React.Component {
         <div className="txt-centr" style={{ marginBottom: '3rem' }}>
           <MyModal />
         </div>
+        <Modal
+          key="3"
+          visible={this.state.errModalVisible}
+          modalText={this.state.errModalText}
+          close={() => {
+            this.setState({ errModalVisible: false });
+          }}
+          hanldeClickConfirm={() => {
+            this.setState({ errModalVisible: false });
+          }}
+        />
       </div>
     );
   }

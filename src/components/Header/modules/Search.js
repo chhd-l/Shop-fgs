@@ -19,6 +19,11 @@ import {
 
 const isHub = window.__.env.REACT_APP_HUB;
 let sessionItemRoyal = window.__.sessionItemRoyal;
+
+const getSearchContainerMaxHeight = () => {
+  return `calc(${window.innerHeight}px - 5rem)`;
+};
+
 export default class Search extends React.Component {
   static defaultProps = {
     onClose: () => {},
@@ -29,7 +34,6 @@ export default class Search extends React.Component {
     this.state = {
       showSearchInput: false,
       result: null,
-      suggestions: [],
       keywords: '',
       loading: false,
       isSearchSuccess: false, //是否搜索成功
@@ -51,10 +55,10 @@ export default class Search extends React.Component {
         hasSearchedDone: false
       },
       () => {
-        clearTimeout(this.timer);
+        this.timer && clearTimeout(this.timer);
         this.timer = setTimeout(() => {
           cancelPrevRequest();
-          this.getSuggestionList();
+          this.getSearchData();
         }, 500);
       }
     );
@@ -64,23 +68,27 @@ export default class Search extends React.Component {
       this.inputRef.current &&
       this.inputRef.current.focus();
     window.document.addEventListener('click', this.hanldeSearchBlur);
+    window.addEventListener('resize', this.setIosSafariSearchContainerHeight);
   }
 
   componentWillUnmount() {
     window.document.removeEventListener('click', this.hanldeSearchBlur);
+    window.removeEventListener(
+      'resize',
+      this.setIosSafariSearchContainerHeight
+    );
+    this.leaveResultBox();
   }
 
-  async getSuggestionList() {
-    const { keywords } = this.state;
-    const sugRes = await getSearchSuggestion(keywords);
-    if (sugRes.context && sugRes.context.length) {
-      this.setState({
-        suggestions: sugRes.context
-      });
-    } else {
-      this.getSearchData();
+  setIosSafariSearchContainerHeight = () => {
+    if (getDeviceType() === 'H5' && !isHub) {
+      let suggestionResults =
+        window.document.getElementsByClassName('suggestions');
+      for (let i = 0; i < suggestionResults.length; i++) {
+        suggestionResults[i].style.maxHeight = getSearchContainerMaxHeight();
+      }
     }
-  }
+  };
 
   async getSearchData() {
     const { keywords } = this.state;
@@ -168,6 +176,11 @@ export default class Search extends React.Component {
           loading: false,
           result: Object.assign({}, { productList: [], totalElements: 0 })
         });
+      })
+      .finally(() => {
+        if (getDeviceType() === 'H5' && !isHub) {
+          this.enterResultBox();
+        }
       });
   }
   hanldeSearchCloseClick() {
@@ -177,6 +190,9 @@ export default class Search extends React.Component {
       result: null
     });
     this.props.onClose();
+    if (getDeviceType() === 'H5' && !isHub) {
+      this.leaveResultBox();
+    }
   }
   hanldeSearchClick() {
     this.setState(
@@ -193,14 +209,15 @@ export default class Search extends React.Component {
     this.hanldeSearchFocus();
   }
   handleSearch = () => {
-    if (this.state.loading || !this.state.hasSearchedDone) return;
+    //if (this.state.loading || !this.state.hasSearchedDone) return;
+    this.timer && clearTimeout(this.timer);
     this.props.history.push({
       pathname: window.__.env.REACT_APP_SEARCH_LINK,
       // pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?q=${e.current.value}`,
       search: `?q=${this.state.keywords}`,
       state: {
         GAListParam: 'Search Results',
-        noresult: !this.state.isSearchSuccess
+        noresult: false // !this.state.isSearchSuccess
       }
     });
   };
@@ -246,29 +263,34 @@ export default class Search extends React.Component {
   };
 
   enterResultBox = () => {
+    const clientW =
+      document.body.clientWidth || document.documentElement.clientWidth;
+    const innerW = window.innerWidth;
+    const scrollBarW = innerW - clientW;
+    console.log(scrollBarW, 'scrollBarW==');
     const bodyDom = document.getElementsByTagName('body')[0];
+    const rcHeaderDom = document.getElementsByClassName('rc-header')[0];
     if (bodyDom) {
-      bodyDom.classList.add('body-hidden-scroll');
+      bodyDom.style.overflow = 'hidden';
+      bodyDom.style.width = `calc(100% - ${scrollBarW}px)`;
+      // bodyDom.classList.add('body-hidden-scroll');
+    }
+    if (rcHeaderDom) {
+      rcHeaderDom.style.width = `calc(100% - ${scrollBarW}px)`;
     }
   };
 
   leaveResultBox = () => {
     const bodyDom = document.getElementsByTagName('body')[0];
+    const rcHeaderDom = document.getElementsByClassName('rc-header')[0];
     if (bodyDom) {
-      bodyDom.classList.remove('body-hidden-scroll');
+      // bodyDom.classList.remove('body-hidden-scroll');
+      bodyDom.style.overflow = 'auto';
+      bodyDom.style.width = '100%';
     }
-  };
-
-  handleSuggestionItemClick = (suggestionKeyword) => {
-    this.setState(
-      {
-        keywords: suggestionKeyword,
-        suggestions: []
-      },
-      () => {
-        this.getSearchData();
-      }
-    );
+    if (rcHeaderDom) {
+      rcHeaderDom.style.width = '100%';
+    }
   };
 
   handleSearchContainerClick = (e) => {
@@ -276,45 +298,23 @@ export default class Search extends React.Component {
   };
 
   renderResultJsx() {
-    const { result, keywords, suggestions } = this.state;
+    const { result, keywords } = this.state;
     let ret = null;
-    if (suggestions && suggestions.length) {
-      const keyReg = new RegExp(keywords, 'gi');
+    const keyReg = new RegExp(keywords, 'gi');
+    if (result) {
+      //ios safari 100vh问题
+      const resultHeight = getSearchContainerMaxHeight();
       ret = (
         <div
           className="suggestions"
           id="mainSuggestions"
           onMouseOver={() => this.enterResultBox()}
           onMouseOut={() => this.leaveResultBox()}
-        >
-          <div className="container">
-            <div className="row d-flex flex-sm-row">
-              <div className="col-12 rc-column">
-                {suggestions
-                  .map((item) => ({
-                    item: item,
-                    html: item.replace(keyReg, (txt) => `<b>${txt}</b>`)
-                  }))
-                  .map((item, idx) => (
-                    <div
-                      className="col-12 item ui-cursor-pointer"
-                      key={idx}
-                      dangerouslySetInnerHTML={{ __html: item.html }}
-                      onClick={() => this.handleSuggestionItemClick(item.item)}
-                    ></div>
-                  ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    } else if (result) {
-      ret = (
-        <div
-          className="suggestions"
-          id="mainSuggestions"
-          onMouseOver={() => this.enterResultBox()}
-          onMouseOut={() => this.leaveResultBox()}
+          style={
+            getDeviceType() === 'H5' && !isHub
+              ? { maxHeight: resultHeight }
+              : {}
+          }
         >
           <div className="container">
             <div className="row d-flex flex-sm-row">
@@ -398,9 +398,13 @@ export default class Search extends React.Component {
                               className="productName ui-cursor-pointer ui-text-overflow-line2 text-break"
                               alt={item.goodsName}
                               title={item.goodsName}
-                            >
-                              {item.goodsName}
-                            </div>
+                              dangerouslySetInnerHTML={{
+                                __html: item.goodsName.replace(
+                                  keyReg,
+                                  (txt) => `<b>${txt}</b>`
+                                )
+                              }}
+                            ></div>
                             <div className="rc-meta searchProductKeyword" />
                           </div>
                         </div>
@@ -443,9 +447,13 @@ export default class Search extends React.Component {
                       onClick={() =>
                         this.doGAInstantSearchResultClick2('Content', item, i)
                       }
-                    >
-                      {item.Title}
-                    </a>
+                      dangerouslySetInnerHTML={{
+                        __html: item.Title.replace(
+                          keyReg,
+                          (txt) => `<b>${txt}</b>`
+                        )
+                      }}
+                    ></a>
                   ))}
                   {(result.attach.FeaturedItems || []).map((item, i) => (
                     <a
@@ -454,9 +462,13 @@ export default class Search extends React.Component {
                       title={item.Title}
                       href={item.Url}
                       key={i}
-                    >
-                      {item.Title}
-                    </a>
+                      dangerouslySetInnerHTML={{
+                        __html: item.Title.replace(
+                          keyReg,
+                          (txt) => `<b>${txt}</b>`
+                        )
+                      }}
+                    ></a>
                   ))}
                 </div>
               ) : null}
@@ -528,7 +540,7 @@ export default class Search extends React.Component {
                 </FormattedMessage>
               </form>
             </div>
-            {result && !hiddenResult ? (
+            {!hiddenResult && result ? (
               <div style={{ position: 'relative', top: '.2rem' }}>
                 <div className="suggestions-wrapper">
                   {this.renderResultJsx()}
@@ -597,7 +609,7 @@ export default class Search extends React.Component {
                   aria-label="Close"
                   onClick={this.hanldeSearchCloseClick}
                 />
-                {!hiddenResult ? (
+                {!hiddenResult && result ? (
                   <div className="suggestions-wrapper">
                     {this.renderResultJsx()}
                   </div>

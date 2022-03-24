@@ -11,9 +11,7 @@ import ReviewForm from './components/ReviewForm';
 import { getGoodsList, addGoodsEvaluate } from '@/api/order';
 //import ReviewList from './components/ReviewList';
 //import ImgUpload from '@/components/ImgUpload';
-import './index.css';
 import Skeleton from 'react-skeleton-loader';
-//import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import { seoHoc } from '@/framework/common';
@@ -377,7 +375,7 @@ class ProductReview extends React.Component {
                                   className="rc-font-bold"
                                   style={{ fontWeight: '500' }}
                                 >
-                                  <FormattedMessage id="expertAdvice"></FormattedMessage>
+                                  <FormattedMessage id="expertAdvice" />
                                 </span>
                               </span>
                               <div className="rc-margin-top--xs">

@@ -13,10 +13,12 @@ const DeliveryList = ({
   changeTab,
   noStartYearOption,
   noStartYear,
+  handleSaveChange,
   modalList,
   activeTabIdx,
   getMinDate,
   setState,
+  timeSlotArr,
   intl
 }) => {
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
@@ -108,10 +110,12 @@ const DeliveryList = ({
               )
               .map((el, i) => (
                 <NextDelivery
+                  timeSlotArr={timeSlotArr}
                   subDetail={subDetail}
                   modalList={modalList}
                   setState={setState}
                   getMinDate={getMinDate}
+                  handleSaveChange={handleSaveChange}
                   el={el}
                   key={i}
                 />

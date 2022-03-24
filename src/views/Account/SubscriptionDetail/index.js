@@ -17,6 +17,8 @@ import UserPaymentInfo from './components/UserPaymentInfo';
 import RemainingsList from './components/RemainingsList';
 import DeliveryList from './components/DeliveryList';
 import Loading from '@/components/Loading';
+import { getDeliveryDateAndTimeSlot } from '@/api/address';
+
 import {
   getRation,
   handleDateForIos,
@@ -44,6 +46,7 @@ import { format } from 'date-fns';
 import { seoHoc } from '@/framework/common';
 import { DivWrapper } from './style';
 import { SUBSCRIBE_STATUS_ENUM } from '@/utils/enum';
+import { SuccessMessage, ErrorMessage } from '@/components/Message';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
@@ -62,6 +65,7 @@ class SubscriptionDetail extends React.Component {
       errMsgPage: '',
       productListLoading: false,
       loadingPage: false,
+      timeSlotArr: [],
       triggerShowChangeProduct: {
         goodsInfo: [],
         firstShow: false,
@@ -139,9 +143,8 @@ class SubscriptionDetail extends React.Component {
         type: 'skipNext'
       },
       modalType: '',
-      errorShow: false,
       errorMsg: '',
-      successTipVisible: false,
+      successMsg: '',
       minDate: new Date(),
       tabName: [],
       activeTabIdx: 0,
@@ -163,6 +166,12 @@ class SubscriptionDetail extends React.Component {
 
   paymentSave = (el) => {
     const { subDetail } = this.state;
+    const payPspItemEnum =
+      el.paymentItem === 'adyen_paypal'
+        ? 'ADYEN_PAYPAL'
+        : window.__.env.REACT_APP_COUNTRY === 'fr'
+        ? 'ADYEN_CREDIT_CARD'
+        : el.payPspItemEnum || '';
     const param = {
       subscribeId: subDetail.subscribeId,
       paymentId: el.id,
@@ -174,7 +183,7 @@ class SubscriptionDetail extends React.Component {
         };
       }),
       changeField: 'paymentMethod',
-      payPspItemEnum: el.payPspItemEnum || ''
+      payPspItemEnum: payPspItemEnum
     };
     this.setState({ loading: true });
     updateDetail(param)
@@ -323,7 +332,7 @@ class SubscriptionDetail extends React.Component {
     this.setState({ activeTabIdx: i });
   };
 
-  onDateChange(date, goodsInfo) {
+  async onDateChange(date, goodsInfo, isUpdateTimeslot) {
     let { subDetail } = this.state;
     subDetail.nextDeliveryTime = format(
       new Date(handleDateForIos(date)),
@@ -336,8 +345,11 @@ class SubscriptionDetail extends React.Component {
       changeField: 'Next Delivery Time'
     };
     this.setState({ loading: true });
-    updateNextDeliveryTime(param)
-      .then((res) => {
+    try {
+      await updateNextDeliveryTime(param);
+      if (isUpdateTimeslot) {
+        this.getDeliveryDateAndTimeSlotData();
+      } else {
         this.getDetail(
           this.showErrMsg.bind(
             this,
@@ -345,10 +357,10 @@ class SubscriptionDetail extends React.Component {
             'success'
           )
         );
-      })
-      .catch((err) => {
-        this.setState({ loading: false });
-      });
+      }
+    } catch (err) {
+      this.setState({ loading: false });
+    }
   }
 
   async doUpdateDetail(param) {
@@ -489,6 +501,8 @@ class SubscriptionDetail extends React.Component {
         subDetail.goodsInfo &&
         subDetail.goodsInfo[0]?.subscriptionPlanId &&
         subDetail.subscriptionPlanFullFlag === 0; //subscriptionPlanFullFlag判断food dispenser是否在有效期
+      //   subDetail.timeSlot = '10:00-15:00';
+      // subDetail.deliveryDate = null;//test数据
       this.setState(
         {
           petType: petsType,
@@ -582,9 +596,12 @@ class SubscriptionDetail extends React.Component {
           this.showErrMsg(err.message);
         });
     } else if (modalType === 'changeDate') {
+      // 日本才需要去处理timeslot
+      const showTimeSlot = window.__.env.REACT_APP_COUNTRY === 'jp';
       this.onDateChange(
         this.state.currentChangeDate,
-        this.state.currentChangeItem
+        this.state.currentChangeItem,
+        showTimeSlot
       );
     }
   };
@@ -596,32 +613,80 @@ class SubscriptionDetail extends React.Component {
   showErrMsg(msg, type, fn) {
     if (type === 'success') {
       this.setState({
-        successTipVisible: true
+        successMsg: msg
       });
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
         this.setState({
-          successTipVisible: false
+          successMsg: ''
         });
         typeof fn == 'function' && fn();
       }, 1000);
     } else {
       this.setState({
-        errorShow: true,
         errorMsg: msg
       });
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
         this.setState({
-          errorShow: false
+          errorMsg: ''
         });
         fn && fn();
       }, 3000);
     }
   }
-
-  async handleSaveChange(subDetail) {
-    if (!this.state.isDataChange) {
+  getDeliveryDateAndTimeSlotData = async () => {
+    let { subDetail } = this.state;
+    const res = await getDeliveryDateAndTimeSlot({
+      cityNo: '',
+      subscribeId: this.state.subDetail.subscribeId
+    });
+    if (res.context) {
+      let deliveryDateList = res.context.timeSlots.map((el) => {
+        return { ...el, value: el.date, name: el.date };
+      });
+      this.setState({
+        timeSlotArr: deliveryDateList
+      });
+      let deliveryDate = deliveryDateList[0].date;
+      let timeSlotList = deliveryDateList[0].dateTimeInfos?.map((el) => {
+        return {
+          ...el,
+          value: `${el.startTime}-${el.endTime}`,
+          name: `${el.startTime}-${el.endTime}`
+        };
+      });
+      timeSlotList.unshift({
+        name: 'Unspecified',
+        value: 'Unspecified',
+        startTime: 'Unspecified'
+      });
+      let timeSlot =
+        timeSlotList.find((el) => el.value == this.state.subDetail.timeSlot)
+          ?.value || 'Unspecified';
+      // deliveryDateList.forEach((item) => {
+      //   if (!deliveryDate) {
+      //     let timeSlotList = item.dateTimeInfos.find(
+      //       (el) =>
+      //         `${el.startTime}-${el.endTime}` == this.state.subDetail.timeSlot
+      //     );
+      //     if (timeSlotList) {
+      //       timeSlot = this.state.subDetail.timeSlot;
+      //       deliveryDate = item.date;
+      //     }
+      //   }
+      // });
+      // if (!deliveryDate) {
+      //   deliveryDate = deliveryDateList[0].date;
+      //   timeSlot = `${deliveryDateList[0]?.dateTimeInfos[0]?.startTime}-${deliveryDateList[0]?.dateTimeInfos[0]?.endTime}`;
+      // }
+      subDetail.deliveryDate = deliveryDate;
+      subDetail.timeSlot = timeSlot;
+      this.handleSaveChange(subDetail, true);
+    }
+  };
+  async handleSaveChange(subDetail, isChangeTimeslot) {
+    if (!this.state.isDataChange && !isChangeTimeslot) {
       return false;
     }
     if (this.state.isGift) {
@@ -659,6 +724,8 @@ class SubscriptionDetail extends React.Component {
         };
       });
       Object.assign(param, {
+        timeSlot: subDetail.timeSlot,
+        deliveryDate: subDetail.deliveryDate,
         goodsItems: goodsItems,
         changeField: changeField.length > 0 ? changeField.join(',') : ''
       });
@@ -720,7 +787,9 @@ class SubscriptionDetail extends React.Component {
       remainingsVisible,
       submitLoading,
       triggerShowChangeProduct,
-      petName
+      petName,
+      errorMsg,
+      successMsg
     } = this.state;
     let isShowClub =
       subDetail.subscriptionType?.toLowerCase().includes('club') ||
@@ -823,6 +892,8 @@ class SubscriptionDetail extends React.Component {
                         : 'none'
                   }}
                 >
+                  <ErrorMessage msg={errorMsg} />
+                  <SuccessMessage msg={successMsg} />
                   <SubDetailHeader
                     triggerShowChangeProduct={triggerShowChangeProduct}
                     getDetail={this.getDetail}
@@ -908,7 +979,9 @@ class SubscriptionDetail extends React.Component {
                         <div className="rc-max-width--xl">
                           <DeliveryList
                             {...this.props}
+                            handleSaveChange={this.handleSaveChange.bind(this)}
                             modalList={modalList}
+                            timeSlotArr={this.state.timeSlotArr}
                             getMinDate={this.getMinDate}
                             completedYearOption={completedYearOption}
                             setState={this.setState.bind(this)}

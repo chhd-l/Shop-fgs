@@ -3,6 +3,7 @@ import Skeleton from '@/components/NormalSkeleton';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
 import classNames from 'classnames';
+import { toJS } from 'mobx';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import HandledSpec from '@/components/HandledSpec/index.tsx';
@@ -77,7 +78,6 @@ import cloneDeep from 'lodash/cloneDeep';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const PC = getDeviceType() === 'PC' || getDeviceType() === 'Pad';
 const isHub = window.__.env.REACT_APP_HUB;
@@ -85,6 +85,7 @@ const Fr = window.__.env.REACT_APP_COUNTRY === 'fr';
 const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
 const Tr = window.__.env.REACT_APP_COUNTRY === 'tr';
 const Uk = window.__.env.REACT_APP_COUNTRY === 'uk';
+const Jp = window.__.env.REACT_APP_COUNTRY === 'jp';
 
 @inject(
   'checkoutStore',
@@ -116,7 +117,7 @@ class Details extends React.Component {
         fromPrice: 0,
         toPrice: 0
       },
-      activeTabIdxList: isMobile ? [] : [0],
+      activeTabIdxList: [0], //isMobile ? [] : [0], //mobile 也默认展开第一个tab
       goodsDetailTab: [],
       quantity: 1,
       stock: 0,
@@ -206,8 +207,14 @@ class Details extends React.Component {
     return JSON.parse(configStr);
   }
   get btnStatus() {
-    const { details, quantity, instockStatus, initing, loading, form } =
-      this.state;
+    const {
+      details,
+      quantity,
+      instockStatus,
+      initing,
+      loading,
+      form
+    } = this.state;
     const { sizeList } = details;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     let addedFlag = 1;
@@ -461,10 +468,13 @@ class Details extends React.Component {
       anchorElement.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
   toClubTab = () => {
     let ClubLength = this.state.tmpGoodsDescriptionDetailList?.length;
-    console.info('....', ClubLength);
-    this.setState({ activeTabIdxList: [ClubLength] }, () => {
+    let activeTabIdx = isMobile
+      ? [...this.state.activeTabIdxList, ClubLength]
+      : [ClubLength];
+    this.setState({ activeTabIdxList: activeTabIdx }, () => {
       this.toScroll('j-details-for-club');
     });
   };
@@ -536,11 +546,8 @@ class Details extends React.Component {
               if (mixFeeding) {
                 mixFeeding.quantity = 1;
               }
-              let {
-                goodsImg = '',
-                goodsName = '',
-                goodsNo = ''
-              } = mixFeeding?.goods || {};
+              let { goodsImg = '', goodsName = '', goodsNo = '' } =
+                mixFeeding?.goods || {};
               let _hiddenMixFeedingBanner = false;
               let mixFeedingSelected = mixFeeding?.sizeList?.filter(
                 (el) => el.selected
@@ -787,6 +794,11 @@ class Details extends React.Component {
     });
   }
   hanldeAmountChange(type) {
+    const {
+      configStore: {
+        info: { skuLimitThreshold }
+      }
+    } = this.props;
     this.setState({ checkOutErrMsg: '' });
     if (!type) return;
     const { quantity } = this.state;
@@ -799,8 +811,8 @@ class Details extends React.Component {
       }
     } else {
       res = (quantity || 0) + 1;
-      if (quantity >= window.__.env.REACT_APP_LIMITED_NUM) {
-        res = window.__.env.REACT_APP_LIMITED_NUM;
+      if (quantity >= skuLimitThreshold.skuMaxNum) {
+        res = skuLimitThreshold.skuMaxNum;
       }
     }
     this.setState(
@@ -813,6 +825,11 @@ class Details extends React.Component {
     );
   }
   handleAmountInput(e) {
+    const {
+      configStore: {
+        info: { skuLimitThreshold }
+      }
+    } = this.props;
     this.setState({ checkOutErrMsg: '' });
     const { quantityMinLimit } = this.state;
     const val = e.target.value;
@@ -826,8 +843,8 @@ class Details extends React.Component {
       if (tmp < quantityMinLimit) {
         tmp = quantityMinLimit;
       }
-      if (tmp > window.__.env.REACT_APP_LIMITED_NUM) {
-        tmp = window.__.env.REACT_APP_LIMITED_NUM;
+      if (tmp > skuLimitThreshold.skuMaxNum) {
+        tmp = skuLimitThreshold.skuMaxNum;
       }
       this.setState({ quantity: tmp }, () => this.updateInstockStatus());
     }
@@ -878,6 +895,7 @@ class Details extends React.Component {
     try {
       const { checkoutStore, intl, headerCartStore } = this.props;
       const { quantity, form, details, questionParams } = this.state;
+      // const { formatMessage } = intl;
 
       hubGAAToCar(quantity, form);
 
@@ -892,6 +910,28 @@ class Details extends React.Component {
       let buyWay = parseInt(form.buyWay);
       let goodsInfoFlag =
         buyWay && details.promotions?.includes('club') ? 2 : buyWay;
+      /**
+       * 日本限制购物车里最多 单个goodsInfoId quantity <=5,
+       * 登录后，因为游客存在购物车数据，故添加相同sku时购物车限制添加数量为5
+       **/
+      // const loginCartDataObj = toJS(checkoutStore.loginCartData).find(
+      //   (element) => element.goodsInfoId === currentSelectedSize.goodsInfoId
+      // );
+      // todo amount 需去除逻辑
+      // if (Jp) {
+      //   if (!!loginCartDataObj) {
+      //     const num =
+      //       parseInt(quantity, 10) + parseInt(loginCartDataObj.buyCount, 10);
+      //     if (num > +window.__.env.REACT_APP_LIMITED_NUM) {
+      //       throw new Error(
+      //         formatMessage(
+      //           { id: 'cart.errorMaxCate' },
+      //           { val: +window.__.env.REACT_APP_LIMITED_NUM }
+      //         )
+      //       );
+      //     }
+      //   }
+      // }
       let param = {
         goodsInfoId: currentSelectedSize.goodsInfoId,
         goodsNum: quantity,
@@ -928,8 +968,13 @@ class Details extends React.Component {
     try {
       !type && this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const { currentUnitPrice, quantity, form, details, questionParams } =
-        this.state;
+      const {
+        currentUnitPrice,
+        quantity,
+        form,
+        details,
+        questionParams
+      } = this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -949,7 +994,7 @@ class Details extends React.Component {
         cartItemList: [cartItem],
         currentUnitPrice,
         isMobile,
-        intl: this.props.intl
+        ...this.props
       });
       this.setState({ modalMobileCartSuccessVisible: true });
     } catch (err) {
@@ -1179,6 +1224,96 @@ class Details extends React.Component {
     );
   };
 
+  specAndQuantityDom = () => {
+    const { details, quantity, quantityMinLimit, stock } = this.state;
+    return (
+      <div className="specAndQuantity rc-margin-bottom--xs ">
+        <HandledSpec
+          details={details}
+          setState={this.setState.bind(this)}
+          updatedSku={this.matchGoods.bind(this)}
+          updatedPriceOrCode={this.updatedPriceOrCode}
+          defaultSkuId={this.state.defaultSkuId}
+        />
+        <div className="Quantity">
+          <span className="amount">
+            <FormattedMessage id="amount" />:
+          </span>
+          <div className="quantity d-flex justify-content-between align-items-center">
+            <input
+              type="hidden"
+              id="invalid-quantity"
+              value="Пожалуйста, введите правильный номер."
+            />
+            <div className="rc-quantity text-right d-flex justify-content-end">
+              <span
+                className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
+                onClick={() => this.hanldeAmountChange('minus')}
+              />
+              <input
+                className="rc-quantity__input"
+                id="quantity"
+                name="quantity"
+                value={quantity}
+                min={quantityMinLimit}
+                max={stock}
+                onChange={this.handleAmountInput}
+                maxLength="5"
+              />
+              <span
+                className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
+                onClick={() => this.hanldeAmountChange('plus')}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  ButtonGroupDom = (showRetailerBtn) => {
+    const {
+      addToCartLoading,
+      form,
+      checkOutErrMsg,
+      barcode,
+      details
+    } = this.state;
+    const btnStatus = this.btnStatus;
+    const vet =
+      (window.__.env.REACT_APP_HUB || Uk) &&
+      !details.saleableFlag &&
+      details.displayFlag;
+    const buyFromRetailerConfig = this.buyFromRetailerConfig;
+    const isApi =
+      buyFromRetailerConfig.retailerEnable &&
+      buyFromRetailerConfig.type === 'API';
+    const isUrl =
+      buyFromRetailerConfig.retailerEnable &&
+      buyFromRetailerConfig.type === 'URL';
+    const retailerUrl = buyFromRetailerConfig.retailerEnable
+      ? buyFromRetailerConfig.url
+      : '';
+    return (
+      <ButtonGroup
+        addToCartLoading={addToCartLoading}
+        btnStatus={btnStatus}
+        form={form}
+        isShowRetailerBtn={
+          this.retailerBtnStatus && (showRetailerBtn || isMobile)
+        }
+        checkOutErrMsg={checkOutErrMsg}
+        barcode={barcode}
+        vet={vet}
+        addToCart={this.hanldeAddToCart}
+        buyFromRetailer={this.handleBuyFromRetailer}
+        isApi={isApi}
+        isUrl={isUrl}
+        retailerUrl={retailerUrl}
+      />
+    );
+  };
+
   render() {
     const { intl } = this.props;
     const {
@@ -1193,7 +1328,6 @@ class Details extends React.Component {
       currentSubscriptionPrice,
       currentSubscriptionStatus,
       errMsg,
-      addToCartLoading,
       form,
       productRate,
       instockStatus,
@@ -1222,25 +1356,16 @@ class Details extends React.Component {
         i.artworkUrl = i.goodsInfoImg;
         return i.goodsInfoImg;
       }) || [];
-    const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     const vet =
       (window.__.env.REACT_APP_HUB || Uk) &&
       !details.saleableFlag &&
       details.displayFlag; //vet产品并且是hub的情况下,(uk不管stg还是wedding都用这个逻辑)
-    console.log(
-      vet,
-      window.__.env.REACT_APP_HUB,
-      !details.saleableFlag,
-      details.displayFlag,
-      'ishubvet'
-    );
     const goodHeading = `<${headingTag || 'h1'}
         class="rc-gamma ui-text-overflow-line2 text-break"
         title="${details.goodsName}">
         ${details.goodsName}
       </${headingTag || 'h1'}>`;
-
     const buyFromRetailerConfig = this.buyFromRetailerConfig;
     const isApi =
       buyFromRetailerConfig.retailerEnable &&
@@ -1309,16 +1434,6 @@ class Details extends React.Component {
                 <BreadCrumbsNavigation list={breadCrumbs} />
                 <div className="rc-padding--sm--desktop">
                   <div className="rc-content-h-top">
-                    {isMobile && (
-                      <DetailHeader
-                        checkOutErrMsg={checkOutErrMsg}
-                        goodHeading={goodHeading}
-                        selectedSpecItem={selectedSpecItem}
-                        details={details}
-                        productRate={productRate}
-                        replyNum={replyNum}
-                      />
-                    )}
                     <div className="rc-layout-container rc-six-column">
                       <div className="rc-column rc-double-width carousel-column imageBox">
                         {loading ? (
@@ -1354,7 +1469,8 @@ class Details extends React.Component {
                                     'us',
                                     'mx',
                                     'uk',
-                                    'se'
+                                    'se',
+                                    'de'
                                   ]) ? (
                                     <ImageMagnifier_fr
                                       sizeList={details.sizeList}
@@ -1377,6 +1493,7 @@ class Details extends React.Component {
                                           ? filterImages
                                           : spuImages
                                       }
+                                      direction={isMobile ? 'col' : 'row'}
                                     />
                                   ) : (
                                     <ImageMagnifier
@@ -1403,17 +1520,44 @@ class Details extends React.Component {
                           </div>
                         )}
                       </div>
-                      <div className="rc-column product-column">
-                        <div className="wrap-short-des">
-                          {!isMobile && (
-                            <DetailHeader
-                              checkOutErrMsg={checkOutErrMsg}
-                              goodHeading={goodHeading}
-                              selectedSpecItem={selectedSpecItem}
-                              details={details}
-                              productRate={productRate}
-                              replyNum={replyNum}
-                            />
+                      <div
+                        className={`rc-column product-column ${
+                          !vet && !isMobile ? 'flex' : ''
+                        }`}
+                      >
+                        <div
+                          className={`wrap-short-des ${
+                            !isMobile && !vet ? 'col-md-7' : ''
+                          }`}
+                        >
+                          {loading ? (
+                            <Skeleton />
+                          ) : (
+                            <>
+                              <DetailHeader
+                                checkOutErrMsg={checkOutErrMsg}
+                                goodHeading={goodHeading}
+                                selectedSpecItem={selectedSpecItem}
+                                details={details}
+                                productRate={productRate}
+                                replyNum={replyNum}
+                                instockStatus={instockStatus}
+                                vet={vet}
+                              />
+                              {!vet ? (
+                                <>
+                                  {!isMobile ? this.specAndQuantityDom() : null}
+                                  {!isMobile &&
+                                  details.promotions &&
+                                  details.promotions.includes('club') ? (
+                                    <Ration
+                                      goodsNo={details.goodsNo}
+                                      setState={this.setState.bind(this)}
+                                    />
+                                  ) : null}
+                                </>
+                              ) : null}
+                            </>
                           )}
                         </div>
                         {loading ? (
@@ -1421,6 +1565,7 @@ class Details extends React.Component {
                         ) : vet ? (
                           <div>
                             <div
+                              className="mb-4"
                               dangerouslySetInnerHTML={{
                                 __html: this.state.descContent
                               }}
@@ -1441,69 +1586,12 @@ class Details extends React.Component {
                         ) : (
                           <div
                             className={classNames({
-                              hidden: this.isNullGoodsInfos
+                              hidden: this.isNullGoodsInfos,
+                              'w-full': isMobile,
+                              'col-md-5': !isMobile
                             })}
                           >
-                            <div className="align-left flex rc-margin-bottom--xs">
-                              <p className="rc-margin-right--xs">
-                                <InstockStatusComp status={instockStatus} />
-                              </p>
-                              {Ru && selectedSpecItem ? (
-                                <p>Артикул:{selectedSpecItem?.externalSku}</p>
-                              ) : null}
-                            </div>
-                            {details.promotions &&
-                            details.promotions.includes('club') ? (
-                              <Ration
-                                goodsNo={details.goodsNo}
-                                setState={this.setState.bind(this)}
-                              />
-                            ) : null}
-                            <div className="specAndQuantity rc-margin-bottom--xs ">
-                              <HandledSpec
-                                details={details}
-                                setState={this.setState.bind(this)}
-                                updatedSku={this.matchGoods.bind(this)}
-                                updatedPriceOrCode={this.updatedPriceOrCode}
-                                defaultSkuId={this.state.defaultSkuId}
-                              />
-                              <div className="Quantity">
-                                <span className="amount">
-                                  <FormattedMessage id="amount" />:
-                                </span>
-                                <div className="quantity d-flex justify-content-between align-items-center">
-                                  <input
-                                    type="hidden"
-                                    id="invalid-quantity"
-                                    value="Пожалуйста, введите правильный номер."
-                                  />
-                                  <div className="rc-quantity text-right d-flex justify-content-end">
-                                    <span
-                                      className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                                      onClick={() =>
-                                        this.hanldeAmountChange('minus')
-                                      }
-                                    />
-                                    <input
-                                      className="rc-quantity__input"
-                                      id="quantity"
-                                      name="quantity"
-                                      value={quantity}
-                                      min={quantityMinLimit}
-                                      max={stock}
-                                      onChange={this.handleAmountInput}
-                                      maxLength="5"
-                                    />
-                                    <span
-                                      className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                                      onClick={() =>
-                                        this.hanldeAmountChange('plus')
-                                      }
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+                            {isMobile ? this.specAndQuantityDom() : null}
                             <div
                               className={`${currentUnitPrice ? '' : 'hidden'}`}
                             >
@@ -1520,7 +1608,9 @@ class Details extends React.Component {
                                 changeFreqency={(data) => {
                                   this.handleSelectedItemChange(data);
                                 }}
-                              />
+                              >
+                                {this.ButtonGroupDom(false)}
+                              </SingleBuyMethod>
                               {currentSubscriptionStatus &&
                               currentSubscriptionPrice &&
                               skuPromotions == 'autoship' ? (
@@ -1537,7 +1627,9 @@ class Details extends React.Component {
                                   changeFreqency={(data) => {
                                     this.handleSelectedItemChange(data);
                                   }}
-                                />
+                                >
+                                  {this.ButtonGroupDom(false)}
+                                </AutoshipBuyMethod>
                               ) : null}
                               {currentSubscriptionStatus &&
                               currentSubscriptionPrice &&
@@ -1556,28 +1648,47 @@ class Details extends React.Component {
                                     this.handleSelectedItemChange(data);
                                   }}
                                   toClubTab={this.toClubTab}
-                                />
+                                >
+                                  {this.ButtonGroupDom(false)}
+                                </ClubBuyMethod>
                               ) : null}
+                              <div
+                                className="mb-2 mr-2 text-right"
+                                style={{ fontSize: '.875rem' }}
+                              >
+                                <FormattedMessage
+                                  id="pricesIncludeVAT"
+                                  values={{
+                                    val: <span className="red">*</span>
+                                  }}
+                                  defaultMessage=" "
+                                />
+                              </div>
                             </div>
-                            <ButtonGroup
-                              addToCartLoading={addToCartLoading}
-                              btnStatus={btnStatus}
-                              form={form}
-                              isShowRetailerBtn={this.retailerBtnStatus}
+
+                            {PC && this.retailerBtnStatus ? (
+                              <div className="flex justify-content-center mt-5">
+                                <BuyFromRetailerBtn
+                                  // ccidBtnDisplay={ccidBtnDisplay}
+                                  barcode={barcode}
+                                  goodsType={goodsType}
+                                  onClick={this.handleBuyFromRetailer}
+                                  isApi={isApi}
+                                  isUrl={isUrl}
+                                  retailerUrl={retailerUrl}
+                                />
+                              </div>
+                            ) : null}
+                            <ErrMsgForCheckoutPanel
                               checkOutErrMsg={checkOutErrMsg}
-                              barcode={barcode}
-                              vet={vet}
-                              addToCart={this.hanldeAddToCart}
-                              buyFromRetailer={this.handleBuyFromRetailer}
-                              isApi={isApi}
-                              isUrl={isUrl}
-                              retailerUrl={retailerUrl}
                             />
-                            {form.buyWay === 2 &&
-                            window.__.env.REACT_APP_COUNTRY !== 'ru' ? (
-                              <p className="text-right medium mr-4">
-                                <FormattedMessage id="detail.subscriptionBuyTip" />
-                              </p>
+                            {isMobile &&
+                            details.promotions &&
+                            details.promotions.includes('club') ? (
+                              <Ration
+                                goodsNo={details.goodsNo}
+                                setState={this.setState.bind(this)}
+                              />
                             ) : null}
                           </div>
                         )}
@@ -1598,7 +1709,7 @@ class Details extends React.Component {
                   goodsDescriptionDetailList={
                     details.goodsDescriptionDetailList
                   }
-                  saleableFlag={details.saleableFlag || this.isNullGoodsInfos}
+                  saleableFlag={details.saleableFlag ?? this.isNullGoodsInfos}
                   displayFlag={details.displayFlag}
                   setState={this.setState.bind(this)}
                   isClub={
