@@ -64,7 +64,7 @@ class CheckoutStore {
   // @computed get loginCartData(){
   //  return getLoginData()
   // }
-
+  @observable deletePromotionFlag = false;
   @computed get tradePrice() {
     let ret = this?.cartPrice?.tradePrice;
     if (this.installMentParam) {
@@ -131,6 +131,11 @@ class CheckoutStore {
 
   @computed get isShowBindPet() {
     return this.petFlag;
+  }
+
+  @action.bound
+  setDeletePromotionFlag(data) {
+    this.deletePromotionFlag = data;
   }
 
   @action.bound
