@@ -24,10 +24,12 @@ const Point = ({ checkoutStore }) => {
 
   const openPromotionBox = () => {
     document.getElementById('id-promotionCode').removeAttribute('disabled');
+    document.getElementById('promotionApply').removeAttribute('disabled');
   };
 
   const disabledPromotionBox = () => {
     document.getElementById('id-promotionCode').setAttribute('disabled', true);
+    document.getElementById('promotionApply').setAttribute('disabled', true);
   };
 
   const getId = (id) => {
@@ -36,7 +38,7 @@ const Point = ({ checkoutStore }) => {
       case 'notUsePoint':
         //1.有积分删除积分
         //(1). 设置deletePromotionFlag true
-        setDeletePromotionFlag(true);
+        setDeletePromotionFlag(false);
         //todo
         //2.打开promotionCode输入框
         openPromotionBox();
@@ -44,7 +46,7 @@ const Point = ({ checkoutStore }) => {
       case 'usePoint':
         //1.有promotion先删除
         //(1). 设置deletePromotionFlag 为false
-        setDeletePromotionFlag(false);
+        setDeletePromotionFlag(true);
         //todo
         //2.禁用promotionCode输入框
         disabledPromotionBox();

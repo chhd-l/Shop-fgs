@@ -2,7 +2,6 @@ import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import Modal from '@/components/Modal';
 import find from 'lodash/find';
-import { reaction } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import Cookies from 'cookies-js';
@@ -510,13 +509,6 @@ class Payment extends React.Component {
   async componentDidMount() {
     const { history } = this.props;
     let { getSystemFormConfig, paymentAuthority } = this.props.configStore;
-
-    reaction(
-      () => this.props.checkoutStore.deletePromotionFlag,
-      () => {
-        console.log('reaction');
-      }
-    );
 
     // 游客不能checkout 且 没有登录
     if (paymentAuthority === 'MEMBER' && !this.isLogin) {
