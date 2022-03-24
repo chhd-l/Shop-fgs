@@ -8,24 +8,26 @@ export default function PromotionPanel({
   className
 }) {
   return (
-    <div className={`p-3 pt-sm-0 pb-sm-0 dropdown-nav__ad__card ${className}`}>
-      <div className="border d-flex align-items-center p-4 ">
-        <div className="container-text">
-          <p className="title-text red">{cItem.Title}</p>
-          <p className="medium">{cItem.Subtitle}</p>
+    <div className={`p-31 pt-sm-0 pb-sm-0 dropdown-nav__ad__card ${className}`}>
+      <div className="border-l d-flex align-items-center1 p-411 pl-10 h-full">
+        <div className="container-text" style={{ minWidth: 0, flexGrow: 1 }}>
+          <p className="title-text text-rc-red text-lg ui-text-overflow-line1">
+            {cItem.Title}
+          </p>
+          <p className="ui-text-overflow-line3 my-5">{cItem.Subtitle}</p>
           <a
             href={cItem.PrimaryLink.Url}
-            className="rc-btn rc-btn--two red"
+            className="rc-btn rc-btn--two red truncate"
             onClick={handleClickNavItem.bind(this, { item, cItem })}
-            style={{ textOverflow: 'ellipsis', width: '100%' }}
+            style={{ maxWidth: '290px' }}
           >
             {cItem.PrimaryLink.Text}
           </a>
         </div>
         {/* <LazyLoad style={{ flex: 1, width: '100%', height: '100%' }}> */}
-        <div style={{ flex: 1 }}>
+        <div style={{ width: '222px', height: '222px', flexShrink: 0 }}>
           <img
-            className="ad-img111"
+            className="ad-img111 h-full"
             style={{ margin: '0 auto' }}
             src={cItem.Image.Url}
             alt={cItem.Image.AltText}

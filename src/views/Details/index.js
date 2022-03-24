@@ -1635,7 +1635,7 @@ class Details extends React.Component {
                   goodsDescriptionDetailList={
                     details.goodsDescriptionDetailList
                   }
-                  saleableFlag={details.saleableFlag || this.isNullGoodsInfos}
+                  saleableFlag={details.saleableFlag ?? this.isNullGoodsInfos}
                   displayFlag={details.displayFlag}
                   setState={this.setState.bind(this)}
                   isClub={

@@ -27,6 +27,7 @@ export default function SubscriptionTab() {
           <img
             src={optimizeImage({ originImageUrl: clubLogo, width: 200 })}
             alt="clubDesc"
+            style={{ display: 'inline-block' }}
           />
         </div>
         <div className="text-center rc-beta rc-margin-bottom--md">

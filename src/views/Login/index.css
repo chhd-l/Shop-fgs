@@ -3155,45 +3155,6 @@
   border-color: #d9534f;
 }
 
-.miaa .btn-link {
-  font-weight: 400;
-  color: #e2001a;
-  border-radius: 0;
-}
-
-.miaa .btn-link,
-.miaa .btn-link:active,
-.miaa .btn-link.active,
-.miaa .btn-link:disabled {
-  background-color: transparent;
-}
-
-.miaa .btn-link,
-.miaa .btn-link:focus,
-.miaa .btn-link:active {
-  border-color: transparent;
-}
-
-.miaa .btn-link:hover {
-  border-color: transparent;
-}
-
-.miaa .btn-link:focus,
-.miaa .btn-link:hover {
-  color: #014c8c;
-  text-decoration: underline;
-  background-color: transparent;
-}
-
-.miaa .btn-link:disabled {
-  color: #636c72;
-}
-
-.miaa .btn-link:disabled:focus,
-.miaa .btn-link:disabled:hover {
-  text-decoration: none;
-}
-
 .miaa .btn-lg {
   padding: 0.75rem 1.5rem;
   font-size: 1.25rem;
