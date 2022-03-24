@@ -1448,6 +1448,7 @@ class LoginCart extends React.Component {
     );
   }
   async handleChooseSize(sdItem, pitem) {
+    console.log('click handleChooseSize');
     illegalBlur = true;
     if (sdItem.isEmpty || sdItem.isUnitPriceZero) {
       return false;
