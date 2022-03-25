@@ -72,6 +72,8 @@ class CheckoutStore {
 
   @observable CurrentHoldingPoint = 0;
 
+  @observable earnedPoint = 10;
+
   @computed get tradePrice() {
     let ret = this?.cartPrice?.tradePrice;
     if (this.installMentParam) {
@@ -158,6 +160,11 @@ class CheckoutStore {
   @action.bound
   setInputPointErr(bool) {
     this.inputPointErr = bool;
+  }
+
+  @action.bound
+  setEarnedPoint(data) {
+    this.earnedPoint = data;
   }
 
   @action.bound

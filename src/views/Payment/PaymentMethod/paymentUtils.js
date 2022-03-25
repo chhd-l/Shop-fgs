@@ -232,6 +232,19 @@ export const handlePayResult = (tidList, type, res, isLogin, paypalAccount) => {
   };
 };
 
+const ShowUsePoint = () => {
+  return (
+    <div className="col-12 col-md-6 flex items-center pt-1 pb-3">
+      <LazyLoad>
+        <img src={LOGO_POINT} className="w-5 ml-8 mr-2" />
+      </LazyLoad>
+      <span className="font-medium">
+        <FormattedMessage id="usePoints" />
+      </span>
+    </div>
+  );
+};
+
 //根据不同的支付方式显示不同的pay review
 export const handlePayReview = (
   selectDiscountWay,
@@ -240,7 +253,6 @@ export const handlePayReview = (
   email,
   cardData
 ) => {
-  console.log(123, selectDiscountWay);
   let ret = null;
   switch (paymentTypeVal) {
     case 'payUCreditCard':
@@ -249,27 +261,30 @@ export const handlePayReview = (
     case 'adyenCard':
     case 'cyber':
       ret = (
-        <div className="col-12 col-md-6">
-          <p className="medium">
-            <FormattedMessage id="bankCard" />
-          </p>
-          <p>{cardData.holderNameDeco}</p>
-          <p>{cardData.brandDeco}</p>
-          {cardData.lastFourDeco ? (
-            <p>{`************${cardData.lastFourDeco}`}</p>
-          ) : null}
-          {cardData.expirationDate ? (
-            <p>
-              {formatDate({
-                date: cardData.expirationDate,
-                formatOption: {
-                  year: 'numeric',
-                  month: '2-digit'
-                }
-              })}
+        <>
+          <div className="col-12 col-md-6">
+            <p className="medium">
+              <FormattedMessage id="bankCard" />
             </p>
-          ) : null}
-        </div>
+            <p>{cardData.holderNameDeco}</p>
+            <p>{cardData.brandDeco}</p>
+            {cardData.lastFourDeco ? (
+              <p>{`************${cardData.lastFourDeco}`}</p>
+            ) : null}
+            {cardData.expirationDate ? (
+              <p>
+                {formatDate({
+                  date: cardData.expirationDate,
+                  formatOption: {
+                    year: 'numeric',
+                    month: '2-digit'
+                  }
+                })}
+              </p>
+            ) : null}
+          </div>
+          {selectDiscountWay == USEPOINT ? <ShowUsePoint /> : null}
+        </>
       );
       break;
     case 'cod':
@@ -288,9 +303,12 @@ export const handlePayReview = (
       break;
     case 'adyen_convenience_store':
       ret = (
-        <div className="col-12 col-md-6">
-          <ConvenienceStorePayReview convenienceStore={convenienceStore} />
-        </div>
+        <>
+          <div className="col-12 col-md-6">
+            <ConvenienceStorePayReview convenienceStore={convenienceStore} />
+          </div>
+          {selectDiscountWay == USEPOINT ? <ShowUsePoint /> : null}
+        </>
       );
       break;
     case 'adyen_swish':
@@ -311,16 +329,7 @@ export const handlePayReview = (
               <FormattedMessage id="cashOnDelivery" />
             </span>
           </div>
-          {selectDiscountWay == USEPOINT ? (
-            <div className="col-12 col-md-6 flex items-center pt-1 pb-3">
-              <LazyLoad>
-                <img src={LOGO_POINT} className="w-5 ml-8 mr-2" />
-              </LazyLoad>
-              <span className="font-medium">
-                <FormattedMessage id="usePoints" />
-              </span>
-            </div>
-          ) : null}
+          {selectDiscountWay == USEPOINT ? <ShowUsePoint /> : null}
         </>
       );
       break;

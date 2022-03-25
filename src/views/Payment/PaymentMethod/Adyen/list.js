@@ -644,6 +644,7 @@ class AdyenCreditCardList extends React.Component {
             (cardList.length || memberUnsavedCardList.length) ? (
             <>
               <span>{this.renderList()}</span>
+              {supportPoint && <Point />}
             </>
           ) : (
             <>

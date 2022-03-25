@@ -22,6 +22,7 @@ import { isFirstOrder } from '@/api/user';
 import cloneDeep from 'lodash/cloneDeep';
 import { IMG_DEFAULT } from '@/utils/constant';
 import { nextTick } from 'process';
+import LoyaltyPoint from './components/loyaltyPoint';
 
 const guid = uuidv4();
 let isGACheckoutLock = false;
@@ -1118,6 +1119,9 @@ class PayProductInfo extends React.Component {
               {<FormattedMessage id="totalIncluMessage" />}
             </div>
           ) : null}
+
+          {/* show Loyalty point */}
+          <LoyaltyPoint />
         </div>
       </div>
     );

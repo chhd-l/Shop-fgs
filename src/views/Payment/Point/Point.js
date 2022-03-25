@@ -10,7 +10,8 @@ import {
 } from '@/views/Payment/PaymentMethod/paymentMethodsConstant';
 
 const Point = ({ checkoutStore }) => {
-  const { setSelectDiscountWay, setCurrentHoldingPoint } = checkoutStore;
+  const { setSelectDiscountWay, setCurrentHoldingPoint, setEarnedPoint } =
+    checkoutStore;
   const data = [
     {
       id: NOTUSEPOINT,
@@ -22,8 +23,14 @@ const Point = ({ checkoutStore }) => {
   const [id, setId] = useState(initId);
 
   useEffect(() => {
+    //初始化折扣方式为未使用积分
+    setSelectDiscountWay(NOTUSEPOINT);
+
     setTimeout(() => {
+      //获取当前积分
       setCurrentHoldingPoint(10872);
+      //能挣得的积分
+      setEarnedPoint(250);
     }, 2000);
   }, []);
 
