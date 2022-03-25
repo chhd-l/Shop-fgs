@@ -1173,6 +1173,15 @@ class Details extends React.Component {
 
     let isBaby = LifestagesAttr?.find((item) => reg.test(item));
 
+    let sptGoods = details.goodsType === 0 || details.goodsType === 1;
+    let isAdult = LifestagesAttr?.some((item) => {
+      let bol = ['adult', 'mature', 'senior'].some((_el) =>
+        item.toLowerCase().includes(_el)
+      );
+      return bol;
+    });
+
+    console.log(isAdult, sptGoods, LifestagesAttr, 'isAdult_spt');
     /**
      *  是否显示计算工具
      *  1、dailyPortion show/hide
@@ -1188,6 +1197,7 @@ class Details extends React.Component {
     if (currentGoodsInfo?.goodsInfoType === 2) return null;
     if (!(wsEnergyCategory && wsReferenceEnergyValue)) return null;
     if (!details?.weShareId) return null;
+    if (sptGoods && !isAdult) return null;
 
     // 产品动物的种类
     let speciesValue = goodsAttributesValueRelList.find(
