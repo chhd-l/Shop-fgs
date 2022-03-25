@@ -228,6 +228,8 @@ export default class DropDownMenuForHub extends React.Component {
                                 item.Type === 'DetailedMenuGroup'
                             }
                           )}
+                          // {/* 当promotionItem在最前边时 - border-r, 在后边时-border-l */}
+                          borderFix={!i ? 'border-r pr-10' : 'border-l pl-10'}
                         />
                       )}
                       {cItem.Type === 'ImageMenuItem' && (

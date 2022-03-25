@@ -1,15 +1,22 @@
 import React from 'react';
 import LazyLoad from 'react-lazyload';
+import cn from 'classnames';
 
 export default function PromotionPanel({
   item,
   cItem,
   handleClickNavItem = () => {},
-  className
+  className,
+  borderFix
 }) {
   return (
     <div className={`p-31 pt-sm-0 pb-sm-0 dropdown-nav__ad__card ${className}`}>
-      <div className="border-l d-flex align-items-center1 p-411 pl-10 h-full">
+      <div
+        className={cn(
+          'd-flex align-items-center1 p-411 pl-10 h-full',
+          borderFix
+        )}
+      >
         <div className="container-text" style={{ minWidth: 0, flexGrow: 1 }}>
           <p className="title-text text-rc-red text-lg ui-text-overflow-line1">
             {cItem.Title}
