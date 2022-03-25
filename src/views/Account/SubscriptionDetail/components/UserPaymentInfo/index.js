@@ -99,7 +99,8 @@ const UserPaymentInfo = ({
                   )[0]?.valueEn || currentDeliveryAddress.countryId,
                 showDeliveryDateAndTimeSlot: false,
                 maxDeliveryTime,
-                minDeliveryTime
+                minDeliveryTime,
+                pickupPriceVisible: false
               })}
             />
 
