@@ -6,9 +6,8 @@ import { inject, observer } from 'mobx-react';
 const PointForm = ({ checkoutStore }) => {
   const [CurrentHoldingPoint, setCurrentHoldingPoint] = useState(0);
   const [inputPoint, setInputPoint] = useState('');
-  const [inputErr, setInputErr] = useState(false);
   const [errMsg, setErrMsg] = useState('');
-  const { tradePrice, setInputPointErr } = checkoutStore;
+  const { tradePrice, inputPointErr, setInputPointErr } = checkoutStore;
 
   const MinPointMsg = () => {
     return <FormattedMessage id="Only 100 or more points can be used" />;
@@ -32,27 +31,22 @@ const PointForm = ({ checkoutStore }) => {
     );
   };
 
-  const setInputPointErrFun = (bool) => {
-    setInputErr(bool);
-    setInputPointErr(bool);
-  };
-
   useEffect(() => {
     if (inputPoint > tradePrice) {
-      setInputPointErrFun(true);
+      setInputPointErr(true);
       setErrMsg(<OverPointMsg tradePrice={tradePrice} />);
       return;
     }
 
     if (inputPoint === '') {
-      setInputPointErrFun(false);
+      setInputPointErr(false);
     } else if (inputPoint > 0 && inputPoint < 100) {
-      setInputPointErrFun(true);
+      setInputPointErr(true);
       setErrMsg(<MinPointMsg />);
     } else if (inputPoint > 100 && inputPoint <= CurrentHoldingPoint) {
-      setInputPointErrFun(false);
+      setInputPointErr(false);
     } else {
-      setInputPointErrFun(true);
+      setInputPointErr(true);
       setErrMsg(<MaxPointMsg CurrentHoldingPoint={CurrentHoldingPoint} />);
     }
   }, [inputPoint]);
@@ -79,13 +73,13 @@ const PointForm = ({ checkoutStore }) => {
           value={inputPoint}
           className={cn(
             'p-2 text-16 border rounded',
-            inputErr ? 'border-red-600' : 'border-gray-500'
+            inputPointErr ? 'border-red-600' : 'border-gray-500'
           )}
           onChange={(e) => setInputPoint(e.target.value)}
         />
         <span className="pl-2 text-16">pt</span>
       </form>
-      <span className={cn(inputErr ? 'text-12 text-red-600' : 'hidden')}>
+      <span className={cn(inputPointErr ? 'text-12 text-red-600' : 'hidden')}>
         {errMsg}
       </span>
       <div className="tips">
