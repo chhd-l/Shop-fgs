@@ -4,18 +4,28 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import InputCircle from '@/components/InputCircle';
 import PointForm from '@/components/PointForm';
 import { inject, observer } from 'mobx-react';
+import {
+  NOTUSEPOINT,
+  USEPOINT
+} from '@/views/Payment/PaymentMethod/paymentMethodsConstant';
 
 const Point = ({ checkoutStore }) => {
-  const { setSelectDiscountWay } = checkoutStore;
+  const { setSelectDiscountWay, setCurrentHoldingPoint } = checkoutStore;
   const data = [
     {
-      id: 'notUsePoint',
+      id: NOTUSEPOINT,
       name: <FormattedMessage id="Do not use points" />
     },
-    { id: 'usePoint', name: <FormattedMessage id="Use points" /> }
+    { id: USEPOINT, name: <FormattedMessage id="Use points" /> }
   ];
   const initId = data[0].i;
   const [id, setId] = useState(initId);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setCurrentHoldingPoint(10872);
+    }, 2000);
+  }, []);
 
   const FormType = {
     notUsePoint: null,

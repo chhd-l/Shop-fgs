@@ -103,6 +103,7 @@ import {
 import { handlePayReview } from './PaymentMethod/paymentUtils';
 import { ErrorMessage } from '@/components/Message';
 import Canonical from '@/components/Canonical';
+import { USEPOINT } from '@/views/Payment/PaymentMethod/paymentMethodsConstant';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -111,6 +112,8 @@ const isHubGA = window.__.env.REACT_APP_HUB_GA;
 const hideBillingAddr = Boolean(
   +window.__.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
 );
+
+const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 
 const sleep = (time) => {
   return new Promise((resolve) => {
@@ -662,6 +665,14 @@ class Payment extends React.Component {
     sessionItemRoyal.remove('appointment-no');
     sessionItemRoyal.remove('isChangeAppoint');
     sessionItemRoyal.remove('oldAppointNo');
+  }
+
+  get isInputPointDisabled() {
+    return (
+      (this.props.checkoutStore.selectDiscountWay == USEPOINT &&
+        !this.props.checkoutStore.inputPoint) ||
+      this.props.checkoutStore.inputPointErr
+    ); //使用积分为空或者输入的积分不满足条件->按钮都disabled
   }
 
   get isLogin() {
@@ -3499,7 +3510,10 @@ class Payment extends React.Component {
           {chooseRadioType() === 'box' &&
             paymentTypeVal === 'adyenCard' &&
             payConfirmBtn({
-              disabled: !validSts.adyenCard || validForBilling,
+              disabled:
+                !validSts.adyenCard ||
+                validForBilling ||
+                (COUNTRY == 'jp' && this.isInputPointDisabled),
               loading: saveBillingLoading,
               aaa: validSts,
               bbb: validForBilling
@@ -3514,9 +3528,13 @@ class Payment extends React.Component {
             })}
           {paymentTypeVal === 'adyen_convenience_store' &&
             payConfirmBtn({
-              disabled: !this.state.convenienceStore
+              disabled:
+                !this.state.convenienceStore || this.isInputPointDisabled
             })}
-          {paymentTypeVal === 'cod_japan' && payConfirmBtn()}
+          {paymentTypeVal === 'cod_japan' &&
+            payConfirmBtn({
+              disabled: this.isInputPointDisabled
+            })}
           {/* ***********************支付选项卡的内容start******************************* */}
           {payWayErr ? (
             payWayErr
@@ -3807,6 +3825,7 @@ class Payment extends React.Component {
     }
 
     let ret = handlePayReview(
+      this.props.checkoutStore.selectDiscountWay,
       paymentTypeVal,
       this.state.convenienceStore,
       email,

@@ -9,6 +9,7 @@ import {
 import { FormattedMessage } from 'react-intl-phraseapp';
 import {
   LOGO_ADYEN_COD,
+  LOGO_POINT,
   LOGO_ADYEN_PAYPAL,
   LOGO_SWISH
 } from '@/utils/constant';
@@ -16,6 +17,7 @@ import { ConvenienceStorePayReview } from '@/views/Payment/PaymentMethod/index';
 import LazyLoad from 'react-lazyload';
 import React from 'react';
 import { formatDate } from '@/utils/utils';
+import { USEPOINT } from '@/views/Payment/PaymentMethod/paymentMethodsConstant';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -232,11 +234,13 @@ export const handlePayResult = (tidList, type, res, isLogin, paypalAccount) => {
 
 //根据不同的支付方式显示不同的pay review
 export const handlePayReview = (
+  selectDiscountWay,
   paymentTypeVal,
   convenienceStore,
   email,
   cardData
 ) => {
+  console.log(123, selectDiscountWay);
   let ret = null;
   switch (paymentTypeVal) {
     case 'payUCreditCard':
@@ -298,14 +302,26 @@ export const handlePayReview = (
       break;
     case 'cod_japan':
       ret = (
-        <div className="col-12 col-md-6 flex items-center pt-1 pb-3">
-          <LazyLoad>
-            <img src={LOGO_ADYEN_COD} className="w-10 ml-8 mr-2" />
-          </LazyLoad>
-          <span className="font-medium">
-            <FormattedMessage id="cashOnDelivery" />
-          </span>
-        </div>
+        <>
+          <div className="col-12 col-md-6 flex items-center pt-1 pb-3">
+            <LazyLoad>
+              <img src={LOGO_ADYEN_COD} className="w-10 ml-8 mr-2" />
+            </LazyLoad>
+            <span className="font-medium">
+              <FormattedMessage id="cashOnDelivery" />
+            </span>
+          </div>
+          {selectDiscountWay == USEPOINT ? (
+            <div className="col-12 col-md-6 flex items-center pt-1 pb-3">
+              <LazyLoad>
+                <img src={LOGO_POINT} className="w-5 ml-8 mr-2" />
+              </LazyLoad>
+              <span className="font-medium">
+                <FormattedMessage id="usePoints" />
+              </span>
+            </div>
+          ) : null}
+        </>
       );
       break;
     default:

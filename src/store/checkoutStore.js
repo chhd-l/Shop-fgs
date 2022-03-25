@@ -6,6 +6,7 @@ import find from 'lodash/find';
 import { toJS } from 'mobx';
 import stores from './index';
 import { getProductPetConfig } from '@/api/payment';
+import { NOTUSEPOINT } from '@/views/Payment/PaymentMethod/paymentMethodsConstant';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -64,9 +65,12 @@ class CheckoutStore {
   // @computed get loginCartData(){
   //  return getLoginData()
   // }
-  @observable selectDiscountWay = 'notUsePoint';
+  @observable selectDiscountWay = NOTUSEPOINT;
 
+  @observable inputPoint = '';
   @observable inputPointErr = false;
+
+  @observable CurrentHoldingPoint = 0;
 
   @computed get tradePrice() {
     let ret = this?.cartPrice?.tradePrice;
@@ -139,6 +143,16 @@ class CheckoutStore {
   @action.bound
   setSelectDiscountWay(way) {
     this.selectDiscountWay = way;
+  }
+
+  @action.bound
+  setInputPoint(data) {
+    this.inputPoint = data;
+  }
+
+  @action.bound
+  setCurrentHoldingPoint(data) {
+    this.CurrentHoldingPoint = data;
   }
 
   @action.bound

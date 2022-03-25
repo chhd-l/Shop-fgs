@@ -4,19 +4,31 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 
 const PointForm = ({ checkoutStore }) => {
-  const [CurrentHoldingPoint, setCurrentHoldingPoint] = useState(0);
-  const [inputPoint, setInputPoint] = useState('');
   const [errMsg, setErrMsg] = useState('');
-  const { tradePrice, inputPointErr, setInputPointErr } = checkoutStore;
+  const {
+    tradePrice,
+    inputPoint,
+    setInputPoint,
+    inputPointErr,
+    setInputPointErr,
+    CurrentHoldingPoint,
+    setCurrentHoldingPoint
+  } = checkoutStore;
+  const [minUsedPoint, setMinUsedPoint] = useState(10);
 
   const MinPointMsg = () => {
-    return <FormattedMessage id="Only 100 or more points can be used" />;
+    return (
+      <FormattedMessage
+        id="checkout.point.minPointMsg"
+        values={{ val: minUsedPoint }}
+      />
+    );
   };
 
   const MaxPointMsg = ({ CurrentHoldingPoint }) => {
     return (
       <>
-        <FormattedMessage id="Current holding points equals to" />
+        <FormattedMessage id="Current holding points equals to " />
         {CurrentHoldingPoint}
       </>
     );
@@ -32,30 +44,31 @@ const PointForm = ({ checkoutStore }) => {
   };
 
   useEffect(() => {
+    //在checkoutStore里面存储输入的积分
+    setInputPoint(inputPoint);
+    //
+
+    //判断输入的积分是否符合条件
+    //(1)首要判断 积分大于价格  直接报错
     if (inputPoint > tradePrice) {
       setInputPointErr(true);
       setErrMsg(<OverPointMsg tradePrice={tradePrice} />);
       return;
     }
-
+    //(2)积分其他判断条件
     if (inputPoint === '') {
       setInputPointErr(false);
-    } else if (inputPoint > 0 && inputPoint < 100) {
+    } else if (inputPoint > 0 && inputPoint < minUsedPoint) {
       setInputPointErr(true);
       setErrMsg(<MinPointMsg />);
-    } else if (inputPoint > 100 && inputPoint <= CurrentHoldingPoint) {
+    } else if (inputPoint > minUsedPoint && inputPoint <= CurrentHoldingPoint) {
       setInputPointErr(false);
     } else {
       setInputPointErr(true);
       setErrMsg(<MaxPointMsg CurrentHoldingPoint={CurrentHoldingPoint} />);
     }
+    //
   }, [inputPoint]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setCurrentHoldingPoint(10872);
-    }, 2000);
-  }, []);
 
   return (
     <div className="content pl-5 py-2">
@@ -83,7 +96,10 @@ const PointForm = ({ checkoutStore }) => {
         {errMsg}
       </span>
       <div className="tips">
-        <FormattedMessage id="Points can be used in 1pt increment of 100 pt or more." />
+        <FormattedMessage
+          id="checkout.point.tips1"
+          values={{ val: minUsedPoint }}
+        />
         <br />
         <FormattedMessage id="Please enter the number of points you want to use" />
       </div>
