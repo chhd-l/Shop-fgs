@@ -1720,7 +1720,7 @@ class Details extends React.Component {
                   isClub={
                     details.promotions &&
                     details.promotions.includes('club') &&
-                    window.__.env.REACT_APP_COUNTRY !== 'ru'
+                    currentSubscriptionStatus
                   }
                   goodsDetailSpace={backgroundSpaces}
                 />
