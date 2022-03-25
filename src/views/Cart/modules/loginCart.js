@@ -61,7 +61,7 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
 const pageLink = window.location.href;
-let preventChangeSize = false;
+let preventChangeSize = false; // 修改bug: 先选中数量框，再直接点击切换规则，引起的购物车数据重复
 
 @inject('checkoutStore', 'loginStore', 'clinicStore', 'configStore')
 @injectIntl
