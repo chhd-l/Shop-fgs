@@ -265,7 +265,7 @@ export default class DropDownMenuForHub extends React.Component {
         onMouseOut={this.hanldeListItemMouseOut}
         key={i}
       >
-        <div className="content-asset">
+        <div className="content-asset w-full">
           <Help data={item} handleClickNavItem={this.handleClickNavItem} />
         </div>
       </div>

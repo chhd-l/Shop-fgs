@@ -62,7 +62,11 @@ function IconPanel({ data, item, handleClickNavItem }) {
 }
 
 const InfoTextContactMenuItem = ({ item }) => {
-  return <p className="ui-text-overflow-line3">{item.InfoText}</p>;
+  return (
+    <p className="ui-text-overflow-line3" style={{ maxWidth: 650 }}>
+      {item.InfoText}
+    </p>
+  );
 };
 
 export default function Help({ data, handleClickNavItem }) {
