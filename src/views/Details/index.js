@@ -212,14 +212,8 @@ class Details extends React.Component {
     return JSON.parse(configStr);
   }
   get btnStatus() {
-    const {
-      details,
-      quantity,
-      instockStatus,
-      initing,
-      loading,
-      form
-    } = this.state;
+    const { details, quantity, instockStatus, initing, loading, form } =
+      this.state;
     const { sizeList } = details;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     let addedFlag = 1;
@@ -484,6 +478,44 @@ class Details extends React.Component {
     });
   };
 
+  //hash为#ConnectedPackDailyPortion的页面跳转
+  hashDailyPortionAnchor = () => {
+    const urlHash = window.location.hash;
+    if (urlHash !== '#ConnectedPackDailyPortion') {
+      return;
+    }
+    const {
+      details: { goodsAttributesValueRelList = [] },
+      tmpGoodsDescriptionDetailList = []
+    } = this.state;
+    const lifeStagesAttr = (goodsAttributesValueRelList ?? [])
+      .filter((item) => item.goodsAttributeName === 'Lifestages')
+      .map((item) => item?.goodsAttributeValue);
+    const growingCheck =
+      lifeStagesAttr.findIndex((item) =>
+        /(baby|puppy|kiiten|junior)/.test(item.toLowerCase())
+      ) > -1;
+    const adultCheck =
+      lifeStagesAttr.findIndex((item) =>
+        /(adult|mature|senior)/.test(item.toLowerCase())
+      ) > -1;
+    const guideTabIndex = (tmpGoodsDescriptionDetailList ?? []).findIndex(
+      (item) => item.descriptionName === 'Guide'
+    );
+    if (adultCheck) {
+      this.toScroll('j-details-dailyportion');
+    } else if (growingCheck && guideTabIndex > -1) {
+      const activeTabIndex = isMobile
+        ? [...this.state.activeTabIdxList, guideTabIndex]
+        : [guideTabIndex];
+      this.setState({ activeTabIdxList: activeTabIndex }, () => {
+        this.toScroll(
+          isMobile ? 'j-details-tabitem-Guide' : 'j-details-for-club'
+        );
+      });
+    }
+  };
+
   async queryDetails() {
     const { configStore } = this.props;
     const { id, goodsNo } = this.state;
@@ -551,8 +583,11 @@ class Details extends React.Component {
               if (mixFeeding) {
                 mixFeeding.quantity = 1;
               }
-              let { goodsImg = '', goodsName = '', goodsNo = '' } =
-                mixFeeding?.goods || {};
+              let {
+                goodsImg = '',
+                goodsName = '',
+                goodsNo = ''
+              } = mixFeeding?.goods || {};
               let _hiddenMixFeedingBanner = false;
               let mixFeedingSelected = mixFeeding?.sizeList?.filter(
                 (el) => el.selected
@@ -694,23 +729,34 @@ class Details extends React.Component {
                   );
                 }, 60000);
               }
+              this.hashDailyPortionAnchor();
             }
           );
         } else {
           let images = [];
           images = res.context.goodsInfos;
-          this.setState({
-            details: Object.assign({}, this.state.details, res.context.goods, {
-              promotions: res.context.goods?.promotions?.toLowerCase(),
-              sizeList,
-              goodsInfos: res.context.goodsInfos,
-              goodsSpecDetails: res.context.goodsSpecDetails,
-              goodsSpecs: res.context.goodsSpecs,
-              goodsAttributesValueRelList:
-                res.context.goodsAttributesValueRelList
-            }),
-            images: cloneDeep(images)
-          });
+          this.setState(
+            {
+              details: Object.assign(
+                {},
+                this.state.details,
+                res.context.goods,
+                {
+                  promotions: res.context.goods?.promotions?.toLowerCase(),
+                  sizeList,
+                  goodsInfos: res.context.goodsInfos,
+                  goodsSpecDetails: res.context.goodsSpecDetails,
+                  goodsSpecs: res.context.goodsSpecs,
+                  goodsAttributesValueRelList:
+                    res.context.goodsAttributesValueRelList
+                }
+              ),
+              images: cloneDeep(images)
+            },
+            () => {
+              this.hashDailyPortionAnchor();
+            }
+          );
         }
       })
       .catch((e) => {
@@ -973,13 +1019,8 @@ class Details extends React.Component {
     try {
       !type && this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const {
-        currentUnitPrice,
-        quantity,
-        form,
-        details,
-        questionParams
-      } = this.state;
+      const { currentUnitPrice, quantity, form, details, questionParams } =
+        this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -1287,13 +1328,8 @@ class Details extends React.Component {
   };
 
   ButtonGroupDom = (showRetailerBtn) => {
-    const {
-      addToCartLoading,
-      form,
-      checkOutErrMsg,
-      barcode,
-      details
-    } = this.state;
+    const { addToCartLoading, form, checkOutErrMsg, barcode, details } =
+      this.state;
     const btnStatus = this.btnStatus;
     const vet =
       (window.__.env.REACT_APP_HUB || Uk) &&
@@ -1734,7 +1770,9 @@ class Details extends React.Component {
                   }
                   goodsDetailSpace={backgroundSpaces}
                 />
-                <div>{this.DailyPortionComponent(details, barcode)}</div>
+                <div id="j-details-dailyportion">
+                  {this.DailyPortionComponent(details, barcode)}
+                </div>
               </div>
             ) : null}
             {!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS &&
