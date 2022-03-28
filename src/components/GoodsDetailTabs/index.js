@@ -675,17 +675,23 @@ const GoodsDetailTabs = function (props) {
       adultCheck,
       guideTabIndex
     );
-    if (adultCheck) {
+    if (growingCheck) {
+      if (guideTabIndex > -1) {
+        const activeTabIndex = isMobile
+          ? [activeTabIdxList, guideTabIndex]
+          : [guideTabIndex];
+        setActiveTabIdxLists(activeTabIndex);
+        props.setState &&
+          props.setState({ activeTabIdxList: activeTabIndex }, () => {
+            toScroll(
+              isMobile ? 'j-details-tabitem-Guide' : 'j-details-for-club'
+            );
+          });
+      } else {
+        return;
+      }
+    } else if (adultCheck) {
       toScroll('j-details-dailyportion');
-    } else if (growingCheck && guideTabIndex > -1) {
-      const activeTabIndex = isMobile
-        ? [activeTabIdxList, guideTabIndex]
-        : [guideTabIndex];
-      setActiveTabIdxLists(activeTabIndex);
-      props.setState &&
-        props.setState({ activeTabIdxList: activeTabIndex }, () => {
-          toScroll(isMobile ? 'j-details-tabitem-Guide' : 'j-details-for-club');
-        });
     }
   };
 

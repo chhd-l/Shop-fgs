@@ -145,6 +145,9 @@ const ContactUs = loadable(() => import('@/views/StaticPage/ContactUs'));
 const JpContact = loadable(() =>
   import('@/views/StaticPage/ContactUs/jp-index')
 );
+const AboutLoyaltyProgram = loadable(() =>
+  import('@/views/StaticPage/AboutLoyaltyProgram')
+);
 const Packfeed = loadable(() =>
   import('@/views/StaticPage/PackmixfeedingwetDry')
 );
@@ -194,6 +197,9 @@ const US_QualitySafety = loadable(() =>
 );
 const AboutUs = loadable(() => import('@/views/StaticPage/AboutUs'));
 const AboutUsDe = loadable(() => import('@/views/StaticPage/AboutUs/de-index'));
+const AboutMyRoyalCanin = loadable(() =>
+  import('@/views/StaticPage/AboutMyRoyalCanin')
+);
 const CatNutrition = loadable(() => import('@/views/StaticPage/CatNutrition'));
 const CadeauCoussinChat = loadable(() =>
   import('@/views/StaticPage/CadeauCoussinChat')
@@ -818,11 +824,22 @@ const App = () => {
                   path="/About-Us"
                   exact
                   component={
-                    window.__.env.REACT_APP_COUNTRY == 'de'
+                    window.__.env.REACT_APP_COUNTRY === 'de'
                       ? AboutUsDe
                       : AboutUs
                   }
                 />
+                <Route
+                  path="/myroyalcanin"
+                  exact
+                  component={AboutMyRoyalCanin}
+                />
+                <Route
+                  path="/loyalty_program"
+                  exact
+                  component={AboutLoyaltyProgram}
+                />
+                {/* AboutLoyaltyProgram */}
                 <Route path="/cat-nutrition" exact component={CatNutrition} />
                 <Route
                   path="/cadeau-coussin-chat"

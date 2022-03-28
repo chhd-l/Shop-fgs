@@ -10,8 +10,16 @@ import cn from 'classnames';
 
 const ChangeSelection = ({ el }) => {
   const SubGoodsInfosValue = useContext(SubGoodsInfosContext);
-  const { setState, isIndv, isActive, onDateChange, getMinDate, isGift } =
-    SubGoodsInfosValue;
+  const {
+    setState,
+    isIndv,
+    isActive,
+    onDateChange,
+    getMinDate,
+    isGift,
+    subDetail,
+    triggerShowChangeProduct
+  } = SubGoodsInfosValue;
 
   switch (el.goodsInfoFlag) {
     case 0:
