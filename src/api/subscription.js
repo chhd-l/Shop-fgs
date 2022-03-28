@@ -147,3 +147,11 @@ export function checkSubscriptionAddressPickPoint(parameter) {
     data: parameter
   });
 }
+
+export function DeleteItem(Id, parma) {
+  return axios({
+    url: `/${Id}/subs/deleteSubscriptionGoods`,
+    method: 'put',
+    data: parma
+  });
+}

@@ -1,3 +1,6 @@
+import { getDeviceType, formatMoney, optimizeImage } from '@/utils/utils';
+import { inject, observer } from 'mobx-react';
+import cn from 'classnames';
 import React, { useEffect, useState, createContext } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { IMG_DEFAULT } from '@/utils/constant';
@@ -8,10 +11,8 @@ import DailyRation from '../DailyRation';
 import { ErrorMessage } from '@/components/Message';
 import { QuantityPicker } from '@/components/Product';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
+import { DeleteItem } from '@/api/subscription';
 export const SubGoodsInfosContext = createContext();
-import { getDeviceType, formatMoney, optimizeImage } from '@/utils/utils';
-import { inject, observer } from 'mobx-react';
-import cn from 'classnames';
 
 const SubGoodsInfos = ({
   triggerShowChangeProduct,
@@ -33,13 +34,14 @@ const SubGoodsInfos = ({
 }) => {
   const isNotInactive = subDetail.subscribeStatus !== 'INACTIVE';
   const isActive = subDetail.subscribeStatus === 'ACTIVE';
-  const isIndv = subDetail.subscriptionType == 'Individualization';
+  const isIndv = subDetail.subscriptionType === 'Individualization';
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   const [skuLimitThreshold, setSkuLimitThreshold] = useState(1);
 
   useEffect(() => {
     setSkuLimitThreshold(configStore?.info?.skuLimitThreshold);
-  }, configStore?.info?.skuLimitThreshold);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [configStore?.info?.skuLimitThreshold]);
 
   //订阅数量更改
   const onQtyChange = async () => {
@@ -57,16 +59,9 @@ const SubGoodsInfos = ({
     });
   };
 
-  const goToDelete = async (el) => {
-    el.confirmTooltipVisible = false;
-    // this.setState({
-    //   productList,
-    //   deleteLoading: true
-    // });
-    // await this.deleteItemFromBackendCart({
-    //   goodsInfoIds: [productList[currentProductIdx].goodsInfoId]
-    // });
-    // this.setState({ deleteLoading: false });
+  const deleteItem = async (id, parma) => {
+    await DeleteItem(id, parma);
+    getDetail();
   };
 
   const propsObj = {
@@ -100,7 +95,8 @@ const SubGoodsInfos = ({
                 className="goodsItem rc-card-content"
                 style={{
                   border: '1px solid #d7d7d7',
-                  padding: '.75rem'
+                  padding: '.75rem',
+                  position: 'relative'
                 }}
               >
                 <div style={{ display: 'flex' }}>
@@ -114,34 +110,6 @@ const SubGoodsInfos = ({
                       style={{ width: '100px' }}
                       alt={el.goodsName}
                     />
-                    {/* </LazyLoad> */}
-                    {/* {isShowClub &&
-                      !!subDetail.petsId &&
-                      !isIndv &&
-                      subDetail?.goodsInfo.length == 1 && (
-                        <span
-                          className={`rc-styled-link ${
-                            productListLoading ? 'ui-btn-loading' : ''
-                          }`}
-                          // onClick={() => showChangeProduct([el])}
-                          onClick={() => {
-                            setState({
-                              triggerShowChangeProduct: Object.assign(
-                                {},
-                                triggerShowChangeProduct,
-                                {
-                                  firstShow:
-                                    !triggerShowChangeProduct.firstShow,
-                                  goodsInfo: [el],
-                                  isShowModal: true
-                                }
-                              )
-                            });
-                          }}
-                        >
-                          <FormattedMessage id="subscriptionDetail.changeProduct" />
-                        </span>
-                      )} */}
                   </div>
                   <div
                     className="v-center self-center	"
@@ -234,6 +202,32 @@ const SubGoodsInfos = ({
                 >
                   <ChangeSelection el={el} intl={intl} />
                 </div>
+                {el.canDelete ? (
+                  <div className="absolute right-2 top-2">
+                    <span
+                      className="font-bold iconfont iconguan cursor-pointer hover:text-rc-red"
+                      onClick={() => {
+                        updateConfirmTooltipVisible(el, true);
+                      }}
+                    />
+
+                    <ConfirmTooltip
+                      containerStyle={{ transform: 'translate(-89%, 105%)' }}
+                      arrowStyle={{ left: '89%' }}
+                      display={el.confirmTooltipVisible}
+                      confirm={() =>
+                        deleteItem(el?.goodsInfoVO?.storeId, {
+                          subscribeId: el?.subscribeId,
+                          subscribeGoodsId: el?.subscribeGoodsId
+                        })
+                      }
+                      updateChildDisplay={(status) =>
+                        updateConfirmTooltipVisible(el, status)
+                      }
+                      content={<FormattedMessage id="confirmDeleteProduct" />}
+                    />
+                  </div>
+                ) : null}
                 {isGift && subDetail.subscribeStatus !== 'INACTIVE' ? (
                   <ButtonBoxGift />
                 ) : null}
@@ -393,33 +387,7 @@ const SubGoodsInfos = ({
                               paddingTop: '6px'
                             }}
                             className={`text-plain rc-styled-link ui-text-overflow-md-line1 `}
-                            // onClick={() => showChangeProduct([el])}
-                          >
-                            {/* indv不会展示该按钮 */}
-                            {/* {!isIndv && subDetail?.goodsInfo.length == 1 ? (
-                              <span
-                                className={`${
-                                  productListLoading ? 'ui-btn-loading' : ''
-                                }`}
-                                onClick={() => {
-                                  setState({
-                                    triggerShowChangeProduct: Object.assign(
-                                      {},
-                                      triggerShowChangeProduct,
-                                      {
-                                        firstShow:
-                                          !triggerShowChangeProduct.firstShow,
-                                        goodsInfo: [el],
-                                        isShowModal: true
-                                      }
-                                    )
-                                  });
-                                }}
-                              >
-                                <FormattedMessage id="subscriptionDetail.changeProduct" />
-                              </span>
-                            ) : null} */}
-                          </span>
+                          ></span>
                           <div
                             style={{
                               position: 'absolute',
@@ -445,7 +413,6 @@ const SubGoodsInfos = ({
                         className="font-bold iconfont iconguan cursor-pointer hover:text-rc-red"
                         onClick={() => {
                           updateConfirmTooltipVisible(el, true);
-                          // this.setState({ currentProductIdx: index });
                         }}
                       />
 
@@ -453,7 +420,12 @@ const SubGoodsInfos = ({
                         containerStyle={{ transform: 'translate(-89%, 105%)' }}
                         arrowStyle={{ left: '89%' }}
                         display={el.confirmTooltipVisible}
-                        confirm={() => goToDelete(el)}
+                        confirm={() => {
+                          deleteItem(el?.goodsInfoVO?.storeId, {
+                            subscribeId: el?.subscribeId,
+                            subscribeGoodsId: el?.subscribeGoodsId
+                          });
+                        }}
                         updateChildDisplay={(status) =>
                           updateConfirmTooltipVisible(el, status)
                         }
