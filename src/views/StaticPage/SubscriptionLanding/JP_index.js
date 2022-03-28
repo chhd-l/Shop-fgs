@@ -3,6 +3,7 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
+import HeroCarousel from '@/components/HeroCarousel';
 import Logo from '@/components/Logo';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
@@ -12,7 +13,11 @@ import LazyLoad from 'react-lazyload';
 
 import './index.css';
 
-import icon1 from './images/icon1.png';
+import icon1 from './images/jp_icon1.png';
+import icon2 from './images/jp_icon2.png';
+import icon3 from './images/jp_icon3.png';
+import icon4 from './images/jp_icon4.png';
+import icon5 from './images/jp_icon5.png';
 import cateimg from './images/us_autoship.png';
 
 const pageLink = window.location.href;
@@ -40,6 +45,19 @@ class JPLandingPage extends React.Component {
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
 
+          <div className="rc-full-width">
+            <div className="experience-component experience-layouts-herocarousel">
+              <HeroCarousel history={history} />
+            </div>
+          </div>
+
+          <div className="experience-component experience-assets-divider">
+            <div
+              className="rc-border-bottom rc-border-colour--brand4"
+              style={{ borderBottomWidth: '4px' }}
+            ></div>
+          </div>
+
           <section className="experience-component experience-layouts-1column">
             <div className="row rc-margin-x--none">
               <div className="rc-full-width">
@@ -55,7 +73,7 @@ class JPLandingPage extends React.Component {
                       ​
                     </p>
                   </div>
-                  <div className="row custom-gutter">
+                  <div className="row custom-gutter rc-margin-bottom--sm">
                     <div className="col-12 col-md-3">
                       <Link className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link">
                         <picture className="category-cards__card__img">
@@ -172,13 +190,13 @@ class JPLandingPage extends React.Component {
                     </dl>
                     <dl>
                       <dt>
-                        <img src={icon1} width="100" />
+                        <img src={icon2} width="100" />
                       </dt>
                       <dd>5,500円（税込）以上で送料無料日本全国どこでも​</dd>
                     </dl>
                     <dl>
                       <dt>
-                        <img src={icon1} width="100" />
+                        <img src={icon3} width="100" />
                       </dt>
                       <dd>
                         ポイントプログラム定期購入とステージアップで最大10％還元​​
@@ -186,7 +204,7 @@ class JPLandingPage extends React.Component {
                     </dl>
                     <dl>
                       <dt>
-                        <img src={icon1} width="100" />
+                        <img src={icon4} width="100" />
                       </dt>
                       <dd>
                         便利な定期購入設定した周期で定期的にフードをお届け​
@@ -194,7 +212,7 @@ class JPLandingPage extends React.Component {
                     </dl>
                     <dl>
                       <dt>
-                        <img src={icon1} width="100" />
+                        <img src={icon5} width="100" />
                       </dt>
                       <dd>おいしさ満足保証返金制度き対象製品はこちら</dd>
                     </dl>
