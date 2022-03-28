@@ -3054,5 +3054,302 @@ role="menubar"
   </ul>
 </li>
 </ul>
-`
+`,
+  jp: `<div class="md:mb-10 col-span-12">
+<div class="rc-divider hidden md:block"></div>
+<div class="rc-layout-container rc-one-column rc-padding-x--xs">
+  <div class="rc-column rc-padding-x--xs">
+    <nav
+      data-toggle-group="mobile"
+      data-toggle-effect="rc-expand--vertical"
+      class="rc-padding-x--xs--desktop rc-padding-x--none--mobile"
+    >
+      <ul
+        class="
+          rc-list
+          rc-list--footer-columns
+          rc-list--blank
+          rc-list--align
+          rc-list--inverse
+          rc-list-overwrite
+        "
+        role="menubar"
+      >
+        <li class="rc-list__item rc-list__item--group">
+          <h3
+            class="
+              rc-list__header
+              J_rc-list__header
+              flex
+              justify-between justify-items-center
+            "
+            role="menuitem"
+            data-toggle="nav-footer-list-0"
+            id="nav-footer-0"
+          >
+            <span>マイ ロイヤルカナン</span>
+            <span class="iconfont iconDown icon-down"></span>
+          </h3>
+          <ul
+            class="rc-list rc-list--blank rc-list--align overflow-hidden"
+            role="menu"
+            id="nav-footer-list-0"
+            aria-labelledby="nav-footer-0"
+          >
+            <li class="rc-list__item">
+              <a
+                class="rc-list__link text-decoration-none color-f6f6f6 66"
+                role="menuitem"
+                href="/fr/About-Us"
+                >A propos</a
+              >
+            </li>
+            <li class="rc-list__item">
+              <a
+                class="rc-list__link text-decoration-none color-f6f6f6 66"
+                role="menuitem"
+                href="/fr/Values"
+                >Nos valeurs</a
+              >
+            </li>
+            <li class="rc-list__item">
+              <a
+                class="rc-list__link text-decoration-none color-f6f6f6 66"
+                role="menuitem"
+                href="/fr/Quality-safety"
+                >Qualité et sécurité alimentaire</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li class="rc-list__item rc-list__item--group">
+          <h3
+            class="
+              rc-list__header
+              J_rc-list__header
+              flex
+              justify-between justify-items-center
+            "
+            role="menuitem"
+            data-toggle="nav-footer-list-1"
+            id="nav-footer-1"
+          >
+            <span>ALIMENTS</span>
+            <span class="iconfont iconDown icon-down"></span>
+          </h3>
+          <ul
+            class="rc-list rc-list--blank rc-list--align overflow-hidden"
+            role="menu"
+            id="nav-footer-list-1"
+            aria-labelledby="nav-footer-1"
+          >
+            <li class="rc-list__item">
+              <a
+                class="rc-list__link text-decoration-none color-f6f6f6 66"
+                role="menuitem"
+                href="/fr/cats"
+                >Chat</a
+              >
+            </li>
+            <li class="rc-list__item">
+              <a
+                class="rc-list__link text-decoration-none color-f6f6f6 66"
+                role="menuitem"
+                href="/fr/dogs"
+                >Chien</a
+              >
+            </li>
+            <li class="rc-list__item">
+              <a
+                class="rc-list__link text-decoration-none color-f6f6f6 66"
+                role="menuitem"
+                href="/fr/Tailorednutrition"
+                >Santé et Nutrition</a
+              >
+            </li>
+            <li class="rc-list__item">
+              <a
+                class="rc-list__link text-decoration-none color-f6f6f6 66"
+                role="menuitem"
+                href="/fr/product-finder"
+                >Aide aux choix</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li class="rc-list__item rc-list__item--group">
+          <h3
+            class="
+              rc-list__header
+              J_rc-list__header
+              flex
+              justify-between justify-items-center
+            "
+            role="menuitem"
+            data-toggle="nav-footer-list-2"
+            id="nav-footer-2"
+          >
+            <span>COMPTE</span>
+            <span class="iconfont iconDown icon-down"></span>
+          </h3>
+          <ul
+            class="rc-list rc-list--blank rc-list--align overflow-hidden"
+            role="menu"
+            id="nav-footer-list-2"
+            aria-labelledby="nav-footer-2"
+          >
+            <li class="rc-list__item">
+              <a
+                class="rc-list__link text-decoration-none color-f6f6f6 55"
+                href="/fr/account"
+                >Mon compte</a
+              >
+            </li>
+            <li class="rc-list__item">
+              <a
+                class="rc-list__link text-decoration-none color-f6f6f6 55"
+                href="/fr/account"
+                >Mes commandes</a
+              >
+            </li>
+            <li class="rc-list__item">
+              <a
+                class="rc-list__link text-decoration-none color-f6f6f6 55"
+                href="/fr/account"
+                >Mes abonnements</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li class="rc-list__item rc-list__item--group">
+          <h3
+            class="
+              rc-list__header
+              J_rc-list__header
+              flex
+              justify-between justify-items-center
+            "
+            role="menuitem"
+            data-toggle="nav-footer-list-3"
+            id="nav-footer-3"
+          >
+            <span>AIDE</span>
+            <span class="iconfont iconDown icon-down"></span>
+          </h3>
+          <ul
+            class="rc-list rc-list--blank rc-list--align overflow-hidden"
+            role="menu"
+            id="nav-footer-list-3"
+            aria-labelledby="nav-footer-3"
+          >
+            <li class="rc-list__item">
+              <a
+                class="rc-list__link text-decoration-none color-f6f6f6 66"
+                role="menuitem"
+                href="/fr/help"
+                >Aide</a
+              >
+            </li>
+            <li class="rc-list__item">
+              <a
+                class="rc-list__link text-decoration-none color-f6f6f6 66"
+                role="menuitem"
+                href="/fr/faq"
+                >FAQ</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li class="rc-list__item rc-list__item--group">
+          <h3
+            class="
+              rc-list__header
+              J_rc-list__header
+              flex
+              justify-between justify-items-center
+            "
+            role="menuitem"
+            data-toggle="nav-footer-list-4"
+            id="nav-footer-4"
+          >
+            <span>AUTRES</span>
+            <span class="iconfont iconDown icon-down"></span>
+          </h3>
+          <ul
+            class="rc-list rc-list--blank rc-list--align overflow-hidden"
+            role="menu"
+            id="nav-footer-list-4"
+            aria-labelledby="nav-footer-4"
+          >
+            <li class="rc-list__item">
+              <a
+                class="rc-list__link text-decoration-none color-f6f6f6 66"
+                role="menuitem"
+                href="/fr/general-terms-conditions"
+                >Conditions Générales de Vente</a
+              >
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+<div class="rc-divider hidden md:block"></div>
+</div>
+<div
+class="
+  rc-column
+  col-span-12
+  md:col-span-8
+  rc-padding-bottom--none
+  rc-padding-top--lg--mobile
+"
+>
+<p class="rc-espilon rc-text--inverse">Contacter Royal Canin</p>
+<div class="rc-text--inverse">
+  <p>
+    Nos spécialistes sont disponibles de 8h30 à 12h30 et de 14h à 17h du lundi
+    au vendredi.
+  </p>
+  <p>
+    Pour toute question ou demande: suivi.dtc.france@royalcanin.com - Tél 0
+    800 005 360 (appel non surtaxé)
+  </p>
+</div>
+</div>
+<div
+class="
+  rc-column
+  col-span-12
+  md:col-span-4
+  rc-padding-bottom--none
+  rc-padding-top--lg--mobile
+"
+id="J_footer_payment_box"
+></div>
+<div
+class="
+  rc-column
+  rc-padding-x--none
+  rc-padding-top--xs--desktop
+  rc-padding-y--md--mobile
+  rc-text--center--sm-down
+  col-span-12
+"
+>
+<a
+  class="
+    qhx
+    rc-btn rc-btn--inverse rc-btn--icon-label
+    rc-icon
+    rc-email--xs
+    rc-brand3
+    text-white
+  "
+  role="menuitem"
+  href="mailto:suivi.dtc.france@royalcanin.com"
+  >Contactez-nous</a
+>
+</div>`
 };
