@@ -200,7 +200,9 @@ const GoodsDetailTabs = function (props) {
     displayFlag,
     detailRes,
     isClub,
-    goodsDetailSpace
+    goodsDetailSpace,
+    goodsAttributesValueRelList,
+    toScroll
   } = props;
   //判断猫狗
   const getSpeciesId = (item) => {
@@ -646,6 +648,47 @@ const GoodsDetailTabs = function (props) {
     props.setState && props.setState({ tmpGoodsDescriptionDetailList });
     setGoodsDetailTabsData(tmpGoodsDescriptionDetailList);
   };
+
+  //hash为#ConnectedPackDailyPortion的页面跳转
+  const hashDailyPortionAnchor = () => {
+    const urlHash = window.location.hash;
+    if (urlHash !== '#ConnectedPackDailyPortion') {
+      return;
+    }
+    const lifeStagesAttr = (goodsAttributesValueRelList ?? [])
+      .filter((item) => item.goodsAttributeName === 'Lifestages')
+      .map((item) => item?.goodsAttributeValue);
+    const growingCheck =
+      lifeStagesAttr.findIndex((item) =>
+        /(baby|puppy|kitten|junior)/.test(item.toLowerCase())
+      ) > -1;
+    const adultCheck =
+      lifeStagesAttr.findIndex((item) =>
+        /(adult|mature|senior)/.test(item.toLowerCase())
+      ) > -1;
+    const guideTabIndex = (goodsDetailTabsData ?? []).findIndex(
+      (item) => item.descriptionName === 'Guide'
+    );
+    console.log(
+      'ConnectedPackDailyPortion hash check:',
+      growingCheck,
+      adultCheck,
+      guideTabIndex
+    );
+    if (adultCheck) {
+      toScroll('j-details-dailyportion');
+    } else if (growingCheck && guideTabIndex > -1) {
+      const activeTabIndex = isMobile
+        ? [activeTabIdxList, guideTabIndex]
+        : [guideTabIndex];
+      setActiveTabIdxLists(activeTabIndex);
+      props.setState &&
+        props.setState({ activeTabIdxList: activeTabIndex }, () => {
+          toScroll(isMobile ? 'j-details-tabitem-Guide' : 'j-details-for-club');
+        });
+    }
+  };
+
   const changeTab = ({ idx, type, ele }) => {
     if (type === 'switch') {
       // 切换其他，先删除所有，再添加本身
@@ -672,6 +715,10 @@ const GoodsDetailTabs = function (props) {
   useEffect(() => {
     handleTabData();
   }, []);
+
+  useEffect(() => {
+    hashDailyPortionAnchor();
+  }, [goodsDetailTabsData]);
 
   //club new subscribtion每次提交的时候记得把true改为false
   const Show = true;
