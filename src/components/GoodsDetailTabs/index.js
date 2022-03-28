@@ -660,7 +660,7 @@ const GoodsDetailTabs = function (props) {
       .map((item) => item?.goodsAttributeValue);
     const growingCheck =
       lifeStagesAttr.findIndex((item) =>
-        /(baby|puppy|kiiten|junior)/.test(item.toLowerCase())
+        /(baby|puppy|kitten|junior)/.test(item.toLowerCase())
       ) > -1;
     const adultCheck =
       lifeStagesAttr.findIndex((item) =>
