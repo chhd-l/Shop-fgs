@@ -194,7 +194,9 @@ const US_QualitySafety = loadable(() =>
 );
 const AboutUs = loadable(() => import('@/views/StaticPage/AboutUs'));
 const AboutUsDe = loadable(() => import('@/views/StaticPage/AboutUs/de-index'));
-const MyRoyalCanin = loadable(() => import('@/views/StaticPage/MyRoyalCanin'));
+const AboutMyRoyalCanin = loadable(() =>
+  import('@/views/StaticPage/AboutMyRoyalCanin')
+);
 const CatNutrition = loadable(() => import('@/views/StaticPage/CatNutrition'));
 const CadeauCoussinChat = loadable(() =>
   import('@/views/StaticPage/CadeauCoussinChat')
@@ -823,7 +825,11 @@ const App = () => {
                       : AboutUs
                   }
                 />
-                <Route path="/myroyalcanin" exact component={MyRoyalCanin} />
+                <Route
+                  path="/myroyalcanin"
+                  exact
+                  component={AboutMyRoyalCanin}
+                />
                 <Route
                   path="/loyalty_program"
                   exact
