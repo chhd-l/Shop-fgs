@@ -245,10 +245,7 @@ class Whistlefit extends React.Component {
                             Whistle Fit, le collier intelligent pour prendre
                             soin de la santé de votre chien
                           </div>
-                          <div
-                            className="text-center md:text-left text-18 md:text-28 mt-0 mb-6 ml-5 md:ml-0 mr-5 md:mr-0 font-normal md:leading-14"
-                            style={{ color: '#E2001A' }}
-                          >
+                          <div className="text-center md:text-left text-14 md:text-24 mt-0 mb-6 ml-5 md:ml-0 mr-5 md:mr-0 font-normal md:leading-14">
                             Faites partie des premiers à être informés de la
                             disponibilité du produit
                           </div>
@@ -314,7 +311,7 @@ class Whistlefit extends React.Component {
                           />
                         </LazyLoad>
                       </div>
-                      <div className="w-full px-4 md:px-48 font-normal text-center text-18 md:text-32 my-4 md:my-12 leading-17.5 md:leading-normal">
+                      {/* <div className="w-full px-4 md:px-48 font-normal text-center text-18 md:text-32 my-4 md:my-12 leading-17.5 md:leading-normal">
                         Votre chien ne peut pas vous dire s'il est en bonne
                         santé, mais Whistle Fit peut vous aider à le découvrir !
                       </div>
@@ -339,7 +336,7 @@ class Whistlefit extends React.Component {
                             </div>
                           );
                         })}
-                      </div>
+                      </div> */}
                       <div className="experience-component experience-assets-youtubeVideo">
                         <div className="rc-max-width--md rc-padding-x--lg">
                           <div className="rc-video-wrapper dog-video">
@@ -592,6 +589,10 @@ class Whistlefit extends React.Component {
                             EMAIL_REGEXP.test(this.state.email)
                           )
                         }
+                        style={{
+                          backgroundColor: '#e20001',
+                          borderColor: '#e20001'
+                        }}
                       >
                         Je suis intéressé et veux être informé !
                       </button>
