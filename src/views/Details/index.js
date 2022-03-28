@@ -478,50 +478,6 @@ class Details extends React.Component {
     });
   };
 
-  //hash为#ConnectedPackDailyPortion的页面跳转
-  hashDailyPortionAnchor = () => {
-    const urlHash = window.location.hash;
-    if (urlHash !== '#ConnectedPackDailyPortion') {
-      return;
-    }
-    const {
-      details: { goodsAttributesValueRelList = [] },
-      tmpGoodsDescriptionDetailList = []
-    } = this.state;
-    const lifeStagesAttr = (goodsAttributesValueRelList ?? [])
-      .filter((item) => item.goodsAttributeName === 'Lifestages')
-      .map((item) => item?.goodsAttributeValue);
-    const growingCheck =
-      lifeStagesAttr.findIndex((item) =>
-        /(baby|puppy|kiiten|junior)/.test(item.toLowerCase())
-      ) > -1;
-    const adultCheck =
-      lifeStagesAttr.findIndex((item) =>
-        /(adult|mature|senior)/.test(item.toLowerCase())
-      ) > -1;
-    const guideTabIndex = (tmpGoodsDescriptionDetailList ?? []).findIndex(
-      (item) => item.descriptionName === 'Guide'
-    );
-    console.log(
-      'ConnectedPackDailyPortion hash check:',
-      growingCheck,
-      adultCheck,
-      guideTabIndex
-    );
-    if (adultCheck) {
-      this.toScroll('j-details-dailyportion');
-    } else if (growingCheck && guideTabIndex > -1) {
-      const activeTabIndex = isMobile
-        ? [...this.state.activeTabIdxList, guideTabIndex]
-        : [guideTabIndex];
-      this.setState({ activeTabIdxList: activeTabIndex }, () => {
-        this.toScroll(
-          isMobile ? 'j-details-tabitem-Guide' : 'j-details-for-club'
-        );
-      });
-    }
-  };
-
   async queryDetails() {
     const { configStore } = this.props;
     const { id, goodsNo } = this.state;
@@ -735,34 +691,23 @@ class Details extends React.Component {
                   );
                 }, 60000);
               }
-              this.hashDailyPortionAnchor();
             }
           );
         } else {
           let images = [];
           images = res.context.goodsInfos;
-          this.setState(
-            {
-              details: Object.assign(
-                {},
-                this.state.details,
-                res.context.goods,
-                {
-                  promotions: res.context.goods?.promotions?.toLowerCase(),
-                  sizeList,
-                  goodsInfos: res.context.goodsInfos,
-                  goodsSpecDetails: res.context.goodsSpecDetails,
-                  goodsSpecs: res.context.goodsSpecs,
-                  goodsAttributesValueRelList:
-                    res.context.goodsAttributesValueRelList
-                }
-              ),
-              images: cloneDeep(images)
-            },
-            () => {
-              this.hashDailyPortionAnchor();
-            }
-          );
+          this.setState({
+            details: Object.assign({}, this.state.details, res.context.goods, {
+              promotions: res.context.goods?.promotions?.toLowerCase(),
+              sizeList,
+              goodsInfos: res.context.goodsInfos,
+              goodsSpecDetails: res.context.goodsSpecDetails,
+              goodsSpecs: res.context.goodsSpecs,
+              goodsAttributesValueRelList:
+                res.context.goodsAttributesValueRelList
+            }),
+            images: cloneDeep(images)
+          });
         }
       })
       .catch((e) => {
@@ -1775,6 +1720,10 @@ class Details extends React.Component {
                     currentSubscriptionStatus
                   }
                   goodsDetailSpace={backgroundSpaces}
+                  goodsAttributesValueRelList={
+                    details.goodsAttributesValueRelList ?? []
+                  }
+                  toScroll={this.toScroll}
                 />
                 <div id="j-details-dailyportion">
                   {this.DailyPortionComponent(details, barcode)}
