@@ -212,14 +212,8 @@ class Details extends React.Component {
     return JSON.parse(configStr);
   }
   get btnStatus() {
-    const {
-      details,
-      quantity,
-      instockStatus,
-      initing,
-      loading,
-      form
-    } = this.state;
+    const { details, quantity, instockStatus, initing, loading, form } =
+      this.state;
     const { sizeList } = details;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     let addedFlag = 1;
@@ -551,8 +545,11 @@ class Details extends React.Component {
               if (mixFeeding) {
                 mixFeeding.quantity = 1;
               }
-              let { goodsImg = '', goodsName = '', goodsNo = '' } =
-                mixFeeding?.goods || {};
+              let {
+                goodsImg = '',
+                goodsName = '',
+                goodsNo = ''
+              } = mixFeeding?.goods || {};
               let _hiddenMixFeedingBanner = false;
               let mixFeedingSelected = mixFeeding?.sizeList?.filter(
                 (el) => el.selected
@@ -973,13 +970,8 @@ class Details extends React.Component {
     try {
       !type && this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const {
-        currentUnitPrice,
-        quantity,
-        form,
-        details,
-        questionParams
-      } = this.state;
+      const { currentUnitPrice, quantity, form, details, questionParams } =
+        this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -1173,6 +1165,15 @@ class Details extends React.Component {
 
     let isBaby = LifestagesAttr?.find((item) => reg.test(item));
 
+    let sptGoods = details.goodsType === 0 || details.goodsType === 1;
+    let isAdult = LifestagesAttr?.some((item) => {
+      let bol = ['adult', 'mature', 'senior'].some((_el) =>
+        item.toLowerCase().includes(_el)
+      );
+      return bol;
+    });
+
+    console.log(isAdult, sptGoods, LifestagesAttr, 'isAdult_spt');
     /**
      *  是否显示计算工具
      *  1、dailyPortion show/hide
@@ -1188,6 +1189,7 @@ class Details extends React.Component {
     if (currentGoodsInfo?.goodsInfoType === 2) return null;
     if (!(wsEnergyCategory && wsReferenceEnergyValue)) return null;
     if (!details?.weShareId) return null;
+    if (sptGoods && !isAdult) return null;
 
     // 产品动物的种类
     let speciesValue = goodsAttributesValueRelList.find(
@@ -1277,13 +1279,8 @@ class Details extends React.Component {
   };
 
   ButtonGroupDom = (showRetailerBtn) => {
-    const {
-      addToCartLoading,
-      form,
-      checkOutErrMsg,
-      barcode,
-      details
-    } = this.state;
+    const { addToCartLoading, form, checkOutErrMsg, barcode, details } =
+      this.state;
     const btnStatus = this.btnStatus;
     const vet =
       (window.__.env.REACT_APP_HUB || Uk) &&
@@ -1723,8 +1720,14 @@ class Details extends React.Component {
                     currentSubscriptionStatus
                   }
                   goodsDetailSpace={backgroundSpaces}
+                  goodsAttributesValueRelList={
+                    details.goodsAttributesValueRelList ?? []
+                  }
+                  toScroll={this.toScroll}
                 />
-                <div>{this.DailyPortionComponent(details, barcode)}</div>
+                <div id="j-details-dailyportion">
+                  {this.DailyPortionComponent(details, barcode)}
+                </div>
               </div>
             ) : null}
             {!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS &&
