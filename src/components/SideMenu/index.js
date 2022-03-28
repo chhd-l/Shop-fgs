@@ -50,6 +50,13 @@ let menuList = [
     url: '/account/subscription'
   },
   {
+    catogery: 'Loyalty',
+    isShow: window.__.env.REACT_APP_COUNTRY === 'jp',
+    icon: <span className="iconfont">&#xe6a2;</span>,
+    langKey: 'account.Loyalty.program',
+    url: '/account/loyalty'
+  },
+  {
     catogery: 'Faq',
     isShow: true,
     icon: <span className="iconfont">&#xe696;</span>,
