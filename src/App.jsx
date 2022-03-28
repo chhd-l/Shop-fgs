@@ -476,13 +476,13 @@ const App = () => {
                 {/* us: /help/contact, jp: /contact_us , others: /help */}
                 <Route
                   exact
-                  path="/us/help/contact"
+                  path="/help/contact"
                   render={(props) => {
                     switch (window.__.env.REACT_APP_COUNTRY) {
                       case 'us':
                         return <ContactUs {...props} />;
                       case 'jp':
-                        return <Redirect to="/jp/contact_us" {...props} />;
+                        return <Redirect to="/contact_us" {...props} />;
                       default:
                         return <Redirect to="/help" {...props} />;
                     }
@@ -490,11 +490,11 @@ const App = () => {
                 />
                 <Route
                   exact
-                  path="/jp/contact_us"
+                  path="/contact_us"
                   render={(props) => {
                     switch (window.__.env.REACT_APP_COUNTRY) {
                       case 'us':
-                        return <Redirect to="/us/help/contact" {...props} />;
+                        return <Redirect to="/help/contact" {...props} />;
                       case 'jp':
                         return <JpContact {...props} />;
                       default:
@@ -508,9 +508,9 @@ const App = () => {
                   render={(props) => {
                     switch (window.__.env.REACT_APP_COUNTRY) {
                       case 'us':
-                        return <Redirect to="/us/help/contact" {...props} />;
+                        return <Redirect to="/help/contact" {...props} />;
                       case 'jp':
-                        return <Redirect to="/jp/contact_us" {...props} />;
+                        return <Redirect to="/contact_us" {...props} />;
                       default:
                         return <Help {...props} />;
                     }
