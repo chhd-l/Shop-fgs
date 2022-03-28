@@ -476,6 +476,50 @@ class Details extends React.Component {
     });
   };
 
+  //hash为#ConnectedPackDailyPortion的页面跳转
+  hashDailyPortionAnchor = () => {
+    const urlHash = window.location.hash;
+    if (urlHash !== '#ConnectedPackDailyPortion') {
+      return;
+    }
+    const {
+      details: { goodsAttributesValueRelList = [] },
+      tmpGoodsDescriptionDetailList = []
+    } = this.state;
+    const lifeStagesAttr = (goodsAttributesValueRelList ?? [])
+      .filter((item) => item.goodsAttributeName === 'Lifestages')
+      .map((item) => item?.goodsAttributeValue);
+    const growingCheck =
+      lifeStagesAttr.findIndex((item) =>
+        /(baby|puppy|kiiten|junior)/.test(item.toLowerCase())
+      ) > -1;
+    const adultCheck =
+      lifeStagesAttr.findIndex((item) =>
+        /(adult|mature|senior)/.test(item.toLowerCase())
+      ) > -1;
+    const guideTabIndex = (tmpGoodsDescriptionDetailList ?? []).findIndex(
+      (item) => item.descriptionName === 'Guide'
+    );
+    console.log(
+      'ConnectedPackDailyPortion hash check:',
+      growingCheck,
+      adultCheck,
+      guideTabIndex
+    );
+    if (adultCheck) {
+      this.toScroll('j-details-dailyportion');
+    } else if (growingCheck && guideTabIndex > -1) {
+      const activeTabIndex = isMobile
+        ? [...this.state.activeTabIdxList, guideTabIndex]
+        : [guideTabIndex];
+      this.setState({ activeTabIdxList: activeTabIndex }, () => {
+        this.toScroll(
+          isMobile ? 'j-details-tabitem-Guide' : 'j-details-for-club'
+        );
+      });
+    }
+  };
+
   async queryDetails() {
     const { configStore } = this.props;
     const { id, goodsNo } = this.state;
@@ -689,23 +733,34 @@ class Details extends React.Component {
                   );
                 }, 60000);
               }
+              this.hashDailyPortionAnchor();
             }
           );
         } else {
           let images = [];
           images = res.context.goodsInfos;
-          this.setState({
-            details: Object.assign({}, this.state.details, res.context.goods, {
-              promotions: res.context.goods?.promotions?.toLowerCase(),
-              sizeList,
-              goodsInfos: res.context.goodsInfos,
-              goodsSpecDetails: res.context.goodsSpecDetails,
-              goodsSpecs: res.context.goodsSpecs,
-              goodsAttributesValueRelList:
-                res.context.goodsAttributesValueRelList
-            }),
-            images: cloneDeep(images)
-          });
+          this.setState(
+            {
+              details: Object.assign(
+                {},
+                this.state.details,
+                res.context.goods,
+                {
+                  promotions: res.context.goods?.promotions?.toLowerCase(),
+                  sizeList,
+                  goodsInfos: res.context.goodsInfos,
+                  goodsSpecDetails: res.context.goodsSpecDetails,
+                  goodsSpecs: res.context.goodsSpecs,
+                  goodsAttributesValueRelList:
+                    res.context.goodsAttributesValueRelList
+                }
+              ),
+              images: cloneDeep(images)
+            },
+            () => {
+              this.hashDailyPortionAnchor();
+            }
+          );
         }
       })
       .catch((e) => {
@@ -1107,6 +1162,15 @@ class Details extends React.Component {
 
     let isBaby = LifestagesAttr?.find((item) => reg.test(item));
 
+    let sptGoods = details.goodsType === 0 || details.goodsType === 1;
+    let isAdult = LifestagesAttr?.some((item) => {
+      let bol = ['adult', 'mature', 'senior'].some((_el) =>
+        item.toLowerCase().includes(_el)
+      );
+      return bol;
+    });
+
+    console.log(isAdult, sptGoods, LifestagesAttr, 'isAdult_spt');
     /**
      *  是否显示计算工具
      *  1、dailyPortion show/hide
@@ -1122,6 +1186,7 @@ class Details extends React.Component {
     if (currentGoodsInfo?.goodsInfoType === 2) return null;
     if (!(wsEnergyCategory && wsReferenceEnergyValue)) return null;
     if (!details?.weShareId) return null;
+    if (sptGoods && !isAdult) return null;
 
     // 产品动物的种类
     let speciesValue = goodsAttributesValueRelList.find(
@@ -1650,7 +1715,9 @@ class Details extends React.Component {
                   }
                   goodsDetailSpace={backgroundSpaces}
                 />
-                <div>{this.DailyPortionComponent(details, barcode)}</div>
+                <div id="j-details-dailyportion">
+                  {this.DailyPortionComponent(details, barcode)}
+                </div>
               </div>
             ) : null}
             {!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS &&

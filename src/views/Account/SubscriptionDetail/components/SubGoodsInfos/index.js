@@ -7,9 +7,11 @@ import ChangeSelection from './ChangeSelection';
 import DailyRation from '../DailyRation';
 import { ErrorMessage } from '@/components/Message';
 import { QuantityPicker } from '@/components/Product';
+import ConfirmTooltip from '@/components/ConfirmTooltip';
 export const SubGoodsInfosContext = createContext();
 import { getDeviceType, formatMoney, optimizeImage } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
+import cn from 'classnames';
 
 const SubGoodsInfos = ({
   triggerShowChangeProduct,
@@ -47,6 +49,26 @@ const SubGoodsInfos = ({
       showErrMsg(err.message);
     }
   };
+
+  const updateConfirmTooltipVisible = (el, status) => {
+    el.confirmTooltipVisible = status;
+    setState({
+      subDetail
+    });
+  };
+
+  const goToDelete = async (el) => {
+    el.confirmTooltipVisible = false;
+    // this.setState({
+    //   productList,
+    //   deleteLoading: true
+    // });
+    // await this.deleteItemFromBackendCart({
+    //   goodsInfoIds: [productList[currentProductIdx].goodsInfoId]
+    // });
+    // this.setState({ deleteLoading: false });
+  };
+
   const propsObj = {
     subDetail,
     isGift,
@@ -219,11 +241,14 @@ const SubGoodsInfos = ({
             ))}
         </div>
         <ErrorMessage msg={errMsgPage} />
-        <div className="card-container border rounded border-d7d7d7 mt-0 hidden md:block">
+        <div className="card-container mt-0 hidden md:block">
           {subDetail.goodsInfo &&
             subDetail.goodsInfo.map((el, index) => (
               <div
-                className="rc-margin-x--none"
+                className={cn(
+                  'rc-margin-x--none border rounded border-d7d7d7 relative',
+                  { 'mt-4': index }
+                )}
                 style={{
                   padding: '1rem 0 1.5rem 0'
                 }}
@@ -414,6 +439,28 @@ const SubGoodsInfos = ({
                   <div className="col-4 col-md-5" style={{ padding: 0 }}>
                     <ChangeSelection el={el} intl={intl} />
                   </div>
+                  {el.canDelete ? (
+                    <div className="absolute right-2 top-2">
+                      <span
+                        className="font-bold iconfont iconguan cursor-pointer hover:text-rc-red"
+                        onClick={() => {
+                          updateConfirmTooltipVisible(el, true);
+                          // this.setState({ currentProductIdx: index });
+                        }}
+                      />
+
+                      <ConfirmTooltip
+                        containerStyle={{ transform: 'translate(-89%, 105%)' }}
+                        arrowStyle={{ left: '89%' }}
+                        display={el.confirmTooltipVisible}
+                        confirm={() => goToDelete(el)}
+                        updateChildDisplay={(status) =>
+                          updateConfirmTooltipVisible(el, status)
+                        }
+                        content={<FormattedMessage id="confirmDeleteProduct" />}
+                      />
+                    </div>
+                  ) : null}
                 </div>
                 {isGift && subDetail.subscribeStatus !== 'INACTIVE' ? (
                   <ButtonBoxGift />

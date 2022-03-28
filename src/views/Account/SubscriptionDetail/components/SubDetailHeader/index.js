@@ -108,7 +108,7 @@ const SubDetailHeader = ({
     productListLoading
   };
   return (
-    <div className="d-flex align-items-center flex-wrap rc-margin-bottom--xs">
+    <div className="d-flex align-items-center flex-wrap mb-4 md:mb-0">
       <LinkPet
         petType={petType}
         getBreedName={getBreedName}
