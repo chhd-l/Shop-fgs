@@ -31,17 +31,17 @@ function JpContactUs(props) {
           style={{ background: '#fff' }}
         >
           <div className="jp-contactUs w-full mt-16 mb-4 flex justify-center flex-wrap md:h-auto">
-            <div className="jp-contactUs-top w-full md:w-55/100 clear-both">
-              <h1 className="title-first md:w-340 md:float-left md:mb-6 text-center text-30 md:text-40 leading-8">
+            <div className="jp-contactUs-top w-full flex justify-center md:justify-end flex-wrap md:flex-nowrap md:flex-none md:w-55/100 clear-both md:relative">
+              <h1 className="title-first md:w-340 md:flex-shrink-0 md:float-left md:mb-6 text-center text-30 md:text-40 leading-8 md:absolute md:top-8 md:left-4 z-10">
                 お問い合わせ窓口
               </h1>
               <img
                 src={Bitmap}
                 alt=""
-                className="md:float-right md:w-600 md:h-450"
+                className="md:float-right w-320 h-246 md:w-600 md:h-450 md:order-2 "
               />
-              {/* w-77/100 m-auto */}
-              <p className=" md:float-left w-77/100 md:w-auto m-auto">
+              {/* w-77/100 m-auto  w-77/100 md:w-auto m-auto*/}
+              <p className="md:float-left md:absolute md:top-28 md:left-4 z-10">
                 <p
                   className="text-22 md:text-26 leading-7 font-medium"
                   style={{
@@ -85,7 +85,7 @@ function JpContactUs(props) {
               className="h-2 w-full"
               style={{ backgroundColor: '#f6f6f6' }}
             ></div>
-            <div className="jp-contactUs-bottom w-full md:w-55/100 pt-12 md:pt-16 pb-16 pl-10 pr-10 clear-both">
+            <div className="jp-contactUs-bottom w-full md:w-55/100 pt-12 md:pt-1 pb-16 md:pb-48 2xl:pb-16 pl-10 pr-10   clear-both">
               <h1
                 className="md:text-center text-22 md:text-30 leading-7 md:leading-10  font-medium mb-4 md:mb-8 md:w-4/5 m-auto"
                 style={{
