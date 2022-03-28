@@ -36,9 +36,26 @@ import RouteFilterHook from '@/components/RouteFilter/RouteFilterHook';
 import { initializePhraseAppEditor } from 'react-intl-phraseapp';
 import './vconsole';
 
-const Home = loadable(() => import('@/views/Home'), 'rc-carousel');
-
 import PickupMap from '@/views/PickupMap';
+import Prescription from '@/views/Prescription';
+import MakerHandle from '@/components/GoogleMap/makerHandle';
+
+import ProductFinder from '@/views/ProductFinder';
+import ProductFinderResult from '@/views/ProductFinder/modules/Result';
+import ProductFinderNoResult from '@/views/ProductFinder/modules/NoResult';
+import SearchShow from '@/views/StaticPage/SearchShow';
+import PromotionRefuge from '@/views/StaticPage/PromotionRefuge';
+// const PromotionRefuge = loadable(() => import('@/views/StaticPage/PromotionRefuge')); // todo slide
+import RefugeSource from '@/views/StaticPage/PromotionRefuge/source.js';
+// import register from '@/views/Register';
+import Welcome from '@/views/Register/welcome.js';
+import CancelEmail from '@/views/StaticPage/CancelEmail';
+
+import FelinTermsConditions from '@/views/StaticPage/FelinTermsConditions';
+
+import PreciseCatNutrition from './views/PreciseCatNutrition';
+
+const Home = loadable(() => import('@/views/Home'), 'rc-carousel');
 const List = loadable(() => import('@/views/List'));
 const Details = loadable(() => import('@/views/Details'), 'rc-carousel');
 const Cart = loadable(() => import('@/views/Cart'));
@@ -51,8 +68,6 @@ const AccountAppointments = loadable(() =>
 const AccountAppointmentsDetail = loadable(() =>
   import('@/views/Account/AppointmentsDetail')
 );
-import Prescription from '@/views/Prescription';
-import MakerHandle from '@/components/GoogleMap/makerHandle';
 const PrescriptionNavigate = loadable(() =>
   import('@/views/PrescriptionNavigate')
 );
@@ -101,10 +116,6 @@ const Recommendation_FrBreeder = loadable(() =>
   import('@/views/Recommendation_FrBreeder')
 );
 
-import ProductFinder from '@/views/ProductFinder';
-import ProductFinderResult from '@/views/ProductFinder/modules/Result';
-import ProductFinderNoResult from '@/views/ProductFinder/modules/NoResult';
-
 const TermUse = loadable(() => import('@/views/StaticPage/TermUse'));
 const Decouverteroyalcanin = loadable(() =>
   import('@/views/StaticPage/Decouverteroyalcanin')
@@ -128,6 +139,9 @@ const Mentionslegales = loadable(() =>
 );
 const Help = loadable(() => import('@/views/StaticPage/Help'));
 const ContactUs = loadable(() => import('@/views/StaticPage/ContactUs'));
+const JpContact = loadable(() =>
+  import('@/views/StaticPage/ContactUs/jp-index')
+);
 const Packfeed = loadable(() =>
   import('@/views/StaticPage/PackmixfeedingwetDry')
 );
@@ -172,16 +186,12 @@ const QualitySafety = loadable(() =>
 const US_QualitySafety = loadable(() =>
   import('@/views/StaticPage/QualitySafety/US_index')
 );
-import SearchShow from '@/views/StaticPage/SearchShow';
 const AboutUs = loadable(() => import('@/views/StaticPage/AboutUs'));
 const AboutUsDe = loadable(() => import('@/views/StaticPage/AboutUs/de-index'));
 const CatNutrition = loadable(() => import('@/views/StaticPage/CatNutrition'));
 const CadeauCoussinChat = loadable(() =>
   import('@/views/StaticPage/CadeauCoussinChat')
 );
-import PromotionRefuge from '@/views/StaticPage/PromotionRefuge';
-// const PromotionRefuge = loadable(() => import('@/views/StaticPage/PromotionRefuge')); // todo slide
-import RefugeSource from '@/views/StaticPage/PromotionRefuge/source.js';
 
 const RU_Values = loadable(() => import('@/views/StaticPage/Values/RU_index'));
 const US_Values = loadable(() => import('@/views/StaticPage/Values/US_index'));
@@ -204,8 +214,6 @@ const Consent2TR = loadable(() =>
   import('@/views/StaticPage/tr/Consent/Consent2')
 );
 const register = loadable(() => import('@/views/Register'));
-// import register from '@/views/Register';
-import Welcome from '@/views/Register/welcome.js';
 const KittenNutrition = loadable(() =>
   import('@/views/StaticPage/kitten-nutrition')
 );
@@ -213,11 +221,6 @@ const KittenNutrition = loadable(() =>
 const ShelterPrescription = loadable(() =>
   import('@/views/StaticPage/ShelterPrescription')
 );
-import CancelEmail from '@/views/StaticPage/CancelEmail';
-
-import FelinTermsConditions from '@/views/StaticPage/FelinTermsConditions';
-
-import PreciseCatNutrition from './views/PreciseCatNutrition';
 // import Loading from './components/Loading';
 const VetLandingPage = loadable(() =>
   import('@/views/ClubLandingPage/vetlandingpage')
@@ -286,7 +289,7 @@ const LoginCallback = (props) => {
       }
     };
     init();
-  }, [oktaAuth, authStateReady]);
+  }, [oktaAuth, authStateReady, authState, props]);
 
   return <div />;
 };
@@ -467,15 +470,32 @@ const App = () => {
                   path="/prescriptionNavigate"
                   component={PrescriptionNavigate}
                 />
-                {/* us: /help/contact, others: /help */}
+                {/* us: /help/contact, jp: /contact_us , others: /help */}
                 <Route
                   exact
-                  path="/help/contact"
+                  path="/us/help/contact"
                   render={(props) => {
-                    if (window.__.env.REACT_APP_COUNTRY === 'us') {
-                      return <ContactUs {...props} />;
-                    } else {
-                      return <Redirect to="/help" {...props} />;
+                    switch (window.__.env.REACT_APP_COUNTRY) {
+                      case 'us':
+                        return <ContactUs {...props} />;
+                      case 'jp':
+                        return <Redirect to="/jp/contact_us" {...props} />;
+                      default:
+                        return <Redirect to="/help" {...props} />;
+                    }
+                  }}
+                />
+                <Route
+                  exact
+                  path="/jp/contact_us"
+                  render={(props) => {
+                    switch (window.__.env.REACT_APP_COUNTRY) {
+                      case 'us':
+                        return <Redirect to="/us/help/contact" {...props} />;
+                      case 'jp':
+                        return <JpContact {...props} />;
+                      default:
+                        return <Redirect to="/help" {...props} />;
                     }
                   }}
                 />
@@ -483,10 +503,13 @@ const App = () => {
                   exact
                   path="/help"
                   render={(props) => {
-                    if (window.__.env.REACT_APP_COUNTRY === 'us') {
-                      return <Redirect to="/help/contact" {...props} />;
-                    } else {
-                      return <Help {...props} />;
+                    switch (window.__.env.REACT_APP_COUNTRY) {
+                      case 'us':
+                        return <Redirect to="/us/help/contact" {...props} />;
+                      case 'jp':
+                        return <Redirect to="/jp/contact_us" {...props} />;
+                      default:
+                        return <Help {...props} />;
                     }
                   }}
                 />
