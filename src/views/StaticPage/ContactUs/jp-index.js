@@ -30,7 +30,7 @@ function JpContactUs(props) {
           className="rc-content--fixed-header w-full"
           style={{ background: '#fff' }}
         >
-          <div className="jp-contactUs w-full mt-16 mb-4 flex justify-center flex-wrap">
+          <div className="jp-contactUs w-full mt-16 mb-4 flex justify-center flex-wrap md:h-auto">
             <div className="jp-contactUs-top w-full md:w-55/100 clear-both">
               <h1 className="title-first md:w-340 md:float-left md:mb-6 text-center text-30 md:text-40 leading-8">
                 お問い合わせ窓口
@@ -87,7 +87,7 @@ function JpContactUs(props) {
             ></div>
             <div className="jp-contactUs-bottom w-full md:w-55/100 pt-12 md:pt-16 pb-16 pl-10 pr-10 clear-both">
               <h1
-                className="md:text-center text-22 md:text-30 leading-7 md:leading-10 font-bold md:font-medium mb-4 md:mb-8 md:w-4/5 m-auto"
+                className="md:text-center text-22 md:text-30 leading-7 md:leading-10  font-medium mb-4 md:mb-8 md:w-4/5 m-auto"
                 style={{
                   color: '#E2001A',
                   fontFamily: 'Ping Fang SC'
