@@ -394,12 +394,17 @@ class SubscriptionDetail extends React.Component {
       this.setState({ loading: true });
       let res = await getSubDetail(this.props.match.params.subscriptionNumber);
       let subDetail = res.context || {};
+      const subscribeStatusVal =
+        SUBSCRIBE_STATUS_ENUM[subDetail.subscribeStatus];
       let noStartYear = {};
       let completedYear = {};
       let noStartYearOption = [];
       let completedYearOption = [];
       let petsType = '';
       let isIndv = subDetail.subscriptionType == 'Individualization';
+      const isShowClub =
+        subDetail.subscriptionType?.toLowerCase().includes('club') ||
+        subDetail.subscriptionType?.toLowerCase().includes('individualization');
       subDetail.goodsInfo =
         subDetail.goodsInfo?.map((item) => {
           if (isIndv) {
@@ -419,6 +424,11 @@ class SubscriptionDetail extends React.Component {
           }
           item.oldSubscribeNum = item.subscribeNum;
           item.oldPeriodTypeId = item.periodTypeId;
+          item.canDelete =
+            subDetail.goodsInfo.length > 1 && subscribeStatusVal === 'ACTIVE';
+          item.confirmTooltipVisible = false;
+          item.canChangeProduct =
+            isShowClub && !isIndv && subscribeStatusVal === 'ACTIVE';
           return item;
         }) || []; //防止商品被删报错
       let isCat =
@@ -507,7 +517,7 @@ class SubscriptionDetail extends React.Component {
           petType: petsType,
           isGift: isGift,
           subDetail: Object.assign({}, subDetail, {
-            subscribeStatus: SUBSCRIBE_STATUS_ENUM[subDetail.subscribeStatus]
+            subscribeStatus: subscribeStatusVal
           }),
           petName: subDetail?.petsInfo?.petsName,
           currentCardInfo:
@@ -537,6 +547,7 @@ class SubscriptionDetail extends React.Component {
               )
             });
           }
+
           fn && fn(subDetail);
         }
       );

@@ -121,7 +121,7 @@ const CompletedDelivery = ({ i, isActive, el, subDetail }) => {
             ) : el.id ? (
               <>
                 <span
-                  className="iconfont icondata text-xl mr-1"
+                  className="iconfont icondata text-xl mr-2"
                   style={{
                     color: '#666'
                   }}
