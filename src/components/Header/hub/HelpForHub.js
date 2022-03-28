@@ -34,7 +34,10 @@ function IconPanel({ data, item, handleClickNavItem }) {
       }}
     >
       <div className="rc-margin-right--xs flex-grow-1 text-nowrap11">
-        <span className="font-semibold11" style={{ color: '#767676' }}>
+        <span
+          className="font-medium md:font-light"
+          style={{ color: '#767676' }}
+        >
           {item.Subtitle}
         </span>
 
