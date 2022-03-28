@@ -212,8 +212,14 @@ class Details extends React.Component {
     return JSON.parse(configStr);
   }
   get btnStatus() {
-    const { details, quantity, instockStatus, initing, loading, form } =
-      this.state;
+    const {
+      details,
+      quantity,
+      instockStatus,
+      initing,
+      loading,
+      form
+    } = this.state;
     const { sizeList } = details;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     let addedFlag = 1;
@@ -545,11 +551,8 @@ class Details extends React.Component {
               if (mixFeeding) {
                 mixFeeding.quantity = 1;
               }
-              let {
-                goodsImg = '',
-                goodsName = '',
-                goodsNo = ''
-              } = mixFeeding?.goods || {};
+              let { goodsImg = '', goodsName = '', goodsNo = '' } =
+                mixFeeding?.goods || {};
               let _hiddenMixFeedingBanner = false;
               let mixFeedingSelected = mixFeeding?.sizeList?.filter(
                 (el) => el.selected
@@ -970,8 +973,13 @@ class Details extends React.Component {
     try {
       !type && this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const { currentUnitPrice, quantity, form, details, questionParams } =
-        this.state;
+      const {
+        currentUnitPrice,
+        quantity,
+        form,
+        details,
+        questionParams
+      } = this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -1187,6 +1195,7 @@ class Details extends React.Component {
     if (isBaby) return null;
     if (!isTechnology) return null;
     if (currentGoodsInfo?.goodsInfoType === 2) return null;
+    if (detail?.goodsType === 3) return null;
     if (!(wsEnergyCategory && wsReferenceEnergyValue)) return null;
     if (!details?.weShareId) return null;
     if (sptGoods && !isAdult) return null;
@@ -1279,8 +1288,13 @@ class Details extends React.Component {
   };
 
   ButtonGroupDom = (showRetailerBtn) => {
-    const { addToCartLoading, form, checkOutErrMsg, barcode, details } =
-      this.state;
+    const {
+      addToCartLoading,
+      form,
+      checkOutErrMsg,
+      barcode,
+      details
+    } = this.state;
     const btnStatus = this.btnStatus;
     const vet =
       (window.__.env.REACT_APP_HUB || Uk) &&
