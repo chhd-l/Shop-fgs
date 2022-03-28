@@ -4,48 +4,72 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import InputCircle from '@/components/InputCircle';
 import PointForm from '@/components/PointForm';
 import { inject, observer } from 'mobx-react';
+import {
+  NOTUSEPOINT,
+  USEPOINT
+} from '@/views/Payment/PaymentMethod/paymentMethodsConstant';
 
 const Point = ({ checkoutStore }) => {
+  const { setSelectDiscountWay, setCurrentHoldingPoint, setEarnedPoint } =
+    checkoutStore;
   const data = [
     {
-      id: 'none',
-      name: <FormattedMessage id="Do not use points / coupons / tickets" />
+      id: NOTUSEPOINT,
+      name: <FormattedMessage id="Do not use points" />
     },
-    { id: 'point', name: <FormattedMessage id="Use points" /> },
-    { id: 'coupons', name: <FormattedMessage id="Use coupons / tickets" /> }
+    { id: USEPOINT, name: <FormattedMessage id="Use points" /> }
   ];
   const initId = data[0].i;
   const [id, setId] = useState(initId);
 
+  useEffect(() => {
+    //初始化折扣方式为未使用积分
+    setSelectDiscountWay(NOTUSEPOINT);
+
+    setTimeout(() => {
+      //获取当前积分
+      setCurrentHoldingPoint(10872);
+      //能挣得的积分
+      setEarnedPoint(250);
+    }, 2000);
+  }, []);
+
   const FormType = {
-    none: null,
-    point: <PointForm />,
-    coupons: null
+    notUsePoint: null,
+    usePoint: <PointForm />
+  };
+
+  const openPromotionBox = () => {
+    document.getElementById('id-promotionCode').removeAttribute('disabled');
+    document.getElementById('promotionApply').removeAttribute('disabled');
+  };
+
+  const disabledPromotionBox = () => {
+    document.getElementById('id-promotionCode').setAttribute('disabled', true);
+    document.getElementById('promotionApply').setAttribute('disabled', true);
   };
 
   const getId = (id) => {
     setId(id);
-    if (id == 'coupons') {
-      document.getElementById('id-promotionCode').removeAttribute('disabled');
-      document.getElementById('id-promotionCode').focus();
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    } else {
-      document
-        .getElementById('id-promotionCode')
-        .setAttribute('disabled', true);
+    switch (id) {
+      case 'notUsePoint':
+        //1.有积分删除积分
+        //(1). 设置deletePromotionFlag true
+        setSelectDiscountWay(id);
+        //todo
+        //2.打开promotionCode输入框
+        openPromotionBox();
+        break;
+      case 'usePoint':
+        //1.有promotion先删除
+        //(1). 设置deletePromotionFlag 为false
+        setSelectDiscountWay(id);
+        //todo
+        //2.禁用promotionCode输入框
+        disabledPromotionBox();
+        break;
     }
   };
-
-  useEffect(() => {
-    if (id != 'coupons') {
-      document
-        .getElementById('id-promotionCode')
-        .setAttribute('disabled', true);
-    }
-  }, []);
 
   return (
     <div style={{ fontFamily: 'din-pro' }}>

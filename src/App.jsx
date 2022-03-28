@@ -166,6 +166,9 @@ const US_SubscriptionLanding = loadable(() =>
 const TR_SubscriptionLanding = loadable(() =>
   import('@/views/StaticPage/SubscriptionLanding/TR_index.js')
 );
+const JP_SubscriptionLanding = loadable(() =>
+  import('@/views/StaticPage/SubscriptionLanding/JP_index.js')
+);
 const TR_GeneralConditions = loadable(() =>
   import('@/views/StaticPage/GeneralConditions/TR_index.js')
 );
@@ -747,6 +750,9 @@ const App = () => {
                         break;
                       case 'tr':
                         sublanding = TR_SubscriptionLanding;
+                        break;
+                      case 'jp':
+                        sublanding = JP_SubscriptionLanding;
                         break;
                       default:
                         sublanding = SubscriptionLanding;

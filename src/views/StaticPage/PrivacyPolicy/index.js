@@ -4,19 +4,16 @@ import Footer from '@/components/Footer';
 import { seoHoc } from '@/framework/common';
 import BannerTip from '@/components/BannerTip';
 import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
+import Canonical from '@/components/Canonical';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 
 @seoHoc()
 class PrivacyPolicy extends React.Component {
   render() {
     return (
       <div>
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />

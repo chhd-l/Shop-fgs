@@ -8,15 +8,14 @@ import image1 from './images/image1.jpg';
 import image2 from './images/image2.jpg';
 import image3 from './images/image3.jpg';
 import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
 
 import './index.css';
 import { toJS } from 'mobx';
 import LoginButton from '@/components/LoginButton';
 import { seoHoc } from '@/framework/common';
+import Canonical from '@/components/Canonical';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 @seoHoc()
 class Help extends React.Component {
   render(h) {
@@ -36,9 +35,7 @@ class Help extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />

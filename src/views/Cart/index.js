@@ -5,10 +5,8 @@ import LoginCart from './modules/loginCart';
 import './index.css';
 import { doGetGAVal } from '@/utils/GA';
 import GoogleTagManager from '@/components/GoogleTagManager';
-import { Helmet } from 'react-helmet';
 import { seoHoc } from '@/framework/common';
-
-const pageLink = window.location.href;
+import Canonical from '@/components/Canonical';
 
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
 
@@ -48,9 +46,7 @@ class Cart extends React.Component {
 
     return (
       <>
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <GoogleTagManager
           key={this.props.location.key}
           additionalEvents={event}

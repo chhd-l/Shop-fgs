@@ -10,9 +10,7 @@ import { validData } from '@/utils/utils';
 import { seoHoc } from '@/framework/common';
 import './index.less';
 import { submitContactUsInfo } from '@/api/staticPageApi';
-import { Helmet } from 'react-helmet';
-
-const pageLink = window.location.href;
+import Canonical from '@/components/Canonical';
 
 @seoHoc('Contact Us Page')
 class ContactUs extends Component {
@@ -502,9 +500,7 @@ class ContactUs extends Component {
   render() {
     return (
       <div>
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <div className="contactUs">
           {this.state.isLoading ? <Loading bgColor={'#fff'} /> : null}
           <Header {...this.props} showMiniIcons={true} showUserIcon={true} />

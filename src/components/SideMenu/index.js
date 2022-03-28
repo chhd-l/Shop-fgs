@@ -11,7 +11,7 @@ let menuList = [
     catogery: 'Home',
     isShow: true,
     icon: <span className="iconfont">&#xe697;</span>,
-    langKey: 'home',
+    langKey: 'Home',
     url: '/account'
   },
   {

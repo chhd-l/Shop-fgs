@@ -20,9 +20,9 @@ import Help from './modules/help';
 import { getDetailsBySpuNoIgnoreDisplayFlag } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
 import './index.css';
+import Canonical from '@/components/Canonical';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 
 let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
@@ -354,9 +354,7 @@ class DedicatedLandingPage extends React.Component {
           }
         />
         {!Ru ? (
-          <Helmet>
-            <link rel="canonical" href={pageLink} />
-          </Helmet>
+          <Canonical />
         ) : (
           <Helmet>
             <meta name="robots" content="noindex" />

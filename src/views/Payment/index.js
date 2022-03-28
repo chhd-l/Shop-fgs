@@ -72,7 +72,6 @@ import {
 import { OnePageEmailForm, OnePageClinicForm } from './OnePage';
 import './modules/adyenCopy.css';
 import './index.css';
-import { Helmet } from 'react-helmet';
 import Adyen3DForm from '@/components/Adyen/3d';
 import { ADDRESS_RULE } from './PaymentMethod/Cyber/constant/utils';
 import {
@@ -103,15 +102,18 @@ import {
 } from './PaymentMethod/paymentMethodsConstant';
 import { handlePayReview } from './PaymentMethod/paymentUtils';
 import { ErrorMessage } from '@/components/Message';
+import Canonical from '@/components/Canonical';
+import { USEPOINT } from '@/views/Payment/PaymentMethod/paymentMethodsConstant';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
 const hideBillingAddr = Boolean(
   +window.__.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
 );
+
+const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 
 const sleep = (time) => {
   return new Promise((resolve) => {
@@ -663,6 +665,14 @@ class Payment extends React.Component {
     sessionItemRoyal.remove('appointment-no');
     sessionItemRoyal.remove('isChangeAppoint');
     sessionItemRoyal.remove('oldAppointNo');
+  }
+
+  get isInputPointDisabled() {
+    return (
+      (this.props.checkoutStore.selectDiscountWay == USEPOINT &&
+        !this.props.checkoutStore.inputPoint) ||
+      this.props.checkoutStore.inputPointErr
+    ); //使用积分为空或者输入的积分不满足条件->按钮都disabled
   }
 
   get isLogin() {
@@ -1979,6 +1989,21 @@ class Payment extends React.Component {
         }
       );
       let submitParam = bindSubmitParam(this.state.listData);
+
+      //针对俄罗斯地址最后再一次校验
+      let visitorRegisterParam = {
+        ...param,
+        ...submitParam
+      };
+      if (
+        window.__.env.REACT_APP_COUNTRY === 'ru' &&
+        !visitorRegisterParam.city &&
+        !visitorRegisterParam.province
+      ) {
+        throw new Error('Введите адрес');
+      }
+      //
+
       let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin({
         ...param,
         ...submitParam
@@ -3485,7 +3510,10 @@ class Payment extends React.Component {
           {chooseRadioType() === 'box' &&
             paymentTypeVal === 'adyenCard' &&
             payConfirmBtn({
-              disabled: !validSts.adyenCard || validForBilling,
+              disabled:
+                !validSts.adyenCard ||
+                validForBilling ||
+                (COUNTRY == 'jp' && this.isInputPointDisabled),
               loading: saveBillingLoading,
               aaa: validSts,
               bbb: validForBilling
@@ -3500,9 +3528,13 @@ class Payment extends React.Component {
             })}
           {paymentTypeVal === 'adyen_convenience_store' &&
             payConfirmBtn({
-              disabled: !this.state.convenienceStore
+              disabled:
+                !this.state.convenienceStore || this.isInputPointDisabled
             })}
-          {paymentTypeVal === 'cod_japan' && payConfirmBtn()}
+          {paymentTypeVal === 'cod_japan' &&
+            payConfirmBtn({
+              disabled: this.isInputPointDisabled
+            })}
           {/* ***********************支付选项卡的内容start******************************* */}
           {payWayErr ? (
             payWayErr
@@ -3786,11 +3818,6 @@ class Payment extends React.Component {
       brandDeco = paymentMethod.paymentVendor;
       holderNameDeco = paymentMethod.holderName;
       expirationDate = paymentMethod.expirationDate;
-      if (expirationDate) {
-        let curExpirationDate = paymentMethod.expirationDate.split('-');
-        curExpirationDate.pop();
-        expirationDate = curExpirationDate.join('-');
-      }
     } else if (payosdata && payosdata.vendor) {
       lastFourDeco = payosdata.last_4_digits;
       brandDeco = payosdata.vendor;
@@ -3798,6 +3825,7 @@ class Payment extends React.Component {
     }
 
     let ret = handlePayReview(
+      this.props.checkoutStore.selectDiscountWay,
       paymentTypeVal,
       this.state.convenienceStore,
       email,
@@ -3945,9 +3973,7 @@ class Payment extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header
           {...this.props}
           showNav={false}

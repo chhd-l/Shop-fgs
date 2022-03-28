@@ -21,9 +21,8 @@ import './index.css';
 import imagecat from '../PackmixfeedingwetDry/images/cat-autoship.png';
 import imagedog from '../PackmixfeedingwetDry/images/dog-autoship.png';
 import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
+import Canonical from '@/components/Canonical';
 
-const pageLink = window.location.href;
 @inject('configStore')
 @injectIntl
 @seoHoc('Subscription Page')
@@ -45,9 +44,7 @@ class SubscriptionLanding extends React.Component {
 
     return (
       <div className="recommendation">
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <GoogleTagManager
           key={this.props.location.key}
           additionalEvents={event}

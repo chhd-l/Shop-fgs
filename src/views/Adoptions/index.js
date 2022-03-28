@@ -21,8 +21,10 @@ import { getShelterList } from '@/api/recommendation';
 import { getDetails, getLoginDetails } from '@/api/details';
 import { getFrequencyDict } from '@/utils/utils';
 let goodsInfoNosObj = {
-  'goodsNo-8172118196590126': ['Kitten <br/> (3-12 months)'],
-  'goodsNo-8172256907894156': ['Adult Cat<br/> (1+ years)'],
+  'goodsNo-541425': ['Kitten <br/> (3-12 months)'],
+  'goodsNo-41018': ['Kitten <br/> (3-12 months)'],
+  'goodsNo-541506': ['Adult Cat<br/> (1+ years)'],
+  'goodsNo-471574': ['Adult Cat<br/> (1+ years)'],
   'goodsNo-493013': ['Small Puppy <br/> (3-12 months)'],
   'goodsNo-493817': ['Medium Puppy<br/> (3-12 months)'],
   'goodsNo-492818': ['Large Puppy<br/> (3-12 months)'],
@@ -30,6 +32,16 @@ let goodsInfoNosObj = {
   'goodsNo-517417': ['Medium Adult Dog<br/> (1+ years)', '22 to 55 lbs'],
   'goodsNo-517935': ['Large Adult Dog<br/> (1+ years)', '56 to 100 lbs']
 };
+let fakeBundle = [
+  {
+    id: '541425-41018',
+    img: 'https://d2cstgstorage.z13.web.core.windows.net/202201170450386900.jpg'
+  },
+  {
+    id: '541506-471574',
+    img: 'https://d2cstgstorage.z13.web.core.windows.net/202201170451254930.jpg'
+  }
+];
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 const Adoptions = (props) => {
@@ -75,8 +87,15 @@ const Adoptions = (props) => {
       console.info('....');
       return;
     }
+    let details = [];
     // 获取detail
-    let details = await getDetail(product.goodsInfo.goodsInfoId);
+    let ids = product.goodsInfo.goodsInfoId.split('-');
+    for (let id of ids) {
+      let res = await getDetail(id);
+      if (res.goodsInfo.stock > 0) {
+        details.push(res);
+      }
+    }
     // details = Object.assign({},details,details.goodsInfo)
     setBtnLoading(true);
 
@@ -163,22 +182,24 @@ const Adoptions = (props) => {
     }
     goodsRes.goodsInfoFlag = goodsInfoFlag;
   };
-  const hanldeUnloginAddToCart = async (product) => {
-    let cartItem = Object.assign({}, product, product.goodsInfo, {
-      selected: true,
-      quantity: 1,
-      currentUnitPrice: product.goodsInfo?.marketPrice,
-      goodsInfoFlag: 0,
-      periodTypeId: null,
-      // goodsInfoFlag: product.goodsInfoFlag,
-      // periodTypeId: product.defaultFrequencyId,
-      recommendationId: shelter.value,
-      recommendationName: shelter.name
+  const hanldeUnloginAddToCart = async (products) => {
+    let cartItem = products.map((product) => {
+      return Object.assign({}, product, product.goodsInfo, {
+        selected: true,
+        quantity: 1,
+        currentUnitPrice: product.goodsInfo?.marketPrice,
+        goodsInfoFlag: 0,
+        periodTypeId: null,
+        // goodsInfoFlag: product.goodsInfoFlag,
+        // periodTypeId: product.defaultFrequencyId,
+        recommendationId: shelter.value,
+        recommendationName: shelter.name
+      });
     });
     try {
       await checkoutStore.hanldeUnloginAddToCart({
-        valid: product.goodsInfo.stock > 0,
-        cartItemList: [cartItem],
+        valid: true,
+        cartItemList: cartItem,
         configStore,
         ...props
       });
@@ -188,19 +209,22 @@ const Adoptions = (props) => {
     }
   };
   const hanldeLoginAddToCart = async (details) => {
-    let param = {
-      goodsInfoId: details.goodsInfo.goodsInfoId,
-      goodsNum: 1,
-      recommendationId: shelter.value,
-      recommendationName: shelter.name,
-      currentUnitPrice: details.goodsInfo?.marketPrice,
-      goodsInfoFlag: 0,
-      periodTypeId: null
-      // goodsInfoFlag: details.goodsInfoFlag,
-      // periodTypeId: details.defaultFrequencyId
-    };
-    try {
+    for (let detail of details) {
+      let param = {
+        goodsInfoId: detail.goodsInfo.goodsInfoId,
+        goodsNum: 1,
+        recommendationId: shelter.value,
+        recommendationName: shelter.name,
+        currentUnitPrice: detail.goodsInfo?.marketPrice,
+        goodsInfoFlag: 0,
+        periodTypeId: null
+        // goodsInfoFlag: detail.goodsInfoFlag,
+        // periodTypeId: detail.defaultFrequencyId
+      };
       await sitePurchase(param);
+    }
+
+    try {
       await checkoutStore.updateLoginCart({
         intl: props.intl
       });
@@ -208,6 +232,12 @@ const Adoptions = (props) => {
     } catch (err) {
       setBtnLoading(false);
     }
+  };
+  const deleteItem = (arr, goodsInfoNo) => {
+    const index = arr.findIndex(
+      (el) => el.goodsInfo.goodsInfoNo === goodsInfoNo
+    );
+    arr.splice(index, 1);
   };
   const getGoodsInfos = async () => {
     let goodsInfoNos = Object.keys(goodsInfoNosObj).map(
@@ -230,6 +260,29 @@ const Adoptions = (props) => {
         }
       });
     });
+    // 组装fakebundle
+    let fakeProducts = fakeBundle.map((el) => {
+      let fakeBundleArr = el.id.split('-').map((cel) => {
+        return sortList.find((item) => item.goodsInfo.goodsInfoNo == cel);
+      });
+      let bundleId = fakeBundleArr
+        .map((el) => el.goodsInfo.goodsInfoId)
+        .join('-');
+      let bundleData =
+        fakeBundleArr.find((el) => el.goodsInfo.stock > 0) || fakeBundleArr[0];
+      bundleData.goodsImg = el.img; //重置图片
+      bundleData.goodsInfo.goodsInfoId = bundleId; //重置id
+      return bundleData;
+    });
+    // 删除拼接fakebundle的产品
+    fakeBundle.forEach((el) => {
+      var item = el.id.split('-');
+      item.forEach((cel) => {
+        deleteItem(sortList, cel);
+      });
+    });
+    sortList.unshift(...fakeProducts);
+    // fakeIds.
     console.info(
       'sortList',
       sortList.map((el) => el.goodsNameStr)
@@ -403,7 +456,7 @@ const Adoptions = (props) => {
                     </p>
                     <button
                       onClick={() => addCart(item)}
-                      class={`rc-btn rc-btn--two ${
+                      className={`rc-btn rc-btn--two ${
                         btnLoading ? 'ui-btn-loading' : ''
                       }
                       ${

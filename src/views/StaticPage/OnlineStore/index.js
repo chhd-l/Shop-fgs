@@ -9,7 +9,6 @@ import { salesCategoryFilterRule2 } from '@/components/HubSalesCategory/utils';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { seoHoc } from '@/framework/common';
 import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
 import PaymentSecureHome from '@/assets/images/home/Payment-secure@2x.png';
 import premiumHome from '@/assets/images/home/premium@2x.png';
 import reimbursedHome from '@/assets/images/home/reimbursed@2x.png';
@@ -21,9 +20,9 @@ import { Link, withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import './index.less';
+import Canonical from '@/components/Canonical';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 
 const mailAddress = 'mailto:suivi.dtc.france@royalcanin.com';
 
@@ -428,9 +427,7 @@ class OnlineStore extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />

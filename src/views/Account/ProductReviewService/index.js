@@ -12,11 +12,9 @@ import { getGoodsList, addGoodsEvaluate } from '@/api/order';
 //import ReviewList from './components/ReviewList';
 //import ImgUpload from '@/components/ImgUpload';
 import Skeleton from 'react-skeleton-loader';
-import { Helmet } from 'react-helmet';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import { seoHoc } from '@/framework/common';
-
-const pageLink = window.location.href;
+import Canonical from '@/components/Canonical';
 
 @injectIntl
 @seoHoc()
@@ -294,9 +292,7 @@ class ProductReview extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />

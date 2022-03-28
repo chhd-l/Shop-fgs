@@ -1,7 +1,6 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import GoogleTagManager from '@/components/GoogleTagManager';
-import Modal from '@/components/Modal';
 import { inject, observer } from 'mobx-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -9,7 +8,6 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import { Link } from 'react-router-dom';
 import './index.less';
-import { Helmet } from 'react-helmet';
 import LinkedSubs from './components/LinkedSubs';
 import LazyLoad from 'react-lazyload';
 import PetForms from './components/PetForms';
@@ -28,10 +26,10 @@ import Banner_Dog from './images/banner_Dog.jpg';
 import ProductCarousel from '@/components/ProductCarousel';
 import { findPetProductForClub } from '@/api/subscription';
 import { seoHoc } from '@/framework/common';
+import Canonical from '@/components/Canonical';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 
 @inject('loginStore')
 @seoHoc()
@@ -349,9 +347,7 @@ class PetForm extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3 p-petform">
           <BreadCrumbs />

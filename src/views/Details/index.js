@@ -178,10 +178,15 @@ class Details extends React.Component {
   async componentDidMount() {
     const { pathname } = this.props.location;
     this.getUrlParam();
-    const goodsSpuNo =
+    // 获取spu在?后面有很多数据的时候，需要特殊处理一下
+    let goodsSpuNo =
       pathname.split('-').reverse().length > 1
         ? pathname.split('-').reverse()[0]
         : '';
+    if (window.location.href.includes('?')) {
+      goodsSpuNo =
+        window.location.href?.split('?')?.[0].split('-').reverse()[0] || '';
+    }
     this.setState(
       {
         id: this.props.match.params.id,
@@ -1635,11 +1640,13 @@ class Details extends React.Component {
                   goodsDescriptionDetailList={
                     details.goodsDescriptionDetailList
                   }
-                  saleableFlag={details.saleableFlag || this.isNullGoodsInfos}
+                  saleableFlag={details.saleableFlag ?? this.isNullGoodsInfos}
                   displayFlag={details.displayFlag}
                   setState={this.setState.bind(this)}
                   isClub={
-                    details.promotions && details.promotions.includes('club')
+                    details.promotions &&
+                    details.promotions.includes('club') &&
+                    currentSubscriptionStatus
                   }
                   goodsDetailSpace={backgroundSpaces}
                 />

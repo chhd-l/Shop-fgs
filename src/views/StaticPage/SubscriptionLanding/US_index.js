@@ -18,12 +18,11 @@ import wof from './images/wof.png';
 import { inject, observer } from 'mobx-react';
 import './index.css';
 import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
 import { seoHoc } from '@/framework/common';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { LOGO_CLUB, LOGO } from '@/utils/constant';
+import Canonical from '@/components/Canonical';
 
-const pageLink = window.location.href;
 @inject('configStore')
 @seoHoc('Subscription Page')
 @injectIntl
@@ -43,9 +42,7 @@ class SubscriptionLanding extends React.Component {
     };
     return (
       <div className="subscriptionLanding">
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <GoogleTagManager
           key={this.props.location.key}
           additionalEvents={event}

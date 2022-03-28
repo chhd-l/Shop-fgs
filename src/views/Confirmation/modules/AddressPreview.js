@@ -110,11 +110,13 @@ class InfosPreview extends React.Component {
                 <>
                   <span className="medium">
                     <FormattedMessage id="Expire" />{' '}
-                    {window.__.env.REACT_APP_COUNTRY == 'us'
-                      ? formatDate({
-                          date: new Date(payRecord.expirationDate).addHours(12)
-                        })
-                      : formatDate({ date: payRecord.expirationDate })}
+                    {formatDate({
+                      date: payRecord.expirationDate,
+                      formatOption: {
+                        year: 'numeric',
+                        month: '2-digit'
+                      }
+                    })}
                   </span>
                   <br />
                 </>

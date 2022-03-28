@@ -38,14 +38,13 @@ import { toJS } from 'mobx';
 import LoginButton from '@/components/LoginButton';
 import Modal from './components/Modal';
 import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 
 import './index.less';
+import Canonical from '@/components/Canonical';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 
 @inject(
   'checkoutStore',
@@ -535,9 +534,7 @@ class Help extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <Modal
           key="1"

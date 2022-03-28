@@ -28,7 +28,6 @@ import {
   getFrequencyDict
 } from '@/utils/utils';
 import { seoHoc } from '@/framework/common';
-import { Helmet } from 'react-helmet';
 import Description from './components/description';
 import {
   GARecommendationProduct,
@@ -36,6 +35,7 @@ import {
   GABigBreederAddToCar
 } from '@/utils/GA';
 import ImageMagnifier_fr from '../Details/components/ImageMagnifier';
+import Canonical from '@/components/Canonical';
 
 const imgUrlPreFix = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
 const isUs = window.__.env.REACT_APP_COUNTRY === 'us';
@@ -44,7 +44,6 @@ const isFr = window.__.env.REACT_APP_COUNTRY === 'fr';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 
 let advantageArr = [
   { img: shippingImg, text: 'Livraison offerte et automatique' },
@@ -940,9 +939,7 @@ class Recommendation extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <Modal
           key="1"

@@ -3,11 +3,10 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { seoHoc } from '@/framework/common';
 import BannerTip from '@/components/BannerTip';
-import { Helmet } from 'react-helmet';
 import './index.less';
 import { dataList } from './data';
+import Canonical from '@/components/Canonical';
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 // alert(1)
 
 @seoHoc()
@@ -15,9 +14,7 @@ class TermsOfUsePrescriber extends React.Component {
   render(h) {
     return (
       <div className="TermsAndConditions">
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />

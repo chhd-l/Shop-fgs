@@ -13,11 +13,10 @@ import { formatMoney } from '@/utils/utils';
 import { getReturnList } from '@/api/order';
 import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
 import { seoHoc } from '@/framework/common';
+import Canonical from '@/components/Canonical';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 
 @seoHoc()
 class ReturnOrder extends React.Component {
@@ -124,9 +123,7 @@ class ReturnOrder extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />

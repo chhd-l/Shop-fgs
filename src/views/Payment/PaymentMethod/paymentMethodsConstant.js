@@ -194,3 +194,7 @@ export const supportPoint = {
   jp: true,
   default: false
 };
+
+export const NOTUSEPOINT = 'notUsePoint';
+
+export const USEPOINT = 'usePoint';

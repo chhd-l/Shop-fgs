@@ -7,10 +7,9 @@ import { inject, observer } from 'mobx-react';
 import { seoHoc } from '@/framework/common';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import './index.css';
-import { Helmet } from 'react-helmet';
+import Canonical from '@/components/Canonical';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 @injectIntl
 @seoHoc('general terms conditions page')
 @observer
@@ -74,9 +73,7 @@ class TermsConditionsTr extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
 
         <main className="rc-content--fixed-header rc-bg-colour--brand3">

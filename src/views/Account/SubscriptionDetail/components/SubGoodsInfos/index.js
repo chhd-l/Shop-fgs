@@ -27,14 +27,18 @@ const SubGoodsInfos = ({
   getMinDate,
   isShowClub,
   intl,
-  configStore: {
-    info: { skuLimitThreshold }
-  }
+  configStore
 }) => {
   const isNotInactive = subDetail.subscribeStatus !== 'INACTIVE';
   const isActive = subDetail.subscribeStatus === 'ACTIVE';
   const isIndv = subDetail.subscriptionType == 'Individualization';
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
+  const [skuLimitThreshold, setSkuLimitThreshold] = useState(1);
+
+  useEffect(() => {
+    setSkuLimitThreshold(configStore?.info?.skuLimitThreshold);
+  }, configStore?.info?.skuLimitThreshold);
+
   //订阅数量更改
   const onQtyChange = async () => {
     try {

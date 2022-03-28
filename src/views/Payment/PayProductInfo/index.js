@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
+import { reaction } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';
 import {
@@ -20,6 +21,8 @@ import GiftList from '../GiftList/index.tsx';
 import { isFirstOrder } from '@/api/user';
 import cloneDeep from 'lodash/cloneDeep';
 import { IMG_DEFAULT } from '@/utils/constant';
+import { nextTick } from 'process';
+import LoyaltyPoint from './components/loyaltyPoint';
 
 const guid = uuidv4();
 let isGACheckoutLock = false;
@@ -225,6 +228,16 @@ class PayProductInfo extends React.Component {
     }
   }
   async componentDidMount() {
+    //监听Point组件选择积分的时候触发删除coupon
+    reaction(
+      () => this.props.checkoutStore.selectDiscountWay,
+      () => {
+        if (this.props.checkoutStore.promotionCode) {
+          this.handleClickDeletePromotion();
+        }
+      }
+    );
+    //
     if (this.isLogin) {
       //判断该会员是否是第一次下单
       isFirstOrder().then((res) => {
@@ -626,6 +639,41 @@ class PayProductInfo extends React.Component {
       });
     }
   };
+  handleClickDeletePromotion = async () => {
+    try {
+      const { checkoutStore } = this.props;
+      const { discount } = this.state;
+      let result = {};
+      await checkoutStore.removePromotionCode();
+      await checkoutStore.removeCouponCode();
+      // 删除掉之后 promotionCode 后再使用之前的参数查询一遍 purchase接口
+      let purchasesPara =
+        localItemRoyal.get('rc-payment-purchases-param') || {};
+      purchasesPara.promotionCode = '';
+      const param = Object.assign(purchasesPara, {
+        intl: this.props.intl
+      });
+      if (!this.props.loginStore.isLogin) {
+        // 游客
+        result = await checkoutStore.updateUnloginCart(param);
+      } else {
+        purchasesPara.subscriptionFlag = this.props.buyWay === 'frequency';
+        // 会员
+        result = await checkoutStore.updateLoginCart(param);
+      }
+      discount.pop();
+      this.props.sendPromotionCode('');
+      this.setState({
+        discount: [],
+        isShowValidCode: false,
+        lastPromotionInputValue: '',
+        promotionInputValue: '',
+        isStudentPurchase: false
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
   getTotalItems() {
     const { headerIcon } = this.props;
     const { productList } = this.state;
@@ -839,42 +887,7 @@ class PayProductInfo extends React.Component {
                               lineHeight: '1.25rem',
                               cursor: 'pointer'
                             }}
-                            onClick={async () => {
-                              let result = {};
-                              await checkoutStore.removePromotionCode();
-                              await checkoutStore.removeCouponCode();
-                              // 删除掉之后 promotionCode 后再使用之前的参数查询一遍 purchase接口
-                              let purchasesPara =
-                                localItemRoyal.get(
-                                  'rc-payment-purchases-param'
-                                ) || {};
-                              purchasesPara.promotionCode = '';
-                              const param = Object.assign(purchasesPara, {
-                                intl: this.props.intl
-                              });
-                              if (!this.props.loginStore.isLogin) {
-                                // 游客
-                                result = await checkoutStore.updateUnloginCart(
-                                  param
-                                );
-                              } else {
-                                purchasesPara.subscriptionFlag =
-                                  this.props.buyWay === 'frequency';
-                                // 会员
-                                result = await checkoutStore.updateLoginCart(
-                                  param
-                                );
-                              }
-                              discount.pop();
-                              this.props.sendPromotionCode('');
-                              this.setState({
-                                discount: [],
-                                isShowValidCode: false,
-                                lastPromotionInputValue: '',
-                                promotionInputValue: '',
-                                isStudentPurchase: false
-                              });
-                            }}
+                            onClick={this.handleClickDeletePromotion}
                           />
                         </p>
                       </div>
@@ -1106,6 +1119,9 @@ class PayProductInfo extends React.Component {
               {<FormattedMessage id="totalIncluMessage" />}
             </div>
           ) : null}
+
+          {/* show Loyalty point */}
+          <LoyaltyPoint />
         </div>
       </div>
     );

@@ -19,12 +19,11 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import { myAccountPushEvent } from '@/utils/GA';
 import BannerTip from '@/components/BannerTip';
 import './index.less';
-import { Helmet } from 'react-helmet';
 import Modal from '@/components/Modal';
 import { seoHoc } from '@/framework/common';
+import Canonical from '@/components/Canonical';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 
 function PanleContainer(props) {
   const loading = props.loading || false;
@@ -192,9 +191,7 @@ class AccountProfile extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3 p-basicinfo">
           <BannerTip />

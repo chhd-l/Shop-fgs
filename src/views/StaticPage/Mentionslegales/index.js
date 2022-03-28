@@ -6,9 +6,7 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import { seoHoc } from '@/framework/common';
-import { Helmet } from 'react-helmet';
-
-const pageLink = window.location.href;
+import Canonical from '@/components/Canonical';
 
 @seoHoc()
 class Mentionslegales extends React.Component {
@@ -29,9 +27,7 @@ class Mentionslegales extends React.Component {
           key={this.props.location.key}
           additionalEvents={event}
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />

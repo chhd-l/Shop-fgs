@@ -5,10 +5,8 @@ import './index.less';
 import { customerInfoSave } from '@/api/staticPageApi';
 import Loading from '@/components/Loading';
 import { seoHoc } from '@/framework/common';
-import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
-
-const pageLink = window.location.href;
+import Canonical from '@/components/Canonical';
 
 @seoHoc()
 class Landing extends Component {
@@ -133,9 +131,7 @@ class Landing extends Component {
           additionalEvents={event}
           GTMID="GTM-NR3FWTQ"
         />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-        </Helmet>
+        <Canonical />
         {this.state.loading ? <Loading /> : null}
         <div className="rc-three-column">
           <div className="rc-column rc-double-width borderRight videoPadding">
