@@ -502,6 +502,12 @@ class Details extends React.Component {
     const guideTabIndex = (tmpGoodsDescriptionDetailList ?? []).findIndex(
       (item) => item.descriptionName === 'Guide'
     );
+    console.log(
+      'ConnectedPackDailyPortion hash check:',
+      growingCheck,
+      adultCheck,
+      guideTabIndex
+    );
     if (adultCheck) {
       this.toScroll('j-details-dailyportion');
     } else if (growingCheck && guideTabIndex > -1) {
