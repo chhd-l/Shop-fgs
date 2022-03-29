@@ -957,6 +957,7 @@ class Payment extends React.Component {
   //获取支付方式
   initPaymentWay = async () => {
     try {
+      const { tid, orderDetails } = this.state;
       const {
         paymentStore: { setPayWayNameArr }
       } = this.props;
@@ -991,6 +992,12 @@ class Payment extends React.Component {
               (!this.isCurrentBuyWaySubscription || e.supportSubscription) &&
               (!e.maxAmount || this.tradePrice <= e.maxAmount)
           );
+        // .filter(
+        //   (e) =>
+        //     !tid ||
+        //     (orderDetails?.paymentItem &&
+        //       e.code === orderDetails?.paymentItem)
+        // );
       }
 
       //默认第一个,如没有支付方式,就不初始化方法
@@ -1043,12 +1050,17 @@ class Payment extends React.Component {
       )[0]?.payPspItemCardTypeVOList || []
     );
   }
-
   onPaymentTypeValChange() {
     const supportPaymentMethods = this.setSupportPaymentMethods();
     this.setState(
       { cardTypeVal: supportPaymentMethods[0]?.cardType || '' },
       () => {
+        const { payWayNameArr, paymentTypeVal } = this.state;
+        this.props.checkoutStore.calculateServiceFeeAndLoyaltyPoints({
+          paymentCode: payWayNameArr.filter(
+            (p) => p.paymentTypeVal === paymentTypeVal
+          )[0]?.code
+        });
         this.onCardTypeValChange();
       }
     );

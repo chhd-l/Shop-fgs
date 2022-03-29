@@ -50,6 +50,7 @@ import CartSurvey from '../components/CartSurvey';
 import MixFeedingBox from '../components/MixFeedingBox/index.tsx';
 import { ErrorMessage } from '@/components/Message';
 import { QuantityPicker } from '@/components/Product';
+import { PriceDetailsList } from '../components';
 
 const guid = uuidv4();
 const localItemRoyal = window.__.localItemRoyal;
@@ -1060,6 +1061,7 @@ class UnLoginCart extends React.Component {
     const { mobileCartVisibleKey, promotionCode } = this.state;
     const { checkoutStore } = this.props;
     const subtractionSign = '-';
+
     return (
       <div className={`${className}`} style={{ ...style }} id={id}>
         <div className="group-order rc-border-colour--interface cart__total__content rc-border-all bg-white">
@@ -1154,86 +1156,19 @@ class UnLoginCart extends React.Component {
                 </div>
               </div>
             ))}
-          <div className="row">
-            <div className="col-6">
-              <FormattedMessage id="total2" />
-            </div>
-            <div className="col-6 no-padding-left">
-              <p className="text-right sub-total mb-4">
-                {formatMoney(this.totalPrice)}
-              </p>
-            </div>
-          </div>
-          {/* 显示 默认折扣 */}
-          {parseFloat(this.subscriptionDiscountPrice) > 0 && (
-            <div className={`row leading-lines shipping-item green`}>
-              <div className="col-6">
-                <p>{<FormattedMessage id="promotion" />}</p>
-              </div>
-              <div className="col-6">
-                <p className="text-right shipping-cost mb-4">
-                  - {formatMoney(this.subscriptionDiscountPrice)}
-                </p>
-              </div>
-            </div>
-          )}
-          {/* 显示 promotionCode */}
-          <div>
-            {!this.state.isShowValidCode &&
-              this.promotionVOList?.map((el, i) => (
-                <PromotionCodeText el={el} i={i} key={i} />
-              ))}
-          </div>
+          <PriceDetailsList
+            data={{
+              totalPrice: this.totalPrice,
+              taxFeePrice: this.taxFeePrice,
+              subscriptionDiscountPrice: this.subscriptionDiscountPrice,
+              deliveryPrice: this.deliveryPrice,
+              freeShippingDiscountPrice: this.freeShippingDiscountPrice,
+              freeShippingFlag: this.freeShippingFlag,
+              promotionVOList: this.promotionVOList,
+              isShowValidCode: this.state.isShowValidCode
+            }}
+          />
 
-          <div className="row">
-            <div className="col-8">
-              <p>
-                <FormattedMessage id="cart.delivery" />
-              </p>
-            </div>
-            <div className="col-4">
-              <p className="text-right shipping-cost mb-4">
-                {formatMoney(this.deliveryPrice)}
-              </p>
-            </div>
-          </div>
-
-          {/* 运费折扣 */}
-          {this.freeShippingFlag ? (
-            <div className="row green">
-              <div className="col-7">
-                <p>
-                  <FormattedMessage id="payment.shippingDiscount" />
-                </p>
-              </div>
-              <div className="col-5">
-                <p className="text-right shipping-cost mb-4">
-                  {this.freeShippingDiscountPrice > 0 && '-'}
-                  {formatMoney(this.freeShippingDiscountPrice)}
-                </p>
-              </div>
-            </div>
-          ) : null}
-
-          {this.props.configStore?.customTaxSettingOpenFlag &&
-          this.props.configStore?.enterPriceType === 'NO_TAX' ? (
-            <div className="row">
-              <div className="col-8">
-                <p>
-                  <FormattedMessage id="estimatedTax" />
-                </p>
-              </div>
-              <div className="col-4">
-                <p className="text-right shipping-cost rc_un_login_cart mb-4">
-                  {this.taxFeePrice > 0 ? (
-                    formatMoney(this.taxFeePrice)
-                  ) : (
-                    <strong>{subtractionSign}</strong>
-                  )}
-                </p>
-              </div>
-            </div>
-          ) : null}
           {window.__.env.REACT_APP_COUNTRY === 'us' ? (
             <div className="row rc-margin-bottom--xs">
               <div className="col-12 greenColorText text-center">
@@ -1244,7 +1179,6 @@ class UnLoginCart extends React.Component {
               </div>
             </div>
           ) : null}
-
           <div className="group-total">
             <div className="row d-flex align-items-center">
               <div className="col-7 medium">

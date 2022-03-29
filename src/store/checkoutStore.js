@@ -5,7 +5,10 @@ import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
 import { toJS } from 'mobx';
 import stores from './index';
-import { getProductPetConfig } from '@/api/payment';
+import {
+  getProductPetConfig,
+  calculateServiceFeeAndLoyaltyPoints
+} from '@/api/payment';
 import { NOTUSEPOINT } from '@/views/Payment/PaymentMethod/paymentMethodsConstant';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -74,6 +77,8 @@ class CheckoutStore {
 
   @observable earnedPoint = 10;
 
+  @observable originTradePrice = -1; // 不包含任何服务费的总价，最初进入checkout页面的总价
+
   @computed get tradePrice() {
     let ret = this?.cartPrice?.tradePrice;
     if (this.installMentParam) {
@@ -88,6 +93,10 @@ class CheckoutStore {
 
   @computed get totalPrice() {
     return this?.cartPrice?.totalPrice || 0;
+  }
+
+  @computed get serviceFeePrice() {
+    return this?.cartPrice?.serviceFeePrice || 0;
   }
 
   @computed get taxFeePrice() {
@@ -949,6 +958,33 @@ class CheckoutStore {
   @action
   setInstallMentParam(data) {
     this.installMentParam = data;
+  }
+
+  /**
+   * 切换支付方式时，计算服务费/积分等价格
+   * @param {*} param0 ;
+   */
+  @action
+  async calculateServiceFeeAndLoyaltyPoints({ paymentCode }) {
+    // 不包含任何服务费的总价，最初进入checkout页面的总价
+    if (this.originTradePrice < 0) {
+      this.originTradePrice = this.tradePrice;
+    }
+    const res = await calculateServiceFeeAndLoyaltyPoints({
+      totalPrice: this.originTradePrice,
+      paymentCode,
+      loyaltyPoints: 0,
+      ownerId: ''
+    });
+    const { loyaltyPointsPrice, serviceFeePrice, totalPrice } =
+      res?.context || {};
+    this.setCartPrice(
+      Object.assign({}, this.cartPrice, {
+        tradePrice: totalPrice,
+        serviceFeePrice,
+        loyaltyPointsPrice
+      })
+    );
   }
 }
 
