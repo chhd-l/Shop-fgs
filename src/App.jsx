@@ -200,6 +200,10 @@ const AboutUsDe = loadable(() => import('@/views/StaticPage/AboutUs/de-index'));
 const AboutMyRoyalCanin = loadable(() =>
   import('@/views/StaticPage/AboutMyRoyalCanin')
 );
+const AboutSubscription = loadable(() =>
+  import('@/views/StaticPage/AboutSubscription')
+);
+const LegalNotice = loadable(() => import('@/views/StaticPage/LegalNotice'));
 const CatNutrition = loadable(() => import('@/views/StaticPage/CatNutrition'));
 const CadeauCoussinChat = loadable(() =>
   import('@/views/StaticPage/CadeauCoussinChat')
@@ -838,11 +842,17 @@ const App = () => {
                   component={AboutMyRoyalCanin}
                 />
                 <Route
+                  path="/subscription"
+                  exact
+                  component={AboutSubscription}
+                />
+                <Route
                   path="/loyalty_program"
                   exact
                   component={AboutLoyaltyProgram}
                 />
                 {/* AboutLoyaltyProgram */}
+                <Route path="/policy/legal" exact component={LegalNotice} />
                 <Route path="/cat-nutrition" exact component={CatNutrition} />
                 <Route
                   path="/cadeau-coussin-chat"

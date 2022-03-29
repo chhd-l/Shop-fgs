@@ -7,8 +7,7 @@ import Footer from '@/components/Footer';
 import Canonical from '@/components/Canonical';
 import { getDeviceType } from '@/utils/utils';
 import GoogleTagManager from '@/components/GoogleTagManager';
-import PcTable from './components/pcTable';
-import MobileTable from './components/mobileTable';
+import Table from './components/table';
 import Pagination from './components/pagination';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
@@ -30,38 +29,17 @@ const Loyalty = (props) => {
 
   const [myLoyaltyPoints, setMyLoyaltyPoints] = useState(2300);
 
-  const [data, setData] = useState([
-    {
-      time: '2022.02.21 13:05',
-      event: 'Checkut point grant',
-      PointTransactions: '+30',
-      remark: '-'
-    },
-    {
-      time: '2022.02.21 13:05',
-      event: 'Checkut point grant',
-      PointTransactions: '+30',
-      remark: '-'
-    },
-    {
-      time: '2022.02.21 13:05',
-      event: 'Checkut point grant',
-      PointTransactions: '+30',
-      remark: '-'
-    },
-    {
-      time: '2022.02.21 13:05',
-      event: 'Checkut point grant',
-      PointTransactions: '+30',
-      remark: '-'
-    },
-    {
-      time: '2022.02.21 13:05',
-      event: 'Checkut point grant',
-      PointTransactions: '+30',
-      remark: '-'
-    }
-  ]);
+  const [pageNum, setPageNum] = useState(1);
+  const [totalPage, setTotalPage] = useState(10);
+  const [data, setData] = useState([]);
+
+  const sendPageNumber = (pageNumber) => {
+    setPageNum(pageNumber);
+  };
+
+  const sendData = (data) => {
+    setData(data);
+  };
 
   return (
     <>
@@ -113,9 +91,13 @@ const Loyalty = (props) => {
                   </div>
                 </div>
               </div>
-              {isMobile ? <MobileTable data={data} /> : <PcTable data={data} />}
+              <Table pageNum={pageNum} sendData={sendData} />
               <div className="h-3"></div>
-              <Pagination />
+              <Pagination
+                pageNum={pageNum}
+                totalPage={totalPage}
+                sendPageNumber={sendPageNumber}
+              />
             </div>
           </div>
         </div>
