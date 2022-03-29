@@ -15,7 +15,7 @@ const Pagination = (props) => {
             />
             <div class="rc-pagination__step rc-pagination__step--of">
               of
-              <span></span>
+              <span className="pl-1">10</span>
             </div>
           </div>
           <button class="rc-btn rc-pagination__direction rc-pagination__direction--next rc-icon rc-right--xs rc-iconography"></button>

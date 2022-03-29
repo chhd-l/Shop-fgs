@@ -54,6 +54,12 @@ const Loyalty = (props) => {
       event: 'Checkut point grant',
       PointTransactions: '+30',
       remark: '-'
+    },
+    {
+      time: '2022.02.21 13:05',
+      event: 'Checkut point grant',
+      PointTransactions: '+30',
+      remark: '-'
     }
   ]);
 
@@ -97,7 +103,13 @@ const Loyalty = (props) => {
                     <div className="stage">
                       <FormattedMessage id="My Loyalty Points" />
                     </div>
-                    <div className="content">{myLoyaltyPoints}</div>
+                    {data.length > 0 ? (
+                      <div className="content">{myLoyaltyPoints}</div>
+                    ) : (
+                      <div className="pt-2">
+                        <FormattedMessage id="There is no point history." />
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
