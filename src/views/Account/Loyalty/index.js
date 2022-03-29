@@ -63,6 +63,9 @@ const Loyalty = (props) => {
     }
   ]);
 
+  const [pageNum, setPageNum] = useState(1);
+  const [totalPage, setTotalPage] = useState(10);
+
   return (
     <>
       <GoogleTagManager key={props.location.key} additionalEvents={event} />
@@ -115,7 +118,7 @@ const Loyalty = (props) => {
               </div>
               {isMobile ? <MobileTable data={data} /> : <PcTable data={data} />}
               <div className="h-3"></div>
-              <Pagination />
+              <Pagination pageNum={pageNum} totalPage={totalPage} />
             </div>
           </div>
         </div>
