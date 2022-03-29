@@ -258,6 +258,9 @@ const FelinRecommendation = loadable(() =>
 );
 const Adoptions = loadable(() => import('@/views/Adoptions'));
 const Whistlefit = loadable(() => import('@/views/Whistlefit'));
+const CouponAgreement = loadable(() =>
+  import('@/views/StaticPage/CouponAgreement')
+);
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -860,7 +863,17 @@ const App = () => {
                     ] || Values
                   }
                 />
-
+                <Route
+                  exact
+                  path="/policy-point"
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+                      return <CouponAgreement {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
                 <Route
                   sensitive
                   path="/Tailorednutrition"
