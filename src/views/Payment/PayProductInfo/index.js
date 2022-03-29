@@ -23,6 +23,8 @@ import cloneDeep from 'lodash/cloneDeep';
 import { IMG_DEFAULT } from '@/utils/constant';
 import { nextTick } from 'process';
 import LoyaltyPoint from './components/loyaltyPoint';
+import cn from 'classnames';
+import { PriceDetailsList } from './components';
 
 const guid = uuidv4();
 let isGACheckoutLock = false;
@@ -757,6 +759,77 @@ class PayProductInfo extends React.Component {
         ? this.getProductsForLogin(productList)
         : this.getProducts(productList);
     const subtractionSign = '-';
+    const priceList = [
+      {
+        text: <FormattedMessage id="total2" />,
+        val: this.totalPrice,
+        visible: true,
+        key: 'totalPrice'
+      },
+      // 日本税费显示, 仅显示不参与总价计算
+      {
+        text: <FormattedMessage id="order.consumptionTax" />,
+        val: this.taxFeePrice,
+        visible: this.taxFeePrice > 0,
+        key: 'consumptionTax'
+      },
+      // 显示 订阅折扣
+      {
+        text: <FormattedMessage id="total2" />,
+        val: -this.subscriptionDiscountPrice,
+        className: 'green',
+        visible: parseFloat(this.subscriptionDiscountPrice) > 0,
+        key: 'subscriptionDiscountPrice'
+      },
+      {
+        visible: !isShowValidCode,
+        rowHtml: this.promotionVOList?.map((el, i) => (
+          <PromotionCodeText el={el} i={i} />
+        )),
+        key: 'promotion'
+      },
+      // 显示 delivereyPrice
+      {
+        text: <FormattedMessage id="cart.delivery" />,
+        val: this.deliveryPrice || <FormattedMessage id="free" />,
+        visible: true,
+        key: 'deliveryPrice'
+      },
+      // 运费折扣 俄罗斯
+      {
+        text: <FormattedMessage id="payment.shippingDiscount" />,
+        val:
+          this.freeShippingDiscountPrice > 0
+            ? -this.freeShippingDiscountPrice
+            : this.freeShippingDiscountPrice,
+        className: 'green',
+        visible: this.freeShippingFlag,
+        key: 'freeShippingDiscountPrice'
+      },
+      {
+        text: <FormattedMessage id="estimatedTax" />,
+        val: this.taxFeePrice,
+        visible:
+          this.props.configStore?.customTaxSettingOpenFlag &&
+          this.props.configStore?.enterPriceType === 'NO_TAX',
+        key: 'estimatedTax'
+      },
+      {
+        text: <FormattedMessage id="installMent.additionalFee" />,
+        val: installMentParam?.additionalFee,
+        className: 'red',
+        visible: Boolean(installMentParam),
+        key: 'installMentAdditionalFee'
+      },
+      {
+        text: <FormattedMessage id="payment.serviceFee" />,
+        val: this.props.checkoutStore.serviceFeePrice,
+        visible: this.props.checkoutStore.serviceFeePrice,
+        key: 'serviceFee'
+      }
+    ]
+      // .sort()
+      .filter((ele) => ele.visible);
     return (
       <div
         className={`product-summary__inner ${className}`}
@@ -896,178 +969,24 @@ class PayProductInfo extends React.Component {
                 ))}
 
               <div className="product-summary__fees order-total-summary">
-                <div className="row leading-lines subtotal-item">
-                  <div className="col-8 start-lines">
-                    <p className="order-receipt-label">
-                      <span>
-                        <FormattedMessage id="total2" />
-                      </span>
-                    </p>
-                  </div>
-                  <div className="col-4 end-lines">
-                    <p className="text-right">
-                      <span className="sub-total">
-                        {formatMoney(this.totalPrice)}
-                      </span>
-                    </p>
-                  </div>
-                </div>
-                {/* 显示 默认折扣 */}
-                <div
-                  className={`row leading-lines shipping-item green ${
-                    parseFloat(this.subscriptionDiscountPrice) > 0
-                      ? 'd-flex'
-                      : 'hidden'
-                  }`}
-                >
-                  <div className="col-7 start-lines">
-                    <p className="order-receipt-label order-shipping-cost">
-                      <span>
-                        <FormattedMessage id="promotion" />
-                      </span>
-                    </p>
-                  </div>
-                  <div className="col-5 end-lines">
-                    <p className="text-right">
-                      <span className="shipping-total-cost">
-                        <strong>
-                          -{formatMoney(this.subscriptionDiscountPrice)}
-                        </strong>
-                      </span>
-                    </p>
-                  </div>
-                </div>
-
-                {/* 显示 promotionCode */}
-                {!isShowValidCode
-                  ? this.promotionVOList?.map((el, i) => (
-                      <PromotionCodeText el={el} i={i} />
-                    ))
-                  : null}
-
-                {/* 显示 delivereyPrice */}
-                <div className="row leading-lines shipping-item">
-                  <div className="col-7 start-lines">
-                    <p className="order-receipt-label order-shipping-cost">
-                      <span>
-                        <FormattedMessage id="cart.delivery" />
-                      </span>
-                    </p>
-                  </div>
-                  <div className="col-5 end-lines">
-                    <p className="text-right">
-                      <span className="shipping-total-cost">
-                        {formatMoney(this.deliveryPrice)}
-                      </span>
-                    </p>
-                  </div>
-                </div>
-
-                {/* 运费折扣 俄罗斯 */}
-                {this.freeShippingFlag ? (
-                  <div className="row leading-lines shipping-item green">
-                    <div className="col-7 start-lines">
-                      <p className="order-receipt-label order-shipping-cost">
-                        <span>
-                          <FormattedMessage id="payment.shippingDiscount" />
-                        </span>
-                      </p>
-                    </div>
-                    <div className="col-5 end-lines">
-                      <p className="text-right">
-                        <span className="shipping-total-cost">
-                          {this.freeShippingDiscountPrice > 0 && '-'}
-                          {formatMoney(this.freeShippingDiscountPrice)}
-                        </span>
-                      </p>
-                    </div>
-                  </div>
-                ) : null}
-
-                {this.props.configStore?.customTaxSettingOpenFlag &&
-                this.props.configStore?.enterPriceType === 'NO_TAX' ? (
-                  <div className="row leading-lines shipping-item">
-                    <div className="col-7 start-lines">
-                      <p className="order-receipt-label order-shipping-cost">
-                        <span>
-                          <FormattedMessage id="estimatedTax" />
-                        </span>
-                      </p>
-                    </div>
-                    <div className="col-5 end-lines">
-                      <p className="text-right">
-                        <span className="shipping-total-cost rc_pay_product_info">
-                          {!this.isLogin &&
-                          window.__.env.REACT_APP_COUNTRY == 'us' ? (
-                            <>
-                              {/* 是否在cart页面 */}
-                              {this.props.isGuestCart && subtractionSign}
-                              {/* 是否在checkout页面 */}
-                              {this.props.isCheckOut &&
-                              this.props.deliveryAddress?.address1 == '' ? (
-                                <>
-                                  <strong>{subtractionSign}</strong>
-                                </>
-                              ) : (
-                                <>{formatMoney(this.taxFeePrice)}</>
-                              )}
-                            </>
-                          ) : (
-                            <>{formatMoney(this.taxFeePrice)}</>
-                          )}
-                        </span>
-                      </p>
-                    </div>
-                  </div>
-                ) : null}
-
-                {!this.isLogin &&
-                this.props.isGuestCart &&
-                window.__.env.REACT_APP_COUNTRY == 'us' ? (
-                  <>
-                    <div
-                      class="row rc-margin-bottom--xs"
-                      style={{ marginBottom: '0', marginTop: '1rem' }}
-                    >
-                      <div
-                        class="col-12 greenColorText text-center"
-                        style={{ padding: '0' }}
-                      >
-                        <span>
-                          <FormattedMessage
-                            id="cart.firstOrderDiscountTip"
-                            defaultMessage={' '}
-                          />
-                        </span>
-                      </div>
-                    </div>
-                  </>
-                ) : null}
-
-                {/* 分期明细 */}
-                {installMentParam ? (
-                  <div className="row leading-lines shipping-item red">
-                    <div className="col-7 start-lines">
-                      <p className="order-receipt-label order-shipping-cost">
-                        <FormattedMessage id="installMent.additionalFee" />
-                      </p>
-                    </div>
-                    <div className="col-5 end-lines">
-                      <p className="text-right">
-                        <span className="shipping-total-cost">
-                          <strong>
-                            {formatMoney(installMentParam.additionalFee)}
-                          </strong>
-                        </span>
-                      </p>
-                    </div>
-                  </div>
-                ) : null}
+                <PriceDetailsList
+                  data={{
+                    totalPrice: this.totalPrice,
+                    taxFeePrice: this.taxFeePrice,
+                    subscriptionDiscountPrice: this.subscriptionDiscountPrice,
+                    deliveryPrice: this.deliveryPrice,
+                    freeShippingDiscountPrice: this.freeShippingDiscountPrice,
+                    freeShippingFlag: this.freeShippingFlag,
+                    promotionVOList: this.promotionVOList,
+                    isShowValidCode,
+                    installMentParam
+                  }}
+                />
               </div>
             </div>
           </div>
 
-          <div className="product-summary__total grand-total row leading-lines border-top md:pl-3 md:pr-3 pt-2 pb-2 md:pt-3 md:pb-3">
+          <div className="product-summary__total px-5 grand-total row leading-lines border-top md:pl-3 md:pr-3 pt-2 pb-2 md:pt-3 md:pb-3">
             <div className="col-6 start-lines">
               <span>
                 <FormattedMessage id="totalIncluIVA" />
@@ -1075,33 +994,7 @@ class PayProductInfo extends React.Component {
             </div>
             <div className="col-6 end-lines text-right">
               <span className="grand-total-sum">
-                {/* 是否登录 */}
-                {!this.isLogin && window.__.env.REACT_APP_COUNTRY == 'us' ? (
-                  <>
-                    {/* 是否在cart页面 */}
-                    {this.props.isGuestCart && (
-                      <>
-                        {this.props.configStore?.customTaxSettingOpenFlag &&
-                        this.props.configStore?.enterPriceType === 'NO_TAX' ? (
-                          <strong>{subtractionSign}</strong>
-                        ) : (
-                          formatMoney(this.tradePrice)
-                        )}
-                      </>
-                    )}
-                    {/* 是否在checkout页面 */}
-                    {this.props.isCheckOut &&
-                    this.props.deliveryAddress?.address1 == '' ? (
-                      <>
-                        <strong>{subtractionSign}</strong>
-                      </>
-                    ) : (
-                      <>{formatMoney(this.tradePrice)}</>
-                    )}
-                  </>
-                ) : (
-                  <>{formatMoney(this.tradePrice)}</>
-                )}
+                {formatMoney(this.tradePrice)}
               </span>
             </div>
           </div>

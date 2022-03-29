@@ -4,7 +4,7 @@ import { formatMoney } from '@/utils/utils';
 export default function PromotionCodeText({ el, i }) {
   const [promotionsVisible, setPromotionsVisible] = useState(false);
   return (
-    <div className="row shipping-item green" key={i}>
+    <div className="row leading-lines shipping-item green" key={i}>
       <div className="col-7 start-lines">
         <p
           className="order-shipping-cost ui-text-overflow-line2"
