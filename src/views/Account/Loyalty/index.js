@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import BannerTip from '@/components/BannerTip';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
@@ -7,7 +7,8 @@ import Footer from '@/components/Footer';
 import Canonical from '@/components/Canonical';
 import { getDeviceType } from '@/utils/utils';
 import GoogleTagManager from '@/components/GoogleTagManager';
-import Form from './components/form';
+import PcTable from './components/pcTable';
+import MobileTable from './components/mobileTable';
 import Pagination from './components/pagination';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
@@ -26,6 +27,36 @@ const Loyalty = (props) => {
       filters: ''
     }
   };
+
+  const [myLoyaltyPoints, setMyLoyaltyPoints] = useState(2300);
+
+  const [data, setData] = useState([
+    {
+      time: '2022.02.21 13:05',
+      event: 'Checkut point grant',
+      PointTransactions: '+30',
+      remark: '-'
+    },
+    {
+      time: '2022.02.21 13:05',
+      event: 'Checkut point grant',
+      PointTransactions: '+30',
+      remark: '-'
+    },
+    {
+      time: '2022.02.21 13:05',
+      event: 'Checkut point grant',
+      PointTransactions: '+30',
+      remark: '-'
+    },
+    {
+      time: '2022.02.21 13:05',
+      event: 'Checkut point grant',
+      PointTransactions: '+30',
+      remark: '-'
+    }
+  ]);
+
   return (
     <>
       <GoogleTagManager key={props.location.key} additionalEvents={event} />
@@ -49,7 +80,28 @@ const Loyalty = (props) => {
               <SideMenu type="Loyalty" />
             )}
             <div className="rc-column rc-quad-width">
-              <Form />
+              <div>
+                <div className="title">
+                  <FormattedMessage id="Transaction history" />
+                </div>
+                <div className="flex mt-4 mb-3">
+                  <div className="flex flex-column mr-6">
+                    <div className="stage">
+                      <FormattedMessage id="My Stage" />
+                    </div>
+                    <div className="content">
+                      <FormattedMessage id="Bronze" />
+                    </div>
+                  </div>
+                  <div className="flex flex-column points">
+                    <div className="stage">
+                      <FormattedMessage id="My Loyalty Points" />
+                    </div>
+                    <div className="content">{myLoyaltyPoints}</div>
+                  </div>
+                </div>
+              </div>
+              {isMobile ? <MobileTable data={data} /> : <PcTable data={data} />}
               <div className="h-3"></div>
               <Pagination />
             </div>
@@ -57,6 +109,21 @@ const Loyalty = (props) => {
         </div>
         <Footer />
       </main>
+      <style jsx>{`
+        .title {
+          color: #e2001a;
+          font-size: 18px;
+        }
+        .stage {
+          color: #666;
+          font-size: 16px;
+        }
+        .content {
+          color: #666;
+          font-size: 26px;
+          font-weight: 500;
+        }
+      `}</style>
     </>
   );
 };

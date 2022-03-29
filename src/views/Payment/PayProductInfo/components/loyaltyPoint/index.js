@@ -8,10 +8,7 @@ import { LOGO_POINT } from '@/utils/constant';
 const LoyaltyPoint = ({ checkoutStore }) => {
   const { earnedPoint } = checkoutStore;
   return (
-    <div
-      style={{ fontFamily: 'din-pro' }}
-      className={cn(earnedPoint > 0 ? '' : 'hidden')}
-    >
+    <div className={cn(earnedPoint > 0 ? '' : 'hidden')}>
       <div className="body m-3 mt-1 px-2 py-4 bg-gray-50 flex justify-between items-center">
         <div className="flex">
           <div className="mx-3 relative top-1">
