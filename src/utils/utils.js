@@ -1409,3 +1409,29 @@ export function handleEmailShow(email) {
   }
   return finalEmail;
 }
+
+/**
+ * 价格明细排序
+ * REACT_APP_PRICE_LIST_SEQUENCE - 排序序列
+ */
+export function sortPriceList(list) {
+  const sequence = window.__.env.REACT_APP_PRICE_LIST_SEQUENCE
+    ? JSON.parse(window.__.env.REACT_APP_PRICE_LIST_SEQUENCE)
+    : [
+        'totalPrice',
+        'consumptionTax', // 日本税费显示, 仅显示不参与总价计算
+        'subscriptionDiscountPrice', // 订阅折扣
+        'promotionCode',
+        'deliveryPrice',
+        'freeShippingDiscountPrice', // 运费折扣 俄罗斯
+        'estimatedTax',
+        'installMentAdditionalFee', // 土耳其分期费
+        'serviceFee', // 日本服务费
+        'pointDiscount' // 日本积分折扣
+      ];
+  return list.sort((a, b) => {
+    const idxA = sequence.findIndex((el) => el === a.key);
+    const idxB = sequence.findIndex((el) => el === b.key);
+    return idxA - idxB;
+  });
+}

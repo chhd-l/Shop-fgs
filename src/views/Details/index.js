@@ -1662,7 +1662,6 @@ class Details extends React.Component {
                   goodsAttributesValueRelList={
                     details.goodsAttributesValueRelList ?? []
                   }
-                  toScroll={this.toScroll}
                 />
                 <div id="j-details-dailyportion">
                   {this.DailyPortionComponent(details, barcode)}
