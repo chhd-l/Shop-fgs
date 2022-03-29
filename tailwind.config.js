@@ -44,7 +44,8 @@ module.exports = {
         'rc-detail-red': 'var(--rc-detail-red)',
         'primary':'#E2001A',
         'primary-star':'#F80000',
-        'primary-gray':'#666666'
+        'primary-gray':'#666666',
+        'black':'#333333'
       },
       fontSize: {
         12: '12px',
@@ -90,6 +91,7 @@ module.exports = {
         106: '106px',
         110: '110px',
         186: '186px',
+        240: '240px',
         244: '244px',
         288: '288px',
         284:'284px',
@@ -145,7 +147,7 @@ module.exports = {
         409: '409px',
         431: '431px',
         450: '450px',
-        672: '672px'
+        1241: '1241px'
       },
       margin:{
         18: '18px',
@@ -153,6 +155,7 @@ module.exports = {
         24: '24px',
         16: '16px',
         13.65: '13.65px',
+        22: '22px',
         24.35: '24.35px'
       },
       padding: {
@@ -166,6 +169,9 @@ module.exports = {
         439: '439px',
         450: '450px',
         556: '556px'
+      },
+      line:{
+        'text-decoration': 'underline'
       }
     }
   },
