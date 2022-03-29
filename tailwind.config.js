@@ -29,7 +29,10 @@ module.exports = {
         'rc-green': 'var(--rc-green)',
         'rc-f6': 'var(--rc-f6)',
         'rc-ddd': 'var(--rc-ddd)',
-        'rc-detail-red': 'var(--rc-detail-red)'
+        'rc-detail-red': 'var(--rc-detail-red)',
+        'primary':'#E2001A',
+        'primary-star':'#F80000',
+        'primary-gray':'#666666'
       },
       textColor: {
         'rc-red': 'var(--rc-red)',
@@ -38,7 +41,10 @@ module.exports = {
         'rc-green': 'var(--rc-green)',
         'rc-f6': 'var(--rc-f6)',
         'rc-ddd': 'var(--rc-ddd)',
-        'rc-detail-red': 'var(--rc-detail-red)'
+        'rc-detail-red': 'var(--rc-detail-red)',
+        'primary':'#E2001A',
+        'primary-star':'#F80000',
+        'primary-gray':'#666666'
       },
       fontSize: {
         12: '12px',
@@ -62,7 +68,10 @@ module.exports = {
         12: 1.2,
         13.3: 1.33,
         14: 1.4,
-        17.5: 1.75
+        17.5: 1.75,
+        34:'34px',
+        32:'32px',
+        24:'24px'
       },
       minHeight: {
         auto: 'auto'
@@ -78,6 +87,8 @@ module.exports = {
         '85/100': '85.333333%',
         244: '244px',
         288: '288px',
+        284:'284px',
+        285:"285px",
         320: '320px',
         392: '392px',
         439: '439px',
@@ -88,18 +99,41 @@ module.exports = {
         920: '920px'
       },
       height: {
+        34: '34px',
         48: '48px',
         56: '56px',
+        64:'64px',
         68: '68px',
         80: '80px',
+        114: '114px',
+        157: '157px',
         168: '168px',
         238: '238px',
         246: '246px',
+        285: '285px',
         340: '340px',
         369: '369px',
         409: '409px',
         431: '431px',
-        450: '450px'
+        450: '450px',
+        672: '672px'
+      },
+      margin:{
+        18: '18px',
+        17: '17px',
+        24: '24px',
+        16: '16px',
+        13.65: '13.65px',
+        24.35: '24.35px'
+      },
+      padding: {
+        17: '17px',
+        18: '18px',
+       },
+      flex:{
+        'justify-items':'center',
+        'align-items':'center',
+        'align-content':'center'
       }
     }
   },
