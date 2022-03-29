@@ -160,6 +160,9 @@ const TermsConditionsUs = loadable(() =>
 const TermsConditionsTr = loadable(() =>
   import('@/views/StaticPage/TermsAndConditions/TR_index')
 );
+const TermsConditionJP = loadable(() =>
+  import('@/views/StaticPage/TermsAndConditions/JP_index')
+);
 const SubscriptionLanding = loadable(() =>
   import('@/views/StaticPage/SubscriptionLanding')
 );
@@ -544,6 +547,9 @@ const App = () => {
                         break;
                       case 'tr':
                         fragment = <TermsConditionsTr {...props} />;
+                        break;
+                      case 'jp':
+                        fragment = <TermsConditionJP {...props} />;
                         break;
                     }
                     return fragment;
