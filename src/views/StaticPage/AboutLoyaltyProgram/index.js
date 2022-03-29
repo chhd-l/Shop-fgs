@@ -6,7 +6,7 @@ import Loading from '@/components/Loading';
 import { seoHoc } from '@/framework/common';
 import './index.less';
 import { Helmet } from 'react-helmet';
-import Group1 from "./images/Group1.png"
+import Group1 from './images/Group1.png';
 
 const pageLink = window.location.href;
 
@@ -36,8 +36,8 @@ function AboutLoyaltyProgram(props) {
                定期購入とステージアップで最大10%ポイント還元
               </p>
             </div>
-            <div className='mt-13.65'>
-            <img src={Group1} alt="" />
+            <div className="mt-13.65">
+              <img src={Group1} alt="" />
             </div>
           </div>
           <div className='h-285 m-auto block md:hidden'>
@@ -51,8 +51,8 @@ function AboutLoyaltyProgram(props) {
                定期購入とステージアップで最大10%ポイント還元
               </p>
             </div>
-            <div className='mt-13.65'>
-            <img src={Group1} alt="" />
+            <div className="mt-13.65">
+              <img src={Group1} alt="" />
             </div>
           </div>
           <div className='h-1241 PingFangSC text-primary-gray text-center text-16 font-normal leading-24 mt-24.35 m-auto '>

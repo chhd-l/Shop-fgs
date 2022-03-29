@@ -42,6 +42,8 @@ module.exports = {
         'rc-f6': 'var(--rc-f6)',
         'rc-ddd': 'var(--rc-ddd)',
         'rc-detail-red': 'var(--rc-detail-red)',
+        'rc-title-red': '#E2001A',
+        'rc-description-black': '#666666'
         'primary':'#E2001A',
         'primary-star':'#F80000',
         'primary-gray':'#666666',
@@ -52,7 +54,6 @@ module.exports = {
         14: '14px',
         16: '16px',
         18: '18px',
-        22: '22px',
         20: '20px',
         21: '21px',
         22: '22px',
@@ -171,7 +172,15 @@ module.exports = {
         556: '556px'
       },
       line:{
-        'text-decoration': 'underline'
+        'text-decoration': 'underline'},
+      margin: {
+        18: '18px',
+        17: '17px',
+        24: '24px',
+        16: '16px',
+        13.65: '13.65px',
+        24.35: '24.35px',
+        340: '340px'
       }
     }
   },

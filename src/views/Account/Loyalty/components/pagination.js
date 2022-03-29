@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import cn from 'classnames';
 
-const Pagination = ({ pageNum, totalPage }) => {
+const Pagination = ({ pageNum, totalPage, sendPageNumber }) => {
   const [pageNumber, setPageNumber] = useState(pageNum);
   const inputChangeEvent = (e) => {
     let value = parseInt(e.target.value);
@@ -16,16 +16,22 @@ const Pagination = ({ pageNum, totalPage }) => {
     if (isNaN(pageNumber)) {
       //最后删除为空时  pageNum的值是NAN，这个时候重新把pageNumber设为1
       setPageNumber(1);
+      sendPageNumber(1);
+    } else {
+      sendPageNumber(pageNumber);
     }
   };
   const prevPageEvent = () => {
     if (pageNumber <= 1) return;
     setPageNumber(pageNumber - 1);
+    sendPageNumber(pageNumber - 1);
   };
   const nextPageEvent = () => {
     if (pageNumber == totalPage) return;
     setPageNumber(pageNumber + 1);
+    sendPageNumber(pageNumber + 1);
   };
+
   return (
     <>
       <nav class="rc-pagination">
