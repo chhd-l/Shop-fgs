@@ -56,8 +56,9 @@ import { getMixFeedings } from '@/api/details';
 import MixFeedingBox from '../components/MixFeedingBox/index.tsx';
 import { ErrorMessage } from '@/components/Message';
 import { QuantityPicker } from '@/components/Product';
-const guid = uuidv4();
+import { PriceDetailsList } from '../components';
 
+const guid = uuidv4();
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
@@ -1158,118 +1159,18 @@ class LoginCart extends React.Component {
               </div>
             </div>
           ))}
-        <div className="row">
-          <div className="col-6">
-            <FormattedMessage id="total2" />
-          </div>
-          <div className="col-6 no-padding-left">
-            <p className="text-right sub-total text-nowrap mb-4">
-              {formatMoney(this.totalPrice)}
-            </p>
-          </div>
-        </div>
-        {/* 显示订阅折扣 */}
-        {/* <div
-          className={`row leading-lines shipping-item green ${
-            parseFloat(this.subscriptionPrice) > 0 ? 'd-flex' : 'hidden'
-          }`}
-        >
-          <div className="col-8">
-            <p>{this.promotionDesc || <FormattedMessage id="promotion" />}</p>
-          </div>
-          <div className="col-4">
-            <p className="text-right shipping-cost">
-              - {formatMoney(this.subscriptionPrice)}
-            </p>
-          </div>
-        </div> */}
-        {/* 显示 默认折扣 */}
-        {parseFloat(this.subscriptionDiscountPrice) > 0 && (
-          <div className={`row leading-lines shipping-item green`}>
-            <div className="col-6">
-              <p>{<FormattedMessage id="promotion" />}</p>
-            </div>
-            <div className="col-6">
-              <p className="text-right shipping-cost text-nowrap mb-4">
-                <strong>-{formatMoney(this.subscriptionDiscountPrice)}</strong>
-              </p>
-            </div>
-          </div>
-        )}
-
-        {/* 显示 promotionCode */}
-        {!isShowValidCode &&
-          this.promotionVOList?.map((el, i) => (
-            <PromotionCodeText el={el} i={i} />
-          ))}
-
-        {/* <div
-          className={`row red ${
-            parseInt(this.discountPrice) > 0 ? 'd-flex' : 'hidden'
-          }`}
-        >
-          <div className="col-8">
-            <p>
-              {this.promotionDesc}({this.promotionDiscount})
-            </p>
-          </div>
-          <div className="col-4">
-            <p className="text-right shipping-cost">
-              - {formatMoney(this.discountPrice)}
-            </p>
-          </div>
-        </div> */}
-        <div className="row">
-          <div className="col-8">
-            <p>
-              <FormattedMessage id="cart.delivery" />
-            </p>
-          </div>
-          <div className="col-4">
-            <p className="text-right shipping-cost text-nowrap mb-4">
-              {formatMoney(this.deliveryPrice)}
-            </p>
-          </div>
-        </div>
-
-        {/* 运费折扣 */}
-        {this.freeShippingFlag ? (
-          <div className="row green">
-            <div className="col-7">
-              <p>
-                <FormattedMessage id="payment.shippingDiscount" />
-              </p>
-            </div>
-            <div className="col-5">
-              <p className="text-right shipping-cost mb-4">
-                {this.freeShippingDiscountPrice > 0 && '-'}
-                {formatMoney(this.freeShippingDiscountPrice)}
-              </p>
-            </div>
-          </div>
-        ) : null}
-
-        {this.props.configStore?.customTaxSettingOpenFlag &&
-        this.props.configStore?.enterPriceType === 'NO_TAX' ? (
-          <div className="row">
-            <div className="col-8">
-              <p>
-                <FormattedMessage id="estimatedTax" />
-              </p>
-            </div>
-            <div className="col-4">
-              <p className="text-right shipping-cost text-nowrap rc_login_cart mb-4">
-                {this.taxFeePrice > 0 ? (
-                  formatMoney(this.taxFeePrice)
-                ) : (
-                  <strong>{subtractionSign}</strong>
-                )}
-              </p>
-            </div>
-          </div>
-        ) : (
-          <></>
-        )}
+        <PriceDetailsList
+          data={{
+            totalPrice: this.totalPrice,
+            taxFeePrice: this.taxFeePrice,
+            subscriptionDiscountPrice: this.subscriptionDiscountPrice,
+            deliveryPrice: this.deliveryPrice,
+            freeShippingDiscountPrice: this.freeShippingDiscountPrice,
+            freeShippingFlag: this.freeShippingFlag,
+            promotionVOList: this.promotionVOList,
+            isShowValidCode
+          }}
+        />
 
         <div className="group-total">
           <div className="row d-flex align-items-center">

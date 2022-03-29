@@ -201,8 +201,7 @@ const GoodsDetailTabs = function (props) {
     detailRes,
     isClub,
     goodsDetailSpace,
-    goodsAttributesValueRelList,
-    toScroll
+    goodsAttributesValueRelList
   } = props;
   //判断猫狗
   const getSpeciesId = (item) => {
@@ -647,10 +646,12 @@ const GoodsDetailTabs = function (props) {
     // }
     props.setState && props.setState({ tmpGoodsDescriptionDetailList });
     setGoodsDetailTabsData(tmpGoodsDescriptionDetailList);
+
+    hashDailyPortionAnchor(tmpGoodsDescriptionDetailList);
   };
 
   //hash为#ConnectedPackDailyPortion的页面跳转
-  const hashDailyPortionAnchor = () => {
+  const hashDailyPortionAnchor = (goodsDetailTabsData) => {
     const urlHash = window.location.hash;
     if (urlHash !== '#ConnectedPackDailyPortion') {
       return;
@@ -683,16 +684,29 @@ const GoodsDetailTabs = function (props) {
         setActiveTabIdxLists(activeTabIndex);
         props.setState &&
           props.setState({ activeTabIdxList: activeTabIndex }, () => {
-            toScroll(
-              isMobile ? 'j-details-tabitem-Guide' : 'j-details-for-club'
-            );
+            window.setTimeout(() => {
+              scrollToTarget(
+                isMobile ? 'j-details-tabitem-Guide' : 'j-details-for-club'
+              );
+            }, 500);
           });
       } else {
         return;
       }
     } else if (adultCheck) {
-      toScroll('j-details-dailyportion');
+      window.setTimeout(() => {
+        scrollToTarget('j-details-dailyportion');
+      }, 500);
     }
+  };
+
+  const scrollToTarget = (domId) => {
+    let target = document.getElementById(domId);
+    let header = document.getElementsByTagName('header')[0];
+    window.scrollTo(
+      0,
+      (target?.offsetTop ?? 80) - (header?.offsetHeight ?? 0) - 80
+    );
   };
 
   const changeTab = ({ idx, type, ele }) => {
@@ -721,10 +735,6 @@ const GoodsDetailTabs = function (props) {
   useEffect(() => {
     handleTabData();
   }, []);
-
-  useEffect(() => {
-    hashDailyPortionAnchor();
-  }, [goodsDetailTabsData]);
 
   //club new subscribtion每次提交的时候记得把true改为false
   const Show = true;

@@ -25,6 +25,7 @@ import { handleOrderItem } from '../Orders/modules/handleOrderItem';
 import {
   OrderAddressAndPayReview,
   OrderAllPrice,
+  PriceDetailsList,
   OrderAllProduct,
   OrderHeaderInfo,
   OrderHeadTip,
@@ -433,6 +434,34 @@ class AccountOrders extends React.Component {
                             />
                             <div className="col-12 table-body rounded md:mt-3 mb-2 px-0">
                               <OrderAllProduct details={details} />
+                              {details ? (
+                                <PriceDetailsList
+                                  data={{
+                                    totalPrice: details?.tradePrice?.goodsPrice,
+                                    taxFeePrice:
+                                      details?.tradePrice?.taxFeePrice,
+                                    subscriptionDiscountPrice:
+                                      details?.tradePrice
+                                        ?.subscriptionDiscountPrice,
+                                    deliveryPrice:
+                                      details?.tradePrice?.deliveryPrice,
+                                    freeShippingDiscountPrice:
+                                      details.tradePrice
+                                        .freeShippingDiscountPrice,
+                                    freeShippingFlag:
+                                      details.tradePrice.freeShippingFlag,
+                                    promotionVOList:
+                                      details?.tradePrice?.promotionVOList,
+                                    isShowInstallMent:
+                                      !!details.tradePrice.installmentPrice,
+                                    installMentAdditionalFee:
+                                      details?.tradePrice?.installmentPrice
+                                        ?.additionalFee,
+                                    serviceFeePrice:
+                                      details?.tradePrice?.serviceFeePrice
+                                  }}
+                                />
+                              ) : null}
                               <OrderAllPrice
                                 details={details}
                                 customTaxSettingOpenFlag={

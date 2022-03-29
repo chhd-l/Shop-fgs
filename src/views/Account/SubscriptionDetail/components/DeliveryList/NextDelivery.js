@@ -16,7 +16,10 @@ import {
 import { getDeliveryDateAndTimeSlot } from '@/api/address';
 import { IMG_DEFAULT } from '@/utils/constant';
 import cn from 'classnames';
+import PriceDetailsList from '../PriceDetailsList';
+
 const Unspecified = 'Unspecified';
+
 const NextDelivery = ({
   el,
   subDetail,
@@ -427,114 +430,22 @@ const NextDelivery = ({
         </div>
         <div className={`col-12 col-md-6`}>
           <div className="text-right">
-            <div className="row">
-              <label className="col-6 text-left">
-                <FormattedMessage id="subscription.total" />
-              </label>
-              <div className="col-6 text-right">
-                <strong>{formatMoney(el.tradePrice.goodsPrice)}</strong>
-              </div>
-            </div>
-            {el.tradePrice.subscriptionDiscountPrice ? (
-              <div className="row">
-                <label className="green col-6 text-left ui-text-overflow-line1">
-                  <FormattedMessage id="promotion" />:
-                </label>
-                <div className="col-6 text-right green">
-                  <strong>
-                    -{formatMoney(el.tradePrice.subscriptionDiscountPrice)}
-                  </strong>
-                </div>
-              </div>
-            ) : null}
-            {el.tradePrice.promotionVOList
-              ?.filter((el) => el.discountPrice)
-              ?.map((el) => (
-                <div className="row">
-                  <label className="green col-6 text-left ui-text-overflow-line1">
-                    {el.marketingName}:
-                  </label>
-                  <div className="col-6 text-right green">
-                    <strong>-{formatMoney(el.discountPrice)}</strong>
-                  </div>
-                </div>
-              ))}
-            {!isShowValidCode &&
-              discount.map((el, i) => (
-                <div className="row" key={i}>
-                  <label
-                    className="red-text col-6"
-                    style={{ flex: isMobile ? '1' : 'inherit' }}
-                  >
-                    {promotionDesc}
-                  </label>
-                  <div
-                    className="text-right red-text col-6"
-                    style={{
-                      position: 'relative',
-                      flex: isMobile ? '1' : 'inherit'
-                    }}
-                  >
-                    <strong>-{formatMoney(promotionDiscount)}</strong>
-                    <span
-                      style={{
-                        position: 'absolute',
-                        right: '-1.125rem',
-                        fontSize: '1.375rem',
-                        bottom: '5px',
-                        cursor: 'pointer'
-                      }}
-                      onClick={() => {
-                        discount.pop();
-                        setState({
-                          discount: discount
-                        });
-                      }}
-                    >
-                      x
-                    </span>
-                  </div>
-                </div>
-              ))}
-
-            <div className="row">
-              <label className="col-6 text-left">
-                <FormattedMessage id="subscription.shipping" />
-              </label>
-              <div className="text-right red-text col-6">
-                <strong>{formatMoney(el.tradePrice.deliveryPrice)}</strong>
-              </div>
-            </div>
-
-            {/* 运费折扣 */}
-            {el.tradePrice.freeShippingFlag ? (
-              <>
-                <div className="row">
-                  <label className="col-6 text-left">
-                    <FormattedMessage id="payment.shippingDiscount" />
-                  </label>
-                  <div className="text-right col-6 green">
-                    <strong>
-                      {el.tradePrice.freeShippingDiscountPrice > 0 && '-'}
-                      {formatMoney(el.tradePrice.freeShippingDiscountPrice)}
-                    </strong>
-                  </div>
-                </div>
-              </>
-            ) : null}
-
-            {configStore?.customTaxSettingOpenFlag &&
-            configStore?.enterPriceType === 'NO_TAX' ? (
-              <div className="row">
-                <label className="col-6 text-left">
-                  <FormattedMessage id="estimatedTax" />
-                </label>
-                <div className="text-right red-text col-6 components_next_delivery">
-                  <strong>{formatMoney(el.tradePrice.taxFeePrice)}</strong>
-                </div>
-              </div>
-            ) : null}
-
+            <PriceDetailsList
+              data={{
+                totalPrice: el?.tradePrice?.goodsPrice,
+                taxFeePrice: el?.tradePrice?.taxFeePrice,
+                subscriptionDiscountPrice:
+                  el?.tradePrice?.subscriptionDiscountPrice,
+                deliveryPrice: el?.tradePrice?.deliveryPrice,
+                freeShippingDiscountPrice:
+                  el.tradePrice.freeShippingDiscountPrice,
+                freeShippingFlag: el.tradePrice.freeShippingFlag,
+                promotionVOList: el?.tradePrice?.promotionVOList?.filter(
+                  (e) => e.discountPrice
+                ),
+                serviceFeePrice: el?.tradePrice?.serviceFeePrice
+              }}
+            />
             {/* 总价 */}
             <div className="row">
               <label className="col-8 text-left">
