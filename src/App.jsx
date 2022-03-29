@@ -83,6 +83,9 @@ const AccountOrdersDetail = loadable(() =>
 const AccountSubscription = loadable(() =>
   import('@/views/Account/Subscription')
 );
+
+const Loyalty = loadable(() => import('@/views/Account/Loyalty'));
+
 const AccountSubscriptionDetail = loadable(() =>
   import('@/views/Account/SubscriptionDetail')
 );
@@ -689,6 +692,7 @@ const App = () => {
                   exact
                   component={AccountSubscription}
                 />
+                <Route path="/account/loyalty" exact component={Loyalty} />
                 <Route
                   path="/account/subscription/order/detail/:subscriptionNumber"
                   exact

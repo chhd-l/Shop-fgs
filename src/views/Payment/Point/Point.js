@@ -72,7 +72,7 @@ const Point = ({ checkoutStore }) => {
   };
 
   return (
-    <div style={{ fontFamily: 'din-pro' }}>
+    <div>
       <div className="title text-rc-red mb-5">
         <span>
           <FormattedMessage id="Use Points" />

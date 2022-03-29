@@ -3054,5 +3054,288 @@ role="menubar"
   </ul>
 </li>
 </ul>
-`
+`,
+  jp: `<div class="md:mb-10 col-span-12">
+<div class="rc-divider hidden md:block"></div>
+<div class="rc-layout-container rc-one-column rc-padding-x--xs">
+  <div class="rc-column rc-padding-x--xs">
+    <nav
+      data-toggle-group="mobile"
+      data-toggle-effect="rc-expand--vertical"
+      class="rc-padding-x--xs--desktop rc-padding-x--none--mobile"
+    >
+      <ul
+        class="
+          rc-list
+          rc-list--footer-columns
+          rc-list--blank
+          rc-list--align
+          rc-list--inverse
+          rc-list-overwrite
+        "
+        role="menubar"
+      >
+        <li class="rc-list__item rc-list__item--group">
+          <h3
+            class="
+              rc-list__header
+              J_rc-list__header
+              flex
+              justify-between justify-items-center
+            "
+            role="menuitem"
+            data-toggle="nav-footer-list-0"
+            id="nav-footer-0"
+          >
+            <span>マイ ロイヤルカナン</span>
+            <span class="iconfont iconDown icon-down"></span>
+          </h3>
+          <ul
+            class="rc-list rc-list--blank rc-list--align overflow-hidden"
+            role="menu"
+            id="nav-footer-list-0"
+            aria-labelledby="nav-footer-0"
+          >
+            <li class="rc-list__item">
+              <a
+                class="rc-list__link text-decoration-none color-f6f6f6 66"
+                role="menuitem"
+                href="/home"
+                >ロイヤルカナンについて</a
+              >
+            </li>
+            <li class="rc-list__item">
+              <a
+                class="rc-list__link text-decoration-none color-f6f6f6 66"
+                role="menuitem"
+                href="/myroyalcanin"
+                >マイ ロイヤルカナンについて</a
+              >
+            </li>
+            <li class="rc-list__item">
+              <a
+                class="rc-list__link text-decoration-none color-f6f6f6 66"
+                role="menuitem"
+                href="/point-program"
+                >ポイントプログラムについて</a
+              >
+            </li>
+            <li class="rc-list__item">
+              <a
+                class="rc-list__link text-decoration-none color-f6f6f6 66"
+                role="menuitem"
+                href="/loyalty-program"
+                >定期購入について</a
+              >
+            </li>
+            <li class="rc-list__item">
+              <a
+                class="rc-list__link text-decoration-none color-f6f6f6 66"
+                role="menuitem"
+                href="https://shopstg.royalcanin.com/jp/news"
+                >お知らせ</a
+              >
+            </li>
+            <li class="rc-list__item">
+              <a
+                class="rc-list__link text-decoration-none color-f6f6f6 66"
+                role="menuitem"
+                href="/policy-condition"
+                >利用規約</a
+              >
+            </li>
+            <li class="rc-list__item">
+              <a
+                class="rc-list__link text-decoration-none color-f6f6f6 66"
+                role="menuitem"
+                href="/policy-legal"
+                >販売会社について・特定商取引法に基づく表示</a
+              >
+            </li>
+            <li class="rc-list__item">
+              <a
+                class="rc-list__link text-decoration-none color-f6f6f6 66"
+                role="menuitem"
+                href="/policy-point"
+                >ポイント・クーポン規約</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li class="rc-list__item rc-list__item--group">
+          <h3
+            class="
+              rc-list__header
+              J_rc-list__header
+              flex
+              justify-between justify-items-center
+            "
+            role="menuitem"
+            data-toggle="nav-footer-list-1"
+            id="nav-footer-1"
+          >
+            <span>製品</span>
+            <span class="iconfont iconDown icon-down"></span>
+          </h3>
+          <ul
+            class="rc-list rc-list--blank rc-list--align overflow-hidden"
+            role="menu"
+            id="nav-footer-list-1"
+            aria-labelledby="nav-footer-1"
+          >
+            <li class="rc-list__item">
+              <a
+                class="rc-list__link text-decoration-none color-f6f6f6 66"
+                role="menuitem"
+                href="/jp/cats"
+                >ドッグフード</a
+              >
+            </li>
+            <li class="rc-list__item">
+              <a
+                class="rc-list__link text-decoration-none color-f6f6f6 66"
+                role="menuitem"
+                href="/jp/dogs"
+                >キャットフード</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li class="rc-list__item rc-list__item--group">
+          <h3
+            class="
+              rc-list__header
+              J_rc-list__header
+              flex
+              justify-between justify-items-center
+            "
+            role="menuitem"
+            data-toggle="nav-footer-list-2"
+            id="nav-footer-2"
+          >
+            <span>アカウント</span>
+            <span class="iconfont iconDown icon-down"></span>
+          </h3>
+          <ul
+            class="rc-list rc-list--blank rc-list--align overflow-hidden"
+            role="menu"
+            id="nav-footer-list-2"
+            aria-labelledby="nav-footer-2"
+          >
+            <li class="rc-list__item">
+              <a
+                class="rc-list__link text-decoration-none color-f6f6f6 55"
+                href="/account"
+                >マイ・アカウント</a
+              >
+            </li>
+            <li class="rc-list__item">
+              <a
+                class="rc-list__link text-decoration-none color-f6f6f6 55"
+                href="/account/orders"
+                >オーダー履歴</a
+              >
+            </li>
+            <li class="rc-list__item">
+              <a
+                class="rc-list__link text-decoration-none color-f6f6f6 55"
+                href="/account/subscription"
+                >定期購入情報</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li class="rc-list__item rc-list__item--group">
+          <h3
+            class="
+              rc-list__header
+              J_rc-list__header
+              flex
+              justify-between justify-items-center
+            "
+            role="menuitem"
+            data-toggle="nav-footer-list-3"
+            id="nav-footer-3"
+          >
+            <span>お問い合わせ</span>
+            <span class="iconfont iconDown icon-down"></span>
+          </h3>
+          <ul
+            class="rc-list rc-list--blank rc-list--align overflow-hidden"
+            role="menu"
+            id="nav-footer-list-3"
+            aria-labelledby="nav-footer-3"
+          >
+            <li class="rc-list__item">
+              <a
+                class="rc-list__link text-decoration-none color-f6f6f6 66"
+                role="menuitem"
+                href="/contact-us"
+                >お問い合わせ窓口</a
+              >
+            </li>
+            <li class="rc-list__item">
+              <a
+                class="rc-list__link text-decoration-none color-f6f6f6 66"
+                role="menuitem"
+                href="/faq"
+                >ご利用ガイド</a
+              >
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+<div class="rc-divider hidden md:block"></div>
+</div>
+<div
+class="
+  rc-column
+  col-span-12
+  md:col-span-8
+  rc-padding-bottom--none
+  rc-padding-top--lg--mobile
+"
+>
+<div class="rc-text--inverse">
+  <p>
+  マイ ロイヤルカナン カスタマーサービス
+  </p>
+  <p>
+  受付時間: 月曜～土曜 11:00～16:00
+  </p>
+  <p>
+  日曜・祝日・弊社指定定休日を除く
+  </p>
+</div>
+</div>
+<div
+class="
+  rc-column
+  col-span-12
+  md:col-span-4
+  rc-padding-bottom--none
+  rc-padding-top--lg--mobile
+"
+id="J_footer_payment_box"
+></div>
+<div
+class="
+  rc-column
+  rc-padding-x--none
+  rc-padding-top--xs--desktop
+  rc-padding-y--md--mobile
+  rc-text--center--sm-down
+  col-span-12
+"
+>
+<a
+  class="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-mobile--xs rc-brand3"
+  role="menuitem"
+  href="tel:0120-253-912"
+  >0120-253-912</a
+>
+</div>`
 };
