@@ -1129,6 +1129,7 @@ class Details extends React.Component {
     if (isBaby) return null;
     if (!isTechnology) return null;
     if (currentGoodsInfo?.goodsInfoType === 2) return null;
+    if (details?.goodsType === 3) return null;
     if (!(wsEnergyCategory && wsReferenceEnergyValue)) return null;
     if (!details?.weShareId) return null;
     if (sptGoods && !isAdult) return null;
@@ -1643,7 +1644,7 @@ class Details extends React.Component {
             {/* 描述、好处、组成、指南板块*/}
             {details.goodsDescriptionDetailList &&
             details.goodsType !== undefined ? (
-              <div>
+              <div id="j-details-description-tabs">
                 <GoodsDetailTabs
                   activeTabIdxList={activeTabIdxList}
                   goodsType={details.goodsType}

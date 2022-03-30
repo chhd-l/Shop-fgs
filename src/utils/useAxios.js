@@ -32,7 +32,7 @@ const useAxios = (doApi) => {
     // }, 1000)
   }, [doApi]);
 
-  return { data, isPending, error };
+  return new Promise((resolve) => resolve({ data, isPending, error }));
 };
 
 export default useAxios;

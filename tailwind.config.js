@@ -71,10 +71,13 @@ module.exports = {
         13.3: 1.33,
         14: 1.4,
         17.5: 1.75,
+        34:'34px',
+        32:'32px',
+        36:'36px',
+        24:'24px',
+        26: '26px',
+        48: '48px',
         56: '56px',
-        34: '34px',
-        32: '32px',
-        24: '24px'
       },
       minHeight: {
         auto: 'auto'
@@ -100,7 +103,9 @@ module.exports = {
         285: '285px',
         302: '302px',
         320: '320px',
+        360: '360px',
         392: '392px',
+        399: '399px',
         439: '439px',
         440: '440px',
         479: '479px',
@@ -109,9 +114,11 @@ module.exports = {
         560: '560px',
         600: '600px',
         680: '680px',
+        714: '714px',
         920: '920px',
         960: '960px',
-        1160: '1160px'
+        1160: '1160px',
+        1400: '1400px'
       },
       height: {
         34: '34px',
@@ -122,7 +129,6 @@ module.exports = {
         56: '56px',
         64: '64px',
         63: '63px',
-        64: '64px',
         68: '68px',
         74: '74px',
         80: '80px',
@@ -131,7 +137,6 @@ module.exports = {
         84: '84px',
         88: '88px',
         110: '110px',
-        114: '114px',
         138: '138px',
         143: '143px',
         168: '168px',
@@ -148,10 +153,13 @@ module.exports = {
         369: '369px',
         409: '409px',
         431: '431px',
+        449: '449px',
         450: '450px',
+        489: '489px',
         1241: '1241px'
       },
-      margin: {
+      margin:{
+        8: '8px',
         18: '18px',
         17: '17px',
         24: '24px',
@@ -159,23 +167,29 @@ module.exports = {
         13.65: '13.65px',
         22: '22px',
         24.35: '24.35px',
-        340: '340px'
+        40: '40px',
+        57: '57px',
+        80: '80px',
+        100: '100px',
+        680.5: '680.5px',
+        309: '309px',
+        340: '340px',
+        519: '519px',
+        521: '521px'
+
       },
       padding: {
         17: '17px',
-        18: '18px'
-      },
-      flex: {
-        'justify-items': 'center',
-        'align-items': 'center',
-        'align-content': 'center',
+        18: '18px',
+       },
+      flex:{
+        'justify-items':'center',
+        'align-items':'center',
+        'align-content':'center',
         439: '439px',
         450: '450px',
         556: '556px'
       },
-      line: {
-        'text-decoration': 'underline'
-      }
     }
   },
   plugins: []

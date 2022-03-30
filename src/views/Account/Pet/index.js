@@ -205,6 +205,8 @@ class Pet extends React.Component {
                                 <img
                                   style={{
                                     width: '90px',
+                                    height: '90px',
+                                    objectFit: 'cover',
                                     borderRadius: '50%'
                                   }}
                                   src={
@@ -255,6 +257,8 @@ class Pet extends React.Component {
                                   <img
                                     style={{
                                       width: '90px',
+                                      height: '90px',
+                                      objectFit: 'cover',
                                       borderRadius: '50%'
                                     }}
                                     src={

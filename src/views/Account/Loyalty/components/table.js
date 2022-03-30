@@ -1,44 +1,9 @@
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { getDeviceType } from '@/utils/utils';
-import { useAxios } from '@/utils/useAxios';
-import { postVisitorRegisterAndLogin } from '@/api/payment';
 const isMobile = getDeviceType() !== 'PC';
 
-const Table = ({ pageNum, sendData }) => {
-  const [data, setData] = useState([
-    {
-      time: '2022.02.21 13:05',
-      event: 'Checkut point grant',
-      PointTransactions: '+30',
-      remark: '-'
-    },
-    {
-      time: '2022.02.21 13:05',
-      event: 'Checkut point grant',
-      PointTransactions: '+30',
-      remark: '-'
-    },
-    {
-      time: '2022.02.21 13:05',
-      event: 'Checkut point grant',
-      PointTransactions: '+30',
-      remark: '-'
-    },
-    {
-      time: '2022.02.21 13:05',
-      event: 'Checkut point grant',
-      PointTransactions: '+30',
-      remark: '-'
-    },
-    {
-      time: '2022.02.21 13:05',
-      event: 'Checkut point grant',
-      PointTransactions: '+30',
-      remark: '-'
-    }
-  ]);
-
+const Table = ({ data }) => {
   const PCThead = () => {
     return (
       <thead className="rc-table__thead">
@@ -171,9 +136,6 @@ const Table = ({ pageNum, sendData }) => {
 
     return fragment;
   };
-
-  //const {data,isPending,error} = useAxios(postVisitorRegisterAndLogin)
-  sendData(data);
 
   return (
     <>

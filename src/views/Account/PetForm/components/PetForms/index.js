@@ -255,7 +255,7 @@ const PetForms = ({
     setPetForm(newpetForm);
   };
   const inputNickname = (e) => {
-    setNewPetForm('nickname', e.target.value?.trim());
+    setNewPetForm('nickname', e.target.value);
   };
   const weightChange = (e) => {
     let measure = '';
@@ -452,7 +452,7 @@ const PetForms = ({
       petsId: paramsId,
       petsImg: petForm.imgUrl,
       petsBreed,
-      petsName: petForm.nickname,
+      petsName: petForm.nickname?.trim(),
       petsSex: petForm.petsSex,
       petsSizeValueId: '',
       petsSizeValueName: petForm.weight,
@@ -579,7 +579,9 @@ const PetForms = ({
             style={{
               width: '120px',
               marginTop: '40px',
-              borderRadius: '50%'
+              borderRadius: '50%',
+              height: '120px',
+              objectFit: 'cover'
             }}
             src={petForm.imgUrl || (isCat ? Cat : Dog)}
             alt="photo box"
