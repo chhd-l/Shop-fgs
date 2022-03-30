@@ -11,13 +11,13 @@ import Table from './components/table';
 import Pagination from './components/pagination';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
-import { ownerTotalPoints } from '@/api/payment';
+import { ownerPointsInfo } from '@/api/payment';
 import { inject, observer } from 'mobx-react';
 
 const isMobile = getDeviceType() !== 'PC';
 
 const Loyalty = (props) => {
-  const { customerId } = props.loginStore.userInfo;
+  const { customerId } = props?.loginStore?.userInfo;
   const event = {
     page: {
       type: 'AccountLoyalty',
@@ -31,55 +31,26 @@ const Loyalty = (props) => {
 
   const [myLoyaltyPoints, setMyLoyaltyPoints] = useState(2300);
 
-  const [pageNum, setPageNum] = useState(1);
+  const [pageNum, setPageNum] = useState(10);
   const [totalPage, setTotalPage] = useState(10);
 
-  const [data, setData] = useState([
-    {
-      time: '2022.02.21 13:05',
-      event: 'Checkut point grant',
-      PointTransactions: '+30',
-      remark: '-'
-    },
-    {
-      time: '2022.02.21 13:05',
-      event: 'Checkut point grant',
-      PointTransactions: '+30',
-      remark: '-'
-    },
-    {
-      time: '2022.02.21 13:05',
-      event: 'Checkut point grant',
-      PointTransactions: '+30',
-      remark: '-'
-    },
-    {
-      time: '2022.02.21 13:05',
-      event: 'Checkut point grant',
-      PointTransactions: '+30',
-      remark: '-'
-    },
-    {
-      time: '2022.02.21 13:05',
-      event: 'Checkut point grant',
-      PointTransactions: '+30',
-      remark: '-'
-    }
-  ]);
+  const limit = isMobile ? 5 : 10; //每页的数据总量
+
+  const [data, setData] = useState([]);
 
   const sendPageNumber = (pageNumber) => {
     setPageNum(pageNumber);
   };
 
-  useEffect(async () => {
-    // content
-    try {
-      const res = await ownerTotalPoints({ customerId });
-      console.log(res);
-    } catch (err) {
-      console.log(err.message);
-    }
-  }, []);
+  useEffect(() => {
+    ownerPointsInfo({ customerId, limit, page: pageNum }) //8000017bf858119b439bb8741f75cece
+      .then((res) => {
+        setData(res.context.pointsRecordInfos);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, [pageNum]);
 
   return (
     <>

@@ -151,9 +151,11 @@ const chooseRadioType = () => {
   return radioTypes[window.__.env.REACT_APP_COUNTRY] || radioTypes['default'];
 };
 
-const isSupportPoint = () => {
+const isSupportPoint = (isLogin) => {
   return (
-    supportPoint[window.__.env.REACT_APP_COUNTRY] || supportPoint['default']
+    (supportPoint[window.__.env.REACT_APP_COUNTRY] ||
+      supportPoint['default']) &&
+    isLogin
   );
 };
 
@@ -1057,6 +1059,9 @@ class Payment extends React.Component {
       () => {
         const { payWayNameArr, paymentTypeVal } = this.state;
         this.props.checkoutStore.calculateServiceFeeAndLoyaltyPoints({
+          subscriptionFlag:
+            this.state.subForm?.buyWay === 'frequency' ? true : false,
+          ownerId: this.props.loginStore.userInfo.customerId,
           paymentCode: payWayNameArr.filter(
             (p) => p.paymentTypeVal === paymentTypeVal
           )[0]?.code
@@ -3471,7 +3476,7 @@ class Payment extends React.Component {
                             type: 'adyenCard'
                           })}
                           supportPaymentMethodsVisibleAtForm={false}
-                          supportPoint={isSupportPoint()}
+                          supportPoint={isSupportPoint(this.isLogin)}
                         />
                       </>
                     )}
@@ -3492,7 +3497,7 @@ class Payment extends React.Component {
                     )}
                   {item.paymentTypeVal === 'cod_japan' &&
                     paymentTypeVal === 'cod_japan' &&
-                    isSupportPoint() && <Point />}
+                    isSupportPoint(this.isLogin) && <Point />}
                   {item.paymentTypeVal === 'adyen_convenience_store' &&
                     paymentTypeVal === 'adyen_convenience_store' && (
                       <>
@@ -3500,7 +3505,7 @@ class Payment extends React.Component {
                           convenienceStoreChange={(value) => {
                             this.setState({ convenienceStore: value });
                           }}
-                          supportPoint={isSupportPoint()}
+                          supportPoint={isSupportPoint(this.isLogin)}
                         />
                       </>
                     )}
