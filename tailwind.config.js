@@ -30,9 +30,9 @@ module.exports = {
         'rc-f6': 'var(--rc-f6)',
         'rc-ddd': 'var(--rc-ddd)',
         'rc-detail-red': 'var(--rc-detail-red)',
-        'primary':'#E2001A',
-        'primary-star':'#F80000',
-        'primary-gray':'#666666'
+        primary: '#E2001A',
+        'primary-star': '#F80000',
+        'primary-gray': '#666666'
       },
       textColor: {
         'rc-red': 'var(--rc-red)',
@@ -42,16 +42,18 @@ module.exports = {
         'rc-f6': 'var(--rc-f6)',
         'rc-ddd': 'var(--rc-ddd)',
         'rc-detail-red': 'var(--rc-detail-red)',
-        'primary':'#E2001A',
-        'primary-star':'#F80000',
-        'primary-gray':'#666666'
+        'rc-title-red': '#E2001A',
+        'rc-description-black': '#666666',
+        primary: '#E2001A',
+        'primary-star': '#F80000',
+        'primary-gray': '#666666',
+        black: '#333333'
       },
       fontSize: {
         12: '12px',
         14: '14px',
         16: '16px',
         18: '18px',
-        22: '22px',
         20: '20px',
         21: '21px',
         22: '22px',
@@ -69,9 +71,10 @@ module.exports = {
         13.3: 1.33,
         14: 1.4,
         17.5: 1.75,
-        34:'34px',
-        32:'32px',
-        24:'24px'
+        56: '56px',
+        34: '34px',
+        32: '32px',
+        24: '24px'
       },
       minHeight: {
         auto: 'auto'
@@ -90,10 +93,11 @@ module.exports = {
         106: '106px',
         110: '110px',
         186: '186px',
+        240: '240px',
         244: '244px',
         288: '288px',
-        284:'284px',
-        285:"285px",
+        284: '284px',
+        285: '285px',
         302: '302px',
         320: '320px',
         392: '392px',
@@ -116,7 +120,7 @@ module.exports = {
         48: '48px',
         53: '53px',
         56: '56px',
-        64:'64px',
+        64: '64px',
         63: '63px',
         64: '64px',
         68: '68px',
@@ -145,27 +149,32 @@ module.exports = {
         409: '409px',
         431: '431px',
         450: '450px',
-        672: '672px'
+        1241: '1241px'
       },
-      margin:{
+      margin: {
         18: '18px',
         17: '17px',
         24: '24px',
         16: '16px',
         13.65: '13.65px',
-        24.35: '24.35px'
+        22: '22px',
+        24.35: '24.35px',
+        340: '340px'
       },
       padding: {
         17: '17px',
-        18: '18px',
-       },
-      flex:{
-        'justify-items':'center',
-        'align-items':'center',
-        'align-content':'center',
+        18: '18px'
+      },
+      flex: {
+        'justify-items': 'center',
+        'align-items': 'center',
+        'align-content': 'center',
         439: '439px',
         450: '450px',
         556: '556px'
+      },
+      line: {
+        'text-decoration': 'underline'
       }
     }
   },

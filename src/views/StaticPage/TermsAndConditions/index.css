@@ -111,6 +111,10 @@
   text-align: center;
 }
 
+.terms-margin {
+  margin-top: 1.5rem;
+}
+
 @media (max-width: 480px) {
   .recommendation h2 {
     margin-top: 0;
