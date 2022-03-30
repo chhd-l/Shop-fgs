@@ -17,7 +17,8 @@ module.exports = {
   },
   variants: {
     extend: {
-      animation: ['hover']
+      animation: ['hover'],
+      textColor: ['active', 'hover']
     }
   },
   theme: {
@@ -77,7 +78,8 @@ module.exports = {
         24: '24px',
         26: '26px',
         48: '48px',
-        56: '56px'
+        56: '56px',
+        60: '60px'
       },
       minHeight: {
         auto: 'auto'
