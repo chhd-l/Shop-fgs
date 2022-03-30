@@ -319,8 +319,8 @@ export function calculateServiceFeeAndLoyaltyPoints(parameter) {
 export function ownerTotalPoints(parameter) {
   return axios({
     url: api.ownerTotalPoints,
-    method: 'get',
-    params: parameter
+    method: 'post',
+    data: parameter
   });
 }
 

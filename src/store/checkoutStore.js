@@ -73,9 +73,13 @@ class CheckoutStore {
   @observable inputPoint = '';
   @observable inputPointErr = false;
 
-  @observable CurrentHoldingPoint = 0;
+  @observable CurrentHoldingPoint = 0; //当前积分
 
-  @observable earnedPoint = 10;
+  @observable earnedPoint = 0; //这笔单能挣得的积分
+
+  @observable loyaltyPointsMinimum = 0; //最小使用的积分数
+
+  @observable isCanUsePoint = false; //是否能使用积分
 
   @observable originTradePrice = -1; // 不包含任何服务费的总价，最初进入checkout页面的总价
 
@@ -174,6 +178,16 @@ class CheckoutStore {
   @action.bound
   setEarnedPoint(data) {
     this.earnedPoint = data;
+  }
+
+  @action.bound
+  setLoyaltyPointsMinimum(data) {
+    this.loyaltyPointsMinimum = data;
+  }
+
+  @action.bound
+  setIsCanUsePoint(bool) {
+    this.isCanUsePoint = bool;
   }
 
   @action.bound
@@ -965,7 +979,11 @@ class CheckoutStore {
    * @param {*} param0 ;
    */
   @action
-  async calculateServiceFeeAndLoyaltyPoints({ paymentCode }) {
+  async calculateServiceFeeAndLoyaltyPoints({
+    subscriptionFlag,
+    ownerId,
+    paymentCode
+  }) {
     // 不包含任何服务费的总价，最初进入checkout页面的总价
     if (this.originTradePrice < 0) {
       this.originTradePrice = this.tradePrice;
@@ -973,11 +991,23 @@ class CheckoutStore {
     const res = await calculateServiceFeeAndLoyaltyPoints({
       totalPrice: this.originTradePrice,
       paymentCode,
-      loyaltyPoints: 0,
-      ownerId: ''
+      loyaltyPoints: this.inputPoint || 0,
+      ownerId,
+      subscriptionFlag
     });
-    const { loyaltyPointsPrice, serviceFeePrice, totalPrice } =
-      res?.context || {};
+    const {
+      loyaltyPointsPrice,
+      serviceFeePrice,
+      totalPrice,
+      allowed,
+      loyaltyPointsEarned,
+      loyaltyPointsMinimum
+    } = res?.context || {};
+
+    this.setEarnedPoint(loyaltyPointsEarned);
+    this.setLoyaltyPointsMinimum(loyaltyPointsMinimum);
+    this.setIsCanUsePoint(allowed);
+
     this.setCartPrice(
       Object.assign({}, this.cartPrice, {
         tradePrice: totalPrice,
