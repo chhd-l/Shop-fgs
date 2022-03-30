@@ -38,9 +38,9 @@ const Table = ({ data }) => {
                   return (
                     <tr className="rc-table__row" key={index}>
                       <td className="rc-table__td">{item.time}</td>
-                      <td className="rc-table__td">{item.event}</td>
-                      <td className="rc-table__td">{item.PointTransactions}</td>
-                      <td className="rc-table__td">{item.remark}</td>
+                      <td className="rc-table__td">{item.type}</td>
+                      <td className="rc-table__td">{item.value}</td>
+                      <td className="rc-table__td">{item.description}</td>
                     </tr>
                   );
                 })}
@@ -84,19 +84,19 @@ const Table = ({ data }) => {
               <div className="title">
                 <FormattedMessage id="Event" />
               </div>
-              <div className="content">{item.event}</div>
+              <div className="content">{item.type}</div>
             </div>
             <div className="mb-2">
               <div className="title">
                 <FormattedMessage id="Point transactions" />
               </div>
-              <div className="content">{item.PointTransactions}</div>
+              <div className="content">{item.value}</div>
             </div>
             <div className="mb-2">
               <div className="title">
                 <FormattedMessage id="Remark" />
               </div>
-              <div className="content">{item.remark}</div>
+              <div className="content">{item.description}</div>
             </div>
           </div>
         );
