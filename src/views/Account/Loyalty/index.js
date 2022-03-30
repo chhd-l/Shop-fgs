@@ -31,51 +31,22 @@ const Loyalty = (props) => {
 
   const [myLoyaltyPoints, setMyLoyaltyPoints] = useState(2300);
 
-  const [pageNum, setPageNum] = useState(1);
+  const [pageNum, setPageNum] = useState(10);
   const [totalPage, setTotalPage] = useState(10);
 
   const limit = isMobile ? 5 : 10; //每页的数据总量
 
-  const [data, setData] = useState([
-    // {
-    //   time: '2022.02.21 13:05',
-    //   event: 'Checkut point grant',
-    //   PointTransactions: '+30',
-    //   remark: '-'
-    // },
-    // {
-    //   time: '2022.02.21 13:05',
-    //   event: 'Checkut point grant',
-    //   PointTransactions: '+30',
-    //   remark: '-'
-    // },
-    // {
-    //   time: '2022.02.21 13:05',
-    //   event: 'Checkut point grant',
-    //   PointTransactions: '+30',
-    //   remark: '-'
-    // },
-    // {
-    //   time: '2022.02.21 13:05',
-    //   event: 'Checkut point grant',
-    //   PointTransactions: '+30',
-    //   remark: '-'
-    // },
-    // {
-    //   time: '2022.02.21 13:05',
-    //   event: 'Checkut point grant',
-    //   PointTransactions: '+30',
-    //   remark: '-'
-    // }
-  ]);
+  const [data, setData] = useState([]);
 
   const sendPageNumber = (pageNumber) => {
     setPageNum(pageNumber);
   };
 
   useEffect(() => {
-    ownerPointsInfo({ customerId, limit, page: pageNum })
-      .then((res) => {})
+    ownerPointsInfo({ customerId, limit, page: pageNum }) //8000017bf858119b439bb8741f75cece
+      .then((res) => {
+        setData(res.context.pointsRecordInfos);
+      })
       .catch((err) => {
         console.log(err.message);
       });

@@ -16,6 +16,7 @@ const PointForm = ({ checkoutStore, loginStore }) => {
     CurrentHoldingPoint,
     setCurrentHoldingPoint,
     loyaltyPointsMinimum,
+    loyaltyPointsMaximum,
     isCanUsePoint
   } = checkoutStore;
 
@@ -28,20 +29,20 @@ const PointForm = ({ checkoutStore, loginStore }) => {
     );
   };
 
-  const MaxPointMsg = ({ CurrentHoldingPoint }) => {
+  const MaxPointMsg = ({ loyaltyPointsMaximum }) => {
     return (
       <>
         <FormattedMessage id="Current holding points equals to " />
-        {CurrentHoldingPoint}
+        {loyaltyPointsMaximum}
       </>
     );
   };
 
-  const OverPointMsg = ({ tradePrice }) => {
+  const OverPointMsg = ({ CurrentHoldingPoint }) => {
     return (
       <>
         <FormattedMessage id="Use points are valid only for total price or less, in this case " />
-        {tradePrice}
+        {CurrentHoldingPoint}
       </>
     );
   };
@@ -64,9 +65,9 @@ const PointForm = ({ checkoutStore, loginStore }) => {
 
     //判断输入的积分是否符合条件
     //(1)首要判断 积分大于价格  直接报错
-    if (inputPoint > tradePrice) {
+    if (inputPoint > CurrentHoldingPoint) {
       setInputPointErr(true);
-      setErrMsg(<OverPointMsg tradePrice={tradePrice} />);
+      setErrMsg(<OverPointMsg CurrentHoldingPoint={CurrentHoldingPoint} />);
       return;
     }
     //(2)积分其他判断条件
@@ -76,13 +77,13 @@ const PointForm = ({ checkoutStore, loginStore }) => {
       setInputPointErr(true);
       setErrMsg(<MinPointMsg />);
     } else if (
-      inputPoint > loyaltyPointsMinimum &&
-      inputPoint <= CurrentHoldingPoint
+      inputPoint >= loyaltyPointsMinimum &&
+      inputPoint <= loyaltyPointsMaximum
     ) {
       setInputPointErr(false);
     } else {
       setInputPointErr(true);
-      setErrMsg(<MaxPointMsg CurrentHoldingPoint={CurrentHoldingPoint} />);
+      setErrMsg(<MaxPointMsg loyaltyPointsMaximum={loyaltyPointsMaximum} />);
     }
     //
   }, [inputPoint]);

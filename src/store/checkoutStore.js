@@ -79,6 +79,8 @@ class CheckoutStore {
 
   @observable loyaltyPointsMinimum = 0; //最小使用的积分数
 
+  @observable loyaltyPointsMaximum = 0; //最小大使用的积分数
+
   @observable isCanUsePoint = false; //是否能使用积分
 
   @observable originTradePrice = -1; // 不包含任何服务费的总价，最初进入checkout页面的总价
@@ -183,6 +185,11 @@ class CheckoutStore {
   @action.bound
   setLoyaltyPointsMinimum(data) {
     this.loyaltyPointsMinimum = data;
+  }
+
+  @action.bound
+  setLoyaltyPointsMaximum(data) {
+    this.loyaltyPointsMaximum = data;
   }
 
   @action.bound
@@ -1001,11 +1008,13 @@ class CheckoutStore {
       totalPrice,
       allowed,
       loyaltyPointsEarned,
-      loyaltyPointsMinimum
+      loyaltyPointsMinimum,
+      loyaltyPointsMaximum
     } = res?.context || {};
 
     this.setEarnedPoint(loyaltyPointsEarned);
     this.setLoyaltyPointsMinimum(loyaltyPointsMinimum);
+    this.setLoyaltyPointsMaximum(loyaltyPointsMaximum);
     this.setIsCanUsePoint(allowed);
 
     this.setCartPrice(
