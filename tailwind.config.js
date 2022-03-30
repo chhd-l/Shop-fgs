@@ -43,7 +43,7 @@ module.exports = {
         'rc-ddd': 'var(--rc-ddd)',
         'rc-detail-red': 'var(--rc-detail-red)',
         'rc-title-red': '#E2001A',
-        'rc-description-black': '#666666'
+        'rc-description-black': '#666666',
         'primary':'#E2001A',
         'primary-star':'#F80000',
         'primary-gray':'#666666',
