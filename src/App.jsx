@@ -72,6 +72,7 @@ const PrescriptionNavigate = loadable(() =>
   import('@/views/PrescriptionNavigate')
 );
 const FAQ = loadable(() => import('@/views/FAQ'));
+const JpFAQ = loadable(() => import('@/views/FAQ/jp-index.js'));
 const Widerrufsbelehrung = loadable(() => import('@/views/Widerrufsbelehrung'));
 const AccountHome = loadable(() => import('@/views/Account/Home'));
 const AccountProfile = loadable(() => import('@/views/Account/Profile'));
@@ -582,9 +583,13 @@ const App = () => {
                   exact
                   sensitive
                   path="/faq"
-                  render={(props) => (
-                    <FAQ key={props.match.params.catogery} {...props} />
-                  )}
+                  render={(props) =>
+                    window.__.env.REACT_APP_COUNTRY === 'jp' ? (
+                      <JpFAQ key={props.match.params.catogery} {...props} />
+                    ) : (
+                      <FAQ key={props.match.params.catogery} {...props} />
+                    )
+                  }
                 />
                 <Route
                   exact
