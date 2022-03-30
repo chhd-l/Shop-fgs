@@ -4,6 +4,12 @@ const localItemRoyal = window.__.localItemRoyal;
 
 const isRu = window.__.env.REACT_APP_COUNTRY === 'ru';
 
+const filterAttrValue = (list, keyWords) => {
+  return (list || [])
+    .filter((attr) => attr?.goodsAttributeName?.toLowerCase() === keyWords)
+    .map((item) => item?.goodsAttributeValue);
+};
+
 const getPromotionInfo = () => {
   let promotionInfo = localItemRoyal.get('rc-totalInfo');
   return promotionInfo?.goodsInfos?.map((item) => {
@@ -206,12 +212,13 @@ export const GAInitUnLogin = ({
   try {
     let promotionInfo = getPromotionInfo();
     if (!isHubGA) return;
-    let breed = [];
-    productList?.[0]?.goodsAttributesValueRelList
-      ?.filter((item) => item?.goodsAttributeName?.toLowerCase() == 'breeds')
-      .forEach((item2) => {
-        breed.push(item2.goodsAttributeValue);
-      });
+    // const breed = [];
+    // productList?.[0]?.goodsAttributesValueRelList
+    //   ?.filter((item) => item?.goodsAttributeName?.toLowerCase() == 'breeds')
+    //   .forEach((item2) => {
+    //     breed.push(item2.goodsAttributeValue);
+    //   });
+
     const calculatedWeeks = getComputedWeeks(frequencyList);
     const mapProductList = new Map(productList.map((item, i) => [i, item])); //换成map格式的目的 就是为了for of循环获取index
     for (let [index, item] of mapProductList) {
@@ -239,12 +246,22 @@ export const GAInitUnLogin = ({
             }
           });
       }
+
       if (type === 'felin') {
         price = item.salePrice;
       }
+      const breed = filterAttrValue(
+        item?.goodsAttributesValueRelList,
+        'breeds'
+      );
+      const specie = filterAttrValue(
+        item?.goodsAttributesValueRelList,
+        'species'
+      ).toString();
+      console.log('item', item);
       let obj = deleteObjEmptyAttr({
         price: price, //Product Price, including discount if promo code activated for this product
-        specie: getSpecies(item), //'Cat' or 'Dog',
+        specie, //'Cat' or 'Dog',
         range: range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
         name: item.goodsName, //WeShare product name, always in English
         mainItemCode: item.goodsNo, //Main item code
@@ -277,9 +294,9 @@ export const GAInitUnLogin = ({
         obj.name = "L'Atelier Félin booking";
         obj.mainItemCode = "L'Atelier Félin booking";
       }
-
       arr.push(obj);
     }
+    console.log('arr', arr);
     props.checkoutStore.saveGAProduct({ products: arr });
     if (isReturnList) {
       return arr;
@@ -300,7 +317,6 @@ export const GAInitLogin = ({
   type,
   isReturnList
 }) => {
-  console.log(111, productList);
   let promotionInfo = getPromotionInfo();
   if (!isHubGA) return;
   const calculatedWeeks = getComputedWeeks(frequencyList);
@@ -331,15 +347,20 @@ export const GAInitLogin = ({
         });
     }
 
-    let breed = [];
-    item?.goodsAttributesValueRelVOList
-      ?.filter((item) => item?.goodsAttributeName?.toLowerCase() == 'breeds')
-      .forEach((item2) => {
-        breed.push(item2.goodsAttributeValue);
-      });
+    // let breed = [];
+    // item?.goodsAttributesValueRelVOList
+    //   ?.filter((item) => item?.goodsAttributeName?.toLowerCase() == 'breeds')
+    //   .forEach((item2) => {
+    //     breed.push(item2.goodsAttributeValue);
+    //   });
+    const breed = filterAttrValue(item?.goodsAttributesValueRelList, 'breeds');
+    const specie = filterAttrValue(
+      item?.goodsAttributesValueRelList,
+      'species'
+    ).toString();
     let productItem = {
       price: item.goodsInfoFlag > 0 ? item.subscriptionPrice : item.salePrice, //Product Price, including discount if promo code activated for this product
-      specie: getSpecies(item), //'Cat' or 'Dog',
+      specie, //'Cat' or 'Dog',
       range: range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
       name: item.goodsName, //WeShare product name, always in English
       mainItemCode: item.goods.goodsNo, //Main item code
@@ -377,7 +398,6 @@ export const GAInitLogin = ({
     arr.push(obj);
   }
 
-  console.info('productsproducts', arr);
   //debugger;
 
   props.checkoutStore.saveGAProduct({ products: arr });
@@ -452,23 +472,27 @@ export const GARecommendationProduct = (
     }
     debugger;
     const cateName = goodsCateName?.split('/');
-    const breed = (
-      goodsAttributesValueRelVOAllList ||
-      goodsAttributesValueRelList ||
-      []
-    )
-      .filter(
-        (attr) =>
-          attr.goodsAttributeName &&
-          attr.goodsAttributeName.toLowerCase() == 'breeds'
-      )
-      .map((item) => item.goodsAttributeValue);
-    const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
+    const breed = filterAttrValue(
+      goodsAttributesValueRelVOAllList || goodsAttributesValueRelList || [],
+      'breeds'
+    );
+    // (goodsAttributesValueRelVOAllList || goodsAttributesValueRelList || [])
+    //   .filter(
+    //     (attr) =>
+    //       attr.goodsAttributeName &&
+    //       attr.goodsAttributeName.toLowerCase() == 'breeds'
+    //   )
+    //   .map((item) => item.goodsAttributeValue);
+    const specie = filterAttrValue(
+      goodsAttributesValueRelVOAllList || goodsAttributesValueRelList || [],
+      'species'
+    ).toString();
+    // breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
     let subscriptionFrequency = item.periodTypeId
       ? calculatedWeeks[item.periodTypeId]
       : '';
     let productItem = {
-      price: price,
+      price,
       specie,
       range: type === 4 ? 'Booking' : cateName?.[1] || '', //sku不存在，只有spu上有
       name: type === 4 ? "L'Atelier Félin booking" : goodsName,
@@ -489,7 +513,6 @@ export const GARecommendationProduct = (
     let res = deleteObjEmptyAttr(productItem);
     return res;
   });
-  console.info('gaproducts', products);
   //debugger;
   (type === 1 || type === 4) &&
     window?.dataLayer?.unshift({
