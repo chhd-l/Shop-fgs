@@ -319,7 +319,7 @@ class JPLandingPage extends React.Component {
                       <dt>
                         <img src={icon5} width="100" />
                       </dt>
-                      <dd>おいしさ満足保証返金制度き対象製品はこちら</dd>
+                      <dd>おいしさ満足保証」返金制度き対象製品はこちら</dd>
                     </dl>
                   </div>
                 </div>
