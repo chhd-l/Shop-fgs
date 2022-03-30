@@ -72,6 +72,7 @@ class CheckoutStore {
 
   @observable inputPoint = '';
   @observable inputPointErr = false;
+  @observable confirmedInputPoint = 0;
 
   @observable CurrentHoldingPoint = 0; //当前积分
 
@@ -165,6 +166,12 @@ class CheckoutStore {
   @action.bound
   setInputPoint(data) {
     this.inputPoint = data;
+  }
+
+  @action.bound
+  setConfirmedInputPoint(data, callback) {
+    this.confirmedInputPoint = data || 0;
+    callback();
   }
 
   @action.bound
@@ -998,7 +1005,7 @@ class CheckoutStore {
     const res = await calculateServiceFeeAndLoyaltyPoints({
       totalPrice: this.originTradePrice,
       paymentCode,
-      loyaltyPoints: this.inputPoint || 0,
+      loyaltyPoints: this.confirmedInputPoint,
       ownerId,
       subscriptionFlag
     });
