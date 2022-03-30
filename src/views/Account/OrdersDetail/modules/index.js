@@ -8,3 +8,4 @@ export { default as OrderHeadTip } from './orderHeadTip';
 export { default as OrderProgress } from './orderProgress';
 export { default as OrderLogisticsProgress } from './orderProgress/logisticsProgress';
 export { default as CancelOrderForJp } from './cancelOrderForJp';
+export { default as PriceDetailsList } from './PriceDetailsList';

@@ -8,7 +8,7 @@ import LazyLoad from 'react-lazyload';
 import { FOOD_DISPENSER_PIC } from '@/utils/constant';
 import './index.css';
 import FrequencyMatch from '@/components/FrequencyMatch';
-import PromotionCodeText from '../../views/Payment/PayProductInfo/components/promotionCodeText';
+import { PriceDetailsList } from './components';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -361,153 +361,23 @@ class PayProductInfo extends React.Component {
                 >
                   {List}
                   <div className="product-summary__fees order-total-summary">
-                    <div className="row leading-lines subtotal-item">
-                      <div className="col-8 start-lines">
-                        <p className="order-receipt-label">
-                          <span>
-                            <FormattedMessage id="total2" />
-                          </span>
-                        </p>
-                      </div>
-                      <div className="col-4 end-lines">
-                        <p className="text-right">
-                          <span className="sub-total">
-                            {formatMoney(details.tradePrice.goodsPrice)}
-                          </span>
-                        </p>
-                      </div>
-                    </div>
-                    {/* promotion */}
-                    {details.tradePrice.subscriptionDiscountPrice ? (
-                      <div className="row leading-lines shipping-item">
-                        <div className="col-7 start-lines">
-                          <p className="order-receipt-label order-shipping-cost">
-                            <span className="green">
-                              {/* {details.tradePrice.promotionDesc || ( */}
-                              <FormattedMessage id="promotion" />
-                              {/* )} */}
-                            </span>
-                          </p>
-                        </div>
-                        <div className="col-5 end-lines">
-                          <p className="text-right">
-                            <span className="shipping-total-cost green">
-                              -
-                              {formatMoney(
-                                details.tradePrice.subscriptionDiscountPrice
-                              )}
-                            </span>
-                          </p>
-                        </div>
-                      </div>
-                    ) : null}
-                    {details.tradePrice.promotionVOList?.map((el, i) => (
-                      <PromotionCodeText i={i} el={el} />
-                    ))}
-                    {/* 显示 delivereyPrice */}
-                    <div className="row leading-lines shipping-item">
-                      <div className="col-7 start-lines">
-                        <p className="order-receipt-label order-shipping-cost">
-                          <span>
-                            <FormattedMessage id="cart.delivery" />
-                          </span>
-                        </p>
-                      </div>
-                      <div className="col-5 end-lines">
-                        <p className="text-right">
-                          <span className="shipping-total-cost">
-                            {formatMoney(details.tradePrice.deliveryPrice)}
-                          </span>
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* 运费折扣 俄罗斯 */}
-                    {this.freeShippingFlag ? (
-                      <div className="row leading-lines shipping-item green">
-                        <div className="col-7 start-lines">
-                          <p className="order-receipt-label order-shipping-cost">
-                            <span>
-                              <FormattedMessage id="payment.shippingDiscount" />
-                            </span>
-                          </p>
-                        </div>
-                        <div className="col-5 end-lines">
-                          <p className="text-right">
-                            <span className="shipping-total-cost">
-                              {this.freeShippingDiscountPrice > 0 && '-'}
-                              {formatMoney(this.freeShippingDiscountPrice)}
-                            </span>
-                          </p>
-                        </div>
-                      </div>
-                    ) : null}
-
-                    {this.props.configStore?.customTaxSettingOpenFlag &&
-                    this.props.configStore?.enterPriceType === 'NO_TAX' ? (
-                      <div className="row leading-lines shipping-item">
-                        <div className="col-7 start-lines">
-                          <p className="order-receipt-label order-shipping-cost">
-                            <span>
-                              <FormattedMessage id="estimatedTax" />
-                            </span>
-                          </p>
-                        </div>
-                        <div className="col-5 end-lines">
-                          <p className="text-right">
-                            <span className="shipping-total-cost components_pay_product_info">
-                              {/* {formatMoney(details.tradePrice.taxFeePrice)} */}
-                              {formatMoney(this.taxFeePrice)}
-                            </span>
-                          </p>
-                        </div>
-                      </div>
-                    ) : (
-                      <></>
-                    )}
-                    {/* {details.tradePrice.discountsPrice ? (
-                      <div className="row leading-lines shipping-item">
-                        <div className="col-7 start-lines">
-                          <p className="order-receipt-label order-shipping-cost">
-                            <span>
-                              {details.tradePrice.promotionDesc || (
-                                <FormattedMessage id="promotion" />
-                              )}
-                            </span>
-                          </p>
-                        </div>
-                        <div className="col-5 end-lines">
-                          <p className="text-right">
-                            <span className="shipping-total-cost green">
-                              -{formatMoney(details.tradePrice.discountsPrice)}
-                            </span>
-                          </p>
-                        </div>
-                      </div>
-                    ) : null} */}
-
-                    {/* 分期手续费 */}
-                    {this.isShowInstallMent ? (
-                      <div className="row leading-lines shipping-item red">
-                        <div className="col-7 start-lines">
-                          <p className="order-receipt-label order-shipping-cost">
-                            <span>
-                              <FormattedMessage id="installMent.additionalFee" />
-                            </span>
-                          </p>
-                        </div>
-                        <div className="col-5 end-lines">
-                          <p className="text-right">
-                            <span className="shipping-total-cost">
-                              {formatMoney(
-                                details.tradePrice.installmentPrice
-                                  .additionalFee
-                              )}
-                            </span>
-                          </p>
-                        </div>
-                      </div>
-                    ) : null}
+                    <PriceDetailsList
+                      data={{
+                        totalPrice: details?.tradePrice?.goodsPrice,
+                        taxFeePrice: details?.tradePrice?.taxFeePrice,
+                        subscriptionDiscountPrice:
+                          details?.tradePrice?.subscriptionDiscountPrice,
+                        deliveryPrice: details?.tradePrice?.deliveryPrice,
+                        freeShippingDiscountPrice:
+                          this.freeShippingDiscountPrice,
+                        freeShippingFlag: this.freeShippingFlag,
+                        promotionVOList: details?.tradePrice?.promotionVOList,
+                        isShowInstallMent: this.isShowInstallMent,
+                        installMentAdditionalFee:
+                          details?.tradePrice?.installmentPrice?.additionalFee,
+                        serviceFeePrice: details?.tradePrice?.serviceFeePrice
+                      }}
+                    />
                   </div>
                 </div>
               </div>
