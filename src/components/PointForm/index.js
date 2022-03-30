@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import cn from 'classnames';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
+import { ownerTotalPoints } from '@/api/payment';
 
-const PointForm = ({ checkoutStore }) => {
+const PointForm = ({ checkoutStore, loginStore }) => {
+  const { customerId } = loginStore.userInfo;
   const [errMsg, setErrMsg] = useState('');
   const {
     tradePrice,
@@ -12,15 +14,16 @@ const PointForm = ({ checkoutStore }) => {
     inputPointErr,
     setInputPointErr,
     CurrentHoldingPoint,
-    setCurrentHoldingPoint
+    setCurrentHoldingPoint,
+    loyaltyPointsMinimum,
+    isCanUsePoint
   } = checkoutStore;
-  const [minUsedPoint, setMinUsedPoint] = useState(10);
 
   const MinPointMsg = () => {
     return (
       <FormattedMessage
         id="checkout.point.minPointMsg"
-        values={{ val: minUsedPoint }}
+        values={{ val: loyaltyPointsMinimum }}
       />
     );
   };
@@ -44,6 +47,17 @@ const PointForm = ({ checkoutStore }) => {
   };
 
   useEffect(() => {
+    //获取当前积分
+    ownerTotalPoints({ customerId })
+      .then((res) => {
+        setCurrentHoldingPoint(res.context.totalPoints);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
+
+  useEffect(() => {
     //在checkoutStore里面存储输入的积分
     setInputPoint(inputPoint);
     //
@@ -58,10 +72,13 @@ const PointForm = ({ checkoutStore }) => {
     //(2)积分其他判断条件
     if (inputPoint === '') {
       setInputPointErr(false);
-    } else if (inputPoint > 0 && inputPoint < minUsedPoint) {
+    } else if (inputPoint > 0 && inputPoint < loyaltyPointsMinimum) {
       setInputPointErr(true);
       setErrMsg(<MinPointMsg />);
-    } else if (inputPoint > minUsedPoint && inputPoint <= CurrentHoldingPoint) {
+    } else if (
+      inputPoint > loyaltyPointsMinimum &&
+      inputPoint <= CurrentHoldingPoint
+    ) {
       setInputPointErr(false);
     } else {
       setInputPointErr(true);
@@ -83,6 +100,7 @@ const PointForm = ({ checkoutStore }) => {
         <br />
         <input
           type="text"
+          disabled={!isCanUsePoint}
           value={inputPoint}
           className={cn(
             'p-2 text-16 border rounded',
@@ -98,7 +116,7 @@ const PointForm = ({ checkoutStore }) => {
       <div className="tips">
         <FormattedMessage
           id="checkout.point.tips1"
-          values={{ val: minUsedPoint }}
+          values={{ val: loyaltyPointsMinimum }}
         />
         <br />
         <FormattedMessage id="Please enter the number of points you want to use" />
@@ -107,4 +125,4 @@ const PointForm = ({ checkoutStore }) => {
   );
 };
 
-export default inject('checkoutStore')(observer(PointForm));
+export default inject('checkoutStore', 'loginStore')(observer(PointForm));

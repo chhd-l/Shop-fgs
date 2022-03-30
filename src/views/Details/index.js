@@ -1644,7 +1644,7 @@ class Details extends React.Component {
             {/* 描述、好处、组成、指南板块*/}
             {details.goodsDescriptionDetailList &&
             details.goodsType !== undefined ? (
-              <div>
+              <div id="j-details-description-tabs">
                 <GoodsDetailTabs
                   activeTabIdxList={activeTabIdxList}
                   goodsType={details.goodsType}

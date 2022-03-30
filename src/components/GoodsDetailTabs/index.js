@@ -686,7 +686,9 @@ const GoodsDetailTabs = function (props) {
           props.setState({ activeTabIdxList: activeTabIndex }, () => {
             window.setTimeout(() => {
               scrollToTarget(
-                isMobile ? 'j-details-tabitem-Guide' : 'j-details-for-club'
+                isMobile
+                  ? 'j-details-tabitem-Guide'
+                  : 'j-details-description-tabs'
               );
             }, 500);
           });
