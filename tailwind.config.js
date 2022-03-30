@@ -43,7 +43,7 @@ module.exports = {
         'rc-ddd': 'var(--rc-ddd)',
         'rc-detail-red': 'var(--rc-detail-red)',
         'rc-title-red': '#E2001A',
-        'rc-description-black': '#666666'
+        'rc-description-black': '#666666',
         'primary':'#E2001A',
         'primary-star':'#F80000',
         'primary-gray':'#666666',
@@ -73,7 +73,8 @@ module.exports = {
         17.5: 1.75,
         34:'34px',
         32:'32px',
-        24:'24px'
+        24:'24px',
+        26: '26px'
       },
       minHeight: {
         auto: 'auto'
@@ -121,7 +122,6 @@ module.exports = {
         56: '56px',
         64:'64px',
         63: '63px',
-        64: '64px',
         68: '68px',
         74: '74px',
         80: '80px',
@@ -130,7 +130,6 @@ module.exports = {
         84: '84px',
         88: '88px',
         110: '110px',
-        114: '114px',
         138: '138px',
         143: '143px',
         168: '168px',
@@ -151,13 +150,18 @@ module.exports = {
         1241: '1241px'
       },
       margin:{
+        8: '8px',
         18: '18px',
         17: '17px',
         24: '24px',
         16: '16px',
         13.65: '13.65px',
         22: '22px',
-        24.35: '24.35px'
+        24.35: '24.35px',
+        680.5: '680.5px',
+        309: '309px',
+        40: '40px',
+        340: '340px'
       },
       padding: {
         17: '17px',
@@ -171,17 +175,6 @@ module.exports = {
         450: '450px',
         556: '556px'
       },
-      line:{
-        'text-decoration': 'underline'},
-      margin: {
-        18: '18px',
-        17: '17px',
-        24: '24px',
-        16: '16px',
-        13.65: '13.65px',
-        24.35: '24.35px',
-        340: '340px'
-      }
     }
   },
   plugins: []
