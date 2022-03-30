@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BannerTip from '@/components/BannerTip';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
@@ -11,11 +11,13 @@ import Table from './components/table';
 import Pagination from './components/pagination';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
+import { ownerTotalPoints } from '@/api/payment';
+import { inject, observer } from 'mobx-react';
 
 const isMobile = getDeviceType() !== 'PC';
-const localItemRoyal = window.__.localItemRoyal;
 
 const Loyalty = (props) => {
+  const { customerId } = props.loginStore.userInfo;
   const event = {
     page: {
       type: 'AccountLoyalty',
@@ -31,15 +33,53 @@ const Loyalty = (props) => {
 
   const [pageNum, setPageNum] = useState(1);
   const [totalPage, setTotalPage] = useState(10);
-  const [data, setData] = useState([]);
+
+  const [data, setData] = useState([
+    {
+      time: '2022.02.21 13:05',
+      event: 'Checkut point grant',
+      PointTransactions: '+30',
+      remark: '-'
+    },
+    {
+      time: '2022.02.21 13:05',
+      event: 'Checkut point grant',
+      PointTransactions: '+30',
+      remark: '-'
+    },
+    {
+      time: '2022.02.21 13:05',
+      event: 'Checkut point grant',
+      PointTransactions: '+30',
+      remark: '-'
+    },
+    {
+      time: '2022.02.21 13:05',
+      event: 'Checkut point grant',
+      PointTransactions: '+30',
+      remark: '-'
+    },
+    {
+      time: '2022.02.21 13:05',
+      event: 'Checkut point grant',
+      PointTransactions: '+30',
+      remark: '-'
+    }
+  ]);
 
   const sendPageNumber = (pageNumber) => {
     setPageNum(pageNumber);
   };
 
-  const sendData = (data) => {
-    setData(data);
-  };
+  useEffect(async () => {
+    // content
+    try {
+      const res = await ownerTotalPoints({ customerId });
+      console.log(res);
+    } catch (err) {
+      console.log(err.message);
+    }
+  }, []);
 
   return (
     <>
@@ -81,7 +121,7 @@ const Loyalty = (props) => {
                     <div className="stage">
                       <FormattedMessage id="My Loyalty Points" />
                     </div>
-                    {data.length > 0 ? (
+                    {data?.length > 0 ? (
                       <div className="content">{myLoyaltyPoints}</div>
                     ) : (
                       <div className="pt-2">
@@ -91,7 +131,7 @@ const Loyalty = (props) => {
                   </div>
                 </div>
               </div>
-              <Table pageNum={pageNum} sendData={sendData} />
+              <Table data={data} />
               <div className="h-3"></div>
               <Pagination
                 pageNum={pageNum}
@@ -122,4 +162,4 @@ const Loyalty = (props) => {
   );
 };
 
-export default Loyalty;
+export default inject('loginStore')(observer(Loyalty));

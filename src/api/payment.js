@@ -38,7 +38,9 @@ const api = {
   checkUserOrEmailIsBlocked: '', //check user account or guest email is blocked or not
   swishCancelOrRefund: '/adyenPay/paying/cancelOrRefund', //swish取消订单
   calculateServiceFeeAndLoyaltyPoints:
-    '/site/calculateServiceFeeAndLoyaltyPoints' //切换支付方式，重新计算价格
+    '/site/calculateServiceFeeAndLoyaltyPoints', //切换支付方式，重新计算价格
+  ownerTotalPoints: '/points/owner-total-points', //获取总积分
+  ownerPointsInfo: '/points/owner-points-info' //历史使用积分
 };
 
 export default api;
@@ -309,6 +311,22 @@ export function swishCancelOrRefund(parameter) {
 export function calculateServiceFeeAndLoyaltyPoints(parameter) {
   return axios({
     url: api.calculateServiceFeeAndLoyaltyPoints,
+    method: 'post',
+    data: parameter
+  });
+}
+
+export function ownerTotalPoints(parameter) {
+  return axios({
+    url: api.ownerTotalPoints,
+    method: 'get',
+    params: parameter
+  });
+}
+
+export function ownerPointsInfo(parameter) {
+  return axios({
+    url: api.ownerPointsInfo,
     method: 'post',
     data: parameter
   });

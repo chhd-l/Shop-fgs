@@ -326,6 +326,7 @@ class JPLandingPage extends React.Component {
               </div>
             </div>
           </section>
+          <Footer />
         </main>
       </div>
     );

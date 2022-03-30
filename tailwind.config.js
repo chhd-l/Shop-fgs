@@ -30,9 +30,9 @@ module.exports = {
         'rc-f6': 'var(--rc-f6)',
         'rc-ddd': 'var(--rc-ddd)',
         'rc-detail-red': 'var(--rc-detail-red)',
-        'primary':'#E2001A',
-        'primary-star':'#F80000',
-        'primary-gray':'#666666'
+        primary: '#E2001A',
+        'primary-star': '#F80000',
+        'primary-gray': '#666666'
       },
       textColor: {
         'rc-red': 'var(--rc-red)',
@@ -44,10 +44,10 @@ module.exports = {
         'rc-detail-red': 'var(--rc-detail-red)',
         'rc-title-red': '#E2001A',
         'rc-description-black': '#666666',
-        'primary':'#E2001A',
-        'primary-star':'#F80000',
-        'primary-gray':'#666666',
-        'black':'#333333'
+        primary: '#E2001A',
+        'primary-star': '#F80000',
+        'primary-gray': '#666666',
+        black: '#333333'
       },
       fontSize: {
         12: '12px',
@@ -74,7 +74,8 @@ module.exports = {
         34:'34px',
         32:'32px',
         24:'24px',
-        26: '26px'
+        26: '26px',
+        56: '56px',
       },
       minHeight: {
         auto: 'auto'
@@ -96,8 +97,8 @@ module.exports = {
         240: '240px',
         244: '244px',
         288: '288px',
-        284:'284px',
-        285:"285px",
+        284: '284px',
+        285: '285px',
         302: '302px',
         320: '320px',
         392: '392px',
@@ -120,7 +121,7 @@ module.exports = {
         48: '48px',
         53: '53px',
         56: '56px',
-        64:'64px',
+        64: '64px',
         63: '63px',
         68: '68px',
         74: '74px',
