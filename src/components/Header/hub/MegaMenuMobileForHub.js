@@ -318,8 +318,8 @@ class MegaMenuMobileForHub extends Component {
                                     item={cItem}
                                     className="rc-list__link submenu-padding-mobile1 bg-white border-0 px-4 py-2"
                                     style={{
-                                      // fontWeight: 500,
-                                      color: 'inherit'
+                                      fontWeight: 400,
+                                      color: '#333'
                                     }}
                                     onClick={this.handleClickNavItem.bind(
                                       this,

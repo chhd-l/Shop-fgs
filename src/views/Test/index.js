@@ -11,7 +11,7 @@ class Test extends React.Component {
   render() {
     return (
       <div className="rc-content--fixed-header rc-bg-colour--brand4 p-40 text-4xl">
-        <h1 className="mt-32">feature_0221_sprint10</h1>
+        <h1 className="mt-32">feature_0221_sprint9</h1>
       </div>
     );
   }

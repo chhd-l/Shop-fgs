@@ -1,6 +1,7 @@
 import React from 'react';
 import LazyLoad from 'react-lazyload';
 import NavItem from './NavItemForHub';
+import { HelpDivWrapper } from '../style';
 
 function DescJSX({ item }) {
   return (
@@ -12,7 +13,7 @@ function DescJSX({ item }) {
         {item.Title}
       </h4>
       <div
-        className="desc children-nomargin text-left rc-text-colour--text ui-text-overflow-line2"
+        className="desc ui-contact-us-info children-nomargin text-left rc-text-colour--text ui-text-overflow-line2"
         dangerouslySetInnerHTML={{ __html: item.Content }}
       />
     </div>
@@ -33,7 +34,10 @@ function IconPanel({ data, item, handleClickNavItem }) {
       }}
     >
       <div className="rc-margin-right--xs flex-grow-1 text-nowrap11">
-        <span className="font-semibold" style={{ color: '#767676' }}>
+        <span
+          className="font-medium md:font-light"
+          style={{ color: '#767676' }}
+        >
           {item.Subtitle}
         </span>
 
@@ -42,7 +46,7 @@ function IconPanel({ data, item, handleClickNavItem }) {
         </div> */}
       </div>
       <div className="flex items-center">
-        <span
+        {/* <span
           className="iconfont red rc-padding--xs font-medium"
           style={{ fontSize: '1.5rem' }}
           dangerouslySetInnerHTML={{
@@ -52,7 +56,8 @@ function IconPanel({ data, item, handleClickNavItem }) {
               advice: '&#xe64c;'
             }[item.Icon]
           }}
-        />
+        /> */}
+        <span className={`rc-icon rc-brand1 rc-${item.Icon}--sm`} />
         {item.contactPhone ? (
           <div className="title rc-delta mb-0">{item.contactPhone}</div>
         ) : null}
@@ -62,12 +67,16 @@ function IconPanel({ data, item, handleClickNavItem }) {
 }
 
 const InfoTextContactMenuItem = ({ item }) => {
-  return <p className="ui-text-overflow-line3">{item.InfoText}</p>;
+  return (
+    <p className="ui-text-overflow-line3 text-sm" style={{ maxWidth: 650 }}>
+      {item.InfoText}
+    </p>
+  );
 };
 
 export default function Help({ data, handleClickNavItem }) {
   return (
-    <div className="dropdown-nav__help grid grid-cols-12 gap-4 md:p-0 px-4">
+    <HelpDivWrapper className="dropdown-nav__help grid grid-cols-12 gap-4 md:p-0 px-4">
       {data.MenuItems.map((item) => {
         return (
           <React.Fragment key={item.id}>
@@ -91,6 +100,6 @@ export default function Help({ data, handleClickNavItem }) {
           </React.Fragment>
         );
       })}
-    </div>
+    </HelpDivWrapper>
   );
 }

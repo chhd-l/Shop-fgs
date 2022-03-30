@@ -393,14 +393,15 @@ class Form extends React.Component {
     if (!element) return; //没有postCode输入框就不执行
     let maskOptions = [];
     let postReg = '';
-    switch (COUNTRY) {
-      case 'jp':
-        postReg = [{ mask: '000-0000' }];
-        break;
-      default:
-        postReg = [{ mask: /.*/ }];
-        break;
-    }
+    // switch (COUNTRY) {
+    //   case 'jp':
+    //     postReg = [{ mask: '000-0000' }];
+    //     break;
+    //   default:
+    //     postReg = [{ mask: /.*/ }];
+    //     break;
+    // }
+    postReg = [{ mask: '000-0000' }];
     maskOptions = {
       mask: postReg
     };
@@ -511,7 +512,9 @@ class Form extends React.Component {
                   // 设置手机号输入限制
                   setTimeout(() => {
                     this.setPhoneNumberReg();
-                    this.setPostCodeReg();
+                    if (COUNTRY == 'jp') {
+                      this.setPostCodeReg();
+                    }
                   }, 1000);
                 }
               });
