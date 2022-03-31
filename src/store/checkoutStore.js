@@ -72,7 +72,7 @@ class CheckoutStore {
 
   @observable inputPoint = '';
   @observable inputPointErr = false;
-  @observable confirmedInputPoint = 0;
+  @observable inputPointOk = false; //输入的积分满足要求时去查询积分的状态
 
   @observable CurrentHoldingPoint = 0; //当前积分
 
@@ -82,7 +82,7 @@ class CheckoutStore {
 
   @observable loyaltyPointsMaximum = 0; //最小大使用的积分数
 
-  @observable isCanUsePoint = false; //是否能使用积分
+  @observable isCanUsePoint = true; //是否能使用积分
 
   @observable originTradePrice = -1; // 不包含任何服务费的总价，最初进入checkout页面的总价
 
@@ -169,9 +169,8 @@ class CheckoutStore {
   }
 
   @action.bound
-  setConfirmedInputPoint(data, callback) {
-    this.confirmedInputPoint = data || 0;
-    callback();
+  setInputPointOk(bool) {
+    this.inputPointOk = bool;
   }
 
   @action.bound
@@ -996,7 +995,8 @@ class CheckoutStore {
   async calculateServiceFeeAndLoyaltyPoints({
     subscriptionFlag,
     ownerId,
-    paymentCode
+    paymentCode,
+    loyaltyPoints
   }) {
     // 不包含任何服务费的总价，最初进入checkout页面的总价
     if (this.originTradePrice < 0) {
@@ -1005,7 +1005,7 @@ class CheckoutStore {
     const res = await calculateServiceFeeAndLoyaltyPoints({
       totalPrice: this.originTradePrice,
       paymentCode,
-      loyaltyPoints: this.confirmedInputPoint,
+      loyaltyPoints,
       ownerId,
       subscriptionFlag
     });
