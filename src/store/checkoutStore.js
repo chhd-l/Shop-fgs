@@ -82,7 +82,7 @@ class CheckoutStore {
 
   @observable loyaltyPointsMaximum = 0; //最小大使用的积分数
 
-  @observable isCanUsePoint = false; //是否能使用积分
+  @observable isCanUsePoint = true; //是否能使用积分
 
   @observable originTradePrice = -1; // 不包含任何服务费的总价，最初进入checkout页面的总价
 
