@@ -24,6 +24,32 @@ const getSearchContainerMaxHeight = () => {
   return `calc(${window.innerHeight}px - 5rem)`;
 };
 
+const transSpecialCharOfRegExp = (originalString) => {
+  let result = '';
+  const specialCharacters = [
+    '[',
+    ']',
+    '\\',
+    '^',
+    '$',
+    '.',
+    '|',
+    '?',
+    '*',
+    '+',
+    '(',
+    ')'
+  ];
+  for (let i = 0; i < originalString.length; i++) {
+    let g = originalString.charAt(i);
+    if (specialCharacters.indexOf(g) > -1) {
+      result = result + '\\';
+    }
+    result = result + g;
+  }
+  return result;
+};
+
 export default class Search extends React.Component {
   static defaultProps = {
     onClose: () => {},
@@ -300,7 +326,7 @@ export default class Search extends React.Component {
   renderResultJsx() {
     const { result, keywords } = this.state;
     let ret = null;
-    const keyReg = new RegExp(keywords, 'gi');
+    const keyReg = new RegExp(transSpecialCharOfRegExp(keywords), 'gi');
     if (result) {
       //ios safari 100vh问题
       const resultHeight = getSearchContainerMaxHeight();

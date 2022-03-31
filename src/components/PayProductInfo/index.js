@@ -376,8 +376,7 @@ class PayProductInfo extends React.Component {
                         installMentAdditionalFee:
                           details?.tradePrice?.installmentPrice?.additionalFee,
                         serviceFeePrice: details?.tradePrice?.serviceFeePrice,
-                        loyaltyPointsPrice:
-                          details?.tradePrice?.loyaltyPointsPrice
+                        loyaltyPointsPrice: details?.tradePrice?.loyaltyPoints
                       }}
                     />
                   </div>

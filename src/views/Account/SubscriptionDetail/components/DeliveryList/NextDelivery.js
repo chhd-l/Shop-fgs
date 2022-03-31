@@ -444,7 +444,7 @@ const NextDelivery = ({
                   (e) => e.discountPrice
                 ),
                 serviceFeePrice: el?.tradePrice?.serviceFeePrice,
-                loyaltyPointsPrice: el?.tradePrice?.loyaltyPointsPrice
+                loyaltyPointsPrice: el?.tradePrice?.loyaltyPoints
               }}
             />
             {/* 总价 */}
