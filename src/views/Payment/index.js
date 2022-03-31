@@ -1052,21 +1052,26 @@ class Payment extends React.Component {
       )[0]?.payPspItemCardTypeVOList || []
     );
   }
+  //计算ServiceFeeAndLoyaltyPoints
+  confirmCalculateServiceFeeAndLoyaltyPoints = () => {
+    const { payWayNameArr, paymentTypeVal } = this.state;
+    this.props.checkoutStore.calculateServiceFeeAndLoyaltyPoints({
+      subscriptionFlag:
+        this.state.subForm?.buyWay === 'frequency' ? true : false,
+      ownerId: this.props.loginStore.userInfo.customerId,
+      paymentCode: payWayNameArr.filter(
+        (p) => p.paymentTypeVal === paymentTypeVal
+      )[0]?.code
+    });
+    this.onCardTypeValChange();
+  };
+
   onPaymentTypeValChange() {
     const supportPaymentMethods = this.setSupportPaymentMethods();
     this.setState(
       { cardTypeVal: supportPaymentMethods[0]?.cardType || '' },
       () => {
-        const { payWayNameArr, paymentTypeVal } = this.state;
-        this.props.checkoutStore.calculateServiceFeeAndLoyaltyPoints({
-          subscriptionFlag:
-            this.state.subForm?.buyWay === 'frequency' ? true : false,
-          ownerId: this.props.loginStore.userInfo.customerId,
-          paymentCode: payWayNameArr.filter(
-            (p) => p.paymentTypeVal === paymentTypeVal
-          )[0]?.code
-        });
-        this.onCardTypeValChange();
+        this.confirmCalculateServiceFeeAndLoyaltyPoints();
       }
     );
   }
@@ -2893,9 +2898,17 @@ class Payment extends React.Component {
   };
   // 点击confirm 1
   clickConfirmPaymentPanel = async (e) => {
+    const { setConfirmedInputPoint, inputPoint } = this.props.checkoutStore;
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
+
+    //确认积分
+    setConfirmedInputPoint(
+      inputPoint,
+      this.confirmCalculateServiceFeeAndLoyaltyPoints
+    );
+
     // 勾选，billingAddress = deliveryAddress
     this.setState(
       {

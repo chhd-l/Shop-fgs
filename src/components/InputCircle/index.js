@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import cn from 'classnames';
 import { FormattedMessage } from 'react-intl-phraseapp';
+import { inject, observer } from 'mobx-react';
 
 //圆形单选框
 const InputCircle = ({
   data,
   horizontal = false,
   fontSize = '16px',
-  getId = () => {}
+  getId = () => {},
+  checkoutStore
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentId, setCurrentId] = useState(data[0].id);
+  const { setInputPoint } = checkoutStore;
   const handleChange = (item, i) => {
+    setInputPoint('');
     setCurrentIndex(i);
     setCurrentId(item.id);
     getId(item.id);
@@ -54,4 +58,4 @@ const InputCircle = ({
   );
 };
 
-export default InputCircle;
+export default inject('checkoutStore')(observer(InputCircle));
