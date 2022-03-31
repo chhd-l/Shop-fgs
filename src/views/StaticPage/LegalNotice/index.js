@@ -30,8 +30,13 @@ function LegalNotice(props) {
           style={{ background: 'fff' }}
         >
           <div className="md:w-920  m-auto  pt-10 pb-10 pl-4 pr-4 md:p-0 md:pt-20 md:pb-16 box-content">
-            <h1 className="PingFangSC redColor font-semibold text-22 leading-7 mb-6 md:mb-28 md:text-30 md:leading-8 md:text-center">
+            {/* pc */}
+            <h1 className="hidden md:block PingFangSC redColor font-semibold text-22 leading-7 mb-6 md:mb-28 md:text-30 md:leading-8 md:text-center">
               特定商取引に関する法律に基づく表記
+            </h1>
+            {/* 手机 */}
+            <h1 className="block md:hidden PingFangSC redColor font-semibold text-22 leading-7 mb-6 md:mb-28 md:text-30 md:leading-8 md:text-center">
+              マイ ロイヤルカナン 特定商取引法に基づく表示
             </h1>
             {/* 内容 */}
             <div>
@@ -94,7 +99,7 @@ function LegalNotice(props) {
                   <br />
                   その他の場合、全国一律配送1回につき500円（税込）の配送料をお客様にご負担いただきます。
                 </p>
-                <h3 className="PingFangSC redColor text-16 leading-6 mb-1 md:text-18 md:leading-7">
+                <h3 className="PingFangSC redColor text-16 leading-6 mb-1 mt-4 md:mt-6 md:text-18 md:leading-7">
                   手数料
                 </h3>
                 <p

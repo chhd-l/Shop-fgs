@@ -59,13 +59,16 @@ function AboutMyRoyalCanin(props) {
           <div className="throughLine"></div>
           {/* 2 */}
           <div className="md:w-960 md:h-334 m-auto box-content pt-10 pb-10 md:pt-20 md:pb-20 md:flex md:justify-between">
+            <h1 className="redColor block md:hidden PingFangSC w-288 h-84 m-auto leading-7 font-semibold text-22 md:w-440 md:h-64 md:text-26 md:leading-8 md:mt-12 mb-4">
+              最短で “当日出荷”、税込5500円以上のご注文で全国どこでも送料無料
+            </h1>
             <img
               src={ScreenHot2}
               alt=""
               className="w-186 h-143 m-auto md:w-479 md:h-334"
             />
             <div className="md:w-440 md:h-full">
-              <h1 className="redColor PingFangSC w-288 h-84 m-auto leading-7 font-semibold text-22 md:w-440 md:h-64 md:text-26 md:leading-8 md:mt-12 mb-4">
+              <h1 className="redColor hidden md:block PingFangSC w-288 h-84 m-auto leading-7 font-semibold text-22 md:w-440 md:h-64 md:text-26 md:leading-8 md:mt-12 mb-4">
                 最短で “当日出荷”、税込5500円以上のご注文で全国どこでも送料無料
               </h1>
               <p
@@ -151,13 +154,23 @@ function AboutMyRoyalCanin(props) {
             <h1 className="PingFangSC redColor text-22 leading-7 font-semibold text-left md:text-30 md:leading-10 md:text-center mb-2 md:mb-4">
               幅広くお選びいただけるお支払い方法
             </h1>
+            {/* pc */}
             <p
-              className="PingFangSC text-16 leading-6 md:text-18 md:leading-9 md:text-center"
+              className="hidden md:block PingFangSC text-16 leading-6 md:text-18 md:leading-9 md:text-center"
               style={{ color: '#666666' }}
             >
               お支払い方法は、クレジットカード、代金引換、コンビニ決済（先払い方式）から
               <br />
               お選びいただけます。お客様のご都合に合わせてお選びください。
+              <br />
+              ※定期購入はクレジットカード、代金引換のみになります。
+            </p>
+            {/* 手机 */}
+            <p
+              className="block md:hidden PingFangSC text-16 leading-6 md:text-18 md:leading-9 md:text-center"
+              style={{ color: '#666666' }}
+            >
+              お支払い方法は、クレジットカード、代金引換、コンビニ決済（先払い方式）からお選びいただけます。お客様のご都合に合わせてお選びください。
               <br />
               ※定期購入はクレジットカード、代金引換のみになります。
             </p>
@@ -172,14 +185,22 @@ function AboutMyRoyalCanin(props) {
             <h1 className="PingFangSC redColor text-22 font-semibold text-left leading-7 md:text-30 md:leading-10 md:text-center mb-4">
               実績豊かなヤマト運輸が丁寧にお届け
             </h1>
+            {/* pc */}
             <p
-              className="PingFangSC text-16 leading-6 md:text-18 md:leading-9 md:text-center"
+              className="hidden md:block PingFangSC text-16 leading-6 md:text-18 md:leading-9 md:text-center"
               style={{ color: '#666666' }}
             >
               「お客様の大切な愛犬・愛猫のフードを確かにお手元に届けたい。」マイ
               ロイヤル
               <br />
               カナンの思いを経験・実績豊富なヤマト運輸を通じてお届けいたします。
+            </p>
+            {/* 手机 */}
+            <p
+              className="block md:hidden PingFangSC text-16 leading-6 md:text-18 md:leading-9 md:text-center"
+              style={{ color: '#666666' }}
+            >
+              「お客様の大切な愛犬・愛猫のフードを確かにお手元に届けたい。」マイロイヤルカナンの思いを経験・実績豊富なヤマト運輸を通じてお届けいたします。
             </p>
             <div>
               <img

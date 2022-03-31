@@ -114,8 +114,18 @@ function AboutSubscription(props) {
               １）購入したい製品の詳細ページで「定期購入をする」ボタンをクリックしてください。
             </p>
             <img src={Bitmap1} alt="" className="md:w-920 md:h-450" />
+            {/* pc */}
             <p
-              className="PingFangSC text-16 leading-7 md:text-18 md:leading-9 mt-6 md:mt-10 mb-4"
+              className="hidden md:block PingFangSC text-16 leading-7 md:text-18 md:leading-9 mt-6 md:mt-10 mb-4"
+              style={{ color: '#666' }}
+            >
+              ２）定期購入のショッピングカート画面で、「配送頻度」と「お届け回数」を選んでください。
+              <br />
+              ※お届け回数は、最低３回からお申込みいただけます。
+            </p>
+            {/* 手机 */}
+            <p
+              className="block md:hidden PingFangSC text-16 leading-7 md:text-18 md:leading-9 mt-6 md:mt-10 mb-4"
               style={{ color: '#666' }}
             >
               ２）定期購入のショッピングカート画面で、「配送頻度」と「お届け回数」を選んでください。
