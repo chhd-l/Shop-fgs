@@ -49,6 +49,19 @@ class FAQ extends React.Component {
                 window.scrollTo({ top: widget.offsetTop - 90 });
               });
             }
+            console.log(document.getElementById('aaa'));
+            document.getElementById('4652-x').addEventListener('click', (e) => {
+              console.log('e', e.target.dataset.id);
+              this.scrollToAnchor(e.target.dataset.id + '');
+            });
+            document.getElementById('4649-x').addEventListener('click', (e) => {
+              console.log('e', e.target.dataset.id);
+              this.scrollToAnchor(e.target.dataset.id + '');
+            });
+            document.getElementById('4609-x').addEventListener('click', (e) => {
+              console.log('e', e.target.dataset.id);
+              this.scrollToAnchor(e.target.dataset.id + '');
+            });
           }
         );
       })
@@ -175,7 +188,7 @@ class FAQ extends React.Component {
                     <h2
                       name={`catogery-${index}`}
                       id={`catogery-${index}`}
-                      className="text-primary-gray font-medium md:mt-20 md:mb-10 md:text-20 md:leading-26"
+                      className="text-primary-gray font-semibold md:mt-20 md:mb-10 md:text-20 md:leading-26"
                     >
                       {pitem.faqType}
                     </h2>
