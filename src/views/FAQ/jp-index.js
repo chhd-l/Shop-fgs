@@ -50,6 +50,7 @@ class FAQ extends React.Component {
               });
             }
             console.log(document.getElementById('aaa'));
+            // 锚点跳转
             document.getElementById('4652-x').addEventListener('click', (e) => {
               console.log('e', e.target.dataset.id);
               this.scrollToAnchor(e.target.dataset.id + '');
