@@ -90,7 +90,7 @@ const PriceDetailsList = ({
       key: 'serviceFee'
     },
     {
-      text: <FormattedMessage id="payment.loyaltyPointsPrice" />,
+      title: <FormattedMessage id="payment.loyaltyPointsPrice" />,
       val: -loyaltyPointsPrice,
       className: 'green',
       visible: loyaltyPointsPrice,
