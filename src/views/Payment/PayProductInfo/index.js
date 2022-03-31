@@ -827,6 +827,13 @@ class PayProductInfo extends React.Component {
         val: this.props.checkoutStore.serviceFeePrice,
         visible: this.props.checkoutStore.serviceFeePrice,
         key: 'serviceFee'
+      },
+      {
+        text: <FormattedMessage id="payment.loyaltyPointsPrice" />,
+        val: this.props.checkoutStore.loyaltyPointsPrice,
+        className: 'green',
+        visible: this.props.checkoutStore.loyaltyPointsPrice,
+        key: 'pointDiscount'
       }
     ]
       // .sort()

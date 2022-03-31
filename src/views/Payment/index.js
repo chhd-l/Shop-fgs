@@ -524,10 +524,11 @@ class Payment extends React.Component {
         }
       }
     );
+    //监听输入积分input框的值是否有效，有效就去调用计算积分接口
     reaction(
       () => this.props.checkoutStore.inputPointOk,
       () => {
-        if (this.props.checkoutStore.inputPointOk == true) {
+        if (this.props.checkoutStore.inputPointOk) {
           setTimeout(() => {
             this.confirmCalculateServiceFeeAndLoyaltyPoints(
               Number(this.props.checkoutStore.inputPoint)
