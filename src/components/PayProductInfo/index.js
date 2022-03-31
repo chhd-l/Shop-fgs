@@ -375,7 +375,9 @@ class PayProductInfo extends React.Component {
                         isShowInstallMent: this.isShowInstallMent,
                         installMentAdditionalFee:
                           details?.tradePrice?.installmentPrice?.additionalFee,
-                        serviceFeePrice: details?.tradePrice?.serviceFeePrice
+                        serviceFeePrice: details?.tradePrice?.serviceFeePrice,
+                        loyaltyPointsPrice:
+                          details?.tradePrice?.loyaltyPointsPrice
                       }}
                     />
                   </div>
