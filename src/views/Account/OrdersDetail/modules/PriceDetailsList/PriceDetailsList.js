@@ -15,7 +15,8 @@ const PriceDetailsList = ({
     freeShippingFlag,
     installMentAdditionalFee,
     isShowInstallMent,
-    serviceFeePrice
+    serviceFeePrice,
+    loyaltyPointsPrice
   },
   configStore
 }) => {
@@ -85,6 +86,13 @@ const PriceDetailsList = ({
       val: serviceFeePrice,
       visible: serviceFeePrice,
       key: 'serviceFee'
+    },
+    {
+      title: <FormattedMessage id="payment.loyaltyPointsPrice" />,
+      val: -loyaltyPointsPrice,
+      visible: loyaltyPointsPrice,
+      className: 'green',
+      key: 'pointDiscount'
     }
   ]).filter((el) => el.visible);
   return (

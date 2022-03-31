@@ -759,78 +759,7 @@ class PayProductInfo extends React.Component {
       this.isLogin || this.props.data.length
         ? this.getProductsForLogin(productList)
         : this.getProducts(productList);
-    const subtractionSign = '-';
-    const priceList = [
-      {
-        text: <FormattedMessage id="total2" />,
-        val: this.totalPrice,
-        visible: true,
-        key: 'totalPrice'
-      },
-      // 日本税费显示, 仅显示不参与总价计算
-      {
-        text: <FormattedMessage id="order.consumptionTax" />,
-        val: this.taxFeePrice,
-        visible: this.taxFeePrice > 0,
-        key: 'consumptionTax'
-      },
-      // 显示 订阅折扣
-      {
-        text: <FormattedMessage id="total2" />,
-        val: -this.subscriptionDiscountPrice,
-        className: 'green',
-        visible: parseFloat(this.subscriptionDiscountPrice) > 0,
-        key: 'subscriptionDiscountPrice'
-      },
-      {
-        visible: !isShowValidCode,
-        rowHtml: this.promotionVOList?.map((el, i) => (
-          <PromotionCodeText el={el} i={i} />
-        )),
-        key: 'promotion'
-      },
-      // 显示 delivereyPrice
-      {
-        text: <FormattedMessage id="cart.delivery" />,
-        val: this.deliveryPrice || <FormattedMessage id="free" />,
-        visible: true,
-        key: 'deliveryPrice'
-      },
-      // 运费折扣 俄罗斯
-      {
-        text: <FormattedMessage id="payment.shippingDiscount" />,
-        val:
-          this.freeShippingDiscountPrice > 0
-            ? -this.freeShippingDiscountPrice
-            : this.freeShippingDiscountPrice,
-        className: 'green',
-        visible: this.freeShippingFlag,
-        key: 'freeShippingDiscountPrice'
-      },
-      {
-        text: <FormattedMessage id="estimatedTax" />,
-        val: this.taxFeePrice,
-        visible:
-          this.props.configStore?.customTaxSettingOpenFlag &&
-          this.props.configStore?.enterPriceType === 'NO_TAX',
-        key: 'estimatedTax'
-      },
-      {
-        text: <FormattedMessage id="installMent.additionalFee" />,
-        val: installMentParam?.additionalFee,
-        className: 'red',
-        visible: Boolean(installMentParam),
-        key: 'installMentAdditionalFee'
-      },
-      {
-        text: <FormattedMessage id="payment.serviceFee" />,
-        val: this.props.checkoutStore.serviceFeePrice,
-        visible: this.props.checkoutStore.serviceFeePrice,
-        key: 'serviceFee'
-      }
-    ]
-      // .sort()
-      .filter((ele) => ele.visible);
+
     return (
       <div
         className={`product-summary__inner ${className}`}

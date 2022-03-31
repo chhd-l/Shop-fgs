@@ -87,6 +87,13 @@ const PriceDetailsList = ({
       val: checkoutStore.serviceFeePrice,
       visible: checkoutStore.serviceFeePrice,
       key: 'serviceFee'
+    },
+    {
+      title: <FormattedMessage id="payment.loyaltyPointsPrice" />,
+      val: -checkoutStore.loyaltyPointsPrice,
+      visible: checkoutStore.loyaltyPointsPrice,
+      className: 'green',
+      key: 'pointDiscount'
     }
   ]).filter((el) => el.visible);
   return priceList.map((item, idx) =>

@@ -443,7 +443,8 @@ const NextDelivery = ({
                 promotionVOList: el?.tradePrice?.promotionVOList?.filter(
                   (e) => e.discountPrice
                 ),
-                serviceFeePrice: el?.tradePrice?.serviceFeePrice
+                serviceFeePrice: el?.tradePrice?.serviceFeePrice,
+                loyaltyPointsPrice: el?.tradePrice?.loyaltyPointsPrice
               }}
             />
             {/* 总价 */}

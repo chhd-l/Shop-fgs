@@ -458,7 +458,9 @@ class AccountOrders extends React.Component {
                                       details?.tradePrice?.installmentPrice
                                         ?.additionalFee,
                                     serviceFeePrice:
-                                      details?.tradePrice?.serviceFeePrice
+                                      details?.tradePrice?.serviceFeePrice,
+                                    loyaltyPointsPrice:
+                                      details?.tradePrice?.loyaltyPointsPrice
                                   }}
                                 />
                               ) : null}

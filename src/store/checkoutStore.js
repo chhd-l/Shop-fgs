@@ -106,6 +106,10 @@ class CheckoutStore {
     return this?.cartPrice?.serviceFeePrice || 0;
   }
 
+  @computed get loyaltyPointsPrice() {
+    return this?.cartPrice?.loyaltyPointsPrice || 0;
+  }
+
   @computed get taxFeePrice() {
     return this?.cartPrice?.taxFeePrice || 0;
   }
