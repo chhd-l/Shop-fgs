@@ -105,7 +105,7 @@ const PointForm = ({ checkoutStore, loginStore }) => {
         </label>
         <br />
         <input
-          type="text"
+          type="number"
           disabled={!isCanUsePoint}
           value={inputPoint}
           className={cn(

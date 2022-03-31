@@ -1361,7 +1361,8 @@ class Payment extends React.Component {
         },
         cod_japan: () => {
           parameters = Object.assign(commonParameter, {
-            payPspItemEnum: 'JAPAN_COD'
+            payPspItemEnum: 'JAPAN_COD',
+            loyaltyPoints: Number(this.props.checkoutStore.inputPoint)
           });
         },
         adyenCard: () => {
