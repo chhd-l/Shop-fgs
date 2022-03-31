@@ -155,10 +155,13 @@ module.exports = {
         340: '340px',
         369: '369px',
         409: '409px',
+        420: '420px',
         431: '431px',
+        439: '439px',
         449: '449px',
         450: '450px',
         489: '489px',
+        556: '556px',
         1241: '1241px'
       },
       margin: {
@@ -186,10 +189,7 @@ module.exports = {
       flex: {
         'justify-items': 'center',
         'align-items': 'center',
-        'align-content': 'center',
-        439: '439px',
-        450: '450px',
-        556: '556px'
+        'align-content': 'center'
       }
     }
   },

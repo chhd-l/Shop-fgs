@@ -31,24 +31,17 @@ function AboutMyRoyalCanin(props) {
           style={{ background: '#fff' }}
         >
           {/* 1 */}
-          <div className="md:w-920 md:h-409 md:m-auto md:flex md:justify-between md:mt-20 md:pb-20 box-content">
-            <div className="md:flex md:flex-wrap md:flex-col md:justify-between">
-              <h1 className="PingFangSC redColor text-22 leading-7 m-auto mb-4 md:mb-auto md:text-30 w-288 h-56 md:w-392 md:h-80 md:leading-10 font-semibold mt-6 md:mt-auto">
+          <div className="md:w-920 md:h-431 md:m-auto md:flex md:justify-between md:mt-20 md:pb-20 box-content">
+            <div className="md:h-431">
+              <h1 className="PingFangSC redColor text-22 leading-7 m-auto mb-4  md:text-30 w-288 h-56 md:w-392 md:h-80 md:leading-10 font-semibold mt-6 md:mt-auto">
                 マイ ロイヤルカナンについて
               </h1>
-
               <p
-                className="PingFangSC m-auto mb-4 md:mb-auto w-288 h-234 md:w-440 md:h-238 text-16 md:text-18 leading-7 md:leading-9"
+                className="PingFangSC m-auto mb-4 md:mb-14 w-288 h-234 md:w-440 md:h-238 text-16 md:text-18 leading-7 md:leading-9"
                 style={{ color: '#666666' }}
               >
-                「マイロイヤルカナン」は、個々の犬
-                と猫で異なる栄養要求にこたえる、ロイ
-                ヤルカナンのきめ細やかなドッグフー
-                ド、キャットフードをお届けするロイヤ
-                ルカナンの公式通販サイトです。ロイヤ
-                ルカナンの総合栄養食の全製品をご購入
-                いただける他、公式通販サイトだけの限
-                定犬種・猫種専用フードも取り扱っています。
+                「マイ
+                ロイヤルカナン」は、個々の犬と猫で異なる栄養要求にこたえる、ロイヤルカナンのきめ細やかなドッグフード、キャットフードをお届けするロイヤルカナンの公式通販サイトです。ロイヤルカナンの総合栄養食の全製品をご購入いただける他、公式通販サイトだけの限定犬種・猫種専用フードも取り扱っています。
               </p>
               <button
                 className="redBg hidden md:block md:w-244 md:h-48 md:leading-10 md:text-center md:rounded-3xl hover:underline"

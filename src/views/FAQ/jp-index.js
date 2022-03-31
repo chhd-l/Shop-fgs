@@ -77,7 +77,8 @@ class FAQ extends React.Component {
       });
     }
   }
-  scrollToAnchor = (anchorName) => {
+  scrollToAnchor(anchorName) {
+    console.log('anchorName', anchorName);
     if (anchorName) {
       let anchorElement = document.getElementById(anchorName);
       if (anchorElement) {
@@ -89,7 +90,7 @@ class FAQ extends React.Component {
         // anchorElement.offsetTop = 433 + 'px';
       }
     }
-  };
+  }
 
   render(h) {
     const event = {
