@@ -66,6 +66,7 @@ class FAQ extends React.Component {
     return el.offsetTop;
   }
   handleSelect(id) {
+    // debugger;
     if (id === this.state.showCur) {
       this.setState({
         showCur: -1
@@ -76,6 +77,19 @@ class FAQ extends React.Component {
       });
     }
   }
+  scrollToAnchor = (anchorName) => {
+    if (anchorName) {
+      let anchorElement = document.getElementById(anchorName);
+      if (anchorElement) {
+        console.log('anchorElement', anchorElement);
+        // debugger;
+        anchorElement.scrollIntoViewIfNeeded();
+        // anchorElement.scrollIntoView(false);
+        this.handleSelect(anchorName - 0);
+        // anchorElement.offsetTop = 433 + 'px';
+      }
+    }
+  };
 
   render(h) {
     const event = {
@@ -184,6 +198,7 @@ class FAQ extends React.Component {
                         >
                           <div
                             className="rc-list__header"
+                            // id={item.id}
                             onClick={this.handleSelect.bind(this, item.id)}
                             style={{
                               display: 'flex',
@@ -219,7 +234,7 @@ class FAQ extends React.Component {
                           </div>
                           <div className={`rc-list__content `}>
                             <p
-                              className="text-primary-gray md:text-18 md:leading-34"
+                              className="text-primary-gray md:text-18 md:leading-34 md:mb-10"
                               dangerouslySetInnerHTML={{ __html: item.answer }}
                             />
                             {item.imgUl ? (

@@ -175,7 +175,7 @@ function AboutMyRoyalCanin(props) {
                 className="w-288 h-74 md:w-440 md:h-114 m-auto mt-4 md:mb-20"
               />
             </div>
-            <div className="d7bottom-border w-288 m-auto mt-8 mb-7 md:hidden"></div>
+            <div className="d7bottom-border m-auto mt-8 mb-7 md:hidden"></div>
             <h1 className="PingFangSC redColor text-22 font-semibold text-left leading-7 md:text-30 md:leading-10 md:text-center mb-4">
               実績豊かなヤマト運輸が丁寧にお届け
             </h1>
