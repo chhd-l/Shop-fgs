@@ -3,7 +3,7 @@ import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import Modal from '@/components/Modal';
 import find from 'lodash/find';
 import { inject, observer } from 'mobx-react';
-import { toJS } from 'mobx';
+import { toJS, reaction } from 'mobx';
 import Cookies from 'cookies-js';
 import md5 from 'js-md5';
 import GoogleTagManager from '@/components/GoogleTagManager';
@@ -103,7 +103,10 @@ import {
 import { handlePayReview } from './PaymentMethod/paymentUtils';
 import { ErrorMessage } from '@/components/Message';
 import Canonical from '@/components/Canonical';
-import { USEPOINT } from '@/views/Payment/PaymentMethod/paymentMethodsConstant';
+import {
+  USEPOINT,
+  NOTUSEPOINT
+} from '@/views/Payment/PaymentMethod/paymentMethodsConstant';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -512,6 +515,27 @@ class Payment extends React.Component {
   }
 
   async componentDidMount() {
+    //监听InputCircle组件选择不使用积分时，传入积分参数为0
+    reaction(
+      () => this.props.checkoutStore.selectDiscountWay,
+      () => {
+        if (this.props.checkoutStore.selectDiscountWay == NOTUSEPOINT) {
+          this.confirmCalculateServiceFeeAndLoyaltyPoints();
+        }
+      }
+    );
+    reaction(
+      () => this.props.checkoutStore.inputPointOk,
+      () => {
+        if (this.props.checkoutStore.inputPointOk == true) {
+          setTimeout(() => {
+            this.confirmCalculateServiceFeeAndLoyaltyPoints(
+              Number(this.props.checkoutStore.inputPoint)
+            );
+          }, 1000);
+        }
+      }
+    );
     const { history } = this.props;
     let { getSystemFormConfig, paymentAuthority } = this.props.configStore;
 
@@ -1053,9 +1077,10 @@ class Payment extends React.Component {
     );
   }
   //计算ServiceFeeAndLoyaltyPoints
-  confirmCalculateServiceFeeAndLoyaltyPoints = () => {
+  confirmCalculateServiceFeeAndLoyaltyPoints = (loyaltyPoints = 0) => {
     const { payWayNameArr, paymentTypeVal } = this.state;
     this.props.checkoutStore.calculateServiceFeeAndLoyaltyPoints({
+      loyaltyPoints,
       subscriptionFlag:
         this.state.subForm?.buyWay === 'frequency' ? true : false,
       ownerId: this.props.loginStore.userInfo.customerId,
@@ -2898,16 +2923,9 @@ class Payment extends React.Component {
   };
   // 点击confirm 1
   clickConfirmPaymentPanel = async (e) => {
-    const { setConfirmedInputPoint, inputPoint } = this.props.checkoutStore;
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
-
-    //确认积分
-    setConfirmedInputPoint(
-      inputPoint,
-      this.confirmCalculateServiceFeeAndLoyaltyPoints
-    );
 
     // 勾选，billingAddress = deliveryAddress
     this.setState(

@@ -25,6 +25,7 @@ import { nextTick } from 'process';
 import LoyaltyPoint from './components/loyaltyPoint';
 import cn from 'classnames';
 import { PriceDetailsList } from './components';
+import { NOTUSEPOINT } from '../PaymentMethod/paymentMethodsConstant';
 
 const guid = uuidv4();
 let isGACheckoutLock = false;

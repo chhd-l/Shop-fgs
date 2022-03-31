@@ -17,7 +17,8 @@ const PointForm = ({ checkoutStore, loginStore }) => {
     setCurrentHoldingPoint,
     loyaltyPointsMinimum,
     loyaltyPointsMaximum,
-    isCanUsePoint
+    isCanUsePoint,
+    setInputPointOk
   } = checkoutStore;
 
   const MinPointMsg = () => {
@@ -63,6 +64,9 @@ const PointForm = ({ checkoutStore, loginStore }) => {
     setInputPoint(inputPoint);
     //
 
+    //每次inputPoint改变时设置输入状态初始值为false
+    setInputPointOk(false);
+
     //判断输入的积分是否符合条件
     //(1)首要判断 积分大于价格  直接报错
     if (inputPoint > CurrentHoldingPoint) {
@@ -81,6 +85,7 @@ const PointForm = ({ checkoutStore, loginStore }) => {
       inputPoint <= loyaltyPointsMaximum
     ) {
       setInputPointErr(false);
+      setInputPointOk(true);
     } else {
       setInputPointErr(true);
       setErrMsg(<MaxPointMsg loyaltyPointsMaximum={loyaltyPointsMaximum} />);
