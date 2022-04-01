@@ -577,8 +577,12 @@ class AdyenCreditCardList extends React.Component {
     });
   };
   renderEditForm = () => {
-    const { showErrorMsg, subBuyWay, supportPaymentMethodsVisibleAtForm } =
-      this.props;
+    const {
+      showErrorMsg,
+      subBuyWay,
+      supportPaymentMethodsVisibleAtForm,
+      paymentStore: { curPayWayInfo }
+    } = this.props;
     const { cardList } = this.state;
     return (
       <EditForm
@@ -591,7 +595,7 @@ class AdyenCreditCardList extends React.Component {
         isOnepageCheckout={true}
         isShowEnableStoreDetails={this.isLogin}
         mustSaveForFutherPayments={subBuyWay === 'frequency'} // 所有商品均不订阅 才能不绑卡
-        key={subBuyWay}
+        key={`${subBuyWay}|${curPayWayInfo?.code}`}
         showCancelBtn={false}
         updateFormVisible={(val) => {
           this.setState({ formVisible: val });
