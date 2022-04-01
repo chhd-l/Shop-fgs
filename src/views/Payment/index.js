@@ -537,7 +537,10 @@ class Payment extends React.Component {
         }
       }
     );
-    const { history } = this.props;
+    const {
+      history,
+      checkoutStore: { resetPriceData }
+    } = this.props;
     let { getSystemFormConfig, paymentAuthority } = this.props.configStore;
 
     // 游客不能checkout 且 没有登录
@@ -675,14 +678,15 @@ class Payment extends React.Component {
     this.rebindListData(consentData);
     this.initPaymentWay();
     this.initPanelStatus();
+    resetPriceData();
   }
 
   componentWillUnmount() {
     //因设置了router refresh=true，此生命周期无效，需在RouterFilter文件中删除
     const {
-      paymentStore: { restPanelStatus }
+      paymentStore: { resetPanelStatus }
     } = this.props;
-    restPanelStatus();
+    resetPanelStatus();
     sessionItemRoyal.remove('rc-tid');
     sessionItemRoyal.remove('rc-tidList');
     sessionItemRoyal.remove('rc-swishQrcode');
@@ -1084,7 +1088,7 @@ class Payment extends React.Component {
       loyaltyPoints,
       subscriptionFlag:
         this.state.subForm?.buyWay === 'frequency' ? true : false,
-      ownerId: this.props.loginStore.userInfo.customerId,
+      ownerId: this.props.loginStore?.userInfo?.customerId || '',
       paymentCode: payWayNameArr.filter(
         (p) => p.paymentTypeVal === paymentTypeVal
       )[0]?.code
@@ -1097,7 +1101,9 @@ class Payment extends React.Component {
     this.setState(
       { cardTypeVal: supportPaymentMethods[0]?.cardType || '' },
       () => {
-        this.confirmCalculateServiceFeeAndLoyaltyPoints();
+        if (COUNTRY == 'jp') {
+          this.confirmCalculateServiceFeeAndLoyaltyPoints();
+        }
       }
     );
   }
