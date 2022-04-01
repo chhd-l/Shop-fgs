@@ -290,21 +290,29 @@ class JPLandingPage extends React.Component {
                         <img src={icon1} width="100" />
                       </dt>
                       <dd>
-                        15時までのお支払いで当日出荷​（日・祝日・年末年始を除く）
+                        15時までのお支払いで当日出荷
+                        <br />
+                        ​（日・祝日・年末年始を除く）
                       </dd>
                     </dl>
                     <dl>
                       <dt>
                         <img src={icon2} width="100" />
                       </dt>
-                      <dd>5,500円（税込）以上で送料無料日本全国どこでも​</dd>
+                      <dd>
+                        5,500円（税込）以上で送料無料
+                        <br />
+                        日本全国どこでも​
+                      </dd>
                     </dl>
                     <dl>
                       <dt>
                         <img src={icon3} width="100" />
                       </dt>
                       <dd>
-                        ポイントプログラム定期購入とステージアップで最大10％還元​​
+                        ポイントプログラム
+                        <br />
+                        定期購入とステージアップで最大10％還元​​
                       </dd>
                     </dl>
                     <dl>
@@ -312,14 +320,20 @@ class JPLandingPage extends React.Component {
                         <img src={icon4} width="100" />
                       </dt>
                       <dd>
-                        便利な定期購入設定した周期で定期的にフードをお届け​
+                        便利な定期購入
+                        <br />
+                        設定した周期で定期的にフードをお届け​
                       </dd>
                     </dl>
                     <dl>
                       <dt>
                         <img src={icon5} width="100" />
                       </dt>
-                      <dd>おいしさ満足保証」返金制度き対象製品はこちら</dd>
+                      <dd>
+                        おいしさ満足保証」返金制度き
+                        <br />
+                        対象製品はこちら
+                      </dd>
                     </dl>
                   </div>
                 </div>
