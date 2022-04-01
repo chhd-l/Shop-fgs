@@ -57,12 +57,15 @@ const ButtonBox = () => {
   };
   return (
     <div
-      className="footerGroupButton pt-4 md:pt-7"
+      className="footerGroupButton"
       style={{ display: isNotInactive ? 'inline-block' : 'none' }}
     >
-      <p className="flex justify-center md:justify-end md:items-center flex-wrap flex-col md:flex-row">
+      <p
+        className="flex justify-center md:justify-end items-center flex-wrap flex-col md:flex-row"
+        style={{ textAlign: isMobile ? 'left' : 'right' }}
+      >
         {/* indv不会展示该按钮 */}
-        {/* {isShowClub && !isIndv && subDetail?.goodsInfo?.length == 1 ? (
+        {isShowClub && !isIndv && subDetail?.goodsInfo?.length == 1 ? (
           <div className=" flex items-center">
             <span
               style={{
@@ -106,9 +109,9 @@ const ButtonBox = () => {
               </span>
             </span>
           </div>
-        ) : null} */}
+        ) : null}
         <br className="rc-md-up" />
-        <div className="pause-btn flex items-center md:mx-4 mt-2">
+        <div className="pause-btn flex items-center mx-4  mt-2">
           {subDetail.subscribeStatus === 'ACTIVE' ? (
             <em
               className="iconfont iconzanting font-bold pb-2 md:pb-1"
@@ -154,9 +157,9 @@ const ButtonBox = () => {
           </a>
         </div>
         <button
-          className={cn(`rc-btn rc-btn--one md:mx-4 mt-2 w-full md:w-auto`, {
-            'rc-btn-solid-disabled': !isDataChange
-          })}
+          className={`rc-btn rc-btn--one  mx-4  mt-2 ${
+            isDataChange ? '' : 'rc-btn-solid-disabled'
+          }`}
           onClick={() => handleSaveChange(subDetail)}
         >
           <FormattedMessage id="saveChange" />
