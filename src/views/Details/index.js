@@ -210,8 +210,14 @@ class Details extends React.Component {
     return JSON.parse(configStr);
   }
   get btnStatus() {
-    const { details, quantity, instockStatus, initing, loading, form } =
-      this.state;
+    const {
+      details,
+      quantity,
+      instockStatus,
+      initing,
+      loading,
+      form
+    } = this.state;
     const { sizeList } = details;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     let addedFlag = 1;
@@ -543,11 +549,8 @@ class Details extends React.Component {
               if (mixFeeding) {
                 mixFeeding.quantity = 1;
               }
-              let {
-                goodsImg = '',
-                goodsName = '',
-                goodsNo = ''
-              } = mixFeeding?.goods || {};
+              let { goodsImg = '', goodsName = '', goodsNo = '' } =
+                mixFeeding?.goods || {};
               let _hiddenMixFeedingBanner = false;
               let mixFeedingSelected = mixFeeding?.sizeList?.filter(
                 (el) => el.selected
@@ -912,8 +915,13 @@ class Details extends React.Component {
     try {
       !type && this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const { currentUnitPrice, quantity, form, details, questionParams } =
-        this.state;
+      const {
+        currentUnitPrice,
+        quantity,
+        form,
+        details,
+        questionParams
+      } = this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -1219,8 +1227,13 @@ class Details extends React.Component {
   };
 
   ButtonGroupDom = (showRetailerBtn) => {
-    const { addToCartLoading, form, checkOutErrMsg, barcode, details } =
-      this.state;
+    const {
+      addToCartLoading,
+      form,
+      checkOutErrMsg,
+      barcode,
+      details
+    } = this.state;
     const btnStatus = this.btnStatus;
     const vet =
       (window.__.env.REACT_APP_HUB || Uk) &&
@@ -1404,7 +1417,26 @@ class Details extends React.Component {
                                       </LazyLoad>
                                     </div>
                                   ) : null}
-                                  {isCountriesContainer([
+                                  <ImageMagnifier_fr
+                                    sizeList={details.sizeList}
+                                    video={details.goodsVideo}
+                                    images={images}
+                                    minImg={details.goodsImg}
+                                    maxImg={details.goodsImg}
+                                    imgAlt={details?.goodsName}
+                                    config={this.state.imageMagnifierCfg.config}
+                                    taggingForText={details.taggingForTextAtPDP}
+                                    taggingForImage={
+                                      details.taggingForImageAtPDP
+                                    }
+                                    spuImages={
+                                      filterImages.length
+                                        ? filterImages
+                                        : spuImages
+                                    }
+                                    direction={isMobile ? 'col' : 'row'}
+                                  />
+                                  {/* {isCountriesContainer([
                                     'fr',
                                     'ru',
                                     'tr',
@@ -1412,7 +1444,8 @@ class Details extends React.Component {
                                     'mx',
                                     'uk',
                                     'se',
-                                    'de'
+                                    'de',
+                                    'jp'
                                   ]) ? (
                                     <ImageMagnifier_fr
                                       sizeList={details.sizeList}
@@ -1455,7 +1488,7 @@ class Details extends React.Component {
                                       }
                                       spuImages={spuImages}
                                     />
-                                  )}
+                                  )} */}
                                 </div>
                               }
                             </div>
