@@ -1084,7 +1084,7 @@ class Payment extends React.Component {
       loyaltyPoints,
       subscriptionFlag:
         this.state.subForm?.buyWay === 'frequency' ? true : false,
-      ownerId: this.props.loginStore.userInfo.customerId,
+      ownerId: this.props.loginStore?.userInfo?.customerId || '',
       paymentCode: payWayNameArr.filter(
         (p) => p.paymentTypeVal === paymentTypeVal
       )[0]?.code
@@ -1097,7 +1097,9 @@ class Payment extends React.Component {
     this.setState(
       { cardTypeVal: supportPaymentMethods[0]?.cardType || '' },
       () => {
-        this.confirmCalculateServiceFeeAndLoyaltyPoints();
+        if (COUNTRY == 'jp') {
+          this.confirmCalculateServiceFeeAndLoyaltyPoints();
+        }
       }
     );
   }
