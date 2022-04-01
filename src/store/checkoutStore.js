@@ -611,7 +611,8 @@ class CheckoutStore {
     isThrowErr = false,
     deliverWay,
     shippingFeeAddress,
-    intl
+    intl,
+    paymentStore
   } = {}) {
     try {
       this.changeIsLoadingCartData(true);
@@ -669,7 +670,8 @@ class CheckoutStore {
         postalCode: taxFeeData.postalCode,
         customerAccount: taxFeeData.customerAccount,
         deliverWay,
-        shippingFeeAddress // DuData地址对象，俄罗斯计算运费用
+        shippingFeeAddress, // DuData地址对象，俄罗斯计算运费用
+        paymentCode: paymentStore?.curPayWayInfo?.code
       });
       // console.log('purchase api res', sitePurchasesRes);
       // debugger;
@@ -1033,6 +1035,19 @@ class CheckoutStore {
         tradePrice: totalPrice,
         serviceFeePrice,
         loyaltyPointsPrice
+      })
+    );
+  }
+
+  /**
+   * 离开页面时，清空服务费和积分优惠
+   */
+  @action.bound
+  resetPriceData() {
+    this.setCartPrice(
+      Object.assign({}, this.cartPrice, {
+        serviceFeePrice: 0,
+        loyaltyPointsPrice: 0
       })
     );
   }

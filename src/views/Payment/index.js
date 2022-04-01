@@ -537,7 +537,10 @@ class Payment extends React.Component {
         }
       }
     );
-    const { history } = this.props;
+    const {
+      history,
+      checkoutStore: { resetPriceData }
+    } = this.props;
     let { getSystemFormConfig, paymentAuthority } = this.props.configStore;
 
     // 游客不能checkout 且 没有登录
@@ -675,14 +678,15 @@ class Payment extends React.Component {
     this.rebindListData(consentData);
     this.initPaymentWay();
     this.initPanelStatus();
+    resetPriceData();
   }
 
   componentWillUnmount() {
     //因设置了router refresh=true，此生命周期无效，需在RouterFilter文件中删除
     const {
-      paymentStore: { restPanelStatus }
+      paymentStore: { resetPanelStatus }
     } = this.props;
-    restPanelStatus();
+    resetPanelStatus();
     sessionItemRoyal.remove('rc-tid');
     sessionItemRoyal.remove('rc-tidList');
     sessionItemRoyal.remove('rc-swishQrcode');
@@ -1058,8 +1062,8 @@ class Payment extends React.Component {
     } = this.props;
 
     const tmpVal = val || this.state.payWayNameArr[0]?.paymentTypeVal || '';
-    serCurPayWayVal(tmpVal);
     if (chooseRadioType() === 'box' && !this.isSkipPaymentPanel) return; //box的方式不默认第一种支付方式,0元订单还是默认第一种credit card支付方式
+    serCurPayWayVal(tmpVal);
     this.setState(
       {
         paymentTypeVal: tmpVal

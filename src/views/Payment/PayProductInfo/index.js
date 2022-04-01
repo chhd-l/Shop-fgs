@@ -590,7 +590,7 @@ class PayProductInfo extends React.Component {
       purchasesPara.address1 = this.props.deliveryAddress?.address1;
       console.log('------- ', purchasesPara);
       const tmpParam = Object.assign(purchasesPara, {
-        intl: this.props.intl
+        ...this.props
       });
       if (!this.isLogin) {
         purchasesPara.guestEmail = this.props.guestEmail;
