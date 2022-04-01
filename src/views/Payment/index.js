@@ -1058,8 +1058,8 @@ class Payment extends React.Component {
     } = this.props;
 
     const tmpVal = val || this.state.payWayNameArr[0]?.paymentTypeVal || '';
-    serCurPayWayVal(tmpVal);
     if (chooseRadioType() === 'box' && !this.isSkipPaymentPanel) return; //box的方式不默认第一种支付方式,0元订单还是默认第一种credit card支付方式
+    serCurPayWayVal(tmpVal);
     this.setState(
       {
         paymentTypeVal: tmpVal
