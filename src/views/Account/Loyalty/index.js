@@ -31,7 +31,7 @@ const Loyalty = (props) => {
 
   const [myLoyaltyPoints, setMyLoyaltyPoints] = useState(2300);
 
-  const [pageNum, setPageNum] = useState(10);
+  const [pageNum, setPageNum] = useState(1);
   const [totalPage, setTotalPage] = useState(10);
 
   const limit = isMobile ? 5 : 10; //每页的数据总量
