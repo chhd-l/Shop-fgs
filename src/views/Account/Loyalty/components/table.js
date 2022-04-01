@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { getDeviceType } from '@/utils/utils';
+import { format } from 'date-fns';
 const isMobile = getDeviceType() !== 'PC';
 
 const Table = ({ data }) => {
@@ -37,7 +38,12 @@ const Table = ({ data }) => {
                 {data.map((item, index) => {
                   return (
                     <tr className="rc-table__row" key={index}>
-                      <td className="rc-table__td">{item.time}</td>
+                      <td className="rc-table__td">
+                        {format(
+                          new Date(item.activationDate),
+                          'yyyy-MM-dd hh:mm:ss'
+                        )}
+                      </td>
                       <td className="rc-table__td">{item.type}</td>
                       <td className="rc-table__td">{item.value}</td>
                       <td className="rc-table__td">{item.description}</td>
@@ -78,7 +84,9 @@ const Table = ({ data }) => {
               <div className="title">
                 <FormattedMessage id="Execution time" />
               </div>
-              <div className="content">{item.time}</div>
+              <div className="content">
+                {format(new Date(item.activationDate), 'yyyy-MM-dd hh:mm:ss')}
+              </div>
             </div>
             <div className="mb-2">
               <div className="title">
