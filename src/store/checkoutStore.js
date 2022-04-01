@@ -1038,6 +1038,19 @@ class CheckoutStore {
       })
     );
   }
+
+  /**
+   * 离开页面时，清空服务费和积分优惠
+   */
+  @action.bound
+  resetPriceData() {
+    this.setCartPrice(
+      Object.assign({}, this.cartPrice, {
+        serviceFeePrice: 0,
+        loyaltyPointsPrice: 0
+      })
+    );
+  }
 }
 
 export default CheckoutStore;

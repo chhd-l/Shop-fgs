@@ -525,7 +525,7 @@ class PaymentStore {
   }
 
   @action.bound
-  restPanelStatus() {
+  resetPanelStatus() {
     this.panelStatus = initPanelStatus;
   }
 
