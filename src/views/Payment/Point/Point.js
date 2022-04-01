@@ -8,6 +8,7 @@ import {
   NOTUSEPOINT,
   USEPOINT
 } from '@/views/Payment/PaymentMethod/paymentMethodsConstant';
+import './Point.less';
 
 const Point = ({ checkoutStore, loginStore }) => {
   const { setSelectDiscountWay, setEarnedPoint } = checkoutStore;
@@ -72,7 +73,7 @@ const Point = ({ checkoutStore, loginStore }) => {
   };
 
   return (
-    <div>
+    <div className="pointContainer">
       <div className="title text-rc-red mb-5">
         <span>
           <FormattedMessage id="Use Points" />
@@ -86,41 +87,6 @@ const Point = ({ checkoutStore, loginStore }) => {
       </div>
       <InputCircle data={data} getId={getId} />
       {FormType[id]}
-
-      <style jsx>{`
-        .title span::after {
-          content: ' / ';
-        }
-        .title span:last-child::after {
-          content: ' ';
-        }
-        .title span {
-          font-size: 18px;
-        }
-        .content {
-          background: #f6f6f6 !important;
-        }
-        .content .currentPoint {
-          font-size: 14px;
-          color: #666666;
-          line-height: 20px;
-          padding: 10px 0;
-        }
-        .content .currentPoint span {
-          padding-left: 10px;
-          font-size: 16px;
-          font-weight: 500;
-        }
-        .content .form {
-          font-size: 14px;
-          color: #808285;
-        }
-        .content .tips {
-          font-size: 12px;
-          color: #666666;
-          padding: 10px 0;
-        }
-      `}</style>
     </div>
   );
 };
