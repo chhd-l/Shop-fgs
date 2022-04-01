@@ -1050,6 +1050,7 @@ class CheckoutStore {
         loyaltyPointsPrice: 0
       })
     );
+    this.originTradePrice = -1;
   }
 }
 
