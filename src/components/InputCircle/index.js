@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import cn from 'classnames';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
+import './index.less';
 
 //圆形单选框
 const InputCircle = ({
@@ -25,6 +26,7 @@ const InputCircle = ({
       {data.map((item, i) => (
         <div
           className={cn(
+            'input-circle',
             'rc-input',
             horizontal == true ? 'rc-input--inline' : '',
             horizontal == true ? '' : 'my-2'
@@ -49,11 +51,6 @@ const InputCircle = ({
           </label>
         </div>
       ))}
-      <style>{`
-            label{
-                color:"#666"
-            }
-        `}</style>
     </>
   );
 };

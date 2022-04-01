@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import { getDeviceType } from '@/utils/utils';
 import { format } from 'date-fns';
 const isMobile = getDeviceType() !== 'PC';
+import './table.less';
 
 const Table = ({ data }) => {
   const PCThead = () => {
@@ -146,30 +147,7 @@ const Table = ({ data }) => {
   };
 
   return (
-    <>
-      {chooseFragment(isMobile, data.length)}
-
-      <style jsx>{`
-        .pc-no-point {
-          font-size: 16px;
-          color: #666;
-        }
-
-        .no-point {
-          font-size: 16px;
-          color: #666;
-        }
-        .mobile-table .title {
-          font-size: 16px;
-          color: #666;
-        }
-        .mobile-table .content {
-          font-size: 18px;
-          color: #666;
-          font-weight: 500;
-        }
-      `}</style>
-    </>
+    <div className="loyalty-table">{chooseFragment(isMobile, data.length)}</div>
   );
 };
 

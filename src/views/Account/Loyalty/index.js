@@ -13,6 +13,7 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import { ownerPointsInfo } from '@/api/payment';
 import { inject, observer } from 'mobx-react';
+import './index.less';
 
 const isMobile = getDeviceType() !== 'PC';
 
@@ -57,7 +58,7 @@ const Loyalty = (props) => {
       <GoogleTagManager key={props.location.key} additionalEvents={event} />
       <Canonical />
       <Header {...props} showMiniIcons={true} showUserIcon={true} />
-      <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
+      <main className="loyalty rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
         <BannerTip />
         <BreadCrumbs />
         <div className="rc-padding--sm rc-max-width--xl">
@@ -114,21 +115,6 @@ const Loyalty = (props) => {
         </div>
         <Footer />
       </main>
-      <style jsx>{`
-        .title {
-          color: #e2001a;
-          font-size: 18px;
-        }
-        .stage {
-          color: #666;
-          font-size: 16px;
-        }
-        .content {
-          color: #666;
-          font-size: 26px;
-          font-weight: 500;
-        }
-      `}</style>
     </>
   );
 };
