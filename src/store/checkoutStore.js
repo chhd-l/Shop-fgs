@@ -351,9 +351,11 @@ class CheckoutStore {
     });
     let backCode = purchasesRes.code;
     purchasesRes = purchasesRes.context;
+
     this.setGiftList(purchasesRes.giftList);
     let newPromotionCode = purchasesRes.promotionDesc || '';
     this.setPromotionCode(newPromotionCode);
+
     this.setGoodsMarketingMap(purchasesRes.goodsMarketingMap);
     this.setCartPrice({
       totalPrice: purchasesRes.totalPrice,
@@ -492,6 +494,7 @@ class CheckoutStore {
       this.setGiftList(purchasesRes.giftList);
       let newPromotionCode = purchasesRes.promotionDesc || '';
       this.setPromotionCode(newPromotionCode);
+
       this.setGoodsMarketingMap(purchasesRes.goodsMarketingMap);
       let params = {
         totalPrice: purchasesRes.totalPrice,
@@ -622,6 +625,8 @@ class CheckoutStore {
       let promotionCodeNew =
         promotionCode === undefined ? this.promotionCode : promotionCode;
 
+      debugger;
+
       // 获取购物车列表
       // 删除felin sku
       let siteMiniPurchasesRes = await siteMiniPurchases({ delFlag });
@@ -682,6 +687,7 @@ class CheckoutStore {
       this.setGiftList(sitePurchasesRes.giftList);
       let newPromotionCode = sitePurchasesRes.promotionDesc || '';
       this.setPromotionCode(newPromotionCode);
+
       let goodsList = siteMiniPurchasesRes.goodsList;
       for (let good of goodsList) {
         good.goodsInfoImg = good.goodsInfoImg
