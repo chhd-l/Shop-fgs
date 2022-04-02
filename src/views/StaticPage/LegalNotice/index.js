@@ -11,7 +11,6 @@ const pageLink = window.location.href;
 const legalNotice = '';
 function LegalNotice(props) {
   const [isLoading, setIsLoading] = useState(false);
-  const p = 'rc-description-black rc-description-black md:leading-26';
   const contentTitleStyle =
     'PingFangSC redColor font-medium text-16 leading-6 mb-3 md:mb-4 md:text-18 md:leading-7';
   const contentsubStyle =
@@ -29,7 +28,7 @@ function LegalNotice(props) {
           className="rc-content--fixed-header w-full "
           style={{ background: 'fff' }}
         >
-          <div className="md:w-920  m-auto  pt-10 pb-10 pl-4 pr-4 md:p-0 md:pt-20 md:pb-16 box-content">
+          <div className="md:w-cs-920  m-auto  pt-10 pb-10 pl-4 pr-4 md:p-0 md:pt-20 md:pb-16 box-content">
             {/* pc */}
             <h1 className="hidden md:block PingFangSC redColor font-semibold text-22 leading-7 mb-6 md:mb-28 md:text-30 md:leading-8 md:text-center">
               特定商取引に関する法律に基づく表記
@@ -206,10 +205,7 @@ function LegalNotice(props) {
                   <br />
                   ２）ペットが亡くなった場合​
                 </p>
-                <p
-                  className={`${contentsubStyle}/policy/legal`}
-                  style={{ color: '#666' }}
-                >
+                <p className={`${contentsubStyle}`} style={{ color: '#666' }}>
                   返品及び交換をご要望のお客様は、必ず事前に、マイ
                   ロイヤルカナン
                   カスタマーサポートまでご連絡をお願い申し上げます。事前のご連絡なしに製品が返送された場合には、返品・交換をお断りする場合がございますので、あらかじめご了承ください。​
