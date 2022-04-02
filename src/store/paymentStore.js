@@ -1,7 +1,7 @@
 import { action, observable, computed, toJS } from 'mobx';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
-import { isNewAccount } from '@/api/user';
+import { isFirstOrder } from '@/api/user';
 import { checkoutDataLayerPushEvent } from '@/utils/GA';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -194,7 +194,7 @@ class PaymentStore {
         //填完邮件
         case 'email':
           if (this.isLogin) {
-            isNewAccount().then((res) => {
+            isFirstOrder().then((res) => {
               if (res.context == 0) {
                 checkoutDataLayerPushEvent({
                   name: 'Delivery',
@@ -217,7 +217,7 @@ class PaymentStore {
         //填完地址
         case 'deliveryAddr':
           if (this.isLogin) {
-            isNewAccount().then((res) => {
+            isFirstOrder().then((res) => {
               if (res.context == 0) {
                 checkoutDataLayerPushEvent({
                   name: 'Payment',
@@ -240,7 +240,7 @@ class PaymentStore {
         //填完支付信息
         case 'paymentMethod':
           if (this.isLogin) {
-            isNewAccount().then((res) => {
+            isFirstOrder().then((res) => {
               if (res.context == 0) {
                 checkoutDataLayerPushEvent({
                   name: 'Confirmation',
@@ -272,7 +272,7 @@ class PaymentStore {
             let option = 'guest checkout';
             //特殊要求：会员需要查询是不是new account, SFCC只有在这一步骤的时候区分了是不是新账户
             if (this.isLogin) {
-              isNewAccount().then((res) => {
+              isFirstOrder().then((res) => {
                 if (res.context == 0) {
                   dataLayer[0].checkout.option = 'new account';
                   option = 'new account';
