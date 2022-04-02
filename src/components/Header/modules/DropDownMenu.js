@@ -177,7 +177,6 @@ export default class DropDownMenu extends React.Component {
                               citem,
                               item
                             )}
-                            item={citem}
                           >
                             {citem.navigationName}
                           </NavItem>
