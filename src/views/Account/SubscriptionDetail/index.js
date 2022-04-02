@@ -165,8 +165,6 @@ class SubscriptionDetail extends React.Component {
 
   paymentSave = (el) => {
     const { subDetail } = this.state;
-    const payPspItemEnum =
-      el.paymentItem === 'adyen_paypal' ? 'ADYEN_PAYPAL' : el.paymentItem;
     const param = {
       subscribeId: subDetail.subscribeId,
       paymentId: el.id,
@@ -178,7 +176,7 @@ class SubscriptionDetail extends React.Component {
         };
       }),
       changeField: 'paymentMethod',
-      payPspItemEnum: payPspItemEnum
+      payPspItemEnum: el.payPspItemEnum || el.paymentItem
     };
     this.setState({ loading: true });
     updateDetail(param)
