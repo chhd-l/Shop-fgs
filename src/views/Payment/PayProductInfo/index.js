@@ -588,10 +588,10 @@ class PayProductInfo extends React.Component {
       purchasesPara.promotionCode = this.state.promotionInputValue;
       purchasesPara.purchaseFlag = false; // 购物车: true，checkout: false
       purchasesPara.address1 = this.props.deliveryAddress?.address1;
-      console.log('------- ', purchasesPara);
       const tmpParam = Object.assign(purchasesPara, {
         ...this.props
       });
+
       if (!this.isLogin) {
         purchasesPara.guestEmail = this.props.guestEmail;
         //游客
@@ -951,9 +951,14 @@ class PayProductInfo extends React.Component {
   }
   handlerChange = (e) => {
     let promotionInputValue = e.target.value;
-    this.setState({
-      promotionInputValue
-    });
+    this.setState(
+      {
+        promotionInputValue
+      },
+      () => {
+        this.props.sendPromotionCode(this.state.promotionInputValue);
+      }
+    );
   };
   render() {
     const { className, fixToHeader, style } = this.props;

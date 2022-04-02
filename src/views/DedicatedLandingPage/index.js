@@ -256,6 +256,7 @@ class DedicatedLandingPage extends React.Component {
   async hanldeUnloginAddToCart(choosedProduct, unProductList) {
     let { promotionCode } = this.state;
     await this.props.checkoutStore.setPromotionCode(promotionCode);
+
     let specList = unProductList.goodsSpecs;
     let specDetailList = unProductList.goodsSpecDetails;
     if (specList) {

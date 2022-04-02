@@ -470,7 +470,6 @@ export const GARecommendationProduct = (
       )?.goodsInfoNo;
       price = item.salePrice;
     }
-    debugger;
     const cateName = goodsCateName?.split('/');
     const breed = filterAttrValue(
       goodsAttributesValueRelVOAllList || goodsAttributesValueRelList || [],

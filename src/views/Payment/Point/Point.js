@@ -16,9 +16,9 @@ const Point = ({ checkoutStore, loginStore }) => {
   const data = [
     {
       id: NOTUSEPOINT,
-      name: <FormattedMessage id="Do not use points" />
+      name: <FormattedMessage id="payment.doNotUsePoints" />
     },
-    { id: USEPOINT, name: <FormattedMessage id="Use points" /> }
+    { id: USEPOINT, name: <FormattedMessage id="payment.usepoints" /> }
   ];
   const initId = data[0].i;
   const [id, setId] = useState(initId);
@@ -76,13 +76,13 @@ const Point = ({ checkoutStore, loginStore }) => {
     <div className="pointContainer">
       <div className="title text-rc-red mb-5">
         <span>
-          <FormattedMessage id="Use Points" />
+          <FormattedMessage id="payment.points" />
         </span>
         <span>
-          <FormattedMessage id="Coupons" />
+          <FormattedMessage id="payment.coupons" />
         </span>
         <span>
-          <FormattedMessage id="Tickets" />
+          <FormattedMessage id="payment.tickets" />
         </span>
       </div>
       <InputCircle data={data} getId={getId} />

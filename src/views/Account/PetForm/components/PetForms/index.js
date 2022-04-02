@@ -735,7 +735,6 @@ const PetForms = ({
                   type="text"
                   autocomplete="off"
                   id="dog-breed"
-                  autocomplete="off"
                   placeholder={isCat ? enterCatBreed : enterDogBreed}
                   className="form-control input-pet breed"
                   value={petForm.breedName}
