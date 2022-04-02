@@ -1376,6 +1376,7 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             browserInfo: this.props.paymentStore.browserInfo,
             encryptedSecurityCode: adyenPayParam?.encryptedSecurityCode || '',
+            loyaltyPoints: Number(this.props.checkoutStore.inputPoint),
             payPspItemEnum:
               sessionItemRoyal.get('goodWillFlag') === 'GOOD_WILL' ||
               this.isSkipPaymentPanel
@@ -1453,7 +1454,8 @@ class Payment extends React.Component {
               convenienceStore === 'Seven-Eleven'
                 ? 'econtext_seven_eleven'
                 : 'econtext_stores',
-            adyenConvenienceStoreName: convenienceStore
+            adyenConvenienceStoreName: convenienceStore,
+            loyaltyPoints: Number(this.props.checkoutStore.inputPoint)
           });
         }
       };
