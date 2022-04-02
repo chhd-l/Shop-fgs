@@ -41,7 +41,7 @@ function JpContactUs(props) {
                 className="md:float-right w-cs-320 h-cs-246 md:w-cs-600 md:h-cs-450 md:order-2 "
               />
               {/* w-77/100 m-auto  w-77/100 md:w-auto m-auto*/}
-              <p className="md:float-left md:absolute md:top-28 md:left-4 z-10">
+              <p className="md:float-left md:absolute md:top-28 md:left-7 z-10">
                 <p
                   className="text-22 md:text-26 leading-7 font-medium"
                   style={{
