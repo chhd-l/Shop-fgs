@@ -4,6 +4,15 @@ import { Link } from 'react-router-dom';
 import FrequencyMatch from '@/components/FrequencyMatch';
 import './index.less';
 
+interface Props {
+  originalProductInfo?: any;
+  mixFeedingByProductInfo?: any;
+  mixFeedingForm?: any;
+  addMixFeedingToCart?: any;
+  btnStatus?: any;
+  mixFeedingBtnLoading?: any;
+}
+
 // 只有ru hub 才在用
 const MixFeedingBanner = ({
   originalProductInfo,
@@ -12,7 +21,7 @@ const MixFeedingBanner = ({
   addMixFeedingToCart,
   btnStatus,
   mixFeedingBtnLoading
-}) => {
+}: Props) => {
   const { imageSrc, goodsTitle, technology } = originalProductInfo;
   const { buyWay, frequencyId } = mixFeedingForm;
   const lowGoodsTitle =

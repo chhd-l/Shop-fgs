@@ -2,7 +2,7 @@ import React from 'react';
 import { formatMoney } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
-import FrequencySelection from '@/components/FrequencySelection/index.tsx';
+import FrequencySelection from '@/components/FrequencySelection';
 import { toJS } from 'mobx';
 
 const SubscriptionSelection = function (props) {

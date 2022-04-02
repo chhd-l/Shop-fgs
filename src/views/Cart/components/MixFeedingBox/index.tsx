@@ -14,6 +14,25 @@ import { inject, observer } from 'mobx-react';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
+interface Props {
+  mixFeedingData?: any;
+  goodsInfoFlag?: any;
+  periodTypeId?: any;
+  isLogin?: boolean;
+  update?: any;
+  beforeUpdate?: any;
+  intl?: any;
+  configStore: {
+    info?: any;
+  };
+}
+
+interface SKUProps {
+  stock?: any;
+  marketPrice?: any;
+  subscriptionPrice?: any;
+}
+
 const MixFeedingBox = function ({
   mixFeedingData,
   goodsInfoFlag,
@@ -25,13 +44,13 @@ const MixFeedingBox = function ({
   configStore: {
     info: { skuLimitThreshold }
   }
-}) {
+}: Props) {
   const History = useHistory();
-  const [selectedSku, setSelectedSku] = useState(null);
+  const [selectedSku, setSelectedSku] = useState<SKUProps | null>(null);
   const [quantity, setQuantity] = useState(mixFeedingData.quantity);
-  const [isInStock, setIsInStock] = useState(true);
+  const [isInStock, setIsInStock] = useState<boolean>(true);
 
-  const hanldeAmountChange = (type) => {
+  const hanldeAmountChange = (type: string) => {
     if (!type) return;
     let res;
     if (type === 'minus') {
@@ -49,7 +68,7 @@ const MixFeedingBox = function ({
     setQuantity(res);
   };
 
-  const handleAmountInput = (e) => {
+  const handleAmountInput = (e: any) => {
     // this.setState({ checkOutErrMsg: '' });
     const quantityMinLimit = 1;
     const val = e.target.value;
@@ -70,7 +89,7 @@ const MixFeedingBox = function ({
     }
   };
   const updateInstockStatus = () => {
-    setIsInStock(quantity <= selectedSku.stock);
+    setIsInStock(quantity <= (selectedSku?.stock || 0));
   };
 
   useEffect(() => {
@@ -83,7 +102,9 @@ const MixFeedingBox = function ({
   });
 
   useEffect(() => {
-    setSelectedSku(mixFeedingData?.sizeList?.filter((el) => el.selected)[0]);
+    setSelectedSku(
+      mixFeedingData?.sizeList?.filter((el: any) => el.selected)[0]
+    );
     setQuantity(mixFeedingData.quantity);
   }, [mixFeedingData]);
 
@@ -203,24 +224,28 @@ const MixFeedingBox = function ({
                       <div className="cart-and-ipay">
                         <div className="rc-swatch __select-size">
                           {mixFeedingData.goodsSpecs &&
-                            mixFeedingData.goodsSpecs.map((sItem, i) => (
-                              <div key={i} className="overflow-hidden">
-                                <div className="text-left ml-1 text-capitalize rc-margin-bottom--xs">
-                                  {sItem.specName}:
+                            mixFeedingData.goodsSpecs.map(
+                              (sItem: any, i: number) => (
+                                <div key={i} className="overflow-hidden">
+                                  <div className="text-left ml-1 text-capitalize rc-margin-bottom--xs">
+                                    {sItem.specName}:
+                                  </div>
+                                  {sItem.chidren
+                                    .filter((el: any) => el.selected)
+                                    .map((sdItem: any, i2: number) => (
+                                      <div
+                                        style={{ display: 'initial' }}
+                                        className={`rc-swatch__item selected`}
+                                        key={i2}
+                                      >
+                                        <span key={i2}>
+                                          {sdItem.detailName}
+                                        </span>
+                                      </div>
+                                    ))}
                                 </div>
-                                {sItem.chidren
-                                  .filter((el) => el.selected)
-                                  .map((sdItem, i2) => (
-                                    <div
-                                      style={{ display: 'initial' }}
-                                      className={`rc-swatch__item selected`}
-                                      key={i2}
-                                    >
-                                      <span key={i2}>{sdItem.detailName}</span>
-                                    </div>
-                                  ))}
-                              </div>
-                            ))}
+                              )
+                            )}
                         </div>
                       </div>
                     </div>

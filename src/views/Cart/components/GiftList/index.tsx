@@ -6,8 +6,7 @@ import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { getDeviceType } from '@/utils/utils';
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
-const GiftList = ({ pitem }) => {
-  console.log(pitem, '111');
+const GiftList = ({ pitem }: { pitem: any }) => {
   return (
     <div className="product-info">
       <div
@@ -112,23 +111,23 @@ const GiftList = ({ pitem }) => {
                 </div>
               </div>
               <div className="cart-quantity-container">
-                  <div className="product-card-footer product-card-price d-flex">
-                    <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto">
-                      <div>
-                        <FormattedMessage id="quantity" />:{' '}
-                      </div>
-                      <div className="rc-quantity d-flex rc-content-v-middle">
-                        <input
-                          className="rc-quantity__input"
-                          value={pitem.buyCount}
-                          min="1"
-                          max="10"
-                          disabled
-                        />
-                      </div>
+                <div className="product-card-footer product-card-price d-flex">
+                  <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto">
+                    <div>
+                      <FormattedMessage id="quantity" />:{' '}
+                    </div>
+                    <div className="rc-quantity d-flex rc-content-v-middle">
+                      <input
+                        className="rc-quantity__input"
+                        value={pitem.buyCount}
+                        min="1"
+                        max="10"
+                        disabled
+                      />
                     </div>
                   </div>
                 </div>
+              </div>
             </div>
           </div>
         </div>

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { formatMoney } from '@/utils/utils';
 
-const GiftList = ({ pitem }) => {
+const GiftList = ({ pitem }: { pitem: any }) => {
   return (
     <div className="product-summary__products__item">
       <div className="product-line-item">

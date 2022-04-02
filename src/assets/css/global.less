@@ -17387,6 +17387,10 @@ ul li:not(.rc-list__item) {
   transition: transform 0.2s;
 }
 
+.jp-rc-header__logo {
+  width: 8rem;
+}
+
 .rc-header--scrolled .dropdown-nav {
   display: none !important;
 }
@@ -17468,6 +17472,9 @@ ul li:not(.rc-list__item) {
 }
 
 @media (min-width: 769px) {
+  .jp-rc-header__logo {
+    width: 14rem !important;
+  }
   .dropdown-nav__help__text {
     padding-right: 1.25rem;
   }
@@ -17623,7 +17630,7 @@ html.rc-nav-open button.rc-menu--xs:after {
 
 .header__nav__brand {
   position: absolute;
-  top: 0.75rem;
+  // top: 0.75rem;
   left: 50%;
   -webkit-transform: translateX(-50%);
   transform: translateX(-50%);

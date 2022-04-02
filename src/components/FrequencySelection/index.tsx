@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { getFrequencyDict } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import { SubscriptionType, SubScriptionStatusNumber } from '@/utils/types.ts';
+import { SubscriptionType, SubScriptionStatusNumber } from '@/utils/types';
 import Selection from '@/components/Selection/index.js';
 import cn from 'classnames';
 interface Props {
   frequencyType: SubscriptionType;
   currentFrequencyId: string;
   handleConfirm: Function;
-  disabled: Boolean;
-  className: string;
+  disabled?: boolean;
+  className?: string;
   textStyle?: any;
   wrapStyle?: any;
   selectionStyle?: any;

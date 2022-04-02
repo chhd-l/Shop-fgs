@@ -51,7 +51,6 @@ class FAQ extends React.Component {
                 window.scrollTo({ top: widget.offsetTop - 90 });
               });
             }
-            console.log(document.getElementById('aaa'));
             // 锚点跳转
             document.getElementById('4652-x').addEventListener('click', (e) => {
               console.log('e', e.target.dataset.id);
@@ -158,7 +157,7 @@ class FAQ extends React.Component {
                         <FormattedMessage id="faq.frequentQuestions" />
                       </h1>
                       <p
-                        className="rc-alpha md:text-center text-left text-20 leading-7 font-medium mt-0 md:mt-4r md:text-26 md:leading-56"
+                        className="rc-alpha md:text-center text-left text-20 leading-7 font-medium mt-0 md:mt-4r md:text-26 md:leading-cs-56"
                         style={{ fontSize: 'large' }}
                       >
                         <FormattedMessage id="faq.title" />
@@ -168,11 +167,11 @@ class FAQ extends React.Component {
                 </div>
               </div>
             </div>
-            <div className="md:w-920 m-auto pl-4 pr-4">
-              <h1 className="font-semibold text-16 leading-26 mb-4 md:text-26  text-primary-gray">
+            <div className="md:w-cs-920 m-auto pl-4 pr-4">
+              <h1 className="font-semibold text-16 leading-7 mb-4 md:text-28  text-cs-gray">
                 よくあるお問合せ
               </h1>
-              <p className="text-primary-gray text-18 leading-26">
+              <p className="text-cs-gray text-18 leading-cs-26">
                 配送について <br />
                 お支払について <br />
                 返品・交換について <br />
@@ -180,8 +179,8 @@ class FAQ extends React.Component {
                 定期購入について <br />
               </p>
             </div>
-            <div className="md:w-920 m-auto md:mt-80 pl-4 pr-4">
-              <h1 className="font-semibold  text-20 leading-26 md:text-26 mt-14 md:mt-64 md:leading-26 text-primary-gray">
+            <div className="md:w-cs-920 m-auto md:mt-80 pl-4 pr-4">
+              <h1 className="font-semibold  text-20 leading-cs-26 md:text-26 mt-14 md:mt-64 text-cs-gray">
                 ショッピングに関するご利用ガイド
               </h1>
             </div>
@@ -191,7 +190,7 @@ class FAQ extends React.Component {
               </div>
             ) : (
               this.state.dataFAQ.map((pitem, index) => (
-                <div className="md:w-920 m-auto pl-4 pr-4">
+                <div className="md:w-cs-920 m-auto pl-4 pr-4">
                   <div
                     className="rc-bg-colour--brand3 mt-4 md:mt-8"
                     key={'p-' + index}
@@ -199,7 +198,7 @@ class FAQ extends React.Component {
                     <h2
                       name={`catogery-${index}`}
                       id={`catogery-${index}`}
-                      className={`text-primary-gray md:font-medium font-semibold text-18 md:text-20 leading-26 ${
+                      className={`text-cs-gray md:font-medium font-semibold text-18 md:text-20 leading-cs-26 ${
                         index === 0 ? '' : 'mt-20'
                       }`}
                     >
@@ -215,10 +214,10 @@ class FAQ extends React.Component {
                       {pitem.childrens.map((it, index) => (
                         <>
                           <div
-                            className={`topBotBorder  md:pb-10 md:font-medium font-semibold text-18  leading-26 text-primary-gray ${
+                            className={`topBotBorder md:pb-10 md:font-medium font-semibold text-18  leading-cs-26 text-cs-gray ${
                               index === 0
                                 ? 'pb-8 md:pb-16'
-                                : 'pb-4 md:leading-60 pt-10 topBotBorder'
+                                : 'pb-4 md:leading-cs-60 pt-10 topBotBorder'
                             }`}
                           >
                             {it.type}
@@ -245,10 +244,10 @@ class FAQ extends React.Component {
                                 }}
                               >
                                 <div
-                                  className={`font-medium text-16 leading-6 md:text-18 md:leading-60 ${
+                                  className={`font-medium text-16 leading-6 md:text-18 md:leading-cs-60 ${
                                     this.state.showCur === item.id
-                                      ? 'text-primary'
-                                      : 'text-primary-gray'
+                                      ? 'text-cs-primary'
+                                      : 'text-cs-gray'
                                   }`}
                                   dangerouslySetInnerHTML={{
                                     __html: item.question
@@ -256,14 +255,14 @@ class FAQ extends React.Component {
                                 />
                                 {this.state.showCur === item.id ? (
                                   <span
-                                    className={`text-primary-gray rc-vertical-align h4 icon iconfont`}
+                                    className={`text-cs-gray rc-vertical-align h4 icon iconfont`}
                                     style={{ right: '1rem', height: '28px' }}
                                   >
                                     &#xe604;
                                   </span>
                                 ) : (
                                   <span
-                                    className={`text-primary-gray rc-vertical-align h4 icon iconfont`}
+                                    className={`text-cs-gray rc-vertical-align h4 icon iconfont`}
                                     style={{ right: '1rem', height: '28px' }}
                                   >
                                     &#xe60f;
@@ -272,7 +271,7 @@ class FAQ extends React.Component {
                               </div>
                               <div className={`rc-list__content `}>
                                 <p
-                                  className="text-primary-gray text-16 leading-6 md:text-18 md:leading-34 md:mb-10"
+                                  className="text-cs-gray text-16 leading-6 md:text-18 md:leading-cs-34 md:mb-10"
                                   dangerouslySetInnerHTML={{
                                     __html: item.answer
                                   }}

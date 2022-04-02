@@ -1,6 +1,6 @@
 import { FormattedMessage } from 'react-intl-phraseapp';
 import React, { useContext } from 'react';
-import FrequencySelection from '@/components/FrequencySelection/index.tsx';
+import FrequencySelection from '@/components/FrequencySelection';
 import { SubGoodsInfosContext } from './index';
 import DatePicker from 'react-datepicker';
 import FrequencyMatch from '@/components/FrequencyMatch';
@@ -103,7 +103,7 @@ const ChangeSelection = ({ el }) => {
             ) : (
               <FormattedMessage id="autoShipStarted2" />
             )
-            // 'Date de cr¨¦ation de l\'Abonnement'
+            // 'Date de crï¿½ï¿½ation de l\'Abonnement'
           }
         </strong>
         <div

@@ -7,7 +7,7 @@ import {
 } from '@/utils/utils';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import { ObjectConstructor } from '@/utils/types.ts';
+import { ObjectConstructor } from '@/utils/types';
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const Tr = window.__.env.REACT_APP_COUNTRY === 'tr';
 
@@ -37,10 +37,11 @@ const Ration = ({ goodsNo, setState }: Props) => {
     );
     try {
       if (localStorage.getItem('pfls') && getClubFlag()) {
+        // @ts-ignore
         pf_params = JSON.parse(localStorage.getItem('pfls')).lastQuery;
         setState({ questionParams: JSON.stringify(pf_params) });
         setIsFromPF(true);
-        let rationRes = await getRation(
+        const rationRes = await getRation(
           Object.assign(
             {
               spuNoList: [goodsNo]
@@ -48,14 +49,12 @@ const Ration = ({ goodsNo, setState }: Props) => {
             pf_params
           )
         );
-        if (rationRes.code === 'K-000000') {
-          setRationInfo(rationRes.context.rationResponseItems[0]);
-        }
+        setRationInfo((rationRes as any)?.context.rationResponseItems[0]);
       } else if (sessionItemRoyal.get('pf-result') && getClubFlag()) {
         pf_params = JSON.parse(sessionItemRoyal.get('pf-result')).queryParams;
         setState({ questionParams: JSON.stringify(pf_params) });
         setIsFromPF(true);
-        let rationRes = await getRation(
+        const rationRes = await getRation(
           Object.assign(
             {
               spuNoList: [goodsNo]
@@ -63,9 +62,7 @@ const Ration = ({ goodsNo, setState }: Props) => {
             pf_params
           )
         );
-        if (rationRes.code === 'K-000000') {
-          setRationInfo(rationRes.context.rationResponseItems[0]);
-        }
+        setRationInfo((rationRes as any)?.context.rationResponseItems[0]);
       }
     } catch (e) {
       console.log(e);
