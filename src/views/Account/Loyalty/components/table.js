@@ -11,16 +11,16 @@ const Table = ({ data }) => {
       <thead className="rc-table__thead">
         <tr className="rc-table__row">
           <th className="rc-table__th rc-espilon text-gray-500">
-            <FormattedMessage id="Execution time" />
+            <FormattedMessage id="account.loyalty.executionTime" />
           </th>
           <th className="rc-table__th rc-espilon text-gray-500">
-            <FormattedMessage id="Event" />
+            <FormattedMessage id="account.loyalty.event" />
           </th>
           <th className="rc-table__th rc-espilon text-gray-500">
-            <FormattedMessage id="Point transactions" />
+            <FormattedMessage id="account.loyalty.pointTransactions" />
           </th>
           <th className="rc-table__th rc-espilon text-gray-500">
-            <FormattedMessage id="Remark" />
+            <FormattedMessage id="account.loyalty.remark" />
           </th>
         </tr>
       </thead>
