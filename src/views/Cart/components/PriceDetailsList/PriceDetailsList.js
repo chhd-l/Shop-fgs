@@ -28,7 +28,7 @@ const PriceDetailsList = ({
     {
       key: 'consumptionTax',
       val: taxFeePrice,
-      visible: taxFeePrice > 0,
+      visible: window.__.env.REACT_APP_COUNTRY === 'jp' && taxFeePrice > 0,
       title: <FormattedMessage id="order.consumptionTax" />
     },
     {
