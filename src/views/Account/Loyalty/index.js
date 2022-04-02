@@ -78,26 +78,26 @@ const Loyalty = (props) => {
             <div className="rc-column rc-quad-width">
               <div>
                 <div className="title">
-                  <FormattedMessage id="Transaction history" />
+                  <FormattedMessage id="account.loyalty.transactionHistory" />
                 </div>
                 <div className="flex mt-4 mb-3">
                   <div className="flex flex-column mr-6">
                     <div className="stage">
-                      <FormattedMessage id="My Stage" />
+                      <FormattedMessage id="account.loyalty.myStage" />
                     </div>
                     <div className="content">
-                      <FormattedMessage id="Bronze" />
+                      <FormattedMessage id="account.loyalty.bronze" />
                     </div>
                   </div>
                   <div className="flex flex-column points">
                     <div className="stage">
-                      <FormattedMessage id="My Loyalty Points" />
+                      <FormattedMessage id="account.loyalty.myLoyaltyPoints" />
                     </div>
                     {data?.length > 0 ? (
                       <div className="content">{myLoyaltyPoints}</div>
                     ) : (
                       <div className="pt-2">
-                        <FormattedMessage id="There is no point history." />
+                        <FormattedMessage id="account.loyalty.noPointHistory." />
                       </div>
                     )}
                   </div>
