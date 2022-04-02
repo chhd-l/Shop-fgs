@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import { ownerPointsInfo } from '@/api/payment';
 import { inject, observer } from 'mobx-react';
 import './index.less';
+import { ownerTotalPoints } from '@/api/payment';
 
 const isMobile = getDeviceType() !== 'PC';
 
@@ -42,6 +43,17 @@ const Loyalty = (props) => {
   const sendPageNumber = (pageNumber) => {
     setPageNum(pageNumber);
   };
+
+  useEffect(() => {
+    //获取当前积分
+    ownerTotalPoints({ customerId })
+      .then((res) => {
+        setMyLoyaltyPoints(res.context.totalPoints);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
 
   useEffect(() => {
     ownerPointsInfo({ customerId, limit, page: pageNum }) //8000017bf858119b439bb8741f75cece
