@@ -51,7 +51,6 @@ class FAQ extends React.Component {
                 window.scrollTo({ top: widget.offsetTop - 90 });
               });
             }
-            console.log(document.getElementById('aaa'));
             // 锚点跳转
             document.getElementById('4652-x').addEventListener('click', (e) => {
               console.log('e', e.target.dataset.id);

@@ -50,11 +50,16 @@ function AboutMyRoyalCanin(props) {
                 公式限定フードはこちら
               </button>
             </div>
-            <img
-              src={ScreenHot1}
-              alt=""
-              className="w-cs-302 h-cs-253 m-auto mb-10 md:mb-auto md:w-cs-440 md:h-cs-369"
-            />
+            <div>
+              <img
+                src={ScreenHot1}
+                alt=""
+                className="w-cs-302 h-cs-253 m-auto md:w-cs-440 md:h-cs-369"
+              />
+              <p className=" text-12 md:text-14 text-cs-gray text-center mt-2 mb-10 md:mb-auto">
+                *食事療法食及びベッツプランはお取り扱いしておりません。
+              </p>
+            </div>
           </div>
           <div className="throughLine"></div>
           {/* 2 */}
