@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
-import FrequencySelection from '@/components/FrequencySelection/index.tsx';
+import FrequencySelection from '@/components/FrequencySelection';
 import { formatMoney } from '@/utils/utils';
 import { Decimal } from 'decimal.js';
 const De = window.__.env.REACT_APP_COUNTRY === 'de';
@@ -15,7 +15,7 @@ interface Props {
   currentSubscriptionPrice: any;
   changeMethod: Function;
   changeFreqency: Function;
-  children:any;
+  children: any;
 }
 
 const AutoshipBuyMethod = ({
@@ -35,9 +35,13 @@ const AutoshipBuyMethod = ({
     .toNumber();
   const discountAmountUnit = formatMoney(discountAmount);
   return (
-    <div  className={`buy-method-box pb-2 ${form.buyWay === 1 ? 'border-red' :""}`}>
+    <div
+      className={`buy-method-box pb-2 ${form.buyWay === 1 ? 'border-red' : ''}`}
+    >
       <div
-        className={`buyMethod autoship-buy-method rc-margin-bottom--xs d-flex row justify-content-between 2 ml-0 mr-0 ui-cursor-pointer-pure ${form.buyWay === 1?'border-solid border-b border-d7d7d7':''}`}
+        className={`buyMethod autoship-buy-method rc-margin-bottom--xs d-flex row justify-content-between 2 ml-0 mr-0 ui-cursor-pointer-pure ${
+          form.buyWay === 1 ? 'border-solid border-b border-d7d7d7' : ''
+        }`}
         onClick={changeMethod.bind(this)}
       >
         <div className="radioBox order-1 md:order-1 col-8 px-0">
@@ -48,7 +52,6 @@ const AutoshipBuyMethod = ({
                   className="rc-input__radio"
                   id="type_frequency"
                   type="radio"
-                  alt={txt}
                   name="buyWay"
                   value="1"
                   key="1"
@@ -133,17 +136,15 @@ const AutoshipBuyMethod = ({
               <FormattedMessage id="starUnit" defaultMessage=" " />
             </span>
           </div>
-          <div
-          className="discountText mb-2"
-        >
-          {configStore.discountDisplayTypeInfo == 'Percentage' ? (
-            <FormattedMessage
-              id="saveExtra"
-              values={{
-                val: selectedSpecItem?.subscriptionPercentage
-              }}
-            />
-          ) : (
+          <div className="discountText mb-2">
+            {configStore.discountDisplayTypeInfo == 'Percentage' ? (
+              <FormattedMessage
+                id="saveExtra"
+                values={{
+                  val: selectedSpecItem?.subscriptionPercentage
+                }}
+              />
+            ) : (
               <FormattedMessage
                 id="saveExtra"
                 values={{
@@ -151,8 +152,9 @@ const AutoshipBuyMethod = ({
                 }}
               />
             )}
-        </div>
-          {form.buyWay === 1 && configStore?.info?.storeVO?.basePricePDPShowedFlag &&
+          </div>
+          {form.buyWay === 1 &&
+          configStore?.info?.storeVO?.basePricePDPShowedFlag &&
           selectedSpecItem?.goodsInfoWeight &&
           selectedSpecItem?.goodsInfoUnit ? (
             <div
@@ -172,21 +174,21 @@ const AutoshipBuyMethod = ({
           ) : null}
         </div>
       </div>
-      {form.buyWay === 1 ? <>
-        <div className="px-4 buy-method-frequency ">
-          {skuPromotions && (
-            <FrequencySelection
-              frequencyType={skuPromotions}
-              currentFrequencyId={form.frequencyId}
-              handleConfirm={(data) => changeFreqency(data)}
-            // handleConfirm={}
-            />
-          )}
-        </div>
-        <div className="flex w-full justify-center">
-          {children}
-        </div>
-      </> : null}
+      {form.buyWay === 1 ? (
+        <>
+          <div className="px-4 buy-method-frequency ">
+            {skuPromotions && (
+              <FrequencySelection
+                frequencyType={skuPromotions}
+                currentFrequencyId={form.frequencyId}
+                handleConfirm={(data: any) => changeFreqency(data)}
+                // handleConfirm={}
+              />
+            )}
+          </div>
+          <div className="flex w-full justify-center">{children}</div>
+        </>
+      ) : null}
       {/* {window.__.env.REACT_APP_COUNTRY == 'fr' ? (
         <div>Résiliation gratuite à tout moment </div>
       ) : null} */}

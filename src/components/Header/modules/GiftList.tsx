@@ -2,7 +2,7 @@ import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { formatMoney, optimizeImage } from '@/utils/utils';
 import React from 'react';
 
-const GiftList = ({ data }) => {
+const GiftList = ({ data }: { data: any }) => {
   return (
     <div className="minicart__product" key={data.goodsInfoId}>
       <div>

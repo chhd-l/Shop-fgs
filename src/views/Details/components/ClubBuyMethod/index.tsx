@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
-import FrequencySelection from '@/components/FrequencySelection/index.tsx';
-import arrowCircleDown from '@/assets/images/arrow-circle-down.svg';
+import FrequencySelection from '@/components/FrequencySelection';
 import { formatMoney } from '@/utils/utils';
 import {Decimal} from 'decimal.js';
-const De = window.__.env.REACT_APP_COUNTRY === 'de';
 
 interface Props {
   form: any;
@@ -53,7 +51,6 @@ const ClubBuyMethod = ({
                 className="rc-input__radio"
                 id="type_frequency"
                 type="radio"
-                alt={txt}
                 name="buyWay"
                 value="2"
                 key="2"
@@ -64,7 +61,7 @@ const ClubBuyMethod = ({
           <label className="rc-input__label--inline" htmlFor="type_frequency">
             <span
               style={{
-                fontWeight: '400',
+                fontWeight: 400,
                 color: '#333'
               }}
             >
@@ -159,7 +156,7 @@ const ClubBuyMethod = ({
         <FrequencySelection
           frequencyType={skuPromotions}
           currentFrequencyId={form.frequencyId}
-          handleConfirm={(data) => changeFreqency(data)}
+          handleConfirm={(data: any) => changeFreqency(data)}
         />
       )}
         <div className="text-center mt-4 mb-2 subscription-learn-more" onClick={handleToClubTab}>

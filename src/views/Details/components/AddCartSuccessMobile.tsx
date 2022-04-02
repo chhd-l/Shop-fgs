@@ -14,6 +14,23 @@ import {
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
+interface Props {
+  visible?: boolean;
+  closeModal?: any;
+  mixFeedingData?: any;
+  goodsInfoFlag?: any;
+  periodTypeId?: any;
+  isLogin?: boolean;
+  intl?: any;
+}
+
+interface SKUProps {
+  stock?: any;
+  marketPrice?: any;
+  subscriptionPrice?: any;
+  specText?: any;
+}
+
 const AddCartSuccessMobile = ({
   visible,
   closeModal,
@@ -22,12 +39,14 @@ const AddCartSuccessMobile = ({
   periodTypeId,
   isLogin,
   intl
-}) => {
+}: Props) => {
   const History = useHistory();
-  const [selectedSku, setSelectedSku] = useState(null);
+  const [selectedSku, setSelectedSku] = useState<SKUProps | null>(null);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
-    setSelectedSku(mixFeedingData?.sizeList?.filter((el) => el.selected)[0]);
+    setSelectedSku(
+      mixFeedingData?.sizeList?.filter((el: any) => el.selected)[0]
+    );
     console.log('mixFeedingData', mixFeedingData);
   }, [mixFeedingData]);
   return (

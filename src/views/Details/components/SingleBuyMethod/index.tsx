@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import ConfirmTooltip from '@/components/ConfirmTooltip';
-import FrequencySelection from '@/components/FrequencySelection/index.tsx';
 import { formatMoney } from '@/utils/utils';
 
 interface Props {
@@ -43,7 +41,6 @@ const SingleBuyMethod = ({
                 className="rc-input__radio"
                 id="type_once"
                 type="radio"
-                alt={txt}
                 name="buyWay"
                 value="0"
                 key="0"
@@ -57,7 +54,7 @@ const SingleBuyMethod = ({
           <label className="rc-input__label--inline" htmlFor="type_once">
             <span
               style={{
-                fontWeight: '400',
+                fontWeight: 400,
                 color: '#333'
               }}
             >

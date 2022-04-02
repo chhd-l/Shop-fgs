@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import BuyFromRetailerBtn from '../BuyFromRetailerBtn';
-import ErrMsgForCheckoutPanel from '../ErrMsgForCheckoutPanel/index.tsx';
+import ErrMsgForCheckoutPanel from '../ErrMsgForCheckoutPanel';
 interface Props {
   addToCartLoading: boolean;
   btnStatus: boolean;

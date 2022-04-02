@@ -1333,9 +1333,15 @@ export const renderScriptOrLinkHtmlStr = ({ htmlStr, callback }) => {
  * @param originImageUrl 源图片url
  * @param width width 默认150
  * @param height height 默认等于width
+ * @param option option config
  * @returns
  */
-export function optimizeImage({ originImageUrl, width = 150, height, option }) {
+export function optimizeImage({
+  originImageUrl,
+  width = 150,
+  height = width,
+  option = ''
+}) {
   const CDN_PREFIX =
     window.__.env.REACT_APP_PRODUCT_IMAGE_CDN ||
     'https://d2c-cdn.royalcanin.com/cdn-cgi/image/';
@@ -1344,7 +1350,7 @@ export function optimizeImage({ originImageUrl, width = 150, height, option }) {
     originImageUrl.startsWith('http') &&
     !originImageUrl.startsWith(CDN_PREFIX)
     ? `${CDN_PREFIX}${
-        option ? option : `width=${width},h=${height ?? width},format=webp`
+        option ? option : `width=${width},h=${height},format=webp`
       }/${originImageUrl}`
     : originImageUrl;
 }
