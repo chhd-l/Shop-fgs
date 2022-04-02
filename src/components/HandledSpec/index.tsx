@@ -1,7 +1,8 @@
+// @ts-nocheck
 import React, { useEffect, useState } from 'react';
 import { matchNamefromDict, getDeviceType, unique } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import { SubscriptionType, SubScriptionStatusNumber } from '@/utils/types.ts';
+import { SubscriptionType, SubScriptionStatusNumber } from '@/utils/types';
 import Selection from '@/components/Selection/index.js';
 import { PropTypes } from 'mobx-react';
 import {

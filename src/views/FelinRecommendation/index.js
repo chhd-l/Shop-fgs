@@ -534,6 +534,7 @@ class FelinRecommendation extends React.Component {
       //   }
       // }
       await this.props.checkoutStore.setPromotionCode(this.state.couponCode);
+
       this.setState({ buttonLoading: true });
       try {
         if (loginStore.isLogin) {

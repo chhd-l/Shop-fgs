@@ -1,6 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+interface Props {
+  children?: any;
+  className?: string;
+  onClick?: any;
+  href?: string;
+  to?: any;
+  itemType?: any;
+  itemProp?: any;
+  ariaLabel?: any;
+  style?: any;
+  target?: string;
+}
+
 const DistributeHubLinkOrATag = ({
   children,
   className,
@@ -13,7 +26,7 @@ const DistributeHubLinkOrATag = ({
   style,
   target = '_self',
   ...rest
-}) => {
+}: Props) => {
   return window.__.env.REACT_APP_HUB ? (
     <a
       href={`${window.__.env.REACT_APP_HUB_URLPREFIX}${href}`}

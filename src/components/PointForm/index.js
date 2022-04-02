@@ -33,8 +33,8 @@ const PointForm = ({ checkoutStore, loginStore }) => {
   const MaxPointMsg = ({ loyaltyPointsMaximum }) => {
     return (
       <>
-        <FormattedMessage id="Current holding points equals to " />
-        {loyaltyPointsMaximum}
+        <FormattedMessage id="payment.maxPoint" />
+        &nbsp;{loyaltyPointsMaximum}
       </>
     );
   };
@@ -42,8 +42,8 @@ const PointForm = ({ checkoutStore, loginStore }) => {
   const OverPointMsg = ({ CurrentHoldingPoint }) => {
     return (
       <>
-        <FormattedMessage id="Use points are valid only for total price or less, in this case " />
-        {CurrentHoldingPoint}
+        <FormattedMessage id="payment.overPoint" />
+        &nbsp;{CurrentHoldingPoint}
       </>
     );
   };
@@ -96,17 +96,17 @@ const PointForm = ({ checkoutStore, loginStore }) => {
   return (
     <div className="content pl-5 py-2">
       <div className="currentPoint">
-        <FormattedMessage id="Current holding points" />
+        <FormattedMessage id="payment.currentHoldingPoints" />
         <span>{CurrentHoldingPoint} pt</span>
       </div>
       <form className="form">
         <label>
-          <FormattedMessage id="Points to use" />
+          <FormattedMessage id="payment.pointsToUse" />
         </label>
         <br />
         <input
           type="number"
-          disabled={!isCanUsePoint}
+          //disabled={!isCanUsePoint}
           value={inputPoint}
           className={cn(
             'p-2 text-16 border rounded',

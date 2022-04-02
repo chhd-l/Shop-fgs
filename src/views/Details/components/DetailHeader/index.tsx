@@ -1,8 +1,8 @@
 import React from 'react';
 import { getDeviceType, getElementToPageTop } from '@/utils/utils';
-import ErrMsgForCheckoutPanel from '../ErrMsgForCheckoutPanel/index.tsx';
+import ErrMsgForCheckoutPanel from '../ErrMsgForCheckoutPanel';
 import Rate from '@/components/Rate';
-import InstockStatusComp from '@/components/InstockStatusComp/index.tsx';
+import InstockStatusComp from '@/components/InstockStatusComp';
 import BazaarVoiceRatingSummary from '@/components/BazaarVoice/ratingSummary';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';

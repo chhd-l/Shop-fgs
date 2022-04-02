@@ -110,7 +110,7 @@ class FAQ extends React.Component {
                   <div>
                     <div className="rc-max-width--md text-center rc-margin-y--md">
                       <h1
-                        className="text-center"
+                        // className="text-center"
                         className="rc-alpha inherit-fontsize"
                       >
                         <FormattedMessage id="faq.frequentQuestions" />
@@ -128,7 +128,7 @@ class FAQ extends React.Component {
                                 className="rc-styled-link ui-cursor-pointer faq_rc_styled_link"
                                 target="_blank"
                                 to="/help"
-                                rel="nofollow"
+                                // rel="nofollow"
                               >
                                 <ins>
                                   <FormattedMessage id="here2" />

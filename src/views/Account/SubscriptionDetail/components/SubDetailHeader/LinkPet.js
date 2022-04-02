@@ -123,7 +123,6 @@ const LinkPet = ({
                           ? el.petsImg
                           : null) || (el.petsType === 'cat' ? Cat : Dog)
                       }
-                      alt="pet img"
                       className="pet-img"
                     />
                     <span
