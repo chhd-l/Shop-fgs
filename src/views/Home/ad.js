@@ -25,7 +25,7 @@ export function Ads() {
                 <div className="experience-component experience-assets-banner">
                   <div className="rc-max-width--xl rc-padding-x--sm rc-margin-y--sm rc-margin-y--lg--mobile portfolio-content">
                     <Link
-                      to="/dogs/retail-products?prefn1=Technology&prefv1=Aliment-humide"
+                      // to="/dogs/retail-products?prefn1=Technology&prefv1=Aliment-humide"
                       // to="/cats/retail-products?prefn1=New%20Products&prefv1=La-Semaine-Du-Chat"
                       to="/retail-products?prefn1=Samples%20bundles%20for%20banners&prefv1=Offre-Echantillons-Care-Chien"
                     >
