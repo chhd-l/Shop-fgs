@@ -33,7 +33,7 @@ function AboutMyRoyalCanin(props) {
           {/* 1 */}
           <div className="md:w-cs-920 md:h-cs-431 md:m-auto md:flex md:justify-between md:mt-20 md:pb-20 box-content">
             <div className="md:h-cs-431">
-              <h1 className="PingFangSC redColor text-22 leading-7 m-auto mb-4  md:text-30 w-cs-288 h-cs-56 md:w-cs-392 md:h-cs-80 md:leading-10 font-semibold mt-6 md:mt-auto">
+              <h1 className="PingFangSC redColor text-22 leading-7 mb-4 m-auto md:ml-0 md:text-30 w-cs-288 h-cs-56 md:w-cs-392 md:h-cs-80 md:leading-10 font-semibold mt-6 md:mt-auto">
                 マイ ロイヤルカナンについて
               </h1>
               <p
@@ -54,7 +54,7 @@ function AboutMyRoyalCanin(props) {
               <img
                 src={ScreenHot1}
                 alt=""
-                className="w-cs-302 h-cs-253 m-auto md:w-cs-440 md:h-cs-369"
+                className="w-cs-302 h-cs-253 m-auto md:w-cs-440 md:h-cs-359"
               />
               <p className=" text-12 md:text-14 text-cs-gray text-center mt-2 mb-10 md:mb-auto">
                 *食事療法食及びベッツプランはお取り扱いしておりません。
