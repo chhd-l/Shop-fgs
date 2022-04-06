@@ -491,7 +491,14 @@ class CheckoutStore {
       // console.log('★ 305 ----- checkoutStore 获取总价: ', purchasesRes);
       let backCode = purchasesRes.code;
       purchasesRes = purchasesRes.context;
-      this.setGiftList(purchasesRes.giftList);
+
+      //gift不显示leaflet的
+      const giftList = purchasesRes.giftList.filter((item) =>
+        item.cateName.includes('leaflet')
+      );
+      this.setGiftList(giftList);
+      //
+
       let newPromotionCode = purchasesRes.promotionDesc || '';
       this.setPromotionCode(newPromotionCode);
 
@@ -625,8 +632,6 @@ class CheckoutStore {
       let promotionCodeNew =
         promotionCode === undefined ? this.promotionCode : promotionCode;
 
-      debugger;
-
       // 获取购物车列表
       // 删除felin sku
       let siteMiniPurchasesRes = await siteMiniPurchases({ delFlag });
@@ -684,7 +689,13 @@ class CheckoutStore {
       let backCode = sitePurchasesRes.code;
       sitePurchasesRes = sitePurchasesRes.context;
 
-      this.setGiftList(sitePurchasesRes.giftList);
+      //gift不显示leaflet的
+      const giftList = sitePurchasesRes.giftList.filter((item) =>
+        item.cateName.includes('leaflet')
+      );
+      this.setGiftList(giftList);
+      //
+
       let newPromotionCode = sitePurchasesRes.promotionDesc || '';
       this.setPromotionCode(newPromotionCode);
 

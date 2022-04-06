@@ -55,6 +55,7 @@ const Loyalty = (props) => {
       });
   }, []);
 
+  //使用获取积分记录
   useEffect(() => {
     ownerPointsInfo({ customerId, limit, page: pageNum }) //8000017bf858119b439bb8741f75cece
       .then((res) => {
