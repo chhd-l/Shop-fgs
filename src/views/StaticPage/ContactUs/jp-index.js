@@ -31,8 +31,8 @@ function JpContactUs(props) {
           style={{ background: '#fff' }}
         >
           <div className="jp-contactUs w-full mt-16 mb-4 flex justify-center flex-wrap md:h-auto">
-            <div className="jp-contactUs-top w-full flex justify-center md:justify-end flex-wrap md:flex-nowrap md:flex-none md:w-cs-55/100 clear-both md:relative md:pb-20">
-              <h1 className="title-first md:w-cs-340 md:flex-shrink-0 md:float-left md:mb-6 text-center text-30 md:text-40 leading-8 md:absolute md:top-8 md:left-4 z-10">
+            <div className="jp-contactUs-top w-full flex justify-center md:justify-end flex-wrap md:flex-nowrap md:flex-none md:w-cs-920 clear-both md:relative md:pb-20">
+              <h1 className="title-first md:w-cs-320 md:flex-shrink-0 md:float-left md:mb-6 text-center text-30 md:text-40 leading-8 md:absolute md:top-8 md:left-0 z-10">
                 お問い合わせ窓口
               </h1>
               <img
@@ -41,9 +41,9 @@ function JpContactUs(props) {
                 className="md:float-right w-cs-320 h-cs-246 md:w-cs-600 md:h-cs-450 md:order-2 "
               />
               {/* w-77/100 m-auto  w-77/100 md:w-auto m-auto*/}
-              <p className="md:float-left md:absolute md:top-28 md:left-7 z-10">
+              <p className="md:float-left md:w-cs-320 md:absolute md:top-28 md:left-0 z-10">
                 <p
-                  className="text-22 md:text-26 leading-7 font-medium"
+                  className="text-22 md:text-26 leading-7 md:leading-8 font-medium"
                   style={{
                     color: '#E2001A'
                   }}
@@ -85,7 +85,7 @@ function JpContactUs(props) {
               className="h-2 w-full"
               style={{ backgroundColor: '#f6f6f6' }}
             ></div>
-            <div className="jp-contactUs-bottom w-full md:w-cs-55/100 pt-12 md:pt-20 pb-16  md:pb-48 2xl:pb-16 pl-10 pr-10 clear-both">
+            <div className="jp-contactUs-bottom w-cs-288 md:w-cs-920 pt-12 md:pt-20 pb-16  md:pb-48 2xl:pb-16  clear-both">
               <h1
                 className="md:text-center text-22 md:text-30 leading-7 md:leading-10  font-medium mb-4 md:mb-8 md:w-cs-4/5 m-auto"
                 style={{
@@ -96,7 +96,7 @@ function JpContactUs(props) {
                 製品の内容や品質についてのお問い合わせ
               </h1>
               {/* flex justify-center flex-wrap */}
-              <div className=" md:flex md:justify-between md:w-cs-87/100 m-auto">
+              <div className=" md:flex md:justify-between  m-auto">
                 <div className="md:w-cs-439 md:h-cs-168">
                   <h1
                     className="text-18 leading-6 font-medium mb-4 md:w-cs-3/4"
