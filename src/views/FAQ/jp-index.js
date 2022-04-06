@@ -53,16 +53,19 @@ class FAQ extends React.Component {
             }
             // 锚点跳转
             document.getElementById('4652-x').addEventListener('click', (e) => {
-              console.log('e', e.target.dataset.id);
-              this.scrollToAnchor(e.target.dataset.id + '');
+              this.scrollToAnchor(
+                document.getElementById('4652-x').getAttribute('data-id') + ''
+              );
             });
             document.getElementById('4649-x').addEventListener('click', (e) => {
-              console.log('e', e.target.dataset.id);
-              this.scrollToAnchor(e.target.dataset.id + '');
+              this.scrollToAnchor(
+                document.getElementById('4649-x').getAttribute('data-id') + ''
+              );
             });
             document.getElementById('4609-x').addEventListener('click', (e) => {
-              console.log('e', e.target.dataset.id);
-              this.scrollToAnchor(e.target.dataset.id + '');
+              this.scrollToAnchor(
+                document.getElementById('4609-x').getAttribute('data-id') + ''
+              );
             });
           }
         );
@@ -179,8 +182,8 @@ class FAQ extends React.Component {
                 定期購入について <br />
               </p>
             </div>
-            <div className="md:w-cs-920 m-auto md:mt-80 pl-4 pr-4">
-              <h1 className="font-semibold  text-20 leading-cs-26 md:text-26 mt-14 md:mt-64 text-cs-gray">
+            <div className="md:w-cs-920 m-auto md:mt-cs-80 pl-4 pr-4">
+              <h1 className="font-semibold  text-20 leading-cs-26 md:text-26 mt-14 md:mt-cs-64 text-cs-gray">
                 ショッピングに関するご利用ガイド
               </h1>
             </div>

@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { accountCallBack, mktCallBack } from '@/api/home';
+import qs from 'qs';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -17,17 +18,20 @@ const MktMessage = ({ loginStore, className }) => {
   const history = useHistory();
   function ShowMKTMessage() {
     // example: ?customerId=800001798a0bf24f7bc8e5dc96ac5d88&consentId=127&uuid=812e111ebe754154a9092805c08937f9
-    let parameters = history.location.search;
-    parameters.replace('?', '');
-    let searchList = parameters.split('&');
-    let customerId = '';
-    let consentId = '';
-    let uuid = '';
-    if (searchList.length === 3) {
-      customerId = searchList[0].split('=')[1];
-      consentId = searchList[1].split('=')[1];
-      uuid = searchList[2].split('=')[1];
-    }
+    // let parameters = history.location.search;
+    const searchParamObj = qs.parse(history.location.search, {
+      ignoreQueryPrefix: true
+    });
+    // parameters.replace('?', '');
+    // let searchList = parameters.split('&');
+    let customerId = searchParamObj?.customerId;
+    let consentId = searchParamObj?.consentId;
+    let uuid = searchParamObj?.uuid;
+    // if (searchList.length === 3) {
+    //   customerId = searchList[0].split('=')[1];
+    //   consentId = searchList[1].split('=')[1];
+    //   uuid = searchList[2].split('=')[1];
+    // }
     if (customerId && consentId && uuid) {
       mktCallBack({ customerId, consentId, uuid }).then((res) => {
         if (res.context && res.context.customerActivateStatus) {

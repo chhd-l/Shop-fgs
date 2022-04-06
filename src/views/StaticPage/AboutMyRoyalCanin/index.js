@@ -64,13 +64,14 @@ function AboutMyRoyalCanin(props) {
           <div className="throughLine"></div>
           {/* 2 */}
           <div className="md:w-cs-960 md:h-cs-334 m-auto box-content pt-10 pb-10 md:pt-20 md:pb-20 md:flex md:justify-between">
+            {/* 手机 */}
             <h1 className="redColor block md:hidden PingFangSC w-cs-288 h-cs-84 m-auto leading-7 font-semibold text-22 md:w-cs-440 md:h-cs-64 md:text-26 md:leading-8 md:mt-12 mb-4">
               最短で “当日出荷”、税込5500円以上のご注文で全国どこでも送料無料
             </h1>
             <img
               src={ScreenHot2}
               alt=""
-              className="w-cs-186 h-cs-143 m-auto md:w-cs-479 md:h-cs-334"
+              className="w-cs-186 h-cs-143 mb-4 m-auto md:w-cs-479 md:h-cs-334"
             />
             <div className="md:w-cs-440 md:h-full">
               <h1 className="redColor hidden md:block PingFangSC w-cs-288 h-cs-84 m-auto leading-7 font-semibold text-22 md:w-cs-440 md:h-cs-64 md:text-26 md:leading-8 md:mt-12 mb-4">
