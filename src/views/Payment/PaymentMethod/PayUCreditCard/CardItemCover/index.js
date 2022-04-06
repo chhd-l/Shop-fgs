@@ -148,7 +148,6 @@ class CardItemCover extends React.Component {
                           autoComplete="new-password"
                           maxLength="4"
                           className="w-100 border border-black px-1"
-                          autoComplete="new-password"
                           value={el.cardCvv}
                         />
                       </div>

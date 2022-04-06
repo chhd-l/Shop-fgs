@@ -126,7 +126,6 @@ class QualitySafety extends React.Component {
                               <img
                                 alt="Consistent Quality image"
                                 src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/DSC_0847Export_All_Lowres.jpg`}
-                                alt="Consistent Quality"
                                 title="Consistent Quality"
                               />
                             </LazyLoad>
