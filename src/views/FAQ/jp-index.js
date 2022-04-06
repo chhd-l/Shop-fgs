@@ -53,16 +53,19 @@ class FAQ extends React.Component {
             }
             // 锚点跳转
             document.getElementById('4652-x').addEventListener('click', (e) => {
-              console.log('e', e.target.dataset.id);
-              this.scrollToAnchor(e.target.dataset.id + '');
+              this.scrollToAnchor(
+                document.getElementById('4652-x').getAttribute('data-id') + ''
+              );
             });
             document.getElementById('4649-x').addEventListener('click', (e) => {
-              console.log('e', e.target.dataset.id);
-              this.scrollToAnchor(e.target.dataset.id + '');
+              this.scrollToAnchor(
+                document.getElementById('4649-x').getAttribute('data-id') + ''
+              );
             });
             document.getElementById('4609-x').addEventListener('click', (e) => {
-              console.log('e', e.target.dataset.id);
-              this.scrollToAnchor(e.target.dataset.id + '');
+              this.scrollToAnchor(
+                document.getElementById('4609-x').getAttribute('data-id') + ''
+              );
             });
           }
         );
