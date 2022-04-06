@@ -50,7 +50,7 @@ function AboutMyRoyalCanin(props) {
                 公式限定フードはこちら
               </button>
             </div>
-            <div>
+            <div className="mt-8 md:mt-0">
               <img
                 src={ScreenHot1}
                 alt=""
