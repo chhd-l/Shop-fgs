@@ -494,7 +494,7 @@ class CheckoutStore {
 
       //gift不显示leaflet的
       const giftList = purchasesRes.giftList.filter((item) =>
-        item.cateName.includes('leaflet')
+        item?.cateName?.includes('leaflet')
       );
       this.setGiftList(giftList);
       //
@@ -691,7 +691,7 @@ class CheckoutStore {
 
       //gift不显示leaflet的
       const giftList = sitePurchasesRes.giftList.filter((item) =>
-        item.cateName.includes('leaflet')
+        item?.cateName?.includes('leaflet')
       );
       this.setGiftList(giftList);
       //
