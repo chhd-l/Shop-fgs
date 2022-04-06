@@ -1027,6 +1027,8 @@ class CheckoutStore {
     }
     const res = await calculateServiceFeeAndLoyaltyPoints({
       totalPrice: this.originTradePrice,
+      totalPriceHaveNotShippingFee: this.totalPrice,
+      deliveryPrice: this.deliveryPrice,
       paymentCode,
       loyaltyPoints,
       ownerId,
