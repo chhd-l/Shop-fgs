@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import { ownerPointsInfo } from '@/api/payment';
 import { inject, observer } from 'mobx-react';
 import './index.less';
+import { ownerTotalPoints } from '@/api/payment';
 
 const isMobile = getDeviceType() !== 'PC';
 
@@ -42,6 +43,17 @@ const Loyalty = (props) => {
   const sendPageNumber = (pageNumber) => {
     setPageNum(pageNumber);
   };
+
+  useEffect(() => {
+    //获取当前积分
+    ownerTotalPoints({ customerId })
+      .then((res) => {
+        setMyLoyaltyPoints(res.context.totalPoints);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
 
   useEffect(() => {
     ownerPointsInfo({ customerId, limit, page: pageNum }) //8000017bf858119b439bb8741f75cece
@@ -78,26 +90,26 @@ const Loyalty = (props) => {
             <div className="rc-column rc-quad-width">
               <div>
                 <div className="title">
-                  <FormattedMessage id="Transaction history" />
+                  <FormattedMessage id="account.loyalty.transactionHistory" />
                 </div>
                 <div className="flex mt-4 mb-3">
                   <div className="flex flex-column mr-6">
                     <div className="stage">
-                      <FormattedMessage id="My Stage" />
+                      <FormattedMessage id="account.loyalty.myStage" />
                     </div>
                     <div className="content">
-                      <FormattedMessage id="Bronze" />
+                      <FormattedMessage id="account.loyalty.bronze" />
                     </div>
                   </div>
                   <div className="flex flex-column points">
                     <div className="stage">
-                      <FormattedMessage id="My Loyalty Points" />
+                      <FormattedMessage id="account.loyalty.myLoyaltyPoints" />
                     </div>
                     {data?.length > 0 ? (
                       <div className="content">{myLoyaltyPoints}</div>
                     ) : (
                       <div className="pt-2">
-                        <FormattedMessage id="There is no point history." />
+                        <FormattedMessage id="account.loyalty.noPointHistory." />
                       </div>
                     )}
                   </div>

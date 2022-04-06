@@ -166,7 +166,7 @@ class FAQ extends React.Component {
                             ></div>
 
                             <span
-                              style={{ width: '32px' }}
+                              // style={{ width: '32px' }}
                               className={`scalemin icon-change ${
                                 this.state.showCur === item.id
                                   ? 'rc-icon rc-up rc-brand1'

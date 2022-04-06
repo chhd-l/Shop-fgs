@@ -574,7 +574,6 @@ const Banner = ({
           {loginStore.isLogin || !addCartBtnStatus ? (
             <button
               style={{ width: 160 }}
-              className="rc-btn rc-btn--one"
               onClick={handleBuyNow}
               className={`rc-btn rc-btn--one
           ${loading ? 'ui-btn-loading' : ''} ${
