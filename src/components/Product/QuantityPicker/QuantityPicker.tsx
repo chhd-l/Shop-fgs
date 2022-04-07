@@ -2,6 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import cn from 'classnames';
 
+interface Props {
+  initQuantity: number;
+  updateQuantity: any;
+  min: number;
+  max: number;
+  showError: any;
+  className: string;
+  initRestTotalLimitConf?: any;
+}
+
 let timer = null;
 
 /**
@@ -22,15 +32,15 @@ const QuantityPicker = ({
   showError,
   className,
   initRestTotalLimitConf
-}) => {
+}: Props) => {
   const [quantity, setQuantity] = useState(initQuantity);
   const [restTotalLimitConf, setRestTotalLimitConf] = useState(
     initRestTotalLimitConf
   );
 
-  const [addBtnStatus, setAddBtnStatus] = useState(true);
-  const [subBtnStatus, setSubBtnStatus] = useState(true);
-  const [errorMsg, setErrorMsg] = useState('');
+  const [addBtnStatus, setAddBtnStatus] = useState<boolean>(true);
+  const [subBtnStatus, setSubBtnStatus] = useState<boolean>(true);
+  const [errorMsg, setErrorMsg] = useState<any>('');
 
   useEffect(() => {
     setQuantity(initQuantity);
@@ -55,7 +65,7 @@ const QuantityPicker = ({
       handleMaxNumErrMsg({ tmpMax });
     }
   };
-  const handleAmountChange = (e) => {
+  const handleAmountChange = (e: any) => {
     setErrorMsg('');
     const eventType = e.type;
     const val =
@@ -91,7 +101,7 @@ const QuantityPicker = ({
     }
   };
 
-  const handleMaxNumErrMsg = ({ tmpMax }) => {
+  const handleMaxNumErrMsg = ({ tmpMax }: { tmpMax: number }) => {
     if (quantity === tmpMax) {
       // 若存在剩余总数量限制时，需区分报错提示
       if (restTotalLimitConf) {
@@ -131,7 +141,7 @@ const QuantityPicker = ({
   }, [errorMsg]);
 
   useEffect(() => {
-    setRestTotalLimitConf((cur) =>
+    setRestTotalLimitConf((cur: any) =>
       cur ? { ...cur, ...{ num: initRestTotalLimitConf?.num } } : cur
     );
   }, [initRestTotalLimitConf?.num]);
