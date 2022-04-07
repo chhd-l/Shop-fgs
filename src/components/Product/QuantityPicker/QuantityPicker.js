@@ -51,7 +51,9 @@ const QuantityPicker = ({
       : max;
     setQuantity(quantity === tmpMax ? tmpMax : quantity + 1);
 
-    handleMaxNumErrMsg({ tmpMax });
+    if (quantity === tmpMax) {
+      handleMaxNumErrMsg({ tmpMax });
+    }
   };
   const handleAmountChange = (e) => {
     setErrorMsg('');
@@ -84,7 +86,9 @@ const QuantityPicker = ({
 
     setQuantity(val > tmpMax ? tmpMax : val < min ? min : val);
 
-    handleMaxNumErrMsg({ tmpMax });
+    if (val > tmpMax) {
+      handleMaxNumErrMsg({ tmpMax });
+    }
   };
 
   const handleMaxNumErrMsg = ({ tmpMax }) => {
