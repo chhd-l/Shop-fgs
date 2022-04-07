@@ -204,37 +204,39 @@ class PayProductInfo extends React.Component {
           </div>
           {isGift &&
             false &&
-            giftArr.map((gift) => (
-              <div className="product-line-item no-border gift-top-border-mobile">
-                <div className="product-line-item-details d-flex flex-row">
-                  <div className="item-image">
-                    <LazyLoad>
-                      <img
-                        className="product-image"
-                        src={gift.goodsInfoImg || FOOD_DISPENSER_PIC}
-                        alt={gift.goodsInfoName}
-                        title={gift.goodsInfoName}
-                      />
-                    </LazyLoad>
-                  </div>
-                  <div className="wrap-item-title">
-                    <div className="item-title">
-                      <div
-                        className="line-item-name ui-text-overflow-line2 text-break"
-                        title={gift.goodsInfoName}
-                        // onClick={this.handleClickProName.bind(this, item)}
-                      >
-                        <span className="light">{gift.goodsInfoName}</span>
-                      </div>
+            giftArr
+              ?.filter((item) => !item.cateName.includes('Leaflet'))
+              .map((gift) => (
+                <div className="product-line-item no-border gift-top-border-mobile">
+                  <div className="product-line-item-details d-flex flex-row">
+                    <div className="item-image">
+                      <LazyLoad>
+                        <img
+                          className="product-image"
+                          src={gift.goodsInfoImg || FOOD_DISPENSER_PIC}
+                          alt={gift.goodsInfoName}
+                          title={gift.goodsInfoName}
+                        />
+                      </LazyLoad>
                     </div>
-                    <div className="d-flex align-items-center justify-content-between">
-                      <div
-                        className="line-item-total-price"
-                        style={{ width: '77%' }}
-                      >
-                        x1{' '}
-                        <FormattedMessage id="smartFeederSubscription.shopmentTimes" />
-                        {/* {[
+                    <div className="wrap-item-title">
+                      <div className="item-title">
+                        <div
+                          className="line-item-name ui-text-overflow-line2 text-break"
+                          title={gift.goodsInfoName}
+                          // onClick={this.handleClickProName.bind(this, item)}
+                        >
+                          <span className="light">{gift.goodsInfoName}</span>
+                        </div>
+                      </div>
+                      <div className="d-flex align-items-center justify-content-between">
+                        <div
+                          className="line-item-total-price"
+                          style={{ width: '77%' }}
+                        >
+                          x1{' '}
+                          <FormattedMessage id="smartFeederSubscription.shopmentTimes" />
+                          {/* {[
                       item.specDetails,
                       item.num > 1
                         ? this.props.intl.formatMessage(
@@ -252,8 +254,8 @@ class PayProductInfo extends React.Component {
                     ]
                       .filter((e) => e)
                       .join(' - ')} */}
-                        <br />
-                        {/* {details.subscriptionResponseVO && item.goodsInfoFlag ? (
+                          <br />
+                          {/* {details.subscriptionResponseVO && item.goodsInfoFlag ? (
                       <>
                         <FormattedMessage id="subscription.frequency" /> :{' '}
                         <FrequencyMatch currentId={item.periodTypeId}/>
@@ -265,8 +267,8 @@ class PayProductInfo extends React.Component {
                         </span>
                       </>
                     ) : null} */}
-                      </div>
-                      {/* <div className="line-item-total-price text-nowrap" style={{display:'none'}}>
+                        </div>
+                        {/* <div className="line-item-total-price text-nowrap" style={{display:'none'}}>
                     {details.subscriptionResponseVO &&
                     item.subscriptionStatus ? (
                       <>
@@ -288,9 +290,9 @@ class PayProductInfo extends React.Component {
                       <span>{formatMoney(item.price)}</span>
                     )}
                   </div> */}
-                    </div>
-                    {/* subscriptionDiscountPrice */}
-                    {/* <div className="item-title">
+                      </div>
+                      {/* subscriptionDiscountPrice */}
+                      {/* <div className="item-title">
                   {item.subscriptionDiscountPrice ? (
                     <div>
                       <span
@@ -314,10 +316,10 @@ class PayProductInfo extends React.Component {
                   ) : null}
                 </div>
                */}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
         </div>
       );
     });

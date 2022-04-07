@@ -6,7 +6,8 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import { formatMoney } from '@/utils/utils';
 
 const GiftList = ({ pitem }: { pitem: any }) => {
-  return (
+  //Leaflet的gift不显示
+  let listJsx = pitem?.cateName.includes('Leaflet') ? <></> : (
     <div className="product-summary__products__item">
       <div className="product-line-item">
         <div className="product-line-item-details d-flex flex-row">
@@ -62,7 +63,8 @@ const GiftList = ({ pitem }: { pitem: any }) => {
       </div>
       <div className="item-options" />
     </div>
-  );
+  )
+  return listJsx
 };
 
 export default GiftList;

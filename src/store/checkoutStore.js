@@ -492,12 +492,7 @@ class CheckoutStore {
       let backCode = purchasesRes.code;
       purchasesRes = purchasesRes.context;
 
-      //gift不显示leaflet的
-      const giftList = purchasesRes.giftList.filter((item) =>
-        item?.cateName?.includes('leaflet')
-      );
-      this.setGiftList(giftList);
-      //
+      this.setGiftList(purchasesRes.giftList);
 
       let newPromotionCode = purchasesRes.promotionDesc || '';
       this.setPromotionCode(newPromotionCode);
@@ -689,12 +684,7 @@ class CheckoutStore {
       let backCode = sitePurchasesRes.code;
       sitePurchasesRes = sitePurchasesRes.context;
 
-      //gift不显示leaflet的
-      const giftList = sitePurchasesRes.giftList.filter((item) =>
-        item?.cateName?.includes('leaflet')
-      );
-      this.setGiftList(giftList);
-      //
+      this.setGiftList(sitePurchasesRes.giftList);
 
       let newPromotionCode = sitePurchasesRes.promotionDesc || '';
       this.setPromotionCode(newPromotionCode);

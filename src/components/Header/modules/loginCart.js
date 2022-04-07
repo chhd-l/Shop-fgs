@@ -62,7 +62,10 @@ class LoginCart extends React.Component {
     return (
       this.cartData.reduce((prev, cur) => {
         return Number(prev) + Number(cur.buyCount);
-      }, 0) + this.giftList.reduce((total, el) => total + el.buyCount, 0)
+      }, 0) +
+      this.giftList
+        .filter((item) => !item?.cateName?.includes('Leaflet'))
+        .reduce((total, el) => total + el.buyCount, 0)
     );
   }
   get loading() {
