@@ -242,7 +242,7 @@ class FAQ extends React.Component {
                                 onClick={this.handleSelect.bind(this, item.id)}
                                 style={{
                                   display: 'flex',
-                                  padding: '2rem 2.5rem 2rem 0.5rem',
+                                  padding: '2rem 2.5rem 2rem 0rem',
                                   justifyContent: 'space-between'
                                 }}
                               >
