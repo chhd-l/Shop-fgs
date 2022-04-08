@@ -94,7 +94,7 @@ class AdyenCreditCardForm extends React.Component {
     loadJS({
       url: 'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
       callback: function () {
-        if (!!window.AdyenCheckout) {
+        if (!!window.AdyenCheckout && adyenOriginKeyConf) {
           console.log('render adyen form start');
           //要有值
           const AdyenCheckout = window.AdyenCheckout;
@@ -121,6 +121,9 @@ class AdyenCreditCardForm extends React.Component {
               placeholders: {},
               showPayButton: false,
               brands: ADYEN_CREDIT_CARD_BRANDS,
+              onLoad: () => {
+                console.log('adyen form loaded');
+              },
               onBrand: (state) => {
                 adyenFormData = Object.assign(adyenFormData, {
                   adyenBrands: state.brand,
