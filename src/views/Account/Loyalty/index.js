@@ -34,7 +34,7 @@ const Loyalty = (props) => {
   const [myLoyaltyPoints, setMyLoyaltyPoints] = useState(2300);
 
   const [pageNum, setPageNum] = useState(1);
-  const [totalPage, setTotalPage] = useState(10);
+  const [totalPage, setTotalPage] = useState(1);
 
   const limit = isMobile ? 5 : 10; //每页的数据总量
 
@@ -60,6 +60,7 @@ const Loyalty = (props) => {
     ownerPointsInfo({ customerId, limit, page: pageNum }) //8000017bf858119b439bb8741f75cece
       .then((res) => {
         setData(res.context.pointsRecordInfos);
+        setTotalPage(res.context.totalPage);
       })
       .catch((err) => {
         console.log(err.message);
