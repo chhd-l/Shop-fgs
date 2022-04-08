@@ -660,7 +660,7 @@ class Form extends React.Component {
           } else if (COUNTRY == 'tr') {
             // 土耳其
             regExp =
-              /^0\s\(?([2-9][0-8][0-9])\)?\s([1-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
+              /^0\s\(?([2-9][0-8][0-9])\)?\s([0-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
           } else if (COUNTRY == 'jp') {
             regExp = /^[0]\d{9,10}$/;
           } else {
@@ -1195,10 +1195,11 @@ class Form extends React.Component {
       if (isDeliveryDateAndTimeSlot) {
         await validData({ rule: caninForm.formRuleRu, data: caninForm, intl });
       } else {
+        //console.log(444,caninForm.formRule)
         await validData({ rule: caninForm.formRule, data: caninForm, intl });
       }
       this.props.getFormAddressValidFlag(true);
-    } catch {
+    } catch (err) {
       this.props.getFormAddressValidFlag(false);
     }
   };
