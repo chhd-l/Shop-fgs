@@ -33,6 +33,7 @@ import ScrollToTop from '@/components/ScrollToTop';
 import { useDynamicLanguage } from '@/framework/common';
 import RouteFilter from '@/components/RouteFilter';
 import RouteFilterHook from '@/components/RouteFilter/RouteFilterHook';
+import qs from 'qs';
 import { initializePhraseAppEditor } from 'react-intl-phraseapp';
 import './vconsole';
 
@@ -279,11 +280,9 @@ Date.prototype.addHours = function (h) {
 };
 
 // 处理storepotal通过嵌入iframe，引入shop页面时，带入token的情况
-const tokenFromUrl = window.location.search
-  .substr(1)
-  .split('&')
-  .filter((ele) => ele.includes('stoken'))?.[0]
-  ?.split('=')[1];
+const tokenFromUrl = qs.parse(window.location.search, {
+  ignoreQueryPrefix: true
+})?.stoken;
 if (tokenFromUrl) {
   sessionItemRoyal.set('rc-iframe-from-storepotal', 1);
   localItemRoyal.set('rc-token', tokenFromUrl);

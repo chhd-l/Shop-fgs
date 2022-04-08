@@ -3,7 +3,8 @@ import { formatMoney, optimizeImage } from '@/utils/utils';
 import React from 'react';
 
 const GiftList = ({ data }: { data: any }) => {
-  return (
+  //不显示Leaflet的gift
+  let listJsx = data?.cateName?.includes('Leaflet') ? <></> : (
     <div className="minicart__product" key={data.goodsInfoId}>
       <div>
         <div className="product-summary__products__item pb-0">
@@ -74,6 +75,7 @@ const GiftList = ({ data }: { data: any }) => {
       </div>
     </div>
   );
+  return listJsx
 };
 
 export default GiftList;

@@ -97,7 +97,8 @@ const PetForms = ({
 }) => {
   const Us = window.__.env.REACT_APP_COUNTRY == 'us';
   const RuTrFrDe =
-    ['ru', 'tr', 'fr', 'de'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1;
+    ['ru', 'tr', 'fr', 'de', 'se'].indexOf(window.__.env.REACT_APP_COUNTRY) >
+    -1;
   const notUsUk =
     window.__.env.REACT_APP_COUNTRY !== 'us' &&
     window.__.env.REACT_APP_COUNTRY !== 'uk';
