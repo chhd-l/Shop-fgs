@@ -55,9 +55,9 @@ export default class Modal extends React.Component {
             >
               {this.props.headerVisible && (
                 <div className="modal-header delete-confirmation-header">
-                  <h4 className="modal-title" id="removeProductLineItemModal">
+                  <h1 className="modal-title" id="removeProductLineItemModal">
                     {this.props.modalTitle}
-                  </h4>
+                  </h1>
                   <button
                     type="button"
                     className="close"

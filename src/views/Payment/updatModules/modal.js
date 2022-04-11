@@ -57,6 +57,7 @@ class MyModal extends React.Component {
               className="my-input"
               placeholder="FirstName"
               value={this.state.params.firstName}
+              name="firstName"
               onChange={(e) => this.onChange(e, 'firstName')}
             />
             <input
@@ -65,6 +66,7 @@ class MyModal extends React.Component {
               autocomplete="off"
               className="my-input"
               placeholder="LastName"
+              name="LastName"
               value={this.state.params.lastName}
               onChange={(e) => this.onChange(e, 'lastName')}
             />
@@ -75,6 +77,7 @@ class MyModal extends React.Component {
               type="email"
               className="my-input"
               placeholder="Email"
+              name="Email"
               value={this.state.params.email}
               onChange={(e) => this.onChange(e, 'email')}
             />
@@ -85,6 +88,7 @@ class MyModal extends React.Component {
               maxLength="11"
               className="my-input"
               placeholder="Phone"
+              name="Phone"
               value={this.state.params.phone}
               onChange={(e) => this.onChange(e, 'phone')}
             />

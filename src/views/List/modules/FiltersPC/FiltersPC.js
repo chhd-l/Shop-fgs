@@ -299,6 +299,7 @@ class Filter extends React.Component {
             className="rc-input w-100 rc-margin-y--xs rc-input--full-width ml-2"
           >
             <input
+              name="notApplyChecked"
               className="rc-input__radio filter-input-checkout"
               id={`filter-sub-radio-${childItem.id}-${inputLabelKey}`}
               type="radio"
@@ -330,6 +331,7 @@ class Filter extends React.Component {
               id={`filter-sub-radio-${childItem.id}-${inputLabelKey}`}
               type="radio"
               checked={childItem.selected}
+              name="selected"
               onClick={() => this.FilterClick(parentItem, childItem)}
             />
             <label

@@ -907,6 +907,7 @@ class MemberCardList extends React.Component {
                     <input
                       className="rc-input__checkbox"
                       id={`id-payu-${item.key}`}
+                      name={`id-payu-${item.key}`}
                       onChange={this.onCheckboxChange.bind(this, item)}
                       type="checkbox"
                       checked={item.value}
@@ -1224,7 +1225,7 @@ class MemberCardList extends React.Component {
                           className="rc-input__checkbox"
                           id={`id-payu-${item.key}`}
                           onChange={this.onCheckboxChange.bind(this, item)}
-                          // name={item.key}
+                          name={item.key}
                           // value={item.value}
                           type="checkbox"
                           checked={item.value}
@@ -1494,7 +1495,7 @@ class MemberCardList extends React.Component {
                           className="rc-input__checkbox"
                           id={`id-payu-${item.key}`}
                           onChange={this.onCheckboxChange.bind(this, item)}
-                          // name={item.key}
+                          name={item.key}
                           // value={item.value}
                           type="checkbox"
                           checked={item.value}

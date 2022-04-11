@@ -77,6 +77,7 @@ export default class InstallmentTable extends React.Component {
                             // name="number_of_installments"
                             value={i}
                             onChange={this.installmentHandler}
+                            name={`id-radio-installment-${i}`}
                           />
                           <label
                             className="rc-input__label--inline"

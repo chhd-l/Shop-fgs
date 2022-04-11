@@ -1064,6 +1064,7 @@ export default class Felin extends React.Component {
                                 type="text"
                                 autocomplete="off"
                                 id="datepicker"
+                                name="currentDate"
                                 placeholder="Sélectionner Un date"
                                 style={{
                                   width: '100%',

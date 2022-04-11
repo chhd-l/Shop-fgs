@@ -355,11 +355,12 @@ class ContactUs extends Component {
     const { address, errMsgObj } = this.state;
     return (
       <div className="form-group required">
-        <label className="form-control-label">
+        <label className="form-control-label" htmlFor="myQuestion">
           <FormattedMessage id="contactUs.myQuestion" />
         </label>
         <span className="rc-select rc-full-width rc-input--full-width rc-select-processed mt-0">
           <Selection
+            id="myQuestion"
             selectedItemChange={(data) =>
               this.handleSelectedItemChange('question', data)
             }

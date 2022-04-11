@@ -212,6 +212,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
                     type="hidden"
                     id="invalid-quantity"
                     value="Пожалуйста, введите правильный номер."
+                    name="invalid-quantity"
                   />
                   <QuantityPicker
                     min={quantityMinLimit}

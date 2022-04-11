@@ -28,7 +28,7 @@ function VisitorEditForm({
       <div className="row overflow_visible">
         <div className="col-sm-12">
           <div className="form-group required">
-            <label className="form-control-label">
+            <label className="form-control-label" htmlFor="cardOwner">
               <FormattedMessage id="payment.cardOwner" />
             </label>
             <span className="rc-input rc-input--full-width" input-setup="true">
@@ -54,7 +54,7 @@ function VisitorEditForm({
         {needEmail ? (
           <div className="col-sm-6">
             <div className="form-group required">
-              <label className="form-control-label">
+              <label className="form-control-label" htmlFor="email">
                 <FormattedMessage id="payment.email" />
               </label>
               <span
@@ -949,6 +949,7 @@ class PayOs extends React.Component {
                                   <input
                                     className="rc-input__checkbox"
                                     id={`id-payu-${item.key}`}
+                                    name={`id-payu-${item.key}`}
                                     onChange={this.onCheckboxChange.bind(
                                       this,
                                       item

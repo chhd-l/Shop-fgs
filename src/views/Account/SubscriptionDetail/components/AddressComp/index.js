@@ -1560,6 +1560,7 @@ class AddressList extends React.Component {
                               value={deliveryAddress.isDefalt}
                               key={1}
                               checked
+                              name="isDefalt"
                             />
                           ) : (
                             <input
@@ -1567,6 +1568,7 @@ class AddressList extends React.Component {
                               className="rc-input__checkbox"
                               key={2}
                               value={deliveryAddress.isDefalt}
+                              name="isDefalt"
                             />
                           )}
                           <label

@@ -149,6 +149,7 @@ class CardItemCover extends React.Component {
                           maxLength="4"
                           className="w-100 border border-black px-1"
                           value={el.cardCvv}
+                          name="cardCvv"
                         />
                       </div>
                     </div>
