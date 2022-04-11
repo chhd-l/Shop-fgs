@@ -2,7 +2,7 @@ import React from 'react';
 import './index.less';
 
 const ConsentAdditionalText = ({ textPosition }) => {
-  console.log(textPosition, 'textPosition');
+  // console.log(textPosition, 'textPosition');
   const topText = {
     us: (
       <p className="consent-txt">

@@ -102,7 +102,7 @@ class Consent extends Component {
       return { __html: text };
     };
     const noIsRequired = list?.findIndex((_item) => _item?.isRequired == false);
-    console.log(list, 'listtt--==', noIsRequired);
+    // console.log(list, 'listtt--==', noIsRequired);
     const showText = ['account', 'register', 'checkout'].indexOf(pageType) > -1;
     // se支付页面已登录不展示consent包括 text
     const hiddenText =

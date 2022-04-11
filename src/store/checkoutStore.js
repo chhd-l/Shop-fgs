@@ -31,7 +31,7 @@ const getLoginData = (data) => {
   if (indvData) {
     cartData = [indvData];
   }
-  console.info('cartData', cartData);
+  // console.info('cartData', cartData);
   return cartData;
 };
 
@@ -306,7 +306,7 @@ class CheckoutStore {
   setLoginCartData(data) {
     let datas = getLoginData(data);
     this.loginCartData = datas;
-    console.info('datasdatas', datas);
+    // console.info('datasdatas', datas);
     localItemRoyal.set('rc-cart-data-login', datas);
   }
 
