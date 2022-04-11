@@ -21,7 +21,9 @@ export default function PromotionPanel({
           <p className="title-text text-rc-red text-lg ui-text-overflow-line1">
             {cItem.Title}
           </p>
-          <p className="ui-text-overflow-line3 my-5">{cItem.Subtitle}</p>
+          <p className="ui-text-overflow-line3 my-5" aria-hidden="true">
+            {cItem.Subtitle}
+          </p>
           <a
             href={cItem.PrimaryLink.Url}
             className="rc-btn rc-btn--two red truncate"

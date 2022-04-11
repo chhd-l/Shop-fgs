@@ -509,10 +509,14 @@ class Confirmation extends React.Component {
                         >
                           <input
                             type="checkbox"
+                            id="mktSelectedNotActiveInfo"
                             className="rc-input__checkbox"
                             checked={mktSelectedFlagChecked}
                           />
-                          <label className="rc-input__label--inline text-break w-100">
+                          <label
+                            className="rc-input__label--inline text-break w-100"
+                            htmlFor="mktSelectedNotActiveInfo"
+                          >
                             <div className="checkboxDetail">
                               <p>
                                 <FormattedMessage id="confirmation.mktSelectedNotActiveInfo" />
@@ -550,10 +554,14 @@ class Confirmation extends React.Component {
                           >
                             <input
                               type="checkbox"
+                              id="mktActivateChecked"
                               className="rc-input__checkbox"
                               checked={mktActivateChecked}
                             />
-                            <label className="rc-input__label--inline text-break w-100">
+                            <label
+                              className="rc-input__label--inline text-break w-100"
+                              htmlFor="mktActivateChecked"
+                            >
                               <div
                                 className="checkboxDetail"
                                 dangerouslySetInnerHTML={{ __html: mktConsent }}
