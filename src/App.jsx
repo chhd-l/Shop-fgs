@@ -849,20 +849,48 @@ const App = () => {
                 <Route
                   path="/myroyalcanin"
                   exact
-                  component={AboutMyRoyalCanin}
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+                      return <AboutMyRoyalCanin {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
                 />
                 <Route
                   path="/subscription"
                   exact
-                  component={AboutSubscription}
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+                      return <AboutSubscription {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
                 />
                 <Route
                   path="/loyalty_program"
                   exact
-                  component={AboutLoyaltyProgram}
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+                      return <AboutLoyaltyProgram {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
                 />
                 {/* AboutLoyaltyProgram */}
-                <Route path="/policy/legal" exact component={LegalNotice} />
+                <Route
+                  path="/policy/legal"
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+                      return <LegalNotice {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
                 <Route path="/cat-nutrition" exact component={CatNutrition} />
                 <Route
                   path="/cadeau-coussin-chat"

@@ -512,61 +512,68 @@ class Recommendation extends React.Component {
     }
   }
   async hanldeUnloginAddToCart(products, path) {
-    const { checkoutStore, clinicStore, loginStore } = this.props;
-    let retPath = path;
-    GABigBreederAddToCar(products);
-    this.setState({ buttonLoading: true });
-    await this.props.checkoutStore.hanldeUnloginAddToCart({
-      valid: this.addCartBtnStatus,
-      cartItemList: products.map((p) => {
-        return Object.assign(
-          p,
-          { ...p.goods, ...p.goodsInfo.goods },
-          {
-            selected: true,
-            quantity: p.recommendationNumber,
-            currentUnitPrice: p.goodsInfo.marketPrice,
-            goodsInfoFlag: 0,
-            periodTypeId: null,
-            recommendationInfos:
-              this.props.clinicStore.linkClinicRecommendationInfos,
-            recommendationId:
-              this.props.clinicStore.linkClinicRecommendationInfos
-                ?.recommendationId || this.props.clinicStore.linkClinicId,
-            recommendationName:
-              this.props.clinicStore.linkClinicRecommendationInfos
-                ?.recommendationName || this.props.clinicStore.linkClinicName,
-            taggingForTextAtCart: (p.taggingList || []).filter(
-              (e) =>
-                e.taggingType === 'Text' &&
-                e.showPage?.includes('Shopping cart page')
-            )[0],
-            taggingForImageAtCart: (p.taggingList || []).filter(
-              (e) =>
-                e.taggingType === 'Image' &&
-                e.showPage?.includes('Shopping cart page')
-            )[0]
-          }
+    try {
+      const { checkoutStore, clinicStore, loginStore } = this.props;
+      let retPath = path;
+      GABigBreederAddToCar(products);
+      this.setState({ buttonLoading: true });
+      await this.props.checkoutStore.hanldeUnloginAddToCart({
+        valid: this.addCartBtnStatus,
+        cartItemList: products.map((p) => {
+          return Object.assign(
+            p,
+            { ...p.goods, ...p.goodsInfo.goods },
+            {
+              selected: true,
+              quantity: p.recommendationNumber,
+              currentUnitPrice: p.goodsInfo.marketPrice,
+              goodsInfoFlag: 0,
+              periodTypeId: null,
+              recommendationInfos:
+                this.props.clinicStore.linkClinicRecommendationInfos,
+              recommendationId:
+                this.props.clinicStore.linkClinicRecommendationInfos
+                  ?.recommendationId || this.props.clinicStore.linkClinicId,
+              recommendationName:
+                this.props.clinicStore.linkClinicRecommendationInfos
+                  ?.recommendationName || this.props.clinicStore.linkClinicName,
+              taggingForTextAtCart: (p.taggingList || []).filter(
+                (e) =>
+                  e.taggingType === 'Text' &&
+                  e.showPage?.includes('Shopping cart page')
+              )[0],
+              taggingForImageAtCart: (p.taggingList || []).filter(
+                (e) =>
+                  e.taggingType === 'Image' &&
+                  e.showPage?.includes('Shopping cart page')
+              )[0]
+            }
+          );
+        }),
+        ...this.props
+      });
+      if ((isFr && !this.state.isSPT) || isRu) {
+        // 是fr breeder的特殊code，需要主动默认填充
+        await this.props.checkoutStore.setPromotionCode(
+          this.state.promotionCodeText
         );
-      }),
-      ...this.props
-    });
-    if ((isFr && !this.state.isSPT) || isRu) {
-      // 是fr breeder的特殊code，需要主动默认填充
-      await this.props.checkoutStore.setPromotionCode(
-        this.state.promotionCodeText
-      );
-    }
-    if (retPath === '/checkout') {
-      retPath = await distributeLinktoPrecriberOrPaymentPage({
-        configStore: this.props.configStore,
-        checkoutStore,
-        clinicStore,
-        isLogin: loginStore.isLogin
+      }
+      if (retPath === '/checkout') {
+        retPath = await distributeLinktoPrecriberOrPaymentPage({
+          configStore: this.props.configStore,
+          checkoutStore,
+          clinicStore,
+          isLogin: loginStore.isLogin
+        });
+      }
+      this.setState({ buttonLoading: false });
+      this.props.history.push(retPath);
+    } catch (error) {
+      // 抛错后前端取消pageLoading，并带着错误信息跳转到Cart页面
+      this.setState({ pageLoading: false }, () => {
+        this.props.history.push(`${path}?errorMsg=${error.message}`);
       });
     }
-    this.setState({ buttonLoading: false });
-    this.props.history.push(retPath);
   }
   showErrorMsg = (msg) => {
     this.setState({
