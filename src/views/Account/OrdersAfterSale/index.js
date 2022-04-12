@@ -478,7 +478,10 @@ class OrdersAfterSale extends React.Component {
                               </div>
                             </div>
                             <div className="row form-reason align-items-center mb-3">
-                              <label className="col-3 required">
+                              <label
+                                className="col-3 required"
+                                htmlFor="reason"
+                              >
                                 reasons for return:
                               </label>
                               <div className="col-4">
@@ -509,7 +512,10 @@ class OrdersAfterSale extends React.Component {
                               </div>
                             </div>
                             <div className="row form-reason align-items-center mb-3">
-                              <label className="col-3 required">
+                              <label
+                                className="col-3 required"
+                                htmlFor="method"
+                              >
                                 Return Method:
                               </label>
                               <div className="col-4">
@@ -540,7 +546,10 @@ class OrdersAfterSale extends React.Component {
                               </div>
                             </div>
                             <div className="row form-reason align-items-center mb-3">
-                              <label className="col-3 required">
+                              <label
+                                className="col-3 required"
+                                htmlFor="instructions"
+                              >
                                 Return instructions:
                               </label>
                               <div className="col-4">

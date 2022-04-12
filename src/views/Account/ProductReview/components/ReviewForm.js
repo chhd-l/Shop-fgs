@@ -231,9 +231,10 @@ class ReviewForm extends React.Component {
           </div>
           <div className="rc-layout-container rc-one-column pt-0">
             <div className="rc-column pt-0">
-              <label>
+              <label htmlFor="isAnonymous">
                 <input
                   name="isAnonymous"
+                  id="isAnonymous"
                   type="checkbox"
                   checked={
                     this.props.product.isAnonymous

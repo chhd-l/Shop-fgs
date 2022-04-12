@@ -914,6 +914,7 @@ const GoodsDetailTabs = function (props) {
                   className={`block ${ele.descriptionName} rc-max-width--xl rc-padding-x--sm`}
                 >
                   <p
+                    aria-hidden="true"
                     className="content rc-scroll--x detail-content-tabinfo"
                     style={{ marginBottom: '4rem' }}
                     dangerouslySetInnerHTML={createMarkup(ele.content)}

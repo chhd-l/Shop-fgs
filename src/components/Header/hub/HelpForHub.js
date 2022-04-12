@@ -9,9 +9,9 @@ function DescJSX({ item }) {
       className="dropdown-nav__help__text align-self-center w-full"
       // style={{ minWidth: '250px' }}
     >
-      <h4 className="title rc-delta mb-1 -mt-2 ui-text-overflow-line2">
+      <h1 className="title rc-delta mb-1 -mt-2 ui-text-overflow-line2">
         {item.Title}
-      </h4>
+      </h1>
       <div
         className="desc ui-contact-us-info children-nomargin text-left rc-text-colour--text ui-text-overflow-line2"
         dangerouslySetInnerHTML={{ __html: item.Content }}

@@ -45,6 +45,7 @@ class InfosPreview extends React.Component {
               <input
                 className="rc-input__checkbox ui-cursor-pointer-pure"
                 id={`id-checkbox-welcome-box-${index}`}
+                name={`id-checkbox-welcome-box-${index}`}
                 onChange={(e) => this.welcomeBoxCheckedChange(e, item.value)}
                 type="checkbox"
                 checked={item.value === checkedBox}

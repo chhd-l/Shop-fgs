@@ -267,6 +267,7 @@ const MixFeedingBox = function ({
                         <input
                           className="rc-quantity__input"
                           value={quantity}
+                          name="quantity"
                           min="1"
                           max="10"
                           onChange={(e) => handleAmountInput(e)}
