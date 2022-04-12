@@ -1163,17 +1163,6 @@ export async function addToUnloginCartData({ product, intl }) {
   if (idx > -1) {
     cartDataCopy.splice(idx, 1, tmpData);
   } else {
-    // if (cartDataCopy.length >= window.__.env.REACT_APP_LIMITED_CATE_NUM) {
-    //   this.setState({
-    //     checkOutErrMsg: (
-    //       <FormattedMessage
-    //         id="cart.errorMaxCate"
-    //         values={{ val: window.__.env.REACT_APP_LIMITED_CATE_NUM }}
-    //       />
-    //     )
-    //   });
-    //   return;
-    // }
     cartDataCopy.push(tmpData);
   }
   await checkoutStore.updateUnloginCart({
