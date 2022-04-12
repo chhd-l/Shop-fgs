@@ -10,7 +10,12 @@ const fetchDynamicConfig = async () => {
   const baseConfig = sessionItemRoyal.get('base-config-shop')
     ? JSON.parse(sessionItemRoyal.get('base-config-shop'))
     : null;
-  let envVal = cloneDeep(window?.__?.env || {});
+  let envVal = cloneDeep(
+    Object.assign(window?.__?.env || {}, {
+      // 设置默认值
+      REACT_APP_EXTERNAL_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn'
+    })
+  );
   const param = getCountryCodeFromHref();
   try {
     if (baseConfig) {
@@ -26,7 +31,8 @@ const fetchDynamicConfig = async () => {
       envVal = Object.assign({}, envVal, tmpCfg, {
         REACT_APP_HUB: Boolean(res?.context?.enableHub),
         REACT_APP_LANG_LOCALE: res?.context?.language,
-        REACT_APP_PRODUCT_IMAGE_CDN: res?.context?.cdn
+        REACT_APP_PRODUCT_IMAGE_CDN: res?.context?.cdn,
+        REACT_APP_STOREID: res?.context?.storeId + ''
       });
       const oktaSettingConfig = res?.context?.oktaSettingConfig;
       if (oktaSettingConfig) {
