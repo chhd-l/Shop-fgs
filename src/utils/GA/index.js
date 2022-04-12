@@ -258,7 +258,6 @@ export const GAInitUnLogin = ({
         item?.goodsAttributesValueRelList,
         'species'
       ).toString();
-      console.log('item', item);
       let obj = deleteObjEmptyAttr({
         price: price, //Product Price, including discount if promo code activated for this product
         specie, //'Cat' or 'Dog',
@@ -296,7 +295,6 @@ export const GAInitUnLogin = ({
       }
       arr.push(obj);
     }
-    console.log('arr', arr);
     props.checkoutStore.saveGAProduct({ products: arr });
     if (isReturnList) {
       return arr;
@@ -475,13 +473,6 @@ export const GARecommendationProduct = (
       goodsAttributesValueRelVOAllList || goodsAttributesValueRelList || [],
       'breeds'
     );
-    // (goodsAttributesValueRelVOAllList || goodsAttributesValueRelList || [])
-    //   .filter(
-    //     (attr) =>
-    //       attr.goodsAttributeName &&
-    //       attr.goodsAttributeName.toLowerCase() == 'breeds'
-    //   )
-    //   .map((item) => item.goodsAttributeValue);
     const specie = filterAttrValue(
       goodsAttributesValueRelVOAllList || goodsAttributesValueRelList || [],
       'species'
@@ -524,7 +515,7 @@ export const GARecommendationProduct = (
     });
 
   type === 3 &&
-    window?.dataLayer?.unshift({
+    window?.dataLayer?.push({
       event: 'shelterLPAddToCart',
       product: products[0]
     });
