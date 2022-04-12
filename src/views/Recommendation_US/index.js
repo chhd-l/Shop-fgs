@@ -569,9 +569,14 @@ class Recommendation extends React.Component {
       this.setState({ buttonLoading: false });
       this.props.history.push(retPath);
     } catch (error) {
-      // 抛错后前端取消pageLoading，并带着错误信息跳转到Cart页面
+      // 抛错后前端取消pageLoading，并带着错误信息跳转到Cart页面 state传参不会在地址栏显示
       this.setState({ pageLoading: false }, () => {
-        this.props.history.push(`${path}?errorMsg=${error.message}`);
+        this.props.history.push({
+          pathname: path,
+          state: {
+            errMsg: error.message
+          }
+        });
       });
     }
   }

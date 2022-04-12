@@ -238,7 +238,8 @@ class UnLoginCart extends React.Component {
     );
     this.setCartData({ initPage: true });
     // shop推荐链接超出数量，页面加载不出来的问题(只要加购报错都跳转到购物车界面，把错误message带过去显示)
-    const errMsg = funcUrl({ name: 'errorMsg' });
+    const errMsg = this.props.history.location.state.errMsg;
+    // const errMsg = funcUrl({ name: 'errorMsg' });
     if (errMsg) {
       this.showErrMsg(errMsg);
     }
