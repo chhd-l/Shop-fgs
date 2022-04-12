@@ -111,6 +111,7 @@ class PrescriberCode extends React.Component {
                               value={this.state.keywords}
                               onChange={this.inputSearchValue}
                               maxLength="50"
+                              name="keywords"
                               // onFocus={() => {
                               //   this.setState({ errMsg: '' });
                               // }}

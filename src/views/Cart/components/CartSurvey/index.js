@@ -91,6 +91,7 @@ class CartSurvey extends React.Component {
                 type="checkbox"
                 checked={checkedBox}
                 value={checkedBox}
+                nem="checkedBox"
               />
               <label
                 className="rc-input__label--inline text-break"

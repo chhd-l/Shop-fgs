@@ -10,7 +10,10 @@ export default function PromotionPanel({ item }) {
             <p className="title-text text-rc-red text-lg ui-text-overflow-line1">
               {item.Title}
             </p>
-            <p className="my-4 text-base ui-text-overflow-line3">
+            <p
+              className="my-4 text-base ui-text-overflow-line3"
+              aria-hidden="true"
+            >
               {item.Subtitle}
             </p>
           </div>

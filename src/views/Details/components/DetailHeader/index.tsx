@@ -43,7 +43,7 @@ const DetailHeader = ({
   const stockDom = () =>{
     return (
       <div className="align-left flex rc-margin-bottom--xs">
-      <p className="rc-margin-right--xs">
+      <p className="rc-margin-right--xs" aria-hidden="true">
         <InstockStatusComp status={instockStatus} />
       </p>
       {window.__.env.REACT_APP_COUNTRY === 'ru' && selectedSpecItem ? (

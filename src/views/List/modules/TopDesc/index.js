@@ -15,6 +15,7 @@ const TopDesc = ({ text }) => {
         type="checkbox"
         onClick={handleFold}
         checked={fold}
+        name="fold"
       />
       <div class="desc-text">
         <label class="fold-btn" for="exp1">

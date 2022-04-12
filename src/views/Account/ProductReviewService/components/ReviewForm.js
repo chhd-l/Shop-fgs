@@ -143,6 +143,7 @@ class ReviewForm extends React.Component {
                       style={{ padding: 0 }}
                       onChange={(e) => this.handleTitleChange(e)}
                       onBlur={(e) => this.inputBlur(e)}
+                      name="title"
                     />
                     <label className="rc-input__label" htmlFor="reference" />
                   </span>

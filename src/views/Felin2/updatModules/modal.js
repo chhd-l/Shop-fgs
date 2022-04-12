@@ -54,6 +54,7 @@ class MyModal extends React.Component {
             placeholder="Prénom"
             value={this.state.params.firstName}
             onChange={(e) => this.onChange(e, 'firstName')}
+            name="firstName"
           />
           <input
             type="text"
@@ -61,6 +62,7 @@ class MyModal extends React.Component {
             placeholder="Nom"
             value={this.state.params.lastName}
             onChange={(e) => this.onChange(e, 'lastName')}
+            name="lastName"
           />
         </div>
         <div className="input-box">
@@ -70,6 +72,7 @@ class MyModal extends React.Component {
             placeholder="Email"
             value={this.state.params.email}
             onChange={(e) => this.onChange(e, 'email')}
+            name="email"
           />
           <input
             type="text"
@@ -78,6 +81,7 @@ class MyModal extends React.Component {
             placeholder="Téléphone"
             value={this.state.params.phone}
             onChange={(e) => this.onChange(e, 'phone')}
+            name="phone"
           />
         </div>
         {!this.state.emailShow ? (
