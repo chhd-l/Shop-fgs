@@ -163,7 +163,32 @@ class FAQ extends React.Component {
                         className="rc-alpha md:text-center text-left text-20 leading-7 font-medium mt-0 md:mt-4r md:text-26 md:leading-cs-56"
                         style={{ fontSize: 'large' }}
                       >
-                        <FormattedMessage id="faq.title" />
+                        <FormattedMessage
+                          id="faq.title"
+                          values={{
+                            val1: (
+                              <Link
+                                rel="nofollow"
+                                className="rc-styled-link ui-cursor-pointer faq_rc_styled_link"
+                                target="_blank"
+                                to="/help"
+                                // rel="nofollow"
+                              >
+                                <ins className="rc-alpha">
+                                  <FormattedMessage id="here2" />
+                                </ins>
+                                {Boolean(
+                                  window.__.env
+                                    .REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                                ) && (
+                                  <span className="warning_blank">
+                                    <FormattedMessage id="opensANewWindow" />
+                                  </span>
+                                )}
+                              </Link>
+                            )
+                          }}
+                        />
                       </p>
                     </div>
                   </div>
