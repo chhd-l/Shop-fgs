@@ -1,25 +1,24 @@
 <!DOCTYPE html>
 <html lang="">
-
-<head>
-  <title>Royal canin shop</title>
-  <meta charset="utf-8" />
-  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#000000" />
-  <meta name="keywords" content="" />
-  <meta name="description" content="" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <!-- <meta http-equiv="Content-Security-Policy"
+  <head>
+    <title>Royal canin shop</title>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <!-- <meta http-equiv="Content-Security-Policy"
     content="script-src 'self' 'unsafe-inline' tags.tiqcdn.com cdn-akamai.mookie1.com stage-rcdfcdn.mars.com fgs-cdn.azureedge.net checkoutshopper-live.adyen.com js.paymentsos.com cdn.polyfill.io ajax.googleapis.com cdn.cookielaw.org at.alicdn.com www.googletagmanager.com www.google-analytics.com geolocation.onetrust.com connect.facebook.net www.googleadservices.com googleads.g.doubleclick.net; object-src 'none'; style-src 'self' 'unsafe-inline' fgs-cdn.azureedge.net d1a19ys8w1wkc1.cloudfront.net fonts.googleapis.com maxcdn.bootstrapcdn.com checkoutshopper-live.adyen.com; child-src https:"> -->
-  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" />
-  <!--
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" />
+    <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
-  <!--
+    <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
@@ -28,64 +27,95 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-
-  <base href="/" />
-  <!-- <link  id="royal-canin"  rel="preload" href="./royal/royal-canin.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link
+      href="https://prdeus2rcdeslangversa.z20.web.core.windows.net/product-finder/0-0-0/styles.css"
+      rel="stylesheet"
+    />
+    <base href="/" />
+    <!-- <link  id="royal-canin"  rel="preload" href="./royal/royal-canin.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="./royal/royal-canin.min.css"></noscript> -->
-  <!-- <link id="royal-canin" rel="stylesheet" type="text/css" href="./royal/royal-canin.css" /> -->
+    <!-- <link id="royal-canin" rel="stylesheet" type="text/css" href="./royal/royal-canin.css" /> -->
 
-  <!-- <link id="royal-canin" rel="stylesheet" type='text/css' href="https://dl.royalcanin.com/8-12-0/royal-canin.styles.prefix.min.critical.css" /> -->
-  <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=default,Array.prototype.includes" async></script>
+    <!-- <link id="royal-canin" rel="stylesheet" type='text/css' href="https://dl.royalcanin.com/8-12-0/royal-canin.styles.prefix.min.critical.css" /> -->
+    <script
+      src="https://cdn.polyfill.io/v2/polyfill.min.js?features=default,Array.prototype.includes"
+      async
+    ></script>
 
-  <!-- <script type="text/javascript" src="https://dl.royalcanin.com/8-12-0/royal-canin.min.bundle.js" id="js-royal-canin"></script> -->
-  <script type="text/javascript" src="./royal/royal-canin.min.js" id="js-royal-canin"></script>
-  <!-- <script type="text/javascript" src="./royal/royal-canin.js" id="js-royal-canin"></script> -->
-  <script src="https://at.alicdn.com/t/font_1982813_v930s5bhumt.js" async></script>
-  <script>
-    if (typeof Object.assign != 'function') {
-      Object.assign = function (target) {
-        'use strict';
-        if (target == null) {
-          throw new TypeError('Cannot convert undefined or null to object');
-        }
+    <!-- <script type="text/javascript" src="https://dl.royalcanin.com/8-12-0/royal-canin.min.bundle.js" id="js-royal-canin"></script> -->
+    <script
+      type="text/javascript"
+      src="./royal/royal-canin.min.js"
+      id="js-royal-canin"
+    ></script>
+    <!-- <script type="text/javascript" src="./royal/royal-canin.js" id="js-royal-canin"></script> -->
+    <script
+      src="https://at.alicdn.com/t/font_1982813_v930s5bhumt.js"
+      async
+    ></script>
+    <script>
+      if (typeof Object.assign != 'function') {
+        Object.assign = function (target) {
+          'use strict';
+          if (target == null) {
+            throw new TypeError('Cannot convert undefined or null to object');
+          }
 
-        target = Object(target);
-        for (var index = 1; index < arguments.length; index++) {
-          var source = arguments[index];
-          if (source != null) {
-            for (var key in source) {
-              if (Object.prototype.hasOwnProperty.call(source, key)) {
-                target[key] = source[key];
+          target = Object(target);
+          for (var index = 1; index < arguments.length; index++) {
+            var source = arguments[index];
+            if (source != null) {
+              for (var key in source) {
+                if (Object.prototype.hasOwnProperty.call(source, key)) {
+                  target[key] = source[key];
+                }
               }
             }
           }
-        }
-        return target;
-      };
-    }
-
-  </script>
-  <script>
-    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-N449MLX');
-  </script>
-  <!-- <link rel="preload" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+          return target;
+        };
+      }
+    </script>
+    <script>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', 'GTM-N449MLX');
+    </script>
+    <!-- <link rel="preload" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css"></noscript> -->
-</head>
+  </head>
 
-<body>
-  <div id="alert-tip"></div>
-  <noscript></noscript>
+  <body>
+    <div id="alert-tip"></div>
+    <noscript></noscript>
 
-  <div
-    class="rc-list rc-card minicart-icon rc-btn rc-btn rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive rc-styled-link"
-    style="display:none"><img alt=''/></div>
-  <div id="root" class="2222"></div>
-  <!-- <div class="rc-list rc-filters"></div> -->
-  <!--
+    <div
+      class="
+        rc-list rc-card
+        minicart-icon
+        rc-btn rc-btn rc-btn--icon
+        rc-icon
+        rc-cart--xs
+        rc-iconography rc-interactive rc-styled-link
+      "
+      style="display: none"
+    >
+      <img alt="" />
+    </div>
+    <div id="root" class="2222"></div>
+    <script
+      type="text/javascript"
+      src="https://prdeus2rcdeslangversa.z20.web.core.windows.net/product-finder/0-0-0/product-finder-webcomp.js"
+    ></script>
+    <!-- <div class="rc-list rc-filters"></div> -->
+    <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -95,19 +125,18 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-  <script>
-    let ptarr = (window.location.pathname).split('/');
-    if (ptarr.indexOf("pickupmap") > 0) {
-      document.body.style.overflow = 'hidden';
-    }
+    <script>
+      let ptarr = window.location.pathname.split('/');
+      if (ptarr.indexOf('pickupmap') > 0) {
+        document.body.style.overflow = 'hidden';
+      }
+    </script>
+  </body>
+  <!-- <script integrity="sha256-jtiJt46OllrngvrHiwPwri/kmhMPSxqFOR5TXMmEoaw=" src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script> -->
 
-  </script>
-</body>
-<!-- <script integrity="sha256-jtiJt46OllrngvrHiwPwri/kmhMPSxqFOR5TXMmEoaw=" src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script> -->
-
-<!-- Facebook Pixel Code -->
-<!-- gtm有加载同样id的Pixel，再加上就重复了 -->
-<!-- <script>
+  <!-- Facebook Pixel Code -->
+  <!-- gtm有加载同样id的Pixel，再加上就重复了 -->
+  <!-- <script>
   !(function (f, b, e, v, n, t, s) {
     if (f.fbq) return;
     n = f.fbq = function () {
@@ -135,7 +164,7 @@
   fbq('track', 'PageView');
 
 </script> -->
-<!-- <script type="text/javascript">
+  <!-- <script type="text/javascript">
   !(function (t) {
     (window.PetStoryWC = window.PetStoryWC || {}),
     (window.PetStoryWC.id = t.id || 'ps-widget-' + new Date().getTime());
@@ -154,18 +183,27 @@
   });
 
 </script> -->
-<noscript>
-  <img height="1" width="1" style="display: none"
-    src="https://www.facebook.com/tr?id=976333012558661&ev=PageView&noscript=1" alt=""/>
-</noscript>
-<!-- End Facebook Pixel Code -->
+  <noscript>
+    <img
+      height="1"
+      width="1"
+      style="display: none"
+      src="https://www.facebook.com/tr?id=976333012558661&ev=PageView&noscript=1"
+      alt=""
+    />
+  </noscript>
+  <!-- End Facebook Pixel Code -->
 
-<!-- pickup map -->
-<link href="https://static.kak2c.ru/kak2c.pvz-map.css"  rel="preload" as="style">
-<!-- <script src="https://static.kak2c.ru/kak2c.pvz-map.js" 
+  <!-- pickup map -->
+  <link
+    href="https://static.kak2c.ru/kak2c.pvz-map.css"
+    rel="preload"
+    as="style"
+  />
+  <!-- <script src="https://static.kak2c.ru/kak2c.pvz-map.js" 
   integrity="sha256-NvjFXtXzlwWv1DpQ563HJipP40Td3baM1Ucd9JCwAOY=" type="text/javascript"></script> -->
 
-<!-- <script type="text/javascript">
+  <!-- <script type="text/javascript">
   if (
     '<%= process.env.REACT_APP_COUNTRY %>' == 'RU'
   ) {
@@ -186,12 +224,17 @@
   }
 </script> -->
 
-<!-- End Facebook Pixel Code -->
+  <!-- End Facebook Pixel Code -->
 
-<!-- Google Tag Manager (noscript) -->
-<noscript>
-  <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N449MLX" height="0" width="0" title='' style="display:none;visibility:hidden"></iframe>
-</noscript>
-<!-- End Google Tag Manager (noscript) -->
-
+  <!-- Google Tag Manager (noscript) -->
+  <noscript>
+    <iframe
+      src="https://www.googletagmanager.com/ns.html?id=GTM-N449MLX"
+      height="0"
+      width="0"
+      title=""
+      style="display: none; visibility: hidden"
+    ></iframe>
+  </noscript>
+  <!-- End Google Tag Manager (noscript) -->
 </html>

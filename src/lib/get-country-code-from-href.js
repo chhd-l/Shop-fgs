@@ -33,6 +33,10 @@ const getCountryCodeFromHref = () => {
       case 'www.shop.royalcanin.com.tr':
         countryLink = 'tr';
         break;
+      case 'shop.royalcanin.jp':
+      case 'stgfgs-tools.royalcanin.com':
+        countryLink = 'jp';
+        break;
     }
   }
 
