@@ -314,7 +314,8 @@ const LoginCallback = (props) => {
       }
     };
     init();
-  }, [oktaAuth, authStateReady, authState, props]);
+  }, [oktaAuth, authStateReady]);
+  // }, [oktaAuth, authStateReady, authState, props]);
 
   return <div />;
 };
