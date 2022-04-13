@@ -1,7 +1,7 @@
 import axios from '@/utils/request';
 
 const api = {
-  sevenPayApi: `/pay/voucher/SIRCFJP000001048`,
+  sevenPayApi: `/pay/voucher/`,
   visitorRegisterAndLogin: `/${window.__.env.REACT_APP_STOREID}/guest/register`,
   batchAdd: `/site/${window.__.env.REACT_APP_STOREID}/batch-add`,
   confirmAndCommit: `/${window.__.env.REACT_APP_STOREID}/guest/checkout`,
@@ -46,11 +46,13 @@ const api = {
 
 export default api;
 
-export function sevenPayApi() {
+export function sevenPayApi(tid) {
   return axios({
-    // url:`https://shopsit.royalcanin.com/api/pay/voucher/123`,
-    url: api.sevenPayApi,
-    method: 'get'
+    // SIRCFJP000001048
+    // url:`https://shopsit.royalcanin.com/api/pay/voucher/`+tid,
+    url: api.sevenPayApi + tid,
+    method: 'GET',
+    params: ''
   });
 }
 

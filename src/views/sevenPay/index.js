@@ -1,11 +1,9 @@
 import React from 'react';
 import { seoHoc } from '@/framework/common';
-import LazyLoad from 'react-lazyload';
 // import axios from '@/utils/request';
 import { renderScriptOrLinkHtmlStr } from '@/utils/utils';
-import axios from 'axios';
 import Loading from '@/components/Loading';
-
+import qs from 'qs';
 import { sevenPayApi } from '@/api/payment';
 
 @seoHoc('sevenPay')
@@ -13,37 +11,24 @@ class sevenPay extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sevenPaytext: ''
+      sevenPayText: '',
+      isLoad: false
     };
   }
   componentWillUnmount() {}
 
   componentDidMount() {
-    //   var url = 'https://shopsit.royalcanin.com/api/pay/voucher/SIRCFJP000001048';    // 设置请求的地址
-    //   axios.get(url)
-    //   // axios({
-    //   //   url: 'https://shopsit.royalcanin.com/api/pay/voucher/123',
-    //   //   method:'GET',
-    //   //   params: {},
-    //   // })
-    //   .then(res => {
-    //   console.log(res.data.context)
-    //   this.setState({
-    //     sevenPaytext: res.data.context
-    //   }
-    //   )
-    //   renderScriptOrLinkHtmlStr({ htmlStr: res.data.context })
-    // }).catch((err) => {
-    //   console.log(err)
-    // })
-
-    sevenPayApi()
+    // let tid=this.props.location.search.location;
+    // let tid = 'SIRCFJP000001048' 获取链接问号后面部分的数据，生成一个对象
+    const tidObj = qs.parse(this.props.location.search, {
+      ignoreQueryPrefix: true
+    });
+    let tid = tidObj.tid;
+    sevenPayApi(tid)
       .then((res) => {
-        // console.log(res)
-        // console.log(res.data)
-        // console.log(res.context)
         this.setState({
-          sevenPaytext: res.context
+          sevenPayText: res.context,
+          isLoad: true
         });
         renderScriptOrLinkHtmlStr({ htmlStr: res.context });
       })
@@ -53,15 +38,12 @@ class sevenPay extends React.Component {
   }
 
   render() {
-    const { sevenPaytext } = this.state;
-
+    const { sevenPayText, isLoad } = this.state;
     return (
       <>
         <div>
-          {/* <h1>sevenPay</h1> */}
-          <Loading bgColor={'#fff'} opacity={1} />
-          <p dangerouslySetInnerHTML={{ __html: sevenPaytext }} />
-          {/* <p>{{sevenPaytext}}</p> */}
+          {isLoad ? null : <Loading bgColor={'#fff'} opacity={1} />}
+          <p dangerouslySetInnerHTML={{ __html: sevenPayText }} />
         </div>
       </>
     );
