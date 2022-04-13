@@ -220,6 +220,8 @@ const US_Values = loadable(() => import('@/views/StaticPage/Values/US_index'));
 const FR_Values = loadable(() => import('@/views/StaticPage/Values/FR_index'));
 const Values = loadable(() => import('@/views/StaticPage/Values'));
 
+const sevenPay = loadable(() => import('@/views/sevenPay'));
+
 const ShipmentConditions = loadable(() =>
   import('@/views/StaticPage/ShipmentConditions')
 );
@@ -312,7 +314,8 @@ const LoginCallback = (props) => {
       }
     };
     init();
-  }, [oktaAuth, authStateReady, authState, props]);
+  }, [oktaAuth, authStateReady]);
+  // }, [oktaAuth, authStateReady, authState, props]);
 
   return <div />;
 };
@@ -476,6 +479,8 @@ const App = () => {
                 />
                 <Route exact path="/Adyen3DSFail" component={Adyen3DSFail} />
                 <Route exact path="/prescription" component={Prescription} />
+                {/* //77777 */}
+                <Route exact path="/sevenPay" component={sevenPay} />
                 <Route
                   exact
                   path="/precise-cat-nutrition"
