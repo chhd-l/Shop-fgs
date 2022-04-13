@@ -88,7 +88,6 @@ class FAQ extends React.Component {
       });
       return item;
     });
-
     return newArr;
   }
   getElementToPageTop(el) {
@@ -98,7 +97,6 @@ class FAQ extends React.Component {
     return el.offsetTop;
   }
   handleSelect(id) {
-    // debugger;
     if (id === this.state.showCur) {
       this.setState({
         showCur: -1
@@ -110,16 +108,11 @@ class FAQ extends React.Component {
     }
   }
   scrollToAnchor(anchorName) {
-    console.log('anchorName', anchorName);
     if (anchorName) {
       let anchorElement = document.getElementById(anchorName);
       if (anchorElement) {
-        console.log('anchorElement', anchorElement);
-        // debugger;
         anchorElement.scrollIntoViewIfNeeded();
-        // anchorElement.scrollIntoView(false);
         this.handleSelect(anchorName - 0);
-        // anchorElement.offsetTop = 433 + 'px';
       }
     }
   }
@@ -146,7 +139,6 @@ class FAQ extends React.Component {
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbs />
-          {/* <div className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg"> */}
           <div
           // className="rc-max-width--xl rc-padding-x--sm rc-padding-x--xl--mobile rc-margin-y--sm rc-margin-y--lg--mobile"
           >
@@ -263,7 +255,6 @@ class FAQ extends React.Component {
                             >
                               <div
                                 className="rc-list__header"
-                                // id={item.id}
                                 onClick={this.handleSelect.bind(this, item.id)}
                                 style={{
                                   display: 'flex',
@@ -317,66 +308,6 @@ class FAQ extends React.Component {
                           ))}
                         </>
                       ))}
-                      {/* {pitem.storeFaqVo.map((item) => (
-                        <div
-                          key={item.id}
-                          id={item.id}
-                          className={`rc-list__accordion-item test-color
-                        ${
-                          this.state.showCur === item.id
-                            ? 'showItem'
-                            : 'hiddenItem'
-                        }`}
-                        >
-                          <div
-                            className="rc-list__header"
-                            // id={item.id}
-                            onClick={this.handleSelect.bind(this, item.id)}
-                            style={{
-                              display: 'flex',
-                              padding: '2rem 2.5rem 2rem 0.5rem',
-                              justifyContent: 'space-between'
-                            }}
-                          >
-                            <div
-                              className={`font-medium md:text-18 md:leading-60 ${
-                                this.state.showCur === item.id
-                                  ? 'text-primary'
-                                  : 'text-primary-gray'
-                              }`}
-                              dangerouslySetInnerHTML={{
-                                __html: item.question
-                              }}
-                            />
-                            {this.state.showCur === item.id ? (
-                              <span
-                                className={`text-primary-gray rc-vertical-align h4 icon iconfont`}
-                                style={{ right: '1rem', height: '28px' }}
-                              >
-                                &#xe604;
-                              </span>
-                            ) : (
-                              <span
-                                className={`text-primary-gray rc-vertical-align h4 icon iconfont`}
-                                style={{ right: '1rem', height: '28px' }}
-                              >
-                                &#xe60f;
-                              </span>
-                            )}
-                          </div>
-                          <div className={`rc-list__content `}>
-                            <p
-                              className="text-primary-gray md:text-18 md:leading-34 md:mb-10"
-                              dangerouslySetInnerHTML={{ __html: item.answer }}
-                            />
-                            {item.imgUl ? (
-                              <LazyLoad>
-                                <img src={item.imgUl} alt="storeFaq image" />
-                              </LazyLoad>
-                            ) : null}
-                          </div>
-                        </div>
-                      ))} */}
                     </div>
                   </dl>
                 </div>
