@@ -41,6 +41,7 @@ export default class Cod extends React.Component {
               onChange={this.onCheckboxChange}
               type="checkbox"
               checked={form.checked}
+              name="checked"
             />
             <label
               className="rc-input__label--inline text-break"

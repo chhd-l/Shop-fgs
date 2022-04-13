@@ -21,6 +21,7 @@ const GiftList = ({ pitem }: { pitem: any }) => {
             type="checkbox"
             className="rc-input__checkbox"
             checked={pitem.selected}
+            name="selected"
           />
           <label className="rc-input__label--inline">&nbsp;</label>
         </div>
@@ -123,6 +124,7 @@ const GiftList = ({ pitem }: { pitem: any }) => {
                         min="1"
                         max="10"
                         disabled
+                        name="buyCount"
                       />
                     </div>
                   </div>

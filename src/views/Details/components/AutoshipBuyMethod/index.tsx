@@ -136,7 +136,7 @@ const AutoshipBuyMethod = ({
               <FormattedMessage id="starUnit" defaultMessage=" " />
             </span>
           </div>
-          <div className="discountText mb-2">
+          {window.__.env.REACT_APP_COUNTRY != 'jp' ? <div className="discountText mb-2">
             {configStore.discountDisplayTypeInfo == 'Percentage' ? (
               <FormattedMessage
                 id="saveExtra"
@@ -152,7 +152,7 @@ const AutoshipBuyMethod = ({
                 }}
               />
             )}
-          </div>
+          </div>:null}
           {form.buyWay === 1 &&
           configStore?.info?.storeVO?.basePricePDPShowedFlag &&
           selectedSpecItem?.goodsInfoWeight &&

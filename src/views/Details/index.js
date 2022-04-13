@@ -210,14 +210,8 @@ class Details extends React.Component {
     return JSON.parse(configStr);
   }
   get btnStatus() {
-    const {
-      details,
-      quantity,
-      instockStatus,
-      initing,
-      loading,
-      form
-    } = this.state;
+    const { details, quantity, instockStatus, initing, loading, form } =
+      this.state;
     const { sizeList } = details;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     let addedFlag = 1;
@@ -549,8 +543,11 @@ class Details extends React.Component {
               if (mixFeeding) {
                 mixFeeding.quantity = 1;
               }
-              let { goodsImg = '', goodsName = '', goodsNo = '' } =
-                mixFeeding?.goods || {};
+              let {
+                goodsImg = '',
+                goodsName = '',
+                goodsNo = ''
+              } = mixFeeding?.goods || {};
               let _hiddenMixFeedingBanner = false;
               let mixFeedingSelected = mixFeeding?.sizeList?.filter(
                 (el) => el.selected
@@ -857,28 +854,6 @@ class Details extends React.Component {
       let buyWay = parseInt(form.buyWay);
       let goodsInfoFlag =
         buyWay && details.promotions?.includes('club') ? 2 : buyWay;
-      /**
-       * 日本限制购物车里最多 单个goodsInfoId quantity <=5,
-       * 登录后，因为游客存在购物车数据，故添加相同sku时购物车限制添加数量为5
-       **/
-      // const loginCartDataObj = toJS(checkoutStore.loginCartData).find(
-      //   (element) => element.goodsInfoId === currentSelectedSize.goodsInfoId
-      // );
-      // todo amount 需去除逻辑
-      // if (Jp) {
-      //   if (!!loginCartDataObj) {
-      //     const num =
-      //       parseInt(quantity, 10) + parseInt(loginCartDataObj.buyCount, 10);
-      //     if (num > +window.__.env.REACT_APP_LIMITED_NUM) {
-      //       throw new Error(
-      //         formatMessage(
-      //           { id: 'cart.errorMaxCate' },
-      //           { val: +window.__.env.REACT_APP_LIMITED_NUM }
-      //         )
-      //       );
-      //     }
-      //   }
-      // }
       let param = {
         goodsInfoId: currentSelectedSize.goodsInfoId,
         goodsNum: quantity,
@@ -915,13 +890,8 @@ class Details extends React.Component {
     try {
       !type && this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const {
-        currentUnitPrice,
-        quantity,
-        form,
-        details,
-        questionParams
-      } = this.state;
+      const { currentUnitPrice, quantity, form, details, questionParams } =
+        this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -1227,13 +1197,8 @@ class Details extends React.Component {
   };
 
   ButtonGroupDom = (showRetailerBtn) => {
-    const {
-      addToCartLoading,
-      form,
-      checkOutErrMsg,
-      barcode,
-      details
-    } = this.state;
+    const { addToCartLoading, form, checkOutErrMsg, barcode, details } =
+      this.state;
     const btnStatus = this.btnStatus;
     const vet =
       (window.__.env.REACT_APP_HUB || Uk) &&

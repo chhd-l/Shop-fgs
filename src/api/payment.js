@@ -17,7 +17,7 @@ const api = {
   getMarketingDiscount: '/marketing/discount',
   getWays: `/${window.__.env.REACT_APP_STOREID}/pay/getPayPspList`,
   adyenPaymentsDetails: `/${window.__.env.REACT_APP_STOREID}/adyen/payment`,
-  payu3dsPaymentsDetails: `/payCallback/${window.__.env.REACT_APP_STOREID}/payu/${window.__.env.REACT_APP_LANG}/authorization`,
+  payu3dsPaymentsDetails: `/payCallback/${window.__.env.REACT_APP_STOREID}/payu/authorization`,
   getProductPetConfig: '/order/config/findPet',
   adyen3DSResult: `/${window.__.env.REACT_APP_STOREID}/adyen/identity/verification/payment`,
   Adyen3DSResult: '/Adyen3DSResult',

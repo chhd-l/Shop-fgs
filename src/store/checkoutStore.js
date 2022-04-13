@@ -31,7 +31,7 @@ const getLoginData = (data) => {
   if (indvData) {
     cartData = [indvData];
   }
-  console.info('cartData', cartData);
+  // console.info('cartData', cartData);
   return cartData;
 };
 
@@ -112,6 +112,10 @@ class CheckoutStore {
 
   @computed get taxFeePrice() {
     return this?.cartPrice?.taxFeePrice || 0;
+  }
+
+  @computed get couponCodeDiscount() {
+    return this?.cartPrice?.couponCodeDiscount || 0;
   }
 
   @computed get freeShippingFlag() {
@@ -306,7 +310,7 @@ class CheckoutStore {
   setLoginCartData(data) {
     let datas = getLoginData(data);
     this.loginCartData = datas;
-    console.info('datasdatas', datas);
+    // console.info('datasdatas', datas);
     localItemRoyal.set('rc-cart-data-login', datas);
   }
 
@@ -349,6 +353,10 @@ class CheckoutStore {
       goodsMarketingDTOList: [],
       promotionCode
     });
+
+    console.log(purchasesRes);
+    debugger;
+
     let backCode = purchasesRes.code;
     purchasesRes = purchasesRes.context;
 
@@ -360,6 +368,7 @@ class CheckoutStore {
     this.setCartPrice({
       totalPrice: purchasesRes.totalPrice,
       taxFeePrice: purchasesRes.taxFeePrice,
+      couponCodeDiscount: purchasesRes.couponCodeDiscount,
       freeShippingFlag: purchasesRes.freeShippingFlag,
       freeShippingDiscountPrice: purchasesRes.freeShippingDiscountPrice,
       tradePrice: purchasesRes.tradePrice,
@@ -1019,6 +1028,9 @@ class CheckoutStore {
       totalPrice: this.originTradePrice,
       totalPriceHaveNotShippingFee: this.totalPrice,
       deliveryPrice: this.deliveryPrice,
+      discountPrice: this.discountPrice,
+      taxFeePrice: this.taxFeePrice,
+      couponCodeDiscount: this.couponCodeDiscount,
       paymentCode,
       loyaltyPoints,
       ownerId,

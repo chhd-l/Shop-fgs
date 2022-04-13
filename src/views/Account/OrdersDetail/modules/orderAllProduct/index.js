@@ -37,10 +37,18 @@ const renderOperationBtns = (details) => {
 };
 
 const OrderAllProduct = ({ details }) => {
+  console.log(333, details);
   return (
     <div className="order-list-container order__listing text-left">
       {details.tradeItems
-        .concat(details?.gifts || [], details?.subscriptionPlanGiftList || [])
+        .concat(
+          details?.gifts?.filter(
+            (item) => !item?.cateName?.includes('Leaflet')
+          ) || [],
+          details?.subscriptionPlanGiftList?.filter(
+            (item) => !item?.cateName?.includes('Leaflet')
+          ) || []
+        )
         .map((item, i) => (
           <div className="border-bottom px-2 py-3" key={i}>
             <div className="row align-items-center px-2 md:px-0">
