@@ -32,7 +32,9 @@ const fetchDynamicConfig = async () => {
         REACT_APP_HUB: Boolean(res?.context?.enableHub),
         REACT_APP_LANG_LOCALE: res?.context?.language,
         REACT_APP_PRODUCT_IMAGE_CDN: res?.context?.cdn,
-        REACT_APP_STOREID: res?.context?.storeId + ''
+        REACT_APP_STOREID: res?.context?.storeId + '',
+        REACT_APP_CURRENCY: res?.context?.currency,
+        REACT_APP_GA_CURRENCY_CODE: res?.context?.currency
       });
       const oktaSettingConfig = res?.context?.oktaSettingConfig;
       if (oktaSettingConfig) {

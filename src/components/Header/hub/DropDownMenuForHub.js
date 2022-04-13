@@ -139,7 +139,10 @@ export default class DropDownMenuForHub extends React.Component {
                     {l.map((cItem) => (
                       <a
                         href={cItem.Link.Url}
-                        className="mb-2 ui-cursor-pointer text-lg ui-text-overflow-line1 hover:underline"
+                        className={cn(
+                          'mb-2 ui-cursor-pointer text-lg ui-text-overflow-line1 hover:underline',
+                          { 'font-normal': cItem.isBold }
+                        )}
                         key={cItem.id}
                         style={{ display: 'block', color: '#333' }}
                         onClick={this.handleClickNavItem.bind(this, {
