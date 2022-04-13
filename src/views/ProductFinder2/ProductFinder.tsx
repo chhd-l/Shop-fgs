@@ -11,6 +11,7 @@ const ProductFinder = (props: any) => {
   const element = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    // @ts-ignore
     loadJS({
       url: 'https://prdeus2rcdeslangversa.z20.web.core.windows.net/product-finder/0-0-0/product-finder-webcomp.js'
     });
