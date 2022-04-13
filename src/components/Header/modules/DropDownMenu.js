@@ -121,9 +121,9 @@ export default class DropDownMenu extends React.Component {
         onMouseOut={this.hanldeListItemMouseOut}
         key={i}
       >
-        <div className="flex-grow-1 rc-padding-y--xs rc-padding-left--sm--desktop">
+        <div className="flex-grow-1 rc-padding-y--xs rc-padding-left--sm--desktop flex justify-center">
           <ul
-            className="d-flex justify-content-center rc-padding--none rc-margin--none fullHeight"
+            className="d-flex justify-content-center rc-padding--none rc-margin--none fullHeight flex-wrap"
             role="menu"
           >
             {(item.children || [])
