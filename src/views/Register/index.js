@@ -1116,7 +1116,11 @@ class Register extends Component {
         {/*全局loading */}
         {this.state.circleLoading ? <Loading bgColor={'#fff'} /> : null}
         {registerBack || isJp ? null : (
-          <div id="register" className="page" style={this.state.styleObj}>
+          <div
+            id="register"
+            className="page overflow-x-hidden"
+            style={this.state.styleObj}
+          >
             <div className="rc-layout-container rc-padding--sm rc-reverse-layout-mobile rc-bg-colour--brand3 rc-margin-bottom--xs">
               <div className="rc-column rc-padding-top--lg--mobile">
                 <div className="rc-margin-bottom--sm text-center">
