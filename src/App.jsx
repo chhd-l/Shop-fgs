@@ -705,31 +705,51 @@ const App = () => {
                   component={ProductFinderNoResult}
                 />
 
+                {/*11111111  subscription-landing 重定向*/}
                 <Route
                   exact
                   path="/subscription-landing"
-                  component={(() => {
-                    let sublanding = '';
-                    switch (window.__.env.REACT_APP_COUNTRY) {
-                      case 'de':
-                        sublanding = DE_SubscriptionLanding;
-                        break;
-                      case 'us':
-                      case 'uk':
-                      case 'se':
-                        sublanding = US_SubscriptionLanding;
-                        break;
-                      case 'ru':
-                        sublanding = VetLandingPage;
-                        break;
-                      case 'tr':
-                        sublanding = TR_SubscriptionLanding;
-                        break;
-                      default:
-                        sublanding = SubscriptionLanding;
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'de') {
+                      return <DE_SubscriptionLanding {...props} />;
+                    } else if (window.__.env.REACT_APP_COUNTRY === 'uk') {
+                      return <Redirect to={{ pathname: '/' }} {...props} />;
+                    } else if (
+                      window.__.env.REACT_APP_COUNTRY === 'se' ||
+                      window.__.env.REACT_APP_COUNTRY === 'us'
+                    ) {
+                      return <US_SubscriptionLanding {...props} />;
+                    } else if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                      return <VetLandingPage {...props} />;
+                    } else if (window.__.env.REACT_APP_COUNTRY === 'tr') {
+                      return <TR_SubscriptionLanding {...props} />;
+                    } else {
+                      return <SubscriptionLanding {...props} />;
                     }
-                    return sublanding;
-                  })()}
+                  }}
+
+                  // component={(() => {
+                  //   let sublanding = '';
+                  //   switch (window.__.env.REACT_APP_COUNTRY) {
+                  //     case 'de':
+                  //       sublanding = DE_SubscriptionLanding;
+                  //       break;
+                  //     case 'us':
+                  //     case 'uk':
+                  //     case 'se':
+                  //       sublanding = US_SubscriptionLanding;
+                  //       break;
+                  //     case 'ru':
+                  //       sublanding = VetLandingPage;
+                  //       break;
+                  //     case 'tr':
+                  //       sublanding = TR_SubscriptionLanding;
+                  //       break;
+                  //     default:
+                  //       sublanding = SubscriptionLanding;
+                  //   }
+                  //   return sublanding;
+                  // })()}
                 />
                 <Route
                   path="/club-subscription"
