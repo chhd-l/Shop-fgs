@@ -285,6 +285,7 @@ class Header extends React.Component {
         sessionKey: 'header-navigations-hub',
         api: getNavigation
       });
+      console.log('fetch hub api ret:', res);
       // const res = await queryNavigation();
       const contactPhone = res?.ContactPhone;
       let headerNavigationListForHub = (res?.MenuGroups || []).map((ele, i) => {
