@@ -577,6 +577,7 @@ const en_US = {
   homePage: 'Home',
   iHaveReadThe: 'I have read the',
   imageLargeError: 'Image uploaded is too large',
+  imageFormatError: 'File format is not supported!',
   inactive: 'Inactive',
   'ind.additives': 'ADDITIVES (per kg)',
   'ind.composition': 'COMPOSITION',
