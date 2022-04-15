@@ -18,11 +18,19 @@ async function getDynamicLanguage() {
     phraseRet = JSON.parse(phraseSession);
   } else {
     try {
-      const res = await Axios.get(
-        `https://d2cshop.blob.core.windows.net/cdn/phrase/${
+      const res = await Axios({
+        method: 'get',
+        url: `https://d2cshop.blob.core.windows.net/cdn/phrase/${
           window.__.env.REACT_APP_PHRASE_BRANCH || 'master'
-        }/${key}.json`
-      );
+        }/${key}.json`,
+        // 禁用缓存
+        headers: { 'Cache-Control': 'no-cache' }
+      });
+      // const res = await Axios.get(
+      //   `https://d2cshop.blob.core.windows.net/cdn/phrase/${
+      //     window.__.env.REACT_APP_PHRASE_BRANCH || 'master'
+      //   }/${key}.json`
+      // );
 
       // const url = `https://api.phrase.com/v2/projects/8f0d7f6b0396b8af7f08bf9f36d81259/locales/${key}/download?access_token=31950e3e49b165b8b2c604b65574e6cf279d9ea395e3718ce52b1ec335bef6e5&include_empty_translations=true&file_format=node_json`;
 
