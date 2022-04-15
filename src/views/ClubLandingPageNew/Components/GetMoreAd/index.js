@@ -78,7 +78,7 @@ const GetMoreAd = () => {
                           <ul className="rc-list rc-list--blank rc-list--large-icon textmobile15vw text21vw">
                             <li className="rc-list__item flex">
                               <div>
-                                <em className="bingoWhite rc-margin-right--xs"></em>
+                                <em className="bingoWhite iconfont rc-margin-right--xs"></em>
                               </div>
                               <div style={{ marginLeft: '10px' }}>
                                 <a>
@@ -88,7 +88,7 @@ const GetMoreAd = () => {
                             </li>
                             <li className="rc-list__item flex">
                               <div>
-                                <em className="bingoWhite rc-margin-right--xs"></em>
+                                <em className="bingoWhite iconfont rc-margin-right--xs"></em>
                               </div>
                               <div style={{ marginLeft: '10px' }}>
                                 <a>
@@ -156,7 +156,7 @@ const GetMoreAd = () => {
                             <ul className="rc-list rc-list--blank rc-list--large-icon text21vw textmobile15vw">
                               <li className="rc-list__item flex">
                                 <div>
-                                  <em className="bingo rc-margin-right--xs"></em>
+                                  <em className="bingo iconfont rc-margin-right--xs"></em>
                                 </div>
                                 <div style={{ marginLeft: '10px' }}>
                                   {/* <a> */}
@@ -166,7 +166,7 @@ const GetMoreAd = () => {
                               </li>
                               <li className="rc-list__item flex">
                                 <div>
-                                  <em className="bingo rc-margin-right--xs"></em>
+                                  <em className="bingo iconfont rc-margin-right--xs"></em>
                                 </div>
                                 <div style={{ marginLeft: '10px' }}>
                                   {/* <a> */}
@@ -176,7 +176,7 @@ const GetMoreAd = () => {
                               </li>
                               <li className="rc-list__item flex">
                                 <div>
-                                  <em className="bingo rc-margin-right--xs"></em>
+                                  <em className="bingo iconfont rc-margin-right--xs"></em>
                                 </div>
                                 <div style={{ marginLeft: '10px' }}>
                                   {/* <a> */}
@@ -186,7 +186,7 @@ const GetMoreAd = () => {
                               </li>
                               <li className="rc-list__item flex">
                                 <div>
-                                  <em className="bingo rc-margin-right--xs"></em>
+                                  <em className="bingo iconfont rc-margin-right--xs"></em>
                                 </div>
                                 <div style={{ marginLeft: '10px' }}>
                                   {/* <a> */}
@@ -202,7 +202,7 @@ const GetMoreAd = () => {
                             <ul className="rc-list rc-list--blank  rc-list--large-icon text21vw textmobile15vw rc-list--align">
                               <li className="rc-list__item flex">
                                 <div>
-                                  <em className="bingo rc-margin-right--xs"></em>
+                                  <em className="bingo iconfont rc-margin-right--xs"></em>
                                 </div>
                                 <div style={{ marginLeft: '10px' }}>
                                   <a>
@@ -212,7 +212,7 @@ const GetMoreAd = () => {
                               </li>
                               <li className="rc-list__item flex">
                                 <div>
-                                  <em className="bingo rc-margin-right--xs"></em>
+                                  <em className="bingo iconfont rc-margin-right--xs"></em>
                                 </div>
                                 <div style={{ marginLeft: '10px' }}>
                                   <a>
@@ -222,7 +222,7 @@ const GetMoreAd = () => {
                               </li>
                               <li className="rc-list__item flex">
                                 <div>
-                                  <em className="bingo rc-margin-right--xs"></em>
+                                  <em className="bingo iconfont rc-margin-right--xs"></em>
                                 </div>
                                 <div style={{ marginLeft: '10px' }}>
                                   <a>
