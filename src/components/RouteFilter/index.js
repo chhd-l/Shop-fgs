@@ -221,8 +221,8 @@ class RouteFilter extends Component {
     const el = document.querySelector('html');
     el.lang = window.__.env.REACT_APP_HTML_LANG;
 
-    let base = document.getElementsByTagName('base');
-    base[0].href = window.__.env.REACT_APP_HOMEPAGE;
+    // let base = document.getElementsByTagName('base');
+    // base[0].href = window.__.env.REACT_APP_HOMEPAGE;
   }
 
   render() {
