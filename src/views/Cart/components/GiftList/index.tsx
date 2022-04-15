@@ -7,7 +7,7 @@ import { getDeviceType } from '@/utils/utils';
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 const GiftList = ({ pitem }: { pitem: any }) => {
-  const listJsx = pitem?.cateName?.includes('Leaflet')?<></>:(
+  const listJsx = pitem?.isNotShowCart?<></>:(
     <div className="product-info">
       <div
         className={`rc-border-all rc-border-colour--interface product-info p-3 rc-padding-bottom--none--mobile

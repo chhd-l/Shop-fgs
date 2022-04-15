@@ -10,6 +10,7 @@ import {
   calculateServiceFeeAndLoyaltyPoints
 } from '@/api/payment';
 import { NOTUSEPOINT } from '@/views/Payment/PaymentMethod/paymentMethodsConstant';
+import { truncate } from 'fs';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -316,6 +317,13 @@ class CheckoutStore {
 
   @action.bound
   setGiftList(data) {
+    for (let item of data) {
+      if (item?.cateName?.includes('Leaflet')) {
+        item.isNotShowCart = true;
+      } else {
+        item.isNotShowCart = false;
+      }
+    }
     this.giftList = data;
     localItemRoyal.set('rc-giftList', data || []);
   }
