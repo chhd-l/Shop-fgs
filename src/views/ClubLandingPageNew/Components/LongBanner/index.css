@@ -51,7 +51,7 @@
   }
   .clubmobileru {
     /*height: 975px;*/
-    background-image: url('./image/Bitmapru.webp');
+    /* background-image: url('./image/Bitmapru.webp'); */
     background-size: cover;
     overflow: hidden;
     display: flex;
