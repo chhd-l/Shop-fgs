@@ -377,6 +377,7 @@ const App = () => {
     <Provider {...stores}>
       <IntlProvider
         // locale={window.__.env.REACT_APP_LANG}
+        locale="en"
         messages={dynamicLanguage}
         defaultLocale={'en'}
       >
