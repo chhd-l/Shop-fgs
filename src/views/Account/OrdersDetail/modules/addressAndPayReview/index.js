@@ -201,7 +201,7 @@ const OrderAddressAndPayReview = ({ details, payRecord }) => {
                 ) : null}
               </PaymentMethodContainer>
             ) : null}
-            {details.paymentItem === 'adyen_paypal' ? (
+            {details.paymentItem?.toLowerCase() === 'adyen_paypal' ? (
               <PaymentMethodContainer>
                 <div className="medium mb-2">
                   <LazyLoad className="inline-block">

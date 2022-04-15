@@ -141,7 +141,7 @@ export async function getPaymentMethod(parameter = {}, needPaypalCard = false) {
   const res = await getPaymentMethodCard(parameter);
   if (!needPaypalCard) {
     res.context = res?.context?.filter(
-      (item) => item.paymentItem !== 'adyen_paypal'
+      (item) => item.paymentItem?.toLowerCase() !== 'adyen_paypal'
     );
   }
   return res;

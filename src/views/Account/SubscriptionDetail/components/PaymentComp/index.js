@@ -84,7 +84,7 @@ function CardItem(props) {
                   />
                 </LazyLoad>
               </div>
-              {data.paymentItem === 'adyen_paypal' ? (
+              {data.paymentItem?.toLowerCase() === 'adyen_paypal' ? (
                 <div className="col-8 px-0 my-6 truncate">
                   {handleEmailShow(data?.email)}
                 </div>
