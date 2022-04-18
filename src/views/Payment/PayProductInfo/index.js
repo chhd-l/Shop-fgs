@@ -603,7 +603,7 @@ class PayProductInfo extends React.Component {
       }
 
       console.log(result);
-      debugger;
+      // debugger;
 
       if (!result?.context?.promotionFlag || result?.context?.couponCodeFlag) {
         //表示输入apply promotionCode成功

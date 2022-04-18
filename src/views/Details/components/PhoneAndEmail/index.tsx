@@ -32,6 +32,7 @@ const PhoneAndEmail = ({ loading, details, configStore }: Props) => {
     }
     setContactUs(contactUs);
     setContactPhoneNumber(contactPhoneNumber);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>

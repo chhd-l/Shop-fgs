@@ -293,7 +293,11 @@ class AccountOrders extends React.Component {
   handleClickBackToIndex = () => {
     this.setState({ showOneOrderDetail: false });
   };
-  handleDownInvoice(order) {
+  handleDownInvoice(order, e) {
+    const ev = e || window.event;
+    console.log('ev', ev);
+    ev.stopPropagation();
+    ev.preventDefault();
     let params = {
       orderNo: order.id
     };
@@ -303,7 +307,6 @@ class AccountOrders extends React.Component {
     const exportHref = `${
       window.__.env.REACT_APP_BASEURL
     }/account/orderInvoice/exportPDF/${base64.encode(result)}`;
-
     window.open(exportHref);
     myAccountActionPushEvent('Download Invoice');
   }
