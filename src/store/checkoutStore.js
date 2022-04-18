@@ -317,13 +317,6 @@ class CheckoutStore {
 
   @action.bound
   setGiftList(data) {
-    for (let item of data) {
-      if (item?.cateName?.includes('Leaflet')) {
-        item.isNotShowCart = true;
-      } else {
-        item.isNotShowCart = false;
-      }
-    }
     this.giftList = data;
     localItemRoyal.set('rc-giftList', data || []);
   }
@@ -839,6 +832,7 @@ class CheckoutStore {
         resolve({ backCode, context: sitePurchasesRes });
       });
     } catch (err) {
+      console.log(err);
       this.changeIsLoadingCartData(false);
       if (isThrowErr) {
         throw new Error(err.message);
