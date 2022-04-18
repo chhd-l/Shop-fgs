@@ -42,6 +42,7 @@ import Prescription from '@/views/Prescription';
 import MakerHandle from '@/components/GoogleMap/makerHandle';
 
 import ProductFinder from '@/views/ProductFinder';
+import ProductFinder2 from '@/views/ProductFinder2/ProductFinder';
 import ProductFinderResult from '@/views/ProductFinder/modules/Result';
 import ProductFinderNoResult from '@/views/ProductFinder/modules/NoResult';
 import SearchShow from '@/views/StaticPage/SearchShow';
@@ -219,6 +220,9 @@ const US_Values = loadable(() => import('@/views/StaticPage/Values/US_index'));
 const FR_Values = loadable(() => import('@/views/StaticPage/Values/FR_index'));
 const Values = loadable(() => import('@/views/StaticPage/Values'));
 
+const sevenPay = loadable(() => import('@/views/sevenPay'));
+// const sevenPayResult = loadable(() => import('@/views/sevenPayResult'));
+
 const ShipmentConditions = loadable(() =>
   import('@/views/StaticPage/ShipmentConditions')
 );
@@ -311,7 +315,8 @@ const LoginCallback = (props) => {
       }
     };
     init();
-  }, [oktaAuth, authStateReady, authState, props]);
+  }, [oktaAuth, authStateReady]);
+  // }, [oktaAuth, authStateReady, authState, props]);
 
   return <div />;
 };
@@ -371,7 +376,8 @@ const App = () => {
   return (
     <Provider {...stores}>
       <IntlProvider
-        locale={window.__.env.REACT_APP_LANG}
+        // locale={window.__.env.REACT_APP_LANG}
+        locale="en"
         messages={dynamicLanguage}
         defaultLocale={'en'}
       >
@@ -415,7 +421,6 @@ const App = () => {
                   path={'/implicit/login'}
                   render={() => <ImplicitLogin />}
                 />
-
                 <Route
                   exact
                   path="/precise-cat-nutrition-recommendation"
@@ -427,7 +432,6 @@ const App = () => {
                     )
                   }
                 />
-
                 <Route path="/requestinvoice" component={RequestInvoices} />
                 <Route exact path="/cart" component={Cart} />
                 <Route
@@ -475,6 +479,9 @@ const App = () => {
                 />
                 <Route exact path="/Adyen3DSFail" component={Adyen3DSFail} />
                 <Route exact path="/prescription" component={Prescription} />
+                {/* //77777 */}
+                <Route exact path="/sevenPay" component={sevenPay} />
+                {/*<Route exact path="/sevenPayResult" component={sevenPayResult} />*/}
                 <Route
                   exact
                   path="/precise-cat-nutrition"
@@ -558,7 +565,6 @@ const App = () => {
                     return fragment;
                   }}
                 />
-
                 <Route
                   exact
                   path="/latelier/felin-terms-conditions"
@@ -604,7 +610,6 @@ const App = () => {
                     );
                   }}
                 />
-
                 <Route
                   exact
                   path="/breeder/recommendation"
@@ -634,7 +639,6 @@ const App = () => {
                     return recommendationPage;
                   }}
                 />
-
                 <Route
                   exact
                   path="/decouverteroyalcanin"
@@ -652,7 +656,6 @@ const App = () => {
                   component={TermsOfUsePrescriber}
                 />
                 <Route exact path="/privacypolicy" component={PrivacyPolicy} />
-
                 <Route path="/account" exact component={AccountHome} />
                 <Route
                   path="/account/information"
@@ -720,7 +723,6 @@ const App = () => {
                     />
                   )}
                 />
-
                 <Route
                   path="/account/productReview/:tid"
                   exact
@@ -740,14 +742,22 @@ const App = () => {
                 />
                 <Route path="/whistlefit" exact component={Whistlefit} />
                 <Route path="/required" exact component={RegisterRequired} />
-
                 <Route
                   path="/conoce-mas-de-evet"
                   exact
                   component={ConoceMasDeEvet}
                 />
-                <Route path="/product-finder" exact component={ProductFinder} />
                 <Route
+                  path="/product-finder/tree"
+                  exact
+                  component={ProductFinder2}
+                />
+                <Route
+                  path="/product-finder/recommendation"
+                  exact
+                  component={ProductFinder2}
+                />
+                {/* <Route
                   exact
                   path="/product-finder-recommendation"
                   component={ProductFinderResult}
@@ -756,36 +766,56 @@ const App = () => {
                   exact
                   path="/product-finder-noresult"
                   component={ProductFinderNoResult}
-                />
-
+                /> */}
+                {/* //11111111 */}
                 <Route
                   exact
                   path="/subscription-landing"
-                  component={(() => {
-                    let sublanding = '';
-                    switch (window.__.env.REACT_APP_COUNTRY) {
-                      case 'de':
-                        sublanding = DE_SubscriptionLanding;
-                        break;
-                      case 'us':
-                      case 'uk':
-                      case 'se':
-                        sublanding = US_SubscriptionLanding;
-                        break;
-                      case 'ru':
-                        sublanding = VetLandingPage;
-                        break;
-                      case 'tr':
-                        sublanding = TR_SubscriptionLanding;
-                        break;
-                      case 'jp':
-                        sublanding = JP_SubscriptionLanding;
-                        break;
-                      default:
-                        sublanding = SubscriptionLanding;
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'de') {
+                      return <DE_SubscriptionLanding {...props} />;
+                    } else if (window.__.env.REACT_APP_COUNTRY === 'uk') {
+                      return <Redirect to={{ pathname: '/' }} {...props} />;
+                    } else if (
+                      window.__.env.REACT_APP_COUNTRY === 'se' ||
+                      window.__.env.REACT_APP_COUNTRY === 'us'
+                    ) {
+                      return <US_SubscriptionLanding {...props} />;
+                    } else if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+                      return <VetLandingPage {...props} />;
+                    } else if (window.__.env.REACT_APP_COUNTRY === 'tr') {
+                      return <TR_SubscriptionLanding {...props} />;
+                    } else if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+                      return <JP_SubscriptionLanding {...props} />;
+                    } else {
+                      return <SubscriptionLanding {...props} />;
                     }
-                    return sublanding;
-                  })()}
+                  }}
+                  // component={(() => {
+                  //   let sublanding = '';
+                  //   switch (window.__.env.REACT_APP_COUNTRY) {
+                  //     case 'de':
+                  //       sublanding = DE_SubscriptionLanding;
+                  //       break;
+                  //     case 'us':
+                  //     case 'uk':
+                  //     case 'se':
+                  //       sublanding = US_SubscriptionLanding;
+                  //       break;
+                  //     case 'ru':
+                  //       sublanding = VetLandingPage;
+                  //       break;
+                  //     case 'tr':
+                  //       sublanding = TR_SubscriptionLanding;
+                  //       break;
+                  //     case 'jp':
+                  //       sublanding = JP_SubscriptionLanding;
+                  //       break;
+                  //     default:
+                  //       sublanding = SubscriptionLanding;
+                  //   }
+                  //   return sublanding;
+                  // })()}
                 />
                 <Route
                   path="/club-subscription"
@@ -831,7 +861,6 @@ const App = () => {
                     }
                   }}
                 />
-
                 <Route
                   path="/general-conditions-tr"
                   exact
@@ -849,20 +878,48 @@ const App = () => {
                 <Route
                   path="/myroyalcanin"
                   exact
-                  component={AboutMyRoyalCanin}
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+                      return <AboutMyRoyalCanin {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
                 />
                 <Route
                   path="/subscription"
                   exact
-                  component={AboutSubscription}
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+                      return <AboutSubscription {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
                 />
                 <Route
                   path="/loyalty_program"
                   exact
-                  component={AboutLoyaltyProgram}
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+                      return <AboutLoyaltyProgram {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
                 />
                 {/* AboutLoyaltyProgram */}
-                <Route path="/policy/legal" exact component={LegalNotice} />
+                <Route
+                  path="/policy/legal"
+                  exact
+                  render={(props) => {
+                    if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+                      return <LegalNotice {...props} />;
+                    } else {
+                      return <Redirect to={{ pathname: '/404' }} {...props} />;
+                    }
+                  }}
+                />
                 <Route path="/cat-nutrition" exact component={CatNutrition} />
                 <Route
                   path="/cadeau-coussin-chat"
@@ -938,15 +995,12 @@ const App = () => {
                     }
                   }}
                 />
-
                 <Route path="/404" component={Exception} />
                 <Route path="/tr/:id" component={Exception} />
                 <Route path="/ru/:id" component={Exception} />
                 <Route path="/403" component={Page403} />
                 <Route path="/500" component={Page500} />
-
                 <Route path="/mentionslegales" component={Mentionslegales} />
-
                 <Route path="/consent1-tr" component={Consent1TR} />
                 <Route path="/consent2-tr" component={Consent2TR} />
                 <Route path="/register" component={register} />
@@ -962,12 +1016,10 @@ const App = () => {
                     <Survey key={props.match.params.id} {...props} />
                   )}
                 />
-
                 {/* <Route
                   path="/smart-feeder-subscription"
                   component={smartFeederSubscription}
                 /> */}
-
                 {/* 特殊处理匹配PLP/PDP页面 */}
                 <Route
                   exact
@@ -984,7 +1036,6 @@ const App = () => {
                     );
                   }}
                 />
-
                 <Route
                   exact
                   path={window.__.env.REACT_APP_SEARCH_LINK}

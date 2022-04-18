@@ -10,6 +10,7 @@ import {
   calculateServiceFeeAndLoyaltyPoints
 } from '@/api/payment';
 import { NOTUSEPOINT } from '@/views/Payment/PaymentMethod/paymentMethodsConstant';
+import { truncate } from 'fs';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -112,6 +113,10 @@ class CheckoutStore {
 
   @computed get taxFeePrice() {
     return this?.cartPrice?.taxFeePrice || 0;
+  }
+
+  @computed get couponCodeDiscount() {
+    return this?.cartPrice?.couponCodeDiscount || 0;
   }
 
   @computed get freeShippingFlag() {
@@ -349,6 +354,7 @@ class CheckoutStore {
       goodsMarketingDTOList: [],
       promotionCode
     });
+
     let backCode = purchasesRes.code;
     purchasesRes = purchasesRes.context;
 
@@ -360,6 +366,7 @@ class CheckoutStore {
     this.setCartPrice({
       totalPrice: purchasesRes.totalPrice,
       taxFeePrice: purchasesRes.taxFeePrice,
+      couponCodeDiscount: purchasesRes.couponCodeDiscount,
       freeShippingFlag: purchasesRes.freeShippingFlag,
       freeShippingDiscountPrice: purchasesRes.freeShippingDiscountPrice,
       tradePrice: purchasesRes.tradePrice,
@@ -820,10 +827,12 @@ class CheckoutStore {
           purchasesRes: sitePurchasesRes
         });
       }
+
       return new Promise(function (resolve) {
         resolve({ backCode, context: sitePurchasesRes });
       });
     } catch (err) {
+      console.log(err);
       this.changeIsLoadingCartData(false);
       if (isThrowErr) {
         throw new Error(err.message);
@@ -1019,6 +1028,9 @@ class CheckoutStore {
       totalPrice: this.originTradePrice,
       totalPriceHaveNotShippingFee: this.totalPrice,
       deliveryPrice: this.deliveryPrice,
+      discountPrice: this.discountPrice,
+      taxFeePrice: this.taxFeePrice,
+      couponCodeDiscount: this.couponCodeDiscount,
       paymentCode,
       loyaltyPoints,
       ownerId,

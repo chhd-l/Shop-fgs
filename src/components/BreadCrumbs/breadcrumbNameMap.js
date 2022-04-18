@@ -152,10 +152,18 @@ const breadcrumbNameMap = {
     }
   ],
   '/product-finder': [{ name: 'productFinder.resultPage' }],
+  '/product-finder/tree': [{ name: 'productFinder.resultPage' }],
   '/product-finder-recommendation': [
     {
       name: 'productFinder.index',
       href: '/product-finder'
+    },
+    { name: 'productFinder.resultPage' }
+  ],
+  '/product-finder/recommendation': [
+    {
+      name: 'productFinder.index',
+      href: '/product-finder/tree'
     },
     { name: 'productFinder.resultPage' }
   ],

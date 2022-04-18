@@ -1,6 +1,7 @@
 import axios from '@/utils/request';
 
 const api = {
+  sevenPayApi: `/pay/voucher/`,
   visitorRegisterAndLogin: `/${window.__.env.REACT_APP_STOREID}/guest/register`,
   batchAdd: `/site/${window.__.env.REACT_APP_STOREID}/batch-add`,
   confirmAndCommit: `/${window.__.env.REACT_APP_STOREID}/guest/checkout`,
@@ -16,7 +17,7 @@ const api = {
   getMarketingDiscount: '/marketing/discount',
   getWays: `/${window.__.env.REACT_APP_STOREID}/pay/getPayPspList`,
   adyenPaymentsDetails: `/${window.__.env.REACT_APP_STOREID}/adyen/payment`,
-  payu3dsPaymentsDetails: `/payCallback/${window.__.env.REACT_APP_STOREID}/payu/${window.__.env.REACT_APP_LANG}/authorization`,
+  payu3dsPaymentsDetails: `/payCallback/${window.__.env.REACT_APP_STOREID}/payu/authorization`,
   getProductPetConfig: '/order/config/findPet',
   adyen3DSResult: `/${window.__.env.REACT_APP_STOREID}/adyen/identity/verification/payment`,
   Adyen3DSResult: '/Adyen3DSResult',
@@ -44,6 +45,16 @@ const api = {
 };
 
 export default api;
+
+export function sevenPayApi(tid) {
+  return axios({
+    // SIRCFJP000001048
+    // url:`https://shopsit.royalcanin.com/api/pay/voucher/`+tid,
+    url: api.sevenPayApi + tid,
+    method: 'GET',
+    params: ''
+  });
+}
 
 export function usPaymentInfo(parameter) {
   return axios({
@@ -130,7 +141,7 @@ export async function getPaymentMethod(parameter = {}, needPaypalCard = false) {
   const res = await getPaymentMethodCard(parameter);
   if (!needPaypalCard) {
     res.context = res?.context?.filter(
-      (item) => item.paymentItem !== 'adyen_paypal'
+      (item) => item.paymentItem?.toLowerCase() !== 'adyen_paypal'
     );
   }
   return res;

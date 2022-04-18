@@ -45,6 +45,7 @@ const Paypal = ({
                 <input
                   className="rc-input__checkbox"
                   id={`id-checkbox-paypal_details-label`}
+                  name={`id-checkbox-paypal_details-label`}
                   type="checkbox"
                   onChange={paypalDetailsChange}
                   checked={paypalDetailsChecked}
@@ -60,6 +61,7 @@ const Paypal = ({
                 <input
                   className="rc-input__checkbox"
                   id={`id-checkbox-paypal_method_default-label`}
+                  name={`id-checkbox-paypal_method_default-label`}
                   type="checkbox"
                   onChange={paypalMethodDefaultChange}
                   checked={paypalMethodDefaultChecked}

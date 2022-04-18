@@ -602,7 +602,10 @@ class PayProductInfo extends React.Component {
         result = await this.props.checkoutStore.updateLoginCart(tmpParam);
       }
 
-      if (!result.context.promotionFlag || result.context.couponCodeFlag) {
+      console.log(result);
+      debugger;
+
+      if (!result?.context?.promotionFlag || result?.context?.couponCodeFlag) {
         //表示输入apply promotionCode成功
         discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
         this.setState({ discount });

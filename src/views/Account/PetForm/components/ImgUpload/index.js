@@ -24,6 +24,9 @@ export default class ImgUpload extends React.Component {
     if (/\.(gif|jpg|jpeg|png|GIF|JPG|PNG|mp4|rmvb|avi|ts)$/.test(imgType)) {
       console.log('flag状态改变', errMsg);
       errMsg = '';
+    } else {
+      this.props.geterrMessage(this.props.intl.messages['imageFormatError']);
+      return false;
     }
 
     const { imgList } = this.state;

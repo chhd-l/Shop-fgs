@@ -285,6 +285,7 @@ class Header extends React.Component {
         sessionKey: 'header-navigations-hub',
         api: getNavigation
       });
+      console.log('fetch hub api ret:', res);
       // const res = await queryNavigation();
       const contactPhone = res?.ContactPhone;
       let headerNavigationListForHub = (res?.MenuGroups || []).map((ele, i) => {
@@ -294,7 +295,18 @@ class Header extends React.Component {
             cEle.Link = cEle.Link || {};
             cEle.Link.Url = cEle.Link.Url || `tel:${contactPhone}`;
           }
-          return { ...cEle, id: `${i + 1}-${j}` };
+          return {
+            ...cEle,
+            id: `${i + 1}-${j}`,
+            isBold:
+              cEle?.Link?.Url &&
+              (`${window.__.env.REACT_APP_HUB_URLPREFIX}/cats/`.includes(
+                cEle.Link.Url
+              ) ||
+                `${window.__.env.REACT_APP_HUB_URLPREFIX}/dogs/`.includes(
+                  cEle.Link.Url
+                ))
+          };
         });
         // 是否可下拉
         const expanded = !!(ele.MenuItems && ele.MenuItems.length);

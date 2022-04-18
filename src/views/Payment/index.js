@@ -944,7 +944,7 @@ class Payment extends React.Component {
       let res = await getPaymentMethod({}, true);
       let cardList = res.context;
       const paypalCardIndex = cardList.findIndex(
-        (item) => item.paymentItem === 'adyen_paypal'
+        (item) => item.paymentItem?.toLowerCase() === 'adyen_paypal'
       );
       if (paypalCardIndex > -1) {
         // if(cardList[paypalCardIndex].isDefault === 1){
@@ -955,7 +955,7 @@ class Payment extends React.Component {
           paypalCardId: cardList[paypalCardIndex].id
         });
         cardList = cardList.filter(
-          (item) => item.paymentItem !== 'adyen_paypal'
+          (item) => item.paymentItem?.toLowerCase() !== 'adyen_paypal'
         );
       }
       this.setState({ cardListLength: cardList.length });

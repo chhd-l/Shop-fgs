@@ -326,19 +326,19 @@
 }
 
 .borderBack1{
-  background-image:url('images/borderBG1.jpg');
+  // background-image:url('images/borderBG1.jpg');
   background-repeat: no-repeat ;
   background-size: 100% 98%;
 }
 
 .borderBack2{
-  background-image:url('images/borderBG2.jpg');
+  // background-image:url('images/borderBG2.jpg');
   background-repeat: no-repeat ;
   background-size: 98% 98%;
 }
 
 .borderBack3{
-  background-image:url('images/borderBG3.jpg');
+  // background-image:url('images/borderBG3.jpg');
   background-repeat: no-repeat ;
   background-size: 100% 98%;
 }
@@ -376,19 +376,19 @@
 text-align: left;
 }
   .borderBack1{
-    background-image:url('images/borderBG4.jpg');
+    // background-image:url('images/borderBG4.jpg');
     background-repeat: no-repeat ;
     background-size: 100% 100%;
   }
 
   .borderBack2{
-    background-image:url('images/borderBG5.jpg');
+    // background-image:url('images/borderBG5.jpg');
     background-repeat: no-repeat ;
     background-size: 100% 100%;
   }
 
   .borderBack3{
-    background-image:url('images/borderBG6.jpg');
+    // background-image:url('images/borderBG6.jpg');
     background-repeat: no-repeat ;
     background-size: 100% 100%;
   }
@@ -417,9 +417,16 @@ text-align: left;
     vertical-align: middle;
     width: 24px;
     height: 24px;
-    background: url('images/bingo.png') no-repeat;
+    @apply bg-rc-red rounded-full;
+    text-align: center;
+    /* background: url('./image/bingo.png') no-repeat;
     background-size: 24px auto;
-    background-position: center center;
+    background-position: center center; */
+  
+  }
+  .bingo::after {
+    @apply text-white;
+    content: '\ec9e';
   }
 
   .rc-margin-right--xs,p>.rc-btn {

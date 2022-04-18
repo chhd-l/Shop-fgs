@@ -55,6 +55,7 @@ const ConvenienceStore = ({ convenienceStoreChange, supportPoint = false }) => {
                 onChange={(e) => conStoreChange(e, item.value)}
                 type="checkbox"
                 checked={item.value === checkedBox}
+                name="checkedBox"
               />
               <label
                 className="rc-input__label--inline text-lg convenience-store-checkbox text-break"

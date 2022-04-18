@@ -60,7 +60,7 @@ function CardItem(props) {
               />
             </LazyLoad>
           </div>
-          {data.paymentItem === 'adyen_paypal' ? (
+          {data.paymentItem?.toLowerCase() === 'adyen_paypal' ? (
             <div className="col-8 px-0 my-6 truncate">
               {handleEmailShow(data.email)}
             </div>
@@ -148,7 +148,7 @@ class PaymentList extends React.Component {
       const res = await getPaymentMethod({}, true);
       const cardList = res?.context || [];
       const paypalCardIndex = cardList?.findIndex(
-        (item) => item.paymentItem === 'adyen_paypal'
+        (item) => item.paymentItem?.toLowerCase() === 'adyen_paypal'
       );
       if (paypalCardIndex > -1) {
         //paypal卡需要显示在第一个
@@ -472,7 +472,8 @@ class PaymentList extends React.Component {
                                     <FormattedMessage id="default" />
                                   </span>
                                 </div>
-                              ) : el.paymentItem !== 'adyen_paypal' ? (
+                              ) : el.paymentItem?.toLowerCase() !==
+                                'adyen_paypal' ? (
                                 <div
                                   className={`ui-cursor-pointer`}
                                   onClick={this.toggleSetDefault.bind(this, el)}

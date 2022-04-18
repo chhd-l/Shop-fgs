@@ -128,8 +128,9 @@ class ShippingAddressFrom extends React.Component {
     }
   };
   // 是否为默认地址
-  isDefalt = () => {
-    let data = this.state.addressForm;
+  isDefalt = (e) => {
+    e.preventDefault();
+    let data = { ...this.state.addressForm };
     data.isDefalt = !data.isDefalt;
     this.setState(
       {
@@ -475,11 +476,15 @@ class ShippingAddressFrom extends React.Component {
                       >
                         <input
                           type="checkbox"
+                          id="rc-input__checkbox"
                           className="rc-input__checkbox"
                           value={addressForm.isDefalt}
                           checked={addressForm.isDefalt}
                         />
-                        <label className="rc-input__label--inline text-break w-100">
+                        <label
+                          className="rc-input__label--inline text-break w-100"
+                          htmlFor="rc-input__checkbox"
+                        >
                           <FormattedMessage id="setDefaultAddress" />
                         </label>
                       </div>

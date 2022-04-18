@@ -103,35 +103,35 @@ class ClubLandingPageDeVet extends React.Component {
                             Grundlage für Tiergesundheit
                           </p>
                           <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
-                            <li className="rc-list__item flex">
+                            <li className="rc-list__item flex md:items-center">
                               <div>
-                                <em className="petCrew rc-margin-right--xs"></em>
+                                <em className="petCrew iconfont rc-margin-right--xs"></em>
                               </div>
                               <div style={{ fontWeight: 'bolder' }}>
                                 Verbesserung der Lebensqualität der Tiere
                               </div>
                             </li>
-                            <li className="rc-list__item flex">
+                            <li className="rc-list__item flex md:items-center">
                               <div>
-                                <em className="petCrew rc-margin-right--xs"></em>
+                                <em className="petCrew iconfont rc-margin-right--xs"></em>
                               </div>
                               <div style={{ fontWeight: 'bolder' }}>
                                 Unterstützung von Tieren mit fütterungsbedingten
                                 Erkrankungen
                               </div>
                             </li>
-                            <li className="rc-list__item flex">
+                            <li className="rc-list__item flex md:items-center">
                               <div>
-                                <em className="petCrew rc-margin-right--xs"></em>
+                                <em className="petCrew iconfont rc-margin-right--xs"></em>
                               </div>
                               <div style={{ fontWeight: 'bolder' }}>
                                 Beeinflussung des Wachstums von Katzen- und
                                 Hundewelpen
                               </div>
                             </li>
-                            <li className="rc-list__item flex">
+                            <li className="rc-list__item flex md:items-center">
                               <div>
-                                <em className="petCrew rc-margin-right--xs"></em>
+                                <em className="petCrew iconfont rc-margin-right--xs"></em>
                               </div>
                               <div style={{ fontWeight: 'bolder' }}>
                                 Beitrag zum Management von Erkrankungen
