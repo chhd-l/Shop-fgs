@@ -362,9 +362,6 @@ class CheckoutStore {
       promotionCode
     });
 
-    console.log(purchasesRes);
-    debugger;
-
     let backCode = purchasesRes.code;
     purchasesRes = purchasesRes.context;
 
@@ -837,6 +834,7 @@ class CheckoutStore {
           purchasesRes: sitePurchasesRes
         });
       }
+
       return new Promise(function (resolve) {
         resolve({ backCode, context: sitePurchasesRes });
       });
