@@ -42,9 +42,11 @@ const OrderAllProduct = ({ details }) => {
     <div className="order-list-container order__listing text-left">
       {details.tradeItems
         .concat(
-          details?.gifts?.filter((item) => !item?.isNotShowCart) || [],
+          details?.gifts?.filter(
+            (item) => !item?.cateName?.includes('Leaflet')
+          ) || [],
           details?.subscriptionPlanGiftList?.filter(
-            (item) => !item?.isNotShowCart
+            (item) => !item?.cateName?.includes('Leaflet')
           ) || []
         )
         .map((item, i) => (

@@ -4,7 +4,7 @@ import React from 'react';
 
 const GiftList = ({ data }: { data: any }) => {
   //不显示Leaflet的gift
-  let listJsx = data?.isNotShowCart ? <></> : (
+  let listJsx = data?.cateName?.includes('Leaflet') ? <></> : (
     <div className="minicart__product" key={data.goodsInfoId}>
       <div>
         <div className="product-summary__products__item pb-0">

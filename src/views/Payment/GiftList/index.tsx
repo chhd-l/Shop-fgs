@@ -7,7 +7,7 @@ import { formatMoney } from '@/utils/utils';
 
 const GiftList = ({ pitem }: { pitem: any }) => {
   //Leaflet的gift不显示
-  let listJsx = pitem?.isNotShowCart ? <></> : (
+  let listJsx = pitem?.cateName?.includes('Leaflet') ? <></> : (
     <div className="product-summary__products__item">
       <div className="product-line-item">
         <div className="product-line-item-details d-flex flex-row">
