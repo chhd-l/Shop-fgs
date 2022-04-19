@@ -11,7 +11,7 @@ import { FormattedMessage } from 'react-intl-phraseapp';
  * @returns
  */
 const PanelContainer = ({
-  status,
+  //status,
   panelStatus,
   titleConf: {
     className: tClassName,
