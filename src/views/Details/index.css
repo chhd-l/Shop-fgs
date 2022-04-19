@@ -1752,7 +1752,7 @@ ul.ui-star-list li {
   position: relative;
 }
 
-ul.ui-star-list li:before {
+ul.ui-star-list li .list_title:after {
   font-family: 'iconfont' !important;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
@@ -1760,8 +1760,10 @@ ul.ui-star-list li:before {
   content: '\e6f2';
   display: inline-block;
   overflow: hidden;
-  font-size: 2em;
-  @apply absolute top-1/2 left-0 -translate-y-1/2;
+  font-size: 1.5rem;
+  position: absolute;
+  top: -4%;
+  margin-left: 1rem;
 }
 
 ul.ui-star-list .list_title {
