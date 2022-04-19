@@ -184,6 +184,7 @@ class PaymentStore {
         tmpStatus.hasCompleted = true;
       }
     }
+    //console.log(toJS(this.panelStatus))
   }
 
   @action.bound

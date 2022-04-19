@@ -86,6 +86,7 @@ const SelectPet = ({ checkoutStore, loginStore, paymentStore, isRepay }) => {
         <>
           <PanelContainer
             panelStatus={bindPetPanelStatus}
+            status={toJS(paymentStore.panelStatus)} //selectPet选完支付方式不能编辑的问题，不知道为什么多传了一个值就好了
             titleConf={{
               className: 'px-5',
               icon: {

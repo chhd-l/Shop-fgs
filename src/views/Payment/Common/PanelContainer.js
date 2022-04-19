@@ -11,6 +11,7 @@ import { FormattedMessage } from 'react-intl-phraseapp';
  * @returns
  */
 const PanelContainer = ({
+  status,
   panelStatus,
   titleConf: {
     className: tClassName,
@@ -25,6 +26,7 @@ const PanelContainer = ({
   children
 }) => {
   const { className: cClassName, ...cRest } = containerConf || {};
+
   return (
     <div
       className={cn(
