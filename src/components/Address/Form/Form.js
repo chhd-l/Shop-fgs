@@ -429,7 +429,17 @@ class Form extends React.Component {
         ];
         break;
       case 'ru':
-        phoneReg = [{ mask: '+{7} (000) 000-00-00' }];
+        phoneReg = [
+          {
+            mask: '+{7} (Y00) 000-00-00',
+            blocks: {
+              Y: {
+                mask: IMask.MaskedEnum,
+                enum: ['0', '1', '2', '3', '4', '5', '6', '9']
+              } //枚举 Y值只能使用这些值
+            }
+          }
+        ];
         break;
       case 'mx':
         phoneReg = [{ mask: '+(52) 000 000 0000' }];
@@ -1551,6 +1561,7 @@ class Form extends React.Component {
             className={`rc-input__control ${item.fieldKey}Shipping`}
             id={`${item.fieldKey}Shipping`}
             type={item.filedType}
+            //value={getInputValue(item)}
             value={caninForm[item.fieldKey] || ''}
             onInput={(e) => this.inputChange(e)}
             onBlur={this.inputBlur}
@@ -1564,6 +1575,40 @@ class Form extends React.Component {
       </>
     );
   };
+  // 手机文本框
+  // phoneNumberInputJSX = (item) => {
+  //   const { caninForm } = this.state;
+
+  //     //phoneNumberShipping
+  //   const phoneNumberPrefixOption = {
+  //     ru: '+7 ',
+  //     default: ''
+  //   };
+  //   const phoneNumberPrefix = () => {
+  //     return phoneNumberPrefixOption[COUNTRY] || phoneNumberPrefixOption['default']
+  //   }
+
+  //   return (
+  //     <>
+  //       <span className="relative rc-input rc-input--inline rc-full-width rc-input--full-width">
+  //         <span className='absolute top-4 left-0'>{phoneNumberPrefix()}</span>
+  //         <input
+  //           className={`pl-5 rc-input__control ${item.fieldKey}Shipping`}
+  //           id={`${item.fieldKey}Shipping`}
+  //           type={item.filedType}
+  //           value={caninForm[item.fieldKey] || ''}
+  //           onInput={(e) => this.inputChange(e)}
+  //           onBlur={this.inputBlur}
+  //           name={item.fieldKey}
+  //           disabled={item?.disabled ? true : false}
+  //           maxLength={item.maxLength}
+  //           autoComplete="off"
+  //         />
+  //         <label className="rc-input__label" htmlFor="id-text1" />
+  //       </span>
+  //     </>
+  //   );
+  // };
   // 文本域
   textareaJSX = (item) => {
     const { caninForm } = this.state;
@@ -1792,7 +1837,8 @@ class Form extends React.Component {
                       <>
                         {item.fieldKey == 'comment'
                           ? this.textareaJSX(item)
-                          : this.inputJSX(item)}
+                          : //: item.fieldKey == 'phoneNumber'?this.phoneNumberInputJSX(item):this.inputJSX(item)}
+                            this.inputJSX(item)}
                       </>
                     ) : null}
 
