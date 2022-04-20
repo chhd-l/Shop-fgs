@@ -208,7 +208,7 @@
   }
 }
 
-.wof {
+/* .wof {
   display: inline-block !important;
   vertical-align: middle;
   width: 28px;
@@ -216,4 +216,17 @@
   background: url('./images/wof.png') no-repeat;
   background-size: 28px auto;
   background-position: center center;
+} */
+.wof {
+  display: inline-block !important;
+  vertical-align: middle;
+  /* width: 24px; */
+  /* height: 24px; */
+  /* background: url('./image/petCrew.png') no-repeat;
+  background-size: 24px auto;
+  background-position: center center; */
+}
+.wof::after {
+  content: '\e60d';
+  @apply text-rc-red text-lg;
 }

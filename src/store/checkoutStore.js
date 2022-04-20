@@ -10,6 +10,7 @@ import {
   calculateServiceFeeAndLoyaltyPoints
 } from '@/api/payment';
 import { NOTUSEPOINT } from '@/views/Payment/PaymentMethod/paymentMethodsConstant';
+import { truncate } from 'fs';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -353,9 +354,6 @@ class CheckoutStore {
       goodsMarketingDTOList: [],
       promotionCode
     });
-
-    console.log(purchasesRes);
-    debugger;
 
     let backCode = purchasesRes.code;
     purchasesRes = purchasesRes.context;
@@ -829,10 +827,12 @@ class CheckoutStore {
           purchasesRes: sitePurchasesRes
         });
       }
+
       return new Promise(function (resolve) {
         resolve({ backCode, context: sitePurchasesRes });
       });
     } catch (err) {
+      console.log(err);
       this.changeIsLoadingCartData(false);
       if (isThrowErr) {
         throw new Error(err.message);

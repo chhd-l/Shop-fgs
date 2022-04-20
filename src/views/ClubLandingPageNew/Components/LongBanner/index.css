@@ -4,13 +4,13 @@
   }
   .clubdesktop {
     height: auto;
-    background-image: url('./image/CLUBmobbackground@4x.jpg');
+    /* background-image: url('./image/CLUBmobbackground@4x.jpg'); */
     overflow: hidden;
     background-size: cover;
   }
   .clubdesktopru {
     height: auto;
-    background-image: url('./image/CLUBmobbackgroundru@4x.jpg');
+    /* background-image: url('./image/CLUBmobbackgroundru@4x.jpg'); */
     overflow: hidden;
     background-size: cover;
   }
@@ -43,7 +43,7 @@
 @media (min-width: 639.98px) {
   .clubmobile {
     /*height: 975px;*/
-    background-image: url('./image/Bitmap.jpg');
+    /* background-image: url('./image/Bitmap.jpg'); */
     background-size: cover;
     overflow: hidden;
     display: flex;
@@ -51,7 +51,7 @@
   }
   .clubmobileru {
     /*height: 975px;*/
-    background-image: url('./image/Bitmapru.webp');
+    /* background-image: url('./image/Bitmapru.webp'); */
     background-size: cover;
     overflow: hidden;
     display: flex;

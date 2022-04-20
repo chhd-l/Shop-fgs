@@ -8,6 +8,8 @@ import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import clublogo from './image/clublogo.png';
 import clubru from './image/Clubru.png';
 import clubfr from './image/clublogofr.png';
+import Bitmapru from './image/Bitmapru.webp';
+import CLUBmobbackgroundru from './image/CLUBmobbackgroundru@4x.jpg';
 import { getDeviceType } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 
@@ -95,6 +97,9 @@ const LongBanner = () => {
     <>
       <div
         className={'clubdesktopru clubmobileru'}
+        style={{
+          backgroundImage: `url('${isMobile ? CLUBmobbackgroundru : Bitmapru}')`
+        }}
         // className={`${
         //   window.__.env.REACT_APP_COUNTRY == 'ru' ||
         //   window.__.env.REACT_APP_COUNTRY == 'fr'

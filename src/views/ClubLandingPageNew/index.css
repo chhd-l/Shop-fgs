@@ -213,26 +213,42 @@
   vertical-align: middle;
   width: 24px;
   height: 24px;
-  background: url('./image/bingo.png') no-repeat;
+  @apply bg-rc-red rounded-full;
+  text-align: center;
+  /* background: url('./image/bingo.png') no-repeat;
   background-size: 24px auto;
-  background-position: center center;
+  background-position: center center; */
+}
+.bingo::after {
+  @apply text-white;
+  content: '\ec9e';
 }
 .bingoWhite {
   display: inline-block !important;
   vertical-align: middle;
   width: 24px;
   height: 24px;
-  background: url('./image/bingoWhite.png') no-repeat;
+  @apply border rounded-full border-rc-red;
+  text-align: center;
+  /* background: url('./image/bingoWhite.png') no-repeat;
   background-size: 24px auto;
-  background-position: center center;
+  background-position: center center; */
+}
+.bingoWhite::after {
+  @apply text-rc-red font-medium;
+  content: '\ec9e';
 }
 
 .petCrew {
   display: inline-block !important;
   vertical-align: middle;
-  width: 24px;
-  height: 24px;
-  background: url('./image/petCrew.png') no-repeat;
+  /* width: 24px; */
+  /* height: 24px; */
+  /* background: url('./image/petCrew.png') no-repeat;
   background-size: 24px auto;
-  background-position: center center;
+  background-position: center center; */
+}
+.petCrew::after {
+  content: '\e60d';
+  @apply text-rc-red text-lg;
 }

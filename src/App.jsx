@@ -377,6 +377,7 @@ const App = () => {
     <Provider {...stores}>
       <IntlProvider
         // locale={window.__.env.REACT_APP_LANG}
+        locale="en"
         messages={dynamicLanguage}
         defaultLocale={'en'}
       >
@@ -766,7 +767,7 @@ const App = () => {
                   path="/product-finder-noresult"
                   component={ProductFinderNoResult}
                 /> */}
-                //11111111
+                {/* //11111111 */}
                 <Route
                   exact
                   path="/subscription-landing"

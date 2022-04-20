@@ -7,7 +7,7 @@ import LazyLoad from 'react-lazyload';
 const PetItemDone = ({ item, className, idx, paymentStore }) => {
   const { petList, petSelectedIds } = paymentStore;
   return (
-    <div className={cn('col-span-12 md:col-span-4 flex', className)}>
+    <div className={cn('col-span-12 md:col-span-6 flex', className)}>
       <LazyLoad>
         <img className="w-16" alt={item.goodsName} src={item.goodsInfoImg} />
       </LazyLoad>

@@ -406,6 +406,7 @@ const GoodsDetailTabs = function (props) {
   useEffect(() => {
     // activeTabIdxList变化监听
     setActiveTabIdxLists(activeTabIdxList);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.activeTabIdxList]);
 
   if (saleableFlag === undefined) {
@@ -736,6 +737,7 @@ const GoodsDetailTabs = function (props) {
 
   useEffect(() => {
     handleTabData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   //club new subscribtion每次提交的时候记得把true改为false

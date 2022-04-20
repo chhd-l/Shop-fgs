@@ -255,7 +255,7 @@ const UserPaymentInfo = ({
                   </span>
                 </div>
               ) : null}
-              {currentCardInfo.paymentItem === 'adyen_paypal' ? (
+              {currentCardInfo.paymentItem?.toLowerCase() === 'adyen_paypal' ? (
                 <div className="flex flex-col mt-4">
                   <LazyLoad>
                     <img src={LOGO_ADYEN_PAYPAL} className="mb-4" />

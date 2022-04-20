@@ -204,7 +204,7 @@ class ClubLandingPageNew extends React.Component {
                           >
                             <li className="rc-list__item flex">
                               <div>
-                                <em className="bingo rc-margin-right--xs"></em>
+                                <em className="bingo iconfont rc-margin-right--xs"></em>
                               </div>
                               <div>
                                 <FormattedMessage id="ClubLP.Advantage.content1" />
@@ -212,7 +212,7 @@ class ClubLandingPageNew extends React.Component {
                             </li>
                             <li className="rc-list__item flex">
                               <div>
-                                <em className="bingo rc-margin-right--xs"></em>
+                                <em className="bingo iconfont rc-margin-right--xs"></em>
                               </div>
                               <div>
                                 <FormattedMessage id="ClubLP.Advantage.content2" />
@@ -220,7 +220,7 @@ class ClubLandingPageNew extends React.Component {
                             </li>
                             <li className="rc-list__item flex">
                               <div>
-                                <em className="bingo rc-margin-right--xs"></em>
+                                <em className="bingo iconfont rc-margin-right--xs"></em>
                               </div>
                               <div>
                                 <FormattedMessage id="ClubLP.Advantage.content3" />
@@ -228,7 +228,7 @@ class ClubLandingPageNew extends React.Component {
                             </li>
                             <li className="rc-list__item flex">
                               <div>
-                                <em className="bingo rc-margin-right--xs"></em>
+                                <em className="bingo iconfont rc-margin-right--xs"></em>
                               </div>
                               <div>
                                 <FormattedMessage id="ClubLP.Advantage.content4" />

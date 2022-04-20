@@ -4,12 +4,21 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import BreadCrumbs from '@/components/BreadCrumbs';
+import { loadJS, dynamicLoadCss } from '@/utils/utils';
 
 const ProductFinder = (props: any) => {
   let location = useLocation();
   const element = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    // @ts-ignore
+    loadJS({
+      url: 'https://prdeus2rcdeslangversa.z20.web.core.windows.net/product-finder/0-0-0/product-finder-webcomp.js'
+    });
+    dynamicLoadCss(
+      'https://prdeus2rcdeslangversa.z20.web.core.windows.net/product-finder/0-0-0/styles.css'
+    );
+
     element.current?.addEventListener(
       'viewProductDetails',
       handleViewProductDetails

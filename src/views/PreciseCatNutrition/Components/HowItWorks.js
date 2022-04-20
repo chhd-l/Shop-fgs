@@ -7,6 +7,12 @@ import introTBRHNC from '../images/Intro to Breed Health Nutrition Course.png';
 import subscribe from '../images/Subscribe.png';
 import stayIC from '../images/stay in control.png';
 import group from '../images/Group 25.png';
+import borderBG1 from '../images/borderBG1.jpg';
+import borderBG4 from '../images/borderBG4.jpg';
+import borderBG2 from '../images/borderBG2.jpg';
+import borderBG5 from '../images/borderBG5.jpg';
+import borderBG3 from '../images/borderBG3.jpg';
+import borderBG6 from '../images/borderBG6.jpg';
 
 import { getDeviceType } from '../../../utils/utils';
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
@@ -26,7 +32,14 @@ const HowItWorks = () => {
               <div className="value-proposition__container">
                 <div className="row mx-0 justify-content-between">
                   {/*<div className="row rc-content-v-middle text-center rc-padding-top--md rc-margin-x--none">*/}
-                  <div className="borderBack1 col-12 col-md-3 col-xxl-3 d-flex px-0 md:pl-0 md:pr-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                  <div
+                    className="borderBack1 col-12 col-md-3 col-xxl-3 d-flex px-0 md:pl-0 md:pr-2  pr-xxl-3 pl-xxl-0 justify-content-center"
+                    style={{
+                      backgroundImage: `url('${
+                        isMobile ? borderBG4 : borderBG1
+                      }')`
+                    }}
+                  >
                     <div className="howItWorkBorder centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
                       <div className="howItWorkStyle">
                         <div className="howItWorkNum">1</div>
@@ -51,7 +64,14 @@ const HowItWorks = () => {
                       {isMobile ? <br /> : null}
                     </div>
                   </div>
-                  <div className="borderBack2 col-12 col-md-3 col-xxl-3 d-flex px-0 md:pl-0 md:pr-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                  <div
+                    className="borderBack2 col-12 col-md-3 col-xxl-3 d-flex px-0 md:pl-0 md:pr-2  pr-xxl-3 pl-xxl-0 justify-content-center"
+                    style={{
+                      backgroundImage: `url('${
+                        isMobile ? borderBG5 : borderBG2
+                      }')`
+                    }}
+                  >
                     <div className="howItWorkBorder centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
                       <div className="howItWorkStyle">
                         <div className="howItWorkNum">2</div>
@@ -91,7 +111,14 @@ const HowItWorks = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="borderBack3 col-12 col-md-3 col-xxl-3 d-flex px-0 md:pl-0 md:pr-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                  <div
+                    className="borderBack3 col-12 col-md-3 col-xxl-3 d-flex px-0 md:pl-0 md:pr-2  pr-xxl-3 pl-xxl-0 justify-content-center"
+                    style={{
+                      backgroundImage: `url('${
+                        isMobile ? borderBG6 : borderBG3
+                      }')`
+                    }}
+                  >
                     <div className="howItWorkBorder centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
                       <div className="howItWorkStyle">
                         <div className="howItWorkNum">4</div>

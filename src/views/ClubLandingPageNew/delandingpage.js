@@ -427,7 +427,7 @@ class ClubLandingPageDe extends React.Component {
                               <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                                 <li className="rc-list__item flex">
                                   <div>
-                                    <em className="bingoWhite rc-margin-right--xs"></em>
+                                    <em className="bingoWhite iconfont rc-margin-right--xs"></em>
                                   </div>
                                   <div style={{ marginLeft: '10px' }}>
                                     <a style={{ fontWeight: 'bolder' }}>
@@ -437,7 +437,7 @@ class ClubLandingPageDe extends React.Component {
                                 </li>
                                 <li className="rc-list__item flex">
                                   <div>
-                                    <em className="bingoWhite rc-margin-right--xs"></em>
+                                    <em className="bingoWhite iconfont rc-margin-right--xs"></em>
                                   </div>
                                   <div style={{ marginLeft: '10px' }}>
                                     <a>
@@ -529,7 +529,7 @@ class ClubLandingPageDe extends React.Component {
                               <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                                 <li className="rc-list__item flex">
                                   <div>
-                                    <em className="bingo rc-margin-right--xs"></em>
+                                    <em className="bingo iconfont rc-margin-right--xs"></em>
                                   </div>
                                   <div style={{ marginLeft: '10px' }}>
                                     <a>
@@ -544,7 +544,7 @@ class ClubLandingPageDe extends React.Component {
                                 </li>
                                 <li className="rc-list__item flex">
                                   <div>
-                                    <em className="bingo rc-margin-right--xs"></em>
+                                    <em className="bingo iconfont rc-margin-right--xs"></em>
                                   </div>
                                   <div style={{ marginLeft: '10px' }}>
                                     <a>
@@ -558,7 +558,7 @@ class ClubLandingPageDe extends React.Component {
                                 </li>
                                 <li className="rc-list__item flex">
                                   <div>
-                                    <em className="bingo rc-margin-right--xs"></em>
+                                    <em className="bingo iconfont rc-margin-right--xs"></em>
                                   </div>
                                   <div style={{ marginLeft: '10px' }}>
                                     <a style={{ fontWeight: 'bolder' }}>
@@ -568,7 +568,7 @@ class ClubLandingPageDe extends React.Component {
                                 </li>
                                 <li className="rc-list__item flex">
                                   <div>
-                                    <em className="bingo rc-margin-right--xs"></em>
+                                    <em className="bingo iconfont rc-margin-right--xs"></em>
                                   </div>
                                   <div style={{ marginLeft: '10px' }}>
                                     <a style={{ fontWeight: 'bolder' }}>
@@ -578,7 +578,7 @@ class ClubLandingPageDe extends React.Component {
                                 </li>
                                 <li className="rc-list__item flex">
                                   <div>
-                                    <em className="bingo rc-margin-right--xs"></em>
+                                    <em className="bingo iconfont rc-margin-right--xs"></em>
                                   </div>
                                   <div style={{ marginLeft: '10px' }}>
                                     <a style={{ fontWeight: 'bolder' }}>
@@ -588,7 +588,7 @@ class ClubLandingPageDe extends React.Component {
                                 </li>
                                 <li className="rc-list__item flex">
                                   <div>
-                                    <em className="bingo rc-margin-right--xs"></em>
+                                    <em className="bingo iconfont rc-margin-right--xs"></em>
                                   </div>
                                   <div style={{ marginLeft: '10px' }}>
                                     <a>

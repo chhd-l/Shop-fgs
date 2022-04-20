@@ -128,8 +128,9 @@ class ShippingAddressFrom extends React.Component {
     }
   };
   // 是否为默认地址
-  isDefalt = () => {
-    let data = this.state.addressForm;
+  isDefalt = (e) => {
+    e.preventDefault();
+    let data = { ...this.state.addressForm };
     data.isDefalt = !data.isDefalt;
     this.setState(
       {
