@@ -578,6 +578,7 @@ export default function DailyPortion({
     setLoading(true);
     try {
       let res = await productFinderDailyPortionRation(param);
+      console.log(res, 'ress---');
       setLoading(false);
       switch (res.code) {
         case 'K-000000':
@@ -819,6 +820,12 @@ export default function DailyPortion({
                   </span>
                 </div>
               </div>
+              {bcs == 3 || bcs == 7 ? (
+                <p class="text-gray-600 text-base mt-3">
+                  <span className="rc-iconography rc-icon rc-info--xs" />
+                  <FormattedMessage id="dailyPortion.weightIssuesMessage" />
+                </p>
+              ) : null}
             </div>
             <div className="mt-6">
               <button
