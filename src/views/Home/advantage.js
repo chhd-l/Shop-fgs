@@ -38,7 +38,7 @@ export function Advantage() {
         {
           imgUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_DISCOUNT@x2.png`,
           imgAlt: 'club benefits',
-          text: 'Save 30% off your first purchase through Royal Canin Club, and 5% off every autoship order'
+          text: '5% off every autoship order'
         },
         {
           imgUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_FREE-SHIPPING@x2.png`,
@@ -48,7 +48,8 @@ export function Advantage() {
         {
           imgUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/COHORT-A_CLUB-BENEFITS_PET-ADVISOR2@x2.png`,
           imgAlt: 'Welcome Box',
-          text: 'Expert feeding advice, product updates and support from a Royal Canin Advisor'
+          text:
+            'Expert feeding advice, product updates and support from a Royal Canin Advisor'
         }
       ]
     }[window.__.env.REACT_APP_COUNTRY] || defaultList;
