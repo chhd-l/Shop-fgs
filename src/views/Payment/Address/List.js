@@ -25,7 +25,9 @@ import {
   formatMoney,
   getDeviceType,
   isCanVerifyBlacklistPostCode,
-  formatDate
+  formatDate,
+  formatJPDate,
+  formatJPTime
 } from '@/utils/utils';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
@@ -38,6 +40,7 @@ import './list.less';
 import { felinAddr } from '../PaymentMethod/paymentMethodsConstant';
 import cn from 'classnames';
 import AddressPanelContainer from './AddressPanelContainer';
+import moment from 'moment';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -143,7 +146,8 @@ class AddressList extends React.Component {
       listValidationModalVisible: false, // 地址校验查询开关
       selectListValidationOption: 'suggestedAddress',
       wrongAddressMsg: null,
-      validationAddress: null // 建议地址
+      validationAddress: null, // 建议地址
+      jpCutOffTime: ''
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.addOrEditPickupAddress = this.addOrEditPickupAddress.bind(this);
@@ -279,6 +283,7 @@ class AddressList extends React.Component {
             let vdres = await getDeliveryDateAndTimeSlot({
               cityNo: addls?.provinceId
             });
+            console.log('vdres', vdres);
             if (vdres.context && vdres.context?.timeSlots?.length) {
               let tobj = vdres.context.timeSlots[0];
               v.deliveryDate = tobj.date;
@@ -421,6 +426,7 @@ class AddressList extends React.Component {
       let addls = dudata.context.addressList[0];
       // 再根据 provinceId 获取到 cutOffTime
       vdres = await getDeliveryDateAndTimeSlot({ cityNo: addls?.provinceId });
+      console.log('list', vdres);
       if (vdres.context && vdres.context?.timeSlots?.length) {
         if (!deliveryDate || !timeSlot) {
           this.showErrMsg(errMsg);
@@ -2078,7 +2084,7 @@ class AddressList extends React.Component {
                         month: 'long'
                       }
                     })}{' '}
-                    {item.timeSlot == 'Unspecified' ? (
+                    {item.timeSlot === 'Unspecified' ? (
                       <FormattedMessage id="Unspecified" />
                     ) : (
                       item.timeSlot
@@ -2151,7 +2157,7 @@ class AddressList extends React.Component {
                 {item.firstNameKatakana} {item.lastNameKatakana}
               </span>
               <span>
-                {COUNTRY == 'jp' ? '〒' + item.postCode : item.postCode}
+                {COUNTRY === 'jp' ? '〒' + item.postCode : item.postCode}
               </span>
               <p>{this.jpSetAddressFields(item)}</p>
               <p>{item.consigneeNumber}</p>
@@ -2159,18 +2165,12 @@ class AddressList extends React.Component {
                 {item.deliveryDate && item.timeSlot ? (
                   <>
                     {/* 格式化 delivery date 格式: 星期, 15 月份 */}
-                    {formatDate({
-                      date: item.deliveryDate,
-                      formatOption: {
-                        weekday: 'long',
-                        day: '2-digit',
-                        month: 'long'
-                      }
-                    })}{' '}
-                    {item.timeSlot == 'Unspecified' ? (
+                    <FormattedMessage id="Deliverytime" />
+                    {formatJPDate(item.deliveryDate)}
+                    {item.timeSlot === 'Unspecified' ? (
                       <FormattedMessage id="Unspecified" />
                     ) : (
-                      item.timeSlot
+                      formatJPTime(item.timeSlot)
                     )}
                   </>
                 ) : null}
