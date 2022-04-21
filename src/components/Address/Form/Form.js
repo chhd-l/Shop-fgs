@@ -357,6 +357,9 @@ class Form extends React.Component {
         if (obj.timeSlot == 'Unspecified') {
           obj.timeSlotId = 'Unspecified';
           obj.timeSlot = 'Unspecified';
+        } else if (obj.deliveryDate == 'Unspecified') {
+          obj.deliveryDate = 'Unspecified';
+          obj.deliveryDateId = 'Unspecified';
         } else if (!obj.timeSlot || !alldata[obj.deliveryDate] || !tsFlag) {
           obj.timeSlotId = tslist[0].id;
           obj.timeSlot = tslist[0].name;
@@ -991,8 +994,6 @@ class Form extends React.Component {
       cform.region = data.name;
       cform.regionId = data.value;
     } else if (key == 'deliveryDate') {
-      cform.deliveryDate = data.no;
-      cform.deliveryDateId = data.value;
       let tslist = [];
       deliveryDataTimeSlotList[data.no]?.forEach((r) => {
         let setime = r.startTime + '-' + r.endTime;
@@ -1004,13 +1005,15 @@ class Form extends React.Component {
           sort: r.sort
         });
       });
-      cform.timeSlotId = tslist[0].id;
-      cform.timeSlot = tslist[0].name;
+      cform.deliveryDate = tslist[0]?.id ? data.no : 'Unspecified';
+      cform.deliveryDateId = tslist[0]?.name ? data.value : 'Unspecified';
+      cform.timeSlotId = tslist[0]?.id || 'Unspecified';
+      cform.timeSlot = tslist[0]?.name || 'Unspecified';
       this.setState({
         timeSlotList: tslist
       });
     } else if (key == 'timeSlot') {
-      cform.timeSlot = data.name;
+      cform.timeSlot = data.value;
       cform.timeSlotId = data.value;
     }
     this.setState(
@@ -1026,6 +1029,7 @@ class Form extends React.Component {
   }
   // 处理数组
   computedList(key) {
+    console.log('timeSlotList', this.state.timeSlotList);
     let tmp = '';
     tmp = this.state[`${key}List`].map((c) => {
       return {
@@ -1040,9 +1044,20 @@ class Form extends React.Component {
       tmp.unshift({ value: '', name: '' });
     }
 
-    if (COUNTRY == 'jp' && key == 'timeSlot' && tmp.length > 0) {
+    if (COUNTRY == 'jp' && key == 'deliveryDate') {
+      //日本deliveryDate才有Unspecified
+      tmp.unshift({
+        value: 'Unspecified',
+        name: <FormattedMessage id="Unspecified" />
+      });
+    }
+
+    if (COUNTRY == 'jp' && key == 'timeSlot') {
       //日本timeSlot才有Unspecified
-      tmp.unshift({ value: 'Unspecified', name: 'Unspecified' });
+      tmp.unshift({
+        value: 'Unspecified',
+        name: <FormattedMessage id="Unspecified" />
+      });
     }
 
     return tmp;

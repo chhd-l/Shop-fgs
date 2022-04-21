@@ -43,16 +43,23 @@ const UsAndRu = (props) => {
   let cur_recommendation4 = `${imgUrlPreFix}/3xquality.jpg`;
   const imagesArr = [
     {
-      img: `${imgUrlPreFix}/COHORT-A_CLUB-BENEFITS_PET-ADVISOR_COPY2.jpg`,
-      text: 'Access to a Royal Canin Advisor'
+      // img: `${imgUrlPreFix}/COHORT-A_CLUB-BENEFITS_PET-ADVISOR_COPY2.jpg`,
+      img: <span className="rc-icon rc-vet--sm rc-brand1 rc-iconography" />,
+      text: 'Expert food and product recommendations'
     },
     {
-      img: `${imgUrlPreFix}/CLUB-BENEFITS_PRODUCT-RECOS.png`,
-      text: 'Personalized Recommendations'
+      // img: `${imgUrlPreFix}/CLUB-BENEFITS_PRODUCT-RECOS.png`,
+      img: (
+        <span className="rc-icon rc-delivery--sm rc-brand1 rc-iconography" />
+      ),
+      text:
+        '5% off every autoship order * free shipping.\n' +
+        ' with no minimum purchase'
     },
     {
-      img: `${imgUrlPreFix}/CLUB-BENEFITS_FREE-SHIPPING.png`,
-      text: 'Free Shipping & 5% Off Every Autoship Order'
+      // img: `${imgUrlPreFix}/CLUB-BENEFITS_FREE-SHIPPING.png`,
+      img: <span className="rc-brand1 rc-icon rc-friendly rc-iconography" />,
+      text: 'A Royal Canin Advisor to answer all your pet \n' + 'questions'
     }
   ];
   const helpContentText = {
@@ -75,21 +82,40 @@ const UsAndRu = (props) => {
         <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
           <div
             className="rc-layout-container rc-four-column rc-content-v-middle text-center"
+            style={{ backgroundColor: '#eee' }}
             data-tms={props.dataTms1 || ''}
           >
-            {imagesArr.map((item) => (
-              <div className="rc-column">
-                <div className="img-hover-switch rc-margin-bottom--sm">
-                  <LazyLoad>
-                    <img
-                      style={{ width: '180px' }}
-                      className="m-center"
-                      src={item.img}
-                      alt="recommendation image"
-                    />
-                  </LazyLoad>
+            {/*{imagesArr.map((ele, i) => (*/}
+            {/*  <div className="rc-column rc-padding-y--xs" key={i}>*/}
+            {/*    <div className="reassurance-banner__item rc-text--left">*/}
+            {/*    <span className="rc-header-with-icon rc-header-with-icon--gamma">*/}
+            {/*      {ele.img}*/}
+            {/*      {ele.text}*/}
+            {/*    </span>*/}
+            {/*    </div>*/}
+            {/*  </div>*/}
+            {/*))}*/}
+            {imagesArr.map((item, index) => (
+              <div
+                className="row mx-5 pt-5 flex-wrap "
+                style={
+                  index < imagesArr.length - 1
+                    ? { borderRightColor: '#ccc', borderRightWidth: '2px' }
+                    : null
+                }
+              >
+                <div className="img-hover-switch rc-margin-bottom--sm ">
+                  {/*<LazyLoad>*/}
+                  {/*  <img*/}
+                  {/*    style={{ width: '20px' }}*/}
+                  {/*    className="m-center"*/}
+                  {/*    src={item.img}*/}
+                  {/*    alt="recommendation image"*/}
+                  {/*  />*/}
+                  {/*</LazyLoad>*/}
+                  {item.img}
                 </div>
-                <p>
+                <p style={{ width: '340px' }}>
                   <strong style={{ color: 'rgb(61, 61, 60)' }}>
                     {item.text}
                   </strong>

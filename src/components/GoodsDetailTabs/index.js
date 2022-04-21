@@ -506,7 +506,10 @@ const GoodsDetailTabs = function (props) {
                         Object.keys(ele)[0]
                       }</div></p><p>
             ${Object.values(Object.values(ele)[0])
-              .map((el) => `<div class="content">${el}</div><p></p>`)
+              .map(
+                (el) =>
+                  `<div class="content" style="white-space: pre-line;">${el}</div><p></p>`
+              )
               .join('')}
           </p>`;
                     })
@@ -520,7 +523,7 @@ const GoodsDetailTabs = function (props) {
                       .filter((e) => e)[0] || '';
                   const ParnutsStatementRet =
                     ParnutsStatement && isVet
-                      ? `<div class="content" style="font-weight: 400">${ParnutsStatement}</div>`
+                      ? `<div class="content" style="white-space: pre-line;font-weight: 400;">${ParnutsStatement}</div>`
                       : '';
                   const retContent = parsedContent.filter(
                     (el) => !el.hasOwnProperty('Parnuts Statement')
@@ -529,7 +532,7 @@ const GoodsDetailTabs = function (props) {
                     ParnutsStatementRet +
                     retContent
                       .map((ele) => {
-                        return `<div class="content">${
+                        return `<div class="content" style="white-space: pre-line;">${
                           Object.values(ele)[0]
                         }</div>`;
                       })
