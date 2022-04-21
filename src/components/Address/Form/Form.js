@@ -290,8 +290,6 @@ class Form extends React.Component {
     let res = null;
     try {
       res = await getDeliveryDateAndTimeSlot({ cityNo: str });
-      const cutOffTime = Number(res.context.cutOffTime.substring(0, 2));
-      localStorage.setItem('cutOffTime', cutOffTime);
       let flag = false;
       let alldata = {}; // 全部数据
       let ddlist = []; // delivery date

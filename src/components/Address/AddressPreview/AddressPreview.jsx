@@ -1,12 +1,7 @@
 import React, { useMemo } from 'react';
 import { inject, observer } from 'mobx-react';
 import cn from 'classnames';
-import {
-  formatMoney,
-  formatDate,
-  formatJPDate,
-  formatJPTime
-} from '@/utils/utils';
+import { formatMoney, formatDate } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { DivWrapper } from './style';
 
@@ -212,20 +207,18 @@ const AddressPreview = ({ configStore, data, nameCls, pickupNameCls }) => {
                   {deliveryDate && timeSlot ? (
                     <>
                       {/* 格式化 delivery date 格式: 星期, 15 月份 */}
-                      {/* {formatDate({
-                      date: deliveryDate,
-                      formatOption: {
-                        weekday: 'long',
-                        day: '2-digit',
-                        month: 'long'
-                      }
-                    })}{' '} */}
-                      <FormattedMessage id="Deliverytime" />
-                      {formatJPDate(deliveryDate)}
+                      {formatDate({
+                        date: deliveryDate,
+                        formatOption: {
+                          weekday: 'long',
+                          day: '2-digit',
+                          month: 'long'
+                        }
+                      })}{' '}
                       {timeSlot == 'Unspecified' ? (
                         <FormattedMessage id="Unspecified" />
                       ) : (
-                        formatJPTime(timeSlot)
+                        timeSlot
                       )}
                     </>
                   ) : null}

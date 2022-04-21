@@ -25,9 +25,7 @@ import {
   formatMoney,
   getDeviceType,
   isCanVerifyBlacklistPostCode,
-  formatDate,
-  formatJPDate,
-  formatJPTime
+  formatDate
 } from '@/utils/utils';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
@@ -283,7 +281,6 @@ class AddressList extends React.Component {
             let vdres = await getDeliveryDateAndTimeSlot({
               cityNo: addls?.provinceId
             });
-            console.log('vdres', vdres);
             if (vdres.context && vdres.context?.timeSlots?.length) {
               let tobj = vdres.context.timeSlots[0];
               v.deliveryDate = tobj.date;
@@ -2165,12 +2162,18 @@ class AddressList extends React.Component {
                 {item.deliveryDate && item.timeSlot ? (
                   <>
                     {/* 格式化 delivery date 格式: 星期, 15 月份 */}
-                    <FormattedMessage id="Deliverytime" />
-                    {formatJPDate(item.deliveryDate)}
-                    {item.timeSlot === 'Unspecified' ? (
+                    {formatDate({
+                      date: item.deliveryDate,
+                      formatOption: {
+                        weekday: 'long',
+                        day: '2-digit',
+                        month: 'long'
+                      }
+                    })}{' '}
+                    {item.timeSlot == 'Unspecified' ? (
                       <FormattedMessage id="Unspecified" />
                     ) : (
-                      formatJPTime(item.timeSlot)
+                      item.timeSlot
                     )}
                   </>
                 ) : null}
