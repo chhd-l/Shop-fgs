@@ -308,6 +308,12 @@ export const handlePayReview = (
             <ConvenienceStorePayReview convenienceStore={convenienceStore} />
           </div>
           {selectDiscountWay == USEPOINT ? <ShowUsePoint /> : null}
+          <p className="ml-4">
+            <FormattedMessage
+              id="DeliverytimeContentSec"
+              values={{ val: <span className="text-red-500">7</span> }}
+            />
+          </p>
         </>
       );
       break;
@@ -330,6 +336,9 @@ export const handlePayReview = (
             </span>
           </div>
           {selectDiscountWay == USEPOINT ? <ShowUsePoint /> : null}
+          <p className="text-red-500 ml-10">
+            <FormattedMessage id="ForCashOnDelivery" />
+          </p>
         </>
       );
       break;

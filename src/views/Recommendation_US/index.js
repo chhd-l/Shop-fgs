@@ -1383,6 +1383,12 @@ class Recommendation extends React.Component {
                                 </div>
                               )}
 
+                              {/*11111111 Add, between price & cart, in bold, red, bigger:*/}
+                              <strong style={{ color: '#E2001A' }}>
+                                <FormattedMessage id="recommendation.firstOrderDiscount" />
+                                {/*Your welcome offer to receive 30% off your first order will be applied at checkout.*/}
+                              </strong>
+
                               <p className="flex justify-center mb-0 md:mb-6 mt-6">
                                 <button
                                   className={`rc-btn rc-btn--one rc-btn--sm ${
