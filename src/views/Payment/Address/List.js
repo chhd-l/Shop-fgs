@@ -2168,9 +2168,7 @@ class AddressList extends React.Component {
                 {item.deliveryDate && item.timeSlot ? (
                   <>
                     {/* 格式化 delivery date 格式: 星期, 15 月份 */}
-                    {item.deliveryDate === 'Unspecified' ? (
-                      ''
-                    ) : (
+                    {item.deliveryDate !== 'Unspecified' && (
                       <>
                         <FormattedMessage id="Deliverytime" />
                         {formatJPDate(item.deliveryDate)}

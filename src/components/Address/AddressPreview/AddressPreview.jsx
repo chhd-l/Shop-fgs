@@ -212,9 +212,7 @@ const AddressPreview = ({ configStore, data, nameCls, pickupNameCls }) => {
                   {deliveryDate && timeSlot ? (
                     <>
                       {/* 格式化 delivery date 格式: 星期, 15 月份 */}
-                      {deliveryDate == 'Unspecified' ? (
-                        ''
-                      ) : (
+                      {deliveryDate !== 'Unspecified' && (
                         <>
                           <FormattedMessage id="Deliverytime" />
                           {formatJPDate(deliveryDate)}
