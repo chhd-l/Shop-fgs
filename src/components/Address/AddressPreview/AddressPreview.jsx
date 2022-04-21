@@ -1,7 +1,12 @@
 import React, { useMemo } from 'react';
 import { inject, observer } from 'mobx-react';
 import cn from 'classnames';
-import { formatMoney, formatDate } from '@/utils/utils';
+import {
+  formatMoney,
+  formatDate,
+  formatJPDate,
+  formatJPTime
+} from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { DivWrapper } from './style';
 
@@ -191,38 +196,42 @@ const AddressPreview = ({ configStore, data, nameCls, pickupNameCls }) => {
               {timeSlot && <p className="preview_time_slot">{timeSlot}</p>}
             </>
           ) : window.__.env.REACT_APP_COUNTRY == 'jp' ? (
-            <div
-              className="d-flex col-10 col-md-8 pl-1 pr-1"
-              style={{ flexDirection: 'column' }}
-            >
-              <span>{consigneeName}</span>
-              <span>
-                {firstNameKatakana} {lastNameKatakana}
-              </span>
-              <span>{COUNTRY == 'jp' ? '〒' + postCode : postCode}</span>
-              <p>{[province, city, area, address1].join(', ')}</p>
-              <p>{consigneeNumber}</p>
-              <p className={`${showDeliveryDateAndTimeSlot ? '' : 'hidden'}`}>
-                {deliveryDate && timeSlot ? (
-                  <>
-                    {/* 格式化 delivery date 格式: 星期, 15 月份 */}
-                    {formatDate({
-                      date: deliveryDate,
-                      formatOption: {
-                        weekday: 'long',
-                        day: '2-digit',
-                        month: 'long'
-                      }
-                    })}{' '}
-                    {timeSlot == 'Unspecified' ? (
-                      <FormattedMessage id="Unspecified" />
-                    ) : (
-                      timeSlot
-                    )}
-                  </>
-                ) : null}
+            <>
+              <div
+                className="d-flex col-10 col-md-8 pl-1 pr-1"
+                style={{ flexDirection: 'column' }}
+              >
+                <span>{consigneeName}</span>
+                <span>
+                  {firstNameKatakana} {lastNameKatakana}
+                </span>
+                <span>{COUNTRY == 'jp' ? '〒' + postCode : postCode}</span>
+                <p>{[province, city, area, address1].join(', ')}</p>
+                <p>{consigneeNumber}</p>
+                <p className={`${showDeliveryDateAndTimeSlot ? '' : 'hidden'}`}>
+                  {deliveryDate && timeSlot ? (
+                    <>
+                      {/* 格式化 delivery date 格式: 星期, 15 月份 */}
+                      <FormattedMessage id="Deliverytime" />
+                      {formatJPDate(deliveryDate)}
+                      {timeSlot == 'Unspecified' ? (
+                        <FormattedMessage id="Unspecified" />
+                      ) : (
+                        formatJPTime(timeSlot)
+                      )}
+                    </>
+                  ) : null}
+                </p>
+              </div>
+              <p className="text-12 pl-1">
+                <FormattedMessage
+                  id="DeliverytimeContentSec"
+                  values={{
+                    val: localStorage.getItem('cutOffTime')
+                  }}
+                />
               </p>
-            </div>
+            </>
           ) : (
             <>
               {name ? <p className={cn(nameCls)}>{name}</p> : null}
