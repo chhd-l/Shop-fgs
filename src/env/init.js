@@ -48,6 +48,7 @@ if (process.env.NODE_ENV === 'production') {
     case 'shop.royalcanin.com':
       startEnv = 'production';
       break;
+    case 'royalcanin.com':
     case 'www.royalcanin.com':
     case 'prd-royalcanin-cd-01.royalcanin.com':
       startEnv = 'productionHub';
