@@ -1,15 +1,26 @@
 import { FormattedMessage } from 'react-intl-phraseapp';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import FrequencySelection from '@/components/FrequencySelection';
 import { SubGoodsInfosContext } from './index';
 import DatePicker from 'react-datepicker';
 import FrequencyMatch from '@/components/FrequencyMatch';
 import { datePickerConfig, getZoneTime, formatDate } from '@/utils/utils';
+import { GAForChangeProductBtn } from '@/utils/GA';
+import cn from 'classnames';
 
 const ChangeSelection = ({ el }) => {
   const SubGoodsInfosValue = useContext(SubGoodsInfosContext);
-  const { setState, isIndv, isActive, onDateChange, getMinDate, isGift } =
-    SubGoodsInfosValue;
+  const {
+    setState,
+    isIndv,
+    isActive,
+    onDateChange,
+    getMinDate,
+    isGift,
+    subDetail,
+    triggerShowChangeProduct,
+    productListLoading
+  } = SubGoodsInfosValue;
 
   switch (el.goodsInfoFlag) {
     case 0:
@@ -26,7 +37,32 @@ const ChangeSelection = ({ el }) => {
 
   return (
     <>
-      <div className="rc-card-content sub-frequency-wrap">
+      <div className="rc-card-content overflow-hidden">
+        <strong
+          style={{
+            display: 'inline-block',
+            width: '50%'
+          }}
+          className="whitespace-nowrap1"
+        >
+          {/* Shipping Method: */}
+          <FormattedMessage
+            id={isClub ? 'autoShipStarted' : 'autoShipStarted2'}
+          />
+        </strong>
+        <div
+          className="rc-card__meta order-Id text-left text-base	"
+          style={{
+            marginTop: '.625rem',
+            display: 'inline-block',
+            marginLeft: '1.625rem',
+            fontSize: '1.25rem'
+          }}
+        >
+          {formatDate({ date: el.createTime })}
+        </div>
+      </div>
+      <div className="rc-card-content sub-frequency-wrap -my-2">
         {isIndv ? (
           <>
             <strong
@@ -58,11 +94,11 @@ const ChangeSelection = ({ el }) => {
           </>
         ) : (
           <div
-            className="rc-card__meta order-Id text-left text-base	"
+            className="rc-card__meta order-Id text-left text-base"
             style={{
               marginTop: '.625rem',
               display: 'inline-block',
-              // marginLeft: '.625rem',
+              marginLeft: '.625rem',
 
               fontSize: '1.25rem'
             }}
@@ -70,7 +106,7 @@ const ChangeSelection = ({ el }) => {
             {el.promotions && (
               <FrequencySelection
                 frequencyType={el.promotions}
-                selectionStyle={{ marginLeft: '0.625rem' }}
+                // selectionStyle={{ marginLeft: '0.625rem' }}
                 // textStyle={{ display: 'inline-block', width: '50%' }}
                 wrapStyle={{}}
                 currentFrequencyId={el.periodTypeId}
@@ -82,43 +118,15 @@ const ChangeSelection = ({ el }) => {
                   }
                 }}
                 className="col-md-12 text-left"
+                // textStyle={{ width: '50%' }}
                 disabled={!isActive || isGift}
               />
             )}
           </div>
         )}
       </div>
-      <div style={{ overflow: 'hidden' }} className="rc-card-content">
-        <strong
-          style={{
-            display: 'inline-block',
-            width: '50%'
-          }}
-          className="whitespace-nowrap1"
-        >
-          {/* Shipping Method: */}
-          {
-            isClub ? (
-              <FormattedMessage id="autoShipStarted" />
-            ) : (
-              <FormattedMessage id="autoShipStarted2" />
-            )
-            // 'Date de cr��ation de l\'Abonnement'
-          }
-        </strong>
-        <div
-          className="rc-card__meta order-Id text-left text-base	"
-          style={{
-            marginTop: '.625rem',
-            display: 'inline-block',
-            marginLeft: '1.625rem',
-            fontSize: '1.25rem'
-          }}
-        >
-          {formatDate({ date: el.createTime })}
-        </div>
-      </div>
-      <div style={{ overflow: 'hidden' }} className="rc-card-content">
+
+      <div className="rc-card-content -mt-5 mb-1 overflow-hidden">
         <strong
           style={{
             display: 'inline-block',
@@ -126,7 +134,7 @@ const ChangeSelection = ({ el }) => {
           }}
           className="whitespace-nowrap"
         >
-          <span className="iconfont icondata text-xl mr-1" />
+          <span className="iconfont icondata text-xl mr-2" />
           <FormattedMessage id="nextShipment" />:
         </strong>
         <div
@@ -156,6 +164,53 @@ const ChangeSelection = ({ el }) => {
           />
         </div>
       </div>
+      {el.canChangeProduct ? (
+        <div className="rc-card-content">
+          <div className=" flex items-center">
+            <span
+              style={{
+                width: 'auto',
+                paddingTop: '6px'
+              }}
+              className={cn(
+                `text-plain rc-styled-link ui-text-overflow-md-line1`,
+                {
+                  'ui-btn-loading': productListLoading
+                }
+              )}
+              onClick={() => {
+                GAForChangeProductBtn();
+                if (!!subDetail.petsId) {
+                  setState({
+                    triggerShowChangeProduct: Object.assign(
+                      {},
+                      triggerShowChangeProduct,
+                      {
+                        firstShow: !triggerShowChangeProduct.firstShow,
+                        goodsInfo: subDetail?.goodsInfo,
+                        isShowModal: true
+                      }
+                    )
+                  });
+                } else {
+                  setState({ triggerShowAddNewPet: true });
+                }
+              }}
+            >
+              <em
+                className="iconfont iconrefresh font-bold mr-2"
+                style={{
+                  fontSize: '1.1rem',
+                  color: 'rgb(58,180,29)'
+                }}
+              />
+              <span>
+                <FormattedMessage id="subscriptionDetail.changeProduct" />
+              </span>
+            </span>
+          </div>
+        </div>
+      ) : null}
     </>
   );
 };

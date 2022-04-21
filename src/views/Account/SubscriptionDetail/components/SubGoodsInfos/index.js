@@ -95,7 +95,8 @@ const SubGoodsInfos = ({
                 className="goodsItem rc-card-content"
                 style={{
                   border: '1px solid #d7d7d7',
-                  padding: '.75rem'
+                  padding: '.75rem',
+                  position: 'relative'
                 }}
               >
                 <div style={{ display: 'flex' }}>
@@ -201,6 +202,32 @@ const SubGoodsInfos = ({
                 >
                   <ChangeSelection el={el} intl={intl} />
                 </div>
+                {el.canDelete ? (
+                  <div className="absolute right-2 top-2">
+                    <span
+                      className="font-bold iconfont iconguan cursor-pointer hover:text-rc-red"
+                      onClick={() => {
+                        updateConfirmTooltipVisible(el, true);
+                      }}
+                    />
+
+                    <ConfirmTooltip
+                      containerStyle={{ transform: 'translate(-89%, 105%)' }}
+                      arrowStyle={{ left: '89%' }}
+                      display={el.confirmTooltipVisible}
+                      confirm={() =>
+                        deleteItem(el?.goodsInfoVO?.storeId, {
+                          subscribeId: el?.subscribeId,
+                          subscribeGoodsId: el?.subscribeGoodsId
+                        })
+                      }
+                      updateChildDisplay={(status) =>
+                        updateConfirmTooltipVisible(el, status)
+                      }
+                      content={<FormattedMessage id="confirmDeleteProduct" />}
+                    />
+                  </div>
+                ) : null}
                 {isGift && subDetail.subscribeStatus !== 'INACTIVE' ? (
                   <ButtonBoxGift />
                 ) : null}
@@ -208,11 +235,14 @@ const SubGoodsInfos = ({
             ))}
         </div>
         <ErrorMessage msg={errMsgPage} />
-        <div className="card-container border rounded border-d7d7d7 mt-0 hidden md:block">
+        <div className="card-container mt-0 hidden md:block">
           {subDetail.goodsInfo &&
             subDetail.goodsInfo.map((el, index) => (
               <div
-                className="rc-margin-x--none"
+                className={cn(
+                  'rc-margin-x--none border rounded border-d7d7d7 relative',
+                  { 'mt-4': index }
+                )}
                 style={{
                   padding: '1rem 0 1.5rem 0'
                 }}
@@ -377,6 +407,32 @@ const SubGoodsInfos = ({
                   <div className="col-4 col-md-5" style={{ padding: 0 }}>
                     <ChangeSelection el={el} intl={intl} />
                   </div>
+                  {el.canDelete ? (
+                    <div className="absolute right-2 top-2">
+                      <span
+                        className="font-bold iconfont iconguan cursor-pointer hover:text-rc-red"
+                        onClick={() => {
+                          updateConfirmTooltipVisible(el, true);
+                        }}
+                      />
+
+                      <ConfirmTooltip
+                        containerStyle={{ transform: 'translate(-89%, 105%)' }}
+                        arrowStyle={{ left: '89%' }}
+                        display={el.confirmTooltipVisible}
+                        confirm={() => {
+                          deleteItem(el?.goodsInfoVO?.storeId, {
+                            subscribeId: el?.subscribeId,
+                            subscribeGoodsId: el?.subscribeGoodsId
+                          });
+                        }}
+                        updateChildDisplay={(status) =>
+                          updateConfirmTooltipVisible(el, status)
+                        }
+                        content={<FormattedMessage id="confirmDeleteProduct" />}
+                      />
+                    </div>
+                  ) : null}
                 </div>
                 {isGift && subDetail.subscribeStatus !== 'INACTIVE' ? (
                   <ButtonBoxGift />
