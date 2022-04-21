@@ -15,22 +15,11 @@ import cloneDeep from 'lodash/cloneDeep';
 import indvLogo from '@/assets/images/indv_log.svg';
 import { format } from 'date-fns';
 import { LOGO_CLUB, LOGO_CLUB_RU } from '@/utils/constant';
-import moment from 'moment';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const checkoutStore = stores.checkoutStore;
 const clinicStore = stores.clinicStore;
-
-const formatjpWeek = {
-  0: '日',
-  1: '月',
-  2: '火',
-  3: '水',
-  4: '木',
-  5: '金',
-  6: '土'
-};
 
 /**
  *
@@ -1296,18 +1285,6 @@ export function formatDate({
     return finallyDate;
   }
 }
-
-export const formatJPDate = (date) => {
-  const jpDate = moment(date).format('YYYY年MM月DD日');
-  const jpWeek = moment(date).day();
-  return `${jpDate} (${formatjpWeek[jpWeek]}) `;
-};
-
-export const formatJPTime = (time) => {
-  const begin = Number(time.substring(0, 2));
-  const end = Number(time.substring(6, 8));
-  return `${begin}～${end}時`;
-};
 
 /**
  * 动态渲染script html或link html
