@@ -58,6 +58,7 @@ export function deleteAddress(parameter) {
   });
 }
 export function editAddress(parameter) {
+  console.log('editAddress', parameter);
   return axios({
     url: `${api.addressInfo}`,
     method: 'put',
