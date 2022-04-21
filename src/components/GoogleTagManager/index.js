@@ -83,7 +83,10 @@ class GoogleTagManager extends React.Component {
     // REACT_APP_HUB_GA是hub(土耳其，法国，俄罗斯)和美国专用的
     const { page = {}, pet = {}, search = {} } = this.props.additionalEvents;
     const commonSite = {
-      country: window.__.env.REACT_APP_GA_COUNTRY,
+      country:
+        window.__.env.REACT_APP_GA_COUNTRY === 'UK'
+          ? 'GB'
+          : window.__.env.REACT_APP_GA_COUNTRY,
       environment: window.__.env.REACT_APP_GA_ENV,
       id: window.__.env.REACT_APP_GTM_SITE_ID
     };
