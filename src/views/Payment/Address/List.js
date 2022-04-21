@@ -40,6 +40,7 @@ import './list.less';
 import { felinAddr } from '../PaymentMethod/paymentMethodsConstant';
 import cn from 'classnames';
 import AddressPanelContainer from './AddressPanelContainer';
+import moment from 'moment';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -145,7 +146,8 @@ class AddressList extends React.Component {
       listValidationModalVisible: false, // 地址校验查询开关
       selectListValidationOption: 'suggestedAddress',
       wrongAddressMsg: null,
-      validationAddress: null // 建议地址
+      validationAddress: null, // 建议地址
+      jpCutOffTime: ''
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.addOrEditPickupAddress = this.addOrEditPickupAddress.bind(this);
@@ -281,6 +283,7 @@ class AddressList extends React.Component {
             let vdres = await getDeliveryDateAndTimeSlot({
               cityNo: addls?.provinceId
             });
+            console.log('vdres', vdres);
             if (vdres.context && vdres.context?.timeSlots?.length) {
               let tobj = vdres.context.timeSlots[0];
               v.deliveryDate = tobj.date;
@@ -423,6 +426,7 @@ class AddressList extends React.Component {
       let addls = dudata.context.addressList[0];
       // 再根据 provinceId 获取到 cutOffTime
       vdres = await getDeliveryDateAndTimeSlot({ cityNo: addls?.provinceId });
+      console.log('list', vdres);
       if (vdres.context && vdres.context?.timeSlots?.length) {
         if (!deliveryDate || !timeSlot) {
           this.showErrMsg(errMsg);
@@ -1055,7 +1059,6 @@ class AddressList extends React.Component {
       ) {
         await this.getHomeDeliveryPrice(tmpObj?.city, tmpObj?.receiveType);
       }
-
       await this.queryAddressList();
       this.showSuccessMsg();
       this.setState({
@@ -1065,6 +1068,7 @@ class AddressList extends React.Component {
 
       this.clickConfirmAddressPanel();
     } catch (err) {
+      console.log(err);
       this.setState({
         saveLoading: false,
         addOrEdit: true
@@ -1109,6 +1113,7 @@ class AddressList extends React.Component {
       });
       await this.getListValidationData(res, true);
     } catch (err) {
+      console.log(err);
       if (isThrowError) throw new Error();
     }
   };
@@ -2072,15 +2077,17 @@ class AddressList extends React.Component {
                   <>
                     <br />
                     {/* 格式化 delivery date 格式: 星期, 15 月份 */}
-                    {formatDate({
-                      date: item.deliveryDate,
-                      formatOption: {
-                        weekday: 'long',
-                        day: '2-digit',
-                        month: 'long'
-                      }
-                    })}{' '}
-                    {item.timeSlot == 'Unspecified' ? (
+                    {item.deliveryDate == 'Unspecified'
+                      ? ''
+                      : formatDate({
+                          date: item.deliveryDate,
+                          formatOption: {
+                            weekday: 'long',
+                            day: '2-digit',
+                            month: 'long'
+                          }
+                        })}{' '}
+                    {item.timeSlot === 'Unspecified' ? (
                       <FormattedMessage id="Unspecified" />
                     ) : (
                       item.timeSlot
@@ -2153,7 +2160,7 @@ class AddressList extends React.Component {
                 {item.firstNameKatakana} {item.lastNameKatakana}
               </span>
               <span>
-                {COUNTRY == 'jp' ? '〒' + item.postCode : item.postCode}
+                {COUNTRY === 'jp' ? '〒' + item.postCode : item.postCode}
               </span>
               <p>{this.jpSetAddressFields(item)}</p>
               <p>{item.consigneeNumber}</p>
@@ -2161,9 +2168,16 @@ class AddressList extends React.Component {
                 {item.deliveryDate && item.timeSlot ? (
                   <>
                     {/* 格式化 delivery date 格式: 星期, 15 月份 */}
-                    <FormattedMessage id="Deliverytime" />
-                    {formatJPDate(item.deliveryDate)}
-                    {item.timeSlot == 'Unspecified' ? (
+                    {item.deliveryDate === 'Unspecified' ? (
+                      ''
+                    ) : (
+                      <>
+                        <FormattedMessage id="Deliverytime" />
+                        {formatJPDate(item.deliveryDate)}
+                      </>
+                    )}
+
+                    {item.timeSlot === 'Unspecified' ? (
                       <FormattedMessage id="Unspecified" />
                     ) : (
                       formatJPTime(item.timeSlot)

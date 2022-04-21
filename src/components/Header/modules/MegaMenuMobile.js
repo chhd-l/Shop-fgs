@@ -27,7 +27,7 @@ function SecondItemContainer(props) {
           data-tab-init="true"
           onClick={props.handleClickToggleChilds}
         >
-          Retour
+          <FormattedMessage id="menu.return" />
         </button>
       </li>
       {props.childsListContent || null}

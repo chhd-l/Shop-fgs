@@ -1175,17 +1175,6 @@ class UnLoginCart extends React.Component {
               isShowValidCode: this.state.isShowValidCode
             }}
           />
-
-          {window.__.env.REACT_APP_COUNTRY === 'us' ? (
-            <div className="row rc-margin-bottom--xs">
-              <div className="col-12 greenColorText text-center">
-                <FormattedMessage
-                  id="cart.firstOrderDiscountTip"
-                  defaultMessage={' '}
-                />
-              </div>
-            </div>
-          ) : null}
           <div className="group-total">
             <div className="row d-flex align-items-center">
               <div className="col-7 medium">

@@ -104,7 +104,7 @@ const AddressPreview = ({ configStore, data, nameCls, pickupNameCls }) => {
 
   return (
     <DivWrapper>
-      {receiveType == 'PICK_UP' ? (
+      {receiveType === 'PICK_UP' ? (
         <>
           {pickupName ? (
             <p className={cn(pickupNameCls, 'preview-pickup-name')}>
@@ -147,7 +147,7 @@ const AddressPreview = ({ configStore, data, nameCls, pickupNameCls }) => {
       ) : (
         <>
           {/* 俄罗斯计算运费 */}
-          {window.__.env.REACT_APP_COUNTRY == 'ru' ? (
+          {window.__.env.REACT_APP_COUNTRY === 'ru' ? (
             <>
               {name ? <p className={cn(nameCls)}>{name}</p> : null}
               {address1 ? <p>{address1}</p> : null}
@@ -195,7 +195,7 @@ const AddressPreview = ({ configStore, data, nameCls, pickupNameCls }) => {
               {/* time slot */}
               {timeSlot && <p className="preview_time_slot">{timeSlot}</p>}
             </>
-          ) : window.__.env.REACT_APP_COUNTRY == 'jp' ? (
+          ) : window.__.env.REACT_APP_COUNTRY === 'jp' ? (
             <>
               <div
                 className="d-flex col-10 col-md-8 pl-1 pr-1"
@@ -212,8 +212,15 @@ const AddressPreview = ({ configStore, data, nameCls, pickupNameCls }) => {
                   {deliveryDate && timeSlot ? (
                     <>
                       {/* 格式化 delivery date 格式: 星期, 15 月份 */}
-                      <FormattedMessage id="Deliverytime" />
-                      {formatJPDate(deliveryDate)}
+                      {deliveryDate == 'Unspecified' ? (
+                        ''
+                      ) : (
+                        <>
+                          <FormattedMessage id="Deliverytime" />
+                          {formatJPDate(deliveryDate)}
+                        </>
+                      )}
+
                       {timeSlot == 'Unspecified' ? (
                         <FormattedMessage id="Unspecified" />
                       ) : (
