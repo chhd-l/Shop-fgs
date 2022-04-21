@@ -290,8 +290,7 @@ class Form extends React.Component {
     let res = null;
     try {
       res = await getDeliveryDateAndTimeSlot({ cityNo: str });
-      const cutOffTime = Number(res.context.cutOffTime.substring(0, 2));
-      localStorage.setItem('cutOffTime', cutOffTime);
+
       let flag = false;
       let alldata = {}; // 全部数据
       let ddlist = []; // delivery date
@@ -358,6 +357,9 @@ class Form extends React.Component {
         if (obj.timeSlot == 'Unspecified') {
           obj.timeSlotId = 'Unspecified';
           obj.timeSlot = 'Unspecified';
+        } else if (obj.deliveryDate == 'Unspecified') {
+          obj.deliveryDate = 'Unspecified';
+          obj.deliveryDateId = 'Unspecified';
         } else if (!obj.timeSlot || !alldata[obj.deliveryDate] || !tsFlag) {
           obj.timeSlotId = tslist[0].id;
           obj.timeSlot = tslist[0].name;
@@ -430,7 +432,17 @@ class Form extends React.Component {
         ];
         break;
       case 'ru':
-        phoneReg = [{ mask: '+{7} (000) 000-00-00' }];
+        phoneReg = [
+          {
+            mask: '+{7} (Y00) 000-00-00',
+            blocks: {
+              Y: {
+                mask: IMask.MaskedEnum,
+                enum: ['0', '1', '2', '3', '4', '5', '6', '9']
+              } //枚举 Y值只能使用这些值
+            }
+          }
+        ];
         break;
       case 'mx':
         phoneReg = [{ mask: '+(52) 000 000 0000' }];
@@ -982,8 +994,6 @@ class Form extends React.Component {
       cform.region = data.name;
       cform.regionId = data.value;
     } else if (key == 'deliveryDate') {
-      cform.deliveryDate = data.no;
-      cform.deliveryDateId = data.value;
       let tslist = [];
       deliveryDataTimeSlotList[data.no]?.forEach((r) => {
         let setime = r.startTime + '-' + r.endTime;
@@ -995,13 +1005,15 @@ class Form extends React.Component {
           sort: r.sort
         });
       });
-      cform.timeSlotId = tslist[0].id;
-      cform.timeSlot = tslist[0].name;
+      cform.deliveryDate = tslist[0]?.id ? data.no : 'Unspecified';
+      cform.deliveryDateId = tslist[0]?.name ? data.value : 'Unspecified';
+      cform.timeSlotId = tslist[0]?.id || 'Unspecified';
+      cform.timeSlot = tslist[0]?.name || 'Unspecified';
       this.setState({
         timeSlotList: tslist
       });
     } else if (key == 'timeSlot') {
-      cform.timeSlot = data.name;
+      cform.timeSlot = data.value;
       cform.timeSlotId = data.value;
     }
     this.setState(
@@ -1017,6 +1029,7 @@ class Form extends React.Component {
   }
   // 处理数组
   computedList(key) {
+    console.log('timeSlotList', this.state.timeSlotList);
     let tmp = '';
     tmp = this.state[`${key}List`].map((c) => {
       return {
@@ -1031,9 +1044,20 @@ class Form extends React.Component {
       tmp.unshift({ value: '', name: '' });
     }
 
-    if (COUNTRY == 'jp' && key == 'timeSlot' && tmp.length > 0) {
+    if (COUNTRY == 'jp' && key == 'deliveryDate') {
+      //日本deliveryDate才有Unspecified
+      tmp.unshift({
+        value: 'Unspecified',
+        name: <FormattedMessage id="Unspecified" />
+      });
+    }
+
+    if (COUNTRY == 'jp' && key == 'timeSlot') {
       //日本timeSlot才有Unspecified
-      tmp.unshift({ value: 'Unspecified', name: 'Unspecified' });
+      tmp.unshift({
+        value: 'Unspecified',
+        name: <FormattedMessage id="Unspecified" />
+      });
     }
 
     return tmp;
@@ -1552,6 +1576,7 @@ class Form extends React.Component {
             className={`rc-input__control ${item.fieldKey}Shipping`}
             id={`${item.fieldKey}Shipping`}
             type={item.filedType}
+            //value={getInputValue(item)}
             value={caninForm[item.fieldKey] || ''}
             onInput={(e) => this.inputChange(e)}
             onBlur={this.inputBlur}
@@ -1565,6 +1590,40 @@ class Form extends React.Component {
       </>
     );
   };
+  // 手机文本框
+  // phoneNumberInputJSX = (item) => {
+  //   const { caninForm } = this.state;
+
+  //     //phoneNumberShipping
+  //   const phoneNumberPrefixOption = {
+  //     ru: '+7 ',
+  //     default: ''
+  //   };
+  //   const phoneNumberPrefix = () => {
+  //     return phoneNumberPrefixOption[COUNTRY] || phoneNumberPrefixOption['default']
+  //   }
+
+  //   return (
+  //     <>
+  //       <span className="relative rc-input rc-input--inline rc-full-width rc-input--full-width">
+  //         <span className='absolute top-4 left-0'>{phoneNumberPrefix()}</span>
+  //         <input
+  //           className={`pl-5 rc-input__control ${item.fieldKey}Shipping`}
+  //           id={`${item.fieldKey}Shipping`}
+  //           type={item.filedType}
+  //           value={caninForm[item.fieldKey] || ''}
+  //           onInput={(e) => this.inputChange(e)}
+  //           onBlur={this.inputBlur}
+  //           name={item.fieldKey}
+  //           disabled={item?.disabled ? true : false}
+  //           maxLength={item.maxLength}
+  //           autoComplete="off"
+  //         />
+  //         <label className="rc-input__label" htmlFor="id-text1" />
+  //       </span>
+  //     </>
+  //   );
+  // };
   // 文本域
   textareaJSX = (item) => {
     const { caninForm } = this.state;
@@ -1793,7 +1852,8 @@ class Form extends React.Component {
                       <>
                         {item.fieldKey == 'comment'
                           ? this.textareaJSX(item)
-                          : this.inputJSX(item)}
+                          : //: item.fieldKey == 'phoneNumber'?this.phoneNumberInputJSX(item):this.inputJSX(item)}
+                            this.inputJSX(item)}
                       </>
                     ) : null}
 

@@ -1059,7 +1059,6 @@ class AddressList extends React.Component {
       ) {
         await this.getHomeDeliveryPrice(tmpObj?.city, tmpObj?.receiveType);
       }
-
       await this.queryAddressList();
       this.showSuccessMsg();
       this.setState({
@@ -1069,6 +1068,7 @@ class AddressList extends React.Component {
 
       this.clickConfirmAddressPanel();
     } catch (err) {
+      console.log(err);
       this.setState({
         saveLoading: false,
         addOrEdit: true
@@ -1113,6 +1113,7 @@ class AddressList extends React.Component {
       });
       await this.getListValidationData(res, true);
     } catch (err) {
+      console.log(err);
       if (isThrowError) throw new Error();
     }
   };
@@ -2166,7 +2167,11 @@ class AddressList extends React.Component {
                   <>
                     {/* 格式化 delivery date 格式: 星期, 15 月份 */}
                     <FormattedMessage id="Deliverytime" />
-                    {formatJPDate(item.deliveryDate)}
+                    {item.deliveryDate == 'Unspecified' ? (
+                      <></>
+                    ) : (
+                      formatJPDate(item.deliveryDate)
+                    )}
                     {item.timeSlot === 'Unspecified' ? (
                       <FormattedMessage id="Unspecified" />
                     ) : (

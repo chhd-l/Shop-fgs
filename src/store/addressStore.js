@@ -1,6 +1,7 @@
 import { action, observable, computed, toJS } from 'mobx';
 import { addressValidation, queryOpenedApi } from '@/api/address';
 import find from 'lodash/find';
+const localItemRoyal = window.__.localItemRoyal;
 
 class addressStore {
   @observable modalVisible = false;
@@ -74,6 +75,7 @@ class addressStore {
       localItemRoyal.set('rc-address-validation-flag', valaddFlag);
       return ret;
     } catch (err) {
+      console.log(err);
       return ret;
     }
   }

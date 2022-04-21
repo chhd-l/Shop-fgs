@@ -221,7 +221,11 @@ const AddressPreview = ({ configStore, data, nameCls, pickupNameCls }) => {
                       }
                     })}{' '} */}
                       <FormattedMessage id="Deliverytime" />
-                      {formatJPDate(deliveryDate)}
+                      {deliveryDate == 'Unspecified' ? (
+                        <></>
+                      ) : (
+                        formatJPDate(deliveryDate)
+                      )}
                       {timeSlot == 'Unspecified' ? (
                         <FormattedMessage id="Unspecified" />
                       ) : (
