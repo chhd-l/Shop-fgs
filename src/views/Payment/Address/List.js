@@ -25,9 +25,7 @@ import {
   formatMoney,
   getDeviceType,
   isCanVerifyBlacklistPostCode,
-  formatDate,
-  formatJPDate,
-  formatJPTime
+  formatDate
 } from '@/utils/utils';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
@@ -2077,14 +2075,16 @@ class AddressList extends React.Component {
                   <>
                     <br />
                     {/* 格式化 delivery date 格式: 星期, 15 月份 */}
-                    {formatDate({
-                      date: item.deliveryDate,
-                      formatOption: {
-                        weekday: 'long',
-                        day: '2-digit',
-                        month: 'long'
-                      }
-                    })}{' '}
+                    {item.deliveryDate == 'Unspecified'
+                      ? ''
+                      : formatDate({
+                          date: item.deliveryDate,
+                          formatOption: {
+                            weekday: 'long',
+                            day: '2-digit',
+                            month: 'long'
+                          }
+                        })}{' '}
                     {item.timeSlot === 'Unspecified' ? (
                       <FormattedMessage id="Unspecified" />
                     ) : (
@@ -2166,16 +2166,20 @@ class AddressList extends React.Component {
                 {item.deliveryDate && item.timeSlot ? (
                   <>
                     {/* 格式化 delivery date 格式: 星期, 15 月份 */}
-                    <FormattedMessage id="Deliverytime" />
-                    {item.deliveryDate == 'Unspecified' ? (
-                      <></>
-                    ) : (
-                      formatJPDate(item.deliveryDate)
-                    )}
+                    {item.deliveryDate == 'Unspecified'
+                      ? ''
+                      : formatDate({
+                          date: item.deliveryDate,
+                          formatOption: {
+                            weekday: 'long',
+                            day: '2-digit',
+                            month: 'long'
+                          }
+                        })}{' '}
                     {item.timeSlot === 'Unspecified' ? (
                       <FormattedMessage id="Unspecified" />
                     ) : (
-                      formatJPTime(item.timeSlot)
+                      item.timeSlot
                     )}
                   </>
                 ) : null}
