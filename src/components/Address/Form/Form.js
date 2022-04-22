@@ -1903,7 +1903,7 @@ class Form extends React.Component {
                                     href="https://www.post.japanpost.jp/zipcode/"
                                     target="_blank"
                                   >
-                                    this
+                                    <FormattedMessage id="examplePostCode.this" />
                                   </a>
                                 )
                               }}
