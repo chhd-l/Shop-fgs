@@ -11,7 +11,7 @@ import './index.less';
 import LinkedSubs from './components/LinkedSubs';
 import LazyLoad from 'react-lazyload';
 import PetForms from './components/PetForms';
-import { petsById, getRecommendProducts } from '@/api/pet';
+import { petsById, getRecommendProducts, getPetList } from '@/api/pet';
 import Loading from '@/components/Loading';
 import {
   getDictionary,
@@ -90,6 +90,7 @@ class PetForm extends React.Component {
         this.showErrorMsg(err.message);
       });
     this.petsById();
+    this.getPetList();
   }
   get sizeOptions() {
     return this.state.sizeArr.map((ele) => {
@@ -328,6 +329,33 @@ class PetForm extends React.Component {
     });
   }
 
+  get userInfo() {
+    return this.props.loginStore.userInfo;
+  }
+
+  getPetList = async () => {
+    let customerId = this.userInfo && this.userInfo.customerId;
+    let consumerAccount = this.userInfo && this.userInfo.consumerAccount;
+    if (!customerId) {
+      // showErrorMsg(this.props.intl.messages.getConsumerAccountFailed);
+      this.setState({
+        loading: false
+      });
+      return false;
+    }
+    getPetList({
+      customerId,
+      consumerAccount
+    })
+      .then((res) => {
+        let petList = res.context.context;
+        this.setState({
+          petList: petList
+        });
+      })
+      .catch((err) => {});
+  };
+
   render() {
     const event = {
       page: {
@@ -339,7 +367,8 @@ class PetForm extends React.Component {
         filters: ''
       }
     };
-    const { currentPet, selectedSizeObj, isMobile, isCat } = this.state;
+    const { currentPet, selectedSizeObj, isMobile, isCat, petList } =
+      this.state;
     let isChoosePetType = isCat !== null;
     return (
       <div className="petForm">
@@ -413,6 +442,29 @@ class PetForm extends React.Component {
                       >
                         <FormattedMessage id="Cat" />
                       </button>
+                    </div>
+                    {/* 日本需要 */}
+                    <div>
+                      {window.__.env.REACT_APP_COUNTRY === 'jp' &&
+                        petList.length > 0 && (
+                          <>
+                            <a
+                              href="javascript;"
+                              className="font-medium text-16 md:mr-2 pt-4"
+                              style={{
+                                color: '#444444',
+                                borderBottom: '1px solid #d7d7d7'
+                              }}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                e.preventDefault();
+                                this.props.history.push('/required');
+                              }}
+                            >
+                              Proceed without adding a pet profile
+                            </a>
+                          </>
+                        )}
                     </div>
                   </div>
                   <LazyLoad>

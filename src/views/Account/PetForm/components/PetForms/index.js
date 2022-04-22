@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useLocalStore } from 'mobx-react';
+import { inject, observer, useLocalStore } from 'mobx-react';
 import {
   myAccountActionPushEvent,
   GAForChangePetinfoBtn,
   GAForSeeRecommendationBtn
 } from '@/utils/GA';
-import stores from '@/store';
 import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import Skeleton from 'react-skeleton-loader';
 import Selection from '@/components/Selection';
@@ -93,7 +92,8 @@ const PetForms = ({
   setState,
   intl,
   location,
-  showErrorMsg
+  showErrorMsg,
+  loginStore
 }) => {
   const Us = window.__.env.REACT_APP_COUNTRY == 'us';
   const RuTrFrDe =
@@ -106,7 +106,7 @@ const PetForms = ({
   const { enterCatBreed, enterDogBreed } = intl.messages;
   const isInputDisabled =
     currentPetParam?.petsBreed === 'unknown Breed' ? true : false;
-  const { loginStore } = useLocalStore(() => stores);
+  // const { loginStore } = useLocalStore(() => stores);
   const { userInfo } = loginStore;
   const [genderGroup, setGenderGroup] = useState(genderOptions);
   const [purebredGroup, setPurebredGroup] = useState(purebredOpitons);
@@ -185,9 +185,10 @@ const PetForms = ({
       item.checked = checked;
     });
     setSterilizedGroup(sterilizedOptions);
-  }, [currentPetParam.petsId]);
+  }, [currentPetParam, currentPetParam.petsId, petForm]);
   useEffect(() => {
     getTypeDict();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCat]);
   const getTypeDict = async () => {
     let specialNeeds = [],
@@ -887,6 +888,35 @@ const PetForms = ({
             className="form-group col-lg-6 pull-left placehoder"
             style={{ height: '86px' }}
           ></div>
+          {/* 新增累加按钮 */}
+          {/* <div className="form-group col-12 col-lg-6 pull-left">
+            <div
+              className="cursor-pointer flex justify-center items-center rounded h-24"
+              style={{ border: '1px solid #d7d7d7' }}
+            >
+              <img src={addCat} alt="add-cat" className="mr-6" />
+              <p className="mr-2 text-36" style={{ color: '#767676' }}>
+                +
+              </p>
+              <p className="text-16 leading-6" style={{ color: '#666666' }}>
+                Add another cat
+              </p>
+            </div>
+          </div>
+          <div className="form-group col-12 col-lg-6 pull-left">
+            <div
+              className="cursor-pointer flex justify-center items-center rounded h-24"
+              style={{ border: '1px solid #d7d7d7' }}
+            >
+              <img src={addDog} alt="add-cat" className="mr-6" />
+              <p className="mr-2 text-36" style={{ color: '#767676' }}>
+                +
+              </p>
+              <p className="text-16 md:leading-6" style={{ color: '#666666' }}>
+                Add another dog
+              </p>
+            </div>
+          </div> */}
           <div className="form-group col-lg-12 pull-left required">
             {isMobile ? (
               <p style={{ textAlign: 'center' }}>
@@ -917,17 +947,36 @@ const PetForms = ({
               <p style={{ textAlign: 'right' }}>
                 {paramsId && currentPetParam.sourceType != 'individual' && (
                   <span
-                    className="rc-styled-link"
+                    className="rc-styled-link md:mr-9"
                     onClick={() => {
                       handleDelPets(false);
                     }}
                   >
-                    <FormattedMessage id="pet.deletePet" />
+                    <FormattedMessage id="pet.sdeletePet" />
                   </span>
+                )}
+                {window.__.env.REACT_APP_COUNTRY === 'jp' && (
+                  <>
+                    <a
+                      href="javascript;"
+                      className="font-medium text-16 md:mr-2"
+                      style={{
+                        color: '#444444',
+                        borderBottom: '1px solid #d7d7d7'
+                      }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        history.push('/home');
+                      }}
+                    >
+                      Proceed without adding a pet profile
+                    </a>
+                    <span className="md:mr-2">&nbsp;or&nbsp;</span>
+                  </>
                 )}
                 <button
                   className="rc-btn rc-btn--one"
-                  style={{ marginLeft: '35px' }}
                   onClick={() => savePet()}
                 >
                   <FormattedMessage id="saveChange" />
@@ -998,4 +1047,4 @@ const PetForms = ({
   );
 };
 
-export default injectIntl(PetForms);
+export default injectIntl(inject('loginStore')(observer(PetForms)));
