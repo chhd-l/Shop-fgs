@@ -136,23 +136,25 @@ const AutoshipBuyMethod = ({
               <FormattedMessage id="starUnit" defaultMessage=" " />
             </span>
           </div>
-          {window.__.env.REACT_APP_COUNTRY != 'jp' ? <div className="discountText mb-2">
-            {configStore.discountDisplayTypeInfo == 'Percentage' ? (
-              <FormattedMessage
-                id="saveExtra"
-                values={{
-                  val: selectedSpecItem?.subscriptionPercentage
-                }}
-              />
-            ) : (
-              <FormattedMessage
-                id="saveExtra"
-                values={{
-                  val: discountAmountUnit
-                }}
-              />
-            )}
-          </div>:null}
+          {window.__.env.REACT_APP_COUNTRY != 'jp' ? (
+            <div className="discountText mb-2">
+              {configStore.discountDisplayTypeInfo == 'Percentage' ? (
+                <FormattedMessage
+                  id="saveExtra"
+                  values={{
+                    val: selectedSpecItem?.subscriptionPercentage
+                  }}
+                />
+              ) : (
+                <FormattedMessage
+                  id="saveExtra"
+                  values={{
+                    val: discountAmountUnit
+                  }}
+                />
+              )}
+            </div>
+          ) : null}
           {form.buyWay === 1 &&
           configStore?.info?.storeVO?.basePricePDPShowedFlag &&
           selectedSpecItem?.goodsInfoWeight &&
@@ -182,7 +184,11 @@ const AutoshipBuyMethod = ({
                 frequencyType={skuPromotions}
                 currentFrequencyId={form.frequencyId}
                 handleConfirm={(data: any) => changeFreqency(data)}
-                // handleConfirm={}
+                contentStyle={{
+                  borderBottom: '1px solid #808285'
+                }}
+                selectionCustomInnerStyle={{ height: '3rem!important' }}
+                textClassName="font-normal"
               />
             )}
           </div>
