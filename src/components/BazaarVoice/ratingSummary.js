@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { getElementToPageTop } from '@/utils/utils';
 
 class Index extends React.Component {
@@ -34,7 +35,7 @@ class Index extends React.Component {
           }}
           onClick={this.handleAClick}
         >
-          (view customer reviews)
+          <FormattedMessage id="viewReviews" />
         </span>
       </div>
     );
