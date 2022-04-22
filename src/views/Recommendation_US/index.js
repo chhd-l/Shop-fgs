@@ -970,16 +970,25 @@ class Recommendation extends React.Component {
             </div>
 
             <div className="">
+              {/*//1111111*/}
               {(isRu || isUs) && (
-                <button
-                  className={`rc-btn rc-btn--one ${
-                    this.state.buttonLoading ? 'ui-btn-loading' : ''
-                  } ${this.addCartBtnStatus ? '' : 'rc-btn-solid-disabled'}`}
-                  onClick={this.addCart}
-                >
-                  <FormattedMessage id="recommendation.welcomeBtn" />
-                  {/* Voir le panier */}
-                </button>
+                <>
+                  <p>
+                    <strong style={{ color: '#E2001A' }}>
+                      <FormattedMessage id="recommendation.firstOrderDiscount" />
+                    </strong>
+                    <br />
+                  </p>
+                  <button
+                    className={`rc-btn rc-btn--one ${
+                      this.state.buttonLoading ? 'ui-btn-loading' : ''
+                    } ${this.addCartBtnStatus ? '' : 'rc-btn-solid-disabled'}`}
+                    onClick={this.addCart}
+                  >
+                    <FormattedMessage id="recommendation.welcomeBtn" />
+                    {/* Voir le panier */}
+                  </button>
+                </>
               )}
 
               {/* promotion code */}

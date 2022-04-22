@@ -816,11 +816,7 @@ const PetForms = ({
                   className="form-control-label rc-full-width"
                   htmlFor="Weight"
                 >
-                  {window.__.env.REACT_APP_COUNTRY === 'jp' ? (
-                    <FormattedMessage id="Pet.Weight" />
-                  ) : (
-                    <FormattedMessage id="Weight" />
-                  )}
+                  <FormattedMessage id="Pet.Weight" />
                 </label>
                 <span
                   className="rc-input rc-input--label rc-margin--none rc-input--full-width"
