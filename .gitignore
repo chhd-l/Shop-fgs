@@ -7,3 +7,4 @@ build_tmp
 package-lock.json
 .vscode
 demo_index.html
+.templates
