@@ -489,6 +489,7 @@ class PetForm extends React.Component {
                 </div>
               </div>
               <PetForms
+                petList={petList}
                 paramsId={this.props.match.params.id || ''}
                 oldCurrentPet={this.state.oldCurrentPet}
                 currentPetParam={this.state.currentPetParam}
