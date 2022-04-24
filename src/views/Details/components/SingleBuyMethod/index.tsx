@@ -11,7 +11,7 @@ interface Props {
   currentSubscriptionPrice: any;
   changeMethod: Function;
   changeFreqency: Function;
-  children:any;
+  children: any;
 }
 
 const SingleBuyMethod = ({
@@ -62,15 +62,18 @@ const SingleBuyMethod = ({
             </span>
           </label>
           <br />
-         {form.buyWay === 0 ? <div className="freeshippingBox">
-            <FormattedMessage
-              id={
-                window.__.env.REACT_APP_COUNTRY == 'tr' || window.__.env.REACT_APP_COUNTRY == 'se'
-                  ? 'oneoffFreeShipping'
-                  : 'freeShipping'
-              }
-            />
-          </div>:null}
+          {form.buyWay === 0 ? (
+            <div className="freeshippingBox">
+              <FormattedMessage
+                id={
+                  window.__.env.REACT_APP_COUNTRY == 'tr' ||
+                  window.__.env.REACT_APP_COUNTRY == 'se'
+                    ? 'oneoffFreeShipping'
+                    : 'freeShipping'
+                }
+              />
+            </div>
+          ) : null}
         </div>
       </div>
       {/* <div className="freqency order-3 md:order-2 col-12 col-md-4 text-center">
@@ -83,7 +86,8 @@ const SingleBuyMethod = ({
             <FormattedMessage id="starUnit" defaultMessage=" " />
           </span>
         </div>
-        {form.buyWay === 0 && configStore?.info?.storeVO?.basePricePDPShowedFlag &&
+        {form.buyWay === 0 &&
+        configStore?.info?.storeVO?.basePricePDPShowedFlag &&
         selectedSpecItem?.goodsInfoWeight &&
         selectedSpecItem?.goodsInfoUnit ? (
           <div
@@ -92,7 +96,6 @@ const SingleBuyMethod = ({
               color: '#999'
             }}
           >
-            
             {formatMoney(
               (
                 currentUnitPrice / parseFloat(selectedSpecItem.goodsInfoWeight)
@@ -102,10 +105,9 @@ const SingleBuyMethod = ({
           </div>
         ) : null}
       </div>
-      {form.buyWay === 0 ?
-        <div className="flex w-full justify-center">
-          {children}
-        </div> : null}
+      {form.buyWay === 0 ? (
+        <div className="flex w-full justify-center">{children}</div>
+      ) : null}
     </div>
   );
 };

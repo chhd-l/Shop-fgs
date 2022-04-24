@@ -134,6 +134,11 @@ class SubscriptionDetail extends React.Component {
           title: 'modalChangeDateTitle',
           content: 'modalChangeDateContent',
           type: 'changeDate'
+        },
+        {
+          title: 'modalChangeDateTitle',
+          content: 'modalChangeDateContent',
+          type: 'changeTime'
         }
       ],
       currentModalObj: {
@@ -159,7 +164,9 @@ class SubscriptionDetail extends React.Component {
       isNotInactive: false,
       isDataChange: false,
       petName: '', //订阅单的petName
-      showTempolineError: false
+      showTempolineError: false,
+      jpSlotTime: {},
+      slotTimeChanged: false
     };
   }
 
@@ -560,7 +567,7 @@ class SubscriptionDetail extends React.Component {
   }
 
   hanldeClickSubmit = () => {
-    let { modalType, subDetail } = this.state;
+    let { modalType, subDetail, jpSlotTime } = this.state;
     this.setState({ loading: true, modalShow: false });
     if (modalType === 'skipNext') {
       skipNextSub({
@@ -607,6 +614,10 @@ class SubscriptionDetail extends React.Component {
         this.state.currentChangeItem,
         showTimeSlot
       );
+    } else if (modalType === 'changeTime') {
+      this.setState({ slotTimeChanged: true }, () => {
+        this.handleSaveChange(jpSlotTime, true);
+      });
     }
   };
 
@@ -742,7 +753,8 @@ class SubscriptionDetail extends React.Component {
       await this.getDetail();
       this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success');
       this.setState({
-        isDataChange: false
+        isDataChange: false,
+        slotTimeChanged: false
       });
     } catch (err) {
       this.showErrMsg(err.message);
@@ -793,7 +805,8 @@ class SubscriptionDetail extends React.Component {
       triggerShowChangeProduct,
       petName,
       errorMsg,
-      successMsg
+      successMsg,
+      slotTimeChanged
     } = this.state;
     let isShowClub =
       subDetail.subscriptionType?.toLowerCase().includes('club') ||
@@ -995,6 +1008,7 @@ class SubscriptionDetail extends React.Component {
                             isGift={isGift}
                             completedYear={completedYear}
                             activeTabIdx={activeTabIdx}
+                            slotTimeChanged={slotTimeChanged}
                           />
                           <GiftList
                             {...this.props}
