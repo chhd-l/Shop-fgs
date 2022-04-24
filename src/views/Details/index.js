@@ -86,7 +86,11 @@ const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
 const Tr = window.__.env.REACT_APP_COUNTRY === 'tr';
 const Uk = window.__.env.REACT_APP_COUNTRY === 'uk';
 const Jp = window.__.env.REACT_APP_COUNTRY === 'jp';
-
+const purchaseType = {
+  0: 'Single purchase',
+  1: 'Autoship',
+  2: 'Club'
+};
 @inject(
   'checkoutStore',
   'loginStore',
@@ -175,8 +179,10 @@ class Details extends React.Component {
     this.ChangeFormat = this.ChangeFormat.bind(this);
   }
   componentWillUnmount() {}
+
   async componentDidMount() {
     const { pathname } = this.props.location;
+    const { form } = this.state;
     this.getUrlParam();
     // 获取spu在?后面有很多数据的时候，需要特殊处理一下
     let goodsSpuNo =
@@ -195,6 +201,7 @@ class Details extends React.Component {
       },
       () => this.queryDetails()
     );
+    this.pushPurchase(form.buyWay);
   }
 
   get isLogin() {
@@ -921,6 +928,16 @@ class Details extends React.Component {
     }
   }
 
+  pushPurchase(type) {
+    window.dataLayer &&
+      window.dataLayer.push({
+        event: `pdpPurchaseTypeChange`,
+        pdpPurchaseTypeChange: {
+          newItem: purchaseType[type]
+        }
+      });
+  }
+
   handleInputChange(e) {
     let { form } = this.state;
     form.buyWay = parseInt(e.currentTarget.value);
@@ -930,6 +947,7 @@ class Details extends React.Component {
     let { form } = this.state;
     form.buyWay = parseInt(buyType);
     this.setState({ form });
+    this.pushPurchase(buyType);
   }
   showCheckoutErrMsg(msg) {
     this.setState({
