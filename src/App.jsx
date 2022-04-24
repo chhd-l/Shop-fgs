@@ -315,6 +315,7 @@ const LoginCallback = (props) => {
       }
     };
     init();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [oktaAuth, authStateReady]);
   // }, [oktaAuth, authStateReady, authState, props]);
 
@@ -697,6 +698,10 @@ const App = () => {
                   )}
                   // component={AccountPetForm}
                 />
+                {/* 日本需要fgs 不登录也能看到宠物创建页面 */}
+                {window.__.env.REACT_APP_COUNTRY === 'jp' && (
+                  <Route path="/petForm" exact component={AccountPetForm} />
+                )}
                 <Route
                   path="/account/pets/petForm/"
                   exact

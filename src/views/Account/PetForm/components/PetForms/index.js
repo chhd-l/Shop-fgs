@@ -95,6 +95,7 @@ const PetForms = ({
   showErrorMsg,
   loginStore
 }) => {
+  console.log('history', history);
   const Us = window.__.env.REACT_APP_COUNTRY == 'us';
   const RuTrFrDe =
     ['ru', 'tr', 'fr', 'de', 'se'].indexOf(window.__.env.REACT_APP_COUNTRY) >
@@ -185,7 +186,8 @@ const PetForms = ({
       item.checked = checked;
     });
     setSterilizedGroup(sterilizedOptions);
-  }, [currentPetParam, currentPetParam.petsId, petForm]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPetParam.petsId]);
   useEffect(() => {
     getTypeDict();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -963,7 +965,11 @@ const PetForms = ({
                       onClick={(e) => {
                         e.stopPropagation();
                         e.preventDefault();
-                        history.push('/home');
+                        if (this.userInfo) {
+                          this.props.history.push('/home');
+                        } else {
+                          this.props.history.push('/required');
+                        }
                       }}
                     >
                       Proceed without adding a pet profile

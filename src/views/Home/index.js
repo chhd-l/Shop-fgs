@@ -607,7 +607,6 @@ class Home extends React.Component {
     if (funcUrl({ name: 'couponCode' })) {
       localItemRoyal.set('rc-couponCode', funcUrl({ name: 'couponCode' }));
     }
-
     // Cross-store login
     if (localItemRoyal.get('login-again')) {
       loginStore.changeLoginModal(true);
