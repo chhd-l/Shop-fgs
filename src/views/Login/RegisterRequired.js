@@ -365,6 +365,13 @@ class RegisterRequired extends Component {
                           fontZoom={this.state.fontZoom}
                           auto={true}
                           key={'required'}
+                          // pageType 决定哪些页面需要展示配置的consent text
+                          // se required页面 需要展示text
+                          pageType={
+                            window.__.env.REACT_APP_COUNTRY === 'se'
+                              ? 'seRequired'
+                              : ''
+                          }
                         />
                       )}
                     </div>

@@ -189,7 +189,9 @@ module.exports = function (webpackEnv) {
       // It requires a trailing slash, or the file assets will get an incorrect path.
       // We inferred the "public path" (such as / or /my-project) from homepage.
       // publicPath: paths.publicUrlOrPath,
-      publicPath: process.env.REACT_APP_ASSETS_PREFIX,
+      publicPath:
+        process.env.REACT_APP_ASSETS_PREFIX ||
+        'https://fgs-cdn.azureedge.net/cdn/',
       // Point sourcemap entries to original disk location (format as URL on Windows)
       devtoolModuleFilenameTemplate: isEnvProduction
         ? (info) =>

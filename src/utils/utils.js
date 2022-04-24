@@ -963,7 +963,9 @@ export function bindSubmitParam(list) {
       mx: ['RC_MX_B2C_OPT']
     }[window.__.env.REACT_APP_COUNTRY] || [];
   let obj = { optionalList: [], requiredList: [] };
-  if (['fr', 'de', 'us', 'se'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1) {
+  if (
+    ['fr', 'de', 'us', 'se', 'mx'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1
+  ) {
     const noIsRequiredList = list?.filter((item) => !item.isRequired);
     const firstOptionalList = noIsRequiredList?.filter(
       (l) => SPECAIL_CONSENT_ENUM?.includes(l.consentDesc) && !l.isChecked

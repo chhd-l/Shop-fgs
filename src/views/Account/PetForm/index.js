@@ -379,21 +379,29 @@ class PetForm extends React.Component {
         <Canonical />
         <Header {...this.props} showMiniIcons={true} showUserIcon={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3 p-petform">
-          <BreadCrumbs />
+          {this.props.history.location.pathname !== '/petForm/' &&
+            this.props.history.location.pathname !== '/petForm' && (
+              <BreadCrumbs />
+            )}
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
-              {isMobile ? (
-                <div className="col-12 rc-md-down">
-                  <Link to="/account/pets">
-                    <span className="red">&lt;</span>
-                    <span className="rc-styled-link rc-progress__breadcrumb ml-2 mt-1">
-                      <FormattedMessage id="account.pets" />
-                    </span>
-                  </Link>
-                </div>
-              ) : (
-                <SideMenu type="Pets" />
-              )}
+              {this.props.history.location.pathname !== '/petForm/' &&
+                this.props.history.location.pathname !== '/petForm' && (
+                  <div>
+                    {isMobile ? (
+                      <div className="col-12 rc-md-down">
+                        <Link to="/account/pets">
+                          <span className="red">&lt;</span>
+                          <span className="rc-styled-link rc-progress__breadcrumb ml-2 mt-1">
+                            <FormattedMessage id="account.pets" />
+                          </span>
+                        </Link>
+                      </div>
+                    ) : (
+                      <SideMenu type="Pets" />
+                    )}
+                  </div>
+                )}
               {this.state.loading ? <Loading positionFixed="true" /> : null}
               <div
                 className="chooseTypeBox my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop mt-2 md:mt-0"
@@ -458,7 +466,11 @@ class PetForm extends React.Component {
                               onClick={(e) => {
                                 e.stopPropagation();
                                 e.preventDefault();
-                                this.props.history.push('/required');
+                                if (this.userInfo) {
+                                  this.props.history.push('/home');
+                                } else {
+                                  this.props.history.push('/required');
+                                }
                               }}
                             >
                               Proceed without adding a pet profile
@@ -477,6 +489,7 @@ class PetForm extends React.Component {
                 </div>
               </div>
               <PetForms
+                petList={petList}
                 paramsId={this.props.match.params.id || ''}
                 oldCurrentPet={this.state.oldCurrentPet}
                 currentPetParam={this.state.currentPetParam}

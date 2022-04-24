@@ -102,8 +102,14 @@ class Register extends Component {
     }
     const isLogin = !!localItemRoyal.get('rc-token');
     if (isLogin) {
-      this.props.history.push('/');
+      // 日本注册登陆后需要创建宠物
+      if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+        this.props.history.push('/account/pets/petForm');
+      } else {
+        this.props.history.push('/');
+      }
     }
+
     this.initConsent();
     var windowWidth = document.body.clientWidth;
     if (windowWidth < 640) {
@@ -454,6 +460,15 @@ class Register extends Component {
               // window.location.href = window.location.origin + type[window.__.env.REACT_APP_GA_ENV];
               this.props.history.push('/checkout');
             } else {
+              // 日本注册成功后需要跳转到宠物创建页面，不需要登录，把OKTA的登录信息带过去
+              // 根据callOktaCallBack实现自动登录
+              if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+                this.props.history.push({
+                  pathname: '/petForm',
+                  state: { callOktaCallBack }
+                });
+                return;
+              }
               window.location.href = callOktaCallBack; // 调用一次OKTA的登录
             }
           } else {
@@ -1642,16 +1657,3 @@ class Register extends Component {
   }
 }
 export default withOktaAuth(Register);
-
-const ChaChaIcon = ({ className, onClick = () => {} } = {}) => {
-  return (
-    <span
-      className={cn(
-        'iconfont iconchahao font-bold icon-unsuscribe cursor-pointer inline-block py-3 px-2',
-        className
-      )}
-      style={{ color: '#c03344' }}
-      onClick={onClick}
-    />
-  );
-};
