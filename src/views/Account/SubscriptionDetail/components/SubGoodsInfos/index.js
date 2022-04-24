@@ -92,14 +92,13 @@ const SubGoodsInfos = ({
           {subDetail.goodsInfo &&
             subDetail.goodsInfo.map((el, index) => (
               <div
-                className="goodsItem rc-card-content"
+                className="goodsItem rc-card-content py-3"
                 style={{
                   border: '1px solid #d7d7d7',
-                  padding: '.75rem',
                   position: 'relative'
                 }}
               >
-                <div style={{ display: 'flex' }}>
+                <div className="px-3 flex">
                   <div className="for-mobile-colum">
                     {/* <LazyLoad> */}
                     <img
@@ -139,7 +138,7 @@ const SubGoodsInfos = ({
                     )}
                   </div>
                 </div>
-                <div style={{ marginTop: '.9375rem' }}>
+                <div className="p-3">
                   <div>
                     <span style={{ display: isIndv ? 'none' : 'inline-block' }}>
                       <QuantityPicker
@@ -196,10 +195,7 @@ const SubGoodsInfos = ({
                     )}
                   </div>
                 </div>
-                <div
-                // className="col-4 col-md-5"
-                // style={{ paddingLeft: '60px' }}
-                >
+                <div className="border-t">
                   <ChangeSelection el={el} intl={intl} />
                 </div>
                 {el.canDelete ? (
@@ -403,8 +399,7 @@ const SubGoodsInfos = ({
                       )}
                     </div>
                   </div>
-                  <div className="col-4 col-md-1" />
-                  <div className="col-4 col-md-5" style={{ padding: 0 }}>
+                  <div className="col-4 col-md-5">
                     <ChangeSelection el={el} intl={intl} />
                   </div>
                   {el.canDelete ? (

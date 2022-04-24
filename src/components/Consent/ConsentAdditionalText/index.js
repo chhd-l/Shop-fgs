@@ -65,22 +65,22 @@ const ConsentAdditionalText = ({ textPosition }) => {
         </p>
       </div>
     ),
-    // mx: (
-    //   <div className="consent-txt">
-    //     <p>
-    //       Nos gustaría mantenerte al tanto a ti y a tu mascota de promociones y
-    //       contenido de valor de &nbsp;
-    //       <a
-    //         href="https://mex.mars.com/es-MX/hecho-por-mars/petcare"
-    //         target="_blank"
-    //       >
-    //         Mars Petcare y sus afiliados
-    //       </a>{' '}
-    //       .
-    //     </p>
-    //     <p>Tengo 16 años o más.</p>
-    //   </div>
-    // ),
+    mx: (
+      <div className="consent-txt">
+        <p>
+          Nos gustaría mantenerte al tanto a ti y a tu mascota de promociones y
+          contenido de valor de &nbsp;
+          <a
+            href="https://mex.mars.com/es-MX/hecho-por-mars/petcare"
+            target="_blank"
+          >
+            Mars Petcare y sus afiliados
+          </a>{' '}
+          .
+        </p>
+        <p>Tengo 16 años o más.</p>
+      </div>
+    ),
     jp: (
       <div className="consent-txt">
         <p>
@@ -105,6 +105,27 @@ const ConsentAdditionalText = ({ textPosition }) => {
         </p>
         <p>
           私は18歳以上で、下記の会社からメール、SMS等による情報配信を希望します。
+        </p>
+      </div>
+    ),
+    tr: (
+      <div className="consent-txt">
+        <p>
+          <a href="https://www.royalcanin.com/tr" target="_blank">
+            Royal Canin Turkey Evcil Hayvan Ürünleri Ticaret Ltd. Şti
+          </a>
+          ,&nbsp;
+          <a href="https://www.mars.com/made-by-mars/petcare" target="_blank">
+            Mars Petcare ve bağlı şirketlerinin
+          </a>
+          &nbsp;heyecan verici promosyonları ve yeni ürün geliştirmelerinden
+          sizi ve [evcil hayvanınızı] haberdar etmek istiyoruz. Zaman zaman,
+          ürün ve hizmet sunumlarımızı geliştirmek için araştırma amacıyla
+          verilerinizi kullanabiliriz.
+        </p>
+        <p className="mt-2">
+          18 yaşından büyükseniz, lütfen aşağıdaki kutucukları işaretleyerek
+          seçimlerinizi onaylayın:
         </p>
       </div>
     )
@@ -188,36 +209,36 @@ const ConsentAdditionalText = ({ textPosition }) => {
         </p>
       </div>
     ),
-    // mx: (
-    //   <div className="explain-txt">
-    //     <p>
-    //       Entiendo que puedo cambiar estas preferencias en cualquier momento
-    //       mediante el [mecanismo detallado para administrar las preferencias].
-    //     </p>
-    //     <p>
-    //       q ü Desmarque esta casilla si no desea que sus datos se utilicen en
-    //       investigaciones para mejorar nuestras ofertas de productos y
-    //       servicios.
-    //     </p>
-    //     <p>
-    //       Puede averiguar cómo &nbsp;
-    //       <a
-    //         href="https://mex.mars.com/es-MX/hecho-por-mars/petcare"
-    //         target="_blank"
-    //       >
-    //         Mars Petcare
-    //       </a>
-    //       &nbsp; y sus afiliados recopilan y procesan sus Datos, puede
-    //       comunicarse con nosotros si tiene preguntas sobre nuestros procesos de
-    //       procesamiento y/o para ejercer sus derechos ARCO a través del Aviso de
-    //       &nbsp;
-    //       <a href="https://www.mars.com/privacy-policy-Mexico" target="_blank">
-    //         Privacidad de Mars
-    //       </a>
-    //       .
-    //     </p>
-    //   </div>
-    // ),
+    mx: (
+      <div className="explain-txt">
+        <p>
+          Entiendo que puedo cambiar estas preferencias en cualquier momento
+          mediante el [mecanismo detallado para administrar las preferencias].
+        </p>
+        <p>
+          q ü Desmarque esta casilla si no desea que sus datos se utilicen en
+          investigaciones para mejorar nuestras ofertas de productos y
+          servicios.
+        </p>
+        <p>
+          Puede averiguar cómo &nbsp;
+          <a
+            href="https://mex.mars.com/es-MX/hecho-por-mars/petcare"
+            target="_blank"
+          >
+            Mars Petcare
+          </a>
+          &nbsp; y sus afiliados recopilan y procesan sus Datos, puede
+          comunicarse con nosotros si tiene preguntas sobre nuestros procesos de
+          procesamiento y/o para ejercer sus derechos ARCO a través del Aviso de
+          &nbsp;
+          <a href="https://www.mars.com/privacy-policy-Mexico" target="_blank">
+            Privacidad de Mars
+          </a>
+          .
+        </p>
+      </div>
+    ),
     jp: (
       <div className="explain-txt">
         {/* <p>&nbsp;</p> */}
@@ -233,6 +254,29 @@ const ConsentAdditionalText = ({ textPosition }) => {
             「マースのプライバシーに関する声明」
           </a>
           でご確認いただけます。
+        </p>
+      </div>
+    ),
+    tr: (
+      <div className="explain-txt">
+        <p className="mb-2">
+          İleti Yönetim Sistemi aracılığı ile bu tercihleri istediğim zaman
+          değiştirebileceğimi biliyorum.
+        </p>
+        <p>
+          <a href="https://www.royalcanin.com/tr" target="_blank">
+            Royal Canin Turkey Evcil Hayvan Ürünleri Ticaret Ltd. Şti
+          </a>
+          ,&nbsp;
+          <a href="https://www.mars.com/made-by-mars/petcare" target="_blank">
+            Mars Petcare ve bağlı şirketlerinin
+          </a>
+          &nbsp; verilerinizi nasıl toplayıp işlediğini öğrenebilir, gizlilik
+          soruları hakkında bizimle iletişime geçebilir ve &nbsp;
+          <a href="https://www.mars.com/privacy-policy-turkey" target="_blank">
+            Mars Gizlilik Beyanı
+          </a>
+          &nbsp; aracılığıyla kişisel veri haklarınızı kullanabilirsiniz.
         </p>
       </div>
     )

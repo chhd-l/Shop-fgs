@@ -1180,7 +1180,7 @@ class LoginCart extends React.Component {
               </strong>
             </div>
             <div className="col-5">
-              <p className="text-right grand-total-sum medium mb-0 text-nowrap mb-4">
+              <p className="text-right grand-total-sum medium mb-0 text-nowrap">
                 {this.props.configStore?.customTaxSettingOpenFlag &&
                 this.props.configStore?.enterPriceType === 'NO_TAX' ? (
                   <>

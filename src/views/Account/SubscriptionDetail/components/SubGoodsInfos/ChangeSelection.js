@@ -37,54 +37,33 @@ const ChangeSelection = ({ el }) => {
 
   return (
     <>
-      <div className="rc-card-content overflow-hidden">
-        <strong
-          style={{
-            display: 'inline-block',
-            width: '50%'
-          }}
-          className="whitespace-nowrap1"
-        >
+      <div className="rc-card-content overflow-hidden grid grid-cols-12 items-center px-3 md:px-0 mt-3 md:mt-0 mb-2 gap-1">
+        <span className="col-span-7 md:col-span-6 leading-normal">
           {/* Shipping Method: */}
           <FormattedMessage
             id={isClub ? 'autoShipStarted' : 'autoShipStarted2'}
           />
-        </strong>
+        </span>
         <div
-          className="rc-card__meta order-Id text-left text-base	"
+          className="rc-card__meta order-Id text-left text-base	col-span-5 md:col-span-6"
           style={{
-            marginTop: '.625rem',
-            display: 'inline-block',
-            marginLeft: '1.625rem',
             fontSize: '1.25rem'
           }}
         >
           {formatDate({ date: el.createTime })}
         </div>
       </div>
-      <div className="rc-card-content sub-frequency-wrap -my-2">
+      <div className="rc-card-content sub-frequency-wrap grid grid-cols-12 items-center px-3 md:px-0 gap-1">
         {isIndv ? (
           <>
-            <strong
-              style={{
-                display: 'inline-block',
-                width: '50%',
-                marginTop: '.625rem',
-                float: 'left'
-              }}
-            >
+            <span className="col-span-7">
               <FormattedMessage id="subscription.frequencyDelivery" />
               <FormattedMessage id="subscription.deliveryEvery" />
-            </strong>
+            </span>
             <div
-              className="rc-card__meta order-Id text-left text-base"
+              className="rc-card__meta order-Id text-left text-base col-span-5"
               style={{
-                marginTop: '.625rem',
-                display: 'inline-block',
-                paddingLeft: '1.625rem',
-                fontSize: '1.25rem',
-                width: '50%',
-                float: 'left'
+                fontSize: '1.25rem'
               }}
             >
               <FrequencyMatch currentId={el.periodTypeId} />
@@ -94,20 +73,14 @@ const ChangeSelection = ({ el }) => {
           </>
         ) : (
           <div
-            className="rc-card__meta order-Id text-left text-base"
+            className="rc-card__meta order-Id text-left text-base	col-span-12"
             style={{
-              marginTop: '.625rem',
-              display: 'inline-block',
-              marginLeft: '.625rem',
-
               fontSize: '1.25rem'
             }}
           >
             {el.promotions && (
               <FrequencySelection
                 frequencyType={el.promotions}
-                // selectionStyle={{ marginLeft: '0.625rem' }}
-                // textStyle={{ display: 'inline-block', width: '50%' }}
                 wrapStyle={{}}
                 currentFrequencyId={el.periodTypeId}
                 handleConfirm={(data) => {
@@ -117,32 +90,31 @@ const ChangeSelection = ({ el }) => {
                     setState({ isDataChange: true });
                   }
                 }}
-                className="col-md-12 text-left"
-                // textStyle={{ width: '50%' }}
+                childrenGridCls={[
+                  'col-span-7 md:col-span-6',
+                  'col-span-5 md:col-span-6'
+                ]}
                 disabled={!isActive || isGift}
+                selectionStyle={{ marginLeft: '.3rem' }}
               />
             )}
           </div>
         )}
       </div>
 
-      <div className="rc-card-content -mt-5 mb-1 overflow-hidden">
-        <strong
+      <div className="rc-card-content mb-1 overflow-hidden grid grid-cols-12 items-center px-3 md:px-0 gap-1">
+        <span
           style={{
-            display: 'inline-block',
-            width: '50%'
+            lineHeight: 1
           }}
-          className="whitespace-nowrap"
+          className="whitespace-nowrap1 col-span-7 md:col-span-6 flex items-center"
         >
-          <span className="iconfont icondata text-xl mr-2" />
+          <span className="iconfont icondata text-lg mr-2" />
           <FormattedMessage id="nextShipment" />:
-        </strong>
+        </span>
         <div
-          className="rc-card__meta order-Id"
+          className="rc-card__meta order-Id col-span-5 md:col-span-6"
           style={{
-            marginTop: '.625rem',
-            display: 'inline-block',
-            marginLeft: '1.625rem',
             fontSize: '1.25rem'
           }}
         >
@@ -165,7 +137,7 @@ const ChangeSelection = ({ el }) => {
         </div>
       </div>
       {el.canChangeProduct ? (
-        <div className="rc-card-content">
+        <div className="rc-card-content px-3 md:px-0">
           <div className=" flex items-center">
             <span
               style={{

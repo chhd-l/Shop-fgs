@@ -24,7 +24,7 @@ let benifitList = [
   }
 ];
 
-if (window.__.env.REACT_APP_COUNTRY === 'se') {
+if (['se', 'jp'].includes(window.__.env.REACT_APP_COUNTRY)) {
   benifitList.pop();
 }
 

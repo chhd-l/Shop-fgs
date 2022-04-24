@@ -9,6 +9,7 @@ class Index extends React.Component {
   render() {
     return (
       <div
+        id="bazaarvoice-review-container"
         className="rc-max-width--xl rc-padding-x--sm"
         data-bv-show="reviews"
         data-bv-product-id={this.props.productId}

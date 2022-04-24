@@ -93,6 +93,10 @@ const DetailHeader = ({
         dangerouslySetInnerHTML={createMarkup(details.goodsDescription)}
       />
       {stockDom()}
+      {!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS &&
+        !!details.goodsNo && (
+          <BazaarVoiceRatingSummary productId={details.goodsNo} />
+        )}
       </>
       :null}
     </div>

@@ -220,7 +220,7 @@ const ChangeProduct = () => {
               <Skeleton color="#f5f5f5" width="100%" height="30%" count={2} />
             </div>
           ) : (
-            <div className="recommendatio-wrap  rc-margin-bottom--sm rc-padding--sm">
+            <div className="recommendatio-wrap rc-padding--sm my-4 md:my-0">
               <p className="recommendatio-wrap-title">
                 <FormattedMessage id="subscriptionDetail.newProduct" />
               </p>

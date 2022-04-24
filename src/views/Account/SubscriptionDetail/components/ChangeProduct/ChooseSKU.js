@@ -188,9 +188,9 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
   return (
     <React.Fragment>
       <ErrorMessage msg={errorMsgSureChange} />
-      <div className="d-flex for-pc-bettwen">
-        <div className="d-flex for-mobile-colum for-mobile-100">
-          <div className="d-flex rc-margin-right--xs">
+      <div className="d-flex md:justify-between md:items-center">
+        <div className="d-flex flex-col md:flex-row w-full md:w-auto items-center">
+          <div className="d-flex rc-margin-right--xs items-center">
             <img
               src={details.goodsImg}
               style={{ height: '4rem' }}
@@ -225,14 +225,11 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
                 </div>
               </div>
               <strong className="rc-md-down">
-                ={formatMoney(currentSubscriptionPrice * quantity)}
+                = {formatMoney(currentSubscriptionPrice * quantity)}
               </strong>
             </div>
           </div>
-          <div
-            className="cart-and-ipay rc-margin-right--xs rc-margin-left--xs"
-            style={{ float: 'left' }}
-          >
+          <div className="cart-and-ipay rc-margin-right--xs rc-margin-left--xs -mb-5 md:-mb-0">
             <div className="specAndQuantity rc-margin-bottom--xs ">
               {details.goodsInfos && (
                 <HandledSpec
@@ -251,7 +248,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
           >
             {skuPromotions && (
               <FrequencySelection
-                className="col-md-8"
+                childrenGridCls={['col-span-6', 'col-span-6']}
                 frequencyType={skuPromotions}
                 currentFrequencyId={form.frequencyId}
                 handleConfirm={handleSelectedItemChange}
@@ -263,9 +260,9 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
           ={formatMoney(currentSubscriptionPrice * quantity)}
         </strong>
       </div>
-      <div className="d-flex  for-mobile-colum for-pc-bettwen rc-button-link-group">
+      <div className="d-flex for-mobile-colum for-pc-bettwen rc-button-link-group mt-3 md:mt-0">
         <span
-          className={`text-plain rc-styled-link ${
+          className={`text-plain rc-styled-link my-2 md:my-0 ${
             productListLoading ? 'ui-btn-loading' : ''
           }`}
           onClick={() => {
