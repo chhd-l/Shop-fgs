@@ -1,0 +1,28 @@
+.jp-benefits {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  dl {
+    width: 200px;
+    text-align: center;
+  }
+  dt img {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+  }
+  dd {
+    font-weight: 500;
+  }
+}
+
+@media (max-width: 480px) {
+  .jp-benefits {
+    flex-direction: column;
+    dl {
+      width: 100%;
+      padding: 10px 1.25rem;
+    }
+  }
+}
