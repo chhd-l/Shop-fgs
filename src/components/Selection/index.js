@@ -45,15 +45,25 @@ export default class Selection extends React.Component {
     });
   };
   handleClickOption(value, item) {
-    this.setState(
-      {
-        selectedItem: { value, ...item },
-        optionsVisible: false
-      },
-      () => {
-        this.props.selectedItemChange(this.state.selectedItem);
+    if (this.props.comfirmModal) {
+      this.props.selectedItemChange({ value, ...item });
+      if (this.props.slotTimeChanged) {
+        this.setState({
+          selectedItem: { value, ...item },
+          optionsVisible: false
+        });
       }
-    );
+    } else {
+      this.setState(
+        {
+          selectedItem: { value, ...item },
+          optionsVisible: false
+        },
+        () => {
+          this.props.selectedItemChange(this.state.selectedItem);
+        }
+      );
+    }
   }
   handleMouseEnterOption(idx) {
     this.setState({
