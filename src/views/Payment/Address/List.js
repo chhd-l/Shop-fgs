@@ -882,6 +882,7 @@ class AddressList extends React.Component {
         firstNameKatakana: tmp.firstNameKatakana,
         lastNameKatakana: tmp.lastNameKatakana
       };
+
       //日本
       // if (window.__.env.REACT_APP_COUNTRY === 'jp') {
       //   tmpDeliveryAddress.region = tmp.area;
@@ -1015,6 +1016,7 @@ class AddressList extends React.Component {
     this.setState({ saveLoading: true });
     try {
       const { deliveryAddress, addressList } = this.state;
+
       const originData = addressList[this.currentOperateIdx];
       //日本需求加unspecified
       // if(deliveryAddress.timeSlot == 'unspecified'){
@@ -1042,6 +1044,7 @@ class AddressList extends React.Component {
       const tmpPromise =
         this.currentOperateIdx > -1 ? editAddress : saveAddress;
       let res = await tmpPromise(params);
+      //debugger
 
       let tmpObj = res?.context;
       if (tmpObj.deliveryAddressId) {
