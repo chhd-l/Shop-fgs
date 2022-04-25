@@ -8,7 +8,7 @@ import { datePickerConfig, getZoneTime, formatDate } from '@/utils/utils';
 import { GAForChangeProductBtn } from '@/utils/GA';
 import cn from 'classnames';
 
-const ChangeSelection = ({ el }) => {
+const ChangeSelection = ({ el, idx }) => {
   const SubGoodsInfosValue = useContext(SubGoodsInfosContext);
   const {
     setState,
@@ -151,6 +151,7 @@ const ChangeSelection = ({ el }) => {
                 }
               )}
               onClick={() => {
+                setState({ currentChangeProductIdx: idx });
                 GAForChangeProductBtn();
                 if (!!subDetail.petsId) {
                   setState({

@@ -79,7 +79,8 @@ const SubGoodsInfos = ({
     showErrMsg,
     isIndv,
     triggerShowChangeProduct,
-    isShowClub
+    isShowClub,
+    currentOperatedItem
   };
   return (
     // true?null:
@@ -97,6 +98,7 @@ const SubGoodsInfos = ({
                   border: '1px solid #d7d7d7',
                   position: 'relative'
                 }}
+                key={index}
               >
                 <div className="px-3 flex">
                   <div className="for-mobile-colum">
@@ -196,7 +198,7 @@ const SubGoodsInfos = ({
                   </div>
                 </div>
                 <div className="border-t">
-                  <ChangeSelection el={el} intl={intl} />
+                  <ChangeSelection el={el} intl={intl} idx={index} />
                 </div>
                 {el.canDelete ? (
                   <div className="absolute right-2 top-2">
@@ -244,7 +246,7 @@ const SubGoodsInfos = ({
                 }}
                 key={index}
               >
-                <div className=" row align-items-center">
+                <div className="row align-items-center">
                   <div className="col-4 col-md-6">
                     <div
                       className="rc-layout-container rc-five-column direction-column "
@@ -400,7 +402,7 @@ const SubGoodsInfos = ({
                     </div>
                   </div>
                   <div className="col-4 col-md-5">
-                    <ChangeSelection el={el} intl={intl} />
+                    <ChangeSelection el={el} intl={intl} idx={index} />
                   </div>
                   {el.canDelete ? (
                     <div className="absolute right-2 top-2">
