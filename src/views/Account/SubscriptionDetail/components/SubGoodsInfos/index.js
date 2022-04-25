@@ -79,8 +79,7 @@ const SubGoodsInfos = ({
     showErrMsg,
     isIndv,
     triggerShowChangeProduct,
-    isShowClub,
-    currentOperatedItem
+    isShowClub
   };
   return (
     // true?null:
