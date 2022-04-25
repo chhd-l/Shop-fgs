@@ -790,8 +790,6 @@ const App = () => {
                       return <VetLandingPage {...props} />;
                     } else if (window.__.env.REACT_APP_COUNTRY === 'tr') {
                       return <TR_SubscriptionLanding {...props} />;
-                    } else if (window.__.env.REACT_APP_COUNTRY === 'jp') {
-                      return <JP_SubscriptionLanding {...props} />;
                     } else {
                       return <SubscriptionLanding {...props} />;
                     }
