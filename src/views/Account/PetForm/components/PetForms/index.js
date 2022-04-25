@@ -78,6 +78,7 @@ const sterilizedOptions = [
   }
 ];
 const PetForms = ({
+  petList,
   subList,
   oldCurrentPet,
   currentPetParam,
@@ -95,6 +96,8 @@ const PetForms = ({
   showErrorMsg,
   loginStore
 }) => {
+  console.log('history', history);
+  console.log('loginStore', loginStore);
   const Us = window.__.env.REACT_APP_COUNTRY == 'us';
   const RuTrFrDe =
     ['ru', 'tr', 'fr', 'de', 'se'].indexOf(window.__.env.REACT_APP_COUNTRY) >
@@ -185,7 +188,8 @@ const PetForms = ({
       item.checked = checked;
     });
     setSterilizedGroup(sterilizedOptions);
-  }, [currentPetParam, currentPetParam.petsId, petForm]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPetParam.petsId]);
   useEffect(() => {
     getTypeDict();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -248,7 +252,19 @@ const PetForms = ({
         };
       }
     }
-    history.push(url);
+    // 日本pet创建流程跟其他国家不一样
+    if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+      // 如果登录了,就到对应页面去
+      if (userInfo) {
+        history.push(url);
+      } else {
+        // 如果没有登录,就跳转到首页并自动登录
+        // history.push(history.location.state.callOktaCallBack);
+        window.location.href = history.location.state?.callOktaCallBack; // 调用一次OKTA的登录
+      }
+    } else {
+      history.push(url);
+    }
   };
   const setNewPetForm = (keyname, value) => {
     let newpetForm = Object.assign({}, petForm, {
@@ -951,26 +967,31 @@ const PetForms = ({
                     <FormattedMessage id="pet.sdeletePet" />
                   </span>
                 )}
-                {window.__.env.REACT_APP_COUNTRY === 'jp' && (
-                  <>
-                    <a
-                      href="javascript;"
-                      className="font-medium text-16 md:mr-2"
-                      style={{
-                        color: '#444444',
-                        borderBottom: '1px solid #d7d7d7'
-                      }}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        e.preventDefault();
-                        history.push('/home');
-                      }}
-                    >
-                      Proceed without adding a pet profile
-                    </a>
-                    <span className="md:mr-2">&nbsp;or&nbsp;</span>
-                  </>
-                )}
+                {window.__.env.REACT_APP_COUNTRY === 'jp' &&
+                  petList.length > 0 && (
+                    <>
+                      <a
+                        href="javascript;"
+                        className="font-medium text-16 md:mr-2"
+                        style={{
+                          color: '#444444',
+                          borderBottom: '1px solid #d7d7d7'
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          e.preventDefault();
+                          if (userInfo) {
+                            this.props.history.push('/home');
+                          } else {
+                            this.props.history.push('/required');
+                          }
+                        }}
+                      >
+                        Proceed without adding a pet profile
+                      </a>
+                      <span className="md:mr-2">&nbsp;or&nbsp;</span>
+                    </>
+                  )}
                 <button
                   className="rc-btn rc-btn--one"
                   onClick={() => savePet()}

@@ -191,11 +191,11 @@ class Consent extends Component {
                           </>
                         ) : (
                           <span
-                            className={
+                            className={` ${
                               zoom === '150%'
                                 ? 'footer-checkbox-title mt'
                                 : 'footer-checkbox-title'
-                            }
+                            } ${index == 2 ? 're2001acolor' : ''}`}
                             dangerouslySetInnerHTML={createMarkup(
                               item.consentTitle,
                               item.isRequired,
