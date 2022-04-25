@@ -168,12 +168,23 @@ class PayProductInfo extends React.Component {
                       item.subscriptionStatus &&
                       item.goodsInfoFlag != 3 ? (
                         <>
-                          <p className="text-line-through mb-0">
-                            {formatMoney(item.splitPrice)}
-                          </p>
-                          <p className="red mb-0">
-                            {formatMoney(item.subscriptionPrice * item.num)}
-                          </p>
+                          {/* 日本的订阅折扣价和原价一样特别显示 */}
+                          {window.__.env.REACT_APP_COUNTRY === 'jp' &&
+                          item.splitPrice ===
+                            item.subscriptionPrice * item.num ? (
+                            <p className="mb-0">
+                              {formatMoney(item.splitPrice)}
+                            </p>
+                          ) : (
+                            <>
+                              <p className="text-line-through mb-0">
+                                {formatMoney(item.splitPrice)}
+                              </p>
+                              <p className="red mb-0">
+                                {formatMoney(item.subscriptionPrice * item.num)}
+                              </p>
+                            </>
+                          )}
                         </>
                       ) : (
                         <p className="mb-0">{formatMoney(item.splitPrice)}</p>

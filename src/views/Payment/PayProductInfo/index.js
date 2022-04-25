@@ -922,7 +922,6 @@ class PayProductInfo extends React.Component {
                     </div>
                   </>
                 ))}
-
               <div className="product-summary__fees order-total-summary">
                 <PriceDetailsList
                   data={{
