@@ -10,6 +10,7 @@ import { ChangeProductContext } from './index';
 import { SubDetailHeaderContext } from '../SubDetailHeader';
 import { inject, observer } from 'mobx-react';
 import { QuantityPicker } from '@/components/Product';
+import cn from 'classnames';
 
 const ChooseSKU = ({ intl, configStore, ...restProps }) => {
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
@@ -31,7 +32,8 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
     setState,
     getDetail,
     subDetail,
-    triggerShowChangeProduct
+    triggerShowChangeProduct,
+    currentChangeProductIdx
   } = SubDetailHeaderValue;
   const {
     renderDetailAgin,
@@ -125,12 +127,14 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
         // productFinderFlag: currentSelectedSize.productFinderFlag
       };
 
-      let deleteGoodsItems = currentGoodsItems.map((el) => {
-        return {
-          subscribeId,
-          skuId: el.goodsInfoVO?.goodsInfoId
-        };
-      });
+      const deleteGoodsItems = currentGoodsItems
+        .filter((c, i) => i === currentChangeProductIdx)
+        .map((el) => {
+          return {
+            subscribeId,
+            skuId: el.goodsInfoVO?.goodsInfoId
+          };
+        });
       let isTheSamePro = deleteGoodsItems.find(
         (el) => el?.skuId == currentSelectedSize?.goodsInfoId
       );
@@ -143,7 +147,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
       if (buyWay) {
         addGoodsItems.periodTypeId = form.frequencyId;
       }
-      let params = {
+      const params = {
         subscribeId,
         addGoodsItems: [addGoodsItems],
         deleteGoodsItems
@@ -242,9 +246,9 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
             </div>
           </div>
           <p
-            className={`frequency rc-margin-right--xs rc-margin-left--xs ${
-              isMobile ? 'subscriptionDetail-choose-frequency' : ''
-            }`}
+            className={cn(`frequency rc-margin-right--xs rc-margin-left--xs`, {
+              'subscriptionDetail-choose-frequency': isMobile
+            })}
           >
             {skuPromotions && (
               <FrequencySelection
@@ -257,14 +261,14 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
           </p>
         </div>
         <strong className="rc-md-up" style={{ marginTop: '20px' }}>
-          ={formatMoney(currentSubscriptionPrice * quantity)}
+          = {formatMoney(currentSubscriptionPrice * quantity)}
         </strong>
       </div>
       <div className="d-flex for-mobile-colum for-pc-bettwen rc-button-link-group mt-3 md:mt-0">
         <span
-          className={`text-plain rc-styled-link my-2 md:my-0 ${
-            productListLoading ? 'ui-btn-loading' : ''
-          }`}
+          className={cn(`text-plain rc-styled-link my-2 md:my-0`, {
+            'ui-btn-loading': productListLoading
+          })}
           onClick={() => {
             setState({
               triggerShowChangeProduct: Object.assign(
@@ -291,10 +295,10 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
           {isNotInactive && (
             <button
               onClick={() => changePets(seleced)}
-              className={`rc-btn rc-btn--one rc-btn--sm ${
-                seleced ? '' : 'rc-btn-solid-disabled'
-              }
-                ${changeNowLoading ? 'ui-btn-loading' : ''}`}
+              className={cn(`rc-btn rc-btn--one rc-btn--sm`, {
+                'rc-btn-solid-disabled': !seleced,
+                'ui-btn-loading': changeNowLoading
+              })}
             >
               <FormattedMessage id="subscription.changeNow" />
             </button>

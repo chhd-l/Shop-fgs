@@ -71,6 +71,7 @@ class SubscriptionDetail extends React.Component {
         isShowModal: false,
         showBox: false // 只有一个商品的情况下都需要添加被动更换商品
       },
+      currentChangeProductIdx: -1,
       isGift: false,
       remainingsList: [],
       remainingsVisible: false,
@@ -806,7 +807,8 @@ class SubscriptionDetail extends React.Component {
       petName,
       errorMsg,
       successMsg,
-      slotTimeChanged
+      slotTimeChanged,
+      currentChangeProductIdx
     } = this.state;
     let isShowClub =
       subDetail.subscriptionType?.toLowerCase().includes('club') ||
@@ -920,6 +922,7 @@ class SubscriptionDetail extends React.Component {
                     initPage={this.initPage}
                     history={this.props.history}
                     triggerShowAddNewPet={triggerShowAddNewPet}
+                    currentChangeProductIdx={currentChangeProductIdx}
                   />
                   {/* <hr className="rc-margin-top---none" /> */}
                   <div className="content-asset">

@@ -1,9 +1,5 @@
 import React, { useEffect, useState, useContext, createContext } from 'react';
-import {
-  FormattedMessage,
-  injectIntl,
-  FormattedDate
-} from 'react-intl-phraseapp';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import stores from '@/store';
 import { useLocalStore } from 'mobx-react';
 import Skeleton from 'react-skeleton-loader';
@@ -12,9 +8,11 @@ import GoodsDetails from './GoodsDetails';
 import { getDetailsBySpuNo } from '@/api/details';
 import Modal from '@/components/Modal';
 import ChooseSKU from './ChooseSKU';
-export const ChangeProductContext = createContext();
 import { SubDetailHeaderContext } from '../SubDetailHeader';
 import { getFrequencyDict } from '@/utils/utils';
+
+export const ChangeProductContext = createContext();
+
 const ChangeProduct = () => {
   const { configStore } = useLocalStore(() => stores);
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
