@@ -92,7 +92,9 @@ const SubGoodsInfos = ({
           {subDetail.goodsInfo &&
             subDetail.goodsInfo.map((el, index) => (
               <div
-                className="goodsItem rc-card-content py-3"
+                className={cn('goodsItem rc-card-content py-3', {
+                  'mt-4': index
+                })}
                 style={{
                   border: '1px solid #d7d7d7',
                   position: 'relative'
@@ -221,7 +223,9 @@ const SubGoodsInfos = ({
                       updateChildDisplay={(status) =>
                         updateConfirmTooltipVisible(el, status)
                       }
-                      content={<FormattedMessage id="confirmDeleteProduct" />}
+                      content={
+                        <FormattedMessage id="subscription.confirmDeleteProduct" />
+                      }
                     />
                   </div>
                 ) : null}
@@ -404,7 +408,7 @@ const SubGoodsInfos = ({
                     <ChangeSelection el={el} intl={intl} idx={index} />
                   </div>
                   {el.canDelete ? (
-                    <div className="absolute right-2 top-2">
+                    <div className="absolute right-4 top-4">
                       <span
                         className="font-bold iconfont iconguan cursor-pointer hover:text-rc-red"
                         onClick={() => {
@@ -425,7 +429,15 @@ const SubGoodsInfos = ({
                         updateChildDisplay={(status) =>
                           updateConfirmTooltipVisible(el, status)
                         }
-                        content={<FormattedMessage id="confirmDeleteProduct" />}
+                        content={
+                          <FormattedMessage id="subscription.confirmDeleteProduct" />
+                        }
+                        okText={
+                          <FormattedMessage id="subscription.confirmDeleteProduct.confirm" />
+                        }
+                        cancelText={
+                          <FormattedMessage id="subscription.confirmDeleteProduct.cancel" />
+                        }
                       />
                     </div>
                   ) : null}
