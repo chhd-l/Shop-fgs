@@ -1657,3 +1657,16 @@ class Register extends Component {
   }
 }
 export default withOktaAuth(Register);
+
+const ChaChaIcon = ({ className, onClick = () => {} } = {}) => {
+  return (
+    <span
+      className={cn(
+        'iconfont iconchahao font-bold icon-unsuscribe cursor-pointer inline-block py-3 px-2',
+        className
+      )}
+      style={{ color: '#c03344' }}
+      onClick={onClick}
+    />
+  );
+};
