@@ -948,6 +948,13 @@ class Form extends React.Component {
         caninForm
       },
       () => {
+        // isDeliveryDateAndTimeSlot，
+        if (!isDeliveryDateAndTimeSlot) {
+          newForm.deliveryDate = '';
+          newForm.deliveryDateId = '';
+          newForm.timeSlot = '';
+          newForm.timeSlotId = '';
+        }
         this.props.updateData(newForm);
         this.validvalidationData('country', newForm.countryId);
       }
