@@ -209,7 +209,7 @@ const SubGoodsInfos = ({
                   <ChangeSelection el={el} intl={intl} idx={index} />
                 </div>
                 {el.canDelete ? (
-                  <div className="absolute right-4 top-4">
+                  <div className="absolute right-2 top-2">
                     <span
                       className="font-bold iconfont iconguan cursor-pointer hover:text-rc-red"
                       onClick={() => {
@@ -418,7 +418,7 @@ const SubGoodsInfos = ({
                   <ChangeSelection el={el} intl={intl} idx={index} />
                 </div>
                 {el.canDelete ? (
-                  <div className="absolute right-2 top-2">
+                  <div className="absolute right-4 top-4">
                     <span
                       className="font-bold iconfont iconguan cursor-pointer hover:text-rc-red"
                       onClick={() => {
