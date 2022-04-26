@@ -14,6 +14,7 @@ import Modal from './components/Modal';
 import initLocation from '../PrescriptionNavigate/location';
 import PageBaseInfo from '@/components/PageBaseInfo';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
+import YandexMap from '@/components/YandexMap';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -99,11 +100,13 @@ class Prescription extends React.Component {
     };
     this.hubGA = window.__.env.REACT_APP_HUB_GA === '1';
   }
+
   componentDidMount() {
     //获取是否显示prescriber弹框
     this.state.modalShow && this.hubGA && this.hubGaModalPopup();
     this.getAllPrescription();
   }
+
   componentWillUnmount() {
     sessionItemRoyal.remove('clinic-reselect');
   }
@@ -185,6 +188,7 @@ class Prescription extends React.Component {
       loading: false
     });
   }
+
   async getAllPrescription() {
     let params = {
       storeId: window.__.env.REACT_APP_STOREID
@@ -215,6 +219,7 @@ class Prescription extends React.Component {
       }
     );
   }
+
   //不需要绑定prescriber，关闭弹框直接跳转checkout页面
   closeModal = () => {
     this.hubGaModalPopupClick('No, go to buy');
@@ -292,6 +297,7 @@ class Prescription extends React.Component {
     localItemRoyal.set('checkOutNeedShowPrescriber', 'true'); //在checkout页面显示prescriber信息
     this.props.history.push('/checkout');
   };
+
   getSonMess(center) {
     this.setState({
       currentSelectClinic: {
@@ -493,15 +499,24 @@ class Prescription extends React.Component {
                 </form>
               </div>
               <div className="clinic-map">
-                <GoogleMap
-                  center={this.state.center}
-                  zoom={this.state.zoom}
-                  flags={flags}
-                  key={this.state.mapKey}
-                  //新增
-                  clinicArr={this.state.clinicArr}
-                  currentSelectClinic={this.state.currentSelectClinic}
-                />
+                {window.__.env.REACT_APP_COUNTRY == 'ru' ? (
+                  <YandexMap
+                    center={this.state.center}
+                    zoom={this.state.zoom}
+                    clinicArr={this.state.clinicArr}
+                    key={this.state.mapKey}
+                  />
+                ) : (
+                  <GoogleMap
+                    center={this.state.center}
+                    zoom={this.state.zoom}
+                    flags={flags}
+                    key={this.state.mapKey}
+                    //新增
+                    clinicArr={this.state.clinicArr}
+                    currentSelectClinic={this.state.currentSelectClinic}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -511,4 +526,5 @@ class Prescription extends React.Component {
     );
   }
 }
+
 export default Prescription;
