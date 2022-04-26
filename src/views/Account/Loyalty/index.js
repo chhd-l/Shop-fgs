@@ -111,7 +111,7 @@ const Loyalty = (props) => {
                       <div className="content">{myLoyaltyPoints}</div>
                     ) : (
                       <div className="pt-2">
-                        <FormattedMessage id="account.loyalty.noPointHistory." />
+                        <FormattedMessage id="account.loyalty.noPointHistory" />
                       </div>
                     )}
                   </div>

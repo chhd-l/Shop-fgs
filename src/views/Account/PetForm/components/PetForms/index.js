@@ -373,8 +373,12 @@ const PetForms = ({
   };
   const savePet = async () => {
     GAForChangePetinfoBtn();
+    // 这里的'weight'是size字段
     if (petForm.isPurebred == 1) {
       setNewPetForm('weight', '');
+      setState({
+        selectedSizeObj: { value: '' }
+      });
     } else if (petForm.isPurebred == 0) {
       setNewPetForm('breed', '');
     }
@@ -390,6 +394,7 @@ const PetForms = ({
     } else if (!isCat) {
       validFiled.push('weight');
     }
+    console.log(validFiled, 'validFiled==');
     for (let i = 0; i < validFiled.length; i++) {
       if (!petForm[validFiled[i]]) {
         showErrorMsg(intl.messages.pleasecompleteTheRequiredItem);
@@ -564,8 +569,6 @@ const PetForms = ({
   if (Us) {
     sensitivityLists = specialNeeds;
   }
-  console.log(petForm.imgUrl, 'petForm.imgUrl');
-  console.info('breedList', breedList);
   return (
     <div
       className="petFormBox my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop"
@@ -815,11 +818,7 @@ const PetForms = ({
                   className="form-control-label rc-full-width"
                   htmlFor="Weight"
                 >
-                  {window.__.env.REACT_APP_COUNTRY === 'jp' ? (
-                    <FormattedMessage id="Pet.Weight" />
-                  ) : (
-                    <FormattedMessage id="Weight" />
-                  )}
+                  <FormattedMessage id="Pet.Weight" />
                 </label>
                 <span
                   className="rc-input rc-input--label rc-margin--none rc-input--full-width"

@@ -66,7 +66,7 @@ const Table = ({ data }) => {
               <PCThead />
               <tbody className="rc-table__tbody">
                 <div className="pc-no-point py-3 px-6">
-                  <FormattedMessage id="There is no point history." />
+                  <FormattedMessage id="ThereIsNoPointHistory." />
                 </div>
               </tbody>
             </table>

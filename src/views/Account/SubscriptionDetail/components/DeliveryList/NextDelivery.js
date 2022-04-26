@@ -28,7 +28,8 @@ const NextDelivery = ({
   modalList,
   handleSaveChange,
   timeSlotArr,
-  intl
+  intl,
+  slotTimeChanged
 }) => {
   const showTimeSlot = window.__.env.REACT_APP_COUNTRY === 'jp';
   const isIndv = subDetail.subscriptionType
@@ -49,7 +50,7 @@ const NextDelivery = ({
   const [deliveryDateList, setDeliveryDateList] = useState([]);
   const [timeSlotList, setTimeSlotList] = useState([]);
   const [deliveryDate, setDeliveryDate] = useState('');
-  const [timeSlot, setTimeSlot] = useState('');
+  // const [timeSlot, setTimeSlot] = useState('');
 
   useEffect(() => {
     if (!showTimeSlot) {
@@ -141,7 +142,7 @@ const NextDelivery = ({
 
     setDeliveryDateList(deliveryDateList);
     setTimeSlotList(timeSlotList);
-    setTimeSlot(subDetail.timeSlot);
+    // setTimeSlot(subDetail.timeSlot);
     setDeliveryDate(subDetail.deliveryDate);
   };
   const dateChange = (date) => {
@@ -182,16 +183,24 @@ const NextDelivery = ({
     }
   };
 
-  const ChangeTimeDeliveryDate = (data) => {
-    setTimeSlot(Unspecified);
-    let timeSlotList = deliveryDateList.find(
-      (el) => el.value == data.value
-    )?.dateTimeInfos;
-    setTimeSlotList(timeSlotList);
-    setDeliveryDate(data.name);
-  };
+  // const ChangeTimeDeliveryDate = (data) => {
+  //   setTimeSlot(Unspecified);
+  //   let timeSlotList = deliveryDateList.find(
+  //     (el) => el.value == data.value
+  //   )?.dateTimeInfos;
+  //   setTimeSlotList(timeSlotList);
+  //   setDeliveryDate(data.name);
+  // };
   const ChangeTimeslot = (data) => {
-    setTimeSlot(data.name);
+    if (showTimeSlot) {
+      setState({
+        modalType: 'changeTime',
+        modalShow: true,
+        currentModalObj: modalList.filter((el) => el.type === 'changeTime')[0],
+        jpSlotTime: { ...subDetail, deliveryDate, timeSlot: data.name }
+      });
+      return false;
+    }
     subDetail.deliveryDate = deliveryDate;
     subDetail.timeSlot = data.name;
     // setState({isDataChange:true})
@@ -269,18 +278,19 @@ const NextDelivery = ({
                   />
                 </span>
               </div>
-
-              {showTimeSlot && timeSlot && (
+              {showTimeSlot && subDetail.timeSlot && (
                 <Selection
                   customCls="selection-with-border"
                   optionList={timeSlotList}
                   selectedItemChange={(data) => ChangeTimeslot(data)}
                   selectedItemData={{
-                    value: timeSlot
+                    value: subDetail.timeSlot
                   }}
                   customStyleType="none"
-                  key={`${timeSlot}`}
+                  key={`${subDetail.timeSlot}`}
                   placeholder="please select"
+                  slotTimeChanged={slotTimeChanged}
+                  comfirmModal={true}
                 />
               )}
 
