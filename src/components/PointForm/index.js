@@ -125,7 +125,7 @@ const PointForm = ({ checkoutStore, loginStore }) => {
           values={{ val: loyaltyPointsMinimum }}
         />
         <br />
-        <FormattedMessage id="Please enter the number of points you want to use" />
+        <FormattedMessage id="payment.enterPointYouwantToUse" />
       </div>
     </div>
   );
