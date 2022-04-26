@@ -949,6 +949,13 @@ class Form extends React.Component {
         caninForm
       },
       () => {
+        // isDeliveryDateAndTimeSlot，临时解决
+        if (!isDeliveryDateAndTimeSlot) {
+          newForm.deliveryDate = '';
+          newForm.deliveryDateId = '';
+          newForm.timeSlot = '';
+          newForm.timeSlotId = '';
+        }
         this.props.updateData(newForm);
         this.validvalidationData('country', newForm.countryId);
       }
@@ -1306,6 +1313,7 @@ class Form extends React.Component {
 
         // 这里的Id都是DuData返回的字符串
         caninForm.provinceIdStr = data.provinceId;
+
         caninForm.cityIdStr = data.cityId;
         caninForm.areaIdStr = data.areaId;
         caninForm.settlementIdStr = data.settlementId;
@@ -1315,6 +1323,14 @@ class Form extends React.Component {
         caninForm.address1 = data.unrestrictedValue;
         caninForm.city = data.city;
         caninForm.postCode = data.postCode;
+
+        //临时处理bug-不是莫斯科地址传的莫斯科地址的问题
+        this.props.updateBugData({
+          cityIdStr: data.cityId,
+          city: data.city,
+          province: data.province,
+          provinceIdStr: data.provinceId
+        });
 
         this.setState({ caninForm }, async () => {
           // 判断暂存地址 tempolineCache 中是否有要查询的地址

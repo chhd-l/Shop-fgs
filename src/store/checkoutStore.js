@@ -1034,7 +1034,8 @@ class CheckoutStore {
       paymentCode,
       loyaltyPoints,
       ownerId,
-      subscriptionFlag
+      subscriptionFlag,
+      freeShippingDiscountPrice: this.freeShippingDiscountPrice
     });
     const {
       loyaltyPointsPrice,

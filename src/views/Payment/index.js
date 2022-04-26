@@ -1020,6 +1020,7 @@ class Payment extends React.Component {
           .filter(
             (e) =>
               e.isOpen &&
+              e.isDisplay &&
               (!this.isCurrentBuyWaySubscription || e.supportSubscription) &&
               (!e.maxAmount || this.tradePrice <= e.maxAmount)
           );
@@ -1615,7 +1616,7 @@ class Payment extends React.Component {
       if (!this.isLogin) {
         await this.visitorLoginAndAddToCart();
         // 游客批量新增宠物 待测试，jp未开通新增宠物功能
-        if (isShowBindPet) {
+        if (false && isShowBindPet) {
           const param = this.props.checkoutStore.cartData.map((el, idx) => {
             const targetPetsId = petSelectedIds[idx];
             const targetPetInfo = petList.find(

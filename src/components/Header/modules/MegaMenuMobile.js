@@ -82,34 +82,33 @@ class MegaMenuMobile extends React.Component {
             <ul className="rc-list rc-list--blank subcategories">
               {item.children.map((cItem, cIdx) => (
                 <li className="rc-list__item w-100" key={cIdx}>
-                  <dl
-                    data-toggle-effect="rc-expand--vertical"
-                    className="custom-accordion rc-margin--none"
-                    role="presentation"
-                  >
-                    <div className="custom-accordion__item">
-                      <dt>
-                        <button
-                          className="custom-accordion__button rc-list__header"
-                          role="menuitem"
-                          aria-selected="false"
-                          data-tab-init="true"
-                          onClick={this.handleClickToggleChilds.bind(
-                            this,
-                            cItem
-                          )}
-                        >
-                          {cItem.navigationName}
-                          <span
-                            className={`rc-icon rc-iconography ${
-                              cItem.expand ? 'rc-down--xs' : 'rc-right--xs'
-                            }`}
-                          />
-                        </button>
-                      </dt>
-                      {cItem.children &&
-                        cItem.children.length > 0 &&
-                        cItem.children.map((eItem, eIdx) => (
+                  {cItem.children && cItem.children.length > 0 ? (
+                    <dl
+                      data-toggle-effect="rc-expand--vertical"
+                      className="custom-accordion rc-margin--none"
+                      role="presentation"
+                    >
+                      <div className="custom-accordion__item">
+                        <dt>
+                          <button
+                            className="custom-accordion__button rc-list__header"
+                            role="menuitem"
+                            aria-selected="false"
+                            data-tab-init="true"
+                            onClick={this.handleClickToggleChilds.bind(
+                              this,
+                              cItem
+                            )}
+                          >
+                            {cItem.navigationName}
+                            <span
+                              className={`rc-icon rc-iconography ${
+                                cItem.expand ? 'rc-down--xs' : 'rc-right--xs'
+                              }`}
+                            />
+                          </button>
+                        </dt>
+                        {cItem.children.map((eItem, eIdx) => (
                           <dd
                             className={`rc-list__content rc-bg-colour--brand4 rc-padding--none ${
                               !!cItem.expand ? '' : 'hidden'
@@ -132,8 +131,17 @@ class MegaMenuMobile extends React.Component {
                             </ul>
                           </dd>
                         ))}
-                    </div>
-                  </dl>
+                      </div>
+                    </dl>
+                  ) : (
+                    <NavItem
+                      item={cItem}
+                      className="rc-list__link submenu-padding-mobile"
+                      onClick={this.handleClickNavItem.bind(this, cItem)}
+                    >
+                      {cItem.navigationName}
+                    </NavItem>
+                  )}
                 </li>
               ))}
             </ul>

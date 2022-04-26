@@ -195,15 +195,18 @@ class UnloginCart extends React.Component {
           >
             <div className="container cart">
               <div>
-                <div className="minicart__header cart--head small">
-                  <span className="minicart__pointer" />
-                  <div className="d-flex minicart_freeshipping_info align-items-center">
-                    <em className="rc-icon rc-incompatible--xs rc-brand3 rc-padding-right--xs" />
-                    <p>
-                      <FormattedMessage id="cart.miniCartTitle" />
-                    </p>
+                {window.__.env.REACT_APP_COUNTRY !== 'jp' && (
+                  <div className="minicart__header cart--head small">
+                    <span className="minicart__pointer" />
+                    <div className="d-flex minicart_freeshipping_info align-items-center">
+                      <em className="rc-icon rc-incompatible--xs rc-brand3 rc-padding-right--xs" />
+                      <p>
+                        <FormattedMessage id="cart.miniCartTitle" />
+                      </p>
+                    </div>
                   </div>
-                </div>
+                )}
+
                 <div className="minicart-padding rc-bg-colour--brand4 rc-padding-top--sm rc-padding-bottom--xs">
                   <span className="rc-body rc-margin--none">
                     <FormattedMessage

@@ -64,7 +64,8 @@ const SubDetailHeader = ({
   intl,
   triggerShowChangeProduct,
   petType,
-  setState
+  setState,
+  currentChangeProductIdx
 }) => {
   const isNotInactive = subDetail.subscribeStatus !== 'INACTIVE';
   let petsInfo = subDetail.petsInfo;
@@ -105,10 +106,11 @@ const SubDetailHeader = ({
     setState,
     triggerShowChangeProduct,
     getDetail,
-    productListLoading
+    productListLoading,
+    currentChangeProductIdx
   };
   return (
-    <div className="d-flex align-items-center flex-wrap mb-4">
+    <div className="d-flex align-items-center flex-wrap mb-4 mt-4 md:mt-0">
       <LinkPet
         petType={petType}
         getBreedName={getBreedName}

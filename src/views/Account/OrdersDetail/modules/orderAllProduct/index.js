@@ -170,12 +170,17 @@ const OrderAllProduct = ({ details }) => {
                 {details.subscriptionResponseVO && item.subscriptionStatus ? (
                   judgeIsIndividual(item) ? (
                     ''
+                  ) : window.__.env.REACT_APP_COUNTRY === 'jp' &&
+                    item.subscriptionPrice === item.originalPrice ? (
+                    <span className="ml-2">
+                      {/* 日本的订阅折扣价和原价一样特别显示 */}
+                      {formatMoney(item.originalPrice)}
+                    </span>
                   ) : (
                     <>
                       <span className="red font-weight-normal">
                         {formatMoney(item.subscriptionPrice)}
                       </span>
-
                       <span className="text-line-through ml-2">
                         {formatMoney(item.originalPrice)}
                       </span>

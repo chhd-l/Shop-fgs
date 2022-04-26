@@ -415,6 +415,66 @@ class PayProductInfo extends React.Component {
     let orderSource = sessionItemRoyal.get('orderSource') && false;
 
     const List = plist.map((el, i) => {
+      // 是否是订阅产品
+      const isSubscription = this.isSubscription(el);
+      const renderAutoshipSavedtipContent = () => {
+        // 如果不是订阅状态 或者是订阅状态并且是日本并且价格一致不显示
+        if (
+          !isSubscription ||
+          (window.__.env.REACT_APP_COUNTRY === 'jp' &&
+            el.salePrice === el.subscriptionPrice)
+        ) {
+          return null;
+        }
+        return (
+          <div>
+            <span
+              className="iconfont font-weight-bold green"
+              style={{ fontSize: '.8em' }}
+            >
+              &#xe675;
+            </span>
+            <FormattedMessage
+              id="cart.autoshipSavedtip"
+              values={{
+                discount: (
+                  <span className="green">
+                    {formatMoney(
+                      el.buyCount * el.salePrice -
+                        el.buyCount * el.subscriptionPrice
+                    )}
+                  </span>
+                )
+              }}
+            />
+          </div>
+        );
+      };
+      const renderPriceContent = () => {
+        // 如果不是订阅状态 或者是订阅状态并且是日本并且价格一致不显示
+        let topContent =
+          !isSubscription ||
+          (window.__.env.REACT_APP_COUNTRY === 'jp' &&
+            el.salePrice === el.subscriptionPrice) ? null : (
+            <>
+              <span className="text-line-through">
+                {formatMoney(el.buyCount * el.salePrice)}
+              </span>
+              <br />
+            </>
+          );
+        const endContent = formatMoney(
+          isSubscription
+            ? el.buyCount * el.subscriptionPrice
+            : el.buyCount * el.salePrice
+        );
+        return (
+          <div className="line-item-total-price text-nowrap">
+            {topContent}
+            <span>{endContent}</span>
+          </div>
+        );
+      };
       return (
         <div className="product-summary__products__item" key={i}>
           <div className="product-line-item">
@@ -522,47 +582,9 @@ class PayProductInfo extends React.Component {
                     </div>
                   ) : null}
 
-                  <div className="line-item-total-price text-nowrap">
-                    {this.isSubscription(el) ? (
-                      <>
-                        <span className="text-line-through">
-                          {formatMoney(el.buyCount * el.salePrice)}
-                        </span>
-                        <br />
-                      </>
-                    ) : null}
-                    <span>
-                      {formatMoney(
-                        this.isSubscription(el)
-                          ? el.buyCount * el.subscriptionPrice
-                          : el.buyCount * el.salePrice
-                      )}
-                    </span>
-                  </div>
+                  {renderPriceContent()}
                 </div>
-                {this.isSubscription(el) ? (
-                  <div>
-                    <span
-                      className="iconfont font-weight-bold green"
-                      style={{ fontSize: '.8em' }}
-                    >
-                      &#xe675;
-                    </span>{' '}
-                    <FormattedMessage
-                      id="cart.autoshipSavedtip"
-                      values={{
-                        discount: (
-                          <span className="green">
-                            {formatMoney(
-                              el.buyCount * el.salePrice -
-                                el.buyCount * el.subscriptionPrice
-                            )}
-                          </span>
-                        )
-                      }}
-                    />
-                  </div>
-                ) : null}
+                {renderAutoshipSavedtipContent()}
               </div>
             </div>
             <div className="item-options" />
@@ -900,7 +922,6 @@ class PayProductInfo extends React.Component {
                     </div>
                   </>
                 ))}
-
               <div className="product-summary__fees order-total-summary">
                 <PriceDetailsList
                   data={{

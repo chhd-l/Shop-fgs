@@ -10,7 +10,9 @@ class ConfirmTooltip extends React.Component {
     arrowDirection: 'top',
     cancelBtnVisible: true,
     confirmBtnVisible: true,
-    lastFourDigits: ''
+    lastFourDigits: '',
+    okText: <FormattedMessage id="clinic.confirm" />,
+    cancelText: <FormattedMessage id="cancel" />
   };
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.display) {
@@ -38,7 +40,7 @@ class ConfirmTooltip extends React.Component {
     e.nativeEvent.stopImmediatePropagation();
   };
   render() {
-    const { arrowDirection, textStyle } = this.props;
+    const { arrowDirection, textStyle, cancelText, okText } = this.props;
     // return  (
     return this.props.display ? (
       <div
@@ -61,7 +63,7 @@ class ConfirmTooltip extends React.Component {
                 className="rc-btn rc-btn--two rc-btn--sm mt-1"
                 onClick={this.cancel}
               >
-                <FormattedMessage id="cancel" />
+                {cancelText}
               </div>
             ) : (
               <div />
@@ -73,7 +75,7 @@ class ConfirmTooltip extends React.Component {
                   this.props.confirm(e);
                 }}
               >
-                <FormattedMessage id="clinic.confirm" />
+                {okText}
               </div>
             ) : null}
           </div>
