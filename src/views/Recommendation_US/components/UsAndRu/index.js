@@ -53,7 +53,7 @@ const UsAndRu = (props) => {
         <span className="rc-icon rc-delivery--sm rc-brand1 rc-iconography" />
       ),
       text:
-        '5% off every autoship order * free shipping.\n' +
+        '5% off every autoship order + free shipping,  \n' +
         ' with no minimum purchase'
     },
     {
@@ -82,7 +82,7 @@ const UsAndRu = (props) => {
         <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
           <div
             className="rc-layout-container rc-four-column rc-content-v-middle text-center"
-            style={{ backgroundColor: '#eee' }}
+            style={{ backgroundColor: 'rgb(245, 245, 245)' }}
             data-tms={props.dataTms1 || ''}
           >
             {/*{imagesArr.map((ele, i) => (*/}
@@ -97,14 +97,18 @@ const UsAndRu = (props) => {
             {/*))}*/}
             {imagesArr.map((item, index) => (
               <div
-                className="row mx-5 pt-5 flex-wrap "
+                className="row mx-5 flex-wrap "
                 style={
                   index < imagesArr.length - 1
-                    ? { borderRightColor: '#ccc', borderRightWidth: '2px' }
-                    : null
+                    ? {
+                        alignItems: 'center',
+                        borderRightColor: '#ddd',
+                        borderRightWidth: '1.5px'
+                      }
+                    : { alignItems: 'center' }
                 }
               >
-                <div className="img-hover-switch rc-margin-bottom--sm ">
+                <div className="img-hover-switch rc-margin-bottom--xs mx-4 pt-4">
                   {/*<LazyLoad>*/}
                   {/*  <img*/}
                   {/*    style={{ width: '20px' }}*/}
@@ -115,10 +119,16 @@ const UsAndRu = (props) => {
                   {/*</LazyLoad>*/}
                   {item.img}
                 </div>
-                <p style={{ width: '340px' }}>
-                  <strong style={{ color: 'rgb(61, 61, 60)' }}>
-                    {item.text}
-                  </strong>
+                <p
+                  style={{
+                    width: '335px',
+                    textAlign: 'left',
+                    color: '#777777'
+                  }}
+                >
+                  {/* <strong style={{ color: '#888888' }}> */}
+                  {item.text}
+                  {/* </strong> */}
                 </p>
               </div>
             ))}

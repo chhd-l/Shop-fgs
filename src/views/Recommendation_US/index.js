@@ -921,7 +921,7 @@ class Recommendation extends React.Component {
             {/* <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
         <FormattedMessage id="recommendation.firstTitle" />
       </h2> */}
-            <div className="inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
+            <div className="inherit-fontsize children-nomargin rc-margin-bottom--xs heading-block-content">
               <span style={{ fontSize: '1.125rem', color: 'rgb(61, 61, 60)' }}>
                 {/* <FormattedMessage
                   values={{
@@ -977,10 +977,9 @@ class Recommendation extends React.Component {
                     <strong style={{ color: '#E2001A' }}>
                       <FormattedMessage id="recommendation.firstOrderDiscount" />
                     </strong>
-                    <br />
                   </p>
                   <button
-                    className={`rc-btn rc-btn--one ${
+                    className={`rc-btn rc-btn--one mt-6 ${
                       this.state.buttonLoading ? 'ui-btn-loading' : ''
                     } ${this.addCartBtnStatus ? '' : 'rc-btn-solid-disabled'}`}
                     onClick={this.addCart}
