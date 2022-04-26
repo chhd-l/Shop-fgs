@@ -1020,6 +1020,7 @@ class Payment extends React.Component {
           .filter(
             (e) =>
               e.isOpen &&
+              e.isDisplay &&
               (!this.isCurrentBuyWaySubscription || e.supportSubscription) &&
               (!e.maxAmount || this.tradePrice <= e.maxAmount)
           );
