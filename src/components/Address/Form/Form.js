@@ -1318,12 +1318,13 @@ class Form extends React.Component {
         caninForm.postCode = data.postCode;
 
         //临时处理bug-不是莫斯科地址传的莫斯科地址的问题
-        this.props.updateBugData({
-          cityIdStr: data.cityId,
-          city: data.city,
-          province: data.province,
-          provinceIdStr: data.provinceId
-        });
+        this.props.updateBugData &&
+          this.props.updateBugData({
+            cityIdStr: data.cityId,
+            city: data.city,
+            province: data.province,
+            provinceIdStr: data.provinceId
+          });
 
         this.setState({ caninForm }, async () => {
           // 判断暂存地址 tempolineCache 中是否有要查询的地址
