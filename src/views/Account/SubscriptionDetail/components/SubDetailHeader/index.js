@@ -110,7 +110,7 @@ const SubDetailHeader = ({
     currentChangeProductIdx
   };
   return (
-    <div className="d-flex align-items-center flex-wrap mb-4">
+    <div className="d-flex align-items-center flex-wrap mb-4 mt-4 md:mt-0">
       <LinkPet
         petType={petType}
         getBreedName={getBreedName}
