@@ -147,7 +147,8 @@ class AddressList extends React.Component {
       selectListValidationOption: 'suggestedAddress',
       wrongAddressMsg: null,
       validationAddress: null, // 建议地址
-      jpCutOffTime: ''
+      jpCutOffTime: '',
+      bugData: {}
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.addOrEditPickupAddress = this.addOrEditPickupAddress.bind(this);
@@ -848,6 +849,8 @@ class AddressList extends React.Component {
     });
     if (idx > -1) {
       const tmp = addressList[idx];
+      // console.log(tmp)
+      // debugger
 
       tmpDeliveryAddress = {
         firstName: tmp.firstName,
@@ -930,7 +933,11 @@ class AddressList extends React.Component {
       deliveryAddress: data
     });
   };
+  updateBugData = (bugData) => {
+    this.setState({ bugData });
+  };
   updateDeliveryAddress = async (data) => {
+    console.log(444, data);
     const { intl } = this.props;
     try {
       if (!data?.formRule || (data?.formRule).length <= 0) {
@@ -952,6 +959,7 @@ class AddressList extends React.Component {
         this.props.updateFormValidStatus(this.state.isValid);
       });
     } finally {
+      console.log(555, data);
       this.setState({ deliveryAddress: data });
     }
   };
@@ -1017,12 +1025,16 @@ class AddressList extends React.Component {
     try {
       const { deliveryAddress, addressList } = this.state;
 
+      // console.log(deliveryAddress)
+      // debugger
+
       const originData = addressList[this.currentOperateIdx];
       //日本需求加unspecified
       // if(deliveryAddress.timeSlot == 'unspecified'){
       //   deliveryAddress.timeSlot = ''
       //   deliveryAddress.timeSlotId = ''
       // }
+
       let params = Object.assign({}, deliveryAddress, {
         consigneeName:
           deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
@@ -1037,6 +1049,16 @@ class AddressList extends React.Component {
         isValidated: deliveryAddress.validationResult
       });
 
+      //临时处理bug-不是莫斯科地址传的莫斯科地址的问题
+      if (Object.keys(this.state.bugData).length > 0) {
+        params = Object.assign(params, {
+          city: this.state.bugData.city,
+          cityIdStr: this.state.bugData.cityIdStr,
+          province: this.state.bugData.province,
+          provinceIdStr: this.state.bugData.provinceIdStr
+        });
+      }
+
       if (window.__.env.REACT_APP_COUNTRY === 'jp') {
         params.area = deliveryAddress.region; //日本需求store portal用的是region字段，shop新增地址用area字段
       }
@@ -1044,7 +1066,6 @@ class AddressList extends React.Component {
       const tmpPromise =
         this.currentOperateIdx > -1 ? editAddress : saveAddress;
       let res = await tmpPromise(params);
-      //debugger
 
       let tmpObj = res?.context;
       if (tmpObj.deliveryAddressId) {
@@ -2273,6 +2294,7 @@ class AddressList extends React.Component {
             showDeliveryDateTimeSlot={this.props.showDeliveryDateTimeSlot}
             getFormAddressValidFlag={this.getFormAddressValidFlag}
             updateData={this.updateDeliveryAddress}
+            updateBugData={this.updateBugData}
             calculateFreight={this.calculateFreight}
             onSearchSelectionFocus={() => {
               this.props.onSearchSelectionFocus(this.state.typeForGA);
