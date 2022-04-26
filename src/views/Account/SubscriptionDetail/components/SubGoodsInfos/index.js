@@ -134,68 +134,88 @@ const SubGoodsInfos = ({
                         marginBottom: '8px'
                       }}
                     >
-                      {!isIndv && el.specText}
-                    </p>
-                    {isShowClub && !!subDetail.petsId && (
-                      <DailyRation rations={el.petsRation} />
-                    )}
-                  </div>
-                </div>
-                <div className="p-3">
-                  <div>
-                    <span style={{ display: isIndv ? 'none' : 'inline-block' }}>
-                      <QuantityPicker
-                        className={'inline-block align-middle	'}
-                        max={skuLimitThreshold.skuMaxNum}
-                        initQuantity={el.subscribeNum}
-                        updateQuantity={(val) => {
-                          subDetail.goodsInfo[index].subscribeNum = val;
-                          onQtyChange();
-                        }}
-                        showError={showErrMsg}
-                      />
-                      <span
+                      <h3
                         style={{
-                          display: 'inline-block',
-                          fontSize: '1.375rem',
-                          lineHeight: '40px',
-                          verticalAlign: 'middle'
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          overflowWrap: 'normal',
+                          color: '#e2001a'
                         }}
                       >
-                        =
+                        {el.goodsName}
+                      </h3>
+                      <p
+                        style={{
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          marginBottom: '8px'
+                        }}
+                      >
+                        {!isIndv && el.specText}
+                      </p>
+                      {isShowClub && !!subDetail.petsId && (
+                        <DailyRation rations={el.petsRation} />
+                      )}
+                    </div>
+                  </div>
+                  <div className="p-3">
+                    <div>
+                      <span
+                        style={{ display: isIndv ? 'none' : 'inline-block' }}
+                      >
+                        <QuantityPicker
+                          className={'inline-block align-middle	'}
+                          max={skuLimitThreshold.skuMaxNum}
+                          initQuantity={el.subscribeNum}
+                          updateQuantity={(val) => {
+                            subDetail.goodsInfo[index].subscribeNum = val;
+                            onQtyChange();
+                          }}
+                          showError={showErrMsg}
+                        />
+                        <span
+                          style={{
+                            display: 'inline-block',
+                            fontSize: '1.375rem',
+                            lineHeight: '40px',
+                            verticalAlign: 'middle'
+                          }}
+                        >
+                          =
+                        </span>
                       </span>
-                    </span>
-                    <span
-                      className="price"
-                      style={{
-                        display: 'inline-block',
-                        fontSize: '1.25rem',
-                        fontWeight: '400',
-                        verticalAlign: 'middle',
-                        marginLeft: '8px',
-                        height: '25px'
-                      }}
-                    >
-                      {formatMoney(el.subscribePrice * el.subscribeNum)}
-                    </span>
-                    {!isIndv && (
                       <span
                         className="price"
                         style={{
                           display: 'inline-block',
-                          // fontSize: '1.25rem',
+                          fontSize: '1.25rem',
                           fontWeight: '400',
-                          textDecoration: 'line-through',
                           verticalAlign: 'middle',
                           marginLeft: '8px',
-                          height: '.6875rem',
-                          color: '#aaa',
-                          fontSize: '.875rem'
+                          height: '25px'
                         }}
                       >
-                        {formatMoney(el.originalPrice * el.subscribeNum)}
+                        {formatMoney(el.subscribePrice * el.subscribeNum)}
                       </span>
-                    )}
+                      {disCountPriceVisible && (
+                        <span
+                          className="price"
+                          style={{
+                            display: 'inline-block',
+                            // fontSize: '1.25rem',
+                            fontWeight: '400',
+                            textDecoration: 'line-through',
+                            verticalAlign: 'middle',
+                            marginLeft: '8px',
+                            height: '.6875rem',
+                            color: '#aaa',
+                            fontSize: '.875rem'
+                          }}
+                        >
+                          {formatMoney(el.originalPrice * el.subscribeNum)}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
                 <div className="border-t">
@@ -228,12 +248,38 @@ const SubGoodsInfos = ({
                       }
                     />
                   </div>
-                ) : null}
-                {isGift && subDetail.subscribeStatus !== 'INACTIVE' ? (
-                  <ButtonBoxGift />
-                ) : null}
-              </div>
-            ))}
+                  {el.canDelete ? (
+                    <div className="absolute right-2 top-2">
+                      <span
+                        className="font-bold iconfont iconguan cursor-pointer hover:text-rc-red"
+                        onClick={() => {
+                          updateConfirmTooltipVisible(el, true);
+                        }}
+                      />
+
+                      <ConfirmTooltip
+                        containerStyle={{ transform: 'translate(-89%, 105%)' }}
+                        arrowStyle={{ left: '89%' }}
+                        display={el.confirmTooltipVisible}
+                        confirm={() =>
+                          deleteItem(el?.goodsInfoVO?.storeId, {
+                            subscribeId: el?.subscribeId,
+                            subscribeGoodsId: el?.subscribeGoodsId
+                          })
+                        }
+                        updateChildDisplay={(status) =>
+                          updateConfirmTooltipVisible(el, status)
+                        }
+                        content={<FormattedMessage id="confirmDeleteProduct" />}
+                      />
+                    </div>
+                  ) : null}
+                  {isGift && subDetail.subscribeStatus !== 'INACTIVE' ? (
+                    <ButtonBoxGift />
+                  ) : null}
+                </div>
+              );
+            })}
         </div>
         <ErrorMessage msg={errMsgPage} />
         <div className="card-container mt-0 hidden md:block">
