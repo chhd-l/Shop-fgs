@@ -21,7 +21,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
   let selected = false;
   const ChangeProductValue = useContext(ChangeProductContext);
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
-  const [skuLimitThreshold, setSkuLimitThreshold] = useState(1);
+  const [skuLimitThreshold, setSkuLimitThreshold] = useState(null);
 
   useEffect(() => {
     setSkuLimitThreshold(configStore?.info?.skuLimitThreshold);
@@ -220,7 +220,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
                   />
                   <QuantityPicker
                     min={quantityMinLimit}
-                    max={skuLimitThreshold.skuMaxNum}
+                    max={skuLimitThreshold?.skuMaxNum}
                     initQuantity={quantity}
                     updateQuantity={(val) => {
                       setQuantity(val);
