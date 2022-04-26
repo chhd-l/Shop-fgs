@@ -434,13 +434,7 @@ class Form extends React.Component {
       case 'ru':
         phoneReg = [
           {
-            mask: '+{7} (Y00) 000-00-00',
-            blocks: {
-              Y: {
-                mask: IMask.MaskedEnum,
-                enum: ['0', '1', '2', '3', '4', '5', '6', '9']
-              } //枚举 Y值只能使用这些值
-            }
+            mask: '+{7} (000) 000-00-00'
           }
         ];
         break;
