@@ -204,7 +204,8 @@ const LinkedSubs = (props) => {
                                 periodTypeId: subItem.periodTypeId,
                                 subscribeId: subItem.subscribeId
                               }
-                            ]
+                            ],
+                            subscribeId: subItem.subscribeId
                           };
                           setBtnLoading(true);
                           changeSubscriptionGoodsByPets(params)
@@ -245,7 +246,8 @@ const LinkedSubs = (props) => {
                                 periodTypeId: subItem.periodTypeId,
                                 subscribeId: subItem.subscribeId
                               }
-                            ]
+                            ],
+                            subscribeId: subItem.subscribeId
                           };
                           setBtnLoading(true);
                           changeSubscriptionGoodsByPets(params)
