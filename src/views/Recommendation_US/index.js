@@ -921,7 +921,7 @@ class Recommendation extends React.Component {
             {/* <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
         <FormattedMessage id="recommendation.firstTitle" />
       </h2> */}
-            <div className="inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
+            <div className="inherit-fontsize children-nomargin rc-margin-bottom--xs heading-block-content">
               <span style={{ fontSize: '1.125rem', color: 'rgb(61, 61, 60)' }}>
                 {/* <FormattedMessage
                   values={{
@@ -970,16 +970,24 @@ class Recommendation extends React.Component {
             </div>
 
             <div className="">
+              {/*//1111111*/}
               {(isRu || isUs) && (
-                <button
-                  className={`rc-btn rc-btn--one ${
-                    this.state.buttonLoading ? 'ui-btn-loading' : ''
-                  } ${this.addCartBtnStatus ? '' : 'rc-btn-solid-disabled'}`}
-                  onClick={this.addCart}
-                >
-                  <FormattedMessage id="recommendation.welcomeBtn" />
-                  {/* Voir le panier */}
-                </button>
+                <>
+                  <p>
+                    <strong style={{ color: '#E2001A' }}>
+                      <FormattedMessage id="recommendation.firstOrderDiscount" />
+                    </strong>
+                  </p>
+                  <button
+                    className={`rc-btn rc-btn--one mt-6 ${
+                      this.state.buttonLoading ? 'ui-btn-loading' : ''
+                    } ${this.addCartBtnStatus ? '' : 'rc-btn-solid-disabled'}`}
+                    onClick={this.addCart}
+                  >
+                    <FormattedMessage id="recommendation.welcomeBtn" />
+                    {/* Voir le panier */}
+                  </button>
+                </>
               )}
 
               {/* promotion code */}

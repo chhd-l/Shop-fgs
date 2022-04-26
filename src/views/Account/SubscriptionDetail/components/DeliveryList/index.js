@@ -19,6 +19,7 @@ const DeliveryList = ({
   getMinDate,
   setState,
   timeSlotArr,
+  slotTimeChanged,
   intl
 }) => {
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
@@ -116,6 +117,7 @@ const DeliveryList = ({
                   setState={setState}
                   getMinDate={getMinDate}
                   handleSaveChange={handleSaveChange}
+                  slotTimeChanged={slotTimeChanged}
                   el={el}
                   key={i}
                 />

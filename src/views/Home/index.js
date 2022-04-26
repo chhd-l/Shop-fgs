@@ -12,7 +12,7 @@ import SalesCategory from './modules/SalesCategory';
 import HubSalesCategory from '@/components/HubSalesCategory';
 import { salesCategoryFilterRule } from '@/components/HubSalesCategory/utils';
 import { TopAds, Ads } from './ad';
-import { Advantage } from './advantage';
+import { Advantage, JpAdvantage } from './advantage';
 import {
   getDeviceType,
   getOktaCallBackUrl,
@@ -696,44 +696,53 @@ class Home extends React.Component {
           )}
           <TopAds />
           <Divider />
-          <section>
-            <div className="rc-bg-colour--brand3" style={{ padding: '1px 0' }}>
-              <div className="rc-full-width">
-                <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-                  <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                    <FormattedMessage id="home.convenientTitle" />
-                  </h4>
-                  <div className="value-proposition__container">
-                    <div className="row mx-0">
-                      <Advantage />
+          {window.__.env.REACT_APP_COUNTRY === 'jp' ? (
+            <JpAdvantage />
+          ) : (
+            <React.Fragment>
+              <section>
+                <div
+                  className="rc-bg-colour--brand3"
+                  style={{ padding: '1px 0' }}
+                >
+                  <div className="rc-full-width">
+                    <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
+                      <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
+                        <FormattedMessage id="home.convenientTitle" />
+                      </h4>
+                      <div className="value-proposition__container">
+                        <div className="row mx-0">
+                          <Advantage />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <Ads />
+
+              <HealthNutrition />
+              <Share />
+              <Divider />
+              <div className="experience-component experience-layouts-1column">
+                <div className="row rc-margin-x--none">
+                  <AdvantageTips />
+                </div>
+              </div>
+              <div className="experience-component experience-layouts-1column">
+                <div className="row rc-margin-x--none">
+                  <div className="rc-full-width">
+                    <div className="experience-component experience-assets-threeColumnContentBlock">
+                      <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-top--sm rc-margin-top--lg--mobile three-column-content-block">
+                        <FooterImage />
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </section>
-
-          <Ads />
-
-          <HealthNutrition />
-          <Share />
-          <Divider />
-          <div className="experience-component experience-layouts-1column">
-            <div className="row rc-margin-x--none">
-              <AdvantageTips />
-            </div>
-          </div>
-          <div className="experience-component experience-layouts-1column">
-            <div className="row rc-margin-x--none">
-              <div className="rc-full-width">
-                <div className="experience-component experience-assets-threeColumnContentBlock">
-                  <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-top--sm rc-margin-top--lg--mobile three-column-content-block">
-                    <FooterImage />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+            </React.Fragment>
+          )}
           <Footer />
         </main>
       </div>
