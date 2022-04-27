@@ -1,5 +1,11 @@
 import React from 'react';
-import { YMaps, Map, Placemark, Clusterer } from 'react-yandex-maps';
+import {
+  YMaps,
+  Map,
+  Placemark,
+  Clusterer,
+  ObjectManager
+} from 'react-yandex-maps';
 import { getAllPrescription } from '@/api/clinic';
 import points from './location';
 import { injectIntl } from 'react-intl-phraseapp';
@@ -10,7 +16,7 @@ class YandexMap extends React.Component {
     super(props);
     this.state = {
       clinicArr: [],
-      center: [55.45, 37.35]
+      center: [55.71677, 37.482338]
     };
   }
 
@@ -43,22 +49,53 @@ class YandexMap extends React.Component {
         +item.longitude <= 180
       );
     });
+    let arr = clinicArr.map((item) => {
+      return {
+        type: 'Feature',
+        id: item.id,
+        geometry: {
+          type: 'Point',
+          coordinates: [item.latitude, item.longitude]
+        },
+        properties: {
+          balloonContent: `
+            <div style='display: block; z-index: 1;'>
+                 <div class='rc-tooltip rc-text--left rc-padding--xs' id='map-tooltip' style='display: block;'>
+                 <div class='rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop' style='margin-bottom: 0px;  '>
+                   <p id='clinicVet'>${
+                     this.props.intl.messages['clinic.vet']
+                   }</p>
+                   <h4 class='rc-card__title rc-delta click-btn map-flag-title'>${
+                     item.prescriberName
+                   }</h4>
+                   <div class='map-flag-address'>${item.location}</div>
+                   <div class='map-flag-phone'>${
+                     item.preferredChannel === 'phone' ? item.phone : item.email
+                   }</div>
+                   <div class='rc-button-link-group rc-padding-right--md--desktop' style='margin-top: 1rem;'>
+                   <a class='rc-btn rc-btn--one rc-btn--sm' href='${window.__.env.REACT_APP_HOMEPAGE.replace(
+                     /\/$/gi,
+                     ''
+                   )}/makerHandle?type=${
+            item.type !== 'customer' ? 'confirm' : 'navigate'
+          }&id=${item.id}&prescriberName=${item.prescriberName}&lat=${
+            item.latitude
+          }&lng=${item.longitude}'>${
+            item.type !== 'customer'
+              ? this.props.intl.messages['clinic.confirm']
+              : this.props.intl.messages['clinic.navigate']
+          }</a></div>
+                   </div>
+                 </div>
+               </div>
+               `
+        }
+      };
+    });
     this.setState({
-      clinicArr
+      clinicArr: arr
     });
   }
-
-  click = () => {
-    this.setState(
-      {
-        center: [55.751574, 37.573856],
-        clinicArr: []
-      },
-      () => {
-        this.getAllPrescription();
-      }
-    );
-  };
 
   render() {
     return (
@@ -74,28 +111,31 @@ class YandexMap extends React.Component {
             height="50rem"
             defaultState={{
               center: this.state.center,
-              zoom: 12,
+              zoom: 9,
               controls: ['zoomControl', 'fullscreenControl']
             }}
             modules={['control.ZoomControl', 'control.FullscreenControl']}
           >
-            <Clusterer
+            <ObjectManager
               options={{
-                preset: 'islands#invertedRedClusterIcons',
-                groupByCoordinates: false
+                clusterize: true,
+                gridSize: 32
               }}
-            >
-              {points.map((item, index) => (
-                <Placemark
-                  modules={['geoObject.addon.balloon']}
-                  key={index}
-                  geometry={item}
-                />
-              ))}
-            </Clusterer>
+              objects={{
+                openBalloonOnClick: true,
+                preset: 'islands#greenDotIcon'
+              }}
+              clusters={{
+                preset: 'islands#redClusterIcons'
+              }}
+              defaultFeatures={this.state.clinicArr}
+              modules={[
+                'objectManager.addon.objectsBalloon',
+                'objectManager.addon.objectsHint'
+              ]}
+            />
           </Map>
         </YMaps>
-        <button onClick={this.click}>点击</button>
       </>
     );
   }
