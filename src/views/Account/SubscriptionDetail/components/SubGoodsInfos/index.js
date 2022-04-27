@@ -250,7 +250,7 @@ const SubGoodsInfos = ({
           })}
         </div>
         <ErrorMessage msg={errMsgPage} />
-        <div className="card-container mt-0 hidden md:block">
+        <div className="card-container mt-0 hidden md:block border-0">
           {(subDetail.goodsInfo || []).map((el, index) => (
             <div
               className={cn(
