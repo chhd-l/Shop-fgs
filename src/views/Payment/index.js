@@ -993,7 +993,7 @@ class Payment extends React.Component {
         paymentStore: { setPayWayNameArr }
       } = this.props;
       const payWay = await getWays();
-      // name:后台返回的支付方式，langKey：翻译id，paymentTypeVal：前端选择的支付方式，作为用来判断的变量
+      // name:后台返回的支付方式，paymentTypeVal：前端选择的支付方式，作为用来判断的变量
       let payMethodsObj = paymentMethodsObj;
       if (
         window.__.env.REACT_APP_COUNTRY === 'ru' &&
@@ -1002,7 +1002,6 @@ class Payment extends React.Component {
         payMethodsObj = {
           COD: {
             name: 'payu_cod',
-            langKey: 'cod',
             paymentTypeVal: 'cod'
           }
         };
@@ -3449,8 +3448,7 @@ class Payment extends React.Component {
                 className="rc-input__label--inline"
                 htmlFor={`payment-info-${item.id}`}
               >
-                {item.langKey ? <FormattedMessage id={item.langKey} /> : null}
-                {/* <FormattedMessage id={''} /> */}
+                <FormattedMessage id={item.code} />
               </label>
             </div>
           ))}
@@ -3487,9 +3485,7 @@ class Payment extends React.Component {
                     }
                   >
                     <div className="text-sm md:text-lg">
-                      {item.langKey ? (
-                        <FormattedMessage id={item.langKey} />
-                      ) : null}
+                      <FormattedMessage id={item.code} />
                     </div>
                     {/* adyenCard 支持卡的类型logo */}
                     {item?.payPspItemCardTypeVOList.length > 0 && (
