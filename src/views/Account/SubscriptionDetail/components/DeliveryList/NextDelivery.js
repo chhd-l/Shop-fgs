@@ -313,86 +313,96 @@ const NextDelivery = ({
         ) : null}
       </div>
       {el.tradeItems &&
-        el.tradeItems.map((tradeItem, index) => (
-          <div
-            className="row rc-margin-x--none row align-items-center"
-            style={{
-              padding: '1rem 0',
-              borderBottom: '1px solid #d7d7d7'
-            }}
-            key={index}
-          >
-            <div className={`col-9 col-md-6 d-flex row align-items-center`}>
-              <LazyLoad className="col-6 col-md-3">
-                <img
-                  src={
-                    optimizeImage({ originImageUrl: tradeItem.pic }) ||
-                    IMG_DEFAULT
-                  }
-                  alt={tradeItem.skuName}
-                />
-              </LazyLoad>
-              <div style={{ display: `${isIndv ? 'none' : 'block'}` }}>
-                <h5
-                  className="text-nowrap"
-                  style={{
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    overflowWrap: 'normal',
-                    fontSize: '.875rem',
-                    width: isMobile ? '100px' : 'auto'
-                  }}
-                >
-                  {tradeItem.skuName}
-                </h5>
+        el.tradeItems.map((tradeItem, index) => {
+          let showDiscountPrice = !isIndv;
+          // 如果是日本 没有折扣 不显示折扣价
+          if (
+            window.__.env.REACT_APP_COUNTRY === 'jp' &&
+            el.originalPrice === el.subscribePrice
+          ) {
+            showDiscountPrice = false;
+          }
+          return (
+            <div
+              className="row rc-margin-x--none row align-items-center"
+              style={{
+                padding: '1rem 0',
+                borderBottom: '1px solid #d7d7d7'
+              }}
+              key={index}
+            >
+              <div className={`col-9 col-md-6 d-flex row align-items-center`}>
+                <LazyLoad className="col-6 col-md-3">
+                  <img
+                    src={
+                      optimizeImage({ originImageUrl: tradeItem.pic }) ||
+                      IMG_DEFAULT
+                    }
+                    alt={tradeItem.skuName}
+                  />
+                </LazyLoad>
+                <div style={{ display: `${isIndv ? 'none' : 'block'}` }}>
+                  <h5
+                    className="text-nowrap"
+                    style={{
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      overflowWrap: 'normal',
+                      fontSize: '.875rem',
+                      width: isMobile ? '100px' : 'auto'
+                    }}
+                  >
+                    {tradeItem.skuName}
+                  </h5>
+                  <p
+                    style={{
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      marginBottom: '8px',
+                      fontSize: '.875rem'
+                    }}
+                  >
+                    {tradeItem.specDetails}{' '}
+                    {isMobile ? `x ${tradeItem.num}` : null}
+                  </p>
+                </div>
+              </div>
+              <div className={`${isMobile ? 'none' : 'col-4'} col-md-2`}>
                 <p
                   style={{
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    marginBottom: '8px',
-                    fontSize: '.875rem'
+                    textAlign: 'center',
+                    marginBottom: '0',
+                    fontWeight: '400'
                   }}
                 >
-                  {tradeItem.specDetails}{' '}
-                  {isMobile ? `x ${tradeItem.num}` : null}
+                  x {tradeItem.num}
+                </p>
+              </div>
+              <div className="col-3 col-md-4">
+                <p style={{ textAlign: 'right', marginBottom: '0' }}>
+                  <span className="red">
+                    {formatMoney(
+                      isIndv
+                        ? el.tradePrice.goodsPrice
+                        : tradeItem.subscriptionPrice
+                    )}
+                  </span>
+                  {showDiscountPrice && (
+                    <span
+                      style={{
+                        fontSize: '.75rem',
+                        textDecoration: 'line-through',
+                        marginLeft: '5px'
+                      }}
+                    >
+                      {formatMoney(tradeItem.originalPrice)}
+                    </span>
+                  )}
                 </p>
               </div>
             </div>
-            <div className={`${isMobile ? 'none' : 'col-4'} col-md-2`}>
-              <p
-                style={{
-                  textAlign: 'center',
-                  marginBottom: '0',
-                  fontWeight: '400'
-                }}
-              >
-                x {tradeItem.num}
-              </p>
-            </div>
-            <div className="col-3 col-md-4">
-              <p style={{ textAlign: 'right', marginBottom: '0' }}>
-                <span className="red">
-                  {formatMoney(
-                    isIndv
-                      ? el.tradePrice.goodsPrice
-                      : tradeItem.subscriptionPrice
-                  )}
-                </span>
-                {isIndv ? null : (
-                  <span
-                    style={{
-                      fontSize: '.75rem',
-                      textDecoration: 'line-through',
-                      marginLeft: '5px'
-                    }}
-                  >
-                    {formatMoney(tradeItem.originalPrice)}
-                  </span>
-                )}
-              </p>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       <div
         className="row rc-margin-x--none row align-items-center 3"
         style={{ padding: '1rem' }}
