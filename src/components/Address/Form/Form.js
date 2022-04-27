@@ -435,13 +435,7 @@ class Form extends React.Component {
       case 'ru':
         phoneReg = [
           {
-            mask: '+{7} (Y00) 000-00-00',
-            blocks: {
-              Y: {
-                mask: IMask.MaskedEnum,
-                enum: ['0', '1', '2', '3', '4', '5', '6', '9']
-              } //枚举 Y值只能使用这些值
-            }
+            mask: '+{7} (000) 000-00-00'
           }
         ];
         break;
@@ -1325,12 +1319,13 @@ class Form extends React.Component {
         caninForm.postCode = data.postCode;
 
         //临时处理bug-不是莫斯科地址传的莫斯科地址的问题
-        this.props.updateBugData({
-          cityIdStr: data.cityId,
-          city: data.city,
-          province: data.province,
-          provinceIdStr: data.provinceId
-        });
+        this.props.updateBugData &&
+          this.props.updateBugData({
+            cityIdStr: data.cityId,
+            city: data.city,
+            province: data.province,
+            provinceIdStr: data.provinceId
+          });
 
         this.setState({ caninForm }, async () => {
           // 判断暂存地址 tempolineCache 中是否有要查询的地址

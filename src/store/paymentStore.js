@@ -189,12 +189,15 @@ class PaymentStore {
 
   @action.bound
   setStsToCompleted({ key, isFirstLoad }) {
+    // this.isLogin在某些情况下为false,因此判断不对，例如在cart页面登录再进checkout页面。
+    const isLoginIng = localItemRoyal.get('rc-token');
+    console.log(this.isLogin, 'ISLOGIN==', isLoginIng, 'FJKLDS');
     //isFirstLoad表示进入checkout页面直接执行,此时不需要push-event
     if (isHubGA) {
       switch (key) {
         //填完邮件
         case 'email':
-          if (this.isLogin) {
+          if (isLoginIng) {
             isNewAccount().then((res) => {
               if (res.context == 0) {
                 checkoutDataLayerPushEvent({
@@ -217,7 +220,7 @@ class PaymentStore {
           break;
         //填完地址
         case 'deliveryAddr':
-          if (this.isLogin) {
+          if (isLoginIng) {
             isNewAccount().then((res) => {
               if (res.context == 0) {
                 checkoutDataLayerPushEvent({
@@ -240,7 +243,7 @@ class PaymentStore {
           break;
         //填完支付信息
         case 'paymentMethod':
-          if (this.isLogin) {
+          if (isLoginIng) {
             isNewAccount().then((res) => {
               if (res.context == 0) {
                 checkoutDataLayerPushEvent({
@@ -272,7 +275,7 @@ class PaymentStore {
 
             let option = 'guest checkout';
             //特殊要求：会员需要查询是不是new account, SFCC只有在这一步骤的时候区分了是不是新账户
-            if (this.isLogin) {
+            if (isLoginIng) {
               isNewAccount().then((res) => {
                 if (res.context == 0) {
                   dataLayer[0].checkout.option = 'new account';
