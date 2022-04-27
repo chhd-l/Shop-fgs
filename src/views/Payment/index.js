@@ -993,36 +993,34 @@ class Payment extends React.Component {
         paymentStore: { setPayWayNameArr }
       } = this.props;
       const payWay = await getWays();
-      // name:后台返回的支付方式，paymentTypeVal：前端选择的支付方式，作为用来判断的变量
-      let payMethodsObj = paymentMethodsObj;
-      if (
-        window.__.env.REACT_APP_COUNTRY === 'ru' &&
-        sessionItemRoyal.get('rc-iframe-from-storepotal')
-      ) {
-        payMethodsObj = {
-          COD: {
-            name: 'payu_cod',
-            paymentTypeVal: 'cod'
-          }
-        };
-      }
       let payWayNameArr = [];
       if (payWay.context) {
         // 筛选条件: 1.开关开启 2.订阅购买时, 排除不支持订阅的支付方式 3.cod时, 是否超过限制价格
         payWayNameArr = (payWay.context.payPspItemVOList || [])
           .map((p) => {
             const tmp =
-              payMethodsObj[p.code] || payMethodsObj[p.code.toUpperCase()];
+              paymentMethodsObj[p.code] ||
+              paymentMethodsObj[p.code.toUpperCase()];
             return tmp ? Object.assign({}, tmp, p) : tmp;
           })
-          .filter((e) => e)
           .filter(
             (e) =>
+              e &&
               e.isOpen &&
               e.isDisplay &&
               (!this.isCurrentBuyWaySubscription || e.supportSubscription) &&
               (!e.maxAmount || this.tradePrice <= e.maxAmount)
-          );
+          )
+          .filter((e) => {
+            let ret = true;
+            if (
+              window.__.env.REACT_APP_COUNTRY === 'ru' &&
+              sessionItemRoyal.get('rc-iframe-from-storepotal')
+            ) {
+              ret = ret && e.code === 'cod';
+            }
+            return ret;
+          });
         // .filter(
         //   (e) =>
         //     !tid ||
