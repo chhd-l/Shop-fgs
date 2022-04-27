@@ -984,9 +984,9 @@ const PetForms = ({
                           e.stopPropagation();
                           e.preventDefault();
                           if (userInfo) {
-                            this.props.history.push('/home');
+                            history.push('/home');
                           } else {
-                            this.props.history.push('/required');
+                            history.push('/required');
                           }
                         }}
                       >

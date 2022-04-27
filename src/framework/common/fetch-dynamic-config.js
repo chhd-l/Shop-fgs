@@ -34,7 +34,10 @@ const fetchDynamicConfig = async () => {
         REACT_APP_PRODUCT_IMAGE_CDN: res?.context?.cdn,
         REACT_APP_STOREID: res?.context?.storeId + '',
         REACT_APP_CURRENCY: res?.context?.currency,
-        REACT_APP_GA_CURRENCY_CODE: res?.context?.currency
+        REACT_APP_GA_CURRENCY_CODE: res?.context?.currency,
+        // phrase 编辑管理
+        REACT_APP_PHRASE_CONTEXT_EDITOR: res?.context?.phraseEnabled,
+        REACT_APP_PHRASE_BRANCH: res?.context?.branchName
       });
       const oktaSettingConfig = res?.context?.oktaSettingConfig;
       if (oktaSettingConfig) {
