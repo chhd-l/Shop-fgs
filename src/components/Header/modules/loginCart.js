@@ -278,178 +278,192 @@ class LoginCart extends React.Component {
                       <Skeleton color="#f5f5f5" width="100%" count={2} />
                     </div>
                   ) : (
-                    cartData.map((item, index) => (
-                      <div className="minicart__product" key={index}>
-                        <div className="product-summary__products__item pb-0">
-                          <div className="product-line-item">
-                            <div className="product-line-item-details d-flex flex-row">
-                              <div className="item-image">
-                                {/* <LazyLoad> */}
-                                <img
-                                  className="product-image"
-                                  src={optimizeImage({
-                                    originImageUrl: item.goodsInfoImg
-                                  })}
-                                  alt={item.goodsName}
-                                  title={item.goodsName}
-                                />
-                                {/* </LazyLoad> */}
-                              </div>
-                              <div className="wrap-item-title">
-                                <div className="item-title">
-                                  <div
-                                    className="line-item-name ui-text-overflow-line2 text-break"
+                    cartData.map((item, index) => {
+                      // 是否显示折扣价格
+                      let showDiscountPrice = true;
+                      // 日本如果没有则扣不显示折扣价
+                      if (
+                        window.__.env.REACT_APP_COUNTRY === 'jp' &&
+                        item.originalPrice === item.subscribePrice
+                      ) {
+                        showDiscountPrice = false;
+                      }
+                      return (
+                        <div className="minicart__product" key={index}>
+                          <div className="product-summary__products__item pb-0">
+                            <div className="product-line-item">
+                              <div className="product-line-item-details d-flex flex-row">
+                                <div className="item-image">
+                                  {/* <LazyLoad> */}
+                                  <img
+                                    className="product-image"
+                                    src={optimizeImage({
+                                      originImageUrl: item.goodsInfoImg
+                                    })}
+                                    alt={item.goodsName}
                                     title={item.goodsName}
-                                  >
-                                    <span className="light">
-                                      {item.goodsName}
-                                    </span>
-                                  </div>
+                                  />
+                                  {/* </LazyLoad> */}
                                 </div>
-                                <div className="w-100 overflow-hidden">
-                                  <div className="line-item-total-price justify-content-start pull-left">
-                                    <div className="item-attributes">
-                                      <p className="line-item-attributes">
-                                        <FormattedMessage
-                                          id="minicart.quantityText"
-                                          values={{
-                                            specText: item.specText || '',
-                                            buyCount: item.buyCount
-                                          }}
-                                        />
-                                      </p>
+                                <div className="wrap-item-title">
+                                  <div className="item-title">
+                                    <div
+                                      className="line-item-name ui-text-overflow-line2 text-break"
+                                      title={item.goodsName}
+                                    >
+                                      <span className="light">
+                                        {item.goodsName}
+                                      </span>
                                     </div>
                                   </div>
-                                  <div className="line-item-total-price justify-content-end pull-right priceBox">
-                                    <div className="price relative">
-                                      <div className="strike-through non-adjusted-price">
-                                        null
-                                      </div>
-                                      <b
-                                        className="pricing line-item-total-price-amount light"
-                                        style={{
-                                          color: item.goodsInfoFlag
-                                            ? '#888'
-                                            : '#666',
-                                          textDecoration: item.goodsInfoFlag
-                                            ? 'line-through'
-                                            : '',
-                                          display:
-                                            item.goodsInfoFlag &&
-                                            item.subscriptionPlanGiftList
-                                              ? 'none'
-                                              : 'initial'
-                                        }}
-                                      >
-                                        {formatMoney(
-                                          item.salePrice * item.buyCount
-                                        )}
-                                      </b>
-                                    </div>
-                                  </div>
-                                </div>
-                                {item.goodsInfoFlag ? (
-                                  <div
-                                    style={{
-                                      width: '100%',
-                                      overflow: 'hidden'
-                                    }}
-                                  >
+                                  <div className="w-100 overflow-hidden">
                                     <div className="line-item-total-price justify-content-start pull-left">
                                       <div className="item-attributes">
                                         <p className="line-item-attributes">
-                                          <FormattedMessage id="minicart.frequency" />
-                                          :{' '}
-                                          <FrequencyMatch
-                                            currentId={item.periodTypeId}
+                                          <FormattedMessage
+                                            id="minicart.quantityText"
+                                            values={{
+                                              specText: item.specText || '',
+                                              buyCount: item.buyCount
+                                            }}
                                           />
                                         </p>
                                       </div>
                                     </div>
                                     <div className="line-item-total-price justify-content-end pull-right priceBox">
-                                      <div className="item-total-07984de212e393df75a36856b6 price relative">
+                                      <div className="price relative">
                                         <div className="strike-through non-adjusted-price">
                                           null
                                         </div>
-                                        <b className="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light">
-                                          <span
-                                            className="iconfont font-weight-bold green"
-                                            style={{ fontSize: '.8em' }}
-                                          >
-                                            &#xe675;
-                                          </span>
-                                          &nbsp;
-                                          <span
-                                            className="red"
-                                            style={{ fontSize: '.875rem' }}
+
+                                        {showDiscountPrice && (
+                                          <b
+                                            className="pricing line-item-total-price-amount light"
+                                            style={{
+                                              color: item.goodsInfoFlag
+                                                ? '#888'
+                                                : '#666',
+                                              textDecoration: item.goodsInfoFlag
+                                                ? 'line-through'
+                                                : '',
+                                              display:
+                                                item.goodsInfoFlag &&
+                                                item.subscriptionPlanGiftList
+                                                  ? 'none'
+                                                  : 'initial'
+                                            }}
                                           >
                                             {formatMoney(
-                                              item.goodsInfoFlag &&
-                                                item.subscriptionPlanGiftList
-                                                ? item.settingPrice *
-                                                    item.buyCount
-                                                : item.subscriptionPrice *
-                                                    item.buyCount
+                                              item.salePrice * item.buyCount
                                             )}
-                                          </span>
-                                        </b>
+                                          </b>
+                                        )}
                                       </div>
                                     </div>
                                   </div>
-                                ) : null}
-                              </div>
-                            </div>
-                            <div className="item-options" />
-                            <div className="line-item-promo item-07984de212e393df75a36856b6" />
-                          </div>
-                          {toJS(item.subscriptionPlanGiftList) && false
-                            ? toJS(item.subscriptionPlanGiftList).map(
-                                (gift) => (
-                                  <div className="product-line-item-details d-flex flex-row gift-box">
-                                    <div className="item-image">
-                                      {/* <LazyLoad> */}
-                                      <img
-                                        className="product-image"
-                                        src={
-                                          optimizeImage({
-                                            originImageUrl: gift.goodsInfoImg
-                                          }) || FOOD_DISPENSER_PIC
-                                        }
-                                        alt={gift.goodsInfoName}
-                                        title={gift.goodsInfoName}
-                                      />
-                                      {/* </LazyLoad> */}
-                                    </div>
-                                    <div className="wrap-item-title">
-                                      <div className="item-title">
-                                        <div
-                                          style={{ color: '#333' }}
-                                          className="line-item-name ui-text-overflow-line2 text-break"
-                                          title={gift.goodsInfoName}
-                                        >
-                                          <span className="light">
-                                            {gift.goodsInfoName}
-                                          </span>
+                                  {item.goodsInfoFlag ? (
+                                    <div
+                                      style={{
+                                        width: '100%',
+                                        overflow: 'hidden'
+                                      }}
+                                    >
+                                      <div className="line-item-total-price justify-content-start pull-left">
+                                        <div className="item-attributes">
+                                          <p className="line-item-attributes">
+                                            <FormattedMessage id="minicart.frequency" />
+                                            :{' '}
+                                            <FrequencyMatch
+                                              currentId={item.periodTypeId}
+                                            />
+                                          </p>
                                         </div>
                                       </div>
-                                      <div
-                                        style={{
-                                          width: '100%',
-                                          overflow: 'hidden',
-                                          fontSize: '.75rem'
-                                        }}
-                                      >
-                                        x1
-                                        <FormattedMessage id="smartFeederSubscription.shopmentTimes" />
+                                      <div className="line-item-total-price justify-content-end pull-right priceBox">
+                                        <div className="item-total-07984de212e393df75a36856b6 price relative">
+                                          <div className="strike-through non-adjusted-price">
+                                            null
+                                          </div>
+                                          <b className="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light">
+                                            <span
+                                              className="iconfont font-weight-bold green"
+                                              style={{ fontSize: '.8em' }}
+                                            >
+                                              &#xe675;
+                                            </span>
+                                            &nbsp;
+                                            <span
+                                              className="red"
+                                              style={{ fontSize: '.875rem' }}
+                                            >
+                                              {formatMoney(
+                                                item.goodsInfoFlag &&
+                                                  item.subscriptionPlanGiftList
+                                                  ? item.settingPrice *
+                                                      item.buyCount
+                                                  : item.subscriptionPrice *
+                                                      item.buyCount
+                                              )}
+                                            </span>
+                                          </b>
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
+                                  ) : null}
+                                </div>
+                              </div>
+                              <div className="item-options" />
+                              <div className="line-item-promo item-07984de212e393df75a36856b6" />
+                            </div>
+                            {toJS(item.subscriptionPlanGiftList) && false
+                              ? toJS(item.subscriptionPlanGiftList).map(
+                                  (gift) => (
+                                    <div className="product-line-item-details d-flex flex-row gift-box">
+                                      <div className="item-image">
+                                        {/* <LazyLoad> */}
+                                        <img
+                                          className="product-image"
+                                          src={
+                                            optimizeImage({
+                                              originImageUrl: gift.goodsInfoImg
+                                            }) || FOOD_DISPENSER_PIC
+                                          }
+                                          alt={gift.goodsInfoName}
+                                          title={gift.goodsInfoName}
+                                        />
+                                        {/* </LazyLoad> */}
+                                      </div>
+                                      <div className="wrap-item-title">
+                                        <div className="item-title">
+                                          <div
+                                            style={{ color: '#333' }}
+                                            className="line-item-name ui-text-overflow-line2 text-break"
+                                            title={gift.goodsInfoName}
+                                          >
+                                            <span className="light">
+                                              {gift.goodsInfoName}
+                                            </span>
+                                          </div>
+                                        </div>
+                                        <div
+                                          style={{
+                                            width: '100%',
+                                            overflow: 'hidden',
+                                            fontSize: '.75rem'
+                                          }}
+                                        >
+                                          x1
+                                          <FormattedMessage id="smartFeederSubscription.shopmentTimes" />
+                                        </div>
+                                      </div>
+                                    </div>
+                                  )
                                 )
-                              )
-                            : null}
+                              : null}
+                          </div>
                         </div>
-                      </div>
-                    ))
+                      );
+                    })
                   )}
                   {this.giftList.map((el, i) => (
                     <GiftList data={el} key={i} {...this.props} />

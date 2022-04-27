@@ -250,213 +250,226 @@ const SubGoodsInfos = ({
           })}
         </div>
         <ErrorMessage msg={errMsgPage} />
-        <div className="card-container mt-0 hidden md:block">
-          {(subDetail.goodsInfo || []).map((el, index) => (
-            <div
-              className={cn(
-                'rc-margin-x--none border rounded border-d7d7d7 relative',
-                { 'mt-4': index }
-              )}
-              style={{
-                padding: '1rem 0 1.5rem 0'
-              }}
-              key={index}
-            >
-              <div className="row align-items-center">
-                <div className="col-4 col-md-6">
-                  <div
-                    className="rc-layout-container rc-five-column direction-column "
-                    style={{
-                      height: '160px',
-                      paddingRight: '60px',
-                      paddingTop: '0',
-                      alignItems: 'center'
-                    }}
-                  >
+        <div className="card-container mt-0 hidden md:block border-0">
+          {(subDetail.goodsInfo || []).map((el, index) => {
+            let showDiscountPrice = !isIndv;
+            // 如果是日本 没有折扣 不显示折扣价
+            if (
+              window.__.env.REACT_APP_COUNTRY === 'jp' &&
+              el.originalPrice === el.subscribePrice
+            ) {
+              showDiscountPrice = false;
+            }
+            return (
+              <div
+                className={cn(
+                  'rc-margin-x--none border rounded border-d7d7d7 relative',
+                  { 'mt-4': index }
+                )}
+                style={{
+                  padding: '1rem 0 1.5rem 0'
+                }}
+                key={index}
+              >
+                <div className="row align-items-center">
+                  <div className="col-4 col-md-6">
                     <div
-                      className="rc-column flex flex-row"
+                      className="rc-layout-container rc-five-column direction-column "
                       style={{
-                        width: '80%',
-                        padding: 0,
+                        height: '160px',
+                        paddingRight: '60px',
+                        paddingTop: '0',
                         alignItems: 'center'
                       }}
                     >
-                      <div className="img-container mr-3">
-                        {/* <LazyLoad> */}
-                        <img
-                          style={{ maxHeight: '100%' }}
-                          src={
-                            optimizeImage({ originImageUrl: el.goodsPic }) ||
-                            IMG_DEFAULT
-                          }
-                          alt={el.goodsName}
-                        />
-                        {/* </LazyLoad> */}
-                      </div>
                       <div
-                        className="v-center"
+                        className="rc-column flex flex-row"
                         style={{
-                          width: '300px'
+                          width: '80%',
+                          padding: 0,
+                          alignItems: 'center'
                         }}
                       >
-                        <h5
+                        <div className="img-container mr-3">
+                          {/* <LazyLoad> */}
+                          <img
+                            style={{ maxHeight: '100%' }}
+                            src={
+                              optimizeImage({ originImageUrl: el.goodsPic }) ||
+                              IMG_DEFAULT
+                            }
+                            alt={el.goodsName}
+                          />
+                          {/* </LazyLoad> */}
+                        </div>
+                        <div
+                          className="v-center"
                           style={{
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            overflowWrap: 'normal',
-                            color: '#e2001a'
+                            width: '300px'
                           }}
                         >
-                          {el.goodsName}
-                        </h5>
-                        <p
-                          style={{
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            marginBottom: '8px'
-                          }}
-                        >
-                          {!isIndv && el.specText}
-                        </p>
-                        <div>
-                          <div style={{ whiteSpace: 'nowrap' }}>
-                            <span
-                              style={{
-                                display: isIndv ? 'none' : 'inline-block'
-                              }}
-                            >
-                              <QuantityPicker
-                                className={'inline-block align-middle	'}
-                                max={skuLimitThreshold.skuMaxNum}
-                                initQuantity={el.subscribeNum}
-                                updateQuantity={(val) => {
-                                  subDetail.goodsInfo[index].subscribeNum = val;
-                                  onQtyChange();
-                                }}
-                                showError={showErrMsg}
-                              />
+                          <h5
+                            style={{
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              overflowWrap: 'normal',
+                              color: '#e2001a'
+                            }}
+                          >
+                            {el.goodsName}
+                          </h5>
+                          <p
+                            style={{
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              marginBottom: '8px'
+                            }}
+                          >
+                            {!isIndv && el.specText}
+                          </p>
+                          <div>
+                            <div style={{ whiteSpace: 'nowrap' }}>
                               <span
                                 style={{
-                                  display: 'inline-block',
-                                  fontSize: '1.375rem',
-                                  lineHeight: '40px',
-                                  verticalAlign: 'middle'
+                                  display: isIndv ? 'none' : 'inline-block'
                                 }}
                               >
-                                =
+                                <QuantityPicker
+                                  className={'inline-block align-middle	'}
+                                  max={skuLimitThreshold.skuMaxNum}
+                                  initQuantity={el.subscribeNum}
+                                  updateQuantity={(val) => {
+                                    subDetail.goodsInfo[index].subscribeNum =
+                                      val;
+                                    onQtyChange();
+                                  }}
+                                  showError={showErrMsg}
+                                />
+                                <span
+                                  style={{
+                                    display: 'inline-block',
+                                    fontSize: '1.375rem',
+                                    lineHeight: '40px',
+                                    verticalAlign: 'middle'
+                                  }}
+                                >
+                                  =
+                                </span>
                               </span>
-                            </span>
 
-                            <span
-                              className="price"
-                              style={{
-                                display: 'inline-block',
-                                fontSize: '1.25rem',
-                                fontWeight: '400',
-                                verticalAlign: 'middle',
-                                marginLeft: '8px',
-                                height: '25px'
-                              }}
-                            >
-                              {formatMoney(el.subscribePrice * el.subscribeNum)}
-                            </span>
-                            {!isIndv && (
                               <span
                                 className="price"
                                 style={{
                                   display: 'inline-block',
-                                  // fontSize: '1.25rem',
+                                  fontSize: '1.25rem',
                                   fontWeight: '400',
-                                  textDecoration: 'line-through',
                                   verticalAlign: 'middle',
                                   marginLeft: '8px',
-                                  height: '.6875rem',
-                                  color: '#aaa',
-                                  fontSize: '.875rem'
+                                  height: '25px'
                                 }}
                               >
                                 {formatMoney(
-                                  el.originalPrice * el.subscribeNum
+                                  el.subscribePrice * el.subscribeNum
                                 )}
                               </span>
-                            )}
+                              {showDiscountPrice && (
+                                <span
+                                  className="price"
+                                  style={{
+                                    display: 'inline-block',
+                                    // fontSize: '1.25rem',
+                                    fontWeight: '400',
+                                    textDecoration: 'line-through',
+                                    verticalAlign: 'middle',
+                                    marginLeft: '8px',
+                                    height: '.6875rem',
+                                    color: '#aaa',
+                                    fontSize: '.875rem'
+                                  }}
+                                >
+                                  {formatMoney(
+                                    el.originalPrice * el.subscribeNum
+                                  )}
+                                </span>
+                              )}
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    {isShowClub && !!el.petsId && isNotInactive && (
-                      <div
-                        style={{
-                          position: 'relative',
-                          paddingLeft: '26px',
-                          width: '75%'
-                        }}
-                      >
-                        <span
-                          style={{
-                            width: 'auto',
-                            paddingTop: '6px'
-                          }}
-                          className={`text-plain rc-styled-link ui-text-overflow-md-line1 `}
-                        ></span>
+                      {isShowClub && !!el.petsId && isNotInactive && (
                         <div
                           style={{
-                            position: 'absolute',
-                            // left: '45%',
-                            left: '0',
-                            top: -4,
-                            whiteSpace: 'nowrap'
+                            position: 'relative',
+                            paddingLeft: '26px',
+                            width: '75%'
                           }}
                         >
-                          <DailyRation rations={el.petsRation} />
+                          <span
+                            style={{
+                              width: 'auto',
+                              paddingTop: '6px'
+                            }}
+                            className={`text-plain rc-styled-link ui-text-overflow-md-line1 `}
+                          ></span>
+                          <div
+                            style={{
+                              position: 'absolute',
+                              // left: '45%',
+                              left: '0',
+                              top: -4,
+                              whiteSpace: 'nowrap'
+                            }}
+                          >
+                            <DailyRation rations={el.petsRation} />
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
-                </div>
-                <div className="col-4 col-md-5">
-                  <ChangeSelection el={el} intl={intl} idx={index} />
-                </div>
-                {el.canDelete ? (
-                  <div className="absolute right-4 top-4">
-                    <span
-                      className="font-bold iconfont iconguan cursor-pointer hover:text-rc-red"
-                      onClick={() => {
-                        updateConfirmTooltipVisible(el, true);
-                      }}
-                    />
+                  <div className="col-4 col-md-5">
+                    <ChangeSelection el={el} intl={intl} idx={index} />
+                  </div>
+                  {el.canDelete ? (
+                    <div className="absolute right-4 top-4">
+                      <span
+                        className="font-bold iconfont iconguan cursor-pointer hover:text-rc-red"
+                        onClick={() => {
+                          updateConfirmTooltipVisible(el, true);
+                        }}
+                      />
 
-                    <ConfirmTooltip
-                      containerStyle={{ transform: 'translate(-89%, 105%)' }}
-                      arrowStyle={{ left: '89%' }}
-                      display={el.confirmTooltipVisible}
-                      confirm={() => {
-                        deleteItem(el?.goodsInfoVO?.storeId, {
-                          subscribeId: el?.subscribeId,
-                          subscribeGoodsId: el?.subscribeGoodsId
-                        });
-                      }}
-                      updateChildDisplay={(status) =>
-                        updateConfirmTooltipVisible(el, status)
-                      }
-                      content={
-                        <FormattedMessage id="subscription.confirmDeleteProduct" />
-                      }
-                      okText={
-                        <FormattedMessage id="subscription.confirmDeleteProduct.confirm" />
-                      }
-                      cancelText={
-                        <FormattedMessage id="subscription.confirmDeleteProduct.cancel" />
-                      }
-                    />
-                  </div>
+                      <ConfirmTooltip
+                        containerStyle={{ transform: 'translate(-89%, 105%)' }}
+                        arrowStyle={{ left: '89%' }}
+                        display={el.confirmTooltipVisible}
+                        confirm={() => {
+                          deleteItem(el?.goodsInfoVO?.storeId, {
+                            subscribeId: el?.subscribeId,
+                            subscribeGoodsId: el?.subscribeGoodsId
+                          });
+                        }}
+                        updateChildDisplay={(status) =>
+                          updateConfirmTooltipVisible(el, status)
+                        }
+                        content={
+                          <FormattedMessage id="subscription.confirmDeleteProduct" />
+                        }
+                        okText={
+                          <FormattedMessage id="subscription.confirmDeleteProduct.confirm" />
+                        }
+                        cancelText={
+                          <FormattedMessage id="subscription.confirmDeleteProduct.cancel" />
+                        }
+                      />
+                    </div>
+                  ) : null}
+                </div>
+                {isGift && subDetail.subscribeStatus !== 'INACTIVE' ? (
+                  <ButtonBoxGift />
                 ) : null}
               </div>
-              {isGift && subDetail.subscribeStatus !== 'INACTIVE' ? (
-                <ButtonBoxGift />
-              ) : null}
-            </div>
-          ))}
+            );
+          })}
         </div>
         {!isGift && <ButtonBox />}
       </div>

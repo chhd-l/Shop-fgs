@@ -351,9 +351,13 @@ export const GAInitLogin = ({
     //   .forEach((item2) => {
     //     breed.push(item2.goodsAttributeValue);
     //   });
-    const breed = filterAttrValue(item?.goodsAttributesValueRelList, 'breeds');
+    // 非会员和会员的数据来源不一样，不要直接复制粘贴同一个值，取值不对！
+    const breed = filterAttrValue(
+      item?.goodsAttributesValueRelVOList,
+      'breeds'
+    );
     const specie = filterAttrValue(
-      item?.goodsAttributesValueRelList,
+      item?.goodsAttributesValueRelVOList,
       'species'
     ).toString();
     let productItem = {
