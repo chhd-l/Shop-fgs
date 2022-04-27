@@ -353,7 +353,7 @@ var config = {
   projectId: '8f0d7f6b0396b8af7f08bf9f36d81259',
   phraseEnabled: Boolean(window.__.env.REACT_APP_PHRASE_CONTEXT_EDITOR),
   autoLowercase: false,
-  branch: window.__.env.REACT_APP_PHRASE_CONTEXT_EDITOR_BRANCH,
+  branch: window.__.env.REACT_APP_PHRASE_BRANCH,
   prefix: '[[__',
   suffix: '__]]'
 };
