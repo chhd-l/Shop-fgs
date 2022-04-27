@@ -87,6 +87,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
     if (!selected) {
       return;
     }
+    setState({ currentChangeProductIdx: 0 }); // 此部分只会在当产品只有一个时出现，所以idx直接置为0
     setChangeNowLoading(true);
     doChangeSubscriptionGoods();
   };
