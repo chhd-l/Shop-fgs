@@ -719,7 +719,7 @@ class UnLoginCart extends React.Component {
                   </div> */}
                     <div className="align-left flex">
                       <div className="stock__wrapper">
-                        <div className="stock">
+                        <div className="stock flex">
                           <label
                             className={[
                               'availability',

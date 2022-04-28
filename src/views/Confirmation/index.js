@@ -470,9 +470,9 @@ class Confirmation extends React.Component {
         }
         <Canonical />
         <Header {...this.props} showNav={false} showUserBox={false} />
-        <main className="rc-content--fixed-header rc-bg-colour--brand4 pl-2 pr-2 md:pl-0 md:pr-0">
+        <main className="rc-content--fixed-header rc-bg-colour--brand4 px-0">
           {/* <BannerTip /> */}
-          <div className="rc-max-width--xl pb-4">
+          <div className="rc-max-width--xl pb-4 px-2 md:px-0">
             <div className="text-center mt-3">
               <div className="flex justify-center">
                 <span className="flex items-center justify-center bg-green rounded-full w-14 h-14 md:w-20 md:h-20 mb-2">

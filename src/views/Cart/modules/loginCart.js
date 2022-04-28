@@ -850,7 +850,7 @@ class LoginCart extends React.Component {
                   </div> */}
                     <div className="align-left flex">
                       <div
-                        className="stock"
+                        className="stock flex"
                         style={{ margin: '.5rem 0 -.4rem' }}
                       >
                         <label
