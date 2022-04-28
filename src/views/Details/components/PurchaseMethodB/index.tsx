@@ -67,8 +67,7 @@ const PurchaseMethodB = ({
       <div>
         <span className="text-3xl font-normal">From {fromPrice} €</span>
         <span className="ml-5">
-          * With subscription
-          {/* <FormattedMessage id='' /> */}
+          *<FormattedMessage id="WithSubscription" />
         </span>
       </div>
       {freeshippingBox()}

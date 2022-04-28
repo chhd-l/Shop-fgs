@@ -180,6 +180,7 @@ class Details extends React.Component {
     };
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
     this.ChangeFormat = this.ChangeFormat.bind(this);
+    window.switchToVersionB = this.switchToVersionB;
   }
   componentWillUnmount() {}
 
@@ -1268,7 +1269,6 @@ class Details extends React.Component {
   switchToVersionB = () => {
     this.setState({ versionB: true });
   };
-
   render() {
     const { intl } = this.props;
     const {
@@ -1554,7 +1554,9 @@ class Details extends React.Component {
                                   <div className="flex flex-row items-center mt-6">
                                     <div>{this.ButtonGroupDom(false)}</div>
                                     <span className="mx-4">
-                                      <FormattedMessage id="or" />
+                                      {isApi && isUrl && (
+                                        <FormattedMessage id="or" />
+                                      )}
                                     </span>
                                     <BuyFromRetailerBtn
                                       // ccidBtnDisplay={ccidBtnDisplay}

@@ -92,14 +92,8 @@ class BuyFromRetailerBtn extends React.Component {
     );
   };
   render() {
-    const {
-      onClick,
-      barcode,
-      goodsType,
-      isApi,
-      isUrl,
-      retailerUrl
-    } = this.props;
+    const { onClick, barcode, goodsType, isApi, isUrl, retailerUrl } =
+      this.props;
     const { ccidBtnDisplay } = this.state;
     // const isApi = window.__.env.REACT_APP_HUBPAGE_RETAILER_ISAPI === '1';
     // const isUrl = window.__.env.REACT_APP_HUBPAGE_RETAILER_ISURL === '1';
