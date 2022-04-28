@@ -95,7 +95,6 @@ import { SelectPet } from './SelectPet';
 import { PanelContainer } from './Common';
 import { Point } from './Point';
 import {
-  paymentMethodsObj,
   radioTypes,
   supportPoint,
   felinAddr
@@ -751,9 +750,10 @@ class Payment extends React.Component {
   }
 
   get isPayUPaymentTypeVal() {
-    return ['payUCreditCard', 'payUCreditCardRU', 'payUCreditCardTU'].includes(
-      this.state.paymentTypeVal
-    );
+    const {
+      paymentStore: { curPayWayInfo }
+    } = this.props;
+    return ['payu', 'payu_ru', 'payu_tu'].includes(curPayWayInfo?.code);
   }
 
   // 更新delivery address保存次数
@@ -890,9 +890,12 @@ class Payment extends React.Component {
   }
 
   updateSelectedCardInfo = (data) => {
+    const {
+      paymentStore: { curPayWayInfo }
+    } = this.props;
     let cyberMd5Cvv;
     if (data?.cardCvv) {
-      if (this.state.paymentTypeVal == 'cyber') {
+      if (curPayWayInfo?.code === 'pc_web') {
         cyberMd5Cvv = md5(data.lastFourDigits + data.cardCvv);
         data = Object.assign({}, data, { cardCvv: cyberMd5Cvv });
       }
@@ -997,12 +1000,6 @@ class Payment extends React.Component {
       if (payWay.context) {
         // 筛选条件: 1.开关开启 2.订阅购买时, 排除不支持订阅的支付方式 3.cod时, 是否超过限制价格
         payWayNameArr = (payWay.context.payPspItemVOList || [])
-          .map((p) => {
-            const tmp =
-              paymentMethodsObj[p.code] ||
-              paymentMethodsObj[p.code.toUpperCase()];
-            return tmp ? Object.assign({}, tmp, p) : tmp;
-          })
           .filter(
             (e) =>
               e &&
@@ -1059,7 +1056,7 @@ class Payment extends React.Component {
       paymentStore: { serCurPayWayVal }
     } = this.props;
 
-    const tmpVal = val || this.state.payWayNameArr[0]?.paymentTypeVal || '';
+    const tmpVal = val || this.state.payWayNameArr[0]?.code || '';
     if (chooseRadioType() === 'box' && !this.isSkipPaymentPanel) return; //box的方式不默认第一种支付方式,0元订单还是默认第一种credit card支付方式
     serCurPayWayVal(tmpVal);
     this.setState(
@@ -1073,23 +1070,25 @@ class Payment extends React.Component {
   }
   // adyenCard支持的卡类型
   setSupportPaymentMethods() {
+    const {
+      paymentStore: { curPayWayInfo }
+    } = this.props;
     return (
-      this.state.payWayNameArr.filter(
-        (p) => p.paymentTypeVal === this.state.paymentTypeVal
-      )[0]?.payPspItemCardTypeVOList || []
+      this.state.payWayNameArr.filter((p) => p.code === curPayWayInfo?.code)[0]
+        ?.payPspItemCardTypeVOList || []
     );
   }
   //计算ServiceFeeAndLoyaltyPoints
   confirmCalculateServiceFeeAndLoyaltyPoints = (loyaltyPoints = 0) => {
-    const { payWayNameArr, paymentTypeVal } = this.state;
+    const {
+      paymentStore: { curPayWayInfo }
+    } = this.props;
     this.props.checkoutStore.calculateServiceFeeAndLoyaltyPoints({
       loyaltyPoints,
       subscriptionFlag:
         this.state.subForm?.buyWay === 'frequency' ? true : false,
       ownerId: this.props.loginStore?.userInfo?.customerId || '',
-      paymentCode: payWayNameArr.filter(
-        (p) => p.paymentTypeVal === paymentTypeVal
-      )[0]?.code
+      paymentCode: curPayWayInfo?.code
     });
     this.onCardTypeValChange();
   };
@@ -1234,8 +1233,8 @@ class Payment extends React.Component {
     }, 5000);
   };
   // 4、支付公共初始化方法
-  initCommonPay = ({ email = '', type }) => {
-    this.doGetAdyenPayParam(type);
+  initCommonPay = ({ email = '' } = {}) => {
+    this.doGetAdyenPayParam();
     if (email) {
       this.setState({
         email
@@ -1291,8 +1290,11 @@ class Payment extends React.Component {
   }
 
   // 6、组装支付共同的参数
-  async getAdyenPayParam(type) {
+  async getAdyenPayParam() {
     try {
+      const {
+        paymentStore: { curPayWayInfo }
+      } = this.props;
       const { email, swishPhone } = this.state;
       const { isLogin } = this;
       let obj = await this.getPayCommonParam();
@@ -1318,14 +1320,14 @@ class Payment extends React.Component {
       let parameters;
       /* 组装支付需要的参数 */
       const actions = {
-        oxxo: () => {
+        payuoxxo: () => {
           parameters = Object.assign({}, commonParameter, {
             payPspItemEnum: 'PAYU_OXXO',
             country: 'MEX',
             email
           });
         },
-        payUCreditCard: async () => {
+        payu: async () => {
           parameters = await this.hanldePAYUCheckoutParams({
             commonParameter,
             parameters,
@@ -1333,7 +1335,7 @@ class Payment extends React.Component {
             country: 'MEX'
           });
         },
-        payUCreditCardRU: async () => {
+        payu_ru: async () => {
           parameters = await this.hanldePAYUCheckoutParams({
             commonParameter,
             parameters: parameters,
@@ -1341,7 +1343,7 @@ class Payment extends React.Component {
             country: 'RUS'
           });
         },
-        payUCreditCardTU: async () => {
+        payu_tu: async () => {
           let installments;
           const {
             checkoutStore: { installMentParam }
@@ -1369,7 +1371,7 @@ class Payment extends React.Component {
             loyaltyPoints: Number(this.props.checkoutStore.inputPoint)
           });
         },
-        adyenCard: () => {
+        adyen_credit_card: () => {
           const { adyenPayParam } = this.state;
           parameters = Object.assign(commonParameter, {
             browserInfo: this.props.paymentStore.browserInfo,
@@ -1391,14 +1393,14 @@ class Payment extends React.Component {
             });
           }
         },
-        adyenKlarnaPayLater: () => {
+        adyen_klarna_pay_later: () => {
           parameters = Object.assign(commonParameter, {
             adyenType: 'klarna',
             payPspItemEnum: 'ADYEN_KLARNA_PAY_LATER',
             email
           });
         },
-        adyenKlarnaPayNow: () => {
+        adyen_klarna_pay_now: () => {
           parameters = Object.assign(commonParameter, {
             adyenType: 'klarna_paynow',
             payPspItemEnum: 'ADYEN_KLARNA_PAYNOW',
@@ -1412,13 +1414,13 @@ class Payment extends React.Component {
             email
           });
         },
-        adyenOxxo: () => {
+        adyen_oxxo: () => {
           parameters = Object.assign(commonParameter, {
             payPspItemEnum: 'ADYEN_OXXO',
             email
           });
         },
-        adyenPaypal: () => {
+        adyen_paypal: () => {
           parameters = Object.assign(commonParameter, {
             adyenType: 'paypal',
             payPspItemEnum: 'ADYEN_PAYPAL',
@@ -1432,7 +1434,7 @@ class Payment extends React.Component {
             //adyenSwishPhone: swishPhone
           });
         },
-        cyber: () => {
+        pc_web: () => {
           const {
             cyberPayParam: { id, cardCvv, accessToken }
           } = this.state;
@@ -1457,7 +1459,7 @@ class Payment extends React.Component {
           });
         }
       };
-      await actions[type]();
+      await actions[curPayWayInfo?.code]();
 
       //合并支付必要的参数
       let finalParam = Object.assign(parameters, {
@@ -1498,10 +1500,10 @@ class Payment extends React.Component {
   }
 
   // 5、获取参数
-  async doGetAdyenPayParam(type) {
+  async doGetAdyenPayParam() {
     try {
-      let parameters = await this.getAdyenPayParam(type);
-      await this.allAdyenPayment(parameters, type);
+      let parameters = await this.getAdyenPayParam();
+      await this.allAdyenPayment(parameters);
     } catch (err) {
       console.warn(err);
       if (err.message !== 'agreement failed') {
@@ -1514,7 +1516,7 @@ class Payment extends React.Component {
   }
 
   // 根据条件-调用不同的支付接口,进行支付,支付成功跳转到 confirmation
-  async allAdyenPayment(parameters, type) {
+  async allAdyenPayment(parameters) {
     try {
       let action;
       const actions = () => {
@@ -1604,7 +1606,7 @@ class Payment extends React.Component {
         action.forEach(([key, value]) => value.call(this));
       };
       const {
-        paymentStore: { petList, petSelectedIds },
+        paymentStore: { petList, petSelectedIds, curPayWayInfo },
         checkoutStore: { isShowBindPet }
       } = this.props;
 
@@ -1679,8 +1681,8 @@ class Payment extends React.Component {
       let oxxoPayUrl;
       let gotoConfirmationPage = false;
 
-      switch (type) {
-        case 'oxxo':
+      switch (curPayWayInfo?.code) {
+        case 'payuoxxo':
           const oxxoContent = res.context;
           oxxoPayUrl =
             oxxoContent?.args?.additionalDetails?.data[0]?.href || '';
@@ -1689,9 +1691,9 @@ class Payment extends React.Component {
             : oxxoContent && oxxoContent.tidList;
           gotoConfirmationPage = true;
           break;
-        case 'payUCreditCardRU':
-        case 'payUCreditCardTU':
-        case 'payUCreditCard':
+        case 'payu_ru':
+        case 'payu_tu':
+        case 'payu':
         case 'cod':
         case 'cod_japan':
           subOrderNumberList = tidList.length
@@ -1798,7 +1800,7 @@ class Payment extends React.Component {
           }
 
           break;
-        case 'adyenOxxo':
+        case 'adyen_oxxo':
           subOrderNumberList =
             tidList.length && tidList[0]
               ? tidList
@@ -1819,7 +1821,7 @@ class Payment extends React.Component {
             gotoConfirmationPage = true;
           }
           break;
-        case 'adyenCard':
+        case 'adyen_credit_card':
           subOrderNumberList =
             tidList.length && tidList[0]
               ? tidList
@@ -1855,10 +1857,10 @@ class Payment extends React.Component {
             gotoConfirmationPage = true;
           }
           break;
-        case 'adyenKlarnaPayLater':
-        case 'adyenKlarnaPayNow':
+        case 'adyen_klarna_pay_later':
+        case 'adyen_klarna_pay_now':
         case 'directEbanking':
-        case 'adyenPaypal':
+        case 'adyen_paypal':
           subOrderNumberList = res.context.tidList;
           this.removeLocalCartData();
           // 给klana支付跳转用
@@ -1877,7 +1879,7 @@ class Payment extends React.Component {
             gotoConfirmationPage = true;
           }
           break;
-        case 'cyber':
+        case 'pc_web':
           subOrderNumberList =
             tidList.length && tidList[0]
               ? tidList
@@ -2950,11 +2952,10 @@ class Payment extends React.Component {
   confirmPaymentPanel = async () => {
     const { isLogin } = this;
     const {
-      paymentStore: { currentCardTypeInfo }
+      paymentStore: { currentCardTypeInfo, curPayWayInfo }
     } = this.props;
     const {
       adyenPayParam,
-      paymentTypeVal,
       billingAddress,
       cyberPaymentForm: {
         cardholderName,
@@ -2975,7 +2976,7 @@ class Payment extends React.Component {
     let cyberPaymentParam = {};
     let cyberParams = {};
 
-    if (paymentTypeVal == 'cyber') {
+    if (curPayWayInfo?.code === 'pc_web') {
       cyberPaymentParam.cardholderName = cardholderName;
       cyberPaymentParam.cardNumber = cardNumber;
       cyberPaymentParam.securityCode = securityCode;
@@ -3080,13 +3081,13 @@ class Payment extends React.Component {
           await this.loginBillingAddrRef.current.handleSave();
         }
         // 2 save card form, when add a new card
-        if (paymentTypeVal === 'adyenCard' && !adyenPayParam) {
+        if (curPayWayInfo?.code === 'adyen_credit_card' && !adyenPayParam) {
           await handleClickSaveAdyenForm(this);
         }
 
         await handleClickSavePayUForm(this);
 
-        if (paymentTypeVal === 'cyber') {
+        if (curPayWayInfo?.code === 'pc_web') {
           this.state.cyberPaymentForm.isSaveCard
             ? (cyberParams.isSaveCard = true)
             : (cyberParams.isSaveCard = false);
@@ -3099,7 +3100,7 @@ class Payment extends React.Component {
         await handleClickSaveAdyenForm(this);
         await handleClickSavePayUForm(this);
 
-        if (paymentTypeVal === 'cyber') {
+        if (curPayWayInfo?.code === 'pc_web') {
           cyberParams.isSaveCard = true;
           const res = await unLoginCyberSaveCard(cyberParams);
           getBindCardInfo(res);
@@ -3327,15 +3328,16 @@ class Payment extends React.Component {
       paymentStore: {
         setAddCardDirectToPayFlag,
         setRreshCardList,
-        setStsToEdit
+        setStsToEdit,
+        curPayWayInfo
       }
     } = this.props;
 
     setAddCardDirectToPayFlag(false);
     setRreshCardList(true);
 
-    const { billingChecked, paymentTypeVal } = this.state;
-    if (paymentTypeVal == 'cyber' && this.isLogin) {
+    const { billingChecked } = this.state;
+    if (curPayWayInfo?.code === 'pc_web' && this.isLogin) {
       await this.queryList();
     }
     checkoutStore.setInstallMentParam(null);
@@ -3371,10 +3373,9 @@ class Payment extends React.Component {
    */
   renderPayTab = () => {
     const {
-      paymentStore: { supportPaymentMethods }
+      paymentStore: { supportPaymentMethods, curPayWayInfo }
     } = this.props;
     const {
-      paymentTypeVal,
       subForm,
       payWayErr,
       billingChecked,
@@ -3424,9 +3425,11 @@ class Payment extends React.Component {
     //支付方式圆形单选框
     const InputCirclePaymethords = ({
       payWayNameArr,
-      paymentTypeVal,
       handlePaymentTypeChange
     }) => {
+      const {
+        paymentStore: { curPayWayInfo }
+      } = this.props;
       return (
         <div className={`ml-custom mr-custom`}>
           {payWayNameArr.map((item, i) => (
@@ -3434,11 +3437,11 @@ class Payment extends React.Component {
               <input
                 className="rc-input__radio"
                 id={`payment-info-${item.id}`}
-                value={item.paymentTypeVal}
+                value={item.code}
                 type="radio"
                 name="payment-info"
                 onChange={handlePaymentTypeChange}
-                checked={paymentTypeVal === item.paymentTypeVal}
+                checked={curPayWayInfo?.code === item.code}
                 autoComplete="new-password"
               />
               <label
@@ -3458,7 +3461,6 @@ class Payment extends React.Component {
         {chooseRadioType() === 'circle' && payWayNameArr.length > 1 && (
           <InputCirclePaymethords
             payWayNameArr={payWayNameArr}
-            paymentTypeVal={paymentTypeVal}
             handlePaymentTypeChange={this.handlePaymentTypeChange}
           />
         )}
@@ -3472,14 +3474,12 @@ class Payment extends React.Component {
                   <div
                     className={cn(
                       'flex justify-between items-center text-grey-400 w-full border rounded-md pl-5 pr-2 py-2 my-4 cursor-pointer',
-                      paymentTypeVal === item.paymentTypeVal
+                      curPayWayInfo?.code === item.code
                         ? 'border-green'
                         : 'border-gray-300'
                     )}
                     key={index}
-                    onClick={() =>
-                      this.handlePaymentTypeClick(item.paymentTypeVal)
-                    }
+                    onClick={() => this.handlePaymentTypeClick(item.code)}
                   >
                     <div className="text-sm md:text-lg">
                       <FormattedMessage id={item.code} />
@@ -3492,8 +3492,8 @@ class Payment extends React.Component {
                     )}
                   </div>
                   {/* 选择了某种支付方式后，当前支付方式的详情页 */}
-                  {item.paymentTypeVal === 'adyenCard' &&
-                    paymentTypeVal === 'adyenCard' && (
+                  {item.code === 'adyen_credit_card' &&
+                    curPayWayInfo?.code === 'adyen_credit_card' && (
                       <>
                         <AdyenCreditCard
                           {...this.props}
@@ -3515,8 +3515,8 @@ class Payment extends React.Component {
                         />
                       </>
                     )}
-                  {item.paymentTypeVal === 'adyenPaypal' &&
-                    paymentTypeVal === 'adyenPaypal' && (
+                  {item.code === 'adyen_paypal' &&
+                    curPayWayInfo?.code === 'adyen_paypal' && (
                       <>
                         <Paypal
                           billingJSX={this.renderBillingJSX({
@@ -3530,11 +3530,11 @@ class Payment extends React.Component {
                         />
                       </>
                     )}
-                  {item.paymentTypeVal === 'cod_japan' &&
-                    paymentTypeVal === 'cod_japan' &&
+                  {item.code === 'cod_japan' &&
+                    curPayWayInfo?.code === 'cod_japan' &&
                     isSupportPoint(this.isLogin) && <Point />}
-                  {item.paymentTypeVal === 'adyen_convenience_store' &&
-                    paymentTypeVal === 'adyen_convenience_store' && (
+                  {item.code === 'adyen_convenience_store' &&
+                    curPayWayInfo?.code === 'adyen_convenience_store' && (
                       <>
                         <ConvenienceStore
                           convenienceStoreChange={(value) => {
@@ -3544,8 +3544,8 @@ class Payment extends React.Component {
                         />
                       </>
                     )}
-                  {item.paymentTypeVal === 'adyen_swish' &&
-                    paymentTypeVal === 'adyen_swish' && (
+                  {item.code === 'adyen_swish' &&
+                    curPayWayInfo?.code === 'adyen_swish' && (
                       <>
                         <Swish
                           //updateSwishPhone={this.updateSwishPhone}
@@ -3560,7 +3560,7 @@ class Payment extends React.Component {
             </>
           )}
           {chooseRadioType() === 'box' &&
-            paymentTypeVal === 'adyenCard' &&
+            curPayWayInfo?.code === 'adyen_credit_card' &&
             payConfirmBtn({
               disabled:
                 !validSts.adyenCard ||
@@ -3570,20 +3570,20 @@ class Payment extends React.Component {
               aaa: validSts,
               bbb: validForBilling
             })}
-          {paymentTypeVal === 'adyenPaypal' &&
+          {curPayWayInfo?.code === 'adyen_paypal' &&
             payConfirmBtn({
               disabled: validForBilling
             })}
-          {paymentTypeVal === 'adyen_swish' &&
+          {curPayWayInfo?.code === 'adyen_swish' &&
             payConfirmBtn({
               disabled: validForBilling
             })}
-          {paymentTypeVal === 'adyen_convenience_store' &&
+          {curPayWayInfo?.code === 'adyen_convenience_store' &&
             payConfirmBtn({
               disabled:
                 !this.state.convenienceStore || this.isInputPointDisabled
             })}
-          {paymentTypeVal === 'cod_japan' &&
+          {curPayWayInfo?.code === 'cod_japan' &&
             payConfirmBtn({
               disabled: this.isInputPointDisabled
             })}
@@ -3593,7 +3593,7 @@ class Payment extends React.Component {
           ) : (
             <>
               {/* cod 货到付款 */}
-              {paymentTypeVal === 'cod' && (
+              {curPayWayInfo?.code === 'cod' && (
                 <>
                   <Cod
                     type={'cod'}
@@ -3609,7 +3609,7 @@ class Payment extends React.Component {
                 </>
               )}
               {/* oxxo */}
-              {paymentTypeVal === 'oxxo' ? (
+              {curPayWayInfo?.code === 'payuoxxo' ? (
                 <>
                   <OxxoConfirm
                     type={'oxxo'}
@@ -3622,7 +3622,7 @@ class Payment extends React.Component {
                 </>
               ) : null}
               {/* adyenOxxo */}
-              {paymentTypeVal === 'adyenOxxo' ? (
+              {curPayWayInfo?.code === 'adyen_oxxo' ? (
                 <>
                   <OxxoConfirm
                     type={'adyenOxxo'}
@@ -3684,7 +3684,7 @@ class Payment extends React.Component {
 
               {/* adyenCreditCard */}
               {chooseRadioType() === 'circle' &&
-                paymentTypeVal === 'adyenCard' && (
+                curPayWayInfo?.code === 'adyen_credit_card' && (
                   <>
                     <AdyenCreditCard
                       {...this.props}
@@ -3711,7 +3711,7 @@ class Payment extends React.Component {
                   </>
                 )}
               {/* KlarnaPayLater */}
-              {paymentTypeVal === 'adyenKlarnaPayLater' && (
+              {curPayWayInfo?.code === 'adyen_klarna_pay_later' && (
                 <>
                   <AdyenCommonPay
                     type={'adyenKlarnaPayLater'}
@@ -3735,7 +3735,7 @@ class Payment extends React.Component {
                 </>
               )}
               {/* KlarnaPayNow  */}
-              {paymentTypeVal === 'adyenKlarnaPayNow' && (
+              {curPayWayInfo?.code === 'adyen_klarna_pay_now' && (
                 <>
                   <AdyenCommonPay
                     type={'adyenKlarnaPayNow'}
@@ -3756,7 +3756,7 @@ class Payment extends React.Component {
                 </>
               )}
               {/* Sofort */}
-              {paymentTypeVal === 'directEbanking' && (
+              {curPayWayInfo?.code === 'directEbanking' && (
                 <>
                   <AdyenCommonPay
                     type={'directEbanking'}
@@ -3772,7 +3772,7 @@ class Payment extends React.Component {
               )}
 
               {/* todo 重构后的CYBER */}
-              {paymentTypeVal === 'cyber' && (
+              {curPayWayInfo?.code === 'pc_web' && (
                 <>
                   <CyberPayment
                     {...this.props}
@@ -3836,8 +3836,10 @@ class Payment extends React.Component {
    * 不同情况预览不同规则
    */
   renderPayPreview = () => {
+    const {
+      paymentStore: { curPayWayInfo }
+    } = this.props;
     let {
-      paymentTypeVal,
       email,
       billingAddress: form,
       adyenPayParam,
@@ -3878,10 +3880,10 @@ class Payment extends React.Component {
 
     let ret = handlePayReview(
       this.props.checkoutStore.selectDiscountWay,
-      paymentTypeVal,
       this.state.convenienceStore,
       email,
-      { holderNameDeco, brandDeco, lastFourDeco, expirationDate }
+      { holderNameDeco, brandDeco, lastFourDeco, expirationDate },
+      curPayWayInfo?.code
     );
 
     return (
@@ -3959,10 +3961,7 @@ class Payment extends React.Component {
     if (this.isLogin) {
       this.userBindConsentFun();
     }
-    const { paymentTypeVal } = this.state;
-    this.initCommonPay({
-      type: paymentTypeVal
-    });
+    this.initCommonPay();
   };
 
   // 2、
@@ -4136,7 +4135,6 @@ class Payment extends React.Component {
                 </PanelContainer>
 
                 <Confirmation
-                  paymentTypeVal={this.state.paymentTypeVal}
                   clickPay={this.clickPay}
                   listData={listData}
                   checkRequiredItem={this.checkRequiredItem}

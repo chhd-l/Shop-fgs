@@ -35,17 +35,22 @@ const ChangeSelection = ({ el, idx }) => {
   }
   const isClub = el.promotions?.toLowerCase().includes('club');
 
+  const girdConf = ['col-span-6 md:col-span-6', 'col-span-6 md:col-span-6'];
+
   return (
     <>
       <div className="rc-card-content overflow-hidden grid grid-cols-12 items-center px-3 md:px-0 mt-3 md:mt-0 mb-2 gap-1">
-        <span className="col-span-7 md:col-span-6 leading-normal">
+        <span className={cn('leading-normal', girdConf[0])}>
           {/* Shipping Method: */}
           <FormattedMessage
             id={isClub ? 'autoShipStarted' : 'autoShipStarted2'}
           />
         </span>
         <div
-          className="rc-card__meta order-Id text-left text-base	col-span-5 md:col-span-6"
+          className={cn(
+            'rc-card__meta order-Id text-left text-base',
+            girdConf[1]
+          )}
           style={{
             fontSize: '1.25rem'
           }}
@@ -56,12 +61,15 @@ const ChangeSelection = ({ el, idx }) => {
       <div className="rc-card-content sub-frequency-wrap grid grid-cols-12 items-center px-3 md:px-0 gap-1">
         {isIndv ? (
           <>
-            <span className="col-span-7">
+            <span className={cn(girdConf[0])}>
               <FormattedMessage id="subscription.frequencyDelivery" />
               <FormattedMessage id="subscription.deliveryEvery" />
             </span>
             <div
-              className="rc-card__meta order-Id text-left text-base col-span-5"
+              className={cn(
+                'rc-card__meta order-Id text-left text-base',
+                girdConf[1]
+              )}
               style={{
                 fontSize: '1.25rem'
               }}
@@ -90,12 +98,9 @@ const ChangeSelection = ({ el, idx }) => {
                     setState({ isDataChange: true });
                   }
                 }}
-                childrenGridCls={[
-                  'col-span-7 md:col-span-6',
-                  'col-span-5 md:col-span-6'
-                ]}
+                childrenGridCls={girdConf}
                 disabled={!isActive || isGift}
-                selectionStyle={{ marginLeft: '.3rem' }}
+                // selectionStyle={{ marginLeft: '.3rem' }}
               />
             )}
           </div>
@@ -107,13 +112,13 @@ const ChangeSelection = ({ el, idx }) => {
           style={{
             lineHeight: 1
           }}
-          className="whitespace-nowrap1 col-span-7 md:col-span-6 flex items-center"
+          className={cn('whitespace-nowrap1 flex items-center', girdConf[0])}
         >
           <span className="iconfont icondata text-lg mr-2" />
           <FormattedMessage id="nextShipment" />:
         </span>
         <div
-          className="rc-card__meta order-Id col-span-5 md:col-span-6"
+          className={cn('rc-card__meta order-Id', girdConf[1])}
           style={{
             fontSize: '1.25rem'
           }}

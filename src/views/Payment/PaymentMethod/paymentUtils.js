@@ -248,18 +248,18 @@ const ShowUsePoint = () => {
 //根据不同的支付方式显示不同的pay review
 export const handlePayReview = (
   selectDiscountWay,
-  paymentTypeVal,
   convenienceStore,
   email,
-  cardData
+  cardData,
+  paymentTypeCode
 ) => {
   let ret = null;
-  switch (paymentTypeVal) {
-    case 'payUCreditCard':
-    case 'payUCreditCardRU':
-    case 'payUCreditCardTU':
-    case 'adyenCard':
-    case 'cyber':
+  switch (paymentTypeCode) {
+    case 'payu':
+    case 'payu_ru':
+    case 'payu_tu':
+    case 'adyen_credit_card':
+    case 'CYBER':
       ret = (
         <>
           <div className="col-12 col-md-6">
@@ -294,7 +294,7 @@ export const handlePayReview = (
         </div>
       );
       break;
-    case 'adyenPaypal':
+    case 'adyen_paypal':
       ret = (
         <div className="col-12 col-md-6">
           <img src={LOGO_ADYEN_PAYPAL} className="w-24 ml-8" />

@@ -87,6 +87,7 @@ const FrequencyMatch = ({
           disabled={disabled}
           customContainerStyle={{
             flex: 1,
+            marginLeft: '.3rem',
             ...selectionStyle
           }}
           customInnerStyle={selectionCustomInnerStyle}

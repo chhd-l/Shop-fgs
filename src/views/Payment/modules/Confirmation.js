@@ -45,9 +45,6 @@ function JpConfirmationText() {
 @injectIntl
 @observer
 class Confirmation extends React.Component {
-  static defaultProps = {
-    paymentTypeVal: ''
-  };
   constructor(props) {
     super(props);
     this.state = {
@@ -108,7 +105,10 @@ class Confirmation extends React.Component {
   };
   render() {
     const { panelStatus } = this;
-    const { tradePrice } = this.props;
+    const {
+      tradePrice,
+      paymentStore: { curPayWayInfo }
+    } = this.props;
     const { isValid } = this.state;
 
     return (
@@ -174,7 +174,7 @@ class Confirmation extends React.Component {
               >
                 <FormattedMessage
                   id={
-                    this.props.paymentTypeVal === 'cod'
+                    curPayWayInfo?.code === 'cod'
                       ? 'payment.further2'
                       : 'payment.further'
                   }
