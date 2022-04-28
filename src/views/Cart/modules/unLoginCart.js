@@ -293,8 +293,8 @@ class UnLoginCart extends React.Component {
         this.computedList[0];
       if (el.goodsInfoFlag) {
         el.form = {
-          frequencyVal: filterData.valueEn,
-          frequencyName: filterData.name,
+          frequencyVal: filterData?.valueEn,
+          frequencyName: filterData?.name,
           frequencyId:
             filterData.id ||
             el.goods.defaultFrequencyId ||
@@ -305,23 +305,23 @@ class UnLoginCart extends React.Component {
       } else {
         if (el.promotions?.includes('club')) {
           el.form = {
-            frequencyVal: filterData.valueEn,
-            frequencyName: filterData.name,
+            frequencyVal: filterData?.valueEn,
+            frequencyName: filterData?.name,
             frequencyId:
               el.goods?.defaultFrequencyId ||
               configStore.info?.storeVO.defaultSubscriptionClubFrequencyId ||
               filterData.id,
-            frequencyType: filterData.type
+            frequencyType: filterData?.type
           };
         } else {
           el.form = {
-            frequencyVal: filterData.valueEn,
-            frequencyName: filterData.name,
+            frequencyVal: filterData?.valueEn,
+            frequencyName: filterData?.name,
             frequencyId:
               el.goods?.defaultFrequencyId ||
               configStore.info?.storeVO?.defaultSubscriptionFrequencyId ||
               filterData.id,
-            frequencyType: filterData.type
+            frequencyType: filterData?.type
           };
         }
       }
