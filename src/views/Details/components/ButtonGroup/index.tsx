@@ -16,6 +16,7 @@ interface Props {
   isApi: boolean;
   isUrl: boolean;
   retailerUrl: string;
+  versionType?: boolean;
 }
 const ButtonGroup = ({
   addToCartLoading,
@@ -30,7 +31,8 @@ const ButtonGroup = ({
   buyFromRetailer,
   isApi,
   isUrl,
-  retailerUrl
+  retailerUrl,
+  versionType
 }: Props) => {
   const handleAddToCart = () => {
     addToCart();
@@ -41,7 +43,11 @@ const ButtonGroup = ({
   return (
     <div>
       <div className="rc-md-up">
-        <div className="buy-btn-box rc-max-width--xl fullHeight text-right mt-4">
+        <div
+          className={`buy-btn-box rc-max-width--xl fullHeight text-right ${
+            versionType ? '' : 'mt-4'
+          }`}
+        >
           <button
             style={{ padding: '2px 30px' }}
             className={`add-to-cart-btn rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
@@ -86,13 +92,15 @@ const ButtonGroup = ({
           {!vet ? (
             <button
               className={`rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
-                addToCartLoading ? 'ui-btn-loading' : ''
-              } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
+                addToCartLoading && 'ui-btn-loading'
+              } ${!btnStatus && 'rc-btn-solid-disabled'}`}
               onClick={handleAddToCart}
             >
               <span className="fa rc-icon rc-cart--xs rc-brand3" />
               <span className="default-txt">
-                {form.buyWay === 1 || form.buyWay === 2 ? (
+                {versionType ? (
+                  <FormattedMessage id="details.addToCart" />
+                ) : [1, 2].includes(form.buyWay) ? (
                   <FormattedMessage id="subscribe" />
                 ) : (
                   <FormattedMessage id="details.addToCart" />
