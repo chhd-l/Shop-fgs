@@ -895,7 +895,7 @@ class Payment extends React.Component {
     } = this.props;
     let cyberMd5Cvv;
     if (data?.cardCvv) {
-      if (curPayWayInfo?.code === 'CYBER') {
+      if (curPayWayInfo?.code === 'pc_web') {
         cyberMd5Cvv = md5(data.lastFourDigits + data.cardCvv);
         data = Object.assign({}, data, { cardCvv: cyberMd5Cvv });
       }
@@ -1434,7 +1434,7 @@ class Payment extends React.Component {
             //adyenSwishPhone: swishPhone
           });
         },
-        CYBER: () => {
+        pc_web: () => {
           const {
             cyberPayParam: { id, cardCvv, accessToken }
           } = this.state;
@@ -1879,7 +1879,7 @@ class Payment extends React.Component {
             gotoConfirmationPage = true;
           }
           break;
-        case 'CYBER':
+        case 'pc_web':
           subOrderNumberList =
             tidList.length && tidList[0]
               ? tidList
@@ -2976,7 +2976,7 @@ class Payment extends React.Component {
     let cyberPaymentParam = {};
     let cyberParams = {};
 
-    if (curPayWayInfo?.code === 'CYBER') {
+    if (curPayWayInfo?.code === 'pc_web') {
       cyberPaymentParam.cardholderName = cardholderName;
       cyberPaymentParam.cardNumber = cardNumber;
       cyberPaymentParam.securityCode = securityCode;
@@ -3087,7 +3087,7 @@ class Payment extends React.Component {
 
         await handleClickSavePayUForm(this);
 
-        if (curPayWayInfo?.code === 'CYBER') {
+        if (curPayWayInfo?.code === 'pc_web') {
           this.state.cyberPaymentForm.isSaveCard
             ? (cyberParams.isSaveCard = true)
             : (cyberParams.isSaveCard = false);
@@ -3100,7 +3100,7 @@ class Payment extends React.Component {
         await handleClickSaveAdyenForm(this);
         await handleClickSavePayUForm(this);
 
-        if (curPayWayInfo?.code === 'CYBER') {
+        if (curPayWayInfo?.code === 'pc_web') {
           cyberParams.isSaveCard = true;
           const res = await unLoginCyberSaveCard(cyberParams);
           getBindCardInfo(res);
@@ -3337,7 +3337,7 @@ class Payment extends React.Component {
     setRreshCardList(true);
 
     const { billingChecked } = this.state;
-    if (curPayWayInfo?.code === 'CYBER' && this.isLogin) {
+    if (curPayWayInfo?.code === 'pc_web' && this.isLogin) {
       await this.queryList();
     }
     checkoutStore.setInstallMentParam(null);
@@ -3772,7 +3772,7 @@ class Payment extends React.Component {
               )}
 
               {/* todo 重构后的CYBER */}
-              {curPayWayInfo?.code === 'CYBER' && (
+              {curPayWayInfo?.code === 'pc_web' && (
                 <>
                   <CyberPayment
                     {...this.props}
