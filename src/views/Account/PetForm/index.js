@@ -468,8 +468,6 @@ class PetForm extends React.Component {
                                 e.preventDefault();
                                 if (this.userInfo) {
                                   this.props.history.push('/home');
-                                } else {
-                                  this.props.history.push('/required');
                                 }
                               }}
                             >

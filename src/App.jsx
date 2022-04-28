@@ -342,6 +342,7 @@ const RegisterRequired = loadable(() =>
 
 const Test = loadable(() => import('@/views/Test'));
 const Survey = loadable(() => import('@/views/Survey'));
+const PrescriptiongGate = loadable(() => import('@/views/PrescriptionGate'));
 
 const ImplicitLogin = () => {
   const { oktaAuth } = useOktaAuth();
@@ -399,6 +400,14 @@ const App = () => {
                 <Route exact path={'/'} component={Home} />
                 <Route exact path={'/demo'} component={demo} />
                 <Route exact path={'/cancelEmail'} component={CancelEmail} />
+                {window.__.env.REACT_APP_COUNTRY === 'jp' && (
+                  <Route
+                    exact
+                    path={'/prescription-gate'}
+                    component={PrescriptiongGate}
+                  />
+                )}
+
                 <Route
                   exact
                   path={'/okta-login-page'}

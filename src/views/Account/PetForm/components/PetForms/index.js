@@ -77,6 +77,8 @@ const sterilizedOptions = [
     checked: false
   }
 ];
+const localItemRoyal = window.__.localItemRoyal;
+
 const PetForms = ({
   petList,
   subList,
@@ -252,16 +254,15 @@ const PetForms = ({
         };
       }
     }
-    // 日本pet创建流程跟其他国家不一样
-    if (window.__.env.REACT_APP_COUNTRY === 'jp') {
-      // 如果登录了,就到对应页面去
-      if (userInfo) {
-        history.push(url);
-      } else {
-        // 如果没有登录,就跳转到首页并自动登录
-        // history.push(history.location.state.callOktaCallBack);
-        window.location.href = history.location.state?.callOktaCallBack; // 调用一次OKTA的登录
-      }
+    // 如果是日本，并且是从/prescription-gate 这个路由过来的 okta-redirectUrl才会是/account/pets/petForm
+    // 因此添加宠物完成后就跳转回首页
+    if (
+      window.__.env.REACT_APP_STOREID === 123457919 &&
+      localItemRoyal.get('okta-redirectUrl') === '/account/pets/petForm'
+    ) {
+      // 跳转之前先重置okta-redirectUrl
+      localItemRoyal.set('okta-redirectUrl', '/home');
+      history.push('/home');
     } else {
       history.push(url);
     }
@@ -985,8 +986,6 @@ const PetForms = ({
                           e.preventDefault();
                           if (userInfo) {
                             history.push('/home');
-                          } else {
-                            history.push('/required');
                           }
                         }}
                       >
