@@ -92,9 +92,9 @@ export function handleOrderItem(ele, res) {
         tradeState.flowState === 'PENDING_REVIEW') ||
         (ele?.paymentItem !== 'cod_japan' &&
           ele?.paymentItem !== 'adyen_convenience_store' &&
-          ((tradeState.flowstate == 'PENDING_REVIEW' &&
+          ((tradeState.flowState == 'PENDING_REVIEW' &&
             tradeState.payState == 'AUTHORIZED') ||
-            (tradeState.flowstate == 'TO_BE_DELIVERED' &&
+            (tradeState.flowState == 'TO_BE_DELIVERED' &&
               tradeState.payState == 'PAID'))))
   });
 }
