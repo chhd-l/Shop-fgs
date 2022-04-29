@@ -211,7 +211,7 @@ const SubGoodsInfos = ({
                 {el.canDelete ? (
                   <div className="absolute right-2 top-2">
                     <span
-                      className="font-bold iconfont iconguan cursor-pointer hover:text-rc-red"
+                      className="font-bold iconfont iconguan cursor-pointer hover:text-rc-red p-2"
                       onClick={() => {
                         updateConfirmTooltipVisible(el, true);
                       }}
