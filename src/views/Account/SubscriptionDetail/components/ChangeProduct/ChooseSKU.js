@@ -190,6 +190,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
     }, 1000);
   };
   let seleced = quantity < stock && skuPromotions == 'club';
+
   return (
     <React.Fragment>
       <ErrorMessage msg={errorMsgSureChange} />
@@ -240,6 +241,9 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
                 <HandledSpec
                   renderAgin={renderDetailAgin}
                   details={details}
+                  disabledGoodsInfoIds={[
+                    currentGoodsItems[currentChangeProductIdx]?.skuId
+                  ]}
                   setState={setState}
                   updatedSku={matchGoods}
                 />
