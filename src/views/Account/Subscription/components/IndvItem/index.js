@@ -53,7 +53,7 @@ const IndvItem = ({ subItem, history, intl }) => {
       <div className="col-12 col-md-4 d-flex flex-wrap">
         {subItem.goodsInfo &&
           subItem.goodsInfo.map((item, i) => (
-            <div style={{ margin: '.625rem 1.25rem' }}>
+            <div style={{ margin: '.625rem 1.25rem', whiteSpace: 'nowrap' }}>
               {/* <LazyLoad> */}
               <img
                 style={{

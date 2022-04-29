@@ -35,7 +35,7 @@ const ChangeSelection = ({ el, idx }) => {
   }
   const isClub = el.promotions?.toLowerCase().includes('club');
 
-  const girdConf = ['col-span-6 md:col-span-6', 'col-span-6 md:col-span-6'];
+  const girdConf = ['col-span-5 md:col-span-6', 'col-span-7 md:col-span-6'];
 
   return (
     <>
