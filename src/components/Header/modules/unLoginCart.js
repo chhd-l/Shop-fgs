@@ -195,7 +195,7 @@ class UnloginCart extends React.Component {
           >
             <div className="container cart">
               <div>
-                {window.__.env.REACT_APP_COUNTRY !== 'jp' && (
+                {['jp', 'us'].indexOf(window.__.env.REACT_APP_COUNTRY) < 0 && (
                   <div className="minicart__header cart--head small">
                     <span className="minicart__pointer" />
                     <div className="d-flex minicart_freeshipping_info align-items-center">
