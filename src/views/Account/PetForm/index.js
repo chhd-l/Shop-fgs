@@ -457,7 +457,7 @@ class PetForm extends React.Component {
                         petList.length > 0 && (
                           <>
                             <a
-                              href="javascript;"
+                              href="javascript;:"
                               className="font-medium text-16 md:mr-2 pt-4"
                               style={{
                                 color: '#444444',
