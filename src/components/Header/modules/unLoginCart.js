@@ -58,8 +58,8 @@ class UnloginCart extends React.Component {
         .reduce((total, el) => total + el.buyCount, 0)
     );
   }
-  get totalMinusSubPrice() {
-    return this.props.checkoutStore.totalMinusSubPrice;
+  get tradePrice() {
+    return this.props.checkoutStore.tradePrice;
   }
   GAAccessToGuestCheck(type) {
     this.hubGA
@@ -214,7 +214,7 @@ class UnloginCart extends React.Component {
                       values={{
                         totalPrice: (
                           <span style={{ fontWeight: '500' }}>
-                            {formatMoney(this.totalMinusSubPrice)}
+                            {formatMoney(this.tradePrice)}
                           </span>
                         )
                       }}
