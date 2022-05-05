@@ -15,9 +15,6 @@ const ProductFinder = (props: any) => {
     loadJS({
       url: 'https://prdeus2rcdeslangversa.z20.web.core.windows.net/product-finder/0-0-0/product-finder-webcomp.js'
     });
-    dynamicLoadCss(
-      'https://prdeus2rcdeslangversa.z20.web.core.windows.net/product-finder/0-0-0/styles.css'
-    );
 
     element.current?.addEventListener(
       'viewProductDetails',
@@ -47,8 +44,8 @@ const ProductFinder = (props: any) => {
           ref={element}
           locale="en-GB"
           country="FR"
-          extraRationsUnits={JSON.stringify(['japanCup'])}
-          currentlocation={JSON.stringify(location)}
+          extra_rations_units={JSON.stringify(['japanCup'])}
+          current_location={JSON.stringify(location)}
         ></product-finder>
         <div className="pb-20" />
         <Footer />

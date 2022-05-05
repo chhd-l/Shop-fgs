@@ -71,8 +71,8 @@ class LoginCart extends React.Component {
   get loading() {
     return this.checkoutStore.isLoadingCartData;
   }
-  get totalMinusSubPrice() {
-    return this.props.checkoutStore.totalMinusSubPrice;
+  get tradePrice() {
+    return this.props.checkoutStore.tradePrice;
   }
   // async handleCheckout() {
   //   try {
@@ -190,7 +190,7 @@ class LoginCart extends React.Component {
           >
             <div className="container cart">
               <div>
-                {window.__.env.REACT_APP_COUNTRY !== 'jp' && (
+                {['jp', 'us'].indexOf(window.__.env.REACT_APP_COUNTRY) < 0 && (
                   <div className="minicart__header cart--head small">
                     <span className="minicart__pointer" />
                     <div className="d-flex minicart_freeshipping_info align-items-center">
@@ -209,7 +209,7 @@ class LoginCart extends React.Component {
                       values={{
                         totalPrice: (
                           <span style={{ fontWeight: '500' }}>
-                            {formatMoney(this.totalMinusSubPrice)}
+                            {formatMoney(this.tradePrice)}
                           </span>
                         )
                       }}
