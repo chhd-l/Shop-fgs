@@ -427,8 +427,9 @@ const GoodsDetailTabs = function (props) {
     );
 
     let packProducts = ['BP04', 'BP07', 'BP06', 'BP05', 'BP02', 'BP01', 'BP03'];
-    let goodsNo =
-      location.pathname.split('-')[location.pathname.split('-').length - 1];
+    let goodsNo = location.pathname.split('-')[
+      location.pathname.split('-').length - 1
+    ];
     tmpGoodsDescriptionDetailList = tmpGoodsDescriptionDetailList
       .map((g) => {
         let ret = g.content;
@@ -783,11 +784,13 @@ const GoodsDetailTabs = function (props) {
                 ></span>
               </div>
               <div className={`rc-list__content`} style={{ overflowX: 'auto' }}>
-                <p
-                  dangerouslySetInnerHTML={{
-                    __html: ele.content
-                  }}
-                />
+                <div className={` ${ele.descriptionName}`}>
+                  <p
+                    dangerouslySetInnerHTML={{
+                      __html: ele.content
+                    }}
+                  />
+                </div>
               </div>
             </div>
           </dl>
