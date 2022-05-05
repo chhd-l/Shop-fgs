@@ -1760,8 +1760,9 @@ ul.ui-star-list li:before {
   content: '\e6f2';
   display: inline-block;
   overflow: hidden;
-  font-size: 2em;
-  @apply absolute top-1/2 left-0 -translate-y-1/2;
+  font-size: 1.5em;
+  top: 2%;
+  @apply absolute left-0 -translate-y-1/2;
 }
 
 /* ul.ui-star-list li .list_title:after {

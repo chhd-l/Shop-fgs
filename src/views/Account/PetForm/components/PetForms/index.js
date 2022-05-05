@@ -1043,7 +1043,7 @@ const PetForms = ({
         }}
       >
         <div className="text-center">
-          <p>
+          <p className="mb-4">
             <div>
               <FormattedMessage id="petSaveTips1" />
             </div>
