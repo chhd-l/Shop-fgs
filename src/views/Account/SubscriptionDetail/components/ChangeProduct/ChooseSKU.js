@@ -241,9 +241,9 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
                 <HandledSpec
                   renderAgin={renderDetailAgin}
                   details={details}
-                  disabledGoodsInfoIds={[
-                    currentGoodsItems[currentChangeProductIdx]?.skuId
-                  ]}
+                  disabledGoodsInfoIds={subDetail.goodsInfo.map(
+                    (g) => g.goodsInfoVO.goodsInfoId
+                  )}
                   setState={setState}
                   updatedSku={matchGoods}
                 />
