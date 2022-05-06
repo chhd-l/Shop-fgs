@@ -107,28 +107,28 @@ const ConsentAdditionalText = ({ textPosition }) => {
           私は18歳以上で、下記の会社からメール、SMS等による情報配信を希望します。
         </p>
       </div>
-    ),
-    tr: (
-      <div className="consent-txt">
-        <p>
-          <a href="https://www.royalcanin.com/tr" target="_blank">
-            Royal Canin Turkey Evcil Hayvan Ürünleri Ticaret Ltd. Şti
-          </a>
-          ,&nbsp;
-          <a href="https://www.mars.com/made-by-mars/petcare" target="_blank">
-            Mars Petcare ve bağlı şirketlerinin
-          </a>
-          &nbsp;heyecan verici promosyonları ve yeni ürün geliştirmelerinden
-          sizi ve [evcil hayvanınızı] haberdar etmek istiyoruz. Zaman zaman,
-          ürün ve hizmet sunumlarımızı geliştirmek için araştırma amacıyla
-          verilerinizi kullanabiliriz.
-        </p>
-        <p className="mt-2">
-          18 yaşından büyükseniz, lütfen aşağıdaki kutucukları işaretleyerek
-          seçimlerinizi onaylayın:
-        </p>
-      </div>
     )
+    // tr: (
+    //   <div className="consent-txt">
+    //     <p>
+    //       <a href="https://www.royalcanin.com/tr" target="_blank">
+    //         Royal Canin Turkey Evcil Hayvan Ürünleri Ticaret Ltd. Şti
+    //       </a>
+    //       ,&nbsp;
+    //       <a href="https://www.mars.com/made-by-mars/petcare" target="_blank">
+    //         Mars Petcare ve bağlı şirketlerinin
+    //       </a>
+    //       &nbsp;heyecan verici promosyonları ve yeni ürün geliştirmelerinden
+    //       sizi ve [evcil hayvanınızı] haberdar etmek istiyoruz. Zaman zaman,
+    //       ürün ve hizmet sunumlarımızı geliştirmek için araştırma amacıyla
+    //       verilerinizi kullanabiliriz.
+    //     </p>
+    //     <p className="mt-2">
+    //       18 yaşından büyükseniz, lütfen aşağıdaki kutucukları işaretleyerek
+    //       seçimlerinizi onaylayın:
+    //     </p>
+    //   </div>
+    // )
   };
   const bottomText = {
     us: (
@@ -256,30 +256,30 @@ const ConsentAdditionalText = ({ textPosition }) => {
           でご確認いただけます。
         </p>
       </div>
-    ),
-    tr: (
-      <div className="explain-txt">
-        <p className="mb-2">
-          İleti Yönetim Sistemi aracılığı ile bu tercihleri istediğim zaman
-          değiştirebileceğimi biliyorum.
-        </p>
-        <p>
-          <a href="https://www.royalcanin.com/tr" target="_blank">
-            Royal Canin Turkey Evcil Hayvan Ürünleri Ticaret Ltd. Şti
-          </a>
-          ,&nbsp;
-          <a href="https://www.mars.com/made-by-mars/petcare" target="_blank">
-            Mars Petcare ve bağlı şirketlerinin
-          </a>
-          &nbsp; verilerinizi nasıl toplayıp işlediğini öğrenebilir, gizlilik
-          soruları hakkında bizimle iletişime geçebilir ve &nbsp;
-          <a href="https://www.mars.com/privacy-policy-turkey" target="_blank">
-            Mars Gizlilik Beyanı
-          </a>
-          &nbsp; aracılığıyla kişisel veri haklarınızı kullanabilirsiniz.
-        </p>
-      </div>
     )
+    // tr: (
+    //   <div className="explain-txt">
+    //     <p className="mb-2">
+    //       İleti Yönetim Sistemi aracılığı ile bu tercihleri istediğim zaman
+    //       değiştirebileceğimi biliyorum.
+    //     </p>
+    //     <p>
+    //       <a href="https://www.royalcanin.com/tr" target="_blank">
+    //         Royal Canin Turkey Evcil Hayvan Ürünleri Ticaret Ltd. Şti
+    //       </a>
+    //       ,&nbsp;
+    //       <a href="https://www.mars.com/made-by-mars/petcare" target="_blank">
+    //         Mars Petcare ve bağlı şirketlerinin
+    //       </a>
+    //       &nbsp; verilerinizi nasıl toplayıp işlediğini öğrenebilir, gizlilik
+    //       soruları hakkında bizimle iletişime geçebilir ve &nbsp;
+    //       <a href="https://www.mars.com/privacy-policy-turkey" target="_blank">
+    //         Mars Gizlilik Beyanı
+    //       </a>
+    //       &nbsp; aracılığıyla kişisel veri haklarınızı kullanabilirsiniz.
+    //     </p>
+    //   </div>
+    // )
   };
 
   return (
