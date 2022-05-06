@@ -500,104 +500,6 @@ class LoginCart extends React.Component {
     }, 3000);
   }
 
-  addQuantity(item) {
-    const {
-      configStore: {
-        info: { skuLimitThreshold }
-      }
-    } = this.props;
-    if (this.state.checkoutLoading) {
-      return;
-    }
-    this.setState({ errorMsg: '' });
-
-    const { productList } = this.state;
-    // 所有产品总数量不能超过限制
-    const otherProsNum = productList
-      .filter((p) => p.goodsId !== item.goodsId)
-      .reduce((pre, cur) => {
-        return Number(pre) + Number(cur.buyCount);
-      }, 0);
-
-    let val = item.buyCount + 1;
-
-    if (otherProsNum + val > skuLimitThreshold.totalMaxNum) {
-      val = skuLimitThreshold.totalMaxNum - otherProsNum;
-      this.showErrMsg(
-        <FormattedMessage
-          id="cart.errorAllProductNumLimit"
-          values={{ val: skuLimitThreshold.totalMaxNum }}
-        />
-      );
-    } else if (item.buyCount < skuLimitThreshold.skuMaxNum) {
-      item.buyCount++;
-      this.updateBackendCart({
-        goodsInfoId: item.goodsInfoId,
-        goodsNum: item.buyCount,
-        verifyStock: false,
-        periodTypeId: item.periodTypeId,
-        goodsInfoFlag: item.goodsInfoFlag
-      });
-    } else {
-      this.showErrMsg(
-        <FormattedMessage
-          id="cart.errorMaxInfo"
-          values={{ val: skuLimitThreshold.skuMaxNum }}
-        />
-      );
-    }
-  }
-
-  validTotalMaxNum({ item, val }) {
-    const {
-      configStore: {
-        info: { skuLimitThreshold }
-      }
-    } = this.props;
-    const { productList } = this.state;
-    // 所有产品总数量不能超过限制
-    const otherProsNum = productList
-      .filter((p) => p.goodsId !== item.goodsId)
-      .reduce((pre, cur) => {
-        return Number(pre) + Number(cur.quantity);
-      }, 0);
-    if (otherProsNum + val > skuLimitThreshold.totalMaxNum) {
-      val = skuLimitThreshold.totalMaxNum - otherProsNum;
-      this.showErrMsg(
-        <FormattedMessage
-          id="cart.errorAllProductNumLimit"
-          values={{ val: skuLimitThreshold.totalMaxNum }}
-        />
-      );
-      item.buyCount = val;
-      this.updateBackendCart({
-        goodsInfoId: item.goodsInfoId,
-        goodsNum: item.buyCount,
-        verifyStock: false,
-        periodTypeId: item.periodTypeId,
-        goodsInfoFlag: item.goodsInfoFlag
-      });
-    }
-  }
-
-  subQuantity(item) {
-    if (this.state.checkoutLoading) {
-      return;
-    }
-    this.setState({ errorMsg: '' });
-    if (item.buyCount > 1) {
-      item.buyCount--;
-      this.updateBackendCart({
-        goodsInfoId: item.goodsInfoId,
-        goodsNum: item.buyCount,
-        verifyStock: false,
-        periodTypeId: item.periodTypeId,
-        goodsInfoFlag: item.goodsInfoFlag
-      });
-    } else {
-      this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
-    }
-  }
   //GA 移除购物车商品 埋点
   GARemoveFromCart(product) {
     const list = [
@@ -679,7 +581,7 @@ class LoginCart extends React.Component {
                 errorMsg: (
                   <FormattedMessage
                     id="cart.errorAllProductNumLimit"
-                    values={{ val: skuLimitThreshold.totalMaxNum }}
+                    values={{ val: skuLimitThreshold.skuMaxNum }}
                   />
                 )
               }}
