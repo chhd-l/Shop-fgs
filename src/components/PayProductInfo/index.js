@@ -39,6 +39,9 @@ class PayProductInfo extends React.Component {
   get freeShippingFlag() {
     return this.props.checkoutStore.freeShippingFlag;
   }
+  get earnedPoint() {
+    return this.props.checkoutStore.earnedPoint;
+  }
   // 存在分期，且不是repay时，才显示分期信息
   get isShowInstallMent() {
     const { details, isRepay } = this.props;
@@ -392,7 +395,8 @@ class PayProductInfo extends React.Component {
                         installMentAdditionalFee:
                           details?.tradePrice?.installmentPrice?.additionalFee,
                         serviceFeePrice: details?.tradePrice?.serviceFeePrice,
-                        loyaltyPointsPrice: details?.tradePrice?.loyaltyPoints
+                        loyaltyPointsPrice: details?.tradePrice?.loyaltyPoints,
+                        earnedPoint: this.earnedPoint
                       }}
                     />
                   </div>
