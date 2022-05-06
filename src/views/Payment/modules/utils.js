@@ -99,7 +99,9 @@ export function handleRecoProductParamByItem({
     //pet info bind start
     petsId: curPetInfo?.petsId || '',
     petsName: curPetInfo?.petsName || '',
-    petsType: curPetInfo?.petsType || ''
+    petsType: curPetInfo?.petsType || '',
     //pet info bind end
+    questionParams: ele.questionParams ? ele.questionParams : undefined,
+    periodTypeId: ele.periodTypeId
   };
 }

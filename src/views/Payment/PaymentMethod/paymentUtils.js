@@ -2,7 +2,6 @@ import {
   confirmAndCommit,
   confirmAndCommitFelin,
   customerCommitAndPay,
-  customerCommitAndPayMix,
   rePay,
   rePayFelin
 } from '@/api/payment';
@@ -30,10 +29,7 @@ export const payAction = (isTid, isLogin, buyWay, isFelin) => {
     }; // 存在订单号
     const customerCommitAndPayFun = () => {
       action = customerCommitAndPay;
-    }; //会员once
-    const customerCommitAndPayMixFun = () => {
-      action = customerCommitAndPayMix;
-    }; //  会员frequency
+    }; //会员
     const confirmAndCommitFun = () => {
       action = confirmAndCommit;
     }; //游客
@@ -66,19 +62,10 @@ export const payAction = (isTid, isLogin, buyWay, isFelin) => {
         {
           isTid: /^false$/i,
           isLogin: /^true$/i,
-          buyWay: /^once$/,
+          buyWay: /.+/,
           isFelin: /^false$/i
         },
         customerCommitAndPayFun
-      ], //buyWay为once的时候均表示会员正常交易
-      [
-        {
-          isTid: /^false$/i,
-          isLogin: /^true$/i,
-          buyWay: /^frequency$/,
-          isFelin: /^false$/i
-        },
-        customerCommitAndPayMixFun
       ],
       [
         {

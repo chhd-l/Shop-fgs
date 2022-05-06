@@ -11,9 +11,8 @@ const api = {
   deleteCard: '/pay-payment-info', // delete a card
   setDefaltCard: '/pay-payment-info/default',
 
-  customerCommitAndPay: '/trade-custom/checkout',
+  customerCommitAndPay: `/${window.__.env.REACT_APP_STOREID}/trade-member/checkout`,
   rePay: '/trade-custom/repay',
-  customerCommitAndPayMix: '/trade-custom/mix/checkout',
   getMarketingDiscount: '/marketing/discount',
   getWays: `/${window.__.env.REACT_APP_STOREID}/pay/getPayPspList`,
   adyenPaymentsDetails: `/${window.__.env.REACT_APP_STOREID}/adyen/payment`,
@@ -166,14 +165,6 @@ export function deleteCard(para) {
 export function customerCommitAndPay(parameter) {
   return axios({
     url: api.customerCommitAndPay,
-    method: 'post',
-    data: parameter
-  });
-}
-
-export function customerCommitAndPayMix(parameter) {
-  return axios({
-    url: api.customerCommitAndPayMix,
     method: 'post',
     data: parameter
   });

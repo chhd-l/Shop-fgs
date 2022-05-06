@@ -39,7 +39,7 @@ const event = {
   page: {
     type: 'error',
     theme: '',
-    path: location.pathname,
+    path: location?.pathname,
     error: '',
     hitTimestamp: new Date(),
     filters: ''
