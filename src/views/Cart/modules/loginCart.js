@@ -566,7 +566,6 @@ class LoginCart extends React.Component {
             <div style={{ marginTop: '.75rem' }}>
               <FormattedMessage id="quantity" />:{' '}
             </div>
-            {console.log(11111111, skuLimitThreshold.skuMaxNum)}
             <QuantityPicker
               initQuantity={pitem.buyCount}
               min={1}
