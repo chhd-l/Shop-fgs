@@ -2246,7 +2246,12 @@ class Payment extends React.Component {
         });
         return Object.assign(recoProductParam, {
           num: ele.buyCount,
-          skuId: ele.goodsInfoId
+          skuId: ele.goodsInfoId,
+          goodsInfoFlag:
+            this.isCurrentBuyWaySubscription &&
+            !sessionItemRoyal.get('appointment-no')
+              ? ele.goodsInfoFlag
+              : 0
         });
       });
     } else if (this.isLogin) {
@@ -2257,7 +2262,8 @@ class Payment extends React.Component {
         });
         return Object.assign(recoProductParam, {
           num: ele.buyCount,
-          skuId: ele.goodsInfoId
+          skuId: ele.goodsInfoId,
+          goodsInfoFlag: ele.goodsInfoFlag
         });
       });
     } else {
@@ -2268,7 +2274,8 @@ class Payment extends React.Component {
         });
         return Object.assign(recoProductParam, {
           num: ele.quantity,
-          skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId
+          skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
+          goodsInfoFlag: ele.goodsInfoFlag
         });
       });
     }
