@@ -22,6 +22,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
   const ChangeProductValue = useContext(ChangeProductContext);
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
   const [skuLimitThreshold, setSkuLimitThreshold] = useState(null);
+  const [isSpecAvailable, setIsSpecAvailable] = useState(false);
 
   useEffect(() => {
     setSkuLimitThreshold(configStore?.info?.skuLimitThreshold);
@@ -244,6 +245,9 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
                   disabledGoodsInfoIds={subDetail.goodsInfo.map(
                     (g) => g.goodsInfoVO.goodsInfoId
                   )}
+                  onIsSpecAvailable={(status) => {
+                    setIsSpecAvailable(status);
+                  }}
                   setState={setState}
                   updatedSku={matchGoods}
                 />
@@ -255,7 +259,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
               'subscriptionDetail-choose-frequency': isMobile
             })}
           >
-            {skuPromotions && (
+            {skuPromotions != 0 && (
               <FrequencySelection
                 childrenGridCls={['col-span-6', 'col-span-6']}
                 frequencyType={skuPromotions}
@@ -304,6 +308,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
                 'rc-btn-solid-disabled': !seleced,
                 'ui-btn-loading': changeNowLoading
               })}
+              disabled={!isSpecAvailable}
             >
               <FormattedMessage id="subscription.changeNow" />
             </button>
