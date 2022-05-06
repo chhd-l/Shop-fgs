@@ -786,48 +786,36 @@ const App = () => {
                   exact
                   path="/subscription-landing"
                   render={(props) => {
-                    if (window.__.env.REACT_APP_COUNTRY === 'de') {
-                      return <DE_SubscriptionLanding {...props} />;
-                    } else if (window.__.env.REACT_APP_COUNTRY === 'uk') {
-                      return <Redirect to={{ pathname: '/' }} {...props} />;
-                    } else if (
-                      window.__.env.REACT_APP_COUNTRY === 'se' ||
-                      window.__.env.REACT_APP_COUNTRY === 'us'
-                    ) {
-                      return <US_SubscriptionLanding {...props} />;
-                    } else if (window.__.env.REACT_APP_COUNTRY === 'ru') {
-                      return <VetLandingPage {...props} />;
-                    } else if (window.__.env.REACT_APP_COUNTRY === 'tr') {
-                      return <TR_SubscriptionLanding {...props} />;
-                    } else {
-                      return <SubscriptionLanding {...props} />;
+                    switch (window.__.env.REACT_APP_COUNTRY) {
+                      case 'de':
+                        return <DE_SubscriptionLanding {...props} />;
+                      case 'uk':
+                        return <Redirect to={{ pathname: '/' }} {...props} />;
+                      case 'se':
+                      case 'us':
+                        return <US_SubscriptionLanding {...props} />;
+                      case 'ru':
+                        return <VetLandingPage {...props} />;
+                      case 'tr':
+                        return <TR_SubscriptionLanding {...props} />;
+                      case 'jp':
+                        return (
+                          <Redirect
+                            to={{ pathname: '/subscription' }}
+                            {...props}
+                          />
+                        );
+                      case 'fr':
+                        return (
+                          <Redirect
+                            to={{ pathname: '/club-subscription' }}
+                            {...props}
+                          />
+                        );
+                      default:
+                        return <SubscriptionLanding {...props} />;
                     }
                   }}
-                  // component={(() => {
-                  //   let sublanding = '';
-                  //   switch (window.__.env.REACT_APP_COUNTRY) {
-                  //     case 'de':
-                  //       sublanding = DE_SubscriptionLanding;
-                  //       break;
-                  //     case 'us':
-                  //     case 'uk':
-                  //     case 'se':
-                  //       sublanding = US_SubscriptionLanding;
-                  //       break;
-                  //     case 'ru':
-                  //       sublanding = VetLandingPage;
-                  //       break;
-                  //     case 'tr':
-                  //       sublanding = TR_SubscriptionLanding;
-                  //       break;
-                  //     case 'jp':
-                  //       sublanding = JP_SubscriptionLanding;
-                  //       break;
-                  //     default:
-                  //       sublanding = SubscriptionLanding;
-                  //   }
-                  //   return sublanding;
-                  // })()}
                 />
                 <Route
                   path="/club-subscription"
@@ -967,12 +955,20 @@ const App = () => {
                   sensitive
                   path="/Tailorednutrition"
                   exact
-                  component={
-                    window.__.env.REACT_APP_COUNTRY == 'us' ||
-                    window.__.env.REACT_APP_COUNTRY == 'uk'
-                      ? US_Tailorednutrition
-                      : Tailorednutrition
-                  }
+                  render={(props) => {
+                    switch (window.__.env.REACT_APP_COUNTRY) {
+                      case 'us':
+                      case 'uk':
+                        return <US_Tailorednutrition {...props} />;
+                      case 'mx':
+                      case 'fr':
+                        return <Tailorednutrition {...props} />;
+                      default:
+                        return (
+                          <Redirect to={{ pathname: '/404' }} {...props} />
+                        );
+                    }
+                  }}
                 />
                 {/* fr定制 */}
                 <Route
