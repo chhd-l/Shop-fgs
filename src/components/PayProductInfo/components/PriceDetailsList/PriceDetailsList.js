@@ -17,8 +17,7 @@ const PriceDetailsList = ({
     installMentAdditionalFee,
     isShowInstallMent,
     serviceFeePrice,
-    loyaltyPointsPrice,
-    earnedPoint
+    loyaltyPointsPrice
   },
   configStore
 }) => {
@@ -96,12 +95,6 @@ const PriceDetailsList = ({
       className: 'green',
       visible: loyaltyPointsPrice,
       key: 'pointDiscount'
-    },
-    {
-      title: <FormattedMessage id="payment.earnedPoint" />,
-      val: earnedPoint + 'pt',
-      visible: earnedPoint,
-      key: 'earnedPoint'
     }
   ]).filter((el) => el.visible);
   return priceList.map((item, idx) =>

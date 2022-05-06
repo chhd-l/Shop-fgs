@@ -395,8 +395,7 @@ class PayProductInfo extends React.Component {
                         installMentAdditionalFee:
                           details?.tradePrice?.installmentPrice?.additionalFee,
                         serviceFeePrice: details?.tradePrice?.serviceFeePrice,
-                        loyaltyPointsPrice: details?.tradePrice?.loyaltyPoints,
-                        earnedPoint: this.earnedPoint
+                        loyaltyPointsPrice: details?.tradePrice?.loyaltyPoints
                       }}
                     />
                   </div>
@@ -411,6 +410,18 @@ class PayProductInfo extends React.Component {
                 <div className="col-6 end-lines text-right">
                   <span className="grand-total-sum">
                     {formatMoney(this.totalPrice)}
+                  </span>
+                </div>
+              </div>
+              <div className="product-summary__total grand-total row leading-lines checkout--padding border-top">
+                <div className="col-6 start-lines">
+                  <span>
+                    <FormattedMessage id="payment.earnedPoint" />
+                  </span>
+                </div>
+                <div className="col-6 end-lines text-right">
+                  <span className="grand-total-sum">
+                    {this.earnedPoint + 'pt'}
                   </span>
                 </div>
               </div>
