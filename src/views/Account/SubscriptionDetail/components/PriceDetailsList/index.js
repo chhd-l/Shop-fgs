@@ -84,7 +84,7 @@ const PriceDetailsList = ({
     {
       title: <FormattedMessage id="payment.serviceFee" />,
       val: serviceFeePrice,
-      visible: serviceFeePrice,
+      visible: serviceFeePrice < 0 ? false : true,
       key: 'serviceFee'
     },
     {
