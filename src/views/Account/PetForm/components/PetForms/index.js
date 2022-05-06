@@ -157,7 +157,7 @@ const PetForms = ({
         el.value = el.valueEn;
       });
       activityOptions.map((el) => {
-        el.value = el.valueEn;
+        el.value = el.valueEn.toLowerCase();
       });
       specialNeedsOptions.map((el) => {
         el.value = el.valueEn;
@@ -826,7 +826,7 @@ const PetForms = ({
                   optionList={activityOptions}
                   selectedItemChange={(el) => activityChange(el)}
                   selectedItemData={{
-                    value: petForm.activity
+                    value: petForm.activity.toLowerCase()
                   }}
                   key={petForm.activity}
                 />
