@@ -550,7 +550,7 @@ class UnLoginCart extends React.Component {
                 errorMsg: (
                   <FormattedMessage
                     id="cart.errorAllProductNumLimit"
-                    values={{ val: skuLimitThreshold.totalMaxNum }}
+                    values={{ val: skuLimitThreshold.skuMaxNum }}
                   />
                 )
               }}
