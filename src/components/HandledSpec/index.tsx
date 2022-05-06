@@ -14,6 +14,7 @@ interface Props {
   updatedPriceOrCode: Function;
   defaultSkuId: string;
   disabledGoodsInfoIds?: string[];
+  onIsSpecAvailable?: Function;
 }
 
 const HandledSpec = ({
@@ -22,7 +23,8 @@ const HandledSpec = ({
   updatedSku,
   updatedPriceOrCode = () => {},
   defaultSkuId,
-  disabledGoodsInfoIds = []
+  disabledGoodsInfoIds = [],
+  onIsSpecAvailable = () => {}
 }: Props) => {
   const { goodsSpecs, goodsSpecDetails, goodsInfos, isSkuNoQuery, goodsNo } =
     details;
@@ -130,7 +132,7 @@ const HandledSpec = ({
     handledValues.skuPromotions = sizeList[0].promotions;
     handledValues.stock = sizeList[0].stock;
     sizeList[0].selected = true;
-
+    
     updatedSku(handledValues, sizeList);
   };
 
@@ -179,6 +181,8 @@ const HandledSpec = ({
     }
     // 组装购物车的前端数据结构与规格的层级关系
     if (goodsSpecDetails) {
+      // 是否有规格可用
+      let isAllSpecDisabled = true;
       goodsSpecs.map((sItem: any, index: any) => {
         // 该层判断是为了去判断sku是否存在
         sItem.chidren = goodsSpecDetails.filter((sdItem: any, i: number) => {
@@ -213,6 +217,11 @@ const HandledSpec = ({
         const isSelectedDefaultSkuItem = sItem.chidren.findIndex(
           (_item) => _item.isSelected && !_item.isDisabled
         );
+        // 所有规格都不可用，一旦有可用的，则置为false
+        if (sItem.chidren.some((_item) => !_item.isDisabled)) {
+          isAllSpecDisabled = false;
+        }
+        
         if (defaultSelcetdSku > -1) {
           // 默认选择该sku
           if (!sItem.chidren[defaultSelcetdSku].isEmpty) {
@@ -230,27 +239,33 @@ const HandledSpec = ({
           ) {
             // de设置最小的
             sItem.chidren[0].selected = true;
-          } else if (sItem.chidren.length > 1 && !sItem.chidren[1].isEmpty) {
+          } else if (sItem.chidren.length > 1 && !sItem.chidren[1].isDisabled) {
             sItem.chidren[1].selected = true;
           } else {
             for (let i = 0; i < sItem.chidren.length; i++) {
-              if (sItem.chidren[i].isEmpty) {
-              } else {
+              if (!sItem.chidren[i].isDisabled) {
                 sItem.chidren[i].selected = true;
                 break;
               }
             }
-            // 如果所有sku都没有库存 取第一个规格
+            // 如果所有sku都没有库存 取第一个可用的规格
             if (
               sItem.chidren.filter((el: any) => el.selected).length === 0 &&
+              sItem.chidren.filter((el: any) => !el.isDisabled).length &&
               sItem.chidren.length
             ) {
-              sItem.chidren[0].selected = true;
+              const targetItem = sItem.chidren.filter(
+                (el) => !el.isDisabled
+              )[0];
+              if (targetItem) {
+                targetItem.selected = true;
+              }
             }
           }
         }
         return sItem;
       });
+      onIsSpecAvailable(!isAllSpecDisabled);
     } else {
       goodsInfos[0].selected = true;
     }
