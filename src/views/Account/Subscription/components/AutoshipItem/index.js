@@ -38,49 +38,48 @@ const AutoshipItem = ({ subItem, history }) => {
       </div>
       <div className="row rc-margin-x--none row align-items-center pt-3 pb-3 1111">
         <div className="col-12 col-md-4 d-flex flex-wrap">
-          {subItem.goodsInfo &&
-            subItem.goodsInfo.map((item) => (
-              <div style={{ margin: '.625rem 1.25rem', whiteSpace: 'nowrap' }}>
-                <img
+          {(subItem.goodsInfo || []).map((item, i) => (
+            <div className="flex" style={{ margin: '.625rem 1.25rem' }} key={i}>
+              <img
+                style={{
+                  width: '70px',
+                  display: 'inline-block'
+                }}
+                key={item.spuId}
+                src={
+                  optimizeImage({ originImageUrl: item.goodsPic }) ||
+                  IMG_DEFAULT
+                }
+                alt={item.goodsName}
+                title={item.goodsName}
+              />
+              <span
+                className="text-xs inline-block align-middle ml-2.5"
+                style={{
+                  width: isMobile ? 'auto' : '200px'
+                }}
+              >
+                <p
+                  className="text-base font-normal font-333 truncate"
                   style={{
-                    width: '70px',
-                    display: 'inline-block'
-                  }}
-                  key={item.spuId}
-                  src={
-                    optimizeImage({ originImageUrl: item.goodsPic }) ||
-                    IMG_DEFAULT
-                  }
-                  alt={item.goodsName}
-                  title={item.goodsName}
-                />
-                <span
-                  className="text-xs inline-block align-middle ml-2.5"
-                  style={{
-                    width: isMobile ? 'auto' : '200px'
+                    marginBottom: '5px',
+                    maxWidth: isMobile ? '200px' : 'auto'
                   }}
                 >
-                  <p
-                    className="text-base font-normal font-333 truncate"
-                    style={{
-                      marginBottom: '5px',
-                      maxWidth: isMobile ? '200px' : 'auto'
-                    }}
-                  >
-                    {item.goodsName}
-                  </p>
-                  <p>
-                    {item.specText} - {item.subscribeNum}{' '}
-                    <FormattedMessage id="units" />
-                  </p>
-                  <p>
-                    <FormattedMessage id="subscription.frequencyDelivery" />
-                    <FormattedMessage id="subscription.deliveryEvery" />{' '}
-                    <FrequencyMatch currentId={item.periodTypeId} />
-                  </p>
-                </span>
-              </div>
-            ))}
+                  {item.goodsName}
+                </p>
+                <p>
+                  {item.specText} - {item.subscribeNum}{' '}
+                  <FormattedMessage id="units" />
+                </p>
+                <p>
+                  <FormattedMessage id="subscription.frequencyDelivery" />
+                  <FormattedMessage id="subscription.deliveryEvery" />{' '}
+                  <FrequencyMatch currentId={item.periodTypeId} />
+                </p>
+              </span>
+            </div>
+          ))}
         </div>
         <div className="col-12 col-md-4 text-nowrap ml-3 mt-3 mb-3">
           <img

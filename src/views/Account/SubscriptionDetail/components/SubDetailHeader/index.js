@@ -110,7 +110,7 @@ const SubDetailHeader = ({
     currentChangeProductIdx
   };
   return (
-    <div className="d-flex align-items-center flex-wrap my-4 md:my-0">
+    <div className="d-flex align-items-center flex-wrap my-4 md:mt-0">
       <LinkPet
         petType={petType}
         getBreedName={getBreedName}
@@ -142,7 +142,7 @@ const SubDetailHeader = ({
                 ) : ( */}
                 <img
                   style={{ marginLeft: '1rem', marginRight: '1rem' }}
-                  className="pet-img text-center rc-margin-y--sm"
+                  className="pet-img text-center"
                   alt="pet img"
                   src={
                     (petsInfo?.petsImg && petsInfo.petsImg.includes('https')

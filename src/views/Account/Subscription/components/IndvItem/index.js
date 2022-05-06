@@ -51,69 +51,67 @@ const IndvItem = ({ subItem, history, intl }) => {
         </div>
       </div>
       <div className="col-12 col-md-4 d-flex flex-wrap">
-        {subItem.goodsInfo &&
-          subItem.goodsInfo.map((item, i) => (
-            <div style={{ margin: '.625rem 1.25rem', whiteSpace: 'nowrap' }}>
-              {/* <LazyLoad> */}
-              <img
+        {(subItem.goodsInfo || []).map((item, i) => (
+          <div className="flex" style={{ margin: '.625rem 1.25rem' }} key={i}>
+            {/* <LazyLoad> */}
+            <img
+              style={{
+                width: '70px',
+                display: 'inline-block'
+              }}
+              key={item.spuId}
+              src={
+                optimizeImage({ originImageUrl: item.goodsPic }) || IMG_DEFAULT
+              }
+              alt={`${item.petsName}'s personalized subscription`}
+              title={`${item.petsName}'s personalized subscription`}
+            />
+            {/* </LazyLoad> */}
+            <span
+              style={{
+                display: 'inline-block',
+                verticalAlign: 'middle',
+                fontSize: '.75rem',
+                marginLeft: '.625rem',
+                width: isMobile ? 'auto' : '200px'
+              }}
+            >
+              <p
                 style={{
-                  width: '70px',
-                  display: 'inline-block'
-                }}
-                key={item.spuId}
-                src={
-                  optimizeImage({ originImageUrl: item.goodsPic }) ||
-                  IMG_DEFAULT
-                }
-                alt={`${item.petsName}'s personalized subscription`}
-                title={`${item.petsName}'s personalized subscription`}
-              />
-              {/* </LazyLoad> */}
-              <span
-                style={{
-                  display: 'inline-block',
-                  verticalAlign: 'middle',
-                  fontSize: '.75rem',
-                  marginLeft: '.625rem',
-                  width: isMobile ? 'auto' : '200px'
+                  fontSize: '1rem',
+                  fontWeight: '400',
+                  color: '#333',
+                  marginBottom: '5px'
                 }}
               >
-                <p
-                  style={{
-                    fontSize: '1rem',
-                    fontWeight: '400',
-                    color: '#333',
-                    marginBottom: '5px'
+                <FormattedMessage
+                  id="subscription.personalized"
+                  values={{
+                    val1: item.petsName
                   }}
-                >
-                  <FormattedMessage
-                    id="subscription.personalized"
-                    values={{
-                      val1: item.petsName
-                    }}
-                  />
-                  {/*{`${item.petsName}'s personalized subscription`}*/}
-                </p>
-                <p>
-                  {item.specText} - 1 <FormattedMessage id="units" />
-                </p>
-                {/* <p>
+                />
+                {/*{`${item.petsName}'s personalized subscription`}*/}
+              </p>
+              <p>
+                {item.specText} - 1 <FormattedMessage id="units" />
+              </p>
+              {/* <p>
                   {window.__.env.REACT_APP_COUNTRY == 'fr'
                     ? (item.subscribeNum / 1000).toString().replace('.', ',')
                     : item.subscribeNum / 1000 + 'kg'}{' '}
                   - 1 <FormattedMessage id="units" />
                 </p> */}
-                <p>
-                  {/* 30 daily rations Delivered every month */}
-                  <FormattedMessage id="subscription.frequencyDelivery" />
-                  <FormattedMessage id="subscription.deliveryEvery" />
-                  <FrequencyMatch currentId={item.periodTypeId} />
-                  {/* 30 days */}
-                  {/* <FrequencyMatch currentId={item.periodTypeId} /> */}
-                </p>
-              </span>
-            </div>
-          ))}
+              <p>
+                {/* 30 daily rations Delivered every month */}
+                <FormattedMessage id="subscription.frequencyDelivery" />
+                <FormattedMessage id="subscription.deliveryEvery" />
+                <FrequencyMatch currentId={item.periodTypeId} />
+                {/* 30 days */}
+                {/* <FrequencyMatch currentId={item.periodTypeId} /> */}
+              </p>
+            </span>
+          </div>
+        ))}
       </div>
       <div className="col-12 col-md-4 text-nowrap ml-3 mt-3 mb-3">
         {/* <LazyLoad> */}

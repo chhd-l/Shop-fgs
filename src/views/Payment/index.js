@@ -46,7 +46,6 @@ import {
   confirmAndCommit,
   customerCommitAndPay,
   rePay,
-  customerCommitAndPayMix,
   getWays,
   getPaymentMethod,
   confirmAndCommitFelin,
@@ -1525,10 +1524,7 @@ class Payment extends React.Component {
         }; // 存在订单号
         const customerCommitAndPayFun = () => {
           action = customerCommitAndPay;
-        }; //会员once
-        const customerCommitAndPayMixFun = () => {
-          action = customerCommitAndPayMix;
-        }; //  会员frequency
+        }; //会员下单
         const confirmAndCommitFun = () => {
           action = confirmAndCommit;
         }; //游客
@@ -1561,19 +1557,10 @@ class Payment extends React.Component {
             {
               isTid: /^false$/i,
               isLogin: /^true$/i,
-              buyWay: /^once$/,
+              buyWay: /.+/,
               isFelin: /^false$/i
             },
             customerCommitAndPayFun
-          ], //buyWay为once的时候均表示会员正常交易
-          [
-            {
-              isTid: /^false$/i,
-              isLogin: /^true$/i,
-              buyWay: /^frequency$/,
-              isFelin: /^false$/i
-            },
-            customerCommitAndPayMixFun
           ],
           [
             {
@@ -2195,8 +2182,7 @@ class Payment extends React.Component {
         //下单增加recommendationCode(clinicsCode)字段
         clinicsCode: clinicStore.selectClinicCode,
         storeId: window.__.env.REACT_APP_STOREID,
-        tradeItems: [], // once order products
-        subTradeItems: [], // subscription order products
+        tradeItems: [], // order products
         tradeMarketingList: [],
         payAccountName: creditCardInfo?.cardOwner,
         payPhoneNumber: creditCardInfo?.phoneNumber,
@@ -2260,8 +2246,7 @@ class Payment extends React.Component {
         });
         return Object.assign(recoProductParam, {
           num: ele.buyCount,
-          skuId: ele.goodsInfoId,
-          goodsInfoFlag: 0
+          skuId: ele.goodsInfoId
         });
       });
     } else if (this.isLogin) {
@@ -2272,8 +2257,7 @@ class Payment extends React.Component {
         });
         return Object.assign(recoProductParam, {
           num: ele.buyCount,
-          skuId: ele.goodsInfoId,
-          goodsInfoFlag: ele.goodsInfoFlag
+          skuId: ele.goodsInfoId
         });
       });
     } else {
@@ -2284,73 +2268,9 @@ class Payment extends React.Component {
         });
         return Object.assign(recoProductParam, {
           num: ele.quantity,
-          skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
-          goodsInfoFlag: ele.goodsInfoFlag
+          skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId
         });
       });
-    }
-
-    if (
-      this.isCurrentBuyWaySubscription &&
-      !sessionItemRoyal.get('appointment-no')
-    ) {
-      param.tradeItems = loginCartData
-        // .filter((ele) => !ele.subscriptionStatus || !ele.subscriptionPrice)
-        .filter((ele) => !ele.goodsInfoFlag)
-        .map((g) => {
-          const recoProductParam = handleRecoProductParamByItem({
-            ele: g,
-            ...this.props
-          });
-          return Object.assign(recoProductParam, {
-            num: g.buyCount,
-            skuId: g.goodsInfoId,
-            goodsInfoFlag: g.goodsInfoFlag,
-            periodTypeId: g.periodTypeId
-          });
-        });
-      // if(sessionItemRoyal.get('recommend_product')) {
-      //   param.subTradeItems = this.state.recommend_data
-      //   .filter((ele) => ele.subscriptionStatus && ele.subscriptionPrice > 0)
-      //   .map((g) => {
-      //     return {
-      //       subscribeNum: g.buyCount,
-      //       skuId: g.goodsInfoId,
-      //       petsId: g.petsId,
-      //       petsName: g.petsName
-      //     };
-      //   });
-      // }else {
-      param.subTradeItems = loginCartData
-        .filter(
-          (ele) =>
-            ele.subscriptionStatus &&
-            (ele.subscriptionPrice > 0 || ele.settingPrice > 0) && // food dispensor 的时候取的settingPrice
-            ele.goodsInfoFlag
-        )
-        .map((g) => {
-          const recoProductParam = handleRecoProductParamByItem({
-            ele: g,
-            ...this.props
-          });
-          return Object.assign(recoProductParam, {
-            settingPrice: g.settingPrice,
-            packageId: g.packageId,
-            subscriptionPlanPromotionFlag: g.subscriptionPlanPromotionFlag,
-            subscriptionPlanId: g.subscriptionPlanId,
-            goodsInfoFlag:
-              parseInt(g.goodsInfoFlag) && g.promotions?.includes('club')
-                ? 2
-                : parseInt(g.goodsInfoFlag),
-            questionParams: g.questionParams ? g.questionParams : undefined,
-            subscribeNum: g.buyCount,
-            skuId: g.goodsInfoId,
-            periodTypeId: g.periodTypeId
-          });
-        });
-      // }
-
-      param.paymentMethodId = creditCardInfo.id;
     }
 
     // 拼接promotion参数
