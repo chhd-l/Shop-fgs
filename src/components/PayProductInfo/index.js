@@ -413,18 +413,20 @@ class PayProductInfo extends React.Component {
                   </span>
                 </div>
               </div>
-              <div className="product-summary__total grand-total row leading-lines checkout--padding border-top">
-                <div className="col-6 start-lines">
-                  <span>
-                    <FormattedMessage id="payment.earnedPoint" />
-                  </span>
+              {this.earnedPoint && (
+                <div className="product-summary__total grand-total row leading-lines checkout--padding border-top">
+                  <div className="col-6 start-lines">
+                    <span>
+                      <FormattedMessage id="payment.earnedPoint" />
+                    </span>
+                  </div>
+                  <div className="col-6 end-lines text-right">
+                    <span className="grand-total-sum">
+                      {this.earnedPoint + 'pt'}
+                    </span>
+                  </div>
                 </div>
-                <div className="col-6 end-lines text-right">
-                  <span className="grand-total-sum">
-                    {this.earnedPoint + 'pt'}
-                  </span>
-                </div>
-              </div>
+              )}
             </>
           ) : (
             <div className="pt-2 pb-2">
