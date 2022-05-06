@@ -176,7 +176,8 @@ class AccountOrders extends React.Component {
     this.state.logisticsList.forEach((item, index) => {
       if (
         !(
-          item.trackingUrl === null && item?.tradeLogisticsDetails?.length === 0
+          // item.trackingUrl === null &&
+          (item?.tradeLogisticsDetails?.length === 0)
         )
       ) {
         logisticsList.push(item);
@@ -187,7 +188,7 @@ class AccountOrders extends React.Component {
       .filter((ele) => ele);
     return (
       <>
-        {logisticsList[0] && logisticsList[0].trackingUrl ? null : (
+        {false && logisticsList[0] && logisticsList[0].trackingUrl ? null : (
           <>
             {logisticsList.length > 0 ? (
               <div className="col-12 mt-4 border1 rounded mb-4 px-0 rc-md-up">
