@@ -296,11 +296,11 @@ class UnLoginCart extends React.Component {
           frequencyVal: filterData?.valueEn,
           frequencyName: filterData?.name,
           frequencyId:
-            filterData.id ||
+            filterData?.id ||
             el.goods.defaultFrequencyId ||
             configStore?.defaultSubscriptionFrequencyId,
           //GA 计算周数
-          frequencyType: filterData.type
+          frequencyType: filterData?.type
         };
       } else {
         if (el.promotions?.includes('club')) {
@@ -310,7 +310,7 @@ class UnLoginCart extends React.Component {
             frequencyId:
               el.goods?.defaultFrequencyId ||
               configStore.info?.storeVO.defaultSubscriptionClubFrequencyId ||
-              filterData.id,
+              filterData?.id,
             frequencyType: filterData?.type
           };
         } else {
@@ -320,7 +320,7 @@ class UnLoginCart extends React.Component {
             frequencyId:
               el.goods?.defaultFrequencyId ||
               configStore.info?.storeVO?.defaultSubscriptionFrequencyId ||
-              filterData.id,
+              filterData?.id,
             frequencyType: filterData?.type
           };
         }
