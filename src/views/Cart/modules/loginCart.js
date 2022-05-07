@@ -356,33 +356,33 @@ class LoginCart extends React.Component {
         this.computedList[0];
       if (el.goodsInfoFlag) {
         el.form = {
-          frequencyVal: filterData.valueEn,
-          frequencyName: filterData.name,
+          frequencyVal: filterData?.valueEn,
+          frequencyName: filterData?.name,
           frequencyId:
-            filterData.id ||
+            filterData?.id ||
             el.goods.defaultFrequencyId ||
             configStore?.defaultSubscriptionFrequencyId
         };
       } else {
         if (el.promotions?.includes('club')) {
           el.form = {
-            frequencyVal: filterData.valueEn,
-            frequencyName: filterData.name,
+            frequencyVal: filterData?.valueEn,
+            frequencyName: filterData?.name,
             frequencyId:
               el.goods?.defaultFrequencyId ||
               configStore.info?.storeVO.defaultSubscriptionClubFrequencyId ||
-              filterData.id,
-            frequencyType: filterData.type
+              filterData?.id,
+            frequencyType: filterData?.type
           };
         } else {
           el.form = {
-            frequencyVal: filterData.valueEn,
-            frequencyName: filterData.name,
+            frequencyVal: filterData?.valueEn,
+            frequencyName: filterData?.name,
             frequencyId:
               el.goods?.defaultFrequencyId ||
               configStore.info?.storeVO?.defaultSubscriptionFrequencyId ||
-              filterData.id,
-            frequencyType: filterData.type
+              filterData?.id,
+            frequencyType: filterData?.type
           };
         }
       }
