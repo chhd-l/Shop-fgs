@@ -91,7 +91,8 @@ const PriceDetailsList = ({
       val: checkoutStore.serviceFeePrice,
       visible:
         COUNTRY == 'jp' &&
-        checkoutStore.serviceFeePrice >= 0 &&
+        (checkoutStore.serviceFeePrice === 0 ||
+          checkoutStore.serviceFeePrice > 0) &&
         curPayWayInfo !== undefined //选择了支付方式才显示服务费
           ? true
           : false,
