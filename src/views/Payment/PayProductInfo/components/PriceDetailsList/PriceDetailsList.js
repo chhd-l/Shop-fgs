@@ -89,7 +89,7 @@ const PriceDetailsList = ({
       title: <FormattedMessage id="payment.serviceFee" />,
       val: checkoutStore.serviceFeePrice,
       visible:
-        checkoutStore.serviceFeePrice >= 0 && curPayWayInfo !== undefined
+        checkoutStore.serviceFeePrice >= 0 && curPayWayInfo !== undefined //选择了支付方式才显示服务费
           ? true
           : false,
       key: 'serviceFee'
