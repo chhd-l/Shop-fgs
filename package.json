@@ -128,11 +128,7 @@
     "pub:dev_ru": "npm run build:dev && rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal && scp -P 22 -r build_tmp/* root@121.36.199.41:/data/nginx/html_ru && rm -rf build_tmp",
     "pub:dev_tr": "npm run build:dev && rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal && scp -P 22 -r build_tmp/* root@121.36.199.41:/data/nginx/html_tr && rm -rf build_tmp"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
+  
   "lint-staged": {
     "src/**/*.{js,json,css,vue,jsx}": [
       "prettier --write",
