@@ -1355,7 +1355,8 @@ export function optimizeImage({
   const CDN_PREFIX =
     window.__.env.REACT_APP_PRODUCT_IMAGE_CDN ||
     'https://d2c-cdn.royalcanin.com/cdn-cgi/image/';
-  return originImageUrl &&
+  return !window.__.env.REACT_APP_DISABLE_CLOUDFLARE_CDN &&
+    originImageUrl &&
     !originImageUrl.includes('.svg') &&
     originImageUrl.startsWith('http') &&
     !originImageUrl.startsWith(CDN_PREFIX)
