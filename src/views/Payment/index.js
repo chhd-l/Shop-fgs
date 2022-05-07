@@ -3810,7 +3810,8 @@ class Payment extends React.Component {
       this.state.convenienceStore,
       email,
       { holderNameDeco, brandDeco, lastFourDeco, expirationDate },
-      curPayWayInfo?.code
+      curPayWayInfo?.code,
+      this.state.subForm.buyWay
     );
 
     return (
