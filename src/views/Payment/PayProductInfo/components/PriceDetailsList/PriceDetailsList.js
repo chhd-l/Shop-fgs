@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import PromotionCodeText from '../promotionCodeText';
 import { inject, observer } from 'mobx-react';
 import cn from 'classnames';
+const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 
 const PriceDetailsList = ({
   data: {
@@ -89,7 +90,9 @@ const PriceDetailsList = ({
       title: <FormattedMessage id="payment.serviceFee" />,
       val: checkoutStore.serviceFeePrice,
       visible:
-        checkoutStore.serviceFeePrice >= 0 && curPayWayInfo !== undefined //选择了支付方式才显示服务费
+        COUNTRY == 'jp' &&
+        checkoutStore.serviceFeePrice >= 0 &&
+        curPayWayInfo !== undefined //选择了支付方式才显示服务费
           ? true
           : false,
       key: 'serviceFee'
