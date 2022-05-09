@@ -232,21 +232,27 @@ class AccountOrders extends React.Component {
                           handleToggleMoreLess={this.handleToggleMoreLess}
                           customDateCls="text-nowrap"
                         />
-                        <div className="row">
-                          {(item.shippingItems || []).map((ele) => (
-                            <div className="text-center col-2" key={ele.skuId}>
-                              <img
-                                className="mx-auto my-0 w-auto"
-                                src={ele.pic || IMG_DEFAULT}
-                                alt={ele.itemName}
-                                title={ele.itemName}
-                                style={{ height: '60px' }}
-                              />
-                              <p className="font-weight-normal ui-text-overflow-line1">
-                                {ele.itemName} X {ele.itemNum}
-                              </p>
-                            </div>
-                          ))}
+                        <div className="row mb-2">
+                          {(item.shippingItems || [])
+                            .concat(item.giftItemList)
+                            .concat(item.subscriptionPlanGiftItemList)
+                            .map((ele) => (
+                              <div
+                                className="text-center col-2"
+                                key={ele.skuId}
+                              >
+                                <img
+                                  className="mx-auto my-0 w-auto"
+                                  src={ele.pic || IMG_DEFAULT}
+                                  alt={ele.itemName}
+                                  title={ele.itemName}
+                                  style={{ height: '60px' }}
+                                />
+                                <p className="font-weight-normal ui-text-overflow-line1">
+                                  {ele.itemName} X {ele.itemNum}
+                                </p>
+                              </div>
+                            ))}
                         </div>
                         <div className="row border-top m-0 py-2">
                           <div className="col-12 col-md-3">
@@ -551,7 +557,7 @@ class AccountOrders extends React.Component {
                           <FormattedMessage id="deliveryDate" />
                           <br />
                           <span className="medium color-444">
-                            {item.deliverTime(curLogisticInfo.deliverTime)}
+                            {formatDate({ date: curLogisticInfo.deliverTime })}
                           </span>
                         </p>
                       </div>
