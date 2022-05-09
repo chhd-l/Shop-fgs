@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { matchNamefromDict, getDictionary, formatDate } from '@/utils/utils';
 import { AddressPreview } from '@/components/Address';
 import cn from 'classnames';
@@ -7,30 +7,28 @@ import cloneDeep from 'lodash/cloneDeep';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const isFromFelin = sessionItemRoyal.get('appointment-no');
 
-class AddrPreview extends React.Component {
-  static defaultProps = { form: null, countryListDict: [], boldName: true };
-  constructor(props) {
-    super(props);
-    this.state = { countryName: '' };
-  }
+interface Props {
+  form: any;
+  boldName?: boolean;
+  titleJSX?: any;
+}
 
-  componentDidMount() {
-    const { form } = this.props;
+const AddrPreview = ({ form, boldName = true, titleJSX }: Props) => {
+  const [countryName, setCountryName] = useState<string>('');
+  useEffect(() => {
     getDictionary({ type: 'country' }).then((res) => {
-      this.setState({
-        countryName: matchNamefromDict(res, form.country || form.countryId)
-      });
+      setCountryName(matchNamefromDict(res, form.country || form.countryId));
     });
-  }
-  render() {
-    const { form, boldName } = this.props;
-    const { countryName } = this.state;
-    const newDeliveryDate = formatDate({
-      date: form?.deliveryDate,
-      formatOption: { weekday: 'long', day: '2-digit', month: 'long' }
-    });
+  }, [form.country || form.countryId]);
 
-    return form ? (
+  const newDeliveryDate = formatDate({
+    date: form?.deliveryDate,
+    // @ts-ignore
+    formatOption: { weekday: 'long', day: '2-digit', month: 'long' }
+  });
+  return form ? (
+    <>
+      {titleJSX ? titleJSX : null}
       <div className="children-nomargin">
         <AddressPreview
           nameCls={cn('font-weight-bold', { medium: boldName })}
@@ -51,7 +49,8 @@ class AddrPreview extends React.Component {
           )}
         />
       </div>
-    ) : null;
-  }
-}
+    </>
+  ) : null;
+};
+
 export default AddrPreview;
