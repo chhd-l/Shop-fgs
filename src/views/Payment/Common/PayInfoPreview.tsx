@@ -17,7 +17,7 @@ interface Props {
   email?: string;
   cardData?: any;
   paymentTypeCode?: any;
-  buyWay: string
+  buyWay: string;
 }
 
 const PayInfoPreview = ({
@@ -86,7 +86,7 @@ const PayInfoPreview = ({
           {buyWay === 'once' && (
             <p className="ml-4">
               <FormattedMessage
-                id="DeliverytimeContentSec"
+                id="ForConvenienceStorePayment"
                 values={{ val: <span className="text-red-500">7</span> }}
               />
             </p>
