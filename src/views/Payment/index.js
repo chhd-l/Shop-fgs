@@ -91,7 +91,11 @@ import differenceInSeconds from 'date-fns/differenceInSeconds';
 import base64 from 'base-64';
 import cn from 'classnames';
 import { SelectPet } from './SelectPet';
-import { PanelContainer } from './Common';
+import {
+  PanelContainer,
+  PayInfoPreview,
+  PaymentPanelInfoPreview
+} from './Common';
 import { Point } from './Point';
 import {
   radioTypes,
@@ -2414,17 +2418,17 @@ class Payment extends React.Component {
     const {
       paymentStore: { serCurPayWayVal }
     } = this.props;
-    this.setState({ paymentTypeVal: e.target.value, email: '' }, () => {
-      serCurPayWayVal(this.state.paymentTypeVal);
+    serCurPayWayVal(e.target.value);
+    this.setState({ email: '' }, () => {
       this.onPaymentTypeValChange();
     });
   };
-  handlePaymentTypeClick = (paymentTypeVal) => {
+  handlePaymentTypeClick = (paymentTypeCode) => {
     const {
       paymentStore: { serCurPayWayVal }
     } = this.props;
-    this.setState({ paymentTypeVal, email: '' }, () => {
-      serCurPayWayVal(this.state.paymentTypeVal);
+    serCurPayWayVal(paymentTypeCode);
+    this.setState({ email: '' }, () => {
       this.onPaymentTypeValChange();
     });
   };
@@ -2687,7 +2691,6 @@ class Payment extends React.Component {
     ) : (
       <VisitorAddress
         {...this.props}
-        key={1}
         type="delivery"
         intlMessages={this.props.intl.messages}
         reSelectTimeSlot={this.getIntlMsg('payment.reselectTimeSlot')}
@@ -2736,11 +2739,8 @@ class Payment extends React.Component {
       billingAddressErrorMsg,
       billingChecked,
       billingAddress,
-      deliveryAddress,
-      adyenPayParam,
       tid,
       guestEmail,
-      cyberPaymentForm: { isSaveCard },
       isFromFelin
     } = this.state;
 
@@ -2770,11 +2770,7 @@ class Payment extends React.Component {
         {/* 勾选， deliveryAddress = billingAddress */}
         {billingChecked ? (
           <div className="ml-custom mr-custom">
-            {this.renderAddrPreview({
-              form: this.state.billingAddress,
-              titleVisible: false,
-              boldName: true
-            })}
+            <AddressPreview form={this.state.billingAddress} />
           </div>
         ) : null}
 
@@ -2785,7 +2781,6 @@ class Payment extends React.Component {
               <AddressList
                 {...this.props}
                 ref={this.loginBillingAddrRef}
-                key={2}
                 titleVisible={false}
                 type="billing"
                 isDeliveryOrBilling="billing"
@@ -2809,7 +2804,6 @@ class Payment extends React.Component {
               <VisitorAddress
                 {...this.props}
                 ref={this.unLoginBillingAddrRef}
-                key={2}
                 titleVisible={false}
                 showConfirmBtn={false}
                 type="billing"
@@ -3300,7 +3294,7 @@ class Payment extends React.Component {
    */
   renderPayTab = () => {
     const {
-      paymentStore: { supportPaymentMethods, curPayWayInfo }
+      paymentStore: { curPayWayInfo }
     } = this.props;
     const {
       subForm,
@@ -3627,8 +3621,8 @@ class Payment extends React.Component {
                       })}
                     />
                     {/* 校验状态
-                  1 卡校验，从adyen form传入校验状态
-                  2 billing校验 */}
+                      1 卡校验，从adyen form传入校验状态
+                      2 billing校验 */}
                     {payConfirmBtn({
                       disabled: !validSts.adyenCard || validForBilling,
                       loading: saveBillingLoading,
@@ -3654,8 +3648,8 @@ class Payment extends React.Component {
                     showIcon={true}
                   />
                   {/* 校验状态
-                  1 校验邮箱
-                  2 billing校验 */}
+                    1 校验邮箱
+                    2 billing校验 */}
                   {payConfirmBtn({
                     disabled: !EMAIL_REGEXP.test(email) || validForBilling
                   })}
@@ -3734,98 +3728,6 @@ class Payment extends React.Component {
 
               {/* ***********************支付选项卡的内容end******************************* */}
             </>
-          )}
-        </div>
-      </div>
-    );
-  };
-
-  renderAddrPreview = ({ form, titleVisible = false, boldName = false }) => {
-    return form ? (
-      <>
-        {titleVisible && (
-          <p className="mb-0 medium">
-            <FormattedMessage id="billingAddress" />
-          </p>
-        )}
-        <AddressPreview
-          key={form}
-          boldName={boldName}
-          form={form}
-          isLogin={this.isLogin}
-        />
-      </>
-    ) : null;
-  };
-
-  /**
-   * 渲染pay panel预览信息
-   * 不同情况预览不同规则
-   */
-  renderPayPreview = () => {
-    const {
-      paymentStore: { curPayWayInfo }
-    } = this.props;
-    let {
-      email,
-      billingAddress: form,
-      adyenPayParam,
-      payosdata,
-      selectedCardInfo,
-      tid,
-      cyberPayParam,
-      isFromFelin
-    } = this.state;
-
-    //this.props.paymentStore.saveBillingAddressInfo(form)
-
-    let paymentMethod;
-    if (adyenPayParam) {
-      paymentMethod = adyenPayParam;
-    }
-    if (cyberPayParam) {
-      paymentMethod = cyberPayParam;
-    }
-    if (selectedCardInfo) {
-      paymentMethod = selectedCardInfo;
-    }
-
-    let lastFourDeco;
-    let brandDeco;
-    let holderNameDeco;
-    let expirationDate;
-    if (paymentMethod) {
-      lastFourDeco = paymentMethod.lastFourDigits;
-      brandDeco = paymentMethod.paymentVendor;
-      holderNameDeco = paymentMethod.holderName;
-      expirationDate = paymentMethod.expirationDate;
-    } else if (payosdata && payosdata.vendor) {
-      lastFourDeco = payosdata.last_4_digits;
-      brandDeco = payosdata.vendor;
-      holderNameDeco = payosdata.holder_name;
-    }
-
-    let ret = handlePayReview(
-      this.props.checkoutStore.selectDiscountWay,
-      this.state.convenienceStore,
-      email,
-      { holderNameDeco, brandDeco, lastFourDeco, expirationDate },
-      curPayWayInfo?.code,
-      this.state.subForm.buyWay
-    );
-
-    return (
-      <div className="ml-custom mr-custom mb-3">
-        <div className="row">
-          {ret}
-          {!tid && !hideBillingAddr && !isFromFelin && (
-            <div className="col-12 col-md-6 mt-2 md:mt-0 visitor_address_preview">
-              {this.renderAddrPreview({
-                form,
-                titleVisible: true,
-                boldName: false
-              })}
-            </div>
           )}
         </div>
       </div>
@@ -4057,7 +3959,7 @@ class Payment extends React.Component {
                     },
                     onEdit: this.handleClickPaymentPanelEdit
                   }}
-                  previewJSX={this.renderPayPreview()}
+                  previewJSX={<PaymentPanelInfoPreview {...this.state} />}
                 >
                   {this.renderPayTab()}
                 </PanelContainer>
