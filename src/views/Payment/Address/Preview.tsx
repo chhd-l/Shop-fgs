@@ -19,7 +19,7 @@ const AddrPreview = ({ form, boldName = true, titleJSX }: Props) => {
     getDictionary({ type: 'country' }).then((res) => {
       setCountryName(matchNamefromDict(res, form.country || form.countryId));
     });
-  }, [form.country || form.countryId]);
+  }, [form?.country || form?.countryId]);
 
   const newDeliveryDate = formatDate({
     date: form?.deliveryDate,
