@@ -17,7 +17,7 @@ const AddrPreview = ({ form, boldName = true, titleJSX }: Props) => {
   const [countryName, setCountryName] = useState<string>('');
   useEffect(() => {
     getDictionary({ type: 'country' }).then((res) => {
-      setCountryName(matchNamefromDict(res, form.country || form.countryId));
+      setCountryName(matchNamefromDict(res, form?.country || form?.countryId));
     });
   }, [form?.country || form?.countryId]);
 
