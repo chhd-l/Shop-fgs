@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import PromotionCodeText from '../PromotionCodeText';
 import { inject, observer } from 'mobx-react';
 import cn from 'classnames';
+const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 
 const PriceDetailsList = ({
   data: {

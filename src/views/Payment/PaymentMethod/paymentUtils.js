@@ -6,17 +6,9 @@ import {
   rePayFelin
 } from '@/api/payment';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import {
-  LOGO_ADYEN_COD,
-  LOGO_POINT,
-  LOGO_ADYEN_PAYPAL,
-  LOGO_SWISH
-} from '@/utils/constant';
-import { ConvenienceStorePayReview } from '@/views/Payment/PaymentMethod/index';
+import { LOGO_POINT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
 import React from 'react';
-import { formatDate } from '@/utils/utils';
-import { USEPOINT } from '@/views/Payment/PaymentMethod/paymentMethodsConstant';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -230,113 +222,6 @@ const ShowUsePoint = () => {
       </span>
     </div>
   );
-};
-
-//根据不同的支付方式显示不同的pay review
-export const handlePayReview = (
-  selectDiscountWay,
-  convenienceStore,
-  email,
-  cardData,
-  paymentTypeCode,
-  buyWay
-) => {
-  let ret = null;
-  switch (paymentTypeCode) {
-    case 'payu':
-    case 'payu_ru':
-    case 'payu_tu':
-    case 'adyen_credit_card':
-    case 'CYBER':
-      ret = (
-        <>
-          <div className="col-12 col-md-6">
-            <p className="medium">
-              <FormattedMessage id="bankCard" />
-            </p>
-            <p>{cardData.holderNameDeco}</p>
-            <p>{cardData.brandDeco}</p>
-            {cardData.lastFourDeco ? (
-              <p>{`************${cardData.lastFourDeco}`}</p>
-            ) : null}
-            {cardData.expirationDate ? (
-              <p>
-                {formatDate({
-                  date: cardData.expirationDate,
-                  formatOption: {
-                    year: 'numeric',
-                    month: '2-digit'
-                  }
-                })}
-              </p>
-            ) : null}
-          </div>
-          {selectDiscountWay == USEPOINT ? <ShowUsePoint /> : null}
-        </>
-      );
-      break;
-    case 'cod':
-      ret = (
-        <div className="col-12 col-md-6">
-          <FormattedMessage id="payment.codConfirmTip" />
-        </div>
-      );
-      break;
-    case 'adyen_paypal':
-      ret = (
-        <div className="col-12 col-md-6">
-          <img src={LOGO_ADYEN_PAYPAL} className="w-24 ml-8" />
-        </div>
-      );
-      break;
-    case 'adyen_convenience_store':
-      ret = (
-        <>
-          <div className="col-12 col-md-6">
-            <ConvenienceStorePayReview convenienceStore={convenienceStore} />
-          </div>
-          {selectDiscountWay == USEPOINT ? <ShowUsePoint /> : null}
-          {buyWay === 'once' && (
-            <p className="ml-4">
-              <FormattedMessage
-                id="ForConvenienceStorePayment"
-                values={{ val: <span className="text-red-500">7</span> }}
-              />
-            </p>
-          )}
-        </>
-      );
-      break;
-    case 'adyen_swish':
-      ret = (
-        <div className="col-12 col-md-6">
-          <img src={LOGO_SWISH} className="w-24 ml-8" />
-        </div>
-      );
-      break;
-    case 'cod_japan':
-      ret = (
-        <>
-          <div className="col-12 col-md-6 flex items-center pt-1 pb-3">
-            <LazyLoad>
-              <img src={LOGO_ADYEN_COD} className="w-10 ml-8 mr-2" />
-            </LazyLoad>
-            <span className="font-medium">
-              <FormattedMessage id="cashOnDelivery" />
-            </span>
-          </div>
-          {selectDiscountWay == USEPOINT ? <ShowUsePoint /> : null}
-          <p className="text-red-500 ml-10">
-            <FormattedMessage id="ForCashOnDelivery" />
-          </p>
-        </>
-      );
-      break;
-    default:
-      ret = <div className="col-12 col-md-6">{email}</div>;
-      break;
-  }
-  return ret;
 };
 
 //根据不同的支付方式处理不同的支付参数
