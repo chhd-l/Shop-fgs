@@ -299,7 +299,7 @@ export const handlePayReview = (
           {buyWay === 'once' && (
             <p className="ml-4">
               <FormattedMessage
-                id="DeliverytimeContentSec"
+                id="ForConvenienceStorePayment"
                 values={{ val: <span className="text-red-500">7</span> }}
               />
             </p>
