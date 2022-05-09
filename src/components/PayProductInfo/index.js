@@ -66,7 +66,7 @@ class PayProductInfo extends React.Component {
     const { details } = this.props;
     // console.log(plist, details, 'hahaha');
     const List = plist
-      .filter((item) => !item?.cateName?.includes('Leaflet'))
+      .filter((item) => !item?.isHidden)
       .map((item, i) => {
         let isGift = false;
         // item.subscriptionPlanGiftList && item.subscriptionPlanGiftList.length;

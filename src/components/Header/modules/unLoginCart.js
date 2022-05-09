@@ -54,7 +54,7 @@ class UnloginCart extends React.Component {
         return Number(pre) + Number(cur.quantity);
       }, 0) +
       this.giftList
-        .filter((item) => !item?.cateName?.includes('Leaflet'))
+        .filter((item) => !item?.isHidden)
         .reduce((total, el) => total + el.buyCount, 0)
     );
   }
