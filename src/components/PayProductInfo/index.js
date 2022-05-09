@@ -413,7 +413,7 @@ class PayProductInfo extends React.Component {
                   </span>
                 </div>
               </div>
-              {this.earnedPoint && (
+              {this.earnedPoint > 0 && (
                 <div className="product-summary__total grand-total row leading-lines checkout--padding border-top">
                   <div className="col-6 start-lines">
                     <span>
