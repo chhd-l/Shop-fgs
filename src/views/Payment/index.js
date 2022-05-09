@@ -102,7 +102,6 @@ import {
   supportPoint,
   felinAddr
 } from './PaymentMethod/paymentMethodsConstant';
-import { handlePayReview } from './PaymentMethod/paymentUtils';
 import { ErrorMessage } from '@/components/Message';
 import Canonical from '@/components/Canonical';
 import {
