@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import classNames from 'classnames';
+import { formatMoney } from '@/utils/utils';
 
 type PurchaseMethodType = {
   form: {
@@ -65,7 +66,9 @@ const PurchaseMethodB = ({
     >
       {isMobile ? specAndQuantityDom() : null}
       <div>
-        <span className="text-3xl font-normal">From {fromPrice} €</span>
+        <span className="text-3xl font-normal">
+          <FormattedMessage id="plpFromText" /> {formatMoney(fromPrice)}
+        </span>
         <span className="ml-5">
           *<FormattedMessage id="WithSubscription" />
         </span>

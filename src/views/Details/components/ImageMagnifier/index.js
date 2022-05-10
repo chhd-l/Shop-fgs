@@ -499,7 +499,7 @@ class ImageMagnifier extends Component {
             <div style={cssStyle.magnifierContainer}>
               <LazyLoad>
                 <img
-                  classNam="zoom-img"
+                  className="zoom-img"
                   style={cssStyle.imgStyle2}
                   src={
                     optimizeImage({

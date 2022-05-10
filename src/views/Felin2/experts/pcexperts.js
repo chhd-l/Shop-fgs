@@ -69,7 +69,8 @@ class Pcexperts extends React.Component {
         {
           valueEn: 'Nutritionist',
           src: cat2,
-          name: 'Conseiller en nutrition Royal Canin'
+          // Conseiller en nutrition Royal Canin
+          name: 'Expert en nutrition'
         }
       ],
       timeList: [
@@ -472,6 +473,27 @@ class Pcexperts extends React.Component {
   };
   // 选择专家
   handleActiveBut = (id, name, key, key1, value, key2) => {
+    // 根据name是否为Appel vidéo
+    let { list } = this.state;
+    let editList = list;
+    if (key1 === 'type') {
+      if (name == 'Appel vidéo') {
+        editList = list.map((item) => {
+          if (item.id == '11') {
+            item.name = 'Conseiller en nutrition Royal Canin';
+          }
+          return item;
+        });
+      } else {
+        editList = list.map((item) => {
+          if (item.id == '11') {
+            item.name = 'Expert en nutrition';
+          }
+          return item;
+        });
+      }
+    }
+
     this.setState(
       {
         params: {
@@ -482,7 +504,8 @@ class Pcexperts extends React.Component {
           ...this.state.votre,
           [key1]: name,
           [key2]: value
-        }
+        },
+        list: editList
       },
       () => {
         if (key2 === 'prix') {
