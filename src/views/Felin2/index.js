@@ -119,7 +119,7 @@ class Felin extends React.Component {
           text: 'Notre conseiller vous posera des questions sur votre chat afin de mener un bilan systémique : alimentation, comportement, environnement etc. Ainsi, à travers cette discussion, vous pourrez mettre en lumière les points sur lesquels vous pouvez jouer pour améliorer le bien-être de votre chat.',
           text1:
             'Si vous rencontrez des situations particulières avec votre chat, vous pourrez également en discuter ensemble et notre conseiller vous donnera des solutions à mettre en place.',
-          tetx2:
+          text2:
             "A l'issu de ce bilan, repartez avec vos conseils personnalisés ainsi qu'une recommandation nutritionnelle de la gamme Royal Canin adaptée à votre chat.",
           text3:
             "L'Atelier Félin n'est pas une clinique vétérinaire : pour les chats ayant des problèmes de santé, nous vous redirigerons toujours vers votre vétérinaire habituel."

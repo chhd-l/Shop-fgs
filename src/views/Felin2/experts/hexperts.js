@@ -445,6 +445,26 @@ class Hcexperts extends React.Component {
   };
   // 选择专家
   handleActiveBut = (id, name, key, key1, value, key2) => {
+    // 根据name是否为Appel vidéo
+    let { list } = this.state;
+    let editList;
+    if (key1 === 'type') {
+      if (name == 'Appel vidéo') {
+        editList = list.map((item) => {
+          if (item.id == '11') {
+            item.name = 'Conseiller en nutrition Royal Canin';
+          }
+          return item;
+        });
+      } else {
+        editList = list.map((item) => {
+          if (item.id == '11') {
+            item.name = 'Expert en nutrition';
+          }
+          return item;
+        });
+      }
+    }
     this.setState(
       {
         params: {
