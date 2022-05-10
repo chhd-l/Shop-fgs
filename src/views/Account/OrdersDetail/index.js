@@ -249,7 +249,7 @@ class AccountOrders extends React.Component {
                                   style={{ height: '60px' }}
                                 />
                                 <p className="font-weight-normal ui-text-overflow-line1">
-                                  {ele.itemName} X {ele.itemNum}
+                                  {ele.itemNum} X {ele.itemName}
                                 </p>
                               </div>
                             ))}
