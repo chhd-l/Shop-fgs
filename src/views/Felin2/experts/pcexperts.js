@@ -69,6 +69,7 @@ class Pcexperts extends React.Component {
         {
           valueEn: 'Nutritionist',
           src: cat2,
+          // Conseiller en nutrition Royal Canin
           name: 'Expert en nutrition'
         }
       ],
@@ -447,6 +448,27 @@ class Pcexperts extends React.Component {
   };
   // 选择专家
   handleActiveBut = (id, name, key, key1, value, key2) => {
+    // 根据name是否为Appel vidéo
+    let { list } = this.state;
+    let editList = list;
+    if (key1 === 'type') {
+      if (name == 'Appel vidéo') {
+        editList = list.map((item) => {
+          if (item.id == '11') {
+            item.name = 'Conseiller en nutrition Royal Canin';
+          }
+          return item;
+        });
+      } else {
+        editList = list.map((item) => {
+          if (item.id == '11') {
+            item.name = 'Expert en nutrition';
+          }
+          return item;
+        });
+      }
+    }
+
     this.setState(
       {
         params: {
@@ -457,7 +479,8 @@ class Pcexperts extends React.Component {
           ...this.state.votre,
           [key1]: name,
           [key2]: value
-        }
+        },
+        list: editList
       },
       () => {
         if (key2 === 'prix') {
@@ -583,28 +606,6 @@ class Pcexperts extends React.Component {
   queryAppointInfo = async (appointNo) => {
     //不做ga
     return;
-    const result = await getAppointmentInfo(appointNo, this.isLogin);
-    console.log('appointmentInfo', result);
-    const requestName = this.isLogin ? getLoginDetails : getDetails;
-    const goodInfoRes = await requestName(result?.goodsInfoId);
-    const goodInfo = goodInfoRes?.context || {};
-    if (!goodInfoRes?.context) {
-      this.showErrorMsg('Cannot get product info from api');
-      return;
-    }
-    const goodDetail = Object.assign(goodInfo, {
-      goodsInfoId: result?.goodsInfoId,
-      goodsInfoImg: goodInfo?.goods?.goodsImg,
-      goodsName: goodInfo?.goods?.goodsName || '',
-      buyCount: 1,
-      salePrice: goodInfo?.goodsInfos
-        ? goodInfo?.goodsInfos.filter(
-            (item) => item.goodsInfoId === result?.goodsInfoId
-          )[0].salePrice
-        : 0,
-      selected: true
-    });
-    GARecommendationProduct([goodDetail], 4, []);
   };
 
   postUpdate = async (params) => {
