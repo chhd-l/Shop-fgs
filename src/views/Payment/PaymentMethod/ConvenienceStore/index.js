@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import './index.less';
 import { Point } from '@/views/Payment/Point';
@@ -71,9 +72,12 @@ const ConvenienceStore = ({ convenienceStoreChange, supportPoint = false }) => {
             id="convenienceStore.tip3"
             values={{
               val: (
-                <span className="cursor-pointer inline-block rc-styled-link border-b border-black hover:border-rc-red">
+                <Link
+                  to="/faq"
+                  className="cursor-pointer inline-block rc-styled-link border-b border-black hover:border-rc-red"
+                >
                   <FormattedMessage id="here2" />
-                </span>
+                </Link>
               )
             }}
           />
