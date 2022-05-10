@@ -85,6 +85,24 @@ class Hcexperts extends React.Component {
           text: 'Nous approfondirons chaque aspect de la vie de votre chat pour vous proposer des solutions adaptées à vos possibilités.'
         }
       ],
+      timeList2: [
+        {
+          duration: 15,
+          text: 'Séance découverte.'
+        },
+        {
+          duration: 30,
+          text: 'Des conseils clefs selon les besoins de votre chat.'
+        },
+        {
+          duration: 45,
+          text: 'Recevez des conseils plus détaillés pour le bien-être de votre chat.'
+        },
+        {
+          duration: 60,
+          text: 'Nous approfondirons différents aspects de la vie de votre chat pour vous proposer des solutions adaptées à vos possibilités.'
+        }
+      ],
       isShow: true,
       oneShow: false,
       twoShow: false,
@@ -294,6 +312,12 @@ class Hcexperts extends React.Component {
         );
         return { ...item, ..._temp };
       });
+      let timeList2 = this.state.timeList2.map((item) => {
+        let _temp = context.priceVOs.find(
+          (items) => items.duration === item.duration
+        );
+        return { ...item, ..._temp };
+      });
       window?.dataLayer?.push({
         event: 'AtelierFelinStepLoad',
         atelierFelinStepName: 'Apointment duration',
@@ -301,6 +325,7 @@ class Hcexperts extends React.Component {
       });
       this.setState({
         timeList,
+        timeList2,
         twoShow: false,
         threeShow: true
       });
@@ -583,28 +608,6 @@ class Hcexperts extends React.Component {
   queryAppointInfo = async (appointNo) => {
     //不做ga
     return;
-    const result = await getAppointmentInfo(appointNo, this.isLogin);
-    console.log('appointmentInfo', result);
-    const requestName = this.isLogin ? getLoginDetails : getDetails;
-    const goodInfoRes = await requestName(result?.goodsInfoId);
-    const goodInfo = goodInfoRes?.context || {};
-    if (!goodInfoRes?.context) {
-      this.showErrorMsg('Cannot get product info from api');
-      return;
-    }
-    const goodDetail = Object.assign(goodInfo, {
-      goodsInfoId: result?.goodsInfoId,
-      goodsInfoImg: goodInfo?.goods?.goodsImg,
-      goodsName: goodInfo?.goods?.goodsName || '',
-      buyCount: 1,
-      salePrice: goodInfo?.goodsInfos
-        ? goodInfo?.goodsInfos.filter(
-            (item) => item.goodsInfoId === result?.goodsInfoId
-          )[0].salePrice
-        : 0,
-      selected: true
-    });
-    GARecommendationProduct([goodDetail], 4, []);
   };
 
   postUpdate = async (params) => {
@@ -622,7 +625,43 @@ class Hcexperts extends React.Component {
       this.setState({ errModalVisible: true, errModalText: err.message });
     }
   };
-
+  getTimeListJsx = (arrList) => {
+    return (
+      <>
+        {arrList.map((item, index) => {
+          return (
+            <li
+              key={index}
+              onClick={() =>
+                this.handleActiveBut(
+                  item.duration,
+                  item.duration,
+                  'minutes',
+                  'duree',
+                  item.goodsInfoVO.marketPrice,
+                  'prix'
+                )
+              }
+              className="ul-li pd10"
+              style={{
+                boxShadow:
+                  this.state.params.minutes === item.duration
+                    ? ' 0px 0px 0px 2px #E2001A'
+                    : '0px 0px 0px 2px #f0f0f0'
+              }}
+            >
+              <div>{item.duration} min</div>
+              <div className="list-content size12">{item.text}</div>
+              <div className="js-between">
+                <div>Prix</div>
+                <div>{item.goodsInfoVO?.marketPrice + ' EUR' || 'FREE'}</div>
+              </div>
+            </li>
+          );
+        })}
+      </>
+    );
+  };
   render() {
     const { intl, history } = this.props;
     const { twoShow, threeShow, fourShow, fiveShow } = this.state;
@@ -785,7 +824,10 @@ class Hcexperts extends React.Component {
               </div>
             </div>
             <ul className="h-ul">
-              {this.state.timeList.map((item, index) => {
+              {this.state.votre.type === 'Appel vidéo'
+                ? this.getTimeListJsx(this.state.timeList2)
+                : this.getTimeListJsx(this.state.timeList)}
+              {/* {this.state.timeList.map((item, index) => {
                 return (
                   <li
                     key={index}
@@ -816,7 +858,7 @@ class Hcexperts extends React.Component {
                     </div>
                   </li>
                 );
-              })}
+              })} */}
             </ul>
             <div className="txt-centr">
               <span
