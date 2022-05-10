@@ -390,10 +390,7 @@ class Subscription extends React.Component {
                       </p>
                     </div>
                     <div className="rc-margin-top--sm">
-                      <Link
-                        className="rc-btn rc-btn--one"
-                        to={'/subscription-landing'}
-                      >
+                      <Link className="rc-btn rc-btn--one" to={'/subscription'}>
                         <FormattedMessage id="account.startAutoShipping" />
                       </Link>
                     </div>
