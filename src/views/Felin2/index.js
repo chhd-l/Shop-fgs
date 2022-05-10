@@ -113,13 +113,13 @@ class Felin extends React.Component {
           table: 'yes'
         },
         {
-          name: "Comment se déroule le bilan avec l'expert ?",
-          text: 'Notre expert vous posera des questions sur votre chat afin de mener un bilan systémique : alimentation, comportement, environnement etc. Ainsi, à travers cette discussion, vous pourrez mettre en lumière les points sur lesquels vous pouvez jouer pour améliorer le bien-être de votre chat. Vous apprendrez à mieux comprendre et communiquer avec votre chat grâce à la connaissance des félins de nos experts et leur pédagogie.',
-          text1:
-            'Si vous avez des problèmes particuliers, vous pourrez également en discuter ensemble et notre expert vous donnera des solutions à mettre en place afin de les résoudre.',
-          tetx2:
-            "A l'issu de ce bilan, repartez avec vos conseils personnalisés ainsi qu'une recommandation de la nutrition parfaitement adaptée à votre chat.\n" +
-            "L'Atelier Félin n'est pas une clinique vétérinaire : pour les chats ayant des problèmes de santé, nous vous redirigerons vers un vétérinaire.\n",
+          name: 'Comment se déroule une session avec un conseiller ?',
+          text: `Notre conseiller vous posera des questions sur votre chat afin de mener un bilan systémique : alimentation, comportement, environnement etc. Ainsi, à travers cette discussion, vous pourrez mettre en lumière les points sur lesquels vous pouvez jouer pour améliorer le bien-être de votre chat.`,
+          ttbr: true,
+          text1: `Si vous rencontrez des situations particulières avec votre chat, vous pourrez également en discuter ensemble et notre conseiller vous donnera des solutions à mettre en place.`,
+          ttbr2: true,
+          text2:
+            "A l'issu de ce bilan, repartez avec vos conseils personnalisés ainsi qu'une recommandation nutritionnelle de la gamme Royal Canin adaptée à votre chat.",
           text3:
             "A l'issu de ce bilan, repartez avec vos conseils personnalisés ainsi qu'une recommandation de la nutrition parfaitement adaptée à votre chat.",
           text4:
@@ -960,7 +960,9 @@ class Felin extends React.Component {
                           ''
                         )}
                       </p>
+                      <p>{item.ttbr ? <br /> : ''}</p>
                       <p dangerouslySetInnerHTML={{ __html: item.text1 }} />
+                      <p>{item.ttbr2 ? <br /> : ''}</p>
                       <p>{item.text2 ? item.text2 : ''}</p>
                       <p>{item.text3 ? item.text3 : ''}</p>
                       <p>{item.text4 ? item.text4 : ''}</p>
