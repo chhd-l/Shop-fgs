@@ -193,7 +193,15 @@ class Consent extends Component {
                               zoom === '150%'
                                 ? 'footer-checkbox-title mt'
                                 : 'footer-checkbox-title'
-                            } ${index == 2 ? 're2001acolor' : ''}`}
+                            } ${
+                              window.__.env.REACT_APP_COUNTRY == 'se'
+                                ? 're2001acolor'
+                                : ''
+                            } ${
+                              window.__.env.REACT_APP_COUNTRY == 'jp'
+                                ? 'nore2001acolor'
+                                : ''
+                            }`}
                             dangerouslySetInnerHTML={createMarkup(
                               item.consentTitle,
                               item.isRequired,
