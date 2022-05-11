@@ -372,6 +372,9 @@ class AccountOrders extends React.Component {
       curLogisticInfo
     } = this.state;
 
+    console.log({ details });
+    console.log({ logisticsList: this.state.logisticsList });
+
     return (
       <div>
         <PageBaseInfo additionalEvents={event} />
