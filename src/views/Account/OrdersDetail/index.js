@@ -234,7 +234,11 @@ class AccountOrders extends React.Component {
                         />
                         <div className="row mb-2">
                           {(item.shippingItems || [])
-                            .concat(item.giftItemList)
+                            .concat(
+                              item.giftItemList.filter(
+                                (item2) => !item2.isHidden
+                              )
+                            )
                             .concat(item.subscriptionPlanGiftItemList)
                             .map((ele) => (
                               <div
