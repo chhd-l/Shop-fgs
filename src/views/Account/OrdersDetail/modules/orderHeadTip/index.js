@@ -159,7 +159,8 @@ const renderHeadTip = ({
       break;
     case 2:
       // 发货运输中
-      ret = (
+      ret = (logisticsList[0]?.shippingItems.length > 0 ||
+        logisticsList[0]?.giftItemList.some((item) => !item.isHidden)) && (
         <HeadTip
           icon={
             <svg className="svg-icon w-14 h-14" aria-hidden="true">
