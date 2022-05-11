@@ -5,13 +5,15 @@ import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 import cn from 'classnames';
 import './index.css';
 import { DivWrapper } from './style';
+// account.home
+const CurrentCountry = window.__.env.REACT_APP_COUNTRY;
 
 let menuList = [
   {
     catogery: 'Home',
     isShow: true,
     icon: <span className="iconfont">&#xe697;</span>,
-    langKey: 'Home',
+    langKey: CurrentCountry == 'jp' ? 'account.home' : 'Home',
     url: '/account'
   },
   {
