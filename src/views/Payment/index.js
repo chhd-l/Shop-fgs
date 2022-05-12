@@ -997,7 +997,11 @@ class Payment extends React.Component {
       const {
         paymentStore: { setPayWayNameArr }
       } = this.props;
-      const payWay = await getWays();
+      // 这里要根据stoken那里判断
+      // fgs 下的单 isOfflinePayment 为true，felin 下的单为false
+      const isFelin =
+        sessionItemRoyal.get('rc-iframe-from-storepotal') == 1 ? true : false;
+      const payWay = await getWays({ isOfflinePayment: isFelin });
       let payWayNameArr = [];
       if (payWay.context) {
         // 筛选条件: 1.开关开启 2.订阅购买时, 排除不支持订阅的支付方式 3.cod时, 是否超过限制价格
@@ -1429,6 +1433,18 @@ class Payment extends React.Component {
             paymentMethodId: this.state.paypalCardId
           });
         },
+        pos: () => {
+          parameters = Object.assign(commonParameter, {
+            payPspItemEnum: 'ADYEN_POS',
+            wasFelinStore: true
+          });
+        },
+        cash: () => {
+          parameters = Object.assign(commonParameter, {
+            payPspItemEnum: 'CASH',
+            wasFelinStore: true
+          });
+        },
         adyen_swish: () => {
           parameters = Object.assign(commonParameter, {
             adyenType: 'swish',
@@ -1604,39 +1620,6 @@ class Payment extends React.Component {
       this.startLoading();
       if (!this.isLogin) {
         await this.visitorLoginAndAddToCart();
-        // 游客批量新增宠物 待测试，jp未开通新增宠物功能
-        if (false && isShowBindPet) {
-          const param = this.props.checkoutStore.cartData.map((el, idx) => {
-            const targetPetsId = petSelectedIds[idx];
-            const targetPetInfo = petList.find(
-              (p) => (p.petsId = targetPetsId)
-            );
-            const petForm = {
-              birthday: targetPetInfo.birthday,
-              breed: targetPetInfo.breed,
-              petsName: targetPetInfo.petName,
-              petsType: targetPetInfo.petType
-            };
-            return {
-              customerPets: Object.assign(petForm, {
-                productId: el.sizeList.filter((e) => e.selected)[0].goodsInfoId
-              }),
-              storeId: window.__.env.REACT_APP_STOREID
-            };
-          });
-          const res = await batchAddPets({
-            batchAddItemList: param
-          });
-          parameters.tradeItems.map((el) => {
-            let filterItems = res.context.resultList.filter(
-              (item) => item.productId === el.skuId
-            );
-            if (filterItems.length > 0) {
-              el.petsName = filterItems[0].petsName;
-              el.petsId = filterItems[0].petsId;
-            }
-          });
-        }
       }
 
       if (this.isPayUPaymentTypeVal) {
@@ -1730,7 +1713,6 @@ class Payment extends React.Component {
                       // }, 2000);
                       await sleep(2000);
                       return await getData();
-                      break;
                     case 'SUCCEED':
                       gotoConfirmationPage = true;
                       // debugger
@@ -1868,6 +1850,10 @@ class Payment extends React.Component {
             subNumber = (res.context && res.context.subscribeId) || '';
             gotoConfirmationPage = true;
           }
+          break;
+        case 'pos':
+          break;
+        case 'cash':
           break;
         case 'pc_web':
           subOrderNumberList =

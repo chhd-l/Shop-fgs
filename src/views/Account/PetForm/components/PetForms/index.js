@@ -968,7 +968,7 @@ const PetForms = ({
                       handleDelPets(false);
                     }}
                   >
-                    <FormattedMessage id="pet.sdeletePet" />
+                    <FormattedMessage id="pet.deletePet" />
                   </span>
                 )}
                 {window.__.env.REACT_APP_COUNTRY === 'jp' &&
