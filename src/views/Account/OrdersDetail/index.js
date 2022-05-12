@@ -174,29 +174,21 @@ class AccountOrders extends React.Component {
     //没有详细物流信息的package不显示
     const logisticsList = [];
     this.state.logisticsList.forEach((item, index) => {
-      if (
-        !(
-          // item.trackingUrl === null &&
-          (item?.tradeLogisticsDetails?.length === 0)
-        )
-      ) {
-        logisticsList.push(item);
-      }
+      logisticsList.push(item);
     });
-    const filteredLogisticsList = logisticsList
-      .map((ele) => (ele && ele.tradeLogisticsDetails ? ele : []))
-      .filter((ele) => ele);
+    const filteredLogisticsList = logisticsList;
     return (
       <>
         {false && logisticsList[0] && logisticsList[0].trackingUrl ? null : (
           <>
             {logisticsList.length > 0 ? (
               <div className="col-12 mt-4 border1 rounded mb-4 px-0 rc-md-up">
+                {/* tab表头，length大于才展示 */}
                 {logisticsList.length > 1 ? (
                   <nav className="rc-bg-colour--brand4 p-3">
                     {logisticsList.map(
                       (item, i) =>
-                        item?.tradeLogisticsDetails?.length > 0 && (
+                        true && (
                           <span
                             className={`ui-cursor-pointer mr-2 px-3 py-2 rounded ${
                               activeTabIdx === i
@@ -218,7 +210,7 @@ class AccountOrders extends React.Component {
 
                 {logisticsList.map(
                   (item, i) =>
-                    item?.tradeLogisticsDetails?.length > 0 && (
+                    true && (
                       <div
                         key={i}
                         className={`mx-3 ${i === activeTabIdx ? '' : 'hidden'}`}
@@ -297,7 +289,7 @@ class AccountOrders extends React.Component {
             <div className="mx-4 rc-md-down mt-2 md:mt-0">
               {filteredLogisticsList.map(
                 (item, i) =>
-                  item?.tradeLogisticsDetails?.length > 0 && (
+                  true && (
                     <div
                       className="row rc-bg-colour--brand4 rounded mb-2 pb-2"
                       onClick={this.handleClickLogisticsCard.bind(this, item)}
@@ -551,7 +543,7 @@ class AccountOrders extends React.Component {
                           <FormattedMessage id="deliveryDate" />
                           <br />
                           <span className="medium color-444">
-                            {item.deliverTime(curLogisticInfo.deliverTime)}
+                            {formatDate({ date: curLogisticInfo.deliverTime })}
                           </span>
                         </p>
                       </div>
