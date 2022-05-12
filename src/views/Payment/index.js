@@ -3505,6 +3505,14 @@ class Payment extends React.Component {
             payConfirmBtn({
               disabled: validForBilling
             })}
+          {curPayWayInfo?.code === 'adyen_point_of_sale' &&
+            payConfirmBtn({
+              disabled: validForBilling
+            })}
+          {curPayWayInfo?.code.toLowerCase() === 'cash' &&
+            payConfirmBtn({
+              disabled: validForBilling
+            })}
           {curPayWayInfo?.code === 'adyen_swish' &&
             payConfirmBtn({
               disabled: validForBilling
