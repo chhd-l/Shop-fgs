@@ -2416,7 +2416,8 @@ class Payment extends React.Component {
     const {
       paymentStore: { serCurPayWayVal }
     } = this.props;
-    serCurPayWayVal(paymentTypeCode);
+    // code 转换小写
+    serCurPayWayVal(paymentTypeCode.toLowerCase());
     this.setState({ email: '' }, () => {
       this.onPaymentTypeValChange();
     });
