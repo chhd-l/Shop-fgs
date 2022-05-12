@@ -1025,6 +1025,9 @@ class Payment extends React.Component {
               ret = ret && e.code === 'cod';
             }
             return ret;
+          })
+          .map((item) => {
+            return { ...item, code: item.code.toLowerCase() };
           });
         // .filter(
         //   (e) =>
@@ -2417,7 +2420,7 @@ class Payment extends React.Component {
       paymentStore: { serCurPayWayVal }
     } = this.props;
     // code 转换小写
-    serCurPayWayVal(paymentTypeCode.toLowerCase());
+    serCurPayWayVal(paymentTypeCode);
     this.setState({ email: '' }, () => {
       this.onPaymentTypeValChange();
     });
@@ -3452,16 +3455,15 @@ class Payment extends React.Component {
                         />
                       </>
                     )}
-                  {item.code.toLowerCase() === 'cash' &&
-                    curPayWayInfo?.code.toLowerCase() === 'cash' && (
-                      <>
-                        <Cash
-                          billingJSX={this.renderBillingJSX({
-                            type: 'cash'
-                          })}
-                        />
-                      </>
-                    )}
+                  {item.code === 'cash' && curPayWayInfo?.code === 'cash' && (
+                    <>
+                      <Cash
+                        billingJSX={this.renderBillingJSX({
+                          type: 'cash'
+                        })}
+                      />
+                    </>
+                  )}
                   {item.code === 'cod_japan' &&
                     curPayWayInfo?.code === 'cod_japan' &&
                     isSupportPoint(this.isLogin) && <Point />}
@@ -3510,7 +3512,7 @@ class Payment extends React.Component {
             payConfirmBtn({
               disabled: validForBilling
             })}
-          {curPayWayInfo?.code.toLowerCase() === 'cash' &&
+          {curPayWayInfo?.code === 'cash' &&
             payConfirmBtn({
               disabled: validForBilling
             })}
