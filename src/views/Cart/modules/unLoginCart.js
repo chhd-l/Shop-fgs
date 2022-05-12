@@ -201,6 +201,7 @@ class UnLoginCart extends React.Component {
     });
   };
   async componentDidMount() {
+    console.log('unLoginPage');
     const guestId = sessionItemRoyal.set('rc-guestId', guestId);
     if (guestId) {
       const res = await valetGuestMiniCars(guestId);

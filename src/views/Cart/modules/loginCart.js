@@ -113,6 +113,7 @@ class LoginCart extends React.Component {
     this.showErrMsg = this.showErrMsg.bind(this);
   }
   async componentDidMount() {
+    console.log('loginPage');
     try {
       if (sessionItemRoyal.get('rc-iframe-from-storepotal')) {
         this.setState({ circleLoading: true });
