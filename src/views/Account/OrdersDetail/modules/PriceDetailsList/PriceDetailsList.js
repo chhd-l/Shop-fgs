@@ -95,7 +95,12 @@ const PriceDetailsList = ({
     {
       title: <FormattedMessage id="payment.serviceFee" />,
       val: serviceFeePrice,
-      visible: COUNTRY == 'jp' && Number(serviceFeePrice) >= 0 ? true : false,
+      visible:
+        configStore?.info?.serviceFeeFlag &&
+        COUNTRY == 'jp' &&
+        Number(serviceFeePrice) >= 0
+          ? true
+          : false,
       key: 'serviceFee'
     },
     {

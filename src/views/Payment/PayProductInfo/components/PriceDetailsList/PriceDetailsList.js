@@ -90,6 +90,7 @@ const PriceDetailsList = ({
       title: <FormattedMessage id="payment.serviceFee" />,
       val: checkoutStore.serviceFeePrice,
       visible:
+        configStore?.info?.serviceFeeFlag &&
         COUNTRY == 'jp' &&
         (checkoutStore.serviceFeePrice === 0 ||
           checkoutStore.serviceFeePrice > 0) &&

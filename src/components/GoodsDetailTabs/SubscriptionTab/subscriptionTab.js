@@ -80,10 +80,10 @@ export default function SubscriptionTab() {
                   <img
                     src={optimizeImage({
                       originImageUrl: clubDescImg,
-                      width: 350,
-                      height: Ru ? 290 : null
+                      width: 350
                     })}
                     alt="clubDesc"
+                    style={{ height: Ru ? 290 : null }}
                   />
                 </div>
               </>
