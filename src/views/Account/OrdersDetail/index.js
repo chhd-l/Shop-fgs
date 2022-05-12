@@ -186,6 +186,8 @@ class AccountOrders extends React.Component {
     const filteredLogisticsList = logisticsList
       .map((ele) => (ele && ele.tradeLogisticsDetails ? ele : []))
       .filter((ele) => ele);
+
+    console.log(1234, logisticsList);
     return (
       <>
         {false && logisticsList[0] && logisticsList[0].trackingUrl ? null : (
@@ -196,6 +198,7 @@ class AccountOrders extends React.Component {
                   <nav className="rc-bg-colour--brand4 p-3">
                     {logisticsList.map(
                       (item, i) =>
+                        item.giftItemList.some((gift) => !gift.isHidden) &&
                         item?.tradeLogisticsDetails?.length > 0 && (
                           <span
                             className={`ui-cursor-pointer mr-2 px-3 py-2 rounded ${
