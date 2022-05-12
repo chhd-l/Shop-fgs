@@ -108,6 +108,8 @@ import {
   USEPOINT,
   NOTUSEPOINT
 } from '@/views/Payment/PaymentMethod/paymentMethodsConstant';
+import Pos from './PaymentMethod/Pos';
+import Cash from './PaymentMethod/Cash';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -1433,7 +1435,8 @@ class Payment extends React.Component {
             paymentMethodId: this.state.paypalCardId
           });
         },
-        pos: () => {
+        // adyen_point_of_sale ==> pos
+        adyen_point_of_sale: () => {
           parameters = Object.assign(commonParameter, {
             payPspItemEnum: 'ADYEN_POS',
             wasFelinStore: true
@@ -1477,7 +1480,7 @@ class Payment extends React.Component {
           });
         }
       };
-      await actions[curPayWayInfo?.code]();
+      await actions[curPayWayInfo?.code.toLowerCase()]();
 
       //合并支付必要的参数
       let finalParam = Object.assign(parameters, {
@@ -1851,7 +1854,8 @@ class Payment extends React.Component {
             gotoConfirmationPage = true;
           }
           break;
-        case 'pos':
+        // adyen_point_of_sale ==> pos
+        case 'adyen_point_of_sale':
           break;
         case 'cash':
           break;
@@ -3436,6 +3440,26 @@ class Payment extends React.Component {
                         />
                       </>
                     )}
+                  {/* adyen_point_of_sale ===> pos */}
+                  {item.code === 'adyen_point_of_sale' &&
+                    curPayWayInfo?.code === 'adyen_point_of_sale' && (
+                      <>
+                        <Pos
+                          billingJSX={this.renderBillingJSX({
+                            type: 'adyen_point_of_sale'
+                          })}
+                        />
+                      </>
+                    )}
+                  {item.code === 'CASH' && curPayWayInfo?.code === 'CASH' && (
+                    <>
+                      <Cash
+                        billingJSX={this.renderBillingJSX({
+                          type: 'CASH'
+                        })}
+                      />
+                    </>
+                  )}
                   {item.code === 'cod_japan' &&
                     curPayWayInfo?.code === 'cod_japan' &&
                     isSupportPoint(this.isLogin) && <Point />}
