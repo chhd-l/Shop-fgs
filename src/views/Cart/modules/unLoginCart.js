@@ -201,7 +201,14 @@ class UnLoginCart extends React.Component {
     });
   };
   async componentDidMount() {
-    //const res = await valetGuestMiniCars('80000180bb1831c05dd9d65b8969da2d')
+    const guestId = sessionItemRoyal.set('rc-guestId', guestId);
+    if (guestId) {
+      const res = await valetGuestMiniCars(guestId);
+      this.props.checkoutStore.setCartData(res.context.goodsList);
+    }
+
+    // const res = await valetGuestMiniCars('80000180bb1831c05dd9d65b8969da2d')
+    // this.props.checkoutStore.setCartData(res.context.goodsList)
 
     setSeoConfig({
       pageName: 'Cart page'

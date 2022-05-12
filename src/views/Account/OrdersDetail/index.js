@@ -174,6 +174,7 @@ class AccountOrders extends React.Component {
     //没有详细物流信息的package不显示
     const logisticsList = [];
     this.state.logisticsList.forEach((item, index) => {
+      item.giftItemList.filter((item2) => !item2.isHidden);
       logisticsList.push(item);
     });
     const filteredLogisticsList = logisticsList;
@@ -186,22 +187,25 @@ class AccountOrders extends React.Component {
                 {/* tab表头，length大于才展示 */}
                 {logisticsList.length > 1 ? (
                   <nav className="rc-bg-colour--brand4 p-3">
-                    {logisticsList.map((item, i) => (
-                      <span
-                        className={`ui-cursor-pointer mr-2 px-3 py-2 rounded ${
-                          activeTabIdx === i
-                            ? 'active red rc-bg-colour--brand3'
-                            : ''
-                        }`}
-                        onClick={this.changeTab.bind(this, i)}
-                        key={i}
-                      >
-                        <FormattedMessage
-                          id="packageX"
-                          values={{ val: i + 1 }}
-                        />
-                      </span>
-                    ))}
+                    {logisticsList.map(
+                      (item, i) =>
+                        item.giftItemList.some((gift) => !gift.isHidden) && (
+                          <span
+                            className={`ui-cursor-pointer mr-2 px-3 py-2 rounded ${
+                              activeTabIdx === i
+                                ? 'active red rc-bg-colour--brand3'
+                                : ''
+                            }`}
+                            onClick={this.changeTab.bind(this, i)}
+                            key={i}
+                          >
+                            <FormattedMessage
+                              id="packageX"
+                              values={{ val: i + 1 }}
+                            />
+                          </span>
+                        )
+                    )}
                   </nav>
                 ) : null}
 
