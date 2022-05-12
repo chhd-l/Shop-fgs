@@ -3451,15 +3451,16 @@ class Payment extends React.Component {
                         />
                       </>
                     )}
-                  {item.code === 'CASH' && curPayWayInfo?.code === 'CASH' && (
-                    <>
-                      <Cash
-                        billingJSX={this.renderBillingJSX({
-                          type: 'CASH'
-                        })}
-                      />
-                    </>
-                  )}
+                  {item.code.toLowerCase() === 'cash' &&
+                    curPayWayInfo?.code.toLowerCase() === 'cash' && (
+                      <>
+                        <Cash
+                          billingJSX={this.renderBillingJSX({
+                            type: 'cash'
+                          })}
+                        />
+                      </>
+                    )}
                   {item.code === 'cod_japan' &&
                     curPayWayInfo?.code === 'cod_japan' &&
                     isSupportPoint(this.isLogin) && <Point />}
