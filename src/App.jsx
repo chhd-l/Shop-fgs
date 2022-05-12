@@ -292,6 +292,22 @@ if (tokenFromUrl) {
   localItemRoyal.set('rc-token', tokenFromUrl);
 }
 
+// 处理Felin代客下单
+const felinParams = qs.parse(window.location.search, {
+  ignoreQueryPrefix: true
+});
+
+const guestId = felinParams?.guestId;
+const userGroup = felinParams?.userGroup;
+const petOwnerType = felinParams?.petOwnerType;
+
+//guestId=${guestId}&userGroup=felinStore&petOwnerType=guest
+if (guestId && userGroup && petOwnerType) {
+  sessionItemRoyal.set('rc-guestId', guestId);
+  sessionItemRoyal.set('rc-userGroup', userGroup);
+  sessionItemRoyal.set('rc-petOwnerType', petOwnerType);
+}
+
 const LoginCallback = (props) => {
   const { oktaAuth, authState } = useOktaAuth();
   const authStateReady = !authState.isPending;
