@@ -10,7 +10,8 @@ const api = {
   goodsRelationBatch: '/goodsRelation/batch', //购物车related product
   shippingCalculation: '/tempoline', // 计算运费
   querySurveyContent: '/survey/active', //us 获取问卷调查内容
-  recordSurveyReview: '/survey/views' //统计survey 1 review
+  recordSurveyReview: '/survey/views', //统计survey 1 review
+  valetGuestMiniCars: `/site/${window.__.env.REACT_APP_STOREID}`
 };
 
 export default api;
@@ -148,5 +149,20 @@ export function recordSurveyReview(parameter) {
     url: `${api.recordSurveyReview}`,
     method: 'post',
     data: parameter
+  });
+}
+
+export function valetGuestMiniCars(guestId) {
+  return axios({
+    url: `${api.valetGuestMiniCars}/${guestId}/valet-guest-mini-carts`,
+    method: 'get'
+  });
+}
+
+//Felin游客代客下单查询resposne接口
+export function valetGuestOrderPaymentResponse(guestId) {
+  return axios({
+    url: `/site/${guestId}/valet-guest-order-payment-response`,
+    method: 'post'
   });
 }

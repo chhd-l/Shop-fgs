@@ -767,10 +767,10 @@ class Payment extends React.Component {
 
   // 当前是否为订阅购买
   get isCurrentBuyWaySubscription() {
-    return (
-      this.state.subForm?.buyWay === 'frequency' ||
-      this.state.orderDetails?.subscriptionResponseVO
-    );
+    const { tid } = this.state;
+    return tid
+      ? !!this.state.orderDetails?.subscriptionResponseVO
+      : this.state.subForm?.buyWay === 'frequency';
   }
 
   /**

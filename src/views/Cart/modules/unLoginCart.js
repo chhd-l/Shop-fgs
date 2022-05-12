@@ -24,7 +24,7 @@ import {
   GACartChangeSubscription
 } from '@/utils/GA';
 import { getMixFeedings } from '@/api/details';
-import { getGoodsRelationBatch } from '@/api/cart';
+import { getGoodsRelationBatch, valetGuestMiniCars } from '@/api/cart';
 import PayProductInfo from '../../Payment/PayProductInfo';
 import Loading from '@/components/Loading';
 import findIndex from 'lodash/findIndex';
@@ -201,6 +201,8 @@ class UnLoginCart extends React.Component {
     });
   };
   async componentDidMount() {
+    //const res = await valetGuestMiniCars('80000180bb1831c05dd9d65b8969da2d')
+
     setSeoConfig({
       pageName: 'Cart page'
     }).then((res) => {
