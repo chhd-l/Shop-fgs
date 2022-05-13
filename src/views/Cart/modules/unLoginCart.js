@@ -55,6 +55,7 @@ import { funcUrl } from '@/lib/url-utils';
 
 const guid = uuidv4();
 const localItemRoyal = window.__.localItemRoyal;
+const sessionItemRoyal = window.__.sessionItemRoyal;
 const isGift = true;
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
