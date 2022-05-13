@@ -163,8 +163,7 @@ const renderHeadTip = ({
       break;
     case 2:
       // 发货运输中
-      ret = (logisticsList[0]?.shippingItems.length > 0 ||
-        logisticsList[0]?.giftItemList.some((item) => !item.isHidden)) && (
+      ret = (
         <HeadTip
           icon={
             <>

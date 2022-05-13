@@ -34,7 +34,7 @@ const OrderLogisticsProgress = (props) => {
               </span>
               <div className="logi-text px-4 py-3">
                 <img
-                  className="logi-icon"
+                  className="logi-icon w-4"
                   src={`${
                     window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX
                   }/img/icons/${!i ? 'progress-ing' : 'progress-done'}.svg`}
