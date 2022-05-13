@@ -1912,12 +1912,13 @@ class Payment extends React.Component {
                       } else {
                         gotoConfirmationPage = true;
                       }
+                      debugger;
                     }
                   })
                   .catch((err) => {});
               }
               i++;
-            }, 2000);
+            }, 3000);
           }
           break;
         case 'cash':
