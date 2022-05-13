@@ -1000,9 +1000,9 @@ class Payment extends React.Component {
         paymentStore: { setPayWayNameArr }
       } = this.props;
       // 这里要根据stoken那里判断
-      // fgs 下的单 isOfflinePayment 为true，felin 下的单为false
+      // fgs 下的单 isOfflinePayment 为false，felin 下的单为true
       const isFelin =
-        sessionItemRoyal.get('rc-iframe-from-storepotal') == 1 ? true : false;
+        sessionItemRoyal.get('rc-userGroup') == 'felinStore' ? true : false;
       const payWay = await getWays({ isOfflinePayment: isFelin });
       let payWayNameArr = [];
       if (payWay.context) {
