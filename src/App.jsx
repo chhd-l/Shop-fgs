@@ -305,6 +305,9 @@ const petOwnerType = felinParams?.petOwnerType;
 
 console.log({ guestId });
 
+if (userGroup && tokenFromUrl) {
+  sessionItemRoyal.set('rc-userGroup', userGroup);
+}
 //guestId=${guestId}&userGroup=felinStore&petOwnerType=guest
 if (guestId && userGroup && petOwnerType) {
   localItemRoyal.remove('rc-token');

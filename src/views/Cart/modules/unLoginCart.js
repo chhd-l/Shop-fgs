@@ -1783,25 +1783,29 @@ class UnLoginCart extends React.Component {
     const { intl, configStore } = this.props;
     const { paymentAuthority } = configStore;
     const { checkoutLoading, mobileCartVisibleKey } = this.state;
+    // 避免登录过但是又是 felin 游客下单
+    const isguestId = sessionItemRoyal.get('rc-guestId');
     return (
       <a className={`${checkoutLoading ? 'ui-btn-loading' : ''}`}>
         <div className="rc-padding-y--xs rc-column">
           {this.totalNum > 0 ? (
-            <LoginButton
-              beforeLoginCallback={async () => {
-                try {
-                  await this.handleCheckout({ needLogin: true });
-                } catch (err) {
-                  throw new Error(err);
-                }
-              }}
-              btnClass={`${this.btnStatus ? '' : 'rc-btn-solid-disabled'} ${
-                checkoutLoading ? 'ui-btn-loading' : ''
-              } rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width`}
-              intl={intl}
-            >
-              <FormattedMessage id="checkout" />
-            </LoginButton>
+            !isguestId && (
+              <LoginButton
+                beforeLoginCallback={async () => {
+                  try {
+                    await this.handleCheckout({ needLogin: true });
+                  } catch (err) {
+                    throw new Error(err);
+                  }
+                }}
+                btnClass={`${this.btnStatus ? '' : 'rc-btn-solid-disabled'} ${
+                  checkoutLoading ? 'ui-btn-loading' : ''
+                } rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width`}
+                intl={intl}
+              >
+                <FormattedMessage id="checkout" />
+              </LoginButton>
+            )
           ) : (
             <div
               className={`${
