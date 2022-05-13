@@ -907,6 +907,8 @@ class CheckoutStore {
     intl = {},
     configStore
   }) {
+    console.log(this.cartData);
+    debugger;
     const { formatMessage } = intl;
     const {
       info: { skuLimitThreshold }

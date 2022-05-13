@@ -103,7 +103,8 @@ class UnLoginCart extends React.Component {
       },
       relatedGoodsList: [],
       mixFeedings: [],
-      promotionsVisible: false
+      promotionsVisible: false,
+      circleLoading: false
     };
     this.hanldeToggleOneOffOrSub = this.hanldeToggleOneOffOrSub.bind(this);
     this.showErrMsg = this.showErrMsg.bind(this);
@@ -207,7 +208,11 @@ class UnLoginCart extends React.Component {
     if (guestId) {
       const res = await valetGuestMiniCars(guestId);
       console.log({ res });
-      this.props.checkoutStore.setCartData(res.context.goodsList);
+      //this.props.checkoutStore.setCartData(res.context.goodsList);
+      await this.props.checkoutStore.updateUnloginCart({
+        cartData: res.context.goodsList,
+        intl: this.props.intl
+      });
     }
 
     // const res = await valetGuestMiniCars('80000180bb1831c05dd9d65b8969da2d')
