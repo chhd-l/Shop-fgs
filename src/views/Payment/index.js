@@ -1864,7 +1864,7 @@ class Payment extends React.Component {
           const payState =
             res.context?.trade?.tradeState?.payState == 'PAID' ? true : false;
           // 支付成功
-          if (payState) {
+          if (res.code == 'K-000000') {
             const isGuest = sessionItemRoyal.get('rc-guestId') ? true : false;
             if (isGuest) {
               valetGuestOrderPaymentResponse({
