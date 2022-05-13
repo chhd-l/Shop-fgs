@@ -297,9 +297,13 @@ const felinParams = qs.parse(window.location.search, {
   ignoreQueryPrefix: true
 });
 
+console.log({ felinParams });
+
 const guestId = felinParams?.guestId;
 const userGroup = felinParams?.userGroup;
 const petOwnerType = felinParams?.petOwnerType;
+
+console.log({ guestId });
 
 //guestId=${guestId}&userGroup=felinStore&petOwnerType=guest
 if (guestId && userGroup && petOwnerType) {

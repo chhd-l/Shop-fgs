@@ -749,12 +749,11 @@ class AddressList extends React.Component {
               {/* 地址模块标题 */}
               <div className="profileSubFormTitle pl-3 pr-3 pt-3">
                 <h5 className="mb-0 text-xl">
-                  <svg
-                    className="svg-icon account-info-icon align-middle mr-3 ml-1"
-                    aria-hidden="true"
-                  >
-                    <use xlinkHref="#iconaddresses"></use>
-                  </svg>
+                  <img
+                    className="account-info-icon align-middle mr-3 ml-1 inline-block"
+                    src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icons/addresses.svg`}
+                    alt="icons addresses"
+                  />
                   <FormattedMessage id="account.myAddresses" />
                 </h5>
               </div>

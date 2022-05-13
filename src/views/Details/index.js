@@ -906,6 +906,9 @@ class Details extends React.Component {
       const { checkoutStore } = this.props;
       const { currentUnitPrice, quantity, form, details, questionParams } =
         this.state;
+
+      console.log({ details });
+      debugger;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
