@@ -322,7 +322,7 @@ class UnLoginCart extends React.Component {
         return goodsInfos;
       };
 
-      let res = await valetGuestMiniCars('80000180b6387d3f20a48acd65b96dd1');
+      let res = await valetGuestMiniCars(guestId);
       // console.log(res)
       // let res = {
       //   "code": "K-000000",
