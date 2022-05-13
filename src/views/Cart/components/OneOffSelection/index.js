@@ -26,9 +26,10 @@ const OneOffSelection = function (props) {
           </span>
         </div>
         <div
-          className="price singlePrice text-nowrap"
+          className="price singlePrice text-nowrap qhx"
           style={{ fontSize: '1.375rem' }}
         >
+          {console.log(999, pitem)}
           {!isLogin
             ? formatMoney(
                 pitem.quantity *
