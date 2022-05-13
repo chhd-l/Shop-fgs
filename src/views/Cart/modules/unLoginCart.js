@@ -206,6 +206,7 @@ class UnLoginCart extends React.Component {
     const guestId = sessionItemRoyal.set('rc-guestId', guestId);
     if (guestId) {
       const res = await valetGuestMiniCars(guestId);
+      console.log({ res });
       this.props.checkoutStore.setCartData(res.context.goodsList);
     }
 
