@@ -40,10 +40,28 @@ const api = {
   calculateServiceFeeAndLoyaltyPoints:
     '/site/calculateServiceFeeAndLoyaltyPoints', //切换支付方式，重新计算价格
   ownerTotalPoints: '/points/owner-total-points', //获取总积分
-  ownerPointsInfo: '/points/owner-points-info' //历史使用和挣得积分
+  ownerPointsInfo: '/points/owner-points-info', //历史使用和挣得积分
+  valetGuestOrderPaymentResponse: ''
 };
 
 export default api;
+
+export function valetGuestOrderPaymentResponse({ guest_id, parameter }) {
+  return axios({
+    url: `/site/${guest_id}/valet-guest-order-payment-response`,
+    method: 'post',
+    data: parameter
+  });
+}
+// /all/order/queryPosOrder
+
+export function queryPosOrder(tidList) {
+  return axios({
+    url: `/all/order/queryPosOrder`,
+    method: 'post',
+    data: { tidList: [tidList] }
+  });
+}
 
 export function sevenPayApi(tid) {
   return axios({
