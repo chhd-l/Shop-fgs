@@ -33,13 +33,12 @@ class AppointmentInfo extends React.Component {
           <div className="col-12 col-md-4 mb-3">
             <div className="border rounded h-100">
               <div className="d-flex p-3 h-100">
-                <svg
-                  className="svg-icon align-middle mr-3 ml-1"
-                  aria-hidden="true"
+                <img
+                  className="align-middle mr-3 ml-1"
+                  src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icons/addresses.svg`}
+                  alt="icons addresses"
                   style={{ width: '2em', height: '2em' }}
-                >
-                  <use xlinkHref="#iconaddresses" />
-                </svg>
+                />
                 <div>
                   <p className="medium mb-3">
                     <FormattedMessage id="Felin Address" />

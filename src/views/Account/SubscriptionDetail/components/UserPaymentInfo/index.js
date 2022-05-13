@@ -51,12 +51,11 @@ const UserPaymentInfo = ({
       <div className="col-12 col-md-4 mb-2 pl-0" style={{ padding: '5px' }}>
         <div className="h-100 border border-d7d7d7 p-5">
           <div className="align-items-center">
-            <svg
-              className="svg-icon account-info-icon align-middle mr-3 w-8 h-8"
-              aria-hidden="true"
-            >
-              <use xlinkHref="#iconaddresses" />
-            </svg>
+            <img
+              className="account-info-icon align-middle mr-3 w-8 h-8 inline-block"
+              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icons/addresses.svg`}
+              alt="icons addresses"
+            />
             <span>
               <FormattedMessage id="delivery2" />
             </span>
@@ -127,12 +126,11 @@ const UserPaymentInfo = ({
         <div className={`col-12 col-md-4 mb-2`} style={{ padding: '5px' }}>
           <div className="h-100 border border-d7d7d7 p-5">
             <div className="align-items-center">
-              <svg
-                className="svg-icon align-middle mr-3 w-8 h-8"
-                aria-hidden="true"
-              >
-                <use xlinkHref="#iconBillingAddress1" />
-              </svg>
+              <img
+                className="align-middle mr-3 w-8 h-8 inline-block"
+                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icons/BillingAddress1.svg`}
+                alt="icons BillingAddress1"
+              />
               <span>
                 <FormattedMessage id="billing2" />
               </span>
@@ -188,12 +186,11 @@ const UserPaymentInfo = ({
         >
           <div className="h-100 border border-d7d7d7 p-5">
             <div className="align-items-center">
-              <svg
-                className="svg-icon align-middle mr-3 w-8 h-8"
-                aria-hidden="true"
-              >
-                <use xlinkHref="#iconpayments" />
-              </svg>
+              <img
+                className="align-middle mr-3 w-8 h-8"
+                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icons/payments.svg`}
+                alt="icons payments"
+              />
               <span>
                 <FormattedMessage id="payment.payment" />
               </span>

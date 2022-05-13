@@ -33,6 +33,7 @@ import {
   OrderLogisticsProgress,
   CancelOrderForJp
 } from './modules';
+import { DivWrapper } from './style';
 
 @inject('checkoutStore', 'configStore', 'paymentStore')
 @injectIntl
@@ -246,18 +247,14 @@ class AccountOrders extends React.Component {
                     </div>
                     <div className="row border-top m-0 py-2">
                       <div className="col-12 col-md-3">
-                        <svg className="svg-icon mr-1" aria-hidden="true">
-                          <use xlinkHref="#iconDeliverydate" />
-                        </svg>
+                        <span className="iconfont iconDeliverydate mr-1 logics-icon" />
                         <FormattedMessage id="deliveryDate" />:{' '}
                         <span className="medium">
                           {formatDate({ date: item.deliverTime })}
                         </span>
                       </div>
                       <div className="col-12 col-md-4">
-                        <svg className="svg-icon mr-1" aria-hidden="true">
-                          <use xlinkHref="#iconLogisticscompany" />
-                        </svg>
+                        <span className="iconfont iconLogisticscompany mr-1 logics-icon" />
                         <FormattedMessage id="logisticsCompany" />:{' '}
                         <span className="medium">
                           {item.logistics
@@ -266,9 +263,7 @@ class AccountOrders extends React.Component {
                         </span>
                       </div>
                       <div className="col-12 col-md-5">
-                        <svg className="svg-icon mr-1" aria-hidden="true">
-                          <use xlinkHref="#iconLogisticssinglenumber" />
-                        </svg>
+                        <span className="iconfont iconLogisticssinglenumber mr-1 logics-icon" />
                         <FormattedMessage id="logisticsSingleNumber" />:{' '}
                         <span className="medium">
                           {item.logistics ? item.logistics.logisticNo : ''}
@@ -353,7 +348,7 @@ class AccountOrders extends React.Component {
     console.log({ logisticsList: this.state.logisticsList });
 
     return (
-      <div>
+      <DivWrapper>
         <PageBaseInfo additionalEvents={event} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3 ord-detail">
           <BannerTip />
@@ -534,9 +529,7 @@ class AccountOrders extends React.Component {
                     <div className="col-12 rc-bg-colour--brand4 rc-md-down mb-3 h-3.5" />
                     <div className="row m-0 py-2">
                       <div className="col-12 col-md-3 d-flex">
-                        <svg className="svg-icon mr-1" aria-hidden="true">
-                          <use xlinkHref="#iconDeliverydate" />
-                        </svg>
+                        <span className="iconfont iconDeliverydate mr-1 logics-icon" />
                         <p>
                           <FormattedMessage id="deliveryDate" />
                           <br />
@@ -546,9 +539,7 @@ class AccountOrders extends React.Component {
                         </p>
                       </div>
                       <div className="col-12 col-md-3 d-flex">
-                        <svg className="svg-icon mr-1" aria-hidden="true">
-                          <use xlinkHref="#iconLogisticscompany" />
-                        </svg>
+                        <span className="iconfont iconLogisticscompany mr-1 logics-icon" />
                         <p>
                           <FormattedMessage id="logisticsCompany" />
                           <br />
@@ -559,9 +550,7 @@ class AccountOrders extends React.Component {
                         </p>
                       </div>
                       <div className="col-12 col-md-6 d-flex">
-                        <svg className="svg-icon mr-1" aria-hidden="true">
-                          <use xlinkHref="#iconLogisticssinglenumber" />
-                        </svg>
+                        <span className="iconfont iconLogisticssinglenumber mr-1 logics-icon" />
                         <p>
                           <FormattedMessage id="logisticsSingleNumber" />
                           <br />
@@ -585,7 +574,7 @@ class AccountOrders extends React.Component {
           </div>
           <Footer />
         </main>
-      </div>
+      </DivWrapper>
     );
   }
 }

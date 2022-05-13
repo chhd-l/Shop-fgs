@@ -95,7 +95,7 @@ class AccountHome extends React.Component {
                         item={item}
                         key={i}
                       >
-                        <div className="d-flex margin-left0 align-items-center border w-100 h-100 m-2 p-3 text-break nav_content position-relative">
+                        <div className="d-flex margin-left0 align-items-center border w-100 h-100 m-2 px-3 py-12 text-break nav_content position-relative">
                           <div
                             style={{
                               top: '2%',
@@ -105,7 +105,15 @@ class AccountHome extends React.Component {
                           >
                             {item.rightTopIcon}
                           </div>
-                          <div>{item.icon}</div>
+                          {item.iconSrc ? (
+                            <img
+                              className="account-home-icon inline-block"
+                              src={item.iconSrc}
+                              alt={item.titleLangKey}
+                            />
+                          ) : (
+                            item.icon
+                          )}
                           <div className="ml-3">
                             <h3 className="rc-delta profileTextColor mb-1">
                               <strong>

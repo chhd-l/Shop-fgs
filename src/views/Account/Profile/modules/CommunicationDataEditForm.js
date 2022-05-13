@@ -53,9 +53,8 @@ class CommunicationDataEditForm extends React.Component {
       errorMsg: '',
       showWarningTip: false
     };
-    this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
-      this
-    );
+    this.handleCommunicationCheckBoxChange =
+      this.handleCommunicationCheckBoxChange.bind(this);
   }
   componentDidUpdate() {
     if (window.__.env.REACT_APP_COUNTRY == 'tr') {
@@ -365,13 +364,12 @@ class CommunicationDataEditForm extends React.Component {
               className="mb-0 text-lg md:text-xl"
               style={{ display: curPageAtCover ? 'block' : 'none' }}
             >
-              <svg
-                className="svg-icon account-info-icon align-middle mr-3 ml-1"
-                aria-hidden="true"
+              <img
+                className="account-info-icon align-middle mr-3 ml-1 inline-block"
+                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icons/communication.svg`}
+                alt="icons communication"
                 style={{ width: '1.3em', height: '1.3em' }}
-              >
-                <use xlinkHref="#iconcommunication"></use>
-              </svg>
+              />
               <FormattedMessage id="account.myCommunicationPreferencesTitle" />
             </h5>
             <h5

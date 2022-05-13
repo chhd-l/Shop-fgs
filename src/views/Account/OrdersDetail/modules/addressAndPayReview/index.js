@@ -46,12 +46,11 @@ const OrderAddressAndPayReview = ({ details, payRecord }) => {
             <div className="col-12 col-md-4 mb-3">
               <div className="border rounded h-100">
                 <div className="d-flex p-3 h-100">
-                  <svg
-                    className="svg-icon align-middle mr-3 ml-1 w-8 h-8"
-                    aria-hidden="true"
-                  >
-                    <use xlinkHref="#iconaddresses" />
-                  </svg>
+                  <img
+                    className="align-middle mr-3 ml-1 w-8 h-8"
+                    src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icons/addresses.svg`}
+                    alt="icons addresses"
+                  />
                   <div>
                     <p className="medium mb-3">
                       <FormattedMessage id="delivery2" />
@@ -129,12 +128,11 @@ const OrderAddressAndPayReview = ({ details, payRecord }) => {
               <div className="col-12 col-md-4 mb-3">
                 <div className="border rounded p-3 h-100">
                   <div className="d-flex">
-                    <svg
-                      className="svg-icon align-middle mr-3 ml-1 w-8 h-8"
-                      aria-hidden="true"
-                    >
-                      <use xlinkHref="#iconBillingAddress1" />
-                    </svg>
+                    <img
+                      className="align-middle mr-3 ml-1 w-8 h-8"
+                      src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icons/BillingAddress1.svg`}
+                      alt="icons BillingAddress1"
+                    />
                     <div>
                       <p className="medium mb-3">
                         <FormattedMessage id="billing2" />
@@ -260,12 +258,11 @@ const PaymentMethodContainer = ({ children }) => {
     <div className="col-12 col-md-4 mb-2">
       <div className="border rounded p-3 h-100">
         <div className="d-flex">
-          <svg
-            className="svg-icon align-middle mr-3 ml-1 w-8 h-8"
-            aria-hidden="true"
-          >
-            <use xlinkHref="#iconpayments" />
-          </svg>
+          <img
+            className="align-middle mr-3 ml-1 w-8 h-8"
+            src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icons/payments.svg`}
+            alt="icons payments"
+          />
           <div>
             <p className="medium mb-3">
               <FormattedMessage id="payment.payment" />
