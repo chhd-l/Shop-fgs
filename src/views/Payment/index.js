@@ -51,7 +51,9 @@ import {
   confirmAndCommitFelin,
   rePayFelin,
   adyenPaymentsDetails,
-  swishCancelOrRefund
+  swishCancelOrRefund,
+  valetGuestOrderPaymentResponse,
+  queryPosOrder
 } from '@/api/payment';
 import { getOrderDetails } from '@/api/order';
 import { getLoginDetails, getDetails } from '@/api/details';
@@ -1859,8 +1861,76 @@ class Payment extends React.Component {
           break;
         // adyen_point_of_sale ==> pos
         case 'adyen_point_of_sale':
+          const payState =
+            res.context?.trade?.tradeState?.payState == 'PAID' ? true : false;
+          // 支付成功
+          if (payState) {
+            const isGuest = sessionItemRoyal.get('rc-guestId') ? true : false;
+            if (isGuest) {
+              valetGuestOrderPaymentResponse({
+                guest_id: sessionItemRoyal.get('rc-guestId'),
+                parameter: res.context
+              })
+                .then((res) => {
+                  console.log('res', res);
+                })
+                .catch((err) => {
+                  console.log('err', err);
+                });
+            }
+            subOrderNumberList = tidList.length
+              ? tidList
+              : res.context && res.context.tidList;
+            subNumber = (res.context && res.context.subscribeId) || '';
+
+            if (res.context.redirectUrl) {
+              window.location.href = res.context.redirectUrl;
+            } else {
+              gotoConfirmationPage = true;
+            }
+          } else {
+            let i = 0;
+            let handler = setInterval(function () {
+              if (i == 10) {
+                clearInterval(handler);
+              } else {
+                // 根据订单号发送订单状态查询请求
+                const tid = res.context.tid;
+                queryPosOrder(tid)
+                  .then((resp) => {
+                    console.log('queryPosOrderres', res);
+                    if (resp.code == 'K-000000') {
+                      clearInterval(handler);
+                      subOrderNumberList = tidList.length
+                        ? tidList
+                        : res.context && res.context.tidList;
+                      subNumber =
+                        (res.context && res.context.subscribeId) || '';
+
+                      if (res.context.redirectUrl) {
+                        window.location.href = res.context.redirectUrl;
+                      } else {
+                        gotoConfirmationPage = true;
+                      }
+                    }
+                  })
+                  .catch((err) => {});
+              }
+              i++;
+            }, 2000);
+          }
           break;
         case 'cash':
+          subOrderNumberList = tidList.length
+            ? tidList
+            : res.context && res.context.tidList;
+          subNumber = (res.context && res.context.subscribeId) || '';
+
+          if (res.context.redirectUrl) {
+            window.location.href = res.context.redirectUrl;
+          } else {
+            gotoConfirmationPage = true;
+          }
           break;
         case 'pc_web':
           subOrderNumberList =
