@@ -14,9 +14,9 @@ const OrderProgress = ({ progressList, currentProgressIndex }) => {
             >
               {i <= currentProgressIndex ? (
                 <img
-                  className="align-middle w-6 h-6"
-                  src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icons/progress-done.svg`}
-                  alt="icons progress-done"
+                  className="align-middle w-6 h-6 inline-block"
+                  src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icons/wancheng.svg`}
+                  alt="icons wancheng"
                 />
               ) : (
                 <span className="od-prg-icon inlineblock text-white">
