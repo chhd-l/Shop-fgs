@@ -53,13 +53,12 @@ export default class Rate extends Component {
       );
 
     const halfStar = (
-      <svg
-        className="svg-icon"
-        aria-hidden="true"
+      <img
+        className="inline-block"
+        src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icons/star.svg`}
+        alt="icons star"
         style={{ width: '1.3rem', height: '1.3rem', verticalAlign: 'middle' }}
-      >
-        <use xlinkHref="#iconxingxing" />
-      </svg>
+      />
     );
 
     const inActiveStar =

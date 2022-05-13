@@ -13,12 +13,11 @@ const OrderProgress = ({ progressList, currentProgressIndex }) => {
               }`}
             >
               {i <= currentProgressIndex ? (
-                <svg
-                  className="svg-icon align-middle w-6 h-6"
-                  aria-hidden="true"
-                >
-                  <use xlinkHref="#iconwancheng" />
-                </svg>
+                <img
+                  className="align-middle w-6 h-6"
+                  src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icons/progress-done.svg`}
+                  alt="icons progress-done"
+                />
               ) : (
                 <span className="od-prg-icon inlineblock text-white">
                   {i + 1}
