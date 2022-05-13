@@ -299,7 +299,7 @@ class CheckoutStore {
       return el;
     });
     console.log(data);
-    debugger;
+    // debugger;
     localItemRoyal.set('rc-cart-data', data);
   }
 
@@ -453,7 +453,7 @@ class CheckoutStore {
     intl
   } = {}) {
     console.log(data);
-    debugger;
+    // debugger;
     try {
       let recommend_data = null;
       //兼容商品没有加入购物车，是直接去购买页的，否则出现总价展示错误情况
@@ -481,7 +481,7 @@ class CheckoutStore {
       if (!taxFeeData) {
         taxFeeData = nullTaxFeeData;
       }
-      debugger;
+      // debugger;
       const email = guestEmail || taxFeeData.customerAccount;
       // 获取总价
       let purchasesRes = await purchases({
@@ -502,7 +502,7 @@ class CheckoutStore {
       });
 
       console.log(purchasesRes);
-      debugger;
+      // debugger;
       // console.log('★ 305 ----- checkoutStore 获取总价: ', purchasesRes);
       let backCode = purchasesRes.code;
       purchasesRes = purchasesRes.context;
@@ -613,7 +613,7 @@ class CheckoutStore {
       });
     } catch (err) {
       console.log(err.message);
-      debugger;
+      // debugger;
       if (isThrowErr) {
         throw new Error(err.message);
       }
@@ -919,7 +919,7 @@ class CheckoutStore {
     configStore
   }) {
     console.log(this.cartData);
-    debugger;
+    // debugger;
     const { formatMessage } = intl;
     const {
       info: { skuLimitThreshold }

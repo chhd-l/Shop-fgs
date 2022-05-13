@@ -1890,17 +1890,15 @@ class Payment extends React.Component {
             }
           } else {
             let i = 0;
-            let handler = setInterval(function () {
-              if (i == 10) {
-                clearInterval(handler);
-              } else {
-                // 根据订单号发送订单状态查询请求
-                const tid = res.context.tid;
-                queryPosOrder(tid)
-                  .then((resp) => {
-                    console.log('queryPosOrderres', res);
+            if (i == 10) {
+              return;
+            } else {
+              // 根据订单号发送订单状态查询请求
+              const tid = res.context.tid;
+              const queryPos = async () => {
+                return queryPosOrder(tid)
+                  .then(async (resp) => {
                     if (resp.code == 'K-000000') {
-                      clearInterval(handler);
                       subOrderNumberList = tidList.length
                         ? tidList
                         : res.context && res.context.tidList;
@@ -1912,16 +1910,46 @@ class Payment extends React.Component {
                       } else {
                         gotoConfirmationPage = true;
                       }
-                      debugger;
+                    } else {
+                      i++;
+                      await sleep(3000);
+                      return await queryPos();
                     }
                   })
-                  .catch((err) => {});
-              }
-              i++;
-            }, 3000);
+                  .catch((err) => {
+                    console.log('queryPosOrdererr', err);
+                  });
+              };
+              await queryPos();
+            }
           }
           break;
         case 'cash':
+          if (res.code == 'K-000000') {
+            const isGuest = sessionItemRoyal.get('rc-guestId') ? true : false;
+            if (isGuest) {
+              valetGuestOrderPaymentResponse({
+                guest_id: sessionItemRoyal.get('rc-guestId'),
+                parameter: res.context
+              })
+                .then((res) => {
+                  console.log('res', res);
+                })
+                .catch((err) => {
+                  console.log('err', err);
+                });
+            }
+            subOrderNumberList = tidList.length
+              ? tidList
+              : res.context && res.context.tidList;
+            subNumber = (res.context && res.context.subscribeId) || '';
+
+            if (res.context.redirectUrl) {
+              window.location.href = res.context.redirectUrl;
+            } else {
+              gotoConfirmationPage = true;
+            }
+          }
           subOrderNumberList = tidList.length
             ? tidList
             : res.context && res.context.tidList;
@@ -1974,6 +2002,7 @@ class Payment extends React.Component {
       }
 
       sessionItemRoyal.remove('payosdata');
+      console.log({ gotoConfirmationPage });
       if (gotoConfirmationPage) {
         // 清除掉计算运费相关参数
         localItemRoyal.remove('rc-calculation-param');

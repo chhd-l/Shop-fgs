@@ -908,7 +908,7 @@ class Details extends React.Component {
         this.state;
 
       console.log({ details });
-      debugger;
+      // debugger;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,

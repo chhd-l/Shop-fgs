@@ -128,7 +128,10 @@ class Confirmation extends React.Component {
     }, 3000);
 
     setTimeout(() => {
-      if (sessionItemRoyal.get('rc-iframe-from-storepotal')) {
+      if (
+        sessionItemRoyal.get('rc-iframe-from-storepotal') ||
+        sessionItemRoyal.get('rc-guestId')
+      ) {
         this.windowExit();
       }
     }, 3000);
