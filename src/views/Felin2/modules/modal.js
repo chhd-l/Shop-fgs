@@ -38,7 +38,7 @@ class MyModal extends React.Component {
             <br />
             sam.: 10:00 - 20:00
             <br />
-            dim.: 10:00 - 18:00
+            dim.: 12:00 - 18:00
           </div>
           <div className="img-link">
             <div className="img1" onClick={() => this.handleTo(1)} />
