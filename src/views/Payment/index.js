@@ -1864,19 +1864,21 @@ class Payment extends React.Component {
         case 'adyen_point_of_sale':
           const payState =
             res.context?.trade?.tradeState?.payState == 'PAID' ? true : false;
+          // if(res.code == 'K-000000'){
+          //   const tid = res.context.tid;
+          //   cancelPosOrder(tid)
+          //   .then((res) => {
+          //     if (res.code == 'K-000000') {
+          //     }
+          //     console.log('cancelPosOrderres', res);
+          //   })
+          //   .catch((err) => {
+          //     console.log('cancelPosOrdererr', err);
+          //   });
+          //   return;
+          // }
           // 支付成功
           if (res.code == 'K-000000' && payState) {
-            // const tid = res.context.tid;
-            // cancelPosOrder(tid)
-            // .then((res) => {
-            //   if (res.code == 'K-000000') {
-            //   }
-            //   console.log('cancelPosOrderres', res);
-            // })
-            // .catch((err) => {
-            //   console.log('cancelPosOrdererr', err);
-            // });
-            // return
             const isGuest = sessionItemRoyal.get('rc-guestId') ? true : false;
             if (isGuest) {
               valetGuestOrderPaymentResponse({
@@ -1900,6 +1902,7 @@ class Payment extends React.Component {
             const tid = res.context.tid;
             // 根据订单号发送订单状态查询请求
             const queryPos = async () => {
+              i++;
               return queryPosOrder(tid)
                 .then(async (resp) => {
                   if (resp.code == 'K-000000') {
@@ -1930,30 +1933,26 @@ class Payment extends React.Component {
                 .catch(async (err) => {
                   // K-000001 还在支付中
                   // K-000002 支付失败
-                  if (err.code == 'K-000001') {
-                    console.log('queryPosOrdererr', err);
-                    i++;
+                  console.log('queryPosOrdererr', err);
+                  if (i < 10) {
                     await sleep(3000);
                     return await queryPos();
                   } else {
                     this.showErrorMsg(err.message);
+                    // 超过30秒就取消订单
+                    cancelPosOrder(tid)
+                      .then((res) => {
+                        if (res.code == 'K-000000') {
+                        }
+                        console.log('cancelPosOrderres', res);
+                      })
+                      .catch((err) => {
+                        console.log('cancelPosOrdererr', err);
+                      });
                   }
                 });
             };
-            if (i >= 10) {
-              // 超过30秒就取消订单
-              cancelPosOrder(tid)
-                .then((res) => {
-                  if (res.code == 'K-000000') {
-                  }
-                  console.log('cancelPosOrderres', res);
-                })
-                .catch((err) => {
-                  console.log('cancelPosOrdererr', err);
-                });
-            } else {
-              await queryPos();
-            }
+            await queryPos();
           }
           break;
         case 'cash':
