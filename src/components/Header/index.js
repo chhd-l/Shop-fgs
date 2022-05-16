@@ -692,7 +692,7 @@ class Header extends React.Component {
               }`}
               role="menubar"
             >
-              <li className="rc-list__item d-flex align-items-center">
+              <li className="rc-list__item d-flex align-items-center mr-0">
                 {showMiniIcons ? (
                   <>
                     {window.__.env.REACT_APP_HUB && isMobile ? (

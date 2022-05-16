@@ -1937,7 +1937,7 @@ class List extends React.Component {
                         className="refine-bar refinements rc-column1 col-12 col-xl-3 ItemBoxFitSCreen pt-0 mb-0 md:mb-3 pl-0 md:pl-3 pr-0"
                       >
                         {hiddenFilter ? null : (
-                          <div className="d-flex justify-content-between align-items-center rc-md-down list_select_choose flex-col">
+                          <div className="flex md:hidden justify-content-between align-items-center list_select_choose flex-col">
                             {/* // <div className="w-100 text-center"> */}
                             <button
                               onClick={this.toggleFilterModal.bind(

@@ -224,9 +224,9 @@ export default class Selection extends React.Component {
             </div>
           </div>
           <div
-            className={`choices__list choices__list--dropdown ${
-              optionsVisible ? 'is-active' : ''
-            }`}
+            className={cn(`choices__list choices__list--dropdown`, {
+              'visible block': optionsVisible
+            })}
             aria-expanded={optionsVisible}
           >
             {/* 快速搜索关键字 */}

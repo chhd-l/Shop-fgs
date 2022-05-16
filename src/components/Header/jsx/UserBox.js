@@ -20,7 +20,7 @@ export const UnLoginUserBox = ({ history, className, intl }) => {
         <FormattedMessage id="header.User.alreadyRegistered" />
       </div>
       <LoginButton
-        className="rc-btn rc-btn--one mt-1 mb-1"
+        className="rc-btn rc-btn--one mt-1 mb-1 bg-rc-red"
         btnStyle={{ width: '14rem', padding: '5px 0' }}
         intl={intl}
       />

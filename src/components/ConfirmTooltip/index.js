@@ -49,7 +49,7 @@ class ConfirmTooltip extends React.Component {
         onClick={this.hanldeClickContainer}
       >
         <div
-          className="confirm-tool-content rc-bg-colour--brand4 px-3 pt-3 pb-2"
+          className="confirm-tool-content rc-bg-colour--brand4 px-3 pt-3 pb-2 bg-rc-f6"
           style={this.props.containerStyle}
           tabIndex="1"
         >
