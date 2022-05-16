@@ -33,7 +33,7 @@ const QuantityPicker = ({
   className,
   initRestTotalLimitConf
 }: Props) => {
-  const [quantity, setQuantity] = useState(initQuantity);
+  const [quantity, setQuantity] = useState<number | string>(initQuantity);
   const [restTotalLimitConf, setRestTotalLimitConf] = useState(
     initRestTotalLimitConf
   );
@@ -48,7 +48,7 @@ const QuantityPicker = ({
 
   const subQuantity = () => {
     setErrorMsg('');
-    setQuantity(quantity === min ? min : quantity - 1);
+    setQuantity(quantity === min ? min : Number(quantity) - 1);
 
     if (quantity === min) {
       setErrorMsg(<FormattedMessage id="cart.errorInfo" />);
@@ -59,7 +59,7 @@ const QuantityPicker = ({
     const tmpMax = restTotalLimitConf?.num
       ? Math.min(max, restTotalLimitConf.num)
       : max;
-    setQuantity(quantity === tmpMax ? tmpMax : quantity + 1);
+    setQuantity(quantity === tmpMax ? tmpMax : Number(quantity) + 1);
 
     if (quantity === tmpMax) {
       handleMaxNumErrMsg({ tmpMax });
@@ -123,7 +123,7 @@ const QuantityPicker = ({
   useEffect(() => {
     setSubBtnStatus(quantity !== min);
 
-    if (updateQuantity && initQuantity !== quantity) {
+    if (updateQuantity && initQuantity !== quantity && quantity !== '') {
       updateQuantity(quantity);
     }
   }, [quantity]);
