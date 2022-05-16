@@ -3,6 +3,7 @@ import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import { isNewAccount } from '@/api/user';
 import { checkoutDataLayerPushEvent } from '@/utils/GA';
+import { forceVisible } from 'react-lazyload';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -395,6 +396,7 @@ class PaymentStore {
       isEdit: false,
       isCompleted: true
     });
+    forceVisible();
   }
 
   @action.bound
