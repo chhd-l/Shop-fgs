@@ -1865,7 +1865,18 @@ class Payment extends React.Component {
           const payState =
             res.context?.trade?.tradeState?.payState == 'PAID' ? true : false;
           // 支付成功
-          if (res.code == 'K-000000') {
+          if (res.code == 'K-000000' && payState) {
+            // const tid = res.context.tid;
+            // cancelPosOrder(tid)
+            // .then((res) => {
+            //   if (res.code == 'K-000000') {
+            //   }
+            //   console.log('cancelPosOrderres', res);
+            // })
+            // .catch((err) => {
+            //   console.log('cancelPosOrdererr', err);
+            // });
+            // return
             const isGuest = sessionItemRoyal.get('rc-guestId') ? true : false;
             if (isGuest) {
               valetGuestOrderPaymentResponse({
@@ -1883,16 +1894,53 @@ class Payment extends React.Component {
               ? tidList
               : res.context && res.context.tidList;
             subNumber = (res.context && res.context.subscribeId) || '';
-
-            if (res.context.redirectUrl) {
-              window.location.href = res.context.redirectUrl;
-            } else {
-              gotoConfirmationPage = true;
-            }
+            gotoConfirmationPage = true;
           } else {
             let i = 0;
             const tid = res.context.tid;
-            if (i == 10) {
+            // 根据订单号发送订单状态查询请求
+            const queryPos = async () => {
+              return queryPosOrder(tid)
+                .then(async (resp) => {
+                  if (resp.code == 'K-000000') {
+                    const isGuest = sessionItemRoyal.get('rc-guestId')
+                      ? true
+                      : false;
+                    if (isGuest) {
+                      valetGuestOrderPaymentResponse({
+                        guest_id: sessionItemRoyal.get('rc-guestId'),
+                        parameter: res.context
+                      })
+                        .then((res) => {
+                          console.log('res', res);
+                        })
+                        .catch((err) => {
+                          console.log('err', err);
+                        });
+                    }
+                    subOrderNumberList = tidList.length
+                      ? tidList
+                      : res.context && res.context.tidList;
+                    subNumber = (res.context && res.context.subscribeId) || '';
+                    gotoConfirmationPage = true;
+                  } else {
+                    console.log('queryPosOrder', resp);
+                  }
+                })
+                .catch(async (err) => {
+                  // K-000001 还在支付中
+                  // K-000002 支付失败
+                  if (err.code == 'K-000001') {
+                    console.log('queryPosOrdererr', err);
+                    i++;
+                    await sleep(3000);
+                    return await queryPos();
+                  } else {
+                    this.showErrorMsg(err.message);
+                  }
+                });
+            };
+            if (i >= 10) {
               // 超过30秒就取消订单
               cancelPosOrder(tid)
                 .then((res) => {
@@ -1904,49 +1952,6 @@ class Payment extends React.Component {
                   console.log('cancelPosOrdererr', err);
                 });
             } else {
-              // 根据订单号发送订单状态查询请求
-              const queryPos = async () => {
-                return queryPosOrder(tid)
-                  .then(async (resp) => {
-                    // K-000001 还在支付中
-                    // K-000002 支付失败
-                    if (resp.code == 'K-000000') {
-                      const isGuest = sessionItemRoyal.get('rc-guestId')
-                        ? true
-                        : false;
-                      if (isGuest) {
-                        valetGuestOrderPaymentResponse({
-                          guest_id: sessionItemRoyal.get('rc-guestId'),
-                          parameter: res.context
-                        })
-                          .then((res) => {
-                            console.log('res', res);
-                          })
-                          .catch((err) => {
-                            console.log('err', err);
-                          });
-                      }
-                      subOrderNumberList = tidList.length
-                        ? tidList
-                        : res.context && res.context.tidList;
-                      subNumber =
-                        (res.context && res.context.subscribeId) || '';
-
-                      if (res.context.redirectUrl) {
-                        window.location.href = res.context.redirectUrl;
-                      } else {
-                        gotoConfirmationPage = true;
-                      }
-                    } else {
-                      i++;
-                      await sleep(3000);
-                      return await queryPos();
-                    }
-                  })
-                  .catch((err) => {
-                    console.log('queryPosOrdererr', err);
-                  });
-              };
               await queryPos();
             }
           }
@@ -1971,12 +1976,7 @@ class Payment extends React.Component {
             ? tidList
             : res.context && res.context.tidList;
           subNumber = (res.context && res.context.subscribeId) || '';
-
-          if (res.context.redirectUrl) {
-            window.location.href = res.context.redirectUrl;
-          } else {
-            gotoConfirmationPage = true;
-          }
+          gotoConfirmationPage = true;
           break;
         case 'pc_web':
           subOrderNumberList =

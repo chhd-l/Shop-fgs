@@ -30,6 +30,7 @@ const loginStore = stores.loginStore;
 const checkoutStore = stores.checkoutStore;
 
 const LoginButton = (props) => {
+  if (sessionItemRoyal.get('rc-guestId')) return <></>;
   const { intl } = props;
   const history = useHistory();
   const init = props.init;
