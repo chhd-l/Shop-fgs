@@ -14,6 +14,7 @@ import Modal from './components/Modal';
 import initLocation from '../PrescriptionNavigate/location';
 import PageBaseInfo from '@/components/PageBaseInfo';
 import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
+import YandexMap from '@/components/YandexMap';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -78,6 +79,7 @@ class Prescription extends React.Component {
         lng
       },
       clinicArr: [],
+      clinicArrRu: [],
       currentClinicArr: [],
       params: {
         distance: 1000000,
@@ -99,11 +101,13 @@ class Prescription extends React.Component {
     };
     this.hubGA = window.__.env.REACT_APP_HUB_GA === '1';
   }
+
   componentDidMount() {
     //获取是否显示prescriber弹框
     this.state.modalShow && this.hubGA && this.hubGaModalPopup();
     this.getAllPrescription();
   }
+
   componentWillUnmount() {
     sessionItemRoyal.remove('clinic-reselect');
   }
@@ -134,8 +138,10 @@ class Prescription extends React.Component {
   handleInit = () => {
     const { params, center } = this.state;
     //获取当前地理位置信息
+    console.log(params, center);
     navigator.geolocation.getCurrentPosition(
       (position) => {
+        console.log(position);
         this.handldKey(this.state.mapKey);
         params.latitude = position.coords.latitude.toString();
         params.longitude = position.coords.longitude.toString();
@@ -185,16 +191,22 @@ class Prescription extends React.Component {
       loading: false
     });
   }
+
   async getAllPrescription() {
+    let clinicArrRu = [];
     let params = {
       storeId: window.__.env.REACT_APP_STOREID
     };
     const res = await getAllPrescription(params);
 
     let clinicArr = res.context.prescriberVo;
-    //过滤掉经纬度非数字值
+    // //过滤掉经纬度非数字值
     clinicArr = clinicArr.filter((item) => {
-      return !(isNaN(item.latitude) || isNaN(item.longitude));
+      return (
+        item.latitude &&
+        item.longitude &&
+        !(isNaN(item.latitude) || isNaN(item.longitude))
+      );
     });
 
     //过滤掉 经度-180-180 ，纬度 -90-90
@@ -206,15 +218,63 @@ class Prescription extends React.Component {
         +item.longitude <= 180
       );
     });
+    // 俄罗斯地图单独处理
+    if (window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE) {
+      clinicArrRu = clinicArr.map((item) => {
+        return {
+          type: 'Feature',
+          id: item.id,
+          geometry: {
+            type: 'Point',
+            coordinates: [item.latitude, item.longitude]
+          },
+          properties: {
+            balloonContent: `
+            <div style='display: block; z-index: 1;'>
+                 <div class='rc-tooltip rc-text--left rc-padding--xs' id='map-tooltip' style='display: block;'>
+                 <div class='rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop' style='margin-bottom: 0px;  '>
+                   <p id='clinicVet'>${
+                     this.props.intl.messages['clinic.vet']
+                   }</p>
+                   <h4 class='rc-card__title rc-delta click-btn map-flag-title'>${
+                     item.prescriberName
+                   }</h4>
+                   <div class='map-flag-address'>${item.location}</div>
+                   <div class='map-flag-phone'>${
+                     item.preferredChannel === 'phone' ? item.phone : item.email
+                   }</div>
+                   <div class='rc-button-link-group rc-padding-right--md--desktop' style='margin-top: 1rem;'>
+                   <a class='rc-btn rc-btn--one rc-btn--sm' href='${window.__.env.REACT_APP_HOMEPAGE.replace(
+                     /\/$/gi,
+                     ''
+                   )}/makerHandle?type=${
+              item.type !== 'customer' ? 'confirm' : 'navigate'
+            }&id=${item.id}&prescriberName=${item.prescriberName}&lat=${
+              item.latitude
+            }&lng=${item.longitude}'>${
+              item.type !== 'customer'
+                ? this.props.intl.messages['clinic.confirm']
+                : this.props.intl.messages['clinic.navigate']
+            }</a></div>
+                   </div>
+                 </div>
+               </div>
+               `
+          }
+        };
+      });
+    }
     this.setState(
       {
-        clinicArr
+        clinicArr,
+        clinicArrRu
       },
       () => {
         this.handleInit();
       }
     );
   }
+
   //不需要绑定prescriber，关闭弹框直接跳转checkout页面
   closeModal = () => {
     this.hubGaModalPopupClick('No, go to buy');
@@ -292,6 +352,7 @@ class Prescription extends React.Component {
     localItemRoyal.set('checkOutNeedShowPrescriber', 'true'); //在checkout页面显示prescriber信息
     this.props.history.push('/checkout');
   };
+
   getSonMess(center) {
     this.setState({
       currentSelectClinic: {
@@ -493,15 +554,24 @@ class Prescription extends React.Component {
                 </form>
               </div>
               <div className="clinic-map">
-                <GoogleMap
-                  center={this.state.center}
-                  zoom={this.state.zoom}
-                  flags={flags}
-                  key={this.state.mapKey}
-                  //新增
-                  clinicArr={this.state.clinicArr}
-                  currentSelectClinic={this.state.currentSelectClinic}
-                />
+                {window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE ? (
+                  <YandexMap
+                    center={this.state.center}
+                    zoom={this.state.zoom}
+                    clinicArr={this.state.clinicArrRu}
+                    key={this.state.mapKey}
+                  />
+                ) : (
+                  <GoogleMap
+                    center={this.state.center}
+                    zoom={this.state.zoom}
+                    flags={flags}
+                    key={this.state.mapKey}
+                    //新增
+                    clinicArr={this.state.clinicArr}
+                    currentSelectClinic={this.state.currentSelectClinic}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -511,4 +581,5 @@ class Prescription extends React.Component {
     );
   }
 }
+
 export default Prescription;

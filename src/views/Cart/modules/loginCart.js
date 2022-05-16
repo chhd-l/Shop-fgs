@@ -1476,7 +1476,7 @@ class LoginCart extends React.Component {
                       <h1 className="rc-beta mb-1 mt-3 text-18">
                         <FormattedMessage id="cart.yourShoppingCart" />
                       </h1>
-                      <div className="rc-gamma title-empty mb-0 text-center">
+                      <div className="rc-gamma title-empty mb-0 text-center text-base md:text-2xl">
                         <FormattedMessage id="header.basketEmpty" />
                       </div>
                     </div>
@@ -1484,8 +1484,8 @@ class LoginCart extends React.Component {
                       <div className="rc-bg-colour--brand3 rc-padding--sm pt-0 pb-0">
                         <div className="rc-max-width--lg rc-padding-x--lg--mobile">
                           <div>
-                            <div className="rc-alpha inherit-fontsize">
-                              <h2 className="text-center">
+                            <div className="rc-alpha">
+                              <h2 className="text-center text-lg md:text-3xl">
                                 <FormattedMessage id="cart.fullPrice" />
                               </h2>
                             </div>
