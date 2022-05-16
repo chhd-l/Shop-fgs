@@ -53,13 +53,20 @@ export function valetGuestOrderPaymentResponse({ guest_id, parameter }) {
     data: parameter
   });
 }
-// /all/order/queryPosOrder
 
 export function queryPosOrder(tidList) {
   return axios({
     url: `/all/order/queryPosOrder`,
     method: 'post',
     data: { tidList: [tidList] }
+  });
+}
+
+export function cancelPosOrder(tid) {
+  return axios({
+    url: `/all/order/cancelPosOrder`,
+    method: 'post',
+    data: { tid }
   });
 }
 
