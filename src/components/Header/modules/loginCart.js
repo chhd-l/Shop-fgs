@@ -14,6 +14,7 @@ import { inject, observer } from 'mobx-react';
 import './index.css';
 import { FOOD_DISPENSER_PIC } from '@/utils/constant';
 import GiftList from './GiftList.tsx';
+import LazyLoad from 'react-lazyload';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -294,16 +295,16 @@ class LoginCart extends React.Component {
                             <div className="product-line-item">
                               <div className="product-line-item-details d-flex flex-row">
                                 <div className="item-image">
-                                  {/* <LazyLoad> */}
-                                  <img
-                                    className="product-image"
-                                    src={optimizeImage({
-                                      originImageUrl: item.goodsInfoImg
-                                    })}
-                                    alt={item.goodsName}
-                                    title={item.goodsName}
-                                  />
-                                  {/* </LazyLoad> */}
+                                  <LazyLoad>
+                                    <img
+                                      className="product-image"
+                                      src={optimizeImage({
+                                        originImageUrl: item.goodsInfoImg
+                                      })}
+                                      alt={item.goodsName}
+                                      title={item.goodsName}
+                                    />
+                                  </LazyLoad>
                                 </div>
                                 <div className="wrap-item-title">
                                   <div className="item-title">
@@ -417,21 +418,25 @@ class LoginCart extends React.Component {
                             </div>
                             {toJS(item.subscriptionPlanGiftList) && false
                               ? toJS(item.subscriptionPlanGiftList).map(
-                                  (gift) => (
-                                    <div className="product-line-item-details d-flex flex-row gift-box">
+                                  (gift, i) => (
+                                    <div
+                                      className="product-line-item-details d-flex flex-row gift-box"
+                                      key={i}
+                                    >
                                       <div className="item-image">
-                                        {/* <LazyLoad> */}
-                                        <img
-                                          className="product-image"
-                                          src={
-                                            optimizeImage({
-                                              originImageUrl: gift.goodsInfoImg
-                                            }) || FOOD_DISPENSER_PIC
-                                          }
-                                          alt={gift.goodsInfoName}
-                                          title={gift.goodsInfoName}
-                                        />
-                                        {/* </LazyLoad> */}
+                                        <LazyLoad>
+                                          <img
+                                            className="product-image"
+                                            src={
+                                              optimizeImage({
+                                                originImageUrl:
+                                                  gift.goodsInfoImg
+                                              }) || FOOD_DISPENSER_PIC
+                                            }
+                                            alt={gift.goodsInfoName}
+                                            title={gift.goodsInfoName}
+                                          />
+                                        </LazyLoad>
                                       </div>
                                       <div className="wrap-item-title">
                                         <div className="item-title">

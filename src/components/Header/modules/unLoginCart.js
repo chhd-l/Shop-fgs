@@ -13,10 +13,12 @@ import find from 'lodash/find';
 import { inject, observer } from 'mobx-react';
 import './index.css';
 import { FOOD_DISPENSER_PIC } from '@/utils/constant';
-
-const localItemRoyal = window.__.localItemRoyal;
+import LazyLoad from 'react-lazyload';
 import { toJS } from 'mobx';
 import GiftList from './GiftList.tsx';
+
+const localItemRoyal = window.__.localItemRoyal;
+
 @injectIntl
 @inject('checkoutStore', 'headerCartStore', 'clinicStore')
 @observer
@@ -381,19 +383,19 @@ class UnloginCart extends React.Component {
                           <div className="product-line-item">
                             <div className="product-line-item-details d-flex flex-row">
                               <div className="item-image">
-                                {/* <LazyLoad> */}
-                                <img
-                                  className="product-image"
-                                  src={optimizeImage({
-                                    originImageUrl: find(
-                                      item.sizeList,
-                                      (s) => s.selected
-                                    ).goodsInfoImg
-                                  })}
-                                  alt={item.goodsName}
-                                  title={item.goodsName}
-                                />
-                                {/* </LazyLoad> */}
+                                <LazyLoad>
+                                  <img
+                                    className="product-image"
+                                    src={optimizeImage({
+                                      originImageUrl: find(
+                                        item.sizeList,
+                                        (s) => s.selected
+                                      ).goodsInfoImg
+                                    })}
+                                    alt={item.goodsName}
+                                    title={item.goodsName}
+                                  />
+                                </LazyLoad>
                               </div>
                               <div className="wrap-item-title">
                                 <div className="item-title">
@@ -460,18 +462,18 @@ class UnloginCart extends React.Component {
                               ).map((gift) => (
                                 <div className="product-line-item-details d-flex flex-row gift-box">
                                   <div className="item-image">
-                                    {/* <LazyLoad> */}
-                                    <img
-                                      className="product-image"
-                                      src={
-                                        optimizeImage({
-                                          originImageUrl: gift.goodsInfoImg
-                                        }) || FOOD_DISPENSER_PIC
-                                      }
-                                      alt={gift.goodsInfoName}
-                                      title={gift.goodsInfoName}
-                                    />
-                                    {/* </LazyLoad> */}
+                                    <LazyLoad>
+                                      <img
+                                        className="product-image"
+                                        src={
+                                          optimizeImage({
+                                            originImageUrl: gift.goodsInfoImg
+                                          }) || FOOD_DISPENSER_PIC
+                                        }
+                                        alt={gift.goodsInfoName}
+                                        title={gift.goodsInfoName}
+                                      />
+                                    </LazyLoad>
                                   </div>
                                   <div className="wrap-item-title">
                                     <div className="item-title">
