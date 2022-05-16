@@ -311,7 +311,6 @@ if (userGroup && tokenFromUrl) {
 //guestId=${guestId}&userGroup=felinStore&petOwnerType=guest
 if (guestId && userGroup && petOwnerType) {
   localItemRoyal.remove('rc-token');
-  alert('清除rc-token');
   localItemRoyal.remove('rc-userinfo');
   sessionItemRoyal.set('rc-guestId', guestId);
   sessionItemRoyal.set('rc-userGroup', userGroup);
