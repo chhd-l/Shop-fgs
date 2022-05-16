@@ -1894,12 +1894,7 @@ class Payment extends React.Component {
               ? tidList
               : res.context && res.context.tidList;
             subNumber = (res.context && res.context.subscribeId) || '';
-
-            if (res.context.redirectUrl) {
-              window.location.href = res.context.redirectUrl;
-            } else {
-              gotoConfirmationPage = true;
-            }
+            gotoConfirmationPage = true;
           } else {
             let i = 0;
             const tid = res.context.tid;
@@ -1927,12 +1922,7 @@ class Payment extends React.Component {
                       ? tidList
                       : res.context && res.context.tidList;
                     subNumber = (res.context && res.context.subscribeId) || '';
-
-                    if (res.context.redirectUrl) {
-                      window.location.href = res.context.redirectUrl;
-                    } else {
-                      gotoConfirmationPage = true;
-                    }
+                    gotoConfirmationPage = true;
                   } else {
                     console.log('queryPosOrder', resp);
                   }
@@ -1986,12 +1976,7 @@ class Payment extends React.Component {
             ? tidList
             : res.context && res.context.tidList;
           subNumber = (res.context && res.context.subscribeId) || '';
-
-          if (res.context.redirectUrl) {
-            window.location.href = res.context.redirectUrl;
-          } else {
-            gotoConfirmationPage = true;
-          }
+          gotoConfirmationPage = true;
           break;
         case 'pc_web':
           subOrderNumberList =
