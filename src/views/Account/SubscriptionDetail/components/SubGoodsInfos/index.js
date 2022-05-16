@@ -89,16 +89,26 @@ const SubGoodsInfos = ({
           className="mobileGoodsBox"
           style={{ display: isMobile ? 'block' : 'none' }}
         >
-          {subDetail.goodsInfo &&
-            subDetail.goodsInfo.map((el, index) => (
+          {(subDetail.goodsInfo || []).map((el, index) => {
+            let disCountPriceVisible = !isIndv; // 如果是日本 并且折扣价为0 不显示
+            if (
+              window.__.env.REACT_APP_COUNTRY === 'jp' &&
+              el.originalPrice === el.subscribePrice
+            ) {
+              disCountPriceVisible = false;
+            }
+            return (
               <div
-                className="goodsItem rc-card-content"
+                className={cn('goodsItem rc-card-content py-3', {
+                  'mt-4': index
+                })}
                 style={{
                   border: '1px solid #d7d7d7',
-                  padding: '.75rem'
+                  position: 'relative'
                 }}
+                key={index}
               >
-                <div style={{ display: 'flex' }}>
+                <div className="px-3 flex">
                   <div className="for-mobile-colum">
                     {/* <LazyLoad> */}
                     <img
@@ -138,7 +148,7 @@ const SubGoodsInfos = ({
                     )}
                   </div>
                 </div>
-                <div style={{ marginTop: '.9375rem' }}>
+                <div className="p-3">
                   <div>
                     <span style={{ display: isIndv ? 'none' : 'inline-block' }}>
                       <QuantityPicker
@@ -175,7 +185,7 @@ const SubGoodsInfos = ({
                     >
                       {formatMoney(el.subscribePrice * el.subscribeNum)}
                     </span>
-                    {!isIndv && (
+                    {disCountPriceVisible && (
                       <span
                         className="price"
                         style={{
@@ -195,30 +205,73 @@ const SubGoodsInfos = ({
                     )}
                   </div>
                 </div>
-                <div
-                // className="col-4 col-md-5"
-                // style={{ paddingLeft: '60px' }}
-                >
-                  <ChangeSelection el={el} intl={intl} />
+                <div className="border-t">
+                  <ChangeSelection el={el} intl={intl} idx={index} />
                 </div>
+                {el.canDelete ? (
+                  <div className="absolute right-2 top-2">
+                    <span
+                      className="font-bold iconfont iconguan cursor-pointer hover:text-rc-red p-2"
+                      onClick={() => {
+                        updateConfirmTooltipVisible(el, true);
+                      }}
+                    />
+
+                    <ConfirmTooltip
+                      containerStyle={{ transform: 'translate(-89%, 105%)' }}
+                      arrowStyle={{ left: '89%' }}
+                      display={el.confirmTooltipVisible}
+                      confirm={() =>
+                        deleteItem(el?.goodsInfoVO?.storeId, {
+                          subscribeId: el?.subscribeId,
+                          subscribeGoodsId: el?.subscribeGoodsId
+                        })
+                      }
+                      updateChildDisplay={(status) =>
+                        updateConfirmTooltipVisible(el, status)
+                      }
+                      content={
+                        <FormattedMessage id="subscription.confirmDeleteProduct" />
+                      }
+                      okText={
+                        <FormattedMessage id="subscription.confirmDeleteProduct.confirm" />
+                      }
+                      cancelText={
+                        <FormattedMessage id="subscription.confirmDeleteProduct.cancel" />
+                      }
+                    />
+                  </div>
+                ) : null}
                 {isGift && subDetail.subscribeStatus !== 'INACTIVE' ? (
                   <ButtonBoxGift />
                 ) : null}
               </div>
-            ))}
+            );
+          })}
         </div>
         <ErrorMessage msg={errMsgPage} />
-        <div className="card-container border rounded border-d7d7d7 mt-0 hidden md:block">
-          {subDetail.goodsInfo &&
-            subDetail.goodsInfo.map((el, index) => (
+        <div className="card-container mt-0 hidden md:block border-0">
+          {(subDetail.goodsInfo || []).map((el, index) => {
+            let showDiscountPrice = !isIndv;
+            // 如果是日本 没有折扣 不显示折扣价
+            if (
+              window.__.env.REACT_APP_COUNTRY === 'jp' &&
+              el.originalPrice === el.subscribePrice
+            ) {
+              showDiscountPrice = false;
+            }
+            return (
               <div
-                className="rc-margin-x--none"
+                className={cn(
+                  'rc-margin-x--none border rounded border-d7d7d7 relative',
+                  { 'mt-4': index }
+                )}
                 style={{
                   padding: '1rem 0 1.5rem 0'
                 }}
                 key={index}
               >
-                <div className=" row align-items-center">
+                <div className="row align-items-center">
                   <div className="col-4 col-md-6">
                     <div
                       className="rc-layout-container rc-five-column direction-column "
@@ -319,7 +372,7 @@ const SubGoodsInfos = ({
                                   el.subscribePrice * el.subscribeNum
                                 )}
                               </span>
-                              {!isIndv && (
+                              {showDiscountPrice && (
                                 <span
                                   className="price"
                                   style={{
@@ -373,16 +426,50 @@ const SubGoodsInfos = ({
                       )}
                     </div>
                   </div>
-                  <div className="col-4 col-md-1" />
-                  <div className="col-4 col-md-5" style={{ padding: 0 }}>
-                    <ChangeSelection el={el} intl={intl} />
+                  <div className="col-4 col-md-5">
+                    <ChangeSelection el={el} intl={intl} idx={index} />
                   </div>
+                  {el.canDelete ? (
+                    <div className="absolute right-4 top-4">
+                      <span
+                        className="font-bold iconfont iconguan cursor-pointer hover:text-rc-red"
+                        onClick={() => {
+                          updateConfirmTooltipVisible(el, true);
+                        }}
+                      />
+
+                      <ConfirmTooltip
+                        containerStyle={{ transform: 'translate(-89%, 105%)' }}
+                        arrowStyle={{ left: '89%' }}
+                        display={el.confirmTooltipVisible}
+                        confirm={() => {
+                          deleteItem(el?.goodsInfoVO?.storeId, {
+                            subscribeId: el?.subscribeId,
+                            subscribeGoodsId: el?.subscribeGoodsId
+                          });
+                        }}
+                        updateChildDisplay={(status) =>
+                          updateConfirmTooltipVisible(el, status)
+                        }
+                        content={
+                          <FormattedMessage id="subscription.confirmDeleteProduct" />
+                        }
+                        okText={
+                          <FormattedMessage id="subscription.confirmDeleteProduct.confirm" />
+                        }
+                        cancelText={
+                          <FormattedMessage id="subscription.confirmDeleteProduct.cancel" />
+                        }
+                      />
+                    </div>
+                  ) : null}
                 </div>
                 {isGift && subDetail.subscribeStatus !== 'INACTIVE' ? (
                   <ButtonBoxGift />
                 ) : null}
               </div>
-            ))}
+            );
+          })}
         </div>
         {!isGift && <ButtonBox />}
       </div>

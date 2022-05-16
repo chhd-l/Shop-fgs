@@ -3,6 +3,7 @@ import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import { isNewAccount } from '@/api/user';
 import { checkoutDataLayerPushEvent } from '@/utils/GA';
+import { forceVisible } from 'react-lazyload';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -159,9 +160,7 @@ class PaymentStore {
 
   @computed get curPayWayInfo() {
     return this.payWayNameArr.filter(
-      (p) =>
-        this.curPayWayVal &&
-        (p.paymentTypeVal === this.curPayWayVal || p.code === this.curPayWayVal)
+      (p) => this.curPayWayVal && p.code === this.curPayWayVal
     )[0];
   }
 
@@ -184,6 +183,7 @@ class PaymentStore {
         tmpStatus.hasCompleted = true;
       }
     }
+    //console.log(toJS(this.panelStatus))
   }
 
   @action.bound
@@ -396,6 +396,7 @@ class PaymentStore {
       isEdit: false,
       isCompleted: true
     });
+    forceVisible();
   }
 
   @action.bound

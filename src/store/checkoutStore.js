@@ -104,7 +104,7 @@ class CheckoutStore {
   }
 
   @computed get serviceFeePrice() {
-    return this?.cartPrice?.serviceFeePrice || 0;
+    return this?.cartPrice?.serviceFeePrice;
   }
 
   @computed get loyaltyPointsPrice() {
@@ -298,6 +298,8 @@ class CheckoutStore {
       el.isNotShowCart = el.goodsInfoFlag == 3 ? 1 : 0;
       return el;
     });
+    console.log(data);
+    // debugger;
     localItemRoyal.set('rc-cart-data', data);
   }
 
@@ -450,6 +452,8 @@ class CheckoutStore {
     shippingFeeAddress,
     intl
   } = {}) {
+    console.log(data);
+    // debugger;
     try {
       let recommend_data = null;
       //兼容商品没有加入购物车，是直接去购买页的，否则出现总价展示错误情况
@@ -477,6 +481,7 @@ class CheckoutStore {
       if (!taxFeeData) {
         taxFeeData = nullTaxFeeData;
       }
+      // debugger;
       const email = guestEmail || taxFeeData.customerAccount;
       // 获取总价
       let purchasesRes = await purchases({
@@ -495,6 +500,9 @@ class CheckoutStore {
         deliverWay,
         shippingFeeAddress // DuData地址对象，俄罗斯计算运费用
       });
+
+      console.log(purchasesRes);
+      // debugger;
       // console.log('★ 305 ----- checkoutStore 获取总价: ', purchasesRes);
       let backCode = purchasesRes.code;
       purchasesRes = purchasesRes.context;
@@ -591,6 +599,7 @@ class CheckoutStore {
         return item;
       });
       this.setCartData(data);
+
       this.offShelvesProNames = tmpOffShelvesProNames;
       this.outOfstockProNames = tmpOutOfstockProNames;
       this.deletedProNames = tmpDeletedProNames;
@@ -603,6 +612,8 @@ class CheckoutStore {
         resolve({ backCode, context: purchasesRes });
       });
     } catch (err) {
+      console.log(err.message);
+      // debugger;
       if (isThrowErr) {
         throw new Error(err.message);
       }
@@ -907,6 +918,8 @@ class CheckoutStore {
     intl = {},
     configStore
   }) {
+    console.log(this.cartData);
+    // debugger;
     const { formatMessage } = intl;
     const {
       info: { skuLimitThreshold }
@@ -1034,7 +1047,8 @@ class CheckoutStore {
       paymentCode,
       loyaltyPoints,
       ownerId,
-      subscriptionFlag
+      subscriptionFlag,
+      freeShippingDiscountPrice: this.freeShippingDiscountPrice
     });
     const {
       loyaltyPointsPrice,

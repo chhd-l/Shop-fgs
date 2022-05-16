@@ -290,7 +290,8 @@ class Form extends React.Component {
     let res = null;
     try {
       res = await getDeliveryDateAndTimeSlot({ cityNo: str });
-
+      const cutOffTime = Number(res.context.cutOffTime.substring(0, 2));
+      localStorage.setItem('cutOffTime', cutOffTime);
       let flag = false;
       let alldata = {}; // 全部数据
       let ddlist = []; // delivery date
@@ -434,7 +435,14 @@ class Form extends React.Component {
       case 'ru':
         phoneReg = [
           {
-            mask: '+{7} (000) 000-00-00'
+            mask: '+{7}(Y00)000-00-00',
+            lazy: false,
+            blocks: {
+              Y: {
+                mask: IMask.MaskedEnum,
+                enum: ['0', '1', '2', '3', '4', '5', '6', '9']
+              }
+            }
           }
         ];
         break;
@@ -1008,8 +1016,8 @@ class Form extends React.Component {
       });
       cform.deliveryDate = tslist[0]?.id ? data.no : 'Unspecified';
       cform.deliveryDateId = tslist[0]?.name ? data.value : 'Unspecified';
-      cform.timeSlotId = tslist[0]?.id || 'Unspecified';
-      cform.timeSlot = tslist[0]?.name || 'Unspecified';
+      cform.timeSlotId = 'Unspecified';
+      cform.timeSlot = 'Unspecified';
       this.setState({
         timeSlotList: tslist
       });
@@ -1030,7 +1038,7 @@ class Form extends React.Component {
   }
   // 处理数组
   computedList(key) {
-    console.log('timeSlotList', this.state.timeSlotList);
+    //console.log('timeSlotList', this.state.timeSlotList);
     let tmp = '';
     tmp = this.state[`${key}List`].map((c) => {
       return {
@@ -1077,7 +1085,9 @@ class Form extends React.Component {
     switch (tname) {
       case 'firstName':
       case 'lastName':
-        tvalue = tvalue.replace(COUNTRY === 'de' ? /[-|\s]/gi : '', '');
+        // 德国shop first name, last name去掉空格 - 的限制
+        // tvalue = tvalue.replace(COUNTRY === 'de' ? /[-|\s]/gi : '', '');
+        tvalue = tvalue;
         break;
       case 'postCode':
         // 可以输入字母+数字

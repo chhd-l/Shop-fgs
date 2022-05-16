@@ -177,9 +177,11 @@ export default class Selection extends React.Component {
       >
         <div
           id="Selection"
-          className={`choices ${optionsVisible ? 'is-open' : ''} ${
-            this.props.disabled ? 'disabled' : ''
-          } ${this.props.hasBorder ? 'has-border' : ''}`}
+          className={cn(`choices`, {
+            'is-open': optionsVisible,
+            disabled: this.props.disabled,
+            'has-border': this.props.hasBorder
+          })}
           role="listbox"
           tabIndex="1"
           data-type={customStyleType || (wider ? 'select-wider' : '')}
@@ -222,9 +224,9 @@ export default class Selection extends React.Component {
             </div>
           </div>
           <div
-            className={`choices__list choices__list--dropdown ${
-              optionsVisible ? 'is-active' : ''
-            }`}
+            className={cn(`choices__list choices__list--dropdown`, {
+              'visible block': optionsVisible
+            })}
             aria-expanded={optionsVisible}
           >
             {/* 快速搜索关键字 */}

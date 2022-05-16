@@ -263,7 +263,18 @@ class HomeDeliveryOrPickUp extends React.Component {
   setPickupTelNumberReg = () => {
     let telnum = document.getElementById('phoneNumberShippingPickup');
     let telOptions = {
-      mask: [{ mask: '+{7} (000) 000-00-00' }]
+      mask: [
+        {
+          mask: '+{7}(Y00)000-00-00',
+          lazy: false,
+          blocks: {
+            Y: {
+              mask: IMask.MaskedEnum,
+              enum: ['0', '1', '2', '3', '4', '5', '6', '9']
+            } //枚举 Y值只能使用这些值
+          }
+        }
+      ]
     };
     let telpval = IMask(telnum, telOptions);
   };

@@ -102,8 +102,8 @@ class Consent extends Component {
       return { __html: text };
     };
     const noIsRequired = list?.findIndex((_item) => _item?.isRequired == false);
-    // console.log(list, 'listtt--==', noIsRequired);
-    const showText = ['account', 'register', 'checkout'].indexOf(pageType) > -1;
+    const showText =
+      ['account', 'register', 'checkout', 'required'].indexOf(pageType) > -1;
     // se支付页面已登录不展示consent包括 text
     const hiddenText =
       pageType === 'checkout' &&
@@ -189,11 +189,19 @@ class Consent extends Component {
                           </>
                         ) : (
                           <span
-                            className={
+                            className={` ${
                               zoom === '150%'
                                 ? 'footer-checkbox-title mt'
                                 : 'footer-checkbox-title'
-                            }
+                            } ${
+                              window.__.env.REACT_APP_COUNTRY == 'se'
+                                ? 're2001acolor'
+                                : ''
+                            } ${
+                              window.__.env.REACT_APP_COUNTRY == 'jp'
+                                ? 'nore2001acolor'
+                                : ''
+                            }`}
                             dangerouslySetInnerHTML={createMarkup(
                               item.consentTitle,
                               item.isRequired,

@@ -33,11 +33,13 @@ const OrderLogisticsProgress = (props) => {
                 })}
               </span>
               <div className="logi-text px-4 py-3">
-                <svg className="svg-icon logi-icon" aria-hidden="true">
-                  <use
-                    xlinkHref={`#${!i ? 'iconjinhangzhong' : 'iconyiwancheng'}`}
-                  />
-                </svg>
+                <img
+                  className="logi-icon w-4"
+                  src={`${
+                    window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX
+                  }/img/icons/${!i ? 'progress-ing' : 'progress-done'}.svg`}
+                  alt="icons progress"
+                />
 
                 <span
                   className={`ml-4 ui-text-overflow-line2 ${!i ? 'red' : ''}`}

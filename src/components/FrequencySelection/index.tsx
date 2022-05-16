@@ -10,9 +10,14 @@ interface Props {
   handleConfirm: Function;
   disabled?: boolean;
   className?: string;
+  contentClassName?: string;
+  textClassName?: string;
   textStyle?: any;
+  contentStyle?: any;
   wrapStyle?: any;
   selectionStyle?: any;
+  selectionCustomInnerStyle?: any;
+  childrenGridCls?: any;
 }
 
 const FrequencyMatch = ({
@@ -20,9 +25,14 @@ const FrequencyMatch = ({
   currentFrequencyId,
   disabled = false,
   className = '',
+  contentClassName = '',
+  textClassName = '',
+  childrenGridCls = ['col-span-12', 'col-span-12'],
   textStyle = {},
+  contentStyle = {},
   wrapStyle = {},
   selectionStyle = {},
+  selectionCustomInnerStyle = {},
   handleConfirm = () => {}
 }: Props) => {
   const [frequencyList, setFrequencyList] = useState([]);
@@ -56,23 +66,31 @@ const FrequencyMatch = ({
   return (
     <div
       style={wrapStyle}
-      className={cn(
-        'freqency order-3 md:order-2 col-12 col-md-4 text-center nowrap px-0 justify-between flex-wrap flex items-center',
-        className
-      )}
+      className={cn('grid grid-cols-12 items-center', className)}
     >
-      <span style={textStyle} className="frequency-delivery">
+      <span
+        style={textStyle}
+        className={cn('frequency-delivery', childrenGridCls[0], textClassName)}
+      >
         <FormattedMessage id="subscription.frequencyDelivery" />
       </span>
-      <div className="text-right delivery-every">
+      <div
+        className={cn(
+          'delivery-every flex items-center',
+          childrenGridCls[1],
+          contentClassName
+        )}
+        style={contentStyle}
+      >
         <FormattedMessage id="subscription.deliveryEvery" />
         <Selection
           disabled={disabled}
           customContainerStyle={{
-            display: 'inline-block',
-            marginLeft: '0.5rem',
+            flex: 1,
+            marginLeft: '.3rem',
             ...selectionStyle
           }}
+          customInnerStyle={selectionCustomInnerStyle}
           customCls="text-left frequency-selection"
           selectedItemChange={(data: any) => {
             setHandledCurrent(true);

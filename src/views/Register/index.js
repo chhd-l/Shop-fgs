@@ -104,6 +104,7 @@ class Register extends Component {
     if (isLogin) {
       this.props.history.push('/');
     }
+
     this.initConsent();
     var windowWidth = document.body.clientWidth;
     if (windowWidth < 640) {
@@ -1642,7 +1643,6 @@ class Register extends Component {
   }
 }
 export default withOktaAuth(Register);
-
 const ChaChaIcon = ({ className, onClick = () => {} } = {}) => {
   return (
     <span

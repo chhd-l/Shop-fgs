@@ -188,14 +188,29 @@ class Subscription extends React.Component {
     const res = await getDictionary({ type: 'SubscriptionType' });
     console.log('SubscriptionTypeList:');
     console.log(res);
-    this.setState({
-      subscriptionTypeList: res.map((el) => {
+    let arr = [];
+    const jpres = res
+      .map((el) => {
         return {
           id: el.id,
           name: el.name,
           value: el.valueEn
         };
       })
+      .filter((item) => item.name !== 'club');
+    if (window.__.env.REACT_APP_COUNTRY === 'jp') {
+      arr = jpres;
+    } else {
+      arr = res.map((el) => {
+        return {
+          id: el.id,
+          name: el.name,
+          value: el.valueEn
+        };
+      });
+    }
+    this.setState({
+      subscriptionTypeList: arr
     });
     this.getSubList();
   }
@@ -392,11 +407,7 @@ class Subscription extends React.Component {
                     <div className="rc-margin-top--sm">
                       <Link
                         className="rc-btn rc-btn--one"
-                        to={
-                          window.__.env.REACT_APP_COUNTRY === 'fr'
-                            ? '/club-subscription'
-                            : '/subscription-landing'
-                        }
+                        to={'/subscription-landing'}
                       >
                         <FormattedMessage id="account.startAutoShipping" />
                       </Link>

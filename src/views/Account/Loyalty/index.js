@@ -19,7 +19,7 @@ import { ownerTotalPoints } from '@/api/payment';
 const isMobile = getDeviceType() !== 'PC';
 
 const Loyalty = (props) => {
-  const { customerId } = props?.loginStore?.userInfo;
+  const customerId = props?.loginStore?.userInfo?.customerId;
   const event = {
     page: {
       type: 'AccountLoyalty',

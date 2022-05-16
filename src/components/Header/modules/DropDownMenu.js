@@ -5,6 +5,7 @@ import Help from './Help';
 import NavItem from './NavItem';
 import LazyLoad from 'react-lazyload';
 import { optimizeImage } from '@/utils/utils';
+import cn from 'classnames';
 
 /**
  * 渲染二级菜单
@@ -272,15 +273,18 @@ export default class DropDownMenu extends React.Component {
           // style={{ maxWidth: '1120px' }}
         >
           <ul
-            className={`rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center flex-nowrap ${
-              this.props.showLoginBtn ? '' : 'rc-hidden'
-            }`}
+            className={cn(
+              `rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center flex-nowrap`,
+              { 'rc-hidden': !this.props.showLoginBtn }
+            )}
           >
             {headerNavigationList.map((item, i) => (
               <li
-                className={`rc-list__item ${item.expanded ? 'dropdown' : ''} ${
-                  activeTopParentId === item.id ? 'active' : ''
-                }`}
+                className={cn(`rc-list__item`, {
+                  dropdown: item.expanded,
+                  active: activeTopParentId === item.id,
+                  'mr-0': i === headerNavigationList.length - 1
+                })}
                 key={i}
                 onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
                 onMouseOut={this.hanldeListItemMouseOut.bind(this, item)}

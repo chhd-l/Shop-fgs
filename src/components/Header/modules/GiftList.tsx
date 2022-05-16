@@ -1,24 +1,27 @@
 import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { formatMoney, optimizeImage } from '@/utils/utils';
 import React from 'react';
+import LazyLoad from 'react-lazyload';
 
 const GiftList = ({ data }: { data: any }) => {
   //不显示Leaflet的gift
-  let listJsx = data?.cateName?.includes('Leaflet') ? <></> : (
+  let listJsx = data?.isHidden ? (
+    <></>
+  ) : (
     <div className="minicart__product" key={data.goodsInfoId}>
       <div>
         <div className="product-summary__products__item pb-0">
           <div className="product-line-item">
             <div className="product-line-item-details d-flex flex-row">
               <div className="item-image">
-                {/* <LazyLoad> */}
-                <img
-                  className="product-image"
-                  src={optimizeImage({ originImageUrl: data.goodsInfoImg })}
-                  alt={data.goodsInfoName}
-                  title={data.goodsInfoName}
-                />
-                {/* </LazyLoad> */}
+                <LazyLoad>
+                  <img
+                    className="product-image"
+                    src={optimizeImage({ originImageUrl: data.goodsInfoImg })}
+                    alt={data.goodsInfoName}
+                    title={data.goodsInfoName}
+                  />
+                </LazyLoad>
               </div>
               <div className="wrap-item-title">
                 <div className="item-title">
@@ -75,7 +78,7 @@ const GiftList = ({ data }: { data: any }) => {
       </div>
     </div>
   );
-  return listJsx
+  return listJsx;
 };
 
 export default GiftList;

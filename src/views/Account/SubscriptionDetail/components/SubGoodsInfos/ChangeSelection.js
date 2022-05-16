@@ -1,15 +1,26 @@
 import { FormattedMessage } from 'react-intl-phraseapp';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import FrequencySelection from '@/components/FrequencySelection';
 import { SubGoodsInfosContext } from './index';
 import DatePicker from 'react-datepicker';
 import FrequencyMatch from '@/components/FrequencyMatch';
 import { datePickerConfig, getZoneTime, formatDate } from '@/utils/utils';
+import { GAForChangeProductBtn } from '@/utils/GA';
+import cn from 'classnames';
 
-const ChangeSelection = ({ el }) => {
+const ChangeSelection = ({ el, idx }) => {
   const SubGoodsInfosValue = useContext(SubGoodsInfosContext);
-  const { setState, isIndv, isActive, onDateChange, getMinDate, isGift } =
-    SubGoodsInfosValue;
+  const {
+    setState,
+    isIndv,
+    isActive,
+    onDateChange,
+    getMinDate,
+    isGift,
+    subDetail,
+    triggerShowChangeProduct,
+    productListLoading
+  } = SubGoodsInfosValue;
 
   switch (el.goodsInfoFlag) {
     case 0:
@@ -24,31 +35,43 @@ const ChangeSelection = ({ el }) => {
   }
   const isClub = el.promotions?.toLowerCase().includes('club');
 
+  const girdConf = ['col-span-5 md:col-span-6', 'col-span-7 md:col-span-6'];
+
   return (
     <>
-      <div className="rc-card-content sub-frequency-wrap">
+      <div className="rc-card-content overflow-hidden grid grid-cols-12 items-center px-3 md:px-0 mt-3 md:mt-0 mb-2 gap-1">
+        <span className={cn('leading-normal', girdConf[0])}>
+          {/* Shipping Method: */}
+          <FormattedMessage
+            id={isClub ? 'autoShipStarted' : 'autoShipStarted2'}
+          />
+        </span>
+        <div
+          className={cn(
+            'rc-card__meta order-Id text-left text-base',
+            girdConf[1]
+          )}
+          style={{
+            fontSize: '1.25rem'
+          }}
+        >
+          {formatDate({ date: el.createTime })}
+        </div>
+      </div>
+      <div className="rc-card-content sub-frequency-wrap grid grid-cols-12 items-center px-3 md:px-0 gap-1">
         {isIndv ? (
           <>
-            <strong
-              style={{
-                display: 'inline-block',
-                width: '50%',
-                marginTop: '.625rem',
-                float: 'left'
-              }}
-            >
+            <span className={cn(girdConf[0])}>
               <FormattedMessage id="subscription.frequencyDelivery" />
               <FormattedMessage id="subscription.deliveryEvery" />
-            </strong>
+            </span>
             <div
-              className="rc-card__meta order-Id text-left text-base"
+              className={cn(
+                'rc-card__meta order-Id text-left text-base',
+                girdConf[1]
+              )}
               style={{
-                marginTop: '.625rem',
-                display: 'inline-block',
-                paddingLeft: '1.625rem',
-                fontSize: '1.25rem',
-                width: '50%',
-                float: 'left'
+                fontSize: '1.25rem'
               }}
             >
               <FrequencyMatch currentId={el.periodTypeId} />
@@ -58,20 +81,14 @@ const ChangeSelection = ({ el }) => {
           </>
         ) : (
           <div
-            className="rc-card__meta order-Id text-left text-base	"
+            className="rc-card__meta order-Id text-left text-base	col-span-12"
             style={{
-              marginTop: '.625rem',
-              display: 'inline-block',
-              // marginLeft: '.625rem',
-
               fontSize: '1.25rem'
             }}
           >
             {el.promotions && (
               <FrequencySelection
                 frequencyType={el.promotions}
-                selectionStyle={{ marginLeft: '0.625rem' }}
-                // textStyle={{ display: 'inline-block', width: '50%' }}
                 wrapStyle={{}}
                 currentFrequencyId={el.periodTypeId}
                 handleConfirm={(data) => {
@@ -81,60 +98,28 @@ const ChangeSelection = ({ el }) => {
                     setState({ isDataChange: true });
                   }
                 }}
-                className="col-md-12 text-left"
+                childrenGridCls={girdConf}
                 disabled={!isActive || isGift}
+                // selectionStyle={{ marginLeft: '.3rem' }}
               />
             )}
           </div>
         )}
       </div>
-      <div style={{ overflow: 'hidden' }} className="rc-card-content">
-        <strong
+
+      <div className="rc-card-content mb-1 overflow-hidden grid grid-cols-12 items-center px-3 md:px-0 gap-1">
+        <span
           style={{
-            display: 'inline-block',
-            width: '50%'
+            lineHeight: 1
           }}
-          className="whitespace-nowrap1"
+          className={cn('whitespace-nowrap1 flex items-center', girdConf[0])}
         >
-          {/* Shipping Method: */}
-          {
-            isClub ? (
-              <FormattedMessage id="autoShipStarted" />
-            ) : (
-              <FormattedMessage id="autoShipStarted2" />
-            )
-            // 'Date de cr��ation de l\'Abonnement'
-          }
-        </strong>
-        <div
-          className="rc-card__meta order-Id text-left text-base	"
-          style={{
-            marginTop: '.625rem',
-            display: 'inline-block',
-            marginLeft: '1.625rem',
-            fontSize: '1.25rem'
-          }}
-        >
-          {formatDate({ date: el.createTime })}
-        </div>
-      </div>
-      <div style={{ overflow: 'hidden' }} className="rc-card-content">
-        <strong
-          style={{
-            display: 'inline-block',
-            width: '50%'
-          }}
-          className="whitespace-nowrap"
-        >
-          <span className="iconfont icondata text-xl mr-1" />
+          <span className="iconfont icondata text-lg mr-2" />
           <FormattedMessage id="nextShipment" />:
-        </strong>
+        </span>
         <div
-          className="rc-card__meta order-Id"
+          className={cn('rc-card__meta order-Id', girdConf[1])}
           style={{
-            marginTop: '.625rem',
-            display: 'inline-block',
-            marginLeft: '1.625rem',
             fontSize: '1.25rem'
           }}
         >
@@ -156,6 +141,54 @@ const ChangeSelection = ({ el }) => {
           />
         </div>
       </div>
+      {el.canChangeProduct ? (
+        <div className="rc-card-content px-3 md:px-0">
+          <div className=" flex items-center">
+            <span
+              style={{
+                width: 'auto',
+                paddingTop: '6px'
+              }}
+              className={cn(
+                `text-plain rc-styled-link ui-text-overflow-md-line1`,
+                {
+                  'ui-btn-loading': productListLoading
+                }
+              )}
+              onClick={() => {
+                setState({ currentChangeProductIdx: idx });
+                GAForChangeProductBtn();
+                if (!!subDetail.petsId) {
+                  setState({
+                    triggerShowChangeProduct: Object.assign(
+                      {},
+                      triggerShowChangeProduct,
+                      {
+                        firstShow: !triggerShowChangeProduct.firstShow,
+                        goodsInfo: subDetail?.goodsInfo,
+                        isShowModal: true
+                      }
+                    )
+                  });
+                } else {
+                  setState({ triggerShowAddNewPet: true });
+                }
+              }}
+            >
+              <em
+                className="iconfont iconrefresh font-bold mr-2"
+                style={{
+                  fontSize: '1.1rem',
+                  color: 'rgb(58,180,29)'
+                }}
+              />
+              <span>
+                <FormattedMessage id="subscriptionDetail.changeProduct" />
+              </span>
+            </span>
+          </div>
+        </div>
+      ) : null}
     </>
   );
 };

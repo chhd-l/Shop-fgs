@@ -1,11 +1,28 @@
 import React, { useMemo } from 'react';
 import { inject, observer } from 'mobx-react';
 import cn from 'classnames';
-import { formatMoney, formatDate } from '@/utils/utils';
+import {
+  formatMoney,
+  formatDate,
+  formatJPDate,
+  formatJPTime
+} from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { DivWrapper } from './style';
 
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
+
+interface ListType {
+  fieldKey: string;
+  value: any;
+}
+
+interface Props {
+  configStore?: any;
+  data: any;
+  nameCls?: string;
+  pickupNameCls?: string;
+}
 
 /**
  * 地址信息预览
@@ -13,7 +30,12 @@ const COUNTRY = window.__.env.REACT_APP_COUNTRY;
  * 2. 俄罗斯单独处理，因为要显示运费
  * 3. 其他情况: city, region, state, county, country, postCode根据potal配置，排序及显示
  */
-const AddressPreview = ({ configStore, data, nameCls, pickupNameCls }) => {
+const AddressPreview = ({
+  configStore,
+  data,
+  nameCls,
+  pickupNameCls
+}: Props) => {
   const {
     localAddressForm: { settings, fieldKeyEnableStatus }
   } = configStore;
@@ -56,22 +78,26 @@ const AddressPreview = ({ configStore, data, nameCls, pickupNameCls }) => {
    * @param {*} list 需要排序的列表
    * @returns 排序后的列表
    */
-  const handleSortAndFilter = (list) => {
+  const handleSortAndFilter = (list: ListType[]) => {
     const ret = list
       .sort((a, b) => {
-        const targetA = settings.find((ele) => ele.fieldKey === a.fieldKey);
-        const targetB = settings.find((ele) => ele.fieldKey === b.fieldKey);
+        const targetA = settings.find(
+          (ele: ListType) => ele.fieldKey === a.fieldKey
+        );
+        const targetB = settings.find(
+          (ele: ListType) => ele.fieldKey === b.fieldKey
+        );
         return targetA?.sequence - targetB?.sequence;
       })
       .filter(
-        (ele) =>
+        (ele: ListType) =>
           !ele.fieldKey || (fieldKeyEnableStatus[ele.fieldKey] && ele.value)
       );
     return ret;
   };
 
   const arrangedList = useMemo(() => {
-    const tmpList = [
+    const tmpList: ListType[] = [
       {
         fieldKey: 'city',
         value: city
@@ -95,7 +121,7 @@ const AddressPreview = ({ configStore, data, nameCls, pickupNameCls }) => {
       { fieldKey: 'country', value: countryName }
     ];
     return handleSortAndFilter(tmpList);
-  });
+  }, [city, area, province, county, postCode, countryName]);
 
   return (
     <DivWrapper>
@@ -207,20 +233,17 @@ const AddressPreview = ({ configStore, data, nameCls, pickupNameCls }) => {
                   {deliveryDate && timeSlot ? (
                     <>
                       {/* 格式化 delivery date 格式: 星期, 15 月份 */}
-                      {deliveryDate == 'Unspecified'
-                        ? ''
-                        : formatDate({
-                            date: deliveryDate,
-                            formatOption: {
-                              weekday: 'long',
-                              day: '2-digit',
-                              month: 'long'
-                            }
-                          })}{' '}
+                      {deliveryDate !== 'Unspecified' && (
+                        <>
+                          <FormattedMessage id="Deliverytime" />
+                          {formatJPDate(deliveryDate)}
+                        </>
+                      )}
+
                       {timeSlot == 'Unspecified' ? (
                         <FormattedMessage id="Unspecified" />
                       ) : (
-                        timeSlot
+                        formatJPTime(timeSlot)
                       )}
                     </>
                   ) : null}

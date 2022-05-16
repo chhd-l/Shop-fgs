@@ -97,7 +97,7 @@ const UserJSX = (props) => {
                     </div>
                     <span
                       // style="cursor:pointer"
-                      className="rc-styled-link cursor-pointer"
+                      className="rc-styled-link cursor-pointer inline-block"
                       // className="rc-styled-link"
                       onClick={() => {
                         if (+window.__.env.REACT_APP_CUSTOM_REGISTER) {
@@ -194,7 +194,7 @@ const UserJSX = (props) => {
       {/* 未登录 */}
       {!isLogin && (
         // <a className="rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography">
-        <div className="rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography">
+        <div className="rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography whitespace-nowrap">
           <UnLoginUserBox
             className={`${showCart ? '' : 'rc-hidden'}`}
             self={self}

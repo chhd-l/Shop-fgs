@@ -10,6 +10,7 @@ import { ChangeProductContext } from './index';
 import { SubDetailHeaderContext } from '../SubDetailHeader';
 import { inject, observer } from 'mobx-react';
 import { QuantityPicker } from '@/components/Product';
+import cn from 'classnames';
 
 const ChooseSKU = ({ intl, configStore, ...restProps }) => {
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
@@ -20,7 +21,8 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
   let selected = false;
   const ChangeProductValue = useContext(ChangeProductContext);
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
-  const [skuLimitThreshold, setSkuLimitThreshold] = useState(1);
+  const [skuLimitThreshold, setSkuLimitThreshold] = useState(null);
+  const [isSpecAvailable, setIsSpecAvailable] = useState(false);
 
   useEffect(() => {
     setSkuLimitThreshold(configStore?.info?.skuLimitThreshold);
@@ -31,7 +33,8 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
     setState,
     getDetail,
     subDetail,
-    triggerShowChangeProduct
+    triggerShowChangeProduct,
+    currentChangeProductIdx
   } = SubDetailHeaderValue;
   const {
     renderDetailAgin,
@@ -85,6 +88,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
     if (!selected) {
       return;
     }
+    setState({ currentChangeProductIdx: 0 }); // 此部分只会在当产品只有一个时出现，所以idx直接置为0
     setChangeNowLoading(true);
     doChangeSubscriptionGoods();
   };
@@ -125,12 +129,14 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
         // productFinderFlag: currentSelectedSize.productFinderFlag
       };
 
-      let deleteGoodsItems = currentGoodsItems.map((el) => {
-        return {
-          subscribeId,
-          skuId: el.goodsInfoVO?.goodsInfoId
-        };
-      });
+      const deleteGoodsItems = currentGoodsItems
+        .filter((c, i) => i === currentChangeProductIdx)
+        .map((el) => {
+          return {
+            subscribeId,
+            skuId: el.goodsInfoVO?.goodsInfoId
+          };
+        });
       let isTheSamePro = deleteGoodsItems.find(
         (el) => el?.skuId == currentSelectedSize?.goodsInfoId
       );
@@ -143,7 +149,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
       if (buyWay) {
         addGoodsItems.periodTypeId = form.frequencyId;
       }
-      let params = {
+      const params = {
         subscribeId,
         addGoodsItems: [addGoodsItems],
         deleteGoodsItems
@@ -185,12 +191,13 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
     }, 1000);
   };
   let seleced = quantity < stock && skuPromotions == 'club';
+
   return (
     <React.Fragment>
       <ErrorMessage msg={errorMsgSureChange} />
-      <div className="d-flex for-pc-bettwen">
-        <div className="d-flex for-mobile-colum for-mobile-100">
-          <div className="d-flex rc-margin-right--xs">
+      <div className="d-flex md:justify-between md:items-center">
+        <div className="d-flex flex-col md:flex-row w-full md:w-auto items-center">
+          <div className="d-flex rc-margin-right--xs items-center">
             <img
               src={details.goodsImg}
               style={{ height: '4rem' }}
@@ -216,7 +223,7 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
                   />
                   <QuantityPicker
                     min={quantityMinLimit}
-                    max={skuLimitThreshold.skuMaxNum}
+                    max={skuLimitThreshold?.skuMaxNum}
                     initQuantity={quantity}
                     updateQuantity={(val) => {
                       setQuantity(val);
@@ -225,19 +232,22 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
                 </div>
               </div>
               <strong className="rc-md-down">
-                ={formatMoney(currentSubscriptionPrice * quantity)}
+                = {formatMoney(currentSubscriptionPrice * quantity)}
               </strong>
             </div>
           </div>
-          <div
-            className="cart-and-ipay rc-margin-right--xs rc-margin-left--xs"
-            style={{ float: 'left' }}
-          >
+          <div className="cart-and-ipay rc-margin-right--xs rc-margin-left--xs -mb-5 md:-mb-0">
             <div className="specAndQuantity rc-margin-bottom--xs ">
               {details.goodsInfos && (
                 <HandledSpec
                   renderAgin={renderDetailAgin}
                   details={details}
+                  disabledGoodsInfoIds={subDetail.goodsInfo.map(
+                    (g) => g.goodsInfoVO.goodsInfoId
+                  )}
+                  onIsSpecAvailable={(status) => {
+                    setIsSpecAvailable(status);
+                  }}
                   setState={setState}
                   updatedSku={matchGoods}
                 />
@@ -245,13 +255,13 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
             </div>
           </div>
           <p
-            className={`frequency rc-margin-right--xs rc-margin-left--xs ${
-              isMobile ? 'subscriptionDetail-choose-frequency' : ''
-            }`}
+            className={cn(`frequency rc-margin-right--xs rc-margin-left--xs`, {
+              'subscriptionDetail-choose-frequency': isMobile
+            })}
           >
-            {skuPromotions && (
+            {skuPromotions != 0 && (
               <FrequencySelection
-                className="col-md-8"
+                childrenGridCls={['col-span-6', 'col-span-6']}
                 frequencyType={skuPromotions}
                 currentFrequencyId={form.frequencyId}
                 handleConfirm={handleSelectedItemChange}
@@ -260,14 +270,14 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
           </p>
         </div>
         <strong className="rc-md-up" style={{ marginTop: '20px' }}>
-          ={formatMoney(currentSubscriptionPrice * quantity)}
+          = {formatMoney(currentSubscriptionPrice * quantity)}
         </strong>
       </div>
-      <div className="d-flex  for-mobile-colum for-pc-bettwen rc-button-link-group">
+      <div className="d-flex for-mobile-colum for-pc-bettwen rc-button-link-group mt-3 md:mt-0">
         <span
-          className={`text-plain rc-styled-link ${
-            productListLoading ? 'ui-btn-loading' : ''
-          }`}
+          className={cn(`text-plain rc-styled-link my-2 md:my-0`, {
+            'ui-btn-loading': productListLoading
+          })}
           onClick={() => {
             setState({
               triggerShowChangeProduct: Object.assign(
@@ -294,10 +304,11 @@ const ChooseSKU = ({ intl, configStore, ...restProps }) => {
           {isNotInactive && (
             <button
               onClick={() => changePets(seleced)}
-              className={`rc-btn rc-btn--one rc-btn--sm ${
-                seleced ? '' : 'rc-btn-solid-disabled'
-              }
-                ${changeNowLoading ? 'ui-btn-loading' : ''}`}
+              className={cn(`rc-btn rc-btn--one rc-btn--sm`, {
+                'rc-btn-solid-disabled': !seleced,
+                'ui-btn-loading': changeNowLoading
+              })}
+              disabled={!isSpecAvailable}
             >
               <FormattedMessage id="subscription.changeNow" />
             </button>

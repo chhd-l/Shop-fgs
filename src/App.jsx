@@ -293,6 +293,32 @@ if (tokenFromUrl) {
   localItemRoyal.set('rc-token', tokenFromUrl);
 }
 
+// 处理Felin代客下单
+const felinParams = qs.parse(window.location.search, {
+  ignoreQueryPrefix: true
+});
+
+console.log({ felinParams });
+
+const guestId = felinParams?.guestId;
+const userGroup = felinParams?.userGroup;
+const petOwnerType = felinParams?.petOwnerType;
+
+console.log({ guestId });
+
+if (userGroup && tokenFromUrl) {
+  sessionItemRoyal.set('rc-userGroup', userGroup);
+}
+//guestId=${guestId}&userGroup=felinStore&petOwnerType=guest
+if (guestId && userGroup && petOwnerType) {
+  localItemRoyal.remove('rc-token');
+  alert('清除rc-token');
+  localItemRoyal.remove('rc-userinfo');
+  sessionItemRoyal.set('rc-guestId', guestId);
+  sessionItemRoyal.set('rc-userGroup', userGroup);
+  sessionItemRoyal.set('rc-petOwnerType', petOwnerType);
+}
+
 const LoginCallback = (props) => {
   const { oktaAuth, authState } = useOktaAuth();
   const authStateReady = !authState.isPending;
@@ -316,6 +342,7 @@ const LoginCallback = (props) => {
       }
     };
     init();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [oktaAuth, authStateReady]);
   // }, [oktaAuth, authStateReady, authState, props]);
 
@@ -342,6 +369,7 @@ const RegisterRequired = loadable(() =>
 
 const Test = loadable(() => import('@/views/Test'));
 const Survey = loadable(() => import('@/views/Survey'));
+const PrescriptiongGate = loadable(() => import('@/views/PrescriptionGate'));
 
 const ImplicitLogin = () => {
   const { oktaAuth } = useOktaAuth();
@@ -353,7 +381,7 @@ var config = {
   projectId: '8f0d7f6b0396b8af7f08bf9f36d81259',
   phraseEnabled: Boolean(window.__.env.REACT_APP_PHRASE_CONTEXT_EDITOR),
   autoLowercase: false,
-  branch: window.__.env.REACT_APP_PHRASE_CONTEXT_EDITOR_BRANCH,
+  branch: window.__.env.REACT_APP_PHRASE_BRANCH,
   prefix: '[[__',
   suffix: '__]]'
 };
@@ -399,6 +427,14 @@ const App = () => {
                 <Route exact path={'/'} component={Home} />
                 <Route exact path={'/demo'} component={demo} />
                 <Route exact path={'/cancelEmail'} component={CancelEmail} />
+                {window.__.env.REACT_APP_COUNTRY === 'jp' && (
+                  <Route
+                    exact
+                    path={'/prescription-gate'}
+                    component={PrescriptiongGate}
+                  />
+                )}
+
                 <Route
                   exact
                   path={'/okta-login-page'}
@@ -698,6 +734,10 @@ const App = () => {
                   )}
                   // component={AccountPetForm}
                 />
+                {/* 日本需要fgs 不登录也能看到宠物创建页面 */}
+                {window.__.env.REACT_APP_COUNTRY === 'jp' && (
+                  <Route path="/petForm" exact component={AccountPetForm} />
+                )}
                 <Route
                   path="/account/pets/petForm/"
                   exact
@@ -773,48 +813,36 @@ const App = () => {
                   exact
                   path="/subscription-landing"
                   render={(props) => {
-                    if (window.__.env.REACT_APP_COUNTRY === 'de') {
-                      return <DE_SubscriptionLanding {...props} />;
-                    } else if (window.__.env.REACT_APP_COUNTRY === 'uk') {
-                      return <Redirect to={{ pathname: '/' }} {...props} />;
-                    } else if (
-                      window.__.env.REACT_APP_COUNTRY === 'se' ||
-                      window.__.env.REACT_APP_COUNTRY === 'us'
-                    ) {
-                      return <US_SubscriptionLanding {...props} />;
-                    } else if (window.__.env.REACT_APP_COUNTRY === 'ru') {
-                      return <VetLandingPage {...props} />;
-                    } else if (window.__.env.REACT_APP_COUNTRY === 'tr') {
-                      return <TR_SubscriptionLanding {...props} />;
-                    } else {
-                      return <SubscriptionLanding {...props} />;
+                    switch (window.__.env.REACT_APP_COUNTRY) {
+                      case 'de':
+                        return <DE_SubscriptionLanding {...props} />;
+                      case 'uk':
+                        return <Redirect to={{ pathname: '/' }} {...props} />;
+                      case 'se':
+                      case 'us':
+                        return <US_SubscriptionLanding {...props} />;
+                      case 'ru':
+                        return <VetLandingPage {...props} />;
+                      case 'tr':
+                        return <TR_SubscriptionLanding {...props} />;
+                      case 'jp':
+                        return (
+                          <Redirect
+                            to={{ pathname: '/subscription' }}
+                            {...props}
+                          />
+                        );
+                      case 'fr':
+                        return (
+                          <Redirect
+                            to={{ pathname: '/club-subscription' }}
+                            {...props}
+                          />
+                        );
+                      default:
+                        return <SubscriptionLanding {...props} />;
                     }
                   }}
-                  // component={(() => {
-                  //   let sublanding = '';
-                  //   switch (window.__.env.REACT_APP_COUNTRY) {
-                  //     case 'de':
-                  //       sublanding = DE_SubscriptionLanding;
-                  //       break;
-                  //     case 'us':
-                  //     case 'uk':
-                  //     case 'se':
-                  //       sublanding = US_SubscriptionLanding;
-                  //       break;
-                  //     case 'ru':
-                  //       sublanding = VetLandingPage;
-                  //       break;
-                  //     case 'tr':
-                  //       sublanding = TR_SubscriptionLanding;
-                  //       break;
-                  //     case 'jp':
-                  //       sublanding = JP_SubscriptionLanding;
-                  //       break;
-                  //     default:
-                  //       sublanding = SubscriptionLanding;
-                  //   }
-                  //   return sublanding;
-                  // })()}
                 />
                 <Route
                   path="/club-subscription"
@@ -954,12 +982,20 @@ const App = () => {
                   sensitive
                   path="/Tailorednutrition"
                   exact
-                  component={
-                    window.__.env.REACT_APP_COUNTRY == 'us' ||
-                    window.__.env.REACT_APP_COUNTRY == 'uk'
-                      ? US_Tailorednutrition
-                      : Tailorednutrition
-                  }
+                  render={(props) => {
+                    switch (window.__.env.REACT_APP_COUNTRY) {
+                      case 'us':
+                      case 'uk':
+                        return <US_Tailorednutrition {...props} />;
+                      case 'mx':
+                      case 'fr':
+                        return <Tailorednutrition {...props} />;
+                      default:
+                        return (
+                          <Redirect to={{ pathname: '/404' }} {...props} />
+                        );
+                    }
+                  }}
                 />
                 {/* fr定制 */}
                 <Route

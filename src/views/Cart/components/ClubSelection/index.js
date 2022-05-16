@@ -22,7 +22,8 @@ const ClubSelection = function (props) {
           <span
             style={{
               color: '#333',
-              marginTop: '5px'
+              marginTop: '5px',
+              whiteSpace: 'nowrap'
             }}
             className="font-normal inline-block"
           >
@@ -103,7 +104,11 @@ const ClubSelection = function (props) {
         handleConfirm={(data) => {
           props.changeFrequency(pitem, data);
         }}
-        className="d-flex align-items-center mt-2 pl-3 pr-3 pb-2 pt-2 text-left col-12 col-md-12 "
+        className="bg-rc-f9 px-3 py-2"
+        childrenGridCls={[
+          'col-span-4 md:col-span-6',
+          'col-span-8 md:col-span-6'
+        ]}
       />
     </div>
   );

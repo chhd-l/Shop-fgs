@@ -629,7 +629,13 @@ const PriceItemShow = ({ item, configStore }) => {
         <div className="d-flex justify-content-center">
           <div className="rc-card__price text-left PriceFitScreen">
             <div className={`rc-full-width PriceFitScreen`}>
-              <span className="value sales card--product-contaner-price">
+              <span
+                className={`value sales card--product-contaner-price ${
+                  window.__.env.REACT_APP_COUNTRY === 'jp'
+                    ? 'flex flex-row-reverse items-center'
+                    : ''
+                }`}
+              >
                 {priceDisplayMethod == 0 &&
                   (item.toPrice ? (
                     <FormattedMessage

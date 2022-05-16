@@ -39,6 +39,9 @@ class PayProductInfo extends React.Component {
   get freeShippingFlag() {
     return this.props.checkoutStore.freeShippingFlag;
   }
+  get earnedPoint() {
+    return this.props.checkoutStore.earnedPoint;
+  }
   // 存在分期，且不是repay时，才显示分期信息
   get isShowInstallMent() {
     const { details, isRepay } = this.props;
@@ -63,7 +66,7 @@ class PayProductInfo extends React.Component {
     const { details } = this.props;
     // console.log(plist, details, 'hahaha');
     const List = plist
-      .filter((item) => !item?.cateName?.includes('Leaflet'))
+      .filter((item) => !item?.isHidden)
       .map((item, i) => {
         let isGift = false;
         // item.subscriptionPlanGiftList && item.subscriptionPlanGiftList.length;
@@ -168,12 +171,23 @@ class PayProductInfo extends React.Component {
                       item.subscriptionStatus &&
                       item.goodsInfoFlag != 3 ? (
                         <>
-                          <p className="text-line-through mb-0">
-                            {formatMoney(item.splitPrice)}
-                          </p>
-                          <p className="red mb-0">
-                            {formatMoney(item.subscriptionPrice * item.num)}
-                          </p>
+                          {/* 日本的订阅折扣价和原价一样特别显示 */}
+                          {window.__.env.REACT_APP_COUNTRY === 'jp' &&
+                          item.splitPrice ===
+                            item.subscriptionPrice * item.num ? (
+                            <p className="mb-0">
+                              {formatMoney(item.splitPrice)}
+                            </p>
+                          ) : (
+                            <>
+                              <p className="text-line-through mb-0">
+                                {formatMoney(item.splitPrice)}
+                              </p>
+                              <p className="red mb-0">
+                                {formatMoney(item.subscriptionPrice * item.num)}
+                              </p>
+                            </>
+                          )}
                         </>
                       ) : (
                         <p className="mb-0">{formatMoney(item.splitPrice)}</p>
@@ -399,6 +413,20 @@ class PayProductInfo extends React.Component {
                   </span>
                 </div>
               </div>
+              {this.earnedPoint > 0 && (
+                <div className="product-summary__total grand-total row leading-lines checkout--padding border-top">
+                  <div className="col-6 start-lines">
+                    <span>
+                      <FormattedMessage id="payment.earnedPoint" />
+                    </span>
+                  </div>
+                  <div className="col-6 end-lines text-right">
+                    <span className="grand-total-sum">
+                      {this.earnedPoint + 'pt'}
+                    </span>
+                  </div>
+                </div>
+              )}
             </>
           ) : (
             <div className="pt-2 pb-2">

@@ -71,9 +71,13 @@ const ConvenienceStore = ({ convenienceStoreChange, supportPoint = false }) => {
             id="convenienceStore.tip3"
             values={{
               val: (
-                <span className="cursor-pointer inline-block rc-styled-link border-b border-black hover:border-rc-red">
+                <a
+                  target="_blank"
+                  href="/faq"
+                  className="cursor-pointer inline-block rc-styled-link border-b border-black hover:border-rc-red"
+                >
                   <FormattedMessage id="here2" />
-                </span>
+                </a>
               )
             }}
           />

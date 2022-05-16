@@ -7,13 +7,44 @@ import { PanelContainer } from '../Common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
+function JpConfirmationText() {
+  return (
+    <>
+      <p>
+        <span className="border-b border-gray-600">
+          ご注文のキャンセルについて
+        </span>
+      </p>
+      <p>
+        ご注文後30分間、マイページで注文をキャンセルいただくことが可能です。
+      </p>
+      <p>
+        出荷準備に入ったご注文をキャンセルすることはできませんので、今一度ご注文内容をご確認お願いいたします。
+      </p>
+      <p>
+        定期購入の今後の出荷予定の変更やキャンセルは、マイページの定期購入履歴から行ってください。
+      </p>
+      <p className="mt-2">
+        <span className="border-b border-gray-600">返品・交換について</span>
+      </p>
+      <p>
+        返品・交換については、こちら[リンク: FAQ
+        返品・交換について]をご確認ください。
+      </p>
+      <p className="mt-2">
+        <span className="border-b border-gray-600">定期購入について</span>
+      </p>
+      <p className="mb-4">
+        定期購入の製品は、お客様からのキャンセルがない限り、設定いただいた周期でご注文が自動的に生成されます。発送はご注文生成後、1営業日以内となります。
+      </p>
+    </>
+  );
+}
+
 @inject('paymentStore')
 @injectIntl
 @observer
 class Confirmation extends React.Component {
-  static defaultProps = {
-    paymentTypeVal: ''
-  };
   constructor(props) {
     super(props);
     this.state = {
@@ -74,7 +105,10 @@ class Confirmation extends React.Component {
   };
   render() {
     const { panelStatus } = this;
-    const { tradePrice } = this.props;
+    const {
+      tradePrice,
+      paymentStore: { curPayWayInfo }
+    } = this.props;
     const { isValid } = this.state;
 
     return (
@@ -109,6 +143,9 @@ class Confirmation extends React.Component {
           }}
         >
           <div className={`pt-3 ${!panelStatus.isPrepare ? '' : 'hidden'}`}>
+            {window.__.env.REACT_APP_COUNTRY === 'jp' ? (
+              <JpConfirmationText />
+            ) : null}
             {/* 条款 */}
             <TermsCommon
               id={'confirmation'}
@@ -137,7 +174,7 @@ class Confirmation extends React.Component {
               >
                 <FormattedMessage
                   id={
-                    this.props.paymentTypeVal === 'cod'
+                    curPayWayInfo?.code === 'cod'
                       ? 'payment.further2'
                       : 'payment.further'
                   }

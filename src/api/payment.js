@@ -11,9 +11,8 @@ const api = {
   deleteCard: '/pay-payment-info', // delete a card
   setDefaltCard: '/pay-payment-info/default',
 
-  customerCommitAndPay: '/trade-custom/checkout',
+  customerCommitAndPay: `/${window.__.env.REACT_APP_STOREID}/trade-member/checkout`,
   rePay: '/trade-custom/repay',
-  customerCommitAndPayMix: '/trade-custom/mix/checkout',
   getMarketingDiscount: '/marketing/discount',
   getWays: `/${window.__.env.REACT_APP_STOREID}/pay/getPayPspList`,
   adyenPaymentsDetails: `/${window.__.env.REACT_APP_STOREID}/adyen/payment`,
@@ -41,10 +40,35 @@ const api = {
   calculateServiceFeeAndLoyaltyPoints:
     '/site/calculateServiceFeeAndLoyaltyPoints', //切换支付方式，重新计算价格
   ownerTotalPoints: '/points/owner-total-points', //获取总积分
-  ownerPointsInfo: '/points/owner-points-info' //历史使用和挣得积分
+  ownerPointsInfo: '/points/owner-points-info', //历史使用和挣得积分
+  valetGuestOrderPaymentResponse: ''
 };
 
 export default api;
+
+export function valetGuestOrderPaymentResponse({ guest_id, parameter }) {
+  return axios({
+    url: `/site/${guest_id}/valet-guest-order-payment-response`,
+    method: 'post',
+    data: parameter
+  });
+}
+
+export function queryPosOrder(tidList) {
+  return axios({
+    url: `/all/order/queryPosOrder`,
+    method: 'post',
+    data: { tidList: [tidList] }
+  });
+}
+
+export function cancelPosOrder(tid) {
+  return axios({
+    url: `/all/order/cancelPosOrder`,
+    method: 'post',
+    data: { tid }
+  });
+}
 
 export function sevenPayApi(tid) {
   return axios({
@@ -166,14 +190,6 @@ export function deleteCard(para) {
 export function customerCommitAndPay(parameter) {
   return axios({
     url: api.customerCommitAndPay,
-    method: 'post',
-    data: parameter
-  });
-}
-
-export function customerCommitAndPayMix(parameter) {
-  return axios({
-    url: api.customerCommitAndPayMix,
     method: 'post',
     data: parameter
   });

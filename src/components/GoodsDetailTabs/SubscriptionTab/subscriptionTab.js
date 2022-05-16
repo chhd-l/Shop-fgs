@@ -12,7 +12,10 @@ const icon4 = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/xicon4
 const icon5 = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/xicon5.png`;
 const icon6 = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/xicon6.png`;
 const clubDesc = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/club-desc@2x.png`;
+const clubRuDesc = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/club-ru-desc@2x.png`;
 const clubLogo = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/club/club-icon-big.png`;
+const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
+const clubDescImg = Ru ? clubRuDesc : clubDesc;
 
 export default function SubscriptionTab() {
   const scrollToTop = () => {
@@ -45,38 +48,54 @@ export default function SubscriptionTab() {
                 <div style={{ margin: '10px 0' }}>
                   <img
                     src={optimizeImage({
-                      originImageUrl: clubDesc,
+                      originImageUrl: clubDescImg,
                       width: 350
                     })}
                     alt="clubDesc"
+                    className={Ru && 'm-auto'}
                   />
                 </div>
                 <p className="sub-title">
-                  <FormattedMessage id="ClubLP.SubscriptionTab.subtitle1" />
+                  <FormattedMessage
+                    id={
+                      Ru
+                        ? 'ClubLP.SubscriptionTab.subtext'
+                        : 'ClubLP.SubscriptionTab.subtitle1'
+                    }
+                  />
                 </p>
               </>
             ) : (
               <>
-                <p className="sub-title">
-                  <FormattedMessage id="ClubLP.SubscriptionTab.subtitle1" />
+                <p className="sub-title ">
+                  <FormattedMessage
+                    id={
+                      Ru
+                        ? 'ClubLP.SubscriptionTab.subtext'
+                        : 'ClubLP.SubscriptionTab.subtitle1'
+                    }
+                  />
                 </p>
-                <div style={{ margin: '10px 0' }}>
+                <div style={{ margin: Ru ? '6px 0 0' : '10px 0' }}>
                   <img
                     src={optimizeImage({
-                      originImageUrl: clubDesc,
+                      originImageUrl: clubDescImg,
                       width: 350
                     })}
                     alt="clubDesc"
+                    style={{ height: Ru ? 290 : null }}
                   />
                 </div>
               </>
             )}
-            <p className="sub-desc">
-              <FormattedMessage
-                id="ClubLP.SubscriptionTab.subtext"
-                values={{ val: <br /> }}
-              />
-            </p>
+            {!Ru && (
+              <p className="sub-desc">
+                <FormattedMessage
+                  id="ClubLP.SubscriptionTab.subtext"
+                  values={{ val: <br /> }}
+                />
+              </p>
+            )}
           </article>
           <article className="rc-beta">
             <p className="text-center sub-title">

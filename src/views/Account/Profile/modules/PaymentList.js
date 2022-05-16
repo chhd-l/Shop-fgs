@@ -336,13 +336,13 @@ class PaymentList extends React.Component {
                   className="mb-0 text-xl"
                   style={{ display: curPageAtCover ? 'block' : 'none' }}
                 >
-                  <svg
-                    className="svg-icon account-info-icon align-middle mr-3 ml-1"
-                    aria-hidden="true"
+                  <img
+                    className="account-info-icon align-middle mr-3 ml-1 inline-block"
+                    src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icons/payments.svg`}
+                    alt="icons payments"
                     style={{ width: '1.4em', height: '1.4em' }}
-                  >
-                    <use xlinkHref="#iconpayments"></use>
-                  </svg>
+                  />
+
                   <FormattedMessage id="account.myPayments" />
                 </h5>
                 <h5

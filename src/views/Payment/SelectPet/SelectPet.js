@@ -85,7 +85,7 @@ const SelectPet = ({ checkoutStore, loginStore, paymentStore, isRepay }) => {
       {showBindPetPanel ? (
         <>
           <PanelContainer
-            panelStatus={bindPetPanelStatus}
+            panelStatus={toJS(bindPetPanelStatus)}
             titleConf={{
               className: 'px-5',
               icon: {

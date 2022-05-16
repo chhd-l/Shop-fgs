@@ -290,9 +290,12 @@ class ImageMagnifier extends Component {
 
   // 更新图片
   updataImg(props) {
+    const masterImg = props.spuImages?.filter(
+      (el) => el.imageType === 'master'
+    );
     this.setState({
       minImg: props.minImg,
-      maxImg: props.maxImg
+      maxImg: masterImg?.[0]?.artworkUrl || props.maxImg //有的国家不设置主图，maxImg就会和images第一张不一样。
     });
   }
   imageChange(e, image, i) {
@@ -496,7 +499,7 @@ class ImageMagnifier extends Component {
             <div style={cssStyle.magnifierContainer}>
               <LazyLoad>
                 <img
-                  classNam="zoom-img"
+                  className="zoom-img"
                   style={cssStyle.imgStyle2}
                   src={
                     optimizeImage({

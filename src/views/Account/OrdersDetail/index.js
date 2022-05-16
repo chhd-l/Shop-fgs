@@ -33,6 +33,7 @@ import {
   OrderLogisticsProgress,
   CancelOrderForJp
 } from './modules';
+import { DivWrapper } from './style';
 
 @inject('checkoutStore', 'configStore', 'paymentStore')
 @injectIntl
@@ -174,160 +175,143 @@ class AccountOrders extends React.Component {
     //没有详细物流信息的package不显示
     const logisticsList = [];
     this.state.logisticsList.forEach((item, index) => {
-      logisticsList.push(item);
+      item.giftItemList = item.giftItemList.filter((item2) => !item2.isHidden);
+      if (
+        item.shippingItems.length ||
+        item.giftItemList.length ||
+        item.subscriptionPlanGiftItemList.length
+      ) {
+        logisticsList.push(item);
+      }
     });
     const filteredLogisticsList = logisticsList;
     return (
       <>
-        {false && logisticsList[0] && logisticsList[0].trackingUrl ? null : (
-          <>
-            {logisticsList.length > 0 ? (
-              <div className="col-12 mt-4 border1 rounded mb-4 px-0 rc-md-up">
-                {/* tab表头，length大于才展示 */}
-                {logisticsList.length > 1 ? (
-                  <nav className="rc-bg-colour--brand4 p-3">
-                    {logisticsList.map(
-                      (item, i) =>
-                        true && (
-                          <span
-                            className={`ui-cursor-pointer mr-2 px-3 py-2 rounded ${
-                              activeTabIdx === i
-                                ? 'active red rc-bg-colour--brand3'
-                                : ''
-                            }`}
-                            onClick={this.changeTab.bind(this, i)}
-                            key={i}
-                          >
-                            <FormattedMessage
-                              id="packageX"
-                              values={{ val: i + 1 }}
-                            />
-                          </span>
-                        )
-                    )}
-                  </nav>
-                ) : null}
-
+        {logisticsList.length > 0 ? (
+          <div className="col-12 mt-4 border1 rounded mb-4 px-0 rc-md-up">
+            {/* tab表头，length大于才展示 */}
+            {logisticsList.length > 1 ? (
+              <nav className="rc-bg-colour--brand4 p-3">
                 {logisticsList.map(
                   (item, i) =>
                     true && (
-                      <div
+                      <span
+                        className={`ui-cursor-pointer mr-2 px-3 py-2 rounded ${
+                          activeTabIdx === i
+                            ? 'active red rc-bg-colour--brand3'
+                            : ''
+                        }`}
+                        onClick={this.changeTab.bind(this, i)}
                         key={i}
-                        className={`mx-3 ${i === activeTabIdx ? '' : 'hidden'}`}
                       >
-                        <OrderLogisticsProgress
-                          list={this.handleLogisticsDetails(
-                            item.tradeLogisticsDetails
-                          )}
-                          hasMoreLessOperation={true}
-                          moreLogistics={moreLogistics}
-                          handleToggleMoreLess={this.handleToggleMoreLess}
-                          customDateCls="text-nowrap"
+                        <FormattedMessage
+                          id="packageX"
+                          values={{ val: i + 1 }}
                         />
-                        <div className="row">
-                          {(item.shippingItems || []).map((ele) => (
-                            <div className="text-center col-2" key={ele.skuId}>
-                              <img
-                                className="mx-auto my-0 w-auto"
-                                src={ele.pic || IMG_DEFAULT}
-                                alt={ele.itemName}
-                                title={ele.itemName}
-                                style={{ height: '60px' }}
-                              />
-                              <p className="font-weight-normal ui-text-overflow-line1">
-                                {ele.itemName} X {ele.itemNum}
-                              </p>
-                            </div>
-                          ))}
-                        </div>
-                        <div className="row border-top m-0 py-2">
-                          <div className="col-12 col-md-3">
-                            <svg className="svg-icon mr-1" aria-hidden="true">
-                              <use xlinkHref="#iconDeliverydate" />
-                            </svg>
-                            <FormattedMessage id="deliveryDate" />:{' '}
-                            <span className="medium">
-                              {formatDate({ date: item.deliverTime })}
-                            </span>
-                          </div>
-                          <div className="col-12 col-md-4">
-                            <svg className="svg-icon mr-1" aria-hidden="true">
-                              <use xlinkHref="#iconLogisticscompany" />
-                            </svg>
-                            <FormattedMessage id="logisticsCompany" />:{' '}
-                            <span className="medium">
-                              {item.logistics
-                                ? item.logistics.logisticCompanyName
-                                : ''}
-                            </span>
-                          </div>
-                          <div className="col-12 col-md-5">
-                            <svg className="svg-icon mr-1" aria-hidden="true">
-                              <use xlinkHref="#iconLogisticssinglenumber" />
-                            </svg>
-                            <FormattedMessage id="logisticsSingleNumber" />:{' '}
-                            <span className="medium">
-                              {item.logistics ? item.logistics.logisticNo : ''}
-                            </span>
-                            <CopyToClipboard
-                              text={
-                                item.logistics ? item.logistics.logisticNo : ''
-                              }
-                            >
-                              <span className="iconfont ui-cursor-pointer ml-2">
-                                &#xe6c0;
-                              </span>
-                            </CopyToClipboard>
-                          </div>
-                        </div>
-                      </div>
+                      </span>
                     )
                 )}
-              </div>
+              </nav>
             ) : null}
 
-            <div className="mx-4 rc-md-down mt-2 md:mt-0">
-              {filteredLogisticsList.map(
-                (item, i) =>
-                  true && (
-                    <div
-                      className="row rc-bg-colour--brand4 rounded mb-2 pb-2"
-                      onClick={this.handleClickLogisticsCard.bind(this, item)}
-                      key={i}
+            {logisticsList.map((item, i) => (
+              <div
+                key={i}
+                className={`mx-3 ${i === activeTabIdx ? '' : 'hidden'}`}
+              >
+                <OrderLogisticsProgress
+                  list={this.handleLogisticsDetails(item.tradeLogisticsDetails)}
+                  hasMoreLessOperation={true}
+                  moreLogistics={moreLogistics}
+                  handleToggleMoreLess={this.handleToggleMoreLess}
+                  customDateCls="text-nowrap"
+                />
+                <div className="row mb-2">
+                  {(item.shippingItems || [])
+                    .concat(item.giftItemList)
+                    .concat(item.subscriptionPlanGiftItemList || [])
+                    .map((ele) => (
+                      <div className="text-center col-2" key={ele.skuId}>
+                        <img
+                          className="mx-auto my-0 w-auto"
+                          src={ele.pic || IMG_DEFAULT}
+                          alt={ele.itemName}
+                          title={ele.itemName}
+                          style={{ height: '60px' }}
+                        />
+                        <p className="font-weight-normal ui-text-overflow-line1">
+                          {ele.itemNum} X {ele.itemName}
+                        </p>
+                      </div>
+                    ))}
+                </div>
+                <div className="row border-top m-0 py-2">
+                  <div className="col-12 col-md-3">
+                    <span className="iconfont iconDeliverydate mr-1 logics-icon" />
+                    <FormattedMessage id="deliveryDate" />:{' '}
+                    <span className="medium">
+                      {formatDate({ date: item.deliverTime })}
+                    </span>
+                  </div>
+                  <div className="col-12 col-md-4">
+                    <span className="iconfont iconLogisticscompany mr-1 logics-icon" />
+                    <FormattedMessage id="logisticsCompany" />:{' '}
+                    <span className="medium">
+                      {item.logistics ? item.logistics.logisticCompanyName : ''}
+                    </span>
+                  </div>
+                  <div className="col-12 col-md-5">
+                    <span className="iconfont iconLogisticssinglenumber mr-1 logics-icon" />
+                    <FormattedMessage id="logisticsSingleNumber" />:{' '}
+                    <span className="medium">
+                      {item.logistics ? item.logistics.logisticNo : ''}
+                    </span>
+                    <CopyToClipboard
+                      text={item.logistics ? item.logistics.logisticNo : ''}
                     >
-                      <div className="col-10 medium color-444 d-flex align-items-center">
-                        <span>
-                          {formatDate({
-                            date: item.deliverTime,
-                            showMinute: true
-                          })}
-                        </span>
-                      </div>
-                      <div className="col-2">
-                        <span className="icon iconfont">&#xe6f9;</span>
-                      </div>
-                      <div className="col-12 row mt-2">
-                        {item.shippingItems.map((sItem) => (
-                          <div
-                            className="col-3 flex items-end"
-                            key={sItem.skuId}
-                          >
-                            <LazyLoad>
-                              <img
-                                className="rc-bg-colour--brand4 w-3/4"
-                                src={sItem.pic}
-                                alt="shipping Items image"
-                              />
-                            </LazyLoad>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )
-              )}
+                      <span className="iconfont ui-cursor-pointer ml-2 iconcopy" />
+                    </CopyToClipboard>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : null}
+
+        <div className="mx-4 rc-md-down mt-2 md:mt-0">
+          {filteredLogisticsList.map((item, i) => (
+            <div
+              className="row rc-bg-colour--brand4 rounded mb-2 pb-2"
+              onClick={this.handleClickLogisticsCard.bind(this, item)}
+              key={i}
+            >
+              <div className="col-10 medium color-444 d-flex align-items-center">
+                <span>
+                  {formatDate({
+                    date: item.deliverTime,
+                    showMinute: true
+                  })}
+                </span>
+              </div>
+              <div className="col-2">
+                <span className="icon iconfont">&#xe6f9;</span>
+              </div>
+              <div className="col-12 row mt-2">
+                {item.shippingItems.map((sItem) => (
+                  <div className="col-3 flex items-end" key={sItem.skuId}>
+                    <LazyLoad>
+                      <img
+                        className="rc-bg-colour--brand4 w-3/4"
+                        src={sItem.pic}
+                        alt="shipping Items image"
+                      />
+                    </LazyLoad>
+                  </div>
+                ))}
+              </div>
             </div>
-          </>
-        )}
+          ))}
+        </div>
       </>
     );
   };
@@ -354,8 +338,11 @@ class AccountOrders extends React.Component {
       curLogisticInfo
     } = this.state;
 
+    console.log({ details });
+    console.log({ logisticsList: this.state.logisticsList });
+
     return (
-      <div>
+      <DivWrapper>
         <PageBaseInfo additionalEvents={event} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3 ord-detail">
           <BannerTip />
@@ -536,9 +523,7 @@ class AccountOrders extends React.Component {
                     <div className="col-12 rc-bg-colour--brand4 rc-md-down mb-3 h-3.5" />
                     <div className="row m-0 py-2">
                       <div className="col-12 col-md-3 d-flex">
-                        <svg className="svg-icon mr-1" aria-hidden="true">
-                          <use xlinkHref="#iconDeliverydate" />
-                        </svg>
+                        <span className="iconfont iconDeliverydate mr-1 logics-icon" />
                         <p>
                           <FormattedMessage id="deliveryDate" />
                           <br />
@@ -548,9 +533,7 @@ class AccountOrders extends React.Component {
                         </p>
                       </div>
                       <div className="col-12 col-md-3 d-flex">
-                        <svg className="svg-icon mr-1" aria-hidden="true">
-                          <use xlinkHref="#iconLogisticscompany" />
-                        </svg>
+                        <span className="iconfont iconLogisticscompany mr-1 logics-icon" />
                         <p>
                           <FormattedMessage id="logisticsCompany" />
                           <br />
@@ -561,9 +544,7 @@ class AccountOrders extends React.Component {
                         </p>
                       </div>
                       <div className="col-12 col-md-6 d-flex">
-                        <svg className="svg-icon mr-1" aria-hidden="true">
-                          <use xlinkHref="#iconLogisticssinglenumber" />
-                        </svg>
+                        <span className="iconfont iconLogisticssinglenumber mr-1 logics-icon" />
                         <p>
                           <FormattedMessage id="logisticsSingleNumber" />
                           <br />
@@ -573,9 +554,7 @@ class AccountOrders extends React.Component {
                           <CopyToClipboard
                             text={curLogisticInfo?.logistics?.logisticNo || ''}
                           >
-                            <span className="iconfont ui-cursor-pointer ml-2">
-                              &#xe6c0;
-                            </span>
+                            <span className="iconfont ui-cursor-pointer ml-2 iconcopy" />
                           </CopyToClipboard>
                         </p>
                       </div>
@@ -587,7 +566,7 @@ class AccountOrders extends React.Component {
           </div>
           <Footer />
         </main>
-      </div>
+      </DivWrapper>
     );
   }
 }

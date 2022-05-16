@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import PromotionCodeText from '@/views/Payment/PayProductInfo/components/promotionCodeText';
 import { inject, observer } from 'mobx-react';
 import cn from 'classnames';
+const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 
 const PriceDetailsList = ({
   data: {
@@ -86,7 +87,12 @@ const PriceDetailsList = ({
     {
       title: <FormattedMessage id="payment.serviceFee" />,
       val: serviceFeePrice,
-      visible: serviceFeePrice,
+      visible:
+        configStore?.info?.serviceFeeFlag &&
+        COUNTRY == 'jp' &&
+        Number(serviceFeePrice) >= 0
+          ? true
+          : false,
       key: 'serviceFee'
     },
     {

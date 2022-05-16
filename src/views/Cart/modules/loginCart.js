@@ -113,6 +113,7 @@ class LoginCart extends React.Component {
     this.showErrMsg = this.showErrMsg.bind(this);
   }
   async componentDidMount() {
+    console.log('loginPage');
     try {
       if (sessionItemRoyal.get('rc-iframe-from-storepotal')) {
         this.setState({ circleLoading: true });
@@ -356,33 +357,33 @@ class LoginCart extends React.Component {
         this.computedList[0];
       if (el.goodsInfoFlag) {
         el.form = {
-          frequencyVal: filterData.valueEn,
-          frequencyName: filterData.name,
+          frequencyVal: filterData?.valueEn,
+          frequencyName: filterData?.name,
           frequencyId:
-            filterData.id ||
+            filterData?.id ||
             el.goods.defaultFrequencyId ||
             configStore?.defaultSubscriptionFrequencyId
         };
       } else {
         if (el.promotions?.includes('club')) {
           el.form = {
-            frequencyVal: filterData.valueEn,
-            frequencyName: filterData.name,
+            frequencyVal: filterData?.valueEn,
+            frequencyName: filterData?.name,
             frequencyId:
               el.goods?.defaultFrequencyId ||
               configStore.info?.storeVO.defaultSubscriptionClubFrequencyId ||
-              filterData.id,
-            frequencyType: filterData.type
+              filterData?.id,
+            frequencyType: filterData?.type
           };
         } else {
           el.form = {
-            frequencyVal: filterData.valueEn,
-            frequencyName: filterData.name,
+            frequencyVal: filterData?.valueEn,
+            frequencyName: filterData?.name,
             frequencyId:
               el.goods?.defaultFrequencyId ||
               configStore.info?.storeVO?.defaultSubscriptionFrequencyId ||
-              filterData.id,
-            frequencyType: filterData.type
+              filterData?.id,
+            frequencyType: filterData?.type
           };
         }
       }
@@ -500,104 +501,6 @@ class LoginCart extends React.Component {
     }, 3000);
   }
 
-  addQuantity(item) {
-    const {
-      configStore: {
-        info: { skuLimitThreshold }
-      }
-    } = this.props;
-    if (this.state.checkoutLoading) {
-      return;
-    }
-    this.setState({ errorMsg: '' });
-
-    const { productList } = this.state;
-    // 所有产品总数量不能超过限制
-    const otherProsNum = productList
-      .filter((p) => p.goodsId !== item.goodsId)
-      .reduce((pre, cur) => {
-        return Number(pre) + Number(cur.buyCount);
-      }, 0);
-
-    let val = item.buyCount + 1;
-
-    if (otherProsNum + val > skuLimitThreshold.totalMaxNum) {
-      val = skuLimitThreshold.totalMaxNum - otherProsNum;
-      this.showErrMsg(
-        <FormattedMessage
-          id="cart.errorAllProductNumLimit"
-          values={{ val: skuLimitThreshold.totalMaxNum }}
-        />
-      );
-    } else if (item.buyCount < skuLimitThreshold.skuMaxNum) {
-      item.buyCount++;
-      this.updateBackendCart({
-        goodsInfoId: item.goodsInfoId,
-        goodsNum: item.buyCount,
-        verifyStock: false,
-        periodTypeId: item.periodTypeId,
-        goodsInfoFlag: item.goodsInfoFlag
-      });
-    } else {
-      this.showErrMsg(
-        <FormattedMessage
-          id="cart.errorMaxInfo"
-          values={{ val: skuLimitThreshold.skuMaxNum }}
-        />
-      );
-    }
-  }
-
-  validTotalMaxNum({ item, val }) {
-    const {
-      configStore: {
-        info: { skuLimitThreshold }
-      }
-    } = this.props;
-    const { productList } = this.state;
-    // 所有产品总数量不能超过限制
-    const otherProsNum = productList
-      .filter((p) => p.goodsId !== item.goodsId)
-      .reduce((pre, cur) => {
-        return Number(pre) + Number(cur.quantity);
-      }, 0);
-    if (otherProsNum + val > skuLimitThreshold.totalMaxNum) {
-      val = skuLimitThreshold.totalMaxNum - otherProsNum;
-      this.showErrMsg(
-        <FormattedMessage
-          id="cart.errorAllProductNumLimit"
-          values={{ val: skuLimitThreshold.totalMaxNum }}
-        />
-      );
-      item.buyCount = val;
-      this.updateBackendCart({
-        goodsInfoId: item.goodsInfoId,
-        goodsNum: item.buyCount,
-        verifyStock: false,
-        periodTypeId: item.periodTypeId,
-        goodsInfoFlag: item.goodsInfoFlag
-      });
-    }
-  }
-
-  subQuantity(item) {
-    if (this.state.checkoutLoading) {
-      return;
-    }
-    this.setState({ errorMsg: '' });
-    if (item.buyCount > 1) {
-      item.buyCount--;
-      this.updateBackendCart({
-        goodsInfoId: item.goodsInfoId,
-        goodsNum: item.buyCount,
-        verifyStock: false,
-        periodTypeId: item.periodTypeId,
-        goodsInfoFlag: item.goodsInfoFlag
-      });
-    } else {
-      this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
-    }
-  }
   //GA 移除购物车商品 埋点
   GARemoveFromCart(product) {
     const list = [
@@ -679,7 +582,7 @@ class LoginCart extends React.Component {
                 errorMsg: (
                   <FormattedMessage
                     id="cart.errorAllProductNumLimit"
-                    values={{ val: skuLimitThreshold.totalMaxNum }}
+                    values={{ val: skuLimitThreshold.skuMaxNum }}
                   />
                 )
               }}
@@ -850,7 +753,7 @@ class LoginCart extends React.Component {
                   </div> */}
                     <div className="align-left flex">
                       <div
-                        className="stock"
+                        className="stock flex"
                         style={{ margin: '.5rem 0 -.4rem' }}
                       >
                         <label
@@ -1180,7 +1083,7 @@ class LoginCart extends React.Component {
               </strong>
             </div>
             <div className="col-5">
-              <p className="text-right grand-total-sum medium mb-0 text-nowrap mb-4">
+              <p className="text-right grand-total-sum medium mb-0 text-nowrap">
                 {this.props.configStore?.customTaxSettingOpenFlag &&
                 this.props.configStore?.enterPriceType === 'NO_TAX' ? (
                   <>

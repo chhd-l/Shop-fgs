@@ -29,6 +29,14 @@
 .required-component .footer-checkbox-title p .rc-text-colour--brand1 {
   color: #e2001a;
 }
+.re2001acolor p {
+  color: #e2001a !important;
+  font-weight: 500 !important;
+}
+.nore2001acolor p span {
+  color: #666 !important;
+  font-weight: 500 !important;
+}
 .required-component .footer-checkbox-title p a {
   color: #e2001a !important;
   font-weight: 500;

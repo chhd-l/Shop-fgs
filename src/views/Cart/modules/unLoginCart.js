@@ -24,7 +24,7 @@ import {
   GACartChangeSubscription
 } from '@/utils/GA';
 import { getMixFeedings } from '@/api/details';
-import { getGoodsRelationBatch } from '@/api/cart';
+import { getGoodsRelationBatch, valetGuestMiniCars } from '@/api/cart';
 import PayProductInfo from '../../Payment/PayProductInfo';
 import Loading from '@/components/Loading';
 import findIndex from 'lodash/findIndex';
@@ -55,6 +55,7 @@ import { funcUrl } from '@/lib/url-utils';
 
 const guid = uuidv4();
 const localItemRoyal = window.__.localItemRoyal;
+const sessionItemRoyal = window.__.sessionItemRoyal;
 const isGift = true;
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
@@ -102,7 +103,8 @@ class UnLoginCart extends React.Component {
       },
       relatedGoodsList: [],
       mixFeedings: [],
-      promotionsVisible: false
+      promotionsVisible: false,
+      circleLoading: false
     };
     this.hanldeToggleOneOffOrSub = this.hanldeToggleOneOffOrSub.bind(this);
     this.showErrMsg = this.showErrMsg.bind(this);
@@ -201,6 +203,785 @@ class UnLoginCart extends React.Component {
     });
   };
   async componentDidMount() {
+    console.log('unLoginPage');
+    const guestId = sessionItemRoyal.get('rc-guestId', guestId);
+    if (guestId) {
+      this.setState({ circleLoading: true });
+      const getDetail = ({
+        goodsInfos,
+        goodsSpecDetails,
+        goodsSpecs,
+        goodsInfoNo,
+        goodsInfoId
+      }) => {
+        let choosedSpecsArr = [];
+        let sizeList = [];
+        if (true) {
+          // 通过sku查询
+          let specsItem = goodsInfos.filter(
+            (item) => item.goodsInfoNo == goodsInfoNo
+          );
+
+          choosedSpecsArr =
+            specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds;
+        }
+
+        // 组装购物车的前端数据结构与规格的层级关系
+        if (goodsSpecDetails) {
+          // 是否有规格可用
+          let isAllSpecDisabled = true;
+          goodsSpecs.map((sItem, index) => {
+            // 该层判断是为了去判断sku是否存在
+            sItem.chidren = goodsSpecDetails.filter((sdItem, i) => {
+              if (index === 0) {
+                let filterproducts = goodsInfos.filter((goodEl) =>
+                  goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)
+                );
+                sdItem.goodsInfoUnit = filterproducts?.[0]?.goodsInfoUnit;
+                sdItem.isEmpty = filterproducts.every(
+                  (item) => item.stock === 0
+                );
+                sdItem.isUnitPriceZero = filterproducts?.[0]?.marketPrice === 0;
+                sdItem.isDisabled = sdItem.isEmpty || sdItem.isUnitPriceZero;
+                // filterproduct.goodsInfoWeight = parseFloat(sdItem.detailName)
+              }
+              return sdItem.specId === sItem.specId;
+            });
+            let defaultSelcetdSku = -1;
+            if (choosedSpecsArr.length) {
+              for (let i = 0; i < choosedSpecsArr.length; i++) {
+                let specDetailIndex = sItem.chidren.findIndex(
+                  (el) => el.specDetailId === choosedSpecsArr[i]
+                );
+                if (specDetailIndex > -1) {
+                  defaultSelcetdSku = specDetailIndex;
+                }
+              }
+            }
+            const isSelectedDefaultSkuItem = sItem.chidren.findIndex(
+              (_item) => _item.isSelected && !_item.isDisabled
+            );
+            // 所有规格都不可用，一旦有可用的，则置为false
+            if (sItem.chidren.some((_item) => !_item.isDisabled)) {
+              isAllSpecDisabled = false;
+            }
+
+            if (defaultSelcetdSku > -1) {
+              // 默认选择该sku
+              if (!sItem.chidren[defaultSelcetdSku].isEmpty) {
+                // 如果是sku进来的，需要默认当前sku被选择
+                sItem.chidren[defaultSelcetdSku].selected = true;
+              }
+            } else if (isSelectedDefaultSkuItem > -1) {
+              // sprint6添加的需求，在storePortal设置了defaultSku那么该sku被选中.
+              sItem.chidren[isSelectedDefaultSkuItem].selected = true;
+            } else {
+              if (
+                window.__.env.REACT_APP_COUNTRY === 'de' &&
+                sItem.chidren.length &&
+                !sItem.chidren[0].isEmpty
+              ) {
+                // de设置最小的
+                sItem.chidren[0].selected = true;
+              } else if (
+                sItem.chidren.length > 1 &&
+                !sItem.chidren[1].isDisabled
+              ) {
+                sItem.chidren[1].selected = true;
+              } else {
+                for (let i = 0; i < sItem.chidren.length; i++) {
+                  if (!sItem.chidren[i].isDisabled) {
+                    sItem.chidren[i].selected = true;
+                    break;
+                  }
+                }
+                // 如果所有sku都没有库存 取第一个可用的规格
+                if (
+                  sItem.chidren.filter((el) => el.selected).length === 0 &&
+                  sItem.chidren.filter((el) => !el.isDisabled).length &&
+                  sItem.chidren.length
+                ) {
+                  const targetItem = sItem.chidren.filter(
+                    (el) => !el.isDisabled
+                  )[0];
+                  if (targetItem) {
+                    targetItem.selected = true;
+                  }
+                }
+              }
+            }
+            return sItem;
+          });
+        } else {
+          goodsInfos[0].selected = true;
+        }
+        goodsInfos = goodsInfos.map((g) => {
+          g.selected = g.goodsInfoId === goodsInfoId;
+          return g;
+        });
+        return goodsInfos;
+      };
+
+      let res = await valetGuestMiniCars(guestId);
+      // console.log(res)
+      // let res = {
+      //   "code": "K-000000",
+      //   "message": "Opération réussie",
+      //   "context": {
+      //     "goodsList": [
+      //       {
+      //         "goodsInfoId": "8a7080567faf8ff5017fb48cd9d00006",
+      //         "goodsId": "8a7080567faf8ff5017fb4862b860005",
+      //         "goodsInfoName": "Instinctive en gelée",
+      //         "goodsInfoNo": "237550",
+      //         "innerGoodsInfoNo": "FR_40740102",
+      //         "goodsInfoImg": "https://cdn.royalcanin-weshare-online.io/s1Y1JnUBBKJuub5qvZiW/v23/instinctive-gele",
+      //         "goodsInfoBarcode": null,
+      //         "stock": 408,
+      //         "marketPrice": 14.99,
+      //         "supplyPrice": null,
+      //         "retailPrice": null,
+      //         "grouponPrice": null,
+      //         "costPrice": null,
+      //         "createTime": "2022-03-23 02:13:24.000",
+      //         "updateTime": "2022-03-23 02:13:24.000",
+      //         "addedTime": "2022-03-23 02:13:24.000",
+      //         "delFlag": 0,
+      //         "addedFlag": 1,
+      //         "companyInfoId": 1053,
+      //         "storeId": 123457909,
+      //         "storeName": null,
+      //         "customFlag": 0,
+      //         "levelDiscountFlag": 0,
+      //         "auditStatus": 1,
+      //         "companyType": null,
+      //         "aloneFlag": false,
+      //         "salePrice": 14.99,
+      //         "priceType": 2,
+      //         "mockSpecIds": null,
+      //         "mockSpecDetailIds": null,
+      //         "specDetailRelIds": null,
+      //         "buyCount": 1,
+      //         "count": null,
+      //         "maxCount": null,
+      //         "intervalPriceIds": null,
+      //         "specText": "12×85G",
+      //         "intervalMinPrice": null,
+      //         "intervalMaxPrice": null,
+      //         "validFlag": null,
+      //         "cateId": 1134,
+      //         "cateName": null,
+      //         "isHidden": null,
+      //         "brandId": 400,
+      //         "storeCateIds": null,
+      //         "distributionCommission": null,
+      //         "commissionRate": null,
+      //         "distributionSalesCount": null,
+      //         "distributionGoodsAudit": 0,
+      //         "distributionGoodsAuditReason": null,
+      //         "checked": false,
+      //         "goodsStatus": 0,
+      //         "goodsUnit": null,
+      //         "marketingLabels": [
+
+      //         ],
+      //         "grouponLabel": null,
+      //         "couponLabels": [
+
+      //         ],
+      //         "goodsCubage": 1,
+      //         "goodsWeight": 1,
+      //         "freightTempId": 62,
+      //         "saleType": 0,
+      //         "allowPriceSet": null,
+      //         "smallProgramCode": null,
+      //         "joinDistributior": null,
+      //         "goodsEvaluateNum": 0,
+      //         "goodsCollectNum": 0,
+      //         "goodsSalesNum": 5,
+      //         "goodsFavorableCommentNum": 0,
+      //         "enterPrisePrice": null,
+      //         "enterPriseAuditState": null,
+      //         "enterPriseGoodsAuditReason": null,
+      //         "subscriptionStatus": 1,
+      //         "subscriptionPrice": 13.49,
+      //         "linePrice": 0,
+      //         "basePrice": null,
+      //         "subscriptionBasePrice": null,
+      //         "basePriceType": "",
+      //         "goodsInfoWeight": 0,
+      //         "goodsInfoUnit": "kg",
+      //         "goods": {
+      //           "goodsId": "8a7080567faf8ff5017fb4862b860005",
+      //           "cateId": 1134,
+      //           "brandId": 400,
+      //           "brandName": null,
+      //           "goodsName": "Instinctive en gelée",
+      //           "goodsSubtitle": "Aliment complet pour chats adultes de 1 à 7 ans.",
+      //           "goodsNewSubtitle": "Chats adultes de 1 à 7 ans",
+      //           "goodsDescription": null,
+      //           "goodsDescriptionDetails": null,
+      //           "goodsNo": "4074",
+      //           "innerGoodsNo": "FR_4074",
+      //           "goodsUnit": null,
+      //           "goodsCateName": "Cat/Feline Health Nutrition Wet/Wet",
+      //           "goodsImg": "https://cdn.royalcanin-weshare-online.io/s1Y1JnUBBKJuub5qvZiW/v23/instinctive-gele",
+      //           "goodsWeight": 1,
+      //           "marketPrice": null,
+      //           "supplyPrice": null,
+      //           "goodsType": 0,
+      //           "costPrice": null,
+      //           "createTime": "2022-03-23 02:04:31.000",
+      //           "updateTime": "2022-05-10 08:31:09.000",
+      //           "addedTime": "2022-03-23 02:13:24.000",
+      //           "goodsSource": 1,
+      //           "delFlag": 0,
+      //           "addedFlag": 1,
+      //           "moreSpecFlag": 1,
+      //           "priceType": 2,
+      //           "customFlag": 0,
+      //           "levelDiscountFlag": 0,
+      //           "companyInfoId": 1053,
+      //           "supplierName": null,
+      //           "storeId": 123457909,
+      //           "storeName": null,
+      //           "cateName": null,
+      //           "submitTime": "2022-04-25 08:27:03.000",
+      //           "auditStatus": 1,
+      //           "auditReason": null,
+      //           "goodsDetail": "[WsContentsDTO(type=Image, title=Feeding Guidelines, content=[{\"Table\":{\"Description\":\"&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Poids du chat&lt;/th&gt;&lt;th&gt;Alimentation humide&lt;/th&gt;&lt;th&gt;Alimentation mixte&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;3 kg&lt;/td&gt;&lt;td&gt;2 sachets&lt;/td&gt;&lt;td&gt;1 sachet + 23 g&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;4 kg&lt;/td&gt;&lt;td&gt;2+1/2 sachets&lt;/td&gt;&lt;td&gt;1 sachet + 33 g&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;5 kg&lt;/td&gt;&lt;td&gt;3 sachets&lt;/td&gt;&lt;td&gt;1 sachet + 43 g&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;6 kg&lt;/td&gt;&lt;td&gt;3+1/4 sachets&lt;/td&gt;&lt;td&gt;1 sachet + 52 g&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;\"}}]), WsContentsDTO(type=Image, title=Benefits, content=[{\"Instinctivement préféré\":{\"Description\":\"ROYAL CANIN® Instinctive est formulé pour répondre au profil macro-nutritionnel optimal instinctivement préféré par les chats adultes.\"}}, {\"Santé du système urinaire\":{\"Description\":\"Favorise la bonne santé du système urinaire.\"}}, {\"Maintien du poids idéal\":{\"Description\":\"Formulé pour aider à maintenir le poids idéal.\"}}]), WsContentsDTO(type=Text, title=Compositions, content=[{\"additives\":\"Additifs (au kg) : Additifs nutritionnels : Vitamine D3 : 100 UI, E1 (Fer) : 4 mg, E2 (Iode) : 0,3 mg, E4 (Cuivre) : 2,5 mg, E5 (Manganèse) : 1,2 mg, E6 (Zinc) : 12 mg.\"}, {\"analytical_constituants\":\"Constituants analytiques : Protéine : 11,8 % - Teneur en matières grasses : 4,5 % - Cendres brutes : 1,5 % - Cellulose brute : 0,8 % - Humidité : 80 %.\"}, {\"composition\":\"Composition : viandes et sous-produits animaux, extraits de protéines végétales, sous-produits d’origine végétale, huiles et graisses, substances minérales, sucres.\"}, {\"feeding_instructions\":\"Mode d’emploi : voir tableau. Numéro de lot et d’identifiant usine, à utiliser de préférence avant : voir sur l’emballage. À conserver dans un endroit sec et frais.   \"}]), WsContentsDTO(type=Text, title=Text, content=[{\"EretailLong Description\":\"Trouver une alimentation à la fois nutritive et appétissante pour votre chat n’est pas toujours chose simple. Les chats sont parfois capricieux et refusent de manger des aliments qui ne sont pas à leur goût – même s’ils sont faits sur mesure pour contenir les nutriments dont votre chat a besoin. ROYAL CANIN® Instinctive émincé en gelée est conçu pour correspondre au profil macro-nutritionnel optimal que les chats adultes préfèrent instinctivement. Ses nutriments soigneusement choisis pour la meilleure palatabilité possible en font un plat auquel votre chat ne pourra tout simplement pas résister. Incluant une combinaison de vitamines, de minéraux et d’acides aminés (tous nécessaires au maintien d’une bonne santé générale et à une croissance régulière), ROYAL CANIN® Instinctive émincé en gelée offre à votre chat une alimentation à la fois très digeste et équilibrée sur le plan nutritionnel. Ce mélange de nutriments n’a pas seulement été élaboré pour être préféré d’instinct et être sain sur le plan nutritionnel, mais aussi pour aider votre chat à maintenir son poids de forme et à renforcer le bon fonctionnement de son système urinaire. ROYAL CANIN® Instinctive émincé en gelée contient la teneur recommandée en matières grasses pour une bonne régulation des niveaux d’énergie et le maintien du poids. De plus, le mélange de fibres et de protéines contribue à la sensation de satiété. Pour répondre aux préférences de chaque chat, ROYAL CANIN® Instinctive est également disponible en émincé en sauce ou en mousse.\",\"EretailShort Description\":\"Trouver une alimentation à la fois nutritive et appétissante pour votre chat n’est pas toujours chose simple. Les chats sont parfois capricieux et refusent de manger des aliments qui ne sont pas à leur goût – même s’ils sont faits sur mesure pour contenir les nutriments dont votre chat a besoin.\\n \\nROYAL CANIN® Instinctive émincé en gelée est conçu pour correspondre au profil macro-nutritionnel optimal que les chats adultes préfèrent instinctivement. Ses nutriments soigneusement choisis pour la meilleure palatabilité possible en font un plat auquel votre chat ne pourra tout simplement pas résister.\\n \\nIncluant une combinaison de vitamines, de minéraux et d’acides aminés (tous nécessaires au maintien d’une bonne santé générale et à une croissance régulière), ROYAL CANIN® Instinctive émincé en gelée offre à votre chat une alimentation à la fois très digeste et équilibrée sur le plan nutritionnel.\\n \\nCe mélange de nutriments n’a pas seulement été élaboré pour être préféré d’instinct et être sain sur le plan nutritionnel, mais aussi pour aider votre chat à maintenir son poids de forme et à renforcer le bon fonctionnement de son système urinaire.\\n \\nROYAL CANIN® Instinctive émincé en gelée contient la teneur recommandée en matières grasses pour une bonne régulation des niveaux d’énergie et le maintien du poids. De plus, le mélange de fibres et de protéines contribue à la sensation de satiété.\\n \\nPour répondre aux préférences de chaque chat, ROYAL CANIN® Instinctive est également disponible en émincé en sauce ou en mousse.\\n\",\"Prescriber Description\":\"ROYAL CANIN® Instinctive émincé en gelée est conçu pour correspondre au profil macro-nutritionnel optimal que les chats adultes préfèrent instinctivement. Ses nutriments soigneusement choisis pour la meilleure palatabilité possible en font un plat auquel votre chat ne pourra tout simplement pas résister. - Instinctivement préféré - Santé du système urinaire - Maintien du poids idéal\"}])]",
+      //           "goodsMobileDetail": null,
+      //           "stock": null,
+      //           "goodsInfoIds": null,
+      //           "storeCateIds": null,
+      //           "storeCateNames": null,
+      //           "companyType": null,
+      //           "goodsCubage": 1,
+      //           "freightTempId": 62,
+      //           "freightTempName": null,
+      //           "saleType": 0,
+      //           "goodsVideo": null,
+      //           "linePrice": null,
+      //           "allowPriceSet": 0,
+      //           "goodsEvaluateNum": 0,
+      //           "goodsCollectNum": 0,
+      //           "goodsSalesNum": 5,
+      //           "goodsFavorableCommentNum": 0,
+      //           "grouponForbiddenFlag": false,
+      //           "subscriptionStatus": 1,
+      //           "minMarketPrice": 14.99,
+      //           "minSubscriptionPrice": 13.49,
+      //           "avgEvaluate": null,
+      //           "avgEvaluateScore": null,
+      //           "baseSpec": null,
+      //           "saleableFlag": 1,
+      //           "displayFlag": 1,
+      //           "weShareId": 129166,
+      //           "weightValue": "None",
+      //           "goodsStoreCateNames": null,
+      //           "productCategoryNames": null,
+      //           "defaultPurchaseType": null,
+      //           "defaultFrequencyId": null,
+      //           "resource": null,
+      //           "promotions": "club",
+      //           "goodsPillar": null,
+      //           "exclusiveFlag": null,
+      //           "wsEnergyCategory": "normal_outdoor_fcn_breed",
+      //           "wsReferenceEnergyValue": 983,
+      //           "wsTechnologyCode": "wet",
+      //           "wsDensity": 1,
+      //           "sourceCreateTime": null,
+      //           "sourceUpdateTime": "2022-03-27 22:38:49.000",
+      //           "serviceTypeId": null,
+      //           "assignResources": null
+      //         },
+      //         "goodsPromotion": null,
+      //         "description": null,
+      //         "auditCatFlag": null,
+      //         "prescriberFlag": null,
+      //         "goodsMeasureNum": null,
+      //         "goodsMeasureUnit": "",
+      //         "subscriptionDiscountPrice": null,
+      //         "goodsInfoFlag": 0,
+      //         "periodTypeId": null,
+      //         "purchasePrice": null,
+      //         "goodsInfoType": null,
+      //         "goodsInfoBundleRels": [
+
+      //         ],
+      //         "recommendationId": null,
+      //         "recommendationName": null,
+      //         "recommendationSerialCode": null,
+      //         "weShareScode": null,
+      //         "packSize": "",
+      //         "subscriptionPercentage": "10%",
+      //         "maxStock": null,
+      //         "subscriptionPlanId": null,
+      //         "packageId": null,
+      //         "subscriptionPlanPromotionFlag": null,
+      //         "settingPrice": null,
+      //         "virtualInventory": null,
+      //         "virtualAlert": null,
+      //         "marketingCode": null,
+      //         "marketingName": null,
+      //         "promotionDiscountPrice": null,
+      //         "marketingId": null,
+      //         "externalSku": "237550",
+      //         "promotions": "club",
+      //         "isOfflineStore": null,
+      //         "petsId": null,
+      //         "petsType": null,
+      //         "questionParams": null,
+      //         "referenceData": null,
+      //         "depth": 0,
+      //         "depthUnit": "mm",
+      //         "width": 0,
+      //         "widthUnit": "mm",
+      //         "height": 0,
+      //         "heightUnit": "mm",
+      //         "specification": null,
+      //         "isNotShowCart": 0,
+      //         "externalStock": 408,
+      //         "externalMarketPrice": null,
+      //         "externalSubscriptionPrice": null,
+      //         "externalLinePrice": null,
+      //         "externalPurchasePrice": null,
+      //         "factor": 1,
+      //         "stockUomId": "33586ce71f5811ecaa72a77450361cec",
+      //         "priceUomId": "33586ce71f5811ecaa72a77450361cec",
+      //         "priceUom": null,
+      //         "stockUom": null,
+      //         "defaultSku": 0,
+      //         "displayOnShop": 1,
+      //         "productCategory": null,
+      //         "cateRate": null,
+      //         "goodsName": "Instinctive en gelée",
+      //         "goodsCategory": null,
+      //         "purchaseId": null,
+      //         "sortNumber": null,
+      //         "prefixFn": null,
+      //         "prefixBreed": null,
+      //         "utmSource": null,
+      //         "utmMedium": null,
+      //         "utmCampaign": null,
+      //         "subscriptionPlanGiftList": null,
+      //         "itemTotalAmount": null,
+      //         "recommendationInfos": "",
+      //         "taggingVOList": null,
+      //         "peaweeUseing": null,
+      //         "goodsSpecDetails": [
+      //           {
+      //             "specDetailId": 260646144,
+      //             "goodsId": "8a7080567faf8ff5017fb4862b860005",
+      //             "specId": 67047168,
+      //             "detailName": "12×85G",
+      //             "createTime": "2022-04-25 08:27:03.000",
+      //             "updateTime": "2022-04-25 08:27:03.000",
+      //             "delFlag": 0,
+      //             "mockSpecId": null,
+      //             "mockSpecDetailId": null,
+      //             "calculateSort": 1285,
+      //             "editable": null,
+      //             "isSelected": null
+      //           }
+      //         ],
+      //         "goodsInfos": [
+      //           {
+      //             "goodsInfoId": "8a7080567faf8ff5017fb48cd9d00006",
+      //             "goodsId": "8a7080567faf8ff5017fb4862b860005",
+      //             "goodsInfoName": "Instinctive en gelée",
+      //             "goodsInfoNo": "237550",
+      //             "innerGoodsInfoNo": "FR_40740102",
+      //             "goodsInfoImg": "https://cdn.royalcanin-weshare-online.io/s1Y1JnUBBKJuub5qvZiW/v23/instinctive-gele",
+      //             "goodsInfoBarcode": null,
+      //             "stock": 408,
+      //             "marketPrice": 14.99,
+      //             "supplyPrice": null,
+      //             "retailPrice": null,
+      //             "grouponPrice": null,
+      //             "costPrice": null,
+      //             "createTime": "2022-03-23 02:13:24.000",
+      //             "updateTime": "2022-03-23 02:13:24.000",
+      //             "addedTime": "2022-03-23 02:13:24.000",
+      //             "delFlag": 0,
+      //             "addedFlag": 1,
+      //             "companyInfoId": 1053,
+      //             "storeId": 123457909,
+      //             "storeName": null,
+      //             "customFlag": 0,
+      //             "levelDiscountFlag": 0,
+      //             "auditStatus": 1,
+      //             "companyType": null,
+      //             "aloneFlag": false,
+      //             "salePrice": null,
+      //             "priceType": null,
+      //             "mockSpecIds": [
+      //               67047168
+      //             ],
+      //             "mockSpecDetailIds": [
+      //               260646144
+      //             ],
+      //             "specDetailRelIds": null,
+      //             "buyCount": 0,
+      //             "count": null,
+      //             "maxCount": null,
+      //             "intervalPriceIds": null,
+      //             "specText": null,
+      //             "intervalMinPrice": null,
+      //             "intervalMaxPrice": null,
+      //             "validFlag": null,
+      //             "cateId": 1134,
+      //             "cateName": null,
+      //             "isHidden": null,
+      //             "brandId": 400,
+      //             "storeCateIds": null,
+      //             "distributionCommission": null,
+      //             "commissionRate": null,
+      //             "distributionSalesCount": null,
+      //             "distributionGoodsAudit": 0,
+      //             "distributionGoodsAuditReason": null,
+      //             "checked": false,
+      //             "goodsStatus": 0,
+      //             "goodsUnit": null,
+      //             "marketingLabels": [
+
+      //             ],
+      //             "grouponLabel": null,
+      //             "couponLabels": [
+
+      //             ],
+      //             "goodsCubage": null,
+      //             "goodsWeight": null,
+      //             "freightTempId": null,
+      //             "saleType": 0,
+      //             "allowPriceSet": null,
+      //             "smallProgramCode": null,
+      //             "joinDistributior": null,
+      //             "goodsEvaluateNum": null,
+      //             "goodsCollectNum": null,
+      //             "goodsSalesNum": null,
+      //             "goodsFavorableCommentNum": null,
+      //             "enterPrisePrice": null,
+      //             "enterPriseAuditState": null,
+      //             "enterPriseGoodsAuditReason": null,
+      //             "subscriptionStatus": 1,
+      //             "subscriptionPrice": 13.49,
+      //             "linePrice": 0,
+      //             "basePrice": null,
+      //             "subscriptionBasePrice": null,
+      //             "basePriceType": "",
+      //             "goodsInfoWeight": 0,
+      //             "goodsInfoUnit": "kg",
+      //             "goods": {
+      //               "goodsId": "8a7080567faf8ff5017fb4862b860005",
+      //               "cateId": 1134,
+      //               "brandId": 400,
+      //               "brandName": null,
+      //               "goodsName": "Instinctive en gelée",
+      //               "goodsSubtitle": "Aliment complet pour chats adultes de 1 à 7 ans.",
+      //               "goodsNewSubtitle": "Chats adultes de 1 à 7 ans",
+      //               "goodsDescription": null,
+      //               "goodsDescriptionDetails": null,
+      //               "goodsNo": "4074",
+      //               "innerGoodsNo": "FR_4074",
+      //               "goodsUnit": null,
+      //               "goodsCateName": "Cat/Feline Health Nutrition Wet/Wet",
+      //               "goodsImg": "https://cdn.royalcanin-weshare-online.io/s1Y1JnUBBKJuub5qvZiW/v23/instinctive-gele",
+      //               "goodsWeight": 1,
+      //               "marketPrice": null,
+      //               "supplyPrice": null,
+      //               "goodsType": 0,
+      //               "costPrice": null,
+      //               "createTime": "2022-03-23 02:04:31.000",
+      //               "updateTime": "2022-05-10 08:31:09.000",
+      //               "addedTime": "2022-03-23 02:13:24.000",
+      //               "goodsSource": 1,
+      //               "delFlag": 0,
+      //               "addedFlag": 1,
+      //               "moreSpecFlag": 1,
+      //               "priceType": 2,
+      //               "customFlag": 0,
+      //               "levelDiscountFlag": 0,
+      //               "companyInfoId": 1053,
+      //               "supplierName": null,
+      //               "storeId": 123457909,
+      //               "storeName": null,
+      //               "cateName": null,
+      //               "submitTime": "2022-04-25 08:27:03.000",
+      //               "auditStatus": 1,
+      //               "auditReason": null,
+      //               "goodsDetail": "[WsContentsDTO(type=Image, title=Feeding Guidelines, content=[{\"Table\":{\"Description\":\"&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Poids du chat&lt;/th&gt;&lt;th&gt;Alimentation humide&lt;/th&gt;&lt;th&gt;Alimentation mixte&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;3 kg&lt;/td&gt;&lt;td&gt;2 sachets&lt;/td&gt;&lt;td&gt;1 sachet + 23 g&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;4 kg&lt;/td&gt;&lt;td&gt;2+1/2 sachets&lt;/td&gt;&lt;td&gt;1 sachet + 33 g&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;5 kg&lt;/td&gt;&lt;td&gt;3 sachets&lt;/td&gt;&lt;td&gt;1 sachet + 43 g&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;6 kg&lt;/td&gt;&lt;td&gt;3+1/4 sachets&lt;/td&gt;&lt;td&gt;1 sachet + 52 g&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;\"}}]), WsContentsDTO(type=Image, title=Benefits, content=[{\"Instinctivement préféré\":{\"Description\":\"ROYAL CANIN® Instinctive est formulé pour répondre au profil macro-nutritionnel optimal instinctivement préféré par les chats adultes.\"}}, {\"Santé du système urinaire\":{\"Description\":\"Favorise la bonne santé du système urinaire.\"}}, {\"Maintien du poids idéal\":{\"Description\":\"Formulé pour aider à maintenir le poids idéal.\"}}]), WsContentsDTO(type=Text, title=Compositions, content=[{\"additives\":\"Additifs (au kg) : Additifs nutritionnels : Vitamine D3 : 100 UI, E1 (Fer) : 4 mg, E2 (Iode) : 0,3 mg, E4 (Cuivre) : 2,5 mg, E5 (Manganèse) : 1,2 mg, E6 (Zinc) : 12 mg.\"}, {\"analytical_constituants\":\"Constituants analytiques : Protéine : 11,8 % - Teneur en matières grasses : 4,5 % - Cendres brutes : 1,5 % - Cellulose brute : 0,8 % - Humidité : 80 %.\"}, {\"composition\":\"Composition : viandes et sous-produits animaux, extraits de protéines végétales, sous-produits d’origine végétale, huiles et graisses, substances minérales, sucres.\"}, {\"feeding_instructions\":\"Mode d’emploi : voir tableau. Numéro de lot et d’identifiant usine, à utiliser de préférence avant : voir sur l’emballage. À conserver dans un endroit sec et frais.   \"}]), WsContentsDTO(type=Text, title=Text, content=[{\"EretailLong Description\":\"Trouver une alimentation à la fois nutritive et appétissante pour votre chat n’est pas toujours chose simple. Les chats sont parfois capricieux et refusent de manger des aliments qui ne sont pas à leur goût – même s’ils sont faits sur mesure pour contenir les nutriments dont votre chat a besoin. ROYAL CANIN® Instinctive émincé en gelée est conçu pour correspondre au profil macro-nutritionnel optimal que les chats adultes préfèrent instinctivement. Ses nutriments soigneusement choisis pour la meilleure palatabilité possible en font un plat auquel votre chat ne pourra tout simplement pas résister. Incluant une combinaison de vitamines, de minéraux et d’acides aminés (tous nécessaires au maintien d’une bonne santé générale et à une croissance régulière), ROYAL CANIN® Instinctive émincé en gelée offre à votre chat une alimentation à la fois très digeste et équilibrée sur le plan nutritionnel. Ce mélange de nutriments n’a pas seulement été élaboré pour être préféré d’instinct et être sain sur le plan nutritionnel, mais aussi pour aider votre chat à maintenir son poids de forme et à renforcer le bon fonctionnement de son système urinaire. ROYAL CANIN® Instinctive émincé en gelée contient la teneur recommandée en matières grasses pour une bonne régulation des niveaux d’énergie et le maintien du poids. De plus, le mélange de fibres et de protéines contribue à la sensation de satiété. Pour répondre aux préférences de chaque chat, ROYAL CANIN® Instinctive est également disponible en émincé en sauce ou en mousse.\",\"EretailShort Description\":\"Trouver une alimentation à la fois nutritive et appétissante pour votre chat n’est pas toujours chose simple. Les chats sont parfois capricieux et refusent de manger des aliments qui ne sont pas à leur goût – même s’ils sont faits sur mesure pour contenir les nutriments dont votre chat a besoin.\\n \\nROYAL CANIN® Instinctive émincé en gelée est conçu pour correspondre au profil macro-nutritionnel optimal que les chats adultes préfèrent instinctivement. Ses nutriments soigneusement choisis pour la meilleure palatabilité possible en font un plat auquel votre chat ne pourra tout simplement pas résister.\\n \\nIncluant une combinaison de vitamines, de minéraux et d’acides aminés (tous nécessaires au maintien d’une bonne santé générale et à une croissance régulière), ROYAL CANIN® Instinctive émincé en gelée offre à votre chat une alimentation à la fois très digeste et équilibrée sur le plan nutritionnel.\\n \\nCe mélange de nutriments n’a pas seulement été élaboré pour être préféré d’instinct et être sain sur le plan nutritionnel, mais aussi pour aider votre chat à maintenir son poids de forme et à renforcer le bon fonctionnement de son système urinaire.\\n \\nROYAL CANIN® Instinctive émincé en gelée contient la teneur recommandée en matières grasses pour une bonne régulation des niveaux d’énergie et le maintien du poids. De plus, le mélange de fibres et de protéines contribue à la sensation de satiété.\\n \\nPour répondre aux préférences de chaque chat, ROYAL CANIN® Instinctive est également disponible en émincé en sauce ou en mousse.\\n\",\"Prescriber Description\":\"ROYAL CANIN® Instinctive émincé en gelée est conçu pour correspondre au profil macro-nutritionnel optimal que les chats adultes préfèrent instinctivement. Ses nutriments soigneusement choisis pour la meilleure palatabilité possible en font un plat auquel votre chat ne pourra tout simplement pas résister. - Instinctivement préféré - Santé du système urinaire - Maintien du poids idéal\"}])]",
+      //               "goodsMobileDetail": null,
+      //               "stock": null,
+      //               "goodsInfoIds": null,
+      //               "storeCateIds": null,
+      //               "storeCateNames": null,
+      //               "companyType": null,
+      //               "goodsCubage": 1,
+      //               "freightTempId": 62,
+      //               "freightTempName": null,
+      //               "saleType": 0,
+      //               "goodsVideo": null,
+      //               "linePrice": null,
+      //               "allowPriceSet": 0,
+      //               "goodsEvaluateNum": 0,
+      //               "goodsCollectNum": 0,
+      //               "goodsSalesNum": 5,
+      //               "goodsFavorableCommentNum": 0,
+      //               "grouponForbiddenFlag": false,
+      //               "subscriptionStatus": 1,
+      //               "minMarketPrice": 14.99,
+      //               "minSubscriptionPrice": 13.49,
+      //               "avgEvaluate": null,
+      //               "avgEvaluateScore": null,
+      //               "baseSpec": null,
+      //               "saleableFlag": 1,
+      //               "displayFlag": 1,
+      //               "weShareId": 129166,
+      //               "weightValue": "None",
+      //               "goodsStoreCateNames": null,
+      //               "productCategoryNames": null,
+      //               "defaultPurchaseType": null,
+      //               "defaultFrequencyId": null,
+      //               "resource": null,
+      //               "promotions": "club",
+      //               "goodsPillar": null,
+      //               "exclusiveFlag": null,
+      //               "wsEnergyCategory": "normal_outdoor_fcn_breed",
+      //               "wsReferenceEnergyValue": 983,
+      //               "wsTechnologyCode": "wet",
+      //               "wsDensity": 1,
+      //               "sourceCreateTime": null,
+      //               "sourceUpdateTime": "2022-03-27 22:38:49.000",
+      //               "serviceTypeId": null,
+      //               "assignResources": null
+      //             },
+      //             "goodsPromotion": null,
+      //             "description": null,
+      //             "auditCatFlag": null,
+      //             "prescriberFlag": null,
+      //             "goodsMeasureNum": null,
+      //             "goodsMeasureUnit": "",
+      //             "subscriptionDiscountPrice": null,
+      //             "goodsInfoFlag": null,
+      //             "periodTypeId": null,
+      //             "purchasePrice": null,
+      //             "goodsInfoType": null,
+      //             "goodsInfoBundleRels": [
+
+      //             ],
+      //             "recommendationId": null,
+      //             "recommendationName": null,
+      //             "recommendationSerialCode": null,
+      //             "weShareScode": null,
+      //             "packSize": "",
+      //             "subscriptionPercentage": null,
+      //             "maxStock": null,
+      //             "subscriptionPlanId": null,
+      //             "packageId": null,
+      //             "subscriptionPlanPromotionFlag": null,
+      //             "settingPrice": null,
+      //             "virtualInventory": null,
+      //             "virtualAlert": null,
+      //             "marketingCode": null,
+      //             "marketingName": null,
+      //             "promotionDiscountPrice": null,
+      //             "marketingId": null,
+      //             "externalSku": "237550",
+      //             "promotions": "club",
+      //             "isOfflineStore": null,
+      //             "petsId": null,
+      //             "petsType": null,
+      //             "questionParams": null,
+      //             "referenceData": null,
+      //             "depth": 0,
+      //             "depthUnit": "mm",
+      //             "width": 0,
+      //             "widthUnit": "mm",
+      //             "height": 0,
+      //             "heightUnit": "mm",
+      //             "specification": null,
+      //             "isNotShowCart": null,
+      //             "externalStock": 408,
+      //             "externalMarketPrice": 14.99,
+      //             "externalSubscriptionPrice": 13.49,
+      //             "externalLinePrice": 0,
+      //             "externalPurchasePrice": null,
+      //             "factor": 1,
+      //             "stockUomId": "33586ce71f5811ecaa72a77450361cec",
+      //             "priceUomId": "33586ce71f5811ecaa72a77450361cec",
+      //             "priceUom": null,
+      //             "stockUom": null,
+      //             "defaultSku": 0,
+      //             "displayOnShop": 1,
+      //             "productCategory": null,
+      //             "cateRate": null
+      //           }
+      //         ],
+      //         "goodsAttributesValueRelVOList": [
+      //           {
+      //             "id": "GAR202204250827026840",
+      //             "goodsId": "8a7080567faf8ff5017fb4862b860005",
+      //             "goodsAttributeId": "A20210707094201787",
+      //             "goodsAttributeValueId": "AV76832570398162944",
+      //             "goodsAttributeName": "Species",
+      //             "goodsAttributeNameEn": "Species",
+      //             "goodsAttributeValue": "Cat",
+      //             "goodsAttributeValueEn": "Cat",
+      //             "createTime": "2022-04-25 08:27:03.000",
+      //             "updateTime": null,
+      //             "delTime": null,
+      //             "delFlag": false,
+      //             "dataSource": 1
+      //           },
+      //           {
+      //             "id": "GAR202204250827026841",
+      //             "goodsId": "8a7080567faf8ff5017fb4862b860005",
+      //             "goodsAttributeId": "A20210621090253754",
+      //             "goodsAttributeValueId": "AV71024517134053376",
+      //             "goodsAttributeName": "Portfolio Classification",
+      //             "goodsAttributeNameEn": "Portfolio Classification",
+      //             "goodsAttributeValue": "ROYAL CANIN / SPT Retail / Feline Health Nutrition Wet",
+      //             "goodsAttributeValueEn": "ROYAL CANIN / SPT Retail / Feline Health Nutrition Wet",
+      //             "createTime": "2022-04-25 08:27:03.000",
+      //             "updateTime": null,
+      //             "delTime": null,
+      //             "delFlag": false,
+      //             "dataSource": 1
+      //           },
+      //           {
+      //             "id": "GAR202204250827026842",
+      //             "goodsId": "8a7080567faf8ff5017fb4862b860005",
+      //             "goodsAttributeId": "A20210129065742589",
+      //             "goodsAttributeValueId": "AV145394772401610752",
+      //             "goodsAttributeName": "Pillar",
+      //             "goodsAttributeNameEn": "Pillar",
+      //             "goodsAttributeValue": "SPT",
+      //             "goodsAttributeValueEn": "SPT Retail",
+      //             "createTime": "2022-04-25 08:27:03.000",
+      //             "updateTime": null,
+      //             "delTime": null,
+      //             "delFlag": false,
+      //             "dataSource": 1
+      //           },
+      //           {
+      //             "id": "GAR202204250827026843",
+      //             "goodsId": "8a7080567faf8ff5017fb4862b860005",
+      //             "goodsAttributeId": "A20201209075253707",
+      //             "goodsAttributeValueId": "AV202012160309154906",
+      //             "goodsAttributeName": "Sterilized",
+      //             "goodsAttributeNameEn": "STÉRILISÉ",
+      //             "goodsAttributeValue": "false",
+      //             "goodsAttributeValueEn": "NON",
+      //             "createTime": "2022-04-25 08:27:03.000",
+      //             "updateTime": null,
+      //             "delTime": null,
+      //             "delFlag": false,
+      //             "dataSource": 1
+      //           },
+      //           {
+      //             "id": "GAR202204250827026844",
+      //             "goodsId": "8a7080567faf8ff5017fb4862b860005",
+      //             "goodsAttributeId": "A20201209071503738",
+      //             "goodsAttributeValueId": "AV202012160309230726",
+      //             "goodsAttributeName": "Range",
+      //             "goodsAttributeNameEn": "Gramme",
+      //             "goodsAttributeValue": "Feline Health Nutrition Wet_Cat",
+      //             "goodsAttributeValueEn": "Bouchées en sauce",
+      //             "createTime": "2022-04-25 08:27:03.000",
+      //             "updateTime": null,
+      //             "delTime": null,
+      //             "delFlag": false,
+      //             "dataSource": 1
+      //           },
+      //           {
+      //             "id": "GAR202204250827026845",
+      //             "goodsId": "8a7080567faf8ff5017fb4862b860005",
+      //             "goodsAttributeId": "A20201209071341624",
+      //             "goodsAttributeValueId": "AV202012160309231106",
+      //             "goodsAttributeName": "Breeds",
+      //             "goodsAttributeNameEn": "RACE",
+      //             "goodsAttributeValue": "Cat_Cat",
+      //             "goodsAttributeValueEn": "Tous les chats",
+      //             "createTime": "2022-04-25 08:27:03.000",
+      //             "updateTime": null,
+      //             "delTime": null,
+      //             "delFlag": false,
+      //             "dataSource": 1
+      //           },
+      //           {
+      //             "id": "GAR202204250827026846",
+      //             "goodsId": "8a7080567faf8ff5017fb4862b860005",
+      //             "goodsAttributeId": "A20201209071322816",
+      //             "goodsAttributeValueId": "AV202012160309158056",
+      //             "goodsAttributeName": "Technology",
+      //             "goodsAttributeNameEn": "Texture des aliments",
+      //             "goodsAttributeValue": "Wet",
+      //             "goodsAttributeValueEn": "Bouchées en sauce ou en gelée",
+      //             "createTime": "2022-04-25 08:27:03.000",
+      //             "updateTime": null,
+      //             "delTime": null,
+      //             "delFlag": false,
+      //             "dataSource": 1
+      //           },
+      //           {
+      //             "id": "GAR202204250827026847",
+      //             "goodsId": "8a7080567faf8ff5017fb4862b860005",
+      //             "goodsAttributeId": "A20201209071242331",
+      //             "goodsAttributeValueId": "AV202012160309229266",
+      //             "goodsAttributeName": "Lifestages",
+      //             "goodsAttributeNameEn": "ÂGE",
+      //             "goodsAttributeValue": "Adult_Cat",
+      //             "goodsAttributeValueEn": "Adulte (1-7 ans)",
+      //             "createTime": "2022-04-25 08:27:03.000",
+      //             "updateTime": null,
+      //             "delTime": null,
+      //             "delFlag": false,
+      //             "dataSource": 1
+      //           }
+      //         ],
+      //         "goodsSpecs": [
+      //           {
+      //             "specId": 67047168,
+      //             "goodsId": "8a7080567faf8ff5017fb4862b860005",
+      //             "specName": "Taille",
+      //             "createTime": "2022-04-25 08:27:03.000",
+      //             "updateTime": "2022-04-25 08:27:03.000",
+      //             "delFlag": 0,
+      //             "mockSpecId": 67047168,
+      //             "specDetailIds": null,
+      //             "editable": null
+      //           }
+      //         ]
+      //       }
+      //     ],
+      //     "goodsIntervalPrices": [
+
+      //     ],
+      //     "purchaseCount": 1,
+      //     "num": 1
+      //   },
+      //   "defaultLocalDateTime": "2022-05-13 10:49:46.246"
+      // }
+      let goodsList = res.context.goodsList.map((item) => {
+        item.sizeList = getDetail({
+          goodsInfos: item.goodsInfos,
+          goodsSpecDetails: item.goodsSpecDetails,
+          goodsSpecs: item.goodsSpecs,
+          goodsInfoNo: item.goodsInfoNo,
+          goodsInfoId: item.goodsInfoId
+        });
+        item.selected = true;
+        item.quantity = item.buyCount;
+        return item;
+      });
+
+      await this.props.checkoutStore.updateUnloginCart({
+        cartData: goodsList,
+        intl: this.props.intl
+      });
+    }
+
     setSeoConfig({
       pageName: 'Cart page'
     }).then((res) => {
@@ -237,6 +1018,10 @@ class UnLoginCart extends React.Component {
       })
     );
     this.setCartData({ initPage: true });
+
+    if (guestId) {
+      await this.handleCheckout();
+    }
     // shop推荐链接超出数量，页面加载不出来的问题(只要加购报错都跳转到购物车界面，把错误message带过去显示)
     const errMsg = this.props.history.location?.state?.errMsg;
     // const errMsg = funcUrl({ name: 'errorMsg' });
@@ -293,35 +1078,35 @@ class UnLoginCart extends React.Component {
         this.computedList[0];
       if (el.goodsInfoFlag) {
         el.form = {
-          frequencyVal: filterData.valueEn,
-          frequencyName: filterData.name,
+          frequencyVal: filterData?.valueEn,
+          frequencyName: filterData?.name,
           frequencyId:
-            filterData.id ||
+            filterData?.id ||
             el.goods.defaultFrequencyId ||
             configStore?.defaultSubscriptionFrequencyId,
           //GA 计算周数
-          frequencyType: filterData.type
+          frequencyType: filterData?.type
         };
       } else {
         if (el.promotions?.includes('club')) {
           el.form = {
-            frequencyVal: filterData.valueEn,
-            frequencyName: filterData.name,
+            frequencyVal: filterData?.valueEn,
+            frequencyName: filterData?.name,
             frequencyId:
               el.goods?.defaultFrequencyId ||
               configStore.info?.storeVO.defaultSubscriptionClubFrequencyId ||
-              filterData.id,
-            frequencyType: filterData.type
+              filterData?.id,
+            frequencyType: filterData?.type
           };
         } else {
           el.form = {
-            frequencyVal: filterData.valueEn,
-            frequencyName: filterData.name,
+            frequencyVal: filterData?.valueEn,
+            frequencyName: filterData?.name,
             frequencyId:
               el.goods?.defaultFrequencyId ||
               configStore.info?.storeVO?.defaultSubscriptionFrequencyId ||
-              filterData.id,
-            frequencyType: filterData.type
+              filterData?.id,
+            frequencyType: filterData?.type
           };
         }
       }
@@ -550,7 +1335,7 @@ class UnLoginCart extends React.Component {
                 errorMsg: (
                   <FormattedMessage
                     id="cart.errorAllProductNumLimit"
-                    values={{ val: skuLimitThreshold.totalMaxNum }}
+                    values={{ val: skuLimitThreshold.skuMaxNum }}
                   />
                 )
               }}
@@ -719,7 +1504,7 @@ class UnLoginCart extends React.Component {
                   </div> */}
                     <div className="align-left flex">
                       <div className="stock__wrapper">
-                        <div className="stock">
+                        <div className="stock flex">
                           <label
                             className={[
                               'availability',
@@ -736,6 +1521,7 @@ class UnLoginCart extends React.Component {
                             </span>
                           </label>
                           <span className="availability-msg inline-block">
+                            {console.log(111111, pitem.quantity)}
                             <div
                               className={[
                                 pitem.addedFlag &&
@@ -1183,7 +1969,7 @@ class UnLoginCart extends React.Component {
                 </strong>
               </div>
               <div className="col-5">
-                <p className="text-right grand-total-sum medium mb-0 mb-4">
+                <p className="text-right grand-total-sum medium mb-0">
                   {this.props.configStore?.customTaxSettingOpenFlag &&
                   this.props.configStore?.enterPriceType === 'NO_TAX' ? (
                     <>
@@ -1412,7 +2198,7 @@ class UnLoginCart extends React.Component {
           />
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
-        {this.state.checkoutLoading ? (
+        {this.state.circleLoading || this.state.checkoutLoading ? (
           <Loading
             bgColor={'#000'}
             opacity={this.state.checkoutLoading ? 0.3 : 1}

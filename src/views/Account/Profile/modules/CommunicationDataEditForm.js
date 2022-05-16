@@ -24,8 +24,9 @@ const SPECAIL_CONSENT_ENUM =
     ru: ['RC_DF_RU_FGS_OPT_EMAIL', 'RC_DF_RU_FGS_OPT_MOBILE'],
     tr: ['RC_DF_TR_FGS_OPT_EMAIL', 'RC_DF_TR_FGS_OPT_MOBILE'],
     uk: ['RC_DF_UK_CLIXRAY_OPT_EMAIL'],
-    se: ['RC_SE_B2C_OPT']
-    // mx: ['RC_MX_B2C_OPT']
+    se: ['RC_SE_B2C_OPT'],
+    mx: ['RC_MX_B2C_OPT'],
+    tr: ['RC_DF_TR_FGS_OPT_EMAIL_MOBILE_PRINT']
   }[window.__.env.REACT_APP_COUNTRY] || [];
 
 const ukTipInfoConsentEnum = ['RC_DF_UK_CLIXRAY_OPT_EMAIL'];
@@ -185,13 +186,17 @@ class CommunicationDataEditForm extends React.Component {
       // us/uk/de/se隐藏了 email 勾选框，所以选择邮件沟通时需要赋值 communicationEmail = 1
       if (
         hasCheckedTheConsent &&
-        ['us', 'uk', 'de', 'se'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1
+        ['us', 'uk', 'de', 'se', 'mx', 'tr'].indexOf(
+          window.__.env.REACT_APP_COUNTRY
+        ) > -1
       ) {
         form.communicationEmail = 1;
       }
       if (
         !hasCheckedTheConsent &&
-        ['us', 'uk', 'de', 'se'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1
+        ['us', 'uk', 'de', 'se', 'mx', 'tr'].indexOf(
+          window.__.env.REACT_APP_COUNTRY
+        ) > -1
       ) {
         form.communicationEmail = 0;
       }
@@ -360,13 +365,12 @@ class CommunicationDataEditForm extends React.Component {
               className="mb-0 text-lg md:text-xl"
               style={{ display: curPageAtCover ? 'block' : 'none' }}
             >
-              <svg
-                className="svg-icon account-info-icon align-middle mr-3 ml-1"
-                aria-hidden="true"
+              <img
+                className="account-info-icon align-middle mr-3 ml-1 inline-block"
+                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icons/communication.svg`}
+                alt="icons communication"
                 style={{ width: '1.3em', height: '1.3em' }}
-              >
-                <use xlinkHref="#iconcommunication"></use>
-              </svg>
+              />
               <FormattedMessage id="account.myCommunicationPreferencesTitle" />
             </h5>
             <h5
@@ -439,8 +443,9 @@ class CommunicationDataEditForm extends React.Component {
             ) : null}
             <div className={`${!isLoading && editFormVisible ? '' : 'hidden'}`}>
               <span className={`rc-meta`}></span>
-              {['fr', 'de', 'se'].indexOf(window.__.env.REACT_APP_COUNTRY) <
-              0 ? (
+              {['fr', 'de', 'se', 'mx', 'tr'].indexOf(
+                window.__.env.REACT_APP_COUNTRY
+              ) < 0 ? (
                 <div className="mb-3">
                   {communicationPreferencesList.length > 0 ? (
                     <label className="form-control-label rc-input--full-width w-100">
@@ -470,7 +475,8 @@ class CommunicationDataEditForm extends React.Component {
                   ))}
                 </div>
               ) : null}
-              {['se'].indexOf(window.__.env.REACT_APP_COUNTRY) < 0 ? (
+              {['se', 'mx', 'tr'].indexOf(window.__.env.REACT_APP_COUNTRY) <
+              0 ? (
                 <span className={`rc-meta`}>
                   <strong>
                     <FormattedMessage id="account.myCommunicationPreferencesContent2" />

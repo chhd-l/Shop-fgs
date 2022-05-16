@@ -90,9 +90,11 @@ const renderHeadTip = ({
         <>
           <HeadTip
             icon={
-              <svg className="svg-icon w-14 h-14" aria-hidden="true">
-                <use xlinkHref="#iconTobepaid" />
-              </svg>
+              <img
+                className="w-14 h-14"
+                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icons/To be paid.svg`}
+                alt="icons To be paid"
+              />
             }
             title={normalProgressList[currentProgressIndex]?.flowStateDesc}
             titleColor="text-info"
@@ -145,9 +147,11 @@ const renderHeadTip = ({
         <>
           <HeadTip
             icon={
-              <svg className="svg-icon w-14 h-14" aria-hidden="true">
-                <use xlinkHref="#iconTobedelivered" />
-              </svg>
+              <img
+                className="w-14 h-14"
+                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icons/To be delivered.svg`}
+                alt="icons To be delivered"
+              />
             }
             title={normalProgressList[currentProgressIndex]?.flowStateDesc}
             titleColor="text-warning"
@@ -162,9 +166,13 @@ const renderHeadTip = ({
       ret = (
         <HeadTip
           icon={
-            <svg className="svg-icon w-14 h-14" aria-hidden="true">
-              <use xlinkHref="#iconIntransit" />
-            </svg>
+            <>
+              <img
+                className="w-14 h-14"
+                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icons/In transit.svg`}
+                alt="icons In transit"
+              />
+            </>
           }
           title={normalProgressList[currentProgressIndex]?.flowStateDesc}
           titleColor="text-success"
@@ -199,9 +207,11 @@ const renderHeadTip = ({
         <>
           <HeadTip
             icon={
-              <svg className="svg-icon w-14 h-14" aria-hidden="true">
-                <use xlinkHref="#iconCompleted" />
-              </svg>
+              <img
+                className="w-14 h-14"
+                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icons/Completed.svg`}
+                alt="icons Completed"
+              />
             }
             title={normalProgressList[currentProgressIndex]?.flowStateDesc}
             tip={<FormattedMessage id="order.completeTip" />}
@@ -241,9 +251,11 @@ const renderFelinHeadTip = ({ currentProgressIndex, normalProgressList }) => {
         <>
           <HeadTip
             icon={
-              <svg className="svg-icon w-14 h-14" aria-hidden="true">
-                <use xlinkHref="#iconTobepaid" />
-              </svg>
+              <img
+                className="w-14 h-14"
+                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icons/To be paid.svg`}
+                alt="icons To be paid"
+              />
             }
             title={normalProgressList[currentProgressIndex]?.flowStateDesc}
             titleColor="text-info"

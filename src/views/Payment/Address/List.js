@@ -25,7 +25,9 @@ import {
   formatMoney,
   getDeviceType,
   isCanVerifyBlacklistPostCode,
-  formatDate
+  formatDate,
+  formatJPDate,
+  formatJPTime
 } from '@/utils/utils';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
@@ -2190,20 +2192,17 @@ class AddressList extends React.Component {
                 {item.deliveryDate && item.timeSlot ? (
                   <>
                     {/* 格式化 delivery date 格式: 星期, 15 月份 */}
-                    {item.deliveryDate == 'Unspecified'
-                      ? ''
-                      : formatDate({
-                          date: item.deliveryDate,
-                          formatOption: {
-                            weekday: 'long',
-                            day: '2-digit',
-                            month: 'long'
-                          }
-                        })}{' '}
+                    {item.deliveryDate !== 'Unspecified' && (
+                      <>
+                        <FormattedMessage id="Deliverytime" />
+                        {formatJPDate(item.deliveryDate)}
+                      </>
+                    )}
+
                     {item.timeSlot === 'Unspecified' ? (
                       <FormattedMessage id="Unspecified" />
                     ) : (
-                      item.timeSlot
+                      formatJPTime(item.timeSlot)
                     )}
                   </>
                 ) : null}

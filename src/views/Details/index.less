@@ -11,7 +11,7 @@
 .detail-content-tabinfo p {
   margin-bottom: 0.5rem;
 }
-.rc-tabs__content__single .block.Guide  table,
+.rc-tabs__content__single .block.Guide table,
 .rc-list__content .Guide table {
   width: 100%;
   border-spacing: 0;
@@ -19,14 +19,14 @@
   th {
     position: relative;
     text-align: left;
-    padding: 1.125rem 5px 1.125rem 1.5rem;
+    padding: 1.125rem 5px 1.125rem 1.125rem;
     border-bottom: 1px solid #d7d7d7;
     font-weight: 500;
     color: #666;
     background: #f6f6f6;
   }
   td {
-    padding: 0.875rem 0 0.875rem 1.5rem;
+    padding: 0.875rem 0 0.875rem 0.875rem;
     border-bottom: 1px solid #d7d7d7;
     color: #666;
   }
@@ -61,14 +61,6 @@
   border: 1px solid #aaa;
   border-radius: 5px;
   padding: 0.625rem 1rem;
-  .freqency {
-    > span {
-      flex: 1;
-    }
-    // > div {
-    //   flex: 2;
-    // }
-  }
 
   .rc-input__radio:focus + .rc-input__label--inline::before {
     outline: 0 !important;
@@ -79,32 +71,15 @@
   border-radius: 5px;
 }
 #Details {
-  .club-buy-method, .autoship-buy-method {
+  .club-buy-method,
+  .autoship-buy-method {
     border: 0;
     margin-top: 0;
-    border-radius:0;
+    border-radius: 0;
     // border-bottom: 1px solid #aaa;
   }
 }
 
-#Details .buy-method-frequency .freqency{
-  display: block !important;
-  text-align: left !important;
-  max-width: 100% !important;
-  .frequency-delivery {
-    font-weight: 400;
-  }
-  .delivery-every {
-    text-align: left !important;
-    height: 3rem;
-    border-bottom:1px solid #808285;
-    display: flex;
-  align-items: center;
-  .frequency-selection {
-    flex: 1;
-  }
-  }
-}
 #Details .choices__item.choices__item--choice.choices__item--selectable {
   height: 60px;
   line-height: 40px;
@@ -209,27 +184,6 @@
     border-radius: 5px;
     padding: 0.75rem;
     margin-top: 1rem;
-    .freqency {
-      > span {
-        flex: 1;
-      }
-      // > div {
-      //   flex: 2;
-      // }
-    }
-    .freqency2 {
-      height: 2.2rem !important;
-    }
-    .freqency3 {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      // height: 2.2rem!important;
-      align-items: flex-end;
-      span {
-        line-height: 1rem;
-      }
-    }
 
     .price {
       line-height: 1.8rem;
@@ -237,10 +191,11 @@
   }
 
   #Details {
-    .club-buy-method, .autoship-buy-method {
+    .club-buy-method,
+    .autoship-buy-method {
       border: 0;
       margin-top: 0;
-      border-radius:0;
+      border-radius: 0;
       // border-bottom: 1px solid #aaa;
     }
   }
@@ -361,18 +316,19 @@
     }
   }
   .discountText {
-    color:#008900;
+    color: #008900;
     font-size: 0.625rem;
     // position: absolute;
     // right: 0;
   }
-  .club-price, .autoship-price {
-    color:#008900;
+  .club-price,
+  .autoship-price {
+    color: #008900;
   }
   .freeshippingBox {
     // color: #ec001a;
     // width: 100px;
-    padding: .1rem .625rem;
+    padding: 0.1rem 0.625rem;
     text-align: center;
     display: inline-block;
     font-size: 0.625rem;
@@ -509,7 +465,7 @@
     // display: flex;
     // align-items: center;
     // justify-content: center;
-    a[class^='cc-InlineButton-module-button']{
+    a[class^='cc-InlineButton-module-button'] {
       border: none;
       padding: 0;
       height: auto;

@@ -75,6 +75,7 @@ import {
 import PrescriberCodeModal from '../ClubLandingPageNew/Components/DeStoreCode/Modal';
 import MixFeedingBanner from './components/MixFeedingBanner/index.tsx';
 import cloneDeep from 'lodash/cloneDeep';
+import PurchaseMethodB from './components/PurchaseMethodB';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -173,10 +174,13 @@ class Details extends React.Component {
       originalProductInfo: {},
       mixFeedingByProductInfo: {},
       mixFeedingBtnLoading: false,
-      hiddenMixFeedingBanner: false
+      hiddenMixFeedingBanner: false,
+      fromPrice: '',
+      versionB: false
     };
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
     this.ChangeFormat = this.ChangeFormat.bind(this);
+    window.switchToVersionB = this.switchToVersionB;
   }
   componentWillUnmount() {}
 
@@ -510,6 +514,9 @@ class Details extends React.Component {
         const goodsRes = res?.context?.goods;
         const backgroundSpace = res.context?.goods?.cateId;
         const contextResult = res.context;
+        this.setState({
+          fromPrice: contextResult.fromPrice
+        });
         if (!contextResult) {
           this.setState({ showErrorTip: true });
           return;
@@ -899,6 +906,9 @@ class Details extends React.Component {
       const { checkoutStore } = this.props;
       const { currentUnitPrice, quantity, form, details, questionParams } =
         this.state;
+
+      console.log({ details });
+      // debugger;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -1215,8 +1225,14 @@ class Details extends React.Component {
   };
 
   ButtonGroupDom = (showRetailerBtn) => {
-    const { addToCartLoading, form, checkOutErrMsg, barcode, details } =
-      this.state;
+    const {
+      addToCartLoading,
+      form,
+      checkOutErrMsg,
+      barcode,
+      details,
+      versionB
+    } = this.state;
     const btnStatus = this.btnStatus;
     const vet =
       (window.__.env.REACT_APP_HUB || Uk) &&
@@ -1248,10 +1264,14 @@ class Details extends React.Component {
         isApi={isApi}
         isUrl={isUrl}
         retailerUrl={retailerUrl}
+        versionType={versionB}
       />
     );
   };
 
+  switchToVersionB = () => {
+    this.setState({ versionB: true });
+  };
   render() {
     const { intl } = this.props;
     const {
@@ -1287,7 +1307,9 @@ class Details extends React.Component {
       skuPromotions,
       headingTag = 'h1',
       replyNum,
-      mixFeeding
+      mixFeeding,
+      fromPrice,
+      versionB
     } = this.state;
     const filterImages =
       images?.filter((i) => {
@@ -1485,7 +1507,12 @@ class Details extends React.Component {
                       >
                         <div
                           className={`wrap-short-des ${
-                            !isMobile && !vet ? 'col-md-7' : ''
+                            !isMobile &&
+                            (versionB
+                              ? 'col-md-10 offset-sm-2'
+                              : !vet
+                              ? 'col-md-7'
+                              : '')
                           }`}
                         >
                           {loading ? (
@@ -1505,8 +1532,18 @@ class Details extends React.Component {
                               {!vet ? (
                                 <>
                                   {!isMobile ? this.specAndQuantityDom() : null}
-                                  {!isMobile &&
-                                  details.promotions &&
+                                  {versionB && (
+                                    <PurchaseMethodB
+                                      form={form}
+                                      fromPrice={fromPrice}
+                                      isMobile={isMobile}
+                                      specAndQuantityDom={
+                                        this.specAndQuantityDom
+                                      }
+                                      isNullGoodsInfos={this.isNullGoodsInfos}
+                                    />
+                                  )}
+                                  {details.promotions &&
                                   details.promotions.includes('club') ? (
                                     <Ration
                                       goodsNo={details.goodsNo}
@@ -1515,117 +1552,59 @@ class Details extends React.Component {
                                   ) : null}
                                 </>
                               ) : null}
+                              {versionB &&
+                                (!isMobile ? (
+                                  <div className="flex flex-row items-center mt-6">
+                                    <div>{this.ButtonGroupDom(false)}</div>
+                                    <span className="mx-4">
+                                      {isApi && isUrl && (
+                                        <FormattedMessage id="or" />
+                                      )}
+                                    </span>
+                                    <BuyFromRetailerBtn
+                                      // ccidBtnDisplay={ccidBtnDisplay}
+                                      barcode={barcode}
+                                      goodsType={goodsType}
+                                      onClick={this.handleBuyFromRetailer}
+                                      isApi={isApi}
+                                      isUrl={isUrl}
+                                      retailerUrl={retailerUrl}
+                                    />
+                                  </div>
+                                ) : (
+                                  <div
+                                    className={classNames({
+                                      hidden: this.isNullGoodsInfos,
+                                      'w-full': isMobile,
+                                      'col-md-5': !isMobile
+                                    })}
+                                  >
+                                    {this.ButtonGroupDom(false)}
+                                  </div>
+                                ))}
                             </>
                           )}
                         </div>
                         {loading ? (
                           <Skeleton />
-                        ) : vet ? (
-                          <div>
-                            <div
-                              className="mb-4"
-                              dangerouslySetInnerHTML={{
-                                __html: this.state.descContent
-                              }}
-                            />
-                            {/*这种情况时，eancode 在法国固定，其他国家待定  */}
-                            {PC && this.retailerBtnStatus ? (
-                              <BuyFromRetailerBtn
-                                // ccidBtnDisplay={ccidBtnDisplay}
-                                barcode={barcode}
-                                goodsType={goodsType}
-                                onClick={this.handleBuyFromRetailer}
-                                isApi={isApi}
-                                isUrl={isUrl}
-                                retailerUrl={retailerUrl}
-                              />
-                            ) : null}
-                          </div>
                         ) : (
-                          <div
-                            className={classNames({
-                              hidden: this.isNullGoodsInfos,
-                              'w-full': isMobile,
-                              'col-md-5': !isMobile
-                            })}
-                          >
-                            {isMobile ? this.specAndQuantityDom() : null}
-                            <div
-                              className={`${currentUnitPrice ? '' : 'hidden'}`}
-                            >
-                              <SingleBuyMethod
-                                configStore={this.props.configStore}
-                                form={form}
-                                skuPromotions={skuPromotions}
-                                selectedSpecItem={selectedSpecItem}
-                                currentUnitPrice={currentUnitPrice}
-                                currentSubscriptionPrice={
-                                  currentSubscriptionPrice
-                                }
-                                changeMethod={this.ChangeFormat.bind(this, 0)}
-                                changeFreqency={(data) => {
-                                  this.handleSelectedItemChange(data);
-                                }}
+                          !versionB &&
+                          (vet ? (
+                            <div>
+                              <h2
+                                className="text-break mb-1"
+                                style={{ fontSize: '1.17rem' }}
                               >
-                                {this.ButtonGroupDom(false)}
-                              </SingleBuyMethod>
-                              {currentSubscriptionStatus &&
-                              currentSubscriptionPrice &&
-                              skuPromotions == 'autoship' ? (
-                                <AutoshipBuyMethod
-                                  form={form}
-                                  configStore={this.props.configStore}
-                                  skuPromotions={skuPromotions}
-                                  selectedSpecItem={selectedSpecItem}
-                                  currentUnitPrice={currentUnitPrice}
-                                  currentSubscriptionPrice={
-                                    currentSubscriptionPrice
-                                  }
-                                  changeMethod={this.ChangeFormat.bind(this, 1)}
-                                  changeFreqency={(data) => {
-                                    this.handleSelectedItemChange(data);
-                                  }}
-                                >
-                                  {this.ButtonGroupDom(false)}
-                                </AutoshipBuyMethod>
-                              ) : null}
-                              {currentSubscriptionStatus &&
-                              currentSubscriptionPrice &&
-                              skuPromotions == 'club' ? (
-                                <ClubBuyMethod
-                                  configStore={this.props.configStore}
-                                  form={form}
-                                  skuPromotions={skuPromotions}
-                                  selectedSpecItem={selectedSpecItem}
-                                  currentUnitPrice={currentUnitPrice}
-                                  currentSubscriptionPrice={
-                                    currentSubscriptionPrice
-                                  }
-                                  changeMethod={this.ChangeFormat.bind(this, 2)}
-                                  changeFreqency={(data) => {
-                                    this.handleSelectedItemChange(data);
-                                  }}
-                                  toClubTab={this.toClubTab}
-                                >
-                                  {this.ButtonGroupDom(false)}
-                                </ClubBuyMethod>
-                              ) : null}
+                                {details?.goodsSubtitle || ''}
+                              </h2>
                               <div
-                                className="mb-2 mr-2 text-right"
-                                style={{ fontSize: '.875rem' }}
-                              >
-                                <FormattedMessage
-                                  id="pricesIncludeVAT"
-                                  values={{
-                                    val: <span className="red">*</span>
-                                  }}
-                                  defaultMessage=" "
-                                />
-                              </div>
-                            </div>
-
-                            {PC && this.retailerBtnStatus ? (
-                              <div className="flex justify-content-center mt-5">
+                                className="mb-4"
+                                dangerouslySetInnerHTML={{
+                                  __html: this.state.descContent
+                                }}
+                              />
+                              {/*这种情况时，eancode 在法国固定，其他国家待定  */}
+                              {PC && this.retailerBtnStatus ? (
                                 <BuyFromRetailerBtn
                                   // ccidBtnDisplay={ccidBtnDisplay}
                                   barcode={barcode}
@@ -1635,20 +1614,125 @@ class Details extends React.Component {
                                   isUrl={isUrl}
                                   retailerUrl={retailerUrl}
                                 />
+                              ) : null}
+                            </div>
+                          ) : (
+                            <div
+                              className={classNames({
+                                hidden: this.isNullGoodsInfos,
+                                'w-full': isMobile,
+                                'col-md-5': !isMobile
+                              })}
+                            >
+                              {isMobile ? this.specAndQuantityDom() : null}
+                              <div
+                                className={`${
+                                  currentUnitPrice ? '' : 'hidden'
+                                }`}
+                              >
+                                <SingleBuyMethod
+                                  configStore={this.props.configStore}
+                                  form={form}
+                                  skuPromotions={skuPromotions}
+                                  selectedSpecItem={selectedSpecItem}
+                                  currentUnitPrice={currentUnitPrice}
+                                  currentSubscriptionPrice={
+                                    currentSubscriptionPrice
+                                  }
+                                  changeMethod={this.ChangeFormat.bind(this, 0)}
+                                  changeFreqency={(data) => {
+                                    this.handleSelectedItemChange(data);
+                                  }}
+                                >
+                                  {this.ButtonGroupDom(false)}
+                                </SingleBuyMethod>
+                                {currentSubscriptionStatus &&
+                                currentSubscriptionPrice &&
+                                skuPromotions == 'autoship' ? (
+                                  <AutoshipBuyMethod
+                                    form={form}
+                                    configStore={this.props.configStore}
+                                    skuPromotions={skuPromotions}
+                                    selectedSpecItem={selectedSpecItem}
+                                    currentUnitPrice={currentUnitPrice}
+                                    currentSubscriptionPrice={
+                                      currentSubscriptionPrice
+                                    }
+                                    changeMethod={this.ChangeFormat.bind(
+                                      this,
+                                      1
+                                    )}
+                                    changeFreqency={(data) => {
+                                      this.handleSelectedItemChange(data);
+                                    }}
+                                  >
+                                    {this.ButtonGroupDom(false)}
+                                  </AutoshipBuyMethod>
+                                ) : null}
+                                {currentSubscriptionStatus &&
+                                currentSubscriptionPrice &&
+                                skuPromotions == 'club' ? (
+                                  <ClubBuyMethod
+                                    configStore={this.props.configStore}
+                                    form={form}
+                                    skuPromotions={skuPromotions}
+                                    selectedSpecItem={selectedSpecItem}
+                                    currentUnitPrice={currentUnitPrice}
+                                    currentSubscriptionPrice={
+                                      currentSubscriptionPrice
+                                    }
+                                    changeMethod={this.ChangeFormat.bind(
+                                      this,
+                                      2
+                                    )}
+                                    changeFreqency={(data) => {
+                                      this.handleSelectedItemChange(data);
+                                    }}
+                                    toClubTab={this.toClubTab}
+                                  >
+                                    {this.ButtonGroupDom(false)}
+                                  </ClubBuyMethod>
+                                ) : null}
+                                <div
+                                  className="mb-2 mr-2 text-right"
+                                  style={{ fontSize: '.875rem' }}
+                                >
+                                  <FormattedMessage
+                                    id="pricesIncludeVAT"
+                                    values={{
+                                      val: <span className="red">*</span>
+                                    }}
+                                    defaultMessage=" "
+                                  />
+                                </div>
                               </div>
-                            ) : null}
-                            <ErrMsgForCheckoutPanel
-                              checkOutErrMsg={checkOutErrMsg}
-                            />
-                            {isMobile &&
-                            details.promotions &&
-                            details.promotions.includes('club') ? (
-                              <Ration
-                                goodsNo={details.goodsNo}
-                                setState={this.setState.bind(this)}
+
+                              {PC && this.retailerBtnStatus ? (
+                                <div className="flex justify-content-center mt-5">
+                                  <BuyFromRetailerBtn
+                                    // ccidBtnDisplay={ccidBtnDisplay}
+                                    barcode={barcode}
+                                    goodsType={goodsType}
+                                    onClick={this.handleBuyFromRetailer}
+                                    isApi={isApi}
+                                    isUrl={isUrl}
+                                    retailerUrl={retailerUrl}
+                                  />
+                                </div>
+                              ) : null}
+                              <ErrMsgForCheckoutPanel
+                                checkOutErrMsg={checkOutErrMsg}
                               />
-                            ) : null}
-                          </div>
+                              {isMobile &&
+                              details.promotions &&
+                              details.promotions.includes('club') ? (
+                                <Ration
+                                  goodsNo={details.goodsNo}
+                                  setState={this.setState.bind(this)}
+                                />
+                              ) : null}
+                            </div>
+                          ))
                         )}
                       </div>
                     </div>

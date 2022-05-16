@@ -1,45 +1,21 @@
 import React from 'react';
 
 const information = {
-  icon: (
-    <svg
-      className="svg-icon account-home-icon"
-      aria-hidden="true"
-      style={{ width: '2.6rem' }}
-    >
-      <use xlinkHref="#iconMyinformation" />
-    </svg>
-  ),
+  iconSrc: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icons/My information.svg`,
   titleLangKey: 'account.profile',
   textLangKey: 'account.profileTip',
   link: '/account/information'
 };
 
 const pets = {
-  icon: (
-    <svg
-      className="svg-icon account-home-icon"
-      aria-hidden="true"
-      style={{ width: '2.6rem' }}
-    >
-      <use xlinkHref="#iconMypets" />
-    </svg>
-  ),
+  iconSrc: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icons/My pets.svg`,
   titleLangKey: 'account.petsTitle',
   textLangKey: 'account.petsTip',
   link: '/account/pets/'
 };
 
 const orders = {
-  icon: (
-    <svg
-      className="svg-icon account-home-icon"
-      aria-hidden="true"
-      style={{ width: '2.6rem' }}
-    >
-      <use xlinkHref="#iconMyorders1" />
-    </svg>
-  ),
+  iconSrc: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icons/My orders.svg`,
   titleLangKey: 'account.ordersTitle',
   textLangKey: 'account.ordersTip',
   link: '/account/orders'
@@ -60,30 +36,14 @@ const appointments = {
 };
 
 const subscription = {
-  icon: (
-    <svg
-      className="svg-icon account-home-icon"
-      aria-hidden="true"
-      style={{ width: '2.6rem' }}
-    >
-      <use xlinkHref="#iconMySubsciptions1" />
-    </svg>
-  ),
+  iconSrc: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icons/My Subsciptions.svg`,
   titleLangKey: 'account.subscriptionTitle',
   textLangKey: 'account.subscriptionTip',
   link: '/account/subscription'
 };
 
 const faqs = {
-  icon: (
-    <svg
-      className="svg-icon account-home-icon"
-      aria-hidden="true"
-      style={{ width: '2.6rem' }}
-    >
-      <use xlinkHref="#iconFAQ" />
-    </svg>
-  ),
+  iconSrc: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icons/FAQ.svg`,
   titleLangKey: 'account.faqTitle',
   textLangKey: 'account.faqTip',
   link: '/faq',

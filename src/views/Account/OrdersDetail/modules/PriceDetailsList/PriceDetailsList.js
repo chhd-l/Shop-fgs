@@ -3,6 +3,7 @@ import { sortPriceList, formatMoney } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import cn from 'classnames';
+const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 
 const PriceDetailsList = ({
   data: {
@@ -20,6 +21,16 @@ const PriceDetailsList = ({
   },
   configStore
 }) => {
+  // 折扣价是否显示
+  let freeShippingDiscountPriceVisible = freeShippingFlag;
+  // 如果是日本 并且折扣价为0 不显示
+  if (
+    window.__.env.REACT_APP_COUNTRY === 'jp' &&
+    freeShippingDiscountPrice === 0
+  ) {
+    freeShippingDiscountPriceVisible = false;
+  }
+
   const priceList = sortPriceList([
     {
       key: 'totalPrice',
@@ -63,7 +74,7 @@ const PriceDetailsList = ({
         freeShippingDiscountPrice > 0
           ? -freeShippingDiscountPrice
           : freeShippingDiscountPrice,
-      visible: freeShippingFlag,
+      visible: freeShippingDiscountPriceVisible,
       className: 'green'
     },
     {
@@ -84,7 +95,12 @@ const PriceDetailsList = ({
     {
       title: <FormattedMessage id="payment.serviceFee" />,
       val: serviceFeePrice,
-      visible: serviceFeePrice,
+      visible:
+        configStore?.info?.serviceFeeFlag &&
+        COUNTRY == 'jp' &&
+        Number(serviceFeePrice) >= 0
+          ? true
+          : false,
       key: 'serviceFee'
     },
     {

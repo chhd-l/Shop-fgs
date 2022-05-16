@@ -1,9 +1,5 @@
 import React, { useEffect, useState, useContext, createContext } from 'react';
-import {
-  FormattedMessage,
-  injectIntl,
-  FormattedDate
-} from 'react-intl-phraseapp';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import stores from '@/store';
 import { useLocalStore } from 'mobx-react';
 import Skeleton from 'react-skeleton-loader';
@@ -12,9 +8,11 @@ import GoodsDetails from './GoodsDetails';
 import { getDetailsBySpuNo } from '@/api/details';
 import Modal from '@/components/Modal';
 import ChooseSKU from './ChooseSKU';
-export const ChangeProductContext = createContext();
 import { SubDetailHeaderContext } from '../SubDetailHeader';
 import { getFrequencyDict } from '@/utils/utils';
+
+export const ChangeProductContext = createContext();
+
 const ChangeProduct = () => {
   const { configStore } = useLocalStore(() => stores);
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
@@ -220,7 +218,7 @@ const ChangeProduct = () => {
               <Skeleton color="#f5f5f5" width="100%" height="30%" count={2} />
             </div>
           ) : (
-            <div className="recommendatio-wrap  rc-margin-bottom--sm rc-padding--sm">
+            <div className="recommendatio-wrap rc-padding--sm my-4 md:my-0">
               <p className="recommendatio-wrap-title">
                 <FormattedMessage id="subscriptionDetail.newProduct" />
               </p>

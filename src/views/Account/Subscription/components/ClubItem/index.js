@@ -51,55 +51,53 @@ const ClubItem = ({ subItem, history }) => {
         </div>
       </div>
       <div className="col-12 col-md-4 d-flex flex-wrap">
-        {subItem.goodsInfo &&
-          subItem.goodsInfo.map((item, i) => (
-            <div style={{ margin: '.625rem 1.25rem' }}>
-              {/* <LazyLoad> */}
-              <img
+        {(subItem.goodsInfo || []).map((item, i) => (
+          <div className="flex" style={{ margin: '.625rem 1.25rem' }} key={i}>
+            {/* <LazyLoad> */}
+            <img
+              style={{
+                width: '70px',
+                display: 'inline-block'
+              }}
+              key={item.spuId}
+              src={
+                optimizeImage({ originImageUrl: item.goodsPic }) || IMG_DEFAULT
+              }
+              alt={item.goodsName}
+              title={item.goodsName}
+            />
+            {/* </LazyLoad> */}
+            <span
+              style={{
+                display: 'inline-block',
+                verticalAlign: 'middle',
+                fontSize: '.75rem',
+                marginLeft: '.625rem',
+                width: isMobile ? 'auto' : '200px'
+              }}
+            >
+              <p
                 style={{
-                  width: '70px',
-                  display: 'inline-block'
-                }}
-                key={item.spuId}
-                src={
-                  optimizeImage({ originImageUrl: item.goodsPic }) ||
-                  IMG_DEFAULT
-                }
-                alt={item.goodsName}
-                title={item.goodsName}
-              />
-              {/* </LazyLoad> */}
-              <span
-                style={{
-                  display: 'inline-block',
-                  verticalAlign: 'middle',
-                  fontSize: '.75rem',
-                  marginLeft: '.625rem',
-                  width: isMobile ? 'auto' : '200px'
+                  fontSize: '1rem',
+                  fontWeight: '400',
+                  color: '#333',
+                  marginBottom: '5px'
                 }}
               >
-                <p
-                  style={{
-                    fontSize: '1rem',
-                    fontWeight: '400',
-                    color: '#333',
-                    marginBottom: '5px'
-                  }}
-                >
-                  {item.goodsName}
-                </p>
-                <p>
-                  {item.specText} - {item.subscribeNum}{' '}
-                  <FormattedMessage id="units" />
-                </p>
-                <p>
-                  <FormattedMessage id="subscription.frequencyDelivery" />
-                  <FormattedMessage id="subscription.deliveryEvery" />{' '}
-                  <FrequencyMatch currentId={item.periodTypeId} />
-                </p>
-              </span>
-            </div>
-          ))}
+                {item.goodsName}
+              </p>
+              <p>
+                {item.specText} - {item.subscribeNum}{' '}
+                <FormattedMessage id="units" />
+              </p>
+              <p>
+                <FormattedMessage id="subscription.frequencyDelivery" />
+                <FormattedMessage id="subscription.deliveryEvery" />{' '}
+                <FrequencyMatch currentId={item.periodTypeId} />
+              </p>
+            </span>
+          </div>
+        ))}
       </div>
       <div className="col-12 col-md-4 text-nowrap ml-3 mt-3 mb-3">
         {/* <LazyLoad> */}

@@ -22,6 +22,7 @@ import { userBindConsent } from '@/api/consent';
 import LimitLoginModal from '@/views/Home/modules/LimitLoginModal';
 import loginRedirection from '@/lib/login-redirection';
 import { useHistory } from 'react-router-dom';
+import cn from 'classnames';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -29,6 +30,7 @@ const loginStore = stores.loginStore;
 const checkoutStore = stores.checkoutStore;
 
 const LoginButton = (props) => {
+  if (sessionItemRoyal.get('rc-guestId')) return <></>;
   const { intl } = props;
   const history = useHistory();
   const init = props.init;
@@ -160,6 +162,7 @@ const LoginButton = (props) => {
           loginStore.changeLoginModal(false);
         });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authState, oktaAuth]); // Update if authState changes
 
   const login = async () => {
@@ -184,7 +187,9 @@ const LoginButton = (props) => {
     <>
       <LimitLoginModal />
       <button
-        className={props.btnClass || props.className || 'rc-btn rc-btn--one'}
+        className={cn(
+          props.btnClass || props.className || 'rc-btn rc-btn--one bg-rc-red'
+        )}
         style={props.btnStyle || {}}
         onClick={login}
         ref={props.buttonRef}

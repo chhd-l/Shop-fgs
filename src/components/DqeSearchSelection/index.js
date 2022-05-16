@@ -292,6 +292,8 @@ class SearchSelection extends React.Component {
             // }}
           >
             {this.props.prefixIcon}
+            {/* 解决表单只有一个input元素时按下enter自动提交问题，添加一个隐藏的input输入框即可 */}
+            <input type="text" className="hidden"></input>
             <input
               type="text"
               placeholder={this.state.placeholder}

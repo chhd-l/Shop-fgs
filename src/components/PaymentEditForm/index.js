@@ -138,7 +138,18 @@ class PaymentEditForm extends React.Component {
         ];
         break;
       case 'ru':
-        phoneReg = [{ mask: '+{7} (000) 000-00-00' }];
+        phoneReg = [
+          {
+            mask: '+{7}(Y00)000-00-00',
+            lazy: false,
+            blocks: {
+              Y: {
+                mask: IMask.MaskedEnum,
+                enum: ['0', '1', '2', '3', '4', '5', '6', '9']
+              } //枚举 Y值只能使用这些值
+            }
+          }
+        ];
         break;
       case 'mx':
         phoneReg = [{ mask: '+(52) 000 000 0000' }];

@@ -1,21 +1,20 @@
 // @ts-nocheck
 import React, { useEffect, useState } from 'react';
-import { matchNamefromDict, getDeviceType, unique } from '@/utils/utils';
+import { unique } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { SubscriptionType, SubScriptionStatusNumber } from '@/utils/types';
 import Selection from '@/components/Selection/index.js';
-import { PropTypes } from 'mobx-react';
-import {
-  GAPdpSizeChange
-} from '../../views/Details/GA';
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
+import { GAPdpSizeChange } from '../../views/Details/GA';
+import cn from 'classnames';
 
 interface Props {
   renderAgin?: boolean;
   details: any;
   updatedSku: Function;
   updatedPriceOrCode: Function;
-  defaultSkuId: string
+  defaultSkuId: string;
+  disabledGoodsInfoIds?: string[];
+  onIsSpecAvailable?: Function;
 }
 
 const HandledSpec = ({
@@ -23,15 +22,12 @@ const HandledSpec = ({
   details,
   updatedSku,
   updatedPriceOrCode = () => {},
-  defaultSkuId
+  defaultSkuId,
+  disabledGoodsInfoIds = [],
+  onIsSpecAvailable = () => {}
 }: Props) => {
-  const {
-    goodsSpecs,
-    goodsSpecDetails,
-    goodsInfos,
-    isSkuNoQuery,
-    goodsNo
-  } = details;
+  const { goodsSpecs, goodsSpecDetails, goodsInfos, isSkuNoQuery, goodsNo } =
+    details;
   const [sizeList, setSizeList] = useState([]);
 
   const getPriceOrCode = () => {
@@ -45,7 +41,7 @@ const HandledSpec = ({
       goodsInfos.find((item: any) => item.packSize === selectGoodSize)
         ?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode;
     const barcode = goodsInfoBarcode ? goodsInfoBarcode : '12'; //暂时临时填充一个code,因为没有值，按钮将不会显示，后期也许产品会干掉没有code的时候不展示吧==
-    updatedPriceOrCode({barcode, selectPrice});
+    updatedPriceOrCode({ barcode, selectPrice });
   };
 
   const matchGoods = () => {
@@ -136,7 +132,7 @@ const HandledSpec = ({
     handledValues.skuPromotions = sizeList[0].promotions;
     handledValues.stock = sizeList[0].stock;
     sizeList[0].selected = true;
-
+    
     updatedSku(handledValues, sizeList);
   };
 
@@ -154,10 +150,11 @@ const HandledSpec = ({
     const goodSize = goodsSpecs.map((item: any) =>
       item.chidren.find((good: any) => good.specDetailId === sdId)
     )?.[0]?.detailName;
-    GAPdpSizeChange(goodSize)
-    const barcode = goodsInfos.find((item: any) => item.packSize === goodSize)
-      ?.goodsInfoBarcode;
-    updatedPriceOrCode({barcode,clickEvent:true});
+    GAPdpSizeChange(goodSize);
+    const barcode = goodsInfos.find(
+      (item: any) => item.packSize === goodSize
+    )?.goodsInfoBarcode;
+    updatedPriceOrCode({ barcode, clickEvent: true });
     matchGoods();
   };
 
@@ -169,21 +166,23 @@ const HandledSpec = ({
       let specsItem = goodsInfos.filter(
         (item: any) => item.goodsInfoNo == goodsNo
       );
-      
+
       choosedSpecsArr =
         specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds;
     }
-    if(defaultSkuId) {
+    if (defaultSkuId) {
       // 通过sku查询
       let specsItem = goodsInfos.filter(
         (item: any) => item.goodsInfoId == defaultSkuId
       );
-      
+
       choosedSpecsArr =
         specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds;
     }
     // 组装购物车的前端数据结构与规格的层级关系
     if (goodsSpecDetails) {
+      // 是否有规格可用
+      let isAllSpecDisabled = true;
       goodsSpecs.map((sItem: any, index: any) => {
         // 该层判断是为了去判断sku是否存在
         sItem.chidren = goodsSpecDetails.filter((sdItem: any, i: number) => {
@@ -195,7 +194,11 @@ const HandledSpec = ({
             sdItem.isEmpty = filterproducts.every(
               (item: any) => item.stock === 0
             );
-            sdItem.isUnitPriceZero = filterproducts?.[0]?.marketPrice === 0
+            sdItem.isUnitPriceZero = filterproducts?.[0]?.marketPrice === 0;
+            sdItem.isDisabled =
+              sdItem.isEmpty ||
+              sdItem.isUnitPriceZero ||
+              disabledGoodsInfoIds.includes(filterproducts[0]?.goodsInfoId);
             // filterproduct.goodsInfoWeight = parseFloat(sdItem.detailName)
           }
           return sdItem.specId === sItem.specId;
@@ -203,23 +206,32 @@ const HandledSpec = ({
         let defaultSelcetdSku = -1;
         if (choosedSpecsArr.length) {
           for (let i = 0; i < choosedSpecsArr.length; i++) {
-            let specDetailIndex = sItem.chidren.findIndex(el => el.specDetailId === choosedSpecsArr[i])
+            let specDetailIndex = sItem.chidren.findIndex(
+              (el) => el.specDetailId === choosedSpecsArr[i]
+            );
             if (specDetailIndex > -1) {
               defaultSelcetdSku = specDetailIndex;
             }
           }
         }
-        const isSelectedDefaultSkuItem = sItem.chidren.findIndex(_item => _item.isSelected)
+        const isSelectedDefaultSkuItem = sItem.chidren.findIndex(
+          (_item) => _item.isSelected && !_item.isDisabled
+        );
+        // 所有规格都不可用，一旦有可用的，则置为false
+        if (sItem.chidren.some((_item) => !_item.isDisabled)) {
+          isAllSpecDisabled = false;
+        }
+        
         if (defaultSelcetdSku > -1) {
           // 默认选择该sku
           if (!sItem.chidren[defaultSelcetdSku].isEmpty) {
             // 如果是sku进来的，需要默认当前sku被选择
             sItem.chidren[defaultSelcetdSku].selected = true;
           }
-        } else if(isSelectedDefaultSkuItem>-1){
+        } else if (isSelectedDefaultSkuItem > -1) {
           // sprint6添加的需求，在storePortal设置了defaultSku那么该sku被选中.
           sItem.chidren[isSelectedDefaultSkuItem].selected = true;
-        }else {
+        } else {
           if (
             window.__.env.REACT_APP_COUNTRY === 'de' &&
             sItem.chidren.length &&
@@ -227,32 +239,38 @@ const HandledSpec = ({
           ) {
             // de设置最小的
             sItem.chidren[0].selected = true;
-          } else if (sItem.chidren.length > 1 && !sItem.chidren[1].isEmpty) {
+          } else if (sItem.chidren.length > 1 && !sItem.chidren[1].isDisabled) {
             sItem.chidren[1].selected = true;
           } else {
             for (let i = 0; i < sItem.chidren.length; i++) {
-              if (sItem.chidren[i].isEmpty) {
-              } else {
+              if (!sItem.chidren[i].isDisabled) {
                 sItem.chidren[i].selected = true;
                 break;
               }
             }
-            // 如果所有sku都没有库存 取第一个规格
+            // 如果所有sku都没有库存 取第一个可用的规格
             if (
               sItem.chidren.filter((el: any) => el.selected).length === 0 &&
+              sItem.chidren.filter((el: any) => !el.isDisabled).length &&
               sItem.chidren.length
             ) {
-              sItem.chidren[0].selected = true;
+              const targetItem = sItem.chidren.filter(
+                (el) => !el.isDisabled
+              )[0];
+              if (targetItem) {
+                targetItem.selected = true;
+              }
             }
           }
         }
         return sItem;
       });
+      onIsSpecAvailable(!isAllSpecDisabled);
     } else {
       goodsInfos[0].selected = true;
     }
     setSizeList(goodsInfos);
-  }, [details.goodsNo,renderAgin]);
+  }, [details.goodsNo, renderAgin]);
   useEffect(() => {
     (async () => {
       if (sizeList?.length) {
@@ -281,11 +299,12 @@ const HandledSpec = ({
               {sItem.chidren?.map((sdItem: any, i: number) => (
                 <div
                   key={i}
-                  className={`rc-swatch__item ${
-                    sdItem.selected ? 'selected' : ''
-                  } ${sdItem.isEmpty || sdItem.isUnitPriceZero ? 'outOfStock' : ''}`}
+                  className={cn(`rc-swatch__item`, {
+                    selected: sdItem.selected,
+                    outOfStock: sdItem.isDisabled
+                  })}
                   onClick={() => {
-                    if (sdItem.isEmpty || sdItem.selected || sdItem.isUnitPriceZero) {
+                    if (sdItem.isDisabled || sdItem.selected) {
                       return false;
                     } else {
                       handleChooseSize(sItem.specId, sdItem.specDetailId);
@@ -294,8 +313,8 @@ const HandledSpec = ({
                 >
                   <span
                     style={{
-                      backgroundColor: sdItem.isEmpty || sdItem.isUnitPriceZero ? '#ccc' : '#fff',
-                      cursor: sdItem.isEmpty || sdItem.isUnitPriceZero ? 'not-allowed' : 'pointer'
+                      backgroundColor: sdItem.isDisabled ? '#ccc' : '#fff',
+                      cursor: sdItem.isDisabled ? 'not-allowed' : 'pointer'
                     }}
                   >
                     {/* {parseFloat(sdItem.detailName)}{' '} */}

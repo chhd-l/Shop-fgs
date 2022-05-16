@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl-phraseapp';
 import PromotionCodeText from '../promotionCodeText';
 import { inject, observer } from 'mobx-react';
 import cn from 'classnames';
+const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 
 const PriceDetailsList = ({
   data: {
@@ -18,8 +19,11 @@ const PriceDetailsList = ({
     installMentParam
   },
   configStore,
-  checkoutStore
+  checkoutStore,
+  paymentStore
 }) => {
+  const { curPayWayInfo } = paymentStore;
+
   const priceList = sortPriceList([
     {
       key: 'totalPrice',
@@ -85,7 +89,14 @@ const PriceDetailsList = ({
     {
       title: <FormattedMessage id="payment.serviceFee" />,
       val: checkoutStore.serviceFeePrice,
-      visible: checkoutStore.serviceFeePrice,
+      visible:
+        configStore?.info?.serviceFeeFlag &&
+        COUNTRY == 'jp' &&
+        (checkoutStore.serviceFeePrice === 0 ||
+          checkoutStore.serviceFeePrice > 0) &&
+        curPayWayInfo !== undefined //选择了支付方式才显示服务费
+          ? true
+          : false,
       key: 'serviceFee'
     },
     {
@@ -127,5 +138,6 @@ const PriceDetailsList = ({
 
 export default inject(
   'configStore',
-  'checkoutStore'
+  'checkoutStore',
+  'paymentStore'
 )(observer(PriceDetailsList));

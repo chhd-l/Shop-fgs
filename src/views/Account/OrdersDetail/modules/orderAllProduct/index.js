@@ -42,11 +42,9 @@ const OrderAllProduct = ({ details }) => {
     <div className="order-list-container order__listing text-left">
       {details.tradeItems
         .concat(
-          details?.gifts?.filter(
-            (item) => !item?.cateName?.includes('Leaflet')
-          ) || [],
+          details?.gifts?.filter((item) => !item?.isHidden) || [],
           details?.subscriptionPlanGiftList?.filter(
-            (item) => !item?.cateName?.includes('Leaflet')
+            (item) => !item?.isHidden
           ) || []
         )
         .map((item, i) => (
@@ -170,12 +168,17 @@ const OrderAllProduct = ({ details }) => {
                 {details.subscriptionResponseVO && item.subscriptionStatus ? (
                   judgeIsIndividual(item) ? (
                     ''
+                  ) : window.__.env.REACT_APP_COUNTRY === 'jp' &&
+                    item.subscriptionPrice === item.originalPrice ? (
+                    <span className="ml-2">
+                      {/* 日本的订阅折扣价和原价一样特别显示 */}
+                      {formatMoney(item.originalPrice)}
+                    </span>
                   ) : (
                     <>
                       <span className="red font-weight-normal">
                         {formatMoney(item.subscriptionPrice)}
                       </span>
-
                       <span className="text-line-through ml-2">
                         {formatMoney(item.originalPrice)}
                       </span>
