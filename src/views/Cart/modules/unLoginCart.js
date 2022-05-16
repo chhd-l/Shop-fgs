@@ -1421,8 +1421,7 @@ class UnLoginCart extends React.Component {
           >
             <span className="remove-product-btn z-50">
               <span
-                className="rc-icon rc-close--sm rc-iconography inline-block"
-                style={{ width: '32px', height: '32px' }}
+                className="rc-icon rc-close--sm rc-iconography inline-block w-8 h-8"
                 onClick={() => {
                   this.updateConfirmTooltipVisible(pitem, true);
                   this.setState({ currentProductIdx: index });
@@ -1469,7 +1468,7 @@ class UnLoginCart extends React.Component {
               </div>
               <div className="product-info__desc relative" style={{ flex: 1 }}>
                 <Link
-                  className="ui-cursor-pointer rc-margin-top--xs rc-padding-right--sm align-items-md-center flex-column flex-md-row mt-0"
+                  className="ui-cursor-pointer rc-margin-top--xs inline-block mr-5 md:inline align-items-md-center flex-column flex-md-row mt-0"
                   to={`/${pitem.goodsName
                     .toLowerCase()
                     .split(' ')
