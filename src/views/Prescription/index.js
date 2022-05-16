@@ -219,7 +219,7 @@ class Prescription extends React.Component {
       );
     });
     // 俄罗斯地图单独处理
-    if (window.__.env.REACT_APP_COUNTRY == 'ru') {
+    if (window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE) {
       clinicArrRu = clinicArr.map((item) => {
         return {
           type: 'Feature',
@@ -554,7 +554,7 @@ class Prescription extends React.Component {
                 </form>
               </div>
               <div className="clinic-map">
-                {window.__.env.REACT_APP_COUNTRY == 'ru' ? (
+                {window.__.env.REACT_APP_RU_LOCALIZATION_ENABLE ? (
                   <YandexMap
                     center={this.state.center}
                     zoom={this.state.zoom}
