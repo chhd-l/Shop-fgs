@@ -1016,8 +1016,8 @@ class Form extends React.Component {
       });
       cform.deliveryDate = tslist[0]?.id ? data.no : 'Unspecified';
       cform.deliveryDateId = tslist[0]?.name ? data.value : 'Unspecified';
-      cform.timeSlotId = tslist[0]?.id || 'Unspecified';
-      cform.timeSlot = tslist[0]?.name || 'Unspecified';
+      cform.timeSlotId = 'Unspecified';
+      cform.timeSlot = 'Unspecified';
       this.setState({
         timeSlotList: tslist
       });
@@ -1038,7 +1038,7 @@ class Form extends React.Component {
   }
   // 处理数组
   computedList(key) {
-    console.log('timeSlotList', this.state.timeSlotList);
+    //console.log('timeSlotList', this.state.timeSlotList);
     let tmp = '';
     tmp = this.state[`${key}List`].map((c) => {
       return {
