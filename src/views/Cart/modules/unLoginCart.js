@@ -2202,7 +2202,7 @@ class UnLoginCart extends React.Component {
           />
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
-        {this.state.checkoutLoading ? (
+        {this.state.circleLoading || this.state.checkoutLoading ? (
           <Loading
             bgColor={'#000'}
             opacity={this.state.checkoutLoading ? 0.3 : 1}
