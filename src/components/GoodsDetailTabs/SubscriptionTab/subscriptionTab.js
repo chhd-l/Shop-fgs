@@ -196,7 +196,6 @@ export default function SubscriptionTab() {
               className="h-6 w-6"
               style={{
                 color: '#767676',
-                display: 'inline',
                 marginLeft: 5,
                 display: 'inline-block',
                 verticalAlign: 'middle'

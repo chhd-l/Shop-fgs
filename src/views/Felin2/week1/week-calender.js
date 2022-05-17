@@ -152,28 +152,26 @@ class WeekCalender extends Component {
       start.minutes(Math.ceil(start.minutes() / 15) * 15);
       let result = [];
       let current = moment(start);
-      while (current <= end) {
-        let dateNo = current.format('YYYYMMDD');
-        let cc = {
-          disabled: true,
-          type: 'default',
-          dateNo,
-          time: current.format('HH:mm')
-        };
-        if (currentDate.minuteList) {
-          let curr = currentDate.minuteList[current.format('YYYYMMDD HH:mm')];
-          if (curr) {
-            cc = {
-              ...curr,
-              disabled: false,
-              time: current.format('HH:mm'),
-              dateNo
-            };
-          }
+      let dateNo = current.format('YYYYMMDD');
+      let cc = {
+        disabled: true,
+        type: 'default',
+        dateNo,
+        time: current.format('HH:mm')
+      };
+      if (currentDate.minuteList) {
+        let curr = currentDate.minuteList[current.format('YYYYMMDD HH:mm')];
+        if (curr) {
+          cc = {
+            ...curr,
+            disabled: false,
+            time: current.format('HH:mm'),
+            dateNo
+          };
         }
-        result.push(cc);
-        current.add(15, 'minutes');
       }
+      result.push(cc);
+      current.add(15, 'minutes');
       reslove(result);
     });
   };
