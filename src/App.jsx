@@ -481,11 +481,10 @@ const App = () => {
                   exact
                   path="/confirmation"
                   render={(props) => {
-                    console.log(
-                      'isRefreshConfirmPage:',
+                    if (
+                      !sessionItemRoyal.get('subOrderNumberList') ||
                       Boolean(sessionItemRoyal.get('refresh-confirm-page'))
-                    );
-                    if (Boolean(sessionItemRoyal.get('refresh-confirm-page'))) {
+                    ) {
                       if (window.__.env.REACT_APP_HUB) {
                         window.location.href =
                           window.__.env.REACT_APP_HUB_URLPREFIX;

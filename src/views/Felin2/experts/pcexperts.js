@@ -28,9 +28,9 @@ import {
 } from '@/api/felin';
 import moment from 'moment';
 import LoginButton from '@/components/LoginButton';
-import { getDeviceType, getAppointmentInfo } from '../../../utils/utils';
+import { getDeviceType } from '@/utils/utils';
 import { getLoginDetails, getDetails } from '@/api/details';
-import { postcustomerUpdate } from '../../../api/felin';
+import { postcustomerUpdate } from '@/api/felin';
 import { injectIntl } from 'react-intl-phraseapp';
 import { scrollIntoView } from '@/lib/scroll-to-utils';
 import { funcUrl } from '@/lib/url-utils';

@@ -21,7 +21,7 @@ import {
 } from '@/api/felin';
 import moment from 'moment';
 import LoginButton from '@/components/LoginButton';
-import { getDeviceType, getAppointmentInfo } from '@/utils/utils';
+import { getDeviceType } from '@/utils/utils';
 import { getLoginDetails, getDetails } from '@/api/details';
 import { injectIntl } from 'react-intl-phraseapp';
 import { postcustomerUpdate } from '../../../api/felin';
