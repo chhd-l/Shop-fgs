@@ -215,7 +215,13 @@ class AddressList extends React.Component {
     const { selectedId } = this.state;
     try {
       this.setState({ loading: true });
-      let res = await getAddressList();
+      const userGroupPa = sessionItemRoyal.get('rc-userGroup');
+      let res;
+      if (userGroupPa && userGroupPa == 'felinStore') {
+        res = await getAddressList({ userGroup: 'felin' });
+      } else {
+        res = await getAddressList();
+      }
       let allAddress = res.context;
       // if (!allAddress.length) {
       //   this.updateConfirmBtnDisabled(true);

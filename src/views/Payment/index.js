@@ -54,7 +54,8 @@ import {
   swishCancelOrRefund,
   valetGuestOrderPaymentResponse,
   queryPosOrder,
-  cancelPosOrder
+  cancelPosOrder,
+  rePayPos
 } from '@/api/payment';
 import { getOrderDetails } from '@/api/order';
 import { getLoginDetails, getDetails } from '@/api/details';
@@ -1864,19 +1865,6 @@ class Payment extends React.Component {
         case 'adyen_point_of_sale':
           const payState =
             res.context?.trade?.tradeState?.payState == 'PAID' ? true : false;
-          // if(res.code == 'K-000000'){
-          //   const tid = res.context.tid;
-          //   cancelPosOrder(tid)
-          //   .then((res) => {
-          //     if (res.code == 'K-000000') {
-          //     }
-          //     console.log('cancelPosOrderres', res);
-          //   })
-          //   .catch((err) => {
-          //     console.log('cancelPosOrdererr', err);
-          //   });
-          //   return;
-          // }
           // 支付成功
           if (res.code == 'K-000000' && payState) {
             const isGuest = sessionItemRoyal.get('rc-guestId') ? true : false;
@@ -1939,16 +1927,23 @@ class Payment extends React.Component {
                     return await queryPos();
                   } else {
                     this.showErrorMsg(err.message);
+                    subOrderNumberList = tidList.length
+                      ? tidList
+                      : res.context && res.context.tidList;
+                    subNumber = (res.context && res.context.subscribeId) || '';
+                    gotoConfirmationPage = true;
+                    // 超过30秒repay
+                    // rePayPos().then((res)=>{}).catch((err)=>{})
                     // 超过30秒就取消订单
-                    cancelPosOrder(tid)
-                      .then((res) => {
-                        if (res.code == 'K-000000') {
-                        }
-                        console.log('cancelPosOrderres', res);
-                      })
-                      .catch((err) => {
-                        console.log('cancelPosOrdererr', err);
-                      });
+                    // cancelPosOrder(tid)
+                    //   .then((res) => {
+                    //     if (res.code == 'K-000000') {
+                    //     }
+                    //     console.log('cancelPosOrderres', res);
+                    //   })
+                    //   .catch((err) => {
+                    //     console.log('cancelPosOrdererr', err);
+                    //   });
                   }
                 });
             };

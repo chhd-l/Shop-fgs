@@ -27,7 +27,7 @@ export function getAddressList(parameter) {
   return axios({
     url: `${api.getAddressList}`,
     method: 'get',
-    data: parameter
+    params: parameter
   });
 }
 export function getAddressById(parameter) {

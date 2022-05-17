@@ -13,6 +13,7 @@ const api = {
 
   customerCommitAndPay: `/${window.__.env.REACT_APP_STOREID}/trade-member/checkout`,
   rePay: '/trade-custom/repay',
+  rePayPos: '/all/pos/repay',
   getMarketingDiscount: '/marketing/discount',
   getWays: `/${window.__.env.REACT_APP_STOREID}/pay/getPayPspList`,
   adyenPaymentsDetails: `/${window.__.env.REACT_APP_STOREID}/adyen/payment`,
@@ -198,6 +199,14 @@ export function customerCommitAndPay(parameter) {
 export function rePay(parameter) {
   return axios({
     url: api.rePay,
+    method: 'post',
+    data: parameter
+  });
+}
+
+export function rePayPos(parameter) {
+  return axios({
+    url: api.rePayPos,
     method: 'post',
     data: parameter
   });
