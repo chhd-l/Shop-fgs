@@ -2,6 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import './index.less';
 import { Point } from '@/views/Payment/Point';
+import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
 
 const convenienceStoreList = [
   {
@@ -71,13 +72,14 @@ const ConvenienceStore = ({ convenienceStoreChange, supportPoint = false }) => {
             id="convenienceStore.tip3"
             values={{
               val: (
-                <a
-                  target="_blank"
+                <DistributeHubLinkOrATag
                   href="/faq"
+                  to="/faq"
+                  target="_blank"
                   className="cursor-pointer inline-block rc-styled-link border-b border-black hover:border-rc-red"
                 >
                   <FormattedMessage id="here2" />
-                </a>
+                </DistributeHubLinkOrATag>
               )
             }}
           />
