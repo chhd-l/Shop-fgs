@@ -56,13 +56,7 @@ class RouteFilter extends Component {
       this.props.history.replace('/home');
       return false;
     }
-    if (
-      nextProps.location.pathname === '/confirmation' &&
-      !sessionItemRoyal.get('subOrderNumberList')
-    ) {
-      this.props.history.replace('/home');
-      return false;
-    }
+
     return true;
   }
 
