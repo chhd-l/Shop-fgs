@@ -15,7 +15,7 @@ const SelectPet = ({ checkoutStore, loginStore, paymentStore, isRepay }) => {
   const { isLogin } = loginStore;
   const { isShowBindPet, cartData, loginCartData } = checkoutStore;
   const { bindPetPanelStatus, setPetSelectedIds } = paymentStore;
-  const {} = usePetLists({ loginStore, paymentStore });
+  usePetLists({ loginStore, paymentStore });
   const computedAuditData = isLogin
     ? loginCartData.map((el) => ({
         ...el,
