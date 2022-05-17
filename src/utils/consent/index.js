@@ -8,9 +8,9 @@ const { loginStore, checkoutStore } = stores;
 
 const { isLogin, userInfo } = loginStore;
 const customerId = userInfo?.customerId;
-// us /fr 在checkout的consent接口调用selected的接口，并且选中状态根据接口来
+// us /fr /de/mx/tr在checkout的consent接口调用selected的接口，并且选中状态根据接口来
 const customConsentCountry =
-  ['fr', 'us', 'de', 'mx'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1;
+  ['fr', 'us', 'de', 'mx', 'tr'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1;
 function isExistListFun(result) {
   let listData = [];
   let optionalList = result.context.optionalList.map((item) => {
@@ -42,66 +42,69 @@ function isExistListFun(result) {
     listData = [...requiredList]; //美国,俄罗斯游客只显示必选项
   } else if (window.__.env.REACT_APP_COUNTRY == 'ru') {
     listData = [...requiredList]; //俄罗斯-会员-必填项
-  } else if (window.__.env.REACT_APP_COUNTRY == 'tr') {
-    let cConsent = result.context.requiredList
-      .filter((item) => {
-        return item.consentDesc == 'RC_DF_TR_FGS_PRIVACY_POLICY';
-      })
-      .map((item2) => {
-        return {
-          id: item2.id,
-          consentTitle: item2.consentTitle,
-          isChecked: true,
-          isRequired: true,
-          detailList: item2.detailList,
-          noChecked: true
-        };
-      });
-    let aConsent = result.context.requiredList
-      .filter((item) => {
-        return item.consentDesc == 'RC_DF_TR_FGS_A';
-      })
-      .map((item2) => {
-        return {
-          id: item2.id,
-          consentTitle: item2.consentTitle,
-          isChecked: false,
-          isRequired: true,
-          detailList: item2.detailList,
-          desc: item2.consentDesc
-        };
-      });
-    let bConsent = result.context.requiredList
-      .filter((item) => {
-        return item.consentDesc == 'RC_DF_TR_FGS_B';
-      })
-      .map((item2) => {
-        return {
-          id: item2.id,
-          consentTitle: item2.consentTitle,
-          isChecked: false,
-          isRequired: true,
-          detailList: item2.detailList,
-          desc: item2.consentDesc
-        };
-      });
-    let dConsent = result.context.requiredList
-      .filter((item) => {
-        return item.consentDesc == 'RC_DF_TR_TRANSFER_DATA';
-      })
-      .map((item2) => {
-        return {
-          id: item2.id,
-          consentTitle: `<span class="medium ui-cursor-pointer-pure" style="padding-bottom: 2px;
-              border-bottom: 1px solid #ccc;color:#666" id="tr_consent_d">Yurtdışına Veri Aktarımı Açık Rıza Metni</span>ni okudum. Kişisel verilerimin Türkiye dışına transfer edilmesini onaylıyorum`, //特殊处理，这里需要替换成本地的文字
-          isChecked: false,
-          isRequired: true,
-          detailList: item2.detailList
-        };
-      });
+  }
+  // tr consent 新需求修改 不再需要原来特殊处理
+  // else if (window.__.env.REACT_APP_COUNTRY == 'tr') {
+  //   let cConsent = result.context.requiredList
+  //     .filter((item) => {
+  //       return item.consentDesc == 'RC_DF_TR_FGS_PRIVACY_POLICY';
+  //     })
+  //     .map((item2) => {
+  //       return {
+  //         id: item2.id,
+  //         consentTitle: item2.consentTitle,
+  //         isChecked: true,
+  //         isRequired: true,
+  //         detailList: item2.detailList,
+  //         noChecked: true
+  //       };
+  //     });
+  //   let aConsent = result.context.requiredList
+  //     .filter((item) => {
+  //       return item.consentDesc == 'RC_DF_TR_FGS_A';
+  //     })
+  //     .map((item2) => {
+  //       return {
+  //         id: item2.id,
+  //         consentTitle: item2.consentTitle,
+  //         isChecked: false,
+  //         isRequired: true,
+  //         detailList: item2.detailList,
+  //         desc: item2.consentDesc
+  //       };
+  //     });
+  //   let bConsent = result.context.requiredList
+  //     .filter((item) => {
+  //       return item.consentDesc == 'RC_DF_TR_FGS_B';
+  //     })
+  //     .map((item2) => {
+  //       return {
+  //         id: item2.id,
+  //         consentTitle: item2.consentTitle,
+  //         isChecked: false,
+  //         isRequired: true,
+  //         detailList: item2.detailList,
+  //         desc: item2.consentDesc
+  //       };
+  //     });
+  //   let dConsent = result.context.requiredList
+  //     .filter((item) => {
+  //       return item.consentDesc == 'RC_DF_TR_TRANSFER_DATA';
+  //     })
+  //     .map((item2) => {
+  //       return {
+  //         id: item2.id,
+  //         consentTitle: `<span class="medium ui-cursor-pointer-pure" style="padding-bottom: 2px;
+  //             border-bottom: 1px solid #ccc;color:#666" id="tr_consent_d">Yurtdışına Veri Aktarımı Açık Rıza Metni</span>ni okudum. Kişisel verilerimin Türkiye dışına transfer edilmesini onaylıyorum`, //特殊处理，这里需要替换成本地的文字
+  //         isChecked: false,
+  //         isRequired: true,
+  //         detailList: item2.detailList
+  //       };
+  //     });
 
-    listData = [...cConsent, ...aConsent, ...bConsent, ...dConsent];
-  } else {
+  //   listData = [...cConsent, ...aConsent, ...bConsent, ...dConsent];
+  // }
+  else {
     listData = [...requiredList, ...optionalList]; //必填项+选填项
   }
 
