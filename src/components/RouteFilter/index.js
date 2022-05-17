@@ -28,20 +28,6 @@ class RouteFilter extends Component {
   // router refresh=true后，此生命周期无效
   shouldComponentUpdate(nextProps) {
     // 默认了clinic后，再次编辑clinic
-    const { checkoutStore } = this.props;
-
-    const isStorepotal = funcUrl({ name: 'stoken' });
-    if (isStorepotal) {
-      checkoutStore.removePromotionCode();
-    }
-
-    // goodwill单标识 goodWillFlag: 'GOOD_WILL'
-    const sPromotionCodeFromSearch = funcUrl({ name: 'spromocode' });
-    if (sPromotionCodeFromSearch) {
-      checkoutStore.setPromotionCode(sPromotionCodeFromSearch);
-      sessionItemRoyal.set('goodWillFlag', 'GOOD_WILL');
-    }
-
     if (
       nextProps.location.pathname === '/prescription' &&
       sessionItemRoyal.get('clinic-reselect') === 'true'
@@ -136,6 +122,18 @@ class RouteFilter extends Component {
       this.isLogin
     ) {
       authToken({ token: `Bearer ${localItemRoyal.get('rc-token')}` });
+    }
+
+    const { checkoutStore } = this.props;
+    const isStorepotal = funcUrl({ name: 'stoken' });
+    if (isStorepotal) {
+      checkoutStore.removePromotionCode();
+    }
+    // goodwill单标识 goodWillFlag: 'GOOD_WILL'
+    const sPromotionCodeFromSearch = funcUrl({ name: 'spromocode' });
+    if (sPromotionCodeFromSearch) {
+      checkoutStore.setPromotionCode(sPromotionCodeFromSearch);
+      sessionItemRoyal.set('goodWillFlag', 'GOOD_WILL');
     }
   }
   componentDidMount() {
