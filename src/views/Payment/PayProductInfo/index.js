@@ -560,7 +560,7 @@ class PayProductInfo extends React.Component {
                       style={{ width: '77%' }}
                     >
                       <p className="mb-0">
-                        {orderSource === 'L_ATELIER_FELIN' ? (
+                        {orderSource == 'L_ATELIER_FELIN' ? (
                           `${10 * el.buyCount}g`
                         ) : (
                           <FormattedMessage

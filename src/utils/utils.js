@@ -1372,17 +1372,17 @@ export function optimizeImage({
  * @param {Array} conf srcset配置, conf.option-cloudflare cdn img options, conf.screen-srcset屏幕断点
  * @returns {string}
  */
-export function optimizeImageSrcSet({ originImageUrl, conf }) {
-  let ret = [];
-  Array.from(conf, (confItem) => {
-    ret.push(
-      `${optimizeImage({ originImageUrl, option: confItem.option })} ${
-        confItem.screen
-      }`
-    );
-  });
-  return ret.join(', ');
-}
+// export function optimizeImageSrcSet({ originImageUrl, conf }) {
+//   let ret = [];
+//   Array.from(conf, (confItem) => {
+//     ret.push(
+//       `${optimizeImage({ originImageUrl, option: confItem.option })} ${
+//         confItem.screen
+//       }`
+//     );
+//   });
+//   return ret.join(', ');
+// }
 
 /**
  * 兼容ios只支持/的时间格式

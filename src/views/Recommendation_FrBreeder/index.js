@@ -647,7 +647,7 @@ class Recommendation extends React.Component {
       if (loginStore.isLogin) {
         await this.hanldeLoginAddToCart();
       } else {
-        inStockProducts.map((el) => {
+        inStockProducts.forEach((el) => {
           el.goodsInfo.buyCount = el.recommendationNumber;
           return el.goodsInfo;
         });
@@ -704,7 +704,7 @@ class Recommendation extends React.Component {
       //     this.setState({ buttonLoading: false });
       //   }
       // }
-      inStockProducts.map((el) => {
+      inStockProducts.forEach((el) => {
         el.goodsInfo.buyCount = el.recommendationNumber;
         return el.goodsInfo;
       });

@@ -385,7 +385,7 @@ class Help extends React.Component {
       // }
       if (loginStore.isLogin) {
       } else {
-        inStockProducts.map((el) => {
+        inStockProducts.forEach((el) => {
           el.goodsInfo.buyCount = el.recommendationNumber;
           return el.goodsInfo;
         });
@@ -444,7 +444,7 @@ class Help extends React.Component {
       //   }
       // }
 
-      inStockProducts.map((el) => {
+      inStockProducts.forEach((el) => {
         el.goodsInfo.buyCount = el.recommendationNumber;
         return el.goodsInfo;
       });
