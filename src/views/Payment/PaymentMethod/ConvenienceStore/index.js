@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import './index.less';
 import { Point } from '@/views/Payment/Point';
-import { DistributeHubLinkOrATag } from '@/components/DistributeLink';
+import { DistributeLinkOrATag } from '@/components/DistributeLink';
 
 const convenienceStoreList = [
   {
@@ -72,13 +72,9 @@ const ConvenienceStore = ({ convenienceStoreChange, supportPoint = false }) => {
             id="convenienceStore.tip3"
             values={{
               val: (
-                <a
-                  target="_blank"
-                  href={`${window.__.env.REACT_APP_HUB_URLPREFIX}/faq`}
-                  className="cursor-pointer inline-block rc-styled-link border-b border-black hover:border-rc-red"
-                >
+                <DistributeLinkOrATag target="_blank" href="/faq" to="/faq">
                   <FormattedMessage id="here2" />
-                </a>
+                </DistributeLinkOrATag>
               )
             }}
           />
