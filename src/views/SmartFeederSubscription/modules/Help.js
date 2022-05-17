@@ -291,7 +291,7 @@ class Help extends React.Component {
                                       href={emailLink}
                                       to={emailLink}
                                       onClick={() => {
-                                        this.saveCurrentScrollTop;
+                                        this.saveCurrentScrollTop();
                                         this.props.GAforEmail &&
                                           this.props.GAforEmail();
                                       }}

@@ -152,7 +152,7 @@ const Adoptions = (props) => {
         return sItem;
       });
     }
-    res.goodsSpecDetails = res.goodsSpecDetails;
+    //res.goodsSpecDetails = res.goodsSpecDetails;
     res.goodsSpecs = specList;
     details = Object.assign({}, res, res.goods, res.goodsInfo?.goods);
     return details;

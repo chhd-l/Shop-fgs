@@ -1087,7 +1087,7 @@ class Form extends React.Component {
       case 'lastName':
         // 德国shop first name, last name去掉空格 - 的限制
         // tvalue = tvalue.replace(COUNTRY === 'de' ? /[-|\s]/gi : '', '');
-        tvalue = tvalue;
+        //tvalue = tvalue;
         break;
       case 'postCode':
         // 可以输入字母+数字

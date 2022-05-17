@@ -539,7 +539,7 @@ class FelinRecommendation extends React.Component {
       try {
         if (loginStore.isLogin) {
         } else {
-          inStockProducts.map((el) => {
+          inStockProducts.forEach((el) => {
             el.goodsInfo.buyCount = el.recommendationNumber;
             return el.goodsInfo;
           });

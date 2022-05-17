@@ -785,7 +785,7 @@ class PaymentComp extends React.Component {
                       dataLength={creditCardList.length}
                       handleClick={() => {
                         if (creditCardList[idx].selected) return;
-                        creditCardList.map((el) => (el.selected = false));
+                        creditCardList.forEach((el) => (el.selected = false));
                         el.selected = true;
                         // this.props.getSelectedValue &&
                         //   this.props.getSelectedValue(el);

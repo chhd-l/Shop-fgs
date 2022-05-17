@@ -758,8 +758,8 @@ function getDatePickerConfig() {
   };
   const curDatePickerCfg =
     datePickerCfg[window.__.env.REACT_APP_COUNTRY] || datePickerCfg.default;
-  const curLocaleModule =
-    require(`date-fns/locale/${curDatePickerCfg.locale_module_lang}`).default;
+  const curLocaleModule = require(`date-fns/locale/${curDatePickerCfg.locale_module_lang}`)
+    .default;
   registerLocale(window.__.env.REACT_APP_COUNTRY, curLocaleModule);
   // 根据Intl.DateTimeFormat生成当前国家的日期格式
   const specificDate = formatDate({ date: '2021-12-30' });
@@ -964,7 +964,9 @@ export function bindSubmitParam(list) {
     }[window.__.env.REACT_APP_COUNTRY] || [];
   let obj = { optionalList: [], requiredList: [] };
   if (
-    ['fr', 'de', 'us', 'se', 'mx'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1
+    ['fr', 'de', 'us', 'se', 'mx', 'tr'].indexOf(
+      window.__.env.REACT_APP_COUNTRY
+    ) > -1
   ) {
     const noIsRequiredList = list?.filter((item) => !item.isRequired);
     const firstOptionalList = noIsRequiredList?.filter(
@@ -1010,8 +1012,9 @@ export function judgeIsIndividual(item) {
 // uk和fr,才有postCode校验
 const countryPostCode = ['uk', 'fr'];
 const currentCountry = window.__.env.REACT_APP_COUNTRY;
-export const isCanVerifyBlacklistPostCode =
-  countryPostCode.includes(currentCountry);
+export const isCanVerifyBlacklistPostCode = countryPostCode.includes(
+  currentCountry
+);
 
 // 获取 Postal code alert message
 export async function getAddressPostalCodeAlertMessage() {
@@ -1372,17 +1375,17 @@ export function optimizeImage({
  * @param {Array} conf srcset配置, conf.option-cloudflare cdn img options, conf.screen-srcset屏幕断点
  * @returns {string}
  */
-export function optimizeImageSrcSet({ originImageUrl, conf }) {
-  let ret = [];
-  Array.from(conf, (confItem) => {
-    ret.push(
-      `${optimizeImage({ originImageUrl, option: confItem.option })} ${
-        confItem.screen
-      }`
-    );
-  });
-  return ret.join(', ');
-}
+// export function optimizeImageSrcSet({ originImageUrl, conf }) {
+//   let ret = [];
+//   Array.from(conf, (confItem) => {
+//     ret.push(
+//       `${optimizeImage({ originImageUrl, option: confItem.option })} ${
+//         confItem.screen
+//       }`
+//     );
+//   });
+//   return ret.join(', ');
+// }
 
 /**
  * 兼容ios只支持/的时间格式
