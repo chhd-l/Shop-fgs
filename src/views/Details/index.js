@@ -221,8 +221,14 @@ class Details extends React.Component {
     return JSON.parse(configStr);
   }
   get btnStatus() {
-    const { details, quantity, instockStatus, initing, loading, form } =
-      this.state;
+    const {
+      details,
+      quantity,
+      instockStatus,
+      initing,
+      loading,
+      form
+    } = this.state;
     const { sizeList } = details;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     let addedFlag = 1;
@@ -557,11 +563,8 @@ class Details extends React.Component {
               if (mixFeeding) {
                 mixFeeding.quantity = 1;
               }
-              let {
-                goodsImg = '',
-                goodsName = '',
-                goodsNo = ''
-              } = mixFeeding?.goods || {};
+              let { goodsImg = '', goodsName = '', goodsNo = '' } =
+                mixFeeding?.goods || {};
               let _hiddenMixFeedingBanner = false;
               let mixFeedingSelected = mixFeeding?.sizeList?.filter(
                 (el) => el.selected
@@ -904,8 +907,13 @@ class Details extends React.Component {
     try {
       !type && this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const { currentUnitPrice, quantity, form, details, questionParams } =
-        this.state;
+      const {
+        currentUnitPrice,
+        quantity,
+        form,
+        details,
+        questionParams
+      } = this.state;
 
       console.log({ details });
       // debugger;
@@ -1544,7 +1552,9 @@ class Details extends React.Component {
                                     />
                                   )}
                                   {details.promotions &&
-                                  details.promotions.includes('club') ? (
+                                  details.promotions.includes('club') &&
+                                  !window.__.env
+                                    .REACT_APP_CLOSE_PRODUCT_FINDER ? (
                                     <Ration
                                       goodsNo={details.goodsNo}
                                       setState={this.setState.bind(this)}
@@ -1725,7 +1735,8 @@ class Details extends React.Component {
                               />
                               {isMobile &&
                               details.promotions &&
-                              details.promotions.includes('club') ? (
+                              details.promotions.includes('club') &&
+                              !window.__.env.REACT_APP_CLOSE_PRODUCT_FINDER ? (
                                 <Ration
                                   goodsNo={details.goodsNo}
                                   setState={this.setState.bind(this)}

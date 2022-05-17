@@ -255,38 +255,40 @@ class PetForm extends React.Component {
     if (param.weight) {
       params.size = param.weight;
     }
-    if (getClubFlag()) {
-      findPetProductForClub({
-        petsId: this.props.match.params.id,
-        apiTree: 'club_V2'
-      }).then((res) => {
-        let result = res.context;
-        if (result.otherProducts) {
-          let recommendData = result.otherProducts;
-          recommendData.unshift(result.mainProduct);
-          recommendData.forEach((el) => {
-            el.goodsSubtitle = el.goodsSubTitle;
-            el.mainItemCode = el.spuCode;
-          });
-          this.setState({
-            recommendData: recommendData
-          });
-        }
-      });
-    } else {
-      getRecommendProducts(params).then((res) => {
-        let result = res.context;
-        if (result.otherProducts) {
-          let recommendData = result.otherProducts;
-          recommendData.unshift(result.mainProduct);
-          recommendData.forEach((el) => {
-            el.goodsSubtitle = el.goodsSubTitle;
-          });
-          this.setState({
-            recommendData: recommendData
-          });
-        }
-      });
+    if (!window.__.env.REACT_APP_CLOSE_PRODUCT_FINDER) {
+      if (getClubFlag()) {
+        findPetProductForClub({
+          petsId: this.props.match.params.id,
+          apiTree: 'club_V2'
+        }).then((res) => {
+          let result = res.context;
+          if (result.otherProducts) {
+            let recommendData = result.otherProducts;
+            recommendData.unshift(result.mainProduct);
+            recommendData.forEach((el) => {
+              el.goodsSubtitle = el.goodsSubTitle;
+              el.mainItemCode = el.spuCode;
+            });
+            this.setState({
+              recommendData: recommendData
+            });
+          }
+        });
+      } else {
+        getRecommendProducts(params).then((res) => {
+          let result = res.context;
+          if (result.otherProducts) {
+            let recommendData = result.otherProducts;
+            recommendData.unshift(result.mainProduct);
+            recommendData.forEach((el) => {
+              el.goodsSubtitle = el.goodsSubTitle;
+            });
+            this.setState({
+              recommendData: recommendData
+            });
+          }
+        });
+      }
     }
     this.setState({ currentPetParam: param });
   };
@@ -367,8 +369,13 @@ class PetForm extends React.Component {
         filters: ''
       }
     };
-    const { currentPet, selectedSizeObj, isMobile, isCat, petList } =
-      this.state;
+    const {
+      currentPet,
+      selectedSizeObj,
+      isMobile,
+      isCat,
+      petList
+    } = this.state;
     let isChoosePetType = isCat !== null;
     return (
       <div className="petForm">
