@@ -72,14 +72,13 @@ const ConvenienceStore = ({ convenienceStoreChange, supportPoint = false }) => {
             id="convenienceStore.tip3"
             values={{
               val: (
-                <DistributeHubLinkOrATag
-                  href="/faq"
-                  to="/faq"
+                <a
                   target="_blank"
+                  href={`${window.__.env.REACT_APP_HUB_URLPREFIX}/faq`}
                   className="cursor-pointer inline-block rc-styled-link border-b border-black hover:border-rc-red"
                 >
                   <FormattedMessage id="here2" />
-                </DistributeHubLinkOrATag>
+                </a>
               )
             }}
           />
