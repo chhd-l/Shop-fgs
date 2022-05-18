@@ -52,6 +52,34 @@ const DeTextInfo = () => {
   );
 };
 
+const TrGuestCheckoutText = () => {
+  return (
+    <div className="explain-txt">
+      <p>
+        <a href="https://www.royalcanin.com/tr" target="_blank">
+          Royal Canin Turkey Evcil Hayvan Ürünleri Ticaret Ltd. Şti
+        </a>
+        ,&nbsp;
+        <a href="https://www.mars.com/made-by-mars/petcare" target="_blank">
+          Mars Petcare ve bağlı şirketlerinin
+        </a>
+        &nbsp; verilerinizi nasıl toplayıp işlediğini öğrenebilir, gizlilik
+        soruları hakkında bizimle iletişime geçebilir ve &nbsp;
+        <a href="https://www.mars.com/privacy-policy-turkey" target="_blank">
+          Mars Gizlilik Beyanı
+        </a>
+        &nbsp; aracılığıyla kişisel veri haklarınızı kullanabilirsiniz. Zaman
+        zaman, ürün ve hizmet sunumlarımızı geliştirmek için araştırma amacıyla
+        verilerinizi kullanabiliriz.
+      </p>
+      <p className="mt-2">
+        18 yaşından büyükseniz, lütfen aşağıdaki kutucukları işaretleyerek
+        seçimlerinizi onaylayın:
+      </p>
+    </div>
+  );
+};
+
 class Consent extends Component {
   constructor(props) {
     super(props);
@@ -126,9 +154,17 @@ class Consent extends Component {
               noIsRequired == index &&
               showText &&
               !hiddenText ? (
-                <div style={{ marginLeft: '-28px' }}>
-                  <ConsentAdditionalText textPosition="top" />
-                </div>
+                pageType === 'checkout' &&
+                window.__.env.REACT_APP_COUNTRY === 'tr' &&
+                !isLogin ? (
+                  <div style={{ marginLeft: '-28px' }}>
+                    <TrGuestCheckoutText />
+                  </div>
+                ) : (
+                  <div style={{ marginLeft: '-28px' }}>
+                    <ConsentAdditionalText textPosition="top" />
+                  </div>
+                )
               ) : null}
 
               <div
@@ -247,7 +283,9 @@ class Consent extends Component {
             <ConsentAdditionalText textPosition="top" />
           </div>
         ) : null}
-        {showText && !hiddenText ? (
+        {pageType === 'checkout' &&
+        window.__.env.REACT_APP_COUNTRY === 'tr' &&
+        !isLogin ? null : showText && !hiddenText ? (
           <div style={{ marginLeft: '-28px' }}>
             <ConsentAdditionalText textPosition="bottom" />
           </div>
