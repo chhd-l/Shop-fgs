@@ -1925,17 +1925,17 @@ class Payment extends React.Component {
                   // K-000001 还在支付中
                   // K-000002 支付失败
                   console.log('queryPosOrdererr', err);
-                  if (i < 10) {
-                    await sleep(3000);
-                    return await queryPos();
-                  } else {
-                    // 如果30秒都没有支付成功，支付状态可能是paying或者not paid
-                    // 30秒后的paying不需要repay
-                    this.showErrorMsg(err.message);
-                    const isGuest = sessionItemRoyal.get('rc-guestId')
-                      ? true
-                      : false;
-                    if (err.code == 'K-000001') {
+                  // 如果30秒都没有支付成功，支付状态可能是paying或者not paid
+                  // 30秒后的paying不需要repay
+
+                  const isGuest = sessionItemRoyal.get('rc-guestId')
+                    ? true
+                    : false;
+                  if (err.code == 'K-000001') {
+                    if (i < 10) {
+                      await sleep(3000);
+                      return await queryPos();
+                    } else {
                       valetGuestOrderPaymentResponse({
                         guest_id: sessionItemRoyal.get('rc-guestId'),
                         parameter: { ...res?.context }
@@ -1952,49 +1952,37 @@ class Payment extends React.Component {
                       subNumber =
                         (res.context && res.context.subscribeId) || '';
                       gotoConfirmationPage = true;
-                    } else {
-                      if (!isGuest) {
-                        this.setState(
-                          {
-                            tid,
-                            tidList: res.context.tidList
-                          },
-                          () => {
-                            this.queryOrderDetails();
-                          }
-                        );
-                      } else {
-                        valetGuestOrderPaymentResponse({
-                          guest_id: sessionItemRoyal.get('rc-guestId'),
-                          parameter: { ...res?.context }
-                        })
-                          .then((res) => {
-                            console.log('res', res);
-                          })
-                          .catch((err) => {
-                            console.log('err', err);
-                          });
-                        subOrderNumberList = tidList.length
-                          ? tidList
-                          : res.context && res.context.tidList;
-                        subNumber =
-                          (res.context && res.context.subscribeId) || '';
-                        gotoConfirmationPage = true;
-                      }
                     }
-
-                    // 超过30秒repay
-                    // rePayPos().then((res)=>{}).catch((err)=>{})
-                    // 超过30秒就取消订单
-                    // cancelPosOrder(tid)
-                    //   .then((res) => {
-                    //     if (res.code == 'K-000000') {
-                    //     }
-                    //     console.log('cancelPosOrderres', res);
-                    //   })
-                    //   .catch((err) => {
-                    //     console.log('cancelPosOrdererr', err);
-                    //   });
+                  } else {
+                    this.showErrorMsg(err.message);
+                    if (!isGuest) {
+                      this.setState(
+                        {
+                          tid,
+                          tidList: res.context.tidList
+                        },
+                        () => {
+                          this.queryOrderDetails();
+                        }
+                      );
+                    } else {
+                      valetGuestOrderPaymentResponse({
+                        guest_id: sessionItemRoyal.get('rc-guestId'),
+                        parameter: { ...res?.context }
+                      })
+                        .then((res) => {
+                          console.log('res', res);
+                        })
+                        .catch((err) => {
+                          console.log('err', err);
+                        });
+                      subOrderNumberList = tidList.length
+                        ? tidList
+                        : res.context && res.context.tidList;
+                      subNumber =
+                        (res.context && res.context.subscribeId) || '';
+                      gotoConfirmationPage = true;
+                    }
                   }
                 });
             };
