@@ -53,6 +53,15 @@ import { Input } from '@/components/Common';
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const COUNTRY = window.__.env.REACT_APP_COUNTRY;
 let tempolineCache = {};
+
+const sleep = (time) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, time);
+  });
+};
+
 @inject('configStore')
 @injectIntl
 @observer
@@ -414,6 +423,7 @@ class Form extends React.Component {
   // 设置手机号输入限制
   setPhoneNumberReg = () => {
     let element = document.getElementById('phoneNumberShipping');
+    console.log({ element });
     let maskOptions = [];
     let phoneReg = '';
     switch (COUNTRY) {
@@ -463,6 +473,7 @@ class Form extends React.Component {
       mask: phoneReg
     };
     IMask(element, maskOptions);
+    console.log('IMask(element, maskOptions)');
   };
   // 1、获取 session 存储的 address form 数据并处理
   setAddressFormData = async () => {
@@ -502,6 +513,19 @@ class Form extends React.Component {
 
           // console.log(ress)
           // debugger
+          // const setFormat = (result) => {
+          //   result.forEach((item) => {
+          //     if (item.fieldKey == 'phoneNumber' && item.requiredFlag == 1) {
+          //       // 设置手机号输入限制
+          //       setTimeout(() => {
+          //         this.setPhoneNumberReg();
+          //         if (COUNTRY == 'jp') {
+          //           this.setPostCodeReg();
+          //         }
+          //       }, 1000);
+          //     }
+          //   });
+          // }
 
           this.setState(
             {
@@ -530,7 +554,7 @@ class Form extends React.Component {
                     if (COUNTRY == 'jp') {
                       this.setPostCodeReg();
                     }
-                  }, 1000);
+                  }, 5000);
                 }
               });
             }
@@ -1590,6 +1614,9 @@ class Form extends React.Component {
     const isVerifyPostCodeBlacklist =
       item.fieldKey === 'postCode' && isCanVerifyBlacklistPostCode;
 
+    if (item.fieldKey == 'phoneNumber') {
+      console.log('phoneNumber');
+    }
     return (
       <>
         <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
