@@ -1900,7 +1900,10 @@ class Payment extends React.Component {
                     if (isGuest) {
                       valetGuestOrderPaymentResponse({
                         guest_id: sessionItemRoyal.get('rc-guestId'),
-                        parameter: res.context
+                        parameter: {
+                          ...res?.context,
+                          queryPosOrderReturnCode: resp.code
+                        }
                       })
                         .then((res) => {
                           console.log('res', res);
@@ -1926,12 +1929,60 @@ class Payment extends React.Component {
                     await sleep(3000);
                     return await queryPos();
                   } else {
+                    // 如果30秒都没有支付成功，支付状态可能是paying或者not paid
+                    // 30秒后的paying不需要repay
                     this.showErrorMsg(err.message);
-                    subOrderNumberList = tidList.length
-                      ? tidList
-                      : res.context && res.context.tidList;
-                    subNumber = (res.context && res.context.subscribeId) || '';
-                    gotoConfirmationPage = true;
+                    const isGuest = sessionItemRoyal.get('rc-guestId')
+                      ? true
+                      : false;
+                    if (err.code == 'K-000001') {
+                      valetGuestOrderPaymentResponse({
+                        guest_id: sessionItemRoyal.get('rc-guestId'),
+                        parameter: { ...res?.context }
+                      })
+                        .then((res) => {
+                          console.log('res', res);
+                        })
+                        .catch((err) => {
+                          console.log('err', err);
+                        });
+                      subOrderNumberList = tidList.length
+                        ? tidList
+                        : res.context && res.context.tidList;
+                      subNumber =
+                        (res.context && res.context.subscribeId) || '';
+                      gotoConfirmationPage = true;
+                    } else {
+                      if (!isGuest) {
+                        this.setState(
+                          {
+                            tid,
+                            tidList: res.context.tidList
+                          },
+                          () => {
+                            this.queryOrderDetails();
+                          }
+                        );
+                      } else {
+                        valetGuestOrderPaymentResponse({
+                          guest_id: sessionItemRoyal.get('rc-guestId'),
+                          parameter: { ...res?.context }
+                        })
+                          .then((res) => {
+                            console.log('res', res);
+                          })
+                          .catch((err) => {
+                            console.log('err', err);
+                          });
+                        subOrderNumberList = tidList.length
+                          ? tidList
+                          : res.context && res.context.tidList;
+                        subNumber =
+                          (res.context && res.context.subscribeId) || '';
+                        gotoConfirmationPage = true;
+                      }
+                    }
+
                     // 超过30秒repay
                     // rePayPos().then((res)=>{}).catch((err)=>{})
                     // 超过30秒就取消订单
@@ -1951,12 +2002,15 @@ class Payment extends React.Component {
           }
           break;
         case 'cash':
-          if (res.code == 'K-000000') {
+          if (res.code) {
             const isGuest = sessionItemRoyal.get('rc-guestId') ? true : false;
             if (isGuest) {
               valetGuestOrderPaymentResponse({
                 guest_id: sessionItemRoyal.get('rc-guestId'),
-                parameter: res.context
+                parameter: {
+                  ...res?.context,
+                  queryPosOrderReturnCode: res.code
+                }
               })
                 .then((res) => {
                   console.log('res', res);
