@@ -68,9 +68,9 @@ const NextDelivery = ({
     let deliveryDateMatched = false;
     let deliveryDateList = list.map((el) => {
       el.dateTimeInfos.unshift({
-        name: intl.messages.Unspecified,
-        value: intl.messages.Unspecified,
-        startTime: intl.messages.Unspecified
+        name: Unspecified,
+        value: Unspecified,
+        startTime: Unspecified
       });
       el.dateTimeInfos.forEach((item) => {
         item.value = `${item.startTime}${
@@ -86,6 +86,7 @@ const NextDelivery = ({
       }
       return { ...el, value: el.date, name: el.date };
     });
+    console.log({ deliveryDateList });
     if (!deliveryDateMatched) {
       // list里面没能匹配到delivery date，清空现有的deliveryDate
       subDetail.deliveryDate = '';
@@ -115,8 +116,8 @@ const NextDelivery = ({
         // timeSlot = `${deliveryDateList[0]?.dateTimeInfos[0]?.startTime}-${deliveryDateList[0]?.dateTimeInfos[0]?.endTime}`;
       }
       if (!timeSlot) {
-        //timeSlot = Unspecified;
-        timeSlot = intl.messages.Unspecified;
+        timeSlot = Unspecified;
+        //timeSlot = intl.messages.Unspecified;
         // debugger
       }
       subDetail.timeSlot = timeSlot;
@@ -141,6 +142,8 @@ const NextDelivery = ({
       //   };
       // });
     }
+
+    console.log({ timeSlotList });
 
     setDeliveryDateList(deliveryDateList);
     setTimeSlotList(timeSlotList);
