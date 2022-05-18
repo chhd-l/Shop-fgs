@@ -72,7 +72,12 @@ const ConvenienceStore = ({ convenienceStoreChange, supportPoint = false }) => {
             id="convenienceStore.tip3"
             values={{
               val: (
-                <DistributeLinkOrATag target="_blank" href="/faq" to="/faq">
+                <DistributeLinkOrATag
+                  target="_blank"
+                  href="/faq"
+                  to="/faq"
+                  className="cursor-pointer inline-block rc-styled-link border-b border-black hover:border-rc-red"
+                >
                   <FormattedMessage id="here2" />
                 </DistributeLinkOrATag>
               )
