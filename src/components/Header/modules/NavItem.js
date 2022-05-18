@@ -16,26 +16,26 @@ function NavItem({ item = {}, className, style = {}, children, onClick }) {
           {children}
         </a>
       ) : item.link ? (
-        item.link.pathname == '/home' ? (
-          <a
-            href={item.link.pathname}
-            className={className}
-            style={{ ...style }}
-            onClick={onClick}
-          >
-            {children}
-          </a>
-        ) : (
-          <Link
-            onClick={onClick}
-            to={item.link}
-            className={className}
-            style={{ ...style }}
-          >
-            {children}
-          </Link>
-        )
+        // item.link.pathname == '/home' && item.storeId== 123457919 ? (
+        //   <a
+        //     href={`/jp${item.link.pathname}`}
+        //     className={className}
+        //     style={{ ...style }}
+        //     onClick={onClick}
+        //   >
+        //     {children}
+        //   </a>
+        // ) : (
+        <Link
+          onClick={onClick}
+          to={item.link}
+          className={className}
+          style={{ ...style }}
+        >
+          {children}
+        </Link>
       ) : (
+        // )
         <span onClick={onClick} className={className} style={{ ...style }}>
           {children}
         </span>
