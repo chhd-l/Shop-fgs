@@ -1,5 +1,5 @@
 import React from 'react';
-
+import './index.less';
 /**
  * 带有远程搜索功能的下拉选择组件
  */

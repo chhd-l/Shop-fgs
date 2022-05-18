@@ -341,7 +341,6 @@ const LoginCallback = (props) => {
       }
     };
     init();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [oktaAuth, authStateReady]);
   // }, [oktaAuth, authStateReady, authState, props]);
 

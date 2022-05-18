@@ -21,10 +21,8 @@ export default function BreedSelect({
   const intl = useIntl();
   let { onChangeMixedBreedPossible, onChange } = rest;
   const [inputValue, setInputValue] = useState(value?.name ?? '');
-  const [
-    inputMixedBreedPossibleValue,
-    setInputMixedBreedPossibleValue
-  ] = useState(mixedBreedPossibleValue?.value ?? undefined);
+  const [inputMixedBreedPossibleValue, setInputMixedBreedPossibleValue] =
+    useState(mixedBreedPossibleValue?.value ?? undefined);
 
   const [checked, setChecked] = useState(mixedBreedValue);
 
