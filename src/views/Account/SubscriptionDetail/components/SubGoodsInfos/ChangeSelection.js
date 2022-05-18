@@ -19,7 +19,8 @@ const ChangeSelection = ({ el, idx }) => {
     isGift,
     subDetail,
     triggerShowChangeProduct,
-    productListLoading
+    productListLoading,
+    handleClickChangeProduct
   } = SubGoodsInfosValue;
 
   switch (el.goodsInfoFlag) {
@@ -141,7 +142,7 @@ const ChangeSelection = ({ el, idx }) => {
           />
         </div>
       </div>
-      {el.canChangeProduct ? (
+      {subDetail?.canChangeProductAtGoodsLine ? (
         <div className="rc-card-content px-3 md:px-0">
           <div className=" flex items-center">
             <span
@@ -155,25 +156,7 @@ const ChangeSelection = ({ el, idx }) => {
                   'ui-btn-loading': productListLoading
                 }
               )}
-              onClick={() => {
-                setState({ currentChangeProductIdx: idx });
-                GAForChangeProductBtn();
-                if (!!subDetail.petsId) {
-                  setState({
-                    triggerShowChangeProduct: Object.assign(
-                      {},
-                      triggerShowChangeProduct,
-                      {
-                        firstShow: !triggerShowChangeProduct.firstShow,
-                        goodsInfo: subDetail?.goodsInfo,
-                        isShowModal: true
-                      }
-                    )
-                  });
-                } else {
-                  setState({ triggerShowAddNewPet: true });
-                }
-              }}
+              onClick={() => handleClickChangeProduct(idx)}
             >
               <em
                 className="iconfont iconrefresh font-bold mr-2"

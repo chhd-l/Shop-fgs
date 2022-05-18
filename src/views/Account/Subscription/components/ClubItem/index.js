@@ -19,14 +19,14 @@ const localItemRoyal = window.__.localItemRoyal;
 
 const ClubItem = ({ subItem, history }) => {
   const isMobile = getDeviceType() !== 'PC';
-  console.log(subItem, 'subItem------');
+  // console.log(subItem, 'subItem------');
   return (
     <div
       className="row rc-margin-x--none row align-items-center card-container pb-3 clubBox ClubItem-wrap border border-d7d7d7 rounded"
       style={{ marginTop: '0', marginBottom: '1.25rem' }}
       key={subItem.subscribeId}
     >
-      <div className="card rc-margin-y--none ml-0 border-0">
+      <div className="card rc-margin-y--none ml-0 border-0 w-full">
         <div className="card-header row rc-margin-x--none align-items-center pl-0 pr-0 pt-3 pb-3 bg-rc-f6">
           <div className="col-12 col-md-4">
             <p
@@ -161,7 +161,7 @@ const ClubItem = ({ subItem, history }) => {
           </div>
         )}
       </div>
-      <div className="col-2 col-md-2 ml-3" style={{ textAlign: 'center' }}>
+      <div className="col-2 col-md-2 ml-3 text-center">
         {/* <Link to={`/account/subscription/order/detail/${subItem.subscribeId}`}>
           <FormattedMessage id="Manage" />
         </Link> */}

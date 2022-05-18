@@ -26,7 +26,7 @@ const IndvItem = ({ subItem, history, intl }) => {
       style={{ marginTop: '0', marginBottom: '1.25rem' }}
       key={subItem.subscribeId}
     >
-      <div className="card rc-margin-y--none ml-0 border-0">
+      <div className="card rc-margin-y--none ml-0 border-0 w-full">
         <div className="card-header row rc-margin-x--none align-items-center pl-0 pr-0 pt-3 pb-3 bg-rc-f6">
           <div className="col-12 col-md-4">
             <p
