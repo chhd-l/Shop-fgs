@@ -68,9 +68,9 @@ const NextDelivery = ({
     let deliveryDateMatched = false;
     let deliveryDateList = list.map((el) => {
       el.dateTimeInfos.unshift({
-        name: Unspecified,
-        value: Unspecified,
-        startTime: Unspecified
+        name: intl.messages.Unspecified,
+        value: intl.messages.Unspecified,
+        startTime: intl.messages.Unspecified
       });
       el.dateTimeInfos.forEach((item) => {
         item.value = `${item.startTime}${
@@ -115,8 +115,8 @@ const NextDelivery = ({
         // timeSlot = `${deliveryDateList[0]?.dateTimeInfos[0]?.startTime}-${deliveryDateList[0]?.dateTimeInfos[0]?.endTime}`;
       }
       if (!timeSlot) {
-        timeSlot = Unspecified;
-        // timeSlot= intl.messages.Unspecified
+        //timeSlot = Unspecified;
+        timeSlot = intl.messages.Unspecified;
         // debugger
       }
       subDetail.timeSlot = timeSlot;
