@@ -18,7 +18,8 @@ const ButtonBox = () => {
     setState,
     productListLoading,
     isShowClub,
-    triggerShowChangeProduct
+    triggerShowChangeProduct,
+    handleClickChangeProduct
   } = SubGoodsInfosValue;
   const isIndv = subDetail.subscriptionType == 'Individualization';
   const isNotInactive = subDetail.subscribeStatus !== 'INACTIVE';
@@ -55,6 +56,7 @@ const ButtonBox = () => {
       currentModalObj: modalList.filter((el) => el.type === 'cancelAll')[0]
     });
   };
+
   return (
     <div
       className="footerGroupButton pt-4 md:pt-7"
@@ -62,7 +64,7 @@ const ButtonBox = () => {
     >
       <p className="flex justify-center md:justify-end md:items-center flex-wrap flex-col md:flex-row">
         {/* indv不会展示该按钮 */}
-        {/* {isShowClub && !isIndv && subDetail?.goodsInfo?.length == 1 ? (
+        {subDetail?.canChangeProductAtOuterBox ? (
           <div className=" flex items-center">
             <span
               style={{
@@ -72,24 +74,7 @@ const ButtonBox = () => {
               className={`text-plain rc-styled-link ui-text-overflow-md-line1  ${
                 productListLoading ? 'ui-btn-loading' : ''
               }`}
-              onClick={() => {
-                GAForChangeProductBtn();
-                if (!!subDetail.petsId) {
-                  setState({
-                    triggerShowChangeProduct: Object.assign(
-                      {},
-                      triggerShowChangeProduct,
-                      {
-                        firstShow: !triggerShowChangeProduct.firstShow,
-                        goodsInfo: subDetail?.goodsInfo,
-                        isShowModal: true
-                      }
-                    )
-                  });
-                } else {
-                  setState({ triggerShowAddNewPet: true });
-                }
-              }}
+              onClick={() => handleClickChangeProduct(0)}
             >
               <em
                 className="iconfont iconrefresh font-bold"
@@ -99,14 +84,12 @@ const ButtonBox = () => {
                   marginRight: '4px'
                 }}
               />
-              <span
-              // className={`${productListLoading ? 'ui-btn-loading' : ''}`}
-              >
+              <span>
                 <FormattedMessage id="subscriptionDetail.changeProduct" />
               </span>
             </span>
           </div>
-        ) : null} */}
+        ) : null}
         <br className="rc-md-up" />
         <div className="pause-btn flex items-center md:mx-4 mt-2">
           {subDetail.subscribeStatus === 'ACTIVE' ? (

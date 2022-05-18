@@ -86,6 +86,7 @@ const NextDelivery = ({
       }
       return { ...el, value: el.date, name: el.date };
     });
+    console.log({ deliveryDateList });
     if (!deliveryDateMatched) {
       // list里面没能匹配到delivery date，清空现有的deliveryDate
       subDetail.deliveryDate = '';
@@ -116,7 +117,7 @@ const NextDelivery = ({
       }
       if (!timeSlot) {
         timeSlot = Unspecified;
-        // timeSlot= intl.messages.Unspecified
+        //timeSlot = intl.messages.Unspecified;
         // debugger
       }
       subDetail.timeSlot = timeSlot;
@@ -141,6 +142,8 @@ const NextDelivery = ({
       //   };
       // });
     }
+
+    console.log({ timeSlotList });
 
     setDeliveryDateList(deliveryDateList);
     setTimeSlotList(timeSlotList);

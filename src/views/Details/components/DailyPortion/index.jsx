@@ -672,7 +672,7 @@ export default function DailyPortion({
       case 'se':
         break;
       default:
-        rationUnit = '';
+        rationUnit = ration?.unit;
         break;
     }
 

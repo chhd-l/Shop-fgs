@@ -141,6 +141,7 @@ export default class Selection extends React.Component {
     let res = '';
     const { placeholder, optionList } = this.props;
     const { selectedItem } = this.state;
+
     const length = optionList.filter(
       (ele) => ele.value + '' === selectedItem.value + ''
     ).length;
@@ -219,7 +220,12 @@ export default class Selection extends React.Component {
                       (ele) => ele.value + '' === selectedItem.value + ''
                     )[0].name
                   : this.props.placeholder} */}
-                {this.showValue()}
+                {/* {this.showValue()} */}
+                {this.showValue() == 'Unspecified' ? (
+                  <FormattedMessage id="Unspecified"></FormattedMessage>
+                ) : (
+                  this.showValue()
+                )}
               </div>
             </div>
           </div>
@@ -260,7 +266,11 @@ export default class Selection extends React.Component {
                     aria-selected="false"
                     key={i}
                   >
-                    {item.name}
+                    {item.name == 'Unspecified' ? (
+                      <FormattedMessage id="Unspecified" />
+                    ) : (
+                      item.name
+                    )}
                   </div>
                 ) : (
                   <div
@@ -285,7 +295,11 @@ export default class Selection extends React.Component {
                       this.handleMouseEnterOption(i);
                     }}
                   >
-                    {item.name}
+                    {item.name == 'Unspecified' ? (
+                      <FormattedMessage id="Unspecified" />
+                    ) : (
+                      item.name
+                    )}
                   </div>
                 )
               )}

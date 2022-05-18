@@ -12,6 +12,7 @@ import { ErrorMessage } from '@/components/Message';
 import { QuantityPicker } from '@/components/Product';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { DeleteItem } from '@/api/subscription';
+import { GAForChangeProductBtn } from '@/utils/GA';
 export const SubGoodsInfosContext = createContext();
 
 const SubGoodsInfos = ({
@@ -64,6 +65,22 @@ const SubGoodsInfos = ({
     getDetail();
   };
 
+  const handleClickChangeProduct = (idx) => {
+    setState({ currentChangeProductIdx: idx });
+    GAForChangeProductBtn();
+    if (!!subDetail.petsId) {
+      setState({
+        triggerShowChangeProduct: Object.assign({}, triggerShowChangeProduct, {
+          firstShow: !triggerShowChangeProduct.firstShow,
+          goodsInfo: subDetail?.goodsInfo,
+          isShowModal: true
+        })
+      });
+    } else {
+      setState({ triggerShowAddNewPet: true });
+    }
+  };
+
   const propsObj = {
     subDetail,
     isGift,
@@ -79,7 +96,8 @@ const SubGoodsInfos = ({
     showErrMsg,
     isIndv,
     triggerShowChangeProduct,
-    isShowClub
+    isShowClub,
+    handleClickChangeProduct
   };
   return (
     // true?null:

@@ -429,14 +429,21 @@ class SubscriptionDetail extends React.Component {
           item.canDelete =
             subDetail.goodsInfo.length > 1 && subscribeStatusVal === 'ACTIVE';
           item.confirmTooltipVisible = false;
-          item.canChangeProduct =
-            isShowClub && !isIndv && subscribeStatusVal === 'ACTIVE';
           return item;
         }) || []; //防止商品被删报错
-      let isCat =
+      // change product状态
+      const cPStatus = isShowClub && !isIndv && subscribeStatusVal === 'ACTIVE';
+      subDetail.canChangeProduct = cPStatus;
+      // 多个商品时，change product按钮放在商品行
+      subDetail.canChangeProductAtGoodsLine =
+        cPStatus && subDetail?.goodsInfo?.length > 1;
+      // 单个商品时，change product按钮放在外边
+      subDetail.canChangeProductAtOuterBox =
+        cPStatus && subDetail?.goodsInfo?.length == 1;
+      const isCat =
         subDetail.goodsInfo?.every((el) => el.goodsCategory?.match(/cat/i)) &&
         'Cat';
-      let isDog =
+      const isDog =
         subDetail.goodsInfo?.every((el) => el.goodsCategory?.match(/dog/i)) &&
         'Dog';
       petsType = isCat || isDog || 'CatAndDog';
