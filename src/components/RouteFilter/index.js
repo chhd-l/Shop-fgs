@@ -28,20 +28,6 @@ class RouteFilter extends Component {
   // router refresh=true后，此生命周期无效
   shouldComponentUpdate(nextProps) {
     // 默认了clinic后，再次编辑clinic
-    const { checkoutStore } = this.props;
-
-    const isStorepotal = funcUrl({ name: 'stoken' });
-    if (isStorepotal) {
-      checkoutStore.removePromotionCode();
-    }
-
-    const sPromotionCodeFromSearch = funcUrl({ name: 'spromocode' });
-    if (sPromotionCodeFromSearch) {
-      checkoutStore.setPromotionCode(sPromotionCodeFromSearch);
-      // goodwill单标识 goodWillFlag: 'GOOD_WILL'
-      sessionItemRoyal.set('goodWillFlag', 'GOOD_WILL');
-    }
-
     if (
       nextProps.location.pathname === '/prescription' &&
       sessionItemRoyal.get('clinic-reselect') === 'true'
@@ -49,20 +35,6 @@ class RouteFilter extends Component {
       return false;
     }
 
-    if (
-      nextProps.location.pathname.indexOf('/account') !== -1 &&
-      !localItemRoyal.get('rc-token')
-    ) {
-      this.props.history.replace('/home');
-      return false;
-    }
-    if (
-      nextProps.location.pathname === '/confirmation' &&
-      !sessionItemRoyal.get('subOrderNumberList')
-    ) {
-      this.props.history.replace('/home');
-      return false;
-    }
     return true;
   }
 
@@ -107,7 +79,10 @@ class RouteFilter extends Component {
       }
     }
   }
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    if (this.props.location !== prevProps.location) {
+      this.interceptToLogin();
+    }
     const { history, location } = this.props;
     const { pathname, search, key } = location;
     sessionItemRoyal.set('prevPath', `${pathname}_${key}`);
@@ -142,22 +117,23 @@ class RouteFilter extends Component {
     }
 
     if (
-      !localItemRoyal.get('rc-token') &&
-      pathname.indexOf('/account') !== -1
-    ) {
-      localItemRoyal.set(
-        'okta-redirectUrl-hub',
-        `${window.__.env.REACT_APP_ACCESS_PATH.replace(/\/$/gi, '')}/account`
-      );
-      history.push('/okta-login-page');
-    }
-
-    if (
       localItemRoyal.get('rc-token') &&
       !sessionItemRoyal.get('rc-token-lose') &&
       this.isLogin
     ) {
       authToken({ token: `Bearer ${localItemRoyal.get('rc-token')}` });
+    }
+
+    const { checkoutStore } = this.props;
+    const isStorepotal = funcUrl({ name: 'stoken' });
+    if (isStorepotal) {
+      checkoutStore.removePromotionCode();
+    }
+    // goodwill单标识 goodWillFlag: 'GOOD_WILL'
+    const sPromotionCodeFromSearch = funcUrl({ name: 'spromocode' });
+    if (sPromotionCodeFromSearch) {
+      checkoutStore.setPromotionCode(sPromotionCodeFromSearch);
+      sessionItemRoyal.set('goodWillFlag', 'GOOD_WILL');
     }
   }
   componentDidMount() {
@@ -208,10 +184,7 @@ class RouteFilter extends Component {
 
     sessionItemRoyal.set('prevPath', curPath);
 
-    // if (sessionItemRoyal.get('okta-redirectUrl') && (pathname === '/' || pathname === '/home/' || pathname === '/home') ) {
-    //   history.push(sessionItemRoyal.get('okta-redirectUrl'))
-    //   sessionItemRoyal.remove('okta-redirectUrl')
-    // }
+    this.interceptToLogin();
 
     if (window.location.href.indexOf('/#/') !== -1) {
       window.location.href = window.location.href.split('/#/').join('/');
@@ -223,6 +196,22 @@ class RouteFilter extends Component {
 
     let base = document.getElementsByTagName('base');
     base[0].href = window.__.env.REACT_APP_HOMEPAGE;
+  }
+
+  /**
+   * 拦截未登录时，直接访问/account相关页面
+   * 1. a标签跳转，非react-router-dom路由，如header/footer -- componentDidUpdate处理
+   * 2. react-router-dom路由 -- componentDidUpdate处理
+   */
+  interceptToLogin() {
+    const { history, location, oktaAuth } = this.props;
+    if (location.pathname.indexOf('/account') !== -1 && !this.isLogin) {
+      localItemRoyal.set(
+        'okta-redirectUrl',
+        history?.location.pathname + history?.location.search
+      );
+      oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
+    }
   }
 
   render() {

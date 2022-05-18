@@ -141,7 +141,10 @@ class Header extends React.Component {
       }
     }
     // this.props.checkoutStore.removeCartData()
-    window.addEventListener('scroll', (e) => this.handleScroll(e));
+    window.addEventListener('scroll', (e) => {
+      if (e.origin !== 'http://example.org') return;
+      this.handleScroll(e);
+    });
     const { location, clinicStore } = this.props;
 
     let clinicRecoCode = funcUrl({ name: 'code' });

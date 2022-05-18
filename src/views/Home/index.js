@@ -619,9 +619,11 @@ class Home extends React.Component {
     }
 
     if (localItemRoyal.get('logout-redirect-url')) {
-      let url = localItemRoyal.get('logout-redirect-url');
+      const url = localItemRoyal.get('logout-redirect-url');
       localItemRoyal.remove('logout-redirect-url');
-      location.href = url;
+      if (location.href !== url) {
+        location.href = url;
+      }
     }
   }
   componentWillUnmount() {}

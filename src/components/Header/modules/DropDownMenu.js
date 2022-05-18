@@ -267,7 +267,7 @@ export default class DropDownMenu extends React.Component {
     return (
       <>
         <nav
-          className={`rc-header__nav rc-header__nav--secondary rc-md-up ${
+          className={`rc-header__nav rc-header__nav--secondary overflow-x-hidden rc-md-up ${
             this.props.showNav ? '' : 'rc-hidden'
           }`}
           // style={{ maxWidth: '1120px' }}

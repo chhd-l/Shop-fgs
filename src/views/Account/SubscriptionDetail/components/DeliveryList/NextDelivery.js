@@ -116,6 +116,8 @@ const NextDelivery = ({
       }
       if (!timeSlot) {
         timeSlot = Unspecified;
+        // timeSlot= intl.messages.Unspecified
+        // debugger
       }
       subDetail.timeSlot = timeSlot;
       subDetail.deliveryDate = deliveryDate;
