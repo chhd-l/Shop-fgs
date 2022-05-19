@@ -546,9 +546,9 @@ class Payment extends React.Component {
     );
     const {
       history,
-      checkoutStore: { resetPriceData }
+      checkoutStore: { resetPriceData, generateGuestUUID },
+      configStore: { getSystemFormConfig, paymentAuthority }
     } = this.props;
-    let { getSystemFormConfig, paymentAuthority } = this.props.configStore;
 
     // 游客不能checkout 且 没有登录
     if (paymentAuthority === 'MEMBER' && !this.isLogin) {
@@ -557,6 +557,10 @@ class Payment extends React.Component {
     await getSystemFormConfig();
     if (this.isLogin) {
       this.queryList();
+    }
+
+    if (!this.isLogin) {
+      generateGuestUUID();
     }
 
     try {
@@ -1623,7 +1627,7 @@ class Payment extends React.Component {
       };
       const {
         paymentStore: { petList, petSelectedIds, curPayWayInfo },
-        checkoutStore: { isShowBindPet }
+        checkoutStore: { isShowBindPet, generateGuestUUID }
       } = this.props;
 
       sessionItemRoyal.set('rc-paywith-login', this.isLogin);
@@ -2041,6 +2045,7 @@ class Payment extends React.Component {
       //   sessionItemRoyal.set('orderNumber', orderNumber);
       // }
       this.removeLocalCartData();
+      generateGuestUUID();
       if (subOrderNumberList?.length) {
         sessionItemRoyal.set(
           'subOrderNumberList',
