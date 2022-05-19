@@ -122,7 +122,7 @@ class PickupMap extends React.Component {
   sendMsgLoadComplete = () => {
     try {
       //window.parent.postMessage({ loading: 'succ' }, "https://secure.example.com");
-      window.parent.postMessage({ loading: 'succ' }, '*');
+      window.parent.postMessage({ loading: 'succ' }, location.origin);
     } catch (error) {
       console.log('error >>: ', error);
     }
