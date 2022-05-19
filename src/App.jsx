@@ -443,7 +443,7 @@ const App = () => {
                   path={'/okta-logout-page'}
                   component={OktaLogoutPage}
                 />
-                <Route exact path={'/home/'} component={Home} />
+                <Route exact path={'/home'} component={Home} />
                 <Route exact path={'/pickupmap'} component={PickupMap} />
                 <Route exact path={'/test/'} component={Test} />
                 <Route
