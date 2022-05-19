@@ -204,7 +204,8 @@ class RegisterRequired extends Component {
           consentTitle: item.consentTitle,
           isChecked: false,
           isRequired: false,
-          detailList: item.detailList
+          detailList: item.detailList,
+          consentDesc: item.consentDesc
         };
       });
 
@@ -216,6 +217,7 @@ class RegisterRequired extends Component {
             item.consentDesc == 'RC_DF_TR_FGS_PRIVACY_POLICY' ? true : false,
           isRequired: true,
           detailList: item.detailList,
+          consentDesc: item.consentDesc,
           noChecked:
             item.consentDesc == 'RC_DF_TR_FGS_PRIVACY_POLICY' ? true : false
         };
