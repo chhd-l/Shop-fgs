@@ -395,6 +395,9 @@ class Prescription extends React.Component {
                   zoom={this.state.zoom}
                   flags={flags}
                   key={this.state.mapKey}
+                  //新增
+                  clinicArr={this.state.clinicArr}
+                  currentSelectClinic={this.state.currentSelectClinic}
                 />
               </div>
             </div>

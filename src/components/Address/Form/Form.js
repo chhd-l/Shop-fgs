@@ -473,7 +473,17 @@ class Form extends React.Component {
       mask: phoneReg
     };
     IMask(element, maskOptions);
-    console.log('IMask(element, maskOptions)');
+
+    if (
+      COUNTRY == 'ru' &&
+      this.state.caninForm.phoneNumber != '+7(___)___-__-__'
+    ) {
+      const { caninForm } = this.state;
+      let newForm = Object.assign({}, caninForm, {
+        phoneNumber: '+7(___)___-__-__'
+      });
+      this.setState({ caninForm: newForm });
+    }
   };
   // 1、获取 session 存储的 address form 数据并处理
   setAddressFormData = async () => {
@@ -554,7 +564,7 @@ class Form extends React.Component {
                     if (COUNTRY == 'jp') {
                       this.setPostCodeReg();
                     }
-                  }, 5000);
+                  }, 1000);
                 }
               });
             }
