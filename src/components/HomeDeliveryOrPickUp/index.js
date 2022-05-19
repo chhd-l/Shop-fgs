@@ -696,7 +696,8 @@ class HomeDeliveryOrPickUp extends React.Component {
         msg = pickupCity;
         break;
     }
-    childFrameObj.contentWindow.postMessage({ msg: msg }, '*');
+    childFrameObj.contentWindow.postMessage({ msg: msg }, location.origin);
+    //childFrameObj.contentWindow.postMessage({ msg: msg }, "*");
   };
   // 编辑pickup
   editPickup = () => {

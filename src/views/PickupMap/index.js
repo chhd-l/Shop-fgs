@@ -32,7 +32,8 @@ class PickupMap extends React.Component {
         document.addEventListener('kaktusEvent', (e) => {
           try {
             // 传递给父页面
-            window.parent.postMessage(e.detail, '*');
+            window.parent.postMessage(e.detail, location.origin);
+            //window.parent.postMessage(e.detail, "*");
           } catch (error) {
             console.log('666 error >>: ', error);
           }
@@ -49,7 +50,7 @@ class PickupMap extends React.Component {
           window.addEventListener(
             'message',
             (e) => {
-              if (e.origin !== 'http://example.org') return;
+              if (e.origin !== location.origin) return;
               // console.log('666 ★ 接收组件发来的数据: ', e.data?.msg);
               if (e?.data?.msg) {
                 let msg = e.data.msg;
@@ -120,6 +121,7 @@ class PickupMap extends React.Component {
   // 页面加载完成后向父级发送数据
   sendMsgLoadComplete = () => {
     try {
+      //window.parent.postMessage({ loading: 'succ' }, "https://secure.example.com");
       window.parent.postMessage({ loading: 'succ' }, '*');
     } catch (error) {
       console.log('error >>: ', error);
