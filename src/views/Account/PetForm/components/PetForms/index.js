@@ -190,11 +190,9 @@ const PetForms = ({
       item.checked = checked;
     });
     setSterilizedGroup(sterilizedOptions);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPetParam.petsId]);
   useEffect(() => {
     getTypeDict();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCat]);
   const getTypeDict = async () => {
     let specialNeeds = [],

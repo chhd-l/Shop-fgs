@@ -41,7 +41,6 @@ const SubGoodsInfos = ({
 
   useEffect(() => {
     setSkuLimitThreshold(configStore?.info?.skuLimitThreshold);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [configStore?.info?.skuLimitThreshold]);
 
   //订阅数量更改
