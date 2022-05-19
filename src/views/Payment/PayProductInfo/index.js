@@ -610,12 +610,16 @@ class PayProductInfo extends React.Component {
       purchasesPara.promotionCode = this.state.promotionInputValue;
       purchasesPara.purchaseFlag = false; // 购物车: true，checkout: false
       purchasesPara.address1 = this.props.deliveryAddress?.address1;
-      const tmpParam = Object.assign(purchasesPara, {
+      let tmpParam = Object.assign(purchasesPara, {
         ...this.props
       });
 
       if (!this.isLogin) {
         purchasesPara.guestEmail = this.props.guestEmail;
+
+        tmpParam = Object.assign(tmpParam, {
+          transactionId: sessionItemRoyal.get('guest-uuid')
+        });
         //游客
         result = await this.props.checkoutStore.updateUnloginCart(tmpParam);
       } else {
@@ -842,11 +846,10 @@ class PayProductInfo extends React.Component {
                   <button
                     ref="applyButtton"
                     id="promotionApply"
-                    className={`rc-btn rc-btn--md rc-btn--two ${
-                      this.state.isClickApply
-                        ? 'ui-btn-loading ui-btn-loading-border-red'
-                        : ''
-                    }`}
+                    className={cn(`rc-btn rc-btn--md rc-btn--two`, {
+                      'ui-btn-loading ui-btn-loading-border-red':
+                        this.state.isClickApply
+                    })}
                     disabled={sessionItemRoyal.get('recommend_product')}
                     style={{ marginTop: '5px', float: 'right' }}
                     onClick={() => this.handleClickPromotionApply(false)}

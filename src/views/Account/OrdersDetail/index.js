@@ -181,6 +181,9 @@ class AccountOrders extends React.Component {
         item.giftItemList.length ||
         item.subscriptionPlanGiftItemList.length
       ) {
+        item.goodsItemSet = (item.shippingItems || [])
+          .concat(item.giftItemList)
+          .concat(item.subscriptionPlanGiftItemList || []);
         logisticsList.push(item);
       }
     });
@@ -227,23 +230,20 @@ class AccountOrders extends React.Component {
                   customDateCls="text-nowrap"
                 />
                 <div className="row mb-2">
-                  {(item.shippingItems || [])
-                    .concat(item.giftItemList)
-                    .concat(item.subscriptionPlanGiftItemList || [])
-                    .map((ele) => (
-                      <div className="text-center col-2" key={ele.skuId}>
-                        <img
-                          className="mx-auto my-0 w-auto"
-                          src={ele.pic || IMG_DEFAULT}
-                          alt={ele.itemName}
-                          title={ele.itemName}
-                          style={{ height: '60px' }}
-                        />
-                        <p className="font-weight-normal ui-text-overflow-line1">
-                          {ele.itemNum} X {ele.itemName}
-                        </p>
-                      </div>
-                    ))}
+                  {item.goodsItemSet.map((ele) => (
+                    <div className="text-center col-2" key={ele.skuId}>
+                      <img
+                        className="mx-auto my-0 w-auto"
+                        src={ele.pic || IMG_DEFAULT}
+                        alt={ele.itemName}
+                        title={ele.itemName}
+                        style={{ height: '60px' }}
+                      />
+                      <p className="font-weight-normal ui-text-overflow-line1">
+                        {ele.itemNum} X {ele.itemName}
+                      </p>
+                    </div>
+                  ))}
                 </div>
                 <div className="row border-top m-0 py-2">
                   <div className="col-12 col-md-3">
@@ -294,10 +294,10 @@ class AccountOrders extends React.Component {
                 </span>
               </div>
               <div className="col-2">
-                <span className="icon iconfont">&#xe6f9;</span>
+                <span className="icon iconfont iconjiantouyou1" />
               </div>
               <div className="col-12 row mt-2">
-                {item.shippingItems.map((sItem) => (
+                {item.goodsItemSet.map((sItem) => (
                   <div className="col-3 flex items-end" key={sItem.skuId}>
                     <LazyLoad>
                       <img
@@ -488,7 +488,7 @@ class AccountOrders extends React.Component {
                       )}
                     />
                     <div className="col-12 rc-bg-colour--brand4 rc-md-down mb-3 h-3.5" />
-                    {(curLogisticInfo.shippingItems || []).map((ele) => (
+                    {(curLogisticInfo.goodsItemSet || []).map((ele) => (
                       <div className="row col-12" key={ele.skuId}>
                         <div className="col-6">
                           <LazyLoad>
