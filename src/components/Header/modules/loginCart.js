@@ -147,7 +147,12 @@ class LoginCart extends React.Component {
           data-loc="miniCartOrderBtn"
           onClick={this.clickBasket}
         >
-          <em className="minicart-icon rc-btn rc-btn less-width-xs rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive" />
+          {/* window.__.env.REACT_APP_COUNTRY */}
+          <em
+            className={`minicart-icon rc-btn rc-btn less-width-xs rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive${
+              window.__.env.REACT_APP_COUNTRY == 'jp' ? 'cartminwidth' : ''
+            }`}
+          />
           {totalNum > 0 ? (
             <span className="minicart-quantity">{totalNum}</span>
           ) : null}
