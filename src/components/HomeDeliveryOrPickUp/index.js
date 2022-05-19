@@ -117,146 +117,151 @@ class HomeDeliveryOrPickUp extends React.Component {
     this.props.onSearchSelectionError?.(errMsgEn);
   };
   async componentDidMount() {
-    let initData = this.props.initData;
-    initData.formRule = this.state.pickupForm.formRule; //保留俄罗斯的正则验证
-    const {
-      intl: { messages }
-    } = this.props;
+    try {
+      let initData = this.props.initData;
+      console.log(123, this.state?.pickupForm);
+      initData.formRule = this.state?.pickupForm?.formRule; //保留俄罗斯的正则验证
+      const {
+        intl: { messages }
+      } = this.props;
 
-    this.setState(
-      {
-        pickupForm: Object.assign(this.state.pickupForm, initData)
-      },
-      () => {
-        console.log('666 >>> pickupForm : ', this.state.pickupForm);
-      }
-    );
-
-    // 监听iframe的传值
-    window.addEventListener('message', (e) => {
-      // console.log('666 ★ 地图返回 type: ', e?.data?.type);
-      // console.log('666 ★ 地图返回 loading: ', e?.data?.loading);
-      if (e.origin !== location.origin) return;
-      // 地图上选择快递公司后返回
-      if (e?.data?.type == 'get_delivery_point') {
-        this.validFormAllPickupData();
-
-        const { pickupForm, selectedItem } = this.state;
-        // console.log('666 监听地图点的传值: ', e);
-        let obj = e.data.content;
-        pickupForm['pickupPrice'] = obj?.price || '';
-        pickupForm['pickupDescription'] = obj?.description || '';
-        pickupForm['pickupCode'] = obj?.code || '';
-        pickupForm['pickupName'] = obj?.courier || '';
-
-        // ★★ 自提点返回支付方式：
-        // 1. cod: cash & card，shop展示cod和卡支付
-        // 2. cod: cash 或 card，shop展示cod和卡支付
-        // 3. 无返回，shop展示卡支付
-        let pickupPayMethods = null;
-        let payway = obj?.paymentMethods || [];
-        if (payway.length) {
-          pickupPayMethods = payway[0].split('_')[0].toLocaleLowerCase();
+      this.setState(
+        {
+          pickupForm: Object.assign(this.state.pickupForm, initData)
+        },
+        () => {
+          console.log('666 >>> pickupForm : ', this.state.pickupForm);
         }
-        pickupForm['paymentMethods'] = pickupPayMethods;
+      );
 
-        pickupForm['city'] = obj?.address?.city || [];
-        pickupForm['address1'] = obj?.address?.fullAddress || [];
-        pickupForm['workTime'] = obj?.workTime || [];
-        pickupForm['pickup'] = obj || [];
-        this.setState(
-          {
-            courierInfo: obj || null,
-            pickupForm
-          },
-          () => {
-            let sitem =
-              sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
-            if (sitem) {
-              sitem = JSON.parse(sitem);
-              sitem['pickup'] = obj;
-              sessionItemRoyal.set(
-                'rc-homeDeliveryAndPickup',
-                JSON.stringify(sitem)
+      // 监听iframe的传值
+      window.addEventListener('message', (e) => {
+        // console.log('666 ★ 地图返回 type: ', e?.data?.type);
+        // console.log('666 ★ 地图返回 loading: ', e?.data?.loading);
+        if (e.origin !== location.origin) return;
+        // 地图上选择快递公司后返回
+        if (e?.data?.type == 'get_delivery_point') {
+          this.validFormAllPickupData();
+
+          const { pickupForm, selectedItem } = this.state;
+          // console.log('666 监听地图点的传值: ', e);
+          let obj = e.data.content;
+          pickupForm['pickupPrice'] = obj?.price || '';
+          pickupForm['pickupDescription'] = obj?.description || '';
+          pickupForm['pickupCode'] = obj?.code || '';
+          pickupForm['pickupName'] = obj?.courier || '';
+
+          // ★★ 自提点返回支付方式：
+          // 1. cod: cash & card，shop展示cod和卡支付
+          // 2. cod: cash 或 card，shop展示cod和卡支付
+          // 3. 无返回，shop展示卡支付
+          let pickupPayMethods = null;
+          let payway = obj?.paymentMethods || [];
+          if (payway.length) {
+            pickupPayMethods = payway[0].split('_')[0].toLocaleLowerCase();
+          }
+          pickupForm['paymentMethods'] = pickupPayMethods;
+
+          pickupForm['city'] = obj?.address?.city || [];
+          pickupForm['address1'] = obj?.address?.fullAddress || [];
+          pickupForm['workTime'] = obj?.workTime || [];
+          pickupForm['pickup'] = obj || [];
+          this.setState(
+            {
+              courierInfo: obj || null,
+              pickupForm
+            },
+            () => {
+              let sitem =
+                sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
+              if (sitem) {
+                sitem = JSON.parse(sitem);
+                sitem['pickup'] = obj;
+                sessionItemRoyal.set(
+                  'rc-homeDeliveryAndPickup',
+                  JSON.stringify(sitem)
+                );
+              }
+              this.setState(
+                {
+                  selectedItem: sitem,
+                  showPickupDetail: true,
+                  showPickupForm: true,
+                  showPickup: false
+                },
+                () => {
+                  this.setPickupTelNumberReg();
+                }
               );
             }
-            this.setState(
-              {
-                selectedItem: sitem,
-                showPickupDetail: true,
-                showPickupForm: true,
-                showPickup: false
-              },
-              () => {
-                this.setPickupTelNumberReg();
-              }
-            );
-          }
-        );
-      }
-
-      // iframe加载完毕后返回
-      if (e?.data?.loading == 'succ') {
-        this.sendMsgToIframe();
-      }
-    });
-
-    let sitem = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
-    if (sitem) {
-      sitem = JSON.parse(sitem);
-    }
-
-    let defaultCity = this.props.defaultCity;
-    console.log('666 >>> defaultCity : ', defaultCity);
-
-    // 有默认city且无缓存 或者 有缓存
-    let pickupEditNumber = this.props.pickupEditNumber;
-    if (
-      (defaultCity && !sitem) ||
-      (defaultCity && pickupEditNumber == 0) ||
-      pickupEditNumber > 0
-    ) {
-      // 没有默认城市但是有缓存
-      defaultCity = defaultCity || sitem?.cityData?.city;
-
-      let res = await pickupQueryCity({ keyword: defaultCity });
-      let robj = res?.context?.pickUpQueryCityDTOs || [];
-      if (robj) {
-        this.handlePickupCitySelectChange(robj[0]);
-      } else {
-        this.setState({
-          searchNoResult: true
-        });
-        this.onSearchSelectionError();
-      }
-    } else if (sitem?.homeAndPickup?.length && pickupEditNumber > 0) {
-      // 初始化数据，本地存储有数据（当前会话未结束）
-      let stype = '';
-      let newobj = [];
-      let isSelectedItem = false; // 是否有选中项
-      sitem?.homeAndPickup.forEach((v, i) => {
-        let tp = v.type;
-        if (v.selected) {
-          stype = tp;
-          isSelectedItem = true;
+          );
         }
-        if (tp == 'pickup' || tp == 'homeDelivery') {
-          newobj.push(v);
+
+        // iframe加载完毕后返回
+        if (e?.data?.loading == 'succ') {
+          this.sendMsgToIframe();
         }
       });
 
-      sitem.homeAndPickup = newobj;
-      this.setState(
-        {
-          selectedItem: sitem,
-          pickupCity: sitem?.cityData?.city || defaultCity
-        },
-        () => {
-          if (isSelectedItem) {
-            this.setItemStatus(stype);
-          }
+      let sitem = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
+      if (sitem) {
+        sitem = JSON.parse(sitem);
+      }
+
+      let defaultCity = this.props.defaultCity;
+      console.log('666 >>> defaultCity : ', defaultCity);
+
+      // 有默认city且无缓存 或者 有缓存
+      let pickupEditNumber = this.props.pickupEditNumber;
+      if (
+        (defaultCity && !sitem) ||
+        (defaultCity && pickupEditNumber == 0) ||
+        pickupEditNumber > 0
+      ) {
+        // 没有默认城市但是有缓存
+        defaultCity = defaultCity || sitem?.cityData?.city;
+
+        let res = await pickupQueryCity({ keyword: defaultCity });
+        let robj = res?.context?.pickUpQueryCityDTOs || [];
+        if (robj) {
+          this.handlePickupCitySelectChange(robj[0]);
+        } else {
+          this.setState({
+            searchNoResult: true
+          });
+          this.onSearchSelectionError();
         }
-      );
+      } else if (sitem?.homeAndPickup?.length && pickupEditNumber > 0) {
+        // 初始化数据，本地存储有数据（当前会话未结束）
+        let stype = '';
+        let newobj = [];
+        let isSelectedItem = false; // 是否有选中项
+        sitem?.homeAndPickup.forEach((v, i) => {
+          let tp = v.type;
+          if (v.selected) {
+            stype = tp;
+            isSelectedItem = true;
+          }
+          if (tp == 'pickup' || tp == 'homeDelivery') {
+            newobj.push(v);
+          }
+        });
+
+        sitem.homeAndPickup = newobj;
+        this.setState(
+          {
+            selectedItem: sitem,
+            pickupCity: sitem?.cityData?.city || defaultCity
+          },
+          () => {
+            if (isSelectedItem) {
+              this.setItemStatus(stype);
+            }
+          }
+        );
+      }
+    } catch (err) {
+      console.log(err.message);
     }
   }
   // 设置手机号输入限制

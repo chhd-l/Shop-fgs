@@ -180,7 +180,7 @@ const Decouverteroyalcanin = (props) => {
             <p className="rc-padding-bottom--sm">Métro : Filles du Calvaire</p>
             <LazyLoad>
               <img
-                src={pic6}
+                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/decouverteroyalcaninhot4.png`}
                 style={{ maxWidth: '400px', width: '100%' }}
                 // src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/static-page/decouverteroyalcanin/pic6.png`}
               />
