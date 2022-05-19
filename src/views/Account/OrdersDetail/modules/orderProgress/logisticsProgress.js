@@ -9,7 +9,7 @@ const OrderLogisticsProgress = (props) => {
     customDateCls = ''
   } = props;
   return (
-    <ul className="text-break">
+    <ul className="text-break w-full">
       {(props.list || []).map(
         (item, i) =>
           item.shown && (
