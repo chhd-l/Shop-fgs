@@ -119,7 +119,6 @@ class HomeDeliveryOrPickUp extends React.Component {
   async componentDidMount() {
     try {
       let initData = this.props.initData;
-      console.log(123, this.state?.pickupForm);
       initData.formRule = this.state?.pickupForm?.formRule; //保留俄罗斯的正则验证
       const {
         intl: { messages }
@@ -261,7 +260,7 @@ class HomeDeliveryOrPickUp extends React.Component {
         );
       }
     } catch (err) {
-      console.log(err.message);
+      console.log(789, err.message);
     }
   }
   // 设置手机号输入限制
