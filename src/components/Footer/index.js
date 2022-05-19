@@ -90,7 +90,7 @@ class Footer extends React.Component {
 
     // 手机端交互实现
     window.addEventListener('click', (e) => {
-      if (e.origin !== 'http://example.org') return;
+      if (e.origin !== location.origin) return;
       let currentTargetDom = e.target;
       if (!currentTargetDom.classList.contains('J_rc-list__header')) {
         currentTargetDom = e.target.closest('.J_rc-list__header');

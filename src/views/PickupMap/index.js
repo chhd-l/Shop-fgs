@@ -33,7 +33,7 @@ class PickupMap extends React.Component {
           try {
             // 传递给父页面
             window.parent.postMessage(e.detail, location.origin);
-            //window.parent.postMessage(e.detail, "*");
+            window.parent.postMessage(e.detail, '*');
           } catch (error) {
             console.log('666 error >>: ', error);
           }
