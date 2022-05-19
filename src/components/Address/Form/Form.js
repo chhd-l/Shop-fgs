@@ -474,7 +474,10 @@ class Form extends React.Component {
     };
     IMask(element, maskOptions);
 
-    if (COUNTRY == 'ru') {
+    if (
+      COUNTRY == 'ru' &&
+      this.state.caninForm.phoneNumber != '+7(___)___-__-__'
+    ) {
       const { caninForm } = this.state;
       let newForm = Object.assign({}, caninForm, {
         phoneNumber: '+7(___)___-__-__'
