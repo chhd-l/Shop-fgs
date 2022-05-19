@@ -10,7 +10,7 @@ import {
   calculateServiceFeeAndLoyaltyPoints
 } from '@/api/payment';
 import { NOTUSEPOINT } from '@/views/Payment/PaymentMethod/paymentMethodsConstant';
-import { truncate } from 'fs';
+import { v4 as uuidv4 } from 'uuid';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -450,7 +450,8 @@ class CheckoutStore {
     isThrowErr,
     deliverWay,
     shippingFeeAddress,
-    intl
+    intl,
+    transactionId
   } = {}) {
     console.log(data);
     // debugger;
@@ -498,7 +499,8 @@ class CheckoutStore {
         customerAccount: email,
         guestEmail: email,
         deliverWay,
-        shippingFeeAddress // DuData地址对象，俄罗斯计算运费用
+        shippingFeeAddress, // DuData地址对象，俄罗斯计算运费用
+        transactionId
       });
 
       console.log(purchasesRes);
@@ -1086,6 +1088,14 @@ class CheckoutStore {
       })
     );
     this.originTradePrice = -1;
+  }
+
+  /**
+   * 生成游客uuid，promotion code防破解用
+   */
+  @action.bound
+  generateGuestUUID() {
+    sessionItemRoyal.set('guest-uuid', uuidv4());
   }
 }
 
