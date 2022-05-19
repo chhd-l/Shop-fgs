@@ -87,8 +87,17 @@ class MemberCardList extends React.Component {
     this.onCheckboxChange = this.onCheckboxChange.bind(this);
     this.preSelectedId = '';
   }
-  async componentDidMount() {
+  componentDidMount() {
     this.getPaymentMethodList();
+  }
+  componentDidUpdate(prevProps) {
+    const { mustSaveForFutherPayments } = this.props;
+    if (prevProps.mustSaveForFutherPayments != mustSaveForFutherPayments) {
+      this.setState({
+        savedCardChecked: mustSaveForFutherPayments,
+        savedDefaultCardChecked: mustSaveForFutherPayments
+      });
+    }
   }
   get creditCardListMerged() {
     const { memberUnsavedCardList, creditCardList, selectedId } = this.state;
