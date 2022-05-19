@@ -136,7 +136,7 @@ class HomeDeliveryOrPickUp extends React.Component {
     window.addEventListener('message', (e) => {
       // console.log('666 ★ 地图返回 type: ', e?.data?.type);
       // console.log('666 ★ 地图返回 loading: ', e?.data?.loading);
-      if (e.origin !== 'http://example.org') return;
+      if (e.origin !== location.origin) return;
       // 地图上选择快递公司后返回
       if (e?.data?.type == 'get_delivery_point') {
         this.validFormAllPickupData();
@@ -696,7 +696,8 @@ class HomeDeliveryOrPickUp extends React.Component {
         msg = pickupCity;
         break;
     }
-    childFrameObj.contentWindow.postMessage({ msg: msg }, '*');
+    childFrameObj.contentWindow.postMessage({ msg: msg }, location.origin);
+    //childFrameObj.contentWindow.postMessage({ msg: msg }, "*");
   };
   // 编辑pickup
   editPickup = () => {

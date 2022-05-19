@@ -142,7 +142,7 @@ class Header extends React.Component {
     }
     // this.props.checkoutStore.removeCartData()
     window.addEventListener('scroll', (e) => {
-      if (e.origin !== 'http://example.org') return;
+      if (e.origin !== location.origin) return;
       this.handleScroll(e);
     });
     const { location, clinicStore } = this.props;
