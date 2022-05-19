@@ -51,6 +51,7 @@ class SearchSelection extends React.Component {
   }
   componentDidMount = () => {
     window.addEventListener('click', (e) => {
+      if (e.origin !== 'http://example.org') return;
       let str = '';
       let path = Array.from(e.path);
       path.pop();
