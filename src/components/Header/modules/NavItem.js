@@ -3,6 +3,44 @@ import { Link } from 'react-router-dom';
 
 function NavItem({ item = {}, className, style = {}, children, onClick }) {
   const isLocalHost = window.location.hostname == 'localhost';
+  const jpGotoHome = (navItem) => {
+    if (navItem.link.pathname == '/home' && navItem.storeId == 123457919) {
+      if (isLocalHost) {
+        return (
+          <a
+            href={`${navItem.link.pathname}`}
+            className={className}
+            style={{ ...style }}
+            onClick={onClick}
+          >
+            {children}
+          </a>
+        );
+      } else {
+        return (
+          <a
+            href={`/jp${navItem.link.pathname}`}
+            className={className}
+            style={{ ...style }}
+            onClick={onClick}
+          >
+            {children}
+          </a>
+        );
+      }
+    } else {
+      return (
+        <Link
+          onClick={onClick}
+          to={item.link}
+          className={className}
+          style={{ ...style }}
+        >
+          {children}
+        </Link>
+      );
+    }
+  };
   return (
     <>
       {item.href ? (
@@ -16,36 +54,7 @@ function NavItem({ item = {}, className, style = {}, children, onClick }) {
           {children}
         </a>
       ) : item.link ? (
-        item.link.pathname == '/home' && item.storeId == 123457919 ? (
-          isLocalHost ? (
-            <a
-              href={`${item.link.pathname}`}
-              className={className}
-              style={{ ...style }}
-              onClick={onClick}
-            >
-              {children}
-            </a>
-          ) : (
-            <a
-              href={`/jp${item.link.pathname}`}
-              className={className}
-              style={{ ...style }}
-              onClick={onClick}
-            >
-              {children}
-            </a>
-          )
-        ) : (
-          <Link
-            onClick={onClick}
-            to={item.link}
-            className={className}
-            style={{ ...style }}
-          >
-            {children}
-          </Link>
-        )
+        jpGotoHome(item)
       ) : (
         <span onClick={onClick} className={className} style={{ ...style }}>
           {children}
