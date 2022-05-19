@@ -196,7 +196,7 @@ export default class Felin extends React.Component {
     }
 
     window.addEventListener('scroll', (e) => {
-      if (e.origin !== 'http://example.org') return;
+      if (e.origin !== location.origin) return;
       let height =
         Array.from(
           document.querySelectorAll(
