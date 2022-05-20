@@ -1099,7 +1099,6 @@ class Payment extends React.Component {
   }
   //计算ServiceFeeAndLoyaltyPoints
   confirmCalculateServiceFeeAndLoyaltyPoints = (loyaltyPoints = 0) => {
-    debugger;
     const {
       paymentStore: { curPayWayInfo }
     } = this.props;
