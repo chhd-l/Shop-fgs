@@ -3743,6 +3743,7 @@ class Payment extends React.Component {
                     type={'PayUCreditCard'}
                     isLogin={this.isLogin}
                     mustSaveForFutherPayments={this.isCurrentBuyWaySubscription}
+                    key={this.isCurrentBuyWaySubscription}
                     isSupportInstallMent={
                       tid
                         ? false
