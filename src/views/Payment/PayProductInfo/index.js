@@ -56,7 +56,8 @@ class PayProductInfo extends React.Component {
     isGuestCart: false,
     isCheckOut: false,
     deliveryAddress: [],
-    welcomeBoxChange: () => {} //welcomeBoxValue值改变事件
+    welcomeBoxChange: () => {}, //welcomeBoxValue值改变事件
+    confirmCalculateServiceFeeAndLoyaltyPoints: () => {}
   };
   constructor(props) {
     super(props);
@@ -664,8 +665,10 @@ class PayProductInfo extends React.Component {
         }
       );
 
-      //清空支付方式
-      this.props.paymentStore.serCurPayWayVal('');
+      //this.props.paymentStore.serCurPayWayVal('');
+      if (window.__.env.REACT_APP_COUNTRY == 'jp') {
+        this.props.confirmCalculateServiceFeeAndLoyaltyPoints();
+      }
     } catch (err) {
       console.info('....', err);
       // debugger;
@@ -705,8 +708,9 @@ class PayProductInfo extends React.Component {
         promotionInputValue: '',
         isStudentPurchase: false
       });
-      //清空支付方式
-      this.props.paymentStore.serCurPayWayVal('');
+      if (window.__.env.REACT_APP_COUNTRY == 'jp') {
+        this.props.confirmCalculateServiceFeeAndLoyaltyPoints();
+      }
     } catch (err) {
       console.log(err);
     }
