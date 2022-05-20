@@ -371,8 +371,10 @@ class Form extends React.Component {
           obj.deliveryDate = 'Unspecified';
           obj.deliveryDateId = 'Unspecified';
         } else if (!obj.timeSlot || !alldata[obj.deliveryDate] || !tsFlag) {
-          obj.timeSlotId = tslist[0].id;
-          obj.timeSlot = tslist[0].name;
+          // obj.timeSlotId = tslist[0].id;
+          // obj.timeSlot = tslist[0].name;
+          obj.timeSlotId = 'Unspecified';
+          obj.timeSlot = 'Unspecified';
         }
       } else {
         obj.deliveryDate = '';
