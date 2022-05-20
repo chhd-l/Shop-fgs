@@ -663,6 +663,9 @@ class PayProductInfo extends React.Component {
           result.code === 'K-000000' && this.handleClickPromotionApply(true);
         }
       );
+
+      //清空支付方式
+      this.props.paymentStore.serCurPayWayVal('');
     } catch (err) {
       console.info('....', err);
       // debugger;
@@ -702,6 +705,8 @@ class PayProductInfo extends React.Component {
         promotionInputValue: '',
         isStudentPurchase: false
       });
+      //清空支付方式
+      this.props.paymentStore.serCurPayWayVal('');
     } catch (err) {
       console.log(err);
     }
