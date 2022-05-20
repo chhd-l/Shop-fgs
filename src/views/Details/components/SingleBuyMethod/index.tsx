@@ -26,12 +26,16 @@ const SingleBuyMethod = ({
   children
 }: Props) => {
   const [toolTipVisible, setToolTipVisible] = useState(false);
+  const handleClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
+    e.stopPropagation();
+    changeMethod();
+  };
   return (
     <div
       className={`buyMethod rc-margin-bottom--xs d-flex row align-items-md-center justify-content-between flex-wrap-reverse 1 ml-0 mr-0 ui-cursor-pointer-pure ${
         form.buyWay === 0 ? 'border-red' : 'border-d7d7d7'
       }`}
-      onClick={changeMethod.bind(this)}
+      onClick={handleClick}
     >
       <div className="radioBox order-1 md:order-1 col-8 px-0">
         <div className="rc-input rc-input--inline rc-input--full-width mr-0">
