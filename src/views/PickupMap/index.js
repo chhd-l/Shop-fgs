@@ -30,10 +30,10 @@ class PickupMap extends React.Component {
 
         // 地图控件点击事件
         document.addEventListener('kaktusEvent', (e) => {
+          // debugger
           try {
             // 传递给父页面
             window.parent.postMessage(e.detail, location.origin);
-            //window.parent.postMessage(e.detail, "*");
           } catch (error) {
             console.log('666 error >>: ', error);
           }
@@ -121,7 +121,6 @@ class PickupMap extends React.Component {
   // 页面加载完成后向父级发送数据
   sendMsgLoadComplete = () => {
     try {
-      //window.parent.postMessage({ loading: 'succ' }, "https://secure.example.com");
       window.parent.postMessage({ loading: 'succ' }, location.origin);
     } catch (error) {
       console.log('error >>: ', error);

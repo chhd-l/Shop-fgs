@@ -559,7 +559,7 @@ class Payment extends React.Component {
       this.queryList();
     }
 
-    if (!this.isLogin) {
+    if (!this.isLogin && !sessionItemRoyal.get('guest-uuid')) {
       generateGuestUUID();
     }
 

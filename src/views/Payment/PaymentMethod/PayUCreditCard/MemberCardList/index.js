@@ -87,8 +87,17 @@ class MemberCardList extends React.Component {
     this.onCheckboxChange = this.onCheckboxChange.bind(this);
     this.preSelectedId = '';
   }
-  async componentDidMount() {
+  componentDidMount() {
     this.getPaymentMethodList();
+  }
+  componentDidUpdate(prevProps) {
+    const { mustSaveForFutherPayments } = this.props;
+    if (prevProps.mustSaveForFutherPayments != mustSaveForFutherPayments) {
+      this.setState({
+        savedCardChecked: mustSaveForFutherPayments,
+        savedDefaultCardChecked: mustSaveForFutherPayments
+      });
+    }
   }
   get creditCardListMerged() {
     const { memberUnsavedCardList, creditCardList, selectedId } = this.state;
@@ -1309,20 +1318,10 @@ class MemberCardList extends React.Component {
                               </div>
                               <div className="col-sm-4">
                                 <div className="form-group required">
-                                  <span
-                                    className="rc-input rc-input--full-width"
-                                    input-setup="true"
-                                    data-js-validate=""
-                                    data-js-warning-message="*Phone Number isn’t valid"
-                                  >
+                                  <span className="rc-input rc-input--full-width">
                                     <input
                                       type="tel"
-                                      className="rc-input__control form-control phone"
-                                      min-lenght="18"
-                                      max-length="18"
-                                      data-phonelength="18"
-                                      data-js-validate="(^(\+?7|8)?9\d{9}$)"
-                                      data-range-error="The phone number should contain 10 digits"
+                                      className="rc-input__control form-control"
                                       value={creditCardInfoForm.cardMmyy}
                                       onChange={this.cardInfoInputChange}
                                       name="cardMmyy"
@@ -1338,19 +1337,11 @@ class MemberCardList extends React.Component {
                               </div>
                               <div className="col-sm-3">
                                 <div className="form-group required">
-                                  <span
-                                    className="rc-input rc-input--full-width"
-                                    input-setup="true"
-                                    data-js-validate=""
-                                    data-js-warning-message="*Phone Number isn’t valid"
-                                  >
+                                  <span className="rc-input rc-input--full-width">
                                     <input
                                       type="password"
                                       autoComplete="new-password"
-                                      className="rc-input__control form-control phone"
-                                      data-phonelength="18"
-                                      data-js-validate="(^(\+?7|8)?9\d{9}$)"
-                                      data-range-error="The phone number should contain 10 digits"
+                                      className="rc-input__control form-control"
                                       value={creditCardInfoForm.cardCvv}
                                       onChange={this.cardInfoInputChange}
                                       name="cardCvv"
