@@ -132,12 +132,13 @@ class HomeDeliveryOrPickUp extends React.Component {
           console.log('666 >>> pickupForm : ', this.state.pickupForm);
         }
       );
-
+      debugger;
       // 监听iframe的传值
       window.addEventListener('message', (e) => {
         // console.log('666 ★ 地图返回 type: ', e?.data?.type);
         // console.log('666 ★ 地图返回 loading: ', e?.data?.loading);
-        if (e.origin !== location.origin) return;
+        //if (e.origin !== location.origin) return;
+        debugger;
         // 地图上选择快递公司后返回
         if (e?.data?.type == 'get_delivery_point') {
           this.validFormAllPickupData();
