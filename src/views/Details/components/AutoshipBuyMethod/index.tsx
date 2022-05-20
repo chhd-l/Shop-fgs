@@ -35,7 +35,8 @@ const AutoshipBuyMethod = ({
     .toNumber();
   const discountAmountUnit = formatMoney(discountAmount);
   const handleClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
-    e.stopPropagation();
+    e.persist();
+    console.log('e', e);
     changeMethod();
   };
   return (
@@ -63,7 +64,11 @@ const AutoshipBuyMethod = ({
                 />
               )}
             </FormattedMessage>
-            <label className="rc-input__label--inline" htmlFor="type_frequency">
+            <label
+              className="rc-input__label--inline"
+              htmlFor="type_frequency"
+              onClick={(e) => e.stopPropagation()}
+            >
               <span
                 style={{
                   fontWeight: 400,
