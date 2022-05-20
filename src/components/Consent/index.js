@@ -230,10 +230,6 @@ class Consent extends Component {
                                 ? 'footer-checkbox-title mt'
                                 : 'footer-checkbox-title'
                             } ${
-                              window.__.env.REACT_APP_COUNTRY == 'se'
-                                ? 're2001acolor'
-                                : ''
-                            } ${
                               window.__.env.REACT_APP_COUNTRY == 'jp'
                                 ? 'nore2001acolor'
                                 : ''

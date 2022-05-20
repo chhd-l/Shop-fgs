@@ -27,7 +27,8 @@ const SingleBuyMethod = ({
 }: Props) => {
   const [toolTipVisible, setToolTipVisible] = useState(false);
   const handleClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
-    e.stopPropagation();
+    e.persist();
+    console.log('e', e);
     changeMethod();
   };
   return (
@@ -48,14 +49,15 @@ const SingleBuyMethod = ({
                 name="buyWay"
                 value="0"
                 key="0"
-                // onChange={(event) =>
-                //   this.handleInputChange(event)
-                // }
                 checked={form.buyWay === 0}
               />
             )}
           </FormattedMessage>
-          <label className="rc-input__label--inline" htmlFor="type_once">
+          <label
+            className="rc-input__label--inline"
+            htmlFor="type_once"
+            onClick={(e) => e.stopPropagation()}
+          >
             <span
               style={{
                 fontWeight: 400,
