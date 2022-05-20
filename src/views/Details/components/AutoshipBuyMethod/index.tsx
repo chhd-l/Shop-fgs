@@ -34,6 +34,11 @@ const AutoshipBuyMethod = ({
     .sub(new Decimal(currentSubscriptionPrice))
     .toNumber();
   const discountAmountUnit = formatMoney(discountAmount);
+  const handleClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
+    e.persist();
+    console.log('e', e);
+    changeMethod();
+  };
   return (
     <div
       className={`buy-method-box pb-2 ${form.buyWay === 1 ? 'border-red' : ''}`}
@@ -42,7 +47,7 @@ const AutoshipBuyMethod = ({
         className={`buyMethod autoship-buy-method rc-margin-bottom--xs d-flex row justify-content-between 2 ml-0 mr-0 ui-cursor-pointer-pure ${
           form.buyWay === 1 ? 'border-solid border-b border-d7d7d7' : ''
         }`}
-        onClick={changeMethod.bind(this)}
+        onClick={handleClick}
       >
         <div className="radioBox order-1 md:order-1 col-8 px-0">
           <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width m-0">
@@ -59,7 +64,11 @@ const AutoshipBuyMethod = ({
                 />
               )}
             </FormattedMessage>
-            <label className="rc-input__label--inline" htmlFor="type_frequency">
+            <label
+              className="rc-input__label--inline"
+              htmlFor="type_frequency"
+              onClick={(e) => e.stopPropagation()}
+            >
               <span
                 style={{
                   fontWeight: 400,

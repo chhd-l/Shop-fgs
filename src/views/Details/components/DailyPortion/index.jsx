@@ -853,7 +853,7 @@ export default function DailyPortion({
     let res = await productFinderDailyPortion(param);
 
     if (res.code === 'K-000000') {
-      setBreedOptions(res.context.breeds ?? []);
+      setBreedOptions(res?.context?.breeds ?? []);
       // handleInitBreedDisabled(res.context.breeds ?? [])
     } else {
       setBreedOptions([]);
