@@ -37,7 +37,7 @@ function AboutSubscription(props) {
             </div>
             {/* 移动 */}
             <div className="block md:hidden">
-              <h1 className="PingFangSC redColor text-30 leading-9 font-semibold text-center">
+              <h1 className="PingFangSC redColor text-22 md:text-30 leading-9 font-semibold  text-center">
                 便利な定期購入
               </h1>
               <p
