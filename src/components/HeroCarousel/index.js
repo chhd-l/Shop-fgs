@@ -7,7 +7,9 @@ import './index.less';
 import { getBanner } from '@/api/home.js';
 import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
-import { stgShowAuth, optimizeImage } from '@/utils/utils';
+import { stgShowAuth, optimizeImage, getDeviceType } from '@/utils/utils';
+
+const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 function ATagContainer({
   children,
@@ -161,9 +163,12 @@ class HeroCarousel extends React.Component {
       return (
         <>
           <div className="hero-carousel__slide__video">
-            <video autoPlay={true} muted={true} loop={true}>
-              <source src={el.webUrl} type="video/mp4" />
-            </video>
+            {/* 手机端不展示video,由于ios safari会强制出来，加强隐藏判断 */}
+            {!isMobile ? (
+              <video autoPlay={true} muted={true} loop={true}>
+                <source src={el.webUrl} type="video/mp4" />
+              </video>
+            ) : null}
             {el.mobiSkipUrl ? (
               <ATagContainer
                 className="h-100 mobileBanner"

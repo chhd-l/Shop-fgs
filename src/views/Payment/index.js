@@ -3742,6 +3742,7 @@ class Payment extends React.Component {
                     type={'PayUCreditCard'}
                     isLogin={this.isLogin}
                     mustSaveForFutherPayments={this.isCurrentBuyWaySubscription}
+                    key={this.isCurrentBuyWaySubscription}
                     isSupportInstallMent={
                       tid
                         ? false
@@ -4185,6 +4186,9 @@ class Payment extends React.Component {
                     welcomeBoxChange={(value) => {
                       this.setState({ welcomeBoxValue: value });
                     }}
+                    confirmCalculateServiceFeeAndLoyaltyPoints={
+                      this.confirmCalculateServiceFeeAndLoyaltyPoints
+                    }
                   />
                 )}
 
