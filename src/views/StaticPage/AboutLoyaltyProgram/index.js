@@ -55,6 +55,11 @@ function AboutLoyaltyProgram(props) {
               <span className="text-cs-star">＊</span>
               によって決まる、３つのステージ（ブロンズ、シルバー、ゴールド）によって異なります。
               <br />
+              <img
+                src={Bitmap1}
+                alt=""
+                className="block md:hidden w-cs-284 m-auto mt-4 md:mt-6 md:w-full"
+              ></img>
               <br />
               ご購入いただいた税抜製品価格
               <span className="text-cs-star">＊＊</span>
@@ -67,16 +72,16 @@ function AboutLoyaltyProgram(props) {
             </p>
             <a
               href="subscription"
-              className="PingFangSC w-cs-240 font-medium text-cs-black leading-6 underline ml-22 mr-22"
+              className="PingFangSC w-cs-240 text-14 md:text-16 font-medium text-cs-black leading-6 underline ml-22 mr-22"
             >
               定期購入について詳しくはこちら
             </a>
             <img
               src={Bitmap1}
               alt=""
-              className="w-cs-284 m-auto mt-4 md:mt-6 md:w-full"
+              className="hidden md:block w-cs-284 m-auto mt-4 md:mt-6 md:w-full"
             ></img>
-            <p className="w-cs-284 md:w-cs-999 m-auto grayColor font-normal text-16 leading-24 md:text-18 md:leading-26 text-left mt-4">
+            <p className="w-cs-284 md:w-cs-999 m-auto grayColor font-normal text-12 leading-24 md:text-18 md:leading-26 text-left mt-4">
               <span className="text-cs-star">＊</span>
               お届け日基準。また、返品金額は対象外です。
               <br />
