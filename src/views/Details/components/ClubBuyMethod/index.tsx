@@ -64,7 +64,11 @@ const ClubBuyMethod = ({
                 />
               )}
             </FormattedMessage>
-            <label className="rc-input__label--inline" htmlFor="type_frequency">
+            <label
+              className="rc-input__label--inline"
+              htmlFor="type_frequency"
+              onClick={(e) => e.stopPropagation()}
+            >
               <span
                 style={{
                   fontWeight: 400,
