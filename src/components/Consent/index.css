@@ -33,7 +33,7 @@
   color: #e2001a !important;
   font-weight: 500 !important;
 }
-.nore2001acolor p span {
+.nore2001acolor p span:first-child {
   color: #666 !important;
   font-weight: 500 !important;
 }
