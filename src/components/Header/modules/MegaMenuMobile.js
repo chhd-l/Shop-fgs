@@ -237,7 +237,7 @@ class MegaMenuMobile extends React.Component {
               data-toggle-group="mobile"
               data-toggle-effect="rc-expand--horizontal"
             >
-              <div className="rc-layout-container rc-three-column">
+              <div className="rc-layout-container rc-three-column h-full">
                 <div className="rc-column rc-double-width rc-padding-x--none--mobile rc-padding-right--none">
                   <ul
                     className="rc-list rc-list--blank rc-list--align"
