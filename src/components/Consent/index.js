@@ -162,7 +162,10 @@ class Consent extends Component {
                   </div>
                 ) : (
                   <div style={{ marginLeft: '-28px' }}>
-                    <ConsentAdditionalText textPosition="top" />
+                    <ConsentAdditionalText
+                      textPosition="top"
+                      pageType={pageType}
+                    />
                   </div>
                 )
               ) : null}
@@ -229,10 +232,6 @@ class Consent extends Component {
                               zoom === '150%'
                                 ? 'footer-checkbox-title mt'
                                 : 'footer-checkbox-title'
-                            } ${
-                              window.__.env.REACT_APP_COUNTRY == 'jp'
-                                ? 'nore2001acolor'
-                                : ''
                             }`}
                             dangerouslySetInnerHTML={createMarkup(
                               item.consentTitle,
@@ -257,7 +256,8 @@ class Consent extends Component {
               {showText &&
               !hiddenText &&
               window.__.env.REACT_APP_COUNTRY === 'jp' &&
-              index == 2 ? (
+              index == 2 &&
+              pageType !== 'account' ? (
                 <div style={{ marginLeft: '-28px', marginBottom: '24px' }}>
                   <p>
                     私は、マイアカウントページで、いつでも上記の選択を変更できることを理解しています。
@@ -279,9 +279,12 @@ class Consent extends Component {
             <ConsentAdditionalText textPosition="top" />
           </div>
         ) : null}
-        {pageType === 'checkout' &&
-        window.__.env.REACT_APP_COUNTRY === 'tr' &&
-        !isLogin ? null : showText && !hiddenText ? (
+        {(pageType === 'checkout' &&
+          window.__.env.REACT_APP_COUNTRY === 'tr' &&
+          !isLogin) ||
+        (pageType == 'account' &&
+          window.__.env.REACT_APP_COUNTRY === 'jp') ? null : showText &&
+          !hiddenText ? (
           <div style={{ marginLeft: '-28px' }}>
             <ConsentAdditionalText textPosition="bottom" />
           </div>

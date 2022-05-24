@@ -1,7 +1,7 @@
 import React from 'react';
 import './index.less';
 
-const ConsentAdditionalText = ({ textPosition }) => {
+const ConsentAdditionalText = ({ textPosition, pageType }) => {
   // console.log(textPosition, 'textPosition');
   const topText = {
     us: (
@@ -83,19 +83,29 @@ const ConsentAdditionalText = ({ textPosition }) => {
     ),
     jp: (
       <div className="consent-txt">
-        <p>
-          <a href="https://www.mars.com/made-by-mars/petcare" target="_blank">
-            マースペットケア及びその関連会社
-          </a>
-          における、お客様の個人情報の取得・お取扱い方法、
-          個人情報に関するお問い合わせ、その他個人情報に関するお客様の権利の行使につきま
-          しては、{' '}
-          <a href="https://www.mars.com/privacy-policy-japan" target="_blank">
-            「マースのプライバシーに関する声明」
-          </a>{' '}
-          でご確認いただけます。&nbsp;
-        </p>
-        <p>&nbsp;</p>
+        {pageType !== 'account' ? (
+          <>
+            <p>
+              <a
+                href="https://www.mars.com/made-by-mars/petcare"
+                target="_blank"
+              >
+                マースペットケア及びその関連会社
+              </a>
+              における、お客様の個人情報の取得・お取扱い方法、
+              個人情報に関するお問い合わせ、その他個人情報に関するお客様の権利の行使につきま
+              しては、{' '}
+              <a
+                href="https://www.mars.com/privacy-policy-japan"
+                target="_blank"
+              >
+                「マースのプライバシーに関する声明」
+              </a>{' '}
+              でご確認いただけます。&nbsp;
+            </p>
+            <p>&nbsp;</p>
+          </>
+        ) : null}
         <p>
           <a href="https://www.mars.com/made-by-mars/petcare" target="_blank">
             マースペットケア及びその関連会社
