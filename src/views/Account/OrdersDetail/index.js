@@ -8,7 +8,12 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import BannerTip from '@/components/BannerTip';
 import { FormattedMessage } from 'react-intl-phraseapp';
-import { judgeIsIndividual, formatDate } from '@/utils/utils';
+import {
+  judgeIsIndividual,
+  formatDate,
+  getClubLogo,
+  optimizeImage
+} from '@/utils/utils';
 import findIndex from 'lodash/findIndex';
 import { getOrderDetails, getPayRecord } from '@/api/order';
 import { queryLogistics } from '@/api/order';
@@ -183,7 +188,23 @@ class AccountOrders extends React.Component {
       ) {
         item.goodsItemSet = (item.shippingItems || [])
           .concat(item.giftItemList)
-          .concat(item.subscriptionPlanGiftItemList || []);
+          .concat(
+            (item.subscriptionPlanGiftItemList || []).map((s) =>
+              Object.assign({}, s, { isWelcomeBox: true })
+            )
+          );
+        item.goodsItemSet = item.goodsItemSet.map((g) => {
+          g.pic =
+            optimizeImage({
+              originImageUrl: g.pic
+            }) ||
+            (g.isWelcomeBox
+              ? getClubLogo({
+                  goodsInfoFlag: g.goodsInfoFlag
+                })
+              : IMG_DEFAULT);
+          return g;
+        });
         logisticsList.push(item);
       }
     });
@@ -234,7 +255,7 @@ class AccountOrders extends React.Component {
                     <div className="text-center col-2" key={ele.skuId}>
                       <img
                         className="mx-auto my-0 w-auto"
-                        src={ele.pic || IMG_DEFAULT}
+                        src={ele.pic}
                         alt={ele.itemName}
                         title={ele.itemName}
                         style={{ height: '60px' }}
@@ -493,7 +514,7 @@ class AccountOrders extends React.Component {
                         <div className="col-6">
                           <LazyLoad>
                             <img
-                              src={ele.pic || IMG_DEFAULT}
+                              src={ele.pic}
                               alt={ele.itemName}
                               title={ele.itemName}
                               style={{ width: '70%' }}
