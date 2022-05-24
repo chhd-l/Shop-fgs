@@ -22,8 +22,9 @@ export default class DropDownMenu extends React.Component {
     super(props);
     this.state = { currentDesc: null };
     this.hanldeListItemMouseOver = this.hanldeListItemMouseOver.bind(this);
-    this.handleNavChildrenMouseOver =
-      this.handleNavChildrenMouseOver.bind(this);
+    this.handleNavChildrenMouseOver = this.handleNavChildrenMouseOver.bind(
+      this
+    );
     this.handleClickNavItem = this.handleClickNavItem.bind(this);
     this.hubGA = window.__.env.REACT_APP_HUB_GA == '1';
   }
@@ -131,7 +132,11 @@ export default class DropDownMenu extends React.Component {
               .sort((a, b) => a.sort - b.sort)
               .map((mitem, mIndx) => (
                 <li
-                  className="dropdown-nav__item rc-padding-top--xs relative"
+                  className={`dropdown-nav__item relative ${
+                    window.__.env.REACT_APP_COUNTRY !== 'jp' && mIndx === 0
+                      ? 'mb-6'
+                      : ''
+                  }`}
                   role="menuitem"
                   key={mIndx}
                   onMouseOver={this.handleNavChildrenMouseOver.bind(
@@ -141,7 +146,7 @@ export default class DropDownMenu extends React.Component {
                   )}
                   onMouseOut={this.handleNavChildrenMouseOut}
                 >
-                  <div className="dropdown-nav__title rc-margin-bottom--xs">
+                  <div className="dropdown-nav__title rc-margin-top--xs">
                     <span className="dropdown-nav__item font-weight-normal">
                       <NavItem
                         item={mitem}
@@ -184,7 +189,7 @@ export default class DropDownMenu extends React.Component {
                         </li>
                       ))}
                   </ul>
-                  {mIndx === 0 && (
+                  {mIndx === 0 && window.__.env.REACT_APP_COUNTRY !== 'jp' && (
                     <div className="dropdown-nav__cat-link rc-padding-bottom--xs">
                       <NavItem
                         item={item}

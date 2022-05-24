@@ -77,15 +77,22 @@ class AccountHome extends React.Component {
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop order-0">
                 <p className="mb-0">
                   {window.__.env.REACT_APP_COUNTRY !== 'uk' ? (
-                    <FormattedMessage
-                      id="account.warmNotice"
-                      values={{
-                        val: this.userInfo && this.userInfo.firstName,
-                        br: <br />
-                      }}
-                    />
+                    <span className="rc-delta rc-margin--none pb-2">
+                      <FormattedMessage
+                        id="account.warmNotice"
+                        values={{
+                          val: this.userInfo && this.userInfo.firstName,
+                          br: <br />
+                        }}
+                      />
+                    </span>
                   ) : null}
                 </p>
+                {window.__.env.REACT_APP_COUNTRY == 'jp' && (
+                  <p>
+                    <FormattedMessage id="account.warmNotice2" />
+                  </p>
+                )}
                 <div className="clearfix" />
                 <div className="dashboard__profile-cards">
                   <div className="my__account-navigation row rc-padding-top--xs--desktop rc-padding-bottom--none">
