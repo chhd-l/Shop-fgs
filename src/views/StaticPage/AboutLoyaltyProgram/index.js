@@ -72,7 +72,7 @@ function AboutLoyaltyProgram(props) {
             </p>
             <a
               href="subscription"
-              className="PingFangSC w-cs-240 text-14 md:text-16 font-medium text-cs-black leading-6 underline ml-22 mr-22"
+              className="PingFangSC w-cs-240 text-12 md:text-16 font-medium text-cs-black leading-6 underline ml-22 mr-22"
             >
               定期購入について詳しくはこちら
             </a>
