@@ -483,7 +483,7 @@ class Header extends React.Component {
     clinicStore.removeSelectClinicInfo();
     checkoutStore.removeLoginCartData();
     loginStore.changeIsLogin(false);
-    history.push('/home');
+    history.push('/');
   }
   renderClinic() {
     const { clinicId, clinicName } = this.props.clinicStore;
@@ -681,7 +681,7 @@ class Header extends React.Component {
 
             <DistributeHubLinkOrATag
               href=""
-              to="/home"
+              to="/"
               className="header__nav__brand logo-home"
             >
               <span className="rc-screen-reader-text" />

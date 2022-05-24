@@ -151,7 +151,7 @@ class Landing extends Component {
 
             {/* go to shop按钮 */}
             <div style={{ textAlign: 'center', marginTop: '-31px' }}>
-              <Link to="/home" className="rc-btn rc-btn rc-btn--one">
+              <Link to="/" className="rc-btn rc-btn rc-btn--one">
                 Conoce la Tienda
               </Link>
             </div>
@@ -198,7 +198,7 @@ class Landing extends Component {
               <div className="rc-column rc-quad-width">
                 {/* logo */}
                 <Link
-                  to="/home"
+                  to="/"
                   className="header__nav__brand logo-home"
                   style={{ marginTop: '40px' }}
                 >

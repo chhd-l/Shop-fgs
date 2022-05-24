@@ -174,7 +174,7 @@ class Help extends React.Component {
       })
       .catch((err) => {
         console.log(err, 'err');
-        // this.props.history.push('/home');
+        // this.props.history.push('/');
       });
   }
   checkoutStock() {

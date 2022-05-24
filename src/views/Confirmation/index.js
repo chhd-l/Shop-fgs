@@ -243,7 +243,7 @@ class Confirmation extends React.Component {
         </div>
         <DistributeHubLinkOrATag
           href=""
-          to="/home"
+          to="/"
           className="rc-meta rc-styled-link backtohome mb-0 text-ellipsis pb-0"
         >
           <FormattedMessage id="continueShopping" />
@@ -256,7 +256,7 @@ class Confirmation extends React.Component {
           <>
             <DistributeHubLinkOrATag
               href=""
-              to="/home"
+              to="/"
               className="rc-btn rc-btn--one"
               style={{ transform: 'scale(.85)' }}
             >
@@ -597,7 +597,7 @@ class Confirmation extends React.Component {
                       &nbsp;
                       <DistributeHubLinkOrATag
                         href=""
-                        to="/home"
+                        to="/"
                         className="rc-meta rc-styled-link backtohome mb-0  pb-0"
                       >
                         <FormattedMessage id="continueShopping" />
