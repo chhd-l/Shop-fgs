@@ -211,7 +211,12 @@ class AccountProfile extends React.Component {
                     </span>
                   </Link>
                 )}
-
+                <h5 className="md:-ml-4 mb-3 text-lg">
+                  <FormattedMessage
+                    id="account.myprofile.title"
+                    defaultMessage={' '}
+                  />
+                </h5>
                 <div className="card-body_">
                   <PanleContainer
                     loading={loading}

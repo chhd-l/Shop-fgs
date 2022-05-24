@@ -259,8 +259,8 @@ const PetForms = ({
       localItemRoyal.get('okta-redirectUrl') === '/account/pets/petForm'
     ) {
       // 跳转之前先重置okta-redirectUrl
-      localItemRoyal.set('okta-redirectUrl', '/home');
-      history.push('/home');
+      localItemRoyal.set('okta-redirectUrl', '/');
+      history.push('/');
     } else {
       history.push(url);
     }
@@ -983,7 +983,7 @@ const PetForms = ({
                           e.stopPropagation();
                           e.preventDefault();
                           if (userInfo) {
-                            history.push('/home');
+                            history.push('/');
                           }
                         }}
                       >

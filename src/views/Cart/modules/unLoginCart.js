@@ -2219,7 +2219,7 @@ class UnLoginCart extends React.Component {
                       {(txt) => (
                         <DistributeHubLinkOrATag
                           href=""
-                          to="/home"
+                          to="/"
                           className="ui-cursor-pointer-pure"
                         >
                           <span className="rc-header-with-icon rc-header-with-icon--gamma">

@@ -110,7 +110,7 @@ class OrdersAfterSaleSuccess extends React.Component {
                     </Link>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <Link
-                      to="/home"
+                      to="/"
                       className="rc-meta rc-styled-link backtohome font-medium"
                     >
                       <FormattedMessage id="confirmation.visitOnlineStore" />

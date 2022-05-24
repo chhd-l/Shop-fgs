@@ -369,13 +369,8 @@ class PetForm extends React.Component {
         filters: ''
       }
     };
-    const {
-      currentPet,
-      selectedSizeObj,
-      isMobile,
-      isCat,
-      petList
-    } = this.state;
+    const { currentPet, selectedSizeObj, isMobile, isCat, petList } =
+      this.state;
     let isChoosePetType = isCat !== null;
     return (
       <div className="petForm">
@@ -474,7 +469,7 @@ class PetForm extends React.Component {
                                 e.stopPropagation();
                                 e.preventDefault();
                                 if (this.userInfo) {
-                                  this.props.history.push('/home');
+                                  this.props.history.push('/');
                                 }
                               }}
                             >
