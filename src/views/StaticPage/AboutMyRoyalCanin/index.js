@@ -129,7 +129,7 @@ function AboutMyRoyalCanin(props) {
                   className="w-cs-63 h-cs-53 md:w-cs-106 md:h-cs-88 m-auto mb-4 md:mb-10"
                 />
               </div>
-              <h1 className="PingFangSC redColor tetx-22 leading-7 md:w-cs-440 md:h-cs-40  mb-3 md:mb-4 md:text-30 md:leading-10 font-semibold">
+              <h1 className="PingFangSC redColor text-22 leading-7 md:w-cs-440 md:h-cs-40  mb-3 md:mb-4 md:text-30 md:leading-10 font-semibold">
                 お得なポイントプログラム
               </h1>
               <p

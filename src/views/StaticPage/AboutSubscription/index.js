@@ -104,7 +104,7 @@ function AboutSubscription(props) {
           <div className="throughLine"></div>
           {/* 2 */}
           <div className="md:w-cs-920  m-auto  pt-10 pb-10 pl-4 pr-4 md:p-0 md:pt-20 md:pb-16 box-content">
-            <h1 className="PingFangSC redColor text-28 leading-8 md:text-30 md:leading-9 font-semibold text-center ">
+            <h1 className="PingFangSC redColor text-22 leading-8 md:text-30 md:leading-9 font-semibold text-center ">
               定期購入ご注文方法
             </h1>
             <p
