@@ -54,8 +54,9 @@ class CommunicationDataEditForm extends React.Component {
       errorMsg: '',
       showWarningTip: false
     };
-    this.handleCommunicationCheckBoxChange =
-      this.handleCommunicationCheckBoxChange.bind(this);
+    this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
+      this
+    );
   }
   componentDidUpdate() {
     if (window.__.env.REACT_APP_COUNTRY == 'tr') {
@@ -443,7 +444,7 @@ class CommunicationDataEditForm extends React.Component {
             ) : null}
             <div className={`${!isLoading && editFormVisible ? '' : 'hidden'}`}>
               <span className={`rc-meta`}></span>
-              {['fr', 'de', 'se', 'mx', 'tr'].indexOf(
+              {['fr', 'de', 'se', 'mx', 'tr', 'jp'].indexOf(
                 window.__.env.REACT_APP_COUNTRY
               ) < 0 ? (
                 <div className="mb-3">
@@ -475,8 +476,9 @@ class CommunicationDataEditForm extends React.Component {
                   ))}
                 </div>
               ) : null}
-              {['se', 'mx', 'tr'].indexOf(window.__.env.REACT_APP_COUNTRY) <
-              0 ? (
+              {['se', 'mx', 'tr', 'jp'].indexOf(
+                window.__.env.REACT_APP_COUNTRY
+              ) < 0 ? (
                 <span className={`rc-meta`}>
                   <strong>
                     <FormattedMessage id="account.myCommunicationPreferencesContent2" />

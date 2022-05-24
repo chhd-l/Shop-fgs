@@ -70,6 +70,8 @@ function CardItem(props) {
             postCode: data.postCode,
             pickupPriceVisible: false,
             consigneeName: data.consigneeName,
+            lastName: data.lastName,
+            firstName: data.firstName,
             firstNameKatakana: data.firstNameKatakana,
             lastNameKatakana: data.lastNameKatakana,
             consigneeNumber: data.consigneeNumber

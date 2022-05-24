@@ -85,7 +85,14 @@ const UserPaymentInfo = ({
                   margin: '25px 0 .625rem'
                 }}
               >
-                {currentDeliveryAddress?.consigneeName}
+                {window.__.env.REACT_APP_COUNTRY === 'jp' ? (
+                  <span>
+                    {currentDeliveryAddress?.lastName}
+                    {currentDeliveryAddress?.firstName}
+                  </span>
+                ) : (
+                  currentDeliveryAddress?.consigneeName
+                )}
               </span>
             </p>
 
