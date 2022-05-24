@@ -110,7 +110,7 @@ class MegaMenuMobile extends React.Component {
                         </dt>
                         {cItem.children.map((eItem, eIdx) => (
                           <dd
-                            className={`rc-list__content rc-bg-colour--brand4 rc-padding--none ${
+                            className={`rc-list__content rc-bg-colour--brand4 rc-padding--none bg-white ${
                               !!cItem.expand ? '' : 'hidden'
                             }`}
                             key={eIdx}
@@ -119,7 +119,7 @@ class MegaMenuMobile extends React.Component {
                               <li className="rc-list__item w-100">
                                 <NavItem
                                   item={eItem}
-                                  className="rc-list__link submenu-padding-mobile"
+                                  className="rc-list__link submenu-padding-mobile bg-white"
                                   onClick={this.handleClickNavItem.bind(
                                     this,
                                     eItem
@@ -136,7 +136,7 @@ class MegaMenuMobile extends React.Component {
                   ) : (
                     <NavItem
                       item={cItem}
-                      className="rc-list__link submenu-padding-mobile"
+                      className="rc-list__link submenu-padding-mobile bg-white"
                       onClick={this.handleClickNavItem.bind(this, cItem)}
                     >
                       {cItem.navigationName}
@@ -145,15 +145,17 @@ class MegaMenuMobile extends React.Component {
                 </li>
               ))}
             </ul>
-            <li className="rc-list__item w-100">
-              <NavItem
-                className="rc-list__header rc-list__link submenu-padding-mobile"
-                item={item}
-                onClick={this.handleClickNavItem.bind(this, item)}
-              >
-                <FormattedMessage id="viewAll" />
-              </NavItem>
-            </li>
+            {window.__.env.REACT_APP_COUNTRY !== 'jp' ? (
+              <li className="rc-list__item w-100">
+                <NavItem
+                  className="rc-list__header rc-list__link submenu-padding-mobile bg-white"
+                  item={item}
+                  onClick={this.handleClickNavItem.bind(this, item)}
+                >
+                  <FormattedMessage id="viewAll" />
+                </NavItem>
+              </li>
+            ) : null}
           </>
         }
         assetContent={
