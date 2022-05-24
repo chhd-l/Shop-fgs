@@ -59,8 +59,9 @@ class PersonalDataEditForm extends React.Component {
       validationModalVisible: false, // 地址校验查询开关
       selectValidationOption: 'suggestedAddress'
     };
-    this.handleCommunicationCheckBoxChange =
-      this.handleCommunicationCheckBoxChange.bind(this);
+    this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
+      this
+    );
   }
   componentDidMount() {
     const { data, editFormVisible } = this.props;
@@ -477,7 +478,10 @@ class PersonalDataEditForm extends React.Component {
                   },
                   {
                     name: <FormattedMessage id="name" />,
-                    val: [data.firstName, data.lastName]
+                    val: (window.__.env.REACT_APP_COUNTRY === 'jp'
+                      ? [data.lastName, data.firstName]
+                      : [data.firstName, data.lastName]
+                    )
                       .filter((el) => el)
                       .join(' ')
                   },

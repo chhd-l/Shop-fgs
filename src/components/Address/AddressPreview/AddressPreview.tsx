@@ -67,6 +67,8 @@ const AddressPreview = ({
     rfc,
     buyerRemark,
     consigneeName,
+    lastName,
+    firstName,
     firstNameKatakana,
     lastNameKatakana,
     consigneeNumber,
@@ -222,9 +224,9 @@ const AddressPreview = ({
                 className="d-flex col-10 col-md-8 pl-1 pr-1"
                 style={{ flexDirection: 'column' }}
               >
-                <span>{consigneeName}</span>
+                <span>{lastName}{firstName}</span>
                 <span>
-                  {firstNameKatakana} {lastNameKatakana}
+                   {lastNameKatakana}{firstNameKatakana}
                 </span>
                 <span>{COUNTRY == 'jp' ? '〒' + postCode : postCode}</span>
                 <p>{[province, city, area, address1].join(', ')}</p>
