@@ -132,7 +132,11 @@ export default class DropDownMenu extends React.Component {
               .sort((a, b) => a.sort - b.sort)
               .map((mitem, mIndx) => (
                 <li
-                  className="dropdown-nav__item relative"
+                  className={`dropdown-nav__item relative ${
+                    window.__.env.REACT_APP_COUNTRY !== 'jp' && mIndx === 0
+                      ? 'mb-6'
+                      : ''
+                  }`}
                   role="menuitem"
                   key={mIndx}
                   onMouseOver={this.handleNavChildrenMouseOver.bind(
